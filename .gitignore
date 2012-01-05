@@ -1,0 +1,11 @@
+/app/config/database.php
+/app/config/database.php.dev
+/app/config/bootstrap.php
+/app/config/core.php
+/app/config/installed.txt
+/app/webroot/theme/test
+/app/webroot/useruploads/*.*
+/app/tmp/*
+!/app/tmp/empty
+/plugins
+/vendors

@@ -1,0 +1,95 @@
+/* -------------------------------------------------------------------
+// markItUp!
+// By Jay Salvat - http://markitup.jaysalvat.com/
+// ------------------------------------------------------------------*/
+
+/* bold */
+.markItUp .markItUpButton1 a	{ background: url(images/spr_toolbar.png) 0px 0px no-repeat; }
+.markItUp .markItUpButton1 a:hover	{ background-position: -32px 0px; }
+
+/* italic */
+.markItUp .markItUpButton2 a	{  background: url(images/spr_toolbar.png) 0px -96px no-repeat; }
+.markItUp .markItUpButton2 a:hover	{  background-position: -32px -96px; }
+
+/* underline */
+.markItUp .markItUpButton3 a	{ background: url(images/spr_toolbar.png) 0px -224px no-repeat; }
+.markItUp .markItUpButton3 a:hover	{ background-position: -32px -224px; }
+
+/* stroke */
+.markItUp .markItUpButton4 a	{ background: url(images/spr_toolbar.png) 0px -192px no-repeat; }
+.markItUp .markItUpButton4 a:hover	{ background-position: -32px -192px; }
+
+/* code */
+.markItUp .markItUpButton5 a	{ background: url(images/spr_toolbar.png) 0px -32px no-repeat; }
+.markItUp .markItUpButton5 a:hover	{ background-position: -32px -32px; }
+
+/* bullet list */
+.markItUp .markItUpButton6 a	{ background: url(images/spr_toolbar.png) 0px -416px no-repeat; }
+.markItUp .markItUpButton6 a:hover	{ background-position: -32px -416px; }
+
+/* bullet point */
+.markItUp .markItUpButton7 a	{ background: url(images/spr_toolbar.png) 0px -448px no-repeat; }
+.markItUp .markItUpButton7 a:hover	{ background-position: -32px -448px; }
+
+/* link */
+.markItUp .markItUpButton8 a	{ background: url(images/spr_toolbar.png) 0px -128px no-repeat; }
+.markItUp .markItUpButton8 a:hover	{ background-position: -32px -128px; }
+
+/* picture */
+.markItUp .markItUpButton9 a	{ background: url(images/spr_toolbar.png) 0px -160px no-repeat; }
+.markItUp .markItUpButton9 a:hover	{ background-position: -32px -160px; }
+
+/* upload */
+.markItUp .markItUpButton10 a	{ background: url(images/spr_toolbar.png) 0px -256px no-repeat; }
+.markItUp .markItUpButton10 a:hover	{ background-position: -32px -256px; }
+
+/* video */
+.markItUp .markItUpButton11 a	{ background: url(images/spr_toolbar.png) 0px -288px no-repeat; }
+.markItUp .markItUpButton11 a:hover	{ background-position: -32px -288px; }
+
+.markItUp .markItUpButton12 > a	{ background: url(images/spr_toolbar.png) 0px -384px no-repeat; }
+.markItUp .markItUpButton12 ul	{ width: 260px; z-index: 1; margin-top: 10px;}
+.markItUp .markItUpButton12 ul li a	{ padding:4px; width: 18px; height: 18px;  }
+.markItUp .markItUpHeader ul ul li { float: left; border: none; }
+.markItUp .markItUpHeader ul ul li:active { background-color: #eee; }
+
+/**
+ * The smiley CSS is generated dynamicaly in entry_h helper function
+ */
+/*
+.markItUp .markItUpButton13-1 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/smile.png); }
+.markItUp .markItUpButton13-2 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/wink.png); }
+.markItUp .markItUpButton13-3 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/tongue.png); }
+.markItUp .markItUpButton13-4 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/grin.png); }
+.markItUp .markItUpButton13-5 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/blushing.png); }
+.markItUp .markItUpButton13-6 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/gasp.png); }
+.markItUp .markItUpButton13-7 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/frown.png); }
+.markItUp .markItUpButton13-8 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/crying.png); }
+.markItUp .markItUpButton13-9 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/moneymouth.png); }
+.markItUp .markItUpButton13-10 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/evil.png); }
+.markItUp .markItUpButton13-11 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/kiss.png); }
+.markItUp .markItUpButton13-12 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/innocent.png); }
+.markItUp .markItUpButton13-13 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/oops.png); }
+.markItUp .markItUpButton13-14 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/lipsaresealed.png); }
+.markItUp .markItUpButton13-15 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/sleeping.png); }
+.markItUp .markItUpButton13-16 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/cool.png); }
+.markItUp .markItUpButton13-17 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/embarrassed.png); }
+.markItUp .markItUpButton13-18 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/grinning-wink.png); }
+.markItUp .markItUpButton13-19 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/shouting.png); }
+*/
+
+/* gacker */
+.markItUp .markItUpButton13 a	{ background: url(images/spr_toolbar.png) 0px -352px no-repeat; }
+.markItUp .markItUpButton13 a:hover	{ background-position: -32px -352px; }
+
+/* popcorn */
+.markItUp .markItUpButton14 a	{ background: url(images/spr_toolbar.png) 0px -320px no-repeat; }
+.markItUp .markItUpButton14 a:hover	{ background-position: -32px -320px; }
+
+	
+.markItUp .clean a {
+	background-image:url(images/clean.png);
+}
+.markItUp .preview a {
+	background-image:url(images/preview.png);
+}

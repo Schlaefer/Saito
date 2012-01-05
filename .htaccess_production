@@ -1,0 +1,36 @@
+# Production
+
+<IfModule mod_rewrite.c>
+   RewriteEngine on
+
+   RewriteCond %{HTTP_HOST} ^www\.macnemo\.de [NC]
+   RewriteRule ^(.*)$ http://macnemo\.de/$1 [R=301,L]
+
+   RewriteRule    ^$ app/webroot/    [L] 
+   RewriteCond  %{REQUEST_FILENAME} !-d 
+   RewriteCond  %{REQUEST_FILENAME} !-f 
+   RewriteRule    (.*)  app/webroot/$1 [L] 
+</IfModule>
+
+# Workarround for apache2 etag+gzip bug
+<IfModule mod_headers.c>
+    RequestHeader  edit "If-None-Match" "^(.*)-gzip$" "$1"
+    Header  edit "ETag" "^(.*[^g][^z][^i][^p])$" "$1-gzip"
+</IfModule>
+
+ExpiresActive On
+<FilesMatch "\.(ico|js|css|js.gz|css.gz|gif|png)$">
+Header set Cache-Control "max-age=31536000, public"
+# Header set Expires "Thu, 15 Apr 2020 20:00:00 GMT"
+ExpiresDefault "access plus 1 year"
+Header unset Last-Modified
+</FilesMatch>
+<FilesMatch "\.(php)$">
+Header set Cache-Control "must-revalidate"
+</FilesMatch>
+
+<FilesMatch "\.(txt|html|htm|php|css|js)$">
+  SetOutputFilter DEFLATE
+</FilesMatch>
+
+
