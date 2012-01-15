@@ -1,10 +1,21 @@
 You need
 ========
 
+- Webserver (tested with Apache and nginx)
 - A DB (tested with MySQL 5+).
 - PHP 5.2+
     - php.ini activate PHP-shortags
 
+If you are stuck
+================
+
+If something goes wrong enable the CakePHP debug mode, which gives you more informations. In `app/config/core` set:
+
+	Configure::write('debug', 0);
+
+to
+
+	Configure::write('debug', 1);
 
 
 Installation from git repository
@@ -20,9 +31,7 @@ Make sure you have a [github](http://github.com/) account, because you have to c
 2. create database
 ------------------
 
-Create the database where the tables for your shiny new forum will live.
-
-Set collation to `utf8_general_ci`.
+Create the database where the tables for your shiny new forum will live. Use collation to `utf8_general_ci` (or other appropriate utf8 encoding).
 
 3. Setup CakePHP Security Features
 ----------------------------------
@@ -62,22 +71,13 @@ Open the URL root and if everything went OK the installer should greet you.
 5.1 tmp dir is not writeable
 ----------------------------
 
-    mkdir app/tmp
-    
-The `tmp`-Directory should be writable by the webserver. The rights wisely you must set young padawan.
+The `tmp`-Directory and its subdirectories should be writable by the webserver. The rights wisely set you must young padawan.
 
-If something seems to be wrong create manually (and also: writable by server)
-
-    mkdir app/tmp/logs
-    mkdir app/tmp/cache
-    mkdir app/tmp/cache/models
-    mkdir app/tmp/cache/persistent
-    mkdir app/tmp/cache/views
     
 5.2 config dir is not writable
 ------------------------------
 
-app/config folder needs to be writable by the webserver during installation
+The `app/config` folder needs to be writable by the webserver during the installation.
     
     
 5.2 Enter DB data
