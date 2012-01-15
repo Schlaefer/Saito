@@ -76,6 +76,12 @@
  * database.  Uses database default.
  *
  */
+
+/*
+ * This file is used by the installer plugin for the fancy web installer
+ * interface.
+ */
+
 class DATABASE_CONFIG {
 
 	var $default = array(
