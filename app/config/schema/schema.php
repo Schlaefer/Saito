@@ -42,7 +42,7 @@ class AppSchema extends CakeSchema {
 		'views' => array('type' => 'integer', 'null' => true, 'default' => '0'),
 		'flattr' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
 		'nsfw' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'tid' => array('column' => 'tid', 'unique' => 0), 'user_id' => array('column' => 'user_id', 'unique' => 0), 'last_answer' => array('column' => 'last_answer', 'unique' => 0), 'pft' => array('column' => array('pid', 'fixed', 'time', 'category'), 'unique' => 0), 'pfl' => array('column' => array('pid', 'fixed', 'last_answer', 'category'), 'unique' => 0), 'pid_category' => array('column' => array('pid', 'category'), 'unique' => 0), 'user_id-time' => array('column' => array('time', 'user_id'), 'unique' => 0), 'fulltext_search' => array('column' => array('subject', 'text', 'name'), 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'tid' => array('column' => 'tid', 'unique' => 0), 'user_id' => array('column' => 'user_id', 'unique' => 0), 'last_answer' => array('column' => 'last_answer', 'unique' => 0), 'pft' => array('column' => array('pid', 'fixed', 'time', 'category'), 'unique' => 0), 'pfl' => array('column' => array('pid', 'fixed', 'last_answer', 'category'), 'unique' => 0), 'pid_category' => array('column' => array('pid', 'category'), 'unique' => 0), 'user_id-time' => array('column' => array('time', 'user_id'), 'unique' => 0), 'fulltext_search' => array('column' => array('subject'(100), 'text'(100), 'name'(100)), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 	var $settings = array(
@@ -141,3 +141,4 @@ class AppSchema extends CakeSchema {
 	);
 }
 ?>
+
