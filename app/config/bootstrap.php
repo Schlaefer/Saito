@@ -68,13 +68,12 @@ Configure::write('Saito.Cache.Thread', TRUE);
  * Don't use core Security.salt for user passwords
  *
  * Allows usage of md5 passwords which were not hashed with salt,
- * e.g. from different datasource than Cake
+ * e.g. from different datasource than Cake (i.e. old mlf in our case)
  *
  * true: (default) use Security.salt
  * false: don't use salt
  */
 Configure::write('Saito.useSaltForUserPasswords', FALSE);
-// Configure::write('Saito.useSaltForUserPasswords', TRUE);
 
 /**
  * Cake doesn't handle Smiley <-> Smilies
