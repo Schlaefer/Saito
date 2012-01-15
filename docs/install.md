@@ -3,6 +3,8 @@ You need
 
 - A DB (tested with MySQL 5+).
 - PHP 5.2+
+    - php.ini activate PHP-shortags
+
 
 
 Installation from git repository
@@ -25,7 +27,6 @@ Set collation to `utf8_general_ci`.
 3. Assorted Crap
 ----------------
 
-    cp app/config/bootstrap.deploy.php app/config/bootstrap.php
     cp app/config/core.deploy.php app/config/core.php
     
 In `core.php` set
@@ -43,13 +44,6 @@ to something nice and random.
 
 - Apache: `.htaccess` should take care of correct url, just open the url root.
 - nginx: You have to open `../app/webroot` manually until you configure nginx. See section [Nginx Configuration for CakePHP](#NginxConfigurationForCakePHP).
-
-
-Temporary checks
-----------------
-
-verify php.ini entries
-    - php.ini activate PHP-shortags
 
 
 Hotfix
