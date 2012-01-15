@@ -24,16 +24,14 @@ Create the database where the tables for your shiny new forum will live.
 
 Set collation to `utf8_general_ci`.
 
-3. Assorted Crap
-----------------
+3. Setup CakePHP Security Features
+----------------------------------
 
-    cp app/config/core.deploy.php app/config/core.php
-    
-In `core.php` set
+In `core.php` set to a long random string:
     
     Configure::write('Security.salt', 'replacewhendeploy');
     
-and
+and with a long numerical string:
 
     Configure::write('Security.cipherSeed', '1234567890');
 
