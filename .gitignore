@@ -5,7 +5,16 @@
 /app/config/installed.txt
 /app/webroot/theme/test
 /app/webroot/useruploads/*.*
+
+# Temp Directory #
+# ============== #
 /app/tmp/*
-!/app/tmp/empty
+!/app/tmp/cache
+!/app/tmp/logs
+/app/tmp/cache/models/*
+/app/tmp/cache/persistent/*
+/app/tmp/cache/views/*
+/app/tmp/logs/*
+
 /plugins
 /vendors
