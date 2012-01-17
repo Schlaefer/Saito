@@ -2,7 +2,7 @@ You need
 ========
 
 - Webserver (tested with Apache and nginx)
-- A DB (tested with MySQL 5+).
+- MySQL 5+
 - PHP 5.2+
     - php.ini activate PHP-shortags
 
