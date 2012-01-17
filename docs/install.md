@@ -33,20 +33,7 @@ Make sure you have a [github](http://github.com/) account, because you have to c
 
 Create the database where the tables for your shiny new forum will live. Use collation to `utf8_general_ci` (or other appropriate utf8 encoding).
 
-3. Setup CakePHP Security Features
-----------------------------------
-
-In `core.php` set to a long random string:
-    
-    Configure::write('Security.salt', 'replacewhendeploy');
-    
-and with a long numerical string:
-
-    Configure::write('Security.cipherSeed', '1234567890');
-
-to something nice and random.
-
-4. open root url
+3. open root url
 ----------------
 
 - Apache: `.htaccess` should take care of correct url, just open the url root.
