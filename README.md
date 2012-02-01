@@ -2,6 +2,8 @@ Forum Software written in CakePHP for macnemo.de
 
 See doc directory for more informations.
 
+This Software excluding images and artwork is released under the MIT license unless noted otherwise.
+
 ---
 
 The MIT License
