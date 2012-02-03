@@ -6,19 +6,20 @@ App::import('Lib', 'StringparserBbcode.StringparserBbcode');
  * @td Configure::read('Saito.Settings') should be argument or
  * make raw BBC class and a Subclass incorporating functions with 'Saito.Settings'
  */
-
 interface MarkupParser {
+
 	public function parse($string);
+
 	public function citeText($string);
-	}
+
+}
 
 class BbcodeHelper extends AppHelper implements MarkupParser {
-	public $helpers = array (
+
+	public $helpers = array(
 			'FileUpload.FileUpload',
 			'MailObfuscator.MailObfuscator',
-
 			'CakephpGeshi.Geshi',
-
 			'Html',
 	);
 
@@ -35,21 +36,19 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @var array
 	 */
 	protected static $_allowedVideoDomains = null;
-
 	public $quoteSymbol;
 
 	/**
 	 * These are the file exensions we are asume belong to audio files 
 	 * 
 	 * @var array
-	 */	
-	protected static $html5_audio_extensions = array (
+	 */
+	protected static $html5_audio_extensions = array(
 			'm4a',
 			'ogg',
 			'mp3',
 			'wav',
 	);
-
 	protected static $_videoErrorMessage;
 
 	/**
@@ -76,11 +75,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		 */
 		$this->Geshi->defaultLanguage = 'text';
 		// allow all languages
-	  $this->Geshi->validLanguages = array(true);
-		if ($this->action === 'preview') {
+		$this->Geshi->validLanguages = array( true );
+		if ( $this->action === 'preview' ) {
 			$this->Geshi->showPlainTextButton = false;
 		}
-
 	}
 
 	/**
@@ -90,7 +88,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param array $options
 	 * @return string 
 	 */
-	public function parse($string, array $options = array()) {
+	public function parse($string, array $options = array( )) {
 		$this->_initParser($options);
 		$string = $this->_Parser->parse($string);
 
@@ -99,7 +97,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		 * [img#] is deprecated and replaced by [upload], remove if appropriate
 		 * 2011-06-20
 		 */
-		$string = preg_replace_callback("#\[img\#(=(\d{0,3})(x(\d{0,3}))?)?\](.+?)\[/img\]#is",	array( &$this, "_internalImage"), $string);
+		$string = preg_replace_callback("#\[img\#(=(\d{0,3})(x(\d{0,3}))?)?\](.+?)\[/img\]#is",
+				array( &$this, "_internalImage" ), $string);
 
 		return $string;
 	}
@@ -109,202 +108,178 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 *
 	 * @param array $options
 	 */
-	protected function _initParser(array $options = array()) {
-		if ( $this->isParserInitialized === TRUE ) return;
+	protected function _initParser(array $options = array( )) {
+		if ( $this->isParserInitialized === TRUE )
+			return;
 
 		$defaults = array(
 				// allows to supress the output of media elements
 				'multimedia' => true
-			);
+		);
 		$options = array_merge($defaults, $options);
 		extract($options);
 
 		$this->_Parser = ClassRegistry::init('StringParser_BBCode');
 
 		//* newline
-		$this->_Parser->addFilter (STRINGPARSER_FILTER_PRE, array( &$this, '_convertLineBreaks' ));
-		$this->_Parser->addParser(array('block', 'inline', 'listitem'), 'nl2br');
+		$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
+				array( &$this, '_convertLineBreaks' ));
+		$this->_Parser->addParser(array( 'block', 'inline', 'listitem' ), 'nl2br');
 
 		//* [code]
 		$this->_Parser->addCode(
-				'code',
-				'usecontent', array( &$this, "_code"),
-				array( ),
-				'code',
+				'code', 'usecontent', array( &$this, "_code" ), array( ), 'code',
 				array( 'block', 'inline' ), array( )
-			);
+		);
 
 		//* bold
 		$this->_Parser->addCode(
-				'b',
-				'simple_replace', null,
-				array( 'start_tag' => '<strong>', 'end_tag' => '</strong>' ),
-				'inline',
+				'b', 'simple_replace', null,
+				array( 'start_tag' => '<strong>', 'end_tag' => '</strong>' ), 'inline',
 				array( 'block', 'inline', 'link' ), array( )
-			);
+		);
 
 		//* italic
 		$this->_Parser->addCode(
-				'i',
-				'simple_replace', null,
-				array( 'start_tag' => '<em>', 'end_tag' => '</em>' ),
-				'inline',
+				'i', 'simple_replace', null,
+				array( 'start_tag' => '<em>', 'end_tag' => '</em>' ), 'inline',
 				array( 'block', 'inline', 'link' ), array( )
-			);
+		);
 
 		//* underline
 		$this->_Parser->addCode(
-				'u',
-				'simple_replace', null,
+				'u', 'simple_replace', null,
 				array( 'start_tag' => "<span class='c_bbc_underline'>", 'end_tag' => '</span>' ),
-				'inline',
-				array( 'block', 'inline', 'link' ), array( )
-			);
+				'inline', array( 'block', 'inline', 'link' ), array( )
+		);
 
 		//* strike
 		$this->_Parser->addCode(
-				'strike',
-				'simple_replace', null,
-				array( 'start_tag' => "<del>", 'end_tag' => '</del>' ),
-				'inline',
+				'strike', 'simple_replace', null,
+				array( 'start_tag' => "<del>", 'end_tag' => '</del>' ), 'inline',
 				array( 'block', 'inline', 'link' ), array( )
-			);
+		);
 
 		//* urls
-		$this->_Parser->addCode (
-				'url',
-				'usecontent?', array( &$this, '_url' ),
-				array ('usecontent_param' => 'default'), 
-				'link',
+		$this->_Parser->addCode(
+				'url', 'usecontent?', array( &$this, '_url' ),
+				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline', 'listitem' ), array( )
-			);
+		);
 
 		//* link
-		$this->_Parser->addCode (
-				'link',
-				'usecontent?', array( &$this, '_url' ),
-				array ('usecontent_param' => 'default'),
-				'link',
+		$this->_Parser->addCode(
+				'link', 'usecontent?', array( &$this, '_url' ),
+				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline', 'listitem' ), array( )
-			);
+		);
 
 		//* email
-		$this->_Parser->addCode (
-				'email',
-				'usecontent?', array( &$this, '_email' ),
-				array ('usecontent_param' => 'default'),
-				'email',
+		$this->_Parser->addCode(
+				'email', 'usecontent?', array( &$this, '_email' ),
+				array( 'usecontent_param' => 'default' ), 'email',
 				array( 'block', 'inline' ), array( )
-			);
+		);
 
 		//* lists
-    $this->_Parser->addCode (
-				'list',
-				'simple_replace', null,
-				array ('start_tag' => '<ul class="c_bbc_ul">', 'end_tag' => '</ul>'),
-				'list',
-				array ('block', 'listitem', 'quote'), array ());
-    $this->_Parser->setCodeFlag ('list', 'paragraph_type', BBCODE_PARAGRAPH_BLOCK_ELEMENT);
-    $this->_Parser->setCodeFlag ('list', 'closetag.after.newline', BBCODE_NEWLINE_IGNORE);
-    $this->_Parser->setCodeFlag ('list', 'opentag.before.newline', BBCODE_NEWLINE_DROP);
-    $this->_Parser->setCodeFlag ('list', 'closetag.before.newline', BBCODE_NEWLINE_DROP);
+		$this->_Parser->addCode(
+				'list', 'simple_replace', null,
+				array( 'start_tag' => '<ul class="c_bbc_ul">', 'end_tag' => '</ul>' ),
+				'list', array( 'block', 'listitem', 'quote' ), array( ));
+		$this->_Parser->setCodeFlag('list', 'paragraph_type',
+				BBCODE_PARAGRAPH_BLOCK_ELEMENT);
+		$this->_Parser->setCodeFlag('list', 'closetag.after.newline',
+				BBCODE_NEWLINE_IGNORE);
+		$this->_Parser->setCodeFlag('list', 'opentag.before.newline',
+				BBCODE_NEWLINE_DROP);
+		$this->_Parser->setCodeFlag('list', 'closetag.before.newline',
+				BBCODE_NEWLINE_DROP);
 
 		//* listitem
-    $this->_Parser->addCode (
-				'*',
-				'simple_replace', null,
-				array ('start_tag' => '<li class="c_bbc_li">', 'end_tag' => '</li>'),
-				'listitem',
-				array ('list'), array ()
-			);
-		$this->_Parser->setCodeFlag ('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
+		$this->_Parser->addCode(
+				'*', 'simple_replace', null,
+				array( 'start_tag' => '<li class="c_bbc_li">', 'end_tag' => '</li>' ),
+				'listitem', array( 'list' ), array( )
+		);
+		$this->_Parser->setCodeFlag('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
 
 		//* smilies
-		if (Configure::read('Saito.Settings.smilies')):
-			$this->_Parser->addParser(array( 'block', 'inline' ), array( &$this, '_smilies' ));
+		if ( Configure::read('Saito.Settings.smilies') ):
+			$this->_Parser->addParser(array( 'block', 'inline' ),
+					array( &$this, '_smilies' ));
 		endif;
 
 		//* quote
-		$this->_Parser->addParser(array( 'block', 'inline' ), array( &$this, '_quote' ));
+		$this->_Parser->addParser(array( 'block', 'inline' ),
+				array( &$this, '_quote' ));
 
 		//* autolinks
-		if (Configure::read('Saito.Settings.autolink')) {
-			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE, 'BbcodeHelper::_autoLinkPre');
+		if ( Configure::read('Saito.Settings.autolink') ) {
+			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
+					'BbcodeHelper::_autoLinkPre');
 		}
 
 		// open external links in new browser
-		$this->_Parser->addFilter (STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
+		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
 
 		//* allows [url=<foo> label=none] to be parsed as [url default=<foo> label=none]
 		$this->_Parser->setMixedAttributeTypes(TRUE);
 
-		if (Configure::read('Saito.Settings.bbcode_img') && $multimedia):
+		if ( Configure::read('Saito.Settings.bbcode_img') && $multimedia ):
 
 			// video - iframe
 			$this->_Parser->addCode(
-					'iframe',
-					'usecontent', 'BbcodeHelper::_iframe',
-					array ('usecontent_param' => 'default'),
-					'img',
+					'iframe', 'usecontent', 'BbcodeHelper::_iframe',
+					array( 'usecontent_param' => 'default' ), 'img',
 					array( 'block', 'inline' ), array( )
-				);
+			);
 
 			// video - flash
 			$this->_Parser->addCode(
-					'flash_video',
-					'usecontent', 'BbcodeHelper::_flashVideo',
-					array ('usecontent_param' => 'default'),
-					'img',
+					'flash_video', 'usecontent', 'BbcodeHelper::_flashVideo',
+					array( 'usecontent_param' => 'default' ), 'img',
 					array( 'block', 'inline' ), array( )
-				);
+			);
 
 			// video - html5
 			$this->_Parser->addCode(
-					'video',
-					'usecontent', 'BbcodeHelper::_html5Video',
-					array ('usecontent_param' => 'default'),
-					'img',
+					'video', 'usecontent', 'BbcodeHelper::_html5Video',
+					array( 'usecontent_param' => 'default' ), 'img',
 					array( 'block', 'inline' ), array( )
-				);
-		
+			);
+
 			// audio - html5
 			$this->_Parser->addCode(
-					'audio',
-					'usecontent', 'BbcodeHelper::_html5Audio',
-					array ('usecontent_param' => 'default'),
-					'img',
+					'audio', 'usecontent', 'BbcodeHelper::_html5Audio',
+					array( 'usecontent_param' => 'default' ), 'img',
 					array( 'block', 'inline' ), array( )
-					);
+			);
 
 			// external images
 			$this->_Parser->addCode(
-					'img',
-					'usecontent', array( &$this, '_externalImage' ),
-					array ('usecontent_param' => 'default'),
-					'img',
+					'img', 'usecontent', array( &$this, '_externalImage' ),
+					array( 'usecontent_param' => 'default' ), 'img',
 					array( 'block', 'inline', 'link' ), array( )
-					);
-			
+			);
+
 			// image upload
 			$this->_Parser->addCode(
-					'upload',
-					'usecontent', array( &$this, '_upload' ),
-					array ('usecontent_param' => 'default'),
-					'img',
+					'upload', 'usecontent', array( &$this, '_upload' ),
+					array( 'usecontent_param' => 'default' ), 'img',
 					array( 'block', 'inline', 'link' ), array( )
-					);
+			);
 		endif;
 
 		$this->_isParserInitialized = TRUE;
 	}
 
-  /** 
+	/**
 	 * Consolidates '\n\r', '\r' to `\n`
 	 *
 	 * @param string $string
 	 * @return string 
 	 */
- 	public function _convertLineBreaks($string) {
+	public function _convertLineBreaks($string) {
 		return preg_replace('/\015\012|\015|\012/', "\n", $string);
 	}
 
@@ -313,10 +288,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param <type> $string
 	 * @return <type>
 	 */
-	public function _smilies($string, $options = array()) {
+	public function _smilies($string, $options = array( )) {
 		$defaults = array(
 				'cache' => TRUE,
-			);
+		);
 
 		$options = array_merge($defaults, $options);
 		extract($options);
@@ -328,20 +303,21 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$smilies = Configure::read('Saito.Smilies.smilies_all');
 
 		$build_cache = false;
-		
-		if (!$s=Configure::read("Saito.Smilies.smilies_all_html")) {
-				if ( !$cache || !$s=Cache::read("Saito.Smilies.smilies_all_html")) {
-					$build_cache = true;
-				}
+
+		if ( !$s = Configure::read("Saito.Smilies.smilies_all_html") ) {
+			if ( !$cache || !$s = Cache::read("Saito.Smilies.smilies_all_html") ) {
+				$build_cache = true;
 			}
+		}
 
 		if ( $build_cache ):
-			$s['codes'] = array();
-			$s['replacements'] = array();
-			$s = array();
+			$s['codes'] = array( );
+			$s['replacements'] = array( );
+			$s = array( );
 			foreach ( $smilies as $smiley ):
 				$s['codes'][] = $smiley['code'];
-				$s['replacements'][] = $this->Html->image('smilies/'.$smiley['image'], array ( 'alt' => "{$smiley['code']}", 'title' => $smiley['title']));
+				$s['replacements'][] = $this->Html->image('smilies/' . $smiley['image'],
+						array( 'alt' => "{$smiley['code']}", 'title' => $smiley['title'] ));
 			endforeach;
 			Configure::write("Saito.Smilies.smilies_all_html", $s);
 			if ( $cache ) {
@@ -356,7 +332,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$s['replacements'][] = $this->Html->image('popcorn.png');
 
 		// prevents parsing of certain areas
-    $string_array = preg_split("/
+		$string_array = preg_split("/
 			(
 				(?:						# bbcode commands esp. url being replace with smilies
 					\[[^\[]*?\] 	# opening brackets of bbcode, e.g. [url=foo]
@@ -366,61 +342,59 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			|								# or
 				(?:&[^\s]*;)			# html entities
 			)
-			/xis", $string, 0, PREG_SPLIT_DELIM_CAPTURE);
+			/xis",
+				$string, 0, PREG_SPLIT_DELIM_CAPTURE);
 
-    foreach($string_array as $key => $value){
-			if ($key % 2 == false) {
+		foreach ( $string_array as $key => $value ) {
+			if ( $key % 2 == false ) {
 				$string_array[$key] = str_replace($s['codes'], $s['replacements'], $value);
 			}
 		}
 
 		Stopwatch::stop('_smilies');
-    return implode('', $string_array);
- }
+		return implode('', $string_array);
+	}
 
- /**
-  * automaticaly generate links from raw http:// source without [URL]
-  *
-  * @param string $string
-  * @return string
-  */
-  public static function _autoLinkPre($string) {
+	/**
+	 * automaticaly generate links from raw http:// source without [URL]
+	 *
+	 * @param string $string
+	 * @return string
+	 */
+	public static function _autoLinkPre($string) {
 		//* autolink http://urls
 		$string = preg_replace(
-				"#(?<=^|[\n ])(?P<content>[\w]+?://.*?[^ \"\n\r\t<]*)#is",
-				"[url]\\1[/url]",
+				"#(?<=^|[\n ])(?P<content>[\w]+?://.*?[^ \"\n\r\t<]*)#is", "[url]\\1[/url]",
 				$string
-			);
+		);
 
 		//* autolink without http://, i.e. www.foo.bar/baz
 		$string = preg_replace(
 				"#(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
-				"\\1[url]\\2[/url]",
-				$string
-			);
+				"\\1[url]\\2[/url]", $string
+		);
 
 		//* autolink email
 		$string = preg_replace("
 				#(?<=^|[\n ])(?P<content>([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+))#i",
-				"[email]\\1[/email]",
-				$string
-			);
+				"[email]\\1[/email]", $string
+		);
 
 		return $string;
 	}
 
-  public function _code($action, $attributes, $content, $params, &$node_object) {
+	public function _code($action, $attributes, $content, $params, &$node_object) {
 		$type = 'text';
 		if ( !empty($attributes) ):
 			$type = key($attributes);
 		endif;
 
-    $string = '<div class="c_bbc_code-wrapper"><pre lang="'.$type.'">'.$content.'</pre></div>';
+		$string = '<div class="c_bbc_code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
 		$string = $this->Geshi->highlight($string);
-    return $string;
+		return $string;
 	}
 
-  public static function _iframe($action, $attributes, $content, $params, &$node_object) {
+	public static function _iframe($action, $attributes, $content, $params, &$node_object) {
 		$out = '<iframe';
 
 		foreach ( $attributes as $attributeName => $attributeValue ):
@@ -452,15 +426,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	public static function _html5Video($action, $attributes, $content, $params, &$node_object) {
 		// fix audio files mistakenly wrapped into an [video] tag
-		if ( preg_match('/('.implode('|', self::$html5_audio_extensions).')$/i', $content) === 1) {
+		if ( preg_match('/(' . implode('|', self::$html5_audio_extensions) . ')$/i',
+						$content) === 1 ) {
 			return self::_html5Audio(null, null, $content);
-		} 
+		}
 
 		$out = "<video src='$content' controls='controls' x-webkit-airplay='allow'>";
-		$out .= BbcodeMessage::format( __(
-				'Your browser does not support HTML5 video. Please updgrade to a modern'.
-				'browser. In order to watch this stream you need an HTML5 capable browser.',
-				true));
+		$out .= BbcodeMessage::format(__(
+								'Your browser does not support HTML5 video. Please updgrade to a modern' .
+								'browser. In order to watch this stream you need an HTML5 capable browser.',
+								true));
 		$out .= '</video>';
 		return $out;
 	}
@@ -475,42 +450,46 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public static function _html5Audio($action, $attributes, $content, $params = NULL, &$node_object = NULL) {
 		// @lo
 		$out = "<audio src='$content' controls='controls'>";
-		$out .= BbcodeMessage::format( __(
-				'Your browser does not support HTML5 audio. Please updgrade to a modern'.
-				'browser. In order to watch this stream you need an HTML5 capable browser.',
-				true));
+		$out .= BbcodeMessage::format(__(
+								'Your browser does not support HTML5 audio. Please updgrade to a modern' .
+								'browser. In order to watch this stream you need an HTML5 capable browser.',
+								true));
 		$out .= "</audio>";
 		return $out;
 	}
 
- 	/**
+	/**
 	 * @td search for backery class
 	 */
 	public static function _flashVideo($action, $attributes, $content, $params = NULL, &$node_object = NULL) {
-		preg_match("#(?P<url>.+?)\|(?P<width>.+?)\|(?<height>\d+)#is", $content, $matches);
-		if ( !isset($matches['height']) ) { return '<em>Flash nicht erkannt</em>'; }
+		preg_match("#(?P<url>.+?)\|(?P<width>.+?)\|(?<height>\d+)#is", $content,
+				$matches);
+		if ( !isset($matches['height']) ) {
+			return '<em>Flash nicht erkannt</em>';
+		}
 		extract($matches);
 
 		if ( self::_isVideoDomainAllowed($url) === false ) :
 			return self::$_videoErrorMessage->get();
 		endif;
 
-			$out = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="'.$width.'" height="'.$height.'">
-									<param name="movie" value="'.$url.'"></param>
-									<embed src="'.$url.'" width="'.$width.'" height="'.$height.'" type="application/x-shockwave-flash" wmode="opaque" style="width:'.$width.'px; height:'.$height.'px;" id="VideoPlayback" type="application/x-shockwave-flash" flashvars=""> </embed>
+		$out = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="' . $width . '" height="' . $height . '">
+									<param name="movie" value="' . $url . '"></param>
+									<embed src="' . $url . '" width="' . $width . '" height="' . $height . '" type="application/x-shockwave-flash" wmode="opaque" style="width:' . $width . 'px; height:' . $height . 'px;" id="VideoPlayback" type="application/x-shockwave-flash" flashvars=""> </embed>
 							</object>';
-			return $out;
+		return $out;
 	}
 
 	public function _upload($action, $attributes, $content, $params, &$node_object) {
-		if(!isset($attributes['default'])) {
+		if ( !isset($attributes['default']) ) {
 			$this->FileUpload->reset();
-			return "<div class='c_bbc_upload'>".$this->FileUpload->image($content)."</div>";
+			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
 		} else {
 			$this->FileUpload->reset();
-			return "<div class='c_bbc_upload'>".$this->FileUpload->image($content)."</div>";
+			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
 			// @td
-			return "<div class='c_bbc_upload'>".$this->FileUpload->image($content, array('width' => $matches[2], 'height' => $matches[4], 'autoResize' => false, 'resizeThumbOnly' => false))."</div>";
+			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content,
+							array( 'width' => $matches[2], 'height' => $matches[4], 'autoResize' => false, 'resizeThumbOnly' => false )) . "</div>";
 		}
 	}
 
@@ -522,12 +501,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return type 
 	 */
 	protected function _internalImage($matches) {
-		if(!$matches[1]) {
+		if ( !$matches[1] ) {
 			$this->FileUpload->reset();
-			return "<div style='margin: 5px 0px 5px 0px'>".$this->FileUpload->image($matches[5])."</div>";
+			return "<div style='margin: 5px 0px 5px 0px'>" . $this->FileUpload->image($matches[5]) . "</div>";
 		} else {
 			$this->FileUpload->reset();
-			return "<div style='margin: 5px 0px 5px 0px'>".$this->FileUpload->image($matches[5], array('width' => $matches[2], 'height' => $matches[4], 'autoResize' => false, 'resizeThumbOnly' => false))."</div>";
+			return "<div style='margin: 5px 0px 5px 0px'>" . $this->FileUpload->image($matches[5],
+							array( 'width' => $matches[2], 'height' => $matches[4], 'autoResize' => false, 'resizeThumbOnly' => false )) . "</div>";
 		}
 	}
 
@@ -540,18 +520,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	public function _externalImage($action, $attributes, $content, $params, &$node_object) {
 		$options = array(
-				'class'		=> 'c_bbc_external-image',
-				'width'		=> 'auto',	
-				'height'	=> 'auto',
+				'class' => 'c_bbc_external-image',
+				'width' => 'auto',
+				'height' => 'auto',
 		);
 
 		// check for 'http://' in front of URI, we don't do relative URIs
 		$url = self::_checkAndAddProtocol($content);
 
 		// process [img=(parameters)] parameters 
-		if (!empty($attributes['default'])) {
+		if ( !empty($attributes['default']) ) {
 			$default = trim($attributes['default']);
-			switch ($default) :
+			switch ( $default ) :
 				case 'left':
 					$options['style'] = 'float: left;';
 					break;
@@ -564,16 +544,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					// [0] (50) or (50x100)
 					// [1] (50)
 					// [2] (100)
-					if (!empty($dimension[1])) {
+					if ( !empty($dimension[1]) ) {
 						$options['width'] = $dimension[1];
-						if (!empty($dimension[2])) {
+						if ( !empty($dimension[2]) ) {
 							$options['height'] = $dimension[2];
 						}
 					}
 			endswitch;
 		}
 
-		return $this->Html->image( $url, $options );
+		return $this->Html->image($url, $options);
 	}
 
 	/**
@@ -647,7 +627,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public function _url($action, $attributes, $content, $params, &$node_object) {
 
 		$defaults = array(
-				'label'			=> TRUE,
+				'label' => TRUE,
 		);
 
 		$wasShort = FALSE;
@@ -669,50 +649,49 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		if ( $wasShort ) {
 			$text = $this->_truncate($text);
-			}
+		}
 
 		$out = "<a href='$url'>$text</a>";
 
 		//* add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
-		if ( $label !== 'none' && $label !== 'false' && $label !== FALSE && $wasShort === FALSE) {
+		if ( $label !== 'none' && $label !== 'false' && $label !== FALSE && $wasShort === FALSE ) {
 			$host = '';
 			if ( !empty($url) && preg_match('/\<img\s*?src=/', $text) == FALSE ) {
-				$host = @parse_url($url, PHP_URL_HOST);
-				if (!empty($host) || $host === FALSE) {
-					$host = implode('.', array_slice(explode('.', $host), -2));
-					$out .= ' <span class=\'c_bbc_link-dinfo\'>['. $host .']</span>';
+				$host = self::_getDomainAndTldForUri($url);
+				if ( !empty($host) || $host === FALSE ) {
+					$out .= ' <span class=\'c_bbc_link-dinfo\'>[' . $host . ']</span>';
 				}
 			}
 		}
 		return $out;
 	}
 
-
-	
- 	/**
+	/**
 	 * Marks an <a> link as external to open in a new browser window 
 	 * 
 	 * @param array $matches
 	 * @return string
 	 */
 	public static function _relLink($string) {
-			return preg_replace_callback('#href=["\'](.*?)["\']#is', 'BbcodeHelper::_relLinkCallback', $string);
+		return preg_replace_callback('#href=["\'](.*?)["\']#is',
+						'BbcodeHelper::_relLinkCallback', $string);
 	}
 
 	protected static function _relLinkCallback($matches) {
-			$out = '';
-			$url = $matches[1];
+		$out = '';
+		$url = $matches[1];
 
-			// preventing error message for parse_url('http://');
-			if ( substr($url, -3) === '://' ) return $matches[0];
-			$parsed_url = @parse_url($url);
+		// preventing error message for parse_url('http://');
+		if ( substr($url, -3) === '://' )
+			return $matches[0];
+		$parsed_url = @parse_url($url);
 
-			if (isset($parsed_url['host'])) {
-				if($parsed_url['host'] != $_SERVER['SERVER_NAME'] && $parsed_url['host'] != "www.".$_SERVER['SERVER_NAME']) {
-					$out = " rel='external' target='_blank'";
-				}
+		if ( isset($parsed_url['host']) ) {
+			if ( $parsed_url['host'] != $_SERVER['SERVER_NAME'] && $parsed_url['host'] != "www." . $_SERVER['SERVER_NAME'] ) {
+				$out = " rel='external' target='_blank'";
 			}
-			return $matches[0].$out;
+		}
+		return $matches[0] . $out;
 	}
 
 	/**
@@ -726,13 +705,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$string = preg_replace(
 				// Begin of the text or a new line in the text, maybe one space afterwards
 				'/(^|\n\r\s?)'
-					.$quote_symbol_sanitized
-					.'\s([^\n\r]*)/m', 
-				"\\1<span class=\"c_bbc_citation\">".$quote_symbol_sanitized." \\2</span>",
+				. $quote_symbol_sanitized
+				. '\s([^\n\r]*)/m',
+				"\\1<span class=\"c_bbc_citation\">" . $quote_symbol_sanitized . " \\2</span>",
 				$string
-			);
+		);
 		return $string;
-	 }
+	}
 
 	/**
 	 * @bogus does this truncate strings or the longest word in the string or what?
@@ -741,22 +720,22 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param type $string
 	 * @return string 
 	 */
- 	protected function _truncate($string) {
-  	$text_word_maxlength = Configure::read('Saito.Settings.text_word_maxlength');
+	protected function _truncate($string) {
+		$text_word_maxlength = Configure::read('Saito.Settings.text_word_maxlength');
 		$substitue_char = ' … ';
 
 		if ( mb_strlen($string) > $text_word_maxlength ) {
-			$left_margin 			= (int)floor($text_word_maxlength/2);
-			$right_margin 		= (int)(-1 * ($text_word_maxlength - $left_margin - mb_strlen($substitue_char)));
+			$left_margin = (int) floor($text_word_maxlength / 2);
+			$right_margin = (int) (-1 * ($text_word_maxlength - $left_margin - mb_strlen($substitue_char)));
 
-			$string = mb_substr($string, 0, $left_margin) . $substitue_char . mb_substr($string, $right_margin);
+			$string = mb_substr($string, 0, $left_margin) . $substitue_char . mb_substr($string,
+							$right_margin);
 		}
 		return $string;
 	}
 
-
 	protected static function _checkAndAddProtocol($string) {
-		if ( $string[0] !==  '/' ) {
+		if ( $string[0] !== '/' ) {
 			if ( strpos($string, '://') === FALSE ) {
 				$string = 'http://' . $string;
 			}
@@ -782,12 +761,11 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					array_map(
 							create_function('$in', 'return trim($in);'),
 							explode('|', self::$_allowedVideoDomains)
-									),
-					1);
+					), 1);
 		endif;
 
 		//* `*` admin pref allows all domains
-		if ( self::$_allowedVideoDomains ===  array( '*' => 1 ) ):
+		if ( self::$_allowedVideoDomains === array( '*' => 1 ) ):
 			return true;
 		endif;
 
@@ -798,13 +776,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		else:
 			self::$_videoErrorMessage->set(
 					sprintf(
-						__('Domain <strong>%s</strong> not allowed for embedding video.', true),
-						$host
-						)
-					);
+							__('Domain <strong>%s</strong> not allowed for embedding video.', true),
+							$host
+					)
+			);
 		endif;
 
-		if (empty (self::$_videoErrorMessage) ):
+		if ( empty(self::$_videoErrorMessage) ):
 			self::$_videoErrorMessage->set(__('Video domain is not allowed.', true));
 		endif;
 
@@ -820,18 +798,31 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 */
 	protected static function _getDomainForUri($uri) {
-		$hostNames = explode('.', parse_url($uri, PHP_URL_HOST));
-		$topLevelDomain = end($hostNames);
-		return prev($hostNames);
+		return self::_getDomainAndTldForUri($uri, 'domain');
 	}
 
+	/**
+	 * Returns top level domain
+	 */
+	protected static function _getDomainAndTldForUri($uri, $part = 'fulldomain' ) {
+		$host = @parse_url($uri, PHP_URL_HOST);
+		if ( !empty($host) || $host === FALSE ) :
+			if ( preg_match('/(?P<fulldomain>(?P<domain>[a-z0-9][a-z0-9\-]{1,63})\.(?<tld>[a-z\.]{2,6}))$/i',
+							$host, $regs) ) {
+				return $regs[$part];
+			}
+		endif;
+
+		return false;
+	}
 }
 
 class BbcodeMessage {
+
 	protected $_message = '';
 
 	public function reset() {
-	  $this->_message = '';
+		$this->_message = '';
 	}
 
 	public function set($message) {
@@ -845,5 +836,7 @@ class BbcodeMessage {
 	public static function format($message) {
 		return "<div class='c_bbc_imessage'>$message</div>";
 	}
+
 }
+
 ?>
