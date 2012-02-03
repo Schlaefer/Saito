@@ -192,6 +192,21 @@ class BbcodeHelperTestCase extends CakeTestCase {
 		$expected	=	"<a href='http://'>foobar</a> <span class='c_bbc_link-dinfo'>[]</span>";
 		$result		= $this->Bbcode->parse($input);
 		$this->assertIdentical($expected, $result);
+
+		// test for co.uk
+		$input 		= '[url=http://heise.co.uk/foobar]foobar[/url]';
+		$expected = array(
+				'a' => array(
+							'href' => 'http://heise.co.uk/foobar',
+							'rel'		=> 'external',
+							'target'	=> '_blank'
+				),
+				'foobar',
+				'/a',
+				'span' => array( 'class' => 'c_bbc_link-dinfo' ), '[heise.co.uk]', '/span'
+			);
+		$result		= $this->Bbcode->parse($input);
+		$this->assertTags($result, $expected);
 		
 	}
 
