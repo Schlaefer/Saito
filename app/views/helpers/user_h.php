@@ -128,7 +128,7 @@ class UserHHelper extends AppHelper {
 			if (substr($url, 0,4) == 'http') {
 				$out = $this->Html->link(
 								$this->Html->image(
-												'homepage.gif',
+												'house.png',
 												array('alt'=> __('homepage_alt', true))
 								),
 								$url,
