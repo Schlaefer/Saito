@@ -42,7 +42,7 @@
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" >
 				<div class="spnsr">
-					<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden"><?php echo $html->image('pbh.png', array( 'alt' => 'Spenden', 'width' => '80', 'height' => '70')); ?></a>
+					<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden"><?php echo $html->image('forum_logo_badge.png', array( 'alt' => 'Spenden', 'width' => '80', 'height' => '70')); ?></a>
 				</div>
 				<div class="right">
 						<?php echo Stopwatch::start('header_search.ctp');?>
@@ -53,7 +53,7 @@
 						<div class="home">
 							<?php echo $html->link(
 											$html->image(
-															'macnemo.png',
+															'forum_logo.png',
 															array( 'alt' => 'Logo', 'height' => 70)
 															) ,
 											array ( 'controller' => 'entries', 'action' => 'index', 'admin' => false),
