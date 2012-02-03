@@ -3,31 +3,8 @@
 gacker.png
 popcorn.png
 
-# MoreIchatSmileys #
+# http://p.yusukekamiyamane.com/ #
 
-Under [Creative Commons Attribution 3](http://creativecommons.org/licenses/by/3.0/) by [MoreIchatSmileys](http://ismileys.free.fr/)
+by Yusuke Kamiyamane. All rights reserved. Licensed under the Creative Commons Attribution 3.0 License <http://creativecommons.org/licenses/by/3.0/>
 
-cool.png
-crying.png
-embarrassed.png
-frown.png
-gasp.png
-grin.png
-innocent.png
-kiss.png
-lipsaresealed.png
-moneymouth.png
-oops.png
-shouting.png
-smile.png
-tongue.png
-wink.png
-
-# emoticons.gr #
-
-by courtesy of <http://www.emoticons.gr/thumbnails-101.html>
-
-blushing.png
-grinning-wink.png
-evil.png
-sleeping.png
+blushing.pngcool.pngcrying.pngembarrassed.pngevil.pngfrown.pnggasp.pnggrin.pnggrinning-wink.pnginnocent.pngkiss.pnglipsaresealed.pngmoneymouth.pngoops.pngshouting.pngsleeping.pngsmile.pngtongue.pngwink.png
