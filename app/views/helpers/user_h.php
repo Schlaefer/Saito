@@ -107,7 +107,7 @@ class UserHHelper extends AppHelper {
 		if ($user['personal_messages'] && is_string($user['user_email'])) {
 			$out = $this->Html->link(
 							$this->Html->image(
-											'email.gif',
+											'email.png',
 											array('alt'=> __('homepage_alt', true))
 							),
 							array( 'controller' => 'users', 'action' => 'contact', $user['id']),
