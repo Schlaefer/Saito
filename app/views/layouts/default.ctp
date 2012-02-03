@@ -53,7 +53,7 @@
 						<div class="home">
 							<?php echo $html->link(
 											$html->image(
-															'macnemo.png',
+															'forum_logo.png',
 															array( 'alt' => 'Logo', 'height' => 70)
 															) ,
 											array ( 'controller' => 'entries', 'action' => 'index', 'admin' => false),
