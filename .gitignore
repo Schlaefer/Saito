@@ -1,0 +1,8 @@
+/app/config/database.php
+/app/config/installed.txt
+/app/webroot/theme/test
+/app/webroot/useruploads/*.*
+/plugins
+/vendors
+Capfile
+deploy.rb

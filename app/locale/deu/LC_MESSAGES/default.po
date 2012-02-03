@@ -1,0 +1,1876 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Macnemo_2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-14 11:39+0100\n"
+"PO-Revision-Date: 2011-07-14 11:39+0100\n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop;_\n"
+"X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/macnemo_2/app/\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: plugins/install/views/install/data.ctp:5
+msgid "Click here to build your database"
+msgstr ""
+
+#: plugins/install/views/install/finish.ctp:22
+msgid "Click here to delete installation files"
+msgstr ""
+
+#: plugins/install/views/install/index.ctp:8
+msgid "Your tmp directory is writable."
+msgstr ""
+
+#: plugins/install/views/install/index.ctp:11
+msgid "Your tmp directory is NOT writable."
+msgstr ""
+
+#: plugins/install/views/install/index.ctp:16
+msgid "Your config directory is writable."
+msgstr ""
+
+#: plugins/install/views/install/index.ctp:19
+msgid "Your config directory is NOT writable."
+msgstr ""
+
+#: plugins/install/views/install/index.ctp:24
+#, php-format
+msgid "PHP version %s > 5"
+msgstr ""
+
+#: plugins/install/views/install/index.ctp:27
+#, php-format
+msgid "PHP version %s < 5"
+msgstr ""
+
+#: plugins/install/views/install/index.ctp:33
+msgid "Installation cannot continue as minimum requirements are not met."
+msgstr ""
+
+#: views/admins/admin_index.ctp:2
+#, fuzzy
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: views/admins/admin_index.ctp:5
+msgid "Admin Settings Index"
+msgstr ""
+
+#: views/admins/admin_index.ctp:8
+msgid "User"
+msgstr "Nutzer"
+
+#: views/admins/admin_index.ctp:11
+#, fuzzy
+msgid "Admin User Add"
+msgstr "Nutzer hinzufügen"
+
+#: views/admins/admin_index.ctp:14
+#: views/categories/admin_index.ctp:2
+#: views/categories/index.ctp:2
+#, fuzzy
+msgid "Categories"
+msgstr "Letzte Einträge"
+
+#: views/admins/admin_index.ctp:17
+msgid "Admin Category Index"
+msgstr ""
+
+#: views/admins/admin_index.ctp:20
+msgid "Smilies"
+msgstr ""
+
+#: views/admins/admin_index.ctp:23
+msgid "Admin Smiley Index"
+msgstr ""
+
+#: views/categories/add.ctp:4
+#, fuzzy
+msgid "Add Category"
+msgstr "Kategorie"
+
+#: views/categories/add.ctp:13
+#: views/categories/admin_add.ctp:15
+#: views/categories/admin_edit.ctp:14
+#: views/categories/edit.ctp:14
+msgid "Submit"
+msgstr "Absenden"
+
+#: views/categories/add.ctp:16
+#: views/categories/admin_add.ctp:18
+#: views/categories/admin_edit.ctp:17
+#: views/categories/admin_index.ctp:11
+#: views/categories/admin_index.ctp:51
+#: views/categories/admin_view.ctp:37
+#: views/categories/admin_view.ctp:73
+#: views/categories/edit.ctp:17
+#: views/categories/index.ctp:11
+#: views/categories/index.ctp:51
+#: views/categories/view.ctp:37
+#: views/categories/view.ctp:73
+msgid "Actions"
+msgstr ""
+
+#: views/categories/add.ctp:19
+#: views/categories/admin_add.ctp:21
+#: views/categories/admin_edit.ctp:21
+#: views/categories/admin_view.ctp:41
+#: views/categories/edit.ctp:21
+#: views/categories/view.ctp:41
+#, fuzzy
+msgid "List Categories"
+msgstr "Letzte Einträge"
+
+#: views/categories/add.ctp:20
+#: views/categories/admin_edit.ctp:22
+#: views/categories/admin_index.ctp:54
+#: views/categories/admin_view.ctp:43
+#: views/categories/edit.ctp:22
+#: views/categories/index.ctp:54
+#: views/categories/view.ctp:43
+#, fuzzy
+msgid "List Entries"
+msgstr "Letzte Einträge"
+
+#: views/categories/add.ctp:21
+#: views/categories/admin_edit.ctp:23
+#: views/categories/admin_index.ctp:55
+#: views/categories/admin_view.ctp:44
+#: views/categories/admin_view.ctp:117
+#: views/categories/edit.ctp:23
+#: views/categories/index.ctp:55
+#: views/categories/view.ctp:44
+#: views/categories/view.ctp:117
+msgid "New Entry"
+msgstr ""
+
+#: views/categories/admin_add.ctp:4
+msgid "Admin Add Category"
+msgstr ""
+
+#: views/categories/admin_edit.ctp:4
+msgid "Admin Edit Category"
+msgstr ""
+
+#: views/categories/admin_edit.ctp:20
+#: views/categories/admin_index.ctp:31
+#: views/categories/admin_view.ctp:108
+#: views/categories/edit.ctp:20
+#: views/categories/index.ctp:31
+#: views/categories/view.ctp:108
+msgid "Delete"
+msgstr ""
+
+#: views/categories/admin_edit.ctp:20
+#: views/categories/admin_index.ctp:31
+#: views/categories/admin_view.ctp:40
+#: views/categories/admin_view.ctp:108
+#: views/categories/edit.ctp:20
+#: views/categories/index.ctp:31
+#: views/categories/view.ctp:40
+#: views/categories/view.ctp:108
+#, php-format
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: views/categories/admin_index.ctp:29
+#: views/categories/admin_view.ctp:106
+#: views/categories/index.ctp:29
+#: views/categories/view.ctp:106
+msgid "View"
+msgstr ""
+
+#: views/categories/admin_index.ctp:30
+#: views/categories/admin_view.ctp:107
+#: views/categories/index.ctp:30
+#: views/categories/view.ctp:107
+msgid "Edit"
+msgstr ""
+
+#: views/categories/admin_index.ctp:39
+#: views/categories/index.ctp:39
+msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
+msgstr ""
+
+#: views/categories/admin_index.ctp:44
+#: views/categories/index.ctp:44
+msgid "previous"
+msgstr "vorherige"
+
+#: views/categories/admin_index.ctp:47
+#: views/categories/index.ctp:47
+msgid "next"
+msgstr "nächste"
+
+#: views/categories/admin_index.ctp:53
+#: views/categories/admin_view.ctp:42
+#: views/categories/index.ctp:53
+#: views/categories/view.ctp:42
+#, fuzzy
+msgid "New Category"
+msgstr "Kategorie"
+
+#: views/categories/admin_view.ctp:2
+#: views/categories/admin_view.ctp:14
+#: views/categories/admin_view.ctp:65
+#: views/categories/view.ctp:2
+#: views/categories/view.ctp:14
+#: views/categories/view.ctp:65
+#, fuzzy
+msgid "Category"
+msgstr "Kategorie"
+
+#: views/categories/admin_view.ctp:4
+#: views/categories/admin_view.ctp:54
+#: views/categories/view.ctp:4
+#: views/categories/view.ctp:54
+msgid "Id"
+msgstr ""
+
+#: views/categories/admin_view.ctp:9
+#: views/categories/view.ctp:9
+msgid "Category Order"
+msgstr ""
+
+#: views/categories/admin_view.ctp:19
+#: views/categories/view.ctp:19
+msgid "Description"
+msgstr ""
+
+#: views/categories/admin_view.ctp:24
+#: views/categories/view.ctp:24
+msgid "Accession"
+msgstr ""
+
+#: views/categories/admin_view.ctp:29
+#: views/categories/view.ctp:29
+#, fuzzy
+msgid "Standard Category"
+msgstr "Standardkategorien"
+
+#: views/categories/admin_view.ctp:39
+#: views/categories/edit.ctp:4
+#: views/categories/view.ctp:39
+msgid "Edit Category"
+msgstr ""
+
+#: views/categories/admin_view.ctp:40
+#: views/categories/view.ctp:40
+#, fuzzy
+msgid "Delete Category"
+msgstr "Flattr-Kategorie"
+
+#: views/categories/admin_view.ctp:48
+#: views/categories/view.ctp:48
+#, fuzzy
+msgid "Related Entries"
+msgstr "Letzte Einträge"
+
+#: views/categories/admin_view.ctp:52
+#: views/categories/view.ctp:52
+msgid "Created"
+msgstr ""
+
+#: views/categories/admin_view.ctp:53
+#: views/categories/view.ctp:53
+#, fuzzy
+msgid "Modified"
+msgstr "Thread fixiert"
+
+#: views/categories/admin_view.ctp:55
+#: views/categories/view.ctp:55
+msgid "Pid"
+msgstr ""
+
+#: views/categories/admin_view.ctp:56
+#: views/categories/view.ctp:56
+msgid "Tid"
+msgstr ""
+
+#: views/categories/admin_view.ctp:57
+#: views/categories/view.ctp:57
+msgid "Uniqid"
+msgstr ""
+
+#: views/categories/admin_view.ctp:58
+#: views/categories/view.ctp:58
+#, fuzzy
+msgid "Time"
+msgstr "Zeit"
+
+#: views/categories/admin_view.ctp:59
+#: views/categories/view.ctp:59
+#, fuzzy
+msgid "Last Answer"
+msgstr "Sortierreihenfolge"
+
+#: views/categories/admin_view.ctp:60
+#: views/categories/view.ctp:60
+#, fuzzy
+msgid "Edited"
+msgstr "Zitieren"
+
+#: views/categories/admin_view.ctp:61
+#: views/categories/view.ctp:61
+msgid "Edited By"
+msgstr ""
+
+#: views/categories/admin_view.ctp:62
+#: views/categories/view.ctp:62
+#, fuzzy
+msgid "User Id"
+msgstr "Nutzer"
+
+#: views/categories/admin_view.ctp:63
+#: views/categories/view.ctp:63
+msgid "Name"
+msgstr ""
+
+#: views/categories/admin_view.ctp:64
+#: views/categories/view.ctp:64
+#, fuzzy
+msgid "Subject"
+msgstr "Betreff"
+
+#: views/categories/admin_view.ctp:66
+#: views/categories/view.ctp:66
+msgid "Text"
+msgstr "Text"
+
+#: views/categories/admin_view.ctp:67
+#: views/categories/view.ctp:67
+msgid "Email Notify"
+msgstr ""
+
+#: views/categories/admin_view.ctp:68
+#: views/categories/view.ctp:68
+#, fuzzy
+msgid "Locked"
+msgstr "Strafe"
+
+#: views/categories/admin_view.ctp:69
+#: views/categories/view.ctp:69
+#, fuzzy
+msgid "Fixed"
+msgstr "Thread fixiert"
+
+#: views/categories/admin_view.ctp:70
+#: views/categories/view.ctp:70
+msgid "Views"
+msgstr ""
+
+#: views/categories/admin_view.ctp:71
+#: views/categories/view.ctp:71
+#, fuzzy
+msgid "No Text"
+msgstr "Text"
+
+#: views/categories/admin_view.ctp:72
+#: views/categories/view.ctp:72
+#, fuzzy
+msgid "Flattr"
+msgstr "flattrn"
+
+#: views/elements/entry/thread_line_cached.ctp:21
+msgid "fixed"
+msgstr "Thread fixiert"
+
+# msgstr "verfasst von"
+#: views/elements/entry/view_content.ctp:36
+msgid "forum_author_marking"
+msgstr "gesponnen von"
+
+# msgstr "Aufrufe"
+#: views/elements/entry/view_content.ctp:49
+msgid "views_headline"
+msgstr "Zuhörer"
+
+#: views/elements/entry/view_content.ctp:56
+msgid "board_edited_marking"
+msgstr "editiert von"
+
+#: views/elements/entry/view_posting.ctp:20
+#: views/elements/entry/view_posting.ctp:149
+msgid "edit_linkname"
+msgstr "Bearbeiten"
+
+#: views/elements/entry/view_posting.ctp:31
+msgid "fixed_set_entry_link"
+msgstr "Anpinnen"
+
+#: views/elements/entry/view_posting.ctp:31
+msgid "fixed_unset_entry_link"
+msgstr "Abpinnen"
+
+#: views/elements/entry/view_posting.ctp:49
+msgid "locked_set_entry_link"
+msgstr "Sperren"
+
+#: views/elements/entry/view_posting.ctp:49
+msgid "locked_unset_entry_link"
+msgstr "Entsperren"
+
+#: views/elements/entry/view_posting.ctp:68
+msgid "delete_tree_link"
+msgstr "Löschen"
+
+#: views/elements/entry/view_posting.ctp:75
+msgid "delete_tree_link_confirm_message"
+msgstr "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
+
+#: views/elements/entry/view_posting.ctp:126
+msgid "forum_answer_linkname"
+msgstr "Antworten"
+
+#: views/elements/layout/header_login.ctp:4
+msgid "register_linkname"
+msgstr "Registrieren"
+
+#: views/elements/layout/header_login.ctp:7
+msgid "login_btn"
+msgstr "Einloggen"
+
+#: views/elements/layout/header_login.ctp:12
+msgid "Adminbereich @lo"
+msgstr "Adminbereich"
+
+#: views/elements/layout/header_login.ctp:15
+msgid "user_profile"
+msgstr "Seefahrtbuch"
+
+#: views/elements/layout/header_login.ctp:18
+msgid "logout_linkname"
+msgstr "auf Landgang"
+
+#: views/elements/layout/header_search.ctp:14
+msgid "search_submit"
+msgstr "Suchen"
+
+#: views/elements/layout/slidetab_recentposts.ctp:9
+msgid "user_recentposts"
+msgstr "Logbuch"
+
+#: views/elements/layout/slidetab_userlist.ctp:6
+msgid "user_area_linkname"
+msgstr "Besatzung"
+
+#: views/elements/layout/slidetab_userlist.ctp:15
+msgid "ud_mod"
+msgstr "Bademeister"
+
+#: views/elements/users/add_form_core.ctp:4
+msgid "error_name_reserved"
+msgstr "Der Name ist bereits vergeben."
+
+#: views/elements/users/add_form_core.ctp:5
+msgid "error_no_name"
+msgstr "Es wurde kein Name eingegeben."
+
+#: views/elements/users/add_form_core.ctp:7
+msgid "register_user_name"
+msgstr "Nutzername"
+
+#: views/elements/users/add_form_core.ctp:11
+msgid "error_email_reserved"
+msgstr "Es ist bereits ein Nutzer mit der angegebenen E-Mail-Adresse vorhanden."
+
+#: views/elements/users/add_form_core.ctp:12
+msgid "error_email_wrong"
+msgstr "Die eingebene E-Mail-Adresse sieht nicht richtig aus."
+
+#: views/elements/users/add_form_core.ctp:14
+msgid "register_user_email"
+msgstr "E-Mail Adresse"
+
+#: views/elements/users/add_form_core.ctp:20
+msgid "error_password_empty"
+msgstr "Passwort darf nicht leer sein."
+
+#: views/elements/users/add_form_core.ctp:21
+msgid "error_password_confirm"
+msgstr "Password stimmt nicht mit Wiederholung überein."
+
+#: views/elements/users/add_form_core.ctp:23
+#: views/elements/users/login_form.ctp:7
+msgid "user_pw"
+msgstr "Passwort"
+
+#: views/elements/users/add_form_core.ctp:28
+msgid "user_pw_confirm"
+msgstr "Passwort wiederholen"
+
+#: views/elements/users/login_form.ctp:6
+msgid "user_name"
+msgstr "Besatzungsmitglied"
+
+#: views/elements/users/login_form.ctp:8
+msgid "auto_login_marking"
+msgstr "an diesem Computer automatisch einloggen"
+
+#: views/entries/add.ctp:35
+#: views/entries/add.ctp:266
+msgid "preview"
+msgstr "Vorschau"
+
+#: views/entries/add.ctp:96
+msgid "Einfügen"
+msgstr ""
+
+#: views/entries/add.ctp:125
+msgid "error_subject_empty"
+msgstr "Betreff darf nicht leer sein."
+
+#: views/entries/add.ctp:155
+msgid "Cite"
+msgstr "Zitieren"
+
+#: views/entries/add.ctp:179
+msgid "entry_nsfw_title"
+msgstr "Nicht bürosicher (NBS)"
+
+#: views/entries/add.ctp:191
+msgid "entry_flattr_this_posting"
+msgstr "Flattr-Knopf anzeigen"
+
+#: views/entries/add.ctp:230
+#: views/entries/add.ctp:244
+msgid "submit_button"
+msgstr "Eintragen"
+
+#: views/entries/search.ctp:25
+msgid "search_term"
+msgstr "Suchbegriff"
+
+#: views/entries/search.ctp:37
+msgid "search_advanced"
+msgstr "Erweiterte Suche"
+
+#: views/entries/search.ctp:53
+msgid "subject"
+msgstr "Betreff"
+
+#: views/entries/search.ctp:59
+msgid "search_since"
+msgstr "Seit"
+
+#: views/entries/search.ctp:71
+msgid "search_simple"
+msgstr "Einfache Suche"
+
+#: views/entries/search.ctp:127
+msgid "search_nothing_found"
+msgstr "Keine Einträge."
+
+#: views/entries/view.ctp:23
+msgid "whole_thread_marking"
+msgstr "gesamter Thread"
+
+#: views/groups/admin_add.ctp:4
+msgid "Admin Add Group"
+msgstr ""
+
+#: views/groups/admin_add.ctp:15
+#: views/groups/admin_edit.ctp:17
+#: views/groups/admin_view.ctp:31
+msgid "List Groups"
+msgstr ""
+
+#: views/groups/admin_add.ctp:16
+#: views/groups/admin_edit.ctp:18
+#: views/groups/admin_index.ctp:50
+#: views/groups/admin_view.ctp:33
+#, fuzzy
+msgid "List Users"
+msgstr "Letzte Einträge"
+
+#: views/groups/admin_add.ctp:17
+#: views/groups/admin_edit.ctp:19
+#: views/groups/admin_index.ctp:51
+#: views/groups/admin_view.ctp:34
+#: views/groups/admin_view.ctp:161
+#, fuzzy
+msgid "New User"
+msgstr "Nutzer"
+
+#: views/groups/admin_edit.ctp:4
+msgid "Admin Edit Group"
+msgstr ""
+
+#: views/groups/admin_index.ctp:2
+msgid "Groups"
+msgstr ""
+
+#: views/groups/admin_index.ctp:49
+#: views/groups/admin_view.ctp:32
+msgid "New Group"
+msgstr ""
+
+#: views/groups/admin_view.ctp:2
+msgid "Group"
+msgstr ""
+
+#: views/groups/admin_view.ctp:29
+msgid "Edit Group"
+msgstr ""
+
+#: views/groups/admin_view.ctp:30
+msgid "Delete Group"
+msgstr ""
+
+#: views/groups/admin_view.ctp:38
+msgid "Related Users"
+msgstr ""
+
+#: views/groups/admin_view.ctp:43
+#, fuzzy
+msgid "User Type"
+msgstr "Rang"
+
+#: views/groups/admin_view.ctp:44
+msgid "Group Id"
+msgstr ""
+
+#: views/groups/admin_view.ctp:45
+#, fuzzy
+msgid "Username"
+msgstr "Besatzungsmitglied"
+
+#: views/groups/admin_view.ctp:46
+#, fuzzy
+msgid "User Real Name"
+msgstr "Besatzungsmitglied"
+
+#: views/groups/admin_view.ctp:47
+msgid "Password"
+msgstr ""
+
+#: views/groups/admin_view.ctp:48
+msgid "User Email"
+msgstr ""
+
+#: views/groups/admin_view.ctp:49
+msgid "Hide Email"
+msgstr ""
+
+#: views/groups/admin_view.ctp:50
+#, fuzzy
+msgid "User Hp"
+msgstr "Nutzer"
+
+#: views/groups/admin_view.ctp:51
+#, fuzzy
+msgid "User Place"
+msgstr "Heimathafen"
+
+#: views/groups/admin_view.ctp:52
+#, fuzzy
+msgid "Signature"
+msgstr "Letzter Wille"
+
+#: views/groups/admin_view.ctp:53
+#, fuzzy
+msgid "Profile"
+msgstr "Seefahrtbuch"
+
+#: views/groups/admin_view.ctp:54
+msgid "Entry Count"
+msgstr ""
+
+#: views/groups/admin_view.ctp:55
+msgid "Logins"
+msgstr ""
+
+#: views/groups/admin_view.ctp:56
+msgid "Last Login"
+msgstr ""
+
+#: views/groups/admin_view.ctp:57
+msgid "Last Logout"
+msgstr ""
+
+#: views/groups/admin_view.ctp:58
+#, fuzzy
+msgid "Registered"
+msgstr "Registriert"
+
+#: views/groups/admin_view.ctp:59
+#, fuzzy
+msgid "Last Refresh"
+msgstr "Letzte Einträge"
+
+#: views/groups/admin_view.ctp:60
+#, fuzzy
+msgid "Last Refresh Tmp"
+msgstr "Letzte Einträge"
+
+#: views/groups/admin_view.ctp:61
+#, fuzzy
+msgid "User View"
+msgstr "Nutzer"
+
+#: views/groups/admin_view.ctp:62
+#, fuzzy
+msgid "New Posting Notify"
+msgstr "wenn sich ein neuer Nutzer angemeldet hat"
+
+#: views/groups/admin_view.ctp:63
+msgid "New User Notify"
+msgstr ""
+
+#: views/groups/admin_view.ctp:64
+msgid "Personal Messages"
+msgstr ""
+
+#: views/groups/admin_view.ctp:65
+msgid "Time Difference"
+msgstr ""
+
+#: views/groups/admin_view.ctp:66
+#, fuzzy
+msgid "User Lock"
+msgstr "Strafe"
+
+#: views/groups/admin_view.ctp:67
+msgid "Pwf Code"
+msgstr ""
+
+#: views/groups/admin_view.ctp:68
+msgid "Activate Code"
+msgstr ""
+
+#: views/groups/admin_view.ctp:69
+#, fuzzy
+msgid "User Font Size"
+msgstr "Schriftgröße"
+
+#: views/groups/admin_view.ctp:70
+#, fuzzy
+msgid "User Signatures Hide"
+msgstr "Signaturen ausblenden"
+
+#: views/groups/admin_view.ctp:71
+#, fuzzy
+msgid "User Signatures Images Hide"
+msgstr "Nur Bilder in Signaturen der anderen Nutzer ausblenden."
+
+#: views/groups/admin_view.ctp:72
+#, fuzzy
+msgid "User Categories"
+msgstr "Standardkategorien"
+
+#: views/groups/admin_view.ctp:73
+#, fuzzy
+msgid "User Forum Refresh Time"
+msgstr "Aktualisierungszeit"
+
+#: views/groups/admin_view.ctp:74
+#, fuzzy
+msgid "User Forum Hr Ruler"
+msgstr "Trennstrich"
+
+#: views/groups/admin_view.ctp:75
+#, fuzzy
+msgid "User Automaticaly Mark As Read"
+msgstr "Gelesen markieren"
+
+#: views/groups/admin_view.ctp:76
+#, fuzzy
+msgid "User Sort Last Answer"
+msgstr "Sortierreihenfolge"
+
+#: views/groups/admin_view.ctp:77
+#, fuzzy
+msgid "User Color New Postings"
+msgstr "Neue Beiträge"
+
+#: views/groups/admin_view.ctp:78
+#, fuzzy
+msgid "User Color Actual Posting"
+msgstr "Aktueller Beitrag"
+
+#: views/groups/admin_view.ctp:79
+#, fuzzy
+msgid "User Color Old Postings"
+msgstr "Alte Beiträge"
+
+#: views/groups/admin_view.ctp:80
+msgid "User Show Own Signature"
+msgstr ""
+
+#: views/groups/admin_view.ctp:81
+msgid "Slidetab Order"
+msgstr ""
+
+#: views/groups/admin_view.ctp:82
+msgid "Show Userlist"
+msgstr ""
+
+#: views/groups/admin_view.ctp:83
+#, fuzzy
+msgid "Show Recentposts"
+msgstr "Logbuch"
+
+#: views/groups/admin_view.ctp:84
+msgid "Show About"
+msgstr ""
+
+#: views/groups/admin_view.ctp:85
+msgid "Show Donate"
+msgstr ""
+
+#: views/groups/admin_view.ctp:86
+#, fuzzy
+msgid "Inline View On Click"
+msgstr "Posting aufklappen"
+
+#: views/groups/admin_view.ctp:87
+#, fuzzy
+msgid "Flattr Uid"
+msgstr "Flattr ID"
+
+#: views/groups/admin_view.ctp:88
+#, fuzzy
+msgid "Flattr Allow User"
+msgstr "Flattrn"
+
+#: views/groups/admin_view.ctp:89
+#, fuzzy
+msgid "Flattr Allow Posting"
+msgstr "Postings flattrn"
+
+#: views/pages/rss_feeds.ctp:1
+msgid "RSS Feeds"
+msgstr ""
+
+#: views/pages/rss_feeds.ctp:4
+#: views/pages/rss_feeds.ctp:7
+msgid "RSS Feed"
+msgstr "RSS Feed"
+
+#: views/pages/rss_feeds.ctp:4
+msgid "Last entries"
+msgstr "Letzte Einträge"
+
+#: views/pages/rss_feeds.ctp:7
+msgid "Last started threads"
+msgstr "Letzte Threads"
+
+#: views/settings/admin_edit.ctp:16
+#: views/settings/admin_index.ctp:55
+msgid "_exp"
+msgstr ""
+
+#: views/settings/admin_index.ctp:7
+msgid "forum_disabled"
+msgstr "Forum deaktivieren"
+
+#: views/settings/admin_index.ctp:13
+msgid "forum_disabled_exp"
+msgstr "Forum deaktivieren."
+
+#: views/settings/admin_index.ctp:17
+#: views/settings/admin_index.ctp:35
+#: views/settings/admin_index.ctp:59
+#: views/settings/admin_index.ctp:83
+#: views/settings/admin_index.ctp:101
+#: views/settings/admin_index.ctp:119
+#: views/settings/admin_index.ctp:142
+#: views/settings/admin_index.ctp:160
+msgid "edit"
+msgstr ""
+
+#: views/settings/admin_index.ctp:25
+msgid "forum_disabled_text"
+msgstr "Forum deaktivieren Infotext"
+
+#: views/settings/admin_index.ctp:31
+msgid "forum_disabled_text_exp"
+msgstr "Infotext, welcher auf der Hinweisseite mit ausgegeben wird."
+
+#: views/settings/admin_index.ctp:73
+msgid "flattr_enabled"
+msgstr "Flattr aktivieren"
+
+#: views/settings/admin_index.ctp:79
+msgid "flattr_enabled_exp"
+msgstr "Ermöglicht es Nutzern flattr zu verwenden."
+
+#: views/settings/admin_index.ctp:91
+msgid "flattr_language"
+msgstr "Flattr-Sprache"
+
+#: views/settings/admin_index.ctp:97
+msgid "flattr_language_exp"
+msgstr "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf flattr.com für Kürzel."
+
+#: views/settings/admin_index.ctp:109
+msgid "flattr_category"
+msgstr "Flattr-Kategorie"
+
+#: views/settings/admin_index.ctp:115
+msgid "flattr_category_exp"
+msgstr "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe flattr.com für verfügbare Kategorien."
+
+#: views/settings/admin_index.ctp:132
+msgid "upload_max_img_size"
+msgstr "Uploadgröße maximal"
+
+#: views/settings/admin_index.ctp:138
+msgid "upload_max_img_size_exp"
+msgstr "Maximale Größe, die ein Upload besitzen darf in kB."
+
+#: views/settings/admin_index.ctp:150
+msgid "upload_max_number_of_uploads"
+msgstr "Anzahl an Uploads pro Nutzer"
+
+#: views/settings/admin_index.ctp:156
+msgid "upload_max_number_of_uploads_exp"
+msgstr "Maximale Anzahl von Dateien, die ein einzelner Nutzer gleichzeitig auf dem Server hochgeladen haben kann."
+
+#: views/smiley_codes/admin_add.ctp:4
+msgid "Admin Add Smiley Code"
+msgstr ""
+
+#: views/smiley_codes/admin_add.ctp:16
+#: views/smiley_codes/admin_edit.ctp:18
+#: views/smiley_codes/admin_view.ctp:26
+#: views/smilies/admin_add.ctp:19
+#: views/smilies/admin_edit.ctp:21
+#: views/smilies/admin_index.ctp:52
+msgid "List Smiley Codes"
+msgstr ""
+
+#: views/smiley_codes/admin_add.ctp:17
+#: views/smiley_codes/admin_edit.ctp:19
+#: views/smiley_codes/admin_index.ctp:50
+#: views/smiley_codes/admin_view.ctp:28
+#: views/smilies/add.ctp:18
+#: views/smilies/admin_add.ctp:18
+#: views/smilies/admin_edit.ctp:20
+msgid "List Smilies"
+msgstr ""
+
+#: views/smiley_codes/admin_add.ctp:18
+#: views/smiley_codes/admin_edit.ctp:20
+#: views/smiley_codes/admin_index.ctp:51
+#: views/smiley_codes/admin_view.ctp:29
+#: views/smilies/admin_index.ctp:51
+msgid "New Smiley"
+msgstr ""
+
+#: views/smiley_codes/admin_edit.ctp:4
+msgid "Admin Edit Smiley Code"
+msgstr ""
+
+#: views/smiley_codes/admin_index.ctp:2
+#, fuzzy
+msgid "Smiley Codes"
+msgstr "Smilies"
+
+#: views/smiley_codes/admin_index.ctp:49
+#: views/smiley_codes/admin_view.ctp:27
+#: views/smilies/admin_add.ctp:20
+#: views/smilies/admin_edit.ctp:22
+#: views/smilies/admin_index.ctp:53
+msgid "New Smiley Code"
+msgstr ""
+
+#: views/smiley_codes/admin_view.ctp:2
+#, fuzzy
+msgid "Smiley Code"
+msgstr "Smilies"
+
+#: views/smiley_codes/admin_view.ctp:9
+msgid "Smiley"
+msgstr ""
+
+#: views/smiley_codes/admin_view.ctp:14
+msgid "Code"
+msgstr ""
+
+#: views/smiley_codes/admin_view.ctp:24
+msgid "Edit Smiley Code"
+msgstr ""
+
+#: views/smiley_codes/admin_view.ctp:25
+msgid "Delete Smiley Code"
+msgstr ""
+
+#: views/smilies/add.ctp:4
+msgid "Add Smily"
+msgstr ""
+
+#: views/smilies/admin_add.ctp:4
+msgid "Admin Add Smiley"
+msgstr ""
+
+#: views/smilies/admin_edit.ctp:4
+msgid "Admin Edit Smiley"
+msgstr ""
+
+#: views/smilies/admin_view.ctp:9
+#: views/smilies/view.ctp:9
+msgid "Order"
+msgstr ""
+
+#: views/smilies/admin_view.ctp:14
+#: views/smilies/view.ctp:14
+msgid "Icon"
+msgstr ""
+
+#: views/smilies/admin_view.ctp:19
+#: views/smilies/view.ctp:19
+#, fuzzy
+msgid "Image"
+msgstr "Seite"
+
+#: views/smilies/admin_view.ctp:24
+#: views/smilies/view.ctp:24
+msgid "Title"
+msgstr ""
+
+#: views/smilies/admin_view.ctp:34
+msgid "Edit Smiley"
+msgstr ""
+
+#: views/smilies/admin_view.ctp:35
+msgid "Delete Smiley"
+msgstr ""
+
+#: views/smilies/admin_view.ctp:43
+msgid "Related Smiley Codes"
+msgstr ""
+
+#: views/smilies/admin_view.ctp:48
+#, fuzzy
+msgid "Smiley Id"
+msgstr "Smilies"
+
+#: views/smilies/edit.ctp:4
+#: views/smilies/view.ctp:34
+msgid "Edit Smily"
+msgstr ""
+
+#: views/smilies/index.ctp:51
+#: views/smilies/view.ctp:37
+msgid "New Smily"
+msgstr ""
+
+#: views/smilies/view.ctp:2
+msgid "Smily"
+msgstr ""
+
+#: views/smilies/view.ctp:35
+msgid "Delete Smily"
+msgstr ""
+
+#: views/uploads/add.ctp:10
+#: views/uploads/index.ctp:29
+msgid "upload_btn"
+msgstr "Hochladen"
+
+#: views/uploads/index.ctp:21
+msgid "upload_new_title"
+msgstr "Neue Hochladen"
+
+#: views/uploads/index.ctp:47
+#: views/uploads/index.ctp:55
+msgid "upload_btn_delete_upload"
+msgstr "Datei löschen"
+
+#: views/uploads/index.ctp:80
+msgid "upload_btn_insert_into_posting"
+msgstr "Einfügen"
+
+#: views/users/admin_add.ctp:4
+msgid "Add User"
+msgstr "Nutzer hinzufügen"
+
+#: views/users/changepassword.ctp:1
+#: views/users/edit.ctp:46
+msgid "change_password_link"
+msgstr "Passwort ändern"
+
+#: views/users/changepassword.ctp:7
+msgid "change_password_old_password"
+msgstr "Altes Passwort"
+
+#: views/users/changepassword.ctp:11
+msgid "error_password_check_old"
+msgstr "Das alte Passwort ist nicht korrekt."
+
+#: views/users/changepassword.ctp:15
+msgid "change_password_new_password"
+msgstr "Neues Passwort"
+
+#: views/users/changepassword.ctp:23
+msgid "change_password_new_password_confirm"
+msgstr "Neues Passwort wiederholen"
+
+#: views/users/changepassword.ctp:25
+msgid "change_password_btn_submit"
+msgstr "Passwort ändern"
+
+#: views/users/contact.ctp:3
+msgid "user_contact_title"
+msgstr "Kontakt"
+
+#: views/users/contact.ctp:5
+msgid "user_contact_subject"
+msgstr "Betreff"
+
+#: views/users/contact.ctp:7
+msgid "user_contact_message"
+msgstr "Nachricht"
+
+#: views/users/edit.ctp:1
+msgid "user_area_title"
+msgstr "Seefahrtbuch"
+
+#: views/users/edit.ctp:3
+#: views/users/view.ctp:116
+msgid "edit_userdata"
+msgstr "Bearbeiten"
+
+#: views/users/edit.ctp:11
+#: views/users/edit.ctp:33
+#: views/users/index.ctp:13
+#: views/users/view.ctp:18
+msgid "username_marking"
+msgstr "Deckname"
+
+#: views/users/edit.ctp:16
+#: views/users/edit.ctp:38
+#: views/users/index.ctp:15
+#: views/users/view.ctp:32
+msgid "userlist_email"
+msgstr "Flaschenpost"
+
+#: views/users/edit.ctp:21
+#: views/users/index.ctp:14
+msgid "user_type"
+msgstr "Rang"
+
+#: views/users/edit.ctp:50
+msgid "user_pw_exp"
+msgstr "Aktuelles Passwort durch ein neues ersetzen."
+
+#: views/users/edit.ctp:58
+msgid "user_show_email"
+msgstr "E-Mail-Link anzeigen"
+
+#: views/users/edit.ctp:61
+msgid "user_show_email_exp"
+msgstr "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an die E-Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht eingesehen werden."
+
+#: views/users/edit.ctp:67
+#: views/users/view.ctp:25
+msgid "user_real_name"
+msgstr "Besatzungsmitglied"
+
+#: views/users/edit.ctp:69
+msgid "user_real_name_exp"
+msgstr "(optional)"
+
+#: views/users/edit.ctp:74
+#: views/users/index.ctp:16
+#: views/users/view.ctp:39
+msgid "user_hp"
+msgstr "Virtueller Liegeplatz"
+
+#: views/users/edit.ctp:76
+msgid "user_hp_exp"
+msgstr "(optional)"
+
+#: views/users/edit.ctp:81
+#: views/users/view.ctp:46
+msgid "user_place"
+msgstr "Heimathafen"
+
+#: views/users/edit.ctp:82
+msgid "user_place_exp"
+msgstr "(optional)"
+
+#: views/users/edit.ctp:91
+msgid "user_profile_exp"
+msgstr "wird in der Nutzerinfo angezeigt (optional)"
+
+#: views/users/edit.ctp:97
+#: views/users/view.ctp:74
+msgid "user_signature"
+msgstr "Letzter Wille"
+
+#: views/users/edit.ctp:102
+msgid "user_signature_exp"
+msgstr "Signatur, welche an eigene Postings angehängt wird."
+
+#: views/users/edit.ctp:108
+msgid "user_font_size"
+msgstr "Schriftgröße"
+
+#: views/users/edit.ctp:125
+msgid "user_font_size_exp"
+msgstr "Schriftgröße für alle Schriften (optional)"
+
+#: views/users/edit.ctp:130
+msgid "user_automaticaly_mark_as_read"
+msgstr "Gelesen markieren"
+
+#: views/users/edit.ctp:131
+msgid "user_automaticaly_mark_as_read_exp"
+msgstr "Beim erneuten Laden der Frontseite (bspw. durch Klick auf Logo im Kopf) automatisch gelesen markieren."
+
+#: views/users/edit.ctp:135
+msgid "user_signatures_hide"
+msgstr "Signaturen ausblenden"
+
+#: views/users/edit.ctp:137
+msgid "user_signatures_hide_exp"
+msgstr "Signaturen der anderen Nutzer komplett ausblenden."
+
+#: views/users/edit.ctp:139
+msgid "user_signatures_images_hide_exp"
+msgstr "Nur Bilder in Signaturen der anderen Nutzer ausblenden."
+
+#: views/users/edit.ctp:144
+msgid "user_forum_refresh_time"
+msgstr "Aktualisierungszeit"
+
+#: views/users/edit.ctp:148
+msgid "user_forum_refresh_time_exp"
+msgstr "Zeit in Minuten, nach der die Forumsübersicht automatisch neu geladen wird (optional)"
+
+#: views/users/edit.ctp:154
+msgid "user_colors"
+msgstr "Farben"
+
+#: views/users/edit.ctp:156
+msgid "user_color_new_postings_exp"
+msgstr "Neue Beiträge"
+
+#: views/users/edit.ctp:158
+msgid "user_color_old_postinings_exp"
+msgstr "Alte Beiträge"
+
+#: views/users/edit.ctp:160
+msgid "user_color_actual_posting_exp"
+msgstr "Aktueller Beitrag"
+
+#: views/users/edit.ctp:166
+msgid "user_forum_hr_ruler"
+msgstr "Trennstrich"
+
+#: views/users/edit.ctp:167
+msgid "user_forum_hr_exp"
+msgstr "Anzeige eines horizontalen Trennstriches zwischen den Threads in der Thread-Ansicht (optional)"
+
+#: views/users/edit.ctp:173
+msgid "user_standard_view"
+msgstr "Standardansicht"
+
+#: views/users/edit.ctp:174
+msgid "user_view_thread"
+msgstr "Thread"
+
+#: views/users/edit.ctp:174
+msgid "user_view_board"
+msgstr "Board"
+
+#: views/users/edit.ctp:174
+msgid "user_view_mixed"
+msgstr "Mixed"
+
+#: views/users/edit.ctp:175
+msgid "user_standard_view_exp"
+msgstr "In welcher Ansicht soll das Forum standardmässig angezeigt werden."
+
+#: views/users/edit.ctp:180
+msgid "inline_view_on_click"
+msgstr "Posting aufklappen"
+
+#: views/users/edit.ctp:183
+msgid "inline_view_on_click_exp"
+msgstr "Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
+
+#: views/users/edit.ctp:188
+msgid "user_sort_last_answer"
+msgstr "Sortierreihenfolge"
+
+#: views/users/edit.ctp:190
+msgid "user_sort_last_answer_time"
+msgstr "Zeit"
+
+#: views/users/edit.ctp:190
+msgid "user_sort_last_answer_last_answer"
+msgstr "Letzte Antwort"
+
+#: views/users/edit.ctp:191
+msgid "user_sort_last_answer_exp"
+msgstr "Reihenfolge nach der die Threads auf der Startseite geordnet werden. Zeit: feste Reihenfolge nach Startzeitpunkt des Threads. Letzte Antwort: Threads mit neuen Antworten wandern nach oben."
+
+#: views/users/edit.ctp:198
+msgid "user_pers_msg"
+msgstr "Persönliche&nbsp;Nachrichten empfangen"
+
+#: views/users/edit.ctp:199
+msgid "user_pers_msg_exp"
+msgstr "Sollen persönliche Nachrichten registrierter Nutzer per E-Mail empfangen werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen werden)"
+
+#: views/users/edit.ctp:204
+msgid "user_standard_categories"
+msgstr "Standardkategorien"
+
+#: views/users/edit.ctp:207
+msgid "user_standard_categories_exp"
+msgstr "Persönlicher Kategoriensatz und Standardansicht"
+
+#: views/users/edit.ctp:211
+msgid "user_time_diff"
+msgstr "Zeitzonen-Differenz"
+
+#: views/users/edit.ctp:212
+msgid "user_time_diff_exp"
+msgstr "Unterschied zur Server-Zeit in Stunden"
+
+#: views/users/edit.ctp:217
+msgid "admin_mod_notif"
+msgstr "E-Mail-Benachrichtigung"
+
+#: views/users/edit.ctp:219
+msgid "admin_mod_notif_exp"
+msgstr "(nur für Admins und Moderatoren)"
+
+#: views/users/edit.ctp:220
+msgid "new_posting_notify_exp"
+msgstr "wenn sich ein neuer Nutzer angemeldet hat"
+
+#: views/users/edit.ctp:222
+msgid "new_user_notify_exp"
+msgstr "wenn ein neues Posting gemacht wurde"
+
+#: views/users/edit.ctp:230
+#: views/users/view.ctp:82
+msgid "flattr"
+msgstr "flattrn"
+
+#: views/users/edit.ctp:233
+msgid "flattr_uid"
+msgstr "Flattr ID"
+
+#: views/users/edit.ctp:237
+msgid "flattr_allow_user"
+msgstr "Flattrn"
+
+#: views/users/edit.ctp:238
+msgid "flattr_allow_user_exp"
+msgstr "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn allgemein für das Nutzerkonto."
+
+#: views/users/edit.ctp:241
+msgid "flattr_allow_posting"
+msgstr "Postings flattrn"
+
+#: views/users/edit.ctp:242
+msgid "flattr_allow_posting_exp"
+msgstr "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
+
+#: views/users/edit.ctp:246
+msgid "button_save"
+msgstr "Speichern"
+
+#: views/users/index.ctp:1
+msgid "reg_users_hl"
+msgstr "Musterrolle"
+
+#: views/users/index.ctp:17
+msgid "userlist_online"
+msgstr "Status"
+
+#: views/users/index.ctp:19
+msgid "registered"
+msgstr "Registriert"
+
+#: views/users/login.ctp:1
+msgid "login_linkname"
+msgstr "log in"
+
+#: views/users/view.ctp:4
+msgid "user_show_entries"
+msgstr "Geschichten anzeigen"
+
+#: views/users/view.ctp:53
+msgid "user_since"
+msgstr "geheuert am"
+
+#: views/users/view.ctp:54
+msgid "date_short"
+msgstr "%d.%m.%Y"
+
+#: views/users/view.ctp:57
+msgid "user_postings"
+msgstr "Geschichten"
+
+#: controllers/categories_controller.php:73
+#: controllers/categories_controller.php:95
+#, fuzzy
+msgid "Invalid category"
+msgstr "Ungültiger Nutzer"
+
+#: controllers/categories_controller.php:84
+#: controllers/categories_controller.php:100
+msgid "The category has been saved"
+msgstr ""
+
+#: controllers/categories_controller.php:87
+#: controllers/categories_controller.php:103
+msgid "The category could not be saved. Please, try again."
+msgstr ""
+
+#: controllers/categories_controller.php:115
+#, fuzzy
+msgid "Invalid id for category"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: controllers/categories_controller.php:119
+msgid "Category deleted"
+msgstr ""
+
+#: controllers/categories_controller.php:122
+msgid "Category was not deleted"
+msgstr ""
+
+#: controllers/entries_controller.php:50
+msgid "page"
+msgstr "Seite"
+
+#: controllers/entries_controller.php:52
+msgid "new_entry_linkname"
+msgstr "Neuer Eintrag"
+
+#: controllers/entries_controller.php:167
+#: controllers/users_controller.php:238
+#: controllers/users_controller.php:268
+msgid "Back"
+msgstr "Zurück"
+
+#: controllers/entries_controller.php:208
+#: controllers/users_controller.php:168
+msgid "back_to_forum_linkname"
+msgstr "zurück zum Forum"
+
+#: controllers/entries_controller.php:215
+msgid "new_entry_linktitle"
+msgstr "Neuen Eintrag verfassen"
+
+#: controllers/entries_controller.php:218
+msgid "logged_in_users_only"
+msgstr "Nur für eingeloggte Nutzer."
+
+#: controllers/entries_controller.php:280
+#: controllers/entries_controller.php:367
+msgid "Something clogged the tubes. Could not save entry. Try again."
+msgstr ""
+
+#: controllers/entries_controller.php:306
+#: controllers/entries_controller.php:375
+msgid "back_to_posting_linkname"
+msgstr "zurück zum Posting von"
+
+#: controllers/entries_controller.php:312
+msgid "back_to_overview_linkname"
+msgstr "zurück zur Übersicht"
+
+#: controllers/entries_controller.php:323
+msgid "answer_marking"
+msgstr "Antwort verfassen"
+
+#: controllers/entries_controller.php:407
+msgid "delete_tree_error"
+msgstr "Thread konnte nicht gelöscht werden."
+
+#: controllers/entries_controller.php:582
+#, fuzzy
+msgid "_set_entry_link"
+msgstr "Neuer Eintrag"
+
+#: controllers/entries_controller.php:582
+#, fuzzy
+msgid "_unset_entry_link"
+msgstr "Neuer Eintrag"
+
+#: controllers/entries_controller.php:742
+#: controllers/entries_controller.php:752
+msgid "Invalid post"
+msgstr "Posting konnte nicht gefunden werden."
+
+#: controllers/smiley_codes_controller.php:13
+#: controllers/smiley_codes_controller.php:35
+#, fuzzy
+msgid "Invalid smiley code"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: controllers/smiley_codes_controller.php:23
+#: controllers/smiley_codes_controller.php:40
+msgid "The smiley code has been saved"
+msgstr ""
+
+#: controllers/smiley_codes_controller.php:26
+#: controllers/smiley_codes_controller.php:43
+msgid "The smiley code could not be saved. Please, try again."
+msgstr ""
+
+#: controllers/smiley_codes_controller.php:55
+#, fuzzy
+msgid "Invalid id for smiley code"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: controllers/smiley_codes_controller.php:59
+msgid "Smiley code deleted"
+msgstr ""
+
+#: controllers/smiley_codes_controller.php:62
+msgid "Smiley code was not deleted"
+msgstr ""
+
+#: controllers/smilies_controller.php:13
+#: controllers/smilies_controller.php:33
+#, fuzzy
+msgid "Invalid smily"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: controllers/smilies_controller.php:23
+#: controllers/smilies_controller.php:38
+msgid "The smily has been saved"
+msgstr ""
+
+#: controllers/smilies_controller.php:26
+#: controllers/smilies_controller.php:41
+msgid "The smily could not be saved. Please, try again."
+msgstr ""
+
+#: controllers/smilies_controller.php:51
+#, fuzzy
+msgid "Invalid id for smily"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: controllers/smilies_controller.php:55
+msgid "Smily deleted"
+msgstr ""
+
+#: controllers/smilies_controller.php:58
+msgid "Smily was not deleted"
+msgstr ""
+
+#: controllers/uploads_controller.php:33
+#: controllers/uploads_controller.php:86
+msgid "upload_max_number_of_uploads_failed"
+msgstr "Maximale Anzahl an Uploads erreicht (%s)."
+
+#: controllers/users_controller.php:155
+#: controllers/users_controller.php:175
+msgid "Invalid user"
+msgstr "Ungültiger Nutzer"
+
+#: controllers/users_controller.php:209
+msgid "user_edit_success"
+msgstr "Die Daten wurden gespeichert."
+
+#: controllers/users_controller.php:222
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: controllers/users_controller.php:262
+msgid "change_password_success"
+msgstr "Passwort erfolgreich geändert."
+
+#: controllers/components/current_user.php:182
+msgid "auth_loginerror"
+msgstr "Fehler beim Login!"
+
+#: controllers/components/current_user.php:183
+msgid "auth_autherror"
+msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
+
+#: libs/saito_entry.php:61
+msgid "notice_you_are_editing_as_mod"
+msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
+
+#: libs/saito_entry.php:88
+msgid "Could not find entry to delete."
+msgstr ""
+
+#
+#: locale/nondynamic_scan.php:2
+msgid "January"
+msgstr "Januar"
+
+#: locale/nondynamic_scan.php:3
+msgid "February"
+msgstr "Februar"
+
+#: locale/nondynamic_scan.php:4
+msgid "March"
+msgstr "März"
+
+#: locale/nondynamic_scan.php:5
+msgid "April"
+msgstr "April"
+
+#: locale/nondynamic_scan.php:6
+msgid "May"
+msgstr "Mai"
+
+#: locale/nondynamic_scan.php:7
+msgid "June"
+msgstr "Juni"
+
+#: locale/nondynamic_scan.php:8
+msgid "July"
+msgstr "Juli"
+
+#: locale/nondynamic_scan.php:9
+msgid "August"
+msgstr "August"
+
+#: locale/nondynamic_scan.php:10
+#, fuzzy
+msgid "September"
+msgstr "September"
+
+#: locale/nondynamic_scan.php:11
+msgid "October"
+msgstr "Oktober"
+
+#: locale/nondynamic_scan.php:12
+msgid "November"
+msgstr "November"
+
+#: locale/nondynamic_scan.php:13
+msgid "December"
+msgstr "Dezember"
+
+#: plugins/install/controllers/install_controller.php:93
+msgid "Installation: Welcome"
+msgstr ""
+
+#: plugins/install/controllers/install_controller.php:108
+msgid "Step 1: Database"
+msgstr ""
+
+#: plugins/install/controllers/install_controller.php:124
+#: plugins/install/controllers/install_controller.php:166
+msgid "Could not connect to database."
+msgstr ""
+
+#: plugins/install/controllers/install_controller.php:146
+msgid "Could not write database.php file."
+msgstr ""
+
+#: plugins/install/controllers/install_controller.php:158
+msgid "Step 2: Build database"
+msgstr ""
+
+#: plugins/install/controllers/install_controller.php:214
+msgid "Installation completed successfully"
+msgstr ""
+
+#: plugins/install/controllers/install_controller.php:219
+msgid "Installation files deleted successfully."
+msgstr ""
+
+#: plugins/install/controllers/install_controller.php:222
+msgid "Could not delete installation files."
+msgstr ""
+
+#: plugins/simple_captcha/views/helpers/simple_captcha.php:120
+msgid "Captcha"
+msgstr ""
+
+#: tests/cases/helpers/glasenuhr.test.php:20
+msgid "Nacht"
+msgstr ""
+
+#: tests/cases/helpers/glasenuhr.test.php:21
+msgid "Morgen"
+msgstr ""
+
+#: tests/cases/helpers/glasenuhr.test.php:22
+msgid "Vormittag"
+msgstr ""
+
+#: tests/cases/helpers/glasenuhr.test.php:23
+msgid "Nachmittag"
+msgstr ""
+
+#: tests/cases/helpers/glasenuhr.test.php:24
+msgid "Freiwache"
+msgstr ""
+
+#: tests/cases/helpers/glasenuhr.test.php:25
+msgid "Abend"
+msgstr ""
+
+#: views/helpers/bbcode.php:460
+#, fuzzy
+msgid "Your browser does not support HTML5 video. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
+msgstr "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen Browser."
+
+#: views/helpers/bbcode.php:478
+#, fuzzy
+msgid "Your browser does not support HTML5 audio. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
+msgstr "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen Browser."
+
+#: views/helpers/bbcode.php:800
+#, php-format
+msgid "Domain <strong>%s</strong> not allowed for embedding video."
+msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
+
+#: views/helpers/bbcode.php:807
+msgid "Video domain is not allowed."
+msgstr ""
+
+#: views/helpers/entry_h.php:50
+msgid "geshi_link_popup"
+msgstr "Bitte URI zum Verweis eingeben.:!:http://beispiel.de/"
+
+#: views/helpers/entry_h.php:52
+msgid "geshi_link_placeholder"
+msgstr "Hier den Verweistext eingeben."
+
+#: views/helpers/entry_h.php:58
+msgid "geshi_picture_popup"
+msgstr "Bitte URI zum Bild (.jpg, .png oder .gif) eingeben.:!:http://beispiel.de/bild.png"
+
+#: views/helpers/entry_h.php:176
+msgid "[NSFW]"
+msgstr "[NBS]"
+
+#: views/helpers/entry_h.php:197
+msgid "cateogry"
+msgstr "Kategorie"
+
+#: views/helpers/entry_h.php:200
+msgid "error_category_empty"
+msgstr "Kategorie darf nicht leer sein."
+
+#: views/helpers/glasenuhr.php:27
+msgid "Nachts"
+msgstr ""
+
+#: views/helpers/glasenuhr.php:28
+msgid "Morgens"
+msgstr ""
+
+#: views/helpers/glasenuhr.php:29
+msgid "Vormittags"
+msgstr ""
+
+#: views/helpers/glasenuhr.php:30
+msgid "Nachmittags"
+msgstr ""
+
+#: views/helpers/glasenuhr.php:32
+msgid "Abends"
+msgstr ""
+
+#: views/helpers/time_h.php:43
+#: views/helpers/time_h.php:61
+msgid "yesterday"
+msgstr "Gestern"
+
+#: views/helpers/user_h.php:92
+msgid "ud_user"
+msgstr "Mannschaft"
+
+#: views/helpers/user_h.php:96
+msgid "ud_admin"
+msgstr "Kapitän"
+
+#: views/helpers/user_h.php:111
+#: views/helpers/user_h.php:132
+msgid "homepage_alt"
+msgstr "Homepage"
+
+#: views/helpers/user_h.php:159
+msgid "userranks_not_found"
+msgstr ""
+
+#: webroot/test.php:88
+msgid "Debug setting does not allow access to this url."
+msgstr ""
+
+#~ msgid "search_formtitle"
+#~ msgstr "Forumssuche"
+
+#~ msgid "geshi_video_popup"
+#~ msgstr ""
+#~ "Bitte URI zum Video (h.264 oder WebM) eingeben.:!:http://beispiel.de/"
+#~ "video.mp4"
+
+#~ msgid "search_sort_order"
+#~ msgstr "Sortierung"
+
+#~ msgid "captcha_result_too_fast"
+#~ msgstr "Sie waren zu schnell mit der Eingabe."
+
+#~ msgid "user_info_hl"
+#~ msgstr "Nutzerinfo"
+
+#~ msgid "btn_inline_view_answer"
+#~ msgstr "Antworten"
+
+#~ msgid "btn_show_new_threads"
+#~ msgstr "Neue aufklappen"
+
+#~ msgid "btn_show_mix"
+#~ msgstr "Mix"
+
+#~ msgid "btn_show_all_postings"
+#~ msgstr "Alle Postings"
+
+#~ msgid "change_password_failure"
+#~ msgstr "Passwort konnte aus unbekannten Gründen nicht aktualisiert werden."
+
+#~ msgid "btn_hide_thread"
+#~ msgstr "Einklappen"
+
+#~ msgid "edit_marking"
+#~ msgstr "Posting editieren"
+
+#~ msgid "previous_page_linktitle"
+#~ msgstr "vorige Seite"
+
+#~ msgid "next_page_linktitle"
+#~ msgstr "nächste Seite"
+
+#~ msgid "notice_editing_not_your_entry"
+#~ msgstr "Achtung: Fremdeintrag!"
+
+#~ msgid "button_reset"
+#~ msgstr "Zurücksetzen"
+
+#~ msgid "user_sort_time"
+#~ msgstr "Zeit"
+
+#, fuzzy
+#~ msgid "userlist_email_exp"
+#~ msgstr "Flaschenpost"
+
+#~ msgid "optional"
+#~ msgstr "(optional)"
+
+#~ msgid "test"
+#~ msgstr "registrieren"
+
+#~ msgid "entries/add"
+#~ msgstr "neuer Eintrag"
+
+#~ msgid "lock_linkname"
+#~ msgstr "sperren"

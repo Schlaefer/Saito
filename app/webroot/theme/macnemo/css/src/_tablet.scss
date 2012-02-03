@@ -1,0 +1,12 @@
+@media only screen and (device-width: 768px) and (orientation:portrait) {
+	body,html {
+		width: 768px;
+		min-width: 768px;
+	}
+}
+@media only screen and (device-width: 768px) and (orientation:landscape) {
+	body,html {
+		width: 1024px;
+		min-width: 1024px;
+	}
+}
