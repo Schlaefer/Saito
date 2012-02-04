@@ -301,7 +301,7 @@ class EntriesController extends AppController {
 				$this->data['Entry']['pid'] = $id;
 				// we assume that an answers to a nsfw posting isn't nsfw itself
 				unset($this->data['Entry']['nsfw']);
-				$this->set('citeText', true);
+				$this->set('citeText', $this->data['Entry']['text']);
 
 				$header_subnav_title = __('back_to_posting_linkname', true) . " " . $this->data['User']['username'];
 			else:
@@ -338,6 +338,14 @@ class EntriesController extends AppController {
 		$this->Entry->contain('User');
 		$this->Entry->sanitize(false);
 		$old_entry = $this->Entry->read();
+
+		// get text of parent entry for citation
+		$parentEntryId = $old_entry['Entry']['pid'];
+		if ( $parentEntryId !== 0 ) {
+			$this->Entry->sanitize(false);
+			$parentEntry = $this->Entry->findById($parentEntryId);
+			$this->set('citeText', $parentEntry['Entry']['text']);
+		}
 
 		$forbidden = $this->SaitoEntry->isEditingForbidden($old_entry,
 						$this->CurrentUser->getSettings(), array( 'session' => &$this->Session ));

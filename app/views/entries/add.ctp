@@ -6,9 +6,8 @@ if ( !isset($this->data['Entry']['id']) ) {
 
 // cite entry text if necessary
 if ( $this->getVar('citeText') ) {
-	$form->data['Entry']['text'] = $bbcode->citeText($form->data['Entry']['text']);
+	$citeText =  $bbcode->citeText($this->getVar('citeText'));
 }
-
 
 //* set cursor to category or subject field after load ###
 if ( $this->getVar('isAjax') ) :
@@ -142,12 +141,11 @@ $form->submit(__('Einfügen', true),
 
 					<?php
 					// add original posting contents
-					if ( isset($this->data['Entry']['text']) && !empty($this->data['Entry']['text']) ) :
+					if ( isset($citeText) && !empty($citeText) ) :
 						?>
-
 						<div id="<?php echo "btn_insert_original_text_{$this->data['Entry']['id']}"; ?>">
 							<?php
-							echo $this->Html->scriptBlock("var quote_{$this->data['Entry']['id']} = " . json_encode($form->data['Entry']['text']) . "; ",
+							echo $this->Html->scriptBlock("var quote_{$this->data['Entry']['id']} = " . json_encode($citeText) . "; ",
 									array( 'inline' => 'true' ));
 							// empty the textarea
 							echo $this->Html->scriptBlock("$('#markItUp_{$this->data['Entry']['id']} #EntryText').val('')",
