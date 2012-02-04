@@ -33,16 +33,6 @@ Create the database where the tables for your shiny new forum will live. Use col
 - Apache: `.htaccess` should take care of correct url, just open the url root.
 - nginx: You have to open `../app/webroot` manually until you configure nginx. See section [Nginx Configuration for CakePHP](#NginxConfigurationForCakePHP).
 
-
-## Hotfix ##
-
-Delete
-
-    , 'fulltext_search' => array('column' => array('subject', 'text', 'name'), 'unique' => 0)
-    
-from app/config/schema/schema.php
-
-
 ## 5. open the installer ##
 
 Open the URL root and if everything went OK the installer should greet you.
