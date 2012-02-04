@@ -140,34 +140,35 @@ $form->submit(__('Einfügen', true),
 				</div> <!-- postingform_main -->
 				<div class="postingform_right">
 
-						<?php
-						//*** add original posting contents
-						if ( isset($this->data['Entry']['text']) && !empty($this->data['Entry']['text']) ) :
-							?>
+					<?php
+					// add original posting contents
+					if ( isset($this->data['Entry']['text']) && !empty($this->data['Entry']['text']) ) :
+						?>
 
 						<div id="<?php echo "btn_insert_original_text_{$this->data['Entry']['id']}"; ?>">
-						<?php
-						echo $this->Html->scriptBlock("var quote_{$this->data['Entry']['id']} = " . json_encode($form->data['Entry']['text']) . "; ",
-								array( 'inline' => 'true' ));
-						echo $this->Html->scriptBlock("$('#markItUp_{$this->data['Entry']['id']} #EntryText').val('')",
-								array( 'inline' => 'true' ));
-						echo $this->Html->link(
-								Configure::read('Saito.Settings.quote_symbol') . ' ' . __('Cite', true),
-								'#',
-								array(
-								'onclick' => "$('#markItUp_{$this->data['Entry']['id']} #EntryText').val(quote_{$this->data['Entry']['id']} + '" . '\n\n' . "' + $('#markItUp_{$this->data['Entry']['id']} #EntryText').val());"
-								. "$('#btn_insert_original_text_{$this->data['Entry']['id']}').slideToggle();"
-								. "$('#markItUp_{$this->data['Entry']['id']} #EntryText').focus();"
-								. "return false;",
-								'class' => 'label',
-								)
-						);
-						?>
+							<?php
+							echo $this->Html->scriptBlock("var quote_{$this->data['Entry']['id']} = " . json_encode($form->data['Entry']['text']) . "; ",
+									array( 'inline' => 'true' ));
+							// empty the textarea
+							echo $this->Html->scriptBlock("$('#markItUp_{$this->data['Entry']['id']} #EntryText').val('')",
+									array( 'inline' => 'true' ));
+							echo $this->Html->link(
+									Configure::read('Saito.Settings.quote_symbol') . ' ' . __('Cite', true),
+									'#',
+									array(
+									'onclick' => "$('#markItUp_{$this->data['Entry']['id']} #EntryText').val(quote_{$this->data['Entry']['id']} + '" . '\n\n' . "' + $('#markItUp_{$this->data['Entry']['id']} #EntryText').val());"
+									. "$('#btn_insert_original_text_{$this->data['Entry']['id']}').slideToggle();"
+									. "$('#markItUp_{$this->data['Entry']['id']} #EntryText').focus();"
+									. "return false;",
+									'class' => 'label',
+									)
+							);
+							?>
 						</div>
 						<br/>
-							<?php
-						endif; //*** add original posting contents
-						?>
+						<?php
+					endif; //*** add original posting contents
+					?>
 
 					<div class="checkbox">
 						<?php
