@@ -1,9 +1,8 @@
 # You need #
 
-- Webserver (tested with Apache and nginx)
+- Web server (tested with Apache and nginx)
 - MySQL 5+
-- PHP 5.2+
-    - If you're running your own server: in php.ini activate PHP-shortags
+- PHP 5.2+ (if you're running your own server: in php.ini activate PHP-shortags)
 
 # If you are stuck #
 
@@ -16,11 +15,19 @@ to
 	Configure::write('debug', 1);
 
 
-# Installation from git repository #
+# Installation #
 
-## 1. checkout repository ##
+# 1. Get the code #
 
-Make sure you have a [github](http://github.com/) account, because you have to checkout an submodule from github.
+Use either (I) git or (II) download an archive
+
+## I. git ##
+
+Make sure you have a [github](http://github.com/) account, because you have to checkout a submodule from github.
+
+## II. Archive ##
+
+With a little bit of luck something is available from <https://github.com/Schlaefer/Saito/downloads> and you don't need git. Download and extract.
 
 
 ## 2. create database ##
@@ -49,12 +56,11 @@ The `app/config` folder needs to be writable by the webserver during the install
     
 ### 5.3 Enter DB data ###
 
-Enter the database data. If data is fine create database.
+Enter the database data. If the database connection is OK create the database in the web-installer.
 
-# Install from a zip #
+Follow the web-installer's instruction to the end.
 
-With a little bit of luck something is available from <https://github.com/Schlaefer/Saito/downloads> and you don't need git. Proceed from step "2. create database".
 
 # Nginx Configuration for CakePHP <a name="NginxConfigurationForCakePHP"/> #
 
-See #panxatonylookingatthings.tumblr.com
+@todo
