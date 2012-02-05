@@ -98,7 +98,7 @@ ul.style_1 {
 		font-weight: bold;
 		text-align: right;
 		vertical-align: top;
-    border-right: $border_width solid $macnemo_gray_dark;
+    border-right: $border_width solid $saito_gray_dark;
 		width: 38%;
 		}
 	}
@@ -106,24 +106,24 @@ ul.style_1 {
 .table {
 	@extend .c_table;
   td,th {
-    border-bottom: $border_width solid $macnemo_gray_dark;
-    border-right: $border_width solid $macnemo_gray_dark; }
+    border-bottom: $border_width solid $saito_gray_dark;
+    border-right: $border_width solid $saito_gray_dark; }
   tr {
     background: white; }
   td:first-child, th:first-child {
-    border-left: $border_width + 1 solid $macnemo_gray_dark; }
+    border-left: $border_width + 1 solid $saito_gray_dark; }
   td:last-child, th:last-child {
-    border-right: $border_width + 1 solid $macnemo_gray_dark; }
+    border-right: $border_width + 1 solid $saito_gray_dark; }
   tr:first-child {
     td, th {
-      border-top: $border_width + 1px solid $macnemo_gray_dark; }
+      border-top: $border_width + 1px solid $saito_gray_dark; }
     td:first-child, th:first-child {
       @include border-top-left-radius($corner_radius); }
     td:last-child, th:last-child {
       @include border-top-right-radius($corner_radius); } }
   tr:last-child {
     td, th {
-      border-bottom: $border_width + 1 solid $macnemo_gray_dark; }
+      border-bottom: $border_width + 1 solid $saito_gray_dark; }
     td:first-child, th:first-child {
       @include border-bottom-left-radius($corner_radius); }
     td:last-child, th:last-child {
@@ -133,10 +133,10 @@ ul.style_1 {
 .table_1 {
   @extend .table;
   th {
-    @include linear-gradient(color-stops($macnemo_base_very_light, $macnemo_base_light));
+    @include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
     font-weight: bold; }
   tr.b {
-    background-color: $macnemo_gray_light; } }
+    background-color: $saito_gray_light; } }
 
 .table_th_left_1 {
   @extend .table;
@@ -145,8 +145,8 @@ ul.style_1 {
   td:first-child {
     font-weight: bold;
     width: 150px;
-    @include linear-gradient(color-stops($macnemo_base_very_light, $macnemo_base_light), right);
-    border-left: $border_width + 1 solid $macnemo_gray_dark; } 
+    @include linear-gradient(color-stops($saito_base_very_light, $saito_base_light), right);
+    border-left: $border_width + 1 solid $saito_gray_dark; } 
 	}
 
 .loading_indicator {
@@ -225,9 +225,9 @@ a.textlink {
   background-color: white;
   background: rgba(255, 255, 255, 0.75);
   color: #222222;
-  border-top: 1px solid $macnemo_border;
-  border-left: 1px solid $macnemo_border;
-  color: $macnemo_border; }
+  border-top: 1px solid $saito_border;
+  border-left: 1px solid $saito_border;
+  color: $saito_border; }
 
 #topnav, #bottomnav {
 	@include c_t_h_3_abs(30px);
@@ -307,7 +307,7 @@ div.author a {
 
 /* categories: */
 a.category_acs_0, .category_acs_0 {
-  @include link-colors($macnemo_accent2_dark);
+  @include link-colors($saito_accent2_dark);
   font-weight: normal; }
 
 /* regular users */
@@ -503,7 +503,7 @@ img[src*="gacker.png"]:hover {
   margin: 5px 0px 5px 0px; }
 
 .c_bbc_citation {
-  color: $macnemo_info_text;
+  color: $saito_info_text;
   font-style: italic; }
 
 .c_bbc_ul {
@@ -533,11 +533,11 @@ input, textarea {
   font-size: 100%;
   padding: 0.2em 0.5em;
 	@extend .c_all-radius;
-  border: 1px solid $macnemo_gray_dark;
+  border: 1px solid $saito_gray_dark;
   width: 98%;
   /* chrome in linux */
   font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
-  outline-color: $macnemo_accent_dark; }
+  outline-color: $saito_accent_dark; }
 
 input[type=checkbox] {
 	width: auto;
@@ -601,7 +601,7 @@ a.btn {
   @extend input;
   background-color: #abe337;
   @include linear-gradient(color-stops(#e6ffb1, #abe337));
-  border-color: $macnemo_accent2_light;
+  border-color: $saito_accent2_light;
   font-size: 110%;
   font-family: inherit;
 
@@ -614,21 +614,21 @@ a.btn {
   @extend .btn;
   @extend input;
   background-color: #fafafa;
-  @include linear-gradient(color-stops(#fafafa, $macnemo_gray_dark));
+  @include linear-gradient(color-stops(#fafafa, $saito_gray_dark));
   border-color: #cccccc;
   &:active {
-    @include linear-gradient(color-stops($macnemo_gray_dark, #fafafa)); } }
+    @include linear-gradient(color-stops($saito_gray_dark, #fafafa)); } }
 
 .btn_warning {
   @extend input;
   background-color: #a60202;
-  @include linear-gradient(color-stops($macnemo_base_dark, #a60202));
+  @include linear-gradient(color-stops($saito_base_dark, #a60202));
   border-color: #a60202;
   font-family: inherit;
   color: white;
   font-size: 110%;
   &:active {
-    @include linear-gradient(color-stops(#a60202, $macnemo_base_dark)); } }
+    @include linear-gradient(color-stops(#a60202, $saito_base_dark)); } }
 
 .button_navigation {
   @extend .btn;
@@ -640,11 +640,11 @@ a.btn {
 .btn_preview {
   @extend input;
   @extend .btn;
-	background-color: $macnemo_base_dark;
-  @include linear-gradient(color-stops($macnemo_base, $macnemo_base_dark));
-  border: 1px solid $macnemo_base_dark;
+	background-color: $saito_base_dark;
+  @include linear-gradient(color-stops($saito_base, $saito_base_dark));
+  border: 1px solid $saito_base_dark;
   &:active {
-    @include linear-gradient(color-stops($macnemo_base_dark, $macnemo_base)); } }
+    @include linear-gradient(color-stops($saito_base_dark, $saito_base)); } }
 
 .btn_close {
   position: relative;
@@ -668,7 +668,7 @@ a.btn {
      *left: 2px;
      *top: -1px; */ }
   &:active {
-    background-color: $macnemo_gray_dark; } }
+    background-color: $saito_gray_dark; } }
 
 .btn_info {
   float: left;
@@ -689,18 +689,18 @@ a.btn {
     text-align: center;
     width: 14px; }
   &:active {
-    background-color: $macnemo_gray_dark; } }
+    background-color: $saito_gray_dark; } }
 
 /*back and top wide button start */
 .btn_back_l, .btn_top_l {
   height: 100%;
   width: 15px;
   position: absolute;
-  border: $border_width solid $macnemo_gray_dark;
-  background-color: $macnemo_gray_light;
+  border: $border_width solid $saito_gray_dark;
+  background-color: $saito_gray_light;
 	@extend .c_all-radius;
   &:active {
-    background-color: $macnemo_gray_dark; } }
+    background-color: $saito_gray_dark; } }
 
 .btn_back_l {
   background-image: image-url("mix_back.png");
@@ -753,9 +753,9 @@ a.btn {
 
 /** entry/add ** */
 .entry.add, .entry.edit {
-  background-color: $macnemo_gray_light;
+  background-color: $saito_gray_light;
   border-style: solid;
-  border-color: $macnemo_gray_dark;
+  border-color: $saito_gray_dark;
   border-width: 0 $border_width $border_width $border_width;
 	@extend .c_bottom-radius;
   .preview {
@@ -806,7 +806,7 @@ a.btn {
 .t_s {
   /* 20 px left because of huge, vertical close button */
   margin: 5px 5px 5px 20px;
-  border: $border_width $macnemo_gray_dark solid;
+  border: $border_width $saito_gray_dark solid;
 	@extend .c_all-radius;
   /* user_list und inline view sollen sauber getrennt bleiben */
   overflow: hidden; }
@@ -832,7 +832,7 @@ a.btn {
 
 	& > div > div {
 		border-style: solid;
-		border-color: $macnemo_gray_dark;
+		border-color: $saito_gray_dark;
 		padding: 0 20px;
 		}
 
@@ -881,7 +881,7 @@ ul.thread {
 .thread_tools {
   opacity: 0.2;
   border-style: solid;
-  border-color: $macnemo_gray_dark;
+  border-color: $saito_gray_dark;
   border-width: $border_width $border_width 0 $border_width;
   display: inline-block;
   margin-left: 35px;
@@ -901,9 +901,9 @@ ul.thread {
     width: 13px;
     height: 13px;
     &:active {
-      background-color: $macnemo_gray_dark; } }
+      background-color: $saito_gray_dark; } }
   li {
-    border-right: $border_width solid $macnemo_gray_dark; }
+    border-right: $border_width solid $saito_gray_dark; }
   li:first-child {
     /* we need this for the active state */
     @include border-top-left-radius(3px); }
@@ -926,7 +926,7 @@ ul.thread {
   float: right;
   @include border-bottom-left-radius($corner_radius);
   border-width: 0 0 $border_width $border_width;
-  border-color: $macnemo_gray_dark;
+  border-color: $saito_gray_dark;
   border-style: solid;
   padding: 5px;
   margin: -10px -10px 10px 10px;

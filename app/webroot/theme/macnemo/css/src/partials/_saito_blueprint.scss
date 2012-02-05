@@ -23,10 +23,10 @@
 
 	@extend .t_shadow;
 	@extend .c_info_text;	
-	color: $macnemo_info_text;
+	color: $saito_info_text;
 	a {
 		border-bottom: #DDD 1px solid; 
-		@include link-colors($macnemo_info_text);
+		@include link-colors($saito_info_text);
 /*		@include hover-link();*/
 	}
 	font-size: 100%;
