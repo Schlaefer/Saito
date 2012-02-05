@@ -48,7 +48,7 @@
 		<div class="inside">
 			<h3> Maschinenraum </h3>
 			<p>
-				Angetrieben durch <a href="https://github.com/Schlaefer/Saito"> Saito <?php echo Configure::read("Saito.v"); ?></a>.
+				Angetrieben durch <a href="https://github.com/Schlaefer/Saito">Saito</a> v<?php echo Configure::read("Saito.v"); ?>.
 			</p>
 			<p>
 				<a href="http://www.google.com/moderator/#15/e=d490b&t=d490b.40">Feedback geben.</a>
