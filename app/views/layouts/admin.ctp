@@ -5,7 +5,8 @@
 		<title><?php echo $title_for_layout ?></title>
 		<?php echo $html->charset(); ?>
 
-		<?php echo $html->script('bootstrap/bootstrap.min'); ?>
+		<?php # echo $html->script('jquery-1.6.1.min'); ?>
+		<?php # echo $html->script('bootstrap/bootstrap'); ?>
 		<?php echo $html->css('bootstrap/css/bootstrap.min.css'); ?>
 
 	</head>
@@ -13,7 +14,7 @@
 		<div class="container">
 			<div class="navbar">
 				<div class="navbar-inner">
-					<div class="container">
+					<div class="container" style="width: auto;">
 						<a class="brand" href="#">
 							Saito
 						</a>
@@ -24,6 +25,13 @@
 										array( 'controller' => 'admins', 'action' => 'index', 'admin' => true ));
 								?>
 							</li>
+							<li>
+								<?php echo $html->link(__('Categories',
+												true), '/admin/categories/index'); ?>
+							</li>
+						</ul>
+						<ul class="nav pull-right">
+							<li class="divider-vertical"></li>
 							<li>
 								<?php
 								echo $this->Html->link(__('Forum', true),

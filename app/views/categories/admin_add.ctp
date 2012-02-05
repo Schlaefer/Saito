@@ -6,10 +6,7 @@
 //		echo $this->Form->input('category_order');
 		echo $this->Form->input('category');
 		echo $this->Form->input('description');
-		echo $this->Form->input('accession', array('options' => array(1,2)));
-
-		echo $this->Form->input('standard_category',
-				array( 'type' => 'checkbox', 'checked' => TRUE ));
+		echo $this->Form->input('accession', array('options' => array(0,1,2)));
 		?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true)); ?>

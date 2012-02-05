@@ -68,15 +68,6 @@ class CategoriesController extends AppController {
 
 	}
 
-	function admin_view($id = null) {
-		if ( !$id ) {
-			$this->Session->setFlash(__('Invalid category', true));
-			$this->redirect(array( 'action' => 'index' ));
-		}
-		$this->set('category', $this->Category->read(null, $id));
-
-	}
-
 	function admin_add() {
 		if ( !empty($this->data) ) {
 			$this->Category->create();
@@ -105,6 +96,7 @@ class CategoriesController extends AppController {
 			}
 		}
 		if ( empty($this->data) ) {
+			$this->Category->contain();
 			$this->data = $this->Category->read(null, $id);
 		}
 

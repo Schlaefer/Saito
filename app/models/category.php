@@ -1,8 +1,8 @@
 <?php
 class Category extends AppModel {
-	var $name = 'Category';
+	public $name = 'Category';
 	
- 	var $actsAs = array('Containable');
+ 	public $actsAs = array('Containable');
 
 	public $cacheQueries = true;
 
