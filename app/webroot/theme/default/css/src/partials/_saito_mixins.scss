@@ -90,13 +90,7 @@
 
 @mixin header_style_dark_top {
 	background-color: $macnemo_base_dark;
-	background-image: image-url("bubbles_outer.jpg");
 	background-repeat: repeat-x;
-	/* 
-	@include linear-gradient(color-stops($macnemo_base, $macnemo_base_dark));
-	background: image-url($background_image) top left repeat-x, -webkit-gradient(linear, 0% 100%, 0% 0%, from($macnemo_base_dark), to($macnemo_accent_light));
-	background: image-url($background_image) top left repeat-x, -moz-linear-gradient(bottom, $macnemo_base_dark, $macnemo_accent_light);
-	*/
 }
 
 @mixin c_t_h_3_abs($height: 24px, $padding: 5px) {
