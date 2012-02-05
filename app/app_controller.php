@@ -119,6 +119,8 @@ class AppController extends Controller {
 		//* testing different themes on the fly with `theme` GET param /theme:<foo>/
 		if ( isset($this->passedArgs['theme']) ) :
 			$this->theme = $this->passedArgs['theme'];
+		else:
+			$this->theme = Configure::read('Saito.theme');
 		endif;
 
 		Stopwatch::stop('App->beforeFilter()');

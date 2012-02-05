@@ -57,6 +57,11 @@ Configure::write('Markitup.vendors', array(
 */
 
 /**
+ * Set the theme
+ */
+Configure::write('Saito.theme', 'default');
+
+/**
  * Activate Saito Cache:
  *
  * true: (default) use cache
