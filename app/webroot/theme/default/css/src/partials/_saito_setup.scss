@@ -32,21 +32,21 @@ form.bp { @include blueprint-form; }
 
 /*** set base parameters ***/
 
-$corner_radius: 6px;
+$corner_radius: 0px;
 $border_width: 1px;
 $background_image: 'bubbles_outer.png';
 $padding: 10px;
 
 /*** Standardset ***/
-$macnemo_base_very_light: #FEFFD1;
-$macnemo_base: #F7F7AA;
-$macnemo_base_light: #F7F7AA;
-$macnemo_base_dark: silver; // #FEC853;
+$macnemo_base_very_light: #eee;
+$macnemo_base: #ccc;
+$macnemo_base_light: $macnemo_base;
+$macnemo_base_dark: #aaa;
 $macnemo_accent_light: $macnemo_base ;
 $macnemo_accent_dark: $macnemo_base_dark;
-$macnemo_accent2_light: #9acd32; /* light green */
-$macnemo_accent2_dark: #55741c;
-$macnemo_border: $macnemo_accent2_light;
+$macnemo_accent2_light: #666; /* light green */
+$macnemo_accent2_dark: $macnemo_accent2_light;
+$macnemo_border: #999;
 $macnemo_gray_light: #FAFAFA;
 $macnemo_gray_dark: #E0E0E0;
 $macnemo_body_background: #f8f8f8; 

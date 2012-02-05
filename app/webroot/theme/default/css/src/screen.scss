@@ -241,7 +241,7 @@ a.textlink {
 		width: 100%; 
 		position: absolute; 
 		bottom: 0px;
-		@include box-shadow(rgba(0,0,0,.4) 0 5px 5px 2px,  lightYellow 0px 7px 7px 2px); 
+		@include box-shadow(rgba(0,0,0,.4) 0 5px 5px 2px,  $macnemo_base_light 0px 7px 7px 2px);
 	}
 
 #content {

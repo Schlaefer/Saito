@@ -91,6 +91,7 @@
 @mixin header_style_dark_top {
 	background-color: $macnemo_base_dark;
 	background-repeat: repeat-x;
+	@include linear-gradient(color-stops($macnemo_base, $macnemo_base_dark));
 }
 
 @mixin c_t_h_3_abs($height: 24px, $padding: 5px) {
