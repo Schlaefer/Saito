@@ -11,7 +11,7 @@
 			<?php if(isset($autoPageReload)) : ?>
 				<meta http-equiv='refresh' content='<?php echo $autoPageReload; ?>' />
 			<?php endif; ?>
-			<link rel="apple-touch-icon" href="<?php echo $this->webroot.'theme'.DS.$this->theme.DS.IMAGES_URL.'macnemo_iphone.png';?>"/>
+			<link rel="apple-touch-icon" href="<?php echo $this->webroot.'theme'.DS.$this->theme.DS.IMAGES_URL.'apple-touch-icon-precomposed.png';?>"/>
 			<script type="text/javascript">
       //<![CDATA[
 				if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
