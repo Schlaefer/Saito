@@ -34,6 +34,17 @@
 					</div>
 				</div>
 			</div>
+			<?php
+			$flashMessage = $this->Session->flash();
+			$emailMessage = $this->Session->flash('email');
+			if ( $flashMessage || $emailMessage ) :
+				?>
+				<div class="alert">
+					<?php echo $flashMessage; ?>
+					<?php echo $emailMessage; ?>
+				</div>
+			<?php endif; ?>
+
 			<div class="row">
 				<div class="span1">&nbsp;</div>
 				<div class="span10">

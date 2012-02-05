@@ -1,6 +1,6 @@
 <div class="categories index">
 	<h2><?php __('Categories');?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('category_order');?></th>
