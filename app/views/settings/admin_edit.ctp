@@ -9,7 +9,7 @@
 		echo $form->submit(
 						null,
 						array (
-								'class'	=> 'btn_submit',
+								'class'	=> 'btn-primary',
 						));
 		echo $form->end();
 	?>
