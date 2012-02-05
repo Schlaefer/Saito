@@ -116,7 +116,7 @@ class AppController extends Controller {
 
 		$this->_setupSlideTabs();
 
-		//* testing different themes on the fly with `theme` GET param
+		//* testing different themes on the fly with `theme` GET param /theme:<foo>/
 		if ( isset($this->passedArgs['theme']) ) :
 			$this->theme = $this->passedArgs['theme'];
 		endif;

@@ -2,57 +2,25 @@
 	<?php // @lo this .ctp ?>
 	<div class="left">
 		<div class="inside">
-			<h3> Ressourcen </h3>
-			<ul>
-				<li>
-					<a href="http://macnemo.de/wiki/">Wiki</a>
-				</li>
-				<li>
-					<a href="<?PHP echo $this->webroot ?>users/contact/1">Kontakt</a><!-- @lo  -->
-				</li>
-				<li>
-					<a href="aim:gochat?roomname=macnemo">Plauderecke</a>
-				</li>
-				<li>
-					<a href="http://macnemo.de/wiki/index.php/Main/Impressum">Impressum</a>
-				</li>
-				<li>
-					<a href="<?php echo $this->webroot; ?>pages/rss_feeds">RSS</a>
-				</li>
-				<li>
-					<a href="<?php echo $this->webroot; ?>mobile/entries/index">Mobile (Tech-Demo)</a>
-				</li>
-			</ul>
+			<h3> Spalte 1 </h3>
 		</div>
 	</div>
 	<div class="center_l">
 		<div class="inside">
-			<h3> Status </h3>
-			<?= number_format($HeaderCounter['entries'],
-					null, null, '.') ?> mal Seemannsgarn in
-			<?= number_format($HeaderCounter['threads'],
-					null, null, '.') ?> unglaublichen Geschichten;
-			<?= number_format($HeaderCounter['user'],
-					null, null, '.') ?> geheuert,
-			<?= $HeaderCounter['user_registered'] ?> an Deck,
-			<?= $HeaderCounter['user_anonymous'] ?> Blinde Passagiere.
+			<h3> Spalte 2 </h3>
 		</div>
 	</div>
 	<div class="center_r">
 		<div class="inside">
-			<h2>Unterstützen</h2>
-			<p>Macnemo braucht Unterstützung. <a href="/wiki/index.php/Main/Unterst%c3%bctzen">Das Wie, Was, Wo und Wer findet sich im Wiki.</a></p>
+			<h3> Spalte 3 </h3>
 		</div>
 	</div>
 	<div class="right">
 		<div class="inside">
-			<h3> Maschinenraum </h3>
+			<h3> Über </h3>
 			<p>
 				Angetrieben durch <a href="https://github.com/Schlaefer/Saito"> Saito <?php echo Configure::read("Saito.v"); ?></a>.
-			<p>
-				<a href="http://www.google.com/moderator/#15/e=d490b&t=d490b.40">Feedback geben.</a>
 			</p>
 		</div>
-
 	</div>
 </div>
