@@ -53,7 +53,7 @@ class AppController extends Controller {
 	 *
 	 * @var string
 	 */
-	public $theme	= 'default';
+	public $theme	= 'macnemo';
 
 	/**
 	 * slidetabs used by application
