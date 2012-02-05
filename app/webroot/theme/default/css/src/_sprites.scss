@@ -1,0 +1,221 @@
+/*** sprited images ***/
+
+/*  sprite mixin with standard values */
+$sprites_image: 'sprited_css_images.png';
+.sprites{
+	@include sprite-background($sprites_image);
+}
+
+@mixin sprites-hover($width, $height) {
+		display: inline-block;
+
+		width: $width;
+		height: $height;
+
+		vertical-align: text-top;
+
+}
+
+.sprites_scale {
+		@include transition-duration(0.15s);
+		@include transition-timing-function(ease-in-out);
+
+		&:hover {
+			@include scale(1.2);
+		}
+}
+
+*[class*="_img"] {
+  background-color: transparent;
+  border: none;
+}
+
+a.textlink {
+	&:link, &:visited, &:active {
+		@extend .sprites;
+		@include sprite-row(6);
+	}
+}
+
+.img_threadnew {
+		@extend .sprites;
+		@include sprite-row(1);
+		@include sprites-hover(15px, 13px);
+		@extend .sprites_scale;
+}
+
+
+.img_actthread {
+	@extend .sprites;
+	@include sprite-row(2);
+	@include sprites-hover(15px, 13px);
+	@extend .sprites_scale;
+}
+
+.img_thread {
+		@extend .sprites;
+		@include sprite-row(2);
+		@include sprites-hover(15px, 13px);
+	@extend .sprites_scale;
+}
+
+.img_replynew {
+		@extend .sprites;
+		@include sprite-row(4);
+		@include sprites-hover(13px, 13px);
+	@extend .sprites_scale;
+}
+
+.img_actreply {
+	@extend .sprites;
+	@include sprite-row(5);
+	@include sprites-hover(13px, 13px);
+	@extend .sprites_scale;
+}
+
+.img_reply {
+		@extend .sprites;
+		@include sprite-row(5);
+		@include sprites-hover(13px, 13px);
+	@extend .sprites_scale;
+}
+
+.fixed_img {
+	@extend .sprites;
+	@include sprite-row(3);
+  padding-left: 8px;
+}
+
+.prev_img {
+	@extend .sprites;
+	@include sprite-row(7);
+  padding-left: 6px;
+
+}
+.next_img {
+	@extend .sprites;
+	@include sprite-row(6);
+  padding-left: 6px;
+}
+
+.users_img {
+	@extend .sprites;
+	@include sprite-row(10);
+}
+
+.img_mod_panel {
+  @extend .sprites;
+  @include sprite-row(11);
+}
+
+.img_inline_close {
+  @extend .sprites;
+  @include sprite-row(12);
+	margin-top: 1px;
+	width: 13px;
+	height: 13px;
+	display: inline-block;
+}
+
+
+.img_down {
+  @extend .sprites;
+  @include sprite-row(13);
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+}
+
+.img_up {
+  @extend .sprites;
+  @include sprite-row(23);
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+}
+
+.img_close {
+  @extend .sprites;
+  @include sprite-row(14);
+	padding-left: 17px;
+}
+
+.img_reload {
+  @extend .sprites;
+  @include sprite-row(15);
+	display: inline-block;
+	width: 9px;
+	height: 9px;
+}
+
+.img_mix {
+  @extend .sprites;
+  @include sprite-row(16);
+	display: inline-block;
+	margin-top: 2px;
+	width: 9px;
+	height:9px;
+}
+
+.img_open_new {
+  @extend .sprites;
+  @include sprite-row(17);
+	display: inline-block;
+	margin-top: 1px;
+	width: 13px;
+	height: 11px;
+}
+
+.img_inline_open {
+  @extend .sprites;
+  @include sprite-row(18);
+	display: inline-block;
+	margin-top: 1px;
+	width: 13px;
+	height: 13px;
+}
+
+.img_info {
+  @extend .sprites;
+  @include sprite-row(19);
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+}
+
+.donate_img {
+	@extend .sprites;
+	@include sprite-row(20);
+}
+
+.img_magnifier {
+	@extend .sprites;
+	@include sprite-row(21);
+	/* normiert auf 24px height/width */
+	background-position: 4px -639px;
+	pointer: hand;
+}
+
+.img_userhistory {
+	@extend .sprites;
+	@include sprite-row(22);
+	/* normiert auf 24px height/width */
+/*	background-position: 4px -639px;*/
+	pointer: hand;
+}
+
+
+/* ---------------------------------------------------------------------------
+	Sprites New
+	--------------------------------------------------------------------------- */
+
+@import "sprite/*.png";
+@include all-sprite-sprites;
+
+.sprite-nbs-explicit {
+	padding-left: 73px;
+	height: 13px;
+	display: inline-block;
+	vertical-align: text-bottom;
+	margin-left: 2px;
+}

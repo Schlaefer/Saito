@@ -1,0 +1,41 @@
+
+.mobile_mix {
+	/** Indent in mix view */
+	ul.posting {
+		padding: 0;
+		margin: 0;
+
+		ul {
+			margin-left: 15px;
+			}
+		}
+	/** **/
+
+	/** nice border arround entry text in mix view */
+	.ui-collapsible-contain {
+		border: 2px solid silver;
+		border-width: 0 2px 2px 2px;
+		-webkit-border-radius: 0.6em;
+		border-radius: 0.6em;
+		background-color: rgba(192, 192, 192, 0.2);
+		}
+
+	/** make entry content as wide as possible */
+	.ui-collapsible-content {
+		padding-left: 21px;
+		}
+	/** **/
+
+	/** colapsable buttons: allow multiple row text */
+	.ui-btn-inner {
+		white-space: normal;
+		}
+	/** **/
+
+	/** description text under colapse-buttons */
+	.ui-li-desc {
+		font-style: italic;
+		padding: 1em;
+		float: right;
+		}
+	} /* end .mobile_mix */
