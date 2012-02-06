@@ -10,13 +10,15 @@
 <?php /* <span title="<?php echo $timeH->formatTime($entry_sub['Entry']['time']); ?>"><?php echo $timeH->formatTime($entry_sub['Entry']['time'], 'glasen'); ?></span> */ ?>
 <?php echo $timeH->formatTime($entry_sub['Entry']['time']); ?>
 <?
-
+	// @bogus echo
 	echo ' ';
-
-	if( $level == 0 ) {
-		echo "<span class='category_acs_{$entry_sub['Category']['accession']}'>({$entry_sub['Category']['category']})</span>";
-	}
+	if( $level === 0 ) :
 	?>
+		<span class='category_acs_<?php echo $entry_sub['Category']['accession']; ?>'
+					title="<?php echo $entry_sub['Category']['description']; ?>">
+		(<?php echo $entry_sub['Category']['category']; ?>)
+		</span>
+	<?php endif ?>
 	<? if ($entry_sub['Entry']['fixed']) : ?>
 		<span class="fixed_img" title="<?= __('fixed'); ?>">&nbsp;</span>
 	<? endif ; ?>
