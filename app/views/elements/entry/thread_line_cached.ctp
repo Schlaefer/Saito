@@ -22,8 +22,6 @@
 	  </span> */
 ?>
 <?php
-	// @bogus echo
-	echo ' ';
 	if ( $level === 0 ) :
 		?>
 		<span class='category_acs_<?php echo $entry_sub['Category']['accession']; ?>'
