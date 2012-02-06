@@ -2,7 +2,14 @@
 
 class CategoriesController extends AppController {
 
-	var $name = 'Categories';
+	public $name = 'Categories';
+	public $paginate = array(
+			/*
+			 * sets limit unrealisticly high so we should never reach the upper limit
+			 * i.e. always show all entries on one page
+			 */
+			'limit' => 1000,
+	);
 
 	/*
 	  function index() {
@@ -62,13 +69,12 @@ class CategoriesController extends AppController {
 	  }
 	 */
 
-	function admin_index() {
+	public function admin_index() {
 		$this->Category->recursive = 0;
 		$this->set('categories', $this->paginate());
-
 	}
 
-	function admin_add() {
+	public function admin_add() {
 		if ( !empty($this->data) ) {
 			$this->Category->create();
 			if ( $this->Category->save($this->data) ) {
@@ -81,7 +87,7 @@ class CategoriesController extends AppController {
 		}
 	}
 
-	function admin_edit($id = null) {
+	public function admin_edit($id = null) {
 		if ( !$id && empty($this->data) ) {
 			$this->Session->setFlash(__('Invalid category', true));
 			$this->redirect(array( 'action' => 'index' ));
@@ -99,10 +105,9 @@ class CategoriesController extends AppController {
 			$this->Category->contain();
 			$this->data = $this->Category->read(null, $id);
 		}
-
 	}
 
-	function admin_delete($id = null) {
+	public function admin_delete($id = null) {
 		if ( !$id ) {
 			$this->Session->setFlash(__('Invalid id for category', true));
 			$this->redirect(array( 'action' => 'index' ));
@@ -113,7 +118,6 @@ class CategoriesController extends AppController {
 		}
 		$this->Session->setFlash(__('Category was not deleted', true));
 		$this->redirect(array( 'action' => 'index' ));
-
 	}
 
 }
