@@ -25,7 +25,7 @@
 		<td><?php echo $category['Category']['description']; ?>&nbsp;</td>
 		<td><?php echo $category['Category']['accession']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $category['Category']['id']), array('class' => 'btn disabled')); ?>
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $category['Category']['id']), array('class' => 'btn')); ?>
 			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete1', $category['Category']['id']), array('class' => 'btn btn-danger disabled'), sprintf(__('Are you sure you want to delete # %s?', true), $category['Category']['id'])); ?>
 		</td>
 	</tr>
