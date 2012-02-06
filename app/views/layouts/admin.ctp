@@ -56,8 +56,7 @@
 			<div class="row">
 				<div class="span1">&nbsp;</div>
 				<div class="span10">
-					<?php echo $this->Html->getCrumbs(' > ',
-							'Home'); ?>
+					<?php echo $this->Html->getCrumbs(' > '); ?>
 					<?php echo $content_for_layout ?>
 				</div>
 				<div class="span1">&nbsp;</div>

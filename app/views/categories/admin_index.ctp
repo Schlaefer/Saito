@@ -1,3 +1,4 @@
+<?php $this->Html->addCrumb(__('Categories', true), '/admin/categories'); ?>
 <div class="categories index">
 	<h2><?php __('Categories');?></h2>
 	<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed">
@@ -36,5 +37,5 @@
 </div>
 	<hr/>
 	<p>
-		<?php echo $this->Html->link(__('New Category', true), array('action' => 'add1'), array('class' => 'btn disabled')); ?>
+		<?php echo $this->Html->link(__('New Category', true), array('action' => 'add'), array('class' => 'btn')); ?>
 	</p>
