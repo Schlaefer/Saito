@@ -5,8 +5,8 @@
 		<title><?php echo $title_for_layout ?></title>
 		<?php echo $html->charset(); ?>
 
-		<?php # echo $html->script('jquery-1.6.1.min'); ?>
-		<?php # echo $html->script('bootstrap/bootstrap'); ?>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<?php echo $html->script('bootstrap/bootstrap'); ?>
 		<?php echo $html->css('bootstrap/css/bootstrap.min.css'); ?>
 
 	</head>

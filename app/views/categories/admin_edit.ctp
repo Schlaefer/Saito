@@ -1,6 +1,6 @@
 <?php $this->Html->addCrumb(__('Categories', true), '/admin/categories'); ?>
 <?php $this->Html->addCrumb(__('Edit Category',
-				true), '/admin/categories/edit'); ?>
+				true), '#'); ?>
 <div class="categories form">
 	<?php echo $this->Form->create('Category'); ?>
 	<fieldset>
