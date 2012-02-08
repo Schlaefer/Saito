@@ -19,13 +19,17 @@
 							Saito
 						</a>
 						<ul class="nav">
-							<li class="active">
+							<li class="<? if (preg_match('/\/admin$/', $this->here)) { echo 'active'; }; ?>">
 								<?php
-								echo $this->Html->link(__('Admin Settings', true),
+								echo $this->Html->link(__('Overview', true),
 										array( 'controller' => 'admins', 'action' => 'index', 'admin' => true ));
 								?>
 							</li>
-							<li>
+							<li class="<? if (stristr($this->here, 'settings')) { echo 'active'; }; ?>">
+								<?php echo $html->link(__('Settings',
+												true), '/admin/settings/index'); ?>
+							</li>
+							<li class="<? if (stristr($this->here, 'categories')) { echo 'active'; }; ?>">
 								<?php echo $html->link(__('Categories',
 												true), '/admin/categories/index'); ?>
 							</li>
