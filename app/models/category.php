@@ -56,5 +56,26 @@ class Category extends AppModel {
 		$categories = $this->getCategoriesForAccession($accession, $fields, $order);
 		return $categories;
 	}
+
+	public function mergeIntoCategory($targetCategory) {
+
+		if (!isset($this->id)) return false;
+		if ( (int)$targetCategory === (int)$this->id ) return true;
+
+		$this->Entry->contain();
+		return $this->Entry->updateAll(
+				array('Entry.category' => $targetCategory),
+				array('Entry.category' => $this->id)
+			);
+	}
+
+	public function deleteWithAllEntries() {
+		if (!isset($this->id)) return false;
+
+		$this->Entry->contain();
+		$entriesDeleted = $this->Entry->deleteAll( array('Entry.category' => $this->id), false );
+
+		return parent::delete($this->field('id'), false) && $entriesDeleted;
+	}
 }
 ?>

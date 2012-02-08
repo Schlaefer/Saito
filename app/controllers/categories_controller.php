@@ -124,16 +124,12 @@
 			endif;
 
 			if ( isset($this->data['Category']['modeDelete']) ):
-				/* move category items before deleting the cateogry */
+				$failure = false;
+			
 				if ( isset($this->data['Category']['modeMove']) && isset($this->data['Category']['targetCategory']) ):
-					$targetId = (int)$this->data['Category']['targetCategory'];
+					/* move category items before deleting the cateogry */
 
-					/* check that target category != category to delete */
-					if ( (int)$targetId === (int)$id ) :
-						$this->Session->setFlash("Really? I mean … really?!", 'flash/error');
-						$this->redirect($this->referer(array( 'action' => 'index' )));
-						exit();
-					endif;
+					$targetId = (int)$this->data['Category']['targetCategory'];
 
 					/* make sure that target category exists */
 					$this->Category->contain();
@@ -145,26 +141,29 @@
 						exit();
 					endif;
 
-					/*
-					 * @td move category items
-					 * @td notice user
-					 */
+					$this->Category->id = $id;
+					if ( $this->Category->mergeIntoCategory($targetId) == false ) :
+						$this->Session->setFlash(__('Error moving category.', true), 'flash/error');
+						$failure = $failure || true;
+					else:
+						$this->Session->setFlash(__('Category moved.', true), 'flash/notice');
+					endif;
+				endif;
 
-				endif; // move entries
+				$this->Category->id = $id;
+				if ( $this->Category->deleteWithAllEntries() == false ) :
+					$this->Session->setFlash(__("Error deleting category.", true), 'flash/error');
+					$failure = $failure || true;
+				else:
+					$this->Session->setFlash(__('Category deleted.', true), 'flash/notice');
+				endif;
 
-				/*
-				* @td delete category
-				* @td notice user
-				* @td redirect
-				*/
-				/*
-					if ( $this->Category->delete($id) ) {
-					$this->Session->setFlash(__('Category deleted', true));
-					$this->redirect(array( 'action' => 'index' ));
-					}
-				*/
+				if ( $failure == false ) :
+					$this->redirect(array('action' => 'index', 'admin' => true));
+					exit();
+				endif;
 
-			endif; // delete category
+			endif; // move or delete category
 
 			/* get categories for target <select> */
 			$categories = $this->Category->getCategoriesSelectForAccession(0);
