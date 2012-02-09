@@ -94,10 +94,14 @@ class AppController extends Controller {
 			Configure::write('Saito.Settings', $settings);
 		}
 
-		//* protect the admin path
-		if ( isset($this->params['admin']) && !$this->CurrentUser->isAdmin() ) :
-			$this->redirect('/');
-			exit();
+		// setup for admin area
+		if ( isset($this->params['admin']) ):
+			// protect the admin area
+			if ( !$this->CurrentUser->isAdmin() ) :
+				$this->redirect('/');
+				exit();
+			endif;
+			$this->_beforeFilterAdminArea();
 		endif;
 
 		//* disable forum with admin pref
@@ -119,6 +123,8 @@ class AppController extends Controller {
 		//* testing different themes on the fly with `theme` GET param /theme:<foo>/
 		if ( isset($this->passedArgs['theme']) ) :
 			$this->theme = $this->passedArgs['theme'];
+		else:
+			$this->theme = Configure::read('Saito.theme');
 		endif;
 
 		Stopwatch::stop('App->beforeFilter()');
@@ -216,6 +222,10 @@ class AppController extends Controller {
 			$slidetabs = array_unique(array_merge($slidetabs_user, $this->installedSlidetabs));
 		}
 		$this->set('slidetabs', $slidetabs);
+	}
+
+	protected function _beforeFilterAdminArea() {
+		$this->layout = 'admin';
 	}
 
 }

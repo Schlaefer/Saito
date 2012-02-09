@@ -28,7 +28,7 @@ html, body {
 }
 
 .upload_box {
-	border: 1px solid $macnemo_gray_dark;
+	border: 1px solid $saito_gray_dark;
 	@include border-radius($corner_radius);
 	float: left;
 	margin: 12px;
@@ -43,7 +43,7 @@ html, body {
 	vertical-align: middle;
 	
 	img {
-		border: 1px solid $macnemo_gray_dark;
+		border: 1px solid $saito_gray_dark;
 		padding: 4px;
 		@include border-radius($corner_radius);
 		background: white;
@@ -58,7 +58,7 @@ html, body {
 .upload_box_footer {
 	height: 35px;
 	background: white;
-	border-top: 1px solid $macnemo_gray_dark;
+	border-top: 1px solid $saito_gray_dark;
 	text-align: center;
 	vertical-align: middle;
 	@include border-bottom-right-radius($corner_radius);

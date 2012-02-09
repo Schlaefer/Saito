@@ -64,7 +64,7 @@
 .ui-widget-content { border: 1px solid #dddddd; background: #eeeeee url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x; color: #333333; }
 .ui-widget-content a { color: #333333; }
 .ui-widget-header { 
-/*	border: 1px solid $macnemo_accent2_light; */
+/*	border: 1px solid $saito_accent2_light; */
 /*	background: #f6a828 url(images/ui-bg_gloss-wave_35_f6a828_500x100.png) 50% 50% repeat-x; */
 /*	color: #222222; */
 /*	font-weight: bold; 	*/
@@ -322,7 +322,7 @@
 	@include border-bottom-right-radius(0);
 	
 }
-.ui-dialog.ui-widget-content { border: none; border: 4px solid $macnemo_gray_dark; }
+.ui-dialog.ui-widget-content { border: none; border: 4px solid $saito_gray_dark; }
 
 
 .ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 16px; } 

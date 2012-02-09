@@ -1,8 +1,8 @@
 <?php
 class Category extends AppModel {
-	var $name = 'Category';
+	public $name = 'Category';
 	
- 	var $actsAs = array('Containable');
+ 	public $actsAs = array('Containable');
 
 	public $cacheQueries = true;
 
@@ -38,14 +38,44 @@ class Category extends AppModel {
 
 	# @td cache
 
-	public function getCategoriesForAccession($accession) {
+	public function getCategoriesForAccession($accession, $fields = null, $order = null) {
 		$categories = $this->find('list', array(
 				'conditions' => array (
 						'accession <=' => $accession,
 				),
+				'fields' => $fields,
+				'order' => $order,
 			)
 		);
 		return $categories;
+	}
+
+	public function getCategoriesSelectForAccession($accession) {
+		$fields = array( 'Category.id', 'Category.category');
+		$order = 'category_order asc';
+		$categories = $this->getCategoriesForAccession($accession, $fields, $order);
+		return $categories;
+	}
+
+	public function mergeIntoCategory($targetCategory) {
+
+		if (!isset($this->id)) return false;
+		if ( (int)$targetCategory === (int)$this->id ) return true;
+
+		$this->Entry->contain();
+		return $this->Entry->updateAll(
+				array('Entry.category' => $targetCategory),
+				array('Entry.category' => $this->id)
+			);
+	}
+
+	public function deleteWithAllEntries() {
+		if (!isset($this->id)) return false;
+
+		$this->Entry->contain();
+		$entriesDeleted = $this->Entry->deleteAll( array('Entry.category' => $this->id), false );
+
+		return parent::delete($this->field('id'), false) && $entriesDeleted;
 	}
 }
 ?>

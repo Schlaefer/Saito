@@ -1,4 +1,4 @@
-<div class="flash warning">
+<div class="flash warning alert">
 	<?php
 	if (is_array($message))
 		echo implode('</div><div class="flash warning">', $message);

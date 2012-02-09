@@ -1,7 +1,7 @@
 <?php
 class SettingsController extends AppController {
 
-	var $name = 'Settings';
+	public $name = 'Settings';
 
 	/*
 	 * Subset of MLF settings currently used by Saito

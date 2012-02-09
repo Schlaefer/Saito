@@ -1,5 +1,5 @@
 	<?php
-		echo $this->element('layout/html_header', array( 'cache' => '+1 day' ));
+		echo $this->element('layout/html_header');
 	?>
 	</head>
 	<body>

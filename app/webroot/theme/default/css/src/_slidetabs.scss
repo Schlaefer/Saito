@@ -7,12 +7,12 @@
 	position: relative;
 
 	.button_wrapper, .content_wrapper {
-		background-color: $macnemo_base_light;
-		@include linear-gradient(color-stops($macnemo_base_very_light, $macnemo_base_light));
+		background-color: $saito_base_light;
+		@include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
 		@include box-shadow( #ddd, -1px, 2px, 2px);
 		margin-bottom: 2px;
 
-		border-color: $macnemo_border;
+		border-color: $saito_border;
 		border-style: solid;
 		border-width: 1px;
 		@include border-top-left-radius($corner_radius);

@@ -795,8 +795,7 @@ class EntriesController extends AppController {
 
 	protected function _teardownAdd() {
 		//* find categories for dropdown
-		$categories = $this->Entry->Category->find('list',
-						array( 'conditions' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()), 'fields' => array( 'id', 'category' ), 'order' => 'category_order asc' ));
+		$categories = $this->Entry->Category->getCategoriesSelectForAccession($this->CurrentUser->getMaxAccession());
 		$this->set('categories', $categories);
 	}
 

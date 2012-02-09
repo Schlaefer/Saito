@@ -57,6 +57,12 @@ Configure::write('Markitup.vendors', array(
 */
 
 /**
+ * Set the theme
+ */
+Configure::write('Saito.theme', 'macnemo');
+
+
+/**
  * Activate Saito Cache:
  *
  * true: (default) use cache

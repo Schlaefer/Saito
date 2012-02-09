@@ -20,22 +20,22 @@
 
 .header_style_1 {
 	@extend .c_top-radius;
-	@include linear-gradient(color-stops($macnemo_base_very_light, $macnemo_base_light));
-	background-color: $macnemo_base_light;
-	border-bottom: $border_width solid $macnemo_gray_dark;
+	@include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
+	background-color: $saito_base_light;
+	border-bottom: $border_width solid $saito_gray_dark;
 }
 
 .header_style_2 {
-	background-color: $macnemo_gray_dark;
-  @include linear-gradient(color-stops(white, darken(#ffffff, 6%) 30%, lighten($macnemo_gray_dark, 6%) 70%, $macnemo_gray_dark));
-  border: $border_width solid $macnemo_gray_dark;
+	background-color: $saito_gray_dark;
+  @include linear-gradient(color-stops(white, darken(#ffffff, 6%) 30%, lighten($saito_gray_dark, 6%) 70%, $saito_gray_dark));
+  border: $border_width solid $saito_gray_dark;
   color: #333333;
 	@extend .t_shadow;
 }
 
 .box_style_1 {
 	background-color: white;
-	border: $border_width solid $macnemo_gray_dark;
+	border: $border_width solid $saito_gray_dark;
 	@extend .c_all-radius;
 
 	@extend .box_shadow_inset_1;
@@ -47,8 +47,8 @@
 }
 
 .box_style_2 {
-	background-color: $macnemo_gray_light;
-	border: $border_width solid $macnemo_gray_dark;
+	background-color: $saito_gray_light;
+	border: $border_width solid $saito_gray_dark;
 	@extend .c_all-radius;
 	@extend .box_shadow_inset_1;
 	}
@@ -71,9 +71,9 @@
 	}
 
  .header_style_light {
-	background:$macnemo_base_light;
-	@include linear-gradient(color-stops($macnemo_base_very_light, $macnemo_base_light));
-	border: 1px solid $macnemo_border ;
+	background:$saito_base_light;
+	@include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
+	border: 1px solid $saito_border ;
 
 	color:#000000;
 	@extend .t_shadow;
@@ -84,19 +84,14 @@
 }
 
 .header_style_dark {
-	background: $macnemo_base_dark;
-	@include linear-gradient(color-stops($macnemo_base, $macnemo_base_dark));
+	background: $saito_base_dark;
+	@include linear-gradient(color-stops($saito_base, $saito_base_dark));
 }
 
 @mixin header_style_dark_top {
-	background-color: $macnemo_base_dark;
-	background-image: image-url("bubbles_outer.jpg");
+	background-color: $saito_base_dark;
 	background-repeat: repeat-x;
-	/* 
-	@include linear-gradient(color-stops($macnemo_base, $macnemo_base_dark));
-	background: image-url($background_image) top left repeat-x, -webkit-gradient(linear, 0% 100%, 0% 0%, from($macnemo_base_dark), to($macnemo_accent_light));
-	background: image-url($background_image) top left repeat-x, -moz-linear-gradient(bottom, $macnemo_base_dark, $macnemo_accent_light);
-	*/
+	@include linear-gradient(color-stops($saito_base, $saito_base_dark));
 }
 
 @mixin c_t_h_3_abs($height: 24px, $padding: 5px) {

@@ -68,7 +68,7 @@ class Entry extends AppModel {
 	 */
 	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.text, Entry.flattr, Entry.nsfw,
 																	User.username, User.id, User.signature, User.flattr_uid,
-																	Category.category, Category.accession';
+																	Category.category, Category.accession, Category.description';
 
 	public function getRecentEntries( Array $options = array() ) {
 		Stopwatch::start('Model->User->getRecentEntries()');

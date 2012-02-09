@@ -1,6 +1,6 @@
 <div id="settings_index" class="settings index">
 	<h2>Forum</h2>
-	<table class="table_th_left_1" style="display: block ;">
+	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<tr>
 			<td>
@@ -15,7 +15,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled')
+								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled' ),
+										array( 'class' => 'btn' )
 							);
 				?>
 			</td>
@@ -33,7 +34,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled_text')
+								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled_text'),
+								array( 'class' => 'btn' )
 							);
 				?>
 			</td>
@@ -41,7 +43,7 @@
 	</table> <!--	</table>-->
 	<br />
 	<h2>Misc</h2>
-	<table class="table_1" style="display: block ;">
+	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<?php foreach( $autoSettings as $k => $v ) : ?>
 		<tr>
@@ -57,7 +59,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', $k)
+								array( 'controller' => 'settings', 'action' => 'edit', $k),
+								array( 'class' => 'btn' )
 							);
 				?>
 			</td>
@@ -66,7 +69,7 @@
 	</table> <!--	</table>-->
 	<br />
 	<h2>Flattr</h2>
-	<table class="table_th_left_1" style="display: block ;">
+	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<tr>
 			<td>
@@ -81,7 +84,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_enabled')
+								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_enabled'),
+								array( 'class' => 'btn' )
 							);
 				?>
 			</td>
@@ -99,7 +103,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_language')
+								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_language'),
+								array( 'class' => 'btn' )
 							);
 				?>
 			</td>
@@ -117,7 +122,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_category')
+								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_category'),
+								array( 'class' => 'btn' )
 							);
 				?>
 			</td>
@@ -125,7 +131,7 @@
 	</table> <!--	</table>-->
 	<br/>
 	<h2>Uploads</h2>
-	<table class="table_th_left_1" style="display: block ;">
+	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<tr>
 			<td>
@@ -140,7 +146,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_img_size')
+								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_img_size'),
+								array( 'class' => 'btn' )
 							);
 				?>
 			</td>
@@ -158,7 +165,8 @@
 			<td>
 				<?php echo $html->link(
 								__('edit', true),
-								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_number_of_uploads')
+								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_number_of_uploads'),
+								array( 'class' => 'btn' )
 							);
 				?>
 			</td>
