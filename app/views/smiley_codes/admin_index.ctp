@@ -1,6 +1,6 @@
 <div class="smileyCodes index">
 	<h2><?php __('Smiley Codes');?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
 			<th><?php echo $this->Paginator->sort('smiley_id');?></th>
@@ -18,13 +18,13 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $smileyCode['SmileyCode']['id']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($smileyCode['Smiley']['title'], array('controller' => 'smilies', 'action' => 'view', $smileyCode['Smiley']['id'])); ?>
+			<?php echo $this->Html->link($smileyCode['Smiley']['icon'], array('controller' => 'smilies', 'action' => 'view', $smileyCode['Smiley']['id'])); ?>
 		</td>
 		<td><?php echo $smileyCode['SmileyCode']['code']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $smileyCode['SmileyCode']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $smileyCode['SmileyCode']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $smileyCode['SmileyCode']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $smileyCode['SmileyCode']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $smileyCode['SmileyCode']['id']), array('class' => 'btn')); ?>
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $smileyCode['SmileyCode']['id']), array('class' => 'btn')); ?>
+			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $smileyCode['SmileyCode']['id']), array('class' => 'btn'), sprintf(__('Are you sure you want to delete # %s?', true), $smileyCode['SmileyCode']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
