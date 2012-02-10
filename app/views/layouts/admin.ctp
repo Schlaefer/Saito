@@ -33,6 +33,10 @@
 								<?php echo $html->link(__('Categories',
 												true), '/admin/categories/index'); ?>
 							</li>
+							<li class="<? if (stristr($this->here, 'smilies')) { echo 'active'; }; ?>">
+								<?php echo $html->link(__('Smiley',
+									true), '/admin/smilies/index'); ?>
+							</li>
 						</ul>
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
