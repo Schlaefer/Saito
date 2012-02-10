@@ -12,12 +12,12 @@
  */
 class UsersController extends AppController {
 
-	var $name = 'Users';
-	var $components = array(
+	public $name = 'Users';
+	public $components = array(
 			'Email',
 			);
 
-	var $helpers = array (
+	public $helpers = array (
 			'Farbtastic',
 			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',

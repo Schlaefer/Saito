@@ -1,14 +1,14 @@
 <?php
 class SmiliesController extends AppController {
 
-	var $name = 'Smilies';
+	public $name = 'Smilies';
 
-	function admin_index() {
+	public function admin_index() {
 		$this->Smiley->recursive = 0;
 		$this->set('smilies', $this->paginate());
 	}
 
-	function admin_add() {
+	public function admin_add() {
 		if (!empty($this->data)) {
 			$this->Smiley->create();
 			if ($this->Smiley->save($this->data)) {
@@ -20,7 +20,7 @@ class SmiliesController extends AppController {
 		}
 	}
 
-	function admin_edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid smily', true));
 			$this->redirect(array('action' => 'index'));
@@ -38,7 +38,7 @@ class SmiliesController extends AppController {
 		}
 	}
 
-	function admin_delete($id = null) {
+	public function admin_delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for smily', true));
 			$this->redirect(array('action'=>'index'));
