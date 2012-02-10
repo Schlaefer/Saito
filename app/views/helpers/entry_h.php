@@ -85,7 +85,7 @@ EOF
 				'Popcorn' => array( 'name' => 'Popcorn', 'replaceWith' => ':popcorn:' ),
 		);
 
-		$marktiupSet = array();
+		$markitupSet = array();
 
 		//* buildup markitup parmas as json
 		foreach ( $bbcodeSet as $k => $set ):
