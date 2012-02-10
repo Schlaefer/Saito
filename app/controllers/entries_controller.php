@@ -525,6 +525,7 @@ class EntriesController extends AppController {
 		$this->data['Entry']['subject'] = $subject;
 		$this->data['Entry']['text'] = $text;
 		$this->data['Entry']['category'] = $category;
+		$this->data['Entry']['nsfw'] = $nsfw;
 
 		$this->Entry->set($this->data);
 		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject, text, category' ) ));

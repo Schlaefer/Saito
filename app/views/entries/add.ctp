@@ -128,7 +128,11 @@ $form->submit(__('Einfügen', true),
 					);
 					?>
 				</div>
-						<?= $form->hidden('pid'); ?>
+						<?php 
+							/* additional parameters for preview creation */
+							$form->hidden('pid');
+							$form->hidden('nsfw');
+						?>
 				<div class="postingform_main">
 						<?php
 						echo $entryH->generateMarkItUpEditorButtonSet('markItUp_' . $this->data['Entry']['id']);
