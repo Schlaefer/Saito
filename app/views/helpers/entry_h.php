@@ -33,9 +33,9 @@
 				if ( isset($smiliesMarkItUpPacked[$smiley['icon']]) )
 					continue;
 				// prepare  which is inserted into the markItUp config in the next stage
-				$smiliesMarkItUpPacked[$smiley['icon']] = array( 'name' => $smiley['title'], 'replaceWith' => $smiley['code'] );
+				$smiliesMarkItUpPacked[$smiley['icon']] = array( 'name' => '' /*$smiley['title']*/, 'replaceWith' => $smiley['code'] );
 				// prepare CSS for each button so the smiley image is placed on it
-				$smileyCss .= ".markItUp .markItUpButton12-{$i} a	{ background-image:url({$this->webroot}/theme/{$this->theme}/img/smilies/{$smiley['image']}); }";
+				$smileyCss .= ".markItUp .markItUpButton12-{$i} a	{ background-image:url({$this->webroot}/theme/{$this->theme}/img/smilies/{$smiley['icon']}); }";
 				$i++;
 			endforeach;
 			$smileyCss = "<style type='text/css'>{$smileyCss}</style>";
