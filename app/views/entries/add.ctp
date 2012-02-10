@@ -129,9 +129,7 @@ $form->submit(__('Einfügen', true),
 					?>
 				</div>
 						<?php 
-							/* additional parameters for preview creation */
-							$form->hidden('pid');
-							$form->hidden('nsfw');
+							echo $form->hidden('pid');
 						?>
 				<div class="postingform_main">
 						<?php
