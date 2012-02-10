@@ -24,9 +24,9 @@
 		<td><?php echo $smiley['Smiley']['image']; ?>&nbsp;</td>
 		<td><?php echo $smiley['Smiley']['title']; ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $smiley['Smiley']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $smiley['Smiley']['id'])); ?>
-			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $smiley['Smiley']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $smiley['Smiley']['id'])); ?>
+			<?php echo $this->Html->link(__('View', true), array('action' => 'view', $smiley['Smiley']['id']), array('class' => 'btn')); ?>
+			<?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $smiley['Smiley']['id']), array('class' => 'btn')); ?>
+			<?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $smiley['Smiley']['id']), array('class' => 'btn'), sprintf(__('Are you sure you want to delete # %s?', true), $smiley['Smiley']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

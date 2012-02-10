@@ -128,7 +128,9 @@ $form->submit(__('Einfügen', true),
 					);
 					?>
 				</div>
-						<?= $form->hidden('pid'); ?>
+						<?php 
+							echo $form->hidden('pid');
+						?>
 				<div class="postingform_main">
 						<?php
 						echo $entryH->generateMarkItUpEditorButtonSet('markItUp_' . $this->data['Entry']['id']);

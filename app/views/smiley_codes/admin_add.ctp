@@ -5,9 +5,10 @@
 	<?php
 		echo $this->Form->input('smiley_id');
 		echo $this->Form->input('code');
+		echo $this->Form->submit(null, array('class' => 'btn btn-primary'))
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+<?php echo $this->Form->end();?>
 </div>
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>

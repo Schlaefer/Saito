@@ -1,7 +1,15 @@
 <?php
 class SmileyCodesController extends AppController {
 
-	var $name = 'SmileyCodes';
+	public $name = 'SmileyCodes';
+
+	public $paginate = array(
+			/*
+				* sets limit unrealisticly high so we should never reach the upper limit
+				* i.e. always show all entries on one page
+				*/
+			'limit' => 1000,
+	);
 
 	function admin_index() {
 		$this->SmileyCode->recursive = 0;
@@ -26,8 +34,8 @@ class SmileyCodesController extends AppController {
 				$this->Session->setFlash(__('The smiley code could not be saved. Please, try again.', true));
 			}
 		}
-		$smileys = $this->SmileyCode->Smiley->find('list');
-		$this->set(compact('smileys'));
+		$smilies = $this->SmileyCode->Smiley->find('list', array('fields' => 'Smiley.icon'));
+		$this->set(compact('smilies'));
 	}
 
 	function admin_edit($id = null) {
@@ -46,8 +54,8 @@ class SmileyCodesController extends AppController {
 		if (empty($this->data)) {
 			$this->data = $this->SmileyCode->read(null, $id);
 		}
-		$smileys = $this->SmileyCode->Smiley->find('list');
-		$this->set(compact('smileys'));
+		$smilies = $this->SmileyCode->Smiley->find('list', array('fields' => 'Smiley.icon'));
+		$this->set(compact('smilies'));
 	}
 
 	function admin_delete($id = null) {
