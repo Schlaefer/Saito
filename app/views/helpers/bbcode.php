@@ -325,7 +325,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			}
 		endif;
 
-		// @td rewrite the smiley system. See codaset http://codaset.com/schlaefer/saito/tickets/157
 		$s['codes'][] = ':gacker:';
 		$s['replacements'][] = $this->Html->image('gacker.png');
 		$s['codes'][] = ':popcorn:';

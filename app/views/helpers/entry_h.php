@@ -15,10 +15,16 @@
 				'Session',
 		);
 
+		/**
+		 * Generates markItUp editor buttons based on forum config
+		 * 
+		 * @param type $id
+		 * @return string 
+		 */
 		public function generateMarkItUpEditorButtonSet($id) {
 			$separator = array( 'separator' => '---------------' );
 
-			//* build smilies for MarkItUp
+			/* build smilies for MarkItUp from the admin smilies settings */
 			$smilies = Configure::read('Saito.Smilies.smilies_all');
 			$smiliesMarkItUpPacked = array( );
 			$smileyCss = '';
@@ -26,14 +32,15 @@
 			foreach ( $smilies as $smiley ):
 				if ( isset($smiliesMarkItUpPacked[$smiley['icon']]) )
 					continue;
-				// prepare JS
+				// prepare  which is inserted into the markItUp config in the next stage
 				$smiliesMarkItUpPacked[$smiley['icon']] = array( 'name' => $smiley['title'], 'replaceWith' => $smiley['code'] );
-				// prepare CSS
+				// prepare CSS for each button so the smiley image is placed on it
 				$smileyCss .= ".markItUp .markItUpButton12-{$i} a	{ background-image:url({$this->webroot}/theme/{$this->theme}/img/smilies/{$smiley['image']}); }";
 				$i++;
 			endforeach;
 			$smileyCss = "<style type='text/css'>{$smileyCss}</style>";
 
+			/* setup the BBCode for markitup as php array */
 			$bbcodeSet = array(
 					'Bold' => array( 'name' => 'Bold', 'key' => 'B', 'openWith' => '[b]', 'closeWith' => '[/b]' ),
 					'Italic' => array( 'name' => 'Italic', 'key' => 'I', 'openWith' => '[i]', 'closeWith' => '[/i]' ),
@@ -89,7 +96,7 @@ EOF
 
 			$markitupSet = array( );
 
-			//* buildup markitup parmas as json
+			/* converting the BBCode PHP array into JS */
 			foreach ( $bbcodeSet as $k => $set ):
 				if ( isset($set['callback']) ):
 					unset($set['callback']);
@@ -105,8 +112,8 @@ EOF
 
 			$out = 'markitupSettings = { "id":"' . $id . '", markupSet: [' . implode(",\n",
 							$markitupSet) . ']};';
-
 			$out = $this->Html->scriptBlock($out) . $smileyCss;
+
 			return $out;
 		}
 
