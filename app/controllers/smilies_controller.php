@@ -8,14 +8,6 @@ class SmiliesController extends AppController {
 		$this->set('smilies', $this->paginate());
 	}
 
-	function admin_view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid smily', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('smiley', $this->Smiley->read(null, $id));
-	}
-
 	function admin_add() {
 		if (!empty($this->data)) {
 			$this->Smiley->create();
