@@ -41,9 +41,6 @@ class TimeHHelper extends AppHelper {
 		} elseif ($timestamp > ($this->today - 64800)) {
 		// yesterday but in the last 18 hours
 			$time = __('yesterday', true) . ' ' . $time = strftime("%H:%M", $timestamp);
-		} elseif ($timestamp > ($this->today - 31536000)) {
-			// within the last year
-			$time = strftime("%d.%m. %H:%M", $timestamp);
 		} else {
 		// yesterday and 18 hours and older
 			$time = strftime("%d.%m.%Y %H:%M", $timestamp);

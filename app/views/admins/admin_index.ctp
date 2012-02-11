@@ -7,12 +7,4 @@
 							true), '/admin/users/add'); ?>
 		</li>
 	</ul>
-	<h1> <?php echo __('Smilies',
-					true) ?> </h1>
-	<ul class="style_1" >
-		<li>
-			<?php echo $html->link(__('Admin Smiley Index',
-							true), '/admin/smilies/index'); ?>
-		</li>
-	</ul>
 </div>

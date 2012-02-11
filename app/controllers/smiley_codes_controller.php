@@ -11,12 +11,12 @@ class SmileyCodesController extends AppController {
 			'limit' => 1000,
 	);
 
-	function admin_index() {
+	public function admin_index() {
 		$this->SmileyCode->recursive = 0;
 		$this->set('smileyCodes', $this->paginate());
 	}
 
-	function admin_view($id = null) {
+	public function admin_view($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid smiley code', true));
 			$this->redirect(array('action' => 'index'));
@@ -24,7 +24,7 @@ class SmileyCodesController extends AppController {
 		$this->set('smileyCode', $this->SmileyCode->read(null, $id));
 	}
 
-	function admin_add() {
+	public function admin_add() {
 		if (!empty($this->data)) {
 			$this->SmileyCode->create();
 			if ($this->SmileyCode->save($this->data)) {
@@ -38,7 +38,7 @@ class SmileyCodesController extends AppController {
 		$this->set(compact('smilies'));
 	}
 
-	function admin_edit($id = null) {
+	public function admin_edit($id = null) {
 		if (!$id && empty($this->data)) {
 			$this->Session->setFlash(__('Invalid smiley code', true));
 			$this->redirect(array('action' => 'index'));
@@ -58,7 +58,7 @@ class SmileyCodesController extends AppController {
 		$this->set(compact('smilies'));
 	}
 
-	function admin_delete($id = null) {
+	public function admin_delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for smiley code', true));
 			$this->redirect(array('action'=>'index'));
