@@ -87,3 +87,21 @@ Inflector::rules('plural', array( '/^(smil)ey$/i' => '\1ies' ));
 Inflector::rules('singular', array( '/^(smil)ies$/i' => '\1ey' ));
 
 include_once 'version.php';
+
+/**
+ * Add additional buttons to editor
+ * @td document in namespace
+ */
+Configure::write(
+		'Saito.markItUp.additionalButtons',
+		array(
+			'Gacker' => array(
+					'code' => ':gacker:',
+					'replacement' => 'smilies/gacker_large.png'
+				),
+			'Popcorn' => array(
+					'code' => ':popcorn:',
+					'replacement' => 'smilies/popcorn_large.png'
+				)
+			)
+		);

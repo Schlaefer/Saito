@@ -90,9 +90,19 @@ EOF
 					),
 					$separator,
 					'Smilies' => array( 'name' => 'Smilies', 'dropMenu' => $smiliesMarkItUpPacked ),
-					'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
-					'Popcorn' => array( 'name' => 'Popcorn', 'replaceWith' => ':popcorn:' ),
+//					'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
+//					'Popcorn' => array( 'name' => 'Popcorn', 'replaceWith' => ':popcorn:' ),
 			);
+
+			$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
+			if (!empty($additionalButtons)):
+				foreach ( $additionalButtons as $additionalButtonTitle => $additionalButton):
+					$bbcodeSet[$additionalButtonTitle] = array(
+							'name' => $additionalButtonTitle,
+							'replaceWith' => $additionalButton['code'],
+						);
+				endforeach;
+			endif;
 
 			$markitupSet = array( );
 
