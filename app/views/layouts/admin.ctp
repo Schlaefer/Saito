@@ -34,7 +34,7 @@
 												true), '/admin/categories/index'); ?>
 							</li>
 							<li class="<? if (stristr($this->here, 'smilies')) { echo 'active'; }; ?>">
-								<?php echo $html->link(__('Smiley',
+								<?php echo $html->link(__('Smilies',
 									true), '/admin/smilies/index'); ?>
 							</li>
 						</ul>
@@ -55,7 +55,7 @@
 			$emailMessage = $this->Session->flash('email');
 			if ( $flashMessage || $emailMessage ) :
 				?>
-				<div class="">
+				<div class="alert alert-info">
 					<?php echo $flashMessage; ?>
 					<?php echo $emailMessage; ?>
 				</div>

@@ -1,3 +1,5 @@
+<?php $this->Html->addCrumb(__('Smilies', true), '/admin/smilies'); ?>
+<?php $this->Html->addCrumb(__('Add Smiley', true), '#'); ?>
 <div class="smilies form">
 <?php echo $this->Form->create('Smiley');?>
 	<fieldset>
@@ -7,9 +9,10 @@
 		echo $this->Form->input('icon');
 		echo $this->Form->input('image');
 		echo $this->Form->input('title');
+		echo $this->Form->submit(__('Submit', true), array('class' => 'btn btn-primary'));
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+<?php echo $this->Form->end();?>
 </div>
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>

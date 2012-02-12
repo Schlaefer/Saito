@@ -16,14 +16,6 @@ class SmileyCodesController extends AppController {
 		$this->set('smileyCodes', $this->paginate());
 	}
 
-	public function admin_view($id = null) {
-		if (!$id) {
-			$this->Session->setFlash(__('Invalid smiley code', true));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->set('smileyCode', $this->SmileyCode->read(null, $id));
-	}
-
 	public function admin_add() {
 		if (!empty($this->data)) {
 			$this->SmileyCode->create();
