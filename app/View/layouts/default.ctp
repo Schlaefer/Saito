@@ -103,7 +103,7 @@
 		<?php echo $scripts_for_layout; ?>
 		<? //cake2 echo $this->Js->writeBuffer();?>
 		<div class='clearfix'></div>
-		<?php //cake2 echo $this->Stopwatch->getResult();?>
+		<?php echo $this->Stopwatch->getResult();?>
 		<?php echo $this->element('sql_dump'); ?>
 	</div>
 	</body>

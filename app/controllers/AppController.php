@@ -1,7 +1,6 @@
 <?php
 
-//cake2 App::import('Lib', 'Stopwatch.Stopwatch');
-
+App::import('Lib', 'Stopwatch.Stopwatch');
 
 class AppController extends Controller {
 	/*cake2
@@ -25,12 +24,16 @@ class AppController extends Controller {
 			'SaitoEntry',
 			'Session',
 	);
+	*/
 	public $helpers = array (
+	/* cake2
 			#App Helpers
 			'Bbcode',
 			'UserH',
 			'Markitup.Markitup',
+	*/
 			'Stopwatch.Stopwatch',
+	/* cake2
 			'TextH',
 
 			#CakePHP Helpers
@@ -39,8 +42,10 @@ class AppController extends Controller {
 			'Html',
 			'Form',
 			'Session',
+	*/
 	);
 
+	/* cake2
 	public $uses = array (
 			'User',
 	);
@@ -49,9 +54,10 @@ class AppController extends Controller {
 	/**
 	 * use themes
 	 *
+	 * deprecated in CakePHP 2.1
+	 *
 	 * @var string
 	 */
-	public $view = 'Theme';
 	public $viewClass = 'Theme';
 
 	/**
@@ -76,13 +82,11 @@ class AppController extends Controller {
 
 //	var $persistModel = true;
 
-	/*cake2
-	public function __construct() {
-		parent::__construct();
-		//cake2 Stopwatch::enable();
-		//cake2 Stopwatch::start('---------------------- Controller ----------------------');
+	public function __construct($request = null, $response = null) {
+		Stopwatch::enable();
+		Stopwatch::start('---------------------- Controller ----------------------');
+		parent::__construct($request, $response);
 	}
-	*/
 
 	public function beforeFiltercake2() {
 		parent::beforeFilter();
@@ -139,7 +143,7 @@ class AppController extends Controller {
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
-	public function beforeRendercake2() {
+	public function beforeRender() {
 		parent::beforeRender();
 
 		Stopwatch::start('App->beforeRender()');
