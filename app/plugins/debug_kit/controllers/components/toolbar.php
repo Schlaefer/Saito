@@ -104,8 +104,8 @@ class ToolbarComponent extends Object {
 		}
 		App::import('Vendor', 'DebugKit.DebugKitDebugger');
 
-		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Component initialization', true));
-		DebugKitDebugger::startTimer('componentInit', __d('debug_kit', 'Component initialization and startup', true));
+		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Component initialization'));
+		DebugKitDebugger::startTimer('componentInit', __d('debug_kit', 'Component initialization and startup'));
 
 		$panels = $this->_defaultPanels;
 		if (isset($settings['panels'])) {
@@ -177,8 +177,8 @@ class ToolbarComponent extends Object {
 			$this->panels[$panelName]->startup($controller);
 		}
 		DebugKitDebugger::stopTimer('componentInit');
-		DebugKitDebugger::startTimer('controllerAction', __d('debug_kit', 'Controller action', true));
-		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Controller action start', true));
+		DebugKitDebugger::startTimer('controllerAction', __d('debug_kit', 'Controller action'));
+		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Controller action start'));
 	}
 
 /**
@@ -211,8 +211,8 @@ class ToolbarComponent extends Object {
 		$this->_saveState($controller, $vars);
 
 		$controller->set(array('debugToolbarPanels' => $vars, 'debugToolbarJavascript' => $this->javascript));
-		DebugKitDebugger::startTimer('controllerRender', __d('debug_kit', 'Render Controller Action', true));
-		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Controller render start', true));
+		DebugKitDebugger::startTimer('controllerRender', __d('debug_kit', 'Render Controller Action'));
+		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'Controller render start'));
 	}
 
 /**
@@ -282,7 +282,7 @@ class ToolbarComponent extends Object {
 		foreach ($panels as $panel) {
 			$className = $panel . 'Panel';
 			if (!class_exists($className) && !App::import('Vendor',  $className)) {
-				trigger_error(sprintf(__d('debug_kit', 'Could not load DebugToolbar panel %s', true), $panel), E_USER_WARNING);
+				trigger_error(sprintf(__d('debug_kit', 'Could not load DebugToolbar panel %s'), $panel), E_USER_WARNING);
 				continue;
 			}
 			list($plugin, $className) = pluginSplit($className);

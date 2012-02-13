@@ -47,9 +47,9 @@ class EntriesController extends AppController {
 
 		//* set sub_nav_left
 		$this->Session->write('paginator.lastPage', $page);
-		$this->set('title_for_layout', __('page', true) . ' ' . $page);
+		$this->set('title_for_layout', __('page') . ' ' . $page);
 		$this->set('headerSubnavLeft',
-				array( 'title' => __('new_entry_linkname', true), 'url' => '/entries/add' ));
+				array( 'title' => __('new_entry_linkname'), 'url' => '/entries/add' ));
 
 		$this->set('showDisclaimer', TRUE);
 
@@ -100,10 +100,10 @@ class EntriesController extends AppController {
 
 		$this->_setupMobile();
 		$this->_setupView($id);
-		$this->set('entry', $this->data);
+		$this->set('entry', $this->request->data);
 		$this->_teardownView();
 
-		$this->set('title_for_layout', $this->data['Entry']['subject']);
+		$this->set('title_for_layout', $this->request->data['Entry']['subject']);
 	}
 
 	public function mobile_mix($tid) {
@@ -115,15 +115,15 @@ class EntriesController extends AppController {
 //		exit;
 		$this->set('entries', $entries);
 
-		$this->set('title_for_layout', $this->data[0]['Entry']['subject']);
+		$this->set('title_for_layout', $this->request->data[0]['Entry']['subject']);
 	}
 
 	public function mobile_add($id = NULL) {
 		$this->_setupMobile();
 
 		//* new posting creates new thread
-		$this->data['Entry']['pid'] = 0;
-		$this->data['Entry']['tid'] = 0;
+		$this->request->data['Entry']['pid'] = 0;
+		$this->request->data['Entry']['tid'] = 0;
 
 		$this->_teardownAdd();
 	}
@@ -133,15 +133,15 @@ class EntriesController extends AppController {
 		$this->RequestHandler->setContent('RSS');
 		$this->RequestHandler->renderAs($this, 'rss');
 
-		if ( isset($this->params['named']['depth']) && $this->params['named']['depth'] === 'start' ) {
-			$title = __('Last started threads', true);
+		if ( isset($this->request->params['named']['depth']) && $this->request->params['named']['depth'] === 'start' ) {
+			$title = __('Last started threads');
 			$order = 'time DESC';
 			$conditions = array(
 					'pid' => 0,
 					'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
 			);
 		} else {
-			$title = __('Last entries', true);
+			$title = __('Last entries');
 			$order = 'last_answer DESC';
 			$conditions = array(
 					'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
@@ -164,7 +164,7 @@ class EntriesController extends AppController {
 		$this->set('entries', $entries);
 
 		$this->set('headerSubnavLeft',
-				array( 'title' => __('Back', true), 'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
+				array( 'title' => __('Back'), 'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
 	}
 
 	# @td MVC user function ?
@@ -183,13 +183,13 @@ class EntriesController extends AppController {
 			return;
 		endif;
 
-		$this->set('entry', $this->data);
+		$this->set('entry', $this->request->data);
 
 
 		$this->_teardownView();
 
 		// @td doku
-		$this->set('show_answer', (isset($this->data['show_answer'])) ? true : false);
+		$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
 
 		$last_action = $this->localReferer('action');
 		$this->set('last_action', $last_action);
@@ -200,22 +200,22 @@ class EntriesController extends AppController {
 			return;
 		else:
 			//* full page request
-			$this->set('tree', $this->Entry->treeForNode($this->data['Entry']['tid']));
-			$this->set('title_for_layout', $this->data['Entry']['subject']);
+			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']));
+			$this->set('title_for_layout', $this->request->data['Entry']['subject']);
 
 			//* set sub_nav_left start
 			$this->set('headerSubnavLeft',
-					array( 'title' => __('back_to_forum_linkname', true), 'url' => $this->_getPaginatedIndexPageId($this->data['Entry']['tid']) ));
+					array( 'title' => __('back_to_forum_linkname'), 'url' => $this->_getPaginatedIndexPageId($this->request->data['Entry']['tid']) ));
 		endif;
 
 		Stopwatch::stop('Entries->view()');
 	}
 
 	public function add($id=null) {
-		$this->set('form_title', __('new_entry_linktitle', true));
+		$this->set('form_title', __('new_entry_linktitle'));
 
 		if ( !$this->CurrentUser->isLoggedIn() ) {
-			$message = __('logged_in_users_only', true);
+			$message = __('logged_in_users_only');
 
 			if ( $this->RequestHandler->isAjax() ) {
 				$this->set('message', $message);
@@ -226,16 +226,16 @@ class EntriesController extends AppController {
 			}
 		}
 
-		if ( !empty($this->data) ) {
+		if ( !empty($this->request->data) ) {
 			//* try to insert new entry
 			//* check of answering is alowed
-			$pid = (int) $this->data['Entry']['pid'];
+			$pid = (int) $this->request->data['Entry']['pid'];
 			if ( $pid > 0 ) {
 				$this->Entry->contain();
 				$this->Entry->sanitize(false);
 				$parent_entry = $this->Entry->read(NULL, $pid);
 				if ( !$parent_entry ):
-					$this->Session->setFlash(__("Parent entry `$pid` not found.", true),
+					$this->Session->setFlash(__("Parent entry `$pid` not found."),
 							'flash/error');
 					$this->redirect('/');
 				endif;
@@ -243,10 +243,10 @@ class EntriesController extends AppController {
 			}
 
 			//* prepare new entry
-			$this->data['Entry']['user_id'] = $this->CurrentUser->getId();
-			$this->data['Entry']['name'] = $this->CurrentUser['username'];
+			$this->request->data['Entry']['user_id'] = $this->CurrentUser->getId();
+			$this->request->data['Entry']['name'] = $this->CurrentUser['username'];
 
-			$new_posting = $this->Entry->createPosting($this->data);
+			$new_posting = $this->Entry->createPosting($this->request->data);
 
 			if ( $new_posting ) :
 				//* insert new posting was successful
@@ -277,39 +277,38 @@ class EntriesController extends AppController {
 				if ( count($this->Entry->invalidFields()) > 0 ) :
 					$this->set('validationError', true);
 				else:
-					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.',
-									true), 'flash/error');
+					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
 				endif;
 			endif;
 		} else {
 			//* show answering form
 
-			$this->data = NULL;
+			$this->request->data = NULL;
 			if ( $id !== NULL
 					// answering is always a ajax request, prevents add/1234 GET-requests
 					&& $this->RequestHandler->isAjax() === TRUE
 			) {
 				$this->Entry->sanitize(false);
-				$this->data = $this->Entry->findById($id);
+				$this->request->data = $this->Entry->findById($id);
 			}
 
-			if ( !empty($this->data) ):
+			if ( !empty($this->request->data) ):
 				//* new posting is answer to existing posting
-				$this->_isAnsweringAllowed($this->data);
+				$this->_isAnsweringAllowed($this->request->data);
 
 				/** create new subentry * */
-				$this->data['Entry']['pid'] = $id;
+				$this->request->data['Entry']['pid'] = $id;
 				// we assume that an answers to a nsfw posting isn't nsfw itself
-				unset($this->data['Entry']['nsfw']);
-				$this->set('citeText', $this->data['Entry']['text']);
+				unset($this->request->data['Entry']['nsfw']);
+				$this->set('citeText', $this->request->data['Entry']['text']);
 
-				$header_subnav_title = __('back_to_posting_linkname', true) . " " . $this->data['User']['username'];
+				$header_subnav_title = __('back_to_posting_linkname') . " " . $this->request->data['User']['username'];
 			else:
 				//* new posting creates new thread
-				$this->data['Entry']['pid'] = 0;
-				$this->data['Entry']['tid'] = 0;
+				$this->request->data['Entry']['pid'] = 0;
+				$this->request->data['Entry']['tid'] = 0;
 
-				$header_subnav_title = __('back_to_overview_linkname', true);
+				$header_subnav_title = __('back_to_overview_linkname');
 			endif;
 
 
@@ -320,7 +319,7 @@ class EntriesController extends AppController {
 			$this->set('referer_action', $this->localReferer('action'));
 
 			if ( $this->RequestHandler->isAjax() ):
-				$this->set('form_title', __('answer_marking', true));
+				$this->set('form_title', __('answer_marking'));
 			endif;
 		}
 
@@ -330,7 +329,7 @@ class EntriesController extends AppController {
 	public function edit($id = NULL) {
 
 		// invalid post
-		if ( !$id && empty($this->data) ):
+		if ( !$id && empty($this->request->data) ):
 			$this->redirect(array( 'action' => 'index' ));
 		endif;
 
@@ -365,29 +364,28 @@ class EntriesController extends AppController {
 						'flash/error');
 		}
 
-		if ( !empty($this->data) ) { ### try  to save entry
-			$this->data['Entry']['edited'] = date("Y-m-d H:i:s");
-			$this->data['Entry']['edited_by'] = $this->CurrentUser['username'];
-			if ( $new_entry = $this->Entry->save($this->data) ) {
+		if ( !empty($this->request->data) ) { ### try  to save entry
+			$this->request->data['Entry']['edited'] = date("Y-m-d H:i:s");
+			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
+			if ( $new_entry = $this->Entry->save($this->request->data) ) {
 				$this->_emptyCache($this->Entry->id, $new_entry['Entry']['tid']);
 				$this->redirect(array( 'action' => 'view', $id ));
 			} else {
-				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.',
-								true));
+				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
 		}
 
-		$this->data = $old_entry;
+		$this->request->data = $old_entry;
 
 		// set sub_nav_left
-		$header_subnav_title = __('back_to_posting_linkname', true) . " " . $this->data['User']['username'];
+		$header_subnav_title = __('back_to_posting_linkname') . " " . $this->request->data['User']['username'];
 		$this->set('headerSubnavLeft',
 				array( 'title' => $header_subnav_title,
 				/** we can't use referer here because of validation error redirects, which would send us back to edit */
 				'url' => array( 'action' => 'view', $id )
 		));
 
-		$this->set('form_title', __('edit_linkname', true));
+		$this->set('form_title', __('edit_linkname'));
 
 
 		$this->_teardownAdd();
@@ -412,7 +410,7 @@ class EntriesController extends AppController {
 
 		// Redirect
 		if ( !$success ) {
-			$this->Session->setFlash(__('delete_tree_error', true), 'flash/error');
+			$this->Session->setFlash(__('delete_tree_error'), 'flash/error');
 			$this->redirect($this->referer());
 		}
 		$this->redirect('/');
@@ -423,15 +421,15 @@ class EntriesController extends AppController {
 	/**
 	 * Empty function for benchmarking
 	 */
-	public function e() {
-		Stopwatch::start('Entries->e()');
-		Stopwatch::stop('Entries->e()');
+	public function echo  {
+		Stopwatch::start('Entries->echo )';
+		Stopwatch::stop('Entries->echo )';
 	}
 
 	public function search() {
 
-//		debug($this->data);
-//		debug($this->params);
+//		debug($this->request->data);
+//		debug($this->request->params);
 //		debug($this->passedArgs);
 		// determine start year for dropdown in form
 		$found_entry = $this->Entry->find('first',
@@ -454,21 +452,21 @@ class EntriesController extends AppController {
 
 		// extract search_term for simple search
 		$search_term = '';
-		if ( isset($this->data['Entry']['search_term']) ) {
-			$search_term = $this->data['Entry']['search_term'];
-		} elseif ( isset($this->params['named']['search_term']) ) {
-			$search_term = $this->params['named']['search_term'];
-		} elseif ( isset($this->params['url']['search_term']) ) {
+		if ( isset($this->request->data['Entry']['search_term']) ) {
+			$search_term = $this->request->data['Entry']['search_term'];
+		} elseif ( isset($this->request->params['named']['search_term']) ) {
+			$search_term = $this->request->params['named']['search_term'];
+		} elseif ( isset($this->request->params['url']['search_term']) ) {
 			// search_term is send via get parameter
-			$search_term = $this->params['url']['search_term'];
+			$search_term = $this->request->params['url']['search_term'];
 		}
 		$this->set('search_term', $search_term);
 
 		if ( isset($this->passedArgs['adv']) ) {
-			$this->params['data']['Entry']['adv'] = 1;
+			$this->request->params['data']['Entry']['adv'] = 1;
 		}
 
-		if ( !isset($this->params['data']['Entry']['adv']) ) {
+		if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 			// Simple Search
 			if ( $search_term ) {
 				Router::connectNamed(array( 'search_term' ));
@@ -496,7 +494,7 @@ class EntriesController extends AppController {
 					$found_entries = $this->paginate('Entry');
 
 					$this->set('FoundEntries', $found_entries);
-					$this->data['Entry']['search']['term'] = $search_term;
+					$this->request->data['Entry']['search']['term'] = $search_term;
 				}
 			}
 		} else {
@@ -518,43 +516,43 @@ class EntriesController extends AppController {
 			$this->redirect('/');
 		}
 
-		extract($this->data['Entry']);
-		unset($this->data);
-		$this->data = array( );
+		extract($this->request->data['Entry']);
+		unset($this->request->data);
+		$this->request->data = array( );
 
-		$this->data['Entry']['subject'] = $subject;
-		$this->data['Entry']['text'] = $text;
-		$this->data['Entry']['category'] = $category;
-		$this->data['Entry']['nsfw'] = $nsfw;
+		$this->request->data['Entry']['subject'] = $subject;
+		$this->request->data['Entry']['text'] = $text;
+		$this->request->data['Entry']['category'] = $category;
+		$this->request->data['Entry']['nsfw'] = $nsfw;
 
-		$this->Entry->set($this->data);
+		$this->Entry->set($this->request->data);
 		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject, text, category' ) ));
 		$errors = $this->Entry->invalidFields();
 
 		if ( count($errors) == 0 ) {
 			// Sanitize before validation: maxLength will fail because of html entities
-			$this->data['Entry']['subject'] = Sanitize::html($subject);
-			$this->data['Entry']['text'] = Sanitize::html($text);
-			$this->data['Entry']['views'] = 0;
-			$this->data['Entry']['time'] = date("Y-m-d H:i:s");
+			$this->request->data['Entry']['subject'] = Sanitize::html($subject);
+			$this->request->data['Entry']['text'] = Sanitize::html($text);
+			$this->request->data['Entry']['views'] = 0;
+			$this->request->data['Entry']['time'] = date("Y-m-d H:i:s");
 
 
-			$this->data['User'] = $this->CurrentUser->getSettings();
+			$this->request->data['User'] = $this->CurrentUser->getSettings();
 
-			$this->data = array_merge($this->data,
+			$this->request->data = array_merge($this->request->data,
 					$this->Entry->Category->find(
 							'first',
 							array(
 							'conditions' => array(
-									'id' => $this->data['Entry']['category']
+									'id' => $this->request->data['Entry']['category']
 							),
 							'contain' => false,
 							)
 					));
-			$this->set('entry', $this->data);
+			$this->set('entry', $this->request->data);
 		} else {
 			foreach ( $errors as $field => $error ) {
-				$message[] = __d('nondynamic', $field, true) . ": " . __d('nondynamic',
+				$message[] = __d('nondynamic', $field) . ": " . __d('nondynamic',
 								$error, true);
 			}
 			$this->set('message', $message);
@@ -575,24 +573,23 @@ class EntriesController extends AppController {
 				'locked',
 		);
 		if ( !in_array($toggle, $allowed_toggles) ) {
-			$this->data = false;
+			$this->request->data = false;
 
 			// check is user is allowed to perform operation
 			// luckily we only mod options in the allowed toggles
 		} elseif ( $this->CurrentUser->isMod() === false ) {
-			$this->data = false;
+			$this->request->data = false;
 		}
 		// let's toggle
 		else {
 			$this->Entry->id = $id;
-			$this->data = $this->Entry->toggle($toggle);
+			$this->request->data = $this->Entry->toggle($toggle);
 			$tid = $this->Entry->field('tid');
 			$this->_emptyCache($id, $tid);
-			return ($this->data == 0) ? __($toggle . '_set_entry_link', true) : __($toggle . '_unset_entry_link',
-							true);
+			return ($this->request->data == 0) ? __($toggle . '_set_entry_link') : __($toggle . '_unset_entry_link');
 		}
 
-		$this->set('json_data', (string) $this->data);
+		$this->set('json_data', (string) $this->request->data);
 		$this->render('/elements/json/json_data');
 
 		// perform toggle
@@ -611,7 +608,7 @@ class EntriesController extends AppController {
 
 		$this->set('isAjax', $this->RequestHandler->isAjax());
 
-		if ( $this->action == 'index' ) {
+		if ( $this->request->action == 'index' ) {
 			if ( $this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0 ) {
 				$this->set('autoPageReload',
 						$this->CurrentUser['user_forum_refresh_time'] * 60);
@@ -654,7 +651,7 @@ class EntriesController extends AppController {
 			$this->set('UsersOnline', $users_online);
 		}
 
-		if ( $this->action != 'index' ) {
+		if ( $this->request->action != 'index' ) {
 			$this->_loadSmilies();
 		}
 
@@ -663,10 +660,10 @@ class EntriesController extends AppController {
 				&& !$this->Session->read('paginator.lastPage')
 				&& (
 				//* deprecated
-				( $this->CurrentUser['user_automaticaly_mark_as_read'] && $this->params['action'] == 'index')
+				( $this->CurrentUser['user_automaticaly_mark_as_read'] && $this->request->params['action'] == 'index')
 				||
 				//* current
-				( isset($this->params['named']['markAsRead']) || isset($this->params['named']['setAsRead']) )
+				( isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead']) )
 				)
 		) {
 
@@ -677,7 +674,7 @@ class EntriesController extends AppController {
 					($this->localReferer('controller') == 'entries' && $this->localReferer('action') == 'index')
 					OR
 					//* current
-					( isset($this->params['named']['setAsRead']) )
+					( isset($this->request->params['named']['setAsRead']) )
 			) {
 				//* all the session stuff ensures that a second session A don't accidentaly mark something as read that isn't read on session B
 				if ( $this->Session->read('User.last_refresh_tmp')
@@ -748,23 +745,23 @@ class EntriesController extends AppController {
 	protected function _setupView($id) {
 		//* redirect if no id is given
 		if ( !$id ) {
-			$this->Session->setFlash(__('Invalid post', true));
+			$this->Session->setFlash(__('Invalid post'));
 			$this->redirect(array( 'action' => 'index' ));
 			return FALSE;
 		}
 
 		$this->Entry->id = $id;
-		$this->data = $this->Entry->read();
+		$this->request->data = $this->Entry->read();
 
 		//* redirect if posting doesn't exists
-		if ( $this->data == FALSE ):
-			$this->Session->setFlash(__('Invalid post', true));
+		if ( $this->request->data == FALSE ):
+			$this->Session->setFlash(__('Invalid post'));
 			$this->redirect(array( '/' ));
 			return FALSE;
 		endif;
 
 		//* check if anonymous tries to access internal catgories
-		if ( $this->data['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
+		if ( $this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
 			$this->redirect('/');
 			return FALSE;
 		}
@@ -773,7 +770,7 @@ class EntriesController extends AppController {
 	}
 
 	protected function _teardownView() {
-		if ( $this->data['Entry']['user_id'] != $this->CurrentUser->getId() ) {
+		if ( $this->request->data['Entry']['user_id'] != $this->CurrentUser->getId() ) {
 			$this->Entry->incrementViews();
 		}
 	}

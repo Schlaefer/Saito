@@ -10,7 +10,7 @@ class TestCategoriesController extends CategoriesController {
 	}
 }
 
-class CategoriesControllerTestCase extends CakeTestCase {
+class CategoriesControllerTest extends CakeTestCase {
 	var $fixtures = array('app.category', 'app.entry', 'app.user', 'app.user_online', 'app.upload');
 
 	function startTest() {

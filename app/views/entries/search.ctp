@@ -1,6 +1,6 @@
 <div id="entry_search">
 	<div class="search_form_wrapper" style="<?php
-if ( isset($this->params['data']['Entry']['adv']) ) {
+if ( isset($this->request->params['data']['Entry']['adv']) ) {
 	echo "display:none;";
 }
 ?>">
@@ -8,28 +8,28 @@ if ( isset($this->params['data']['Entry']['adv']) ) {
 		</div>
 		<div>
 			<?php
-			echo $form->create(null,
+			echo $this->Form->create(null,
 					array(
-					'url' => array_merge(array( 'action' => 'search' ), $this->params['pass']),
+					'url' => array_merge(array( 'action' => 'search' ), $this->request->params['pass']),
 					'type' => 'get',
 					'class' => 'search_form', 'style' => 'height: 40px;', 'inputDefaults' => array( 'div' => false, 'label' => false ) ));
-			echo $form->submit(__('search_submit', true),
+			echo $this->Form->submit(__('search_submit'),
 					array( 'div' => false, 'class' => 'btn_submit btn_search_submit' ));
 			?>
 			<div>
 				<?php
-				echo $form->input('search_term',
+				echo $this->Form->input('search_term',
 						array(
 						'div' => false,
 						'class' => 'search_textfield',
-						'placeholder' => __('search_term', true),
+						'placeholder' => __('search_term'),
 						'value' => $search_term,
 						)
 				);
 				?>
 			</div>
 			<?
-			echo $form->end();
+			echo $this->Form->end();
 			?>
 		</div>
 		<div style="width: 20%;">
@@ -39,22 +39,22 @@ if ( isset($this->params['data']['Entry']['adv']) ) {
 		</div>
 	</div> <!-- search_form_wrapper -->
 	<div class="search_form_wrapper_adv" style="<?php
-if ( !isset($this->params['data']['Entry']['adv']) ) {
+if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 	echo "display:none;";
 }
 ?>">
 				 <?php
 				 echo $this->Form->create('Entry',
 						 array(
-						 'url' => array_merge(array( 'action' => 'search' ), $this->params['pass']),
+						 'url' => array_merge(array( 'action' => 'search' ), $this->request->params['pass']),
 				 ));
 				 ?>
 		<div><?php echo $this->Form->input('subject',
-					array( 'div' => false, 'label' => __('subject', true) )); ?> </div>
+					array( 'div' => false, 'label' => __('subject') )); ?> </div>
 		<div><?php echo $this->Form->input('text',
-					array( 'div' => false, 'label' => __('Text', true), 'type' => 'text' )); ?> </div>
+					array( 'div' => false, 'label' => __('Text'), 'type' => 'text' )); ?> </div>
 		<div><?php echo $this->Form->input('name',
-					array( 'div' => false, 'label' => __('user_name', true) )); ?> </div>
+					array( 'div' => false, 'label' => __('user_name') )); ?> </div>
 		<div>
 			<?php echo __("search_since"); ?>:
 <?php echo $this->Form->month('Entry',
@@ -65,8 +65,7 @@ if ( !isset($this->params['data']['Entry']['adv']) ) {
 		<div><?php echo $this->Form->input('adv',
 					array( 'type' => 'hidden', 'value' => 1 )); ?> </div>
 		<div>
-<?php echo $this->Form->submit(__('search_submit',
-				true), array( 'class' => 'btn_submit' )); ?>
+<?php echo $this->Form->submit(__('search_submit'), array( 'class' => 'btn_submit' )); ?>
 			<a href="#" onclick="$('.search_form_wrapper_adv').slideToggle('', function (){$('.search_form_wrapper').slideToggle();}); return false;">
 				&nbsp;<?php echo __('search_simple'); ?>
 			</a>
@@ -92,22 +91,22 @@ if ( !isset($this->params['data']['Entry']['adv']) ) {
 						endif;
 						?>
 						<?
-						if ( $paginator->hasPrev() )
-							echo $paginator->prev('<span class="prev_img">&nbsp;</span>',
+						if ( $this->Paginator->hasPrev() )
+							echo $this->Paginator->prev('<span class="prev_img">&nbsp;</span>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 						<?
-						echo $paginator->counter(array( 'format' => '%page%/%pages%' ));
+						echo $this->Paginator->counter(array( 'format' => '%page%/%pages%' ));
 						?>
 						<?
-						if ( $paginator->hasNext() )
-							echo $paginator->next('<span class="next_img">&nbsp;</span>',
+						if ( $this->Paginator->hasNext() )
+							echo $this->Paginator->next('<span class="next_img">&nbsp;</span>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 					</div>
 					<? # echo __('search_sort_order'). ":"; ?>
 	<?
-	# echo $paginator->sort(__('search_time', true), 'time');
+	# echo $this->Paginator->sort(__('search_time'), 'time');
 	?>
 					&nbsp;
 				</div>

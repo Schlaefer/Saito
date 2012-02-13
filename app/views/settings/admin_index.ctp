@@ -1,7 +1,7 @@
 <div id="settings_index" class="settings index">
 	<h2>Forum</h2>
 	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
+		<?php echo $this->Html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<tr>
 			<td>
 				<?php echo __('forum_disabled'); ?>
@@ -13,8 +13,8 @@
 				<p><?php echo __('forum_disabled_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled' ),
 										array( 'class' => 'btn' )
 							);
@@ -32,8 +32,8 @@
 				<p><?php echo __('forum_disabled_text_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled_text'),
 								array( 'class' => 'btn' )
 							);
@@ -44,7 +44,7 @@
 	<br />
 	<h2>Misc</h2>
 	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
+		<?php echo $this->Html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<?php foreach( $autoSettings as $k => $v ) : ?>
 		<tr>
 			<td>
@@ -57,8 +57,8 @@
 				<p><?php echo __($k.'_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', $k),
 								array( 'class' => 'btn' )
 							);
@@ -70,7 +70,7 @@
 	<br />
 	<h2>Flattr</h2>
 	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
+		<?php echo $this->Html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<tr>
 			<td>
 				<?php echo __('flattr_enabled'); ?>
@@ -82,8 +82,8 @@
 				<p><?php echo __('flattr_enabled_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_enabled'),
 								array( 'class' => 'btn' )
 							);
@@ -101,8 +101,8 @@
 				<p><?php echo __('flattr_language_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_language'),
 								array( 'class' => 'btn' )
 							);
@@ -120,8 +120,8 @@
 				<p><?php echo __('flattr_category_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_category'),
 								array( 'class' => 'btn' )
 							);
@@ -132,7 +132,7 @@
 	<br/>
 	<h2>Uploads</h2>
 	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
+		<?php echo $this->Html->tableHeaders(array('Key', 'Value', 'Explanation', 'Actions')); ?>
 		<tr>
 			<td>
 				<?php echo __('upload_max_img_size'); ?>
@@ -144,8 +144,8 @@
 				<p><?php echo __('upload_max_img_size_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_img_size'),
 								array( 'class' => 'btn' )
 							);
@@ -163,8 +163,8 @@
 				<p><?php echo __('upload_max_number_of_uploads_exp'); ?></p>
 			</td>
 			<td>
-				<?php echo $html->link(
-								__('edit', true),
+				<?php echo $this->Html->link(
+								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_number_of_uploads'),
 								array( 'class' => 'btn' )
 							);

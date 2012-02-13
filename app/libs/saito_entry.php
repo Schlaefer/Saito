@@ -58,7 +58,7 @@ class SaitoEntry extends Object {
 						# @td refactor out of the function (?)
 						if ($session && $user['id'] != $entry['Entry']['user_id']) {
 							# @ td build into action method when mod panel is done
-							$session->setFlash(__('notice_you_are_editing_as_mod', true), 'flash/warning');
+							$session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 						}
 						$verboten = false;
 					}
@@ -85,7 +85,7 @@ class SaitoEntry extends Object {
 
 	public function isDeletingForbidden($entry, $user, $options = array()) {
 		if(!isset($entry)) {
-			trigger_error(sprintf(__('Could not find entry to delete.', true), $name), E_USER_WARNING);
+			trigger_error(sprintf(__('Could not find entry to delete.'), $name), E_USER_WARNING);
 		}
 		$forbidden = true;
 

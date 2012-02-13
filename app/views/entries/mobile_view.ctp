@@ -24,12 +24,12 @@
 			</h3>
 			<p class="ui-li-desc">
 				<strong>
-					<?php echo $entry['User']['username'] ?> – <?php echo $timeH->formatTime($entry['Entry']['time']); ?>
+					<?php echo $entry['User']['username'] ?> – <?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>
 				</strong>
 			</p>
 		</div>
 		<br />
 		<div>
-			<?php echo $bbcode->parse($entry['Entry']['text']); ?> 
+			<?php echo $this->Bbcode->parse($entry['Entry']['text']); ?> 
 		</div>
 	</div><!-- /content -->

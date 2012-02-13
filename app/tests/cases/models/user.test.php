@@ -4,7 +4,7 @@
 App::import('Model', 'User');
 App::import('Lib', 'Security');
 
-class UserTestCase extends CakeTestCase {
+class UserTest extends CakeTestCase {
 
 	var $fixtures = array( 'app.user', 'app.user_online', 'app.entry', 'app.category', 'app.smiley', 'app.smiley_code', 'app.setting', 'app.upload' );
 

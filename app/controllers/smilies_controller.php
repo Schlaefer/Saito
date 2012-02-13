@@ -17,45 +17,45 @@ class SmiliesController extends AppController {
 	}
 
 	public function admin_add() {
-		if (!empty($this->data)) {
+		if (!empty($this->request->data)) {
 			$this->Smiley->create();
-			if ($this->Smiley->save($this->data)) {
-				$this->Session->setFlash(__('The smily has been saved', true));
+			if ($this->Smiley->save($this->request->data)) {
+				$this->Session->setFlash(__('The smily has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The smily could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The smily could not be saved. Please, try again.'));
 			}
 		}
 	}
 
 	public function admin_edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid smily', true));
+		if (!$id && empty($this->request->data)) {
+			$this->Session->setFlash(__('Invalid smily'));
 			$this->redirect(array('action' => 'index'));
 		}
-		if (!empty($this->data)) {
-			if ($this->Smiley->save($this->data)) {
-				$this->Session->setFlash(__('The smily has been saved', true));
+		if (!empty($this->request->data)) {
+			if ($this->Smiley->save($this->request->data)) {
+				$this->Session->setFlash(__('The smily has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The smily could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The smily could not be saved. Please, try again.'));
 			}
 		}
-		if (empty($this->data)) {
-			$this->data = $this->Smiley->read(null, $id);
+		if (empty($this->request->data)) {
+			$this->request->data = $this->Smiley->read(null, $id);
 		}
 	}
 
 	public function admin_delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for smily', true));
+			$this->Session->setFlash(__('Invalid id for smily'));
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->Smiley->delete($id)) {
-			$this->Session->setFlash(__('Smily deleted', true));
+			$this->Session->setFlash(__('Smily deleted'));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Session->setFlash(__('Smily was not deleted', true));
+		$this->Session->setFlash(__('Smily was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
 }

@@ -1,28 +1,28 @@
-<h1><?php echo __('change_password_link', true).': '.$this->data['User']['username']; ?></h1>
+<h1><?php echo __('change_password_link').': '.$this->request->data['User']['username']; ?></h1>
 <div class='fieldset_1'>
 	<?php
-	 echo $form->create('User');
-	 echo $form->input('password_old', array(
+	 echo $this->Form->create('User');
+	 echo $this->Form->input('password_old', array(
 			 'type'=>'password',
-			 'label'	=> __('change_password_old_password', true),
+			 'label'	=> __('change_password_old_password'),
 			 'div' => array( 'class'	=> 'input password required' ),
 			 'error' => array (
-					 'notEmpty'	=> __('error_password_empty', true),
-					 'pwCheckOld'	=> __('error_password_check_old', true),
+					 'notEmpty'	=> __('error_password_empty'),
+					 'pwCheckOld'	=> __('error_password_check_old'),
 			 )));
-	 echo $form->input('user_password', array(
+	 echo $this->Form->input('user_password', array(
 			 'type'=>'password',
-			 'label'	=> __('change_password_new_password', true),
+			 'label'	=> __('change_password_new_password'),
 			 'div'		=> array( 'class' => 'required' ),
 			 'error' => array (
-					 'notEmpty'	=> __('error_password_empty', true),
-					 'pwConfirm'	=> __('error_password_confirm', true),
+					 'notEmpty'	=> __('error_password_empty'),
+					 'pwConfirm'	=> __('error_password_confirm'),
 			 )));
-	 echo $form->input('password_confirm', array(
+	 echo $this->Form->input('password_confirm', array(
 			 'type'=>'password',
-			 'label'	=> __('change_password_new_password_confirm', true),
+			 'label'	=> __('change_password_new_password_confirm'),
 			 ));
-	 echo $form->submit(__('change_password_btn_submit', true), array( 'class'=> 'btn_submit'));
-	 echo $form->end();
+	 echo $this->Form->submit(__('change_password_btn_submit'), array( 'class'=> 'btn_submit'));
+	 echo $this->Form->end();
 	?>
 </div>

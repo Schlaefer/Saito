@@ -2,7 +2,7 @@
 /* UserH Test cases generated on: 2011-05-08 10:48:46 : 1304844526*/
 App::import('Helper', 'UserH');
 
-class UserHHelperTestCase extends CakeTestCase {
+class UserHHelperTest extends CakeTestCase {
 	var $fixtures = array('app.setting');
 
 	public function testUserRank() {

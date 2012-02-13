@@ -1,1 +1,1 @@
-<?php echo $js->object($json_data); ?>
+<?php echo $this->Js->object($json_data); ?>

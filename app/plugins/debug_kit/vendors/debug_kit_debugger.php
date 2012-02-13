@@ -88,7 +88,7 @@ class DebugKitDebugger extends Debugger {
  * @static
  **/
 	function startTimer($name = null, $message = null) {
-		$start = getMicrotime();
+		$start = microtime(true);
 		$_this =& DebugKitDebugger::getInstance();
 
 		if (!$name) {
@@ -132,7 +132,7 @@ class DebugKitDebugger extends Debugger {
  * @static
  */
 	function stopTimer($name = null) {
-		$end = getMicrotime();
+		$end = microtime(true);
 		$_this =& DebugKitDebugger::getInstance();
 		if (!$name) {
 			$names = array_reverse(array_keys($_this->__benchmarks));
@@ -172,7 +172,7 @@ class DebugKitDebugger extends Debugger {
 	function getTimers($clear = false) {
 		$_this =& DebugKitDebugger::getInstance();
 		$start = DebugKitDebugger::requestStartTime();
-		$now = getMicrotime();
+		$now = microtime(true);
 
 		$times = array();
 		if (!empty($_this->__benchmarks)) {
@@ -182,7 +182,7 @@ class DebugKitDebugger extends Debugger {
 			$_end = $now;
 		}
 		$times['Core Processing (Derived)'] = array(
-			'message' => __d('debug_kit', 'Core Processing (Derived)', true),
+			'message' => __d('debug_kit', 'Core Processing (Derived)'),
 			'start' => 0,
 			'end' => $_end - $start,
 			'time' => round($_end - $start, 6),

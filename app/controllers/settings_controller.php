@@ -26,7 +26,7 @@ class SettingsController extends AppController {
 	);
 
 	public function admin_index() {
-		$settings = $this->data = $this->Setting->getSettings();
+		$settings = $this->request->data = $this->Setting->getSettings();
 		$this->set('Settings', $settings);
 		$settings = array_intersect_key($settings, $this->_currentlyUsedSettings);
 		ksort($settings);
@@ -40,11 +40,11 @@ class SettingsController extends AppController {
 
 		$this->Setting->id = $id;
 
-		if ( empty($this->data) ){
-			$this->data = $this->Setting->read();
+		if ( empty($this->request->data) ){
+			$this->request->data = $this->Setting->read();
 		}
 		else {
-			if ( $this->Setting->save($this->data) ) {
+			if ( $this->Setting->save($this->request->data) ) {
 				$this->Setting->load();
 				$this->Session->setFlash('Saved. @lo', 'flash/notice');
 				$this->redirect( array('action' => 'index', $id) );

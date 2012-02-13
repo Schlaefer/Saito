@@ -30,14 +30,14 @@ else:
 endif;
 ?>
 <div class="debug-info">
-	<h2><?php __d('debug_kit', 'Memory'); ?></h2>
+	<h2><?php echo __d('debug_kit', 'Memory'); ?></h2>
 	<div class="peak-mem-use">
 	<?php
-		echo $toolbar->message(__d('debug_kit', 'Peak Memory Use', true), $number->toReadableSize($peakMemory)); ?>
+		echo $toolbar->message(__d('debug_kit', 'Peak Memory Use'), $number->toReadableSize($peakMemory)); ?>
 	</div>
 
 	<?php
-	$headers = array(__d('debug_kit', 'Message', true), __d('debug_kit', 'Memory use', true));
+	$headers = array(__d('debug_kit', 'Message'), __d('debug_kit', 'Memory use'));
 	$memoryPoints = DebugKitDebugger::getMemoryPoints();
 
 	$rows = array();
@@ -50,10 +50,10 @@ endif;
 </div>
 
 <div class="debug-info debug-timers">
-	<h2><?php __d('debug_kit', 'Timers'); ?></h2>
+	<h2><?php echo __d('debug_kit', 'Timers'); ?></h2>
 	<div class="request-time">
-		<?php $totalTime = sprintf(__d('debug_kit', '%s (ms)', true), $number->precision($requestTime * 1000, 0)); ?>
-		<?php echo $toolbar->message(__d('debug_kit', 'Total Request Time:', true), $totalTime)?>
+		<?php $totalTime = sprintf(__d('debug_kit', '%s (ms)'), $number->precision($requestTime * 1000, 0)); ?>
+		<?php echo $toolbar->message(__d('debug_kit', 'Total Request Time:'), $totalTime)?>
 	</div>
 <?php
 $rows = array();
@@ -61,9 +61,9 @@ $end = end($timers);
 $maxTime = $end['end'];
 
 $headers = array(
-	__d('debug_kit', 'Message', true),
-	__d('debug_kit', 'Time in ms', true),
-	__d('debug_kit', 'Graph', true)
+	__d('debug_kit', 'Message'),
+	__d('debug_kit', 'Time in ms'),
+	__d('debug_kit', 'Graph')
 );
 
 $i = 0;

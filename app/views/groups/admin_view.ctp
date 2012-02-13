@@ -1,22 +1,22 @@
 <div class="groups view">
-<h2><?php  __('Group');?></h2>
+<h2><?php echo __('Group');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Id'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $group['Group']['id']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Name'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Name'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $group['Group']['name']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $group['Group']['created']; ?>
 			&nbsp;
 		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
+		<dt<?php if ($i % 2 == 0) echo $class;?>><?php echo __('Modified'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
 			<?php echo $group['Group']['modified']; ?>
 			&nbsp;
@@ -24,70 +24,70 @@
 	</dl>
 </div>
 <div class="actions">
-	<h3><?php __('Actions'); ?></h3>
+	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Group', true), array('action' => 'edit', $group['Group']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Delete Group', true), array('action' => 'delete', $group['Group']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $group['Group']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Groups', true), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Group', true), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users', true), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User', true), array('controller' => 'users', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('Edit Group'), array('action' => 'edit', $group['Group']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Delete Group'), array('action' => 'delete', $group['Group']['id']), null, sprintf(__('Are you sure you want to delete # %s?'), $group['Group']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('List Groups'), array('action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Group'), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
-	<h3><?php __('Related Users');?></h3>
+	<h3><?php echo __('Related Users');?></h3>
 	<?php if (!empty($group['User'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
-		<th><?php __('Id'); ?></th>
-		<th><?php __('User Type'); ?></th>
-		<th><?php __('Group Id'); ?></th>
-		<th><?php __('Username'); ?></th>
-		<th><?php __('User Real Name'); ?></th>
-		<th><?php __('Password'); ?></th>
-		<th><?php __('User Email'); ?></th>
-		<th><?php __('Hide Email'); ?></th>
-		<th><?php __('User Hp'); ?></th>
-		<th><?php __('User Place'); ?></th>
-		<th><?php __('Signature'); ?></th>
-		<th><?php __('Profile'); ?></th>
-		<th><?php __('Entry Count'); ?></th>
-		<th><?php __('Logins'); ?></th>
-		<th><?php __('Last Login'); ?></th>
-		<th><?php __('Last Logout'); ?></th>
-		<th><?php __('Registered'); ?></th>
-		<th><?php __('Last Refresh'); ?></th>
-		<th><?php __('Last Refresh Tmp'); ?></th>
-		<th><?php __('User View'); ?></th>
-		<th><?php __('New Posting Notify'); ?></th>
-		<th><?php __('New User Notify'); ?></th>
-		<th><?php __('Personal Messages'); ?></th>
-		<th><?php __('Time Difference'); ?></th>
-		<th><?php __('User Lock'); ?></th>
-		<th><?php __('Pwf Code'); ?></th>
-		<th><?php __('Activate Code'); ?></th>
-		<th><?php __('User Font Size'); ?></th>
-		<th><?php __('User Signatures Hide'); ?></th>
-		<th><?php __('User Signatures Images Hide'); ?></th>
-		<th><?php __('User Categories'); ?></th>
-		<th><?php __('User Forum Refresh Time'); ?></th>
-		<th><?php __('User Forum Hr Ruler'); ?></th>
-		<th><?php __('User Automaticaly Mark As Read'); ?></th>
-		<th><?php __('User Sort Last Answer'); ?></th>
-		<th><?php __('User Color New Postings'); ?></th>
-		<th><?php __('User Color Actual Posting'); ?></th>
-		<th><?php __('User Color Old Postings'); ?></th>
-		<th><?php __('User Show Own Signature'); ?></th>
-		<th><?php __('Slidetab Order'); ?></th>
-		<th><?php __('Show Userlist'); ?></th>
-		<th><?php __('Show Recentposts'); ?></th>
-		<th><?php __('Show About'); ?></th>
-		<th><?php __('Show Donate'); ?></th>
-		<th><?php __('Inline View On Click'); ?></th>
-		<th><?php __('Flattr Uid'); ?></th>
-		<th><?php __('Flattr Allow User'); ?></th>
-		<th><?php __('Flattr Allow Posting'); ?></th>
-		<th class="actions"><?php __('Actions');?></th>
+		<th><?php echo __('Id'); ?></th>
+		<th><?php echo __('User Type'); ?></th>
+		<th><?php echo __('Group Id'); ?></th>
+		<th><?php echo __('Username'); ?></th>
+		<th><?php echo __('User Real Name'); ?></th>
+		<th><?php echo __('Password'); ?></th>
+		<th><?php echo __('User Email'); ?></th>
+		<th><?php echo __('Hide Email'); ?></th>
+		<th><?php echo __('User Hp'); ?></th>
+		<th><?php echo __('User Place'); ?></th>
+		<th><?php echo __('Signature'); ?></th>
+		<th><?php echo __('Profile'); ?></th>
+		<th><?php echo __('Entry Count'); ?></th>
+		<th><?php echo __('Logins'); ?></th>
+		<th><?php echo __('Last Login'); ?></th>
+		<th><?php echo __('Last Logout'); ?></th>
+		<th><?php echo __('Registered'); ?></th>
+		<th><?php echo __('Last Refresh'); ?></th>
+		<th><?php echo __('Last Refresh Tmp'); ?></th>
+		<th><?php echo __('User View'); ?></th>
+		<th><?php echo __('New Posting Notify'); ?></th>
+		<th><?php echo __('New User Notify'); ?></th>
+		<th><?php echo __('Personal Messages'); ?></th>
+		<th><?php echo __('Time Difference'); ?></th>
+		<th><?php echo __('User Lock'); ?></th>
+		<th><?php echo __('Pwf Code'); ?></th>
+		<th><?php echo __('Activate Code'); ?></th>
+		<th><?php echo __('User Font Size'); ?></th>
+		<th><?php echo __('User Signatures Hide'); ?></th>
+		<th><?php echo __('User Signatures Images Hide'); ?></th>
+		<th><?php echo __('User Categories'); ?></th>
+		<th><?php echo __('User Forum Refresh Time'); ?></th>
+		<th><?php echo __('User Forum Hr Ruler'); ?></th>
+		<th><?php echo __('User Automaticaly Mark As Read'); ?></th>
+		<th><?php echo __('User Sort Last Answer'); ?></th>
+		<th><?php echo __('User Color New Postings'); ?></th>
+		<th><?php echo __('User Color Actual Posting'); ?></th>
+		<th><?php echo __('User Color Old Postings'); ?></th>
+		<th><?php echo __('User Show Own Signature'); ?></th>
+		<th><?php echo __('Slidetab Order'); ?></th>
+		<th><?php echo __('Show Userlist'); ?></th>
+		<th><?php echo __('Show Recentposts'); ?></th>
+		<th><?php echo __('Show About'); ?></th>
+		<th><?php echo __('Show Donate'); ?></th>
+		<th><?php echo __('Inline View On Click'); ?></th>
+		<th><?php echo __('Flattr Uid'); ?></th>
+		<th><?php echo __('Flattr Allow User'); ?></th>
+		<th><?php echo __('Flattr Allow Posting'); ?></th>
+		<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
 		$i = 0;
@@ -147,9 +147,9 @@
 			<td><?php echo $user['flattr_allow_user'];?></td>
 			<td><?php echo $user['flattr_allow_posting'];?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'users', 'action' => 'view', $user['id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'users', 'action' => 'edit', $user['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'users', 'action' => 'delete', $user['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $user['id'])); ?>
+				<?php echo $this->Html->link(__('View'), array('controller' => 'users', 'action' => 'view', $user['id'])); ?>
+				<?php echo $this->Html->link(__('Edit'), array('controller' => 'users', 'action' => 'edit', $user['id'])); ?>
+				<?php echo $this->Html->link(__('Delete'), array('controller' => 'users', 'action' => 'delete', $user['id']), null, sprintf(__('Are you sure you want to delete # %s?'), $user['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
@@ -158,7 +158,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(__('New User', true), array('controller' => 'users', 'action' => 'add'));?> </li>
+			<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add'));?> </li>
 		</ul>
 	</div>
 </div>

@@ -31,7 +31,7 @@
 /**
  * installer route
  */
-if ( !file_exists(CONFIGS . 'installed.txt') ) :
+if ( !file_exists(APP . 'Config' . DS . 'installed.txt') ) :
 	Router::connect('/', array( 'plugin' => 'install', 'controller' => 'install', 'action' => 'index' ));
 else :
 	Router::connect('/', array( 'controller' => 'entries', 'action' => 'index', 'home' ));

@@ -50,7 +50,7 @@ $threeHourTreshold = time() - (3 * 3600);
 					endif;
 				?>>
 					<?php
-						$href = "{$this->webroot}mobile/entries/mix/{$entry['Entry']['tid']}";
+						$href = "{$this->request->webroot}mobile/entries/mix/{$entry['Entry']['tid']}";
 						if ( $entry['Entry']['id'] != $entry['Entry']['tid'] ):
 							$href .= "/jump:{$entry['Entry']['id']}";
 						endif;
@@ -63,7 +63,7 @@ $threeHourTreshold = time() - (3 * 3600);
 						</h3>
 						<p class="ui-li-desc">
 							<strong>
-								<?php echo $entry['User']['username'] ?> – <?php echo $timeH->formatTime($entry['Entry']['time']); ?>
+								<?php echo $entry['User']['username'] ?> – <?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>
 							</strong>
 						</p>
 						<p class="ui-li-desc">

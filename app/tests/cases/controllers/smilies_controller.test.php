@@ -10,7 +10,7 @@ class TestSmiliesController extends SmiliesController {
 	}
 }
 
-class SmiliesControllerTestCase extends CakeTestCase {
+class SmiliesControllerTest extends CakeTestCase {
 	var $fixtures = array('app.smiley', 'app.smiley_code', 'app.user', 'app.user_online', 'app.entry', 'app.category', 'app.upload');
 
 	function startTest() {

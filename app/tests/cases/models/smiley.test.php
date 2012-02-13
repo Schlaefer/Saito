@@ -2,7 +2,7 @@
 /* Smily Test cases generated on: 2011-04-28 21:04:11 : 1304017691*/
 App::import('Model', 'Smily');
 
-class SmileyTestCase extends CakeTestCase {
+class SmileyTest extends CakeTestCase {
 	var $fixtures = array('app.smiley', 'app.smiley_code');
 
 	public function testLoad() {

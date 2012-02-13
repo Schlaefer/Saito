@@ -1,9 +1,9 @@
-<? if (isset($paginator) && $this->params['action'] == 'index') : ?>
+<? if (isset($paginator) && $this->request->params['action'] == 'index') : ?>
 	<span class="paginator">
 		<?php
 		$this->Paginator->options(array('url' => null));
 
-			echo $paginator->prev(
+			echo $this->Paginator->prev(
 							'<span class="prev_img">&nbsp;</span>',
 							array(
 									'escape'	=> false,
@@ -14,11 +14,11 @@
 		?>
 
 		<span style="padding: 0 1px;">
-			<?php echo $paginator->current(); ?>
+			<?php echo $this->Paginator->current(); ?>
 		</span>
 
 		<?php
-			echo $paginator->next(
+			echo $this->Paginator->next(
 							'<span class="next_img">&nbsp;</span>',
 							array(
 									'escape'	=> false,

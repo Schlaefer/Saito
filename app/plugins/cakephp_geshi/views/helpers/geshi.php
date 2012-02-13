@@ -24,7 +24,7 @@ class GeshiHelper extends AppHelper {
  *
  * @var string
  */
-	public $configPath = CONFIGS;
+	public $configPath = APP . 'Config' . DS;
 
 /**
  * The Container Elements that could contain highlightable code

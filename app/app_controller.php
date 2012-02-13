@@ -116,7 +116,7 @@ class AppController extends Controller {
 		//* configure Stopwatch
 		if (Configure::read('debug') == 0) Stopwatch::disable();
 		// Schlaefers Developer Privilege 
-		// if ($this->CurrentUser['username'] === 'Schlaefer' ) Stopwatch::enable();
+		if ($this->CurrentUser['username'] === 'Schlaefer' ) Stopwatch::enable();
 
 		$this->_setupSlideTabs();
 
@@ -162,7 +162,7 @@ class AppController extends Controller {
 			$suffix = $this->viewVars['title_for_layout'];
 		} else {
 			$untranslated = $this->params['controller'] . '/' . $this->params['action'];
-			$translated = __d('page_titles', $untranslated, true);
+			$translated = __d('page_titles', $untranslated);
 			if ( $translated != $untranslated ) {
 				$suffix = $translated;
 			}

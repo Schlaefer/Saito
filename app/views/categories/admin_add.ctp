@@ -1,23 +1,22 @@
-<?php $this->Html->addCrumb(__('Categories', true), '/admin/categories'); ?>
-<?php $this->Html->addCrumb(__('Add Category',
-				true), '/admin/categories/add'); ?>
+<?php $this->Html->addCrumb(__('Categories'), '/admin/categories'); ?>
+<?php $this->Html->addCrumb(__('Add Category'), '/admin/categories/add'); ?>
 
 <div class="categories form">
 	<?php echo $this->Form->create('Category'); ?>
 	<fieldset>
-		<legend><?php __('Add Category'); ?></legend>
+		<legend><?php echo __('Add Category'); ?></legend>
 		<?php
 //		echo $this->Form->input('category_order');
 		echo $this->Form->input('category', array( 'label' => 'Title' ));
 		echo $this->Form->input('description');
 		echo $this->Form->input('accession',
 				array(
-						'label' => __('Accession', true),
+						'label' => __('Accession'),
 				'options' =>
 				array(
-						0 => __('Anonymous', true),
-						1 => __('User', true),
-						2 => __('Mod', true),
+						0 => __('Anonymous'),
+						1 => __('User'),
+						2 => __('Mod'),
 				)
 				)
 		);

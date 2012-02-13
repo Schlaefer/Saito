@@ -15,17 +15,17 @@ class InstallersController extends AppController {
 			exit();
 		}
 
-		$this->__executeSQLScript($db, CONFIGS . 'schema' . DS . 'schema.sql');
+		$this->__executeSQLScript($db, APP . 'Config' . DS . 'schema' . DS . 'schema.sql');
 		$this->redirect('/installers/done');
 	}
 
 	public function done() {
-		file_put_contents(CONFIGS . 'installed.txt', date('Y-m-d, H:i:s'));
+		file_put_contents(APP . 'Config' . DS . 'installed.txt', date('Y-m-d, H:i:s'));
 	}
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		if (file_exists(CONFIGS . 'installed.txt')) {
+		if (file_exists(APP . 'Config' . DS . 'installed.txt')) {
 			echo 'Application already installed. Remove app/config/installed.txt to reinstall the application';
 			exit();
 		}

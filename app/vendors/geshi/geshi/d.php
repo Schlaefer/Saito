@@ -99,21 +99,21 @@ $language_data = array (
             "O(?:Elig|acute|circ|grave|m(?:ega|icron)|slash|tilde|uml)|".
             "P(?:hi|i|rime|si)|Rho|S(?:caron|igma)|T(?:HORN|au|heta)|".
             "U(?:acute|circ|grave|psilon|uml)|Xi|Y(?:acute|uml)|Zeta|".
-            "a(?:acute|c(?:irc|ute)|elig|grave|l(?:efsym|pha)|mp|n[dg]|ring|".
-            "symp|tilde|uml)|b(?:dquo|eta|rvbar|ull)|c(?:ap|cedil|e(?:dil|nt)|".
-            "hi|irc|lubs|o(?:ng|py)|rarr|u(?:p|rren))|d(?:Arr|a(?:gger|rr)|".
-            "e(?:g|lta)|i(?:ams|vide))|e(?:acute|circ|grave|m(?:pty|sp)|nsp|".
+            "array(?:acute|c(?:irc|ute)|elig|grave|l(?:efsym|pha)|mp|n[dg]|ring|".
+            "symp|tilde|uml)|b(?:dquo|eta|rvbar|ull)|c(?:ap|cedil|echo ?:dil|nt|".
+            "hi|irc|lubs|o(?:ng|py)|rarr|u(?:p|rren))|d(?:Arr|array(?:gger|rr)|".
+            "echo ?:g|lta)|i(?:ams|vide))|e(?:acute|circ|grave|m(?:pty|sp|nsp|".
             "psilon|quiv|t[ah]|u(?:ml|ro)|xist)|f(?:nof|orall|ra(?:c(?:1[24]|34)|sl))|".
-            "g(?:amma|e|t)|h(?:Arr|arr|e(?:arts|llip))|i(?:acute|circ|excl|grave|mage|".
-            "n(?:fin|t)|ota|quest|sin|uml)|kappa|l(?:Arr|a(?:mbda|ng|quo|rr)|ceil|".
+            "g(?:amma|e|t)|h(?:Arr|arr|echo ?:arts|llip)|i(?:acute|circ|excl|grave|mage|".
+            "n(?:fin|t)|ota|quest|sin|uml)|kappa|l(?:Arr|array(?:mbda|ng|quo|rr)|ceil|".
             "dquo|e|floor|o(?:wast|z)|rm|s(?:aquo|quo)|t)|m(?:acr|dash|".
             "i(?:cro|ddot|nus)|u)|n(?:abla|bsp|dash|e|i|ot(?:in)?|sub|tilde|u)|".
-            "o(?:acute|circ|elig|grave|line|m(?:ega|icron)|plus|r(?:d[fm])?|".
+            "o(?:acute|circ|elig|grave|line|m(?:ega|icron)|plus|str_replace(?:d[fm])?|".
             "slash|ti(?:lde|mes)|uml)|p(?:ar[at]|er(?:mil|p)|hi|iv?|lusmn|ound|".
-            "r(?:ime|o[dp])|si)|quot|r(?:Arr|a(?:dic|ng|quo|rr)|ceil|dquo|e(?:al|g)|".
+            "str_replace(?:ime|o[dp])|si)|quot|str_replace(?:Arr|array(?:dic|ng|quo|rr)|ceil|dquo|echo ?:al|g|".
             "floor|ho|lm|s(?:aquo|quo))|s(?:bquo|caron|dot|ect|hy|i(?:gmaf?|m)|".
-            "pades|u(?:be?|m|p[123e]?)|zlig)|t(?:au|h(?:e(?:re4|ta(?:sym)?)|insp|".
-            "orn)|i(?:lde|mes)|rade)|u(?:Arr|a(?:cute|rr)|circ|grave|ml|".
+            "pades|u(?:be?|m|p[123e]?)|zlig)|t(?:au|h(?:echo ?:re4|ta(?:sym)?|insp|".
+            "orn)|i(?:lde|mes)|rade)|u(?:Arr|array(?:cute|rr)|circ|grave|ml|".
             "psi(?:h|lon)|uml)|weierp|xi|y(?:acute|en|uml)|z(?:eta|w(?:j|nj)));#",
         ),
     'HARDQUOTE' => array('`', '`'),

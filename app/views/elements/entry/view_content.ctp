@@ -8,9 +8,9 @@
 			<?php
 				$subject = $this->EntryH->getSubject($entry);
 				// only make subject a link if it is not in entries/view
-//				debug($this->action); debug($last_action); debug($isAjax);
-				if ($this->action !== 'preview' && ( $isAjax || $this->action === 'mix')) {
-					echo $html->link(
+//				debug($this->request->action); debug($last_action); debug($isAjax);
+				if ($this->request->action !== 'preview' && ( $isAjax || $this->request->action === 'mix')) {
+					echo $this->Html->link(
 							$subject,
 							array(
 									'controller' => 'entries',
@@ -27,7 +27,7 @@
 					echo $subject;
 				}
 			?>
-			<?php # echo $html->link('('.$entry['Category']['category'].')', "@td", array ( 'class' => 'category_acs_'.$entry['Category']['accession'],)); ?>
+			<?php # echo $this->Html->link('('.$entry['Category']['category'].')', "@td", array ( 'class' => 'category_acs_'.$entry['Category']['accession'],)); ?>
 			<?php 	echo "<span class='category_acs_{$entry['Category']['accession']}'>({$entry['Category']['category']})</span>";  ?>
 
 		</h2>
@@ -36,7 +36,7 @@
 			<?= __('forum_author_marking'); ?>
 
 			<? if ($CurrentUser->isLoggedIn()) : ?>
-				<?= $html->link($entry['User']['username'],
+				<?= $this->Html->link($entry['User']['username'],
 																array( 'controller' => 'users', 'action' => 'view', $entry['User']['id'])
 										); ?>,
 				<?=  (!empty($entry['User']['user_place'])) ? $entry['User']['user_place'].',' : '' ;  ?>
@@ -44,8 +44,8 @@
 				<strong><?= $entry['User']['username'] ?></strong>,
 			<? endif; ?>
 
-			<?php /* <span title="<?php echo $timeH->formatTime($entry['Entry']['time']); ?>"><?php echo $timeH->formatTime($entry['Entry']['time'], 'glasen'); ?></span>, */ ?>
-			<?php  echo $timeH->formatTime($entry['Entry']['time']); ?>,
+			<?php /* <span title="<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry['Entry']['time'], 'glasen'); ?></span>, */ ?>
+			<?php  echo $this->TimeH->formatTime($entry['Entry']['time']); ?>,
 			<?= __('views_headline') ?>: <?= $entry['Entry']['views'] ?>
 			<? if ( $entry['Entry']['nsfw'] ): ?>
 				<div class="sprite-nbs-explicit"></div>
@@ -61,4 +61,4 @@
 			<? endif; ?>
 		</div>
 
-		<div class='posting'> <?php echo $bbcode->parse($entry['Entry']['text']); ?> </div>
+		<div class='posting'> <?php echo $this->Bbcode->parse($entry['Entry']['text']); ?> </div>

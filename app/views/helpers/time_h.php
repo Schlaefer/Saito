@@ -40,7 +40,7 @@ class TimeHHelper extends AppHelper {
 			$time = strftime("%H:%M", $timestamp);
 		} elseif ($timestamp > ($this->today - 64800)) {
 		// yesterday but in the last 18 hours
-			$time = __('yesterday', true) . ' ' . $time = strftime("%H:%M", $timestamp);
+			$time = __('yesterday') . ' ' . $time = strftime("%H:%M", $timestamp);
 		} else {
 		// yesterday and 18 hours and older
 			$time = strftime("%d.%m.%Y %H:%M", $timestamp);
@@ -58,7 +58,7 @@ class TimeHHelper extends AppHelper {
 		if ($timestamp > $this->today || $timestamp > ( $this->now - 21600 )) {
 			$time = $this->Glasenuhr->ftime($timestamp);
 		} elseif ($timestamp > $this->today - 64800) {
-			$time = __('yesterday', true) . ' ' . $this->Glasenuhr->ftime($timestamp);
+			$time = __('yesterday') . ' ' . $this->Glasenuhr->ftime($timestamp);
 		} else {
 			$time = strftime("%d.%m.%Y", $timestamp) . ' ' . $this->Glasenuhr->ftime($timestamp);
 		}

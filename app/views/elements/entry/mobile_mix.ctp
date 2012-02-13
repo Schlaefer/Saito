@@ -20,12 +20,12 @@ $level = 0;
 			</h2>
 			<p class="ui-li-desc">
 				<?php
-				echo $timeH->formatTime($entry_sub['Entry']['time']);
+				echo $this->TimeH->formatTime($entry_sub['Entry']['time']);
 				?>
 			</p>
 			<br />
 			<div>
-		<?php echo $bbcode->parse($entry_sub['Entry']['text']); ?>
+		<?php echo $this->Bbcode->parse($entry_sub['Entry']['text']); ?>
 			</div>
 		</div>
 		<? if ( isset($entry_sub['_children']) ) : ?>

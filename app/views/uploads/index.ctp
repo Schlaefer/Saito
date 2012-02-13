@@ -14,7 +14,7 @@
 	<div class="content">
 			<?php if ( $isUploadAllowed ) : ?>
 			<div class="upload_box" style="display: table;">
-	<?php echo $form->create('Upload',
+	<?php echo $this->Form->create('Upload',
 			array( 'action' => 'add', 'type' => 'file', 'inputDefaults' => array( 'div' => false, 'label' => false ) )); ?>
 				<div style="display: table-row">
 					<div class="upload_box_header" style= display:table-cell;">
@@ -26,15 +26,14 @@
 				<div style="display: table-row;">
 					<div class="upload_box_footer" style="display: table-cell; ">
 						<div style="position: relative;">
-	<?php echo $form->button(__("upload_btn",
-					true), array( 'class' => 'btn_submit', 'type' => 'button' )); ?>
+	<?php echo $this->Form->button(__("upload_btn"), array( 'class' => 'btn_submit', 'type' => 'button' )); ?>
 							<div style="position: absolute; z-index: 2; top:0; right: 0; width: 100%; opacity: 0; cursor: pointer; overflow: hidden; " >
-				<?php echo $fileUpload->input(array( 'style' => 'width: 150px;', 'onchange' => 'this.form.submit();' )); ?>
+				<?php echo $this->FileUpload->input(array( 'style' => 'width: 150px;', 'onchange' => 'this.form.submit();' )); ?>
 							</div>
 						</div>
 					</div>
 				</div>
-	<?php echo $form->end(); ?>
+	<?php echo $this->Form->end(); ?>
 			</div>
 					<?php endif; ?>
 					<?php foreach ( $images as $image ) : ?>
@@ -42,9 +41,9 @@
 				<div style="position: absolute;">
 					<div class="upload_box_delete" style="position: absolute;">
 						<?php
-						echo $html->link(
-								$html->image('close_db.png',
-										array( 'alt' => __('upload_btn_delete_upload', true) )),
+						echo $this->Html->link(
+								$this->Html->image('close_db.png',
+										array( 'alt' => __('upload_btn_delete_upload') )),
 								array(
 								'controller' => 'uploads',
 								'action' => 'delete',
@@ -52,7 +51,7 @@
 								),
 								array(
 								'escape' => false,
-								'title' => __('upload_btn_delete_upload', true),
+								'title' => __('upload_btn_delete_upload'),
 								), 'Wirklich löschen?');
 						?>
 					</div>
@@ -60,10 +59,10 @@
 				<div style="display: table-row;">
 					<div class="upload_box_header" style= display:table-cell;">
 						<?php
-						echo $html->link(
-								$fileUpload->image($image['Upload']['name'],
+						echo $this->Html->link(
+								$this->FileUpload->image($image['Upload']['name'],
 										array( 'class' => 'upload_box_image', 'imagePathOnly' => false )),
-								$fileUpload->image($image['Upload']['name'],
+								$this->FileUpload->image($image['Upload']['name'],
 										array( 'imagePathOnly' => true )),
 								array(
 								'escape' => false,
@@ -76,8 +75,8 @@
 				<div style="display: table-row;">
 					<div class="upload_box_footer" style="display: table-cell;">
 	<?php
-	$js_r = "var a = greyboxGetParentFunction('greyboxInsertIntoMarkitup') ; a(' [upload]{$image['Upload']['name']}[/upload] ');";
-	echo $html->link(__('upload_btn_insert_into_posting', true), '#',
+	$js_r = "var a = greyboxGetParentFunction('greyboxInsertIntoMarkitup') ; array(' [upload]{$image['Upload']['name']}[/upload] ');";
+	echo $this->Html->link(__('upload_btn_insert_into_posting'), '#',
 			array( 'class' => 'btn_submit', 'onclick' => $js_r . 'return false;' ))
 	?>
 

@@ -76,7 +76,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$this->Geshi->defaultLanguage = 'text';
 		// allow all languages
 		$this->Geshi->validLanguages = array( true );
-		if ( $this->action === 'preview' ) {
+		if ( $this->request->action === 'preview' ) {
 			$this->Geshi->showPlainTextButton = false;
 		}
 	}
@@ -783,14 +783,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		else:
 			self::$_videoErrorMessage->set(
 					sprintf(
-							__('Domain <strong>%s</strong> not allowed for embedding video.', true),
+							__('Domain <strong>%s</strong> not allowed for embedding video.'),
 							$host
 					)
 			);
 		endif;
 
 		if ( empty(self::$_videoErrorMessage) ):
-			self::$_videoErrorMessage->set(__('Video domain is not allowed.', true));
+			self::$_videoErrorMessage->set(__('Video domain is not allowed.'));
 		endif;
 
 		return false;

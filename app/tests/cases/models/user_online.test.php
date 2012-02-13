@@ -3,7 +3,7 @@
 App::import('Model', 'UserOnline');
 App::import('Component', 'Security');
 
-class UserOnlineTestCase extends CakeTestCase {
+class UserOnlineTest extends CakeTestCase {
 	var $fixtures = array('app.user_online', 'app.user', 'app.entry', 'app.category', 'app.upload');
 
 	public function testSetOnline() {

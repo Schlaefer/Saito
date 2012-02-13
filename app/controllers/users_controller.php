@@ -29,7 +29,7 @@ class UsersController extends AppController {
 
 	public function login() {
 		/** set sub_nav_left * */
-		$this->viewVars['LocationSubnavLeft'] = __('login_linkname', true);
+		$this->viewVars['LocationSubnavLeft'] = __('login_linkname');
 
 		if ($this->Auth->user()) :
 			//* login was successfull
@@ -38,9 +38,9 @@ class UsersController extends AppController {
 			$this->_successfulLogin();
 
 			//* setting cookie
-			if ( isset($this->data['User']['remember_me']) && $this->data['User']['remember_me']) :
+			if ( isset($this->request->data['User']['remember_me']) && $this->request->data['User']['remember_me']) :
 				$this->CurrentUser->PersistentCookie->set();
-				unset($this->data['User']['remember_me']);
+				unset($this->request->data['User']['remember_me']);
 			endif;
 
 			//* handling redirect after successfull login
@@ -83,18 +83,18 @@ class UsersController extends AppController {
 			}
 		}
 
-		if (!empty($this->data)) {
-			$this->data = $this->_passwordAuthSwitch($this->data);
+		if (!empty($this->request->data)) {
+			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
 
-			$this->data['User']['activate_code'] = mt_rand(1,9999999);
+			$this->request->data['User']['activate_code'] = mt_rand(1,9999999);
 			$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
-			if ($this->User->register($this->data)) {
-					$this->data['User']['id'] = $this->User->id;
+			if ($this->User->register($this->request->data)) {
+					$this->request->data['User']['id'] = $this->User->id;
 
-					$this->Email->to = $this->data['User']['user_email'];
+					$this->Email->to = $this->request->data['User']['user_email'];
 					$this->Email->subject = 'Willkommen bei macnemo.de'; //@lo 
 					$this->Email->from = Configure::read('Saito.Settings.forum_name') . ' <' . Configure::read('Saito.Settings.forum_email') . ">";
-					$this->set('user', $this->data);
+					$this->set('user', $this->request->data);
 				  $this->Email->template = 'user_register';
 					$this->Email->sendAs = 'text';
 					$this->Email->send();
@@ -127,12 +127,12 @@ class UsersController extends AppController {
 	}
 
 	public function admin_add() {
-		if ( !empty($this->data) ) :
-			$this->data = $this->_passwordAuthSwitch($this->data);
-			$this->data['User']['activate_code'] = '';
+		if ( !empty($this->request->data) ) :
+			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
+			$this->request->data['User']['activate_code'] = '';
 
 			$this->User->create();
-			if ( $this->User->register($this->data) ):
+			if ( $this->User->register($this->request->data) ):
 				$this->Session->setFlash('Nutzer erfolgreich angelegt @lo', 'flash/notice');
 				$this->redirect(array( 'action' => 'view', $this->User->id ));
 			endif;
@@ -145,9 +145,9 @@ class UsersController extends AppController {
 		$this->User->contain(array('UserOnline'));
 		$viewed_user = $this->User->read();
 		
-		if (empty($this->data)) {
+		if (empty($this->request->data)) {
 			if ($id == NULL || (!($viewed_user))) {
-				$this->Session->setFlash((__('Invalid user', true)));
+				$this->Session->setFlash((__('Invalid user')));
 				$this->redirect('/');
 			}
 		}
@@ -160,35 +160,35 @@ class UsersController extends AppController {
 		$this->set('user', $viewed_user);
 
 		/** set sub_nav_left * */
-	  $this->set('headerSubnavLeft', array('title' => __('back_to_forum_linkname',true), 'url' => '/'));
+	  $this->set('headerSubnavLeft', array('title' => __('back_to_forum_linkname'), 'url' => '/'));
 
 	}
 
 	public function edit($id = NULL) {
-		if (!$this->allowedToEditUserData || !$id && empty($this->data)) 
+		if (!$this->allowedToEditUserData || !$id && empty($this->request->data)) 
 		{ /** no data to find entry or not allowed * */
-			$this->Session->setFlash(__('Invalid user', true));
+			$this->Session->setFlash(__('Invalid user'));
 			$this->redirect('/');
 		}
 
 		// try to save entry
-		if (!empty($this->data)) {
+		if (!empty($this->request->data)) {
 
 			$this->User->id = $id;
 
 			if ($this->CurrentUser['user_type'] != 'admin') { /** make shure only admin can edit these fields * */
 				# @td refactor this admin fields together with view: don't repeat code
-				unset($this->data['User']['username']);
-				unset($this->data['User']['user_email']);
-				unset($this->data['User']['user_type']);
+				unset($this->request->data['User']['username']);
+				unset($this->request->data['User']['user_email']);
+				unset($this->request->data['User']['user_type']);
 			}
 
 			if ( $this->CurrentUser['user_type'] == 'mod' || $this->CurrentUser['user_type'] == 'admin' ) {
-				unset($this->data['User']['new_posting_notify']);
-				unset($this->data['User']['new_user_notify']);
+				unset($this->request->data['User']['new_posting_notify']);
+				unset($this->request->data['User']['new_user_notify']);
 			}
 
-			if ($this->User->save($this->data)) {
+			if ($this->User->save($this->request->data)) {
 				// save operation was successfull
 
 				// if someone updates *his own* profile update settings for the session
@@ -197,11 +197,11 @@ class UsersController extends AppController {
 					// for maybe empty fields such as username, user_email
 					// @td recheck, probably not necessary after last [ref] of CurrentUser
 					$this->User->contain();
-					$this->data = $this->User->read();
+					$this->request->data = $this->User->read();
 					$this->CurrentUser->refresh();
 				endif;
 
-				$this->Session->setFlash(__('user_edit_success', true), 'flash/notice');
+				$this->Session->setFlash(__('user_edit_success'), 'flash/notice');
 				$this->redirect(array('action' => 'view', $id));
 
 			} else {
@@ -211,26 +211,26 @@ class UsersController extends AppController {
 				# so we read old entry and merge with new data send by user
 				$this->User->contain();
 				$user = $this->User->read();
-				$this->data['User'] = array_merge($user['User'], $this->data['User']);
-				$this->User->set($this->data);
+				$this->request->data['User'] = array_merge($user['User'], $this->request->data['User']);
+				$this->User->set($this->request->data);
 				$this->User->validates();
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
 
 
-		if (empty($this->data)) { 
+		if (empty($this->request->data)) { 
 			//* View Entry by id 
 
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
 			$this->User->sanitize(false);
-			$this->data = $this->User->read();
+			$this->request->data = $this->User->read();
 		}
-		$this->set('user', $this->data);
+		$this->set('user', $this->request->data);
 
 		/** set sub_nav_left **/
-	  $this->set('headerSubnavLeft', array('title' => __('Back',true), 'url' => array ( 'controller' => 'users', 'action' => 'view', $this->User->id)));
+	  $this->set('headerSubnavLeft', array('title' => __('Back'), 'url' => array ( 'controller' => 'users', 'action' => 'view', $this->User->id)));
 	}
 
 	public function changepassword($id = null) {
@@ -241,26 +241,26 @@ class UsersController extends AppController {
 		$this->User->id = $id;
 		$user = null;
 
-		if (empty($this->data)) {
+		if (empty($this->request->data)) {
 			# we have to fill it for the form magic to work
 			$this->User->contain("UserOnline");
 			$user = $this->User->read();
 			$user['User']['password'] = '';
-			$this->data = $user;
+			$this->request->data = $user;
 		}
 		else
 		{
-			$this->data = $this->_passwordAuthSwitch($this->data);
+			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
-			if ($this->User->save($this->data)) {
-				$this->Session->setFlash(__('change_password_success', true));
+			if ($this->User->save($this->request->data)) {
+				$this->Session->setFlash(__('change_password_success'));
 				$this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
 			}
-			$this->data['User']['id'] = $id;
+			$this->request->data['User']['id'] = $id;
 		}
 
-	  $this->set('headerSubnavLeft', array('title' => __('Back',true), 'url' => array ( 'controller' => 'users', 'action' => 'edit', $id)));
+	  $this->set('headerSubnavLeft', array('title' => __('Back'), 'url' => array ( 'controller' => 'users', 'action' => 'edit', $id)));
 	}
 
 	public function contact($id = NULL) {
@@ -282,14 +282,14 @@ class UsersController extends AppController {
 
 		$send = false;
 
-		if ($this->data) {
-			$subject = rtrim($this->data['Message']['subject']);
+		if ($this->request->data) {
+			$subject = rtrim($this->request->data['Message']['subject']);
 			if (empty($subject)) {
 				$this->Session->setFlash('Betreff darf nicht leer sein.'); # @lo
-				$this->data = $user;
+				$this->request->data = $user;
 			} else {
 				try {
-					$this->_contact($user, $this->CurrentUser->getId(), $subject, $this->data['Message']['text']);
+					$this->_contact($user, $this->CurrentUser->getId(), $subject, $this->request->data['Message']['text']);
 					$send = true;
 					$this->Session->setFlash('Nachricht wurde versandt.', 'flash/notice'); # @lo
 					$this->redirect('/');
@@ -297,9 +297,9 @@ class UsersController extends AppController {
 					$this->Session->setFlash('Nachricht konnte nicht versandt werden.', 'flash/error'); # @lo
 				} // end try
 			} // end if
-		} // end if($this->data)
+		} // end if($this->request->data)
 
-		$this->data = $user;
+		$this->request->data = $user;
 		$this->set('send', $send);
 	} // end contact()
 
@@ -327,8 +327,8 @@ class UsersController extends AppController {
 
 		$this->autoRender = false;
 
-		if (isset($this->data['User']['slidetab_order'])) {
-			$out = $this->data['User']['slidetab_order'];
+		if (isset($this->request->data['User']['slidetab_order'])) {
+			$out = $this->request->data['User']['slidetab_order'];
 			$out = array_filter($out, 'strlen');
 			$out = serialize($out);
 
@@ -337,7 +337,7 @@ class UsersController extends AppController {
 			$this->CurrentUser['slidetab_order'] = $out;
 		}
 
-		return $this->data;
+		return $this->request->data;
 	}
 
 	public function beforeFilter() {
@@ -346,11 +346,11 @@ class UsersController extends AppController {
 
 		$this->Auth->allow('register', 'login', 'contact');
 
-		if ($this->action === 'view') {
+		if ($this->request->action === 'view') {
 			$this->_checkIfEditingIsAllowed();
 			$this->_loadSmilies();
 		}
-		if ($this->action === 'edit') {
+		if ($this->request->action === 'edit') {
 			$this->_checkIfEditingIsAllowed();
 		}
 

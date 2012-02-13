@@ -89,11 +89,11 @@ class UserHHelper extends AppHelper {
 		# all strings explicitly for Poedit
 		switch ($type):
 			case 'user':
-				return __('ud_user', true);
+				return __('ud_user');
 			case 'mod':
-				return __('ud_mod', true);
+				return __('ud_mod');
 			case 'admin':
-				return __('ud_admin', true);
+				return __('ud_admin');
 		endswitch;
 	}
 
@@ -108,7 +108,7 @@ class UserHHelper extends AppHelper {
 			$out = $this->Html->link(
 							$this->Html->image(
 											'email.png',
-											array('alt'=> __('homepage_alt', true))
+											array('alt'=> __('homepage_alt'))
 							),
 							array( 'controller' => 'users', 'action' => 'contact', $user['id']),
 							array('escape' => false));
@@ -129,7 +129,7 @@ class UserHHelper extends AppHelper {
 				$out = $this->Html->link(
 								$this->Html->image(
 												'house.png',
-												array('alt'=> __('homepage_alt', true))
+												array('alt'=> __('homepage_alt'))
 								),
 								$url,
 								array('escape' => false));

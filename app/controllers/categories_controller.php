@@ -19,52 +19,52 @@
 
 		  function view($id = null) {
 		  if (!$id) {
-		  $this->Session->setFlash(__('Invalid category', true));
+		  $this->Session->setFlash(__('Invalid category'));
 		  $this->redirect(array('action' => 'index'));
 		  }
 		  $this->set('category', $this->Category->read(null, $id));
 		  }
 
 		  function add() {
-		  if (!empty($this->data)) {
+		  if (!empty($this->request->data)) {
 		  $this->Category->create();
-		  if ($this->Category->save($this->data)) {
-		  $this->Session->setFlash(__('The category has been saved', true));
+		  if ($this->Category->save($this->request->data)) {
+		  $this->Session->setFlash(__('The category has been saved'));
 		  $this->redirect(array('action' => 'index'));
 		  } else {
-		  $this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
+		  $this->Session->setFlash(__('The category could not be saved. Please, try again.'));
 		  }
 		  }
 		  }
 
 		  function edit($id = null) {
-		  if (!$id && empty($this->data)) {
-		  $this->Session->setFlash(__('Invalid category', true));
+		  if (!$id && empty($this->request->data)) {
+		  $this->Session->setFlash(__('Invalid category'));
 		  $this->redirect(array('action' => 'index'));
 		  }
-		  if (!empty($this->data)) {
-		  if ($this->Category->save($this->data)) {
-		  $this->Session->setFlash(__('The category has been saved', true));
+		  if (!empty($this->request->data)) {
+		  if ($this->Category->save($this->request->data)) {
+		  $this->Session->setFlash(__('The category has been saved'));
 		  $this->redirect(array('action' => 'index'));
 		  } else {
-		  $this->Session->setFlash(__('The category could not be saved. Please, try again.', true));
+		  $this->Session->setFlash(__('The category could not be saved. Please, try again.'));
 		  }
 		  }
-		  if (empty($this->data)) {
-		  $this->data = $this->Category->read(null, $id);
+		  if (empty($this->request->data)) {
+		  $this->request->data = $this->Category->read(null, $id);
 		  }
 		  }
 
 		  function delete($id = null) {
 		  if (!$id) {
-		  $this->Session->setFlash(__('Invalid id for category', true));
+		  $this->Session->setFlash(__('Invalid id for category'));
 		  $this->redirect(array('action'=>'index'));
 		  }
 		  if ($this->Category->delete($id)) {
-		  $this->Session->setFlash(__('Category deleted', true));
+		  $this->Session->setFlash(__('Category deleted'));
 		  $this->redirect(array('action'=>'index'));
 		  }
-		  $this->Session->setFlash(__('Category was not deleted', true));
+		  $this->Session->setFlash(__('Category was not deleted'));
 		  $this->redirect(array('action' => 'index'));
 		  }
 		 */
@@ -75,41 +75,39 @@
 		}
 
 		public function admin_add() {
-			if ( !empty($this->data) ) {
+			if ( !empty($this->request->data) ) {
 				$this->Category->create();
-				if ( $this->Category->save($this->data) ) {
-					$this->Session->setFlash(__('The category has been saved', true));
+				if ( $this->Category->save($this->request->data) ) {
+					$this->Session->setFlash(__('The category has been saved'));
 					$this->redirect(array( 'action' => 'index' ));
 				} else {
-					$this->Session->setFlash(__('The category could not be saved. Please, try again.',
-									true));
+					$this->Session->setFlash(__('The category could not be saved. Please, try again.'));
 				}
 			}
 		}
 
 		public function admin_edit($id = null) {
-			if ( !$id && empty($this->data) ) {
-				$this->Session->setFlash(__('Invalid category', true));
+			if ( !$id && empty($this->request->data) ) {
+				$this->Session->setFlash(__('Invalid category'));
 				$this->redirect(array( 'action' => 'index' ));
 			}
-			if ( !empty($this->data) ) {
-				if ( $this->Category->save($this->data) ) {
-					$this->Session->setFlash(__('The category has been saved', true));
+			if ( !empty($this->request->data) ) {
+				if ( $this->Category->save($this->request->data) ) {
+					$this->Session->setFlash(__('The category has been saved'));
 					$this->redirect(array( 'action' => 'index' ));
 				} else {
-					$this->Session->setFlash(__('The category could not be saved. Please, try again.',
-									true));
+					$this->Session->setFlash(__('The category could not be saved. Please, try again.'));
 				}
 			}
-			if ( empty($this->data) ) {
+			if ( empty($this->request->data) ) {
 				$this->Category->contain();
-				$this->data = $this->Category->read(null, $id);
+				$this->request->data = $this->Category->read(null, $id);
 			}
 		}
 
 		public function admin_delete($id = null) {
 			if ( !$id ) {
-				$this->Session->setFlash(__('Invalid id for category', true), 'flash/error');
+				$this->Session->setFlash(__('Invalid id for category'), 'flash/error');
 				$this->redirect($this->referer(array( 'action' => 'index' )));
 				exit();
 			}
@@ -118,24 +116,24 @@
 			$this->Category->contain();
 			$categoryToDelete = $this->Category->findById($id);
 			if ( empty($categoryToDelete) ) :
-				$this->Session->setFlash(__('Category not found.', true), 'flash/error');
+				$this->Session->setFlash(__('Category not found.'), 'flash/error');
 				$this->redirect($this->referer(array( 'action' => 'index' )));
 				exit();
 			endif;
 
-			if ( isset($this->data['Category']['modeDelete']) ):
+			if ( isset($this->request->data['Category']['modeDelete']) ):
 				$failure = false;
 			
-				if ( isset($this->data['Category']['modeMove']) && isset($this->data['Category']['targetCategory']) ):
+				if ( isset($this->request->data['Category']['modeMove']) && isset($this->request->data['Category']['targetCategory']) ):
 					/* move category items before deleting the cateogry */
 
-					$targetId = (int)$this->data['Category']['targetCategory'];
+					$targetId = (int)$this->request->data['Category']['targetCategory'];
 
 					/* make sure that target category exists */
 					$this->Category->contain();
 					$categoryToDelete = $this->Category->findById($targetId);
 					if ( empty($categoryToDelete) ) :
-						$this->Session->setFlash(__('Target category not found.', true),
+						$this->Session->setFlash(__('Target category not found.'),
 								'flash/error');
 						$this->redirect($this->referer());
 						exit();
@@ -143,19 +141,19 @@
 
 					$this->Category->id = $id;
 					if ( $this->Category->mergeIntoCategory($targetId) == false ) :
-						$this->Session->setFlash(__('Error moving category.', true), 'flash/error');
+						$this->Session->setFlash(__('Error moving category.'), 'flash/error');
 						$failure = $failure || true;
 					else:
-						$this->Session->setFlash(__('Category moved.', true), 'flash/notice');
+						$this->Session->setFlash(__('Category moved.'), 'flash/notice');
 					endif;
 				endif;
 
 				$this->Category->id = $id;
 				if ( $this->Category->deleteWithAllEntries() == false ) :
-					$this->Session->setFlash(__("Error deleting category.", true), 'flash/error');
+					$this->Session->setFlash(__("Error deleting category."), 'flash/error');
 					$failure = $failure || true;
 				else:
-					$this->Session->setFlash(__('Category deleted.', true), 'flash/notice');
+					$this->Session->setFlash(__('Category deleted.'), 'flash/notice');
 				endif;
 
 				if ( $failure == false ) :
@@ -171,7 +169,7 @@
 			$this->set('targetCategory', $categories);
 
 			$this->Category->contain();
-			$this->data = $this->Category->read(null, $id);
+			$this->request->data = $this->Category->read(null, $id);
 		}
 
 	}

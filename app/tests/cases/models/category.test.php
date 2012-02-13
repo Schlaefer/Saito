@@ -2,7 +2,7 @@
 
 App::import('Model', 'Category');
 
-class CategoryTestCase extends CakeTestCase {
+class CategoryTest extends CakeTestCase {
 	var $fixtures = array('app.category', 'app.user', 'app.upload', 'app.user_online', 'app.entry');
 
 	public function testGetCategoriesForAccession() {

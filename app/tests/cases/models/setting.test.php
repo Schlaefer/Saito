@@ -2,7 +2,7 @@
 /* Setting Test cases generated on: 2010-06-22 13:06:43 : 1277204743*/
 App::import('Model', 'Setting');
 
-class SettingTestCase extends CakeTestCase {
+class SettingTest extends CakeTestCase {
 	var $fixtures = array('app.setting');
 
 	protected $settingsCompact = array(

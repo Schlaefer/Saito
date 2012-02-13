@@ -1,7 +1,7 @@
 <div class="smilies form">
 <?php echo $this->Form->create('Smily');?>
 	<fieldset>
-		<legend><?php __('Edit Smily'); ?></legend>
+		<legend><?php echo __('Edit Smily'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('order');
@@ -10,13 +10,13 @@
 		echo $this->Form->input('title');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+<?php echo $this->Form->end(__('Submit'));?>
 </div>
 <div class="actions">
-	<h3><?php __('Actions'); ?></h3>
+	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 
-		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Smily.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Smily.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Smilies', true), array('action' => 'index'));?></li>
+		<li><?php echo $this->Html->link(__('Delete'), array('action' => 'delete', $this->Form->value('Smily.id')), null, sprintf(__('Are you sure you want to delete # %s?'), $this->Form->value('Smily.id'))); ?></li>
+		<li><?php echo $this->Html->link(__('List Smilies'), array('action' => 'index'));?></li>
 	</ul>
 </div>

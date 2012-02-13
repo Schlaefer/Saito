@@ -22,7 +22,7 @@
 ?>
 <div id="debug-kit-toolbar">
 	<?php if (empty($debugToolbarPanels)) :?>
-		<p class="warning"><?php __d('debug_kit', 'There are no active panels. You must enable a panel to see its output.'); ?></p>
+		<p class="warning"><?php echo __d('debug_kit', 'There are no active panels. You must enable a panel to see its output.'); ?></p>
 	<?php else: ?>
 		<ul id="panel-tabs">
 			<li class="panel-tab icon">

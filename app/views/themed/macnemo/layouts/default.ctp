@@ -3,13 +3,13 @@
 	?>
 	</head>
 	<body>
-		<?php if (!$CurrentUser->isLoggedIn() && $this->params['action'] != 'login') { ?>
+		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') { ?>
 		<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'><?php echo $this->element('users/login_form'); ?></div>
 		<?php } ?>
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" >
 				<div class="spnsr">
-					<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden"><?php echo $html->image('forum_logo_badge.png', array( 'alt' => 'Spenden', 'width' => '80', 'height' => '70')); ?></a>
+					<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden"><?php echo $this->Html->image('forum_logo_badge.png', array( 'alt' => 'Spenden', 'width' => '80', 'height' => '70')); ?></a>
 				</div>
 				<div class="right">
 						<?php echo Stopwatch::start('header_search.ctp');?>
@@ -18,8 +18,8 @@
 				</div> <!-- .right -->
 				<div class="left">
 						<div class="home">
-							<?php echo $html->link(
-											$html->image(
+							<?php echo $this->Html->link(
+											$this->Html->image(
 															'forum_logo.png',
 															array( 'alt' => 'Logo', 'height' => 70)
 															) ,
@@ -85,23 +85,23 @@
 			}
 		?>
 
-		<?php echo $html->scriptBlock("var webroot = '$this->webroot'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
+		<?php echo $this->Html->scriptBlock("var webroot = '$this->request->webroot'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
 		<?php 
 			if ( Configure::read('debug') == 0 ):
-				echo $html->script('js.min');
+				echo $this->Html->script('js.min');
 			else:
-				echo $html->script('jquery.hoverIntent.minified');
-				echo $html->script('jquery-ui-1.8.13.custom.min');
-				echo $html->script('classes/thread.class');
-				echo $html->script('classes/thread_line.class');
-				echo $html->script('_app');
-				echo $html->script('jquery.form');
-				echo $html->script('jquery.clearabletextfield');
-				echo $html->script('jquery.scrollTo-1.4.2-min');
+				echo $this->Html->script('jquery.hoverIntent.minified');
+				echo $this->Html->script('jquery-ui-1.8.13.custom.min');
+				echo $this->Html->script('classes/thread.class');
+				echo $this->Html->script('classes/thread_line.class');
+				echo $this->Html->script('_app');
+				echo $this->Html->script('jquery.form');
+				echo $this->Html->script('jquery.clearabletextfield');
+				echo $this->Html->script('jquery.scrollTo-1.4.2-min');
 			endif;
 		?>
 		<?php echo $scripts_for_layout; ?>
-		<? echo $js->writeBuffer();?>
+		<? echo $this->Js->writeBuffer();?>
 		<div class='clearfix'></div>
 		<?php echo $this->Stopwatch->getResult();?>
 		<?php echo $this->element('sql_dump'); ?>

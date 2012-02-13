@@ -7,7 +7,7 @@
 
 	<div data-role="content">
 		<?php echo $this->Form->create('Entry', array('url' => '/entries/add.xml') ); ?>
-		<?php echo $this->EntryH->getCategorySelectForEntry($categories, $this->data); ?>
+		<?php echo $this->EntryH->getCategorySelectForEntry($categories, $this->request->data); ?>
 		<?php echo $this->Form->input('subject'); ?>
 		<?php echo $this->Form->input('text'); ?>
 		<?php echo $this->Form->hidden('pid'); ?>

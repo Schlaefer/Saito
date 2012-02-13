@@ -74,7 +74,7 @@ class InstallController extends InstallAppController {
  * @return void
  */
     protected function _check() {
-        if (file_exists(CONFIGS . 'installed.txt')) {
+        if (file_exists(APP . 'Config' . DS . 'installed.txt')) {
             $this->Session->setFlash('Already Installed');
             $this->redirect('/');
         }
@@ -90,7 +90,7 @@ class InstallController extends InstallAppController {
  */
     public function index() {
         $this->_check();
-        $this->set('title_for_layout', __('Installation: Welcome', true));
+        $this->set('title_for_layout', __('Installation: Welcome'));
     }
 
 /**
@@ -105,7 +105,7 @@ class InstallController extends InstallAppController {
  */
     public function database() {
         $this->_check();
-        $this->set('title_for_layout', __('Step 1: Database', true));
+        $this->set('title_for_layout', __('Step 1: Database'));
 
         if (empty($this->data)) {
             return;
@@ -121,13 +121,13 @@ class InstallController extends InstallAppController {
         @ConnectionManager::create('default', $config);
         $db = ConnectionManager::getDataSource('default');
         if (!$db->isConnected()) {
-            $this->Session->setFlash(__('Could not connect to database.', true), 'default', array('class' => 'error'));
+            $this->Session->setFlash(__('Could not connect to database.'), 'default', array('class' => 'error'));
             return;
         }
 
-        copy(CONFIGS.'database.php.install', CONFIGS.'database.php');
+        copy(APP . 'Config' . DS.'database.php.install', APP . 'Config' . DS.'database.php');
         App::import('Core', 'File');
-        $file = new File(CONFIGS.'database.php', true);
+        $file = new File(APP . 'Config' . DS.'database.php', true);
         $content = $file->read();
 
         foreach ($config AS $configKey => $configValue) {
@@ -143,7 +143,7 @@ class InstallController extends InstallAppController {
         if($file->write($content) ) {
             return $this->redirect(array('action' => 'data'));
         } else {
-            $this->Session->setFlash(__('Could not write database.php file.', true), 'default', array('class' => 'error'));
+            $this->Session->setFlash(__('Could not write database.php file.'), 'default', array('class' => 'error'));
         }
     }
 
@@ -155,7 +155,7 @@ class InstallController extends InstallAppController {
  */
     public function data() {
         $this->_check();
-        $this->set('title_for_layout', __('Step 2: Build database', true));
+        $this->set('title_for_layout', __('Step 2: Build database'));
         if (isset($this->params['named']['run'])) {
             App::import('Core', 'File');
             App::import('Model', 'CakeSchema', false);
@@ -163,7 +163,7 @@ class InstallController extends InstallAppController {
 
             $db = ConnectionManager::getDataSource('default');
             if(!$db->isConnected()) {
-                $this->Session->setFlash(__('Could not connect to database.', true), 'default', array('class' => 'error'));
+                $this->Session->setFlash(__('Could not connect to database.'), 'default', array('class' => 'error'));
             } else {
                 $schema =& new CakeSchema(array('name'=>'app'));
                 $schema = $schema->load();
@@ -172,9 +172,9 @@ class InstallController extends InstallAppController {
                     $db->execute($create);
                 }
 
-                $dataObjects = App::objects('class', CONFIGS . 'install_data' . DS);
+                $dataObjects = App::objects('class', APP . 'Config' . DS . 'install_data' . DS);
                 foreach ($dataObjects as $data) {
-                    App::import('class', $data, false, CONFIGS . 'install_data' . DS);
+                    App::import('class', $data, false, APP . 'Config' . DS . 'install_data' . DS);
                     $classVars = get_class_vars($data);
                     $modelAlias = substr($data, 0, -4);
                     $table = $classVars['table'];
@@ -211,24 +211,24 @@ class InstallController extends InstallAppController {
  * @access public
  */
     public function finish() {
-        $this->set('title_for_layout', __('Installation completed successfully', true));
+        $this->set('title_for_layout', __('Installation completed successfully'));
         if (isset($this->params['named']['delete'])) {
             App::import('Core', 'Folder');
             $this->folder = new Folder;
             if ($this->folder->delete(APP.'plugins'.DS.'install')) {
-                $this->Session->setFlash(__('Installation files deleted successfully.', true), 'default', array('class' => 'success'));
+                $this->Session->setFlash(__('Installation files deleted successfully.'), 'default', array('class' => 'success'));
                 $this->redirect('/');
             } else {
-                return $this->Session->setFlash(__('Could not delete installation files.', true), 'default', array('class' => 'error'));
+                return $this->Session->setFlash(__('Could not delete installation files.'), 'default', array('class' => 'error'));
             }
         }
         $this->_check();
 
         // set new salt and seed value
-				touch(CONFIGS.'installed.txt');
-        $File =& new File(CONFIGS . 'core.php');
+				touch(APP . 'Config' . DS.'installed.txt');
+        $File =& new File(APP . 'Config' . DS . 'core.php');
         if (!class_exists('Security')) {
-            require LIBS . 'security.php';
+            require CAKE . 'security.php';
         }
         $salt = Security::generateAuthKey();
         $seed = mt_rand() . mt_rand();

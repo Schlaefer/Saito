@@ -2,7 +2,7 @@
 /* Entry Test cases generated on: 2010-07-08 18:07:15 : 1278607395*/
 App::import('Model', 'Entry');
 
-class EntryTestCase extends CakeTestCase {
+class EntryTest extends CakeTestCase {
 	var $fixtures = array('app.user', 'app.user_online', 'app.entry', 'app.category', 'app.smiley', 'app.smiley_code', 'app.setting', 'app.upload');
 
 	public function testBeforeValidate() {

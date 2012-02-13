@@ -2,7 +2,7 @@
 
 App::import('Helper', 'Glasenuhr');
 
-class GlasenuhrHelperTestCase extends CakeTestCase {
+class GlasenuhrHelperTest extends CakeTestCase {
 
 	function startTest($message) {
 		echo "<h3>Starting ".get_class($this)." - $message()</h3>\n";
@@ -17,12 +17,12 @@ class GlasenuhrHelperTestCase extends CakeTestCase {
 	function testFtime() {
 
 		$watches = array (
-				0 => __('Nacht', true),
-				1 => __('Morgen', true),
-				2 => __('Vormittag', true),
-				3 => __('Nachmittag', true),
-				4 => __('Freiwache', true),
-				5 => __('Abend', true),
+				0 => __('Nacht'),
+				1 => __('Morgen'),
+				2 => __('Vormittag'),
+				3 => __('Nachmittag'),
+				4 => __('Freiwache'),
+				5 => __('Abend'),
 		);
 
 		$this->Glasenuhr->setup(array('watches' => $watches));

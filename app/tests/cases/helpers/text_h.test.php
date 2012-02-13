@@ -2,7 +2,7 @@
 
 App::import('Helper', 'TextH');
 
-class TextHHelperTestCase extends CakeTestCase {
+class TextHHelperTest extends CakeTestCase {
 
 	public function testProperize() {
 		

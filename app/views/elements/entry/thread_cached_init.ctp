@@ -9,32 +9,32 @@
 	 */
 	###
 
-	$use_cached_entry = $cacheTree->canUseCache($entry_sub['Entry'], $CurrentUser->getSettings());
+	$use_cached_entry = $this->CacheTree->canUseCache($entry_sub['Entry'], $CurrentUser->getSettings());
 	if ($use_cached_entry) {
-		$out = $cacheTree->read($entry_sub['Entry']['id']);
+		$out = $this->CacheTree->read($entry_sub['Entry']['id']);
 	} else {
 		$out = $this->element('entry/thread_cached', array ( 'entry_sub' => $entry_sub, 'level' => 0));
 
-		if ($cacheTree->canCacheBeUpdated($entry_sub['Entry'], $CurrentUser->getSettings())) {
-			$cacheTree->update($entry_sub['Entry']['id'], $out);
+		if ($this->CacheTree->canCacheBeUpdated($entry_sub['Entry'], $CurrentUser->getSettings())) {
+			$this->CacheTree->update($entry_sub['Entry']['id'], $out);
 		}
 	}
 ?>
 <?php
 	/*
-	 * for performance reasons we don't use $html->link() in the .thread_box but hardcoded <a>
+	 * for performance reasons we don't use $this->Html->link() in the .thread_box but hardcoded <a>
 	 * this scrapes us up to 10 ms on a 40 threads index page
 	 */
 ?>
 <div class="thread_box <?php echo $entry_sub['Entry']['id'];?>">
-	<?php if ($level == 0 && $this->params['action'] == 'index') : ?>
+	<?php if ($level == 0 && $this->request->params['action'] == 'index') : ?>
 	<div class="thread_tools <?php echo $entry_sub['Entry']['id'];?>">
 	<ul>
 			<li>
-				<a href="<?php echo $this->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>"><span class="img_mix"></span></a>
+				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>"><span class="img_mix"></span></a>
 			</li>
 			<?php
-					if ( $this->params['action'] != 'view') :
+					if ( $this->request->params['action'] != 'view') :
 					### Anzeige der Inline View start ##
 						if ( !$use_cached_entry && $CurrentUser->isLoggedIn() ) :
 							// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen

@@ -38,7 +38,7 @@ class DebugView extends DoppelGangerView {
  */
 	function _render($___viewFn, $___dataForView, $loadHelpers = true, $cached = false) {
 		if (!isset($___dataForView['disableTimer'])) {
-			DebugKitDebugger::startTimer('render_' . basename($___viewFn), sprintf(__d('debug_kit', 'Rendering %s', true), Debugger::trimPath($___viewFn)));
+			DebugKitDebugger::startTimer('render_' . basename($___viewFn), sprintf(__d('debug_kit', 'Rendering %s'), Debugger::trimPath($___viewFn)));
 		}
 		$out = parent::_render($___viewFn, $___dataForView, $loadHelpers, $cached);
 
@@ -60,11 +60,11 @@ class DebugView extends DoppelGangerView {
 			!isset($this->params['url']['ext'])
 		);
 		if ($isHtml) {
-			$out .= sprintf("<!-- %s - %s -->\n", __d('debug_kit', 'Starting to render', true), $name); 
+			$out .= sprintf("<!-- %s - %s -->\n", __d('debug_kit', 'Starting to render'), $name); 
 		}
 		$out .= parent::element($name, $params, $loadHelpers);
 		if ($isHtml) {
-			$out .= sprintf("\n<!-- %s - %s -->\n", __d('debug_kit', 'Finished', true), $name);
+			$out .= sprintf("\n<!-- %s - %s -->\n", __d('debug_kit', 'Finished'), $name);
 		}
 		return $out;
 	}
@@ -80,13 +80,13 @@ class DebugView extends DoppelGangerView {
  * @return string Rendered Element
  */
 	function render($action = null, $layout = null, $file = null) {
-		DebugKitDebugger::startTimer('viewRender', __d('debug_kit', 'Rendering View', true));
+		DebugKitDebugger::startTimer('viewRender', __d('debug_kit', 'Rendering View'));
 
 		$out = parent::render($action, $layout, $file);
 
 		DebugKitDebugger::stopTimer('viewRender');
 		DebugKitDebugger::stopTimer('controllerRender');
-		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'View render complete', true));
+		DebugKitDebugger::setMemoryPoint(__d('debug_kit', 'View render complete'));
 
 		if (empty($this->params['requested']) && isset($this->loaded['toolbar'])) {
 			$backend = $this->loaded['toolbar']->getName();

@@ -30,12 +30,12 @@ class UploadsController extends AppController {
 	 */
 	public function add() {
 		if (!$this->isUploadAllowed) {
-				$this->Session->setFlash(sprintf(__('upload_max_number_of_uploads_failed', true), $this->maxUploadsPerUser), 'flash/warning');
+				$this->Session->setFlash(sprintf(__('upload_max_number_of_uploads_failed'), $this->maxUploadsPerUser), 'flash/warning');
 				$this->redirect(array('action' => 'index'));
 		}
 
-		if(!empty($this->data) && !empty($this->data['Upload'][0]['file']['tmp_name'])){
-			 	$a['Upload'] = $this->data['Upload'][0];
+		if(!empty($this->request->data) && !empty($this->request->data['Upload'][0]['file']['tmp_name'])){
+			 	$a['Upload'] = $this->request->data['Upload'][0];
 			 	$a['Upload']['user_id'] = $this->Session->read('Auth.User.id');
 			 	$a['Upload']['file']['name'] = Inflector::slug(
 						$a['Upload']['user_id'] .'_'
@@ -59,7 +59,7 @@ class UploadsController extends AppController {
 					$errors = $this->Upload->invalidFields();
 					$message = array();
 					foreach( $errors as $field => $error) {
-						$message[] =  __d('nondynamic', $field, true).": ". __d('nondynamic', $error, true);
+						$message[] =  __d('nondynamic', $field).": ". __d('nondynamic', $error);
 					}
 					$this->Session->setFlash('We are screwed, something went terribly wrong. File not uploaded.<br/>' . implode('<br/>',$message), 'flash/error');
 				}
@@ -83,7 +83,7 @@ class UploadsController extends AppController {
 					);
 
 		if (!$this->isUploadAllowed) {
-				$this->Session->setFlash(sprintf(__('upload_max_number_of_uploads_failed', true), $this->maxUploadsPerUser), 'flash/warning');
+				$this->Session->setFlash(sprintf(__('upload_max_number_of_uploads_failed'), $this->maxUploadsPerUser), 'flash/warning');
 		}
 
 		$this->set('images', $images);

@@ -1,9 +1,8 @@
-<?php $this->Html->addCrumb(__('Categories', true), '/admin/categories'); ?>
-<?php $this->Html->addCrumb(__('Delete Category',
-					true), '#'); ?>
-<h1>Delete Category <em><?php echo $this->data['Category']['category']; ?></em></h1>
+<?php $this->Html->addCrumb(__('Categories'), '/admin/categories'); ?>
+<?php $this->Html->addCrumb(__('Delete Category'), '#'); ?>
+<h1>Delete Category <em><?php echo $this->request->data['Category']['category']; ?></em></h1>
 <p>
-	You are about to delete the category <em><?php echo $this->data['Category']['category']; ?></em>.
+	You are about to delete the category <em><?php echo $this->request->data['Category']['category']; ?></em>.
 	You must decide what should happen with the entries in this category:
 </p>
 
@@ -27,7 +26,7 @@
 				echo $this->Form->hidden('modeMove', array( 'value' => 1 ));
 				echo $this->Form->hidden('modeDelete', array( 'value' => 1 ));
 				echo $this->Form->submit(
-						__('Move entries and delete category', true),
+						__('Move entries and delete category'),
 						array( 'class' => 'btn btn-primary' ));
 				echo $this->Form->end();
 			?>
@@ -41,7 +40,7 @@
 				Deletes the category and all entries in it.
 			</p>
 			<?php
-				echo $this->Html->link(__("Delete entries and delete category", true),
+				echo $this->Html->link(__("Delete entries and delete category"),
 						'#deleteModal',
 						array(
 						'class' => 'btn btn-danger',
@@ -67,14 +66,14 @@
 			echo $this->Form->create(null, array( 'action' => 'delete', 'admin' => true ));
 			echo $this->Form->hidden('modeDelete', array( 'value' => 1 ));
 			echo $this->Form->submit(
-					__("Delete entries and delete category", true),
+					__("Delete entries and delete category"),
 					array(
 					'class' => 'btn btn-danger',
 					)
-					// sprintf(__('Are you sure you want to delete # %s?', true), $this->data['Category']['id'])
+					// sprintf(__('Are you sure you want to delete # %s?'), $this->request->data['Category']['id'])
 			);
 			echo $this->Form->button(
-					__('Abort', true),
+					__('Abort'),
 					array(
 					'class' => 'btn',
 					'data-dismiss' => 'modal',

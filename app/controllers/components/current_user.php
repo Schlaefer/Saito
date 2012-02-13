@@ -63,7 +63,7 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->PersistentCookie = new SaitoCurrentUserCookie($this->Cookie);
 
 		/*
-		 * We create a new User Model instance. Otherwise we would overwrite $this->data
+		 * We create a new User Model instance. Otherwise we would overwrite $this->request->data
 		 * when reading in refresh(), causing error e.g. saving the user prefs.
 		 */
 		$this->_User = ClassRegistry::init(array( 'class' => 'User', 'alias' => 'currentUser' ));
@@ -197,8 +197,8 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_Controller->Auth->allow('display');
 
 		// l10n
-		$this->_Controller->Auth->loginError = __('auth_loginerror', true);
-		$this->_Controller->Auth->authError = __('auth_autherror', true);
+		$this->_Controller->Auth->loginError = __('auth_loginerror');
+		$this->_Controller->Auth->authError = __('auth_autherror');
 	}
 
 	public function getPersistentCookieName() {

@@ -1,4 +1,4 @@
-<? if ( $this->params['action'] == 'index' && $this->params['controller'] == 'entries') : ?>
+<? if ( $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>
 	<?php echo $this->element('layout/slidetabs__header', array('id' => 'about', 'btn_class' => 'img_info')); ?>
 	<? # @td @lo ?>
 	<h2> Info </h2>

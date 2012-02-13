@@ -4,7 +4,7 @@
 	$this->set('channelData', array(
 			'title' => Configure::read('Saito.Settings.forum_name') . ' – ' . $title,
 			'link' => $this->Html->url('/', true),
-			# 'description' => __("Most recent posts.", true),
+			# 'description' => __("Most recent posts."),
 			'language' => 'de-de'));
 
 		foreach ($entries as $entry) {

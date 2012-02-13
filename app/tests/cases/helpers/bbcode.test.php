@@ -11,7 +11,7 @@ App::import('Helper', array (
 	));
 App::import('Helper', 'MailObfuscator.MailObfuscator');
 
-class BbcodeHelperTestCase extends CakeTestCase {
+class BbcodeHelperTest extends CakeTestCase {
 
 	private $Bbcode = null;
 

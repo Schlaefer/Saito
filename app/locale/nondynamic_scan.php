@@ -1,5 +1,4 @@
-<?php
-	__('January');
+<?php echo __('January');
 	__('February');
 	__('March');
 	__('April');

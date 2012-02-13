@@ -294,10 +294,10 @@ if(!$error_abort) {
             report_error(TYPE_ERROR, 'Cannot read file "' .$langfile. '"!');
         } else {
             $langfile_content = file_get_contents($langfile);
-            if(preg_match("/\?>(?:\r?\n|\r(?!\n)){2,}\Z/", $langfile_content)) {
+            if(preg_match("/\?>(?:\r?\n|\str_replace(?!\n)){2,}\Z/", $langfile_content)) {
                 report_error(TYPE_ERROR, 'Language file contains trailing empty lines at EOF!');
             }
-            if(!preg_match("/\?>(?:\r?\n|\r(?!\n))?\Z/", $langfile_content)) {
+            if(!preg_match("/\?>(?:\r?\n|\str_replace(?!\n))?\Z/", $langfile_content)) {
                 report_error(TYPE_ERROR, 'Language file contains no PHP end marker at EOF!');
             }
             if(preg_match("/\t/", $langfile_content)) {

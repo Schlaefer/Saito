@@ -36,7 +36,7 @@
 				// prepare JS  which is inserted into the markItUp config in the next stage
 				$smiliesMarkItUpPacked[$smiley['icon']] = array( 'name' => '' /*$smiley['title']*/, 'replaceWith' => $smiley['code'] );
 				// prepare CSS for each button so the smiley image is placed on it
-				$iconCss .= " .markItUp .markItUpButton{$markitupCssId}-{$i} a	{ background-image:url({$this->webroot}theme/{$this->theme}/img/smilies/{$smiley['icon']}); } ";
+				$iconCss .= " .markItUp .markItUpButton{$markitupCssId}-{$i} a	{ background-image:url({$this->request->webroot}theme/{$this->theme}/img/smilies/{$smiley['icon']}); } ";
 				$i++;
 			endforeach;
 			$markitupCssId++;
@@ -57,15 +57,15 @@
 							'name' => 'Link',
 							'key' => 'L',
 							'openWith' =>
-							'[url=[![' . __('geshi_link_popup', true) . ']!]]',
+							'[url=[![' . __('geshi_link_popup') . ']!]]',
 							'closeWith' => '[/url]',
-							'placeHolder' => __('geshi_link_placeholder', true),
+							'placeHolder' => __('geshi_link_placeholder'),
 					),
 					'Picture' =>
 					array(
 							'name' => 'Bild',
 							'key' => 'P',
-							'replaceWith' => '[img][![' . __('geshi_picture_popup', true) . ']!][/img]'
+							'replaceWith' => '[img][![' . __('geshi_picture_popup') . ']!][/img]'
 					),
 					'Upload' => array(
 							'name' => '"Upload"',
@@ -101,8 +101,8 @@ EOF
 							'name' => $additionalButtonTitle,
 							'replaceWith' => $additionalButton['code'],
 						);
-					$iconCss .= " .markItUp .markItUpButton{$markitupCssId} a	{ background-image: url({$this->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['button']}.png); } ";
-					$iconCss .= " .markItUp .markItUpButton{$markitupCssId} a:hover	{ background-image: url({$this->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['button']}_hover.png); } ";
+					$iconCss .= " .markItUp .markItUpButton{$markitupCssId} a	{ background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['button']}.png); } ";
+					$iconCss .= " .markItUp .markItUpButton{$markitupCssId} a:hover	{ background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['button']}_hover.png); } ";
 					$markitupCssId++;
 				endforeach;
 			endif;
@@ -161,7 +161,7 @@ EOF
 
 			### determine act_thread  start ###
 			$act_thread = false;
-			if ( $this->params['action'] == 'view' ) {
+			if ( $this->request->params['action'] == 'view' ) {
 				if ( $level == 0 ) {
 					if ( $entry_current == $entry_viewed ) {
 						$span_post_type = 'actthread';
@@ -195,7 +195,7 @@ EOF
 		 */
 		public function getFastLink($entry, $params = array( 'class' => '' )) {
 //		Stopwatch::start('Helper->EntryH->getFastLink()');
-			$out = "<a href='{$this->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . "</a>";
+			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . "</a>";
 //		Stopwatch::stop('Helper->EntryH->getFastLink()');
 			return $out;
 		}
@@ -211,10 +211,10 @@ EOF
 						array(
 						'options' => array( $categories ),
 						'empty' => '',
-						'label' => __('cateogry', true) . ':',
+						'label' => __('cateogry') . ':',
 						'tabindex' => 1,
 						'error' => array(
-								'notEmpty' => __('error_category_empty', true),
+								'notEmpty' => __('error_category_empty'),
 						),
 						)
 				);

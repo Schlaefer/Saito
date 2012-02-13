@@ -3,7 +3,7 @@
 		height: 700px;
 		width: 300px;
 		background: none;
-		background-image: url('<?php echo $this->webroot; ?>/theme/macnemo/img/bubbles_right.png');
+		background-image: url('<?php echo $this->request->webroot; ?>/theme/macnemo/img/bubbles_right.png');
 		background-position: bottom left;
 		background-repeat: no-repeat;
 		position: fixed;
@@ -14,7 +14,7 @@
 	#top2 {
 		height: 100%;
 		width: 100%;
-		background-image: url('<?php echo $this->webroot; ?>/theme/macnemo/img/bubbles_outer_large.png');
+		background-image: url('<?php echo $this->request->webroot; ?>/theme/macnemo/img/bubbles_outer_large.png');
 		position: fixed;
 		z-index: 5;
 	}

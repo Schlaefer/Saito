@@ -3,5 +3,5 @@
 	This installer will setup the basic functions of Saito.
 </p>
 <p>
-	<?php echo $html->link('Setup Database.', array('action' => 'database')); ?>
+	<?php echo $this->Html->link('Setup Database.', array('action' => 'database')); ?>
 </p>

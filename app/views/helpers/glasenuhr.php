@@ -24,12 +24,12 @@ class GlasenuhrHelper extends AppHelper {
 		$this->_start = true;
 		$defaults = array(
 				'watches' => array (
-						0 => __('Nachts', true),
-						1 => __('Morgens', true),
-						2 => __('Vormittags', true),
-						3 => __('Nachmittags', true),
-						4 => __('Freiwache', true),
-						5 => __('Abends', true),
+						0 => __('Nachts'),
+						1 => __('Morgens'),
+						2 => __('Vormittags'),
+						3 => __('Nachmittags'),
+						4 => __('Freiwache'),
+						5 => __('Abends'),
 					),
 		);
 

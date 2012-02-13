@@ -8,7 +8,7 @@
 					<a href="http://macnemo.de/wiki/">Wiki</a>
 				</li>
 				<li>
-					<a href="<?PHP echo $this->webroot ?>users/contact/1">Kontakt</a><!-- @lo  -->
+					<a href="<?PHP echo $this->request->webroot ?>users/contact/1">Kontakt</a><!-- @lo  -->
 				</li>
 				<li>
 					<a href="aim:gochat?roomname=macnemo">Plauderecke</a>
@@ -17,10 +17,10 @@
 					<a href="http://macnemo.de/wiki/index.php/Main/Impressum">Impressum</a>
 				</li>
 				<li>
-					<a href="<?php echo $this->webroot; ?>pages/rss_feeds">RSS</a>
+					<a href="<?php echo $this->request->webroot; ?>pages/rss_feeds">RSS</a>
 				</li>
 				<li>
-					<a href="<?php echo $this->webroot; ?>mobile/entries/index">Mobile (Tech-Demo)</a>
+					<a href="<?php echo $this->request->webroot; ?>mobile/entries/index">Mobile (Tech-Demo)</a>
 				</li>
 			</ul>
 		</div>

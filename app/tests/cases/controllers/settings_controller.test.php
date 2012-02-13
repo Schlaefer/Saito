@@ -10,7 +10,7 @@ class TestSettingsController extends SettingsController {
 	}
 }
 
-class SettingsControllerTestCase extends CakeTestCase {
+class SettingsControllerTest extends CakeTestCase {
 	var $fixtures = array('app.setting');
 
 	function startTest($message) {

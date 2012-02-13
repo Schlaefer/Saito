@@ -1,6 +1,6 @@
 <?php
 
-class FlattrComponent extends Object {
+class FlattrComponent extends Component {
 
 	public function beforeRender(&$controller) {
 		// ### find categories for flattr

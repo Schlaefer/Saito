@@ -1,7 +1,7 @@
 <div class="smilies form">
 <?php echo $this->Form->create('Smily');?>
 	<fieldset>
-		<legend><?php __('Add Smily'); ?></legend>
+		<legend><?php echo __('Add Smily'); ?></legend>
 	<?php
 		echo $this->Form->input('order');
 		echo $this->Form->input('icon');
@@ -9,12 +9,12 @@
 		echo $this->Form->input('title');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+<?php echo $this->Form->end(__('Submit'));?>
 </div>
 <div class="actions">
-	<h3><?php __('Actions'); ?></h3>
+	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 
-		<li><?php echo $this->Html->link(__('List Smilies', true), array('action' => 'index'));?></li>
+		<li><?php echo $this->Html->link(__('List Smilies'), array('action' => 'index'));?></li>
 	</ul>
 </div>

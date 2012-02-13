@@ -39,8 +39,8 @@ class FarbtasticHelper extends Helper  {
             $label = Inflector::Humanize($fieldname);
         }
 
-        if(isset($this->data[$model][$fieldname])) {
-            $color_value = str_replace("#", "", $this->data[$model][$fieldname]); // expects an RGB string, strips any incoming '#' character
+        if(isset($this->request->data[$model][$fieldname])) {
+            $color_value = str_replace("#", "", $this->request->data[$model][$fieldname]); // expects an RGB string, strips any incoming '#' character
         }
         else {
             $color_value = "000000"; // black

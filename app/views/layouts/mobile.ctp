@@ -3,12 +3,12 @@
 	<head>
 		<title><?php echo $title_for_layout ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="apple-touch-icon" href="<?php echo $this->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'macnemo_iphone.png'; ?>"/>
+		<link rel="apple-touch-icon" href="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'macnemo_iphone.png'; ?>"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/latest/jquery.mobile.min.css" />
     <script src="http://code.jquery.com/jquery.min.js"></script>
 		<script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script>
-		<?php echo $html->css('stylesheets/jquery.mobile.theme.valencia'); ?>
-		<?php echo $html->css('stylesheets/mobile.css'); ?>
+		<?php echo $this->Html->css('stylesheets/jquery.mobile.theme.valencia'); ?>
+		<?php echo $this->Html->css('stylesheets/mobile.css'); ?>
 
 		<script type="text/javascript">
 			//set up the theme switcher on the homepage

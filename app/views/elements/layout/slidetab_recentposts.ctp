@@ -1,4 +1,4 @@
-<? if ( $CurrentUser->isLoggedIn()  && $this->params['action'] == 'index' && $this->params['controller'] == 'entries') : ?>
+<? if ( $CurrentUser->isLoggedIn()  && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>
 	<?php echo $this->element('layout/slidetabs__header', array('id' => 'recentposts', 'btn_class' => 'img_userhistory')); ?>
 				<div class="slidetab_rp">
 					<ul class="slidetab_tree">
@@ -6,7 +6,7 @@
 							<span title='The sea was angry that day my friends, like an old man trying to return soup at a deli …'>
 								<?php 
 									// @lo
-									echo $textH->properize( $CurrentUser['username'] ). ' ' . __('user_recentposts', true);
+									echo $this->TextH->properize( $CurrentUser['username'] ). ' ' . __('user_recentposts');
 								?> 
 							</span>
 						</li>
@@ -24,7 +24,7 @@
 //										}
 									$entry['Entry']['subject'] = '' . $entry['Entry']['subject'];										
 								?>
-								<?php echo $entryH->getFastLink($entry); ?><br/> <span class='c_info_text'><?php echo $timeH->formatTime($entry['Entry']['time']); ?></span>
+								<?php echo $this->EntryH->getFastLink($entry); ?><br/> <span class='c_info_text'><?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?></span>
 							</li>
 							<? endforeach; ?>
 						</ul>

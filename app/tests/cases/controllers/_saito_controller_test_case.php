@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-class SaitoControllerCakeTestCase extends CakeTestCase {
+class SaitoControllerCakeTest extends CakeTestCase {
 
 	protected function _prepareAction($url,$id = null) {
 		if ( $this->name == false ) {

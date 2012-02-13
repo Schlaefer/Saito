@@ -17,13 +17,13 @@ class SmileyCodesController extends AppController {
 	}
 
 	public function admin_add() {
-		if (!empty($this->data)) {
+		if (!empty($this->request->data)) {
 			$this->SmileyCode->create();
-			if ($this->SmileyCode->save($this->data)) {
-				$this->Session->setFlash(__('The smiley code has been saved', true));
+			if ($this->SmileyCode->save($this->request->data)) {
+				$this->Session->setFlash(__('The smiley code has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The smiley code could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The smiley code could not be saved. Please, try again.'));
 			}
 		}
 		$smilies = $this->SmileyCode->Smiley->find('list', array('fields' => 'Smiley.icon'));
@@ -31,20 +31,20 @@ class SmileyCodesController extends AppController {
 	}
 
 	public function admin_edit($id = null) {
-		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid smiley code', true));
+		if (!$id && empty($this->request->data)) {
+			$this->Session->setFlash(__('Invalid smiley code'));
 			$this->redirect(array('action' => 'index'));
 		}
-		if (!empty($this->data)) {
-			if ($this->SmileyCode->save($this->data)) {
-				$this->Session->setFlash(__('The smiley code has been saved', true));
+		if (!empty($this->request->data)) {
+			if ($this->SmileyCode->save($this->request->data)) {
+				$this->Session->setFlash(__('The smiley code has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The smiley code could not be saved. Please, try again.', true));
+				$this->Session->setFlash(__('The smiley code could not be saved. Please, try again.'));
 			}
 		}
-		if (empty($this->data)) {
-			$this->data = $this->SmileyCode->read(null, $id);
+		if (empty($this->request->data)) {
+			$this->request->data = $this->SmileyCode->read(null, $id);
 		}
 		$smilies = $this->SmileyCode->Smiley->find('list', array('fields' => 'Smiley.icon'));
 		$this->set(compact('smilies'));
@@ -52,14 +52,14 @@ class SmileyCodesController extends AppController {
 
 	public function admin_delete($id = null) {
 		if (!$id) {
-			$this->Session->setFlash(__('Invalid id for smiley code', true));
+			$this->Session->setFlash(__('Invalid id for smiley code'));
 			$this->redirect(array('action'=>'index'));
 		}
 		if ($this->SmileyCode->delete($id)) {
-			$this->Session->setFlash(__('Smiley code deleted', true));
+			$this->Session->setFlash(__('Smiley code deleted'));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Session->setFlash(__('Smiley code was not deleted', true));
+		$this->Session->setFlash(__('Smiley code was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
 }

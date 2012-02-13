@@ -3,13 +3,13 @@
 	$last_refresh = $CurrentUser['last_refresh'];
 	if (!isset($level)) $level = 0;
 
-	$params = $entryH->generateThreadParams(
+	$params = $this->EntryH->generateThreadParams(
 						array(
 								'level'	=> $level,
 								'last_refresh'	=> $last_refresh,
 								'entry_time'	=> $entry_sub['Entry']['time'],
 								// @td $entry['Entry']['id'] not set in user/view.ctp
-								'entry_viewed'	=> (isset($entry['Entry']['id']) && $this->params['action'] == 'view') ? $entry['Entry']['id'] :  null,
+								'entry_viewed'	=> (isset($entry['Entry']['id']) && $this->request->params['action'] == 'view') ? $entry['Entry']['id'] :  null,
 								'entry_current'	=> $entry_sub['Entry']['id'],
 						)
 					);

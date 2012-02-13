@@ -6,7 +6,7 @@
 
 <?php
 	if (isset($this->passedArgs['jump'])) {
-		$html->scriptBlock("$( function() { Thread.scrollTo('{$this->passedArgs['jump']}'); window.history.replaceState('object or string', 'Title', window.location.pathname.replace(/jump:\d+(\/)?/,'')); } );", array('inline' => false));
+		$this->Html->scriptBlock("$( function() { Thread.scrollTo('{$this->passedArgs['jump']}'); window.history.replaceState('object or string', 'Title', window.location.pathname.replace(/jump:\d+(\/)?/,'')); } );", array('inline' => false));
 	}
 ?>
 <?php echo Stopwatch::stop('entries/index');?>

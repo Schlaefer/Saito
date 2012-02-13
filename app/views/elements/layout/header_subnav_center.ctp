@@ -1,7 +1,7 @@
-<? if (isset($paginator) && $this->params['action'] == 'index') : ?>
+<? if (isset($paginator) && $this->request->params['action'] == 'index') : ?>
 	<?php
 		if ($CurrentUser->isLoggedIn()) :
-			echo $html->link('&nbsp;<div class="img_reload pointer"></div>&nbsp;', '/entries/update', 
+			echo $this->Html->link('&nbsp;<div class="img_reload pointer"></div>&nbsp;', '/entries/update', 
 					array(
 							'id'			=> 'btn_manualy_mark_as_read',
 							'escape' => false,

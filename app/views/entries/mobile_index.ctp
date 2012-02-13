@@ -26,7 +26,7 @@
 					<?php
 					if ( $entry['fixed'] == TRUE ):
 						?>
-						<img src="<?php echo $this->webroot . 'theme' . DS . $this->theme . DS ?>img/mobile/fixed.png" class='ui-li-icon' />
+						<img src="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS ?>img/mobile/fixed.png" class='ui-li-icon' />
 						<?php
 					endif;
 					?>

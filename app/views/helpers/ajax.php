@@ -341,7 +341,7 @@ class AjaxHelper extends AppHelper {
  * @return boolean True if the current request is a Prototype Ajax update call
  */
 	function isAjax() {
-		return (isset($this->params['isAjax']) && $this->params['isAjax'] === true);
+		return (isset($this->request->params['isAjax']) && $this->request->params['isAjax'] === true);
 	}
 /**
  * Private helper function for Javascript.
@@ -400,10 +400,10 @@ class AjaxHelper extends AppHelper {
 /*		foreach ($options as $key => $value) {
 			switch($key) {
 				case 'type':
-					$jsOptions['asynchronous'] = ife(($value == 'synchronous'), 'false', 'true');
+					$jsOptions['asynchronous'] = !empty(($value == 'synchronous')) ? 'false' : 'true';
 				break;
 				case 'evalScripts':
-					$jsOptions['evalScripts'] = ife($value, 'true', 'false');
+					$jsOptions['evalScripts'] = !empty($value) ? 'true' : 'false';
 				break;
 				case 'position':
 					$jsOptions['insertion'] = "Insertion." . Inflector::camelize($options['position']);
@@ -558,7 +558,7 @@ class AjaxHelper extends AppHelper {
 			$keys = array_keys($this->__ajaxBuffer);
 
 			if (count($divs) == 1 && in_array($divs[0], $keys)) {
-				e($this->__ajaxBuffer[$divs[0]]);
+				echo $this->__ajaxBuffer[$divs[0]];
 			} else {
 				foreach ($this->__ajaxBuffer as $key => $val) {
 					if (in_array($key, $divs)) {
@@ -568,12 +568,12 @@ class AjaxHelper extends AppHelper {
 				$out  = 'var __ajaxUpdater__ = {' . join(", \n", $data) . '};' . "\n";
 				$out .= 'for (n in __ajaxUpdater__) { if (typeof __ajaxUpdater__[n] == "string" && jQuery(n)) jQuery(\'#n\').html(unescape(decodeURIComponent(__ajaxUpdater__[n])));}';
 
-				e($this->Javascript->codeBlock($out, false));
+				echo $this->Javascript->codeBlock($out, false);
 			}
 			$scripts = $this->Javascript->getCache();
 
 			if (!empty($scripts)) {
-				e($this->Javascript->codeBlock($scripts, false));
+				echo $this->Javascript->codeBlock($scripts, false);
 			}
 			exit();
 		}

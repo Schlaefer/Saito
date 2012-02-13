@@ -2,7 +2,7 @@
 /* EntryH Test cases generated on: 2010-07-17 15:07:14 : 1279373414*/
 App::import('Helper', 'EntryH');
 
-class EntryHHelperTestCase extends CakeTestCase {
+class EntryHHelperTest extends CakeTestCase {
 	function startTest($message) {
 		echo "<h3>Starting ".get_class($this)."->$message()</h3>\n";
 		$this->EntryH =& new EntryHHelper();

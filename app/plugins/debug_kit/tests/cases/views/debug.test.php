@@ -75,7 +75,7 @@ class DebugViewTestCase extends CakeTestCase {
 			'views' => array(
 				TEST_CAKE_CORE_INCLUDE_PATH . 'tests' . DS . 'test_app' . DS . 'views'. DS,
 				APP . 'plugins' . DS . 'debug_kit' . DS . 'views'. DS,
-				ROOT . DS . LIBS . 'view' . DS
+				ROOT . DS . CAKE . 'view' . DS
 			)
 		), true);
 	}

@@ -2,12 +2,12 @@
 	### setup ###
 	$last_refresh = $CurrentUser['last_refresh'];
 
-	$params = $entryH->generateThreadParams(
+	$params = $this->EntryH->generateThreadParams(
 						array(
 								'level'	=> $level,
 								'last_refresh'	=> $last_refresh,
 								'entry_time'	=> $entry_sub['Entry']['time'],
-								'entry_viewed'	=> ($this->params['action'] == 'view') ? $entry['Entry']['id'] :  null,
+								'entry_viewed'	=> ($this->request->params['action'] == 'view') ? $entry['Entry']['id'] :  null,
 								'entry_current'	=> $entry_sub['Entry']['id'],
 						)
 					);

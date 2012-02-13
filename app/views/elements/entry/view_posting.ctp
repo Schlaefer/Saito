@@ -14,10 +14,10 @@
 			</div>
 			<div class="right">
 				<ul>
-					<? if (!$entryH->isEditingForbidden($entry, $CurrentUser->getSettings())) : ?>
+					<? if (!$this->EntryH->isEditingForbidden($entry, $CurrentUser->getSettings())) : ?>
 						<li>
-							<?php echo $html->link(
-											__('edit_linkname', true),
+							<?php echo $this->Html->link(
+											__('edit_linkname'),
 											array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
 											array ( 'class' => '' )
 										);
@@ -27,8 +27,8 @@
 					<?php if($entry['Entry']['pid'] == 0) : # @td these are thread functions and maybe go to another panel ?>
 						<li>
 							<?php
-								echo $ajax->link(
-									($entry['Entry']['fixed'] == 0) ? __('fixed_set_entry_link', true) : __('fixed_unset_entry_link', true),
+								echo $this->Ajax->link(
+									($entry['Entry']['fixed'] == 0) ? __('fixed_set_entry_link') : __('fixed_unset_entry_link'),
 									array(
 										'controller'	=> 'entries',
 										'action'			=> 'ajax_toggle',
@@ -45,8 +45,8 @@
 						</li>
 						<li>
 							<?php
-								echo $ajax->link(
-										($entry['Entry']['locked'] == 0) ? __('locked_set_entry_link', true) : __('locked_unset_entry_link', true),
+								echo $this->Ajax->link(
+										($entry['Entry']['locked'] == 0) ? __('locked_set_entry_link') : __('locked_unset_entry_link'),
 										array(
 												'controller' 	=> 'entries',
 												'action'			=> 'ajax_toggle',
@@ -64,15 +64,15 @@
 						<li>
 							<br/>
 							<?php
-								echo $html->link(
-										__('delete_tree_link', true),
+								echo $this->Html->link(
+										__('delete_tree_link'),
 										array(
 												'controller'	=> 'entries',
 												'action'			=> 'delete',
 												$entry['Entry']['id'],
 										),
 										null,
-										__('delete_tree_link_confirm_message', true)
+										__('delete_tree_link_confirm_message')
 								);
 							?>
 						</li>
@@ -92,7 +92,7 @@
 		</div>
 			<?php
 				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
-				echo $bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
+				echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
 			?>
 		</div>
 	<?php endif; ?>
@@ -104,9 +104,9 @@
 						<?php
 							// User is logged in AND we are not in the inline view of the tree in entries/view (there we answer directly)
 							// @todo: this needs refactoring and commenting
-							// debug($last_action); debug($this->action);
+							// debug($last_action); debug($this->request->action);
 						if( $CurrentUser->isLoggedIn()
-								&& (($last_action === $this->action && !$isAjax) || $last_action === 'index' || $this->action === 'mix') 
+								&& (($last_action === $this->request->action && !$isAjax) || $last_action === 'index' || $this->request->action === 'mix') 
 								|| $last_action === 'edit' 
 								|| $last_action === 'search' 
 								// after posting a completely new thread the last action was the `add` form
@@ -116,14 +116,14 @@
 							<div class="c_a_a_b_a c_first_child">
 								<?php
 										# @td MCV
-										$answering_forbidden = $entryH->isAnsweringForbidden($entry);
+										$answering_forbidden = $this->EntryH->isAnsweringForbidden($entry);
 										if ($answering_forbidden === 'locked') {
-											echo $html->image('locked.png', array("alt" => 'locked'));
+											echo $this->Html->image('locked.png', array("alt" => 'locked'));
 										} elseif (!$answering_forbidden) {
 											$result =  "scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."'); initViewAnswerForm();";
 
-											 echo $ajax->link(
-																__('forum_answer_linkname', true),
+											 echo $this->Ajax->link(
+																__('forum_answer_linkname'),
 															 array(
 																	 'controller'=>'entries',
 																	 'action' => 'add',
@@ -134,7 +134,7 @@
 																'id' => 'forum_answer_' . $entry['Entry']['id'],
 																'class' => 'btn_submit', 'accesskey' => "a" ,
 																'update' => 'posting_formular_slider_' . $entry['Entry']['id'] ,
-																'indicator' => 'spinner_'. $this->data['Entry']['id'],
+																'indicator' => 'spinner_'. $this->request->data['Entry']['id'],
 																'complete'	=> $result ,
 																'inline'	=> true,
 
@@ -142,11 +142,11 @@
 											 );
 										};
 									?>
-									<?php  if (!$entryH->isEditingForbidden($entry, $CurrentUser->getSettings(), array('user_type' =>'user'))) : ?>
+									<?php  if (!$this->EntryH->isEditingForbidden($entry, $CurrentUser->getSettings(), array('user_type' =>'user'))) : ?>
 										&nbsp;
 										<span class="small">
-											<?= $html->link(
-														__('edit_linkname', true),
+											<?= $this->Html->link(
+														__('edit_linkname'),
 														array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
 														array ( 'class' => 'button_edit', 'accesskey' => "e" )
 														);
@@ -161,8 +161,8 @@
 									-->
 									<span class="small">
 										<!-- @td: img/lock.gif @td implement controller -->
-										<?= $html->link(
-													'', #__('lock_linkname', true),
+										<?= $this->Html->link(
+													'', #__('lock_linkname'),
 													array( 'controller' => 'entries', 'action' => 'lock', $entry['Entry']['id']),
 													array ( 'class' => 'editlink')
 													);
@@ -180,7 +180,7 @@
 									&& $entry['Entry']['flattr'] == TRUE 
 									&& $entry['User']['flattr_uid'] == TRUE
 								) :
-								$a_a_b_c = $flattr->button('', 
+								$a_a_b_c = $this->Flattr->button('', 
 										array( 
 											'uid' => $entry['User']['flattr_uid'],
 											'language'	=> Configure::read('Saito.Settings.flattr_language'),
@@ -203,7 +203,7 @@
 </div> <!-- a_a -->
 <div class="a_b">
 	<div id="posting_formular_slider_<?php echo $entry['Entry']['id']; ?>" class="posting_formular_slider" style="display:none;"  >
-		<div id="spinner_<?php echo $this->data['Entry']['id']; ?>" class="spinner"></div>
+		<div id="spinner_<?php echo $this->request->data['Entry']['id']; ?>" class="spinner"></div>
 	</div>
 </div> <!-- a_b -->
 <div id="posting_formular_slider_bottom_<?php echo $entry['Entry']['id']; ?>"></div>
