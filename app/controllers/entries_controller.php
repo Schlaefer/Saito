@@ -421,9 +421,9 @@ class EntriesController extends AppController {
 	/**
 	 * Empty function for benchmarking
 	 */
-	public function echo  {
-		Stopwatch::start('Entries->echo )';
-		Stopwatch::stop('Entries->echo )';
+	public function e()  {
+		Stopwatch::start('Entries->e()');
+		Stopwatch::stop('Entries->e()');
 	}
 
 	public function search() {
