@@ -1,19 +1,23 @@
 <?php
 
-App::import('Lib', 'Stopwatch.Stopwatch');
+//cake2 App::import('Lib', 'Stopwatch.Stopwatch');
 
 
 class AppController extends Controller {
+	/*cake2
 	public $components = array (
 			'DebugKit.Toolbar',
 
 			'Auth',
 
+	*/
 			/**
 			 * You have to have Cookie before CurrentUser to have the salt initialized.
 			 * Check by deleting Session cookie when persistent cookie is present.
 			 * @td maybe bug in Cake, because Cookies should be initialized in CurrentUser's $components
 			 */
+
+	/*cake2
 			'Cookie',
 			'CurrentUser',
 
@@ -40,6 +44,7 @@ class AppController extends Controller {
 	public $uses = array (
 			'User',
 	);
+	*/
 
 	/**
 	 * use themes
@@ -47,6 +52,7 @@ class AppController extends Controller {
 	 * @var string
 	 */
 	public $view = 'Theme';
+	public $viewClass = 'Theme';
 
 	/**
 	 * name of the theme used
@@ -54,6 +60,7 @@ class AppController extends Controller {
 	 * @var string
 	 */
 	public $theme	= 'default';
+
 
 	/**
 	 * slidetabs used by application
@@ -69,13 +76,15 @@ class AppController extends Controller {
 
 //	var $persistModel = true;
 
+	/*cake2
 	public function __construct() {
 		parent::__construct();
-		Stopwatch::enable();
-		Stopwatch::start('---------------------- Controller ----------------------');
+		//cake2 Stopwatch::enable();
+		//cake2 Stopwatch::start('---------------------- Controller ----------------------');
 	}
+	*/
 
-	public function beforeFilter() {
+	public function beforeFiltercake2() {
 		parent::beforeFilter();
 		Stopwatch::start('App->beforeFilter()');
 
@@ -130,7 +139,7 @@ class AppController extends Controller {
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
-	public function beforeRender() {
+	public function beforeRendercake2() {
 		parent::beforeRender();
 
 		Stopwatch::start('App->beforeRender()');

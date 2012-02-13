@@ -8,6 +8,7 @@
 class EntriesController extends AppController {
 
 	public $name = 'Entries';
+			/*
 	public $helpers = array(
 			'CacheTree',
 			'EntryH',
@@ -21,6 +22,7 @@ class EntriesController extends AppController {
 			'RequestHandler',
 			'Search.Prg',
 	);
+	*/
 	/**
 	 * Setup for Search Plugin
 	 *
@@ -422,8 +424,8 @@ class EntriesController extends AppController {
 	 * Empty function for benchmarking
 	 */
 	public function e()  {
-		Stopwatch::start('Entries->e()');
-		Stopwatch::stop('Entries->e()');
+		//cake2 Stopwatch::start('Entries->e()');
+		//cake2 Stopwatch::stop('Entries->e()');
 	}
 
 	public function search() {
@@ -597,7 +599,7 @@ class EntriesController extends AppController {
 
 //end ajax_toggle()
 
-	public function beforeFilter() {
+	public function beforeFiltercake2() {
 		parent::beforeFilter();
 		Stopwatch::start('Entries->beforeFilter()');
 
