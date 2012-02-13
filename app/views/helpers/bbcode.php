@@ -328,15 +328,15 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 		if (!empty($additionalButtons)):
 			foreach ( $additionalButtons as $additionalButtonTitle => $additionalButton):
+				// $s['codes'][] = ':gacker:';
 				$s['codes'][] = $additionalButton['code'];
-				$s['replacements'][] = $this->Html->image($additionalButton['replacement']);
+				// $s['replacements'][] = $this->Html->image('smilies/gacker_large.png');
+				if ( $additionalButton['type'] === 'image' ):
+					$additionalButton['replacement'] = $this->Html->image('markitup'.DS.$additionalButton['replacement']);
+				endif;
+				$s['replacements'][] = $additionalButton['replacement'];
 			endforeach;
 		endif;
-
-//		$s['codes'][] = ':gacker:';
-//		$s['replacements'][] = $this->Html->image('smilies/gacker_large.png');
-//		$s['codes'][] = ':popcorn:';
-//		$s['replacements'][] = $this->Html->image('smilies/popcorn_large.png');
 
 		// prevents parsing of certain areas
 		$string_array = preg_split("/

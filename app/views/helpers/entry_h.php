@@ -25,9 +25,10 @@
 			$separator = array( 'separator' => '---------------' );
 
 			/* build smilies for MarkItUp from the admin smilies settings */
+			$markitupCssId = Configure::read('Saito.markItUp.nextCssId');
 			$smilies = Configure::read('Saito.Smilies.smilies_all');
 			$smiliesMarkItUpPacked = array( );
-			$smileyCss = '';
+			$iconCss = '';
 			$i = 1;
 			foreach ( $smilies as $smiley ):
 				if ( isset($smiliesMarkItUpPacked[$smiley['icon']]) )
@@ -35,10 +36,10 @@
 				// prepare JS  which is inserted into the markItUp config in the next stage
 				$smiliesMarkItUpPacked[$smiley['icon']] = array( 'name' => '' /*$smiley['title']*/, 'replaceWith' => $smiley['code'] );
 				// prepare CSS for each button so the smiley image is placed on it
-				$smileyCss .= ".markItUp .markItUpButton12-{$i} a	{ background-image:url({$this->webroot}/theme/{$this->theme}/img/smilies/{$smiley['icon']}); }";
+				$iconCss .= " .markItUp .markItUpButton{$markitupCssId}-{$i} a	{ background-image:url({$this->webroot}theme/{$this->theme}/img/smilies/{$smiley['icon']}); } ";
 				$i++;
 			endforeach;
-			$smileyCss = "<style type='text/css'>{$smileyCss}</style>";
+			$markitupCssId++;
 
 			/* setup the BBCode for markitup as php array */
 			$bbcodeSet = array(
@@ -90,17 +91,19 @@ EOF
 					),
 					$separator,
 					'Smilies' => array( 'name' => 'Smilies', 'dropMenu' => $smiliesMarkItUpPacked ),
-//					'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
-//					'Popcorn' => array( 'name' => 'Popcorn', 'replaceWith' => ':popcorn:' ),
 			);
 
 			$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 			if (!empty($additionalButtons)):
 				foreach ( $additionalButtons as $additionalButtonTitle => $additionalButton):
+					// 'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
 					$bbcodeSet[$additionalButtonTitle] = array(
 							'name' => $additionalButtonTitle,
 							'replaceWith' => $additionalButton['code'],
 						);
+					$iconCss .= " .markItUp .markItUpButton{$markitupCssId} a	{ background-image: url({$this->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['button']}.png); } ";
+					$iconCss .= " .markItUp .markItUpButton{$markitupCssId} a:hover	{ background-image: url({$this->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['button']}_hover.png); } ";
+					$markitupCssId++;
 				endforeach;
 			endif;
 
@@ -120,9 +123,11 @@ EOF
 				endif;
 			endforeach;
 
+			$iconCss = "<style type='text/css'>{$iconCss}</style>";
+
 			$out = 'markitupSettings = { "id":"' . $id . '", markupSet: [' . implode(",\n",
 							$markitupSet) . ']};';
-			$out = $this->Html->scriptBlock($out) . $smileyCss;
+			$out = $this->Html->scriptBlock($out) . $iconCss;
 
 			return $out;
 		}
