@@ -1,6 +1,6 @@
 <?php echo Stopwatch::start('entries/thread_cached_init'); ?>
 <?php foreach($entries_sub as $entry_sub) : ?>
-<?
+<?php
 	### Ausgabe des Horizontalen Rulers der User Prefs
 	/*
 	 * currentrly not officially supported in Saito

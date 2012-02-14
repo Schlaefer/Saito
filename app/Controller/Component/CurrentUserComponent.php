@@ -56,11 +56,11 @@ Class CurrentUserComponent extends SaitoUser {
 	/**
 	 *
 	 * @param type $controller
-	 * @param type $settings 
 	 */
-	public function initialize(Controller &$controller, $settings = array( )) {
-		$this->_Controller =& $controller;
-		$this->PersistentCookie = new SaitoCurrentUserCookie($this->Cookie);
+	public function initialize($controller) {
+		$this->_Controller = $controller;
+
+		$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
 
 		/*
 		 * We create a new User Model instance. Otherwise we would overwrite $this->request->data
@@ -72,7 +72,7 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_configureAuth();
 
 		//* Try Cookie Relogin
-		if (!$controller->Auth->user()) {
+		if (!$controller->Auth->login()) {
 			// for performance reasons Security::cypher() we check the cookie first
 			// not using the framework
 			if (	 isset($_COOKIE[$this->_persistentCookieName])
@@ -92,6 +92,8 @@ Class CurrentUserComponent extends SaitoUser {
 	 *
 	 */
 	protected function _markOnline() {
+		// cake2
+		return;
 		Stopwatch::start('CurrentUser->_markOnline()');
 
 		$id = $this->getId();
@@ -144,20 +146,20 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_Controller->Session->destroy();
 	}
 
-	public function shutdown(&$controller) {
+	public function shutdown($controller) {
 		$this->_writeSession($controller);
 	}
 
 // end shutdown();
 
-	public function beforeRedirect(&$controller) {
+	public function beforeRedirect($controller) {
 		$this->_writeSession($controller);
 
 	}
 
 // end beforeRedirect()
 
-	public function beforeRender(&$controller) {
+	public function beforeRender($controller) {
 		// write out the current user for access in the views
 		$controller->set('CurrentUser', $this);
 
@@ -176,9 +178,16 @@ Class CurrentUserComponent extends SaitoUser {
 	protected function _configureAuth() {
 		Security::setHash('md5');
 
-		$this->_Controller->Auth->userScope = array( 
-				'User.activate_code' => false,
-				'User.user_lock'	=> false,
+		// delegate authenticate method
+		// $this->_Controller->Auth->authenticate = $this->_User;
+		$this->_Controller->Auth->authenticate = array(
+					'Mlf' => array(
+							'useModel' 	=> 'User',
+							'scope'			=> array(
+								'User.activate_code' => false,
+								'User.user_lock'	=> false,
+								),
+							),
 				);
 
 		if ( $this->isLoggedIn() ):
@@ -190,15 +199,12 @@ Class CurrentUserComponent extends SaitoUser {
 		// we have some work todo in users_c/login() before redirecting
 		$this->_Controller->Auth->autoRedirect = false;
 
-		// delegate authenticate method
-		$this->_Controller->Auth->authenticate = $this->_User;
-
 		// access to static pages in views/pages is allowed
 		$this->_Controller->Auth->allow('display');
 
 		// l10n
-		$this->_Controller->Auth->loginError = __('auth_loginerror');
-		$this->_Controller->Auth->authError = __('auth_autherror');
+//		$this->_Controller->Auth->loginError = __('auth_loginerror');
+//		$this->_Controller->Auth->authError = __('auth_autherror');
 	}
 
 	public function getPersistentCookieName() {

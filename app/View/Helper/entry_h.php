@@ -1,13 +1,11 @@
 <?php
 
-	App::import('Lib', 'SaitoEntry');
-
 	# @td refactor helper name to 'EntryHelper'
 	/**
 	 * @package saito_entry
 	 */
 
-	class EntryHHelper extends SaitoEntry {
+	class EntryHHelper extends AppHelper {
 
 		public $helpers = array(
 				'Form',

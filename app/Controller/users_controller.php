@@ -31,7 +31,7 @@ class UsersController extends AppController {
 		/** set sub_nav_left * */
 		$this->viewVars['LocationSubnavLeft'] = __('login_linkname');
 
-		if ($this->Auth->user()) :
+		if ($this->Auth->login()) :
 			//* login was successfull
 
 			$this->User->id = $this->Session->read('Auth.User.id');

@@ -8,7 +8,6 @@
 class EntriesController extends AppController {
 
 	public $name = 'Entries';
-			/*
 	public $helpers = array(
 			'CacheTree',
 			'EntryH',
@@ -19,10 +18,10 @@ class EntriesController extends AppController {
 	public $components = array(
 			'CacheTree',
 			'Flattr',
-			'RequestHandler',
+			/* cake2
 			'Search.Prg',
-	);
 	*/
+	);
 	/**
 	 * Setup for Search Plugin
 	 *
@@ -36,7 +35,7 @@ class EntriesController extends AppController {
 
 	public function index($page = NULL) {
 		Stopwatch::start('Entries->index()');
-		/*
+
 		extract($this->_getInitialThreads($this->CurrentUser));
 		$this->set('entries',
 				$this->Entry->treeForNodes($initialThreads, $order,
@@ -47,7 +46,6 @@ class EntriesController extends AppController {
 					$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
 		}
 
-		*/
 		//* set sub_nav_left
 		$this->Session->write('paginator.lastPage', $page);
 		$this->set('title_for_layout', __('page') . ' ' . $page);
@@ -425,8 +423,8 @@ class EntriesController extends AppController {
 	 * Empty function for benchmarking
 	 */
 	public function e()  {
-		//cake2 Stopwatch::start('Entries->e()');
-		//cake2 Stopwatch::stop('Entries->e()');
+		Stopwatch::start('Entries->e()');
+		Stopwatch::stop('Entries->e()');
 	}
 
 	public function search() {
@@ -600,7 +598,7 @@ class EntriesController extends AppController {
 
 //end ajax_toggle()
 
-	public function beforeFiltercake2() {
+	public function beforeFilter() {
 		parent::beforeFilter();
 		Stopwatch::start('Entries->beforeFilter()');
 

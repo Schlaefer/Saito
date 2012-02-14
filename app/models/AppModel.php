@@ -1,6 +1,6 @@
 <?php
 
-App::import('Sanitize');
+App::uses('Sanitize', 'Utility');
 
 // import here so that `cake schema ...` cli works
 App::import('Lib', 'Stopwatch.Stopwatch');

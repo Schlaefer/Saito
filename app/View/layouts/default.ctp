@@ -3,18 +3,20 @@
 	?>
 	</head>
 	<body>
-		<?php //cake2 if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') { ?>
-		<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'><?php //cake2 echo $this->element('users/login_form'); ?></div>
-		<?php //cake2} ?>
+		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
+			<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'>
+				<?php echo $this->element('users/login_form'); ?>
+			</div>
+		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" >
 				<div class="spnsr">
 					<?php echo $this->Html->image('forum_logo_badge.png', array( 'alt' => 'Forum Badge', 'width' => '80', 'height' => '70')); ?>
 				</div>
 				<div class="right">
-						<?php //cake2 echo Stopwatch::start('header_search.ctp');?>
-							<?php //cake2 if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
-						<?php //cake2 echo Stopwatch::stop('header_search.ctp');?>
+						<?php echo Stopwatch::start('header_search.ctp');?>
+							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
+						<?php echo Stopwatch::stop('header_search.ctp');?>
 				</div> <!-- .right -->
 				<div class="left">
 						<div class="home">
@@ -30,7 +32,7 @@
 					</div>
 				</div> <!-- .left -->
 				<div id="header_login">
-						<?php //cake2 echo $this->element('layout/header_login'); ?>
+						<?php echo $this->element('layout/header_login'); ?>
 				</div>
 		</div> <!-- #top -->
 		<div id="topnav">
@@ -56,7 +58,7 @@
 				<?php echo $emailMessage; ?>
 			</div>
 		<?php endif; ?>
-		<?php //cake2 echo $this->element('layout/slidetabs'); ?>
+		<?php echo $this->element('layout/slidetabs'); ?>
 		<div id="content">
 				<?php echo $content_for_layout ?>
 		</div>
@@ -85,7 +87,7 @@
 			}
 		?>
 
-		<?php //cake2 echo $this->Html->scriptBlock("var webroot = '$this->request->webroot'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
+		<?php echo $this->Html->scriptBlock("var webroot = '$this->request->webroot'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
 		<?php 
 			if ( Configure::read('debug') == 0 ):
 				echo $this->Html->script('js.min');
@@ -101,7 +103,7 @@
 			endif;
 		?>
 		<?php echo $scripts_for_layout; ?>
-		<? //cake2 echo $this->Js->writeBuffer();?>
+		<?php echo $this->Js->writeBuffer();?>
 		<div class='clearfix'></div>
 		<?php echo $this->Stopwatch->getResult();?>
 		<?php echo $this->element('sql_dump'); ?>

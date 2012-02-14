@@ -6,7 +6,9 @@ class Entry extends AppModel {
  	var $actsAs = array(
 			'Containable', 
 			'CacheTree',
+			/* cake2
 			'Search.Searchable',
+			*/
 		);
 
 	// fields for search plugin

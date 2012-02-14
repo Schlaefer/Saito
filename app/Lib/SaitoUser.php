@@ -21,7 +21,7 @@ interface ForumsUser {
 	public function getMaxAccession();
 }
 
-class SaitoUser extends Object implements ForumsUser, ArrayAccess {
+class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 
 	static private $__accessions = array (
 			'anon'	=> 0,

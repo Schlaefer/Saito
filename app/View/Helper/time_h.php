@@ -10,8 +10,8 @@ class TimeHHelper extends AppHelper {
 
 	protected $_start = false;
 
-	public function  beforeRender() {
-		parent::beforeRender();
+	public function beforeRender($viewFile) {
+		parent::beforeRender($viewFile);
 		$this->now = time();
 		$this->today = mktime(0, 0, 0);
 	}

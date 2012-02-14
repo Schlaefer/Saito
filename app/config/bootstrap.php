@@ -71,6 +71,8 @@ CakePlugin::load('Stopwatch');
 CakePlugin::load('DebugKit');
 CakePlugin::load('Markitup');
 CakePlugin::load('CakephpGeshi');
+CakePlugin::load('Flattr');
+CakePlugin::load('SimpleCaptcha');
 
 /**
  * Set the theme
@@ -83,7 +85,7 @@ Configure::write('Saito.theme', 'default');
  * true: (default) use cache
  * false: don't use cache
  */
-Configure::write('Saito.Cache.Thread', TRUE);
+Configure::write('Saito.Cache.Thread', FALSE);
 
 /**
  * Don't use core Security.salt for user passwords

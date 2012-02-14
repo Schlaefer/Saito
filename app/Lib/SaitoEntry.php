@@ -3,7 +3,7 @@
 /**
  * @package saito_entry
  */
-class SaitoEntry extends Object {
+class SaitoEntry extends Component {
 
 	/**
 	 * Checks if answering an entry is allowed

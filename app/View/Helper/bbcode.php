@@ -73,12 +73,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		/**
 		 * Configure Geshi
 		 */
-		$this->Geshi->defaultLanguage = 'text';
+		// cake2 $this->Geshi->defaultLanguage = 'text';
 		// allow all languages
-		$this->Geshi->validLanguages = array( true );
+		/* cake2
+		 $this->Geshi->validLanguages = array( true );
 		if ( $this->request->action === 'preview' ) {
 			$this->Geshi->showPlainTextButton = false;
 		}
+		 */
 	}
 
 	/**

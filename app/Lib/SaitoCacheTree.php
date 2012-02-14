@@ -75,6 +75,14 @@ class SaitoCacheTree extends Object {
 		Cache::write('EntrySub', (array)self::$_cachedEntries);
 	}
 
+	public static function forceCache() {
+		self::$_forceNoCache =  TRUE;
+	}
+
+	public static function forceNoCache() {
+		self::$_forceNoCache =  FALSE;
+	}
+
 	/**
 	 * Garbage collection
 	 *

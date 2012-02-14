@@ -38,7 +38,7 @@
  * Turn off all caching application-wide.
  *
  */
-	Configure::write('Cache.disable', false);
+	Configure::write('Cache.disable', true);
 
 
 /**
@@ -191,7 +191,7 @@
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '012345678/9');
+	Configure::write('Security.cipherSeed', '0123456789');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).

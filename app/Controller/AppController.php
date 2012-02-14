@@ -5,24 +5,20 @@ App::import('Lib', 'Stopwatch.Stopwatch');
 class AppController extends Controller {
 	public $components = array (
 			'DebugKit.Toolbar',
-	/*cake2
 
 			'Auth',
 
-	*/
 			/**
 			 * You have to have Cookie before CurrentUser to have the salt initialized.
 			 * Check by deleting Session cookie when persistent cookie is present.
 			 * @td maybe bug in Cake, because Cookies should be initialized in CurrentUser's $components
 			 */
-
-	/*cake2
 			'Cookie',
 			'CurrentUser',
 
 			'RequestHandler',
 			'SaitoEntry',
-	*/
+
 			'Session',
 	);
 	public $helpers = array (
@@ -42,11 +38,9 @@ class AppController extends Controller {
 			'Session',
 	);
 
-	/* cake2
 	public $uses = array (
 			'User',
 	);
-	*/
 
 	/**
 	 * use themes
@@ -121,7 +115,6 @@ class AppController extends Controller {
 					return;
 			}
 		}
-
 
 		//* configure Stopwatch
 		if (Configure::read('debug') == 0) Stopwatch::disable();
