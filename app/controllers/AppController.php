@@ -4,8 +4,8 @@ App::import('Lib', 'Stopwatch.Stopwatch');
 
 class AppController extends Controller {
 	public $components = array (
-	/*cake2
 			'DebugKit.Toolbar',
+	/*cake2
 
 			'Auth',
 

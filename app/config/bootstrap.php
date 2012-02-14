@@ -66,8 +66,9 @@ Configure::write('Markitup.vendors', array(
  *
  */
 
-// \nCakePlugin::loadAll();
+// CakePlugin::loadAll();
 CakePlugin::load('Stopwatch');
+CakePlugin::load('DebugKit');
 CakePlugin::load('Markitup');
 CakePlugin::load('CakephpGeshi');
 
