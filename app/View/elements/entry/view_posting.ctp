@@ -7,14 +7,14 @@
 
 <div class="a_a">
 	<div class="a_a_a">
-	<? if( $CurrentUser->isMod()) : ?>
+	<?php if( $CurrentUser->isMod()) : ?>
 		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>">
 			<div class="left <?php echo $entry['Entry']['id'];?>">
 				<div class="img_mod_panel"></div>
 			</div>
 			<div class="right">
 				<ul>
-					<? if (!$this->EntryH->isEditingForbidden($entry, $CurrentUser->getSettings())) : ?>
+					<?php if (isset($isEditingForbidden) && $isEditingForbidden == false) : ?>
 						<li>
 							<?php echo $this->Html->link(
 											__('edit_linkname'),
@@ -23,7 +23,7 @@
 										);
 							?>
 						</li>
-					<? endif; ?>
+					<?php endif; ?>
 					<?php if($entry['Entry']['pid'] == 0) : # @td these are thread functions and maybe go to another panel ?>
 						<li>
 							<?php
@@ -116,7 +116,7 @@
 							<div class="c_a_a_b_a c_first_child">
 								<?php
 										# @td MCV
-										$answering_forbidden = $this->EntryH->isAnsweringForbidden($entry);
+										$answering_forbidden = $isAnsweringForbidden;
 										if ($answering_forbidden === 'locked') {
 											echo $this->Html->image('locked.png', array("alt" => 'locked'));
 										} elseif (!$answering_forbidden) {
@@ -142,17 +142,17 @@
 											 );
 										};
 									?>
-									<?php  if (!$this->EntryH->isEditingForbidden($entry, $CurrentUser->getSettings(), array('user_type' =>'user'))) : ?>
+									<?php  if (isset($isEditingAsUserForbidden) && $isEditingAsUserForbidden == false) : ?>
 										&nbsp;
 										<span class="small">
-											<?= $this->Html->link(
+											<?php echo $this->Html->link(
 														__('edit_linkname'),
 														array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
 														array ( 'class' => 'button_edit', 'accesskey' => "e" )
 														);
 											?>
 										</span>
-									<? endif; ?>
+									<?php endif; ?>
 
 									<!--
 									&nbsp;
@@ -161,7 +161,7 @@
 									-->
 									<span class="small">
 										<!-- @td: img/lock.gif @td implement controller -->
-										<?= $this->Html->link(
+										<?php echo $this->Html->link(
 													'', #__('lock_linkname'),
 													array( 'controller' => 'entries', 'action' => 'lock', $entry['Entry']['id']),
 													array ( 'class' => 'editlink')
@@ -169,7 +169,7 @@
 										?>
 									</span>
 							</div> <!-- c_a_a_b_a -->
-						<? endif; ?>
+						<?php endif; ?>
 							<div class="c_a_a_b_b"> 
 							</div><!-- c_a_a_b_b -->
 						<?php 

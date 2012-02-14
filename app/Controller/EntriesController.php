@@ -228,6 +228,7 @@ class EntriesController extends AppController {
 		}
 
 		if ( !empty($this->request->data) ) {
+			// <editor-fold desc="insert new entry">
 			//* try to insert new entry
 			//* check of answering is alowed
 			$pid = (int) $this->request->data['Entry']['pid'];
@@ -281,7 +282,9 @@ class EntriesController extends AppController {
 					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
 				endif;
 			endif;
+			// </editor-fold>
 		} else {
+			// <editor-fold desc="show answering form">
 			//* show answering form
 
 			$this->request->data = NULL;
@@ -322,6 +325,7 @@ class EntriesController extends AppController {
 			if ( $this->RequestHandler->isAjax() ):
 				$this->set('form_title', __('answer_marking'));
 			endif;
+			// </editor-fold>
 		}
 
 		$this->_teardownAdd();
@@ -766,6 +770,11 @@ class EntriesController extends AppController {
 			$this->redirect('/');
 			return FALSE;
 		}
+
+		//* setEditingRights
+		$this->set('isEditingForbidden', $this->SaitoEntry->isEditingForbidden($this->request->data, $this->CurrentUser->getSettings()));
+		$this->set('isEditingAsUserForbidden', $this->SaitoEntry->isEditingForbidden($this->request->data, $this->CurrentUser->getSettings(), array('user_type' =>'user')));
+		$this->set('isAnsweringForbidden', $this->SaitoEntry->isAnsweringForbidden($this->request->data, $this->CurrentUser->getSettings()));
 
 		return TRUE;
 	}
