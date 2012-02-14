@@ -86,3 +86,4 @@ Router::parseExtensions('xml');
  */
 Router::connect('/entries/index.rss/*', array( 'controller' => 'entries', 'action' => 'feed' ));
 ?>
+	
