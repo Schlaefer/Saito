@@ -1,4 +1,6 @@
 <?php
+	App::uses('AppHelper', 'View/Helper');
+
 /** angepasst für macnemo: inline options */
 
 

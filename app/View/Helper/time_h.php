@@ -1,4 +1,5 @@
 <?php
+	App::uses('AppHelper', 'View/Helper');
 
 class TimeHHelper extends AppHelper {
 	public $helpers = array(

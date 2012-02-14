@@ -1,6 +1,7 @@
 <?php
 
-App::import('Lib', 'StringparserBbcode.StringparserBbcode');
+App::uses('AppHelper', 'View/Helper');
+App::import('Vendor', 'stringparser_bbcode/stringparser_bbcode');
 
 /**
  * @td Configure::read('Saito.Settings') should be argument or
@@ -63,7 +64,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	public $isParserInitialized = FALSE;
 
-	public function __construct() {
+	public function __construct(View $View, $settings = array()) {
+		parent::__construct($View, $settings);
 		self::$_videoErrorMessage = new BbcodeMessage();
 	}
 

@@ -1,4 +1,5 @@
 <?php
+	App::uses('AppHelper', 'View/Helper');
 /**
  *    Farbtastic helper
  *    @author      	Curtis Gibby

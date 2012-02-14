@@ -1,6 +1,7 @@
 <?php
 
-APP::import('Lib', 'SaitoUser');
+App::import('Lib', 'SaitoUser');
+App::uses('AppHelper', 'View/Helper');
 
 /* 
  * To change this template, choose Tools | Templates

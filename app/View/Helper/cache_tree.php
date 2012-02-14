@@ -1,6 +1,7 @@
 <?php
 
 App::import('Lib', 'SaitoCacheTree');
+App::uses('AppHelper', 'View/Helper');
 
 /**
  * @package saito_cache_tree
