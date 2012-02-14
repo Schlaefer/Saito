@@ -38,14 +38,14 @@ class AjaxHelper extends AppHelper {
  * @var object
  * @access public
  */
-	var $Html = null;
+//	var $Html = null;
 /**
  * JavaScriptHelper instance
  *
  * @var object
  * @access public
  */
-	var $Javascript = null;
+//	var $Javascript = null;
 /**
  * Names of Javascript callback functions.
  *
