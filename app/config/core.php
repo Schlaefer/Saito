@@ -304,6 +304,9 @@ if (extension_loaded('apc') && function_exists('apc_dec') && (php_sapi_name() !=
 	$engine = 'Apc';
 }
 
+Cache::config('default', array( 'engine' => $engine ));
+
+
 // In development mode, caches should expire quickly.
 $duration = '+999 days';
 if (Configure::read('debug') >= 1) {
