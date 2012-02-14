@@ -60,7 +60,7 @@ class EntriesController extends AppController {
 	public function mobile_index($page = NULL) {
 		$this->_setupMobile();
 		$sort_order = ($this->CurrentUser['user_sort_last_answer'] == 0) ? 'time' : 'last_answer';
-		$order = array( 'fixed DESC', $sort_order . ' DESC ' );
+		$order = array( 'fixed' => 'DESC', $sort_order => 'DESC' );
 		$this->paginate = array(
 				/* Whenever you change the conditions here check if you have to adjust
 				 * the db index. Running this querry without appropriate db index is a huge
@@ -506,7 +506,7 @@ class EntriesController extends AppController {
 					mktime(0, 0, 0, (int) $this->passedArgs['month'], 1,
 							(int) $this->passedArgs['year']));
 
-			$this->paginate['order'] = '`Entry`.`time` DESC';
+			$this->paginate['order'] = array('`Entry`.`time`' => 'DESC');
 			$this->paginate['limit'] = 25;
 			$this->set('FoundEntries', $this->paginate());
 		}
@@ -718,8 +718,8 @@ class EntriesController extends AppController {
 	}
 
 	protected function _getInitialThreads(CurrentUserComponent $User) {
-		$sort_order = ($User['user_sort_last_answer'] == 0) ? 'time' : 'last_answer';
-		$order = array( 'fixed DESC', $sort_order . ' DESC ' );
+		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == 0) ? 'time' : 'last_answer';
+		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
 		$this->paginate = array(
 				/* Whenever you change the conditions here check if you have to adjust
 				 * the db index. Running this querry without appropriate db index is a huge
