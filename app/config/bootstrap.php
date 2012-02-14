@@ -73,6 +73,7 @@ CakePlugin::load('Markitup');
 CakePlugin::load('CakephpGeshi');
 CakePlugin::load('Flattr');
 CakePlugin::load('SimpleCaptcha');
+CakePlugin::load('Install');
 
 /**
  * Set the theme

@@ -92,8 +92,6 @@ Class CurrentUserComponent extends SaitoUser {
 	 *
 	 */
 	protected function _markOnline() {
-		// cake2
-		return;
 		Stopwatch::start('CurrentUser->_markOnline()');
 
 		$id = $this->getId();
