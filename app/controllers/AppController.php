@@ -3,8 +3,8 @@
 App::import('Lib', 'Stopwatch.Stopwatch');
 
 class AppController extends Controller {
-	/*cake2
 	public $components = array (
+	/*cake2
 			'DebugKit.Toolbar',
 
 			'Auth',
@@ -22,27 +22,24 @@ class AppController extends Controller {
 
 			'RequestHandler',
 			'SaitoEntry',
+	*/
 			'Session',
 	);
-	*/
 	public $helpers = array (
-	/* cake2
 			#App Helpers
 			'Bbcode',
 			'UserH',
 			'Markitup.Markitup',
-	*/
 			'Stopwatch.Stopwatch',
-	/* cake2
 			'TextH',
 
 			#CakePHP Helpers
 			'Ajax',
 			'Js' => array('Jquery'),
+
 			'Html',
 			'Form',
 			'Session',
-	*/
 	);
 
 	/* cake2
@@ -88,7 +85,7 @@ class AppController extends Controller {
 		parent::__construct($request, $response);
 	}
 
-	public function beforeFiltercake2() {
+	public function beforeFilter() {
 		parent::beforeFilter();
 		Stopwatch::start('App->beforeFilter()');
 

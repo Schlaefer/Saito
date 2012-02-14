@@ -36,7 +36,7 @@ class EntriesController extends AppController {
 
 	public function index($page = NULL) {
 		Stopwatch::start('Entries->index()');
-
+		/*
 		extract($this->_getInitialThreads($this->CurrentUser));
 		$this->set('entries',
 				$this->Entry->treeForNodes($initialThreads, $order,
@@ -47,6 +47,7 @@ class EntriesController extends AppController {
 					$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
 		}
 
+		*/
 		//* set sub_nav_left
 		$this->Session->write('paginator.lastPage', $page);
 		$this->set('title_for_layout', __('page') . ' ' . $page);
