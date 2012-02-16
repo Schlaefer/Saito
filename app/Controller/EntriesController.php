@@ -160,8 +160,25 @@ class EntriesController extends AppController {
 		$this->set('title', $title);
 	}
 
+	public function walk(&$value, $func) {
+			$value['right'] = 'foo';
+			if(isset($value['_children'])) {
+					array_map('walk', $value['_children'] );
+			}
+			return $value;
+	}
+
 	public function mix($tid) {
 		$entries = $this->_setupMix($tid);
+		$func = function(&$value) {
+			$value['right'] = 'foo';
+			if(isset($value['_children'])) {
+					array_map($func, $value['_children'] );
+			}
+			return $value;
+		};
+		array_walk($entries, 'walk');
+		debug($entries);
 		$this->set('entries', $entries);
 
 		$this->set('headerSubnavLeft',
@@ -184,6 +201,7 @@ class EntriesController extends AppController {
 			return;
 		endif;
 
+		$this->request->data['rights'] = $this->_getRightsForEntryAndUser($this->request->data, $this->CurrentUser->getSettings());
 		$this->set('entry', $this->request->data);
 
 
@@ -771,13 +789,18 @@ class EntriesController extends AppController {
 			return FALSE;
 		}
 
-		//* setEditingRights
-		$this->set('isEditingForbidden', $this->SaitoEntry->isEditingForbidden($this->request->data, $this->CurrentUser->getSettings()));
-		$this->set('isEditingAsUserForbidden', $this->SaitoEntry->isEditingForbidden($this->request->data, $this->CurrentUser->getSettings(), array('user_type' =>'user')));
-		$this->set('isAnsweringForbidden', $this->SaitoEntry->isAnsweringForbidden($this->request->data, $this->CurrentUser->getSettings()));
-
 		return TRUE;
 	}
+
+	protected function _getRightsForEntryAndUser($entry, $user) {
+			$rights = array(
+					'isEditingForbidden' => $this->SaitoEntry->isEditingForbidden($entry, $user),
+					'isEditingForUsersForbidden' => $this->SaitoEntry->isEditingForbidden($entry, $user, array( 'user_type' => 'user' )),
+					'isAnsweringForbidden' => $this->SaitoEntry->isAnsweringForbidden($entry, $user),
+			);
+
+			return $rights;
+		}
 
 	protected function _teardownView() {
 		if ( $this->request->data['Entry']['user_id'] != $this->CurrentUser->getId() ) {
@@ -795,6 +818,10 @@ class EntriesController extends AppController {
 			$this->redirect('/');
 		}
 		return $entries;
+	}
+
+	protected function _setViewAndMix() {
+
 	}
 
 	protected function _setupMobile() {

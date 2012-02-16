@@ -86,7 +86,7 @@ Configure::write('Saito.theme', 'default');
  * true: (default) use cache
  * false: don't use cache
  */
-Configure::write('Saito.Cache.Thread', FALSE);
+Configure::write('Saito.Cache.Thread', false);
 
 /**
  * Don't use core Security.salt for user passwords
