@@ -812,10 +812,6 @@ class EntriesController extends AppController {
 		return $entries;
 	}
 
-	protected function _setViewAndMix() {
-
-	}
-
 	protected function _setupMobile() {
 		$this->layout = 'mobile';
 	}
