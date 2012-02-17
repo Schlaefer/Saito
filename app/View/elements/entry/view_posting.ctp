@@ -134,7 +134,7 @@
 																'id' => 'forum_answer_' . $entry['Entry']['id'],
 																'class' => 'btn_submit', 'accesskey' => "a" ,
 																'update' => 'posting_formular_slider_' . $entry['Entry']['id'] ,
-																'indicator' => 'spinner_'. $this->request->data['Entry']['id'],
+																'indicator' => 'spinner_'. $entry['Entry']['id'],
 																'complete'	=> $result ,
 																'inline'	=> true,
 
