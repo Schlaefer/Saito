@@ -340,6 +340,22 @@ class Entry extends AppModel {
 		return	$this->deleteAll(array('tid' => $this->id), false, true);
 	} // end deleteTreeWithTid()
 
+	/**
+	 * Maps all elements in $tree to function $func
+	 *
+	 * @param type $tree
+	 * @param type $_this
+	 * @param type $func
+	 */
+	public static function mapTreeElements(&$tree, $func, $_this = NULL) {
+		foreach ($tree as &$leaf ):
+			$func(&$leaf, $_this);
+			if(isset($leaf['_children'])):
+					self::mapTreeElements($leaf['_children'], $func, $_this);
+			endif;
+		endforeach;
+	}
+
 
 	/**
 	 * Locks or unlocks a whole thread

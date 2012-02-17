@@ -33,6 +33,13 @@ class EntriesController extends AppController {
 			array( 'field' => 'name', 'type' => 'value' ),
 	);
 
+	/**
+	 * Function for checking user rights on an entry
+	 * 
+	 * @var function
+	 */
+	protected $_ldGetRightsForEntryAndUser;
+
 	public function index($page = NULL) {
 		Stopwatch::start('Entries->index()');
 
@@ -160,27 +167,10 @@ class EntriesController extends AppController {
 		$this->set('title', $title);
 	}
 
-	public function walk(&$value, $func) {
-			$value['right'] = 'foo';
-			if(isset($value['_children'])) {
-					array_map('walk', $value['_children'] );
-			}
-			return $value;
-	}
-
 	public function mix($tid) {
 		$entries = $this->_setupMix($tid);
-		$func = function(&$value) {
-			$value['right'] = 'foo';
-			if(isset($value['_children'])) {
-					array_map($func, $value['_children'] );
-			}
-			return $value;
-		};
-		array_walk($entries, 'walk');
-		debug($entries);
+		Entry::mapTreeElements( $entries, $this->_ldGetRightsForEntryAndUser, $this);
 		$this->set('entries', $entries);
-
 		$this->set('headerSubnavLeft',
 				array( 'title' => __('Back'), 'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
 	}
@@ -201,7 +191,9 @@ class EntriesController extends AppController {
 			return;
 		endif;
 
-		$this->request->data['rights'] = $this->_getRightsForEntryAndUser($this->request->data, $this->CurrentUser->getSettings());
+		$a = array($this->request->data);
+		Entry::mapTreeElements( $a, $this->_ldGetRightsForEntryAndUser, $this);
+		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
 
@@ -625,6 +617,15 @@ class EntriesController extends AppController {
 		parent::beforeFilter();
 		Stopwatch::start('Entries->beforeFilter()');
 
+		$this->_ldGetRightsForEntryAndUser = function($element, $_this) {
+				$rights = array(
+					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
+					'isEditingForUsersForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings(), array( 'user_type' => 'user' )),
+					'isAnsweringForbidden' => $_this->SaitoEntry->isAnsweringForbidden($element, $_this->CurrentUser->getSettings()),
+					);
+				$element['rights'] = $rights;
+		};
+
 		$this->Auth->allow(
 				'feed', 'index', 'mobile_index', 'view', 'mobile_view', 'mix', 'mobile_mix',
 				'mobile_recent'
@@ -792,16 +793,6 @@ class EntriesController extends AppController {
 
 		return TRUE;
 	}
-
-	protected function _getRightsForEntryAndUser($entry, $user) {
-			$rights = array(
-					'isEditingForbidden' => $this->SaitoEntry->isEditingForbidden($entry, $user),
-					'isEditingForUsersForbidden' => $this->SaitoEntry->isEditingForbidden($entry, $user, array( 'user_type' => 'user' )),
-					'isAnsweringForbidden' => $this->SaitoEntry->isAnsweringForbidden($entry, $user),
-			);
-
-			return $rights;
-		}
 
 	protected function _teardownView() {
 		if ( $this->request->data['Entry']['user_id'] != $this->CurrentUser->getId() ) {
