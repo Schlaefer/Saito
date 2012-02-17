@@ -552,7 +552,8 @@ class EntriesController extends AppController {
 		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject, text, category' ) ));
 		$errors = $this->Entry->invalidFields();
 
-		if ( count($errors) == 0 ) {
+		if ( count($errors) === 0 ) :
+		//* no validation errors
 			// Sanitize before validation: maxLength will fail because of html entities
 			$this->request->data['Entry']['subject'] = Sanitize::html($subject);
 			$this->request->data['Entry']['text'] = Sanitize::html($text);
@@ -573,14 +574,14 @@ class EntriesController extends AppController {
 							)
 					));
 			$this->set('entry', $this->request->data);
-		} else {
+		else :
+		//* validation errors
 			foreach ( $errors as $field => $error ) {
-				$message[] = __d('nondynamic', $field) . ": " . __d('nondynamic',
-								$error, true);
+				$message[] = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
 			}
 			$this->set('message', $message);
 			$this->render('/elements/flash/error');
-		}
+		endif;
 	}
 
 	public function ajax_toggle($id = null, $toggle = null) {
