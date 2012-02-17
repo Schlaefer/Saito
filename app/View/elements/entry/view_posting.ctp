@@ -14,7 +14,7 @@
 			</div>
 			<div class="right">
 				<ul>
-					<?php if (isset($isEditingForbidden) && $isEditingForbidden == false) : ?>
+					<?php if (isset($entry['rights']['isEditingForbidden']) && isset($entry['rights']['isEditingForbidden']) == false) : ?>
 						<li>
 							<?php echo $this->Html->link(
 											__('edit_linkname'),
@@ -116,7 +116,7 @@
 							<div class="c_a_a_b_a c_first_child">
 								<?php
 										# @td MCV
-										$answering_forbidden = $isAnsweringForbidden;
+										$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
 										if ($answering_forbidden === 'locked') {
 											echo $this->Html->image('locked.png', array("alt" => 'locked'));
 										} elseif (!$answering_forbidden) {
@@ -134,7 +134,7 @@
 																'id' => 'forum_answer_' . $entry['Entry']['id'],
 																'class' => 'btn_submit', 'accesskey' => "a" ,
 																'update' => 'posting_formular_slider_' . $entry['Entry']['id'] ,
-																'indicator' => 'spinner_'. $this->request->data['Entry']['id'],
+																'indicator' => 'spinner_'. $entry['Entry']['id'],
 																'complete'	=> $result ,
 																'inline'	=> true,
 
@@ -142,7 +142,7 @@
 											 );
 										};
 									?>
-									<?php  if (isset($isEditingAsUserForbidden) && $isEditingAsUserForbidden == false) : ?>
+									<?php  if (isset($entry['rights']['isEditingAsUserForbidden']) && $entry['rights']['isEditingAsUserForbidden'] == false) : ?>
 										&nbsp;
 										<span class="small">
 											<?php echo $this->Html->link(

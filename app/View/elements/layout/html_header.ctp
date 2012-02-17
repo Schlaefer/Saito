@@ -28,12 +28,9 @@
 				}
 			?>
 			<?php
-				/* cake2
 				if ( $CurrentUser->isLoggedIn() ) :
 					echo $this->UserH->generateCss($CurrentUser->getSettings());
 				endif;
-				 * 
-				 */
 				?>
 			<?php echo $this->Html->script('jquery-1.6.1.min'); ?>
 			<meta name="viewport" content="width=device-width" />

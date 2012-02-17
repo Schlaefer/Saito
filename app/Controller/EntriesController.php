@@ -33,6 +33,13 @@ class EntriesController extends AppController {
 			array( 'field' => 'name', 'type' => 'value' ),
 	);
 
+	/**
+	 * Function for checking user rights on an entry
+	 * 
+	 * @var function
+	 */
+	protected $_ldGetRightsForEntryAndUser;
+
 	public function index($page = NULL) {
 		Stopwatch::start('Entries->index()');
 
@@ -162,8 +169,8 @@ class EntriesController extends AppController {
 
 	public function mix($tid) {
 		$entries = $this->_setupMix($tid);
+		Entry::mapTreeElements( $entries, $this->_ldGetRightsForEntryAndUser, $this);
 		$this->set('entries', $entries);
-
 		$this->set('headerSubnavLeft',
 				array( 'title' => __('Back'), 'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
 	}
@@ -184,6 +191,9 @@ class EntriesController extends AppController {
 			return;
 		endif;
 
+		$a = array($this->request->data);
+		Entry::mapTreeElements( $a, $this->_ldGetRightsForEntryAndUser, $this);
+		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
 
@@ -534,7 +544,8 @@ class EntriesController extends AppController {
 		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject, text, category' ) ));
 		$errors = $this->Entry->invalidFields();
 
-		if ( count($errors) == 0 ) {
+		if ( count($errors) === 0 ) :
+		//* no validation errors
 			// Sanitize before validation: maxLength will fail because of html entities
 			$this->request->data['Entry']['subject'] = Sanitize::html($subject);
 			$this->request->data['Entry']['text'] = Sanitize::html($text);
@@ -555,14 +566,14 @@ class EntriesController extends AppController {
 							)
 					));
 			$this->set('entry', $this->request->data);
-		} else {
+		else :
+		//* validation errors
 			foreach ( $errors as $field => $error ) {
-				$message[] = __d('nondynamic', $field) . ": " . __d('nondynamic',
-								$error, true);
+				$message[] = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
 			}
 			$this->set('message', $message);
 			$this->render('/elements/flash/error');
-		}
+		endif;
 	}
 
 	public function ajax_toggle($id = null, $toggle = null) {
@@ -605,6 +616,15 @@ class EntriesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		Stopwatch::start('Entries->beforeFilter()');
+
+		$this->_ldGetRightsForEntryAndUser = function($element, $_this) {
+				$rights = array(
+					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
+					'isEditingForUsersForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings(), array( 'user_type' => 'user' )),
+					'isAnsweringForbidden' => $_this->SaitoEntry->isAnsweringForbidden($element, $_this->CurrentUser->getSettings()),
+					);
+				$element['rights'] = $rights;
+		};
 
 		$this->Auth->allow(
 				'feed', 'index', 'mobile_index', 'view', 'mobile_view', 'mix', 'mobile_mix',
@@ -770,11 +790,6 @@ class EntriesController extends AppController {
 			$this->redirect('/');
 			return FALSE;
 		}
-
-		//* setEditingRights
-		$this->set('isEditingForbidden', $this->SaitoEntry->isEditingForbidden($this->request->data, $this->CurrentUser->getSettings()));
-		$this->set('isEditingAsUserForbidden', $this->SaitoEntry->isEditingForbidden($this->request->data, $this->CurrentUser->getSettings(), array('user_type' =>'user')));
-		$this->set('isAnsweringForbidden', $this->SaitoEntry->isAnsweringForbidden($this->request->data, $this->CurrentUser->getSettings()));
 
 		return TRUE;
 	}

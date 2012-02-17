@@ -1,5 +1,15 @@
+# <IfModule mod_rewrite.c>
+   # RewriteEngine on
+   # RewriteRule    ^$ app/webroot/    [L]
+   # RewriteRule    (.*) app/webroot/$1 [L]
+# </IfModule>
+
+# Development
 <IfModule mod_rewrite.c>
-   RewriteEngine on
-   RewriteRule    ^$ app/webroot/    [L]
-   RewriteRule    (.*) app/webroot/$1 [L]
+	 RewriteEngine on
+	 RewriteRule    ^$ app/webroot/    [L] 
+	 RewriteCond  %{REQUEST_FILENAME} !-d 
+	 RewriteCond  %{REQUEST_FILENAME} !-f 
+	 RewriteRule    (.*)  app/webroot/$1 [L] 
 </IfModule>
+
