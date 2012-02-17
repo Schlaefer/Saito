@@ -33,7 +33,7 @@ class MarkitupHelper extends AppHelper {
 	 * @return string  An <textarea /> element.
 	 */
 	public function editor($name, $settings = array()) {
-		echo $this->Html->script($this->paths['js'] . 'jquery.markitup', false);
+		echo $this->Html->script($this->paths['js'] . 'jquery.markitup', array('inline' => true));
 		$config = $this->_build($settings);
 		$settings = $config['settings'];
 		$default = $config['default'];
@@ -70,6 +70,7 @@ class MarkitupHelper extends AppHelper {
 		$htmlAttributes = array_merge($htmlAttributes, array('onclick' => 'jQuery("'.$id.'").markItUpRemove(); jQuery("'.$id.'").markItUp('.$settings['settings'].', { previewParserPath:"'.$settings['parser'].'" }); return false;'));
 		return $this->Html->link($title, "#", $htmlAttributes, $confirmMessage, false);
 	}
+
 	/**
 	 * Link to destroy a markItUp! editor from a textfield
 	 * @param string  $title The content to be wrapped by <a> tags.
@@ -83,6 +84,7 @@ class MarkitupHelper extends AppHelper {
 		$htmlAttributes = array_merge($htmlAttributes, array('onclick' => 'jQuery("'.$id.'").markItUpRemove(); return false;'));
 		return $this->Html->link($title, "#", $htmlAttributes, $confirmMessage, false);
 	}
+
 	/**
 	 * Link to add content to the focused textarea
 	 * @param string  $title The content to be wrapped by <a> tags.
@@ -108,6 +110,7 @@ class MarkitupHelper extends AppHelper {
 		$htmlAttributes = array_merge($htmlAttributes, array('onclick' => '$.markItUp( { '.$properties.' } ); return false;'));
 		return $this->Html->link($title, "#", $htmlAttributes, $confirmMessage, false);
 	}
+
 	public function parse($content, $parser = 'default') {
 		$parsers = Configure::read('Markitup.vendors');
 		if (empty($vendors)) {
@@ -152,12 +155,12 @@ class MarkitupHelper extends AppHelper {
 			$settings['parser'] = $this->Html->url(Router::url(array_merge($settings['parser'], array($settings['set']))));
 		}
 
-		$this->Html->css(array(
+		echo $this->Html->css(array(
 			$this->paths['css'] . 'skins' . DS . $settings['skin'] . DS . 'style',
 			$this->paths['css'] . 'sets' . DS . $settings['set'] . DS . 'style',
-		), null, array('inline' => false));
+		), null, array('inline' => true));
 
-		$this->Html->link($this->paths['js'] . 'sets' . DS . $settings['set'] . DS . 'set', false);
+		echo $this->Html->script($this->paths['js'] . 'sets' . DS . $settings['set'] . DS . 'set', true);
 
 		return array('settings' => $settings, 'default' => $default);
 	}
