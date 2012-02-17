@@ -31,7 +31,7 @@ class AjaxHelper extends AppHelper {
  *
  * @var array
  */
-	var $helpers = array('Html', 'Javascript', 'Form');
+	var $helpers = array('Html', 'Form');
 /**
  * HtmlHelper instance
  *
@@ -192,7 +192,7 @@ class AjaxHelper extends AppHelper {
 			$options['data'] = "$('#{$htmlOptions['id']}').parents('form').formSerialize()";
 		}*/
 		return $this->Form->submit($title, $htmlOptions)
-			. $this->Javascript->codeBlock("jQuery('#{$htmlOptions['id']}').click( function() { " . $this->remoteFunction($options, "jQuery('#{$htmlOptions['id']}').parents('form').ajaxSubmit") . "; return false;});");
+			. $this->Html->scriptBlock("jQuery('#{$htmlOptions['id']}').click( function() { " . $this->remoteFunction($options, "jQuery('#{$htmlOptions['id']}').parents('form').ajaxSubmit") . "; return false;});");
 	}
 
 /**

@@ -136,7 +136,9 @@ $this->Form->submit(__('Einfügen'),
 						echo $this->EntryH->generateMarkItUpEditorButtonSet('markItUp_' . $this->request->data['Entry']['id']);
 						echo $this->Markitup->editor(
 								'text',
+								// @td skin entnemofizieren
 								array( 'set' => 'macnemo', 'skin' => 'macnemo', 'label' => false, 'tabindex' => 3, 'settings' => 'markitupSettings' ));
+//								array( 'set' => 'default', 'skin' => 'simple', 'label' => false, 'tabindex' => 3, 'settings' => 'markitupSettings' ));
 						?>
 				</div> <!-- postingform_main -->
 				<div class="postingform_right">
