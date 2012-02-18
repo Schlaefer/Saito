@@ -98,10 +98,6 @@ class SaitoEntry extends Component {
 		return $isNewEntry;
 	}
 
-	public function isNt($entry) {
-		return empty($entry['Entry']['text']);
-	}
-
 	public function hasNewEntries($entry, $user) {
 		if ( $entry['Entry']['pid'] != 0 ):
 			throw new InvalidArgumentException("Entry is no thread-root, pid != 0");
