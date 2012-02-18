@@ -24,13 +24,15 @@
 		 * Preserves $GLOBALS vars through PHPUnit test runs
 		 *
 		 * @see http://www.phpunit.de/manual/3.6/en/fixtures.html#fixtures.global-state
-		 * 
-		 * $GLOBALS['__STRINGPARSER_NODE_ID' is set in stringparser.class.php
-		 * and needs to be preserved.
-		 * 
 		 * @var array
 		 */
-		protected $backupGlobalsBlacklist = array('__STRINGPARSER_NODE_ID');
+		protected $backupGlobalsBlacklist = array(
+			/*
+			 * $GLOBALS['__STRINGPARSER_NODE_ID' is set in stringparser.class.php
+			 * and must not cleared out 
+			 */
+			'__STRINGPARSER_NODE_ID'
+		);
 
 		public function testSimpleTextDecorations() {
 
