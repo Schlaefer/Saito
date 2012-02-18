@@ -2,7 +2,7 @@
 
 - Web server (tested with Apache and nginx)
 - MySQL 5+
-- PHP 5.2+ (if you're running your own server: in php.ini activate PHP-shortags)
+- PHP 5.3+ (if you're running your own server: in php.ini activate PHP-shortags)
 
 
 # Installation #
