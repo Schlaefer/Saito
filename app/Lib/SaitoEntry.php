@@ -83,14 +83,6 @@ class SaitoEntry extends Component {
 			return $verboten;
 	}
 
-	public function isDeletingForbidden($entry, $user, $options = array()) {
-		if(!isset($entry)) {
-			trigger_error(sprintf(__('Could not find entry to delete.'), $name), E_USER_WARNING);
-		}
-		$forbidden = true;
-
-	} // end isDeletingForbidden
-
 	/**
 	 * Decides if an $entry is new to/unseen by a $user
 	 *
