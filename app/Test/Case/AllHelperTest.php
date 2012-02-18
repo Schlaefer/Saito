@@ -4,7 +4,7 @@
 
 		public static function suite() {
 			$suite = new CakeTestSuite('All helper tests.');
-			$suite->addTestDirectory(TESTS . 'CASE' . DS . 'View' . DS . 'Helper');
+			$suite->addTestDirectory(TESTS . 'Case' . DS . 'View' . DS . 'Helper');
 			return $suite;
 		}
 
