@@ -682,12 +682,12 @@
 			$this->Bbcode = new BbcodeHelper($View);
 
 			$this->Bbcode->Html = new HtmlHelper($View);
-//			$this->Bbcode->FileUpload = ClassRegistry::init('FileUploadHelper', 'helper');
-//			$this->Bbcode->MailObfuscator = ClassRegistry::init('MailObfuscatorHelper', 'helper');
-//			$this->Bbcode->MailObfuscator->Html = &$this->Bbcode->Html;
-//			$this->Bbcode->Geshi = ClassRegistry::init('GeshiHelper', 'helper');
+			$this->Bbcode->FileUpload = ClassRegistry::init('FileUploadHelper', 'helper');
+			$this->Bbcode->MailObfuscator = ClassRegistry::init('MailObfuscatorHelper', 'helper');
+			$this->Bbcode->MailObfuscator->Html = &$this->Bbcode->Html;
+			$this->Bbcode->Geshi = ClassRegistry::init('GeshiHelper', 'helper');
 
-//			$this->Bbcode->beforeRender();
+			$this->Bbcode->beforeRender();
 		}
 
 		public function tearDown() {
