@@ -105,7 +105,7 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 	}
 
 	public function isForbidden() {
-		return $this->_settings['user_lock'] == true;
+		return empty($this->_settings['user_lock']) === FALSE;
 	}
 
 	protected function _getRole() {

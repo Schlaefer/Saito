@@ -35,6 +35,9 @@ class SaitoEntry extends Component {
 	 * @return boolean
 	 */
 	public function isEditingForbidden($entry, $user, $options = array()) {
+			// user is not logged in and not allowed to do anything
+		 	if (empty($user)) return false;
+
 			$defaults =  array('session' => false, 'user_type' => false);
 			$options = array_merge($defaults, $options);
 			extract($options);
