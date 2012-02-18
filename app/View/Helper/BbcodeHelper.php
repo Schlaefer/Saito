@@ -401,7 +401,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		endif;
 
 		$string = '<div class="c_bbc_code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
-		$string = $this->Geshi->highlight($string);
+		// cake2 $string = $this->Geshi->highlight($string);
 		return $string;
 	}
 
