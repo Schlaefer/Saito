@@ -54,7 +54,7 @@
 			$this->assertFalse(isset($this->headers['Location']));
 
 			$result = $this->testAction('/entries/view/4');
-			$this->assertContains(FULL_BASE_URL, $this->headers['Location']);
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 
 			//* logged in user
 			$this->_loginUser(3);
@@ -69,7 +69,7 @@
 
 			//* redirect to index if entry does not exist
 			$result = $this->testAction('/entries/view/9999', array( 'return' => 'vars' ));
-			$this->assertContains(FULL_BASE_URL, $this->headers['Location']);
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 		}
 
 		public function testHeaderCounter() {

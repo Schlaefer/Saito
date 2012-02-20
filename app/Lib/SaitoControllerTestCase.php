@@ -1,9 +1,9 @@
 <?php
 
-	/*
-	 * To change this template, choose Tools | Templates
-	 * and open the template in the editor.
-	 */
+	// sets the FULL_BASE_URL for CLI tests
+	if ( !defined('FULL_BASE_URL') ) {
+		define('FULL_BASE_URL', 'http://cakephp.org/');
+	}
 
 	class SaitoControllerTestCase extends ControllerTestCase {
 

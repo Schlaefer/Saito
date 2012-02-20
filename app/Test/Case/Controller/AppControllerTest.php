@@ -4,10 +4,6 @@
 	App::uses('AppController', 'Controller');
 	App::uses('SaitoControllerTestCase', 'Lib');
 
-	if ( !defined('FULL_BASE_URL') ) {
-		define('FULL_BASE_URL', 'http://cakephp.org/');
-	}
-
 	class AppControllerTest extends SaitoControllerTestCase {
 
 		public $fixtures = array(
