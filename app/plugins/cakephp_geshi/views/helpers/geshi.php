@@ -24,7 +24,7 @@ class GeshiHelper extends AppHelper {
  *
  * @var string
  */
-	public $configPath = APP . 'Config' . DS;
+	public $configPath;
 
 /**
  * The Container Elements that could contain highlightable code
@@ -165,6 +165,8 @@ class GeshiHelper extends AppHelper {
  * @return void
  **/
 	private function __configureInstance($geshi) {
+		$this->configPath = APP . 'Config' . DS;
+
 		if (file_exists($this->configPath . 'geshi.php')) {
 			include $this->configPath . 'geshi.php';
 		}

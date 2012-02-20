@@ -75,14 +75,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		/**
 		 * Configure Geshi
 		 */
-		// cake2 $this->Geshi->defaultLanguage = 'text';
+		$this->Geshi->defaultLanguage = 'text';
 		// allow all languages
-		/* cake2
 		 $this->Geshi->validLanguages = array( true );
 		if ( $this->request->action === 'preview' ) {
 			$this->Geshi->showPlainTextButton = false;
 		}
-		 */
 	}
 
 	/**
@@ -401,7 +399,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		endif;
 
 		$string = '<div class="c_bbc_code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
-		// cake2 $string = $this->Geshi->highlight($string);
+		$string = $this->Geshi->highlight($string);
 		return $string;
 	}
 
