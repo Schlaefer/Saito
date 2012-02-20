@@ -781,7 +781,7 @@ class EntriesController extends AppController {
 		//* redirect if posting doesn't exists
 		if ( $this->request->data == FALSE ):
 			$this->Session->setFlash(__('Invalid post'));
-			$this->redirect(array( '/' ));
+			$this->redirect('/');
 			return FALSE;
 		endif;
 
