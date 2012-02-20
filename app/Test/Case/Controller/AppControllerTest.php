@@ -66,23 +66,81 @@
 		}
 
 		public function testCurrentUser() {
-
 			//* check there's no current user
 			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
 
 			$this->assertTrue(is_null($result['CurrentUser']->getId()));
 			$this->assertFalse($result['CurrentUser']->isLoggedIn());
 
-			/* cake2
 			//* loginUser
+			$Entries = $this->generate('Entries');
 			$this->_loginUser(3);
-			$this->_prepareAction('/entries/index');
-			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
-			//* check there's no current user
+			$result = $this->testAction(
+					'/entries/index'
+					, array( 'return' => 'vars' )
+			);
 			$this->assertEqual($result['CurrentUser']->getId(), 3);
 			$this->assertTrue($result['CurrentUser']->isLoggedIn());
-			 *
-			 */
+		}
+
+		protected function _loginUser($id) {
+			if ( isset($this->controller->Session) ) :
+				$this->controller->Session->destroy();
+			endif;
+
+			$records = array(
+					array(
+							'id' => 1,
+							'username' => 'Alice',
+							'user_type' => 'admin',
+							'user_email' => 'alice@example.com',
+							// `test`
+							'password' => '098f6bcd4621d373cade4e832627b4f6',
+							'slidetab_order' => null,
+							'user_automaticaly_mark_as_read' => 0,
+							'user_lock' => 0,
+					),
+					array(
+							'id' => 2,
+							'username' => 'Mitch',
+							'user_type' => 'mod',
+							'user_email' => 'mitch@example.com',
+							'password' => '098f6bcd4621d373cade4e832627b4f6',
+							'slidetab_order' => null,
+							'user_automaticaly_mark_as_read' => 0,
+							'user_lock' => 0,
+					),
+					array(
+							'id' => 3,
+							'username' => 'Ulysses',
+							'user_type' => 'user',
+							'user_email' => 'ulysses@example.com',
+							'password' => '098f6bcd4621d373cade4e832627b4f6',
+							'slidetab_order' => null,
+							'user_automaticaly_mark_as_read' => 0,
+							'user_lock' => 0,
+					),
+					array(
+							'id' => 5,
+							'username' => 'Uma',
+							'user_type' => 'user',
+							'user_email' => 'uma@example.com',
+							'password' => '098f6bcd4621d373cade4e832627b4f6',
+							'slidetab_order' => null,
+							'user_automaticaly_mark_as_read' => 1,
+							'user_lock' => 0,
+					),
+			);
+
+			$this->controller->Session->write('Auth.User', $records[$id-1]);
+		}
+
+		public function tearDown() {
+			parent::tearDown();
+
+			if ( isset($this->controller->Session) ) :
+				$this->controller->Session->destroy();
+			endif;
 		}
 
 	}

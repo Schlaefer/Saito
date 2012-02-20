@@ -1,4 +1,4 @@
-<?= Stopwatch::start('slidetabs'); ?>
+<?php Stopwatch::start('slidetabs'); ?>
 <div id="slidetabs">
 	<?php
 		if (!empty($slidetabs)) {
@@ -8,4 +8,4 @@
 		}
 	?>
 </div>
-<?= Stopwatch::stop('slidetabs'); ?>
+<?php Stopwatch::stop('slidetabs'); ?>

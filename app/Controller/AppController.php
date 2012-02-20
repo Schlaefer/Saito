@@ -217,7 +217,7 @@ class AppController extends Controller {
 	 */
 	protected function _setupSlideTabs() {
 		$slidetabs = $this->installedSlidetabs;
-		if ($this->CurrentUser['slidetab_order']) {
+		if (!empty($this->CurrentUser['slidetab_order'])) {
 			$slidetabs_user = unserialize($this->CurrentUser['slidetab_order']);
 			// disabled tabs still set in user-prefs are unset
 			$slidetabs_user = array_intersect($slidetabs_user, $this->installedSlidetabs);

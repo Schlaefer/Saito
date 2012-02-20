@@ -166,7 +166,9 @@ class UserHHelper extends AppHelper {
 	}
 
 	public function isMod($user) {
-		$User = new SaitoUser;
+		// @td fix this fubar
+		$Collection = new ComponentCollection();
+		$User = new SaitoUser($Collection);
 		$User->set($user);
 		return $User->isMod($user);
 	}
