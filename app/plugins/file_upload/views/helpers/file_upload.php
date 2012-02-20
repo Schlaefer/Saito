@@ -64,7 +64,8 @@ class FileUploadHelper extends AppHelper{
     * Constructor, initiallizes the FileUpload Component
     * and sets the default options.
     */
-  function __construct(){
+  function __construct(View $View, $settings = array()){
+		parent::__construct($View, $settings);
     $this->FileUploadSettings = new FileUploadSettings;
     
     //setup settings

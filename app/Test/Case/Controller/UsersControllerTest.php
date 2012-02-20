@@ -104,6 +104,7 @@
 		}
 
 		public function testGetViewVarsChangepassword() {
+
 			/*
 			  $this->_loginUser("Charles");
 			  $this->prepareAction('/users/changepassword', $this->cu['user_id']);

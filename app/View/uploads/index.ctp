@@ -75,7 +75,7 @@
 				<div style="display: table-row;">
 					<div class="upload_box_footer" style="display: table-cell;">
 	<?php
-	$js_r = "var a = greyboxGetParentFunction('greyboxInsertIntoMarkitup') ; array(' [upload]{$image['Upload']['name']}[/upload] ');";
+	$js_r = "var a = greyboxGetParentFunction('greyboxInsertIntoMarkitup') ; a(' [upload]{$image['Upload']['name']}[/upload] ');";
 	echo $this->Html->link(__('upload_btn_insert_into_posting'), '#',
 			array( 'class' => 'btn_submit', 'onclick' => $js_r . 'return false;' ))
 	?>

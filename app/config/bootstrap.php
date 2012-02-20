@@ -74,6 +74,7 @@ CakePlugin::load('CakephpGeshi');
 CakePlugin::load('Flattr');
 CakePlugin::load('SimpleCaptcha');
 CakePlugin::load('Install');
+CakePlugin::load('FileUpload');
 
 /**
  * Set the theme

@@ -15,7 +15,7 @@
 			<?php echo $this->Html->css('stylesheets/screen.css'); ?>
 			<?php if(Configure::read('debug') > 0) echo $this->Html->css('stylesheets/cake.css'); ?>
 			<?php
-				if (is_file(APP.WEBROOT_DIR.DS."theme".DS.$this->theme.DS."css".DS.'stylesheets'.DS.$this->request->params["controller"].DS.$this->request->params["action"].".css")) {
+				if (is_file(APP.'View'.DS."Themed".DS.$this->theme.DS.'webroot'.DS."css".DS.'stylesheets'.DS.$this->request->params["controller"].DS.$this->request->params["action"].".css")) {
 							 echo $this->Html->css('stylesheets/'.$this->request->params["controller"]."/".$this->request->params["action"]);
 				}
 			?>
@@ -33,7 +33,7 @@
 		<?php echo $this->element('sql_dump'); ?>
 	</div>
 
-	<?php echo $this->Html->scriptBlock("var webroot = '$this->request->webroot';"); ?>
+	<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}';"); ?>
 	<?php
 		echo $this->Html->scriptBlock("var user_show_inline = '{$this->Session->read('Auth.User.inline_view_on_click')}';");
 	?>
@@ -43,6 +43,6 @@
 	<?php # echo $this->Html->script('classes/thread.class'); ?>
 	<?php # echo $this->Html->script('classes/thread_line.class'); ?>
 	<?php echo $scripts_for_layout; ?>
-	<? echo $this->Js->writeBuffer();?>
+	<?php echo $this->Js->writeBuffer();?>
 	</body>
 </html>
