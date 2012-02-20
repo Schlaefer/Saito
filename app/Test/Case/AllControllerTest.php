@@ -1,6 +1,6 @@
 <?php
 
-	class AllHelperTest extends CakeTestSuite {
+	class AllControllerTest extends CakeTestSuite {
 
 		public static function suite() {
 			$suite = new CakeTestSuite('All controller and component tests.');
