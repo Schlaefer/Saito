@@ -467,18 +467,17 @@
 		}
 
 		function testInternalImage() {
-			/* cake2
 			  $this->Bbcode->isParserInitialized = FALSE;
 			  $bbcode_img = Configure::read('Saito.Settings.bbcode_img');
 			  Configure::write('Saito.Settings.bbcode_img', true);
 
-			  Mock::generate('FileUploadHelper');
-			  $this->Bbcode->FileUpload = new MockFileUploadHelper();
-			  $this->Bbcode->FileUpload->setReturnValue('image', '<img src="test.png" />');
+				$FileUploader = $this->getMock('FileUploaderHelper', array( 'image', 'reset' ));
+				$FileUploader->expects($this->atLeastOnce())
+					->method('image')
+					->will($this->returnValue('<img src="test.png" />'));
+				$this->Bbcode->FileUpload =  $FileUploader;
 
-			 *
-			 * internal image
-			 *
+			//* internal image
 			  $input 		= '[upload]test.png[/upload]';
 			  $expected = array(
 			  array( 'div' => array('class' => 'c_bbc_upload')),
@@ -497,7 +496,6 @@
 			  $this->assertNoPattern($expected, $result);
 
 			  Configure::write('Saito.Settings.bbcode_img', $bbcode_img);
-			 */
 		}
 
 		function testSmilies() {
