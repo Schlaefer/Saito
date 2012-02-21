@@ -42,7 +42,7 @@ class createPostingTest extends Saito_SeleniumTestCase {
 		$this->click("btn_manualy_mark_as_read");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("css=div[class*='thread_line {$thread->getId()}']"));
-		$this->assertFalse($this->isElementPresent("css=div[class*='thread_line {$thread->getId} new']"));
+		$this->assertFalse($this->isElementPresent("css=div[class*='thread_line {$thread->getId()} new']"));
 
 		/*
 		 * check automaticaly mark as read
