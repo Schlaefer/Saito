@@ -9,6 +9,8 @@
 	class MlfAuthenticate extends FormAuthenticate {
 
 		protected function _password($password) {
+			Security::setHash('md5');
+
 			return Security::hash($password, null,
 							Configure::read('Saito.useSaltForUserPasswords'));
 		}

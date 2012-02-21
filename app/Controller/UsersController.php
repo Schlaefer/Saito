@@ -28,29 +28,29 @@ class UsersController extends AppController {
 	protected $allowedToEditUserData = false;
 
 	public function login() {
-		/** set sub_nav_left * */
-		$this->viewVars['LocationSubnavLeft'] = __('login_linkname');
+		$this->set('LocationSubnavLeft', __('login_linkname'));
 
-		if ($this->Auth->login()) :
+		if ( $this->Auth->login() ):
 			//* login was successfull
 
-			$this->User->id = $this->Session->read('Auth.User.id');
+			$this->User->id = $this->Auth->user('id');
 			$this->_successfulLogin();
 
 			//* setting cookie
-			if ( isset($this->request->data['User']['remember_me']) && $this->request->data['User']['remember_me']) :
+			if ( isset($this->request->data['User']['remember_me']) && $this->request->data['User']['remember_me'] ):
 				$this->CurrentUser->PersistentCookie->set();
 				unset($this->request->data['User']['remember_me']);
 			endif;
 
 			//* handling redirect after successfull login
-			if ($this->localReferer('action') == 'login') :
+			if ( $this->localReferer('action') === 'login' ) :
 				$this->redirect($this->Auth->redirect());
 			else :
 				$this->redirect($this->referer());
 			endif;
 
-		endif;
+		endif; // end successful login
+
 	} //end login()
 
 	public function logout() {

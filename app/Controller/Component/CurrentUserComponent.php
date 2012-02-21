@@ -164,6 +164,15 @@ Class CurrentUserComponent extends SaitoUser {
 	}
 
 	/**
+	 * Returns the name of the persistent cookie
+	 * 
+	 * @return string
+	 */
+	public function getPersistentCookieName() {
+		return $this->_persistentCookieName;
+	}
+
+	/**
 	 * write the settings to the session, so that they are available on next request
 	 */
 	protected function _writeSession(&$controller) {
@@ -173,16 +182,19 @@ Class CurrentUserComponent extends SaitoUser {
 		endif;
 	}
 
+	/**
+	 * Configures the auth component
+	 */
 	protected function _configureAuth() {
-		Security::setHash('md5');
-
 		// delegate authenticate method
 		// $this->_Controller->Auth->authenticate = $this->_User;
 		$this->_Controller->Auth->authenticate = array(
 					'Mlf' => array(
 							'useModel' 	=> 'User',
 							'scope'			=> array(
+								// user has activated his account (e.g. email confirmation)
 								'User.activate_code' => false,
+								// user is not banned by admin or mod
 								'User.user_lock'	=> false,
 								),
 							),
@@ -201,13 +213,10 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_Controller->Auth->allow('display');
 
 		// l10n
-//		$this->_Controller->Auth->loginError = __('auth_loginerror');
-//		$this->_Controller->Auth->authError = __('auth_autherror');
+		$this->_Controller->Auth->loginError = __('auth_loginerror');
+		$this->_Controller->Auth->authError = __('auth_autherror');
 	}
 
-	public function getPersistentCookieName() {
-		return $this->_persistentCookieName;
-	}
 }
 
 /**
