@@ -212,7 +212,7 @@
 							'password_confirm' => 'new_pw'
 					)
 			);
-			$this->assertTrue($this->User->save($data));
+			$this->assertTrue($this->User->save($data) == TRUE);
 			$this->assertFalse(array_key_exists('password', $this->User->invalidFields()));
 		}
 
@@ -237,7 +237,7 @@
 							'password_confirm' => 'new_pw_2',
 					)
 			);
-			$this->assertTrue($this->User->save($data));
+			$this->assertTrue($this->User->save($data) == TRUE);
 			$this->assertFalse(array_key_exists('password_old',
 							$this->User->invalidFields()));
 		}
