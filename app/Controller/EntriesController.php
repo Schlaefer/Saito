@@ -18,9 +18,7 @@ class EntriesController extends AppController {
 	public $components = array(
 			'CacheTree',
 			'Flattr',
-			/* cake2
 			'Search.Prg',
-	*/
 	);
 	/**
 	 * Setup for Search Plugin
@@ -456,46 +454,45 @@ class EntriesController extends AppController {
 		}
 		$this->set('start_year', date('Y', $start_date));
 
-		// calculate current month and year
-		if ( empty($this->passedArgs['month']) ) {
+		//* calculate current month and year
+		if ( empty($this->request->data['Entry']['month']) && empty($searchStartMonth))  {
 			// start in last month
-//			$start_date = mktime(0,0,0,((int)date('m')-1), 28, (int)date('Y')); 
-			$this->passedArgs['month'] = date('n', $start_date);
-			$this->passedArgs['year'] = date('Y', $start_date);
+			//	$start_date = mktime(0,0,0,((int)date('m')-1), 28, (int)date('Y'));
+			$searchStartMonth = date('n', $start_date);
+			$searchStartYear  = date('Y', $start_date);
 		}
-
 
 		// extract search_term for simple search
-		$search_term = '';
+		$searchTerm = '';
 		if ( isset($this->request->data['Entry']['search_term']) ) {
-			$search_term = $this->request->data['Entry']['search_term'];
+			$searchTerm = $this->request->data['Entry']['search_term'];
 		} elseif ( isset($this->request->params['named']['search_term']) ) {
-			$search_term = $this->request->params['named']['search_term'];
-		} elseif ( isset($this->request->params['url']['search_term']) ) {
+			$searchTerm = $this->request->params['named']['search_term'];
+		} elseif ( isset($this->request['url']['search_term']) ) {
 			// search_term is send via get parameter
-			$search_term = $this->request->params['url']['search_term'];
+			$searchTerm = $this->request['url']['search_term'];
 		}
-		$this->set('search_term', $search_term);
+		$this->set('search_term', $searchTerm);
 
 		if ( isset($this->passedArgs['adv']) ) {
 			$this->request->params['data']['Entry']['adv'] = 1;
 		}
 
-		if ( !isset($this->request->params['data']['Entry']['adv']) ) {
+		if ( !isset($this->request->data['Entry']['adv']) && !isset($this->request->params['named']['adv']) ) {
 			// Simple Search
-			if ( $search_term ) {
+			if ( $searchTerm ) {
 				Router::connectNamed(array( 'search_term' ));
 
-				$this->passedArgs['search_term'] = $search_term;
+				$this->passedArgs['search_term'] = $searchTerm;
 				/* stupid apache rewrite urlencode bullshit */
 				// $this->passedArgs['search_term'] = urlencode(urlencode($search_term));
 
 				$where = array( );
-				if ( $search_term ) {
+				if ( $searchTerm ) {
 
 					$this->paginate = array(
-							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$search_term' IN BOOLEAN MODE)*100) + (MATCH (Entry.text) AGAINST ('$search_term' IN BOOLEAN MODE)*10) + MATCH (Entry.name) AGAINST ('$search_term' IN BOOLEAN MODE) AS rating",
-							'conditions' => "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$search_term' IN BOOLEAN MODE)",
+							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$searchTerm' IN BOOLEAN MODE)*100) + (MATCH (Entry.text) AGAINST ('$searchTerm' IN BOOLEAN MODE)*10) + MATCH (Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE) AS rating",
+							'conditions' => "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
 							'order' => 'rating DESC, `Entry`.`time` DESC',
 							/*
 							  'conditions' 	=> array(
@@ -509,21 +506,30 @@ class EntriesController extends AppController {
 					$found_entries = $this->paginate('Entry');
 
 					$this->set('FoundEntries', $found_entries);
-					$this->request->data['Entry']['search']['term'] = $search_term;
+					$this->request->data['Entry']['search']['term'] = $searchTerm;
 				}
 			}
 		} else {
 			// Advanced Search
-			$this->Prg->commonProcess();
-			$this->paginate['conditions'] = $this->Entry->parseCriteria($this->passedArgs);
-			$this->paginate['conditions']['time >'] = date('Y-m-d H:i:s',
-					mktime(0, 0, 0, (int) $this->passedArgs['month'], 1,
-							(int) $this->passedArgs['year']));
+			if (isset($this->request->params['named']['month'])):
+				$searchStartMonth = (int)$this->request->params['named']['month'];
+				$searchStartYear  = (int)$this->request->params['named']['year'];
+			endif;
 
-			$this->paginate['order'] = array('`Entry`.`time`' => 'DESC');
-			$this->paginate['limit'] = 25;
+			$this->Prg->commonProcess();
+			$paginateSettings = array();
+			$paginateSettings['conditions'] = $this->Entry->parseCriteria(
+					$this->request->params['named']);
+			$paginateSettings['conditions']['time >'] = date(
+					'Y-m-d H:i:s', mktime( 0, 0, 0, $searchStartMonth, 1, $searchStartYear ));
+			$paginateSettings['order'] = array('`Entry`.`time`' => 'DESC');
+			$paginateSettings['limit'] = 25;
+			$this->paginate = $paginateSettings;
 			$this->set('FoundEntries', $this->paginate());
 		}
+
+		$this->request->data['Entry']['month'] = $searchStartMonth;
+		$this->request->data['Entry']['year']  = $searchStartYear;
 	}
 
 	public function preview() {

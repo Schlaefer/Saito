@@ -75,6 +75,7 @@ CakePlugin::load('Flattr');
 CakePlugin::load('SimpleCaptcha');
 CakePlugin::load('Install');
 CakePlugin::load('FileUpload');
+CakePlugin::load('Search');
 
 /**
  * Set the theme

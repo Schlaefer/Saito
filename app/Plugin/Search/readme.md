@@ -1,5 +1,7 @@
 # Search Plugin for CakePHP #
 
+Version 2.0
+
 The Search plugin allows you to make any kind of data searchable, enabling you to implement a robust searching rapidly.
 
 The Search plugin is an easy way to include search into your application, and provides you with a paginate-able search in any controller.
@@ -92,6 +94,7 @@ Each filter record should contain array with several keys:
 * type - one of supported search types described below.
 * field - Real field name used for search should be used.
 * method - model method name or behavior used to generate expression, subquery or query.
+* allowEmpty - optional parameter used for expression, subquery and query methods. It allow to generate condition even if filter field value is empty. It could used when condition generate based on several other fields. All fields data passed to method.
 
 ### Supported types of search ###
 
@@ -147,7 +150,7 @@ Additional options parameters:
 ## Requirements ##
 
 * PHP version: PHP 5.2+
-* CakePHP version: Cakephp 1.3 Stable
+* CakePHP version: Cakephp 2.0 Stable
 
 ## Support ##
 
@@ -164,7 +167,7 @@ Redistributions of files must retain the above copyright notice.
 
 ## Copyright ###
 
-Copyright 2009-2010<br/>
+Copyright 2009-2011<br/>
 [Cake Development Corporation](http://cakedc.com)<br/>
 1785 E. Sahara Avenue, Suite 490-423<br/>
 Las Vegas, Nevada 89104<br/>

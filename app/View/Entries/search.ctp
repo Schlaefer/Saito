@@ -57,10 +57,19 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 					array( 'div' => false, 'label' => __('user_name') )); ?> </div>
 		<div>
 			<?php echo __("search_since"); ?>:
-<?php echo $this->Form->month('Entry',
-		$this->passedArgs['month']); ?>
-			<?php echo $this->Form->year('Entry',
-					$start_year, date('Y'), $this->passedArgs['year']); ?>
+			<?php
+				echo $this->Form->month(
+						'Entry'
+						, array('value' => $this->request->data['Entry']['month'] )
+					);
+				?>
+			<?php
+				echo $this->Form->year(
+						'Entry',
+						$start_year,
+						date('Y'),
+						array('value' => $this->request->data['Entry']['year'])
+				); ?>
 		</div>
 		<div><?php echo $this->Form->input('adv',
 					array( 'type' => 'hidden', 'value' => 1 )); ?> </div>

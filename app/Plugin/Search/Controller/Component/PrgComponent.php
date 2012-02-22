@@ -15,7 +15,9 @@
  * @package		plugins.search
  * @subpackage	plugins.search.controllers.components
  */
-class PrgComponent extends Object {
+App::uses('Component', 'Controller');
+
+class PrgComponent extends Component {
 
 /**
  * Actions used to fetch the post data
@@ -39,12 +41,22 @@ class PrgComponent extends Object {
 	public $encode = false;
 
 /**
- * Intialize Callback
+ * Default options
+ *
+ * @var array
+ */
+	protected $_defaults = array(
+		'commonProcess' => array()
+	);
+
+/**
+ * Constructor
  *
  * @param object Controller object
  */
-	public function initialize(&$controller) {
-		$this->controller = $controller;
+	public function __construct(ComponentCollection $collection, $settings) {
+		$this->controller = $collection->getController();
+		$this->_defaults = Set::merge($this->_defaults, $settings);
 	}
 
 /**
@@ -69,11 +81,13 @@ class PrgComponent extends Object {
 	public function presetForm($model) {
 		$data = array($model => array());
 		$args = $this->controller->passedArgs;
-
 		foreach ($this->controller->presetVars as $field) {
 			if ($this->encode == true || isset($field['encode']) && $field['encode'] == true) {
 				// Its important to set it also back to the controllers passed args!
-				$this->controller->passedArgs[$field['field']] = $args[$field['field']] = pack('H*', $args[$field['field']]);
+				if (isset($args[$field['field']])) {
+					$val = $args[$field['field']];
+					$this->controller->passedArgs[$field['field']] = $args[$field['field']] = base64_decode(str_pad(strtr($val, '-_', '+/'), strlen($val) % 4, '=', STR_PAD_RIGHT));
+				}
 			}
 
 			if ($field['type'] == 'lookup') {
@@ -113,16 +127,16 @@ class PrgComponent extends Object {
 	public function serializeParams(&$data) {
 		foreach ($this->controller->presetVars as $field) {
 			if ($field['type'] == 'checkbox') {
-				if (is_array($data[$field['field']])) {
-					$values = join('|', $data[$field['field']]);
+				if (array_key_exists($field['field'], $data)) {
+					$values = join('|', (array)$data[$field['field']]);
 				} else {
 					$values = '';
 				}
 				$data[$field['field']] = $values;
 			}
 
-			if ($this->encode == true || isset($field['encode']) && $field['encode'] == true) {
-				$data[$field['field']] = bin2hex($data[$field['field']]);
+			if (($this->encode == true || isset($field['encode']) && $field['encode'] == true) && isset($data[$field['field']])) {
+				$data[$field['field']] = rtrim(strtr(base64_encode($data[$field['field']]), '+/', '-_'), '=');
 			}
 		}
 		return $data;
@@ -155,7 +169,7 @@ class PrgComponent extends Object {
  * Exclude 
  * 
  * Removes key/values from $array based on $exclude 
-
+ *
  * @param array Array of data to be filtered
  * @param array Array of keys to exclude from other $array
  * @return array
@@ -180,19 +194,22 @@ class PrgComponent extends Object {
  * - Issuing redirect(), and connecting named parameters before redirect
  * - Setting named parameter form data to view
  *
- * @param string $modelName Name of the model class being used for the prg form
+ * @param string $modelName - Name of the model class being used for the prg form
  * @param array $options Optional parameters:
- *  - string form Name of the form involved in the prg
- *  - string action The action to redirect to. Defaults to the current action
- *  - mixed modelMethod If not false a string that is the model method that will be used to process the data 
+ *  - string formName - name of the form involved in the prg
+ *  - string action - The action to redirect to. Defaults to the current action
+ *  - mixed modelMethod - If not false a string that is the model method that will be used to process the data 
+ *  - array allowedParams - An array of additional top level route params that should be included in the params processed
  * @return void
  */
 	public function commonProcess($modelName = null, $options = array()) {
 		$defaults = array(
-			'form' => null,
+			'formName' => null,
 			'keepPassed' => true,
 			'action' => null,
-			'modelMethod' => 'validateSearch');
+			'modelMethod' => 'validateSearch',
+			'allowedParams' => array());
+		$defaults = Set::merge($defaults, $this->_defaults['commonProcess']);
 		extract(Set::merge($defaults, $options));
 
 		if (empty($modelName)) {
@@ -215,7 +232,7 @@ class PrgComponent extends Object {
 			}
 
 			if ($valid) {
-				$passed = $this->controller->params['pass'];
+				$passed = $this->controller->request->params['pass'];
 				$params = $this->controller->data[$modelName];
 				$params = $this->exclude($params, array());
 
@@ -226,7 +243,14 @@ class PrgComponent extends Object {
 				$this->serializeParams($params);
 				$this->connectNamed($params, array());
 				$params['action'] = $action;
-				$params = array_merge($this->controller->params['named'], $params);
+				$params = array_merge($this->controller->request->params['named'], $params);
+
+				foreach ($allowedParams as $key) {
+					if (isset($this->controller->request->params[$key])) {
+						$params[$key] = $this->controller->request->params[$key];
+					}
+				}
+
 				$this->controller->redirect($params);
 			} else {
 				$this->controller->Session->setFlash(__d('search', 'Please correct the errors below.'));
