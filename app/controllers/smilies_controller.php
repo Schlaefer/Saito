@@ -3,6 +3,14 @@ class SmiliesController extends AppController {
 
 	public $name = 'Smilies';
 
+	public $paginate = array(
+			/*
+				* sets limit unrealisticly high so we should never reach the upper limit
+				* i.e. always show all entries on one page
+				*/
+			'limit' => 1000,
+	);
+
 	public function admin_index() {
 		$this->Smiley->recursive = 0;
 		$this->set('smilies', $this->paginate());

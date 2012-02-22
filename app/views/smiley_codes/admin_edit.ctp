@@ -1,3 +1,6 @@
+<?php $this->Html->addCrumb(__('Smilies', true), '/admin/smilies'); ?>
+<?php $this->Html->addCrumb(__('Smiley Codes', true), '/admin/smiley_codes'); ?>
+<?php $this->Html->addCrumb(__('Smiley Codes Edit', true), '/admin/smiley_codes/edit'); ?>
 <div class="smileyCodes form">
 <?php echo $this->Form->create('SmileyCode');?>
 	<fieldset>

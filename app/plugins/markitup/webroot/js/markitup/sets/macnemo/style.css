@@ -78,15 +78,6 @@
 .markItUp .markItUpButton13-19 a	{ background-image:url(../../../../../theme/macnemo/img/smilies/shouting.png); }
 */
 
-/* gacker */
-.markItUp .markItUpButton13 a	{ background: url(images/spr_toolbar.png) 0px -352px no-repeat; }
-.markItUp .markItUpButton13 a:hover	{ background-position: -32px -352px; }
-
-/* popcorn */
-.markItUp .markItUpButton14 a	{ background: url(images/spr_toolbar.png) 0px -320px no-repeat; }
-.markItUp .markItUpButton14 a:hover	{ background-position: -32px -320px; }
-
-	
 .markItUp .clean a {
 	background-image:url(images/clean.png);
 }
