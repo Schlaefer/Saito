@@ -1,1 +1,0 @@
-<?php echo $js->object($json_data); ?>

@@ -1,8 +1,16 @@
-/app/config/database.php
-/app/config/installed.txt
-/app/webroot/theme/test
-/app/webroot/useruploads/*.*
+# cake 2.x
+# /app/Config
+/app/tmp
+/lib/Cake/Console/Templates/skel/tmp/
 /plugins
 /vendors
+.DS_Store
+tags
+
+# Saito
+/app/Config/database.php
+/app/Config/installed.txt
+/app/webroot/useruploads/*.*
 Capfile
 deploy.rb
+

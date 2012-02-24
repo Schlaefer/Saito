@@ -1,0 +1,111 @@
+/* markdown */
+.markitupPreview h1, h2, h3, h4, h5, h6 {
+	border:0 none !important;
+}
+.markitupPreview h1 {
+	border-top:4px solid #AAAAAA !important;
+	font-size:170% !important;
+	margin-top:1.5em !important;
+	padding-top:0.5em !important;
+}
+.markitupPreview h1:first-child {
+	border-top:medium none !important;
+	margin-top:0 !important;
+	padding-top:0.25em !important;
+}
+.markitupPreview h2 {
+	border-top:4px solid #E0E0E0 !important;
+	font-size:150% !important;
+	margin-top:1.5em !important;
+	padding-top:0.5em !important;
+}
+.markitupPreview h3 {
+	margin-top:1em !important;
+}
+.markitupPreview p {
+	line-height:1.5em !important;
+	margin:1em 0 !important;
+}
+.markitupPreview ul {
+	margin:1em 0 1em 2em !important;
+}
+.markitupPreview ol {
+	margin:1em 0 1em 2em !important;
+}
+.markitupPreview ol ol {
+	margin-bottom:0 !important;
+	margin-top:0 !important;
+}
+.markitupPreview ul ul, .markitupPreview ul ol, .markitupPreview ol ol, .markitupPreview ol ul {
+	margin-bottom:0 !important;
+	margin-top:0 !important;
+}
+.markitupPreview blockquote {
+	border-left:5px solid #DDDDDD !important;
+	color:#555555 !important;
+	margin:1em 0 !important;
+	padding-left:0.6em !important;
+}
+.markitupPreview dt {
+	font-weight:bold !important;
+	margin-left:1em !important;
+}
+.markitupPreview dd {
+	margin-bottom:1em !important;
+	margin-left:2em !important;
+}
+.markitupPreview table {
+	margin:1em 0 !important;
+}
+.markitupPreview table th {
+	border-bottom:1px solid #BBBBBB !important;
+	padding:0.2em 1em !important;
+}
+.markitupPreview table td {
+	border-bottom:1px solid #DDDDDD !important;
+	padding:0.2em 1em !important;
+}
+.markitupPreview pre {
+	background-color:#F8F8FF !important;
+	border:1px solid #DEDEDE !important;
+	color:#444444 !important;
+	font-size:90% !important;
+	line-height:1.5em !important;
+	margin:1em 0 !important;
+	overflow:auto !important;
+	padding:0.5em !important;
+}
+.markitupPreview pre code {
+	background-color:#F8F8FF !important;
+	border:medium none !important;
+	font-size:100% !important;
+	padding:0 !important;
+}
+.markitupPreview code {
+	background-color:#F8F8FF !important;
+	border:1px solid #DEDEDE !important;
+	color:#444444 !important;
+	font-size:90% !important;
+	padding:0 0.2em !important;
+}
+.markitupPreview pre.console {
+	background-color:black !important;
+	color:white !important;
+	font-size:90% !important;
+	line-height:1.5em !important;
+	margin:1em 0 !important;
+	padding:0.5em !important;
+}
+.markitupPreview pre.console code {
+	background-color:black !important;
+	border:medium none !important;
+	color:white !important;
+	font-size:100% !important;
+	padding:0 !important;
+}
+.markitupPreview pre.console span {
+	color:#888888 !important;
+}
+.markitupPreview pre.console span.command {
+	color:yellow !important;
+}
