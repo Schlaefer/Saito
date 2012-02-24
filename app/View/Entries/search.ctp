@@ -82,7 +82,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 <?php echo $this->Form->end(); ?>
 	</div> <!-- search_form_wrapper_adv -->
 	<div class="search_results">
-<? if ( isset($paginator) && !empty($FoundEntries) ) : ?>
+<?php if ( isset($this->Paginator) && !empty($FoundEntries) ) : ?>
 			<div class="c_header_2">
 				<div>
 					<div class=".c_first_child"></div>
@@ -99,22 +99,22 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 							$this->Paginator->options(array( 'url' => array_merge( array( ), $this->passedArgs) ));
 						endif;
 						?>
-						<?
+						<?php
 						if ( $this->Paginator->hasPrev() )
 							echo $this->Paginator->prev('<span class="prev_img">&nbsp;</span>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
-						<?
+						<?php
 						echo $this->Paginator->counter(array( 'format' => '%page%/%pages%' ));
 						?>
-						<?
+						<?php
 						if ( $this->Paginator->hasNext() )
 							echo $this->Paginator->next('<span class="next_img">&nbsp;</span>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 					</div>
-					<? # echo __('search_sort_order'). ":"; ?>
-	<?
+					<?php # echo __('search_sort_order'). ":"; ?>
+	<?php
 	# echo $this->Paginator->sort(__('search_time'), 'time');
 	?>
 					&nbsp;
@@ -131,9 +131,9 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						</li>
 				<? endforeach; ?>
 				</ul>
-<? else : ?>
-	<?= __('search_nothing_found'); ?>
-<? endif; ?>
+<?php else : ?>
+	<?php echo __('search_nothing_found'); ?>
+<?php endif; ?>
 		</div> <!-- content -->
 	</div> <!-- search_results -->
 </div> <!-- entry_search -->

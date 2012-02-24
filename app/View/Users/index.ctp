@@ -9,7 +9,7 @@
 	 */
 ?>
 <table class="table_1">
-	<?= $this->Html->tableHeaders( array (
+	<?php echo $this->Html->tableHeaders( array (
 		$this->Paginator->sort(__('username_marking'), 'username'),
 		$this->Paginator->sort(__('user_type'), 'User.user_type'),
 		__("userlist_email"),
@@ -21,7 +21,7 @@
 	));
 	?>
 	<?php foreach ( $users as $user) : ?>
-	<?=
+	<?php echo
 		$this->Html->tableCells(
 				array (
 					array (

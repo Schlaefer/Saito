@@ -1,4 +1,4 @@
-<? if (isset($paginator) && $this->request->params['action'] == 'index') : ?>
+<?php if (isset($this->Paginator) && $this->request->params['action'] == 'index') : ?>
 	<span class="paginator">
 		<?php
 		$this->Paginator->options(array('url' => null));
@@ -28,4 +28,4 @@
 							array('style' => 'display:none;'));
 		?>
 	</span>
-<? endif; ?>
+<?php endif; ?>
