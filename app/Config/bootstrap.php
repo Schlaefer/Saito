@@ -56,6 +56,14 @@ Configure::write('Markitup.vendors', array(
 ));
 */
 
+/**
+ * Cake doesn't handle Smiley <-> Smilies
+ */
+Inflector::rules('plural', array( '/^(smil)ey$/i' => '\1ies' ));
+Inflector::rules('singular', array( '/^(smil)ies$/i' => '\1ey' ));
+
+include_once 'version.php';
+
 	/**
  * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
  * Uncomment one of the lines below, as you need. make sure you read the documentation on CakePlugin to use more
@@ -88,7 +96,7 @@ Configure::write('Saito.theme', 'default');
  * true: (default) use cache
  * false: don't use cache
  */
-Configure::write('Saito.Cache.Thread', false);
+Configure::write('Saito.Cache.Thread', TRUE);
 
 /**
  * Don't use core Security.salt for user passwords
@@ -99,39 +107,34 @@ Configure::write('Saito.Cache.Thread', false);
  * true: (default) use Security.salt
  * false: don't use salt
  */
-Configure::write('Saito.useSaltForUserPasswords', FALSE);
-
-/**
- * Cake doesn't handle Smiley <-> Smilies
- */
-Inflector::rules('plural', array( '/^(smil)ey$/i' => '\1ies' ));
-Inflector::rules('singular', array( '/^(smil)ies$/i' => '\1ey' ));
-
-include_once 'version.php';
+Configure::write('Saito.useSaltForUserPasswords', TRUE);
 
 /**
  * Add additional buttons to editor
  * @td document in namespace
  */
 Configure::write('Saito.markItUp.nextCssId', 12);
+/*
+ *
 Configure::write(
 		'Saito.markItUp.additionalButtons',
 		array(
-			'Gacker' => array(
+			'Button1' => array(
 					// image in img/markitup/<button>.png
-					'button'			=> 'gacker',
+					'button'			=> 'button1',
 					// code inserted into text
-					'code' 				=> ':gacker:',
+					'code' 				=> ':action:',
 					// format replacement as image
 					'type'				=> 'image',
 					// replacement in output
-					'replacement' => 'gacker_large.png'
+					'replacement' => 'resultofbutton1.png'
 				),
-			'Popcorn' => array(
-					'button'			=> 'popcorn', //.png
-					'code' 				=> ':popcorn:',
-					'type'				=> 'image',
-					'replacement' => 'popcorn_large.png'
-				)
+* 			// …
 			)
 		);
+ *
+ */
+
+include 'saito_config.php';
+
+?>
