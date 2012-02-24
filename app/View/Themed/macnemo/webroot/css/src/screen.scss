@@ -714,6 +714,19 @@ a.btn {
 
 /** buttons end ** */
 
+/*******************************************************************************
+ * Buttons Thread Tools
+ ******************************************************************************/
+
+.btn-threadTool {
+	display: inline-block;
+	margin-top: 1px;
+	width: 13px;
+	height: 13px;
+}
+
+.btn-threadCollapse { @extend .sprite-thread-collapse; }
+
 /** headers start ** */
 .c_header_1 {
 	@include c_t_h_3_abs(24px);
