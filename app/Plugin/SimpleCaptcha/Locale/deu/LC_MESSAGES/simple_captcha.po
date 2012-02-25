@@ -1,0 +1,8 @@
+msgid "Captcha result incorrect"
+msgstr "Ihre Berechnung war leider nicht korrekt."
+
+msgid "Captcha result too late"
+msgstr "Sie haben zu lange gezögert mit ihrer Antwort."
+
+msgid "Captcha result too fast"
+msgstr "Sie waren zu schnell. Seien sie ein Mensch, lassen Sie sich ruhig ein paar Sekunden Zeit."
