@@ -2972,19 +2972,23 @@ class DboSource extends DataSource {
 		$join = array();
 		foreach ($indexes as $name => $value) {
 			$out = '';
+			$type = 'KEY';
 			if ($name === 'PRIMARY') {
 				$out .= 'PRIMARY ';
 				$name = null;
 			} else {
 				if (!empty($value['unique'])) {
 					$out .= 'UNIQUE ';
+				} elseif (isset($value['type'])) {
+        	$out .= strtoupper($value['type']).' ';
+          $type = 'INDEX';
 				}
 				$name = $this->startQuote . $name . $this->endQuote;
 			}
 			if (is_array($value['column'])) {
-				$out .= 'KEY ' . $name . ' (' . implode(', ', array_map(array(&$this, 'name'), $value['column'])) . ')';
+				$out .= $type . ' ' . $name . ' (' . implode(', ', array_map(array(&$this, 'name'), $value['column'])) . ')';
 			} else {
-				$out .= 'KEY ' . $name . ' (' . $this->name($value['column']) . ')';
+				$out .= $type . ' ' . $name . ' (' . $this->name($value['column']) . ')';
 			}
 			$join[] = $out;
 		}

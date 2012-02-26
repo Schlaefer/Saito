@@ -450,6 +450,9 @@ class Mysql extends DboSource {
 					$col = array();
 					$index[$idx->Key_name]['column'] = $idx->Column_name;
 					$index[$idx->Key_name]['unique'] = intval($idx->Non_unique == 0);
+					if ($idx['Index_type'] == 'FULLTEXT') {
+            $index[$idx->Key_name]['type'] = strtolower($idx['Index_type']);
+          }
 				} else {
 					if (!empty($index[$idx->Key_name]['column']) && !is_array($index[$idx->Key_name]['column'])) {
 						$col[] = $index[$idx->Key_name]['column'];
@@ -594,6 +597,10 @@ class Mysql extends DboSource {
 					$out .= 'KEY '. $name .' (' . $this->name($value['column']) . ')';
 				}
 				$alter[] = $out;
+				$add = $this->buildIndex($indexes['add']);
+				foreach ($add as $built) { 
+					$alter[] = 'ADD '.$built;
+				}
 			}
 		}
 		return $alter;
