@@ -1,0 +1,126 @@
+/* -------------------------------------------------------------------*
+// Saito markitup code
+// ------------------------------------------------------------------*/
+.c_markitup_label {
+	padding: 0.5em;
+}
+form .c_markitup_popup_txta {
+	width: 96%;
+	padding: 2%;
+}
+
+
+/* -------------------------------------------------------------------*
+// markItUp! Universal MarkUp Engine, JQuery plugin
+// By Jay Salvat - http://markitup.jaysalvat.com/
+// ------------------------------------------------------------------*/
+.markItUp {
+	outline:none;
+}
+.markItUp a:link,
+.markItUp a:visited {
+	color:#000;
+	text-decoration:none;
+}
+.markItUp  {
+}
+.markItUpContainer  {
+}
+.markItUpEditor {
+	clear:both; display:block;
+	overflow:auto;
+	height: 16em;
+}
+.markItUpPreviewFrame	{
+	@extend textarea;
+	overflow:auto;
+	background-color:#FFF;
+	width:99.9%;
+	height:300px;
+	margin:5px 0;
+}
+.markItUpFooter {
+	width:100%;
+}
+.markItUpResizeHandle {
+	overflow:hidden;
+	width:22px; height:5px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image: image_url('markitup/handle.png');
+	cursor:n-resize;
+}
+/***************************************************************************************/
+/* first row of buttons */
+.markItUpHeader ul, .markItUpHeader li {
+	padding: 0;
+	margin: 0;
+}
+
+.markItUpHeader ul li	{
+	width: 32px;
+	height: 32px;
+	
+	margin: 3px;
+
+	list-style:none;
+	float:left;
+	position:relative;
+}
+.markItUpHeader ul li:hover > ul{
+	display:block;
+}
+.markItUpHeader ul .markItUpDropMenu {
+/*	background:transparent image_url('markitup/menu.png') no-repeat 100% 70%;*/
+	margin-right:5px;
+}
+.markItUpHeader ul .markItUpDropMenu li {
+	margin-right:0px;
+}
+/* next rows of buttons */
+.markItUpHeader ul ul {
+	display:none;
+	position:absolute;
+	top:18px; left:0px;
+	background:#FFF;
+	border:1px solid #000;
+	@extend .c_all-radius;
+	border: $border_width solid $saito_gray_dark;
+}
+.markItUpHeader ul ul li {
+	float:none;
+	border-bottom:1px solid #000;
+}
+.markItUpHeader ul ul .markItUpDropMenu {
+	background:#FFF image_url('markitup/submenu.png') no-repeat 100% 50%;
+}
+.markItUpHeader ul .markItUpSeparator {
+	margin:0 10px;
+	width:1px;
+	height:32px;
+	overflow:hidden;
+	background-color:#CCC;
+}
+.markItUpHeader ul ul .markItUpSeparator {
+	width:auto; height:1px;
+	margin:0px;
+}
+
+.markItUpHeader ul a {
+	display:block;
+	width:32px; height:32px;
+	text-indent:-10000px;
+	background-repeat:no-repeat;
+	padding:0px;
+	margin:0px;
+}
+.markItUpHeader ul ul a {
+	display:block;
+	padding-left:0px;
+	text-indent:0;
+	width:120px;
+	padding:5px 5px 5px 25px;
+	background-position:2px 50%;
+}
+.markItUpHeader ul ul a:hover  {
+}

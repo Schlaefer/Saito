@@ -1,0 +1,56 @@
+/* v0.1 */
+@import "compass/reset"; 
+@import "compass/utilities/sprites";
+@import "compass/utilities/links";
+@import "compass/utilities/general/clearfix";
+@import "compass/css3/box-shadow";
+@import "compass/css3/gradient";
+@import "compass/css3/opacity";
+@import "compass/css3/transform";
+@import "compass/css3/transition";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-sizing";
+
+/*$experimental-support-for-mozilla: false;*/
+/*$experimental-support-for-webkit: true;*/
+/*$experimental-support-for-opera: false;
+/*$experimental-support-for-microsoft: false;*/
+$experimental-support-for-khtml: false;
+
+/*** setup blueprint ***/
+// This import applies a global reset to any page that imports this stylesheet.
+// schlaefer: deactivated, we already use compass/reset
+// @import "blueprint/reset";
+
+// To configure blueprint, edit the partials/base.sass file.
+@import "partials/base";
+
+// Import all the default blueprint modules so that we can access their mixins.
+@import "blueprint";
+
+form.bp { @include blueprint-form; }
+
+/*** set base parameters ***/
+
+$corner_radius: 6px;
+$border_width: 1px;
+$background_image: 'bubbles_outer.png';
+$padding: 10px;
+
+/*** Standardset ***/
+$saito_base_very_light: #FEFFD1;
+$saito_base: #F7F7AA;
+$saito_base_light: #F7F7AA;
+$saito_base_dark: #FEC853;
+$saito_accent_light: $saito_base ;
+$saito_accent_dark: $saito_base_dark;
+$saito_accent2_light: #9acd32; /* light green */
+$saito_accent2_dark: #55741c;
+$saito_border: $saito_accent2_light;
+$saito_gray_light: #FAFAFA;
+$saito_gray_dark: #E0E0E0;
+$saito_body_background: #f8f8f8; 
+$saito_info_text: #6f6f6f; /* light grey */ 
+$link_color: #a60202;
+
+$layout_min_width: 950px;
