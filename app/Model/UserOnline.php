@@ -83,6 +83,7 @@ class UserOnline extends AppModel {
 			$this->save($data);
 		}
 
+		// $this->log($this->find('all', array('contain'=>false)));
 		$this->_deleteOutdated();
 
 //		self::$Timer->stop('Model->UserOnline->setOnline()');

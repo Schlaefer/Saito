@@ -73,11 +73,19 @@
 			$this->controller->Session->write('Auth.User', $records[$id - 1]);
 		}
 
+		public function setUp() {
+			parent::setUp();
+
+			Configure::write('Cache.disable', true);
+
+		}
+
 		public function tearDown() {
 			if ( isset($this->controller->Session) ) :
 				$this->controller->Session->delete('Auth.User');
 			endif;
 
+			Configure::write('Cache.disable', false);
 			parent::tearDown();
 		}
 
