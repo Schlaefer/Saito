@@ -85,7 +85,7 @@
 			}
 		?>
 
-		<?php echo $this->Html->scriptBlock("var webroot = '$this->request->webroot'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
+		<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
 		<?php 
 			if ( Configure::read('debug') == 0 ):
 				echo $this->Html->script('js.min');
