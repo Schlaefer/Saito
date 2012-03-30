@@ -26,12 +26,16 @@ class CacheTreeHelper extends AppHelper {
 		return false;
 	}
 
+	public function read($id) {
+		return $this->_CacheTree->read($id);
+	}
+
 	public function update($id, $content) {
 		$this->_CacheTree->update($id, $content);
 	}
 
 	public function canUseCache($entry, $user) {
-		$this->_CacheTree->canUseCache($entry, $user);
+		return $this->_CacheTree->canUseCache($entry, $user);
 	}
 }
 
