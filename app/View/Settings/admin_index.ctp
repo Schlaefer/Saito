@@ -40,6 +40,25 @@
 				?>
 			</td>
 		</tr>
+		<tr>
+			<td>
+				<?php echo __('timezone'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['timezone']; ?>
+			</td>
+			<td>
+				<p><?php echo __('timezone_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'timezone'),
+								array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
 	</table> <!--	</table>-->
 	<br />
 	<h2>Misc</h2>

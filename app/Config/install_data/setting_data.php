@@ -97,6 +97,10 @@ class SettingData {
 				'name'	=> 'userranks_show',
 				'value'	=> '20',
 			),
+		array(
+				'name'	=> 'timezone',
+				'value'	=> 'UTC',
+			),
 	);
 }
 ?>

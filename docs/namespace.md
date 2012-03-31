@@ -3,11 +3,11 @@ Cache
 
 Kind 	| Namespace	| Key 	| Subkey	| Type 	| Comment 	
 -----	| ---------	| ----	| -------	| ----	| -------	
-Cache 	| Saito 	| Settings 	| 	| 	| Siehe Configuration
+Cache 					| Saito 	| Settings 	| 	| 	| Siehe Configuration
 Configuration 	| Saito 	| Cache 	| Thread 	| bool 	| if true use thread cache
 Configuration 	| Saito 	| useSaltForUserPasswords	| 	| bool 	| unsalted md5 mode for user passwords
-Configuration 	| Saito	| markItUp	| nextCssId	| int 	| next CSS-ID for button in the markItUp-CSS
-Configuration	| Saito	| markItUp 	| additionalButtons	| array 	| Additional buttons shown in the markItUpEditor
+Configuration 	| Saito		| markItUp	| nextCssId	| int 	| next CSS-ID for button in the markItUp-CSS
+Configuration		| Saito		| markItUp 	| additionalButtons	| array 	| Additional buttons shown in the markItUpEditor
 Configuration 	| Saito 	| Settings 	| 	| array 	| Array with App Settings
 Configuration 	| Saito 	| Slidetabs 	| all 	| array 	| names of all installed slidetabs
 Configuration 	| Saito 	| Smilies 	| smilies_all 	| array 	| Smilies from `smilies` table
@@ -23,22 +23,23 @@ Settings
 
 Field Name 	| Default Value 	| Type 	| Comment 
 ---------- 	| -------------	| ----- 	| -------
-autolink 	| 1 	| bool 	| Try to autolink URLs in bbcode 
-bbcode_img 	| 1 	| bool 	| Multimedia in BBCode anzeigen 
-edit_delay 	| 3 	| int 	| time in min. for edit without notice
-edit_period 	| 20 	| int 	| time in min. for edit with notice
-flattr_category 	| text 	| string	| category tag used by flattr for entries. see flattr.com for available categories
-flattr_enabled 	| 0 	| bool 	| enables flattr usage for users
-flattr_language 	| de_DE 	| string	| language tag used by flattr for entries. see flattr.com for codes
-forum_disabled 	| 0 	| bool 	| |
-forum_disabled_text 	| We'll back soon.	| string	| 
-forum_email 	| 	| string	| forum email address (admin contact)	
+autolink 						| 1 	| bool 	| Try to autolink URLs in bbcode
+bbcode_img 					| 1 	| bool 	| Multimedia in BBCode anzeigen
+edit_delay 					| 3 	| int 	| time in min. for edit without notice
+edit_period 				| 20 	| int 	| time in min. for edit with notice
+flattr_category 		| text 	| string	| category tag used by flattr for entries. see flattr.com for available categories
+flattr_enabled 			| 0 	| bool 	| enables flattr usage for users
+flattr_language 		| de_DE 	| string	| language tag used by flattr for entries. see flattr.com for codes
+forum_disabled 			| 0 	| bool 	| |
+forum_disabled_text | We'll back soon.	| string	| 
+forum_email 				| 	| string	| forum email address (admin contact)
 forum_name 	| 	| string	| forum title	
 quote_symbol 	| » 	| string	| 
 signature_separator 	| --- 	| string	| 
 smilies 	| 1 	| bool 	| Use Smilies 
 subject_maxlength 	| 75 	| int 	| 
-text_word_maxlength 	| 120 	| int 	| 
+text_word_maxlength | 120 	| int 	|
+timezone						| UTC		| string | default time zone for showing time value
 thread_depth_indent 	| 25 	| int 	| max indent level in index view 
 topics_per_page	| 20 	| int 	| # of topic on index page 
 upload_max_img_size 	| 300 	| int 	| Max. upload size in kB 
