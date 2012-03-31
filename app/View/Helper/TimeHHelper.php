@@ -21,15 +21,20 @@
 		protected $now = false;
 		protected $today = false;
 		protected $_start = false;
+		protected $_timeDiffToUtc = 0;
 
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->now = time();
 			$this->today = mktime(0, 0, 0);
+
+			$timezone = new DateTimeZone(Configure::read('Saito.Settings.timezone'));
+			$timeInTimezone = new DateTime('now', $timezone);
+			$timeOnServer = new DateTime('now');
+			$this->_timeDiffToUtc = $timeOnServer->getOffset() - $timeInTimezone->getOffset();
 		}
 
 		public function timezoneOptions() {
-
 			$options = array( );
 
 			$allTimeZonesValues = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
@@ -39,11 +44,10 @@
 				foreach ( $timeZones as $timeZoneTitle ) :
 					$timezone = new DateTimeZone($timeZoneTitle);
 					$timeInTimezone = new DateTime('now', $timezone);
-//					debug($timeInTimezone);
-					$timeDiffToUtc = $timeInTimezone->getOffset()/3600;
+					$timeDiffToUtc = $timeInTimezone->getOffset() / 3600;
 					$options[$groupTitle][$timeZoneTitle] =
 							$timeZoneTitle
-							. ' (' . $timeInTimezone->format('H:m') 
+							. ' (' . $timeInTimezone->format('H:m')
 							. '; ' . $timeDiffToUtc . ')';
 				endforeach;
 			endforeach;
@@ -55,7 +59,7 @@
 
 		public function formatTime($timestamp, $format = 'normal') {
 //		Stopwatch::start('formatTime');
-			$timestamp = strtotime($timestamp);
+			$timestamp = strtotime($timestamp) - $this->_timeDiffToUtc;
 
 			if ( $format == 'normal' ) {
 				$time_string = $this->_normal($timestamp);
