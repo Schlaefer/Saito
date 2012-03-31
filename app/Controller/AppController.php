@@ -111,7 +111,7 @@ class AppController extends Controller {
 		//* disable forum with admin pref
 		if (Configure::read('Saito.Settings.forum_disabled') == true && !($this->params['action'] === 'login')) {
 				if ($this->Auth->user('user_type') != 'admin') {
-					$this->render('/pages/forum_disabled', 'barebone');
+					$this->render('/Pages/forum_disabled', 'barebone');
 					return;
 			}
 		}

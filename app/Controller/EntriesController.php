@@ -205,7 +205,7 @@ class EntriesController extends AppController {
 
 		if ( $this->RequestHandler->isAjax() ):
 			//* inline view
-			$this->render('/elements/entry/view_posting');
+			$this->render('/Elements/entry/view_posting');
 			return;
 		else:
 			//* full page request
@@ -228,7 +228,7 @@ class EntriesController extends AppController {
 
 			if ( $this->RequestHandler->isAjax() ) {
 				$this->set('message', $message);
-				$this->render('/elements/empty');
+				$this->render('/Elements/empty');
 			} else {
 				$this->Session->setFlash($message, 'flash/notice');
 				$this->redirect($this->referer());
@@ -268,7 +268,7 @@ class EntriesController extends AppController {
 						$this->set('entry_sub', $this->Entry->read(null, $this->Entry->id));
 						// ajax requests so far are always answers
 						$this->set('level', '1');
-						$this->render('/elements/entry/thread_cached');
+						$this->render('/Elements/entry/thread_cached');
 						return;
 					endif;
 				else:
@@ -403,7 +403,7 @@ class EntriesController extends AppController {
 
 		$this->_teardownAdd();
 
-		$this->render('/entries/add');
+		$this->render('/Entries/add');
 	}
 
 	public function delete($id = NULL) {
@@ -578,7 +578,7 @@ class EntriesController extends AppController {
 				$message[] = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
 			}
 			$this->set('message', $message);
-			$this->render('/elements/flash/error');
+			$this->render('/Elements/flash/error');
 		endif;
 	}
 
@@ -612,7 +612,7 @@ class EntriesController extends AppController {
 		}
 
 		$this->set('json_data', (string) $this->request->data);
-		$this->render('/elements/json/json_data');
+		$this->render('/Elements/json/json_data');
 
 		// perform toggle
 	}

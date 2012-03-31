@@ -87,7 +87,7 @@ class UploadsController extends AppController {
 		}
 
 		$this->set('images', $images);
-		$this->render('/uploads/index', 'barebone');
+		$this->render('/Uploads/index', 'barebone');
 	} //end index()
 
 	/**
