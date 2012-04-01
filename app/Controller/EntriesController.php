@@ -647,6 +647,10 @@ class EntriesController extends AppController {
 
 			//* header counter
 			$header_counter = array( );
+
+			$globalCacheSettings = Cache::settings();
+			$globalCacheDuration = $globalCacheSettings['duration'];
+
 			Cache::set(array( 'duration' => '+180 seconds' ));
 			$header_counter = Cache::read('header_counter');
 			if ( !$header_counter ) {
@@ -673,6 +677,8 @@ class EntriesController extends AppController {
 				Cache::set(array( 'duration' => '+180 seconds' ));
 				Cache::write('header_counter', $header_counter);
 			}
+
+			Cache::set(array( 'duration' => $globalCacheDuration . ' seconds' ));
 
 			//* look who's online
 			$users_online = $this->Entry->User->UserOnline->getLoggedIn();

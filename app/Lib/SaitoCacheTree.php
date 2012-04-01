@@ -76,11 +76,11 @@ class SaitoCacheTree extends Object {
 	}
 
 	public static function forceCache() {
-		self::$_forceNoCache =  TRUE;
+		self::$_forceNoCache =  FALSE;
 	}
 
 	public static function forceNoCache() {
-		self::$_forceNoCache =  FALSE;
+		self::$_forceNoCache =  TRUE;
 	}
 
 	/**
@@ -95,8 +95,8 @@ class SaitoCacheTree extends Object {
 			self::$_cachedEntries = array();
 		}
 
-		$cache_config = Cache::config();
-		$depraction_time = time() - $cache_config['settings']['duration'];
+		$cache_config = Cache::settings();
+		$depraction_time = time() - $cache_config['duration'];
 
 		foreach(self::$_cachedEntries as $id => $entry) {
 			if(isset($entry['time']) && $entry['time'] < $depraction_time) {
