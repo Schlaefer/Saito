@@ -203,7 +203,7 @@ class EntriesController extends AppController {
 		$last_action = $this->localReferer('action');
 		$this->set('last_action', $last_action);
 
-		if ( $this->RequestHandler->isAjax() ):
+		if ( $this->request->is('ajax') ):
 			//* inline view
 			$this->render('/Elements/entry/view_posting');
 			return;
@@ -226,7 +226,7 @@ class EntriesController extends AppController {
 		if ( !$this->CurrentUser->isLoggedIn() ) {
 			$message = __('logged_in_users_only');
 
-			if ( $this->RequestHandler->isAjax() ) {
+			if ( $this->request->is('ajax') ) {
 				$this->set('message', $message);
 				$this->render('/Elements/empty');
 			} else {
@@ -261,7 +261,7 @@ class EntriesController extends AppController {
 			if ( $new_posting ) :
 				//* insert new posting was successful
 				$this->_emptyCache($this->Entry->id, $new_posting['Entry']['tid']);
-				if ( $this->RequestHandler->isAjax() ):
+				if ( $this->request->is('ajax') ):
 					//* The new posting is requesting an ajax answer
 					if ( $this->localReferer('action') == 'index' ) :
 						//* Ajax request came from front answer on front page /entries/index
@@ -298,7 +298,7 @@ class EntriesController extends AppController {
 			$this->request->data = NULL;
 			if ( $id !== NULL
 					// answering is always a ajax request, prevents add/1234 GET-requests
-					&& $this->RequestHandler->isAjax() === TRUE
+					&& $this->request->is('ajax') === TRUE
 			) {
 				$this->Entry->sanitize(false);
 				$this->request->data = $this->Entry->findById($id);
@@ -330,7 +330,7 @@ class EntriesController extends AppController {
 
 			$this->set('referer_action', $this->localReferer('action'));
 
-			if ( $this->RequestHandler->isAjax() ):
+			if ( $this->request->is('ajax') ):
 				$this->set('form_title', __('answer_marking'));
 			endif;
 			// </editor-fold>
@@ -533,7 +533,7 @@ class EntriesController extends AppController {
 	}
 
 	public function preview() {
-		if ( !$this->RequestHandler->isAjax() ) {
+		if ( !$this->request->is('ajax') ) {
 			$this->redirect('/');
 		}
 
@@ -586,7 +586,7 @@ class EntriesController extends AppController {
 		$this->autoLayout = false;
 		$this->autoRender = false;
 
-		if ( !$id || !$toggle || !$this->RequestHandler->isAjax() )
+		if ( !$id || !$toggle || !$this->request->is('ajax') )
 			return;
 
 		// check if the requested toggle is allowed to be changed via this function

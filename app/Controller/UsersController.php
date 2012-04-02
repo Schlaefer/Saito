@@ -304,7 +304,7 @@ class UsersController extends AppController {
 	} // end contact()
 
 	public function ajax_toggle($toggle) {
-		if(!$this->CurrentUser->isLoggedIn() || !$this->RequestHandler->isAjax()) $this->redirect('/');
+		if(!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) $this->redirect('/');
 
 		$this->autoRender = false;
 		$allowed_toggles = array(
@@ -323,7 +323,7 @@ class UsersController extends AppController {
 	}
 
 	public function ajax_set() {
-		if(!$this->CurrentUser->isLoggedIn() || !$this->RequestHandler->isAjax()) $this->redirect('/');
+		if(!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) $this->redirect('/');
 
 		$this->autoRender = false;
 
