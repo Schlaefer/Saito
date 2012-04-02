@@ -637,8 +637,6 @@ class EntriesController extends AppController {
 				'mobile_recent'
 		);
 
-		$this->set('isAjax', $this->RequestHandler->isAjax());
-
 		if ( $this->request->action == 'index' ) {
 			if ( $this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0 ) {
 				$this->set('autoPageReload',

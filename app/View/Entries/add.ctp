@@ -10,13 +10,13 @@ if ( $this->getVar('citeText') ) {
 }
 
 //* set cursor to category or subject field after load ###
-if ( $this->getVar('isAjax') ) :
+if ( $this->request->is('ajax') ) :
 	echo $this->Html->scriptBlock('$(document).ready(function() {$("#EntrySubject").select();});');
 else :
 	echo $this->Html->scriptBlock('$(document).ready(function() {$("#EntryCategory").focus();});');
 endif;
 ?>
-<div id ="entry_<?= ($this->getVar('isAjax')) ? 'reply' : 'add'; ?>" class="entry <?= ($this->getVar('isAjax')) ? 'reply' : 'add'; ?>">
+<div id ="entry_<?= ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?= ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
 	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
 		<div class="c_header_1">
 			<div>
@@ -50,7 +50,7 @@ endif;
 		<div class="c_header_1">
 			<div>
 				<div>
-<? if ( $this->getVar('isAjax') ) : ?>
+<? if ( $this->request->is('ajax') ) : ?>
 						<div id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='btn_close' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;"></div>
 							<?
 							?>
@@ -207,7 +207,7 @@ $this->Form->submit(__('Einfügen'),
 								$code_insert .= "$('#EntryFlattr').attr('checked', false);";
 							}
 
-							if ( $this->getVar('isAjax') ) {
+							if ( $this->request->is('ajax') ) {
 								// if it an answer
 								$code = "$(document).ready(function (){
 										var data = " . $this->request->data['Entry']['category'] . ";
@@ -229,14 +229,14 @@ $this->Form->submit(__('Einfügen'),
 				<div class="postingform_main">
 					<?php
 					# @bogus
-					if ( !$this->getVar('isAjax') || (isset($referer_action) && ( $referer_action == 'mix' || $referer_action == 'view' || $referer_action == 'add' ) ) ) {
+					if ( !$this->request->is('ajax') || (isset($referer_action) && ( $referer_action == 'mix' || $referer_action == 'view' || $referer_action == 'add' ) ) ) {
 						echo $this->Form->submit(__('submit_button'),
 								array(
 								'class' => 'btn_submit',
 								'tabindex' => 4,
 								'onclick' => "this.disabled=true; this.form.submit();",
 						));
-					} # !isAjax()
+					} # !i$this->request->is('ajax')
 					else {
 						$js_r = "new ThreadLine('{$this->request->data['Entry']['id']}').insertNewLineAfter(data);";
 						if ( $CurrentUser['inline_view_on_click'] ) {
@@ -290,4 +290,4 @@ $this->Form->submit(__('Einfügen'),
 	</div> <!-- postingform -->
 </div> <!-- entry add/reply -->
 
-<?php echo ($this->getVar('isAjax')) ? $this->Js->writeBuffer() : ''; ?>
+<?php echo ($this->request->is('ajax')) ? $this->Js->writeBuffer() : ''; ?>

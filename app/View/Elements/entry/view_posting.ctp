@@ -106,7 +106,7 @@
 							// @todo: this needs refactoring and commenting
 							// debug($last_action); debug($this->request->action);
 						if( $CurrentUser->isLoggedIn()
-								&& (($last_action === $this->request->action && !$isAjax) || $last_action === 'index' || $this->request->action === 'mix') 
+								&& (($last_action === $this->request->action && !$this->request->is('ajax')) || $last_action === 'index' || $this->request->action === 'mix')
 								|| $last_action === 'edit' 
 								|| $last_action === 'search' 
 								// after posting a completely new thread the last action was the `add` form

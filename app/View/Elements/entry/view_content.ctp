@@ -9,7 +9,7 @@
 				$subject = $this->EntryH->getSubject($entry);
 				// only make subject a link if it is not in entries/view
 //				debug($this->request->action); debug($last_action); debug($isAjax);
-				if ($this->request->action !== 'preview' && ( $isAjax || $this->request->action === 'mix')) {
+				if ($this->request->action !== 'preview' && ( $this->request->is('ajax') || $this->request->action === 'mix')) {
 					echo $this->Html->link(
 							$subject,
 							array(
