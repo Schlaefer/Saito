@@ -2,6 +2,11 @@
 
 App::import('Lib', 'Stopwatch.Stopwatch');
 
+if (Configure::read('debug') > 0) {
+//  App::import('Vendor', array('file' => 'FirePHPCore/FirePHP.class.php'));
+	App::uses('FireCake', 'DebugKit.Lib');
+}
+
 class AppController extends Controller {
 	public $components = array (
 			'DebugKit.Toolbar',
