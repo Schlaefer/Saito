@@ -28,8 +28,7 @@
 			$prev_result = $result;
 
 			$this->User->id = 1;
-			$timestamp = 1;
-			$expected = date('Y-m-d H:i:s', $timestamp);
+			$expected = '0000-00-00 00:00:00';
 			$this->User->setLastRefresh($expected);
 			$result = $this->User->field('last_refresh');
 			$this->assertEqual($expected, $result);
