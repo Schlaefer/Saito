@@ -1,5 +1,5 @@
 <?php
 
-	$xml = Xml::build(array( 'entries' => $entries ), LIBXML_NOEMPTYTAG);
+	$xml = Xml::build(array( 'threads' => array( 'thread' => $entries) ), LIBXML_NOEMPTYTAG);
 	echo $xml->saveXML();
 ?>
