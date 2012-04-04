@@ -57,6 +57,15 @@ Configure::write('Markitup.vendors', array(
 */
 
 /**
+ * Check if the forum is installed
+ */
+if ( file_exists(APP . 'Config' . DS . 'installed.txt') ) :
+	Configure::write('Saito.installed', TRUE);
+else :
+	Configure::write('Saito.installed', FALSE);
+endif;
+
+/**
  * Cake doesn't handle Smiley <-> Smilies
  */
 Inflector::rules('plural', array( '/^(smil)ey$/i' => '\1ies' ));

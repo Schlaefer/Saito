@@ -47,13 +47,21 @@
 
 			$_SERVER['HTTP_REFERER'] = FULL_BASE_URL . $this->controller->webroot . '';
 			$result = $this->controller->localReferer('controller');
-			$expected = 'entries';
+			if ( Configure::read('Saito.installed') ) :
+				$expected = 'entries';
+			else:
+				$expected = 'install';
+			endif;
 			$this->assertIdentical($result, $expected);
 
 			//* external referer
 			$_SERVER['HTTP_REFERER'] = 'http://heise.de/foobar/baz.html';
 			$result = $this->controller->localReferer('controller');
-			$expected = 'entries';
+			if ( Configure::read('Saito.installed') ) :
+				$expected = 'entries';
+			else:
+				$expected = 'install';
+			endif;
 			$this->assertIdentical($result, $expected);
 
 			$_SERVER['HTTP_REFERER'] = 'http://heise.de/foobar/baz.html';

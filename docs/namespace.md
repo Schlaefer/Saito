@@ -33,7 +33,7 @@ flattr_language 		| de_DE 	| string	| language tag used by flattr for entries. s
 forum_disabled 			| 0 	| bool 	| |
 forum_disabled_text | We'll back soon.	| string	| 
 forum_email 				| 	| string	| forum email address (admin contact)
-forum_name 	| 	| string	| forum title	
+installed 					| FALSE	| bool 		| true if installer has run and forum is installed; set in bootstrap.php
 quote_symbol 	| » 	| string	| 
 signature_separator 	| --- 	| string	| 
 smilies 	| 1 	| bool 	| Use Smilies 
