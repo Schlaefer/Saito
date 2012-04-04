@@ -187,7 +187,6 @@ your language files can be improved. Please be patient, as this might take some 
 } else { ?>
 <?php echo colorize(TYPE_NOTICE, "#### GeSHi Language File Validation Script ####") ?>
 
-
 To use this script, make sure that <?php echo colorize(TYPE_NOTICE, "geshi.php"); ?> is in the
 parent directory or in your include_path, and that the language files are in a
 subdirectory of GeSHi's directory called <?php echo colorize(TYPE_NOTICE, "geshi/"); ?>.
@@ -758,7 +757,6 @@ if ( PHP_SAPI != 'cli' ) {
 </html>
 
 <?php } else { ?>
-
 Validation process completed in <? printf("%.2f", $time_diff); ?> seconds.
 
 GeSHi &copy; 2004-2007 Nigel McNie, 2007-2008 Benny Baumann, released under the GNU GPL

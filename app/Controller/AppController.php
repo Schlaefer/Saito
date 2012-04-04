@@ -9,7 +9,7 @@ if (Configure::read('debug') > 0) {
 
 class AppController extends Controller {
 	public $components = array (
-			'DebugKit.Toolbar',
+//			'DebugKit.Toolbar',
 
 			'Auth',
 

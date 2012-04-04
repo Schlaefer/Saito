@@ -166,4 +166,3 @@ class MarkitupHelper extends AppHelper {
 	}
 }
 ?>
-
