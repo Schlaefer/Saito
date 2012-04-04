@@ -1,5 +1,14 @@
-Forum Software written in [CakePHP](http://cakephp.org/) for
-[macnemo.de](http://macnemo.de).
+Saito
+=====
 
-See docs directory for more information.
+What is it
+----------
 
+Saito is an open source web forum written atop of [CakePHP](http://cakephp.org/).
+
+It provides a classic threaded forum with modern underpinnings.
+
+You can see it running on [macnemo.de](http://macnemo.de), for which it was
+originally developed.
+
+See the docs/ directory for more information.
