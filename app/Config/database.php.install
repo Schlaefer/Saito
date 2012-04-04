@@ -76,16 +76,10 @@
  * database.  Uses database default.
  *
  */
-
-/*
- * This file is used by the installer plugin for the fancy web installer
- * interface.
- */
-
 class DATABASE_CONFIG {
 
 	var $default = array(
-		'driver' => '{default_driver}',
+		'datasource' => '{default_datasource}',
 		'persistent' => false,
 		'host' => '{default_host}',
 		'login' => '{default_login}',
@@ -97,7 +91,7 @@ class DATABASE_CONFIG {
 	);
 
 	var $test = array(
-		'driver' => 'mysql',
+		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'user',
