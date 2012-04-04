@@ -29,7 +29,11 @@
 				array(
 						'name' => 'topics_per_page',
 						'value' => '20',
-				)
+				),
+				array(
+						'name' => 'timezone',
+						'value' => 'UTC',
+				),
 		);
 
 	}

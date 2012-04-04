@@ -12,6 +12,7 @@
 				'userranks_ranks' => '10=Castaway|20=Other|30=Dharma|100=Jacob',
 				'smilies' => 1,
 				'topics_per_page' => 20,
+				'timezone'				=> 'UTC',
 		);
 
 		public function testAfterSave() {
