@@ -9,7 +9,7 @@
 
 ## 1. Get the Code ##
 
-Checkout git repository or download a zip from github.
+Checkout git repository or download a zip from github. Usually it is recommended to use the last [tagged version](https://github.com/Schlaefer/Saito/tags).
 
 ## 2. Create Database ##
 
