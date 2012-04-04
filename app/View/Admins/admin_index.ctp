@@ -9,7 +9,7 @@
 		Saito is convinced it's running on the <strong>server</strong>: <span class='label label-info'> <?php echo FULL_BASE_URL; ?></span>.
 	</p>
 	<p>
-		Saito believes it's <strong>base-URL</strong> is: <span class='label label-info'> <?php echo $this->request->webroot ?></span>.
+		Saito believes its <strong>base-URL</strong> is: <span class='label label-info'> <?php echo $this->request->webroot ?></span>.
 	</p>
 
 	<hr/>
