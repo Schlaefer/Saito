@@ -128,6 +128,12 @@ class AppController extends Controller {
 
 		$this->_setupSlideTabs();
 
+		Stopwatch::stop('App->beforeFilter()');
+	} // end beforeFilter()
+
+	public function beforeRender() {
+		parent::beforeRender();
+
 		//* testing different themes on the fly with `theme` GET param /theme:<foo>/
 		if ( isset($this->passedArgs['theme']) ) :
 			$this->theme = $this->passedArgs['theme'];
@@ -135,11 +141,6 @@ class AppController extends Controller {
 			$this->theme = Configure::read('Saito.theme');
 		endif;
 
-		Stopwatch::stop('App->beforeFilter()');
-	} // end beforeFilter()
-
-	public function beforeRender() {
-		parent::beforeRender();
 
 		Stopwatch::start('App->beforeRender()');
 
