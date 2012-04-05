@@ -34,10 +34,10 @@ class UserHHelper extends AppHelper {
 								$out[] = "body { font-size:". $font_size ."px; }";
 								// scales the the following parameter to a subjective nicer view
 								// @td set generaly to 1 1/3 em of font size ?
-								# $line_height = number_format( (1 + 1/3) * $font_size, 3, '.', '');
-								# $out[] =  "li { line-height:{$line_height}px; }";
-								$out[] =  "li { line-height: 1.45; }";
-								# $out[] =  "ul.thread {margin-bottom:{$line_height}px ;}";
+								 $line_height = number_format( (1 + 1/2) * $font_size, 3, '.', '');
+								 $out[] =  "li { line-height:{$line_height}px; }";
+//								$out[] =  "li { line-height: 1.45; }";
+								 $out[] =  "ul.thread {margin-bottom:{$line_height}px ;}";
 						}
 					}
 
