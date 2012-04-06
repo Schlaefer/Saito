@@ -55,7 +55,7 @@
 					): ?>
 				<br/>
 				<span class="entry_edited_info">
-					(<?= __('board_edited_marking').' '.$entry['Entry']['edited_by'] . ", " . strftime("%d.%m.%Y, %H:%M",strtotime($entry['Entry']['edited'])) ?>)
+					(<?= __('board_edited_marking').' '.$entry['Entry']['edited_by'] . ", " . $this->TimeH->formatTime($entry['Entry']['edited']); ?>)
 				</span>
 
 			<? endif; ?>
