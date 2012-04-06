@@ -33,7 +33,15 @@
 				if ( isset($smiliesMarkItUpPacked[$smiley['icon']]) )
 					continue;
 				// prepare JS  which is inserted into the markItUp config in the next stage
-				$smiliesMarkItUpPacked[$smiley['icon']] = array( 'name' => '' /*$smiley['title']*/, 'replaceWith' => $smiley['code'] );
+				$smiliesMarkItUpPacked[$smiley['icon']] =
+						array(
+								'name' => '' /* $smiley['title'] */,
+								/* 
+								 * additional space to prevent [smiley1end][smiley2start] = [smiley3]
+								 * see: https://github.com/Schlaefer/Saito/issues/32 
+								 */
+								'replaceWith' => ' ' . $smiley['code'],
+				);
 				// prepare CSS for each button so the smiley image is placed on it
 				$iconCss .= " .markItUp .markItUpButton{$markitupCssId}-{$i} a	{ background-image:url({$this->request->webroot}theme/{$this->theme}/img/smilies/{$smiley['icon']}); } ";
 				$i++;
@@ -95,7 +103,6 @@ EOF
 			$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 			if (!empty($additionalButtons)):
 				foreach ( $additionalButtons as $additionalButtonTitle => $additionalButton):
-					// 'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
 					$bbcodeSet[$additionalButtonTitle] = array(
 							'name' => $additionalButtonTitle,
 							'replaceWith' => $additionalButton['code'],
