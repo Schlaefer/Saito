@@ -520,7 +520,7 @@ class EntriesController extends AppController {
 					$this->request->params['named']);
 			$paginateSettings['conditions']['time >'] = date(
 					'Y-m-d H:i:s', mktime( 0, 0, 0, $searchStartMonth, 1, $searchStartYear ));
-			$paginateSettings['order'] = array('`Entry`.`time`' => 'DESC');
+			$paginateSettings['order'] = array('Entry.time' => 'DESC');
 			$paginateSettings['limit'] = 25;
 			$this->paginate = $paginateSettings;
 			$this->set('FoundEntries', $this->paginate());
