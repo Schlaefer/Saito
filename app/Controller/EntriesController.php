@@ -752,7 +752,7 @@ class EntriesController extends AppController {
 	}
 
 	protected function _getInitialThreads(CurrentUserComponent $User) {
-		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == 0) ? 'time' : 'last_answer';
+		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == FALSE ? 'time' : 'last_answer');
 		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
 		$this->paginate = array(
 				/* Whenever you change the conditions here check if you have to adjust
