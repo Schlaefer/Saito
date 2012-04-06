@@ -45,7 +45,21 @@ Follow the web-installer's instruction to the end.
 
 @todo
 
-# If you are stuck #
+# Running on your own server
+
+## Suhosin
+
+If you use suhosin set the following in you `php.ini`:
+
+    suhosin.srand.ignore = Off
+    suhosin.mt_srand.ignore = Off
+
+(Symptoms if not set: you can't stay logged-in.)
+
+
+# Troubleshooting
+
+## Enable debug mode
 
 If something goes wrong enable the CakePHP debug mode, which shows you more information. In `app/config/core.php` set:
 
