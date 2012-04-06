@@ -56,7 +56,7 @@ class UploadsController extends AppController {
 					$this->Session->setFlash('Datei erfolgreich hochgeladen', 'flash/notice');
 				}
 				else {
-					$errors = $this->Upload->invalidFields();
+					$errors = $this->Upload->validationErrors;
 					$message = array();
 					foreach( $errors as $field => $error) {
 						$message[] =  __d('nondynamic', $field).": ". __d('nondynamic', $error);

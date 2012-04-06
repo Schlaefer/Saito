@@ -282,11 +282,9 @@ class EntriesController extends AppController {
 					$this->redirect(array( 'controller' => 'entries', 'action' => 'view', $this->Entry->id ));
 					return;
 				endif;
-			else:
+			else :
 				//* Error while trying to save a post 
-				if ( count($this->Entry->invalidFields()) > 0 ) :
-					$this->set('validationError', true);
-				else:
+				if ( count($this->Entry->validationErrors) === 0 ) :
 					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
 				endif;
 			endif;
@@ -547,8 +545,8 @@ class EntriesController extends AppController {
 		$this->request->data['Entry']['nsfw'] = $nsfw;
 
 		$this->Entry->set($this->request->data);
-		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject, text, category' ) ));
-		$errors = $this->Entry->invalidFields();
+		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject', 'text', 'category' ) ));
+		$errors = $this->Entry->validationErrors;
 
 		if ( count($errors) === 0 ) :
 		//* no validation errors

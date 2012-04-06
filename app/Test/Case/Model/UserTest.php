@@ -202,7 +202,7 @@
 					)
 			);
 			$this->assertFalse($this->User->save($data));
-			$this->assertTrue(array_key_exists('password', $this->User->invalidFields()));
+			$this->assertTrue(array_key_exists('password', $this->User->validationErrors));
 
 			$this->User->id = 3;
 			$data = array(
@@ -212,7 +212,7 @@
 					)
 			);
 			$this->assertTrue($this->User->save($data) == TRUE);
-			$this->assertFalse(array_key_exists('password', $this->User->invalidFields()));
+			$this->assertFalse(array_key_exists('password', $this->User->validationErrors));
 		}
 
 		public function testValidateCheckOldPassword() {
@@ -227,7 +227,7 @@
 			);
 			$this->assertFalse($this->User->save($data));
 			$this->assertTrue(array_key_exists('password_old',
-							$this->User->invalidFields()));
+							$this->User->validationErrors));
 
 			$data = array(
 					'User' => array(
@@ -238,7 +238,7 @@
 			);
 			$this->assertTrue($this->User->save($data) == TRUE);
 			$this->assertFalse(array_key_exists('password_old',
-							$this->User->invalidFields()));
+							$this->User->validationErrors));
 		}
 
 		public function testRegister() {
