@@ -103,6 +103,7 @@ EOF
 			$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 			if (!empty($additionalButtons)):
 				foreach ( $additionalButtons as $additionalButtonTitle => $additionalButton):
+					// 'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
 					$bbcodeSet[$additionalButtonTitle] = array(
 							'name' => $additionalButtonTitle,
 							'replaceWith' => $additionalButton['code'],
