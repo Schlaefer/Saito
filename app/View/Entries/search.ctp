@@ -113,9 +113,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 					</div>
-					<?php # echo __('search_sort_order'). ":"; ?>
 	<?php
-	# echo $this->Paginator->sort(__('search_time'), 'time');
 	?>
 					&nbsp;
 				</div>

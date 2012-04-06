@@ -9,16 +9,16 @@
 	 */
 ?>
 <table class="table_1">
-	<?php echo $this->Html->tableHeaders( array (
-		$this->Paginator->sort(__('username_marking'), 'username'),
-		$this->Paginator->sort(__('user_type'), 'User.user_type'),
-		__("userlist_email"),
-		__("user_hp"),
-		$this->Paginator->sort(__("userlist_online"), 'UserOnline.user_id'),
+	<?php
+		echo $this->Html->tableHeaders(array(
+				$this->Paginator->sort('username', __('username_marking')),
+				$this->Paginator->sort('User.user_type', __('user_type')),
+				__("userlist_email"),
+				__("user_hp"),
+				$this->Paginator->sort('UserOnline.user_id', __("userlist_online")),
 //		__("user_lock"),
-		$this->Paginator->sort(__("registered"), 'registered'),
-
-	));
+				$this->Paginator->sort('registered', __("registered")),
+		));
 	?>
 	<?php foreach ( $users as $user) : ?>
 	<?php echo
