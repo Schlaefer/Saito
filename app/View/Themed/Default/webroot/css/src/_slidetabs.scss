@@ -129,6 +129,8 @@
 		width: auto;
 		/* height of the bullet image */
 		height: 15px;
+		/* temporary fix for last line being to small if user line-height pref is > +1 */
+		padding-bottom: 0.5em;
 	}
 }
 /** slidetabs general end **/
