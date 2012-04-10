@@ -14,7 +14,7 @@
 			</div>
 			<div class="right">
 				<ul>
-					<?php if (isset($entry['rights']['isEditingForbidden']) && isset($entry['rights']['isEditingForbidden']) == false) : ?>
+					<?php if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) : ?>
 						<li>
 							<?php echo $this->Html->link(
 											__('edit_linkname'),
