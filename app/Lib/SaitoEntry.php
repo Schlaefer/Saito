@@ -48,23 +48,31 @@ class SaitoEntry extends Component {
 
 			// Mod and Admin …
 			# @td mods don't edit admin posts
-			if ( $user['user_type'] == 'mod' || $user['user_type'] == 'admin' ) {
+			if ( $user['user_type'] === 'mod' || $user['user_type'] === 'admin' ) {
 				if (
-						$user['id'] == $entry['Entry']['user_id']
-						&& (time() > strtotime($entry['Entry']['time'])+( Configure::read('Saito.Settings.edit_period') * 60 ))
-					  && $user['user_type'] == 'mod'
-					) { # mods dont mod themselfs
-						$verboten = 'time';
-					}
-					else {
-						# give mods/admins message that they edit an other user' posting
-						# @td refactor out of the function (?)
+						(int)$user['id'] === (int)$entry['Entry']['user_id']
+						&& ( time() > strtotime($entry['Entry']['time'])+( Configure::read('Saito.Settings.edit_period') * 60 ))
+						/* Mods should be able to edit their own posts if they are pinned
+						 *
+						 * @td this opens a 'mod can pin and then edit root entries'-loophole,
+						 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
+						 * for mods pinning root-posts.
+						 */
+						&& ( $entry['Entry']['fixed'] == FALSE )
+					  && ( $user['user_type'] === 'mod' )
+						) :
+					// mods shouldn't mod themselfs
+					$verboten = 'time';
+				else :
+					/*	give mods/admins message that they edit an other user' posting
+					 * @td refactor out of the function (?)
+					 */
 						if ($session && $user['id'] != $entry['Entry']['user_id']) {
 							# @ td build into action method when mod panel is done
 							$session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 						}
 						$verboten = false;
-					}
+				endif;
 
 			// Normal user and anonymous
 			} else {
