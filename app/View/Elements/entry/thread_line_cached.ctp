@@ -30,7 +30,7 @@
 		</span>
 	<?php endif ?>
 <?php if ( $entry_sub['Entry']['fixed'] ) : ?>
-		<span class="fixed_img" title="<?php echo __('fixed'); ?>">&nbsp;</span>
+		<i class="icon-pushpin" title="<?php echo __('fixed'); ?>"></i>
 	<? endif; ?>
 <?php if ( $entry_sub['Entry']['nsfw'] ): ?>
 		<div class="sprite-nbs-explicit" title="<?php echo __('entry_nsfw_title') ?>"></div>

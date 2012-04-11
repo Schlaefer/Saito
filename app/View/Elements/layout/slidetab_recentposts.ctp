@@ -15,7 +15,7 @@
 						<ul class="c_slidetab_subtree">
 							<? foreach ($lastEntries as $entry) : ?>
 							<li>
-								<span class="img_thread"></span>
+								<i class="icon-thread"></i>
 								<?php
 //									if ( strlen($entry['Entry']['subject']) > 20 ) {
 //										$s = html_entity_decode($entry['Entry']['subject'], ENT_QUOTES);

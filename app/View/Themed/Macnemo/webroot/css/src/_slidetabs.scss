@@ -83,14 +83,13 @@
 		text-overflow: ellipsis;
 
 		padding-left: 26px !important;
-		text-indent:  -21px; 
+		text-indent:  -1.75em;
 		font-weight: normal;
 		}
 
-	.img_thread {
-		&:hover {
-			@include scale(1);
-			}
+		li [class^="icon-"], li [class*=" icon-"] {
+			text-align: right;
+			padding-right: 0.25em;
 		}
 	}
 

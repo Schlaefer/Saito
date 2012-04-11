@@ -21,6 +21,7 @@
 	 		</script>
 			<?php echo $this->Html->css('stylesheets/jquery-ui-1.8.8.custom.css'); ?>
 			<?php echo $this->Html->css('stylesheets/screen.css'); ?>
+			<?php echo $this->Html->css('stylesheets/theme.css'); ?>
 			<?php if(Configure::read('debug') > 0) echo $this->Html->css('stylesheets/cake.css'); ?>
 			<?php
 				if (is_file(APP.'View'.DS."Themed".DS.$this->theme.DS.'webroot'.DS."css".DS.'stylesheets'.DS.$this->request->params["controller"].DS.$this->request->params["action"].".css")) {
