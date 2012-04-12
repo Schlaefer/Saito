@@ -338,6 +338,8 @@ class User extends AppModel {
 	 * @return string
 	 */
 	protected function _hash($string) {
+		Security::setHash('md5');
+
 		$salt = TRUE;
 		if ( Configure::read('Saito.useSaltForUserPasswords') === FALSE ) :
 			$salt = FALSE;
