@@ -18,14 +18,24 @@
 	###
 ?>
 <li class="<?php echo $span_post_type ?>">
-	<div class="thread_line <?= $entry_sub['Entry']['id'] . (($is_new_post) ? " new" : '') ?>">
-		<a href="#" class="btn_show_thread <?php echo $entry_sub['Entry']['id']; ?>">
-			<i class="icon-<?php echo $span_post_type; ?> span_post_type"></i>
-		</a>
-		<?php
-# echo $this->element('/entry/thread_line_cached', array( 'cache' => array('key' => $entry_sub['Entry']['id'], 'time' => '+1 hour'), 'entry_sub' => $entry_sub, 'level' => $level ));
-			echo $this->element('/entry/thread_line_cached',
-					array( 'entry_sub' => $entry_sub, 'level' => $level ));
-		?>
+	<div class="thread_line <?= $entry_sub['Entry']['id'] . (($is_new_post) ? " new" : '') ?>" style='position: relative;'>
+		<div class="thread_line-pre">
+			<a href="#" class="btn_show_thread <?php echo $entry_sub['Entry']['id']; ?> span_post_type">
+				<i class="icon-<?php echo $span_post_type; ?>"></i>
+			</a>
+		</div>
+		<div class="thread_line-content"
+				 onclick='
+					 if(event.ctrlKey == false && event.metaKey == false) {window.location = $(this).attr("data-url"); return false;} else { window.open($(this).attr("data-url")); return false; }'
+				 data-url="<?php echo $this->request->webroot; ?>entries/view/<?php echo $entry_sub['Entry']['id']; ?>">
+			<a href='<?php echo $this->request->webroot; ?>entries/view/<?php echo $entry_sub['Entry']['id']; ?>'
+				 class='link_show_thread <?php echo $entry_sub['Entry']['id']; ?> span_post_type'>
+					 <?php
+						 # echo $this->element('/entry/thread_line_cached', array( 'cache' => array('key' => $entry_sub['Entry']['id'], 'time' => '+1 hour'), 'entry_sub' => $entry_sub, 'level' => $level ));
+						 echo $this->element('/entry/thread_line_cached',
+								 array( 'entry_sub' => $entry_sub, 'level' => $level ));
+					 ?>
+			</a>
+		</div>
 	</div>
 </li>

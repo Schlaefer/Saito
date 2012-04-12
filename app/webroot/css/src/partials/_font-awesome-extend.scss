@@ -2,8 +2,6 @@
 * Icons for thread buttons
 ******************************************************************************/
 
-@import "compass/css3/transform";
-
 .icon-thread {
 	@extend .icon-chevron-right;
 }
@@ -12,23 +10,16 @@
 	@extend .icon-thread;
 }
 
-
 .icon-actthread {
 	@extend .icon-thread;
 }
 
-
 .icon-reply {
-	@extend .icon-share-alt;
-
-	filter: FlipV;
-	-ms-filter: "FlipV";
-	@include scaleY(-1);
+	@extend .icon-thread;
 }
 
 .icon-replynew {
 	@extend .icon-reply;
-
 }
 
 .icon-actreply {

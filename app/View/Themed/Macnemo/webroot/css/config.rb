@@ -8,8 +8,8 @@ javascripts_dir = "javascript"
 # To enable relative paths to assets via compass helper functions. Uncomment:
 relative_assets = true
 
-debug_info = true
-line_numbers = true
+debug_info = false
+line_numbers = false
 output_style = :compressed
 
 # Eliminate query string on the end of image-url

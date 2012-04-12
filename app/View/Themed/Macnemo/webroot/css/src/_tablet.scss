@@ -1,3 +1,31 @@
+/*******************************************************************************
+* iPad
+******************************************************************************/
+
+@media only screen and (device-width: 768px) {
+	body {
+		font-size: 12px;
+		}
+
+	// thread_line-* sets threads to two lines to increase click target
+	.thread_line-pre {
+		height: 36px;
+		line-height: 36px;
+		font-size: 24px;
+		}
+
+	.thread_line-content {
+		padding-left: 30px;
+		padding-bottom: 2px;
+		}
+
+	.thread_line-post {
+		display: block;
+		margin-left: 1em;
+		line-height: 14px !important;
+		}
+}
+
 @media only screen and (device-width: 768px) and (orientation:portrait) {
 	body,html {
 		width: 768px;
@@ -6,7 +34,10 @@
 }
 @media only screen and (device-width: 768px) and (orientation:landscape) {
 	body,html {
-		width: 1024px;
-		min-width: 1024px;
+/* don't touch it! */
+/*		width: 980px;*/
+/*		min-width: 980px;*/
 	}
 }
+
+/******************************************************************************/

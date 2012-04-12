@@ -103,7 +103,6 @@
 			</td>
 		</tr>
 
-
 		<tr>
 			<td> <?php echo __('user_font_size') ?> </td>
 			<td> <?php echo  $this->Form->input('user_font_size', array(
