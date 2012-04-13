@@ -24,18 +24,13 @@
 				<i class="icon-<?php echo $span_post_type; ?>"></i>
 			</a>
 		</div>
-		<div class="thread_line-content"
-				 onclick='
-					 if(event.ctrlKey == false && event.metaKey == false) {window.location = $(this).attr("data-url"); return false;} else { window.open($(this).attr("data-url")); return false; }'
-				 data-url="<?php echo $this->request->webroot; ?>entries/view/<?php echo $entry_sub['Entry']['id']; ?>">
-			<a href='<?php echo $this->request->webroot; ?>entries/view/<?php echo $entry_sub['Entry']['id']; ?>'
-				 class='link_show_thread <?php echo $entry_sub['Entry']['id']; ?> span_post_type'>
-					 <?php
-						 # echo $this->element('/entry/thread_line_cached', array( 'cache' => array('key' => $entry_sub['Entry']['id'], 'time' => '+1 hour'), 'entry_sub' => $entry_sub, 'level' => $level ));
-						 echo $this->element('/entry/thread_line_cached',
-								 array( 'entry_sub' => $entry_sub, 'level' => $level ));
-					 ?>
-			</a>
-		</div>
+		<a href='<?php echo $this->request->webroot; ?>entries/view/<?php echo $entry_sub['Entry']['id']; ?>'
+			 class='link_show_thread <?php echo $entry_sub['Entry']['id']; ?> span_post_type thread_line-content' >
+				 <?php
+					 # echo $this->element('/entry/thread_line_cached', array( 'cache' => array('key' => $entry_sub['Entry']['id'], 'time' => '+1 hour'), 'entry_sub' => $entry_sub, 'level' => $level ));
+					 echo $this->element('/entry/thread_line_cached',
+							 array( 'entry_sub' => $entry_sub, 'level' => $level ));
+				 ?>
+		</a>
 	</div>
 </li>
