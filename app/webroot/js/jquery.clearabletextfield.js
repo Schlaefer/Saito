@@ -11,11 +11,12 @@
 (function($) {
   $.fn.clearableTextField = function() {
     if ($(this).length>0) {
-      $(this).bind('keyup change paste cut', onSomethingChanged);
+      $(this).bind('keyup change paste cut input', onSomethingChanged);
     
       $(this).each( function(){
         $(this).data('original-padding-right', $(this).css('padding-right'));
         $(this).data('original-width', $(this).width());
+				$(this).wrap('<div class="clear_button_wrapper" style="margin:0;padding:0;display:inline;" />');
         trigger($(this));
       });      
     }
