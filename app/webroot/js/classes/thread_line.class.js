@@ -64,7 +64,7 @@ ThreadLine.prototype.showInlineView = function (scroll) {
 			function() {
 				// performance: show instead slide
 				// $(p.id_thread_inline).slideDown(null,
-				$(p.id_thread_inline).show(null,
+				$(p.id_thread_inline).show(0,
 					function() {
 						if (scroll && !_isScrolledIntoView(p.id_bottom)) {
 							if(_isHeigherThanView(this)) {
