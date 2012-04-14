@@ -88,7 +88,7 @@
 	<?php if($CurrentUser['user_signatures_hide'] == false) : ?>
 		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
 		<div>
-			<?= Configure::read('Saito.Settings.signature_separator') ?>
+			<?php echo  Configure::read('Saito.Settings.signature_separator') ?>
 		</div>
 			<?php
 				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
@@ -156,7 +156,7 @@
 
 									<!--
 									&nbsp;
-									<? #@td löschen link ?>
+									<?php  #@td löschen link ?>
 									&nbsp;
 									-->
 									<span class="small">

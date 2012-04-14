@@ -13,14 +13,14 @@
 	<div class="center_r">
 		<div class="inside">
 			<h3> Status </h3>
-			<?= number_format($HeaderCounter['entries'],
+			<?php echo  number_format($HeaderCounter['entries'],
 					null, null, '.') ?> Entries in
-			<?= number_format($HeaderCounter['threads'],
+			<?php echo  number_format($HeaderCounter['threads'],
 					null, null, '.') ?> Threads;
-			<?= number_format($HeaderCounter['user'],
+			<?php echo  number_format($HeaderCounter['user'],
 					null, null, '.') ?> registered users,
-			<?= $HeaderCounter['user_registered'] ?> logged in,
-			<?= $HeaderCounter['user_anonymous'] ?> anonymous.
+			<?php echo  $HeaderCounter['user_registered'] ?> logged in,
+			<?php echo  $HeaderCounter['user_anonymous'] ?> anonymous.
 		</div>
 	</div>
 	<div class="right">

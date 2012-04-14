@@ -28,14 +28,14 @@
 	<div class="center_l">
 		<div class="inside">
 			<h3> Status </h3>
-			<?= number_format($HeaderCounter['entries'],
+			<?php echo  number_format($HeaderCounter['entries'],
 					null, null, '.') ?> mal Seemannsgarn in
-			<?= number_format($HeaderCounter['threads'],
+			<?php echo  number_format($HeaderCounter['threads'],
 					null, null, '.') ?> unglaublichen Geschichten;
-			<?= number_format($HeaderCounter['user'],
+			<?php echo  number_format($HeaderCounter['user'],
 					null, null, '.') ?> geheuert,
-			<?= $HeaderCounter['user_registered'] ?> an Deck,
-			<?= $HeaderCounter['user_anonymous'] ?> Blinde Passagiere.
+			<?php echo  $HeaderCounter['user_registered'] ?> an Deck,
+			<?php echo  $HeaderCounter['user_anonymous'] ?> Blinde Passagiere.
 		</div>
 	</div>
 	<div class="center_r">

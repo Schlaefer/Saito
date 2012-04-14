@@ -18,7 +18,7 @@
 	###
 ?>
 <li class="<?php echo $span_post_type ?>">
-	<div class="thread_line <?= $entry_sub['Entry']['id'] . (($is_new_post) ? " new" : '') ?>" style='position: relative;'>
+	<div class="thread_line <?php echo  $entry_sub['Entry']['id'] . (($is_new_post) ? " new" : '') ?>" style='position: relative;'>
 		<div class="thread_line-pre">
 			<a href="#" class="btn_show_thread <?php echo $entry_sub['Entry']['id']; ?> span_post_type">
 				<i class="icon-<?php echo $span_post_type; ?>"></i>

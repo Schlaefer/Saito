@@ -108,11 +108,11 @@
 			<?php echo 		$this->Html->tableCells($table); ?> 
 			</table>
 		</div>
-		<? if (  $allowedToEditUserData ) : ?>
+		<?php  if (  $allowedToEditUserData ) : ?>
 		<div  class="c_a_a_b">
 			<div>
 				<div class="c_a_a_b_a c_first_child">
-						<?= $this->Html->link(
+						<?php echo  $this->Html->link(
 													__('edit_userdata'),
 													array( 'action' => 'edit', $user['User']['id'] ),
 													array( 'id'	=> 'btn_user_edit', 'class' => 'btn_submit' )
@@ -124,7 +124,7 @@
 <!--				</div>  c_a_a_b_c c_last_child -->
 			</div>
 		</div><!-- c_a_a_b -->
-		<? endif; ?>
+		<?php  endif; ?>
 	</div>
 	<br/>
 	<br/>
@@ -140,15 +140,15 @@
 			</div>
 		</div>	
 		<div class="content">
-			<? if (isset($lastEntries) && !empty($lastEntries)) : ?>
+			<?php  if (isset($lastEntries) && !empty($lastEntries)) : ?>
 			<ul>
-				<? foreach ($lastEntries as $entry) : ?>
+				<?php  foreach ($lastEntries as $entry) : ?>
 				<li>
-					<?= $this->element('entry/thread_cached', array ( 'entry_sub' => $entry, 'level' => 0 )); ?>
+					<?php echo  $this->element('entry/thread_cached', array ( 'entry_sub' => $entry, 'level' => 0 )); ?>
 				</li>
-				<? endforeach; ?>
+				<?php  endforeach; ?>
 			</ul>
-		<? endif ; ?>
+		<?php  endif ; ?>
 		</div>
 	</div>
 

@@ -40,7 +40,7 @@
 ?>
 			<?php if ( $entry_sub['Entry']['fixed'] ) : ?>
 					<i class="icon-pushpin" title="<?php echo __('fixed'); ?>"></i>
-				<? endif; ?>
+				<?php  endif; ?>
 <?php if ( $entry_sub['Entry']['nsfw'] ): ?>
 		<span class="sprite-nbs-explicit" title="<?php echo __('entry_nsfw_title') ?>"></span>
 	<?php endif; ?>

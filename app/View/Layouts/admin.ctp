@@ -19,19 +19,19 @@
 							Saito
 						</a>
 						<ul class="nav">
-							<li class="<? if (preg_match('/\/admin$/', $this->request->here)) { echo 'active'; }; ?>">
+							<li class="<?php  if (preg_match('/\/admin$/', $this->request->here)) { echo 'active'; }; ?>">
 								<?php
 								echo $this->Html->link(__('Overview'),
 										array( 'controller' => 'admins', 'action' => 'index', 'admin' => true ));
 								?>
 							</li>
-							<li class="<? if (stristr($this->request->here, 'settings')) { echo 'active'; }; ?>">
+							<li class="<?php  if (stristr($this->request->here, 'settings')) { echo 'active'; }; ?>">
 								<?php echo $this->Html->link(__('Settings'), '/admin/settings/index'); ?>
 							</li>
-							<li class="<? if (stristr($this->request->here, 'categories')) { echo 'active'; }; ?>">
+							<li class="<?php  if (stristr($this->request->here, 'categories')) { echo 'active'; }; ?>">
 								<?php echo $this->Html->link(__('Categories'), '/admin/categories/index'); ?>
 							</li>
-							<li class="<? if (stristr($this->request->here, 'smilies')) { echo 'active'; }; ?>">
+							<li class="<?php  if (stristr($this->request->here, 'smilies')) { echo 'active'; }; ?>">
 								<?php echo $this->Html->link(__('Smilies'), '/admin/smilies/index'); ?>
 							</li>
 						</ul>

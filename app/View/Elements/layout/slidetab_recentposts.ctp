@@ -1,4 +1,4 @@
-<? if ( $CurrentUser->isLoggedIn()  && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>
+<?php  if ( $CurrentUser->isLoggedIn()  && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>
 	<?php echo $this->element('layout/slidetabs__header', array('id' => 'recentposts', 'btn_class' => 'img_userhistory')); ?>
 				<div class="slidetab_rp">
 					<ul class="slidetab_tree">
@@ -10,10 +10,10 @@
 								?> 
 							</span>
 						</li>
-		<? if (isset($lastEntries) && !empty($lastEntries)) : ?>
+		<?php  if (isset($lastEntries) && !empty($lastEntries)) : ?>
 						<li>
 						<ul class="c_slidetab_subtree">
-							<? foreach ($lastEntries as $entry) : ?>
+							<?php  foreach ($lastEntries as $entry) : ?>
 							<li>
 								<i class="icon-thread"></i>
 								<?php
@@ -26,10 +26,10 @@
 								?>
 								<?php echo $this->EntryH->getFastLink($entry); ?><br/> <span class='c_info_text'><?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?></span>
 							</li>
-							<? endforeach; ?>
+							<?php  endforeach; ?>
 						</ul>
-		<? endif ; ?>
+		<?php  endif ; ?>
 					</ul>
 				</div>
 	<?php echo $this->element('layout/slidetabs__footer'); ?>
-<? endif; ?>
+<?php  endif; ?>

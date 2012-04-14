@@ -1,4 +1,4 @@
-<?= Stopwatch::start('view.ctp'); ?>
+<?php echo  Stopwatch::start('view.ctp'); ?>
 <?php if (!isset($level)) $level = 0; ?>
 <?
 	if ($show_answer) {
@@ -7,7 +7,7 @@
 ?>
 <div id="entry_view" class="entry view">
 	<div class="a">
-				<? echo $this->element('/entry/view_posting', array('entry' => $entry, 'level' => $level,)); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day'))); ?>
+				<?php  echo $this->element('/entry/view_posting', array('entry' => $entry, 'level' => $level,)); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day'))); ?>
 	</div> <!-- a -->
 
 	<div class="thread_tools" style='opacity: 1;'>
@@ -20,11 +20,11 @@
 	<div class="b">
 		<p>
 			<strong>
-				<?= __('whole_thread_marking');	?>:
+				<?php echo  __('whole_thread_marking');	?>:
 			</strong>
 		</p>
-		<?= $this->element('entry/thread_cached_init', array ( 'entries_sub' => $tree, 'level' => 0)); ?>
+		<?php echo  $this->element('entry/thread_cached_init', array ( 'entries_sub' => $tree, 'level' => 0)); ?>
 	</div> <!-- b -->
 </div>
 
-<?= Stopwatch::stop('view.ctp'); ?>
+<?php echo  Stopwatch::stop('view.ctp'); ?>

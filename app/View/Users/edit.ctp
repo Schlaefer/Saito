@@ -5,7 +5,7 @@
 <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
 	<table class="table_th_left_1">
 
-		<? if ( $CurrentUser->isAdmin() ) : ?>
+		<?php  if ( $CurrentUser->isAdmin() ) : ?>
 
 			<tr>
 				<td> <?php echo __('username_marking'); ?></td>
@@ -27,7 +27,7 @@
 				<td> @td änderungsmöglichkeit für admin (?) </td>
 			</tr>
 
-		<? else : ?>
+		<?php  else : ?>
 
 			<tr>
 				<td> <?php echo __('username_marking'); ?></td>
@@ -51,7 +51,7 @@
 				</td>
 			</tr>
 
-		<? endif ; ?>
+		<?php  endif ; ?>
 
 		<!-- currently not supported in Saito
 		<tr>
@@ -152,11 +152,11 @@
 		<tr>
 			<td> <?php echo __('user_colors') ?> </td>
 			<td>
-				<? echo $this->Farbtastic->input('User.user_color_new_postings', __('user_color_new_postings_exp')); ?>
+				<?php  echo $this->Farbtastic->input('User.user_color_new_postings', __('user_color_new_postings_exp')); ?>
 				<br/>
-				<? echo $this->Farbtastic->input('User.user_color_old_postings', __('user_color_old_postinings_exp')); ?>
+				<?php  echo $this->Farbtastic->input('User.user_color_old_postings', __('user_color_old_postinings_exp')); ?>
 				<br/>
-				<? echo $this->Farbtastic->input('User.user_color_actual_posting', __('user_color_actual_posting_exp')); ?>
+				<?php  echo $this->Farbtastic->input('User.user_color_actual_posting', __('user_color_actual_posting_exp')); ?>
 			</td>
 		</tr>
 
@@ -198,7 +198,7 @@
 				<td> <?php echo  $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
 			</tr>
 
-		<? if(false) : ?>
+		<?php  if(false) : ?>
 			<tr>
 				<td> <?php echo __('user_standard_categories') ?> </td>
 				<td>
@@ -211,7 +211,7 @@
 				<td> <?php echo $this->Form->input('time_difference', array( 'options' => array_combine(range(-24,24),range(-24,24)), 'label' => false,));  ?> <p class="exp"> <?php echo __('user_time_diff_exp') ?> </p></td>
 			</tr>
 
-			<? if ( $CurrentUser->isMod() ) : ?>
+			<?php  if ( $CurrentUser->isMod() ) : ?>
 				<tr>
 					<td> <?php echo __('admin_mod_notif') ?> </td>
 					<td>
@@ -221,8 +221,8 @@
 						<?php echo  $this->Form->checkbox('new_user_notify'); ?> <p class="exp"> <?php echo __('new_user_notify_exp') ?> </p>
 					</td>
 				</tr>
-			<? endif ; ?>
-		<? endif; ?>
+			<?php  endif ; ?>
+		<?php  endif; ?>
 	</table>
 	<br	/>
 

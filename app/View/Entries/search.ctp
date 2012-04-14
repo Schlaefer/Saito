@@ -118,16 +118,16 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 					&nbsp;
 				</div>
 			</div> <!-- header -->
-				<? endif; ?>
+				<?php  endif; ?>
 		<div class="content">
-					<? if ( isset($FoundEntries) && !empty($FoundEntries) ) : ?>
+					<?php  if ( isset($FoundEntries) && !empty($FoundEntries) ) : ?>
 				<ul>
-						<? foreach ( $FoundEntries as $entry ) : ?>
+						<?php  foreach ( $FoundEntries as $entry ) : ?>
 						<li>
-						<?= $this->element('entry/thread_cached',
+						<?php echo  $this->element('entry/thread_cached',
 								array( 'entry_sub' => $entry, 'level' => 0 )); ?>
 						</li>
-				<? endforeach; ?>
+				<?php  endforeach; ?>
 				</ul>
 <?php else : ?>
 	<?php echo __('search_nothing_found'); ?>

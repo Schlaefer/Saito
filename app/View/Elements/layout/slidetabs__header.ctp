@@ -10,7 +10,7 @@
 	}
 ?>
 
-	<div id="slidetab_<?php echo $id; ?>" class="slidetab" style="<?= $style ?>" >
+	<div id="slidetab_<?php echo $id; ?>" class="slidetab" style="<?php echo  $style ?>" >
 		<div class="button_wrapper">
 			<div class="button">
 				<?
@@ -20,5 +20,5 @@
 				<div class="<?php echo (isset($btn_class)) ? $btn_class : ''; ?>"><?php echo (isset($btn_content)) ? $btn_content : '&nbsp;'; ?></div>
 			</div>
 		</div> <!-- button -->
-		<div  class="content_wrapper" style="<?= $style2 ?>" >
+		<div  class="content_wrapper" style="<?php echo  $style2 ?>" >
 			<div class="content">

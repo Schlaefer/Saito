@@ -101,7 +101,7 @@
 			endif;
 		?>
 		<?php echo $scripts_for_layout; ?>
-		<? echo $this->Js->writeBuffer();?>
+		<?php  echo $this->Js->writeBuffer();?>
 		<div class='clearfix'></div>
 		<?php echo $this->Stopwatch->getResult();?>
 		<?php echo $this->element('sql_dump'); ?>

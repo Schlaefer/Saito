@@ -28,14 +28,14 @@ $level = 0;
 		<?php echo $this->Bbcode->parse($entry_sub['Entry']['text']); ?>
 			</div>
 		</div>
-		<? if ( isset($entry_sub['_children']) ) : ?>
+		<?php  if ( isset($entry_sub['_children']) ) : ?>
 			<?
 			foreach ( $entry_sub['_children'] as $child ) :
 				echo $this->element('entry/mobile_mix',
 						array( 'entry_sub' => $child, $level = $level + 1 ));
 			endforeach;
 			?>
-<? endif ?>
+<?php  endif ?>
 
 	</li>
 </ul>

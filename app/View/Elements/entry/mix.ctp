@@ -16,7 +16,7 @@
 ?>
 <a name="<?php echo $entry_sub['Entry']['id'] ;?>"></a>
 <?php if ($level < Configure::read('Saito.Settings.thread_depth_indent')) : ?>
-	<ul class="<?= ($level == 0) ? 'thread' : 'reply';?>">
+	<ul class="<?php echo  ($level == 0) ? 'thread' : 'reply';?>">
 <?php endif;?>
 		<li class="<?php echo $span_post_type ?>" style="margin-bottom: 20px;">
 					<div class="a">
@@ -25,7 +25,7 @@
 						?>
 					</div>
 		</li>
-		<? if (isset($entry_sub['_children'])) : ?>
+		<?php  if (isset($entry_sub['_children'])) : ?>
 			<li>
 			<?
 				foreach ( $entry_sub['_children'] as $child ) :
@@ -33,7 +33,7 @@
 				endforeach;
 			?>
 			</li>
-		<? endif ?>
+		<?php  endif ?>
 <?php if ($level < Configure::read('Saito.Settings.thread_depth_indent')) : ?>
 	</ul>
 <?php endif;?>

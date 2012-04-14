@@ -16,7 +16,7 @@ else :
 	echo $this->Html->scriptBlock('$(document).ready(function() {$("#EntryCategory").focus();});');
 endif;
 ?>
-<div id ="entry_<?= ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?= ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
+<div id ="entry_<?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
 	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
 		<div class="c_header_1">
 			<div>
@@ -31,7 +31,7 @@ endif;
 				</div>
 				<div>
 					<h2>
-<?= __('preview') ?>
+<?php echo  __('preview') ?>
 					</h2>
 				</div>
 				<div class="c_last_child">
@@ -50,15 +50,15 @@ endif;
 		<div class="c_header_1">
 			<div>
 				<div>
-<? if ( $this->request->is('ajax') ) : ?>
+<?php  if ( $this->request->is('ajax') ) : ?>
 						<div id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='btn_close' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;"></div>
 							<?
 							?>
-<? endif; ?>
+<?php  endif; ?>
 				</div>
 				<div>
 					<h2>
-<?= $form_title; ?>
+<?php echo  $form_title; ?>
 					</h2>
 				</div>
 				<div class="c_last_child">
@@ -67,13 +67,13 @@ endif;
 		</div>
 
 		<div id='markitup_media' style="display: none; overflow: hidden;">
-			<?=
+			<?php echo 
 			$this->Form->create(FALSE,
 					array(
 					'url' => '#',
 					'style' => 'width: 100%;' ));
 			?>
-			<?=
+			<?php echo 
 			$this->Form->label(
 					'media', 'Bitte Verweis oder Code zum Einbinden angeben:',
 					array(
@@ -81,7 +81,7 @@ endif;
 					)
 			);
 			?>
-			<?=
+			<?php echo 
 			$this->Form->textarea('media',
 					array(
 					'id' => 'markitup_media_txta',
@@ -91,7 +91,7 @@ endif;
 			));
 			?>
 			<div class="clearfix"></div>
-<?=
+<?php echo 
 $this->Form->submit(__('Einfügen'),
 		array( // @lo
 		'style' => 'float: right;',
@@ -99,7 +99,7 @@ $this->Form->submit(__('Einfügen'),
 		'id' => 'markitup_media_btn',
 ));
 ?>
-					<?= $this->Form->end(); ?>
+					<?php echo  $this->Form->end(); ?>
 			<div class="clearfix"></div>
 			<br/>
 			<div id="markitup_media_message" class="flash error" style="display: none;">
@@ -108,12 +108,12 @@ $this->Form->submit(__('Einfügen'),
 		</div>
 
 		<div class="content">
-					<?= $this->Form->create('Entry'); ?>
+					<?php echo  $this->Form->create('Entry'); ?>
 			<div class="bp_container">
 					<?php echo $this->EntryH->getCategorySelectForEntry($categories,
 							$this->request->data); ?>
 				<div class="postingform_main">
-					<?=
+					<?php echo 
 					$this->Form->input(
 							'subject',
 							array(
@@ -285,7 +285,7 @@ $this->Form->submit(__('Einfügen'),
 					?>
 				</div> <!-- postingform_main -->
 			</div> <!-- container -->
-<?= $this->Form->end(); ?>
+<?php echo  $this->Form->end(); ?>
 		</div> <!-- content -->
 	</div> <!-- postingform -->
 </div> <!-- entry add/reply -->

@@ -33,32 +33,32 @@
 		</h2>
 
 		<div class="author">
-			<?= __('forum_author_marking'); ?>
+			<?php echo  __('forum_author_marking'); ?>
 
-			<? if ($CurrentUser->isLoggedIn()) : ?>
-				<?= $this->Html->link($entry['User']['username'],
+			<?php  if ($CurrentUser->isLoggedIn()) : ?>
+				<?php echo  $this->Html->link($entry['User']['username'],
 																array( 'controller' => 'users', 'action' => 'view', $entry['User']['id'])
 										); ?>,
-				<?=  (!empty($entry['User']['user_place'])) ? $entry['User']['user_place'].',' : '' ;  ?>
-			<? else : ?>
-				<strong><?= $entry['User']['username'] ?></strong>,
-			<? endif; ?>
+				<?php echo   (!empty($entry['User']['user_place'])) ? $entry['User']['user_place'].',' : '' ;  ?>
+			<?php  else : ?>
+				<strong><?php echo  $entry['User']['username'] ?></strong>,
+			<?php  endif; ?>
 
 			<?php /* <span title="<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry['Entry']['time'], 'glasen'); ?></span>, */ ?>
 			<?php  echo $this->TimeH->formatTime($entry['Entry']['time']); ?>,
-			<?= __('views_headline') ?>: <?= $entry['Entry']['views'] ?>
-			<? if ( $entry['Entry']['nsfw'] ): ?>
+			<?php echo  __('views_headline') ?>: <?php echo  $entry['Entry']['views'] ?>
+			<?php  if ( $entry['Entry']['nsfw'] ): ?>
 				<div class="sprite-nbs-explicit"></div>
-			<? endif; ?>
-			<? if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
+			<?php  endif; ?>
+			<?php  if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
 							&& strtotime($entry['Entry']['edited']) > strtotime($entry['Entry']['time'])+( Configure::read('Saito.Settings.edit_delay') * 60 )
 					): ?>
 				<br/>
 				<span class="entry_edited_info">
-					(<?= __('board_edited_marking').' '.$entry['Entry']['edited_by'] . ", " . $this->TimeH->formatTime($entry['Entry']['edited']); ?>)
+					(<?php echo  __('board_edited_marking').' '.$entry['Entry']['edited_by'] . ", " . $this->TimeH->formatTime($entry['Entry']['edited']); ?>)
 				</span>
 
-			<? endif; ?>
+			<?php  endif; ?>
 		</div>
 
 		<div class='posting'> <?php echo $this->Bbcode->parse($entry['Entry']['text']); ?> </div>
