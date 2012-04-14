@@ -213,7 +213,6 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_Controller->Auth->allow('display');
 
 		// l10n
-		$this->_Controller->Auth->loginError = __('auth_loginerror');
 		$this->_Controller->Auth->authError = __('auth_autherror');
 	}
 

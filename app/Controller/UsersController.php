@@ -1,15 +1,5 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of users_controller
- *
- * @author siezi
- */
 class UsersController extends AppController {
 
 	public $name = 'Users';
@@ -31,7 +21,7 @@ class UsersController extends AppController {
 		$this->set('LocationSubnavLeft', __('login_linkname'));
 
 		if ( $this->Auth->login() ):
-			//* login was successfull
+		// login was successfull
 
 			$this->User->id = $this->Auth->user('id');
 			$this->_successfulLogin();
@@ -49,7 +39,10 @@ class UsersController extends AppController {
 				$this->redirect($this->referer());
 			endif;
 
-		endif; // end successful login
+		elseif ( !empty($this->request->data) ):
+		// login was attempted but not successfull
+			$this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
+		endif;
 
 	} //end login()
 
