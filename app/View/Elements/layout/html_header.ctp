@@ -26,7 +26,13 @@
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
 		?>
-		<?php echo $this->Html->script('jquery-1.7.1.min'); ?>
+		<?php 
+			if ( Configure::read('debug') == 0 ):
+				echo $this->Html->script('jquery-1.7.1.min');
+			else:
+				echo $this->Html->script('jquery-1.7.1');
+			endif;
+		?>
 		<?php 
 			/* fixing safari mobile fubar;
 			 * see: http://stackoverflow.com/questions/6448465/jquery-mobile-device-scaling
