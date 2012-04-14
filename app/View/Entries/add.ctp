@@ -1,4 +1,4 @@
-<?
+<?php
 // new entries have no id (i.e. no reply an no edit), so wie set a filler var
 if ( !isset($this->request->data['Entry']['id']) ) {
 	$this->request->data['Entry']['id'] = 'foo';
@@ -21,7 +21,7 @@ endif;
 		<div class="c_header_1">
 			<div>
 				<div>
-					<?
+					<?php
 					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideToggle',
 									array( 'speed' => 'fast' ));
 					$this->Js->get('#btn_preview_close_' . $this->request->data['Entry']['id'])->event('click',
@@ -52,7 +52,7 @@ endif;
 				<div>
 <?php  if ( $this->request->is('ajax') ) : ?>
 						<div id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='btn_close' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;"></div>
-							<?
+							<?php
 							?>
 <?php  endif; ?>
 				</div>
@@ -187,7 +187,7 @@ $this->Form->submit(__('Einfügen'),
 						?>
 					</div>
 					<div class="checkbox">
-						<?
+						<?php
 						// ### flattr checkbox start
 						if ( Configure::read('Saito.Settings.flattr_enabled') == TRUE && $CurrentUser['flattr_uid'] == TRUE ) :
 							echo $this->Form->checkbox('flattr');
@@ -261,7 +261,7 @@ $this->Form->submit(__('Einfügen'),
 					}
 					?>
 
-					<?
+					<?php
 					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideIn',
 									array( 'speed' => 'fast' ));
 					$js_r .= "$('#preview_slider_" . $this->request->data['Entry']['id'] . "').html('');";

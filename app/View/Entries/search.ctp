@@ -28,7 +28,7 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 				);
 				?>
 			</div>
-			<?
+			<?php
 			echo $this->Form->end();
 			?>
 		</div>

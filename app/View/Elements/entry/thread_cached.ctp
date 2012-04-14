@@ -2,7 +2,7 @@
 <?php echo $this->element('entry/thread_li', array ( 'entry_sub' => $entry_sub, 'level' => $level)); ?>
 	<?php  if (isset($entry_sub['_children'])) : ?>
 		<li>
-<?
+<?php
 			foreach ( $entry_sub['_children'] as $child ) :
 				echo $this->element('entry/thread_cached', array ( 'entry_sub' => $child, 'level' => $level+1));
 			endforeach;

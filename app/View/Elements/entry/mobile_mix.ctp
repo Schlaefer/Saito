@@ -29,7 +29,7 @@ $level = 0;
 			</div>
 		</div>
 		<?php  if ( isset($entry_sub['_children']) ) : ?>
-			<?
+			<?php
 			foreach ( $entry_sub['_children'] as $child ) :
 				echo $this->element('entry/mobile_mix',
 						array( 'entry_sub' => $child, $level = $level + 1 ));

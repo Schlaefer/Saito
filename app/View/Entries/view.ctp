@@ -1,6 +1,6 @@
 <?php echo  Stopwatch::start('view.ctp'); ?>
 <?php if (!isset($level)) $level = 0; ?>
-<?
+<?php
 	if ($show_answer) {
 		$this->Html->scriptBlock("$(window).load(function() { $('#forum_answer_".$entry["Entry"]['id']."').trigger('click'); });", array('inline' => false ));
 	}

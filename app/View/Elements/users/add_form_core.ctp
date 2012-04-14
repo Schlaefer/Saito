@@ -1,4 +1,4 @@
-<?
+<?php
 		 echo $this->Form->input('username', array (
 				 'error'	=> array (
 						 'isUnique'	=> __('error_name_reserved'),

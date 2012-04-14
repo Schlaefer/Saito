@@ -1,4 +1,4 @@
-<?
+<?php
 	$style = '';
 	$style2 = '';
 	if ($CurrentUser['show_' . $id ] == 1) {
@@ -13,7 +13,7 @@
 	<div id="slidetab_<?php echo $id; ?>" class="slidetab" style="<?php echo  $style ?>" >
 		<div class="button_wrapper">
 			<div class="button">
-				<?
+				<?php
 					$remoteFunction = $this->Ajax->remoteFunction(array('url' => array( 'controller' => 'users', 'action' => 'ajax_toggle', "show_$id" )));
 					$this->Js->get("#slidetab_$id  .button_wrapper")->event('click', $remoteFunction.";layout_slidetabs_toggle('#slidetab_$id');");
 				?>
