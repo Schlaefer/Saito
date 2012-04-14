@@ -4,6 +4,8 @@
 
 		public $table = 'useronline';
 		public $fields = array(
+				'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+				'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 				'id' => array( 'type' => 'integer', 'length' => 11, 'key' => 'primary' ),
 				'user_id' => array( 'type' => 'string', 'length' => 32, 'default' => NULL ),
 				'time' => array( 'type' => 'integer', 'length' => 14, 'default' => 0 ),
