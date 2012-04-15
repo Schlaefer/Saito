@@ -74,9 +74,16 @@
 			$result = $this->User->field('logins');
 			$this->assertEqual($expected, $result);
 
-			$result = $this->User->field('last_login');
-			$expected = date('Y-m-d H:i:s');
-			$this->assertEqual($expected, $result);
+			$last_login = new DateTime($this->User->field('last_login'));
+			$now = new DateTime();
+			/* on a decently performing server the timestamp is maybe not equal
+			 * but within one second time diff
+			 */
+			$diff = $now->diff($last_login);
+			$result = (int)$diff->format("s");
+			$expected = 1;
+			$this->assertLessThanOrEqual($expected, $result);
+			$this->assertGreaterThanOrEqual(0, $result);
 
 			//* increment random amount
 			$this->User->incrementLogins(15);
@@ -84,9 +91,16 @@
 			$result = $this->User->field('logins');
 			$this->assertEqual($expected, $result);
 
-			$result = $this->User->field('last_login');
-			$expected = date('Y-m-d H:i:s');
-			$this->assertEqual($expected, $result);
+			$last_login = new DateTime($this->User->field('last_login'));
+			$now = new DateTime();
+			/* on a decently performing server the timestamp is maybe not equal
+			 * but within one second time diff
+			 */
+			$diff = $now->diff($last_login);
+			$result = (int)$diff->format("s");
+			$expected = 1;
+			$this->assertLessThanOrEqual($expected, $result);
+			$this->assertGreaterThanOrEqual(0, $result);
 
 			//* check we have no DB leaking
 			$usersAfterIncrements = $this->User->find('count');
