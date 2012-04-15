@@ -761,7 +761,7 @@ class EntriesController extends AppController {
 						'Entry.category' => $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession()),
 				),
 				'contain' => false,
-				'fields' => 'id, pid, tid, last_answer',
+				'fields' => 'id, pid, tid, time, last_answer',
 				'limit' => Configure::read('Saito.Settings.topics_per_page'),
 				'order' => $order,
 				)

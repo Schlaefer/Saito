@@ -33,7 +33,9 @@
 			<li>
 				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>"><span class="img_mix"></span></a>
 			</li>
-			<?php if ($CurrentUser->isLoggedIn() && isset($entry_sub['_children'])) : ?>
+			<?php if ($CurrentUser->isLoggedIn()
+								// for cached entries this tests if a thread has only the root posting
+								&& $entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']) : ?>
 				<li>
 					<a href="#"><span class="btn-threadTool btn-threadCollapse"></span></a>
 				</li>
