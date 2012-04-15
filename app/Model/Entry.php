@@ -188,10 +188,9 @@ class Entry extends AppModel {
 		$cached_ids = array();
 		$where = array();
 		foreach($search_array as $search_item) {
-			$entry_dummy = array('id' => $search_item['id'],'tid' => $search_item['tid'], 'pid' => $search_item['pid'], 'last_answer' => $search_item['last_answer']);
-			$cached = $this->canUseCache($entry_dummy, array('last_refresh' => $timestamp));
+			$cached = $this->canUseCache($search_item, array('last_refresh' => $timestamp));
 			if ($cached) {
-				$cached_dummies[$search_item['id']]['Entry'] = $entry_dummy;
+				$cached_dummies[$search_item['id']]['Entry'] = $search_item;
 			} else {
 				$where[] = $search_item['id'];
 			}
