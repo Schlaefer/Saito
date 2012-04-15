@@ -33,9 +33,11 @@
 			<li>
 				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>"><span class="img_mix"></span></a>
 			</li>
-			<li>
-				<a href="#" class=""><span class="btn-threadTool btn-threadCollapse"></span></a>
-			</li>
+			<?php if ($CurrentUser->isLoggedIn() && isset($entry_sub['_children'])) : ?>
+				<li>
+					<a href="#"><span class="btn-threadTool btn-threadCollapse"></span></a>
+				</li>
+			<?php endif; ?>
 			<?php
 					if ( $this->request->params['action'] != 'view') :
 					### Anzeige der Inline View start ##

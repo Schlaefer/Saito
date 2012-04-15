@@ -24,7 +24,8 @@
 		className: 'thread_box',
 
 		events: {
-			"click .btn-threadCollapse":  "collapseThread"
+			"click .btn-threadCollapse":  "collapseThread",
+			"click .btn-threadOpen":  		"collapseThread"
 		},
 
 		initialize: function(){
@@ -51,30 +52,19 @@
 
 		slideUp: function() {
 			$(this.el).find('.tree_thread > ul > li:not(:first-child)').slideUp('100');
+			$(this.el).find('.btn-threadCollapse').removeClass('btn-threadCollapse').addClass('btn-threadOpen');
 		},
 
 		slideDown: function() {
 			$(this.el).find('.tree_thread > ul > li:not(:first-child)').slideDown('100');
+			$(this.el).find('.btn-threadOpen').removeClass('btn-threadOpen').addClass('btn-threadCollapse');
 		},
 
 		hide: function() {
 			$(this.el).find('.tree_thread > ul > li:not(:first-child)').hide();
-		}
-
-	});
-
-	/*
-	var AppView = Backbone.View.extend({
-		el: $("body"),
-		events: {
-			"click .foobar":  "showPrompt"
-		},
-		showPrompt: function () {
-			var friend_name = prompt("Who is your friend?");
+			$(this.el).find('.btn-threadCollapse').removeClass('btn-threadCollapse').addClass('btn-threadOpen');
 		}
 	});
-	var appview = new AppView;
-	 */
 
 	var threads = new ThreadCollection;
 	threads.fetch();

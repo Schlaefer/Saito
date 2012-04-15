@@ -725,7 +725,8 @@ a.btn {
 	height: 13px;
 }
 
-.btn-threadCollapse { @extend .sprite-thread-collapse; }
+.btn-threadCollapse { @extend .sprite-thread-collapse; 	}
+.btn-threadOpen 		{ @extend .sprite-thread-open; 			}
 
 /** headers start ** */
 .c_header_1 {

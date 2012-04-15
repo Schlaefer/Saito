@@ -91,6 +91,11 @@
 		<?php 
 			if ( Configure::read('debug') == 0 ):
 				echo $this->Html->script('js.min');
+				echo $this->Html->script(
+						array(
+								'js2-min.js',
+								)
+						);
 			else:
 				echo $this->Html->script('jquery.hoverIntent.minified');
 				echo $this->Html->script('jquery-ui-1.8.13.custom.min');
@@ -100,6 +105,14 @@
 				echo $this->Html->script('jquery.form');
 				echo $this->Html->script('jquery.clearabletextfield');
 				echo $this->Html->script('jquery.scrollTo-1.4.2-min');
+				echo $this->Html->script(
+						array(
+								'lib/underscore/underscore.js',
+								'lib/backbone/backbone.js',
+								'lib/backbone/backbone.localStorage',
+								'_appbb'
+								)
+						);
 			endif;
 		?>
 		<?php echo $this->Html->script(array('underscore.js', 'backbone.js', 'backbone.localStorage', '_appbb')); ?>
