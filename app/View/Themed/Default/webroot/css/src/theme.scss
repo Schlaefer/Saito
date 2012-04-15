@@ -711,8 +711,24 @@ a.btn {
   background-repeat: repeat-y; }
 
 /*back and top wide button end */
-
 /** buttons end ** */
+
+/*******************************************************************************
+ * Buttons Thread Tools
+ ******************************************************************************/
+
+.btn-threadTool {
+	display: inline-block;
+	margin-top: 1px;
+	width: 13px;
+	height: 13px;
+}
+
+.btn-threadCollapse { @extend .sprite-thread-collapse; }
+
+/*******************************************************************************
+ * Headers
+ ******************************************************************************/
 
 /** headers start ** */
 .c_header_1 {

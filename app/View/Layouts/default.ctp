@@ -102,6 +102,7 @@
 				echo $this->Html->script('jquery.scrollTo-1.4.2-min');
 			endif;
 		?>
+		<?php echo $this->Html->script(array('underscore.js', 'backbone.js', 'backbone.localStorage', '_appbb')); ?>
 		<?php echo $scripts_for_layout; ?>
 		<?php echo $this->Js->writeBuffer();?>
 		<div class='clearfix'></div>
