@@ -401,7 +401,6 @@ function initViewPosting(id) {
  * 
  */
 function initViewAnswerForm() {
-	$('.postingform input[type=text]').clearableTextField();
 	$('.postingform input[type=text]:first').focus();
 } // initViewAnswerForum
 

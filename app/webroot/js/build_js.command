@@ -15,7 +15,6 @@ done;
 scripts[0]='classes.min.js'
 scripts[1]='_app.js'
 scripts[2]='jquery.form.js'
-scripts[4]='jquery.clearabletextfield.js'
 
 for i in "${scripts[@]}"
 do
