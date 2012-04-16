@@ -31,13 +31,17 @@
 	<div class="thread_tools <?php echo $entry_sub['Entry']['id'];?>">
 	<ul>
 			<li>
-				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>"><span class="img_mix"></span></a>
+				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" title="<?php echo __('btn-showThreadInMixView'); ?>">
+					<span class="img_mix"></span>
+				</a>
 			</li>
 			<?php if ($CurrentUser->isLoggedIn()
 								// for cached entries this tests if a thread has only the root posting
 								&& $entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']) : ?>
 				<li>
-					<a class="btn-threadCollapse" href="#"><span class="ico-threadTool ico-threadCollapse"></span></a>
+					<a class="btn-threadCollapse" href="#" title="<?php echo __('btn-threadCollapse') ?>">
+						<span class="ico-threadTool ico-threadCollapse"></span>
+					</a>
 				</li>
 			<?php endif; ?>
 			<?php
@@ -48,7 +52,9 @@
 							// keinen Show All New Inline View Eintrag
 						?>
 						<li>
-							<a href="#" id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;"><span class="img_open_new"></span></a>
+							<a href="#" id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;" title="<?php echo __('btn-showNewThreads') ?>">
+								<span class="img_open_new"></span>
+							</a>
 						</li>
 						<?php
 						endif;
@@ -56,10 +62,14 @@
 			?>
 			<?php if ($CurrentUser->isLoggedIn()) : ?>
 				<li>
-					<a href="#" id="btn_close_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').closeAll(); return false;"><span class="img_inline_close"></span></a>
+					<a href="#" id="btn_close_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').closeAll(); return false;" title="<?php echo __('btn-closeThreads') ?>">
+						<span class="img_inline_close"></span>
+					</a>
 				</li>
 				<li>
-					<a href="#" id="btn_open_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showAll(); return false;"><span class="img_inline_open"></span></a>
+					<a href="#" id="btn_open_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showAll(); return false;" title="<?php echo __('btn-openThreads') ?>">
+						<span class="img_inline_open"></span>
+					</a>
 				</li>
 			<?php endif; ?>
 		</ul>
