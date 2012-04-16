@@ -89,6 +89,38 @@
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 		}
 
+		public function testContactForbidden() {
+			/* not logged in but contacting admin is always allowed */
+			$this->testAction('/users/contact/1');
+			$this->assertFalse(isset($this->headers['Location']));
+
+			/* not logged in should'nt be allowed */
+			$this->testAction('/users/contact/3');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+			/* not logged in should'nt be allowed */
+			$this->testAction('/users/contact/5');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+			/* logged in and allowed */
+			$this->_loginUser(2);
+			$this->testAction('/users/contact/3');
+			$this->assertFalse(isset($this->headers['location']));
+			$this->assertContains('/users/contact/3', $this->controller->request->here);
+
+			/* logged in but recipient's user-pref doesn't allow it  */
+			$this->testAction('/users/contact/5');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+			/* no recipient id */
+			$this->testAction('/users/contact/');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+			/* recipient does not exist */
+			$this->testAction('/users/contact/9999');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+		}
+
 		public function testIndexGetViewVarsRegistred() {
 			/*
 			  $this->_loginUser("Charles");

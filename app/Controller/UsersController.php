@@ -269,7 +269,7 @@ class UsersController extends AppController {
 		$this->User->id = $id;
 		$this->User->contain();
 		$user =  $this->User->read();
-		if (!$user || !$user['User']['personal_messages']) :
+		if (!$user || (!$user['User']['personal_messages'] && $id !=1)) :
 			$this->redirect('/');
 		endif;
 

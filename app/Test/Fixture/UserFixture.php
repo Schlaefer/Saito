@@ -65,6 +65,7 @@
 						'slidetab_order' => null,
 						'user_automaticaly_mark_as_read' => 0,
 						'user_lock' => 0,
+						'personal_messages' => 0,
 				),
 				array(
 						'id' => 2,
@@ -75,6 +76,7 @@
 						'slidetab_order' => null,
 						'user_automaticaly_mark_as_read' => 0,
 						'user_lock' => 0,
+						'personal_messages' => 0,
 				),
 				array(
 						'id' => 3,
@@ -85,6 +87,7 @@
 						'slidetab_order' => null,
 						'user_automaticaly_mark_as_read' => 0,
 						'user_lock' => 0,
+						'personal_messages' => 1,
 				),
 				array(
 						'id' => 5,
@@ -95,6 +98,7 @@
 						'slidetab_order' => null,
 						'user_automaticaly_mark_as_read' => 1,
 						'user_lock' => 0,
+						'personal_messages' => 0,
 				),
 		);
 
