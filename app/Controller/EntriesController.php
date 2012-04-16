@@ -62,78 +62,6 @@ class EntriesController extends AppController {
 		Stopwatch::stop('Entries->index()');
 	}
 
-	public function mobile_index($page = NULL) {
-		$this->_setupMobile();
-		$sort_order = ($this->CurrentUser['user_sort_last_answer'] == 0) ? 'time' : 'last_answer';
-		$order = array( 'fixed' => 'DESC', $sort_order => 'DESC' );
-		$this->paginate = array(
-				/* Whenever you change the conditions here check if you have to adjust
-				 * the db index. Running this querry without appropriate db index is a huge
-				 * [hundreds of ms] performance bottleneck. */
-				'conditions' => array(
-						'pid' => 0,
-						'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
-				),
-				'limit' => Configure::read('Saito.Settings.topics_per_page'),
-				'order' => $order,
-				)
-		;
-		$initial_threads = $this->paginate();
-
-		$initial_threads_new = array( );
-		foreach ( $initial_threads as $k => $v ) {
-			$initial_threads_new[$k] = $v["Entry"];
-		}
-		$initialThreads = $initial_threads_new;
-
-		$this->set('entries', $initialThreads);
-		$this->set('title_for_layout', 'Index');
-	}
-
-	public function mobile_recent() {
-		$this->_setupMobile();
-		$recentEntries = $this->Entry->getRecentEntries(
-						array(
-								'accession' => $this->Entry->Category->getCategoriesForAccession(
-										$this->CurrentUser->getMaxAccession()
-								)
-						)
-		);
-		$this->set('recentEntries', $recentEntries);
-	}
-
-	public function mobile_view($id = NULL) {
-
-		$this->_setupMobile();
-		$this->_setupView($id);
-		$this->set('entry', $this->request->data);
-		$this->_teardownView();
-
-		$this->set('title_for_layout', $this->request->data['Entry']['subject']);
-	}
-
-	public function mobile_mix($tid) {
-		$this->_setupMobile();
-
-		$entries = $this->_setupMix($tid);
-//		var_dump($entries);
-//		var_dump('foo');
-//		exit;
-		$this->set('entries', $entries);
-
-		$this->set('title_for_layout', $this->request->data[0]['Entry']['subject']);
-	}
-
-	public function mobile_add($id = NULL) {
-		$this->_setupMobile();
-
-		//* new posting creates new thread
-		$this->request->data['Entry']['pid'] = 0;
-		$this->request->data['Entry']['tid'] = 0;
-
-		$this->_teardownAdd();
-	}
-
 	public function feed() {
 		// Configure::write('debug', 0);
 		$this->RequestHandler->setContent('RSS');
@@ -818,10 +746,6 @@ class EntriesController extends AppController {
 			$this->redirect('/');
 		}
 		return $entries;
-	}
-
-	protected function _setupMobile() {
-		$this->layout = 'mobile';
 	}
 
 	protected function _teardownAdd() {

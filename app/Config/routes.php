@@ -65,12 +65,6 @@ Router::connect('/pages/*', array( 'controller' => 'pages', 'action' => 'display
 Router::connect('/admin', array('controller' => 'admins', 'action' => 'index', 'admin' => true));
 
 /**
- * Mobile Route
- */
-Router::connect('/mobile/:controller/:action/*', array('mobile' => true, 'prefix' => 'mobile'));
-
-
-/**
  * Pagination for entries/index
  */
 Router::connect('/entries/index/:page/*', array('controller' => 'entries', 'action' => 'index'), array( 'pass' => array('page'), 'page' => '[0-9]+' ));

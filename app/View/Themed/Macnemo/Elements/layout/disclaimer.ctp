@@ -19,9 +19,6 @@
 				<li>
 					<a href="<?php echo $this->request->webroot; ?>pages/rss_feeds">RSS</a>
 				</li>
-				<li>
-					<a href="<?php echo $this->request->webroot; ?>mobile/entries/index">Mobile (Tech-Demo)</a>
-				</li>
 			</ul>
 		</div>
 	</div>
