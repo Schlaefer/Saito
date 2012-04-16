@@ -24,8 +24,7 @@
 		className: 'thread_box',
 
 		events: {
-			"click .btn-threadCollapse":  "collapseThread",
-			"click .btn-threadOpen":  		"collapseThread"
+			"click .btn-threadCollapse":  "collapseThread"
 		},
 
 		initialize: function(){
@@ -52,17 +51,17 @@
 
 		slideUp: function() {
 			$(this.el).find('.tree_thread > ul > li:not(:first-child)').slideUp('100');
-			$(this.el).find('.btn-threadCollapse').removeClass('btn-threadCollapse').addClass('btn-threadOpen');
+			$(this.el).find('.ico-threadCollapse').removeClass('ico-threadCollapse').addClass('ico-threadOpen');
 		},
 
 		slideDown: function() {
 			$(this.el).find('.tree_thread > ul > li:not(:first-child)').slideDown('100');
-			$(this.el).find('.btn-threadOpen').removeClass('btn-threadOpen').addClass('btn-threadCollapse');
+			$(this.el).find('.ico-threadOpen').removeClass('ico-threadOpen').addClass('ico-threadCollapse');
 		},
 
 		hide: function() {
 			$(this.el).find('.tree_thread > ul > li:not(:first-child)').hide();
-			$(this.el).find('.btn-threadCollapse').removeClass('btn-threadCollapse').addClass('btn-threadOpen');
+			$(this.el).find('.ico-threadCollapse').removeClass('ico-threadCollapse').addClass('ico-threadOpen');
 		}
 	});
 

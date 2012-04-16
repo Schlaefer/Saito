@@ -718,15 +718,15 @@ a.btn {
  * Buttons Thread Tools
  ******************************************************************************/
 
-.btn-threadTool {
+.ico-threadTool {
 	display: inline-block;
 	margin-top: 1px;
 	width: 13px;
 	height: 13px;
 }
 
-.btn-threadCollapse { @extend .sprite-thread-collapse; 	}
-.btn-threadOpen 		{ @extend .sprite-thread-open; 			}
+.ico-threadCollapse { @extend .sprite-thread-collapse; 	}
+.ico-threadOpen 		{ @extend .sprite-thread-open; 			}
 
 /** headers start ** */
 .c_header_1 {

@@ -37,7 +37,7 @@
 								// for cached entries this tests if a thread has only the root posting
 								&& $entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']) : ?>
 				<li>
-					<a href="#"><span class="btn-threadTool btn-threadCollapse"></span></a>
+					<a class="btn-threadCollapse" href="#"><span class="ico-threadTool ico-threadCollapse"></span></a>
 				</li>
 			<?php endif; ?>
 			<?php
