@@ -1,11 +1,11 @@
 <?php
 
+App::uses('CakeEmail', 'Network/Email');
+
 class UsersController extends AppController {
 
 	public $name = 'Users';
-	public $components = array(
-			'Email',
-			);
+	public $components = array();
 
 	public $helpers = array (
 			'Farbtastic',
@@ -84,14 +84,17 @@ class UsersController extends AppController {
 			if ($this->User->register($this->request->data)) {
 					$this->request->data['User']['id'] = $this->User->id;
 
-					$this->Email->to = $this->request->data['User']['user_email'];
-					$this->Email->subject = 'Willkommen bei macnemo.de'; //@lo 
-					$this->Email->from = Configure::read('Saito.Settings.forum_name') . ' <' . Configure::read('Saito.Settings.forum_email') . ">";
-					$this->set('user', $this->request->data);
-				  $this->Email->template = 'user_register';
-					$this->Email->sendAs = 'text';
-					$this->Email->send();
-
+					$this->_email(array(
+						'recipient' => $this->request->data,
+						'subject' 	=> 'Willkommen bei macnemo.de', //@lo
+						'sender' 		=> array( 
+								'User' => array(
+										'user_email' 	=> Configure::read('Saito.Settings.forum_email'),
+										'username'		=> Configure::read('Saito.Settings.forum_name')),
+								),
+						'template' 	=> 'user_register',
+						'viewVars'	=> array('user' => $this->request->data),
+					));
 					$this->set('register_success', 'email_send');
 			}
 		}
@@ -279,20 +282,28 @@ class UsersController extends AppController {
 			$subject = rtrim($this->request->data['Message']['subject']);
 			if (empty($subject)) {
 				$this->Session->setFlash('Betreff darf nicht leer sein.'); # @lo
-				$this->request->data = $user;
+				$this->request->data = array_merge($this->request->data, $user);
 			} else {
 				try {
-					$this->_contact($user, $this->CurrentUser->getId(), $subject, $this->request->data['Message']['text']);
+					$this->_email(array(
+							'recipient' => $user,
+							'sender' 		=> $this->CurrentUser->getId(),
+							'subject' 	=> $subject,
+							'message'		=> $this->request->data['Message']['text'],
+							'template'	=> 'user_contact'
+							));
 					$send = true;
 					$this->Session->setFlash('Nachricht wurde versandt.', 'flash/notice'); # @lo
-					$this->redirect('/');
+						$this->redirect('/');
 				} catch (Exception $exc) {
 					$this->Session->setFlash('Nachricht konnte nicht versandt werden.', 'flash/error'); # @lo
 				} // end try
 			} // end if
 		} // end if($this->request->data)
+		else {
+			$this->request->data = $user;
+		}
 
-		$this->request->data = $user;
 		$this->set('send', $send);
 	} // end contact()
 
@@ -347,14 +358,29 @@ class UsersController extends AppController {
 			$this->_checkIfEditingIsAllowed();
 		}
 
-		if (Configure::read('debug') > 0) {
-			$this->Email->delivery = 'debug';
-			}
-
 		Stopwatch::stop('Users->beforeFilter()');
 	}
 
-	protected function _contact($recipient, $sender, $subject, $message) {
+	/**
+	 * @td better mvc. refactor into SaitoUser or overwrite CakeEmail?
+	 *
+	 * $options = array(
+	 * 		'recipient' // user-id or ['User']
+	 * 		'sender'		// user-id or ['User']
+	 * 		'template'
+	 * 		'message'
+	 * 		'viewVars'
+	 * );
+	 *
+	 * @param type $options
+	 * @throws Exception 
+	 */
+	protected function _email($options = array()) {
+		$defaults = array(
+				'viewVars'=> array(),
+		);
+		extract(array_merge($defaults, $options));
+
 		if (!is_array($recipient)) {
 			$this->User->id = $recipient;
 			$this->User->contain();
@@ -372,13 +398,30 @@ class UsersController extends AppController {
 			}
 		}
 
-		$this->Email->to = $recipient['User']['user_email'];
-		$this->Email->subject = $subject;
-		$this->Email->from = $sender['User']['username'] . ' <' . $sender['User']['user_email'] . '>';
-		$this->set('message', $message);
-		$this->Email->template = 'user_contact';
-		$this->Email->sendAs = 'text';
-		$this->Email->send();
+		$emailConfig = array(
+						'from'	=> array($sender['User']['user_email'] => $sender['User']['username']),
+						'to'          => $recipient['User']['user_email'],
+						'subject'     => $subject,
+						'emailFormat' => 'text',
+					);
+
+		if (isset($template)) :
+			$emailConfig['template'] = $template;
+		endif;
+
+		if (Configure::read('debug') > 0) :
+			$emailConfig['transport'] = 'Debug';
+			$emailConfig['log'] 			= true;
+		endif;
+
+		if (isset($message)):
+			$viewVars['message'] = $message;
+		endif;
+
+		$email = new CakeEmail();
+		$email->config($emailConfig);
+		$email->viewVars($viewVars);
+		$email->send();
 	
 	} // end _contact()
 
