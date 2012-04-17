@@ -27,7 +27,7 @@
 		<div class="inside">
 			<h3> About </h3>
 			<p>
-				Powered by <a href="https://github.com/Schlaefer/Saito">Saito</a> v<?php echo Configure::read("Saito.v"); ?>.
+				Powered by <a href="http://saito.siezi.com/">Saito</a> v<?php echo Configure::read("Saito.v"); ?>.
 			</p>
 		</div>
 	</div>
