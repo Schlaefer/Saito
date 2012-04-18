@@ -2,6 +2,8 @@ This Software excluding images and artwork is released under the MIT license unl
 
 Some icons by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/). All rights reserved. Licensed under a [Creative Commons Attribution 3.0 License](http://creativecommons.org/licenses/by/3.0/).
 
+[Font Awesome](http://fortawesome.github.com/Font-Awesome) licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/).
+
 ---
 
 The MIT License
