@@ -34,6 +34,7 @@ a.textlink {
 	&:link, &:visited, &:active {
 		@extend .sprites;
 		@include sprite-row(6);
+    background-position: 0px -159px;
 	}
 }
 
@@ -96,6 +97,7 @@ a.textlink {
 	@extend .sprites;
 	@include sprite-row(6);
   padding-left: 6px;
+  background-position: 0px -159px;
 }
 
 .users_img {
