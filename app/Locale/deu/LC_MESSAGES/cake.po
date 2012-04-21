@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=utf-8\n"
+
+#
+#: Locale/nondynamic_scan.php:2
+msgid "January"
+msgstr "Januar"
+
+#: Locale/nondynamic_scan.php:3
+msgid "February"
+msgstr "Februar"
+
+#: Locale/nondynamic_scan.php:4
+msgid "March"
+msgstr "März"
+
+#: Locale/nondynamic_scan.php:5
+msgid "April"
+msgstr "April"
+
+#: Locale/nondynamic_scan.php:6
+msgid "May"
+msgstr "Mai"
+
+#: Locale/nondynamic_scan.php:7
+msgid "June"
+msgstr "Juni"
+
+#: Locale/nondynamic_scan.php:8
+msgid "July"
+msgstr "Juli"
+
+#: Locale/nondynamic_scan.php:9
+msgid "August"
+msgstr "August"
+
+#: Locale/nondynamic_scan.php:10
+#, fuzzy
+msgid "September"
+msgstr "September"
+
+#: Locale/nondynamic_scan.php:11
+msgid "October"
+msgstr "Oktober"
+
+#: Locale/nondynamic_scan.php:12
+msgid "November"
+msgstr "November"
+
+#: Locale/nondynamic_scan.php:13
+msgid "December"
+msgstr "Dezember"
+

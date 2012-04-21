@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-16 16:32+0100\n"
-"PO-Revision-Date: 2012-04-16 16:35+0100\n"
+"POT-Creation-Date: 2012-04-21 09:41+0100\n"
+"PO-Revision-Date: 2012-04-21 09:41+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -552,11 +552,11 @@ msgstr "Betreff"
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:79
+#: View/Entries/search.ctp:80
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:133
+#: View/Entries/search.ctp:134
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
@@ -848,8 +848,6 @@ msgid "Settings"
 msgstr "Einstellungen"
 
 #: View/Layouts/admin.ctp:35
-#: View/SmileyCodes/admin_edit.ctp:1
-#: View/SmileyCodes/admin_index.ctp:1
 msgid "Smilies"
 msgstr ""
 
@@ -962,17 +960,22 @@ msgstr ""
 
 #: View/SmileyCodes/admin_add.ctp:17
 #: View/SmileyCodes/admin_edit.ctp:21
+#: View/Smilies/admin_add.ctp:22
+#: View/Smilies/admin_index.ctp:36
 msgid "List Smiley Codes"
 msgstr ""
 
 #: View/SmileyCodes/admin_add.ctp:18
 #: View/SmileyCodes/admin_edit.ctp:22
 #: View/Smilies/add.ctp:18
+#: View/Smilies/admin_add.ctp:21
+#: View/Smilies/edit.ctp:20
 msgid "List Smilies"
 msgstr ""
 
 #: View/SmileyCodes/admin_add.ctp:19
 #: View/SmileyCodes/admin_edit.ctp:23
+#: View/Smilies/admin_index.ctp:35
 msgid "New Smiley"
 msgstr ""
 
@@ -993,6 +996,7 @@ msgid "Admin Edit Smiley Code"
 msgstr ""
 
 #: View/SmileyCodes/admin_index.ctp:34
+#: View/Smilies/admin_add.ctp:23
 msgid "New Smiley Code"
 msgstr ""
 
@@ -1089,18 +1093,21 @@ msgid "user_area_title"
 msgstr "Seefahrtbuch"
 
 #: View/Users/edit.ctp:3
+#: View/Users/view.ctp:116
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
 #: View/Users/edit.ctp:11
 #: View/Users/edit.ctp:33
 #: View/Users/index.ctp:14
+#: View/Users/view.ctp:18
 msgid "username_marking"
 msgstr "Deckname"
 
 #: View/Users/edit.ctp:16
 #: View/Users/edit.ctp:38
 #: View/Users/index.ctp:16
+#: View/Users/view.ctp:32
 msgid "userlist_email"
 msgstr "Flaschenpost"
 
@@ -1122,6 +1129,7 @@ msgid "user_show_email_exp"
 msgstr "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an die E-Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht eingesehen werden."
 
 #: View/Users/edit.ctp:67
+#: View/Users/view.ctp:25
 msgid "user_real_name"
 msgstr "Besatzungsmitglied"
 
@@ -1131,6 +1139,7 @@ msgstr "(optional)"
 
 #: View/Users/edit.ctp:74
 #: View/Users/index.ctp:17
+#: View/Users/view.ctp:39
 msgid "user_hp"
 msgstr "Virtueller Liegeplatz"
 
@@ -1139,6 +1148,7 @@ msgid "user_hp_exp"
 msgstr "(optional)"
 
 #: View/Users/edit.ctp:81
+#: View/Users/view.ctp:46
 msgid "user_place"
 msgstr "Heimathafen"
 
@@ -1151,6 +1161,7 @@ msgid "user_profile_exp"
 msgstr "wird in der Nutzerinfo angezeigt (optional)"
 
 #: View/Users/edit.ctp:97
+#: View/Users/view.ctp:74
 msgid "user_signature"
 msgstr "Letzter Wille"
 
@@ -1303,6 +1314,7 @@ msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
 #: View/Users/edit.ctp:229
+#: View/Users/view.ctp:82
 msgid "flattr"
 msgstr "flattrn"
 
@@ -1417,59 +1429,56 @@ msgstr "Seite"
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:173
-#: Controller/UsersController.php:226
-#: Controller/UsersController.php:256
+#: Controller/EntriesController.php:101
 msgid "Back"
 msgstr "Zurück"
 
-#: Controller/EntriesController.php:217
-#: Controller/UsersController.php:156
+#: Controller/EntriesController.php:145
 msgid "back_to_forum_linkname"
 msgstr "zurück zum Forum"
 
-#: Controller/EntriesController.php:224
+#: Controller/EntriesController.php:152
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:227
+#: Controller/EntriesController.php:155
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Nutzer."
 
-#: Controller/EntriesController.php:288
-#: Controller/EntriesController.php:385
+#: Controller/EntriesController.php:216
+#: Controller/EntriesController.php:313
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:315
-#: Controller/EntriesController.php:392
+#: Controller/EntriesController.php:243
+#: Controller/EntriesController.php:320
 msgid "back_to_posting_linkname"
 msgstr "zurück zum Posting von"
 
-#: Controller/EntriesController.php:321
+#: Controller/EntriesController.php:249
 msgid "back_to_overview_linkname"
 msgstr "zurück zur Übersicht"
 
-#: Controller/EntriesController.php:332
+#: Controller/EntriesController.php:260
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:424
+#: Controller/EntriesController.php:352
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:609
+#: Controller/EntriesController.php:537
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:609
+#: Controller/EntriesController.php:537
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:781
-#: Controller/EntriesController.php:791
+#: Controller/EntriesController.php:709
+#: Controller/EntriesController.php:719
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1538,20 +1547,20 @@ msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:143
-#: Controller/UsersController.php:163
+#: Controller/UsersController.php:146
+#: Controller/UsersController.php:166
 msgid "Invalid user"
 msgstr "Ungültiger Nutzer"
 
-#: Controller/UsersController.php:197
+#: Controller/UsersController.php:200
 msgid "user_edit_success"
 msgstr "Die Daten wurden gespeichert."
 
-#: Controller/UsersController.php:210
+#: Controller/UsersController.php:213
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:250
+#: Controller/UsersController.php:253
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
@@ -1563,55 +1572,6 @@ msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#
-#: Locale/nondynamic_scan.php:1
-msgid "January"
-msgstr "Januar"
-
-#: Locale/nondynamic_scan.php:2
-msgid "February"
-msgstr "Februar"
-
-#: Locale/nondynamic_scan.php:3
-msgid "March"
-msgstr "März"
-
-#: Locale/nondynamic_scan.php:4
-msgid "April"
-msgstr "April"
-
-#: Locale/nondynamic_scan.php:5
-msgid "May"
-msgstr "Mai"
-
-#: Locale/nondynamic_scan.php:6
-msgid "June"
-msgstr "Juni"
-
-#: Locale/nondynamic_scan.php:7
-msgid "July"
-msgstr "Juli"
-
-#: Locale/nondynamic_scan.php:8
-msgid "August"
-msgstr "August"
-
-#: Locale/nondynamic_scan.php:9
-#, fuzzy
-msgid "September"
-msgstr "September"
-
-#: Locale/nondynamic_scan.php:10
-msgid "October"
-msgstr "Oktober"
-
-#: Locale/nondynamic_scan.php:11
-msgid "November"
-msgstr "November"
-
-#: Locale/nondynamic_scan.php:12
-msgid "December"
-msgstr "Dezember"
 
 #: Plugin/Install/Controller/InstallController.php:99
 msgid "Installation: Welcome"

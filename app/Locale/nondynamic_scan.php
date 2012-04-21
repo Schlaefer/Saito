@@ -1,13 +1,20 @@
-<?php echo __('January');
-	__('February');
-	__('March');
-	__('April');
-	__('May');
-	__('June');
-	__('July');
-	__('August');
-	__('September');
-	__('October');
-	__('November');
-	__('December');
+<?php
+
+  /**
+   * Add any string here that may be dynamicaly created and not verbatim in the source.
+   *
+   * In source
+   *    $a = bar;
+   *    $a = baz;
+   *    …
+   *    __('foo-'.$a);
+   *
+   * becomes
+   *
+   *    __('foo-bar');
+   *    __('foo_baz');
+   *
+   * here.
+   */
+
 ?>
