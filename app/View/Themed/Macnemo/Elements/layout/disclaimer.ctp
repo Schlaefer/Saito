@@ -2,13 +2,13 @@
 	<?php // @lo this .ctp ?>
 	<div class="left">
 		<div class="inside">
-			<h3> Ressourcen </h3>
+			<h3><?php echo __('Ressources'); ?> </h3>
 			<ul>
 				<li>
 					<a href="http://macnemo.de/wiki/">Wiki</a>
 				</li>
 				<li>
-					<a href="<?PHP echo $this->request->webroot ?>users/contact/1">Kontakt</a><!-- @lo  -->
+					<a href="<?PHP echo $this->request->webroot ?>users/contact/1"><?php echo __('Contact') ?></a><!-- @lo  -->
 				</li>
 				<li>
 					<a href="aim:gochat?roomname=macnemo">Plauderecke</a>
@@ -24,7 +24,7 @@
 	</div>
 	<div class="center_l">
 		<div class="inside">
-			<h3> Status </h3>
+      <h3><?php echo __('Status'); ?></h3>
 			<?php echo  number_format($HeaderCounter['entries'],
 					null, null, '.') ?> mal Seemannsgarn in
 			<?php echo  number_format($HeaderCounter['threads'],
@@ -45,7 +45,7 @@
 		<div class="inside">
 			<h3> Maschinenraum </h3>
 			<p>
-				<a href="http://saito.siezi.com/">Angetrieben durch Saito v<?php echo Configure::read("Saito.v"); ?></a>.
+        <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito  v%s.', Configure::read("Saito.v")); ?></a>
 			</p>
 			<p>
 				<a href="http://www.google.com/moderator/#15/e=d490b&t=d490b.40">Feedback geben.</a>

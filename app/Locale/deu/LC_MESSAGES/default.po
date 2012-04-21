@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-21 09:41+0100\n"
-"PO-Revision-Date: 2012-04-21 09:41+0100\n"
+"POT-Creation-Date: 2012-04-21 11:12+0100\n"
+"PO-Revision-Date: 2012-04-21 11:15+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -425,6 +425,32 @@ msgstr "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemac
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
+#: View/Elements/layout/disclaimer.ctp:5
+msgid "Ressources"
+msgstr "Ressourcen"
+
+#: View/Elements/layout/disclaimer.ctp:7
+msgid "Contact"
+msgstr "Kontakt"
+
+#: View/Elements/layout/disclaimer.ctp:18
+msgid "Status"
+msgstr ""
+
+#: View/Elements/layout/disclaimer.ctp:21
+#, php-format
+msgid "%s Entries in %s Threads; %s registred users, %s logged in, %s anonymous."
+msgstr "%s Beiträge in %s Threads; %s registrierte Nutzer, %s angemeldet, %s Gäste."
+
+#: View/Elements/layout/disclaimer.ctp:33
+msgid "About"
+msgstr "Über"
+
+#: View/Elements/layout/disclaimer.ctp:35
+#, php-format
+msgid "Powered by Saito  v%s."
+msgstr "Angetrieben durch Saito v%s."
+
 #: View/Elements/layout/header_login.ctp:4
 msgid "register_linkname"
 msgstr "Registrieren"
@@ -552,11 +578,11 @@ msgstr "Betreff"
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:80
+#: View/Entries/search.ctp:79
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:134
+#: View/Entries/search.ctp:133
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
@@ -1571,7 +1597,6 @@ msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 #: Lib/SaitoEntry.php:72
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
-
 
 #: Plugin/Install/Controller/InstallController.php:99
 msgid "Installation: Welcome"
