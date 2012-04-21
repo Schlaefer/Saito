@@ -2,7 +2,6 @@
 
 @import "_sprites.scss";
 @import "_markitup";
-@import "_itouch";
 @import "_messages";
 @import "_jquery.clearabletextfield";
 
@@ -14,6 +13,7 @@ body {
   /* don't use this sucker on mobile devices (e.g. iOS */
   /* text-rendering: optimizeLegibility; */
   min-width: $layout_min_width;
+
 	}
 
 .clearfix {
@@ -330,13 +330,11 @@ a.category_acs_2, .category_acs_2 {
 /* dont forget to change the userpref css in user_h.php if you do changes here */
 li.thread .span_post_type, li.reply .span_post_type {
   @include link-colors($link_color);
-  @include hover-link;
   font-weight: bold; }
 
 /* new threads and replies: */
 li.threadnew .span_post_type, li.replynew .span_post_type {
   @include link-colors(#222221);
-  @include hover-link;
   font-weight: bold; }
 
 li.actthread .span_post_type, li.actreply .span_post_type {
@@ -361,7 +359,7 @@ ul.deep-reply {
   list-style-type: none; }
 
 li {
-  line-height: 18px; }
+  line-height: 19px; }
 
 fieldset legend {
   background-color: #fffdbe;
@@ -717,14 +715,15 @@ a.btn {
  * Buttons Thread Tools
  ******************************************************************************/
 
-.btn-threadTool {
+.ico-threadTool {
 	display: inline-block;
 	margin-top: 1px;
 	width: 13px;
 	height: 13px;
 }
 
-.btn-threadCollapse { @extend .sprite-thread-collapse; }
+.ico-threadCollapse { @extend .sprite-thread-collapse; 	}
+.ico-threadOpen 		{ @extend .sprite-thread-open; 			}
 
 /*******************************************************************************
  * Headers
@@ -816,7 +815,36 @@ a.btn {
 	@extend .small; 
 	}
 
-/** entry/thread_line start ** */
+/*******************************************************************************
+ * Entry thread_line
+ ******************************************************************************/
+
+.thread_line-pre {
+	position: absolute;
+	vertical-align: text-top;
+	height: 19px;
+	line-height: 19px;
+	font-size: 13px;
+	}
+
+.thread_line-content {
+	padding-left: 18px;
+	display: block;
+	&:hover{
+		background: #F0F0F0;
+		}
+	}
+
+.thread_line-username {
+	font-weight: normal;
+	}
+
+.thread_line-post {
+		@extend .c_info_text;
+		font-weight: normal;
+		display: inline;
+		margin-left: 0.5em;
+}
 
 /* thread_slider */
 .t_s {
@@ -826,6 +854,8 @@ a.btn {
 	@extend .c_all-radius;
   /* user_list und inline view sollen sauber getrennt bleiben */
   overflow: hidden; }
+
+/******************************************************************************/
 
 /** entry/thread_line end ** */
 
