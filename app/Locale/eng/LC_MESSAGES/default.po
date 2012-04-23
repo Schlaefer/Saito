@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-23 18:50+0100\n"
-"PO-Revision-Date: 2012-04-23 21:48+0100\n"
+"PO-Revision-Date: 2012-04-23 21:55+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -474,7 +474,7 @@ msgstr ""
 
 #: View/Elements/users/add_form_core.ctp:7
 msgid "register_user_name"
-msgstr ""
+msgstr "Username"
 
 #: View/Elements/users/add_form_core.ctp:11
 msgid "error_email_reserved"
@@ -486,7 +486,7 @@ msgstr ""
 
 #: View/Elements/users/add_form_core.ctp:14
 msgid "register_user_email"
-msgstr ""
+msgstr "Email Address"
 
 #: View/Elements/users/add_form_core.ctp:20
 msgid "error_password_empty"
@@ -499,24 +499,24 @@ msgstr ""
 #: View/Elements/users/add_form_core.ctp:23
 #: View/Elements/users/login_form.ctp:7
 msgid "user_pw"
-msgstr ""
+msgstr "Password"
 
 #: View/Elements/users/add_form_core.ctp:28
 msgid "user_pw_confirm"
-msgstr ""
+msgstr "Confirm Password"
 
 #: View/Elements/users/login_form.ctp:6
 msgid "user_name"
-msgstr ""
+msgstr "Username"
 
 #: View/Elements/users/login_form.ctp:8
 msgid "auto_login_marking"
-msgstr ""
+msgstr "Stay Logged In"
 
 #: View/Entries/add.ctp:34
 #: View/Entries/add.ctp:269
 msgid "preview"
-msgstr ""
+msgstr "Preview"
 
 #: View/Entries/add.ctp:95
 msgid "Einfügen"
@@ -537,7 +537,7 @@ msgstr ""
 #: View/Entries/add.ctp:233
 #: View/Entries/add.ctp:247
 msgid "submit_button"
-msgstr ""
+msgstr "Absenden"
 
 #: View/Entries/search.ctp:25
 msgid "search_term"
@@ -1401,7 +1401,7 @@ msgstr "Go Back to the Forum"
 
 #: Controller/EntriesController.php:159
 msgid "new_entry_linktitle"
-msgstr ""
+msgstr "New Entry"
 
 #: Controller/EntriesController.php:162
 msgid "logged_in_users_only"
@@ -1622,7 +1622,7 @@ msgstr ""
 
 #: View/Helper/EntryHHelper.php:221
 msgid "cateogry"
-msgstr ""
+msgstr "Category"
 
 #: View/Helper/EntryHHelper.php:224
 msgid "error_category_empty"
