@@ -1,4 +1,5 @@
-/* v0.1 */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
+
 @import "compass/reset"; 
 @import "compass/utilities/sprites";
 @import "compass/utilities/links";
@@ -32,15 +33,21 @@ form.bp { @include blueprint-form; }
 
 /*** set base parameters ***/
 
-$corner_radius: 0px;
+$corner_radius: 2px;
 $border_width: 1px;
 $background_image: 'bubbles_outer.png';
 $padding: 10px;
 
 /*** Standardset ***/
+$saito_base: #607D86;
+$saito_base_light: #E6EDF0;
+$link_color: #E74A00; // #f17400;
+
+$thread_color_normal: #333;
+$thread_color_new:    $link_color;
+$thread_color_actual: #FF5100;
+
 $saito_base_very_light: #eee;
-$saito_base: #ccc;
-$saito_base_light: $saito_base;
 $saito_base_dark: #aaa;
 $saito_accent_light: $saito_base ;
 $saito_accent_dark: $saito_base_dark;
@@ -51,6 +58,6 @@ $saito_gray_light: #FAFAFA;
 $saito_gray_dark: #E0E0E0;
 $saito_body_background: #f8f8f8; 
 $saito_info_text: #6f6f6f; /* light grey */ 
-$link_color: #a60202;
 
 $layout_min_width: 950px;
+

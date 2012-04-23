@@ -181,29 +181,38 @@ a.textlink {
   position: relative;
   height: 70px;
   overflow: hidden;
-  @include header_style_dark_top;
+  @extend .hero;
+
+  $sponsorWidth: 80px;
+
   .right {
     position: absolute;
     right: 0px;
     text-align: right;
     width: 180px; }
 	/* Sponsorlogo */
+
   .spnsr {
     float: left;
 		height: 70px;
-		width: 80px;
+		width: $sponsorWidth;
     }
+
   .left, .right {
+    @extend .hero-text;
     margin: 0;
     padding: 0 20px 0 0px; }
+
 	.right {
 		padding-top: 15px;
 	}
+
   .left {
     /* with of .spnsr left */
-    margin: 0 0 0 80px; } }
-
-/* #top end */
+    margin: 0 0 0 $sponsorWidth;
+    }
+   
+  } // #top
 
 #search_header {
   display: inline;
@@ -233,7 +242,7 @@ a.textlink {
 	@include c_t_h_3_abs(30px);
 	padding: 0 20px;
 
-  @extend .header_style_light;
+  @extend .navbar-light;
   border-width: 1px 0 1px 0;
 	}
 
@@ -241,7 +250,7 @@ a.textlink {
 		width: 100%; 
 		position: absolute; 
 		bottom: 0px;
-		@include box-shadow(rgba(0,0,0,.4) 0 5px 5px 2px,  $saito_base_light 0px 7px 7px 2px);
+/*		@include box-shadow(rgba(0,0,0,.4) 0 5px 5px 2px,  $saito_base_light 0px 7px 7px 2px);*/
 	}
 
 #content {
@@ -329,16 +338,16 @@ a.category_acs_2, .category_acs_2 {
 
 /* dont forget to change the userpref css in user_h.php if you do changes here */
 li.thread .span_post_type, li.reply .span_post_type {
-  @include link-colors($link_color);
+  @include link-colors($thread_color_normal);
   font-weight: bold; }
 
 /* new threads and replies: */
 li.threadnew .span_post_type, li.replynew .span_post_type {
-  @include link-colors(#222221);
+  @include link-colors($thread_color_new);
   font-weight: bold; }
 
 li.actthread .span_post_type, li.actreply .span_post_type {
-  @include link-colors(red);
+  @include link-colors($thread_color_actual);
   font-weight: bold; }
 
 /* thread and reply links end */
@@ -931,8 +940,8 @@ ul.thread {
   border-width: $border_width $border_width 0 $border_width;
   display: inline-block;
   margin-left: 35px;
-  @include border-top-left-radius(3px);
-  @include border-top-right-radius(3px);
+  @include border-top-left-radius($corner_radius);
+  @include border-top-right-radius($corner_radius);
   ul,li {
     margin: 0;
     padding: 0;
@@ -952,11 +961,11 @@ ul.thread {
     border-right: $border_width solid $saito_gray_dark; }
   li:first-child {
     /* we need this for the active state */
-    @include border-top-left-radius(3px); }
+    @include border-top-left-radius($corner_radius); }
   li:last-child {
     border: none;
     /* we need this for the active state */
-    @include border-top-right-radius(3px); } }
+    @include border-top-right-radius($corner_radius); } }
 
 .thread_inline {
   display: none;
