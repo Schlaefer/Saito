@@ -3,7 +3,18 @@
 	<?php echo $this->element('layout/slidetabs__header', array('id' => 'userlist', 'btn_class' => 'users_img')); ?>
 				<ul class="slidetab_tree">
 					<li>
-						<?php echo  $this->Html->link(__('user_area_linkname'), '/users/index'); ?>  an Deck (<?php echo $HeaderCounter['user_registered']?>)
+						<?php echo  __('%s online (%s)',
+                    $this->Html->link(
+                          __('user_area_linkname'),
+                          '/users/index'
+                      ),
+                     $HeaderCounter['user_registered']
+                );
+            /*
+            __('user_area_linkname'), '/users/index'); ?> an Deck (<?php echo $HeaderCounter['user_registered']?>)
+             * *
+             */
+            ?>
 					</li>
 					<li>
 						<ul class="slidetab_subtree">
