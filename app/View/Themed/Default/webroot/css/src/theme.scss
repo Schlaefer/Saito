@@ -351,7 +351,7 @@ div.author a {
 /* categories: */
 a.category_acs_0, .category_acs_0 {
   @include link-colors($saito_accent2_dark);
-  font-weight: normal; }
+  font-weight: 600; }
 
 /* regular users */
 a.category_acs_1, .category_acs_1 {
@@ -879,7 +879,7 @@ a.btn {
 	}
 
 .thread_line-username {
-	font-weight: normal;
+	font-weight: 600;
 	}
 
 .thread_line-post {
