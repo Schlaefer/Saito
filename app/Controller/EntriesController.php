@@ -55,7 +55,10 @@ class EntriesController extends AppController {
 		$this->Session->write('paginator.lastPage', $page);
 		$this->set('title_for_layout', __('page') . ' ' . $page);
 		$this->set('headerSubnavLeft',
-				array( 'title' => __('new_entry_linkname'), 'url' => '/entries/add' ));
+				array(
+            'title' => '<i class="icon-plus-sign"></i> ' . __('new_entry_linkname'),
+            'url' => '/entries/add' )
+        );
 
 		$this->set('showDisclaimer', TRUE);
 
@@ -98,7 +101,9 @@ class EntriesController extends AppController {
 		Entry::mapTreeElements( $entries, $this->_ldGetRightsForEntryAndUser, $this);
 		$this->set('entries', $entries);
 		$this->set('headerSubnavLeft',
-				array( 'title' => __('Back'), 'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
+				array( 
+            'title' => '<i class="icon-arrow-left"></i> ' . __('Back'),
+            'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
 	}
 
 	# @td MVC user function ?
@@ -142,7 +147,9 @@ class EntriesController extends AppController {
 
 			//* set sub_nav_left start
 			$this->set('headerSubnavLeft',
-					array( 'title' => __('back_to_forum_linkname'), 'url' => $this->_getPaginatedIndexPageId($this->request->data['Entry']['tid']) ));
+					array(
+              'title' => '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
+              'url' => $this->_getPaginatedIndexPageId($this->request->data['Entry']['tid']) ));
 		endif;
 
 		Stopwatch::stop('Entries->view()');
@@ -252,7 +259,10 @@ class EntriesController extends AppController {
 
 			# @td refactor repititve parts in add() and edit ()
 			$this->set('headerSubnavLeft',
-					array( 'title' => $header_subnav_title, 'url' => '/entries/index' ));
+					array(
+              'title' => '<i class="icon-arrow-left"></i> ' .$header_subnav_title,
+              'url' => '/entries/index' )
+          );
 
 			$this->set('referer_action', $this->localReferer('action'));
 
@@ -319,7 +329,8 @@ class EntriesController extends AppController {
 		// set sub_nav_left
 		$header_subnav_title = __('back_to_posting_linkname') . " " . $this->request->data['User']['username'];
 		$this->set('headerSubnavLeft',
-				array( 'title' => $header_subnav_title,
+				array(
+            'title' => '<i class="icon-arrow-left"></i> ' .$header_subnav_title,
 				/** we can't use referer here because of validation error redirects, which would send us back to edit */
 				'url' => array( 'action' => 'view', $id )
 		));

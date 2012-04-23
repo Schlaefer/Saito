@@ -30,76 +30,6 @@ $sprites_image: 'sprited_css_images.png';
   border: none;
 }
 
-a.textlink {
-	&:link, &:visited, &:active {
-		@extend .sprites;
-		@include sprite-row(6);
-    background-position: 0px -159px;
-	}
-}
-
-.img_threadnew {
-		@extend .sprites;
-		@include sprite-row(1);
-		@include sprites-hover(15px, 13px);
-		@extend .sprites_scale;
-}
-
-
-.img_actthread {
-	@extend .sprites;
-	@include sprite-row(2);
-	@include sprites-hover(15px, 13px);
-	@extend .sprites_scale;
-}
-
-.img_thread {
-		@extend .sprites;
-		@include sprite-row(2);
-		@include sprites-hover(15px, 13px);
-	@extend .sprites_scale;
-}
-
-.img_replynew {
-		@extend .sprites;
-		@include sprite-row(4);
-		@include sprites-hover(13px, 13px);
-	@extend .sprites_scale;
-}
-
-.img_actreply {
-	@extend .sprites;
-	@include sprite-row(5);
-	@include sprites-hover(13px, 13px);
-	@extend .sprites_scale;
-}
-
-.img_reply {
-		@extend .sprites;
-		@include sprite-row(5);
-		@include sprites-hover(13px, 13px);
-	@extend .sprites_scale;
-}
-
-.fixed_img {
-	@extend .sprites;
-	@include sprite-row(3);
-  padding-left: 8px;
-}
-
-.prev_img {
-	@extend .sprites;
-	@include sprite-row(7);
-  padding-left: 6px;
-
-}
-.next_img {
-	@extend .sprites;
-	@include sprite-row(6);
-  padding-left: 6px;
-  background-position: 0px -159px;
-}
-
 .users_img {
 	@extend .sprites;
 	@include sprite-row(10);
@@ -128,26 +58,10 @@ a.textlink {
 	height: 13px;
 }
 
-.img_up {
-  @extend .sprites;
-  @include sprite-row(23);
-	display: inline-block;
-	width: 13px;
-	height: 13px;
-}
-
 .img_close {
   @extend .sprites;
   @include sprite-row(14);
 	padding-left: 17px;
-}
-
-.img_reload {
-  @extend .sprites;
-  @include sprite-row(15);
-	display: inline-block;
-	width: 9px;
-	height: 9px;
 }
 
 .img_mix {

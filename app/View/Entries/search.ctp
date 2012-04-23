@@ -101,7 +101,8 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						?>
 						<?php
 						if ( $this->Paginator->hasPrev() )
-							echo $this->Paginator->prev('<span class="prev_img">&nbsp;</span>',
+							echo $this->Paginator->prev(
+                  '<i class="icon-chevron-left"></i>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 						<?php
@@ -109,7 +110,8 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						?>
 						<?php
 						if ( $this->Paginator->hasNext() )
-							echo $this->Paginator->next('<span class="next_img">&nbsp;</span>',
+							echo $this->Paginator->next(
+                  '<i class="icon-chevron-right"></i>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 					</div>

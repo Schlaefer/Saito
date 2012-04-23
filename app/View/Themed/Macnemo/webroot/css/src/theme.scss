@@ -171,11 +171,9 @@ ul.style_1 {
 /* eye-catching links ( with red triangle) */
 a.textlink {
   @include link-colors($link_color);
-  padding-left: 12px;
   text-decoration: none;
   font-weight: bold;
-  &:active {
-    color: red; } }
+  }
 
 /* template: */
 #top {

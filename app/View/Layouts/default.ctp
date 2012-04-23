@@ -69,7 +69,7 @@
 							<?php echo $this->element('layout/header_subnav_left'); ?>
 						</div>
 						<div>
-							<a href="javascript:window.scrollTo(0,0);" style="width: 100px; display: inline-block; height: 20px;"><span class="img_up"></span></a>
+							<a href="javascript:window.scrollTo(0,0);" style="width: 100px; display: inline-block; height: 20px;"><i class="icon-arrow-up"></i></a>
 						</div>
 						<div class="c_last_child">
 							<?php echo $this->element('layout/header_subnav_right'); ?>
