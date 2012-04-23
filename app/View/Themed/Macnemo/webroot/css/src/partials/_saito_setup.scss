@@ -1,4 +1,5 @@
-/* v0.1 */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700,700italic);
+
 @import "compass/reset"; 
 @import "compass/utilities/sprites";
 @import "compass/utilities/links";
@@ -32,7 +33,7 @@ form.bp { @include blueprint-form; }
 
 /*** set base parameters ***/
 
-$corner_radius: 6px;
+$corner_radius: 2px;
 $border_width: 1px;
 $background_image: 'bubbles_outer.png';
 $padding: 10px;
