@@ -2,9 +2,11 @@
   <div class="left">
     <div class="inside">
       <h3><?php echo __('Ressources'); ?></h3>
-      <li>
-        <a href="<?PHP echo $this->request->webroot ?>users/contact/1"><?php echo __('Contact') ?></a>
-      </li>
+      <ul>
+        <li>
+          <a href="<?PHP echo $this->request->webroot ?>users/contact/1"><?php echo __('Contact') ?></a>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="center">

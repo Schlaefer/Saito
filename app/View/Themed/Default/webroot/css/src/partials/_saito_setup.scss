@@ -43,16 +43,16 @@ $saito_base: #607D86;
 $saito_base_light: #E6EDF0;
 $link_color: #E74A00; // #f17400;
 
-$thread_color_normal: #333;
+$thread_color_normal: #111;
 $thread_color_new:    $link_color;
 $thread_color_actual: #FF5100;
 
 $saito_base_very_light: #eee;
 $saito_base_dark: #aaa;
 $saito_accent_light: $saito_base ;
-$saito_accent_dark: $saito_base_dark;
-$saito_accent2_light: #666; /* light green */
-$saito_accent2_dark: $saito_accent2_light;
+$saito_accent_dark: $saito_base;
+$saito_accent2_light: $saito_base; /* light green */
+$saito_accent2_dark: $saito_base;
 $saito_border: #999;
 $saito_gray_light: #FAFAFA;
 $saito_gray_dark: #E0E0E0;

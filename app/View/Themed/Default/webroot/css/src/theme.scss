@@ -263,9 +263,9 @@ a.textlink {
   margin: 0 auto;
   position: relative;
 
-	font-size: 100%;
   line-height: 1.6em;
 
+  @extend .small;
 	@extend .t_shadow;
 	@extend .c_info_text;
 
