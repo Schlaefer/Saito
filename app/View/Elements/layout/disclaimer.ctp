@@ -1,4 +1,4 @@
-<div class="bp_four_column" style='width: 951px; margin: 0 auto; position: relative;'>
+<div id="disclaimer" class="bp-threeColumn">
   <div class="left">
     <div class="inside">
       <h3><?php echo __('Ressources'); ?></h3>
@@ -7,12 +7,7 @@
       </li>
     </div>
   </div>
-  <div class="center_l">
-    <div class="inside">
-      <h3> … </h3>
-    </div>
-  </div>
-  <div class="center_r">
+  <div class="center">
     <div class="inside">
       <h3><?php echo __('Status'); ?></h3>
       <?php

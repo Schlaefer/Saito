@@ -256,6 +256,42 @@ a.textlink {
   padding: 20px 20px 52px 20px;
 	}
 
+#disclaimer {
+	// put it under bottomnav
+/*	height: 0px;*/
+  width: 951px;
+  margin: 0 auto;
+  position: relative;
+
+	font-size: 100%;
+  line-height: 1.6em;
+
+	@extend .t_shadow;
+	@extend .c_info_text;
+
+	color: $saito_info_text;
+
+	a {
+		border-bottom: #DDD 1px solid;
+		@include link-colors($saito_info_text);
+/*		@include hover-link();*/
+	}
+
+	h1, h2, h3 {
+		font-size: 110%;
+		font-weight: bold;
+		margin-bottom: 0.83em;
+    }
+
+	.inside {
+		@extend .box_style_1;
+		margin: $padding $padding;
+		margin-top: 25px;
+		padding: $padding $padding;
+
+		}
+  }
+
 .where_location {
   font-weight: bold; }
 

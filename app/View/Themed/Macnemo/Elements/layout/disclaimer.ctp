@@ -1,4 +1,4 @@
-<div class="bp_four_column" style='width: 951px; margin: 0 auto; position: relative;'>
+<div id="disclaimer" class="bp-fourColumn" style='width: 951px; margin: 0 auto; position: relative;'>
 	<?php // @lo this .ctp ?>
 	<div class="left">
 		<div class="inside">

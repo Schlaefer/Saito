@@ -11,30 +11,24 @@
 		height: 0;
 		clear: both;
 		visibility: hidden; }
-	max-width: 100%; 
+	max-width: 100%;
 	}
 
-.bp_four_column {
+.bp-threeColumn {
 	@extend .bp_container;
 	// put it under bottomnav
 /*	height: 0px;*/
 
-  line-height: 1.6em;
+  .left {
+    @include column(8); }
+  .center {
+    @include column(8); }
+  .right {
+    @include column(8, true); }
+	}
 
-	@extend .t_shadow;
-	@extend .c_info_text;	
-	color: $saito_info_text;
-	a {
-		border-bottom: #DDD 1px solid; 
-		@include link-colors($saito_info_text);
-/*		@include hover-link();*/
-	}
-	font-size: 100%;
-	h1, h2, h3 {
-		font-size: 110%;
-		font-weight: bold;
-		margin-bottom: 0.83em;
-	}
+
+.bp-fourColumn {
   .left {
     @include column(6); }
   .center_l {
@@ -42,13 +36,6 @@
   .center_r {
     @include column(6); }
   .right {
-    @include column(6, true); } 
-	.inside {
-		@extend .box_style_1;
-		margin: $padding $padding;
-		margin-top: 25px;
-		padding: $padding $padding;
-
-		}
+    @include column(6, true); }
 	}
 	
