@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-24 12:51+0100\n"
-"PO-Revision-Date: 2012-04-24 12:53+0100\n"
+"PO-Revision-Date: 2012-04-24 14:35+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -359,7 +359,7 @@ msgstr ""
 
 #: View/Elements/entry/thread_line_cached.ctp:45
 msgid "entry_nsfw_title"
-msgstr ""
+msgstr "NSFW"
 
 #: View/Elements/entry/view_content.ctp:36
 msgid "forum_author_marking"
@@ -548,7 +548,7 @@ msgstr ""
 
 #: View/Entries/add.ctp:194
 msgid "entry_flattr_this_posting"
-msgstr ""
+msgstr "flattr-Button"
 
 #: View/Entries/add.ctp:233
 #: View/Entries/add.ctp:247
@@ -1443,7 +1443,7 @@ msgstr ""
 
 #: Controller/EntriesController.php:256
 msgid "back_to_overview_linkname"
-msgstr ""
+msgstr "Back to Forum"
 
 #: Controller/EntriesController.php:270
 msgid "answer_marking"
