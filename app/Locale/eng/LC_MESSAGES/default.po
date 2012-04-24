@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-23 18:50+0100\n"
-"PO-Revision-Date: 2012-04-23 21:55+0100\n"
+"PO-Revision-Date: 2012-04-24 09:36+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1323,7 +1323,7 @@ msgstr ""
 
 #: View/Users/login.ctp:1
 msgid "login_linkname"
-msgstr ""
+msgstr "Login"
 
 #: View/Users/view.ctp:4
 msgid "user_show_entries"
@@ -1501,7 +1501,7 @@ msgstr ""
 
 #: Controller/UsersController.php:44
 msgid "auth_loginerror"
-msgstr ""
+msgstr "Username or Password wrong."
 
 #: Controller/UsersController.php:146
 #: Controller/UsersController.php:168
