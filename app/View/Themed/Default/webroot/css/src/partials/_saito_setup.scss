@@ -23,15 +23,28 @@ $experimental-support-for-khtml: false;
 // schlaefer: deactivated, we already use compass/reset
 // @import "blueprint/reset";
 
-// To configure blueprint, edit the partials/base.sass file.
-@import "partials/base";
+/*******************************************************************************
+* Setup and import blueprint _base.scss
+******************************************************************************/
 
-// Import all the default blueprint modules so that we can access their mixins.
+// Here is where you can define your constants for your application and to configure the blueprint framework.
+// Feel free to delete these if you want keep the defaults:
+
+$blueprint-grid-columns: 24;
+$blueprint-container-size: 950px;
+$blueprint-grid-margin: 10px;
+
+// Use this to calculate the width based on the total width.
+// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
+$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
+
 @import "blueprint";
 
 form.bp { @include blueprint-form; }
 
-/*** set base parameters ***/
+/*******************************************************************************
+* Setup base basic layout parameters
+******************************************************************************/
 
 $corner_radius: 2px;
 $border_width: 1px;
