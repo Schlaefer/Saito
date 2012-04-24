@@ -1,8 +1,16 @@
-$error_background: #a60202;
-$error_color: white;
+/*******************************************************************************
+* Messages Setup
+******************************************************************************/
 
-/*** flash messages start ***/
-div.flash, div.message {
+$color-flashNoticeBg:   #9ACD32;
+$color-flashWarningBg:  #FFB800;
+$color-flashErrorBg:    #a60202;
+
+/*******************************************************************************
+* Flash Messages
+******************************************************************************/
+
+.flash, .message {
 	clear: both;
 	text-align: center;
 	font-size: 140%;
@@ -11,40 +19,40 @@ div.flash, div.message {
 	padding: 0.4em;
 	color: white;
 	@extend .c_all-radius;
-  @include box-shadow(rgba(255, 255, 255 ,0.6) 0px 1px 1px, rgba(255, 255, 255 ,0.6) 0px -1px 1px, rgba(0,0,0,0.7) 0px 1px 5px inset);
 	text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
-	background-image: image_url("error_dots.png");
-}
+  border: $border_width $saito_border solid;
+  }
 
-div.flash.error {
-		font-family: Courier, monospace;
-		background-color: $error_background;
-		color: $error_color;
+.flash-error {
+    border-color: $color-flashErrorBg / 1.2;
+		background-color: $color-flashErrorBg;
 	}
 
-div.flash.warning {
-		background-color: $saito_base_dark;
+.flash-warning {
+    border-color: $color-flashWarningBg / 1.2;
+		background-color: $color-flashWarningBg;
 }
 
-div.flash.notice {
-		background-color: $saito_accent2_light;
+.flash-notice {
+    border-color: $color-flashNoticeBg / 1.2;
+		background-color: $color-flashNoticeBg;
 }
-/*** flash messages end ***/
 
-/*** validation messages start ***/
-div.error-message, .message {
+/*******************************************************************************
+* Validation messages
+******************************************************************************/
+
+.error-message, .message {
 
 	padding: 5px;
 
 	/* einziehen Zunge Fehlermeldungen */
-/*	padding-top: 5px + $corner_radius;*/
-/*	margin-top: -1 * $corner_radius;*/
+  /*	padding-top: 5px + $corner_radius;*/
+  /*	margin-top: -1 * $corner_radius;*/
 
-	background-color: $error_background;
-	color: $error_color;
+	background-color: $color-flashErrorBg;
+	color: white;
 	@extend .c_bottom-radius;
   background-image: image_url("error_dots.png");
 	text-shadow: #595959 0px -1px 1px;
 }
-
-/*** validation messages end ***/

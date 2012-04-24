@@ -595,7 +595,7 @@ form textarea {
 
 /* inset shadow for text fiedls */
 input[type=text], input[type=password], textarea {
-	@extend .box_shadow_inset_2;
+	@extend .box-shadow-inset;
   border-color: #a8a8a8; }
 
 form > div {
@@ -1088,7 +1088,7 @@ ul.thread {
   height: 24px;
   border-left: none;
   background-color: white;
-	@extend .box_shadow_inset_2;
+	@extend .box-shadow-inset;
   margin-left: -3px !important; }
 
 .search_textfield_header {
