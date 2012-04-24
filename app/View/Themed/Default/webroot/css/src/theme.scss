@@ -235,11 +235,19 @@ a.textlink {
   border-left: 1px solid $saito_border;
   color: $saito_border; }
 
+#topnav {
+  @extend .box-shadow;
+}
+
+#bottomnav {
+  @extend .box-shadow-up;
+}
+
 #topnav, #bottomnav {
 	@include c_t_h_3_abs(30px);
+  @extend .navbar-light;
 	padding: 0 20px;
 
-  @extend .navbar-light;
   border-width: 1px 0 1px 0;
 	}
 

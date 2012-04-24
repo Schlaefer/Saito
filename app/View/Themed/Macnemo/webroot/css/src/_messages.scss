@@ -53,6 +53,5 @@ $color-flashErrorBg:    #a60202;
 	background-color: $color-flashErrorBg;
 	color: white;
 	@extend .c_bottom-radius;
-  background-image: image_url("error_dots.png");
 	text-shadow: #595959 0px -1px 1px;
 }

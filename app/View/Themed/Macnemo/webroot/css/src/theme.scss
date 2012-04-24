@@ -228,19 +228,26 @@ a.textlink {
   border-left: 1px solid $saito_border;
   color: $saito_border; }
 
+#topnav {
+  @extend .box-shadow;
+}
+
+#bottomnav {
+  @extend .box-shadow-up;
+}
+
 #topnav, #bottomnav {
 	@include c_t_h_3_abs(30px);
+  @extend .navbar-light;
 	padding: 0 20px;
 
-  @extend .header_style_light;
   border-width: 1px 0 1px 0;
 	}
 
 #footer_pinned {
-		width: 100%; 
-		position: absolute; 
-		bottom: 0px;
-		@include box-shadow(rgba(0,0,0,.4) 0 5px 5px 2px,  lightYellow 0px 7px 7px 2px); 
+  width: 100%;
+	position: absolute; 
+	bottom: 0px;
 	}
 
 #content {
