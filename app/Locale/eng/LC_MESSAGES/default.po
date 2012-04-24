@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-23 18:50+0100\n"
-"PO-Revision-Date: 2012-04-24 09:36+0100\n"
+"POT-Creation-Date: 2012-04-24 12:51+0100\n"
+"PO-Revision-Date: 2012-04-24 12:53+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -329,6 +329,10 @@ msgstr ""
 msgid "Flattr"
 msgstr ""
 
+#: View/Elements/email/text/footer.ctp:4
+msgid "email_footer"
+msgstr "This email was send by %s (%s)."
+
 #: View/Elements/entry/thread_cached_init.ctp:34
 msgid "btn-showThreadInMixView"
 msgstr ""
@@ -406,24 +410,24 @@ msgstr "Answer"
 msgid "Ressources"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:6
+#: View/Elements/layout/disclaimer.ctp:7
 msgid "Contact"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:12
+#: View/Elements/layout/disclaimer.ctp:14
 msgid "Status"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:15
+#: View/Elements/layout/disclaimer.ctp:17
 #, php-format
 msgid "%s Entries in %s Threads; %s registred users, %s logged in, %s anonymous."
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:27
+#: View/Elements/layout/disclaimer.ctp:29
 msgid "About"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:29
+#: View/Elements/layout/disclaimer.ctp:31
 #, php-format
 msgid "Powered by Saito  v%s."
 msgstr ""
@@ -456,11 +460,16 @@ msgstr "Search"
 msgid "user_recentposts"
 msgstr "recent posts"
 
-#: View/Elements/layout/slidetab_userlist.ctp:6
+#: View/Elements/layout/slidetab_userlist.ctp:8
 msgid "user_area_linkname"
 msgstr "User"
 
-#: View/Elements/layout/slidetab_userlist.ctp:15
+#: View/Elements/layout/slidetab_userlist.ctp:6
+#, php-format
+msgid "%s online (%s)"
+msgstr ""
+
+#: View/Elements/layout/slidetab_userlist.ctp:26
 msgid "ud_mod"
 msgstr "Moderator"
 
@@ -513,6 +522,13 @@ msgstr "Username"
 msgid "auto_login_marking"
 msgstr "Stay Logged In"
 
+#: View/Emails/text/user_register.ctp:2
+msgid "register_email_content"
+msgstr ""
+"Hello and welcome to %s!\n"
+"\n"
+"To activate your account please click the following link: %s"
+
 #: View/Entries/add.ctp:34
 #: View/Entries/add.ctp:269
 msgid "preview"
@@ -524,7 +540,7 @@ msgstr ""
 
 #: View/Entries/add.ctp:124
 msgid "error_subject_empty"
-msgstr ""
+msgstr "Subject must not be empty."
 
 #: View/Entries/add.ctp:158
 msgid "Cite"
@@ -1045,15 +1061,15 @@ msgstr ""
 
 #: View/Users/contact.ctp:3
 msgid "user_contact_title"
-msgstr ""
+msgstr "Contact %s"
 
 #: View/Users/contact.ctp:5
 msgid "user_contact_subject"
-msgstr ""
+msgstr "Subject"
 
 #: View/Users/contact.ctp:7
 msgid "user_contact_message"
-msgstr ""
+msgstr "Message"
 
 #: View/Users/edit.ctp:1
 msgid "user_area_title"
@@ -1062,7 +1078,7 @@ msgstr ""
 #: View/Users/edit.ctp:3
 #: View/Users/view.ctp:116
 msgid "edit_userdata"
-msgstr "Edit User-Preferences"
+msgstr "Edit"
 
 #: View/Users/edit.ctp:11
 #: View/Users/edit.ctp:33
@@ -1325,6 +1341,14 @@ msgstr ""
 msgid "login_linkname"
 msgstr "Login"
 
+#: View/Users/register.ctp:4
+msgid "register_email_send_content"
+msgstr "Thanks for registering. A email with a link was send to you. Please click that link to finish the registration. Prior to that you're not able to login!"
+
+#: View/Users/register.ctp:6
+msgid "register_success_content"
+msgstr "Your registration is now finished. You are able to loggin now. Have fun!"
+
 #: View/Users/view.ctp:4
 msgid "user_show_entries"
 msgstr "Show User's Entries"
@@ -1503,6 +1527,10 @@ msgstr ""
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
+#: Controller/UsersController.php:89
+msgid "register_email_subject"
+msgstr "Welcome to %s!"
+
 #: Controller/UsersController.php:146
 #: Controller/UsersController.php:168
 msgid "Invalid user"
@@ -1510,7 +1538,7 @@ msgstr ""
 
 #: Controller/UsersController.php:202
 msgid "user_edit_success"
-msgstr ""
+msgstr "Preferences were saved."
 
 #: Controller/UsersController.php:215
 msgid "The user could not be saved. Please, try again."
@@ -1518,6 +1546,14 @@ msgstr ""
 
 #: Controller/UsersController.php:257
 msgid "change_password_success"
+msgstr ""
+
+#: Controller/UsersController.php:302
+msgid "Message was send."
+msgstr ""
+
+#: Controller/UsersController.php:305
+msgid "Error, message couldn't be send!"
 msgstr ""
 
 #: Controller/Component/CurrentUserComponent.php:216
@@ -1653,20 +1689,20 @@ msgstr ""
 msgid "yesterday"
 msgstr ""
 
-#: View/Helper/UserHHelper.php:93
+#: View/Helper/UserHHelper.php:95
 msgid "ud_user"
 msgstr "User"
 
-#: View/Helper/UserHHelper.php:97
+#: View/Helper/UserHHelper.php:99
 msgid "ud_admin"
 msgstr ""
 
-#: View/Helper/UserHHelper.php:112
-#: View/Helper/UserHHelper.php:133
+#: View/Helper/UserHHelper.php:114
+#: View/Helper/UserHHelper.php:135
 msgid "homepage_alt"
 msgstr ""
 
-#: View/Helper/UserHHelper.php:160
+#: View/Helper/UserHHelper.php:162
 msgid "userranks_not_found"
 msgstr ""
 

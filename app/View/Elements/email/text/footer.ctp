@@ -1,3 +1,4 @@
 
 ---
-Diese E-Mail wurde über das Forum <?php echo Configure::read('Saito.Settings.forum_name'); ?> (<?php echo FULL_BASE_URL ?>) gesendet.
+
+<?php echo __('email_footer', array(Configure::read('Saito.Settings.forum_name'), FULL_BASE_URL)); ?>

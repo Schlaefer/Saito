@@ -86,7 +86,7 @@ class UsersController extends AppController {
 
 					$this->_email(array(
 						'recipient' => $this->request->data,
-						'subject' 	=> 'Willkommen bei macnemo.de', //@lo
+						'subject' 	=> __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
 						'sender' 		=> array( 
 								'User' => array(
 										'user_email' 	=> Configure::read('Saito.Settings.forum_email'),
@@ -287,7 +287,7 @@ class UsersController extends AppController {
 		if ($this->request->data) {
 			$subject = rtrim($this->request->data['Message']['subject']);
 			if (empty($subject)) {
-				$this->Session->setFlash('Betreff darf nicht leer sein.'); # @lo
+				$this->Session->setFlash(__('error_subject_empty'));
 				$this->request->data = array_merge($this->request->data, $user);
 			} else {
 				try {
@@ -299,10 +299,10 @@ class UsersController extends AppController {
 							'template'	=> 'user_contact'
 							));
 					$send = true;
-					$this->Session->setFlash('Nachricht wurde versandt.', 'flash/notice'); # @lo
+					$this->Session->setFlash(__('Message was send.'), 'flash/notice');
 						$this->redirect('/');
 				} catch (Exception $exc) {
-					$this->Session->setFlash('Nachricht konnte nicht versandt werden.', 'flash/error'); # @lo
+					$this->Session->setFlash(__('Error, message couldn\'t be send!'), 'flash/error');
 				} // end try
 			} // end if
 		} // end if($this->request->data)
@@ -415,7 +415,7 @@ class UsersController extends AppController {
 			$emailConfig['template'] = $template;
 		endif;
 
-		if (Configure::read('debug') > 0) :
+		if (Configure::read('debug') > 2) :
 			$emailConfig['transport'] = 'Debug';
 			$emailConfig['log'] 			= true;
 		endif;

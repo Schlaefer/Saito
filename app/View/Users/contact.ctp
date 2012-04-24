@@ -1,6 +1,6 @@
 <?php if(!$send) : ?>
 	<div id="user_contact" class="user contact">
-		<h2><?php echo __('user_contact_title'); ?> <?php echo $this->request->data['User']['username']; ?></h2>
+		<h2><?php echo __('user_contact_title', $this->request->data['User']['username']); ?> </h2>
 		<?php echo $this->Form->create(); ?>
 		<?php echo $this->Form->label('Message.subject', __('user_contact_subject')); ?>
 		<?php echo $this->Form->text('Message.subject'); ?>
