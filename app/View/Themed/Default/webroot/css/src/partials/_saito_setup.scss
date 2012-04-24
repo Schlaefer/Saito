@@ -1,3 +1,7 @@
+/*******************************************************************************
+* Import compass framework
+******************************************************************************/
+
 @import "compass/reset"; 
 @import "compass/utilities/sprites";
 @import "compass/utilities/links";
@@ -15,30 +19,6 @@
 /*$experimental-support-for-opera: false;
 /*$experimental-support-for-microsoft: false;*/
 $experimental-support-for-khtml: false;
-
-/*** setup blueprint ***/
-// This import applies a global reset to any page that imports this stylesheet.
-// schlaefer: deactivated, we already use compass/reset
-// @import "blueprint/reset";
-
-/*******************************************************************************
-* Setup and import blueprint _base.scss
-******************************************************************************/
-
-// Here is where you can define your constants for your application and to configure the blueprint framework.
-// Feel free to delete these if you want keep the defaults:
-
-$blueprint-grid-columns: 24;
-$blueprint-container-size: 950px;
-$blueprint-grid-margin: 10px;
-
-// Use this to calculate the width based on the total width.
-// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
-$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
-
-@import "blueprint";
-
-form.bp { @include blueprint-form; }
 
 /*******************************************************************************
 * Setup base basic layout parameters
@@ -67,8 +47,61 @@ $saito_accent2_dark: $saito_base;
 $saito_border: #999;
 $saito_gray_light: #FAFAFA;
 $saito_gray_dark: #E0E0E0;
-$saito_body_background: #f8f8f8; 
-$saito_info_text: #6f6f6f; /* light grey */ 
+$saito_body_background: #f8f8f8;
+$saito_info_text: #6f6f6f; /* light grey */
 
 $layout_min_width: 950px;
+
+/*******************************************************************************
+* Setup and import blueprint _base.scss
+******************************************************************************/
+
+// This import applies a global reset to any page that imports this stylesheet.
+// schlaefer: deactivated, we already use compass/reset
+// @import "blueprint/reset";
+
+
+// Here is where you can define your constants for your application and to configure the blueprint framework.
+// Feel free to delete these if you want keep the defaults:
+
+$blueprint-grid-columns: 24;
+$blueprint-container-size: 950px;
+$blueprint-grid-margin: 10px;
+
+// Use this to calculate the width based on the total width.
+// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
+$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
+
+@import "blueprint";
+
+form.bp { @include blueprint-form; }
+
+.bp_container {
+	@include container;
+	margin: inherit;
+	// backport from original blueprint framework:
+	// clears out all column floats from last container
+	// for using more than one
+	overflow: visible;
+	&:after {
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden; }
+	max-width: 100%;
+	}
+
+.bp-threeColumn {
+	@extend .bp_container;
+	// put it under bottomnav
+/*	height: 0px;*/
+
+  .left {
+    @include column(8); }
+  .center {
+    @include column(8); }
+  .right {
+    @include column(8, true); }
+	}
 
