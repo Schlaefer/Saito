@@ -13,7 +13,6 @@
 	<?php endif; ?>
 		<link rel="apple-touch-icon" href="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'apple-touch-icon-precomposed.png'; ?>"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700' rel='stylesheet' type='text/css'>
-		<?php echo $this->Html->css('stylesheets/jquery-ui-1.8.8.custom.css'); ?>
 		<?php echo $this->Html->css('stylesheets/screen.css'); ?>
 		<?php echo $this->Html->css('stylesheets/theme.css'); ?>
 		<?php if ( Configure::read('debug') > 0 ) echo $this->Html->css('stylesheets/cake.css'); ?>

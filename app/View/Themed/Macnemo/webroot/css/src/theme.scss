@@ -3,7 +3,6 @@
 @import "_sprites.scss";
 @import "_markitup";
 @import "_messages";
-@import "_jquery.clearabletextfield";
 
 html, body {
   height: 100%; 
@@ -1091,5 +1090,6 @@ ul.thread {
 
 @import "_slidetabs";
 @import "_tablet";
+@import "partials/_jquery-ui.scss"
 
 /*********************************************/
