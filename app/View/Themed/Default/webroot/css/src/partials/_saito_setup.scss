@@ -21,36 +21,53 @@
 $experimental-support-for-khtml: false;
 
 /*******************************************************************************
-* Setup base basic layout parameters
+* Setup basic layout parameters
 ******************************************************************************/
 
-$corner_radius: 2px;
-$border_width: 1px;
-$background_image: 'bubbles_outer.png';
-$padding: 10px;
+// the grays
+// -------------------------------------
+$saito_gray_light:      #FAFAFA;
+$saito_gray:            #6f6f6f;
+$saito_gray_dark:       #E0E0E0;
 
-/*** Standardset ***/
-$saito_base: #607D86;
-$saito_base_light: #E6EDF0;
-$link_color: #E74A00; // #f17400;
 
-$thread_color_normal: #111;
-$thread_color_new:    $link_color;
-$thread_color_actual: #FF5100;
+// base
+// -------------------------------------
+$saito_base_very_light: #F9FDFF;
+$saito_base_light:      #E6EDF0;
+$saito_base:            #607D86;
+$saito_base_dark:       $saito_base;
 
-$saito_base_very_light: #eee;
-$saito_base_dark: #aaa;
-$saito_accent_light: $saito_base ;
-$saito_accent_dark: $saito_base;
-$saito_accent2_light: $saito_base; /* light green */
-$saito_accent2_dark: $saito_base;
-$saito_border: #999;
-$saito_gray_light: #FAFAFA;
-$saito_gray_dark: #E0E0E0;
-$saito_body_background: #f8f8f8;
-$saito_info_text: #6f6f6f; /* light grey */
+// accent
+// -------------------------------------
+$saito_accent_light:    $saito_base;
+$saito_accent_dark:     $saito_base;
+$saito_accent2_light:   $saito_base;
+$saito_accent2_dark:    $saito_base;
 
-$layout_min_width: 950px;
+// color for elements
+// -------------------------------------
+$link_color:            #E74A00;
+$saito_border:          #AEB9BD;
+$saito_info_text:       $saito_gray;
+
+// color for threads
+// -------------------------------------
+$thread_color_normal:   #111111;
+$thread_color_new:      $link_color;
+$thread_color_actual:   $link_color * 1.4;
+$thread_color_actual:   #DF0000;
+
+// page style
+// -------------------------------------
+$saito_body_background: $saito_gray_light;
+$layout_min_width:      950px;
+
+// boxes
+// -------------------------------------
+$corner_radius:         2px;
+$border_width:          1px;
+$padding:               10px;
 
 /*******************************************************************************
 * Setup and import blueprint _base.scss

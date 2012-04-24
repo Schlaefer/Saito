@@ -1,8 +1,8 @@
 @import "partials/_saito_base";
 
-@import "_sprites.scss";
-@import "_markitup";
-@import "_messages";
+@import "partials/_sprites.scss";
+@import "partials/_markitup";
+@import "partials/_messages";
 
 html, body {
   height: 100%; 
@@ -117,16 +117,16 @@ ul.style_1 {
     td, th {
       border-top: $border_width + 1px solid $saito_gray_dark; }
     td:first-child, th:first-child {
-      @include border-top-left-radius($corner_radius); }
+      border-top-left-radius:$corner_radius; }
     td:last-child, th:last-child {
-      @include border-top-right-radius($corner_radius); } }
+      border-top-right-radius:$corner_radius; } }
   tr:last-child {
     td, th {
       border-bottom: $border_width + 1 solid $saito_gray_dark; }
     td:first-child, th:first-child {
-      @include border-bottom-left-radius($corner_radius); }
+      border-bottom-left-radius:$corner_radius; }
     td:last-child, th:last-child {
-      @include border-bottom-right-radius($corner_radius); } } 
+      border-bottom-right-radius:$corner_radius; } }
 	}
 
 .table_1 {
@@ -222,18 +222,21 @@ a.textlink {
     font-size: 10px; } }
 
 #header_login {
+  @extend .header_style_1;
   position: absolute;
   bottom: 0;
   right: 0;
   padding: 2px 1em;
   font-size: 10px;
-  @include border-top-left-radius($corner_radius);
-  background-color: white;
-  background: rgba(255, 255, 255, 0.75);
+
+  border-top-left-radius: $corner_radius;
+  border-top-right-radius: 0;
+
   color: #222222;
   border-top: 1px solid $saito_border;
   border-left: 1px solid $saito_border;
-  color: $saito_border; }
+  color: $saito_border;
+  }
 
 #topnav {
   @extend .box-shadow;
@@ -455,72 +458,6 @@ fieldset .submit input {
 .pointer:hover {
   cursor: pointer; }
 
-/* Move-Da-Chicken */
-
-@-webkit-keyframes move-da-chicken {
-		0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
-	10% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
-	20% { -webkit-transform: translate(-3px, 0px) rotate(1deg); }
-	30% { -webkit-transform: translate(0px, 2px) rotate(0deg); }
-	40% { -webkit-transform: translate(1px, -1px) rotate(1deg); }
-	50% { -webkit-transform: translate(-1px, 2px) rotate(-1deg); }
-	60% { -webkit-transform: translate(-3px, 1px) rotate(0deg); }
-	70% { -webkit-transform: translate(2px, 1px) rotate(-1deg); }
-	80% { -webkit-transform: translate(-1px, -1px) rotate(1deg); }
-	90% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
-	100% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
-}
-@-moz-keyframes move-da-chicken {
-		0% { -moz-transform: translate(2px, 1px) rotate(0deg); }
-	10% { -moz-transform: translate(-1px, -2px) rotate(-1deg); }
-	20% { -moz-transform: translate(-3px, 0px) rotate(1deg); }
-	30% { -moz-transform: translate(0px, 2px) rotate(0deg); }
-	40% { -moz-transform: translate(1px, -1px) rotate(1deg); }
-	50% { -moz-transform: translate(-1px, 2px) rotate(-1deg); }
-	60% { -moz-transform: translate(-3px, 1px) rotate(0deg); }
-	70% { -moz-transform: translate(2px, 1px) rotate(-1deg); }
-	80% { -moz-transform: translate(-1px, -1px) rotate(1deg); }
-	90% { -moz-transform: translate(2px, 2px) rotate(0deg); }
-	100% { -moz-transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-@keyframes move-da-chicken {
-		0% { transform: translate(2px, 1px) rotate(0deg); }
-	10% { transform: translate(-1px, -2px) rotate(-1deg); }
-	20% { transform: translate(-3px, 0px) rotate(1deg); }
-	30% { transform: translate(0px, 2px) rotate(0deg); }
-	40% { transform: translate(1px, -1px) rotate(1deg); }
-	50% { transform: translate(-1px, 2px) rotate(-1deg); }
-	60% { transform: translate(-3px, 1px) rotate(0deg); }
-	70% { transform: translate(2px, 1px) rotate(-1deg); }
-	80% { transform: translate(-1px, -1px) rotate(1deg); }
-	90% { transform: translate(2px, 2px) rotate(0deg); }
-	100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-img[src*="gacker_large.png"]:hover {
-	-webkit-animation-name: move-da-chicken;
-	-webkit-animation-duration: 1s;
-	-webkit-transform-origin:50% 50%;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: ease-in-out;
-	-webkit-animation-direction: alternate;
-
-	-moz-animation-name: move-da-chicken;
-	-moz-animation-duration: 1s;
-	-moz-transform-origin:50% 50%;
-	-moz-animation-iteration-count: infinite;
-	-moz-animation-timing-function: ease-in-out;
-	-moz-animation-direction: alternate;
-
-	animation-name: move-da-chicken;
-	animation-duration: 1s;
-	transform-origin:50% 50%;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-in-out;
-	animation-direction: alternate;
-	}
-
 /** bbcode */
 .c_bbc_code-wrapper {
   background-color: #f9f9f9;
@@ -701,7 +638,7 @@ a.btn {
   width: 14px;
   cursor: pointer;
   /*border: 1px solid #ccc;
-   *@include border-radius(14px);
+   *border-radius(14px);
    *color: #888; */
   &:after {
     position: absolute;
@@ -721,7 +658,7 @@ a.btn {
 .btn_info {
   float: left;
   border: 1px solid #cccccc;
-  @include border-radius(15px);
+  border-radius:15px;
   height: 14px;
   width: 14px;
   color: silver;
@@ -801,7 +738,7 @@ a.btn {
 .c_header_1, .c_header_2 {
 	border-bottom: 1px solid silver;
 
-	@extend .box_shadow_down_1;
+	@extend .box-shadow;
 
 	// make shure box shadow is always above background; esp. Vorschau header
 	position:relative;
@@ -844,7 +781,7 @@ a.btn {
 
 .entry.reply {
   @extend .entry.add;
-/*  @include border-radius(0);*/
+/*  border-radius(0);*/
   border: none;
 	@extend .c_bottom-radius;
 	}
@@ -934,12 +871,12 @@ a.btn {
 
 	.c_a_a_b_a {
 		border-width: $border_width $border_width 0 0;
-		@include border-top-right-radius($corner_radius); 
+		border-top-right-radius:$corner_radius;
 		}
 
 	.c_a_a_b_c {
 		border-width: $border_width 0 0 $border_width;
-		@include border-top-left-radius($corner_radius); }
+		border-top-left-radius:$corner_radius; }
 		}
 	
 	.a { margin-bottom: 10px;
@@ -981,8 +918,8 @@ ul.thread {
   border-width: $border_width $border_width 0 $border_width;
   display: inline-block;
   margin-left: 35px;
-  @include border-top-left-radius($corner_radius);
-  @include border-top-right-radius($corner_radius);
+  border-top-left-radius:$corner_radius;
+  border-top-right-radius:$corner_radius;
   ul,li {
     margin: 0;
     padding: 0;
@@ -1002,11 +939,11 @@ ul.thread {
     border-right: $border_width solid $saito_gray_dark; }
   li:first-child {
     /* we need this for the active state */
-    @include border-top-left-radius($corner_radius); }
+    border-top-left-radius:$corner_radius; }
   li:last-child {
     border: none;
     /* we need this for the active state */
-    @include border-top-right-radius($corner_radius); } }
+    border-top-right-radius:$corner_radius; } }
 
 .thread_inline {
   display: none;
@@ -1020,7 +957,7 @@ ul.thread {
 /** start mod panel ** */
 .button_mod_panel {
   float: right;
-  @include border-bottom-left-radius($corner_radius);
+  border-bottom-left-radius:$corner_radius;
   border-width: 0 0 $border_width $border_width;
   border-color: $saito_gray_dark;
   border-style: solid;
@@ -1063,9 +1000,9 @@ ul.thread {
   margin: 0;
   width: 100%;
   height: 100%;
-  @include border-radius(0);
-  @include border-top-left-radius($corner_radius);
-  @include border-bottom-left-radius($corner_radius);
+  border-radius:0;
+  border-top-left-radius:$corner_radius;
+  border-bottom-left-radius:$corner_radius;
   border-right-width: 0;
   color: #222222;
   border-color: #a8a8a8;
@@ -1083,9 +1020,9 @@ ul.thread {
   margin: 0;
   height: 100%;
   border-color: #a8a8a8;
-  @include border-radius(0);
-  @include border-top-right-radius($corner_radius);
-  @include border-bottom-right-radius($corner_radius);
+  border-radius:0;
+  border-top-right-radius:$corner_radius;
+  border-bottom-right-radius:$corner_radius;
   white-space: nowrap;
   cursor: pointer;
   &:active {
@@ -1104,6 +1041,6 @@ ul.thread {
 
 /** search end ** */
 
-@import "_slidetabs";
-@import "_tablet";
+@import "partials/_slidetabs";
+@import "partials/_tablet";
 @import "partials/_jquery-ui.scss"
