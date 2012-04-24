@@ -34,11 +34,11 @@
 
 .hero {
   background: $saito_base;
-  background-image: -webkit-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), image_url("dots_light.png");
-  background-image: -moz-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), image_url("dots_light.png");
-  background-image: -o-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), image_url("dots_light.png");
-  background-image: -ms-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), image_url("dots_light.png");
-  background-image: radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), image_url("dots_light.png");
+  background-image: -webkit-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), inline-image("dots_light.png");
+  background-image: -moz-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), inline-image("dots_light.png");
+  background-image: -o-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), inline-image("dots_light.png");
+  background-image: -ms-radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), inline-image("dots_light.png");
+  background-image: radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px), inline-image("dots_light.png");
 
 }
 
