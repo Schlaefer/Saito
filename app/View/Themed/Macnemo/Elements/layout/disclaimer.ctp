@@ -1,4 +1,4 @@
-<div id="disclaimer" class="bp-fourColumn" style='width: 951px; margin: 0 auto; position: relative;'>
+<div id="disclaimer" class="bp-threeColumn">
 	<?php // @lo this .ctp ?>
 	<div class="left">
 		<div class="inside">
@@ -19,10 +19,13 @@
 				<li>
 					<a href="<?php echo $this->request->webroot; ?>pages/rss_feeds">RSS</a>
 				</li>
+				<li>
+          <a href="http://www.google.com/moderator/#15/e=d490b&t=d490b.40">Feedback geben</a>
+				</li>
 			</ul>
 		</div>
 	</div>
-	<div class="center_l">
+	<div class="center">
 		<div class="inside">
       <h3><?php echo __('Status'); ?></h3>
 			<?php echo  number_format($HeaderCounter['entries'],
@@ -35,20 +38,11 @@
 			<?php echo  $HeaderCounter['user_anonymous'] ?> Blinde Passagiere.
 		</div>
 	</div>
-	<div class="center_r">
-		<div class="inside">
-			<h2>Unterstützen</h2>
-			<p>Macnemo braucht Unterstützung. <a href="/wiki/index.php/Main/Unterst%c3%bctzen">Das Wie, Was, Wo und Wer findet sich im Wiki.</a></p>
-		</div>
-	</div>
 	<div class="right">
 		<div class="inside">
 			<h3> Maschinenraum </h3>
 			<p>
         <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito  v%s.', Configure::read("Saito.v")); ?></a>
-			</p>
-			<p>
-				<a href="http://www.google.com/moderator/#15/e=d490b&t=d490b.40">Feedback geben.</a>
 			</p>
 		</div>
 

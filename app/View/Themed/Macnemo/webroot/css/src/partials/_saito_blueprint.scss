@@ -26,16 +26,3 @@
   .right {
     @include column(8, true); }
 	}
-
-
-.bp-fourColumn {
-  .left {
-    @include column(6); }
-  .center_l {
-    @include column(6); }
-  .center_r {
-    @include column(6); }
-  .right {
-    @include column(6, true); }
-	}
-	
