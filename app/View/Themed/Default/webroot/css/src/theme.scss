@@ -186,7 +186,7 @@ a.textlink {
     position: absolute;
     right: 0px;
     text-align: right;
-    width: 180px; }
+    max-width: 400px; }
 	/* Sponsorlogo */
 
   .spnsr {
@@ -217,7 +217,6 @@ a.textlink {
     padding: 5px; }
   form {
     margin: 0;
-    width: 180px;
     height: 24px;
     font-size: 10px; } }
 
