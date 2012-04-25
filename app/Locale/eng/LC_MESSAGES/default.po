@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-24 12:51+0100\n"
-"PO-Revision-Date: 2012-04-24 17:43+0100\n"
+"PO-Revision-Date: 2012-04-25 13:10+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -376,31 +376,31 @@ msgstr "edited by"
 #: View/Elements/entry/view_posting.ctp:20
 #: View/Elements/entry/view_posting.ctp:149
 msgid "edit_linkname"
-msgstr ""
+msgstr "Edit"
 
 #: View/Elements/entry/view_posting.ctp:31
 msgid "fixed_set_entry_link"
-msgstr ""
+msgstr "Pin"
 
 #: View/Elements/entry/view_posting.ctp:31
 msgid "fixed_unset_entry_link"
-msgstr ""
+msgstr "Unpin"
 
 #: View/Elements/entry/view_posting.ctp:49
 msgid "locked_set_entry_link"
-msgstr ""
+msgstr "Lock"
 
 #: View/Elements/entry/view_posting.ctp:49
 msgid "locked_unset_entry_link"
-msgstr ""
+msgstr "Unlock"
 
 #: View/Elements/entry/view_posting.ctp:68
 msgid "delete_tree_link"
-msgstr ""
+msgstr "Delete"
 
 #: View/Elements/entry/view_posting.ctp:75
 msgid "delete_tree_link_confirm_message"
-msgstr ""
+msgstr "Deleting a thread can't be undone! Are you sure you want to delete the thread?"
 
 #: View/Elements/entry/view_posting.ctp:126
 msgid "forum_answer_linkname"
@@ -553,7 +553,7 @@ msgstr "flattr-Button"
 #: View/Entries/add.ctp:233
 #: View/Entries/add.ctp:247
 msgid "submit_button"
-msgstr "Absenden"
+msgstr "Submit"
 
 #: View/Entries/search.ctp:25
 msgid "search_term"
@@ -581,7 +581,7 @@ msgstr ""
 
 #: View/Entries/view.ctp:23
 msgid "whole_thread_marking"
-msgstr ""
+msgstr "Whole Thread"
 
 #: View/Groups/admin_add.ctp:4
 msgid "Admin Add Group"
@@ -1447,7 +1447,7 @@ msgstr "Back to Forum"
 
 #: Controller/EntriesController.php:270
 msgid "answer_marking"
-msgstr ""
+msgstr "Answer"
 
 #: Controller/EntriesController.php:363
 msgid "delete_tree_error"
