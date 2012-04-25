@@ -20,7 +20,8 @@ $color-flashErrorBg:    #a60202;
 	color: white;
 	@extend .c_all-radius;
 	text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
-  border: $border_width $saito_border solid;
+  background-color: $color-flashErrorBg;
+  border: $border_width ($color-flashErrorBg / 1.2) solid;
   }
 
 .flash-error {
