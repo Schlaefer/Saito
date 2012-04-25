@@ -1,6 +1,12 @@
 <?php Stopwatch::start('slidetab_userlist.ctp'); ?>
 <?php  if ($CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>
-	<?php echo $this->element('layout/slidetabs__header', array('id' => 'userlist', 'btn_class' => 'users_img')); ?>
+	<?php echo $this->element(
+          'layout/slidetabs__header',
+          array(
+              'id' => 'userlist',
+              'btn_content' => '<i class="icon-user icon-large"></i>',
+              )
+        ); ?>
 				<ul class="slidetab_tree">
 					<li>
 						<?php echo  __('%s online (%s)',

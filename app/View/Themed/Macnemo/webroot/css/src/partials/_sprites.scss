@@ -30,11 +30,6 @@ $sprites_image: 'sprited_css_images.png';
   border: none;
 }
 
-.users_img {
-	@extend .sprites;
-	@include sprite-row(10);
-}
-
 .img_mod_panel {
   @extend .sprites;
   @include sprite-row(11);
@@ -111,15 +106,6 @@ $sprites_image: 'sprited_css_images.png';
 	background-position: 4px -639px;
 	pointer: hand;
 }
-
-.img_userhistory {
-	@extend .sprites;
-	@include sprite-row(22);
-	/* normiert auf 24px height/width */
-/*	background-position: 4px -639px;*/
-	pointer: hand;
-}
-
 
 /* ---------------------------------------------------------------------------
 	Sprites New

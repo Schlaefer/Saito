@@ -1,5 +1,11 @@
 <?php  if ( $CurrentUser->isLoggedIn()  && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>
-	<?php echo $this->element('layout/slidetabs__header', array('id' => 'recentposts', 'btn_class' => 'img_userhistory')); ?>
+	<?php echo $this->element(
+          'layout/slidetabs__header',
+          array(
+              'id' => 'userlist',
+              'btn_content' => '<i class="icon-book icon-large"></i>',
+              )
+        ); ?>
 				<div class="slidetab_rp">
 					<ul class="slidetab_tree">
 						<li>
