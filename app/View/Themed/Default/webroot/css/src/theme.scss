@@ -577,13 +577,13 @@ a.btn {
   @extend .btn;
   @extend input;
   background-color: #abe337;
-  @include linear-gradient(color-stops(#e6ffb1, #abe337));
+/*  @include linear-gradient(color-stops(#e6ffb1, #abe337));*/ //@btn
   border-color: $saito_accent2_light;
   font-size: 110%;
   font-family: inherit;
 
   &:active {
-    @include linear-gradient(color-stops(#abe337, #e6ffb1));
+/*    @include linear-gradient(color-stops(#abe337, #e6ffb1));*/ //@btn
 		} 
 	} 
 
@@ -591,21 +591,23 @@ a.btn {
   @extend .btn;
   @extend input;
   background-color: #fafafa;
-  @include linear-gradient(color-stops(#fafafa, $saito_gray_dark));
+/*  @include linear-gradient(color-stops(#fafafa, $saito_gray_dark));*/  //@btn
   border-color: #cccccc;
   &:active {
-    @include linear-gradient(color-stops($saito_gray_dark, #fafafa)); } }
+/*    @include linear-gradient(color-stops($saito_gray_dark, #fafafa)); */ //@btn
+                } }
 
 .btn_warning {
   @extend input;
   background-color: #a60202;
-  @include linear-gradient(color-stops($saito_base_dark, #a60202));
+/*  @include linear-gradient(color-stops($saito_base_dark, #a60202));*/ //@btn
   border-color: #a60202;
   font-family: inherit;
   color: white;
   font-size: 110%;
   &:active {
-    @include linear-gradient(color-stops(#a60202, $saito_base_dark)); } }
+/*    @include linear-gradient(color-stops(#a60202, $saito_base_dark)); */ //@btn
+                  } }
 
 .button_navigation {
   @extend .btn;
@@ -618,10 +620,11 @@ a.btn {
   @extend input;
   @extend .btn;
 	background-color: $saito_base_dark;
-  @include linear-gradient(color-stops($saito_base, $saito_base_dark));
+/*  @include linear-gradient(color-stops($saito_base, $saito_base_dark));*/ //@btn
   border: 1px solid $saito_base_dark;
   &:active {
-    @include linear-gradient(color-stops($saito_base_dark, $saito_base)); } }
+/*    @include linear-gradient(color-stops($saito_base_dark, $saito_base)); */ //@btn
+                    } }
 
 .icon-remove {
   // bogus: with it the close buttons do not work

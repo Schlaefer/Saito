@@ -25,12 +25,18 @@
 // the base gradient
 .gradient-base {
   background:$saito_base_light;
-  @include linear-gradient(color_stops($saito_base_light, rgba(255,255,255, 0.6)), bottom);
+  @include background(
+      linear-gradient(bottom, $saito_base_light, rgba(255,255,255, 0.6)),
+      $saito_base_light
+    );
 }
 
 .gradient-base-horizontal {
   background:$saito_base_light;
-  @include linear-gradient(color-stops(rgba(255,255,255, 0.6), $saito_base_light), right);
+  @include background(
+      linear-gradient(left, $saito_base_light, rgba(255,255,255, 0.6)),
+      $saito_base_light
+    );
 }
 
 // basic header style, no rounded corners
@@ -39,9 +45,14 @@
 	border: $border_width solid $saito_border;
 }
 
+// in page gray headers
 .header_style_2 {
 	background-color: $saito_gray_dark;
-  @include linear-gradient(color-stops(white, darken(#ffffff, 6%) 30%, lighten($saito_gray_dark, 6%) 70%, $saito_gray_dark));
+  @include background(
+      linear-gradient(top, white, darken(#ffffff, 6%) 30%, lighten($saito_gray_dark, 6%) 70%, $saito_gray_dark),
+      // fallback
+      $saito_gray_dark
+    );
   border: $border_width solid $saito_gray_dark;
   color: #333333;
 	@extend .t_shadow;
