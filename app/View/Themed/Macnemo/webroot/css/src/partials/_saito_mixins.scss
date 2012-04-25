@@ -22,11 +22,21 @@
 
 /******************************************************************************/
 
+// the base gradient
+.gradient-base {
+  background:$saito_base_light;
+  @include linear-gradient(color_stops($saito_base_light, rgba(255,255,255, 0.6)), bottom);
+}
+
+.gradient-base-horizontal {
+  background:$saito_base_light;
+  @include linear-gradient(color-stops(rgba(255,255,255, 0.6), $saito_base_light), right);
+}
+
+// basic header style, no rounded corners
 .header_style_1 {
-	@extend .c_top-radius;
-	@include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
-	background-color: $saito_base_light;
-	border-bottom: $border_width solid $saito_gray_dark;
+  @extend .gradient-base;
+	border: $border_width solid $saito_border;
 }
 
 .header_style_2 {
@@ -85,14 +95,11 @@
 /******************************************************************************/
 
 .navbar-light {
-  background:$saito_base_light;
-  @include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
-  border: 1px solid $saito_border ;
+  @extend .header_style_1;
 
   // for firefox box-shadow;
   z-index: 10;
 
-  color:#000000;
   @extend .t_shadow;
 
   .content {

@@ -134,7 +134,7 @@ ul.style_1 {
 .table_1 {
   @extend .table;
   th {
-    @include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
+    @extend .gradient-base;
     font-weight: bold; }
   tr.b {
     background-color: $saito_gray_light; } }
@@ -146,7 +146,7 @@ ul.style_1 {
   td:first-child {
     font-weight: bold;
     width: 150px;
-    @include linear-gradient(color-stops($saito_base_very_light, $saito_base_light), right);
+    @extend .gradient-base-horizontal;
     border-left: $border_width + 1 solid $saito_gray_dark; } 
 	}
 

@@ -8,7 +8,7 @@
 
 	.button_wrapper, .content_wrapper {
 		background-color: $saito_base_light;
-		@include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
+    @extend .gradient-base;
 		@include box-shadow( #ddd, -1px, 2px, 2px);
 		margin-bottom: 2px;
 

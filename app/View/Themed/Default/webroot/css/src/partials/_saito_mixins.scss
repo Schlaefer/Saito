@@ -21,13 +21,24 @@
 
 /******************************************************************************/
 
-.header_style_1 {
-	@extend .c_top-radius;
-	@include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
-	background-color: $saito_base_light;
-	border-bottom: $border_width solid $saito_gray_dark;
+// the base gradient
+.gradient-base {
+  background:$saito_base_light;
+  @include linear-gradient(color_stops($saito_base_light, rgba(255,255,255, 0.6)), bottom);
 }
 
+.gradient-base-horizontal {
+  background:$saito_base_light;
+  @include linear-gradient(color-stops(rgba(255,255,255, 0.6), $saito_base_light), right);
+}
+
+// basic header style, no rounded corners
+.header_style_1 {
+  @extend .gradient-base;
+	border: $border_width solid $saito_border;
+}
+
+// in page gray headers
 .header_style_2 {
 	background-color: $saito_gray_dark;
   @include linear-gradient(color-stops(white, darken(#ffffff, 6%) 30%, lighten($saito_gray_dark, 6%) 70%, $saito_gray_dark));
@@ -39,7 +50,7 @@
 .hero {
   @include background($saito_base);
   @include background-image(
-    radial-gradient(50% 2%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 500px),
+    linear-gradient(270deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)),
     inline-image("dots_light.png"));
 }
 
@@ -98,14 +109,11 @@
 /******************************************************************************/
 
 .navbar-light {
-  background:$saito_base_light;
-  @include linear-gradient(color-stops($saito_base_very_light, $saito_base_light));
-  border: 1px solid $saito_border ;
+  @extend .header_style_1;
   
   // for firefox box-shadow;
   z-index: 10;
 
-  color:#000000;
   @extend .t_shadow;
 
   .content {
