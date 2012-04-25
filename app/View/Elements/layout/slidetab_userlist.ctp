@@ -4,6 +4,7 @@
           'layout/slidetabs__header',
           array(
               'id' => 'userlist',
+              'btn_class' => 'btn-slidetabUserlist',
               'btn_content' => '<i class="icon-user icon-large"></i>',
               )
         ); ?>

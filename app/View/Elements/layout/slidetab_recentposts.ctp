@@ -2,7 +2,8 @@
 	<?php echo $this->element(
           'layout/slidetabs__header',
           array(
-              'id' => 'userlist',
+              'id' => 'recentposts',
+              'btn_class' => 'btn-slidetabRecentposts',
               'btn_content' => '<i class="icon-book icon-large"></i>',
               )
         ); ?>
