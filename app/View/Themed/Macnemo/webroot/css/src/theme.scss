@@ -692,29 +692,10 @@ a.btn {
   &:active {
     @include linear-gradient(color-stops($saito_base_dark, $saito_base)); } }
 
-.btn_close {
+.icon-remove {
+  // bogus: with it the close buttons do not work
   position: relative;
-  padding: 0;
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
-  /*border: 1px solid #ccc;
-   *border-radius(14px);
-   *color: #888; */
-  &:after {
-    position: absolute;
-    width: 14px;
-    content: "";
-    @extend .img_close;
-    /*font-family: Verdana;
-     *font-weigth: bold;
-     *content: '\D7';
-     *display: block;
-     *line-height: 14px;
-     *left: 2px;
-     *top: -1px; */ }
-  &:active {
-    background-color: $saito_gray_dark; } }
+  }
 
 .btn_info {
   float: left;
@@ -771,8 +752,12 @@ a.btn {
 	height: 13px;
 }
 
-.ico-threadCollapse { @extend .sprite-thread-collapse; 	}
-.ico-threadOpen 		{ @extend .sprite-thread-open; 			}
+.ico-threadCollapse     { @extend .sprite-thread-collapse; 	    }
+.ico-threadOpen 		    { @extend .sprite-thread-open; 			    }
+.ico-threadOpenInline   { @extend .sprite-thread-open-inline;   }
+.ico-threadOpenNew      { @extend .sprite-thread-open-new;      }
+.ico-threadOpenMix      { @extend .sprite-thread-open-mix;      }
+.ico-threadCloseInline  { @extend .sprite-thread-close-inline;  }
 
 /** headers start ** */
 .c_header_1 {

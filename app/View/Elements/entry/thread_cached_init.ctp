@@ -32,7 +32,7 @@
 	<ul>
 			<li>
 				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" title="<?php echo __('btn-showThreadInMixView'); ?>">
-					<span class="img_mix"></span>
+          <span class="ico-threadTool ico-threadOpenMix"></span>
 				</a>
 			</li>
 			<?php if ($CurrentUser->isLoggedIn()
@@ -53,7 +53,7 @@
 						?>
 						<li>
 							<a href="#" id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;" title="<?php echo __('btn-showNewThreads') ?>">
-								<span class="img_open_new"></span>
+                <span class="ico-threadTool ico-threadOpenNew"></span>
 							</a>
 						</li>
 						<?php
@@ -63,12 +63,12 @@
 			<?php if ($CurrentUser->isLoggedIn()) : ?>
 				<li>
 					<a href="#" id="btn_close_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').closeAll(); return false;" title="<?php echo __('btn-closeThreads') ?>">
-						<span class="img_inline_close"></span>
+            <span class="ico-threadTool ico-threadCloseInline"></span>
 					</a>
 				</li>
 				<li>
 					<a href="#" id="btn_open_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showAll(); return false;" title="<?php echo __('btn-openThreads') ?>">
-						<span class="img_inline_open"></span>
+						<span class="ico-threadTool ico-threadOpenInline"></span>
 					</a>
 				</li>
 			<?php endif; ?>

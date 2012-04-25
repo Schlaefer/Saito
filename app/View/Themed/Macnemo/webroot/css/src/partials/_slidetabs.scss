@@ -114,7 +114,7 @@
 	li {
 		margin-bottom: 0;
 		@extend .sprites;
-		@include sprite-row(8);
+		@include sprite-row(2);
 		width: auto;
 		/* height of the bullet image */
 		height: auto;
@@ -124,7 +124,7 @@
 	li:last-child {
 		/* we can't use @extend .sprites; -> breaks IE8 because of last-child */
 		@include sprite-background($sprites_image);
-		@include sprite-row(9);
+		@include sprite-row(3);
 		width: auto;
 		/* height of the bullet image */
 		height: 15px;

@@ -22,12 +22,12 @@ endif;
 			<div>
 				<div>
 					<?php
-					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideToggle',
+					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideOut',
 									array( 'speed' => 'fast' ));
 					$this->Js->get('#btn_preview_close_' . $this->request->data['Entry']['id'])->event('click',
 							$js_r);
 					?>
-					<div id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='btn_close'></div>
+					<i id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='icon-remove pointer' style="cursor:pointer;">&nbsp;</i>
 				</div>
 				<div>
 					<h2>
@@ -51,9 +51,8 @@ endif;
 			<div>
 				<div>
 <?php  if ( $this->request->is('ajax') ) : ?>
-						<div id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='btn_close' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;"></div>
-							<?php
-							?>
+						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-remove pointer' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;">
+            </i>
 <?php  endif; ?>
 				</div>
 				<div>
