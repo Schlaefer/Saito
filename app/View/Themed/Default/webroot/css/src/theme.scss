@@ -227,11 +227,9 @@ a.textlink {
   font-size: 10px;
 
   border-top-left-radius: $corner_radius;
-  border-top-right-radius: 0;
+  border-width: 1px 0 0 1px;
 
-  color: #222222;
-  border-top: 1px solid $saito_border;
-  border-left: 1px solid $saito_border;
+  // dividers between items in border color
   color: $saito_border;
   }
 
@@ -255,7 +253,6 @@ a.textlink {
 		width: 100%; 
 		position: absolute; 
 		bottom: 0px;
-/*		@include box-shadow(rgba(0,0,0,.4) 0 5px 5px 2px,  $saito_base_light 0px 7px 7px 2px);*/
 	}
 
 #content {
@@ -518,7 +515,6 @@ input, textarea {
   border: 1px solid $saito_gray_dark;
   width: 98%;
   /* chrome in linux */
-  font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
   outline-color: $saito_accent_dark; }
 
 input[type=checkbox] {
@@ -561,7 +557,6 @@ label, .label {
 
 /** buttons start ** */
 .btn {
-  font-family: Verdana;
   color: #333333;
   text-shadow: #ececec 0px 1px 0px;
   vertical-align: middle;

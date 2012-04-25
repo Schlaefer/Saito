@@ -216,6 +216,7 @@ a.textlink {
     font-size: 12px; } }
 
 #header_login {
+  @extend .header_style_1;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -223,14 +224,11 @@ a.textlink {
   font-size: 10px;
 
   border-top-left-radius: $corner_radius;
-  border-top-right-radius: 0;
+  border-width: 1px 0 0 1px;
 
-  background-color: white;
-  background: rgba(255, 255, 255, 0.75);
-  color: #222222;
-  border-top: 1px solid $saito_border;
-  border-left: 1px solid $saito_border;
-  color: $saito_border; }
+  // dividers between items in border color
+  color: $saito_border;
+  }
 
 #topnav {
   @extend .box-shadow;
@@ -278,7 +276,6 @@ a.textlink {
 	a {
 		border-bottom: #DDD 1px solid;
 		@include link-colors($saito_info_text);
-/*		@include hover-link();*/
 	}
 
 	h1, h2, h3 {
@@ -582,7 +579,6 @@ input, textarea {
   border: 1px solid $saito_gray_dark;
   width: 98%;
   /* chrome in linux */
-  font-family: Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
   outline-color: $saito_accent_dark; }
 
 input[type=checkbox] {
@@ -625,7 +621,6 @@ label, .label {
 
 /** buttons start ** */
 .btn {
-  font-family: Verdana;
   color: #333333;
   text-shadow: #ececec 0px 1px 0px;
   vertical-align: middle;
