@@ -619,7 +619,19 @@ label, .label {
   font-size: 110%;
   margin-bottom: 3px; }
 
-/** buttons start ** */
+/*******************************************************************************
+ * Buttons
+ ******************************************************************************/
+
+.btn {
+  // reset hat input elements ususally take the whole form width
+  width: auto;
+  }
+
+.btn-primary {
+
+  }
+  /*
 .btn {
   color: #333333;
   text-shadow: #ececec 0px 1px 0px;
@@ -627,51 +639,52 @@ label, .label {
   text-align: center;
   display: inline-block;
   width: auto;
-  line-height: normal; 
-	@include box-shadow(rgba(0,0,0,.15) 0 1px 2px 0, rgba(255, 255, 255, .35) 0 0 1px 1px inset);
+  line-height: normal;
+	box-shadow: rgba(0,0,0,.15) 0 1px 2px 0, rgba(255, 255, 255, .35) 0 0 1px 1px inset;
   &:active {
-	  @include box-shadow(rgba(0, 0, 0, .1) 0 0 4px 1px inset);
-		} 
+	  box-shadow: rgba(0, 0, 0, .1) 0 0 4px 1px inset;
+		}
 	}
 
 a.btn {
   @include link-colors(#333333); }
 
+
 .btn_submit {
   @extend .btn;
   @extend input;
   background-color: #abe337;
-/*  @include linear-gradient(color-stops(#e6ffb1, #abe337));*/ //@btn
+//  @include linear-gradient(color-stops(#e6ffb1, #abe337))/ //@btn
   border-color: $saito_accent2_light;
   font-size: 110%;
   font-family: inherit;
 
   &:active {
-/*    @include linear-gradient(color-stops(#abe337, #e6ffb1));*/ //@btn
-		} 
-	} 
+    // @include linear-gradient(color-stops(#abe337, #e6ffb1)); //@btn
+		}
+	}
 
 .button_alternate,.button_edit {
   @extend .btn;
   @extend input;
   background-color: #fafafa;
-/*  @include linear-gradient(color-stops(#fafafa, $saito_gray_dark));*/ //@btn
+  // @include linear-gradient(color-stops(#fafafa, $saito_gray_dark));  //@btn
   border-color: #cccccc;
   &:active {
-/*    @include linear-gradient(color-stops($saito_gray_dark, #fafafa)); */ //@btn
-                  } }
+    // @include linear-gradient(color-stops($saito_gray_dark, #fafafa));  //@btn
+                } }
 
 .btn_warning {
   @extend input;
   background-color: #a60202;
-/*  @include linear-gradient(color-stops($saito_base_dark, #a60202));*/ //@btn
+  // @include linear-gradient(color-stops($saito_base_dark, #a60202)); //@btn
   border-color: #a60202;
   font-family: inherit;
   color: white;
   font-size: 110%;
   &:active {
-/*    @include linear-gradient(color-stops(#a60202, $saito_base_dark)); */ //@btn
-                      } }
+    // @include linear-gradient(color-stops(#a60202, $saito_base_dark));  //@btn
+                  } }
 
 .button_navigation {
   @extend .btn;
@@ -684,16 +697,11 @@ a.btn {
   @extend input;
   @extend .btn;
 	background-color: $saito_base_dark;
-/*  @include linear-gradient(color-stops($saito_base, $saito_base_dark));*/
+  // @include linear-gradient(color-stops($saito_base, $saito_base_dark)); //@btn
   border: 1px solid $saito_base_dark;
   &:active {
-/*    @include linear-gradient(color-stops($saito_base_dark, $saito_base)); */ //@btn
-                        } }
-
-.icon-remove {
-  // bogus: with it the close buttons do not work
-  position: relative;
-  }
+    // @include linear-gradient(color-stops($saito_base_dark, $saito_base));  //@btn
+                    } }
 
 .btn_info {
   float: left;
@@ -716,7 +724,8 @@ a.btn {
   &:active {
     background-color: $saito_gray_dark; } }
 
-/*back and top wide button start */
+//back and top wide button start
+// -------------------------------------
 .btn_back_l, .btn_top_l {
   height: 100%;
   width: 15px;
@@ -735,9 +744,12 @@ a.btn {
   background-image: image-url("mix_top.png");
   background-repeat: repeat-y; }
 
-/*back and top wide button end */
+  */
 
-/** buttons end ** */
+.icon-remove {
+  // @bogus: with it the close buttons do not work
+  position: relative;
+  }
 
 /*******************************************************************************
  * Buttons Thread Tools

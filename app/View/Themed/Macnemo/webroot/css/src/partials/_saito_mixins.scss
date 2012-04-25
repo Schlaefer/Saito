@@ -106,9 +106,9 @@
 
 // very subtle inset e.g. for the threads on entries/index
 .box-shadow-inset-subtle {
-  @include box-shadow(
+  box-shadow:
     rgba(255,255,255,0.6) 0px 1px 1px,
-    whiteSmoke 0px 1px 1px inset);
+    whiteSmoke 0px 1px 1px inset;
 	}
 
 /******************************************************************************/

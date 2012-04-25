@@ -46,6 +46,16 @@ $link_color: #a60202;
 $layout_min_width: 950px;
 
 /*******************************************************************************
+* Setup and import bootstrap
+******************************************************************************/
+
+/*$btnPrimaryBackground: #9ACD32;*/
+
+@import "bootstrap/variables.scss";
+@import "bootstrap/mixins.scss";
+@import "bootstrap/buttons.scss";
+
+/*******************************************************************************
 * Setup and import blueprint _base.scss
 ******************************************************************************/
 

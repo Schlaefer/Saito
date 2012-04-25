@@ -69,6 +69,16 @@ $border_width:          1px;
 $padding:               10px;
 
 /*******************************************************************************
+* Setup and import bootstrap
+******************************************************************************/
+
+/*$btnPrimaryBackground:  #9ACD32;*/
+
+@import "bootstrap/variables.scss";
+@import "bootstrap/mixins.scss";
+@import "bootstrap/buttons.scss";
+
+/*******************************************************************************
 * Setup and import blueprint _base.scss
 ******************************************************************************/
 
