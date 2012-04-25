@@ -10,7 +10,7 @@
 	<?php if( $CurrentUser->isMod()) : ?>
 		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>">
 			<div class="left <?php echo $entry['Entry']['id'];?>">
-				<div class="img_mod_panel"></div>
+        <i class="icon-edit icon-large"></i>
 			</div>
 			<div class="right">
 				<ul>

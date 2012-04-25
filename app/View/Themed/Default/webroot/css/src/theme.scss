@@ -958,10 +958,11 @@ ul.thread {
   border-width: 0 0 $border_width $border_width;
   border-color: $saito_gray_dark;
   border-style: solid;
+  color: $link_color;
   padding: 5px;
-  margin: -10px -10px 10px 10px;
-  height: 25px;
-  width: 25px;
+  margin: -11px -12px 10px 10px;
+  height: 16px;
+  width: 16px;
   .left {
     width: 25px;
     float: left; }

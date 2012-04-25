@@ -31,11 +31,6 @@ $sprites_image: 'sprited_css_images.png';
   border: none;
 }
 
-.img_mod_panel {
-  @extend .sprites;
-  @include sprite-row(11);
-}
-
 .img_inline_close {
   @extend .sprites;
   @include sprite-row(12);
@@ -45,14 +40,6 @@ $sprites_image: 'sprited_css_images.png';
 	display: inline-block;
 }
 
-
-.img_down {
-  @extend .sprites;
-  @include sprite-row(13);
-	display: inline-block;
-	width: 13px;
-	height: 13px;
-}
 
 .img_close {
   @extend .sprites;

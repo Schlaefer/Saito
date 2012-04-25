@@ -390,9 +390,9 @@ function initViewPosting(id) {
       // ausblenden
       var id = getElementIdFromClassOfObject($(this));
       $('.button_mod_panel.' + id).animate({
-        width: '25px'
+        width: '16px'
       }, function(){
-        $('.button_mod_panel.' + id).css('height', '25px');
+        $('.button_mod_panel.' + id).css('height', '16px');
         $('.button_mod_panel.' + id + ' .right').css({
           display: 'none'
         });
