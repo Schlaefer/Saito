@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-24 12:51+0100\n"
-"PO-Revision-Date: 2012-04-25 13:10+0100\n"
+"PO-Revision-Date: 2012-04-25 14:24+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1546,7 +1546,7 @@ msgstr ""
 
 #: Controller/UsersController.php:257
 msgid "change_password_success"
-msgstr ""
+msgstr "Password was changed."
 
 #: Controller/UsersController.php:302
 msgid "Message was send."

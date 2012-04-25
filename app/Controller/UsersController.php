@@ -254,7 +254,7 @@ class UsersController extends AppController {
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('change_password_success'));
+				$this->Session->setFlash(__('change_password_success'), 'flash/notice');
 				$this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
 			}
 			$this->request->data['User']['id'] = $id;
