@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-24 12:51+0100\n"
-"PO-Revision-Date: 2012-04-24 14:35+0100\n"
+"PO-Revision-Date: 2012-04-24 17:43+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1558,7 +1558,7 @@ msgstr ""
 
 #: Controller/Component/CurrentUserComponent.php:216
 msgid "auth_autherror"
-msgstr ""
+msgstr "Access to this function is restricted!"
 
 #: Lib/SaitoEntry.php:72
 msgid "notice_you_are_editing_as_mod"
