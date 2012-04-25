@@ -117,8 +117,9 @@
 								<?php
 										# @td MCV
 										$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
-										if ($answering_forbidden === 'locked') {
-											echo $this->Html->image('locked.png', array("alt" => 'locked'));
+										if ($answering_forbidden === 'locked') { ?>
+                      <i class="icon-lock icon-huge"></i>
+                    <?
 										} elseif (!$answering_forbidden) {
 											$result =  "scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."'); initViewAnswerForm();";
 
