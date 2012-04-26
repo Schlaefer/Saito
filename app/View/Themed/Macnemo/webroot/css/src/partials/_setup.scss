@@ -43,6 +43,13 @@ $saito_body_background: #f8f8f8;
 $saito_info_text: #6f6f6f; /* light grey */
 $link_color: #a60202;
 
+// color for threads
+// -------------------------------------
+$thread_color_normal:   $link_color;
+$thread_color_new:      #222221;
+$thread_color_actual:   #FF0000;
+
+/* thread and reply links end */
 $layout_min_width: 950px;
 
 /*******************************************************************************

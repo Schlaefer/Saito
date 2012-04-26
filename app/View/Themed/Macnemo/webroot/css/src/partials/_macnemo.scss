@@ -71,3 +71,11 @@ img[src*="gacker_large.png"]:hover {
 	animation-timing-function: ease-in-out;
 	animation-direction: alternate;
 	}
+
+// @td refactor to Default's theme .hero
+#top {
+	background-color: $saito_base_dark;
+	background-image: image-url("bubbles_outer.jpg");
+	background-repeat: repeat-x;
+}
+   
