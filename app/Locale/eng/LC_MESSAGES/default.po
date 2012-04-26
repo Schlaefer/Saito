@@ -1695,7 +1695,7 @@ msgstr "User"
 
 #: View/Helper/UserHHelper.php:99
 msgid "ud_admin"
-msgstr ""
+msgstr "Administrator"
 
 #: View/Helper/UserHHelper.php:114
 #: View/Helper/UserHHelper.php:135
