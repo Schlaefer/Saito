@@ -1,19 +1,15 @@
-@import "partials/_saito_base";
+@import "partials/_setup";
+@import "partials/_saito_mixins";
+@import "partials/_layout";
+@import "partials/_base";
 
 @import "partials/_sprites.scss";
 @import "partials/_markitup";
 @import "partials/_messages";
 
-html, body {
-  height: 100%; 
-	}
-
 body {
   /* don't use this sucker on mobile devices (e.g. iOS */
   /* text-rendering: optimizeLegibility; */
-
-  min-width: $layout_min_width;
-
 	-webkit-tap-highlight-color: rgba(253, 184, 18, 0.4);
 	}
 
@@ -21,34 +17,8 @@ body {
   clear: both;
   @include clearfix; }
 
-h1 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 0.83em; }
-
-h2 {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 0.83em;
-  margin-top: 0; }
-
-p {
-	line-height: 1.5em;
-  margin-top: 0px;
-  margin-bottom: 1em; }
-
-
-.normal {
-  line-height: 19px;
-  max-width: 750px; }
-
 .highlight {
   background-color: #ffff99; }
-
-code, pre, tt {
-  line-height: inherit;
-  font-family: monospace;
-  font-size: 12px; }
 
 /** Allgemeine Schmuckelemente start ** */
 
@@ -61,7 +31,7 @@ ul.style_1 {
 		}
 	}
 
-#session_flash {
+#l-flash-container {
 	/* make left/right same value as #content margin */
   margin: 10px 20px; }
 
@@ -522,9 +492,12 @@ img[src*="gacker_large.png"]:hover {
   padding: 4px; }
 
 .code {
-  font-family: courier-new, courier;
-  background: #f9f9f9; }
+  @extend code;
+  }
 
+.c_bbc_underline {
+  @extends u;
+}
 
 .c_bbc_link-dinfo, .c_bbc_imessage {
 	@extend .info_text;
@@ -1098,3 +1071,4 @@ ul.thread {
 @import "partials/_slidetabs";
 @import "partials/_tablet";
 @import "partials/_jquery-ui";
+@import "partials/_macnemo";

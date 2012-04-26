@@ -1,0 +1,82 @@
+body {
+	background-color: $saito_body_background;
+	font-size: 12px;
+	font-family:  'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+  /* don't use this sucker on mobile devices (e.g. iOS */
+  /* text-rendering: optimizeLegibility; */
+	}
+
+// images
+img {
+  border: 0px; 
+	}
+
+// typography
+h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 0.83em; }
+
+h2 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 0.83em;
+  margin-top: 0; }
+
+p {
+	line-height: 1.5em;
+  margin-top: 0px;
+  margin-bottom: 1em; }
+
+
+strong, b	{ 
+	font-weight: bold; 
+	}
+
+em, i {
+	font-style: italic;
+	}
+
+code, pre, tt {
+  line-height: inherit;
+  font-family: courier-new, courier, monospace;
+  background: #f9f9f9;
+  }
+
+u {
+	text-decoration: underline;
+	}
+
+// standard links
+a {
+	@include link-colors($link_color);
+	text-decoration: none;
+	}
+
+.info_text {
+  color: $saito_info_text; 
+	}
+
+.small {
+	font-size: 90%; 
+	}
+
+.super {
+  font-size: 0.83em;
+  line-height: 0.5em;
+  vertical-align: baseline;
+  position: relative;
+  top: -0.2em; }
+
+.nowrap {
+	white-space: nowrap;
+	}
+
+// text shadow
+.t_shadow {
+	text-shadow: white 0px 1px;
+}
+
+.bg_internal {
+  background-image: inline-image("dots.png");
+}

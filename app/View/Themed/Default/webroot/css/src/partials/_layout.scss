@@ -1,0 +1,47 @@
+html, body {
+  height: 100%;
+	}
+
+body {
+  min-width: $layout_min_width;
+}
+
+// container arround flash messages
+#l-flash-container {
+	/* make left/right same value as #content margin */
+  margin: 10px 20px; }
+
+/*******************************************************************************
+ * Blueprint
+ ******************************************************************************/
+
+form.bp { @include blueprint-form; }
+
+.bp_container {
+	@include container;
+	margin: inherit;
+	// backport from original blueprint framework:
+	// clears out all column floats from last container
+	// for using more than one
+	overflow: visible;
+	&:after {
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden; }
+	max-width: 100%;
+	}
+
+.bp-threeColumn {
+	@extend .bp_container;
+	// put it under bottomnav
+/*	height: 0px;*/
+
+  .left {
+    @include column(8); }
+  .center {
+    @include column(8); }
+  .right {
+    @include column(8, true); }
+	}

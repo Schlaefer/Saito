@@ -53,7 +53,7 @@
 		$emailMessage = $this->Session->flash('email'); 
 		if ($flashMessage || $emailMessage) : 
 		?>
-			<div id="session_flash">
+			<div id="l-flash-container">
 				<?php echo $flashMessage; ?>
 				<?php echo $emailMessage; ?>
 			</div>

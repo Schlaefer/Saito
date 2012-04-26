@@ -99,35 +99,3 @@ $blueprint-grid-margin: 10px;
 $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
 
 @import "blueprint";
-
-form.bp { @include blueprint-form; }
-
-.bp_container {
-	@include container;
-	margin: inherit;
-	// backport from original blueprint framework:
-	// clears out all column floats from last container
-	// for using more than one
-	overflow: visible;
-	&:after {
-		content: ".";
-		display: block;
-		height: 0;
-		clear: both;
-		visibility: hidden; }
-	max-width: 100%;
-	}
-
-.bp-threeColumn {
-	@extend .bp_container;
-	// put it under bottomnav
-/*	height: 0px;*/
-
-  .left {
-    @include column(8); }
-  .center {
-    @include column(8); }
-  .right {
-    @include column(8, true); }
-	}
-
