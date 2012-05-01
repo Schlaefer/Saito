@@ -1,72 +1,49 @@
 /*******************************************************************************
-* Import compass framework
-******************************************************************************/
-
-@import "compass/reset"; 
-@import "compass/utilities/sprites";
-@import "compass/typography/links";
-@import "compass/utilities/general/clearfix";
-@import "compass/css3/box-shadow";
-@import "compass/css3/images";
-@import "compass/css3/opacity";
-@import "compass/css3/transform";
-@import "compass/css3/transition";
-@import "compass/css3/border-radius";
-@import "compass/css3/box-sizing";
-
-/*$experimental-support-for-mozilla: false;*/
-/*$experimental-support-for-webkit: true;*/
-/*$experimental-support-for-opera: false;
-/*$experimental-support-for-microsoft: false;*/
-$experimental-support-for-khtml: false;
-
-/*******************************************************************************
 * Setup basic layout parameters
 ******************************************************************************/
 
 // the grays
 // -------------------------------------
-$saito_gray_light:      #FAFAFA;
-$saito_gray:            #6f6f6f;
-$saito_gray_dark:       #E0E0E0;
-
+$saito_gray_light:      #FAFAFA !default;
+$saito_gray:            #6f6f6f !default;
+$saito_gray_dark:       #E0E0E0 !default;
 
 // base
 // -------------------------------------
-$saito_base_light:      #E6EDF0;
-$saito_base:            #607D86;
-$saito_base_dark:       $saito_base;
+$saito_base_light:      #E6EDF0 !default;
+$saito_base:            #607D86 !default;
+$saito_base_dark:       $saito_base !default;
 
 // accent
 // -------------------------------------
-$saito_accent_light:    $saito_base;
-$saito_accent_dark:     $saito_base;
-$saito_accent2_light:   $saito_base;
-$saito_accent2_dark:    $saito_base;
+$saito_accent_light:    $saito_base !default;
+$saito_accent_dark:     $saito_base !default;
+$saito_accent2_light:   $saito_base !default;
+$saito_accent2_dark:    $saito_base !default;
 
 // color for elements
 // -------------------------------------
-$link_color:            #E74A00;
-$saito_border:          #AEB9BD;
-$saito_info_text:       $saito_gray;
+$link_color:            #E74A00 !default;
+$saito_border:          #AEB9BD !default;
+$saito_info_text:       $saito_gray !default;
 
 // color for threads
 // -------------------------------------
-$thread_color_normal:   #111111;
-$thread_color_new:      $link_color;
-$thread_color_actual:   $link_color * 1.4;
-$thread_color_actual:   #DF0000;
+$thread_color_normal:   #111111 !default;
+$thread_color_new:      $link_color !default;
+$thread_color_actual:   $link_color * 1.4 !default;
+$thread_color_actual:   #DF0000 !default;
 
 // page style
 // -------------------------------------
-$saito_body_background: $saito_gray_light;
-$layout_min_width:      950px;
+$saito_body_background: $saito_gray_light !default;
+$layout_min_width:      950px !default;
 
 // boxes
 // -------------------------------------
-$corner_radius:         3px;
-$border_width:          1px;
-$padding:               10px;
+$corner_radius:         3px !default;
+$border_width:          1px !default;
+$padding:               10px !default;
 
 /*******************************************************************************
 * Setup and import bootstrap
@@ -74,28 +51,3 @@ $padding:               10px;
 
 /*$btnPrimaryBackground:  #9ACD32;*/
 
-@import "bootstrap/variables.scss";
-@import "bootstrap/mixins.scss";
-@import "bootstrap/buttons.scss";
-
-/*******************************************************************************
-* Setup and import blueprint _base.scss
-******************************************************************************/
-
-// This import applies a global reset to any page that imports this stylesheet.
-// schlaefer: deactivated, we already use compass/reset
-// @import "blueprint/reset";
-
-
-// Here is where you can define your constants for your application and to configure the blueprint framework.
-// Feel free to delete these if you want keep the defaults:
-
-$blueprint-grid-columns: 24;
-$blueprint-container-size: 950px;
-$blueprint-grid-margin: 10px;
-
-// Use this to calculate the width based on the total width.
-// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
-$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
-
-@import "blueprint";

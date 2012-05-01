@@ -1,4 +1,5 @@
-@import "partials/_setup";
+@import "partials/_theme_setup";
+@import '../../../../Default/webroot/css/src/partials/_import.scss';
 @import "partials/_saito_mixins";
 
 @import '../../../../Default/webroot/css/src/partials/_layout.scss';
@@ -14,4 +15,4 @@
 @import '../../../../Default/webroot/css/src/partials/_tablet';
 @import '../../../../Default/webroot/css/src/partials/_jquery-ui.scss';
 
-@import "partials/_macnemo";
+@import "partials/_theme";
