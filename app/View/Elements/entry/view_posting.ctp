@@ -119,7 +119,7 @@
 										$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
 										if ($answering_forbidden === 'locked') { ?>
                       <i class="icon-lock icon-huge"></i>
-                    <?
+                    <?php
 										} elseif (!$answering_forbidden) {
 											$result =  "scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."'); initViewAnswerForm();";
 
