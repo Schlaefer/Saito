@@ -29,3 +29,11 @@
 .icon-huge {
   font-size: 2em;
 }
+
+li {
+    .icon-large[class^="icon-"],
+    .icon-large[class*=" icon-"]  {
+        /* 1.5 increased font size for icon-large * 1.25 width */
+        width: auto;
+    }
+}

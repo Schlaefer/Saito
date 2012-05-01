@@ -149,7 +149,7 @@
 											<?php echo $this->Html->link(
 														__('edit_linkname'),
 														array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
-														array ( 'class' => 'button_edit', 'accesskey' => "e" )
+														array ( 'class' => 'btn btn-edit', 'accesskey' => "e" )
 														);
 											?>
 										</span>

@@ -513,130 +513,51 @@ label, .label {
 
 /*******************************************************************************
  * Buttons
+ *
+ * See for bootstrap sass implementation: https://github.com/thomas-mcdonald/bootstrap-sass/blob/master/vendor/assets/stylesheets/bootstrap/_buttons.scss
  ******************************************************************************/
 
 .btn {
   // reset hat input elements ususally take the whole form width
   width: auto;
+  padding: 0.2em 1em;
   }
 
-.btn-primary {
+.btn-submit {
+  background-color: $btnSubmitBackground;
+  @include buttonBackground($btnSubmitBackgroundHighlight, $btnSubmitBackground);
+}
 
+.btn-preview {
+  @extend .btn-small;
+  background-color: $btnPreviewBackground;
+  @include buttonBackground($btnPreviewBackgroundHighlight, $btnPreviewBackground);
+}
+
+.btn-edit {
+  @extend .btn-small;
   }
-  /*
-.btn {
-  color: #333333;
-  text-shadow: #ececec 0px 1px 0px;
-  vertical-align: middle;
-  text-align: center;
-  display: inline-block;
-  width: auto;
-  line-height: normal;
-	box-shadow: rgba(0,0,0,.15) 0 1px 2px 0, rgba(255, 255, 255, .35) 0 0 1px 1px inset;
-  &:active {
-	  box-shadow: rgba(0, 0, 0, .1) 0 0 4px 1px inset;
-		}
-	}
-
-a.btn {
-  @include link-colors(#333333); }
-
-
-.btn_submit {
-  @extend .btn;
-  @extend input;
-  background-color: #abe337;
-//  @include linear-gradient(color-stops(#e6ffb1, #abe337))/ //@btn
-  border-color: $saito_accent2_light;
-  font-size: 110%;
-  font-family: inherit;
-
-  &:active {
-    // @include linear-gradient(color-stops(#abe337, #e6ffb1)); //@btn
-		}
-	}
-
-.button_alternate,.button_edit {
-  @extend .btn;
-  @extend input;
-  background-color: #fafafa;
-  // @include linear-gradient(color-stops(#fafafa, $saito_gray_dark));  //@btn
-  border-color: #cccccc;
-  &:active {
-    // @include linear-gradient(color-stops($saito_gray_dark, #fafafa));  //@btn
-                } }
-
-.btn_warning {
-  @extend input;
-  background-color: #a60202;
-  // @include linear-gradient(color-stops($saito_base_dark, #a60202)); //@btn
-  border-color: #a60202;
-  font-family: inherit;
-  color: white;
-  font-size: 110%;
-  &:active {
-    // @include linear-gradient(color-stops(#a60202, $saito_base_dark));  //@btn
-                  } }
-
-.button_navigation {
-  @extend .btn;
-  @extend input;
-  background-color: none;
-  border-color: #cccccc;
-  margin: 10px; }
-
-.btn_preview {
-  @extend input;
-  @extend .btn;
-	background-color: $saito_base_dark;
-  // @include linear-gradient(color-stops($saito_base, $saito_base_dark)); //@btn
-  border: 1px solid $saito_base_dark;
-  &:active {
-    // @include linear-gradient(color-stops($saito_base_dark, $saito_base));  //@btn
-                    } }
-
-.btn_info {
-  float: left;
-  border: 1px solid #cccccc;
-  border-radius:15px;
-  height: 14px;
-  width: 14px;
-  color: silver;
-  cursor: pointer;
-  display: relative;
-  padding: 0;
-  &:after {
-    content: "i";
-    font-family: Times New Roman, Times, Serif;
-    font-weight: bold;
-    font-style: italic;
-    display: block;
-    text-align: center;
-    width: 14px; }
-  &:active {
-    background-color: $saito_gray_dark; } }
 
 //back and top wide button start
 // -------------------------------------
-.btn_back_l, .btn_top_l {
+.btn-strip {
   height: 100%;
   width: 15px;
   position: absolute;
   border: $border_width solid $saito_gray_dark;
   background-color: $saito_gray_light;
+  background-repeat: repeat-y;
 	@extend .c_all-radius;
   &:active {
     background-color: $saito_gray_dark; } }
 
-.btn_back_l {
+.btn-strip-back {
   background-image: image-url("mix_back.png");
-  background-repeat: repeat-y; }
+  }
 
-.btn_top_l {
+.btn-strip-top {
   background-image: image-url("mix_top.png");
-  background-repeat: repeat-y; }
-
-  */
+  }
 
 .icon-remove {
   // @bogus: with it the close buttons do not work

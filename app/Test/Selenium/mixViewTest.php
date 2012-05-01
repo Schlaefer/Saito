@@ -34,7 +34,7 @@ class mixViewTest extends Saito_SeleniumTestCase {
 		// test if mix view is opened
 		$this->assertTrue($this->isElementPresent("entry_mix"));
 		// test if back button is present
-		$this->assertTrue($this->isElementPresent("//div[@class='btn_back_l']"));
+		$this->assertTrue($this->isElementPresent("//div[@class='btn-strip-back']"));
 
 		// try to answer to posting
 		$this->click("forum_answer_" . $thread->getId());

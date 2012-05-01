@@ -365,8 +365,9 @@ function initViewPosting(id) {
     id_class = '.' + id;
   }
   /*** start close button long ***/
-  $('.btn_top_l').unbind('click').bind("click", function (event) {
-    new ThreadLine(getElementIdFromClassOfObject($(this))).toggle_inline_view();
+  console.log( $('.btn-strip-top'));
+  $('.btn-strip-top').unbind('click').bind("click", function (event) {
+    new ThreadLine($(this).data('id')).toggle_inline_view();
     event.preventDefault();
   });
   /*** end close button long ***/
