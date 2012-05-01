@@ -242,6 +242,6 @@
 		</tr>
 	</table>
 	<br	/>
-	<?php echo $this->Form->submit(__("button_save"), array ( 'id' => 'btn_submit', 'class' => 'btn_submit' )); ?>
+	<?php echo $this->Form->submit(__("button_save"), array ( 'id' => 'btn-submit', 'class' => 'btn btn-submit' )); ?>
 <?php echo $this->Form->end(); ?>
 </div>

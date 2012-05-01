@@ -413,7 +413,7 @@ function initViewAnswerForm() {
 function initEntryAdd() {
 
   // prevent accidently submitting an answer twice
-  $('#content').delegate('.btn_submit', 'click',
+  $('#content').delegate('.btn-submit', 'click',
     function () {
       $(this).attr('disabled', 'disabled');
     }

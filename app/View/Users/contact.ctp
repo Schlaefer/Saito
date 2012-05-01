@@ -8,7 +8,7 @@
 		<?php echo $this->Form->textarea('Message.text', array('style' => 'height: 10em')); ?>
 		<br />
 		<br />
-		<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn_submit')); ?>
+		<?php echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-submit')); ?>
 		<?php echo $this->Form->end(); ?>
 	</div>
 <?php else : ?>

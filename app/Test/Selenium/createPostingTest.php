@@ -54,7 +54,7 @@ class createPostingTest extends Saito_SeleniumTestCase {
 		$this->click("btn_user_edit");
 		$this->waitForPageToLoad("30000");
 		if ( $this->isChecked("UserUserAutomaticalyMarkAsRead") == TRUE ) $this->click("UserUserAutomaticalyMarkAsRead");
-		$this->click("btn_submit");
+		$this->click("btn-submit");
 		$this->waitForPageToLoad("30000");
 
 		//* create new posting
@@ -76,7 +76,7 @@ class createPostingTest extends Saito_SeleniumTestCase {
 		$this->click("btn_user_edit");
 		$this->waitForPageToLoad("30000");
 		if ( $this->isChecked("UserUserAutomaticalyMarkAsRead") == FALSE ) $this->click("UserUserAutomaticalyMarkAsRead");
-		$this->click("btn_submit");
+		$this->click("btn-submit");
 		$this->waitForPageToLoad("30000");
 
 		//* test that automaticaly mark is read is not working

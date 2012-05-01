@@ -133,7 +133,7 @@
 															 array(
 																'onclick' => "entries_add_toggle({$entry['Entry']['id']});",
 																'id' => 'forum_answer_' . $entry['Entry']['id'],
-																'class' => 'btn_submit', 'accesskey' => "a" ,
+																'class' => 'btn btn-submit', 'accesskey' => "a" ,
 																'update' => 'posting_formular_slider_' . $entry['Entry']['id'] ,
 																'indicator' => 'spinner_'. $entry['Entry']['id'],
 																'complete'	=> $result ,

@@ -26,7 +26,7 @@
 				<div style="display: table-row;">
 					<div class="upload_box_footer" style="display: table-cell; ">
 						<div style="position: relative;">
-	<?php echo $this->Form->button(__("upload_btn"), array( 'class' => 'btn_submit', 'type' => 'button' )); ?>
+	<?php echo $this->Form->button(__("upload_btn"), array( 'class' => 'btn btn-submit', 'type' => 'button' )); ?>
 							<div style="position: absolute; z-index: 2; top:0; right: 0; width: 100%; opacity: 0; cursor: pointer; overflow: hidden; " >
 				<?php echo $this->FileUpload->input(array( 'style' => 'width: 150px;', 'onchange' => 'this.form.submit();' )); ?>
 							</div>
@@ -77,7 +77,7 @@
 	<?php
 	$js_r = "var a = greyboxGetParentFunction('greyboxInsertIntoMarkitup') ; a(' [upload]{$image['Upload']['name']}[/upload] ');";
 	echo $this->Html->link(__('upload_btn_insert_into_posting'), '#',
-			array( 'class' => 'btn_submit', 'onclick' => $js_r . 'return false;' ))
+			array( 'class' => 'btn btn-submit', 'onclick' => $js_r . 'return false;' ))
 	?>
 
 					</div>

@@ -14,7 +14,7 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 					'type' => 'get',
 					'class' => 'search_form', 'style' => 'height: 40px;', 'inputDefaults' => array( 'div' => false, 'label' => false ) ));
 			echo $this->Form->submit(__('search_submit'),
-					array( 'div' => false, 'class' => 'btn_submit btn_search_submit' ));
+					array( 'div' => false, 'class' => 'btn btn-submit btn_search_submit' ));
 			?>
 			<div>
 				<?php
@@ -74,7 +74,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 		<div><?php echo $this->Form->input('adv',
 					array( 'type' => 'hidden', 'value' => 1 )); ?> </div>
 		<div>
-<?php echo $this->Form->submit(__('search_submit'), array( 'class' => 'btn_submit' )); ?>
+<?php echo $this->Form->submit(__('search_submit'), array( 'class' => 'btn btn-submit' )); ?>
 			<a href="#" onclick="$('.search_form_wrapper_adv').slideToggle('', function (){$('.search_form_wrapper').slideToggle();}); return false;">
 				&nbsp;<?php echo __('search_simple'); ?>
 			</a>

@@ -94,7 +94,7 @@ endif;
 $this->Form->submit(__('Einfügen'),
 		array( // @lo
 		'style' => 'float: right;',
-		'class' => 'btn_submit',
+		'class' => 'btn btn-submit',
 		'id' => 'markitup_media_btn',
 ));
 ?>
@@ -231,7 +231,7 @@ $this->Form->submit(__('Einfügen'),
 					if ( !$this->request->is('ajax') || (isset($referer_action) && ( $referer_action == 'mix' || $referer_action == 'view' || $referer_action == 'add' ) ) ) {
 						echo $this->Form->submit(__('submit_button'),
 								array(
-								'class' => 'btn_submit',
+								'class' => 'btn btn-submit',
 								'tabindex' => 4,
 								'onclick' => "this.disabled=true; this.form.submit();",
 						));
@@ -241,7 +241,7 @@ $this->Form->submit(__('Einfügen'),
 						if ( $CurrentUser['inline_view_on_click'] ) {
 							$js_r .= "$('.link_show_thread').bind('click', function () { new ThreadLine($(this)[0].id.slice($(this)[0].id.lastIndexOf('_') + 1)).load_inline_view(); return false;} ); ";
 						}
-						$js_r .= "$('.btn_submit').removeAttr('disabled');";
+						$js_r .= "$('.btn.btn-submit').removeAttr('disabled');";
 						echo $this->Ajax->submit(
 								__('submit_button'),
 								array(
@@ -250,8 +250,8 @@ $this->Form->submit(__('Einfügen'),
 										'action' => 'add',
 										$this->request->data['Entry']['id'],
 								),
-								'beforeSubmit' => "$('.btn_submit').attr('disabled', 'disabled');",
-								'class' => 'btn_submit',
+								'beforeSubmit' => "$('.btn.btn-submit').attr('disabled', 'disabled');",
+								'class' => 'btn btn-submit',
 								'tabindex' => 4,
 								'inline' => true,
 								'success' => $js_r,

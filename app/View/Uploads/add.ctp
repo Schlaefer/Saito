@@ -7,7 +7,7 @@
 	</div>
 	<div class="right cell">
 		<?php echo $this->Form->create('Upload', array('action' => 'add', 'type' => 'file', 'inputDefaults' => array('div' => false, 'label' => false))); ?>
-		<?php echo $this->Form->submit(__("upload_btn"), array('class' => 'btn_submit')); ?>
+		<?php echo $this->Form->submit(__("upload_btn"), array('class' => 'btn btn-submit')); ?>
 	</div>
 	<?php echo $this->Form->end(); ?>
 </div>

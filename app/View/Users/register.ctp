@@ -18,7 +18,7 @@
 						 'div' =>  array( 'class' => 'required'),
 						)
 				 );
-		 echo $this->Form->submit(__('register_linkname'), array( 'class'=> 'btn_submit'));
+		 echo $this->Form->submit(__('register_linkname'), array( 'class'=> 'btn btn-submit'));
 		 echo $this->Form->end();
 		?>
 	<?php  endif; ?>

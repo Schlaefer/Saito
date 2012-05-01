@@ -115,7 +115,7 @@
 						<?php echo  $this->Html->link(
 													__('edit_userdata'),
 													array( 'action' => 'edit', $user['User']['id'] ),
-													array( 'id'	=> 'btn_user_edit', 'class' => 'btn_submit' )
+													array( 'id'	=> 'btn_user_edit', 'class' => 'btn btn-submit' )
 										); ?>
 				</div> <!-- c_a_a_b_a c_first_child -->
 				<div class="c_a_a_b_b"> 
