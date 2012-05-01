@@ -521,6 +521,7 @@ label, .label {
   // reset hat input elements ususally take the whole form width
   width: auto;
   padding: 0.2em 1em;
+  @extend .c_all-radius;
   }
 
 .btn-submit {
