@@ -542,20 +542,6 @@ label, .label {
   @extend .btn-small;
   }
 
-// fix for buttongroups in
-// -------------------------------------
-.button_mod_panel {
-  .btn-group .btn {
-    float: none;
-    margin-top: 0;
-  }
-
-  .btn-group:before, .btn-group:after {
-      content: "";
-      display: inline-table;
-  }
-}
-
 //back and top wide button start
 // -------------------------------------
 .btn-strip {
@@ -575,11 +561,6 @@ label, .label {
 
 .btn-strip-top {
   background-image: image-url("mix_top.png");
-  }
-
-.icon-remove-sign {
-  // @bogus: with it the close buttons do not work
-  position: relative;
   }
 
 /*******************************************************************************
@@ -843,16 +824,10 @@ ul.thread {
   /*	overflow: hidden; */ }
 
 .button_mod_panel {
-      .button_mod_panel-text {
-/*        display: none;*/
-      }
-      &:hover .button_mod_panel-text {
-/*        display: inline;*/
-      }
-}
-
-.button_mod_panel {
   float: right;
+  button {
+    margin: 0;
+  }
   ul {
     /* !important: in inline_view on entries_index the tree ul stuff messes in */
     margin: 0 !important;
