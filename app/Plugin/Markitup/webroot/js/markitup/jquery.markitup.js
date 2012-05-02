@@ -517,7 +517,7 @@
 					}
 					if (e.keyCode === 9) { // Tab key
 						if (shiftKey == true || ctrlKey == true || altKey == true) { // Thx Dr Floob.
-							return false; 
+							return true;
 						}
 						if (caretOffset !== -1) {
 							get();
