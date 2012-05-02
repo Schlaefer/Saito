@@ -10,7 +10,7 @@
 	<?php if( $CurrentUser->isMod()) : ?>
 		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>">
         <div class="btn-group">
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown"/>
+          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
             <i class="icon-pencil"></i>
             &nbsp;
             <i class="icon-chevron-down"></i>
