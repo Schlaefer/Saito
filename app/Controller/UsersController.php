@@ -270,30 +270,40 @@ class UsersController extends AppController {
 			$this->redirect('/');
 		}
 
-		//* anonymous users only contact admin
-		if ( !$this->CurrentUser->getId() && $id != 1 ) :
-			$this->redirect('/');
+
+		if ( !$this->CurrentUser->getId() ) :
+      if ( $id != 1 ) :
+        //* anonymous users only contact admin
+        $this->redirect('/');
+      else :
+        $sender['User'] = array(
+            'username'    => 'anonymous',
+            'user_email'  => Configure::read('Saito.Settings.forum_email'),
+        );
+      endif;
+    else:
+      $sender = $this->CurrentUser->getId();
 		endif;
 
 		$this->User->id = $id;
 		$this->User->contain();
-		$user =  $this->User->read();
-		if (!$user || (!$user['User']['personal_messages'] && $id !=1)) :
+		$recipient =  $this->User->read();
+		if (!$recipient || (!$recipient['User']['personal_messages'] && $id !=1)) :
 			$this->redirect('/');
 		endif;
 
 		$send = false;
 
-		if ($this->request->data) {
+		if ($this->request->data) :
 			$subject = rtrim($this->request->data['Message']['subject']);
-			if (empty($subject)) {
+			if (empty($subject)) :
 				$this->Session->setFlash(__('error_subject_empty'));
-				$this->request->data = array_merge($this->request->data, $user);
-			} else {
+				$this->request->data = array_merge($this->request->data, $recipient);
+		  else :
 				try {
 					$this->_email(array(
-							'recipient' => $user,
-							'sender' 		=> $this->CurrentUser->getId(),
+							'recipient' => $recipient,
+							'sender' 		=> $sender,
 							'subject' 	=> $subject,
 							'message'		=> $this->request->data['Message']['text'],
 							'template'	=> 'user_contact'
@@ -302,13 +312,13 @@ class UsersController extends AppController {
 					$this->Session->setFlash(__('Message was send.'), 'flash/notice');
 						$this->redirect('/');
 				} catch (Exception $exc) {
-					$this->Session->setFlash(__('Error, message couldn\'t be send!'), 'flash/error');
+					$this->Session->setFlash(__('Error, message couldn\'t be send! ' . $exc->getMessage()), 'flash/error');
 				} // end try
-			} // end if
-		} // end if($this->request->data)
-		else {
-			$this->request->data = $user;
-		}
+			endif;
+			$this->request->data = $this->request->data + $recipient;
+		else :
+			$this->request->data = $recipient;
+	  endif;
 
 		$this->set('send', $send);
 	} // end contact()
