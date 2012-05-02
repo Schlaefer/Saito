@@ -2,6 +2,7 @@
 	### setup ###
 	if (!isset($level)) $level = 0;
 	if (!isset($last_action)) $last_action = null;
+  $editLinkIsShow = FALSE;
 	###
 ?>
 <div class="a_a">
@@ -15,7 +16,10 @@
             <i class="icon-chevron-down"></i>
             </button>
           <ul class="dropdown-menu pull-right">
-					<?php if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) : ?>
+					<?php
+            if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) :
+              $editLinkIsShow = TRUE; 
+            ?>
 						<li>
 							<?php echo $this->Html->link(
 											__('edit_linkname'),
@@ -24,9 +28,11 @@
 										);
 							?>
 						</li>
-            <li class="divider"></li>
 					<?php endif; ?>
 					<?php if($entry['Entry']['pid'] == 0) : # @td these are thread functions and maybe go to another panel ?>
+            <?php if ($editLinkIsShow): ?>
+              <li class="divider"></li>
+            <?php endif; ?>
 						<li>
 							<?php
 								echo $this->Ajax->link(
