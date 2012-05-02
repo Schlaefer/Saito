@@ -1,1 +1,5 @@
-textarea{width:200px}
+/*@import "screen";*/
+/* line 3, ../src/iphone.scss */
+textarea {
+  width: 200px;
+}

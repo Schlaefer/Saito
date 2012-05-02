@@ -12,7 +12,7 @@ relative_assets = true
 
 debug_info = true
 line_numbers = true
-output_style = :compressed
+# output_style = :compressed
 
 # Eliminate query string on the end of image-url
 asset_cache_buster do |path, file|
