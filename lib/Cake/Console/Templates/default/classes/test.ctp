@@ -6,21 +6,22 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Console.Templates.default.classes
  * @since         CakePHP(tm) v 1.3
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 echo "<?php\n";
-echo "/* ". $className ." Test cases generated on: " . date('Y-m-d H:i:s') . " : ". time() . "*/\n";
 ?>
-App::uses('<?php echo $fullClassName; ?>', '<?php echo $realType; ?>');
+<?php foreach ($uses as $dependency): ?>
+App::uses('<?php echo $dependency[0]; ?>', '<?php echo $dependency[1]; ?>');
+<?php endforeach; ?>
 
 <?php if ($mock and strtolower($type) == 'controller'): ?>
 /**
@@ -70,8 +71,9 @@ class <?php echo $fullClassName; ?>TestCase extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-
+<?php echo $preConstruct ? "\t\t" . $preConstruct : ''; ?>
 		$this-><?php echo $className . ' = ' . $construction; ?>
+<?php echo $postConstruct ? "\t\t" . $postConstruct : ''; ?>
 	}
 
 /**
@@ -87,13 +89,12 @@ class <?php echo $fullClassName; ?>TestCase extends CakeTestCase {
 
 <?php foreach ($methods as $method): ?>
 /**
- * test<?php echo Inflector::classify($method); ?> method
+ * test<?php echo Inflector::camelize($method); ?> method
  *
  * @return void
  */
-	public function test<?php echo Inflector::classify($method); ?>() {
+	public function test<?php echo Inflector::camelize($method); ?>() {
 
 	}
-
 <?php endforeach;?>
 }

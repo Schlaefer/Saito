@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Datasource.Session
  * @since         CakePHP(tm) v 2.0
@@ -18,6 +18,7 @@
  */
 
 App::uses('Cache', 'Cache');
+App::uses('CakeSessionHandlerInterface', 'Model/Datasource/Session');
 
 /**
  * CacheSession provides method for saving sessions into a Cache engine. Used with CakeSession
@@ -26,6 +27,7 @@ App::uses('Cache', 'Cache');
  * @see CakeSession for configuration information.
  */
 class CacheSession implements CakeSessionHandlerInterface {
+
 /**
  * Method called on open of a database session.
  *
@@ -97,4 +99,5 @@ class CacheSession implements CakeSessionHandlerInterface {
 	public function __destruct() {
 		session_write_close();
 	}
+
 }

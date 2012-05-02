@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title><?php echo $title_for_layout ?></title>
+		<title><?php echo $this->fetch('title'); ?></title>
 		<?php echo $this->Html->charset(); ?>
 
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -62,7 +62,7 @@
 				<div class="span1">&nbsp;</div>
 				<div class="span10">
 					<?php echo $this->Html->getCrumbs(' > '); ?>
-					<?php echo $content_for_layout ?>
+          <?php echo $this->fetch('content'); ?>
 				</div>
 				<div class="span1">&nbsp;</div>
 			</div>

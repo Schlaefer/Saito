@@ -7,12 +7,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake
  * @since         CakePHP(tm) v 0.2.9
@@ -44,7 +44,7 @@ function config() {
 	$args = func_get_args();
 	foreach ($args as $arg) {
 		if (file_exists(APP . 'Config' . DS . $arg . '.php')) {
-			include_once(APP . 'Config' . DS . $arg . '.php');
+			include_once APP . 'Config' . DS . $arg . '.php';
 
 			if (count($args) == 1) {
 				return true;
@@ -71,13 +71,14 @@ function config() {
  */
 function debug($var = false, $showHtml = null, $showFrom = true) {
 	if (Configure::read('debug') > 0) {
+		App::uses('Debugger', 'Utility');
 		$file = '';
 		$line = '';
 		$lineInfo = '';
 		if ($showFrom) {
-			$calledFrom = debug_backtrace();
-			$file = substr(str_ireplace(ROOT, '', $calledFrom[0]['file']), 1);
-			$line = $calledFrom[0]['line'];
+			$trace = Debugger::trace(array('start' => 1, 'depth' => 2, 'format' => 'array'));
+			$file = substr($trace[0]['file'], strlen(ROOT));
+			$line = $trace[0]['line'];
 		}
 		$html = <<<HTML
 <div class="cake-debug-output">
@@ -103,7 +104,7 @@ TEXT;
 		if ($showHtml === null && $template !== $text) {
 			$showHtml = true;
 		}
-		$var = print_r($var, true);
+		$var = Debugger::exportVar($var, 25);
 		if ($showHtml) {
 			$template = $html;
 			$var = h($var);
@@ -117,16 +118,16 @@ TEXT;
 
 if (!function_exists('sortByKey')) {
 
-	/**
-	 * Sorts given $array by key $sortby.
-	 *
-	 * @param array $array Array to sort
-	 * @param string $sortby Sort by this key
-	 * @param string $order  Sort order asc/desc (ascending or descending).
-	 * @param integer $type Type of sorting to perform
-	 * @return mixed Sorted array
-	 * @link http://book.cakephp.org/2.0/en/core-libraries/global-constants-and-functions.html#sortByKey
-	 */
+/**
+ * Sorts given $array by key $sortby.
+ *
+ * @param array $array Array to sort
+ * @param string $sortby Sort by this key
+ * @param string $order  Sort order asc/desc (ascending or descending).
+ * @param integer $type Type of sorting to perform
+ * @return mixed Sorted array
+ * @link http://book.cakephp.org/2.0/en/core-libraries/global-constants-and-functions.html#sortByKey
+ */
 	function sortByKey(&$array, $sortby, $order = 'asc', $type = SORT_NUMERIC) {
 		if (!is_array($array)) {
 			return null;
@@ -147,6 +148,7 @@ if (!function_exists('sortByKey')) {
 		}
 		return $out;
 	}
+
 }
 
 /**
@@ -169,7 +171,7 @@ function h($text, $double = true, $charset = null) {
 		return $texts;
 	} elseif (is_object($text)) {
 		if (method_exists($text, '__toString')) {
-			$text = (string) $text;
+			$text = (string)$text;
 		} else {
 			$text = '(object)' . get_class($text);
 		}
@@ -306,7 +308,7 @@ function env($key) {
 			if (!strpos($name, '.php')) {
 				$offset = 4;
 			}
-			return substr($filename, 0, strlen($filename) - (strlen($name) + $offset));
+			return substr($filename, 0, -(strlen($name) + $offset));
 			break;
 		case 'PHP_SELF':
 			return str_replace(env('DOCUMENT_ROOT'), '', env('SCRIPT_FILENAME'));

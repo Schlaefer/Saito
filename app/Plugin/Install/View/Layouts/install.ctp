@@ -25,7 +25,7 @@
 			<div id="install">
 			<?php
 				echo $this->Session->flash();
-				echo $content_for_layout;
+        echo $this->fetch('content');
 			?>
 			</div>
 		</div>

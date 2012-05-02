@@ -52,7 +52,7 @@
 								array(
 								'escape' => false,
 								'title' => __('upload_btn_delete_upload'),
-								), 'Wirklich löschen?');
+								), 'Wirklich löschen?'); // @lo
 						?>
 					</div>
 				</div>

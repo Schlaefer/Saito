@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Model.Datasource.Database
  * @since         CakePHP(tm) v 1.2.0
@@ -42,7 +42,7 @@ class DboSqliteTestDb extends Sqlite {
  * @param mixed $sql
  * @return void
  */
-	function _execute($sql, $params = array(), $prepareOptions = array()) {
+	protected function _execute($sql, $params = array(), $prepareOptions = array()) {
 		$this->simulated[] = $sql;
 		return null;
 	}
@@ -55,6 +55,7 @@ class DboSqliteTestDb extends Sqlite {
 	public function getLastQuery() {
 		return $this->simulated[count($this->simulated) - 1];
 	}
+
 }
 
 /**
@@ -128,7 +129,7 @@ class SqliteTest extends CakeTestCase {
  * @return void
  */
 	public function testIndex() {
-		$name = $this->Dbo->fullTableName('with_a_key');
+		$name = $this->Dbo->fullTableName('with_a_key', false, false);
 		$this->Dbo->query('CREATE TABLE ' . $name . ' ("id" int(11) PRIMARY KEY, "bool" int(1), "small_char" varchar(50), "description" varchar(40) );');
 		$this->Dbo->query('CREATE INDEX pointless_bool ON ' . $name . '("bool")');
 		$this->Dbo->query('CREATE UNIQUE INDEX char_index ON ' . $name . '("small_char")');
@@ -170,13 +171,13 @@ class SqliteTest extends CakeTestCase {
 		$db->execute("CREATE TABLE test_list (id VARCHAR(255));");
 
 		$db->cacheSources = true;
-		$this->assertEquals($db->listSources(), array('test_list'));
+		$this->assertEquals(array('test_list'), $db->listSources());
 		$db->cacheSources = false;
 
 		$fileName = '_' . preg_replace('/[^A-Za-z0-9_\-+]/', '_', TMP . $dbName) . '_list';
 
 		$result = Cache::read($fileName, '_cake_model_');
-		$this->assertEquals($result, array('test_list'));
+		$this->assertEquals(array('test_list'), $result);
 
 		Cache::delete($fileName, '_cake_model_');
 		Configure::write('Cache.disable', true);
@@ -278,13 +279,13 @@ class SqliteTest extends CakeTestCase {
 			'user' => array(
 				'type' => 'string',
 				'length' => 255,
-				'null' => false,
+				'null' => true,
 				'default' => null
 			),
 			'password' => array(
 				'type' => 'string',
 				'length' => 255,
-				'null' => false,
+				'null' => true,
 				'default' => null
 			),
 			'created' => array(
@@ -326,7 +327,7 @@ class SqliteTest extends CakeTestCase {
 			'default' => null,
 			'key' => 'primary',
 		);
-		$this->assertEquals($result['id'], $expected);
+		$this->assertEquals($expected, $result['id']);
 		$this->Dbo->query('DROP TABLE ' . $tableName);
 
 		$tableName = 'uuid_tests';
@@ -340,7 +341,7 @@ class SqliteTest extends CakeTestCase {
 			'default' => null,
 			'key' => 'primary',
 		);
-		$this->assertEquals($result['id'], $expected);
+		$this->assertEquals($expected, $result['id']);
 		$this->Dbo->query('DROP TABLE ' . $tableName);
 	}
 

@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 0.2.9
@@ -110,9 +110,7 @@ class File {
 	public function create() {
 		$dir = $this->Folder->pwd();
 		if (is_dir($dir) && is_writable($dir) && !$this->exists()) {
-			$old = umask(0);
 			if (touch($this->path)) {
-				umask($old);
 				return true;
 			}
 		}
@@ -291,9 +289,16 @@ class File {
 	}
 
 /**
- * Returns the File info.
+ * Returns the File info as an array with the following keys:
  *
- * @return string The File extension
+ * - dirname
+ * - basename
+ * - extension
+ * - filename
+ * - filesize
+ * - mime
+ *
+ * @return array File information.
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::info
  */
 	public function info() {
@@ -302,6 +307,12 @@ class File {
 		}
 		if (!isset($this->info['filename'])) {
 			$this->info['filename'] = $this->name();
+		}
+		if (!isset($this->info['filesize'])) {
+			$this->info['filesize'] = $this->size();
+		}
+		if (!isset($this->info['mime'])) {
+			$this->info['mime'] = $this->mime();
 		}
 		return $this->info;
 	}
@@ -515,7 +526,7 @@ class File {
  * @return Folder Current folder
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::Folder
  */
-	public function &Folder() {
+	public function &folder() {
 		return $this->Folder;
 	}
 
@@ -533,4 +544,25 @@ class File {
 		}
 		return copy($this->path, $dest);
 	}
+
+/**
+ * Get the mime type of the file.  Uses the finfo extension if 
+ * its available, otherwise falls back to mime_content_type
+ *
+ * @return false|string The mimetype of the file, or false if reading fails.
+ */
+	public function mime() {
+		if (!$this->exists()) {
+			return false;
+		}
+		if (function_exists('finfo_open')) {
+			$finfo = finfo_open(FILEINFO_MIME);
+			list($type, $charset) = explode(';', finfo_file($finfo, $this->pwd()));
+			return $type;
+		} elseif (function_exists('mime_content_type')) {
+			return mime_content_type($this->pwd());
+		}
+		return false;
+	}
+
 }

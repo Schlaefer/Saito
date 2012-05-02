@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 1.2.0
@@ -30,9 +30,12 @@ class Set {
  * This function can be thought of as a hybrid between PHP's array_merge and array_merge_recursive. The difference
  * to the two is that if an array key contains another array then the function behaves recursive (unlike array_merge)
  * but does not do if for keys containing strings (unlike array_merge_recursive).
- * See the unit test for more information.
  *
- * Note: This function will work with an unlimited amount of arguments and typecasts non-array parameters into arrays.
+ * Since this method emulates `array_merge`, it will re-order numeric keys.  When combined with out of
+ * order numeric keys containing arrays, results can be lossy.
+ *
+ * Note: This function will work with an unlimited amount of arguments and typecasts non-array
+ * parameters into arrays.
  *
  * @param array $arr1 Array to be merged
  * @param array $arr2 Array to merge with
@@ -44,7 +47,7 @@ class Set {
 
 		$r = (array)current($args);
 		while (($arg = next($args)) !== false) {
-			foreach ((array)$arg as $key => $val)	 {
+			foreach ((array)$arg as $key => $val) {
 				if (!empty($r[$key]) && is_array($r[$key]) && is_array($val)) {
 					$r[$key] = Set::merge($r[$key], $val);
 				} elseif (is_int($key)) {
@@ -172,9 +175,11 @@ class Set {
 					}
 				} elseif (is_array($value)) {
 					if ($primary === true) {
+						// @codingStandardsIgnoreStart Legacy junk
 						if (!isset($out->_name_)) {
 							$out->_name_ = $key;
 						}
+						// @codingStandardsIgnoreEnd
 						$primary = false;
 						foreach ($value as $key2 => $value2) {
 							$out->{$key2} = Set::_map($value2, true);
@@ -316,8 +321,9 @@ class Set {
 	}
 
 /**
- * Implements partial support for XPath 2.0. If $path is an array or $data is empty it the call
- * is delegated to Set::classicExtract.
+ * Implements partial support for XPath 2.0. If $path does not contain a '/' the call
+ * is delegated to Set::classicExtract(). Also the $path and $data arguments are
+ * reversible.
  *
  * #### Currently implemented selectors:
  *
@@ -474,7 +480,7 @@ class Set {
 			if (empty($tokens)) {
 				break;
 			}
-		} while(1);
+		} while (1);
 
 		$r = array();
 
@@ -680,7 +686,7 @@ class Set {
 				$_list =& $_list[$key];
 			}
 			if (!is_array($_list)) {
-				return array();
+				$_list = array();
 			}
 		}
 		return $list;
@@ -757,7 +763,7 @@ class Set {
  * @param mixed $val1 First value
  * @param mixed $val2 Second value
  * @return array Returns the key => value pairs that are not common in $val1 and $val2
- * The expression for this function is ($val1 - $val2) + ($val2 - ($val1 - $val2))
+ * The expression for this function is($val1 - $val2) + ($val2 - ($val1 - $val2))
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/set.html#Set::diff
  */
 	public static function diff($val1, $val2 = null) {
@@ -960,7 +966,7 @@ class Set {
 		$out = array();
 		if ($object instanceof SimpleXMLElement) {
 			return Xml::toArray($object);
-		} else if (is_object($object)) {
+		} elseif (is_object($object)) {
 			$keys = get_object_vars($object);
 			if (isset($keys['_name_'])) {
 				$identity = $keys['_name_'];
@@ -971,11 +977,13 @@ class Set {
 				if (is_array($value)) {
 					$new[$key] = (array)Set::reverse($value);
 				} else {
+					// @codingStandardsIgnoreStart Legacy junk
 					if (isset($value->_name_)) {
 						$new = array_merge($new, Set::reverse($value));
 					} else {
 						$new[$key] = Set::reverse($value);
 					}
+					// @codingStandardsIgnoreEnd
 				}
 			}
 			if (isset($identity)) {
@@ -1062,8 +1070,10 @@ class Set {
  */
 	public static function sort($data, $path, $dir) {
 		$originalKeys = array_keys($data);
+		$numeric = false;
 		if (is_numeric(implode('', $originalKeys))) {
 			$data = array_values($data);
+			$numeric = true;
 		}
 		$result = Set::_flatten(Set::extract($data, $path));
 		list($keys, $values) = array(Set::extract($result, '{n}.id'), Set::extract($result, '{n}.value'));
@@ -1079,7 +1089,15 @@ class Set {
 		$keys = array_unique($keys);
 
 		foreach ($keys as $k) {
-			$sorted[] = $data[$k];
+			if ($numeric) {
+				$sorted[] = $data[$k];
+			} else {
+				if (isset($originalKeys[$k])) {
+					$sorted[$originalKeys[$k]] = $data[$originalKeys[$k]];
+				} else {
+					$sorted[$k] = $data[$k];
+				}
+			}
 		}
 		return $sorted;
 	}
@@ -1114,4 +1132,101 @@ class Set {
 		}
 		return null;
 	}
+
+/**
+ * Takes in a flat array and returns a nested array
+ *
+ * @param mixed $data
+ * @param array $options Options are:
+ *      children   - the key name to use in the resultset for children
+ *      idPath     - the path to a key that identifies each entry
+ *      parentPath - the path to a key that identifies the parent of each entry
+ *      root       - the id of the desired top-most result
+ * @return array of results, nested
+ * @link
+ */
+	public static function nest($data, $options = array()) {
+		if (!$data) {
+			return $data;
+		}
+
+		$alias = key(current($data));
+		$options += array(
+			'idPath' => "/$alias/id",
+			'parentPath' => "/$alias/parent_id",
+			'children' => 'children',
+			'root' => null
+		);
+
+		$return = $idMap = array();
+		$ids = Set::extract($data, $options['idPath']);
+		$idKeys = explode('/', trim($options['idPath'], '/'));
+		$parentKeys = explode('/', trim($options['parentPath'], '/'));
+
+		foreach ($data as $result) {
+			$result[$options['children']] = array();
+
+			$id = Set::get($result, $idKeys);
+			$parentId = Set::get($result, $parentKeys);
+
+			if (isset($idMap[$id][$options['children']])) {
+				$idMap[$id] = array_merge($result, (array)$idMap[$id]);
+			} else {
+				$idMap[$id] = array_merge($result, array($options['children'] => array()));
+			}
+			if (!$parentId || !in_array($parentId, $ids)) {
+				$return[] =& $idMap[$id];
+			} else {
+				$idMap[$parentId][$options['children']][] =& $idMap[$id];
+			}
+		}
+
+		if ($options['root']) {
+			$root = $options['root'];
+		} else {
+			$root = Set::get($return[0], $parentKeys);
+		}
+
+		foreach ($return as $i => $result) {
+			$id = Set::get($result, $idKeys);
+			$parentId = Set::get($result, $parentKeys);
+			if ($id !== $root && $parentId != $root) {
+				unset($return[$i]);
+			}
+		}
+
+		return array_values($return);
+	}
+
+/**
+ * Return the value at the specified position
+ *
+ * @param mixed $input an array
+ * @param mixed $path string or array of array keys
+ * @return the value at the specified position or null if it doesn't exist
+ */
+	public static function get($input, $path = null) {
+		if (is_string($path)) {
+			if (strpos($path, '/') !== false) {
+				$keys = explode('/', trim($path, '/'));
+			} else {
+				$keys = explode('.', trim($path, '.'));
+			}
+		} else {
+			$keys = $path;
+		}
+		if (!$keys) {
+			return $input;
+		}
+
+		$return = $input;
+		foreach ($keys as $key) {
+			if (!isset($return[$key])) {
+				return null;
+			}
+			$return = $return[$key];
+		}
+		return $return;
+	}
+
 }

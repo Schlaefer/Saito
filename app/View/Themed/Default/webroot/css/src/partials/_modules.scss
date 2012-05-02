@@ -868,20 +868,18 @@ ul.thread {
   outline-width: 0; }
 
 .btn_search_submit {
-  background-color: #fafafa;
   /* workaround for firefox font bug */
   /*		font-family: Helvetica, Arial, Sans-Serif; */
   float: right;
   margin: 0;
   height: 100%;
-  border-color: #a8a8a8;
+  font-size: 20px;
   border-radius:0;
   border-top-right-radius:$corner_radius;
   border-bottom-right-radius:$corner_radius;
   white-space: nowrap;
   cursor: pointer;
-  &:active {
-    background-color: #eeeeee; } }
+  }
 
 .btn_search_header {
   width: 24px;
@@ -895,3 +893,58 @@ ul.thread {
   margin-right: -1px !important; }
 
 /** search end ** */
+
+/*** entry_search start ***/
+#entry_search {
+	.search_form_wrapper {
+		display: table;
+		width: 100%;
+		margin-bottom: 20px;
+	  vertical-align: middle;
+
+		form {
+			font-size: 20px;
+		}
+	}
+
+	.search_form_wrapper_adv {
+		@extend .box_style_2;
+		@extend .box_layout_1;
+		margin-bottom: 20px;
+	}
+
+	.search_form_wrapper > div {
+		display: table-cell;
+		padding: 0 5px;
+	  vertical-align: middle;
+	}
+
+	form {
+		width: 100%;
+	}
+
+	.search_results {
+		@extend .box_style_1;
+
+		.header {
+			@extend .box_layout_1;
+			@extend .header_style_1;
+		}
+
+		.content {
+			@extend .box_layout_1;
+
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+
+				li {
+					margin: 0.2em 0;
+				}
+			}
+		}
+	}
+}
+
+/*** entry_search end ***/

@@ -1,16 +1,12 @@
 <?php
 /**
- * Convenience class for handling directories.
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 0.2.9
@@ -192,7 +188,7 @@ class Folder {
  */
 	public function find($regexpPattern = '.*', $sort = false) {
 		list($dirs, $files) = $this->read($sort);
-		return array_values(preg_grep('/^' . $regexpPattern . '$/i', $files)); ;
+		return array_values(preg_grep('/^' . $regexpPattern . '$/i', $files));
 	}
 
 /**
@@ -326,7 +322,7 @@ class Folder {
  * Returns true if the File is in given path.
  *
  * @param string $path The path to check that the current pwd() resides with in.
- * @param boolean $reverse
+ * @param boolean $reverse Reverse the search, check that pwd() resides within $path.
  * @return boolean
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::inPath
  */
@@ -398,28 +394,28 @@ class Folder {
  * Returns an array of nested directories and files in each directory
  *
  * @param string $path the directory path to build the tree from
- * @param mixed $exceptions Array of files to exclude, false to exclude dot files.
- * @param string $type either file or dir. null returns both files and directories
+ * @param mixed $exceptions Either an array of files/folder to exclude
+ *   or boolean true to not grab dot files/folders
+ * @param string $type either 'file' or 'dir'. null returns both files and directories
  * @return mixed array of nested directories and files in each directory
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::tree
  */
-	public function tree($path = null, $exceptions = true, $type = null) {
+	public function tree($path = null, $exceptions = false, $type = null) {
 		if ($path == null) {
 			$path = $this->path;
 		}
 		$files = array();
 		$directories = array($path);
-		$skipHidden = false;
 
-		if ($exceptions === false) {
-			$skipHidden = true;
-		}
 		if (is_array($exceptions)) {
 			$exceptions = array_flip($exceptions);
-			if (isset($exceptions['.'])) {
-				$skipHidden = true;
-				unset($exceptions['.']);
-			}
+		}
+		$skipHidden = false;
+		if ($exceptions === true) {
+			$skipHidden = true;
+		} elseif (isset($exceptions['.'])) {
+			$skipHidden = true;
+			unset($exceptions['.']);
 		}
 
 		try {
@@ -431,7 +427,7 @@ class Folder {
 			}
 			return array();
 		}
-		$pathLength = strlen($path);
+
 		foreach ($iterator as $itemPath => $fsIterator) {
 			if ($skipHidden) {
 				$subPathName = $fsIterator->getSubPathname();
@@ -457,20 +453,6 @@ class Folder {
 			return $directories;
 		}
 		return $files;
-	}
-
-/**
- * Private method to list directories and files in each directory
- *
- * @param string $path The Path to read.
- * @param mixed $exceptions Array of files to exclude from the read that will be performed.
- * @return void
- */
-	protected function _tree($path, $exceptions) {
-		$this->path = $path;
-		list($dirs, $files) = $this->read(false, $exceptions, true);
-		$this->_directories = array_merge($this->_directories, $dirs);
-		$this->_files = array_merge($this->_files, $files);
 	}
 
 /**
@@ -566,36 +548,38 @@ class Folder {
 			return null;
 		}
 		$path = Folder::slashTerm($path);
-		if (is_dir($path) === true) {
-			$normalFiles = glob($path . '*');
-			$hiddenFiles = glob($path . '\.?*');
+		if (is_dir($path)) {
+			try {
+				$directory = new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::CURRENT_AS_SELF);
+				$iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::CHILD_FIRST);
+			} catch (Exception $e) {
+				return false;
+			}
 
-			$normalFiles = $normalFiles ? $normalFiles : array();
-			$hiddenFiles = $hiddenFiles ? $hiddenFiles : array();
-
-			$files = array_merge($normalFiles, $hiddenFiles);
-			if (is_array($files)) {
-				foreach ($files as $file) {
-					if (preg_match('/(\.|\.\.)$/', $file)) {
-						continue;
+			foreach ($iterator as $item) {
+				$filePath = $item->getPathname();
+				if ($item->isFile() || $item->isLink()) {
+					if (@unlink($filePath)) {
+						$this->_messages[] = __d('cake_dev', '%s removed', $filePath);
+					} else {
+						$this->_errors[] = __d('cake_dev', '%s NOT removed', $filePath);
 					}
-					if (is_file($file) === true) {
-						if (@unlink($file)) {
-							$this->_messages[] = __d('cake_dev', '%s removed', $file);
-						} else {
-							$this->_errors[] = __d('cake_dev', '%s NOT removed', $file);
-						}
-					} elseif (is_dir($file) === true && $this->delete($file) === false) {
+				} elseif ($item->isDir() && !$item->isDot()) {
+					if (@rmdir($filePath)) {
+						$this->_messages[] = __d('cake_dev', '%s removed', $filePath);
+					} else {
+						$this->_errors[] = __d('cake_dev', '%s NOT removed', $filePath);
 						return false;
 					}
 				}
 			}
-			$path = substr($path, 0, strlen($path) - 1);
-			if (rmdir($path) === false) {
+
+			$path = rtrim($path, DS);
+			if (@rmdir($path)) {
+				$this->_messages[] = __d('cake_dev', '%s removed', $path);
+			} else {
 				$this->_errors[] = __d('cake_dev', '%s NOT removed', $path);
 				return false;
-			} else {
-				$this->_messages[] = __d('cake_dev', '%s removed', $path);
 			}
 		}
 		return true;
@@ -762,7 +746,7 @@ class Folder {
 			$newpath = DS;
 		}
 
-		while (($part = array_shift($parts)) !== NULL) {
+		while (($part = array_shift($parts)) !== null) {
 			if ($part === '.' || $part === '') {
 				continue;
 			}
@@ -792,4 +776,5 @@ class Folder {
 		$lastChar = $path[strlen($path) - 1];
 		return $lastChar === '/' || $lastChar === '\\';
 	}
+
 }

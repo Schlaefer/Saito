@@ -60,7 +60,7 @@
 		<?php endif; ?>
 		<?php echo $this->element('layout/slidetabs'); ?>
 		<div id="content">
-				<?php echo $content_for_layout ?>
+				<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer_pinned">
 			<div id="bottomnav"  >
@@ -115,7 +115,7 @@
 						);
 			endif;
 		?>
-		<?php echo $scripts_for_layout; ?>
+		<?php echo $this->fetch('script'); ?>
 		<?php echo $this->Js->writeBuffer();?>
 		<div class='clearfix'></div>
 		<?php echo $this->Stopwatch->getResult();?>

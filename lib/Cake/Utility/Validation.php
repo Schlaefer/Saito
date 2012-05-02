@@ -5,12 +5,12 @@
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 1.2.0.3830
@@ -382,9 +382,9 @@ class Validation {
 	public static function decimal($check, $places = null, $regex = null) {
 		if (is_null($regex)) {
 			if (is_null($places)) {
-				$regex = '/^[-+]?[0-9]*\\.{1}[0-9]+(?:[eE][-+]?[0-9]+)?$/';
+				$regex = '/^[-+]?[0-9]*(\\.{1}[0-9]+(?:[eE][-+]?[0-9]+)?)?$/';
 			} else {
-				$regex = '/^[-+]?[0-9]*\\.{1}[0-9]{' . $places . '}$/';
+				$regex = '/^[-+]?[0-9]*(\\.{1}[0-9]{' . $places . '})?$/';
 			}
 		}
 		return self::_check($check, $regex);
@@ -544,7 +544,7 @@ class Validation {
 		}
 		if ($options['in'] && is_array($options['in'])) {
 			foreach ($check as $val) {
-				if (!in_array($val, $options['in'])) {
+				if (!in_array($val, $options['in'], true)) {
 					return false;
 				}
 			}
@@ -580,7 +580,8 @@ class Validation {
 				case 'us':
 				case 'all':
 				case 'can':
-				// includes all NANPA members. see http://en.wikipedia.org/wiki/North_American_Numbering_Plan#List_of_NANPA_countries_and_territories
+					// includes all NANPA members.
+					// see http://en.wikipedia.org/wiki/North_American_Numbering_Plan#List_of_NANPA_countries_and_territories
 					$regex  = '/^(?:\+?1)?[-. ]?\\(?[2-9][0-8][0-9]\\)?[-. ]?[2-9][0-9]{2}[-. ]?[0-9]{4}$/';
 				break;
 			}
@@ -718,7 +719,7 @@ class Validation {
  * @return boolean Success
  */
 	public static function inList($check, $list) {
-		return in_array($check, $list);
+		return in_array($check, $list, true);
 	}
 
 /**
@@ -880,4 +881,5 @@ class Validation {
 	protected static function _reset() {
 		self::$errors = array();
 	}
+
 }

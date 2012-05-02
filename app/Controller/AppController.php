@@ -1,5 +1,6 @@
 <?php
 
+App::uses('Controller', 'Controller');
 App::import('Lib', 'Stopwatch.Stopwatch');
 
 if (Configure::read('debug') > 0) {

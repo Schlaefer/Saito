@@ -7,12 +7,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller.Component
  * @since         CakePHP(tm) v 0.10.0.1076
@@ -117,7 +117,7 @@ class AuthComponent extends Component {
  * You can also use AuthComponent::ALL instead of the string 'all'
  *
  * @var mixed
- * @link http://book.cakephp.org/view/1275/authorize
+ * @link http://book.cakephp.org/2.0/en/core-libraries/components/authentication.html#authorization
  */
 	public $authorize = false;
 
@@ -246,7 +246,7 @@ class AuthComponent extends Component {
  * @param Controller $controller A reference to the instantiating controller object
  * @return void
  */
-	public function initialize($controller) {
+	public function initialize(Controller $controller) {
 		$this->request = $controller->request;
 		$this->response = $controller->response;
 		$this->_methods = $controller->methods;
@@ -263,7 +263,7 @@ class AuthComponent extends Component {
  * @param Controller $controller A reference to the instantiating controller object
  * @return boolean
  */
-	public function startup($controller) {
+	public function startup(Controller $controller) {
 		if ($controller->name == 'CakeError') {
 			return true;
 		}
@@ -332,7 +332,11 @@ class AuthComponent extends Component {
 		}
 
 		$this->flash($this->authError);
-		$controller->redirect($controller->referer('/'), null, true);
+		$default = '/';
+		if (!empty($this->loginRedirect)) {
+			$default = $this->loginRedirect;
+		}
+		$controller->redirect($controller->referer($default), null, true);
 		return false;
 	}
 
@@ -423,12 +427,8 @@ class AuthComponent extends Component {
  * You can use allow with either an array, or var args.
  *
  * `$this->Auth->allow(array('edit', 'add'));` or
- * `$this->Auth->allow('edit', 'add');`
- * `$this->Auth->allow();` to allow all actions.
- *
- * allow() also supports '*' as a wildcard to mean all actions.
- *
- * `$this->Auth->allow('*');`
+ * `$this->Auth->allow('edit', 'add');` or
+ * `$this->Auth->allow();` to allow all actions
  *
  * @param mixed $action,... Controller action name or array of actions
  * @return void
@@ -436,7 +436,7 @@ class AuthComponent extends Component {
  */
 	public function allow($action = null) {
 		$args = func_get_args();
-		if (empty($args) || $args == array('*')) {
+		if (empty($args) || $action === null) {
 			$this->allowedActions = $this->_methods;
 		} else {
 			if (isset($args[0]) && is_array($args[0])) {
@@ -462,7 +462,7 @@ class AuthComponent extends Component {
  */
 	public function deny($action = null) {
 		$args = func_get_args();
-		if (empty($args)) {
+		if (empty($args) || $action === null) {
 			$this->allowedActions = array();
 		} else {
 			if (isset($args[0]) && is_array($args[0])) {
@@ -698,7 +698,7 @@ class AuthComponent extends Component {
  * @param Controller $controller Instantiating controller
  * @return void
  */
-	public function shutdown($controller) {
+	public function shutdown(Controller $controller) {
 		if ($this->loggedIn()) {
 			$this->Session->delete('Auth.redirect');
 		}
@@ -722,4 +722,5 @@ class AuthComponent extends Component {
 	public function flash($message) {
 		$this->Session->setFlash($message, $this->flash['element'], $this->flash['params'], $this->flash['key']);
 	}
+
 }

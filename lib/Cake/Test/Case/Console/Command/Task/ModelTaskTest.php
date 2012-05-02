@@ -7,12 +7,12 @@
  * PHP 5
  *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc.
+ * Copyright 2005-2012, Cake Software Foundation, Inc.
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc.
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.Console.Command.Task
  * @since         CakePHP v 1.2.6
@@ -30,7 +30,7 @@ App::uses('ModelTask', 'Console/Command/Task');
 /**
  * ModelTaskTest class
  *
- * @package       Cake.Test.Case.Console.Command.Task
+ * @package	   Cake.Test.Case.Console.Command.Task
  */
 class ModelTaskTest extends CakeTestCase {
 
@@ -283,21 +283,27 @@ class ModelTaskTest extends CakeTestCase {
 
 		$result = $this->Task->fieldValidation('text', array('type' => 'string', 'length' => 10, 'null' => false));
 		$expected = array('notempty' => 'notempty');
+		$this->assertEquals($expected, $result);
 
 		$result = $this->Task->fieldValidation('text', array('type' => 'date', 'length' => 10, 'null' => false));
 		$expected = array('date' => 'date');
+		$this->assertEquals($expected, $result);
 
 		$result = $this->Task->fieldValidation('text', array('type' => 'time', 'length' => 10, 'null' => false));
 		$expected = array('time' => 'time');
+		$this->assertEquals($expected, $result);
 
 		$result = $this->Task->fieldValidation('email', array('type' => 'string', 'length' => 10, 'null' => false));
 		$expected = array('email' => 'email');
+		$this->assertEquals($expected, $result);
 
 		$result = $this->Task->fieldValidation('test', array('type' => 'integer', 'length' => 10, 'null' => false));
 		$expected = array('numeric' => 'numeric');
+		$this->assertEquals($expected, $result);
 
 		$result = $this->Task->fieldValidation('test', array('type' => 'boolean', 'length' => 10, 'null' => false));
-		$expected = array('numeric' => 'numeric');
+		$expected = array('boolean' => 'boolean');
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -464,7 +470,7 @@ class ModelTaskTest extends CakeTestCase {
 			->will($this->onConsecutiveCalls('y', 2));
 
 		$result = $this->Task->findDisplayField($fields);
-		$this->assertEquals($result, 'tagname');
+		$this->assertEquals('tagname', $result);
 	}
 
 /**
@@ -589,6 +595,13 @@ class ModelTaskTest extends CakeTestCase {
 		$model = new Model(array('ds' => 'test', 'name' => 'BakeArticle'));
 		$result = $this->Task->doAssociations($model);
 		$expected = array(
+			'belongsTo' => array(
+				array(
+					'alias' => 'BakeUser',
+					'className' => 'BakeUser',
+					'foreignKey' => 'bake_user_id',
+				),
+			),
 			'hasMany' => array(
 				array(
 					'alias' => 'BakeComment',
@@ -606,6 +619,7 @@ class ModelTaskTest extends CakeTestCase {
 				),
 			),
 		);
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -702,7 +716,7 @@ class ModelTaskTest extends CakeTestCase {
 		$this->Task->expects($this->at(6))->method('out')->with('3. three');
 		$this->Task->expects($this->at(7))->method('in')->will($this->returnValue(2));
 		$result = $this->Task->inOptions($options, 'Pick a number');
-		$this->assertEquals($result, 1);
+		$this->assertEquals(1, $result);
 	}
 
 /**
@@ -809,7 +823,7 @@ STRINGEND;
 		$this->Task->plugin = 'ControllerTest';
 
 		//fake plugin path
-		CakePlugin::load('ControllerTest', array('path' =>  APP . 'Plugin' . DS . 'ControllerTest' . DS));
+		CakePlugin::load('ControllerTest', array('path' => APP . 'Plugin' . DS . 'ControllerTest' . DS));
 		$path = APP . 'Plugin' . DS . 'ControllerTest' . DS . 'Model' . DS . 'BakeArticle.php';
 		$this->Task->expects($this->once())->method('createFile')
 			->with($path, $this->stringContains('BakeArticle extends ControllerTestAppModel'));
@@ -847,7 +861,7 @@ STRINGEND;
  *
  * @return void
  */
-	static function nameVariations() {
+	public static function nameVariations() {
 		return array(
 			array('BakeArticles'), array('BakeArticle'), array('bake_article'), array('bake_articles')
 		);
@@ -1141,12 +1155,35 @@ STRINGEND;
 		$this->Task->connection = 'test';
 		$this->Task->path = '/my/path/';
 
-		$this->Task->expects($this->once())->method('_stop');
-		$this->Task->expects($this->once())->method('err');
-
 		$this->Task->expects($this->any())->method('in')
-			->will($this->onConsecutiveCalls('Foobar', 'y'));
+			->will($this->onConsecutiveCalls(
+				'Foobar', // Or type in the name of the model
+				'y', // Do you want to use this table
+				'n' // Doesn't exist, continue anyway?
+			));
 
 		$this->Task->execute();
 	}
+
+/**
+ * test using bake interactively with a table that does not exist.
+ *
+ * @return void
+ */
+	public function testForcedExecuteWithNonExistantTableName() {
+		$this->Task->connection = 'test';
+		$this->Task->path = '/my/path/';
+
+		$this->Task->expects($this->any())->method('in')
+			->will($this->onConsecutiveCalls(
+				'Foobar', // Or type in the name of the model
+				'y', // Do you want to use this table
+				'y', // Doesn't exist, continue anyway?
+				'id', // Primary key
+				'y' // Looks good?
+			));
+
+		$this->Task->execute();
+	}
+
 }

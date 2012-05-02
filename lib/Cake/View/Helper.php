@@ -1,18 +1,12 @@
 <?php
 /**
- * Backend for helpers.
- *
- * Internal methods for the Helpers.
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View
  * @since         CakePHP(tm) v 0.2.9
@@ -136,6 +130,31 @@ class Helper extends Object {
 	protected $_entityPath;
 
 /**
+ * Minimized attributes
+ *
+ * @var array
+ */
+	protected $_minimizedAttributes = array(
+		'compact', 'checked', 'declare', 'readonly', 'disabled', 'selected',
+		'defer', 'ismap', 'nohref', 'noshade', 'nowrap', 'multiple', 'noresize',
+		'autoplay', 'controls', 'loop', 'muted'
+	);
+
+/**
+ * Format to attribute
+ *
+ * @var string
+ */
+	protected $_attributeFormat = '%s="%s"';
+
+/**
+ * Format to attribute
+ *
+ * @var string
+ */
+	protected $_minimizedAttributeFormat = '%s="%s"';
+
+/**
  * Default Constructor
  *
  * @param View $View The View this helper is being attached to.
@@ -243,11 +262,11 @@ class Helper extends Object {
 				$file = str_replace('/', '\\', $file);
 			}
 
-			if (file_exists(Configure::read('App.www_root') . 'theme' . DS . $this->theme . DS  . $file)) {
+			if (file_exists(Configure::read('App.www_root') . 'theme' . DS . $this->theme . DS . $file)) {
 				$webPath = "{$this->request->webroot}theme/" . $theme . $asset[0];
 			} else {
 				$themePath = App::themePath($this->theme);
-				$path = $themePath . 'webroot' . DS  . $file;
+				$path = $themePath . 'webroot' . DS . $file;
 				if (file_exists($path)) {
 					$webPath = "{$this->request->webroot}theme/" . $theme . $asset[0];
 				}
@@ -257,6 +276,48 @@ class Helper extends Object {
 			return str_replace('//', '/', $webPath . $asset[1]);
 		}
 		return $webPath . $asset[1];
+	}
+
+/**
+ * Generate url for given asset file. Depending on options passed provides full url with domain name.
+ * Also calls Helper::assetTimestamp() to add timestamp to local files
+ *
+ * @param string|array Path string or url array
+ * @param array $options Options array. Possible keys:
+ *   `fullBase` Return full url with domain name
+ *   `pathPrefix` Path prefix for relative urls
+ *   `ext` Asset extension to append
+ *   `plugin` False value will prevent parsing path as a plugin
+ * @return string Generated url
+ */
+	public function assetUrl($path, $options = array()) {
+		if (is_array($path)) {
+			$path = $this->url($path, !empty($options['fullBase']));
+		} elseif (strpos($path, '://') === false) {
+			if (!array_key_exists('plugin', $options) || $options['plugin'] !== false) {
+				list($plugin, $path) = $this->_View->pluginSplit($path, false);
+			}
+			if (!empty($options['pathPrefix']) && $path[0] !== '/') {
+				$path = $options['pathPrefix'] . $path;
+			}
+			if (
+				!empty($options['ext']) &&
+				strpos($path, '?') === false &&
+				substr($path, -strlen($options['ext'])) !== $options['ext']
+			) {
+				$path .= $options['ext'];
+			}
+			if (isset($plugin)) {
+				$path = Inflector::underscore($plugin) . '/' . $path;
+			}
+			$path = h($this->assetTimestamp($this->webroot($path)));
+
+			if (!empty($options['fullBase'])) {
+				$path = $this->url('/', true) . $path;
+			}
+		}
+
+		return $path;
 	}
 
 /**
@@ -360,13 +421,13 @@ class Helper extends Object {
  */
 	protected function _parseAttributes($options, $exclude = null, $insertBefore = ' ', $insertAfter = null) {
 		if (!is_string($options)) {
-			$options = (array) $options + array('escape' => true);
+			$options = (array)$options + array('escape' => true);
 
 			if (!is_array($exclude)) {
 				$exclude = array();
 			}
 
-			$exclude =  array('escape' => true) + array_flip($exclude);
+			$exclude = array('escape' => true) + array_flip($exclude);
 			$escape = $options['escape'];
 			$attributes = array();
 
@@ -446,10 +507,10 @@ class Helper extends Object {
 
 		// 0.name, 0.created.month style inputs.  Excludes inputs with the modelScope in them.
 		if (
-			$count >= 2 && 
-			is_numeric($parts[0]) && 
-			!is_numeric($parts[1]) && 
-			$this->_modelScope && 
+			$count >= 2 &&
+			is_numeric($parts[0]) &&
+			!is_numeric($parts[1]) &&
+			$this->_modelScope &&
 			strpos($entity, $this->_modelScope) === false
 		) {
 			$entity = $this->_modelScope . '.' . $entity;
@@ -478,7 +539,6 @@ class Helper extends Object {
 			}
 		}
 		$this->_entityPath = $entity;
-		return;
 	}
 
 /**
@@ -751,6 +811,31 @@ class Helper extends Object {
 	}
 
 /**
+ * Before render file callback.
+ * Called before any view fragment is rendered.
+ *
+ * Overridden in subclasses.
+ *
+ * @param string $viewFile The file about to be rendered.
+ * @return void
+ */
+	public function beforeRenderFile($viewfile) {
+	}
+
+/**
+ * After render file callback.
+ * Called after any view fragment is rendered.
+ *
+ * Overridden in subclasses.
+ *
+ * @param string $viewFile The file just be rendered.
+ * @param string $content The content that was rendered.
+ * @return void
+ */
+	public function afterRenderFile($viewfile, $content) {
+	}
+
+/**
  * Transforms a recordset from a hasAndBelongsToMany association to a list of selected
  * options for a multiple select element
  *
@@ -820,4 +905,5 @@ class Helper extends Object {
 		} while ($oldstring != $this->_cleaned);
 		$this->_cleaned = str_replace(array("&amp;", "&lt;", "&gt;"), array("&amp;amp;", "&amp;lt;", "&amp;gt;"), $this->_cleaned);
 	}
+
 }

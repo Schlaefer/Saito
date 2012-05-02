@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Routing
  * @since         CakePHP(tm) v 0.2.9
@@ -153,6 +153,42 @@ class Router {
 	protected static $_initialState = array();
 
 /**
+ * Default route class to use
+ *
+ * @var string
+ */
+	protected static $_routeClass = 'CakeRoute';
+
+/**
+ * Set the default route class to use or return the current one
+ *
+ * @param string $routeClass to set as default
+ * @return mixed void|string
+ * @throws RouterException
+ */
+	public static function defaultRouteClass($routeClass = null) {
+		if (is_null($routeClass)) {
+			return self::$_routeClass;
+		}
+
+		self::$_routeClass = self::_validateRouteClass($routeClass);
+	}
+
+/**
+ * Validates that the passed route class exists and is a subclass of CakeRoute
+ *
+ * @param $routeClass
+ * @return string
+ * @throws RouterException
+ */
+	protected static function _validateRouteClass($routeClass) {
+		if (!class_exists($routeClass) || !is_subclass_of($routeClass, 'CakeRoute')) {
+			throw new RouterException(__d('cake_dev', 'Route classes must extend CakeRoute'));
+		}
+		return $routeClass;
+	}
+
+/**
  * Sets the Routing prefixes.
  *
  * @return void
@@ -172,6 +208,20 @@ class Router {
  */
 	public static function getNamedExpressions() {
 		return self::$_namedExpressions;
+	}
+
+/**
+ * Resource map getter & setter.
+ *
+ * @param array $resourceMap Resource map
+ * @return mixed
+ * @see Router::$_resourceMap
+ */
+	public static function resourceMap($resourceMap = null) {
+		if ($resourceMap === null) {
+			return self::$_resourceMap;
+		}
+		self::$_resourceMap = $resourceMap;
 	}
 
 /**
@@ -249,16 +299,13 @@ class Router {
 		if (empty($options['action'])) {
 			$defaults += array('action' => 'index');
 		}
-		$routeClass = 'CakeRoute';
+		$routeClass = self::$_routeClass;
 		if (isset($options['routeClass'])) {
-			$routeClass = $options['routeClass'];
-			if (!is_subclass_of($routeClass, 'CakeRoute')) {
-				throw new RouterException(__d('cake_dev', 'Route classes must extend CakeRoute'));
-			}
+			$routeClass = self::_validateRouteClass($options['routeClass']);
 			unset($options['routeClass']);
-			if ($routeClass == 'RedirectRoute' && isset($defaults['redirect'])) {
-				$defaults = $defaults['redirect'];
-			}
+		}
+		if ($routeClass == 'RedirectRoute' && isset($defaults['redirect'])) {
+			$defaults = $defaults['redirect'];
 		}
 		self::$routes[] = new $routeClass($route, $defaults, $options);
 		return self::$routes;
@@ -273,7 +320,7 @@ class Router {
  *
  * Examples:
  *
- * `Router::redirect('/home/*', array('controller' => 'posts', 'action' => 'view', array('persist' => true));`
+ * `Router::redirect('/home/*', array('controller' => 'posts', 'action' => 'view', array('persist' => true)));`
  *
  * Redirects /home/* to /posts/view and passes the parameters to /posts/view.  Using an array as the
  * redirect destination allows you to use other routes to define where a url string should be redirected to.
@@ -570,7 +617,8 @@ class Router {
  */
 	public static function getRequest($current = false) {
 		if ($current) {
-			return self::$_requests[count(self::$_requests) - 1];
+			$i = count(self::$_requests) - 1;
+			return isset(self::$_requests[$i]) ? self::$_requests[$i] : null;
 		}
 		return isset(self::$_requests[0]) ? self::$_requests[0] : null;
 	}
@@ -730,7 +778,7 @@ class Router {
 				unset($url['?']);
 			}
 			if (isset($url['#'])) {
-				$frag = '#' . urlencode($url['#']);
+				$frag = '#' . $url['#'];
 				unset($url['#']);
 			}
 			if (isset($url['ext'])) {
@@ -845,8 +893,9 @@ class Router {
 
 		list($args, $named) = array(Set::filter($args, true), Set::filter($named, true));
 		foreach (self::$_prefixes as $prefix) {
-			if (!empty($url[$prefix])) {
-				$url['action'] = str_replace($prefix . '_', '', $url['action']);
+			$prefixed = $prefix . '_';
+			if (!empty($url[$prefix]) && strpos($url['action'], $prefixed) === 0) {
+				$url['action'] = substr($url['action'], strlen($prefixed) * -1);
 				break;
 			}
 		}
@@ -870,7 +919,7 @@ class Router {
 		$output = implode('/', $urlOut);
 
 		if (!empty($args)) {
-			$output .= '/' . implode('/', $args);
+			$output .= '/' . implode('/', array_map('rawurlencode', $args));
 		}
 
 		if (!empty($named)) {
@@ -878,10 +927,10 @@ class Router {
 				if (is_array($value)) {
 					$flattend = Set::flatten($value, '][');
 					foreach ($flattend as $namedKey => $namedValue) {
-						$output .= '/' . $name . "[$namedKey]" . self::$_namedConfig['separator'] . $namedValue;
+						$output .= '/' . $name . "[$namedKey]" . self::$_namedConfig['separator'] . rawurlencode($namedValue);
 					}
 				} else {
-					$output .= '/' . $name . self::$_namedConfig['separator'] . $value;
+					$output .= '/' . $name . self::$_namedConfig['separator'] . rawurlencode($value);
 				}
 			}
 		}
@@ -966,7 +1015,8 @@ class Router {
 	public static function normalize($url = '/') {
 		if (is_array($url)) {
 			$url = Router::url($url);
-		} elseif (preg_match('/^[a-z\-]+:\/\//', $url)) {
+		}
+		if (preg_match('/^[a-z\-]+:\/\//', $url)) {
 			return $url;
 		}
 		$request = Router::getRequest();
@@ -1030,15 +1080,17 @@ class Router {
  * Instructs the router to parse out file extensions from the URL. For example,
  * http://example.com/posts.rss would yield an file extension of "rss".
  * The file extension itself is made available in the controller as
- * $this->params['url']['ext'], and is used by the RequestHandler component to
+ * `$this->params['ext']`, and is used by the RequestHandler component to
  * automatically switch to alternate layouts and templates, and load helpers
- * corresponding to the given content, i.e. RssHelper.
+ * corresponding to the given content, i.e. RssHelper. Switching layouts and helpers
+ * requires that the chosen extension has a defined mime type in `CakeResponse`
  *
  * A list of valid extension can be passed to this method, i.e. Router::parseExtensions('rss', 'xml');
  * If no parameters are given, anything after the first . (dot) after the last / in the URL will be
  * parsed, excluding querystring parameters (i.e. ?q=...).
  *
  * @return void
+ * @see RequestHandler::startup()
  */
 	public static function parseExtensions() {
 		self::$_parseExtensions = true;

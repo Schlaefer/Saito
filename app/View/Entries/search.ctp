@@ -22,6 +22,7 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 						array(
 						'div' => false,
 						'class' => 'search_textfield',
+            'style' => 'height: 38px;',
 						'placeholder' => __('search_term'),
 						'value' => $search_term,
 						)

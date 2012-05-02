@@ -5,12 +5,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Datasource.Database
  * @since         CakePHP(tm) v 0.9.0
@@ -151,7 +151,6 @@ class Sqlite extends DboSource {
 			parent::listSources($tables);
 			return $tables;
 		}
-		return array();
 	}
 
 /**
@@ -161,23 +160,25 @@ class Sqlite extends DboSource {
  * @return array Fields in table. Keys are name and type
  */
 	public function describe($model) {
-		$cache = parent::describe($model);
+		$table = $this->fullTableName($model, false, false);
+		$cache = parent::describe($table);
 		if ($cache != null) {
 			return $cache;
 		}
-		$table = $this->fullTableName($model, false);
 		$fields = array();
-		$result = $this->_execute('PRAGMA table_info(' . $table . ')');
+		$result = $this->_execute(
+			'PRAGMA table_info(' . $this->value($table, 'string') . ')'
+		);
 
 		foreach ($result as $column) {
-			$column = (array) $column;
+			$column = (array)$column;
 			$default = ($column['dflt_value'] === 'NULL') ? null : trim($column['dflt_value'], "'");
 
 			$fields[$column['name']] = array(
-				'type'		=> $this->column($column['type']),
-				'null'		=> !$column['notnull'],
-				'default'	=> $default,
-				'length'	=> $this->length($column['type'])
+				'type' => $this->column($column['type']),
+				'null' => !$column['notnull'],
+				'default' => $default,
+				'length' => $this->length($column['type'])
 			);
 			if ($column['pk'] == 1) {
 				$fields[$column['name']]['key'] = $this->index['PRI'];
@@ -224,7 +225,7 @@ class Sqlite extends DboSource {
  * @return boolean	SQL TRUNCATE TABLE statement, false if not applicable.
  */
 	public function truncate($table) {
-		$this->_execute('DELETE FROM sqlite_sequence where name=' . $this->fullTableName($table));
+		$this->_execute('DELETE FROM sqlite_sequence where name=' . $this->startQuote . $this->fullTableName($table, false, false) . $this->endQuote);
 		return $this->execute('DELETE FROM ' . $this->fullTableName($table));
 	}
 
@@ -271,7 +272,7 @@ class Sqlite extends DboSource {
 	public function resultSet($results) {
 		$this->results = $results;
 		$this->map = array();
-		$num_fields = $results->columnCount();
+		$numFields = $results->columnCount();
 		$index = 0;
 		$j = 0;
 
@@ -291,7 +292,7 @@ class Sqlite extends DboSource {
 		} elseif (strpos($querystring, 'PRAGMA index_info') === 0) {
 			$selects = array('seqno', 'cid', 'name');
 		}
-		while ($j < $num_fields) {
+		while ($j < $numFields) {
 			if (!isset($selects[$j])) {
 				$j++;
 				continue;
@@ -312,7 +313,8 @@ class Sqlite extends DboSource {
 				if (!empty($metaData['sqlite:decl_type'])) {
 					$metaType = trim($metaData['sqlite:decl_type']);
 				}
-			} catch (Exception $e) {}
+			} catch (Exception $e) {
+			}
 
 			if (strpos($columnName, '.')) {
 				$parts = explode('.', $columnName);
@@ -345,7 +347,6 @@ class Sqlite extends DboSource {
 			return false;
 		}
 	}
-
 
 /**
  * Returns a limit statement in the correct format for the particular database.
@@ -391,8 +392,6 @@ class Sqlite extends DboSource {
 			return null;
 		}
 
-		$real = $this->columns[$type];
-		$out = $this->name($name) . ' ' . $real['name'];
 		if (isset($column['key']) && $column['key'] == 'primary' && $type == 'integer') {
 			return $this->name($name) . ' ' . $this->columns['primary_key']['name'];
 		}
@@ -431,6 +430,10 @@ class Sqlite extends DboSource {
 	public function buildIndex($indexes, $table = null) {
 		$join = array();
 
+		$table = str_replace('"', '', $table);
+		list($dbname, $table) = explode('.', $table);
+		$dbname = $this->name($dbname);
+
 		foreach ($indexes as $name => $value) {
 
 			if ($name == 'PRIMARY') {
@@ -447,7 +450,9 @@ class Sqlite extends DboSource {
 				$value['column'] = $this->name($value['column']);
 			}
 			$t = trim($table, '"');
-			$out .= "INDEX {$t}_{$name} ON {$table}({$value['column']});";
+			$indexname = $this->name($t . '_' . $name);
+			$table = $this->name($table);
+			$out .= "INDEX {$dbname}.{$indexname} ON {$table}({$value['column']});";
 			$join[] = $out;
 		}
 		return $join;
@@ -462,11 +467,11 @@ class Sqlite extends DboSource {
  */
 	public function index($model) {
 		$index = array();
-		$table = $this->fullTableName($model);
+		$table = $this->fullTableName($model, false, false);
 		if ($table) {
 			$indexes = $this->query('PRAGMA index_list(' . $table . ')');
 
-		 	if (is_bool($indexes)) {
+			if (is_bool($indexes)) {
 				return array();
 			}
 			foreach ($indexes as $i => $info) {
@@ -544,4 +549,14 @@ class Sqlite extends DboSource {
 		}
 		return $out;
 	}
+
+/**
+ * Gets the schema name
+ *
+ * @return string The schema name
+ */
+	public function getSchemaName() {
+		return "main"; // Sqlite Datasource does not support multidb
+	}
+
 }

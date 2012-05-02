@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.5434
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -80,7 +80,7 @@ class XcacheEngineTest extends CakeTestCase {
 
 		$result = Cache::read('test');
 		$expecting = '';
-		$this->assertEquals($result, $expecting);
+		$this->assertEquals($expecting, $result);
 
 		$data = 'this is a test of the emergency broadcasting system';
 		$result = Cache::write('test', $data);
@@ -88,7 +88,7 @@ class XcacheEngineTest extends CakeTestCase {
 
 		$result = Cache::read('test');
 		$expecting = $data;
-		$this->assertEquals($result, $expecting);
+		$this->assertEquals($expecting, $result);
 
 		Cache::delete('test');
 	}
@@ -111,7 +111,7 @@ class XcacheEngineTest extends CakeTestCase {
 		$result = Cache::read('other_test');
 		$this->assertFalse($result);
 
-		Cache::set(array('duration' =>  "+1 second"));
+		Cache::set(array('duration' => "+1 second"));
 
 		$data = 'this is a test of the emergency broadcasting system';
 		$result = Cache::write('other_test', $data);

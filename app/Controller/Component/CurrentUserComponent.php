@@ -201,9 +201,9 @@ Class CurrentUserComponent extends SaitoUser {
 				);
 
 		if ( $this->isLoggedIn() ):
-			$this->_Controller->Auth->allow('*');
+			$this->_Controller->Auth->allow();
 		else:
-			$this->_Controller->Auth->deny('*');
+			$this->_Controller->Auth->deny();
 		endif;
 
 		// we have some work todo in users_c/login() before redirecting

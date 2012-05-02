@@ -30,7 +30,7 @@
 
 			//* insert registered user
 			$user_id = 5;
-			$this->_startUsersOnline[0]['UserOnline'] = array( 'id' => '1', 'user_id' => '5', 'time' => time(), 'logged_in' => 1 );
+			$this->_startUsersOnline[0]['UserOnline'] = array( 'id' => '1', 'user_id' => '5', 'time' => (string)time(), 'logged_in' => 1 );
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			$this->UserOnline->contain();

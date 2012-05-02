@@ -1,12 +1,15 @@
 <?php echo $this->Html->docType('xhtml-trans'); ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head onorientationchange="">
-		<title><?php echo $title_for_layout ?></title>
+		<title><?php echo $this->fetch('title'); ?></title>
 		<?php echo $this->Html->charset(); ?>
 		<?php # echo $this->Html->meta(array( 'http-equiv' => 'expires', 'content' => '0'));?>
 		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
-		<?php echo $this->Html->meta('keywords',
-					''); ?>
+    <?php
+      echo $this->fetch('meta');
+      echo $this->fetch('css');
+    ?>
+		<?php echo $this->Html->meta('keywords', ''); ?>
 		<?php echo $this->Html->meta('description', ''); ?>
 		<?php if ( isset($autoPageReload) ) : ?>
 				<meta http-equiv='refresh' content='<?php echo $autoPageReload; ?>' />

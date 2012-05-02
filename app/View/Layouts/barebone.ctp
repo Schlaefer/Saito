@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-			<title><?php echo $title_for_layout ?></title>
+      <title><?php echo $this->fetch('title'); ?></title>
 			<?php echo $this->Html->charset(); ?>
 			<script type="text/javascript">
       //<![CDATA[
@@ -30,7 +30,7 @@
 	<body>
 	<div style ="min-height: 100%; position: relative;">
 				<?php echo $this->Session->flash(); ?>
-				<?php echo $content_for_layout ?>
+				<?php echo $this->fetch('content'); ?>
 		<?php echo $this->element('sql_dump'); ?>
 	</div>
 
@@ -43,7 +43,7 @@
 	<?php echo $this->Html->script('_app'); ?>
 	<?php # echo $this->Html->script('classes/thread.class'); ?>
 	<?php # echo $this->Html->script('classes/thread_line.class'); ?>
-	<?php echo $scripts_for_layout; ?>
+  <?php echo $this->fetch('script'); ?>
 	<?php echo $this->Js->writeBuffer();?>
 	</body>
 </html>

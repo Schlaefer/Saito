@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.5434
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -21,6 +21,7 @@ App::uses('Cache', 'Cache');
 App::uses('MemcacheEngine', 'Cache/Engine');
 
 class TestMemcacheEngine extends MemcacheEngine {
+
 /**
  * public accessor to _parseServerString
  *
@@ -34,6 +35,7 @@ class TestMemcacheEngine extends MemcacheEngine {
 	public function setMemcache($memcache) {
 		$this->_Memcache = $memcache;
 	}
+
 }
 
 /**
@@ -89,7 +91,7 @@ class MemcacheEngineTest extends CakeTestCase {
 			'engine' => 'Memcache',
 			'persistent' => true,
 		);
-		$this->assertEquals($settings, $expecting);
+		$this->assertEquals($expecting, $settings);
 	}
 
 /**
@@ -116,7 +118,7 @@ class MemcacheEngineTest extends CakeTestCase {
 
 		$servers = array_keys($Memcache->__Memcache->getExtendedStats());
 		$settings = $Memcache->settings();
-		$this->assertEquals($servers, $settings['servers']);
+		$this->assertEquals($settings['servers'], $servers);
 		Cache::drop('dual_server');
 	}
 
@@ -158,10 +160,10 @@ class MemcacheEngineTest extends CakeTestCase {
 	public function testParseServerStringNonLatin() {
 		$Memcache = new TestMemcacheEngine();
 		$result = $Memcache->parseServerString('schülervz.net:13211');
-		$this->assertEquals($result, array('schülervz.net', '13211'));
+		$this->assertEquals(array('schülervz.net', '13211'), $result);
 
 		$result = $Memcache->parseServerString('sülül:1111');
-		$this->assertEquals($result, array('sülül', '1111'));
+		$this->assertEquals(array('sülül', '1111'), $result);
 	}
 
 /**
@@ -169,10 +171,10 @@ class MemcacheEngineTest extends CakeTestCase {
  *
  * @return void
  */
-	function testParseServerStringUnix() {
-		$Memcache =& new TestMemcacheEngine();
+	public function testParseServerStringUnix() {
+		$Memcache = new TestMemcacheEngine();
 		$result = $Memcache->parseServerString('unix:///path/to/memcached.sock');
-		$this->assertEquals($result, array('unix:///path/to/memcached.sock', 0));
+		$this->assertEquals(array('unix:///path/to/memcached.sock', 0), $result);
 	}
 
 /**
@@ -185,7 +187,7 @@ class MemcacheEngineTest extends CakeTestCase {
 
 		$result = Cache::read('test', 'memcache');
 		$expecting = '';
-		$this->assertEquals($result, $expecting);
+		$this->assertEquals($expecting, $result);
 
 		$data = 'this is a test of the emergency broadcasting system';
 		$result = Cache::write('test', $data, 'memcache');
@@ -193,7 +195,7 @@ class MemcacheEngineTest extends CakeTestCase {
 
 		$result = Cache::read('test', 'memcache');
 		$expecting = $data;
-		$this->assertEquals($result, $expecting);
+		$this->assertEquals($expecting, $result);
 
 		Cache::delete('test', 'memcache');
 	}
@@ -217,7 +219,7 @@ class MemcacheEngineTest extends CakeTestCase {
 		$result = Cache::read('other_test', 'memcache');
 		$this->assertFalse($result);
 
-		Cache::set(array('duration' =>  "+1 second"), 'memcache');
+		Cache::set(array('duration' => "+1 second"), 'memcache');
 
 		$data = 'this is a test of the emergency broadcasting system';
 		$result = Cache::write('other_test', $data, 'memcache');
@@ -241,7 +243,7 @@ class MemcacheEngineTest extends CakeTestCase {
 		sleep(2);
 		$result = Cache::read('long_expiry_test', 'memcache');
 		$expecting = $data;
-		$this->assertEquals($result, $expecting);
+		$this->assertEquals($expecting, $result);
 
 		Cache::config('memcache', array('duration' => 3600));
 	}
@@ -325,11 +327,11 @@ class MemcacheEngineTest extends CakeTestCase {
 		$this->assertTrue(Cache::write('duration_test', 'yay', 'long_memcache'));
 		$this->assertTrue(Cache::write('short_duration_test', 'boo', 'short_memcache'));
 
-		$this->assertEquals(Cache::read('duration_test', 'long_memcache'), 'yay', 'Value was not read %s');
-		$this->assertEquals(Cache::read('short_duration_test', 'short_memcache'), 'boo', 'Value was not read %s');
+		$this->assertEquals('yay', Cache::read('duration_test', 'long_memcache'), 'Value was not read %s');
+		$this->assertEquals('boo', Cache::read('short_duration_test', 'short_memcache'), 'Value was not read %s');
 
 		sleep(1);
-		$this->assertEquals(Cache::read('duration_test', 'long_memcache'), 'yay', 'Value was not read %s');
+		$this->assertEquals('yay', Cache::read('duration_test', 'long_memcache'), 'Value was not read %s');
 
 		sleep(2);
 		$this->assertFalse(Cache::read('short_duration_test', 'short_memcache'), 'Cache was not invalidated %s');
@@ -366,7 +368,7 @@ class MemcacheEngineTest extends CakeTestCase {
 	}
 
 /**
- * test that a 0 duration can succesfully write.
+ * test that a 0 duration can successfully write.
  *
  * @return void
  */
@@ -374,9 +376,9 @@ class MemcacheEngineTest extends CakeTestCase {
 		Cache::config('memcache', array('duration' => 0));
 		$result = Cache::write('test_key', 'written!', 'memcache');
 
-		$this->assertTrue($result, 'Could not write with duration 0');
+		$this->assertTrue('Could not write with duration 0', $result);
 		$result = Cache::read('test_key', 'memcache');
-		$this->assertEquals($result, 'written!');
+		$this->assertEquals('written!', $result);
 	}
 
 /**
@@ -385,7 +387,7 @@ class MemcacheEngineTest extends CakeTestCase {
  * @return void
  */
 	public function testLongDurationEqualToZero() {
-		$memcache =& new TestMemcacheEngine();
+		$memcache = new TestMemcacheEngine();
 		$memcache->settings['compress'] = false;
 
 		$mock = $this->getMock('Memcache');

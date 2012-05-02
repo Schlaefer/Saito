@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -51,9 +51,9 @@ class ModelValidationTest extends BaseModelTest {
 				'required' => true
 			),
 			'or' => true,
-			'ignore_on_same' => 'id'
+			'ignoreOnSame' => 'id'
 		);
-		$this->assertEquals($TestModel->validatorParams, $expected);
+		$this->assertEquals($expected, $TestModel->validatorParams);
 
 		$TestModel->validate['title'] = array(
 			'rule' => 'customValidatorWithMessage',
@@ -63,7 +63,7 @@ class ModelValidationTest extends BaseModelTest {
 			'title' => array('This field will *never* validate! Muhahaha!')
 		);
 
-		$this->assertEquals($TestModel->invalidFields(), $expected);
+		$this->assertEquals($expected, $TestModel->invalidFields());
 
 		$TestModel->validate['title'] = array(
 			'rule' => array('customValidatorWithSixParams', 'one', 'two', null, 'four'),
@@ -88,7 +88,7 @@ class ModelValidationTest extends BaseModelTest {
 			),
 			'six' => 6
 		);
-		$this->assertEquals($TestModel->validatorParams, $expected);
+		$this->assertEquals($expected, $TestModel->validatorParams);
 
 		$TestModel->validate['title'] = array(
 			'rule' => array('customValidatorWithSixParams', 'one', array('two'), null, 'four', array('five' => 5)),
@@ -113,7 +113,7 @@ class ModelValidationTest extends BaseModelTest {
 				'required' => true
 			)
 		);
-		$this->assertEquals($TestModel->validatorParams, $expected);
+		$this->assertEquals($expected, $TestModel->validatorParams);
 	}
 
 /**
@@ -137,14 +137,14 @@ class ModelValidationTest extends BaseModelTest {
 		$expected = array(
 			'title' => array('This field cannot be left blank')
 		);
-		$this->assertEquals($TestModel->validationErrors, $expected);
+		$this->assertEquals($expected, $TestModel->validationErrors);
 		$TestModel->validationErrors = array();
 
 		$TestModel->invalidFields(array('fieldList' => array('name')));
 		$expected = array(
 			'name' => array('This field cannot be left blank')
 		);
-		$this->assertEquals($TestModel->validationErrors, $expected);
+		$this->assertEquals($expected, $TestModel->validationErrors);
 		$TestModel->validationErrors = array();
 
 		$TestModel->invalidFields(array('fieldList' => array('name', 'title')));
@@ -152,13 +152,13 @@ class ModelValidationTest extends BaseModelTest {
 			'name' => array('This field cannot be left blank'),
 			'title' => array('This field cannot be left blank')
 		);
-		$this->assertEquals($TestModel->validationErrors, $expected);
+		$this->assertEquals($expected, $TestModel->validationErrors);
 		$TestModel->validationErrors = array();
 
 		$TestModel->whitelist = array('name');
 		$TestModel->invalidFields();
 		$expected = array('name' => array('This field cannot be left blank'));
-		$this->assertEquals($TestModel->validationErrors, $expected);
+		$this->assertEquals($expected, $TestModel->validationErrors);
 
 		$this->assertEquals($TestModel->validate, $validate);
 	}
@@ -184,7 +184,7 @@ class ModelValidationTest extends BaseModelTest {
 		$TestModel->save(array('name' => '#$$#', 'title' => '$$$$'));
 
 		$expected = array('name' => array('This field cannot be left blank'));
-		$this->assertEquals($TestModel->validationErrors, $expected);
+		$this->assertEquals($expected, $TestModel->validationErrors);
 	}
 
 /**
@@ -207,7 +207,7 @@ class ModelValidationTest extends BaseModelTest {
 			'body' => 'body'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -225,7 +225,7 @@ class ModelValidationTest extends BaseModelTest {
 			'body' => 'body'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -235,7 +235,7 @@ class ModelValidationTest extends BaseModelTest {
 			'body' => 'body'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -248,7 +248,7 @@ class ModelValidationTest extends BaseModelTest {
 			'modified' => ''
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -259,7 +259,7 @@ class ModelValidationTest extends BaseModelTest {
 			'modified' => '2007-05-01'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -270,7 +270,7 @@ class ModelValidationTest extends BaseModelTest {
 			'modified' => 'invalid-date-here'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -281,7 +281,7 @@ class ModelValidationTest extends BaseModelTest {
 			'modified' => 0
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -292,7 +292,7 @@ class ModelValidationTest extends BaseModelTest {
 			'modified' => '0'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -300,19 +300,19 @@ class ModelValidationTest extends BaseModelTest {
 
 		$data = array('TestValidate' => array('modified' => null));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
 		$data = array('TestValidate' => array('modified' => false));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
 		$data = array('TestValidate' => array('modified' => ''));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -320,7 +320,7 @@ class ModelValidationTest extends BaseModelTest {
 			'modified' => '2007-05-01'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -333,7 +333,7 @@ class ModelValidationTest extends BaseModelTest {
 			'slug' => ''
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -344,7 +344,7 @@ class ModelValidationTest extends BaseModelTest {
 			'slug' => 'slug-right-here'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -355,7 +355,7 @@ class ModelValidationTest extends BaseModelTest {
 			'slug' => 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -375,7 +375,7 @@ class ModelValidationTest extends BaseModelTest {
 			'number' => '0'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -384,7 +384,7 @@ class ModelValidationTest extends BaseModelTest {
 			'number' => 0
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -393,7 +393,7 @@ class ModelValidationTest extends BaseModelTest {
 			'number' => '3'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -402,7 +402,7 @@ class ModelValidationTest extends BaseModelTest {
 			'number' => 3
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -422,7 +422,7 @@ class ModelValidationTest extends BaseModelTest {
 			'number' => '3'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -431,7 +431,7 @@ class ModelValidationTest extends BaseModelTest {
 			'number' => 3
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -443,19 +443,19 @@ class ModelValidationTest extends BaseModelTest {
 
 		$data = array('TestValidate' => array('title' => ''));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
 		$data = array('TestValidate' => array('title' => 'new title'));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
 		$data = array('TestValidate' => array('title' => 'title-new'));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -465,7 +465,7 @@ class ModelValidationTest extends BaseModelTest {
 		));
 		$data = array('TestValidate' => array('title' => ''));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -477,7 +477,7 @@ class ModelValidationTest extends BaseModelTest {
 		)));
 		$data = array('TestValidate' => array('title' => ''));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -487,7 +487,7 @@ class ModelValidationTest extends BaseModelTest {
 		));
 		$data = array('TestValidate' => array('title' => 'My Article Title'));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertFalse($result);
 
@@ -495,7 +495,7 @@ class ModelValidationTest extends BaseModelTest {
 			'title' => 'My Article With a Different Title'
 		));
 		$result = $TestModel->create($data);
-		$this->assertEquals($result, $data);
+		$this->assertEquals($data, $result);
 		$result = $TestModel->validates();
 		$this->assertTrue($result);
 
@@ -568,8 +568,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Something->create();
 		$result = $Something->save($data);
-		$this->assertFalse($result, 'Save occured even when with models failed. %s');
-		$this->assertEquals($JoinThing->validationErrors, $expectedError);
+		$this->assertFalse($result, 'Save occurred even when with models failed. %s');
+		$this->assertEquals($expectedError, $JoinThing->validationErrors);
 		$count = $Something->find('count', array('conditions' => array('Something.id' => $data['Something']['id'])));
 		$this->assertSame($count, 0);
 
@@ -587,12 +587,12 @@ class ModelValidationTest extends BaseModelTest {
 		);
 		$Something->create();
 		$result = $Something->save($data);
-		$this->assertFalse($result, 'Save occured even when with models failed. %s');
+		$this->assertFalse($result, 'Save occurred even when with models failed. %s');
 
 		$joinRecords = $JoinThing->find('count', array(
 			'conditions' => array('JoinThing.something_id' => $data['Something']['id'])
 		));
-		$this->assertEquals($joinRecords, 0, 'Records were saved on the join table. %s');
+		$this->assertEquals(0, $joinRecords, 'Records were saved on the join table. %s');
 	}
 
 /**
@@ -621,12 +621,12 @@ class ModelValidationTest extends BaseModelTest {
 		$Something->create();
 		$result = $Something->saveAll($data, array('validate' => 'only'));
 		$this->assertFalse($result);
-		$this->assertEquals($JoinThing->validationErrors, $expectedError);
+		$this->assertEquals($expectedError, $JoinThing->validationErrors);
 
 		$Something->create();
 		$result = $Something->saveAll($data, array('validate' => 'first'));
 		$this->assertFalse($result);
-		$this->assertEquals($JoinThing->validationErrors, $expectedError);
+		$this->assertEquals($expectedError, $JoinThing->validationErrors);
 
 		$count = $Something->find('count', array('conditions' => array('Something.id' => $data['Something']['id'])));
 		$this->assertSame($count, 0);
@@ -634,7 +634,7 @@ class ModelValidationTest extends BaseModelTest {
 		$joinRecords = $JoinThing->find('count', array(
 			'conditions' => array('JoinThing.something_id' => $data['Something']['id'])
 		));
-		$this->assertEquals($joinRecords, 0, 'Records were saved on the join table. %s');
+		$this->assertEquals(0, $joinRecords, 'Records were saved on the join table. %s');
 	}
 
 /**
@@ -681,7 +681,7 @@ class ModelValidationTest extends BaseModelTest {
 
 /**
  * Test that missing validation methods trigger errors in development mode.
- * Helps to make developement easier.
+ * Helps to make development easier.
  *
  * @expectedException PHPUnit_Framework_Error
  * @return void
@@ -716,7 +716,7 @@ class ModelValidationTest extends BaseModelTest {
 			)
 		);
 		$TestModel->invalidFields(array('fieldList' => array('title')));
-		$this->assertEquals($TestModel->validationErrors, array());
+		$this->assertEquals(array(), $TestModel->validationErrors);
 	}
 
 /**
@@ -748,7 +748,7 @@ class ModelValidationTest extends BaseModelTest {
 				'Minimum length allowed is 6 chars',
 			)
 		);
-		$this->assertEquals($TestModel->validationErrors, $expected);
+		$this->assertEquals($expected, $TestModel->validationErrors);
 
 		$TestModel->create(array('title' => 'foo'));
 		$TestModel->invalidFields();
@@ -758,7 +758,7 @@ class ModelValidationTest extends BaseModelTest {
 				'You may enter up to 14 chars (minimum is 6 chars)'
 			)
 		);
-		$this->assertEquals($TestModel->validationErrors, $expected);
+		$this->assertEquals($expected, $TestModel->validationErrors);
 	}
 
 /**
@@ -766,7 +766,7 @@ class ModelValidationTest extends BaseModelTest {
  *
  * @return void
  */
-	function testStateValidation() {
+	public function testStateValidation() {
 		$this->loadFixtures('Article');
 		$Article = new Article();
 
@@ -810,6 +810,183 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->save(null, array('validate' => false));
 		$data['Article']['id'] = $Article->id;
+		$Article->set($data);
+		$this->assertFalse($Article->validates());
+	}
+
+/**
+ * Test for 'required' => [create|update] in validation rules.
+ *
+ * @return void
+ */
+	public function testStateRequiredValidation() {
+		$this->loadFixtures('Article');
+		$Article = new Article();
+
+		// no title field present
+		$data = array(
+			'Article' => array(
+				'body' => 'Extra Fields Body',
+				'published' => '1'
+			)
+		);
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'create'
+				)
+			)
+		);
+
+		$Article->create($data);
+		$this->assertFalse($Article->validates());
+
+		$Article->save(null, array('validate' => false));
+		$data['Article']['id'] = $Article->id;
+		$Article->set($data);
+		$this->assertTrue($Article->validates());
+
+		unset($data['Article']['id']);
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'update'
+				)
+			)
+		);
+
+		$Article->create($data);
+		$this->assertTrue($Article->validates());
+
+		$Article->save(null, array('validate' => false));
+		$data['Article']['id'] = $Article->id;
+		$Article->set($data);
+		$this->assertFalse($Article->validates());
+	}
+
+/**
+ * Test that 'required' and 'on' are not conflicting
+ *
+ * @return void
+ */
+	public function testOnRequiredConflictValidation() {
+		$this->loadFixtures('Article');
+		$Article = new Article();
+
+		// no title field present
+		$data = array(
+			'Article' => array(
+				'body' => 'Extra Fields Body',
+				'published' => '1'
+			)
+		);
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'create',
+					'on' => 'create'
+				)
+			)
+		);
+
+		$Article->create($data);
+		$this->assertFalse($Article->validates());
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'update',
+					'on' => 'create'
+				)
+			)
+		);
+
+		$Article->create($data);
+		$this->assertTrue($Article->validates());
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'create',
+					'on' => 'update'
+				)
+			)
+		);
+
+		$Article->create($data);
+		$this->assertTrue($Article->validates());
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'update',
+					'on' => 'update'
+				)
+			)
+		);
+
+		$Article->create($data);
+		$this->assertTrue($Article->validates());
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'create',
+					'on' => 'create'
+				)
+			)
+		);
+
+		$Article->save(null, array('validate' => false));
+		$data['Article']['id'] = $Article->id;
+		$Article->set($data);
+		$this->assertTrue($Article->validates());
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'update',
+					'on' => 'create'
+				)
+			)
+		);
+
+		$Article->set($data);
+		$this->assertTrue($Article->validates());
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'create',
+					'on' => 'update'
+				)
+			)
+		);
+
+		$Article->set($data);
+		$this->assertTrue($Article->validates());
+
+		$Article->validate = array(
+			'title' => array(
+				'notempty' => array(
+					'rule' => 'notEmpty',
+					'required' => 'update',
+					'on' => 'update'
+				)
+			)
+		);
+
 		$Article->set($data);
 		$this->assertFalse($Article->validates());
 	}

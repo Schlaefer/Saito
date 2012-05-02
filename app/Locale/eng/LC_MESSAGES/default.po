@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-02 12:14+0100\n"
-"PO-Revision-Date: 2012-05-02 12:14+0100\n"
+"PO-Revision-Date: 2012-05-02 19:51+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1019,7 +1019,7 @@ msgstr ""
 #: View/Uploads/add.ctp:10
 #: View/Uploads/index.ctp:29
 msgid "upload_btn"
-msgstr ""
+msgstr "Upload"
 
 #: View/Uploads/index.ctp:21
 msgid "upload_new_title"
@@ -1032,7 +1032,7 @@ msgstr ""
 
 #: View/Uploads/index.ctp:79
 msgid "upload_btn_insert_into_posting"
-msgstr ""
+msgstr "Insert"
 
 #: View/Users/admin_add.ctp:4
 msgid "Add User"

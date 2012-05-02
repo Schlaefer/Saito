@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Log
  * @since         CakePHP(tm) v 1.2.0.5432
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -47,9 +47,9 @@ class CakeLogTest extends CakeTestCase {
  */
 	public function testImportingLoggers() {
 		App::build(array(
-			'libs' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Lib' . DS),
-			'plugins' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
-		), true);
+			'Lib' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Lib' . DS),
+			'Plugin' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
+		), App::RESET);
 		CakePlugin::load('TestPlugin');
 
 		$result = CakeLog::config('libtest', array(
@@ -102,7 +102,7 @@ class CakeLogTest extends CakeTestCase {
 		$this->assertTrue(file_exists(LOGS . 'error.log'));
 
 		$result = CakeLog::configured();
-		$this->assertEquals($result, array('default'));
+		$this->assertEquals(array('default'), $result);
 		unlink(LOGS . 'error.log');
 	}
 
@@ -117,7 +117,7 @@ class CakeLogTest extends CakeTestCase {
 			'path' => LOGS
 		));
 		$result = CakeLog::configured();
-		$this->assertEquals($result, array('file'));
+		$this->assertEquals(array('file'), $result);
 
 		if (file_exists(LOGS . 'error.log')) {
 			@unlink(LOGS . 'error.log');
@@ -131,7 +131,7 @@ class CakeLogTest extends CakeTestCase {
 	}
 
 /**
- * explict tests for drop()
+ * explicit tests for drop()
  *
  * @return void
  **/
@@ -141,11 +141,11 @@ class CakeLogTest extends CakeTestCase {
 			'path' => LOGS
 		));
 		$result = CakeLog::configured();
-		$this->assertEquals($result, array('file'));
+		$this->assertEquals(array('file'), $result);
 
 		CakeLog::drop('file');
 		$result = CakeLog::configured();
-		$this->assertEquals($result, array());
+		$this->assertEquals(array(), $result);
 	}
 
 /**

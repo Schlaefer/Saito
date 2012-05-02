@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Network.Email
  * @since         CakePHP(tm) v 2.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -52,7 +52,6 @@ class SmtpTestTransport extends SmtpTransport {
  * @return void
  */
 	protected function _generateSocket() {
-		return;
 	}
 
 /**
@@ -220,6 +219,8 @@ class SmtpTransportTest extends CakeTestCase {
 		$email->bcc('phpnut@cakephp.org');
 		$email->messageID('<4d9946cf-0a44-4907-88fe-1d0ccbdd56cb@localhost>');
 		$email->subject('Testing SMTP');
+		$date = date(DATE_RFC2822);
+		$email->setHeaders(array('X-Mailer' => SmtpCakeEmail::EMAIL_CLIENT, 'Date' => $date));
 		$email->expects($this->any())->method('message')->will($this->returnValue(array('First Line', 'Second Line', '')));
 
 		$data = "From: CakePHP Test <noreply@cakephp.org>\r\n";
@@ -227,7 +228,7 @@ class SmtpTransportTest extends CakeTestCase {
 		$data .= "To: CakePHP <cake@cakephp.org>\r\n";
 		$data .= "Cc: Mark Story <mark@cakephp.org>, Juan Basso <juan@cakephp.org>\r\n";
 		$data .= "X-Mailer: CakePHP Email\r\n";
-		$data .= "Date: " . date(DATE_RFC2822) . "\r\n";
+		$data .= "Date: " . $date . "\r\n";
 		$data .= "Message-ID: <4d9946cf-0a44-4907-88fe-1d0ccbdd56cb@localhost>\r\n";
 		$data .= "Subject: Testing SMTP\r\n";
 		$data .= "MIME-Version: 1.0\r\n";
