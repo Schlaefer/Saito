@@ -20,7 +20,7 @@
 					<a href="<?php echo $this->request->webroot; ?>pages/rss_feeds">RSS</a>
 				</li>
 				<li>
-          <a href="http://www.google.com/moderator/#15/e=d490b&t=d490b.40">Feedback geben</a>
+          <a href="http://www.google.com/moderator/#15/e=d490b&amp;t=d490b.40">Feedback geben</a>
 				</li>
 			</ul>
 		</div>

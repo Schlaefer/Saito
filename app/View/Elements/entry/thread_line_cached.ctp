@@ -28,7 +28,7 @@
 			(<?php echo $entry_sub['Category']['category']; ?>)
 		</span>
 	<?php endif ?>
-<div class="thread_line-post">
+<span class="thread_line-post">
 			
 <?php
 	// normal time output
@@ -44,4 +44,4 @@
 <?php if ( $entry_sub['Entry']['nsfw'] ): ?>
 		<span class="sprite-nbs-explicit" title="<?php echo __('entry_nsfw_title') ?>"></span>
 	<?php endif; ?>
-</div>
+</span>
