@@ -104,6 +104,7 @@
 				echo $this->Html->script('jquery.scrollTo-1.4.2-min');
 				echo $this->Html->script(
 						array(
+                'bootstrap/bootstrap.js',
 								'lib/underscore/underscore.js',
 								'lib/backbone/backbone.js',
 								'lib/backbone/backbone.localStorage',

@@ -20,6 +20,13 @@
 /*$experimental-support-for-microsoft: false;*/
 $experimental-support-for-khtml: false;
 
+/*******************************************************************************
+ * Bootstrap
+ *
+ * See: https://github.com/thomas-mcdonald/bootstrap-sass/blob/master/vendor/assets/stylesheets/bootstrap/
+ ******************************************************************************/
 @import "bootstrap/variables.scss";
 @import "bootstrap/mixins.scss";
 @import "bootstrap/buttons.scss";
+@import "bootstrap/button-groups.scss";
+@import "bootstrap/dropdowns.scss";

@@ -4,16 +4,17 @@
 	if (!isset($last_action)) $last_action = null;
 	###
 ?>
-
 <div class="a_a">
 	<div class="a_a_a">
 	<?php if( $CurrentUser->isMod()) : ?>
 		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>">
-			<div class="left <?php echo $entry['Entry']['id'];?>">
-        <i class="icon-edit icon-large"></i>
-			</div>
-			<div class="right">
-				<ul>
+        <div class="btn-group">
+          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown"/>
+            <i class="icon-pencil"></i>
+            &nbsp;
+            <i class="icon-chevron-down"></i>
+            </button>
+          <ul class="dropdown-menu pull-right">
 					<?php if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) : ?>
 						<li>
 							<?php echo $this->Html->link(
@@ -23,6 +24,7 @@
 										);
 							?>
 						</li>
+            <li class="divider"></li>
 					<?php endif; ?>
 					<?php if($entry['Entry']['pid'] == 0) : # @td these are thread functions and maybe go to another panel ?>
 						<li>
@@ -61,8 +63,8 @@
 									);
 							?>
 						</li>
+            <li class="divider"></li>
 						<li>
-							<br/>
 							<?php
 								echo $this->Html->link(
 										__('delete_tree_link'),
@@ -78,7 +80,7 @@
 						</li>
 					<?php endif; ?>
 				</ul>
-			</div>
+      </div><!-- /btn-group -->
 		</div>
 	<?php endif; ?>
 
@@ -154,21 +156,6 @@
 											?>
 										</span>
 									<?php endif; ?>
-
-									<!--
-									&nbsp;
-									<?php  #@td löschen link ?>
-									&nbsp;
-									-->
-									<span class="small">
-										<!-- @td: img/lock.gif @td implement controller -->
-										<?php echo $this->Html->link(
-													'', #__('lock_linkname'),
-													array( 'controller' => 'entries', 'action' => 'lock', $entry['Entry']['id']),
-													array ( 'class' => 'editlink')
-													);
-										?>
-									</span>
 							</div> <!-- c_a_a_b_a -->
 						<?php endif; ?>
 							<div class="c_a_a_b_b"> 

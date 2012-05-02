@@ -517,11 +517,14 @@ label, .label {
  * See for bootstrap sass implementation: https://github.com/thomas-mcdonald/bootstrap-sass/blob/master/vendor/assets/stylesheets/bootstrap/_buttons.scss
  ******************************************************************************/
 
+.btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu {
+  @extend .c_all-radius;
+  }
+
 .btn {
   // reset hat input elements ususally take the whole form width
   width: auto;
   padding: 0.2em 1em;
-  @extend .c_all-radius;
   }
 
 .btn-submit {
@@ -538,6 +541,20 @@ label, .label {
 .btn-edit {
   @extend .btn-small;
   }
+
+// fix for buttongroups in
+// -------------------------------------
+.button_mod_panel {
+  .btn-group .btn {
+    float: none;
+    margin-top: 0;
+  }
+
+  .btn-group:before, .btn-group:after {
+      content: "";
+      display: inline-table;
+  }
+}
 
 //back and top wide button start
 // -------------------------------------
@@ -560,7 +577,7 @@ label, .label {
   background-image: image-url("mix_top.png");
   }
 
-.icon-remove {
+.icon-remove-sign {
   // @bogus: with it the close buttons do not work
   position: relative;
   }
@@ -825,30 +842,23 @@ ul.thread {
   /* otherwise link is slidetabs not clickable if inline with is open */
   /*	overflow: hidden; */ }
 
-/** start mod panel ** */
+.button_mod_panel {
+      .button_mod_panel-text {
+/*        display: none;*/
+      }
+      &:hover .button_mod_panel-text {
+/*        display: inline;*/
+      }
+}
+
 .button_mod_panel {
   float: right;
-  border-bottom-left-radius:$corner_radius;
-  border-width: 0 0 $border_width $border_width;
-  border-color: $saito_gray_dark;
-  border-style: solid;
-  color: $link_color;
-  padding: 5px;
-  margin: -11px -12px 10px 10px;
-  height: 16px;
-  width: 16px;
-  .left {
-    width: 25px;
-    float: left; }
-  .right {
-    margin-left: 30px;
-    padding: 0 1em;
-    display: none; }
   ul {
     /* !important: in inline_view on entries_index the tree ul stuff messes in */
     margin: 0 !important;
     padding: 0 !important;
-    list-style-type: none; } }
+    list-style-type: none; }
+  }
 
 /** end mod panel ** */
 

@@ -33,7 +33,7 @@ rm custom_javascript.js
 rm custom_javascript-compressed.js
 
 #*******************************************************************************
-# new bootstrap config
+# new backbone config
 #******************************************************************************/
 
 # Merging uncompressed files
@@ -48,10 +48,11 @@ done
 yuicompressor 'custom_javascript2.js -o custom_javascript-compressed2.js'
 
 ### Merge compressed files ###
-cat lib/underscore/underscore-min.js lib/backbone/backbone-min.js lib/backbone/backbone.localStorage-min.js custom_javascript-compressed2.js > js2-min.js
+cat lib/underscore/underscore-min.js lib/backbone/backbone-min.js lib/backbone/backbone.localStorage-min.js bootstrap/bootstrap.min.js custom_javascript-compressed2.js > js2-min.js
 
 ### Clean Up Temp Files ###
 rm custom_javascript2.js
 rm custom_javascript-compressed2.js
 
 #******************************************************************************/
+

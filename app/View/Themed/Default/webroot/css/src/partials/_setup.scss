@@ -46,8 +46,10 @@ $border_width:          1px !default;
 $padding:               10px !default;
 
 /*******************************************************************************
-* Setup and import bootstrap
+* Setup bootstrap
 ******************************************************************************/
+
+$linkColor:                       $link_color !default;
 
 $btnSubmitBackground:             #abe337 !default;
 $btnSubmitBackgroundHighlight:    #e6ffb1 !default;

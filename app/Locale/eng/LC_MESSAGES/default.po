@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-24 12:51+0100\n"
-"PO-Revision-Date: 2012-04-25 14:24+0100\n"
+"POT-Creation-Date: 2012-05-02 12:14+0100\n"
+"PO-Revision-Date: 2012-05-02 12:14+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -373,38 +373,42 @@ msgstr "views"
 msgid "board_edited_marking"
 msgstr "edited by"
 
-#: View/Elements/entry/view_posting.ctp:20
-#: View/Elements/entry/view_posting.ctp:149
+#: View/Elements/entry/view_posting.ctp:53
+msgid "forum_answer_linkname"
+msgstr "Answer"
+
+#: View/Elements/entry/view_posting.ctp:76
+#: View/Elements/entry/view_posting.ctp:96
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: View/Elements/entry/view_posting.ctp:31
+#: View/Elements/entry/view_posting.ctp:87
+msgid "Moderate"
+msgstr "Mod"
+
+#: View/Elements/entry/view_posting.ctp:108
 msgid "fixed_set_entry_link"
 msgstr "Pin"
 
-#: View/Elements/entry/view_posting.ctp:31
+#: View/Elements/entry/view_posting.ctp:108
 msgid "fixed_unset_entry_link"
 msgstr "Unpin"
 
-#: View/Elements/entry/view_posting.ctp:49
+#: View/Elements/entry/view_posting.ctp:126
 msgid "locked_set_entry_link"
 msgstr "Lock"
 
-#: View/Elements/entry/view_posting.ctp:49
+#: View/Elements/entry/view_posting.ctp:126
 msgid "locked_unset_entry_link"
 msgstr "Unlock"
 
-#: View/Elements/entry/view_posting.ctp:68
+#: View/Elements/entry/view_posting.ctp:145
 msgid "delete_tree_link"
 msgstr "Delete"
 
-#: View/Elements/entry/view_posting.ctp:75
+#: View/Elements/entry/view_posting.ctp:151
 msgid "delete_tree_link_confirm_message"
 msgstr "Deleting a thread can't be undone! Are you sure you want to delete the thread?"
-
-#: View/Elements/entry/view_posting.ctp:126
-msgid "forum_answer_linkname"
-msgstr "Answer"
 
 #: View/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
@@ -456,20 +460,20 @@ msgstr "Logout"
 msgid "search_submit"
 msgstr "Search"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:9
+#: View/Elements/layout/slidetab_recentposts.ctp:16
 msgid "user_recentposts"
 msgstr "recent posts"
 
-#: View/Elements/layout/slidetab_userlist.ctp:8
+#: View/Elements/layout/slidetab_userlist.ctp:15
 msgid "user_area_linkname"
 msgstr "User"
 
-#: View/Elements/layout/slidetab_userlist.ctp:6
+#: View/Elements/layout/slidetab_userlist.ctp:13
 #, php-format
 msgid "%s online (%s)"
 msgstr ""
 
-#: View/Elements/layout/slidetab_userlist.ctp:26
+#: View/Elements/layout/slidetab_userlist.ctp:33
 msgid "ud_mod"
 msgstr "Moderator"
 
@@ -506,7 +510,7 @@ msgid "error_password_confirm"
 msgstr ""
 
 #: View/Elements/users/add_form_core.ctp:23
-#: View/Elements/users/login_form.ctp:7
+#: View/Elements/users/login_form.ctp:6
 msgid "user_pw"
 msgstr "Password"
 
@@ -514,11 +518,11 @@ msgstr "Password"
 msgid "user_pw_confirm"
 msgstr "Confirm Password"
 
-#: View/Elements/users/login_form.ctp:6
+#: View/Elements/users/login_form.ctp:5
 msgid "user_name"
 msgstr "Username"
 
-#: View/Elements/users/login_form.ctp:8
+#: View/Elements/users/login_form.ctp:7
 msgid "auto_login_marking"
 msgstr "Stay Logged In"
 
@@ -530,28 +534,28 @@ msgstr ""
 "To activate your account please click the following link: %s"
 
 #: View/Entries/add.ctp:34
-#: View/Entries/add.ctp:269
+#: View/Entries/add.ctp:268
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:95
+#: View/Entries/add.ctp:94
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:124
+#: View/Entries/add.ctp:123
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:158
+#: View/Entries/add.ctp:157
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:194
+#: View/Entries/add.ctp:193
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
-#: View/Entries/add.ctp:233
-#: View/Entries/add.ctp:247
+#: View/Entries/add.ctp:232
+#: View/Entries/add.ctp:246
 msgid "submit_button"
 msgstr "Submit"
 
@@ -1035,7 +1039,8 @@ msgid "Add User"
 msgstr ""
 
 #: View/Users/changepassword.ctp:1
-#: View/Users/edit.ctp:46
+#: View/Users/edit.ctp:30
+#: View/Users/edit.ctp:60
 msgid "change_password_link"
 msgstr ""
 
@@ -1081,14 +1086,14 @@ msgid "edit_userdata"
 msgstr "Edit"
 
 #: View/Users/edit.ctp:11
-#: View/Users/edit.ctp:33
+#: View/Users/edit.ctp:47
 #: View/Users/index.ctp:14
 #: View/Users/view.ctp:18
 msgid "username_marking"
 msgstr "Name"
 
 #: View/Users/edit.ctp:16
-#: View/Users/edit.ctp:38
+#: View/Users/edit.ctp:52
 #: View/Users/index.ctp:16
 #: View/Users/view.ctp:32
 msgid "userlist_email"
@@ -1099,229 +1104,230 @@ msgstr "Email"
 msgid "user_type"
 msgstr "Type"
 
-#: View/Users/edit.ctp:50
+#: View/Users/edit.ctp:34
+#: View/Users/edit.ctp:64
 msgid "user_pw_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:58
+#: View/Users/edit.ctp:72
 msgid "user_show_email"
 msgstr ""
 
-#: View/Users/edit.ctp:61
+#: View/Users/edit.ctp:75
 msgid "user_show_email_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:67
+#: View/Users/edit.ctp:81
 #: View/Users/view.ctp:25
 msgid "user_real_name"
 msgstr ""
 
-#: View/Users/edit.ctp:69
+#: View/Users/edit.ctp:83
 msgid "user_real_name_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:74
+#: View/Users/edit.ctp:88
 #: View/Users/index.ctp:17
 #: View/Users/view.ctp:39
 msgid "user_hp"
 msgstr "Homepage"
 
-#: View/Users/edit.ctp:76
+#: View/Users/edit.ctp:90
 msgid "user_hp_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:81
+#: View/Users/edit.ctp:95
 #: View/Users/view.ctp:46
 msgid "user_place"
 msgstr "Place"
 
-#: View/Users/edit.ctp:82
+#: View/Users/edit.ctp:96
 msgid "user_place_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:91
+#: View/Users/edit.ctp:105
 msgid "user_profile_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:97
+#: View/Users/edit.ctp:111
 #: View/Users/view.ctp:74
 msgid "user_signature"
 msgstr "Signature"
 
-#: View/Users/edit.ctp:102
+#: View/Users/edit.ctp:116
 msgid "user_signature_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:107
+#: View/Users/edit.ctp:121
 msgid "user_font_size"
 msgstr ""
 
-#: View/Users/edit.ctp:124
+#: View/Users/edit.ctp:138
 msgid "user_font_size_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:129
+#: View/Users/edit.ctp:143
 msgid "user_automaticaly_mark_as_read"
 msgstr ""
 
-#: View/Users/edit.ctp:130
+#: View/Users/edit.ctp:144
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:134
+#: View/Users/edit.ctp:148
 msgid "user_signatures_hide"
 msgstr ""
 
-#: View/Users/edit.ctp:136
+#: View/Users/edit.ctp:150
 msgid "user_signatures_hide_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:138
+#: View/Users/edit.ctp:152
 msgid "user_signatures_images_hide_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:143
+#: View/Users/edit.ctp:157
 msgid "user_forum_refresh_time"
 msgstr ""
 
-#: View/Users/edit.ctp:147
+#: View/Users/edit.ctp:161
 msgid "user_forum_refresh_time_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:153
+#: View/Users/edit.ctp:167
 msgid "user_colors"
 msgstr ""
 
-#: View/Users/edit.ctp:155
+#: View/Users/edit.ctp:169
 msgid "user_color_new_postings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:157
+#: View/Users/edit.ctp:171
 msgid "user_color_old_postinings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:159
+#: View/Users/edit.ctp:173
 msgid "user_color_actual_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:165
+#: View/Users/edit.ctp:179
 msgid "user_forum_hr_ruler"
 msgstr ""
 
-#: View/Users/edit.ctp:166
+#: View/Users/edit.ctp:180
 msgid "user_forum_hr_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:172
+#: View/Users/edit.ctp:186
 msgid "user_standard_view"
 msgstr ""
 
-#: View/Users/edit.ctp:173
+#: View/Users/edit.ctp:187
 msgid "user_view_thread"
 msgstr ""
 
-#: View/Users/edit.ctp:173
+#: View/Users/edit.ctp:187
 msgid "user_view_board"
 msgstr ""
 
-#: View/Users/edit.ctp:173
+#: View/Users/edit.ctp:187
 msgid "user_view_mixed"
 msgstr ""
 
-#: View/Users/edit.ctp:174
+#: View/Users/edit.ctp:188
 msgid "user_standard_view_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:179
+#: View/Users/edit.ctp:193
 msgid "inline_view_on_click"
 msgstr ""
 
-#: View/Users/edit.ctp:182
+#: View/Users/edit.ctp:196
 msgid "inline_view_on_click_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:187
+#: View/Users/edit.ctp:201
 msgid "user_sort_last_answer"
 msgstr ""
 
-#: View/Users/edit.ctp:189
+#: View/Users/edit.ctp:203
 msgid "user_sort_last_answer_time"
 msgstr ""
 
-#: View/Users/edit.ctp:189
+#: View/Users/edit.ctp:203
 msgid "user_sort_last_answer_last_answer"
 msgstr ""
 
-#: View/Users/edit.ctp:190
+#: View/Users/edit.ctp:204
 msgid "user_sort_last_answer_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:197
+#: View/Users/edit.ctp:211
 msgid "user_pers_msg"
 msgstr ""
 
-#: View/Users/edit.ctp:198
+#: View/Users/edit.ctp:212
 msgid "user_pers_msg_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:203
+#: View/Users/edit.ctp:217
 msgid "user_standard_categories"
 msgstr ""
 
-#: View/Users/edit.ctp:206
+#: View/Users/edit.ctp:220
 msgid "user_standard_categories_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:210
+#: View/Users/edit.ctp:224
 msgid "user_time_diff"
 msgstr ""
 
-#: View/Users/edit.ctp:211
+#: View/Users/edit.ctp:225
 msgid "user_time_diff_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:216
+#: View/Users/edit.ctp:230
 msgid "admin_mod_notif"
 msgstr ""
 
-#: View/Users/edit.ctp:218
+#: View/Users/edit.ctp:232
 msgid "admin_mod_notif_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:219
+#: View/Users/edit.ctp:233
 msgid "new_posting_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:221
+#: View/Users/edit.ctp:235
 msgid "new_user_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:229
+#: View/Users/edit.ctp:243
 #: View/Users/view.ctp:82
 msgid "flattr"
 msgstr ""
 
-#: View/Users/edit.ctp:232
+#: View/Users/edit.ctp:246
 msgid "flattr_uid"
 msgstr ""
 
-#: View/Users/edit.ctp:236
+#: View/Users/edit.ctp:250
 msgid "flattr_allow_user"
 msgstr ""
 
-#: View/Users/edit.ctp:237
+#: View/Users/edit.ctp:251
 msgid "flattr_allow_user_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:240
+#: View/Users/edit.ctp:254
 msgid "flattr_allow_posting"
 msgstr ""
 
-#: View/Users/edit.ctp:241
+#: View/Users/edit.ctp:255
 msgid "flattr_allow_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:245
+#: View/Users/edit.ctp:259
 msgid "button_save"
 msgstr ""
 
@@ -1337,7 +1343,7 @@ msgstr "Online"
 msgid "registered"
 msgstr ""
 
-#: View/Users/login.ctp:1
+#: View/Users/login.ctp:2
 msgid "login_linkname"
 msgstr "Login"
 
@@ -1548,12 +1554,12 @@ msgstr ""
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:302
+#: Controller/UsersController.php:312
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:305
-msgid "Error, message couldn't be send!"
+#: Controller/UsersController.php:315
+msgid "Error, message couldn't be send! "
 msgstr ""
 
 #: Controller/Component/CurrentUserComponent.php:216

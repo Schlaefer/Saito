@@ -27,7 +27,7 @@ endif;
 					$this->Js->get('#btn_preview_close_' . $this->request->data['Entry']['id'])->event('click',
 							$js_r);
 					?>
-					<i id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='icon-remove pointer' style="cursor:pointer;">&nbsp;</i>
+					<i id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='icon-remove-sign icon-large pointer' style="cursor:pointer;">&nbsp;</i>
 				</div>
 				<div>
 					<h2>
@@ -51,7 +51,7 @@ endif;
 			<div>
 				<div>
 <?php  if ( $this->request->is('ajax') ) : ?>
-						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-remove pointer' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;">
+						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-remove-sign icon-large pointer' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;">
             </i>
 <?php  endif; ?>
 				</div>
