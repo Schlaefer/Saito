@@ -393,9 +393,11 @@ class UsersController extends AppController {
 	 */
 	protected function _email($options = array()) {
 		$defaults = array(
-				'viewVars'=> array(),
+				'viewVars'=> array(
+            'webroot' => FULL_BASE_URL . $this->request->webroot,
+        ),
 		);
-		extract(array_merge($defaults, $options));
+		extract(array_merge_recursive($defaults, $options));
 
 		if (!is_array($recipient)) {
 			$this->User->id = $recipient;
