@@ -2,7 +2,7 @@
 
 - Web server (tested with Apache and nginx)
 - MySQL 5+
-- PHP 5.3+ (if you're running your own server: in php.ini activate PHP-shortags)
+- PHP 5.3+ 
 
 
 # Installation #
@@ -13,33 +13,39 @@ Checkout git repository or download a zip from github. Usually it is recommended
 
 ## 2. Create Database ##
 
-Create the database where the tables for your shiny new forum will live. Use collation to `utf8_general_ci` (or other appropriate utf8 encoding).
+Create a database. Set collation to `utf8_general_ci` (or other appropriate utf8 encoding).
 
 ## 3. Open Root URL ##
 
 - Apache: `.htaccess` should take care of correct url, just open the url root.
 - nginx: You have to open `../app/webroot` manually until you configure nginx. See section [Nginx Configuration for CakePHP](#NginxConfigurationForCakePHP).
 
-## 5. Open the Installer ##
+## 4. Installer ##
 
 Open the URL root and if everything went OK the installer should greet you.
 
-### 5.1 tmp Directory Is Not Writeable ###
+### 4.1 tmp Directory Is Not Writeable ###
 
-The `tmp`-directory and its subdirectories have to be be writable by the webserver. The rights wisely set you must young padawan.
-
+The `tmp`-directory and its subdirectories have to be be writable by the webserver. Set the rights accordingly.
     
-### 5.2 Config Directory  Is Not Writable ###
+### 4.2 Config Directory  Is Not Writable ###
 
 The `app/config` folder needs to be writable by the webserver during the installation.
     
     
-### 5.3 Connect to Database ###
+### 4.3 Connect to Database ###
 
-Enter the database connection data. If the database connection is OK then create the database in the web-installer.
+Enter the database connection data into the web-installer. If the database connection is OK create the database.
 
 Follow the web-installer's instruction to the end.
 
+## After the installation
+
+- Change the admin password to a secure phrase
+- Set email addresses so contacting the admin works:
+	- Set the admin email address (user preferences)
+	- Set the forum email address (forum settings)
+- Backup app/core.php
 
 # Nginx Configuration for CakePHP <a name="NginxConfigurationForCakePHP"/> #
 
@@ -61,10 +67,13 @@ If you use suhosin set the following in you `php.ini`:
 
 ## Enable debug mode
 
-If something goes wrong enable the CakePHP debug mode, which shows you more information. In `app/config/core.php` set:
+If something goes wrong enable the CakePHP debug mode, which shows you more information. In `app/Config/core.php` set:
 
 	Configure::write('debug', 0);
 
 to
 
 	Configure::write('debug', 1);
+
+
+/* vim: set filetype=mkd : */ 
