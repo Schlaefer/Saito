@@ -22,10 +22,24 @@
 				<td> <?php echo $this->Form->radio('user_type', array( 'user' => '@lo User', 'mod' => '@lo Mod' , 'admin' => '@lo Admin'), array( 'legend' => false));  ?> </td>
 			</tr>
 
-			<tr>
-				<td> <?php echo __('user_pw') ?> </td>
-				<td> @td änderungsmöglichkeit für admin (?) </td>
-			</tr>
+      <?php  if ( $CurrentUser->getId() == $this->request->data['User']['id'] ) : ?>
+        <tr>
+          <td> <?php echo __('user_pw') ?> </td>
+          <td>
+              <?php echo $this->Html->link(
+                    __("change_password_link"),
+                    array ( 'action' => 'changepassword', $this->request->data['User']['id'] )
+                  )
+                  ?>
+              <p class="exp"> <?php echo __('user_pw_exp') ?> </p>
+          </td>
+        </tr>
+        <?php  else : ?>
+        <tr>
+          <td> <?php echo __('user_pw') ?> </td>
+          <td> @td änderungsmöglichkeit für admin (?) </td>
+        </tr>
+      <?php  endif ; ?>
 
 		<?php  else : ?>
 
