@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-      <title><?php echo $this->fetch('title'); ?></title>
+      <title><?php echo $title_for_layout ?></title>
 			<?php echo $this->Html->charset(); ?>
 			<script type="text/javascript">
       //<![CDATA[
