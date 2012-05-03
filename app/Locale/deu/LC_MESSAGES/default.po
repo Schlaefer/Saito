@@ -13,7 +13,6 @@ msgstr ""
 "X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
-"'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: .\n"
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-02 12:14+0100\n"
-"PO-Revision-Date: 2012-05-02 19:51+0100\n"
+"PO-Revision-Date: 2012-05-03 11:26+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -479,7 +479,7 @@ msgstr "Moderator"
 
 #: View/Elements/users/add_form_core.ctp:4
 msgid "error_name_reserved"
-msgstr ""
+msgstr "Name is already used."
 
 #: View/Elements/users/add_form_core.ctp:5
 msgid "error_no_name"
@@ -491,7 +491,7 @@ msgstr "Username"
 
 #: View/Elements/users/add_form_core.ctp:11
 msgid "error_email_reserved"
-msgstr ""
+msgstr "Email address is already used."
 
 #: View/Elements/users/add_form_core.ctp:12
 msgid "error_email_wrong"
@@ -561,11 +561,11 @@ msgstr "Submit"
 
 #: View/Entries/search.ctp:25
 msgid "search_term"
-msgstr ""
+msgstr "Search"
 
 #: View/Entries/search.ctp:37
 msgid "search_advanced"
-msgstr ""
+msgstr "Advanced Search"
 
 #: View/Entries/search.ctp:53
 msgid "subject"
@@ -581,7 +581,7 @@ msgstr ""
 
 #: View/Entries/search.ctp:135
 msgid "search_nothing_found"
-msgstr ""
+msgstr "Nothing found."
 
 #: View/Entries/view.ctp:23
 msgid "whole_thread_marking"
@@ -1042,11 +1042,11 @@ msgstr ""
 #: View/Users/edit.ctp:30
 #: View/Users/edit.ctp:60
 msgid "change_password_link"
-msgstr ""
+msgstr "Change password"
 
 #: View/Users/changepassword.ctp:7
 msgid "change_password_old_password"
-msgstr ""
+msgstr "Old Password"
 
 #: View/Users/changepassword.ctp:11
 msgid "error_password_check_old"
@@ -1054,15 +1054,15 @@ msgstr ""
 
 #: View/Users/changepassword.ctp:15
 msgid "change_password_new_password"
-msgstr ""
+msgstr "New Password"
 
 #: View/Users/changepassword.ctp:23
 msgid "change_password_new_password_confirm"
-msgstr ""
+msgstr "Confirm New Password"
 
 #: View/Users/changepassword.ctp:25
 msgid "change_password_btn_submit"
-msgstr ""
+msgstr "Change Password"
 
 #: View/Users/contact.ctp:3
 msgid "user_contact_title"
@@ -1445,7 +1445,7 @@ msgstr ""
 #: Controller/EntriesController.php:250
 #: Controller/EntriesController.php:330
 msgid "back_to_posting_linkname"
-msgstr ""
+msgstr "Back to Posting"
 
 #: Controller/EntriesController.php:256
 msgid "back_to_overview_linkname"
