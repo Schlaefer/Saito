@@ -468,7 +468,7 @@ input, textarea {
   font-size: 100%;
   padding: 0.2em 0.5em;
 	@extend .c_all-radius;
-  border: 1px solid $saito_gray_dark;
+  border: 1px solid $saito_gray_input_border;
   width: 98%;
   /* chrome in linux */
   outline-color: $saito_accent_dark; }
@@ -490,7 +490,8 @@ form textarea {
 /* inset shadow for text fiedls */
 input[type=text], input[type=password], textarea {
 	@extend .box-shadow-inset;
-  border-color: $saito_gray_dark; }
+  border-color: $saito_gray_input_border;
+  }
 
 form > div {
   padding: 0.5em; }

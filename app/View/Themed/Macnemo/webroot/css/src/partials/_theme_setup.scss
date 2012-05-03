@@ -2,11 +2,6 @@
 * Setup basic layout parameters
 ******************************************************************************/
 
-// the grays
-// -------------------------------------
-$saito_gray_light: #FAFAFA;
-$saito_gray_dark: #E0E0E0;
-
 // base
 // -------------------------------------
 $saito_base: #F7F7AA;
@@ -39,8 +34,6 @@ $saito_body_background: #f8f8f8;
 /*******************************************************************************
 * Setup and import bootstrap
 ******************************************************************************/
-
-$btnPrimaryBackground:  #abe337;
 
 // import setup for paramters not overwritten by the theme
 @import '../../../../Default/webroot/css/src/partials/_setup.scss';
