@@ -569,10 +569,7 @@ class EntriesController extends AppController {
 				$element['rights'] = $rights;
 		};
 
-		$this->Auth->allow(
-				'feed', 'index', 'mobile_index', 'view', 'mobile_view', 'mix', 'mobile_mix',
-				'mobile_recent'
-		);
+		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 		if ( $this->request->action == 'index' ) {
 			if ( $this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0 ) {
