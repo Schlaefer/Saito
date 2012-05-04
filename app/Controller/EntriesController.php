@@ -104,6 +104,7 @@ class EntriesController extends AppController {
 				array( 
             'title' => '<i class="icon-arrow-left"></i> ' . __('Back'),
             'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
+    $this->_showAnsweringPanel();
 	}
 
 	# @td MVC user function ?
@@ -133,8 +134,7 @@ class EntriesController extends AppController {
 		// @td doku
 		$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
 
-		$last_action = $this->localReferer('action');
-		$this->set('last_action', $last_action);
+    $this->_showAnsweringPanel();
 
 		if ( $this->request->is('ajax') ):
 			//* inline view
@@ -761,6 +761,40 @@ class EntriesController extends AppController {
 		$categories = $this->Entry->Category->getCategoriesSelectForAccession($this->CurrentUser->getMaxAccession());
 		$this->set('categories', $categories);
 	}
+
+  /**
+   * Decide if an answering panel is show when rendering a posting
+   */
+  protected function _showAnsweringPanel() {
+    // debug($this->localReferer('controller').'/'.$this->localReferer('action'));
+    $showAnsweringPanel = FALSE;
+
+    if (
+        // Only logged in users see the answering buttons if they …
+        $this->CurrentUser->isLoggedIn()
+        && (
+            (
+              // … directly on entries/view  (not inline)
+              ($this->request->action === 'view'  && !$this->request->is('ajax'))
+              // … directly in entries/mix
+              || $this->request->action === 'mix'
+            )
+            || (
+              // … inline viewing …
+              $this->localReferer('controller') === 'entries'
+                && (
+                  // … on entries/index.
+                  $this->localReferer('action') === 'index'
+                )
+            )
+          )
+    ):
+      $showAnsweringPanel = TRUE;
+    endif;
+
+    $this->set('showAnsweringPanel', $showAnsweringPanel);
+
+  }
 
 }
 

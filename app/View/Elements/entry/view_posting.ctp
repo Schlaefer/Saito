@@ -110,16 +110,7 @@
 					<div id="a_a_b_<?php echo $entry['Entry']['id'];?>" class="c_a_a_b">
 						<div>
 						<?php
-							// User is logged in AND we are not in the inline view of the tree in entries/view (there we answer directly)
-							// @todo: this needs refactoring and commenting
-							// debug($last_action); debug($this->request->action);
-						if( $CurrentUser->isLoggedIn()
-								&& (($last_action === $this->request->action && !$this->request->is('ajax')) || $last_action === 'index' || $this->request->action === 'mix')
-								|| $last_action === 'edit' 
-								|| $last_action === 'search' 
-								// after posting a completely new thread the last action was the `add` form
-								|| $last_action === 'add'
-							):
+						if (!empty($showAnsweringPanel)) :
 						?>
 							<div class="c_a_a_b_a c_first_child">
 								<?php
