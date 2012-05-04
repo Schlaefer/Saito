@@ -40,8 +40,9 @@ class EntriesController extends AppController {
 	 */
 	protected $_ldGetRightsForEntryAndUser;
 
-	public function index($page = NULL) {
+	public function index() {
 		Stopwatch::start('Entries->index()');
+
 
 		extract($this->_getInitialThreads($this->CurrentUser));
 		$this->set('entries',
@@ -53,9 +54,13 @@ class EntriesController extends AppController {
 					$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
 		}
 
-		//* set sub_nav_left
-		$this->Session->write('paginator.lastPage', $page);
-		$this->set('title_for_layout', __('page') . ' ' . $page);
+    $currentPage = (isset($this->request->named['page'])) ? $this->request->named['page'] : $id ;
+		$this->Session->write(
+        'paginator.lastPage',
+        $currentPage
+      );
+		$this->set('title_for_layout', __('page') . ' ' . $currentPage);
+
 		$this->set('showDisclaimer', TRUE);
 
 		Stopwatch::stop('Entries->index()');
@@ -662,7 +667,7 @@ class EntriesController extends AppController {
 		$lastAction = $this->localReferer('action');
 		if ( $lastAction !== 'add' ):
 			if ( $this->Session->read('paginator.lastPage') ):
-				$indexPage .= '/' . $this->Session->read('paginator.lastPage');
+				$indexPage .= '/page:' . $this->Session->read('paginator.lastPage');
 			endif;
 		endif;
 		$indexPage .= '/jump:' . $tid;
