@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-02 12:14+0100\n"
-"PO-Revision-Date: 2012-05-03 11:26+0100\n"
+"PO-Revision-Date: 2012-05-04 10:20+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1341,7 +1341,7 @@ msgstr "Online"
 
 #: View/Users/index.ctp:20
 msgid "registered"
-msgstr ""
+msgstr "Registered"
 
 #: View/Users/login.ctp:2
 msgid "login_linkname"
@@ -1668,7 +1668,7 @@ msgstr "Category"
 
 #: View/Helper/EntryHHelper.php:224
 msgid "error_category_empty"
-msgstr ""
+msgstr "Category must not be empty."
 
 #: View/Helper/GlasenuhrHelper.php:29
 msgid "Nachts"
