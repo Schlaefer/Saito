@@ -78,5 +78,5 @@ Router::parseExtensions('xml');
 /**
  * RSS feed setup
  */
-Router::connect('/entries/index.rss/*', array( 'controller' => 'entries', 'action' => 'feed' ));
+Router::parseExtensions('rss');
 ?>

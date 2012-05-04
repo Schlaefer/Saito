@@ -6,6 +6,9 @@
         <li>
           <a href="<?PHP echo $this->request->webroot ?>users/contact/1"><?php echo __('Contact') ?></a>
         </li>
+        <li>
+          <a href="<?php echo $this->request->webroot ?>pages/display/rss_feeds"><?php echo __('RSS') ?></a>
+        </li>
       </ul>
     </div>
   </div>

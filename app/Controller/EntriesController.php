@@ -18,6 +18,8 @@ class EntriesController extends AppController {
 	public $components = array(
 			'CacheTree',
 			'Flattr',
+      // for RSS-feed
+      'RequestHandler',
 			'Search.Prg',
 	);
 	/**
@@ -66,34 +68,36 @@ class EntriesController extends AppController {
 	}
 
 	public function feed() {
-		// Configure::write('debug', 0);
-		$this->RequestHandler->setContent('RSS');
-		$this->RequestHandler->renderAs($this, 'rss');
+		Configure::write('debug', 0);
+    
+    if ($this->RequestHandler->isRss() ) {
+        if ( isset($this->request->params['named']['depth']) && $this->request->params['named']['depth'] === 'start' ) {
+          $title = __('Last started threads');
+          $order = 'time DESC';
+          $conditions = array(
+              'pid' => 0,
+              'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
+          );
+        } else {
+          $title = __('Last entries');
+          $order = 'last_answer DESC';
+          $conditions = array(
+              'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
+          );
+        }
 
-		if ( isset($this->request->params['named']['depth']) && $this->request->params['named']['depth'] === 'start' ) {
-			$title = __('Last started threads');
-			$order = 'time DESC';
-			$conditions = array(
-					'pid' => 0,
-					'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
-			);
-		} else {
-			$title = __('Last entries');
-			$order = 'last_answer DESC';
-			$conditions = array(
-					'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
-			);
-		}
+        $this->set('entries',
+            $this->Entry->find('all',
+                array(
+                'conditions' => $conditions,
+                'contain' => false,
+                'limit' => 10,
+                'order' => $order,
+            )));
+        $this->set('title', $title);
 
-		$this->set('entries',
-				$this->Entry->find('all',
-						array(
-						'conditions' => $conditions,
-						'contain' => false,
-						'limit' => 10,
-						'order' => $order,
-				)));
-		$this->set('title', $title);
+        return;
+    }
 	}
 
 	public function mix($tid) {

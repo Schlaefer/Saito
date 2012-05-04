@@ -1,5 +1,6 @@
 <?php
-	$this->set('documentData', array('xmlns:dc' => 'http://purl.org/dc/elements/1.1/'));
+  $this->set('documentData', array(
+    'xmlns:dc' => 'http://purl.org/dc/elements/1.1/'));
 
 	$this->set('channelData', array(
 			'title' => Configure::read('Saito.Settings.forum_name') . ' – ' . $title,
@@ -34,6 +35,7 @@
 			 * 
 			 */
 
+//      /*
 			echo  $this->Rss->item(array(), array(
 					'title' 			=> html_entity_decode($entry['Entry']['subject'], ENT_NOQUOTES,'UTF-8'),
 					'link' 				=> $postLink,
