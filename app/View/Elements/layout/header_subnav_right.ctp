@@ -1,7 +1,7 @@
 <?php
   echo $this->fetch('headerSubnavRight');
 ?>
-<?php // depracted as of CakePHP 2.1, use fetch instead ?>
+<?php // if a page has a global paginator we assume it's always shown top right ?>
 <?php if (isset($this->Paginator) && $this->request->params['action'] == 'index') : ?>
 	<span class="paginator">
 		<?php
