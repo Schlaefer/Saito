@@ -1,3 +1,11 @@
+<?php
+  $this->start('headerSubnavLeft');
+  echo $this->Html->link(
+      '<i class="icon-arrow-left"></i> ' . __('Back'),
+      array ( 'controller' => 'users', 'action' => 'edit', $this->request->data['User']['id'] ),
+      array( 'class' => 'textlink', 'escape' => FALSE ));
+  $this->end();
+?>
 <h1><?php echo __('change_password_link').': '.$this->request->data['User']['username']; ?></h1>
 <div class='fieldset_1'>
 	<?php

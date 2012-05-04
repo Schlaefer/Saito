@@ -1,3 +1,11 @@
+<?php
+  $this->start('headerSubnavLeft');
+  echo $this->Html->link(
+      '<i class="icon-arrow-left"></i> ' . __('Back'),
+      array ( 'controller' => 'users', 'action' => 'view', $this->request->data['User']['id']),
+      array( 'class' => 'textlink', 'escape' => FALSE ));
+  $this->end();
+?>
 <h1><?php echo __('user_area_title'); ?></h1>
 <div id="user_edit" class="user edit">
 <h2> <?php echo $this->request->data['User']['username']; ?>: <?php echo __('edit_userdata'); ?> </h2>

@@ -1,3 +1,11 @@
+<?php
+  $this->start('headerSubnavLeft');
+  echo $this->Html->link(
+      '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
+      '/',
+      array( 'class' => 'textlink', 'escape' => FALSE ));
+  $this->end();
+?>
 <div id="user_view" class="user view">
 	<?php 
 		$linkToHistory = $this->Html->link(

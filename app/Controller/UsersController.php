@@ -155,11 +155,6 @@ class UsersController extends AppController {
 		/** View Entry * */
 		$this->set('user', $viewed_user);
 
-		/** set sub_nav_left * */
-	  $this->set('headerSubnavLeft', array(
-        'title' => '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
-        'url' => '/'));
-
 	}
 
 	public function edit($id = NULL) {
@@ -226,11 +221,6 @@ class UsersController extends AppController {
 			$this->request->data = $this->User->read();
 		}
 		$this->set('user', $this->request->data);
-
-		/** set sub_nav_left **/
-	  $this->set('headerSubnavLeft', array(
-        'title' => '<i class="icon-arrow-left"></i> ' . __('Back'),
-        'url' => array ( 'controller' => 'users', 'action' => 'view', $this->User->id)));
 	}
 
 	public function changepassword($id = null) {
@@ -260,9 +250,6 @@ class UsersController extends AppController {
 			$this->request->data['User']['id'] = $id;
 		}
 
-	  $this->set('headerSubnavLeft', array(
-        'title' => '<i class="icon-arrow-left"></i> ' . __('Back'),
-        'url' => array ( 'controller' => 'users', 'action' => 'edit', $id)));
 	}
 
 	public function contact($id = NULL) {
