@@ -56,12 +56,6 @@ class EntriesController extends AppController {
 		//* set sub_nav_left
 		$this->Session->write('paginator.lastPage', $page);
 		$this->set('title_for_layout', __('page') . ' ' . $page);
-		$this->set('headerSubnavLeft',
-				array(
-            'title' => '<i class="icon-plus-sign"></i> ' . __('new_entry_linkname'),
-            'url' => '/entries/add' )
-        );
-
 		$this->set('showDisclaimer', TRUE);
 
 		Stopwatch::stop('Entries->index()');

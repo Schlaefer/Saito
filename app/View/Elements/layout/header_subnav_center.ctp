@@ -1,3 +1,7 @@
+<?php
+  echo $this->fetch('headerSubnavRight');
+?>
+<?php // depracted as of CakePHP 2.1, use fetch instead ?>
 <?php if (isset($this->Paginator) && $this->request->params['action'] == 'index') : ?>
 	<?php
 		if ($CurrentUser->isLoggedIn()) :
