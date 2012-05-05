@@ -1,5 +1,7 @@
 <?php
 
+App::uses('Component', 'Controller');
+
 /**
  * @package saito_entry
  */
