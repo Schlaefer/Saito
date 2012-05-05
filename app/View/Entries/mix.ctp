@@ -12,7 +12,11 @@
 
 <div id="entry_mix" class="entry mix" style="position:relative;">
 	<?php
-		echo $this->Html->link('<div class="btn-strip btn-strip-back">&nbsp;</div>', array( 'action' => 'index', 'jump' => $entries[0]['Entry']['id'] ), array('escape' => false));
+		echo $this->Html->link(
+        '<div class="btn-strip btn-strip-back">&nbsp;</div>',
+        $this->EntryH->getPaginatedIndexPageId($entries[0]['Entry']['tid'], $lastAction),
+        array('escape' => FALSE)
+        );
 	?>
 	<div style="margin-left: 25px;">
 		<?php echo $this->element('entry/mix', array ( 'entry_sub' => $entries[0], 'level' => 0 )) ; ?>
