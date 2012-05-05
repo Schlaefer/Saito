@@ -38,10 +38,10 @@
 		<div id="topnav">
 			<div>
 				<div>
-					<?php echo $this->element('layout/header_subnav_left'); ?>
+          <?php echo $this->fetch('headerSubnavLeft'); ?>
 				</div>
 				<div>
-					<?php echo $this->element('layout/header_subnav_center'); ?>
+          <?php echo $this->fetch('headerSubnavCenter'); ?>
 				</div>
 				<div class="c_last_child">
 					<?php echo $this->element('layout/header_subnav_right'); ?>
