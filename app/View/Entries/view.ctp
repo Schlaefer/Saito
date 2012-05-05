@@ -1,4 +1,15 @@
 <?php echo  Stopwatch::start('view.ctp'); ?>
+
+<?php
+  $this->start('headerSubnavLeft');
+    echo $this->Html->link(
+        '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
+        $this->EntryH->getPaginatedIndexPageId($entry['Entry']['tid'], $lastAction),
+        array( 'class' => 'textlink', 'escape' => FALSE )
+        );
+  $this->end();
+?>
+
 <?php if (!isset($level)) $level = 0; ?>
 <?php
 	if ($show_answer) {

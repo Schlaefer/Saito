@@ -146,11 +146,6 @@ class EntriesController extends AppController {
 			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']));
 			$this->set('title_for_layout', $this->request->data['Entry']['subject']);
 
-			//* set sub_nav_left start
-			$this->set('headerSubnavLeft',
-					array(
-              'title' => '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
-              'url' => $this->_getPaginatedIndexPageId($this->request->data['Entry']['tid']) ));
 		endif;
 
 		Stopwatch::stop('Entries->view()');
