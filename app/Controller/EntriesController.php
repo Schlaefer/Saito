@@ -54,12 +54,14 @@ class EntriesController extends AppController {
 					$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
 		}
 
-    $currentPage = (isset($this->request->named['page'])) ? $this->request->named['page'] : $id ;
-		$this->Session->write(
-        'paginator.lastPage',
-        $currentPage
-      );
-		$this->set('title_for_layout', __('page') . ' ' . $currentPage);
+    if (isset($this->request->named['page'])) :
+      $currentPage = $this->request->named['page'];
+      $this->Session->write(
+          'paginator.lastPage',
+          $currentPage
+        );
+      $this->set('title_for_layout', __('page') . ' ' . $currentPage);
+    endif;
 
 		$this->set('showDisclaimer', TRUE);
 
