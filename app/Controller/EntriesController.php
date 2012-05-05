@@ -243,7 +243,7 @@ class EntriesController extends AppController {
 				unset($this->request->data['Entry']['nsfw']);
 				$this->set('citeText', $this->request->data['Entry']['text']);
 
-				$header_subnav_title = __('back_to_posting_linkname') . " " . $this->request->data['User']['username'];
+        $header_subnav_title = __('back_to_posting_from_linkname', $this->request->data['User']['username']);
 			else:
 				//* new posting creates new thread
 				$this->request->data['Entry']['pid'] = 0;
@@ -321,7 +321,7 @@ class EntriesController extends AppController {
 		$this->request->data = $old_entry;
 
 		// set sub_nav_left
-		$header_subnav_title = __('back_to_posting_linkname') . " " . $this->request->data['User']['username'];
+		$header_subnav_title = __('back_to_posting_from_linkname', $this->request->data['User']['username']);
 		$this->set('headerSubnavLeft',
 				array(
             'title' => '<i class="icon-arrow-left"></i> ' .$header_subnav_title,
