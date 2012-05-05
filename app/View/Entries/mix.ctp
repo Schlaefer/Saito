@@ -1,4 +1,15 @@
 <?php echo  Stopwatch::start('entries/mix'); ?>
+
+<?php
+  $this->start('headerSubnavLeft');
+    echo $this->Html->link(
+        '<i class="icon-arrow-left"></i> ' . __('Back'),
+        $this->EntryH->getPaginatedIndexPageId($entries[0]['Entry']['tid'], $lastAction),
+        array( 'class' => 'textlink', 'escape' => FALSE )
+        );
+  $this->end();
+?>
+
 <div id="entry_mix" class="entry mix" style="position:relative;">
 	<?php
 		echo $this->Html->link('<div class="btn-strip btn-strip-back">&nbsp;</div>', array( 'action' => 'index', 'jump' => $entries[0]['Entry']['id'] ), array('escape' => false));

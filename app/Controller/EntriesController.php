@@ -105,10 +105,6 @@ class EntriesController extends AppController {
 		$entries = $this->_setupMix($tid);
 		Entry::mapTreeElements( $entries, $this->_ldGetRightsForEntryAndUser, $this);
 		$this->set('entries', $entries);
-		$this->set('headerSubnavLeft',
-				array( 
-            'title' => '<i class="icon-arrow-left"></i> ' . __('Back'),
-            'url' => $this->_getPaginatedIndexPageId($entries[0]['Entry']['tid']) ));
     $this->_showAnsweringPanel();
 	}
 

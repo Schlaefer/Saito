@@ -192,6 +192,19 @@ EOF
 			return compact($out);
 		}
 
+    public function getPaginatedIndexPageId($tid, $lastAction) {
+      $indexPage = '/entries/index';
+
+      if ( $lastAction !== 'add' ):
+        if ( $this->Session->read('paginator.lastPage') ):
+          $indexPage .= '/page:' . $this->Session->read('paginator.lastPage');
+        endif;
+      endif;
+      $indexPage .= '/jump:' . $tid;
+
+      return $indexPage;
+    }
+
 		/**
 		 * This function may be called serveral hundred times on the front page.
 		 * Don't make ist slow, benchmark!
