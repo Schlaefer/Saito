@@ -135,16 +135,17 @@ class AppController extends Controller {
 	public function beforeRender() {
 		parent::beforeRender();
 
-		//* testing different themes on the fly with `theme` GET param /theme:<foo>/
+		Stopwatch::start('App->beforeRender()');
+
+		// testing different themes on the fly with `theme` GET param /theme:<foo>/
 		if ( isset($this->passedArgs['theme']) ) :
 			$this->theme = $this->passedArgs['theme'];
 		else:
 			$this->theme = Configure::read('Saito.theme');
 		endif;
 
-
-		Stopwatch::start('App->beforeRender()');
-
+    $this->set('lastAction', $this->localReferer('action'));
+    $this->set('lastControlelr', $this->localReferer('controller'));
 		$this->_setForumTitle();
 
 		Stopwatch::stop('App->beforeRender()');
