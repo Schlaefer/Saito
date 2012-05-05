@@ -243,22 +243,17 @@ class EntriesController extends AppController {
 				unset($this->request->data['Entry']['nsfw']);
 				$this->set('citeText', $this->request->data['Entry']['text']);
 
-        $header_subnav_title = __('back_to_posting_from_linkname', $this->request->data['User']['username']);
+        $headerSubnavLeftTitle = __('back_to_posting_from_linkname', $this->request->data['User']['username']);
 			else:
 				//* new posting creates new thread
 				$this->request->data['Entry']['pid'] = 0;
 				$this->request->data['Entry']['tid'] = 0;
 
-				$header_subnav_title = __('back_to_overview_linkname');
+				$headerSubnavLeftTitle = __('back_to_overview_linkname');
 			endif;
 
-
-			# @td refactor repititve parts in add() and edit ()
-			$this->set('headerSubnavLeft',
-					array(
-              'title' => '<i class="icon-arrow-left"></i> ' .$header_subnav_title,
-              'url' => '/entries/index' )
-          );
+      $this->set('headerSubnavLeftUrl', '/entries/index');
+			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
 
 			if ( $this->request->is('ajax') ):
 				$this->set('form_title', __('answer_marking'));
@@ -320,17 +315,14 @@ class EntriesController extends AppController {
 
 		$this->request->data = $old_entry;
 
-		// set sub_nav_left
-		$header_subnav_title = __('back_to_posting_from_linkname', $this->request->data['User']['username']);
-		$this->set('headerSubnavLeft',
-				array(
-            'title' => '<i class="icon-arrow-left"></i> ' .$header_subnav_title,
-				/** we can't use referer here because of validation error redirects, which would send us back to edit */
-				'url' => array( 'action' => 'view', $id )
-		));
+    $this->set('headerSubnavLeftUrl', '/entries/index');
+    $this->set(
+        'headerSubnavLeftTitle',
+		    __('back_to_posting_from_linkname', $this->request->data['User']['username'])
+        );
+		$this->set('headerSubnavLeftUrl', array( 'action' => 'view', $id ));
 
 		$this->set('form_title', __('edit_linkname'));
-
 
 		$this->_teardownAdd();
 
@@ -650,20 +642,6 @@ class EntriesController extends AppController {
 		}
 
 		Stopwatch::stop('Entries->beforeFilter()');
-	}
-
-	protected function _getPaginatedIndexPageId($tid) {
-		$indexPage = '/entries/index';
-
-		$lastAction = $this->localReferer('action');
-		if ( $lastAction !== 'add' ):
-			if ( $this->Session->read('paginator.lastPage') ):
-				$indexPage .= '/page:' . $this->Session->read('paginator.lastPage');
-			endif;
-		endif;
-		$indexPage .= '/jump:' . $tid;
-
-		return $indexPage;
 	}
 
 	protected function _emptyCache($id, $tid) {

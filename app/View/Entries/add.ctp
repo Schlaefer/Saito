@@ -1,4 +1,13 @@
 <?php
+  $this->start('headerSubnavLeft');
+  echo $this->Html->link(
+      '<i class="icon-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle ,
+      $headerSubnavLeftUrl,
+      array( 'class' => 'textlink', 'escape' => FALSE ));
+  $this->end();
+?>
+
+<?php
 // new entries have no id (i.e. no reply an no edit), so wie set a filler var
 if ( !isset($this->request->data['Entry']['id']) ) {
 	$this->request->data['Entry']['id'] = 'foo';
