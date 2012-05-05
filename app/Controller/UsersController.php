@@ -18,7 +18,6 @@ class UsersController extends AppController {
 	protected $allowedToEditUserData = false;
 
 	public function login() {
-		$this->set('LocationSubnavLeft', __('login_linkname'));
 
 		if ( $this->Auth->login() ):
 		// login was successfull
