@@ -64,7 +64,7 @@
 			<div id="bottomnav"  >
 				<div>
 						<div>
-							<?php echo $this->element('layout/header_subnav_left'); ?>
+              <?php echo $this->fetch('headerSubnavLeft'); ?>
 						</div>
 						<div>
 							<a href="javascript:window.scrollTo(0,0);" style="width: 100px; display: inline-block; height: 20px;"><i class="icon-arrow-up"></i></a>
