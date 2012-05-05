@@ -228,7 +228,7 @@ $this->Form->submit(__('Einfügen'),
 				<div class="postingform_main">
 					<?php
 					# @bogus
-					if ( !$this->request->is('ajax') || (isset($referer_action) && ( $referer_action == 'mix' || $referer_action == 'view' || $referer_action == 'add' ) ) ) {
+					if ( !$this->request->is('ajax') || (isset($lastAction) && ( $lastAction === 'mix' || $lastAction === 'view' || $lastAction === 'add' ) ) ) {
 						echo $this->Form->submit(__('submit_button'),
 								array(
 								'class' => 'btn btn-submit',

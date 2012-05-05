@@ -260,8 +260,6 @@ class EntriesController extends AppController {
               'url' => '/entries/index' )
           );
 
-			$this->set('referer_action', $this->localReferer('action'));
-
 			if ( $this->request->is('ajax') ):
 				$this->set('form_title', __('answer_marking'));
 			endif;
