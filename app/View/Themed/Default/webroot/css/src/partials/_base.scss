@@ -3,11 +3,13 @@ body {
 	background-color: $saito_body_background;
   /* don't use this sucker on mobile devices (e.g. iOS */
   /* text-rendering: optimizeLegibility; */
+
+  line-height: 1.6;
 	}
 
 body, input, textarea, button {
 	font-size: 12px;
-	font-family:  'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+	font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
   }
 
 // images
@@ -28,10 +30,8 @@ h2 {
   margin-top: 0; }
 
 p {
-	line-height: 1.5em;
   margin-top: 0px;
   margin-bottom: 1em; }
-
 
 strong, b	{ 
 	font-weight: bold; 

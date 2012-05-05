@@ -23,7 +23,6 @@ ul.style_1 {
 .fieldset_2 {
   @extend .box_style_2;
 
-	line-height: 1.5em;
   width: auto;
   padding: $padding; }
 
@@ -39,7 +38,6 @@ ul.style_1 {
 
 .c_table_clean_1 {
 	@extend .c_table;
-	line-height: 1.6em;
 	th {
 		font-weight: bold;
 		}
@@ -178,6 +176,7 @@ a.textlink {
   right: 0;
   padding: 2px 1em;
   font-size: 10px;
+  line-height: 12px;
 
   border-top-left-radius: $corner_radius;
   border-width: 1px 0 0 1px;
@@ -220,8 +219,6 @@ a.textlink {
   margin: 0 auto;
   position: relative;
 
-  line-height: 1.6em;
-
   @extend .small;
 	@extend .t_shadow;
 	@extend .c_info_text;
@@ -260,7 +257,6 @@ a.textlink {
 
 div.posting {
   margin: 0px 0px 0px 0px;
-  line-height: 1.6em;
   color: black;
   max-width: 80em;
 
@@ -300,7 +296,6 @@ div.author a {
 .signature {
   margin: 10px 0px 0px 0px;
   font-size: 0.9em;
-  line-height: 16px;
   color: gray;
   font-weight: normal;
   max-width: 750px; }
@@ -357,9 +352,6 @@ ul.reply, ul.replynew {
 ul.deep-reply {
   margin: 0px;
   list-style-type: none; }
-
-li {
-  line-height: 1.7em; }
 
 fieldset legend {
   background-color: #fffdbe;
