@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-05 11:32+0100\n"
-"PO-Revision-Date: 2012-05-05 11:34+0100\n"
+"POT-Creation-Date: 2012-05-06 11:56+0100\n"
+"PO-Revision-Date: 2012-05-06 11:56+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -396,7 +396,7 @@ msgid "board_edited_marking"
 msgstr "editiert von"
 
 #: View/Elements/entry/view_posting.ctp:25
-#: View/Elements/entry/view_posting.ctp:149
+#: View/Elements/entry/view_posting.ctp:153
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
@@ -424,7 +424,17 @@ msgstr "Löschen"
 msgid "delete_tree_link_confirm_message"
 msgstr "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
 
-#: View/Elements/entry/view_posting.ctp:126
+#: View/Elements/entry/view_posting.ctp:122
+#: View/Elements/layout/header_login.ctp:29
+#: View/Elements/layout/header_login.ctp:30
+msgid "Help"
+msgstr "Hilfe"
+
+#: View/Elements/entry/view_posting.ctp:123
+msgid "answering_forbidden_locked_shp"
+msgstr "Antworten gesperrt durch Moderator."
+
+#: View/Elements/entry/view_posting.ctp:130
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
@@ -477,6 +487,10 @@ msgstr "Seefahrtbuch"
 #: View/Elements/layout/header_login.ctp:18
 msgid "logout_linkname"
 msgstr "auf Landgang"
+
+#: View/Elements/layout/header_login.ctp:31
+msgid "No help for this page available."
+msgstr "Keine Hilfe für diese Seite verfügbar."
 
 #: View/Elements/layout/header_search.ctp:14
 msgid "search_submit"
@@ -541,6 +555,7 @@ msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
 #: View/Elements/users/login_form.ctp:5
+#: View/Entries/search.ctp:61
 msgid "user_name"
 msgstr "Besatzungsmitglied"
 
@@ -555,29 +570,29 @@ msgstr ""
 "\n"
 "Um Ihren Account frei zu schalten, klicken Sie bitte folgenden Link an: %s"
 
-#: View/Entries/add.ctp:34
-#: View/Entries/add.ctp:268
+#: View/Entries/add.ctp:43
+#: View/Entries/add.ctp:277
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:94
+#: View/Entries/add.ctp:103
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:123
+#: View/Entries/add.ctp:132
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
-#: View/Entries/add.ctp:157
+#: View/Entries/add.ctp:166
 msgid "Cite"
 msgstr "Zitieren"
 
-#: View/Entries/add.ctp:193
+#: View/Entries/add.ctp:202
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/add.ctp:232
-#: View/Entries/add.ctp:246
+#: View/Entries/add.ctp:241
+#: View/Entries/add.ctp:255
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -585,31 +600,39 @@ msgstr "Eintragen"
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
 
+#: View/Entries/index.ctp:20
+msgid "btn_manualy_mark_as_read_shp"
+msgstr "Neue Einträge als gelesen markieren."
+
 #: View/Entries/mix.ctp:6
 msgid "Back"
 msgstr "Zurück"
 
-#: View/Entries/search.ctp:26
+#: View/Entries/search.ctp:27
 msgid "search_term"
 msgstr "Suchbegriff"
 
-#: View/Entries/search.ctp:38
+#: View/Entries/search.ctp:30
+msgid "search_fulltext_textfield_shp"
+msgstr "+ bedeutet UND<br/>- bedeutet NICHT<br/>[kein Operator] impliziert ODER<br/><br/>'apple banana' Findet Datensätze, die mindestens eines der beiden Wörter enthalten.<br/><br/>'+apple +juice' Findet Datensätze, die beide Wörter enthalten.<br/><br/>'+apple macintosh' Findet Datensätze, die das Wort „apple“ enthalten, stuft aber solche Datensätze höher ein, die auch „macintosh“ enthalten.<br/><br/>'+apple -macintosh' Findet Datensätze, die das Wort „apple“, aber nicht das Wort „macintosh“ enthalten.<br/><br/>'apple*' Findet Datensätze, die Wörter wie „apple“, „apples“, „applesauce“ oder „applet“ enthalten.<br/><br/>'\"some words\"' Findet Datensätze, die die exakte Phrase „some words“ enthalten. Dies wäre etwa „some words of wisdom“, nicht aber „some noise words“."
+
+#: View/Entries/search.ctp:41
 msgid "search_advanced"
 msgstr "Erweiterte Suche"
 
-#: View/Entries/search.ctp:54
+#: View/Entries/search.ctp:57
 msgid "subject"
 msgstr "Betreff"
 
-#: View/Entries/search.ctp:60
+#: View/Entries/search.ctp:63
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:80
+#: View/Entries/search.ctp:83
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:136
+#: View/Entries/search.ctp:139
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
@@ -1108,6 +1131,8 @@ msgid "Add User"
 msgstr "Nutzer hinzufügen"
 
 #: View/Users/changepassword.ctp:9
+#: View/Users/edit.ctp:38
+#: View/Users/edit.ctp:68
 msgid "change_password_link"
 msgstr "Passwort ändern"
 
@@ -1148,26 +1173,20 @@ msgid "user_area_title"
 msgstr "Seefahrtbuch"
 
 #: View/Users/edit.ctp:11
-#: View/Users/view.ctp:124
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
 #: View/Users/edit.ctp:19
 #: View/Users/edit.ctp:55
-#: View/Users/index.ctp:14
-#: View/Users/view.ctp:26
 msgid "username_marking"
 msgstr "Deckname"
 
 #: View/Users/edit.ctp:24
 #: View/Users/edit.ctp:60
-#: View/Users/index.ctp:16
-#: View/Users/view.ctp:40
 msgid "userlist_email"
 msgstr "Flaschenpost"
 
 #: View/Users/edit.ctp:29
-#: View/Users/index.ctp:15
 msgid "user_type"
 msgstr "Rang"
 
@@ -1185,7 +1204,6 @@ msgid "user_show_email_exp"
 msgstr "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an die E-Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht eingesehen werden."
 
 #: View/Users/edit.ctp:89
-#: View/Users/view.ctp:33
 msgid "user_real_name"
 msgstr "Besatzungsmitglied"
 
@@ -1194,8 +1212,6 @@ msgid "user_real_name_exp"
 msgstr "(optional)"
 
 #: View/Users/edit.ctp:96
-#: View/Users/index.ctp:17
-#: View/Users/view.ctp:47
 msgid "user_hp"
 msgstr "Virtueller Liegeplatz"
 
@@ -1204,7 +1220,6 @@ msgid "user_hp_exp"
 msgstr "(optional)"
 
 #: View/Users/edit.ctp:103
-#: View/Users/view.ctp:54
 msgid "user_place"
 msgstr "Heimathafen"
 
@@ -1217,7 +1232,6 @@ msgid "user_profile_exp"
 msgstr "wird in der Nutzerinfo angezeigt (optional)"
 
 #: View/Users/edit.ctp:119
-#: View/Users/view.ctp:82
 msgid "user_signature"
 msgstr "Letzter Wille"
 
@@ -1370,7 +1384,6 @@ msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
 #: View/Users/edit.ctp:251
-#: View/Users/view.ctp:90
 msgid "flattr"
 msgstr "flattrn"
 
@@ -1498,42 +1511,39 @@ msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Nutzer."
 
 #: Controller/EntriesController.php:219
-#: Controller/EntriesController.php:317
+#: Controller/EntriesController.php:312
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
 #: Controller/EntriesController.php:246
-msgid "back_to_posting_linkname"
-msgstr "zurück zum Posting von"
+#: Controller/EntriesController.php:321
+msgid "back_to_posting_from_linkname"
+msgstr "zurück zum Posting von %s"
 
 #: Controller/EntriesController.php:252
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:264
+#: Controller/EntriesController.php:259
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:324
-msgid "back_to_posting_from_linkname"
-msgstr "zurück zum Posting von %s"
-
-#: Controller/EntriesController.php:357
+#: Controller/EntriesController.php:349
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:542
+#: Controller/EntriesController.php:534
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:542
+#: Controller/EntriesController.php:534
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:697
-#: Controller/EntriesController.php:707
+#: Controller/EntriesController.php:689
+#: Controller/EntriesController.php:699
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1598,36 +1608,36 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:44
+#: Controller/UsersController.php:43
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:89
+#: Controller/UsersController.php:88
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:146
-#: Controller/UsersController.php:163
+#: Controller/UsersController.php:145
+#: Controller/UsersController.php:162
 msgid "Invalid user"
 msgstr "Ungültiger Nutzer"
 
-#: Controller/UsersController.php:197
+#: Controller/UsersController.php:196
 msgid "user_edit_success"
 msgstr "Die Daten wurden gespeichert."
 
-#: Controller/UsersController.php:210
+#: Controller/UsersController.php:209
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:247
+#: Controller/UsersController.php:246
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:299
+#: Controller/UsersController.php:298
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:302
+#: Controller/UsersController.php:301
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
@@ -1636,7 +1646,7 @@ msgstr "Fehler, Nachricht konnte nicht versandt werden."
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
-#: Lib/SaitoEntry.php:72
+#: Lib/SaitoEntry.php:74
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
@@ -1783,6 +1793,9 @@ msgstr "Homepage"
 #: View/Helper/UserHHelper.php:162
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "back_to_posting_linkname"
+#~ msgstr "zurück zum Posting von"
 
 #~ msgid "Moderate"
 #~ msgstr "Mod"

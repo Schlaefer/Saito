@@ -21,13 +21,16 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 				echo $this->Form->input('search_term',
 						array(
 						'div' => false,
-						'class' => 'search_textfield',
+            'id'    => 'search_fulltext_textfield',
+						'class' => 'search_textfield shp shp-bottom',
             'style' => 'height: 38px;',
 						'placeholder' => __('search_term'),
 						'value' => $search_term,
+            'data-title'    => __('Help'),
+            'data-content'  => __('search_fulltext_textfield_shp'),
 						)
 				);
-				?>
+			?>
 			</div>
 			<?php
 			echo $this->Form->end();

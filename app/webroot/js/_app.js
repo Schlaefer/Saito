@@ -467,15 +467,46 @@ function initViewLine(id) {
   }
 };
 
+function initSaitoHelp() {
+  $('.shp-bottom').popover( {
+    placement: 'bottom',
+    trigger: 'manual'
+  })
+  $('.shp-right').popover( {
+    placement: 'right',
+    trigger: 'manual'
+  })
+  if($('.shp').length > 0) {
+    $('#shp-show').removeClass('no-color')
+  }
+}
+
+function saitoHelpShow() {
+
+  if($('.shp').length > 0) {
+    $('.shp').popover('toggle')
+  } else {
+    $('#shp-show').popover({
+      placement:  'left',
+      trigger:    'manual'
+    })
+    $('#shp-show').popover('toggle')
+  }
+
+  event.preventDefault();
+}
+
 /************* document ready *******************/
 $(document).ready( function() {
   Thread.init()
   initViewPosting();
   initViewLine();
   slidetabsMakeSortable();
+  initSaitoHelp();
 
   // new posting entries/add
   initViewAnswerForm();
+
 }); // end ready()
 
 // expand search field

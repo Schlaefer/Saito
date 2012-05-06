@@ -15,6 +15,9 @@
 							'id'			=> 'btn_manualy_mark_as_read',
 							'escape' => false,
 							'style'	=> "width: 100px; display: inline-block; height: 20px;",
+              'class'         => 'shp shp-bottom',
+              'data-title'    => __('Help'),
+              'data-content'  => __('btn_manualy_mark_as_read_shp'),
 							));
 		endif;
   $this->end();

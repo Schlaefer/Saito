@@ -18,3 +18,18 @@ if ($CurrentUser->isLoggedIn() == FALSE ) {
 	echo $this->Html->link(__('logout_linkname') , '/users/logout', array( 'id' => 'btn_logout' ) );
 }
 ?>
+	&nbsp;|&nbsp;
+  <?php echo $this->Html->link(
+        '<i class="icon-question-sign"></i>',
+        '#',
+        array(
+            'id'  => 'shp-show',
+            'class'   => 'no-color',
+            'onclick' => "saitoHelpShow();",
+            'tooltip' => __('Help'),
+            'data-title'   => __('Help'),
+            'data-content'  => __('No help for this page available.'),
+            'escape' => FALSE,
+            )
+      );
+      ?>
