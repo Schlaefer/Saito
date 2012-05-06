@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-06 11:56+0100\n"
-"PO-Revision-Date: 2012-05-06 11:56+0100\n"
+"POT-Creation-Date: 2012-05-06 15:24+0100\n"
+"PO-Revision-Date: 2012-05-06 15:26+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -395,46 +395,51 @@ msgstr "Zuhörer"
 msgid "board_edited_marking"
 msgstr "editiert von"
 
-#: View/Elements/entry/view_posting.ctp:25
-#: View/Elements/entry/view_posting.ctp:153
-msgid "edit_linkname"
-msgstr "Bearbeiten"
-
-#: View/Elements/entry/view_posting.ctp:39
-msgid "fixed_set_entry_link"
-msgstr "Anpinnen"
-
-#: View/Elements/entry/view_posting.ctp:39
-msgid "fixed_unset_entry_link"
-msgstr "Abpinnen"
-
-#: View/Elements/entry/view_posting.ctp:57
-msgid "locked_set_entry_link"
-msgstr "Sperren"
-
-#: View/Elements/entry/view_posting.ctp:57
-msgid "locked_unset_entry_link"
-msgstr "Entsperren"
-
-#: View/Elements/entry/view_posting.ctp:76
-msgid "delete_tree_link"
-msgstr "Löschen"
-
-#: View/Elements/entry/view_posting.ctp:83
-msgid "delete_tree_link_confirm_message"
-msgstr "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
-
-#: View/Elements/entry/view_posting.ctp:122
+#: View/Elements/entry/view_posting.ctp:12
+#: View/Elements/entry/view_posting.ctp:125
 #: View/Elements/layout/header_login.ctp:29
 #: View/Elements/layout/header_login.ctp:30
 msgid "Help"
 msgstr "Hilfe"
 
-#: View/Elements/entry/view_posting.ctp:123
+#: View/Elements/entry/view_posting.ctp:13
+msgid "button_mod_panel_shp"
+msgstr "Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder Thread zu bearbeiten."
+
+#: View/Elements/entry/view_posting.ctp:28
+#: View/Elements/entry/view_posting.ctp:156
+msgid "edit_linkname"
+msgstr "Bearbeiten"
+
+#: View/Elements/entry/view_posting.ctp:42
+msgid "fixed_set_entry_link"
+msgstr "Anpinnen"
+
+#: View/Elements/entry/view_posting.ctp:42
+msgid "fixed_unset_entry_link"
+msgstr "Abpinnen"
+
+#: View/Elements/entry/view_posting.ctp:60
+msgid "locked_set_entry_link"
+msgstr "Sperren"
+
+#: View/Elements/entry/view_posting.ctp:60
+msgid "locked_unset_entry_link"
+msgstr "Entsperren"
+
+#: View/Elements/entry/view_posting.ctp:79
+msgid "delete_tree_link"
+msgstr "Löschen"
+
+#: View/Elements/entry/view_posting.ctp:86
+msgid "delete_tree_link_confirm_message"
+msgstr "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
+
+#: View/Elements/entry/view_posting.ctp:126
 msgid "answering_forbidden_locked_shp"
 msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:130
+#: View/Elements/entry/view_posting.ctp:133
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 

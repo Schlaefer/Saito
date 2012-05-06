@@ -476,6 +476,10 @@ function initSaitoHelp() {
     placement: 'right',
     trigger: 'manual'
   })
+  $('.shp-left').popover( {
+    placement: 'left',
+    trigger: 'manual'
+  })
   if($('.shp').length > 0) {
     $('#shp-show').removeClass('no-color')
   }
