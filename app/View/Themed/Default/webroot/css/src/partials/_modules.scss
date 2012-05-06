@@ -947,9 +947,24 @@ ul.thread {
  * Bootstrap Popovers Adjustments
  ******************************************************************************/
 
+.popover {
+  font-size: 0.95em
+  }
+.popover-title {
+  padding: 5px 11px;
+  }
+.popover-content {
+  padding: 5px 10px;
+  }
+
+
+
+
 .popover-inner {
   @extend .c_all-radius;
+  // border illusion:
   background: $saito_border;
+  padding: $border_width;
 }
 
 .popover.bottom {
