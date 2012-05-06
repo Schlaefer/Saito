@@ -593,9 +593,11 @@ label, .label {
 
 .c_header_2 {
 	@extend .header_style_2;
-	@include c_t_h_3_abs(24px);
+	@extend .c_t_h_3_tbl;
 	@extend .c_top-radius;
 	border-width: 0 0 $border_width 0;
+	// explizit zero left right margin for FF and Opera
+	padding: $padding/4 0;
 	}
 
 .c_header_1, .c_header_2 {
