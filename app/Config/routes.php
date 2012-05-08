@@ -74,13 +74,7 @@ Router::connect(
     );
 
 /**
- * XML
+ * RSS & JSON setup
  */
-Router::mapResources('entries');
-Router::parseExtensions('xml');
-
-/**
- * RSS feed setup
- */
-Router::parseExtensions('rss');
+Router::parseExtensions('rss', 'json');
 ?>

@@ -71,7 +71,7 @@ class EntriesController extends AppController {
 	public function feed() {
 		Configure::write('debug', 0);
     
-    if ($this->RequestHandler->isRss() ) {
+//    if ($this->RequestHandler->isRss() || $this->RequestHandler->accepts('json') ) {
         if ( isset($this->request->params['named']['depth']) && $this->request->params['named']['depth'] === 'start' ) {
           $title = __('Last started threads');
           $order = 'time DESC';
@@ -95,10 +95,13 @@ class EntriesController extends AppController {
                 'limit' => 10,
                 'order' => $order,
             )));
+
+        // serialize for JSON
+        $this->set('_serialize', 'entries');
         $this->set('title', $title);
 
         return;
-    }
+//    }
 	}
 
 	public function mix($tid) {
