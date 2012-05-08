@@ -20,7 +20,7 @@ if ($CurrentUser->isLoggedIn() == FALSE ) {
 ?>
 	&nbsp;|&nbsp;
   <?php echo $this->Html->link(
-        '<i class="icon-question-sign"></i>',
+        __('Help'),
         '#',
         array(
             'id'  => 'shp-show',
@@ -29,7 +29,6 @@ if ($CurrentUser->isLoggedIn() == FALSE ) {
             'tooltip' => __('Help'),
             'data-title'   => __('Help'),
             'data-content'  => __('No help for this page available.'),
-            'escape' => FALSE,
             )
       );
       ?>
