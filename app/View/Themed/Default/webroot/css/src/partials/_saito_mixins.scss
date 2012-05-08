@@ -12,6 +12,11 @@
 	border-bottom-right-radius: $corner_radius;
 	}
 
+.c_left-radius {
+	border-bottom-left-radius: $corner_radius;
+	border-top-left-radius: $corner_radius;
+	}
+
 .c_all-radius {
 	@extend .c_top-radius;
 	@extend .c_bottom-radius;

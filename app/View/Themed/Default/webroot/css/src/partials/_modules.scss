@@ -5,7 +5,6 @@
 .highlight {
   background-color: #ffff99; }
 
-/** Allgemeine Schmuckelemente start ** */
 
 ul.style_1 {
 	list-style: disc;
@@ -114,7 +113,6 @@ ul.style_1 {
     height: 30px;
     margin: 10px auto; } }
 
-/** Allgemeine Schmuckelemente ende ** */
 
 /* eye-catching links ( with red triangle) */
 a.textlink {
@@ -956,9 +954,6 @@ ul.thread {
 .popover-content {
   padding: 5px 10px;
   }
-
-
-
 
 .popover-inner {
   @extend .c_all-radius;
