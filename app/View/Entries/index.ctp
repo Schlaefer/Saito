@@ -3,7 +3,7 @@
 <?php
   $this->start('headerSubnavLeft');
   echo $this->Html->link(
-      '<i class="icon-plus-sign"></i>&nbsp; ' . __('new_entry_linkname'),
+      '<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),
       '/entries/add',
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();
