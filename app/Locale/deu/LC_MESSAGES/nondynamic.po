@@ -32,3 +32,14 @@ msgstr "Feld darf nicht leer sein."
 msgid "notEmpty"
 msgstr "Feld darf nicht leer sein."
 
+#
+msgid "category_acs_0_exp"
+msgstr "Kategorie für nicht eingeloggte Besucher sichtbar"
+
+#
+msgid "category_acs_1_exp"
+msgstr "Kategorie nur für eingeloggte Nutzer sichtbar"
+
+#
+msgid "category_acs_2_exp"
+msgstr "Kategorie nur für Moderatoren sichtbar"

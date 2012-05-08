@@ -24,7 +24,7 @@
 	if ( $level === 0 ) :
 		?>
 		<span class='category_acs_<?php echo $entry_sub['Category']['accession']; ?>'
-					title="<?php echo $entry_sub['Category']['description']; ?>">
+					title="<?php echo $entry_sub['Category']['description']; ?> (<?php echo __d('nondynamic', 'category_acs_'.$entry_sub['Category']['accession'].'_exp'); ?>)">
 			(<?php echo $entry_sub['Category']['category']; ?>)
 		</span>
 	<?php endif ?>

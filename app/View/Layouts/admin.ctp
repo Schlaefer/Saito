@@ -15,7 +15,7 @@
 			<div class="navbar">
 				<div class="navbar-inner">
 					<div class="container" style="width: auto;">
-						<a class="brand" href="#">
+						<a class="brand" href="http://saito.siezi.com/">
 							Saito
 						</a>
 						<ul class="nav">

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-06 15:24+0100\n"
-"PO-Revision-Date: 2012-05-06 15:26+0100\n"
+"PO-Revision-Date: 2012-05-08 12:21+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -116,9 +116,8 @@ msgstr ""
 #: View/Categories/add.ctp:19
 #: View/Categories/edit.ctp:21
 #: View/Categories/view.ctp:41
-#, fuzzy
 msgid "List Categories"
-msgstr "Letzte Einträge"
+msgstr "Kategorien anzeigen"
 
 #: View/Categories/add.ctp:20
 #: View/Categories/edit.ctp:22
@@ -142,9 +141,8 @@ msgstr ""
 #: View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3
 #: View/Categories/index.ctp:2
-#, fuzzy
 msgid "Categories"
-msgstr "Letzte Einträge"
+msgstr "Kategorien"
 
 #: View/Categories/admin_add.ctp:14
 #: View/Categories/admin_edit.ctp:14
@@ -837,7 +835,6 @@ msgid "User Signatures Images Hide"
 msgstr "Nur Bilder in Signaturen der anderen Nutzer ausblenden."
 
 #: View/Groups/admin_view.ctp:72
-#, fuzzy
 msgid "User Categories"
 msgstr "Standardkategorien"
 
@@ -922,9 +919,8 @@ msgid "Flattr Allow Posting"
 msgstr "Postings flattrn"
 
 #: View/Layouts/admin.ctp:24
-#, fuzzy
 msgid "Overview"
-msgstr "Vorschau"
+msgstr "Übersicht"
 
 #: View/Layouts/admin.ctp:29
 #, fuzzy
