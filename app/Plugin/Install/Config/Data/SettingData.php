@@ -95,7 +95,7 @@ class SettingData {
 		),
 		array(
 				'name'	=> 'userranks_show',
-				'value'	=> '20',
+				'value'	=> '1',
 			),
 		array(
 				'name'	=> 'timezone',
