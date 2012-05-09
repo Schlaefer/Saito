@@ -337,14 +337,14 @@ function layout_slidetabs_toggle(id) {
     $(id).animate({
       'width': 250
     });
-    $(id + ' .content_wrapper').css( 'display','block');
+    $(id + ' .slidebar-content').css( 'display','block');
   }
   else {
     $(id).animate({
       'width': 28
     },
     function() {
-      $(id + ' .content_wrapper').css('display', 'none')
+      $(id + ' .slidebar-content').css('display', 'none')
     }
     );
   }
@@ -365,7 +365,6 @@ function initViewPosting(id) {
     id_class = '.' + id;
   }
   /*** start close button long ***/
-  console.log( $('.btn-strip-top'));
   $('.btn-strip-top').unbind('click').bind("click", function (event) {
     new ThreadLine($(this).data('id')).toggle_inline_view();
     event.preventDefault();
