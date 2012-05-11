@@ -23,7 +23,7 @@ class SettingData {
 			),
 		array(
 				'name'	=> 'video_domains_allowed',
-				'value'	=> 'youtube|vimeo',
+				'value'	=> 'youtube | vimeo',
 			),
 		array(
 				'name'	=> 'flattr_category',

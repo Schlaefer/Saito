@@ -374,8 +374,39 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertNoPattern($expected, $result);
 
-			Configure::write('Saito.Settings.bbcode_img', $bbcode_img);
-			Configure::write('Saito.Settings.video_domains_allowed', $video_domains);
+      /*
+       * test if all domains are allowed
+       */
+			Configure::write('Saito.Settings.video_domains_allowed', '*');
+
+      $refObject   = new ReflectionObject($this->Bbcode);
+      $refProperty = $refObject->getProperty('_allowedVideoDomains');
+      $refProperty->setAccessible(true);
+      $refProperty->setValue('_allowedVideoDomains', null);
+
+			$input = '[iframe height=349 width=560 ' .
+					'src=http://www.youtubescam.com/embed/HdoW3t_WorU ' .
+					'][/iframe]';
+			$expected = 'src="http://www.youtubescam.com/embed/HdoW3t_WorU';
+			$result = $this->Bbcode->parse($input);
+			$this->assertContains($expected, $result);
+
+      /*
+       * test if no domains are allowed
+       */
+			Configure::write('Saito.Settings.video_domains_allowed', '');
+
+      $refObject   = new ReflectionObject($this->Bbcode);
+      $refProperty = $refObject->getProperty('_allowedVideoDomains');
+      $refProperty->setAccessible(true);
+      $refProperty->setValue('_allowedVideoDomains', null);
+
+			$input = '[iframe height=349 width=560 ' .
+					'src=http://www.youtubescam.com/embed/HdoW3t_WorU ' .
+					'][/iframe]';
+			$expected = '/src/i';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNoPattern($expected, $result);
 		}
 
 		function testExternalImage() {

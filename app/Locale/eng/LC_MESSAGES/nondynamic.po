@@ -43,7 +43,10 @@ msgstr "Category only visible for logged in users"
 #
 msgid "category_acs_2_exp"
 msgstr "Category only visible for moderators"
+#
+msgid "video_domains_allowed"
+msgstr "Embeddable Video Sources"
 
-
-
-
+#
+msgid "video_domains_allowed_exp"
+msgstr "Domain names embeddable for video/iframe. Asterisk * means all sources allowed (This could pose a security risk if malicious code is embedded!)."

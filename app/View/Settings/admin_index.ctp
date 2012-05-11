@@ -67,13 +67,13 @@
 		<?php foreach( $autoSettings as $k => $v ) : ?>
 		<tr>
 			<td>
-				<?php echo $k; ?>
+				<?php echo __d('nondynamic', $k); ?>
 			</td>
 			<td>
 				<?php echo $v; ?>
 			</td>
 			<td>
-				<p><?php echo __($k.'_exp'); ?></p>
+				<p><?php echo __d('nondynamic', $k.'_exp'); ?></p>
 			</td>
 			<td>
 				<?php echo $this->Html->link(

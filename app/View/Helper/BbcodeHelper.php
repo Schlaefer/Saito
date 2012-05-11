@@ -756,16 +756,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Checks if an domain is allowed by comparing it to the admin preference
-	 *
+   * 
 	 * @param string $src
 	 * @return bool
 	 */
 	protected function _isVideoDomainAllowed($src) {
 		self::$_videoErrorMessage->reset();
 
-		//* initialy setup self::$_allowedVideoDomains
+		// initialy setup self::$_allowedVideoDomains
 		if ( self::$_allowedVideoDomains === null ):
+      // @td bad mvc; set allowed domains when initizlizing helper in controller
 			self::$_allowedVideoDomains = trim(Configure::read('Saito.Settings.video_domains_allowed'));
+      // @td bad mvc; the array should be created by the Settings Model
 			self::$_allowedVideoDomains = array_fill_keys(
 					array_map(
 							create_function('$in', 'return trim($in);'),
@@ -773,12 +775,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					), 1);
 		endif;
 
-		//* `*` admin pref allows all domains
+		// `*` admin pref allows all domains
 		if ( self::$_allowedVideoDomains === array( '*' => 1 ) ):
 			return true;
 		endif;
 
-		//* check if particular domain is allowed
+		// check if particular domain is allowed
 		$host = self::_getDomainForUri($src);
 		if ( isset(self::$_allowedVideoDomains[$host]) === true ):
 			return true;
