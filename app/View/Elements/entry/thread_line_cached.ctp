@@ -16,32 +16,36 @@
 // echo $this->Html->link($entry_sub['User']['username'], '/users/view/'. $entry_sub['User']['id']);
 /* <a href="<?php echo $this->request->webroot; ?>users/view/<?php echo $entry_sub['User']['id']; ?>" ><?php echo $entry_sub['User']['username']; ?></a> */
 ?>
-<span class="thread_line-username">
- –
-<?php echo $entry_sub['User']['username']; ?>
-</span>
-<?php
-	if ( $level === 0 ) :
-		?>
-		<span class='category_acs_<?php echo $entry_sub['Category']['accession']; ?>'
-					title="<?php echo $entry_sub['Category']['description']; ?> (<?php echo __d('nondynamic', 'category_acs_'.$entry_sub['Category']['accession'].'_exp'); ?>)">
-			(<?php echo $entry_sub['Category']['category']; ?>)
-		</span>
-	<?php endif ?>
-<span class="thread_line-post">
-			
-<?php
-	// normal time output
-	echo $this->TimeH->formatTime($entry_sub['Entry']['time']);
+<span class="mobile-nl">
+  <span class="thread_line-username">
+    <span class="mobile-hide">
+      –
+    </span>
+  <?php echo $entry_sub['User']['username']; ?>
+  </span>
+  <?php
+    if ( $level === 0 ) :
+      ?>
+      <span class='category_acs_<?php echo $entry_sub['Category']['accession']; ?>'
+            title="<?php echo $entry_sub['Category']['description']; ?> (<?php echo __d('nondynamic', 'category_acs_'.$entry_sub['Category']['accession'].'_exp'); ?>)">
+        (<?php echo $entry_sub['Category']['category']; ?>)
+      </span>
+    <?php endif ?>
+  <span class="thread_line-post">
 
-	// the schlaefer awe-some-o macnemo shipbell time output
-	/* <span title="<?php echo $this->TimeH->formatTime($entry_sub['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry_sub['Entry']['time'], 'glasen'); ?>
-	  </span> */
-?>
-			<?php if ( $entry_sub['Entry']['fixed'] ) : ?>
-					<i class="icon-pushpin" title="<?php echo __('fixed'); ?>"></i>
-				<?php  endif; ?>
-<?php if ( $entry_sub['Entry']['nsfw'] ): ?>
-		<span class="sprite-nbs-explicit" title="<?php echo __('entry_nsfw_title') ?>"></span>
-	<?php endif; ?>
+  <?php
+    // normal time output
+    echo $this->TimeH->formatTime($entry_sub['Entry']['time']);
+
+    // the schlaefer awe-some-o macnemo shipbell time output
+    /* <span title="<?php echo $this->TimeH->formatTime($entry_sub['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry_sub['Entry']['time'], 'glasen'); ?>
+      </span> */
+  ?>
+        <?php if ( $entry_sub['Entry']['fixed'] ) : ?>
+            <i class="icon-pushpin" title="<?php echo __('fixed'); ?>"></i>
+          <?php  endif; ?>
+  <?php if ( $entry_sub['Entry']['nsfw'] ): ?>
+      <span class="sprite-nbs-explicit" title="<?php echo __('entry_nsfw_title') ?>"></span>
+    <?php endif; ?>
+  </span>
 </span>
