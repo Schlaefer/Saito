@@ -78,7 +78,7 @@
 			$this->assertTags($result, $expected);
 		}
 
-		function testLink() {
+		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c_bbc_link-dinfo'>[ebay.de]</span>";
 			$result = $this->Bbcode->parse($input);
@@ -228,7 +228,7 @@
 			$this->assertTags($result, $expected);
 		}
 
-		function testEmail() {
+		public function testEmail() {
 			// mailto:
 			$input = '[email]mailto:mail@tosomeone.com[/email]';
 			$expected = "<a href='mailto:mail@tosomeone.com'>mailto:mail@tosomeone.com</a>";
@@ -282,7 +282,7 @@
 			 */
 		}
 
-		function testAutoLink() {
+		public function testAutoLink() {
 			$input = 'http://heise.de/foobar';
 			$expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a>";
 			$result = $this->Bbcode->parse($input);
@@ -323,7 +323,7 @@
 			 */
 		}
 
-		function testShortenLink() {
+		public function testShortenLink() {
 			$length_max = 15;
 
 			$text_word_maxlenghth = Configure::read('Saito.Settings.text_word_maxlength');
@@ -342,7 +342,7 @@
 			Configure::write('Saito.Settings.text_word_maxlength', $text_word_maxlenghth);
 		}
 
-		function testIframe() {
+		public function testIframe() {
 			$this->Bbcode->isParserInitialized = FALSE;
 			$bbcode_img = Configure::read('Saito.Settings.bbcode_img');
 			Configure::write('Saito.Settings.bbcode_img', true);
@@ -409,7 +409,7 @@
 			$this->assertNoPattern($expected, $result);
 		}
 
-		function testExternalImage() {
+		public function testExternalImage() {
 			$this->Bbcode->isParserInitialized = FALSE;
 			$bbcode_img = Configure::read('Saito.Settings.bbcode_img');
 			Configure::write('Saito.Settings.bbcode_img', true);
@@ -497,15 +497,29 @@
 			Configure::write('Saito.Settings.bbcode_img', $bbcode_img);
 		}
 
-		function testInternalImage() {
+		public function testInternalImage() {
 			  $this->Bbcode->isParserInitialized = FALSE;
 			  $bbcode_img = Configure::read('Saito.Settings.bbcode_img');
 			  Configure::write('Saito.Settings.bbcode_img', true);
 
+         // Create a map of arguments to return values.
+        $map = array(
+          array( 'test.png', '<img src="test.png" />' ),
+          array(
+              'test.png',
+              array(
+                  'autoResize'      => FALSE,
+                  'resizeThumbOnly' => FALSE,
+                  'width'           => '50',
+                  'height'          => '60',
+              ),
+              '<img src="test.png" width="50" height="60" alt="">'
+          )
+        );
 				$FileUploader = $this->getMock('FileUploaderHelper', array( 'image', 'reset' ));
 				$FileUploader->expects($this->atLeastOnce())
 					->method('image')
-					->will($this->returnValue('<img src="test.png" />'));
+					->will($this->returnValueMap($map));
 				$this->Bbcode->FileUpload =  $FileUploader;
 
         // internal image
@@ -519,6 +533,22 @@
 			  );
 			  $result		= $this->Bbcode->parse($input);
 			  $this->assertTags($result, $expected);
+
+        // internal image with attributes
+			  $input = '[upload width=50 height=60]test.png[/upload]';
+        $expected = array(
+            array( 'div' => array( 'class' => 'c_bbc_upload' ) ),
+            array( 'img' => array(
+                    'src'     => 'test.png',
+                    'width'   => '50',
+                    'height'  => '60',
+                    'alt'     => '',
+            ),
+                ),
+            '/div',
+        );
+        $result = $this->Bbcode->parse($input);
+        $this->assertTags($result, $expected);
 
         // internal image legacy [img#] tag
 			  $input 		= '[img#]test.png[/img]';
@@ -543,7 +573,7 @@
 			  Configure::write('Saito.Settings.bbcode_img', $bbcode_img);
 		}
 
-		function testSmilies() {
+		public function testSmilies() {
 
 			$input = ';)';
 			$expected = array( 'img' => array( 'src' => $this->Bbcode->webroot('img/smilies/wink.png'), 'alt' => ';)', 'title' => 'Wink' ) );
@@ -563,7 +593,7 @@
 			$this->assertIdentical($expected, $result);
 		}
 
-		function testCode() {
+		public function testCode() {
 
 			//* test whitespace
 			$input = "[code]\ntest\n[/code]";
@@ -595,7 +625,7 @@
       $this->assertContains($expected, $result);
 		}
 
-		function testMarkiereZitat() {
+		public function testMarkiereZitat() {
 
 			$input = Sanitize::html("» test");
 			$result = $this->Bbcode->parse($input);
@@ -607,7 +637,7 @@
 			$this->assertTags($result, $expected);
 		}
 
-		function testHtml5Video() {
+		public function testHtml5Video() {
 			//* setup
 			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
 			Configure::write('Saito.Settings.bbcode_img', true);
@@ -637,7 +667,7 @@
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
-		function testHtml5Audio() {
+		public function testHtml5Audio() {
 
 			//* setup
 			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
@@ -656,7 +686,7 @@
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
-		function testCiteText() {
+		public function testCiteText() {
 
 			$input = "";
 			$result = $this->Bbcode->citeText($input);
