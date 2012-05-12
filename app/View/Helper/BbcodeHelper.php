@@ -93,15 +93,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public function parse($string, array $options = array( )) {
 		$this->_initParser($options);
 		$string = $this->_Parser->parse($string);
-
-		// internal images
-		/*
-		 * [img#] is deprecated and replaced by [upload], remove if appropriate
-		 * 2011-06-20
-		 */
-		$string = preg_replace_callback("#\[img\#(=(\d{0,3})(x(\d{0,3}))?)?\](.+?)\[/img\]#is",
-				array( &$this, "_internalImage" ), $string);
-
 		return $string;
 	}
 
@@ -127,6 +118,22 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
 				array( &$this, '_convertLineBreaks' ));
 		$this->_Parser->addParser(array( 'block', 'inline', 'listitem' ), 'nl2br');
+
+		/*
+		 * Support for deprecated [img#] tag. [upload] is used now.
+     *
+     * Remove if appropriate 2011-06-20.
+		 */
+    $this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
+        // Translates [img# foo]bar[/img] to [upload foo]bar[/upload]
+        function($string) {
+          return preg_replace(
+              '#\[img\#(.*)?\](.+?)\[/img\]#is', 
+              "[upload\\1]\\2[/upload]",
+              $string
+              );
+        }
+        );
 
 		//* [code]
 		$this->_Parser->addCode(
@@ -490,33 +497,19 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _upload($action, $attributes, $content, $params, &$node_object) {
-		if ( !isset($attributes['default']) ) {
+		if ( empty($attributes) ) {
 			$this->FileUpload->reset();
 			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
 		} else {
 			$this->FileUpload->reset();
-			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
-			// @td
+      $allowedKeys = array_fill_keys(array( 'width', 'height'), FALSE);
+      $allowedAttributes = array_intersect_key($attributes, $allowedKeys);
 			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content,
-							array( 'width' => $matches[2], 'height' => $matches[4], 'autoResize' => false, 'resizeThumbOnly' => false )) . "</div>";
-		}
-	}
-
-	/**
-	 * deprecated, use _upload instead
-	 * 
-	 * @deprecated
-	 * @param type $matches
-	 * @return type 
-	 */
-	protected function _internalImage($matches) {
-		if ( !$matches[1] ) {
-			$this->FileUpload->reset();
-			return "<div style='margin: 5px 0px 5px 0px'>" . $this->FileUpload->image($matches[5]) . "</div>";
-		} else {
-			$this->FileUpload->reset();
-			return "<div style='margin: 5px 0px 5px 0px'>" . $this->FileUpload->image($matches[5],
-							array( 'width' => $matches[2], 'height' => $matches[4], 'autoResize' => false, 'resizeThumbOnly' => false )) . "</div>";
+							array(
+                  'autoResize' => FALSE,
+                  'resizeThumbOnly' => FALSE,
+                  ) + $allowedAttributes
+          ) . "</div>";
 		}
 	}
 
@@ -793,6 +786,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			);
 		endif;
 
+    // In case we didn't catch it above, just say No.
 		if ( empty(self::$_videoErrorMessage) ):
 			self::$_videoErrorMessage->set(__('Video domain is not allowed.'));
 		endif;

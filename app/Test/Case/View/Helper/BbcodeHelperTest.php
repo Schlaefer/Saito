@@ -508,7 +508,7 @@
 					->will($this->returnValue('<img src="test.png" />'));
 				$this->Bbcode->FileUpload =  $FileUploader;
 
-			//* internal image
+        // internal image
 			  $input 		= '[upload]test.png[/upload]';
 			  $expected = array(
 			  array( 'div' => array('class' => 'c_bbc_upload')),
@@ -517,6 +517,20 @@
 			  )),
 			  '/div',
 			  );
+			  $result		= $this->Bbcode->parse($input);
+			  $this->assertTags($result, $expected);
+
+        // internal image legacy [img#] tag
+			  $input 		= '[img#]test.png[/img]';
+			  $expected = array(
+			  array( 'div' => array(
+            'class' => 'c_bbc_upload'
+            ) ),
+          array( 'img' => array(
+                  'src' => 'test.png',
+          ) ),
+          '/div',
+        );
 			  $result		= $this->Bbcode->parse($input);
 			  $this->assertTags($result, $expected);
 
@@ -564,13 +578,21 @@
 					'preg:/.*?\[b\]text\[b\].*/',
 			);
 			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected, true);
+			$this->assertTags($result, $expected);
 
 			// [code]<citation mark>[/code] should not be cited
 			$input = Sanitize::html("[code]\n" . Configure::read('Saito.Settings.quote_symbol') . "\n[/code]");
 			$expected = '`span class=.*?c_bbc_citation`';
 			$result = $this->Bbcode->parse($input);
 			$this->assertNoPattern($expected, $result);
+
+      /*
+       * test setting a sourcecode type
+       */
+			$input = '[code php]text[/code]';
+			$result = $this->Bbcode->parse($input);
+			$expected = 'lang="php"';
+      $this->assertContains($expected, $result);
 		}
 
 		function testMarkiereZitat() {
