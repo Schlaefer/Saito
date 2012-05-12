@@ -787,6 +787,8 @@ ul.thread {
     list-style-type: none;
     display: inline; }
   li {
+    // setting explizit height for Firefox only
+    height: 15px;
     float: left; }
   a {
     padding: 1px 10px;
