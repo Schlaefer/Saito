@@ -224,8 +224,6 @@ a.no-color {
 	@extend .t_shadow;
 	@extend .c_info_text;
 
-	color: $saito_info_text;
-
 	a {
 		border-bottom: #DDD 1px solid;
 		@include link-colors($saito_info_text);
@@ -269,13 +267,12 @@ div.posting {
 	/* *** Nicer Image Handling in Postings *** end */
 	}
 
-div.author {
+.author {
+  @extend .info_text;
   margin: 1px 0 1em 0;
-  line-height: 19px;
-  color: black;
-  font-style: italic; }
+  }
 
-div.author a {
+.author a {
   font-weight: bold; }
 
 /* horizontale linie zwischen postings */
@@ -659,7 +656,7 @@ label, .label {
 		}
 	}
 
-.entry_edited_info, .c_info_text {
+.c_info_text {
 	@extend .info_text;
 	@extend .small;
 	}

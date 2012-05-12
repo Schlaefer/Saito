@@ -361,10 +361,6 @@ msgstr ""
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
-#: View/Elements/entry/view_content.ctp:36
-msgid "forum_author_marking"
-msgstr "posted by "
-
 #: View/Elements/entry/view_content.ctp:49
 msgid "views_headline"
 msgstr "views"

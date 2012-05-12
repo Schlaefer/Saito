@@ -379,11 +379,6 @@ msgstr "Thread fixiert"
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
-# msgstr "verfasst von"
-#: View/Elements/entry/view_content.ctp:36
-msgid "forum_author_marking"
-msgstr "gesponnen von"
-
 # msgstr "Aufrufe"
 #: View/Elements/entry/view_content.ctp:49
 msgid "views_headline"
