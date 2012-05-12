@@ -27,7 +27,6 @@
 
 			if ( isset($User['id']) ) {
 
-        /*
 				$font_size = $User['user_font_size'];
 				if ( $font_size != 0 ) {
 					$font_size = -1 * ( 1 - $font_size ) * 20 + 12;
@@ -41,7 +40,6 @@
 						$out[] = "ul.thread {margin-bottom:{$line_height}px ;}";
 					}
 				}
-        */
 
 				$c_new = $User['user_color_new_postings'];
 				$c_old = $User['user_color_old_postings'];
