@@ -85,6 +85,7 @@ form .c_markitup_popup_txta {
 	background:#FFF;
 	border:1px solid #000;
 	@extend .c_all-radius;
+  @extend .box-shadow;
 	border: $border_width solid $saito_gray_dark;
 }
 .markItUpHeader ul ul li {
