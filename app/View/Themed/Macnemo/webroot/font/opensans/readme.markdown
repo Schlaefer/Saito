@@ -1,0 +1,1 @@
+The macnemo theme Open Sans font contains only a subset suitable for the german language to reduce font file size.
