@@ -34,7 +34,7 @@
                                   array( 'controller' => 'users', 'action' => 'view', $entry['User']['id'])
                       ); ?>
         <?php  else : ?>
-          <strong><?php echo  $entry['User']['username'] ?></strong>,
+          <?php echo  $entry['User']['username'] ?>
         <?php  endif; ?>
       </span>
 			<?php  if ($entry['Entry']['pid'] == 0) : ?>
