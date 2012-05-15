@@ -4,7 +4,6 @@ App::uses('Controller', 'Controller');
 App::import('Lib', 'Stopwatch.Stopwatch');
 
 if (Configure::read('debug') > 0) {
-//  App::import('Vendor', array('file' => 'FirePHPCore/FirePHP.class.php'));
 	App::uses('FireCake', 'DebugKit.Lib');
 }
 
@@ -146,7 +145,7 @@ class AppController extends Controller {
 
     $this->set('lastAction', $this->localReferer('action'));
     $this->set('lastControlelr', $this->localReferer('controller'));
-		$this->_setForumTitle();
+		$this->_setTitleForLayout();
 
 		Stopwatch::stop('App->beforeRender()');
 		Stopwatch::start('---------------------- Rendering ---------------------- ');
@@ -162,28 +161,28 @@ class AppController extends Controller {
 	 * @td helper?
 	 *
 	 */
-	protected function _setForumTitle() {
-		$title = Configure::read('Saito.Settings.forum_name');
-		if ( empty($title) ) {
+	protected function _setTitleForLayout() {
+		$forumTitle = Configure::read('Saito.Settings.forum_name');
+		if ( empty($forumTitle) ) {
 			return;
 		}
 
-		$suffix = null;
+		$pageTitle = null;
 		if ( isset($this->viewVars['title_for_layout']) ) {
-			$suffix = $this->viewVars['title_for_layout'];
+			$pageTitle = $this->viewVars['title_for_layout'];
 		} else {
 			$untranslated = $this->params['controller'] . '/' . $this->params['action'];
 			$translated = __d('page_titles', $untranslated);
 			if ( $translated != $untranslated ) {
-				$suffix = $translated;
+				$pageTitle = $translated;
 			}
 		}
 
-		if ( !empty($suffix) ) {
-			$title = $title . ' – ' . $suffix;
+		if ( !empty($pageTitle) ) {
+			$forumTitle = $pageTitle . ' – ' . $forumTitle;
 		}
 
-		$this->set('title_for_layout', $title);
+		$this->set('title_for_layout', $forumTitle);
 	}
 
 	# @td make model function:

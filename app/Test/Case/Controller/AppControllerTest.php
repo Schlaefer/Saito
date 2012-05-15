@@ -17,6 +17,31 @@
 				'app.upload'
 		);
 
+    public function testSetTitleForLayout() {
+
+      // test empty title_for_layout
+			$result = $this->testAction(
+          '/entries/index',
+          array( 'return' => 'vars')
+          );
+      $this->assertEqual($result['title_for_layout'], 'macnemo');
+
+      // test nonempty title_for_layout
+			$result = $this->testAction(
+          '/entries/view/1',
+          array( 'return' => 'vars')
+          );
+      $this->assertEqual($result['title_for_layout'], 'First_Subject – macnemo');
+
+      // test empty title for layout with page_titles.po set
+			$this->_loginUser(1);
+			$result = $this->testAction(
+          '/entries/add',
+          array( 'return' => 'vars')
+          );
+      $this->assertEqual($result['title_for_layout'], 'New Entry – macnemo');
+    }
+
 		public function testLocalReferer() {
 			$this->testAction('/entries/index');
 

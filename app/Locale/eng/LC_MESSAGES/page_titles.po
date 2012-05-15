@@ -18,22 +18,22 @@ msgstr ""
 
 #
 msgid "entries/add"
-msgstr "Neuen Eintrag verfassen"
+msgstr "New Entry"
 
 #
 msgid "entries/edit"
-msgstr "Beitrag bearbeiten"
+msgstr "Edit Entry"
 
 #
 msgid "entries/search"
-msgstr "Suchen"
+msgstr "Search"
 
 msgid "users/index"
-msgstr "Nutzerübersicht"
+msgstr "Users"
 
 #
 msgid "users/contact"
-msgstr "Kontakt"
+msgstr "Contact"
 
 #
 msgid "users/login"
@@ -41,13 +41,13 @@ msgstr "Login"
 
 #
 msgid "users/register"
-msgstr "Registrieren"
+msgstr "Register"
 
 #
 msgid "users/view"
-msgstr "Nutzer"
+msgstr "User"
 
 #
 msgid "users/edit"
-msgstr "Nutzer bearbeiten"
+msgstr "Edit User"
 

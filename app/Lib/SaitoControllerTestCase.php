@@ -77,7 +77,7 @@
 			parent::setUp();
 
 			Configure::write('Cache.disable', true);
-
+      Configure::write('Config.language', 'eng');
 		}
 
 		public function tearDown() {
