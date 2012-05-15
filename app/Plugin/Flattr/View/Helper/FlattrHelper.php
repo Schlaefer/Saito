@@ -8,7 +8,7 @@ class FlattrHelper extends AppHelper {
  
 	public $helpers = array('Html');
  
-	const API_URL = 'http://api.flattr.com/';
+	const API_URL = '//api.flattr.com/';
  
  
 	/**
@@ -55,12 +55,12 @@ class FlattrHelper extends AppHelper {
 			'rel' => 'flattr;'.implode(';', $rev)
 		);
 		$linkOptions = array_merge($linkOptions, $attr);
- 
+
 		$js = "(function() {
     var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
     s.type = 'text/javascript';
     s.async = true;
-    s.src = '".self::API_URL."js/0.6/load.js?mode=".$mode."';
+    s.src = 'http". ((env('HTTPS')) ? 's:' : ':') . self::API_URL."js/0.6/load.js?mode=".$mode."';
     t.parentNode.insertBefore(s, t);
 })();";
 		$code = $this->Html->link($description, $this->Html->url($url, true), $linkOptions);
