@@ -31,7 +31,9 @@
     <div class="inside">
       <h3><?php echo __('About'); ?></h3>
       <p>
-        <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito  v%s.', Configure::read("Saito.v")); ?></a>
+        <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito v%s.', Configure::read("Saito.v")); ?></a>
+        <br/>
+        <?php echo __('Generated in %s ms.', Stopwatch::getWallTime()); ?>
       </p>
     </div>
   </div>

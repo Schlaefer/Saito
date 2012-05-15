@@ -118,7 +118,11 @@
 		<?php echo $this->fetch('script'); ?>
 		<?php echo $this->Js->writeBuffer();?>
 		<div class='clearfix'></div>
-		<?php echo $this->Stopwatch->getResult();?>
+		<?php
+			if ( (int)Configure::read('debug') !== 0 ) :
+        echo $this->Stopwatch->getResult();
+      endif;
+      ?>
 		<?php echo $this->element('sql_dump'); ?>
 	</div>
 	</body>

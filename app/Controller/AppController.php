@@ -121,10 +121,7 @@ class AppController extends Controller {
 			}
 		}
 
-		//* configure Stopwatch
-		if (Configure::read('debug') == 0) Stopwatch::disable();
-		// Schlaefers Developer Privilege 
-		if ($this->CurrentUser['username'] === 'Schlaefer' ) Stopwatch::enable();
+		Stopwatch::enable();
 
 		$this->_setupSlideTabs();
 
