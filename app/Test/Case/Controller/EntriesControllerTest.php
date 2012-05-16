@@ -67,7 +67,7 @@
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEqual($headerCounter['user_online'], 1);
-			$this->assertEqual($headerCounter['user'], 4);
+			$this->assertEqual($headerCounter['user'], 5);
 			$this->assertEqual($headerCounter['entries'], 4);
 			$this->assertEqual($headerCounter['threads'], 2);
 			$this->assertEqual($headerCounter['user_registered'], 0);

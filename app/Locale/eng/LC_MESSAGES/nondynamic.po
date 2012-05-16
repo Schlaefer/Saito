@@ -50,3 +50,10 @@ msgstr "Embeddable Video Sources"
 #
 msgid "video_domains_allowed_exp"
 msgstr "Domain names embeddable for video/iframe. Asterisk * means all sources allowed (This could pose a security risk if malicious code is embedded!)."
+#
+msgid "validation_error_pwConfirm"
+msgstr "Password confirmation does not match."
+
+#
+msgid "validation_error_pwCheckOld"
+msgstr "Old password is not correct."

@@ -223,31 +223,35 @@ class UsersController extends AppController {
 	}
 
 	public function changepassword($id = null) {
-		if ( $id == null || !$this->_checkIfEditingIsAllowed($id) ) {
-			$this->redirect('/');
-		}
+		if ( $id == null 
+        || !$this->_checkIfEditingIsAllowed($this->CurrentUser, $id) ) :
+			return $this->redirect('/');
+	  endif;
 
 		$this->User->id = $id;
 		$user = null;
 
-		if (empty($this->request->data)) {
-			# we have to fill it for the form magic to work
-			$this->User->contain("UserOnline");
-			$user = $this->User->read();
-			$user['User']['password'] = '';
-			$this->request->data = $user;
-		}
-		else
-		{
+		if (!empty($this->request->data)) :
 			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('change_password_success'), 'flash/notice');
-				$this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
-			}
-			$this->request->data['User']['id'] = $id;
-		}
+				return $this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
+			} else {
+				$this->Session->setFlash(
+            __d('nondynamic',
+                array_pop(array_pop($this->User->validationErrors))),
+            'flash/error');
+      }
+	  endif;
+
+
+		// we have to fill it for the form magic to work
+    $this->User->contain("UserOnline");
+    $user = $this->User->read();
+    $user['User']['password'] = '';
+    $this->request->data = $user;
 
 	}
 
@@ -353,11 +357,11 @@ class UsersController extends AppController {
 		$this->Auth->allow('register', 'login', 'contact');
 
 		if ($this->request->action === 'view') {
-			$this->_checkIfEditingIsAllowed();
+			$this->_checkIfEditingIsAllowed($this->CurrentUser);
 			$this->_loadSmilies();
 		}
 		if ($this->request->action === 'edit') {
-			$this->_checkIfEditingIsAllowed();
+			$this->_checkIfEditingIsAllowed($this->CurrentUser);
 		}
 
 		Stopwatch::stop('Users->beforeFilter()');
@@ -429,19 +433,30 @@ class UsersController extends AppController {
 	
 	} // end _contact()
 
-	protected function _checkIfEditingIsAllowed($id = null) {
-		if (is_null($id) && isset($this->passedArgs[0])) $id = $this->passedArgs[0];
-		if (!is_null($id)) {
-			if (
-							$this->CurrentUser->getId() == $this->passedArgs[0]	 #users own_entry
-							|| $this->CurrentUser['user_type']  == 'admin'				 #user is admin
-			) {
+  /**
+   *
+   * @param SaitoUser $userWhoEdits
+   * @param int $userToEditId
+   * @return type 
+   */
+	protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = NULL) {
+    if (is_null($userToEditId) && isset($this->passedArgs[0])) :
+      $userToEditId = $this->passedArgs[0];
+    endif;
 
-				$this->allowedToEditUserData = true;
-			}
+		if (isset($userWhoEdits['id']) && isset($userToEditId)) {
+			if (
+							$userWhoEdits['id'] == $userToEditId	 #users own_entry
+							|| $userWhoEdits['user_type']  == 'admin'	 #user is admin
+			) :
+				$this->allowedToEditUserData = TRUE;
+		  else:
+        $this->allowedToEditUserData = FALSE;
+      endif;
+
 			$this->set('allowedToEditUserData', $this->allowedToEditUserData);
 		}
-		return $this->allowedToEditUserData;
+    return $this->allowedToEditUserData;
 	}
 
 	protected function _successfulLogin() {

@@ -89,6 +89,115 @@
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 		}
 
+    public function testChangePassword() {
+
+      // not logged in user can't change password
+      $this->testAction('/users/changepassword/5');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+      // user (4) shouldn't see change password dialog of other users (5)
+      $this->_loginUser(4);
+      $result = $this->testAction('/users/changepassword/5');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+      // user has access to his own changepassword dialog
+      $result = $this->testAction('/users/changepassword/4');
+			$this->assertFalse(isset($this->headers['location']));
+
+      /*
+       * test changing password
+       */
+      $data = array(
+          'User' => array(
+              'password_old'      => 'test',
+              'user_password'     => 'test_new',
+              'password_confirm'  => 'test_new',
+          )
+        );
+      $this->testAction(
+          '/users/changepassword/4',
+          array('data'  => $data, 'method'  => 'post')
+          );
+
+      $expected = 'bc681d86e82c720af115786cb716a25e';
+      $this->controller->User->id = 4;
+      $this->controller->User->contain();
+      $result = $this->controller->User->read();
+      $this->assertEqual($result['User']['password'], $expected);
+			$this->assertContains('users/edit', $this->headers['Location']);
+      
+      /*
+       * test password confirmation failed
+       */
+      $data = array(
+          'User' => array(
+              'password_old'      => 'test_new',
+              'user_password'     => 'test_new_foo',
+              'password_confirm'  => 'test_new_bar',
+          )
+        );
+      $this->testAction(
+          '/users/changepassword/4',
+          array('data'  => $data, 'method'  => 'post')
+          );
+      $this->assertFalse($this->controller->User->validates());
+
+      $expected = 'bc681d86e82c720af115786cb716a25e';
+      $this->controller->User->id = 4;
+      $this->controller->User->contain();
+      $result = $this->controller->User->read();
+      $this->assertEqual($result['User']['password'], $expected);
+			$this->assertFalse(isset($this->headers['Location']));
+
+      /*
+       * test old passwort not correct
+       */
+      $data = array(
+          'User' => array(
+              'password_old'      => 'test_something',
+              'user_password'     => 'test_new_foo',
+              'password_confirm'  => 'test_new_foo',
+          )
+        );
+      $this->testAction(
+          '/users/changepassword/4',
+          array('data'  => $data, 'method'  => 'post')
+          );
+      $this->assertFalse($this->controller->User->validates());
+
+      $expected = 'bc681d86e82c720af115786cb716a25e';
+      $this->controller->User->id = 4;
+      $this->controller->User->contain();
+      $result = $this->controller->User->read();
+      $this->assertEqual($result['User']['password'], $expected);
+			$this->assertFalse(isset($this->headers['Location']));
+
+
+      /*
+       * test change password of other users not allowed
+       */
+      $data = array(
+          'User' => array(
+              'password_old'      => 'test',
+              'user_password'     => 'test_new',
+              'password_confirm'  => 'test_new',
+          )
+        );
+      $this->testAction(
+          '/users/changepassword/1',
+          array('data'  => $data, 'method'  => 'post')
+          );
+
+      $expected = '098f6bcd4621d373cade4e832627b4f6';
+      $this->controller->User->id = 1;
+      $this->controller->User->contain();
+      $result = $this->controller->User->read();
+      $this->assertEqual($result['User']['password'], $expected);
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+
+    }
+
 		public function testContactForbidden() {
 			/* not logged in but contacting admin is always allowed */
 			$this->testAction('/users/contact/1');

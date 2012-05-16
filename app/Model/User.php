@@ -46,8 +46,9 @@ class User extends AppModel {
 							'last' => 'true',
 					),
 					'pwConfirm' => array(
-							'rule' => array( '_validateConfirmPassword' ),
-							'last' => 'true',
+							'rule'    => array( '_validateConfirmPassword' ),
+							'last'    => 'true',
+              'message' => 'validation_error_pwConfirm',
 					),
 			),
 			'password_confirm' => array(
@@ -58,8 +59,9 @@ class User extends AppModel {
 							'last' => 'true',
 					),
 					'pwCheckOld' => array(
-							'rule' => array( '_validateCheckOldPassword' ),
-							'last' => 'true',
+							'rule'    => array( '_validateCheckOldPassword' ),
+							'last'    => 'true',
+              'message' => 'validation_error_pwCheckOld',
 					),
 			),
 			'user_email' => array(
