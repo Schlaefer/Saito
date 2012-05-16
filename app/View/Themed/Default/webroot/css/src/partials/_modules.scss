@@ -238,10 +238,8 @@ a.no-color {
 
 	.inside {
 		@extend .box_style_1;
-		margin: $padding $padding;
-		margin-top: 25px;
+		margin: 2*$padding $padding;
 		padding: $padding $padding;
-
 		}
   }
 
