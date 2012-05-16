@@ -141,7 +141,7 @@ class AppController extends Controller {
 		endif;
 
     $this->set('lastAction', $this->localReferer('action'));
-    $this->set('lastControlelr', $this->localReferer('controller'));
+    $this->set('lastController', $this->localReferer('controller'));
 		$this->_setTitleForLayout();
 
 		Stopwatch::stop('App->beforeRender()');
