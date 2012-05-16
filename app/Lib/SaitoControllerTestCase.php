@@ -1,5 +1,8 @@
 <?php
 
+  // load fixture
+  App::uses('UserFixture', 'Fixture');
+
 	// sets the FULL_BASE_URL for CLI tests
 	if ( !defined('FULL_BASE_URL') ) {
 		define('FULL_BASE_URL', 'http://cakephp.org/');
@@ -25,6 +28,8 @@
 			if ( isset($this->controller->Session) && !empty($this->controller->Session) ) :
 				$this->controller->Session->delete('Auth.User');
 			endif;
+
+      /*
 
 			$records = array(
 					array(
@@ -59,6 +64,17 @@
 							'user_lock' => 0,
 					),
 					array(
+              'id' => 4,
+              'username' => 'Change Password Test',
+              'user_type' => 'user',
+              'user_email' => 'cpw@example.com',
+              'password' => '098f6bcd4621d373cade4e832627b4f6',
+              'slidetab_order' => null,
+              'user_automaticaly_mark_as_read' => 1,
+              'user_lock' => 0,
+              'personal_messages' => 0,
+					),
+					array(
 							'id' => 5,
 							'username' => 'Uma',
 							'user_type' => 'user',
@@ -69,8 +85,13 @@
 							'user_lock' => 0,
 					),
 			);
+      */
 
-			$this->controller->Session->write('Auth.User', $records[$id - 1]);
+      // see http://stackoverflow.com/a/10411128/1372085
+      $userFixture = new UserFixture();
+      $users = $userFixture->records;
+
+			$this->controller->Session->write('Auth.User', $users[$id - 1]);
 		}
 
 		public function setUp() {
