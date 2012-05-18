@@ -21,6 +21,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			'FileUpload.FileUpload',
 			'MailObfuscator.MailObfuscator',
 			'CakephpGeshi.Geshi',
+      'Embedly.Embedly',
 			'Html',
 	);
 
@@ -278,6 +279,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					array( 'block', 'inline', 'link' ), array( )
 			);
 		endif;
+
+    $this->_Parser->addCode(
+				'embed', 'usecontent', array( &$this, '_embed' ),
+				array( 'usecontent_param' => 'default' ), 'embed',
+				array( 'block'), array( )
+		);
 
 		$this->_isParserInitialized = TRUE;
 	}
@@ -695,6 +702,21 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		}
 		return $matches[0] . $out;
 	}
+
+  public function _embed($action, $attributes, $content, $params, &$node_object) {
+
+    if ( $action === 'validate' ) :
+      return TRUE;
+    endif;
+
+    $out = 'Embeding failed.';
+    $embedly = $this->Embedly->embedly($content);
+    if ( $embedly !== FALSE ) :
+      $out = $embedly;
+    endif;
+
+    return $out;
+  }
 
 	/**
 	 * Formats quote.

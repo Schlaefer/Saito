@@ -93,6 +93,7 @@ CakePlugin::load('SimpleCaptcha');
 CakePlugin::load('Install');
 CakePlugin::load('FileUpload');
 CakePlugin::load('Search');
+CakePlugin::load('Embedly');
 
 /**
  * Set the theme
