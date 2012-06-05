@@ -24,7 +24,7 @@
 	<div class="thread_tools" style='opacity: 1;'>
 	<ul>
 			<li>
-				<a href="<?php echo $this->request->webroot;?>/entries/mix/<?php echo $entry["Entry"]['tid']; ?>#<?php echo $entry['Entry']['id'];?>" id="btn_show_mix_<?php echo $entry['Entry']['tid']; ?>"><span class="ico-threadTool ico-threadOpenMix"></span></a>
+				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry["Entry"]['tid']; ?>#<?php echo $entry['Entry']['id'];?>" id="btn_show_mix_<?php echo $entry['Entry']['tid']; ?>"><span class="ico-threadTool ico-threadOpenMix"></span></a>
 			</li>
 		</ul>
 	</div> <!-- thread_tools -->
