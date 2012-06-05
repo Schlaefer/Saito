@@ -17,7 +17,12 @@
                   'user_agent' => 'Mozilla/5.0 (compatible; saito/1.0)',
                   'key' => 'a92f39e895e111e1bf614040aae4d8c9',
           ));
-      $obj = $api->oembed($string);
+
+      $request = array(
+          'urls'  => array( $string ),
+          );
+      $obj = array_pop($api->oembed($request));
+
 
       if ( isset($obj->html) ) :
         $out = $obj->html;

@@ -215,6 +215,9 @@ var markItUp = {
         }
         return out;
       }
+
+      // embed.ly last resort fallback
+      return '[embed]' + text + '[/embed]';
     // is valid url
 
     }
