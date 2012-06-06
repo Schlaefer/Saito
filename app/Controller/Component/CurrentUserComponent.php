@@ -188,17 +188,22 @@ Class CurrentUserComponent extends SaitoUser {
 	protected function _configureAuth() {
 		// delegate authenticate method
 		// $this->_Controller->Auth->authenticate = $this->_User;
+
+    $authCommonSetup = array(
+          'useModel' => 'User',
+          'scope' => array(
+              // user has activated his account (e.g. email confirmation)
+              'User.activate_code' => false,
+              // user is not banned by admin or mod
+              'User.user_lock' => false,
+          )
+      );
 		$this->_Controller->Auth->authenticate = array(
-					'Mlf' => array(
-							'useModel' 	=> 'User',
-							'scope'			=> array(
-								// user has activated his account (e.g. email confirmation)
-								'User.activate_code' => false,
-								// user is not banned by admin or mod
-								'User.user_lock'	=> false,
-								),
-							),
-				);
+          // mylittleforum 1 authentication
+          'Mlf' => $authCommonSetup,
+          // mylittleforum 2 auth
+          'Mlf2' => $authCommonSetup,
+      );
 
 		if ( $this->isLoggedIn() ):
 			$this->_Controller->Auth->allow();
