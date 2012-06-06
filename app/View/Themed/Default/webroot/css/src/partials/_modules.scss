@@ -675,6 +675,7 @@ label, .label {
 .thread_line-content {
 	padding-left: 18px;
 	display: block;
+  word-break: break-word;
 	&:hover{
 		background: #F0F0F0;
 		}
