@@ -112,7 +112,7 @@
 			</div>
 		</div>	
 		<div class="content">
-			<table class='c_table_clean_1 c_table_header_left'>
+			<table class='table th-left elegant'>
 			<?php echo 		$this->Html->tableCells($table); ?> 
 			</table>
 		</div>

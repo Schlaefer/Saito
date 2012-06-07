@@ -1,15 +1,145 @@
 @import "partials/_setup";
 @import "partials/_import";
 @import "partials/_saito_mixins";
-@import "partials/_layout";
-@import "partials/_base";
 
-@import "partials/_sprites.scss";
-@import "partials/_markitup";
-@import "partials/_messages";
+/*******************************************************************************
+ * Template
+ ******************************************************************************/
 
-@import "partials/_modules";
+.hero {
+  @include background($saito_base);
+  @include background-image(
+    linear-gradient(top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)),
+    inline-image("dots_light.png"));
+}
 
-@import "partials/_slidetabs";
-@import "partials/_tablet";
-@import "partials/_jquery-ui.scss"
+.hero-text {
+  color: white;
+  text-shadow: -1px 2px 3px rgba(255, 255, 255, 0.4), 0px -1px 3px rgba(0, 0, 0, 0.4);
+}
+
+#topnav {
+  @extend .box-shadow;
+}
+
+#bottomnav {
+  @extend .box-shadow-up;
+}
+
+.navbar {
+  @extend .navbar-light;
+	}
+
+#header_login {
+  // dividers between items in border color
+  border-top-left-radius: $corner_radius;
+  color: $saito_border;
+  @extend .header_style_1;
+  border-width: 1px 0 0 1px;
+  }
+
+.fieldset_1 {
+  @extend .box_style_1;
+  @extend .box_layout_1;
+  }
+
+.disclaimer {
+  background-image: inline-image("dots.png");
+}
+.disclaimer-inside {
+  margin: 2*$padding $padding;
+  padding: $padding $padding;
+
+  @extend .box_style_1;
+  @extend .small;
+	@extend .t_shadow;
+	@extend .c_info_text;
+
+	a {
+		border-bottom: #DDD 1px solid;
+		@include link-colors($saito_info_text);
+/*		@include hover-link();*/
+	}
+
+	h1, h2, h3 {
+		font-size: 110%;
+		font-weight: bold;
+		margin-bottom: 0.83em;
+    }
+
+  }
+
+/*******************************************************************************
+ * Threads
+ ******************************************************************************/
+
+// categories
+// -------------------------------------
+/* all users/public */
+a.category_acs_0, .category_acs_0 {
+  @include link-colors($saito_accent2_dark);
+  font-weight: 600; }
+
+/* regular users */
+a.category_acs_1, .category_acs_1 {
+  @extend a.category_acs_0;
+  font-variant: small-caps; }
+
+/* mod and admins */
+a.category_acs_2, .category_acs_2 {
+  @extend a.category_acs_0;
+  background: #d5d5d5; }
+
+/*******************************************************************************
+ * View Posting
+ ******************************************************************************/
+
+.signature {
+  @extend .c_info_text;
+  }
+
+/*******************************************************************************
+ * Tables
+ ******************************************************************************/
+.table th {
+  @extend .gradient-base;
+  }
+
+.table.zebra tr.b {
+    background-color: $saito_gray_light;
+  }
+
+.table.th-left.elegant td:first-child {
+  border-right: $border_width solid $saito_gray_dark;
+	}
+
+.table.border {
+  border: $border_width + 1 solid $saito_gray_dark;
+  border-right-width: $border_width;
+  border-radius: $corner_radius;
+
+  tr:first-child {
+    td:first-child, th:first-child { border-top-left-radius:$corner_radius; }
+    td:last-child, th:last-child { border-top-right-radius:$corner_radius; } }
+  tr:last-child {
+    td:first-child, th:first-child { border-bottom-left-radius:$corner_radius; }
+    td:last-child, th:last-child { border-bottom-right-radius:$corner_radius; } }
+	}
+
+.table.border td, .table.border th {
+   border-style: solid;
+   border-color:  $saito_gray_dark;
+   border-width: 0 $border_width $border_width 0;
+   }
+
+/*******************************************************************************
+ * Messages Setup
+ ******************************************************************************/
+
+.flash, .message {
+	@extend .c_all-radius;
+  }
+
+.error-message, .message {
+	@extend .c_bottom-radius;
+  }

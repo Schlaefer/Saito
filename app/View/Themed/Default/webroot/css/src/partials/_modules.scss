@@ -1,250 +1,119 @@
-.clearfix {
-  clear: both;
-  @include clearfix; }
+/*******************************************************************************
+ * Template Layout
+ ******************************************************************************/
 
-.highlight {
-  background-color: #ffff99; }
-
-
-ul.style_1 {
-	list-style: disc;
-	margin: 1em;
-
-	li {
-		margin-left: 2em;
-		}
-	}
-
-.fieldset_1 {
-  @extend .box_style_1;
-  @extend .box_layout_1; }
-
-.fieldset_2 {
-  @extend .box_style_2;
-
-  width: auto;
-  padding: $padding; }
-
-.c_table{
-  width: 100%;
-  border-spacing: 0;
-	border-collapse: separate;
-  background: none;
-  td,th {
-    padding: 0.8em;
-		}
-	}
-
-.c_table_clean_1 {
-	@extend .c_table;
-	th {
-		font-weight: bold;
-		}
-	}
-
-.c_table_header_left {
-	td:first-child {
-		font-weight: bold;
-		text-align: right;
-		vertical-align: top;
-    border-right: $border_width solid $saito_gray_dark;
-		width: 38%;
-		}
-	}
-
-.table {
-	@extend .c_table;
-  td,th {
-    border-bottom: $border_width solid $saito_gray_dark;
-    border-right: $border_width solid $saito_gray_dark; }
-  tr {
-    background: white; }
-  td:first-child, th:first-child {
-    border-left: $border_width + 1 solid $saito_gray_dark; }
-  td:last-child, th:last-child {
-    border-right: $border_width + 1 solid $saito_gray_dark; }
-  tr:first-child {
-    td, th {
-      border-top: $border_width + 1px solid $saito_gray_dark; }
-    td:first-child, th:first-child {
-      border-top-left-radius:$corner_radius; }
-    td:last-child, th:last-child {
-      border-top-right-radius:$corner_radius; } }
-  tr:last-child {
-    td, th {
-      border-bottom: $border_width + 1 solid $saito_gray_dark; }
-    td:first-child, th:first-child {
-      border-bottom-left-radius:$corner_radius; }
-    td:last-child, th:last-child {
-      border-bottom-right-radius:$corner_radius; } }
-	}
-
-.table_1 {
-  @extend .table;
-  th {
-    @extend .gradient-base;
-    font-weight: bold; }
-  tr.b {
-    background-color: $saito_gray_light; } }
-
-.table_th_left_1 {
-  @extend .table;
-  tr {
-    vertical-align: top; }
-  td:first-child {
-    font-weight: bold;
-    width: 150px;
-    @extend .gradient-base-horizontal;
-    border-left: $border_width + 1 solid $saito_gray_dark; }
-	}
-
-.loading_indicator {
-  margin: 10px 0px;
-  width: 100%;
-  text-align: center;
-  display: none; }
-
-.spinner {
-  &:after {
-    content: "";
-    background: inline-image("loading_indicator.gif") top center no-repeat;
-    display: block;
-    width: 100%;
-    height: 30px;
-    margin: 10px auto; } }
-
-
-/* eye-catching links ( with red triangle) */
-a.textlink {
-  @include link-colors($link_color);
-  text-decoration: none;
-  font-weight: bold;
-  }
-
-a.no-color {
- 	@include link-colors($saito-gray);
-}
-/* template: */
-#top {
+.l-top {
   /* needed for position subelements in header */
   position: relative;
   height: 70px;
   overflow: hidden;
-  @extend .hero;
+  }
 
-  $sponsorWidth: 80px;
+.l-top-right {
+  position: absolute;
+  right: 0px;
+  text-align: right;
+  max-width: 400px;
+  }
 
-  .right {
-    position: absolute;
-    right: 0px;
-    text-align: right;
-    max-width: 400px; }
-	/* Sponsorlogo */
+.l-top-spnsr {
+  float: left;
+  height: 70px;
+  width: 80px;
+  }
 
-  .spnsr {
-    float: left;
-		height: 70px;
-		width: $sponsorWidth;
-    }
+.l-top-left, .l-top-right {
+  margin: 0;
+  padding: 0 20px 0 0px;
+  }
 
-  .left, .right {
-    @extend .hero-text;
-    margin: 0;
-    padding: 0 20px 0 0px; }
+.l-top-right {
+  padding-top: 15px;
+  }
 
-	.right {
-		padding-top: 15px;
-	}
+.l-top-left {
+  /* with of .spnsr left */
+  margin: 0 0 0 80px;
+  }
 
-  .left {
-    /* with of .spnsr left */
-    margin: 0 0 0 $sponsorWidth;
-    }
-
-  } // #top
-
-#search_header {
-  display: inline;
-  form {
-    margin: 0;
-    height: 26px;
-    font-size: 12px; } }
+.navbar {
+	padding: 0 20px;
+  border-width: 1px 0 1px 0;
+  }
 
 #header_login {
-  @extend .header_style_1;
   position: absolute;
   bottom: 0;
   right: 0;
+
   padding: 2px 1em;
   font-size: 10px;
   line-height: 12px;
-
-  border-top-left-radius: $corner_radius;
   border-width: 1px 0 0 1px;
-
-  // dividers between items in border color
-  color: $saito_border;
   }
 
-#topnav {
-  @extend .box-shadow;
+#search_header > form {
+    height: 26px;
+    font-size: 12px;
 }
-
-#bottomnav {
-  @extend .box-shadow-up;
-}
-
-#topnav, #bottomnav {
-	@include c_t_h_3_abs(30px);
-  @extend .navbar-light;
-	padding: 0 20px;
-
-  border-width: 1px 0 1px 0;
-	}
-
-#footer_pinned {
-		width: 100%;
-		position: absolute;
-		bottom: 0px;
-	}
 
 #content {
 	// bottom = #bottom_nav height + 20px
   padding: 20px 20px 52px 20px;
 	}
 
-#disclaimer {
+#footer-pinned {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+}
+
+.l-disclaimer {
 	// put it under bottomnav
-/*	height: 0px;*/
   width: 951px;
   margin: 0 auto;
   position: relative;
-
-  @extend .small;
-	@extend .t_shadow;
-	@extend .c_info_text;
-
-	a {
-		border-bottom: #DDD 1px solid;
-		@include link-colors($saito_info_text);
-/*		@include hover-link();*/
-	}
-
-	h1, h2, h3 {
-		font-size: 110%;
-		font-weight: bold;
-		margin-bottom: 0.83em;
-    }
-
-	.inside {
-		@extend .box_style_1;
-		margin: 2*$padding $padding;
-		padding: $padding $padding;
-		}
   }
 
-.where_location {
+/*******************************************************************************
+ * Threads
+ ******************************************************************************/
+
+// thread and reply links
+// -------------------------------------
+/* dont forget to change the userpref css in user_h.php if you do changes here */
+li.thread .span_post_type, li.reply .span_post_type {
+  @include link-colors($thread_color_normal);
   font-weight: bold; }
+
+/* new threads and replies: */
+li.threadnew .span_post_type, li.replynew .span_post_type {
+  @include link-colors($thread_color_new);
+  font-weight: bold; }
+
+li.actthread .span_post_type, li.actreply .span_post_type {
+  @include link-colors($thread_color_actual);
+  font-weight: bold; }
+
+// thread tree
+// -------------------------------------
+ul.thread, ul.threadnew {
+  list-style-type: none;
+  margin: 0px 0px 18px 0px;
+  list-style-type: none; }
+
+ul.reply, ul.replynew {
+  list-style-type: none;
+  margin: 0 0 0 30px;
+  list-style-type: none; }
+
+ul.deep-reply {
+  margin: 0px;
+  list-style-type: none; }
+
+/*******************************************************************************
+ * View Posting
+ ******************************************************************************/
 
 .postingheadline {
   margin: 0px 0px 2px 0px;
@@ -252,7 +121,7 @@ a.no-color {
   font-weight: bold;
   line-height: normal !important; }
 
-div.posting {
+.posting {
   margin: 0px 0px 0px 0px;
   color: black;
   max-width: 80em;
@@ -271,130 +140,13 @@ div.posting {
   line-height: 1.4;
   }
 
-.author a {
-  font-weight: bold; }
-
-/* horizontale linie zwischen postings */
-.entryline {
-  margin: 15px 0px 15px 0px;
-  border-top: 1px dotted gray;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 0;
-  height: 1px; }
-
-.admin-highlight {
-  color: red; }
-
-.mod-highlight {
-  color: red; }
-
-/* signatures: */
 .signature {
-  margin: 10px 0px 0px 0px;
-  font-size: 0.9em;
-  color: gray;
-  font-weight: normal;
-  max-width: 750px; }
+  max-width: 80em;
+  margin-top: 1em;
+  }
 
-/* categories: */
-a.category_acs_0, .category_acs_0 {
-  @include link-colors($saito_accent2_dark);
-  font-weight: 600; }
-
-/* regular users */
-a.category_acs_1, .category_acs_1 {
-  @extend a.category_acs_0;
-  font-variant: small-caps; }
-
-/* mod and admins */
-a.category_acs_2, .category_acs_2 {
-  @extend a.category_acs_0;
-  background: #d5d5d5; }
-
-.c_thread_line_meta_alert {
-	color: $link_color;
-	font-weight: bold;
-}
-
-/* thread and reply links start */
-
-/* dont forget to change the userpref css in user_h.php if you do changes here */
-li.thread .span_post_type, li.reply .span_post_type {
-  @include link-colors($thread_color_normal);
-  font-weight: bold; }
-
-/* new threads and replies: */
-li.threadnew .span_post_type, li.replynew .span_post_type {
-  @include link-colors($thread_color_new);
-  font-weight: bold; }
-
-li.actthread .span_post_type, li.actreply .span_post_type {
-  @include link-colors($thread_color_actual);
-  font-weight: bold; }
-
-/* thread and reply links end */
-
-/* Thread tree: */
-ul.thread, ul.threadnew {
-  list-style-type: none;
-  margin: 0px 0px 18px 0px;
-  list-style-type: none; }
-
-ul.reply, ul.replynew {
-  list-style-type: none;
-  margin: 0 0 0 30px;
-  list-style-type: none; }
-
-ul.deep-reply {
-  margin: 0px;
-  list-style-type: none; }
-
-fieldset legend {
-  background-color: #fffdbe;
-  border: 1px solid #bacbdf;
-  padding: 0px 20px;
-  background-repeat: repeat-x; }
-
-fieldset {
-  border: 1px solid #bacbdf; }
-
-fieldset hr {
-  border: 0px;
-  background: #bacbdf;
-  height: 1px; }
-
-.fieldset_without_table .field {
-  position: relative;
-  margin: 10px; }
-
-.fieldset_without_table label {
-  left: 0px;
-  text-align: right;
-  width: 190px;
-  position: absolute; }
-
-.fieldset_without_table input {
-  left: 200px;
-  position: absolute; }
-
-fieldset label {
-  float: left;
-  width: 60px;
-  text-align: right;
-  margin-right: 5px; }
-
-fieldset  input {
-  margin-top: 0px; }
-
-fieldset .submit input {
-  float: right;
-  margin-right: 10px; }
-
-.pointer:hover {
-  cursor: pointer; }
-
-/** bbcode */
+/* BBCode
+// ------------------------------------- */
 .c_bbc_code-wrapper {
   background-color: #f9f9f9;
   padding: 4px; }
@@ -452,49 +204,45 @@ fieldset .submit input {
 
 /* see also app/config/geshi.php for zebra colors */
 
-/** form elemente ** */
+/*******************************************************************************
+ * Forms
+ ******************************************************************************/
+
 input, textarea {
-  font-size: 100%;
   padding: 0.2em 0.5em;
 	@extend .c_all-radius;
   border: 1px solid $saito_gray_input_border;
   width: 98%;
   /* chrome in linux */
-  outline-color: $saito_accent_dark; }
+  outline-color: $saito_accent_dark; 
+  max-width: 60em;
+  }
 
 input[type=checkbox] {
 	width: auto;
 	}
 
-select {
-  vertical-align: middle; }
-
-form div {
-  max-width: 60em; }
-
-form textarea {
-  width: 98%;
-  margin: 0; }
-
 /* inset shadow for text fiedls */
 input[type=text], input[type=password], textarea {
 	@extend .box-shadow-inset;
   border-color: $saito_gray_input_border;
+  display: block;
   }
 
-form > div {
-  padding: 0.5em; }
-
 form div.submit {
-  display: inline; }
+  display: inline;
+  }
 
 form .required {
-  font-weight: bold; }
+  font-weight: bold;
+  }
 
 form .required label:after {
   color: #ee3322;
   content: "*";
-  display: inline; }
+  display: inline; 
+  padding-right: 0.5em;
+  }
 
 label, .label {
   display: block;
@@ -519,6 +267,7 @@ label, .label {
 .btn-submit {
   background-color: $btnSubmitBackground;
   @include buttonBackground($btnSubmitBackgroundHighlight, $btnSubmitBackground);
+  border: 4px solid red;
 }
 
 .btn-preview {
@@ -644,22 +393,6 @@ label, .label {
 	@extend .c_bottom-radius;
 	}
 
-.postingform_main {
-  @include column(18); }
-
-.postingform_right {
-  @include column(4, true);
-
-	.checkbox {
-		white-space: nowrap;
-		}
-	}
-
-.c_info_text {
-	@extend .info_text;
-	@extend .small;
-	}
-
 /*******************************************************************************
  * Entry thread_line
  ******************************************************************************/
@@ -700,13 +433,82 @@ label, .label {
   /* user_list und inline view sollen sauber getrennt bleiben */
   overflow: hidden; }
 
-/******************************************************************************/
+/*******************************************************************************
+ * Tables
+ ******************************************************************************/
+
+.table {
+  width: 100%;
+  margin: 2em 0;
+  }
+.table tr {
+  background-color: white;
+}
+.table td, .table th {
+  padding: 0.8em;
+	}
+.table th {
+  font-weight: bold;
+  background-color: #eee;
+  }
+
+.table.th-left.elegant td:first-child {
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+  width: 38%;
+	}
+
+.table.zebra tr.b {
+    background-color: #eee;
+  }
+
+.table.border {
+  border: 2px solid silver;
+  border-right-width: 1px;
+  border-collapse: separate;
+	}
+
+.table.border td, .table.border th {
+   border-style: solid;
+   border-color:  silver;
+   border-width: 0 1px 1px 0;
+   }
+
+.loading_indicator {
+  margin: 10px 0px;
+  width: 100%;
+  text-align: center;
+  display: none; }
+
+.spinner {
+  &:after {
+    content: "";
+    background: inline-image("loading_indicator.gif") top center no-repeat;
+    display: block;
+    width: 100%;
+    height: 30px;
+    margin: 10px auto; } }
+
+
+/* eye-catching links ( with red triangle) */
+a.textlink {
+  @include link-colors($link_color);
+  text-decoration: none;
+  font-weight: bold;
+  }
+
+a.no-color {
+ 	@include link-colors($saito-gray);
+}
+
+
 
 /** entry/thread_line end ** */
 
 #entry_index {
   margin-top: -10px;
-  .tree_thread {} }
+  }
 
 /** entry/view ** */
 #entry_view, #entry_mix {
@@ -978,4 +780,58 @@ ul.thread {
     }
   }
 
-/******************************************************************************/
+/*******************************************************************************
+ * Slidebars (aka Slidetabs) general layout
+ ******************************************************************************/
+
+.slidetab_subtree {
+	font-weight: normal;
+}
+
+.slidetab_tree {
+  font-weight: bold;
+}
+
+.slidebar-tab, .slidebar-content {
+  font-size: 0.95em;
+
+  @extend .header_style_1;
+  @extend .box-shadow;
+  @extend .t_shadow;
+  @extend .c_left-radius;
+
+  margin-bottom: 2px;
+  line-height: 1.5;
+}
+
+.slidetab_subtree {
+	font-weight: normal;
+
+	> li {
+		margin-bottom: 0;
+		@extend .sprites;
+		@include sprite-row(2);
+		width: auto;
+		// height of the bullet image
+		height: auto;
+		padding: 0 0 0 17px;
+	}
+
+	> li:last-child {
+		// we can't use @extend .sprites; -> breaks IE8 because of last-child
+		@include sprite-background($sprites_image);
+		@include sprite-row(3);
+		width: auto;
+		// height of the bullet image
+		height: 15px;
+		// temporary fix for last line being to small if user line-height pref is > +1
+		padding-bottom: 0.5em;
+	}
+}
+
+
+// Slidebar Userlist
+// -------------------------------------
+.slidebar-actUser {
+  font-weight: bold;
+}

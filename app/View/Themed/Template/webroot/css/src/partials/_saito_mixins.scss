@@ -1,0 +1,223 @@
+/*******************************************************************************
+* border radien
+******************************************************************************/
+
+.c_top-radius {
+	border-top-left-radius: $corner_radius;
+	border-top-right-radius: $corner_radius;
+	}
+
+.c_bottom-radius {
+	border-bottom-left-radius: $corner_radius;
+	border-bottom-right-radius: $corner_radius;
+	}
+
+.c_left-radius {
+	border-bottom-left-radius: $corner_radius;
+	border-top-left-radius: $corner_radius;
+	}
+
+.c_all-radius {
+	@extend .c_top-radius;
+	@extend .c_bottom-radius;
+	}
+
+/******************************************************************************/
+
+// the base gradient
+.gradient-base {
+  background:$saito_base_light;
+  @include background(
+      linear-gradient(bottom, $saito_base_light, rgba(255,255,255, 0.6)),
+      // fallback
+      $saito_base_light
+    );
+}
+
+.gradient-base-horizontal {
+  background:$saito_base_light;
+  @include background(
+      linear-gradient(left, $saito_base_light, rgba(255,255,255, 0.6)),
+      // fallback
+      $saito_base_light
+    );
+}
+
+// basic header style, no rounded corners
+.header_style_1 {
+  @extend .gradient-base;
+	border: $border_width solid $saito_border;
+}
+
+// in page gray headers
+.header_style_2 {
+	background-color: $saito_gray_dark;
+  @include background(
+      linear-gradient(top, white, darken(#ffffff, 6%) 30%, lighten($saito_gray_dark, 6%) 70%, $saito_gray_dark),
+      // fallback
+      $saito_gray_dark
+    );
+  border: $border_width solid $saito_gray_dark;
+  color: #333333;
+	@extend .t_shadow;
+}
+
+.box_style_1 {
+	background-color: white;
+	border: $border_width solid $saito_gray_dark;
+	@extend .c_all-radius;
+
+	@extend .box-shadow-inset-subtle;
+
+
+	.content {
+		padding: $padding;
+		}
+}
+
+.box_style_2 {
+	background-color: $saito_gray_light;
+	border: $border_width solid $saito_gray_dark;
+	@extend .c_all-radius;
+	@extend .box-shadow-inset-subtle;
+	}
+
+.box_layout_1 {
+  width: auto;
+  padding: $padding; }
+
+.navbar-light {
+  @extend .header_style_1;
+  @extend .t_shadow;
+  .content {
+    padding: $padding;
+   }
+}
+
+/*******************************************************************************
+ * Shadows
+ ******************************************************************************/
+
+// normal shadows
+// -------------------------------------
+.box-shadow { box-shadow:  0px 1px 3px rgba(0,0,0,.15); }
+.box-shadow-up { box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.15); }
+
+// inset default box shadow for large boxes (navbar/sidebar…)
+.box-shadow-inset {
+  box-shadow:
+    rgba(255,255,255,0.6) 0px 1px 1px,
+    0px 1px 1px rgba(0, 0, 0, 0.3) inset;
+  }
+
+// very subtle inset e.g. for the threads on entries/index
+.box-shadow-inset-subtle {
+  box-shadow:
+    rgba(255,255,255,0.6) 0px 1px 1px,
+    whiteSmoke 0px 1px 1px inset;
+	}
+
+/*******************************************************************************
+ * Font Face
+ ******************************************************************************/
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../../font/opensans/OpenSans-Regular-webfont.eot');
+    src: local('Open Sans'), local('Open Sans Regular'),
+         url('../../font/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../font/opensans/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('../../font/opensans/OpenSans-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../../font/opensans/OpenSans-Italic-webfont.eot');
+    src: local('Open Sans Italic'),
+        url('../../font/opensans/OpenSans-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../../font/opensans/OpenSans-Italic-webfont.ttf') format('truetype'),
+        url('../../font/opensans/OpenSans-Italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../../font/opensans/OpenSans-Semibold-webfont.eot');
+    src: local('Open Sans Semibold'),
+         url('../../font/opensans/OpenSans-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../font/opensans/OpenSans-Semibold-webfont.ttf') format('truetype'),
+         url('../../font/opensans/OpenSans-Semibold-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../../font/opensans/OpenSans-Bold-webfont.eot');
+    src: local('Open Sans Bold'),
+         url('../../font/opensans/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../font/opensans/OpenSans-Bold-webfont.ttf') format('truetype'),
+         url('../../font/opensans/OpenSans-Bold-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/******************************************************************************/
+
+@mixin c_t_h_3_abs($height: 24px, $padding: 5px) {
+	height: $height;
+
+	h1, h2, h3 {
+		margin: 0;
+		padding: 0;
+	}
+
+	& > div {
+		position: relative;
+	}
+	& > div > div {
+		line-height: $height - ( 2 * $padding);
+		padding: $padding 0;
+		text-align: center;
+		white-space: nowrap;
+    vertical-align: middle;
+		}
+	& > div > div:first-child {
+		position: absolute;
+		}
+	// CSS2 :last_child for 
+	// & > div > div:last-child  {
+	& > div > .c_last_child  {
+		position: absolute;
+		top: 0;
+		right: 0;
+		text-align: right;
+		}
+	}
+
+.c_t_h_3_tbl {
+	display: table;
+	width: 100%;
+
+	& > div {
+		display: table-row;
+		}
+	& > div > div {
+		display: table-cell;
+		white-space: nowrap;
+		width: 100%;
+		vertical-align: middle;
+		text-align: center;
+		}
+	& .c_first_child {
+		width: auto;
+		text-align: left;
+		}
+	& .c_last_child {
+		width: auto;
+		text-align: right;
+		}
+	}

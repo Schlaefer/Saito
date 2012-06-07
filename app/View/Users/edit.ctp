@@ -8,10 +8,20 @@
 ?>
 <h1><?php echo __('user_area_title'); ?></h1>
 <div id="user_edit" class="user edit">
-<h2> <?php echo $this->request->data['User']['username']; ?>: <?php echo __('edit_userdata'); ?> </h2>
-
-<?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
-	<table class="table_th_left_1">
+  <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
+	<div class="box_style_1">
+		<div class="c_header_2">
+			<div>
+				<div class='c_first_child'></div>
+				<div>
+          <h2>
+            <?php echo $this->request->data['User']['username']; ?>: <?php echo __('edit_userdata'); ?>
+          </h2>
+        </div>
+				<div class='c_last_child'></div>
+			</div>
+		</div>
+	<table class="table th-left elegant">
 
 		<?php  if ( $CurrentUser->isAdmin() ) : ?>
 
@@ -246,10 +256,22 @@
 			<?php  endif ; ?>
 		<?php  endif; ?>
 	</table>
+  </div>
 	<br	/>
 
-	<h2>  <?php echo __('flattr'); ?> </h2>
-	<table class="table_th_left_1">
+	<div class="box_style_1">
+		<div class="c_header_2">
+			<div>
+				<div class='c_first_child'></div>
+				<div>
+          <h2>
+            <?php echo __('flattr'); ?>
+          </h2>
+        </div>
+				<div class='c_last_child'></div>
+			</div>
+		</div>
+	<table class="table th-left elegant">
 		<tr>
 			<td><?php echo __('flattr_uid'); ?></td>
 			<td><?php echo $this->Form->input('flattr_uid', array( 'label' => false )); ?> </td>
@@ -263,6 +285,7 @@
 			<td><?php echo $this->Form->checkbox('flattr_allow_posting', array ( 'label' => false )); ?> <p class="exp"> <?php echo __('flattr_allow_posting_exp') ?> </p> </td>
 		</tr>
 	</table>
+  </div>
 	<br	/>
 	<?php echo $this->Form->submit(__("button_save"), array ( 'id' => 'btn-submit', 'class' => 'btn btn-submit' )); ?>
 <?php echo $this->Form->end(); ?>

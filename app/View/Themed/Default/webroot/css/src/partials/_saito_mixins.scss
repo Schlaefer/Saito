@@ -62,18 +62,6 @@
 	@extend .t_shadow;
 }
 
-.hero {
-  @include background($saito_base);
-  @include background-image(
-    linear-gradient(top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)),
-    inline-image("dots_light.png"));
-}
-
-.hero-text {
-  color: white;
-  text-shadow: -1px 2px 3px rgba(255, 255, 255, 0.4), 0px -1px 3px rgba(0, 0, 0, 0.4);
-}
-
 .box_style_1 {
 	background-color: white;
 	border: $border_width solid $saito_gray_dark;
@@ -101,6 +89,7 @@
 .navbar-light {
   @extend .header_style_1;
   @extend .t_shadow;
+  border-width: $border_width 0;
   .content {
     padding: $padding;
    }
