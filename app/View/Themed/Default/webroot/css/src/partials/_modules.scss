@@ -3,53 +3,52 @@
  ******************************************************************************/
 
 .l-top {
-  /* needed for position subelements in header */
-  position: relative;
-  height: 70px;
-  overflow: hidden;
+  position: relative; // for position ing subelements in header
   }
 
 .l-top-right {
   position: absolute;
   right: 0px;
   text-align: right;
-  max-width: 400px;
+  }
+
+.l-top-spnsr, .l-top-left, .l-top {
+  height: 70px;
+  }
+
+.l-top-spnsr, .l-top-left {
+  float: left;
   }
 
 .l-top-spnsr {
-  float: left;
-  height: 70px;
   width: 80px;
   }
 
 .l-top-left, .l-top-right {
   margin: 0;
-  padding: 0 20px 0 0px;
+  padding-right: $padding-content;
   }
 
 .l-top-right {
   padding-top: 15px;
   }
 
-.l-top-left {
-  /* with of .spnsr left */
-  margin: 0 0 0 80px;
-  }
-
-.navbar {
-	padding: 0 20px;
-  border-width: 1px 0 1px 0;
-  }
-
-#header_login {
+.l-top-menu {
   position: absolute;
   bottom: 0;
   right: 0;
+  border-width: 1px 0 0 1px;
+}
 
+.top-menu {
   padding: 2px 1em;
   font-size: 10px;
   line-height: 12px;
-  border-width: 1px 0 0 1px;
+  }
+
+.navbar {
+	padding: 0 $padding-content;
+  border-width: 1px 0 1px 0;
   }
 
 #search_header > form {
