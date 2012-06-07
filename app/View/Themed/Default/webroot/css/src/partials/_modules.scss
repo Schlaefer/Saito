@@ -46,19 +46,18 @@
   line-height: 12px;
   }
 
+.top-search > form {
+  height: 26px;
+  font-size: 12px;
+}
+
 .navbar {
 	padding: 0 $padding-content;
   border-width: 1px 0 1px 0;
   }
 
-#search_header > form {
-    height: 26px;
-    font-size: 12px;
-}
-
 #content {
-	// bottom = #bottom_nav height + 20px
-  padding: 20px 20px 52px 20px;
+  padding: $padding-content;
 	}
 
 #footer-pinned {
@@ -68,10 +67,7 @@
 }
 
 .l-disclaimer {
-	// put it under bottomnav
-  width: 951px;
   margin: 0 auto;
-  position: relative;
   }
 
 /*******************************************************************************
@@ -115,23 +111,15 @@ ul.deep-reply {
  ******************************************************************************/
 
 .postingheadline {
-  margin: 0px 0px 2px 0px;
+  margin-bottom: 2px;
   font-size: 1.25em;
   font-weight: bold;
-  line-height: normal !important; }
+  line-height: normal;
+  }
 
-.posting {
-  margin: 0px 0px 0px 0px;
-  color: black;
+.posting, .posting img, posting, object, posting embed, .signature {
   max-width: 80em;
-
-	/* *** Nicer Image Handling in Postings *** start */
-	// overflow: auto;
-	img, object, embed  {
-		max-width: 80em;
-		}
-	/* *** Nicer Image Handling in Postings *** end */
-	}
+  }
 
 .author {
   @extend .info_text;
@@ -140,7 +128,6 @@ ul.deep-reply {
   }
 
 .signature {
-  max-width: 80em;
   margin-top: 1em;
   }
 
@@ -170,12 +157,9 @@ ul.deep-reply {
 	font-style: italic;
 }
 
-.c_bbc_upload {
-	margin: 5px 0px 5px 0px
+.c_bbc_upload, .c_bbc_external-image {
+	margin: 5px 0;
 	}
-
-.c_bbc_external-image {
-  margin: 5px 0px 5px 0px; }
 
 .c_bbc_citation {
   color: $saito_info_text;
@@ -232,6 +216,12 @@ form div.submit {
   display: inline;
   }
 
+label, .label {
+  display: block;
+  margin-bottom: 3px; }
+
+/* formating required fields
+// ----------------------------------- */
 form .required {
   font-weight: bold;
   }
@@ -239,13 +229,10 @@ form .required {
 form .required label:after {
   color: #ee3322;
   content: "*";
-  display: inline; 
+  display: inline;
   padding-right: 0.5em;
   }
 
-label, .label {
-  display: block;
-  margin-bottom: 3px; }
 
 /*******************************************************************************
  * Buttons
@@ -505,7 +492,7 @@ a.no-color {
 
 /** entry/thread_line end ** */
 
-#entry_index {
+.entry.index {
   margin-top: -10px;
   }
 

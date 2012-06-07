@@ -1372,21 +1372,21 @@ form .c_markitup_popup_txta {
   line-height: 12px;
 }
 
-/* line 48, ../src/partials/_modules.scss */
+/* line 49, ../src/partials/_modules.scss */
+.top-search > form {
+  height: 26px;
+  font-size: 12px;
+}
+
+/* line 54, ../src/partials/_modules.scss */
 .navbar {
   padding: 0 20px;
   border-width: 1px 0 1px 0;
 }
 
-/* line 53, ../src/partials/_modules.scss */
-#search_header > form {
-  height: 26px;
-  font-size: 12px;
-}
-
-/* line 58, ../src/partials/_modules.scss */
+/* line 59, ../src/partials/_modules.scss */
 #content {
-  padding: 20px 20px 52px 20px;
+  padding: 20px;
 }
 
 /* line 63, ../src/partials/_modules.scss */
@@ -1398,49 +1398,47 @@ form .c_markitup_popup_txta {
 
 /* line 69, ../src/partials/_modules.scss */
 .l-disclaimer {
-  width: 951px;
   margin: 0 auto;
-  position: relative;
 }
 
 /*******************************************************************************
  * Threads
  ******************************************************************************/
 /* dont forget to change the userpref css in user_h.php if you do changes here */
-/* line 83, ../src/partials/_modules.scss */
+/* line 80, ../src/partials/_modules.scss */
 li.thread .span_post_type, li.reply .span_post_type {
   color: #111111;
   font-weight: bold;
 }
 
 /* new threads and replies: */
-/* line 88, ../src/partials/_modules.scss */
+/* line 85, ../src/partials/_modules.scss */
 li.threadnew .span_post_type, li.replynew .span_post_type {
   color: #e74a00;
   font-weight: bold;
 }
 
-/* line 92, ../src/partials/_modules.scss */
+/* line 89, ../src/partials/_modules.scss */
 li.actthread .span_post_type, li.actreply .span_post_type {
   color: #ff6700;
   font-weight: bold;
 }
 
-/* line 98, ../src/partials/_modules.scss */
+/* line 95, ../src/partials/_modules.scss */
 ul.thread, ul.threadnew {
   list-style-type: none;
   margin: 0px 0px 18px 0px;
   list-style-type: none;
 }
 
-/* line 103, ../src/partials/_modules.scss */
+/* line 100, ../src/partials/_modules.scss */
 ul.reply, ul.replynew {
   list-style-type: none;
   margin: 0 0 0 30px;
   list-style-type: none;
 }
 
-/* line 108, ../src/partials/_modules.scss */
+/* line 105, ../src/partials/_modules.scss */
 ul.deep-reply {
   margin: 0px;
   list-style-type: none;
@@ -1449,99 +1447,85 @@ ul.deep-reply {
 /*******************************************************************************
  * View Posting
  ******************************************************************************/
-/* line 116, ../src/partials/_modules.scss */
+/* line 113, ../src/partials/_modules.scss */
 .postingheadline {
-  margin: 0px 0px 2px 0px;
+  margin-bottom: 2px;
   font-size: 1.25em;
   font-weight: bold;
-  line-height: normal !important;
+  line-height: normal;
 }
 
-/* line 122, ../src/partials/_modules.scss */
-.posting {
-  margin: 0px 0px 0px 0px;
-  color: black;
-  max-width: 80em;
-  /* *** Nicer Image Handling in Postings *** start */
-  /* *** Nicer Image Handling in Postings *** end */
-}
-/* line 129, ../src/partials/_modules.scss */
-.posting img, .posting object, .posting embed {
+/* line 120, ../src/partials/_modules.scss */
+.posting, .posting img, posting, object, posting embed, .signature {
   max-width: 80em;
 }
 
-/* line 135, ../src/partials/_modules.scss */
+/* line 124, ../src/partials/_modules.scss */
 .author {
   margin: 1px 0 1em 0;
   line-height: 1.4;
 }
 
-/* line 141, ../src/partials/_modules.scss */
+/* line 130, ../src/partials/_modules.scss */
 .signature {
-  max-width: 80em;
   margin-top: 1em;
 }
 
-/* line 148, ../src/partials/_modules.scss */
+/* line 136, ../src/partials/_modules.scss */
 .c_bbc_code-wrapper {
   background-color: #f9f9f9;
   padding: 4px;
 }
 
-/* line 160, ../src/partials/_modules.scss */
+/* line 148, ../src/partials/_modules.scss */
 .c_bbc_link-dinfo, .c_bbc_imessage {
   font-weight: normal;
   font-style: normal;
   text-decoration: none;
 }
 
-/* line 168, ../src/partials/_modules.scss */
+/* line 156, ../src/partials/_modules.scss */
 .c_bbc_imessage {
   font-style: italic;
 }
 
-/* line 172, ../src/partials/_modules.scss */
-.c_bbc_upload {
-  margin: 5px 0px 5px 0px;
+/* line 160, ../src/partials/_modules.scss */
+.c_bbc_upload, .c_bbc_external-image {
+  margin: 5px 0;
 }
 
-/* line 176, ../src/partials/_modules.scss */
-.c_bbc_external-image {
-  margin: 5px 0px 5px 0px;
-}
-
-/* line 179, ../src/partials/_modules.scss */
+/* line 164, ../src/partials/_modules.scss */
 .c_bbc_citation {
   color: #505050;
   font-style: italic;
 }
 
-/* line 183, ../src/partials/_modules.scss */
+/* line 168, ../src/partials/_modules.scss */
 .c_bbc_ul {
   margin: 0em 2em;
   padding: 0;
   list-style-image: url('../../img/bbcode_list_image.png');
 }
 
-/* line 188, ../src/partials/_modules.scss */
+/* line 173, ../src/partials/_modules.scss */
 .c_bbc_li {
   margin: 0.5em 0;
   padding: 0;
 }
 
 /** geshi */
-/* line 193, ../src/partials/_modules.scss */
+/* line 178, ../src/partials/_modules.scss */
 .code {
   padding: 1em;
 }
 
-/* line 196, ../src/partials/_modules.scss */
+/* line 181, ../src/partials/_modules.scss */
 .code ol {
   list-style: decimal;
   list-style-position: inside;
 }
 
-/* line 200, ../src/partials/_modules.scss */
+/* line 185, ../src/partials/_modules.scss */
 .geshi-plain-text {
   font-size: smaller;
 }
@@ -1550,7 +1534,7 @@ ul.deep-reply {
 /*******************************************************************************
  * Forms
  ******************************************************************************/
-/* line 209, ../src/partials/_modules.scss */
+/* line 194, ../src/partials/_modules.scss */
 input, textarea, .markItUpPreviewFrame {
   padding: 0.2em 0.5em;
   border: 1px solid #aaaaaa;
@@ -1560,29 +1544,35 @@ input, textarea, .markItUpPreviewFrame {
   max-width: 60em;
 }
 
-/* line 219, ../src/partials/_modules.scss */
+/* line 204, ../src/partials/_modules.scss */
 input[type=checkbox] {
   width: auto;
 }
 
 /* inset shadow for text fiedls */
-/* line 224, ../src/partials/_modules.scss */
+/* line 209, ../src/partials/_modules.scss */
 input[type=text], input[type=password], textarea, .markItUpPreviewFrame {
   border-color: #aaaaaa;
   display: block;
 }
 
-/* line 230, ../src/partials/_modules.scss */
+/* line 215, ../src/partials/_modules.scss */
 form div.submit {
   display: inline;
 }
 
-/* line 234, ../src/partials/_modules.scss */
+/* line 219, ../src/partials/_modules.scss */
+label, .label {
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* line 225, ../src/partials/_modules.scss */
 form .required {
   font-weight: bold;
 }
 
-/* line 238, ../src/partials/_modules.scss */
+/* line 229, ../src/partials/_modules.scss */
 form .required label:after {
   color: #ee3322;
   content: "*";
@@ -1590,24 +1580,18 @@ form .required label:after {
   padding-right: 0.5em;
 }
 
-/* line 245, ../src/partials/_modules.scss */
-label, .label {
-  display: block;
-  margin-bottom: 3px;
-}
-
 /*******************************************************************************
  * Buttons
  *
  * See for bootstrap sass implementation: https://github.com/thomas-mcdonald/bootstrap-sass/blob/master/vendor/assets/stylesheets/bootstrap/_buttons.scss
  ******************************************************************************/
-/* line 259, ../src/partials/_modules.scss */
+/* line 247, ../src/partials/_modules.scss */
 .btn {
   width: auto;
   padding: 0.2em 1em;
 }
 
-/* line 265, ../src/partials/_modules.scss */
+/* line 253, ../src/partials/_modules.scss */
 .btn-submit {
   background-color: #abe337;
   background-color: #cef380;
@@ -1633,7 +1617,7 @@ label, .label {
   background-color: #92cb1c \9;
 }
 
-/* line 271, ../src/partials/_modules.scss */
+/* line 259, ../src/partials/_modules.scss */
 .btn-preview {
   background-color: #fec853;
   background-color: #f9e487;
@@ -1658,7 +1642,7 @@ label, .label {
   background-color: #feb820 \9;
 }
 
-/* line 283, ../src/partials/_modules.scss */
+/* line 271, ../src/partials/_modules.scss */
 .btn-strip {
   height: 100%;
   width: 15px;
@@ -1667,17 +1651,17 @@ label, .label {
   background-color: #fafafa;
   background-repeat: repeat-y;
 }
-/* line 291, ../src/partials/_modules.scss */
+/* line 279, ../src/partials/_modules.scss */
 .btn-strip:active {
   background-color: #e0e0e0;
 }
 
-/* line 294, ../src/partials/_modules.scss */
+/* line 282, ../src/partials/_modules.scss */
 .btn-strip-back {
   background-image: url('../../img/mix_back.png');
 }
 
-/* line 298, ../src/partials/_modules.scss */
+/* line 286, ../src/partials/_modules.scss */
 .btn-strip-top {
   background-image: url('../../img/mix_top.png');
 }
@@ -1685,7 +1669,7 @@ label, .label {
 /*******************************************************************************
  * Buttons Thread Tools
  ******************************************************************************/
-/* line 306, ../src/partials/_modules.scss */
+/* line 294, ../src/partials/_modules.scss */
 .ico-threadTool {
   display: inline-block;
   margin-top: 1px;
@@ -1697,7 +1681,7 @@ label, .label {
  * Headers
  ******************************************************************************/
 /** headers start ** */
-/* line 325, ../src/partials/_modules.scss */
+/* line 313, ../src/partials/_modules.scss */
 .c_header_1 {
   height: 24px;
   padding: 0px 5px;
@@ -1732,19 +1716,19 @@ label, .label {
   text-align: right;
 }
 
-/* line 334, ../src/partials/_modules.scss */
+/* line 322, ../src/partials/_modules.scss */
 .c_header_2 {
   border-width: 0 0 1px 0;
   padding: 2.5px 0;
 }
 
-/* line 343, ../src/partials/_modules.scss */
+/* line 331, ../src/partials/_modules.scss */
 .c_header_1, .c_header_2 {
   border-bottom: 1px solid silver;
   position: relative;
   z-index: 10;
 }
-/* line 352, ../src/partials/_modules.scss */
+/* line 340, ../src/partials/_modules.scss */
 .c_header_1 h1, .c_header_1 h2, .c_header_1 h3, .c_header_2 h1, .c_header_2 h2, .c_header_2 h3 {
   font-size: 13px;
   font-weight: bold;
@@ -1753,49 +1737,49 @@ label, .label {
 
 /** headers end ** */
 /** entry/add ** */
-/* line 362, ../src/partials/_modules.scss */
+/* line 350, ../src/partials/_modules.scss */
 .entry.add, .entry.reply, .entry.edit {
   background-color: #fafafa;
   border-style: solid;
   border-color: #e0e0e0;
   border-width: 0 1px 1px 1px;
 }
-/* line 368, ../src/partials/_modules.scss */
+/* line 356, ../src/partials/_modules.scss */
 .entry.add .preview, .entry.reply .preview, .entry.edit .preview {
   display: none;
 }
-/* line 370, ../src/partials/_modules.scss */
+/* line 358, ../src/partials/_modules.scss */
 .entry.add .preview .content, .entry.reply .preview .content, .entry.edit .preview .content {
   background-color: white;
   padding: 20px;
 }
-/* line 373, ../src/partials/_modules.scss */
+/* line 361, ../src/partials/_modules.scss */
 .entry.add .content, .entry.reply .content, .entry.edit .content {
   overflow: hidden;
 }
-/* line 375, ../src/partials/_modules.scss */
+/* line 363, ../src/partials/_modules.scss */
 .entry.add form, .entry.reply form, .entry.edit form {
   display: block;
   padding: 10px;
 }
-/* line 378, ../src/partials/_modules.scss */
+/* line 366, ../src/partials/_modules.scss */
 .entry.add form label, .entry.reply form label, .entry.edit form label {
   display: inline;
 }
-/* line 380, ../src/partials/_modules.scss */
+/* line 368, ../src/partials/_modules.scss */
 .entry.add form > div, .entry.reply form > div, .entry.edit form > div {
   padding: 0em;
 }
-/* line 382, ../src/partials/_modules.scss */
+/* line 370, ../src/partials/_modules.scss */
 .entry.add form > div > div, .entry.reply form > div > div, .entry.edit form > div > div {
   padding: 0.5em;
 }
-/* line 384, ../src/partials/_modules.scss */
+/* line 372, ../src/partials/_modules.scss */
 .entry.add submit, .entry.reply submit, .entry.edit submit {
   margin: 0;
 }
 
-/* line 387, ../src/partials/_modules.scss */
+/* line 375, ../src/partials/_modules.scss */
 .entry.reply {
   /*  border-radius(0);*/
   border: none;
@@ -1804,7 +1788,7 @@ label, .label {
 /*******************************************************************************
  * Entry thread_line
  ******************************************************************************/
-/* line 398, ../src/partials/_modules.scss */
+/* line 386, ../src/partials/_modules.scss */
 .thread_line-pre {
   position: absolute;
   vertical-align: text-top;
@@ -1813,30 +1797,30 @@ label, .label {
   font-size: 13px;
 }
 
-/* line 406, ../src/partials/_modules.scss */
+/* line 394, ../src/partials/_modules.scss */
 .thread_line-content {
   padding-left: 18px;
   display: block;
   word-break: break-word;
 }
-/* line 410, ../src/partials/_modules.scss */
+/* line 398, ../src/partials/_modules.scss */
 .thread_line-content:hover {
   background: #F0F0F0;
 }
 
-/* line 415, ../src/partials/_modules.scss */
+/* line 403, ../src/partials/_modules.scss */
 .thread_line-username {
   font-weight: 600;
 }
 
-/* line 419, ../src/partials/_modules.scss */
+/* line 407, ../src/partials/_modules.scss */
 .thread_line-post {
   font-weight: normal;
   margin-left: 0.5em;
 }
 
 /* thread_slider */
-/* line 426, ../src/partials/_modules.scss */
+/* line 414, ../src/partials/_modules.scss */
 .t_s {
   /* 20 px left because of huge, vertical close button */
   margin: 5px 5px 5px 20px;
@@ -1848,29 +1832,29 @@ label, .label {
 /*******************************************************************************
  * Tables
  ******************************************************************************/
-/* line 438, ../src/partials/_modules.scss */
+/* line 426, ../src/partials/_modules.scss */
 .table {
   width: 100%;
   margin: 2em 0;
 }
 
-/* line 442, ../src/partials/_modules.scss */
+/* line 430, ../src/partials/_modules.scss */
 .table tr {
   background-color: white;
 }
 
-/* line 445, ../src/partials/_modules.scss */
+/* line 433, ../src/partials/_modules.scss */
 .table td, .table th {
   padding: 0.8em;
 }
 
-/* line 448, ../src/partials/_modules.scss */
+/* line 436, ../src/partials/_modules.scss */
 .table th {
   font-weight: bold;
   background-color: #eee;
 }
 
-/* line 453, ../src/partials/_modules.scss */
+/* line 441, ../src/partials/_modules.scss */
 .table.th-left.elegant td:first-child {
   font-weight: bold;
   text-align: right;
@@ -1878,26 +1862,26 @@ label, .label {
   width: 38%;
 }
 
-/* line 460, ../src/partials/_modules.scss */
+/* line 448, ../src/partials/_modules.scss */
 .table.zebra tr.b {
   background-color: #eee;
 }
 
-/* line 464, ../src/partials/_modules.scss */
+/* line 452, ../src/partials/_modules.scss */
 .table.border {
   border: 2px solid silver;
   border-right-width: 1px;
   border-collapse: separate;
 }
 
-/* line 470, ../src/partials/_modules.scss */
+/* line 458, ../src/partials/_modules.scss */
 .table.border td, .table.border th {
   border-style: solid;
   border-color: silver;
   border-width: 0 1px 1px 0;
 }
 
-/* line 476, ../src/partials/_modules.scss */
+/* line 464, ../src/partials/_modules.scss */
 .loading_indicator {
   margin: 10px 0px;
   width: 100%;
@@ -1905,7 +1889,7 @@ label, .label {
   display: none;
 }
 
-/* line 483, ../src/partials/_modules.scss */
+/* line 471, ../src/partials/_modules.scss */
 .spinner:after {
   content: "";
   background: url('data:image/gif;base64,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') top center no-repeat;
@@ -1916,62 +1900,62 @@ label, .label {
 }
 
 /* eye-catching links ( with red triangle) */
-/* line 493, ../src/partials/_modules.scss */
+/* line 481, ../src/partials/_modules.scss */
 a.textlink {
   color: #e74a00;
   text-decoration: none;
   font-weight: bold;
 }
 
-/* line 499, ../src/partials/_modules.scss */
+/* line 487, ../src/partials/_modules.scss */
 a.no-color {
   color: #6f6f6f;
 }
 
 /** entry/thread_line end ** */
-/* line 507, ../src/partials/_modules.scss */
-#entry_index {
+/* line 495, ../src/partials/_modules.scss */
+.entry.index {
   margin-top: -10px;
 }
 
 /** entry/view ** */
 /*#entry_view, #entry_mix, #entry_index {*/
-/* line 517, ../src/partials/_modules.scss */
+/* line 505, ../src/partials/_modules.scss */
 .a_a_a {
   padding: 10px 10px 15px 10px;
 }
 
-/* line 520, ../src/partials/_modules.scss */
+/* line 508, ../src/partials/_modules.scss */
 .c_a_a_b {
   height: 45px;
 }
-/* line 524, ../src/partials/_modules.scss */
+/* line 512, ../src/partials/_modules.scss */
 .c_a_a_b > div > div {
   border-style: solid;
   border-color: #e0e0e0;
   padding: 0 20px;
 }
-/* line 530, ../src/partials/_modules.scss */
+/* line 518, ../src/partials/_modules.scss */
 .c_a_a_b .c_a_a_b_a {
   border-width: 1px 1px 0 0;
   border-top-right-radius: 3px;
 }
-/* line 535, ../src/partials/_modules.scss */
+/* line 523, ../src/partials/_modules.scss */
 .c_a_a_b .c_a_a_b_c {
   border-width: 1px 0 0 1px;
   border-top-left-radius: 3px;
 }
 
-/* line 540, ../src/partials/_modules.scss */
+/* line 528, ../src/partials/_modules.scss */
 .a {
   margin-bottom: 10px;
 }
 
-/* line 543, ../src/partials/_modules.scss */
+/* line 531, ../src/partials/_modules.scss */
 .b {
   padding: 10px;
 }
-/* line 545, ../src/partials/_modules.scss */
+/* line 533, ../src/partials/_modules.scss */
 .b .tree_thread {
   -webkit-box-shadow: 0 0 0;
   -moz-box-shadow: 0 0 0;
@@ -1985,32 +1969,32 @@ a.no-color {
 /*	}*/
 /*entry/view end */
 /* */
-/* line 556, ../src/partials/_modules.scss */
+/* line 544, ../src/partials/_modules.scss */
 .tree_thread {
   padding: 8px;
   margin-bottom: 4px;
 }
-/* line 560, ../src/partials/_modules.scss */
+/* line 548, ../src/partials/_modules.scss */
 .tree_thread .img_pencil {
   visibility: hidden;
 }
-/* line 562, ../src/partials/_modules.scss */
+/* line 550, ../src/partials/_modules.scss */
 .tree_thread ul:first-child {
   margin-left: 30px;
 }
 
-/* line 565, ../src/partials/_modules.scss */
+/* line 553, ../src/partials/_modules.scss */
 ul.thread {
   margin: 0 !important;
 }
 
-/* line 568, ../src/partials/_modules.scss */
+/* line 556, ../src/partials/_modules.scss */
 .thread_box {
   /* user_list und inline view sollen sauber getrennt bleiben */
   /*	overflow: hidden; */
 }
 
-/* line 572, ../src/partials/_modules.scss */
+/* line 560, ../src/partials/_modules.scss */
 .thread_tools {
   opacity: 0.2;
   border-style: solid;
@@ -2021,19 +2005,19 @@ ul.thread {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
-/* line 581, ../src/partials/_modules.scss */
+/* line 569, ../src/partials/_modules.scss */
 .thread_tools ul, .thread_tools li {
   margin: 0;
   padding: 0;
   list-style-type: none;
   display: inline;
 }
-/* line 586, ../src/partials/_modules.scss */
+/* line 574, ../src/partials/_modules.scss */
 .thread_tools li {
   height: 15px;
   float: left;
 }
-/* line 590, ../src/partials/_modules.scss */
+/* line 578, ../src/partials/_modules.scss */
 .thread_tools a {
   padding: 1px 10px;
   display: inline-block;
@@ -2041,27 +2025,27 @@ ul.thread {
   width: 13px;
   height: 13px;
 }
-/* line 596, ../src/partials/_modules.scss */
+/* line 584, ../src/partials/_modules.scss */
 .thread_tools a:active {
   background-color: #e0e0e0;
 }
-/* line 598, ../src/partials/_modules.scss */
+/* line 586, ../src/partials/_modules.scss */
 .thread_tools li {
   border-right: 1px solid #e0e0e0;
 }
-/* line 600, ../src/partials/_modules.scss */
+/* line 588, ../src/partials/_modules.scss */
 .thread_tools li:first-child {
   /* we need this for the active state */
   border-top-left-radius: 3px;
 }
-/* line 603, ../src/partials/_modules.scss */
+/* line 591, ../src/partials/_modules.scss */
 .thread_tools li:last-child {
   border: none;
   /* we need this for the active state */
   border-top-right-radius: 3px;
 }
 
-/* line 608, ../src/partials/_modules.scss */
+/* line 596, ../src/partials/_modules.scss */
 .thread_inline {
   display: none;
   position: relative;
@@ -2069,20 +2053,20 @@ ul.thread {
   /* otherwise link is slidetabs not clickable if inline with is open */
   /*	overflow: hidden; */
 }
-/* line 612, ../src/partials/_modules.scss */
+/* line 600, ../src/partials/_modules.scss */
 .thread_inline .btn_back_l, .thread_inline .btn_top_l {
   float: left;
 }
 
-/* line 617, ../src/partials/_modules.scss */
+/* line 605, ../src/partials/_modules.scss */
 .button_mod_panel {
   float: right;
 }
-/* line 619, ../src/partials/_modules.scss */
+/* line 607, ../src/partials/_modules.scss */
 .button_mod_panel button {
   margin: 0;
 }
-/* line 622, ../src/partials/_modules.scss */
+/* line 610, ../src/partials/_modules.scss */
 .button_mod_panel ul {
   /* !important: in inline_view on entries_index the tree ul stuff messes in */
   margin: 0 !important;
@@ -2092,18 +2076,18 @@ ul.thread {
 
 /** end mod panel ** */
 /** search start ** */
-/* line 632, ../src/partials/_modules.scss */
+/* line 620, ../src/partials/_modules.scss */
 .search_form {
   position: relative;
 }
 
-/* line 635, ../src/partials/_modules.scss */
+/* line 623, ../src/partials/_modules.scss */
 .search_form input {
   margin: 0;
   padding: 0 0.5em;
 }
 
-/* line 640, ../src/partials/_modules.scss */
+/* line 628, ../src/partials/_modules.scss */
 .search_form > div {
   overflow: hidden;
   position: relative;
@@ -2111,7 +2095,7 @@ ul.thread {
   padding: 0;
 }
 
-/* line 646, ../src/partials/_modules.scss */
+/* line 634, ../src/partials/_modules.scss */
 .search_textfield {
   height: 22px;
   margin: 0;
@@ -2126,12 +2110,12 @@ ul.thread {
   font-size: auto;
 }
 
-/* line 659, ../src/partials/_modules.scss */
+/* line 647, ../src/partials/_modules.scss */
 .search_textfield:focus {
   outline-width: 0;
 }
 
-/* line 662, ../src/partials/_modules.scss */
+/* line 650, ../src/partials/_modules.scss */
 .btn_search_submit {
   /* workaround for firefox font bug */
   /*		font-family: Helvetica, Arial, Sans-Serif; */
@@ -2146,7 +2130,7 @@ ul.thread {
   cursor: pointer;
 }
 
-/* line 676, ../src/partials/_modules.scss */
+/* line 664, ../src/partials/_modules.scss */
 .btn_search_header {
   width: 24px;
   height: 24px;
@@ -2155,45 +2139,45 @@ ul.thread {
   margin-left: -1px !important;
 }
 
-/* line 684, ../src/partials/_modules.scss */
+/* line 672, ../src/partials/_modules.scss */
 .search_textfield_header {
   margin-right: -1px !important;
 }
 
 /** search end ** */
 /*** entry_search start ***/
-/* line 691, ../src/partials/_modules.scss */
+/* line 679, ../src/partials/_modules.scss */
 #entry_search .search_form_wrapper {
   display: table;
   width: 100%;
   margin-bottom: 20px;
   vertical-align: middle;
 }
-/* line 697, ../src/partials/_modules.scss */
+/* line 685, ../src/partials/_modules.scss */
 #entry_search .search_form_wrapper form {
   font-size: 20px;
 }
-/* line 702, ../src/partials/_modules.scss */
+/* line 690, ../src/partials/_modules.scss */
 #entry_search .search_form_wrapper_adv {
   margin-bottom: 20px;
 }
-/* line 708, ../src/partials/_modules.scss */
+/* line 696, ../src/partials/_modules.scss */
 #entry_search .search_form_wrapper > div {
   display: table-cell;
   padding: 0 5px;
   vertical-align: middle;
 }
-/* line 714, ../src/partials/_modules.scss */
+/* line 702, ../src/partials/_modules.scss */
 #entry_search form {
   width: 100%;
 }
-/* line 729, ../src/partials/_modules.scss */
+/* line 717, ../src/partials/_modules.scss */
 #entry_search .search_results .content ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-/* line 734, ../src/partials/_modules.scss */
+/* line 722, ../src/partials/_modules.scss */
 #entry_search .search_results .content ul li {
   margin: 0.2em 0;
 }
@@ -2201,38 +2185,38 @@ ul.thread {
 /*******************************************************************************
  * Bootstrap Popovers Adjustments
  ******************************************************************************/
-/* line 746, ../src/partials/_modules.scss */
+/* line 734, ../src/partials/_modules.scss */
 .popover {
   font-size: 0.95em;
 }
 
-/* line 749, ../src/partials/_modules.scss */
+/* line 737, ../src/partials/_modules.scss */
 .popover-title {
   padding: 5px 11px;
 }
 
-/* line 752, ../src/partials/_modules.scss */
+/* line 740, ../src/partials/_modules.scss */
 .popover-content {
   padding: 5px 10px;
 }
 
-/* line 756, ../src/partials/_modules.scss */
+/* line 744, ../src/partials/_modules.scss */
 .popover-inner {
   background: #aeb9bd;
   padding: 1px;
 }
 
-/* line 764, ../src/partials/_modules.scss */
+/* line 752, ../src/partials/_modules.scss */
 .popover.bottom .arrow {
   border-bottom-color: #aeb9bd;
 }
 
-/* line 770, ../src/partials/_modules.scss */
+/* line 758, ../src/partials/_modules.scss */
 .popover.left .arrow {
   border-left-color: #aeb9bd;
 }
 
-/* line 776, ../src/partials/_modules.scss */
+/* line 764, ../src/partials/_modules.scss */
 .popover.right .arrow {
   border-right-color: #aeb9bd;
 }
@@ -2240,28 +2224,28 @@ ul.thread {
 /*******************************************************************************
  * Slidebars (aka Slidetabs) general layout
  ******************************************************************************/
-/* line 785, ../src/partials/_modules.scss */
+/* line 773, ../src/partials/_modules.scss */
 .slidetab_subtree {
   font-weight: normal;
 }
 
-/* line 789, ../src/partials/_modules.scss */
+/* line 777, ../src/partials/_modules.scss */
 .slidetab_tree {
   font-weight: bold;
 }
 
-/* line 793, ../src/partials/_modules.scss */
+/* line 781, ../src/partials/_modules.scss */
 .slidebar-tab, .slidebar-content {
   font-size: 0.95em;
   margin-bottom: 2px;
   line-height: 1.5;
 }
 
-/* line 805, ../src/partials/_modules.scss */
+/* line 793, ../src/partials/_modules.scss */
 .slidetab_subtree {
   font-weight: normal;
 }
-/* line 808, ../src/partials/_modules.scss */
+/* line 796, ../src/partials/_modules.scss */
 .slidetab_subtree > li {
   margin-bottom: 0;
   background-position: 0px -32px;
@@ -2269,7 +2253,7 @@ ul.thread {
   height: auto;
   padding: 0 0 0 17px;
 }
-/* line 818, ../src/partials/_modules.scss */
+/* line 806, ../src/partials/_modules.scss */
 .slidetab_subtree > li:last-child {
   background: url('../../img/sprited_css_images.png') no-repeat;
   width: 32px;
@@ -2281,7 +2265,7 @@ ul.thread {
   padding-bottom: 0.5em;
 }
 
-/* line 833, ../src/partials/_modules.scss */
+/* line 821, ../src/partials/_modules.scss */
 .slidebar-actUser {
   font-weight: bold;
 }
