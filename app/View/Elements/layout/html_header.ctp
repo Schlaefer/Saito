@@ -15,7 +15,8 @@
 				<meta http-equiv='refresh' content='<?php echo $autoPageReload; ?>' />
 	<?php endif; ?>
 		<link rel="apple-touch-icon" href="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'apple-touch-icon-precomposed.png'; ?>"/>
-		<?php echo $this->Html->css('stylesheets/screen.css'); ?>
+		<?php echo $this->Html->css('stylesheets/static.css'); ?>
+		<?php echo $this->Html->css('stylesheets/base.css'); ?>
 		<?php echo $this->Html->css('stylesheets/theme.css'); ?>
 		<?php if ( Configure::read('debug') > 0 ) echo $this->Html->css('stylesheets/cake.css'); ?>
 		<?php

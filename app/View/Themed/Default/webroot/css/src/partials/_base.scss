@@ -65,6 +65,11 @@ a {
 	font-size: 90%; 
 	}
 
+.c_info_text {
+	@extend .info_text;
+	@extend .small;
+	}
+
 .super {
   font-size: 0.83em;
   line-height: 0.5em;
@@ -81,6 +86,6 @@ a {
 	text-shadow: white 0px 1px;
 }
 
-.bg_internal {
-  background-image: inline-image("dots.png");
-}
+.pointer:hover {
+  cursor: pointer; }
+

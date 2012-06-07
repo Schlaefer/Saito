@@ -15,7 +15,7 @@
 	<hr/>
 
 	<h1> <?php echo __('User'); ?> </h1>
-	<ul class="style_1" >
+	<ul>
 		<li>
 			<?php echo $this->Html->link(__('Admin User Add'),
 						'/admin/users/add'); ?>

@@ -8,7 +8,7 @@
 	 * 
 	 */
 ?>
-<table class="table_1">
+<table class="table border zebra">
 	<?php
 		echo $this->Html->tableHeaders(array(
 				$this->Paginator->sort('username', __('username_marking')),
