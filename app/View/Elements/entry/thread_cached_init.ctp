@@ -1,14 +1,6 @@
 <?php echo Stopwatch::start('entries/thread_cached_init'); ?>
 <?php foreach($entries_sub as $entry_sub) : ?>
 <?php
-	### Ausgabe des Horizontalen Rulers der User Prefs
-	/*
-	 * currentrly not officially supported in Saito
-	$hr = ( isset($hr) && $User['user_forum_hr_ruler'] == 1 ) ? "<hr class='entryline'/>" : '';
-	echo $hr;
-	 */
-	###
-
 	$use_cached_entry = $this->CacheTree->canUseCache($entry_sub['Entry'], $CurrentUser->getSettings());
 	if ($use_cached_entry) {
 		$out = $this->CacheTree->read($entry_sub['Entry']['id']);
