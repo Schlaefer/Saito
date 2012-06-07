@@ -30,12 +30,12 @@
   @extend .navbar-light;
 	}
 
-#header_login {
+.top-menu {
   // dividers between items in border color
   border-top-left-radius: $corner_radius;
   color: $saito_border;
   @extend .header_style_1;
-  border-width: 1px 0 0 1px;
+  border-width: $border_width 0 0 $border_width;
   }
 
 .fieldset_1 {

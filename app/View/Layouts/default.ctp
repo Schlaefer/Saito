@@ -18,20 +18,18 @@
 							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
 						<?php echo Stopwatch::stop('header_search.ctp');?>
 				</div> <!-- .right -->
-				<div class="l-top-left hero-text">
-						<div class="home">
-							<?php echo $this->Html->link(
-											$this->Html->image(
-															'forum_logo.png',
-															array( 'alt' => 'Logo', 'height' => 70)
-															) ,
-											array ( 'controller' => 'entries', 'action' => 'index', 'admin' => false),
-											array ( 'id' => 'btn_header_logo' , 'escape'=>false));
-							?>
-							<div id="claim"></div>
-					</div>
+        <div class="l-top-left hero-text">
+          <?php
+            echo $this->Html->link(
+                $this->Html->image(
+                    'forum_logo.png', array( 'alt' => 'Logo', 'height' => 70 )
+                ),
+                array( 'controller' => 'entries', 'action' => 'index', 'admin' => false ),
+                array( 'id' => 'btn_header_logo', 'escape' => false ));
+          ?>
+          <div id="claim"></div>
 				</div> <!-- .left -->
-				<div id="header_login">
+				<div class="l-top-menu top-menu">
 						<?php echo $this->element('layout/header_login'); ?>
 				</div>
 		</div> <!-- #top -->
