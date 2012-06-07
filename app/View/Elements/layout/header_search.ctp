@@ -1,4 +1,4 @@
-<div id='search_header'>
+<div class="top-search">
 <?php
 		echo $this->Form->create(null	, array(
 				'url' => '/entries/search',

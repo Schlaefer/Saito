@@ -1,5 +1,6 @@
 @import "partials/_setup";
 @import "partials/_import";
+@import "partials/_base";
 @import "partials/_saito_mixins";
 
 /*******************************************************************************
@@ -47,8 +48,8 @@
   background-image: inline-image("dots.png");
 }
 .disclaimer-inside {
-  margin: 2*$padding $padding;
-  padding: $padding $padding;
+  margin: $padding-content $padding-content/2;
+  padding: $padding;
 
   @extend .box_style_1;
   @extend .small;
