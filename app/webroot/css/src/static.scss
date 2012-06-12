@@ -1,20 +1,4 @@
-// page style
-// -------------------------------------
-$layout_min_width:      950px !default;
-
-$border_width: 1px;
-
-@import "partials/_import";
-
 @import "partials/lib/_jquery-ui-1.8.19.custom";
 
 @import "partials/lib/_font-awesome";
 @import "partials/_font-awesome-extend";
-
-@import "partials/_layout";
-@import "partials/_saito_mixins";
-@import "partials/_messages";
-@import "partials/_slidetabs";
-@import "partials/_modules";
-
-@import "partials/_tablet";
