@@ -62,11 +62,12 @@
 	@extend .t_shadow;
 }
 
-.box_style_1, .box-content {
+.box_style_1, .box-content, box-form {
 	background-color: white;
+
 	border: $border_width solid $saito_gray_dark;
 	@extend .c_all-radius;
-
+  
 	@extend .box-shadow-inset-subtle;
 
 
@@ -78,17 +79,18 @@
 .box-form {
   @extend .box-content;
   background-color: $saito_gray_light;
-  border-top-width: 0;
  }
 
 .box-header {
   @extend .header_style_2;
 
+	padding: 0px 5px;
+
   // border
 	border-color: silver;
 	border-top-color: $saito_gray_dark;
   border-style: solid;
-  border-width: $border_width 0 $border_width 0;
+  border-width: 0 0 $border_width 0;
 
   @extend .c_top-radius;
 
@@ -102,6 +104,10 @@
 		font-weight: bold;
 		margin: 0;
 		}
+  }
+
+.l-box-header {
+	@include c_t_h_3_abs();
   }
 
 .box_style_2 {
@@ -196,58 +202,3 @@
 }
 
 /******************************************************************************/
-
-@mixin c_t_h_3_abs($height: 24px, $padding: 5px) {
-	height: $height;
-
-	h1, h2, h3 {
-		margin: 0;
-		padding: 0;
-	}
-
-	& > div {
-		position: relative;
-	}
-	& > div > div {
-		line-height: $height - ( 2 * $padding);
-		padding: $padding 0;
-		text-align: center;
-		white-space: nowrap;
-    vertical-align: middle;
-		}
-	& > div > div:first-child {
-		position: absolute;
-		}
-	// CSS2 :last_child for 
-	// & > div > div:last-child  {
-	& > div > .c_last_child  {
-		position: absolute;
-		top: 0;
-		right: 0;
-		text-align: right;
-		}
-	}
-
-.c_t_h_3_tbl {
-	display: table;
-	width: 100%;
-
-	& > div {
-		display: table-row;
-		}
-	& > div > div {
-		display: table-cell;
-		white-space: nowrap;
-		width: 100%;
-		vertical-align: middle;
-		text-align: center;
-		}
-	& .c_first_child {
-		width: auto;
-		text-align: left;
-		}
-	& .c_last_child {
-		width: auto;
-		text-align: right;
-		}
-	}

@@ -1,32 +1,14 @@
-/*******************************************************************************
- * Headers
- ******************************************************************************/
-
-/** headers start ** */
-.c_header_1 {
-	@include c_t_h_3_abs(24px);
-	padding: 0px 5px;
-	}
-
-.c_header_2 {
-	@extend .header_style_2;
-	@extend .c_t_h_3_tbl;
-	border-width: 0 0 $border_width 0;
-	// explizit zero left right margin for FF and Opera
-	padding: $padding/4 0;
-	}
-
-.c_header_1, .c_header_2 {
-  @extend .box-header;
-	}
-
+/* Border style for inlined editing forms
+// ----------------------------------- */
 .entry.reply, .entry.add {
   border-radius: 0 0 $corner_radius $corner_radius;
-  .c_header_1 {
+  .box-header {
       border-radius: 0;
       }
   }
-/** headers end ** */
+.entry.reply .box-header {
+  border-top-width: $border_width;
+  }
 
 /** entry/add ** */
 .entry.add, .entry.edit {
@@ -34,11 +16,13 @@
 
   .preview {
     display: none;
+    border-bottom: 1px solid $saito_gray_dark;
     }
   .preview .content {
     background-color: white;
     padding: $padding;
     }
+
   label {
     display: inline;
     }
@@ -196,7 +180,7 @@ a.no-color {
 		margin-bottom: 20px;
 	  vertical-align: middle;
 
-		form {
+		input {
 			font-size: 20px;
 		}
 	}
@@ -218,8 +202,6 @@ a.no-color {
 	}
 
 	.search_results {
-		@extend .box_style_1;
-
 		.header {
 			@extend .box_layout_1;
 			@extend .header_style_1;

@@ -1084,6 +1084,34 @@ form.bp textarea, form.bp .markItUpPreviewFrame {
   white-space: nowrap;
 }
 
+/* line 104, ../src/partials/_l-layout.scss */
+.c_t_h_3_tbl, .c_a_a_b {
+  display: table;
+  width: 100%;
+}
+/* line 108, ../src/partials/_l-layout.scss */
+.c_t_h_3_tbl > div, .c_a_a_b > div {
+  display: table-row;
+}
+/* line 111, ../src/partials/_l-layout.scss */
+.c_t_h_3_tbl > div > div, .c_a_a_b > div > div {
+  display: table-cell;
+  white-space: nowrap;
+  width: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+/* line 118, ../src/partials/_l-layout.scss */
+.c_t_h_3_tbl .c_first_child, .c_a_a_b .c_first_child {
+  width: auto;
+  text-align: left;
+}
+/* line 122, ../src/partials/_l-layout.scss */
+.c_t_h_3_tbl .c_last_child, .c_a_a_b .c_last_child {
+  width: auto;
+  text-align: right;
+}
+
 /*******************************************************************************
 * Old sprites manuallay generated (depreacted)
 ******************************************************************************/
@@ -1159,13 +1187,13 @@ form.bp textarea, form.bp .markItUpPreviewFrame {
 * border radien
 ******************************************************************************/
 /* line 5, ../src/partials/_saito_mixins.scss */
-.c_top-radius, .c_all-radius, .box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, #entry_search .search_results, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit, .box_style_2, #entry_search .search_form_wrapper_adv, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu, .btn-strip, .popover-inner, .flash, .message, .box-header, .c_header_1, .c_header_2 {
+.c_top-radius, .c_all-radius, .box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit, box-form, .box_style_2, #entry_search .search_form_wrapper_adv, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu, .btn-strip, .popover-inner, .flash, .message, .box-header {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
 
 /* line 10, ../src/partials/_saito_mixins.scss */
-.c_bottom-radius, .c_all-radius, .box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, #entry_search .search_results, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit, .box_style_2, #entry_search .search_form_wrapper_adv, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu, .btn-strip, .popover-inner, .flash, .message, .error-message {
+.c_bottom-radius, .c_all-radius, .box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit, box-form, .box_style_2, #entry_search .search_form_wrapper_adv, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu, .btn-strip, .popover-inner, .flash, .message, .error-message {
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }
@@ -1205,7 +1233,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame {
 }
 
 /* line 53, ../src/partials/_saito_mixins.scss */
-.header_style_2, .box-header, .c_header_1, .c_header_2, .ui-widget-header {
+.header_style_2, .box-header, .ui-widget-header {
   background-color: #e0e0e0;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(30%, #f0f0f0), color-stop(70%, #efefef), color-stop(100%, #e0e0e0)), #e0e0e0;
   background: -webkit-linear-gradient(top, #ffffff, #f0f0f0 30%, #efefef 70%, #e0e0e0), #e0e0e0;
@@ -1218,54 +1246,87 @@ form.bp textarea, form.bp .markItUpPreviewFrame {
 }
 
 /* line 65, ../src/partials/_saito_mixins.scss */
-.box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, #entry_search .search_results, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit {
+.box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit, box-form {
   background-color: white;
   border: 1px solid #e0e0e0;
 }
-/* line 73, ../src/partials/_saito_mixins.scss */
-.box_style_1 .content, .tree_thread .content, #entry_view .a .content, #entry_view .b .content, #entry_mix .a .content, #entry_mix .b .content, #entry_search .search_results .content, .fieldset_1 .content, .disclaimer-inside .content, .box-content .content, .box-form .content, .entry.add .content, .entry.reply .content, .entry.edit .content {
+/* line 74, ../src/partials/_saito_mixins.scss */
+.box_style_1 .content, .tree_thread .content, #entry_view .a .content, #entry_view .b .content, #entry_mix .a .content, #entry_mix .b .content, .fieldset_1 .content, .disclaimer-inside .content, .box-content .content, .box-form .content, .entry.add .content, .entry.reply .content, .entry.edit .content, box-form .content {
   padding: 10px;
 }
 
-/* line 78, ../src/partials/_saito_mixins.scss */
+/* line 79, ../src/partials/_saito_mixins.scss */
 .box-form, .entry.add, .entry.reply, .entry.edit {
   background-color: #fafafa;
-  border-top-width: 0;
 }
 
 /* line 84, ../src/partials/_saito_mixins.scss */
-.box-header, .c_header_1, .c_header_2 {
+.box-header {
+  padding: 0px 5px;
   border-color: silver;
   border-top-color: #e0e0e0;
   border-style: solid;
-  border-width: 1px 0 1px 0;
+  border-width: 0 0 1px 0;
   position: relative;
   z-index: 10;
 }
-/* line 100, ../src/partials/_saito_mixins.scss */
-.box-header h1, .c_header_1 h1, .c_header_2 h1, .box-header h2, .c_header_1 h2, .c_header_2 h2, .box-header h3, .c_header_1 h3, .c_header_2 h3 {
+/* line 102, ../src/partials/_saito_mixins.scss */
+.box-header h1, .box-header h2, .box-header h3 {
   font-size: 13px;
   font-weight: bold;
   margin: 0;
 }
 
-/* line 107, ../src/partials/_saito_mixins.scss */
+/* line 109, ../src/partials/_saito_mixins.scss */
+.l-box-header {
+  height: 24px;
+}
+/* line 76, ../src/partials/_l-layout.scss */
+.l-box-header h1, .l-box-header h2, .l-box-header h3 {
+  margin: 0;
+  padding: 0;
+}
+/* line 81, ../src/partials/_l-layout.scss */
+.l-box-header > div {
+  position: relative;
+}
+/* line 84, ../src/partials/_l-layout.scss */
+.l-box-header > div > div {
+  line-height: 14px;
+  padding: 5px 0;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+/* line 91, ../src/partials/_l-layout.scss */
+.l-box-header > div > div:first-child {
+  position: absolute;
+}
+/* line 96, ../src/partials/_l-layout.scss */
+.l-box-header > div > .c_last_child {
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: right;
+}
+
+/* line 113, ../src/partials/_saito_mixins.scss */
 .box_style_2, #entry_search .search_form_wrapper_adv {
   background-color: #fafafa;
   border: 1px solid #e0e0e0;
 }
 
-/* line 114, ../src/partials/_saito_mixins.scss */
+/* line 120, ../src/partials/_saito_mixins.scss */
 .box_layout_1, #entry_search .search_form_wrapper_adv, #entry_search .search_results .header, #entry_search .search_results .content, .fieldset_1 {
   width: auto;
   padding: 10px;
 }
 
-/* line 118, ../src/partials/_saito_mixins.scss */
+/* line 124, ../src/partials/_saito_mixins.scss */
 .navbar-light, .navbar {
   border-width: 1px 0;
 }
-/* line 122, ../src/partials/_saito_mixins.scss */
+/* line 128, ../src/partials/_saito_mixins.scss */
 .navbar-light .content, .navbar .content {
   padding: 10px;
 }
@@ -1273,23 +1334,23 @@ form.bp textarea, form.bp .markItUpPreviewFrame {
 /*******************************************************************************
  * Shadows
  ******************************************************************************/
-/* line 133, ../src/partials/_saito_mixins.scss */
-.box-shadow, .box-header, .c_header_1, .c_header_2, .markItUpHeader ul ul, #topnav, .slidebar-tab, .slidebar-content {
+/* line 139, ../src/partials/_saito_mixins.scss */
+.box-shadow, .box-header, .markItUpHeader ul ul, #topnav, .slidebar-tab, .slidebar-content {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-/* line 134, ../src/partials/_saito_mixins.scss */
+/* line 140, ../src/partials/_saito_mixins.scss */
 .box-shadow-up, #bottomnav {
   box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.15);
 }
 
-/* line 137, ../src/partials/_saito_mixins.scss */
+/* line 143, ../src/partials/_saito_mixins.scss */
 .box-shadow-inset, input[type=text], input[type=password], textarea, .markItUpPreviewFrame, .btn_search_header {
   box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 1px, 0px 1px 1px rgba(0, 0, 0, 0.3) inset;
 }
 
-/* line 144, ../src/partials/_saito_mixins.scss */
-.box-shadow-inset-subtle, .box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, #entry_search .search_results, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit, .box_style_2, #entry_search .search_form_wrapper_adv {
+/* line 150, ../src/partials/_saito_mixins.scss */
+.box-shadow-inset-subtle, .box_style_1, .tree_thread, #entry_view .a, #entry_view .b, #entry_mix .a, #entry_mix .b, .fieldset_1, .disclaimer-inside, .box-content, .box-form, .entry.add, .entry.reply, .entry.edit, box-form, .box_style_2, #entry_search .search_form_wrapper_adv {
   box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 1px, whiteSmoke 0px 1px 1px inset;
 }
 
@@ -1329,34 +1390,6 @@ form.bp textarea, form.bp .markItUpPreviewFrame {
 }
 
 /******************************************************************************/
-/* line 231, ../src/partials/_saito_mixins.scss */
-.c_t_h_3_tbl, .c_header_2, .c_a_a_b {
-  display: table;
-  width: 100%;
-}
-/* line 235, ../src/partials/_saito_mixins.scss */
-.c_t_h_3_tbl > div, .c_header_2 > div, .c_a_a_b > div {
-  display: table-row;
-}
-/* line 238, ../src/partials/_saito_mixins.scss */
-.c_t_h_3_tbl > div > div, .c_header_2 > div > div, .c_a_a_b > div > div {
-  display: table-cell;
-  white-space: nowrap;
-  width: 100%;
-  vertical-align: middle;
-  text-align: center;
-}
-/* line 245, ../src/partials/_saito_mixins.scss */
-.c_t_h_3_tbl .c_first_child, .c_header_2 .c_first_child, .c_a_a_b .c_first_child {
-  width: auto;
-  text-align: left;
-}
-/* line 249, ../src/partials/_saito_mixins.scss */
-.c_t_h_3_tbl .c_last_child, .c_header_2 .c_last_child, .c_a_a_b .c_last_child {
-  width: auto;
-  text-align: right;
-}
-
 /* line 4, ../src/partials/_markitup.scss */
 .c_markitup_label {
   padding: 0.5em;
@@ -1601,7 +1634,7 @@ a {
 }
 
 /* line 85, ../src/partials/_base.scss */
-.t_shadow, .header_style_2, .box-header, .c_header_1, .c_header_2, .ui-widget-header, .navbar-light, .navbar, .disclaimer-inside, .slidebar-tab, .slidebar-content {
+.t_shadow, .header_style_2, .box-header, .ui-widget-header, .navbar-light, .navbar, .disclaimer-inside, .slidebar-tab, .slidebar-content {
   text-shadow: white 0px 1px;
 }
 
@@ -2315,23 +2348,18 @@ ul.thread {
   margin: 2em 0;
 }
 
-/* line 9, ../src/partials/_tables.scss */
-.table tr {
-  background-color: white;
-}
-
-/* line 12, ../src/partials/_tables.scss */
+/* line 10, ../src/partials/_tables.scss */
 .table td, .table th {
   padding: 0.8em;
 }
 
-/* line 15, ../src/partials/_tables.scss */
+/* line 13, ../src/partials/_tables.scss */
 .table th {
   font-weight: bold;
   background-color: #eee;
 }
 
-/* line 20, ../src/partials/_tables.scss */
+/* line 18, ../src/partials/_tables.scss */
 .table.th-left.elegant td:first-child {
   font-weight: bold;
   text-align: right;
@@ -2339,19 +2367,19 @@ ul.thread {
   width: 38%;
 }
 
-/* line 27, ../src/partials/_tables.scss */
+/* line 25, ../src/partials/_tables.scss */
 .table.zebra tr.b {
   background-color: #eee;
 }
 
-/* line 31, ../src/partials/_tables.scss */
+/* line 29, ../src/partials/_tables.scss */
 .table.border {
   border: 2px solid silver;
   border-right-width: 1px;
   border-collapse: separate;
 }
 
-/* line 37, ../src/partials/_tables.scss */
+/* line 35, ../src/partials/_tables.scss */
 .table.border td, .table.border th {
   border-style: solid;
   border-color: silver;
@@ -2393,16 +2421,16 @@ ul.thread {
 #topnav, #bottomnav {
   height: 30px;
 }
-/* line 203, ../src/partials/_saito_mixins.scss */
+/* line 76, ../src/partials/_l-layout.scss */
 #topnav h1, #topnav h2, #topnav h3, #bottomnav h1, #bottomnav h2, #bottomnav h3 {
   margin: 0;
   padding: 0;
 }
-/* line 208, ../src/partials/_saito_mixins.scss */
+/* line 81, ../src/partials/_l-layout.scss */
 #topnav > div, #bottomnav > div {
   position: relative;
 }
-/* line 211, ../src/partials/_saito_mixins.scss */
+/* line 84, ../src/partials/_l-layout.scss */
 #topnav > div > div, #bottomnav > div > div {
   line-height: 20px;
   padding: 5px 0;
@@ -2410,11 +2438,11 @@ ul.thread {
   white-space: nowrap;
   vertical-align: middle;
 }
-/* line 218, ../src/partials/_saito_mixins.scss */
+/* line 91, ../src/partials/_l-layout.scss */
 #topnav > div > div:first-child, #bottomnav > div > div:first-child {
   position: absolute;
 }
-/* line 223, ../src/partials/_saito_mixins.scss */
+/* line 96, ../src/partials/_l-layout.scss */
 #topnav > div > .c_last_child, #bottomnav > div > .c_last_child {
   position: absolute;
   top: 0;
@@ -2509,85 +2537,46 @@ ul.thread {
 }
 
 /* see also app/config/geshi.php for zebra colors */
-/*******************************************************************************
- * Headers
- ******************************************************************************/
-/** headers start ** */
-/* line 6, ../src/partials/_m-modules.scss */
-.c_header_1 {
-  height: 24px;
-  padding: 0px 5px;
-}
-/* line 203, ../src/partials/_saito_mixins.scss */
-.c_header_1 h1, .c_header_1 h2, .c_header_1 h3 {
-  margin: 0;
-  padding: 0;
-}
-/* line 208, ../src/partials/_saito_mixins.scss */
-.c_header_1 > div {
-  position: relative;
-}
-/* line 211, ../src/partials/_saito_mixins.scss */
-.c_header_1 > div > div {
-  line-height: 14px;
-  padding: 5px 0;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-/* line 218, ../src/partials/_saito_mixins.scss */
-.c_header_1 > div > div:first-child {
-  position: absolute;
-}
-/* line 223, ../src/partials/_saito_mixins.scss */
-.c_header_1 > div > .c_last_child {
-  position: absolute;
-  top: 0;
-  right: 0;
-  text-align: right;
-}
-
-/* line 11, ../src/partials/_m-modules.scss */
-.c_header_2 {
-  border-width: 0 0 1px 0;
-  padding: 2.5px 0;
-}
-
-/* line 23, ../src/partials/_m-modules.scss */
+/* line 3, ../src/partials/_m-modules.scss */
 .entry.reply, .entry.add, .entry.reply {
   border-radius: 0 0 3px 3px;
 }
-/* line 25, ../src/partials/_m-modules.scss */
-.entry.reply .c_header_1, .entry.add .c_header_1, .entry.reply .c_header_1 {
+/* line 5, ../src/partials/_m-modules.scss */
+.entry.reply .box-header, .entry.add .box-header, .entry.reply .box-header {
   border-radius: 0;
 }
 
-/** headers end ** */
+/* line 9, ../src/partials/_m-modules.scss */
+.entry.reply .box-header {
+  border-top-width: 1px;
+}
+
 /** entry/add ** */
-/* line 35, ../src/partials/_m-modules.scss */
+/* line 17, ../src/partials/_m-modules.scss */
 .entry.add .preview, .entry.reply .preview, .entry.edit .preview {
   display: none;
+  border-bottom: 1px solid #e0e0e0;
 }
-/* line 38, ../src/partials/_m-modules.scss */
+/* line 21, ../src/partials/_m-modules.scss */
 .entry.add .preview .content, .entry.reply .preview .content, .entry.edit .preview .content {
   background-color: white;
   padding: 10px;
 }
-/* line 42, ../src/partials/_m-modules.scss */
+/* line 26, ../src/partials/_m-modules.scss */
 .entry.add label, .entry.reply label, .entry.edit label {
   display: inline;
 }
-/* line 45, ../src/partials/_m-modules.scss */
+/* line 29, ../src/partials/_m-modules.scss */
 .entry.add form > div > div, .entry.reply form > div > div, .entry.edit form > div > div {
   padding: 0.5em;
 }
 
-/* line 49, ../src/partials/_m-modules.scss */
+/* line 33, ../src/partials/_m-modules.scss */
 .entry.reply {
   border: none;
 }
 
-/* line 54, ../src/partials/_m-modules.scss */
+/* line 38, ../src/partials/_m-modules.scss */
 .loading_indicator {
   margin: 10px 0px;
   width: 100%;
@@ -2595,7 +2584,7 @@ ul.thread {
   display: none;
 }
 
-/* line 61, ../src/partials/_m-modules.scss */
+/* line 45, ../src/partials/_m-modules.scss */
 .spinner:after {
   content: "";
   background: url('data:image/gif;base64,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') top center no-repeat;
@@ -2606,62 +2595,62 @@ ul.thread {
 }
 
 /* eye-catching links ( with red triangle) */
-/* line 71, ../src/partials/_m-modules.scss */
+/* line 55, ../src/partials/_m-modules.scss */
 a.textlink {
   color: #e74a00;
   text-decoration: none;
   font-weight: bold;
 }
 
-/* line 77, ../src/partials/_m-modules.scss */
+/* line 61, ../src/partials/_m-modules.scss */
 a.no-color {
   color: #6f6f6f;
 }
 
 /** entry/thread_line end ** */
-/* line 85, ../src/partials/_m-modules.scss */
+/* line 69, ../src/partials/_m-modules.scss */
 .entry.index {
   margin-top: -10px;
 }
 
 /** entry/view ** */
 /*#entry_view, #entry_mix, #entry_index {*/
-/* line 95, ../src/partials/_m-modules.scss */
+/* line 79, ../src/partials/_m-modules.scss */
 .a_a_a {
   padding: 10px 10px 15px 10px;
 }
 
-/* line 98, ../src/partials/_m-modules.scss */
+/* line 82, ../src/partials/_m-modules.scss */
 .c_a_a_b {
   height: 45px;
 }
-/* line 102, ../src/partials/_m-modules.scss */
+/* line 86, ../src/partials/_m-modules.scss */
 .c_a_a_b > div > div {
   border-style: solid;
   border-color: #e0e0e0;
   padding: 0 20px;
 }
-/* line 108, ../src/partials/_m-modules.scss */
+/* line 92, ../src/partials/_m-modules.scss */
 .c_a_a_b .c_a_a_b_a {
   border-width: 1px 1px 0 0;
   border-top-right-radius: 3px;
 }
-/* line 113, ../src/partials/_m-modules.scss */
+/* line 97, ../src/partials/_m-modules.scss */
 .c_a_a_b .c_a_a_b_c {
   border-width: 1px 0 0 1px;
   border-top-left-radius: 3px;
 }
 
-/* line 118, ../src/partials/_m-modules.scss */
+/* line 102, ../src/partials/_m-modules.scss */
 .a {
   margin-bottom: 10px;
 }
 
-/* line 121, ../src/partials/_m-modules.scss */
+/* line 105, ../src/partials/_m-modules.scss */
 .b {
   padding: 10px;
 }
-/* line 123, ../src/partials/_m-modules.scss */
+/* line 107, ../src/partials/_m-modules.scss */
 .b .tree_thread {
   -webkit-box-shadow: 0 0 0;
   -moz-box-shadow: 0 0 0;
@@ -2675,18 +2664,18 @@ a.no-color {
 /*	}*/
 /*entry/view end */
 /** search start ** */
-/* line 134, ../src/partials/_m-modules.scss */
+/* line 118, ../src/partials/_m-modules.scss */
 .search_form {
   position: relative;
 }
 
-/* line 137, ../src/partials/_m-modules.scss */
+/* line 121, ../src/partials/_m-modules.scss */
 .search_form input {
   margin: 0;
   padding: 0 0.5em;
 }
 
-/* line 142, ../src/partials/_m-modules.scss */
+/* line 126, ../src/partials/_m-modules.scss */
 .search_form > div {
   overflow: hidden;
   position: relative;
@@ -2694,7 +2683,7 @@ a.no-color {
   padding: 0;
 }
 
-/* line 148, ../src/partials/_m-modules.scss */
+/* line 132, ../src/partials/_m-modules.scss */
 .search_textfield {
   height: 22px;
   margin: 0;
@@ -2709,12 +2698,12 @@ a.no-color {
   font-size: auto;
 }
 
-/* line 161, ../src/partials/_m-modules.scss */
+/* line 145, ../src/partials/_m-modules.scss */
 .search_textfield:focus {
   outline-width: 0;
 }
 
-/* line 164, ../src/partials/_m-modules.scss */
+/* line 148, ../src/partials/_m-modules.scss */
 .btn_search_submit {
   /* workaround for firefox font bug */
   /*		font-family: Helvetica, Arial, Sans-Serif; */
@@ -2729,7 +2718,7 @@ a.no-color {
   cursor: pointer;
 }
 
-/* line 178, ../src/partials/_m-modules.scss */
+/* line 162, ../src/partials/_m-modules.scss */
 .btn_search_header {
   width: 24px;
   height: 24px;
@@ -2738,45 +2727,45 @@ a.no-color {
   margin-left: -1px !important;
 }
 
-/* line 186, ../src/partials/_m-modules.scss */
+/* line 170, ../src/partials/_m-modules.scss */
 .search_textfield_header {
   margin-right: -1px !important;
 }
 
 /** search end ** */
 /*** entry_search start ***/
-/* line 193, ../src/partials/_m-modules.scss */
+/* line 177, ../src/partials/_m-modules.scss */
 #entry_search .search_form_wrapper {
   display: table;
   width: 100%;
   margin-bottom: 20px;
   vertical-align: middle;
 }
-/* line 199, ../src/partials/_m-modules.scss */
-#entry_search .search_form_wrapper form {
+/* line 183, ../src/partials/_m-modules.scss */
+#entry_search .search_form_wrapper input {
   font-size: 20px;
 }
-/* line 204, ../src/partials/_m-modules.scss */
+/* line 188, ../src/partials/_m-modules.scss */
 #entry_search .search_form_wrapper_adv {
   margin-bottom: 20px;
 }
-/* line 210, ../src/partials/_m-modules.scss */
+/* line 194, ../src/partials/_m-modules.scss */
 #entry_search .search_form_wrapper > div {
   display: table-cell;
   padding: 0 5px;
   vertical-align: middle;
 }
-/* line 216, ../src/partials/_m-modules.scss */
+/* line 200, ../src/partials/_m-modules.scss */
 #entry_search form {
   width: 100%;
 }
-/* line 231, ../src/partials/_m-modules.scss */
+/* line 213, ../src/partials/_m-modules.scss */
 #entry_search .search_results .content ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-/* line 236, ../src/partials/_m-modules.scss */
+/* line 218, ../src/partials/_m-modules.scss */
 #entry_search .search_results .content ul li {
   margin: 0.2em 0;
 }
@@ -3029,7 +3018,7 @@ a.category_acs_2, .category_acs_2 {
  ******************************************************************************/
 /* line 104, ../src/_theme.scss */
 .table.zebra tr.b {
-  background-color: #fafafa;
+  background-color: #e6edf0;
 }
 
 /* line 108, ../src/_theme.scss */

@@ -104,8 +104,8 @@
 
 	?>
 
-	<div class="box_style_1">
-		<div class="c_header_2">
+	<div class="box-content">
+		<div class="l-box-header box-header">
 			<div>
 				<div class='c_first_child'></div>
 				<div><h1><?php echo $this->TextH->properize( $user['User']['username'] ) . ' ' . __('user_profile');?></h1> </div>
@@ -138,8 +138,8 @@
 	<br/>
 	<br/>
 
-	<div class="box_style_1">
-		<div class="c_header_2">
+	<div class="box-content">
+		<div class="l-box-header box-header">
 			<div>
 				<div class='c_first_child'></div>
 				<div><h1><?php echo $this->TextH->properize( $user['User']['username'] ) . ' ' . __('user_recentposts'); // @lo  ?>

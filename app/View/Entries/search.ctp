@@ -85,13 +85,13 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 		</div>
 <?php echo $this->Form->end(); ?>
 	</div> <!-- search_form_wrapper_adv -->
-	<div class="search_results">
+	<div class="search_results box-content">
 <?php if ( isset($this->Paginator) && !empty($FoundEntries) ) : ?>
-			<div class="c_header_2">
+			<div class="l-box-header box-header">
 				<div>
-					<div class=".c_first_child"></div>
+					<div class="c_first_child"></div>
 					<div></div>
-					<div class=".c_last_child">
+					<div class="c_last_child">
 						<?php
 						/**
 						 * Paremters passed by paginator links

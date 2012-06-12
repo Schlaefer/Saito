@@ -27,7 +27,7 @@ endif;
 ?>
 <div id ="entry_<?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
 	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
-		<div class="c_header_1 box-header">
+		<div class="l-box-header box-header">
 			<div>
 				<div>
 					<?php
@@ -56,9 +56,9 @@ endif;
 		</div> <!-- content -->
 	</div> <!-- preview -->
 	<div class="postingform">
-		<div class="c_header_1 box-header">
+		<div class="l-box-header box-header">
 			<div>
-				<div>
+        <div class="c_first_child">
 <?php  if ( $this->request->is('ajax') ) : ?>
 						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-close-widget icon-large pointer' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;">
             </i>
