@@ -76,7 +76,7 @@ class Entry extends AppModel {
 		$defaults = array (
 					'user_id'		=> NULL,
 					'limit'			=> 20,
-					'accession'	=> NULL,
+					'category'	=> NULL,
 		);
 		extract(array_merge($defaults, $options));
 
@@ -84,8 +84,8 @@ class Entry extends AppModel {
 		if ( $user_id !== NULL ) {
 			$conditions[]['Entry.user_id']	= $user_id;
 		}
-		if ( $accession !== NULL ):
-			$conditions[]['Entry.category']	= $accession;
+		if ( $category !== NULL ):
+			$conditions[]['Entry.category']	= $category;
 		endif;
 
 
