@@ -9,7 +9,11 @@
 		protected $settingsCompact = array(
 				'forum_name' => 'macnemo',
 				'autolink' => '1',
-				'userranks_ranks' => '10=Castaway|20=Other|30=Dharma|100=Jacob',
+				'userranks_ranks' => array(
+					'10'=>'Castaway',
+          '20'=>'Other',
+          '30'=>'Dharma',
+          '100'=>'Jacob'),
 				'smilies' => 1,
 				'topics_per_page' => 20,
 				'timezone'				=> 'UTC',

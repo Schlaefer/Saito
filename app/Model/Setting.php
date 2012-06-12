@@ -19,9 +19,12 @@ class Setting extends AppModel {
 	 *
 	 * @return array Settings
 	 */
-	function getSettings() {
+	public function getSettings() {
 		$settings = $this->find('all');
 		$settings = $this->_compact($settings);
+
+    $settings['userranks_ranks'] = $this->_pipeSplitter($settings['userranks_ranks']);
+
 		return $settings;
 	}
 
@@ -30,7 +33,7 @@ class Setting extends AppModel {
 	 *
 	 * @return array Settings
 	 */
-	function load() {
+	public function load() {
 		$settings = $this->getSettings();
 		$this->_updateConfiguration($settings);
 		$this->_updateCacheFromConfiguration();

@@ -53,5 +53,23 @@ class AppModel extends Model {
 		return $value;
 	}
 
+  /**
+   * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
+   * 
+   * @param string $pipeString
+   * @return array
+   */
+  protected function _pipeSplitter($pipeString) {
+    $unpipedArray = array();
+    $ranks = explode("|", $pipeString);
+    foreach ( $ranks as $rank ) :
+      $matches = array();
+      preg_match('/(\d+)\s*=\s*(.*)/', trim($rank), $matches);
+      $unpipedArray[$matches[1]] = $matches[2];
+    endforeach;
+    return $unpipedArray;
+  }
+
+
 }
 ?>
