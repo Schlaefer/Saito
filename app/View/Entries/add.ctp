@@ -27,7 +27,7 @@ endif;
 ?>
 <div id ="entry_<?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
 	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
-		<div class="c_header_1">
+		<div class="c_header_1 box-header">
 			<div>
 				<div>
 					<?php
@@ -56,7 +56,7 @@ endif;
 		</div> <!-- content -->
 	</div> <!-- preview -->
 	<div class="postingform">
-		<div class="c_header_1">
+		<div class="c_header_1 box-header">
 			<div>
 				<div>
 <?php  if ( $this->request->is('ajax') ) : ?>

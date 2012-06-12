@@ -60,7 +60,7 @@
 		<div id="content">
 				<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="footer_pinned">
+		<div id="footer-pinned">
 			<div id="bottomnav" class="navbar">
 				<div>
 						<div>

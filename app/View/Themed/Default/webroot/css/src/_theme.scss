@@ -1,8 +1,3 @@
-@import "partials/_setup";
-@import "partials/_import";
-@import "partials/_base";
-@import "partials/_saito_mixins";
-
 /*******************************************************************************
  * Template
  ******************************************************************************/
@@ -132,6 +127,91 @@ a.category_acs_2, .category_acs_2 {
    border-color:  $saito_gray_dark;
    border-width: 0 $border_width $border_width 0;
    }
+
+/*******************************************************************************
+ * Slidebars (aka Slidetabs) general layout
+ ******************************************************************************/
+
+.slidetab_subtree {
+	font-weight: normal;
+}
+
+.slidetab_tree {
+  font-weight: bold;
+}
+
+.slidebar-tab, .slidebar-content {
+  font-size: 0.95em;
+
+  @extend .header_style_1;
+  @extend .box-shadow;
+  @extend .t_shadow;
+  @extend .c_left-radius;
+
+  margin-bottom: 2px;
+  line-height: 1.5;
+}
+
+.slidetab_subtree {
+	font-weight: normal;
+
+	> li {
+		margin-bottom: 0;
+		@extend .sprites;
+		@include sprite-row(2);
+		width: auto;
+		// height of the bullet image
+		height: auto;
+		padding: 0 0 0 17px;
+	}
+
+	> li:last-child {
+		// we can't use @extend .sprites; -> breaks IE8 because of last-child
+		@include sprite-background($sprites_image);
+		@include sprite-row(3);
+		width: auto;
+		// height of the bullet image
+		height: 15px;
+		// temporary fix for last line being to small if user line-height pref is > +1
+		padding-bottom: 0.5em;
+	}
+}
+
+
+// Slidebar Userlist
+// -------------------------------------
+.slidebar-actUser {
+  font-weight: bold;
+}
+
+/*******************************************************************************
+ * Bootstrap Popovers Adjustments
+ ******************************************************************************/
+
+.popover-inner {
+  @extend .c_all-radius;
+  // border illusion:
+  background: $saito_border;
+  padding: $border_width;
+}
+
+.popover.bottom {
+  .arrow {
+    border-bottom-color: $saito_border;
+    }
+  }
+
+.popover.left {
+  .arrow {
+    border-left-color: $saito_border;
+    }
+  }
+
+.popover.right {
+  .arrow {
+    border-right-color: $saito_border;
+    }
+  }
 
 /*******************************************************************************
  * Messages Setup

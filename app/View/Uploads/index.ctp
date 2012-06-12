@@ -1,5 +1,5 @@
 <div id="upload_index" class="upload index">
-	<div class="c_header_1">
+	<div class="c_header_1 box-header">
 		<div>
 			<div>
 			</div>

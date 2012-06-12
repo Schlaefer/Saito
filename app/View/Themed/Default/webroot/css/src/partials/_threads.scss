@@ -1,0 +1,138 @@
+/*******************************************************************************
+ * Threads
+ ******************************************************************************/
+
+// thread and reply links
+// -------------------------------------
+/* dont forget to change the userpref css in user_h.php if you do changes here */
+li.thread .span_post_type, li.reply .span_post_type {
+  @include link-colors($thread_color_normal);
+  font-weight: bold; }
+
+/* new threads and replies: */
+li.threadnew .span_post_type, li.replynew .span_post_type {
+  @include link-colors($thread_color_new);
+  font-weight: bold; }
+
+li.actthread .span_post_type, li.actreply .span_post_type {
+  @include link-colors($thread_color_actual);
+  font-weight: bold; }
+
+// thread tree
+// -------------------------------------
+ul.thread, ul.threadnew {
+  list-style-type: none;
+  margin: 0px 0px 18px 0px;
+  list-style-type: none; }
+
+ul.reply, ul.replynew {
+  list-style-type: none;
+  margin: 0 0 0 30px;
+  list-style-type: none; }
+
+ul.deep-reply {
+  margin: 0px;
+  list-style-type: none; }
+
+/*******************************************************************************
+ * Entry thread_line
+ ******************************************************************************/
+
+.thread_line-pre {
+	position: absolute;
+	vertical-align: text-top;
+	height: 19px;
+	line-height: 19px;
+	font-size: 13px;
+	}
+
+.thread_line-content {
+	padding-left: 18px;
+	display: block;
+  word-break: break-word;
+	&:hover{
+		background: #F0F0F0;
+		}
+	}
+
+.thread_line-username {
+	font-weight: 600;
+	}
+
+.thread_line-post {
+		@extend .c_info_text;
+		font-weight: normal;
+		margin-left: 0.5em;
+}
+
+/* thread_slider */
+.t_s {
+  /* 20 px left because of huge, vertical close button */
+  margin: 5px 5px 5px 20px;
+  border: $border_width $saito_gray_dark solid;
+	@extend .c_all-radius;
+  /* user_list und inline view sollen sauber getrennt bleiben */
+  overflow: hidden; }
+
+
+  .tree_thread {
+  @extend .box_style_1;
+  padding: 8px;
+  margin-bottom: 4px;
+  .img_pencil {
+    visibility: hidden; }
+  ul:first-child {
+    margin-left: 30px; } }
+
+ul.thread {
+  margin: 0 !important; }
+
+.thread_box {
+  /* user_list und inline view sollen sauber getrennt bleiben */
+  /*	overflow: hidden; */ }
+
+.thread_tools {
+  opacity: 0.2;
+  border-style: solid;
+  border-color: $saito_gray_dark;
+  border-width: $border_width $border_width 0 $border_width;
+  display: inline-block;
+  margin-left: 35px;
+  border-top-left-radius:$corner_radius;
+  border-top-right-radius:$corner_radius;
+  ul,li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: inline; }
+  li {
+    // setting explizit height for Firefox only
+    height: 15px;
+    float: left; }
+  a {
+    padding: 1px 10px;
+    display: inline-block;
+    text-align: center;
+    width: 13px;
+    height: 13px;
+    &:active {
+      background-color: $saito_gray_dark; } }
+  li {
+    border-right: $border_width solid $saito_gray_dark; }
+  li:first-child {
+    /* we need this for the active state */
+    border-top-left-radius:$corner_radius; }
+  li:last-child {
+    border: none;
+    /* we need this for the active state */
+    border-top-right-radius:$corner_radius; } }
+
+.thread_inline {
+  display: none;
+  position: relative;
+  margin: 4px 0;
+  .btn_back_l, .btn_top_l {
+    float: left; }
+  /* otherwise link is slidetabs not clickable if inline with is open */
+  /*	overflow: hidden; */ }
+
