@@ -62,7 +62,7 @@
 	@extend .t_shadow;
 }
 
-.box_style_1 {
+.box_style_1, .box-content {
 	background-color: white;
 	border: $border_width solid $saito_gray_dark;
 	@extend .c_all-radius;
@@ -74,6 +74,35 @@
 		padding: $padding;
 		}
 }
+
+.box-form {
+  @extend .box-content;
+  background-color: $saito_gray_light;
+  border-top-width: 0;
+ }
+
+.box-header {
+  @extend .header_style_2;
+
+  // border
+	border-color: silver;
+	border-top-color: $saito_gray_dark;
+  border-style: solid;
+  border-width: $border_width 0 $border_width 0;
+
+  @extend .c_top-radius;
+
+	@extend .box-shadow;
+	// make shure box shadow is always above background; esp. Vorschau header
+	position:relative;
+	z-index: 10;
+
+	h1, h2, h3 {
+		font-size: 13px;
+		font-weight: bold;
+		margin: 0;
+		}
+  }
 
 .box_style_2 {
 	background-color: $saito_gray_light;

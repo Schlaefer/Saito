@@ -1,0 +1,84 @@
+/*******************************************************************************
+ * Buttons
+ *
+ * See for bootstrap sass implementation: https://github.com/thomas-mcdonald/bootstrap-sass/blob/master/vendor/assets/stylesheets/bootstrap/_buttons.scss
+ ******************************************************************************/
+
+.btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu {
+  @extend .c_all-radius;
+  }
+
+.btn {
+  // reset hat input elements ususally take the whole form width
+  width: auto;
+  padding: 0.2em 1em;
+  }
+
+.btn-submit {
+  background-color: $btnSubmitBackground;
+  @include buttonBackground($btnSubmitBackgroundHighlight, $btnSubmitBackground);
+}
+
+.btn-preview {
+  @extend .btn-small;
+  background-color: $btnPreviewBackground;
+  @include buttonBackground($btnPreviewBackgroundHighlight, $btnPreviewBackground);
+}
+
+.btn-edit {
+  @extend .btn-small;
+  }
+
+//back and top wide button start
+// -------------------------------------
+.btn-strip {
+  height: 100%;
+  width: 15px;
+  position: absolute;
+  border: $border_width solid $saito_gray_dark;
+  background-color: $saito_gray_light;
+  background-repeat: repeat-y;
+	@extend .c_all-radius;
+  &:active {
+    background-color: $saito_gray_dark; } }
+
+.btn-strip-back {
+  background-image: image-url("mix_back.png");
+  }
+
+.btn-strip-top {
+  background-image: image-url("mix_top.png");
+  }
+
+.button_mod_panel {
+  float: right;
+  button {
+    margin: 0;
+  }
+  ul {
+    /* !important: in inline_view on entries_index the tree ul stuff messes in */
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style-type: none; }
+  }
+
+
+
+/*******************************************************************************
+ * Buttons Thread Tools
+ ******************************************************************************/
+
+.ico-threadTool {
+	display: inline-block;
+	margin-top: 1px;
+	width: 13px;
+	height: 13px;
+}
+
+.ico-threadCollapse     { @extend .sprite-thread-collapse; 	    }
+.ico-threadOpen 		    { @extend .sprite-thread-open; 			    }
+.ico-threadOpenInline   { @extend .sprite-thread-open-inline;   }
+.ico-threadOpenNew      { @extend .sprite-thread-open-new;      }
+.ico-threadOpenMix      { @extend .sprite-thread-open-mix;      }
+.ico-threadCloseInline  { @extend .sprite-thread-close-inline;  }
+
