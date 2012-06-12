@@ -14,8 +14,14 @@
 			$_userranks_ranks = Configure::read('Saito.Settings.userranks_ranks');
 
 			Configure::write('Saito.Settings.userranks_show', '1');
-			Configure::write('Saito.Settings.userranks_ranks',
-					'10=Castaway|20=Other|30=Dharma|100=Jacob');
+			Configure::write('Saito.Settings.userranks_ranks', array(
+					'10'=>'Castaway',
+          '20'=>'Other',
+          '30'=>'Dharma',
+          '100'=>'Jacob')
+      );
+
+      $this->UserH->beforeRender(null);
 
 			$expected = 'Castaway';
 			$result = $this->UserH->userRank(0);

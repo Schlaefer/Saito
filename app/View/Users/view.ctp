@@ -63,8 +63,9 @@
 					),
 					array (
 							__('user_postings'),
-								$user['User']['number_of_entries'] .
-								' ('.  $this->UserH->userRank($user["User"]['number_of_entries']) . ') [' . $linkToHistory . ']',
+								$user['User']['number_of_entries']
+                . ( (Configure::read('Saito.Settings.userranks_show')) ? ' ('.  $this->UserH->userRank($user["User"]['number_of_entries']) . ')' : '' )
+								. ' [' . $linkToHistory . ']',
 					),
 			));
 
