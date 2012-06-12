@@ -2,6 +2,8 @@
 * Import compass framework
 ******************************************************************************/
 
+@import "compass/reset";
+@import "compass/utilities/general/clearfix";
 @import "compass/utilities/sprites";
 @import "compass/typography/links";
 @import "compass/css3/box-shadow";

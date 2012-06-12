@@ -1,11 +1,17 @@
 @import "partials/_setup";
 @import "partials/_import";
-@import "partials/_saito_mixins";
-@import "partials/_base";
 
 @import "partials/_sprites.scss";
+@import "partials/_saito_mixins";
+
 @import "partials/_markitup";
 
+@import "partials/_base";
+@import "partials/_slidetabs";
+
 @import "partials/_modules";
+
+@import "partials/_messages";
+@import "partials/_tablet";
 
 @import "partials/_jquery-ui.scss"
