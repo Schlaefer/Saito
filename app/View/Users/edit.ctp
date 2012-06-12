@@ -9,8 +9,8 @@
 <h1><?php echo __('user_area_title'); ?></h1>
 <div id="user_edit" class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
-	<div class="box_style_1">
-		<div class="c_header_2">
+	<div class="box-form">
+		<div class="l-box-header box-header">
 			<div>
 				<div class='c_first_child'></div>
 				<div>
@@ -259,8 +259,8 @@
   </div>
 	<br	/>
 
-	<div class="box_style_1">
-		<div class="c_header_2">
+	<div class="box-form">
+		<div class="l-box-header box-header">
 			<div>
 				<div class='c_first_child'></div>
 				<div>
