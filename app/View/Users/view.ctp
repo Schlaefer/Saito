@@ -119,10 +119,44 @@
 			</div>
 		</div>	
 		<div class="content">
+
+      <?php if ( $CurrentUser->isMod() ) : ?>
+          <div class="button_mod_panel shp shp-left"
+               data-title="<?php echo __('Help'); ?>"
+               data-content="<?php echo __('button_mod_panel_shp'); ?>"
+               >
+            <div class="btn-group">
+              <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+                <i class="icon-wrench"></i>
+                &nbsp;
+                <i class="icon-caret-down"></i>
+              </button>
+              <ul class="dropdown-menu pull-right">
+                <li>
+                  <?php echo $this->Html->link(
+                          ($user['User']['user_lock']) ?  __('Unlock') : __('Lock'),
+                          array( 'controller' => 'users', 'action' => 'lock', $user['User']['id'])
+                        );
+                  ?>
+                </li>
+                <!--
+                <?php if ( $CurrentUser->isAdmin() ) : ?>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">Löschen @td</a>
+                  </li>
+                <?php endif; ?>
+                -->
+              </ul>
+            </div><!-- /btn-group -->
+          </div>
+        <?php endif; ?>
+
 			<table class='table th-left elegant'>
 			<?php echo 		$this->Html->tableCells($table); ?> 
 			</table>
 		</div>
+
 		<?php  if (  $allowedToEditUserData ) : ?>
 		<div  class="c_a_a_b">
 			<div>
