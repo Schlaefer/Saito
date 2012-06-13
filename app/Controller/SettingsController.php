@@ -13,6 +13,7 @@
 		protected $_currentlyUsedSettings = array(
 				'autolink' => 1,
 				'bbcode_img' => 1,
+        'block_user_ui' => 1,
 				'edit_delay' => 1,
 				'edit_period' => 1,
 				'forum_email' => 1,

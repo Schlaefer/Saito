@@ -23,6 +23,14 @@
       $this->_userranks = Configure::read('Saito.Settings.userranks_ranks');
     }
 
+    public function banned($isBanned) {
+      $out = '';
+      if ( $isBanned ) :
+        $out = '<i class="icon-ban-circle"></i>';
+      endif;
+      return $out;
+    }
+
     /**
      * generates the JavaSript commands to format the views according to user prefs
      *
