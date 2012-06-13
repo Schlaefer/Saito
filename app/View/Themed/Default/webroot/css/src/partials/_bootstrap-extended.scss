@@ -11,18 +11,3 @@
 .popover-content {
   padding: 5px 10px;
   }
-
-/**********************/
-
-.clearfix {
-  clear: both;
-  @include clearfix;
-  }
-
-.highlight {
-  background-color: #ffff99;
-  }
-
-#topnav, #bottomnav {
-	@include c_t_h_3_abs(30px);
-	}

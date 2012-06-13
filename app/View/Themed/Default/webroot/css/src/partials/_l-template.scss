@@ -56,8 +56,13 @@
   border-width: 1px 0 1px 0;
   }
 
+#topnav, #bottomnav {
+	@include c_t_h_3_abs($navbar-height);
+	}
+
+
 #content {
-  padding: $padding-content;
+  padding: $padding-content $padding-content $padding-content+$navbar-height ;
 	}
 
 #footer-pinned {

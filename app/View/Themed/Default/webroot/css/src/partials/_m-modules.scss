@@ -222,3 +222,14 @@ a.no-color {
 		}
 	}
 }
+
+/**********************/
+
+.clearfix {
+  clear: both;
+  @include clearfix;
+  }
+
+.highlight {
+  background-color: #ffff99;
+  }
