@@ -1,4 +1,4 @@
-<div id="admins_index" class="admins index box_style_2 box_layout_1">
+<div id="admins_index" class="admins index">
 	<h1>
 		System-Info
 	</h1>
