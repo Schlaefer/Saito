@@ -121,12 +121,6 @@ Class CurrentUserComponent extends SaitoUser {
 
 		//*  make shure all session have the same userdata
 		if ( $this->isLoggedIn() ) {
-
-			if ( $this->isForbidden() ):
-				$this->logout();
-				return;
-			endif;
-
 			$this->_User->id = $this->getId();
 			$this->_User->contain();
 			$user = $this->_User->read();
@@ -160,6 +154,11 @@ Class CurrentUserComponent extends SaitoUser {
 	public function beforeRender($controller) {
 		// write out the current user for access in the views
 		$controller->set('CurrentUser', $this);
+    if ( $this->isLoggedIn() ) :
+      if ( $this->isForbidden() ) :
+        $this->_Controller->redirect(array('controller' => 'users', 'action'=>'logout'));
+      endif;
+    endif;
 
 	}
 
