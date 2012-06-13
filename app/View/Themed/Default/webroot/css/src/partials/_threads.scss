@@ -42,8 +42,10 @@ ul.deep-reply {
 	position: absolute;
 	vertical-align: text-top;
 	height: 19px;
-	line-height: 19px;
 	font-size: 13px;
+  > a > i {
+    padding-top: 1px;
+    }
 	}
 
 .thread_line-content {
