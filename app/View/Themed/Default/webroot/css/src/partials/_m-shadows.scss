@@ -1,0 +1,22 @@
+/*******************************************************************************
+ * Shadows
+ ******************************************************************************/
+
+// normal shadows
+// -------------------------------------
+.box-shadow { box-shadow:  0px 1px 3px rgba(0,0,0,.15); }
+.box-shadow-up { box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.15); }
+
+// inset default box shadow for large boxes (navbar/sidebar…)
+.box-shadow-inset {
+  box-shadow:
+    rgba(255,255,255,0.6) 0px 1px 1px,
+    0px 1px 1px rgba(0, 0, 0, 0.3) inset;
+  }
+
+// very subtle inset e.g. for the threads on entries/index
+.box-shadow-inset-subtle {
+  box-shadow:
+    rgba(255,255,255,0.6) 0px 1px 1px,
+    whiteSmoke 0px 1px 1px inset;
+	}

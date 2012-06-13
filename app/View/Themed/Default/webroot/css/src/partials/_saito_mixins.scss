@@ -110,13 +110,6 @@
 	@include c_t_h_3_abs();
   }
 
-.box_style_2 {
-	background-color: $saito_gray_light;
-	border: $border_width solid $saito_gray_dark;
-	@extend .c_all-radius;
-	@extend .box-shadow-inset-subtle;
-	}
-
 .box_layout_1 {
   width: auto;
   padding: $padding; }
@@ -129,76 +122,3 @@
     padding: $padding;
    }
 }
-
-/*******************************************************************************
- * Shadows
- ******************************************************************************/
-
-// normal shadows
-// -------------------------------------
-.box-shadow { box-shadow:  0px 1px 3px rgba(0,0,0,.15); }
-.box-shadow-up { box-shadow: 0px -1px 3px rgba(0, 0, 0, 0.15); }
-
-// inset default box shadow for large boxes (navbar/sidebar…)
-.box-shadow-inset {
-  box-shadow:
-    rgba(255,255,255,0.6) 0px 1px 1px,
-    0px 1px 1px rgba(0, 0, 0, 0.3) inset;
-  }
-
-// very subtle inset e.g. for the threads on entries/index
-.box-shadow-inset-subtle {
-  box-shadow:
-    rgba(255,255,255,0.6) 0px 1px 1px,
-    whiteSmoke 0px 1px 1px inset;
-	}
-
-/*******************************************************************************
- * Font Face
- ******************************************************************************/
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../../font/opensans/OpenSans-Regular-webfont.eot');
-    src: local('Open Sans'), local('Open Sans Regular'),
-         url('../../font/opensans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../../font/opensans/OpenSans-Regular-webfont.ttf') format('truetype'),
-         url('../../font/opensans/OpenSans-Regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../../font/opensans/OpenSans-Italic-webfont.eot');
-    src: local('Open Sans Italic'),
-        url('../../font/opensans/OpenSans-Italic-webfont.eot?#iefix') format('embedded-opentype'),
-        url('../../font/opensans/OpenSans-Italic-webfont.ttf') format('truetype'),
-        url('../../font/opensans/OpenSans-Italic-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../../font/opensans/OpenSans-Semibold-webfont.eot');
-    src: local('Open Sans Semibold'),
-         url('../../font/opensans/OpenSans-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../../font/opensans/OpenSans-Semibold-webfont.ttf') format('truetype'),
-         url('../../font/opensans/OpenSans-Semibold-webfont.woff') format('woff');
-    font-weight: 600;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../../font/opensans/OpenSans-Bold-webfont.eot');
-    src: local('Open Sans Bold'),
-         url('../../font/opensans/OpenSans-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../../font/opensans/OpenSans-Bold-webfont.ttf') format('truetype'),
-         url('../../font/opensans/OpenSans-Bold-webfont.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-}
-
-/******************************************************************************/
