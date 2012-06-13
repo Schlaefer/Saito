@@ -227,6 +227,48 @@ class UsersController extends AppController {
 		$this->set('user', $this->request->data);
 	}
 
+  public function lock($id) {
+      if ( !$this->CurrentUser->isMod() ) :
+        $this->redirect('/');
+      endif;
+
+      $this->User->id = $id;
+      $this->User->contain();
+      $readUser = $this->User->read();
+      if ( !$readUser ) :
+        $this->Session->setFlash('User not found.', 'flash/error');
+        $this->redirect('/');
+      endif;
+
+      $readUser = $this->User->read();
+      $editedUser = new SaitoUser(new ComponentCollection());
+      $editedUser->set($readUser['User']);
+
+      if ( $id == $this->CurrentUser->getId() ) :
+        $this->Session->setFlash(__("You cant' lock yourself."), 'flash/error');
+      elseif ( $editedUser->isAdmin() ) :
+        $this->Session->setFlash(__("You can't lock administrators.", 'flash/error'),
+            'flash/error');
+      else :
+        $status = $this->User->toggle('user_lock');
+        if ( $status !== FALSE ) :
+          $message = '';
+          if ( $status ) :
+            $message = __('User %s is locked.', $readUser['User']['username']);
+          else :
+            $message = __('User %s is unlocked.', $readUser['User']['username']);
+          endif;
+          $this->Session->setFlash($message, 'flash/notice');
+          $this->redirect(array( 'action' => 'view', $id ));
+        else :
+          $this->Session->setFlash(__("Well, you broke something. We don't know what or how."),
+              'flash/error');
+        endif;
+      endif;
+
+      $this->redirect(array( 'action' => 'view', $id ));
+    }
+
 	public function changepassword($id = null) {
 		if ( $id == null 
         || !$this->_checkIfEditingIsAllowed($this->CurrentUser, $id) ) :

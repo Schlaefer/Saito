@@ -14,9 +14,9 @@
          >
         <div class="btn-group">
           <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <i class="icon-pencil"></i>
+            <i class="icon-wrench"></i>
             &nbsp;
-            <i class="icon-chevron-down"></i>
+            <i class="icon-caret-down"></i>
             </button>
           <ul class="dropdown-menu pull-right">
 					<?php
