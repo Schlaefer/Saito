@@ -35,7 +35,7 @@
   }
 
 .fieldset_1 {
-  @extend .box_style_1;
+  @extend .box-form;
   @extend .box_layout_1;
   }
 
@@ -46,7 +46,7 @@
   margin: $padding-content $padding-content/2;
   padding: $padding;
 
-  @extend .box_style_1;
+  @extend .box-content;
   @extend .small;
 	@extend .t_shadow;
 	@extend .c_info_text;

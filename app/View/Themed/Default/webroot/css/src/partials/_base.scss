@@ -56,36 +56,3 @@ a {
 	@include link-colors($link_color);
 	text-decoration: none;
 	}
-
-.info_text {
-  color: $saito_info_text; 
-	}
-
-.small {
-	font-size: 90%; 
-	}
-
-.c_info_text {
-	@extend .info_text;
-	@extend .small;
-	}
-
-.super {
-  font-size: 0.83em;
-  line-height: 0.5em;
-  vertical-align: baseline;
-  position: relative;
-  top: -0.2em; }
-
-.nowrap {
-	white-space: nowrap;
-	}
-
-// text shadow
-.t_shadow {
-	text-shadow: white 0px 1px;
-}
-
-.pointer:hover {
-  cursor: pointer; }
-
