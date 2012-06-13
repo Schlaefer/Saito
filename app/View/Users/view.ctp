@@ -28,6 +28,12 @@
 					),
 				);
 		
+		if ($user['User']['user_lock']) {
+			$table[] = 	array (
+							__('user_block'),
+							$this->UserH->banned($user['User']['user_lock']),
+						);
+			}
 		if (!empty($user['User']['user_real_name'])) {
 			$table[] = 	array (
 							__('user_real_name'),
