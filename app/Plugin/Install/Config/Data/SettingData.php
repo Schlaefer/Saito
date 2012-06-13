@@ -14,6 +14,10 @@ class SettingData {
 				'value'	=> '1',
 		),
 		array(
+				'name'	=> 'block_user_ui',
+				'value'	=> '1',
+		),
+		array(
 				'name'	=> 'edit_delay',
 				'value'	=> '3',
 			),
