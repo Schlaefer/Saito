@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 09:43+0100\n"
-"PO-Revision-Date: 2012-06-14 09:43+0100\n"
+"POT-Creation-Date: 2012-06-14 13:26+0100\n"
+"PO-Revision-Date: 2012-06-14 13:33+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1177,7 +1177,7 @@ msgid "user_area_title"
 msgstr "Profil"
 
 #: View/Users/edit.ctp:18
-#: View/Users/view.ctp:165
+#: View/Users/view.ctp:169
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
@@ -1476,11 +1476,11 @@ msgstr "%d.%m.%Y"
 msgid "user_postings"
 msgstr "Beiträge"
 
-#: View/Users/view.ctp:137
+#: View/Users/view.ctp:138
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: View/Users/view.ctp:137
+#: View/Users/view.ctp:138
 msgid "Lock"
 msgstr "Sperren"
 
@@ -1642,7 +1642,7 @@ msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
 #: Controller/UsersController.php:51
-#: Controller/UsersController.php:273
+#: Controller/UsersController.php:275
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
@@ -1668,41 +1668,59 @@ msgstr "Die Daten wurden gespeichert."
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:254
+#: Controller/UsersController.php:257
+#: Controller/UsersController.php:297
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:264
+#: Controller/UsersController.php:265
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:266
+#: Controller/UsersController.php:267
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: Controller/UsersController.php:275
+#: Controller/UsersController.php:277
 #, php-format
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:280
+#: Controller/UsersController.php:281
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:302
+#: Controller/UsersController.php:305
+msgid "You can't delete yourself."
+msgstr "Man kann sich nicht selbst löschen."
+
+#: Controller/UsersController.php:307
+msgid "You can't delete users with postings."
+msgstr "Man kann nur Benutzer ohne Beiträge löschen."
+
+#: Controller/UsersController.php:309
+#, php-format
+msgid "User %s deleted."
+msgstr "Nutzer %s gelöscht."
+
+#: Controller/UsersController.php:312
+msgid "Couldn't delete user."
+msgstr ""
+
+#: Controller/UsersController.php:334
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:365
+#: Controller/UsersController.php:397
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:368
+#: Controller/UsersController.php:400
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:220
+#: Controller/Component/CurrentUserComponent.php:225
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 

@@ -242,21 +242,22 @@ class UsersController extends AppController {
 		$this->set('user', $this->request->data);
 	}
 
-  public function lock($id) {
-      if ( !$this->CurrentUser->isMod() ) :
+  public function lock($id = NULL) {
+      if (  (
+              $this->CurrentUser->isAdmin() === TRUE
+              || ($this->CurrentUser->isMod() === TRUE && Configure::read('Saito.Settings.block_user_ui'))
+            ) === FALSE
+          ) :
         return $this->redirect('/');
       endif;
 
-      $this->User->id = $id;
       $this->User->contain();
-      $readUser = $this->User->read();
+      $readUser = $this->User->findById($id);
       if ( !$readUser ) :
         $this->Session->setFlash(__('User not found.'), 'flash/error');
         return $this->redirect('/');
       endif;
 
-      $this->User->contain();
-      $readUser = $this->User->read();
       $editedUser = new SaitoUser(new ComponentCollection());
       $editedUser->set($readUser['User']);
 
@@ -266,6 +267,7 @@ class UsersController extends AppController {
         $this->Session->setFlash(__("You can't lock administrators.", 'flash/error'),
             'flash/error');
       else :
+        $this->User->id = $id;
         $status = $this->User->toggle('user_lock');
         if ( $status !== FALSE ) :
           $message = '';
@@ -275,7 +277,6 @@ class UsersController extends AppController {
             $message = __('User %s is unlocked.', $readUser['User']['username']);
           endif;
           $this->Session->setFlash($message, 'flash/notice');
-          $this->redirect(array( 'action' => 'view', $id ));
         else :
           $this->Session->setFlash(__("Error while un/locking."),
               'flash/error');
@@ -284,6 +285,37 @@ class UsersController extends AppController {
 
       $this->redirect(array( 'action' => 'view', $id ));
     }
+
+  public function delete($id = NULL) {
+    if ( $this->CurrentUser->isAdmin() !== TRUE ) :
+      return $this->redirect('/');
+    endif;
+
+    $this->User->contain();
+    $readUser = $this->User->findById($id);
+    if ( !$readUser ) :
+      $this->Session->setFlash(__('User not found.'), 'flash/error');
+      return $this->redirect('/');
+    endif;
+
+    $this->User->id = $id;
+    $number_of_entries = $this->User->numberOfEntries();
+
+    if ( $id == $this->CurrentUser->getId() ) :
+      $this->Session->setFlash(__("You can't delete yourself."), 'flash/error');
+    elseif ( $number_of_entries > 0 ) :
+      $this->Session->setFlash(__("You can't delete users with postings."), 'flash/error');
+    elseif ($this->User->delete($id, FALSE)) :
+      $this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/notice');
+      return $this->redirect('/');
+    else:
+      $this->Session->setFlash(__("Couldn't delete user."), 'flash/error');
+    endif;
+
+    return $this->redirect(
+              array( 'controller' => 'users', 'action' => 'view', $id )
+      );
+  }
 
 	public function changepassword($id = null) {
 		if ( $id == null 
@@ -534,5 +566,6 @@ class UsersController extends AppController {
 		unset($data['User']['user_password']);
 		return $data;
 	}
+
 }
 ?>

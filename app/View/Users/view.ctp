@@ -132,21 +132,25 @@
                 <i class="icon-caret-down"></i>
               </button>
               <ul class="dropdown-menu pull-right">
-                <li>
-                  <?php echo $this->Html->link(
-                          ($user['User']['user_lock']) ?  __('Unlock') : __('Lock'),
-                          array( 'controller' => 'users', 'action' => 'lock', $user['User']['id'])
-                        );
-                  ?>
-                </li>
-                <!--
-                <?php if ( $CurrentUser->isAdmin() ) : ?>
-                  <li class="divider"></li>
+                <?php if ( $CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui')) ) : ?>
                   <li>
-                    <a href="#">Löschen @td</a>
+                    <?php echo $this->Html->link(
+                            ($user['User']['user_lock']) ?  __('Unlock') : __('Lock'),
+                            array( 'controller' => 'users', 'action' => 'lock', $user['User']['id'])
+                          );
+                    ?>
                   </li>
                 <?php endif; ?>
-                -->
+                <?php if ( $CurrentUser->isAdmin() && $user['User']['number_of_entries'] === 0 ) : ?>
+                  <li class="divider"></li>
+                  <li>
+                    <?php echo $this->Html->link(
+                        __('Delete'),
+                        array( 'controller' => 'users', 'action' => 'delete', $user['User']['id'])
+                        );
+                    ?>
+                  </li>
+                <?php endif; ?>
               </ul>
             </div><!-- /btn-group -->
           </div>

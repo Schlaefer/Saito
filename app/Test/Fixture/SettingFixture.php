@@ -34,6 +34,10 @@
 						'name' => 'timezone',
 						'value' => 'UTC',
 				),
+				array(
+						'name' => 'block_user_ui',
+						'value' => 1,
+				),
 		);
 
 	}

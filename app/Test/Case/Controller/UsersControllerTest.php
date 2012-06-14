@@ -159,6 +159,58 @@
       $this->assertNull($this->controller->Session->read('Auth.User'));
     }
 
+    public function testDelete() {
+			/*
+       *  not logged in can't delete
+       */
+			$this->testAction('/users/delete/3');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+      /*
+       * user can't delete users
+       */
+      $this->_loginUser(3);
+			$this->testAction('/users/delete/4');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+      /*
+       *  mods can't delete users
+       */
+      $this->_loginUser(2);
+			$this->testAction('/users/delete/4');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+      /*
+       * you can't delete yourself
+       */
+      $this->_loginUser(1);
+			$this->testAction('/users/delete/1');
+      $this->controller->User->contain();
+      $result = $this->controller->User->findById(1);
+      $this->assertTrue($result != FALSE);
+			$this->assertContains('users/view/1', $this->headers['Location']);
+
+      /*
+       * you can't delete user with postings
+       */
+      $this->_loginUser(1);
+			$this->testAction('/users/delete/3');
+      $this->controller->User->contain();
+      $result = $this->controller->User->findById(3);
+      $this->assertTrue($result != FALSE);
+			$this->assertContains('users/view/3', $this->headers['Location']);
+
+      /*
+       * admin deletes user
+       */
+      $this->_loginUser(1);
+			$this->testAction('/users/delete/5');
+      $this->controller->User->contain();
+      $result = $this->controller->User->findById(5);
+      $this->assertFalse($result);
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+    }
+
     public function testChangePassword() {
 
       // not logged in user can't change password
@@ -191,9 +243,8 @@
           );
 
       $expected = 'bc681d86e82c720af115786cb716a25e';
-      $this->controller->User->id = 5;
       $this->controller->User->contain();
-      $result = $this->controller->User->read();
+      $result = $this->controller->User->findById(5);
       $this->assertEqual($result['User']['password'], $expected);
 			$this->assertContains('users/edit', $this->headers['Location']);
       
