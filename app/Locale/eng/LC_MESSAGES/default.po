@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 19:53+0100\n"
-"PO-Revision-Date: 2012-06-14 19:54+0100\n"
+"POT-Creation-Date: 2012-06-14 21:30+0100\n"
+"PO-Revision-Date: 2012-06-14 21:30+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -940,8 +940,8 @@ msgstr ""
 #: View/Settings/admin_index.ctp:107
 #: View/Settings/admin_index.ctp:131
 #: View/Settings/admin_index.ctp:150
-#: View/Settings/admin_index.ctp:174
-#: View/Settings/admin_index.ctp:198
+#: View/Settings/admin_index.ctp:169
+#: View/Settings/admin_index.ctp:193
 #: View/Settings/admin_index.ctp:217
 #: View/Settings/admin_index.ctp:236
 #: View/Settings/admin_index.ctp:255
@@ -953,11 +953,12 @@ msgstr ""
 #: View/Settings/admin_index.ctp:369
 #: View/Settings/admin_index.ctp:388
 #: View/Settings/admin_index.ctp:407
-#: View/Settings/admin_index.ctp:430
+#: View/Settings/admin_index.ctp:426
 #: View/Settings/admin_index.ctp:449
 #: View/Settings/admin_index.ctp:468
-#: View/Settings/admin_index.ctp:492
+#: View/Settings/admin_index.ctp:487
 #: View/Settings/admin_index.ctp:511
+#: View/Settings/admin_index.ctp:530
 msgid "edit"
 msgstr ""
 
@@ -998,9 +999,8 @@ msgid "timezone_exp"
 msgstr ""
 
 #: View/Settings/admin_index.ctp:116
-#, fuzzy
-msgid "Moderators"
-msgstr "Mod"
+msgid "Moderation"
+msgstr "Moderation"
 
 #: View/Settings/admin_index.ctp:121
 msgid "block_user_ui"
@@ -1019,153 +1019,161 @@ msgstr "Store IP"
 msgid "store_ip_exp"
 msgstr "Stores the IP-address for new entries. The IP is shown do moderators."
 
+#: View/Settings/admin_index.ctp:159
+msgid "store_ip_anonymized"
+msgstr "IP Anonymized"
+
+#: View/Settings/admin_index.ctp:165
+msgid "store_ip_anonymized_exp"
+msgstr "Strore IP anonymized."
+
 #
-#: View/Settings/admin_index.ctp:164
+#: View/Settings/admin_index.ctp:183
 msgid "edit_period"
 msgstr "Edit Period"
 
 #
-#: View/Settings/admin_index.ctp:170
+#: View/Settings/admin_index.ctp:189
 msgid "edit_period_exp"
 msgstr "Minutes a user can edit a new entry."
 
 #
-#: View/Settings/admin_index.ctp:188
+#: View/Settings/admin_index.ctp:207
 msgid "edit_delay"
 msgstr "Show Edit"
 
 #
-#: View/Settings/admin_index.ctp:194
+#: View/Settings/admin_index.ctp:213
 msgid "edit_delay_exp"
 msgstr "Minutes a new entry can be edited without being marked as edited."
 
-#: View/Settings/admin_index.ctp:207
+#: View/Settings/admin_index.ctp:226
 msgid "topics_per_page"
 msgstr "Topics per Page"
 
-#: View/Settings/admin_index.ctp:213
+#: View/Settings/admin_index.ctp:232
 msgid "topics_per_page_exp"
 msgstr "Number of topics shown on the frontpage."
 
-#: View/Settings/admin_index.ctp:226
+#: View/Settings/admin_index.ctp:245
 msgid "thread_depth_indent"
 msgstr "Thread Indent Depth"
 
-#: View/Settings/admin_index.ctp:232
+#: View/Settings/admin_index.ctp:251
 msgid "thread_depth_indent_exp"
 msgstr "Max. indent to the the right for threads in thread-view. After that threads appear on the same level."
 
-#: View/Settings/admin_index.ctp:245
+#: View/Settings/admin_index.ctp:264
 msgid "autolink"
 msgstr "Autolink"
 
-#: View/Settings/admin_index.ctp:251
+#: View/Settings/admin_index.ctp:270
 msgid "autolink_exp"
 msgstr "Detect and automatically generate links."
 
-#: View/Settings/admin_index.ctp:264
+#: View/Settings/admin_index.ctp:283
 msgid "bbcode_img"
 msgstr "Images"
 
-#: View/Settings/admin_index.ctp:270
+#: View/Settings/admin_index.ctp:289
 msgid "bbcode_img_exp"
 msgstr "Allow embedding of images."
 
-#: View/Settings/admin_index.ctp:283
+#: View/Settings/admin_index.ctp:302
 msgid "quote_symbol"
 msgstr "Quote Symbol"
 
-#: View/Settings/admin_index.ctp:289
+#: View/Settings/admin_index.ctp:308
 msgid "quote_symbol_exp"
 msgstr "Quote symbol."
 
-#: View/Settings/admin_index.ctp:302
+#: View/Settings/admin_index.ctp:321
 msgid "signature_separator"
 msgstr "Signature Separator"
 
-#: View/Settings/admin_index.ctp:308
+#: View/Settings/admin_index.ctp:327
 msgid "signature_separator_exp"
 msgstr "Signature separator."
 
-#: View/Settings/admin_index.ctp:321
+#: View/Settings/admin_index.ctp:340
 msgid "subject_maxlength"
 msgstr "Subject Length"
 
-#: View/Settings/admin_index.ctp:327
+#: View/Settings/admin_index.ctp:346
 msgid "subject_maxlength_exp"
 msgstr "Number of chars allowed in subject."
 
-#: View/Settings/admin_index.ctp:340
+#: View/Settings/admin_index.ctp:359
 msgid "text_word_maxlength"
 msgstr "Word Length"
 
-#: View/Settings/admin_index.ctp:346
+#: View/Settings/admin_index.ctp:365
 msgid "text_word_maxlength_exp"
 msgstr "Max numbers of chars allowed in one word."
 
-#: View/Settings/admin_index.ctp:359
+#: View/Settings/admin_index.ctp:378
 msgid "userranks_show"
 msgstr "Enable Ranks"
 
-#: View/Settings/admin_index.ctp:365
+#: View/Settings/admin_index.ctp:384
 msgid "userranks_show_exp"
 msgstr "Show user ranks."
 
-#: View/Settings/admin_index.ctp:378
+#: View/Settings/admin_index.ctp:397
 msgid "userranks_ranks"
 msgstr "Ranks"
 
-#: View/Settings/admin_index.ctp:384
+#: View/Settings/admin_index.ctp:403
 msgid "userranks_ranks_exp"
 msgstr "User ranks based on number of postings."
 
 #
-#: View/Settings/admin_index.ctp:397
+#: View/Settings/admin_index.ctp:416
 msgid "video_domains_allowed"
 msgstr "Embeddable Video Sources"
 
 #
-#: View/Settings/admin_index.ctp:403
+#: View/Settings/admin_index.ctp:422
 msgid "video_domains_allowed_exp"
 msgstr "Domain names embeddable for video/iframe. Asterisk * means all sources allowed (This could pose a security risk if malicious code is embedded!)."
 
-#: View/Settings/admin_index.ctp:420
+#: View/Settings/admin_index.ctp:439
 msgid "flattr_enabled"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:426
+#: View/Settings/admin_index.ctp:445
 msgid "flattr_enabled_exp"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:439
+#: View/Settings/admin_index.ctp:458
 msgid "flattr_language"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:445
+#: View/Settings/admin_index.ctp:464
 msgid "flattr_language_exp"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:458
+#: View/Settings/admin_index.ctp:477
 msgid "flattr_category"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:464
+#: View/Settings/admin_index.ctp:483
 msgid "flattr_category_exp"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:482
+#: View/Settings/admin_index.ctp:501
 msgid "upload_max_img_size"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:488
+#: View/Settings/admin_index.ctp:507
 msgid "upload_max_img_size_exp"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:501
+#: View/Settings/admin_index.ctp:520
 msgid "upload_max_number_of_uploads"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:507
+#: View/Settings/admin_index.ctp:526
 msgid "upload_max_number_of_uploads_exp"
 msgstr ""
 

@@ -74,6 +74,10 @@ class SettingData {
 				'value'	=> '0',
 			),
 		array(
+				'name'	=> 'store_ip_anonymized',
+				'value'	=> '1',
+			),
+		array(
 				'name'	=> 'subject_maxlength',
 				'value'	=> '75',
 			),
