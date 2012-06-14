@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-15 07:23+0100\n"
-"PO-Revision-Date: 2012-05-15 07:24+0100\n"
+"POT-Creation-Date: 2012-06-14 09:43+0100\n"
+"PO-Revision-Date: 2012-06-14 09:43+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
 msgid "Step 3: Create Admin User"
-msgstr "Schritt 3: Aadministrator anlegen"
+msgstr "Schritt 3: Administrator anlegen"
 
 #: Plugin/Install/View/Install/adminuser.ctp:7
 #, fuzzy
@@ -324,9 +324,8 @@ msgid "Email Notify"
 msgstr "E-Mail Benachrichtigung"
 
 #: View/Categories/view.ctp:68
-#, fuzzy
 msgid "Locked"
-msgstr "Benutzer gesperrt"
+msgstr "Gesperrt"
 
 #: View/Categories/view.ctp:69
 #, fuzzy
@@ -351,23 +350,23 @@ msgstr "flattrn"
 msgid "email_footer"
 msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
 
-#: View/Elements/entry/thread_cached_init.ctp:34
+#: View/Elements/entry/thread_cached_init.ctp:26
 msgid "btn-showThreadInMixView"
 msgstr "Thread in Mix-Ansicht öffnen."
 
-#: View/Elements/entry/thread_cached_init.ctp:42
+#: View/Elements/entry/thread_cached_init.ctp:34
 msgid "btn-threadCollapse"
 msgstr "Thread ein-/ausklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:55
+#: View/Elements/entry/thread_cached_init.ctp:47
 msgid "btn-showNewThreads"
 msgstr "Alle ungelesenen Beiträge des Threads aufklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:65
+#: View/Elements/entry/thread_cached_init.ctp:57
 msgid "btn-closeThreads"
 msgstr "Alle offenen Beiträge des Threads zuklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:70
+#: View/Elements/entry/thread_cached_init.ctp:62
 msgid "btn-openThreads"
 msgstr "Alle geschlossenen Beiträge des Threads aufklappen."
 
@@ -463,7 +462,7 @@ msgid "About"
 msgstr "Über"
 
 #: View/Elements/layout/disclaimer.ctp:34
-#, fuzzy, php-format
+#, php-format
 msgid "Powered by Saito v%s."
 msgstr ""
 
@@ -978,18 +977,6 @@ msgstr "Forum deaktivieren."
 msgid "edit"
 msgstr "Bearbeiten"
 
-#View/Settings/admin_index.ctp:
-msgid "Key"
-msgstr "Schlüssel"
-
-#View/Settings/admin_index.ctp:
-msgid "Value"
-msgstr "Wert"
-
-#View/Settings/admin_index.ctp:
-msgid "Explanation"
-msgstr "Beschreibung"
-
 #: View/Settings/admin_index.ctp:26
 msgid "forum_disabled_text"
 msgstr "Forum deaktivieren Infotext"
@@ -1148,8 +1135,8 @@ msgid "Add User"
 msgstr "Benutzer hinzufügen"
 
 #: View/Users/changepassword.ctp:9
-#: View/Users/edit.ctp:38
-#: View/Users/edit.ctp:68
+#: View/Users/edit.ctp:48
+#: View/Users/edit.ctp:78
 msgid "change_password_link"
 msgstr "Passwort ändern"
 
@@ -1189,254 +1176,254 @@ msgstr "Nachricht"
 msgid "user_area_title"
 msgstr "Profil"
 
-#: View/Users/edit.ctp:11
-#: View/Users/view.ctp:124
+#: View/Users/edit.ctp:18
+#: View/Users/view.ctp:165
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
-#: View/Users/edit.ctp:19
-#: View/Users/edit.ctp:55
+#: View/Users/edit.ctp:29
+#: View/Users/edit.ctp:65
 #: View/Users/index.ctp:14
 #: View/Users/view.ctp:26
 msgid "username_marking"
 msgstr "Benutzername"
 
-#: View/Users/edit.ctp:24
-#: View/Users/edit.ctp:60
+#: View/Users/edit.ctp:34
+#: View/Users/edit.ctp:70
 #: View/Users/index.ctp:16
-#: View/Users/view.ctp:40
+#: View/Users/view.ctp:46
 msgid "userlist_email"
 msgstr "E-Mail"
 
-#: View/Users/edit.ctp:29
+#: View/Users/edit.ctp:39
 #: View/Users/index.ctp:15
 msgid "user_type"
 msgstr "Typ"
 
-#: View/Users/edit.ctp:42
-#: View/Users/edit.ctp:72
+#: View/Users/edit.ctp:52
+#: View/Users/edit.ctp:82
 msgid "user_pw_exp"
 msgstr "Aktuelles Passwort durch ein neues ersetzen."
 
-#: View/Users/edit.ctp:80
+#: View/Users/edit.ctp:90
 msgid "user_show_email"
 msgstr "E-Mail-Link anzeigen"
 
-#: View/Users/edit.ctp:83
+#: View/Users/edit.ctp:93
 msgid "user_show_email_exp"
 msgstr "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an die E-Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht eingesehen werden."
 
-#: View/Users/edit.ctp:89
-#: View/Users/view.ctp:33
+#: View/Users/edit.ctp:99
+#: View/Users/view.ctp:39
 msgid "user_real_name"
 msgstr "realer Name"
 
-#: View/Users/edit.ctp:91
+#: View/Users/edit.ctp:101
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:96
+#: View/Users/edit.ctp:106
 #: View/Users/index.ctp:17
-#: View/Users/view.ctp:47
+#: View/Users/view.ctp:53
 msgid "user_hp"
 msgstr "Homepage"
 
-#: View/Users/edit.ctp:98
+#: View/Users/edit.ctp:108
 msgid "user_hp_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:103
-#: View/Users/view.ctp:54
+#: View/Users/edit.ctp:113
+#: View/Users/view.ctp:60
 msgid "user_place"
 msgstr "Ort"
 
-#: View/Users/edit.ctp:104
+#: View/Users/edit.ctp:114
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:113
+#: View/Users/edit.ctp:123
 msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
-#: View/Users/edit.ctp:119
-#: View/Users/view.ctp:82
+#: View/Users/edit.ctp:129
+#: View/Users/view.ctp:89
 msgid "user_signature"
 msgstr "Signatur"
 
-#: View/Users/edit.ctp:124
+#: View/Users/edit.ctp:134
 msgid "user_signature_exp"
 msgstr "Signatur, welche an eigene Postings angehängt wird."
 
-#: View/Users/edit.ctp:129
+#: View/Users/edit.ctp:139
 msgid "user_font_size"
 msgstr "Schriftgröße"
 
-#: View/Users/edit.ctp:146
+#: View/Users/edit.ctp:156
 msgid "user_font_size_exp"
 msgstr "Schriftgröße für alle Schriften (optional)"
 
-#: View/Users/edit.ctp:151
+#: View/Users/edit.ctp:161
 msgid "user_automaticaly_mark_as_read"
 msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
 
-#: View/Users/edit.ctp:152
+#: View/Users/edit.ctp:162
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr "Beim erneuten Laden der Frontseite (bspw. durch Klick auf Logo im Kopf) wird die Hervorhebung aktueller Beiträge zurückgesetzt."
 
-#: View/Users/edit.ctp:156
+#: View/Users/edit.ctp:166
 msgid "user_signatures_hide"
 msgstr "Signaturen ausblenden"
 
-#: View/Users/edit.ctp:158
+#: View/Users/edit.ctp:168
 msgid "user_signatures_hide_exp"
 msgstr "Signaturen der anderen Benutzer komplett ausblenden."
 
-#: View/Users/edit.ctp:160
+#: View/Users/edit.ctp:170
 msgid "user_signatures_images_hide_exp"
 msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
 
-#: View/Users/edit.ctp:165
+#: View/Users/edit.ctp:175
 msgid "user_forum_refresh_time"
 msgstr "Aktualisierungszeit"
 
-#: View/Users/edit.ctp:169
+#: View/Users/edit.ctp:179
 msgid "user_forum_refresh_time_exp"
 msgstr "Zeit in Minuten, nach der die Forumsübersicht automatisch neu geladen wird (optional)"
 
-#: View/Users/edit.ctp:175
+#: View/Users/edit.ctp:185
 msgid "user_colors"
 msgstr "Farben"
 
-#: View/Users/edit.ctp:177
+#: View/Users/edit.ctp:187
 msgid "user_color_new_postings_exp"
 msgstr "Neue Beiträge"
 
-#: View/Users/edit.ctp:179
+#: View/Users/edit.ctp:189
 msgid "user_color_old_postinings_exp"
 msgstr "Alte Beiträge"
 
-#: View/Users/edit.ctp:181
+#: View/Users/edit.ctp:191
 msgid "user_color_actual_posting_exp"
 msgstr "Aktueller Beitrag"
 
-#: View/Users/edit.ctp:187
+#: View/Users/edit.ctp:197
 msgid "user_forum_hr_ruler"
 msgstr "Trennstrich"
 
-#: View/Users/edit.ctp:188
+#: View/Users/edit.ctp:198
 msgid "user_forum_hr_exp"
 msgstr "Anzeige eines horizontalen Trennstriches zwischen den Threads in der Thread-Ansicht (optional)"
 
-#: View/Users/edit.ctp:194
+#: View/Users/edit.ctp:204
 msgid "user_standard_view"
 msgstr "Standardansicht"
 
-#: View/Users/edit.ctp:195
+#: View/Users/edit.ctp:205
 msgid "user_view_thread"
 msgstr "Thread"
 
-#: View/Users/edit.ctp:195
+#: View/Users/edit.ctp:205
 msgid "user_view_board"
 msgstr "Board"
 
-#: View/Users/edit.ctp:195
+#: View/Users/edit.ctp:205
 msgid "user_view_mixed"
 msgstr "Mixed"
 
-#: View/Users/edit.ctp:196
+#: View/Users/edit.ctp:206
 msgid "user_standard_view_exp"
 msgstr "In welcher Ansicht soll das Forum standardmässig angezeigt werden."
 
-#: View/Users/edit.ctp:201
+#: View/Users/edit.ctp:211
 msgid "inline_view_on_click"
 msgstr "Posting aufklappen"
 
-#: View/Users/edit.ctp:204
+#: View/Users/edit.ctp:214
 msgid "inline_view_on_click_exp"
 msgstr "Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
 
-#: View/Users/edit.ctp:209
+#: View/Users/edit.ctp:219
 msgid "user_sort_last_answer"
 msgstr "Sortierreihenfolge"
 
-#: View/Users/edit.ctp:211
+#: View/Users/edit.ctp:221
 msgid "user_sort_last_answer_time"
 msgstr "Zeit"
 
-#: View/Users/edit.ctp:211
+#: View/Users/edit.ctp:221
 msgid "user_sort_last_answer_last_answer"
 msgstr "Letzte Antwort"
 
-#: View/Users/edit.ctp:212
+#: View/Users/edit.ctp:222
 msgid "user_sort_last_answer_exp"
 msgstr "Reihenfolge nach der die Threads auf der Startseite geordnet werden. Zeit: feste Reihenfolge nach Startzeitpunkt des Threads. Letzte Antwort: Threads mit neuen Antworten wandern nach oben."
 
-#: View/Users/edit.ctp:219
+#: View/Users/edit.ctp:229
 msgid "user_pers_msg"
 msgstr "Persönliche&nbsp;Nachrichten empfangen"
 
-#: View/Users/edit.ctp:220
+#: View/Users/edit.ctp:230
 msgid "user_pers_msg_exp"
 msgstr "Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen werden)"
 
-#: View/Users/edit.ctp:225
+#: View/Users/edit.ctp:235
 msgid "user_standard_categories"
 msgstr "Standardkategorien"
 
-#: View/Users/edit.ctp:228
+#: View/Users/edit.ctp:238
 msgid "user_standard_categories_exp"
 msgstr "Persönlicher Kategoriensatz und Standardansicht"
 
-#: View/Users/edit.ctp:232
+#: View/Users/edit.ctp:242
 msgid "user_time_diff"
 msgstr "Zeitzonen-Differenz"
 
-#: View/Users/edit.ctp:233
+#: View/Users/edit.ctp:243
 msgid "user_time_diff_exp"
 msgstr "Unterschied zur Server-Zeit in Stunden"
 
-#: View/Users/edit.ctp:238
+#: View/Users/edit.ctp:248
 msgid "admin_mod_notif"
 msgstr "E-Mail-Benachrichtigung"
 
-#: View/Users/edit.ctp:240
+#: View/Users/edit.ctp:250
 msgid "admin_mod_notif_exp"
 msgstr "(nur für Admins und Moderatoren)"
 
-#: View/Users/edit.ctp:241
+#: View/Users/edit.ctp:251
 msgid "new_posting_notify_exp"
 msgstr "wenn sich ein neuer Benutzer angemeldet hat"
 
-#: View/Users/edit.ctp:243
+#: View/Users/edit.ctp:253
 msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
-#: View/Users/edit.ctp:251
-#: View/Users/view.ctp:90
+#: View/Users/edit.ctp:268
+#: View/Users/view.ctp:97
 msgid "flattr"
 msgstr "flattrn"
 
-#: View/Users/edit.ctp:254
+#: View/Users/edit.ctp:276
 msgid "flattr_uid"
 msgstr "Flattr ID"
 
-#: View/Users/edit.ctp:258
+#: View/Users/edit.ctp:280
 msgid "flattr_allow_user"
 msgstr "Flattrn"
 
-#: View/Users/edit.ctp:259
+#: View/Users/edit.ctp:281
 msgid "flattr_allow_user_exp"
 msgstr "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn allgemein für das Benutzerkonto."
 
-#: View/Users/edit.ctp:262
+#: View/Users/edit.ctp:284
 msgid "flattr_allow_posting"
 msgstr "Postings flattrn"
 
-#: View/Users/edit.ctp:263
+#: View/Users/edit.ctp:285
 msgid "flattr_allow_posting_exp"
 msgstr "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
-#: View/Users/edit.ctp:267
+#: View/Users/edit.ctp:290
 msgid "button_save"
 msgstr "Speichern"
 
@@ -1448,11 +1435,11 @@ msgstr "Benutzerübersicht"
 msgid "userlist_online"
 msgstr "Status"
 
-#: View/Users/index.ctp:20
+#: View/Users/index.ctp:19
 msgid "registered"
 msgstr "Registriert"
 
-#: View/Users/index.ctp:45
+#: View/Users/index.ctp:22
 msgid "user_lock"
 msgstr "Sperre"
 
@@ -1472,17 +1459,30 @@ msgstr "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel
 msgid "user_show_entries"
 msgstr "Beiträge anzeigen"
 
-#: View/Users/view.ctp:61
+#: View/Users/view.ctp:33
+#, fuzzy
+msgid "user_block"
+msgstr "Sperre"
+
+#: View/Users/view.ctp:67
 msgid "user_since"
 msgstr "Mitglied seit"
 
-#: View/Users/view.ctp:62
+#: View/Users/view.ctp:68
 msgid "date_short"
 msgstr "%d.%m.%Y"
 
-#: View/Users/view.ctp:65
+#: View/Users/view.ctp:71
 msgid "user_postings"
 msgstr "Beiträge"
+
+#: View/Users/view.ctp:137
+msgid "Unlock"
+msgstr "Freigeben"
+
+#: View/Users/view.ctp:137
+msgid "Lock"
+msgstr "Sperren"
 
 #: Controller/CategoriesController.php:81
 #: Controller/CategoriesController.php:96
@@ -1641,41 +1641,68 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:43
+#: Controller/UsersController.php:51
+#: Controller/UsersController.php:273
+#, php-format
+msgid "User %s is locked."
+msgstr "Benutzer %s wurde gesperrt."
+
+#: Controller/UsersController.php:57
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:88
+#: Controller/UsersController.php:103
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:145
-#: Controller/UsersController.php:162
+#: Controller/UsersController.php:160
+#: Controller/UsersController.php:182
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/UsersController.php:196
+#: Controller/UsersController.php:216
 msgid "user_edit_success"
 msgstr "Die Daten wurden gespeichert."
 
-#: Controller/UsersController.php:209
+#: Controller/UsersController.php:229
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:246
+#: Controller/UsersController.php:254
+msgid "User not found."
+msgstr "Benutzer nicht gefunden."
+
+#: Controller/UsersController.php:264
+msgid "You can't lock yourself."
+msgstr "Man kann sich nicht selbst sperren."
+
+#: Controller/UsersController.php:266
+msgid "You can't lock administrators."
+msgstr "Administratoren können nicht gesperrt werden."
+
+#: Controller/UsersController.php:275
+#, php-format
+msgid "User %s is unlocked."
+msgstr "Benutzer %s wurde freigegeben."
+
+#: Controller/UsersController.php:280
+msgid "Error while un/locking."
+msgstr ""
+
+#: Controller/UsersController.php:302
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:298
+#: Controller/UsersController.php:365
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:301
+#: Controller/UsersController.php:368
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:216
+#: Controller/Component/CurrentUserComponent.php:220
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
@@ -1810,29 +1837,36 @@ msgstr ""
 msgid "yesterday"
 msgstr "Gestern"
 
-#: View/Helper/UserHHelper.php:93
+#: View/Helper/UserHHelper.php:108
 msgid "ud_user"
 msgstr "Benutzer"
 
-#: View/Helper/UserHHelper.php:97
+#: View/Helper/UserHHelper.php:112
 msgid "ud_admin"
 msgstr "Administrator"
 
-#: View/Helper/UserHHelper.php:112
-#: View/Helper/UserHHelper.php:133
+#: View/Helper/UserHHelper.php:126
+#: View/Helper/UserHHelper.php:148
 msgid "homepage_alt"
 msgstr "Homepage"
 
-#: View/Helper/UserHHelper.php:160
+#: View/Helper/UserHHelper.php:162
 msgid "userranks_not_found"
 msgstr ""
 
+# View/Settings/admin_index.ctp:
+#~ msgid "Key"
+#~ msgstr "Schlüssel"
+# View/Settings/admin_index.ctp:
+#~ msgid "Value"
+#~ msgstr "Wert"
+# View/Settings/admin_index.ctp:
+#~ msgid "Explanation"
+#~ msgstr "Beschreibung"
 #~ msgid "back_to_posting_linkname"
 #~ msgstr "zurück zum Posting von"
-
 #~ msgid "Moderate"
 #~ msgstr "Mod"
-
 #, fuzzy
 #~ msgid "Smiley Code"
 #~ msgstr "Smilies"
@@ -1906,4 +1940,3 @@ msgstr ""
 
 #~ msgid "lock_linkname"
 #~ msgstr "sperren"
-
