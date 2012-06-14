@@ -56,9 +56,12 @@
             else :
               echo ',';
         endif; ?>
-        <?php echo  __('views_headline') ?>: <?php echo  $entry['Entry']['views'] ?>
-        <?php  if ( $entry['Entry']['nsfw'] ): ?>
+        <?php echo  __('views_headline') ?>: <?php echo  $entry['Entry']['views'] ?><?php
+          if ( $entry['Entry']['nsfw'] ): ?>
           <div class="sprite-nbs-explicit"></div>
+        <?php  endif; ?><?php  
+          if ( Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod() ):
+          ?>, IP: <?php echo $entry['Entry']['ip']; ?>
         <?php  endif; ?>
 		</div>
 

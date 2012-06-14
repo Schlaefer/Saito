@@ -326,6 +326,14 @@ class Entry extends AppModel {
 			}
 	}
 
+  public function beforeSave($options = array()) {
+    if ( Configure::read('Saito.Settings.store_ip' )) :
+      $this->data['Entry']['ip'] = env('REMOTE_ADDR');
+    endif;
+
+    return parent::beforeSave($options);
+  }
+
 	public function deleteTree() {
 
 		// delete only whole trees
