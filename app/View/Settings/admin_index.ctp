@@ -1,3 +1,4 @@
+<?php $this->Html->addCrumb(__('Settings'), '/admin/settings'); ?>
 <?php
   $tableHeadersHtml = $this->Html->tableHeaders(array(
       __('Key'),

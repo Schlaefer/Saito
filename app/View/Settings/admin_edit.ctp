@@ -1,3 +1,6 @@
+<?php $this->Html->addCrumb(__('Settings'), '/admin/settings'); ?>
+<?php $this->Html->addCrumb(__($this->request->data['Setting']['name']), '#'); ?>
+<br/> <br/>
 <div class="row">
 	<div class="span6">
 			<?php
