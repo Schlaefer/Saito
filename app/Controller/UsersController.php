@@ -244,7 +244,7 @@ class UsersController extends AppController {
 
   public function lock($id) {
       if ( !$this->CurrentUser->isMod() ) :
-        $this->redirect('/');
+        return $this->redirect('/');
       endif;
 
       $this->User->id = $id;
@@ -252,7 +252,7 @@ class UsersController extends AppController {
       $readUser = $this->User->read();
       if ( !$readUser ) :
         $this->Session->setFlash(__('User not found.'), 'flash/error');
-        $this->redirect('/');
+        return $this->redirect('/');
       endif;
 
       $this->User->contain();

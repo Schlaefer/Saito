@@ -89,6 +89,76 @@
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 		}
 
+    public function testLock() {
+
+			/* not logged in should'nt be allowed */
+			$this->testAction('/users/lock/3');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+      // user can't lock other users
+      $this->_loginUser(3);
+			$this->testAction('/users/lock/4');
+      $this->controller->User->contain();
+      $result = $this->controller->User->read('user_lock', 4);
+      $this->assertTrue($result['User']['user_lock'] == FALSE);
+
+      // mod locks user
+      $this->_loginUser(2);
+			$this->testAction('/users/lock/4');
+      $this->controller->User->contain();
+      $result = $this->controller->User->read('user_lock', 4);
+      $this->assertTrue($result['User']['user_lock'] == TRUE);
+
+      // mod unlocks user
+			$this->testAction('/users/lock/4');
+      $this->controller->User->contain();
+      $result = $this->controller->User->read('user_lock', 4);
+      $this->assertTrue($result['User']['user_lock'] == FALSE);
+
+      // you can't lock yourself out
+			$this->testAction('/users/lock/2');
+      $this->controller->User->contain();
+      $result = $this->controller->User->read('user_lock', 2);
+      $this->assertTrue($result['User']['user_lock'] == FALSE);
+
+      // mod can't lock admin
+			$this->testAction('/users/lock/1');
+      $this->controller->User->contain();
+      $result = $this->controller->User->read('user_lock', 1);
+      $this->assertTrue($result['User']['user_lock'] == FALSE);
+
+      // user does not exit
+			$this->testAction('/users/lock/9999');
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+
+      // locked user are thrown out
+			$this->testAction('/users/lock/5');
+      $this->controller->User->contain();
+      $result = $this->controller->User->read('user_lock', 5);
+      $this->assertTrue($result['User']['user_lock'] == TRUE);
+      $this->_logoutUser();
+
+      $this->_loginUser(5);
+			$this->testAction('/entries/index');
+			$this->assertContains('users/logout', $this->headers['Location']);
+
+
+      // locked user can't relogin
+      $this->_logoutUser();
+      $data = array(
+          'User' => array(
+              'username'          => 'Uma',
+              'password'          => 'test',
+          )
+        );
+      $this->testAction(
+          '/users/login',
+          array('data'  => $data, 'method'  => 'post')
+          );
+      $this->assertNull($this->controller->Session->read('Auth.User'));
+    }
+
     public function testChangePassword() {
 
       // not logged in user can't change password
@@ -107,6 +177,7 @@
       /*
        * test changing password
        */
+      $this->_loginUser(5);
       $data = array(
           'User' => array(
               'password_old'      => 'test',
@@ -115,12 +186,12 @@
           )
         );
       $this->testAction(
-          '/users/changepassword/4',
+          '/users/changepassword/5',
           array('data'  => $data, 'method'  => 'post')
           );
 
       $expected = 'bc681d86e82c720af115786cb716a25e';
-      $this->controller->User->id = 4;
+      $this->controller->User->id = 5;
       $this->controller->User->contain();
       $result = $this->controller->User->read();
       $this->assertEqual($result['User']['password'], $expected);
@@ -129,9 +200,10 @@
       /*
        * test password confirmation failed
        */
+      $this->_loginUser(4);
       $data = array(
           'User' => array(
-              'password_old'      => 'test_new',
+              'password_old'      => 'test',
               'user_password'     => 'test_new_foo',
               'password_confirm'  => 'test_new_bar',
           )
@@ -142,7 +214,7 @@
           );
       $this->assertFalse($this->controller->User->validates());
 
-      $expected = 'bc681d86e82c720af115786cb716a25e';
+      $expected = '098f6bcd4621d373cade4e832627b4f6';
       $this->controller->User->id = 4;
       $this->controller->User->contain();
       $result = $this->controller->User->read();
@@ -165,7 +237,7 @@
           );
       $this->assertFalse($this->controller->User->validates());
 
-      $expected = 'bc681d86e82c720af115786cb716a25e';
+      $expected = '098f6bcd4621d373cade4e832627b4f6';
       $this->controller->User->id = 4;
       $this->controller->User->contain();
       $result = $this->controller->User->read();
