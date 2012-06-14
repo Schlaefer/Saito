@@ -45,14 +45,6 @@ msgid "category_acs_2_exp"
 msgstr "Kategorie nur für Moderatoren sichtbar"
 
 #
-msgid "video_domains_allowed"
-msgstr "Einbettbare (Video-) Quellen"
-
-#
-msgid "video_domains_allowed_exp"
-msgstr "Domainnamen einbindbar für Video und iFrame. Ein Asterisk * bedeuted freies Einbinden (Vorsicht, dies kann ebenfalls zum Einbinden von Schadsoftware genutzt werden!)."
-
-#
 msgid "validation_error_pwConfirm"
 msgstr "Passwortbestätigung stimmt nicht überein."
 
