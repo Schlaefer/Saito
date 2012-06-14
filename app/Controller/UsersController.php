@@ -39,6 +39,7 @@ class UsersController extends AppController {
 			endif;
 
 		elseif ( !empty($this->request->data) ) :
+      $known_error = FALSE;
       if ( isset($this->request->data['User']['username']) ) :
         $this->User->contain();
         $readUser = $this->User->findByUsername($this->request->data['User']['username']);
@@ -46,11 +47,13 @@ class UsersController extends AppController {
           $user = new SaitoUser(new ComponentCollection);
           $user->set($readUser['User']);
           if ( $user->isForbidden() ) :
+            $known_error = $known_error || TRUE;
             $this->Session->setFlash(__('User %s is locked.', $readUser['User']['username']), 'flash/warning');
           endif;
         endif;
-      else :
-        // login was attempted but not successfull
+      endif;
+      if ( $known_error === FALSE) :
+        // Unknown login error
         $this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
       endif;
 		endif;
@@ -248,16 +251,17 @@ class UsersController extends AppController {
       $this->User->contain();
       $readUser = $this->User->read();
       if ( !$readUser ) :
-        $this->Session->setFlash('User not found.', 'flash/error');
+        $this->Session->setFlash(__('User not found.'), 'flash/error');
         $this->redirect('/');
       endif;
 
+      $this->User->contain();
       $readUser = $this->User->read();
       $editedUser = new SaitoUser(new ComponentCollection());
       $editedUser->set($readUser['User']);
 
       if ( $id == $this->CurrentUser->getId() ) :
-        $this->Session->setFlash(__("You cant' lock yourself."), 'flash/error');
+        $this->Session->setFlash(__("You can't lock yourself."), 'flash/error');
       elseif ( $editedUser->isAdmin() ) :
         $this->Session->setFlash(__("You can't lock administrators.", 'flash/error'),
             'flash/error');
@@ -273,7 +277,7 @@ class UsersController extends AppController {
           $this->Session->setFlash($message, 'flash/notice');
           $this->redirect(array( 'action' => 'view', $id ));
         else :
-          $this->Session->setFlash(__("Well, you broke something. We don't know what or how."),
+          $this->Session->setFlash(__("Error while un/locking."),
               'flash/error');
         endif;
       endif;
