@@ -27,6 +27,7 @@
 				'signature_separator' => 1,
 				'smilies' => 1,
         'store_ip'                      => 1,
+        'store_ip_anonymized'           => 1,
 				'subject_maxlength' => 1,
 				'text_word_maxlength' => 1,
 				'thread_depth_indent' => 1,

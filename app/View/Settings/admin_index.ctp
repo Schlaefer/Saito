@@ -113,7 +113,7 @@
 		</tr>
 	</table>
 
-	<h2><?php echo __('Moderators'); ?></h2>
+	<h2><?php echo __('Moderation'); ?></h2>
 	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $tableHeadersHtml ?>
 		<tr>
@@ -149,6 +149,25 @@
 				<?php echo $this->Html->link(
 								__('edit'),
 								array( 'controller' => 'settings', 'action' => 'edit', 'store_ip' ),
+										array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo __('store_ip_anonymized'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['store_ip_anonymized']; ?>
+			</td>
+			<td>
+				<p><?php echo __('store_ip_anonymized_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'store_ip_anonymized' ),
 										array( 'class' => 'btn' )
 							);
 				?>

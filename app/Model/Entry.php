@@ -329,6 +329,9 @@ class Entry extends AppModel {
   public function beforeSave($options = array()) {
     if ( Configure::read('Saito.Settings.store_ip' )) :
       $this->data['Entry']['ip'] = env('REMOTE_ADDR');
+      if ( Configure::read('Saito.Settings.store_ip_anonymized' )) :
+        $this->data['Entry']['ip'] = self::_anonymizeIp($this->data['Entry']['ip']);
+      endif;
     endif;
 
     return parent::beforeSave($options);
@@ -361,6 +364,21 @@ class Entry extends AppModel {
 		endforeach;
 	}
 
+  /**
+   * Rough and tough ip anonymizer
+   * 
+   * @param string $ip
+   * @return string 
+   */
+  protected static function _anonymizeIp($ip) {
+    $strlen = strlen($ip);
+    if ( $strlen > 6 ) :
+      $divider = (int)floor($strlen / 4) + 1;
+      $ip = substr_replace($ip, '…', $divider, $strlen - (2 * $divider));
+    endif;
+
+    return $ip;
+    }
 
 	/**
 	 * Locks or unlocks a whole thread
