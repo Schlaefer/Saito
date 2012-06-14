@@ -17,6 +17,7 @@
 				'smilies' => 1,
 				'topics_per_page' => 20,
 				'timezone'				=> 'UTC',
+        'block_user_ui'   => 1,
 		);
 
 		public function testAfterSave() {
