@@ -7,7 +7,7 @@
 				'TimeH',
 		);
 
-		/*
+		/**
 		 * Subset of MLF settings currently used by Saito
 		 */
 		protected $_currentlyUsedSettings = array(
@@ -16,6 +16,11 @@
         'block_user_ui' => 1,
 				'edit_delay' => 1,
 				'edit_period' => 1,
+        'flattr_enabled'        => 1,
+        'flattr_language'             => 1,
+        'flattr_category'       => 1,
+        'forum_disabled'        => 1,
+        'forum_disabled_text'   => 1,
 				'forum_email' => 1,
 				'forum_name' => 1,
 				'quote_symbol' => 1,
@@ -24,7 +29,10 @@
 				'subject_maxlength' => 1,
 				'text_word_maxlength' => 1,
 				'thread_depth_indent' => 1,
+        'timezone'               => 1,
 				'topics_per_page' => 1,
+				'upload_max_img_size'           => 1,
+				'upload_max_number_of_uploads'  => 1,
 				'userranks_ranks' => 1,
 				'userranks_show' => 1,
 				'video_domains_allowed' => 1,
@@ -32,10 +40,8 @@
 
 		public function admin_index() {
 			$settings = $this->request->data = $this->Setting->getSettings();
-			$this->set('Settings', $settings);
 			$settings = array_intersect_key($settings, $this->_currentlyUsedSettings);
-			ksort($settings);
-			$this->set('autoSettings', $settings);
+			$this->set('Settings', $settings);
 		}
 
 		public function admin_edit($id = NULL) {
