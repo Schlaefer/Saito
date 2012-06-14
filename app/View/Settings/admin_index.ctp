@@ -135,6 +135,25 @@
 				?>
 			</td>
 		</tr>
+		<tr>
+			<td>
+				<?php echo __('store_ip'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['store_ip']; ?>
+			</td>
+			<td>
+				<p><?php echo __('store_ip_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'store_ip' ),
+										array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
 	</table>
 
 	<h2><?php echo __('Edit'); ?></h2>

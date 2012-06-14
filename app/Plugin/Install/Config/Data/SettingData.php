@@ -70,6 +70,10 @@ class SettingData {
 				'value'	=> '1',
 			),
 		array(
+				'name'	=> 'store_ip',
+				'value'	=> '0',
+			),
+		array(
 				'name'	=> 'subject_maxlength',
 				'value'	=> '75',
 			),
