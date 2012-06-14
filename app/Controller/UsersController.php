@@ -38,9 +38,21 @@ class UsersController extends AppController {
 				$this->redirect($this->referer());
 			endif;
 
-		elseif ( !empty($this->request->data) ):
-		// login was attempted but not successfull
-			$this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
+		elseif ( !empty($this->request->data) ) :
+      if ( isset($this->request->data['User']['username']) ) :
+        $this->User->contain();
+        $readUser = $this->User->findByUsername($this->request->data['User']['username']);
+        if ( $readUser !== FALSE ) :
+          $user = new SaitoUser(new ComponentCollection);
+          $user->set($readUser['User']);
+          if ( $user->isForbidden() ) :
+            $this->Session->setFlash(__('User %s is locked.', $readUser['User']['username']), 'flash/warning');
+          endif;
+        endif;
+      else :
+        // login was attempted but not successfull
+        $this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
+      endif;
 		endif;
 
 	} //end login()
