@@ -87,6 +87,17 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_markOnline();
 	}
 
+  public function startup(Controller $controller) {
+    parent::startup($controller);
+
+    if ( $controller->action !== 'logout' && $this->isLoggedIn() ) :
+      if ( $this->isForbidden() ) :
+        $this->_Controller->redirect(array('controller' => 'users', 'action'=>'logout'));
+      endif;
+    endif;
+
+  }
+
 	/**
 	 * Marks users as online
 	 *
@@ -154,12 +165,6 @@ Class CurrentUserComponent extends SaitoUser {
 	public function beforeRender($controller) {
 		// write out the current user for access in the views
 		$controller->set('CurrentUser', $this);
-    if ( $this->isLoggedIn() ) :
-      if ( $this->isForbidden() ) :
-        $this->_Controller->redirect(array('controller' => 'users', 'action'=>'logout'));
-      endif;
-    endif;
-
 	}
 
 	/**

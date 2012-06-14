@@ -25,10 +25,6 @@
 		);
 
 		protected function _loginUser($id) {
-			if ( isset($this->controller->Session) && !empty($this->controller->Session) ) :
-				$this->controller->Session->delete('Auth.User');
-			endif;
-
       /*
 
 			$records = array(
@@ -88,11 +84,19 @@
       */
 
       // see http://stackoverflow.com/a/10411128/1372085
+
+      $this->_logoutUser();
       $userFixture = new UserFixture();
       $users = $userFixture->records;
 
 			$this->controller->Session->write('Auth.User', $users[$id - 1]);
 		}
+
+    protected function _logoutUser() {
+			if ( isset($this->controller->Session) && !empty($this->controller->Session) ) :
+				$this->controller->Session->delete('Auth.User');
+			endif;
+    }
 
 		public function setUp() {
 			parent::setUp();
@@ -102,9 +106,7 @@
 		}
 
 		public function tearDown() {
-			if ( isset($this->controller->Session) ) :
-				$this->controller->Session->delete('Auth.User');
-			endif;
+      $this->_logoutUser();
 
 			Configure::write('Cache.disable', false);
 			parent::tearDown();
