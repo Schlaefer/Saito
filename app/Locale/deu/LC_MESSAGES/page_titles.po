@@ -29,7 +29,7 @@ msgid "entries/search"
 msgstr "Suchen"
 
 msgid "users/index"
-msgstr "Nutzerübersicht"
+msgstr "Benutzerübersicht"
 
 #
 msgid "users/contact"
@@ -45,9 +45,9 @@ msgstr "Registrieren"
 
 #
 msgid "users/view"
-msgstr "Nutzer"
+msgstr "Benutzer"
 
 #
 msgid "users/edit"
-msgstr "Nutzer bearbeiten"
+msgstr "Benutzer bearbeiten"
 
