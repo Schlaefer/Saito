@@ -722,7 +722,7 @@ class EntriesController extends AppController {
 	protected function _setupMix($tid) {
 		if ( !$tid )
 			$this->redirect('/');
-		$entries = $this->Entry->treeForNode($tid);
+		$entries = $this->Entry->treeForNodeComplete($tid);
 
 		//* check if anonymous tries to access internal catgories
 		if ( $entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {

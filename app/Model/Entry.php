@@ -63,12 +63,21 @@ class Entry extends AppModel {
 		'text',
 	);
 
-	/*
+  /**
 	 * field list necessary for displaying a thread_line
-	 */
-	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.text, Entry.flattr, Entry.nsfw,
-																	User.username, User.id, User.signature, User.flattr_uid,
+   *
+   * @var type string
+   */
+	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.text, Entry.flattr, Entry.nsfw, Entry.name,
 																	Category.category, Category.accession, Category.description';
+
+  /**
+   * fields additional to $threadLineFieldList to show complete entry
+   * 
+   * @var string
+   */
+  public $showEntryFieldListAdditional = 	'Entry.ip, User.username, User.id, User.signature, User.flattr_uid';
+
 
 	public function getRecentEntries( Array $options = array() ) {
 		Stopwatch::start('Model->User->getRecentEntries()');
@@ -179,7 +188,17 @@ class Entry extends AppModel {
 		return $this->treeForNodes(array( array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ), $order, $timestamp);
 	}
 
-	public function treeForNodes($search_array, $order = 'last_answer ASC', $timestamp = null) {
+	public function treeForNodeComplete($id, $order = 'last_answer ASC', $timestamp = null) {
+		return $this->treeForNodes(
+        array(
+            array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
+        $order,
+        $timestamp,
+        $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
+        );
+	}
+
+	public function treeForNodes($search_array, $order = 'last_answer ASC', $timestamp = NULL, $fieldlist = NULL) {
 		self::$Timer->start('Model->Entries->treeForNodes() DB');
 		if ( empty($search_array) ) {
 			return array( );
@@ -196,12 +215,16 @@ class Entry extends AppModel {
 			}
 		}
 
+    if ($fieldlist === NULL) :
+      $fieldlist = $this->threadLineFieldList;
+    endif;
+
 		$found_threads = $this->find('all',
 														array (
 																'conditions' => array(
 																		'tid' => $where,
 																	),
-																'fields'	=> $this->threadLineFieldList,
+																'fields'	=> $fieldlist,
 																'order' => $order,
 															)
 			);
