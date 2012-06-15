@@ -2,7 +2,7 @@
 	### setup ###
 	if (!isset($level)) $level = 0;
 	if (!isset($last_action)) $last_action = null;
-  $editLinkIsShow = FALSE;
+  $editLinkIsShown = FALSE;
 	###
 ?>
 <div class="a_a">
@@ -21,7 +21,7 @@
           <ul class="dropdown-menu pull-right">
 					<?php
             if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) :
-              $editLinkIsShow = TRUE; 
+              $editLinkIsShown = TRUE;
             ?>
 						<li>
 							<?php echo $this->Html->link(
@@ -33,7 +33,7 @@
 						</li>
 					<?php endif; ?>
 					<?php if($entry['Entry']['pid'] == 0) : # @td these are thread functions and maybe go to another panel ?>
-            <?php if ($editLinkIsShow): ?>
+            <?php if ($editLinkIsShown): ?>
               <li class="divider"></li>
             <?php endif; ?>
 						<li>
