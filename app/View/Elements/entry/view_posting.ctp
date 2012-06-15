@@ -25,9 +25,9 @@
             ?>
 						<li>
 							<?php echo $this->Html->link(
-											__('edit_linkname'),
+											'<i class="icon-pencil"></i> ' . __('edit_linkname'),
 											array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
-											array ( 'class' => '' )
+											array ( 'escape' => FALSE )
 										);
 							?>
 						</li>
@@ -39,7 +39,9 @@
 						<li>
 							<?php
 								echo $this->Ajax->link(
-									($entry['Entry']['fixed'] == 0) ? __('fixed_set_entry_link') : __('fixed_unset_entry_link'),
+									($entry['Entry']['fixed'] == 0) 
+                    ? '<i class="icon-pushpin"></i>&nbsp;' .  __('fixed_set_entry_link')
+                    : '<i class="icon-pushpin"></i>&nbsp;' .   __('fixed_unset_entry_link'),
 									array(
 										'controller'	=> 'entries',
 										'action'			=> 'ajax_toggle',
@@ -50,6 +52,7 @@
 										'class' 	=> 'fixed ' . $entry['Entry']['id'],
 										'success'	=> "$('.fixed.{$entry['Entry']['id']}').html(data);",
 										'inline'	=> true,
+                    'escape'  => FALSE,
 									)
 								);
 							?>
@@ -57,7 +60,9 @@
 						<li>
 							<?php
 								echo $this->Ajax->link(
-										($entry['Entry']['locked'] == 0) ? __('locked_set_entry_link') : __('locked_unset_entry_link'),
+										($entry['Entry']['locked'] == 0) 
+                      ? '<i class="icon-lock"></i>&nbsp;' .  __('locked_set_entry_link') 
+                      : '<i class="icon-unlock"></i>&nbsp;' .  __('locked_unset_entry_link'),
 										array(
 												'controller' 	=> 'entries',
 												'action'			=> 'ajax_toggle',
@@ -68,6 +73,7 @@
 												'class'		=> 'locked ' . $entry['Entry']['id'],
 												'success'	=> "$('.locked.{$entry['Entry']['id']}').html(data)",
 												'inline'	=> true,
+                        'escape'  => FALSE,
 										)
 									);
 							?>
@@ -76,13 +82,13 @@
 						<li>
 							<?php
 								echo $this->Html->link(
-										__('delete_tree_link'),
+										'<i class="icon-trash"></i>&nbsp;' . __('delete_tree_link'),
 										array(
 												'controller'	=> 'entries',
 												'action'			=> 'delete',
 												$entry['Entry']['id'],
 										),
-										null,
+                    array('escape' => FALSE),
 										__('delete_tree_link_confirm_message')
 								);
 							?>
