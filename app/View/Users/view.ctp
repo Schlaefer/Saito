@@ -141,7 +141,7 @@
                     ?>
                   </li>
                 <?php endif; ?>
-                <?php if ( $CurrentUser->isAdmin() && $user['User']['number_of_entries'] === 0 ) : ?>
+                <?php if ( $CurrentUser->isAdmin() ) : ?>
                   <li class="divider"></li>
                   <li>
                     <?php echo $this->Html->link(

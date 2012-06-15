@@ -15,5 +15,16 @@ class Upload extends AppModel {
 
 	public $belongsTo = array('User');
 
+  public function deleteAllFromUser($user_id) {
+    return $this->deleteAll(
+          array(
+              'Upload.user_id' => $user_id),
+              FALSE,
+              // call beforeDelete FileUploader plugin callback to remove files from disk
+              TRUE
+          );
+  }
+
+
 }
 ?>

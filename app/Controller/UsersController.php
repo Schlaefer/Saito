@@ -298,14 +298,11 @@ class UsersController extends AppController {
       return $this->redirect('/');
     endif;
 
-    $this->User->id = $id;
-    $number_of_entries = $this->User->numberOfEntries();
-
     if ( $id == $this->CurrentUser->getId() ) :
       $this->Session->setFlash(__("You can't delete yourself."), 'flash/error');
-    elseif ( $number_of_entries > 0 ) :
-      $this->Session->setFlash(__("You can't delete users with postings."), 'flash/error');
-    elseif ($this->User->delete($id, FALSE)) :
+    elseif ( $id == 1 ) :
+      $this->Session->setFlash(__("You can't delete the installation account."), 'flash/error');
+    elseif ($this->User->deleteAllExceptEntries($id)) :
       $this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/notice');
       return $this->redirect('/');
     else:
