@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 21:27+0100\n"
-"PO-Revision-Date: 2012-06-14 21:30+0100\n"
+"POT-Creation-Date: 2012-06-15 15:08+0100\n"
+"PO-Revision-Date: 2012-06-15 15:09+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -389,9 +389,9 @@ msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:12
 #: View/Elements/entry/view_posting.ctp:125
-#: View/Elements/layout/header_login.ctp:23
-#: View/Elements/layout/header_login.ctp:29
-#: View/Elements/layout/header_login.ctp:30
+#: View/Elements/layout/header_login.ctp:34
+#: View/Elements/layout/header_login.ctp:40
+#: View/Elements/layout/header_login.ctp:41
 msgid "Help"
 msgstr "Hilfe"
 
@@ -476,22 +476,23 @@ msgid "register_linkname"
 msgstr "Registrieren"
 
 #: View/Elements/layout/header_login.ctp:7
+#: View/Elements/layout/header_login.ctp:9
 msgid "login_btn"
 msgstr "Einloggen"
 
-#: View/Elements/layout/header_login.ctp:12
+#: View/Elements/layout/header_login.ctp:16
 msgid "Adminbereich @lo"
 msgstr "Adminbereich"
 
-#: View/Elements/layout/header_login.ctp:15
+#: View/Elements/layout/header_login.ctp:22
 msgid "user_profile"
 msgstr "Profil"
 
-#: View/Elements/layout/header_login.ctp:18
+#: View/Elements/layout/header_login.ctp:27
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: View/Elements/layout/header_login.ctp:31
+#: View/Elements/layout/header_login.ctp:42
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
@@ -512,7 +513,11 @@ msgstr "Benutzer"
 msgid "%s online (%s)"
 msgstr "%s anwesend (%s)"
 
-#: View/Elements/layout/slidetab_userlist.ctp:33
+#: View/Elements/layout/slidetab_userlist.ctp:29
+msgid "ud_admin"
+msgstr "Administrator"
+
+#: View/Elements/layout/slidetab_userlist.ctp:30
 msgid "ud_mod"
 msgstr "Moderator"
 
@@ -1893,8 +1898,8 @@ msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
 #: Controller/UsersController.php:307
-msgid "You can't delete users with postings."
-msgstr "Man kann nur Benutzer ohne Beiträge löschen."
+msgid "You can't delete the installation account."
+msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
 #: Controller/UsersController.php:309
 #, php-format
@@ -2053,22 +2058,16 @@ msgstr ""
 msgid "yesterday"
 msgstr "Gestern"
 
-#: View/Helper/UserHHelper.php:108
+#: View/Helper/UserHHelper.php:109
 msgid "ud_user"
 msgstr "Benutzer"
 
-#: View/Helper/UserHHelper.php:112
-msgid "ud_admin"
-msgstr "Administrator"
-
-#: View/Helper/UserHHelper.php:126
-#: View/Helper/UserHHelper.php:148
-msgid "homepage_alt"
-msgstr "Homepage"
-
-#: View/Helper/UserHHelper.php:162
+#: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "homepage_alt"
+#~ msgstr "Homepage"
 
 #~ msgid "back_to_posting_linkname"
 #~ msgstr "zurück zum Posting von"

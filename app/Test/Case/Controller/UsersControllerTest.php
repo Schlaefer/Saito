@@ -191,16 +191,6 @@
 			$this->assertContains('users/view/1', $this->headers['Location']);
 
       /*
-       * you can't delete user with postings
-       */
-      $this->_loginUser(1);
-			$this->testAction('/users/delete/3');
-      $this->controller->User->contain();
-      $result = $this->controller->User->findById(3);
-      $this->assertTrue($result != FALSE);
-			$this->assertContains('users/view/3', $this->headers['Location']);
-
-      /*
        * admin deletes user
        */
       $this->_loginUser(1);

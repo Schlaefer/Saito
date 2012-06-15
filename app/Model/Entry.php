@@ -371,6 +371,26 @@ class Entry extends AppModel {
 		return	$this->deleteAll(array('tid' => $this->id), false, true);
 	} // end deleteTreeWithTid()
 
+  /**
+   * Anonymizes the entries for a user
+   * 
+   * @param string $user_id
+   * @return bool success
+   */
+  public function anonymizeEntriesFromUser($user_id) {
+
+    // remove username from all entries and reassign to anonyme user
+    return $this->updateAll(
+        array(
+            'Entry.name'      => "NULL",
+            'Entry.edited_by' => "NULL",
+            'Entry.ip'        => "NULL",
+            'Entry.user_id'   => 0,
+            ),
+        array('Entry.user_id' => $user_id)
+        );
+  }
+
 	/**
 	 * Maps all elements in $tree to function $func
 	 *

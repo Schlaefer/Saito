@@ -209,6 +209,16 @@ class User extends AppModel {
 
 	}
 
+  public function deleteAllExceptEntries($id) {
+    $success = TRUE;
+    $success = $success && $this->Upload->deleteAllFromUser($id);
+    $success = $success && $this->Entry->anonymizeEntriesFromUser($id);
+    $success = $success && $this->UserOnline->deleteAll(
+        array('user_id' => $id), FALSE);
+    $success = $success && $this->delete($id, FALSE);
+    return $success;
+  }
+
 	/**
 	 * Custom hash function used for authentication with Auth component
 	 * 
