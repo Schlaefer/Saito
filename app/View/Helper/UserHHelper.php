@@ -11,6 +11,7 @@
   class UserHHelper extends AppHelper {
 
     protected $_userranks;
+    protected $_SaitoUser = NULL;
 
     public $helpers = array(
         #App
@@ -171,10 +172,22 @@
 
     public function isMod($user) {
       // @td fix this fubar
-      $Collection = new ComponentCollection();
-      $User = new SaitoUser($Collection);
-      $User->set($user);
-      return $User->isMod($user);
+      $this->_SaitoUserFactory();
+      $this->_SaitoUser->set($user);
+      return $this->_SaitoUser->isMod($user);
+    }
+
+    public function isAdmin($user) {
+      // @td fix this fubar
+      $this->_SaitoUserFactory();
+      $this->_SaitoUser->set($user);
+      return $this->_SaitoUser->isAdmin($user);
+    }
+
+    protected function _SaitoUserFactory() {
+      if ( $this->_SaitoUser === NULL ) :
+        $this->_SaitoUser = new SaitoUser(new ComponentCollection());
+      endif;
     }
 
   }
