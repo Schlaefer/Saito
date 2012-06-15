@@ -8,6 +8,10 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		<?php echo $this->Html->script('bootstrap/bootstrap'); ?>
 		<?php echo $this->Html->css('bootstrap/css/bootstrap.min.css'); ?>
+    <style type="text/css">
+      div.submit { display: inline-block; margin: 0 1em; }
+      .modal-footer form {margin: 0;}
+    </style>
 
 	</head>
 	<body>

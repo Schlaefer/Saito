@@ -63,10 +63,10 @@
 	</div>
 	<div class="modal-footer">
 		<?php
-			echo $this->Form->create(null, array( 'action' => 'delete', 'admin' => true ));
+			echo $this->Form->create();
 			echo $this->Form->hidden('modeDelete', array( 'value' => 1 ));
 			echo $this->Form->submit(
-					__("Delete entries and delete category"),
+					__("Make It So"),
 					array(
 					'class' => 'btn btn-danger',
 					)

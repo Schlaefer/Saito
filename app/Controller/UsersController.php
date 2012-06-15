@@ -286,10 +286,7 @@ class UsersController extends AppController {
       $this->redirect(array( 'action' => 'view', $id ));
     }
 
-  public function delete($id = NULL) {
-    if ( $this->CurrentUser->isAdmin() !== TRUE ) :
-      return $this->redirect('/');
-    endif;
+  public function admin_delete($id = NULL) {
 
     $this->User->contain();
     $readUser = $this->User->findById($id);
@@ -298,20 +295,24 @@ class UsersController extends AppController {
       return $this->redirect('/');
     endif;
 
-    if ( $id == $this->CurrentUser->getId() ) :
-      $this->Session->setFlash(__("You can't delete yourself."), 'flash/error');
-    elseif ( $id == 1 ) :
-      $this->Session->setFlash(__("You can't delete the installation account."), 'flash/error');
-    elseif ($this->User->deleteAllExceptEntries($id)) :
-      $this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/notice');
-      return $this->redirect('/');
-    else:
-      $this->Session->setFlash(__("Couldn't delete user."), 'flash/error');
+   if ( isset($this->request->data['User']['modeDelete']) ) :
+      if ( $id == $this->CurrentUser->getId() ) :
+        $this->Session->setFlash(__("You can't delete yourself."), 'flash/error');
+      elseif ( $id == 1 ) :
+        $this->Session->setFlash(__("You can't delete the installation account."), 'flash/error');
+      elseif ($this->User->deleteAllExceptEntries($id)) :
+        $this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/notice');
+        return $this->redirect('/');
+      else:
+        $this->Session->setFlash(__("Couldn't delete user."), 'flash/error');
+      endif;
+
+      return $this->redirect(
+                array( 'controller' => 'users', 'action' => 'view', $id )
+        );
     endif;
 
-    return $this->redirect(
-              array( 'controller' => 'users', 'action' => 'view', $id )
-      );
+    $this->set('user', $readUser);
   }
 
 	public function changepassword($id = null) {

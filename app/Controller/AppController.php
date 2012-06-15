@@ -106,7 +106,7 @@ class AppController extends Controller {
 		// setup for admin area
 		if ( isset($this->params['admin']) ):
 			// protect the admin area
-			if ( !$this->CurrentUser->isAdmin() ) :
+			if ( $this->CurrentUser->isAdmin() !== TRUE ) :
 				$this->redirect('/');
 				exit();
 			endif;
