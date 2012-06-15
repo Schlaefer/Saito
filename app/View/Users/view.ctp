@@ -146,7 +146,7 @@
                   <li>
                     <?php echo $this->Html->link(
                         __('Delete'),
-                        array( 'controller' => 'users', 'action' => 'delete', $user['User']['id'])
+                        array( 'controller' => 'users', 'action' => 'delete', $user['User']['id'], 'admin' => TRUE )
                         );
                     ?>
                   </li>
