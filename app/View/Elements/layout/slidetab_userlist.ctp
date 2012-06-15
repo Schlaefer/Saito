@@ -25,10 +25,11 @@
                 <li>
                   <?php // for performance reasons we don't use $this->Html->link() here ?>
                   <a href="<?php echo $this->request->webroot; ?>users/view/<?php echo $user['User']['id']; ?>" class="<?php echo ($user['User']['id'] == $CurrentUser->getId()) ? 'slidebar-actUser' : ''  ?>">
-                    <?php echo $user['User']['username']; ?></a><?php
+                    <?php echo $user['User']['username']; ?><?php
                       if ($this->UserH->isAdmin($user['User'])) : ?><span class="super" title="<?php echo __('ud_admin'); ?>"><i class="icon-wrench"></i></span>
                     <?php elseif ($this->UserH->isMod($user['User'])) : ?><span class="super" title="<?php echo __('ud_mod'); ?>"><i class="icon-legal"></i></span>
                     <?php  endif; ?>
+                    </a>
                 </li>
               <?php  endforeach; ?>
             </ul>

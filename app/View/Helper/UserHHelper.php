@@ -123,9 +123,7 @@
       $out = '';
       if ( $user['personal_messages'] && is_string($user['user_email']) ) {
         $out = $this->Html->link(
-            $this->Html->image(
-                'email.png', array( 'alt' => __('homepage_alt') )
-            ),
+            '<i class="icon-envelope icon-large"></i>',
             array( 'controller' => 'users', 'action' => 'contact', $user['id'] ),
             array( 'escape' => false ));
       }
@@ -145,9 +143,8 @@
         }
         if ( substr($url, 0, 4) == 'http' ) {
           $out = $this->Html->link(
-              $this->Html->image(
-                  'house.png', array( 'alt' => __('homepage_alt') )
-              ), $url, array( 'escape' => false ));
+              '<i class="icon-home icon-large"></i>',
+              $url, array( 'escape' => false ));
         }
       }
       return $out;
