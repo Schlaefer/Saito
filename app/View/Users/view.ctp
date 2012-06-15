@@ -135,8 +135,9 @@
                 <?php if ( $CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui')) ) : ?>
                   <li>
                     <?php echo $this->Html->link(
-                            ($user['User']['user_lock']) ?  __('Unlock') : __('Lock'),
-                            array( 'controller' => 'users', 'action' => 'lock', $user['User']['id'])
+                            '<i class="icon-ban-circle"></i> ' . (($user['User']['user_lock']) ?  __('Unlock') : __('Lock')),
+                            array( 'controller' => 'users', 'action' => 'lock', $user['User']['id']),
+                            array( 'escape' => FALSE )
                           );
                     ?>
                   </li>
@@ -145,8 +146,9 @@
                   <li class="divider"></li>
                   <li>
                     <?php echo $this->Html->link(
-                        __('Delete'),
-                        array( 'controller' => 'users', 'action' => 'delete', $user['User']['id'], 'admin' => TRUE )
+                        '<i class="icon-trash"></i> ' . __('Delete'),
+                        array( 'controller' => 'users', 'action' => 'delete', $user['User']['id'], 'admin' => TRUE ),
+                        array('escape' => FALSE)
                         );
                     ?>
                   </li>
