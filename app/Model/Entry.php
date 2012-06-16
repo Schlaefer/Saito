@@ -142,6 +142,13 @@ class Entry extends AppModel {
 		$data['Entry']['time']				= date("Y-m-d H:i:s");
 		$data['Entry']['last_answer'] = date("Y-m-d H:i:s");
 
+    if ( Configure::read('Saito.Settings.store_ip') ) :
+      $data['Entry']['ip'] = env('REMOTE_ADDR');
+      if ( Configure::read('Saito.Settings.store_ip_anonymized' )) :
+        $data['Entry']['ip'] = self::_anonymizeIp($data['Entry']['ip']);
+      endif;
+    endif;
+
 		$this->create();
 		$new_posting = $this->save($data, $validate, $fieldList);
 
@@ -348,17 +355,6 @@ class Entry extends AppModel {
 			$this->data['Entry']['text'] = rtrim($this->data['Entry']['text']);
 			}
 	}
-
-  public function beforeSave($options = array()) {
-    if ( Configure::read('Saito.Settings.store_ip' )) :
-      $this->data['Entry']['ip'] = env('REMOTE_ADDR');
-      if ( Configure::read('Saito.Settings.store_ip_anonymized' )) :
-        $this->data['Entry']['ip'] = self::_anonymizeIp($this->data['Entry']['ip']);
-      endif;
-    endif;
-
-    return parent::beforeSave($options);
-  }
 
 	public function deleteTree() {
 
