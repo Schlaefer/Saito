@@ -41,11 +41,12 @@ Follow the web-installer's instruction to the end.
 
 ## After the installation
 
+- **Backup app/Config/core.php!**
 - Change the admin password to a secure phrase
 - Set email addresses so contacting the admin works:
 	- Set the admin email address (user preferences)
 	- Set the forum email address (forum settings)
-- Backup app/core.php
+- You made a backup of core.php in step 1, right?
 
 # Nginx Configuration for CakePHP <a name="NginxConfigurationForCakePHP"/> #
 

@@ -3,16 +3,16 @@
 	App::uses('FormAuthenticate', 'Controller/Component/Auth');
 
 	/**
-	 * As long as we still use old mlf md5 passwords we overwrite the Cake
-	 * Form password function so we can use unsalted passwords
+   * mylittleforum 1.x auth with unsalted md5 passwords
 	 */
 	class MlfAuthenticate extends FormAuthenticate {
 
-		protected function _password($password) {
-			Security::setHash('md5');
+    public static function hash($string) {
+			return Security::hash($string, 'md5', FALSE);
+    }
 
-			return Security::hash($password, null,
-							Configure::read('Saito.useSaltForUserPasswords'));
+		protected function _password($password) {
+			return self::hash($password);
 		}
 
 	}

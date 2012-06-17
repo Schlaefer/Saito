@@ -3,7 +3,7 @@
   App::uses('FormAuthenticate', 'Controller/Component/Auth');
 
   /**
-   * Support for mylittleforum 2 authentication with salted sha1
+   * mylittleforum 2.x auth with salted sha1 passwords
    */
   class Mlf2Authenticate extends FormAuthenticate {
 

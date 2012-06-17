@@ -203,6 +203,8 @@ Class CurrentUserComponent extends SaitoUser {
           )
       );
 		$this->_Controller->Auth->authenticate = array(
+          // blowfish saito standard
+          'Bcrypt' => $authCommonSetup,
           // mylittleforum 1 authentication
           'Mlf' => $authCommonSetup,
           // mylittleforum 2 auth
