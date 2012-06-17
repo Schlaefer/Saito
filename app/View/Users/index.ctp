@@ -13,8 +13,6 @@
     $tableHeaders = array(
 				$this->Paginator->sort('username', __('username_marking')),
 				$this->Paginator->sort('User.user_type', __('user_type')),
-				__("userlist_email"),
-				__("user_hp"),
 				$this->Paginator->sort('UserOnline.user_id', __("userlist_online")),
 				$this->Paginator->sort('registered', __("registered")),
 		);
@@ -36,8 +34,6 @@
 									)
 						. '</strong>',
 						$this->UserH->type($user['User']['user_type']), # @td translate
-						$this->UserH->minusIfEmpty($this->UserH->contact($user['User'])),
-						$this->UserH->minusIfEmpty($this->UserH->homepage($user['User']['user_hp'])),
 						($user['UserOnline']['logged_in']) ? 'Online' : $this->UserH->minusIfEmpty($a=''),
 						$this->TimeH->formatTime($user['User']['registered'])
         );
