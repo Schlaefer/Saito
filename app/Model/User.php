@@ -1,5 +1,8 @@
 <?php
 
+  App::uses('BcryptAuthenticate', 'Controller/Component/Auth');
+  App::uses('MlfAuthenticate', 'Controller/Component/Auth');
+
 /**
  * @td verify that old pw is needed for changing pw(?) [See user.test.php both validatePw tests]
  */
@@ -221,22 +224,6 @@ class User extends AppModel {
     return $success;
   }
 
-	/**
-	 * Custom hash function used for authentication with Auth component
-	 * 
-	 * @param array $data
-	 * @return array
-	 */
-	public function hashPasswords($data) {
-		if ( isset($data['User']['password']) ) {
-			if ( !empty($data['User']['password']) ) {
-				$data['User']['password'] = $this->_hash($data['User']['password']);
-			}
-		}
-		return $data;
-
-	}
-
 	public function afterFind($results, $primary = false) {
 		$results = parent::afterFind($results, $primary);
 
@@ -259,7 +246,11 @@ class User extends AppModel {
 
 	public function beforeSave($options = array( )) {
 		parent::beforeSave($options);
-		$this->data = $this->hashPasswords($this->data);
+		if ( isset($this->data['User']['password']) ) {
+			if ( !empty($this->data['User']['password']) ) {
+        $this->data['User']['password'] = $this->_hashPassword($this->data['User']['password']);
+			}
+		}
 
 		return true;
 
@@ -278,10 +269,11 @@ class User extends AppModel {
 		$valid = false;
 		$this->contain('UserOnline');
 		$old_pw = $this->field('password');
-		$new_pw = $this->_hash($data['password_old']);
-		if ( $old_pw == $new_pw ) {
+		if ( $old_pw == $this->_hashPassword($data['password_old']) ) :
 			$valid = true;
-		}
+    elseif ( $old_pw == MlfAuthenticate::hash($data['password_old']) ) :
+			$valid = true;
+    endif;
 		return $valid;
 
 	}
@@ -320,50 +312,15 @@ class User extends AppModel {
 	}
 
 	/**
-	 * parentNode for CakePHP ACL
+	 * Custom hash function used for authentication with Auth component
 	 *
-	public function parentNode() {
-		if ( !$this->id ) :
-			return null;
-		endif;
-
-		$data = $this->data;
-
-		if ( !isset($data[$this->alias]['group_id']) ) :
-			// dont' use $this->read(), because you'll overwrite $this->data
-			$data[$this->alias]['group_id'] = $this->field('group_id');
-		endif;
-
-		if ( !isset($data[$this->alias]['group_id']) ) :
-			return null;
-		else :
-			// contrary to Cake doku use `foreign_key`, not `id` here
-			return array( 'model' => 'Group', 'foreign_key' => $data[$this->alias]['group_id'] );
-		endif;
-
-	}
-	*/
-
-
-	/**
-	 * Hashes strings according to app configuration with or without salt
-	 *
-	 * @param string $string
-	 * @return string
+	 * @param array $data
+	 * @return array
 	 */
-	protected function _hash($string) {
-		Security::setHash('md5');
-
-		$salt = TRUE;
-		if ( Configure::read('Saito.useSaltForUserPasswords') === FALSE ) :
-			$salt = FALSE;
-		endif;
-
-		return Security::hash($string, null, $salt);
-
+	protected function _hashPassword($password) {
+    return BcryptAuthenticate::hash($password);
 	}
 
 }
 
-// end class
 ?>
