@@ -6,8 +6,10 @@
 	class UserOnlineTest extends CakeTestCase {
 
 		public $fixtures = array( 'app.user_online', 'app.user', 'app.entry', 'app.category', 'app.upload' );
+    protected $_fields = array( 'fields' => array('id', 'user_id', 'time', 'logged_in'));
 
 		public function testSetOnline() {
+
 
 			//* argument id test
 			$result = false;
@@ -34,7 +36,7 @@
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 
@@ -46,7 +48,7 @@
 			$this->UserOnline->setOnline($user_id, FALSE);
 
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 
@@ -58,7 +60,7 @@
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 
@@ -68,7 +70,7 @@
 			$this->UserOnline->setOnline($user_id, FALSE);
 
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 
@@ -85,7 +87,7 @@
 			$this->UserOnline->setOnline($user_id, FALSE);
 
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 		}
@@ -99,14 +101,14 @@
 
 			//* test if user is inserted
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 
 			//* try to delte new user
 			$this->UserOnline->setOffline($user_id);
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = array( );
 			$this->assertEqual($result, $expected);
 		}
@@ -123,7 +125,7 @@
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			$this->UserOnline->contain();
-			$result = $this->UserOnline->find('all');
+			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 		}
