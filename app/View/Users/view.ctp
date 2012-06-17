@@ -43,8 +43,15 @@
 		if (!empty($user['User']['user_email']) && $user['User']['personal_messages'] == TRUE) {
 			$table[] = 	
 					array (
-						__("userlist_email"),
+						__('Contact'),
 						$this->UserH->minusIfEmpty($this->UserH->contact($user['User'])),
+					);
+			}
+		if ( $CurrentUser->isAdmin() ) {
+			$table[] =
+					array (
+						__('userlist_email'),
+						$this->Html->link($user['User']['user_email'], 'mailto:'.$user['User']['user_email']),
 					);
 			}
 		if (!empty($user['User']['user_hp'])) {
