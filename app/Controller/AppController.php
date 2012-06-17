@@ -108,6 +108,7 @@ class AppController extends Controller {
 			// protect the admin area
 			if ( $this->CurrentUser->isAdmin() !== TRUE ) :
 				$this->redirect('/');
+        throw new ForbiddenException();
 				exit();
 			endif;
 			$this->_beforeFilterAdminArea();

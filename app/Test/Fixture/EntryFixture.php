@@ -60,6 +60,10 @@
 						'time' => '2000-01-01 20:02:00',
 						'category' => 2,
 						'user_id' => 3,
+						'name' => 'Ulysses',
+						'edited' => '2000-01-01 20:04:00',
+						'edited_by' => 'Ulysses',
+						'ip' => '1.1.1.1',
 				),
 				//* thread 2
 				array(
@@ -72,7 +76,21 @@
 						// accession = 1
 						'category' => 4,
 						'user_id' => 1,
-				)
+				),
+				array(
+						'id' => 5,
+						'subject' => 'Second Thread Second_Subject',
+						'text' => '',
+						'pid' => 4,
+						'tid' => 4,
+						'time' => '2000-01-01 10:05:00',
+						'category' => 4,
+						'user_id' => 3,
+						'name' => 'Ulysses',
+						'edited' => '0000-00-00 00:00:00',
+						'edited_by' => NULL,
+						'ip' => '1.1.1.1',
+				),
 		);
 
 	}

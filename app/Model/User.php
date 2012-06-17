@@ -210,6 +210,8 @@ class User extends AppModel {
 	}
 
   public function deleteAllExceptEntries($id) {
+    if ($id == 1) return FALSE;
+
     $success = TRUE;
     $success = $success && $this->Upload->deleteAllFromUser($id);
     $success = $success && $this->Entry->anonymizeEntriesFromUser($id);

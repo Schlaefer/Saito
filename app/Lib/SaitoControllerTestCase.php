@@ -2,6 +2,7 @@
 
   // load fixture
   App::uses('UserFixture', 'Fixture');
+	App::uses('SaitoControllerTestCase', 'Lib');
 
 	// sets the FULL_BASE_URL for CLI tests
 	if ( !defined('FULL_BASE_URL') ) {
@@ -93,6 +94,10 @@
 		}
 
     protected function _logoutUser() {
+      // if user is logged-in it should interfere with test runs
+      if (isset($_COOKIE['SaitoPersistent'])) :
+        unset($_COOKIE['SaitoPersistent']);
+      endif;
 			if ( isset($this->controller->Session) && !empty($this->controller->Session) ) :
 				$this->controller->Session->delete('Auth.User');
 			endif;
@@ -100,6 +105,8 @@
 
 		public function setUp() {
 			parent::setUp();
+
+      $this->_logoutUser();
 
 			Configure::write('Cache.disable', true);
       Configure::write('Config.language', 'eng');

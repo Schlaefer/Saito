@@ -111,6 +111,17 @@
 						'user_lock' => 0,
 						'personal_messages' => 0,
 				),
+				array(
+						'id' => 6,
+						'username' => 'Second Admin',
+						'user_type' => 'admin',
+						'user_email' => 'second admin@example.com',
+						'password' => '098f6bcd4621d373cade4e832627b4f6',
+						'slidetab_order' => null,
+						'user_automaticaly_mark_as_read' => 1,
+						'user_lock' => 0,
+						'personal_messages' => 0,
+				),
 		);
 
 	}

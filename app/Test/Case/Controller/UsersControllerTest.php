@@ -163,38 +163,80 @@
 			/*
        *  not logged in can't delete
        */
-			$this->testAction('/users/delete/3');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+      try {
+        $this->testAction('/admin/users/delete/3');
+      } catch (ForbiddenException $exc) {
+        $this->controller->User->contain();
+        $result = $this->controller->User->findById(3);
+        $this->assertTrue($result != FALSE);
+      }
 
       /*
-       * user can't delete users
+       * user can't delete admin/users
        */
       $this->_loginUser(3);
-			$this->testAction('/users/delete/4');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+      try {
+        $this->testAction('/admin/users/delete/4');
+      } catch (ForbiddenException $exc) {
+        $this->controller->User->contain();
+        $result = $this->controller->User->findById(4);
+        $this->assertTrue($result != FALSE);
+      }
 
       /*
-       *  mods can't delete users
+       *  mods can't delete admin/users
        */
       $this->_loginUser(2);
-			$this->testAction('/users/delete/4');
+      try {
+        $this->testAction('/admin/users/delete/4');
+      } catch (ForbiddenException $exc) {
+        $this->controller->User->contain();
+        $result = $this->controller->User->findById(4);
+        $this->assertTrue($result != FALSE);
+      }
+
+      /*
+       *  admin can access delete ui
+       */
+      $this->_loginUser(6);
+      $this->testAction('/admin/users/delete/4');
+			$this->assertFalse(isset($this->headers['location']));
+
+      /*
+       * you can't delete non existing users
+       */
+      $countBeforeDelete = $this->controller->User->find('count');
+      $data = array ('User' => array ('modeDelete' => 1));
+      $this->_loginUser(6);
+			$this->testAction( '/admin/users/delete/9999', array( 'data' => $data));
+      $countAfterDelete = $this->controller->User->find('count');
+      $this->assertEqual($countBeforeDelete, $countAfterDelete);
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 
       /*
        * you can't delete yourself
        */
-      $this->_loginUser(1);
-			$this->testAction('/users/delete/1');
+      $data = array ('User' => array ('modeDelete' => 1));
+      $this->_loginUser(6);
+			$this->testAction( '/admin/users/delete/6', array( 'data' => $data));
+      $this->controller->User->contain();
+      $result = $this->controller->User->findById(6);
+      $this->assertTrue($result != FALSE);
+
+      /*
+       * you can't delete the root user
+       */
+      $this->_loginUser(6);
+			$this->testAction( '/admin/users/delete/1', array( 'data' => $data));
       $this->controller->User->contain();
       $result = $this->controller->User->findById(1);
       $this->assertTrue($result != FALSE);
-			$this->assertContains('users/view/1', $this->headers['Location']);
 
       /*
        * admin deletes user
        */
-      $this->_loginUser(1);
-			$this->testAction('/users/delete/5');
+      $this->_loginUser(6);
+			$this->testAction( '/admin/users/delete/5', array( 'data' => $data));
       $this->controller->User->contain();
       $result = $this->controller->User->findById(5);
       $this->assertFalse($result);

@@ -65,6 +65,46 @@
 			$this->assertEqual($result, $expected);
 		}
 
+    public function testAnonymizeEntriesFromUser() {
+      $this->Entry->anonymizeEntriesFromUser(3);
+
+      // user has no entries anymore
+      $expected = 0;
+      $result = $this->Entry->find('count', array(
+          'conditions' => array ('Entry.user_id' => 3)
+      ));
+      $this->assertEqual($result, $expected);
+
+      // entries are now assigned to user_id 0
+      $expected = 3;
+      $result = $this->Entry->find('count', array(
+          'conditions' => array ('Entry.user_id' => 0)
+      ));
+      $this->assertEqual($result, $expected);
+
+      // name is removed
+      $expected = 0;
+      $result = $this->Entry->find('count', array(
+          'conditions' => array ('Entry.name' => 'Ulysses')
+      ));
+      $this->assertEqual($result, $expected);
+
+      // edited by is removed
+      $expected = 0;
+      $result = $this->Entry->find('count', array(
+          'conditions' => array ('Entry.edited_by' => 'Ulysses')
+      ));
+      $this->assertEqual($result, $expected);
+
+      // ip is removed
+      $expected = 0;
+      $result = $this->Entry->find('count', array(
+          'conditions' => array ('Entry.ip' => '1.1.1.1')
+      ));
+      $this->assertEqual($result, $expected);
+
+    }
+
 		public function startTest() {
 			$this->Entry = ClassRegistry::init('Entry');
 		}
