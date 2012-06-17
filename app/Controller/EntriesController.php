@@ -418,7 +418,9 @@ class EntriesController extends AppController {
 
 					$this->paginate = array(
 							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$searchTerm' IN BOOLEAN MODE)*100) + (MATCH (Entry.text) AGAINST ('$searchTerm' IN BOOLEAN MODE)*10) + MATCH (Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE) AS rating",
-							'conditions' => "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
+							'conditions' => array(
+                "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
+                'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())),
 							'order' => 'rating DESC, `Entry`.`time` DESC',
 							/*
 							  'conditions' 	=> array(
@@ -448,6 +450,7 @@ class EntriesController extends AppController {
 					$this->request->params['named']);
 			$paginateSettings['conditions']['time >'] = date(
 					'Y-m-d H:i:s', mktime( 0, 0, 0, $searchStartMonth, 1, $searchStartYear ));
+			$paginateSettings['conditions']['Entry.category'] = $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession());
 			$paginateSettings['order'] = array('Entry.time' => 'DESC');
 			$paginateSettings['limit'] = 25;
 			$this->paginate = $paginateSettings;
