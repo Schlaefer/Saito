@@ -96,11 +96,6 @@ CakePlugin::load('Search');
 CakePlugin::load('Embedly');
 
 /**
- * Set the theme
- */
-Configure::write('Saito.theme', 'default');
-
-/**
  * Activate Saito Cache:
  *
  * true: (default) use cache
@@ -113,26 +108,7 @@ Configure::write('Saito.Cache.Thread', TRUE);
  * @td document in namespace
  */
 Configure::write('Saito.markItUp.nextCssId', 12);
-/*
- *
-Configure::write(
-		'Saito.markItUp.additionalButtons',
-		array(
-			'Button1' => array(
-					// image in img/markitup/<button>.png
-					'button'			=> 'button1',
-					// code inserted into text
-					'code' 				=> ':action:',
-					// format replacement as image
-					'type'				=> 'image',
-					// replacement in output
-					'replacement' => 'resultofbutton1.png'
-				),
-* 			// …
-			)
-		);
- *
- */
+
 
 include 'saito_config.php';
 
