@@ -1,5 +1,6 @@
 <?php
 
+  App::uses('CakeEvent', 'Event');
   App::uses('BcryptAuthenticate', 'Controller/Component/Auth');
   App::uses('MlfAuthenticate', 'Controller/Component/Auth');
 
@@ -310,6 +311,24 @@ class User extends AppModel {
 		return $out;
 
 	}
+
+  public function activate() {
+    $success = $this->saveField('activate_code', '');
+
+    if ( $success ) :
+      $this->contain();
+      $user = $this->read();
+      $this->getEventManager()->dispatch(
+          new CakeEvent(
+              'Model.User.afterActivate',
+              $this,
+              array('User' => $user['User'])
+              )
+          );
+    endif;
+
+    return $success;
+  }
 
 	/**
 	 * Custom hash function used for authentication with Auth component
