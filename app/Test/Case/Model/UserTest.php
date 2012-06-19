@@ -264,6 +264,12 @@
 
 		public function testRegister() {
 
+      Configure::write('Saito.Settings.store_ip',1);
+      Configure::write('Saito.Settings.store_ip_anonymized',0);
+
+      $currentIp = $_SERVER['REMOTE_ADDR'];
+      $_SERVER['REMOTE_ADDR'] = '192.168.123.45';
+
 			// new user
 			$pw = 'test';
 			$data = array(
@@ -279,10 +285,11 @@
 
 			$this->assertTrue($this->User->checkPassword($pw, $this->User->field('password')));
 
-			$result = $this->User->read(array( 'username', 'user_email', 'user_type', 'user_view', 'registered' ));
+			$result = $this->User->read(array( 'username', 'user_email', 'user_type', 'user_view', 'registered', 'register_ip' ));
 			$expected = array_merge($data['User'],
 					array(
 					'registered' => date('Y-m-d H:i:s', $now),
+          'register_ip' => '192.168.123.45',
 					'user_type' => 'user',
 					'user_view' => 'thread',
 					)
@@ -294,6 +301,8 @@
 			$result = $result['User'];
 			$result = array_intersect_key($result, $expected);
 			$this->assertEqual($result, $expected);
+
+      $_SERVER['REMOTE_ADDR'] = $currentIp;
 		}
 
 		public function setUp() {

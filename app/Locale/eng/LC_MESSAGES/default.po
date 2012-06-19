@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-14 21:30+0100\n"
-"PO-Revision-Date: 2012-06-14 21:30+0100\n"
+"POT-Creation-Date: 2012-06-19 19:05+0100\n"
+"PO-Revision-Date: 2012-06-19 19:05+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -167,8 +167,11 @@ msgid "Move entries and delete category"
 msgstr ""
 
 #: View/Categories/admin_delete.ctp:43
-#: View/Categories/admin_delete.ctp:69
 msgid "Delete entries and delete category"
+msgstr ""
+
+#: View/Categories/admin_delete.ctp:69
+msgid "Make It So"
 msgstr ""
 
 #: View/Categories/admin_delete.ctp:76
@@ -370,10 +373,10 @@ msgid "views_headline"
 msgstr "views"
 
 #: View/Elements/entry/view_posting.ctp:12
-#: View/Elements/entry/view_posting.ctp:125
-#: View/Elements/layout/header_login.ctp:23
-#: View/Elements/layout/header_login.ctp:29
-#: View/Elements/layout/header_login.ctp:30
+#: View/Elements/entry/view_posting.ctp:131
+#: View/Elements/layout/header_login.ctp:34
+#: View/Elements/layout/header_login.ctp:40
+#: View/Elements/layout/header_login.ctp:41
 msgid "Help"
 msgstr ""
 
@@ -382,39 +385,39 @@ msgid "button_mod_panel_shp"
 msgstr ""
 
 #: View/Elements/entry/view_posting.ctp:28
-#: View/Elements/entry/view_posting.ctp:156
+#: View/Elements/entry/view_posting.ctp:162
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: View/Elements/entry/view_posting.ctp:42
+#: View/Elements/entry/view_posting.ctp:43
 msgid "fixed_set_entry_link"
 msgstr "Pin"
 
-#: View/Elements/entry/view_posting.ctp:42
+#: View/Elements/entry/view_posting.ctp:44
 msgid "fixed_unset_entry_link"
 msgstr "Unpin"
 
-#: View/Elements/entry/view_posting.ctp:60
+#: View/Elements/entry/view_posting.ctp:64
 msgid "locked_set_entry_link"
 msgstr "Lock"
 
-#: View/Elements/entry/view_posting.ctp:60
+#: View/Elements/entry/view_posting.ctp:65
 msgid "locked_unset_entry_link"
 msgstr "Unlock"
 
-#: View/Elements/entry/view_posting.ctp:79
+#: View/Elements/entry/view_posting.ctp:85
 msgid "delete_tree_link"
 msgstr "Delete"
 
-#: View/Elements/entry/view_posting.ctp:86
+#: View/Elements/entry/view_posting.ctp:92
 msgid "delete_tree_link_confirm_message"
 msgstr "Deleting a thread can't be undone! Are you sure you want to delete the thread?"
 
-#: View/Elements/entry/view_posting.ctp:126
+#: View/Elements/entry/view_posting.ctp:132
 msgid "answering_forbidden_locked_shp"
 msgstr "Answering forbidden by moderator."
 
-#: View/Elements/entry/view_posting.ctp:133
+#: View/Elements/entry/view_posting.ctp:139
 msgid "forum_answer_linkname"
 msgstr "Answer"
 
@@ -458,22 +461,23 @@ msgid "register_linkname"
 msgstr "Register"
 
 #: View/Elements/layout/header_login.ctp:7
+#: View/Elements/layout/header_login.ctp:9
 msgid "login_btn"
 msgstr "Login"
 
-#: View/Elements/layout/header_login.ctp:12
+#: View/Elements/layout/header_login.ctp:16
 msgid "Adminbereich @lo"
 msgstr ""
 
-#: View/Elements/layout/header_login.ctp:15
+#: View/Elements/layout/header_login.ctp:22
 msgid "user_profile"
 msgstr "User Profile"
 
-#: View/Elements/layout/header_login.ctp:18
+#: View/Elements/layout/header_login.ctp:27
 msgid "logout_linkname"
 msgstr "Logout"
 
-#: View/Elements/layout/header_login.ctp:31
+#: View/Elements/layout/header_login.ctp:42
 msgid "No help for this page available."
 msgstr ""
 
@@ -494,7 +498,11 @@ msgstr "User"
 msgid "%s online (%s)"
 msgstr ""
 
-#: View/Elements/layout/slidetab_userlist.ctp:33
+#: View/Elements/layout/slidetab_userlist.ctp:29
+msgid "ud_admin"
+msgstr "Administrator"
+
+#: View/Elements/layout/slidetab_userlist.ctp:30
 msgid "ud_mod"
 msgstr "Moderator"
 
@@ -540,7 +548,6 @@ msgid "user_pw_confirm"
 msgstr "Confirm Password"
 
 #: View/Elements/users/login_form.ctp:5
-#: View/Entries/search.ctp:61
 msgid "user_name"
 msgstr "Username"
 
@@ -871,19 +878,19 @@ msgstr ""
 msgid "Flattr Allow Posting"
 msgstr ""
 
-#: View/Layouts/admin.ctp:24
+#: View/Layouts/admin.ctp:28
 msgid "Overview"
 msgstr ""
 
-#: View/Layouts/admin.ctp:29
+#: View/Layouts/admin.ctp:33
 msgid "Settings"
 msgstr ""
 
-#: View/Layouts/admin.ctp:35
+#: View/Layouts/admin.ctp:39
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:42
+#: View/Layouts/admin.ctp:46
 msgid "Forum"
 msgstr ""
 
@@ -1255,6 +1262,7 @@ msgid "Powered by Saito  v%s."
 msgstr ""
 
 #: View/Uploads/add.ctp:10
+#: View/Uploads/index.ctp:29
 msgid "upload_btn"
 msgstr "Upload"
 
@@ -1273,6 +1281,15 @@ msgstr "Insert"
 
 #: View/Users/admin_add.ctp:4
 msgid "Add User"
+msgstr ""
+
+#: View/Users/admin_delete.ctp:1
+msgid "Delete User"
+msgstr ""
+
+#: View/Users/admin_delete.ctp:22
+#, php-format
+msgid "Delete user %s"
 msgstr ""
 
 #: View/Users/changepassword.ctp:9
@@ -1318,7 +1335,7 @@ msgid "user_area_title"
 msgstr ""
 
 #: View/Users/edit.ctp:18
-#: View/Users/view.ctp:169
+#: View/Users/view.ctp:183
 msgid "edit_userdata"
 msgstr "Edit"
 
@@ -1331,8 +1348,7 @@ msgstr "Name"
 
 #: View/Users/edit.ctp:34
 #: View/Users/edit.ctp:70
-#: View/Users/index.ctp:16
-#: View/Users/view.ctp:46
+#: View/Users/view.ctp:53
 msgid "userlist_email"
 msgstr "Email"
 
@@ -1364,8 +1380,7 @@ msgid "user_real_name_exp"
 msgstr ""
 
 #: View/Users/edit.ctp:106
-#: View/Users/index.ctp:17
-#: View/Users/view.ctp:53
+#: View/Users/view.ctp:65
 msgid "user_hp"
 msgstr "Homepage"
 
@@ -1374,7 +1389,7 @@ msgid "user_hp_exp"
 msgstr ""
 
 #: View/Users/edit.ctp:113
-#: View/Users/view.ctp:60
+#: View/Users/view.ctp:72
 msgid "user_place"
 msgstr "Place"
 
@@ -1387,7 +1402,7 @@ msgid "user_profile_exp"
 msgstr ""
 
 #: View/Users/edit.ctp:129
-#: View/Users/view.ctp:89
+#: View/Users/view.ctp:101
 msgid "user_signature"
 msgstr "Signature"
 
@@ -1540,7 +1555,7 @@ msgid "new_user_notify_exp"
 msgstr ""
 
 #: View/Users/edit.ctp:268
-#: View/Users/view.ctp:97
+#: View/Users/view.ctp:109
 msgid "flattr"
 msgstr ""
 
@@ -1572,15 +1587,15 @@ msgstr ""
 msgid "reg_users_hl"
 msgstr "Registered Users"
 
-#: View/Users/index.ctp:18
+#: View/Users/index.ctp:16
 msgid "userlist_online"
 msgstr "Online"
 
-#: View/Users/index.ctp:19
+#: View/Users/index.ctp:17
 msgid "registered"
 msgstr "Registered"
 
-#: View/Users/index.ctp:22
+#: View/Users/index.ctp:20
 #, fuzzy
 msgid "user_lock"
 msgstr "Place"
@@ -1606,23 +1621,27 @@ msgstr "Show User's Entries"
 msgid "user_block"
 msgstr "Place"
 
-#: View/Users/view.ctp:67
+#: View/Users/view.ctp:58
+msgid "register_ip"
+msgstr "Register IP"
+
+#: View/Users/view.ctp:79
 msgid "user_since"
 msgstr "Registred"
 
-#: View/Users/view.ctp:68
+#: View/Users/view.ctp:80
 msgid "date_short"
 msgstr ""
 
-#: View/Users/view.ctp:71
+#: View/Users/view.ctp:83
 msgid "user_postings"
 msgstr "Number of Postings"
 
-#: View/Users/view.ctp:138
+#: View/Users/view.ctp:150
 msgid "Unlock"
 msgstr ""
 
-#: View/Users/view.ctp:138
+#: View/Users/view.ctp:150
 msgid "Lock"
 msgstr ""
 
@@ -1702,16 +1721,16 @@ msgstr "Answer"
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:537
+#: Controller/EntriesController.php:540
 msgid "_set_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:537
+#: Controller/EntriesController.php:540
 msgid "_unset_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:692
-#: Controller/EntriesController.php:702
+#: Controller/EntriesController.php:695
+#: Controller/EntriesController.php:705
 msgid "Invalid post"
 msgstr ""
 
@@ -1772,88 +1791,92 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr ""
 
-#: Controller/UsersController.php:51
-#: Controller/UsersController.php:275
+#: Controller/UsersController.php:53
+#: Controller/UsersController.php:276
 #, php-format
 msgid "User %s is locked."
 msgstr ""
 
-#: Controller/UsersController.php:57
+#: Controller/UsersController.php:59
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
-#: Controller/UsersController.php:103
+#: Controller/UsersController.php:104
 msgid "register_email_subject"
 msgstr "Welcome to %s!"
 
-#: Controller/UsersController.php:160
-#: Controller/UsersController.php:182
+#: Controller/UsersController.php:161
+#: Controller/UsersController.php:183
 msgid "Invalid user"
 msgstr ""
 
-#: Controller/UsersController.php:216
+#: Controller/UsersController.php:217
 msgid "user_edit_success"
 msgstr "Preferences were saved."
 
-#: Controller/UsersController.php:229
+#: Controller/UsersController.php:230
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:257
-#: Controller/UsersController.php:297
+#: Controller/UsersController.php:258
+#: Controller/UsersController.php:295
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
 
-#: Controller/UsersController.php:265
+#: Controller/UsersController.php:266
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:267
+#: Controller/UsersController.php:268
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:277
+#: Controller/UsersController.php:278
 #, php-format
 msgid "User %s is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:281
+#: Controller/UsersController.php:282
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:305
+#: Controller/UsersController.php:301
 msgid "You can't delete yourself."
 msgstr ""
 
-#: Controller/UsersController.php:307
-msgid "You can't delete users with postings."
+#: Controller/UsersController.php:303
+msgid "You can't delete the installation account."
 msgstr ""
 
-#: Controller/UsersController.php:309
+#: Controller/UsersController.php:305
 #, php-format
 msgid "User %s deleted."
 msgstr ""
 
-#: Controller/UsersController.php:312
+#: Controller/UsersController.php:308
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:334
+#: Controller/UsersController.php:333
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:397
+#: Controller/UsersController.php:396
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:400
+#: Controller/UsersController.php:399
 msgid "Error, message couldn't be send! "
 msgstr ""
 
-#: Controller/Component/CurrentUserComponent.php:225
+#: Controller/Component/CurrentUserComponent.php:227
 msgid "auth_autherror"
 msgstr "Access to this function is restricted!"
+
+#: Controller/Component/EmailNotificationComponent.php:33
+msgid "Successfull registration"
+msgstr ""
 
 #: Lib/SaitoEntry.php:74
 msgid "notice_you_are_editing_as_mod"
@@ -1984,20 +2007,11 @@ msgstr ""
 msgid "yesterday"
 msgstr ""
 
-#: View/Helper/UserHHelper.php:108
+#: View/Helper/UserHHelper.php:109
 msgid "ud_user"
 msgstr "User"
 
-#: View/Helper/UserHHelper.php:112
-msgid "ud_admin"
-msgstr "Administrator"
-
-#: View/Helper/UserHHelper.php:126
-#: View/Helper/UserHHelper.php:148
-msgid "homepage_alt"
-msgstr ""
-
-#: View/Helper/UserHHelper.php:162
+#: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
 
