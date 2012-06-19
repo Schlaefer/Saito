@@ -259,28 +259,6 @@
 			$this->assertFalse(isset($this->headers['location']));
 
       /*
-       * test changing password
-       */
-      $this->_loginUser(5);
-      $data = array(
-          'User' => array(
-              'password_old'      => 'test',
-              'user_password'     => 'test_new',
-              'password_confirm'  => 'test_new',
-          )
-        );
-      $this->testAction(
-          '/users/changepassword/5',
-          array('data'  => $data, 'method'  => 'post')
-          );
-
-      $expected = 'bc681d86e82c720af115786cb716a25e';
-      $this->controller->User->contain();
-      $result = $this->controller->User->findById(5);
-      $this->assertEqual($result['User']['password'], $expected);
-			$this->assertContains('users/edit', $this->headers['Location']);
-      
-      /*
        * test password confirmation failed
        */
       $this->_loginUser(4);
@@ -349,6 +327,28 @@
       $result = $this->controller->User->read();
       $this->assertEqual($result['User']['password'], $expected);
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+      /*
+       * test changing password
+       */
+      $this->_loginUser(5);
+      $data = array(
+          'User' => array(
+              'password_old'      => 'test',
+              'user_password'     => 'test_new',
+              'password_confirm'  => 'test_new',
+          )
+        );
+      $this->testAction(
+          '/users/changepassword/5',
+          array('data'  => $data, 'method'  => 'post')
+          );
+
+      $this->controller->User->contain();
+      $result = $this->controller->User->findById(5);
+      $this->assertTrue(BcryptAuthenticate::checkPassword('test_new', $result['User']['password']));
+			$this->assertContains('users/edit', $this->headers['Location']);
+
 
 
     }

@@ -3,7 +3,14 @@
 	App::uses('User', 'Model');
 	App::uses('Security', 'Utility');
 
-	class UserTest extends CakeTestCase {
+  class UserMockup extends User {
+
+    public function checkPassword($password, $hash) {
+      return $this->_checkPassword($password, $hash);
+    }
+  }
+
+	class UserTestCase extends CakeTestCase {
 
 		public $fixtures = array(
 				'app.user',
@@ -107,35 +114,15 @@
 			$this->assertEqual($usersBeforeIncrements, $usersAfterIncrements);
 		}
 
-		public function testHashPassword() {
-
-			//* setup
-			$useSaltForUserPasswords = Configure::read('Saito.useSaltForUserPasswords');
-			$salt = Configure::read('Security.salt');
+		public function testSetPassword() {
 
 			//* test without salt
-			Configure::write('Saito.useSaltForUserPasswords', FALSE);
-			$new_password = 'test1'; // '3e7705498e8be60520841409ebc69bc1';
+			$new_password = 'test1';
 			$this->User->id = 3;
 			$this->User->saveField('password', $new_password);
-			$expected = md5($new_password);
-			$result = $this->User->field('password');
-			$this->assertEqual($expected, $result);
+			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
+			$this->assertTrue($result);
 
-			//* test with salt
-			$testSalt = 'foo';
-			Configure::write('Saito.useSaltForUserPasswords', TRUE);
-			Configure::write('Security.salt', $testSalt);
-			$new_password = 'test1'; // '3e7705498e8be60520841409ebc69bc1';
-			$this->User->id = 3;
-			$this->User->saveField('password', $new_password);
-			$expected = md5($testSalt . $new_password);
-			$result = $this->User->field('password');
-			$this->assertEqual($expected, $result);
-
-			//* teardown
-			Configure::write('Saito.useSaltForUserPasswords', $useSaltForUserPasswords);
-			Configure::write('Security.Salt', $salt);
 		}
 
 		public function testAfterFind() {
@@ -152,7 +139,7 @@
 			$this->User->save($data);
 			$this->User->contain();
 			$expected = array(
-					'User' => array(
+					$this->User->name => array(
 							'user_color_new_postings' => '#',
 							'user_color_old_postings' => '#',
 							'user_color_actual_posting' => '#',
@@ -230,7 +217,6 @@
 		}
 
 		public function testValidateCheckOldPassword() {
-
 			$this->User->id = 3;
 			$data = array(
 					'User' => array(
@@ -269,7 +255,10 @@
 			);
 			$now = time();
 			$result = $this->User->register($data);
-			$result = $this->User->read(array( 'username', 'password', 'user_email', 'user_type', 'user_view', 'registered' ));
+
+			$this->assertTrue($this->User->checkPassword($pw, $this->User->field('password')));
+
+			$result = $this->User->read(array( 'username', 'user_email', 'user_type', 'user_view', 'registered' ));
 			$expected = array_merge($data['User'],
 					array(
 					'registered' => date('Y-m-d H:i:s', $now),
@@ -277,8 +266,10 @@
 					'user_view' => 'thread',
 					)
 			);
+
 			unset($expected['password_confirm']);
-			$expected['password'] = md5($pw);
+			unset($expected['password']);
+
 			$result = $result['User'];
 			$result = array_intersect_key($result, $expected);
 			$this->assertEqual($result, $expected);
@@ -289,7 +280,7 @@
 
 			Configure::write('Saito.useSaltForUserPasswords', FALSE);
 
-			$this->User = ClassRegistry::init('User');
+			$this->User = ClassRegistry::init(array('class' => 'UserMockup', 'alias' => 'User'));
 		}
 
 	}

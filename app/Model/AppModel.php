@@ -1,5 +1,6 @@
 <?php
 
+	App::uses('Model', 'Model');
 App::uses('Sanitize', 'Utility');
 
 // import here so that `cake schema ...` cli works
