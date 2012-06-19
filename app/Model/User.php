@@ -1,10 +1,16 @@
 <?php
 
+  App::uses('AppModel', 'Model');
   App::uses('CakeEvent', 'Event');
+
+  /**
+   * Authentication methods
+   */
   App::uses('BcryptAuthenticate', 'Controller/Component/Auth');
   App::uses('MlfAuthenticate', 'Controller/Component/Auth');
+  App::uses('Mlf2Authenticate', 'Controller/Component/Auth');
 
-/**
+  /**
  * @td verify that old pw is needed for changing pw(?) [See user.test.php both validatePw tests]
  */
 class User extends AppModel {
@@ -270,9 +276,11 @@ class User extends AppModel {
 		$valid = false;
 		$this->contain('UserOnline');
 		$old_pw = $this->field('password');
-		if ( $old_pw == $this->_hashPassword($data['password_old']) ) :
+		if ( $this->_checkPassword($data['password_old'], $old_pw) ) :
 			$valid = true;
-    elseif ( $old_pw == MlfAuthenticate::hash($data['password_old']) ) :
+    elseif ( $old_pw === MlfAuthenticate::hash($data['password_old']) ) :
+			$valid = true;
+    elseif ( Mlf2Authenticate::checkPassword($data['password_old'], $old_pw) ) :
 			$valid = true;
     endif;
 		return $valid;
@@ -330,11 +338,21 @@ class User extends AppModel {
     return $success;
   }
 
+  /**
+   *
+   * @param string $password
+   * @param string $hash
+   * @return boolean TRUE if password match FALSE otherwise
+   */
+  public function _checkPassword($password, $hash) {
+    return BcryptAuthenticate::checkPassword($password, $hash);
+  }
+
 	/**
 	 * Custom hash function used for authentication with Auth component
 	 *
-	 * @param array $data
-	 * @return array
+	 * @param string $password
+	 * @return string hashed password
 	 */
 	protected function _hashPassword($password) {
     return BcryptAuthenticate::hash($password);

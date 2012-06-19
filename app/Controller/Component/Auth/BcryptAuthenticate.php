@@ -1,11 +1,11 @@
 <?php
 
-  App::uses('FormAuthenticate', 'Controller/Component/Auth');
+  App::uses('FormAuthenticateSalted', 'Lib/Controller/Component/Auth');
 
   /**
    * @see http://mark-story.com/posts/view/using-bcrypt-for-passwords-in-cakephp
    */
-  class BcryptAuthenticate extends FormAuthenticate {
+  class BcryptAuthenticate extends FormAuthenticateSalted {
 
     /**
      * The cost factor for the hashing.
@@ -14,14 +14,9 @@
      */
     public static $cost = 10;
 
-    /**
-     * Password method used for logging in.
-     *
-     * @param string $password Password.
-     * @return string Hashed password.
-     */
-    protected function _password($password) {
-      return self::hash($password);
+    public static function checkPassword($password, $hash) {
+      $salt = substr($hash, 5 + strlen(self::$cost), 22);
+      return self::_crypt($password, $salt) === $hash;
     }
 
     /**
@@ -32,7 +27,11 @@
      * @return string Hashed password.
      */
     public static function hash($password) {
-      $salt = substr(Configure::read('Security.salt'), 0, 22);
+      $salt = self::_generateRandomString(22);
+      return self::_crypt($password, $salt);
+    }
+
+    protected static function _crypt($password, $salt) {
       return crypt($password, '$2a$' . self::$cost . '$' . $salt);
     }
 
