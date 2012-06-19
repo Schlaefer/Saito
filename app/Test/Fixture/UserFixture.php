@@ -116,7 +116,7 @@
 						'username' => 'Second Admin',
 						'user_type' => 'admin',
 						'user_email' => 'second admin@example.com',
-						'password' => '098f6bcd4621d373cade4e832627b4f6',
+						'password' => '$2a$10$7d0000dd8a37f797acb53OY.oaPgJ2vV4PE3.VBpmsm9OM/zMlzNq', //testtest
 						'slidetab_order' => null,
 						'user_automaticaly_mark_as_read' => 1,
 						'user_lock' => 0,

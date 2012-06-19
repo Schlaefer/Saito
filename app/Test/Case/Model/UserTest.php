@@ -116,7 +116,6 @@
 
 		public function testSetPassword() {
 
-			//* test without salt
 			$new_password = 'test1';
 			$this->User->id = 3;
 			$this->User->saveField('password', $new_password);
@@ -240,6 +239,28 @@
 			$this->assertFalse(array_key_exists('password_old',
 							$this->User->validationErrors));
 		}
+
+    public function testAutoUpdatePassword() {
+
+      // test exchanging
+			$new_password = 'testtest';
+			$this->User->id = 3;
+			$this->User->autoUpdatePassword($new_password);
+			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
+			$this->assertTrue($result);
+
+      // don't exchange if up to date
+			$new_password = 'testtest';
+			$this->User->id = 6;
+      $old_password = $this->User->field('password');
+
+			$this->User->autoUpdatePassword($new_password);
+			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
+			$this->assertTrue($result);
+
+      $new_password = $this->User->field('password');
+      $this->assertEqual($old_password, $new_password);
+    }
 
 		public function testRegister() {
 
