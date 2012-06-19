@@ -71,6 +71,32 @@ class AppModel extends Model {
     return $unpipedArray;
   }
 
+  protected static function _getIp() {
+    $ip = NULL;
+    if ( Configure::read('Saito.Settings.store_ip') ):
+      $ip = env('REMOTE_ADDR');
+      if ( Configure::read('Saito.Settings.store_ip_anonymized' ) ):
+        $ip = self::_anonymizeIp($ip);
+      endif;
+    endif;
+    return $ip;
+  }
+
+  /**
+   * Rough and tough ip anonymizer
+   *
+   * @param string $ip
+   * @return string
+   */
+  protected static function _anonymizeIp($ip) {
+    $strlen = strlen($ip);
+    if ( $strlen > 6 ) :
+      $divider = (int)floor($strlen / 4) + 1;
+      $ip = substr_replace($ip, '…', $divider, $strlen - (2 * $divider));
+    endif;
+
+    return $ip;
+  }
 
 }
 ?>

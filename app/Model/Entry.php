@@ -141,13 +141,7 @@ class Entry extends AppModel {
 
 		$data['Entry']['time']				= date("Y-m-d H:i:s");
 		$data['Entry']['last_answer'] = date("Y-m-d H:i:s");
-
-    if ( Configure::read('Saito.Settings.store_ip') ) :
-      $data['Entry']['ip'] = env('REMOTE_ADDR');
-      if ( Configure::read('Saito.Settings.store_ip_anonymized' )) :
-        $data['Entry']['ip'] = self::_anonymizeIp($data['Entry']['ip']);
-      endif;
-    endif;
+    $data['Entry']['ip']          = self::_getIp();
 
 		$this->create();
 		$new_posting = $this->save($data, $validate, $fieldList);
@@ -402,22 +396,6 @@ class Entry extends AppModel {
 			endif;
 		endforeach;
 	}
-
-  /**
-   * Rough and tough ip anonymizer
-   * 
-   * @param string $ip
-   * @return string 
-   */
-  protected static function _anonymizeIp($ip) {
-    $strlen = strlen($ip);
-    if ( $strlen > 6 ) :
-      $divider = (int)floor($strlen / 4) + 1;
-      $ip = substr_replace($ip, '…', $divider, $strlen - (2 * $divider));
-    endif;
-
-    return $ip;
-    }
 
 	/**
 	 * Locks or unlocks a whole thread

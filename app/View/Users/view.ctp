@@ -47,13 +47,18 @@
 						$this->UserH->minusIfEmpty($this->UserH->contact($user['User'])),
 					);
 			}
-		if ( $CurrentUser->isAdmin() ) {
+		if ( $CurrentUser->isAdmin() ):
 			$table[] =
 					array (
 						__('userlist_email'),
 						$this->Html->link($user['User']['user_email'], 'mailto:'.$user['User']['user_email']),
 					);
-			}
+			$table[] =
+					array (
+						__('register_ip'),
+						$user['User']['register_ip'],
+					);
+    endif;
 		if (!empty($user['User']['user_hp'])) {
 			$table[] = 	
 					array (

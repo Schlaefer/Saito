@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-15 15:08+0100\n"
-"PO-Revision-Date: 2012-06-15 15:09+0100\n"
+"POT-Creation-Date: 2012-06-19 19:04+0100\n"
+"PO-Revision-Date: 2012-06-19 19:05+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -171,8 +171,11 @@ msgid "Move entries and delete category"
 msgstr ""
 
 #: View/Categories/admin_delete.ctp:43
-#: View/Categories/admin_delete.ctp:69
 msgid "Delete entries and delete category"
+msgstr ""
+
+#: View/Categories/admin_delete.ctp:69
+msgid "Make It So"
 msgstr ""
 
 #: View/Categories/admin_delete.ctp:76
@@ -388,7 +391,7 @@ msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:12
-#: View/Elements/entry/view_posting.ctp:125
+#: View/Elements/entry/view_posting.ctp:131
 #: View/Elements/layout/header_login.ctp:34
 #: View/Elements/layout/header_login.ctp:40
 #: View/Elements/layout/header_login.ctp:41
@@ -400,39 +403,39 @@ msgid "button_mod_panel_shp"
 msgstr "Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder Thread zu bearbeiten."
 
 #: View/Elements/entry/view_posting.ctp:28
-#: View/Elements/entry/view_posting.ctp:156
+#: View/Elements/entry/view_posting.ctp:162
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:42
+#: View/Elements/entry/view_posting.ctp:43
 msgid "fixed_set_entry_link"
 msgstr "Anpinnen"
 
-#: View/Elements/entry/view_posting.ctp:42
+#: View/Elements/entry/view_posting.ctp:44
 msgid "fixed_unset_entry_link"
 msgstr "Abpinnen"
 
-#: View/Elements/entry/view_posting.ctp:60
+#: View/Elements/entry/view_posting.ctp:64
 msgid "locked_set_entry_link"
 msgstr "Sperren"
 
-#: View/Elements/entry/view_posting.ctp:60
+#: View/Elements/entry/view_posting.ctp:65
 msgid "locked_unset_entry_link"
 msgstr "Entsperren"
 
-#: View/Elements/entry/view_posting.ctp:79
+#: View/Elements/entry/view_posting.ctp:85
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:86
+#: View/Elements/entry/view_posting.ctp:92
 msgid "delete_tree_link_confirm_message"
 msgstr "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
 
-#: View/Elements/entry/view_posting.ctp:126
+#: View/Elements/entry/view_posting.ctp:132
 msgid "answering_forbidden_locked_shp"
 msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:133
+#: View/Elements/entry/view_posting.ctp:139
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
@@ -563,7 +566,6 @@ msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
 #: View/Elements/users/login_form.ctp:5
-#: View/Entries/search.ctp:61
 msgid "user_name"
 msgstr "Benutzername"
 
@@ -923,20 +925,20 @@ msgstr "Flattrn"
 msgid "Flattr Allow Posting"
 msgstr "Postings flattrn"
 
-#: View/Layouts/admin.ctp:24
+#: View/Layouts/admin.ctp:28
 msgid "Overview"
 msgstr "Übersicht"
 
-#: View/Layouts/admin.ctp:29
+#: View/Layouts/admin.ctp:33
 #, fuzzy
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: View/Layouts/admin.ctp:35
+#: View/Layouts/admin.ctp:39
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:42
+#: View/Layouts/admin.ctp:46
 msgid "Forum"
 msgstr ""
 
@@ -1317,6 +1319,7 @@ msgid "Powered by Saito  v%s."
 msgstr ""
 
 #: View/Uploads/add.ctp:10
+#: View/Uploads/index.ctp:29
 msgid "upload_btn"
 msgstr "Hochladen"
 
@@ -1336,6 +1339,16 @@ msgstr "Einfügen"
 #: View/Users/admin_add.ctp:4
 msgid "Add User"
 msgstr "Benutzer hinzufügen"
+
+#: View/Users/admin_delete.ctp:1
+#, fuzzy
+msgid "Delete User"
+msgstr "Löschen"
+
+#: View/Users/admin_delete.ctp:22
+#, fuzzy, php-format
+msgid "Delete user %s"
+msgstr "Flattr-Kategorie"
 
 #: View/Users/changepassword.ctp:9
 #: View/Users/edit.ctp:48
@@ -1380,7 +1393,7 @@ msgid "user_area_title"
 msgstr "Profil"
 
 #: View/Users/edit.ctp:18
-#: View/Users/view.ctp:169
+#: View/Users/view.ctp:183
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
@@ -1393,8 +1406,7 @@ msgstr "Benutzername"
 
 #: View/Users/edit.ctp:34
 #: View/Users/edit.ctp:70
-#: View/Users/index.ctp:16
-#: View/Users/view.ctp:46
+#: View/Users/view.ctp:53
 msgid "userlist_email"
 msgstr "E-Mail"
 
@@ -1426,8 +1438,7 @@ msgid "user_real_name_exp"
 msgstr "(optional)"
 
 #: View/Users/edit.ctp:106
-#: View/Users/index.ctp:17
-#: View/Users/view.ctp:53
+#: View/Users/view.ctp:65
 msgid "user_hp"
 msgstr "Homepage"
 
@@ -1436,7 +1447,7 @@ msgid "user_hp_exp"
 msgstr "(optional)"
 
 #: View/Users/edit.ctp:113
-#: View/Users/view.ctp:60
+#: View/Users/view.ctp:72
 msgid "user_place"
 msgstr "Ort"
 
@@ -1449,7 +1460,7 @@ msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
 #: View/Users/edit.ctp:129
-#: View/Users/view.ctp:89
+#: View/Users/view.ctp:101
 msgid "user_signature"
 msgstr "Signatur"
 
@@ -1602,7 +1613,7 @@ msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
 #: View/Users/edit.ctp:268
-#: View/Users/view.ctp:97
+#: View/Users/view.ctp:109
 msgid "flattr"
 msgstr "flattrn"
 
@@ -1634,15 +1645,15 @@ msgstr "Speichern"
 msgid "reg_users_hl"
 msgstr "Benutzerübersicht"
 
-#: View/Users/index.ctp:18
+#: View/Users/index.ctp:16
 msgid "userlist_online"
 msgstr "Status"
 
-#: View/Users/index.ctp:19
+#: View/Users/index.ctp:17
 msgid "registered"
 msgstr "Registriert"
 
-#: View/Users/index.ctp:22
+#: View/Users/index.ctp:20
 msgid "user_lock"
 msgstr "Sperre"
 
@@ -1667,23 +1678,27 @@ msgstr "Beiträge anzeigen"
 msgid "user_block"
 msgstr "Sperre"
 
-#: View/Users/view.ctp:67
+#: View/Users/view.ctp:58
+msgid "register_ip"
+msgstr "Registrierungs-IP"
+
+#: View/Users/view.ctp:79
 msgid "user_since"
 msgstr "Mitglied seit"
 
-#: View/Users/view.ctp:68
+#: View/Users/view.ctp:80
 msgid "date_short"
 msgstr "%d.%m.%Y"
 
-#: View/Users/view.ctp:71
+#: View/Users/view.ctp:83
 msgid "user_postings"
 msgstr "Beiträge"
 
-#: View/Users/view.ctp:138
+#: View/Users/view.ctp:150
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: View/Users/view.ctp:138
+#: View/Users/view.ctp:150
 msgid "Lock"
 msgstr "Sperren"
 
@@ -1768,18 +1783,18 @@ msgstr "Antwort verfassen"
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:537
+#: Controller/EntriesController.php:540
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:537
+#: Controller/EntriesController.php:540
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:692
-#: Controller/EntriesController.php:702
+#: Controller/EntriesController.php:695
+#: Controller/EntriesController.php:705
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1844,88 +1859,92 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:51
-#: Controller/UsersController.php:275
+#: Controller/UsersController.php:53
+#: Controller/UsersController.php:276
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
 
-#: Controller/UsersController.php:57
+#: Controller/UsersController.php:59
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:103
+#: Controller/UsersController.php:104
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:160
-#: Controller/UsersController.php:182
+#: Controller/UsersController.php:161
+#: Controller/UsersController.php:183
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/UsersController.php:216
+#: Controller/UsersController.php:217
 msgid "user_edit_success"
 msgstr "Die Daten wurden gespeichert."
 
-#: Controller/UsersController.php:229
+#: Controller/UsersController.php:230
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:257
-#: Controller/UsersController.php:297
+#: Controller/UsersController.php:258
+#: Controller/UsersController.php:295
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:265
+#: Controller/UsersController.php:266
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:267
+#: Controller/UsersController.php:268
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: Controller/UsersController.php:277
+#: Controller/UsersController.php:278
 #, php-format
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:281
+#: Controller/UsersController.php:282
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:305
+#: Controller/UsersController.php:301
 msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
-#: Controller/UsersController.php:307
+#: Controller/UsersController.php:303
 msgid "You can't delete the installation account."
 msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
-#: Controller/UsersController.php:309
+#: Controller/UsersController.php:305
 #, php-format
 msgid "User %s deleted."
 msgstr "Nutzer %s gelöscht."
 
-#: Controller/UsersController.php:312
+#: Controller/UsersController.php:308
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:334
+#: Controller/UsersController.php:333
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:397
+#: Controller/UsersController.php:396
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:400
+#: Controller/UsersController.php:399
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:225
+#: Controller/Component/CurrentUserComponent.php:227
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
+
+#: Controller/Component/EmailNotificationComponent.php:33
+msgid "Successfull registration"
+msgstr ""
 
 #: Lib/SaitoEntry.php:74
 msgid "notice_you_are_editing_as_mod"
