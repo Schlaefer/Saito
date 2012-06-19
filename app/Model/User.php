@@ -231,6 +231,15 @@ class User extends AppModel {
     return $success;
   }
 
+  public function autoUpdatePassword($password) {
+    $this->contain();
+    $data = $this->read();
+    $oldPassword = $data['User']['password'];
+    if ( strpos($oldPassword, BcryptAuthenticate::$hashIdentifier) !== 0 ):
+      $this->saveField('password', $password);
+    endif;
+  }
+
 	public function afterFind($results, $primary = false) {
 		$results = parent::afterFind($results, $primary);
 

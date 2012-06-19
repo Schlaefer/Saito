@@ -23,6 +23,10 @@ class UsersController extends AppController {
 			$this->User->id = $this->Auth->user('id');
 			$this->_successfulLogin();
 
+      if ( isset($this->request->data['User']) && is_array($this->request->data['User']) && isset($this->request->data['User']['password']) ):
+        $this->User->autoUpdatePassword($this->request->data['User']['password']);
+      endif;
+
 			//* setting cookie
 			if ( isset($this->request->data['User']['remember_me']) && $this->request->data['User']['remember_me'] ):
 				$this->CurrentUser->PersistentCookie->set();

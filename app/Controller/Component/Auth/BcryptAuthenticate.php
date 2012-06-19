@@ -7,6 +7,8 @@
    */
   class BcryptAuthenticate extends FormAuthenticateSalted {
 
+    public static $hashIdentifier = '$2a$';
+
     /**
      * The cost factor for the hashing.
      *
