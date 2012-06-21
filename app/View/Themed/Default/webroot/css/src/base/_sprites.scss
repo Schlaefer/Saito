@@ -23,9 +23,9 @@ $sprites_image: 'sprited_css_images.png';
 @include all-sprite-sprites;
 
 .sprite-nbs-explicit {
-	padding-left: 73px;
+	padding-left: 27px;
 	height: 13px;
 	display: inline-block;
-	vertical-align: text-bottom;
-	margin-left: 2px;
+	vertical-align: middle;
+	margin-bottom: 1px;
 }
