@@ -37,7 +37,7 @@
                       'username'		=> Configure::read('Saito.Settings.forum_name')),
                   ),
               'template' 	=> Configure::read('Config.language') . DS . 'notification-admin-user_activated',
-              'viewVars'  => array( 'user' => $new_user),
+              'viewVars'  => array( 'user' => $new_user, 'ip' => env('REMOTE_ADDR')),
             ));
         } catch (Exception $exc) { }
       endforeach;
