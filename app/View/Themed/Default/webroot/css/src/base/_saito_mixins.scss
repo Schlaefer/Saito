@@ -1,0 +1,124 @@
+/*******************************************************************************
+* border radien
+******************************************************************************/
+
+.c_top-radius {
+	border-top-left-radius: $corner_radius;
+	border-top-right-radius: $corner_radius;
+	}
+
+.c_bottom-radius {
+	border-bottom-left-radius: $corner_radius;
+	border-bottom-right-radius: $corner_radius;
+	}
+
+.c_left-radius {
+	border-bottom-left-radius: $corner_radius;
+	border-top-left-radius: $corner_radius;
+	}
+
+.c_all-radius {
+	@extend .c_top-radius;
+	@extend .c_bottom-radius;
+	}
+
+/******************************************************************************/
+
+// the base gradient
+.gradient-base {
+  background:$saito_base_light;
+  @include background(
+      linear-gradient(bottom, $saito_base_light, rgba(255,255,255, 0.6)),
+      // fallback
+      $saito_base_light
+    );
+}
+
+.gradient-base-horizontal {
+  background:$saito_base_light;
+  @include background(
+      linear-gradient(left, $saito_base_light, rgba(255,255,255, 0.6)),
+      // fallback
+      $saito_base_light
+    );
+}
+
+// basic header style, no rounded corners
+.header_style_1 {
+  @extend .gradient-base;
+	border: $border_width solid $saito_border;
+}
+
+// in page gray headers
+.header_style_2 {
+	background-color: $saito_gray_dark;
+  @include background(
+      linear-gradient(top, white, darken(#ffffff, 6%) 30%, lighten($saito_gray_dark, 6%) 70%, $saito_gray_dark),
+      // fallback
+      $saito_gray_dark
+    );
+  border: $border_width solid $saito_gray_dark;
+  color: #333333;
+	@extend .t_shadow;
+}
+
+// white content box
+.box-content, .box-form {
+	background-color: white;
+
+	border: $border_width solid $saito_gray_dark;
+	@extend .c_all-radius;
+  
+	@extend .box-shadow-inset-subtle;
+
+
+	.content {
+		padding: $padding-content;
+		}
+}
+
+.box-form {
+  background-color: $saito_gray_light;
+ }
+
+.box-header {
+  @extend .header_style_2;
+
+	padding: 0px 5px;
+
+  // border
+	border-color: silver;
+	border-top-color: $saito_gray_dark;
+  border-style: solid;
+  border-width: 0 0 $border_width 0;
+
+  @extend .c_top-radius;
+
+	@extend .box-shadow;
+	// make shure box shadow is always above background; esp. Vorschau header
+	position:relative;
+	z-index: 10;
+
+	h1, h2, h3 {
+		font-size: 13px;
+		font-weight: bold;
+		margin: 0;
+		}
+  }
+
+.l-box-header {
+	@include c_t_h_3_abs();
+  }
+
+.box_layout_1 {
+  width: auto;
+  padding: $padding; }
+
+.navbar-light {
+  @extend .header_style_1;
+  @extend .t_shadow;
+  border-width: $border_width 0;
+  .content {
+    padding: $padding;
+   }
+}

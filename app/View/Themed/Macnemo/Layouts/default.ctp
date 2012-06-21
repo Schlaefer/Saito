@@ -3,37 +3,38 @@
 	?>
 	</head>
 	<body>
-		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') { ?>
-		<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'><?php echo $this->element('users/login_form'); ?></div>
-		<?php } ?>
+		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
+			<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'>
+				<?php echo $this->element('users/login_form'); ?>
+			</div>
+		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
-		<div id="top" >
-				<div class="spnsr">
-					<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden"><?php echo $this->Html->image('forum_logo_badge.png', array( 'alt' => 'Spenden', 'width' => '80', 'height' => '70')); ?></a>
+		<div id="top" class="l-top hero" >
+				<div class="l-top-spnsr">
+ 					<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden"><?php echo $this->Html->image('forum_logo_badge.png', array( 'alt' => 'Spenden', 'width' => '80', 'height' => '70')); ?></a>
+
 				</div>
-				<div class="right">
+				<div class="l-top-right hero-text">
 						<?php echo Stopwatch::start('header_search.ctp');?>
 							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
 						<?php echo Stopwatch::stop('header_search.ctp');?>
 				</div> <!-- .right -->
-				<div class="left">
-						<div class="home">
-							<?php echo $this->Html->link(
-											$this->Html->image(
-															'forum_logo.png',
-															array( 'alt' => 'Logo', 'height' => 70)
-															) ,
-											array ( 'controller' => 'entries', 'action' => 'index', 'admin' => false),
-											array ( 'id' => 'btn_header_logo' , 'escape'=>false));
-							?>
-							<div id="claim"></div>
-					</div>
+        <div class="l-top-left hero-text">
+          <?php
+            echo $this->Html->link(
+                $this->Html->image(
+                    'forum_logo.png', array( 'alt' => 'Logo', 'height' => 70 )
+                ),
+                array( 'controller' => 'entries', 'action' => 'index', 'admin' => false ),
+                array( 'id' => 'btn_header_logo', 'escape' => false ));
+          ?>
+          <div id="claim"></div>
 				</div> <!-- .left -->
-				<div id="header_login">
+				<div class="l-top-menu top-menu">
 						<?php echo $this->element('layout/header_login'); ?>
 				</div>
 		</div> <!-- #top -->
-		<div id="topnav">
+		<div id="topnav" class="navbar">
 			<div>
 				<div>
           <?php echo $this->fetch('headerSubnavLeft'); ?>
@@ -60,8 +61,8 @@
 		<div id="content">
 				<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="footer_pinned">
-			<div id="bottomnav"  >
+		<div id="footer-pinned">
+			<div id="bottomnav" class="navbar">
 				<div>
 						<div>
               <?php echo $this->fetch('headerSubnavLeft'); ?>
@@ -76,7 +77,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="bg_internal" style="overflow:hidden;">
+	<div class="disclaimer" style="overflow:hidden;">
 		<?php
 			if( isset($showDisclaimer) ) {
 				Stopwatch::start('layout/disclaimer.ctp');
@@ -84,7 +85,8 @@
 				Stopwatch::stop('layout/disclaimer.ctp');
 			}
 		?>
-
+	</div>
+  <div>
 		<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
 		<?php 
 			if ( Configure::read('debug') == 0 ):

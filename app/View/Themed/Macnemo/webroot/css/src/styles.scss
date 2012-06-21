@@ -1,0 +1,30 @@
+// setup basic parameters for the theme
+@import "theme/_setup";
+
+/* Import basic styles
+// ----------------------------------- */
+@import "../../../../Default/webroot/css/src/base/_import";
+@import "../../../../Default/webroot/css/src/base/_l-layout";
+@import "../../../../Default/webroot/css/src/base/_sprites.scss";
+@import "../../../../Default/webroot/css/src/base/_saito_mixins";
+@import "../../../../Default/webroot/css/src/base/_markitup";
+@import "../../../../Default/webroot/css/src/base/_base";
+@import "../../../../Default/webroot/css/src/base/_slidetabs";
+@import "../../../../Default/webroot/css/src/base/_l-template";
+@import "../../../../Default/webroot/css/src/base/_threads";
+@import "../../../../Default/webroot/css/src/base/_m-forms";
+@import "../../../../Default/webroot/css/src/base/_m-buttons";
+@import "../../../../Default/webroot/css/src/base/_tables";
+@import "../../../../Default/webroot/css/src/base/_bootstrap-extended";
+@import "../../../../Default/webroot/css/src/base/_view";
+@import "../../../../Default/webroot/css/src/base/_reply";
+@import "../../../../Default/webroot/css/src/base/_search";
+@import "../../../../Default/webroot/css/src/base/_m-shadows";
+@import "../../../../Default/webroot/css/src/base/_m-fonts";
+@import "../../../../Default/webroot/css/src/base/_m-modules";
+@import "../../../../Default/webroot/css/src/base/_m-messages";
+@import "../../../../Default/webroot/css/src/base/_l-tablet";
+@import "../../../../Default/webroot/css/src/base/_jquery-ui.scss";
+
+// theme file
+@import "theme/_theme.scss";

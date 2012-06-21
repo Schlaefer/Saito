@@ -29,14 +29,14 @@ endif;
 	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
 		<div class="l-box-header box-header">
 			<div>
-				<div>
+        <div class="c_first_child">
 					<?php
 					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideOut',
 									array( 'speed' => 'fast' ));
 					$this->Js->get('#btn_preview_close_' . $this->request->data['Entry']['id'])->event('click',
 							$js_r);
 					?>
-					<i id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='icon-close-widget icon-large pointer' style="cursor:pointer;">&nbsp;</i>
+					<i id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='icon-close-widget icon-large pointer' >&nbsp;</i>
 				</div>
 				<div>
 					<h2>
@@ -60,7 +60,7 @@ endif;
 			<div>
         <div class="c_first_child">
 <?php  if ( $this->request->is('ajax') ) : ?>
-						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-close-widget icon-large pointer' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;">
+						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-close-widget icon-large pointer' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;">&nbsp;
             </i>
 <?php  endif; ?>
 				</div>
@@ -69,8 +69,7 @@ endif;
 <?php echo  $form_title; ?>
 					</h2>
 				</div>
-				<div class="c_last_child">
-				</div>
+				<div class="c_last_child">&nbsp;</div>
 			</div>
 		</div>
 
@@ -141,12 +140,14 @@ $this->Form->submit(__('Einfügen'),
 						?>
 				<div class="postingform_main">
 						<?php
-						echo $this->EntryH->generateMarkItUpEditorButtonSet('markItUp_' . $this->request->data['Entry']['id']);
-						echo $this->Markitup->editor(
+						echo $this->MarkitupEditor->getButtonSet('markItUp_' . $this->request->data['Entry']['id']);
+						echo $this->MarkitupEditor->editor(
 								'text',
-								// @td skin entnemofizieren
-								array( 'set' => 'macnemo', 'skin' => 'macnemo', 'label' => false, 'tabindex' => 3, 'settings' => 'markitupSettings' ));
-//								array( 'set' => 'default', 'skin' => 'simple', 'label' => false, 'tabindex' => 3, 'settings' => 'markitupSettings' ));
+								array( 
+                    'set' => 'default', 'skin' => 'macnemo',
+                    'label' => false, 'tabindex' => 3,
+                    'settings' => 'markitupSettings' )
+                );
 						?>
 				</div> <!-- postingform_main -->
 				<div class="postingform_right">
