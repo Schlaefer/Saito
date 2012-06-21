@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-19 19:04+0100\n"
-"PO-Revision-Date: 2012-06-19 19:05+0100\n"
+"POT-Creation-Date: 2012-06-21 14:50+0100\n"
+"PO-Revision-Date: 2012-06-21 14:50+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -471,8 +471,8 @@ msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:36
 #, php-format
-msgid "Generated in %s ms."
-msgstr "Generiert in %s ms."
+msgid "Generated in %s s."
+msgstr "Generiert in %s s."
 
 #: View/Elements/layout/header_login.ctp:4
 msgid "register_linkname"
@@ -581,28 +581,28 @@ msgstr ""
 "Um Ihren Account frei zu schalten, klicken Sie bitte folgenden Link an: %s"
 
 #: View/Entries/add.ctp:43
-#: View/Entries/add.ctp:277
+#: View/Entries/add.ctp:278
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:103
+#: View/Entries/add.ctp:102
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:132
+#: View/Entries/add.ctp:131
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
-#: View/Entries/add.ctp:166
+#: View/Entries/add.ctp:167
 msgid "Cite"
 msgstr "Zitieren"
 
-#: View/Entries/add.ctp:202
+#: View/Entries/add.ctp:203
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/add.ctp:241
-#: View/Entries/add.ctp:255
+#: View/Entries/add.ctp:242
+#: View/Entries/add.ctp:256
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -1318,6 +1318,11 @@ msgstr "Neuer Smiley"
 msgid "Powered by Saito  v%s."
 msgstr ""
 
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:47
+#, php-format
+msgid "Generated in %s ms."
+msgstr "Generiert in %s ms."
+
 #: View/Uploads/add.ctp:10
 #: View/Uploads/index.ctp:29
 msgid "upload_btn"
@@ -1351,8 +1356,8 @@ msgid "Delete user %s"
 msgstr "Flattr-Kategorie"
 
 #: View/Users/changepassword.ctp:9
-#: View/Users/edit.ctp:48
-#: View/Users/edit.ctp:78
+#: View/Users/edit.ctp:49
+#: View/Users/edit.ctp:79
 msgid "change_password_link"
 msgstr "Passwort ändern"
 
@@ -1393,251 +1398,251 @@ msgid "user_area_title"
 msgstr "Profil"
 
 #: View/Users/edit.ctp:18
-#: View/Users/view.ctp:183
+#: View/Users/view.ctp:178
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
-#: View/Users/edit.ctp:29
-#: View/Users/edit.ctp:65
+#: View/Users/edit.ctp:30
+#: View/Users/edit.ctp:66
 #: View/Users/index.ctp:14
 #: View/Users/view.ctp:26
 msgid "username_marking"
 msgstr "Benutzername"
 
-#: View/Users/edit.ctp:34
-#: View/Users/edit.ctp:70
+#: View/Users/edit.ctp:35
+#: View/Users/edit.ctp:71
 #: View/Users/view.ctp:53
 msgid "userlist_email"
 msgstr "E-Mail"
 
-#: View/Users/edit.ctp:39
+#: View/Users/edit.ctp:40
 #: View/Users/index.ctp:15
 msgid "user_type"
 msgstr "Typ"
 
-#: View/Users/edit.ctp:52
-#: View/Users/edit.ctp:82
+#: View/Users/edit.ctp:53
+#: View/Users/edit.ctp:83
 msgid "user_pw_exp"
 msgstr "Aktuelles Passwort durch ein neues ersetzen."
 
-#: View/Users/edit.ctp:90
+#: View/Users/edit.ctp:91
 msgid "user_show_email"
 msgstr "E-Mail-Link anzeigen"
 
-#: View/Users/edit.ctp:93
+#: View/Users/edit.ctp:94
 msgid "user_show_email_exp"
 msgstr "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an die E-Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht eingesehen werden."
 
-#: View/Users/edit.ctp:99
+#: View/Users/edit.ctp:100
 #: View/Users/view.ctp:39
 msgid "user_real_name"
 msgstr "realer Name"
 
-#: View/Users/edit.ctp:101
+#: View/Users/edit.ctp:102
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:106
-#: View/Users/view.ctp:65
+#: View/Users/edit.ctp:107
+#: View/Users/view.ctp:60
 msgid "user_hp"
 msgstr "Homepage"
 
-#: View/Users/edit.ctp:108
+#: View/Users/edit.ctp:109
 msgid "user_hp_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:113
-#: View/Users/view.ctp:72
+#: View/Users/edit.ctp:114
+#: View/Users/view.ctp:67
 msgid "user_place"
 msgstr "Ort"
 
-#: View/Users/edit.ctp:114
+#: View/Users/edit.ctp:115
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:123
+#: View/Users/edit.ctp:124
 msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
-#: View/Users/edit.ctp:129
-#: View/Users/view.ctp:101
+#: View/Users/edit.ctp:130
+#: View/Users/view.ctp:96
 msgid "user_signature"
 msgstr "Signatur"
 
-#: View/Users/edit.ctp:134
+#: View/Users/edit.ctp:135
 msgid "user_signature_exp"
 msgstr "Signatur, welche an eigene Postings angehängt wird."
 
-#: View/Users/edit.ctp:139
+#: View/Users/edit.ctp:140
 msgid "user_font_size"
 msgstr "Schriftgröße"
 
-#: View/Users/edit.ctp:156
+#: View/Users/edit.ctp:157
 msgid "user_font_size_exp"
 msgstr "Schriftgröße für alle Schriften (optional)"
 
-#: View/Users/edit.ctp:161
+#: View/Users/edit.ctp:162
 msgid "user_automaticaly_mark_as_read"
 msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
 
-#: View/Users/edit.ctp:162
+#: View/Users/edit.ctp:163
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr "Beim erneuten Laden der Frontseite (bspw. durch Klick auf Logo im Kopf) wird die Hervorhebung aktueller Beiträge zurückgesetzt."
 
-#: View/Users/edit.ctp:166
+#: View/Users/edit.ctp:167
 msgid "user_signatures_hide"
 msgstr "Signaturen ausblenden"
 
-#: View/Users/edit.ctp:168
+#: View/Users/edit.ctp:169
 msgid "user_signatures_hide_exp"
 msgstr "Signaturen der anderen Benutzer komplett ausblenden."
 
-#: View/Users/edit.ctp:170
+#: View/Users/edit.ctp:171
 msgid "user_signatures_images_hide_exp"
 msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
 
-#: View/Users/edit.ctp:175
+#: View/Users/edit.ctp:176
 msgid "user_forum_refresh_time"
 msgstr "Aktualisierungszeit"
 
-#: View/Users/edit.ctp:179
+#: View/Users/edit.ctp:180
 msgid "user_forum_refresh_time_exp"
 msgstr "Zeit in Minuten, nach der die Forumsübersicht automatisch neu geladen wird (optional)"
 
-#: View/Users/edit.ctp:185
+#: View/Users/edit.ctp:186
 msgid "user_colors"
 msgstr "Farben"
 
-#: View/Users/edit.ctp:187
+#: View/Users/edit.ctp:188
 msgid "user_color_new_postings_exp"
 msgstr "Neue Beiträge"
 
-#: View/Users/edit.ctp:189
+#: View/Users/edit.ctp:190
 msgid "user_color_old_postinings_exp"
 msgstr "Alte Beiträge"
 
-#: View/Users/edit.ctp:191
+#: View/Users/edit.ctp:192
 msgid "user_color_actual_posting_exp"
 msgstr "Aktueller Beitrag"
 
-#: View/Users/edit.ctp:197
+#: View/Users/edit.ctp:198
 msgid "user_forum_hr_ruler"
 msgstr "Trennstrich"
 
-#: View/Users/edit.ctp:198
+#: View/Users/edit.ctp:199
 msgid "user_forum_hr_exp"
 msgstr "Anzeige eines horizontalen Trennstriches zwischen den Threads in der Thread-Ansicht (optional)"
 
-#: View/Users/edit.ctp:204
+#: View/Users/edit.ctp:205
 msgid "user_standard_view"
 msgstr "Standardansicht"
 
-#: View/Users/edit.ctp:205
+#: View/Users/edit.ctp:206
 msgid "user_view_thread"
 msgstr "Thread"
 
-#: View/Users/edit.ctp:205
+#: View/Users/edit.ctp:206
 msgid "user_view_board"
 msgstr "Board"
 
-#: View/Users/edit.ctp:205
+#: View/Users/edit.ctp:206
 msgid "user_view_mixed"
 msgstr "Mixed"
 
-#: View/Users/edit.ctp:206
+#: View/Users/edit.ctp:207
 msgid "user_standard_view_exp"
 msgstr "In welcher Ansicht soll das Forum standardmässig angezeigt werden."
 
-#: View/Users/edit.ctp:211
+#: View/Users/edit.ctp:212
 msgid "inline_view_on_click"
 msgstr "Posting aufklappen"
 
-#: View/Users/edit.ctp:214
+#: View/Users/edit.ctp:215
 msgid "inline_view_on_click_exp"
 msgstr "Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
 
-#: View/Users/edit.ctp:219
+#: View/Users/edit.ctp:220
 msgid "user_sort_last_answer"
 msgstr "Sortierreihenfolge"
 
-#: View/Users/edit.ctp:221
+#: View/Users/edit.ctp:222
 msgid "user_sort_last_answer_time"
 msgstr "Zeit"
 
-#: View/Users/edit.ctp:221
+#: View/Users/edit.ctp:222
 msgid "user_sort_last_answer_last_answer"
 msgstr "Letzte Antwort"
 
-#: View/Users/edit.ctp:222
+#: View/Users/edit.ctp:223
 msgid "user_sort_last_answer_exp"
 msgstr "Reihenfolge nach der die Threads auf der Startseite geordnet werden. Zeit: feste Reihenfolge nach Startzeitpunkt des Threads. Letzte Antwort: Threads mit neuen Antworten wandern nach oben."
 
-#: View/Users/edit.ctp:229
+#: View/Users/edit.ctp:230
 msgid "user_pers_msg"
 msgstr "Persönliche&nbsp;Nachrichten empfangen"
 
-#: View/Users/edit.ctp:230
+#: View/Users/edit.ctp:231
 msgid "user_pers_msg_exp"
 msgstr "Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen werden)"
 
-#: View/Users/edit.ctp:235
+#: View/Users/edit.ctp:236
 msgid "user_standard_categories"
 msgstr "Standardkategorien"
 
-#: View/Users/edit.ctp:238
+#: View/Users/edit.ctp:239
 msgid "user_standard_categories_exp"
 msgstr "Persönlicher Kategoriensatz und Standardansicht"
 
-#: View/Users/edit.ctp:242
+#: View/Users/edit.ctp:243
 msgid "user_time_diff"
 msgstr "Zeitzonen-Differenz"
 
-#: View/Users/edit.ctp:243
+#: View/Users/edit.ctp:244
 msgid "user_time_diff_exp"
 msgstr "Unterschied zur Server-Zeit in Stunden"
 
-#: View/Users/edit.ctp:248
+#: View/Users/edit.ctp:249
 msgid "admin_mod_notif"
 msgstr "E-Mail-Benachrichtigung"
 
-#: View/Users/edit.ctp:250
+#: View/Users/edit.ctp:251
 msgid "admin_mod_notif_exp"
 msgstr "(nur für Admins und Moderatoren)"
 
-#: View/Users/edit.ctp:251
+#: View/Users/edit.ctp:252
 msgid "new_posting_notify_exp"
 msgstr "wenn sich ein neuer Benutzer angemeldet hat"
 
-#: View/Users/edit.ctp:253
+#: View/Users/edit.ctp:254
 msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
-#: View/Users/edit.ctp:268
-#: View/Users/view.ctp:109
+#: View/Users/edit.ctp:270
+#: View/Users/view.ctp:104
 msgid "flattr"
 msgstr "flattrn"
 
-#: View/Users/edit.ctp:276
+#: View/Users/edit.ctp:279
 msgid "flattr_uid"
 msgstr "Flattr ID"
 
-#: View/Users/edit.ctp:280
+#: View/Users/edit.ctp:283
 msgid "flattr_allow_user"
 msgstr "Flattrn"
 
-#: View/Users/edit.ctp:281
+#: View/Users/edit.ctp:284
 msgid "flattr_allow_user_exp"
 msgstr "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn allgemein für das Benutzerkonto."
 
-#: View/Users/edit.ctp:284
+#: View/Users/edit.ctp:287
 msgid "flattr_allow_posting"
 msgstr "Postings flattrn"
 
-#: View/Users/edit.ctp:285
+#: View/Users/edit.ctp:288
 msgid "flattr_allow_posting_exp"
 msgstr "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
-#: View/Users/edit.ctp:290
+#: View/Users/edit.ctp:294
 msgid "button_save"
 msgstr "Speichern"
 
@@ -1678,27 +1683,23 @@ msgstr "Beiträge anzeigen"
 msgid "user_block"
 msgstr "Sperre"
 
-#: View/Users/view.ctp:58
-msgid "register_ip"
-msgstr "Registrierungs-IP"
-
-#: View/Users/view.ctp:79
+#: View/Users/view.ctp:74
 msgid "user_since"
 msgstr "Mitglied seit"
 
-#: View/Users/view.ctp:80
+#: View/Users/view.ctp:75
 msgid "date_short"
 msgstr "%d.%m.%Y"
 
-#: View/Users/view.ctp:83
+#: View/Users/view.ctp:78
 msgid "user_postings"
 msgstr "Beiträge"
 
-#: View/Users/view.ctp:150
+#: View/Users/view.ctp:145
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: View/Users/view.ctp:150
+#: View/Users/view.ctp:145
 msgid "Lock"
 msgstr "Sperren"
 
@@ -1749,52 +1750,52 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:63
+#: Controller/EntriesController.php:64
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:158
+#: Controller/EntriesController.php:159
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:161
+#: Controller/EntriesController.php:162
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:222
-#: Controller/EntriesController.php:315
+#: Controller/EntriesController.php:223
+#: Controller/EntriesController.php:316
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:249
-#: Controller/EntriesController.php:324
+#: Controller/EntriesController.php:250
+#: Controller/EntriesController.php:325
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:255
+#: Controller/EntriesController.php:256
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:262
+#: Controller/EntriesController.php:263
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:352
+#: Controller/EntriesController.php:353
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:540
+#: Controller/EntriesController.php:541
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:540
+#: Controller/EntriesController.php:541
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:695
-#: Controller/EntriesController.php:705
+#: Controller/EntriesController.php:696
+#: Controller/EntriesController.php:706
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -2032,23 +2033,11 @@ msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:67
-msgid "geshi_link_popup"
-msgstr "Bitte URI zum Verweis eingeben.:!:http://beispiel.de/"
-
-#: View/Helper/EntryHHelper.php:69
-msgid "geshi_link_placeholder"
-msgstr "Hier den Verweistext eingeben."
-
-#: View/Helper/EntryHHelper.php:75
-msgid "geshi_picture_popup"
-msgstr "Bitte URI zum Bild (.jpg, .png oder .gif) eingeben.:!:http://beispiel.de/bild.png"
-
-#: View/Helper/EntryHHelper.php:234
+#: View/Helper/EntryHHelper.php:109
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:237
+#: View/Helper/EntryHHelper.php:112
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
@@ -2072,6 +2061,62 @@ msgstr ""
 msgid "Abends"
 msgstr ""
 
+#: View/Helper/MarkitupEditorHelper.php:45
+msgid "Bold"
+msgstr ""
+
+#: View/Helper/MarkitupEditorHelper.php:48
+#, fuzzy
+msgid "Italic"
+msgstr "Installieren"
+
+#: View/Helper/MarkitupEditorHelper.php:51
+msgid "Underline"
+msgstr ""
+
+#: View/Helper/MarkitupEditorHelper.php:54
+msgid "Strike Through"
+msgstr ""
+
+#: View/Helper/MarkitupEditorHelper.php:57
+msgid "Code"
+msgstr ""
+
+#: View/Helper/MarkitupEditorHelper.php:60
+msgid "Bullet List"
+msgstr ""
+
+#: View/Helper/MarkitupEditorHelper.php:65
+msgid "Link"
+msgstr ""
+
+#: View/Helper/MarkitupEditorHelper.php:68
+msgid "geshi_link_popup"
+msgstr "Bitte URI zum Verweis eingeben.:!:http://beispiel.de/"
+
+#: View/Helper/MarkitupEditorHelper.php:70
+msgid "geshi_link_placeholder"
+msgstr "Hier den Verweistext eingeben."
+
+#: View/Helper/MarkitupEditorHelper.php:74
+#, fuzzy
+msgid "Picture"
+msgstr "Signatur"
+
+#: View/Helper/MarkitupEditorHelper.php:76
+msgid "geshi_picture_popup"
+msgstr "Bitte URI zum Bild (.jpg, .png oder .gif) eingeben.:!:http://beispiel.de/bild.png"
+
+#: View/Helper/MarkitupEditorHelper.php:80
+#, fuzzy
+msgid "Upload"
+msgstr "Hochladen"
+
+#: View/Helper/MarkitupEditorHelper.php:85
+#, fuzzy
+msgid "Media"
+msgstr "Bearbeiten"
+
 #: View/Helper/TimeHHelper.php:85
 #: View/Helper/TimeHHelper.php:104
 msgid "yesterday"
@@ -2084,6 +2129,9 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "register_ip"
+#~ msgstr "Registrierungs-IP"
 
 #~ msgid "homepage_alt"
 #~ msgstr "Homepage"
