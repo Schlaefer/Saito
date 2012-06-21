@@ -271,7 +271,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 
 .sprite-thread-open, .ico-threadOpen { background-position: 0 -13px; }
 
-.sprite-nbs-explicit { padding-left: 73px; height: 13px; display: inline-block; vertical-align: text-bottom; margin-left: 2px; }
+.sprite-nbs-explicit { padding-left: 27px; height: 13px; display: inline-block; vertical-align: middle; margin-bottom: 1px; }
 
 /*******************************************************************************
 * border radien
