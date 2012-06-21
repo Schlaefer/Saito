@@ -66,10 +66,15 @@ class SaitoEntry extends Component {
 					// mods shouldn't mod themselfs
 					$verboten = 'time';
 				else :
-					/*	give mods/admins message that they edit an other user' posting
-					 * @td refactor out of the function (?)
-					 */
-						if ($session && $user['id'] != $entry['Entry']['user_id']) {
+					 // @td refactor out of the function (?)
+						if (
+                $session && (
+                    //	give mods/admins message that they edit an other user' posting
+                    $user['id'] != $entry['Entry']['user_id']
+                    // entry is over time
+                    || ( time() > strtotime($entry['Entry']['time'])+( Configure::read('Saito.Settings.edit_period') * 60 ))
+                    )
+                ) {
 							# @ td build into action method when mod panel is done
 							$session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 						}
