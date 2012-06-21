@@ -1,6 +1,7 @@
 	<?php
 		echo $this->element('layout/html_header');
 	?>
+		<link rel="apple-touch-icon" href="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'apple-touch-icon-precomposed.png'; ?>"/>
 	</head>
 	<body>
 		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
