@@ -21,7 +21,7 @@
     <span class="mobile-hide">
       –
     </span>
-  <?php echo $entry_sub['Entry']['name']; ?>
+  <?php echo $entry_sub['User']['username']; ?>
   </span>
   <?php
     if ( $level === 0 ) :
