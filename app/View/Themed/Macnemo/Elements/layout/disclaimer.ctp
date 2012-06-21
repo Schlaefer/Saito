@@ -1,7 +1,6 @@
-<div id="disclaimer" class="bp-threeColumn">
-	<?php // @lo this .ctp ?>
+<div class="l-disclaimer bp-threeColumn">
 	<div class="left">
-		<div class="inside">
+    <div class="disclaimer-inside">
 			<h3><?php echo __('Ressources'); ?> </h3>
 			<ul>
 				<li>
@@ -26,7 +25,7 @@
 		</div>
 	</div>
 	<div class="center">
-		<div class="inside">
+    <div class="disclaimer-inside">
       <h3><?php echo __('Status'); ?></h3>
 			<?php echo  number_format($HeaderCounter['entries'],
 					null, null, '.') ?> mal Seemannsgarn in
@@ -39,7 +38,7 @@
 		</div>
 	</div>
 	<div class="right">
-		<div class="inside">
+    <div class="disclaimer-inside">
 			<h3> Maschinenraum </h3>
 			<p>
         <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito  v%s.', Configure::read("Saito.v")); ?></a>
