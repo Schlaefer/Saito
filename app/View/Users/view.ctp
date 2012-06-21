@@ -150,6 +150,13 @@
                   </li>
                 <?php endif; ?>
                 <?php if ( $CurrentUser->isAdmin() ) : ?>
+                  <li>
+         						<?php echo  $this->Html->link(
+													'<i class="icon-pencil"></i> ' . __('Edit'),
+													array( 'action' => 'edit', $user['User']['id'] ),
+													array( 'escape' => FALSE )
+										); ?>
+                  </li>
                   <li class="divider"></li>
                   <li>
                     <?php echo $this->Html->link(
@@ -170,7 +177,7 @@
 			</table>
 		</div>
 
-		<?php  if (  $allowedToEditUserData ) : ?>
+		<?php  if ( $CurrentUser->getId() == $user['User']['id'] ) : ?>
 		<div  class="c_a_a_b">
 			<div>
 				<div class="c_a_a_b_a c_first_child">
