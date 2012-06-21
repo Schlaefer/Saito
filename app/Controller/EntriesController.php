@@ -11,6 +11,7 @@ class EntriesController extends AppController {
 	public $helpers = array(
 			'CacheTree',
 			'EntryH',
+      'MarkitupEditor',
 			'Flattr.Flattr',
 			'TimeH',
 			'Text',

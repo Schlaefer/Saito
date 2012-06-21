@@ -1,0 +1,357 @@
+/*******************************************************************************
+ * Template
+ ******************************************************************************/
+
+.hero {
+  @include background($saito_base);
+  @include background-image(
+    linear-gradient(top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)),
+    inline-image("dots_light.png"));
+}
+
+.hero-text {
+  color: white;
+  text-shadow: -1px 2px 3px rgba(255, 255, 255, 0.4), 0px -1px 3px rgba(0, 0, 0, 0.4);
+}
+
+#topnav {
+  @extend .box-shadow;
+}
+
+#bottomnav {
+  @extend .box-shadow-up;
+}
+
+.navbar {
+  @extend .navbar-light;
+	}
+
+.top-menu {
+  // dividers between items in border color
+  border-top-left-radius: $corner_radius;
+  color: $saito_border;
+  @extend .header_style_1;
+  border-width: $border_width 0 0 $border_width;
+  }
+
+.fieldset_1 {
+  @extend .box-form;
+  @extend .box_layout_1;
+  }
+
+.disclaimer {
+  background-image: inline-image("dots.png");
+}
+.disclaimer-inside {
+  margin: $padding-content $padding-content/2;
+  padding: $padding;
+
+  @extend .box-content;
+  @extend .small;
+	@extend .t_shadow;
+	@extend .c_info_text;
+
+	a {
+		border-bottom: #DDD 1px solid;
+		@include link-colors($saito_info_text);
+/*		@include hover-link();*/
+	}
+
+	h1, h2, h3 {
+		font-size: 110%;
+		font-weight: bold;
+		margin-bottom: 0.83em;
+    }
+
+  }
+
+/*******************************************************************************
+ * Markitup
+ ******************************************************************************/
+
+.markItUpHeader ul a {
+	text-indent:-10000px;
+}
+
+/* bold */
+.markItUp .markItUpButton1 a	{ background: image_url('markitup/spr_toolbar.png') 0px 0px no-repeat; }
+.markItUp .markItUpButton1 a img	{ box-shadow: 0 0 3px 2px #a3e2f5; }
+.markItUp .markItUpButton1 a:hover	{ background-position: -32px 0px; }
+
+/* italic */
+.markItUp .markItUpButton2 a	{  background: image_url('markitup/spr_toolbar.png') 0px -96px no-repeat; }
+.markItUp .markItUpButton2 a:hover	{  background-position: -32px -96px; }
+
+/* underline */
+.markItUp .markItUpButton3 a	{ background: image_url('markitup/spr_toolbar.png') 0px -224px no-repeat; }
+.markItUp .markItUpButton3 a:hover	{ background-position: -32px -224px; }
+
+/* stroke */
+.markItUp .markItUpButton4 a	{ background: image_url('markitup/spr_toolbar.png') 0px -192px no-repeat; }
+.markItUp .markItUpButton4 a:hover	{ background-position: -32px -192px; }
+
+/* code */
+.markItUp .markItUpButton5 a	{ background: image_url('markitup/spr_toolbar.png') 0px -32px no-repeat; }
+.markItUp .markItUpButton5 a:hover	{ background-position: -32px -32px; }
+
+/* bullet list */
+.markItUp .markItUpButton6 a	{ background: image_url('markitup/spr_toolbar.png') 0px -416px no-repeat; }
+.markItUp .markItUpButton6 a:hover	{ background-position: -32px -416px; }
+
+/* link */
+.markItUp .markItUpButton7 a	{ background: image_url('markitup/spr_toolbar.png') 0px -128px no-repeat; }
+.markItUp .markItUpButton7 a:hover	{ background-position: -32px -128px; }
+
+/* picture */
+.markItUp .markItUpButton8 a	{ background: image_url('markitup/spr_toolbar.png') 0px -160px no-repeat; }
+.markItUp .markItUpButton8 a:hover	{ background-position: -32px -160px; }
+
+/* upload */
+.markItUp .markItUpButton9 a	{ background: image_url('markitup/spr_toolbar.png') 0px -256px no-repeat; }
+.markItUp .markItUpButton9 a:hover	{ background-position: -32px -256px; }
+
+/* video */
+.markItUp .markItUpButton10 a	{ background: image_url('markitup/spr_toolbar.png') 0px -288px no-repeat; }
+.markItUp .markItUpButton10 a:hover	{ background-position: -32px -288px; }
+
+/*******************************************************************************
+ * Threads
+ ******************************************************************************/
+
+// categories
+// -------------------------------------
+/* all users/public */
+a.category_acs_0, .category_acs_0 {
+  @include link-colors($saito_accent2_dark);
+  font-weight: 600; }
+
+/* regular users */
+a.category_acs_1, .category_acs_1 {
+  @extend a.category_acs_0;
+  font-variant: small-caps; }
+
+/* mod and admins */
+a.category_acs_2, .category_acs_2 {
+  @extend a.category_acs_0;
+  background: #d5d5d5; }
+
+/*******************************************************************************
+ * View Posting
+ ******************************************************************************/
+
+.signature {
+  @extend .c_info_text;
+  }
+
+/*******************************************************************************
+ * Tables
+ ******************************************************************************/
+.table th {
+  @extend .gradient-base;
+  }
+
+.table.zebra tr.b {
+    background-color: $saito_base_light;
+  }
+
+.table.th-left.elegant td:first-child {
+  border-right: $border_width solid $saito_gray_dark;
+	}
+
+.table.border {
+  border: $border_width + 1 solid $saito_gray_dark;
+  border-right-width: $border_width;
+  border-radius: $corner_radius;
+
+  tr:first-child {
+    td:first-child, th:first-child { border-top-left-radius:$corner_radius; }
+    td:last-child, th:last-child { border-top-right-radius:$corner_radius; } }
+  tr:last-child {
+    td:first-child, th:first-child { border-bottom-left-radius:$corner_radius; }
+    td:last-child, th:last-child { border-bottom-right-radius:$corner_radius; } }
+	}
+
+.table.border td, .table.border th {
+   border-style: solid;
+   border-color:  $saito_gray_dark;
+   border-width: 0 $border_width $border_width 0;
+   }
+
+/*******************************************************************************
+ * Slidebars (aka Slidetabs) general layout
+ ******************************************************************************/
+
+.slidetab_subtree {
+	font-weight: normal;
+}
+
+.slidetab_tree {
+  font-weight: bold;
+}
+
+.slidebar-tab, .slidebar-content {
+  font-size: 0.95em;
+
+  @extend .header_style_1;
+  @extend .box-shadow;
+  @extend .t_shadow;
+  @extend .c_left-radius;
+
+  margin-bottom: 2px;
+  line-height: 1.5;
+}
+
+.slidetab_subtree {
+	font-weight: normal;
+
+	> li {
+		margin-bottom: 0;
+		@extend .sprites;
+		@include sprite-row(2);
+		width: auto;
+		// height of the bullet image
+		height: auto;
+		padding: 0 0 0 17px;
+	}
+
+	> li:last-child {
+		// we can't use @extend .sprites; -> breaks IE8 because of last-child
+		@include sprite-background($sprites_image);
+		@include sprite-row(3);
+		width: auto;
+		// height of the bullet image
+		height: 15px;
+		// temporary fix for last line being to small if user line-height pref is > +1
+		padding-bottom: 0.5em;
+	}
+}
+
+
+// Slidebar Userlist
+// -------------------------------------
+.slidebar-actUser {
+  font-weight: bold;
+}
+
+/*******************************************************************************
+ * Bootstrap Popovers Adjustments
+ ******************************************************************************/
+
+.popover-inner {
+  @extend .c_all-radius;
+  // border illusion:
+  background: $saito_border;
+  padding: $border_width;
+}
+
+.popover.bottom {
+  .arrow {
+    border-bottom-color: $saito_border;
+    }
+  }
+
+.popover.left {
+  .arrow {
+    border-left-color: $saito_border;
+    }
+  }
+
+.popover.right {
+  .arrow {
+    border-right-color: $saito_border;
+    }
+  }
+
+/*******************************************************************************
+ * Messages Setup
+ ******************************************************************************/
+
+.flash, .message {
+	@extend .c_all-radius;
+  }
+
+.error-message, .message {
+	@extend .c_bottom-radius;
+  }
+
+
+///
+
+body {
+  	-webkit-tap-highlight-color: rgba(253, 184, 18, 0.4);
+}
+
+.hero {
+	background-color: $saito_base_dark;
+	background-image: image-url("bubbles_outer.jpg");
+	background-repeat: repeat-x;
+}
+
+/*******************************************************************************
+ * Move-da-chicken
+ ******************************************************************************/
+
+
+@-webkit-keyframes move-da-chicken {
+		0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
+	10% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
+	20% { -webkit-transform: translate(-3px, 0px) rotate(1deg); }
+	30% { -webkit-transform: translate(0px, 2px) rotate(0deg); }
+	40% { -webkit-transform: translate(1px, -1px) rotate(1deg); }
+	50% { -webkit-transform: translate(-1px, 2px) rotate(-1deg); }
+	60% { -webkit-transform: translate(-3px, 1px) rotate(0deg); }
+	70% { -webkit-transform: translate(2px, 1px) rotate(-1deg); }
+	80% { -webkit-transform: translate(-1px, -1px) rotate(1deg); }
+	90% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
+	100% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
+}
+@-moz-keyframes move-da-chicken {
+		0% { -moz-transform: translate(2px, 1px) rotate(0deg); }
+	10% { -moz-transform: translate(-1px, -2px) rotate(-1deg); }
+	20% { -moz-transform: translate(-3px, 0px) rotate(1deg); }
+	30% { -moz-transform: translate(0px, 2px) rotate(0deg); }
+	40% { -moz-transform: translate(1px, -1px) rotate(1deg); }
+	50% { -moz-transform: translate(-1px, 2px) rotate(-1deg); }
+	60% { -moz-transform: translate(-3px, 1px) rotate(0deg); }
+	70% { -moz-transform: translate(2px, 1px) rotate(-1deg); }
+	80% { -moz-transform: translate(-1px, -1px) rotate(1deg); }
+	90% { -moz-transform: translate(2px, 2px) rotate(0deg); }
+	100% { -moz-transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes move-da-chicken {
+		0% { transform: translate(2px, 1px) rotate(0deg); }
+	10% { transform: translate(-1px, -2px) rotate(-1deg); }
+	20% { transform: translate(-3px, 0px) rotate(1deg); }
+	30% { transform: translate(0px, 2px) rotate(0deg); }
+	40% { transform: translate(1px, -1px) rotate(1deg); }
+	50% { transform: translate(-1px, 2px) rotate(-1deg); }
+	60% { transform: translate(-3px, 1px) rotate(0deg); }
+	70% { transform: translate(2px, 1px) rotate(-1deg); }
+	80% { transform: translate(-1px, -1px) rotate(1deg); }
+	90% { transform: translate(2px, 2px) rotate(0deg); }
+	100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+img[src*="gacker_large.png"]:hover {
+	-webkit-animation-name: move-da-chicken;
+	-webkit-animation-duration: 1s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-direction: alternate;
+
+	-moz-animation-name: move-da-chicken;
+	-moz-animation-duration: 1s;
+	-moz-transform-origin:50% 50%;
+	-moz-animation-iteration-count: infinite;
+	-moz-animation-timing-function: ease-in-out;
+	-moz-animation-direction: alternate;
+
+	animation-name: move-da-chicken;
+	animation-duration: 1s;
+	transform-origin:50% 50%;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+	animation-direction: alternate;
+	}

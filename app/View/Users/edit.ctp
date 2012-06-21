@@ -21,6 +21,7 @@
 				<div class='c_last_child'></div>
 			</div>
 		</div>
+    <div class='content'>
 	<table class="table th-left elegant">
 
 		<?php  if ( $CurrentUser->isAdmin() ) : ?>
@@ -257,6 +258,7 @@
 		<?php  endif; ?>
 	</table>
   </div>
+  </div>
 	<br	/>
 
 	<div class="box-form">
@@ -271,20 +273,22 @@
 				<div class='c_last_child'></div>
 			</div>
 		</div>
-	<table class="table th-left elegant">
-		<tr>
-			<td><?php echo __('flattr_uid'); ?></td>
-			<td><?php echo $this->Form->input('flattr_uid', array( 'label' => false )); ?> </td>
-		</tr>
-		<tr>
-			<td><?php echo __('flattr_allow_user'); ?></td>
-			<td><?php echo $this->Form->checkbox('flattr_allow_user', array ( 'label' => false )); ?> <p class="exp"> <?php echo __('flattr_allow_user_exp') ?> </p> </td>
-		</tr>
-		<tr>
-			<td><?php echo __('flattr_allow_posting'); ?></td>
-			<td><?php echo $this->Form->checkbox('flattr_allow_posting', array ( 'label' => false )); ?> <p class="exp"> <?php echo __('flattr_allow_posting_exp') ?> </p> </td>
-		</tr>
-	</table>
+  <div class='content'>
+    <table class="table th-left elegant">
+      <tr>
+        <td><?php echo __('flattr_uid'); ?></td>
+        <td><?php echo $this->Form->input('flattr_uid', array( 'label' => false )); ?> </td>
+      </tr>
+      <tr>
+        <td><?php echo __('flattr_allow_user'); ?></td>
+        <td><?php echo $this->Form->checkbox('flattr_allow_user', array ( 'label' => false )); ?> <p class="exp"> <?php echo __('flattr_allow_user_exp') ?> </p> </td>
+      </tr>
+      <tr>
+        <td><?php echo __('flattr_allow_posting'); ?></td>
+        <td><?php echo $this->Form->checkbox('flattr_allow_posting', array ( 'label' => false )); ?> <p class="exp"> <?php echo __('flattr_allow_posting_exp') ?> </p> </td>
+      </tr>
+    </table>
+  </div>
   </div>
 	<br	/>
 	<?php echo $this->Form->submit(__("button_save"), array ( 'id' => 'btn-submit', 'class' => 'btn btn-submit' )); ?>

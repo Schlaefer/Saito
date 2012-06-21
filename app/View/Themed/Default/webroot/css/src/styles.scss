@@ -1,0 +1,31 @@
+// setup basic parameters for the theme
+@import "theme/_setup";
+
+/* Import basic styles
+// ----------------------------------- */
+@import "base/_import";
+@import "base/_l-layout";
+@import "base/_sprites.scss";
+@import "base/_saito_mixins";
+@import "base/_markitup";
+@import "base/_base";
+@import "base/_slidetabs";
+@import "base/_l-template";
+@import "base/_threads";
+@import "base/_m-forms";
+@import "base/_m-buttons";
+@import "base/_tables";
+@import "base/_bootstrap-extended";
+@import "base/_view";
+@import "base/_reply";
+@import "base/_search";
+@import "base/_m-shadows";
+@import "base/_m-fonts";
+@import "base/_m-modules";
+@import "base/_m-messages";
+@import "base/_l-tablet";
+@import "base/_jquery-ui";
+
+
+// theme file
+@import "theme/_theme";

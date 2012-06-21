@@ -1,0 +1,54 @@
+/*******************************************************************************
+ * Forms
+ ******************************************************************************/
+
+input, textarea {
+  padding: 0.2em 0.5em;
+	@extend .c_all-radius;
+  border: 1px solid $saito_gray_input_border;
+  width: 98%;
+  /* chrome in linux */
+  outline-color: $saito_accent_dark;
+  max-width: 60em;
+  }
+
+input[type=checkbox] {
+	width: auto;
+	}
+
+/* inset shadow for text fiedls */
+input[type=text], input[type=password], textarea {
+	@extend .box-shadow-inset;
+  border-color: $saito_gray_input_border;
+  display: block;
+  }
+
+form > div {
+  padding: 0.5em;
+  }
+form > div.box-form, form > div.box-content {
+  padding: 0;
+  }
+
+form div.submit {
+  display: inline;
+  }
+
+label, .label {
+  display: block;
+  margin-bottom: 3px; }
+
+/* formating required fields
+// ----------------------------------- */
+form .required {
+  font-weight: bold;
+  }
+
+form .required label:after {
+  color: #ee3322;
+  content: "*";
+  display: inline;
+  padding-right: 0.5em;
+  }
+
+
