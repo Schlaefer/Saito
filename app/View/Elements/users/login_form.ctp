@@ -1,4 +1,4 @@
-<div class="fieldset_1">
+<div class="box_layout_1 box-form">
 	<?php
 			# @td some labeling and @lo
 			echo $this->Form->create('User', array('url' => '/users/login', 'id' => 'login_form' ));

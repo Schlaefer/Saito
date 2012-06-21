@@ -1,5 +1,5 @@
 <h1><?php echo __('register_linkname'); ?></h1>
-<div class='fieldset_1'>
+<div class='box_layout_1 box-form'>
 	<?php  if ($register_success == 'email_send') : ?>
     <?php echo __('register_email_send_content'); ?>
 	<?php  elseif ($register_success == 'success') : ?>

@@ -7,7 +7,7 @@
   $this->end();
 ?>
 <h1><?php echo __('change_password_link').': '.$this->request->data['User']['username']; ?></h1>
-<div class='fieldset_1'>
+<div class="box_layout_1 box-form">
 	<?php
 	 echo $this->Form->create('User');
 	 echo $this->Form->input('password_old', array(

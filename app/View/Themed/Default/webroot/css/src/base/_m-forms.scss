@@ -23,8 +23,8 @@ input[type=text], input[type=password], textarea {
   display: block;
   }
 
-form > div {
-  padding: 0.5em;
+div.input, div.required, div.submit {
+  padding-bottom: 0.5em;
   }
 form > div.box-form, form > div.box-content {
   padding: 0;
