@@ -33,7 +33,7 @@
       <p>
         <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito v%s.', Configure::read("Saito.v")); ?></a>
         <br/>
-        <?php echo __('Generated in %s ms.', Stopwatch::getWallTime()); ?>
+        <?php echo __('Generated in %s s.', Stopwatch::getWallTime()); ?>
       </p>
     </div>
   </div>
