@@ -317,7 +317,6 @@ class User extends AppModel {
 
 		$defaults = array(
 				'registered' => date("Y-m-d H:i:s"),
-        'register_ip' => self::_getIp(),
 				'user_type' => 'user',
 				'user_view' => 'thread',
 		);

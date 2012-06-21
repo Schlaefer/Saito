@@ -19,7 +19,6 @@
 				'last_login' => array( 'type' => 'timestamp', 'null' => false, 'default' => '0000-00-00 00:00:00' ),
 				'last_logout' => array( 'type' => 'timestamp', 'null' => false, 'default' => '0000-00-00 00:00:00' ),
 				'registered' => array( 'type' => 'timestamp', 'null' => false, 'default' => '0000-00-00 00:00:00' ),
-        'register_ip' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8'),
 				'last_refresh' => array( 'type' => 'timestamp', 'null' => true, 'default' => NULL ),
 				'last_refresh_tmp' => array( 'type' => 'timestamp', 'null' => true, 'default' => NULL ),
 				'user_view' => array( 'type' => 'string', 'null' => true, 'default' => NULL ),
