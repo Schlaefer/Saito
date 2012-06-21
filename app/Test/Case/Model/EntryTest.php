@@ -68,6 +68,8 @@
     public function testAnonymizeEntriesFromUser() {
       $this->Entry->anonymizeEntriesFromUser(3);
 
+      $entriesBeforeActions = $this->Entry->find('count');
+
       // user has no entries anymore
       $expected = 0;
       $result = $this->Entry->find('count', array(
@@ -101,6 +103,12 @@
       $result = $this->Entry->find('count', array(
           'conditions' => array ('Entry.ip' => '1.1.1.1')
       ));
+      $this->assertEqual($result, $expected);
+
+
+      // all entries are still there
+      $expected = $entriesBeforeActions;
+      $result = $this->Entry->find('count');
       $this->assertEqual($result, $expected);
 
     }

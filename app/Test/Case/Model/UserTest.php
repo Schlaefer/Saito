@@ -114,6 +114,26 @@
 			$this->assertEqual($usersBeforeIncrements, $usersAfterIncrements);
 		}
 
+    public function testDeleteUser() {
+
+      $result = $this->User->findById(3);
+      $this->assertTrue($result > 0);
+
+      $entriesBeforeDelete = $this->User->Entry->find('count');
+
+      $this->User->deleteAllExceptEntries(3);
+
+      // user is deleted
+      $result = $this->User->findById(3);
+      $this->assertEqual($result, 0);
+
+      // make sure we delete without cascading to associated models
+      $expected = $entriesBeforeDelete;
+      $result = $this->User->Entry->find('count');
+      $this->assertEqual($result, $expected);
+
+    }
+
 		public function testSetPassword() {
 
 			$new_password = 'test1';
