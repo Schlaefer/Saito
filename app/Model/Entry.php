@@ -69,6 +69,7 @@ class Entry extends AppModel {
    * @var type string
    */
 	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.text, Entry.flattr, Entry.nsfw, Entry.name,
+                                  User.username,
 																	Category.category, Category.accession, Category.description';
 
   /**
@@ -76,7 +77,7 @@ class Entry extends AppModel {
    * 
    * @var string
    */
-  public $showEntryFieldListAdditional = 	'Entry.ip, User.username, User.id, User.signature, User.flattr_uid';
+  public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
 
 
 	public function getRecentEntries( Array $options = array() ) {
