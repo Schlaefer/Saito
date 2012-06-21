@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-21 14:50+0100\n"
-"PO-Revision-Date: 2012-06-21 14:50+0100\n"
+"PO-Revision-Date: 2012-06-21 16:03+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -467,7 +467,7 @@ msgstr "Über"
 #: View/Elements/layout/disclaimer.ctp:34
 #, php-format
 msgid "Powered by Saito v%s."
-msgstr ""
+msgstr "Angetrieben durch Saito v%s."
 
 #: View/Elements/layout/disclaimer.ctp:36
 #, php-format
