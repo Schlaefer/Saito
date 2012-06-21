@@ -34,11 +34,6 @@
   border-width: $border_width 0 0 $border_width;
   }
 
-.fieldset_1 {
-  @extend .box-form;
-  @extend .box_layout_1;
-  }
-
 .disclaimer {
   background-image: inline-image("dots.png");
 }
