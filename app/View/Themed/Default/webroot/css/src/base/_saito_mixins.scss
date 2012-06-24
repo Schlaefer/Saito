@@ -73,12 +73,16 @@
 
 
 	.content {
-		padding: $padding-content;
+		padding: $padding;
 		}
 }
 
 .box-form {
   background-color: $saito_gray_light;
+
+	.content {
+		padding: $padding-content;
+		}
  }
 
 .box-header {
