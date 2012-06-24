@@ -766,20 +766,18 @@ a.no-color { color: #6f6f6f; }
 /******************************************************************************* Mobile *****************************************************************************/
 @media only screen and (max-width: 480px), only screen and (device-width: 768px) { .mobile-nl { display: block; }
   .mobile-hide { display: none; }
-  .thread_line-username { margin-left: 0.5em; } }
-/******************************************************************************/
+  .thread_line-username { margin-left: 0.5em; }
+  .thread_line-pre { height: 36px; line-height: 36px; font-size: 24px; } }
 /*******************************************************************************
 * Phone
 ******************************************************************************/
 @media only screen and (max-width: 480px) { .thread_line, .thread_line-pre { -webkit-text-size-adjust: 180%; line-height: 1.6em; }
-  .thread_line-content { padding-left: 30px; padding-bottom: 2px; } }
+  .thread_line-content { padding-left: 50px; padding-bottom: 2px; } }
 /******************************************************************************/
 /*******************************************************************************
 * iPad
 ******************************************************************************/
-@media only screen and (device-width: 768px) { body { font-size: 12px; }
-  .thread_line-pre { height: 36px; line-height: 36px; font-size: 24px; }
-  .thread_line-content { padding-left: 30px; padding-bottom: 2px; }
+@media only screen and (device-width: 768px) { .thread_line-content { padding-left: 30px; padding-bottom: 2px; }
   .thread_line-post { line-height: 14px !important; } }
 @media only screen and (device-width: 768px) and (orientation:portrait) { body, html { width: 768px; min-width: 768px; } }
 @media only screen and (device-width: 768px) and (orientation:landscape) { body, html { /* don't touch it! */ /*		width: 980px;*/ /*		min-width: 980px;*/ } }

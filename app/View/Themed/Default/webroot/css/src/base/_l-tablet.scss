@@ -2,8 +2,9 @@
  * Mobile
  ******************************************************************************/
 
-@media only screen and (max-width: 480px),
-only screen and (device-width: 768px) {
+@media  only screen and (max-width: 480px),
+        only screen and (device-width: 768px) {
+
   .mobile-nl {
     display: block;
     }
@@ -14,10 +15,14 @@ only screen and (device-width: 768px) {
   .thread_line-username {
     margin-left: 0.5em;
     }
+
+	.thread_line-pre {
+		height: 36px;
+		line-height: 36px;
+		font-size: 24px;
+		}
+
   }
-
-/******************************************************************************/
-
 
 /*******************************************************************************
 * Phone
@@ -31,7 +36,7 @@ only screen and (device-width: 768px) {
 		}
 
 	.thread_line-content {
-		padding-left: 30px;
+		padding-left: 50px;
 		padding-bottom: 2px;
 		}
 	}
@@ -43,16 +48,6 @@ only screen and (device-width: 768px) {
 ******************************************************************************/
 
 @media only screen and (device-width: 768px) {
-	body {
-		font-size: 12px;
-		}
-
-	// thread_line-* sets threads to two lines to increase click target
-	.thread_line-pre {
-		height: 36px;
-		line-height: 36px;
-		font-size: 24px;
-		}
 
 	.thread_line-content {
 		padding-left: 30px;
