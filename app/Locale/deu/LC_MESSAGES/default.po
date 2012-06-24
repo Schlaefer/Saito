@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-21 14:50+0100\n"
-"PO-Revision-Date: 2012-06-21 16:03+0100\n"
+"POT-Creation-Date: 2012-06-24 09:35+0100\n"
+"PO-Revision-Date: 2012-06-24 09:35+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "Abbrechen"
 msgid "Click here to build your database"
 msgstr "Datenbank anlegen"
 
-#: Plugin/Install/View/Install/finish.ctp:22
+#: Plugin/Install/View/Install/finish.ctp:26
 msgid "Click here to delete installation files"
 msgstr "Installationsdateien löschen"
 
@@ -63,12 +63,12 @@ msgstr "Das config Verzeichnis hat NICHT die erforderlichen Schreibrechte"
 
 #: Plugin/Install/View/Install/index.ctp:24
 #, php-format
-msgid "PHP version %s > 5"
+msgid "PHP version %s > 5.3"
 msgstr ""
 
 #: Plugin/Install/View/Install/index.ctp:27
 #, php-format
-msgid "PHP version %s < 5"
+msgid "PHP version %s < 5.3"
 msgstr ""
 
 #: Plugin/Install/View/Install/index.ctp:33
@@ -484,8 +484,8 @@ msgid "login_btn"
 msgstr "Einloggen"
 
 #: View/Elements/layout/header_login.ctp:16
-msgid "Adminbereich @lo"
-msgstr "Adminbereich"
+msgid "Forum Settings"
+msgstr "Forumseinstellungen"
 
 #: View/Elements/layout/header_login.ctp:22
 msgid "user_profile"
@@ -630,19 +630,19 @@ msgstr "+ bedeutet UND<br/>- bedeutet NICHT<br/>[kein Operator] impliziert ODER<
 msgid "search_advanced"
 msgstr "Erweiterte Suche"
 
-#: View/Entries/search.ctp:57
+#: View/Entries/search.ctp:58
 msgid "subject"
 msgstr "Betreff"
 
-#: View/Entries/search.ctp:63
+#: View/Entries/search.ctp:64
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:83
+#: View/Entries/search.ctp:84
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:139
+#: View/Entries/search.ctp:141
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
@@ -654,282 +654,12 @@ msgstr "zurück zum Forum"
 msgid "whole_thread_marking"
 msgstr "gesamter Thread"
 
-#: View/Groups/admin_add.ctp:4
-msgid "Admin Add Group"
-msgstr ""
-
-#: View/Groups/admin_add.ctp:15
-#: View/Groups/admin_edit.ctp:17
-#: View/Groups/admin_view.ctp:31
-msgid "List Groups"
-msgstr ""
-
-#: View/Groups/admin_add.ctp:16
-#: View/Groups/admin_edit.ctp:18
-#: View/Groups/admin_index.ctp:50
-#: View/Groups/admin_view.ctp:33
-#, fuzzy
-msgid "List Users"
-msgstr "Letzte Einträge"
-
-#: View/Groups/admin_add.ctp:17
-#: View/Groups/admin_edit.ctp:19
-#: View/Groups/admin_index.ctp:51
-#: View/Groups/admin_view.ctp:34
-#: View/Groups/admin_view.ctp:161
-#, fuzzy
-msgid "New User"
-msgstr "Benutzer"
-
-#: View/Groups/admin_edit.ctp:4
-msgid "Admin Edit Group"
-msgstr ""
-
-#: View/Groups/admin_index.ctp:2
-msgid "Groups"
-msgstr "Gruppen"
-
-#: View/Groups/admin_index.ctp:49
-#: View/Groups/admin_view.ctp:32
-msgid "New Group"
-msgstr "Neue Gruppe"
-
-#: View/Groups/admin_view.ctp:2
-msgid "Group"
-msgstr "Gruppe"
-
-#: View/Groups/admin_view.ctp:29
-msgid "Edit Group"
-msgstr "Gruppe bearbeiten"
-
-#: View/Groups/admin_view.ctp:30
-msgid "Delete Group"
-msgstr "Gruppe löschen"
-
-#: View/Groups/admin_view.ctp:38
-msgid "Related Users"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:43
-#, fuzzy
-msgid "User Type"
-msgstr "Typ"
-
-#: View/Groups/admin_view.ctp:44
-msgid "Group Id"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:45
-msgid "Username"
-msgstr "Benutzername"
-
-#: View/Groups/admin_view.ctp:46
-#, fuzzy
-msgid "User Real Name"
-msgstr "realer Name"
-
-#: View/Groups/admin_view.ctp:47
-msgid "Password"
-msgstr "Passwort"
-
-#: View/Groups/admin_view.ctp:48
-msgid "User Email"
-msgstr "E-Mail"
-
-#: View/Groups/admin_view.ctp:49
-msgid "Hide Email"
-msgstr "E-Mail verbergen"
-
-#: View/Groups/admin_view.ctp:50
-#, fuzzy
-msgid "User Hp"
-msgstr "Homepage"
-
-#: View/Groups/admin_view.ctp:51
-#, fuzzy
-msgid "User Place"
-msgstr "Ort"
-
-#: View/Groups/admin_view.ctp:52
-#, fuzzy
-msgid "Signature"
-msgstr "Signatur"
-
-#: View/Groups/admin_view.ctp:53
-#, fuzzy
-msgid "Profile"
-msgstr "Profil"
-
-#: View/Groups/admin_view.ctp:54
-msgid "Entry Count"
-msgstr "Beitragszähler"
-
-#: View/Groups/admin_view.ctp:55
-msgid "Logins"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:56
-msgid "Last Login"
-msgstr "Letzter Login"
-
-#: View/Groups/admin_view.ctp:57
-msgid "Last Logout"
-msgstr "Letzter Logout"
-
-#: View/Groups/admin_view.ctp:58
-#, fuzzy
-msgid "Registered"
-msgstr "Registriert"
-
-#: View/Groups/admin_view.ctp:59
-#, fuzzy
-msgid "Last Refresh"
-msgstr "Letzte Einträge"
-
-#: View/Groups/admin_view.ctp:60
-#, fuzzy
-msgid "Last Refresh Tmp"
-msgstr "Letzte Einträge"
-
-#: View/Groups/admin_view.ctp:61
-#, fuzzy
-msgid "User View"
-msgstr "Benutzer"
-
-#: View/Groups/admin_view.ctp:62
-#, fuzzy
-msgid "New Posting Notify"
-msgstr "wenn sich ein neuer Benutzer angemeldet hat"
-
-#: View/Groups/admin_view.ctp:63
-msgid "New User Notify"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:64
-msgid "Personal Messages"
-msgstr "Persönliche Nachrichten"
-
-#: View/Groups/admin_view.ctp:65
-msgid "Time Difference"
-msgstr "Zeitverschiebung"
-
-#: View/Groups/admin_view.ctp:66
-#, fuzzy
-msgid "User Lock"
-msgstr "Benutzer sperren"
-
-#: View/Groups/admin_view.ctp:67
-msgid "Pwf Code"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:68
-msgid "Activate Code"
-msgstr "Aktivierungscode"
-
-#: View/Groups/admin_view.ctp:69
-#, fuzzy
-msgid "User Font Size"
-msgstr "Schriftgröße"
-
-#: View/Groups/admin_view.ctp:70
-#, fuzzy
-msgid "User Signatures Hide"
-msgstr "Signaturen ausblenden"
-
-#: View/Groups/admin_view.ctp:71
-#, fuzzy
-msgid "User Signatures Images Hide"
-msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
-
-#: View/Groups/admin_view.ctp:72
-msgid "User Categories"
-msgstr "Standardkategorien"
-
-#: View/Groups/admin_view.ctp:73
-#, fuzzy
-msgid "User Forum Refresh Time"
-msgstr "Aktualisierungszeit"
-
-#: View/Groups/admin_view.ctp:74
-#, fuzzy
-msgid "User Forum Hr Ruler"
-msgstr "Trennstrich"
-
-#: View/Groups/admin_view.ctp:75
-#, fuzzy
-msgid "User Automaticaly Mark As Read"
-msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
-
-#: View/Groups/admin_view.ctp:76
-#, fuzzy
-msgid "User Sort Last Answer"
-msgstr "Sortierreihenfolge"
-
-#: View/Groups/admin_view.ctp:77
-#, fuzzy
-msgid "User Color New Postings"
-msgstr "Neue Beiträge"
-
-#: View/Groups/admin_view.ctp:78
-#, fuzzy
-msgid "User Color Actual Posting"
-msgstr "Aktueller Beitrag"
-
-#: View/Groups/admin_view.ctp:79
-#, fuzzy
-msgid "User Color Old Postings"
-msgstr "Alte Beiträge"
-
-#: View/Groups/admin_view.ctp:80
-msgid "User Show Own Signature"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:81
-msgid "Slidetab Order"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:82
-msgid "Show Userlist"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:83
-#, fuzzy
-msgid "Show Recentposts"
-msgstr "Neueste Beiträge"
-
-#: View/Groups/admin_view.ctp:84
-msgid "Show About"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:85
-msgid "Show Donate"
-msgstr ""
-
-#: View/Groups/admin_view.ctp:86
-#, fuzzy
-msgid "Inline View On Click"
-msgstr "Posting aufklappen"
-
-#: View/Groups/admin_view.ctp:87
-#, fuzzy
-msgid "Flattr Uid"
-msgstr "Flattr ID"
-
-#: View/Groups/admin_view.ctp:88
-#, fuzzy
-msgid "Flattr Allow User"
-msgstr "Flattrn"
-
-#: View/Groups/admin_view.ctp:89
-#, fuzzy
-msgid "Flattr Allow Posting"
-msgstr "Postings flattrn"
-
 #: View/Layouts/admin.ctp:28
 msgid "Overview"
 msgstr "Übersicht"
 
 #: View/Layouts/admin.ctp:33
+#: View/Settings/admin_edit.ctp:1
 #, fuzzy
 msgid "Settings"
 msgstr "Einstellungen"
@@ -960,7 +690,6 @@ msgid "Last started threads"
 msgstr "Letzte Threads"
 
 #: View/Settings/admin_edit.ctp:25
-#: View/Settings/admin_timezone.ctp:24
 msgid "_exp"
 msgstr ""
 
@@ -1313,15 +1042,10 @@ msgstr "Smiley bearbeiten"
 msgid "New Smily"
 msgstr "Neuer Smiley"
 
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:45
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:44
 #, php-format
 msgid "Powered by Saito  v%s."
 msgstr ""
-
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:47
-#, php-format
-msgid "Generated in %s ms."
-msgstr "Generiert in %s ms."
 
 #: View/Uploads/add.ctp:10
 #: View/Uploads/index.ctp:29
@@ -1351,9 +1075,9 @@ msgid "Delete User"
 msgstr "Löschen"
 
 #: View/Users/admin_delete.ctp:22
-#, fuzzy, php-format
+#, php-format
 msgid "Delete user %s"
-msgstr "Flattr-Kategorie"
+msgstr "Entferne Benutzer %s"
 
 #: View/Users/changepassword.ctp:9
 #: View/Users/edit.ctp:49
@@ -1398,7 +1122,7 @@ msgid "user_area_title"
 msgstr "Profil"
 
 #: View/Users/edit.ctp:18
-#: View/Users/view.ctp:178
+#: View/Users/view.ctp:185
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
@@ -1947,7 +1671,7 @@ msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 msgid "Successfull registration"
 msgstr ""
 
-#: Lib/SaitoEntry.php:74
+#: Lib/SaitoEntry.php:79
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
@@ -2129,6 +1853,176 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "Adminbereich @lo"
+#~ msgstr "Adminbereich"
+
+#, fuzzy
+#~ msgid "List Users"
+#~ msgstr "Letzte Einträge"
+
+#, fuzzy
+#~ msgid "New User"
+#~ msgstr "Benutzer"
+
+#~ msgid "Groups"
+#~ msgstr "Gruppen"
+
+#~ msgid "New Group"
+#~ msgstr "Neue Gruppe"
+
+#~ msgid "Group"
+#~ msgstr "Gruppe"
+
+#~ msgid "Edit Group"
+#~ msgstr "Gruppe bearbeiten"
+
+#~ msgid "Delete Group"
+#~ msgstr "Gruppe löschen"
+
+#, fuzzy
+#~ msgid "User Type"
+#~ msgstr "Typ"
+
+#~ msgid "Username"
+#~ msgstr "Benutzername"
+
+#, fuzzy
+#~ msgid "User Real Name"
+#~ msgstr "realer Name"
+
+#~ msgid "Password"
+#~ msgstr "Passwort"
+
+#~ msgid "User Email"
+#~ msgstr "E-Mail"
+
+#~ msgid "Hide Email"
+#~ msgstr "E-Mail verbergen"
+
+#, fuzzy
+#~ msgid "User Hp"
+#~ msgstr "Homepage"
+
+#, fuzzy
+#~ msgid "User Place"
+#~ msgstr "Ort"
+
+#, fuzzy
+#~ msgid "Signature"
+#~ msgstr "Signatur"
+
+#, fuzzy
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "Entry Count"
+#~ msgstr "Beitragszähler"
+
+#~ msgid "Last Login"
+#~ msgstr "Letzter Login"
+
+#~ msgid "Last Logout"
+#~ msgstr "Letzter Logout"
+
+#, fuzzy
+#~ msgid "Registered"
+#~ msgstr "Registriert"
+
+#, fuzzy
+#~ msgid "Last Refresh"
+#~ msgstr "Letzte Einträge"
+
+#, fuzzy
+#~ msgid "Last Refresh Tmp"
+#~ msgstr "Letzte Einträge"
+
+#, fuzzy
+#~ msgid "User View"
+#~ msgstr "Benutzer"
+
+#, fuzzy
+#~ msgid "New Posting Notify"
+#~ msgstr "wenn sich ein neuer Benutzer angemeldet hat"
+
+#~ msgid "Personal Messages"
+#~ msgstr "Persönliche Nachrichten"
+
+#~ msgid "Time Difference"
+#~ msgstr "Zeitverschiebung"
+
+#, fuzzy
+#~ msgid "User Lock"
+#~ msgstr "Benutzer sperren"
+
+#~ msgid "Activate Code"
+#~ msgstr "Aktivierungscode"
+
+#, fuzzy
+#~ msgid "User Font Size"
+#~ msgstr "Schriftgröße"
+
+#, fuzzy
+#~ msgid "User Signatures Hide"
+#~ msgstr "Signaturen ausblenden"
+
+#, fuzzy
+#~ msgid "User Signatures Images Hide"
+#~ msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
+
+#~ msgid "User Categories"
+#~ msgstr "Standardkategorien"
+
+#, fuzzy
+#~ msgid "User Forum Refresh Time"
+#~ msgstr "Aktualisierungszeit"
+
+#, fuzzy
+#~ msgid "User Forum Hr Ruler"
+#~ msgstr "Trennstrich"
+
+#, fuzzy
+#~ msgid "User Automaticaly Mark As Read"
+#~ msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
+
+#, fuzzy
+#~ msgid "User Sort Last Answer"
+#~ msgstr "Sortierreihenfolge"
+
+#, fuzzy
+#~ msgid "User Color New Postings"
+#~ msgstr "Neue Beiträge"
+
+#, fuzzy
+#~ msgid "User Color Actual Posting"
+#~ msgstr "Aktueller Beitrag"
+
+#, fuzzy
+#~ msgid "User Color Old Postings"
+#~ msgstr "Alte Beiträge"
+
+#, fuzzy
+#~ msgid "Show Recentposts"
+#~ msgstr "Neueste Beiträge"
+
+#, fuzzy
+#~ msgid "Inline View On Click"
+#~ msgstr "Posting aufklappen"
+
+#, fuzzy
+#~ msgid "Flattr Uid"
+#~ msgstr "Flattr ID"
+
+#, fuzzy
+#~ msgid "Flattr Allow User"
+#~ msgstr "Flattrn"
+
+#, fuzzy
+#~ msgid "Flattr Allow Posting"
+#~ msgstr "Postings flattrn"
+
+#~ msgid "Generated in %s ms."
+#~ msgstr "Generiert in %s ms."
 
 #~ msgid "register_ip"
 #~ msgstr "Registrierungs-IP"

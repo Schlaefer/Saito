@@ -13,7 +13,7 @@ if ($CurrentUser->isLoggedIn() == FALSE ) {
 } else {
 	if($CurrentUser['user_type'] == 'admin') {
 		echo $this->Html->link(
-        '<i class="icon-wrench"></i> ' . __('Adminbereich @lo'),
+        '<i class="icon-wrench"></i> ' . __('Forum Settings'),
         array('controller' => 'admins', 'action' => 'index', 'admin' => TRUE ),
         array( 'escape' => FALSE)). '&nbsp;|&nbsp;'  ;
 	}

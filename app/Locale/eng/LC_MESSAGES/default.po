@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-19 19:05+0100\n"
-"PO-Revision-Date: 2012-06-19 19:05+0100\n"
+"PO-Revision-Date: 2012-06-24 09:28+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -614,15 +614,15 @@ msgstr "Advanced Search"
 
 #: View/Entries/search.ctp:57
 msgid "subject"
-msgstr ""
+msgstr "Subject"
 
 #: View/Entries/search.ctp:63
 msgid "search_since"
-msgstr ""
+msgstr "Since"
 
 #: View/Entries/search.ctp:83
 msgid "search_simple"
-msgstr ""
+msgstr "Simple Search"
 
 #: View/Entries/search.ctp:139
 msgid "search_nothing_found"
