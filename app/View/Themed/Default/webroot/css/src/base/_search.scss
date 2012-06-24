@@ -83,14 +83,8 @@
 	}
 
 	.search_results {
-		.header {
-			@extend .box_layout_1;
-			@extend .header_style_1;
-		}
 
 		.content {
-			@extend .box_layout_1;
-
 			ul {
 				list-style-type: none;
 				margin: 0;
