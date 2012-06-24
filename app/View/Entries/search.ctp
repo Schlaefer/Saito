@@ -42,11 +42,12 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 			</a>
 		</div>
 	</div> <!-- search_form_wrapper -->
-	<div class="search_form_wrapper_adv" style="<?php
+	<div class="search_form_wrapper_adv box-form" style="<?php
 if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 	echo "display:none;";
 }
 ?>">
+    <div class="content">
 				 <?php
 				 echo $this->Form->create('Entry',
 						 array(
@@ -84,6 +85,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 			</a>
 		</div>
 <?php echo $this->Form->end(); ?>
+    </div> <!-- content -->
 	</div> <!-- search_form_wrapper_adv -->
 	<div class="search_results box-content">
 <?php if ( isset($this->Paginator) && !empty($FoundEntries) ) : ?>
