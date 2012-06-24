@@ -12,12 +12,16 @@
     <br />
 
     <p>
+      Make a backup of your <strong>app/Config</strong> directory now!
+    </p>
+    <p>
         Delete the installation directory <strong>/app/plugins/install</strong>.
     </p>
 
     <br />
     <br />
 
+    <!--
     <?php
         echo $this->Html->link(__('Click here to delete installation files'), array(
             'plugin' => 'install',
@@ -26,4 +30,5 @@
             'delete' => 1,
         ));
     ?>
+    -->
 </div>
