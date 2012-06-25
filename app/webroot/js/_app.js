@@ -215,6 +215,9 @@ var markItUp = {
         }
         return out;
       }
+
+      // embed.ly last resort fallback
+      return '[embed]' + text + '[/embed]';
     // is valid url
 
     }
@@ -223,7 +226,7 @@ var markItUp = {
 
   _createIframe: function(args) {
     return '<iframe src="' + args.url + '" width="425" height="349" frameborder="0" allowfullscreen></iframe>'
-  },
+  }
 
 };
 

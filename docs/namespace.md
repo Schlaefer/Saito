@@ -23,20 +23,25 @@ Settings
 
 Field Name 	| Default Value 	| Type 	| Comment 
 ---------- 	| -------------	| ----- 	| -------
-autolink 						| 1 	| bool 	| Try to autolink URLs in bbcode
-bbcode_img 					| 1 	| bool 	| Multimedia in BBCode anzeigen
-edit_delay 					| 3 	| int 	| time in min. for edit without notice
-edit_period 				| 20 	| int 	| time in min. for edit with notice
-flattr_category 		| text 	| string	| category tag used by flattr for entries. see flattr.com for available categories
-flattr_enabled 			| 0 	| bool 	| enables flattr usage for users
-flattr_language 		| de_DE 	| string	| language tag used by flattr for entries. see flattr.com for codes
-forum_disabled 			| 0 	| bool 	| |
+autolink 						| 1 	  | bool 	  | Try to autolink URLs in bbcode
+bbcode_img 					| 1 	  | bool 	  | Multimedia in BBCode anzeigen
+block_user_ui       | 0     | bool    | Allow Moderators to block users
+edit_delay 					| 3 	  | int 	  | time in min. for edit without notice
+edit_period 				| 20 	  | int 	  | time in min. for edit with notice
+embedly_enabled     | 0     | bool    | Enable embedly support
+embedly_key         |       | string  |
+flattr_category 		| text  | string	| category tag used by flattr for entries. see flattr.com for available categories
+flattr_enabled 			| 0 	  | bool 	  | enables flattr usage for users
+flattr_language 		| de_DE | string	| language tag used by flattr for entries. see flattr.com for codes
+forum_disabled 			| 0 	  | bool 	  | |
 forum_disabled_text | We'll back soon.	| string	| 
 forum_email 				| 	| string	| forum email address (admin contact)
 installed 					| FALSE	| bool 		| true if installer has run and forum is installed; set in bootstrap.php
 quote_symbol 	| » 	| string	| 
 signature_separator 	| --- 	| string	| 
-smilies 	| 1 	| bool 	| Use Smilies 
+smilies 	| 1 	| bool 	| Use Smilies
+store_ip            | 0   | bool  | Store user IPs
+store_ip_anonymized | 1   | bool  | Store IPs anonymized
 subject_maxlength 	| 75 	| int 	| 
 text_word_maxlength | 120 	| int 	|
 timezone						| UTC		| string | default time zone for showing time value

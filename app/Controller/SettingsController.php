@@ -16,6 +16,8 @@
         'block_user_ui' => 1,
 				'edit_delay' => 1,
 				'edit_period' => 1,
+        'embedly_enabled'             => 1,
+        'embedly_key'                 => 1,
         'flattr_enabled'        => 1,
         'flattr_language'             => 1,
         'flattr_category'       => 1,

@@ -120,7 +120,26 @@ class EntriesController extends AppController {
 		$this->redirect('/entries/index');
 	}
 
-	public function view($id=null) {
+  /**
+     * Outputs raw BBcode of an posting $id
+     *
+     * @param int $id
+     * @return string
+     */
+    public function source($id = NULL) {
+      $data = $this->requestAction('/entries/view/' . $id);
+
+      $this->autoLayout = false;
+      $this->autoRender = false;
+
+      $out = array( );
+      $out[] = '<pre>';
+      $out[] = $data['Entry']['subject'] . "\n";
+      $out[] = $data['Entry']['text'];
+      return implode("\n", $out);
+    }
+
+    public function view($id=null) {
 		Stopwatch::start('Entries->view()');
 
 		if ( $this->_setupView($id) !== TRUE ):
@@ -128,13 +147,18 @@ class EntriesController extends AppController {
 			return;
 		endif;
 
+    if ( !empty($this->request->params['requested']) ):
+      return $this->request->data;
+    endif;
+
 		$a = array($this->request->data);
 		Entry::mapTreeElements( $a, $this->_ldGetRightsForEntryAndUser, $this);
 		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
-
-		$this->_teardownView();
+		if ( $this->request->data['Entry']['user_id'] != $this->CurrentUser->getId() ):
+			$this->Entry->incrementViews();
+    endif;
 
 		// @td doku
 		$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
@@ -715,12 +739,6 @@ class EntriesController extends AppController {
 		}
 
 		return TRUE;
-	}
-
-	protected function _teardownView() {
-		if ( $this->request->data['Entry']['user_id'] != $this->CurrentUser->getId() ) {
-			$this->Entry->incrementViews();
-		}
 	}
 
 	protected function _setupMix($tid) {
