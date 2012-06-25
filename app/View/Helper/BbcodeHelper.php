@@ -704,12 +704,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
   public function _embed($action, $attributes, $content, $params, &$node_object) {
+    if ( Configure::read('Saito.Settings.embedly_enabled') == FALSE ):
+      return __('[embed] tag not enabled.');
+    endif;
 
     if ( $action === 'validate' ) :
       return TRUE;
     endif;
 
     $out = 'Embeding failed.';
+    $this->Embedly->setApiKey(Configure::read('Saito.Settings.embedly_key'));
     $embedly = $this->Embedly->embedly($content);
     if ( $embedly !== FALSE ) :
       $out = $embedly;

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-24 09:35+0100\n"
-"PO-Revision-Date: 2012-06-24 09:35+0100\n"
+"POT-Creation-Date: 2012-06-25 09:36+0100\n"
+"PO-Revision-Date: 2012-06-25 09:38+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -743,9 +743,11 @@ msgstr "Forum deaktivieren."
 #: View/Settings/admin_index.ctp:426
 #: View/Settings/admin_index.ctp:449
 #: View/Settings/admin_index.ctp:468
-#: View/Settings/admin_index.ctp:487
-#: View/Settings/admin_index.ctp:511
-#: View/Settings/admin_index.ctp:530
+#: View/Settings/admin_index.ctp:491
+#: View/Settings/admin_index.ctp:510
+#: View/Settings/admin_index.ctp:529
+#: View/Settings/admin_index.ctp:548
+#: View/Settings/admin_index.ctp:558
 msgid "edit"
 msgstr "Bearbeiten"
 
@@ -928,44 +930,61 @@ msgid "video_domains_allowed_exp"
 msgstr "Domainnamen einbindbar für Video und iFrame. Ein Asterisk * bedeuted freies Einbinden (Vorsicht, dies kann ebenfalls zum Einbinden von Schadsoftware genutzt werden!)."
 
 #: View/Settings/admin_index.ctp:439
-msgid "flattr_enabled"
-msgstr "Flattr aktivieren"
-
-#: View/Settings/admin_index.ctp:445
-msgid "flattr_enabled_exp"
-msgstr "Ermöglicht es Benutzern flattr zu verwenden."
-
-#: View/Settings/admin_index.ctp:458
-msgid "flattr_language"
-msgstr "Flattr-Sprache"
-
-#: View/Settings/admin_index.ctp:464
-msgid "flattr_language_exp"
-msgstr "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf flattr.com für Kürzel."
-
-#: View/Settings/admin_index.ctp:477
-msgid "flattr_category"
-msgstr "Flattr-Kategorie"
-
-#: View/Settings/admin_index.ctp:483
-msgid "flattr_category_exp"
-msgstr "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe flattr.com für verfügbare Kategorien."
-
-#: View/Settings/admin_index.ctp:501
 msgid "upload_max_img_size"
 msgstr "Uploadgröße maximal"
 
-#: View/Settings/admin_index.ctp:507
+#: View/Settings/admin_index.ctp:445
 msgid "upload_max_img_size_exp"
 msgstr "Maximale Größe, die ein Upload besitzen darf in kB."
 
-#: View/Settings/admin_index.ctp:520
+#: View/Settings/admin_index.ctp:458
 msgid "upload_max_number_of_uploads"
 msgstr "Anzahl an Uploads pro Benutzer"
 
-#: View/Settings/admin_index.ctp:526
+#: View/Settings/admin_index.ctp:464
 msgid "upload_max_number_of_uploads_exp"
 msgstr "Maximale Anzahl von Dateien, die ein einzelner Benutzer gleichzeitig auf dem Server hochgeladen haben kann."
+
+#: View/Settings/admin_index.ctp:481
+msgid "flattr_enabled"
+msgstr "Flattr aktivieren"
+
+#: View/Settings/admin_index.ctp:487
+msgid "flattr_enabled_exp"
+msgstr "Ermöglicht es Benutzern flattr zu verwenden."
+
+#: View/Settings/admin_index.ctp:500
+msgid "flattr_language"
+msgstr "Flattr-Sprache"
+
+#: View/Settings/admin_index.ctp:506
+msgid "flattr_language_exp"
+msgstr "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf flattr.com für Kürzel."
+
+#: View/Settings/admin_index.ctp:519
+msgid "flattr_category"
+msgstr "Flattr-Kategorie"
+
+#: View/Settings/admin_index.ctp:525
+msgid "flattr_category_exp"
+msgstr "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe flattr.com für verfügbare Kategorien."
+
+#: View/Settings/admin_index.ctp:544
+msgid "embedly_enabled"
+msgstr "Embed.ly aktivieren"
+
+#: View/Settings/admin_index.ctp:546
+msgid "embedly_enabled_exp"
+msgstr "Aktiviert den [embed]-BBcode, welcher seinen Inhalt durch Embed.ly darstellt."
+
+#: View/Settings/admin_index.ctp:554
+msgid "embedly_key"
+msgstr "Embed.ly Key"
+
+#
+#: View/Settings/admin_index.ctp:556
+msgid "embedly_key_exp"
+msgstr "API-Key, den man nach der Registrierung bei Embed.ly erhält."
 
 #: View/SmileyCodes/admin_add.ctp:4
 msgid "Admin Add Smiley Code"
@@ -1478,48 +1497,48 @@ msgstr "Kategorie"
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:159
+#: Controller/EntriesController.php:183
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:162
+#: Controller/EntriesController.php:186
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:223
-#: Controller/EntriesController.php:316
+#: Controller/EntriesController.php:247
+#: Controller/EntriesController.php:340
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:250
-#: Controller/EntriesController.php:325
+#: Controller/EntriesController.php:274
+#: Controller/EntriesController.php:349
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:256
+#: Controller/EntriesController.php:280
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:263
+#: Controller/EntriesController.php:287
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:353
+#: Controller/EntriesController.php:377
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:541
+#: Controller/EntriesController.php:565
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:541
+#: Controller/EntriesController.php:565
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:696
-#: Controller/EntriesController.php:706
+#: Controller/EntriesController.php:720
+#: Controller/EntriesController.php:730
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1738,22 +1757,22 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:452
+#: View/Helper/BbcodeHelper.php:459
 #, fuzzy
 msgid "Your browser does not support HTML5 video. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
 msgstr "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen Browser."
 
-#: View/Helper/BbcodeHelper.php:470
+#: View/Helper/BbcodeHelper.php:477
 #, fuzzy
 msgid "Your browser does not support HTML5 audio. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
 msgstr "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen Browser."
 
-#: View/Helper/BbcodeHelper.php:783
+#: View/Helper/BbcodeHelper.php:805
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:791
+#: View/Helper/BbcodeHelper.php:813
 msgid "Video domain is not allowed."
 msgstr ""
 

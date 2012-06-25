@@ -26,6 +26,14 @@ class SettingData {
 				'value'	=> '20',
 			),
 		array(
+				'name'	=> 'embedly_enabled',
+				'value'	=> '0',
+			),
+		array(
+				'name'	=> 'embedly_key',
+				'value'	=> NULL,
+			),
+		array(
 				'name'	=> 'video_domains_allowed',
 				'value'	=> 'youtube | vimeo',
 			),

@@ -431,7 +431,49 @@
 			</td>
 		</tr>
 	</table> <!--	</table>-->
-	<h2>Flattr</h2>
+	<h2>Uploads</h2>
+	<table class="table table-striped table-bordered table-condensed">
+		<?php echo $tableHeadersHtml ?>
+		<tr>
+			<td>
+				<?php echo __('upload_max_img_size'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['upload_max_img_size']; ?>
+			</td>
+			<td>
+				<p><?php echo __('upload_max_img_size_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_img_size'),
+								array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo __('upload_max_number_of_uploads'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['upload_max_number_of_uploads']; ?>
+			</td>
+			<td>
+				<p><?php echo __('upload_max_number_of_uploads_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_number_of_uploads'),
+								array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
+	</table> <!--	</table>-->
+	<h2><?php echo $this->Html->link('Flattr', 'http://flattr.com/'); ?></h2>
 	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $tableHeadersHtml ?>
 		<tr>
@@ -492,47 +534,33 @@
 			</td>
 		</tr>
 	</table> <!--	</table>-->
-	<br/>
-	<h2>Uploads</h2>
+
+	<h2><?php echo $this->Html->link('Embed.ly', 'http://embed.ly/'); ?></h2>
 	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('upload_max_img_size'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['upload_max_img_size']; ?>
-			</td>
-			<td>
-				<p><?php echo __('upload_max_img_size_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_img_size'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('upload_max_number_of_uploads'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['upload_max_number_of_uploads']; ?>
-			</td>
-			<td>
-				<p><?php echo __('upload_max_number_of_uploads_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_number_of_uploads'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table> <!--	</table>-->
+    <?php
+      echo $this->Html->tableCells(array(
+          array(
+              __('embedly_enabled'),
+              $Settings['embedly_enabled'],
+              __('embedly_enabled_exp'),
+              $this->Html->link(
+                  __('edit'),
+                  array( 'controller' => 'settings', 'action' => 'edit', 'embedly_enabled' ),
+                  array( 'class' => 'btn' )
+              )
+          ),
+          array(
+              __('embedly_key'),
+              $Settings['embedly_key'],
+              __('embedly_key_exp'),
+              $this->Html->link(
+                  __('edit'),
+                  array( 'controller' => 'settings', 'action' => 'edit', 'embedly_key' ),
+                  array( 'class' => 'btn' )
+              )
+          )
+      ));
+    ?>
+	</table>
 </div>

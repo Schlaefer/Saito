@@ -667,7 +667,38 @@
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
-		public function testHtml5Audio() {
+    public function testEmbedly() {
+
+      $embedly_enabled = Configure::read('Saito.Settings.embedly_enabled');
+      $embedly_key = Configure::read('Saito.Settings.embedly_key');
+
+      // Embedly is disabled
+      $observer = $this->getMock('Embedly', array( 'setApiKey', 'embedly' ));
+      $observer->expects($this->never())
+          ->method('setApiKey');
+      $this->Bbcode->Embedly = $observer;
+      $input = '[embed]foo[/embed]';
+      $result = $this->Bbcode->parse($input);
+
+      // Embedly is enabled
+      Configure::write('Saito.Settings.embedly_enabled', TRUE);
+      Configure::write('Saito.Settings.embedly_key', 'abc123');
+
+      $observer = $this->getMock('Embedly', array( 'setApiKey', 'embedly' ));
+      $observer->expects($this->once())
+          ->method('setApiKey')
+          ->with($this->equalTo('abc123'));
+      $observer->expects($this->once())
+          ->method('embedly')
+          ->with($this->equalTo('foo'));
+      $this->Bbcode->Embedly = $observer;
+      $result = $this->Bbcode->parse($input);
+
+      Configure::write('Saito.Settings.embedly_enabled', $embedly_enabled);
+      Configure::write('Saito.Settings.embedly_key', $embedly_key);
+    }
+
+    public function testHtml5Audio() {
 
 			//* setup
 			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
