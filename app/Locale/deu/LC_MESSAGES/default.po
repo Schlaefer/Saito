@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-25 09:36+0100\n"
-"PO-Revision-Date: 2012-06-25 09:38+0100\n"
+"PO-Revision-Date: 2012-06-25 16:11+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1842,9 +1842,8 @@ msgid "geshi_link_placeholder"
 msgstr "Hier den Verweistext eingeben."
 
 #: View/Helper/MarkitupEditorHelper.php:74
-#, fuzzy
 msgid "Picture"
-msgstr "Signatur"
+msgstr "Bild"
 
 #: View/Helper/MarkitupEditorHelper.php:76
 msgid "geshi_picture_popup"
