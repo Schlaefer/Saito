@@ -133,9 +133,10 @@ class EntriesController extends AppController {
       $this->autoRender = false;
 
       $out = array( );
-      $out[] = '<pre>';
+      $out[] = '<pre style="white-space: pre-wrap;">';
       $out[] = $data['Entry']['subject'] . "\n";
       $out[] = $data['Entry']['text'];
+      $out[] = '</pre>';
       return implode("\n", $out);
     }
 
