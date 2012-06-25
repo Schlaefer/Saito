@@ -57,12 +57,24 @@ $markitup-buttonHeight: 32px;
 /*.markItUp .markItUpButton10 a	{ background: image_url('markitup/spr_toolbar.png') 0px -288px no-repeat; }*/
 /*.markItUp .markItUpButton10 a:hover	{ background-position: -32px -288px; }*/
 
+.markItUp .markItUpButton11 ul li	{
+  min-width: 0px;
+  margin: 0px;
+  }
+.markItUp .markItUpButton11 ul li	a {
+  background-position: 9px 9px;
+  height: 32px;
+  width: 32px;
+  padding: 0px;
+  }
+
 .markItUp .markItUpButton11 > a	{ 
     background: image_url('markitup/spr_toolbar.png') 0px -384px no-repeat;
     text-indent: -10000px;
   }
-.markItUp .markItUpButton11 ul	{ width: 260px; z-index: 1; margin-top: (-1px + $markitup-buttonHeight/2);}
-.markItUp .markItUpButton11 ul li a	{ padding:4px; width: 18px; height: 18px;  }
+.markItUp .markItUpButton11 ul	{ width: 260px; z-index: 1; 
+  margin: -21px 0 0 -2px;
+  }
 .markItUp .markItUpHeader ul ul li { float: left; border: none; }
 .markItUp .markItUpHeader ul ul li:active { background-color: #eee; }
 
@@ -169,6 +181,7 @@ form .c_markitup_popup_txta {
 	float:left;
 	position:relative;
 }
+
 .markItUpHeader ul li:hover > ul{
 	display:block;
 }
