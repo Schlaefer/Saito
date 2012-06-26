@@ -170,6 +170,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				array( 'block', 'inline', 'link' ), array( )
 		);
 
+		//* hr
+		$this->_Parser->addCode(
+				'---', 'simple_replace', null,
+				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
+				array( 'block', 'inline', 'link' ), array( )
+		);
+		$this->_Parser->addCode(
+				'hr', 'simple_replace', null,
+				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
+				array( 'block', 'inline', 'link' ), array( )
+		);
+
 		//* urls
 		$this->_Parser->addCode(
 				'url', 'usecontent?', array( &$this, '_url' ),

@@ -56,3 +56,8 @@ a {
 	@include link-colors($link_color);
 	text-decoration: none;
 	}
+
+hr {
+  border-width: 0;
+  border-bottom: 1px solid $saito_gray_dark;
+}

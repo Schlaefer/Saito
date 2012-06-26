@@ -450,6 +450,8 @@ u, .c_bbc_underline { text-decoration: underline; }
 
 a { color: #e74a00; text-decoration: none; }
 
+hr { border-width: 0; border-bottom: 1px solid #e0e0e0; }
+
 /******************************************************************************* Slidebars (aka Slidetabs) general layout *****************************************************************************/
 #slidetabs { float: right; overflow: hidden; z-index: 5; position: relative; }
 
@@ -648,6 +650,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .c_bbc_ul { margin: 0em 2em; padding: 0; list-style-image: url('../../img/bbcode_list_image.png'); }
 
 .c_bbc_li { margin: 0.5em 0; padding: 0; }
+
+.c_bbc_hr { margin-left: 0.5em; width: 10em; display: inline-block; }
 
 /** geshi */
 .code { padding: 1em; }
