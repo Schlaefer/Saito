@@ -37,13 +37,13 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  border-width: 1px 0 0 1px;
 }
 
 .top-menu {
   padding: 2px 1em;
   font-size: 10px;
   line-height: 12px;
+  border-width: $border_width 0 0 $border_width;
   }
 
 .top-search > form {

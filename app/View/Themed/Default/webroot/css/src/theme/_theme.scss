@@ -31,7 +31,6 @@
   border-top-left-radius: $corner_radius;
   color: $saito_border;
   @extend .header_style_1;
-  border-width: $border_width 0 0 $border_width;
   }
 
 .disclaimer {
