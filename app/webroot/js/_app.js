@@ -139,6 +139,8 @@ var markItUp = {
     var patternFlash = /\<object/i;
     var patternIframe = /\<iframe/i;
 
+    var out = '';
+
     if ( patternHtml.test(textv) ) {
       out = markItUp._videoHtml5(textv);
     } else if ( patternAudio.test(textv) ) {
@@ -149,6 +151,10 @@ var markItUp = {
       out = markItUp._videoFlash(textv);
     } else {
       out = markItUp._videoFallback(textv);
+    }
+
+    if ( Saito_Settings_embedly_enabled == 1 && out === '' ) {
+      out = markItUp._embedly(textv);
     }
 
     return out;
@@ -215,13 +221,12 @@ var markItUp = {
         }
         return out;
       }
-
-      // embed.ly last resort fallback
-      return '[embed]' + text + '[/embed]';
-    // is valid url
-
     }
     return out;
+  },
+
+  _embedly: function(text) {
+      return '[embed]' + text + '[/embed]';
   },
 
   _createIframe: function(args) {
@@ -461,7 +466,7 @@ function initViewLine(id) {
     event.preventDefault();
   });
 
-  if (user_show_inline == 1) {
+  if (User_Settings_user_show_inline == 1) {
     $(".link_show_thread" + id_class).bind("click", function (event) {
       new ThreadLine(getElementIdFromClassOfObject($(this))).load_inline_view();
       event.preventDefault();

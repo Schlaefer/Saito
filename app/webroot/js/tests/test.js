@@ -61,5 +61,20 @@ test('markItUp.multimedia()', function() {
 		+ 'height=349 frameborder=0 allowfullscreen][/iframe]';
 	equal(result, expected, message);
 
+  // test embedly with support disabled
+  Saito_Settings_embedly_enabled = 0;
+	message = 'test embed.ly disabled'
+	input = 'https://twitter.com/apfelwiki/status/211385090444505088';
+	result = markItUp.multimedia(input);
+	expected = '';
+	equal(result, expected, message);
+
+  // test embedly with support enabled
+  Saito_Settings_embedly_enabled = 1;
+	message = 'test embed.ly'
+	input = 'https://twitter.com/apfelwiki/status/211385090444505088';
+	result = markItUp.multimedia(input);
+	expected = '[embed]' + input + '[/embed]';
+	equal(result, expected, message);
 
 })
