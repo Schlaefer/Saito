@@ -85,44 +85,6 @@
 			}
 		?>
 	</div>
-  <div>
-		<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}'; var user_show_inline = '{$CurrentUser['inline_view_on_click']}';"); ?>
-		<?php 
-			if ( Configure::read('debug') == 0 ):
-				echo $this->Html->script('js.min');
-				echo $this->Html->script(
-						array(
-								'js2-min.js',
-								)
-						);
-			else:
-				echo $this->Html->script('jquery.hoverIntent.minified');
-				echo $this->Html->script('lib/jquery-ui/jquery-ui-1.8.19.custom.min');
-				echo $this->Html->script('classes/thread.class');
-				echo $this->Html->script('classes/thread_line.class');
-				echo $this->Html->script('_app');
-				echo $this->Html->script('jquery.form');
-				echo $this->Html->script('jquery.scrollTo-1.4.2-min');
-				echo $this->Html->script(
-						array(
-                'bootstrap/bootstrap.js',
-								'lib/underscore/underscore.js',
-								'lib/backbone/backbone.js',
-								'lib/backbone/backbone.localStorage',
-								'_appbb'
-								)
-						);
-			endif;
-		?>
-		<?php echo $this->fetch('script'); ?>
-		<?php echo $this->Js->writeBuffer();?>
-		<div class='clearfix'></div>
-		<?php
-			if ( (int)Configure::read('debug') !== 0 ) :
-        echo $this->Stopwatch->getResult();
-      endif;
-      ?>
-		<?php echo $this->element('sql_dump'); ?>
-	</div>
+  <?php echo $this->element('layout/html_footer'); ?>
 	</body>
 </html>
