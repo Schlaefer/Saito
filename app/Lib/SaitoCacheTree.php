@@ -15,9 +15,9 @@ class SaitoCacheTree extends Object {
 
 		if ($this->isCacheCurrent($entry)) {
 			if ( // … user is anonymous …
-					!($user)
+					(!isset($user['last_refresh']))
 					// … OR if he is logged in there are no new postings for him
-					|| ($user && (strtotime($entry['last_answer']) < strtotime($user['last_refresh'])))
+					|| (isset($user['last_refresh']) && (strtotime($entry['last_answer']) < strtotime($user['last_refresh'])))
 			) {
 				return true;
 			}

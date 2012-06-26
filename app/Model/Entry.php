@@ -221,15 +221,17 @@ class Entry extends AppModel {
       $fieldlist = $this->threadLineFieldList;
     endif;
 
-		$found_threads = $this->find('all',
-														array (
-																'conditions' => array(
-																		'tid' => $where,
-																	),
-																'fields'	=> $fieldlist,
-																'order' => $order,
-															)
-			);
+    if( !empty($where) ):
+      $found_threads = $this->find('all',
+                              array (
+                                  'conditions' => array(
+                                      'tid' => $where,
+                                    ),
+                                  'fields'	=> $fieldlist,
+                                  'order' => $order,
+                                )
+        );
+    endif;
 
 		$threads = array();
 		foreach($search_array as $search_item) {
