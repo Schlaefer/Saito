@@ -37,7 +37,7 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 			?>
 		</div>
 		<div style="width: 20%;">
-			<a href="#" onclick="$('.search_form_wrapper').slideToggle('', function (){$('.search_form_wrapper_adv').slideToggle();});return false;">
+			<a href="#" onclick="$('.search_form_wrapper').slideToggle('', function (){$('.search_form_wrapper_adv').slideToggle();}); saitoHelpShow(); return false;">
 <?php echo __('search_advanced'); ?>
 			</a>
 		</div>
