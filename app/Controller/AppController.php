@@ -107,22 +107,15 @@ class AppController extends Controller {
 
 		// setup for admin area
 		if ( isset($this->params['admin']) ):
-			// protect the admin area
-			if ( $this->CurrentUser->isAdmin() !== TRUE ) :
-				$this->redirect('/');
-        throw new ForbiddenException();
-				exit();
-			endif;
 			$this->_beforeFilterAdminArea();
 		endif;
 
-		//* disable forum with admin pref
-		if (Configure::read('Saito.Settings.forum_disabled') == true && !($this->params['action'] === 'login')) {
-				if ($this->Auth->user('user_type') != 'admin') {
-					$this->render('/Pages/forum_disabled', 'barebone');
-					return;
-			}
-		}
+		// disable forum with admin pref
+		if ( Configure::read('Saito.Settings.forum_disabled') && !($this->params['action'] === 'login') ):
+				if ( $this->CurrentUser->isAdmin() !== TRUE ):
+					return $this->render('/Pages/forum_disabled', 'barebone');
+        endif;
+    endif;
 
 		Stopwatch::enable();
 
@@ -235,6 +228,13 @@ class AppController extends Controller {
 	}
 
 	protected function _beforeFilterAdminArea() {
+    // protect the admin area
+    if ( $this->CurrentUser->isAdmin() !== TRUE ) :
+      $this->redirect('/');
+      throw new ForbiddenException();
+      exit();
+    endif;
+
 		$this->layout = 'admin';
 	}
 
