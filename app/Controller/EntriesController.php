@@ -496,6 +496,7 @@ class EntriesController extends AppController {
 		unset($this->request->data);
 		$this->request->data = array( );
 
+		$this->request->data['Entry']['pid'] = $pid;
 		$this->request->data['Entry']['subject'] = $subject;
 		$this->request->data['Entry']['text'] = $text;
 		$this->request->data['Entry']['category'] = $category;
