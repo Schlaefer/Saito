@@ -5,28 +5,49 @@
  */
 class SaitoCacheTree extends Object {
 
-	static protected $_cachedEntries 	= null;
-	static protected $_forceNoCache		= false;
+	static protected $_cachedEntries 	= NULL;
+	static protected $_isEnabled	    = FALSE;
 	static protected $_isUpdated			= FALSE; 
 
 	public function canUseCache($entry = null, $user = null) {
-		if(self::$_forceNoCache) return false;
+		if(!self::$_isEnabled) return false;
 		if(empty($entry)) return false;
 
 		if ($this->isCacheCurrent($entry)) {
-			if ( // … user is anonymous …
-					(!isset($user['last_refresh']))
-					// … OR if he is logged in there are no new postings for him
-					|| (isset($user['last_refresh']) && (strtotime($entry['last_answer']) < strtotime($user['last_refresh'])))
-			) {
+			if ( $this->_isTreeOldToUser($entry, $user) ) {
 				return true;
 			}
 		}
 		return false;
 	}
 
+  public function isTreeUpdateableByUser($entry, $user) {
+    if(!self::$_isEnabled) return false;
+
+    return $this->_isTreeOldToUser($entry, $user);
+  }
+
+  protected function _isTreeOldToUser($entry, $user) {
+
+    // … user is not logged-in, so there can't be any new …
+    if ( !isset($user['last_refresh']) ):
+      return TRUE;
+    // … OR if he is logged-in and there are no new entries for him in this thread
+    elseif ( strtotime($entry['last_answer']) < strtotime($user['last_refresh']) ):
+      return TRUE;
+    endif;
+
+    return FALSE;
+  }
+
+  /**
+   * Checks if the cache for an entry is available and current
+   *
+   * @param array $entry
+   * @return boolean
+   */
 	public function isCacheCurrent($entry) {
-		if(self::$_forceNoCache) return false;
+		if(!self::$_isEnabled) return false;
 
 		$id = $entry['id'];
 		$time = strtotime($entry['last_answer']);
@@ -44,7 +65,7 @@ class SaitoCacheTree extends Object {
 	}
 
 	public function read($id = null) {
-		if(self::$_forceNoCache) return false;
+		if(!self::$_isEnabled) return false;
 		if ($id === null) {
 			return self::$_cachedEntries;
 		}
@@ -57,30 +78,30 @@ class SaitoCacheTree extends Object {
 	}
 
 	public function update($id, $content) {
-		if(self::$_forceNoCache) return false;
+		if(!self::$_isEnabled) return false;
 		$data = array('time' => time(), 'content' => $content);
 		self::$_cachedEntries[$id] = $data;
 		self::$_isUpdated = TRUE;
 	}
 
 	public function readCache() {
-		if(self::$_forceNoCache) return false;
+		if(!self::$_isEnabled) return false;
 		self::$_cachedEntries = Cache::read('EntrySub');
 	}
 	
 	public function saveCache() {
-		if( self::$_forceNoCache || self::$_isUpdated === FALSE ) return false;
+		if( !self::$_isEnabled || self::$_isUpdated === FALSE ) return false;
 		$this->_gc();
 		self::$_cachedEntries['last_update']['day'] = mktime(0, 0, 0);
 		Cache::write('EntrySub', (array)self::$_cachedEntries);
 	}
 
-	public static function forceCache() {
-		self::$_forceNoCache =  FALSE;
+	public static function enable() {
+		self::$_isEnabled =  TRUE;
 	}
 
-	public static function forceNoCache() {
-		self::$_forceNoCache =  TRUE;
+	public static function disable() {
+		self::$_isEnabled =  FALSE;
 	}
 
 	/**
@@ -88,7 +109,7 @@ class SaitoCacheTree extends Object {
 	 *
 	 */
 	protected function _gc() {
-		if(self::$_forceNoCache || !self::$_cachedEntries) return false;
+		if(!self::$_isEnabled || !self::$_cachedEntries) return false;
 
 		// unset cache ad midnight (relative dates)
 		if (isset(self::$_cachedEntries['last_update']['day']) && mktime(0, 0, 0) != self::$_cachedEntries['last_update']['day']) {
