@@ -17,7 +17,7 @@
 	}
 ?>
 <div id="entry_view" class="entry view">
-	<div class="a">
+	<div class="a box-content">
 				<?php  echo $this->element('/entry/view_posting', array('entry' => $entry, 'level' => $level,)); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day'))); ?>
 	</div> <!-- a -->
 
@@ -28,7 +28,7 @@
 			</li>
 		</ul>
 	</div> <!-- thread_tools -->
-	<div class="b">
+	<div class="b box-content">
 		<p>
 			<strong>
 				<?php echo  __('whole_thread_marking');	?>:

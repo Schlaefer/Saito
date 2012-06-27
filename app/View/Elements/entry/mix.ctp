@@ -19,7 +19,7 @@
 	<ul class="<?php echo  ($level == 0) ? 'thread' : 'reply';?>">
 <?php endif;?>
 		<li class="<?php echo $span_post_type ?>" style="margin-bottom: 20px;">
-					<div class="a">
+					<div class="a box-content">
 						<?php
 							echo $this->element('/entry/view_posting', array('entry' => $entry_sub, 'level' => $level, )); #'cache' => array('key' => $entry_sub["Entry"]['id'], 'time' => '+1 day') ));
 						?>
