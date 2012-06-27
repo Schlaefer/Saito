@@ -61,7 +61,7 @@
 			 * unregistred users can't see user profiles
 			 */
 			$result = $this->testAction('/users/view/1');
-			$this->assertContains('/users/login', $this->headers['Location']);
+			$this->assertContains('/login', $this->headers['Location']);
 
 			/*
 			 * registred users can see user profiles

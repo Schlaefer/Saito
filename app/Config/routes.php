@@ -50,7 +50,7 @@ else :
 endif;
 
 /**
- * ...and connect the rest of 'Pages' controller's urls.
+ * /users/login -> /login
  */
 Router::connect('/login', array( 'controller' => 'users', 'action' => 'login' ));
 
