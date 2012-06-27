@@ -37,11 +37,6 @@
  */
 	CakePlugin::routes();
 
-/**
- * Load the CakePHP default routes. Remove this if you do not want to use
- * the built-in default routes.
- */
-	require CAKE . 'Config' . DS . 'routes.php';
 
 /*********************** Start Saito Routes **********************************/
 
@@ -53,6 +48,12 @@ if ( Configure::read('Saito.installed') ) :
 else :
 	Router::connect('/', array( 'plugin' => 'install', 'controller' => 'install', 'action' => 'index' ));
 endif;
+
+/**
+ * ...and connect the rest of 'Pages' controller's urls.
+ */
+Router::connect('/login', array( 'controller' => 'users', 'action' => 'login' ));
+
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.
@@ -77,4 +78,10 @@ Router::connect(
  * RSS & JSON setup
  */
 Router::parseExtensions('rss', 'json');
+
+/**
+ * Load the CakePHP default routes. Remove this if you do not want to use
+ * the built-in default routes.
+ */
+	require CAKE . 'Config' . DS . 'routes.php';
 ?>
