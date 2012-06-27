@@ -49,19 +49,11 @@
 			// time is stored as last login time
 			$this->assertEqual($timeOfLogin, $userAfterLogin['User']['last_login']);
 
-//		debug($this->Users->User->read());
 			// check that there was no false insertion of new users through relationships
 			// leave this test of the end of testLogin()
 			$registeredUsersAfterLogin = $this->Users->User->find('count');
 			$this->assertEqual($registeredUsersBeforeLogin, $registeredUsersAfterLogin);
 
-//		debug($this->Users->data);
-//		debug($this->Users->viewVars);
-//		debug($this->Users->Auth->user());
-//		debug($this->Users->renderedAction);
-//		debug($this->Users->redirectUrl);
-//		debug($this->Users->currentUser);
-//		debug($result);
 		}
 
 		public function testView() {
@@ -383,30 +375,6 @@
 			/* recipient does not exist */
 			$this->testAction('/users/contact/9999');
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
-		}
-
-		public function testIndexGetViewVarsRegistred() {
-			/*
-			  $this->_loginUser("Charles");
-			  foreach ($this->r as $name => $userdata) {
-			  $this->prepareAction('/users/view', $userdata['user_id']);
-			  $result = $this->testAction('/users/view/'.$userdata['user_id'], array( 'return' => 'vars' ));
-			  $fields =  array_keys($userdata);
-			  foreach($fields as $field) {
-			  $this->assertEqual($result['user']['User'][$field], $userdata[$field]);
-			  }
-			  }
-			 */
-		}
-
-		public function testGetViewVarsChangepassword() {
-
-			/*
-			  $this->_loginUser("Charles");
-			  $this->prepareAction('/users/changepassword', $this->cu['user_id']);
-			  $result = $this->testAction('/users/changepassword/'.$this->cu['user_id'], array( 'return' => 'vars' ));
-			  $this->assertTrue($result['allowedToEditUserData']);
-			 */
 		}
 
 	}
