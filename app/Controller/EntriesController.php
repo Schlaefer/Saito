@@ -655,15 +655,13 @@ class EntriesController extends AppController {
 				)
 		) {
 
-			$this->CurrentUser->LastRefresh->setMarker();
-
 			if (
 			//* deprecated
 					($this->localReferer('controller') == 'entries' && $this->localReferer('action') == 'index')
 					OR
 					//* current
 					( isset($this->request->params['named']['setAsRead']) )
-			) {
+			):
 				//* all the session stuff ensures that a second session A don't accidentaly mark something as read that isn't read on session B
 				if ( $this->Session->read('User.last_refresh_tmp')
 						&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
@@ -671,7 +669,9 @@ class EntriesController extends AppController {
 					$this->CurrentUser->LastRefresh->set();
 				}
 				$this->Session->write('User.last_refresh_tmp', time());
-			}
+		  else:
+        $this->CurrentUser->LastRefresh->setMarker();
+      endif;
 		}
 
 		Stopwatch::stop('Entries->beforeFilter()');
