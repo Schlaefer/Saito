@@ -174,6 +174,7 @@ class PaginatorComponent extends Component {
 		$defaults = $this->getDefaults($object->alias);
 		unset($defaults[0]);
 
+    Stopwatch::start('paginate()');
 		if ($object->hasMethod('paginateCount')) {
 			$count = $object->paginateCount($conditions, $recursive, $extra);
 		} else {
@@ -183,6 +184,7 @@ class PaginatorComponent extends Component {
 			}
 			$count = $object->find('count', array_merge($parameters, $extra));
 		}
+    Stopwatch::stop('paginate()');
 		$pageCount = intval(ceil($count / $limit));
 
 		$paging = array(

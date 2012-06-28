@@ -707,7 +707,9 @@ class EntriesController extends AppController {
 				'order' => $order,
 				)
 		;
+		Stopwatch::start('Entries->_getInitialThreads() Paginate');
 		$initial_threads = $this->paginate();
+		Stopwatch::stop('Entries->_getInitialThreads() Paginate');
 
 		$initial_threads_new = array( );
 		foreach ( $initial_threads as $k => $v ) {

@@ -177,6 +177,7 @@ class User extends AppModel {
 	);
 
 	public function setLastRefresh($lastRefresh = NULL) {
+		Stopwatch::start('Users->setLastRefresh()');
 		$data[$this->alias]['last_refresh_tmp'] = date("Y-m-d H:i:s");
 
 		if ( $lastRefresh ) {
@@ -187,7 +188,7 @@ class User extends AppModel {
 		if ( $this->save($data, TRUE, array( 'last_refresh_tmp', 'last_refresh' )) == FALSE ) {
 			throw new Exception("Updating last user refresh failed.");
 		}
-
+		Stopwatch::end('Users->setLastRefresh()');
 	}
 
 	public function numberOfEntries() {
