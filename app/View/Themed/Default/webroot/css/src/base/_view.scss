@@ -23,6 +23,44 @@
   margin-top: 1em;
   }
 
+.a { margin-bottom: 10px;
+}
+
+.b {
+  padding: 10px;
+  .tree_thread {
+    @include box-shadow(0 0 0);
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0; }
+  }
+
+/* Inner Content
+// ----------------------------------- */
+.a_a_a {
+  padding: $padding; }
+
+.c_a_a_b {
+  @extend .c_t_h_3_tbl;
+  height: 45px;
+
+& > div > div {
+  border-style: solid;
+  border-color: $saito_gray_dark;
+  padding: 0 20px;
+  }
+
+.c_a_a_b_a {
+  border-width: $border_width $border_width 0 0;
+  border-top-right-radius:$corner_radius;
+  }
+
+.c_a_a_b_c {
+  border-width: $border_width 0 0 $border_width;
+  border-top-left-radius:$corner_radius; }
+  }
+
 /* BBCode
 // ------------------------------------- */
 .c_bbc_code-wrapper {
