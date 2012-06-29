@@ -439,22 +439,14 @@ class EntriesController extends AppController {
 				/* stupid apache rewrite urlencode bullshit */
 				// $this->passedArgs['search_term'] = urlencode(urlencode($search_term));
 
-				$where = array( );
 				if ( $searchTerm ) {
-
+          $searchTerm = Sanitize::escape($searchTerm);
 					$this->paginate = array(
 							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$searchTerm' IN BOOLEAN MODE)*100) + (MATCH (Entry.text) AGAINST ('$searchTerm' IN BOOLEAN MODE)*10) + MATCH (Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE) AS rating",
 							'conditions' => array(
                 "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
                 'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())),
 							'order' => 'rating DESC, `Entry`.`time` DESC',
-							/*
-							  'conditions' 	=> array(
-							  $where,
-							  'time >'	=> date('Y-m-d H:i:s', mktime(0, 9, 9, $start_month, 1, $start_year)),
-							  ),
-							  'order' 			=> '`Entry`.`time` DESC',
-							 */
 							'limit' => 25,
 					);
 					$found_entries = $this->paginate('Entry');
