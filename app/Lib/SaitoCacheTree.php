@@ -86,7 +86,9 @@ class SaitoCacheTree extends Object {
 
 	public function readCache() {
 		if(!self::$_isEnabled) return false;
+    Stopwatch::start('SaitoCacheTree->readCache()');
 		self::$_cachedEntries = Cache::read('EntrySub');
+    Stopwatch::end('SaitoCacheTree->readCache()');
 	}
 	
 	public function saveCache() {
