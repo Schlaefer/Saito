@@ -17,26 +17,14 @@ class CacheTreeHelper extends AppHelper {
 		$this->_CacheTree = new SaitoCacheTree();
 	}
 
-	public function canCacheBeUpdated($entry, $user) {
-		// if user is anonymous or user has no new entries in this thread
-		if (!$this->_CacheTree->canUseCache($entry, $user)
-				&& (!$user || strtotime($entry['last_answer']) < strtotime($user['last_refresh']))) {
-			return true;
-		}
-		return false;
-	}
+  public function __call($method, $params) {
+    if ( method_exists($this->_CacheTree, $method) ):
+      return call_user_func_array(array($this->_CacheTree, $method), $params);
+    else:
+      parent::__call($method, $params);
+    endif;
+  }
 
-	public function read($id) {
-		return $this->_CacheTree->read($id);
-	}
-
-	public function update($id, $content) {
-		$this->_CacheTree->update($id, $content);
-	}
-
-	public function canUseCache($entry, $user) {
-		return $this->_CacheTree->canUseCache($entry, $user);
-	}
 }
 
 ?>

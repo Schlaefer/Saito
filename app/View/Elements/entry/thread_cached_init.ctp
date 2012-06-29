@@ -7,9 +7,9 @@
 	} else {
 		$out = $this->element('entry/thread_cached', array ( 'entry_sub' => $entry_sub, 'level' => 0));
 
-		if ($this->CacheTree->canCacheBeUpdated($entry_sub['Entry'], $CurrentUser->getSettings())) {
+		if ($this->CacheTree->isTreeUpdateableByUser($entry_sub['Entry'], $CurrentUser->getSettings())) {
 			$this->CacheTree->update($entry_sub['Entry']['id'], $out);
-		}
+		}     
 	}
 ?>
 <?php

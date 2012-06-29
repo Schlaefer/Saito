@@ -12,15 +12,14 @@ class CacheTreeComponent extends Component {
 	public function initialize($controller) {
 		$this->_CacheTree = new SaitoCacheTree();
 
-		if ( Configure::read('debug') > 1 || Configure::read('Saito.Cache.Thread') == FALSE ) {
-			SaitoCacheTree::forceNoCache();
-			}
-
-		if (	 $controller->params['action'] 	== 'mix' 	// don't cache in mix view
-				|| $controller->params['action'] 	== 'view' // don't cache in index view
-		) {
-			SaitoCacheTree::forceNoCache();
+		if ( $controller->params['action'] 	== 'index' ) {
+			SaitoCacheTree::enable();
 		}
+
+		if ( Configure::read('debug') > 1 || Configure::read('Saito.Cache.Thread') == FALSE ):
+			SaitoCacheTree::disable();
+    endif;
+
 		$this->_CacheTree->readCache();
 	}
 
