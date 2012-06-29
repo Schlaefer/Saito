@@ -705,6 +705,7 @@ class EntriesController extends AppController {
 				'fields' => 'id, pid, tid, time, last_answer',
 				'limit' => Configure::read('Saito.Settings.topics_per_page'),
 				'order' => $order,
+        'getInitialThreads' => 1,
 				)
 		;
 		Stopwatch::start('Entries->_getInitialThreads() Paginate');

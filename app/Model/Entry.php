@@ -162,7 +162,10 @@ class Entry extends AppModel {
 			if ($this->save($new_posting) != TRUE ) {
 				// @td raise error and/or roll back new entry
 				return FALSE;
-				}
+			} else {
+        $this->Category->id = $data['Entry']['category'];
+        $this->Category->updateThreadCounter();
+      }
 
 		} elseif ($new_posting['Entry']['pid'] > 0) {	
 			//* reply 
@@ -174,7 +177,7 @@ class Entry extends AppModel {
 				// @td raise error and/or roll back new entry
 				return FALSE;
 				}
-			}
+      }
 
 		$this->id = $new_posting_id; 
 		return $new_posting;
@@ -357,12 +360,20 @@ class Entry extends AppModel {
 
 		// delete only whole trees
 		$pid = $this->field('pid');
+    $category = $this->field('category');
 		if ((int)$pid !== 0) {
 		 return false;
 		}
 
-		return	$this->deleteAll(array('tid' => $this->id), false, true);
-	} // end deleteTreeWithTid()
+    $success = $this->deleteAll(array('tid' => $this->id), false, true);
+
+    if ( $success ):
+      $this->Category->id = $category;
+      $this->Category->updateThreadCounter();
+    endif;
+
+		return $success;
+	}
 
   /**
    * Anonymizes the entries for a user
@@ -415,5 +426,22 @@ class Entry extends AppModel {
 				array('tid'	=> $tid)
 		);
 	}
+
+  public function paginateCount($conditions, $recursive, $extra) {
+
+    if ( isset($extra['getInitialThreads']) ):
+      $this->Category->contain();
+      $categories = $this->Category->find('all', array( 'conditions' => array( 'id' => $conditions['Entry.category'])));
+      $count = array_sum(Set::extract('/Category/thread_count', $categories));
+    else:
+			$parameters = array('conditions' => $conditions);
+			if ($recursive != $this->recursive) {
+				$parameters['recursive'] = $recursive;
+			}
+			$count = $this->find('count', array_merge($parameters, $extra));
+    endif;
+
+    return $count;
+  }
 }
 ?>

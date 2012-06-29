@@ -17,6 +17,22 @@
 			);
 		}
 
+    public function testCreate() {
+      App::uses('Category', 'Model');
+
+      Configure::write('Saito.Settings.subject_maxlength', 75);
+      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'), array(false, 'category', 'test'));
+      $this->Entry->Category->expects($this->once())->method('updateThreadCounter')->will($this->returnValue(true));
+      $data['Entry'] = array(
+          'pid' => 0,
+          'subject' => 'Subject',
+          'category'  => 1,
+          'user_id'   => 1,
+      );
+      $this->Entry->createPosting($data);
+
+    }
+
 		public function testToggle() {
 
 			$this->Entry->id = 2;
@@ -55,7 +71,13 @@
 			$this->assertEqual($result, $expected);
 
 			//* try to delete thread
+
 			$this->Entry->id = 1;
+
+      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'));
+      $this->Entry->Category->
+          expects($this->once())->method('updateThreadCounter')->will($this->returnValue(true));
+
 			$result = $this->Entry->deleteTree();
 			$this->assertTrue($result);
 
@@ -113,10 +135,27 @@
 
     }
 
-		public function startTest() {
-			$this->Entry = ClassRegistry::init('Entry');
-		}
+    /**
+     * setUp method
+     *
+     * @return void
+     */
+    public function setUp() {
+      parent::setUp();
+      $this->Entry = ClassRegistry::init('Entry');
+    }
 
-	}
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown() {
+      unset($this->Entry);
+
+      parent::tearDown();
+    }
+
+  }
 
 ?>

@@ -77,5 +77,17 @@ class Category extends AppModel {
 
 		return parent::delete($this->field('id'), false) && $entriesDeleted;
 	}
+
+  public function updateThreadCounter() {
+    $this->Entry->contain();
+    $c = $this->Entry->find('count', array(
+        'conditions' => array(
+            'pid' => 0,
+            'Entry.category' => $this->id),
+        ));
+		$this->saveField('thread_count', $c);
+    return $c;
+  }
+
 }
 ?>
