@@ -683,6 +683,7 @@ class EntriesController extends AppController {
 	}
 
 	protected function _getInitialThreads(CurrentUserComponent $User) {
+		Stopwatch::start('Entries->_getInitialThreads() Paginate');
 		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == FALSE ? 'time' : 'last_answer');
 		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
 		$this->paginate = array(
@@ -700,14 +701,13 @@ class EntriesController extends AppController {
         'getInitialThreads' => 1,
 				)
 		;
-		Stopwatch::start('Entries->_getInitialThreads() Paginate');
 		$initial_threads = $this->paginate();
-		Stopwatch::stop('Entries->_getInitialThreads() Paginate');
 
 		$initial_threads_new = array( );
 		foreach ( $initial_threads as $k => $v ) {
 			$initial_threads_new[$k] = $v["Entry"];
 		}
+		Stopwatch::stop('Entries->_getInitialThreads() Paginate');
 		return array( 'initialThreads' => $initial_threads_new, 'order' => $order );
 	}
 
