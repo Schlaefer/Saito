@@ -430,16 +430,20 @@ class Entry extends AppModel {
   public function paginateCount($conditions, $recursive, $extra) {
 
     if ( isset($extra['getInitialThreads']) ):
-      $this->Category->contain();
-      $categories = $this->Category->find('all', array( 'conditions' => array( 'id' => $conditions['Entry.category'])));
-      $count = array_sum(Set::extract('/Category/thread_count', $categories));
-    else:
-			$parameters = array('conditions' => $conditions);
-			if ($recursive != $this->recursive) {
-				$parameters['recursive'] = $recursive;
-			}
-			$count = $this->find('count', array_merge($parameters, $extra));
-    endif;
+        $this->Category->contain();
+        $categories = $this->Category->find('all',
+            array(
+            'conditions' => array( 'id' => $conditions['Entry.category'] ),
+            'fields' => array( 'thread_count' )
+                ));
+        $count = array_sum(Set::extract('/Category/thread_count', $categories));
+      else:
+        $parameters = array( 'conditions' => $conditions );
+        if ( $recursive != $this->recursive ) {
+          $parameters['recursive'] = $recursive;
+        }
+        $count = $this->find('count', array_merge($parameters, $extra));
+      endif;
 
     return $count;
   }
