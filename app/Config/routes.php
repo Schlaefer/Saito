@@ -37,8 +37,6 @@
  */
 	CakePlugin::routes();
 
-  require CAKE . 'Config' . DS . 'routes.php';
-
 /*********************** Start Saito Routes **********************************/
 
 /**
@@ -69,11 +67,14 @@ Router::connect('/admin', array('controller' => 'admins', 'action' => 'index', '
 /**
  * Pagination for entries/index
  */
+/*
 Router::connect(
-    '/entries/index/:page/*',
+    '/entries/index/*',
     array('controller' => 'entries', 'action' => 'index'),
     array( 'named' => array('page'), 'page' => '[0-9]+' )
     );
+ * 
+ */
 
 /**
  * RSS & JSON setup
@@ -84,4 +85,8 @@ Router::parseExtensions('rss', 'json');
  * Load the CakePHP default routes. Remove this if you do not want to use
  * the built-in default routes.
  */
+
+require CAKE . 'Config' . DS . 'routes.php';
+
+
 ?>
