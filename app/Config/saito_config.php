@@ -25,13 +25,15 @@
       'Saito.markItUp.additionalButtons',
       array(
         'Button1' => array(
+            'title'       => 'Button 1'
             // image in img/markitup/<button>.png
-            'button'			=> 'button1',
+            'icon'			=> 'button1',
             // code inserted into text
             'code' 				=> ':action:',
-            // format replacement as image
+            // format replacement as image (optional)
             'type'				=> 'image',
-            // replacement in output
+            // replacement in output if type is image
+            // image in img/markitup/<replacement>
             'replacement' => 'resultofbutton1.png'
           ),
   * 			// …
