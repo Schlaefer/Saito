@@ -191,7 +191,7 @@ class EntriesController extends AppController {
 				$this->render('/Elements/empty');
 			} else {
 				$this->Session->setFlash($message, 'flash/notice');
-				$this->redirect($this->referer());
+				return $this->redirect($this->referer());
 			}
 		}
 
@@ -336,7 +336,7 @@ class EntriesController extends AppController {
 			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
 			if ( $new_entry = $this->Entry->save($this->request->data) ) {
 				$this->_emptyCache($this->Entry->id, $new_entry['Entry']['tid']);
-				$this->redirect(array( 'action' => 'view', $id ));
+				return $this->redirect(array( 'action' => 'view', $id ));
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
@@ -670,6 +670,7 @@ class EntriesController extends AppController {
 	}
 
 	protected function _emptyCache($id, $tid) {
+    $this->CacheTree->delete($tid);
 		clearCache("element_{$id}_entry_thread_line_cached", 'views', '');
 		clearCache("element_{$id}_entry_view_content", 'views', '');
 	}

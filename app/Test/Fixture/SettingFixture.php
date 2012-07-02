@@ -38,6 +38,10 @@
 						'name' => 'block_user_ui',
 						'value' => 1,
 				),
+				array(
+						'name' => 'subject_maxlength',
+						'value' => 100,
+				),
 		);
 
 	}

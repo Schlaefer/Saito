@@ -60,8 +60,9 @@ class SaitoCacheTree extends Object {
 	} // isCacheCurrent()
 
 	public function delete($id) {
-		unset(self::$_cachedEntries[$id]);
 		self::$_isUpdated = TRUE;
+    $this->readCache();
+		unset(self::$_cachedEntries[$id]);
 	}
 
 	public function read($id = null) {
@@ -72,30 +73,40 @@ class SaitoCacheTree extends Object {
 
 		if (isset(self::$_cachedEntries[$id])) {
 			return self::$_cachedEntries[$id]['content'];
-		} else {
-			return false;
 		}
+   
+    return FALSE;
 	}
 
 	public function update($id, $content) {
-		if(!self::$_isEnabled) return false;
+		self::$_isUpdated = TRUE;
+    $this->readCache();
 		$data = array('time' => time(), 'content' => $content);
 		self::$_cachedEntries[$id] = $data;
-		self::$_isUpdated = TRUE;
 	}
 
 	public function readCache() {
-		if(!self::$_isEnabled) return false;
+		if(!self::$_isEnabled || !self::$_isUpdated) return false;
     Stopwatch::start('SaitoCacheTree->readCache()');
-		self::$_cachedEntries = Cache::read('EntrySub');
+    if ( self::$_cachedEntries === NULL ):
+      self::$_cachedEntries = Cache::read('EntrySub');
+    endif;
     Stopwatch::end('SaitoCacheTree->readCache()');
 	}
 	
 	public function saveCache() {
-		if( !self::$_isEnabled || self::$_isUpdated === FALSE ) return false;
+		if( self::$_isUpdated === FALSE ) return false;
+
+    // store current state
+    $is_enabled = self::$_isEnabled;
+    self::$_isEnabled = TRUE;
+
 		$this->_gc();
 		self::$_cachedEntries['last_update']['day'] = mktime(0, 0, 0);
 		Cache::write('EntrySub', (array)self::$_cachedEntries);
+
+    // restore state
+    self::$_isEnabled = $is_enabled;
 	}
 
 	public static function enable() {
@@ -126,6 +137,6 @@ class SaitoCacheTree extends Object {
 				$this->delete($id);
 			}
 		}
-	} // end _gc();
+	} 
 }
 ?>

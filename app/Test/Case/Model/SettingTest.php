@@ -18,6 +18,7 @@
 				'topics_per_page' => 20,
 				'timezone'				=> 'UTC',
         'block_user_ui'   => 1,
+        'subject_maxlength' => 100,
 		);
 
 		public function testAfterSave() {

@@ -103,18 +103,18 @@
 			endif;
     }
 
+    public function endTest($method) {
+      parent::endTest($method);
+      $this->_logoutUser();
+    }
+
 		public function setUp() {
 			parent::setUp();
-
-      $this->_logoutUser();
-
 			Configure::write('Cache.disable', true);
       Configure::write('Config.language', 'eng');
 		}
 
 		public function tearDown() {
-      $this->_logoutUser();
-
 			Configure::write('Cache.disable', false);
 			parent::tearDown();
 		}

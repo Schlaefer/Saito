@@ -12,7 +12,9 @@ class CacheTreeComponent extends Component {
 	public function initialize($controller) {
 		$this->_CacheTree = new SaitoCacheTree();
 
-		if ( $controller->params['action'] 	== 'index' ) {
+		if ( 
+        $controller->params['action'] === 'index'
+        ) {
 			SaitoCacheTree::enable();
 		}
 
@@ -30,6 +32,10 @@ class CacheTreeComponent extends Component {
 	public function shutdown($controller) {
 		$this->_CacheTree->saveCache();
 	}
+
+  public function delete($tid) {
+    $this->_CacheTree->delete($tid);
+  }
 
 }
 ?>

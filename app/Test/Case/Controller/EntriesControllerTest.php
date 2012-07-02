@@ -19,6 +19,9 @@
 
 		public function testIndex() {
 
+      $Entries = $this->generate('Entries');
+      $this->_logoutUser();
+
 			//* not logged in user
 			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
 			$entries = $result['entries'];
@@ -31,15 +34,67 @@
 			$this->assertEqual(count($entries), 2);
 		}
 
+    public function testEmptyCache() {
+
+      $Entries = $this->generate('Entries', array(
+          'components' => array(
+            'CacheTree' => array('delete'),
+          )
+      ));
+
+      /*
+       * setup
+       */
+      $this->_loginUser(1);
+
+      $data['Entry'] = array(
+          'pid' => 5,
+          'subject' => 'test',
+          'category'  => 4,
+      );
+
+      /*
+       * test entries/add
+       */
+      $Entries->CacheTree
+          ->expects($this->once())
+          ->method('delete')
+          ->with($this->equalTo('4'));
+
+			$result = $this->testAction('/entries/add/5', array(
+          'data' => $data,
+          'method' => 'post'));
+
+      /*
+       * Test entries/edit
+       */
+      $Entries = $this->generate('Entries', array(
+          'components' => array(
+            'CacheTree' => array('delete'),
+          )
+      ));
+
+      $Entries->CacheTree
+          ->expects($this->once())
+          ->method('delete')
+          ->with($this->equalTo('4'));
+			$result = $this->testAction('/entries/edit/5', array(
+          'data' => $data,
+          'method' => 'post'));
+    }
+
 		public function testView() {
 			//* not logged in user
+      $Entries = $this->generate('Entries');
+      $this->_logoutUser();
+
 			$result = $this->testAction('/entries/view/1', array( 'return' => 'vars' ));
 			$this->assertEqual($result['entry']['Entry']['id'], 1);
 
 			$result = $this->testAction('/entries/view/2');
 			$this->assertFalse(isset($this->headers['Location']));
 
-			$result = $this->testAction('/entries/view/4');
+			$result = $this->testAction('/entries/view/4', array('return' => 'view'));
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 
 			//* logged in user
