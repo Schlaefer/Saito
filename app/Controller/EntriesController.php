@@ -247,6 +247,7 @@ class EntriesController extends AppController {
 				if ( count($this->Entry->validationErrors) === 0 ) :
 					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
 				endif;
+				$headerSubnavLeftTitle = __('back_to_overview_linkname');
 			endif;
 			// </editor-fold>
 		} else {
@@ -281,14 +282,14 @@ class EntriesController extends AppController {
 				$headerSubnavLeftTitle = __('back_to_overview_linkname');
 			endif;
 
-      $this->set('headerSubnavLeftUrl', '/entries/index');
-			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
-
 			if ( $this->request->is('ajax') ):
 				$this->set('form_title', __('answer_marking'));
 			endif;
 			// </editor-fold>
 		}
+
+    $this->set('headerSubnavLeftUrl', '/entries/index');
+    $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
 
 		$this->_teardownAdd();
 	}
@@ -486,6 +487,7 @@ class EntriesController extends AppController {
 
 		extract($this->request->data['Entry']);
 		unset($this->request->data);
+
 		$this->request->data = array( );
 
 		$this->request->data['Entry']['pid'] = $pid;
@@ -493,6 +495,7 @@ class EntriesController extends AppController {
 		$this->request->data['Entry']['text'] = $text;
 		$this->request->data['Entry']['category'] = $category;
 		$this->request->data['Entry']['nsfw'] = $nsfw;
+		$this->request->data['Entry']['ip'] = '';
 
 		$this->Entry->set($this->request->data);
 		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject', 'text', 'category' ) ));
