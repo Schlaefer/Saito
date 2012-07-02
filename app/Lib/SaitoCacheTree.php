@@ -1,5 +1,7 @@
 <?php
 
+  App::import('Lib', 'Stopwatch.Stopwatch');
+
 /**
  * @package saito_cache_tree
  */
@@ -49,6 +51,8 @@ class SaitoCacheTree extends Object {
 	public function isCacheCurrent($entry) {
 		if(!self::$_isEnabled) return false;
 
+    if ( empty($entry['last_answer']) ) return FALSE;
+
 		$id = $entry['id'];
 		$time = strtotime($entry['last_answer']);
 
@@ -86,7 +90,7 @@ class SaitoCacheTree extends Object {
 	}
 
 	public function readCache() {
-		if(!self::$_isEnabled || !self::$_isUpdated) return false;
+		if(!self::$_isEnabled) return false;
     Stopwatch::start('SaitoCacheTree->readCache()');
     if ( self::$_cachedEntries === NULL ):
       self::$_cachedEntries = Cache::read('EntrySub');
