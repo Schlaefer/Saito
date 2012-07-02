@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-25 09:36+0100\n"
-"PO-Revision-Date: 2012-06-25 16:11+0100\n"
+"POT-Creation-Date: 2012-07-02 10:08+0100\n"
+"PO-Revision-Date: 2012-07-02 10:15+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -381,12 +381,12 @@ msgstr "Thread fixiert"
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
-#: View/Elements/entry/view_content.ctp:54
+#: View/Elements/entry/view_content.ctp:57
 msgid "board_edited_marking"
 msgstr "editiert von"
 
 # msgstr "Aufrufe"
-#: View/Elements/entry/view_content.ctp:59
+#: View/Elements/entry/view_content.ctp:62
 msgid "views_headline"
 msgstr "Aufrufe"
 
@@ -659,7 +659,6 @@ msgid "Overview"
 msgstr "Übersicht"
 
 #: View/Layouts/admin.ctp:33
-#: View/Settings/admin_edit.ctp:1
 #, fuzzy
 msgid "Settings"
 msgstr "Einstellungen"
@@ -690,6 +689,7 @@ msgid "Last started threads"
 msgstr "Letzte Threads"
 
 #: View/Settings/admin_edit.ctp:25
+#: View/Settings/admin_timezone.ctp:24
 msgid "_exp"
 msgstr ""
 
@@ -1067,7 +1067,6 @@ msgid "Powered by Saito  v%s."
 msgstr ""
 
 #: View/Uploads/add.ctp:10
-#: View/Uploads/index.ctp:29
 msgid "upload_btn"
 msgstr "Hochladen"
 
@@ -1497,48 +1496,48 @@ msgstr "Kategorie"
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:183
+#: Controller/EntriesController.php:184
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:186
+#: Controller/EntriesController.php:187
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:247
-#: Controller/EntriesController.php:340
+#: Controller/EntriesController.php:248
+#: Controller/EntriesController.php:341
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:274
-#: Controller/EntriesController.php:349
+#: Controller/EntriesController.php:275
+#: Controller/EntriesController.php:350
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:280
+#: Controller/EntriesController.php:281
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:287
+#: Controller/EntriesController.php:288
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:377
+#: Controller/EntriesController.php:378
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:565
+#: Controller/EntriesController.php:559
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:565
+#: Controller/EntriesController.php:559
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:720
-#: Controller/EntriesController.php:730
+#: Controller/EntriesController.php:718
+#: Controller/EntriesController.php:728
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1694,6 +1693,10 @@ msgstr ""
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
+#: Plugin/Embedly/View/Helper/EmbedlyHelper.php:19
+msgid "Embed.ly API-key not set."
+msgstr ""
+
 #: Plugin/Install/Controller/InstallController.php:99
 msgid "Installation: Welcome"
 msgstr ""
@@ -1757,22 +1760,27 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:459
+#: View/Helper/BbcodeHelper.php:471
 #, fuzzy
 msgid "Your browser does not support HTML5 video. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
 msgstr "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen Browser."
 
-#: View/Helper/BbcodeHelper.php:477
+#: View/Helper/BbcodeHelper.php:489
 #, fuzzy
 msgid "Your browser does not support HTML5 audio. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
 msgstr "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen Browser."
 
-#: View/Helper/BbcodeHelper.php:805
+#: View/Helper/BbcodeHelper.php:720
+#, fuzzy
+msgid "[embed] tag not enabled."
+msgstr "Embed.ly aktivieren"
+
+#: View/Helper/BbcodeHelper.php:821
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:813
+#: View/Helper/BbcodeHelper.php:829
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -1806,32 +1814,31 @@ msgstr ""
 
 #: View/Helper/MarkitupEditorHelper.php:45
 msgid "Bold"
-msgstr ""
+msgstr "Fett"
 
 #: View/Helper/MarkitupEditorHelper.php:48
-#, fuzzy
 msgid "Italic"
-msgstr "Installieren"
+msgstr "Kursiv"
 
 #: View/Helper/MarkitupEditorHelper.php:51
 msgid "Underline"
-msgstr ""
+msgstr "Unterstrichen"
 
 #: View/Helper/MarkitupEditorHelper.php:54
 msgid "Strike Through"
-msgstr ""
+msgstr "Durchgestrichen"
 
 #: View/Helper/MarkitupEditorHelper.php:57
 msgid "Code"
-msgstr ""
+msgstr "Quellcode"
 
 #: View/Helper/MarkitupEditorHelper.php:60
 msgid "Bullet List"
-msgstr ""
+msgstr "Liste"
 
 #: View/Helper/MarkitupEditorHelper.php:65
 msgid "Link"
-msgstr ""
+msgstr "Verweis"
 
 #: View/Helper/MarkitupEditorHelper.php:68
 msgid "geshi_link_popup"
@@ -1855,9 +1862,8 @@ msgid "Upload"
 msgstr "Hochladen"
 
 #: View/Helper/MarkitupEditorHelper.php:85
-#, fuzzy
 msgid "Media"
-msgstr "Bearbeiten"
+msgstr "Einbinden"
 
 #: View/Helper/TimeHHelper.php:85
 #: View/Helper/TimeHHelper.php:104
