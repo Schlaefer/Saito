@@ -110,12 +110,14 @@
 
 		public function setUp() {
 			parent::setUp();
+      $this->_logoutUser();
 			Configure::write('Cache.disable', true);
       Configure::write('Config.language', 'eng');
 		}
 
 		public function tearDown() {
 			Configure::write('Cache.disable', false);
+      $this->_logoutUser();
 			parent::tearDown();
 		}
 

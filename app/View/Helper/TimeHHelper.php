@@ -28,6 +28,7 @@
 			$this->now = time();
 			$this->today = mktime(0, 0, 0);
 
+			// @td reimplement unsing Cake 2.2 CakeTime (?)
 			$timezone = new DateTimeZone(Configure::read('Saito.Settings.timezone'));
 			$timeInTimezone = new DateTime('now', $timezone);
 			$timeOnServer = new DateTime('now');

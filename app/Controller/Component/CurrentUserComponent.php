@@ -116,7 +116,8 @@ Class CurrentUserComponent extends SaitoUser {
 
 	protected function _cookieRelogin() {
 		$cookie = $this->PersistentCookie->get();
-		if ( !is_null($cookie) ) :
+    // is_array -> if cookie could no be correctly deciphered it's just an random string
+		if ( !is_null($cookie) && is_array($cookie) ) :
 			if ( $this->_Controller->Auth->login($cookie) ):
 				$this->refresh();
 			else:
@@ -195,6 +196,7 @@ Class CurrentUserComponent extends SaitoUser {
 
     $authCommonSetup = array(
           'useModel' => 'User',
+          'contain'  => false,
           'scope' => array(
               // user has activated his account (e.g. email confirmation)
               'User.activate_code' => false,
@@ -252,6 +254,7 @@ Class SaitoCurrentUserCookie {
 
 	protected function _setup() {
 		$this->_cookie->name	= $this->_cookieName;
+    $this->_cookie->type('rijndael');
 	}
 
 	public function set() {

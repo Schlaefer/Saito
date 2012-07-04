@@ -74,7 +74,13 @@
 		}
 
 		public function setUp() {
+			parent::setUp();
 			$this->Setting = ClassRegistry::init('Setting');
+		}
+
+		public function tearDown() {
+			unset($this->Setting);
+			parent::tearDown();
 		}
 
 	}

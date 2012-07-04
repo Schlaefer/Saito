@@ -30,6 +30,11 @@
 			$this->Category = ClassRegistry::init('Category');
 		}
 
+		public function tearDown(){
+			unset($this->Category);
+			parent::tearDown();
+		}
+
 	}
 
 ?>

@@ -93,6 +93,7 @@ class AppController extends Controller {
 		//* Load forum settings and cache them
 		// For performance reasons we try to avoid loading the Setting model at all
 		// @td rebenchmark and verify, bad MVC
+    // @td use Configure::load() and Configure::store()
 		$settings = null;
 		if ( Configure::read('debug') < 2 ) {
 			$settings = Cache::read('Saito.Settings');

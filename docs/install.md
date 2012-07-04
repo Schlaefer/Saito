@@ -1,9 +1,9 @@
 # You need #
 
 - Web server (tested with Apache and nginx)
-- MySQL 5+
-- PHP 5.3+ 
-
+- MySQL 5+ (tested with 5.1 and 5.5)
+- PHP 5.3+
+     - mcrypt enabled
 
 # Installation #
 

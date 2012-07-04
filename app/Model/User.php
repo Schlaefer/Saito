@@ -56,7 +56,7 @@ class User extends AppModel {
 							'last' => 'true',
 					),
 					'pwConfirm' => array(
-							'rule'    => array( '_validateConfirmPassword' ),
+							'rule'    => array( 'validateConfirmPassword' ),
 							'last'    => 'true',
               'message' => 'validation_error_pwConfirm',
 					),
@@ -69,7 +69,7 @@ class User extends AppModel {
 							'last' => 'true',
 					),
 					'pwCheckOld' => array(
-							'rule'    => array( '_validateCheckOldPassword' ),
+							'rule'    => array( 'validateCheckOldPassword' ),
 							'last'    => 'true',
               'message' => 'validation_error_pwCheckOld',
 					),
@@ -282,7 +282,7 @@ class User extends AppModel {
 
 	}
 
-	protected function _validateCheckOldPassword($data) {
+	public function validateCheckOldPassword($data) {
 		$valid = false;
 		$this->contain('UserOnline');
 		$old_pw = $this->field('password');
@@ -297,7 +297,7 @@ class User extends AppModel {
 
 	}
 
-	protected function _validateConfirmPassword($data) {
+	public function validateConfirmPassword($data) {
 		$valid = false;
 
 		if ( isset($this->data[$this->alias]['password_confirm']) && $data['password'] == $this->data[$this->alias]['password_confirm'] ) {

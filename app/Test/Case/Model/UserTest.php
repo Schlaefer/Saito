@@ -325,6 +325,11 @@
 			$this->User = ClassRegistry::init(array('class' => 'UserMockup', 'alias' => 'User'));
 		}
 
+		public function tearDown() {
+			unset($this->User);
+			parent::tearDown();
+		}
+
 	}
 
 ?>

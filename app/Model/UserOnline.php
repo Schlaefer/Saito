@@ -43,7 +43,7 @@ class UserOnline extends AppModel {
 	 * We can remove his IP before setting the uid_<user_id> and vice versa.
 	 *
 	 * @param string $id `user_id` from table `User` or IP address
-	 * @param string $delete_id remove this user before setting online `$id`
+	 * @param bool $loggedIn user is logged-in
 	 */
 	public function setOnline($id, $loggedIn = NULL) {
 //		self::$Timer->start('Model->UserOnline->setOnline()');

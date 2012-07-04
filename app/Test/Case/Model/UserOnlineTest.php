@@ -41,7 +41,7 @@
 			$this->assertEqual($result, $expected);
 
 			//* insert anonymous user
-			session_id('session_id_test');
+			session_id('sessionIdTest');
 			$user_id = session_id();
 			$this->_startUsersOnline[1]['UserOnline'] = array( 'id' => '2', 'user_id' => substr(($user_id),
 							0, 32), 'time' => time(), 'logged_in' => 0 );
@@ -65,7 +65,7 @@
 			$this->assertEqual($result, $expected);
 
 			//* update anonymous user before time
-			session_id('session_id_test');
+			session_id('sessionIdTest');
 			$user_id = session_id();
 			$this->UserOnline->setOnline($user_id, FALSE);
 
@@ -79,7 +79,7 @@
 
 			//* update anonymous user after time
 			$this->UserOnline->timeUntilOffline = 1;
-			session_id('session_id_test');
+			session_id('sessionIdTest');
 			$user_id = session_id();
 			$this->_startUsersOnline = array( );
 			$this->_startUsersOnline[0]['UserOnline'] = array( 'id' => '2', 'user_id' => substr(($user_id),
@@ -132,16 +132,21 @@
 
 		public function testGetLoggedIn() {
 
-			//* TEST empty results
+			/**
+			 * test empty results, no user is logged in
+			 */
 			$result = $this->UserOnline->getLoggedIn();
 			$expected = array( );
 			$this->assertEqual($result, $expected);
 
-			//* TEST
+			/**
+			 * test
+			 */
+			// login one user
 			$user_id = 3;
 			$this->UserOnline->setOnline($user_id, TRUE);
 
-			session_id('session_id_test');
+			session_id('sessionIdTest');
 			$user_id = session_id();
 			$this->UserOnline->setOnline($user_id, FALSE);
 
@@ -157,9 +162,15 @@
 		}
 
 		public function setUp() {
+			parent::setUp();
 			$this->UserOnline = ClassRegistry::init('UserOnline');
 
 			$this->_startUsersOnline = array();
+		}
+
+		public function tearDown() {
+			unset($this->UserOnline);
+			parent::tearDown();
 		}
 
 	}

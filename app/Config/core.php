@@ -32,7 +32,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 0);
+	Configure::write('debug', 1);
 
 /**
  * Turn off all caching application-wide.
@@ -134,7 +134,7 @@
  * Defines the default error type when using the log() function. Used for
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
-	define('LOG_ERROR', 2);
+	define('LOG_ERROR', LOG_ERR);
 
 /**
  * Session configuration.
@@ -175,7 +175,7 @@
  */
 	Configure::write('Session', array(
 		'defaults' => 'php',
-		'cookie' => 'Saito', 
+		'cookie' => 'Saito',
 	));
 
 /**

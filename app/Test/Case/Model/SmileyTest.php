@@ -37,8 +37,14 @@
 			$this->assertEqual($result, $expected);
 		}
 
-		function setUp() {
+		public function setUp() {
+			parent::setUp();
 			$this->Smiley = ClassRegistry::init('Smiley');
+		}
+
+		public function tearDown() {
+			unset($this->Smiley);
+			parent::tearDown();
 		}
 
 	}
