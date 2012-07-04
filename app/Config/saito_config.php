@@ -43,11 +43,18 @@
   */
 
   /**
-   * Users to notify via email if a new users registers  
+   * Users to notify via email if a new users registers successfully
+	 *
+	 * Provide an array with user IDs. To notify the admin (usually user-id 1):
+	 *
+	 *     array(1)
+	 *
+	 * To notify the admin with id 1 and the user with the id 5:
+	 *
+	 *     array(1, 5)
    */
   /*
   Configure::write('Saito.Notification.userActivatedAdminNoticeToUserWithID',
-    // array with user IDs: array(1, 5) notfies user 1 (usually the admin) and user 5
     array(1)
    );
    */
