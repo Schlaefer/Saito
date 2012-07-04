@@ -686,6 +686,13 @@ class EntriesController extends AppController {
 		}
 	}
 
+	/**
+	 * Get's the thread id of all threads which should be visisble on the an
+	 * entries/index/# page.
+	 *
+	 * @param CurrentUserComponent $User
+	 * @return array
+	 */
 	protected function _getInitialThreads(CurrentUserComponent $User) {
 		Stopwatch::start('Entries->_getInitialThreads() Paginate');
 		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == FALSE ? 'time' : 'last_answer');
