@@ -8,19 +8,38 @@
 class SaitoCacheTree extends Object {
 
 	static protected $_cachedEntries 	= NULL;
+
+	/**
+	 * Stores canUseCache values
+	 *
+	 * The value is used two times: once in the DB and once in the View.
+	 * So we cache it here after it is created for the first time.
+	 *
+	 * This saves as a few function calls and strtotime() at the moment
+	 *
+	 * @var array
+	 */
+	static protected $_validCache	    = array();
 	static protected $_isEnabled	    = FALSE;
 	static protected $_isUpdated			= FALSE; 
 
 	public function canUseCache($entry = null, $user = null) {
+		$canUseCache = false;
+
+		if ( isset(self::$_validCache[$entry['id']]) ):
+			return self::$_validCache[$entry['id']];
+		endif;
+
 		if(!self::$_isEnabled) return false;
 		if(empty($entry)) return false;
 
 		if ($this->isCacheCurrent($entry)) {
 			if ( $this->_isTreeOldToUser($entry, $user) ) {
-				return true;
+				$canUseCache = true;
 			}
 		}
-		return false;
+		self::$_validCache[$entry['id']] = $canUseCache;
+		return $canUseCache;
 	}
 
   public function isTreeUpdateableByUser($entry, $user) {
@@ -54,12 +73,14 @@ class SaitoCacheTree extends Object {
     if ( empty($entry['last_answer']) ) return FALSE;
 
 		$id = $entry['id'];
-		$time = strtotime($entry['last_answer']);
 
 		// if cached thread is available AND the cache file is up to date …
-		if ( !empty(self::$_cachedEntries[$id]) && $time < self::$_cachedEntries[$id]['time'] ) {
-			return true;
-		}
+		if ( !empty(self::$_cachedEntries[$id]) ):
+			$time = strtotime($entry['last_answer']);
+			if ( $time < self::$_cachedEntries[$id]['time'] ) {
+				return true;
+			}
+		endif;
 		return false;
 	} // isCacheCurrent()
 
@@ -91,11 +112,11 @@ class SaitoCacheTree extends Object {
 
 	public function readCache() {
 		if(!self::$_isEnabled) return false;
-    Stopwatch::start('SaitoCacheTree->readCache()');
     if ( self::$_cachedEntries === NULL ):
+			Stopwatch::start('SaitoCacheTree->readCache()');
       self::$_cachedEntries = Cache::read('EntrySub');
+			Stopwatch::end('SaitoCacheTree->readCache()');
     endif;
-    Stopwatch::end('SaitoCacheTree->readCache()');
 	}
 	
 	public function saveCache() {

@@ -1,4 +1,16 @@
 <?php echo Stopwatch::start('entries/thread_cached_init'); ?>
+<?php
+	/*
+	 * The threadbox title i10n can costs several ms.
+	 */
+	$cacheThreadBoxTitlei18n = array(
+				'btn-showThreadInMixView' => __('btn-showThreadInMixView'),
+				'btn-threadCollapse' 			=> __('btn-threadCollapse'),
+				'btn-showNewThreads' 			=> __('btn-showNewThreads'),
+				'btn-closeThreads' 				=> __('btn-closeThreads'),
+				'btn-openThreads' 				=> __('btn-openThreads'),
+	);
+	?>
 <?php foreach($entries_sub as $entry_sub) : ?>
 <?php
 	$use_cached_entry = $this->CacheTree->canUseCache($entry_sub['Entry'], $CurrentUser->getSettings());
@@ -23,7 +35,7 @@
 	<div class="thread_tools <?php echo $entry_sub['Entry']['id'];?>">
 	<ul>
 			<li>
-				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" title="<?php echo __('btn-showThreadInMixView'); ?>">
+				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" title="<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>">
           <span class="ico-threadTool ico-threadOpenMix"></span>
 				</a>
 			</li>
@@ -31,7 +43,7 @@
 								// for cached entries this tests if a thread has only the root posting
 								&& $entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']) : ?>
 				<li>
-					<a class="btn-threadCollapse" href="#" title="<?php echo __('btn-threadCollapse') ?>">
+					<a class="btn-threadCollapse" href="#" title="<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>">
 						<span class="ico-threadTool ico-threadCollapse"></span>
 					</a>
 				</li>
@@ -44,7 +56,7 @@
 							// keinen Show All New Inline View Eintrag
 						?>
 						<li>
-							<a href="#" id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;" title="<?php echo __('btn-showNewThreads') ?>">
+							<a href="#" id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;" title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>">
                 <span class="ico-threadTool ico-threadOpenNew"></span>
 							</a>
 						</li>
@@ -54,12 +66,12 @@
 			?>
 			<?php if ($CurrentUser->isLoggedIn()) : ?>
 				<li>
-					<a href="#" id="btn_close_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').closeAll(); return false;" title="<?php echo __('btn-closeThreads') ?>">
+					<a href="#" id="btn_close_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').closeAll(); return false;" title="<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>">
             <span class="ico-threadTool ico-threadCloseInline"></span>
 					</a>
 				</li>
 				<li>
-					<a href="#" id="btn_open_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showAll(); return false;" title="<?php echo __('btn-openThreads') ?>">
+					<a href="#" id="btn_open_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showAll(); return false;" title="<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>">
 						<span class="ico-threadTool ico-threadOpenInline"></span>
 					</a>
 				</li>

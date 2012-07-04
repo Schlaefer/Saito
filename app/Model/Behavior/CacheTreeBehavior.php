@@ -14,7 +14,6 @@ class CacheTreeBehavior extends ModelBehavior {
 
 	public function canUseCache(&$model, $entry, $user) {
 		return $this->CacheTree->canUseCache($entry, $user);
-		return false;
 	}
 
 	public function afterSave(&$model, $created) {
