@@ -51,9 +51,11 @@ class EntriesController extends AppController {
 						$this->CurrentUser['last_refresh']));
 
 		if ( $this->CurrentUser->getId() ) {
-			$this->set('lastEntries',
+			$this->set('recentPosts',
 					$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
 		}
+
+		$this->set('recentEntries', $this->Entry->getRecentEntries(array('limit' => 10 )));
 
     if (isset($this->request->named['page'])) :
       $currentPage = $this->request->named['page'];

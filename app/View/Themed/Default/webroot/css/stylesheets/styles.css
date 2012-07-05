@@ -472,9 +472,9 @@ hr { border-width: 0; border-bottom: 1px solid #e0e0e0; }
 
 .slidetab_subtree { padding-left: 2em; margin-top: -1em; list-style: square; }
 
-.slidebar-recentposts .slidetab_tree > li { margin-bottom: 0.5em !important; }
-.slidebar-recentposts .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 26px !important; text-indent: -1.75em; font-weight: normal; }
-.slidebar-recentposts .slidetab_tree > li li [class^="icon-"], .slidebar-recentposts .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
+.slidebar-recentposts .slidetab_tree > li, .slidebar-recententries .slidetab_tree > li { margin-bottom: 0.5em !important; }
+.slidebar-recentposts .slidetab_tree > li li, .slidebar-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 26px !important; text-indent: -1.75em; font-weight: normal; }
+.slidebar-recentposts .slidetab_tree > li li [class^="icon-"], .slidebar-recentposts .slidetab_tree li [class*=" icon-"], .slidebar-recententries .slidetab_tree > li li [class^="icon-"], .slidebar-recententries .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
 
 /******************************************************************************* Template Layout *****************************************************************************/
 .l-top { position: relative; }

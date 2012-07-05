@@ -72,7 +72,8 @@
 // Slidebar Recent Postings
 // -------------------------------------
 
-.slidebar-recentposts .slidetab_tree {
+.slidebar-recentposts .slidetab_tree,
+.slidebar-recententries .slidetab_tree {
 	> li {
 		margin-bottom: 0.5em !important;
 		}
