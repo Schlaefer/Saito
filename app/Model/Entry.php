@@ -212,7 +212,7 @@ class Entry extends AppModel {
 		$cached_ids = array();
 		$where = array();
 		foreach($search_array as $search_item) {
-			$cached = $this->canUseCache($search_item, array('last_refresh' => $timestamp));
+			$cached = $this->isEntryCached($search_item, strtotime($timestamp));
 			if ($cached) {
 				$cached_dummies[$search_item['id']]['Entry'] = $search_item;
 			} else {
@@ -315,16 +315,6 @@ class Entry extends AppModel {
 	protected function parseTreeRecursive(&$tree, $item, $timestamp) {
     $id = $item[$this->alias]['id'];
     $pid = $item[$this->alias]['pid'];
-		/*
-		if($pid == 0) {
-			$this->cached[$id] = $this->canUseCache($item, array('last_refresh => $timestamp));
-		} else {
-			if (isset($this->cached[$item[$this->alias]['tid']]) && $this->cached[$item[$this->alias]['tid']] == true) {
-				return;
-			}
-		}
-		*/
-
     $tree[$id] = isset($tree[$id]) ? $item + $tree[$id] : $item;
 		$tree[$pid]['_children'][] = &$tree[$id];
 	}
