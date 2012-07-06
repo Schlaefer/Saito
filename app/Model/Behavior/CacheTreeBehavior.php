@@ -12,8 +12,8 @@ class CacheTreeBehavior extends ModelBehavior {
 		$this->CacheTree = ClassRegistry::init('SaitoCacheTree');
 	}
 
-	public function canUseCache(&$model, $entry, $user) {
-		return $this->CacheTree->canUseCache($entry, $user);
+	public function isEntryCached(&$model, $entry, $timestamp) {
+		return $this->CacheTree->isEntryCached($entry, $timestamp);
 	}
 
 	public function afterSave(&$model, $created) {
