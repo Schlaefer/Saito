@@ -41,7 +41,8 @@
 			$this->assertEqual($expected, $result);
 
 			$result = $this->User->field('last_refresh_tmp');
-			$this->assertEqual($prev_result, $result);
+			$timeDiff = strtotime($result) - strtotime($prev_result);
+			$this->assertLessThanOrEqual(1, $timeDiff);
 		}
 
 		public function testNumberOfEntry() {
