@@ -9,7 +9,6 @@ class EntriesController extends AppController {
 
 	public $name = 'Entries';
 	public $helpers = array(
-			'CacheTree',
 			'EntryH',
       'MarkitupEditor',
 			'Flattr.Flattr',
@@ -41,35 +40,71 @@ class EntriesController extends AppController {
 	 */
 	protected $_ldGetRightsForEntryAndUser;
 
-	public function index() {
-		Stopwatch::start('Entries->index()');
+		public function index() {
+			Stopwatch::start('Entries->index()');
+
+			// get current user's recent entries for slidebar
+			if ( $this->CurrentUser->isLoggedIn() ) {
+				$this->set('recentPosts',
+						$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
+			}
+
+			// get last 10 recent entries for slidebar
+			$this->set('recentEntries',
+					$this->Entry->getRecentEntries(array( 'limit' => 10 )));
+
+			// get threads
+			extract($this->_getInitialThreads($this->CurrentUser));
+
+			// match threads against cache
+			$cachedThreads = array();
+			$uncachedThreads = array();
+			foreach($initialThreads as $key => $thread) {
+				if ($this->CacheTree->isCacheValid($thread)) {
+					$cachedThreads[$thread['id']] = $thread;
+				} else {
+					$uncachedThreads[$thread['id']] = $thread;
+				}
+			}
+
+			// set cached threads for view
+			$this->set('cachedThreads', $cachedThreads);
+			 
+			// get threads not available in cache
+			$dbThreads = $this->Entry->treeForNodes($uncachedThreads, $order,
+							$this->CurrentUser['last_refresh']);
+
+			$threads = array();
+			foreach( $initialThreads as $thread ) {
+				if (isset($cachedThreads[$thread['id']])) {
+					$threads[]['Entry'] = $cachedThreads[$thread['id']];
+					unset($cachedThreads[$thread['id']]);
+				} else {
+					foreach($dbThreads as $k => $dbThread) {
+						if($dbThread['Entry']['tid'] == $thread['id']) {
+							$threads[] = $dbThreads[$k];
+							unset($dbThreads[$k]);
+						}
+					}
+				}
+			}
+
+			$this->set('entries', $threads);
 
 
-		extract($this->_getInitialThreads($this->CurrentUser));
-		$this->set('entries',
-				$this->Entry->treeForNodes($initialThreads, $order,
-						$this->CurrentUser['last_refresh']));
 
-		if ( $this->CurrentUser->getId() ) {
-			$this->set('recentPosts',
-					$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
+			if ( isset($this->request->named['page']) ) :
+				$currentPage = $this->request->named['page'];
+				$this->Session->write(
+						'paginator.lastPage', $currentPage
+				);
+				$this->set('title_for_layout', __('page') . ' ' . $currentPage);
+			endif;
+
+			$this->set('showDisclaimer', TRUE);
+
+			Stopwatch::stop('Entries->index()');
 		}
-
-		$this->set('recentEntries', $this->Entry->getRecentEntries(array('limit' => 10 )));
-
-    if (isset($this->request->named['page'])) :
-      $currentPage = $this->request->named['page'];
-      $this->Session->write(
-          'paginator.lastPage',
-          $currentPage
-        );
-      $this->set('title_for_layout', __('page') . ' ' . $currentPage);
-    endif;
-
-		$this->set('showDisclaimer', TRUE);
-
-		Stopwatch::stop('Entries->index()');
-	}
 
 	public function feed() {
 		Configure::write('debug', 0);
@@ -377,7 +412,9 @@ class EntriesController extends AppController {
 		$success = $this->Entry->deleteTree();
 
 		// Redirect
-		if ( !$success ) {
+		if ( $success ) {
+			$this->_emptyCache($id, $id);
+		} else {
 			$this->Session->setFlash(__('delete_tree_error'), 'flash/error');
 			$this->redirect($this->referer());
 		}
@@ -533,6 +570,35 @@ class EntriesController extends AppController {
 			$this->set('message', $message);
 			$this->render('/Elements/flash/error');
 		endif;
+	}
+
+	public function merge($id = null) {
+		if (!$id || (!$this->CurrentUser->isMod() && !$this->CurrentUser->isAdmin())) {
+			return $this->redirect('/');
+		}
+
+		$this->Entry->contain();
+		$data = $this->Entry->findById($id);
+
+		if (!$data || (int)$data['Entry']['pid'] !== 0) {
+			return $this->redirect('/');
+		}
+
+		// perform move operation
+		if (isset($this->request->data['Entry']['targetId'])) {
+			$targetId = $this->request->data['Entry']['targetId'];
+			$this->Entry->id = $id;
+			if ($this->Entry->merge($targetId)) {
+				// success
+				$this->Entry->contain();
+				$targetEntry = $this->Entry->findById($targetId);
+				$this->_emptyCache($targetEntry['Entry']['id'], $targetEntry['Entry']['id']);
+				return $this->redirect('/entries/view/' . $id);
+			}
+		}
+
+		$this->layout = 'admin';
+		$this->request->data = $data;
 	}
 
 	public function ajax_toggle($id = null, $toggle = null) {

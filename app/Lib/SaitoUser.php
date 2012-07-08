@@ -159,26 +159,20 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 		endif;
 	}
 
-// end maxAccessionForUserType()
-
 	public function offsetExists($offset) {
 		return isset($this->_settings[$offset]);
-
 	}
 
 	public function offsetGet($offset) {
 		return $this->_settings[$offset];
-
 	}
 
 	public function offsetSet($offset, $value) {
 		$this->_settings[$offset] = $value;
-
 	}
 
 	public function offsetUnset($offset) {
 		unset($this->_settings[$offset]);
-
 	}
 
 }
