@@ -40,8 +40,8 @@
 							<?php
 								echo $this->Ajax->link(
 									($entry['Entry']['fixed'] == 0) 
-                    ? '<i class="icon-pushpin"></i>&nbsp;' .  __('fixed_set_entry_link')
-                    : '<i class="icon-pushpin"></i>&nbsp;' .   __('fixed_unset_entry_link'),
+                    ? '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_set_entry_link')
+                    : '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_unset_entry_link'),
 									array(
 										'controller'	=> 'entries',
 										'action'			=> 'ajax_toggle',
@@ -61,8 +61,8 @@
 							<?php
 								echo $this->Ajax->link(
 										($entry['Entry']['locked'] == 0) 
-                      ? '<i class="icon-lock"></i>&nbsp;' .  __('locked_set_entry_link') 
-                      : '<i class="icon-unlock"></i>&nbsp;' .  __('locked_unset_entry_link'),
+                      ? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link') 
+                      : '<i class="icon-unlock"></i>&nbsp;' . __('locked_unset_entry_link'),
 										array(
 												'controller' 	=> 'entries',
 												'action'			=> 'ajax_toggle',
@@ -76,6 +76,20 @@
                         'escape'  => FALSE,
 										)
 									);
+							?>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<?php
+								echo $this->Html->link(
+										'<i class="icon-resize-small"></i>&nbsp;' . __('merge_tree_link'),
+										array(
+												'controller'	=> 'entries',
+												'action'			=> 'merge',
+												$entry['Entry']['id'],
+										),
+                    array('escape' => FALSE)
+								);
 							?>
 						</li>
             <li class="divider"></li>

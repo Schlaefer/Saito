@@ -414,8 +414,7 @@ class UsersController extends AppController {
 		$allowed_toggles = array(
 				'show_userlist',
 				'show_recentposts',
-				'show_about',
-				'show_donate',
+				'show_recententries',
 		);
 		if (in_array($toggle, $allowed_toggles)) {
 			#	$this->Session->setFlash('userlist toggled');

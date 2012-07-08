@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-02 10:08+0100\n"
-"PO-Revision-Date: 2012-07-02 10:15+0100\n"
+"POT-Creation-Date: 2012-07-05 16:59+0100\n"
+"PO-Revision-Date: 2012-07-05 16:59+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -353,23 +353,23 @@ msgstr "flattrn"
 msgid "email_footer"
 msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
 
-#: View/Elements/entry/thread_cached_init.ctp:26
+#: View/Elements/entry/thread_cached_init.ctp:7
 msgid "btn-showThreadInMixView"
 msgstr "Thread in Mix-Ansicht öffnen."
 
-#: View/Elements/entry/thread_cached_init.ctp:34
+#: View/Elements/entry/thread_cached_init.ctp:8
 msgid "btn-threadCollapse"
 msgstr "Thread ein-/ausklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:47
+#: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showNewThreads"
 msgstr "Alle ungelesenen Beiträge des Threads aufklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:57
+#: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-closeThreads"
 msgstr "Alle offenen Beiträge des Threads zuklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:62
+#: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-openThreads"
 msgstr "Alle geschlossenen Beiträge des Threads aufklappen."
 
@@ -391,7 +391,7 @@ msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:12
-#: View/Elements/entry/view_posting.ctp:131
+#: View/Elements/entry/view_posting.ctp:145
 #: View/Elements/layout/header_login.ctp:34
 #: View/Elements/layout/header_login.ctp:40
 #: View/Elements/layout/header_login.ctp:41
@@ -403,7 +403,7 @@ msgid "button_mod_panel_shp"
 msgstr "Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder Thread zu bearbeiten."
 
 #: View/Elements/entry/view_posting.ctp:28
-#: View/Elements/entry/view_posting.ctp:162
+#: View/Elements/entry/view_posting.ctp:176
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
@@ -424,18 +424,22 @@ msgid "locked_unset_entry_link"
 msgstr "Entsperren"
 
 #: View/Elements/entry/view_posting.ctp:85
+msgid "merge_tree_link"
+msgstr "Zusammenlegen"
+
+#: View/Elements/entry/view_posting.ctp:99
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:92
+#: View/Elements/entry/view_posting.ctp:106
 msgid "delete_tree_link_confirm_message"
 msgstr "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
 
-#: View/Elements/entry/view_posting.ctp:132
+#: View/Elements/entry/view_posting.ctp:146
 msgid "answering_forbidden_locked_shp"
 msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:139
+#: View/Elements/entry/view_posting.ctp:153
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
@@ -503,7 +507,12 @@ msgstr "Keine Hilfe für diese Seite verfügbar."
 msgid "search_submit"
 msgstr "Suchen"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:15
+#: View/Elements/layout/slidetab_recententries.ctp:14
+#, fuzzy
+msgid "Recent entries"
+msgstr "Letzte Einträge"
+
+#: View/Elements/layout/slidetab_recentposts.ctp:17
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
@@ -1067,6 +1076,7 @@ msgid "Powered by Saito  v%s."
 msgstr ""
 
 #: View/Uploads/add.ctp:10
+#: View/Uploads/index.ctp:29
 msgid "upload_btn"
 msgstr "Hochladen"
 
@@ -1492,52 +1502,53 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:64
+#: Controller/EntriesController.php:66
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:184
+#: Controller/EntriesController.php:186
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:187
+#: Controller/EntriesController.php:189
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:248
-#: Controller/EntriesController.php:341
+#: Controller/EntriesController.php:250
+#: Controller/EntriesController.php:344
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:275
-#: Controller/EntriesController.php:350
-msgid "back_to_posting_from_linkname"
-msgstr "zurück zum Posting von %s"
-
-#: Controller/EntriesController.php:281
+#: Controller/EntriesController.php:252
+#: Controller/EntriesController.php:284
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
+
+#: Controller/EntriesController.php:278
+#: Controller/EntriesController.php:353
+msgid "back_to_posting_from_linkname"
+msgstr "zurück zum Posting von %s"
 
 #: Controller/EntriesController.php:288
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:378
+#: Controller/EntriesController.php:381
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:559
+#: Controller/EntriesController.php:564
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:559
+#: Controller/EntriesController.php:564
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:718
-#: Controller/EntriesController.php:728
+#: Controller/EntriesController.php:730
+#: Controller/EntriesController.php:740
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1681,7 +1692,7 @@ msgstr "Nachricht wurde versandt."
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:227
+#: Controller/Component/CurrentUserComponent.php:229
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
@@ -1865,8 +1876,8 @@ msgstr "Hochladen"
 msgid "Media"
 msgstr "Einbinden"
 
-#: View/Helper/TimeHHelper.php:85
-#: View/Helper/TimeHHelper.php:104
+#: View/Helper/TimeHHelper.php:86
+#: View/Helper/TimeHHelper.php:105
 msgid "yesterday"
 msgstr "Gestern"
 

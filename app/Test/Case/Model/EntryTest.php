@@ -52,6 +52,38 @@
 			$this->assertTrue($result == FALSE);
 		}
 
+		public function testMerge() {
+
+			// entry is not appended yet
+			$appendedEntry = $this->Entry->find(
+					'count', array(
+							'conditions' => array ('Entry.id' => 4, 'Entry.pid' => 2 )));
+			$this->assertEqual($appendedEntry, 0);
+
+			// count both threads
+			$targetEntryCount = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));
+			$sourceEntryCount = $this->Entry->find('count', array('conditions' => array ('tid' => '4')));
+
+			// do the merge
+			$this->Entry->id = 4;
+			$this->Entry->merge(2);
+
+			// target thread is contains now all entries
+			$targetEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));
+			$this->assertEqual($targetEntryCountAfterMerge, $sourceEntryCount + $targetEntryCount);
+
+			// source thread is gone
+			$sourceEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '4')));
+			$this->assertEqual($sourceEntryCountAfterMerge, 0);
+
+			// entry is appended now
+			$appendedEntry = $this->Entry->find(
+					'count', array(
+							'conditions' => array ('Entry.id' => 4, 'Entry.pid' => '2' )));
+			$this->assertEqual($appendedEntry, 1);
+
+		}
+
 		public function testDeleteTree() {
 
 			//* test thread exists before we delete it

@@ -34,6 +34,72 @@
 			$this->assertEqual(count($entries), 2);
 		}
 
+		public function testMerge() {
+
+			$Entries = $this->generate('Entries', array(
+					'models' => array(
+							'Entry' => array('merge')
+							)
+					));
+      $this->_loginUser(2);
+
+			$data = array(
+					'Entry' => array(
+							'targetId' => 2,
+					)
+			);
+
+			$Entries->Entry->expects($this->exactly(1))
+					->method('merge')
+					->with('2')
+					->will($this->returnValue(true));
+
+			$result = $this->testAction('/entries/merge/4', array(
+					'data' => $data, 'method' => 'post'
+			));
+
+			/*
+			 * user is no mod or admin
+			 */
+			$this->_logoutUser();
+      $this->_loginUser(3);
+
+			$Entries->Entry->expects($this->never())
+					->method('merge');
+			$result = $this->testAction('/entries/merge/4', array(
+					'data' => $data, 'method' => 'post'
+			));
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+			/*
+			 * no source id
+			 */
+			$this->_logoutUser();
+      $this->_loginUser(2);
+
+$Entries->Entry->expects($this->never())
+					->method('merge');
+			$result = $this->testAction('/entries/merge/', array(
+					'data' => $data, 'method' => 'post'
+			));
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
+			/*
+			 * no target id
+			 */
+			$data = array(
+					'Entry' => array()
+			);
+			$Entries->Entry->expects($this->never())
+					->method('merge');
+			$result = $this->testAction('/entries/merge/4', array(
+					'data' => $data, 'method' => 'post'
+			));
+			$this->assertFalse(isset($this->headers['Location']));
+
+		}
+
+
     public function testEmptyCache() {
 
       $Entries = $this->generate('Entries', array(

@@ -67,15 +67,14 @@ class AppController extends Controller {
 
 
 	/**
-	 * slidetabs used by application
+	 * S(l)idetabs used by the application
 	 * 
-	 * @var <type> 
+	 * @var array
 	 */
 	public $installedSlidetabs = array(
 		'slidetab_userlist',
 		'slidetab_recentposts',
-//		'slidetab_about',
-//		'slidetab_donate',
+		'slidetab_recententries',
 	);
 
 //	var $persistModel = true;

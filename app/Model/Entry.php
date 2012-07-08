@@ -5,7 +5,6 @@ class Entry extends AppModel {
 	var $primaryKey	= 'id';
  	var $actsAs = array(
 			'Containable', 
-			'CacheTree',
 			'Search.Searchable',
 		);
 
@@ -189,69 +188,59 @@ class Entry extends AppModel {
 		$views = $this->saveField('views', $this->field('views') + $amount);
 	}
 
-	public function treeForNode($id, $order = 'last_answer ASC', $timestamp = null) {
-		return $this->treeForNodes(array( array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ), $order, $timestamp);
+	public function treeForNode($id, $order = 'last_answer ASC') {
+		return $this->treeForNodes(
+				array(
+						array(
+								'id' => $id,
+								'tid' => null,
+								'pid' => null,
+								'last_answer' => null
+								)
+						),
+				$order);
 	}
 
-	public function treeForNodeComplete($id, $order = 'last_answer ASC', $timestamp = null) {
+	public function treeForNodeComplete($id, $order = 'last_answer ASC') {
 		return $this->treeForNodes(
         array(
             array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
         $order,
-        $timestamp,
         $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
         );
 	}
 
-	public function treeForNodes($search_array, $order = 'last_answer ASC', $timestamp = NULL, $fieldlist = NULL) {
+	public function treeForNodes($search_array, $order = 'last_answer ASC', $fieldlist = NULL) {
 		self::$Timer->start('Model->Entries->treeForNodes() DB');
-		if ( empty($search_array) ) {
-			return array( );
+
+		if (empty($search_array)) {
+			self::$Timer->stop('Model->Entries->treeForNodes() DB');
+			return array();
 		}
 
-		$cached_ids = array();
 		$where = array();
 		foreach($search_array as $search_item) {
-			$cached = $this->canUseCache($search_item, array('last_refresh' => $timestamp));
-			if ($cached) {
-				$cached_dummies[$search_item['id']]['Entry'] = $search_item;
-			} else {
-				$where[] = $search_item['id'];
-			}
+			$where[] = $search_item['id'];
 		}
 
-    if ($fieldlist === NULL) :
+    if ($fieldlist === NULL) {
       $fieldlist = $this->threadLineFieldList;
-    endif;
-
-    if( !empty($where) ):
-      $found_threads = $this->find('all',
-                              array (
-                                  'conditions' => array(
-                                      'tid' => $where,
-                                    ),
-                                  'fields'	=> $fieldlist,
-                                  'order' => $order,
-                                )
-        );
-    endif;
-
-		$threads = array();
-		foreach($search_array as $search_item) {
-			if(isset($cached_dummies[$search_item['id']])) {
-				$threads[] = $cached_dummies[$search_item['id']];
-			} else {
-				foreach($found_threads as $k => $found_thread) {
-					if($found_thread['Entry']['tid'] == $search_item['id']) {
-						$threads[] = $found_threads[$k];
-					}
-				}
-			}
 		}
+
+		$threads = $this->find('all',
+														array (
+																'conditions' => array(
+																		'tid' => $where,
+																	),
+																'fields'	=> $fieldlist,
+																'order' => $order,
+															)
+			);
 
 		self::$Timer->stop('Model->Entries->treeForNodes() DB');
+
 		self::$Timer->start('Model->Entries->treeForNodes() CPU');
-		$out = $this->parseTreeInit($threads, $timestamp);
+		$out = $this->parseTreeInit($threads);
 		$out = $this->sortTime($out);
 		self::$Timer->stop('Model->Entries->treeForNodes() CPU');
 
@@ -303,28 +292,17 @@ class Entry extends AppModel {
 		return $in;
 	}
 
-	protected function parseTreeInit($threads, $timestamp = null) {
+	protected function parseTreeInit($threads) {
 		$tree = array();
-		$this->cached = array();
 		foreach ($threads as $thread) { 
-			$this->parseTreeRecursive($tree, $thread, $timestamp);
+			$this->parseTreeRecursive($tree, $thread);
 		}
 		return $tree[0]['_children'];
 	}
 
-	protected function parseTreeRecursive(&$tree, $item, $timestamp) {
+	protected function parseTreeRecursive(&$tree, $item) {
     $id = $item[$this->alias]['id'];
     $pid = $item[$this->alias]['pid'];
-		/*
-		if($pid == 0) {
-			$this->cached[$id] = $this->canUseCache($item, array('last_refresh => $timestamp));
-		} else {
-			if (isset($this->cached[$item[$this->alias]['tid']]) && $this->cached[$item[$this->alias]['tid']] == true) {
-				return;
-			}
-		}
-		*/
-
     $tree[$id] = isset($tree[$id]) ? $item + $tree[$id] : $item;
 		$tree[$pid]['_children'][] = &$tree[$id];
 	}
@@ -409,6 +387,45 @@ class Entry extends AppModel {
 					self::mapTreeElements($leaf['_children'], $func, $_this);
 			endif;
 		endforeach;
+	}
+
+	/**
+	 * Merge entry on to entry $targetId
+	 *
+	 * @param int $targetId id of the entry the thread should be appended to
+	 * @return bool true if merge was successfull false otherwise
+	 */
+	public function merge($targetId) {
+		$this->contain();
+		$targetEntry = $this->findById($targetId);
+
+		if (!$targetEntry) {
+			return false;
+		}
+
+		// set target entry as new parent entry
+		$this->set('pid', $targetEntry['Entry']['id']);
+		if ( $this->save() ) {
+			// associate all entries in source thread to target thread
+			$this->updateAll(
+					array(
+							'tid' => $targetEntry['Entry']['tid'],
+							),
+					array('tid'	=> $this->id)
+			);
+
+			// update target thread last answer if source is newer
+			$sourceLastAnswer = $this->field('last_answer');
+			if (strtotime($sourceLastAnswer) > strtotime($targetEntry['Entry']['last_answer'])) {
+				$this->id = $targetEntry['Entry']['tid'];
+				$this->set('last_answer', $sourceLastAnswer);
+				$this->save();
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
