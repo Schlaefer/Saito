@@ -189,7 +189,16 @@ class Entry extends AppModel {
 	}
 
 	public function treeForNode($id, $order = 'last_answer ASC') {
-		return $this->treeForNodes(array( array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ), $order);
+		return $this->treeForNodes(
+				array(
+						array(
+								'id' => $id,
+								'tid' => null,
+								'pid' => null,
+								'last_answer' => null
+								)
+						),
+				$order);
 	}
 
 	public function treeForNodeComplete($id, $order = 'last_answer ASC') {
@@ -209,6 +218,11 @@ class Entry extends AppModel {
 			return array();
 		}
 
+		$where = array();
+		foreach($search_array as $search_item) {
+			$where[] = $search_item['id'];
+		}
+
     if ($fieldlist === NULL) {
       $fieldlist = $this->threadLineFieldList;
 		}
@@ -216,7 +230,7 @@ class Entry extends AppModel {
 		$threads = $this->find('all',
 														array (
 																'conditions' => array(
-																		'tid' => array_keys($search_array),
+																		'tid' => $where,
 																	),
 																'fields'	=> $fieldlist,
 																'order' => $order,
@@ -280,7 +294,6 @@ class Entry extends AppModel {
 
 	protected function parseTreeInit($threads) {
 		$tree = array();
-		$this->cached = array();
 		foreach ($threads as $thread) { 
 			$this->parseTreeRecursive($tree, $thread);
 		}
