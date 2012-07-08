@@ -13,14 +13,14 @@
 	?>
 <?php foreach($entries_sub as $entry_sub) : ?>
 <?php
-	$use_cached_entry = $this->CacheTree->isEntryCached($entry_sub['Entry'], strtotime($CurrentUser['last_refresh']));
+	$use_cached_entry = isset($cachedThreads[$entry_sub['Entry']['id']]);
 	if ($use_cached_entry) {
-		$out = $this->CacheTree->read($entry_sub['Entry']['id']);
+		$out = $CacheTree->read($entry_sub['Entry']['id']);
 	} else {
 		$out = $this->element('entry/thread_cached', array ( 'entry_sub' => $entry_sub, 'level' => 0));
-		if ($this->CacheTree->isEntryCachedBefore($entry_sub['Entry']['id'], strtotime($CurrentUser['last_refresh']))) {
-			$this->CacheTree->update($entry_sub['Entry']['id'], $out);
-		}     
+		if ($CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
+			$CacheTree->update($entry_sub['Entry']['id'], $out);
+		}    
 	}
 ?>
 <?php
