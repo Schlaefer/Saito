@@ -390,9 +390,10 @@ class Entry extends AppModel {
 	}
 
 	/**
-	 * Merge entry on to $targetId
+	 * Merge entry on to entry $targetId
 	 *
-	 * @param int $targetId
+	 * @param int $targetId id of the entry the thread should be appended to
+	 * @return bool true if merge was successfull false otherwise
 	 */
 	public function merge($targetId) {
 		$this->contain();
