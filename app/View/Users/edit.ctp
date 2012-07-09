@@ -6,7 +6,11 @@
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();
 ?>
-<h1><?php echo __('user_area_title'); ?></h1>
+<h1>
+	<?php
+	echo __('Edit %s Profil', $this->TextH->properize($this->request->data['User']['username']));
+	?>
+</h1>
 <div id="user_edit" class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
 	<div class="box-form">
@@ -15,7 +19,135 @@
 				<div class='c_first_child'></div>
 				<div>
           <h2>
-            <?php echo $this->request->data['User']['username']; ?>: <?php echo __('edit_userdata'); ?>
+            <?php echo __('Profil'); ?>
+          </h2>
+        </div>
+				<div class='c_last_child'></div>
+			</div>
+		</div>
+    <div class='content'>
+			<table class="table th-left elegant">
+				<?php  if ( $CurrentUser->isAdmin() ) : ?>
+					<tr>
+						<td> <?php echo __('username_marking'); ?></td>
+						<td> <?php echo  $this->Form->input('username', array( 'label' => false ));  ?> </td>
+					</tr>
+
+					<tr>
+						<td> <?php echo __('userlist_email'); ?></td>
+						<td> <?php echo  $this->Form->input('user_email', array( 'label' => false )); ?> </td>
+					</tr>
+
+					<tr>
+						<td> <?php echo __('user_type'); ?></td>
+						<td> <?php echo $this->Form->radio('user_type', array( 'user' => '@lo User', 'mod' => '@lo Mod' , 'admin' => '@lo Admin'), array( 'legend' => false));  ?> </td>
+					</tr>
+
+					<?php  if ( $CurrentUser->getId() == $this->request->data['User']['id'] ): ?>
+						<tr>
+							<td> <?php echo __('user_pw') ?> </td>
+							<td>
+									<?php echo $this->Html->link(
+												__("change_password_link"),
+												array ( 'action' => 'changepassword', $this->request->data['User']['id'] )
+											)
+											?>
+									<p class="exp"> <?php echo __('user_pw_exp') ?> </p>
+							</td>
+						</tr>
+					<?php  else: ?>
+						<tr>
+							<td> <?php echo __('user_pw') ?> </td>
+							<td> @td änderungsmöglichkeit für admin (?) </td>
+						</tr>
+					<?php  endif; ?>
+				<?php else: ?>
+				<tr>
+					<td> <?php echo __('username_marking'); ?></td>
+					<td> <?php echo $this->request->data['User']['username']; ?> </td>
+				</tr>
+
+				<tr>
+					<td> <?php echo __('userlist_email'); ?> </td>
+					<td> <?php echo $this->request->data['User']['user_email']; ?> </td>
+				</tr>
+
+				<tr>
+					<td> <?php echo __('user_pw') ?> </td>
+					<td>
+							<?php echo $this->Html->link(
+										__("change_password_link"),
+										array ( 'action' => 'changepassword', $this->request->data['User']['id'] )
+									)
+									?>
+							<p class="exp"> <?php echo __('user_pw_exp') ?> </p>
+					</td>
+				</tr>
+
+			<?php  endif ; ?>
+
+			<!-- currently not supported in Saito
+			<tr>
+				<td> <?php echo __('user_show_email'); ?></td>
+				<td>
+					<?php echo  $this->Form->checkbox('hide_email'); ?>
+					<p class="exp"> <?php echo __('user_show_email_exp') ?> </p>
+				</td>
+			</tr>
+			-->
+
+			<tr>
+				<td> <?php echo __('user_real_name'); ?></td>
+				<td> <?php echo  $this->Form->input('user_real_name', array( 'label' => false ));  ?>
+					<p class="exp"> <?php echo __('user_real_name_exp') ?> </p>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <?php echo __('user_hp'); ?></td>
+				<td> <?php echo  $this->Form->input('user_hp', array( 'label' => false ));  ?>
+					<p class="exp"> <?php echo __('user_hp_exp') ?> </p>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <?php echo __('user_place') ?></td>
+				<td> <?php echo  $this->Form->input('user_place', array( 'label' => false ));  ?> <p class="exp"> <?php echo __('user_place_exp') ?> </p></td>
+			</tr>
+
+			<tr>
+				<td> <?php echo __('user_profile') ?> </td>
+				<td> <?php echo  $this->Form->input('profile', array(
+						'rows'	=> '5',
+						'label'	=> false,
+				));  ?>
+				<p class="exp"> <?php echo __('user_profile_exp') ?> </p>
+				</td>
+			</tr>
+
+
+			<tr>
+				<td> <?php echo __('user_signature') ?> </td>
+				<td> <?php echo  $this->Form->input('signature', array(
+						'rows'	=> 5,
+						'label'	=> false,
+				));  ?>
+				<p class="exp"> <?php echo __('user_signature_exp') ?> </p>
+				</td>
+			</tr>
+		
+			</table>
+		</div>
+  </div>
+	<br	/>
+
+	<div class="box-form">
+		<div class="l-box-header box-header">
+			<div>
+				<div class='c_first_child'></div>
+				<div>
+          <h2>
+            <?php echo __('Settings'); ?>
           </h2>
         </div>
 				<div class='c_last_child'></div>
@@ -23,119 +155,6 @@
 		</div>
     <div class='content'>
 	<table class="table th-left elegant">
-
-		<?php  if ( $CurrentUser->isAdmin() ) : ?>
-
-			<tr>
-				<td> <?php echo __('username_marking'); ?></td>
-				<td> <?php echo  $this->Form->input('username', array( 'label' => false ));  ?> </td>
-			</tr>
-
-			<tr>
-				<td> <?php echo __('userlist_email'); ?></td>
-				<td> <?php echo  $this->Form->input('user_email', array( 'label' => false )); ?> </td>
-			</tr>
-
-			<tr>
-				<td> <?php echo __('user_type'); ?></td>
-				<td> <?php echo $this->Form->radio('user_type', array( 'user' => '@lo User', 'mod' => '@lo Mod' , 'admin' => '@lo Admin'), array( 'legend' => false));  ?> </td>
-			</tr>
-
-      <?php  if ( $CurrentUser->getId() == $this->request->data['User']['id'] ) : ?>
-        <tr>
-          <td> <?php echo __('user_pw') ?> </td>
-          <td>
-              <?php echo $this->Html->link(
-                    __("change_password_link"),
-                    array ( 'action' => 'changepassword', $this->request->data['User']['id'] )
-                  )
-                  ?>
-              <p class="exp"> <?php echo __('user_pw_exp') ?> </p>
-          </td>
-        </tr>
-        <?php  else : ?>
-        <tr>
-          <td> <?php echo __('user_pw') ?> </td>
-          <td> @td änderungsmöglichkeit für admin (?) </td>
-        </tr>
-      <?php  endif ; ?>
-
-		<?php  else : ?>
-
-			<tr>
-				<td> <?php echo __('username_marking'); ?></td>
-				<td> <?php echo $this->request->data['User']['username']; ?> </td>
-			</tr>
-
-			<tr>
-				<td> <?php echo __('userlist_email'); ?> </td>
-				<td> <?php echo $this->request->data['User']['user_email']; ?> </td>
-			</tr>
-
-			<tr>
-				<td> <?php echo __('user_pw') ?> </td>
-				<td>
-						<?php echo $this->Html->link(
-									__("change_password_link"),
-									array ( 'action' => 'changepassword', $this->request->data['User']['id'] )
-								)
-								?>
-						<p class="exp"> <?php echo __('user_pw_exp') ?> </p>
-				</td>
-			</tr>
-
-		<?php  endif ; ?>
-
-		<!-- currently not supported in Saito
-		<tr>
-			<td> <?php echo __('user_show_email'); ?></td>
-			<td>
-				<?php echo  $this->Form->checkbox('hide_email'); ?>
-				<p class="exp"> <?php echo __('user_show_email_exp') ?> </p>
-			</td>
-		</tr>
-		-->
-
-		<tr>
-			<td> <?php echo __('user_real_name'); ?></td>
-			<td> <?php echo  $this->Form->input('user_real_name', array( 'label' => false ));  ?>
-				<p class="exp"> <?php echo __('user_real_name_exp') ?> </p>
-			</td>
-		</tr>
-
-		<tr>
-			<td> <?php echo __('user_hp'); ?></td>
-			<td> <?php echo  $this->Form->input('user_hp', array( 'label' => false ));  ?>
-				<p class="exp"> <?php echo __('user_hp_exp') ?> </p>
-			</td>
-		</tr>
-
-		<tr>
-			<td> <?php echo __('user_place') ?></td>
-			<td> <?php echo  $this->Form->input('user_place', array( 'label' => false ));  ?> <p class="exp"> <?php echo __('user_place_exp') ?> </p></td>
-		</tr>
-
-		<tr>
-			<td> <?php echo __('user_profile') ?> </td>
-			<td> <?php echo  $this->Form->input('profile', array(
-					'rows'	=> '5',
-					'label'	=> false,
-			));  ?>
-			<p class="exp"> <?php echo __('user_profile_exp') ?> </p>
-			</td>
-		</tr>
-
-
-		<tr>
-			<td> <?php echo __('user_signature') ?> </td>
-			<td> <?php echo  $this->Form->input('signature', array(
-					'rows'	=> 5,
-					'label'	=> false,
-			));  ?>
-			<p class="exp"> <?php echo __('user_signature_exp') ?> </p>
-			</td>
-		</tr>
-
 		<tr>
 			<td> <?php echo __('user_font_size') ?> </td>
 			<td> <?php echo  $this->Form->input('user_font_size', array(
@@ -223,9 +242,7 @@
 				<p class="exp"> <?php echo __('user_sort_last_answer_exp') ?> </p>
 			</td>
 		</tr>
-
-
-
+	
 			<tr>
 				<td> <?php echo __('user_pers_msg') ?> </td>
 				<td> <?php echo  $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
