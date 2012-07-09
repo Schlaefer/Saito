@@ -165,12 +165,11 @@ class UsersController extends AppController {
 
 		$viewed_user['User']["number_of_entries"] = $this->User->numberOfEntries();
 
-		$this->set( 'lastEntries',
-        $this->User->Entry->getRecentEntries(
-            array( 
-                'user_id' => $this->User->id,
-                'category' => $this->User->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
-      ) ));
+		$this->set('lastEntries',
+					$this->User->Entry->getRecentEntries(
+							array( 'user_id' => $this->User->id),
+							$this->CurrentUser
+					));
 
 		/** View Entry * */
 		$this->set('user', $viewed_user);

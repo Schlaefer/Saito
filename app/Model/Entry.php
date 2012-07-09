@@ -79,24 +79,23 @@ class Entry extends AppModel {
   public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
 
 
-	public function getRecentEntries( Array $options = array() ) {
+	public function getRecentEntries( Array $options = array(), SaitoUser $User ) {
 		Stopwatch::start('Model->User->getRecentEntries()');
 
 		$defaults = array (
 					'user_id'		=> NULL,
-					'limit'			=> 20,
-					'category'	=> NULL,
+					'limit'			=> 10,
+					'category'	=> $this->Category->getCategoriesForAccession($User->getMaxAccession()),
 		);
 		extract(array_merge($defaults, $options));
 
-		$conditions = NULL;
+		$conditions = array();
 		if ( $user_id !== NULL ) {
 			$conditions[]['Entry.user_id']	= $user_id;
 		}
 		if ( $category !== NULL ):
 			$conditions[]['Entry.category']	= $category;
 		endif;
-
 
 		$this->_recentEntries = $this->find('all',
 			array(

@@ -43,15 +43,20 @@ class EntriesController extends AppController {
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
-			// get current user's recent entries for slidebar
 			if ( $this->CurrentUser->isLoggedIn() ) {
+				// get current user's recent entries for slidebar
 				$this->set('recentPosts',
-						$this->Entry->getRecentEntries(array( 'user_id' => $this->CurrentUser->getId(), 'limit' => 10 )));
-			}
+						$this->Entry->getRecentEntries(
+								array('user_id' => $this->CurrentUser->getId()),
+								$this->CurrentUser)
+						);
 
-			// get last 10 recent entries for slidebar
-			$this->set('recentEntries',
-					$this->Entry->getRecentEntries(array( 'limit' => 10 )));
+				// get last 10 recent entries for slidebar
+				$this->set('recentEntries',
+						$this->Entry->getRecentEntries(array(),
+								$this->CurrentUser
+								));
+			}
 
 			// get threads
 			extract($this->_getInitialThreads($this->CurrentUser));
@@ -71,8 +76,7 @@ class EntriesController extends AppController {
 			$this->set('cachedThreads', $cachedThreads);
 			 
 			// get threads not available in cache
-			$dbThreads = $this->Entry->treeForNodes($uncachedThreads, $order,
-							$this->CurrentUser['last_refresh']);
+			$dbThreads = $this->Entry->treeForNodes($uncachedThreads, $order);
 
 			$threads = array();
 			foreach( $initialThreads as $thread ) {
