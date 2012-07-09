@@ -80,7 +80,6 @@ class AppController extends Controller {
 //	var $persistModel = true;
 
 	public function __construct($request = null, $response = null) {
-		Stopwatch::enable();
 		Stopwatch::start('---------------------- Controller ----------------------');
 		parent::__construct($request, $response);
 	}
@@ -116,8 +115,6 @@ class AppController extends Controller {
 					return $this->render('/Pages/forum_disabled', 'barebone');
         endif;
     endif;
-
-		Stopwatch::enable();
 
 		$this->_setupSlideTabs();
 
