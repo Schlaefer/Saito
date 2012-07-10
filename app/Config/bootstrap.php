@@ -132,7 +132,7 @@ CakePlugin::load('FileUpload');
 CakePlugin::load('Search');
 CakePlugin::load('Embedly');
 
-/**
+	/**
  * Activate Saito Cache:
  *
  * true: (default) use cache

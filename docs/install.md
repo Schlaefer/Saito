@@ -9,11 +9,11 @@
 
 ## 1. Get the Code ##
 
-Checkout git repository or download a zip from github. Usually it is recommended to use the last [tagged version](https://github.com/Schlaefer/Saito/tags).
+Go to <http://siezi.saito.com/> and download the latest release.
 
 ## 2. Create Database ##
 
-Create a database. Set collation to `utf8_general_ci` (or other appropriate utf8 encoding).
+Create a database. Set collation to `utf8_unicode_ci` (or other appropriate utf8 encoding).
 
 ## 3. Open Root URL ##
 

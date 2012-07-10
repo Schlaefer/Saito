@@ -95,8 +95,6 @@ class EntriesController extends AppController {
 
 			$this->set('entries', $threads);
 
-
-
 			if ( isset($this->request->named['page']) ) :
 				$currentPage = $this->request->named['page'];
 				$this->Session->write(
@@ -260,8 +258,10 @@ class EntriesController extends AppController {
 			$new_posting = $this->Entry->createPosting($this->request->data);
 
 			if ( $new_posting ) :
-				//* insert new posting was successful
-				$this->_emptyCache($this->Entry->id, $new_posting['Entry']['tid']);
+				// inserting new posting was successful
+
+				$this->_afterNewEntry($new_posting);
+
 				if ( $this->request->is('ajax') ):
 					//* The new posting is requesting an ajax answer
 					if ( $this->localReferer('action') == 'index' ) :
@@ -284,7 +284,7 @@ class EntriesController extends AppController {
 					return;
 				endif;
 			else :
-				//* Error while trying to save a post 
+				// Error while trying to save a post
 				if ( count($this->Entry->validationErrors) === 0 ) :
 					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
 				endif;
@@ -300,28 +300,44 @@ class EntriesController extends AppController {
 					// answering is always a ajax request, prevents add/1234 GET-requests
 					&& $this->request->is('ajax') === TRUE
 			) {
+				$this->Entry->contain(array('User', 'Category'));
 				$this->Entry->sanitize(false);
 				$this->request->data = $this->Entry->findById($id);
 			}
 
 			if ( !empty($this->request->data) ):
-				//* new posting is answer to existing posting
-				$this->_isAnsweringAllowed($this->request->data);
+					// new posting is answer to existing posting
 
-				/** create new subentry * */
-				$this->request->data['Entry']['pid'] = $id;
-				// we assume that an answers to a nsfw posting isn't nsfw itself
-				unset($this->request->data['Entry']['nsfw']);
-				$this->set('citeText', $this->request->data['Entry']['text']);
+					$this->_isAnsweringAllowed($this->request->data);
 
-        $headerSubnavLeftTitle = __('back_to_posting_from_linkname', $this->request->data['User']['username']);
-			else:
-				//* new posting creates new thread
-				$this->request->data['Entry']['pid'] = 0;
-				$this->request->data['Entry']['tid'] = 0;
+					// create new subentry
+					$this->request->data['Entry']['pid'] = $id;
+					// we assume that an answers to a nsfw posting isn't nsfw itself
+					unset($this->request->data['Entry']['nsfw']);
+					$this->set('citeText', $this->request->data['Entry']['text']);
 
-				$headerSubnavLeftTitle = __('back_to_overview_linkname');
-			endif;
+				// get notifications
+					$notis = $this->Entry->Esevent->checkEventsForUser($this->CurrentUser->getId(),
+							array(
+									1 => array(
+									'subject'	 => $this->request->data['Entry']['tid'],
+									'event'		 => 'Model.Entry.replyToThread',
+									'receiver' => 'EmailNotification',
+							),
+							)
+					);
+					$this->set('notis', $notis);
+
+					// set Subnav
+					$headerSubnavLeftTitle = __('back_to_posting_from_linkname',
+							$this->request->data['User']['username']);
+				else:
+					// new posting which creates new thread
+					$this->request->data['Entry']['pid'] = 0;
+					$this->request->data['Entry']['tid'] = 0;
+
+					$headerSubnavLeftTitle = __('back_to_overview_linkname');
+				endif;
 
 			if ( $this->request->is('ajax') ):
 				$this->set('form_title', __('answer_marking'));
@@ -329,28 +345,42 @@ class EntriesController extends AppController {
 			// </editor-fold>
 		}
 
-    $this->set('headerSubnavLeftUrl', '/entries/index');
     $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
+    $this->set('headerSubnavLeftUrl', '/entries/index');
 
 		$this->_teardownAdd();
 	}
 
 	public function edit($id = NULL) {
 
-		// invalid post
 		if ( !$id && empty($this->request->data) ):
 			$this->redirect(array( 'action' => 'index' ));
 		endif;
 
+		// read user id of old entry for full read later
 		$this->Entry->id = $id;
-		$this->Entry->contain('User');
+		$this->Entry->contain();
+		$oldEntryUserId = $this->Entry->field('user_id');
+
+		// use old user id to check if entry exists at all
+		if (!$oldEntryUserId):
+			return $this->redirect(array( 'action' => 'index' ));
+		endif;
+
+		// read old entry
 		$this->Entry->sanitize(false);
-		$old_entry = $this->Entry->read();
+		$old_entry = $this->Entry->find('first', array(
+				'contain' => array(
+						'User',
+						'Category'),
+				'conditions' => array('Entry.id' => $id),
+		));
 
 		// get text of parent entry for citation
 		$parentEntryId = $old_entry['Entry']['pid'];
 		if ( $parentEntryId !== 0 ) {
 			$this->Entry->sanitize(false);
+			$this->Entry->contain();
 			$parentEntry = $this->Entry->findById($parentEntryId);
 			$this->set('citeText', $parentEntry['Entry']['text']);
 		}
@@ -373,19 +403,42 @@ class EntriesController extends AppController {
 						'flash/error');
 		}
 
-		if ( !empty($this->request->data) ) { ### try  to save entry
+		if ( !empty($this->request->data) ) {
+			// try to save entry
 			$this->request->data['Entry']['edited'] = date("Y-m-d H:i:s");
 			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
+
 			if ( $new_entry = $this->Entry->save($this->request->data) ) {
-				$this->_emptyCache($this->Entry->id, $new_entry['Entry']['tid']);
+				// new entry was saved
+
+				$this->_afterNewEntry($old_entry + array('Event' => $this->request->data['Event']));
+
 				return $this->redirect(array( 'action' => 'view', $id ));
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
 		}
 
+		// get notifications
+			$notis = $this->Entry->Esevent->checkEventsForUser($old_entry['Entry']['user_id'],
+					array(
+							array(
+									'subject'	 => $old_entry['Entry']['id'],
+									'event'		 => 'Model.Entry.replyToEntry',
+									'receiver' => 'EmailNotification',
+							),
+							array(
+									'subject'	 => $old_entry['Entry']['tid'],
+									'event'		 => 'Model.Entry.replyToThread',
+									'receiver' => 'EmailNotification',
+							),
+					)
+			);
+			$this->set('notis', $notis);
+
 		$this->request->data = $old_entry;
 
+		// set headers
     $this->set('headerSubnavLeftUrl', '/entries/index');
     $this->set(
         'headerSubnavLeftTitle',
@@ -748,6 +801,26 @@ class EntriesController extends AppController {
     $this->CacheTree->delete($tid);
 		clearCache("element_{$id}_entry_thread_line_cached", 'views', '');
 		clearCache("element_{$id}_entry_view_content", 'views', '');
+	}
+
+	protected function _afterNewEntry($newEntry) {
+			$this->_emptyCache($newEntry['Entry']['id'], $newEntry['Entry']['tid']);
+			// set notifications
+			$notis = array(
+					array(
+							'subject' 			=> $newEntry['Entry']['id'],
+							'event' 				=> 'Model.Entry.replyToEntry',
+							'receiver'			=> 'EmailNotification',
+							'set' 					=> $newEntry['Event'][1]['event_type_id'],
+					),
+					array(
+							'subject' 			=> $newEntry['Entry']['tid'],
+							'event' 				=> 'Model.Entry.replyToThread',
+							'receiver'			=> 'EmailNotification',
+							'set' 					=> $newEntry['Event'][2]['event_type_id'],
+					),
+			);
+			$this->Entry->Esevent->notifyUserOnEvents($newEntry['Entry']['user_id'], $notis);
 	}
 
 	protected function _isAnsweringAllowed($parent_entry) {

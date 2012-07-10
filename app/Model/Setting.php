@@ -2,8 +2,8 @@
 
 class Setting extends AppModel {
 
-	var $name = 'Setting';
-	var $primaryKey = 'name';
+	public $name = 'Setting';
+	public $primaryKey = 'name';
 
 	public $validate = array (
 //			'name' => array (

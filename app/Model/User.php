@@ -15,15 +15,18 @@
  */
 class User extends AppModel {
 
-	var $name = 'User';
-	var $actsAs = array( 'Containable' );
-	var $hasOne = array(
+	public $name = 'User';
+	public $actsAs = array( 'Containable' );
+	public $hasOne = array(
 			'UserOnline' => array(
 					'className' => 'UserOnline',
 					'foreignKey' => 'user_id',
 			),
 	);
-	var $hasMany = array(
+	public $hasMany = array(
+			'Esnotifications' => array(
+					'foreignKey' => 'user_id',
+			),
 			'Entry' => array(
 					'className' => 'Entry',
 					'foreignKey' => 'user_id',
@@ -31,10 +34,10 @@ class User extends AppModel {
 			'Upload' => array(
 					'className' => 'Upload',
 					'foreignKey' => 'user_id',
-			)
+			),
 	);
 
-	var $validate = array(
+	public $validate = array(
 			'username' => array(
 					'isUnique' => array(
 							'rule' => 'isUnique',

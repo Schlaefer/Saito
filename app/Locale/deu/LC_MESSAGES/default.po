@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-09 09:20+0100\n"
-"PO-Revision-Date: 2012-07-09 09:23+0100\n"
+"POT-Creation-Date: 2012-07-09 12:54+0100\n"
+"PO-Revision-Date: 2012-07-09 12:54+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1526,41 +1526,41 @@ msgstr "Neuen Eintrag verfassen"
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:289
-#: Controller/EntriesController.php:383
+#: Controller/EntriesController.php:290
+#: Controller/EntriesController.php:384
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:291
-#: Controller/EntriesController.php:323
+#: Controller/EntriesController.php:292
+#: Controller/EntriesController.php:324
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:317
-#: Controller/EntriesController.php:392
+#: Controller/EntriesController.php:318
+#: Controller/EntriesController.php:393
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:327
+#: Controller/EntriesController.php:328
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:422
+#: Controller/EntriesController.php:423
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:634
+#: Controller/EntriesController.php:635
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:634
+#: Controller/EntriesController.php:635
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:800
-#: Controller/EntriesController.php:810
+#: Controller/EntriesController.php:801
+#: Controller/EntriesController.php:811
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1708,7 +1708,12 @@ msgstr "Fehler, Nachricht konnte nicht versandt werden."
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
-#: Controller/Component/EmailNotificationComponent.php:33
+#: Controller/Component/EmailNotificationComponent.php:61
+#, php-format
+msgid "New reply to \"%s\""
+msgstr "Neu Antwort zu \"%s\""
+
+#: Controller/Component/EmailNotificationComponent.php:85
 msgid "Successfull registration"
 msgstr ""
 

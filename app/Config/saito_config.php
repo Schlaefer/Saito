@@ -5,7 +5,7 @@
    */
   
   /**
-   * Changing default language
+   * Setting default language (mandantory)
    *
    * Use ISO 639-2 Code http://www.loc.gov/standards/iso639-2/php/code_list.php
    * So german would be: deu

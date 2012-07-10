@@ -14,7 +14,8 @@
 				'app.smiley',
 				'app.smiley_code',
 				'app.setting',
-				'app.upload'
+				'app.upload',
+				'app.notification',
 		);
 
 		public function testLogin() {

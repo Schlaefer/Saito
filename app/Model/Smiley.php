@@ -2,8 +2,8 @@
 
 class Smiley extends AppModel {
 
-	var $name = 'Smiley';
-	var $validate = array(
+	public $name = 'Smiley';
+	public $validate = array(
 			'order' => array(
 					'numeric' => array(
 							'rule' => array( 'numeric' ),
