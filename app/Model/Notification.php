@@ -2,12 +2,6 @@
 
 	App::uses('AppModel', 'Model');
 
-	/**
-	 * Notification Model
-	 *
-	 * @property Event $Event
-	 * @property User $User
-	 */
 	class Notification extends AppModel {
 
 		public $actsAs = array( 'Containable' );
@@ -19,12 +13,8 @@
 		 */
 		public $belongsTo = array(
 				'Entry' => array(
-						'className'	 => 'Event',
+						'className'	 => 'Entry',
 						'foreignKey' => 'subject',
-				),
-				'Event'			 => array(
-						'className'	 => 'Event',
-						'foreignKey' => 'event_id',
 				),
 				'User'			 => array(
 						'className'	 => 'User',
@@ -69,9 +59,9 @@
 			$isSet = $this->find('first',
 												array(
 					'conditions' => array(
-							'event_id' => $eventId,
-							'user_id'	 => $userId,
-							'subject'	 => $subject,
+							'Notification.event_id' => $eventId,
+							'Notification.user_id'	 => $userId,
+							'Notification.subject'	 => $subject,
 					)
 					)
 			);
@@ -91,9 +81,9 @@
 		public function _unsetNotification($eventId, $userId, $subject) {
 			return $this->deleteAll(
 							array(
-							'event_id' => $eventId,
-							'user_id'	 => $userId,
-							'subject'	 => $subject,
+							'Notification.event_id' => $eventId,
+							'Notification.user_id'	 => $userId,
+							'Notification.subject'	 => $subject,
 							), false);
 		}
 

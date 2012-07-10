@@ -133,6 +133,20 @@ CakePlugin::load('Search');
 CakePlugin::load('Embedly');
 
 /**
+	 * Saito Notifications
+	 */
+	Configure::write('Saito.Events',
+			array(
+			'Model.Entry.afterReply' => array(
+					'EmailNotification' => array(
+							1 => 'modelEntryAfterReply',
+							2 => 'modelEntryAfterReplyThread',
+					),
+			)
+			)
+	);
+
+	/**
  * Activate Saito Cache:
  *
  * true: (default) use cache
