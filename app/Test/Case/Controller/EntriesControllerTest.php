@@ -15,6 +15,8 @@
 				'app.smiley_code',
 				'app.setting',
 				'app.upload',
+				'app.event',
+				'app.notification',
 		);
 
 		public function testIndex() {

@@ -31,7 +31,11 @@ class User extends AppModel {
 			'Upload' => array(
 					'className' => 'Upload',
 					'foreignKey' => 'user_id',
-			)
+			),
+			'Notification' => array(
+					'className' => 'Notification',
+					'foreignKey' => 'user_id',
+			),
 	);
 
 	var $validate = array(

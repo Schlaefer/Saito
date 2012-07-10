@@ -6,7 +6,6 @@
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();
 ?>
-
 <?php
 // new entries have no id (i.e. no reply an no edit), so wie set a filler var
 if ( !isset($this->request->data['Entry']['id']) ) {
@@ -182,17 +181,26 @@ $this->Form->submit(__('Einfügen'),
 					?>
 
 					<div class="checkbox">
+					<?php
+						echo $this->Form->checkbox('Notifications.1', array(
+								'checked' => isset($notifications[1]),
+						));
+						echo $this->Form->label('Notifications.1', __('Notify on reply'));
+						?>
+					</div>
+					<div class="checkbox">
+					<?php
+						echo $this->Form->checkbox('Notifications.2', array(
+								'checked' => isset($notifications[2]),
+						));
+						echo $this->Form->label('Notifications.2', __('Notify on thread replies'));
+						?>
+					</div>
+					<hr/>
+					<div class="checkbox">
 						<?php
-						/*
-						 * nsfw checkbox start
-						 */
-
 						echo $this->Form->checkbox('nsfw');
 						echo $this->Form->label('nsfw', __('entry_nsfw_title'));
-
-						/*
-						 * nsfw checkbox end
-						 */
 						?>
 					</div>
 					<div class="checkbox">

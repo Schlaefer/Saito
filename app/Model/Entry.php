@@ -1,5 +1,8 @@
 <?php
 
+  App::uses('AppModel', 'Model');
+  App::uses('CakeEvent', 'Event');
+
 class Entry extends AppModel {
 	public $name = 'Entry';
 	var $primaryKey	= 'id';
@@ -13,6 +16,13 @@ class Entry extends AppModel {
 		array ('name' => 'subject', 'type' => 'like'),
 		array ('name' => 'text', 'type' => 'like'),
 		array ('name' => 'name', 'type' => 'like'),
+	);
+
+	var $hasMany = array(
+			'Notification' => array(
+					'className' => 'Notification',
+					'foreignKey' => 'subject',
+			),
 	);
 
 	var $belongsTo = array(
@@ -166,7 +176,7 @@ class Entry extends AppModel {
       }
 
 		} elseif ($new_posting['Entry']['pid'] > 0) {	
-			//* reply 
+			//* reply
 			
 			//* update last answer time in root entry
 			$this->id = $parent_entry['Entry']['tid'];
@@ -175,9 +185,20 @@ class Entry extends AppModel {
 				// @td raise error and/or roll back new entry
 				return FALSE;
 				}
+
+			$this->getEventManager()->dispatch(
+					new CakeEvent(
+							'Model.Entry.afterReply',
+							$this,
+							array(
+									'subject'	=> $new_posting['Entry']['pid'],
+									'data' => $new_posting,
+									)
+							)
+					);
       }
 
-		$this->id = $new_posting_id; 
+		$this->id = $new_posting_id;
 		return $new_posting;
 	}
 
