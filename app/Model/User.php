@@ -223,6 +223,12 @@ class User extends AppModel {
 
 	}
 
+	/**
+	 * Removes a user and all his data execpt for his entries
+	 *
+	 * @param int $id user-ID
+	 * @return boolean
+	 */
   public function deleteAllExceptEntries($id) {
     if ($id == 1) return FALSE;
 
