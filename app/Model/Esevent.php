@@ -95,7 +95,6 @@
 
 			$success	 = true;
 			$eventData = array();
-//				debug($isSet);
 			if ($isSet['Esevent']) {
 				$eventData = array(
 						'id' => $isSet['Esevent']['id'],
@@ -116,9 +115,7 @@
 								),
 						),
 				);
-//				debug($data);
-
-				$success = $success && $this->saveAssociated($data);
+				$success				 = $success && $this->saveAssociated($data);
 			}
 
 			return $success;
@@ -134,17 +131,34 @@
 			}
 		}
 
+		/**
+		 * Checks if specific notification is set
+		 *
+		 * @param type $params
+		 *
+		 * <pre>
+		 * array(
+		 * 		'user_id' 			=> '1',
+		 * 		'event' 				=> '2',
+		 * 		'subject' 			=> '345',
+		 * 		'receiver'			=> '1',
+		 *  );
+		 * </pre>
+		 *
+		 * @return mixed array with found set or false otherwise
+		 */
 		protected function _getEventSet($params) {
 			$results = $this->find('first',
 					array(
 					'contain' => array(
 							'Esnotification' => array(
 									'conditions' => array(
-											'user_id'		 => $params['user_id'],
+											'user_id'				 => $params['user_id'],
+											'esreceiver_id'	 => $params['receiver'],
 									),
 							),
 					),
-					'conditions' => array(
+					'conditions'		 => array(
 							'Esevent.subject'	 => $params['subject'],
 							'Esevent.event'		 => $params['event'],
 					)
@@ -196,7 +210,7 @@
 		 *
 		 *
 		 * array(
-		 *		1 => [true|false],
+		 * 		1 => [true|false],
 		 * )
 		 */
 		public function checkEventsForUser($user, $events) {
@@ -233,12 +247,12 @@
 		 * @return array
 		 *
 		 * array(
-							'user_id'						 => 1,
-							'esevent_id'				 => 1,
-							'esnotification_id'	 => 1,
-							'event'							 => 1,
-							'subject'						 => 1,
-							'receiver'					 => 1,
+		  'user_id'						 => 1,
+		  'esevent_id'				 => 1,
+		  'esnotification_id'	 => 1,
+		  'event'							 => 1,
+		  'subject'						 => 1,
+		  'receiver'					 => 1,
 		 *
 		 * )
 		 */

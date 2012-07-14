@@ -2,6 +2,17 @@
 
 	App::uses('Esevent', 'Model');
 
+	class EseventMock extends Esevent {
+
+		public $useTable	 = 'esevents';
+		public $alias		 = 'Esevent';
+
+		public function getEventSet($params) {
+			return $this->_getEventSet($params);
+		}
+
+	}
+
 	/**
 	 * Esevent Test Case
 	 *
@@ -30,7 +41,7 @@
 		 */
 		public function setUp() {
 			parent::setUp();
-			$this->Esevent = ClassRegistry::init('Esevent');
+			$this->Esevent = ClassRegistry::init('EseventMock');
 		}
 
 		/**
@@ -209,8 +220,40 @@
 					),
 			);
 
-			$result = $this->Esevent->checkEventsForUser(1, $notfications);
-			$expected = array(true, false, false);
+			$result		 = $this->Esevent->checkEventsForUser(1, $notfications);
+			$expected	 = array(true, false, false);
+			$this->assertEqual($result, $expected);
+		}
+
+		public function testGetEventSet() {
+
+			$expected = array(
+					'Esevent' => array(
+							'id'						 => '1',
+							'subject'				 => '1',
+							'event'					 => '1',
+							'created'				 => '0000-00-00 00:00:00',
+							'modified'			 => '0000-00-00 00:00:00'
+					),
+					'Esnotification' => array(
+							array(
+									'id'						 => '1',
+									'user_id'				 => '1',
+									'esevent_id'		 => '1',
+									'esreceiver_id'	 => '1',
+									'created'				 => '0000-00-00 00:00:00',
+									'modified'			 => '0000-00-00 00:00:00'
+							),
+					)
+			);
+
+			$data = array(
+					'user_id'	 => 1,
+					'subject'	 => 1,
+					'event'		 => 1,
+					'receiver' => 1,
+			);
+			$result		 = $this->Esevent->getEventSet($data);
 			$this->assertEqual($result, $expected);
 		}
 
@@ -233,7 +276,7 @@
 							'user_email' => 'ulysses@example.com'
 					)
 			);
-			$result = $this->Esevent->getUsersForEventOnSubjectWithReceiver('Model.Entry.replyToEntry',
+			$result			 = $this->Esevent->getUsersForEventOnSubjectWithReceiver('Model.Entry.replyToEntry',
 					1, 'EmailNotification');
 			$this->assertEqual($result, $expected);
 		}
