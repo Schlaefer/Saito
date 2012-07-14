@@ -266,8 +266,6 @@
 							'id'						 => '1',
 							'subject'				 => '1',
 							'event'					 => '1',
-							'created'				 => '0000-00-00 00:00:00',
-							'modified'			 => '0000-00-00 00:00:00'
 					),
 					'Esnotification' => array(
 							array(
@@ -275,8 +273,6 @@
 									'user_id'				 => '1',
 									'esevent_id'		 => '1',
 									'esreceiver_id'	 => '1',
-									'created'				 => '0000-00-00 00:00:00',
-									'modified'			 => '0000-00-00 00:00:00'
 							),
 					)
 			);

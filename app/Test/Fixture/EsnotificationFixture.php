@@ -15,8 +15,6 @@ class EsnotificationFixture extends CakeTestFixture {
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'esevent_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'esreceiver_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'created' => array( 'type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
-		'modified' => array( 'type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),

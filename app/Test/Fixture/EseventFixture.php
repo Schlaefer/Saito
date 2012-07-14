@@ -14,8 +14,6 @@ class EseventFixture extends CakeTestFixture {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'subject' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'event' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'created' => array( 'type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
-		'modified' => array( 'type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
