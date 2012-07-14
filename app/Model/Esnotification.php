@@ -32,4 +32,8 @@ class Esnotification extends AppModel {
 			'order' => ''
 		)
 	);
+
+	public function deleteAllFromUser($userId) {
+		return $this->deleteAll(array('user_id' => $userId), false);
+	}
 }
