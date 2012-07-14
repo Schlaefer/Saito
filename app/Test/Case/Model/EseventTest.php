@@ -198,7 +198,41 @@
 		 *
 		 * @return void
 		 */
-		public function testDeleteNotification() {
+		public function testDeleteNotificationExisting() {
+			$data = array(
+					'user_id'	 => 3,
+					'subject'	 => 1,
+					'event'		 => 1,
+					'receiver' => 1,
+			);
+
+			$this->Esevent->Esnotification = $this->getMock('Esnotification',
+					array('delete')
+					,array(false, 'esnotifications', 'test')
+					);
+			$this->Esevent->Esnotification->expects($this->once())
+					->method('delete')
+					->with(3);
+
+			$this->Esevent->deleteNotification($data);
+		}
+
+		public function testDeleteNotificationNonExisting() {
+			$data = array(
+					'user_id'	 => 3,
+					'subject'	 => 9999,
+					'event'		 => 1,
+					'receiver' => 1,
+			);
+
+			$this->Esevent->Esnotification = $this->getMock('Esnotification',
+					array('delete')
+					,array(false, 'esnotifications', 'test')
+					);
+			$this->Esevent->Esnotification->expects($this->never())
+					->method('delete');
+
+			$this->Esevent->deleteNotification($data);
 		}
 
 		public function testCheckEventsForUser() {
