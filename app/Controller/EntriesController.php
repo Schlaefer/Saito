@@ -260,28 +260,7 @@ class EntriesController extends AppController {
 			if ( $new_posting ) :
 				// inserting new posting was successful
 
-				$this->_emptyCache($this->Entry->id, $new_posting['Entry']['tid']);
-				if (isset($this->request->data['Notifications'])) {
-					$this->Entry->Notification->setNotifications(
-								array(
-										array(
-												'Notification' => array(
-														'eventId'	 => 1,
-														'userId'	 => $new_posting['Entry']['user_id'],
-														'subject'	 => $new_posting['Entry']['id'],
-														'set'			 => $this->request->data['Notifications'][1],
-												)
-										),
-										array(
-												'Notification' => array(
-														'eventId'	 => 2,
-														'userId'	 => $new_posting['Entry']['user_id'],
-														'subject'	 => $new_posting['Entry']['tid'],
-														'set'			 => $this->request->data['Notifications'][2],
-												)
-										),
-						));
-				}
+				$this->_afterNewEntry($new_posting);
 
 				if ( $this->request->is('ajax') ):
 					//* The new posting is requesting an ajax answer
@@ -305,7 +284,7 @@ class EntriesController extends AppController {
 					return;
 				endif;
 			else :
-				//* Error while trying to save a post 
+				// Error while trying to save a post
 				if ( count($this->Entry->validationErrors) === 0 ) :
 					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
 				endif;
@@ -321,6 +300,7 @@ class EntriesController extends AppController {
 					// answering is always a ajax request, prevents add/1234 GET-requests
 					&& $this->request->is('ajax') === TRUE
 			) {
+				$this->Entry->contain(array('User', 'Category'));
 				$this->Entry->sanitize(false);
 				$this->request->data = $this->Entry->findById($id);
 			}
@@ -336,20 +316,17 @@ class EntriesController extends AppController {
 					unset($this->request->data['Entry']['nsfw']);
 					$this->set('citeText', $this->request->data['Entry']['text']);
 
-					// get Notification settings for view
-					$threadNotifications = $this->Entry->Notification->find('list',
+				// get notifications
+					$notis = $this->Entry->Esevent->checkEventsForUser($this->CurrentUser->getId(),
 							array(
-							'contain'	 => false,
-							'fields'	 => array( 'event_id', 'event_id' ),
-							'conditions' => array(
-									'user_id'	 => $this->CurrentUser->getId(),
+									1 => array(
 									'subject'	 => $this->request->data['Entry']['tid'],
+									'event'		 => 'Model.Entry.replyToThread',
+									'receiver' => 'EmailNotification',
+							),
 							)
-							));
-					if ( $threadNotifications ) {
-						$notifications = array_combine($threadNotifications, $threadNotifications);
-						$this->set('notifications', $notifications);
-					}
+					);
+					$this->set('notis', $notis);
 
 					// set Subnav
 					$headerSubnavLeftTitle = __('back_to_posting_from_linkname',
@@ -395,8 +372,6 @@ class EntriesController extends AppController {
 		$old_entry = $this->Entry->find('first', array(
 				'contain' => array(
 						'User',
-						'Notification' => array(
-								'conditions' => array('user_id' => $oldEntryUserId)),
 						'Category'),
 				'conditions' => array('Entry.id' => $id),
 		));
@@ -436,28 +411,7 @@ class EntriesController extends AppController {
 			if ( $new_entry = $this->Entry->save($this->request->data) ) {
 				// new entry was saved
 
-				$this->_emptyCache($this->Entry->id, $parentEntry['Entry']['tid']);
-				if (isset($this->request->data['Notifications'])) {
-					$this->Entry->Notification->setNotifications(
-								array(
-										array(
-												'Notification' => array(
-														'eventId'	 => 1,
-														'userId'	 => $old_entry['Entry']['user_id'],
-														'subject'	 => $id,
-														'set'			 => $this->request->data['Notifications'][1],
-												)
-										),
-										array(
-												'Notification' => array(
-														'eventId'	 => 2,
-														'userId'	 => $old_entry['Entry']['user_id'],
-														'subject'	 => $old_entry['Entry']['tid'],
-														'set'			 => $this->request->data['Notifications'][2],
-												)
-										),
-						));
-				}
+				$this->_afterNewEntry($old_entry + array('Event' => $this->request->data['Event']));
 
 				return $this->redirect(array( 'action' => 'view', $id ));
 			} else {
@@ -465,21 +419,22 @@ class EntriesController extends AppController {
 			}
 		}
 
-			// get Notification settings for view
-			$threadNotifications = $this->Entry->Notification->find('list',
+		// get notifications
+			$notis = $this->Entry->Esevent->checkEventsForUser($old_entry['Entry']['user_id'],
 					array(
-					'contain'	 => false,
-					'fields'	 => array( 'event_id', 'event_id' ),
-					'conditions' => array(
-							'user_id'						 => $old_entry['Entry']['user_id'],
-							'subject'						 => $old_entry['Entry']['tid'],
+							array(
+									'subject'	 => $old_entry['Entry']['id'],
+									'event'		 => 'Model.Entry.replyToEntry',
+									'receiver' => 'EmailNotification',
+							),
+							array(
+									'subject'	 => $old_entry['Entry']['tid'],
+									'event'		 => 'Model.Entry.replyToThread',
+									'receiver' => 'EmailNotification',
+							),
 					)
-					));
-			$entryNotifications	 = Hash::extract($old_entry['Notification'],
-							'{n}.event_id');
-			$notifications			 = am($entryNotifications, $threadNotifications);
-			$notifications			 = array_combine($notifications, $notifications);
-			$this->set('notifications', $notifications);
+			);
+			$this->set('notis', $notis);
 
 		$this->request->data = $old_entry;
 
@@ -846,6 +801,26 @@ class EntriesController extends AppController {
     $this->CacheTree->delete($tid);
 		clearCache("element_{$id}_entry_thread_line_cached", 'views', '');
 		clearCache("element_{$id}_entry_view_content", 'views', '');
+	}
+
+	protected function _afterNewEntry($newEntry) {
+			$this->_emptyCache($newEntry['Entry']['id'], $newEntry['Entry']['tid']);
+			// set notifications
+			$notis = array(
+					array(
+							'subject' 			=> $newEntry['Entry']['id'],
+							'event' 				=> 'Model.Entry.replyToEntry',
+							'receiver'			=> 'EmailNotification',
+							'set' 					=> $newEntry['Event'][1]['event_type_id'],
+					),
+					array(
+							'subject' 			=> $newEntry['Entry']['tid'],
+							'event' 				=> 'Model.Entry.replyToThread',
+							'receiver'			=> 'EmailNotification',
+							'set' 					=> $newEntry['Event'][2]['event_type_id'],
+					),
+			);
+			$this->Entry->Esevent->notifyUserOnEvents($newEntry['Entry']['user_id'], $notis);
 	}
 
 	protected function _isAnsweringAllowed($parent_entry) {

@@ -6,14 +6,14 @@ class Category extends AppModel {
 
 	public $cacheQueries = true;
 
-	var $hasMany = array (
+	public $hasMany = array (
 		"Entry" => array (
 			'className' => 'Entry',
 			'foreignKey' => 'category',
 		)
 	);
 
-	var $validate = array(
+	public $validate = array(
 		'category_order' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),

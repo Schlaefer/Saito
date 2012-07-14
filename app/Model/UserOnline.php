@@ -4,14 +4,12 @@
  *  Class UserOnline
  */
 class UserOnline extends AppModel {
-	var $name = 'UserOnline';
-	var $useTable = 'useronline';
-	var $primaryKey	= 'user_id';
- 	var $actsAs = array('Containable');
-//	public $cacheQueries = true;
+	public  $name = 'UserOnline';
+	public  $useTable = 'useronline';
+	public  $primaryKey	= 'user_id';
+ 	public  $actsAs = array('Containable');
 
-
-	var $belongsTo = array (
+	public  $belongsTo = array (
 		'User' => array (
 				'className' => 'User',
 				'foreignKey'	=> 'user_id',

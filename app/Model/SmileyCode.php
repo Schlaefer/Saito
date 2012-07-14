@@ -1,9 +1,9 @@
 <?php
 class SmileyCode extends AppModel {
-	var $name = 'SmileyCode';
-	var $displayField = 'code';
+	public  $name = 'SmileyCode';
+	public  $displayField = 'code';
 
-	var $belongsTo = array(
+	public  $belongsTo = array(
 		'Smiley' => array(
 			'className' => 'Smiley',
 			'foreignKey' => 'smiley_id',

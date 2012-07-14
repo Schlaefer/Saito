@@ -5,8 +5,8 @@
 
 class Entry extends AppModel {
 	public $name = 'Entry';
-	var $primaryKey	= 'id';
- 	var $actsAs = array(
+	public $primaryKey	= 'id';
+ 	public $actsAs = array(
 			'Containable', 
 			'Search.Searchable',
 		);
@@ -18,14 +18,7 @@ class Entry extends AppModel {
 		array ('name' => 'name', 'type' => 'like'),
 	);
 
-	var $hasMany = array(
-			'Notification' => array(
-					'className' => 'Notification',
-					'foreignKey' => 'subject',
-			),
-	);
-
-	var $belongsTo = array(
+	public $belongsTo = array(
 			'Category' => array (
 					'className' => 'Category',
 					'foreignKey' => 'category',
@@ -34,6 +27,14 @@ class Entry extends AppModel {
 					'className' => 'User',
 					'foreignKey' => 'user_id',
 					'counterCache'	=> true,
+			),
+	);
+
+//	/*
+	public $hasMany = array(
+			'Esevent' => array(
+					'foreignKey' => 'subject',
+					'conditions' => array('Esevent.subject' => 'Entry.id'),
 			),
 	);
 
@@ -137,6 +138,7 @@ class Entry extends AppModel {
 			//* get and setup additional data from parent entry
 
 			$this->id 		= $data['Entry']['pid'];
+			$this->contain();
 			$parent_entry = $this->read(array('tid', 'category'));
 			if ( $parent_entry != TRUE ) {
 				//* parent could not be found 
@@ -146,23 +148,27 @@ class Entry extends AppModel {
 			//* update new entry with thread data
 			$data['Entry']['tid'] 				= $parent_entry['Entry']['tid'];
 			$data['Entry']['category'] 		= $parent_entry['Entry']['category'];
-			}
+		}
 
 		$data['Entry']['time']				= date("Y-m-d H:i:s");
 		$data['Entry']['last_answer'] = date("Y-m-d H:i:s");
     $data['Entry']['ip']          = self::_getIp();
 
 		$this->create();
-		$new_posting = $this->save($data, $validate, $fieldList);
+		$new_posting = $this->save($data, $validate,$fieldList);
 
 		if ( $new_posting != TRUE ) {
 			return $new_posting;
-			} 
+			}
+
+		if ( $new_posting === TRUE ) {
+			$new_posting = $this->read(null, $this->id);
+		}
 
 		$new_posting_id	= $this->id;
 
-		if($new_posting['Entry']['pid'] == 0) {	
-			//* new thread
+		if((int)$new_posting['Entry']['pid'] === 0) {
+			// new thread
 
 			// for new thread tid = id 
 			$new_posting['Entry']['tid'] = $new_posting_id;
@@ -180,6 +186,7 @@ class Entry extends AppModel {
 			
 			//* update last answer time in root entry
 			$this->id = $parent_entry['Entry']['tid'];
+			$this->read();
 			$this->set('last_answer', $new_posting['Entry']['last_answer']);
 			if ( $this->save() != TRUE ) {
 				// @td raise error and/or roll back new entry
@@ -188,7 +195,7 @@ class Entry extends AppModel {
 
 			$this->getEventManager()->dispatch(
 					new CakeEvent(
-							'Model.Entry.afterReply',
+							'Model.Entry.replyToEntry',
 							$this,
 							array(
 									'subject'	=> $new_posting['Entry']['pid'],
@@ -196,7 +203,17 @@ class Entry extends AppModel {
 									)
 							)
 					);
-      }
+			$this->getEventManager()->dispatch(
+					new CakeEvent(
+							'Model.Entry.replyToThread',
+							$this,
+							array(
+									'subject'	=> $new_posting['Entry']['tid'],
+									'data' => $new_posting,
+									)
+							)
+					);
+		}
 
 		$this->id = $new_posting_id;
 		return $new_posting;
@@ -365,9 +382,10 @@ class Entry extends AppModel {
 
     $success = $this->deleteAll(array('tid' => $this->id), false, true);
 
-    if ( $success ):
+    if ($success):
       $this->Category->id = $category;
       $this->Category->updateThreadCounter();
+
     endif;
 
 		return $success;

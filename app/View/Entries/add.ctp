@@ -182,18 +182,18 @@ $this->Form->submit(__('Einfügen'),
 
 					<div class="checkbox">
 					<?php
-						echo $this->Form->checkbox('Notifications.1', array(
-								'checked' => isset($notifications[1]),
+						echo $this->Form->checkbox('Event.1.event_type_id', array(
+								'checked' => isset($notis[0]) && $notis[0],
 						));
-						echo $this->Form->label('Notifications.1', __('Notify on reply'));
+						echo $this->Form->label('Event.1.event_type_id', __('Notify on reply'));
 						?>
 					</div>
 					<div class="checkbox">
 					<?php
-						echo $this->Form->checkbox('Notifications.2', array(
-								'checked' => isset($notifications[2]),
+						echo $this->Form->checkbox('Event.2.event_type_id', array(
+								'checked' => isset($notis[1]) && $notis[1],
 						));
-						echo $this->Form->label('Notifications.2', __('Notify on thread replies'));
+						echo $this->Form->label('Event.2.event_type_id', __('Notify on thread replies'));
 						?>
 					</div>
 					<hr/>
