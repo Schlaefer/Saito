@@ -228,6 +228,7 @@ class User extends AppModel {
 
     $success = TRUE;
     $success = $success && $this->Upload->deleteAllFromUser($id);
+    $success = $success && $this->Esnotification->deleteAllFromUser($id);
     $success = $success && $this->Entry->anonymizeEntriesFromUser($id);
     $success = $success && $this->UserOnline->deleteAll(
         array('user_id' => $id), FALSE);

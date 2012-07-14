@@ -20,7 +20,9 @@
 				'app.smiley',
 				'app.smiley_code',
 				'app.setting',
-				'app.upload'
+				'app.upload',
+				'app.esnotification',
+				'app.esevent',
 		);
 
 		public function testSetLastRefresh() {
@@ -117,6 +119,15 @@
 
     public function testDeleteUser() {
 
+			// test that user's notifications are deleted
+			$this->User->Esnotification = $this->getMock('Esnotification', 
+					array('deleteAllFromUser'), array(false, 'esnotifications', 'test'));
+			$this->User->Esnotification->expects($this->once())
+					->method('deleteAllFromUser')
+					->with(3)
+					->will($this->returnValue(true));
+
+			//
       $result = $this->User->findById(3);
       $this->assertTrue($result > 0);
 
