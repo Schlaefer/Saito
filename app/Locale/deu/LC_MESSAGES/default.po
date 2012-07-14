@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-09 12:54+0100\n"
-"PO-Revision-Date: 2012-07-09 12:54+0100\n"
+"POT-Creation-Date: 2012-07-14 11:52+0100\n"
+"PO-Revision-Date: 2012-07-14 11:52+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -589,29 +589,37 @@ msgstr ""
 "\n"
 "Um Ihren Account frei zu schalten, klicken Sie bitte folgenden Link an: %s"
 
-#: View/Entries/add.ctp:43
-#: View/Entries/add.ctp:278
+#: View/Entries/add.ctp:42
+#: View/Entries/add.ctp:286
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:102
+#: View/Entries/add.ctp:101
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:131
+#: View/Entries/add.ctp:130
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
-#: View/Entries/add.ctp:167
+#: View/Entries/add.ctp:166
 msgid "Cite"
 msgstr "Zitieren"
 
-#: View/Entries/add.ctp:203
+#: View/Entries/add.ctp:188
+msgid "Notify on reply"
+msgstr "Beitrag abonnieren"
+
+#: View/Entries/add.ctp:196
+msgid "Notify on thread replies"
+msgstr "Thread abonnieren"
+
+#: View/Entries/add.ctp:211
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/add.ctp:242
-#: View/Entries/add.ctp:256
+#: View/Entries/add.ctp:250
+#: View/Entries/add.ctp:264
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -1514,53 +1522,53 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:105
+#: Controller/EntriesController.php:103
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:225
+#: Controller/EntriesController.php:223
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:228
+#: Controller/EntriesController.php:226
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:290
-#: Controller/EntriesController.php:384
+#: Controller/EntriesController.php:289
+#: Controller/EntriesController.php:418
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:292
-#: Controller/EntriesController.php:324
+#: Controller/EntriesController.php:291
+#: Controller/EntriesController.php:339
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:318
-#: Controller/EntriesController.php:393
+#: Controller/EntriesController.php:332
+#: Controller/EntriesController.php:445
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:328
+#: Controller/EntriesController.php:343
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:423
+#: Controller/EntriesController.php:475
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:635
+#: Controller/EntriesController.php:687
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:635
+#: Controller/EntriesController.php:687
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:801
-#: Controller/EntriesController.php:811
+#: Controller/EntriesController.php:873
+#: Controller/EntriesController.php:883
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1708,12 +1716,13 @@ msgstr "Fehler, Nachricht konnte nicht versandt werden."
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
-#: Controller/Component/EmailNotificationComponent.php:61
+#: Controller/Component/EmailNotificationComponent.php:53
+#: Controller/Component/EmailNotificationComponent.php:84
 #, php-format
 msgid "New reply to \"%s\""
 msgstr "Neu Antwort zu \"%s\""
 
-#: Controller/Component/EmailNotificationComponent.php:85
+#: Controller/Component/EmailNotificationComponent.php:112
 msgid "Successfull registration"
 msgstr ""
 
