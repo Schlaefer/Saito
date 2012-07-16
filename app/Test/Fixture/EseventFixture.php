@@ -41,6 +41,11 @@ class EseventFixture extends CakeTestFixture {
 						'subject'	 => 2,
 						'event'		 => 1
 				),
+				array(
+						'id'			 => 4,
+						'subject'	 => 1,
+						'event'		 => 3
+				),
 		);
 
 }

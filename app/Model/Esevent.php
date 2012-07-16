@@ -34,13 +34,73 @@
 						'counterQuery' => ''
 				)
 		);
-		protected $_eventTypes	 = array(
+		protected $_eventTypes = array(
 				'Model.Entry.replyToEntry'	 => 1,
 				'Model.Entry.replyToThread'	 => 2,
 		);
-		protected $_receivers									 = array(
+
+		/**
+		 * Subject types for $eventsTypes
+		 *
+		 * @var array
+		 */
+		protected $_subjectTypes = array(
+				'entry' 	=> array(1),
+				'thread' 	=> array(2),
+		);
+		protected $_receivers = array(
 				'EmailNotification' => 1,
 		);
+
+		/**
+		 *
+		 * @param int $oldSubject
+		 * @param int $newSubject
+		 * @param string $subjectType one of the strings in $_subjectTypes
+		 */
+		public function transferSubjectForEventType($oldSubject, $newSubject, $subjectType) {
+			$old = $this->find('all', array(
+					'contain' => array('Esnotification'),
+					'conditions' => array(
+							'subject' => $oldSubject,
+							'event'		 => $this->_subjectTypes[$subjectType],
+					)
+			));
+
+			// there are no affected subjects
+			if (!$old) {
+				return;
+			}
+
+			$current = $this->find('all', array(
+					'contain' => array('Esnotification'),
+					'conditions' => array(
+							'subject' => $newSubject,
+							'event'		 => $this->_subjectTypes[$subjectType],
+					)
+			));
+
+			$oldEvents = Hash::combine($old, '{n}.Esevent.event', '{n}');
+			$currentEvents = Hash::combine($current, '{n}.Esevent.event', '{n}');
+
+			foreach ($oldEvents as $eventType => $oldEvent) {
+				$newData = array();
+				$newData['Esnotification'] = $oldEvent['Esnotification'];
+				if (isset($currentEvents[$eventType])) {
+					$newData['Esevent']['id'] = $currentEvents[$eventType]['Esevent']['id'];
+				} else {
+					$newData['Esevent']['subject'] = $newSubject;
+					$newData['Esevent']['event']	 = $eventType;
+					$this->create();
+				}
+				$this->saveAssociated($newData);
+			}
+			$this->deleteAll(array(
+					'subject' => $oldSubject,
+					'event'		 => $this->_subjectTypes[$subjectType],
+			));
+			return;
+		}
 
 		/**
 		 *
