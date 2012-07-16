@@ -4,7 +4,12 @@
 
 	class EntryTest extends CakeTestCase {
 
-		public $fixtures = array( 'app.user', 'app.user_online', 'app.entry', 'app.category', 'app.smiley', 'app.smiley_code', 'app.setting', 'app.upload' );
+		public $fixtures = array(
+				'app.user', 'app.user_online', 'app.entry', 'app.category',
+				'app.smiley', 'app.smiley_code', 'app.setting', 'app.upload',
+				'app.esevent',
+				'app.esnotification',
+				);
 
 		public function testBeforeValidate() {
 
@@ -53,6 +58,14 @@
 		}
 
 		public function testMerge() {
+
+			// notifications must be merged
+			App::uses('Esevent', 'Model');
+			$this->Entry->Esevent = $this->getMock(
+					'Esevent', array('transferSubjectForEventType'), array(null, 'esevents', 'test'));
+			$this->Entry->Esevent->expects($this->once())
+					->method('transferSubjectForEventType')
+					->with(4, 1, 'thread');
 
 			// entry is not appended yet
 			$appendedEntry = $this->Entry->find(

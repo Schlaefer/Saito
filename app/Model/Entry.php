@@ -428,12 +428,13 @@ class Entry extends AppModel {
 	}
 
 	/**
-	 * Merge entry on to entry $targetId
+	 * Merge thread on to entry $targetId
 	 *
 	 * @param int $targetId id of the entry the thread should be appended to
 	 * @return bool true if merge was successfull false otherwise
 	 */
 	public function merge($targetId) {
+		$threadIdSource = $this->id;
 		$this->contain();
 		$targetEntry = $this->findById($targetId);
 
@@ -459,6 +460,9 @@ class Entry extends AppModel {
 				$this->set('last_answer', $sourceLastAnswer);
 				$this->save();
 			}
+
+			$this->Esevent->transferSubjectForEventType($threadIdSource,
+					$targetEntry['Entry']['tid'], 'thread');
 
 			return true;
 		}
