@@ -123,6 +123,14 @@
       $this->Entry->Category->
           expects($this->once())->method('updateThreadCounter')->will($this->returnValue(true));
 
+			// test that event and notifications are deleted
+			App::uses('Esevent', 'Model');
+			$this->Entry->Esevent = $this->getMock(
+					'Esevent', array('deleteSubject'), array(null, 'esevents', 'test'));
+			$this->Entry->Esevent->expects($this->once())
+					->method('deleteSubject')
+					->with(1, 'thread');
+
 			$result = $this->Entry->deleteTree();
 			$this->assertTrue($result);
 

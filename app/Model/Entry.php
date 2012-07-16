@@ -375,17 +375,18 @@ class Entry extends AppModel {
 
 		// delete only whole trees
 		$pid = $this->field('pid');
-    $category = $this->field('category');
 		if ((int)$pid !== 0) {
 		 return false;
 		}
+
+    $category = $this->field('category');
 
     $success = $this->deleteAll(array('tid' => $this->id), false, true);
 
     if ($success):
       $this->Category->id = $category;
       $this->Category->updateThreadCounter();
-
+			$this->Esevent->deleteSubject($this->id, 'thread');
     endif;
 
 		return $success;
