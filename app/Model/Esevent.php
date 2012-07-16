@@ -23,7 +23,7 @@
 				'Esnotification' => array(
 						'className'		 => 'Esnotification',
 						'foreignKey'	 => 'esevent_id',
-						'dependent'		 => false,
+						'dependent'		 => true,
 						'conditions'	 => '',
 						'fields'			 => '',
 						'order'				 => '',
@@ -98,7 +98,7 @@
 			$this->deleteAll(array(
 					'subject' => $oldSubject,
 					'event'		 => $this->_subjectTypes[$subjectType],
-			));
+			), false);
 			return;
 		}
 
@@ -179,6 +179,20 @@
 			}
 
 			return $success;
+		}
+
+		/**
+		 * Deletes Subject and all its Notifications
+		 */
+		public function deleteSubject($subjectId, $subjectType) {
+
+			// remove all events
+			$this->deleteAll(array(
+					'subject'	 => $subjectId,
+					'event'		 => $this->_subjectTypes[$subjectType],
+			), true);
+
+			// remove all notifications
 		}
 
 		public function deleteNotification($params) {

@@ -372,6 +372,41 @@
 			$this->assertEqual($result, $expected);
 		}
 
+		public function testDeleteSubject() {
+
+			$allNotificationsBefore	 = $this->Esevent->find('all');
+			$allNotificationsBefore	 = Hash::extract($allNotificationsBefore,
+							'{n}.Esnotification.{n}');
+			$notificationsBefore		 = $this->Esevent->find('all',
+					array(
+					'conditions' => array('event' => array(1, 3)
+					)
+					)
+			);
+			$notificationsBefore	 = Hash::extract($notificationsBefore,
+							'{n}.Esnotification.{n}');
+			$expectedNotifications = array_merge(Hash::diff($allNotificationsBefore,
+							$notificationsBefore));
+
+			$allEventsBefore = $this->Esevent->find('all');
+			$eventsBefore		 = $this->Esevent->find('all',
+					array(
+					'conditions' => array('event' => array(1, 3))));
+			// array_merge to reset array keys
+			$expectedEvents = array_merge(Hash::diff($allEventsBefore, $eventsBefore));
+
+			$this->Esevent->deleteSubject(1, 'entry');
+
+			// Check that events are deleted
+			$result = $this->Esevent->find('all');
+			$this->assertEqual($result, $expectedEvents);
+
+			// Check that notifications are deleted
+			$result	 = $this->Esevent->find('all');
+			$result	 = Hash::extract($result, '{n}.Esnotification.{n}');
+			$this->assertEqual($result, $expectedNotifications);
+		}
+
 		public function testGetEventSet() {
 
 			$expected = array(
