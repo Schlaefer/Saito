@@ -563,4 +563,23 @@
       ));
     ?>
 	</table>
+
+	<h2><?php echo __('Debug'); ?></h2>
+	<table class="table table-striped table-bordered table-condensed">
+		<?php echo $tableHeadersHtml ?>
+    <?php
+      echo $this->Html->tableCells(array(
+          array(
+              __('stopwatch_get'),
+              $Settings['stopwatch_get'],
+              __('stopwatch_get_exp'),
+              $this->Html->link(
+                  __('edit'),
+                  array( 'controller' => 'settings', 'action' => 'edit', 'stopwatch_get' ),
+                  array( 'class' => 'btn' )
+              )
+          ),
+      ));
+    ?>
+	</table>
 </div>

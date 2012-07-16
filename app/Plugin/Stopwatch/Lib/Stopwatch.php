@@ -136,7 +136,6 @@ class Stopwatch {
 		}
 
   public static function getWallTime() {
-		if ( self::$_enableTimer === FALSE ) return;
 		self::start('getWallTime()');
 		self::end('getWallTime()');
     return sprintf("%05.3f", self::$_events[count(self::$_events) - 1]['wtime']);

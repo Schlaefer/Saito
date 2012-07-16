@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-05 17:00+0100\n"
-"PO-Revision-Date: 2012-07-05 17:00+0100\n"
+"POT-Creation-Date: 2012-07-16 17:42+0100\n"
+"PO-Revision-Date: 2012-07-16 17:42+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -570,29 +570,37 @@ msgstr ""
 "\n"
 "To activate your account please click the following link: %s"
 
-#: View/Entries/add.ctp:43
-#: View/Entries/add.ctp:278
+#: View/Entries/add.ctp:42
+#: View/Entries/add.ctp:286
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:102
+#: View/Entries/add.ctp:101
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:131
+#: View/Entries/add.ctp:130
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:167
+#: View/Entries/add.ctp:166
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:203
+#: View/Entries/add.ctp:188
+msgid "Notify on reply"
+msgstr ""
+
+#: View/Entries/add.ctp:196
+msgid "Notify on thread replies"
+msgstr ""
+
+#: View/Entries/add.ctp:211
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
-#: View/Entries/add.ctp:242
-#: View/Entries/add.ctp:256
+#: View/Entries/add.ctp:250
+#: View/Entries/add.ctp:264
 msgid "submit_button"
 msgstr "Submit"
 
@@ -603,6 +611,15 @@ msgstr "New Entry"
 #: View/Entries/index.ctp:20
 msgid "btn_manualy_mark_as_read_shp"
 msgstr "Marks all new entries as read."
+
+#: View/Entries/merge.ctp:2
+#, php-format
+msgid "Merge thread %s"
+msgstr ""
+
+#: View/Entries/merge.ctp:9
+msgid "Merge onto entry with ID:"
+msgstr ""
 
 #: View/Entries/mix.ctp:6
 msgid "Back"
@@ -734,6 +751,7 @@ msgstr ""
 #: View/Settings/admin_index.ctp:529
 #: View/Settings/admin_index.ctp:548
 #: View/Settings/admin_index.ctp:558
+#: View/Settings/admin_index.ctp:577
 msgid "edit"
 msgstr ""
 
@@ -968,6 +986,19 @@ msgstr "Embedly Key"
 msgid "embedly_key_exp"
 msgstr "You have to register at Embed.ly to receive an API-key, which you enter here."
 
+#: View/Settings/admin_index.ctp:567
+msgid "Debug"
+msgstr ""
+
+#: View/Settings/admin_index.ctp:573
+msgid "stopwatch_get"
+msgstr "Stopwatch"
+
+#: View/Settings/admin_index.ctp:575
+#, fuzzy
+msgid "stopwatch_get_exp"
+msgstr "Outputs stopwatch times by appending <code>/stopwatch:true/</code> to url."
+
 #: View/SmileyCodes/admin_add.ctp:4
 msgid "Admin Add Smiley Code"
 msgstr ""
@@ -1077,7 +1108,7 @@ msgid "Delete user %s"
 msgstr ""
 
 #: View/Users/changepassword.ctp:9
-#: View/Users/edit.ctp:49
+#: View/Users/edit.ctp:51
 #: View/Users/edit.ctp:79
 msgid "change_password_link"
 msgstr "Change password"
@@ -1114,34 +1145,34 @@ msgstr "Subject"
 msgid "user_contact_message"
 msgstr "Message"
 
-#: View/Users/edit.ctp:9
-msgid "user_area_title"
+#: View/Users/edit.ctp:11
+#, php-format
+msgid "Edit %s Profil"
 msgstr ""
 
-#: View/Users/edit.ctp:18
-#: View/Users/view.ctp:185
-msgid "edit_userdata"
-msgstr "Edit"
+#: View/Users/edit.ctp:22
+msgid "Profil"
+msgstr ""
 
-#: View/Users/edit.ctp:30
+#: View/Users/edit.ctp:32
 #: View/Users/edit.ctp:66
 #: View/Users/index.ctp:14
 #: View/Users/view.ctp:26
 msgid "username_marking"
 msgstr "Name"
 
-#: View/Users/edit.ctp:35
+#: View/Users/edit.ctp:37
 #: View/Users/edit.ctp:71
 #: View/Users/view.ctp:53
 msgid "userlist_email"
 msgstr "Email"
 
-#: View/Users/edit.ctp:40
+#: View/Users/edit.ctp:42
 #: View/Users/index.ctp:15
 msgid "user_type"
 msgstr "Type"
 
-#: View/Users/edit.ctp:53
+#: View/Users/edit.ctp:55
 #: View/Users/edit.ctp:83
 msgid "user_pw_exp"
 msgstr ""
@@ -1194,176 +1225,176 @@ msgstr "Signature"
 msgid "user_signature_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:140
+#: View/Users/edit.ctp:159
 msgid "user_font_size"
 msgstr ""
 
-#: View/Users/edit.ctp:157
+#: View/Users/edit.ctp:176
 msgid "user_font_size_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:162
+#: View/Users/edit.ctp:181
 msgid "user_automaticaly_mark_as_read"
 msgstr ""
 
-#: View/Users/edit.ctp:163
+#: View/Users/edit.ctp:182
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:167
+#: View/Users/edit.ctp:186
 msgid "user_signatures_hide"
 msgstr ""
 
-#: View/Users/edit.ctp:169
+#: View/Users/edit.ctp:188
 msgid "user_signatures_hide_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:171
+#: View/Users/edit.ctp:190
 msgid "user_signatures_images_hide_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:176
+#: View/Users/edit.ctp:195
 msgid "user_forum_refresh_time"
 msgstr ""
 
-#: View/Users/edit.ctp:180
+#: View/Users/edit.ctp:199
 msgid "user_forum_refresh_time_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:186
+#: View/Users/edit.ctp:205
 msgid "user_colors"
 msgstr ""
 
-#: View/Users/edit.ctp:188
+#: View/Users/edit.ctp:207
 msgid "user_color_new_postings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:190
+#: View/Users/edit.ctp:209
 msgid "user_color_old_postinings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:192
+#: View/Users/edit.ctp:211
 msgid "user_color_actual_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:198
+#: View/Users/edit.ctp:217
 msgid "user_forum_hr_ruler"
 msgstr ""
 
-#: View/Users/edit.ctp:199
+#: View/Users/edit.ctp:218
 msgid "user_forum_hr_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:205
+#: View/Users/edit.ctp:224
 msgid "user_standard_view"
 msgstr ""
 
-#: View/Users/edit.ctp:206
+#: View/Users/edit.ctp:225
 msgid "user_view_thread"
 msgstr ""
 
-#: View/Users/edit.ctp:206
+#: View/Users/edit.ctp:225
 msgid "user_view_board"
 msgstr ""
 
-#: View/Users/edit.ctp:206
+#: View/Users/edit.ctp:225
 msgid "user_view_mixed"
 msgstr ""
 
-#: View/Users/edit.ctp:207
+#: View/Users/edit.ctp:226
 msgid "user_standard_view_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:212
+#: View/Users/edit.ctp:231
 msgid "inline_view_on_click"
 msgstr ""
 
-#: View/Users/edit.ctp:215
+#: View/Users/edit.ctp:234
 msgid "inline_view_on_click_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:220
+#: View/Users/edit.ctp:239
 msgid "user_sort_last_answer"
 msgstr ""
 
-#: View/Users/edit.ctp:222
+#: View/Users/edit.ctp:241
 msgid "user_sort_last_answer_time"
 msgstr ""
 
-#: View/Users/edit.ctp:222
+#: View/Users/edit.ctp:241
 msgid "user_sort_last_answer_last_answer"
 msgstr ""
 
-#: View/Users/edit.ctp:223
+#: View/Users/edit.ctp:242
 msgid "user_sort_last_answer_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:230
+#: View/Users/edit.ctp:247
 msgid "user_pers_msg"
 msgstr ""
 
-#: View/Users/edit.ctp:231
+#: View/Users/edit.ctp:248
 msgid "user_pers_msg_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:236
+#: View/Users/edit.ctp:253
 msgid "user_standard_categories"
 msgstr ""
 
-#: View/Users/edit.ctp:239
+#: View/Users/edit.ctp:256
 msgid "user_standard_categories_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:243
+#: View/Users/edit.ctp:260
 msgid "user_time_diff"
 msgstr ""
 
-#: View/Users/edit.ctp:244
+#: View/Users/edit.ctp:261
 msgid "user_time_diff_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:249
+#: View/Users/edit.ctp:266
 msgid "admin_mod_notif"
 msgstr ""
 
-#: View/Users/edit.ctp:251
+#: View/Users/edit.ctp:268
 msgid "admin_mod_notif_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:252
+#: View/Users/edit.ctp:269
 msgid "new_posting_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:254
+#: View/Users/edit.ctp:271
 msgid "new_user_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:270
+#: View/Users/edit.ctp:287
 #: View/Users/view.ctp:104
 msgid "flattr"
 msgstr ""
 
-#: View/Users/edit.ctp:279
+#: View/Users/edit.ctp:296
 msgid "flattr_uid"
 msgstr ""
 
-#: View/Users/edit.ctp:283
+#: View/Users/edit.ctp:300
 msgid "flattr_allow_user"
 msgstr ""
 
-#: View/Users/edit.ctp:284
+#: View/Users/edit.ctp:301
 msgid "flattr_allow_user_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:287
+#: View/Users/edit.ctp:304
 msgid "flattr_allow_posting"
 msgstr ""
 
-#: View/Users/edit.ctp:288
+#: View/Users/edit.ctp:305
 msgid "flattr_allow_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:294
+#: View/Users/edit.ctp:311
 msgid "button_save"
 msgstr ""
 
@@ -1425,6 +1456,10 @@ msgstr ""
 msgid "Lock"
 msgstr ""
 
+#: View/Users/view.ctp:185
+msgid "edit_userdata"
+msgstr "Edit"
+
 #: Controller/CategoriesController.php:81
 #: Controller/CategoriesController.php:96
 msgid "The category has been saved"
@@ -1467,51 +1502,51 @@ msgstr ""
 msgid "Category deleted."
 msgstr ""
 
-#: Controller/EntriesController.php:66
+#: Controller/EntriesController.php:103
 msgid "page"
 msgstr ""
 
-#: Controller/EntriesController.php:186
+#: Controller/EntriesController.php:223
 msgid "new_entry_linktitle"
 msgstr "New Entry"
 
-#: Controller/EntriesController.php:189
+#: Controller/EntriesController.php:226
 msgid "logged_in_users_only"
 msgstr ""
 
-#: Controller/EntriesController.php:250
-#: Controller/EntriesController.php:344
+#: Controller/EntriesController.php:289
+#: Controller/EntriesController.php:418
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:252
-#: Controller/EntriesController.php:284
+#: Controller/EntriesController.php:291
+#: Controller/EntriesController.php:339
 msgid "back_to_overview_linkname"
 msgstr "Back to Forum"
 
-#: Controller/EntriesController.php:278
-#: Controller/EntriesController.php:353
+#: Controller/EntriesController.php:332
+#: Controller/EntriesController.php:445
 msgid "back_to_posting_from_linkname"
 msgstr "Zurück zum Eintrag von %s"
 
-#: Controller/EntriesController.php:288
+#: Controller/EntriesController.php:343
 msgid "answer_marking"
 msgstr "Answer"
 
-#: Controller/EntriesController.php:381
+#: Controller/EntriesController.php:475
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:564
+#: Controller/EntriesController.php:687
 msgid "_set_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:564
+#: Controller/EntriesController.php:687
 msgid "_unset_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:730
-#: Controller/EntriesController.php:740
+#: Controller/EntriesController.php:873
+#: Controller/EntriesController.php:883
 msgid "Invalid post"
 msgstr ""
 
@@ -1573,7 +1608,7 @@ msgid "upload_max_number_of_uploads_failed"
 msgstr ""
 
 #: Controller/UsersController.php:53
-#: Controller/UsersController.php:276
+#: Controller/UsersController.php:275
 #, php-format
 msgid "User %s is locked."
 msgstr ""
@@ -1587,67 +1622,67 @@ msgid "register_email_subject"
 msgstr "Welcome to %s!"
 
 #: Controller/UsersController.php:161
-#: Controller/UsersController.php:183
+#: Controller/UsersController.php:182
 msgid "Invalid user"
 msgstr ""
 
-#: Controller/UsersController.php:217
+#: Controller/UsersController.php:216
 msgid "user_edit_success"
 msgstr "Preferences were saved."
 
-#: Controller/UsersController.php:230
+#: Controller/UsersController.php:229
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:258
-#: Controller/UsersController.php:295
+#: Controller/UsersController.php:257
+#: Controller/UsersController.php:294
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
 
-#: Controller/UsersController.php:266
+#: Controller/UsersController.php:265
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:268
+#: Controller/UsersController.php:267
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:278
+#: Controller/UsersController.php:277
 #, php-format
 msgid "User %s is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:282
+#: Controller/UsersController.php:281
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:301
+#: Controller/UsersController.php:300
 msgid "You can't delete yourself."
 msgstr ""
 
-#: Controller/UsersController.php:303
+#: Controller/UsersController.php:302
 msgid "You can't delete the installation account."
 msgstr ""
 
-#: Controller/UsersController.php:305
+#: Controller/UsersController.php:304
 #, php-format
 msgid "User %s deleted."
 msgstr ""
 
-#: Controller/UsersController.php:308
+#: Controller/UsersController.php:307
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:333
+#: Controller/UsersController.php:332
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:396
+#: Controller/UsersController.php:395
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:399
+#: Controller/UsersController.php:398
 msgid "Error, message couldn't be send! "
 msgstr ""
 
@@ -1655,7 +1690,13 @@ msgstr ""
 msgid "auth_autherror"
 msgstr "Access to this function is restricted!"
 
-#: Controller/Component/EmailNotificationComponent.php:33
+#: Controller/Component/EmailNotificationComponent.php:53
+#: Controller/Component/EmailNotificationComponent.php:84
+#, php-format
+msgid "New reply to \"%s\""
+msgstr ""
+
+#: Controller/Component/EmailNotificationComponent.php:112
 msgid "Successfull registration"
 msgstr ""
 

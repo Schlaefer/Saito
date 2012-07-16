@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-14 11:52+0100\n"
-"PO-Revision-Date: 2012-07-14 11:52+0100\n"
+"POT-Creation-Date: 2012-07-16 17:42+0100\n"
+"PO-Revision-Date: 2012-07-16 17:42+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -773,6 +773,7 @@ msgstr "Forum deaktivieren."
 #: View/Settings/admin_index.ctp:529
 #: View/Settings/admin_index.ctp:548
 #: View/Settings/admin_index.ctp:558
+#: View/Settings/admin_index.ctp:577
 msgid "edit"
 msgstr "Bearbeiten"
 
@@ -1010,6 +1011,19 @@ msgstr "Embed.ly Key"
 #: View/Settings/admin_index.ctp:556
 msgid "embedly_key_exp"
 msgstr "API-Key, den man nach der Registrierung bei Embed.ly erhält."
+
+#: View/Settings/admin_index.ctp:567
+msgid "Debug"
+msgstr ""
+
+#: View/Settings/admin_index.ctp:573
+msgid "stopwatch_get"
+msgstr "Stopuhr"
+
+#: View/Settings/admin_index.ctp:575
+#, fuzzy
+msgid "stopwatch_get_exp"
+msgstr "Ausgabe der Stopuhrzeiten durch Anfügen von <code>/stopwatch:true/</code> an URL."
 
 #: View/SmileyCodes/admin_add.ctp:4
 msgid "Admin Add Smiley Code"
