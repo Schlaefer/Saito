@@ -110,19 +110,22 @@
 									'id'						 => '1',
 									'user_id'				 => '1',
 									'esevent_id'		 => '3',
-									'esreceiver_id'	 => '1'
+									'esreceiver_id'	 => '1',
+									'deactivate'		 =>	1234,
 							),
 							(int)1					 => array(
 									'id'						 => '2',
 									'user_id'				 => '1',
 									'esevent_id'		 => '3',
-									'esreceiver_id'	 => '2'
+									'esreceiver_id'	 => '2',
+									'deactivate'		 =>	2234,
 							),
 							(int)2					 => array(
 									'id'						 => '3',
 									'user_id'				 => '3',
 									'esevent_id'		 => '3',
-									'esreceiver_id'	 => '1'
+									'esreceiver_id'	 => '1',
+									'deactivate'		 =>	3234,
 							)
 					),
 					(int)3					 => array(
@@ -130,13 +133,15 @@
 									'id'						 => '4',
 									'user_id'				 => '3',
 									'esevent_id'		 => '5',
-									'esreceiver_id'	 => '1'
+									'esreceiver_id'	 => '1',
+									'deactivate'		 =>	4234,
 							),
 							(int)1					 => array(
 									'id'						 => '5',
 									'user_id'				 => '2',
 									'esevent_id'		 => '5',
-									'esreceiver_id'	 => '1'
+									'esreceiver_id'	 => '1',
+									'deactivate'		 =>	5234,
 							),
 					)
 			);
@@ -421,6 +426,7 @@
 									'user_id'				 => '1',
 									'esevent_id'		 => '1',
 									'esreceiver_id'	 => '1',
+									'deactivate'		 => 1234,
 							),
 					)
 			);
@@ -443,15 +449,27 @@
 		public function testGetUsersForEventOnSubject() {
 
 			$expected = array(
-					array(
-							'id'				 => '1',
-							'username'	 => 'Alice',
-							'user_email' => 'alice@example.com'
+					(int)0 => array(
+							'id'						 => '1',
+							'username'			 => 'Alice',
+							'user_email'		 => 'alice@example.com',
+							'Esnotification' => array(
+									'id'				 => '1',
+									'deactivate' => '1234',
+									'user_id'		 => '1',
+									'esevent_id' => '1'
+							)
 					),
-					array(
-							'id'				 => '3',
-							'username'	 => 'Ulysses',
-							'user_email' => 'ulysses@example.com'
+					(int)1			 => array(
+							'id'						 => '3',
+							'username'			 => 'Ulysses',
+							'user_email'		 => 'ulysses@example.com',
+							'Esnotification' => array(
+									'id'				 => '3',
+									'deactivate' => '3234',
+									'user_id'		 => '3',
+									'esevent_id' => '1'
+							)
 					)
 			);
 			$result			 = $this->Esevent->getUsersForEventOnSubjectWithReceiver('Model.Entry.replyToEntry',

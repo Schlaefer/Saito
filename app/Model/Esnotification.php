@@ -33,6 +33,18 @@ class Esnotification extends AppModel {
 		)
 	);
 
+	public function beforeSave() {
+		if (empty($this->data[$this->alias]['deactivate'])) {
+			$this->data[$this->alias]['deactivate'] = mt_rand(0,99999999);
+		}
+
+		return parent::beforeSave();
+	}
+
+	public function deleteNotificationWithId($id) {
+			return $this->delete($id, false);
+	}
+
 	public function deleteAllFromUser($userId) {
 		return $this->deleteAll(array('user_id' => $userId), false);
 	}

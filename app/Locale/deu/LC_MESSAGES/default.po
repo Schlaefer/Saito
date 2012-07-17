@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 17:42+0100\n"
-"PO-Revision-Date: 2012-07-16 17:42+0100\n"
+"POT-Creation-Date: 2012-07-17 12:34+0100\n"
+"PO-Revision-Date: 2012-07-17 12:34+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1586,6 +1586,19 @@ msgstr "Neuer Eintrag"
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
+#: Controller/EsnotificationsController.php:23
+#, fuzzy
+msgid "Invalid esnotification"
+msgstr "Ungültiger Benutzer"
+
+#: Controller/EsnotificationsController.php:33
+msgid "Succesfully unsubscribed."
+msgstr "Erfolgreich abbestellt."
+
+#: Controller/EsnotificationsController.php:36
+msgid "Error. Could not unsubscribe."
+msgstr "Fehler beim Abbestellen."
+
 #: Controller/SmileyCodesController.php:23
 #: Controller/SmileyCodesController.php:40
 msgid "The smiley code has been saved"
@@ -1731,12 +1744,12 @@ msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
 #: Controller/Component/EmailNotificationComponent.php:53
-#: Controller/Component/EmailNotificationComponent.php:84
+#: Controller/Component/EmailNotificationComponent.php:88
 #, php-format
 msgid "New reply to \"%s\""
 msgstr "Neu Antwort zu \"%s\""
 
-#: Controller/Component/EmailNotificationComponent.php:112
+#: Controller/Component/EmailNotificationComponent.php:117
 msgid "Successfull registration"
 msgstr ""
 

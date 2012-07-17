@@ -61,6 +61,7 @@
 									'recipient'		 => $recipient,
 									'parentEntry'	 => $rootEntry,
 									'newEntry'		 => $event->data['data'],
+									'notification' => $recipient['Esnotification'],
 							),
 					));
 				} catch ( Exception $exc ) {
@@ -92,6 +93,7 @@
 									'recipient'		 => $recipient,
 									'parentEntry'	 => $parentEntry,
 									'newEntry'		 => $event->data['data'],
+									'notification' => $recipient['Esnotification'],
 							),
 					));
 				} catch ( Exception $exc ) {

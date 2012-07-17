@@ -200,8 +200,7 @@
 
 			$isSet = $this->_getEventSet($params);
 			if ($isSet['Esnotification']) {
-				return $this->Esnotification->delete($isSet['Esnotification'][0]['id'],
-								false);
+				return $this->Esnotification->deleteNotificationWithId($isSet['Esnotification'][0]['id']);
 			}
 		}
 
@@ -241,16 +240,40 @@
 			return $results;
 		}
 
+		/**
+		 *
+		 * @param type $eventName
+		 * @param type $subject
+		 * @param type $receiver
+		 * @return array
+		 *
+		 * <pre>
+		 *
+				array(
+					(int) 0 => array(
+						'id' => '1',
+						'username' => 'Alice',
+						'user_email' => 'alice@example.com',
+						'Esnotification' => array(
+							'id' => '1',
+							'deactivate' => '1234',
+							'user_id' => '1',
+							'esevent_id' => '1'
+						)
+					),
+				)
+		 * </pre>
+		 */
 		public function getUsersForEventOnSubjectWithReceiver($eventName, $subject, $receiver) {
 			$recipients = array();
 			$results = $this->find('all',
 					array(
 					'conditions' => array(
-							'subject'				 => $subject,
 							'Esevent.event'	 => $this->_eventTypes[$eventName],
 					),
 					'contain'				 => array(
 							'Esnotification' => array(
+									'fields' => array('Esnotification.id', 'Esnotification.deactivate'),
 									'conditions' => array(
 											'esreceiver_id'	 => $this->_receivers[$receiver],
 									),
@@ -261,7 +284,12 @@
 					),
 					));
 			if ($results) {
-				$recipients = Hash::extract($results, '{n}.Esnotification.{n}.User');
+				$recipients = Hash::map($results, '{n}.Esnotification.{n}', function($values){
+					$out = $values['User'];
+					unset($values['User']);
+					$out['Esnotification'] = $values;
+					return $out;
+				});
 			}
 			return $recipients;
 		}
