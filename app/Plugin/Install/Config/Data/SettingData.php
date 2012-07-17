@@ -78,6 +78,10 @@ class SettingData {
 				'value'	=> '1',
 			),
 		array(
+				'name'	=> 'stopwatch_get',
+				'value'	=> '0',
+			),
+		array(
 				'name'	=> 'store_ip',
 				'value'	=> '0',
 			),
