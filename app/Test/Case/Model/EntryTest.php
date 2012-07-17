@@ -119,7 +119,9 @@
 
 			$this->Entry->id = 1;
 
-      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'));
+      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'),
+					array(null, 'categories', 'test')
+					);
       $this->Entry->Category->
           expects($this->once())->method('updateThreadCounter')->will($this->returnValue(true));
 
@@ -127,9 +129,19 @@
 			App::uses('Esevent', 'Model');
 			$this->Entry->Esevent = $this->getMock(
 					'Esevent', array('deleteSubject'), array(null, 'esevents', 'test'));
-			$this->Entry->Esevent->expects($this->once())
+
+			// delte thread
+			$this->Entry->Esevent->expects($this->at(0))
 					->method('deleteSubject')
 					->with(1, 'thread');
+			// delte first entry
+			$this->Entry->Esevent->expects($this->at(1))
+					->method('deleteSubject')
+					->with(1, 'entry');
+			// delete sum: 1 thread + all entries in thread
+			$deleted_subjects = 1 + count($this->Entry->findAllByTid(1));
+			$this->Entry->Esevent->expects($this->exactly($deleted_subjects))
+					->method('deleteSubject');
 
 			$result = $this->Entry->deleteTree();
 			$this->assertTrue($result);

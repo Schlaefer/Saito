@@ -260,20 +260,14 @@ class Entry extends AppModel {
 			$where[] = $search_item['id'];
 		}
 
-    if ($fieldlist === NULL) {
+		if ($fieldlist === NULL) {
       $fieldlist = $this->threadLineFieldList;
 		}
 
-		$threads = $this->find('all',
-														array (
-																'conditions' => array(
-																		'tid' => $where,
-																	),
-																'fields'	=> $fieldlist,
-																'order' => $order,
-															)
-			);
-
+		$threads = $this->_getThreadEntries($where, array(
+					'order'	 => $order,
+					'fields' => $fieldlist,
+					));
 		self::$Timer->stop('Model->Entries->treeForNodes() DB');
 
 		self::$Timer->start('Model->Entries->treeForNodes() CPU');
@@ -283,6 +277,37 @@ class Entry extends AppModel {
 
 		return $out;
 	}
+
+	/**
+		 *
+		 * @param mixed thread-ids, one int or many array
+		 * @param array optional $params
+		 *
+		 * <pre>
+		 * 	array(
+		 * 			'fields'		=> array('Entry.id'),
+		 * 			'order'			=> 'time ASC',
+		 *  )
+		 * </pre>
+		 */
+		protected function _getThreadEntries($tid, array $params = array()) {
+			$default = array(
+					'order'		 => 'last_answer ASC',
+					'fields'	 => $fieldlist = $this->threadLineFieldList,
+			);
+			$params		 = array_merge($default, $params);
+			$threads	 = $this->find('all',
+					array(
+					'conditions' => array(
+							'tid'			 => $tid,
+					),
+					'contain'	 => array('User', 'Category'),
+					'fields' => $params['fields'],
+					'order'	 => $params['order'],
+					)
+			);
+			return $threads;
+		}
 
 	public function toggle($key) {
 		$result = parent::toggle($key);
@@ -379,7 +404,8 @@ class Entry extends AppModel {
 		 return false;
 		}
 
-    $category = $this->field('category');
+    $category 	= $this->field('category');
+		$entry_ids 	= Hash::extract($this->_getThreadEntries($this->id), '{n}.Entry.id');
 
     $success = $this->deleteAll(array('tid' => $this->id), false, true);
 
@@ -387,6 +413,9 @@ class Entry extends AppModel {
       $this->Category->id = $category;
       $this->Category->updateThreadCounter();
 			$this->Esevent->deleteSubject($this->id, 'thread');
+			foreach($entry_ids as $entry_id) {
+				$this->Esevent->deleteSubject($entry_id, 'entry');
+			}
     endif;
 
 		return $success;

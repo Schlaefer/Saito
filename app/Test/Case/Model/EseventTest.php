@@ -218,8 +218,8 @@
 			);
 
 			$this->Esevent = $this->getMock('Esevent',
-					array('setNotification', 'deleteNotification')
-//					,array(false, 'esevents', 'test')
+					array('setNotification', 'deleteNotification'),
+					array(false, 'esevents', 'test')
 			);
 			$this->Esevent->expects($this->at(0))
 					->method('setNotification')
