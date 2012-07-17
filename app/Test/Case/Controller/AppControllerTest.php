@@ -15,7 +15,8 @@
 				'app.smiley_code',
 				'app.setting',
 				'app.upload',
-				'app.notification',
+				'app.esnotification',
+				'app.esevent',
 		);
 
     public function testSetTitleForLayout() {

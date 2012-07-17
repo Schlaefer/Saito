@@ -411,7 +411,7 @@ class EntriesController extends AppController {
 			if ( $new_entry = $this->Entry->save($this->request->data) ) {
 				// new entry was saved
 
-				$this->_afterNewEntry($old_entry + array('Event' => $this->request->data['Event']));
+				$this->_afterNewEntry(am($this->request['data'], $old_entry));
 
 				return $this->redirect(array( 'action' => 'view', $id ));
 			} else {
@@ -806,21 +806,23 @@ class EntriesController extends AppController {
 	protected function _afterNewEntry($newEntry) {
 			$this->_emptyCache($newEntry['Entry']['id'], $newEntry['Entry']['tid']);
 			// set notifications
-			$notis = array(
-					array(
-							'subject' 			=> $newEntry['Entry']['id'],
-							'event' 				=> 'Model.Entry.replyToEntry',
-							'receiver'			=> 'EmailNotification',
-							'set' 					=> $newEntry['Event'][1]['event_type_id'],
-					),
-					array(
-							'subject' 			=> $newEntry['Entry']['tid'],
-							'event' 				=> 'Model.Entry.replyToThread',
-							'receiver'			=> 'EmailNotification',
-							'set' 					=> $newEntry['Event'][2]['event_type_id'],
-					),
-			);
-			$this->Entry->Esevent->notifyUserOnEvents($newEntry['Entry']['user_id'], $notis);
+			if (isset($newEntry['Event'])) {
+				$notis = array(
+						array(
+								'subject' 			=> $newEntry['Entry']['id'],
+								'event' 				=> 'Model.Entry.replyToEntry',
+								'receiver'			=> 'EmailNotification',
+								'set' 					=> $newEntry['Event'][1]['event_type_id'],
+						),
+						array(
+								'subject' 			=> $newEntry['Entry']['tid'],
+								'event' 				=> 'Model.Entry.replyToThread',
+								'receiver'			=> 'EmailNotification',
+								'set' 					=> $newEntry['Event'][2]['event_type_id'],
+						),
+				);
+				$this->Entry->Esevent->notifyUserOnEvents($newEntry['Entry']['user_id'], $notis);
+			}
 	}
 
 	protected function _isAnsweringAllowed($parent_entry) {
