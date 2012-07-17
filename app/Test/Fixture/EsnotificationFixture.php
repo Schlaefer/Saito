@@ -70,6 +70,13 @@ class EsnotificationFixture extends CakeTestFixture {
 						'esreceiver_id'	 => 1,
 						'deactivate'		 => 6234,
 				),
+				array(
+						'id'						 => 7,
+						'user_id'				 => 4,
+						'esevent_id'		 => 3,
+						'esreceiver_id'	 => 1,
+						'deactivate'		 => 7234,
+				),
 		);
 
 	}

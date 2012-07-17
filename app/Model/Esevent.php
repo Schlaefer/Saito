@@ -269,7 +269,8 @@
 			$results = $this->find('all',
 					array(
 					'conditions' => array(
-							'Esevent.event'	 => $this->_eventTypes[$eventName],
+							'Esevent.event'		 => $this->_eventTypes[$eventName],
+							'Esevent.subject'	 => $subject,
 					),
 					'contain'				 => array(
 							'Esnotification' => array(
