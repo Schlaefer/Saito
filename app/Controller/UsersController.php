@@ -76,7 +76,8 @@ class UsersController extends AppController {
 
 	 	$this->Auth->logout();
 
-		# @td make name arg
+		// user clicked link in confirm mail
+		// @td make name arg
 		if ($id && isset($this->passedArgs[1])) :
 			$this->User->contain('UserOnline');
 			$user = $this->User->read(null, $id);
@@ -91,7 +92,7 @@ class UsersController extends AppController {
       endif;
     endif;
 
-		if (!empty($this->request->data)) {
+		if (!empty($this->request->data) && $this->request->data['User']['tos_confirm']) {
 			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
 
 			$this->request->data['User']['activate_code'] = mt_rand(1,9999999);

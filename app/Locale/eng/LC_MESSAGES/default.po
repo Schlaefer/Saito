@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-16 17:42+0100\n"
-"PO-Revision-Date: 2012-07-16 17:42+0100\n"
+"POT-Creation-Date: 2012-07-18 10:58+0100\n"
+"PO-Revision-Date: 2012-07-18 10:59+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1014,7 +1014,6 @@ msgstr ""
 #: View/SmileyCodes/admin_edit.ctp:22
 #: View/Smilies/add.ctp:18
 #: View/Smilies/admin_add.ctp:21
-#: View/Smilies/edit.ctp:20
 msgid "List Smilies"
 msgstr ""
 
@@ -1427,6 +1426,18 @@ msgstr "Thanks for registering. A email with a link was send to you. Please clic
 msgid "register_success_content"
 msgstr "Your registration is now finished. You are able to loggin now. Have fun!"
 
+#: View/Users/register.ctp:9
+msgid "register-js-required"
+msgstr "To use this forum please enable JavaScript."
+
+#: View/Users/register.ctp:34
+msgid "register_tos_linktext"
+msgstr "Terms of Service"
+
+#: View/Users/register.ctp:33
+msgid "register_tos_label"
+msgstr "I agree to the %s"
+
 #: View/Users/view.ctp:12
 msgid "user_show_entries"
 msgstr "Show User's Entries"
@@ -1545,9 +1556,21 @@ msgstr ""
 msgid "_unset_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:873
-#: Controller/EntriesController.php:883
+#: Controller/EntriesController.php:875
+#: Controller/EntriesController.php:885
 msgid "Invalid post"
+msgstr ""
+
+#: Controller/EsnotificationsController.php:23
+msgid "Invalid esnotification"
+msgstr ""
+
+#: Controller/EsnotificationsController.php:33
+msgid "Succesfully unsubscribed."
+msgstr ""
+
+#: Controller/EsnotificationsController.php:36
+msgid "Error. Could not unsubscribe."
 msgstr ""
 
 #: Controller/SmileyCodesController.php:23
@@ -1691,12 +1714,12 @@ msgid "auth_autherror"
 msgstr "Access to this function is restricted!"
 
 #: Controller/Component/EmailNotificationComponent.php:53
-#: Controller/Component/EmailNotificationComponent.php:84
+#: Controller/Component/EmailNotificationComponent.php:85
 #, php-format
 msgid "New reply to \"%s\""
 msgstr ""
 
-#: Controller/Component/EmailNotificationComponent.php:112
+#: Controller/Component/EmailNotificationComponent.php:114
 msgid "Successfull registration"
 msgstr ""
 

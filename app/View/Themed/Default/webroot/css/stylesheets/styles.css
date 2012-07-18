@@ -575,7 +575,7 @@ form > div.box-form, form > div.entry.add, form > div.entry.reply, form > div.en
 
 form div.submit { display: inline; }
 
-label, .label { display: block; margin-bottom: 3px; }
+label, .label { margin-bottom: 3px; }
 
 form .required { font-weight: bold; }
 

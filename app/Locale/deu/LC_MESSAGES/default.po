@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-17 12:34+0100\n"
-"PO-Revision-Date: 2012-07-17 12:34+0100\n"
+"POT-Creation-Date: 2012-07-18 10:59+0100\n"
+"PO-Revision-Date: 2012-07-18 11:00+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1040,7 +1040,6 @@ msgstr "Smiley Liste"
 #: View/SmileyCodes/admin_edit.ctp:22
 #: View/Smilies/add.ctp:18
 #: View/Smilies/admin_add.ctp:21
-#: View/Smilies/edit.ctp:20
 msgid "List Smilies"
 msgstr "Smilies auflisten"
 
@@ -1456,6 +1455,18 @@ msgstr "Vielen Dank für Ihre Registrierung. Ihnen wurde eine Email mit weiteren
 msgid "register_success_content"
 msgstr "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
+#: View/Users/register.ctp:9
+msgid "register-js-required"
+msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
+
+#: View/Users/register.ctp:34
+msgid "register_tos_linktext"
+msgstr "Nutzungsbedingungen"
+
+#: View/Users/register.ctp:33
+msgid "register_tos_label"
+msgstr "Ich bin mit den %s einverstanden"
+
 #: View/Users/view.ctp:12
 msgid "user_show_entries"
 msgstr "Beiträge anzeigen"
@@ -1581,8 +1592,8 @@ msgstr "Neuer Eintrag"
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:873
-#: Controller/EntriesController.php:883
+#: Controller/EntriesController.php:875
+#: Controller/EntriesController.php:885
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1744,12 +1755,12 @@ msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
 #: Controller/Component/EmailNotificationComponent.php:53
-#: Controller/Component/EmailNotificationComponent.php:88
+#: Controller/Component/EmailNotificationComponent.php:85
 #, php-format
 msgid "New reply to \"%s\""
 msgstr "Neu Antwort zu \"%s\""
 
-#: Controller/Component/EmailNotificationComponent.php:117
+#: Controller/Component/EmailNotificationComponent.php:114
 msgid "Successfull registration"
 msgstr ""
 
@@ -1941,6 +1952,9 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "register_tos_text"
+#~ msgstr "Ich bin mit den Nutzungsbedingungen einverstanden"
 
 #, fuzzy
 #~ msgid "edit_usersettings"
