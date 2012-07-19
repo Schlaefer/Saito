@@ -56,6 +56,12 @@ class EntriesController extends AppController {
 						$this->Entry->getRecentEntries(array(),
 								$this->CurrentUser
 								));
+
+				// get data for category chooser
+				$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
+						$this->CurrentUser->getMaxAccession());
+				$this->set('categoryChooser', $categoryChooser);
+
 			}
 
 			// get threads
@@ -157,6 +163,24 @@ class EntriesController extends AppController {
 		$this->autoRender = false;
 		$this->CurrentUser->LastRefresh->forceSet();
 		$this->redirect('/entries/index');
+	}
+
+	public function setcategory($id = null) {
+		if(!$this->CurrentUser->isLoggedIn()) {
+			throw new MethodNotAllowedException();
+		}
+
+		if (!$id && $this->request->data) {
+			$this->Entry->User->id = $this->CurrentUser->getId();
+			$this->Entry->User->set('user_category_active', 0);
+			$this->Entry->User->set('user_category_custom', array_fill_keys($this->request->data['CatChooser'], 1));
+			$this->Entry->User->save();
+		} else {
+			$this->Entry->User->id = $this->CurrentUser->getId();
+			$this->Entry->User->set('user_category_active', $id);
+			$this->Entry->User->save();
+		}
+		return $this->redirect(array('controller' => 'entries', 'action' => 'index'));
 	}
 
   /**
@@ -834,7 +858,7 @@ class EntriesController extends AppController {
 	}
 
 	/**
-	 * Get's the thread id of all threads which should be visisble on the an
+	 * Gets the thread ids of all threads which should be visisble on the an
 	 * entries/index/# page.
 	 *
 	 * @param CurrentUserComponent $User
@@ -844,13 +868,35 @@ class EntriesController extends AppController {
 		Stopwatch::start('Entries->_getInitialThreads() Paginate');
 		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == FALSE ? 'time' : 'last_answer');
 		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
+
+		$cats_accession = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
+		if (!$User->isLoggedIn()) {
+			// non logged in user sees his accessions
+			$cats = $cats_accession;
+			$catCT = __('All');
+		} elseif ($User['user_category_active']) {
+			// logged in users sees his active group if he has access rights
+			$cats = array_intersect_key($cats_accession, array($User['user_category_active'] => 1));
+			$catCT = $User['user_category_active'];
+		} elseif (!empty($User['user_category_custom']))  {
+			// but if he has no active group and a custom groups set he sees his custom group
+			$cats = array_intersect_key($cats_accession, $User['user_category_custom']);
+			$catCT = __('Custom');
+		} else {
+			// or if no custom group is set all groups the user has accession to
+			$cats = $cats_accession;
+			$catCT = __('All');
+		}
+		$this->set('categoryChooserTitleId', $catCT);
+
 		$this->paginate = array(
 				/* Whenever you change the conditions here check if you have to adjust
-				 * the db index. Running this querry without appropriate db index is a huge
-				 * [hundreds of ms] performance bottleneck. */
+				 * the db index. Running this query without appropriate db index is a huge
+				 * performance bottleneck!
+				 */
 				'conditions' => array(
 						'pid' => 0,
-						'Entry.category' => $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession()),
+						'Entry.category' => $cats,
 				),
 				'contain' => false,
 				'fields' => 'id, pid, tid, time, last_answer',
