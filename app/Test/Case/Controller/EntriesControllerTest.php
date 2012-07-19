@@ -4,6 +4,14 @@
 	App::uses('EntriesController', 'Controller');
 	App::uses('SaitoControllerTestCase', 'Lib');
 
+	class EntriesMockController extends EntriesController {
+		public $uses = array('Entry');
+
+		public function getInitialThreads($User) {
+			$this->_getInitialThreads($User);
+		}
+	}
+
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
 
 		public $fixtures = array(
@@ -18,6 +26,229 @@
 				'app.esnotification',
 				'app.esevent',
 		);
+
+		/**
+		 * User is not logged in
+		 */
+		public function testCategoryChooserNotLoggedIn() {
+			$Entries = $this->generate('EntriesMock',
+					array(
+					'methods' => array(
+							'paginate',
+					),
+					'models' => array(
+							'Category' => array('getCategoriesForAccession'),
+							'User' => array('getMaxAccession'),
+					)
+					));
+
+			Configure::write('Saito.Settings.category_chooser_global', 1);
+
+			$Entries->expects($this->once())
+					->method('paginate')
+					->will($this->returnValue(array()));
+
+			$Entries->Entry->Category->expects($this->exactly(2))
+					->method('getCategoriesForAccession')
+					->will($this->returnValue(array(
+									1 => '1', 2 => '2', 7 => '7'
+									)
+							));
+
+			App::uses('CurrentUserComponent', 'Controller/Component');
+			App::uses('ComponentCollection', 'Controller');
+			$User = new CurrentUserComponent(new ComponentCollection());
+			$User->set(array());
+			$Entries->getInitialThreads($User);
+			$this->assertFalse($Entries->viewVars['categoryChooserIsUsed']);
+		}
+
+		/**
+		 * Admin completely deactivated category-chooser
+		 */
+		public function testCategoryChooserDeactivated() {
+			$Entries = $this->generate('EntriesMock',
+					array(
+					'methods' => array(
+							'paginate',
+					),
+					'models' => array(
+							'Category' => array('getCategoriesForAccession'),
+							'User' => array('getMaxAccession'),
+					)
+					));
+
+			Configure::write('Saito.Settings.category_chooser_global', 0);
+			Configure::write('Saito.Settings.category_chooser_user_override', 0);
+
+			$Entries->expects($this->once())
+					->method('paginate')
+					->will($this->returnValue(array()));
+
+			$Entries->Entry->Category->expects($this->exactly(2))
+					->method('getCategoriesForAccession')
+					->will($this->returnValue(array(
+									1 => '1', 2 => '2', 7 => '7'
+									)
+							));
+
+			App::uses('CurrentUserComponent', 'Controller/Component');
+			App::uses('ComponentCollection', 'Controller');
+			$User = new CurrentUserComponent(new ComponentCollection());
+			$User->set(array(
+					'id'										 => 1,
+					'user_sort_last_answer'	 => 1,
+					'user_type'							 => 'admin',
+					'user_category_active'	 => 0,
+					'user_category_custom'	 => '',
+					'user_category_override' => 1,
+			));
+			$Entries->getInitialThreads($User);
+			$this->assertFalse($Entries->viewVars['categoryChooserIsUsed']);
+		}
+
+		public function tes1CategoryChooserEmptyCustomSet() {
+			$Entries = $this->generate('EntriesMock',
+					array(
+					'methods' => array(
+							'paginate',
+					),
+					'models' => array(
+							'Category' => array('getCategoriesForAccession'),
+							'User' => array('getMaxAccession'),
+					)
+					));
+
+			Configure::write('Saito.Settings.category_chooser_global', 0);
+			Configure::write('Saito.Settings.category_chooser_user_override', 1);
+
+			$Entries->expects($this->once())
+					->method('paginate')
+					->will($this->returnValue(array()));
+
+			$Entries->Entry->Category->expects($this->exactly(2))
+					->method('getCategoriesForAccession')
+					->will($this->returnValue(array(
+									1 => '1', 2 => '2', 7 => '7'
+									)
+							));
+
+			App::uses('CurrentUserComponent', 'Controller/Component');
+			App::uses('ComponentCollection', 'Controller');
+			$User = new CurrentUserComponent(new ComponentCollection());
+			$User->set(array());
+			$User->set(array(
+					'id'										 => 1,
+					'user_sort_last_answer'	 => 1,
+					'user_type'							 => 'admin',
+					'user_category_active'	 => 0,
+					'user_category_custom'	 => '',
+					'user_category_override' => 1,
+			));
+			$Entries->getInitialThreads($User);
+			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'All');
+		}
+
+		/**
+		 * Test custom set
+		 *
+		 * - new categories (8) are in the custom set
+		 */
+		public function testCategoryChooserCustomSet() {
+			$Entries = $this->generate('EntriesMock',
+					array(
+					'methods' => array(
+							'paginate',
+					),
+					'models' => array(
+							'Category' => array('getCategoriesForAccession'),
+							'User' => array('getMaxAccession'),
+					)
+					));
+
+			Configure::write('Saito.Settings.category_chooser_global', 1);
+
+			$Entries->expects($this->once())
+					->method('paginate')
+					->will($this->returnValue(array()));
+
+			$Entries->Entry->Category->expects($this->exactly(2))
+					->method('getCategoriesForAccession')
+					->will($this->returnValue(array(
+									2 => '2', 7 => '7', 8 => '8'
+									)
+							));
+
+			App::uses('CurrentUserComponent', 'Controller/Component');
+			App::uses('ComponentCollection', 'Controller');
+			$User = new CurrentUserComponent(new ComponentCollection());
+			$User->set(array());
+			$User->set(array(
+					'id'										 => 1,
+					'user_sort_last_answer'	 => 1,
+					'user_type'							 => 'admin',
+					'user_category_active'	 => 0,
+					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
+			));
+			$Entries->getInitialThreads($User);
+			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
+					'2' => 1,
+					'8' => '8',
+					));
+			$this->assertEqual($Entries->viewVars['categoryChooser'], array(
+					'2' => '2',
+					'7' => '7',
+					'8' => '8',
+					));
+			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'Custom');
+		}
+
+		public function testCategoryChooserSingleCategory() {
+			$Entries = $this->generate('EntriesMock',
+					array(
+					'methods' => array(
+							'paginate',
+					),
+					'models' => array(
+							'Category' => array('getCategoriesForAccession'),
+							'User' => array('getMaxAccession'),
+					)
+					));
+
+			Configure::write('Saito.Settings.category_chooser_global', 1);
+
+			$Entries->expects($this->once())
+					->method('paginate')
+					->will($this->returnValue(array()));
+
+			$Entries->Entry->Category->expects($this->exactly(2))
+					->method('getCategoriesForAccession')
+					->will($this->returnValue(array(
+									1 => '1', 2 => '2', 7 => '7'
+									)
+							));
+
+			App::uses('CurrentUserComponent', 'Controller/Component');
+			App::uses('ComponentCollection', 'Controller');
+			$User = new CurrentUserComponent(new ComponentCollection());
+			$User->set(array());
+			$User->set(array(
+					'id'										 => 1,
+					'user_sort_last_answer'	 => 1,
+					'user_type'							 => 'admin',
+					'user_category_active'	 => 7,
+					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
+			));
+			$Entries->getInitialThreads($User);
+			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 7);
+			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
+					'1' => 1,
+					'2' => 1,
+					));
+		}
 
 		public function testIndex() {
 

@@ -56,12 +56,6 @@ class EntriesController extends AppController {
 						$this->Entry->getRecentEntries(array(),
 								$this->CurrentUser
 								));
-
-				// get data for category chooser
-				$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
-						$this->CurrentUser->getMaxAccession());
-				$this->set('categoryChooser', $categoryChooser);
-
 			}
 
 			// get threads
@@ -878,6 +872,13 @@ class EntriesController extends AppController {
 
 			// default for logged-in and logged-out users
 			$cats				 = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
+
+			// get data for category chooser
+			// @td roll into one request with $cats
+			$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
+					$User->getMaxAccession());
+			$this->set('categoryChooser', $categoryChooser);
+
 			$catCT			 = __('All');
 			$catC_isUsed = false;
 
@@ -887,6 +888,19 @@ class EntriesController extends AppController {
 						|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
 				) {
 					$catC_isUsed = true;
+					/* merge the user-cats with all-cats to include categories which are
+						* new since the user updated his custum-cats the last time
+						* array (4 => '4', 7 => '7', 13 => '13') + array (4 => true, 7 => '0')
+						* becomes
+						* array (4 => true, 7 => '0', 13 => '13')
+						* with 13 => '13' trueish */
+					$user_cats = $User['user_category_custom'] + $cats;
+					/* then filter for zeros to get only the user categories
+						* array (4 => true, 13 => '13') */
+					$user_cats = array_filter($user_cats);
+					$user_cats = array_intersect_key($user_cats, $cats);
+					$this->set('categoryChooserChecked', $user_cats);
+
 					if (!$User->isLoggedIn()) {
 						// non logged in user sees his accessions i.e. the default set
 					} elseif ((int)$User['user_category_active'] === -1) {
@@ -900,19 +914,7 @@ class EntriesController extends AppController {
 						// for whatever reason we should see a custom category, but there are no set yet
 					} elseif (!empty($User['user_category_custom'])) {
 						// but if he has no active group and a custom groups set he sees his custom group
-
-						/* merge the user-cats with all-cats to include categories which are
-						 * new since the user updated his custum-cats the last time
-						 * array (4 => '4', 7 => '7', 13 => '13') + array (4 => true, 7 => '0')
-						 * becomes
-						 * array (4 => true, 7 => '0', 13 => '13')
-						 * with 13 => '13' trueish */
-						$user_cats = $User['user_category_custom'] + $cats;
-						/* then filter for zeros to get only the user categories
-						 * array (4 => true, 13 => '13') */
-						$user_cats = array_filter($user_cats);
-						$this->set('categoryChooserChecked', $user_cats);
-						$cats	 = array_intersect_key($cats, $user_cats);
+						$cats	 = array_keys($user_cats);
 						$catCT = __('Custom');
 					}
 
