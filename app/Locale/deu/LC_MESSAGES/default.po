@@ -356,11 +356,11 @@ msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
 #: View/Elements/entry/category-chooser.ctp:5
 #, fuzzy
 msgid "category_chooser_context_exp"
-msgstr "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine Kategorie temporär auswählen."
+msgstr "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:43
 msgid "All"
-msgstr ""
+msgstr "Alles"
 
 #: View/Elements/entry/category-chooser.ctp:59
 msgid "Apply"
@@ -1622,7 +1622,7 @@ msgstr "Neuer Eintrag"
 
 #: Controller/EntriesController.php:902
 msgid "Custom"
-msgstr ""
+msgstr "Angepasst"
 
 #: Controller/EntriesController.php:939
 #: Controller/EntriesController.php:949

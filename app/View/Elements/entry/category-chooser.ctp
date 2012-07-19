@@ -17,11 +17,10 @@
 			<?php foreach ($categoryChooser as $key => $title): ?>
 					<li class="category-chooser-li">
 						<?=
-						$this->Form->checkbox('CatChooser.' . $title,
+						$this->Form->checkbox('CatChooser.' . $key,
 								array(
 								'onclick'			 => "$('#cb-category-chooser-all').removeAttr('checked')",
-								'hiddenField'	 => false,
-								'checked'			 => isset($CurrentUser['user_category_custom'][$key]),
+								'checked'			 => isset($categoryChooserChecked[$key]),
 								'value'				 => $key));
 						?>
 						<?= $this->Html->link($title, '/entries/setcategory/' . $key) ?>

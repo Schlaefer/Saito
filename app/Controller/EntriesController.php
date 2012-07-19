@@ -171,15 +171,23 @@ class EntriesController extends AppController {
 		}
 
 		if ($id == 'all' || ($this->request->data && $this->request->data['CatMeta']['All'])) {
+			// set meta category 'all'
 			$this->Entry->User->id = $this->CurrentUser->getId();
 			$this->Entry->User->set('user_category_active', -1);
 			$this->Entry->User->save();
 		} elseif (!$id && $this->request->data) {
+			// set custom set
 			$this->Entry->User->id = $this->CurrentUser->getId();
 			$this->Entry->User->set('user_category_active', 0);
-			$this->Entry->User->set('user_category_custom', array_fill_keys($this->request->data['CatChooser'], 1));
+			foreach ($this->request->data['CatChooser'] as $k => $v) {
+				if ($v > 0) {
+					$this->request->data['CatChooser'][$k] = true;
+				}
+			};
+			$this->Entry->User->set('user_category_custom', $this->request->data['CatChooser']);
 			$this->Entry->User->save();
 		} else {
+			// set single category
 			$this->Entry->User->id = $this->CurrentUser->getId();
 			$this->Entry->User->set('user_category_active', $id);
 			$this->Entry->User->save();
@@ -883,23 +891,34 @@ class EntriesController extends AppController {
 				if (Configure::read('Saito.Settings.category_chooser_global')
 						|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
 				) {
+					$catC_isUsed = true;
 					if (!$User->isLoggedIn()) {
 						// non logged in user sees his accessions i.e. the default set
 					} elseif ((int)$User['user_category_active'] === -1) {
 						// user has choosen to see all available categories i.e. the default set
-						$catC_isUsed									 = true;
-						$catCT			 									 = __('All');
 					} elseif ((int)$User['user_category_active'] > 0) {
 						// logged in users sees his active group if he has access rights
 						$cats = array_intersect_key($cats,
 								array($User['user_category_active']	 => 1));
-						$catC_isUsed									 = true;
 						$catCT												 = $User['user_category_active'];
+					} elseif (empty($User['user_category_custom'])) {
+						// for whatever reason we should see a custom category, but there are no set yet
 					} elseif (!empty($User['user_category_custom'])) {
 						// but if he has no active group and a custom groups set he sees his custom group
-						$cats				 = array_intersect_key($cats, $User['user_category_custom']);
-						$catC_isUsed = true;
-						$catCT			 = __('Custom');
+
+						/* merge the user-cats with all-cats to include categories which are
+						 * new since the user updated his custum-cats the last time
+						 * array (4 => '4', 7 => '7', 13 => '13') + array (4 => true, 7 => '0')
+						 * becomes
+						 * array (4 => true, 7 => '0', 13 => '13')
+						 * with 13 => '13' trueish */
+						$user_cats = $User['user_category_custom'] + $cats;
+						/* then filter for zeros to get only the user categories
+						 * array (4 => true, 13 => '13') */
+						$user_cats = array_filter($user_cats);
+						$this->set('categoryChooserChecked', $user_cats);
+						$cats	 = array_intersect_key($cats, $user_cats);
+						$catCT = __('Custom');
 					}
 
 					$this->set('categoryChooserTitleId', $catCT);

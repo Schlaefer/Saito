@@ -32,6 +32,7 @@
 				)
 		);
 		echo $this->element('entry/category-chooser');
+		$chooser_title = __('Categories');
 		$this->Js->buffer(<<<EOF
 			$('#category-chooser').dialog({
 				autoOpen: false,
@@ -39,7 +40,7 @@
 				hide: {effect: "fade", duration: 200},
 				width: 400,
 				position: [$('#btn-category-chooser').offset().left + $('#btn-category-chooser').width() - $(window).scrollLeft() - 410, $('#btn-category-chooser').offset().top - $(window).scrollTop() + $('#btn-category-chooser').height()],
-				title: "Categories",
+				title: "$chooser_title",
 				});
 
 EOF
