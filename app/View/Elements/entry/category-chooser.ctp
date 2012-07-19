@@ -1,38 +1,62 @@
 <?php Stopwatch::start('category-chooser.ctp'); ?>
 <div id="category-chooser" style="display: none; overflow: hidden;">
-	<div style="float:right; width: 150px;">
-		<p>
-			Choose your default categories.
-		</p>
-		<p>
-			Click on a name to quickly show this category without changing you preferences.
-		</p>
-	</div>
-	<?=
-		$this->Form->create(null,
-				array(
-				'url' => array('controller' => 'entries', 'action'		 => 'setcategory'),
-				'style'			 => 'clear: none;',
-		));
-	?>
-	<ul>
-		<?php foreach ($categoryChooser as $key => $title): ?>
-				<li>
-					<?=
-					$this->Form->checkbox('CatChooser.' . $title,
+	<div class="box_layout_1 box-form">
+		<div style="float:right; width: 150px;">
+			<p>
+				<?= __('category_chooser_context_exp'); ?>
+			</p>
+		</div>
+		<?=
+			$this->Form->create(null,
+					array(
+					'url' => array('controller' => 'entries', 'action'		 => 'setcategory'),
+					'style'			 => 'clear: none;',
+			));
+		?>
+		<ul class="category-chooser-ul">
+			<?php foreach ($categoryChooser as $key => $title): ?>
+					<li class="category-chooser-li">
+						<?=
+						$this->Form->checkbox('CatChooser.' . $title,
+								array(
+								'onclick'			 => "$('#cb-category-chooser-all').removeAttr('checked')",
+								'hiddenField'	 => false,
+								'checked'			 => isset($CurrentUser['user_category_custom'][$key]),
+								'value'				 => $key));
+						?>
+						<?= $this->Html->link($title, '/entries/setcategory/' . $key) ?>
+					</li>
+				<?php endforeach; ?>
+			<li>
+				<hr/>
+			</li>
+				<li class="category-chooser-li">
+				<?=
+					$this->Form->checkbox('CatMeta.All',
 							array(
-							'hiddenField'	 => false,
-							'checked'			 => isset($CurrentUser['user_category_custom'][$key]),
-							'value'				 => $key));
-					?>
-					<?= $this->Html->link($title, '/entries/setcategory/'.$key ) ?>
-				</li>
-			<?php endforeach; ?>
-	</ul>
-	<?=
-		$this->Form->submit(__('Apply'), array(
-				'class' => 'btn btn-submit'))
-	?>
-	<?= $this->Form->end() ?>
+							'id'		 => 'cb-category-chooser-all',
+							'value'	 => 1));
+				?>
+				<?= $this->Html->link(__('All'), '/entries/setcategory/all') ?>
+			</li>
+		</ul>
+		<?php
+			$this->Js->get('#cb-category-chooser-all')->event('click',
+					<<<EOF
+			if (this.checked) {
+				$('#category-chooser').find(':checkbox').attr('checked', 'checked');
+			} else {
+				$('#category-chooser').find(':checkbox').removeAttr('checked');
+			}
+			return true;
+EOF
+			);
+		?>
+		<?=
+			$this->Form->submit(__('Apply'), array(
+					'class' => 'btn btn-submit'))
+		?>
+<?= $this->Form->end() ?>
+	</div>
 </div>
 <?php Stopwatch::end('category-chooser.ctp'); ?>

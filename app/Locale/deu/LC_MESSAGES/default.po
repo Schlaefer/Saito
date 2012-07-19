@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-19 07:13+0100\n"
-"PO-Revision-Date: 2012-07-19 07:13+0100\n"
+"POT-Creation-Date: 2012-07-19 09:01+0100\n"
+"PO-Revision-Date: 2012-07-19 09:01+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -353,9 +353,18 @@ msgstr "flattrn"
 msgid "email_footer"
 msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
 
-#: View/Elements/entry/category-chooser.ctp:33
-msgid "Apply"
+#: View/Elements/entry/category-chooser.ctp:5
+#, fuzzy
+msgid "category_chooser_context_exp"
+msgstr "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine Kategorie temporär auswählen."
+
+#: View/Elements/entry/category-chooser.ctp:43
+msgid "All"
 msgstr ""
+
+#: View/Elements/entry/category-chooser.ctp:59
+msgid "Apply"
+msgstr "Anwenden"
 
 #: View/Elements/entry/thread_cached_init.ctp:7
 msgid "btn-showThreadInMixView"
@@ -634,10 +643,6 @@ msgstr "Neuer Eintrag"
 #: View/Entries/index.ctp:19
 msgid "btn_manualy_mark_as_read_shp"
 msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
-
-#: View/Entries/index.ctp:28
-msgid "Custom"
-msgstr ""
 
 #: View/Entries/merge.ctp:2
 #, php-format
@@ -1389,64 +1394,64 @@ msgstr "Persönliche&nbsp;Nachrichten empfangen"
 msgid "user_pers_msg_exp"
 msgstr "Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen werden)"
 
-#: View/Users/edit.ctp:253
+#: View/Users/edit.ctp:255
 msgid "user_category_override"
 msgstr "Kategorienfilter"
 
-#: View/Users/edit.ctp:258
+#: View/Users/edit.ctp:260
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
-#: View/Users/edit.ctp:265
+#: View/Users/edit.ctp:268
 msgid "user_time_diff"
 msgstr "Zeitzonen-Differenz"
 
-#: View/Users/edit.ctp:266
+#: View/Users/edit.ctp:269
 msgid "user_time_diff_exp"
 msgstr "Unterschied zur Server-Zeit in Stunden"
 
-#: View/Users/edit.ctp:271
+#: View/Users/edit.ctp:274
 msgid "admin_mod_notif"
 msgstr "E-Mail-Benachrichtigung"
 
-#: View/Users/edit.ctp:273
+#: View/Users/edit.ctp:276
 msgid "admin_mod_notif_exp"
 msgstr "(nur für Admins und Moderatoren)"
 
-#: View/Users/edit.ctp:274
+#: View/Users/edit.ctp:277
 msgid "new_posting_notify_exp"
 msgstr "wenn sich ein neuer Benutzer angemeldet hat"
 
-#: View/Users/edit.ctp:276
+#: View/Users/edit.ctp:279
 msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
-#: View/Users/edit.ctp:292
+#: View/Users/edit.ctp:295
 msgid "flattr"
 msgstr "flattrn"
 
-#: View/Users/edit.ctp:301
+#: View/Users/edit.ctp:304
 msgid "flattr_uid"
 msgstr "Flattr ID"
 
-#: View/Users/edit.ctp:305
+#: View/Users/edit.ctp:308
 msgid "flattr_allow_user"
 msgstr "Flattrn"
 
-#: View/Users/edit.ctp:306
+#: View/Users/edit.ctp:309
 msgid "flattr_allow_user_exp"
 msgstr "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn allgemein für das Benutzerkonto."
 
-#: View/Users/edit.ctp:309
+#: View/Users/edit.ctp:312
 msgid "flattr_allow_posting"
 msgstr "Postings flattrn"
 
-#: View/Users/edit.ctp:310
+#: View/Users/edit.ctp:313
 msgid "flattr_allow_posting_exp"
 msgstr "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
-#: View/Users/edit.ctp:316
+#: View/Users/edit.ctp:319
 msgid "button_save"
 msgstr "Speichern"
 
@@ -1574,53 +1579,53 @@ msgstr "Kategorie"
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:247
+#: Controller/EntriesController.php:251
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:250
+#: Controller/EntriesController.php:254
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:313
-#: Controller/EntriesController.php:442
+#: Controller/EntriesController.php:317
+#: Controller/EntriesController.php:446
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:315
-#: Controller/EntriesController.php:363
+#: Controller/EntriesController.php:319
+#: Controller/EntriesController.php:367
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:356
-#: Controller/EntriesController.php:469
+#: Controller/EntriesController.php:360
+#: Controller/EntriesController.php:473
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:367
+#: Controller/EntriesController.php:371
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:499
+#: Controller/EntriesController.php:503
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:711
+#: Controller/EntriesController.php:715
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:711
+#: Controller/EntriesController.php:715
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:874
-msgid "All"
+#: Controller/EntriesController.php:902
+msgid "Custom"
 msgstr ""
 
-#: Controller/EntriesController.php:931
-#: Controller/EntriesController.php:941
+#: Controller/EntriesController.php:939
+#: Controller/EntriesController.php:949
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 

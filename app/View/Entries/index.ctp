@@ -25,7 +25,7 @@
 	if (isset($categoryChooserIsUsed) && $categoryChooserIsUsed):
 		// category-chooser link
 		echo $this->Html->link(
-				'<i class="icon-tags"></i> ' . ((isset($categoryChooser[$categoryChooserTitleId])) ? $categoryChooser[$categoryChooserTitleId] : __('Custom')) . '&nbsp;',
+				'<i class="icon-tags"></i> ' . ((isset($categoryChooser[$categoryChooserTitleId])) ? $categoryChooser[$categoryChooserTitleId] : $categoryChooserTitleId) . '&nbsp;',
 				'#', array(
 				'id'		 => 'btn-category-chooser',
 				'escape' => false,

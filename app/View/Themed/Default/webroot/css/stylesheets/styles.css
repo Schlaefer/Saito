@@ -760,6 +760,10 @@ a.no-color { color: #6f6f6f; }
 /** entry/thread_line end ** */
 .entry.index { margin-top: -10px; }
 
+.category-chooser-ul { margin-bottom: 5px; }
+
+.category-chooser-li { padding: 5px; }
+
 /******************************************************************************* Messages Setup *****************************************************************************/
 .flash, .message { clear: both; text-align: center; font-size: 140%; font-weight: bold; margin: 0px 0px 1em; padding: 0.4em; color: white; text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 1px; background-color: #a60202; border: 1px #8a0101 solid; }
 
@@ -790,6 +794,10 @@ a.no-color { color: #6f6f6f; }
 @media only screen and (device-width: 768px) and (orientation:portrait) { body, html { width: 768px; min-width: 768px; } }
 @media only screen and (device-width: 768px) and (orientation:landscape) { body, html { /* don't touch it! */ /*		width: 980px;*/ /*		min-width: 980px;*/ } }
 /******************************************************************************/
+.ui-widget-content a { color: #e74a00; }
+
+.ui-dialog .ui-dialog-content { padding: 10px; }
+
 .ui-dialog.ui-widget-content { border: none; border: 4px solid #e0e0e0; }
 
 .ui-dialog { position: absolute; padding: 0; box-shadow: 0px 2px 5px #222; }

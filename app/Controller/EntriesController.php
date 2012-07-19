@@ -170,7 +170,11 @@ class EntriesController extends AppController {
 			throw new MethodNotAllowedException();
 		}
 
-		if (!$id && $this->request->data) {
+		if ($id == 'all' || ($this->request->data && $this->request->data['CatMeta']['All'])) {
+			$this->Entry->User->id = $this->CurrentUser->getId();
+			$this->Entry->User->set('user_category_active', -1);
+			$this->Entry->User->save();
+		} elseif (!$id && $this->request->data) {
 			$this->Entry->User->id = $this->CurrentUser->getId();
 			$this->Entry->User->set('user_category_active', 0);
 			$this->Entry->User->set('user_category_custom', array_fill_keys($this->request->data['CatChooser'], 1));
@@ -880,8 +884,12 @@ class EntriesController extends AppController {
 						|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
 				) {
 					if (!$User->isLoggedIn()) {
-						// non logged in user sees his accessions
-					} elseif ($User['user_category_active']) {
+						// non logged in user sees his accessions i.e. the default set
+					} elseif ((int)$User['user_category_active'] === -1) {
+						// user has choosen to see all available categories i.e. the default set
+						$catC_isUsed									 = true;
+						$catCT			 									 = __('All');
+					} elseif ((int)$User['user_category_active'] > 0) {
 						// logged in users sees his active group if he has access rights
 						$cats = array_intersect_key($cats,
 								array($User['user_category_active']	 => 1));

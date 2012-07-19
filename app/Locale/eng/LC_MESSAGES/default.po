@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-19 07:13+0100\n"
-"PO-Revision-Date: 2012-07-19 07:13+0100\n"
+"POT-Creation-Date: 2012-07-19 09:00+0100\n"
+"PO-Revision-Date: 2012-07-19 09:00+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -336,7 +336,16 @@ msgstr ""
 msgid "email_footer"
 msgstr "This email was send by %s (%s)."
 
-#: View/Elements/entry/category-chooser.ctp:33
+#: View/Elements/entry/category-chooser.ctp:5
+#, fuzzy
+msgid "category_chooser_context_exp"
+msgstr "Choose your custom categories.<br/><br/>Click on a name to quickly show this category without changing your preferences."
+
+#: View/Elements/entry/category-chooser.ctp:43
+msgid "All"
+msgstr ""
+
+#: View/Elements/entry/category-chooser.ctp:59
 msgid "Apply"
 msgstr ""
 
@@ -615,10 +624,6 @@ msgstr "New Entry"
 #: View/Entries/index.ctp:19
 msgid "btn_manualy_mark_as_read_shp"
 msgstr "Marks all new entries as read."
-
-#: View/Entries/index.ctp:28
-msgid "Custom"
-msgstr ""
 
 #: View/Entries/merge.ctp:2
 #, php-format
@@ -1358,65 +1363,65 @@ msgstr ""
 msgid "user_pers_msg_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:253
+#: View/Users/edit.ctp:255
 #, fuzzy
 msgid "user_category_override"
 msgstr "Category-Chooser"
 
-#: View/Users/edit.ctp:258
+#: View/Users/edit.ctp:260
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
 
-#: View/Users/edit.ctp:265
+#: View/Users/edit.ctp:268
 msgid "user_time_diff"
 msgstr ""
 
-#: View/Users/edit.ctp:266
+#: View/Users/edit.ctp:269
 msgid "user_time_diff_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:271
+#: View/Users/edit.ctp:274
 msgid "admin_mod_notif"
 msgstr ""
 
-#: View/Users/edit.ctp:273
+#: View/Users/edit.ctp:276
 msgid "admin_mod_notif_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:274
+#: View/Users/edit.ctp:277
 msgid "new_posting_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:276
+#: View/Users/edit.ctp:279
 msgid "new_user_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:292
+#: View/Users/edit.ctp:295
 msgid "flattr"
 msgstr ""
 
-#: View/Users/edit.ctp:301
+#: View/Users/edit.ctp:304
 msgid "flattr_uid"
 msgstr ""
 
-#: View/Users/edit.ctp:305
+#: View/Users/edit.ctp:308
 msgid "flattr_allow_user"
 msgstr ""
 
-#: View/Users/edit.ctp:306
+#: View/Users/edit.ctp:309
 msgid "flattr_allow_user_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:309
+#: View/Users/edit.ctp:312
 msgid "flattr_allow_posting"
 msgstr ""
 
-#: View/Users/edit.ctp:310
+#: View/Users/edit.ctp:313
 msgid "flattr_allow_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:316
+#: View/Users/edit.ctp:319
 msgid "button_save"
 msgstr ""
 
@@ -1540,51 +1545,51 @@ msgstr ""
 msgid "page"
 msgstr ""
 
-#: Controller/EntriesController.php:247
+#: Controller/EntriesController.php:251
 msgid "new_entry_linktitle"
 msgstr "New Entry"
 
-#: Controller/EntriesController.php:250
+#: Controller/EntriesController.php:254
 msgid "logged_in_users_only"
 msgstr ""
 
-#: Controller/EntriesController.php:313
-#: Controller/EntriesController.php:442
+#: Controller/EntriesController.php:317
+#: Controller/EntriesController.php:446
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:315
-#: Controller/EntriesController.php:363
+#: Controller/EntriesController.php:319
+#: Controller/EntriesController.php:367
 msgid "back_to_overview_linkname"
 msgstr "Back to Forum"
 
-#: Controller/EntriesController.php:356
-#: Controller/EntriesController.php:469
+#: Controller/EntriesController.php:360
+#: Controller/EntriesController.php:473
 msgid "back_to_posting_from_linkname"
 msgstr "Zurück zum Eintrag von %s"
 
-#: Controller/EntriesController.php:367
+#: Controller/EntriesController.php:371
 msgid "answer_marking"
 msgstr "Answer"
 
-#: Controller/EntriesController.php:499
+#: Controller/EntriesController.php:503
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:711
+#: Controller/EntriesController.php:715
 msgid "_set_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:711
+#: Controller/EntriesController.php:715
 msgid "_unset_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:874
-msgid "All"
+#: Controller/EntriesController.php:902
+msgid "Custom"
 msgstr ""
 
-#: Controller/EntriesController.php:931
-#: Controller/EntriesController.php:941
+#: Controller/EntriesController.php:939
+#: Controller/EntriesController.php:949
 msgid "Invalid post"
 msgstr ""
 
