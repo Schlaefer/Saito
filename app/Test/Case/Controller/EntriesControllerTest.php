@@ -151,6 +151,120 @@ $Entries->Entry->expects($this->never())
           'method' => 'post'));
     }
 
+		public function testSetcategoryNotLoggedIn() {
+				$Entries = $this->generate('Entries', array(
+					'models' => array(
+							'User' => array('set', 'save')
+							)
+					));
+				$this->_logoutUser();
+
+				$this->setExpectedException('MethodNotAllowedException');
+				$this->testAction('/entries/setcategory/all');
+		}
+
+		public function testSetcategoryAllGet() {
+				$Entries = $this->generate('Entries', array(
+					'models' => array(
+							'User' => array('set', 'save')
+							)
+					));
+
+				$this->_loginUser(3);
+
+				$Entries->User->expects($this->once())
+						->method('set')
+						->with('user_category_active', -1);
+				$Entries->User->expects($this->once())
+						->method('save');
+
+				$this->testAction('/entries/setcategory/all');
+		}
+
+		public function testSetcategoryAllPost() {
+				$Entries = $this->generate('Entries', array(
+					'models' => array(
+							'User' => array('set', 'save')
+							)
+					));
+
+				$this->_loginUser(3);
+
+				$data = array(
+						'CatChooser' => array(
+								'4' => '0',
+								'7' => '1',
+								'9' => '0',
+						),
+						'CatMeta' => array(
+								'All' => '1',
+						)
+				);
+
+				$Entries->User->expects($this->once())
+						->method('set')
+						->with('user_category_active', -1);
+				$Entries->User->expects($this->once())
+						->method('save');
+
+				$this->testAction('/entries/setcategory/all');
+
+		}
+
+		public function testSetcategoryCategory() {
+				$Entries = $this->generate('Entries', array(
+					'models' => array(
+							'User' => array('set', 'save')
+							)
+					));
+
+				$this->_loginUser(3);
+
+				$Entries->User->expects($this->once())
+						->method('set')
+						->with('user_category_active', 5);
+				$Entries->User->expects($this->once())
+						->method('save');
+
+				$this->testAction('/entries/setcategory/5');
+		}
+
+		public function testSetcategoryCategories() {
+				$Entries = $this->generate('Entries', array(
+					'models' => array(
+							'User' => array('set', 'save')
+							)
+					));
+
+				$this->_loginUser(3);
+
+				$data = array(
+						'CatChooser' => array(
+								'4' => '0',
+								'7' => '1',
+								'9' => '0',
+						),
+						'CatMeta' => array(
+								'All' => '0',
+						)
+				);
+
+				$dataAt2 = $data['CatChooser'];
+
+				$Entries->User->expects($this->at(0))
+						->method('set')
+						->with('user_category_active', 0);
+				$Entries->User->expects($this->at(1))
+						->method('set')
+						->with('user_category_custom', $dataAt2);
+				$Entries->User->expects($this->once())
+						->method('save');
+
+				$this->testAction('/entries/setcategory/', array(
+						'data' => $data, 'method' => 'post'
+				));
+		}
+
 		public function testView() {
 			//* not logged in user
       $Entries = $this->generate('Entries');

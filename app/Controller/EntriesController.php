@@ -179,11 +179,6 @@ class EntriesController extends AppController {
 			// set custom set
 			$this->Entry->User->id = $this->CurrentUser->getId();
 			$this->Entry->User->set('user_category_active', 0);
-			foreach ($this->request->data['CatChooser'] as $k => $v) {
-				if ($v > 0) {
-					$this->request->data['CatChooser'][$k] = true;
-				}
-			};
 			$this->Entry->User->set('user_category_custom', $this->request->data['CatChooser']);
 			$this->Entry->User->save();
 		} else {
