@@ -22,6 +22,7 @@
 		public function testLogin() {
 
 			//* user sees login form
+			$this->_logoutUser();
 			$result = $this->testAction('/users/login');
 			$this->assertFalse(isset($this->headers['Location']));
 
@@ -56,6 +57,67 @@
 			$registeredUsersAfterLogin = $this->Users->User->find('count');
 			$this->assertEqual($registeredUsersBeforeLogin, $registeredUsersAfterLogin);
 
+		}
+
+		/**
+		 * Registration fails if Terms of Serice checkbox is not set in register form
+		 */
+		public function testRegisterTosNotSet() {
+
+			$data = array(
+					'User' => array(
+							'username'				 => 'NewUser1',
+							'user_email'			 => 'NewUser1@example.com',
+							'password'				 => 'NewUser1spassword',
+							'password_confirm' => 'NewUser1spassword',
+							'tos_confirm'			 => '0'
+					)
+			);
+
+			$Users = $this->generate('Users',
+					array(
+					'models' => array('User')
+					));
+			$Users->User->expects($this->never())
+					->method('register');
+
+			$result = $this->testAction('users/register',
+					array('data'	 => $data, 'method' => 'post')
+			);
+		}
+
+		public function testRegisterCheckboxOnPage() {
+			$result = $this->testAction('users/register', array('return' => 'view'));
+			$this->assertRegExp('/data\[User\]\[tos_confirm\]/', $result);
+		}
+
+		/**
+		 * Registration succeds if Terms of Serice checkbox is set in register form
+		 */
+		public function testRegisterTosSet() {
+
+			$data = array(
+					'User' => array(
+							'username'				 => 'NewUser1',
+							'user_email'			 => 'NewUser1@example.com',
+							'user_password'		 => 'NewUser1spassword',
+							'password_confirm' => 'NewUser1spassword',
+							'tos_confirm'			 => '1'
+					)
+			);
+
+			$Users = $this->generate('Users',
+					array(
+					'methods' => array('email'),
+					'models' => array('User'),
+					));
+			$Users->User->expects($this->once())
+					->method('register')
+					->will($this->returnValue(true));
+
+			$result = $this->testAction('users/register',
+					array('data'	 => $data, 'method' => 'post')
+			);
 		}
 
 		public function testView() {
