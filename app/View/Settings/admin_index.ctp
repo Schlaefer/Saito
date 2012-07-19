@@ -430,7 +430,51 @@
 				?>
 			</td>
 		</tr>
+	</table>
+
+	<h2><?php echo __('Category Chooser'); ?></h2>
+	<table class="table table-striped table-bordered table-condensed">
+		<?php echo $tableHeadersHtml ?>
+		<tr>
+			<td>
+				<?php echo __('category_chooser_global'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['category_chooser_global']; ?>
+			</td>
+			<td>
+				<p><?php echo __('category_chooser_global_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'category_chooser_global'),
+								array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo __('category_chooser_user_override'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['category_chooser_user_override']; ?>
+			</td>
+			<td>
+				<p><?php echo __('category_chooser_user_override_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'category_chooser_user_override'),
+								array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
 	</table> <!--	</table>-->
+
 	<h2>Uploads</h2>
 	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $tableHeadersHtml ?>

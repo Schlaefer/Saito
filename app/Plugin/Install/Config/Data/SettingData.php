@@ -18,6 +18,14 @@ class SettingData {
 				'value'	=> '1',
 		),
 		array(
+				'name'	=> 'category_chooser_global',
+				'value'	=> '0',
+		),
+		array(
+				'name'	=> 'category_chooser_user_override',
+				'value'	=> '1',
+		),
+		array(
 				'name'	=> 'edit_delay',
 				'value'	=> '3',
 			),

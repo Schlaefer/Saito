@@ -869,27 +869,37 @@ class EntriesController extends AppController {
 		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == FALSE ? 'time' : 'last_answer');
 		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
 
-		$cats_accession = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
-		if (!$User->isLoggedIn()) {
-			// non logged in user sees his accessions
-			$cats = $cats_accession;
-			$catCT = __('All');
-		} elseif ($User['user_category_active']) {
-			// logged in users sees his active group if he has access rights
-			$cats = array_intersect_key($cats_accession, array($User['user_category_active'] => 1));
-			$catCT = $User['user_category_active'];
-		} elseif (!empty($User['user_category_custom']))  {
-			// but if he has no active group and a custom groups set he sees his custom group
-			$cats = array_intersect_key($cats_accession, $User['user_category_custom']);
-			$catCT = __('Custom');
-		} else {
-			// or if no custom group is set all groups the user has accession to
-			$cats = $cats_accession;
-			$catCT = __('All');
-		}
-		$this->set('categoryChooserTitleId', $catCT);
+			// default for logged-in and logged-out users
+			$cats				 = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
+			$catCT			 = __('All');
+			$catC_isUsed = false;
 
-		$this->paginate = array(
+			// category chooser
+			if ($User->isLoggedIn()) {
+				if (Configure::read('Saito.Settings.category_chooser_global')
+						|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
+				) {
+					if (!$User->isLoggedIn()) {
+						// non logged in user sees his accessions
+					} elseif ($User['user_category_active']) {
+						// logged in users sees his active group if he has access rights
+						$cats = array_intersect_key($cats,
+								array($User['user_category_active']	 => 1));
+						$catC_isUsed									 = true;
+						$catCT												 = $User['user_category_active'];
+					} elseif (!empty($User['user_category_custom'])) {
+						// but if he has no active group and a custom groups set he sees his custom group
+						$cats				 = array_intersect_key($cats, $User['user_category_custom']);
+						$catC_isUsed = true;
+						$catCT			 = __('Custom');
+					}
+
+					$this->set('categoryChooserTitleId', $catCT);
+				}
+			}
+			$this->set('categoryChooserIsUsed', $catC_isUsed);
+
+			$this->paginate = array(
 				/* Whenever you change the conditions here check if you have to adjust
 				 * the db index. Running this query without appropriate db index is a huge
 				 * performance bottleneck!

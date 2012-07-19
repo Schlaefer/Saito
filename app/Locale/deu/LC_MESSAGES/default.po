@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-18 10:59+0100\n"
-"PO-Revision-Date: 2012-07-18 11:00+0100\n"
+"POT-Creation-Date: 2012-07-19 07:13+0100\n"
+"PO-Revision-Date: 2012-07-19 07:13+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -353,6 +353,10 @@ msgstr "flattrn"
 msgid "email_footer"
 msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
 
+#: View/Elements/entry/category-chooser.ctp:33
+msgid "Apply"
+msgstr ""
+
 #: View/Elements/entry/thread_cached_init.ctp:7
 msgid "btn-showThreadInMixView"
 msgstr "Thread in Mix-Ansicht öffnen."
@@ -623,13 +627,17 @@ msgstr "Flattr-Knopf anzeigen"
 msgid "submit_button"
 msgstr "Eintragen"
 
-#: View/Entries/index.ctp:6
+#: View/Entries/index.ctp:5
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
 
-#: View/Entries/index.ctp:20
+#: View/Entries/index.ctp:19
 msgid "btn_manualy_mark_as_read_shp"
 msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
+
+#: View/Entries/index.ctp:28
+msgid "Custom"
+msgstr ""
 
 #: View/Entries/merge.ctp:2
 #, php-format
@@ -766,14 +774,16 @@ msgstr "Forum deaktivieren."
 #: View/Settings/admin_index.ctp:388
 #: View/Settings/admin_index.ctp:407
 #: View/Settings/admin_index.ctp:426
-#: View/Settings/admin_index.ctp:449
-#: View/Settings/admin_index.ctp:468
-#: View/Settings/admin_index.ctp:491
-#: View/Settings/admin_index.ctp:510
-#: View/Settings/admin_index.ctp:529
-#: View/Settings/admin_index.ctp:548
-#: View/Settings/admin_index.ctp:558
-#: View/Settings/admin_index.ctp:577
+#: View/Settings/admin_index.ctp:450
+#: View/Settings/admin_index.ctp:469
+#: View/Settings/admin_index.ctp:493
+#: View/Settings/admin_index.ctp:512
+#: View/Settings/admin_index.ctp:535
+#: View/Settings/admin_index.ctp:554
+#: View/Settings/admin_index.ctp:573
+#: View/Settings/admin_index.ctp:592
+#: View/Settings/admin_index.ctp:602
+#: View/Settings/admin_index.ctp:621
 msgid "edit"
 msgstr "Bearbeiten"
 
@@ -955,72 +965,93 @@ msgstr "Einbettbare (Video-) Quellen"
 msgid "video_domains_allowed_exp"
 msgstr "Domainnamen einbindbar für Video und iFrame. Ein Asterisk * bedeuted freies Einbinden (Vorsicht, dies kann ebenfalls zum Einbinden von Schadsoftware genutzt werden!)."
 
-#: View/Settings/admin_index.ctp:439
+#: View/Settings/admin_index.ctp:435
+#, fuzzy
+msgid "Category Chooser"
+msgstr "Kategorienfilter"
+
+#: View/Settings/admin_index.ctp:440
+msgid "category_chooser_global"
+msgstr "Standard"
+
+#: View/Settings/admin_index.ctp:446
+msgid "category_chooser_global_exp"
+msgstr "Kategorienfilter auf der Frontseite immer anzeigen."
+
+#: View/Settings/admin_index.ctp:459
+msgid "category_chooser_user_override"
+msgstr "Benutzereinstellung"
+
+#: View/Settings/admin_index.ctp:465
+msgid "category_chooser_user_override_exp"
+msgstr "Erlaubt einem Benutzern den Kategorienfilter in seinen Einstellungen zu aktivieren, selbst wenn der Filter standardmässig deaktiviert ist."
+
+#: View/Settings/admin_index.ctp:483
 msgid "upload_max_img_size"
 msgstr "Uploadgröße maximal"
 
-#: View/Settings/admin_index.ctp:445
+#: View/Settings/admin_index.ctp:489
 msgid "upload_max_img_size_exp"
 msgstr "Maximale Größe, die ein Upload besitzen darf in kB."
 
-#: View/Settings/admin_index.ctp:458
+#: View/Settings/admin_index.ctp:502
 msgid "upload_max_number_of_uploads"
 msgstr "Anzahl an Uploads pro Benutzer"
 
-#: View/Settings/admin_index.ctp:464
+#: View/Settings/admin_index.ctp:508
 msgid "upload_max_number_of_uploads_exp"
 msgstr "Maximale Anzahl von Dateien, die ein einzelner Benutzer gleichzeitig auf dem Server hochgeladen haben kann."
 
-#: View/Settings/admin_index.ctp:481
+#: View/Settings/admin_index.ctp:525
 msgid "flattr_enabled"
 msgstr "Flattr aktivieren"
 
-#: View/Settings/admin_index.ctp:487
+#: View/Settings/admin_index.ctp:531
 msgid "flattr_enabled_exp"
 msgstr "Ermöglicht es Benutzern flattr zu verwenden."
 
-#: View/Settings/admin_index.ctp:500
+#: View/Settings/admin_index.ctp:544
 msgid "flattr_language"
 msgstr "Flattr-Sprache"
 
-#: View/Settings/admin_index.ctp:506
+#: View/Settings/admin_index.ctp:550
 msgid "flattr_language_exp"
 msgstr "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf flattr.com für Kürzel."
 
-#: View/Settings/admin_index.ctp:519
+#: View/Settings/admin_index.ctp:563
 msgid "flattr_category"
 msgstr "Flattr-Kategorie"
 
-#: View/Settings/admin_index.ctp:525
+#: View/Settings/admin_index.ctp:569
 msgid "flattr_category_exp"
 msgstr "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe flattr.com für verfügbare Kategorien."
 
-#: View/Settings/admin_index.ctp:544
+#: View/Settings/admin_index.ctp:588
 msgid "embedly_enabled"
 msgstr "Embed.ly aktivieren"
 
-#: View/Settings/admin_index.ctp:546
+#: View/Settings/admin_index.ctp:590
 msgid "embedly_enabled_exp"
 msgstr "Aktiviert den [embed]-BBcode, welcher seinen Inhalt durch Embed.ly darstellt."
 
-#: View/Settings/admin_index.ctp:554
+#: View/Settings/admin_index.ctp:598
 msgid "embedly_key"
 msgstr "Embed.ly Key"
 
 #
-#: View/Settings/admin_index.ctp:556
+#: View/Settings/admin_index.ctp:600
 msgid "embedly_key_exp"
 msgstr "API-Key, den man nach der Registrierung bei Embed.ly erhält."
 
-#: View/Settings/admin_index.ctp:567
+#: View/Settings/admin_index.ctp:611
 msgid "Debug"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:573
+#: View/Settings/admin_index.ctp:617
 msgid "stopwatch_get"
 msgstr "Stopuhr"
 
-#: View/Settings/admin_index.ctp:575
+#: View/Settings/admin_index.ctp:619
 #, fuzzy
 msgid "stopwatch_get_exp"
 msgstr "Ausgabe der Stopuhrzeiten durch Anfügen von <code>/stopwatch:true/</code> an URL."
@@ -1032,7 +1063,6 @@ msgstr "Smiley Code hinzufügen"
 #: View/SmileyCodes/admin_add.ctp:17
 #: View/SmileyCodes/admin_edit.ctp:21
 #: View/Smilies/admin_add.ctp:22
-#: View/Smilies/admin_index.ctp:36
 msgid "List Smiley Codes"
 msgstr "Smiley Liste"
 
@@ -1045,7 +1075,6 @@ msgstr "Smilies auflisten"
 
 #: View/SmileyCodes/admin_add.ctp:19
 #: View/SmileyCodes/admin_edit.ctp:23
-#: View/Smilies/admin_index.ctp:35
 msgid "New Smiley"
 msgstr "Neuer Smiley"
 
@@ -1186,13 +1215,11 @@ msgstr "Profil"
 #: View/Users/edit.ctp:32
 #: View/Users/edit.ctp:66
 #: View/Users/index.ctp:14
-#: View/Users/view.ctp:26
 msgid "username_marking"
 msgstr "Benutzername"
 
 #: View/Users/edit.ctp:37
 #: View/Users/edit.ctp:71
-#: View/Users/view.ctp:53
 msgid "userlist_email"
 msgstr "E-Mail"
 
@@ -1215,7 +1242,6 @@ msgid "user_show_email_exp"
 msgstr "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an die E-Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht eingesehen werden."
 
 #: View/Users/edit.ctp:100
-#: View/Users/view.ctp:39
 msgid "user_real_name"
 msgstr "realer Name"
 
@@ -1224,7 +1250,6 @@ msgid "user_real_name_exp"
 msgstr "(optional)"
 
 #: View/Users/edit.ctp:107
-#: View/Users/view.ctp:60
 msgid "user_hp"
 msgstr "Homepage"
 
@@ -1233,7 +1258,6 @@ msgid "user_hp_exp"
 msgstr "(optional)"
 
 #: View/Users/edit.ctp:114
-#: View/Users/view.ctp:67
 msgid "user_place"
 msgstr "Ort"
 
@@ -1246,7 +1270,6 @@ msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
 #: View/Users/edit.ctp:130
-#: View/Users/view.ctp:96
 msgid "user_signature"
 msgstr "Signatur"
 
@@ -1367,63 +1390,63 @@ msgid "user_pers_msg_exp"
 msgstr "Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen werden)"
 
 #: View/Users/edit.ctp:253
-msgid "user_standard_categories"
-msgstr "Standardkategorien"
+msgid "user_category_override"
+msgstr "Kategorienfilter"
 
-#: View/Users/edit.ctp:256
-msgid "user_standard_categories_exp"
-msgstr "Persönlicher Kategoriensatz und Standardansicht"
+#: View/Users/edit.ctp:258
+#, fuzzy
+msgid "user_category_override_exp"
+msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
-#: View/Users/edit.ctp:260
+#: View/Users/edit.ctp:265
 msgid "user_time_diff"
 msgstr "Zeitzonen-Differenz"
 
-#: View/Users/edit.ctp:261
+#: View/Users/edit.ctp:266
 msgid "user_time_diff_exp"
 msgstr "Unterschied zur Server-Zeit in Stunden"
 
-#: View/Users/edit.ctp:266
+#: View/Users/edit.ctp:271
 msgid "admin_mod_notif"
 msgstr "E-Mail-Benachrichtigung"
 
-#: View/Users/edit.ctp:268
+#: View/Users/edit.ctp:273
 msgid "admin_mod_notif_exp"
 msgstr "(nur für Admins und Moderatoren)"
 
-#: View/Users/edit.ctp:269
+#: View/Users/edit.ctp:274
 msgid "new_posting_notify_exp"
 msgstr "wenn sich ein neuer Benutzer angemeldet hat"
 
-#: View/Users/edit.ctp:271
+#: View/Users/edit.ctp:276
 msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
-#: View/Users/edit.ctp:287
-#: View/Users/view.ctp:104
+#: View/Users/edit.ctp:292
 msgid "flattr"
 msgstr "flattrn"
 
-#: View/Users/edit.ctp:296
+#: View/Users/edit.ctp:301
 msgid "flattr_uid"
 msgstr "Flattr ID"
 
-#: View/Users/edit.ctp:300
+#: View/Users/edit.ctp:305
 msgid "flattr_allow_user"
 msgstr "Flattrn"
 
-#: View/Users/edit.ctp:301
+#: View/Users/edit.ctp:306
 msgid "flattr_allow_user_exp"
 msgstr "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn allgemein für das Benutzerkonto."
 
-#: View/Users/edit.ctp:304
+#: View/Users/edit.ctp:309
 msgid "flattr_allow_posting"
 msgstr "Postings flattrn"
 
-#: View/Users/edit.ctp:305
+#: View/Users/edit.ctp:310
 msgid "flattr_allow_posting_exp"
 msgstr "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
-#: View/Users/edit.ctp:311
+#: View/Users/edit.ctp:316
 msgid "button_save"
 msgstr "Speichern"
 
@@ -1459,11 +1482,11 @@ msgstr "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel
 msgid "register-js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
-#: View/Users/register.ctp:34
+#: View/Users/register.ctp:37
 msgid "register_tos_linktext"
 msgstr "Nutzungsbedingungen"
 
-#: View/Users/register.ctp:33
+#: View/Users/register.ctp:36
 msgid "register_tos_label"
 msgstr "Ich bin mit den %s einverstanden"
 
@@ -1547,53 +1570,57 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:103
+#: Controller/EntriesController.php:109
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:223
+#: Controller/EntriesController.php:247
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:226
+#: Controller/EntriesController.php:250
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:289
-#: Controller/EntriesController.php:418
+#: Controller/EntriesController.php:313
+#: Controller/EntriesController.php:442
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:291
-#: Controller/EntriesController.php:339
+#: Controller/EntriesController.php:315
+#: Controller/EntriesController.php:363
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:332
-#: Controller/EntriesController.php:445
+#: Controller/EntriesController.php:356
+#: Controller/EntriesController.php:469
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:343
+#: Controller/EntriesController.php:367
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:475
+#: Controller/EntriesController.php:499
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:687
+#: Controller/EntriesController.php:711
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:687
+#: Controller/EntriesController.php:711
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:875
-#: Controller/EntriesController.php:885
+#: Controller/EntriesController.php:874
+msgid "All"
+msgstr ""
+
+#: Controller/EntriesController.php:931
+#: Controller/EntriesController.php:941
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1672,7 +1699,7 @@ msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
 #: Controller/UsersController.php:53
-#: Controller/UsersController.php:275
+#: Controller/UsersController.php:276
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
@@ -1681,71 +1708,71 @@ msgstr "Benutzer %s wurde gesperrt."
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:104
+#: Controller/UsersController.php:105
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:161
-#: Controller/UsersController.php:182
+#: Controller/UsersController.php:162
+#: Controller/UsersController.php:183
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/UsersController.php:216
+#: Controller/UsersController.php:217
 msgid "user_edit_success"
 msgstr "Die Daten wurden gespeichert."
 
-#: Controller/UsersController.php:229
+#: Controller/UsersController.php:230
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:257
-#: Controller/UsersController.php:294
+#: Controller/UsersController.php:258
+#: Controller/UsersController.php:295
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:265
+#: Controller/UsersController.php:266
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:267
+#: Controller/UsersController.php:268
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: Controller/UsersController.php:277
+#: Controller/UsersController.php:278
 #, php-format
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:281
+#: Controller/UsersController.php:282
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:300
+#: Controller/UsersController.php:301
 msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
-#: Controller/UsersController.php:302
+#: Controller/UsersController.php:303
 msgid "You can't delete the installation account."
 msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
-#: Controller/UsersController.php:304
+#: Controller/UsersController.php:305
 #, php-format
 msgid "User %s deleted."
 msgstr "Nutzer %s gelöscht."
 
-#: Controller/UsersController.php:307
+#: Controller/UsersController.php:308
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:332
+#: Controller/UsersController.php:333
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:395
+#: Controller/UsersController.php:396
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:398
+#: Controller/UsersController.php:399
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
@@ -1952,6 +1979,12 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "user_standard_categories"
+#~ msgstr "Standardkategorien"
+
+#~ msgid "user_standard_categories_exp"
+#~ msgstr "Persönlicher Kategoriensatz und Standardansicht"
 
 #~ msgid "register_tos_text"
 #~ msgstr "Ich bin mit den Nutzungsbedingungen einverstanden"

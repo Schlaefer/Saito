@@ -21,19 +21,18 @@
 		endif;
   $this->end();
 
-	if ($CurrentUser->isLoggedIn()) {
-		$this->start('headerSubnavRightTop');
+	$this->start('headerSubnavRightTop');
+	if (isset($categoryChooserIsUsed) && $categoryChooserIsUsed):
 		// category-chooser link
 		echo $this->Html->link(
 				'<i class="icon-tags"></i> ' . ((isset($categoryChooser[$categoryChooserTitleId])) ? $categoryChooser[$categoryChooserTitleId] : __('Custom')) . '&nbsp;',
-				'#',
-				array(
+				'#', array(
 				'id'		 => 'btn-category-chooser',
 				'escape' => false,
 				)
 		);
 		echo $this->element('entry/category-chooser');
-		 $this->Js->buffer(<<<EOF
+		$this->Js->buffer(<<<EOF
 			$('#category-chooser').dialog({
 				autoOpen: false,
 				show: {effect: "scale", duration: 200},
@@ -45,7 +44,7 @@
 
 EOF
 		);
-		 $this->Js->get('#btn-category-chooser')->event('click',
+		$this->Js->get('#btn-category-chooser')->event('click',
 				<<<EOF
 			if ($('#category-chooser').is(":visible")) {
 				$('#category-chooser').dialog('close');
@@ -54,8 +53,8 @@ EOF
 			}
 EOF
 		);
-		$this->end();
-	}
+	endif;
+	$this->end();
 ?>
 
 <div id="entry_index" class="entry index">
