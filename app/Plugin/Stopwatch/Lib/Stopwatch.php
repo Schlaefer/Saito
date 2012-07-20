@@ -18,6 +18,9 @@ class Stopwatch {
 	protected static $_sums = array();
 	protected static $_starts = array();
 
+	protected static $_stopwatchTime = 0;
+	protected static $_stopwatchCalls = 0;
+
 	public static function getInstance() {
 		if ( self::$instance === NULL ) {
 			self::$instance = new Stopwatch();
@@ -75,6 +78,12 @@ class Stopwatch {
 				'wdiff' => $wdiff,
 				'udiff' => $udiff,
 			);
+
+			// endtime
+			list($eusec,$esec) = explode(' ',microtime());
+			$ewtime = ($esec+$eusec);
+			self::$_stopwatchTime += ($ewtime - $wtime);
+			self::$_stopwatchCalls++;
 		}
 
 	public static function getString() {
@@ -116,6 +125,9 @@ class Stopwatch {
 					$v['times'],
 					$v['wtime']/$v['times'], $k);
 		}
+
+		$out .=  "\n\n" . self::printStatistic();
+
 		return $out;
 	}
 
@@ -134,6 +146,10 @@ class Stopwatch {
 	public static function stop($text) {
 		self::_addEvent($text, 'stop');
 		}
+
+	public static function printStatistic() {
+		return self::$_stopwatchCalls . " calls with ca " . sprintf("%05.3f", self::$_stopwatchTime) . ' sec overhead.';
+	}
 
   public static function getWallTime() {
 		self::start('getWallTime()');
