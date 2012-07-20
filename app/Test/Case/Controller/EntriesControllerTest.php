@@ -107,7 +107,7 @@
 			$this->assertFalse($Entries->viewVars['categoryChooserIsUsed']);
 		}
 
-		public function tes1CategoryChooserEmptyCustomSet() {
+		public function testCategoryChooserEmptyCustomSet() {
 			$Entries = $this->generate('EntriesMock',
 					array(
 					'methods' => array(
@@ -142,7 +142,7 @@
 					'user_sort_last_answer'	 => 1,
 					'user_type'							 => 'admin',
 					'user_category_active'	 => 0,
-					'user_category_custom'	 => '',
+					'user_category_custom'	 => array(),
 					'user_category_override' => 1,
 			));
 			$Entries->getInitialThreads($User);

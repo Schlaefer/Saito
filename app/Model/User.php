@@ -264,8 +264,12 @@ class User extends AppModel {
 		}
 
 		if (isset($results[0][$this->alias]) && isset($results[0][$this->alias]['user_category_custom'])) {
-			$results[0][$this->alias]['user_category_custom'] =
-					unserialize($results[0][$this->alias]['user_category_custom']);
+			if (empty($results[0][$this->alias]['user_category_custom'])) {
+				$results[0][$this->alias]['user_category_custom'] = array();
+			} else {
+				$results[0][$this->alias]['user_category_custom'] =
+						unserialize($results[0][$this->alias]['user_category_custom']);
+			}
 		}
 
 		# @td font-size
