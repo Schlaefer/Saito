@@ -21,29 +21,123 @@
 
 		public function testIndex() {
 
-      $Entries = $this->generate('Entries');
-      $this->_logoutUser();
+			$Entries = $this->generate('Entries');
+			$this->_logoutUser();
 
 			//* not logged in user
-			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
 			$this->assertEqual(count($entries), 1);
 
 			//* logged in user
 			$this->_loginUser(3);
-			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
 			$this->assertEqual(count($entries), 2);
 		}
 
-		public function testMerge() {
-
-			$Entries = $this->generate('Entries', array(
+		public function testMergeNoSourceId() {
+			$Entries = $this->generate('Entries',
+					array(
 					'models' => array(
 							'Entry' => array('merge')
-							)
+					)
 					));
-      $this->_loginUser(2);
+			$this->_loginUser(2);
+
+			$data = array(
+					'Entry' => array(
+							'targetId' => 2,
+					)
+			);
+
+			$Entries->Entry->expects($this->never())
+					->method('merge');
+			$this->expectException('NotFoundException');
+			$result = $this->testAction('/entries/merge/',
+					array(
+					'data'	 => $data, 'method' => 'post'
+					));
+		}
+
+		public function testMergeSourceIdNotFound() {
+			$Entries = $this->generate('Entries',
+					array(
+					'models' => array(
+							'Entry' => array('merge')
+					)
+					));
+			$this->_loginUser(2);
+
+			$data = array(
+					'Entry' => array(
+							'targetId' => 2,
+					)
+			);
+
+			$Entries->Entry->expects($this->never())
+					->method('merge');
+			$this->expectException('NotFoundException');
+			$result = $this->testAction('/entries/merge/9999',
+					array(
+					'data'	 => $data, 'method' => 'post'
+					));
+		}
+
+		public function testMergeShowForm() {
+			$Entries = $this->generate('Entries',
+					array(
+					'models' => array(
+							'Entry' => array('merge')
+					)
+					));
+			$this->_loginUser(2);
+
+			$data = array(
+					'Entry' => array()
+			);
+			$Entries->Entry->expects($this->never())
+					->method('merge');
+			$result = $this->testAction('/entries/merge/4',
+					array(
+					'data'	 => $data, 'method' => 'post'
+					));
+			$this->assertFalse(isset($this->headers['Location']));
+		}
+
+		public function testMergeIsNotAuthorized() {
+			$Entries = $this->generate('Entries',
+					array(
+					'models' => array(
+							'Entry' => array('merge')
+					)
+					));
+			$this->_loginUser(3);
+
+			$data = array(
+					'Entry' => array(
+							'targetId' => 2,
+					)
+			);
+
+			$Entries->Entry->expects($this->never())
+					->method('merge');
+			$this->expectException('MethodNotAllowedException');
+			$result = $this->testAction('/entries/merge/4',
+					array(
+					'data'	 => $data, 'method' => 'post'
+					));
+		}
+
+		public function testMerge() {
+
+			$Entries = $this->generate('Entries',
+					array(
+					'models' => array(
+							'Entry' => array('merge')
+					)
+					));
+			$this->_loginUser(2);
 
 			$data = array(
 					'Entry' => array(
@@ -56,129 +150,95 @@
 					->with('2')
 					->will($this->returnValue(true));
 
-			$result = $this->testAction('/entries/merge/4', array(
-					'data' => $data, 'method' => 'post'
-			));
-
-			/*
-			 * user is no mod or admin
-			 */
-			$this->_logoutUser();
-      $this->_loginUser(3);
-
-			$Entries->Entry->expects($this->never())
-					->method('merge');
-			$result = $this->testAction('/entries/merge/4', array(
-					'data' => $data, 'method' => 'post'
-			));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
-
-			/*
-			 * no source id
-			 */
-			$this->_logoutUser();
-      $this->_loginUser(2);
-
-$Entries->Entry->expects($this->never())
-					->method('merge');
-			$result = $this->testAction('/entries/merge/', array(
-					'data' => $data, 'method' => 'post'
-			));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
-
-			/*
-			 * no target id
-			 */
-			$data = array(
-					'Entry' => array()
-			);
-			$Entries->Entry->expects($this->never())
-					->method('merge');
-			$result = $this->testAction('/entries/merge/4', array(
-					'data' => $data, 'method' => 'post'
-			));
-			$this->assertFalse(isset($this->headers['Location']));
-
+			$result = $this->testAction('/entries/merge/4',
+					array(
+					'data'	 => $data, 'method' => 'post'
+					));
 		}
 
+		public function testEmptyCache() {
 
-    public function testEmptyCache() {
+			$Entries = $this->generate('Entries',
+					array(
+					'components' => array(
+							'CacheTree' => array('delete'),
+					)
+					));
 
-      $Entries = $this->generate('Entries', array(
-          'components' => array(
-            'CacheTree' => array('delete'),
-          )
-      ));
+			/*
+			 * setup
+			 */
+			$this->_loginUser(1);
 
-      /*
-       * setup
-       */
-      $this->_loginUser(1);
+			$data['Entry'] = array(
+					'pid'			 => 5,
+					'subject'	 => 'test',
+					'category' => 4,
+			);
 
-      $data['Entry'] = array(
-          'pid' => 5,
-          'subject' => 'test',
-          'category'  => 4,
-      );
+			/*
+			 * test entries/add
+			 */
+			$Entries->CacheTree
+					->expects($this->once())
+					->method('delete')
+					->with($this->equalTo('4'));
 
-      /*
-       * test entries/add
-       */
-      $Entries->CacheTree
-          ->expects($this->once())
-          ->method('delete')
-          ->with($this->equalTo('4'));
+			$result = $this->testAction('/entries/add/5',
+					array(
+					'data'	 => $data,
+					'method' => 'post'));
 
-			$result = $this->testAction('/entries/add/5', array(
-          'data' => $data,
-          'method' => 'post'));
+			/*
+			 * Test entries/edit
+			 */
+			$Entries = $this->generate('Entries',
+					array(
+					'components' => array(
+							'CacheTree' => array('delete'),
+					)
+					));
 
-      /*
-       * Test entries/edit
-       */
-      $Entries = $this->generate('Entries', array(
-          'components' => array(
-            'CacheTree' => array('delete'),
-          )
-      ));
-
-      $Entries->CacheTree
-          ->expects($this->once())
-          ->method('delete')
-          ->with($this->equalTo('4'));
-			$result = $this->testAction('/entries/edit/5', array(
-          'data' => $data,
-          'method' => 'post'));
-    }
+			$Entries->CacheTree
+					->expects($this->once())
+					->method('delete')
+					->with($this->equalTo('4'));
+			$result = $this->testAction('/entries/edit/5',
+					array(
+					'data'	 => $data,
+					'method' => 'post'));
+		}
 
 		public function testView() {
 			//* not logged in user
-      $Entries = $this->generate('Entries');
-      $this->_logoutUser();
+			$Entries = $this->generate('Entries');
+			$this->_logoutUser();
 
-			$result = $this->testAction('/entries/view/1', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/view/1', array('return' => 'vars'));
 			$this->assertEqual($result['entry']['Entry']['id'], 1);
 
 			$result = $this->testAction('/entries/view/2');
 			$this->assertFalse(isset($this->headers['Location']));
 
 			$result = $this->testAction('/entries/view/4', array('return' => 'view'));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot,
+					$this->headers['Location']);
 
 			//* logged in user
 			$this->_loginUser(3);
-			$result = $this->testAction('/entries/view/4', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/view/4', array('return' => 'vars'));
 			$this->assertEqual($result['entry']['Entry']['id'], 4);
 
-			$result = $this->testAction('/entries/view/2', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/view/2', array('return' => 'vars'));
 			$this->assertFalse(isset($this->headers['Location']));
 
-			$result = $this->testAction('/entries/view/4', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/view/4', array('return' => 'vars'));
 			$this->assertFalse(isset($this->headers['Location']));
 
 			//* redirect to index if entry does not exist
-			$result = $this->testAction('/entries/view/9999', array( 'return' => 'vars' ));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$result = $this->testAction('/entries/view/9999', array('return' => 'vars'));
+			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot,
+					$this->headers['Location']);
 		}
 
 		public function testHeaderCounter() {
@@ -186,7 +246,7 @@ $Entries->Entry->expects($this->never())
 			$this->_prepareAction('/entries/index');
 
 			//* test with no user online
-			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/index', array('return'			 => 'vars'));
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEqual($headerCounter['user_online'], 1);
@@ -200,7 +260,7 @@ $Entries->Entry->expects($this->never())
 			//* test with one user online
 			$this->_loginUser(2);
 
-			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/index', array('return'			 => 'vars'));
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEqual($headerCounter['user_online'], 2);

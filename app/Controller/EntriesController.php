@@ -666,15 +666,17 @@ class EntriesController extends AppController {
 	}
 
 	public function merge($id = null) {
-		if (!$id || (!$this->CurrentUser->isMod() && !$this->CurrentUser->isAdmin())) {
-			return $this->redirect('/');
+		if (!$id) { throw new NotFoundException(); }
+
+		if (!$this->CurrentUser->isMod() && !$this->CurrentUser->isAdmin()) {
+			throw new MethodNotAllowedException;
 		}
 
 		$this->Entry->contain();
 		$data = $this->Entry->findById($id);
 
 		if (!$data || (int)$data['Entry']['pid'] !== 0) {
-			return $this->redirect('/');
+			throw new NotFoundException();
 		}
 
 		// perform move operation
@@ -687,6 +689,8 @@ class EntriesController extends AppController {
 				$targetEntry = $this->Entry->findById($targetId);
 				$this->_emptyCache($targetEntry['Entry']['id'], $targetEntry['Entry']['id']);
 				return $this->redirect('/entries/view/' . $id);
+			} else {
+				$this->Session->setFlash(__("Error"), 'flash/error');
 			}
 		}
 
