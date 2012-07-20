@@ -3,11 +3,10 @@
 	<div class="box_layout_1 box-form">
 		<div style="float:right; width: 150px;">
 			<p>
-				<?= __('category_chooser_context_exp'); ?>
+				<?php echo __('category_chooser_context_exp'); ?>
 			</p>
 		</div>
-		<?=
-			$this->Form->create(null,
+		<?php echo $this->Form->create(null,
 					array(
 					'url' => array('controller' => 'entries', 'action'		 => 'setcategory'),
 					'style'			 => 'clear: none;',
@@ -16,27 +15,26 @@
 		<ul class="category-chooser-ul">
 			<?php foreach ($categoryChooser as $key => $title): ?>
 					<li class="category-chooser-li">
-						<?=
-						$this->Form->checkbox('CatChooser.' . $key,
+						<?php
+						echo $this->Form->checkbox('CatChooser.' . $key,
 								array(
 								'onclick'			 => "$('#cb-category-chooser-all').removeAttr('checked')",
 								'checked'			 => isset($categoryChooserChecked[$key]),
 								'value'				 => 1));
 						?>
-						<?= $this->Html->link($title, '/entries/setcategory/' . $key) ?>
+						<?php echo $this->Html->link($title, '/entries/setcategory/' . $key) ?>
 					</li>
 				<?php endforeach; ?>
 			<li>
 				<hr/>
 			</li>
 				<li class="category-chooser-li">
-				<?=
-					$this->Form->checkbox('CatMeta.All',
+				<?php echo $this->Form->checkbox('CatMeta.All',
 							array(
 							'id'		 => 'cb-category-chooser-all',
 							'value'	 => 1));
 				?>
-				<?= $this->Html->link(__('All'), '/entries/setcategory/all') ?>
+				<?php echo $this->Html->link(__('All'), '/entries/setcategory/all') ?>
 			</li>
 		</ul>
 		<?php
@@ -51,11 +49,11 @@
 EOF
 			);
 		?>
-		<?=
+		<?php echo
 			$this->Form->submit(__('Apply'), array(
 					'class' => 'btn btn-submit'))
 		?>
-<?= $this->Form->end() ?>
+<?php echo $this->Form->end() ?>
 	</div>
 </div>
 <?php Stopwatch::end('category-chooser.ctp'); ?>
