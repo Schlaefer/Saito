@@ -104,13 +104,11 @@ class AppController extends Controller {
 			Configure::write('Saito.Settings', $settings);
 		}
 
-		if (Configure::read('Saito.Settings.stopwatch_get') && isset($this->passedArgs['stopwatch'])) {
-			Stopwatch::enable();
-		} else {
-			if ((int)Configure::read('debug') === 0) {
-				Stopwatch::disable();
-			}
-		}
+		$this->set('showStopwatchOutput', false);
+		if ((Configure::read('Saito.Settings.stopwatch_get') && isset($this->passedArgs['stopwatch']) && $this->CurrentUser->isLoggedIn())
+				|| (int)Configure::read('debug') > 0) {
+			$this->set('showStopwatchOutput', true);
+		};
 
 		// setup for admin area
 		if ( isset($this->params['admin']) ):

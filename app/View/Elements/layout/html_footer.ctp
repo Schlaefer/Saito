@@ -39,7 +39,9 @@ EOT
   <?php echo $this->Js->writeBuffer(); ?>
   <div class='clearfix'></div>
   <?php
+		if ($showStopwatchOutput) {
       echo $this->Stopwatch->getResult();
+		}
   ?>
 <?php echo $this->element('sql_dump'); ?>
 </div>
