@@ -21,7 +21,7 @@
 								array(
 								'onclick'			 => "$('#cb-category-chooser-all').removeAttr('checked')",
 								'checked'			 => isset($categoryChooserChecked[$key]),
-								'value'				 => $key));
+								'value'				 => 1));
 						?>
 						<?= $this->Html->link($title, '/entries/setcategory/' . $key) ?>
 					</li>
