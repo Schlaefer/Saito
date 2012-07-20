@@ -6,6 +6,35 @@
 
 		public $fixtures = array( 'app.category', 'app.user', 'app.upload', 'app.user_online', 'app.entry' );
 
+		public function testGetCategoriesSelectForAccession() {
+
+			$result		 = $this->Category->getCategoriesSelectForAccession(0);
+			$expected	 = array(
+					(int)3	 => 'Another Ontopic',
+					(int)2	 => 'Ontopic'
+			);
+			$this->assertEqual($result, $expected);
+
+			$result		 = $this->Category->getCategoriesSelectForAccession(1);
+			$expected	 = array(
+					(int)3	 => 'Another Ontopic',
+					(int)2	 => 'Ontopic',
+					(int)4	 => 'Offtopic',
+					(int)5	 => 'Trash'
+			);
+			$this->assertEqual($result, $expected);
+
+			$result		 = $this->Category->getCategoriesSelectForAccession(2);
+			$expected	 = array(
+					(int)1	 => 'Admin',
+					(int)3	 => 'Another Ontopic',
+					(int)2	 => 'Ontopic',
+					(int)4	 => 'Offtopic',
+					(int)5	 => 'Trash'
+			);
+			$this->assertEqual($result, $expected);
+		}
+
 		public function testGetCategoriesForAccession() {
 
 			// test for accession 0 (everybody)

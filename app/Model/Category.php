@@ -38,24 +38,31 @@ class Category extends AppModel {
 
 	# @td cache
 
-	public function getCategoriesForAccession($accession, $fields = null, $order = null) {
-		$categories = $this->find('list', array(
-				'conditions' => array (
-						'accession <=' => $accession,
-				),
-				'fields' => $fields,
-				'order' => $order,
-			)
-		);
+	public function getCategoriesForAccession($accession) {
+		$categories = $this->_getCategoriesForAccession($accession);
+		$cIds = array_keys($categories);
+		$categories = array_combine($cIds, $cIds);
 		return $categories;
 	}
 
 	public function getCategoriesSelectForAccession($accession) {
-		$fields = array( 'Category.id', 'Category.category');
-		$order = 'category_order asc';
-		$categories = $this->getCategoriesForAccession($accession, $fields, $order);
+		$categories = $this->_getCategoriesForAccession($accession);
 		return $categories;
 	}
+
+	protected function _getCategoriesForAccession($accession) {
+			$categories = $this->find('list',
+					array(
+					'conditions' => array(
+							'accession <=' => $accession,
+					),
+					'fields'			 => array('Category.id', 'Category.category'),
+					'order' => 'category_order ASC',
+					)
+			);
+			return $categories;
+		}
+
 
 	public function mergeIntoCategory($targetCategory) {
 

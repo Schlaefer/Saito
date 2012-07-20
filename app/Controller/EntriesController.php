@@ -874,7 +874,6 @@ class EntriesController extends AppController {
 			$cats				 = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
 
 			// get data for category chooser
-			// @td roll into one request with $cats
 			$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
 					$User->getMaxAccession());
 			$this->set('categoryChooser', $categoryChooser);

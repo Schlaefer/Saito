@@ -48,7 +48,7 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(2))
+			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
 									1 => '1', 2 => '2', 7 => '7'
@@ -85,7 +85,7 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(2))
+			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
 									1 => '1', 2 => '2', 7 => '7'
@@ -126,7 +126,7 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(2))
+			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
 									1 => '1', 2 => '2', 7 => '7'
@@ -162,7 +162,7 @@
 							'paginate',
 					),
 					'models' => array(
-							'Category' => array('getCategoriesForAccession'),
+							'Category' => array('getCategoriesForAccession', 'getCategoriesSelectForAccession'),
 							'User' => array('getMaxAccession'),
 					)
 					));
@@ -173,10 +173,16 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(2))
+			$Entries->Entry->Category->expects($this->once())
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
 									2 => '2', 7 => '7', 8 => '8'
+									)
+							));
+			$Entries->Entry->Category->expects($this->once())
+					->method('getCategoriesSelectForAccession')
+					->will($this->returnValue(array(
+									2 => 'Ontopic', 7 => 'Foo', 8 => 'Bar'
 									)
 							));
 
@@ -198,9 +204,9 @@
 					'8' => '8',
 					));
 			$this->assertEqual($Entries->viewVars['categoryChooser'], array(
-					'2' => '2',
-					'7' => '7',
-					'8' => '8',
+					'2' => 'Ontopic',
+					'7' => 'Foo',
+					'8' => 'Bar',
 					));
 			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'Custom');
 		}
@@ -223,7 +229,7 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(2))
+			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
 									1 => '1', 2 => '2', 7 => '7'
