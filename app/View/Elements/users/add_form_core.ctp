@@ -18,7 +18,7 @@
 				 'div'	=> array( 'class' => 'required' ),
 				 'error' => array (
 						 'notEmpty'	=> __('error_password_empty'),
-						 'pwConfirm'	=> __('error_password_confirm'),
+						 'validation_error_pwConfirm'	=> __('error_password_confirm'),
 				 ),
 				 'label'		=> __('user_pw'),
 				 ));
