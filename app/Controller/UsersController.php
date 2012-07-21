@@ -116,9 +116,14 @@ class UsersController extends AppController {
 						'viewVars'	=> array('user' => $this->request->data),
 					));
 					$this->set('register_success', 'email_send');
+			} else {
+				// 'unswitch' the passwordAuthSwitch to get the error message to the field
+				if (isset($this->User->validationErrors['password'])) {
+					$this->User->validationErrors['user_password'] = $this->User->validationErrors['password'];
+				}
+				$this->request->data['User']['tos_confirm'] = false;
 			}
 		}
-
 		Stopwatch::stop('Entries->register()');
 	}
 
