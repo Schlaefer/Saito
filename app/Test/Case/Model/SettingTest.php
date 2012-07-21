@@ -19,6 +19,8 @@
 				'timezone'				=> 'UTC',
         'block_user_ui'   => 1,
         'subject_maxlength' => 100,
+				'tos_enabled' => 1,
+				'tos_url' => 'http://example.com/tos-url.html/',
 		);
 
 		public function testAfterSave() {
@@ -39,6 +41,18 @@
 		public function testGetSettings() {
 			$result = $this->Setting->getSettings();
 			$expected = $this->settingsCompact;
+			$this->assertEqual($result, $expected);
+		}
+
+		public function testLoadWithPreset() {
+			$preset = array(
+					'lock'								 => 'hatch',
+					'timezone'						 => 'island',
+			);
+			$result = $this->Setting->load($preset);
+			$expected = $this->settingsCompact;
+			$expected['lock'] = 'hatch';
+			$expected['timezone'] = 'island';
 			$this->assertEqual($result, $expected);
 		}
 

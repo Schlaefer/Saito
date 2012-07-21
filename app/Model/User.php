@@ -263,6 +263,15 @@ class User extends AppModel {
 			}
 		}
 
+		if (isset($results[0][$this->alias]) && isset($results[0][$this->alias]['user_category_custom'])) {
+			if (empty($results[0][$this->alias]['user_category_custom'])) {
+				$results[0][$this->alias]['user_category_custom'] = array();
+			} else {
+				$results[0][$this->alias]['user_category_custom'] =
+						unserialize($results[0][$this->alias]['user_category_custom']);
+			}
+		}
+
 		# @td font-size
 		if ( isset($results[0][$this->alias]) && array_key_exists('user_font_size', $results[0][$this->alias]) && $results[0][$this->alias]['user_font_size'] === NULL ) {
 			$results[0][$this->alias]['user_font_size'] = 1;
@@ -277,6 +286,11 @@ class User extends AppModel {
 			if ( !empty($this->data['User']['password']) ) {
         $this->data['User']['password'] = $this->_hashPassword($this->data['User']['password']);
 			}
+		}
+
+		if ( isset($this->data[$this->alias]['user_category_custom']) ) {
+			$this->data[$this->alias]['user_category_custom'] =
+					serialize($this->data[$this->alias]['user_category_custom']);
 		}
 
 		return true;

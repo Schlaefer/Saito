@@ -25,6 +25,14 @@
 				'app.esevent',
 		);
 
+		public function testEmptyUserCategoryCustom() {
+			$this->User->contain();
+			$result	 = $this->User->read('user_category_custom', 1);
+			$result	 = $result['User']['user_category_custom'];
+			$this->assertTrue(is_array($result));
+			$this->assertEmpty($result);
+		}
+
 		public function testSetLastRefresh() {
 			//* automatic timestamp
 			$this->User->id = 3;

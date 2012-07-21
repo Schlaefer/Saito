@@ -16,7 +16,7 @@
 					<a href="http://macnemo.de/wiki/index.php/Main/Impressum">Impressum</a>
 				</li>
 				<li>
-          <a href="<?php echo $this->request->webroot ?>pages/display/rss_feeds"><?php echo __('RSS') ?></a>
+          <a href="<?php echo $this->request->webroot ?>pages/rss_feeds"><?php echo __('RSS') ?></a>
 				</li>
 				<li>
           <a href="http://www.google.com/moderator/#15/e=d490b&amp;t=d490b.40">Feedback geben</a>

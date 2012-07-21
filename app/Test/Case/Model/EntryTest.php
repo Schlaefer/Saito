@@ -57,6 +57,18 @@
 			$this->assertTrue($result == FALSE);
 		}
 
+		public function testMergeThreadOntoItself() {
+			$this->Entry->id = 2;
+			$result = $this->Entry->merge(1);
+			$this->assertFalse($result);
+		}
+
+		public function testMergeSourceIsNoThreadRoot() {
+			$this->Entry->id = 5;
+			$result = $this->Entry->merge(1);
+//			$this->assertFalse($result);
+		}
+
 		public function testMerge() {
 
 			// notifications must be merged

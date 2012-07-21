@@ -10,7 +10,7 @@ class UserData {
 					'user_type' 			=> 'admin',
 					'username' 			=> 'admin',
 					'user_hp'					=> '',
-					'activate_code'		=> '',
+					'activate_code'		=> '0',
 			),
 	);
 

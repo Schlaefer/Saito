@@ -159,6 +159,31 @@ class EntriesController extends AppController {
 		$this->redirect('/entries/index');
 	}
 
+	public function setcategory($id = null) {
+		if(!$this->CurrentUser->isLoggedIn()) {
+			throw new MethodNotAllowedException();
+		}
+
+		if ($id == 'all' || ($this->request->data && $this->request->data['CatMeta']['All'])) {
+			// set meta category 'all'
+			$this->Entry->User->id = $this->CurrentUser->getId();
+			$this->Entry->User->set('user_category_active', -1);
+			$this->Entry->User->save();
+		} elseif (!$id && $this->request->data) {
+			// set custom set
+			$this->Entry->User->id = $this->CurrentUser->getId();
+			$this->Entry->User->set('user_category_active', 0);
+			$this->Entry->User->set('user_category_custom', $this->request->data['CatChooser']);
+			$this->Entry->User->save();
+		} else {
+			// set single category
+			$this->Entry->User->id = $this->CurrentUser->getId();
+			$this->Entry->User->set('user_category_active', $id);
+			$this->Entry->User->save();
+		}
+		return $this->redirect(array('controller' => 'entries', 'action' => 'index'));
+	}
+
   /**
      * Outputs raw BBcode of an posting $id
      *
@@ -630,15 +655,17 @@ class EntriesController extends AppController {
 	}
 
 	public function merge($id = null) {
-		if (!$id || (!$this->CurrentUser->isMod() && !$this->CurrentUser->isAdmin())) {
-			return $this->redirect('/');
+		if (!$id) { throw new NotFoundException(); }
+
+		if (!$this->CurrentUser->isMod() && !$this->CurrentUser->isAdmin()) {
+			throw new MethodNotAllowedException;
 		}
 
 		$this->Entry->contain();
 		$data = $this->Entry->findById($id);
 
 		if (!$data || (int)$data['Entry']['pid'] !== 0) {
-			return $this->redirect('/');
+			throw new NotFoundException();
 		}
 
 		// perform move operation
@@ -651,6 +678,8 @@ class EntriesController extends AppController {
 				$targetEntry = $this->Entry->findById($targetId);
 				$this->_emptyCache($targetEntry['Entry']['id'], $targetEntry['Entry']['id']);
 				return $this->redirect('/entries/view/' . $id);
+			} else {
+				$this->Session->setFlash(__("Error"), 'flash/error');
 			}
 		}
 
@@ -834,7 +863,7 @@ class EntriesController extends AppController {
 	}
 
 	/**
-	 * Get's the thread id of all threads which should be visisble on the an
+	 * Gets the thread ids of all threads which should be visisble on the an
 	 * entries/index/# page.
 	 *
 	 * @param CurrentUserComponent $User
@@ -844,13 +873,67 @@ class EntriesController extends AppController {
 		Stopwatch::start('Entries->_getInitialThreads() Paginate');
 		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == FALSE ? 'time' : 'last_answer');
 		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
-		$this->paginate = array(
+
+			// default for logged-in and logged-out users
+			$cats				 = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
+
+			// get data for category chooser
+			$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
+					$User->getMaxAccession());
+			$this->set('categoryChooser', $categoryChooser);
+
+			$catCT			 = __('All');
+			$catC_isUsed = false;
+
+			// category chooser
+			if ($User->isLoggedIn()) {
+				if (Configure::read('Saito.Settings.category_chooser_global')
+						|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
+				) {
+					$catC_isUsed = true;
+					/* merge the user-cats with all-cats to include categories which are
+						* new since the user updated his custum-cats the last time
+						* array (4 => '4', 7 => '7', 13 => '13') + array (4 => true, 7 => '0')
+						* becomes
+						* array (4 => true, 7 => '0', 13 => '13')
+						* with 13 => '13' trueish */
+					$user_cats = $User['user_category_custom'] + $cats;
+					/* then filter for zeros to get only the user categories
+						* array (4 => true, 13 => '13') */
+					$user_cats = array_filter($user_cats);
+					$user_cats = array_intersect_key($user_cats, $cats);
+					$this->set('categoryChooserChecked', $user_cats);
+
+					if (!$User->isLoggedIn()) {
+						// non logged in user sees his accessions i.e. the default set
+					} elseif ((int)$User['user_category_active'] === -1) {
+						// user has choosen to see all available categories i.e. the default set
+					} elseif ((int)$User['user_category_active'] > 0) {
+						// logged in users sees his active group if he has access rights
+						$cats = array_intersect_key($cats,
+								array($User['user_category_active']	 => 1));
+						$catCT												 = $User['user_category_active'];
+					} elseif (empty($User['user_category_custom'])) {
+						// for whatever reason we should see a custom category, but there are no set yet
+					} elseif (!empty($User['user_category_custom'])) {
+						// but if he has no active group and a custom groups set he sees his custom group
+						$cats	 = array_keys($user_cats);
+						$catCT = __('Custom');
+					}
+
+					$this->set('categoryChooserTitleId', $catCT);
+				}
+			}
+			$this->set('categoryChooserIsUsed', $catC_isUsed);
+
+			$this->paginate = array(
 				/* Whenever you change the conditions here check if you have to adjust
-				 * the db index. Running this querry without appropriate db index is a huge
-				 * [hundreds of ms] performance bottleneck. */
+				 * the db index. Running this query without appropriate db index is a huge
+				 * performance bottleneck!
+				 */
 				'conditions' => array(
 						'pid' => 0,
-						'Entry.category' => $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession()),
+						'Entry.category' => $cats,
 				),
 				'contain' => false,
 				'fields' => 'id, pid, tid, time, last_answer',

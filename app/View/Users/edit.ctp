@@ -248,14 +248,22 @@
 				<td> <?php echo  $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
 			</tr>
 
-		<?php  if(false) : ?>
+			<?php if (!Configure::read('Saito.Settings.category_chooser_global')
+					&& Configure::read('Saito.Settings.category_chooser_user_override')): ?>
 			<tr>
-				<td> <?php echo __('user_standard_categories') ?> </td>
 				<td>
-					@td Kateogrie Handling
-					<p class="exp"> <?php echo __('user_standard_categories_exp') ?> </p>
+					<?php echo __('user_category_override') ?>
+				</td>
+				<td>
+					<?php echo $this->Form->checkbox('user_category_override'); ?>
+					<p class="exp">
+						<?php echo __('user_category_override_exp') ?>
+					</p>
 				</td>
 			</tr>
+			<?php endif; ?>
+
+		<?php  if(false) : ?>
 			<tr>
 				<td> <?php echo __('user_time_diff') ?> </td>
 				<td> <?php echo $this->Form->input('time_difference', array( 'options' => array_combine(range(-24,24),range(-24,24)), 'label' => false,));  ?> <p class="exp"> <?php echo __('user_time_diff_exp') ?> </p></td>
@@ -274,8 +282,8 @@
 			<?php  endif ; ?>
 		<?php  endif; ?>
 	</table>
-  </div>
-  </div>
+  </div> <!-- content -->
+  </div> <!-- box-form -->
 	<br	/>
 
 	<div class="box-form">

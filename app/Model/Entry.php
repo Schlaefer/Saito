@@ -465,10 +465,25 @@ class Entry extends AppModel {
 	 */
 	public function merge($targetId) {
 		$threadIdSource = $this->id;
+
+		$this->contain();
+		$sourceEntry = $this->findById($threadIdSource);
+
+		// check that source is thread and not an entry
+		if ($sourceEntry['Entry']['pid'] != 0) {
+			return false;
+		}
+
 		$this->contain();
 		$targetEntry = $this->findById($targetId);
 
+		// check that target exists
 		if (!$targetEntry) {
+			return false;
+		}
+
+		// check that a thread is not merged onto itself
+		if ($targetEntry['Entry']['tid'] === $sourceEntry['Entry']['tid']) {
 			return false;
 		}
 

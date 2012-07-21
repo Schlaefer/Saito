@@ -135,7 +135,7 @@ var markItUp = {
     var textv = $.trim(text);
 
     var patternHtml = /\.(mp4|webm|m4v)$/i;
-    var patternAudio = /\.(m4a|ogg|mp3|wav)$/i;
+    var patternAudio = /\.(m4a|ogg|mp3|wav|opus)$/i;
     var patternFlash = /\<object/i;
     var patternIframe = /\<iframe/i;
 

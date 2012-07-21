@@ -31,10 +31,14 @@ class Setting extends AppModel {
 	/**
 	 * Finds all Settings and writes them to Configuration and Cache
 	 *
+	 * @param array $preset allows to overwrite loaded values
 	 * @return array Settings
 	 */
-	public function load() {
+	public function load($preset = array()) {
 		$settings = $this->getSettings();
+		if ($preset) {
+			$settings = array_merge($settings, $preset);
+		}
 		$this->_updateConfiguration($settings);
 		$this->_updateCacheFromConfiguration();
 		return $settings;

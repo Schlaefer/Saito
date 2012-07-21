@@ -32,7 +32,9 @@
 				'user_font_size' => array( 'type' => 'string', 'null' => true, 'default' => NULL ),
 				'user_signatures_hide' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4 ),
 				'user_signatures_images_hide' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4 ),
-				'user_categories' => array( 'type' => 'string', 'null' => true, 'default' => NULL ),
+				'user_category_override' => array( 'type' => 'boolean', 'null' => false, 'default' => '0' ),
+				'user_category_active' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'length' => 11 ),
+				'user_category_custom' => array( 'type' => 'string', 'null' => true, 'default' => '', 'length' => 512 ),
 				'user_forum_refresh_time' => array( 'type' => 'integer', 'null' => true, 'default' => '0' ),
 				'user_forum_hr_ruler' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4 ),
 				'user_automaticaly_mark_as_read' => array( 'type' => 'integer', 'null' => true, 'default' => '1', 'length' => 4 ),
@@ -65,6 +67,7 @@
 						'user_automaticaly_mark_as_read' => 0,
 						'user_lock' => 0,
 						'personal_messages' => 0,
+						'user_category_custom' => '', // used in test-case, don't change
 				),
 				array(
 						'id' => 2,
@@ -76,6 +79,7 @@
 						'user_automaticaly_mark_as_read' => 0,
 						'user_lock' => 0,
 						'personal_messages' => 0,
+						'user_category_custom' => '',
 				),
 				array(
 						'id' => 3,
@@ -87,6 +91,7 @@
 						'user_automaticaly_mark_as_read' => 0,
 						'user_lock' => 0,
 						'personal_messages' => 1,
+						'user_category_custom' => '',
 				),
         array(
 						'id' => 4,
@@ -98,6 +103,7 @@
 						'user_automaticaly_mark_as_read' => 1,
 						'user_lock' => 0,
 						'personal_messages' => 0,
+						'user_category_custom' => '',
         ),
 				array(
 						'id' => 5,
@@ -109,6 +115,7 @@
 						'user_automaticaly_mark_as_read' => 1,
 						'user_lock' => 0,
 						'personal_messages' => 0,
+						'user_category_custom' => '',
 				),
 				array(
 						'id' => 6,
@@ -120,6 +127,7 @@
 						'user_automaticaly_mark_as_read' => 1,
 						'user_lock' => 0,
 						'personal_messages' => 0,
+						'user_category_custom' => '',
 				),
 		);
 
