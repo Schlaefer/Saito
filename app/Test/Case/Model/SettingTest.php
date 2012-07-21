@@ -42,6 +42,18 @@
 			$this->assertEqual($result, $expected);
 		}
 
+		public function testLoadWithPreset() {
+			$preset = array(
+					'lock'								 => 'hatch',
+					'timezone'						 => 'island',
+			);
+			$result = $this->Setting->load($preset);
+			$expected = $this->settingsCompact;
+			$expected['lock'] = 'hatch';
+			$expected['timezone'] = 'island';
+			$this->assertEqual($result, $expected);
+		}
+
 		public function testLoad() {
 
 			//* test loading settings from DB

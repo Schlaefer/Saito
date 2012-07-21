@@ -98,7 +98,7 @@ class AppController extends Controller {
 			}
 		if ( $settings == FALSE) {
 			$this->loadModel('Setting');
-			$this->Setting->load();
+			$settings = $this->Setting->load(Configure::read('Saito.Settings'));
 		}
 		else {
 			Configure::write('Saito.Settings', $settings);
