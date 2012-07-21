@@ -16,7 +16,7 @@ test('markItUp.multimedia()', function() {
 	});
 
 	// test html5 audio
-	$.each(['m4a', 'ogg', 'mp3', 'wav'], function(key, value) {
+	$.each(['m4a', 'ogg', 'mp3', 'wav', 'opus'], function(key, value) {
 		input = 'http://foo.bar/baz.' + value;
 		result = markItUp.multimedia(input);
 		expected =  '[audio]http://foo.bar/baz.' + value + '[/audio]'
