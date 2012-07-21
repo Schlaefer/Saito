@@ -39,7 +39,7 @@ class SettingData {
 			),
 		array(
 				'name'	=> 'embedly_key',
-				'value'	=> NULL,
+				'value'	=> '',
 			),
 		array(
 				'name'	=> 'video_domains_allowed',
@@ -112,6 +112,14 @@ class SettingData {
 		array(
 				'name'	=> 'topics_per_page',
 				'value'	=> '20',
+			),
+		array(
+				'name'	=> 'tos_enabled',
+				'value'	=> '0',
+			),
+		array(
+				'name'	=> 'tos_url',
+				'value'	=> '',
 			),
 		array(
 				'name'	=> 'upload_max_img_size',

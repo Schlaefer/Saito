@@ -27,6 +27,14 @@
 						'value' => 1,
 				),
 				array(
+						'name' => 'tos_enabled',
+						'value' => 1,
+				),
+				array(
+						'name' => 'tos_url',
+						'value' => 'http://example.com/tos-url.html/',
+				),
+				array(
 						'name' => 'topics_per_page',
 						'value' => '20',
 				),

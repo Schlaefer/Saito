@@ -92,6 +92,10 @@ class UsersController extends AppController {
       endif;
     endif;
 
+		if (!empty($this->request->data) && !Configure::read('Saito.Settings.tos_enabled')) {
+			$this->request->data['User']['tos_confirm'] = true;
+		}
+
 		if (!empty($this->request->data) && $this->request->data['User']['tos_confirm']) {
 			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
 

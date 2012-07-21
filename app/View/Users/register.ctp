@@ -29,23 +29,27 @@
 					'div'										 => array('class' => 'required'),
 					)
 			);
-			echo $this->Form->input('tos_confirm',
-					array(
-					'type' => 'checkbox',
-					'div'	 => array('class'	 => 'input password required'),
-					'label'	 => __('register_tos_label',
-							$this->Html->link(__('register_tos_linktext'),
-									array(
-									'controller' => 'pages',
-									'action'		 => Configure::read('Config.language'),
-									'tos'
-									), array(
-									'target' => '_blank',
-									)
-							)
-					)
-			));
-			echo $this->Js->get('#UserTosConfirm')->event('click',
+			if (Configure::read('Saito.Settings.tos_enabled')):
+				// set tos url
+				$tos_url = Configure::read('Saito.Settings.tos_url');
+				if (empty($tos_url)) {
+					$tos_url = '/pages/' . Configure::read('Config.language') . '/tos';
+				};
+				
+				echo $this->Form->input('tos_confirm',
+						array(
+						'type' => 'checkbox',
+						'div'	 => array('class'	 => 'input password required'),
+						'label'	 => __('register_tos_label',
+								$this->Html->link(__('register_tos_linktext'),
+										$tos_url,
+										array(
+										'target' => '_blank',
+										)
+								)
+						)
+				));
+				echo $this->Js->get('#UserTosConfirm')->event('click',
 					<<<EOF
 if (this.checked) {
 	$('#btn-register-submit').removeAttr("disabled");
@@ -54,12 +58,14 @@ if (this.checked) {
 }
 return true;
 EOF
-			);
+				);
+			endif;
+
 			echo $this->Form->submit(__('register_linkname'),
 					array(
 					'id'			 => 'btn-register-submit',
 					'class'		 => 'btn btn-submit',
-					'disabled' => 'disabled',
+					'disabled' => Configure::read('Saito.Settings.tos_enabled') ? 'disabled' : '',
 			));
 			echo $this->Form->end();
 			?>

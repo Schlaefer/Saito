@@ -175,6 +175,49 @@
 		</tr>
 	</table>
 
+	<h2><?php echo __('Registration'); ?></h2>
+	<table class="table table-striped table-bordered table-condensed">
+		<?php echo $tableHeadersHtml ?>
+		<tr>
+			<td>
+				<?php echo __('tos_enabled'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['tos_enabled']; ?>
+			</td>
+			<td>
+				<p><?php echo __('tos_enabled_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'tos_enabled' ),
+										array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?php echo __('tos_url'); ?>
+			</td>
+			<td>
+				<?php echo $Settings['tos_url']; ?>
+			</td>
+			<td>
+				<p><?php echo __('tos_url_exp'); ?></p>
+			</td>
+			<td>
+				<?php echo $this->Html->link(
+								__('edit'),
+								array( 'controller' => 'settings', 'action' => 'edit', 'tos_url' ),
+										array( 'class' => 'btn' )
+							);
+				?>
+			</td>
+		</tr>
+	</table>
+
 	<h2><?php echo __('Edit'); ?></h2>
 	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $tableHeadersHtml ?>

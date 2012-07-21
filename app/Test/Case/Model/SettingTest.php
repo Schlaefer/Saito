@@ -19,6 +19,8 @@
 				'timezone'				=> 'UTC',
         'block_user_ui'   => 1,
         'subject_maxlength' => 100,
+				'tos_enabled' => 1,
+				'tos_url' => 'http://example.com/tos-url.html/',
 		);
 
 		public function testAfterSave() {
