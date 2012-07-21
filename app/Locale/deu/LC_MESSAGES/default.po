@@ -865,7 +865,7 @@ msgstr "Anonymisieren der gespeicherten IP-Adresse."
 #: View/Settings/admin_index.ctp:178
 #, fuzzy
 msgid "Registration"
-msgstr "Moderation"
+msgstr "Registrierung"
 
 #: View/Settings/admin_index.ctp:183
 #, fuzzy
