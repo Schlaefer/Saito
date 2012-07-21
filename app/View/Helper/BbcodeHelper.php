@@ -48,6 +48,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	protected static $html5_audio_extensions = array(
 			'm4a',
 			'ogg',
+			'opus',
 			'mp3',
 			'wav',
 	);

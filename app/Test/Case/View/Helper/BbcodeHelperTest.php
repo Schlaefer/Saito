@@ -652,7 +652,7 @@
 			$this->assertTags($result, $expected);
 
 			//* test autoconversion for audio files
-			$html5AudioExtensions = array( 'm4a', 'ogg', 'mp3', 'wav', );
+			$html5AudioExtensions = array( 'm4a', 'ogg', 'mp3', 'wav', 'opus' );
 			foreach ( $html5AudioExtensions as $extension ) {
 				$url = 'http://example.com/audio.' . $extension;
 				$input = "[video]{$url}[/video]";
