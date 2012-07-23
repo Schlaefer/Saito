@@ -4,10 +4,14 @@
 	<head>
 		<title><?php echo $title_for_layout ?></title>
 		<?php echo $this->Html->charset(); ?>
-
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		<?php echo $this->Html->script('bootstrap/bootstrap'); ?>
-		<?php echo $this->Html->css('bootstrap/css/bootstrap.min.css'); ?>
+		<?php echo $this->Html->css(
+				array(
+					'stylesheets/admin.css',
+					'bootstrap/css/bootstrap.min.css',
+					)
+				); ?>
     <style type="text/css">
       div.submit { display: inline-block; margin: 0 1em; }
       .modal-footer form {margin: 0;}
@@ -31,6 +35,9 @@
 							</li>
 							<li class="<?php  if (stristr($this->request->here, 'settings')) { echo 'active'; }; ?>">
 								<?php echo $this->Html->link(__('Settings'), '/admin/settings/index'); ?>
+							</li>
+							<li class="<?php  if (stristr($this->request->here, 'users')) { echo 'active'; }; ?>">
+								<?php echo $this->Html->link(__('Users'), '/admin/users/index'); ?>
 							</li>
 							<li class="<?php  if (stristr($this->request->here, 'categories')) { echo 'active'; }; ?>">
 								<?php echo $this->Html->link(__('Categories'), '/admin/categories/index'); ?>
@@ -73,6 +80,13 @@
 		</div>
 		<?php echo $scripts_for_layout; ?>
 		<?php echo $this->Js->writeBuffer(); ?>
+		<?php echo $this->Html->script(
+          array(
+              'lib/datatables-bootstrap/datatables-bootstrap.js',
+          )
+      );
+
+		?>
 		<?php echo $this->element('sql_dump'); ?>
 	</body>
 </html>

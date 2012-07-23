@@ -127,6 +127,18 @@ class UsersController extends AppController {
 		Stopwatch::stop('Entries->register()');
 	}
 
+	public function admin_index() {
+		$data = $this->User->find('all', array(
+				'contain' => false,
+				'order' => array(
+						'User.username' => 'asc'
+				),
+			)
+		);
+
+		$this->set('users', $data);
+	}
+
 	public function index() {
 		$this->paginate = array(
 				'contain' => 'UserOnline',

@@ -2284,3 +2284,6 @@ msgstr ""
 
 #~ msgid "lock_linkname"
 #~ msgstr "sperren"
+
+msgid "user_email"
+msgstr "Email"
