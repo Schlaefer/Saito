@@ -127,6 +127,18 @@ class UsersController extends AppController {
 		Stopwatch::stop('Entries->register()');
 	}
 
+	public function admin_index() {
+		$data = $this->User->find('all', array(
+				'contain' => false,
+				'order' => array(
+						'User.username' => 'asc'
+				),
+			)
+		);
+
+		$this->set('users', $data);
+	}
+
 	public function index() {
 		$this->paginate = array(
 				'contain' => 'UserOnline',
@@ -150,12 +162,9 @@ class UsersController extends AppController {
 	public function admin_add() {
 		if ( !empty($this->request->data) ) :
 			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-			$this->request->data['User']['activate_code'] = '';
-
-			$this->User->create();
 			if ( $this->User->register($this->request->data) ):
 				$this->Session->setFlash('Nutzer erfolgreich angelegt @lo', 'flash/notice');
-				$this->redirect(array( 'action' => 'view', $this->User->id ));
+				$this->redirect(array( 'action' => 'view', $this->User->id, 'admin' => false ));
 			endif;
 		endif;
 	}

@@ -1462,7 +1462,7 @@ msgstr "Registered"
 #: View/Users/index.ctp:20
 #, fuzzy
 msgid "user_lock"
-msgstr "Place"
+msgstr "Blocked"
 
 #: View/Users/login.ctp:2
 msgid "login_linkname"
@@ -1973,3 +1973,6 @@ msgstr ""
 
 #~ msgid "back_to_posting_linkname"
 #~ msgstr "Back to Posting"
+
+msgid "user_email"
+msgstr "Email"
