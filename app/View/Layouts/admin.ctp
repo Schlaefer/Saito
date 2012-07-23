@@ -8,8 +8,8 @@
 		<?php echo $this->Html->script('bootstrap/bootstrap'); ?>
 		<?php echo $this->Html->css(
 				array(
-					'stylesheets/admin.css',
 					'bootstrap/css/bootstrap.min.css',
+					'stylesheets/admin.css',
 					)
 				); ?>
     <style type="text/css">

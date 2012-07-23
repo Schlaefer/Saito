@@ -121,6 +121,13 @@ class User extends AppModel {
 			'pwf_code' => array(
 			),
 			'activate_code' => array(
+					'numeric' => array(
+							'rule' => 'numeric',
+							'allowEmpty' => false,
+					),
+					'between' => array(
+							'rule' => array('between', 0, 9999999),
+					),
 			),
 			'user_font_size' => array(
 					'rule' => 'numeric',
@@ -344,6 +351,7 @@ class User extends AppModel {
 				'registered' => date("Y-m-d H:i:s"),
 				'user_type' => 'user',
 				'user_view' => 'thread',
+				'activate_code'	=> 0,
 		);
 		$data = array_merge($defaults, $data[$this->alias]);
 
@@ -355,7 +363,7 @@ class User extends AppModel {
 	}
 
   public function activate() {
-    $success = $this->saveField('activate_code', '');
+    $success = $this->saveField('activate_code', 0);
 
     if ( $success ) :
       $this->contain();
