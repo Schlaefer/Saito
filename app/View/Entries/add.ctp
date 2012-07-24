@@ -117,7 +117,6 @@ $this->Form->submit(__('Einfügen'),
 					$this->Form->input(
 							'subject',
 							array(
-							'value' => '',
 							'maxlength' => Configure::read('Saito.Settings.subject_maxlength'),
 							'label' => false,
 							'tabindex' => 2,

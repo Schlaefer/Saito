@@ -339,6 +339,8 @@ class EntriesController extends AppController {
 					$this->request->data['Entry']['pid'] = $id;
 					// we assume that an answers to a nsfw posting isn't nsfw itself
 					unset($this->request->data['Entry']['nsfw']);
+					// subject is empty in answer-form
+					unset($this->request->data['Entry']['subject']);
 					$this->set('citeText', $this->request->data['Entry']['text']);
 
 				// get notifications
