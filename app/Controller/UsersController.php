@@ -186,13 +186,13 @@ class UsersController extends AppController {
 
 		$this->set('lastEntries',
 					$this->User->Entry->getRecentEntries(
-							array( 'user_id' => $this->User->id),
-							$this->CurrentUser
+							array(
+							'user_id'	 => $this->User->id,
+							'limit'		 => 20,
+							), $this->CurrentUser
 					));
 
-		/** View Entry * */
 		$this->set('user', $viewed_user);
-
 	}
 
 	public function edit($id = NULL) {
