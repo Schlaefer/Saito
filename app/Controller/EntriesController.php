@@ -381,20 +381,11 @@ class EntriesController extends AppController {
 	public function edit($id = NULL) {
 
 		if ( !$id && empty($this->request->data) ):
-			$this->redirect(array( 'action' => 'index' ));
-		endif;
-
-		// read user id of old entry for full read later
-		$this->Entry->id = $id;
-		$this->Entry->contain();
-		$oldEntryUserId = $this->Entry->field('user_id');
-
-		// use old user id to check if entry exists at all
-		if (!$oldEntryUserId):
-			return $this->redirect(array( 'action' => 'index' ));
+			throw new NotFoundException();
 		endif;
 
 		// read old entry
+		$this->Entry->id = $id;
 		$this->Entry->sanitize(false);
 		$old_entry = $this->Entry->find('first', array(
 				'contain' => array(
@@ -403,14 +394,10 @@ class EntriesController extends AppController {
 				'conditions' => array('Entry.id' => $id),
 		));
 
-		// get text of parent entry for citation
-		$parentEntryId = $old_entry['Entry']['pid'];
-		if ( $parentEntryId !== 0 ) {
-			$this->Entry->sanitize(false);
-			$this->Entry->contain();
-			$parentEntry = $this->Entry->findById($parentEntryId);
-			$this->set('citeText', $parentEntry['Entry']['text']);
-		}
+		// check if entry exists
+		if (!$old_entry):
+			throw new NotFoundException();
+		endif;
 
 		$forbidden = $this->SaitoEntry->isEditingForbidden($old_entry,
 						$this->CurrentUser->getSettings(), array( 'session' => &$this->Session ));
@@ -419,12 +406,12 @@ class EntriesController extends AppController {
 			case 'time':
 				$this->Session->setFlash('Stand by your word bro\', it\'s too late. @lo',
 						'flash/error');
-				$this->redirect(array( 'action' => 'view', $id ));
+				return $this->redirect(array( 'action' => 'view', $id ));
 				break;
 			case 'user':
 				$this->Session->setFlash('Not your horse, Hoss! @lo', 'flash/error');
-				$this->redirect(array( 'action' => 'view', $id ));
-
+				return $this->redirect(array( 'action' => 'view', $id ));
+				break;
 			case true :
 				$this->Session->setFlash('Something went terribly wrong. Alert the authorties now! @lo',
 						'flash/error');
@@ -437,13 +424,22 @@ class EntriesController extends AppController {
 
 			if ( $new_entry = $this->Entry->save($this->request->data) ) {
 				// new entry was saved
-
 				$this->_afterNewEntry(am($this->request['data'], $old_entry));
-
 				return $this->redirect(array( 'action' => 'view', $id ));
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
+		}
+
+		$this->request->data = am($old_entry, $this->request->data);
+
+		// get text of parent entry for citation
+		$parentEntryId = $old_entry['Entry']['pid'];
+		if ( $parentEntryId !== 0 ) {
+			$this->Entry->sanitize(false);
+			$this->Entry->contain();
+			$parentEntry = $this->Entry->findById($parentEntryId);
+			$this->set('citeText', $parentEntry['Entry']['text']);
 		}
 
 		// get notifications
@@ -462,8 +458,6 @@ class EntriesController extends AppController {
 					)
 			);
 			$this->set('notis', $notis);
-
-		$this->request->data = $old_entry;
 
 		// set headers
     $this->set('headerSubnavLeftUrl', '/entries/index');

@@ -23,6 +23,10 @@
 						'value' => '10=Castaway|20=Other|30=Dharma|100=Jacob',
 				),
 				array(
+						'name' => 'quote_symbol',
+						'value' => '>',
+				),
+				array(
 						'name' => 'smilies',
 						'value' => 1,
 				),
