@@ -19,6 +19,60 @@
 				'app.esevent',
 		);
 
+		public function testAdminAdd() {
+			$data = array(
+					'User' => array(
+							'username'				 => 'foo',
+							'user_email'			 => 'fo3@example.com',
+							'user_password'		 => 'test',
+							'password_confirm' => 'test',
+					));
+			$expected					 = array(
+					'User' => array(
+							'username'				 => 'foo',
+							'user_email'			 => 'fo3@example.com',
+							'password'				 => 'test',
+							'password_confirm' => 'test',
+					));
+			$Users						 = $this->generate('Users',
+					array(
+					'models' => array(
+							'User'
+					)
+					));
+			$this->_loginUser(1);
+			$Users->User->expects($this->once())
+					->method('register')
+					->with($expected);
+			$this->testAction('/admin/users/add',
+					array(
+					'data'	 => $data, 'method' => 'post'
+			));
+		}
+
+		public function testAdminAddNoAccess() {
+			$data = array(
+					'User' => array(
+							'username'				 => 'foo',
+							'user_email'			 => 'fo3@example.com',
+							'user_password'		 => 'test',
+							'password_confirm' => 'test',
+					));
+			$Users						 = $this->generate('Users',
+					array(
+					'models' => array(
+							'User'
+					)
+					));
+			$Users->User->expects($this->never())
+					->method('register');
+			$this->expectException('ForbiddenException');
+			$this->testAction('/admin/users/add',
+					array(
+					'data'	 => $data, 'method' => 'post'
+			));
+		}
+
 		public function testLogin() {
 
 			//* user sees login form

@@ -17,12 +17,6 @@ if ( $this->getVar('citeText') ) {
 	$citeText =  $this->Bbcode->citeText($this->getVar('citeText'));
 }
 
-//* set cursor to category or subject field after load ###
-if ( $this->request->is('ajax') ) :
-	echo $this->Html->scriptBlock('$(document).ready(function() {$("#EntrySubject").select();});');
-else :
-	echo $this->Html->scriptBlock('$(document).ready(function() {$("#EntryCategory").focus();});');
-endif;
 ?>
 <div id ="entry_<?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
 	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
@@ -307,4 +301,8 @@ $this->Form->submit(__('Einfügen'),
 	</div> <!-- postingform -->
 </div> <!-- entry add/reply -->
 
-<?php echo ($this->request->is('ajax')) ? $this->Js->writeBuffer() : ''; ?>
+<?php
+	// set cursor to category or subject field after load ###
+	echo $this->Js->buffer('$("#EntrySubject").focus();');
+  echo ($this->request->is('ajax')) ? $this->Js->writeBuffer() : '';
+?>

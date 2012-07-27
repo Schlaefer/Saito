@@ -536,7 +536,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 .thread_line-username { font-weight: 600; }
 
-.thread_line-post { font-weight: normal; margin-left: 0.5em; }
+.thread_line-post { font-weight: normal; }
 
 /* thread_slider */
 .t_s { /* 20 px left because of huge, vertical close button */ margin: 5px 5px 5px 20px; border: 1px #e0e0e0 solid; /* user_list und inline view sollen sauber getrennt bleiben */ overflow: hidden; }

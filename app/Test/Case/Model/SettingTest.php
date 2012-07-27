@@ -7,20 +7,21 @@
 		public $fixtures = array( 'app.setting' );
 
 		protected $settingsCompact = array(
-				'forum_name' => 'macnemo',
-				'autolink' => '1',
-				'userranks_ranks' => array(
-					'10'=>'Castaway',
-          '20'=>'Other',
-          '30'=>'Dharma',
-          '100'=>'Jacob'),
-				'smilies' => 1,
-				'topics_per_page' => 20,
-				'timezone'				=> 'UTC',
-        'block_user_ui'   => 1,
-        'subject_maxlength' => 100,
-				'tos_enabled' => 1,
-				'tos_url' => 'http://example.com/tos-url.html/',
+				'forum_name'			 => 'macnemo',
+				'autolink'				 => '1',
+				'userranks_ranks'	 => array(
+						'10'								 => 'Castaway',
+						'20'								 => 'Other',
+						'30'								 => 'Dharma',
+						'100'								 => 'Jacob'),
+				'quote_symbol'			 => '>',
+				'smilies'						 => 1,
+				'topics_per_page'		 => 20,
+				'timezone'					 => 'UTC',
+				'block_user_ui'			 => 1,
+				'subject_maxlength'	 => 100,
+				'tos_enabled'				 => 1,
+				'tos_url'						 => 'http://example.com/tos-url.html/',
 		);
 
 		public function testAfterSave() {

@@ -393,6 +393,53 @@
 					));
 		}
 
+		/**
+		 * Entry does not exist
+		 */
+		public function testEditNoEntry() {
+			$Entries = $this->generate('Entries');
+			$this->_loginUser(2);
+			$this->expectException('NotFoundException');
+			$this->testAction('entries/edit/9999');
+		}
+
+		/**
+		 * Entry does not exist
+		 */
+		public function testEditNoEntryId() {
+			$Entries = $this->generate('Entries');
+			$this->_loginUser(2);
+			$this->expectException('NotFoundException');
+			$this->testAction('entries/edit/');
+		}
+
+		/**
+		 * Show editing form
+		 */
+		public function testEditShowForm() {
+			$Entries = $this->generate('Entries', array(
+				'components' => array('SaitoEntry')
+			));
+//			$Entries->SaitoEntry = $this->getMock('SaitoEntry', null, array(new ComponentCollection));
+			$Entries->SaitoEntry->expects($this->once())
+					->method('isEditingForbidden')
+					->will($this->returnValue(false));
+
+			$this->_loginUser(2);
+
+			$result = $this->testAction('entries/edit/2', array(
+					'return' => 'view'
+			));
+
+			// test that subject is quoted
+			$this->assertContains('value="Second_Subject"', $result);
+			// test that text is quoted
+			$this->assertContains('Second_Text</textarea>', $result);
+			// notification are un/checked
+			$this->assertNotRegEx('/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/', $result);
+			$this->assertRegEx('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
+		}
+
     public function testEmptyCache() {
 
       $Entries = $this->generate('Entries', array(
@@ -613,6 +660,14 @@
 			$this->assertEqual($headerCounter['user_online'], 2);
 			$this->assertEqual($headerCounter['user_registered'], 1);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
+		}
+
+		public function testFeedJson() {
+			$result = $this->testAction('/entries/feed/feed.json', array(
+					'return' => 'vars',
+			));
+			$this->assertEqual($result['entries'][0]['Entry']['subject'], 'First_Subject');
+			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
 		}
 
 		public function testGetViewVarsSearch() {
