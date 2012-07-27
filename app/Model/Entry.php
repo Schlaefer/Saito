@@ -11,7 +11,11 @@ class Entry extends AppModel {
 			'Search.Searchable',
 		);
 
-	// fields for search plugin
+	public $findMethods = array(
+				'feed' => true,
+		);
+
+		// fields for search plugin
 	public $filterArgs = array (
 		array ('name' => 'subject', 'type' => 'like'),
 		array ('name' => 'text', 'type' => 'like'),
@@ -73,7 +77,27 @@ class Entry extends AppModel {
 		'text',
 	);
 
-  /**
+	/** @var array fields allowed in public output */
+	public $publicFieldsList = '
+		Entry.id,
+		Entry.pid,
+		Entry.tid,
+		Entry.time,
+		Entry.last_answer,
+		Entry.edited,
+		Entry.edited_by,
+		Entry.user_id,
+		Entry.name,
+		Entry.subject,
+		Entry.category,
+		Entry.text,
+		Entry.locked,
+		Entry.fixed,
+		Entry.views,
+		Entry.nsfw,
+		User.username';
+
+	/**
 	 * field list necessary for displaying a thread_line
    *
    * @var type string
@@ -88,7 +112,6 @@ class Entry extends AppModel {
    * @var string
    */
   public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
-
 
 	public function getRecentEntries( Array $options = array(), SaitoUser $User ) {
 		Stopwatch::start('Model->User->getRecentEntries()');
@@ -514,6 +537,16 @@ class Entry extends AppModel {
 
 		return false;
 	}
+
+	protected function _findFeed($state, $query, $results = array()) {
+			if ($state == 'before') {
+				$query['contain']	 = array('User');
+				$query['fields']   = $this->publicFieldsList;
+				$query['limit']		 = 10;
+				return $query;
+			}
+			return $results;
+		}
 
 	/**
 	 * Locks or unlocks a whole thread

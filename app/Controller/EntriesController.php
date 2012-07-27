@@ -109,40 +109,33 @@ class EntriesController extends AppController {
 		}
 
 	public function feed() {
-		Configure::write('debug', 0);
-    
-//    if ($this->RequestHandler->isRss() || $this->RequestHandler->accepts('json') ) {
-        if ( isset($this->request->params['named']['depth']) && $this->request->params['named']['depth'] === 'start' ) {
-          $title = __('Last started threads');
-          $order = 'time DESC';
-          $conditions = array(
-              'pid' => 0,
-              'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
-          );
-        } else {
-          $title = __('Last entries');
-          $order = 'last_answer DESC';
-          $conditions = array(
-              'category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession()),
-          );
-        }
+			Configure::write('debug', 0);
 
-        $this->set('entries',
-            $this->Entry->find('all',
-                array(
-                'conditions' => $conditions,
-                'contain' => false,
-                'limit' => 10,
-                'order' => $order,
-            )));
 
-        // serialize for JSON
-        $this->set('_serialize', 'entries');
-        $this->set('title', $title);
+			if (isset($this->request->params['named']['depth']) && $this->request->params['named']['depth'] === 'start') {
+				$title						 = __('Last started threads');
+				$order						 = 'time DESC';
+				$conditions['pid'] = 0;
+			} else {
+				$title = __('Last entries');
+				$order = 'last_answer DESC';
+			}
 
-        return;
-//    }
-	}
+			$conditions['category'] = $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession());
+
+			$entries = $this->Entry->find('feed',
+					array(
+					'conditions' => $conditions,
+					'order'			 => $order,
+					));
+			$this->set('entries', $entries);
+
+			// serialize for JSON
+			$this->set('_serialize', 'entries');
+			$this->set('title', $title);
+
+			return;
+		}
 
 	public function mix($tid) {
 		$entries = $this->_setupMix($tid);

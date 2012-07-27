@@ -662,6 +662,14 @@
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
 		}
 
+		public function testFeedJson() {
+			$result = $this->testAction('/entries/feed/feed.json', array(
+					'return' => 'vars',
+			));
+			$this->assertEqual($result['entries'][0]['Entry']['subject'], 'First_Subject');
+			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
+		}
+
 		public function testGetViewVarsSearch() {
 			/*
 
