@@ -243,6 +243,7 @@ $this->Form->submit(__('Einfügen'),
 					if ( !$this->request->is('ajax') || (isset($lastAction) && ( $lastAction === 'mix' || $lastAction === 'view' || $lastAction === 'add' ) ) ) {
 						echo $this->Form->submit(__('submit_button'),
 								array(
+								'id' => 'btn-submit',
 								'class' => 'btn btn-submit',
 								'tabindex' => 4,
 								'onclick' => "this.disabled=true; this.form.submit();",
@@ -262,6 +263,7 @@ $this->Form->submit(__('Einfügen'),
 										'action' => 'add',
 										$this->request->data['Entry']['id'],
 								),
+								'id' => 'btn-submit',
 								'beforeSubmit' => "$('.btn.btn-submit').attr('disabled', 'disabled');",
 								'class' => 'btn btn-submit',
 								'tabindex' => 4,
@@ -306,3 +308,32 @@ $this->Form->submit(__('Einfügen'),
 	echo $this->Js->buffer('$("#EntrySubject").focus();');
   echo ($this->request->is('ajax')) ? $this->Js->writeBuffer() : '';
 ?>
+
+<?php if ($this->request->action === 'edit'): ?>
+	<span id="submit-countdown" class="countdown" style="display: none;"></span>
+	<?php
+		echo $this->Html->script('lib/countdown/jquery.countdown.min');
+		$sbl = __('submit_button');
+		$st  = (Configure::read('Saito.Settings.edit_period') * 60 ) - (time() - (strtotime($this->request->data['Entry']['time'])));
+		$this->Js->buffer(<<<EOF
+	$('#submit-countdown').countdown({
+		until: +$st,
+		compact: true,
+		format: 'MS',
+		onTick: function(periods) {
+				if (periods[5] > 1 || (periods[5] == 1 && periods[6] > 30)) {
+					periods[5] = periods[5] + 1;
+					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[5] + ' min)');
+				} else if (periods[5] == 1) {
+					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[5] + ' min ' + periods[6] + ' s)');
+				} else {
+					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[6] + ' s)');
+				}
+		},
+		onExpiry: function() {
+				$('#btn-submit').attr('disabled', 'disabled');
+			}
+	});
+EOF
+			);
+endif; ?>
