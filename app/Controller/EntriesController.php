@@ -253,23 +253,10 @@ class EntriesController extends AppController {
 		}
 
 		if ( !empty($this->request->data) ) {
-			// <editor-fold desc="insert new entry">
-			//* try to insert new entry
-			//* check of answering is alowed
-			$pid = (int) $this->request->data['Entry']['pid'];
-			if ( $pid > 0 ) {
-				$this->Entry->contain();
-				$this->Entry->sanitize(false);
-				$parent_entry = $this->Entry->read(NULL, $pid);
-				if ( !$parent_entry ):
-					$this->Session->setFlash(__("Parent entry `$pid` not found."),
-							'flash/error');
-					$this->redirect('/');
-				endif;
-				$this->_isAnsweringAllowed($parent_entry);
-			}
+			// insert new entry
 
-			//* prepare new entry
+			// prepare new entry
+			$this->request->data = $this->_prepareAnswering($this->request->data);
 			$this->request->data['Entry']['user_id'] = $this->CurrentUser->getId();
 			$this->request->data['Entry']['name'] = $this->CurrentUser['username'];
 
@@ -411,6 +398,7 @@ class EntriesController extends AppController {
 		}
 
 		if ( !empty($this->request->data) ) {
+			$this->request->data = $this->_prepareAnswering($this->request->data);
 			// try to save entry
 			$this->request->data['Entry']['edited'] = date("Y-m-d H:i:s");
 			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
@@ -427,12 +415,10 @@ class EntriesController extends AppController {
 		$this->request->data = am($old_entry, $this->request->data);
 
 		// get text of parent entry for citation
-		$parentEntryId = $old_entry['Entry']['pid'];
-		if ( $parentEntryId !== 0 ) {
-			$this->Entry->sanitize(false);
-			$this->Entry->contain();
-			$parentEntry = $this->Entry->findById($parentEntryId);
-			$this->set('citeText', $parentEntry['Entry']['text']);
+		$parent_entry_id = $old_entry['Entry']['pid'];
+		if ($parent_entry_id > 0) {
+			$parent_entry = $this->_getRawParentEntry($parent_entry_id);
+			$this->set('citeText', $parent_entry['Entry']['text']);
 		}
 
 		// get notifications
@@ -595,6 +581,8 @@ class EntriesController extends AppController {
 			$this->redirect('/');
 		}
 
+		$this->request->data = $this->_prepareAnswering($this->request->data);
+
 		extract($this->request->data['Entry']);
 		unset($this->request->data);
 
@@ -606,6 +594,7 @@ class EntriesController extends AppController {
 		$this->request->data['Entry']['category'] = $category;
 		$this->request->data['Entry']['nsfw'] = $nsfw;
 		$this->request->data['Entry']['ip'] = '';
+
 
 		$this->Entry->set($this->request->data);
 		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject', 'text', 'category' ) ));
@@ -1019,6 +1008,33 @@ class EntriesController extends AppController {
     $this->set('showAnsweringPanel', $showAnsweringPanel);
 
   }
+
+	protected function _prepareAnswering($data) {
+			$pid = (int)$data['Entry']['pid'];
+			if ( $pid > 0 ) {
+				$parent_entry = $this->_getRawParentEntry($pid);
+				$this->_isAnsweringAllowed($parent_entry);
+				$this->_swapEmptySubject($data, $parent_entry);
+			}
+			return $data;
+	}
+
+	protected function _getRawParentEntry($id) {
+		$this->Entry->contain();
+		$this->Entry->sanitize(false);
+		$parent_entry = $this->Entry->findById($id);
+		if(!$parent_entry) {
+			throw new NotFoundException;
+		}
+		return $parent_entry;
+	}
+
+	protected function _swapEmptySubject(&$entry, $parent) {
+			// if send entry is empty we assume that it's a 'Re:' and use the parent subject
+			if (empty($entry['Entry']['subject'])) {
+				$entry['Entry']['subject'] = $parent['Entry']['subject'];
+			}
+		}
 
 }
 
