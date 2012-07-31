@@ -7,7 +7,95 @@
 ?>
 <div class="a_a">
 	<div class="a_a_a">
-	<?php if( $CurrentUser->isMod()) : ?>
+
+	<?php
+		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
+	?>
+	<?php if($CurrentUser['user_signatures_hide'] == false) : ?>
+		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
+		<div>
+			<?php echo  Configure::read('Saito.Settings.signature_separator') ?>
+		</div>
+			<?php
+				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
+				echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
+			?>
+		</div>
+	<?php endif; ?>
+
+	</div> <!-- a_a_a -->
+</div> <!-- a_a -->
+<?php if (!empty($showAnsweringPanel)): ?>
+	<div id="box-footer-entry-actions-<?php echo $entry['Entry']['id'];?>" class="box-footer form">
+		<div style="float:right">
+					<?php
+					// flattr - Button
+					if (Configure::read('Saito.Settings.flattr_enabled') == TRUE
+							// flattr is activated by admin
+							&& $entry['Entry']['flattr'] == TRUE
+							&& $entry['User']['flattr_uid'] == TRUE
+					) :
+						echo $this->Flattr->button('',
+								array(
+								'uid'								 => $entry['User']['flattr_uid'],
+								'language'					 => Configure::read('Saito.Settings.flattr_language'),
+								'title'							 => $entry['Entry']['subject'],
+								'description'				 => $entry['Entry']['subject'],
+								'cat'								 => Configure::read('Saito.Settings.flattr_category'),
+								'button'						 => 'compact',
+								)
+						);
+					endif;
+					?>
+				</div>
+
+								<?php
+										# @td MCV
+										$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
+										if ($answering_forbidden === 'locked') { ?>
+                      <i
+                        class="icon-lock icon-huge shp shp-right"
+                        data-title="<?php echo __('Help'); ?>"
+                        data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
+                        ></i>
+                    <?php
+										} elseif (!$answering_forbidden) {
+											$result =  "scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."'); initViewAnswerForm();";
+
+											 echo $this->Ajax->link(
+																__('forum_answer_linkname'),
+															 array(
+																	 'controller'=>'entries',
+																	 'action' => 'add',
+																	 $entry['Entry']['id'],
+																),
+															 array(
+																'onclick' => "entries_add_toggle({$entry['Entry']['id']});",
+																'id' => 'forum_answer_' . $entry['Entry']['id'],
+																'class' => 'btn btn-submit', 'accesskey' => "a" ,
+																'update' => 'posting_formular_slider_' . $entry['Entry']['id'] ,
+																'indicator' => 'spinner_'. $entry['Entry']['id'],
+																'complete'	=> $result ,
+																'inline'	=> true,
+
+															)
+											 );
+										};
+									?>
+		<?php  if (isset($entry['rights']['isEditingAsUserForbidden']) && $entry['rights']['isEditingAsUserForbidden'] == false) : ?>
+			&nbsp;
+			<span class="small">
+				<?php echo $this->Html->link(
+							__('edit_linkname'),
+							array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
+							array ( 'class' => 'btn btn-edit', 'accesskey' => "e" )
+							);
+				?>
+			</span>
+		<?php endif; ?>
+
+	  	<?php if( $CurrentUser->isMod()) : ?>
+			&nbsp;
 		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?> shp shp-left"
           data-title="<?php echo __('Help'); ?>"
           data-content="<?php echo __('button_mod_panel_shp'); ?>"
@@ -18,7 +106,7 @@
             &nbsp;
             <i class="icon-caret-down"></i>
             </button>
-          <ul class="dropdown-menu pull-right">
+          <ul class="dropdown-menu">
 					<?php
             if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) :
               $editLinkIsShown = TRUE;
@@ -39,7 +127,7 @@
 						<li>
 							<?php
 								echo $this->Ajax->link(
-									($entry['Entry']['fixed'] == 0) 
+									($entry['Entry']['fixed'] == 0)
                     ? '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_set_entry_link')
                     : '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_unset_entry_link'),
 									array(
@@ -60,8 +148,8 @@
 						<li>
 							<?php
 								echo $this->Ajax->link(
-										($entry['Entry']['locked'] == 0) 
-                      ? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link') 
+										($entry['Entry']['locked'] == 0)
+                      ? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link')
                       : '<i class="icon-unlock"></i>&nbsp;' . __('locked_unset_entry_link'),
 										array(
 												'controller' 	=> 'entries',
@@ -113,106 +201,9 @@
 		</div>
 	<?php endif; ?>
 
-	<?php
-		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
-	?>
-	<?php if($CurrentUser['user_signatures_hide'] == false) : ?>
-		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
-		<div>
-			<?php echo  Configure::read('Saito.Settings.signature_separator') ?>
-		</div>
-			<?php
-				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
-				echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
-			?>
-		</div>
-	<?php endif; ?>
+</div>
 
-	</div> <!-- a_a_a -->
-				<?php if ( $CurrentUser->isLoggedIn() ) : ?>
-					<div id="a_a_b_<?php echo $entry['Entry']['id'];?>" class="c_a_a_b">
-						<div>
-						<?php
-						if (!empty($showAnsweringPanel)) :
-						?>
-							<div class="c_a_a_b_a c_first_child">
-								<?php
-										# @td MCV
-										$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
-										if ($answering_forbidden === 'locked') { ?>
-                      <i
-                        class="icon-lock icon-huge shp shp-right"
-                        data-title="<?php echo __('Help'); ?>"
-                        data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
-                        ></i>
-                    <?php
-										} elseif (!$answering_forbidden) {
-											$result =  "scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."'); initViewAnswerForm();";
-
-											 echo $this->Ajax->link(
-																__('forum_answer_linkname'),
-															 array(
-																	 'controller'=>'entries',
-																	 'action' => 'add',
-																	 $entry['Entry']['id'],
-																),
-															 array(
-																'onclick' => "entries_add_toggle({$entry['Entry']['id']});",
-																'id' => 'forum_answer_' . $entry['Entry']['id'],
-																'class' => 'btn btn-submit', 'accesskey' => "a" ,
-																'update' => 'posting_formular_slider_' . $entry['Entry']['id'] ,
-																'indicator' => 'spinner_'. $entry['Entry']['id'],
-																'complete'	=> $result ,
-																'inline'	=> true,
-
-															)
-											 );
-										};
-									?>
-									<?php  if (isset($entry['rights']['isEditingAsUserForbidden']) && $entry['rights']['isEditingAsUserForbidden'] == false) : ?>
-										&nbsp;
-										<span class="small">
-											<?php echo $this->Html->link(
-														__('edit_linkname'),
-														array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
-														array ( 'class' => 'btn btn-edit', 'accesskey' => "e" )
-														);
-											?>
-										</span>
-									<?php endif; ?>
-							</div> <!-- c_a_a_b_a -->
-						<?php endif; ?>
-							<div class="c_a_a_b_b"> 
-							</div><!-- c_a_a_b_b -->
-						<?php 
-							$a_a_b_c = false;
-							// flattr - Button
-							if(	Configure::read('Saito.Settings.flattr_enabled') == TRUE 
-									// flattr is activated by admin
-									&& $entry['Entry']['flattr'] == TRUE 
-									&& $entry['User']['flattr_uid'] == TRUE
-								) :
-								$a_a_b_c = $this->Flattr->button('', 
-										array( 
-											'uid' => $entry['User']['flattr_uid'],
-											'language'	=> Configure::read('Saito.Settings.flattr_language'),
-											'title' => $entry['Entry']['subject'] ,
-											'description' => $entry['Entry']['subject'],
-											'cat' => Configure::read('Saito.Settings.flattr_category'),
-											'button' => 'compact',
-										)
-									);
-							endif; 
-						?>
-						<?php if ($a_a_b_c) :?> 
-							<div class="c_a_a_b_c c_last_child">
-								<?php echo $a_a_b_c; ?>
-							</div><!-- c_a_a_b_c -->
-						<?php endif; ?>
-						</div>
-					</div><!-- a_a_b -->
-				<?php endif; ?>
-</div> <!-- a_a -->
+<?php endif; ?>
 <div class="a_b">
 	<div id="posting_formular_slider_<?php echo $entry['Entry']['id']; ?>" class="posting_formular_slider" style="display:none;"  >
 		<div id="spinner_<?php echo $this->request->data['Entry']['id']; ?>" class="spinner"></div>

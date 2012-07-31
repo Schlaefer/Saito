@@ -114,6 +114,18 @@
 	@include c_t_h_3_abs();
   }
 
+.box-footer {
+	border-color: $saito_gray_dark;
+  border-width: $border_width 0 0 0;
+	border-style: solid;
+	padding: $padding;
+  @extend .c_bottom-radius;
+	}
+
+.box-footer.form {
+	background-color: $saito_gray_light;
+	}
+
 .box_layout_1 {
   width: auto;
   padding: $padding-content; }
