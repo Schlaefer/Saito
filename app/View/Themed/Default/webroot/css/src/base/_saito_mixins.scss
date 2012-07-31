@@ -114,16 +114,16 @@
 	@include c_t_h_3_abs();
   }
 
-.box-footer {
-	border-color: $saito_gray_dark;
+.l-box-footer {
   border-width: $border_width 0 0 0;
 	border-style: solid;
 	padding: $padding;
   @extend .c_bottom-radius;
 	}
 
-.box-footer.form {
+.box-footer-form {
 	background-color: $saito_gray_light;
+	border-color: $saito_gray_dark;
 	}
 
 .box_layout_1 {

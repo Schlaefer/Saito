@@ -26,7 +26,7 @@
 	</div> <!-- a_a_a -->
 </div> <!-- a_a -->
 <?php if (!empty($showAnsweringPanel)): ?>
-	<div id="box-footer-entry-actions-<?php echo $entry['Entry']['id'];?>" class="box-footer form">
+	<div id="box-footer-entry-actions-<?php echo $entry['Entry']['id'];?>" class="l-box-footer box-footer-form">
 		<div style="float:right">
 					<?php
 					// flattr - Button

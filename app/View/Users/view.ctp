@@ -138,7 +138,7 @@
 			$isMod = $CurrentUser->isMod();
 			if ($isUsersEntry || $isMod):
 			?>
-		<div class="box-footer form">
+		<div class="l-box-footer box-footer-form">
 					<?php if ($isUsersEntry) : ?>
 						<?php
 						echo $this->Html->link(
