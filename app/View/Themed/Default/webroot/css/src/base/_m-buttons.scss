@@ -56,10 +56,8 @@
   }
 
 .button_mod_panel {
-  float: right;
-  button {
-    margin: 0;
-  }
+	display: inline-block;
+	vertical-align: middle;
   ul {
     /* !important: in inline_view on entries_index the tree ul stuff messes in */
     margin: 0 !important;

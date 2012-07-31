@@ -121,79 +121,83 @@
 		<div class="l-box-header box-header">
 			<div>
 				<div class='c_first_child'></div>
-				<div><h1><?php echo $this->TextH->properize( $user['User']['username'] ) . ' ' . __('user_profile');?></h1> </div>
+				<div><h1><?php echo $this->TextH->properize($user['User']['username']) . ' ' . __('user_profile'); ?></h1> </div>
 				<div class='c_last_child'></div>
 			</div>
-		</div>	
+		</div>
 		<div class="content">
 
-      <?php if ( $CurrentUser->isMod() ) : ?>
-          <div class="button_mod_panel shp shp-left"
-               data-title="<?php echo __('Help'); ?>"
-               data-content="<?php echo __('button_mod_panel_shp'); ?>"
-               >
-            <div class="btn-group">
-              <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-                <i class="icon-wrench"></i>
-                &nbsp;
-                <i class="icon-caret-down"></i>
-              </button>
-              <ul class="dropdown-menu pull-right">
-                <?php if ( $CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui')) ) : ?>
-                  <li>
-                    <?php echo $this->Html->link(
-                            '<i class="icon-ban-circle"></i> ' . (($user['User']['user_lock']) ?  __('Unlock') : __('Lock')),
-                            array( 'controller' => 'users', 'action' => 'lock', $user['User']['id']),
-                            array( 'escape' => FALSE )
-                          );
-                    ?>
-                  </li>
-                <?php endif; ?>
-                <?php if ( $CurrentUser->isAdmin() ) : ?>
-                  <li>
-         						<?php echo  $this->Html->link(
-													'<i class="icon-pencil"></i> ' . __('Edit'),
-													array( 'action' => 'edit', $user['User']['id'] ),
-													array( 'escape' => FALSE )
-										); ?>
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <?php echo $this->Html->link(
-                        '<i class="icon-trash"></i> ' . __('Delete'),
-                        array( 'controller' => 'users', 'action' => 'delete', $user['User']['id'], 'admin' => TRUE ),
-                        array('escape' => FALSE)
-                        );
-                    ?>
-                  </li>
-                <?php endif; ?>
-              </ul>
-            </div><!-- /btn-group -->
-          </div>
-        <?php endif; ?>
 
 			<table class='table th-left elegant'>
-			<?php echo 		$this->Html->tableCells($table); ?> 
+				<?php echo $this->Html->tableCells($table); ?>
 			</table>
 		</div>
 
-		<?php  if ( $CurrentUser->getId() == $user['User']['id'] ) : ?>
-		<div  class="c_a_a_b">
-			<div>
-				<div class="c_a_a_b_a c_first_child">
-						<?php echo  $this->Html->link(
-													__('edit_userdata'),
-													array( 'action' => 'edit', $user['User']['id'] ),
-													array( 'id'	=> 'btn_user_edit', 'class' => 'btn btn-submit' )
-										); ?>
-				</div> <!-- c_a_a_b_a c_first_child -->
-				<div class="c_a_a_b_b"> 
-				</div><!-- c_a_a_b_b -->
-<!--				<div class="c_a_a_b_c c_last_child">-->
-<!--				</div>  c_a_a_b_c c_last_child -->
-			</div>
-		</div><!-- c_a_a_b -->
-		<?php  endif; ?>
+		<?php
+			$isUsersEntry = $CurrentUser->getId() == $user['User']['id'];
+			$isMod = $CurrentUser->isMod();
+			if ($isUsersEntry || $isMod):
+			?>
+		<div class="l-box-footer box-footer-form">
+					<?php if ($isUsersEntry) : ?>
+						<?php
+						echo $this->Html->link(
+								__('edit_userdata'), array('action' => 'edit', $user['User']['id']),
+								array('id'		 => 'btn_user_edit', 'class'	 => 'btn btn-submit')
+						);
+						?>
+					<?php endif; ?>
+					<?php if ($isMod) : ?>
+						&nbsp;
+						<div class="button_mod_panel shp shp-left"
+								 data-title="<?php echo __('Help'); ?>"
+								 data-content="<?php echo __('button_mod_panel_shp'); ?>"
+								 >
+							<div class="btn-group">
+								<button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+									<i class="icon-wrench"></i>
+									&nbsp;
+									<i class="icon-caret-down"></i>
+								</button>
+								<ul class="dropdown-menu">
+									<?php if ($CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui'))) : ?>
+										<li>
+											<?php
+											echo $this->Html->link(
+													'<i class="icon-ban-circle"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
+													array('controller' => 'users', 'action'		 => 'lock', $user['User']['id']),
+													array('escape' => FALSE)
+											);
+											?>
+										</li>
+									<?php endif; ?>
+									<?php if ($CurrentUser->isAdmin()) : ?>
+										<li>
+											<?php
+											echo $this->Html->link(
+													'<i class="icon-pencil"></i> ' . __('Edit'),
+													array('action' => 'edit', $user['User']['id']),
+													array('escape' => FALSE)
+											);
+											?>
+										</li>
+										<li class="divider"></li>
+										<li>
+											<?php
+											echo $this->Html->link(
+													'<i class="icon-trash"></i> ' . __('Delete'),
+													array('controller' => 'users', 'action'		 => 'delete', $user['User']['id'], 'admin'			 => TRUE),
+													array('escape' => FALSE)
+											);
+											?>
+										</li>
+									<?php endif; ?>
+								</ul>
+							</div><!-- /btn-group -->
+						</div>
+					<?php endif; ?>
+				</div> <!-- #box-footer.form -->
+			<?php endif; ?>
 	</div>
 	<br/>
 	<br/>
