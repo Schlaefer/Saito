@@ -41,7 +41,7 @@
     <div class="disclaimer-inside">
 			<h3> Maschinenraum </h3>
 			<p>
-        <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito  v%s.', Configure::read("Saito.v")); ?></a>
+        <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito v%s.', Configure::read("Saito.v")); ?></a>
         <br/>
         <?php echo __('Generated in %s s.', Stopwatch::getWallTime()); ?>
 			</p>
