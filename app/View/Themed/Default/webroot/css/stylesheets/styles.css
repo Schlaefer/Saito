@@ -310,6 +310,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .l-box-footer { border-width: 1px 0 0 0; border-style: solid; padding: 10px; }
 
 .box-footer-form { background-color: #fafafa; border-color: #e0e0e0; }
+.box-footer-form > .icon-huge { vertical-align: middle; line-height: 1; margin: 0 10px; }
 
 .box_layout_1 { width: auto; padding: 20px; }
 

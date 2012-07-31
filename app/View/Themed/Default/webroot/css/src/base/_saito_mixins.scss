@@ -124,6 +124,12 @@
 .box-footer-form {
 	background-color: $saito_gray_light;
 	border-color: $saito_gray_dark;
+
+	& > .icon-huge {
+		vertical-align:middle;
+		line-height: 1;
+		margin: 0 $padding;
+	}
 	}
 
 .box_layout_1 {

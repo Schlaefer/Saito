@@ -96,10 +96,7 @@
 
 	  	<?php if( $CurrentUser->isMod()) : ?>
 			&nbsp;
-		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?> shp shp-left"
-          data-title="<?php echo __('Help'); ?>"
-          data-content="<?php echo __('button_mod_panel_shp'); ?>"
-         >
+		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>" >
         <div class="btn-group">
           <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
             <i class="icon-wrench"></i>
