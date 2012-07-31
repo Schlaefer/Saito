@@ -239,11 +239,11 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 * html .postingform_right { overflow-x: hidden; }
 .postingform_right .checkbox { white-space: nowrap; }
 
-.c_t_h_3_tbl, .c_a_a_b { display: table; width: 100%; }
-.c_t_h_3_tbl > div, .c_a_a_b > div { display: table-row; }
-.c_t_h_3_tbl > div > div, .c_a_a_b > div > div { display: table-cell; white-space: nowrap; width: 100%; vertical-align: middle; text-align: center; }
-.c_t_h_3_tbl .c_first_child, .c_a_a_b .c_first_child { width: auto; text-align: left; }
-.c_t_h_3_tbl .c_last_child, .c_a_a_b .c_last_child { width: auto; text-align: right; }
+.c_t_h_3_tbl { display: table; width: 100%; }
+.c_t_h_3_tbl > div { display: table-row; }
+.c_t_h_3_tbl > div > div { display: table-cell; white-space: nowrap; width: 100%; vertical-align: middle; text-align: center; }
+.c_t_h_3_tbl .c_first_child { width: auto; text-align: left; }
+.c_t_h_3_tbl .c_last_child { width: auto; text-align: right; }
 
 /*******************************************************************************
 * Old sprites manuallay generated (depreacted)
@@ -648,11 +648,6 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .b .tree_thread { -webkit-box-shadow: 0 0 0; -moz-box-shadow: 0 0 0; box-shadow: 0 0 0; border: none; background: none; padding: 0; margin: 0; }
 
 .a_a_a { padding: 10px; }
-
-.c_a_a_b { height: 45px; }
-.c_a_a_b > div > div { border-style: solid; border-color: #e0e0e0; padding: 0 20px; }
-.c_a_a_b .c_a_a_b_a { border-width: 1px 1px 0 0; border-top-right-radius: 3px; }
-.c_a_a_b .c_a_a_b_c { border-width: 1px 0 0 1px; border-top-left-radius: 3px; }
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
