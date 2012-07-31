@@ -11,10 +11,10 @@
 	<?php
 		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
 	?>
-	<?php if($CurrentUser['user_signatures_hide'] == false) : ?>
+	<?php if(!$CurrentUser['user_signatures_hide'] && !empty($entry['User']['signature'])) : ?>
 		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
 		<div>
-			<?php echo  Configure::read('Saito.Settings.signature_separator') ?>
+			<?php echo Configure::read('Saito.Settings.signature_separator') ?>
 		</div>
 			<?php
 				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
