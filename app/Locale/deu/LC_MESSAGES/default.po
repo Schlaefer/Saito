@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-31 15:17+0100\n"
-"PO-Revision-Date: 2012-07-31 15:18+0100\n"
+"POT-Creation-Date: 2012-07-31 18:41+0100\n"
+"PO-Revision-Date: 2012-07-31 18:41+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -174,14 +174,14 @@ msgstr "Kategorie bearbeiten"
 #: View/Categories/admin_index.ctp:29 View/Categories/index.ctp:30
 #: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:221
 #: View/SmileyCodes/admin_index.ctp:27 View/Smilies/admin_index.ctp:31
-#: View/Users/view.ctp:155
+#: View/Users/view.ctp:178
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: View/Categories/admin_index.ctp:34 View/Categories/edit.ctp:20
 #: View/Categories/index.ctp:31 View/Categories/view.ctp:108
 #: View/SmileyCodes/admin_edit.ctp:20 View/SmileyCodes/admin_index.ctp:28
-#: View/Smilies/admin_index.ctp:32 View/Users/view.ctp:163
+#: View/Smilies/admin_index.ctp:32 View/Users/view.ctp:188
 msgid "Delete"
 msgstr "Löschen"
 
@@ -379,72 +379,66 @@ msgstr "Thread fixiert"
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
-#: View/Elements/entry/view_content.ctp:57
-msgid "board_edited_marking"
-msgstr "editiert von"
+#: View/Elements/entry/view_content.ctp:58
+#, php-format
+msgid "%s edited by %s"
+msgstr "%s bearbeitet durch %s"
 
 # msgstr "Aufrufe"
-#: View/Elements/entry/view_content.ctp:62
+#: View/Elements/entry/view_content.ctp:69
 msgid "views_headline"
 msgstr "Aufrufe"
 
-#: View/Elements/entry/view_posting.ctp:12
-#: View/Elements/entry/view_posting.ctp:145
+#: View/Elements/entry/view_posting.ctp:58
 #: View/Elements/layout/header_login.ctp:34
 #: View/Elements/layout/header_login.ctp:40
 #: View/Elements/layout/header_login.ctp:41 View/Entries/index.ctp:18
-#: View/Entries/search.ctp:29 View/Users/view.ctp:132
+#: View/Entries/search.ctp:29 View/Users/view.ctp:153
 msgid "Help"
 msgstr "Hilfe"
 
-#: View/Elements/entry/view_posting.ctp:13 View/Users/view.ctp:133
-msgid "button_mod_panel_shp"
-msgstr ""
-"Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder "
-"Thread zu bearbeiten."
+#: View/Elements/entry/view_posting.ctp:59
+msgid "answering_forbidden_locked_shp"
+msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:28
-#: View/Elements/entry/view_posting.ctp:176
+#: View/Elements/entry/view_posting.ctp:66
+msgid "forum_answer_linkname"
+msgstr "Antworten"
+
+#: View/Elements/entry/view_posting.ctp:89
+#: View/Elements/entry/view_posting.ctp:113
 #: Controller/EntriesController.php:449
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:43
+#: View/Elements/entry/view_posting.ctp:128
 msgid "fixed_set_entry_link"
 msgstr "Anpinnen"
 
-#: View/Elements/entry/view_posting.ctp:44
+#: View/Elements/entry/view_posting.ctp:129
 msgid "fixed_unset_entry_link"
 msgstr "Abpinnen"
 
-#: View/Elements/entry/view_posting.ctp:64
+#: View/Elements/entry/view_posting.ctp:149
 msgid "locked_set_entry_link"
 msgstr "Sperren"
 
-#: View/Elements/entry/view_posting.ctp:65
+#: View/Elements/entry/view_posting.ctp:150
 msgid "locked_unset_entry_link"
 msgstr "Entsperren"
 
-#: View/Elements/entry/view_posting.ctp:85
+#: View/Elements/entry/view_posting.ctp:170
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:99
+#: View/Elements/entry/view_posting.ctp:184
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:106
+#: View/Elements/entry/view_posting.ctp:191
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
-
-#: View/Elements/entry/view_posting.ctp:146
-msgid "answering_forbidden_locked_shp"
-msgstr "Antworten gesperrt durch Moderator."
-
-#: View/Elements/entry/view_posting.ctp:153
-msgid "forum_answer_linkname"
-msgstr "Antworten"
 
 #: View/Elements/layout/disclaimer.ctp:4
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:4
@@ -479,6 +473,7 @@ msgid "About"
 msgstr "Über"
 
 #: View/Elements/layout/disclaimer.ctp:34
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:44
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr "Angetrieben durch Saito v%s."
@@ -527,7 +522,7 @@ msgstr "Suchen"
 msgid "Recent entries"
 msgstr "Letzte Einträge"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:17 View/Users/view.ctp:205
+#: View/Elements/layout/slidetab_recentposts.ctp:17 View/Users/view.ctp:209
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
@@ -1181,11 +1176,6 @@ msgstr "Smiley bearbeiten"
 msgid "Admin Edit Smiley"
 msgstr "Admin Smiley bearbeiten"
 
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:44
-#, php-format
-msgid "Powered by Saito  v%s."
-msgstr ""
-
 #: View/Uploads/add.ctp:10 View/Uploads/index.ctp:29
 msgid "upload_btn"
 msgstr "Hochladen"
@@ -1588,16 +1578,22 @@ msgid "user_postings"
 msgstr "Beiträge"
 
 #: View/Users/view.ctp:145
+msgid "edit_userdata"
+msgstr "Bearbeiten"
+
+#: View/Users/view.ctp:154
+msgid "button_mod_panel_shp"
+msgstr ""
+"Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder "
+"Thread zu bearbeiten."
+
+#: View/Users/view.ctp:167
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: View/Users/view.ctp:145
+#: View/Users/view.ctp:167
 msgid "Lock"
 msgstr "Sperren"
-
-#: View/Users/view.ctp:185
-msgid "edit_userdata"
-msgstr "Bearbeiten"
 
 #: Controller/CategoriesController.php:81
 #: Controller/CategoriesController.php:96
@@ -2050,7 +2046,7 @@ msgstr "Hochladen"
 msgid "Media"
 msgstr "Einbinden"
 
-#: View/Helper/TimeHHelper.php:86 View/Helper/TimeHHelper.php:105
+#: View/Helper/TimeHHelper.php:88 View/Helper/TimeHHelper.php:107
 msgid "yesterday"
 msgstr "Gestern"
 
@@ -2061,6 +2057,9 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "board_edited_marking"
+#~ msgstr "editiert von"
 
 #, fuzzy
 #~ msgid "Admin User Add"

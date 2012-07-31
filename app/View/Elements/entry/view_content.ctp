@@ -54,7 +54,14 @@
           if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
                 && strtotime($entry['Entry']['edited']) > strtotime($entry['Entry']['time'])+( Configure::read('Saito.Settings.edit_delay') * 60 )
             ): ?>
-            – <?php echo  __('board_edited_marking').' '.$entry['Entry']['edited_by'] . " " . $this->TimeH->formatTime($entry['Entry']['edited']); ?>,
+						– <?php
+						echo __('%s edited by %s',
+								array(
+								$this->TimeH->formatTime($entry['Entry']['edited'], 'custom', '%H:%M'),
+								$entry['Entry']['edited_by']
+								)
+						);
+						?>,
             <?php
             else :
               echo ',';
