@@ -763,18 +763,15 @@ class EntriesController extends AppController {
 	}
 
 	 protected function _setAppStats() {
-			$header_counter = array();
-			$globalCacheSettings = Cache::settings();
-			$globalCacheDuration = $globalCacheSettings['duration'];
 
-			Cache::set(array('duration'			 => '+180 seconds'));
-			$header_counter	 = Cache::read('header_counter');
+			/* @var $header_counter array or false */
+			$header_counter = Cache::read('header_counter', 'perf-cheat');
 			if (!$header_counter) {
 				$countable_items = array(
-						'user_online' => array('model'			 => 'UserOnline', 'conditions' => ''),
-						'user'			 => array('model'			 => 'User', 'conditions' => ''),
-						'entries'		 => array('model'			 => 'Entry', 'conditions' => ''),
-						'threads'		 => array('model'			 => 'Entry', 'conditions' => array('pid' => 0)),
+						'user_online' => array('model'	=> 'UserOnline', 'conditions' => ''),
+						'user'			  => array('model'	=> 'User', 'conditions' => ''),
+						'entries'		  => array('model'	=> 'Entry', 'conditions' => ''),
+						'threads'		  => array('model'	=> 'Entry', 'conditions' => array('pid' => 0)),
 				);
 
 				// @td foreach not longer feasable, refactor
@@ -790,12 +787,10 @@ class EntriesController extends AppController {
 								array('contain'		 => false, 'conditions' => $options['conditions']));
 					}
 				}
-				Cache::set(array('duration' => '+180 seconds'));
-				Cache::write('header_counter', $header_counter);
+				Cache::write('header_counter', $header_counter, 'perf-cheat');
 			}
-			Cache::set(array('duration' => $globalCacheDuration . ' seconds'));
 
-			//* look who's online
+			// look who's online
 			$users_online											 = $this->Entry->User->UserOnline->getLoggedIn();
 			$header_counter['user_registered'] = count($users_online);
 			$header_counter['user_anonymous']	 = $header_counter['user_online'] - $header_counter['user_registered'];
