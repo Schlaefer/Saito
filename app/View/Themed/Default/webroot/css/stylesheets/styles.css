@@ -235,7 +235,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .postingform_main { display: inline; float: left; margin-right: 10px; width: 710px; }
 * html .postingform_main { overflow-x: hidden; }
 
-.postingform_right { display: inline; float: left; margin-right: 0; width: 150px; }
+.postingform_right { display: inline; float: left; margin-right: 0; width: 150px; margin-bottom: 1em; }
 * html .postingform_right { overflow-x: hidden; }
 .postingform_right .checkbox { white-space: nowrap; }
 

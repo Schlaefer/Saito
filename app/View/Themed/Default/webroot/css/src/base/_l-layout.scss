@@ -64,6 +64,8 @@ form.bp { @include blueprint-form; }
 .postingform_right {
   @include column(4, true);
 
+	margin-bottom: 1em;
+
 	.checkbox {
 		white-space: nowrap;
 		}
