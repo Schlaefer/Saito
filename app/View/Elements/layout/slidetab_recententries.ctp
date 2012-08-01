@@ -25,7 +25,8 @@
 								<?php echo $this->EntryH->getFastLink($entry); ?><br/>
 								<span class='c_info_text'>
 									<?php echo $entry['User']['username']; ?>,
-									<?php echo $this->Time->timeAgoInWords($entry['Entry']['time']); ?>
+									<?php echo $this->Time->timeAgoInWords($entry['Entry']['time'],
+											array('accuracy' => array('hour' => 'hour'))); ?>
 								</span>
 							</li>
 						<?php endforeach; ?>
