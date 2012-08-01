@@ -1,3 +1,4 @@
+<?php // Stopwatch::start('slidetab_recententries'); ?>
 <?php if ( $CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries' ) : ?>
 		<?php
 		echo $this->element('layout/slidetabs__header',
@@ -24,7 +25,7 @@
 								<?php echo $this->EntryH->getFastLink($entry); ?><br/>
 								<span class='c_info_text'>
 									<?php echo $entry['User']['username']; ?>,
-									<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>
+									<?php echo $this->Time->timeAgoInWords($entry['Entry']['time']); ?>
 								</span>
 							</li>
 						<?php endforeach; ?>
@@ -33,3 +34,4 @@
 		</ul>
 		<?php echo $this->element('layout/slidetabs__footer'); ?>
 	<?php endif; ?>
+<?php // Stopwatch::end('slidetab_recententries'); ?>
