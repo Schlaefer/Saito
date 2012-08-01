@@ -833,10 +833,9 @@ class EntriesController extends AppController {
 	}
 
 	protected function _isAnsweringAllowed($parent_entry) {
-
 		$forbidden = $this->SaitoEntry->isAnsweringForbidden($parent_entry);
-		if ( $forbidden ) {
-			$this->redirect('/');
+		if ($forbidden) {
+			throw new ForbiddenException;
 		}
 	}
 
