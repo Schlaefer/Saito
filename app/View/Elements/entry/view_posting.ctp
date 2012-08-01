@@ -94,7 +94,9 @@
 			</span>
 		<?php endif; ?>
 
-	  	<?php if( $CurrentUser->isMod()) : ?>
+		<?php if( $CurrentUser->isMod()) : ?>
+			<?php $isModMenuPopulated = false; ?>
+			<?php $this->start('modMenu'); ?>
 			&nbsp;
 		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>" >
         <div class="btn-group">
@@ -106,6 +108,7 @@
           <ul class="dropdown-menu">
 					<?php
             if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) :
+							$isModMenuPopulated = true;
               $editLinkIsShown = TRUE;
             ?>
 						<li>
@@ -117,7 +120,8 @@
 							?>
 						</li>
 					<?php endif; ?>
-					<?php if($entry['Entry']['pid'] == 0) : # @td these are thread functions and maybe go to another panel ?>
+					<?php if($entry['Entry']['pid'] == 0): ?>
+						<?php $isModMenuPopulated = true; ?>
             <?php if ($editLinkIsShown): ?>
               <li class="divider"></li>
             <?php endif; ?>
@@ -196,6 +200,12 @@
 				</ul>
       </div><!-- /btn-group -->
 		</div>
+		<?php $this->end('modMenu'); ?>
+		<?php
+			if ($isModMenuPopulated) {
+				echo $this->fetch('modMenu');
+			}
+		?>
 	<?php endif; ?>
 
 </div>

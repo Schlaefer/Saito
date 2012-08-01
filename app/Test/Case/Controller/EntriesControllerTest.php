@@ -635,6 +635,60 @@
 					$this->headers['Location']);
 		}
 
+		public function testViewBoxFooter() {
+			$result = $this->testAction('entries/view/1', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('box-footer-entry-actions-1', $result);
+
+			$this->_loginUser(3);
+			$result = $this->testAction('entries/view/1', array(
+					'return' => 'view'
+			));
+			$this->assertTextContains('box-footer-entry-actions-1', $result);
+
+		}
+
+		/**
+		 * Checks that the mod-button is in-/visible
+		 */
+		public function testViewModButton() {
+			/**
+			 * Mod Button is not visible for anon users
+			 */
+			$result = $this->testAction('entries/view/1', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('button_mod_panel', $result);
+
+			/**
+			 * Mod Button is not visible for normal users
+			 */
+			$this->_loginUser(3);
+			$result = $this->testAction('entries/view/1', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('button_mod_panel', $result);
+
+			/**
+			 * Mod Button is visible for mods
+			 */
+			$this->_loginUser(2);
+			$result = $this->testAction('entries/view/1', array(
+					'return' => 'view'
+			));
+			$this->assertTextContains('button_mod_panel', $result);
+
+			/**
+			 * Currently mod menu is empty if mod is on his own posting
+			 */
+			$this->_loginUser(2);
+			$result = $this->testAction('entries/view/2', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('button_mod_panel', $result);
+		}
+
 		public function testHeaderCounter() {
 
 			$this->_prepareAction('/entries/index');
