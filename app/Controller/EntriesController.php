@@ -722,50 +722,8 @@ class EntriesController extends AppController {
 				$this->set('autoPageReload',
 						$this->CurrentUser['user_forum_refresh_time'] * 60);
 			}
-
-			//* header counter
-			$header_counter = array( );
-
-			$globalCacheSettings = Cache::settings();
-			$globalCacheDuration = $globalCacheSettings['duration'];
-
-			Cache::set(array( 'duration' => '+180 seconds' ));
-			$header_counter = Cache::read('header_counter');
-			if ( !$header_counter ) {
-				$countable_items = array(
-						'user_online' => array( 'model' => 'UserOnline', 'conditions' => '' ),
-						'user' => array( 'model' => 'User', 'conditions' => '' ),
-						'entries' => array( 'model' => 'Entry', 'conditions' => '' ),
-						'threads' => array( 'model' => 'Entry', 'conditions' => array( 'pid' => 0 ) ),
-				);
-
-				// @td foreach not longer feasable, refactor
-				foreach ( $countable_items as $titel => $options ) {
-					if ( $options['model'] === 'Entry' ) {
-						$header_counter[$titel] = $this->{$options['model']}->find('count',
-										array( 'contain' => false, 'conditions' => $options['conditions'] ));
-					} elseif ( $options['model'] === 'User' ) {
-						$header_counter[$titel] = $this->Entry->{$options['model']}->find('count',
-										array( 'contain' => false, 'conditions' => $options['conditions'] ));
-					} elseif ( $options['model'] === 'UserOnline' ) {
-						$header_counter[$titel] = $this->Entry->User->{$options['model']}->find('count',
-										array( 'contain' => false, 'conditions' => $options['conditions'] ));
-					}
-				}
-				Cache::set(array( 'duration' => '+180 seconds' ));
-				Cache::write('header_counter', $header_counter);
-			}
-
-			Cache::set(array( 'duration' => $globalCacheDuration . ' seconds' ));
-
-			//* look who's online
-			$users_online = $this->Entry->User->UserOnline->getLoggedIn();
-			$header_counter['user_registered'] = count($users_online);
-			$header_counter['user_anonymous'] = $header_counter['user_online'] - $header_counter['user_registered'];
-			$this->set('HeaderCounter', $header_counter);
-			$this->set('UsersOnline', $users_online);
+			$this->_setAppStats();
 		}
-
 		if ( $this->request->action != 'index' ) {
 			$this->_loadSmilies();
 		}
@@ -803,6 +761,47 @@ class EntriesController extends AppController {
 
 		Stopwatch::stop('Entries->beforeFilter()');
 	}
+
+	 protected function _setAppStats() {
+			$header_counter = array();
+			$globalCacheSettings = Cache::settings();
+			$globalCacheDuration = $globalCacheSettings['duration'];
+
+			Cache::set(array('duration'			 => '+180 seconds'));
+			$header_counter	 = Cache::read('header_counter');
+			if (!$header_counter) {
+				$countable_items = array(
+						'user_online' => array('model'			 => 'UserOnline', 'conditions' => ''),
+						'user'			 => array('model'			 => 'User', 'conditions' => ''),
+						'entries'		 => array('model'			 => 'Entry', 'conditions' => ''),
+						'threads'		 => array('model'			 => 'Entry', 'conditions' => array('pid' => 0)),
+				);
+
+				// @td foreach not longer feasable, refactor
+				foreach ($countable_items as $titel => $options) {
+					if ($options['model'] === 'Entry') {
+						$header_counter[$titel] = $this->{$options['model']}->find('count',
+								array('contain'		 => false, 'conditions' => $options['conditions']));
+					} elseif ($options['model'] === 'User') {
+						$header_counter[$titel] = $this->Entry->{$options['model']}->find('count',
+								array('contain'		 => false, 'conditions' => $options['conditions']));
+					} elseif ($options['model'] === 'UserOnline') {
+						$header_counter[$titel] = $this->Entry->User->{$options['model']}->find('count',
+								array('contain'		 => false, 'conditions' => $options['conditions']));
+					}
+				}
+				Cache::set(array('duration' => '+180 seconds'));
+				Cache::write('header_counter', $header_counter);
+			}
+			Cache::set(array('duration' => $globalCacheDuration . ' seconds'));
+
+			//* look who's online
+			$users_online											 = $this->Entry->User->UserOnline->getLoggedIn();
+			$header_counter['user_registered'] = count($users_online);
+			$header_counter['user_anonymous']	 = $header_counter['user_online'] - $header_counter['user_registered'];
+			$this->set('HeaderCounter', $header_counter);
+			$this->set('UsersOnline', $users_online);
+		}
 
 	protected function _emptyCache($id, $tid) {
     $this->CacheTree->delete($tid);
