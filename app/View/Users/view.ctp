@@ -134,6 +134,7 @@
 		</div>
 
 		<?php
+			$isModMenuPopulated = false;
 			$isUsersEntry = $CurrentUser->getId() == $user['User']['id'];
 			$isMod = $CurrentUser->isMod();
 			if ($isUsersEntry || $isMod):
@@ -148,8 +149,9 @@
 						?>
 					<?php endif; ?>
 					<?php if ($isMod) : ?>
+						<?php $this->start('modMenu'); ?>
 						&nbsp;
-						<div class="button_mod_panel shp shp-left"
+						<div class="button_mod_panel shp shp-right"
 								 data-title="<?php echo __('Help'); ?>"
 								 data-content="<?php echo __('button_mod_panel_shp'); ?>"
 								 >
@@ -161,6 +163,7 @@
 								</button>
 								<ul class="dropdown-menu">
 									<?php if ($CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui'))) : ?>
+									  <?php $isModMenuPopulated = true; ?>
 										<li>
 											<?php
 											echo $this->Html->link(
@@ -172,6 +175,7 @@
 										</li>
 									<?php endif; ?>
 									<?php if ($CurrentUser->isAdmin()) : ?>
+									  <?php $isModMenuPopulated = true; ?>
 										<li>
 											<?php
 											echo $this->Html->link(
@@ -195,6 +199,12 @@
 								</ul>
 							</div><!-- /btn-group -->
 						</div>
+					<?php $this->end('modMenu'); ?>
+					<?php
+						if ($isModMenuPopulated) {
+							echo $this->fetch('modMenu');
+						}
+					?>
 					<?php endif; ?>
 				</div> <!-- #box-footer.form -->
 			<?php endif; ?>
