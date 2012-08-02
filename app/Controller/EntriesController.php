@@ -765,8 +765,8 @@ class EntriesController extends AppController {
 	 protected function _setAppStats() {
 
 			// look who's online
-			$users_online											 = $this->Entry->User->UserOnline->getLoggedIn();
-			$this->set('UsersOnline', $users_online);
+			$loggedin_users = $this->Entry->User->UserOnline->getLoggedIn();
+			$this->set('UsersOnline', $loggedin_users);
 
 			/* @var $header_counter array or false */
 			$header_counter = Cache::read('header_counter', 'perf-cheat');
@@ -791,10 +791,12 @@ class EntriesController extends AppController {
 								array('contain'		 => false, 'conditions' => $options['conditions']));
 					}
 				}
-				$header_counter['user_registered'] = count($users_online);
-				$header_counter['user_anonymous']	 = $header_counter['user_online'] - $header_counter['user_registered'];
 				Cache::write('header_counter', $header_counter, 'perf-cheat');
 			}
+			$header_counter['user_registered'] = count($loggedin_users);
+			$anon_user = $header_counter['user_online'] - $header_counter['user_registered'];
+			// compensate for cached 'user_online' so that user_anonymous can't get negative
+			$header_counter['user_anonymous']	 = ($anon_user < 0) ? 0 : $anon_user;
 
 			$this->set('HeaderCounter', $header_counter);
 		}

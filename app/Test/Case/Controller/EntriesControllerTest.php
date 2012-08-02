@@ -689,12 +689,13 @@
 			$this->assertTextNotContains('button_mod_panel', $result);
 		}
 
-		public function testHeaderCounter() {
+		public function testAppStats() {
 
-			$this->_prepareAction('/entries/index');
+			Configure::write('Cache.disable', false);
+			Cache::delete('header_counter', 'perf-cheat');
 
-			//* test with no user online
-			$result = $this->testAction('/entries/index', array('return'			 => 'vars'));
+			// test with no user online
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEqual($headerCounter['user_online'], 1);
@@ -704,16 +705,33 @@
 			$this->assertEqual($headerCounter['user_registered'], 0);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
 
-
-			//* test with one user online
+			// test with one user online
 			$this->_loginUser(2);
 
 			$result = $this->testAction('/entries/index', array('return'			 => 'vars'));
 			$headerCounter = $result['HeaderCounter'];
 
+			/* without cache
 			$this->assertEqual($headerCounter['user_online'], 2);
 			$this->assertEqual($headerCounter['user_registered'], 1);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
+			 */
+
+			// with cache
+			$this->assertEqual($headerCounter['user_online'], 1);
+			$this->assertEqual($headerCounter['user_registered'], 1);
+			$this->assertEqual($headerCounter['user_anonymous'], 0);
+
+			// test with second user online
+			$this->_loginUser(3);
+
+			$result = $this->testAction('/entries/index', array('return'			 => 'vars'));
+			$headerCounter = $result['HeaderCounter'];
+
+			// with cache
+			$this->assertEqual($headerCounter['user_online'], 1);
+			$this->assertEqual($headerCounter['user_registered'], 2);
+			$this->assertEqual($headerCounter['user_anonymous'], 0);
 		}
 
 		public function testFeedJson() {
