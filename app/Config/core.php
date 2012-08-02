@@ -304,7 +304,18 @@ if (extension_loaded('apc') && function_exists('apc_dec') && (php_sapi_name() !=
 	$engine = 'Apc';
 }
 
+/**
+ * Default Cache
+ */
 Cache::config('default', array( 'engine' => $engine ));
+/**
+ * Short term cache for performance cheating
+ */
+	Cache::config('perf-cheat',
+			array(
+			'engine'	 => $engine,
+			'duration' => '+180 seconds',
+	));
 
 
 // In development mode, caches should expire quickly.

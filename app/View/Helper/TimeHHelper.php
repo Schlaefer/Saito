@@ -58,7 +58,7 @@
 
 		#@td user/admin time zone diff and admin format settings
 
-		public function formatTime($timestamp, $format = 'normal') {
+		public function formatTime($timestamp, $format = 'normal', $custom = null) {
 //		Stopwatch::start('formatTime');
 			$timestamp = strtotime($timestamp) - $this->_timeDiffToUtc;
 
@@ -66,6 +66,8 @@
 				$time_string = $this->_normal($timestamp);
 			} elseif ( $format === 'short' ) {
 				$time_string = $this->_short($timestamp);
+			} elseif ( $format == 'custom' ) {
+				$time_string = strftime($custom, $timestamp);
 			} elseif ( $format == 'glasen' ) {
 				$time_string = $this->_glasen($timestamp);
 			}

@@ -539,6 +539,92 @@
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 		}
 
+		/**
+		 * Checks that the mod-button is in-/visible
+		 */
+		public function testViewModButton() {
+
+			$Users = $this->generate('Users');
+
+			/**
+			 * Mod Button is not visible for anon users
+			 */
+			$result = $this->testAction('users/view/5', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('button_mod_panel', $result);
+
+			/**
+			 * Mod Button is not visible for normal users
+			 */
+			$this->_loginUser(3);
+			$result = $this->testAction('users/view/5', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('button_mod_panel', $result);
+
+			/**
+			 * Mod Button is visible for admin
+			 */
+			$this->_loginUser(1);
+			$result = $this->testAction('users/view/5', array(
+					'return' => 'view'
+			));
+			$this->assertTextContains('button_mod_panel', $result);
+
+			/**
+			 * Mod Button is currently visible for mod
+			 */
+			$this->_loginUser(1);
+			$result = $this->testAction('users/view/5', array(
+					'return' => 'view'
+			));
+			$this->assertTextContains('button_mod_panel', $result);
+
+		}
+
+		public function testViewModButtonEmpty() {
+
+			/**
+			 * Mod menu is currently empty for mod
+			 */
+			Configure::write('Saito.Settings.block_user_ui', false);
+
+			$Users = $this->generate('Users');
+
+			$this->_loginUser(2);
+			$result = $this->testAction('users/view/5', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('button_mod_panel', $result);
+		}
+
+		public function testViewModButtonBlockUiTrue() {
+
+			Configure::write('Saito.Settings.block_user_ui', true);
+
+			$Users = $this->generate('Users');
+
+			$this->_loginUser(2);
+			$result = $this->testAction('users/view/5', array(
+					'return' => 'view'
+			));
+			$this->assertTextContains('users/lock/5', $result);
+		}
+
+		public function testViewModButtonBlockUiFalse() {
+
+			Configure::write('Saito.Settings.block_user_ui', false);
+
+			$Users = $this->generate('Users');
+
+			$this->_loginUser(2);
+			$result = $this->testAction('users/view/5', array(
+					'return' => 'view'
+			));
+			$this->assertTextNotContains('users/lock/5', $result);
+		}
+
 	}
 
 ?>

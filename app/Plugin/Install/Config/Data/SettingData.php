@@ -79,7 +79,7 @@ class SettingData {
 			),
 		array(
 				'name'	=> 'signature_separator',
-				'value'	=> '---',
+				'value'	=> '⁂',
 			),
 		array(
 				'name'	=> 'smilies',

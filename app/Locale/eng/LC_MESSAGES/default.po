@@ -2,17 +2,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-21 07:01+0100\n"
-"PO-Revision-Date: 2012-07-21 07:02+0100\n"
+"POT-Creation-Date: 2012-07-31 18:41+0100\n"
+"PO-Revision-Date: 2012-07-31 18:41+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;gettext;gettext_noop;_\n"
-"X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
+"macnemo_2_github/app/\n"
 "'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -80,85 +80,68 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
-#: View/Admins/admin_index.ctp:17
-#: View/Categories/admin_add.ctp:18
-#: View/Categories/admin_edit.ctp:18
-msgid "User"
-msgstr ""
-
-#: View/Admins/admin_index.ctp:20
-msgid "Admin User Add"
-msgstr ""
-
-#: View/Categories/add.ctp:4
-#: View/Categories/admin_add.ctp:2
+#: View/Categories/add.ctp:4 View/Categories/admin_add.ctp:2
 #: View/Categories/admin_add.ctp:7
 msgid "Add Category"
 msgstr ""
 
-#: View/Categories/add.ctp:13
-#: View/Categories/edit.ctp:14
+#: View/Categories/add.ctp:13 View/Categories/edit.ctp:14
+#: View/SmileyCodes/admin_edit.ctp:14 View/Smilies/admin_add.ctp:12
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:11
 msgid "Submit"
 msgstr ""
 
-#: View/Categories/add.ctp:16
-#: View/Categories/admin_index.ctp:11
-#: View/Categories/edit.ctp:17
-#: View/Categories/index.ctp:11
-#: View/Categories/index.ctp:51
-#: View/Categories/view.ctp:37
-#: View/Categories/view.ctp:73
+#: View/Categories/add.ctp:16 View/Categories/admin_index.ctp:11
+#: View/Categories/edit.ctp:17 View/Categories/index.ctp:11
+#: View/Categories/index.ctp:51 View/Categories/view.ctp:37
+#: View/Categories/view.ctp:73 View/Settings/admin_index.ctp:7
+#: View/SmileyCodes/admin_add.ctp:14 View/SmileyCodes/admin_edit.ctp:17
+#: View/SmileyCodes/admin_index.ctp:10 View/Smilies/admin_add.ctp:18
+#: View/Smilies/admin_index.ctp:14
 msgid "Actions"
 msgstr ""
 
-#: View/Categories/add.ctp:19
-#: View/Categories/edit.ctp:21
+#: View/Categories/add.ctp:19 View/Categories/edit.ctp:21
 #: View/Categories/view.ctp:41
 msgid "List Categories"
 msgstr ""
 
-#: View/Categories/add.ctp:20
-#: View/Categories/edit.ctp:22
-#: View/Categories/index.ctp:54
-#: View/Categories/view.ctp:43
+#: View/Categories/add.ctp:20 View/Categories/edit.ctp:22
+#: View/Categories/index.ctp:54 View/Categories/view.ctp:43
 msgid "List Entries"
 msgstr ""
 
-#: View/Categories/add.ctp:21
-#: View/Categories/edit.ctp:23
-#: View/Categories/index.ctp:55
-#: View/Categories/view.ctp:44
+#: View/Categories/add.ctp:21 View/Categories/edit.ctp:23
+#: View/Categories/index.ctp:55 View/Categories/view.ctp:44
 #: View/Categories/view.ctp:117
 msgid "New Entry"
 msgstr ""
 
-#: View/Categories/admin_add.ctp:1
-#: View/Categories/admin_delete.ctp:1
-#: View/Categories/admin_edit.ctp:1
-#: View/Categories/admin_index.ctp:1
-#: View/Categories/admin_index.ctp:3
-#: View/Categories/index.ctp:2
+#: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
+#: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
+#: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
+#: View/Entries/index.ctp:35 View/Layouts/admin.ctp:43
 msgid "Categories"
 msgstr ""
 
-#: View/Categories/admin_add.ctp:14
-#: View/Categories/admin_edit.ctp:14
+#: View/Categories/admin_add.ctp:14 View/Categories/admin_edit.ctp:14
 #: View/Categories/view.ctp:24
 msgid "Accession"
 msgstr ""
 
-#: View/Categories/admin_add.ctp:17
-#: View/Categories/admin_edit.ctp:17
+#: View/Categories/admin_add.ctp:17 View/Categories/admin_edit.ctp:17
 msgid "Anonymous"
 msgstr ""
 
-#: View/Categories/admin_add.ctp:19
-#: View/Categories/admin_edit.ctp:19
+#: View/Categories/admin_add.ctp:18 View/Categories/admin_edit.ctp:18
+msgid "User"
+msgstr ""
+
+#: View/Categories/admin_add.ctp:19 View/Categories/admin_edit.ctp:19
 msgid "Mod"
 msgstr ""
 
-#: View/Categories/admin_delete.ctp:2
-#: View/Categories/view.ctp:40
+#: View/Categories/admin_delete.ctp:2 View/Categories/view.ctp:40
 msgid "Delete Category"
 msgstr ""
 
@@ -170,55 +153,55 @@ msgstr ""
 msgid "Delete entries and delete category"
 msgstr ""
 
-#: View/Categories/admin_delete.ctp:69
+#: View/Categories/admin_delete.ctp:69 View/Users/admin_delete.ctp:48
 msgid "Make It So"
 msgstr ""
 
-#: View/Categories/admin_delete.ctp:76
+#: View/Categories/admin_delete.ctp:76 View/Users/admin_delete.ctp:54
 msgid "Abort"
 msgstr ""
 
-#: View/Categories/admin_edit.ctp:2
-#: View/Categories/admin_edit.ctp:6
-#: View/Categories/edit.ctp:4
-#: View/Categories/view.ctp:39
+#: View/Categories/admin_edit.ctp:2 View/Categories/admin_edit.ctp:6
+#: View/Categories/edit.ctp:4 View/Categories/view.ctp:39
 msgid "Edit Category"
 msgstr ""
 
-#: View/Categories/admin_index.ctp:29
-#: View/Categories/index.ctp:30
-#: View/Categories/view.ctp:107
+#: View/Categories/admin_index.ctp:29 View/Categories/index.ctp:30
+#: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:221
+#: View/SmileyCodes/admin_index.ctp:27 View/Smilies/admin_index.ctp:31
+#: View/Users/view.ctp:178
 msgid "Edit"
 msgstr ""
 
-#: View/Categories/admin_index.ctp:34
-#: View/Categories/edit.ctp:20
-#: View/Categories/index.ctp:31
-#: View/Categories/view.ctp:108
+#: View/Categories/admin_index.ctp:34 View/Categories/edit.ctp:20
+#: View/Categories/index.ctp:31 View/Categories/view.ctp:108
+#: View/SmileyCodes/admin_edit.ctp:20 View/SmileyCodes/admin_index.ctp:28
+#: View/Smilies/admin_index.ctp:32 View/Users/view.ctp:188
 msgid "Delete"
 msgstr ""
 
-#: View/Categories/admin_index.ctp:51
-#: View/Categories/index.ctp:53
+#: View/Categories/admin_index.ctp:51 View/Categories/index.ctp:53
 #: View/Categories/view.ctp:42
 msgid "New Category"
 msgstr ""
 
-#: View/Categories/edit.ctp:20
-#: View/Categories/index.ctp:31
-#: View/Categories/view.ctp:40
-#: View/Categories/view.ctp:108
+#: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
+#: View/Categories/view.ctp:40 View/Categories/view.ctp:108
+#: View/SmileyCodes/admin_edit.ctp:20 View/SmileyCodes/admin_index.ctp:28
+#: View/Smilies/admin_index.ctp:32
 #, php-format
 msgid "Are you sure you want to delete # %s?"
 msgstr ""
 
-#: View/Categories/index.ctp:29
-#: View/Categories/view.ctp:106
+#: View/Categories/index.ctp:29 View/Categories/view.ctp:106
+#: View/Settings/admin_index.ctp:245
 msgid "View"
 msgstr ""
 
 #: View/Categories/index.ctp:39
-msgid "Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%"
+msgid ""
+"Page %page% of %pages%, showing %current% records out of %count% total, "
+"starting on record %start%, ending on %end%"
 msgstr ""
 
 #: View/Categories/index.ctp:44
@@ -229,14 +212,12 @@ msgstr ""
 msgid "next"
 msgstr ""
 
-#: View/Categories/view.ctp:2
-#: View/Categories/view.ctp:14
+#: View/Categories/view.ctp:2 View/Categories/view.ctp:14
 #: View/Categories/view.ctp:65
 msgid "Category"
 msgstr ""
 
-#: View/Categories/view.ctp:4
-#: View/Categories/view.ctp:54
+#: View/Categories/view.ctp:4 View/Categories/view.ctp:54
 msgid "Id"
 msgstr ""
 
@@ -304,7 +285,7 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: View/Categories/view.ctp:66
+#: View/Categories/view.ctp:66 View/Entries/search.ctp:60
 msgid "Text"
 msgstr ""
 
@@ -339,9 +320,12 @@ msgstr "This email was send by %s (%s)."
 #: View/Elements/entry/category-chooser.ctp:6
 #, fuzzy
 msgid "category_chooser_context_exp"
-msgstr "Choose your custom categories.<br/><br/>Click on a name to quickly show this category without changing your preferences."
+msgstr ""
+"Choose your custom categories.<br/><br/>Click on a name to quickly show this "
+"category without changing your preferences."
 
 #: View/Elements/entry/category-chooser.ctp:37
+#: Controller/EntriesController.php:863
 msgid "All"
 msgstr ""
 
@@ -373,90 +357,96 @@ msgstr ""
 msgid "fixed"
 msgstr ""
 
-#: View/Elements/entry/thread_line_cached.ctp:48
+#: View/Elements/entry/thread_line_cached.ctp:48 View/Entries/add.ctp:197
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
-#: View/Elements/entry/view_content.ctp:57
-msgid "board_edited_marking"
-msgstr "edited by"
+#: View/Elements/entry/view_content.ctp:58
+#, php-format
+msgid "%s edited by %s"
+msgstr ""
 
-#: View/Elements/entry/view_content.ctp:62
+#: View/Elements/entry/view_content.ctp:69
 msgid "views_headline"
 msgstr "views"
 
-#: View/Elements/entry/view_posting.ctp:12
-#: View/Elements/entry/view_posting.ctp:145
+#: View/Elements/entry/view_posting.ctp:58
 #: View/Elements/layout/header_login.ctp:34
 #: View/Elements/layout/header_login.ctp:40
-#: View/Elements/layout/header_login.ctp:41
+#: View/Elements/layout/header_login.ctp:41 View/Entries/index.ctp:18
+#: View/Entries/search.ctp:29 View/Users/view.ctp:153
 msgid "Help"
 msgstr ""
 
-#: View/Elements/entry/view_posting.ctp:13
-msgid "button_mod_panel_shp"
-msgstr ""
-
-#: View/Elements/entry/view_posting.ctp:28
-#: View/Elements/entry/view_posting.ctp:176
-msgid "edit_linkname"
-msgstr "Edit"
-
-#: View/Elements/entry/view_posting.ctp:43
-msgid "fixed_set_entry_link"
-msgstr "Pin"
-
-#: View/Elements/entry/view_posting.ctp:44
-msgid "fixed_unset_entry_link"
-msgstr "Unpin"
-
-#: View/Elements/entry/view_posting.ctp:64
-msgid "locked_set_entry_link"
-msgstr "Lock"
-
-#: View/Elements/entry/view_posting.ctp:65
-msgid "locked_unset_entry_link"
-msgstr "Unlock"
-
-#: View/Elements/entry/view_posting.ctp:85
-msgid "merge_tree_link"
-msgstr "Merge"
-
-#: View/Elements/entry/view_posting.ctp:99
-msgid "delete_tree_link"
-msgstr "Delete"
-
-#: View/Elements/entry/view_posting.ctp:106
-msgid "delete_tree_link_confirm_message"
-msgstr "Deleting a thread can't be undone! Are you sure you want to delete the thread?"
-
-#: View/Elements/entry/view_posting.ctp:146
+#: View/Elements/entry/view_posting.ctp:59
 msgid "answering_forbidden_locked_shp"
 msgstr "Answering forbidden by moderator."
 
-#: View/Elements/entry/view_posting.ctp:153
+#: View/Elements/entry/view_posting.ctp:66
 msgid "forum_answer_linkname"
 msgstr "Answer"
 
+#: View/Elements/entry/view_posting.ctp:89
+#: View/Elements/entry/view_posting.ctp:113
+#: Controller/EntriesController.php:449
+msgid "edit_linkname"
+msgstr "Edit"
+
+#: View/Elements/entry/view_posting.ctp:128
+msgid "fixed_set_entry_link"
+msgstr "Pin"
+
+#: View/Elements/entry/view_posting.ctp:129
+msgid "fixed_unset_entry_link"
+msgstr "Unpin"
+
+#: View/Elements/entry/view_posting.ctp:149
+msgid "locked_set_entry_link"
+msgstr "Lock"
+
+#: View/Elements/entry/view_posting.ctp:150
+msgid "locked_unset_entry_link"
+msgstr "Unlock"
+
+#: View/Elements/entry/view_posting.ctp:170
+msgid "merge_tree_link"
+msgstr "Merge"
+
+#: View/Elements/entry/view_posting.ctp:184
+msgid "delete_tree_link"
+msgstr "Delete"
+
+#: View/Elements/entry/view_posting.ctp:191
+msgid "delete_tree_link_confirm_message"
+msgstr ""
+"Deleting a thread can't be undone! Are you sure you want to delete the "
+"thread?"
+
 #: View/Elements/layout/disclaimer.ctp:4
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:7
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:10
+#: View/Users/view.ctp:46
 msgid "Contact"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:10
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:19
 msgid "RSS"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:17
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:29
 msgid "Status"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:20
 #, php-format
-msgid "%s Entries in %s Threads; %s registred users, %s logged in, %s anonymous."
+msgid ""
+"%s Entries in %s Threads; %s registred users, %s logged in, %s anonymous."
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:32
@@ -464,21 +454,25 @@ msgid "About"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:34
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:44
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:36
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:46
 #, php-format
 msgid "Generated in %s s."
 msgstr ""
 
-#: View/Elements/layout/header_login.ctp:4
+#: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:1
+#: View/Users/register.ctp:64
 msgid "register_linkname"
 msgstr "Register"
 
 #: View/Elements/layout/header_login.ctp:7
 #: View/Elements/layout/header_login.ctp:9
+#: View/Elements/users/login_form.ctp:8
 msgid "login_btn"
 msgstr "Login"
 
@@ -486,7 +480,8 @@ msgstr "Login"
 msgid "Forum Settings"
 msgstr ""
 
-#: View/Elements/layout/header_login.ctp:22
+#: View/Elements/layout/header_login.ctp:22 View/Users/edit.ctp:119
+#: View/Users/view.ctp:88 View/Users/view.ctp:124
 msgid "user_profile"
 msgstr "User Profile"
 
@@ -498,7 +493,8 @@ msgstr "Logout"
 msgid "No help for this page available."
 msgstr ""
 
-#: View/Elements/layout/header_search.ctp:14
+#: View/Elements/layout/header_search.ctp:14 View/Entries/search.ctp:16
+#: View/Entries/search.ctp:82
 msgid "search_submit"
 msgstr "Search"
 
@@ -506,24 +502,30 @@ msgstr "Search"
 msgid "Recent entries"
 msgstr ""
 
-#: View/Elements/layout/slidetab_recentposts.ctp:17
+#: View/Elements/layout/slidetab_recentposts.ctp:17 View/Users/view.ctp:209
 msgid "user_recentposts"
 msgstr "recent posts"
 
 #: View/Elements/layout/slidetab_userlist.ctp:15
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:15
 msgid "user_area_linkname"
 msgstr "User"
 
 #: View/Elements/layout/slidetab_userlist.ctp:13
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:13
 #, php-format
 msgid "%s online (%s)"
 msgstr ""
 
 #: View/Elements/layout/slidetab_userlist.ctp:29
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:29
+#: View/Helper/UserHHelper.php:113
 msgid "ud_admin"
 msgstr "Administrator"
 
 #: View/Elements/layout/slidetab_userlist.ctp:30
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:30
+#: View/Helper/UserHHelper.php:111
 msgid "ud_mod"
 msgstr "Moderator"
 
@@ -551,16 +553,18 @@ msgstr ""
 msgid "register_user_email"
 msgstr "Email Address"
 
-#: View/Elements/users/add_form_core.ctp:20
+#: View/Elements/users/add_form_core.ctp:20 View/Users/changepassword.ctp:18
+#: View/Users/changepassword.ctp:26
 msgid "error_password_empty"
 msgstr ""
 
-#: View/Elements/users/add_form_core.ctp:21
+#: View/Elements/users/add_form_core.ctp:21 View/Users/changepassword.ctp:27
 msgid "error_password_confirm"
 msgstr ""
 
 #: View/Elements/users/add_form_core.ctp:23
-#: View/Elements/users/login_form.ctp:6
+#: View/Elements/users/login_form.ctp:6 View/Users/edit.ctp:48
+#: View/Users/edit.ctp:60 View/Users/edit.ctp:76
 msgid "user_pw"
 msgstr "Password"
 
@@ -568,7 +572,7 @@ msgstr "Password"
 msgid "user_pw_confirm"
 msgstr "Confirm Password"
 
-#: View/Elements/users/login_form.ctp:5
+#: View/Elements/users/login_form.ctp:5 View/Entries/search.ctp:62
 msgid "user_name"
 msgstr "Username"
 
@@ -583,37 +587,35 @@ msgstr ""
 "\n"
 "To activate your account please click the following link: %s"
 
-#: View/Entries/add.ctp:42
-#: View/Entries/add.ctp:286
+#: View/Entries/add.ctp:36 View/Entries/add.ctp:282
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:101
+#: View/Entries/add.ctp:95
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:130
+#: View/Entries/add.ctp:124 Controller/UsersController.php:402
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:166
+#: View/Entries/add.ctp:160
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:188
+#: View/Entries/add.ctp:182
 msgid "Notify on reply"
 msgstr ""
 
-#: View/Entries/add.ctp:196
+#: View/Entries/add.ctp:190
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:211
+#: View/Entries/add.ctp:205
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
-#: View/Entries/add.ctp:250
-#: View/Entries/add.ctp:264
+#: View/Entries/add.ctp:244 View/Entries/add.ctp:259 View/Entries/add.ctp:316
 msgid "submit_button"
 msgstr "Submit"
 
@@ -634,7 +636,8 @@ msgstr ""
 msgid "Merge onto entry with ID:"
 msgstr ""
 
-#: View/Entries/mix.ctp:6
+#: View/Entries/mix.ctp:6 View/Users/changepassword.ctp:4
+#: View/Users/edit.ctp:4
 msgid "Back"
 msgstr ""
 
@@ -644,7 +647,19 @@ msgstr "Search"
 
 #: View/Entries/search.ctp:30
 msgid "search_fulltext_textfield_shp"
-msgstr "+ stands for AND<br/>- stands for NOT<br/>[no operator] implies OR             <br/><br/> 'apple banana' Find entries that contain at least one of the two words.              <br /> <br />'+apple +juice' Find entries that contain both words.              <br /> <br />'+apple macintosh' Find entries that contain the word “apple”, but rank entries higher if they also contain “macintosh”.              <br /> <br />'+apple -macintosh' Find entries that contain the word “apple” but not “macintosh”.              <br /> <br />'apple*' Find entries that contain words such as “apple”, “apples”, “applesauce”, or “applet.              <br /> <br />                '\"some words\"' Find entries that contain the exact phrase “some words” (for example, entries that contain “some words of wisdom” but not “some noise words”).\""
+msgstr ""
+"+ stands for AND<br/>- stands for NOT<br/>[no operator] implies "
+"OR             <br/><br/> 'apple banana' Find entries that contain at least "
+"one of the two words.              <br /> <br />'+apple +juice' Find entries "
+"that contain both words.              <br /> <br />'+apple macintosh' Find "
+"entries that contain the word “apple”, but rank entries higher if they also "
+"contain “macintosh”.              <br /> <br />'+apple -macintosh' Find "
+"entries that contain the word “apple” but not “macintosh”.              <br /"
+"> <br />'apple*' Find entries that contain words such as “apple”, “apples”, "
+"“applesauce”, or “applet.              <br /> <br />                '\"some "
+"words\"' Find entries that contain the exact phrase “some words” (for "
+"example, entries that contain “some words of wisdom” but not “some noise "
+"words”).\""
 
 #: View/Entries/search.ctp:41
 msgid "search_advanced"
@@ -666,7 +681,7 @@ msgstr "Simple Search"
 msgid "search_nothing_found"
 msgstr "Nothing found."
 
-#: View/Entries/view.ctp:6
+#: View/Entries/view.ctp:6 View/Users/view.ctp:4
 msgid "back_to_forum_linkname"
 msgstr "Go Back to the Forum"
 
@@ -674,19 +689,27 @@ msgstr "Go Back to the Forum"
 msgid "whole_thread_marking"
 msgstr "Whole Thread"
 
-#: View/Layouts/admin.ctp:28
+#: View/Layouts/admin.ctp:32
 msgid "Overview"
 msgstr ""
 
-#: View/Layouts/admin.ctp:33
+#: View/Layouts/admin.ctp:37 View/Settings/admin_edit.ctp:1
+#: View/Settings/admin_index.ctp:1 View/Users/edit.ctp:150
 msgid "Settings"
 msgstr ""
 
-#: View/Layouts/admin.ctp:39
+#: View/Layouts/admin.ctp:40 View/Users/admin_index.ctp:3
+msgid "Users"
+msgstr ""
+
+#: View/Layouts/admin.ctp:46 View/SmileyCodes/admin_edit.ctp:1
+#: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:1
+#: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
+#: View/Smilies/admin_index.ctp:3 View/Users/admin_index.ctp:1
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:46
+#: View/Layouts/admin.ctp:53
 msgid "Forum"
 msgstr ""
 
@@ -694,21 +717,19 @@ msgstr ""
 msgid "RSS Feeds"
 msgstr ""
 
-#: View/Pages/rss_feeds.ctp:4
-#: View/Pages/rss_feeds.ctp:7
+#: View/Pages/rss_feeds.ctp:4 View/Pages/rss_feeds.ctp:7
 msgid "RSS Feed"
 msgstr ""
 
-#: View/Pages/rss_feeds.ctp:4
+#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:120
 msgid "Last entries"
 msgstr ""
 
-#: View/Pages/rss_feeds.ctp:7
+#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:116
 msgid "Last started threads"
 msgstr ""
 
-#: View/Settings/admin_edit.ctp:25
-#: View/Settings/admin_timezone.ctp:24
+#: View/Settings/admin_edit.ctp:25 View/Settings/admin_timezone.ctp:24
 msgid "_exp"
 msgstr ""
 
@@ -736,38 +757,22 @@ msgstr ""
 msgid "forum_disabled_exp"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:26
-#: View/Settings/admin_index.ctp:45
-#: View/Settings/admin_index.ctp:69
-#: View/Settings/admin_index.ctp:88
-#: View/Settings/admin_index.ctp:107
-#: View/Settings/admin_index.ctp:131
-#: View/Settings/admin_index.ctp:150
-#: View/Settings/admin_index.ctp:169
-#: View/Settings/admin_index.ctp:193
-#: View/Settings/admin_index.ctp:212
-#: View/Settings/admin_index.ctp:236
-#: View/Settings/admin_index.ctp:260
-#: View/Settings/admin_index.ctp:279
-#: View/Settings/admin_index.ctp:298
-#: View/Settings/admin_index.ctp:317
-#: View/Settings/admin_index.ctp:336
-#: View/Settings/admin_index.ctp:355
-#: View/Settings/admin_index.ctp:374
-#: View/Settings/admin_index.ctp:393
-#: View/Settings/admin_index.ctp:412
-#: View/Settings/admin_index.ctp:431
-#: View/Settings/admin_index.ctp:450
-#: View/Settings/admin_index.ctp:469
-#: View/Settings/admin_index.ctp:493
-#: View/Settings/admin_index.ctp:512
-#: View/Settings/admin_index.ctp:536
-#: View/Settings/admin_index.ctp:555
-#: View/Settings/admin_index.ctp:578
-#: View/Settings/admin_index.ctp:597
-#: View/Settings/admin_index.ctp:616
-#: View/Settings/admin_index.ctp:635
-#: View/Settings/admin_index.ctp:645
+#: View/Settings/admin_index.ctp:26 View/Settings/admin_index.ctp:45
+#: View/Settings/admin_index.ctp:69 View/Settings/admin_index.ctp:88
+#: View/Settings/admin_index.ctp:107 View/Settings/admin_index.ctp:131
+#: View/Settings/admin_index.ctp:150 View/Settings/admin_index.ctp:169
+#: View/Settings/admin_index.ctp:193 View/Settings/admin_index.ctp:212
+#: View/Settings/admin_index.ctp:236 View/Settings/admin_index.ctp:260
+#: View/Settings/admin_index.ctp:279 View/Settings/admin_index.ctp:298
+#: View/Settings/admin_index.ctp:317 View/Settings/admin_index.ctp:336
+#: View/Settings/admin_index.ctp:355 View/Settings/admin_index.ctp:374
+#: View/Settings/admin_index.ctp:393 View/Settings/admin_index.ctp:412
+#: View/Settings/admin_index.ctp:431 View/Settings/admin_index.ctp:450
+#: View/Settings/admin_index.ctp:469 View/Settings/admin_index.ctp:493
+#: View/Settings/admin_index.ctp:512 View/Settings/admin_index.ctp:536
+#: View/Settings/admin_index.ctp:555 View/Settings/admin_index.ctp:578
+#: View/Settings/admin_index.ctp:597 View/Settings/admin_index.ctp:616
+#: View/Settings/admin_index.ctp:635 View/Settings/admin_index.ctp:645
 #: View/Settings/admin_index.ctp:664
 msgid "edit"
 msgstr ""
@@ -798,7 +803,9 @@ msgstr "Email"
 
 #: View/Settings/admin_index.ctp:84
 msgid "forum_email_exp"
-msgstr "Email address used as sender address for emails send by the forum (e.g. when registering)."
+msgstr ""
+"Email address used as sender address for emails send by the forum (e.g. when "
+"registering)."
 
 #: View/Settings/admin_index.ctp:97
 msgid "timezone"
@@ -847,7 +854,8 @@ msgstr "ToS Enabled"
 
 #: View/Settings/admin_index.ctp:189
 msgid "tos_enabled_exp"
-msgstr "Puts a Term of Service checkbox and link on the user registration page."
+msgstr ""
+"Puts a Term of Service checkbox and link on the user registration page."
 
 #: View/Settings/admin_index.ctp:202
 msgid "tos_url"
@@ -855,7 +863,8 @@ msgstr "ToS Url"
 
 #: View/Settings/admin_index.ctp:208
 msgid "tos_url_exp"
-msgstr "Sets the url for the ToS link. If empty, use the build-in default pages."
+msgstr ""
+"Sets the url for the ToS link. If empty, use the build-in default pages."
 
 #
 #: View/Settings/admin_index.ctp:226
@@ -891,7 +900,9 @@ msgstr "Thread Indent Depth"
 
 #: View/Settings/admin_index.ctp:294
 msgid "thread_depth_indent_exp"
-msgstr "Max. indent to the the right for threads in thread-view. After that threads appear on the same level."
+msgstr ""
+"Max. indent to the the right for threads in thread-view. After that threads "
+"appear on the same level."
 
 #: View/Settings/admin_index.ctp:307
 msgid "autolink"
@@ -965,7 +976,9 @@ msgstr "Embeddable Video Sources"
 #
 #: View/Settings/admin_index.ctp:465
 msgid "video_domains_allowed_exp"
-msgstr "Domain names embeddable for video/iframe. Asterisk * means all sources allowed (This could pose a security risk if malicious code is embedded!)."
+msgstr ""
+"Domain names embeddable for video/iframe. Asterisk * means all sources "
+"allowed (This could pose a security risk if malicious code is embedded!)."
 
 #: View/Settings/admin_index.ctp:478
 msgid "Category Chooser"
@@ -985,7 +998,9 @@ msgstr "User Override"
 
 #: View/Settings/admin_index.ctp:508
 msgid "category_chooser_user_override_exp"
-msgstr "If the category chooser is off be default this allows users to enable it in their user preferences."
+msgstr ""
+"If the category chooser is off be default this allows users to enable it in "
+"their user preferences."
 
 #: View/Settings/admin_index.ctp:526
 msgid "upload_max_img_size"
@@ -1009,7 +1024,8 @@ msgstr "Flattr Enabled"
 
 #: View/Settings/admin_index.ctp:574
 msgid "flattr_enabled_exp"
-msgstr "Allows users to add a flattr button to their profil and their postings."
+msgstr ""
+"Allows users to add a flattr button to their profil and their postings."
 
 #: View/Settings/admin_index.ctp:587
 msgid "flattr_language"
@@ -1017,7 +1033,9 @@ msgstr "Flattr Language"
 
 #: View/Settings/admin_index.ctp:593
 msgid "flattr_language_exp"
-msgstr "Flattr expects an language key for the content send. See flattr documentation for available language keys."
+msgstr ""
+"Flattr expects an language key for the content send. See flattr "
+"documentation for available language keys."
 
 #: View/Settings/admin_index.ctp:606
 msgid "flattr_category"
@@ -1041,7 +1059,8 @@ msgstr "Embedly Key"
 
 #: View/Settings/admin_index.ctp:643
 msgid "embedly_key_exp"
-msgstr "You have to register at Embed.ly to receive an API-key, which you enter here."
+msgstr ""
+"You have to register at Embed.ly to receive an API-key, which you enter here."
 
 #: View/Settings/admin_index.ctp:654
 msgid "Debug"
@@ -1054,32 +1073,29 @@ msgstr "Stopwatch"
 #: View/Settings/admin_index.ctp:662
 #, fuzzy
 msgid "stopwatch_get_exp"
-msgstr "Outputs stopwatch times by appending <code>/stopwatch:true/</code> to url."
+msgstr ""
+"Outputs stopwatch times by appending <code>/stopwatch:true/</code> to url."
 
 #: View/SmileyCodes/admin_add.ctp:4
 msgid "Admin Add Smiley Code"
 msgstr ""
 
-#: View/SmileyCodes/admin_add.ctp:17
-#: View/SmileyCodes/admin_edit.ctp:21
-#: View/Smilies/admin_add.ctp:22
+#: View/SmileyCodes/admin_add.ctp:17 View/SmileyCodes/admin_edit.ctp:21
+#: View/Smilies/admin_add.ctp:22 View/Smilies/admin_index.ctp:5
 msgid "List Smiley Codes"
 msgstr ""
 
-#: View/SmileyCodes/admin_add.ctp:18
-#: View/SmileyCodes/admin_edit.ctp:22
-#: View/Smilies/add.ctp:18
+#: View/SmileyCodes/admin_add.ctp:18 View/SmileyCodes/admin_edit.ctp:22
 #: View/Smilies/admin_add.ctp:21
 msgid "List Smilies"
 msgstr ""
 
-#: View/SmileyCodes/admin_add.ctp:19
-#: View/SmileyCodes/admin_edit.ctp:23
+#: View/SmileyCodes/admin_add.ctp:19 View/SmileyCodes/admin_edit.ctp:23
+#: View/Smilies/admin_index.ctp:4
 msgid "New Smiley"
 msgstr ""
 
-#: View/SmileyCodes/admin_edit.ctp:2
-#: View/SmileyCodes/admin_index.ctp:2
+#: View/SmileyCodes/admin_edit.ctp:2 View/SmileyCodes/admin_index.ctp:2
 #: View/SmileyCodes/admin_index.ctp:4
 msgid "Smiley Codes"
 msgstr ""
@@ -1092,13 +1108,8 @@ msgstr ""
 msgid "Admin Edit Smiley Code"
 msgstr ""
 
-#: View/SmileyCodes/admin_index.ctp:34
-#: View/Smilies/admin_add.ctp:23
+#: View/SmileyCodes/admin_index.ctp:34 View/Smilies/admin_add.ctp:23
 msgid "New Smiley Code"
-msgstr ""
-
-#: View/Smilies/add.ctp:4
-msgid "Add Smily"
 msgstr ""
 
 #: View/Smilies/admin_add.ctp:2
@@ -1117,21 +1128,7 @@ msgstr ""
 msgid "Admin Edit Smiley"
 msgstr ""
 
-#: View/Smilies/edit.ctp:4
-msgid "Edit Smily"
-msgstr ""
-
-#: View/Smilies/index.ctp:51
-msgid "New Smily"
-msgstr ""
-
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:44
-#, php-format
-msgid "Powered by Saito  v%s."
-msgstr ""
-
-#: View/Uploads/add.ctp:10
-#: View/Uploads/index.ctp:29
+#: View/Uploads/add.ctp:10 View/Uploads/index.ctp:29
 msgid "upload_btn"
 msgstr "Upload"
 
@@ -1139,8 +1136,7 @@ msgstr "Upload"
 msgid "upload_new_title"
 msgstr ""
 
-#: View/Uploads/index.ctp:46
-#: View/Uploads/index.ctp:54
+#: View/Uploads/index.ctp:46 View/Uploads/index.ctp:54
 msgid "upload_btn_delete_upload"
 msgstr ""
 
@@ -1148,7 +1144,7 @@ msgstr ""
 msgid "upload_btn_insert_into_posting"
 msgstr "Insert"
 
-#: View/Users/admin_add.ctp:4
+#: View/Users/admin_add.ctp:4 View/Users/admin_index.ctp:4
 msgid "Add User"
 msgstr ""
 
@@ -1161,8 +1157,30 @@ msgstr ""
 msgid "Delete user %s"
 msgstr ""
 
-#: View/Users/changepassword.ctp:9
-#: View/Users/edit.ctp:51
+#: View/Users/admin_index.ctp:10 View/Users/edit.ctp:32 View/Users/edit.ctp:66
+#: View/Users/index.ctp:14 View/Users/view.ctp:26
+msgid "username_marking"
+msgstr "Name"
+
+#: View/Users/admin_index.ctp:11 View/Users/edit.ctp:42
+#: View/Users/index.ctp:15
+msgid "user_type"
+msgstr "Type"
+
+#: View/Users/admin_index.ctp:12
+msgid "user_email"
+msgstr "Email"
+
+#: View/Users/admin_index.ctp:13 View/Users/index.ctp:17
+msgid "registered"
+msgstr "Registered"
+
+#: View/Users/admin_index.ctp:16 View/Users/index.ctp:20
+#, fuzzy
+msgid "user_lock"
+msgstr "Blocked"
+
+#: View/Users/changepassword.ctp:9 View/Users/edit.ctp:51
 #: View/Users/edit.ctp:79
 msgid "change_password_link"
 msgstr "Change password"
@@ -1208,24 +1226,11 @@ msgstr ""
 msgid "Profil"
 msgstr ""
 
-#: View/Users/edit.ctp:32
-#: View/Users/edit.ctp:66
-#: View/Users/index.ctp:14
-msgid "username_marking"
-msgstr "Name"
-
-#: View/Users/edit.ctp:37
-#: View/Users/edit.ctp:71
+#: View/Users/edit.ctp:37 View/Users/edit.ctp:71 View/Users/view.ctp:53
 msgid "userlist_email"
 msgstr "Email"
 
-#: View/Users/edit.ctp:42
-#: View/Users/index.ctp:15
-msgid "user_type"
-msgstr "Type"
-
-#: View/Users/edit.ctp:55
-#: View/Users/edit.ctp:83
+#: View/Users/edit.ctp:55 View/Users/edit.ctp:83
 msgid "user_pw_exp"
 msgstr ""
 
@@ -1237,7 +1242,7 @@ msgstr ""
 msgid "user_show_email_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:100
+#: View/Users/edit.ctp:100 View/Users/view.ctp:39
 msgid "user_real_name"
 msgstr ""
 
@@ -1245,7 +1250,7 @@ msgstr ""
 msgid "user_real_name_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:107
+#: View/Users/edit.ctp:107 View/Users/view.ctp:60
 msgid "user_hp"
 msgstr "Homepage"
 
@@ -1253,7 +1258,7 @@ msgstr "Homepage"
 msgid "user_hp_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:114
+#: View/Users/edit.ctp:114 View/Users/view.ctp:67
 msgid "user_place"
 msgstr "Place"
 
@@ -1265,7 +1270,7 @@ msgstr ""
 msgid "user_profile_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:130
+#: View/Users/edit.ctp:130 View/Users/view.ctp:96
 msgid "user_signature"
 msgstr "Signature"
 
@@ -1419,7 +1424,7 @@ msgstr ""
 msgid "new_user_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:295
+#: View/Users/edit.ctp:295 View/Users/view.ctp:104
 msgid "flattr"
 msgstr ""
 
@@ -1455,26 +1460,20 @@ msgstr "Registered Users"
 msgid "userlist_online"
 msgstr "Online"
 
-#: View/Users/index.ctp:17
-msgid "registered"
-msgstr "Registered"
-
-#: View/Users/index.ctp:20
-#, fuzzy
-msgid "user_lock"
-msgstr "Blocked"
-
 #: View/Users/login.ctp:2
 msgid "login_linkname"
 msgstr "Login"
 
 #: View/Users/register.ctp:4
 msgid "register_email_send_content"
-msgstr "Thanks for registering. A email with a link was send to you. Please click that link to finish the registration. Prior to that you're not able to login!"
+msgstr ""
+"Thanks for registering. A email with a link was send to you. Please click "
+"that link to finish the registration. Prior to that you're not able to login!"
 
 #: View/Users/register.ctp:6
 msgid "register_success_content"
-msgstr "Your registration is now finished. You are able to loggin now. Have fun!"
+msgstr ""
+"Your registration is now finished. You are able to loggin now. Have fun!"
 
 #: View/Users/register.ctp:9
 msgid "register-js-required"
@@ -1510,16 +1509,20 @@ msgid "user_postings"
 msgstr "Number of Postings"
 
 #: View/Users/view.ctp:145
+msgid "edit_userdata"
+msgstr "Edit"
+
+#: View/Users/view.ctp:154
+msgid "button_mod_panel_shp"
+msgstr ""
+
+#: View/Users/view.ctp:167
 msgid "Unlock"
 msgstr ""
 
-#: View/Users/view.ctp:145
+#: View/Users/view.ctp:167
 msgid "Lock"
 msgstr ""
-
-#: View/Users/view.ctp:185
-msgid "edit_userdata"
-msgstr "Edit"
 
 #: Controller/CategoriesController.php:81
 #: Controller/CategoriesController.php:96
@@ -1567,55 +1570,51 @@ msgstr ""
 msgid "page"
 msgstr ""
 
-#: Controller/EntriesController.php:248
+#: Controller/EntriesController.php:241
 msgid "new_entry_linktitle"
 msgstr "New Entry"
 
-#: Controller/EntriesController.php:251
+#: Controller/EntriesController.php:244
 msgid "logged_in_users_only"
 msgstr ""
 
-#: Controller/EntriesController.php:314
-#: Controller/EntriesController.php:443
+#: Controller/EntriesController.php:294 Controller/EntriesController.php:411
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:316
-#: Controller/EntriesController.php:364
+#: Controller/EntriesController.php:296 Controller/EntriesController.php:346
 msgid "back_to_overview_linkname"
 msgstr "Back to Forum"
 
-#: Controller/EntriesController.php:357
-#: Controller/EntriesController.php:470
+#: Controller/EntriesController.php:339 Controller/EntriesController.php:445
 msgid "back_to_posting_from_linkname"
 msgstr "Zurück zum Eintrag von %s"
 
-#: Controller/EntriesController.php:368
+#: Controller/EntriesController.php:350
 msgid "answer_marking"
 msgstr "Answer"
 
-#: Controller/EntriesController.php:500
+#: Controller/EntriesController.php:475
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:682
+#: Controller/EntriesController.php:660
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:716
+#: Controller/EntriesController.php:694
 msgid "_set_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:716
+#: Controller/EntriesController.php:694
 msgid "_unset_entry_link"
 msgstr ""
 
-#: Controller/EntriesController.php:921
+#: Controller/EntriesController.php:899
 msgid "Custom"
 msgstr ""
 
-#: Controller/EntriesController.php:958
-#: Controller/EntriesController.php:968
+#: Controller/EntriesController.php:936 Controller/EntriesController.php:946
 msgid "Invalid post"
 msgstr ""
 
@@ -1657,13 +1656,11 @@ msgstr ""
 msgid "Smiley code was not deleted"
 msgstr ""
 
-#: Controller/SmiliesController.php:23
-#: Controller/SmiliesController.php:38
+#: Controller/SmiliesController.php:23 Controller/SmiliesController.php:38
 msgid "The smily has been saved"
 msgstr ""
 
-#: Controller/SmiliesController.php:26
-#: Controller/SmiliesController.php:41
+#: Controller/SmiliesController.php:26 Controller/SmiliesController.php:41
 msgid "The smily could not be saved. Please, try again."
 msgstr ""
 
@@ -1683,13 +1680,11 @@ msgstr ""
 msgid "Smily was not deleted"
 msgstr ""
 
-#: Controller/UploadsController.php:33
-#: Controller/UploadsController.php:86
+#: Controller/UploadsController.php:33 Controller/UploadsController.php:86
 msgid "upload_max_number_of_uploads_failed"
 msgstr ""
 
-#: Controller/UsersController.php:53
-#: Controller/UsersController.php:280
+#: Controller/UsersController.php:53 Controller/UsersController.php:294
 #, php-format
 msgid "User %s is locked."
 msgstr ""
@@ -1702,68 +1697,66 @@ msgstr "Username or Password wrong."
 msgid "register_email_subject"
 msgstr "Welcome to %s!"
 
-#: Controller/UsersController.php:166
-#: Controller/UsersController.php:187
+#: Controller/UsersController.php:180 Controller/UsersController.php:201
 msgid "Invalid user"
 msgstr ""
 
-#: Controller/UsersController.php:221
+#: Controller/UsersController.php:235
 msgid "user_edit_success"
 msgstr "Preferences were saved."
 
-#: Controller/UsersController.php:234
+#: Controller/UsersController.php:248
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:262
-#: Controller/UsersController.php:299
+#: Controller/UsersController.php:276 Controller/UsersController.php:313
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
 
-#: Controller/UsersController.php:270
+#: Controller/UsersController.php:284
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:272
+#: Controller/UsersController.php:286
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:282
+#: Controller/UsersController.php:296
 #, php-format
 msgid "User %s is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:286
+#: Controller/UsersController.php:300
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:305
+#: Controller/UsersController.php:319
 msgid "You can't delete yourself."
 msgstr ""
 
-#: Controller/UsersController.php:307
+#: Controller/UsersController.php:321
 msgid "You can't delete the installation account."
 msgstr ""
 
-#: Controller/UsersController.php:309
+#: Controller/UsersController.php:323
 #, php-format
 msgid "User %s deleted."
 msgstr ""
 
-#: Controller/UsersController.php:312
+#: Controller/UsersController.php:326
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:337
+#: Controller/UsersController.php:351
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:400
+#: Controller/UsersController.php:414
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:403
+#: Controller/UsersController.php:417
 msgid "Error, message couldn't be send! "
 msgstr ""
 
@@ -1845,6 +1838,7 @@ msgid "Nachmittag"
 msgstr ""
 
 #: Test/Case/View/Helper/GlasenuhrHelperTest.php:30
+#: View/Helper/GlasenuhrHelper.php:33
 msgid "Freiwache"
 msgstr ""
 
@@ -1852,25 +1846,31 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:471
-msgid "Your browser does not support HTML5 video. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
+#: View/Helper/BbcodeHelper.php:472
+msgid ""
+"Your browser does not support HTML5 video. Please updgrade to a "
+"modernbrowser. In order to watch this stream you need an HTML5 capable "
+"browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:489
-msgid "Your browser does not support HTML5 audio. Please updgrade to a modernbrowser. In order to watch this stream you need an HTML5 capable browser."
+#: View/Helper/BbcodeHelper.php:490
+msgid ""
+"Your browser does not support HTML5 audio. Please updgrade to a "
+"modernbrowser. In order to watch this stream you need an HTML5 capable "
+"browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:720
+#: View/Helper/BbcodeHelper.php:721
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Enable Embedly"
 
-#: View/Helper/BbcodeHelper.php:821
+#: View/Helper/BbcodeHelper.php:822
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:829
+#: View/Helper/BbcodeHelper.php:830
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -1955,8 +1955,7 @@ msgstr "Upload"
 msgid "Media"
 msgstr ""
 
-#: View/Helper/TimeHHelper.php:86
-#: View/Helper/TimeHHelper.php:105
+#: View/Helper/TimeHHelper.php:88 View/Helper/TimeHHelper.php:107
 msgid "yesterday"
 msgstr ""
 
@@ -1968,11 +1967,11 @@ msgstr "User"
 msgid "userranks_not_found"
 msgstr ""
 
+#~ msgid "board_edited_marking"
+#~ msgstr "edited by"
+
 #~ msgid "register_ip"
 #~ msgstr "Register IP"
 
 #~ msgid "back_to_posting_linkname"
 #~ msgstr "Back to Posting"
-
-msgid "user_email"
-msgstr "Email"

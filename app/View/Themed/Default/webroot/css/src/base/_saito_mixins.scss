@@ -114,6 +114,24 @@
 	@include c_t_h_3_abs();
   }
 
+.l-box-footer {
+  border-width: $border_width 0 0 0;
+	border-style: solid;
+	padding: $padding;
+  @extend .c_bottom-radius;
+	}
+
+.box-footer-form {
+	background-color: $saito_gray_light;
+	border-color: $saito_gray_dark;
+
+	& > .icon-huge {
+		vertical-align:middle;
+		line-height: 1;
+		margin: 0 $padding;
+	}
+	}
+
 .box_layout_1 {
   width: auto;
   padding: $padding-content; }
