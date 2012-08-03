@@ -98,19 +98,19 @@
 			<?php $isModMenuPopulated = false; ?>
 			<?php $this->start('modMenu'); ?>
 			&nbsp;
-		<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>" >
-        <div class="btn-group">
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <i class="icon-wrench"></i>
-            &nbsp;
-            <i class="icon-caret-down"></i>
-            </button>
-          <ul class="dropdown-menu">
+			<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>" >
+				<div class="btn-group">
+					<button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+						<i class="icon-wrench"></i>
+						&nbsp;
+						<i class="icon-caret-down"></i>
+						</button>
+					<ul class="dropdown-menu">
 					<?php
-            if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) :
+						if (isset($entry['rights']['isEditingForbidden']) && ($entry['rights']['isEditingForbidden'] == false)) :
 							$isModMenuPopulated = true;
-              $editLinkIsShown = TRUE;
-            ?>
+							$editLinkIsShown = TRUE;
+						?>
 						<li>
 							<?php echo $this->Html->link(
 											'<i class="icon-pencil"></i> ' . __('edit_linkname'),
@@ -122,15 +122,15 @@
 					<?php endif; ?>
 					<?php if($entry['Entry']['pid'] == 0): ?>
 						<?php $isModMenuPopulated = true; ?>
-            <?php if ($editLinkIsShown): ?>
-              <li class="divider"></li>
-            <?php endif; ?>
+						<?php if ($editLinkIsShown): ?>
+							<li class="divider"></li>
+						<?php endif; ?>
 						<li>
 							<?php
 								echo $this->Ajax->link(
 									($entry['Entry']['fixed'] == 0)
-                    ? '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_set_entry_link')
-                    : '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_unset_entry_link'),
+										? '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_set_entry_link')
+										: '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_unset_entry_link'),
 									array(
 										'controller'	=> 'entries',
 										'action'			=> 'ajax_toggle',
@@ -141,7 +141,7 @@
 										'class' 	=> 'fixed ' . $entry['Entry']['id'],
 										'success'	=> "$('.fixed.{$entry['Entry']['id']}').html(data);",
 										'inline'	=> true,
-                    'escape'  => FALSE,
+										'escape'  => FALSE,
 									)
 								);
 							?>
@@ -150,8 +150,8 @@
 							<?php
 								echo $this->Ajax->link(
 										($entry['Entry']['locked'] == 0)
-                      ? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link')
-                      : '<i class="icon-unlock"></i>&nbsp;' . __('locked_unset_entry_link'),
+											? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link')
+											: '<i class="icon-unlock"></i>&nbsp;' . __('locked_unset_entry_link'),
 										array(
 												'controller' 	=> 'entries',
 												'action'			=> 'ajax_toggle',
@@ -162,7 +162,7 @@
 												'class'		=> 'locked ' . $entry['Entry']['id'],
 												'success'	=> "$('.locked.{$entry['Entry']['id']}').html(data)",
 												'inline'	=> true,
-                        'escape'  => FALSE,
+												'escape'  => FALSE,
 										)
 									);
 							?>
@@ -177,11 +177,11 @@
 												'action'			=> 'merge',
 												$entry['Entry']['id'],
 										),
-                    array('escape' => FALSE)
+										array('escape' => FALSE)
 								);
 							?>
 						</li>
-            <li class="divider"></li>
+						<li class="divider"></li>
 						<li>
 							<?php
 								echo $this->Html->link(
@@ -191,22 +191,22 @@
 												'action'			=> 'delete',
 												$entry['Entry']['id'],
 										),
-                    array('escape' => FALSE),
+										array('escape' => FALSE),
 										__('delete_tree_link_confirm_message')
 								);
 							?>
 						</li>
 					<?php endif; ?>
 				</ul>
-      </div><!-- /btn-group -->
+			</div><!-- /btn-group -->
 		</div>
-		<?php $this->end('modMenu'); ?>
-		<?php
-			if ($isModMenuPopulated) {
-				echo $this->fetch('modMenu');
-			}
-		?>
-	<?php endif; ?>
+	<?php $this->end('modMenu'); ?>
+	<?php
+		if ($isModMenuPopulated) {
+			echo $this->fetch('modMenu');
+		}
+	?>
+<?php endif; ?>
 
 </div>
 
