@@ -207,6 +207,8 @@
 		if ($isModMenuPopulated) {
 			echo $this->fetch('modMenu');
 		}
+		// empty block or menu cascades in entries/mix
+		$this->Blocks->set('modMenu', '');
 	?>
 <?php endif; ?>
 
