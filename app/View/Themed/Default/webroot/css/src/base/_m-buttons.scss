@@ -65,11 +65,9 @@
     list-style-type: none; }
   }
 .l-button_mod_panel-wrapper {
-	position: absolute;
-	display: inline-block;
+	// #57 fix mod button overlapped in inline-view
+	position: absolute; display: inline-block;
 	}
-
-
 
 /*******************************************************************************
  * Buttons Thread Tools
