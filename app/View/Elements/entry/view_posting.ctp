@@ -98,6 +98,7 @@
 			<?php $isModMenuPopulated = false; ?>
 			<?php $this->start('modMenu'); ?>
 			&nbsp;
+		<div class="l-button_mod_panel-wrapper">
 			<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>" >
 				<div class="btn-group">
 					<button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
@@ -200,6 +201,7 @@
 				</ul>
 			</div><!-- /btn-group -->
 		</div>
+	</div>
 	<?php $this->end('modMenu'); ?>
 	<?php
 		if ($isModMenuPopulated) {
