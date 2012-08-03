@@ -609,6 +609,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .button_mod_panel { display: inline-block; vertical-align: middle; }
 .button_mod_panel ul { /* !important: in inline_view on entries_index the tree ul stuff messes in */ margin: 0 !important; padding: 0 !important; list-style-type: none; }
 
+.l-button_mod_panel-wrapper { position: absolute; display: inline-block; }
+
 /******************************************************************************* Buttons Thread Tools *****************************************************************************/
 .ico-threadTool { display: inline-block; margin-top: 1px; width: 13px; height: 13px; }
 
