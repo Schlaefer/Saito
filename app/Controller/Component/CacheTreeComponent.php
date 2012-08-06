@@ -33,6 +33,13 @@
 		public function initialize(Controller $Controller) {
 			$this->_CurrentUser = $Controller->CurrentUser;
 
+			$cache_config = Cache::settings();
+			if ($cache_config['engine'] === 'File') {
+				$this->_CacheEngine = new CacheTreeDbCache;
+			} else {
+				$this->_CacheEngine = new CacheTreeAppCache;
+			}
+
 			if (
 					$Controller->params['controller'] === 'entries' && $Controller->params['action'] === 'index'
 			) {
@@ -129,10 +136,9 @@
 		public function readCache() {
 			if ( $this->_cachedEntries === NULL ):
 				Stopwatch::start('SaitoCacheTree->readCache()');
-				$this->_cachedEntries = Cache::read('EntrySub');
+				$this->_cachedEntries = $this->_CacheEngine->read();
 
-				$cacheConfig = Cache::settings();
-				$depractionTime = time() - $cacheConfig['duration'];
+				$depractionTime = time() - $this->_CacheEngine->getDeprecationSpan();
 
 				foreach ($this->_cachedEntries as $id => $entry) {
 					if ($entry['time'] < $depractionTime) {
@@ -149,7 +155,7 @@
 				return false;
 
 			$this->_gc();
-			Cache::write('EntrySub', (array)$this->_cachedEntries);
+			$this->_CacheEngine->write((array)$this->_cachedEntries);
 		}
 
 		/**
@@ -170,6 +176,60 @@
 					});
 				$this->_cachedEntries = array_slice($this->_cachedEntries, 0, $this->_maxNumberOfEntries, true);
 			}
+		}
+
+	}
+
+	interface CacheTreeCacheEngine {
+		public function getDeprecationSpan();
+		public function read();
+		public function write(array $data);
+	}
+
+	class CacheTreeAppCache implements CacheTreeCacheEngine {
+
+		public function getDeprecationSpan() {
+			$cacheConfig = Cache::settings();
+			$depractionSpan = $cacheConfig['duration'];
+			return $depractionSpan;
+		}
+
+		public function read() {
+			return Cache::read('EntrySub');
+		}
+
+		public function write(array $data) {
+			return Cache::write('EntrySub', $data);
+		}
+	}
+
+  class CacheTreeDbCache implements CacheTreeCacheEngine {
+
+		protected $_Db;
+
+		public function __construct() {
+			$this->_Db						 = ClassRegistry::init('Ecache');
+			$this->_Db->primaryKey = 'key';
+		}
+
+		public function getDeprecationSpan() {
+			return 3600;
+		}
+
+		public function read() {
+			$result = $this->_Db->findByKey('EntrySub');
+			if ($result) {
+				return unserialize($result['Ecache']['value']);
+			}
+			return array();
+		}
+
+		public function write(array $data) {
+			return $this->_Db->save(array(
+							'Ecache' => array(
+									'key'		 => 'EntrySub',
+									'value'	 => serialize($data))
+					));
 		}
 
 	}
