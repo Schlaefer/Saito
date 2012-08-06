@@ -66,6 +66,7 @@ ThreadLine.prototype.showInlineView = function (scroll) {
     function() {
       // performance: show instead slide
       // $(p.id_thread_inline).slideDown(null,
+
       $(p.id_thread_inline).show(0,
         function() {
           if (scroll && !_isScrolledIntoView(p.id_bottom)) {
@@ -121,6 +122,7 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
       success:function(data, textStatus) {
         jQuery( p.id_thread_slider ).html(data);
         initViewPosting(id);
+				history.pushState(null, '', $(p.id_thread_line).find('a.thread_line-content').attr('href'));
       },
       async:true,
       type:'post',
