@@ -26,7 +26,7 @@
                 $this->Html->image(
                     'forum_logo.png', array( 'alt' => 'Logo', 'height' => 70 )
                 ),
-                array( 'controller' => 'entries', 'action' => 'index', 'admin' => false ),
+								'/',
                 array( 'id' => 'btn_header_logo', 'escape' => false ));
           ?>
           <div id="claim"></div>
