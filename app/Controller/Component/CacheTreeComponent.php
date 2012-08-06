@@ -140,10 +140,12 @@
 
 				$depractionTime = time() - $this->_CacheEngine->getDeprecationSpan();
 
-				foreach ($this->_cachedEntries as $id => $entry) {
-					if ($entry['time'] < $depractionTime) {
-						unset($this->_cachedEntries[$id]);
-						$this->_isUpdated = TRUE;
+				if(!empty($this->_cachedEntries)) {
+					foreach ($this->_cachedEntries as $id => $entry) {
+						if ($entry['time'] < $depractionTime) {
+							unset($this->_cachedEntries[$id]);
+							$this->_isUpdated = TRUE;
+						}
 					}
 				}
 				Stopwatch::end('SaitoCacheTree->readCache()');

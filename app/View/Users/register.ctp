@@ -1,5 +1,14 @@
-<h1><?php echo __('register_linkname'); ?></h1>
-<div class='box_layout_1 box-form'>
+	<div class="box-form">
+	<div class="l-box-header box-header">
+		<div>
+			<div class='c_first_child'></div>
+			<div>
+				<h1><?php echo __('register_linkname'); ?></h1>
+			</div>
+			<div class='c_last_child'></div>
+		</div>
+	</div>
+	<div class="content">
 	<?php if ($register_success == 'email_send') : ?>
 			<?php echo __('register_email_send_content'); ?>
 		<?php elseif ($register_success == 'success') : ?>
@@ -70,4 +79,5 @@ EOF
 			echo $this->Form->end();
 			?>
 <?php endif; ?>
+	</div>
 </div>

@@ -1,18 +1,28 @@
 <?php Stopwatch::start('category-chooser.ctp'); ?>
 <div id="category-chooser" style="display: none; overflow: hidden;">
 	<div class="box_layout_1 box-form">
-		<div style="float:right; width: 150px;">
-			<p>
-				<?php echo __('category_chooser_context_exp'); ?>
-			</p>
-		</div>
 		<?php echo $this->Form->create(null,
 					array(
 					'url' => array('controller' => 'entries', 'action'		 => 'setcategory'),
 					'style'			 => 'clear: none;',
 			));
 		?>
+		<div style="float:right; width: 150px; margin-left: 2em;">
+			<p>
+				<?php echo __('category_chooser_context_exp'); ?>
+			</p>
+		</div>
+
 		<ul class="category-chooser-ul">
+			<li class="category-chooser-li">
+				<?php echo $this->Form->checkbox('CatMeta.All',
+							array(
+							'id'		 => 'cb-category-chooser-all',
+							'style'  => 'visibility: hidden;',
+							'value'	 => 1)); 
+				?>
+				<?php echo $this->Html->link(__('All'), '/entries/setcategory/all') ?>
+			</li>
 			<?php foreach ($categoryChooser as $key => $title): ?>
 					<li class="category-chooser-li">
 						<?php
@@ -25,17 +35,6 @@
 						<?php echo $this->Html->link($title, '/entries/setcategory/' . $key) ?>
 					</li>
 				<?php endforeach; ?>
-			<li>
-				<hr/>
-			</li>
-				<li class="category-chooser-li">
-				<?php echo $this->Form->checkbox('CatMeta.All',
-							array(
-							'id'		 => 'cb-category-chooser-all',
-							'value'	 => 1));
-				?>
-				<?php echo $this->Html->link(__('All'), '/entries/setcategory/all') ?>
-			</li>
 		</ul>
 		<?php
 			$this->Js->get('#cb-category-chooser-all')->event('click',
