@@ -17,6 +17,7 @@
 				'app.upload',
 				'app.esnotification',
 				'app.esevent',
+				'app.ecach',
 		);
 
     public function testSetTitleForLayout() {
