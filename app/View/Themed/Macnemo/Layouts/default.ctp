@@ -5,9 +5,7 @@
 	</head>
 	<body>
 		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
-			<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'>
-				<?php echo $this->element('users/login_form'); ?>
-			</div>
+			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" class="l-top hero" >
