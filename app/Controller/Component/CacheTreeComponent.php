@@ -17,6 +17,13 @@
 
 		protected $_cachedEntries = null;
 
+		/**
+		 * Max number of stored entries
+		 *
+		 * @var integer
+		 */
+		protected $_maxNumberOfEntries = 240;
+
 		protected $_CurrentUser;
 
 		protected $_allowUpdate = false;
@@ -123,6 +130,16 @@
 			if ( $this->_cachedEntries === NULL ):
 				Stopwatch::start('SaitoCacheTree->readCache()');
 				$this->_cachedEntries = Cache::read('EntrySub');
+
+				$cacheConfig = Cache::settings();
+				$depractionTime = time() - $cacheConfig['duration'];
+
+				foreach ($this->_cachedEntries as $id => $entry) {
+					if ($entry['time'] < $depractionTime) {
+						unset($this->_cachedEntries[$id]);
+						$this->_isUpdated = TRUE;
+					}
+				}
 				Stopwatch::end('SaitoCacheTree->readCache()');
 			endif;
 		}
@@ -132,7 +149,6 @@
 				return false;
 
 			$this->_gc();
-			$this->_cachedEntries['last_update']['day'] = mktime(0, 0, 0);
 			Cache::write('EntrySub', (array)$this->_cachedEntries);
 		}
 
@@ -143,18 +159,16 @@
 			if ( !$this->_cachedEntries )
 				return false;
 
-			// unset cache after midnight (relative dates)
-			if ( isset($this->_cachedEntries['last_update']['day']) && mktime(0, 0, 0) != $this->_cachedEntries['last_update']['day'] ) {
-				$this->_cachedEntries = array( );
-			}
-
-			$cacheConfig = Cache::settings();
-			$depractionTime = time() - $cacheConfig['duration'];
-
-			foreach ( $this->_cachedEntries as $id => $entry ) {
-				if ( isset($entry['time']) && $entry['time'] < $depractionTime ) {
-					$this->delete($id);
-				}
+			$number_of_cached_entries = count($this->_cachedEntries);
+			if ( $number_of_cached_entries > $this->_maxNumberOfEntries ) {
+				// descending time sort
+				uasort($this->_cachedEntries, function($a, $b) {
+					if ($a['time'] == $b['time']) {
+						return 0;
+					}
+					return ($a['time'] < $b['time']) ? 1 : -1;
+					});
+				$this->_cachedEntries = array_slice($this->_cachedEntries, 0, $this->_maxNumberOfEntries, true);
 			}
 		}
 
