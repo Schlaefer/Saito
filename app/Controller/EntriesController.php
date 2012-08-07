@@ -975,31 +975,20 @@ class EntriesController extends AppController {
    * Decide if an answering panel is show when rendering a posting
    */
   protected function _showAnsweringPanel() {
-    // debug($this->localReferer('controller').'/'.$this->localReferer('action'));
     $showAnsweringPanel = FALSE;
 
-    if (
-        // Only logged in users see the answering buttons if they …
-        $this->CurrentUser->isLoggedIn()
-        && (
-            (
-              // … directly on entries/view  (not inline)
-              ($this->request->action === 'view'  && !$this->request->is('ajax'))
-              // … directly in entries/mix
-              || $this->request->action === 'mix'
-            )
-            || (
-              // … inline viewing …
-              $this->localReferer('controller') === 'entries'
-                && (
-                  // … on entries/index.
-                  $this->localReferer('action') === 'index'
-                )
-            )
-          )
-    ):
-      $showAnsweringPanel = TRUE;
-    endif;
+		if ($this->CurrentUser->isLoggedIn()) {
+			// Only logged in users see the answering buttons if they …
+			if ( // … directly on entries/view but not inline
+					($this->request->action === 'view' && !$this->request->is('ajax'))
+					// … directly in entries/mix
+					|| $this->request->action === 'mix'
+					// … inline viewing … on entries/index.
+					|| ( $this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index')
+			):
+				$showAnsweringPanel = TRUE;
+			endif;
+		}
 
     $this->set('showAnsweringPanel', $showAnsweringPanel);
 
