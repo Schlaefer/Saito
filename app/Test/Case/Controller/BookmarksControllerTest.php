@@ -1,11 +1,12 @@
 <?php
 App::uses('BookmarksController', 'Controller');
+App::uses('SaitoControllerTestCase', 'Lib');
 
 /**
  * BookmarksController Test Case
  *
  */
-class BookmarksControllerTest extends ControllerTestCase {
+class BookmarksControllerTest extends SaitoControllerTestCase {
 
 /**
  * Fixtures
@@ -13,15 +14,7 @@ class BookmarksControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.bookmark',
-		'app.user',
-		'app.user_online',
-		'app.bookmarks',
-		'app.esnotification',
-		'app.esevent',
-		'app.entry',
-		'app.category',
-		'app.upload'
+			'app.bookmark',
 	);
 
 /**
