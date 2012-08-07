@@ -23,7 +23,7 @@
 			}
 		?>
 		<?php
-			if ( $CurrentUser->isLoggedIn() ) :
+			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
 		?>
