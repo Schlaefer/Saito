@@ -24,6 +24,9 @@ class User extends AppModel {
 			),
 	);
 	public $hasMany = array(
+			'Bookmarks' => array(
+					'foreignKey' => 'user_id',
+			),
 			'Esnotification' => array(
 					'foreignKey' => 'user_id',
 			),
