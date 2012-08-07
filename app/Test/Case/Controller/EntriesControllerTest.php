@@ -27,6 +27,17 @@
 				'app.esevent',
 		);
 
+		public function testBookmarkButtonVisibility() {
+
+			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
+			$this->assertNotContains('bookmarks-subscribe-1', $result);
+
+			$this->_loginUser(3);
+			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
+			$this->assertContains('bookmarks-subscribe-1', $result);
+
+		}
+
 		/**
 		 * User is not logged in
 		 */

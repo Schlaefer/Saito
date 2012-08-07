@@ -200,6 +200,8 @@
 					<?php endif; ?>
 				</ul>
 			</div><!-- /btn-group -->
+		<span style="margin-left:55px;"></span>
+		<?php echo $this->element('entry/bookmark-link', array('id' => $entry['Entry']['id'])); ?>
 		</div>
 	</div>
 	<?php $this->end('modMenu'); ?>
