@@ -40,6 +40,13 @@ class EntriesController extends AppController {
 	 */
 	protected $_ldGetRightsForEntryAndUser;
 
+	/**
+	 * Function for checking if entry is bookmarked by current user
+	 *
+	 * @var function
+	 */
+	protected $_ldGetBookmarkForEntryAndUser;
+
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
@@ -139,7 +146,8 @@ class EntriesController extends AppController {
 
 	public function mix($tid) {
 		$entries = $this->_setupMix($tid);
-		Entry::mapTreeElements( $entries, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($entries, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($entries, $this->_ldGetBookmarkForEntryAndUser, $this);
 		$this->set('entries', $entries);
     $this->_showAnsweringPanel();
 	}
@@ -210,7 +218,8 @@ class EntriesController extends AppController {
     endif;
 
 		$a = array($this->request->data);
-		Entry::mapTreeElements( $a, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($a, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($a, $this->_ldGetBookmarkForEntryAndUser, $this);
 		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
@@ -715,6 +724,11 @@ class EntriesController extends AppController {
 				$element['rights'] = $rights;
 		};
 
+		$this->_ldGetBookmarkForEntryAndUser = function($element, $_this) {
+						$element['isBookmarked'] = $_this->Entry->Bookmark->isBookmarked($element['Entry']['id'],
+								$_this->CurrentUser->getId());
+					};
+
 		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 		if ( $this->request->action == 'index' ) {
@@ -935,6 +949,7 @@ class EntriesController extends AppController {
 		}
 
 		$this->Entry->id = $id;
+		$this->Entry->contain('User', 'Category');
 		$this->request->data = $this->Entry->read();
 
 		//* redirect if posting doesn't exists

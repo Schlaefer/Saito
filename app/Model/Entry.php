@@ -36,6 +36,9 @@ class Entry extends AppModel {
 
 //	/*
 	public $hasMany = array(
+			'Bookmark' => array(
+					'foreignKey' => 'entry_id',
+			),
 			'Esevent' => array(
 					'foreignKey' => 'subject',
 					'conditions' => array('Esevent.subject' => 'Entry.id'),

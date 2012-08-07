@@ -38,18 +38,22 @@ class BookmarksController extends AppController {
  * @return void
  */
 	public function add() {
+		if (!$this->request->is('ajax')) {
+			throw new NotFoundException;
+		}
+		$this->autoRender = false;
 		if ($this->request->is('post')) {
+			$data = array(
+					'user_id' => $this->CurrentUser->getId(),
+					'entry_id' => $this->request->data['id'],
+			);
 			$this->Bookmark->create();
-			if ($this->Bookmark->save($this->request->data)) {
-				$this->Session->setFlash(__('The bookmark has been saved'));
-				$this->redirect(array('action' => 'index'));
+			if ($this->Bookmark->save($data)) {
+				return true;
 			} else {
-				$this->Session->setFlash(__('The bookmark could not be saved. Please, try again.'));
+				return false;
 			}
 		}
-		$users = $this->Bookmark->User->find('list');
-		$entries = $this->Bookmark->Entry->find('list');
-		$this->set(compact('users', 'entries'));
 	}
 
 /**
@@ -102,4 +106,5 @@ class BookmarksController extends AppController {
 		$this->Session->setFlash(__('Bookmark was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+
 }
