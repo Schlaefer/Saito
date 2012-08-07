@@ -58,6 +58,9 @@ Class CurrentUserComponent extends SaitoUser {
 	 * @param type $controller
 	 */
 	public function initialize($controller) {
+		if ($controller->name === 'CakeError') {
+			return;
+		}
 		$this->_Controller = $controller;
 
 		$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
