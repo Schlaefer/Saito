@@ -3,7 +3,7 @@
 	?>
 	</head>
 	<body>
-		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
+		<?php if (isset($CurrentUser) && !$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
 			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
@@ -13,7 +13,7 @@
 				</div>
 				<div class="l-top-right hero-text">
 						<?php echo Stopwatch::start('header_search.ctp');?>
-							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
+							<?php if (isset($CurrentUser) && $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
 						<?php echo Stopwatch::stop('header_search.ctp');?>
 				</div> <!-- .right -->
         <div class="l-top-left hero-text">
