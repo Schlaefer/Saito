@@ -31,9 +31,25 @@ class BookmarkFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
+			'user_id' => 3,
+			'entry_id' => 1,
+			'comment' => '',
+			'created' => '2012-08-07 09:51:45',
+			'modified' => '2012-08-07 09:51:45'
+		),
+		array(
+			'id' => 2,
+			'user_id' => 3,
+			'entry_id' => 3,
+			'comment' => 'Comment 2',
+			'created' => '2012-08-07 19:51:45',
+			'modified' => '2012-08-07 19:51:45'
+		),
+		array(
+			'id' => 3,
 			'user_id' => 1,
 			'entry_id' => 1,
-			'comment' => 'Lorem ipsum dolor sit amet',
+			'comment' => 'Comment 3',
 			'created' => '2012-08-07 09:51:45',
 			'modified' => '2012-08-07 09:51:45'
 		),

@@ -15,17 +15,30 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
  */
 	public $fixtures = array(
 			'app.bookmark',
+			'app.entry',
 			'app.setting',
 			'app.user',
 			'app.user_online',
 	);
 
-/**
- * testIndex method
- *
- * @return void
- */
+	public function testIndexNotAllowed() {
+		$this->expectException('MethodNotAllowedException');
+		$result = $this->testAction('/bookmarks/index');
+	}
+
 	public function testIndex() {
+		$Bookmarks = $this->generate('Bookmarks');
+		$this->_loginUser(3);
+		$result = $this->testAction('/bookmarks/index', array(
+				'return' => 'view'
+		));
+		$this->assertContains('bookmarks/delete/1', $result);
+		$this->assertContains('bookmarks/delete/2', $result);
+		$this->assertNotContains('bookmarks/delete/3', $result);
+
+		$this->assertContains('bookmarks/edit/1', $result);
+		$this->assertContains('bookmarks/edit/2', $result);
+		$this->assertNotContains('bookmarks/edit/3', $result);
 	}
 
 /**

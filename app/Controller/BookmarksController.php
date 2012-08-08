@@ -14,7 +14,7 @@ class BookmarksController extends AppController {
  */
 	public function index() {
 		if (!$this->CurrentUser->isLoggedIn()) {
-			throw new ForbiddenException;
+			throw new MethodNotAllowedException;
 		}
 		$bookmarks = $this->Bookmark->find('all', array(
 				'contain' => array('Entry'),
@@ -51,7 +51,7 @@ class BookmarksController extends AppController {
 			throw new BadRequestException;
 		}
 		if (!$this->CurrentUser->isLoggedIn()) {
-			throw new ForbiddenException;
+			throw new MethodNotAllowedException;
 		}
 		$this->autoRender = false;
 		if ($this->request->is('post')) {
