@@ -13,8 +13,17 @@ class BookmarksController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Bookmark->recursive = 0;
-		$this->set('bookmarks', $this->paginate());
+		if (!$this->CurrentUser->isLoggedIn()) {
+			throw new ForbiddenException;
+		}
+		$bookmarks = $this->Bookmark->find('all', array(
+				'contain' => array('Entry'),
+				'conditions' => array(
+						'Bookmark.user_id' => $this->CurrentUser->getId(),
+				),
+				'order' => 'Bookmark.created DESC',
+		));
+		$this->set('bookmarks', $bookmarks);
 	}
 
 /**
