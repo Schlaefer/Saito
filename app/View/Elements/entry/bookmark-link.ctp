@@ -18,19 +18,22 @@
 				'escape' => false,
 				)
 		);
-		$this->Js->get('#bookmarks-add-' . $id);
-		echo $this->Js->event(
-				'click',
-				$this->Js->request(
-						array('controller' => 'bookmarks', 'action'		 => 'add'),
-						array(
-						'async'	 => true,
-						'data'	 => array('id'	 => $id),
-						'method' => 'POST',
-						'success' => '$("#bookmarks-add-'.$id.'").replaceWith(\''.$bookmark_link_set.'\');',
-						'type'	 => 'json',
-						)
-				)
+		echo $this->Html->scriptBlock(<<<EOF
+$(document).ready(function (){
+	$("#content").one("click", "#bookmarks-add-{$id}", function (event) {
+		$.ajax({
+			async:true, 
+			data:"id={$id}",
+			dataType:"json", 
+			success:function (data, textStatus) {
+				$("#bookmarks-add-{$id}").replaceWith('{$bookmark_link_set}');
+				},
+			type:"POST", 
+			url:"{$this->webroot}bookmarks/add"
+		});
+		return false;});
+	});
+EOF
 		);
 	}
 
