@@ -122,7 +122,11 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
       success:function(data, textStatus) {
         jQuery( p.id_thread_slider ).html(data);
         initViewPosting(id);
-				history.pushState(null, '', $(p.id_thread_line).find('a.thread_line-content').attr('href'));
+				/*
+				var here = document.URL;
+				history.replaceState(null, '', $(p.id_thread_line).find('a.thread_line-content').attr('href'));
+				history.replaceState(null, '', here);
+				*/
       },
       async:true,
       type:'post',
