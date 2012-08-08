@@ -14,6 +14,10 @@
 				'containable',
 		);
 
+		protected $fieldsToSanitize = array (
+			'comment',
+		);
+
 		/**
 		 * Validation rules
 		 *

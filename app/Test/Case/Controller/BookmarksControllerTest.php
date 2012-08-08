@@ -39,6 +39,9 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 		$this->assertContains('bookmarks/edit/1', $result);
 		$this->assertContains('bookmarks/edit/2', $result);
 		$this->assertNotContains('bookmarks/edit/3', $result);
+
+		// check that output is sanatized
+		$this->assertContains('&lt; Comment 2', $result);
 	}
 
 	public function testAddNoAjax() {
