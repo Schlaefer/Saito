@@ -223,7 +223,7 @@
 			</div>
 		</div>	
 		<div class="content">
-			<?php  if (isset($lastEntries) && !empty($lastEntries)) : ?>
+			<?php  if (isset($lastEntries) && !empty($lastEntries)): ?>
 			<ul>
 				<?php  foreach ($lastEntries as $entry) : ?>
 				<li>
@@ -231,7 +231,10 @@
 				</li>
 				<?php  endforeach; ?>
 			</ul>
-		<?php  endif ; ?>
+		<?php else: ?>
+			<?php echo $this->element('generic/no-content-yet', array(
+					'message' => __('No entries created yet.'))); ?>
+		<?php endif; ?>
 		</div>
 	</div>
 
