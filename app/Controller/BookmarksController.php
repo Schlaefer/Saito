@@ -86,7 +86,7 @@ class BookmarksController extends AppController {
 							'Category', 'User'
 					))
 			);
-		$bookmark = $this->Bookmark->read(null, $bookmark_id);
+		$bookmark = $this->Bookmark->findById($bookmark_id);
 		if ($user_id != $bookmark['Bookmark']['user_id']) {
 			throw new MethodNotAllowedException;
 		}
