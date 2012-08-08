@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-31 18:41+0100\n"
-"PO-Revision-Date: 2012-07-31 18:41+0100\n"
+"POT-Creation-Date: 2012-08-08 12:06+0100\n"
+"PO-Revision-Date: 2012-08-08 12:09+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -82,6 +82,38 @@ msgstr ""
 msgid "Install"
 msgstr "Installieren"
 
+#: View/Bookmarks/edit.ctp:5
+msgid "Edit Bookmark"
+msgstr ""
+
+#: View/Bookmarks/index.ctp:5 View/Elements/layout/header_login.ctp:26
+msgid "Bookmarks"
+msgstr "Lesezeichen"
+
+#: View/Bookmarks/index.ctp:14 View/Categories/view.ctp:64
+#, fuzzy
+msgid "Subject"
+msgstr "Betreff"
+
+#: View/Bookmarks/index.ctp:16
+msgid "Comment"
+msgstr "Kommentar"
+
+#: View/Bookmarks/index.ctp:31 View/Categories/admin_index.ctp:34
+#: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
+#: View/Categories/view.ctp:108 View/SmileyCodes/admin_edit.ctp:20
+#: View/SmileyCodes/admin_index.ctp:28 View/Smilies/admin_index.ctp:32
+#: View/Users/view.ctp:192
+msgid "Delete"
+msgstr "Löschen"
+
+#: View/Bookmarks/index.ctp:43 View/Categories/admin_index.ctp:29
+#: View/Categories/index.ctp:30 View/Categories/view.ctp:107
+#: View/Settings/admin_index.ctp:221 View/SmileyCodes/admin_index.ctp:27
+#: View/Smilies/admin_index.ctp:31 View/Users/view.ctp:182
+msgid "Edit"
+msgstr "Bearbeiten"
+
 #: View/Categories/add.ctp:4 View/Categories/admin_add.ctp:2
 #: View/Categories/admin_add.ctp:7
 #, fuzzy
@@ -90,7 +122,7 @@ msgstr "Kategorie"
 
 #: View/Categories/add.ctp:13 View/Categories/edit.ctp:14
 #: View/SmileyCodes/admin_edit.ctp:14 View/Smilies/admin_add.ctp:12
-#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:11
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:18
 msgid "Submit"
 msgstr "Absenden"
 
@@ -170,20 +202,6 @@ msgstr "Abbrechen"
 #: View/Categories/edit.ctp:4 View/Categories/view.ctp:39
 msgid "Edit Category"
 msgstr "Kategorie bearbeiten"
-
-#: View/Categories/admin_index.ctp:29 View/Categories/index.ctp:30
-#: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:221
-#: View/SmileyCodes/admin_index.ctp:27 View/Smilies/admin_index.ctp:31
-#: View/Users/view.ctp:178
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: View/Categories/admin_index.ctp:34 View/Categories/edit.ctp:20
-#: View/Categories/index.ctp:31 View/Categories/view.ctp:108
-#: View/SmileyCodes/admin_edit.ctp:20 View/SmileyCodes/admin_index.ctp:28
-#: View/Smilies/admin_index.ctp:32 View/Users/view.ctp:188
-msgid "Delete"
-msgstr "Löschen"
 
 #: View/Categories/admin_index.ctp:51 View/Categories/index.ctp:53
 #: View/Categories/view.ctp:42
@@ -295,11 +313,6 @@ msgstr "Benutzer"
 msgid "Name"
 msgstr "Benutzername"
 
-#: View/Categories/view.ctp:64
-#, fuzzy
-msgid "Subject"
-msgstr "Betreff"
-
 #: View/Categories/view.ctp:66 View/Entries/search.ctp:60
 msgid "Text"
 msgstr "Text"
@@ -335,19 +348,19 @@ msgstr "flattrn"
 msgid "email_footer"
 msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
 
-#: View/Elements/entry/category-chooser.ctp:6
+#: View/Elements/entry/category-chooser.ctp:12
 #, fuzzy
 msgid "category_chooser_context_exp"
 msgstr ""
 "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine "
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
-#: View/Elements/entry/category-chooser.ctp:37
-#: Controller/EntriesController.php:863
+#: View/Elements/entry/category-chooser.ctp:24
+#: Controller/EntriesController.php:873
 msgid "All"
 msgstr "Alles"
 
-#: View/Elements/entry/category-chooser.ctp:53
+#: View/Elements/entry/category-chooser.ctp:52
 msgid "Apply"
 msgstr "Anwenden"
 
@@ -390,10 +403,10 @@ msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:58
-#: View/Elements/layout/header_login.ctp:34
-#: View/Elements/layout/header_login.ctp:40
-#: View/Elements/layout/header_login.ctp:41 View/Entries/index.ctp:18
-#: View/Entries/search.ctp:29 View/Users/view.ctp:153
+#: View/Elements/layout/header_login.ctp:38
+#: View/Elements/layout/header_login.ctp:44
+#: View/Elements/layout/header_login.ctp:45 View/Entries/index.ctp:18
+#: View/Entries/search.ctp:29 View/Users/view.ctp:155
 msgid "Help"
 msgstr "Hilfe"
 
@@ -406,36 +419,36 @@ msgid "forum_answer_linkname"
 msgstr "Antworten"
 
 #: View/Elements/entry/view_posting.ctp:89
-#: View/Elements/entry/view_posting.ctp:113
-#: Controller/EntriesController.php:449
+#: View/Elements/entry/view_posting.ctp:117
+#: Controller/EntriesController.php:458
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:128
+#: View/Elements/entry/view_posting.ctp:133
 msgid "fixed_set_entry_link"
 msgstr "Anpinnen"
 
-#: View/Elements/entry/view_posting.ctp:129
+#: View/Elements/entry/view_posting.ctp:134
 msgid "fixed_unset_entry_link"
 msgstr "Abpinnen"
 
-#: View/Elements/entry/view_posting.ctp:149
+#: View/Elements/entry/view_posting.ctp:154
 msgid "locked_set_entry_link"
 msgstr "Sperren"
 
-#: View/Elements/entry/view_posting.ctp:150
+#: View/Elements/entry/view_posting.ctp:155
 msgid "locked_unset_entry_link"
 msgstr "Entsperren"
 
-#: View/Elements/entry/view_posting.ctp:170
+#: View/Elements/entry/view_posting.ctp:175
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:184
+#: View/Elements/entry/view_posting.ctp:189
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:191
+#: View/Elements/entry/view_posting.ctp:196
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
@@ -484,14 +497,14 @@ msgstr "Angetrieben durch Saito v%s."
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
-#: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:1
-#: View/Users/register.ctp:64
+#: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
+#: View/Users/register.ctp:73
 msgid "register_linkname"
 msgstr "Registrieren"
 
 #: View/Elements/layout/header_login.ctp:7
 #: View/Elements/layout/header_login.ctp:9
-#: View/Elements/users/login_form.ctp:8
+#: View/Elements/users/login_form.ctp:7
 msgid "login_btn"
 msgstr "Einloggen"
 
@@ -504,11 +517,11 @@ msgstr "Forumseinstellungen"
 msgid "user_profile"
 msgstr "Profil"
 
-#: View/Elements/layout/header_login.ctp:27
+#: View/Elements/layout/header_login.ctp:31
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: View/Elements/layout/header_login.ctp:42
+#: View/Elements/layout/header_login.ctp:46
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
@@ -517,12 +530,12 @@ msgstr "Keine Hilfe für diese Seite verfügbar."
 msgid "search_submit"
 msgstr "Suchen"
 
-#: View/Elements/layout/slidetab_recententries.ctp:14
+#: View/Elements/layout/slidetab_recententries.ctp:15
 #, fuzzy
 msgid "Recent entries"
 msgstr "Letzte Einträge"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:17 View/Users/view.ctp:209
+#: View/Elements/layout/slidetab_recentposts.ctp:17 View/Users/view.ctp:219
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
@@ -584,7 +597,7 @@ msgid "error_password_confirm"
 msgstr "Password stimmt nicht mit Wiederholung überein."
 
 #: View/Elements/users/add_form_core.ctp:23
-#: View/Elements/users/login_form.ctp:6 View/Users/edit.ctp:48
+#: View/Elements/users/login_form.ctp:5 View/Users/edit.ctp:48
 #: View/Users/edit.ctp:60 View/Users/edit.ctp:76
 msgid "user_pw"
 msgstr "Passwort"
@@ -593,11 +606,11 @@ msgstr "Passwort"
 msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
-#: View/Elements/users/login_form.ctp:5 View/Entries/search.ctp:62
+#: View/Elements/users/login_form.ctp:4 View/Entries/search.ctp:62
 msgid "user_name"
 msgstr "Benutzername"
 
-#: View/Elements/users/login_form.ctp:7
+#: View/Elements/users/login_form.ctp:6
 msgid "auto_login_marking"
 msgstr "an diesem Computer automatisch einloggen"
 
@@ -742,11 +755,11 @@ msgstr ""
 msgid "RSS Feed"
 msgstr "RSS Feed"
 
-#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:120
+#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:127
 msgid "Last entries"
 msgstr "Letzte Einträge"
 
-#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:116
+#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:123
 msgid "Last started threads"
 msgstr "Letzte Threads"
 
@@ -1253,15 +1266,15 @@ msgstr "Neues Passwort wiederholen"
 msgid "change_password_btn_submit"
 msgstr "Passwort ändern"
 
-#: View/Users/contact.ctp:3
+#: View/Users/contact.ctp:7
 msgid "user_contact_title"
 msgstr "Kontakt %s"
 
-#: View/Users/contact.ctp:5
+#: View/Users/contact.ctp:13
 msgid "user_contact_subject"
 msgstr "Betreff"
 
-#: View/Users/contact.ctp:7
+#: View/Users/contact.ctp:15
 msgid "user_contact_message"
 msgstr "Nachricht"
 
@@ -1528,31 +1541,31 @@ msgstr "Benutzerübersicht"
 msgid "userlist_online"
 msgstr "Status"
 
-#: View/Users/login.ctp:2
+#: View/Users/login.ctp:7
 msgid "login_linkname"
 msgstr "log in"
 
-#: View/Users/register.ctp:4
+#: View/Users/register.ctp:13
 msgid "register_email_send_content"
 msgstr ""
 "Vielen Dank für Ihre Registrierung. Ihnen wurde eine Email mit weiteren "
 "Daten zugesendet. Bitte klicken Sie auf den Link in dieser Email. Vorher ist "
 "ein Einloggen ins Forum nicht möglich!"
 
-#: View/Users/register.ctp:6
+#: View/Users/register.ctp:15
 msgid "register_success_content"
 msgstr ""
 "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
-#: View/Users/register.ctp:9
+#: View/Users/register.ctp:18
 msgid "register-js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
-#: View/Users/register.ctp:44
+#: View/Users/register.ctp:53
 msgid "register_tos_linktext"
 msgstr "Nutzungsbedingungen"
 
-#: View/Users/register.ctp:43
+#: View/Users/register.ctp:52
 msgid "register_tos_label"
 msgstr "Ich bin mit den %s einverstanden"
 
@@ -1577,23 +1590,37 @@ msgstr "%d.%m.%Y"
 msgid "user_postings"
 msgstr "Beiträge"
 
-#: View/Users/view.ctp:145
+#: View/Users/view.ctp:146
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
-#: View/Users/view.ctp:154
+#: View/Users/view.ctp:156
 msgid "button_mod_panel_shp"
 msgstr ""
 "Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder "
 "Thread zu bearbeiten."
 
-#: View/Users/view.ctp:167
+#: View/Users/view.ctp:170
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: View/Users/view.ctp:167
+#: View/Users/view.ctp:170
 msgid "Lock"
 msgstr "Sperren"
+
+#: Controller/BookmarksController.php:75
+msgid "The bookmark could not be saved. Please, try again."
+msgstr ""
+"Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
+"erneut."
+
+#: Controller/BookmarksController.php:96
+msgid "Bookmark was not deleted"
+msgstr "Das Lesezeichen wurde nicht gelöscht."
+
+#: Controller/BookmarksController.php:112
+msgid "Invalid bookmark"
+msgstr "Lesezeichen konnte nicht gefunden werden."
 
 #: Controller/CategoriesController.php:81
 #: Controller/CategoriesController.php:96
@@ -1642,57 +1669,57 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:103
+#: Controller/EntriesController.php:110
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:241
+#: Controller/EntriesController.php:250
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:244
+#: Controller/EntriesController.php:253
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:294 Controller/EntriesController.php:411
+#: Controller/EntriesController.php:303 Controller/EntriesController.php:420
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:296 Controller/EntriesController.php:346
+#: Controller/EntriesController.php:305 Controller/EntriesController.php:355
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
-#: Controller/EntriesController.php:339 Controller/EntriesController.php:445
+#: Controller/EntriesController.php:348 Controller/EntriesController.php:454
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:350
+#: Controller/EntriesController.php:359
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:475
+#: Controller/EntriesController.php:484
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:660
+#: Controller/EntriesController.php:669
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:694
+#: Controller/EntriesController.php:703
 #, fuzzy
 msgid "_set_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:694
+#: Controller/EntriesController.php:703
 #, fuzzy
 msgid "_unset_entry_link"
 msgstr "Neuer Eintrag"
 
-#: Controller/EntriesController.php:899
+#: Controller/EntriesController.php:909
 msgid "Custom"
 msgstr "Angepasst"
 
-#: Controller/EntriesController.php:936 Controller/EntriesController.php:946
+#: Controller/EntriesController.php:946 Controller/EntriesController.php:957
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -1843,7 +1870,7 @@ msgstr "Nachricht wurde versandt."
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:229
+#: Controller/Component/CurrentUserComponent.php:232
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
