@@ -20,7 +20,7 @@ class BookmarksController extends AppController {
 				'conditions' => array(
 						'Bookmark.user_id' => $this->CurrentUser->getId(),
 				),
-				'order' => 'Bookmark.created DESC',
+				'order' => 'Bookmark.id DESC',
 		));
 		$this->set('bookmarks', $bookmarks);
 	}
