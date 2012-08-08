@@ -39,7 +39,10 @@ class BookmarksController extends AppController {
  */
 	public function add() {
 		if (!$this->request->is('ajax')) {
-			throw new NotFoundException;
+			throw new BadRequestException;
+		}
+		if (!$this->CurrentUser->isLoggedIn()) {
+			throw new ForbiddenException;
 		}
 		$this->autoRender = false;
 		if ($this->request->is('post')) {
