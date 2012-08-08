@@ -35,6 +35,7 @@ class AppController extends Controller {
 			'Markitup.Markitup',
 			'Stopwatch.Stopwatch',
 			'TextH',
+			'TimeH',
 
 			#CakePHP Helpers
 			'Ajax',

@@ -12,7 +12,6 @@ class EntriesController extends AppController {
 			'EntryH',
       'MarkitupEditor',
 			'Flattr.Flattr',
-			'TimeH',
 			'Text',
 	);
 	public $components = array(
