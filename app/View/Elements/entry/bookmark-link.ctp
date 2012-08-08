@@ -1,13 +1,16 @@
 <?php
-	if (isset($isBookmarked) && $isBookmarked) {
-		echo $this->Html->link(
-				'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark icon-large"></i>', '#',
+	$bookmark_link_set = $this->Html->link(
+				'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark icon-large"></i>',
+				'/bookmarks/index/#' . $id,
 				array(
 				'id'		 => 'bookmarks-add-' . $id,
 				'escape' => false,
 				)
 		);
-	} else {
+
+	if (isset($isBookmarked) && $isBookmarked) {
+		echo $bookmark_link_set;
+		} else {
 		echo $this->Html->link(
 				'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark-empty icon-large"></i>', '#',
 				array(
@@ -24,7 +27,7 @@
 						'async'	 => true,
 						'data'	 => array('id'	 => $id),
 						'method' => 'POST',
-						'success' => '$("#bookmarks-add-icon-'.$id.'").removeClass("icon-bookmark-empty").addClass("icon-bookmark");',
+						'success' => '$("#bookmarks-add-'.$id.'").replaceWith(\''.$bookmark_link_set.'\');',
 						'type'	 => 'json',
 						)
 				)

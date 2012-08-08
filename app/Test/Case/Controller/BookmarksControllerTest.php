@@ -15,6 +15,7 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
  */
 	public $fixtures = array(
 			'app.bookmark',
+			'app.category',
 			'app.entry',
 			'app.setting',
 			'app.user',

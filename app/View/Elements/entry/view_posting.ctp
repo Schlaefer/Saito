@@ -206,12 +206,14 @@
 	<?php
 		if ($isModMenuPopulated) {
 			echo $this->fetch('modMenu');
+			echo '<span style="margin-left:45px;"></span>';
 		}
 		// empty block or menu cascades in entries/mix
 		$this->Blocks->set('modMenu', '');
 	?>
+	&nbsp;
+	&nbsp;
 <?php endif; ?>
-	<span style="margin-left:55px;"></span>
 	<?php echo $this->element('entry/bookmark-link', array(
 			'id' => $entry['Entry']['id'],
 			'isBookmarked' => $entry['isBookmarked'],

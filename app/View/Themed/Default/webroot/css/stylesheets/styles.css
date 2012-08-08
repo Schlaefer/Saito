@@ -629,6 +629,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .table.border td, .table.border th { border-style: solid; border-color: silver; border-width: 0 1px 1px 0; }
 
+.table.table-box-content th { background: none; border-style: solid; border-color: silver; border-width: 0 0 1px 0; }
+
 /******************************************************************************* Bootstrap Popovers Adjustments *****************************************************************************/
 .popover { font-size: 0.95em; }
 
@@ -845,6 +847,8 @@ a.category_acs_2, .category_acs_2 { background: #d5d5d5; }
 .table.border tr:last-child td:last-child, .table.border tr:last-child th:last-child { border-bottom-right-radius: 3px; }
 
 .table.border td, .table.border th { border-style: solid; border-color: #e0e0e0; border-width: 0 1px 1px 0; }
+
+.table.table-box-content th { border: 1px solid #e0e0e0; border-width: 0 0 1px 0; }
 
 /******************************************************************************* Slidebars (aka Slidetabs) general layout *****************************************************************************/
 .slidetab_subtree { font-weight: normal; }

@@ -23,6 +23,10 @@ class BookmarkTest extends CakeTestCase {
 		'app.upload'
 	);
 
+	public function testDummy() {
+
+	}
+
 /**
  * setUp method
  *

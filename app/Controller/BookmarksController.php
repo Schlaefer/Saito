@@ -7,17 +7,16 @@ App::uses('AppController', 'Controller');
  */
 class BookmarksController extends AppController {
 
-/**
- * index method
- *
- * @return void
- */
 	public function index() {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
 		}
 		$bookmarks = $this->Bookmark->find('all', array(
-				'contain' => array('Entry'),
+				'contain' => array(
+						'Entry' => array(
+								'Category', 'User'
+							)
+						),
 				'conditions' => array(
 						'Bookmark.user_id' => $this->CurrentUser->getId(),
 				),
@@ -26,11 +25,6 @@ class BookmarksController extends AppController {
 		$this->set('bookmarks', $bookmarks);
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
 		if (!$this->request->is('ajax')) {
 			throw new BadRequestException;
@@ -53,13 +47,6 @@ class BookmarksController extends AppController {
 		}
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function edit($id = null) {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
@@ -79,14 +66,6 @@ class BookmarksController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
 		$bookmark = $this->_getBookmark($id, $this->CurrentUser->getId());
 		$this->Bookmark->id = $id;
@@ -97,21 +76,16 @@ class BookmarksController extends AppController {
 		return $this->redirect(array('action' => 'index'));
 	}
 
-	/**
-	 * Checks if bookmark exists and belongs to a user
-	 *
-	 * @param int $bookmark_id
-	 * @param int $user_id
-	 * @return array Bookmark
-	 * @throws NotFoundException
-	 * @throws MethodNotAllowedException
-	 */
 	protected function _getBookmark($bookmark_id, $user_id) {
 		$this->Bookmark->id = $bookmark_id;
 		if (!$this->Bookmark->exists()) {
 			throw new NotFoundException(__('Invalid bookmark'));
 		}
-
+		$this->Bookmark->contain(array(
+					'Entry' => array(
+							'Category', 'User'
+					))
+			);
 		$bookmark = $this->Bookmark->read(null, $bookmark_id);
 		if ($user_id != $bookmark['Bookmark']['user_id']) {
 			throw new MethodNotAllowedException;

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-08 12:06+0100\n"
-"PO-Revision-Date: 2012-08-08 12:09+0100\n"
+"POT-Creation-Date: 2012-08-08 13:50+0100\n"
+"PO-Revision-Date: 2012-08-08 13:51+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -82,24 +82,37 @@ msgstr ""
 msgid "Install"
 msgstr "Installieren"
 
-#: View/Bookmarks/edit.ctp:5
+#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:305
+#: Controller/EntriesController.php:355
+msgid "back_to_overview_linkname"
+msgstr "Zurück zur Übersicht"
+
+#: View/Bookmarks/edit.ctp:13
 msgid "Edit Bookmark"
 msgstr ""
 
-#: View/Bookmarks/index.ctp:5 View/Elements/layout/header_login.ctp:26
+#: View/Bookmarks/edit.ctp:36
+msgid "btn-comment-title"
+msgstr "Kommentieren"
+
+#: View/Bookmarks/index.ctp:4 View/Entries/view.ctp:6 View/Users/view.ctp:4
+msgid "back_to_forum_linkname"
+msgstr "zurück zum Forum"
+
+#: View/Bookmarks/index.ctp:13 View/Elements/layout/header_login.ctp:26
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
-#: View/Bookmarks/index.ctp:14 View/Categories/view.ctp:64
+#: View/Bookmarks/index.ctp:24 View/Categories/view.ctp:64
 #, fuzzy
 msgid "Subject"
 msgstr "Betreff"
 
-#: View/Bookmarks/index.ctp:16
+#: View/Bookmarks/index.ctp:29
 msgid "Comment"
 msgstr "Kommentar"
 
-#: View/Bookmarks/index.ctp:31 View/Categories/admin_index.ctp:34
+#: View/Bookmarks/index.ctp:51 View/Categories/admin_index.ctp:34
 #: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
 #: View/Categories/view.ctp:108 View/SmileyCodes/admin_edit.ctp:20
 #: View/SmileyCodes/admin_index.ctp:28 View/Smilies/admin_index.ctp:32
@@ -107,7 +120,7 @@ msgstr "Kommentar"
 msgid "Delete"
 msgstr "Löschen"
 
-#: View/Bookmarks/index.ctp:43 View/Categories/admin_index.ctp:29
+#: View/Bookmarks/index.ctp:63 View/Categories/admin_index.ctp:29
 #: View/Categories/index.ctp:30 View/Categories/view.ctp:107
 #: View/Settings/admin_index.ctp:221 View/SmileyCodes/admin_index.ctp:27
 #: View/Smilies/admin_index.ctp:31 View/Users/view.ctp:182
@@ -374,15 +387,15 @@ msgstr "Thread ein-/ausklappen."
 
 #: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showNewThreads"
-msgstr "Alle ungelesenen Beiträge des Threads aufklappen."
+msgstr "Alle ungelesenen Beiträge des Theras aufklappen."
 
 #: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-closeThreads"
-msgstr "Alle offenen Beiträge des Threads zuklappen."
+msgstr "Alle offenen Beiträge des Theras zuklappen."
 
 #: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-openThreads"
-msgstr "Alle geschlossenen Beiträge des Threads aufklappen."
+msgstr "Alle geschlossenen Beiträge des Theras aufklappen."
 
 #: View/Elements/entry/thread_line_cached.ctp:45
 msgid "fixed"
@@ -713,10 +726,6 @@ msgstr "Einfache Suche"
 #: View/Entries/search.ctp:141
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
-
-#: View/Entries/view.ctp:6 View/Users/view.ctp:4
-msgid "back_to_forum_linkname"
-msgstr "zurück zum Forum"
 
 #: View/Entries/view.ctp:34
 msgid "whole_thread_marking"
@@ -1608,17 +1617,17 @@ msgstr "Freigeben"
 msgid "Lock"
 msgstr "Sperren"
 
-#: Controller/BookmarksController.php:75
+#: Controller/BookmarksController.php:62
 msgid "The bookmark could not be saved. Please, try again."
 msgstr ""
 "Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
 "erneut."
 
-#: Controller/BookmarksController.php:96
+#: Controller/BookmarksController.php:75
 msgid "Bookmark was not deleted"
 msgstr "Das Lesezeichen wurde nicht gelöscht."
 
-#: Controller/BookmarksController.php:112
+#: Controller/BookmarksController.php:82
 msgid "Invalid bookmark"
 msgstr "Lesezeichen konnte nicht gefunden werden."
 
@@ -1684,10 +1693,6 @@ msgstr "Nur für eingeloggte Benutzer."
 #: Controller/EntriesController.php:303 Controller/EntriesController.php:420
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
-
-#: Controller/EntriesController.php:305 Controller/EntriesController.php:355
-msgid "back_to_overview_linkname"
-msgstr "Zurück zur Übersicht"
 
 #: Controller/EntriesController.php:348 Controller/EntriesController.php:454
 msgid "back_to_posting_from_linkname"
