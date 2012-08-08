@@ -100,7 +100,9 @@ class AppController extends Controller {
 		// load settings fails in CakeErrorController when doing Test Cases, because
 	  // setting fixture is not loaded
 		if ($this->name === 'CakeError') {
-			$this->layout = 'error';
+			if (Configure::read('debug') != 0) {
+				$this->layout = 'error';
+			}
 		} else {
 			if (!$settings && $this->request->controller !== 'CakeError') {
 				$this->loadModel('Setting');
