@@ -22,6 +22,10 @@ if (isset($CurrentUser) && $CurrentUser->isLoggedIn() == FALSE ) {
     <i class="icon-user"></i> <?php echo __('user_profile') ;?>
   </a>
 	&nbsp;|&nbsp;
+	<a href="<?php echo $this->request->webroot; ?>entries/index">
+		<i class="icon-bookmark"></i><?php echo __('Bookmarks'); ?>
+	</a>
+	&nbsp;|&nbsp;
 	<?php
 	echo $this->Html->link(
       '<i class="icon-signout"></i> ' . __('logout_linkname') ,
