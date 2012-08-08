@@ -23,7 +23,7 @@ if (isset($CurrentUser) && $CurrentUser->isLoggedIn() == FALSE ) {
   </a>
 	&nbsp;|&nbsp;
 	<a href="<?php echo $this->request->webroot; ?>entries/index">
-		<i class="icon-bookmark"></i><?php echo __('Bookmarks'); ?>
+		<i class="icon-bookmark"></i> <?php echo __('Bookmarks'); ?>
 	</a>
 	&nbsp;|&nbsp;
 	<?php

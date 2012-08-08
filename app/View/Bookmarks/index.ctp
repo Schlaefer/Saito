@@ -7,7 +7,7 @@
 		</div>
 	</div>
 	<div class="content">
-		<table>
+		<table class="">
 			<?php
 				$table_headers = array(
 						'',
@@ -21,19 +21,27 @@
 				foreach ($bookmarks as $bookmark) {
 					$table_cells = array(
 							$this->Html->link(
-									'Delete',
+									'<i class="icon-trash icon-large"></i>',
 									array(
-									'controller' => 'bookmarks',
-									'action'		 => 'delete',
-									$bookmark['Bookmark']['id'])
+											'controller' => 'bookmarks',
+											'action'		 => 'delete',
+											$bookmark['Bookmark']['id']),
+									array(
+											'escape' => false,
+											'title'  => __('Delete'),
+									)
 							),
 							$bookmark['Entry']['subject'],
 							$this->Html->link(
-									'Edit',
+									'<i class="icon-edit icon-large"></i>',
 									array(
-									'controller' => 'bookmarks',
-									'action'		 => 'edit',
-									$bookmark['Bookmark']['id'])
+											'controller' => 'bookmarks',
+											'action'		 => 'edit',
+											$bookmark['Bookmark']['id']),
+									array(
+											'escape' => false,
+											'title'  => __('Edit'),
+									)
 							),
 							$bookmark['Bookmark']['comment'],
 					);

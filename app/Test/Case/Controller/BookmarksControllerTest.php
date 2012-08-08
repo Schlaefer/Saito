@@ -41,14 +41,6 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 		$this->assertNotContains('bookmarks/edit/3', $result);
 	}
 
-/**
- * testView method
- *
- * @return void
- */
-	public function testView() {
-	}
-
 	public function testAddNoAjax() {
 		// not ajax
 		$this->expectException('BadRequestException');
@@ -82,20 +74,68 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 		unset($_ENV['HTTP_X_REQUESTED_WITH']);
 	}
 
-/**
- * testEdit method
- *
- * @return void
- */
-	public function testEdit() {
+	public function testEditNotLoggedIn() {
+		$this->expectException('MethodNotAllowedException');
+		$result = $this->testAction('/bookmarks/edit/1');
 	}
 
-/**
- * testDelete method
- *
- * @return void
- */
-	public function testDelete() {
+	public function testEditNotUsersBookmark() {
+		$Bookmarks = $this->generate('Bookmarks');
+		$this->_loginUser(1);
+		$this->expectException('MethodNotAllowedException');
+		$result = $this->testAction('/bookmarks/edit/1');
 	}
+
+	public function testEdit() {
+		$Bookmarks = $this->generate('Bookmarks', array(
+				'models' => array(
+						'Bookmark' => array(
+								'save'
+						)
+				)
+		));
+		$this->_loginUser(3);
+
+		$data = array(
+				'Bookmark' => array(
+						'comment'	 => 'test foo'
+				)
+		);
+
+		$this->controller->Bookmark->expects($this->once())
+				->method('save')
+				->with($data);
+
+		$result		 = $this->testAction('/bookmarks/edit/1',
+				array(
+				'method' => 'post', 'data'	 => $data
+				));
+		}
+
+		public function testDeleteNotLoggedIn() {
+			$this->expectException('MethodNotAllowedException');
+			$result = $this->testAction('/bookmarks/delete/1');
+		}
+
+		public function testDeleteNotUsersBookmark() {
+			$Bookmarks = $this->generate('Bookmarks');
+			$this->_loginUser(1);
+			$this->expectException('MethodNotAllowedException');
+			$result = $this->testAction('/bookmarks/delete/1');
+		}
+
+		public function testDelete() {
+			$Bookmarks = $this->generate('Bookmarks', array(
+					'models' => array(
+							'Bookmark' => array(
+									'delete'
+							)
+					)
+			));
+			$this->controller->Bookmark->expects($this->once())
+					->method('delete');
+			$this->_loginUser(3);
+			$result = $this->testAction('/bookmarks/delete/1');
+		}
 
 }

@@ -27,21 +27,6 @@ class BookmarksController extends AppController {
 	}
 
 /**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		$this->Bookmark->id = $id;
-		if (!$this->Bookmark->exists()) {
-			throw new NotFoundException(__('Invalid bookmark'));
-		}
-		$this->set('bookmark', $this->Bookmark->read(null, $id));
-	}
-
-/**
  * add method
  *
  * @return void
@@ -76,23 +61,22 @@ class BookmarksController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
-		$this->Bookmark->id = $id;
-		if (!$this->Bookmark->exists()) {
-			throw new NotFoundException(__('Invalid bookmark'));
+		if (!$this->CurrentUser->isLoggedIn()) {
+			throw new MethodNotAllowedException;
 		}
+
+		$bookmark = $this->_getBookmark($id, $this->CurrentUser->getId());
+
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Bookmark->save($this->request->data)) {
-				$this->Session->setFlash(__('The bookmark has been saved'));
+//				$this->Session->setFlash(__('The bookmark has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The bookmark could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->Bookmark->read(null, $id);
+			$this->request->data = $bookmark;
 		}
-		$users = $this->Bookmark->User->find('list');
-		$entries = $this->Bookmark->Entry->find('list');
-		$this->set(compact('users', 'entries'));
 	}
 
 /**
@@ -104,19 +88,35 @@ class BookmarksController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
+		$bookmark = $this->_getBookmark($id, $this->CurrentUser->getId());
 		$this->Bookmark->id = $id;
+		if ($this->Bookmark->delete()) {
+			return $this->redirect(array('action' => 'index'));
+		}
+		$this->Session->setFlash(__('Bookmark was not deleted'));
+		return $this->redirect(array('action' => 'index'));
+	}
+
+	/**
+	 * Checks if bookmark exists and belongs to a user
+	 *
+	 * @param int $bookmark_id
+	 * @param int $user_id
+	 * @return array Bookmark
+	 * @throws NotFoundException
+	 * @throws MethodNotAllowedException
+	 */
+	protected function _getBookmark($bookmark_id, $user_id) {
+		$this->Bookmark->id = $bookmark_id;
 		if (!$this->Bookmark->exists()) {
 			throw new NotFoundException(__('Invalid bookmark'));
 		}
-		if ($this->Bookmark->delete()) {
-			$this->Session->setFlash(__('Bookmark deleted'));
-			$this->redirect(array('action' => 'index'));
+
+		$bookmark = $this->Bookmark->read(null, $bookmark_id);
+		if ($user_id != $bookmark['Bookmark']['user_id']) {
+			throw new MethodNotAllowedException;
 		}
-		$this->Session->setFlash(__('Bookmark was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		return $bookmark;
 	}
 
 }
