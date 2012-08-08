@@ -211,9 +211,9 @@
 		// empty block or menu cascades in entries/mix
 		$this->Blocks->set('modMenu', '');
 	?>
-	&nbsp;
-	&nbsp;
 <?php endif; ?>
+	&nbsp;
+	&nbsp;
 	<?php echo $this->element('entry/bookmark-link', array(
 			'id' => $entry['Entry']['id'],
 			'isBookmarked' => $entry['isBookmarked'],
