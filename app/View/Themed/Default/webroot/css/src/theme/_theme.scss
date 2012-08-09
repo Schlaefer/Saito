@@ -122,11 +122,8 @@ a.category_acs_2, .category_acs_2 {
    border-width: 0 $border_width $border_width 0;
    }
 
- .table.table-box-content {
-    th {
-		  border: $border_width solid $saito_gray_dark;
-		  border-width: 0 0 $border_width 0;
-      }
+.bookmarks-row-header {
+		border-bottom: $border_width solid $saito_gray_dark;
 	}
 
 /*******************************************************************************

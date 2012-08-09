@@ -33,9 +33,6 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 		$result = $this->testAction('/bookmarks/index', array(
 				'return' => 'view'
 		));
-		$this->assertContains('bookmarks/delete/1', $result);
-		$this->assertContains('bookmarks/delete/2', $result);
-		$this->assertNotContains('bookmarks/delete/3', $result);
 
 		$this->assertContains('bookmarks/edit/1', $result);
 		$this->assertContains('bookmarks/edit/2', $result);
@@ -116,19 +113,29 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 				));
 		}
 
-		public function testDeleteNotLoggedIn() {
-			$this->expectException('MethodNotAllowedException');
+		public function testDeleteNoAjax() {
+			$this->expectException('BadRequestException');
 			$result = $this->testAction('/bookmarks/delete/1');
 		}
 
 		public function testDeleteNotUsersBookmark() {
+			$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
 			$Bookmarks = $this->generate('Bookmarks');
 			$this->_loginUser(1);
 			$this->expectException('MethodNotAllowedException');
-			$result = $this->testAction('/bookmarks/delete/1');
+			$result = $this->testAction('/bookmarks/delete/',
+					array(
+					'method' => 'post', 'data'	 => array('id' => 1)
+					)
+			);
+
+			unset($_ENV['HTTP_X_REQUESTED_WITH']);
 		}
 
 		public function testDelete() {
+			$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+
 			$Bookmarks = $this->generate('Bookmarks', array(
 					'models' => array(
 							'Bookmark' => array(
@@ -139,7 +146,13 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 			$this->controller->Bookmark->expects($this->once())
 					->method('delete');
 			$this->_loginUser(3);
-			$result = $this->testAction('/bookmarks/delete/1');
+			$result = $this->testAction('/bookmarks/delete/',
+					array(
+					'method' => 'post', 'data'	 => array('id' => 1)
+					)
+			);
+
+			unset($_ENV['HTTP_X_REQUESTED_WITH']);
 		}
 
 }

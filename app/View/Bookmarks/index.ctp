@@ -1,10 +1,9 @@
 <?php
 	$this->start('headerSubnavLeft');
-  echo $this->Html->link(
-      '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
-      '/',
-      array( 'class' => 'textlink', 'escape' => FALSE ));
-  $this->end();
+	echo $this->Html->link(
+			'<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'), '/',
+			array('class'	 => 'textlink', 'escape' => FALSE));
+	$this->end();
 ?>
 <div class="box-content">
 	<div class="l-box-header box-header">
@@ -16,67 +15,92 @@
 	</div>
 	<div class="content">
 		<?php if ($bookmarks): ?>
-			<table class="table table-box-content">
-				<thead>
-					<tr>
-						<th style="width: 15px">
-						</th>
-						<th style="width: 62%">
+				<div class="l-bookmarks-container">
+					<div class="l-bookmarks-row bookmarks-row-header">
+						<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+						</div>
+						<div class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
 							<?php echo __('Subject'); ?>
-						</th>
-						<th style="width: 15px">
-						</th>
-						<th>
+						</div>
+						<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+						</div>
+						<div class="l-bookmarks-cell bookmarks-cell" style="width: 30%">
 							<?php echo __('Comment'); ?>
-						</th></tr>
-				</thead>
-				<tbody>
+						</div>
+					</div>
 					<?php
-						foreach ($bookmarks as $bookmark) {
-							$entry_sub = array(
-									'Entry'		 => $bookmark['Entry'],
-									'Category' => $bookmark['Entry']['Category'],
-									'User'		 => $bookmark['Entry']['User'],
-							);
-						$thread = $this->element('entry/thread_cached', array (
-								'entry_sub' => $entry_sub, 'level' => 0 ));
-
-							$table_cells = array(
-									$this->Html->link(
-											'<i class="icon-trash icon-large"></i>',
-											array(
-													'controller' => 'bookmarks',
-													'action'		 => 'delete',
-													$bookmark['Bookmark']['id']),
-											array(
-													'escape' => false,
-													'title'  => __('Delete'),
-											)
-									),
-									"<a name={$bookmark['Entry']['id']}></a>" . $thread,
-									$this->Html->link(
-											'<i class="icon-edit icon-large"></i>',
-											array(
-													'controller' => 'bookmarks',
-													'action'		 => 'edit',
-													$bookmark['Bookmark']['id']),
-											array(
-													'escape' => false,
-													'title'  => __('btn-comment-title'),
-											)
-									),
-									$bookmark['Bookmark']['comment'],
-							);
-							echo $this->Html->tableCells(
-									array($table_cells), array('class' => 'a'), array('class' => 'b')
-							);
-						}
+					foreach ($bookmarks as $bookmark) {
+						$entry_sub = array(
+								'Entry'		 => $bookmark['Entry'],
+								'Category' => $bookmark['Entry']['Category'],
+								'User'		 => $bookmark['Entry']['User'],
+						);
+						?>
+						<div id="bookmark-row-<?php echo $bookmark['Entry']['id']; ?>" class="l-bookmarks-row">
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+								<?php
+								echo $this->Html->link(
+										'<i class="icon-trash icon-large"></i>',
+										'#',
+										array(
+												'id'		 => 'btn-bookmark-delete-' . $bookmark['Entry']['id'],
+												'escape' => false,
+												'title'	 => __('Delete'),
+										)
+								);
+								$this->Js->get('#btn-bookmark-delete-' . $bookmark['Entry']['id']);
+								echo $this->Js->event(
+										'click',
+										$this->Js->request(
+												array('controller' => 'bookmarks', 'action'		 => 'delete'),
+												array(
+												'async'	 => true,
+												'data'	 => array('id'			 => $bookmark['Bookmark']['id']),
+												'method'	 => 'POST',
+												'success'	 => '$("#bookmark-row-' . $bookmark['Entry']['id'] . '").hide("drop", "fast", function(){ $(this).remove();});',
+												'type'		 => 'json',
+												)
+										)
+								);
+								?>			
+							</div>
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
+								<?php
+								$thread	 = $this->element('entry/thread_cached',
+										array(
+										'entry_sub'	 => $entry_sub, 'level'			 => 0));
+								echo "<a name={$bookmark['Entry']['id']}></a>" . $thread;
+								?>
+							</div>
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+								<?php
+								echo $this->Html->link(
+										'<i class="icon-edit icon-large"></i>',
+										array(
+												'controller' => 'bookmarks',
+												'action'		 => 'edit',
+												$bookmark['Bookmark']['id']
+												),
+										array(
+										'escape' => false,
+												'title'  => __('btn-comment-title'),
+										)
+								);
+								?>
+							</div>
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 30%">
+								<?php
+								echo $bookmark['Bookmark']['comment'];
+								?>
+							</div>
+						</div>
+					<?php } ?>
+				<?php else: ?>
+					<?php
+					echo $this->element('generic/no-content-yet',
+							array(
+							'message' => __('No bookmarks created yet.')));
 					?>
-				</tbody>
-			</table>
-		<?php else: ?>
-			<?php echo $this->element('generic/no-content-yet', array(
-					'message' => __('No bookmarks created yet.'))); ?>
-		<?php endif; ?>
+			<?php endif; ?>
+		</div>
 	</div>
-</div>

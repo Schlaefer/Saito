@@ -67,13 +67,17 @@ class BookmarksController extends AppController {
 	}
 
 	public function delete($id = null) {
+		if (!$this->request->is('ajax')) {
+			throw new BadRequestException;
+		}
+		$id = $this->request->data['id'];
 		$bookmark = $this->_getBookmark($id, $this->CurrentUser->getId());
+		$this->autoRender = false;
 		$this->Bookmark->id = $id;
 		if ($this->Bookmark->delete()) {
-			return $this->redirect(array('action' => 'index'));
+			return true;
 		}
-		$this->Session->setFlash(__('Bookmark was not deleted'));
-		return $this->redirect(array('action' => 'index'));
+		return false;
 	}
 
 	protected function _getBookmark($bookmark_id, $user_id) {
