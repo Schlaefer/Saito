@@ -29,9 +29,10 @@
 			echo $this->Form->create();
 			echo $this->Html->div('input textarea',
 					$this->Form->textarea('comment', array(
-							'maxlength' => 255,
-							'columns'   => 80,
-							'rows'			=> 3,
+							'maxlength' 	=> 255,
+							'columns'   	=> 80,
+							'rows'				=> 3,
+							'placeholder' => __('Enter your comment here'),
 			)));
 			echo $this->Form->submit(__('btn-comment-title'), array(
 					'class' => 'btn btn-submit',

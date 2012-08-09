@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-08 22:49+0100\n"
-"PO-Revision-Date: 2012-08-08 23:05+0100\n"
+"POT-Creation-Date: 2012-08-09 12:46+0100\n"
+"PO-Revision-Date: 2012-08-09 12:46+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -91,7 +91,11 @@ msgstr "Zurück zur Übersicht"
 msgid "Edit Bookmark"
 msgstr ""
 
-#: View/Bookmarks/edit.ctp:36 View/Bookmarks/index.ctp:65
+#: View/Bookmarks/edit.ctp:35
+msgid "Enter your comment here"
+msgstr "Hier Kommentar eingeben"
+
+#: View/Bookmarks/edit.ctp:37 View/Bookmarks/index.ctp:72
 msgid "btn-comment-title"
 msgstr "Kommentieren"
 
@@ -99,20 +103,20 @@ msgstr "Kommentieren"
 msgid "back_to_forum_linkname"
 msgstr "zurück zum Forum"
 
-#: View/Bookmarks/index.ctp:13 View/Elements/layout/header_login.ctp:26
+#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:26
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
-#: View/Bookmarks/index.ctp:25 View/Categories/view.ctp:64
+#: View/Bookmarks/index.ctp:23 View/Categories/view.ctp:64
 #, fuzzy
 msgid "Subject"
 msgstr "Betreff"
 
-#: View/Bookmarks/index.ctp:30
+#: View/Bookmarks/index.ctp:28
 msgid "Comment"
 msgstr "Kommentar"
 
-#: View/Bookmarks/index.ctp:53 View/Categories/admin_index.ctp:34
+#: View/Bookmarks/index.ctp:48 View/Categories/admin_index.ctp:34
 #: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
 #: View/Categories/view.ctp:108 View/SmileyCodes/admin_edit.ctp:20
 #: View/SmileyCodes/admin_index.ctp:28 View/Smilies/admin_index.ctp:32
@@ -120,7 +124,7 @@ msgstr "Kommentar"
 msgid "Delete"
 msgstr "Löschen"
 
-#: View/Bookmarks/index.ctp:79
+#: View/Bookmarks/index.ctp:88
 msgid "No bookmarks created yet."
 msgstr "Noch keine Lesezeichen angelegt."
 
@@ -364,6 +368,14 @@ msgstr "flattrn"
 #: View/Elements/email/text/footer.ctp:4
 msgid "email_footer"
 msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
+
+#: View/Elements/entry/bookmark-link.ctp:7
+msgid "Entry is bookmarked"
+msgstr "Eintrag ist in den Lesezeichen"
+
+#: View/Elements/entry/bookmark-link.ctp:19
+msgid "Bookmark this entry"
+msgstr "Eintrag zu den Lesezeichen hinzufügen"
 
 #: View/Elements/entry/category-chooser.ctp:12
 #, fuzzy
@@ -1631,11 +1643,7 @@ msgstr ""
 "Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
 "erneut."
 
-#: Controller/BookmarksController.php:75
-msgid "Bookmark was not deleted"
-msgstr "Das Lesezeichen wurde nicht gelöscht."
-
-#: Controller/BookmarksController.php:82
+#: Controller/BookmarksController.php:86
 msgid "Invalid bookmark"
 msgstr "Lesezeichen konnte nicht gefunden werden."
 
@@ -2097,6 +2105,9 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "Bookmark was not deleted"
+#~ msgstr "Das Lesezeichen wurde nicht gelöscht."
 
 #~ msgid "board_edited_marking"
 #~ msgstr "editiert von"
