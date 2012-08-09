@@ -36,37 +36,23 @@
 								'User'		 => $bookmark['Entry']['User'],
 						);
 						?>
-						<div id="bookmark-row-<?php echo $bookmark['Entry']['id']; ?>" class="l-bookmarks-row">
+						<div id="bookmark-row-<?php echo $bookmark['Bookmark']['id']; ?>" class="l-bookmarks-row">
 							<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
 								<?php
 								echo $this->Html->link(
-										'<i class="icon-trash icon-large"></i>',
-										'#',
+										'<i class="icon-trash icon-large"></i>', '#',
 										array(
-												'id'		 => 'btn-bookmark-delete-' . $bookmark['Entry']['id'],
-												'escape' => false,
-												'title'	 => __('Delete'),
-										)
-								);
-								$this->Js->get('#btn-bookmark-delete-' . $bookmark['Entry']['id']);
-								echo $this->Js->event(
-										'click',
-										$this->Js->request(
-												array('controller' => 'bookmarks', 'action'		 => 'delete'),
-												array(
-												'async'	 => true,
-												'data'	 => array('id'			 => $bookmark['Bookmark']['id']),
-												'method'	 => 'POST',
-												'success'	 => '$("#bookmark-row-' . $bookmark['Entry']['id'] . '").hide("drop", "fast", function(){ $(this).remove();});',
-												'type'		 => 'json',
-												)
+												'data-id'	 => $bookmark['Bookmark']['id'],
+												'class'		 => 'btn-bookmark-delete',
+												'escape'	 => false,
+												'title'		 => __('Delete'),
 										)
 								);
 								?>			
 							</div>
 							<div class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
 								<?php
-								$thread	 = $this->element('entry/thread_cached',
+								$thread		 = $this->element('entry/thread_cached',
 										array(
 										'entry_sub'	 => $entry_sub, 'level'			 => 0));
 								echo "<a name={$bookmark['Entry']['id']}></a>" . $thread;
@@ -77,13 +63,13 @@
 								echo $this->Html->link(
 										'<i class="icon-edit icon-large"></i>',
 										array(
-												'controller' => 'bookmarks',
-												'action'		 => 'edit',
-												$bookmark['Bookmark']['id']
-												),
+										'controller' => 'bookmarks',
+										'action'		 => 'edit',
+										$bookmark['Bookmark']['id']
+										),
 										array(
 										'escape' => false,
-												'title'  => __('btn-comment-title'),
+										'title'	 => __('btn-comment-title'),
 										)
 								);
 								?>
@@ -104,3 +90,28 @@
 			<?php endif; ?>
 		</div>
 	</div>
+	<?php
+		echo $this->Html->scriptBlock(<<<EOF
+$(document).ready(function (){
+	var bookmarks = {
+		delete: function (id) {
+			$("#bookmark-row-" + id).hide("drop", "fast", function(){ $(this).remove();});
+		}
+	};
+	$("#content").on("click", ".btn-bookmark-delete", function (event) {
+		var id = $(this).data('id');
+		$.ajax({
+			async:true,
+			data:"id=" + id,
+			dataType:"json",
+			success:function (data, textStatus) {
+				bookmarks.delete(id);
+				},
+			type:"POST",
+			url:"{$this->webroot}bookmarks/delete"
+		});
+		return false;});
+	});
+EOF
+		);
+	?>
