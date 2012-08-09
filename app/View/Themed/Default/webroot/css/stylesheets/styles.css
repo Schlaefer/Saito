@@ -686,6 +686,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .geshi-plain-text { font-size: smaller; }
 
 /* see also app/config/geshi.php for zebra colors */
+.embedly-image { max-height: 256px; }
+
 .entry.reply, .entry.add, .entry.reply { border-radius: 0 0 3px 3px; }
 .entry.reply .box-header, .entry.add .box-header, .entry.reply .box-header { border-radius: 0; }
 

@@ -37,13 +37,17 @@
         $out = $obj->html;
       elseif ( isset($obj->title) && isset($obj->url) ):
         // else just link to target
-        $title = $obj->title;
+				$title = '';
         $escape = TRUE;
         if ( isset($obj->thumbnail_url) ) :
           // use thumbnail for link if available
-          $title = $this->Html->image($obj->thumbnail_url);
+          $title .= $this->Html->image($obj->thumbnail_url, array(
+							'class' => 'embedly-image'
+					));
+					$title .= $this->Html->tag('br');
           $escape = FALSE;
         endif;
+        $title .= $obj->title;
         $out = $this->Html->link(
             $title, $obj->url, array( 'escape' => $escape )
         );
