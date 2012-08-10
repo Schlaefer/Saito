@@ -24,8 +24,9 @@ class User extends AppModel {
 			),
 	);
 	public $hasMany = array(
-			'Bookmarks' => array(
+			'Bookmark' => array(
 					'foreignKey' => 'user_id',
+					'dependent' => true,
 			),
 			'Esnotification' => array(
 					'foreignKey' => 'user_id',
@@ -248,7 +249,7 @@ class User extends AppModel {
     $success = $success && $this->Entry->anonymizeEntriesFromUser($id);
     $success = $success && $this->UserOnline->deleteAll(
         array('user_id' => $id), FALSE);
-    $success = $success && $this->delete($id, FALSE);
+    $success = $success && $this->delete($id, true);
     return $success;
   }
 

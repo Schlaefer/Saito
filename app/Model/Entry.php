@@ -34,10 +34,10 @@ class Entry extends AppModel {
 			),
 	);
 
-//	/*
 	public $hasMany = array(
 			'Bookmark' => array(
 					'foreignKey' => 'entry_id',
+					'dependent' => true,
 			),
 			'Esevent' => array(
 					'foreignKey' => 'subject',
@@ -433,7 +433,7 @@ class Entry extends AppModel {
     $category 	= $this->field('category');
 		$entry_ids 	= Hash::extract($this->_getThreadEntries($this->id), '{n}.Entry.id');
 
-    $success = $this->deleteAll(array('tid' => $this->id), false, true);
+    $success = $this->deleteAll(array('tid' => $this->id), true, true);
 
     if ($success):
       $this->Category->id = $category;

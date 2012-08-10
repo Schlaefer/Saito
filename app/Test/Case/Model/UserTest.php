@@ -13,6 +13,7 @@
 	class UserTestCase extends CakeTestCase {
 
 		public $fixtures = array(
+				'app.bookmark',
 				'app.user',
 				'app.user_online',
 				'app.entry',
@@ -141,6 +142,13 @@
 
       $entriesBeforeDelete = $this->User->Entry->find('count');
 
+			$allBookmarksBeforeDelete = $this->User->Bookmark->find('count');
+			$userBookmarksBeforeDelete = count($this->User->Bookmark->findAllByUserId(3));
+			// user has bookmarks before the test
+      $this->assertGreaterThan(0, $userBookmarksBeforeDelete);
+			// other users have bookmarks
+      $this->assertGreaterThan($userBookmarksBeforeDelete, $allBookmarksBeforeDelete);
+
       $this->User->deleteAllExceptEntries(3);
 
       // user is deleted
@@ -151,6 +159,12 @@
       $expected = $entriesBeforeDelete;
       $result = $this->User->Entry->find('count');
       $this->assertEqual($result, $expected);
+
+			// delete associated bookmarks
+			$userBookmarksAfterDelete = count($this->User->Bookmark->findAllByUserId(3));
+      $this->assertEqual($userBookmarksAfterDelete, 0);
+			$allBookmarksAfterDelete = $this->User->Bookmark->find('count');
+      $this->assertEqual($allBookmarksBeforeDelete - $userBookmarksBeforeDelete, $allBookmarksAfterDelete);
 
     }
 

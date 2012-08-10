@@ -5,6 +5,8 @@
 	class EntryTest extends CakeTestCase {
 
 		public $fixtures = array(
+				'app.bookmark',
+				'app.ecach',
 				'app.user', 'app.user_online', 'app.entry', 'app.category',
 				'app.smiley', 'app.smiley_code', 'app.setting', 'app.upload',
 				'app.esevent',
@@ -142,11 +144,11 @@
 			$this->Entry->Esevent = $this->getMock(
 					'Esevent', array('deleteSubject'), array(null, 'esevents', 'test'));
 
-			// delte thread
+			// delete thread
 			$this->Entry->Esevent->expects($this->at(0))
 					->method('deleteSubject')
 					->with(1, 'thread');
-			// delte first entry
+			// delete first entry
 			$this->Entry->Esevent->expects($this->at(1))
 					->method('deleteSubject')
 					->with(1, 'entry');
@@ -155,6 +157,8 @@
 			$this->Entry->Esevent->expects($this->exactly($deleted_subjects))
 					->method('deleteSubject');
 
+			$allBookmarksBeforeDelete = $this->Entry->Bookmark->find('count');
+
 			$result = $this->Entry->deleteTree();
 			$this->assertTrue($result);
 
@@ -162,6 +166,11 @@
 					array( 'conditions' => array( 'tid' => '1' ) ));
 			$expected = 0;
 			$this->assertEqual($result, $expected);
+
+			// delete associated bookmarks
+			$allBookmarksAfterDelete = $this->Entry->Bookmark->find('count');
+			$numberOfBookmarksForTheDeletedThread = 3;
+      $this->assertEqual($allBookmarksBeforeDelete - $numberOfBookmarksForTheDeletedThread, $allBookmarksAfterDelete);
 		}
 
     public function testAnonymizeEntriesFromUser() {
