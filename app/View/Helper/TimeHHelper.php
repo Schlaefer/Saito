@@ -29,7 +29,11 @@
 			$this->today = mktime(0, 0, 0);
 
 			// @td reimplement unsing Cake 2.2 CakeTime (?)
-			$timezone = new DateTimeZone(Configure::read('Saito.Settings.timezone'));
+			$timezone_settings = Configure::read('Saito.Settings.timezone');
+			if (empty($timezone_settings)) {
+				$timezone_settings = 'UTC';
+			}
+			$timezone = new DateTimeZone($timezone_settings);
 			$timeInTimezone = new DateTime('now', $timezone);
 			$timeOnServer = new DateTime('now');
 			$this->_timeDiffToUtc = $timeOnServer->getOffset() - $timeInTimezone->getOffset();
