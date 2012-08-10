@@ -25,7 +25,7 @@
 					echo $this->UserH->generateCss($CurrentUser->getSettings());
 				endif;
 				?>
-			<?php echo $this->Html->script('jquery-1.7.1.min'); ?>
+			<?php echo $this->Html->script('lib/jquery/jquery-1.8.0.min'); ?>
 	</head>
 	<body>
 	<div style ="min-height: 100%; position: relative;">

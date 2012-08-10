@@ -29,9 +29,9 @@
 		?>
 		<?php 
 			if ( Configure::read('debug') == 0 ):
-				echo $this->Html->script('jquery-1.7.1.min');
+				echo $this->Html->script('lib/jquery/jquery-1.8.0.min');
 			else:
-				echo $this->Html->script('jquery-1.7.1');
+				echo $this->Html->script('lib/jquery/jquery-1.8.0');
 			endif;
 		?>
 		<?php 
