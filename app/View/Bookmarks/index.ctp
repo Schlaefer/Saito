@@ -95,7 +95,7 @@
 $(document).ready(function (){
 	var bookmarks = {
 		delete: function (id) {
-			$("#bookmark-row-" + id).hide("drop", "fast", function(){ $(this).remove();});
+			$("#bookmark-row-" + id).hide("slide", null, 500, function(){ $(this).remove();});
 		}
 	};
 	$("#content").on("click", ".btn-bookmark-delete", function (event) {
