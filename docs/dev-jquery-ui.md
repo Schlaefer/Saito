@@ -13,9 +13,9 @@
   - Dialog (popups)
 - Effects
   - Core
-  - Drop (bookmarks/index -> delete)
+  - Drop (unused)
   - Fade (dialog popups)
   - Highlight
   - Scale (dialog popups)
   - Shake (was popup wrong data, currently unused)
-  - Slide (unused)
+  - Slide (bookmarks/index -> delete)
