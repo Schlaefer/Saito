@@ -3,10 +3,8 @@
 	?>
 	</head>
 	<body>
-		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
-			<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'>
-				<?php echo $this->element('users/login_form'); ?>
-			</div>
+		<?php if (isset($CurrentUser) && !$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
+			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" class="l-top hero" >
@@ -15,7 +13,7 @@
 				</div>
 				<div class="l-top-right hero-text">
 						<?php echo Stopwatch::start('header_search.ctp');?>
-							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
+							<?php if (isset($CurrentUser) && $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
 						<?php echo Stopwatch::stop('header_search.ctp');?>
 				</div> <!-- .right -->
         <div class="l-top-left hero-text">
@@ -24,7 +22,7 @@
                 $this->Html->image(
                     'forum_logo.png', array( 'alt' => 'Logo', 'height' => 70 )
                 ),
-                array( 'controller' => 'entries', 'action' => 'index', 'admin' => false ),
+                '/',
                 array( 'id' => 'btn_header_logo', 'escape' => false ));
           ?>
           <div id="claim"></div>

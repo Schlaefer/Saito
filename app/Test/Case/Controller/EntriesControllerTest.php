@@ -15,6 +15,8 @@
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
 
 		public $fixtures = array(
+				'app.bookmark',
+				'app.ecach',
 				'app.user',
 				'app.user_online',
 				'app.entry',
@@ -26,6 +28,17 @@
 				'app.esnotification',
 				'app.esevent',
 		);
+
+		public function testBookmarkButtonVisibility() {
+
+			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
+			$this->assertNotContains('bookmarks-add-1', $result);
+
+			$this->_loginUser(3);
+			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
+			$this->assertContains('bookmarks-add-1', $result);
+
+		}
 
 		/**
 		 * User is not logged in

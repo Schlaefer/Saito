@@ -1,5 +1,5 @@
 <?php
-if ($CurrentUser->isLoggedIn() == FALSE ) {
+if (isset($CurrentUser) && $CurrentUser->isLoggedIn() == FALSE ) {
 	?>
 	<a href="<?php echo $this->request->webroot; ?>users/register/"><?php echo __('register_linkname') ;?></a>
 	<?php if ($this->request->params['action'] != 'login') { ?> 
@@ -18,9 +18,13 @@ if ($CurrentUser->isLoggedIn() == FALSE ) {
         array( 'escape' => FALSE)). '&nbsp;|&nbsp;'  ;
 	}
 	?>
-	<a href="<?php echo $this->request->webroot; ?>users/view/<?php echo $CurrentUser->getId(); ?>" id="btn_view_current_user">
+	<a href="<?php echo $this->request->webroot; ?>users/view/<?php echo $CurrentUser['id']; ?>" id="btn_view_current_user">
     <i class="icon-user"></i> <?php echo __('user_profile') ;?>
   </a>
+	&nbsp;|&nbsp;
+	<a href="<?php echo $this->request->webroot; ?>bookmarks/">
+		<i class="icon-bookmark"></i> <?php echo __('Bookmarks'); ?>
+	</a>
 	&nbsp;|&nbsp;
 	<?php
 	echo $this->Html->link(

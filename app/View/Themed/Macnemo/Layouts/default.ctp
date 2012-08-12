@@ -5,9 +5,7 @@
 	</head>
 	<body>
 		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
-			<div id='modalLoginDialog' style='height: 0px; overflow: hidden;'>
-				<?php echo $this->element('users/login_form'); ?>
-			</div>
+			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" class="l-top hero" >
@@ -26,7 +24,7 @@
                 $this->Html->image(
                     'forum_logo.png', array( 'alt' => 'Logo', 'height' => 70 )
                 ),
-                array( 'controller' => 'entries', 'action' => 'index', 'admin' => false ),
+								'/',
                 array( 'id' => 'btn_header_logo', 'escape' => false ));
           ?>
           <div id="claim"></div>

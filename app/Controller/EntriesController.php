@@ -12,7 +12,6 @@ class EntriesController extends AppController {
 			'EntryH',
       'MarkitupEditor',
 			'Flattr.Flattr',
-			'TimeH',
 			'Text',
 	);
 	public $components = array(
@@ -39,6 +38,13 @@ class EntriesController extends AppController {
 	 * @var function
 	 */
 	protected $_ldGetRightsForEntryAndUser;
+
+	/**
+	 * Function for checking if entry is bookmarked by current user
+	 *
+	 * @var function
+	 */
+	protected $_ldGetBookmarkForEntryAndUser;
 
 		public function index() {
 			Stopwatch::start('Entries->index()');
@@ -139,7 +145,8 @@ class EntriesController extends AppController {
 
 	public function mix($tid) {
 		$entries = $this->_setupMix($tid);
-		Entry::mapTreeElements( $entries, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($entries, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($entries, $this->_ldGetBookmarkForEntryAndUser, $this);
 		$this->set('entries', $entries);
     $this->_showAnsweringPanel();
 	}
@@ -210,7 +217,8 @@ class EntriesController extends AppController {
     endif;
 
 		$a = array($this->request->data);
-		Entry::mapTreeElements( $a, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($a, $this->_ldGetRightsForEntryAndUser, $this);
+		Entry::mapTreeElements($a, $this->_ldGetBookmarkForEntryAndUser, $this);
 		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
@@ -715,6 +723,11 @@ class EntriesController extends AppController {
 				$element['rights'] = $rights;
 		};
 
+		$this->_ldGetBookmarkForEntryAndUser = function($element, $_this) {
+						$element['isBookmarked'] = $_this->Entry->Bookmark->isBookmarked($element['Entry']['id'],
+								$_this->CurrentUser->getId());
+					};
+
 		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 		if ( $this->request->action == 'index' ) {
@@ -935,6 +948,7 @@ class EntriesController extends AppController {
 		}
 
 		$this->Entry->id = $id;
+		$this->Entry->contain('User', 'Category');
 		$this->request->data = $this->Entry->read();
 
 		//* redirect if posting doesn't exists
@@ -975,31 +989,20 @@ class EntriesController extends AppController {
    * Decide if an answering panel is show when rendering a posting
    */
   protected function _showAnsweringPanel() {
-    // debug($this->localReferer('controller').'/'.$this->localReferer('action'));
     $showAnsweringPanel = FALSE;
 
-    if (
-        // Only logged in users see the answering buttons if they …
-        $this->CurrentUser->isLoggedIn()
-        && (
-            (
-              // … directly on entries/view  (not inline)
-              ($this->request->action === 'view'  && !$this->request->is('ajax'))
-              // … directly in entries/mix
-              || $this->request->action === 'mix'
-            )
-            || (
-              // … inline viewing …
-              $this->localReferer('controller') === 'entries'
-                && (
-                  // … on entries/index.
-                  $this->localReferer('action') === 'index'
-                )
-            )
-          )
-    ):
-      $showAnsweringPanel = TRUE;
-    endif;
+		if ($this->CurrentUser->isLoggedIn()) {
+			// Only logged in users see the answering buttons if they …
+			if ( // … directly on entries/view but not inline
+					($this->request->action === 'view' && !$this->request->is('ajax'))
+					// … directly in entries/mix
+					|| $this->request->action === 'mix'
+					// … inline viewing … on entries/index.
+					|| ( $this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index')
+			):
+				$showAnsweringPanel = TRUE;
+			endif;
+		}
 
     $this->set('showAnsweringPanel', $showAnsweringPanel);
 

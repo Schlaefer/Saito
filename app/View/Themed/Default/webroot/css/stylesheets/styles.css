@@ -629,6 +629,16 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .table.border td, .table.border th { border-style: solid; border-color: silver; border-width: 0 1px 1px 0; }
 
+.l-bookmarks-container { overflow: hidden; }
+
+.l-bookmarks-row { white-space: nowrap; }
+
+.l-bookmarks-cell { display: inline-table; vertical-align: middle; white-space: normal; }
+
+.bookmarks-cell { padding: 0.8em; }
+
+.bookmarks-row-header { border-style: solid; border-color: silver; border-width: 0 0 1px 0; font-weight: bold; }
+
 /******************************************************************************* Bootstrap Popovers Adjustments *****************************************************************************/
 .popover { font-size: 0.95em; }
 
@@ -676,6 +686,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .geshi-plain-text { font-size: smaller; }
 
 /* see also app/config/geshi.php for zebra colors */
+.embedly-image { max-height: 256px; }
+
 .entry.reply, .entry.add, .entry.reply { border-radius: 0 0 3px 3px; }
 .entry.reply .box-header, .entry.add .box-header, .entry.reply .box-header { border-radius: 0; }
 
@@ -776,6 +788,8 @@ a.no-color { color: #6f6f6f; }
 
 .error-message, .message { padding: 5px; /* einziehen Zunge Fehlermeldungen */ /*	padding-top: 5px + $corner_radius;*/ /*	margin-top: -1 * $corner_radius;*/ background-color: #a60202; color: white; text-shadow: #595959 0px -1px 1px; }
 
+.no-content-yet { margin: 1em auto; font-weight: bold; width: 100%; text-align: center; font-size: 35px; color: #DDD; letter-spacing: 0.1em; word-spacing: 0.1em; }
+
 /******************************************************************************* Mobile *****************************************************************************/
 @media only screen and (max-width: 480px), only screen and (device-width: 768px) { .mobile-nl { display: block; }
   .mobile-hide { display: none; }
@@ -845,6 +859,8 @@ a.category_acs_2, .category_acs_2 { background: #d5d5d5; }
 .table.border tr:last-child td:last-child, .table.border tr:last-child th:last-child { border-bottom-right-radius: 3px; }
 
 .table.border td, .table.border th { border-style: solid; border-color: #e0e0e0; border-width: 0 1px 1px 0; }
+
+.bookmarks-row-header { border-bottom: 1px solid #e0e0e0; }
 
 /******************************************************************************* Slidebars (aka Slidetabs) general layout *****************************************************************************/
 .slidetab_subtree { font-weight: normal; }

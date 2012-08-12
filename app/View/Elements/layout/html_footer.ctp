@@ -18,7 +18,7 @@ EOT
       );
     else:
       echo $this->Html->script('jquery.hoverIntent.minified');
-      echo $this->Html->script('lib/jquery-ui/jquery-ui-1.8.19.custom.min');
+      echo $this->Html->script('lib/jquery-ui/jquery-ui-1.8.22.custom.min');
       echo $this->Html->script('classes/thread.class');
       echo $this->Html->script('classes/thread_line.class');
       echo $this->Html->script('_app');

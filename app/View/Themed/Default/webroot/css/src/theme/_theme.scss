@@ -122,6 +122,10 @@ a.category_acs_2, .category_acs_2 {
    border-width: 0 $border_width $border_width 0;
    }
 
+.bookmarks-row-header {
+		border-bottom: $border_width solid $saito_gray_dark;
+	}
+
 /*******************************************************************************
  * Slidebars (aka Slidetabs) general layout
  ******************************************************************************/

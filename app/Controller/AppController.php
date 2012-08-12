@@ -35,6 +35,7 @@ class AppController extends Controller {
 			'Markitup.Markitup',
 			'Stopwatch.Stopwatch',
 			'TextH',
+			'TimeH',
 
 			#CakePHP Helpers
 			'Ajax',
@@ -96,12 +97,21 @@ class AppController extends Controller {
 		if ( Configure::read('debug') < 2 ) {
 			$settings = Cache::read('Saito.Settings');
 			}
-		if ( $settings == FALSE) {
-			$this->loadModel('Setting');
-			$settings = $this->Setting->load(Configure::read('Saito.Settings'));
-		}
-		else {
-			Configure::write('Saito.Settings', $settings);
+
+		// load settings fails in CakeErrorController when doing Test Cases, because
+	  // setting fixture is not loaded
+		if ($this->name === 'CakeError') {
+			if (Configure::read('debug') != 0) {
+				$this->layout = 'error';
+			}
+		} else {
+			if (!$settings && $this->request->controller !== 'CakeError') {
+				$this->loadModel('Setting');
+				$settings = $this->Setting->load(Configure::read('Saito.Settings'));
+			}
+			else {
+				Configure::write('Saito.Settings', $settings);
+			}
 		}
 
 		$this->set('showStopwatchOutput', false);

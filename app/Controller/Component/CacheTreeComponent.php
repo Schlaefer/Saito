@@ -17,6 +17,13 @@
 
 		protected $_cachedEntries = null;
 
+		/**
+		 * Max number of stored entries
+		 *
+		 * @var integer
+		 */
+		protected $_maxNumberOfEntries = 240;
+
 		protected $_CurrentUser;
 
 		protected $_allowUpdate = false;
@@ -25,6 +32,13 @@
 
 		public function initialize(Controller $Controller) {
 			$this->_CurrentUser = $Controller->CurrentUser;
+
+			$cache_config = Cache::settings();
+			if ($cache_config['engine'] === 'File') {
+				$this->_CacheEngine = new CacheTreeDbCache;
+			} else {
+				$this->_CacheEngine = new CacheTreeAppCache;
+			}
 
 			if (
 					$Controller->params['controller'] === 'entries' && $Controller->params['action'] === 'index'
@@ -122,7 +136,18 @@
 		public function readCache() {
 			if ( $this->_cachedEntries === NULL ):
 				Stopwatch::start('SaitoCacheTree->readCache()');
-				$this->_cachedEntries = Cache::read('EntrySub');
+				$this->_cachedEntries = $this->_CacheEngine->read();
+
+				$depractionTime = time() - $this->_CacheEngine->getDeprecationSpan();
+
+				if(!empty($this->_cachedEntries)) {
+					foreach ($this->_cachedEntries as $id => $entry) {
+						if ($entry['time'] < $depractionTime) {
+							unset($this->_cachedEntries[$id]);
+							$this->_isUpdated = TRUE;
+						}
+					}
+				}
 				Stopwatch::end('SaitoCacheTree->readCache()');
 			endif;
 		}
@@ -132,8 +157,7 @@
 				return false;
 
 			$this->_gc();
-			$this->_cachedEntries['last_update']['day'] = mktime(0, 0, 0);
-			Cache::write('EntrySub', (array)$this->_cachedEntries);
+			$this->_CacheEngine->write((array)$this->_cachedEntries);
 		}
 
 		/**
@@ -143,19 +167,71 @@
 			if ( !$this->_cachedEntries )
 				return false;
 
-			// unset cache after midnight (relative dates)
-			if ( isset($this->_cachedEntries['last_update']['day']) && mktime(0, 0, 0) != $this->_cachedEntries['last_update']['day'] ) {
-				$this->_cachedEntries = array( );
+			$number_of_cached_entries = count($this->_cachedEntries);
+			if ( $number_of_cached_entries > $this->_maxNumberOfEntries ) {
+				// descending time sort
+				uasort($this->_cachedEntries, function($a, $b) {
+					if ($a['time'] == $b['time']) {
+						return 0;
+					}
+					return ($a['time'] < $b['time']) ? 1 : -1;
+					});
+				$this->_cachedEntries = array_slice($this->_cachedEntries, 0, $this->_maxNumberOfEntries, true);
 			}
+		}
 
+	}
+
+	interface CacheTreeCacheEngine {
+		public function getDeprecationSpan();
+		public function read();
+		public function write(array $data);
+	}
+
+	class CacheTreeAppCache implements CacheTreeCacheEngine {
+
+		public function getDeprecationSpan() {
 			$cacheConfig = Cache::settings();
-			$depractionTime = time() - $cacheConfig['duration'];
+			$depractionSpan = $cacheConfig['duration'];
+			return $depractionSpan;
+		}
 
-			foreach ( $this->_cachedEntries as $id => $entry ) {
-				if ( isset($entry['time']) && $entry['time'] < $depractionTime ) {
-					$this->delete($id);
-				}
+		public function read() {
+			return Cache::read('EntrySub');
+		}
+
+		public function write(array $data) {
+			return Cache::write('EntrySub', $data);
+		}
+	}
+
+  class CacheTreeDbCache implements CacheTreeCacheEngine {
+
+		protected $_Db;
+
+		public function __construct() {
+			$this->_Db						 = ClassRegistry::init('Ecache');
+			$this->_Db->primaryKey = 'key';
+		}
+
+		public function getDeprecationSpan() {
+			return 3600;
+		}
+
+		public function read() {
+			$result = $this->_Db->findByKey('EntrySub');
+			if ($result) {
+				return unserialize($result['Ecache']['value']);
 			}
+			return array();
+		}
+
+		public function write(array $data) {
+			return $this->_Db->save(array(
+							'Ecache' => array(
+									'key'		 => 'EntrySub',
+									'value'	 => serialize($data))
+					));
 		}
 
 	}

@@ -25,7 +25,7 @@ done
 yuicompressor 'custom_javascript.js -o custom_javascript-compressed.js'
 
 ### Merge compressed files ###
-cat jquery.hoverIntent.minified.js lib/jquery-ui/jquery-ui-1.8.19.custom.min.js custom_javascript-compressed.js  jquery.scrollTo-1.4.2-min.js > js.min.js  
+cat jquery.hoverIntent.minified.js lib/jquery-ui/jquery-ui-1.8.22.custom.min.js custom_javascript-compressed.js  jquery.scrollTo-1.4.2-min.js > js.min.js
 
 ### Clean Up Temp Files ###
 rm classes.min.js

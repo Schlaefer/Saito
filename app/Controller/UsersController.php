@@ -9,7 +9,6 @@ class UsersController extends AppController {
 			'Farbtastic',
 			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',
-			'TimeH',
 			'EntryH',
 	);
 	
