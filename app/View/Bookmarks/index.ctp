@@ -90,6 +90,7 @@
 			<?php endif; ?>
 		</div>
 	</div>
+</div>
 	<?php
 		echo $this->Html->scriptBlock(<<<EOF
 $(document).ready(function (){
