@@ -44,7 +44,9 @@
 
 			$cacheData = array(
 					'1' => array(
-							'time' => time() - 3600,
+							'metadata' => array(
+									'content_last_updated' => time() - 3600,
+							),
 							'content' => 'foo',
 					),
 			);

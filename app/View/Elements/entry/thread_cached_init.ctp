@@ -19,7 +19,7 @@
 	} else {
 		$out = $this->element('entry/thread_cached', array ( 'entry_sub' => $entry_sub, 'level' => 0));
 		if ($CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
-			$CacheTree->update($entry_sub['Entry']['id'], $out);
+			$CacheTree->update($entry_sub['Entry']['id'], $out, strtotime($entry_sub['Entry']['last_answer']));
 		}    
 	}
 ?>

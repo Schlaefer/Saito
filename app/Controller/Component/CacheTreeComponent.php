@@ -90,7 +90,7 @@
 				return $this->_validEntries[$entry['id']];
 			endif;
 
-			if ( isset($this->_cachedEntries[$entry['id']]) && strtotime($entry['last_answer']) < $this->_cachedEntries[$entry['id']]['time']) {
+			if ( isset($this->_cachedEntries[$entry['id']]) && strtotime($entry['last_answer']) <= $this->_cachedEntries[$entry['id']]['metadata']['content_last_updated']) {
 				if ($this->_isEntryOldForUser($entry)) {
 					$isCacheValid = true;
 				}
@@ -127,11 +127,25 @@
 			return FALSE;
 		}
 
-		public function update($id, $content) {
+		/**
+		 * Puts an entry into the cache
+		 *
+		 * @param type $id Entry-id
+		 * @param type $content Content to be saved in the cache
+		 * @param int $timestamp Unix timestamp
+		 */
+		public function update($id, $content, $timestamp = null) {
+			if (!$timestamp) {
+				$timestamp = time();
+			}
 			if (!$this->_allowUpdate) { return false; }
 			$this->_isUpdated = TRUE;
 			$this->readCache();
-			$data = array( 'time' => time(), 'content' => $content );
+			$metadata = array(
+					'created' => time(),
+					'content_last_updated' => $timestamp,
+			);
+			$data = array( 'metadata' => $metadata, 'content' => $content );
 			$this->_cachedEntries[$id] = $data;
 		}
 
@@ -144,7 +158,7 @@
 
 				if(!empty($this->_cachedEntries)) {
 					foreach ($this->_cachedEntries as $id => $entry) {
-						if ($entry['time'] < $depractionTime) {
+						if ($entry['metadata']['created'] < $depractionTime) {
 							unset($this->_cachedEntries[$id]);
 							$this->_isUpdated = TRUE;
 						}
@@ -164,19 +178,22 @@
 
 		/**
 		 * Garbage collection
+		 *
+		 * Remove old entries from the cache.
 		 */
 		protected function _gc() {
 			if ( !$this->_cachedEntries )
 				return false;
 
 			$number_of_cached_entries = count($this->_cachedEntries);
+			debug($number_of_cached_entries);
 			if ( $number_of_cached_entries > $this->_maxNumberOfEntries ) {
 				// descending time sort
 				uasort($this->_cachedEntries, function($a, $b) {
-					if ($a['time'] == $b['time']) {
+					if ($a['metadata']['content_last_updated'] == $b['metadata']['content_last_updated']) {
 						return 0;
 					}
-					return ($a['time'] < $b['time']) ? 1 : -1;
+					return ($a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated']) ? 1 : -1;
 					});
 				$this->_cachedEntries = array_slice($this->_cachedEntries, 0, $this->_maxNumberOfEntries, true);
 			}
