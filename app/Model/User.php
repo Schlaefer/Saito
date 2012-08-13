@@ -17,6 +17,7 @@ class User extends AppModel {
 
 	public $name = 'User';
 	public $actsAs = array( 'Containable' );
+	public $cacheQueries = true;
 	public $hasOne = array(
 			'UserOnline' => array(
 					'className' => 'UserOnline',
