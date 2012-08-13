@@ -1,6 +1,8 @@
 <?php
 
 	App::import('Lib', 'Stopwatch.Stopwatch');
+	App::uses('CacheTreeAppCacheEngine', 'Lib/CacheTree');
+	App::uses('CacheTreeDbCacheEngine', 'Lib/CacheTree');
 	App::uses('Component', 'Controller');
 
 	/**
@@ -35,9 +37,9 @@
 
 			$cache_config = Cache::settings();
 			if ($cache_config['engine'] === 'File') {
-				$this->_CacheEngine = new CacheTreeDbCache;
+				$this->_CacheEngine = new CacheTreeDbCacheEngine;
 			} else {
-				$this->_CacheEngine = new CacheTreeAppCache;
+				$this->_CacheEngine = new CacheTreeAppCacheEngine;
 			}
 
 			if (
@@ -181,59 +183,3 @@
 		}
 
 	}
-
-	interface CacheTreeCacheEngine {
-		public function getDeprecationSpan();
-		public function read();
-		public function write(array $data);
-	}
-
-	class CacheTreeAppCache implements CacheTreeCacheEngine {
-
-		public function getDeprecationSpan() {
-			$cacheConfig = Cache::settings();
-			$depractionSpan = $cacheConfig['duration'];
-			return $depractionSpan;
-		}
-
-		public function read() {
-			return Cache::read('EntrySub');
-		}
-
-		public function write(array $data) {
-			return Cache::write('EntrySub', $data);
-		}
-	}
-
-  class CacheTreeDbCache implements CacheTreeCacheEngine {
-
-		protected $_Db;
-
-		public function __construct() {
-			$this->_Db						 = ClassRegistry::init('Ecache');
-			$this->_Db->primaryKey = 'key';
-		}
-
-		public function getDeprecationSpan() {
-			return 3600;
-		}
-
-		public function read() {
-			$result = $this->_Db->findByKey('EntrySub');
-			if ($result) {
-				return unserialize($result['Ecache']['value']);
-			}
-			return array();
-		}
-
-		public function write(array $data) {
-			return $this->_Db->save(array(
-							'Ecache' => array(
-									'key'		 => 'EntrySub',
-									'value'	 => serialize($data))
-					));
-		}
-
-	}
-
-?>
