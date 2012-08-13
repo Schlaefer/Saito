@@ -18,9 +18,11 @@
 		$out = $CacheTree->read($entry_sub['Entry']['id']);
 	} else {
 		$out = $this->element('entry/thread_cached', array ( 'entry_sub' => $entry_sub, 'level' => 0));
-		if ($CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
-			$CacheTree->update($entry_sub['Entry']['id'], $out);
-		}    
+		if (!isset($this->request->named['page']) || (int)$this->request->named['page'] < 3) {
+			if ($CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
+				$CacheTree->update($entry_sub['Entry']['id'], $out);
+			}
+		}
 	}
 ?>
 <?php

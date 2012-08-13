@@ -384,6 +384,22 @@ class User extends AppModel {
     return $success;
   }
 
+	 /**
+		*
+		* @param int $id user-id
+		* @return bool|array false if not found, array otherwise
+		*/
+		public function getProfile($id) {
+			return $this->find('first',
+					array(
+							'contain'		 => false,
+							'conditions' => array(
+									'id' => $id
+							)
+					)
+			);
+		}
+
   /**
    *
    * @param string $password
