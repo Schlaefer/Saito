@@ -135,14 +135,15 @@
 		 * @param int $timestamp Unix timestamp
 		 */
 		public function update($id, $content, $timestamp = null) {
+			$now = time();
 			if (!$timestamp) {
-				$timestamp = time();
+				$timestamp = $now;
 			}
 			if (!$this->_allowUpdate) { return false; }
 			$this->_isUpdated = TRUE;
 			$this->readCache();
 			$metadata = array(
-					'created' => time(),
+					'created' => $now,
 					'content_last_updated' => $timestamp,
 			);
 			$data = array( 'metadata' => $metadata, 'content' => $content );
@@ -186,7 +187,6 @@
 				return false;
 
 			$number_of_cached_entries = count($this->_cachedEntries);
-			debug($number_of_cached_entries);
 			if ( $number_of_cached_entries > $this->_maxNumberOfEntries ) {
 				// descending time sort
 				uasort($this->_cachedEntries, function($a, $b) {
