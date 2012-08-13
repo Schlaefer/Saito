@@ -137,8 +137,7 @@ Class CurrentUserComponent extends SaitoUser {
 		//*  make shure all session have the same userdata
 		if ( $this->isLoggedIn() ) {
 			$this->_User->id = $this->getId();
-			$this->_User->contain();
-			$user = $this->_User->read();
+			$user = $this->_User->getProfile($this->getId());
 			parent::set($user['currentUser']);
 			$this->LastRefresh = new SaitoCurrentUserLastRefresh($this, $this->_User);
 		}
