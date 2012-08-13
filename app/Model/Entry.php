@@ -136,6 +136,7 @@ class Entry extends AppModel {
 
 		$this->_recentEntries = $this->find('all',
 			array(
+					'contain'			=> array('User', 'Category'),
 					'fields'			=> $this->threadLineFieldList,
 					'conditions'	=> $conditions,
 					'limit'				=> $limit,
