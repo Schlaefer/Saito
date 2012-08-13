@@ -101,7 +101,7 @@ msgstr "Kommentieren"
 
 #: View/Bookmarks/index.ctp:4 View/Entries/view.ctp:6 View/Users/view.ctp:4
 msgid "back_to_forum_linkname"
-msgstr "zurück zum Forum"
+msgstr "Zurück zum Forum"
 
 #: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:26
 msgid "Bookmarks"

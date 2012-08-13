@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-08 13:51+0100\n"
-"PO-Revision-Date: 2012-08-08 13:51+0100\n"
+"PO-Revision-Date: 2012-08-13 11:17+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -1520,11 +1520,11 @@ msgstr "Place"
 
 #: View/Users/view.ctp:74
 msgid "user_since"
-msgstr "Registred"
+msgstr "Registered"
 
 #: View/Users/view.ctp:75
 msgid "date_short"
-msgstr ""
+msgstr "%b. %d, %Y"
 
 #: View/Users/view.ctp:78
 msgid "user_postings"
@@ -1536,7 +1536,7 @@ msgstr "Edit"
 
 #: View/Users/view.ctp:156
 msgid "button_mod_panel_shp"
-msgstr ""
+msgstr "Moderator Menu"
 
 #: View/Users/view.ctp:170
 msgid "Unlock"
