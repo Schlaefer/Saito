@@ -89,7 +89,7 @@ msgstr "Zurück zur Übersicht"
 
 #: View/Bookmarks/edit.ctp:13
 msgid "Edit Bookmark"
-msgstr ""
+msgstr "Lesezeichen bearbeiten"
 
 #: View/Bookmarks/edit.ctp:35
 msgid "Enter your comment here"
