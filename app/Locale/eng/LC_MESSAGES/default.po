@@ -586,7 +586,7 @@ msgstr ""
 
 #: View/Elements/users/add_form_core.ctp:21 View/Users/changepassword.ctp:27
 msgid "error_password_confirm"
-msgstr ""
+msgstr "Passwords don't match."
 
 #: View/Elements/users/add_form_core.ctp:23
 #: View/Elements/users/login_form.ctp:5 View/Users/edit.ctp:48
