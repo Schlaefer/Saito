@@ -158,16 +158,16 @@ Class CurrentUserComponent extends SaitoUser {
 
 // end shutdown();
 
-	public function beforeRedirect($controller) {
-		$this->_writeSession($controller);
+	public function beforeRedirect(Controller $Controller) {
+		$this->_writeSession($Controller);
 
 	}
 
 // end beforeRedirect()
 
-	public function beforeRender($controller) {
+	public function beforeRender(Controller $Controller) {
 		// write out the current user for access in the views
-		$controller->set('CurrentUser', $this);
+		$Controller->set('CurrentUser', $this);
 	}
 
 	/**

@@ -76,13 +76,16 @@ class AjaxHelper extends AppHelper {
  * @var array
  */
 	var $__ajaxBuffer = array();
-	
+
+	/*
 	function beforeRender() {
 	   if ( ClassRegistry::getObject('view') ) {
 //		$this->Javascript->link('jquery', false);
 //		$this->Javascript->link('jquery.form', false);
 	   }
 	}
+	 * 
+	 */
 
 	function link($title, $href = null, $options = array(), $confirm = null, $escapeTitle = true) {
 		if (!isset($href)) {

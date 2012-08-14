@@ -36,7 +36,7 @@ class Category extends AppModel {
 		),
 	);
 
-	# @td cache
+	protected $_cache = array();
 
 	public function getCategoriesForAccession($accession) {
 		$categories = $this->_getCategoriesForAccession($accession);
@@ -51,18 +51,19 @@ class Category extends AppModel {
 	}
 
 	protected function _getCategoriesForAccession($accession) {
-			$categories = $this->find('list',
-					array(
-					'conditions' => array(
-							'accession <=' => $accession,
-					),
-					'fields'			 => array('Category.id', 'Category.category'),
-					'order' => 'category_order ASC',
-					)
-			);
-			return $categories;
+			if (!isset($this->_cache[$accession])) {
+				$this->_cache[$accession] = $this->find('list',
+						array(
+						'conditions' => array(
+								'accession <=' => $accession,
+						),
+						'fields'			 => array('Category.id', 'Category.category'),
+						'order' => 'category_order ASC',
+						)
+				);
+			}
+			return $this->_cache[$accession];
 		}
-
 
 	public function mergeIntoCategory($targetCategory) {
 
