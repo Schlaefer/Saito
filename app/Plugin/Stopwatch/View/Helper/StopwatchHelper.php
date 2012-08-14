@@ -9,20 +9,15 @@
 				'Html'
 		);
 
-		public function beforeRender($viewFile) {
-			parent::beforeRender($viewFile);
-			$this->Html->script(
+		public function plot() {
+			$stopwatch_data = Stopwatch::getJs();
+			$out = $this->Html->script(
 					array(
 						'http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js',
 						'http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.stack.min.js',
-							),
-					array('inline' => false)
+							)
 			);
-		}
-
-		public function plot() {
-			$stopwatch_data = Stopwatch::getJs();
-			$out = '<div id="stopwatch-plot" style="width:300px;height:600px;"></div>';
+			$out .= '<div id="stopwatch-plot" style="width:300px;height:600px;"></div>';
 			$out .= '<div style="width: 300px;"><div id="stopwatch-exp">---</div><div id="stopwatch-legend"></div></div>';
 			$out .= $this->Html->scriptBlock(<<<EOF
 		$.plot($("#stopwatch-plot"), {$stopwatch_data}, {
