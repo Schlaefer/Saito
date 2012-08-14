@@ -22,7 +22,6 @@ EOT
       echo $this->Html->script('classes/thread.class');
       echo $this->Html->script('classes/thread_line.class');
       echo $this->Html->script('_app');
-      echo $this->Html->script('jquery.form');
       echo $this->Html->script('jquery.scrollTo-1.4.2-min');
       echo $this->Html->script(
           array(
