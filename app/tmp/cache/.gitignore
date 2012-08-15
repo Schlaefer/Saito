@@ -2,4 +2,5 @@
 !.gitignore
 !models/
 !persistent/
+!postings/
 !views/
