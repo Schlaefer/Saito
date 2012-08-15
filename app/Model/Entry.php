@@ -102,10 +102,12 @@ class Entry extends AppModel {
 
 	/**
 	 * field list necessary for displaying a thread_line
+	 *
+	 * Entry.text determine if Entry is n/t
    *
    * @var type string
    */
-	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.flattr, Entry.nsfw, Entry.name,
+	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.text, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.flattr, Entry.nsfw, Entry.name,
                                   User.username,
 																	Category.category, Category.accession, Category.description';
 
@@ -140,7 +142,6 @@ class Entry extends AppModel {
 		if ( $category !== NULL ):
 			$conditions[]['Entry.category']	= $category;
 		endif;
-
 
 		$result = $this->find('all',
 			array(
