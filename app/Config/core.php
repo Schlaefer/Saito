@@ -308,6 +308,23 @@ if (extension_loaded('apc') && function_exists('apc_dec') && (php_sapi_name() !=
  * Default Cache
  */
 Cache::config('default', array( 'engine' => $engine ));
+
+// In development mode, caches should expire quickly.
+$duration = '+999 days';
+if (Configure::read('debug') >= 1) {
+	$duration = '+10 seconds';
+}
+
+/**
+ * Long term cache for performance cheating
+ */
+	Cache::config('postings',
+			array(
+			'engine'	 => $engine,
+			'groups'	 => array('postings'),
+			'duration' => $duration
+	));
+
 /**
  * Short term cache for performance cheating
  */
@@ -316,13 +333,6 @@ Cache::config('default', array( 'engine' => $engine ));
 			'engine'	 => $engine,
 			'duration' => '+180 seconds',
 	));
-
-
-// In development mode, caches should expire quickly.
-$duration = '+999 days';
-if (Configure::read('debug') >= 1) {
-	$duration = '+10 seconds';
-}
 
 /**
  * Configure the cache used for general framework caching.  Path information,

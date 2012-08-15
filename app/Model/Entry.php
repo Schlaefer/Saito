@@ -116,7 +116,7 @@ class Entry extends AppModel {
    */
   public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
 
-	public function getRecentEntries( Array $options = array(), SaitoUser $User ) {
+	public function getRecentEntries(array $options = array(), SaitoUser $User) {
 		Stopwatch::start('Model->User->getRecentEntries()');
 
 		$defaults = array (
@@ -126,6 +126,13 @@ class Entry extends AppModel {
 		);
 		extract(array_merge($defaults, $options));
 
+		$cache_key = 'Entry.recentEntries-' . $user_id . '-' . md5(serialize($category));
+		$cached_entry = Cache::read($cache_key, 'postings');
+		if ($cached_entry) {
+			Stopwatch::stop('Model->User->getRecentEntries()');
+			return $cached_entry;
+		}
+
 		$conditions = array();
 		if ( $user_id !== NULL ) {
 			$conditions[]['Entry.user_id']	= $user_id;
@@ -134,7 +141,8 @@ class Entry extends AppModel {
 			$conditions[]['Entry.category']	= $category;
 		endif;
 
-		$this->_recentEntries = $this->find('all',
+
+		$result = $this->find('all',
 			array(
 					'contain'			=> array('User', 'Category'),
 					'fields'			=> $this->threadLineFieldList,
@@ -143,9 +151,11 @@ class Entry extends AppModel {
 					'order'				=> 'time DESC',	 
 				)
 			);
-		Stopwatch::stop('Model->User->getRecentEntries()');
 
-		return $this->_recentEntries;
+		Cache::write($cache_key, $result, 'postings');
+
+		Stopwatch::stop('Model->User->getRecentEntries()');
+		return $result;
 		}
 
 
