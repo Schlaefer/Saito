@@ -126,9 +126,10 @@ class Entry extends AppModel {
 					'limit'			=> 10,
 					'category'	=> $this->Category->getCategoriesForAccession($User->getMaxAccession()),
 		);
-		extract(array_merge($defaults, $options));
+		$options = array_merge($defaults, $options);
+		extract($options);
 
-		$cache_key = 'Entry.recentEntries-' . $user_id . '-' . md5(serialize($category));
+		$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
 		$cached_entry = Cache::read($cache_key, 'postings');
 		if ($cached_entry) {
 			Stopwatch::stop('Model->User->getRecentEntries()');
