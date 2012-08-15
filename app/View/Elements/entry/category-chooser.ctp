@@ -51,6 +51,7 @@
 						?>
 						<input type="hidden" name="data[CatChooser][<?php echo $key; ?>]" id="CatChooser<?php echo $key; ?>_" value="0">
 						<input type="checkbox" name="data[CatChooser][<?php echo $key; ?>]"
+									 <?php echo (isset($categoryChooserChecked[$key])) ? 'checked="checked"' : '' ; ?>
 									 onclick="$('#cb-category-chooser-all').removeAttr('checked')" value="1" id="CatChooser<?php echo $key; ?>">
 						<?php
 							/* For performance reasons we generate the html manually */
