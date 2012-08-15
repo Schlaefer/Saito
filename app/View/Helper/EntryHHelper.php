@@ -18,8 +18,6 @@
 		public function generateThreadParams($params) {
 
 			extract($params);
-//		debug($last_refresh);
-//		debug($entry_time);
 
 			$is_new_post = false;
 			if ( $level == 0 ) {
@@ -129,7 +127,7 @@
 		 * Everything you do in here is in worst case done a few hundred times on
 		 * the frontpage. Think about (and benchmark) performance before you change it.
 		 */
-		public function threadCached(array $entry_sub, SaitoUser $CurrentUser, $level = 0) {
+		public function threadCached(array $entry_sub, SaitoUser $CurrentUser, $level = 0, array $current_entry = array()) {
 			//setup for current entry
 			$params = $this->generateThreadParams(
 					array(
@@ -137,7 +135,7 @@
 							'last_refresh'	 => $CurrentUser['last_refresh'],
 							'entry_time'		 => $entry_sub['Entry']['time'],
 							// @td $entry['Entry']['id'] not set in user/view.ctp
-							'entry_viewed'	 => (isset($entry['Entry']['id']) && $this->request->params['action'] == 'view') ? $entry['Entry']['id'] : null,
+							'entry_viewed'	 => (isset($current_entry['Entry']['id']) && $this->request->params['action'] == 'view') ? $current_entry['Entry']['id'] : null,
 							'entry_current'	 => $entry_sub['Entry']['id'],
 					)
 			);
@@ -170,7 +168,7 @@ EOF;
 			if (isset($entry_sub['_children'])) :
 				$out .= '<li>';
 				foreach ($entry_sub['_children'] as $child) :
-					$out .= $this->threadCached($child, $CurrentUser, $level + 1);
+					$out .= $this->threadCached($child, $CurrentUser, $level + 1, $current_entry);
 				endforeach;
 				$out .= '</li>';
 			endif;
