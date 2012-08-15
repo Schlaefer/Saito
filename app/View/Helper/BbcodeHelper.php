@@ -228,8 +228,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		//* smilies
 		if ( Configure::read('Saito.Settings.smilies') ):
-			$this->_Parser->addParser(array( 'block', 'inline' ),
-					array( &$this, '_smilies' ));
+			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE, array( &$this, '_smilies' ));
 		endif;
 
 		//* quote
