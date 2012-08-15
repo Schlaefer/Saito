@@ -14,7 +14,7 @@
 		<div class="slidebar-tab">
 			<div class="slidebar-tab-button">
 				<?php
-					$remoteFunction = $this->Ajax->remoteFunction(array('url' => array( 'controller' => 'users', 'action' => 'ajax_toggle', "show_$id" )));
+					$remoteFunction = $this->Js->request(array( 'controller' => 'users', 'action' => 'ajax_toggle', "show_$id" ));
 					$this->Js->get("#slidetab_$id  .slidebar-tab-button")->event('click', $remoteFunction.";layout_slidetabs_toggle('#slidetab_$id');");
 				?>
 				<div class="<?php echo (isset($btn_class)) ? $btn_class : ''; ?>"><?php echo (isset($btn_content)) ? $btn_content : '&nbsp;'; ?></div>
