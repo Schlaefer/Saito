@@ -29,18 +29,15 @@ class AppController extends Controller {
 			'Session',
 	);
 	public $helpers = array (
-			#App Helpers
+			// app helpers
 			'Bbcode',
 			'UserH',
 			'Markitup.Markitup',
 			'Stopwatch.Stopwatch',
 			'TextH',
 			'TimeH',
-
-			#CakePHP Helpers
-			'Ajax',
+			// CakePHP helpers
 			'Js' => array('Jquery'),
-
 			'Html',
 			'Form',
 			'Session',
