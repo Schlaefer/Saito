@@ -105,7 +105,7 @@ class Entry extends AppModel {
    *
    * @var type string
    */
-	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.text, Entry.flattr, Entry.nsfw, Entry.name,
+	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.flattr, Entry.nsfw, Entry.name,
                                   User.username,
 																	Category.category, Category.accession, Category.description';
 
