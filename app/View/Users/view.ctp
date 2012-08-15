@@ -227,7 +227,7 @@
 			<ul>
 				<?php  foreach ($lastEntries as $entry) : ?>
 				<li>
-					<?php echo  $this->element('entry/thread_cached', array ( 'entry_sub' => $entry, 'level' => 0 )); ?>
+					<?php echo $this->EntryH->threadCached($entry, $CurrentUser); ?>
 				</li>
 				<?php  endforeach; ?>
 			</ul>

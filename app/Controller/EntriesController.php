@@ -282,8 +282,8 @@ class EntriesController extends AppController {
 						$this->set('entry_sub', $this->Entry->read(null, $this->Entry->id));
 						// ajax requests so far are always answers
 						$this->set('level', '1');
-						$this->render('/Elements/entry/thread_cached');
-						return;
+						$this->render('/Elements/entry/ajax-thread_cached');
+						return ;
 					endif;
 				else:
 					//* answering through POST request
