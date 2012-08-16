@@ -180,6 +180,14 @@ class AppController extends Controller {
 				$this->set('showStopwatchOutput', true);
 			};
 
+			// change language
+			if (isset($this->passedArgs['lang'])) {
+				$L10n = ClassRegistry::init('L10n');
+				if($L10n->catalog($this->passedArgs['lang'])) {
+					// $this->Session->write('Config.language', $this->passedArgs['lang']);
+					Configure::write('Config.language', $this->passedArgs['lang']);
+				}
+			};
 		}
 	}
 
