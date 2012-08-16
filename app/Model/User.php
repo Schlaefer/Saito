@@ -318,18 +318,9 @@ class User extends AppModel {
 	}
 
 	public function validateCheckOldPassword($data) {
-		$valid = false;
 		$this->contain('UserOnline');
 		$old_pw = $this->field('password');
-		if ( $this->_checkPassword($data['password_old'], $old_pw) ) :
-			$valid = true;
-    elseif ( $old_pw === MlfAuthenticate::hash($data['password_old']) ) :
-			$valid = true;
-    elseif ( Mlf2Authenticate::checkPassword($data['password_old'], $old_pw) ) :
-			$valid = true;
-    endif;
-		return $valid;
-
+		return $this->_checkPassword($data['password_old'], $old_pw);
 	}
 
 	public function validateConfirmPassword($data) {
@@ -400,17 +391,30 @@ class User extends AppModel {
 			);
 		}
 
-  /**
-   *
-   * @param string $password
-   * @param string $hash
-   * @return boolean TRUE if password match FALSE otherwise
-   */
-  public function _checkPassword($password, $hash) {
-    return BcryptAuthenticate::checkPassword($password, $hash);
-  }
+		/**
+		 * Checks if password is valid against all supported auth methods
+		 *
+		 * @param string $password
+		 * @param string $hash
+		 * @return boolean TRUE if password match FALSE otherwise
+		 */
+		protected function _checkPassword($password, $hash) {
+			$supp_auths = array(
+					'BcryptAuthenticate',
+					'Mlf2Authenticate',
+					'MlfAuthenticate',
+			);
+			$valid = false;
+			foreach ($supp_auths as $auth) {
+				if ($auth::checkPassword($password, $hash)){
+					$valid = true;
+					break;
+				}
+			}
+			return $valid;
+		}
 
-	/**
+		/**
 	 * Custom hash function used for authentication with Auth component
 	 *
 	 * @param string $password
