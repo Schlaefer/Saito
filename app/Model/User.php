@@ -6,7 +6,7 @@
   /**
    * Authentication methods
    */
-  App::uses('BcryptAuthenticate', 'Controller/Component/Auth');
+  App::uses('BcryptAuthenticate', 'BcryptAuthenticate.Controller/Component/Auth');
   App::uses('MlfAuthenticate', 'Controller/Component/Auth');
   App::uses('Mlf2Authenticate', 'Controller/Component/Auth');
 

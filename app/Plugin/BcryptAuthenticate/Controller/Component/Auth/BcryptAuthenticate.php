@@ -1,6 +1,6 @@
 <?php
 
-  App::uses('FormAuthenticateSalted', 'Lib/Controller/Component/Auth');
+  App::uses('FormAuthenticateSalted', 'BcryptAuthenticate.Controller/Component/Auth');
 
   /**
    * @see http://mark-story.com/posts/view/using-bcrypt-for-passwords-in-cakephp
@@ -38,5 +38,3 @@
     }
 
   }
-
-?>

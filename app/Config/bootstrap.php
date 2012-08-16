@@ -131,6 +131,7 @@ CakePlugin::load('Install');
 CakePlugin::load('FileUpload');
 CakePlugin::load('Search');
 CakePlugin::load('Embedly');
+CakePlugin::load('BcryptAuthenticate');
 
 	/**
  * Activate Saito Cache:
