@@ -139,6 +139,10 @@ class AppController extends Controller {
 
 		$this->_setupSlideTabs();
 
+		if ($this->request->controller === 'pages') {
+			$this->_showDisclaimer();
+		}
+
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
