@@ -779,7 +779,7 @@ class EntriesController extends AppController {
     $this->CacheTree->delete($tid);
 		clearCache("element_{$id}_entry_thread_line_cached", 'views', '');
 		clearCache("element_{$id}_entry_view_content", 'views', '');
-		Cache::clearGroup('postings');
+		Cache::clearGroup('postings', 'postings');
 	}
 
 	protected function _afterNewEntry($newEntry) {
