@@ -554,6 +554,11 @@ class Entry extends AppModel {
 		return false;
 	}
 
+	/**
+	 * Implements the custom find type 'feed'
+	 *
+	 * Add parameters for generating a rss/json-feed with find('feed', …)
+	 */
 	protected function _findFeed($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$query['contain']	 = array('User');
