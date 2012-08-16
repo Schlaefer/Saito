@@ -162,34 +162,34 @@ class AppController extends Controller {
 	}
 
 
-	/**
-	 * Set forum configuration from get params in url
-	 */
-	protected function _setConfigurationFromGetParams() {
+		/**
+		 * Set forum configuration from get params in url
+		 */
+		protected function _setConfigurationFromGetParams() {
 
-		if ($this->CurrentUser->isLoggedIn()) {
-			// testing different themes on the fly with `theme` GET param /theme:<foo>/
-			if ( isset($this->passedArgs['theme']) ) :
-				$this->theme = $this->passedArgs['theme'];
-			else:
-				$this->theme = Configure::read('Saito.theme');
-			endif;
+			if ($this->CurrentUser->isLoggedIn()) {
+				// testing different themes on the fly with `theme` GET param /theme:<foo>/
+				if (isset($this->passedArgs['theme'])) :
+					$this->theme = $this->passedArgs['theme'];
+				else:
+					$this->theme = Configure::read('Saito.theme');
+				endif;
 
-			// activate stopwatch
-			if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
-				$this->set('showStopwatchOutput', true);
-			};
+				// activate stopwatch
+				if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
+					$this->set('showStopwatchOutput', true);
+				};
 
-			// change language
-			if (isset($this->passedArgs['lang'])) {
-				$L10n = ClassRegistry::init('L10n');
-				if($L10n->catalog($this->passedArgs['lang'])) {
-					// $this->Session->write('Config.language', $this->passedArgs['lang']);
-					Configure::write('Config.language', $this->passedArgs['lang']);
-				}
-			};
+				// change language
+				if (isset($this->passedArgs['lang'])) {
+					$L10n = ClassRegistry::init('L10n');
+					if ($L10n->catalog($this->passedArgs['lang'])) {
+						// $this->Session->write('Config.language', $this->passedArgs['lang']);
+						Configure::write('Config.language', $this->passedArgs['lang']);
+					}
+				};
+			}
 		}
-	}
 
 	/**
 	 * sets title for pages
