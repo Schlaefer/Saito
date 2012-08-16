@@ -322,7 +322,8 @@ if (Configure::read('debug') >= 1) {
 			array(
 			'engine'	 => $engine,
 			'groups'	 => array('postings'),
-			'duration' => $duration
+			'prefix'	 => 'saito_postings_',
+			'duration' => 3600,
 	));
 
 /**
@@ -331,7 +332,8 @@ if (Configure::read('debug') >= 1) {
 	Cache::config('perf-cheat',
 			array(
 			'engine'	 => $engine,
-			'duration' => '+180 seconds',
+			'prefix'	 => 'saito_perf-cheat_',
+			'duration' => 180,
 	));
 
 /**
