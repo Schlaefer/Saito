@@ -1,3 +1,4 @@
+<?php Stopwatch::start('slidetab_recentposts'); ?>
 <?php if ( $CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries' ) : ?>
 		<?php
 		echo $this->element(
@@ -40,3 +41,4 @@
 		</ul>
 		<?php echo $this->element('layout/slidetabs__footer'); ?>
 	<?php endif; ?>
+<?php Stopwatch::end('slidetab_recentposts'); ?>

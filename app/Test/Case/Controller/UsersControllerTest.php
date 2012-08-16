@@ -7,8 +7,10 @@
 	class UsersControllerTestCase extends SaitoControllerTestCase {
 
 		public $fixtures = array(
+				'app.bookmark',
 				'app.user',
 				'app.user_online',
+				'app.ecach',
 				'app.entry',
 				'app.category',
 				'app.smiley',
@@ -216,6 +218,34 @@
 			$result = $this->testAction('users/register',
 					array('data'	 => $data, 'method' => 'post')
 			);
+		}
+
+		/**
+		 * There's already an test for validation errors in UserTest, but registration
+		 * is seldom used and so we make sure with this test that validation error
+		 * message are really shown.
+		 */
+		public function testRegisterValidation() {
+			Configure::write('Saito.Settings.tos_enabled', false);
+
+			$data = array(
+					'User' => array(
+							'username'				 => 'mitch',
+							'user_email'			 => 'alice@example.com',
+							'user_password'		 => 'NewUserspassword',
+							'password_confirm' => 'NewUser1spassword',
+					)
+			);
+
+			$Users = $this->generate('Users');
+			$result = $this->testAction('users/register',
+					array('data'	 => $data, 'method' => 'post', 'return' => 'view')
+			);
+
+			// Test that error strings are shown
+			$this->assertContains('Email address is already used.', $result);
+			$this->assertContains('Passwords don&#039;t match.', $result);
+			$this->assertContains('Name is already used.', $result);
 		}
 
 		public function testView() {

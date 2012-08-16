@@ -62,7 +62,7 @@
 										} elseif (!$answering_forbidden) {
 											$result =  "scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."'); initViewAnswerForm();";
 
-											 echo $this->Ajax->link(
+											 echo $this->Js->link(
 																__('forum_answer_linkname'),
 															 array(
 																	 'controller'=>'entries',
@@ -70,14 +70,13 @@
 																	 $entry['Entry']['id'],
 																),
 															 array(
-																'onclick' => "entries_add_toggle({$entry['Entry']['id']});",
 																'id' => 'forum_answer_' . $entry['Entry']['id'],
 																'class' => 'btn btn-submit', 'accesskey' => "a" ,
-																'update' => 'posting_formular_slider_' . $entry['Entry']['id'] ,
+																'update' => '#posting_formular_slider_' . $entry['Entry']['id'] ,
 																'indicator' => 'spinner_'. $entry['Entry']['id'],
-																'complete'	=> $result ,
-																'inline'	=> true,
-
+																'complete'	=> $result,
+																'buffer'	=> false,
+																'beforeSend' => "entries_add_toggle({$entry['Entry']['id']});",
 															)
 											 );
 										};
@@ -128,7 +127,7 @@
 						<?php endif; ?>
 						<li>
 							<?php
-								echo $this->Ajax->link(
+								echo $this->Js->link(
 									($entry['Entry']['fixed'] == 0)
 										? '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_set_entry_link')
 										: '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_unset_entry_link'),
@@ -149,7 +148,7 @@
 						</li>
 						<li>
 							<?php
-								echo $this->Ajax->link(
+								echo $this->Js->link(
 										($entry['Entry']['locked'] == 0)
 											? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link')
 											: '<i class="icon-unlock"></i>&nbsp;' . __('locked_unset_entry_link'),

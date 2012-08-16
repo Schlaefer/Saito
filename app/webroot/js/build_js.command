@@ -14,7 +14,6 @@ done;
 ### Merging uncompressed files ###
 scripts[0]='classes.min.js'
 scripts[1]='_app.js'
-scripts[2]='jquery.form.js'
 
 for i in "${scripts[@]}"
 do

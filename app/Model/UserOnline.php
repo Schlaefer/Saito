@@ -98,7 +98,7 @@ class UserOnline extends AppModel {
 	}
 
 	public function getLoggedIn() {
-		Stopwatch::start('Users->getLoggedIn()');
+		Stopwatch::start('UserOnline->getLoggedIn()');
 		$loggedInUsers = $this->find(
 						'all',
 						array(
@@ -108,7 +108,7 @@ class UserOnline extends AppModel {
 								'order'				=> 'User.username ASC',
 						)
 			);
-		Stopwatch::stop('Users->getLoggedIn()');
+		Stopwatch::stop('UserOnline->getLoggedIn()');
     return $loggedInUsers;
 		}
 

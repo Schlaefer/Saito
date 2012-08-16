@@ -22,7 +22,6 @@ EOT
       echo $this->Html->script('classes/thread.class');
       echo $this->Html->script('classes/thread_line.class');
       echo $this->Html->script('_app');
-      echo $this->Html->script('jquery.form');
       echo $this->Html->script('jquery.scrollTo-1.4.2-min');
       echo $this->Html->script(
           array(
@@ -40,7 +39,8 @@ EOT
   <div class='clearfix'></div>
   <?php
 		if ($showStopwatchOutput) {
-      echo $this->Stopwatch->getResult();
+			echo $this->Html->tag('div', $this->Stopwatch->getResult(), array('style' => 'float: left;'));
+			echo $this->Html->tag('div', $this->Stopwatch->plot(), array('style' => 'float: left; margin-left: 2em;'));
 		}
   ?>
 <?php echo $this->element('sql_dump'); ?>

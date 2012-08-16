@@ -1,4 +1,4 @@
-<?php // Stopwatch::start('slidetab_recententries'); ?>
+<?php Stopwatch::start('slidetab_recententries'); ?>
 <?php if ( $CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries' ) : ?>
 		<?php
 		echo $this->element('layout/slidetabs__header',
@@ -35,4 +35,4 @@
 		</ul>
 		<?php echo $this->element('layout/slidetabs__footer'); ?>
 	<?php endif; ?>
-<?php // Stopwatch::end('slidetab_recententries'); ?>
+<?php Stopwatch::end('slidetab_recententries'); ?>

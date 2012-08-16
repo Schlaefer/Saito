@@ -102,10 +102,12 @@ class Entry extends AppModel {
 
 	/**
 	 * field list necessary for displaying a thread_line
+	 *
+	 * Entry.text determine if Entry is n/t
    *
    * @var type string
    */
-	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.text, Entry.flattr, Entry.nsfw, Entry.name,
+	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.text, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.flattr, Entry.nsfw, Entry.name,
                                   User.username,
 																	Category.category, Category.accession, Category.description';
 
@@ -116,7 +118,7 @@ class Entry extends AppModel {
    */
   public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
 
-	public function getRecentEntries( Array $options = array(), SaitoUser $User ) {
+	public function getRecentEntries(array $options = array(), SaitoUser $User) {
 		Stopwatch::start('Model->User->getRecentEntries()');
 
 		$defaults = array (
@@ -124,7 +126,15 @@ class Entry extends AppModel {
 					'limit'			=> 10,
 					'category'	=> $this->Category->getCategoriesForAccession($User->getMaxAccession()),
 		);
-		extract(array_merge($defaults, $options));
+		$options = array_merge($defaults, $options);
+		extract($options);
+
+		$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
+		$cached_entry = Cache::read($cache_key, 'postings');
+		if ($cached_entry) {
+			Stopwatch::stop('Model->User->getRecentEntries()');
+			return $cached_entry;
+		}
 
 		$conditions = array();
 		if ( $user_id !== NULL ) {
@@ -134,7 +144,7 @@ class Entry extends AppModel {
 			$conditions[]['Entry.category']	= $category;
 		endif;
 
-		$this->_recentEntries = $this->find('all',
+		$result = $this->find('all',
 			array(
 					'contain'			=> array('User', 'Category'),
 					'fields'			=> $this->threadLineFieldList,
@@ -143,9 +153,11 @@ class Entry extends AppModel {
 					'order'				=> 'time DESC',	 
 				)
 			);
-		Stopwatch::stop('Model->User->getRecentEntries()');
 
-		return $this->_recentEntries;
+		Cache::write($cache_key, $result, 'postings');
+
+		Stopwatch::stop('Model->User->getRecentEntries()');
+		return $result;
 		}
 
 

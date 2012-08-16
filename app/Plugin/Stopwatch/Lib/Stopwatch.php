@@ -94,8 +94,11 @@ class Stopwatch {
 		$out = "";
 
 		$out .= "W\tU\tW_delta\tU_delta\n";
+		$series_index = 1;
 		foreach(self::$_events as $k => $v) {
+			$out .= '<span id="stopwatch-' . $series_index++ . '" class="stopwatch-row">';
 			$out .= sprintf("%05.3f\t%05.3f\t%05.3f\t%05.3f\t%s\n", $v['wtime'], $v['utime'], $v['wdiff'], $v['udiff'], $v['title']);
+			$out .= '</span>';
 		}
 
 		$out .= "\n\n";
@@ -107,6 +110,8 @@ class Stopwatch {
 		$e = array_pop(self::$_sums);
 		$e_w = $e['wtime'] / 100;
 		$e_u = $e['utime'] / 100;
+
+		self::$_events = array_slice(self::$_events, 0, -200);
 
 		$out .= "W_sum\tU_sum\tW_%\tU_%\t#\tW_ø\n";
 
@@ -128,6 +133,28 @@ class Stopwatch {
 
 		$out .=  "\n\n" . self::printStatistic();
 
+		return $out;
+	}
+
+	public static function getJs() {
+		if ( self::$_enableTimer === FALSE ) return;
+		$data = array();
+		foreach(self::$_events as $k => $v) {
+			$data[] = array(
+			    'label' => $v['title'],
+					'data' => array(
+							array(
+									1,
+									$v['wdiff'],
+							),
+							array(
+									2,
+									$v['udiff'],
+							),
+					)
+			);
+		}
+		$out = json_encode($data);
 		return $out;
 	}
 

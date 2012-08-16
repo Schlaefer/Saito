@@ -12,13 +12,12 @@
 				'Form',
 				'Html',
 				'Session',
+				'TimeH',
 		);
 
 		public function generateThreadParams($params) {
 
 			extract($params);
-//		debug($last_refresh);
-//		debug($entry_time);
 
 			$is_new_post = false;
 			if ( $level == 0 ) {
@@ -122,6 +121,125 @@
 			return $out;
 		}
 
-	}
+		/**
+		 *
+		 *
+		 * Everything you do in here is in worst case done a few hundred times on
+		 * the frontpage. Think about (and benchmark) performance before you change it.
+		 */
+		public function threadCached(array $entry_sub, SaitoUser $CurrentUser, $level = 0, array $current_entry = array()) {
+			//setup for current entry
+			$params = $this->generateThreadParams(
+					array(
+							'level'					 => $level,
+							'last_refresh'	 => $CurrentUser['last_refresh'],
+							'entry_time'		 => $entry_sub['Entry']['time'],
+							// @td $entry['Entry']['id'] not set in user/view.ctp
+							'entry_viewed'	 => (isset($current_entry['Entry']['id']) && $this->request->params['action'] == 'view') ? $current_entry['Entry']['id'] : null,
+							'entry_current'	 => $entry_sub['Entry']['id'],
+					)
+			);
+			extract($params);
 
-?>
+			$new_post_class = (($is_new_post) ? " new" : '');
+			$thread_line_cached = $this->threadLineCached($entry_sub, $level);
+
+			// generate current entry
+			$out = '';
+
+			$out .= <<<EOF
+<li class="{$span_post_type}">
+	<div class="thread_line {$entry_sub['Entry']['id']} {$new_post_class}" style='position: relative;'>
+		<div class="thread_line-pre">
+			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
+				<i class="icon-{$span_post_type}"></i>
+			</a>
+		</div>
+		<a href='{$this->request->webroot}entries/view/{$entry_sub['Entry']['id']}'
+			class='link_show_thread {$entry_sub['Entry']['id']} span_post_type thread_line-content'>
+				{$thread_line_cached}
+		</a>
+	</div>
+</li>
+EOF;
+
+
+			// generate sub-entries of current entry
+			if (isset($entry_sub['_children'])) :
+				$out .= '<li>';
+				foreach ($entry_sub['_children'] as $child) :
+					$out .= $this->threadCached($child, $CurrentUser, $level + 1, $current_entry);
+				endforeach;
+				$out .= '</li>';
+			endif;
+
+			// wrap everything up
+			if ($level < Configure::read('Saito.Settings.thread_depth_indent')) {
+				$wrapper_start = '<ul id="ul_thread_' . $entry_sub['Entry']['id'] . '" class="' . (($level === 0) ? 'thread' : 'reply') . '">';
+				$wrapper_end	 = '</ul>';
+				$out					 = $wrapper_start . $out . $wrapper_end;
+			}
+
+			return $out;
+		}
+
+		/**
+		 *
+		 *
+		 * Everything you do in here is in worst case done a few hundred times on
+		 * the frontpage. Think about (and benchmark) performance before you change it.
+		 */
+		public function threadLineCached(array $entry_sub, $level) {
+			/* because of performance we use dont use $this->Html->link(...):
+			 * $out.= $this->EntryH->getFastLink($entry_sub,
+			 *     array( 'class' => "link_show_thread {$entry_sub['Entry']['id']} span_post_type" ));
+			 */
+
+			/*because of performance we use hard coded links instead the cakephp helper:
+			 * echo $this->Html->link($entry_sub['User']['username'], '/users/view/'. $entry_sub['User']['id']);
+			 */
+			$category = '';
+			if ($level === 0) :
+				$a = __d('nondynamic',
+						'category_acs_' . $entry_sub['Category']['accession'] . '_exp');
+				$category = '<span class="category_acs_' . $entry_sub['Category']['accession'] . '"
+            title="' . $entry_sub['Category']['description'] . ' ' . ($a) . '">
+        (' . $entry_sub['Category']['category'] . ')
+      </span>';
+			endif;
+
+			// normal time output
+			$time = $this->TimeH->formatTime($entry_sub['Entry']['time']);
+
+			// the schlaefer awe-some-o macnemo shipbell time output
+			/* <span title="<?php echo $this->TimeH->formatTime($entry_sub['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry_sub['Entry']['time'], 'glasen'); ?>
+			  </span> */
+
+			$decoration = '';
+			if ($entry_sub['Entry']['fixed']) :
+				$decoration .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i>';
+			endif;
+			if ($entry_sub['Entry']['nsfw']):
+				$decoration .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span>';
+			endif;
+
+			$no_text = (empty($entry_sub['Entry']['text']) ? ' n/t' : '');
+
+			// wrap everything up
+			$out = <<<EOF
+{$entry_sub['Entry']['subject']} {$no_text}
+<span class="mobile-nl">
+  <span class="thread_line-username">
+    <span class="mobile-hide"> – </span>
+		{$entry_sub['User']['username']}
+	</span>
+	{$category}
+	<span class="thread_line-post">
+	  {$time} {$decoration}
+  </span>
+</span>
+EOF;
+			return $out;
+		}
+
+	}

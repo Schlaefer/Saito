@@ -255,7 +255,7 @@ $this->Form->submit(__('Einfügen'),
 							$js_r .= "$('.link_show_thread').bind('click', function () { new ThreadLine($(this)[0].id.slice($(this)[0].id.lastIndexOf('_') + 1)).load_inline_view(); return false;} ); ";
 						}
 						$js_r .= "$('.btn.btn-submit').removeAttr('disabled');";
-						echo $this->Ajax->submit(
+						echo $this->Js->submit(
 								__('submit_button'),
 								array(
 								'url' => array(
@@ -264,10 +264,10 @@ $this->Form->submit(__('Einfügen'),
 										$this->request->data['Entry']['id'],
 								),
 								'id' => 'btn-submit',
-								'beforeSubmit' => "$('.btn.btn-submit').attr('disabled', 'disabled');",
+								'beforeSend' => "$('.btn.btn-submit').attr('disabled', 'disabled');",
 								'class' => 'btn btn-submit',
 								'tabindex' => 4,
-								'inline' => true,
+								'buffer' => false,
 								'success' => $js_r,
 								)
 						);
@@ -278,21 +278,21 @@ $this->Form->submit(__('Einfügen'),
 					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideIn',
 									array( 'speed' => 'fast' ));
 					$js_r .= "$('#preview_slider_" . $this->request->data['Entry']['id'] . "').html('');";
-					echo $this->Ajax->submit(
+					$js_r .= '$("#spinner_preview_' . $this->request->data['Entry']['id'] . '").show()';
+					echo $this->Js->submit(
 							__('preview'),
 							array(
-							'url' => array(
+							'url' =>array(
 									'controller' => 'entries',
 									'action' => 'preview',
 							),
-							'loading' => $js_r,
+							'beforeSend' => $js_r,
 							'id' => 'btn_preview_' . $this->request->data['Entry']['id'],
-							'update' => 'preview_slider_' . $this->request->data['Entry']['id'],
+							'update' => '#preview_slider_' . $this->request->data['Entry']['id'],
 							'class' => 'btn btn-preview',
-							'indicator' => 'spinner_preview_' . $this->request->data['Entry']['id'],
+							'complete' => '$("#spinner_preview_' . $this->request->data['Entry']['id'] . '").hide()',
 							'tabindex' => 5,
-							'inline' => true,
-							'position' => 'after',
+							'buffer' => false,
 							)
 					);
 					?>

@@ -282,8 +282,8 @@ class EntriesController extends AppController {
 						$this->set('entry_sub', $this->Entry->read(null, $this->Entry->id));
 						// ajax requests so far are always answers
 						$this->set('level', '1');
-						$this->render('/Elements/entry/thread_cached');
-						return;
+						$this->render('/Elements/entry/ajax-thread_cached');
+						return ;
 					endif;
 				else:
 					//* answering through POST request
@@ -775,49 +775,11 @@ class EntriesController extends AppController {
 		Stopwatch::stop('Entries->beforeFilter()');
 	}
 
-	 protected function _setAppStats() {
-
-			// look who's online
-			$loggedin_users = $this->Entry->User->UserOnline->getLoggedIn();
-			$this->set('UsersOnline', $loggedin_users);
-
-			/* @var $header_counter array or false */
-			$header_counter = Cache::read('header_counter', 'perf-cheat');
-			if (!$header_counter) {
-				$countable_items = array(
-						'user_online' => array('model'	=> 'UserOnline', 'conditions' => ''),
-						'user'			  => array('model'	=> 'User', 'conditions' => ''),
-						'entries'		  => array('model'	=> 'Entry', 'conditions' => ''),
-						'threads'		  => array('model'	=> 'Entry', 'conditions' => array('pid' => 0)),
-				);
-
-				// @td foreach not longer feasable, refactor
-				foreach ($countable_items as $titel => $options) {
-					if ($options['model'] === 'Entry') {
-						$header_counter[$titel] = $this->{$options['model']}->find('count',
-								array('contain'		 => false, 'conditions' => $options['conditions']));
-					} elseif ($options['model'] === 'User') {
-						$header_counter[$titel] = $this->Entry->{$options['model']}->find('count',
-								array('contain'		 => false, 'conditions' => $options['conditions']));
-					} elseif ($options['model'] === 'UserOnline') {
-						$header_counter[$titel] = $this->Entry->User->{$options['model']}->find('count',
-								array('contain'		 => false, 'conditions' => $options['conditions']));
-					}
-				}
-				Cache::write('header_counter', $header_counter, 'perf-cheat');
-			}
-			$header_counter['user_registered'] = count($loggedin_users);
-			$anon_user = $header_counter['user_online'] - $header_counter['user_registered'];
-			// compensate for cached 'user_online' so that user_anonymous can't get negative
-			$header_counter['user_anonymous']	 = ($anon_user < 0) ? 0 : $anon_user;
-
-			$this->set('HeaderCounter', $header_counter);
-		}
-
 	protected function _emptyCache($id, $tid) {
     $this->CacheTree->delete($tid);
 		clearCache("element_{$id}_entry_thread_line_cached", 'views', '');
 		clearCache("element_{$id}_entry_view_content", 'views', '');
+		Cache::clearGroup('postings');
 	}
 
 	protected function _afterNewEntry($newEntry) {

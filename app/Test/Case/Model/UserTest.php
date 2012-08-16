@@ -351,6 +351,34 @@
 
 		}
 
+		public function testRegisterValidation() {
+			$data = array(
+					'User' => array(
+							'username'				 => 'mitch',
+							'user_email'			 => 'alice@example.com',
+							'password'		 => 'NewUserspassword',
+							'password_confirm' => 'NewUser1spassword',
+					),
+			);
+
+			$result = $this->User->register($data);
+			$this->assertFalse($result);
+
+			$expected = array(
+					'password' => array(
+							'validation_error_pwConfirm'
+					),
+					'username' => array(
+							'isUnique'
+					),
+					'user_email' => array(
+							'isUnique'
+					)
+			);
+
+			$this->assertEqual($this->User->validationErrors, $expected);
+		}
+
 		public function setUp() {
 			Security::setHash('md5');
 
