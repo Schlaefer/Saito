@@ -75,6 +75,14 @@ class AppController extends Controller {
 		'slidetab_recententries',
 	);
 
+	/**
+	 * Are app stats calculated
+	 *
+	 * @var bool
+	 */
+  protected $_areAppStatsSet = false;
+
+
 //	var $persistModel = true;
 
 	public function __construct($request = null, $response = null) {
@@ -248,20 +256,79 @@ class AppController extends Controller {
 		$this->layout = 'admin';
 	}
 
-	/**
-	 * @td better mvc. refactor into SaitoUser or overwrite CakeEmail?
-	 *
-	 * $options = array(
-	 * 		'recipient' // user-id or ['User']
-	 * 		'sender'		// user-id or ['User']
-	 * 		'template'
-	 * 		'message'
-	 * 		'viewVars'
-	 * );
-	 *
-	 * @param type $options
-	 * @throws Exception
-	 */
+		/**
+		 * Shows the disclaimer in the layout
+		 */
+		protected function _showDisclaimer() {
+			$this->_setAppStats();
+			$this->set('showDisclaimer', TRUE);
+		}
+
+		/**
+		 * Set application statistics used in the disclaimer
+		 */
+		protected function _setAppStats() {
+			if($this->_areAppStatsSet) {
+				return;
+			}
+			Stopwatch::start('AppController->_setAppStats()');
+			$this->_areAppStatsSet = true;
+
+			// look who's online
+			if (!isset($this->Entry)) {
+				$this->loadModel('Entry');
+			}
+			$loggedin_users = $this->Entry->User->UserOnline->getLoggedIn();
+			$this->set('UsersOnline', $loggedin_users);
+
+			/* @var $header_counter array or false */
+			$header_counter = Cache::read('header_counter', 'perf-cheat');
+			if (!$header_counter) {
+				$countable_items = array(
+						'user_online' => array('model'			 => 'UserOnline', 'conditions' => ''),
+						'user'			 => array('model'			 => 'User', 'conditions' => ''),
+						'entries'		 => array('model'			 => 'Entry', 'conditions' => ''),
+						'threads'		 => array('model'			 => 'Entry', 'conditions' => array('pid' => 0)),
+				);
+
+				// @td foreach not longer feasable, refactor
+				foreach ($countable_items as $titel => $options) {
+					if ($options['model'] === 'Entry') {
+						$header_counter[$titel] = $this->{$options['model']}->find('count',
+								array('contain'		 => false, 'conditions' => $options['conditions']));
+					} elseif ($options['model'] === 'User') {
+						$header_counter[$titel] = $this->Entry->{$options['model']}->find('count',
+								array('contain'		 => false, 'conditions' => $options['conditions']));
+					} elseif ($options['model'] === 'UserOnline') {
+						$header_counter[$titel] = $this->Entry->User->{$options['model']}->find('count',
+								array('contain' => false, 'conditions' => $options['conditions']));
+					}
+				}
+				Cache::write('header_counter', $header_counter, 'perf-cheat');
+			}
+			$header_counter['user_registered'] = count($loggedin_users);
+			$anon_user												 = $header_counter['user_online'] - $header_counter['user_registered'];
+			// compensate for cached 'user_online' so that user_anonymous can't get negative
+			$header_counter['user_anonymous']	 = ($anon_user < 0) ? 0 : $anon_user;
+
+			$this->set('HeaderCounter', $header_counter);
+			Stopwatch::stop('AppController->_setAppStats()');
+		}
+
+		/**
+		 * @td better mvc. refactor into SaitoUser or overwrite CakeEmail?
+		 *
+		 * $options = array(
+		 * 		'recipient' // user-id or ['User']
+		 * 		'sender'		// user-id or ['User']
+		 * 		'template'
+		 * 		'message'
+		 * 		'viewVars'
+		 * );
+		 *
+		 * @param type $options
+		 * @throws Exception
+		 */
 	public function email($options = array()) {
 		$defaults = array(
 				'viewVars'=> array(
