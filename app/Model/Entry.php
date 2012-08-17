@@ -558,40 +558,39 @@ class Entry extends AppModel {
 	}
 
 	protected function _addAdditionalFields(&$entries) {
-	/**
-	 * Function for checking if entry is bookmarked by current user
-	 *
-	 * @var function
-	 */
-		$ldGetBookmarkForEntryAndUser = function($element, $_this) {
+			/**
+			 * Function for checking if entry is bookmarked by current user
+			 *
+			 * @var function
+			 */
+			$ldGetBookmarkForEntryAndUser = function($element, $_this) {
 						$element['isBookmarked'] = $_this->Bookmark->isBookmarked(
 								$element['Entry']['id'], $_this->_CurrentUser->getId());
 					};
 
-		Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
+			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
 
-	/**
-	 * Function for checking user rights on an entry
-	 *
-	 * @var function
-	 */
-		$ldGetRightsForEntryAndUser = function($element, $_this) {
-				$rights = array(
+			/**
+			 * Function for checking user rights on an entry
+			 *
+			 * @var function
+			 */
+			$ldGetRightsForEntryAndUser = function($element, $_this) {
+						$rights = array(
 //					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
 //					'isEditingAsUserForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings(), array( 'user_type' => 'user' )),
-					'isAnsweringForbidden' => $_this->isAnsweringForbidden($element),
-					);
-				$element['rights'] = $rights;
-		};
+								'isAnsweringForbidden' => $_this->isAnsweringForbidden($element),
+						);
+						$element['rights'] = $rights;
+					};
 
-		Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
+			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
+		}
 
-	}
-
-	public function _findEntry($state, $query, $results = array()) {
+		public function _findEntry($state, $query, $results = array()) {
 			if ($state == 'before') {
-				$query['contain']	 = array('User', 'Category');
-				$query['fields']   = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				$query['contain'] = array('User', 'Category');
+				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 				return $query;
 			}
 			if ($results) {
@@ -599,7 +598,7 @@ class Entry extends AppModel {
 				return $results[0];
 			}
 			return $results;
-	}
+		}
 
 	/**
 	 * Implements the custom find type 'feed'
