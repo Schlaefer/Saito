@@ -144,7 +144,16 @@ class EntriesController extends AppController {
 		}
 
 	public function mix($tid) {
-		$entries = $this->_setupMix($tid);
+		if (!$tid) {
+			$this->redirect('/');
+		}
+		$entries = $this->Entry->treeForNodeComplete($tid);
+
+		//* check if anonymous tries to access internal categories
+		if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
+			return $this->redirect('/');
+		}
+
 		Entry::mapTreeElements($entries, $this->_ldGetRightsForEntryAndUser, $this);
 		Entry::mapTreeElements($entries, $this->_ldGetBookmarkForEntryAndUser, $this);
 		$this->set('entries', $entries);
@@ -927,18 +936,6 @@ class EntriesController extends AppController {
 		}
 
 		return TRUE;
-	}
-
-	protected function _setupMix($tid) {
-		if ( !$tid )
-			$this->redirect('/');
-		$entries = $this->Entry->treeForNodeComplete($tid);
-
-		//* check if anonymous tries to access internal catgories
-		if ( $entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
-			$this->redirect('/');
-		}
-		return $entries;
 	}
 
 	protected function _teardownAdd() {
