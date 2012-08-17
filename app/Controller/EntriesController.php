@@ -39,13 +39,6 @@ class EntriesController extends AppController {
 	 */
 	protected $_ldGetRightsForEntryAndUser;
 
-	/**
-	 * Function for checking if entry is bookmarked by current user
-	 *
-	 * @var function
-	 */
-	protected $_ldGetBookmarkForEntryAndUser;
-
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
@@ -155,7 +148,6 @@ class EntriesController extends AppController {
 		}
 
 		Entry::mapTreeElements($entries, $this->_ldGetRightsForEntryAndUser, $this);
-		Entry::mapTreeElements($entries, $this->_ldGetBookmarkForEntryAndUser, $this);
 		$this->set('entries', $entries);
     $this->_showAnsweringPanel();
 	}
@@ -242,7 +234,6 @@ class EntriesController extends AppController {
 
 		$a = array($this->request->data);
 		Entry::mapTreeElements($a, $this->_ldGetRightsForEntryAndUser, $this);
-		Entry::mapTreeElements($a, $this->_ldGetBookmarkForEntryAndUser, $this);
 		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
@@ -746,12 +737,6 @@ class EntriesController extends AppController {
 					);
 				$element['rights'] = $rights;
 		};
-
-		$this->_ldGetBookmarkForEntryAndUser = function($element, $_this) {
-						$element['isBookmarked'] = $_this->Entry->Bookmark->isBookmarked($element['Entry']['id'],
-								$_this->CurrentUser->getId());
-					};
-
 		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 		if ( $this->request->action == 'index' ) {

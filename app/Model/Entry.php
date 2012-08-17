@@ -279,12 +279,14 @@ class Entry extends AppModel {
 	}
 
 	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
-		return $this->treeForNodes(
+		$result = $this->treeForNodes(
         array(
             array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
         $order,
         $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
         );
+		$this->_addAdditionalFields($result);
+		return $result;
 	}
 
 	public function treeForNodes($search_array, $order = 'last_answer ASC', $fieldlist = NULL) {
@@ -555,6 +557,21 @@ class Entry extends AppModel {
 		return false;
 	}
 
+	protected function _addAdditionalFields(&$entries) {
+	/**
+	 * Function for checking if entry is bookmarked by current user
+	 *
+	 * @var function
+	 */
+		$ldGetBookmarkForEntryAndUser = function($element, $_this) {
+						$element['isBookmarked'] = $_this->Bookmark->isBookmarked(
+								$element['Entry']['id'], $_this->_CurrentUser->getId());
+					};
+
+		Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
+
+	}
+
 	public function _findEntry($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$query['contain']	 = array('User', 'Category');
@@ -562,6 +579,7 @@ class Entry extends AppModel {
 				return $query;
 			}
 			if ($results) {
+				$this->_addAdditionalFields($results);
 				return $results[0];
 			}
 			return $results;
