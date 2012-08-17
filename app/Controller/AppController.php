@@ -24,7 +24,6 @@ class AppController extends Controller {
       'EmailNotification',
 
 			'RequestHandler',
-			'SaitoEntry',
 
 			'Session',
 	);

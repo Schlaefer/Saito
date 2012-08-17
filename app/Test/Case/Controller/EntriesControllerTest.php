@@ -430,11 +430,16 @@
 		 * Show editing form
 		 */
 		public function testEditShowForm() {
-			$Entries = $this->generate('Entries', array(
-				'components' => array('SaitoEntry')
-			));
+			$Entries = $this->generate('Entries',
+					array(
+					'models' => array(
+							'Entry' => array(
+									'isEditingForbidden',
+							)
+					)
+					));
 //			$Entries->SaitoEntry = $this->getMock('SaitoEntry', null, array(new ComponentCollection));
-			$Entries->SaitoEntry->expects($this->once())
+			$Entries->Entry->expects($this->once())
 					->method('isEditingForbidden')
 					->will($this->returnValue(false));
 

@@ -32,13 +32,6 @@ class EntriesController extends AppController {
 			array( 'field' => 'name', 'type' => 'value' ),
 	);
 
-	/**
-	 * Function for checking user rights on an entry
-	 * 
-	 * @var function
-	 */
-	protected $_ldGetRightsForEntryAndUser;
-
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
@@ -147,7 +140,6 @@ class EntriesController extends AppController {
 			return $this->redirect('/');
 		}
 
-		Entry::mapTreeElements($entries, $this->_ldGetRightsForEntryAndUser, $this);
 		$this->set('entries', $entries);
     $this->_showAnsweringPanel();
 	}
@@ -233,7 +225,6 @@ class EntriesController extends AppController {
     endif;
 
 		$a = array($this->request->data);
-		Entry::mapTreeElements($a, $this->_ldGetRightsForEntryAndUser, $this);
 		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
@@ -402,7 +393,7 @@ class EntriesController extends AppController {
 			throw new NotFoundException();
 		endif;
 
-		$forbidden = $this->SaitoEntry->isEditingForbidden($old_entry,
+		$forbidden = $this->Entry->isEditingForbidden($old_entry,
 						$this->CurrentUser->getSettings(), array( 'session' => &$this->Session ));
 
 		switch ( $forbidden ) {
@@ -728,14 +719,6 @@ class EntriesController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		Stopwatch::start('Entries->beforeFilter()');
-
-		$this->_ldGetRightsForEntryAndUser = function($element, $_this) {
-				$rights = array(
-					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
-					'isEditingAsUserForbidden' => $_this->SaitoEntry->isEditingForbiddenMockUserType($element, $_this->CurrentUser->getSettings(), 'user'),
-					);
-				$element['rights'] += $rights;
-		};
 
 		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
