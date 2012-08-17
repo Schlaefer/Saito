@@ -9,23 +9,9 @@
    */
   class SaitoEntryComponentTestCase extends CakeTestCase {
 
-    public function testIsAnsweringForbidden() {
-      $result = $this->SaitoEntry->isAnsweringForbidden();
-      $expected = true;
-      $this->assertSame($result, $expected);
-      $entry = array( 'Entry' => array( 'locked' => 0 ) );
-      $result = $this->SaitoEntry->isAnsweringForbidden($entry);
-      $expected = false;
-      $this->assertSame($result, $expected);
-      $entry = array( 'Entry' => array( 'locked' => '0' ) );
-      $result = $this->SaitoEntry->isAnsweringForbidden($entry);
-      $expected = false;
-      $this->assertSame($result, $expected);
-      $entry = array( 'Entry' => array( 'locked' => false ) );
-      $result = $this->SaitoEntry->isAnsweringForbidden($entry);
-      $expected = false;
-      $this->assertSame($result, $expected);
-    }
+		public function testDummy() {
+			
+		}
 
     /**
      * setUp method

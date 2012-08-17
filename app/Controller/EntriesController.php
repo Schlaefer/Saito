@@ -733,10 +733,10 @@ class EntriesController extends AppController {
 				$rights = array(
 					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
 					'isEditingAsUserForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings(), array( 'user_type' => 'user' )),
-					'isAnsweringForbidden' => $_this->SaitoEntry->isAnsweringForbidden($element, $_this->CurrentUser->getSettings()),
 					);
-				$element['rights'] = $rights;
+				$element['rights'] += $rights;
 		};
+
 		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 		if ( $this->request->action == 'index' ) {
@@ -814,7 +814,7 @@ class EntriesController extends AppController {
 	}
 
 	protected function _isAnsweringAllowed($parent_entry) {
-		$forbidden = $this->SaitoEntry->isAnsweringForbidden($parent_entry);
+		$forbidden = $this->Entry->isAnsweringForbidden($parent_entry);
 		if ($forbidden) {
 			throw new ForbiddenException;
 		}

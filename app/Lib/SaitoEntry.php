@@ -8,27 +8,6 @@ App::uses('Component', 'Controller');
 class SaitoEntry extends Component {
 
 	/**
-	 * Checks if answering an entry is allowed
-	 *
-	 * @param array $entry
-	 * @return boolean
-	 */
-	public function isAnsweringForbidden($entry = NULL) {
-		$isAnsweringForbidden = true;
-
-		if (!isset($entry['Entry']['locked'])) return true;
-
-		$locked = $entry['Entry']['locked'];
-		if ($locked == 0) {
-			$isAnsweringForbidden = false;
-		} else {
-			$isAnsweringForbidden = 'locked';
-		}
-
-		return $isAnsweringForbidden;
-	}
-
-	/**
 	 * Checks if someone is allowed to edit an entry
 	 *
 	 * @param <type> $entry

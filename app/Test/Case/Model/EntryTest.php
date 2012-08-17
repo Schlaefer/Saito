@@ -221,7 +221,25 @@
 
     }
 
-    /**
+		public function testIsAnsweringForbidden() {
+			$result = $this->Entry->isAnsweringForbidden();
+			$expected = true;
+			$this->assertSame($result, $expected);
+			$entry = array('Entry' => array('locked'	 => 0));
+			$result = $this->Entry->isAnsweringForbidden($entry);
+			$expected = false;
+			$this->assertSame($result, $expected);
+			$entry = array('Entry' => array('locked'	 => '0'));
+			$result = $this->Entry->isAnsweringForbidden($entry);
+			$expected = false;
+			$this->assertSame($result, $expected);
+			$entry = array('Entry' => array('locked'	 => false));
+			$result = $this->Entry->isAnsweringForbidden($entry);
+		$expected = false;
+			$this->assertSame($result, $expected);
+		}
+
+		/**
      * setUp method
      *
      * @return void

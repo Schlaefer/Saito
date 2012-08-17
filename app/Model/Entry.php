@@ -570,6 +570,22 @@ class Entry extends AppModel {
 
 		Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
 
+	/**
+	 * Function for checking user rights on an entry
+	 *
+	 * @var function
+	 */
+		$ldGetRightsForEntryAndUser = function($element, $_this) {
+				$rights = array(
+//					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
+//					'isEditingAsUserForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings(), array( 'user_type' => 'user' )),
+					'isAnsweringForbidden' => $_this->isAnsweringForbidden($element),
+					);
+				$element['rights'] = $rights;
+		};
+
+		Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
+
 	}
 
 	public function _findEntry($state, $query, $results = array()) {
@@ -615,6 +631,28 @@ class Entry extends AppModel {
 				array('tid'	=> $tid)
 		);
 	}
+
+	/**
+	 * Checks if answering an entry is allowed
+	 *
+	 * @param array $entry
+	 * @return boolean
+	 */
+	public function isAnsweringForbidden($entry = NULL) {
+		$isAnsweringForbidden = true;
+
+		if (!isset($entry['Entry']['locked'])) return true;
+
+		$locked = $entry['Entry']['locked'];
+		if ($locked == 0) {
+			$isAnsweringForbidden = false;
+		} else {
+			$isAnsweringForbidden = 'locked';
+		}
+
+		return $isAnsweringForbidden;
+	}
+
 
   public function paginateCount($conditions, $recursive, $extra) {
 
