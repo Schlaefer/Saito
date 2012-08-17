@@ -1,15 +1,10 @@
-<?php Stopwatch::start('slidetab_recentposts'); ?>
+<?php $this->start('slidetab-header'); ?>
+	<div class="btn-slidetabRecentposts">
+		<i class="icon-book icon-large"></i>
+	</div>
+<?php $this->end('slidetab-header'); ?>
+<?php $this->start('slidetab-content'); ?>
 <?php if ( $CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries' ) : ?>
-		<?php
-		echo $this->element(
-				'layout/slidetabs__header',
-				array(
-				'id' => 'recentposts',
-				'btn_class' => 'btn-slidetabRecentposts',
-				'btn_content' => '<i class="icon-book icon-large"></i>',
-				)
-		);
-		?>
 		<ul class="slidetab_tree">
 			<li>
 				<span title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
@@ -39,6 +34,5 @@
 					</ul>
 		<?php endif; ?>
 		</ul>
-		<?php echo $this->element('layout/slidetabs__footer'); ?>
 	<?php endif; ?>
-<?php Stopwatch::end('slidetab_recentposts'); ?>
+<?php $this->end('slidetab-content'); ?>

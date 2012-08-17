@@ -50,14 +50,14 @@ class EntriesController extends AppController {
 			Stopwatch::start('Entries->index()');
 
 			if ( $this->CurrentUser->isLoggedIn() ) {
-				// get current user's recent entries for slidebar
+				// get current user's recent entries for slidetab
 				$this->set('recentPosts',
 						$this->Entry->getRecentEntries(
 								array('user_id' => $this->CurrentUser->getId()),
 								$this->CurrentUser)
 						);
 
-				// get last 10 recent entries for slidebar
+				// get last 10 recent entries for slidetab
 				$this->set('recentEntries',
 						$this->Entry->getRecentEntries(array(),
 								$this->CurrentUser
