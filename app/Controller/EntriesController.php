@@ -216,10 +216,26 @@ class EntriesController extends AppController {
     public function view($id=null) {
 		Stopwatch::start('Entries->view()');
 
-		if ( $this->_setupView($id) !== TRUE ):
-			// purly for passing the test cases
-			return;
+		//* redirect if no id is given
+		if ( !$id ) {
+			$this->Session->setFlash(__('Invalid post'));
+			return $this->redirect(array( 'action' => 'index' ));
+		}
+
+		$this->Entry->id = $id;
+		$this->Entry->contain('User', 'Category');
+		$this->request->data = $this->Entry->read();
+
+		//* redirect if posting doesn't exists
+		if ( $this->request->data == FALSE ):
+			$this->Session->setFlash(__('Invalid post'));
+			return $this->redirect('/');
 		endif;
+
+		//* check if anonymous tries to access internal catgories
+		if ( $this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
+			return $this->redirect('/');
+		}
 
     if ( !empty($this->request->params['requested']) ):
       return $this->request->data;
@@ -908,34 +924,6 @@ class EntriesController extends AppController {
 		}
 		Stopwatch::stop('Entries->_getInitialThreads() Paginate');
 		return array( 'initialThreads' => $initial_threads_new, 'order' => $order );
-	}
-
-	protected function _setupView($id) {
-		//* redirect if no id is given
-		if ( !$id ) {
-			$this->Session->setFlash(__('Invalid post'));
-			$this->redirect(array( 'action' => 'index' ));
-			return FALSE;
-		}
-
-		$this->Entry->id = $id;
-		$this->Entry->contain('User', 'Category');
-		$this->request->data = $this->Entry->read();
-
-		//* redirect if posting doesn't exists
-		if ( $this->request->data == FALSE ):
-			$this->Session->setFlash(__('Invalid post'));
-			$this->redirect('/');
-			return FALSE;
-		endif;
-
-		//* check if anonymous tries to access internal catgories
-		if ( $this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
-			$this->redirect('/');
-			return FALSE;
-		}
-
-		return TRUE;
 	}
 
 	protected function _teardownAdd() {
