@@ -116,7 +116,7 @@ class Entry extends AppModel {
    * 
    * @var string
    */
-  public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
+  public $showEntryFieldListAdditional = 	'Entry.ip, Entry.reposts, User.id, User.signature, User.flattr_uid';
 
 	public function getRecentEntries(array $options = array(), SaitoUser $User) {
 		Stopwatch::start('Model->User->getRecentEntries()');
