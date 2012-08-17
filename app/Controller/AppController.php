@@ -145,6 +145,8 @@ class AppController extends Controller {
 
 		$this->_setConfigurationFromGetParams();
 
+		$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
+
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
