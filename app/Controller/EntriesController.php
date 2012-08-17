@@ -732,7 +732,7 @@ class EntriesController extends AppController {
 		$this->_ldGetRightsForEntryAndUser = function($element, $_this) {
 				$rights = array(
 					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
-					'isEditingAsUserForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings(), array( 'user_type' => 'user' )),
+					'isEditingAsUserForbidden' => $_this->SaitoEntry->isEditingForbiddenMockUserType($element, $_this->CurrentUser->getSettings(), 'user'),
 					);
 				$element['rights'] += $rights;
 		};

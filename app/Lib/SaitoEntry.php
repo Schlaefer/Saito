@@ -7,6 +7,11 @@ App::uses('Component', 'Controller');
  */
 class SaitoEntry extends Component {
 
+	public function isEditingForbiddenMockUserType(array $entry, $user = array(), $mock_type) {
+		$user['user_type'] = $mock_type;
+		return $this->isEditingForbidden($entry, $user);
+	}
+
 	/**
 	 * Checks if someone is allowed to edit an entry
 	 *
@@ -15,15 +20,9 @@ class SaitoEntry extends Component {
 	 * @param <type> $options
 	 * @return boolean
 	 */
-	public function isEditingForbidden($entry, $user, $options = array()) {
+	public function isEditingForbidden($entry, $user) {
 			// user is not logged in and not allowed to do anything
-		 	if (empty($user)) return false;
-
-			$defaults =  array('session' => false, 'user_type' => false);
-			$options = array_merge($defaults, $options);
-			extract($options);
-
-			if ($user_type) $user['user_type'] = $user_type;
+		 	if (empty($user) || empty($user['id'])) return true;
 
 			$verboten = true;
 
@@ -45,18 +44,6 @@ class SaitoEntry extends Component {
 					// mods shouldn't mod themselfs
 					$verboten = 'time';
 				else :
-					 // @td refactor out of the function (?)
-						if (
-                $session && (
-                    //	give mods/admins message that they edit an other user' posting
-                    $user['id'] != $entry['Entry']['user_id']
-                    // entry is over time
-                    || ( time() > strtotime($entry['Entry']['time'])+( Configure::read('Saito.Settings.edit_period') * 60 ))
-                    )
-                ) {
-							# @ td build into action method when mod panel is done
-							$session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
-						}
 						$verboten = false;
 				endif;
 
