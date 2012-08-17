@@ -239,10 +239,13 @@
 		}
 
 		public function setUp() {
-			$Collection = new ComponentCollection();
-			$this->SaitoUser = new SaitoUser($Collection);
+			parent::setUp();
+			$this->SaitoUser = new SaitoUser(new ComponentCollection());
+		}
+
+		public function tearDown() {
+			parent::tearDown();
+			unset($this->SaitoUser);
 		}
 
 	}
-
-?>
