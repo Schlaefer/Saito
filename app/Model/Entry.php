@@ -13,6 +13,7 @@ class Entry extends AppModel {
 
 	public $findMethods = array(
 				'feed' => true,
+				'entry' => true,
 		);
 
 		// fields for search plugin
@@ -277,7 +278,7 @@ class Entry extends AppModel {
 				$order);
 	}
 
-	public function treeForNodeComplete($id, $order = 'last_answer ASC') {
+	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
 		return $this->treeForNodes(
         array(
             array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
@@ -552,6 +553,18 @@ class Entry extends AppModel {
 		}
 
 		return false;
+	}
+
+	public function _findEntry($state, $query, $results = array()) {
+			if ($state == 'before') {
+				$query['contain']	 = array('User', 'Category');
+				$query['fields']   = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				return $query;
+			}
+			if ($results) {
+				return $results[0];
+			}
+			return $results;
 	}
 
 	/**

@@ -27,7 +27,7 @@
 		/**
 		 * Max number of reposts allowed
 		 *
-		 * DB definition only allows upper limit of 9!
+		 * DB definition only allows upper limit of 9999!
 		 *
 		 * @var int
 		 */

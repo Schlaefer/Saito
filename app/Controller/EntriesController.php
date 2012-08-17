@@ -147,7 +147,7 @@ class EntriesController extends AppController {
 		if (!$tid) {
 			$this->redirect('/');
 		}
-		$entries = $this->Entry->treeForNodeComplete($tid);
+		$entries = $this->Entry->treeForNodesComplete($tid);
 
 		//* check if anonymous tries to access internal categories
 		if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
@@ -223,8 +223,7 @@ class EntriesController extends AppController {
 		}
 
 		$this->Entry->id = $id;
-		$this->Entry->contain('User', 'Category');
-		$this->request->data = $this->Entry->read();
+		$this->request->data = $this->Entry->find('entry', array('conditions' => array('Entry.id' => $id)));
 
 		//* redirect if posting doesn't exists
 		if ( $this->request->data == FALSE ):
