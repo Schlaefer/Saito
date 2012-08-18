@@ -238,6 +238,22 @@
 			$this->assertFalse(isset($this->SaitoUser['foo']));
 		}
 
+		public function testmockUserType() {
+
+			$user = array(
+					'id' => '2',
+					'user_type' => 'admin',
+			);
+			$expected = array(
+					'id' => '2',
+					'user_type' => 'user',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->mockUserType('user');
+			$this->SaitoUser->set($expected);
+			$this->assertEqual($this->SaitoUser, $result);
+		}
+
 		public function setUp() {
 			parent::setUp();
 			$this->SaitoUser = new SaitoUser(new ComponentCollection());

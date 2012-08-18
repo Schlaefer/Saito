@@ -413,33 +413,6 @@
 			$this->assertFalse($result);
 		}
 
-		public function testIsEditingForbiddenMockUserType() {
-			$this->Entry = $this->getMock('Entry', array('isEditingForbidden'));
-
-			$entry = array(
-					'Entry' => array(
-							'user_id'	 => 1,
-							'time'		 => strftime("%c",
-									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) + 1),
-							'locked'	 => 0,
-					)
-			);
-			$user = array(
-					'id'				 => 1,
-					'user_type'	 => 'admin',
-			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
-			$user = $SaitoUser;
-			$user_mock = $user;
-			$user_mock['user_type'] = 'user';
-
-			$this->Entry->expects($this->once())
-					->method('isEditingForbidden')
-					->with($entry, $user_mock);
-			$this->Entry->isEditingForbiddenMockUserType($entry, $user, 'user');
-		}
-
 		/**
      * setUp method
      *

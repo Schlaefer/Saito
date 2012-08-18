@@ -577,27 +577,14 @@ class Entry extends AppModel {
 			 */
 			$ldGetRightsForEntryAndUser = function($element, $_this) {
 						$rights = array(
-					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->getSettings()),
-					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->getSettings(), array( 'user_type' => 'user' )),
+					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser),
+					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->mockUserType('user')),
 								'isAnsweringForbidden' => $_this->isAnsweringForbidden($element),
 						);
 						$element['rights'] = $rights;
 					};
 
 			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
-		}
-
-		/**
-		 * Check if someone is allowed to edit but assign a specific user type beforehand
-		 *
-		 * @param array $entry
-		 * @param SaitoUser $User
-		 * @param string $mock_type
-		 * @return bool
-		 */
-		public function isEditingForbiddenMockUserType(array $entry, SaitoUser $User, $mock_type) {
-			$User['user_type'] = $mock_type;
-			return $this->isEditingForbidden($entry, $User);
 		}
 
 		/**

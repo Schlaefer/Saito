@@ -393,8 +393,7 @@ class EntriesController extends AppController {
 			throw new NotFoundException();
 		endif;
 
-		$forbidden = $this->Entry->isEditingForbidden($old_entry,
-						$this->CurrentUser->getSettings(), array( 'session' => &$this->Session ));
+		$forbidden = $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser);
 
 		switch ( $forbidden ) {
 			case 'time':
