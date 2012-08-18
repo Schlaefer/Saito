@@ -37,5 +37,3 @@ class Smiley extends AppModel {
 	}
 
 }
-
-?>

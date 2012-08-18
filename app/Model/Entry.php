@@ -755,4 +755,3 @@ class Entry extends AppModel {
     return $count;
   }
 }
-?>
