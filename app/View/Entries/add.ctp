@@ -130,6 +130,7 @@ $this->Form->submit(__('Einfügen'),
 				</div>
 						<?php 
 							echo $this->Form->hidden('pid');
+							echo $this->Form->hidden('fixed');
 						?>
 				<div class="postingform_main">
 						<?php

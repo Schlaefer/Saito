@@ -410,6 +410,11 @@ class EntriesController extends AppController {
 						'flash/error');
 		}
 
+		if (!$this->Entry->isEditingForbidden($old_entry, $this->CurrentUser)
+				&& $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'))) {
+			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
+		}
+
 		if ( !empty($this->request->data) ) {
 			$this->request->data = $this->_prepareAnswering($this->request->data);
 			// try to save entry
@@ -606,6 +611,7 @@ class EntriesController extends AppController {
 		$this->request->data['Entry']['text'] = $text;
 		$this->request->data['Entry']['category'] = $category;
 		$this->request->data['Entry']['nsfw'] = $nsfw;
+		$this->request->data['Entry']['fixed'] = $fixed;
 		$this->request->data['Entry']['ip'] = '';
 
 
