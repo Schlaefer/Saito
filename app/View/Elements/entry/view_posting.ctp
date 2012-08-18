@@ -128,9 +128,10 @@
 						<li>
 							<?php
 								echo $this->Js->link(
-									($entry['Entry']['fixed'] == 0)
-										? '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_set_entry_link')
-										: '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_unset_entry_link'),
+									'<i class="icon-pushpin"></i>&nbsp;'
+									. '<span id="title-entry_pin-' . $entry['Entry']['id'] . '">'
+									. (($entry['Entry']['fixed'] == 0) ? __('fixed_set_entry_link') : __('fixed_unset_entry_link'))
+									. '</span>',
 									array(
 										'controller'	=> 'entries',
 										'action'			=> 'ajax_toggle',
@@ -140,7 +141,7 @@
 									array(
 										'id'			 => 'btn-entry_pin-' . $entry['Entry']['id'],
 										'class' 	=> 'fixed ' . $entry['Entry']['id'],
-										'success'	=> "$('.fixed.{$entry['Entry']['id']}').html(data);",
+										'success'	=> "$('#title-entry_pin-{$entry['Entry']['id']}').html(data);",
 										'buffer'	=> false,
 										'escape'  => FALSE,
 									)
@@ -150,9 +151,10 @@
 						<li>
 							<?php
 								echo $this->Js->link(
-										($entry['Entry']['locked'] == 0)
-											? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link')
-											: '<i class="icon-unlock"></i>&nbsp;' . __('locked_unset_entry_link'),
+										'<i class="icon-lock"></i>&nbsp;'
+										. '<span id="title-entry_lock-' . $entry['Entry']['id'] . '">'
+										. (($entry['Entry']['locked'] == 0) ? __('locked_set_entry_link') : __('locked_unset_entry_link'))
+										. '</span>',
 										array(
 												'controller' 	=> 'entries',
 												'action'			=> 'ajax_toggle',
@@ -162,7 +164,7 @@
 										array(
 												'id'			=> 'btn-entry_lock-' . $entry['Entry']['id'],
 												'class'		=> 'locked ' . $entry['Entry']['id'],
-												'success'	=> "$('.locked.{$entry['Entry']['id']}').html(data)",
+												'success'	=> "$('#title-entry_lock-{$entry['Entry']['id']}').html(data);",
 												'buffer'	=> false,
 												'escape'  => FALSE,
 										)
