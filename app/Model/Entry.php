@@ -99,7 +99,8 @@ class Entry extends AppModel {
 		Entry.fixed,
 		Entry.views,
 		Entry.nsfw,
-		User.username';
+		User.username
+		';
 
 	/**
 	 * field list necessary for displaying a thread_line
@@ -108,16 +109,41 @@ class Entry extends AppModel {
    *
    * @var type string
    */
-	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.text, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.flattr, Entry.nsfw, Entry.name,
-                                  User.username,
-																	Category.category, Category.accession, Category.description';
+	public $threadLineFieldList = '
+		Entry.id,
+		Entry.pid,
+		Entry.tid,
+		Entry.subject,
+		Entry.text,
+		Entry.time,
+		Entry.fixed,
+		Entry.last_answer,
+		Entry.views,
+		Entry.user_id,
+		Entry.locked,
+		Entry.flattr,
+		Entry.nsfw,
+		Entry.name,
+
+		User.username,
+																	
+		Category.accession,
+		Category.category,
+		Category.description
+		';
 
   /**
    * fields additional to $threadLineFieldList to show complete entry
    * 
    * @var string
    */
-  public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
+  public $showEntryFieldListAdditional = 	'
+		Entry.ip,
+
+		User.id,
+		User.flattr_uid,
+		User.signature
+		';
 
 	public function getRecentEntries(array $options = array(), SaitoUser $User) {
 		Stopwatch::start('Model->User->getRecentEntries()');
