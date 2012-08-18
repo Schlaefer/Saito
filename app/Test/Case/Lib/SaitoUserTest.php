@@ -114,6 +114,41 @@
 			$this->assertTrue($result);
 		}
 
+		public function testIsModOnly() {
+			//* anon
+			$user = null;
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertFalse($result);
+
+			//* user
+			$user = array(
+					'id'				 => '2',
+					'user_type'	 => 'user',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertFalse($result);
+
+			//* initialize with real user
+			$user = array(
+					'id'				 => '2',
+					'user_type'	 => 'mod',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertTrue($result);
+
+			//* admin
+			$user = array(
+					'id'				 => '2',
+					'user_type'	 => 'admin',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertFalse($result);
+		}
+
 		public function testIsAdmin() {
 
 			//* anon

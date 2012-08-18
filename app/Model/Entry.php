@@ -603,7 +603,7 @@ class Entry extends AppModel {
 
 			// Mod and Admin …
 			# @td mods don't edit admin posts
-			if ($User['user_type'] === 'mod' || $User['user_type'] === 'admin') {
+			if ($User->isMod() || $User->isAdmin()) {
 				if (
 						(int)$User['id'] === (int)$entry['Entry']['user_id']
 						&& ( time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 ))
@@ -614,7 +614,7 @@ class Entry extends AppModel {
 						 * for mods pinning root-posts.
 						 */
 						&& ( $entry['Entry']['fixed'] == FALSE )
-						&& ( $User['user_type'] === 'mod' )
+						&& ( $User->isModOnly() )
 				) :
 					// mods shouldn't mod themselfs
 					$verboten = 'time';
@@ -632,7 +632,7 @@ class Entry extends AppModel {
 				elseif (time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 )) {
 					$verboten = 'time';
 					// entry is locked by admin or mod
-				} elseif ($entry['Entry']['locked'] != 0) {
+				} elseif ($this->_isLocked($entry)) {
 					$verboten = 'locked';
 				} else {
 					$verboten = false;
@@ -640,6 +640,10 @@ class Entry extends AppModel {
 			}
 
 			return $verboten;
+		}
+
+		protected function _isLocked($entry) {
+				return $entry['Entry']['locked'] != false;
 		}
 
 		/**

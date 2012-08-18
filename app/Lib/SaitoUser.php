@@ -12,6 +12,8 @@ interface ForumsUser {
 
 	public function isMod();
 
+	public function isModOnly();
+
 	public function isAdmin();
 
 	public function isLoggedIn();
@@ -99,6 +101,10 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 	public function isMod() {
 		return self::_isModForRole($this->_settings['user_type']);
 
+	}
+
+	public function isModOnly() {
+		return self::$__accessions[$this->_getRole()] === 2;
 	}
 
 	public function isAdmin() {
