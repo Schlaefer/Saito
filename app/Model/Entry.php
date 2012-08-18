@@ -724,11 +724,10 @@ class Entry extends AppModel {
 
 		if (!isset($entry['Entry']['locked'])) return true;
 
-		$locked = $entry['Entry']['locked'];
-		if ($locked == 0) {
-			$isAnsweringForbidden = false;
-		} else {
+		if ($this->_isLocked($entry)) {
 			$isAnsweringForbidden = 'locked';
+		} else {
+			$isAnsweringForbidden = false;
 		}
 
 		return $isAnsweringForbidden;
