@@ -138,9 +138,10 @@
 										'fixed',
 									),
 									array(
+										'id'			 => 'btn-entry_pin-' . $entry['Entry']['id'],
 										'class' 	=> 'fixed ' . $entry['Entry']['id'],
 										'success'	=> "$('.fixed.{$entry['Entry']['id']}').html(data);",
-										'inline'	=> true,
+										'buffer'	=> false,
 										'escape'  => FALSE,
 									)
 								);
@@ -159,9 +160,10 @@
 												'locked',
 										),
 										array(
+												'id'			=> 'btn-entry_lock-' . $entry['Entry']['id'],
 												'class'		=> 'locked ' . $entry['Entry']['id'],
 												'success'	=> "$('.locked.{$entry['Entry']['id']}').html(data)",
-												'inline'	=> true,
+												'buffer'	=> false,
 												'escape'  => FALSE,
 										)
 									);
