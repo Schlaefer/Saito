@@ -67,12 +67,15 @@
               echo ',';
         endif; ?>
         <?php echo  __('views_headline') ?>: <?php echo  $entry['Entry']['views'] ?><?php
-          if ( $entry['Entry']['nsfw'] ): ?>
-          <div class="sprite-nbs-explicit"></div>
-        <?php  endif; ?><?php  
+					$badges = $this->EntryH->getBadges($entry);
+					if ($badges) {
+						echo ' ' . $badges . ' ';
+					}
           if ( Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod() ):
           ?>, IP: <?php echo $entry['Entry']['ip']; ?>
-        <?php  endif; ?>
+        <?php 
+					endif;
+				?>
 		</div>
 
 		<div class='posting'> <?php echo $this->Bbcode->parse($entry['Entry']['text']); ?> </div>

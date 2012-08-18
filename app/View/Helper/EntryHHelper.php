@@ -98,6 +98,29 @@
 			return $entry['Entry']['subject'] . (empty($entry['Entry']['text']) ? ' n/t' : '');
 		}
 
+		public function getBadges($entry) {
+			$out = array();
+			$out[] = $this->_getPinned($entry);
+			$out[] = $this->_getNsfw($entry);
+			return implode(' ', $out);
+		}
+
+		protected function _getPinned($entry) {
+			$out = '';
+			if ($entry['Entry']['fixed']) :
+				$out .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i>';
+			endif;
+			return $out;
+		}
+
+		protected function _getNsfw($entry) {
+			$out = '';
+			if ($entry['Entry']['nsfw']):
+				$out .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span>';
+			endif;
+			return $out;
+		}
+
 		public function getCategorySelectForEntry($categories, $entry) {
 			if ( $entry['Entry']['pid'] == 0 ):
 				$out = $this->Form->input(
@@ -215,19 +238,12 @@ EOF;
 			/* <span title="<?php echo $this->TimeH->formatTime($entry_sub['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry_sub['Entry']['time'], 'glasen'); ?>
 			  </span> */
 
-			$decoration = '';
-			if ($entry_sub['Entry']['fixed']) :
-				$decoration .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i>';
-			endif;
-			if ($entry_sub['Entry']['nsfw']):
-				$decoration .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span>';
-			endif;
-
-			$no_text = (empty($entry_sub['Entry']['text']) ? ' n/t' : '');
+			$subject = $this->getSubject($entry_sub);
+			$badges = $this->getBadges($entry_sub);
 
 			// wrap everything up
 			$out = <<<EOF
-{$entry_sub['Entry']['subject']} {$no_text}
+{$subject}
 <span class="mobile-nl">
   <span class="thread_line-username">
     <span class="mobile-hide"> – </span>
@@ -235,7 +251,7 @@ EOF;
 	</span>
 	{$category}
 	<span class="thread_line-post">
-	  {$time} {$decoration}
+	  {$time} {$badges}
   </span>
 </span>
 EOF;
