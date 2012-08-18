@@ -665,9 +665,9 @@
 			// ajax answer
 			$this->assertContains('$("#forum_answer_1").bind("click",', $result);
 			// ajax pin
-			$this->assertContains('$("#btn-entry_pin-1").bind("click",', $result);
+			$this->assertContains('$("#btn-entry_fixed-1").bind("click",', $result);
 			// ajax lock
-			$this->assertContains('$("#btn-entry_lock-1").bind("click",', $result);
+			$this->assertContains('$("#btn-entry_locked-1").bind("click",', $result);
 
 			unset($_ENV['HTTP_X_REQUESTED_WITH']);
 		}
