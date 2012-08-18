@@ -587,13 +587,21 @@ class Entry extends AppModel {
 			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
 		}
 
+		/**
+		 * Check if someone is allowed to edit but assign a specific user type beforehand
+		 *
+		 * @param array $entry
+		 * @param SaitoUser $User
+		 * @param string $mock_type
+		 * @return bool
+		 */
 		public function isEditingForbiddenMockUserType(array $entry, SaitoUser $User, $mock_type) {
 			$User['user_type'] = $mock_type;
 			return $this->isEditingForbidden($entry, $User);
 		}
 
 		/**
-		 * Checks if someone is allowed to edit an entry
+		 * Check if someone is allowed to edit an entry
 		 *
 		 * @param array $entry
 		 * @param SaitoUser $user
