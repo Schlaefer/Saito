@@ -145,7 +145,9 @@ class AppController extends Controller {
 		$this->theme = Configure::read('Saito.theme');
 		$this->_setConfigurationFromGetParams();
 
-		$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
+		if ($this->modelClass) {
+			$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
+		}
 
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
