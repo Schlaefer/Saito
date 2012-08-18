@@ -319,10 +319,10 @@ class Entry extends AppModel {
 	}
 
 	public function treeForNodes($search_array, $order = 'last_answer ASC', $fieldlist = NULL) {
-		self::$Timer->start('Model->Entries->treeForNodes() DB');
+		Stopwatch::start('Model->Entries->treeForNodes() DB');
 
 		if (empty($search_array)) {
-			self::$Timer->stop('Model->Entries->treeForNodes() DB');
+			Stopwatch::stop('Model->Entries->treeForNodes() DB');
 			return array();
 		}
 
@@ -339,12 +339,12 @@ class Entry extends AppModel {
 					'order'	 => $order,
 					'fields' => $fieldlist,
 					));
-		self::$Timer->stop('Model->Entries->treeForNodes() DB');
+		Stopwatch::stop('Model->Entries->treeForNodes() DB');
 
-		self::$Timer->start('Model->Entries->treeForNodes() CPU');
+		Stopwatch::start('Model->Entries->treeForNodes() CPU');
 		$out = $this->parseTreeInit($threads);
 		$out = $this->sortTime($out);
-		self::$Timer->stop('Model->Entries->treeForNodes() CPU');
+		Stopwatch::stop('Model->Entries->treeForNodes() CPU');
 
 		return $out;
 	}

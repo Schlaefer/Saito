@@ -44,7 +44,7 @@ class UserOnline extends AppModel {
 	 * @param bool $loggedIn user is logged-in
 	 */
 	public function setOnline($id, $loggedIn = NULL) {
-//		self::$Timer->start('Model->UserOnline->setOnline()');
+//		Stopwatch::start('Model->UserOnline->setOnline()');
 
 		if ( empty($id) ) {
 			throw new InvalidArgumentException('Invalid Argument in setOnline()');	
@@ -84,7 +84,7 @@ class UserOnline extends AppModel {
 		// $this->log($this->find('all', array('contain'=>false)));
 		$this->_deleteOutdated();
 
-//		self::$Timer->stop('Model->UserOnline->setOnline()');
+//		Stopwatch::stop('Model->UserOnline->setOnline()');
 	}
 
 	/**
