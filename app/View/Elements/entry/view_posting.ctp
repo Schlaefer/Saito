@@ -83,14 +83,21 @@
 									?>
 		<?php  if (isset($entry['rights']['isEditingAsUserForbidden']) && $entry['rights']['isEditingAsUserForbidden'] == false) : ?>
 			&nbsp;
-			<span class="small">
-				<?php echo $this->Html->link(
-							__('edit_linkname'),
-							array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
-							array ( 'class' => 'btn btn-edit', 'accesskey' => "e" )
-							);
-				?>
-			</span>
+			<?php echo $this->Html->link(
+						__('edit_linkname'),
+						array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
+						array ( 'class' => 'btn btn-edit', 'accesskey' => "e" )
+						);
+			?>
+		<?php endif; ?>
+		<?php if ($this->EntryH->isRepostable($entry, $CurrentUser)): ?>
+			&nbsp;
+			<?php
+					echo $this->Html->link(
+							__('repost_linkname'), '/entries/repost/' . $entry['Entry']['id'],
+							array('class' => 'btn btn-edit')
+					);
+					?>
 		<?php endif; ?>
 
 		<?php if( $CurrentUser->isMod()) : ?>

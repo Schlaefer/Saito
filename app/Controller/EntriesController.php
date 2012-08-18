@@ -32,20 +32,6 @@ class EntriesController extends AppController {
 			array( 'field' => 'name', 'type' => 'value' ),
 	);
 
-	/**
-	 * Function for checking user rights on an entry
-	 * 
-	 * @var function
-	 */
-	protected $_ldGetRightsForEntryAndUser;
-
-	/**
-	 * Function for checking if entry is bookmarked by current user
-	 *
-	 * @var function
-	 */
-	protected $_ldGetBookmarkForEntryAndUser;
-
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
@@ -144,9 +130,16 @@ class EntriesController extends AppController {
 		}
 
 	public function mix($tid) {
-		$entries = $this->_setupMix($tid);
-		Entry::mapTreeElements($entries, $this->_ldGetRightsForEntryAndUser, $this);
-		Entry::mapTreeElements($entries, $this->_ldGetBookmarkForEntryAndUser, $this);
+		if (!$tid) {
+			$this->redirect('/');
+		}
+		$entries = $this->Entry->treeForNodesComplete($tid);
+
+		//* check if anonymous tries to access internal categories
+		if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
+			return $this->redirect('/');
+		}
+
 		$this->set('entries', $entries);
     $this->_showAnsweringPanel();
 	}
@@ -207,18 +200,31 @@ class EntriesController extends AppController {
     public function view($id=null) {
 		Stopwatch::start('Entries->view()');
 
-		if ( $this->_setupView($id) !== TRUE ):
-			// purly for passing the test cases
-			return;
+		//* redirect if no id is given
+		if ( !$id ) {
+			$this->Session->setFlash(__('Invalid post'));
+			return $this->redirect(array( 'action' => 'index' ));
+		}
+
+		$this->Entry->id = $id;
+		$this->request->data = $this->Entry->find('entry', array('conditions' => array('Entry.id' => $id)));
+
+		//* redirect if posting doesn't exists
+		if ( $this->request->data == FALSE ):
+			$this->Session->setFlash(__('Invalid post'));
+			return $this->redirect('/');
 		endif;
+
+		//* check if anonymous tries to access internal catgories
+		if ( $this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
+			return $this->redirect('/');
+		}
 
     if ( !empty($this->request->params['requested']) ):
       return $this->request->data;
     endif;
 
 		$a = array($this->request->data);
-		Entry::mapTreeElements($a, $this->_ldGetRightsForEntryAndUser, $this);
-		Entry::mapTreeElements($a, $this->_ldGetBookmarkForEntryAndUser, $this);
 		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
@@ -387,7 +393,7 @@ class EntriesController extends AppController {
 			throw new NotFoundException();
 		endif;
 
-		$forbidden = $this->SaitoEntry->isEditingForbidden($old_entry,
+		$forbidden = $this->Entry->isEditingForbidden($old_entry,
 						$this->CurrentUser->getSettings(), array( 'session' => &$this->Session ));
 
 		switch ( $forbidden ) {
@@ -714,20 +720,6 @@ class EntriesController extends AppController {
 		parent::beforeFilter();
 		Stopwatch::start('Entries->beforeFilter()');
 
-		$this->_ldGetRightsForEntryAndUser = function($element, $_this) {
-				$rights = array(
-					'isEditingForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings()),
-					'isEditingAsUserForbidden' => $_this->SaitoEntry->isEditingForbidden($element, $_this->CurrentUser->getSettings(), array( 'user_type' => 'user' )),
-					'isAnsweringForbidden' => $_this->SaitoEntry->isAnsweringForbidden($element, $_this->CurrentUser->getSettings()),
-					);
-				$element['rights'] = $rights;
-		};
-
-		$this->_ldGetBookmarkForEntryAndUser = function($element, $_this) {
-						$element['isBookmarked'] = $_this->Entry->Bookmark->isBookmarked($element['Entry']['id'],
-								$_this->CurrentUser->getId());
-					};
-
 		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 		if ( $this->request->action == 'index' ) {
@@ -805,7 +797,7 @@ class EntriesController extends AppController {
 	}
 
 	protected function _isAnsweringAllowed($parent_entry) {
-		$forbidden = $this->SaitoEntry->isAnsweringForbidden($parent_entry);
+		$forbidden = $this->Entry->isAnsweringForbidden($parent_entry);
 		if ($forbidden) {
 			throw new ForbiddenException;
 		}
@@ -899,46 +891,6 @@ class EntriesController extends AppController {
 		}
 		Stopwatch::stop('Entries->_getInitialThreads() Paginate');
 		return array( 'initialThreads' => $initial_threads_new, 'order' => $order );
-	}
-
-	protected function _setupView($id) {
-		//* redirect if no id is given
-		if ( !$id ) {
-			$this->Session->setFlash(__('Invalid post'));
-			$this->redirect(array( 'action' => 'index' ));
-			return FALSE;
-		}
-
-		$this->Entry->id = $id;
-		$this->Entry->contain('User', 'Category');
-		$this->request->data = $this->Entry->read();
-
-		//* redirect if posting doesn't exists
-		if ( $this->request->data == FALSE ):
-			$this->Session->setFlash(__('Invalid post'));
-			$this->redirect('/');
-			return FALSE;
-		endif;
-
-		//* check if anonymous tries to access internal catgories
-		if ( $this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
-			$this->redirect('/');
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	protected function _setupMix($tid) {
-		if ( !$tid )
-			$this->redirect('/');
-		$entries = $this->Entry->treeForNodeComplete($tid);
-
-		//* check if anonymous tries to access internal catgories
-		if ( $entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
-			$this->redirect('/');
-		}
-		return $entries;
 	}
 
 	protected function _teardownAdd() {

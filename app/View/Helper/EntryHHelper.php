@@ -15,6 +15,24 @@
 				'TimeH',
 		);
 
+		/**
+		 * Time in seconds a repost is allowed after it's (last re-) posting
+		 *
+		 * 175860 sec == 2 days
+		 *
+		 * @var int
+		 */
+		protected $_max_repost_time_limit = 175860;
+
+		/**
+		 * Max number of reposts allowed
+		 *
+		 * DB definition only allows upper limit of 9999!
+		 *
+		 * @var int
+		 */
+		protected $_max_repost_limit = 3;
+
 		public function generateThreadParams($params) {
 
 			extract($params);
@@ -119,6 +137,24 @@
 			endif;
 
 			return $out;
+		}
+
+		public function isRepostable(array $entry, SaitoUser $CurrentUser) {
+			$is_repostable = false;
+
+			if ($CurrentUser->getId() === $entry['Entry']['user_id']
+					&& (int)$entry['Entry']['pid'] === 0) {
+				$now = time();
+				$entry_time = strtotime($entry['Entry']['time']);
+				$last_answer_time = strtotime($entry['Entry']['last_answer']);
+				if ($entry_time < $now - (Configure::read('Saito.Settings.edit_period') * 60)
+						&& $entry_time < $this->_max_repost_time_limit + $now
+						&& $entry['Entry']['reposts'] < $this->_max_repost_limit
+						&& $last_answer_time === $entry_time) {
+					$is_repostable = true;
+				}
+			}
+			return $is_repostable;
 		}
 
 		/**

@@ -13,6 +13,7 @@ class Entry extends AppModel {
 
 	public $findMethods = array(
 				'feed' => true,
+				'entry' => true,
 		);
 
 		// fields for search plugin
@@ -116,7 +117,7 @@ class Entry extends AppModel {
    * 
    * @var string
    */
-  public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
+  public $showEntryFieldListAdditional = 	'Entry.ip, Entry.reposts, User.id, User.signature, User.flattr_uid';
 
 	public function getRecentEntries(array $options = array(), SaitoUser $User) {
 		Stopwatch::start('Model->User->getRecentEntries()');
@@ -277,13 +278,15 @@ class Entry extends AppModel {
 				$order);
 	}
 
-	public function treeForNodeComplete($id, $order = 'last_answer ASC') {
-		return $this->treeForNodes(
+	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
+		$result = $this->treeForNodes(
         array(
             array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
         $order,
         $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
         );
+		$this->_addAdditionalFields($result);
+		return $result;
 	}
 
 	public function treeForNodes($search_array, $order = 'last_answer ASC', $fieldlist = NULL) {
@@ -554,6 +557,133 @@ class Entry extends AppModel {
 		return false;
 	}
 
+	protected function _addAdditionalFields(&$entries) {
+			/**
+			 * Function for checking if entry is bookmarked by current user
+			 *
+			 * @var function
+			 */
+			$ldGetBookmarkForEntryAndUser = function($element, $_this) {
+						$element['isBookmarked'] = $_this->Bookmark->isBookmarked(
+								$element['Entry']['id'], $_this->_CurrentUser->getId());
+					};
+
+			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
+
+			/**
+			 * Function for checking user rights on an entry
+			 *
+			 * @var function
+			 */
+			$ldGetRightsForEntryAndUser = function($element, $_this) {
+						$rights = array(
+					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->getSettings()),
+					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->getSettings(), array( 'user_type' => 'user' )),
+								'isAnsweringForbidden' => $_this->isAnsweringForbidden($element),
+						);
+						$element['rights'] = $rights;
+					};
+
+			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
+		}
+
+		public function isEditingForbiddenMockUserType(array $entry, $user = array(), $mock_type) {
+			$user['user_type'] = $mock_type;
+			return $this->isEditingForbidden($entry, $user);
+		}
+
+		/**
+		 * Checks if someone is allowed to edit an entry
+		 *
+		 * @param <type> $entry
+		 * @param <type> $user
+		 * @param <type> $options
+		 * @return boolean
+		 */
+		public function isEditingForbidden($entry, $user) {
+			// user is not logged in and not allowed to do anything
+			if (empty($user) || empty($user['id']))
+				return true;
+
+			$verboten = true;
+
+			// Mod and Admin …
+			# @td mods don't edit admin posts
+			if ($user['user_type'] === 'mod' || $user['user_type'] === 'admin') {
+				if (
+						(int)$user['id'] === (int)$entry['Entry']['user_id']
+						&& ( time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 ))
+						/* Mods should be able to edit their own posts if they are pinned
+						 *
+						 * @td this opens a 'mod can pin and then edit root entries'-loophole,
+						 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
+						 * for mods pinning root-posts.
+						 */
+						&& ( $entry['Entry']['fixed'] == FALSE )
+						&& ( $user['user_type'] === 'mod' )
+				) :
+					// mods shouldn't mod themselfs
+					$verboten = 'time';
+				else :
+					$verboten = false;
+				endif;
+
+				// Normal user and anonymous
+			} else {
+				// check if it's users own posting @td put admin and mods here;
+				if ($user['id'] != $entry['Entry']['user_id']) {
+					$verboten = 'user';
+				}
+				// check if time for editint ran out
+				elseif (time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 )) {
+					$verboten = 'time';
+					// entry is locked by admin or mod
+				} elseif ($entry['Entry']['locked'] != 0) {
+					$verboten = 'locked';
+				} else {
+					$verboten = false;
+				}
+			}
+
+			return $verboten;
+		}
+
+		/**
+	 * Decides if an $entry is new to/unseen by a $user
+	 *
+	 * @param type $entry
+	 * @param type $user
+	 * @return boolean
+	 */
+	public function isNewEntry($entry, $user) {
+		$isNewEntry = FALSE;
+		if ( strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']) ):
+			$isNewEntry = TRUE;
+		endif;
+		return $isNewEntry;
+	}
+
+	public function hasNewEntries($entry, $user) {
+		if ( $entry['Entry']['pid'] != 0 ):
+			throw new InvalidArgumentException("Entry is no thread-root, pid != 0");
+		endif;
+
+		return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
+	}
+
+		public function _findEntry($state, $query, $results = array()) {
+			if ($state == 'before') {
+				$query['contain'] = array('User', 'Category');
+				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				return $query;
+			}
+			if ($results) {
+				$this->_addAdditionalFields($results);
+				return $results[0];
+			}
+			return $results;
+		}
+
 	/**
 	 * Implements the custom find type 'feed'
 	 *
@@ -584,6 +714,28 @@ class Entry extends AppModel {
 				array('tid'	=> $tid)
 		);
 	}
+
+	/**
+	 * Checks if answering an entry is allowed
+	 *
+	 * @param array $entry
+	 * @return boolean
+	 */
+	public function isAnsweringForbidden($entry = NULL) {
+		$isAnsweringForbidden = true;
+
+		if (!isset($entry['Entry']['locked'])) return true;
+
+		$locked = $entry['Entry']['locked'];
+		if ($locked == 0) {
+			$isAnsweringForbidden = false;
+		} else {
+			$isAnsweringForbidden = 'locked';
+		}
+
+		return $isAnsweringForbidden;
+	}
+
 
   public function paginateCount($conditions, $recursive, $extra) {
 

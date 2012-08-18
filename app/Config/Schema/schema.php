@@ -69,6 +69,7 @@ class AppSchema extends CakeSchema {
 		'flattr' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'nsfw' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'ip' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 39, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+		'reposts' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'tid' => array('column' => 'tid', 'unique' => 0),
