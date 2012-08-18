@@ -587,31 +587,30 @@ class Entry extends AppModel {
 			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
 		}
 
-		public function isEditingForbiddenMockUserType(array $entry, $user = array(), $mock_type) {
-			$user['user_type'] = $mock_type;
-			return $this->isEditingForbidden($entry, $user);
+		public function isEditingForbiddenMockUserType(array $entry, SaitoUser $User, $mock_type) {
+			$User['user_type'] = $mock_type;
+			return $this->isEditingForbidden($entry, $User);
 		}
 
 		/**
 		 * Checks if someone is allowed to edit an entry
 		 *
-		 * @param <type> $entry
-		 * @param <type> $user
-		 * @param <type> $options
+		 * @param array $entry
+		 * @param SaitoUser $user
 		 * @return boolean
 		 */
-		public function isEditingForbidden($entry, $user) {
+		public function isEditingForbidden(array $entry, SaitoUser $User) {
 			// user is not logged in and not allowed to do anything
-			if (empty($user) || empty($user['id']))
+			if (empty($User) || empty($User['id']))
 				return true;
 
 			$verboten = true;
 
 			// Mod and Admin …
 			# @td mods don't edit admin posts
-			if ($user['user_type'] === 'mod' || $user['user_type'] === 'admin') {
+			if ($User['user_type'] === 'mod' || $User['user_type'] === 'admin') {
 				if (
-						(int)$user['id'] === (int)$entry['Entry']['user_id']
+						(int)$User['id'] === (int)$entry['Entry']['user_id']
 						&& ( time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 ))
 						/* Mods should be able to edit their own posts if they are pinned
 						 *
@@ -620,7 +619,7 @@ class Entry extends AppModel {
 						 * for mods pinning root-posts.
 						 */
 						&& ( $entry['Entry']['fixed'] == FALSE )
-						&& ( $user['user_type'] === 'mod' )
+						&& ( $User['user_type'] === 'mod' )
 				) :
 					// mods shouldn't mod themselfs
 					$verboten = 'time';
@@ -631,7 +630,7 @@ class Entry extends AppModel {
 				// Normal user and anonymous
 			} else {
 				// check if it's users own posting @td put admin and mods here;
-				if ($user['id'] != $entry['Entry']['user_id']) {
+				if ($User['id'] != $entry['Entry']['user_id']) {
 					$verboten = 'user';
 				}
 				// check if time for editint ran out

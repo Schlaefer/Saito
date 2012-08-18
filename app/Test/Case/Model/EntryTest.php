@@ -1,6 +1,8 @@
 <?php
 
 	App::uses('Entry', 'Model');
+	App::uses('ComponentCollection', 'Controller');
+	App::uses('SaitoUser', 'Lib');
 
 	class EntryTest extends CakeTestCase {
 
@@ -252,6 +254,9 @@
 					'id'				 => 1,
 					'user_type'	 => 'user',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
 		}
@@ -266,6 +271,9 @@
 					)
 			);
 			$user = null;
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertTrue($result);
 		}
@@ -282,6 +290,9 @@
 					'id'				 => null,
 					'user_type'	 => 'anon',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertTrue($result);
 		}
@@ -297,6 +308,9 @@
 					'id'				 => 2,
 					'user_type'	 => 'user',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEqual($result, 'user');
 		}
@@ -313,6 +327,9 @@
 					'id'				 => 1,
 					'user_type'	 => 'user',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEqual($result, 'time');
 		}
@@ -329,6 +346,9 @@
 					'id'				 => 1,
 					'user_type'	 => 'user',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEqual($result, 'locked');
 		}
@@ -346,6 +366,9 @@
 					'id'				 => 1,
 					'user_type'	 => 'mod',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEqual($result, 'time');
 		}
@@ -363,6 +386,9 @@
 					'id'				 => 1,
 					'user_type'	 => 'mod',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
 		}
@@ -380,6 +406,9 @@
 					'id'				 => 1,
 					'user_type'	 => 'admin',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
 		}
@@ -399,6 +428,9 @@
 					'id'				 => 1,
 					'user_type'	 => 'admin',
 			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
 			$user_mock = $user;
 			$user_mock['user_type'] = 'user';
 
