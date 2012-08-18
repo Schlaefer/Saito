@@ -142,6 +142,7 @@ class AppController extends Controller {
 			$this->_showDisclaimer();
 		}
 
+		$this->theme = Configure::read('Saito.theme');
 		$this->_setConfigurationFromGetParams();
 
 		$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
@@ -170,10 +171,8 @@ class AppController extends Controller {
 
 			if ($this->CurrentUser->isLoggedIn()) {
 				// testing different themes on the fly with `theme` GET param /theme:<foo>/
-				if (isset($this->passedArgs['theme'])) :
+				if (isset($this->passedArgs['theme'])):
 					$this->theme = $this->passedArgs['theme'];
-				else:
-					$this->theme = Configure::read('Saito.theme');
 				endif;
 
 				// activate stopwatch
