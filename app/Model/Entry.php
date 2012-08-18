@@ -138,11 +138,14 @@ class Entry extends AppModel {
    * @var string
    */
   public $showEntryFieldListAdditional = 	'
+		Entry.edited,
+		Entry.edited_by,
 		Entry.ip,
 
 		User.id,
 		User.flattr_uid,
-		User.signature
+		User.signature,
+		User.user_place
 		';
 
 	public function getRecentEntries(array $options = array(), SaitoUser $User) {
