@@ -611,7 +611,7 @@ class EntriesController extends AppController {
 		$this->request->data['Entry']['text'] = $text;
 		$this->request->data['Entry']['category'] = $category;
 		$this->request->data['Entry']['nsfw'] = $nsfw;
-		$this->request->data['Entry']['fixed'] = $fixed;
+		$this->request->data['Entry']['fixed'] = false;
 		$this->request->data['Entry']['ip'] = '';
 
 
