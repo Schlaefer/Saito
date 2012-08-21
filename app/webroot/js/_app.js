@@ -544,19 +544,6 @@ $(document).ready( function() {
 
 }); // end ready()
 
-// expand search field
-$(document).ready(function() {
-  $("#EntrySearchTerm").focus(function () {
-    if ($(this).width() < 300 ) {
-      $(this).animate({
-        width: '350px'
-      },
-      "fast"
-      );
-    }
-  });
-});
-
 // start toggle [code] highlight/plain
 $(document).ready(function() {
   $('.entry').delegate('.geshi-plain-text', 'click', function(event) {

@@ -1,4 +1,5 @@
-(function ($) {
+$(document).ready(function() {
+	(function ($) {
 
 	var Thread = Backbone.Model.extend({
 
@@ -74,6 +75,20 @@
 			threads.add(new Thread({
 				id: threadId
 			}));
+	var SearchFieldView = Backbone.View.extend({
+		events: {
+			'focus': 'widen'
+		},
+		widen: function(e) {
+			var width = 350;
+			e.preventDefault();
+			if ($(this.el).width() < width) {
+				$(this.el).animate({
+					width: width + 'px'
+				},
+				"fast"
+				);
+			}
 		}
 		new ThreadView({
 			el: $(this),
@@ -82,3 +97,7 @@
 	});
 })(jQuery);
 
+	new SearchFieldView({
+		el: $("#EntrySearchTerm")
+	});
+});
