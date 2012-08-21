@@ -24,7 +24,6 @@ class AppController extends Controller {
       'EmailNotification',
 
 			'RequestHandler',
-			'SaitoEntry',
 
 			'Session',
 	);
@@ -119,9 +118,9 @@ class AppController extends Controller {
 			}
 		}
 
+		// activate stopwatch in debug mode
 		$this->set('showStopwatchOutput', false);
-		if ((Configure::read('Saito.Settings.stopwatch_get') && isset($this->passedArgs['stopwatch']) && $this->CurrentUser->isLoggedIn())
-				|| (int)Configure::read('debug') > 0) {
+		if ((int)Configure::read('debug') > 0) {
 			$this->set('showStopwatchOutput', true);
 		};
 
@@ -143,6 +142,13 @@ class AppController extends Controller {
 			$this->_showDisclaimer();
 		}
 
+		$this->theme = Configure::read('Saito.theme');
+		$this->_setConfigurationFromGetParams();
+
+		if ($this->modelClass) {
+			$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
+		}
+
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
@@ -151,13 +157,6 @@ class AppController extends Controller {
 
 		Stopwatch::start('App->beforeRender()');
 
-		// testing different themes on the fly with `theme` GET param /theme:<foo>/
-		if ( isset($this->passedArgs['theme']) ) :
-			$this->theme = $this->passedArgs['theme'];
-		else:
-			$this->theme = Configure::read('Saito.theme');
-		endif;
-
     $this->set('lastAction', $this->localReferer('action'));
     $this->set('lastController', $this->localReferer('controller'));
 		$this->_setTitleForLayout();
@@ -165,6 +164,34 @@ class AppController extends Controller {
 		Stopwatch::stop('App->beforeRender()');
 		Stopwatch::start('---------------------- Rendering ---------------------- ');
 	}
+
+
+		/**
+		 * Set forum configuration from get params in url
+		 */
+		protected function _setConfigurationFromGetParams() {
+
+			if ($this->CurrentUser->isLoggedIn()) {
+				// testing different themes on the fly with `theme` GET param /theme:<foo>/
+				if (isset($this->passedArgs['theme'])):
+					$this->theme = $this->passedArgs['theme'];
+				endif;
+
+				// activate stopwatch
+				if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
+					$this->set('showStopwatchOutput', true);
+				};
+
+				// change language
+				if (isset($this->passedArgs['lang'])) {
+					$L10n = ClassRegistry::init('L10n');
+					if ($L10n->catalog($this->passedArgs['lang'])) {
+						// $this->Session->write('Config.language', $this->passedArgs['lang']);
+						Configure::write('Config.language', $this->passedArgs['lang']);
+					}
+				};
+			}
+		}
 
 	/**
 	 * sets title for pages

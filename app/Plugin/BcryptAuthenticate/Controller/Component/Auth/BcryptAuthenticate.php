@@ -1,6 +1,6 @@
 <?php
 
-  App::uses('FormAuthenticateSalted', 'Lib/Controller/Component/Auth');
+  App::uses('FormAuthenticateSalted', 'BcryptAuthenticate.Controller/Component/Auth');
 
   /**
    * @see http://mark-story.com/posts/view/using-bcrypt-for-passwords-in-cakephp
@@ -14,7 +14,7 @@
      *
      * @var integer
      */
-    public static $cost = 10;
+    public static $cost = '10';
 
     public static function checkPassword($password, $hash) {
       $salt = substr($hash, 5 + strlen(self::$cost), 22);
@@ -33,10 +33,12 @@
       return self::_crypt($password, $salt);
     }
 
+
     protected static function _crypt($password, $salt) {
+			if (strlen(self::$cost) !== 2) {
+				throw new InvalidArgumentException;
+			}
       return crypt($password, '$2a$' . self::$cost . '$' . $salt);
     }
 
   }
-
-?>

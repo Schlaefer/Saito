@@ -125,48 +125,35 @@
 						<?php if ($editLinkIsShown): ?>
 							<li class="divider"></li>
 						<?php endif; ?>
-						<li>
-							<?php
-								echo $this->Js->link(
-									($entry['Entry']['fixed'] == 0)
-										? '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_set_entry_link')
-										: '<i class="icon-pushpin"></i>&nbsp;' . __('fixed_unset_entry_link'),
-									array(
-										'controller'	=> 'entries',
-										'action'			=> 'ajax_toggle',
-										$entry['Entry']['id'],
-										'fixed',
-									),
-									array(
-										'class' 	=> 'fixed ' . $entry['Entry']['id'],
-										'success'	=> "$('.fixed.{$entry['Entry']['id']}').html(data);",
-										'inline'	=> true,
-										'escape'  => FALSE,
-									)
-								);
-							?>
-						</li>
-						<li>
-							<?php
-								echo $this->Js->link(
-										($entry['Entry']['locked'] == 0)
-											? '<i class="icon-lock"></i>&nbsp;' . __('locked_set_entry_link')
-											: '<i class="icon-unlock"></i>&nbsp;' . __('locked_unset_entry_link'),
+						<?php
+							$ajax_toggle_options = array(
+									'fixed' => 'icon-pushpin',
+									'locked' => 'icon-lock'
+							);
+							foreach($ajax_toggle_options as $key => $icon):
+									echo '<li>';
+									echo $this->Js->link(
+										'<i class="'.$icon.'"></i>&nbsp;'
+										. '<span id="title-entry_' . $key . '-' . $entry['Entry']['id'] . '">'
+										. (($entry['Entry'][$key] == 0) ? __($key . '_set_entry_link') : __($key . '_unset_entry_link'))
+										. '</span>',
 										array(
-												'controller' 	=> 'entries',
-												'action'			=> 'ajax_toggle',
-												$entry['Entry']['id'],
-												'locked',
+											'controller'	=> 'entries',
+											'action'			=> 'ajax_toggle',
+											$entry['Entry']['id'],
+											$key,
 										),
 										array(
-												'class'		=> 'locked ' . $entry['Entry']['id'],
-												'success'	=> "$('.locked.{$entry['Entry']['id']}').html(data)",
-												'inline'	=> true,
-												'escape'  => FALSE,
+											'id'			 => 'btn-entry_' . $key . '-' . $entry['Entry']['id'],
+											'success'	=> "$('#title-entry_{$key}-{$entry['Entry']['id']}').html(data);",
+											'buffer'	=> false,
+											'escape'  => FALSE,
 										)
 									);
-							?>
-						</li>
+									echo '</li>';
+							endforeach;
+							unset($ajax_toggle_options);
+						?>
 						<li class="divider"></li>
 						<li>
 							<?php

@@ -13,6 +13,7 @@ class Entry extends AppModel {
 
 	public $findMethods = array(
 				'feed' => true,
+				'entry' => true,
 		);
 
 		// fields for search plugin
@@ -98,7 +99,8 @@ class Entry extends AppModel {
 		Entry.fixed,
 		Entry.views,
 		Entry.nsfw,
-		User.username';
+		User.username
+		';
 
 	/**
 	 * field list necessary for displaying a thread_line
@@ -107,16 +109,44 @@ class Entry extends AppModel {
    *
    * @var type string
    */
-	public $threadLineFieldList = 'Entry.id, Entry.pid, Entry.tid, Entry.subject, Entry.text, Entry.time, Entry.fixed, Entry.last_answer, Entry.views, Entry.user_id, Entry.locked, Entry.flattr, Entry.nsfw, Entry.name,
-                                  User.username,
-																	Category.category, Category.accession, Category.description';
+	public $threadLineFieldList = '
+		Entry.id,
+		Entry.pid,
+		Entry.tid,
+		Entry.subject,
+		Entry.text,
+		Entry.time,
+		Entry.fixed,
+		Entry.last_answer,
+		Entry.views,
+		Entry.user_id,
+		Entry.locked,
+		Entry.flattr,
+		Entry.nsfw,
+		Entry.name,
+
+		User.username,
+																	
+		Category.accession,
+		Category.category,
+		Category.description
+		';
 
   /**
    * fields additional to $threadLineFieldList to show complete entry
    * 
    * @var string
    */
-  public $showEntryFieldListAdditional = 	'Entry.ip, User.id, User.signature, User.flattr_uid';
+  public $showEntryFieldListAdditional = 	'
+		Entry.edited,
+		Entry.edited_by,
+		Entry.ip,
+
+		User.id,
+		User.flattr_uid,
+		User.signature,
+		User.user_place
+		';
 
 	public function getRecentEntries(array $options = array(), SaitoUser $User) {
 		Stopwatch::start('Model->User->getRecentEntries()');
@@ -277,20 +307,22 @@ class Entry extends AppModel {
 				$order);
 	}
 
-	public function treeForNodeComplete($id, $order = 'last_answer ASC') {
-		return $this->treeForNodes(
+	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
+		$result = $this->treeForNodes(
         array(
             array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
         $order,
         $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
         );
+		$this->_addAdditionalFields($result);
+		return $result;
 	}
 
 	public function treeForNodes($search_array, $order = 'last_answer ASC', $fieldlist = NULL) {
-		self::$Timer->start('Model->Entries->treeForNodes() DB');
+		Stopwatch::start('Model->Entries->treeForNodes() DB');
 
 		if (empty($search_array)) {
-			self::$Timer->stop('Model->Entries->treeForNodes() DB');
+			Stopwatch::stop('Model->Entries->treeForNodes() DB');
 			return array();
 		}
 
@@ -307,12 +339,12 @@ class Entry extends AppModel {
 					'order'	 => $order,
 					'fields' => $fieldlist,
 					));
-		self::$Timer->stop('Model->Entries->treeForNodes() DB');
+		Stopwatch::stop('Model->Entries->treeForNodes() DB');
 
-		self::$Timer->start('Model->Entries->treeForNodes() CPU');
+		Stopwatch::start('Model->Entries->treeForNodes() CPU');
 		$out = $this->parseTreeInit($threads);
 		$out = $this->sortTime($out);
-		self::$Timer->stop('Model->Entries->treeForNodes() CPU');
+		Stopwatch::stop('Model->Entries->treeForNodes() CPU');
 
 		return $out;
 	}
@@ -554,6 +586,136 @@ class Entry extends AppModel {
 		return false;
 	}
 
+	protected function _addAdditionalFields(&$entries) {
+			/**
+			 * Function for checking if entry is bookmarked by current user
+			 *
+			 * @var function
+			 */
+			$ldGetBookmarkForEntryAndUser = function($element, $_this) {
+						$element['isBookmarked'] = $_this->Bookmark->isBookmarked(
+								$element['Entry']['id'], $_this->_CurrentUser->getId());
+					};
+
+			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
+
+			/**
+			 * Function for checking user rights on an entry
+			 *
+			 * @var function
+			 */
+			$ldGetRightsForEntryAndUser = function($element, $_this) {
+						$rights = array(
+					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser),
+					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->mockUserType('user')),
+								'isAnsweringForbidden' => $_this->isAnsweringForbidden($element),
+						);
+						$element['rights'] = $rights;
+					};
+
+			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
+		}
+
+		/**
+		 * Check if someone is allowed to edit an entry
+		 *
+		 * @param array $entry
+		 * @param SaitoUser $user
+		 * @return boolean
+		 */
+		public function isEditingForbidden(array $entry, SaitoUser $User) {
+			// user is not logged in and not allowed to do anything
+			if (empty($User) || empty($User['id']))
+				return true;
+
+			$verboten = true;
+
+			// Mod and Admin …
+			# @td mods don't edit admin posts
+			if ($User->isMod() || $User->isAdmin()) {
+				if (
+						(int)$User['id'] === (int)$entry['Entry']['user_id']
+						&& ( time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 ))
+						/* Mods should be able to edit their own posts if they are pinned
+						 *
+						 * @td this opens a 'mod can pin and then edit root entries'-loophole,
+						 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
+						 * for mods pinning root-posts.
+						 */
+						&& ( $entry['Entry']['fixed'] == FALSE )
+						&& ( $User->isModOnly() )
+				) :
+					// mods shouldn't mod themselfs
+					$verboten = 'time';
+				else :
+					$verboten = false;
+				endif;
+
+				// Normal user and anonymous
+			} else {
+				// check if it's users own posting @td put admin and mods here;
+				if ($User['id'] != $entry['Entry']['user_id']) {
+					$verboten = 'user';
+				}
+				// check if time for editint ran out
+				elseif (time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 )) {
+					$verboten = 'time';
+					// entry is locked by admin or mod
+				} elseif ($this->_isLocked($entry)) {
+					$verboten = 'locked';
+				} else {
+					$verboten = false;
+				}
+			}
+
+			return $verboten;
+		}
+
+		protected function _isLocked($entry) {
+				return $entry['Entry']['locked'] != false;
+		}
+
+		/**
+	 * Decides if an $entry is new to/unseen by a $user
+	 *
+	 * @param type $entry
+	 * @param type $user
+	 * @return boolean
+	 */
+	public function isNewEntry($entry, $user) {
+		$isNewEntry = FALSE;
+		if ( strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']) ):
+			$isNewEntry = TRUE;
+		endif;
+		return $isNewEntry;
+	}
+
+	public function hasNewEntries($entry, $user) {
+		if ( $entry['Entry']['pid'] != 0 ):
+			throw new InvalidArgumentException("Entry is no thread-root, pid != 0");
+		endif;
+
+		return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
+	}
+
+		public function _findEntry($state, $query, $results = array()) {
+			if ($state == 'before') {
+				$query['contain'] = array('User', 'Category');
+				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				return $query;
+			}
+			if ($results) {
+				$this->_addAdditionalFields($results);
+				return $results[0];
+			}
+			return $results;
+		}
+
+	/**
+	 * Implements the custom find type 'feed'
+	 *
+	 * Add parameters for generating a rss/json-feed with find('feed', …)
+	 */
 	protected function _findFeed($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$query['contain']	 = array('User');
@@ -580,6 +742,27 @@ class Entry extends AppModel {
 		);
 	}
 
+	/**
+	 * Checks if answering an entry is allowed
+	 *
+	 * @param array $entry
+	 * @return boolean
+	 */
+	public function isAnsweringForbidden($entry = NULL) {
+		$isAnsweringForbidden = true;
+
+		if (!isset($entry['Entry']['locked'])) return true;
+
+		if ($this->_isLocked($entry)) {
+			$isAnsweringForbidden = 'locked';
+		} else {
+			$isAnsweringForbidden = false;
+		}
+
+		return $isAnsweringForbidden;
+	}
+
+
   public function paginateCount($conditions, $recursive, $extra) {
 
     if ( isset($extra['getInitialThreads']) ):
@@ -601,4 +784,3 @@ class Entry extends AppModel {
     return $count;
   }
 }
-?>

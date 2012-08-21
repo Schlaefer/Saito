@@ -114,6 +114,41 @@
 			$this->assertTrue($result);
 		}
 
+		public function testIsModOnly() {
+			//* anon
+			$user = null;
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertFalse($result);
+
+			//* user
+			$user = array(
+					'id'				 => '2',
+					'user_type'	 => 'user',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertFalse($result);
+
+			//* initialize with real user
+			$user = array(
+					'id'				 => '2',
+					'user_type'	 => 'mod',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertTrue($result);
+
+			//* admin
+			$user = array(
+					'id'				 => '2',
+					'user_type'	 => 'admin',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->isModOnly();
+			$this->assertFalse($result);
+		}
+
 		public function testIsAdmin() {
 
 			//* anon
@@ -238,11 +273,30 @@
 			$this->assertFalse(isset($this->SaitoUser['foo']));
 		}
 
+		public function testmockUserType() {
+
+			$user = array(
+					'id' => '2',
+					'user_type' => 'admin',
+			);
+			$expected = array(
+					'id' => '2',
+					'user_type' => 'user',
+			);
+			$this->SaitoUser->set($user);
+			$result = $this->SaitoUser->mockUserType('user');
+			$this->SaitoUser->set($expected);
+			$this->assertEqual($this->SaitoUser, $result);
+		}
+
 		public function setUp() {
-			$Collection = new ComponentCollection();
-			$this->SaitoUser = new SaitoUser($Collection);
+			parent::setUp();
+			$this->SaitoUser = new SaitoUser(new ComponentCollection());
+		}
+
+		public function tearDown() {
+			parent::tearDown();
+			unset($this->SaitoUser);
 		}
 
 	}
-
-?>

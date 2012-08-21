@@ -1,6 +1,8 @@
 <?php
 
 	App::uses('Entry', 'Model');
+	App::uses('ComponentCollection', 'Controller');
+	App::uses('SaitoUser', 'Lib');
 
 	class EntryTest extends CakeTestCase {
 
@@ -221,7 +223,197 @@
 
     }
 
-    /**
+		public function testIsAnsweringForbidden() {
+			$result = $this->Entry->isAnsweringForbidden();
+			$expected = true;
+			$this->assertSame($result, $expected);
+			$entry = array('Entry' => array('locked'	 => 0));
+			$result = $this->Entry->isAnsweringForbidden($entry);
+			$expected = false;
+			$this->assertSame($result, $expected);
+			$entry = array('Entry' => array('locked'	 => '0'));
+			$result = $this->Entry->isAnsweringForbidden($entry);
+			$expected = false;
+			$this->assertSame($result, $expected);
+			$entry = array('Entry' => array('locked'	 => false));
+			$result = $this->Entry->isAnsweringForbidden($entry);
+		$expected = false;
+			$this->assertSame($result, $expected);
+		}
+
+		public function testIsEditingForbiddenSuccess() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c",
+									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) + 1),
+							'locked'	 => 0,
+					)
+			);
+			$user = array(
+					'id'				 => 1,
+					'user_type'	 => 'user',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertFalse($result);
+		}
+
+		public function testIsEditingForbiddenEmptyUser() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c",
+									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) + 1),
+							'locked'	 => 0,
+					)
+			);
+			$user = null;
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertTrue($result);
+		}
+
+
+		public function testIsEditingForbiddenAnon() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c", time()),
+					)
+			);
+			$user = array(
+					'id'				 => null,
+					'user_type'	 => 'anon',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertTrue($result);
+		}
+
+		public function testIsEditingForbiddenWrongUser() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c", time()),
+					)
+			);
+			$user = array(
+					'id'				 => 2,
+					'user_type'	 => 'user',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertEqual($result, 'user');
+		}
+
+		public function testIsEditingForbiddenToLate() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c",
+									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) - 1),
+					)
+			);
+			$user = array(
+					'id'				 => 1,
+					'user_type'	 => 'user',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertEqual($result, 'time');
+		}
+
+		public function testIsEditingForbiddenLocked() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c", time()),
+							'locked'	 => 1,
+					)
+			);
+			$user = array(
+					'id'				 => 1,
+					'user_type'	 => 'user',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertEqual($result, 'locked');
+		}
+
+		public function testIsEditingForbiddenModToLateNotFixed() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c",
+									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) - 1),
+							'fixed'		 => false,
+					)
+			);
+			$user = array(
+					'id'				 => 1,
+					'user_type'	 => 'mod',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertEqual($result, 'time');
+		}
+
+		public function testIsEditingForbiddenModToLateFixed() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c",
+									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) - 1),
+							'fixed'		 => true,
+					)
+			);
+			$user = array(
+					'id'				 => 1,
+					'user_type'	 => 'mod',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertFalse($result);
+		}
+
+		public function testIsEditingForbiddenAdminToLateNotFixed() {
+			$entry = array(
+					'Entry' => array(
+							'user_id'	 => 1,
+							'time'		 => strftime("%c",
+									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) - 1),
+							'fixed'		 => false,
+					)
+			);
+			$user = array(
+					'id'				 => 1,
+					'user_type'	 => 'admin',
+			);
+			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
+			$SaitoUser->set($user);
+			$user = $SaitoUser;
+			$result = $this->Entry->isEditingForbidden($entry, $user);
+			$this->assertFalse($result);
+		}
+
+		/**
      * setUp method
      *
      * @return void

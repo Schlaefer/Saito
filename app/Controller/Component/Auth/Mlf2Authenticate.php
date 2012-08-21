@@ -1,6 +1,6 @@
 <?php
 
-  App::uses('FormAuthenticateSalted', 'Lib/Controller/Component/Auth');
+  App::uses('FormAuthenticateSalted', 'BcryptAuthenticate.Controller/Component/Auth');
 
   /**
    * mylittleforum 2.x auth with salted sha1 passwords

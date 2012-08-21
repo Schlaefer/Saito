@@ -12,6 +12,8 @@ interface ForumsUser {
 
 	public function isMod();
 
+	public function isModOnly();
+
 	public function isAdmin();
 
 	public function isLoggedIn();
@@ -19,6 +21,8 @@ interface ForumsUser {
 	public function isForbidden();
 
 	public function getMaxAccession();
+
+	public function mockUserType($type);
 }
 
 class SaitoUser extends Component implements ForumsUser, ArrayAccess {
@@ -99,6 +103,10 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 
 	}
 
+	public function isModOnly() {
+		return self::$__accessions[$this->_getRole()] === 2;
+	}
+
 	public function isAdmin() {
 		return self::_isAdminForRole($this->_settings['user_type']);
 
@@ -108,13 +116,18 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 		return empty($this->_settings['user_lock']) === FALSE;
 	}
 
+	public function mockUserType($type) {
+		$MockedUser = clone $this;
+		$MockedUser['user_type'] = $type;
+		return $MockedUser;
+	}
+
 	protected function _getRole() {
 		if ( $this->_id === null ) {
 			return 'anon';
 		} else {
 			return $this->_settings['user_type'];
 		}
-
 	}
 
 	protected static function _isUserForRole($userType) {

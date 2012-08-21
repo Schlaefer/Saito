@@ -98,4 +98,3 @@ class Category extends AppModel {
   }
 
 }
-?>

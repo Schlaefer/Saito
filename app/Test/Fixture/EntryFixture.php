@@ -25,6 +25,7 @@
 				'flattr' => array( 'type' => 'boolean', 'null' => true, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
 				'nsfw' => array( 'type' => 'boolean', 'null' => true, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
 				'ip' => array( 'type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
+				'reposts' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
 		);
 		public $records = array(
 				//* thread 1

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-09 12:46+0100\n"
-"PO-Revision-Date: 2012-08-09 12:46+0100\n"
+"PO-Revision-Date: 2012-08-16 13:38+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -1333,7 +1333,7 @@ msgstr ""
 
 #: View/Users/edit.ctp:100 View/Users/view.ctp:39
 msgid "user_real_name"
-msgstr "realer Name"
+msgstr "Realer Name"
 
 #: View/Users/edit.ctp:102
 msgid "user_real_name_exp"

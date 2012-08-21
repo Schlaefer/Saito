@@ -344,14 +344,14 @@ function layout_slidetabs_toggle(id) {
     $(id).animate({
       'width': 250
     });
-    $(id + ' .slidebar-content').css( 'display','block');
+    $(id + ' .slidetab-content').css( 'display','block');
   }
   else {
     $(id).animate({
       'width': 28
     },
     function() {
-      $(id + ' .slidebar-content').css('display', 'none')
+      $(id + ' .slidetab-content').css('display', 'none')
     }
     );
   }

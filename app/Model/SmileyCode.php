@@ -10,4 +10,3 @@ class SmileyCode extends AppModel {
 		)
 	);
 }
-?>

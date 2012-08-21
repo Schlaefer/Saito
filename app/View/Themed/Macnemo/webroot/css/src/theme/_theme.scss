@@ -177,7 +177,7 @@ a.category_acs_2, .category_acs_2 {
 	}
 
 /*******************************************************************************
- * Slidebars (aka Slidetabs) general layout
+ * Slidetab general layout
  ******************************************************************************/
 
 .slidetab_subtree {
@@ -188,7 +188,7 @@ a.category_acs_2, .category_acs_2 {
   font-weight: bold;
 }
 
-.slidebar-tab, .slidebar-content {
+.slidetab-tab, .slidetab-content {
   font-size: 0.95em;
 
   @extend .header_style_1;
@@ -226,9 +226,9 @@ a.category_acs_2, .category_acs_2 {
 }
 
 
-// Slidebar Userlist
+// Slidetab Userlist
 // -------------------------------------
-.slidebar-actUser {
+.slidetab-actUser {
   font-weight: bold;
 }
 

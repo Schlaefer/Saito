@@ -27,4 +27,3 @@ class Upload extends AppModel {
 
 
 }
-?>

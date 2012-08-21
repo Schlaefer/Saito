@@ -13,11 +13,10 @@ class AppModel extends Model {
 
 	static $sanitize = true;
 
-	protected static $Timer;
+	protected $_CurrentUser;
 
-	public function  __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-		self::$Timer = Stopwatch::getInstance();
+	public function setCurrentUser(SaitoUser $CurrentUser) {
+		$this->_CurrentUser = $CurrentUser;
 	}
 
 	protected function _sanitizeFields($results) {
@@ -99,4 +98,3 @@ class AppModel extends Model {
   }
 
 }
-?>

@@ -71,4 +71,3 @@ class Setting extends AppModel {
 		return Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
 	}
 }
-?>
