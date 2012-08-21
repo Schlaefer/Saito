@@ -144,28 +144,6 @@ $('.thread_line').each(function(element) {
 
 //	})(jQuery);
 
-// expand search field
-var SearchFieldView = Backbone.View.extend({
-	events: {
-		'focus': 'widen'
-	},
-	widen: function(e) {
-		var width = 350;
-		e.preventDefault();
-		if ($(this.el).width() < width) {
-			$(this.el).animate({
-				width: width + 'px'
-			},
-			"fast"
-			);
-		}
-	}
-});
-
-new SearchFieldView({
-	el: $("#EntrySearchTerm")
-});
-
 /**
  * App
  */
@@ -174,7 +152,23 @@ var AppView = Backbone.View.extend({
 	el: $('body'),
 
 	events: {
-		'click #showLoginForm': 'showLoginForm'
+		'click #showLoginForm': 'showLoginForm',
+		'focus #EntrySearchTerm': 'widenSearchField'
+	},
+
+	/**
+	 * Widen search field
+	 */
+	widenSearchField: function(event) {
+		var width = 350;
+		event.preventDefault();
+		if ($(event.currentTarget).width() < width) {
+			$(event.currentTarget).animate({
+				width: width + 'px'
+			},
+			"fast"
+			);
+		}
 	},
 
 	showLoginForm: function(event) {
