@@ -165,3 +165,35 @@ var SearchFieldView = Backbone.View.extend({
 new SearchFieldView({
 	el: $("#EntrySearchTerm")
 });
+
+/**
+ * App
+ */
+
+var AppView = Backbone.View.extend({
+	el: $('body'),
+
+	events: {
+		'click #showLoginForm': 'showLoginForm'
+	},
+
+	showLoginForm: function(event) {
+		if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+			return;
+		}
+
+		event.preventDefault();
+		$('#modalLoginDialog').height('auto');
+		var title= event.currentTarget.title;
+		$('#modalLoginDialog').dialog({
+			modal: true,
+			title: title,
+			width: 420,
+			show: 'fade',
+			hide: 'fade',
+			position: ['center', 120]
+		});
+	}
+});
+
+var App = new AppView;

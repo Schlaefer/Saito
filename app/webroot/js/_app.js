@@ -1,33 +1,3 @@
-/**
- * Modal Box for Login Form start
- */
-$(document).ready(function() {
-	if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-		return;
-	}
-	$("#showLoginForm").click(function(event) {
-		event.preventDefault();
-		showLoginForm(this);
-	});
-});
-
-function showLoginForm(elem) {
-
-	var url = elem.href;
-	$('#modalLoginDialog').height('auto');
-	var title= elem.title;
-	$('#modalLoginDialog').dialog({
-		modal: true,
-		title: title,
-		width: 420,
-		show: 'fade',
-		hide: 'fade',
-		position: ['center', 120]
-	});
-	return false;
-};
-/* Modal Box for Login Form end */
-
 function entries_add_toggle(id) {
 	if ($('#posting_formular_slider_' + id ).css('display') == 'none') {
 		$('.signature').slideDown('fast');
