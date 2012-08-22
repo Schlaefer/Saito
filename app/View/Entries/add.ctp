@@ -53,7 +53,7 @@ if ( $this->getVar('citeText') ) {
 			<div>
         <div class="c_first_child">
 <?php  if ( $this->request->is('ajax') ) : ?>
-						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-close-widget icon-large btn-icon-close pointer' onclick="entries_add_toggle(<?php echo $this->request->data['Entry']['id'] ?>); return false;">&nbsp;
+						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-close-widget icon-large btn-icon-close pointer' onclick="postings.get(<?php echo $this->request->data['Entry']['id'] ?>).set({isAnsweringFormShown: false});">&nbsp;
             </i>
 <?php  endif; ?>
 				</div>

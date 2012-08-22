@@ -121,6 +121,9 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
       },
       success:function(data, textStatus) {
         jQuery( p.id_thread_slider ).html(data);
+				postings.add(new PostingModel({ id: id }));
+				new PostingView({ el: $('.js-entry-view-core[data-id=' + id + ']'), model: postings.get(id) });
+
         initViewPosting(id);
 				/*
 				var here = document.URL;

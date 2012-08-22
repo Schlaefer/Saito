@@ -1,15 +1,3 @@
-function entries_add_toggle(id) {
-	if ($('#posting_formular_slider_' + id ).css('display') == 'none') {
-		$('.signature').slideDown('fast');
-		// we have #id problems with more than one markItUp on a page
-		var html = '<div id="spinner_' + id +'" class="spinner"></div>';
-		$('.posting_formular_slider').slideUp('fast').html(html);
-	}
-	$('#posting_formular_slider_' + id ).slideToggle('fast');
-	$('#signature_' + id).slideToggle('fast');
-	$('#box-footer-entry-actions-' + id).slideToggle('fast');
-};
-
 function post_to_url_t_a(id, params) {
 	var path = webroot + 'entries/view/' + id;
 	post_to_url(path, params);
