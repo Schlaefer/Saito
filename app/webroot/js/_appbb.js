@@ -22,7 +22,7 @@ var ThreadLineView = Backbone.View.extend({
 
 	events: {
 		'click .btn_show_thread': 'toggleInlineOpen',
-		'click .link_show_thread': 'toggleInlineOpen'
+		'click .link_show_thread': 'toggleInlineOpenFromLink'
 	},
 
 	toggleInlineOpenFromLink: function(event) {
@@ -134,12 +134,12 @@ var threadLines = new ThreadLineCollection;
 $('.thread_line').each(function(element) {
 	var threadLineId = parseInt($(this).attr('data-id'));
 	threadLines.add(new ThreadLineModel({
-		id: threadLineId
+		id: threadLineId,
+		isAlwaysShownInline: User_Settings_user_show_inline
 	}));
 	new ThreadLineView({
 		el: $(this),
-		model: threadLines.get(threadLineId),
-		isAlwaysShownInline: User_Settings_user_show_inline
+		model: threadLines.get(threadLineId)
 	});
 });
 

@@ -1,32 +1,3 @@
-function post_to_url_t_a(id, params) {
-	var path = webroot + 'entries/view/' + id;
-	post_to_url(path, params);
-
-	return false;
-};
-
-function post_to_url(path, params, method) {
-	method = method || "post";
-
-	var form = document.createElement("form");
-	form.setAttribute("method", method);
-	form.setAttribute("action", path);
-
-	for(var key in params) {
-		var hiddenField = document.createElement("input");
-		hiddenField.setAttribute("type", "hidden");
-		hiddenField.setAttribute("name", key);
-		hiddenField.setAttribute("value", params[key]);
-
-		form.appendChild(hiddenField);
-	}
-
-	document.body.appendChild(form);
-	form.submit();
-
-	return false;
-};
-
 function _isScrolledIntoView(elem) {
 	if ($(elem).length == 0) return true;
 	var docViewTop = $(window).scrollTop();
