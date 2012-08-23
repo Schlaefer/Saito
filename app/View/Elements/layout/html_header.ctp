@@ -33,6 +33,20 @@
 			else:
 				echo $this->Html->script('lib/jquery/jquery-1.8.0');
 			endif;
+
+			// require.js borks out when used with Cakes timestamp.
+			// also we need the relative path for the main-script
+			$tmp_asset_timestamp_cache = Configure::read('Asset.timestamp');
+			echo $this->Html->script('lib/require/require.min',
+					array(
+					'data-main' => $this->Html->assetUrl('main' . ((Configure::read('debug') == 0) ? '-prod' : ''),
+							array(
+							'pathPrefix' => JS_URL,
+							'ext'				 => '.js'
+					))
+			));
+			Configure::write('Asset.timestamp', $tmp_asset_timestamp_cache);
+			unset($tmp_asset_timestamp_cache);
 		?>
 		<?php 
 			/* fixing safari mobile fubar;
