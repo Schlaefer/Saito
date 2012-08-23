@@ -51,7 +51,6 @@
 			<?php endif; ?>
 			<?php
 					if ( $this->request->params['action'] != 'view') :
-					### Anzeige der Inline View start ##
 						if ( !$use_cached_entry && $CurrentUser->isLoggedIn() ) :
 							// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
 							// keinen Show All New Inline View Eintrag
