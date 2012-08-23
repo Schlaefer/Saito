@@ -4,7 +4,7 @@
   baseUrl: "./",
   name: 'main',
   out: './main-prod.js',
-  optimize: 'none',
+  // optimize: 'none',
   paths: {
     'jquery': 'lib/jquery/jquery-require',
     'underscore': 'lib/underscore/underscore',
