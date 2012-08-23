@@ -39,9 +39,10 @@ class EntriesController extends AppController {
 				// get current user's recent entries for slidetab
 				$this->set('recentPosts',
 						$this->Entry->getRecentEntries(
-								array('user_id' => $this->CurrentUser->getId()),
-								$this->CurrentUser)
-						);
+								array(
+										'user_id' => $this->CurrentUser->getId(),
+								), $this->CurrentUser)
+				);
 
 				// get last 10 recent entries for slidetab
 				$this->set('recentEntries',
