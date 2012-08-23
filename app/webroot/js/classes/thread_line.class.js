@@ -151,9 +151,10 @@ ThreadLine.prototype.insertNewLineAfter = function (data) {
 
 	// add to backbone model
 	var threadLineId = $(data).find('.thread_line').data('id');
-	threadLines.add(new ThreadLineModel({
-		id: threadLineId
-	}));
+	threadLines.add([{
+				id: threadLineId,
+				isAlwaysShownInline: User_Settings_user_show_inline
+			}]);
 	new ThreadLineView({
 		el: $('.thread_line.' + threadLineId),
 		model: threadLines.get(threadLineId),

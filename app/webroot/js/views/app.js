@@ -3,12 +3,8 @@ define([
 	'underscore',
 	'backbone',
 	'backboneLocalStorage',
-	'models/threadline'
-	], function($, _, Backbone, Store, ThreadLineModel) {
-		var ThreadLineCollection = Backbone.Collection.extend({
-			model: ThreadLineModel
-		});
-
+	'collections/threadlines',
+	], function($, _, Backbone, Store, ThreadLineCollection) {
 		// if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
 
@@ -128,10 +124,10 @@ define([
 		threadLines = new ThreadLineCollection;
 		$('.thread_line').each(function(element) {
 			var threadLineId = parseInt($(this).attr('data-id'));
-			threadLines.add(new ThreadLineModel({
+			threadLines.add([{
 				id: threadLineId,
 				isAlwaysShownInline: User_Settings_user_show_inline
-			}));
+			}]);
 			new ThreadLineView({
 				el: $(this),
 				model: threadLines.get(threadLineId)
