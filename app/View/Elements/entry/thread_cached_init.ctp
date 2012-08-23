@@ -50,8 +50,8 @@
 				</li>
 			<?php endif; ?>
 			<?php
-					if ( $this->request->params['action'] != 'view') :
 						if ( !$use_cached_entry && $CurrentUser->isLoggedIn() ) :
+					if ($this->request->params['action'] != 'view') :
 							// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
 							// keinen Show All New Inline View Eintrag
 						?>
