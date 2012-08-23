@@ -93,6 +93,9 @@ class AppController extends Controller {
 		parent::beforeFilter();
 		Stopwatch::start('App->beforeFilter()');
 
+		// must be set before forum_disabled switch;
+		$this->theme = Configure::read('Saito.theme');
+
 		//* Load forum settings and cache them
 		// For performance reasons we try to avoid loading the Setting model at all
 		// @td rebenchmark and verify, bad MVC
@@ -142,7 +145,6 @@ class AppController extends Controller {
 			$this->_showDisclaimer();
 		}
 
-		$this->theme = Configure::read('Saito.theme');
 		$this->_setConfigurationFromGetParams();
 
 		if ($this->modelClass) {
