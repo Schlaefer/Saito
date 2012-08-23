@@ -11,5 +11,5 @@
     'backbone': 'lib/backbone/backbone',
     'backboneLocalStorage': 'lib/backbone/backbone.localStorage'
   },
-  mainConfigFile: 'main.js',
+  mainConfigFile: 'main.js'
 })
