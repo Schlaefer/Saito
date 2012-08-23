@@ -2,20 +2,9 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'backboneLocalStorage'
-	], function($, _, Backbone, Store) {
-		// if everything is migrated to require/bb set var again
-		ThreadLineModel = Backbone.Model.extend({
-			defaults: {
-				isContentLoaded: false,
-				isInlineOpened: false,
-				isAlwaysShownInline: false
-			},
-			loadContent: function() {
-				new ThreadLine(this.get('id')).load_inline_view();
-			}
-		});
-
+	'backboneLocalStorage',
+	'models/threadline'
+	], function($, _, Backbone, Store, ThreadLineModel) {
 		var ThreadLineCollection = Backbone.Collection.extend({
 			model: ThreadLineModel
 		});
