@@ -6,10 +6,14 @@ define([
 	'views/threadlines',
 	'collections/threads',
 	'views/threads',
+	'collections/postings',
+	'views/postings',
 	], function(
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
-		ThreadCollection, ThreadView) {
+		ThreadCollection, ThreadView,
+		PostingCollection, PostingView
+		) {
 
 		var threads = new ThreadCollection;
 		threads.fetch();
@@ -41,81 +45,13 @@ define([
 			});
 		});
 
-		/**
- * Posting
- */
-
-		// if everything is migrated to require/bb set var again
-		PostingModel = Backbone.Model.extend({
-			defaults: {
-				isAnsweringFormShown: false
-			}
-		});
-
-		var PostingCollection = Backbone.Collection.extend({
-			model: PostingModel
-		});
-
-		// if everything is migrated to require/bb set var again
-		PostingView = Backbone.View.extend({
-			className: 'js-entry-view-core',
-
-			initialize: function() {
-				this.model.on('change:isAnsweringFormShown', this.toggleAnsweringForm, this);
-			},
-
-			toggleAnsweringForm: function() {
-				if (this.model.get('isAnsweringFormShown')) {
-					this._hideAllAnsweringForms();
-					this._hideSignature();
-					this._showAnsweringForm();
-					this._hideBoxActions();
-				} else {
-					this._showBoxActions();
-					this._hideAnsweringForm();
-					this._showSignature();
-				}
-			},
-
-			_showAnsweringForm: function() {
-				$(this.el).find('.posting_formular_slider').slideDown('fast');
-			},
-			_hideAnsweringForm: function() {
-				var html = '<div id="spinner_' + this.model.get('id') +'" class="spinner"></div>';
-				$(this.el).find('.posting_formular_slider').html(html);
-				$(this.el).find('.posting_formular_slider').slideUp('fast');
-			},
-			_hideAllAnsweringForms: function() {
-				// we have #id problems with more than one markItUp on a page
-				postings.forEach(function(posting){
-					if(posting.get('id') != this.model.get('id')) {
-						posting.set('isAnsweringFormShown', false);
-					}
-				}, this);
-			},
-
-			_showSignature: function() {
-				$(this.el).find('.signature').slideDown('fast');
-			},
-			_hideSignature: function() {
-				$(this.el).find('.signature').slideUp('fast');
-			},
-
-			_showBoxActions: function() {
-				$(this.el).find('.l-box-footer').slideDown('fast');
-			},
-			_hideBoxActions: function() {
-				$(this.el).find('.l-box-footer').slideUp('fast');
-			}
-		});
-
 		// if everything is migrated to require/bb set var again
 		postings = new PostingCollection;
 		$('.js-entry-view-core').each(function(element) {
 			var id = parseInt($(this).attr('data-id'));
-			postings.add(new PostingModel({
+			postings.add([{
 				id: id
-			}));
+			}]);
 			new PostingView({
 				el: $(this),
 				model: postings.get(id)
