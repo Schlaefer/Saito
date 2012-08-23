@@ -41,6 +41,7 @@ class EntriesController extends AppController {
 						$this->Entry->getRecentEntries(
 								array(
 										'user_id' => $this->CurrentUser->getId(),
+										'limit' => 5,
 								), $this->CurrentUser)
 				);
 
