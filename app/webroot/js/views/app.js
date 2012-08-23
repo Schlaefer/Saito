@@ -17,7 +17,7 @@ define([
 		});
 
 		var ThreadLineCollection = Backbone.Collection.extend({
-			model: ThreadLine
+			model: ThreadLineModel
 		});
 
 		// if everything is migrated to require/bb set var again
