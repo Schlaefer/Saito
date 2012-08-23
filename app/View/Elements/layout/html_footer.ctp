@@ -1,12 +1,5 @@
 <div>
   <?php
-		echo $this->Html->scriptBlock("
-			var webroot = '{$this->request->webroot}';
-			var Saito_Settings_embedly_enabled = " . $this->Js->value(Configure::read('Saito.Settings.embedly_enabled')) .";
-			var User_Settings_user_show_inline = " . $this->Js->value($CurrentUser['inline_view_on_click']) . ";
-		");
-  ?>
-  <?php
     if ( Configure::read('debug') == 0 ):
       echo $this->Html->script('js.min');
     else:
