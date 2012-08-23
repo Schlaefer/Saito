@@ -37,6 +37,7 @@
 			// require.js borks out when used with Cakes timestamp.
 			// also we need the relative path for the main-script
 			$tmp_asset_timestamp_cache = Configure::read('Asset.timestamp');
+			Configure::write('Asset.timestamp', false);
 			echo $this->Html->script('lib/require/require.min',
 					array(
 					'data-main' => $this->Html->assetUrl('main' . ((Configure::read('debug') == 0) ? '-prod' : ''),
