@@ -675,29 +675,6 @@ class Entry extends AppModel {
 				return $entry['Entry']['locked'] != false;
 		}
 
-		/**
-	 * Decides if an $entry is new to/unseen by a $user
-	 *
-	 * @param type $entry
-	 * @param type $user
-	 * @return boolean
-	 */
-	public function isNewEntry($entry, $user) {
-		$isNewEntry = FALSE;
-		if ( strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']) ):
-			$isNewEntry = TRUE;
-		endif;
-		return $isNewEntry;
-	}
-
-	public function hasNewEntries($entry, $user) {
-		if ( $entry['Entry']['pid'] != 0 ):
-			throw new InvalidArgumentException("Entry is no thread-root, pid != 0");
-		endif;
-
-		return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
-	}
-
 		public function _findEntry($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$query['contain'] = array('User', 'Category');
