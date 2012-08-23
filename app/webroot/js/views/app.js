@@ -4,40 +4,8 @@ define([
 	'backbone',
 	'backboneLocalStorage',
 	'collections/threadlines',
-	], function($, _, Backbone, Store, ThreadLineCollection) {
-		// if everything is migrated to require/bb set var again
-		ThreadLineView = Backbone.View.extend({
-
-			className: 'thread_line',
-
-			events: {
-				'click .btn_show_thread': 'toggleInlineOpen',
-				'click .link_show_thread': 'toggleInlineOpenFromLink'
-			},
-
-			toggleInlineOpenFromLink: function(event) {
-				if (this.model.get('isAlwaysShownInline')) {
-					this.toggleInlineOpen(event);
-				}
-			},
-
-			toggleInlineOpen: function(event) {
-				event.preventDefault();
-				if (!this.model.get('isInlineOpened')) {
-					if (!this.model.get('isContentLoaded')) {
-						this.model.loadContent();
-					}
-					this.model.set({
-						isInlineOpened: true
-					});
-				} else {
-					this.model.set({
-						isInlineOpened: false
-					});
-				}
-			}
-		});
-
+	'views/threadlines'
+	], function($, _, Backbone, Store, ThreadLineCollection, ThreadLineView) {
 		var ThreadModel = Backbone.Model.extend({
 
 			defaults: {
