@@ -2,29 +2,10 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'backboneLocalStorage',
 	'collections/threadlines',
-	'views/threadlines'
-	], function($, _, Backbone, Store, ThreadLineCollection, ThreadLineView) {
-		var ThreadModel = Backbone.Model.extend({
-
-			defaults: {
-				isThreadCollapsed: false
-			},
-
-			toggleCollapseThread: function() {
-				this.set({
-					isThreadCollapsed: !this.get('isThreadCollapsed')
-				});
-			}
-
-		});
-
-		var ThreadCollection = Backbone.Collection.extend({
-			model: ThreadModel,
-			localStorage: new Store('Threads')
-		})
-
+	'views/threadlines',
+	'collections/threads',
+	], function($, _, Backbone, ThreadLineCollection, ThreadLineView, ThreadCollection) {
 		var ThreadView = Backbone.View.extend({
 
 			className: 'thread_box',
@@ -78,9 +59,9 @@ define([
 		$('.thread_box').each(function(element) {
 			var threadId = parseInt($(this).attr('data-id'));
 			if (!threads.get(threadId)) {
-				threads.add(new ThreadModel({
+				threads.add([{
 					id: threadId
-				}));
+				}]);
 			}
 			new ThreadView({
 				el: $(this),
