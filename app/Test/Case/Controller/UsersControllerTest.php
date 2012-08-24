@@ -538,8 +538,8 @@
     }
 
 		public function testContactForbidden() {
-			/* not logged in but contacting admin is always allowed */
-			$this->testAction('/users/contact/1');
+			/* not logged in but contacting forum is always allowed */
+			$this->testAction('/users/contact/0');
 			$this->assertFalse(isset($this->headers['Location']));
 
 			/* not logged in should'nt be allowed */

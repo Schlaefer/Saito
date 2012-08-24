@@ -4,7 +4,7 @@
       <h3><?php echo __('Ressources'); ?></h3>
       <ul>
         <li>
-          <a href="<?PHP echo $this->request->webroot ?>users/contact/1"><?php echo __('Contact') ?></a>
+          <a href="<?PHP echo $this->request->webroot ?>users/contact/0"><?php echo __('Contact') ?></a>
         </li>
         <li>
           <a href="<?php echo $this->request->webroot ?>pages/rss_feeds"><?php echo __('RSS') ?></a>
