@@ -13,32 +13,6 @@ function ThreadLine(id) {
 };
 
 /**
- * if the line is not in the browser windows at the moment
- * scroll to that line and highlight it
- */
-ThreadLine.prototype.scrollLineIntoView = function () {
-  var p = this;
-  if (!_isScrolledIntoView(this.id_thread_line)) {
-    $(window).scrollTo(
-      this.id_thread_line,
-      400,
-      {
-        'offset': -40,
-        easing: 'swing',
-        onAfter: function() {
-          $(p.id_thread_line).effect(
-            "highlight",
-            {
-              times: 1
-            },
-            3000);
-        } //end onAfter
-      }
-      );
-  }
-};
-
-/**
  * shows and hides the element that contains an inline posting
  */
 ThreadLine.prototype.toggle_inline_view = function (scroll) {

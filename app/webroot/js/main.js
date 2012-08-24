@@ -14,13 +14,14 @@ require.config({
 	},
 	paths: {
 		jquery: 'lib/jquery/jquery-require',
+		jqueryhelpers: 'lib/jqueryhelpers',
 		underscore: 'lib/underscore/underscore',
 		backbone: 'lib/backbone/backbone',
 		backboneLocalStorage: 'lib/backbone/backbone.localStorage'
 	}
 });
 
-require(['views/app'], function(AppView){
+require(['views/app', 'jqueryhelpers'], function(AppView){
 	var App = new AppView;
 });
 

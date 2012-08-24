@@ -61,15 +61,15 @@ define([
 
 						$($('.thread_inline.' + id)).show(0,
 							function() {
-								// @td
-//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
-//									if(_isHeigherThanView(this)) {
-//										scrollToTop(this);
-//									}
-//									else {
-//										scrollToBottom(p.id_bottom);
-//									}
-//								}
+							// @td
+							//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
+							//									if(_isHeigherThanView(this)) {
+							//										scrollToTop(this);
+							//									}
+							//									else {
+							//										scrollToBottom(p.id_bottom);
+							//									}
+							//								}
 							}
 							);
 					}
@@ -79,19 +79,45 @@ define([
 			_closeInlineView: function() {
 				var scroll = this.scroll;
 				var id = this.model.id;
+				var p = this;
 				$('.thread_inline.' + id).slideUp(
 					'fast',
 					function() {
 						$('.thread_line.' + id).slideDown();
 						if (scroll) {
-						// @td
-						//					p.scrollLineIntoView();
+							p._scrollLineIntoView();
 						}
 					}
 					);
-			}
+			},
 
+			/**
+			 * if the line is not in the browser windows at the moment
+			 * scroll to that line and highlight it
+			 */
+			_scrollLineIntoView: function () {
+				var thread_line = $('.thread_line.' + this.model.id);
+				if (!thread_line.isScrolledIntoView()) {
+					$(window).scrollTo(
+						thread_line,
+						400,
+						{
+							'offset': -40,
+							easing: 'swing',
+							onAfter: function() {
+								thread_line.effect(
+									"highlight",
+									{
+										times: 1
+									},
+									3000);
+							} //end onAfter
+						}
+						);
+				}
+			}
 		});
+
 
 		return ThreadLineView;
 
