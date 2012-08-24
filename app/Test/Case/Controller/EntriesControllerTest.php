@@ -160,7 +160,7 @@
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
-			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'All');
+			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'All Categories');
 		}
 
 		/**
