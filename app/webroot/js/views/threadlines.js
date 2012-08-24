@@ -15,6 +15,8 @@ define([
 
 			initialize: function(){
 				this.model.on('change:isInlineOpened', this._toggleInlineOpened, this);
+
+				if (typeof this.scroll == 'undefined' ) this.scroll = true;
 			},
 
 			toggleInlineOpenFromLink: function(event) {
@@ -41,20 +43,48 @@ define([
 
 			_toggleInlineOpened: function(model, isInlineOpened) {
 				if(isInlineOpened) {
-//					this.slideUp();
+					this._showInlineView();
 				} else {
 					this._closeInlineView();
 				}
 			},
 
+			_showInlineView: function () {
+				var scroll = this.scroll;
+				var id = this.model.id;
+
+				$('.thread_line.' + id).fadeOut(
+					100,
+					function() {
+						// performance: show instead slide
+						// $(p.id_thread_inline).slideDown(null,
+
+						$($('.thread_inline.' + id)).show(0,
+							function() {
+								// @td
+//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
+//									if(_isHeigherThanView(this)) {
+//										scrollToTop(this);
+//									}
+//									else {
+//										scrollToBottom(p.id_bottom);
+//									}
+//								}
+							}
+							);
+					}
+					);
+			},
+
 			_closeInlineView: function() {
-				var scroll = false;
-				var id = this.model.get('id');
+				var scroll = this.scroll;
+				var id = this.model.id;
 				$('.thread_inline.' + id).slideUp(
 					'fast',
 					function() {
 						$('.thread_line.' + id).slideDown();
 						if (scroll) {
+						// @td
 						//					p.scrollLineIntoView();
 						}
 					}

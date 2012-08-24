@@ -4,6 +4,7 @@
   baseUrl: "./",
   name: 'main',
   out: './main-prod.js',
+  // dir: "../js-build",
   // optimize: 'none',
   paths: {
     'jquery': 'lib/jquery/jquery-require',
