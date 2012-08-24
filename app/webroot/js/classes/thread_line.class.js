@@ -47,10 +47,11 @@ ThreadLine.prototype.toggle_inline_view = function (scroll) {
   var p  = this;
   if ($(p.id_thread_inline).css('display') != 'none') {
     // hide inline posting
-    p.closeInlineView(scroll);
+		threadLines.get(id).set({isInlineOpened: false});
   }
   else {
     // show inline posting
+		threadLines.get(id).set({isInlineOpened: true});
     p.showInlineView(false);
   }
 };
@@ -77,21 +78,6 @@ ThreadLine.prototype.showInlineView = function (scroll) {
           }
         }
         );
-    }
-    );
-};
-
-ThreadLine.prototype.closeInlineView = function(scroll) {
-  var id = this.id;
-  var p  = this;
-  if (typeof scroll == 'undefined' ) scroll = true;
-  $(this.id_thread_inline).slideUp(
-    'fast',
-    function() {
-      $(p.id_thread_line).slideDown();
-      if (scroll) {
-        p.scrollLineIntoView();
-      }
     }
     );
 };

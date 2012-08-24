@@ -3,7 +3,7 @@ define([
 	'underscore',
 	'backbone',
 	], function($, _, Backbone) {
-		// if everything is migrated to require/bb set var again
+		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
 
 			className: 'thread_line',
@@ -11,6 +11,10 @@ define([
 			events: {
 				'click .btn_show_thread': 'toggleInlineOpen',
 				'click .link_show_thread': 'toggleInlineOpenFromLink'
+			},
+
+			initialize: function(){
+				this.model.on('change:isInlineOpened', this._toggleInlineOpened, this);
 			},
 
 			toggleInlineOpenFromLink: function(event) {
@@ -33,7 +37,30 @@ define([
 						isInlineOpened: false
 					});
 				}
+			},
+
+			_toggleInlineOpened: function(model, isInlineOpened) {
+				if(isInlineOpened) {
+//					this.slideUp();
+				} else {
+					this._closeInlineView();
+				}
+			},
+
+			_closeInlineView: function() {
+				var scroll = false;
+				var id = this.model.get('id');
+				$('.thread_inline.' + id).slideUp(
+					'fast',
+					function() {
+						$('.thread_line.' + id).slideDown();
+						if (scroll) {
+						//					p.scrollLineIntoView();
+						}
+					}
+					);
 			}
+
 		});
 
 		return ThreadLineView;
