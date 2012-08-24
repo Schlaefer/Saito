@@ -6,8 +6,6 @@
 function ThreadLine(id) {
   this.id = id;
 
-  this.id_btn_show_thread = '#btn_show_thread_' + id;
-  this.id_btn_hide_thread = '#btn_hide_thread_' + id;
   this.id_thread_line			= '.thread_line.' + id;
   this.id_thread_inline		= '.thread_inline.' 	+ id;
   this.id_thread_slider		=	'#t_s_' + id;
