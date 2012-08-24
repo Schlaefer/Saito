@@ -830,7 +830,7 @@ class EntriesController extends AppController {
 					$User->getMaxAccession());
 			$this->set('categoryChooser', $categoryChooser);
 
-			$catCT			 = __('All');
+			$catCT			 = __('All Categories');
 			$catC_isUsed = false;
 
 			// category chooser
