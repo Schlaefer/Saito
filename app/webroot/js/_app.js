@@ -289,12 +289,6 @@ function initViewPosting(id) {
 	if(id != undefined) {
 		id_class = '.' + id;
 	}
-	/*** start close button long ***/
-	$('.btn-strip-top').unbind('click').bind("click", function (event) {
-		new ThreadLine($(this).data('id')).toggle_inline_view();
-		event.preventDefault();
-	});
-	/*** end close button long ***/
 
 	/*** start mod and admin panel ***/
 	$('.button_mod_panel .left').addClass('pointer');

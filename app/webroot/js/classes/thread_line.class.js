@@ -13,23 +13,6 @@ function ThreadLine(id) {
 };
 
 /**
- * shows and hides the element that contains an inline posting
- */
-ThreadLine.prototype.toggle_inline_view = function (scroll) {
-  if (typeof scroll == 'undefined' ) scroll = true;
-  var id = this.id;
-  var p  = this;
-  if ($(p.id_thread_inline).css('display') != 'none') {
-    // hide inline posting
-		threadLines.get(id).set({isInlineOpened: false});
-  }
-  else {
-    // show inline posting
-		threadLines.get(id).set({isInlineOpened: true});
-  }
-};
-
-/**
  * loads a posting inline via ajax and shows it
  */
 ThreadLine.prototype.load_inline_view = function (scroll) {
@@ -38,18 +21,17 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
   var p = this;
 
   if ($(p.id_thread_inline).length === 0) {
-    var spinner = '<div class="thread_inline '+id+'"> <div data-id="'+id+'" class="btn-strip btn-strip-top pointer">&nbsp;</div><div id="t_s_'+id+'" class="t_s"><div class="spinner"></div></div> </div>';
+    var spinner = '<div class="js-thread_inline thread_inline '+id+'"> <div data-id="'+id+'" class="btn-strip btn-strip-top pointer">&nbsp;</div><div id="t_s_'+id+'" class="t_s"><div class="spinner"></div></div> </div>';
     $(p.id_thread_line).after(spinner);
     jQuery.ajax(
     {
       beforeSend:function(request) {
         request.setRequestHeader('X-Update', 't_s_' + id );
-        p.toggle_inline_view(scroll);
+				threadLines.get(id).set({isInlineOpened: true});
       },
       complete:function(request, textStatus) {
         // show inline posting
         // @td the scroll from p.showInlineView(scroll);
-				threadLines.get(id).set({isInlineOpened: true});
       },
       success:function(data, textStatus) {
         jQuery( p.id_thread_slider ).html(data);
@@ -70,7 +52,7 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
     );
   }
   else {
-    p.toggle_inline_view(scroll);
+		threadLines.get(id).set({isInlineOpened: true});
   }
 };
 
@@ -78,7 +60,7 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
  * Adds an new thread as answer after the current and fills it with `data`
  */
 ThreadLine.prototype.insertNewLineAfter = function (data) {
-  this.toggle_inline_view();
+	threadLines.get(this.id).set({isInlineOpened: false});
   $('<li>'+data+'</li>').insertAfter('#ul_thread_' + this.id + ' > li:last-child');
 
 	// add to backbone model

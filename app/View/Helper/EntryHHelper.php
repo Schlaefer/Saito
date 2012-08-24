@@ -194,8 +194,8 @@
 			$out = '';
 
 			$out .= <<<EOF
-<li class="{$span_post_type}">
-	<div class="thread_line {$entry_sub['Entry']['id']} {$new_post_class}" data-id="{$entry_sub['Entry']['id']}" style='position: relative;'>
+<li class="js-thread_line {$span_post_type}" data-id="{$entry_sub['Entry']['id']}">
+	<div class="js-thread_line-content thread_line {$entry_sub['Entry']['id']} {$new_post_class}" data-id="{$entry_sub['Entry']['id']}" style='position: relative;'>
 		<div class="thread_line-pre">
 			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
 				<i class="icon-{$span_post_type}"></i>

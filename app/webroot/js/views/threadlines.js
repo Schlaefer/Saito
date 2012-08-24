@@ -6,11 +6,12 @@ define([
 		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
 
-			className: 'thread_line',
+			className: 'js-thread_line',
 
 			events: {
 				'click .btn_show_thread': 'toggleInlineOpen',
-				'click .link_show_thread': 'toggleInlineOpenFromLink'
+				'click .link_show_thread': 'toggleInlineOpenFromLink',
+				'click .btn-strip-top': 'toggleInlineOpen'
 			},
 
 			initialize: function(){
@@ -25,6 +26,9 @@ define([
 				}
 			},
 
+			/**
+			 * shows and hides the element that contains an inline posting
+			 */
 			toggleInlineOpen: function(event) {
 				event.preventDefault();
 				if (!this.model.get('isInlineOpened')) {
@@ -53,13 +57,13 @@ define([
 				var scroll = this.scroll;
 				var id = this.model.id;
 
-				$('.thread_line.' + id).fadeOut(
+				$('.js-thread_line-content.' + id).fadeOut(
 					100,
 					function() {
 						// performance: show instead slide
 						// $(p.id_thread_inline).slideDown(null,
 
-						$($('.thread_inline.' + id)).show(0,
+						$($('.js-thread_inline.' + id)).show(0,
 							function() {
 							// @td
 							//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
@@ -80,10 +84,10 @@ define([
 				var scroll = this.scroll;
 				var id = this.model.id;
 				var p = this;
-				$('.thread_inline.' + id).slideUp(
+				$('.js-thread_inline.' + id).slideUp(
 					'fast',
 					function() {
-						$('.thread_line.' + id).slideDown();
+						$('.js-thread_line-content.' + id).slideDown();
 						if (scroll) {
 							p._scrollLineIntoView();
 						}
@@ -96,7 +100,7 @@ define([
 			 * scroll to that line and highlight it
 			 */
 			_scrollLineIntoView: function () {
-				var thread_line = $('.thread_line.' + this.model.id);
+				var thread_line = $('.js-thread_line-content.' + this.model.id);
 				if (!thread_line.isScrolledIntoView()) {
 					$(window).scrollTo(
 						thread_line,
