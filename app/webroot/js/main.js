@@ -17,11 +17,12 @@ require.config({
 		underscore: 'lib/underscore/underscore',
 		backbone: 'lib/backbone/backbone',
 		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
+		bootstrap: 'bootstrap/bootstrap',
 		domReady: 'lib/domReady'
 	}
 });
 
-require(['domReady', 'views/app'], function(domReady, AppView){
+require(['domReady', 'views/app', 'bootstrap'], function(domReady, AppView){
 	domReady(function () {
 		var App = new AppView;
 	});
