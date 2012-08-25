@@ -15,6 +15,29 @@
 				'TimeH',
 		);
 
+		/**
+		 * Decides if an $entry is new to/unseen by a $user
+		 *
+		 * @param type $entry
+		 * @param type $user
+		 * @return boolean
+		 */
+		public function isNewEntry($entry, $user) {
+			$isNewEntry = FALSE;
+			if (strtotime($user['last_refresh']) < strtotime($entry['Entry']['time'])):
+				$isNewEntry = TRUE;
+			endif;
+			return $isNewEntry;
+		}
+
+		public function hasNewEntries($entry, $user) {
+			if ($entry['Entry']['pid'] != 0):
+				throw new InvalidArgumentException("Entry is no thread-root, pid != 0");
+			endif;
+
+			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
+		}
+
 		public function generateThreadParams($params) {
 
 			extract($params);
@@ -172,7 +195,7 @@
 
 			$out .= <<<EOF
 <li class="{$span_post_type}">
-	<div class="thread_line {$entry_sub['Entry']['id']} {$new_post_class}" style='position: relative;'>
+	<div class="thread_line {$entry_sub['Entry']['id']} {$new_post_class}" data-id="{$entry_sub['Entry']['id']}" style='position: relative;'>
 		<div class="thread_line-pre">
 			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
 				<i class="icon-{$span_post_type}"></i>

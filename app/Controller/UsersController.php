@@ -373,7 +373,7 @@ class UsersController extends AppController {
 
 
 		if ( !$this->CurrentUser->getId() ) :
-      if ( $id != 1 ) :
+      if ((int)$id !== 0) :
         //* anonymous users only contact admin
         $this->redirect('/');
       else :
@@ -386,10 +386,23 @@ class UsersController extends AppController {
       $sender = $this->CurrentUser->getId();
 		endif;
 
-		$this->User->id = $id;
-		$this->User->contain();
-		$recipient =  $this->User->read();
-		if (!$recipient || (!$recipient['User']['personal_messages'] && $id !=1)) :
+		// set recipient
+		if ((int)$id === 0) {
+			// recipient is forum owner
+			$recipient = array(
+					'User' => array(
+							'username' => Configure::read('Saito.Settings.forum_name'),
+							'user_email' => Configure::read('Saito.Settings.forum_email'),
+					)
+			);
+		} else {
+			// recipient is forum user
+			$this->User->id = $id;
+			$this->User->contain();
+			$recipient =  $this->User->read();
+		}
+
+		if (!$recipient || ((int)$id !== 0) && !$recipient['User']['personal_messages']) :
 			$this->redirect('/');
 		endif;
 

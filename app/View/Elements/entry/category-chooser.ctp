@@ -33,7 +33,7 @@
 					echo $this->Html->link(__('All'), '/entries/setcategory/all')
 					 */
 				?>
-				<a href="<?php echo $this->webroot; ?>entries/setcategory/all"><?php echo __('All'); ?></a>
+				<a href="<?php echo $this->webroot; ?>entries/setcategory/all"><?php echo __('All Categories'); ?></a>
 
 			</li>
 			<?php foreach ($categoryChooser as $key => $title): ?>

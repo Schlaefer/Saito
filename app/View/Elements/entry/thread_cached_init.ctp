@@ -50,14 +50,17 @@
 				</li>
 			<?php endif; ?>
 			<?php
-					if ( $this->request->params['action'] != 'view') :
-					### Anzeige der Inline View start ##
-						if ( !$use_cached_entry && $CurrentUser->isLoggedIn() ) :
+					if ($this->request->params['action'] != 'view') :
+						if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
 							// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
 							// keinen Show All New Inline View Eintrag
 						?>
 						<li>
-							<a href="#" id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;" title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>">
+							<a href="#"
+								 id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>"
+								 title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>"
+								 onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;"
+								 >
                 <span class="ico-threadTool ico-threadOpenNew"></span>
 							</a>
 						</li>

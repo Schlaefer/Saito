@@ -1,7 +1,7 @@
 //	HYPE.documents["forum_disabled"]
 
 (function HYPE_DocumentLoader() {
-	var resourcesFolderName = "js/forum_disabled_Resources";
+	var resourcesFolderName = webroot + "theme/macnemo/js/forum_disabled_Resources";
 	var documentName = "forum_disabled";
 
 	// load HYPE.js if it hasn't been loaded yet

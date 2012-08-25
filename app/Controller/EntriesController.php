@@ -39,9 +39,11 @@ class EntriesController extends AppController {
 				// get current user's recent entries for slidetab
 				$this->set('recentPosts',
 						$this->Entry->getRecentEntries(
-								array('user_id' => $this->CurrentUser->getId()),
-								$this->CurrentUser)
-						);
+								array(
+										'user_id' => $this->CurrentUser->getId(),
+										'limit' => 5,
+								), $this->CurrentUser)
+				);
 
 				// get last 10 recent entries for slidetab
 				$this->set('recentEntries',
@@ -828,7 +830,7 @@ class EntriesController extends AppController {
 					$User->getMaxAccession());
 			$this->set('categoryChooser', $categoryChooser);
 
-			$catCT			 = __('All');
+			$catCT			 = __('All Categories');
 			$catC_isUsed = false;
 
 			// category chooser

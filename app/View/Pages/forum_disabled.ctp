@@ -1,41 +1,114 @@
-<style type="text/css"> body > div { min-height: inherit; height: 100%;  } body {position:relative;}
-	#top {
-		height: 700px;
-		width: 300px;
-		background: none;
-		background-image: url('<?php echo $this->request->webroot; ?>/theme/macnemo/img/bubbles_right.png');
-		background-position: bottom left;
-		background-repeat: no-repeat;
-		position: fixed;
-		z-index: 10;
-		left: 50px;
-		top: 0px;
+<style type="text/css">
+	@import url(http://fonts.googleapis.com/css?family=Give+You+Glory);
+	body > div {
+		min-height: inherit; height: 100%;
 	}
-	#top2 {
-		height: 100%;
-		width: 100%;
-		background-image: url('<?php echo $this->request->webroot; ?>/theme/macnemo/img/bubbles_outer_large.png');
-		position: fixed;
-		z-index: 5;
+	body {position:relative;}
+	.outer {
+		width: 320px;
+		margin: 0 auto;
+		text-align: center;
+		display:table;
+		height: 80%;
+		min-height: 500px;
 	}
-</style>
-<div id="top"></div>
-<div id="top2"></div>
-<div style="height: 100%; width:100%" class="header_style_dark">
-	<div style="text-align:center; padding-top:50px; z-index: 15; position: relative; margin: 0 auto; width: 600px;">
-		<p>
-			<?php // echo $this->Html->image('forum_disabled.png'); ?>
-		<div id="forumdisabled_hype_container" style="position:relative;overflow:hidden;width:600px;height:900px;">
-			<script type="text/javascript" src="js/forum_disabled_Resources/forumdisabled_hype_generated_script.js?64698"></script>
-		</div>
-		</p>
-		<div style="margin-top: -450px;">
-			<p>
+	.inner{
+		display: table-cell;
+		vertical-align: middle;
+	}
+	h1.header {
+		margin-bottom: 60px;
+		font-size: 60px;
+	}
+	.rotate {
+		-moz-transform:matrix(0.99,-0.11,0.11,0.99,0,0);
+		-moz-transform-origin:center;
+		-webkit-transform:matrix(0.99,-0.11,0.11,0.99,0,0);
+		-webkit-transform-origin:center;
+		-o-transform:matrix(0.99,-0.11,0.11,0.99,0,0);
+		-o-transform-origin:center;
+		-ms-transform:matrix(0.99,-0.11,0.11,0.99,0,0);
+		-ms-transform-origin:center;
+		transform:matrix(0.99,-0.11,0.11,0.99,0,0);
+		transform-origin:center;
+	}
+	.sticky {
+		position: relative;
+    margin: 0 auto;
+    padding: 8px 24px;
+		display: table-cell;
+		vertical-align: middle;
+    width: 240px;
+		height: 220px;
+		font-family: 'Give You Glory', cursive;
+    font-size: 30px;
 
-				<?php echo Configure::read('Saito.Settings.forum_disabled_text'); ?>
-			</p>
+		padding: 40px;
+
+		background-image:-moz-linear-gradient(64% 1% -96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
+		background-image:-webkit-gradient(linear,64% 1%,53% 108%,color-stop(0, rgb(254,253,201)),color-stop(1, rgb(247,243,128)));
+		background-image:-webkit-linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
+		background-image:-o-linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
+		background-image:-ms-linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
+		background-image:linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
+		-moz-box-shadow:0px 2px 4px 0px rgba(88,88,43,0.63);
+		-webkit-box-shadow:0px 2px 4px 0px rgba(88,88,43,0.63);
+		box-shadow:0px 2px 4px 0px rgba(88,88,43,0.63);
+		-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX = 0,OffY = 2,Color = #a158582b,Positive = true)";
+		filter:progid:DXImageTransform.Microsoft.dropshadow(OffX = 0,OffY = 2,Color = #a158582b,Positive = true);
+	}
+
+	.sticky:before, .sticky:after
+	{
+		position: absolute;
+		width: 40%;
+		height: 10px;
+		content: ' ';
+		left: 4px;
+		bottom: 4px;
+		background: transparent;
+		-webkit-transform: skew(-5deg) rotate(-5deg);
+		-moz-transform: skew(-5deg) rotate(-5deg);
+		-ms-transform: skew(-5deg) rotate(-5deg);
+		-o-transform: skew(-5deg) rotate(-5deg);
+		transform: skew(-5deg) rotate(-5deg);
+		-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+		-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+		z-index: -1;
+	}
+	.sticky:after
+	{
+		left: auto;
+		right: 4px;
+		-webkit-transform: skew(5deg) rotate(5deg);
+		-moz-transform: skew(5deg) rotate(5deg);
+		-ms-transform: skew(5deg) rotate(5deg);
+		-o-transform: skew(5deg) rotate(5deg);
+		transform: skew(5deg) rotate(5deg);
+	}
+
+	.sticky p {
+		margin: 0;
+		padding: 0;
+	}
+
+</style>
+<div class="outer">
+	<div class="inner">
+		<h1 class="header">
+			<?php echo Configure::read('Saito.Settings.forum_name'); ?>
+		</h1>
+		<div class="rotate">
+			<div class="sticky">
+				<p>
+					<?php echo Configure::read('Saito.Settings.forum_disabled_text'); ?>
+				</p>
+			</div>
+		</div>
+		<div style="margin-top: 50px;">
 			<p >
-				<a href="http://macnemo.de/wiki/">Wiki</a> | <a href="aim:gochat?roomname=macnemo">Plauderecke</a> | <a href="http://macnemo.de/wiki/index.php/Main/Impressum">Impressum</a>
+				<!-- Footer -->
 			</p>
 		</div>
 	</div>

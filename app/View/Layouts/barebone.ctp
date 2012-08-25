@@ -12,7 +12,7 @@
 				}
       //]]>
 	 		</script>
-			<?php echo $this->Html->css('stylesheets/basic.css'); ?>
+			<?php echo $this->Html->css('stylesheets/static.css'); ?>
 			<?php echo $this->Html->css('stylesheets/styles.css'); ?>
 			<?php if(Configure::read('debug') > 0) echo $this->Html->css('stylesheets/cake.css'); ?>
 			<?php
@@ -25,6 +25,7 @@
 					echo $this->UserH->generateCss($CurrentUser->getSettings());
 				endif;
 				?>
+			<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}';"); ?>
 			<?php echo $this->Html->script('lib/jquery/jquery-1.8.0.min'); ?>
 	</head>
 	<body>
@@ -34,7 +35,6 @@
 		<?php echo $this->element('sql_dump'); ?>
 	</div>
 
-	<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}';"); ?>
 	<?php
 		echo $this->Html->scriptBlock("var user_show_inline = '{$this->Session->read('Auth.User.inline_view_on_click')}';");
 	?>

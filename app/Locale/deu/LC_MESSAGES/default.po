@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-09 12:46+0100\n"
-"PO-Revision-Date: 2012-08-16 13:38+0100\n"
+"POT-Creation-Date: 2012-08-24 07:24+0100\n"
+"PO-Revision-Date: 2012-08-24 07:25+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -82,8 +82,8 @@ msgstr ""
 msgid "Install"
 msgstr "Installieren"
 
-#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:304
-#: Controller/EntriesController.php:354
+#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:312
+#: Controller/EntriesController.php:362
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
@@ -95,7 +95,7 @@ msgstr "Lesezeichen bearbeiten"
 msgid "Enter your comment here"
 msgstr "Hier Kommentar eingeben"
 
-#: View/Bookmarks/edit.ctp:37 View/Bookmarks/index.ctp:72
+#: View/Bookmarks/edit.ctp:37 View/Bookmarks/index.ctp:70
 msgid "btn-comment-title"
 msgstr "Kommentieren"
 
@@ -124,7 +124,7 @@ msgstr "Kommentar"
 msgid "Delete"
 msgstr "Löschen"
 
-#: View/Bookmarks/index.ctp:88
+#: View/Bookmarks/index.ctp:86
 msgid "No bookmarks created yet."
 msgstr "Noch keine Lesezeichen angelegt."
 
@@ -384,12 +384,12 @@ msgstr ""
 "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine "
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
-#: View/Elements/entry/category-chooser.ctp:24
-#: Controller/EntriesController.php:872
-msgid "All"
-msgstr "Alles"
+#: View/Elements/entry/category-chooser.ctp:36
+#: Controller/EntriesController.php:833
+msgid "All Categories"
+msgstr "Alle Kategorien"
 
-#: View/Elements/entry/category-chooser.ctp:52
+#: View/Elements/entry/category-chooser.ctp:81
 msgid "Apply"
 msgstr "Anwenden"
 
@@ -413,14 +413,6 @@ msgstr "Alle offenen Beiträge des Theras zuklappen."
 msgid "btn-openThreads"
 msgstr "Alle geschlossenen Beiträge des Theras aufklappen."
 
-#: View/Elements/entry/thread_line_cached.ctp:45
-msgid "fixed"
-msgstr "Thread fixiert"
-
-#: View/Elements/entry/thread_line_cached.ctp:48 View/Entries/add.ctp:197
-msgid "entry_nsfw_title"
-msgstr "Nicht bürosicher (NBS)"
-
 #: View/Elements/entry/view_content.ctp:58
 #, php-format
 msgid "%s edited by %s"
@@ -431,7 +423,7 @@ msgstr "%s bearbeitet durch %s"
 msgid "views_headline"
 msgstr "Aufrufe"
 
-#: View/Elements/entry/view_posting.ctp:58
+#: View/Elements/entry/view_posting.ctp:59
 #: View/Elements/layout/header_login.ctp:38
 #: View/Elements/layout/header_login.ctp:44
 #: View/Elements/layout/header_login.ctp:45 View/Entries/index.ctp:18
@@ -439,45 +431,41 @@ msgstr "Aufrufe"
 msgid "Help"
 msgstr "Hilfe"
 
-#: View/Elements/entry/view_posting.ctp:59
+#: View/Elements/entry/view_posting.ctp:60
 msgid "answering_forbidden_locked_shp"
 msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:66
+#: View/Elements/entry/view_posting.ctp:67
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
 #: View/Elements/entry/view_posting.ctp:89
 #: View/Elements/entry/view_posting.ctp:117
-#: Controller/EntriesController.php:457
+#: Controller/EntriesController.php:469
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:133
-msgid "fixed_set_entry_link"
-msgstr "Anpinnen"
+#: View/Elements/entry/view_posting.ctp:139
+#: Controller/EntriesController.php:715
+#, fuzzy
+msgid "_set_entry_link"
+msgstr "Neuer Eintrag"
 
-#: View/Elements/entry/view_posting.ctp:134
-msgid "fixed_unset_entry_link"
-msgstr "Abpinnen"
+#: View/Elements/entry/view_posting.ctp:139
+#: Controller/EntriesController.php:715
+#, fuzzy
+msgid "_unset_entry_link"
+msgstr "Neuer Eintrag"
 
-#: View/Elements/entry/view_posting.ctp:154
-msgid "locked_set_entry_link"
-msgstr "Sperren"
-
-#: View/Elements/entry/view_posting.ctp:155
-msgid "locked_unset_entry_link"
-msgstr "Entsperren"
-
-#: View/Elements/entry/view_posting.ctp:175
+#: View/Elements/entry/view_posting.ctp:162
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:189
+#: View/Elements/entry/view_posting.ctp:176
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:196
+#: View/Elements/entry/view_posting.ctp:183
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
@@ -533,7 +521,7 @@ msgstr "Registrieren"
 
 #: View/Elements/layout/header_login.ctp:7
 #: View/Elements/layout/header_login.ctp:9
-#: View/Elements/users/login_form.ctp:7
+#: View/Elements/users/login_form.ctp:35
 msgid "login_btn"
 msgstr "Einloggen"
 
@@ -559,34 +547,34 @@ msgstr "Keine Hilfe für diese Seite verfügbar."
 msgid "search_submit"
 msgstr "Suchen"
 
-#: View/Elements/layout/slidetab_recententries.ctp:15
+#: View/Elements/layout/slidetab_recententries.ctp:11
 #, fuzzy
 msgid "Recent entries"
 msgstr "Letzte Einträge"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:17 View/Users/view.ctp:219
+#: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:219
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
-#: View/Elements/layout/slidetab_userlist.ctp:15
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:15
+#: View/Elements/layout/slidetab_userlist.ctp:12
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:12
 msgid "user_area_linkname"
 msgstr "Benutzer"
 
-#: View/Elements/layout/slidetab_userlist.ctp:13
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:13
+#: View/Elements/layout/slidetab_userlist.ctp:10
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:10
 #, php-format
 msgid "%s online (%s)"
 msgstr "%s anwesend (%s)"
 
-#: View/Elements/layout/slidetab_userlist.ctp:29
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:29
+#: View/Elements/layout/slidetab_userlist.ctp:26
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:26
 #: View/Helper/UserHHelper.php:113
 msgid "ud_admin"
 msgstr "Administrator"
 
-#: View/Elements/layout/slidetab_userlist.ctp:30
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:30
+#: View/Elements/layout/slidetab_userlist.ctp:27
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:27
 #: View/Helper/UserHHelper.php:111
 msgid "ud_mod"
 msgstr "Moderator"
@@ -626,7 +614,7 @@ msgid "error_password_confirm"
 msgstr "Password stimmt nicht mit Wiederholung überein."
 
 #: View/Elements/users/add_form_core.ctp:23
-#: View/Elements/users/login_form.ctp:5 View/Users/edit.ctp:48
+#: View/Elements/users/login_form.ctp:18 View/Users/edit.ctp:48
 #: View/Users/edit.ctp:60 View/Users/edit.ctp:76
 msgid "user_pw"
 msgstr "Passwort"
@@ -635,11 +623,11 @@ msgstr "Passwort"
 msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
-#: View/Elements/users/login_form.ctp:4 View/Entries/search.ctp:62
+#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:62
 msgid "user_name"
 msgstr "Benutzername"
 
-#: View/Elements/users/login_form.ctp:6
+#: View/Elements/users/login_form.ctp:27
 msgid "auto_login_marking"
 msgstr "an diesem Computer automatisch einloggen"
 
@@ -650,7 +638,7 @@ msgstr ""
 "\n"
 "Um Ihren Account frei zu schalten, klicken Sie bitte folgenden Link an: %s"
 
-#: View/Entries/add.ctp:36 View/Entries/add.ctp:282
+#: View/Entries/add.ctp:36 View/Entries/add.ctp:283
 msgid "preview"
 msgstr "Vorschau"
 
@@ -658,7 +646,7 @@ msgstr "Vorschau"
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:124 Controller/UsersController.php:401
+#: View/Entries/add.ctp:124 Controller/UsersController.php:414
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
@@ -673,6 +661,10 @@ msgstr "Beitrag abonnieren"
 #: View/Entries/add.ctp:190
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
+
+#: View/Entries/add.ctp:197 View/Helper/EntryHHelper.php:142
+msgid "entry_nsfw_title"
+msgstr "Nicht bürosicher (NBS)"
 
 #: View/Entries/add.ctp:205
 msgid "entry_flattr_this_posting"
@@ -739,7 +731,7 @@ msgstr "Seit"
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:141
+#: View/Entries/search.ctp:140
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
@@ -780,11 +772,11 @@ msgstr ""
 msgid "RSS Feed"
 msgstr "RSS Feed"
 
-#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:126
+#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:114
 msgid "Last entries"
 msgstr "Letzte Einträge"
 
-#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:122
+#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:110
 msgid "Last started threads"
 msgstr "Letzte Threads"
 
@@ -1694,55 +1686,49 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:109
+#: Controller/EntriesController.php:97
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:249
+#: Controller/EntriesController.php:207 Controller/EntriesController.php:216
+msgid "Invalid post"
+msgstr "Posting konnte nicht gefunden werden."
+
+#: Controller/EntriesController.php:257
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:252
+#: Controller/EntriesController.php:260
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:302 Controller/EntriesController.php:419
+#: Controller/EntriesController.php:310 Controller/EntriesController.php:431
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:347 Controller/EntriesController.php:453
+#: Controller/EntriesController.php:355 Controller/EntriesController.php:465
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:358
+#: Controller/EntriesController.php:366
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:483
+#: Controller/EntriesController.php:417
+msgid "notice_you_are_editing_as_mod"
+msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
+
+#: Controller/EntriesController.php:495
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:668
+#: Controller/EntriesController.php:681
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:702
-#, fuzzy
-msgid "_set_entry_link"
-msgstr "Neuer Eintrag"
-
-#: Controller/EntriesController.php:702
-#, fuzzy
-msgid "_unset_entry_link"
-msgstr "Neuer Eintrag"
-
-#: Controller/EntriesController.php:908
+#: Controller/EntriesController.php:869
 msgid "Custom"
 msgstr "Angepasst"
-
-#: Controller/EntriesController.php:945 Controller/EntriesController.php:956
-msgid "Invalid post"
-msgstr "Posting konnte nicht gefunden werden."
 
 #: Controller/EsnotificationsController.php:23
 #, fuzzy
@@ -1882,16 +1868,16 @@ msgstr ""
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:413
+#: Controller/UsersController.php:426
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:416
+#: Controller/UsersController.php:429
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:232
+#: Controller/Component/CurrentUserComponent.php:231
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
@@ -1904,10 +1890,6 @@ msgstr "Neu Antwort zu \"%s\""
 #: Controller/Component/EmailNotificationComponent.php:114
 msgid "Successfull registration"
 msgstr ""
-
-#: Lib/SaitoEntry.php:79
-msgid "notice_you_are_editing_as_mod"
-msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
 #: Plugin/Embedly/View/Helper/EmbedlyHelper.php:19
 msgid "Embed.ly API-key not set."
@@ -1977,7 +1959,7 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:472
+#: View/Helper/BbcodeHelper.php:471
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
@@ -1987,7 +1969,7 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:490
+#: View/Helper/BbcodeHelper.php:489
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
@@ -1997,25 +1979,29 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:721
+#: View/Helper/BbcodeHelper.php:720
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:822
+#: View/Helper/BbcodeHelper.php:821
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:830
+#: View/Helper/BbcodeHelper.php:829
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:109
+#: View/Helper/EntryHHelper.php:134
+msgid "fixed"
+msgstr "Thread fixiert"
+
+#: View/Helper/EntryHHelper.php:154
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:112
+#: View/Helper/EntryHHelper.php:157
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
@@ -2094,7 +2080,7 @@ msgstr "Hochladen"
 msgid "Media"
 msgstr "Einbinden"
 
-#: View/Helper/TimeHHelper.php:88 View/Helper/TimeHHelper.php:107
+#: View/Helper/TimeHHelper.php:92 View/Helper/TimeHHelper.php:111
 msgid "yesterday"
 msgstr "Gestern"
 
@@ -2105,6 +2091,21 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "All"
+#~ msgstr "Alles"
+
+#~ msgid "fixed_set_entry_link"
+#~ msgstr "Anpinnen"
+
+#~ msgid "fixed_unset_entry_link"
+#~ msgstr "Abpinnen"
+
+#~ msgid "locked_set_entry_link"
+#~ msgstr "Sperren"
+
+#~ msgid "locked_unset_entry_link"
+#~ msgstr "Entsperren"
 
 #~ msgid "Bookmark was not deleted"
 #~ msgstr "Das Lesezeichen wurde nicht gelöscht."
