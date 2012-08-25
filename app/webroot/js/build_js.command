@@ -30,28 +30,3 @@ cat jquery.hoverIntent.minified.js lib/jquery-ui/jquery-ui-1.8.22.custom.min.js 
 rm classes.min.js
 rm custom_javascript.js
 rm custom_javascript-compressed.js
-
-#*******************************************************************************
-# new backbone config
-#******************************************************************************/
-
-# Merging uncompressed files
-version2[0]='_appbb.js'
-
-for i in "${version2[@]}"
-do
-  cat $i >> custom_javascript2.js
-done
-
-### Compress ###
-yuicompressor 'custom_javascript2.js -o custom_javascript-compressed2.js'
-
-### Merge compressed files ###
-cat lib/underscore/underscore-min.js lib/backbone/backbone-min.js lib/backbone/backbone.localStorage-min.js bootstrap/bootstrap.min.js custom_javascript-compressed2.js > js2-min.js
-
-### Clean Up Temp Files ###
-rm custom_javascript2.js
-rm custom_javascript-compressed2.js
-
-#******************************************************************************/
-

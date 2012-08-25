@@ -7,7 +7,7 @@
 					<a href="http://macnemo.de/wiki/">Wiki</a>
 				</li>
 				<li>
-					<a href="<?PHP echo $this->request->webroot ?>users/contact/1"><?php echo __('Contact') ?></a><!-- @lo  -->
+					<a href="<?php echo $this->request->webroot ?>users/contact/0"><?php echo __('Contact') ?></a>
 				</li>
 				<li>
 					<a href="aim:gochat?roomname=macnemo">Plauderecke</a>

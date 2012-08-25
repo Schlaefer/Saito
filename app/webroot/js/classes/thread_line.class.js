@@ -121,6 +121,9 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
       },
       success:function(data, textStatus) {
         jQuery( p.id_thread_slider ).html(data);
+				postings.add([{ id: id }]);
+				new PostingView({ el: $('.js-entry-view-core[data-id=' + id + ']'), model: postings.get(id) });
+
         initViewPosting(id);
 				/*
 				var here = document.URL;
@@ -145,5 +148,16 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
 ThreadLine.prototype.insertNewLineAfter = function (data) {
   this.toggle_inline_view();
   $('<li>'+data+'</li>').insertAfter('#ul_thread_' + this.id + ' > li:last-child');
-  initViewLine();
+
+	// add to backbone model
+	var threadLineId = $(data).find('.thread_line').data('id');
+	threadLines.add([{
+				id: threadLineId,
+				isAlwaysShownInline: User_Settings_user_show_inline
+			}]);
+	new ThreadLineView({
+		el: $('.thread_line.' + threadLineId),
+		model: threadLines.get(threadLineId),
+		isAlwaysShownInline: User_Settings_user_show_inline
+	});
 };
