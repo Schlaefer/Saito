@@ -24,6 +24,8 @@ define([
 				if (!this.model.get('isInlineOpened')) {
 					if (!this.model.get('isContentLoaded')) {
 						this.model.loadContent();
+					} else {
+						new ThreadLine(this.model.id).toggle_inline_view(true);
 					}
 					this.model.set({
 						isInlineOpened: true
@@ -32,6 +34,7 @@ define([
 					this.model.set({
 						isInlineOpened: false
 					});
+					new ThreadLine(this.model.id).toggle_inline_view(true);
 				}
 			}
 		});
