@@ -17,11 +17,13 @@ require.config({
 		jqueryhelpers: 'lib/jqueryhelpers',
 		underscore: 'lib/underscore/underscore',
 		backbone: 'lib/backbone/backbone',
-		backboneLocalStorage: 'lib/backbone/backbone.localStorage'
+		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
+		domReady: 'lib/domReady'
 	}
 });
 
-require(['views/app', 'jqueryhelpers'], function(AppView){
-	var App = new AppView;
+require(['domReady', 'views/app', 'jqueryhelpers'], function(domReady, AppView){
+	domReady(function () {
+		var App = new AppView;
+	});
 });
-
