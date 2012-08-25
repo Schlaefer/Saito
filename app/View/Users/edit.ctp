@@ -40,7 +40,12 @@
 
 					<tr>
 						<td> <?php echo __('user_type'); ?></td>
-						<td> <?php echo $this->Form->radio('user_type', array( 'user' => '@lo User', 'mod' => '@lo Mod' , 'admin' => '@lo Admin'), array( 'legend' => false));  ?> </td>
+						<td> <?php echo $this->Form->radio('user_type', array( 
+								'user' => __('User'),
+								'mod' => __('Moderator') ,
+								'admin' => __('Administrator'),
+								), array( 'legend' => false));  ?>
+						</td>
 					</tr>
 
 					<?php  if ( $CurrentUser->getId() == $this->request->data['User']['id'] ): ?>
