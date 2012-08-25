@@ -20,9 +20,6 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
   var id = this.id;
   var p = this;
 
-  if ($(p.id_thread_inline).length === 0) {
-    var spinner = '<div class="js-thread_inline thread_inline '+id+'"> <div data-id="'+id+'" class="btn-strip btn-strip-top pointer">&nbsp;</div><div id="t_s_'+id+'" class="t_s"><div class="spinner"></div></div> </div>';
-    $(p.id_thread_line).after(spinner);
     jQuery.ajax(
     {
       beforeSend:function(request) {
@@ -50,10 +47,6 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
       url: webroot + 'entries/view/'  + id
     }
     );
-  }
-  else {
-		threadLines.get(id).set({isInlineOpened: true});
-  }
 };
 
 /**
