@@ -9,7 +9,8 @@
     'jquery': 'lib/jquery/jquery-require',
     'underscore': 'lib/underscore/underscore',
     'backbone': 'lib/backbone/backbone',
-    'backboneLocalStorage': 'lib/backbone/backbone.localStorage'
+    'backboneLocalStorage': 'lib/backbone/backbone.localStorage',
+		'domReady': 'lib/domReady'
   },
   mainConfigFile: 'main.js'
 })
