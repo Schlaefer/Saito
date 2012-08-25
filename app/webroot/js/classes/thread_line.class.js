@@ -16,37 +16,44 @@ function ThreadLine(id) {
  * loads a posting inline via ajax and shows it
  */
 ThreadLine.prototype.load_inline_view = function (scroll) {
-  if (typeof scroll == 'undefined' ) scroll = true;
-  var id = this.id;
-  var p = this;
+	if (typeof scroll == 'undefined' ) scroll = true;
+	var id = this.id;
+	var p = this;
 
-    jQuery.ajax(
-    {
-      beforeSend:function(request) {
-        request.setRequestHeader('X-Update', 't_s_' + id );
-				threadLines.get(id).set({isInlineOpened: true});
-      },
-      complete:function(request, textStatus) {
-        // show inline posting
-        // @td the scroll from p.showInlineView(scroll);
-      },
-      success:function(data, textStatus) {
-        jQuery( p.id_thread_slider ).html(data);
-				postings.add([{ id: id }]);
-				new PostingView({ el: $('.js-entry-view-core[data-id=' + id + ']'), model: postings.get(id) });
+	jQuery.ajax(
+	{
+		beforeSend:function(request) {
+			request.setRequestHeader('X-Update', 't_s_' + id );
+			threadLines.get(id).set({
+				isInlineOpened: true
+			});
+		},
+		complete:function(request, textStatus) {
+		// show inline posting
+		// @td the scroll from p.showInlineView(scroll);
+		},
+		success:function(data, textStatus) {
+			jQuery( p.id_thread_slider ).html(data);
+			postings.add([{
+				id: id
+			}]);
+			new PostingView({
+				el: $('.js-entry-view-core[data-id=' + id + ']'),
+				model: postings.get(id)
+			});
 
-        initViewPosting(id);
-				/*
+			initViewPosting(id);
+		/*
 				var here = document.URL;
 				history.replaceState(null, '', $(p.id_thread_line).find('a.thread_line-content').attr('href'));
 				history.replaceState(null, '', here);
 				*/
-      },
-      async:true,
-      type:'post',
-      url: webroot + 'entries/view/'  + id
-    }
-    );
+		},
+		async:true,
+		type:'post',
+		url: webroot + 'entries/view/'  + id
+	}
+	);
 };
 
 /**
