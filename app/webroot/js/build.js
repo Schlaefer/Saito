@@ -12,6 +12,7 @@
     'underscore': 'lib/underscore/underscore',
     'backbone': 'lib/backbone/backbone',
     'backboneLocalStorage': 'lib/backbone/backbone.localStorage',
+		'bootstrap': 'bootstrap/bootstrap.min',
 		'domReady': 'lib/domReady',
 		'text': 'lib/require/text'
   },
