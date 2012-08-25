@@ -2,11 +2,14 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	], function($, _, Backbone) {
+	'text!templates/threadline-spinner.html'
+	], function($, _, Backbone, threadlineSpinnerTpl) {
 		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
 
 			className: 'js-thread_line',
+
+	 		spinnerTpl: _.template(threadlineSpinnerTpl),
 
 			events: {
 				'click .btn_show_thread': 'toggleInlineOpen',
@@ -34,8 +37,7 @@ define([
 				var id = this.model.id;
 				if (!this.model.get('isInlineOpened')) {
 					if (!this.model.get('isContentLoaded')) {
-						var spinner = '<div class="js-thread_inline thread_inline '+id+'"> <div data-id="'+id+'" class="btn-strip btn-strip-top pointer">&nbsp;</div><div id="t_s_'+id+'" class="t_s"><div class="spinner"></div></div> </div>';
-						$('.js-thread_line-content.' + id).after(spinner);
+						$('.js-thread_line-content.' + id).after(this.spinnerTpl({id: id}));
 						this.model.loadContent();
 					}
 					this.model.set({

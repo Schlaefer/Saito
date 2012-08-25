@@ -18,7 +18,8 @@ require.config({
 		underscore: 'lib/underscore/underscore',
 		backbone: 'lib/backbone/backbone',
 		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
-		domReady: 'lib/domReady'
+		domReady: 'lib/domReady',
+		text: 'lib/require/text'
 	}
 });
 
