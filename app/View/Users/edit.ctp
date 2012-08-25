@@ -40,11 +40,20 @@
 
 					<tr>
 						<td> <?php echo __('user_type'); ?></td>
-						<td> <?php echo $this->Form->radio('user_type', array( 
-								'user' => __('User'),
-								'mod' => __('Moderator') ,
-								'admin' => __('Administrator'),
-								), array( 'legend' => false));  ?>
+						<td>
+							<?php
+									echo $this->Form->radio('user_type',
+											array(
+													'user'	 => __('User'),
+													'mod'		 => __('Moderator'),
+													'admin'	 => __('Administrator'),
+											),
+											array(
+													'legend'	 => false,
+													'separator'	 => '<br/>',
+											)
+									);
+									?>
 						</td>
 					</tr>
 
@@ -160,25 +169,24 @@
 		</div>
     <div class='content'>
 	<table class="table th-left elegant">
+
 		<tr>
-			<td> <?php echo __('user_font_size') ?> </td>
-			<td> <?php echo  $this->Form->input('user_font_size', array(
-					'options' => array (
-						'1.25'	=> '5',
-						'1.20'	=> '4',
-						'1.15'	=> '3',
-						'1.10'	=> '2',
-						'1.05'	=> '1',
-						'1'			=> '0',
-						'0.95'	=> '-1',
-						'0.9'		=> '-2',
-						'0.85'	=> '-3',
-						'0.8'		=> '-4',
-						'0.75'	=> '-5',
-					),
-					'label'	=> false,
-					));  ?>
-				<p class="exp"> <?php echo __('user_font_size_exp') ?> </p>
+			<td> <?php echo __('user_sort_last_answer') ?> </td>
+			<td>
+				<?php
+					echo $this->Form->radio(
+							'user_sort_last_answer',
+							array(
+									'0'	 => __('user_sort_last_answer_time', 1),
+									'1'	 => __('user_sort_last_answer_last_answer', 1)
+							),
+							array(
+									'legend'		 => false,
+									'separator'	 => '<br/>',
+							)
+					);
+				?>
+				<p class="exp"> <?php echo __('user_sort_last_answer_exp') ?> </p>
 			</td>
 		</tr>
 
@@ -241,14 +249,6 @@
 					<p class="exp"> <?php echo __('inline_view_on_click_exp') ?> </p>
 			</td>
 		</tr>
-
-		<tr>
-			<td> <?php echo __('user_sort_last_answer') ?> </td>
-			<td>
-				<?php echo $this->Form->radio('user_sort_last_answer', array( '0' => __('user_sort_last_answer_time', 1), '1' => __('user_sort_last_answer_last_answer', 1)), array( 'legend' => false));  ?>
-				<p class="exp"> <?php echo __('user_sort_last_answer_exp') ?> </p>
-			</td>
-		</tr>
 	
 			<tr>
 				<td> <?php echo __('user_pers_msg') ?> </td>
@@ -288,6 +288,29 @@
 				</tr>
 			<?php  endif ; ?>
 		<?php  endif; ?>
+
+		<tr>
+			<td> <?php echo __('user_font_size') ?> </td>
+			<td> <?php echo  $this->Form->input('user_font_size', array(
+					'options' => array (
+						'1.25'	=> '5',
+						'1.20'	=> '4',
+						'1.15'	=> '3',
+						'1.10'	=> '2',
+						'1.05'	=> '1',
+						'1'			=> '0',
+						'0.95'	=> '-1',
+						'0.9'		=> '-2',
+						'0.85'	=> '-3',
+						'0.8'		=> '-4',
+						'0.75'	=> '-5',
+					),
+					'label'	=> false,
+					));  ?>
+				<p class="exp"> <?php echo __('user_font_size_exp') ?> </p>
+			</td>
+		</tr>
+
 	</table>
   </div> <!-- content -->
   </div> <!-- box-form -->

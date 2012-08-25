@@ -12,8 +12,10 @@ input, textarea {
   max-width: 60em;
   }
 
-input[type=checkbox] {
+input[type=checkbox], input[type=radio] {
 	width: auto;
+	margin-bottom: 0.5em;
+	margin-right: 0.5em;
 	}
 
 /* inset shadow for text fiedls */
