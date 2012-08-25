@@ -15,49 +15,6 @@ define([
 		PostingCollection, PostingView
 		) {
 
-		var threads = new ThreadCollection;
-		threads.fetch();
-
-		$('.thread_box').each(function(element) {
-			var threadId = parseInt($(this).attr('data-id'));
-			if (!threads.get(threadId)) {
-				threads.add([{
-					id: threadId
-				}]);
-			}
-			new ThreadView({
-				el: $(this),
-				model: threads.get(threadId)
-			});
-		});
-
-		// if everything is migrated to require/bb set var again
-		threadLines = new ThreadLineCollection;
-		$('.js-thread_line').each(function(element) {
-			var threadLineId = parseInt($(this).attr('data-id'));
-			threadLines.add([{
-				id: threadLineId,
-				isAlwaysShownInline: User_Settings_user_show_inline
-			}]);
-			new ThreadLineView({
-				el: $(this),
-				model: threadLines.get(threadLineId)
-			});
-		});
-
-		// if everything is migrated to require/bb set var again
-		postings = new PostingCollection;
-		$('.js-entry-view-core').each(function(element) {
-			var id = parseInt($(this).attr('data-id'));
-			postings.add([{
-				id: id
-			}]);
-			new PostingView({
-				el: $(this),
-				model: postings.get(id)
-			});
-		});
-
 		// App
 		var AppView = Backbone.View.extend({
 			el: $('body'),
@@ -65,6 +22,54 @@ define([
 			events: {
 				'click #showLoginForm': 'showLoginForm',
 				'focus #EntrySearchTerm': 'widenSearchField'
+			},
+
+			initialize: function () {
+
+				var threads = new ThreadCollection;
+				threads.fetch();
+
+				$('.thread_box').each(function(element) {
+					var threadId = parseInt($(this).attr('data-id'));
+					if (!threads.get(threadId)) {
+						threads.add([{
+							id: threadId
+						}]);
+					}
+					new ThreadView({
+						el: $(this),
+						model: threads.get(threadId)
+					});
+				});
+
+				// if everything is migrated to require/bb set var again
+				threadLines = new ThreadLineCollection;
+				$('.js-thread_line').each(function(element) {
+					var threadLineId = parseInt($(this).attr('data-id'));
+					threadLines.add([{
+						id: threadLineId,
+						isAlwaysShownInline: User_Settings_user_show_inline
+					}]);
+					new ThreadLineView({
+						el: $(this),
+						model: threadLines.get(threadLineId)
+					});
+				});
+
+				// if everything is migrated to require/bb set var again
+				postings = new PostingCollection;
+				$('.js-entry-view-core').each(function(element) {
+					var id = parseInt($(this).attr('data-id'));
+					postings.add([{
+						id: id
+					}]);
+					new PostingView({
+						el: $(this),
+						model: postings.get(id)
+					});
+				});
+
+
 			},
 
 			/**
