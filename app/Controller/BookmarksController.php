@@ -7,6 +7,10 @@ App::uses('AppController', 'Controller');
  */
 class BookmarksController extends AppController {
 
+	public $helpers = array(
+		'EntryH',
+	);
+
 	public function index() {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
