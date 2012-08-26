@@ -16,6 +16,28 @@
 		);
 
 		/**
+		 *
+		 * Perf-cheat
+		 *
+		 * @var int
+		 */
+		protected $_maxThreadDepthIndent;
+
+		/**
+		 *
+		 *
+		 * Perf-cheat
+		 *
+		 * @var array
+		 */
+		protected $_catL10n = array();
+
+		public function beforeRender($viewFile) {
+			parent::beforeRender($viewFile);
+			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
+		}
+
+		/**
 		 * Decides if an $entry is new to/unseen by a $user
 		 *
 		 * @param type $entry
@@ -123,25 +145,13 @@
 
 		public function getBadges($entry) {
 			$out = array();
-			$out[] = $this->_getPinned($entry);
-			$out[] = $this->_getNsfw($entry);
-			return implode(' ', $out);
-		}
-
-		protected function _getPinned($entry) {
-			$out = '';
 			if ($entry['Entry']['fixed']) :
-				$out .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i>';
+				$out[] = '<i class="icon-pushpin" title="' . __('fixed') . '"></i>';
 			endif;
-			return $out;
-		}
-
-		protected function _getNsfw($entry) {
-			$out = '';
 			if ($entry['Entry']['nsfw']):
-				$out .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span>';
+				$out[] = '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span>';
 			endif;
-			return $out;
+			return implode(' ', $out);
 		}
 
 		public function getCategorySelectForEntry($categories, $entry) {
@@ -174,6 +184,7 @@
 		 * the frontpage. Think about (and benchmark) performance before you change it.
 		 */
 		public function threadCached(array $entry_sub, SaitoUser $CurrentUser, $level = 0, array $current_entry = array()) {
+			// Stopwatch::start('EntryH->threadCached');
 			//setup for current entry
 			$params = $this->generateThreadParams(
 					array(
@@ -220,12 +231,13 @@ EOF;
 			endif;
 
 			// wrap everything up
-			if ($level < Configure::read('Saito.Settings.thread_depth_indent')) {
+			if ($level < $this->_maxThreadDepthIndent) {
 				$wrapper_start = '<ul id="ul_thread_' . $entry_sub['Entry']['id'] . '" class="' . (($level === 0) ? 'thread' : 'reply') . '">';
 				$wrapper_end	 = '</ul>';
 				$out					 = $wrapper_start . $out . $wrapper_end;
 			}
 
+			// Stopwatch::stop('EntryH->threadCached');
 			return $out;
 		}
 
@@ -246,8 +258,11 @@ EOF;
 			 */
 			$category = '';
 			if ($level === 0) :
-				$a = __d('nondynamic',
+				if (!isset($this->_catL10n[$entry_sub['Category']['accession']])) {
+					$this->_catL10n[$entry_sub['Category']['accession']] = __d('nondynamic',
 						'category_acs_' . $entry_sub['Category']['accession'] . '_exp');
+				} 				
+				$a = $this->_catL10n[$entry_sub['Category']['accession']];
 				$category = '<span class="category_acs_' . $entry_sub['Category']['accession'] . '"
             title="' . $entry_sub['Category']['description'] . ' ' . ($a) . '">
         (' . $entry_sub['Category']['category'] . ')
