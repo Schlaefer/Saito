@@ -294,13 +294,13 @@ class EntriesController extends AppController {
 						return ;
 					endif;
 				else:
-					//* answering through POST request
+					// answering through POST request
 					if ( $this->localReferer('action') == 'mix' ):
-						//* answer request came from mix ansicht
+						// answer request came from mix ansicht
 						$this->redirect(array( 'controller' => 'entries', 'action' => 'mix', $new_posting['Entry']['tid'], '#' => $this->Entry->id ));
 						return;
 					endif;
-					//* normal posting from entries/add or entries/view
+					// normal posting from entries/add or entries/view
 					$this->redirect(array( 'controller' => 'entries', 'action' => 'view', $this->Entry->id ));
 					return;
 				endif;
@@ -311,10 +311,8 @@ class EntriesController extends AppController {
 				endif;
 				$headerSubnavLeftTitle = __('back_to_overview_linkname');
 			endif;
-			// </editor-fold>
 		} else {
-			// <editor-fold desc="show answering form">
-			//* show answering form
+			// show answering form
 
 			// answering is always a ajax request, prevents add/1234 GET-requests
 			if(!$this->request->is('ajax') && $id !== null) {
@@ -343,7 +341,7 @@ class EntriesController extends AppController {
 					unset($this->request->data['Entry']['subject']);
 					$this->set('citeText', $this->request->data['Entry']['text']);
 
-				// get notifications
+					// get notifications
 					$notis = $this->Entry->Esevent->checkEventsForUser($this->CurrentUser->getId(),
 							array(
 									1 => array(
@@ -369,7 +367,6 @@ class EntriesController extends AppController {
 			if ( $this->request->is('ajax') ):
 				$this->set('form_title', __('answer_marking'));
 			endif;
-			// </editor-fold>
 		}
 
     $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
