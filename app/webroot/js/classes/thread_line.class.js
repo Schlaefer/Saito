@@ -60,6 +60,7 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
  */
 ThreadLine.prototype.insertNewLineAfter = function (data) {
 	threadLines.get(this.id).set({isInlineOpened: false});
+	postings.get(this.id).set({isAnsweringFormShown: false});
   var el = $('<li>'+data+'</li>').insertAfter('#ul_thread_' + this.id + ' > li:last-child');
 
 	// add to backbone model
