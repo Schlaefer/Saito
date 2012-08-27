@@ -9,7 +9,22 @@
 	 */
 	class ToolsController extends AppController {
 
-		public $uses = NULL;
+		public $uses = array('Ecach');
+
+		/**
+		 * Emtpy out all caches
+		 */
+		public function admin_emptyCaches() {
+			$this->Ecach->deleteAll(array('true = true'));
+
+			Cache::clear(false);
+			Cache::clear(false, 'perf-cheat');
+			Cache::clearGroup('postings');
+			Cache::clearGroup('persistent');
+			Cache::clearGroup('models');
+			$this->Session->setFlash(__('Caches have been emptied.'), 'flash/notice');
+			return $this->redirect($this->referer());
+		}
 
 		/**
 		 * Gives a deploy script a mean to empty PHP's APC-cache
@@ -27,8 +42,8 @@
 		}
 
 		public function beforeFilter() {
+			parent::beforeFilter();
 			$this->Auth->allow('clearCache');
 		}
 
 	}
-

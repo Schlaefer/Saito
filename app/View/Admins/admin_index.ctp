@@ -12,3 +12,11 @@
 		Saito believes its <strong>base-URL</strong> is: <span class='label label-info'> <?php echo $this->request->webroot ?></span>.
 	</p>
 </div>
+<hr/>
+<?php
+	echo $this->Html->link(__('Empty Caches'),
+			array('controller' => 'tools', 'action' => 'emptyCaches', 'admin' => true),
+			array(
+					'class' => 'btn',
+			));
+?>
