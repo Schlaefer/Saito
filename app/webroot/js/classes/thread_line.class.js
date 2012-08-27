@@ -24,9 +24,6 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
 	{
 		beforeSend:function(request) {
 			request.setRequestHeader('X-Update', 't_s_' + id );
-			threadLines.get(id).set({
-				isInlineOpened: true
-			});
 		},
 		complete:function(request, textStatus) {
 		// show inline posting
