@@ -316,11 +316,15 @@ class EntriesController extends AppController {
 			// <editor-fold desc="show answering form">
 			//* show answering form
 
+			// answering is always a ajax request, prevents add/1234 GET-requests
+			if(!$this->request->is('ajax') && $id !== null) {
+				$this->Session->setFlash(__('js-required'), 'flash/error');
+				return $this->redirect($this->referer());
+			}
+
 			$this->request->data = NULL;
-			if ( $id !== NULL
-					// answering is always a ajax request, prevents add/1234 GET-requests
-					&& $this->request->is('ajax') === TRUE
-			) {
+			if ($id !== NULL) {
+				// check if entry exists by loading its data
 				$this->Entry->contain(array('User', 'Category'));
 				$this->Entry->sanitize(false);
 				$this->request->data = $this->Entry->findById($id);

@@ -29,6 +29,19 @@
 				'app.esevent',
 		);
 
+		public function testNoDirectCallOfAnsweringFormWithId() {
+			$Entries = $this->generate('Entries', array(
+					'methods' => array('referer')
+			));
+			$this->_loginUser(1);
+			$Entries->expects($this->once())
+					->method('referer')
+					->will($this->returnValue('/foo'));
+			$result = $this->testAction('/entries/add/1');
+			$this->assertEqual(FULL_BASE_URL . $Entries->request->webroot . 'foo',
+					$this->headers['Location']);
+		}
+
 		public function testBookmarkButtonVisibility() {
 
 			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
