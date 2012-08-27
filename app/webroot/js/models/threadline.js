@@ -8,8 +8,8 @@ define([
 				isInlineOpened: false,
 				isAlwaysShownInline: false
 			},
-			loadContent: function() {
-				new ThreadLine(this.get('id')).load_inline_view();
+			loadContent: function(options) {
+				new ThreadLine(this.get('id')).load_inline_view(options);
 				this.set('isContentLoaded', true);
 			}
 		});

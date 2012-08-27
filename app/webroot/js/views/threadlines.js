@@ -2,14 +2,15 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'text!templates/threadline-spinner.html'
+	'text!templates/threadline-spinner.html',
+	'spin'
 	], function($, _, Backbone, threadlineSpinnerTpl) {
 		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
 
 			className: 'js-thread_line',
 
-	 		spinnerTpl: _.template(threadlineSpinnerTpl),
+			spinnerTpl: _.template(threadlineSpinnerTpl),
 
 			events: {
 				'click .btn_show_thread': 'toggleInlineOpen',
@@ -47,18 +48,51 @@ define([
 
 			_toggleInlineOpened: function(model, isInlineOpened) {
 				if(isInlineOpened) {
+					var id = this.model.id;
+
 					if (!this.model.get('isContentLoaded')) {
-						var id = this.model.id;
-						$('.js-thread_line-content.' + id).after(this.spinnerTpl({id: id}));
-						this.model.loadContent();
+						var c = {
+							pre: this.$el.find('.thread_line-pre i'),
+							cls: this.$el.find('.thread_line-pre i').attr('class')
+						};
+
+						c.pre.attr('class', '');
+
+						var opts = {
+							lines: 9, // The number of lines to draw
+							length: 2, // The length of each line
+							width: 2, // The line thickness
+							radius: 2, // The radius of the inner circle
+							corners: 0, // Corner roundness (0..1)
+							rotate: 0, // The rotation offset
+							color: '#000', // #rgb or #rrggbb
+							speed: 1.5, // Rounds per second
+							trail: 40, // Afterglow percentage
+							shadow: false, // Whether to render a shadow
+							hwaccel: true, // Whether to use hardware acceleration
+							className: 'js-spinner', // The CSS class to assign to the spinner
+							zIndex: 2e9, // The z-index (defaults to 2000000000)
+							top: 'auto', // Top position relative to parent in px
+							left: 'auto' // Left position relative to parent in px
+						};
+						var spinner = new Spinner(opts).spin();
+						$(c.pre).html($(spinner.el).css('margin-top', '9px').css('margin-left', '7px'));
+
+						$('.js-thread_line-content.' + id).after(this.spinnerTpl({
+							id: id
+						}));
+						this.model.loadContent({
+							success: _.bind(this._showInlineView, this, c)
+						});
+					} else {
+						this._showInlineView();
 					}
-					this._showInlineView();
 				} else {
 					this._closeInlineView();
 				}
 			},
 
-			_showInlineView: function () {
+			_showInlineView: function (c) {
 				var scroll = this.scroll;
 				var id = this.model.id;
 
@@ -66,19 +100,23 @@ define([
 					100,
 					function() {
 						// performance: show instead slide
-						// $(p.id_thread_inline).slideDown(null,
+						//						$($('.js-thread_inline.' + id)).slideDown(0,
 
 						$($('.js-thread_inline.' + id)).show(0,
 							function() {
-							// @td
-							//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
-							//									if(_isHeigherThanView(this)) {
-							//										scrollToTop(this);
-							//									}
-							//									else {
-							//										scrollToBottom(p.id_bottom);
-							//									}
-							//								}
+								// @td
+								//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
+								//									if(_isHeigherThanView(this)) {
+								//										scrollToTop(this);
+								//									}
+								//									else {
+								//										scrollToBottom(p.id_bottom);
+								//									}
+								//								}
+								if (typeof c !== 'undefined' ){
+									c.pre.attr('class', c.cls);
+									c.pre.html('');
+								}
 							}
 							);
 					}

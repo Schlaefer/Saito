@@ -15,7 +15,7 @@ function ThreadLine(id) {
 /**
  * loads a posting inline via ajax and shows it
  */
-ThreadLine.prototype.load_inline_view = function (scroll) {
+ThreadLine.prototype.load_inline_view = function (options, scroll) {
 	if (typeof scroll == 'undefined' ) scroll = true;
 	var id = this.id;
 	var p = this;
@@ -38,6 +38,10 @@ ThreadLine.prototype.load_inline_view = function (scroll) {
 				el: $('.js-entry-view-core[data-id=' + id + ']'),
 				model: postings.get(id)
 			});
+
+			if (options.success) {
+				options.success();
+			}
 
 		/*
 				var here = document.URL;

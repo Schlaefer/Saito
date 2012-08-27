@@ -20,6 +20,7 @@ require.config({
 		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
 		bootstrap: 'bootstrap/bootstrap',
 		domReady: 'lib/domReady',
+		spin: 'lib/spin',
 		text: 'lib/require/text'
 	}
 });
