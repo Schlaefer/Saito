@@ -713,7 +713,7 @@ class EntriesController extends AppController {
 			$this->request->data = $this->Entry->toggle($toggle);
 			$tid = $this->Entry->field('tid');
 			$this->_emptyCache($id, $tid);
-			return ($this->request->data == 0) ? __($toggle . '_set_entry_link') : __($toggle . '_unset_entry_link');
+			return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
 		}
 
 		$this->set('json_data', (string) $this->request->data);

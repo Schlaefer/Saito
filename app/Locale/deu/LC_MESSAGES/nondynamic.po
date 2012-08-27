@@ -51,3 +51,20 @@ msgstr "Passwortbestätigung stimmt nicht überein."
 #
 msgid "validation_error_pwCheckOld"
 msgstr "Altes Passwort ist nicht korrekt."
+
+#
+msgid "fixed_set_entry_link"
+msgstr "Anpinnen"
+
+#
+msgid "fixed_unset_entry_link"
+msgstr "Abpinnen"
+
+#
+msgid "locked_set_entry_link"
+msgstr "Sperren"
+
+#
+msgid "locked_unset_entry_link"
+msgstr "Entsperren"
+

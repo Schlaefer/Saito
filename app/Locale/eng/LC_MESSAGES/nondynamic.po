@@ -50,3 +50,19 @@ msgstr "Password confirmation does not match."
 #
 msgid "validation_error_pwCheckOld"
 msgstr "Old password is not correct."
+
+#
+msgid "fixed_set_entry_link"
+msgstr "Pin"
+
+#
+msgid "fixed_unset_entry_link"
+msgstr "Unpin"
+
+#
+msgid "locked_set_entry_link"
+msgstr "Lock"
+
+#
+msgid "locked_unset_entry_link"
+msgstr "Unlock"

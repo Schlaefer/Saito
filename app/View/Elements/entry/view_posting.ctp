@@ -136,7 +136,7 @@
 										echo $this->Js->link(
 											'<i class="'.$icon.'"></i>&nbsp;'
 											. '<span id="title-entry_' . $key . '-' . $entry['Entry']['id'] . '">'
-											. (($entry['Entry'][$key] == 0) ? __($key . '_set_entry_link') : __($key . '_unset_entry_link'))
+											. (($entry['Entry'][$key] == 0) ? __d('nondynamic', $key . '_set_entry_link') : __d('nondynamic', $key . '_unset_entry_link'))
 											. '</span>',
 											array(
 												'controller'	=> 'entries',
