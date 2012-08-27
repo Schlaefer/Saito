@@ -34,12 +34,7 @@ define([
 			 */
 			toggleInlineOpen: function(event) {
 				event.preventDefault();
-				var id = this.model.id;
 				if (!this.model.get('isInlineOpened')) {
-					if (!this.model.get('isContentLoaded')) {
-						$('.js-thread_line-content.' + id).after(this.spinnerTpl({id: id}));
-						this.model.loadContent();
-					}
 					this.model.set({
 						isInlineOpened: true
 					});
@@ -52,6 +47,11 @@ define([
 
 			_toggleInlineOpened: function(model, isInlineOpened) {
 				if(isInlineOpened) {
+					if (!this.model.get('isContentLoaded')) {
+						var id = this.model.id;
+						$('.js-thread_line-content.' + id).after(this.spinnerTpl({id: id}));
+						this.model.loadContent();
+					}
 					this._showInlineView();
 				} else {
 					this._closeInlineView();

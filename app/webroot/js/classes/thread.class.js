@@ -21,9 +21,10 @@ Thread.prototype.showNew = function () {
 
 		new_postings.each(
 			function () {
-				var id = $(this).attr('class').split(' ')[1];
-				var tl = new ThreadLine(id)
-				tl.load_inline_view(false);
+				var id = $(this).data('id');
+				threadLines.get(id).set({
+						isInlineOpened: true
+					});
 			}
 		);
 };
@@ -37,8 +38,10 @@ Thread.prototype.showAll = function () {
 
 		closed_postings.each(
 			function () {
-				var id = $(this).attr('class').split(' ')[1];
-				new ThreadLine(id).load_inline_view(false);
+				var id = $(this).data('id');
+				threadLines.get(id).set({
+						isInlineOpened: true
+					});
 			}
 		);
 };
@@ -52,9 +55,10 @@ Thread.prototype.closeAll = function () {
 
 		open_postings.each(
 			function () {
-				var id = $(this).attr('class').split(' ')[1];
-				var tl = new ThreadLine(id)
-				tl.closeInlineView(false);
+				var id = $(this).data('id');
+				threadLines.get(id).set({
+						isInlineOpened: false
+					});
 			}
 		);
 };

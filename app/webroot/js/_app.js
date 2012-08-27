@@ -17,10 +17,6 @@ function scrollToTop(elem) {
 	});
 };
 
-function getElementIdFromClassOfObject(elem) {
-	return elem.attr('class').split(' ')[1];
-};
-
 /** markitup helpers start **/
 $(document).ready(function() {
 	$('body').delegate('#markitup_media_btn', 'click', function(event) {
