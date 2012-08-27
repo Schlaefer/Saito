@@ -276,51 +276,6 @@ function layout_slidetabs_toggle(id) {
 };
 /*** slidetabs end ***/
 
-/*** start view_posting ***/
-/**
- * Inits all JS vor a viewed posting
- *
- * The inline view inits with parameter id. This makes shure not all
- * .button_mod_panel but only the newly loaded get the behavior attached.
- * Prevent multiple attachs.
- */
-function initViewPosting(id) {
-	var id_class = '';
-	if(id != undefined) {
-		id_class = '.' + id;
-	}
-
-	/*** start mod and admin panel ***/
-	$('.button_mod_panel .left').addClass('pointer');
-
-	$('.button_mod_panel' + id_class + ' .left').toggle(
-		function() {
-			// einblenden
-			var id = getElementIdFromClassOfObject($(this));
-			$('.button_mod_panel.' + id).css('height', 'auto');
-			$('.button_mod_panel.' + id + ' .right').css({
-				display: 'block'
-			});
-			$('.button_mod_panel.' + id).animate({
-				width: '150px'
-			});
-		},
-		function() {
-			// ausblenden
-			var id = getElementIdFromClassOfObject($(this));
-			$('.button_mod_panel.' + id).animate({
-				width: '16px'
-			}, function(){
-				$('.button_mod_panel.' + id).css('height', '16px');
-				$('.button_mod_panel.' + id + ' .right').css({
-					display: 'none'
-				});
-			});
-		}
-		/*** end mod and admin panel ***/
-		); // end toggle()
-}; // initViewPosting()
-
 /**
  * inits all js for viewing the answering form
  * 
@@ -427,7 +382,6 @@ function saitoHelpHide() {
 /************* document ready *******************/
 $(document).ready( function() {
 	Thread.init();
-	initViewPosting();
 	slidetabsMakeSortable();
 	initSaitoHelp();
 
