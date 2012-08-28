@@ -12,10 +12,17 @@ define([
 
 			spinnerTpl: _.template(threadlineSpinnerTpl),
 
-			events: {
-				'click .btn_show_thread': 'toggleInlineOpen',
-				'click .link_show_thread': 'toggleInlineOpenFromLink',
-				'click .btn-strip-top': 'toggleInlineOpen'
+			events: function() {
+				return (navigator.userAgent.match(/mobile/i)) ?
+				{
+					'touchstart .btn_show_thread': 'toggleInlineOpen',
+					'touchstart .link_show_thread': 'toggleInlineOpenFromLink',
+					'touchstart .btn-strip-top': 'toggleInlineOpen'
+				} : {
+					'click .btn_show_thread': 'toggleInlineOpen',
+					'click .link_show_thread': 'toggleInlineOpenFromLink',
+					'click .btn-strip-top': 'toggleInlineOpen'
+				}
 			},
 
 			initialize: function(){
@@ -31,8 +38,8 @@ define([
 			},
 
 			/**
-			 * shows and hides the element that contains an inline posting
-			 */
+		 * shows and hides the element that contains an inline posting
+		 */
 			toggleInlineOpen: function(event) {
 				event.preventDefault();
 				if (!this.model.get('isInlineOpened')) {
@@ -60,7 +67,9 @@ define([
 							id: id
 						}));
 						this.model.loadContent({
-							success: _.bind(this._showInlineView, this, {tslV: 'hide'})
+							success: _.bind(this._showInlineView, this, {
+								tslV: 'hide'
+							})
 						});
 					} else {
 						this._showInlineView();
@@ -108,8 +117,8 @@ define([
 				var scroll = this.scroll;
 				var id = this.model.id;
 				var p = this;
-				$('.js-thread_inline.' + id).slideUp(
-					'fast',
+				// $('.js-thread_inline.' + id).slideUp('fast',
+				$('.js-thread_inline.' + id).hide(0,
 					function() {
 						$('.js-thread_line-content.' + id).slideDown();
 						if (scroll) {
@@ -120,9 +129,9 @@ define([
 			},
 
 			/**
-			 * if the line is not in the browser windows at the moment
-			 * scroll to that line and highlight it
-			 */
+		 * if the line is not in the browser windows at the moment
+		 * scroll to that line and highlight it
+		 */
 			_scrollLineIntoView: function () {
 				var thread_line = $('.js-thread_line-content.' + this.model.id);
 				if (!thread_line.isScrolledIntoView()) {
