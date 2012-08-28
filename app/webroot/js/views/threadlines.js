@@ -16,7 +16,7 @@ define([
 				return (navigator.userAgent.match(/mobile/i)) ?
 				{
 					'touchstart .btn_show_thread': 'toggleInlineOpen',
-					'touchstart .link_show_thread': 'toggleInlineOpenFromLink',
+					'click .link_show_thread': 'toggleInlineOpenFromLink',
 					'touchstart .btn-strip-top': 'toggleInlineOpen'
 				} : {
 					'click .btn_show_thread': 'toggleInlineOpen',

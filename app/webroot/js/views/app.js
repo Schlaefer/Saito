@@ -34,7 +34,7 @@ define([
 					if (!threads.get(threadId)) {
 						threads.add([{
 							id: threadId
-						}]);
+						}], {silent: true});
 					}
 					new ThreadView({
 						el: $(this),
@@ -49,7 +49,7 @@ define([
 					threadLines.add([{
 						id: threadLineId,
 						isAlwaysShownInline: User_Settings_user_show_inline
-					}]);
+					}], {silent: true});
 					new ThreadLineView({
 						el: $(this),
 						model: threadLines.get(threadLineId)
@@ -62,7 +62,7 @@ define([
 					var id = parseInt($(this).attr('data-id'));
 					postings.add([{
 						id: id
-					}]);
+					}], {silent: true});
 					new PostingView({
 						el: $(this),
 						model: postings.get(id)
