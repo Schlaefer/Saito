@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-08-27 11:51+0100\n"
-"PO-Revision-Date: 2012-08-27 12:31+0100\n"
+"PO-Revision-Date: 2012-08-28 16:00+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -1783,7 +1783,7 @@ msgstr ""
 
 #: Controller/ToolsController.php:25
 msgid "Caches have been emptied."
-msgstr "Zaches wurden gelöscht."
+msgstr "Caches wurden gelöscht."
 
 #: Controller/UploadsController.php:33 Controller/UploadsController.php:86
 msgid "upload_max_number_of_uploads_failed"
