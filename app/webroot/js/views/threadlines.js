@@ -2,9 +2,9 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'views/threadline-spinner',
 	'text!templates/threadline-spinner.html',
-	'spin'
-	], function($, _, Backbone, threadlineSpinnerTpl) {
+	], function($, _, Backbone, ThreadlineSpinnerView, threadlineSpinnerTpl) {
 		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
 
@@ -51,38 +51,16 @@ define([
 					var id = this.model.id;
 
 					if (!this.model.get('isContentLoaded')) {
-						var c = {
-							pre: this.$el.find('.thread_line-pre i'),
-							cls: this.$el.find('.thread_line-pre i').attr('class')
-						};
-
-						c.pre.attr('class', '');
-
-						var opts = {
-							lines: 9, // The number of lines to draw
-							length: 2, // The length of each line
-							width: 2, // The line thickness
-							radius: 2, // The radius of the inner circle
-							corners: 0, // Corner roundness (0..1)
-							rotate: 0, // The rotation offset
-							color: '#000', // #rgb or #rrggbb
-							speed: 1.5, // Rounds per second
-							trail: 40, // Afterglow percentage
-							shadow: false, // Whether to render a shadow
-							hwaccel: true, // Whether to use hardware acceleration
-							className: 'js-spinner', // The CSS class to assign to the spinner
-							zIndex: 2e9, // The z-index (defaults to 2000000000)
-							top: 'auto', // Top position relative to parent in px
-							left: 'auto' // Left position relative to parent in px
-						};
-						var spinner = new Spinner(opts).spin();
-						$(c.pre).html($(spinner.el).css('margin-top', '9px').css('margin-left', '7px'));
+						this.tlsV = new ThreadlineSpinnerView({
+							el: this.$el.find('.thread_line-pre i')
+						});
+						this.tlsV.show();
 
 						$('.js-thread_line-content.' + id).after(this.spinnerTpl({
 							id: id
 						}));
 						this.model.loadContent({
-							success: _.bind(this._showInlineView, this, c)
+							success: _.bind(this._showInlineView, this, {tslV: 'hide'})
 						});
 					} else {
 						this._showInlineView();
@@ -92,34 +70,37 @@ define([
 				}
 			},
 
-			_showInlineView: function (c) {
+			_showInlineView: function (options) {
+				options || (options = {});
 				var scroll = this.scroll;
 				var id = this.model.id;
 
 				$('.js-thread_line-content.' + id).fadeOut(
 					100,
-					function() {
-						// performance: show instead slide
-						//						$($('.js-thread_inline.' + id)).slideDown(0,
+					_.bind(
+						function() {
+							// performance: show instead slide
+							//						$($('.js-thread_inline.' + id)).slideDown(0,
 
-						$($('.js-thread_inline.' + id)).show(0,
-							function() {
-								// @td
-								//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
-								//									if(_isHeigherThanView(this)) {
-								//										scrollToTop(this);
-								//									}
-								//									else {
-								//										scrollToBottom(p.id_bottom);
-								//									}
-								//								}
-								if (typeof c !== 'undefined' ){
-									c.pre.attr('class', c.cls);
-									c.pre.html('');
-								}
-							}
-							);
-					}
+							$($('.js-thread_inline.' + id)).show(0,
+								_.bind(
+									function() {
+										// @td
+										//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
+										//									if(_isHeigherThanView(this)) {
+										//										scrollToTop(this);
+										//									}
+										//									else {
+										//										scrollToBottom(p.id_bottom);
+										//									}
+										//								}
+										if (options['tlsV'] !== 'undefined'){
+											this.tlsV.hide();
+										}
+									}
+									, this)
+								);
+						}, this)
 					);
 			},
 
