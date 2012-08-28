@@ -7,7 +7,7 @@ define([
 		var ThreadlineSpinnerView = Backbone.View.extend({
 
 			show: function() {
-				this.$el.attr('class', 'icon-refresh');
+				this.$el.attr('class', 'icon-chevron-down');
 			},
 
 			hide: function() {
