@@ -46,13 +46,24 @@ define([
 				threadLines = new ThreadLineCollection;
 				$('.js-thread_line').each(function(element) {
 					var threadLineId = parseInt($(this).attr('data-id'));
-					threadLines.add([{
-						id: threadLineId,
-						isAlwaysShownInline: User_Settings_user_show_inline
-					}], {silent: true});
+					var threadId = parseInt($(this).attr('data-tid'));
+					var new_model;
+					if(threads.get(threadId)) {
+						threads.get(threadId).threadlines.add([{
+							id: threadLineId,
+							isAlwaysShownInline: User_Settings_user_show_inline
+						}], {silent: true});
+						new_model = threads.get(threadId).threadlines.get(threadLineId);
+					} else {
+						threadLines.add([{
+							id: threadLineId,
+							isAlwaysShownInline: User_Settings_user_show_inline
+						}], {silent: true});
+						new_model = threadLines.get(threadLineId);
+					}
 					new ThreadLineView({
 						el: $(this),
-						model: threadLines.get(threadLineId)
+						model: new_model
 					});
 				});
 

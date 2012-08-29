@@ -9,7 +9,9 @@ define([
 			className: 'thread_box',
 
 			events: {
-				"click .btn-threadCollapse":  "collapseThread"
+				"click .btn-threadCollapse":  "collapseThread",
+				"click .js-btn-openAllThreadlines": "openAllThreadlines",
+				"click .js-btn-closeAllThreadlines": "closeAllThreadlines"
 			},
 
 			initialize: function(){
@@ -18,6 +20,37 @@ define([
 				if (this.model.get('isThreadCollapsed')) {
 					this.hide();
 				}
+			},
+
+			/**
+			 * Opens all threadlines
+			 */
+			openAllThreadlines: function () {
+				event.preventDefault();
+				_.each(
+					this.model.threadlines.where({
+						isInlineOpened: false
+					}), function(model) {
+						model.set({
+							isInlineOpened: true
+						})
+					}, this);
+
+			},
+
+			/**
+			 * Closes all threadlines
+			 */
+			closeAllThreadlines: function () {
+				event.preventDefault();
+				_.each(
+					this.model.threadlines.where({
+						isInlineOpened: true
+					}), function(model) {
+						model.set({
+							isInlineOpened: false
+						})
+					}, this);
 			},
 
 			collapseThread: function(event) {

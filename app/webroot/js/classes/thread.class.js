@@ -29,40 +29,6 @@ Thread.prototype.showNew = function () {
 		);
 };
 
-/**
- * Opens all threads
- */
-Thread.prototype.showAll = function () {
-		var p = this;
-		var closed_postings = $(p.threadbox + ' .thread_line:visible');
-
-		closed_postings.each(
-			function () {
-				var id = $(this).data('id');
-				threadLines.get(id).set({
-						isInlineOpened: true
-					});
-			}
-		);
-};
-
-/**
- * Closes all threads
- */
-Thread.prototype.closeAll = function () {
-		var p = this;
-		var open_postings = $(p.threadbox + ' .thread_line:hidden');
-
-		open_postings.each(
-			function () {
-				var id = $(this).data('id');
-				threadLines.get(id).set({
-						isInlineOpened: false
-					});
-			}
-		);
-};
-
 Thread.init = function() {
 	// highlight for Toolbar
 	Thread.initHighlightTools();
