@@ -4,14 +4,17 @@
   baseUrl: "./",
   name: 'main',
   out: './main-prod.js',
+  // dir: "../js-build",
   // optimize: 'none',
   paths: {
     'jquery': 'lib/jquery/jquery-require',
+		'jqueryhelpers': 'lib/jqueryhelpers',
     'underscore': 'lib/underscore/underscore',
     'backbone': 'lib/backbone/backbone',
     'backboneLocalStorage': 'lib/backbone/backbone.localStorage',
 		'bootstrap': 'bootstrap/bootstrap.min',
-		'domReady': 'lib/domReady'
+		'domReady': 'lib/domReady',
+		'text': 'lib/require/text'
   },
   mainConfigFile: 'main.js'
 })

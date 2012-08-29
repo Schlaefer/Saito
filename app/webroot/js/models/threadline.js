@@ -10,6 +10,7 @@ define([
 			},
 			loadContent: function() {
 				new ThreadLine(this.get('id')).load_inline_view();
+				this.set('isContentLoaded', true);
 			}
 		});
 

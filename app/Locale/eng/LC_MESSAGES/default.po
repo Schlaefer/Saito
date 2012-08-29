@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-24 07:25+0100\n"
-"PO-Revision-Date: 2012-08-24 07:25+0100\n"
+"POT-Creation-Date: 2012-08-27 10:06+0100\n"
+"PO-Revision-Date: 2012-08-27 10:06+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -81,7 +81,7 @@ msgid "Install"
 msgstr ""
 
 #: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:312
-#: Controller/EntriesController.php:362
+#: Controller/EntriesController.php:366
 msgid "back_to_overview_linkname"
 msgstr "Back to Overview"
 
@@ -367,7 +367,7 @@ msgstr ""
 "category without changing your preferences."
 
 #: View/Elements/entry/category-chooser.ctp:36
-#: Controller/EntriesController.php:833
+#: Controller/EntriesController.php:837
 msgid "All Categories"
 msgstr ""
 
@@ -422,17 +422,17 @@ msgstr "Answer"
 
 #: View/Elements/entry/view_posting.ctp:89
 #: View/Elements/entry/view_posting.ctp:117
-#: Controller/EntriesController.php:469
+#: Controller/EntriesController.php:473
 msgid "edit_linkname"
 msgstr "Edit"
 
 #: View/Elements/entry/view_posting.ctp:139
-#: Controller/EntriesController.php:715
+#: Controller/EntriesController.php:719
 msgid "_set_entry_link"
 msgstr ""
 
 #: View/Elements/entry/view_posting.ctp:139
-#: Controller/EntriesController.php:715
+#: Controller/EntriesController.php:719
 msgid "_unset_entry_link"
 msgstr ""
 
@@ -1504,7 +1504,7 @@ msgstr ""
 "Your registration is now finished. You are able to loggin now. Have fun!"
 
 #: View/Users/register.ctp:18
-msgid "register-js-required"
+msgid "js-required"
 msgstr "To use this forum please enable JavaScript."
 
 #: View/Users/register.ctp:53
@@ -1622,31 +1622,31 @@ msgstr "New Entry"
 msgid "logged_in_users_only"
 msgstr ""
 
-#: Controller/EntriesController.php:310 Controller/EntriesController.php:431
+#: Controller/EntriesController.php:310 Controller/EntriesController.php:435
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:355 Controller/EntriesController.php:465
+#: Controller/EntriesController.php:359 Controller/EntriesController.php:469
 msgid "back_to_posting_from_linkname"
 msgstr "Zurück zum Eintrag von %s"
 
-#: Controller/EntriesController.php:366
+#: Controller/EntriesController.php:370
 msgid "answer_marking"
 msgstr "Answer"
 
-#: Controller/EntriesController.php:417
+#: Controller/EntriesController.php:421
 msgid "notice_you_are_editing_as_mod"
 msgstr "You're now editing as moderator!"
 
-#: Controller/EntriesController.php:495
+#: Controller/EntriesController.php:499
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:681
+#: Controller/EntriesController.php:685
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:869
+#: Controller/EntriesController.php:873
 msgid "Custom"
 msgstr ""
 

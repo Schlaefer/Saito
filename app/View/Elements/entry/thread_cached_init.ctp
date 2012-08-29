@@ -40,35 +40,36 @@
           <span class="ico-threadTool ico-threadOpenMix"></span>
 				</a>
 			</li>
-			<?php if ($CurrentUser->isLoggedIn()
-								// for cached entries this tests if a thread has only the root posting
-								&& $entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']) : ?>
-				<li>
-					<a class="btn-threadCollapse" href="#" title="<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>">
-						<span class="ico-threadTool ico-threadCollapse"></span>
-					</a>
-				</li>
-			<?php endif; ?>
-			<?php
-					if ($this->request->params['action'] != 'view') :
-						if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
-							// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
-							// keinen Show All New Inline View Eintrag
-						?>
-						<li>
-							<a href="#"
-								 id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>"
-								 title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>"
-								 onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;"
-								 >
-                <span class="ico-threadTool ico-threadOpenNew"></span>
-							</a>
-						</li>
-						<?php
+			<?php if ($CurrentUser->isLoggedIn()): ?>
+				<?php
+					if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
+					// for cached entries this tests if a thread has only the root posting
+				?>
+					<li>
+						<a class="btn-threadCollapse" href="#" title="<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>">
+							<span class="ico-threadTool ico-threadCollapse"></span>
+						</a>
+					</li>
+				<?php endif; ?>
+				<?php
+						if ($this->request->params['action'] != 'view') :
+							if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
+								// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
+								// keinen Show All New Inline View Eintrag
+							?>
+							<li>
+								<a href="#"
+									id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>"
+									title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>"
+									onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;"
+									>
+									<span class="ico-threadTool ico-threadOpenNew"></span>
+								</a>
+							</li>
+							<?php
+							endif;
 						endif;
-					endif;
-			?>
-			<?php if ($CurrentUser->isLoggedIn()) : ?>
+				?>
 				<li>
 					<a href="#" id="btn_close_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').closeAll(); return false;" title="<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>">
             <span class="ico-threadTool ico-threadCloseInline"></span>

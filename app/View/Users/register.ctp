@@ -15,7 +15,7 @@
 			<?php echo __('register_success_content'); ?>
 		<?php else : ?>
 			<?php
-			echo $this->Html->tag('p', __('register-js-required'),
+			echo $this->Html->tag('p', __('js-required'),
 					array(
 					'id'		 => 'register-js-required',
 					'class'	 => 'message',

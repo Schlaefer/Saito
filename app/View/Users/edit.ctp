@@ -40,7 +40,21 @@
 
 					<tr>
 						<td> <?php echo __('user_type'); ?></td>
-						<td> <?php echo $this->Form->radio('user_type', array( 'user' => '@lo User', 'mod' => '@lo Mod' , 'admin' => '@lo Admin'), array( 'legend' => false));  ?> </td>
+						<td>
+							<?php
+									echo $this->Form->radio('user_type',
+											array(
+													'user'	 => __('User'),
+													'mod'		 => __('Moderator'),
+													'admin'	 => __('Administrator'),
+											),
+											array(
+													'legend'	 => false,
+													'separator'	 => '<br/>',
+											)
+									);
+									?>
+						</td>
 					</tr>
 
 					<?php  if ( $CurrentUser->getId() == $this->request->data['User']['id'] ): ?>
@@ -155,25 +169,24 @@
 		</div>
     <div class='content'>
 	<table class="table th-left elegant">
+
 		<tr>
-			<td> <?php echo __('user_font_size') ?> </td>
-			<td> <?php echo  $this->Form->input('user_font_size', array(
-					'options' => array (
-						'0.75'	=> '-5',
-						'0.8'		=> '-4',
-						'0.85'	=> '-3',
-						'0.9'		=> '-2',
-						'0.95'	=> '-1',
-						'1'			=> '0',
-						'1.05'	=> '1',
-						'1.10'	=> '2',
-						'1.15'	=> '3',
-						'1.20'	=> '4',
-						'1.25'	=> '5',
-					),
-					'label'	=> false,
-					));  ?>
-				<p class="exp"> <?php echo __('user_font_size_exp') ?> </p>
+			<td> <?php echo __('user_sort_last_answer') ?> </td>
+			<td>
+				<?php
+					echo $this->Form->radio(
+							'user_sort_last_answer',
+							array(
+									'0'	 => __('user_sort_last_answer_time', 1),
+									'1'	 => __('user_sort_last_answer_last_answer', 1)
+							),
+							array(
+									'legend'		 => false,
+									'separator'	 => '<br/>',
+							)
+					);
+				?>
+				<p class="exp"> <?php echo __('user_sort_last_answer_exp') ?> </p>
 			</td>
 		</tr>
 
@@ -194,7 +207,16 @@
 		<tr>
 			<td> <?php echo __('user_forum_refresh_time') ?> </td>
 			<td> 
-				<?php echo $this->Form->input('user_forum_refresh_time', array( 'maxLength' => 3 , 'label'=>false, 'style' => 'width: 3em;')); ?>
+				<?php echo $this->Form->input(
+						'user_forum_refresh_time',
+						array(
+								'maxLength' => 3,
+								'label' => false,
+								'style' => 'width: 3em;',
+								'min' => 0,
+								'max' => 999,
+								)
+						); ?>
 				<p class="exp">
 					<?php echo __('user_forum_refresh_time_exp') ?>
 				</p>
@@ -212,34 +234,28 @@
 			</td>
 		</tr>
 
-		<!-- currently not supported in Saito
+		<?php
+			/*
+			 * currenty not supported in Saito
+			 * 
 		<tr>
 			<td> <?php echo __('user_forum_hr_ruler') ?> </td>
 			<td> <?php echo  $this->Form->checkbox('user_forum_hr_ruler'); ?> <p class="exp"> <?php echo __('user_forum_hr_exp') ?> </p></td>
 		</tr>
-		-->
 
-		<!-- currently not supported in Saito
 		<tr>
 			<td> <?php echo __('user_standard_view') ?> </td>
 			<td> <?php echo $this->Form->radio('user_view', array( 'thread' => __('user_view_thread'), 'board' => __('user_view_board', 1) , 'mix' => __('user_view_mixed', 1)), array( 'legend' => false));  ?>
 				<p class="exp"> <?php echo __('user_standard_view_exp') ?> </p>
 			</td>
 		</tr>
-		-->
+			 */
+			?>
 		<tr>
 			<td> <?php echo __('inline_view_on_click') ?> </td>
 			<td>
 					<?php echo  $this->Form->checkbox('inline_view_on_click'); ?>
 					<p class="exp"> <?php echo __('inline_view_on_click_exp') ?> </p>
-			</td>
-		</tr>
-
-		<tr>
-			<td> <?php echo __('user_sort_last_answer') ?> </td>
-			<td>
-				<?php echo $this->Form->radio('user_sort_last_answer', array( '0' => __('user_sort_last_answer_time', 1), '1' => __('user_sort_last_answer_last_answer', 1)), array( 'legend' => false));  ?>
-				<p class="exp"> <?php echo __('user_sort_last_answer_exp') ?> </p>
 			</td>
 		</tr>
 	
@@ -281,6 +297,29 @@
 				</tr>
 			<?php  endif ; ?>
 		<?php  endif; ?>
+
+		<tr>
+			<td> <?php echo __('user_font_size') ?> </td>
+			<td> <?php echo  $this->Form->input('user_font_size', array(
+					'options' => array (
+						'1.25'	=> '5',
+						'1.20'	=> '4',
+						'1.15'	=> '3',
+						'1.10'	=> '2',
+						'1.05'	=> '1',
+						'1'			=> '0',
+						'0.95'	=> '-1',
+						'0.9'		=> '-2',
+						'0.85'	=> '-3',
+						'0.8'		=> '-4',
+						'0.75'	=> '-5',
+					),
+					'label'	=> false,
+					));  ?>
+				<p class="exp"> <?php echo __('user_font_size_exp') ?> </p>
+			</td>
+		</tr>
+
 	</table>
   </div> <!-- content -->
   </div> <!-- box-form -->

@@ -15,7 +15,6 @@ define([
 		PostingCollection, PostingView
 		) {
 
-
 		// App
 		var AppView = Backbone.View.extend({
 			el: $('body'),
@@ -25,7 +24,7 @@ define([
 				'focus #EntrySearchTerm': 'widenSearchField'
 			},
 
-			initialize: function() {
+			initialize: function () {
 
 				var threads = new ThreadCollection;
 				threads.fetch();
@@ -45,7 +44,7 @@ define([
 
 				// if everything is migrated to require/bb set var again
 				threadLines = new ThreadLineCollection;
-				$('.thread_line').each(function(element) {
+				$('.js-thread_line').each(function(element) {
 					var threadLineId = parseInt($(this).attr('data-id'));
 					threadLines.add([{
 						id: threadLineId,
@@ -69,6 +68,8 @@ define([
 						model: postings.get(id)
 					});
 				});
+
+
 			},
 
 			/**

@@ -569,7 +569,7 @@ ul.thread { margin: 0 !important; }
 /******************************************************************************* Forms *****************************************************************************/
 input, textarea, .markItUpPreviewFrame { padding: 0.2em 0.5em; border: 1px solid #aaaaaa; width: 98%; /* chrome in linux */ outline-color: #607d86; max-width: 60em; }
 
-input[type=checkbox] { width: auto; }
+input[type=checkbox], input[type=radio] { width: auto; margin-bottom: 0.5em; margin-right: 0.5em; }
 
 /* inset shadow for text fiedls */
 input[type=text], input[type=password], textarea, .markItUpPreviewFrame { border-color: #aaaaaa; display: block; }

@@ -294,13 +294,13 @@ class EntriesController extends AppController {
 						return ;
 					endif;
 				else:
-					//* answering through POST request
+					// answering through POST request
 					if ( $this->localReferer('action') == 'mix' ):
-						//* answer request came from mix ansicht
+						// answer request came from mix ansicht
 						$this->redirect(array( 'controller' => 'entries', 'action' => 'mix', $new_posting['Entry']['tid'], '#' => $this->Entry->id ));
 						return;
 					endif;
-					//* normal posting from entries/add or entries/view
+					// normal posting from entries/add or entries/view
 					$this->redirect(array( 'controller' => 'entries', 'action' => 'view', $this->Entry->id ));
 					return;
 				endif;
@@ -311,16 +311,18 @@ class EntriesController extends AppController {
 				endif;
 				$headerSubnavLeftTitle = __('back_to_overview_linkname');
 			endif;
-			// </editor-fold>
 		} else {
-			// <editor-fold desc="show answering form">
-			//* show answering form
+			// show answering form
+
+			// answering is always a ajax request, prevents add/1234 GET-requests
+			if(!$this->request->is('ajax') && $id !== null) {
+				$this->Session->setFlash(__('js-required'), 'flash/error');
+				return $this->redirect($this->referer());
+			}
 
 			$this->request->data = NULL;
-			if ( $id !== NULL
-					// answering is always a ajax request, prevents add/1234 GET-requests
-					&& $this->request->is('ajax') === TRUE
-			) {
+			if ($id !== NULL) {
+				// check if entry exists by loading its data
 				$this->Entry->contain(array('User', 'Category'));
 				$this->Entry->sanitize(false);
 				$this->request->data = $this->Entry->findById($id);
@@ -339,7 +341,7 @@ class EntriesController extends AppController {
 					unset($this->request->data['Entry']['subject']);
 					$this->set('citeText', $this->request->data['Entry']['text']);
 
-				// get notifications
+					// get notifications
 					$notis = $this->Entry->Esevent->checkEventsForUser($this->CurrentUser->getId(),
 							array(
 									1 => array(
@@ -365,7 +367,6 @@ class EntriesController extends AppController {
 			if ( $this->request->is('ajax') ):
 				$this->set('form_title', __('answer_marking'));
 			endif;
-			// </editor-fold>
 		}
 
     $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
@@ -561,7 +562,7 @@ class EntriesController extends AppController {
 					$this->paginate = array(
 							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$searchTerm' IN BOOLEAN MODE)*100) + (MATCH (Entry.text) AGAINST ('$searchTerm' IN BOOLEAN MODE)*10) + MATCH (Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE) AS rating",
 							'conditions' => array(
-                "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
+                "MATCH (Entry.subject, Entry.text, User.username) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
                 'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())),
 							'order' => 'rating DESC, `Entry`.`time` DESC',
 							'limit' => 25,
@@ -712,7 +713,7 @@ class EntriesController extends AppController {
 			$this->request->data = $this->Entry->toggle($toggle);
 			$tid = $this->Entry->field('tid');
 			$this->_emptyCache($id, $tid);
-			return ($this->request->data == 0) ? __($toggle . '_set_entry_link') : __($toggle . '_unset_entry_link');
+			return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
 		}
 
 		$this->set('json_data', (string) $this->request->data);
