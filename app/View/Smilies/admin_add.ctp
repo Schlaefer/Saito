@@ -1,9 +1,9 @@
+<div class="smilies form">
 <?php $this->Html->addCrumb(__('Smilies'), '/admin/smilies'); ?>
 <?php $this->Html->addCrumb(__('Add Smiley'), '#'); ?>
-<div class="smilies form">
+<h1><?php echo __('Add Smiley'); ?></h1>
 <?php echo $this->Form->create('Smiley');?>
 	<fieldset>
-		<legend><?php echo __('Admin Add Smiley'); ?></legend>
 	<?php
 		echo $this->Form->input('order');
 		echo $this->Form->input('icon');

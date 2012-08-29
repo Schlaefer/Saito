@@ -1,7 +1,9 @@
 <?php $this->Html->addCrumb(__('Smilies'), '/admin/smilies'); ?>
 <?php $this->Html->addCrumb(__('Smiley Codes'), '/admin/smiley_codes'); ?>
 <div class="smileyCodes index">
-	<h2><?php echo __('Smiley Codes');?></h2>
+	<h1><?php echo __('Smiley Codes');?></h1>
+	<?php echo $this->Html->link(__('New Smiley Code'), array('action' => 'add'), array('class' => 'btn')); ?>
+	<hr/>
 	<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
@@ -31,4 +33,3 @@
 <?php endforeach; ?>
 	</table>
 </div>
-		<?php echo $this->Html->link(__('New Smiley Code'), array('action' => 'add'), array('class' => 'btn')); ?>

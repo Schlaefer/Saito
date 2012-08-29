@@ -1,10 +1,9 @@
 <?php $this->Html->addCrumb(__('Categories'), '/admin/categories'); ?>
 <?php $this->Html->addCrumb(__('Add Category'), '/admin/categories/add'); ?>
-
 <div class="categories form">
+<h1><?php echo __('Add Category'); ?></h1>
 	<?php echo $this->Form->create('Category'); ?>
 	<fieldset>
-		<legend><?php echo __('Add Category'); ?></legend>
 		<?php
 //		echo $this->Form->input('category_order');
 		echo $this->Form->input('category', array( 'label' => 'Title' ));

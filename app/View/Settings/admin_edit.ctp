@@ -1,11 +1,13 @@
-<?php $this->Html->addCrumb(__('Settings'), '/admin/settings'); ?>
-<?php $this->Html->addCrumb(__($this->request->data['Setting']['name']), '#'); ?>
-<br/> <br/>
+<?php
+	$this->Html->addCrumb(__('Settings'), '/admin/settings');
+	$this->Html->addCrumb(__($this->request->data['Setting']['name']), '#');
+?>
+<h1><?php echo __($this->request->data['Setting']['name']); ?></h1>
 <div class="row">
 	<div class="span6">
-			<?php
+		<?php
 			echo $this->Form->create(null,
-					array( 'inputDefaults' => array(
+					array('inputDefaults' => array(
 					),
 					'class' => 'well'
 			));
@@ -15,12 +17,12 @@
 					'label' => __($this->request->data['Setting']['name']),
 			));
 			echo $this->Form->submit(
-					null, array(
+					__('Submit'), array(
 					'class' => 'btn-primary',
 			));
 			echo $this->Form->end();
-			?>
-		</div>
+		?>
+	</div>
 	<div class="span4">
 		<p><?php echo __($this->request->data['Setting']['name'] . '_exp'); ?></p>
 	</div>

@@ -13,8 +13,12 @@
 					)
 				); ?>
     <style type="text/css">
-      div.submit { display: inline-block; margin: 0 1em; }
-      .modal-footer form {margin: 0;}
+      div.submit { 
+				/*display: inline-block; margin: 0 1em;*/
+			}
+      .modal-footer form {
+				margin: 0;
+			}
     </style>
 
 	</head>
