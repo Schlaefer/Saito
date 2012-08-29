@@ -6,12 +6,24 @@ define([
 
 		var ThreadlineSpinnerView = Backbone.View.extend({
 
+			running: false,
+
 			show: function() {
-				this.$el.attr('class', 'icon-chevron-down');
+				var effect = _.bind(function() {
+					if (this.running === false) {
+						this.$el.css({opacity: 1});
+						return;
+					}
+					this.$el.animate({opacity:0.1}, 900, _.bind(function() {
+						this.$el.animate({opacity:1}, 500, effect())
+					}, this));
+				}, this);
+				this.running = true;
+				effect();
 			},
 
 			hide: function() {
-				this.$el.attr('class', 'icon-chevron-right');
+				this.running = false;
 			}
 
 		});
