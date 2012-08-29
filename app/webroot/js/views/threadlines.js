@@ -12,22 +12,15 @@ define([
 
 			spinnerTpl: _.template(threadlineSpinnerTpl),
 
-			events: function() {
-				return (navigator.userAgent.match(/mobile/i)) ?
-				{
-					'touchstart .btn_show_thread': 'toggleInlineOpen',
-					'click .link_show_thread': 'toggleInlineOpenFromLink',
-					'touchstart .btn-strip-top': 'toggleInlineOpen'
-				} : {
+			events: {
 					'click .btn_show_thread': 'toggleInlineOpen',
 					'click .link_show_thread': 'toggleInlineOpenFromLink',
 					'click .btn-strip-top': 'toggleInlineOpen'
-				}
 			},
 
 			initialize: function(){
 				this.model.on('change:isInlineOpened', this._toggleInlineOpened, this);
-
+				
 				if (typeof this.scroll == 'undefined' ) this.scroll = true;
 			},
 
