@@ -11,7 +11,8 @@ define([
 			events: {
 				"click .btn-threadCollapse":  "collapseThread",
 				"click .js-btn-openAllThreadlines": "openAllThreadlines",
-				"click .js-btn-closeAllThreadlines": "closeAllThreadlines"
+				"click .js-btn-closeAllThreadlines": "closeAllThreadlines",
+				"click .js-btn-showAllNewThreadlines": "showAllNewThreadlines"
 			},
 
 			initialize: function(){
@@ -25,7 +26,7 @@ define([
 			/**
 			 * Opens all threadlines
 			 */
-			openAllThreadlines: function () {
+			openAllThreadlines: function(event) {
 				event.preventDefault();
 				_.each(
 					this.model.threadlines.where({
@@ -41,7 +42,7 @@ define([
 			/**
 			 * Closes all threadlines
 			 */
-			closeAllThreadlines: function () {
+			closeAllThreadlines: function(event) {
 				event.preventDefault();
 				_.each(
 					this.model.threadlines.where({
@@ -49,6 +50,22 @@ define([
 					}), function(model) {
 						model.set({
 							isInlineOpened: false
+						})
+					}, this);
+			},
+
+			/**
+			 * Toggles all threads marked as unread/new in a thread tree
+			 */
+			showAllNewThreadlines: function(event) {
+				event.preventDefault();
+				_.each(
+					this.model.threadlines.where({
+						isInlineOpened: false,
+						isNewToUser: true
+					}), function(model) {
+						model.set({
+							isInlineOpened: true
 						})
 					}, this);
 			},

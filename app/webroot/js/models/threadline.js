@@ -6,7 +6,8 @@ define([
 			defaults: {
 				isContentLoaded: false,
 				isInlineOpened: false,
-				isAlwaysShownInline: false
+				isAlwaysShownInline: false,
+				isNewToUser: false
 			},
 			loadContent: function(options) {
 				new ThreadLine(this.get('id')).load_inline_view(options);

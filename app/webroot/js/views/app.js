@@ -45,18 +45,22 @@ define([
 				// if everything is migrated to require/bb set var again
 				threadLines = new ThreadLineCollection;
 				$('.js-thread_line').each(function(element) {
-					var threadLineId = parseInt($(this).attr('data-id'));
-					var threadId = parseInt($(this).attr('data-tid'));
+					var el = $(this);
+					var threadLineId = parseInt(el[0].getAttribute('data-id'));
+					var threadId = parseInt(el[0].getAttribute('data-tid'));
+					var isNew = el[0].getAttribute('data-new') == true;
 					var new_model;
 					if(threads.get(threadId)) {
 						threads.get(threadId).threadlines.add([{
 							id: threadLineId,
+							isNewToUser: isNew,
 							isAlwaysShownInline: User_Settings_user_show_inline
 						}], {silent: true});
 						new_model = threads.get(threadId).threadlines.get(threadLineId);
 					} else {
 						threadLines.add([{
 							id: threadLineId,
+							isNewToUser: isNew,
 							isAlwaysShownInline: User_Settings_user_show_inline
 						}], {silent: true});
 						new_model = threadLines.get(threadLineId);
@@ -70,7 +74,7 @@ define([
 				// if everything is migrated to require/bb set var again
 				postings = new PostingCollection;
 				$('.js-entry-view-core').each(function(element) {
-					var id = parseInt($(this).attr('data-id'));
+					var id = parseInt($(this)[0].getAttribute('data-id'));
 					postings.add([{
 						id: id
 					}], {silent: true});

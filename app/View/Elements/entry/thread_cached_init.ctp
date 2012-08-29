@@ -58,11 +58,7 @@
 								// keinen Show All New Inline View Eintrag
 							?>
 							<li>
-								<a href="#"
-									id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>"
-									title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>"
-									onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;"
-									>
+								<a href="#" class="js-btn-showAllNewThreadlines" title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>">
 									<span class="ico-threadTool ico-threadOpenNew"></span>
 								</a>
 							</li>

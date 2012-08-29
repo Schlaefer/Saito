@@ -12,23 +12,6 @@ function Thread(tid) {
 	this.threadbox 			= '.thread_box.' + this.tid ;
 };
 
-/**
- * Toggles all threads marked as unread/new in a thread tree
- */
-Thread.prototype.showNew = function () {
-		var p = this;
-		var new_postings = $(p.threadbox + ' .thread_line.new')
-
-		new_postings.each(
-			function () {
-				var id = $(this).data('id');
-				threadLines.get(id).set({
-						isInlineOpened: true
-					});
-			}
-		);
-};
-
 Thread.init = function() {
 	// highlight for Toolbar
 	Thread.initHighlightTools();
