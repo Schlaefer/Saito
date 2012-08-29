@@ -14,8 +14,11 @@ define([
 
 			events: {
 					'click .btn_show_thread': 'toggleInlineOpen',
-					'click .link_show_thread': 'toggleInlineOpenFromLink',
-					'click .btn-strip-top': 'toggleInlineOpen'
+					'click .link_show_thread': 'toggleInlineOpenFromLink'
+
+					// is bound manualy after dom insert  in _toggleInlineOpened
+					// to hightlight the correct click target in iOS
+					// 'click .btn-strip-top': 'toggleInlineOpen'
 			},
 
 			initialize: function(){
@@ -59,6 +62,8 @@ define([
 						$('.js-thread_line-content.' + id).after(this.spinnerTpl({
 							id: id
 						}));
+						this.$el.find('.btn-strip-top').on('click', _.bind(this.toggleInlineOpen, this))	;
+
 						this.model.loadContent({
 							success: _.bind(this._showInlineView, this, {
 								tslV: 'hide'
