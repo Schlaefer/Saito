@@ -30,3 +30,7 @@ cat jquery.hoverIntent.minified.js lib/jquery-ui/jquery-ui-1.8.22.custom.min.js 
 rm classes.min.js
 rm custom_javascript.js
 rm custom_javascript-compressed.js
+
+### rquire.js optimizer ###
+node lib/r/r.js -o build.js
+
