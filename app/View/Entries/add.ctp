@@ -103,7 +103,7 @@ $this->Form->submit(__('Einfügen'),
 			<div class="clearfix"></div>
 			<br/>
 			<div id="markitup_media_message" class="flash error" style="display: none;">
-					Es wurde kein Video erkannt.<!-- @lo -->
+					<?php echo __('No video recognized.'); ?>
 			</div>
 		</div>
 

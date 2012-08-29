@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-29 09:37+0100\n"
-"PO-Revision-Date: 2012-08-29 09:38+0100\n"
+"POT-Creation-Date: 2012-08-29 09:42+0100\n"
+"PO-Revision-Date: 2012-08-29 09:42+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -122,9 +122,8 @@ msgstr "Kommentar"
 
 #: View/Bookmarks/index.ctp:48 View/Categories/admin_index.ctp:39
 #: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
-#: View/Categories/view.ctp:108 View/SmileyCodes/admin_edit.ctp:20
-#: View/SmileyCodes/admin_index.ctp:28 View/Smilies/admin_index.ctp:32
-#: View/Users/view.ctp:192
+#: View/Categories/view.ctp:108 View/SmileyCodes/admin_index.ctp:30
+#: View/Smilies/admin_index.ctp:32 View/Users/view.ctp:192
 msgid "Delete"
 msgstr "Löschen"
 
@@ -139,7 +138,7 @@ msgstr "Kategorie hinzufügen"
 
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
 #: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
-#: View/SmileyCodes/admin_edit.ctp:14 View/Smilies/admin_add.ctp:12
+#: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
 #: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:18
 msgid "Submit"
 msgstr "Absenden"
@@ -148,9 +147,8 @@ msgstr "Absenden"
 #: View/Categories/edit.ctp:17 View/Categories/index.ctp:11
 #: View/Categories/index.ctp:51 View/Categories/view.ctp:37
 #: View/Categories/view.ctp:73 View/Settings/admin_index.ctp:7
-#: View/SmileyCodes/admin_add.ctp:14 View/SmileyCodes/admin_edit.ctp:17
-#: View/SmileyCodes/admin_index.ctp:10 View/Smilies/admin_add.ctp:18
-#: View/Smilies/admin_index.ctp:14
+#: View/SmileyCodes/admin_add.ctp:14 View/SmileyCodes/admin_index.ctp:12
+#: View/Smilies/admin_add.ctp:18 View/Smilies/admin_index.ctp:14
 msgid "Actions"
 msgstr "Aktion"
 
@@ -229,15 +227,14 @@ msgstr "Neue Kategorie"
 
 #: View/Categories/admin_index.ctp:34 View/Categories/index.ctp:30
 #: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:222
-#: View/SmileyCodes/admin_index.ctp:27 View/Smilies/admin_index.ctp:31
+#: View/SmileyCodes/admin_index.ctp:29 View/Smilies/admin_index.ctp:31
 #: View/Users/view.ctp:182
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
 #: View/Categories/view.ctp:40 View/Categories/view.ctp:108
-#: View/SmileyCodes/admin_edit.ctp:20 View/SmileyCodes/admin_index.ctp:28
-#: View/Smilies/admin_index.ctp:32
+#: View/SmileyCodes/admin_index.ctp:30 View/Smilies/admin_index.ctp:32
 #, php-format
 msgid "Are you sure you want to delete # %s?"
 msgstr "# %s wirklich löschen?"
@@ -637,6 +634,10 @@ msgstr "Vorschau"
 #: View/Entries/add.ctp:95
 msgid "Einfügen"
 msgstr ""
+
+#: View/Entries/add.ctp:106
+msgid "No video recognized."
+msgstr "Es wurde kein Video erkannt."
 
 #: View/Entries/add.ctp:124 Controller/UsersController.php:414
 msgid "error_subject_empty"
@@ -1150,18 +1151,16 @@ msgstr ""
 msgid "Add Smiley Code"
 msgstr "Smilies"
 
-#: View/SmileyCodes/admin_add.ctp:17 View/SmileyCodes/admin_edit.ctp:21
-#: View/Smilies/admin_add.ctp:22 View/Smilies/admin_index.ctp:5
+#: View/SmileyCodes/admin_add.ctp:17 View/Smilies/admin_add.ctp:22
+#: View/Smilies/admin_index.ctp:5
 msgid "List Smiley Codes"
 msgstr "Smiley Liste"
 
-#: View/SmileyCodes/admin_add.ctp:18 View/SmileyCodes/admin_edit.ctp:22
-#: View/Smilies/admin_add.ctp:21
+#: View/SmileyCodes/admin_add.ctp:18 View/Smilies/admin_add.ctp:21
 msgid "List Smilies"
 msgstr "Smilies auflisten"
 
-#: View/SmileyCodes/admin_add.ctp:19 View/SmileyCodes/admin_edit.ctp:23
-#: View/Smilies/admin_index.ctp:4
+#: View/SmileyCodes/admin_add.ctp:19 View/Smilies/admin_index.ctp:4
 msgid "New Smiley"
 msgstr "Neuer Smiley"
 
@@ -1170,15 +1169,11 @@ msgstr "Neuer Smiley"
 msgid "Smiley Codes"
 msgstr "Smiley-Codes"
 
-#: View/SmileyCodes/admin_edit.ctp:3
-msgid "Edit Smiley Codes"
-msgstr "Smiley-Code bearbeiten"
-
-#: View/SmileyCodes/admin_edit.ctp:4
+#: View/SmileyCodes/admin_edit.ctp:3 View/SmileyCodes/admin_edit.ctp:4
 msgid "Edit Smiley Code"
 msgstr "Smiley-Code bearbeiten"
 
-#: View/SmileyCodes/admin_index.ctp:34 View/Smilies/admin_add.ctp:23
+#: View/SmileyCodes/admin_index.ctp:5 View/Smilies/admin_add.ctp:23
 msgid "New Smiley Code"
 msgstr "Neuer Smiley Code"
 
@@ -2067,6 +2062,9 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "Edit Smiley Codes"
+#~ msgstr "Smiley-Code bearbeiten"
 
 #~ msgid "Admin Add Smiley Code"
 #~ msgstr "Smiley Code hinzufügen"
