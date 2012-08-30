@@ -730,14 +730,14 @@ class EntriesController extends AppController {
 
 		$this->Auth->allow('feed', 'index', 'view', 'mix');
 
-		if ( $this->request->action == 'index' ) {
+		if ( $this->request->action === 'index' ) {
 			if ( $this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0 ) {
 				$this->set('autoPageReload',
 						$this->CurrentUser['user_forum_refresh_time'] * 60);
 			}
 			$this->_setAppStats();
 		}
-		if ( $this->request->action != 'index' ) {
+		if ( $this->request->action !== 'index' ) {
 			$this->_loadSmilies();
 		}
 
