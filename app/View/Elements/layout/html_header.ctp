@@ -1,6 +1,6 @@
 <?php echo $this->Html->docType('xhtml-trans'); ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head onorientationchange="">
+	<head>
     <title><?php echo $title_for_layout ?></title>
 		<?php echo $this->Html->charset(); ?>
 		<?php # echo $this->Html->meta(array( 'http-equiv' => 'expires', 'content' => '0'));?>
