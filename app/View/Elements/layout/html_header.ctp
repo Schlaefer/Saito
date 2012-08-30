@@ -8,9 +8,6 @@
 			echo $this->fetch('meta');
 			echo $this->fetch('css');
 
-			echo $this->Html->meta('keywords', '');
-			echo $this->Html->meta('description', '');
-
 			if (isset($autoPageReload)) {
 				echo "<meta http-equiv='refresh' content='{$autoPageReload}'/>";
 			};
