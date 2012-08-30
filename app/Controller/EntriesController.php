@@ -724,56 +724,56 @@ class EntriesController extends AppController {
 
 //end ajax_toggle()
 
-	public function beforeFilter() {
-		parent::beforeFilter();
-		Stopwatch::start('Entries->beforeFilter()');
+		public function beforeFilter() {
+			parent::beforeFilter();
+			Stopwatch::start('Entries->beforeFilter()');
 
-		$this->Auth->allow('feed', 'index', 'view', 'mix');
+			$this->Auth->allow('feed', 'index', 'view', 'mix');
 
-		if ( $this->request->action === 'index' ) {
-			if ( $this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0 ) {
-				$this->set('autoPageReload',
-						$this->CurrentUser['user_forum_refresh_time'] * 60);
-			}
-			$this->_setAppStats();
-		}
-		if ( $this->request->action !== 'index' ) {
-			$this->_loadSmilies();
-		}
-
-		//* automaticaly mark as viewed
-		if ( $this->CurrentUser->isLoggedIn()
-				&& !$this->Session->read('paginator.lastPage')
-				&& (
-				//* deprecated
-				( $this->CurrentUser['user_automaticaly_mark_as_read'] && $this->request->params['action'] == 'index')
-				||
-				//* current
-				( isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead']) )
-				)
-		) {
-
-			if (
-			//* deprecated
-					($this->localReferer('controller') == 'entries' && $this->localReferer('action') == 'index')
-					OR
-					//* current
-					( isset($this->request->params['named']['setAsRead']) )
-			):
-				//* all the session stuff ensures that a second session A don't accidentaly mark something as read that isn't read on session B
-				if ( $this->Session->read('User.last_refresh_tmp')
-						&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
-				) {
-					$this->CurrentUser->LastRefresh->set();
+			if ($this->request->action === 'index') {
+				if ($this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0) {
+					$this->set('autoPageReload',
+							$this->CurrentUser['user_forum_refresh_time'] * 60);
 				}
-				$this->Session->write('User.last_refresh_tmp', time());
-		  else:
-        $this->CurrentUser->LastRefresh->setMarker();
-      endif;
-		}
+				$this->_setAppStats();
+			}
+			if ($this->request->action !== 'index') {
+				$this->_loadSmilies();
+			}
 
-		Stopwatch::stop('Entries->beforeFilter()');
-	}
+			// automaticaly mark as viewed
+			if ($this->CurrentUser->isLoggedIn()
+					&& !$this->Session->read('paginator.lastPage')
+					&& (
+					//* deprecated
+					( $this->CurrentUser['user_automaticaly_mark_as_read'] && $this->request->params['action'] == 'index')
+					||
+					//* current
+					( isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead']) )
+					)
+			) {
+
+				if (
+				//* deprecated
+						($this->localReferer('controller') == 'entries' && $this->localReferer('action') == 'index')
+						OR
+						//* current
+						( isset($this->request->params['named']['setAsRead']) )
+				):
+					//* all the session stuff ensures that a second session A don't accidentaly mark something as read that isn't read on session B
+					if ($this->Session->read('User.last_refresh_tmp')
+							&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
+					) {
+						$this->CurrentUser->LastRefresh->set();
+					}
+					$this->Session->write('User.last_refresh_tmp', time());
+				else:
+					$this->CurrentUser->LastRefresh->setMarker();
+				endif;
+			}
+
+			Stopwatch::stop('Entries->beforeFilter()');
+		}
 
 	protected function _emptyCache($id, $tid) {
     $this->CacheTree->delete($tid);
