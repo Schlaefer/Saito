@@ -3,6 +3,25 @@
   App::uses('AppModel', 'Model');
 	App::uses('CakeEvent', 'Event');
 
+	/**
+	 *
+	 *
+	 * Model notes
+	 * ===========
+	 *
+	 * Entry.name
+	 * ----------
+	 *
+	 * Came from mlf. Is still used in fulltext index.
+	 *
+	 * Entry.edited_by
+	 * ---------------
+	 *
+	 * Came from mlf.
+	 *
+	 * @td After mlf is gone `edited_by` should conatin a User.id, not the username string.
+	 *
+	 */
 	class Entry extends AppModel {
 
 		public $name = 'Entry';
@@ -78,7 +97,6 @@
 				'views'	 => array(
 						'rule' => array('comparison', '>=', 0),
 				),
-				# @mlf deprecated field after mlf is gone, but watch out for performance
 				'name' => array(),
 		);
 
@@ -448,7 +466,6 @@
     $tree[$id] = isset($tree[$id]) ? $item + $tree[$id] : $item;
 		$tree[$pid]['_children'][] = &$tree[$id];
 	}
-	/* @td after mlf is gone `edited_by` should conatin a User.id, not username */
 
 	public function beforeFind($queryData) {
 	 parent::beforeFind($queryData);
