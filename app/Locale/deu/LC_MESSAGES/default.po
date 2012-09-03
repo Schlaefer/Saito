@@ -408,15 +408,15 @@ msgstr "Thread ein-/ausklappen."
 
 #: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showNewThreads"
-msgstr "Alle ungelesenen Beiträge des Theras aufklappen."
+msgstr "Alle ungelesenen Beiträge des Threads aufklappen."
 
 #: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-closeThreads"
-msgstr "Alle offenen Beiträge des Theras zuklappen."
+msgstr "Alle offenen Beiträge des Threads zuklappen."
 
 #: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-openThreads"
-msgstr "Alle geschlossenen Beiträge des Theras aufklappen."
+msgstr "Alle geschlossenen Beiträge des Threads aufklappen."
 
 #: View/Elements/entry/view_content.ctp:58
 #, php-format
