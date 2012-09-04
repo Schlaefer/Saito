@@ -26,7 +26,8 @@ define([
 
 			initialize: function () {
 
-				var threads = new ThreadCollection;
+				// @td if everything is migrated to require/bb set var again
+				threads = new ThreadCollection;
 				threads.fetch();
 
 				$('.thread_box').each(function(element) {
@@ -42,7 +43,7 @@ define([
 					});
 				});
 
-				// if everything is migrated to require/bb set var again
+				// @td if everything is migrated to require/bb set var again
 				threadLines = new ThreadLineCollection;
 				$('.js-thread_line').each(function(element) {
 					var el = $(this);
@@ -71,7 +72,7 @@ define([
 					});
 				});
 
-				// if everything is migrated to require/bb set var again
+				// @td if everything is migrated to require/bb set var again
 				postings = new PostingCollection;
 				$('.js-entry-view-core').each(function(element) {
 					var id = parseInt($(this)[0].getAttribute('data-id'));

@@ -60,18 +60,20 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
  * Adds an new thread as answer after the current and fills it with `data`
  */
 ThreadLine.prototype.insertNewLineAfter = function (data) {
-	threadLines.get(this.id).set({isInlineOpened: false});
+	var tid = $(data).find('.js-thread_line').data('tid');
+	threads.get(tid).threadlines.get(this.id).set({isInlineOpened: false});
 	postings.get(this.id).set({isAnsweringFormShown: false});
   var el = $('<li>'+data+'</li>').insertAfter('#ul_thread_' + this.id + ' > li:last-child');
 
 	// add to backbone model
 	var threadLineId = $(data).find('.js-thread_line').data('id');
-	threadLines.add([{
-				id: threadLineId,
-				isAlwaysShownInline: User_Settings_user_show_inline
-			}]);
+	threads.get(tid).threadlines.add([{
+		id: threadLineId,
+		isNewToUser: true,
+		isAlwaysShownInline: User_Settings_user_show_inline
+	}], {silent: true});
 	new ThreadLineView({
 		el: $(el).find('.js-thread_line'),
-		model: threadLines.get(threadLineId)
+		model: threads.get(tid).threadlines.get(threadLineId)
 	});
 };
