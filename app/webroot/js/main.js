@@ -21,6 +21,7 @@ require.config({
 		bootstrap: 'bootstrap/bootstrap',
 		domReady: 'lib/domReady',
 		text: 'lib/require/text'
+		// @td include scrollTo after _app.js is gone
 	}
 });
 

@@ -85,7 +85,20 @@ define([
 					});
 				});
 
+				// scroll to thread
+				if (window.location.href.indexOf('/jump:') > -1) {
+					var results = /jump:(\d+)/.exec(window.location.href);
+					this.scrollToThread(results[1]);
+					window.history.replaceState(
+							'object or string',
+							'Title',
+							window.location.pathname.replace(/jump:\d+(\/)?/, '')
+					);
+				}
+			},
 
+			scrollToThread: function(tid) {
+				scrollToTop($('.thread_box.' + tid));
 			},
 
 			/**
