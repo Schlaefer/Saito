@@ -30,10 +30,10 @@ define([
 			initHover: function() {
 				this.$el.hoverIntent(
 					_.bind(function () {
-						$('.thread_tools', this.$el).delay(50).fadeTo(200, 1) ;
+						$(this.$el).find('.thread_tools').delay(50).fadeTo(200, 1) ;
 					}, this),
 					_.bind(function () {
-						$('.thread_tools', this.$el).delay(400).fadeTo(1000, 0.2);
+						$(this.$el).find('.thread_tools').delay(400).fadeTo(1000, 0.2);
 					}, this)
 					);
 			},
