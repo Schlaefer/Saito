@@ -89,13 +89,12 @@ class EntriesController extends AppController {
 
 			$this->set('entries', $threads);
 
-			if ( isset($this->request->named['page']) ) :
+			$currentPage = 1;
+			if (isset($this->request->named['page']) && $this->request->named['page'] != 1):
 				$currentPage = $this->request->named['page'];
-				$this->Session->write(
-						'paginator.lastPage', $currentPage
-				);
 				$this->set('title_for_layout', __('page') . ' ' . $currentPage);
 			endif;
+			$this->Session->write('paginator.lastPage', $currentPage);
 
 			$this->set('showDisclaimer', TRUE);
 
