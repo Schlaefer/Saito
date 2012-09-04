@@ -377,7 +377,6 @@ function saitoHelpHide() {
 
 /************* document ready *******************/
 $(document).ready( function() {
-	Thread.init();
 	slidetabsMakeSortable();
 	initSaitoHelp();
 
