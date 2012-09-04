@@ -26,7 +26,7 @@
 				endif;
 				?>
 			<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}';"); ?>
-			<?php echo $this->Html->script('lib/jquery/jquery-1.8.0.min'); ?>
+			<?php echo $this->Html->script('lib/jquery/jquery-1.8.1.min'); ?>
 	</head>
 	<body>
 	<div style ="min-height: 100%; position: relative;">

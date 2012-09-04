@@ -4,7 +4,7 @@
 	<head>
 		<title><?php echo $title_for_layout ?></title>
 		<?php echo $this->Html->charset(); ?>
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
 		<?php echo $this->Html->script('bootstrap/bootstrap'); ?>
 		<?php echo $this->Html->css(
 				array(

@@ -32,9 +32,9 @@
 			");
 
 			if (Configure::read('debug') == 0):
-				echo $this->Html->script('lib/jquery/jquery-1.8.0.min');
+				echo $this->Html->script('lib/jquery/jquery-1.8.1.min');
 			else:
-				echo $this->Html->script('lib/jquery/jquery-1.8.0');
+				echo $this->Html->script('lib/jquery/jquery-1.8.1');
 			endif;
 
 			// require.js borks out when used with Cakes timestamp.
