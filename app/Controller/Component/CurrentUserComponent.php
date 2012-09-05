@@ -60,6 +60,7 @@ Class CurrentUserComponent extends SaitoUser {
 	 */
 	protected $_botUserAgents = array(
 			'archive',
+			'bot',
 			'baidu',
 			'crawl',
 			'googlebot',
