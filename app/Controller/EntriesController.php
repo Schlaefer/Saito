@@ -740,38 +740,37 @@ class EntriesController extends AppController {
 				$this->_loadSmilies();
 			}
 
-			// automaticaly mark as viewed
-			if ($this->CurrentUser->isLoggedIn()
-					&& !$this->Session->read('paginator.lastPage')
-					&& (
-					//* deprecated
-					( $this->CurrentUser['user_automaticaly_mark_as_read'] && $this->request->params['action'] == 'index')
-					||
-					//* current
-					( isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead']) )
-					)
-			) {
-
-				if (
-				//* deprecated
-						($this->localReferer('controller') == 'entries' && $this->localReferer('action') == 'index')
-						OR
-						//* current
-						( isset($this->request->params['named']['setAsRead']) )
-				):
-					//* all the session stuff ensures that a second session A don't accidentaly mark something as read that isn't read on session B
-					if ($this->Session->read('User.last_refresh_tmp')
-							&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
-					) {
-						$this->CurrentUser->LastRefresh->set();
-					}
-					$this->Session->write('User.last_refresh_tmp', time());
-				else:
-					$this->CurrentUser->LastRefresh->setMarker();
-				endif;
-			}
+			$this->_automaticalyMarkAsRead();
 
 			Stopwatch::stop('Entries->beforeFilter()');
+		}
+
+		protected function _automaticalyMarkAsRead() {
+			if ($this->CurrentUser->isLoggedIn() && $this->CurrentUser['user_automaticaly_mark_as_read']):
+				if (
+						($this->request->params['action'] === 'index' && $this->Session->read('paginator.lastPage') == 1) // deprecated
+				// OR (isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead'])) // current
+				):
+					// initiate sessions last_refresh_tmp for new sessions
+					if (!$this->Session->read('User.last_refresh_tmp')) {
+						$this->Session->write('User.last_refresh_tmp', time());
+					}
+					if (
+							($this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index') // deprecated
+					// OR (isset($this->request->params['named']['setAsRead'])) // current
+					):
+						// a second session A don't accidentaly mark something as read that isn't read on session B
+						if ($this->Session->read('User.last_refresh_tmp')
+								&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
+						) {
+							$this->CurrentUser->LastRefresh->set();
+						}
+						$this->Session->write('User.last_refresh_tmp', time());
+					else:
+						$this->CurrentUser->LastRefresh->setMarker();
+					endif;
+				endif;
+			endif;
 		}
 
 	protected function _emptyCache($id, $tid) {
