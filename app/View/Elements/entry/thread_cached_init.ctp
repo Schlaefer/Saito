@@ -1,7 +1,8 @@
 <?php echo Stopwatch::start('entries/thread_cached_init'); ?>
 <?php
 	/*
-	 * The threadbox title i10n can cost several ms.
+	 * Caching the localized threadbox title tags.
+	 * Depending on the number of threads on the page i10n can cost several ms.
 	 */
 	$cacheThreadBoxTitlei18n = array(
 				'btn-showThreadInMixView' => __('btn-showThreadInMixView'),
