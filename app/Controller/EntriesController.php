@@ -141,6 +141,7 @@ class EntriesController extends AppController {
 			return $this->redirect('/');
 		}
 
+		$this->set('title_for_layout', $entries[0]['Entry']['subject']);
 		$this->set('entries', $entries);
     $this->_showAnsweringPanel();
 	}
