@@ -8,10 +8,6 @@
 			echo $this->fetch('meta');
 			echo $this->fetch('css');
 
-			if (isset($autoPageReload)) {
-				echo "<meta http-equiv='refresh' content='{$autoPageReload}'/>";
-			};
-
 			echo $this->Html->css('stylesheets/static.css');
 			echo $this->Html->css('stylesheets/styles.css');
 
@@ -29,6 +25,7 @@
 				var webroot = '{$this->request->webroot}';
 				var Saito_Settings_embedly_enabled = " . $this->Js->value(Configure::read('Saito.Settings.embedly_enabled')) . ";
 				var User_Settings_user_show_inline = " . $this->Js->value($CurrentUser['inline_view_on_click']) . ";
+				var Saito_App_Settings_autoPageReload = " . (isset($autoPageReload) ? $autoPageReload : 0) . ";
 			");
 
 			if (Configure::read('debug') == 0):

@@ -95,6 +95,16 @@ define([
 							window.location.pathname.replace(/jump:\d+(\/)?/, '')
 					);
 				}
+
+				// initiate page reload
+				// @td make App property instead of global
+				autoPageReloadTimer = null;
+				if (Saito_App_Settings_autoPageReload) {
+					autoPageReloadTimer = setTimeout(
+						function() {
+							window.location.reload(false);
+						}, Saito_App_Settings_autoPageReload * 1000);
+				}
 			},
 
 			scrollToThread: function(tid) {
