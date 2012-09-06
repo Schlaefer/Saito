@@ -752,10 +752,6 @@ class EntriesController extends AppController {
 		}
 
 		protected function _automaticalyMarkAsRead() {
-			if ($this->Session->read('User_last_refresh_disabled')) {
-				$this->Session->write('User_last_refresh_disabled', false);
-				return;
-			}
 			if ($this->CurrentUser->isLoggedIn() && $this->CurrentUser['user_automaticaly_mark_as_read']):
 				if (
 						($this->request->params['action'] === 'index' && $this->Session->read('paginator.lastPage') == 1) // deprecated
@@ -773,7 +769,11 @@ class EntriesController extends AppController {
 						if ($this->Session->read('User.last_refresh_tmp')
 								&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
 						) {
-							$this->CurrentUser->LastRefresh->set();
+							if ($this->Session->read('User_last_refresh_disabled')) {
+								$this->Session->write('User_last_refresh_disabled', false);
+							} else {
+								$this->CurrentUser->LastRefresh->set();
+							}
 						}
 						$this->Session->write('User.last_refresh_tmp', time());
 					else:
