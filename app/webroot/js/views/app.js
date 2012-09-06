@@ -102,7 +102,7 @@ define([
 				if (Saito_App_Settings_autoPageReload) {
 					autoPageReloadTimer = setTimeout(
 						function() {
-							window.location.reload(false);
+							window.location = webroot + '/entries/noupdate/';
 						}, Saito_App_Settings_autoPageReload * 1000);
 				}
 			},

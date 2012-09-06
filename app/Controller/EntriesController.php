@@ -154,6 +154,11 @@ class EntriesController extends AppController {
 		$this->redirect('/entries/index');
 	}
 
+	public function noupdate() {
+		$this->Session->write('User_last_refresh_disabled', true);
+		$this->redirect('/entries/index');
+	}
+
 	public function setcategory($id = null) {
 		if(!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException();
@@ -747,6 +752,10 @@ class EntriesController extends AppController {
 		}
 
 		protected function _automaticalyMarkAsRead() {
+			if ($this->Session->read('User_last_refresh_disabled')) {
+				$this->Session->write('User_last_refresh_disabled', false);
+				return;
+			}
 			if ($this->CurrentUser->isLoggedIn() && $this->CurrentUser['user_automaticaly_mark_as_read']):
 				if (
 						($this->request->params['action'] === 'index' && $this->Session->read('paginator.lastPage') == 1) // deprecated
