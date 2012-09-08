@@ -9,7 +9,10 @@ define([
 			className: 'thread_box',
 
 			events: {
-				"click .btn-threadCollapse":  "collapseThread"
+				"click .btn-threadCollapse":  "collapseThread",
+				"click .js-btn-openAllThreadlines": "openAllThreadlines",
+				"click .js-btn-closeAllThreadlines": "closeAllThreadlines",
+				"click .js-btn-showAllNewThreadlines": "showAllNewThreadlines"
 			},
 
 			initialize: function(){
@@ -18,6 +21,68 @@ define([
 				if (this.model.get('isThreadCollapsed')) {
 					this.hide();
 				}
+				this.initHover();
+			},
+
+			/**
+			 * highlight for Toolbar
+			 */
+			initHover: function() {
+				this.$el.hoverIntent(
+					_.bind(function () {
+						$(this.$el).find('.thread_tools').delay(50).fadeTo(200, 1) ;
+					}, this),
+					_.bind(function () {
+						$(this.$el).find('.thread_tools').delay(400).fadeTo(1000, 0.2);
+					}, this)
+					);
+			},
+
+			/**
+			 * Opens all threadlines
+			 */
+			openAllThreadlines: function(event) {
+				event.preventDefault();
+				_.each(
+					this.model.threadlines.where({
+						isInlineOpened: false
+					}), function(model) {
+						model.set({
+							isInlineOpened: true
+						})
+					}, this);
+
+			},
+
+			/**
+			 * Closes all threadlines
+			 */
+			closeAllThreadlines: function(event) {
+				event.preventDefault();
+				_.each(
+					this.model.threadlines.where({
+						isInlineOpened: true
+					}), function(model) {
+						model.set({
+							isInlineOpened: false
+						})
+					}, this);
+			},
+
+			/**
+			 * Toggles all threads marked as unread/new in a thread tree
+			 */
+			showAllNewThreadlines: function(event) {
+				event.preventDefault();
+				_.each(
+					this.model.threadlines.where({
+						isInlineOpened: false,
+						isNewToUser: true
+					}), function(model) {
+						model.set({
+							isInlineOpened: true
+						})
+					}, this);
 			},
 
 			collapseThread: function(event) {

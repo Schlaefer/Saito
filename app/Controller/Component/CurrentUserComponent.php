@@ -54,6 +54,23 @@ Class CurrentUserComponent extends SaitoUser {
 	protected $_Controller = NULL;
 
 	/**
+	 * User agent snippets for bots
+	 *
+	 * @var array
+	 */
+	protected $_botUserAgents = array(
+			'archive',
+			'bot',
+			'baidu',
+			'crawl',
+			'googlebot',
+			'msnbot',
+			'spider',
+			'slurp',
+			'validator',
+	);
+
+	/**
 	 *
 	 * @param type $controller
 	 */
@@ -103,18 +120,31 @@ Class CurrentUserComponent extends SaitoUser {
 
 	/**
 	 * Marks users as online
-	 *
 	 */
 	protected function _markOnline() {
 		Stopwatch::start('CurrentUser->_markOnline()');
 
 		$id = $this->getId();
 		if ( $this->isLoggedIn() == FALSE ):
+			// don't count search bots as guests
+			if ($this->_isBot()) {
+				return;
+			}
 			$id = session_id();
 		endif;
 		$this->_User->UserOnline->setOnline($id, $this->isLoggedIn());
 
 		Stopwatch::stop('CurrentUser->_markOnline()');
+	}
+
+	/**
+		* Detects if the current user is a bot
+		*
+		* @return boolean
+		*/
+	protected function _isBot() {
+		return preg_match('/' . implode('|', $this->_botUserAgents) . '/i',
+						env('HTTP_USER_AGENT')) == TRUE;
 	}
 
 	protected function _cookieRelogin() {

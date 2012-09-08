@@ -1,7 +1,7 @@
-<?php $this->Html->addCrumb(__('Smilies'), '/admin/smilies'); ?>
+<?php $this->Html->addCrumb(__('Users'), '/admin/users'); ?>
 <div class="users index">
-	<h2><?php echo __('Users');?></h2>
-	<?php echo $this->Html->link(__('Add User'), array( 'action' => 'add' ), array( 'class' => 'btn' )); ?>
+	<h1><?php echo __('Users');?></h1>
+	<?php echo $this->Html->link(__('New User'), array( 'action' => 'add' ), array( 'class' => 'btn' )); ?>
 	<hr/>
 	<table id="usertable" class="table table-striped table-bordered">
 		<thead>

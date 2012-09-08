@@ -44,7 +44,7 @@
       if ( isset($User['id']) ) {
 
         $font_size = $User['user_font_size'];
-        if ( $font_size != 0 ) {
+        if ( $font_size != 1 ) {
           $font_size = -1 * ( 1 - $font_size ) * 20 + 12;
           if ( !empty($font_size) ) {
             $out[] = "body { font-size:" . $font_size . "px; }";

@@ -1,5 +1,5 @@
-<?php $this->Html->addCrumb(__('Settings'), '/admin/settings'); ?>
 <?php
+	$this->Html->addCrumb(__('Settings'), '/admin/settings');
   $tableHeadersHtml = $this->Html->tableHeaders(array(
       __('Key'),
       __('Value'),
@@ -8,6 +8,7 @@
       ));
 ?>
 <div id="settings_index" class="settings index">
+	<h1><?php echo __('Settings'); ?></h1>
 	<h2><?php echo __('Deactivate Forum'); ?></h2>
 	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $tableHeadersHtml ?>

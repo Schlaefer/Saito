@@ -1,195 +1,222 @@
 <?php
 
   App::uses('AppModel', 'Model');
-  App::uses('CakeEvent', 'Event');
-
-class Entry extends AppModel {
-	public $name = 'Entry';
-	public $primaryKey	= 'id';
- 	public $actsAs = array(
-			'Containable', 
-			'Search.Searchable',
-		);
-
-	public $findMethods = array(
-				'feed' => true,
-				'entry' => true,
-		);
-
-		// fields for search plugin
-	public $filterArgs = array (
-		array ('name' => 'subject', 'type' => 'like'),
-		array ('name' => 'text', 'type' => 'like'),
-		array ('name' => 'name', 'type' => 'like'),
-	);
-
-	public $belongsTo = array(
-			'Category' => array (
-					'className' => 'Category',
-					'foreignKey' => 'category',
-			),
-			'User' => array (
-					'className' => 'User',
-					'foreignKey' => 'user_id',
-					'counterCache'	=> true,
-			),
-	);
-
-	public $hasMany = array(
-			'Bookmark' => array(
-					'foreignKey' => 'entry_id',
-					'dependent' => true,
-			),
-			'Esevent' => array(
-					'foreignKey' => 'subject',
-					'conditions' => array('Esevent.subject' => 'Entry.id'),
-			),
-	);
-
-	public $validate = array (
-			'subject'	=> array (
-				'notEmpty'	=> array (
-					'rule'			=> 'notEmpty',
-				),
-				'maxLength'	=> array(
-							// set to Saito admin pref in beforeValidate()
-						 'rule' => array('maxLength', 100),
-				),
-
-			),
-			'category'	=> array (
-				'notEmpty'	=> array (
-					'rule'			=> 'notEmpty',
-					'last'			=> true,
-				),
-				'numeric'	=> array(
-					'rule'	=> 'numeric'
-				),
-			),
-			'user_id'	=> array (
-				'rule'	=> 'numeric'
-			),
-			'views'		=> array (
-				'rule'	=> array('comparison', '>=', 0),
-			),
-			# @mlf deprecated field after mlf is gone, but watch out for performance
-			'name'		=> array(),
-	);
-
-	protected $fieldsToSanitize = array (
-		'subject',
-		'text',
-	);
-
-	/** @var array fields allowed in public output */
-	public $publicFieldsList = '
-		Entry.id,
-		Entry.pid,
-		Entry.tid,
-		Entry.time,
-		Entry.last_answer,
-		Entry.edited,
-		Entry.edited_by,
-		Entry.user_id,
-		Entry.name,
-		Entry.subject,
-		Entry.category,
-		Entry.text,
-		Entry.locked,
-		Entry.fixed,
-		Entry.views,
-		Entry.nsfw,
-		User.username
-		';
+	App::uses('CakeEvent', 'Event');
 
 	/**
-	 * field list necessary for displaying a thread_line
 	 *
-	 * Entry.text determine if Entry is n/t
-   *
-   * @var type string
-   */
-	public $threadLineFieldList = '
-		Entry.id,
-		Entry.pid,
-		Entry.tid,
-		Entry.subject,
-		Entry.text,
-		Entry.time,
-		Entry.fixed,
-		Entry.last_answer,
-		Entry.views,
-		Entry.user_id,
-		Entry.locked,
-		Entry.flattr,
-		Entry.nsfw,
-		Entry.name,
+	 *
+	 * Model notes
+	 * ===========
+	 *
+	 * Entry.name
+	 * ----------
+	 *
+	 * Came from mlf. Is still used in fulltext index.
+	 *
+	 * Entry.edited_by
+	 * ---------------
+	 *
+	 * Came from mlf.
+	 *
+	 * @td After mlf is gone `edited_by` should conatin a User.id, not the username string.
+	 *
+	 */
+	class Entry extends AppModel {
 
-		User.username,
-																	
-		Category.accession,
-		Category.category,
-		Category.description
-		';
+		public $name = 'Entry';
 
-  /**
-   * fields additional to $threadLineFieldList to show complete entry
-   * 
-   * @var string
-   */
-  public $showEntryFieldListAdditional = 	'
-		Entry.edited,
-		Entry.edited_by,
-		Entry.ip,
+		public $primaryKey = 'id';
 
-		User.id,
-		User.flattr_uid,
-		User.signature,
-		User.user_place
-		';
-
-	public function getRecentEntries(array $options = array(), SaitoUser $User) {
-		Stopwatch::start('Model->User->getRecentEntries()');
-
-		$defaults = array (
-					'user_id'		=> NULL,
-					'limit'			=> 10,
-					'category'	=> $this->Category->getCategoriesForAccession($User->getMaxAccession()),
+		public $actsAs = array(
+				'Containable',
+				'Search.Searchable',
 		);
-		$options = array_merge($defaults, $options);
-		extract($options);
 
-		$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
-		$cached_entry = Cache::read($cache_key, 'postings');
-		if ($cached_entry) {
-			Stopwatch::stop('Model->User->getRecentEntries()');
-			return $cached_entry;
-		}
+		public $findMethods = array(
+				'feed'	 => true,
+				'entry'	 => true,
+		);
 
-		$conditions = array();
-		if ( $user_id !== NULL ) {
-			$conditions[]['Entry.user_id']	= $user_id;
-		}
-		if ( $category !== NULL ):
-			$conditions[]['Entry.category']	= $category;
-		endif;
+		/**
+		 * Fields for search plugin
+		 *
+		 * @var array
+		 */
+		public $filterArgs = array(
+				array('name' => 'subject', 'type' => 'like'),
+				array('name' => 'text', 'type' => 'like'),
+				array('name' => 'name', 'type' => 'like'),
+		);
 
-		$result = $this->find('all',
-			array(
-					'contain'			=> array('User', 'Category'),
-					'fields'			=> $this->threadLineFieldList,
-					'conditions'	=> $conditions,
-					'limit'				=> $limit,
-					'order'				=> 'time DESC',	 
-				)
+		public $belongsTo = array(
+				'Category' => array(
+						'className'	 => 'Category',
+						'foreignKey' => 'category',
+				),
+				'User'			 => array(
+						'className'		 => 'User',
+						'foreignKey'	 => 'user_id',
+						'counterCache' => true,
+				),
+		);
+
+		public $hasMany = array(
+				'Bookmark' => array(
+						'foreignKey' => 'entry_id',
+						'dependent'	 => true,
+				),
+				'Esevent'		 => array(
+						'foreignKey' => 'subject',
+						'conditions' => array('Esevent.subject' => 'Entry.id'),
+				),
+		);
+
+	public $validate = array(
+				'subject' => array(
+						'notEmpty' => array(
+								'rule'			 => 'notEmpty',
+						),
+						'maxLength'	 => array(
+								// set to Saito admin pref in beforeValidate()
+								'rule' => array('maxLength', 100),
+						),
+				),
+				'category' => array(
+						'notEmpty' => array(
+								'rule'		 => 'notEmpty',
+								'last'		 => true,
+						),
+						'numeric'	 => array(
+								'rule'		 => 'numeric'
+						),
+				),
+				'user_id'	 => array(
+						'rule'	 => 'numeric'
+				),
+				'views'	 => array(
+						'rule' => array('comparison', '>=', 0),
+				),
+				'name' => array(),
+		);
+
+		protected $fieldsToSanitize = array(
+				'subject',
+				'text',
+		);
+
+		/**
+		 * Fields allowed in public output 
+		 *
+		 * @var array 
+		 */
+		public $publicFieldsList = '
+			Entry.id,
+			Entry.pid,
+			Entry.tid,
+			Entry.time,
+			Entry.last_answer,
+			Entry.edited,
+			Entry.edited_by,
+			Entry.user_id,
+			Entry.name,
+			Entry.subject,
+			Entry.category,
+			Entry.text,
+			Entry.locked,
+			Entry.fixed,
+			Entry.views,
+			Entry.nsfw,
+			User.username
+		';
+
+		/**
+		 * field list necessary for displaying a thread_line
+		 *
+		 * Entry.text determine if Entry is n/t
+		 *
+		 * @var type string
+		 */
+		public $threadLineFieldList = '
+			Entry.id,
+			Entry.pid,
+			Entry.tid,
+			Entry.subject,
+			Entry.text,
+			Entry.time,
+			Entry.fixed,
+			Entry.last_answer,
+			Entry.views,
+			Entry.user_id,
+			Entry.locked,
+			Entry.flattr,
+			Entry.nsfw,
+			Entry.name,
+
+			User.username,
+
+			Category.accession,
+			Category.category,
+			Category.description
+		';
+
+		/**
+		 * fields additional to $threadLineFieldList to show complete entry
+		 *
+		 * @var string
+		 */
+		public $showEntryFieldListAdditional = '
+			Entry.edited,
+			Entry.edited_by,
+			Entry.ip,
+
+			User.id,
+			User.flattr_uid,
+			User.signature,
+			User.user_place
+		';
+
+		public function getRecentEntries(array $options = array(), SaitoUser $User) {
+			Stopwatch::start('Model->User->getRecentEntries()');
+
+			$defaults = array(
+					'user_id'	 => NULL,
+					'limit'		 => 10,
+					'category' => $this->Category->getCategoriesForAccession($User->getMaxAccession()),
+			);
+			$options = array_merge($defaults, $options);
+			extract($options);
+
+			$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
+			$cached_entry = Cache::read($cache_key, 'postings');
+			if ($cached_entry) {
+				Stopwatch::stop('Model->User->getRecentEntries()');
+				return $cached_entry;
+			}
+
+			$conditions = array();
+			if ($user_id !== NULL) {
+				$conditions[]['Entry.user_id'] = $user_id;
+			}
+			if ($category !== NULL):
+				$conditions[]['Entry.category'] = $category;
+			endif;
+
+			$result = $this->find('all',
+					array(
+						'contain' => array('User', 'Category'),
+						'fields'		 => $this->threadLineFieldList,
+						'conditions' => $conditions,
+						'limit'			 => $limit,
+						'order'			 => 'time DESC',
+					)
 			);
 
-		Cache::write($cache_key, $result, 'postings');
+			Cache::write($cache_key, $result, 'postings');
 
-		Stopwatch::stop('Model->User->getRecentEntries()');
-		return $result;
+			Stopwatch::stop('Model->User->getRecentEntries()');
+			return $result;
 		}
-
 
 	/**
 	 * creates a new root or child entry for a node 
@@ -203,8 +230,8 @@ class Entry extends AppModel {
 		}
 
 		if ($data['Entry']['pid'] > 0) {	
-			//* reply
-			//* get and setup additional data from parent entry
+			// reply
+			// get and setup additional data from parent entry
 
 			$this->id 		= $data['Entry']['pid'];
 			$this->contain();
@@ -251,9 +278,9 @@ class Entry extends AppModel {
       }
 
 		} elseif ($new_posting['Entry']['pid'] > 0) {	
-			//* reply
+			// reply
 			
-			//* update last answer time in root entry
+			// update last answer time in root entry
 			$this->id = $parent_entry['Entry']['tid'];
 			$this->read();
 			$this->set('last_answer', $new_posting['Entry']['last_answer']);
@@ -439,7 +466,6 @@ class Entry extends AppModel {
     $tree[$id] = isset($tree[$id]) ? $item + $tree[$id] : $item;
 		$tree[$pid]['_children'][] = &$tree[$id];
 	}
-	/* @td after mlf is gone `edited_by` should conatin a User.id, not username */
 
 	public function beforeFind($queryData) {
 	 parent::beforeFind($queryData);

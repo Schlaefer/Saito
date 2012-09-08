@@ -26,6 +26,8 @@ define([
 
 			_showAnsweringForm: function() {
 				$(this.el).find('.posting_formular_slider').slideDown('fast');
+				// @td disable autoreload timeout from App
+				clearTimeout(autoPageReloadTimer);
 			},
 			_hideAnsweringForm: function() {
 				var html = '<div id="spinner_' + this.model.get('id') +'" class="spinner"></div>';

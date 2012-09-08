@@ -1,11 +1,16 @@
 define([
 	'underscore',
 	'backbone',
-	], function(_, Backbone) {
+	'collections/threadlines'
+	], function(_, Backbone, ThreadLinesCollection) {
 		var ThreadModel = Backbone.Model.extend({
 
 			defaults: {
 				isThreadCollapsed: false
+			},
+
+			initialize: function() {
+				this.threadlines = new ThreadLinesCollection;
 			},
 
 			toggleCollapseThread: function() {

@@ -1,6 +1,11 @@
 <?php $this->Html->addCrumb(__('Categories'), '/admin/categories'); ?>
 <div class="categories index">
-	<h2><?php echo __('Categories'); ?></h2>
+	<h1><?php echo __('Categories'); ?></h1>
+	<p>
+		<?php echo $this->Html->link(__('New Category'),
+					array('action' => 'add'), array('class'	 => 'btn')); ?>
+	</p>
+	<hr/>
 	<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed">
 		<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -46,7 +51,3 @@
 		<span class="label label-info">Accesssion:</span> 0 Public, 1 User, 2 Mod u. Admins <!-- @lo -->
 	</p>
 </div>
-<hr/>
-<p>
-	<?php echo $this->Html->link(__('New Category'), array( 'action' => 'add' ), array( 'class' => 'btn' )); ?>
-</p>

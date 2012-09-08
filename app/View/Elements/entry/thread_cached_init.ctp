@@ -1,7 +1,8 @@
 <?php echo Stopwatch::start('entries/thread_cached_init'); ?>
 <?php
 	/*
-	 * The threadbox title i10n can costs several ms.
+	 * Caching the localized threadbox title tags.
+	 * Depending on the number of threads on the page i10n can cost several ms.
 	 */
 	$cacheThreadBoxTitlei18n = array(
 				'btn-showThreadInMixView' => __('btn-showThreadInMixView'),
@@ -58,11 +59,7 @@
 								// keinen Show All New Inline View Eintrag
 							?>
 							<li>
-								<a href="#"
-									id="btn_show_new_threads_<?php echo $entry_sub['Entry']['tid']; ?>"
-									title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>"
-									onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showNew(); return false;"
-									>
+								<a href="#" class="js-btn-showAllNewThreadlines" title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>">
 									<span class="ico-threadTool ico-threadOpenNew"></span>
 								</a>
 							</li>
@@ -71,12 +68,12 @@
 						endif;
 				?>
 				<li>
-					<a href="#" id="btn_close_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').closeAll(); return false;" title="<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>">
+					<a href="#" class="js-btn-closeAllThreadlines" title="<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>">
             <span class="ico-threadTool ico-threadCloseInline"></span>
 					</a>
 				</li>
 				<li>
-					<a href="#" id="btn_open_threads_<?php echo $entry_sub['Entry']['tid']; ?>" onclick="new Thread('<?php echo $entry_sub['Entry']['tid']; ?>').showAll(); return false;" title="<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>">
+					<a href="#" class="js-btn-openAllThreadlines" title="<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>">
 						<span class="ico-threadTool ico-threadOpenInline"></span>
 					</a>
 				</li>

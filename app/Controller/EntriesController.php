@@ -89,13 +89,12 @@ class EntriesController extends AppController {
 
 			$this->set('entries', $threads);
 
-			if ( isset($this->request->named['page']) ) :
+			$currentPage = 1;
+			if (isset($this->request->named['page']) && $this->request->named['page'] != 1):
 				$currentPage = $this->request->named['page'];
-				$this->Session->write(
-						'paginator.lastPage', $currentPage
-				);
 				$this->set('title_for_layout', __('page') . ' ' . $currentPage);
 			endif;
+			$this->Session->write('paginator.lastPage', $currentPage);
 
 			$this->set('showDisclaimer', TRUE);
 
@@ -142,6 +141,7 @@ class EntriesController extends AppController {
 			return $this->redirect('/');
 		}
 
+		$this->set('title_for_layout', $entries[0]['Entry']['subject']);
 		$this->set('entries', $entries);
     $this->_showAnsweringPanel();
 	}
@@ -151,6 +151,11 @@ class EntriesController extends AppController {
 	public function update() {
 		$this->autoRender = false;
 		$this->CurrentUser->LastRefresh->forceSet();
+		$this->redirect('/entries/index');
+	}
+
+	public function noupdate() {
+		$this->Session->write('User_last_refresh_disabled', true);
 		$this->redirect('/entries/index');
 	}
 
@@ -562,7 +567,7 @@ class EntriesController extends AppController {
 					$this->paginate = array(
 							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$searchTerm' IN BOOLEAN MODE)*100) + (MATCH (Entry.text) AGAINST ('$searchTerm' IN BOOLEAN MODE)*10) + MATCH (Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE) AS rating",
 							'conditions' => array(
-                "MATCH (Entry.subject, Entry.text, User.username) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
+                "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
                 'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())),
 							'order' => 'rating DESC, `Entry`.`time` DESC',
 							'limit' => 25,
@@ -724,56 +729,59 @@ class EntriesController extends AppController {
 
 //end ajax_toggle()
 
-	public function beforeFilter() {
-		parent::beforeFilter();
-		Stopwatch::start('Entries->beforeFilter()');
+		public function beforeFilter() {
+			parent::beforeFilter();
+			Stopwatch::start('Entries->beforeFilter()');
 
-		$this->Auth->allow('feed', 'index', 'view', 'mix');
+			$this->Auth->allow('feed', 'index', 'view', 'mix');
 
-		if ( $this->request->action == 'index' ) {
-			if ( $this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0 ) {
-				$this->set('autoPageReload',
-						$this->CurrentUser['user_forum_refresh_time'] * 60);
-			}
-			$this->_setAppStats();
-		}
-		if ( $this->request->action != 'index' ) {
-			$this->_loadSmilies();
-		}
-
-		//* automaticaly mark as viewed
-		if ( $this->CurrentUser->isLoggedIn()
-				&& !$this->Session->read('paginator.lastPage')
-				&& (
-				//* deprecated
-				( $this->CurrentUser['user_automaticaly_mark_as_read'] && $this->request->params['action'] == 'index')
-				||
-				//* current
-				( isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead']) )
-				)
-		) {
-
-			if (
-			//* deprecated
-					($this->localReferer('controller') == 'entries' && $this->localReferer('action') == 'index')
-					OR
-					//* current
-					( isset($this->request->params['named']['setAsRead']) )
-			):
-				//* all the session stuff ensures that a second session A don't accidentaly mark something as read that isn't read on session B
-				if ( $this->Session->read('User.last_refresh_tmp')
-						&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
-				) {
-					$this->CurrentUser->LastRefresh->set();
+			if ($this->request->action === 'index') {
+				if ($this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0) {
+					$this->set('autoPageReload',
+							$this->CurrentUser['user_forum_refresh_time'] * 60);
 				}
-				$this->Session->write('User.last_refresh_tmp', time());
-		  else:
-        $this->CurrentUser->LastRefresh->setMarker();
-      endif;
+				$this->_setAppStats();
+			}
+			if ($this->request->action !== 'index') {
+				$this->_loadSmilies();
+			}
+
+			$this->_automaticalyMarkAsRead();
+
+			Stopwatch::stop('Entries->beforeFilter()');
 		}
 
-		Stopwatch::stop('Entries->beforeFilter()');
-	}
+		protected function _automaticalyMarkAsRead() {
+			if ($this->CurrentUser->isLoggedIn() && $this->CurrentUser['user_automaticaly_mark_as_read']):
+				if (
+						($this->request->params['action'] === 'index' && $this->Session->read('paginator.lastPage') == 1) // deprecated
+				// OR (isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead'])) // current
+				):
+					// initiate sessions last_refresh_tmp for new sessions
+					if (!$this->Session->read('User.last_refresh_tmp')) {
+						$this->Session->write('User.last_refresh_tmp', time());
+					}
+					if (
+							($this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index') // deprecated
+					// OR (isset($this->request->params['named']['setAsRead'])) // current
+					):
+						// a second session A don't accidentaly mark something as read that isn't read on session B
+						if ($this->Session->read('User.last_refresh_tmp')
+								&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
+						) {
+							if ($this->Session->read('User_last_refresh_disabled')) {
+								$this->Session->write('User_last_refresh_disabled', false);
+							} else {
+								$this->CurrentUser->LastRefresh->set();
+							}
+						}
+						$this->Session->write('User.last_refresh_tmp', time());
+					else:
+						$this->CurrentUser->LastRefresh->setMarker();
+					endif;
+				endif;
+			endif;
+		}
 
 	protected function _emptyCache($id, $tid) {
     $this->CacheTree->delete($tid);

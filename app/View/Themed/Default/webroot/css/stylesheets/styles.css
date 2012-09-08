@@ -867,7 +867,7 @@ a.category_acs_2, .category_acs_2 { background: #d5d5d5; }
 
 .slidetab_tree { font-weight: bold; }
 
-.slidetab-tab, .slidetab-content { font-size: 0.95em; margin-bottom: 2px; line-height: 1.5; }
+.slidetab-tab, .slidetab-content { font-size: 0.95em; margin-bottom: 2px; }
 
 .slidetab_subtree { font-weight: normal; }
 .slidetab_subtree > li { margin-bottom: 0; background-position: 0px -32px; width: auto; height: auto; padding: 0 0 0 17px; }

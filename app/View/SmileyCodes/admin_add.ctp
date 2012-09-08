@@ -1,7 +1,7 @@
 <div class="smileyCodes form">
 <?php echo $this->Form->create('SmileyCode');?>
 	<fieldset>
-		<legend><?php echo __('Admin Add Smiley Code'); ?></legend>
+		<legend><?php echo __('Add Smiley Code'); ?></legend>
 	<?php
 		echo $this->Form->input('smiley_id');
 		echo $this->Form->input('code');
