@@ -30,9 +30,10 @@ define([
 				clearTimeout(autoPageReloadTimer);
 			},
 			_hideAnsweringForm: function() {
-				var html = '<div id="spinner_' + this.model.get('id') +'" class="spinner"></div>';
-				$(this.el).find('.posting_formular_slider').html(html);
-				$(this.el).find('.posting_formular_slider').slideUp('fast');
+				var html = '<div class="spinner"></div>';
+				$(this.el).find('.posting_formular_slider').slideUp('fast', _.bind(function() {
+					$(this.el).find('.posting_formular_slider').html(html);
+				}, this));
 			},
 			_hideAllAnsweringForms: function() {
 				// we have #id problems with more than one markItUp on a page
