@@ -64,7 +64,7 @@ class AppModel extends Model {
     $ranks = explode("|", $pipeString);
     foreach ( $ranks as $rank ) :
       $matches = array();
-      preg_match('/(\d+)\s*=\s*(.*)/', trim($rank), $matches);
+      $matched = preg_match('/(\d+)\s*=\s*(.*)/', trim($rank), $matches);
       if ($matched) {
         $unpipedArray[$matches[1]] = $matches[2];
       }
