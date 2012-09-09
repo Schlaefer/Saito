@@ -30,7 +30,7 @@ define([
 				clearTimeout(autoPageReloadTimer);
 			},
 			_hideAnsweringForm: function() {
-				var html = '<div id="spinner_' + this.model.get('id') +'" class="spinner"></div>';
+				var html = '<div class="spinner"></div>';
 				$(this.el).find('.posting_formular_slider').html(html);
 				$(this.el).find('.posting_formular_slider').slideUp('fast');
 			},

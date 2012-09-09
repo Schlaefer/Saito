@@ -74,7 +74,6 @@
 																	'id' => 'forum_answer_' . $entry['Entry']['id'],
 																	'class' => 'btn btn-submit', 'accesskey' => "a" ,
 																	'update' => '#posting_formular_slider_' . $entry['Entry']['id'] ,
-																	'indicator' => 'spinner_'. $entry['Entry']['id'],
 																	'complete'	=> $result,
 																	'buffer'	=> false,
 																	'beforeSend' => "postings.get({$entry['Entry']['id']}).set({isAnsweringFormShown: true});",
@@ -211,7 +210,7 @@
 	<?php endif; ?>
 	<div class="a_b">
 		<div id="posting_formular_slider_<?php echo $entry['Entry']['id']; ?>" class="posting_formular_slider" style="display:none;"  >
-			<div id="spinner_<?php echo $this->request->data['Entry']['id']; ?>" class="spinner"></div>
+			<div class="spinner"></div>
 		</div>
 	</div> <!-- a_b -->
 	<div id="posting_formular_slider_bottom_<?php echo $entry['Entry']['id']; ?>"></div>
