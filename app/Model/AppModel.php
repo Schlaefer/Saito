@@ -65,7 +65,9 @@ class AppModel extends Model {
     foreach ( $ranks as $rank ) :
       $matches = array();
       preg_match('/(\d+)\s*=\s*(.*)/', trim($rank), $matches);
-      $unpipedArray[$matches[1]] = $matches[2];
+      if ($matched) {
+        $unpipedArray[$matches[1]] = $matches[2];
+      }
     endforeach;
     return $unpipedArray;
   }
