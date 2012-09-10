@@ -37,9 +37,12 @@
 			 * Load javascript assets via require.js
 			 */
 			// add version as timestamp to require requests
-			echo $this->Html->scriptBlock("
-				var require = { urlArgs:" . $this->Js->value('v=' . Configure::read('Saito.v')) . " }
-			");
+			echo $this->Html->scriptBlock(
+					"var require = {urlArgs:"
+					. $this->Js->value(
+							'v=' . $this->Html->getAssetTimestamp(JS_URL . 'main' . '.js')
+							)
+					. "}");
 			// require.js borks out when used with Cakes timestamp.
 			// also we need the relative path for the main-script
 			$tmp_asset_timestamp_cache = Configure::read('Asset.timestamp');
