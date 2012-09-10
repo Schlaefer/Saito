@@ -29,6 +29,11 @@
 				'app.esevent',
 		);
 
+		public function testMix() {
+			$result = $this->testAction('/entries/mix/1', array('return' => 'vars'));
+			$this->assertStringStartsWith('First_Subject', $result['title_for_layout']);
+		}
+
 		public function testNoDirectCallOfAnsweringFormWithId() {
 			$Entries = $this->generate('Entries', array(
 					'methods' => array('referer')
