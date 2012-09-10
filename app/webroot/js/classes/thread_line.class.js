@@ -39,7 +39,7 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
 				model: postings.get(id)
 			});
 
-			if (options.success) {
+			if (typeof options !== 'undefined' && typeof options.success !== 'undefined') {
 				options.success();
 			}
 

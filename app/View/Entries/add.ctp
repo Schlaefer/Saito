@@ -251,9 +251,6 @@ $this->Form->submit(__('Einfügen'),
 					} # !i$this->request->is('ajax')
 					else {
 						$js_r = "new ThreadLine('{$this->request->data['Entry']['id']}').insertNewLineAfter(data);";
-						if ( $CurrentUser['inline_view_on_click'] ) {
-							$js_r .= "$('.link_show_thread').bind('click', function () { new ThreadLine($(this)[0].id.slice($(this)[0].id.lastIndexOf('_') + 1)).load_inline_view(); return false;} ); ";
-						}
 						$js_r .= "$('.btn.btn-submit').removeAttr('disabled');";
 						echo $this->Js->submit(
 								__('submit_button'),
