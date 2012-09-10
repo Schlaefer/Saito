@@ -27,13 +27,20 @@
 				var User_Settings_user_show_inline = " . $this->Js->value($CurrentUser['inline_view_on_click']) . ";
 				var Saito_App_Settings_autoPageReload = " . (isset($autoPageReload) ? $autoPageReload : 0) . ";
 			");
-
 			if (Configure::read('debug') == 0):
 				echo $this->Html->script('lib/jquery/jquery-1.8.1.min');
 			else:
 				echo $this->Html->script('lib/jquery/jquery-1.8.1');
 			endif;
 
+			/*
+			 * Load javascript assets via require.js
+			 */
+			// add version as timestamp to require requests
+			echo $this->Html->scriptBlock(
+					"var require = {urlArgs:"
+					. $this->Js->value($this->Html->getAssetTimestamp(JS_URL . 'main' . '.js'))
+					. "}");
 			// require.js borks out when used with Cakes timestamp.
 			// also we need the relative path for the main-script
 			$tmp_asset_timestamp_cache = Configure::read('Asset.timestamp');

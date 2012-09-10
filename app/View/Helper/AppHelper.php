@@ -31,4 +31,10 @@ App::uses('Helper', 'View');
  * @package       app.View.Helper
  */
 class AppHelper extends Helper {
+
+	function getAssetTimestamp($path) {
+			$filepath = preg_replace('/^' . preg_quote($this->request->webroot, '/') . '/', '', $path);
+			$webrootPath = WWW_ROOT . str_replace('/', DS, $filepath);
+			return @filemtime($webrootPath);
+	}
 }
