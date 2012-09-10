@@ -34,6 +34,14 @@
 			$this->assertStringStartsWith('First_Subject', $result['title_for_layout']);
 		}
 
+		public function testMixNotFound() {
+			$Entries = $this->generate('Entries', array(
+					'models' => array('User', 'Entry')
+			));
+			$this->expectException('NotFoundException');
+			$this->testAction('/entries/mix/9999');
+		}
+
 		public function testNoDirectCallOfAnsweringFormWithId() {
 			$Entries = $this->generate('Entries', array(
 					'methods' => array('referer')

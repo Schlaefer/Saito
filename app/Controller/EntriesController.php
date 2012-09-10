@@ -136,6 +136,10 @@ class EntriesController extends AppController {
 		}
 		$entries = $this->Entry->treeForNodesComplete($tid);
 
+		if ($entries == false) {
+			throw new NotFoundException();
+		}
+
 		//* check if anonymous tries to access internal categories
 		if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
 			return $this->redirect('/');
