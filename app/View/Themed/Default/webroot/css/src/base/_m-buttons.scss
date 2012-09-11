@@ -40,6 +40,7 @@
   height: 100%;
   width: 15px;
   position: absolute;
+  border: $border_width solid $saito_gray_dark;
   background-color: $saito_gray_light;
   background-repeat: repeat-y;
 	@extend .c_all-radius;
@@ -47,7 +48,6 @@
     background-color: $saito_gray_dark; } }
 
 .btn-strip-back {
-  border: $border_width solid $saito_gray_dark;
   background-image: image-url("mix_back.png");
   }
 

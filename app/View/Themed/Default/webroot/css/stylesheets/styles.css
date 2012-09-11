@@ -599,10 +599,10 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .btn-icon-close:before { width: 0 !important; }
 
-.btn-strip { height: 100%; width: 15px; position: absolute; background-color: #fafafa; background-repeat: repeat-y; }
+.btn-strip { height: 100%; width: 15px; position: absolute; border: 1px solid #e0e0e0; background-color: #fafafa; background-repeat: repeat-y; }
 .btn-strip:active { background-color: #e0e0e0; }
 
-.btn-strip-back { border: 1px solid #e0e0e0; background-image: url('../../img/mix_back.png'); }
+.btn-strip-back { background-image: url('../../img/mix_back.png'); }
 
 .btn-strip-top { background-image: url('../../img/mix_top.png'); }
 
