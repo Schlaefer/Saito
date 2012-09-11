@@ -61,7 +61,11 @@
 													></i>
 											<?php
 											} elseif (!$answering_forbidden) {
-												$result =  "scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."'); initViewAnswerForm();";
+												$result =  "
+													if(!_isScrolledIntoView($('#posting_formular_slider_bottom_".$entry['Entry']['id']."'))) {
+														scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."');
+													}
+													initViewAnswerForm();";
 
 												echo $this->Js->link(
 																	__('forum_answer_linkname'),
