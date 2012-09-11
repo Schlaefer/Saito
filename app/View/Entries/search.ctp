@@ -70,8 +70,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						)
 				);
 			?>
-		</div>
-		<div>
+			&nbsp;
 			<?php echo __("search_since"); ?>:
 			<?php
 				echo $this->Form->month(
