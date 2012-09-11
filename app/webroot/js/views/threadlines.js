@@ -24,7 +24,7 @@ define([
 			initialize: function(){
 				this.model.on('change:isInlineOpened', this._toggleInlineOpened, this);
 				
-				if (typeof this.scroll == 'undefined' ) this.scroll = true;
+				this.scroll = false;
 			},
 
 			toggleInlineOpenFromLink: function(event) {
@@ -38,6 +38,7 @@ define([
 		 */
 			toggleInlineOpen: function(event) {
 				event.preventDefault();
+				this.scroll = true;
 				if (!this.model.get('isInlineOpened')) {
 					this.model.set({
 						isInlineOpened: true
@@ -66,20 +67,22 @@ define([
 
 						this.model.loadContent({
 							success: _.bind(this._showInlineView, this, {
-								tslV: 'hide'
+								tslV: 'hide',
+								scroll: this.scroll
 							})
 						});
 					} else {
-						this._showInlineView();
+						this._showInlineView({scroll: this.scroll});
 					}
 				} else {
 					this._closeInlineView();
 				}
+				this.scroll = false;
 			},
 
 			_showInlineView: function (options) {
 				options || (options = {});
-				var scroll = this.scroll;
+				var scroll = options.scroll || false;
 				var id = this.model.id;
 
 				$('.js-thread_line-content.' + id).fadeOut(
@@ -92,15 +95,15 @@ define([
 							$($('.js-thread_inline.' + id)).show(0,
 								_.bind(
 									function() {
-										// @td
-										//								if (scroll && !_isScrolledIntoView(p.id_bottom)) {
-										//									if(_isHeigherThanView(this)) {
-										//										scrollToTop(this);
-										//									}
-										//									else {
-										//										scrollToBottom(p.id_bottom);
-										//									}
-										//								}
+										// @td eliminate external functions pattern
+										if (scroll && !_isScrolledIntoView(this.$el.find('#posting_formular_slider_bottom_' + this.model.id))) {
+											if(_isHeigherThanView(this.$el)) {
+												scrollToTop(this.$el);
+											}
+											else {
+												scrollToBottom(this.$el.find('#posting_formular_slider_bottom_' + this.model.id));
+											}
+										}
 										if (options['tlsV'] !== 'undefined'){
 											this.tlsV.hide();
 										}
@@ -152,7 +155,6 @@ define([
 				}
 			}
 		});
-
 
 		return ThreadLineView;
 
