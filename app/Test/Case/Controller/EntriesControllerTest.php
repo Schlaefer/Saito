@@ -533,6 +533,23 @@
           'method' => 'post'));
     }
 
+		public function testSearchAdvAccession() {
+			$Entries = $this->generate('Entries');
+			$this->_loginUser(3);
+
+			$result = $this->testAction('/entries/search/subject:third%20thread/category:/adv:1',
+					array('return' => 'vars'));
+			$this->assertEmpty($result['FoundEntries']);
+		}
+
+		public function testSearchAdvForbiddenCategory() {
+			$Entries = $this->generate('Entries');
+			$this->_loginUser(3);
+
+			$this->setExpectedException('NotFoundException');
+			$this->testAction('/entries/search/subject:test/text:/name:/category:1/month:07/year:2006/adv:1');
+		}
+
 		public function testSetcategoryNotLoggedIn() {
 				$Entries = $this->generate('Entries', array(
 					'models' => array(
@@ -762,8 +779,8 @@
 
 			$this->assertEqual($headerCounter['user_online'], 1);
 			$this->assertEqual($headerCounter['user'], 6);
-			$this->assertEqual($headerCounter['entries'], 5);
-			$this->assertEqual($headerCounter['threads'], 2);
+			$this->assertEqual($headerCounter['entries'], 6);
+			$this->assertEqual($headerCounter['threads'], 3);
 			$this->assertEqual($headerCounter['user_registered'], 0);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
 

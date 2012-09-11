@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-29 09:42+0100\n"
-"PO-Revision-Date: 2012-08-29 09:42+0100\n"
+"POT-Creation-Date: 2012-09-11 09:47+0100\n"
+"PO-Revision-Date: 2012-09-11 09:47+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -86,8 +86,8 @@ msgstr "Installieren"
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
-#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:312
-#: Controller/EntriesController.php:364
+#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:322
+#: Controller/EntriesController.php:374
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
@@ -385,8 +385,8 @@ msgstr ""
 "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine "
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
-#: View/Elements/entry/category-chooser.ctp:36
-#: Controller/EntriesController.php:834
+#: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:69
+#: Controller/EntriesController.php:862
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -394,23 +394,23 @@ msgstr "Alle Kategorien"
 msgid "Apply"
 msgstr "Anwenden"
 
-#: View/Elements/entry/thread_cached_init.ctp:7
+#: View/Elements/entry/thread_cached_init.ctp:8
 msgid "btn-showThreadInMixView"
 msgstr "Thread in Mix-Ansicht öffnen."
 
-#: View/Elements/entry/thread_cached_init.ctp:8
+#: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-threadCollapse"
 msgstr "Thread ein-/ausklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:9
+#: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-showNewThreads"
 msgstr "Alle ungelesenen Beiträge des Threads aufklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:10
+#: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-closeThreads"
 msgstr "Alle offenen Beiträge des Threads zuklappen."
 
-#: View/Elements/entry/thread_cached_init.ctp:11
+#: View/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-openThreads"
 msgstr "Alle geschlossenen Beiträge des Threads aufklappen."
 
@@ -440,21 +440,21 @@ msgstr "Antworten gesperrt durch Moderator."
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
-#: View/Elements/entry/view_posting.ctp:89
-#: View/Elements/entry/view_posting.ctp:117
-#: Controller/EntriesController.php:470
+#: View/Elements/entry/view_posting.ctp:88
+#: View/Elements/entry/view_posting.ctp:116
+#: Controller/EntriesController.php:480
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:162
+#: View/Elements/entry/view_posting.ctp:161
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:176
+#: View/Elements/entry/view_posting.ctp:175
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:183
+#: View/Elements/entry/view_posting.ctp:182
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
@@ -532,7 +532,7 @@ msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
 #: View/Elements/layout/header_search.ctp:14 View/Entries/search.ctp:16
-#: View/Entries/search.ctp:82
+#: View/Entries/search.ctp:93
 msgid "search_submit"
 msgstr "Suchen"
 
@@ -627,7 +627,7 @@ msgstr ""
 "\n"
 "Um Ihren Account frei zu schalten, klicken Sie bitte folgenden Link an: %s"
 
-#: View/Entries/add.ctp:36 View/Entries/add.ctp:283
+#: View/Entries/add.ctp:36 View/Entries/add.ctp:280
 msgid "preview"
 msgstr "Vorschau"
 
@@ -663,7 +663,7 @@ msgstr "Nicht bürosicher (NBS)"
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/add.ctp:244 View/Entries/add.ctp:259 View/Entries/add.ctp:316
+#: View/Entries/add.ctp:244 View/Entries/add.ctp:256 View/Entries/add.ctp:313
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -716,15 +716,15 @@ msgstr "Erweiterte Suche"
 msgid "subject"
 msgstr "Betreff"
 
-#: View/Entries/search.ctp:64
+#: View/Entries/search.ctp:75
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:84
+#: View/Entries/search.ctp:95
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:140
+#: View/Entries/search.ctp:151
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
@@ -1541,7 +1541,7 @@ msgid "register_success_content"
 msgstr ""
 "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
-#: View/Users/register.ctp:18 Controller/EntriesController.php:319
+#: View/Users/register.ctp:18 Controller/EntriesController.php:329
 msgid "js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
@@ -1653,47 +1653,47 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:97
+#: Controller/EntriesController.php:96
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:207 Controller/EntriesController.php:216
+#: Controller/EntriesController.php:217 Controller/EntriesController.php:226
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
-#: Controller/EntriesController.php:257
+#: Controller/EntriesController.php:267
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:260
+#: Controller/EntriesController.php:270
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:310 Controller/EntriesController.php:432
+#: Controller/EntriesController.php:320 Controller/EntriesController.php:442
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:357 Controller/EntriesController.php:466
+#: Controller/EntriesController.php:367 Controller/EntriesController.php:476
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:368
+#: Controller/EntriesController.php:378
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:418
+#: Controller/EntriesController.php:428
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#: Controller/EntriesController.php:496
+#: Controller/EntriesController.php:506
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:682
+#: Controller/EntriesController.php:707
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:870
+#: Controller/EntriesController.php:898
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1764,7 +1764,7 @@ msgstr ""
 msgid "Smily was not deleted"
 msgstr ""
 
-#: Controller/ToolsController.php:25
+#: Controller/ToolsController.php:26
 msgid "Caches have been emptied."
 msgstr "Caches wurden geleert."
 
@@ -1848,7 +1848,7 @@ msgstr "Nachricht wurde versandt."
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:231
+#: Controller/Component/CurrentUserComponent.php:261
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
