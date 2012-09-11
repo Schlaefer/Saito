@@ -33,10 +33,10 @@ class loginAndLogoutTest extends Saito_SeleniumTestCase {
     $this->click("showLoginForm");
     $this->waitForPageToLoad("");
     $this->assertNotEquals("0", $this->getElementHeight("modalLoginDialog"));
-		$this->type("UserUsername", $this->userName);
+		$this->type("tf-login-username", $this->userName);
 		$this->type("UserPassword", $this->userPassword);
     $this->click("UserRememberMe");
-    $this->click("//input[@value='Einloggen']");
+    $this->click("//input[@value='Login']");
     $this->waitForPageToLoad("30000");
     $this->assertTrue((bool)preg_match('/^[\s\S]*$/',$this->getCookieByName("SaitoPersistent[AU]")));
 		$this->logout($this);
@@ -44,4 +44,3 @@ class loginAndLogoutTest extends Saito_SeleniumTestCase {
 		}
 	
 }
-?>

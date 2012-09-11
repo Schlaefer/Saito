@@ -16,7 +16,7 @@ class Saito_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 			array( 'name' 		=> 'Google Chrome', 'browser'	=> '*googlechrome'),
 		);
 
-	public static $setBrowserUrl 	= "http://localhost/private/personal_projects/macnemo_2/";
+	public static $setBrowserUrl 	= "http://localhost/private/personal_projects/macnemo_2_github/";
 	public static $setSpeed 			= 0;
 
 	public static $userName 			= 'test';
@@ -48,9 +48,9 @@ class Saito_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
     $test_case->click("showLoginForm");
     $test_case->waitForPageToLoad("");
     $test_case->assertNotEquals("0", $test_case->getElementHeight("modalLoginDialog"));
-		$test_case->type("UserUsername", self::$userName);
+		$test_case->type("tf-login-username", self::$userName);
 		$test_case->type("UserPassword", self::$userPassword);
-    $test_case->click("//input[@value='Einloggen']");
+    $test_case->click("//input[@value='Login']");
     $test_case->waitForPageToLoad();
     $test_case->assertNotEquals("SaitoPersistent[AU]", $test_case->getCookie());
 		}
@@ -90,7 +90,7 @@ class SaitoTestThread {
     $this->_testCase->waitForPageToLoad("30000");
 		$this->_testCase->click("//a[contains(@href, 'entries/view/{$this->getId()}')]");
     $this->_testCase->waitForPageToLoad("30000");
-    $this->_testCase->click("link=Löschen");
+    $this->_testCase->click("link=Delete");
 		$this->_testCase->assertEquals('Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!', $this->_testCase->getConfirmation());
     $this->_testCase->waitForPageToLoad("30000");
 		}
@@ -102,9 +102,9 @@ class SaitoTestThread {
 	public function openAddNewThreadForm() {
 			$this->_testCase->open();
 
-			$this->_testCase->click("link=Neuer Eintrag");
+			$this->_testCase->click("//a[contains(@href, '/entries/add')]");
 			$this->_testCase->waitForPageToLoad("30000");
-			$this->_testCase->assertEquals("macnemo – Neuen Eintrag verfassen", $this->_testCase->getTitle());
+			$this->_testCase->assertContains("New Entry", $this->_testCase->getTitle());
 		}
 
 	}
@@ -130,13 +130,13 @@ Class SaitoTestPosting {
 		}
 
 	public function sendForm() {
-    $this->_testCase->click("//input[@value='Eintragen']");
-    $this->_testCase->waitForPageToLoad("30000");
+		$this->_testCase->click("id=btn-submit");
+		$this->_testCase->waitForPageToLoad("30000");
 
 		// check if we are at new posting
     $currentLocation = $this->_testCase->getLocation();
     $this->_id = $this->_testCase->getEval("var re = /[0-9]+$/i; re.exec(escape('".$currentLocation."'));");
-    $this->_testCase->assertEquals("macnemo – Betreff", $this->_testCase->getTitle());
+    $this->_testCase->assertStringStartsWith("Betreff", $this->_testCase->getTitle());
 		return $this;
 		}
 	
