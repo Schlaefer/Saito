@@ -58,7 +58,7 @@
 						echo ' – ';
 						echo __('%s edited by %s',
 								array(
-									$this->TimeH->formatTime($entry['Entry']['edited'], 'custom', '%H:%M'),
+									$this->TimeH->formatTime($entry['Entry']['edited']),
 									$entry['Entry']['edited_by']
 								)
 						);
