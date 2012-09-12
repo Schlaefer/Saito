@@ -30,6 +30,7 @@ class EntriesController extends AppController {
 			array( 'field' => 'subject', 'type' => 'value' ),
 			array( 'field' => 'text', 'type' => 'value' ),
 			array( 'field' => 'name', 'type' => 'value' ),
+			array( 'field' => 'category', 'type' => 'value' ),
 	);
 
 		public function index() {
@@ -533,6 +534,11 @@ class EntriesController extends AppController {
 		}
 		$this->set('start_year', date('Y', $start_date));
 
+		// get categories for dropdown
+		$categories = $this->Entry->Category->getCategoriesSelectForAccession(
+				$this->CurrentUser->getMaxAccession());
+		$this->set('categories', $categories);
+
 		//* calculate current month and year
 		if ( empty($this->request->data['Entry']['month']) && empty($searchStartMonth))  {
 			// start in last month
@@ -595,13 +601,26 @@ class EntriesController extends AppController {
 					$this->request->params['named']);
 			$paginateSettings['conditions']['time >'] = date(
 					'Y-m-d H:i:s', mktime( 0, 0, 0, $searchStartMonth, 1, $searchStartYear ));
-			$paginateSettings['conditions']['Entry.category'] = $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession());
+
+			if((int)$this->request->data['Entry']['category'] !== 0) {
+				if (!isset($categories[(int)$this->request->data['Entry']['category']])) {
+					throw new NotFoundException;
+				}
+			} else {
+				$paginateSettings['conditions']['Entry.category'] = 
+					$this->Entry->Category->getCategoriesForAccession(
+							$this->CurrentUser->getMaxAccession());
+			}
+
 			$paginateSettings['order'] = array('Entry.time' => 'DESC');
 			$paginateSettings['limit'] = 25;
 			$this->paginate = $paginateSettings;
 			$this->set('FoundEntries', $this->paginate());
 		}
 
+		if(!isset($this->request->data['Entry']['category'])) {
+			$this->request->data['Entry']['category']	= 0;
+		}
 		$this->request->data['Entry']['month'] = $searchStartMonth;
 		$this->request->data['Entry']['year']  = $searchStartYear;
 	}

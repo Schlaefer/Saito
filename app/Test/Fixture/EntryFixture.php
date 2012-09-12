@@ -89,6 +89,22 @@
 						'edited_by' => NULL,
 						'ip' => '1.1.1.1',
 				),
+				// thread 3
+				array(
+						'id' => 6,
+						'subject' => 'Third Thread First_Subject',
+						'text' => '',
+						'pid' => 0,
+						'tid' => 6,
+						'time' => '2000-01-01 11:00:00',
+						'category' => 1,
+						'user_id' => 1,
+						'name' => 'Alice',
+						'edited' => '0000-00-00 00:00:00',
+						'edited_by' => NULL,
+						'ip' => '1.1.1.3',
+				),
+
 		);
 
 	}

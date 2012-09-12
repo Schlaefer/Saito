@@ -47,6 +47,7 @@
 				array('name' => 'subject', 'type' => 'like'),
 				array('name' => 'text', 'type' => 'like'),
 				array('name' => 'name', 'type' => 'like'),
+				array('name' => 'category', 'type' => 'int'),
 		);
 
 		public $belongsTo = array(

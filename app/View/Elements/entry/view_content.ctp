@@ -50,22 +50,23 @@
 			<?php  endif; ?>
 
         <?php /* <span title="<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry['Entry']['time'], 'glasen'); ?></span>, */ ?>
-        <?php  echo $this->TimeH->formatTime($entry['Entry']['time']); ?><?php
-          if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
-                && strtotime($entry['Entry']['edited']) > strtotime($entry['Entry']['time'])+( Configure::read('Saito.Settings.edit_delay') * 60 )
-            ): ?>
-						– <?php
+        <?php  
+					echo $this->TimeH->formatTime($entry['Entry']['time']);
+					if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
+							&& strtotime($entry['Entry']['edited']) > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_delay') * 60 )
+					):
+						echo ' – ';
 						echo __('%s edited by %s',
 								array(
-								$this->TimeH->formatTime($entry['Entry']['edited'], 'custom', '%H:%M'),
-								$entry['Entry']['edited_by']
+									$this->TimeH->formatTime($entry['Entry']['edited']),
+									$entry['Entry']['edited_by']
 								)
 						);
-						?>,
-            <?php
-            else :
-              echo ',';
-        endif; ?>
+						echo ',';
+					else :
+						echo ',';
+					endif;
+				?>
         <?php echo  __('views_headline') ?>: <?php echo  $entry['Entry']['views'] ?><?php
 					$badges = $this->EntryH->getBadges($entry);
 					if ($badges) {
