@@ -5,7 +5,11 @@
     echo $this->Html->link(
         '<i class="icon-arrow-left"></i> ' . __('Back'),
         $this->EntryH->getPaginatedIndexPageId($entries[0]['Entry']['tid'], $lastAction),
-        array( 'class' => 'textlink', 'escape' => FALSE )
+					array(
+							'class' => 'textlink',
+							'escape' => FALSE,
+							'rel'	=> 'nofollow',
+					)
         );
   $this->end();
 ?>
