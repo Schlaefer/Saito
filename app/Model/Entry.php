@@ -327,9 +327,6 @@
 				array(
 						array(
 								'id' => $id,
-								'tid' => null,
-								'pid' => null,
-								'last_answer' => null
 								)
 						),
 				$order);
@@ -338,11 +335,14 @@
 	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
 		$result = $this->treeForNodes(
         array(
-            array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
+            array('id' => $id)
+				),
         $order,
         $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
         );
-		$this->_addAdditionalFields($result);
+		if ($result) {
+			$this->_addAdditionalFields($result);
+		}
 		return $result;
 	}
 
@@ -369,10 +369,13 @@
 					));
 		Stopwatch::stop('Model->Entries->treeForNodes() DB');
 
-		Stopwatch::start('Model->Entries->treeForNodes() CPU');
-		$out = $this->parseTreeInit($threads);
-		$out = $this->sortTime($out);
-		Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+		$out = false;
+		if ($threads) {
+			Stopwatch::start('Model->Entries->treeForNodes() CPU');
+			$out = $this->parseTreeInit($threads);
+			$out = $this->sortTime($out);
+			Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+		}
 
 		return $out;
 	}
