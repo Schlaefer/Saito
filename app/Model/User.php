@@ -21,6 +21,9 @@
 				'UserOnline' => array(
 						'className'	 => 'UserOnline',
 						'foreignKey' => 'user_id',
+						'conditions' => array(
+							'UserOnline.user_id REGEXP "^-?[0-9]+$"',
+						),
 				),
 		);
 		public $hasMany = array(
