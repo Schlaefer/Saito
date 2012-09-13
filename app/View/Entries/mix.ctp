@@ -19,7 +19,10 @@
 		echo $this->Html->link(
         '<div class="btn-strip btn-strip-back">&nbsp;</div>',
         $this->EntryH->getPaginatedIndexPageId($entries[0]['Entry']['tid'], $lastAction),
-        array('escape' => FALSE)
+        array(
+						'escape' => FALSE,
+						'rel'	=> 'nofollow',
+						)
         );
 	?>
 	<div style="margin-left: 25px;">
