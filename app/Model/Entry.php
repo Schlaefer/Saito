@@ -340,7 +340,9 @@
         $order,
         $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
         );
-		$this->_addAdditionalFields($result);
+		if ($result) {
+			$this->_addAdditionalFields($result);
+		}
 		return $result;
 	}
 
@@ -367,10 +369,13 @@
 					));
 		Stopwatch::stop('Model->Entries->treeForNodes() DB');
 
-		Stopwatch::start('Model->Entries->treeForNodes() CPU');
-		$out = $this->parseTreeInit($threads);
-		$out = $this->sortTime($out);
-		Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+		$out = false;
+		if ($threads) {
+			Stopwatch::start('Model->Entries->treeForNodes() CPU');
+			$out = $this->parseTreeInit($threads);
+			$out = $this->sortTime($out);
+			Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+		}
 
 		return $out;
 	}
