@@ -327,9 +327,6 @@
 				array(
 						array(
 								'id' => $id,
-								'tid' => null,
-								'pid' => null,
-								'last_answer' => null
 								)
 						),
 				$order);
@@ -338,7 +335,8 @@
 	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
 		$result = $this->treeForNodes(
         array(
-            array( 'id' => $id, 'tid' => null, 'pid' => null, 'last_answer' => null ) ),
+            array('id' => $id)
+				),
         $order,
         $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
         );
