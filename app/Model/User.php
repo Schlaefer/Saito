@@ -193,10 +193,10 @@
 		);
 
 		/**
-		 * True if registerGc garbage collection has running
+		 * True if registerGc garbage collection has ran
 		 *
 		 * registerGc is triggered in beforeFind(). To don't trigger an infinite
-		 * call-loop we set it running here when it's first started
+		 * call-loop we set it running here when it's started for the first time
 		 *
 		 * @var bool
 		 */
