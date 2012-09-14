@@ -1,0 +1,1 @@
+Thanks for registering. A email with a link was send to you. Please click that link to finish the registration. Prior to that you're not able to login!

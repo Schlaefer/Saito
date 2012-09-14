@@ -1,0 +1,1 @@
+Vielen Dank für Ihre Registrierung. Ihnen wurde eine Email mit weiteren Daten zugesendet. Bitte klicken Sie auf den Link in dieser Email. Vorher ist ein Einlochen ins Forum nicht möglich!
