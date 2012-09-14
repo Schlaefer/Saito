@@ -36,7 +36,7 @@
 							$this->Html->link($user['User']['user_email'],
 									$user['User']['user_email']),
 							// ouput date format sortable by datatable JS plugin
-							date('Y-m-d H:i', strtotime($user['User']['registered'])),
+							$this->TimeH->formatTime($user['User']['registered'], 'custom', '%Y-%m-%d %H:%M')
 					);
 					if (Configure::read('Saito.Settings.block_user_ui')) :
 						// without the &nbsp; the JS-sorting with the datatables plugin doesn't work

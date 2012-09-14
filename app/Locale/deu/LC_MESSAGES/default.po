@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-11 09:47+0100\n"
-"PO-Revision-Date: 2012-09-11 09:47+0100\n"
+"POT-Creation-Date: 2012-09-14 11:00+0100\n"
+"PO-Revision-Date: 2012-09-14 11:10+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -14,6 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
 "macnemo_2_github/app/\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -386,7 +387,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:69
-#: Controller/EntriesController.php:862
+#: Controller/EntriesController.php:865
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -414,13 +415,13 @@ msgstr "Alle offenen Beiträge des Threads zuklappen."
 msgid "btn-openThreads"
 msgstr "Alle geschlossenen Beiträge des Threads aufklappen."
 
-#: View/Elements/entry/view_content.ctp:58
+#: View/Elements/entry/view_content.ctp:59
 #, php-format
 msgid "%s edited by %s"
 msgstr "%s bearbeitet durch %s"
 
 # msgstr "Aufrufe"
-#: View/Elements/entry/view_content.ctp:69
+#: View/Elements/entry/view_content.ctp:70
 msgid "views_headline"
 msgstr "Aufrufe"
 
@@ -436,25 +437,25 @@ msgstr "Hilfe"
 msgid "answering_forbidden_locked_shp"
 msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:67
+#: View/Elements/entry/view_posting.ctp:71
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
-#: View/Elements/entry/view_posting.ctp:88
-#: View/Elements/entry/view_posting.ctp:116
+#: View/Elements/entry/view_posting.ctp:92
+#: View/Elements/entry/view_posting.ctp:120
 #: Controller/EntriesController.php:480
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:161
+#: View/Elements/entry/view_posting.ctp:165
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:175
+#: View/Elements/entry/view_posting.ctp:179
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:182
+#: View/Elements/entry/view_posting.ctp:186
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht werden!"
@@ -504,7 +505,7 @@ msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
 #: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
-#: View/Users/register.ctp:73
+#: View/Users/register.ctp:79
 msgid "register_linkname"
 msgstr "Registrieren"
 
@@ -531,8 +532,8 @@ msgstr "Ausloggen"
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
-#: View/Elements/layout/header_search.ctp:14 View/Entries/search.ctp:16
-#: View/Entries/search.ctp:93
+#: View/Elements/layout/header_search.ctp:15 View/Entries/search.ctp:16
+#: View/Entries/search.ctp:92
 msgid "search_submit"
 msgstr "Suchen"
 
@@ -625,7 +626,8 @@ msgid "register_email_content"
 msgstr ""
 "Hallo, willkommen bei %s!\n"
 "\n"
-"Um Ihren Account frei zu schalten, klicken Sie bitte folgenden Link an: %s"
+"Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
+"innerhalb der nächsten 24 Stunden: %s"
 
 #: View/Entries/add.ctp:36 View/Entries/add.ctp:280
 msgid "preview"
@@ -716,19 +718,19 @@ msgstr "Erweiterte Suche"
 msgid "subject"
 msgstr "Betreff"
 
-#: View/Entries/search.ctp:75
+#: View/Entries/search.ctp:74
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:95
+#: View/Entries/search.ctp:94
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:151
+#: View/Entries/search.ctp:150
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
-#: View/Entries/view.ctp:34
+#: View/Entries/view.ctp:38
 msgid "whole_thread_marking"
 msgstr "gesamter Thread"
 
@@ -1529,27 +1531,20 @@ msgstr "Status"
 msgid "login_linkname"
 msgstr "log in"
 
-#: View/Users/register.ctp:13
-msgid "register_email_send_content"
-msgstr ""
-"Vielen Dank für Ihre Registrierung. Ihnen wurde eine Email mit weiteren "
-"Daten zugesendet. Bitte klicken Sie auf den Link in dieser Email. Vorher ist "
-"ein Einloggen ins Forum nicht möglich!"
-
-#: View/Users/register.ctp:15
+#: View/Users/register.ctp:21
 msgid "register_success_content"
 msgstr ""
 "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
-#: View/Users/register.ctp:18 Controller/EntriesController.php:329
+#: View/Users/register.ctp:24 Controller/EntriesController.php:329
 msgid "js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
-#: View/Users/register.ctp:53
+#: View/Users/register.ctp:59
 msgid "register_tos_linktext"
 msgstr "Nutzungsbedingungen"
 
-#: View/Users/register.ctp:52
+#: View/Users/register.ctp:58
 msgid "register_tos_label"
 msgstr "Ich bin mit den %s einverstanden"
 
@@ -1689,11 +1684,11 @@ msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:707
+#: Controller/EntriesController.php:710
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:898
+#: Controller/EntriesController.php:901
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -2062,6 +2057,12 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:160
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid "register_email_send_content"
+#~ msgstr ""
+#~ "Vielen Dank für Ihre Registrierung. Ihnen wurde eine Email mit weiteren "
+#~ "Daten zugesendet. Bitte klicken Sie auf den Link in dieser Email. Vorher "
+#~ "ist ein Einlochen ins Forum nicht möglich!"
 
 #~ msgid "Edit Smiley Codes"
 #~ msgstr "Smiley-Code bearbeiten"

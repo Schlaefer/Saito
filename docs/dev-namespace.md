@@ -1,9 +1,10 @@
 Cache
 =====
 
-Kind 	| Namespace	| Key 	| Subkey	| Type 	| Comment 	
------	| ---------	| ----	| -------	| ----	| -------	
-Cache 					| Saito 	| Settings 	| 	| 	| Siehe Configuration
+Kind 	| Namespace	| Key 			| Subkey			| Type 	| Comment
+-----	| ---------	| ----			| -------			| ----	| -------
+Cache | Saito 		| Settings 	| 						| 	| Siehe Configuration
+Cache | Saito 		| Cache 		| registerGc 	| timestamp 	| timestamp of last registerGc
 Configuration 	| Saito 	| Cache 	| Thread 	| bool 	| if true use thread cache
 Configuration 	| Saito 	| useSaltForUserPasswords	| 	| bool 	| unsalted md5 mode for user passwords
 Configuration 	| Saito		| markItUp	| nextCssId	| int 	| next CSS-ID for button in the markItUp-CSS

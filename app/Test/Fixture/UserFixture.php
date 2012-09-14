@@ -68,6 +68,8 @@
 						'user_lock' => 0,
 						'personal_messages' => 0,
 						'user_category_custom' => '', // used in test-case, don't change
+						'registered' => '2009-01-01 00:00',
+						'activate_code' => 0,
 				),
 				array(
 						'id' => 2,
@@ -80,6 +82,8 @@
 						'user_lock' => 0,
 						'personal_messages' => 0,
 						'user_category_custom' => '',
+						'registered' => '2009-01-01 00:00',
+						'activate_code' => 0,
 				),
 				array(
 						'id' => 3,
@@ -92,6 +96,8 @@
 						'user_lock' => 0,
 						'personal_messages' => 1,
 						'user_category_custom' => '',
+						'registered' => '2009-01-01 00:00',
+						'activate_code' => 0,
 				),
         array(
 						'id' => 4,
@@ -104,6 +110,8 @@
 						'user_lock' => 0,
 						'personal_messages' => 0,
 						'user_category_custom' => '',
+						'registered' => '2009-01-01 00:00',
+						'activate_code' => 0,
         ),
 				array(
 						'id' => 5,
@@ -116,6 +124,8 @@
 						'user_lock' => 0,
 						'personal_messages' => 0,
 						'user_category_custom' => '',
+						'registered' => '2009-01-01 00:00',
+						'activate_code' => 0,
 				),
 				array(
 						'id' => 6,
@@ -128,6 +138,8 @@
 						'user_lock' => 0,
 						'personal_messages' => 0,
 						'user_category_custom' => '',
+						'registered' => '2009-01-01 00:00',
+						'activate_code' => 0,
 				),
 		);
 

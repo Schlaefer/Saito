@@ -10,6 +10,7 @@
 		echo $this->Form->input(
 						'search_term',
 						array (
+								'id'						=> 'header-searchField',
 								'class'					=> 'search_textfield search_textfield_header',
 								'placeholder'		=>__('search_submit'),
 								'value'					=> (isset($search_term)) ? $search_term : '',

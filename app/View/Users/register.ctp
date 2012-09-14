@@ -10,7 +10,12 @@
 	</div>
 	<div class="content">
 	<?php if ($register_success == 'email_send') : ?>
-			<?php echo __('register_email_send_content'); ?>
+			<?php
+				echo $this->element(
+						'users'
+						. DS . Configure::read('Config.language')
+						. DS . 'register-email_send');
+			?>
 		<?php elseif ($register_success == 'success') : ?>
 			<?php echo __('register_success_content'); ?>
 		<?php else : ?>

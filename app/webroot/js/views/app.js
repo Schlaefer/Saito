@@ -21,14 +21,16 @@ define([
 
 			events: {
 				'click #showLoginForm': 'showLoginForm',
-				'focus #EntrySearchTerm': 'widenSearchField'
+				'focus #header-searchField': 'widenSearchField'
 			},
 
 			initialize: function () {
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
-				threads.fetch();
+				if (Saito_App_controller === 'entries' && Saito_App_action === 'index' ) {
+					threads.fetch();
+				}
 
 				$('.thread_box').each(function(element) {
 					var threadId = parseInt($(this).attr('data-id'));

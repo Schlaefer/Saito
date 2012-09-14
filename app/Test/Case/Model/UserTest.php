@@ -316,6 +316,48 @@
       $this->assertEqual($old_password, $new_password);
     }
 
+		public function testRegisterGc() {
+
+			$user_count_before_action = $this->User->find('count');
+
+			$user1 = array(
+					'User' => array(
+							'username' => 'Reginald',
+							'password' => 'test',
+							'password_confirm' => 'test',
+							'user_email' => 'Reginald@example.com',
+							'activate_code' => 5,
+					),
+			);
+			$user2 = array(
+					'User' => array(
+							'username' => 'Ronald',
+							'password' => 'test',
+							'password_confirm' => 'test',
+							'user_email' => 'Ronald@example.com',
+							'activate_code' => 539,
+					),
+			);
+			$this->User->register($user1);
+			$this->User->register($user2);
+
+			$this->User->findByUsername('Ronald');
+			$this->User->set('registered', date('Y-m-d H:i:s', time() - 90000));
+			$this->User->save();
+
+			Cache::write('Saito.Cache.registerGc', false);
+
+			$result = $this->User->findByUsername('Reginald');
+			$this->assertTrue($result == true);
+
+			$result = $this->User->findByUsername('Ronald');
+			$this->assertFalse($result);
+
+			$user_count_after_action = $this->User->find('count');
+			$this->assertEqual($user_count_before_action, $user_count_after_action - 1);
+
+		}
+
 		public function testRegister() {
 
 			// new user

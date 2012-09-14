@@ -149,5 +149,3 @@ Configure::write('Saito.markItUp.nextCssId', 11);
 
 
 include 'saito_config.php';
-
-?>

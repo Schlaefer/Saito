@@ -192,6 +192,16 @@
 				'profile',
 		);
 
+		/**
+		 * True if registerGc garbage collection has ran
+		 *
+		 * registerGc is triggered in beforeFind(). To don't trigger an infinite
+		 * call-loop we set it running here when it's started for the first time
+		 *
+		 * @var bool
+		 */
+		protected $_registerGcHasRun = false;
+
 		public function setLastRefresh($lastRefresh = NULL) {
 			Stopwatch::start('Users->setLastRefresh()');
 			$data[$this->alias]['last_refresh_tmp'] = date("Y-m-d H:i:s");
@@ -262,6 +272,14 @@
 			if (strpos($oldPassword, BcryptAuthenticate::$hashIdentifier) !== 0):
 				$this->saveField('password', $password);
 			endif;
+		}
+
+		public function beforeFind($queryData) {
+			parent::beforeFind($queryData);
+			if ($this->_registerGcHasRun === false) {
+				$this->_registerGc();
+			}
+			return true;
 		}
 
 		public function afterFind($results, $primary = false) {
@@ -353,6 +371,25 @@
 			$out = $this->save($data);
 
 			return $out;
+		}
+
+		/**
+		 * Garbage collection for registration
+		 *
+		 * Deletes all timed out and unactivated registrations
+		 */
+		protected function _registerGc() {
+			Stopwatch::start('User::registerGc');
+			$last_registerGc = Cache::read('Saito.Cache.registerGc');
+			if(!$last_registerGc || $last_registerGc < time() - 21600) {
+				$this->_registerHasRun = true;
+				$this->deleteAll(array(
+						'activate_code REGEXP "^[0-9][0-9]+$"',
+						'registered <' => date('Y-m-d H:i:s', time() - 86400),
+				), false);
+				Cache::write('Saito.Cache.registerGc', time());
+			}
+			Stopwatch::stop('User::registerGc');
 		}
 
 		public function activate() {
