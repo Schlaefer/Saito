@@ -26,6 +26,8 @@
 				var Saito_Settings_embedly_enabled = " . $this->Js->value(Configure::read('Saito.Settings.embedly_enabled')) . ";
 				var User_Settings_user_show_inline = " . $this->Js->value($CurrentUser['inline_view_on_click']) . ";
 				var Saito_App_Settings_autoPageReload = " . (isset($autoPageReload) ? $autoPageReload : 0) . ";
+				var Saito_App_action = " . $this->Js->value($this->request->action) . ";
+				var Saito_App_controller = " . $this->Js->value($this->request->controller) . ";
 			");
 			if (Configure::read('debug') == 0):
 				echo $this->Html->script('lib/jquery/jquery-1.8.1.min');
