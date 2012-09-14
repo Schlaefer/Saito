@@ -98,7 +98,7 @@ class UsersController extends AppController {
 		if (!empty($this->request->data) && $this->request->data['User']['tos_confirm']) {
 			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
 
-			$this->request->data['User']['activate_code'] = mt_rand(1,9999999);
+			$this->request->data['User']['activate_code'] = mt_rand(1000000,9999999);
 			$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
 			if ($this->User->register($this->request->data)) {
 					$this->request->data['User']['id'] = $this->User->id;
