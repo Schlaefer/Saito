@@ -21,7 +21,7 @@ define([
 
 			events: {
 				'click #showLoginForm': 'showLoginForm',
-				'focus #EntrySearchTerm': 'widenSearchField'
+				'focus #header-searchField': 'widenSearchField'
 			},
 
 			initialize: function () {
