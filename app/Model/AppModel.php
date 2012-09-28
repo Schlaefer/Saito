@@ -35,8 +35,12 @@ class AppModel extends Model {
 	public function afterFind($results, $primary = false) {
 		parent::afterFind($results, $primary);
 
-		if (self::$sanitize) $results = $this->_sanitizeFields($results);
-
+		if (self::$sanitize) {
+			$results = $this->_sanitizeFields($results);
+		} else {
+			// sanitizing can only be disabled for one request
+			$this->sanitize(true);
+		}
 		return $results;
 	}
 
