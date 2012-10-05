@@ -829,6 +829,7 @@
 	 * @return boolean True on success, false on failure
 	 */
 	protected function _changeThreadCategory($tid = null, $new_category_id = null) {
+		$this->Category->contain();
 		$category_exists = $this->Category->findById($new_category_id);
 		if (!$category_exists) {
 			throw new NotFoundException;
