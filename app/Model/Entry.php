@@ -790,4 +790,56 @@
 
     return $count;
   }
+
+	public function beforeSave($options) {
+		$out = true;
+
+		// get old entry to compare with new data
+		$old_entry = $this->find('first', array(
+				'contain' => false,
+				'conditions' => array(
+						'Entry.id' => $this->id,
+						),
+				)
+		);
+
+		// change category of thread if category of root entry changed
+		if ((int)$old_entry['Entry']['pid'] === 0) {
+			// entry is root entry
+			if (isset($this->data['Entry']['category'])) {
+				// category data is provided
+				if ($this->data['Entry']['category'] != $old_entry['Entry']['category']) {
+					// category changed
+					$out = $out && $this->_changeThreadCategory($old_entry['Entry']['tid'],
+							$this->data['Entry']['category']);
+				}
+			}
+		}
+
+		return $out && parent::beforeSave($options);
+	}
+
+	/**
+	 * Changes the category of a thread.
+	 *
+	 * Assigns the new category-id to all postings in that thread.
+	 *
+	 * @param int $tid Id of the thread
+	 * @param int $new_category_id Id of the new category
+	 * @return boolean True on success, false on failure
+	 */
+	protected function _changeThreadCategory($tid = null, $new_category_id = null) {
+		$category_exists = $this->Category->findById($new_category_id);
+		if (!$category_exists) {
+			throw new NotFoundException;
+		}
+		$out = $this->updateAll(
+				array(
+						'Entry.category' => $new_category_id,
+				),
+				array(
+						'Entry.tid' => $tid,
+		));
+		return $out;
+	}
 }

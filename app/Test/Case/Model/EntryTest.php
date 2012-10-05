@@ -113,6 +113,58 @@
 
 		}
 
+		public function testChangeThreadCategory() {
+			$old_category = 2;
+			$new_cateogory = 1;
+
+			$n_before_change = $this->Entry->find('count', array(
+						'contain' => false,
+						'conditions' => array (
+								'tid' => 1,
+								'category' => $old_category,
+						)
+					));
+			$this->assertGreaterThan(0, $n_before_change);
+
+			$this->Entry->id = 1;
+			$this->Entry->save(array(
+					'Entry' => array(
+							'category' => $new_cateogory,
+					)
+			));
+
+			$n_after_change = $this->Entry->find('count', array(
+						'contain' => false,
+						'conditions' => array (
+								'tid' => 1,
+								'category' => $new_cateogory,
+						)
+					));
+			$this->assertEqual($n_before_change, $n_after_change);
+
+			$n_after_change_old = $this->Entry->find('count', array(
+						'contain' => false,
+						'conditions' => array (
+								'tid' => 1,
+								'category' => $old_category
+						)
+					));
+			$this->assertEqual(0, $n_after_change_old);
+		}
+
+		public function testChangeThreadCategoryNotAnExistingCategory() {
+			$old_category = 2;
+			$new_cateogory = 9999;
+
+			$this->expectException('NotFoundException');
+
+			$this->Entry->save(array(
+					'Entry' => array(
+							'category' => $new_cateogory,
+					)
+			));
+		}
+
 		public function testDeleteTree() {
 
 			//* test thread exists before we delete it
