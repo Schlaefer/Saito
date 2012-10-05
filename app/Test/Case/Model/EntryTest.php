@@ -30,7 +30,7 @@
       App::uses('Category', 'Model');
 
       Configure::write('Saito.Settings.subject_maxlength', 75);
-      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'), array(false, 'category', 'test'));
+      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'), array(false, 'categories', 'test'));
       $this->Entry->Category->expects($this->once())->method('updateThreadCounter')->will($this->returnValue(true));
       $data['Entry'] = array(
           'pid' => 0,
