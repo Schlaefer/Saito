@@ -73,6 +73,11 @@
 //			$this->assertFalse($result);
 		}
 
+		/**
+		 * Test merge
+		 * 
+		 * Merge thread 2 (root-id: 4) onto entry 2 in thread 1
+		 */
 		public function testMerge() {
 
 			// notifications must be merged
