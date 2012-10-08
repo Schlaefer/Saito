@@ -158,6 +158,7 @@
 
 			$this->expectException('NotFoundException');
 
+			$this->Entry->id = 1;
 			$this->Entry->save(array(
 					'Entry' => array(
 							'category' => $new_category,

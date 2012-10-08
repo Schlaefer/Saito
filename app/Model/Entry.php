@@ -804,7 +804,7 @@
 		);
 
 		// change category of thread if category of root entry changed
-		if ((int)$old_entry['Entry']['pid'] === 0) {
+		if ($old_entry && (int)$old_entry['Entry']['pid'] === 0) {
 			// entry is root entry
 			if (isset($this->data['Entry']['category'])) {
 				// category data is provided
@@ -829,6 +829,9 @@
 	 * @return boolean True on success, false on failure
 	 */
 	protected function _changeThreadCategory($tid = null, $new_category_id = null) {
+		if (empty($tid)) {
+			throw new InvalidArgumentException;
+		}
 		$this->Category->contain();
 		$category_exists = $this->Category->findById($new_category_id);
 		if (!$category_exists) {
