@@ -13,6 +13,13 @@ class AppModel extends Model {
 
 	static $sanitize = true;
 
+	/**
+	 * Lock sanitize that it's associated models are also not sanitized
+	 *
+	 * @var mixed false or string
+	 */
+	static $_lock_no_sanitize = false;
+
 	protected $_CurrentUser;
 
 	public function setCurrentUser(SaitoUser $CurrentUser) {
@@ -35,13 +42,22 @@ class AppModel extends Model {
 	public function afterFind($results, $primary = false) {
 		parent::afterFind($results, $primary);
 
-		if (self::$sanitize) $results = $this->_sanitizeFields($results);
-
+		if (self::$sanitize) {
+			$results = $this->_sanitizeFields($results);
+		} elseif (self::$_lock_no_sanitize === $this->alias) {
+			// sanitizing can only be disabled for one find
+			$this->sanitize(true);
+		} 
 		return $results;
 	}
 
 	public function sanitize($switch = true) {
-			self::$sanitize = $switch;
+		if (!$switch) {
+			self::$_lock_no_sanitize = $this->alias;
+		} else {
+			self::$_lock_no_sanitize = false;
+		}
+		self::$sanitize = $switch;
 	}
 
 	public function toggle($key) {

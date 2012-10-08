@@ -283,7 +283,6 @@
 			
 			// update last answer time in root entry
 			$this->id = $parent_entry['Entry']['tid'];
-			$this->read();
 			$this->set('last_answer', $new_posting['Entry']['last_answer']);
 			if ( $this->save() != TRUE ) {
 				// @td raise error and/or roll back new entry
