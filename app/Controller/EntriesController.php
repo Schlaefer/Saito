@@ -775,6 +775,13 @@ class EntriesController extends AppController {
 		}
 
 		protected function _automaticalyMarkAsRead() {
+			// ignore browser prefetch
+			if ( (env('HTTP_X_PURPOSE') === 'preview') // Safari
+				|| (env('HTTP_X_MOZ') === 'prefetch') // Firefox
+				) {
+				return;
+			} 
+
 			if ($this->CurrentUser->isLoggedIn() && $this->CurrentUser['user_automaticaly_mark_as_read']):
 				if (
 						($this->request->params['action'] === 'index' && $this->Session->read('paginator.lastPage') == 1) // deprecated
