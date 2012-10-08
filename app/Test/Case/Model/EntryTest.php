@@ -154,13 +154,13 @@
 
 		public function testChangeThreadCategoryNotAnExistingCategory() {
 			$old_category = 2;
-			$new_cateogory = 9999;
+			$new_category = 9999;
 
 			$this->expectException('NotFoundException');
 
 			$this->Entry->save(array(
 					'Entry' => array(
-							'category' => $new_cateogory,
+							'category' => $new_category,
 					)
 			));
 		}
