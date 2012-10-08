@@ -106,6 +106,12 @@
 			$targetEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));
 			$this->assertEqual($targetEntryCountAfterMerge, $sourceEntryCount + $targetEntryCount);
 
+			//appended entries have category of target thread
+			$targetCategoryCount = $this->Entry->find('count', array(
+					'conditions' => array ('Entry.tid' => 1, 'Entry.category' => 2)
+					));
+			$this->assertEqual($targetCategoryCount, $targetEntryCount + $sourceEntryCount);
+
 			// source thread is gone
 			$sourceEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '4')));
 			$this->assertEqual($sourceEntryCountAfterMerge, 0);

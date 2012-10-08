@@ -599,6 +599,9 @@
 					array('tid'	=> $this->id)
 			);
 
+			// appended source entries get category of target thread
+			$this->_changeThreadCategory($targetEntry['Entry']['tid'], $targetEntry['Entry']['category']);
+
 			// update target thread last answer if source is newer
 			$sourceLastAnswer = $this->field('last_answer');
 			if (strtotime($sourceLastAnswer) > strtotime($targetEntry['Entry']['last_answer'])) {
