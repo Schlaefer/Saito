@@ -30,7 +30,7 @@
       App::uses('Category', 'Model');
 
       Configure::write('Saito.Settings.subject_maxlength', 75);
-      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'), array(false, 'category', 'test'));
+      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'), array(false, 'categories', 'test'));
       $this->Entry->Category->expects($this->once())->method('updateThreadCounter')->will($this->returnValue(true));
       $data['Entry'] = array(
           'pid' => 0,
@@ -73,6 +73,11 @@
 //			$this->assertFalse($result);
 		}
 
+		/**
+		 * Test merge
+		 * 
+		 * Merge thread 2 (root-id: 4) onto entry 2 in thread 1
+		 */
 		public function testMerge() {
 
 			// notifications must be merged
@@ -101,6 +106,12 @@
 			$targetEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));
 			$this->assertEqual($targetEntryCountAfterMerge, $sourceEntryCount + $targetEntryCount);
 
+			//appended entries have category of target thread
+			$targetCategoryCount = $this->Entry->find('count', array(
+					'conditions' => array ('Entry.tid' => 1, 'Entry.category' => 2)
+					));
+			$this->assertEqual($targetCategoryCount, $targetEntryCount + $sourceEntryCount);
+
 			// source thread is gone
 			$sourceEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '4')));
 			$this->assertEqual($sourceEntryCountAfterMerge, 0);
@@ -111,6 +122,59 @@
 							'conditions' => array ('Entry.id' => 4, 'Entry.pid' => '2' )));
 			$this->assertEqual($appendedEntry, 1);
 
+		}
+
+		public function testChangeThreadCategory() {
+			$old_category = 2;
+			$new_cateogory = 1;
+
+			$n_before_change = $this->Entry->find('count', array(
+						'contain' => false,
+						'conditions' => array (
+								'tid' => 1,
+								'category' => $old_category,
+						)
+					));
+			$this->assertGreaterThan(0, $n_before_change);
+
+			$this->Entry->id = 1;
+			$this->Entry->save(array(
+					'Entry' => array(
+							'category' => $new_cateogory,
+					)
+			));
+
+			$n_after_change = $this->Entry->find('count', array(
+						'contain' => false,
+						'conditions' => array (
+								'tid' => 1,
+								'category' => $new_cateogory,
+						)
+					));
+			$this->assertEqual($n_before_change, $n_after_change);
+
+			$n_after_change_old = $this->Entry->find('count', array(
+						'contain' => false,
+						'conditions' => array (
+								'tid' => 1,
+								'category' => $old_category
+						)
+					));
+			$this->assertEqual(0, $n_after_change_old);
+		}
+
+		public function testChangeThreadCategoryNotAnExistingCategory() {
+			$old_category = 2;
+			$new_category = 9999;
+
+			$this->expectException('NotFoundException');
+
+			$this->Entry->id = 1;
+			$this->Entry->save(array(
+					'Entry' => array(
+							'category' => $new_category,
+					)
+			));
 		}
 
 		public function testDeleteTree() {
