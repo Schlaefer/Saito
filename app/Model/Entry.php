@@ -414,7 +414,7 @@
 		$result = parent::toggle($key);
 
 		if ($key === 'locked') {
-			$this->_lockThread($result);
+			$this->_threadLock($result);
 		}
 
 		return $result;
@@ -742,7 +742,7 @@
 	 *
 	 * @param bool $value
 	 */
-	protected function _lockThread($value) {
+	protected function _threadLock($value) {
 		$tid = $this->field('tid');
 		$this->contain();
 		$this->updateAll(
