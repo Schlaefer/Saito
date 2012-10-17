@@ -67,10 +67,15 @@
 			$this->assertFalse($result);
 		}
 
+		/**
+		 * 
+		 * 
+		 * Merge subposting 5 in thread 2 onto root-posting in thread 1
+		 */
 		public function testMergeSourceIsNoThreadRoot() {
 			$this->Entry->id = 5;
 			$result = $this->Entry->threadMerge(1);
-//			$this->assertFalse($result);
+			$this->assertFalse($result);
 		}
 
 		/**
