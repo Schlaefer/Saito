@@ -599,7 +599,7 @@
 			);
 
 			// appended source entries get category of target thread
-			$this->_changeThreadCategory($targetEntry['Entry']['tid'], $targetEntry['Entry']['category']);
+			$this->_threadChangeCategory($targetEntry['Entry']['tid'], $targetEntry['Entry']['category']);
 
 			// update target thread last answer if source is newer
 			$sourceLastAnswer = $this->field('last_answer');
@@ -812,7 +812,7 @@
 				// category data is provided
 				if ($this->data['Entry']['category'] != $old_entry['Entry']['category']) {
 					// category changed
-					$out = $out && $this->_changeThreadCategory($old_entry['Entry']['tid'],
+					$out = $out && $this->_threadChangeCategory($old_entry['Entry']['tid'],
 							$this->data['Entry']['category']);
 				}
 			}
@@ -830,7 +830,7 @@
 	 * @param int $new_category_id Id of the new category
 	 * @return boolean True on success, false on failure
 	 */
-	protected function _changeThreadCategory($tid = null, $new_category_id = null) {
+	protected function _threadChangeCategory($tid = null, $new_category_id = null) {
 		if (empty($tid)) {
 			throw new InvalidArgumentException;
 		}
