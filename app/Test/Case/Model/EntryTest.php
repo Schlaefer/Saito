@@ -185,10 +185,10 @@
 		public function testThreadDelete() {
 
 			//* test thread exists before we delete it
-			$result = $this->Entry->find('count',
+			$countBeforeDelete = $this->Entry->find('count',
 					array( 'conditions' => array( 'tid' => '1' ) ));
-			$expected = 3;
-			$this->assertEqual($result, $expected);
+			$expected = 6;
+			$this->assertEqual($countBeforeDelete, $expected);
 
 			//* try to delete subentry
 			$this->Entry->id = 2;
@@ -197,8 +197,7 @@
 
 			$result = $this->Entry->find('count',
 					array( 'conditions' => array( 'tid' => '1' ) ));
-			$expected = 3;
-			$this->assertEqual($result, $expected);
+			$this->assertEqual($result, $countBeforeDelete);
 
 			//* try to delete thread
 
@@ -257,7 +256,7 @@
       $this->assertEqual($result, $expected);
 
       // entries are now assigned to user_id 0
-      $expected = 3;
+      $expected = 6;
       $result = $this->Entry->find('count', array(
           'conditions' => array ('Entry.user_id' => 0)
       ));

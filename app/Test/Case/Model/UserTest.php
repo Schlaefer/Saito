@@ -72,7 +72,7 @@
 
 			//* two entries
 			$this->User->id = 3;
-			$expected = 3;
+			$expected = 6;
 			$result = $this->User->numberOfEntries();
 			$this->assertEqual($expected, $result);
 		}

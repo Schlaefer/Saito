@@ -779,7 +779,7 @@
 
 			$this->assertEqual($headerCounter['user_online'], 1);
 			$this->assertEqual($headerCounter['user'], 6);
-			$this->assertEqual($headerCounter['entries'], 6);
+			$this->assertEqual($headerCounter['entries'], 9);
 			$this->assertEqual($headerCounter['threads'], 3);
 			$this->assertEqual($headerCounter['user_registered'], 0);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
