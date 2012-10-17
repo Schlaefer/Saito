@@ -544,7 +544,42 @@
 		return $success;
 	}
 
-  /**
+		/**
+		 * Get Ids of all Subposting beloging to posting $id
+		 *
+		 * @param int $id
+		 * @return array Ids
+		 */
+		public function threadIdsForNode($id) {
+			$subthread = $this->subthreadForNode($id);
+			$func = function (&$tree, &$entry) {
+						$tree['ids'][] = (int)$entry['Entry']['id'];
+					};
+			Entry::mapTreeElements($subthread, $func);
+			sort($subthread['ids']);
+			return $subthread['ids'];
+		}
+
+		/**
+		 * Structured array of a single posting and its subposting 
+		 *  
+		 * @param int $id
+		 * @return array Subtree
+		 */
+		public function subthreadForNode($id) {
+			$thread_id = $this->getThreadId($id);
+			$complete_thread = $this->treeForNode($thread_id);
+			$func = function (&$tree, &$entry, $id) {
+						if ($entry['Entry']['id'] == $id) {
+							$tree = array($entry);
+							return 'break';
+						}
+					};
+			Entry::mapTreeElements($complete_thread, $func, $id);
+			return $complete_thread;
+		}
+
+	/**
    * Anonymizes the entries for a user
    * 
    * @param string $user_id
@@ -567,15 +602,23 @@
 	/**
 	 * Maps all elements in $tree to function $func
 	 *
-	 * @param type $tree
-	 * @param type $_this
-	 * @param type $func
+	 * @param type $leafs Current subtree.
+	 * @param function $func Function to execute.
+	 * @param misc $context Arbitrary data for the function. Useful for providing $this context.
+	 * @param array $tree The whole tree.
 	 */
-	public static function mapTreeElements(&$tree, $func, $_this = NULL) {
-		foreach ($tree as &$leaf ):
-			$func(&$leaf, $_this);
+	public static function mapTreeElements(&$leafs, $func, $context = NULL, &$tree = NULL) {
+		if ($tree === NULL) {
+			$tree = &$leafs;
+		}
+		foreach ($leafs as &$leaf):
+			$result = $func($tree, $leaf, $context);
+			if ($result === 'break')
+				return 'break';
 			if(isset($leaf['_children'])):
-					self::mapTreeElements($leaf['_children'], $func, $_this);
+				$result =	self::mapTreeElements($leaf['_children'], $func, $context, $tree);
+				if ($result === 'break')
+					return 'break';
 			endif;
 		endforeach;
 	}
@@ -647,7 +690,7 @@
 			 *
 			 * @var function
 			 */
-			$ldGetBookmarkForEntryAndUser = function($element, $_this) {
+			$ldGetBookmarkForEntryAndUser = function(&$tree, &$element, $_this) {
 						$element['isBookmarked'] = $_this->Bookmark->isBookmarked(
 								$element['Entry']['id'], $_this->_CurrentUser->getId());
 					};
@@ -659,7 +702,7 @@
 			 *
 			 * @var function
 			 */
-			$ldGetRightsForEntryAndUser = function($element, $_this) {
+			$ldGetRightsForEntryAndUser = function(&$tree, &$element, $_this) {
 						$rights = array(
 					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser),
 					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->mockUserType('user')),

@@ -32,9 +32,9 @@
 		 * 1
 		 *   - 2
 		 *     - 3
-		 *     - 7
-		 *   - 8
 		 *     - 9
+		 *       - 7
+		 *   - 8
 		 *
 		 * @var type array
 		 */
@@ -78,7 +78,7 @@
 						'id' => 7,
 						'subject' => 'Fouth_Subject',
 						'text' => 'Fourth_Text',
-						'pid' => 2,
+						'pid' => 9,
 						'tid' => 1,
 						'time' => '2000-01-02 20:03:00',
 						'category' => 2,
@@ -102,7 +102,7 @@
 						'id' => 9,
 						'subject' => 'Sixth_Subject',
 						'text' => 'Sixth_Text',
-						'pid' => 8,
+						'pid' => 2,
 						'tid' => 1,
 						'time' => '2000-01-04 20:02:00',
 						'category' => 2,
