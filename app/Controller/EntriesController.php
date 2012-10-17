@@ -497,7 +497,7 @@ class EntriesController extends AppController {
 
 		// Delete Entry
 		$this->Entry->id = $id;
-		$success = $this->Entry->deleteTree();
+		$success = $this->Entry->threadDelete();
 
 		// Redirect
 		if ( $success ) {

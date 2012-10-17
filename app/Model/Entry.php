@@ -496,7 +496,7 @@
 			}
 	}
 
-	public function deleteTree() {
+	public function threadDelete() {
 
 		// delete only whole trees
 		$pid = $this->field('pid');

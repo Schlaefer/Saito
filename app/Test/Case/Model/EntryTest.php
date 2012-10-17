@@ -177,7 +177,7 @@
 			));
 		}
 
-		public function testDeleteTree() {
+		public function testThreadDelete() {
 
 			//* test thread exists before we delete it
 			$result = $this->Entry->find('count',
@@ -187,7 +187,7 @@
 
 			//* try to delete subentry
 			$this->Entry->id = 2;
-			$result = $this->Entry->deleteTree();
+			$result = $this->Entry->threadDelete();
 			$this->assertFalse($result);
 
 			$result = $this->Entry->find('count',
@@ -225,7 +225,7 @@
 
 			$allBookmarksBeforeDelete = $this->Entry->Bookmark->find('count');
 
-			$result = $this->Entry->deleteTree();
+			$result = $this->Entry->threadDelete();
 			$this->assertTrue($result);
 
 			$result = $this->Entry->find('count',
