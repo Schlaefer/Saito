@@ -491,6 +491,45 @@
 			$this->assertFalse($result);
 		}
 
+		public function testSubthreadForNode() {
+
+			$this->Entry = $this->getMock('Entry', array('getThreadId', 'treeForNode'),
+					array(false, 'entries', 'test')
+			);
+
+			$this->Entry->expects($this->once())
+					->method('getThreadId')
+					->with(2)
+					->will($this->returnValue(1));
+
+
+			$ar = array(
+					0 => array(
+							'Entry' => array(
+									'id'				 => 1,
+							),
+							'_children'	 => array(
+									0 =>
+									array(
+											'Entry' => array(
+													'id'				 => 2,
+											),
+											'User'
+									),
+									'Entry'	 => array(
+											'id' => 3,
+									),
+							)
+					));
+			$this->Entry->expects($this->once())
+					->method('treeForNode')
+					->with(1)
+					->will($this->returnValue($ar));
+
+			$result = $this->Entry->subthreadForNode(2);
+			$this->assertEqual($result, array(0 => array('Entry' => array('id' =>'2'), 'User')));
+		}
+
 		public function testGetThreadId() {
 			$result = $this->Entry->getThreadId(1);
 			$expected = 1;
