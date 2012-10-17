@@ -410,7 +410,7 @@
 			$Entries = $this->generate('Entries',
 					array(
 					'models' => array(
-							'Entry' => array('merge')
+							'Entry' => array('threadMerge')
 					)
 					));
 			$this->_loginUser(2);
@@ -422,7 +422,7 @@
 			);
 
 			$Entries->Entry->expects($this->exactly(1))
-					->method('merge')
+					->method('threadMerge')
 					->with('2')
 					->will($this->returnValue(true));
 

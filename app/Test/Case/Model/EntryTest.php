@@ -63,13 +63,13 @@
 
 		public function testMergeThreadOntoItself() {
 			$this->Entry->id = 2;
-			$result = $this->Entry->merge(1);
+			$result = $this->Entry->threadMerge(1);
 			$this->assertFalse($result);
 		}
 
 		public function testMergeSourceIsNoThreadRoot() {
 			$this->Entry->id = 5;
-			$result = $this->Entry->merge(1);
+			$result = $this->Entry->threadMerge(1);
 //			$this->assertFalse($result);
 		}
 
@@ -78,7 +78,7 @@
 		 * 
 		 * Merge thread 2 (root-id: 4) onto entry 2 in thread 1
 		 */
-		public function testMerge() {
+		public function testThreadMerge() {
 
 			// notifications must be merged
 			App::uses('Esevent', 'Model');
@@ -100,7 +100,7 @@
 
 			// do the merge
 			$this->Entry->id = 4;
-			$this->Entry->merge(2);
+			$this->Entry->threadMerge(2);
 
 			// target thread is contains now all entries
 			$targetEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));

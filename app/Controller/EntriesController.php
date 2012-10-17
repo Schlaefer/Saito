@@ -700,7 +700,7 @@ class EntriesController extends AppController {
 		if (isset($this->request->data['Entry']['targetId'])) {
 			$targetId = $this->request->data['Entry']['targetId'];
 			$this->Entry->id = $id;
-			if ($this->Entry->merge($targetId)) {
+			if ($this->Entry->threadMerge($targetId)) {
 				// success
 				$this->Entry->contain();
 				$targetEntry = $this->Entry->findById($targetId);

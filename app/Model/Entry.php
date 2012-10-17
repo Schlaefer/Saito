@@ -563,7 +563,7 @@
 	 * @param int $targetId id of the entry the thread should be appended to
 	 * @return bool true if merge was successfull false otherwise
 	 */
-	public function merge($targetId) {
+	public function threadMerge($targetId) {
 		$threadIdSource = $this->id;
 
 		$this->contain();
