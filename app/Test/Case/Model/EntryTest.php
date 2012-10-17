@@ -481,6 +481,21 @@
 			$this->assertFalse($result);
 		}
 
+		public function testGetThreadId() {
+			$result = $this->Entry->getThreadId(1);
+			$expected = 1;
+			$this->assertEqual($result, $expected);
+
+			$result = $this->Entry->getThreadId(5);
+			$expected = 4;
+			$this->assertEqual($result, $expected);
+		}
+
+		public function testGetThreadIdNotFound() {
+			$this->expectException('UnexpectedValueException');
+			$result = $this->Entry->getThreadId(999);
+		}
+
 		/**
      * setUp method
      *

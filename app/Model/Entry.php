@@ -219,6 +219,29 @@
 			return $result;
 		}
 
+
+		/**
+		 * Finds the thread-id for a posting
+		 * 
+		 * @param int $id Posting-Id
+		 * @return int Thread-Id 
+		 * @throws UnexpectedValueException
+		 */
+		public function getThreadId($id) {
+			$entry = $this->find('first', array(
+					'contain' => false,
+					'conditions' => array(
+							'Entry.id' => $id,
+					),
+					'fields' => 'Entry.tid'
+
+			));
+			if ($entry == FALSE) {
+				throw new UnexpectedValueException ('Posting not found. Posting-Id: ' . $id);
+			}
+			return $entry['Entry']['tid'];
+		}
+
 	/**
 	 * creates a new root or child entry for a node 
 	 * 
