@@ -11,7 +11,7 @@
 	class Bookmark extends AppModel {
 
 		public $actsAs = array(
-				'containable',
+				'Containable',
 		);
 
 		protected $fieldsToSanitize = array (

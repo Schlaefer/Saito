@@ -63,14 +63,19 @@
 
 		public function testMergeThreadOntoItself() {
 			$this->Entry->id = 2;
-			$result = $this->Entry->merge(1);
+			$result = $this->Entry->threadMerge(1);
 			$this->assertFalse($result);
 		}
 
+		/**
+		 * 
+		 * 
+		 * Merge subposting 5 in thread 2 onto root-posting in thread 1
+		 */
 		public function testMergeSourceIsNoThreadRoot() {
 			$this->Entry->id = 5;
-			$result = $this->Entry->merge(1);
-//			$this->assertFalse($result);
+			$result = $this->Entry->threadMerge(1);
+			$this->assertFalse($result);
 		}
 
 		/**
@@ -78,7 +83,7 @@
 		 * 
 		 * Merge thread 2 (root-id: 4) onto entry 2 in thread 1
 		 */
-		public function testMerge() {
+		public function testThreadMerge() {
 
 			// notifications must be merged
 			App::uses('Esevent', 'Model');
@@ -100,7 +105,7 @@
 
 			// do the merge
 			$this->Entry->id = 4;
-			$this->Entry->merge(2);
+			$this->Entry->threadMerge(2);
 
 			// target thread is contains now all entries
 			$targetEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));
@@ -122,6 +127,16 @@
 							'conditions' => array ('Entry.id' => 4, 'Entry.pid' => '2' )));
 			$this->assertEqual($appendedEntry, 1);
 
+		}
+
+		public function testIdsForNode() {
+			$expected = array(2, 3, 7, 9);
+			$result = $this->Entry->threadIdsForNode(2);
+			$this->assertEqual(array_values($result), array_values($expected));
+
+			$expected = array(1, 2, 3, 7, 8, 9);
+			$result = $this->Entry->threadIdsForNode(1);
+			$this->assertEqual($result, $expected);
 		}
 
 		public function testChangeThreadCategory() {
@@ -177,23 +192,22 @@
 			));
 		}
 
-		public function testDeleteTree() {
+		public function testThreadDelete() {
 
 			//* test thread exists before we delete it
-			$result = $this->Entry->find('count',
+			$countBeforeDelete = $this->Entry->find('count',
 					array( 'conditions' => array( 'tid' => '1' ) ));
-			$expected = 3;
-			$this->assertEqual($result, $expected);
+			$expected = 6;
+			$this->assertEqual($countBeforeDelete, $expected);
 
 			//* try to delete subentry
 			$this->Entry->id = 2;
-			$result = $this->Entry->deleteTree();
+			$result = $this->Entry->threadDelete();
 			$this->assertFalse($result);
 
 			$result = $this->Entry->find('count',
 					array( 'conditions' => array( 'tid' => '1' ) ));
-			$expected = 3;
-			$this->assertEqual($result, $expected);
+			$this->assertEqual($result, $countBeforeDelete);
 
 			//* try to delete thread
 
@@ -225,7 +239,7 @@
 
 			$allBookmarksBeforeDelete = $this->Entry->Bookmark->find('count');
 
-			$result = $this->Entry->deleteTree();
+			$result = $this->Entry->threadDelete();
 			$this->assertTrue($result);
 
 			$result = $this->Entry->find('count',
@@ -252,7 +266,7 @@
       $this->assertEqual($result, $expected);
 
       // entries are now assigned to user_id 0
-      $expected = 3;
+      $expected = 6;
       $result = $this->Entry->find('count', array(
           'conditions' => array ('Entry.user_id' => 0)
       ));
@@ -475,6 +489,60 @@
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
+		}
+
+		public function testSubthreadForNode() {
+
+			$this->Entry = $this->getMock('Entry', array('getThreadId', 'treeForNode'),
+					array(false, 'entries', 'test')
+			);
+
+			$this->Entry->expects($this->once())
+					->method('getThreadId')
+					->with(2)
+					->will($this->returnValue(1));
+
+
+			$ar = array(
+					0 => array(
+							'Entry' => array(
+									'id'				 => 1,
+							),
+							'_children'	 => array(
+									0 =>
+									array(
+											'Entry' => array(
+													'id'				 => 2,
+											),
+											'User'
+									),
+									'Entry'	 => array(
+											'id' => 3,
+									),
+							)
+					));
+			$this->Entry->expects($this->once())
+					->method('treeForNode')
+					->with(1)
+					->will($this->returnValue($ar));
+
+			$result = $this->Entry->subthreadForNode(2);
+			$this->assertEqual($result, array(0 => array('Entry' => array('id' =>'2'), 'User')));
+		}
+
+		public function testGetThreadId() {
+			$result = $this->Entry->getThreadId(1);
+			$expected = 1;
+			$this->assertEqual($result, $expected);
+
+			$result = $this->Entry->getThreadId(5);
+			$expected = 4;
+			$this->assertEqual($result, $expected);
+		}
+
+		public function testGetThreadIdNotFound() {
+			$this->expectException('UnexpectedValueException');
+			$result = $this->Entry->getThreadId(999);
 		}
 
 		/**

@@ -45,12 +45,20 @@
 			$this->assertEqual($result, $expected);
 		}
 
+		/**
+		 * 
+		 * 
+		 * preset must force a refresh
+		 */
 		public function testLoadWithPreset() {
+			$this->Setting->load();
+
 			$preset = array(
 					'lock'								 => 'hatch',
 					'timezone'						 => 'island',
 			);
-			$result = $this->Setting->load($preset);
+			$this->Setting->load($preset);
+			$result = Configure::read('Saito.Settings');
 			$expected = $this->settingsCompact;
 			$expected['lock'] = 'hatch';
 			$expected['timezone'] = 'island';
@@ -59,33 +67,12 @@
 
 		public function testLoad() {
 
-			//* test loading settings from DB
-			$result = $this->Setting->load();
-			$expected = $this->settingsCompact;
-			$this->assertEqual($result, $expected);
-
-			//* test writing settings into app-config
 			Configure::write('Saito.Settings', NULL);
 			$this->Setting->load();
 			$result = Configure::read('Saito.Settings');
 			$expected = $this->settingsCompact;
 			$this->assertEqual($result, $expected);
 
-			//* test caching
-			$debugState = Configure::read('debug');
-			Configure::write('debug', 0);
-			$cacheDisable = Configure::read('Cache.disable');
-			Configure::write('Cache.disable', false);
-
-			$this->Setting->load();
-			$result = Cache::read('Saito.Settings');
-
-			Cache::delete('Saito.Settings');
-			Configure::write('debug', $debugState);
-			Configure::write('Cache.disable', $cacheDisable);
-
-			$expected = $this->settingsCompact;
-			$this->assertEqual($result, $expected);
 		}
 
 		public function setUp() {

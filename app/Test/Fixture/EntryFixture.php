@@ -27,6 +27,17 @@
 				'ip' => array( 'type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
 				'reposts' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
 		);
+
+		/**
+		 * 1
+		 *   - 2
+		 *     - 3
+		 *     - 9
+		 *       - 7
+		 *   - 8
+		 *
+		 * @var type array
+		 */
 		public $records = array(
 				//* thread 1
 				array(
@@ -61,6 +72,42 @@
 						'name' => 'Ulysses',
 						'edited' => '2000-01-01 20:04:00',
 						'edited_by' => 'Ulysses',
+						'ip' => '1.1.1.1',
+				),
+				array(
+						'id' => 7,
+						'subject' => 'Fouth_Subject',
+						'text' => 'Fourth_Text',
+						'pid' => 9,
+						'tid' => 1,
+						'time' => '2000-01-02 20:03:00',
+						'category' => 2,
+						'user_id' => 3,
+						'name' => 'Ulysses',
+						'ip' => '1.1.1.1',
+				),
+				array(
+						'id' => 8,
+						'subject' => 'Fifth_Subject',
+						'text' => 'Fifth_Text',
+						'pid' => 1,
+						'tid' => 1,
+						'time' => '2000-01-03 20:02:00',
+						'category' => 2,
+						'user_id' => 3,
+						'name' => 'Ulysses',
+						'ip' => '1.1.1.1',
+				),
+				array(
+						'id' => 9,
+						'subject' => 'Sixth_Subject',
+						'text' => 'Sixth_Text',
+						'pid' => 2,
+						'tid' => 1,
+						'time' => '2000-01-04 20:02:00',
+						'category' => 2,
+						'user_id' => 3,
+						'name' => 'Ulysses',
 						'ip' => '1.1.1.1',
 				),
 				//* thread 2

@@ -12,16 +12,27 @@ class Setting extends AppModel {
 //				),
 	);
 
+	/**
+	 * Are settings already loaded
+	 *
+	 * @var bool
+	 */
+	protected $_loaded = FALSE;
+
 	/* @td getSettings vs Load why to functions? */
 
 	/**
-	 * Finds all Settings and returns them in a compact array
+	 * Reads settings from DB and returns them in a compact array
+	 *
+	 * Note that this is the stored config in the DB. It may differ from the
+	 * current config used by the app in Config::read('Saito.Settings'), e.g.
+	 * when modified with a load-preset.
 	 *
 	 * @return array Settings
 	 */
 	public function getSettings() {
 		$settings = $this->find('all');
-		$settings = $this->_compact($settings);
+		$settings = $this->_compactKeyValue($settings);
 
     $settings['userranks_ranks'] = $this->_pipeSplitter($settings['userranks_ranks']);
 
@@ -29,24 +40,48 @@ class Setting extends AppModel {
 	}
 
 	/**
-	 * Finds all Settings and writes them to Configuration and Cache
+	 * Loads settings from storage into Configuration `Saito.Settings`
+	 *
+	 * ### Options
+	 * 
+	 * - `force` Force reread of from storage
 	 *
 	 * @param array $preset allows to overwrite loaded values
+   * @param array
 	 * @return array Settings
 	 */
-	public function load($preset = array()) {
-		$settings = $this->getSettings();
-		if ($preset) {
-			$settings = array_merge($settings, $preset);
+	public function load($preset = array(), $options = array()) {
+		Stopwatch::start('Settings->getSettings()');
+
+		$defaults = array(
+				'force' => FALSE,
+		);
+		$options = array_merge($defaults, $options);
+		extract($options);
+
+		// preset must always update Config value
+		if (!empty($preset)) {
+			$force = true;
 		}
-		$this->_updateConfiguration($settings);
-		$this->_updateCacheFromConfiguration();
-		return $settings;
+
+		$config_settings = Configure::read('Saito.Settings');
+		if (!empty($config_settings) && !$force) {
+			$settings = $config_settings;
+		} else {
+			$settings = $this->getSettings();
+			if ($preset) {
+				$settings = array_merge($settings, $preset);
+			}
+			$this->_updateConfiguration($settings);
+			$this->_loaded = TRUE;
+		}
+
+		Stopwatch::end('Settings->getSettings()');
 	}
 
 	public function afterSave($created) {
 		parent::afterSave($created);
-		$this->load();
+		$this->load(null, array('force' => true));
 	}
 
 	/**
@@ -57,17 +92,25 @@ class Setting extends AppModel {
 	 * @param array $settings
 	 *
 	 */
-	private function _updateConfiguration($settings) {
+	protected function _updateConfiguration($settings) {
 		Configure::write("Saito.Settings", $settings);
 	} //end _updateConfiguration()
 
-	private function _updateCacheFromConfiguration() {
-		if (Configure::read('debug') == 0) {
-			Cache::write('Saito.Settings', Configure::read('Saito.Settings'));
+
+	/**
+	 * Returns a key-value array
+	 * 
+	 * Fast version of Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
+	 * 
+	 * @param array $results
+	 * @return array
+	 */
+	protected function _compactKeyValue($results) {
+		$settings = array();
+		foreach($results as $result) {
+			$settings[$result[$this->alias]['name']] = $result[$this->alias]['value'];
 		}
+		return $settings;
 	}
 
-	protected function _compact($results) {
-		return Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
-	}
 }
