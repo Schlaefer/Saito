@@ -21,7 +21,7 @@ class Setting extends AppModel {
 	 */
 	public function getSettings() {
 		$settings = $this->find('all');
-		$settings = $this->_compact($settings);
+		$settings = $this->_compactKeyValue($settings);
 
     $settings['userranks_ranks'] = $this->_pipeSplitter($settings['userranks_ranks']);
 
@@ -61,7 +61,20 @@ class Setting extends AppModel {
 	} //end _updateConfiguration()
 
 
-	protected function _compact($results) {
-		return Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
+	/**
+	 * Returns a key-value array
+	 * 
+	 * Fast version of Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
+	 * 
+	 * @param array $results
+	 * @return array
+	 */
+	protected function _compactKeyValue($results) {
+		$settings = array();
+		foreach($results as $result) {
+			$settings[$result[$this->alias]['name']] = $result[$this->alias]['value'];
+		}
+		return $settings;
 	}
+
 }
