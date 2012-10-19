@@ -92,7 +92,7 @@ class Setting extends AppModel {
 	 * @param array $settings
 	 *
 	 */
-	private function _updateConfiguration($settings) {
+	protected function _updateConfiguration($settings) {
 		Configure::write("Saito.Settings", $settings);
 	} //end _updateConfiguration()
 
