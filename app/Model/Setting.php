@@ -40,7 +40,6 @@ class Setting extends AppModel {
 			$settings = array_merge($settings, $preset);
 		}
 		$this->_updateConfiguration($settings);
-		$this->_updateCacheFromConfiguration();
 		return $settings;
 	}
 
@@ -61,11 +60,6 @@ class Setting extends AppModel {
 		Configure::write("Saito.Settings", $settings);
 	} //end _updateConfiguration()
 
-	private function _updateCacheFromConfiguration() {
-		if (Configure::read('debug') == 0) {
-			Cache::write('Saito.Settings', Configure::read('Saito.Settings'));
-		}
-	}
 
 	protected function _compact($results) {
 		return Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');

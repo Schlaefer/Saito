@@ -43,6 +43,7 @@ class AppController extends Controller {
 	);
 
 	public $uses = array (
+			'Setting',
 			'User',
 	);
 
@@ -96,30 +97,8 @@ class AppController extends Controller {
 		// must be set before forum_disabled switch;
 		$this->theme = Configure::read('Saito.theme');
 
-		//* Load forum settings and cache them
-		// For performance reasons we try to avoid loading the Setting model at all
-		// @td rebenchmark and verify, bad MVC
-    // @td use Configure::load() and Configure::store()
-		$settings = null;
-		if ( Configure::read('debug') < 2 ) {
-			$settings = Cache::read('Saito.Settings');
-			}
-
-		// load settings fails in CakeErrorController when doing Test Cases, because
-	  // setting fixture is not loaded
-		if ($this->name === 'CakeError') {
-			if (Configure::read('debug') != 0) {
-				$this->layout = 'error';
-			}
-		} else {
-			if (!$settings && $this->request->controller !== 'CakeError') {
-				$this->loadModel('Setting');
-				$settings = $this->Setting->load(Configure::read('Saito.Settings'));
-			}
-			else {
-				Configure::write('Saito.Settings', $settings);
-			}
-		}
+		// Load forum settings
+		$this->Setting->load(Configure::read('Saito.Settings'));
 
 		// activate stopwatch in debug mode
 		$this->set('showStopwatchOutput', false);

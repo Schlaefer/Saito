@@ -71,21 +71,6 @@
 			$expected = $this->settingsCompact;
 			$this->assertEqual($result, $expected);
 
-			//* test caching
-			$debugState = Configure::read('debug');
-			Configure::write('debug', 0);
-			$cacheDisable = Configure::read('Cache.disable');
-			Configure::write('Cache.disable', false);
-
-			$this->Setting->load();
-			$result = Cache::read('Saito.Settings');
-
-			Cache::delete('Saito.Settings');
-			Configure::write('debug', $debugState);
-			Configure::write('Cache.disable', $cacheDisable);
-
-			$expected = $this->settingsCompact;
-			$this->assertEqual($result, $expected);
 		}
 
 		public function setUp() {
