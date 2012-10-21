@@ -12,13 +12,6 @@ class Setting extends AppModel {
 //				),
 	);
 
-	/**
-	 * Are settings already loaded
-	 *
-	 * @var bool
-	 */
-	protected $_loaded = FALSE;
-
 	/* @td getSettings vs Load why to functions? */
 
 	/**
@@ -73,7 +66,6 @@ class Setting extends AppModel {
 				$settings = array_merge($settings, $preset);
 			}
 			$this->_updateConfiguration($settings);
-			$this->_loaded = TRUE;
 		}
 
 		Stopwatch::end('Settings->getSettings()');
