@@ -371,6 +371,8 @@ class AppController extends Controller {
 						'to'          => $recipient['User']['user_email'],
 						'subject'     => $subject,
 						'emailFormat' => 'text',
+						'sender'      => array(
+								Configure::read('Saito.Settings.forum_email') => Configure::read('Saito.Settings.forum_name')),
 					);
 
 		if (isset($template)) :

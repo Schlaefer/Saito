@@ -44,6 +44,8 @@
   font-size: 10px;
   line-height: 12px;
   border-width: $border_width 0 0 $border_width;
+	// workaround fow webkit bug 101443 https://bugs.webkit.org/show_bug.cgi?id=101443
+	word-spacing: 0px;
   }
 
 .top-search > form {
