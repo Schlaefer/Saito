@@ -498,7 +498,7 @@ hr { border-width: 0; border-bottom: 1px solid #e0e0e0; }
 
 .l-top-menu { position: absolute; bottom: 0; right: 0; }
 
-.top-menu { padding: 2px 1em; font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; }
+.top-menu { padding: 2px 1em; font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; word-spacing: 0px; }
 
 .top-search > form { height: 26px; font-size: 12px; }
 
