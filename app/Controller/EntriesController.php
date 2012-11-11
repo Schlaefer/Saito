@@ -575,7 +575,7 @@ class EntriesController extends AppController {
 				if ( $searchTerm ) {
           $searchTerm = Sanitize::escape($searchTerm);
 					$this->paginate = array(
-							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$searchTerm' IN BOOLEAN MODE)*100) + (MATCH (Entry.text) AGAINST ('$searchTerm' IN BOOLEAN MODE)*10) + MATCH (Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE) AS rating",
+							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$searchTerm' IN BOOLEAN MODE)*2) + (MATCH (Entry.text) AGAINST ('$searchTerm' IN BOOLEAN MODE)) + (MATCH (Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)*4) AS rating",
 							'conditions' => array(
                 "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$searchTerm' IN BOOLEAN MODE)",
                 'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())),
