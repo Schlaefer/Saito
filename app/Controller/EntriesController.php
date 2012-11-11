@@ -997,5 +997,3 @@ class EntriesController extends AppController {
 		}
 
 }
-
-?>
