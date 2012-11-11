@@ -573,8 +573,7 @@ class EntriesController extends AppController {
 				// $this->passedArgs['search_term'] = urlencode(urlencode($search_term));
 
 				if ( $searchTerm ) {
-          $searchTerm = Sanitize::escape($searchTerm);
-					$internal_search_term = preg_replace('/(^|\s)(?!-)/i', ' +', $searchTerm);
+					$internal_search_term = $this->_searchStringSanitizer($searchTerm);
 					$this->paginate = array(
 							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$internal_search_term' IN BOOLEAN MODE)*2) + (MATCH (Entry.text) AGAINST ('$internal_search_term' IN BOOLEAN MODE)) + (MATCH (Entry.name) AGAINST ('$internal_search_term' IN BOOLEAN MODE)*4) AS rating",
 							'conditions' => array(
@@ -995,5 +994,12 @@ class EntriesController extends AppController {
 				$entry['Entry']['subject'] = $parent['Entry']['subject'];
 			}
 		}
+
+	protected function _searchStringSanitizer($search_string) {
+		$search_string = Sanitize::escape($search_string);
+		$search_string = preg_replace('/(^|\s)(?![-+])/i', ' +', $search_string);
+
+		return trim($search_string);
+	}
 
 }

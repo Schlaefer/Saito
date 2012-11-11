@@ -10,6 +10,10 @@
 		public function getInitialThreads($User) {
 			$this->_getInitialThreads($User);
 		}
+
+		public function searchStringSanitizer($string) {
+			return $this->_searchStringSanitizer($string);
+		}
 	}
 
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
@@ -843,6 +847,16 @@
 			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['User']['user_id']);
 			  $this->assertEqual('First_Text', $result['FoundEntries']['0']['Entry']['text']);
 			 */
+		}
+
+		public function testSearchStringSanitizer() {
+
+			$data = 'foo bar +baz -zoo \'';
+			$expected = '+foo +bar +baz -zoo +\\\'';
+
+			$Entries = $this->generate('EntriesMock');
+			$result = $Entries->searchStringSanitizer($data);
+			$this->assertEquals($expected, $result);
 		}
 
 		//-----------------------------------------------
