@@ -569,6 +569,70 @@
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 		}
 
+		public function testContactAnon() {
+
+			$data = array(
+											'Message' => array(
+											'sender_contact' => 'fo3@example.com',
+											'subject'				 => 'subject',
+											'text'					 => 'text',
+					));
+			$Users = $this->generate('Users',
+					array(
+														'models'	 => array('User'),
+														'methods'	 => array('email')
+					)
+					);
+			$Users->expects($this->once())
+					->method('email');
+			$this->testAction('/users/contact/0',
+					array(
+										 'data'	 => $data,
+										 'method' => 'post',
+			));
+			$this->assertContains($this->controller->request->webroot, $this->headers['Location']);
+		}
+
+		public function testContactNoValidEmail() {
+
+			$data = array(
+											'Message' => array(
+											'sender_contact' => 'fo3@example.com',
+											'subject'				 => '',
+											'text'	 => 'text',
+					));
+			$Users = $this->generate('Users');
+			$Users->expects($this->never())
+					->method('email');
+			$result = $this->testAction('/users/contact/0',
+					array(
+															 'data'	 => $data,
+															 'method' => 'post',
+															 'return' => 'contents',
+					));
+			$this->assertContains('flashMessage', $result);
+		}
+
+		public function testContactNoSubject() {
+
+			$data = array(
+											'Message' => array(
+											'sender_contact' => '',
+											'subject'				 => 'Subject',
+											'text'	 => 'text',
+					));
+			$Users = $this->generate('Users');
+			$Users->expects($this->never())
+					->method('email');
+			$result = $this->testAction('/users/contact/0',
+					array(
+															 'data'	 => $data,
+															 'method' => 'post',
+															 'return' => 'contents',
+					));
+			$this->assertContains('flashMessage', $result);
+		}
+
 		/**
 		 * Checks that the mod-button is in-/visible
 		 */

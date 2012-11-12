@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-14 11:00+0100\n"
-"PO-Revision-Date: 2012-09-14 11:10+0100\n"
+"POT-Creation-Date: 2012-11-13 09:21+0100\n"
+"PO-Revision-Date: 2012-11-13 09:21+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
 "macnemo_2_github/app/\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.3\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -140,7 +140,7 @@ msgstr "Kategorie hinzufügen"
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
 #: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
-#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:18
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:26
 msgid "Submit"
 msgstr "Absenden"
 
@@ -387,7 +387,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:69
-#: Controller/EntriesController.php:865
+#: Controller/EntriesController.php:872
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -505,7 +505,7 @@ msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
 #: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
-#: View/Users/register.ctp:79
+#: View/Users/register.ctp:78
 msgid "register_linkname"
 msgstr "Registrieren"
 
@@ -588,7 +588,7 @@ msgstr ""
 
 #: View/Elements/users/add_form_core.ctp:12
 msgid "error_email_wrong"
-msgstr "Die eingebene E-Mail-Adresse sieht nicht richtig aus."
+msgstr "Die eingegebene E-Mail-Adresse sieht nicht richtig aus."
 
 #: View/Elements/users/add_form_core.ctp:14
 msgid "register_user_email"
@@ -641,7 +641,7 @@ msgstr ""
 msgid "No video recognized."
 msgstr "Es wurde kein Video erkannt."
 
-#: View/Entries/add.ctp:124 Controller/UsersController.php:414
+#: View/Entries/add.ctp:124 Controller/UsersController.php:425
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
@@ -1277,11 +1277,15 @@ msgstr "Passwort ändern"
 msgid "user_contact_title"
 msgstr "Kontakt %s"
 
-#: View/Users/contact.ctp:13
+#: View/Users/contact.ctp:16
+msgid "user_contact_sender-contact"
+msgstr "Ihre Kontaktadresse"
+
+#: View/Users/contact.ctp:19
 msgid "user_contact_subject"
 msgstr "Betreff"
 
-#: View/Users/contact.ctp:15
+#: View/Users/contact.ctp:23
 msgid "user_contact_message"
 msgstr "Nachricht"
 
@@ -1531,20 +1535,20 @@ msgstr "Status"
 msgid "login_linkname"
 msgstr "log in"
 
-#: View/Users/register.ctp:21
+#: View/Users/register.ctp:20
 msgid "register_success_content"
 msgstr ""
 "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
-#: View/Users/register.ctp:24 Controller/EntriesController.php:329
+#: View/Users/register.ctp:23 Controller/EntriesController.php:329
 msgid "js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
-#: View/Users/register.ctp:59
+#: View/Users/register.ctp:58
 msgid "register_tos_linktext"
 msgstr "Nutzungsbedingungen"
 
-#: View/Users/register.ctp:58
+#: View/Users/register.ctp:57
 msgid "register_tos_label"
 msgstr "Ich bin mit den %s einverstanden"
 
@@ -1688,7 +1692,7 @@ msgstr "Thread konnte nicht gelöscht werden."
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:901
+#: Controller/EntriesController.php:908
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1834,11 +1838,15 @@ msgstr ""
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:426
+#: Controller/UsersController.php:412
+msgid "error_email_not-valid"
+msgstr "Keine gültige Email-Adresse."
+
+#: Controller/UsersController.php:437
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:429
+#: Controller/UsersController.php:440
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
