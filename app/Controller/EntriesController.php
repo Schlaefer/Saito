@@ -135,7 +135,7 @@ class EntriesController extends AppController {
 		if (!$tid) {
 			$this->redirect('/');
 		}
-		$entries = $this->Entry->treeForThreadComplete($tid);
+		$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
 
 		if ($entries == false) {
 			throw new NotFoundException();
