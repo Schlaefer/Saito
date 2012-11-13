@@ -364,7 +364,7 @@
 			}
 			$tree = $this->treesForThreads(array(array('id' => $tid)));
 
-			if (!isset($options['root']) && (int)$tid !== (int)$id) {
+			if ((int)$tid !== (int)$id) {
 				$tree = $this->treeGetSubtree($tree, $id);
 			}
 
