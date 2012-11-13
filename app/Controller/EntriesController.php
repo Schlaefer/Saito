@@ -71,7 +71,7 @@ class EntriesController extends AppController {
 			$this->set('cachedThreads', $cachedThreads);
 			 
 			// get threads not available in cache
-			$dbThreads = $this->Entry->treeForNodes($uncachedThreads, $order);
+			$dbThreads = $this->Entry->treesForThreads($uncachedThreads, $order);
 
 			$threads = array();
 			foreach( $initialThreads as $thread ) {
@@ -135,7 +135,7 @@ class EntriesController extends AppController {
 		if (!$tid) {
 			$this->redirect('/');
 		}
-		$entries = $this->Entry->treeForNodesComplete($tid);
+		$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
 
 		if ($entries == false) {
 			throw new NotFoundException();
@@ -255,7 +255,7 @@ class EntriesController extends AppController {
 			return;
 		else:
 			//* full page request
-			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']));
+			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']), array('root' => true));
 			$this->set('title_for_layout', $this->request->data['Entry']['subject']);
 
 		endif;
