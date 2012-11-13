@@ -31,6 +31,7 @@
 		public $actsAs = array(
 				'Containable',
 				'Search.Searchable',
+				'Tree',
 		);
 
 		public $findMethods = array(
@@ -394,8 +395,7 @@
 		$out = false;
 		if ($threads) {
 			Stopwatch::start('Model->Entries->treeForNodes() CPU');
-			$out = $this->parseTreeInit($threads);
-			$out = $this->sortTime($out);
+			$out = $this->treeBuild($threads);
 			Stopwatch::stop('Model->Entries->treeForNodes() CPU');
 		}
 
@@ -441,56 +441,6 @@
 		}
 
 		return $result;
-	}
-
-	/*
-	 * bread and butter quicksort
-	 */
-	protected function quicksort($in) {
-		if (count($in) < 2)
-			return $in;
-		$left = $right = array();
-
-		reset($in);
-		$pivot_key = key($in);
-		$pivot = array_shift($in);
-
-		foreach ($in as $k => $v) {
-			if ($v['Entry']['time'] < $pivot['Entry']['time'])
-				$left[$k] = $v;
-			else
-				$right[$k] = $v;
-		}
-		return array_merge($this->quicksort($left), array($pivot_key => $pivot), $this->quicksort($right));
-	}
-
-	protected function sortTime($in, $level = 0) {
-		if ($level > 0)
-		{
-				$in = $this->quicksort($in);
-		}
-		foreach($in as $k => $v) {
-			if (isset($v['_children'])) {
-				$in[$k]['_children'] = $this->sortTime($v['_children'], $level+1);
-			}
-
-		}
-		return $in;
-	}
-
-	protected function parseTreeInit($threads) {
-		$tree = array();
-		foreach ($threads as $thread) { 
-			$this->parseTreeRecursive($tree, $thread);
-		}
-		return $tree[0]['_children'];
-	}
-
-	protected function parseTreeRecursive(&$tree, $item) {
-    $id = $item[$this->alias]['id'];
-    $pid = $item[$this->alias]['pid'];
-    $tree[$id] = isset($tree[$id]) ? $item + $tree[$id] : $item;
-		$tree[$pid]['_children'][] = &$tree[$id];
 	}
 
 	public function beforeFind($queryData) {
