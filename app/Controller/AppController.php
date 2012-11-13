@@ -401,4 +401,3 @@ class AppController extends Controller {
 	} // end _contact()
 
 }
-?>
