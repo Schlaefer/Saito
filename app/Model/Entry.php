@@ -536,12 +536,43 @@
       $this->Category->id = $category;
       $this->Category->updateThreadCounter();
 			$this->Esevent->deleteSubject($this->id, 'thread');
+			// @bogus, müsste über deleteAll cascade bereits entfernt sein?
 			foreach($entry_ids as $entry_id) {
 				$this->Esevent->deleteSubject($entry_id, 'entry');
 			}
     endif;
 
 		return $success;
+	}
+
+	/**
+	 * Deletes entry and all it's subentries and associated data
+	 * 
+	 * @param type $id
+	 */
+	public function delete($id) {
+		if (!empty($id)) {
+			$this->id = $id;
+		}
+
+		if (empty($this->id)) {
+			// @td raise argument error
+		}
+
+		$ids_to_delete = $this->threadIdsForNode($this->id);
+
+    $success = $this->deleteAll(array('id' => $ids_to_delete ), true, true);
+		// Lösche alle EsEvent
+
+
+
+		/*
+		@td
+		if (// is root) delete thread
+		*/
+
+		parent::delete();
+
 	}
 
 		/**
