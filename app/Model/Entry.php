@@ -345,36 +345,37 @@
 		$views = $this->saveField('views', $this->field('views') + $amount);
 	}
 
-	public function treeForNode($id, $order = 'last_answer ASC') {
-		return $this->treeForNodes(
-				array(
-						array(
-								'id' => $id,
-								)
-						),
-				$order);
+	/**
+	 * tree for single tid
+	 */
+	public function treeForThread($id, $order = NULL) {
+		return $this->treesForThreads(array(array('id' => $id)), $order);
 	}
 
-	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
-		$result = $this->treeForNodes(
-        array(
-            array('id' => $id)
-				),
-        $order,
-        $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
-        );
+	/**
+	 * tree for single tid incl. all fields necessary to render the complete entries
+	 */
+	public function treeForThreadComplete($id, $order = NULL) {
+		$result = $this->treesForThreads(array(array('id' => $id)), $order,
+        $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional);
 		if ($result) {
 			$this->_addAdditionalFields($result);
 		}
 		return $result;
 	}
 
-	public function treeForNodes($search_array, $order = 'last_answer ASC', $fieldlist = NULL) {
+	/**
+	 * trees for multiple tids
+	 */
+	public function treesForThreads($search_array, $order = NULL, $fieldlist = NULL) {
+		if (empty($search_array)) {
+			return array();
+		}
+
 		Stopwatch::start('Model->Entries->treeForNodes() DB');
 
-		if (empty($search_array)) {
-			Stopwatch::stop('Model->Entries->treeForNodes() DB');
-			return array();
+		if (empty($order)) {
+			$order = 'last_answer ASC';
 		}
 
 		$where = array();
@@ -401,6 +402,25 @@
 
 		return $out;
 	}
+
+		/**
+		 * tree of a single entry and its subposting
+		 *
+		 * @param int $id
+		 * @return array Subtree
+		 */
+		public function treeForEntry($id) {
+			$thread_id = $this->getThreadId($id);
+			$complete_thread = $this->treeForThread($thread_id);
+			$func = function (&$tree, &$entry, $id) {
+						if ($entry['Entry']['id'] == $id) {
+							$tree = array($entry);
+							return 'break';
+						}
+					};
+			Entry::mapTreeElements($complete_thread, $func, $id);
+			return $complete_thread;
+		}
 
 	/**
 		 *
@@ -501,32 +521,13 @@
 		 * @return array Ids
 		 */
 		public function threadIdsForNode($id) {
-			$subthread = $this->subthreadForNode($id);
+			$subthread = $this->treeForEntry($id);
 			$func = function (&$tree, &$entry) {
 						$tree['ids'][] = (int)$entry['Entry']['id'];
 					};
 			Entry::mapTreeElements($subthread, $func);
 			sort($subthread['ids']);
 			return $subthread['ids'];
-		}
-
-		/**
-		 * Structured array of a single posting and its subposting 
-		 *  
-		 * @param int $id
-		 * @return array Subtree
-		 */
-		public function subthreadForNode($id) {
-			$thread_id = $this->getThreadId($id);
-			$complete_thread = $this->treeForNode($thread_id);
-			$func = function (&$tree, &$entry, $id) {
-						if ($entry['Entry']['id'] == $id) {
-							$tree = array($entry);
-							return 'break';
-						}
-					};
-			Entry::mapTreeElements($complete_thread, $func, $id);
-			return $complete_thread;
 		}
 
 	/**
