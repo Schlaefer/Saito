@@ -131,11 +131,11 @@
 
 		public function testIdsForNode() {
 			$expected = array(2, 3, 7, 9);
-			$result = $this->Entry->threadIdsForNode(2);
+			$result = $this->Entry->getIdsForNode(2);
 			$this->assertEqual(array_values($result), array_values($expected));
 
 			$expected = array(1, 2, 3, 7, 8, 9);
-			$result = $this->Entry->threadIdsForNode(1);
+			$result = $this->Entry->getIdsForNode(1);
 			$this->assertEqual($result, $expected);
 		}
 

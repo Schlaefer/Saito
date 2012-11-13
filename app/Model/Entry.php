@@ -520,12 +520,12 @@
 	}
 
 		/**
-		 * Get Ids of all Subposting beloging to posting $id
+		 * Get the ID of all subentries of and including entry $id
 		 *
 		 * @param int $id
 		 * @return array Ids
 		 */
-		public function threadIdsForNode($id) {
+		public function getIdsForNode($id) {
 			$subthread = $this->treeForNode($id);
 			$func = function (&$tree, &$entry) {
 						$tree['ids'][] = (int)$entry['Entry']['id'];
