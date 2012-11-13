@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 09:21+0100\n"
-"PO-Revision-Date: 2012-11-13 09:21+0100\n"
+"POT-Creation-Date: 2012-11-13 11:00+0100\n"
+"PO-Revision-Date: 2012-11-13 11:00+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -140,7 +140,7 @@ msgstr "Kategorie hinzufügen"
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
 #: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
-#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:26
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:32
 msgid "Submit"
 msgstr "Absenden"
 
@@ -641,7 +641,7 @@ msgstr ""
 msgid "No video recognized."
 msgstr "Es wurde kein Video erkannt."
 
-#: View/Entries/add.ctp:124 Controller/UsersController.php:425
+#: View/Entries/add.ctp:124 Controller/UsersController.php:427
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
@@ -1273,21 +1273,25 @@ msgstr "Neues Passwort wiederholen"
 msgid "change_password_btn_submit"
 msgstr "Passwort ändern"
 
-#: View/Users/contact.ctp:7
+#: View/Users/contact.ctp:6
 msgid "user_contact_title"
 msgstr "Kontakt %s"
 
-#: View/Users/contact.ctp:16
+#: View/Users/contact.ctp:15
 msgid "user_contact_sender-contact"
 msgstr "Ihre Kontaktadresse"
 
-#: View/Users/contact.ctp:19
+#: View/Users/contact.ctp:18
 msgid "user_contact_subject"
 msgstr "Betreff"
 
-#: View/Users/contact.ctp:23
+#: View/Users/contact.ctp:22
 msgid "user_contact_message"
 msgstr "Nachricht"
+
+#: View/Users/contact.ctp:27
+msgid "user_contact_send_carbon_copy"
+msgstr "Kopie an mich versenden."
 
 #: View/Users/edit.ctp:11
 #, php-format
@@ -1842,11 +1846,11 @@ msgstr "Passwort erfolgreich geändert."
 msgid "error_email_not-valid"
 msgstr "Keine gültige Email-Adresse."
 
-#: Controller/UsersController.php:437
+#: Controller/UsersController.php:440
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:440
+#: Controller/UsersController.php:443
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."

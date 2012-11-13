@@ -333,6 +333,7 @@ class AppController extends Controller {
 		 * $options = array(
 		 * 		'recipient' // user-id or ['User']
 		 * 		'sender'		// user-id or ['User']
+		 * 		'ccsender' // if true send carbon-copy to sender
 		 * 		'template'
 		 * 		'message'
 		 * 		'viewVars'
@@ -377,6 +378,10 @@ class AppController extends Controller {
 
 		if (isset($template)) :
 			$emailConfig['template'] = $template;
+		endif;
+
+		if (isset($ccsender) && $ccsender === true) :
+			$emailConfig['cc'] = $emailConfig['from'];
 		endif;
 
 		if (Configure::read('debug') > 2) :

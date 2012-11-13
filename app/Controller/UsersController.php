@@ -430,13 +430,19 @@ class UsersController extends AppController {
 
 		  if($validation_error === false) :
 				try {
-					$this->email(array(
+					$email = array(
 							'recipient' => $recipient,
 							'sender' 		=> $sender,
 							'subject' 	=> $subject,
 							'message'		=> $this->request->data['Message']['text'],
 							'template'	=> 'user_contact'
-							));
+							);
+
+					if ($this->request->data['Message']['subject']) {
+						$email['ccsender'] = true;
+					}
+
+					$this->email($email);
 					$this->Session->setFlash(__('Message was send.'), 'flash/notice');
 					return $this->redirect('/');
 				} catch (Exception $exc) {

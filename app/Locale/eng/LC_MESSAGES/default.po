@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 09:22+0100\n"
-"PO-Revision-Date: 2012-11-13 09:22+0100\n"
+"POT-Creation-Date: 2012-11-13 10:59+0100\n"
+"PO-Revision-Date: 2012-11-13 11:00+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -137,7 +137,7 @@ msgstr ""
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
 #: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
-#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:26
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:32
 msgid "Submit"
 msgstr ""
 
@@ -622,7 +622,7 @@ msgstr ""
 msgid "No video recognized."
 msgstr ""
 
-#: View/Entries/add.ctp:124 Controller/UsersController.php:425
+#: View/Entries/add.ctp:124 Controller/UsersController.php:427
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
@@ -1229,21 +1229,25 @@ msgstr "Confirm New Password"
 msgid "change_password_btn_submit"
 msgstr "Change Password"
 
-#: View/Users/contact.ctp:7
+#: View/Users/contact.ctp:6
 msgid "user_contact_title"
 msgstr "Contact %s"
 
-#: View/Users/contact.ctp:16
+#: View/Users/contact.ctp:15
 msgid "user_contact_sender-contact"
 msgstr "Your Contact Address"
 
-#: View/Users/contact.ctp:19
+#: View/Users/contact.ctp:18
 msgid "user_contact_subject"
 msgstr "Subject"
 
-#: View/Users/contact.ctp:23
+#: View/Users/contact.ctp:22
 msgid "user_contact_message"
 msgstr "Message"
+
+#: View/Users/contact.ctp:27
+msgid "user_contact_send_carbon_copy"
+msgstr "Send copy to yourself."
 
 #: View/Users/edit.ctp:11
 #, php-format
@@ -1767,11 +1771,11 @@ msgstr "Password was changed."
 msgid "error_email_not-valid"
 msgstr "No valid email address."
 
-#: Controller/UsersController.php:437
+#: Controller/UsersController.php:440
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:440
+#: Controller/UsersController.php:443
 msgid "Error, message couldn't be send! "
 msgstr ""
 

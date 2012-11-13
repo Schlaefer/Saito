@@ -21,10 +21,24 @@
 			</div>
 			<?php echo $this->Form->label('Message.text', __('user_contact_message')); ?>
 			<?php echo $this->Form->textarea('Message.text', array('style' => 'height: 10em')); ?>
-			<br/>
-			<?php echo $this->Form->submit(__('Submit'), array(
+			<div>
+			<?php
+				$checked = true;
+				if (isset($this->request->data['Message']['carbon_copy'])) {
+					$checked = $this->request->data['Message']['carbon_copy'];
+				}
+				echo $this->Form->checkbox('Message.carbon_copy', array(
+						'checked' => $checked
+				));
+				echo $this->Form->label('Message.carbon_copy', __('user_contact_send_carbon_copy'));
+			?>
+			</div>
+			<div>
+			<?php
+				echo $this->Form->submit(__('Submit'), array(
 					'class' => 'btn btn-submit'
 					)); ?>
+			</div>
 			<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
