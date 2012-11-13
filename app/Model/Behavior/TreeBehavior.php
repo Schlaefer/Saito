@@ -2,6 +2,17 @@
 
 	class TreeBehavior extends ModelBehavior {
 
+		public function treeGetSubtree(Model $Model, $tree, $node_id) {
+			$func = function (&$tree, &$entry, $node_id) {
+						if ((int)$entry['Entry']['id'] === (int)$node_id) {
+							$tree = array($entry);
+							return 'break';
+						}
+					};
+			Entry::mapTreeElements($tree, $func, $node_id);
+			return $tree;
+		}
+
 		public function treeBuild(Model $Model, $threads) {
 			$tree = array();
 			foreach ($threads as $thread) {

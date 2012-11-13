@@ -345,12 +345,32 @@
 		$views = $this->saveField('views', $this->field('views') + $amount);
 	}
 
-	/**
-	 * tree for single tid
-	 */
-	public function treeForThread($id, $order = NULL) {
-		return $this->treesForThreads(array(array('id' => $id)), $order);
-	}
+		/**
+		 * tree of a single node and its subentries
+
+		 * $options = array(
+		 *		'root' => true // performance improvements if it's a known thread-root
+		 * );
+		 *
+		 * @param int $id
+		 * @param array $options
+		 * @return array subtree
+		 */
+		public function treeForNode($id, $options = array()) {
+			if(isset($options['root'])) {
+				$tid = $id;
+			} else {
+				$tid = $this->getThreadId($id);
+			}
+			$tree = $this->treesForThreads(array(array('id' => $tid)));
+
+			if (!isset($options['root']) && (int)$tid !== (int)$id) {
+				$tree = $this->treeGetSubtree($tree, $id);
+			}
+
+			return $tree;
+		}
+
 
 	/**
 	 * tree for single tid incl. all fields necessary to render the complete entries
@@ -402,25 +422,6 @@
 
 		return $out;
 	}
-
-		/**
-		 * tree of a single entry and its subposting
-		 *
-		 * @param int $id
-		 * @return array Subtree
-		 */
-		public function treeForEntry($id) {
-			$thread_id = $this->getThreadId($id);
-			$complete_thread = $this->treeForThread($thread_id);
-			$func = function (&$tree, &$entry, $id) {
-						if ($entry['Entry']['id'] == $id) {
-							$tree = array($entry);
-							return 'break';
-						}
-					};
-			Entry::mapTreeElements($complete_thread, $func, $id);
-			return $complete_thread;
-		}
 
 	/**
 		 *
@@ -521,7 +522,7 @@
 		 * @return array Ids
 		 */
 		public function threadIdsForNode($id) {
-			$subthread = $this->treeForEntry($id);
+			$subthread = $this->treeForNode($id);
 			$func = function (&$tree, &$entry) {
 						$tree['ids'][] = (int)$entry['Entry']['id'];
 					};
