@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-14 11:19+0100\n"
-"PO-Revision-Date: 2012-11-14 11:19+0100\n"
+"PO-Revision-Date: 2012-11-14 11:24+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -1292,7 +1292,7 @@ msgstr "Nachricht"
 
 #: View/Users/contact.ctp:33
 msgid "user_contact_send_carbon_copy"
-msgstr "Kopie an mich versenden."
+msgstr "Kopie an mich senden"
 
 #: View/Users/edit.ctp:11
 #, php-format
