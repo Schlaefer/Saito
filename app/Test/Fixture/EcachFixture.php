@@ -12,8 +12,8 @@ class EcachFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 128, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'value' => array('type' => 'binary', 'null' => false, 'default' => null),
 		'indexes' => array(

@@ -3,8 +3,8 @@
 	class EntryFixture extends CakeTestFixture {
 
 		public $fields = array(
-				'created' => array( 'type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
-				'modified' => array( 'type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
+				'created' => array( 'type' => 'datetime', 'null' => true, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
+				'modified' => array( 'type' => 'datetime', 'null' => true, 'default' => NULL, 'collate' => NULL, 'comment' => '' ),
 				'id' => array( 'type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary', 'collate' => NULL, 'comment' => '' ),
 				'pid' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index', 'collate' => NULL, 'comment' => '' ),
 				'tid' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index', 'collate' => NULL, 'comment' => '' ),
