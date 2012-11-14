@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 11:00+0100\n"
-"PO-Revision-Date: 2012-11-14 10:27+0100\n"
+"POT-Creation-Date: 2012-11-14 11:19+0100\n"
+"PO-Revision-Date: 2012-11-14 11:19+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -140,7 +140,7 @@ msgstr "Kategorie hinzufügen"
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
 #: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
-#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:32
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:38
 msgid "Submit"
 msgstr "Absenden"
 
@@ -387,7 +387,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:69
-#: Controller/EntriesController.php:872
+#: Controller/EntriesController.php:882
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -451,11 +451,11 @@ msgstr "Bearbeiten"
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:179
+#: View/Elements/entry/view_posting.ctp:180
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:186
+#: View/Elements/entry/view_posting.ctp:187
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
@@ -1290,7 +1290,7 @@ msgstr "Betreff"
 msgid "user_contact_message"
 msgstr "Nachricht"
 
-#: View/Users/contact.ctp:27
+#: View/Users/contact.ctp:33
 msgid "user_contact_send_carbon_copy"
 msgstr "Kopie an mich versenden."
 
@@ -1689,15 +1689,23 @@ msgstr "Antwort verfassen"
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#: Controller/EntriesController.php:506
+#: Controller/EntriesController.php:511
+msgid "delete_tree_success"
+msgstr "Thread erfolgreich entfernt."
+
+#: Controller/EntriesController.php:514
+msgid "delete_subtree_success"
+msgstr "Subthread erfolgreich entfernt."
+
+#: Controller/EntriesController.php:518
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:710
+#: Controller/EntriesController.php:720
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:908
+#: Controller/EntriesController.php:918
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1847,11 +1855,11 @@ msgstr "Passwort erfolgreich geändert."
 msgid "error_email_not-valid"
 msgstr "Keine gültige Email-Adresse."
 
-#: Controller/UsersController.php:440
+#: Controller/UsersController.php:446
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:443
+#: Controller/UsersController.php:449
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."

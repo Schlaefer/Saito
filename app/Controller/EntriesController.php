@@ -508,8 +508,10 @@ class EntriesController extends AppController {
 		if ($success) {
 			$this->_emptyCache($id, $entry['Entry']['tid']);
 			if ($this->Entry->isRoot($entry)) {
+				$this->Session->setFlash(__('delete_tree_success'), 'flash/notice');
 				$this->redirect('/');
 			} else {
+				$this->Session->setFlash(__('delete_subtree_success'), 'flash/notice');
 				$this->redirect('/entries/view/' . $entry['Entry']['pid']);
 			}
 		} else {
