@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-13 10:59+0100\n"
-"PO-Revision-Date: 2012-11-13 11:00+0100\n"
+"PO-Revision-Date: 2012-11-14 10:27+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -441,7 +441,7 @@ msgstr "Delete"
 #: View/Elements/entry/view_posting.ctp:186
 msgid "delete_tree_link_confirm_message"
 msgstr ""
-"Deleting a thread can't be undone! Are you sure you want to delete the "
+"Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
 "thread?"
 
 #: View/Elements/layout/disclaimer.ctp:4

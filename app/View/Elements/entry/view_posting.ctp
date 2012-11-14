@@ -173,21 +173,22 @@
 								?>
 							</li>
 							<li class="divider"></li>
-							<li>
-								<?php
-									echo $this->Html->link(
-											'<i class="icon-trash"></i>&nbsp;' . __('delete_tree_link'),
-											array(
-													'controller'	=> 'entries',
-													'action'			=> 'delete',
-													$entry['Entry']['id'],
-											),
-											array('escape' => FALSE),
-											__('delete_tree_link_confirm_message')
-									);
-								?>
-							</li>
 						<?php endif; ?>
+						<li>
+							<?php
+								echo $this->Html->link(
+										'<i class="icon-trash"></i>&nbsp;' . __('delete_tree_link'),
+										array(
+												'controller'	=> 'entries',
+												'action'			=> 'delete',
+												$entry['Entry']['id'],
+										),
+										array('escape' => FALSE),
+										__('delete_tree_link_confirm_message')
+								);
+								$isModMenuPopulated = true;
+							?>
+						</li>
 					</ul>
 				</div><!-- /btn-group -->
 			</div>
