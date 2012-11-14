@@ -485,31 +485,39 @@ class EntriesController extends AppController {
 	}
 
 	public function delete($id = NULL) {
-		// $id must be set
-		if ( !$id ) {
-			$this->redirect('/');
+		if (!$id) {
+			throw new NotFoundException;
 		}
 
-		// Confirm user is allowed
-		if ( !$this->CurrentUser->isMod() ) {
-			$this->redirect('/');
+		if (!$this->CurrentUser->isMod()) {
+			throw new MethodNotAllowedException;
+		}
+
+		$this->Entry->id = $id;
+		$this->Entry->contain();
+		$entry = $this->Entry->findById($id);
+
+		if(!$entry) {
+			throw new NotFoundException;
 		}
 
 		// Delete Entry
-		$this->Entry->id = $id;
-		$success = $this->Entry->threadDelete();
+		$success = $this->Entry->deleteNode($id);
 
 		// Redirect
-		if ( $success ) {
-			$this->_emptyCache($id, $id);
+		if ($success) {
+			$this->_emptyCache($id, $entry['Entry']['tid']);
+			if ($this->Entry->isRoot($entry)) {
+				$this->redirect('/');
+			} else {
+				$this->redirect('/entries/view/' . $entry['Entry']['pid']);
+			}
 		} else {
 			$this->Session->setFlash(__('delete_tree_error'), 'flash/error');
 			$this->redirect($this->referer());
 		}
 		$this->redirect('/');
 	}
-
-//end delete()
 
 	/**
 	 * Empty function for benchmarking

@@ -192,25 +192,15 @@
 			));
 		}
 
-		public function testThreadDelete() {
+		public function testDeleteNode_CompleteThread() {
 
 			//* test thread exists before we delete it
 			$countBeforeDelete = $this->Entry->find('count',
-					array( 'conditions' => array( 'tid' => '1' ) ));
+					array('conditions' => array('tid' => '1') ) );
 			$expected = 6;
 			$this->assertEqual($countBeforeDelete, $expected);
 
-			//* try to delete subentry
-			$this->Entry->id = 2;
-			$result = $this->Entry->threadDelete();
-			$this->assertFalse($result);
-
-			$result = $this->Entry->find('count',
-					array( 'conditions' => array( 'tid' => '1' ) ));
-			$this->assertEqual($result, $countBeforeDelete);
-
 			//* try to delete thread
-
 			$this->Entry->id = 1;
 
       $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'),
@@ -239,7 +229,7 @@
 
 			$allBookmarksBeforeDelete = $this->Entry->Bookmark->find('count');
 
-			$result = $this->Entry->threadDelete();
+			$result = $this->Entry->deleteNode();
 			$this->assertTrue($result);
 
 			$result = $this->Entry->find('count',

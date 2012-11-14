@@ -494,60 +494,39 @@
 			}
 	}
 
-	public function threadDelete() {
-
-		// delete only whole trees
-		$pid = $this->field('pid');
-		if ((int)$pid !== 0) {
-		 return false;
-		}
-
-    $category 	= $this->field('category');
-		$entry_ids 	= Hash::extract($this->_getThreadEntries($this->id), '{n}.Entry.id');
-
-    $success = $this->deleteAll(array('tid' => $this->id), true, true);
-
-    if ($success):
-      $this->Category->id = $category;
-      $this->Category->updateThreadCounter();
-			$this->Esevent->deleteSubject($this->id, 'thread');
-			// @bogus, müsste über deleteAll cascade bereits entfernt sein?
-			foreach($entry_ids as $entry_id) {
-				$this->Esevent->deleteSubject($entry_id, 'entry');
-			}
-    endif;
-
-		return $success;
-	}
-
 	/**
 	 * Deletes entry and all it's subentries and associated data
 	 * 
 	 * @param type $id
 	 */
-	public function deleteNode($id) {
-		if (!empty($id)) {
-			$this->id = $id;
+	public function deleteNode($id = null) {
+		if (empty($id)) {
+			$id = $this->id;
 		}
 
-		if (empty($this->id)) {
-			// @td raise argument error
+		$this->contain();
+		$entry = $this->findById($id);
+
+		if (!$entry) {
+			throw new NotFoundException;
 		}
 
-		$ids_to_delete = $this->threadIdsForNode($this->id);
+		$ids_to_delete = $this->getIdsForNode($id);
+    $success = $this->deleteAll(
+				array('Entry.id' => $ids_to_delete ), true, true);
 
-    $success = $this->deleteAll(array('id' => $ids_to_delete ), true, true);
-		// Lösche alle EsEvent
+    if ($success):
+			if ($this->isRoot($entry)) {
+				$this->Category->id = $entry['Entry']['category'];
+				$this->Category->updateThreadCounter();
+				$this->Esevent->deleteSubject($id, 'thread');
+			}
+			foreach($ids_to_delete as $entry_id) {
+				$this->Esevent->deleteSubject($entry_id, 'entry');
+			}
+    endif;
 
-
-
-		/*
-		@td
-		if (// is root) delete thread
-		*/
-
-		parent::delete();
-
+		return $success;
 	}
 
 		/**
