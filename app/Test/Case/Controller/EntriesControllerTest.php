@@ -761,15 +761,6 @@
 					'return' => 'view'
 			));
 			$this->assertTextContains('button_mod_panel', $result);
-
-			/**
-			 * Currently mod menu is empty if mod is on his own posting
-			 */
-			$this->_loginUser(2);
-			$result = $this->testAction('entries/view/2', array(
-					'return' => 'view'
-			));
-			$this->assertTextNotContains('button_mod_panel', $result);
 		}
 
 		public function testAppStats() {
