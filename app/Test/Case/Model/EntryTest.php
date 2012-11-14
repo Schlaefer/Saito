@@ -491,6 +491,50 @@
 			$this->assertFalse($result);
 		}
 
+		public function testIsRoot() {
+
+			$this->Entry->id = 8;
+			$result = $this->Entry->isRoot();
+			$this->assertFalse($result);
+
+			$result = $this->Entry->isRoot(4);
+			$this->assertTrue($result);
+
+			$entry = array(
+					$this->Entry->alias => array(
+							'pid' => 0,
+					)
+			);
+			$result = $this->Entry->isRoot($entry);
+			$this->assertTrue($result);
+
+			$entry = array(
+					$this->Entry->alias => array(
+							'pid' => 1,
+					)
+			);
+			$result = $this->Entry->isRoot($entry);
+			$this->assertFalse($result);
+		}
+
+		public function testIsRootCached() {
+
+			// get original data
+			$this->Entry->id = 4;
+			$this->Entry->read();
+			$data = $this->Entry->data;
+
+			// setup mock
+			$this->Entry = $this->getMock('Entry', array('find'),
+					array(false, 'entries', 'test')
+			);
+			$this->Entry->data = $data;
+			$this->Entry->expects($this->never())->method('find');
+
+			// test
+			$this->assertTrue($this->Entry->isRoot(4));
+		}
+
 		public function testTreeForNode() {
 
 			$this->Entry = $this->getMock('Entry', array('getThreadId', 'treesForThreads'),

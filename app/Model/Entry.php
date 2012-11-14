@@ -756,6 +756,35 @@
 			return $verboten;
 		}
 
+		/**
+		 * Test if entry is thread-root
+		 * 
+		 * $id accepts an entry-id or an entry: array('Entry' => array(…))
+		 * 
+		 * @param mixed $id
+		 * @return bool
+		 */
+		public function isRoot($id = null) {
+			if ($id === null) {
+				$id = $this->id;
+			}
+
+			if (is_array($id) && isset($id[$this->alias]['pid'])) {
+				$entry = $id;
+			}
+			elseif (isset($this->data[$this->alias]['id']) && (int)$this->data[$this->alias]['id'] === (int)$id && isset($this->data[$this->alias]['pid'])) {
+				$entry = $this->data;
+			} else {
+				$entry = $this->find('first', array(
+								'contain' => false,
+								'conditions' => array(
+										'id' => $id,
+								)
+						));
+			}
+			return (empty($entry[$this->alias]['pid']));
+		}
+
 		protected function _isLocked($entry) {
 				return $entry['Entry']['locked'] != false;
 		}
