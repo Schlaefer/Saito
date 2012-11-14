@@ -525,7 +525,7 @@
 	 * 
 	 * @param type $id
 	 */
-	public function delete($id) {
+	public function deleteNode($id) {
 		if (!empty($id)) {
 			$this->id = $id;
 		}
