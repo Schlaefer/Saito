@@ -71,10 +71,6 @@
 				$emailConfig['template'] = $template;
 			endif;
 
-			if (isset($ccsender) && $ccsender === true) :
-				$emailConfig['cc'] = $emailConfig['from'];
-			endif;
-
 			if (Configure::read('debug') > 2) :
 				$emailConfig['transport'] = 'Debug';
 				$emailConfig['log'] 			= true;
@@ -87,8 +83,18 @@
 			$this->_send($emailConfig, $viewVars);
 
 			if (isset($ccsender) && $ccsender === true) :
-				$emailConfig['cc'] = $emailConfig['from'];
+				$this->_sendCopyToOriginalSender($emailConfig, $viewVars);
 			endif;
+		}
+
+		protected function _sendCopyToOriginalSender($config, $view_vars) {
+			$config['to'] = $config['from'];
+			$config['from'] = $this->_app_address;
+
+			$str = __('Copy of your message: :subject');
+			$data = array('subject' => $config['subject']);
+			$config['subject'] = String::insert($str, $data);
+			$this->_send($config, $view_vars);
 		}
 
 		protected function _send($config, $view_vars) {
