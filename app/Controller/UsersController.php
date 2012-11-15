@@ -438,7 +438,7 @@ class UsersController extends AppController {
 							'template'	=> 'user_contact'
 							);
 
-					if ($this->request->data['Message']['carbon_copy']) {
+					if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
 						$email['ccsender'] = true;
 					}
 
