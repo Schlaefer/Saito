@@ -83,17 +83,30 @@
 			$this->_send($emailConfig, $viewVars);
 
 			if (isset($ccsender) && $ccsender === true) :
+				if (!empty($recipient['User']['username'])) {
+					$emailConfig['to'] = array(
+							$recipient['User']['user_email'] => $recipient['User']['username']
+					);
+				}
 				$this->_sendCopyToOriginalSender($emailConfig, $viewVars);
 			endif;
 		}
 
 		protected function _sendCopyToOriginalSender($config, $view_vars) {
+			// set new subject
+			$data = array('subject' => $config['subject']);
+			if (is_array($config['to'])) {
+				$data['recipient-name'] = current($config['to']);
+				$str = __('Copy of your message: ":subject" to ":recipient-name"');
+			} else {
+				$str = __('Copy of your message: ":subject"');
+			}
+			$config['subject'] = String::insert($str, $data);
+
+			// set new addresses
 			$config['to'] = $config['from'];
 			$config['from'] = $this->_app_address;
 
-			$str = __('Copy of your message: :subject');
-			$data = array('subject' => $config['subject']);
-			$config['subject'] = String::insert($str, $data);
 			$this->_send($config, $view_vars);
 		}
 
