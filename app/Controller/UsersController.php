@@ -103,7 +103,7 @@ class UsersController extends AppController {
 			if ($this->User->register($this->request->data)) {
 					$this->request->data['User']['id'] = $this->User->id;
 
-					$this->email(array(
+					$this->SaitoEmail->email(array(
 						'recipient' => $this->request->data,
 						'subject' 	=> __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
 						'sender' 		=> array( 
@@ -442,7 +442,7 @@ class UsersController extends AppController {
 						$email['ccsender'] = true;
 					}
 
-					$this->email($email);
+					$this->SaitoEmail->email($email);
 					$this->Session->setFlash(__('Message was send.'), 'flash/notice');
 					return $this->redirect('/');
 				} catch (Exception $exc) {

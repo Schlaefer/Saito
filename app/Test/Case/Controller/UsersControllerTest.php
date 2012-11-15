@@ -579,11 +579,10 @@
 					));
 			$Users = $this->generate('Users',
 					array(
-														'models'	 => array('User'),
-														'methods'	 => array('email')
-					)
-					);
-			$Users->expects($this->once())
+									'models'		 => array('User'),
+									'components' => array('SaitoEmail' => array('email'))
+							));
+			$Users->SaitoEmail->expects($this->once())
 					->method('email');
 			$this->testAction('/users/contact/0',
 					array(
@@ -601,8 +600,11 @@
 											'subject'				 => '',
 											'text'	 => 'text',
 					));
-			$Users = $this->generate('Users');
-			$Users->expects($this->never())
+			$Users = $this->generate('Users',
+					array(
+									'components' => array('SaitoEmail' => array('email'))
+							));
+			$Users->SaitoEmail->expects($this->never())
 					->method('email');
 			$result = $this->testAction('/users/contact/0',
 					array(
@@ -621,8 +623,11 @@
 											'subject'				 => 'Subject',
 											'text'	 => 'text',
 					));
-			$Users = $this->generate('Users');
-			$Users->expects($this->never())
+			$Users = $this->generate('Users',
+					array(
+									'components' => array('SaitoEmail' => array('email'))
+							));
+			$Users->SaitoEmail->expects($this->never())
 					->method('email');
 			$result = $this->testAction('/users/contact/0',
 					array(
