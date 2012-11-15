@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-15 11:42+0100\n"
-"PO-Revision-Date: 2012-11-15 11:43+0100\n"
+"POT-Creation-Date: 2012-11-15 14:39+0100\n"
+"PO-Revision-Date: 2012-11-15 14:40+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -1878,8 +1878,13 @@ msgstr "Neu Antwort zu \"%s\""
 msgid "Successfull registration"
 msgstr ""
 
-#: Controller/Component/SaitoEmailComponent.php:94
-msgid "Copy of your message: :subject"
+#: Controller/Component/SaitoEmailComponent.php:100
+msgid "Copy of your message: \":subject\" to \":recipient-name\""
+msgstr "Kopie Ihrer Nachricht: \":subject\" an \":recipient-name\""
+
+#: Controller/Component/SaitoEmailComponent.php:102
+#, fuzzy
+msgid "Copy of your message: \":subject\""
 msgstr "Kopie Ihrer Nachricht: :subject"
 
 #: Plugin/Embedly/View/Helper/EmbedlyHelper.php:19
