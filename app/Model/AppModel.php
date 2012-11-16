@@ -1,10 +1,10 @@
 <?php
 
 	App::uses('Model', 'Model');
-App::uses('Sanitize', 'Utility');
+	App::uses('Sanitize', 'Utility');
 
-// import here so that `cake schema ...` cli works
-App::import('Lib', 'Stopwatch.Stopwatch');
+	// import here so that `cake schema ...` cli works
+	App::import('Lib', 'Stopwatch.Stopwatch');
 
 class AppModel extends Model {
 
