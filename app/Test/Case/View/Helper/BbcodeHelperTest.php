@@ -793,7 +793,7 @@
 			$View = new View($Controller);
 
 			$this->Bbcode = new BbcodeHelper($View);
-			$this->Bbcode->beforeRender();
+			$this->Bbcode->beforeRender(null);
 		}
 
 		public function tearDown() {
