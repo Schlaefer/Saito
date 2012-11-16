@@ -2,6 +2,7 @@
 
 	App::uses('Model', 'Model');
 	App::uses('Sanitize', 'Utility');
+	App::uses('SaitoUser', 'Lib');
 
 	// import here so that `cake schema ...` cli works
 	App::import('Lib', 'Stopwatch.Stopwatch');
