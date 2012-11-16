@@ -352,7 +352,7 @@ class UsersController extends AppController {
 			} else {
 				$this->Session->setFlash(
             __d('nondynamic',
-                array_pop(array_pop($this->User->validationErrors))),
+                current(array_pop($this->User->validationErrors))),
             'flash/error');
       }
 	  endif;

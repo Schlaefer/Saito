@@ -37,7 +37,7 @@ class FileUploadBehavior extends ModelBehavior {
   /**
     * Setup the behavior
     */
-  function setUp(&$Model, $options = array()){
+  function setUp(Model $Model, $options = array()){
     $FileUploadSettings = new FileUploadSettings;
     if(!is_array($options)){
       $options = array();
@@ -54,7 +54,7 @@ class FileUploadBehavior extends ModelBehavior {
     * beforeSave if a file is found, upload it, and then save the filename according to the settings
     *
     */
-  function beforeSave(&$Model){
+  function beforeSave(Model $Model){
     if(isset($Model->data[$Model->alias][$this->options['fileVar']])){
       $file = $Model->data[$Model->alias][$this->options['fileVar']];
       $this->Uploader->file = $file;
@@ -81,7 +81,7 @@ class FileUploadBehavior extends ModelBehavior {
     * Updates validation errors if there was an error uploading the file.
     * presents the user the errors.
     */
-  function beforeValidate(&$Model){
+  function beforeValidate(Model $Model){
     if(isset($Model->data[$Model->alias][$this->options['fileVar']])){
       $file = $Model->data[$Model->alias][$this->options['fileVar']];
       $this->Uploader->file = $file;
@@ -103,7 +103,7 @@ class FileUploadBehavior extends ModelBehavior {
   /**
     * Automatically remove the uploaded file.
     */
-  function beforeDelete(&$Model, $cascade){
+  function beforeDelete(Model $Model, $cascade = true){
     $Model->recursive = -1;
     $data = $Model->read();
     

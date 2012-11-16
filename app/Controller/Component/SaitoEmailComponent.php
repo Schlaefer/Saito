@@ -114,7 +114,9 @@
 			$email = new CakeEmail();
 			$email->config($config);
 			$email->viewVars($view_vars);
-			$email->send();
+			if (!env('TRAVIS')) {
+				$email->send();
+			}
 		}
 
 	}

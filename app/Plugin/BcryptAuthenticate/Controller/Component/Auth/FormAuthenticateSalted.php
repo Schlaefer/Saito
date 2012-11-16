@@ -9,8 +9,13 @@
    */
   abstract class FormAuthenticateSalted extends FormAuthenticate {
 
-    public static abstract function hash($password);
-    public static abstract function checkPassword($password, $hash);
+    public static function hash($password) {
+			throw new RuntimeException('Unimplemented');
+		}
+
+    public static function checkPassword($password, $hash) {
+			throw new RuntimeException('Unimplemented');
+		}
 
     /**
      * Find a user record using the standard options.
