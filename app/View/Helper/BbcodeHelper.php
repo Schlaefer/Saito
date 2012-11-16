@@ -791,7 +791,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param string $src
 	 * @return bool
 	 */
-	protected function _isVideoDomainAllowed($src) {
+	protected static function _isVideoDomainAllowed($src) {
 		self::$_videoErrorMessage->reset();
 
 		// initialy setup self::$_allowedVideoDomains
