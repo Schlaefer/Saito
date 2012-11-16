@@ -131,11 +131,11 @@
 
 		public function testIdsForNode() {
 			$expected = array(2, 3, 7, 9);
-			$result = $this->Entry->threadIdsForNode(2);
+			$result = $this->Entry->getIdsForNode(2);
 			$this->assertEqual(array_values($result), array_values($expected));
 
 			$expected = array(1, 2, 3, 7, 8, 9);
-			$result = $this->Entry->threadIdsForNode(1);
+			$result = $this->Entry->getIdsForNode(1);
 			$this->assertEqual($result, $expected);
 		}
 
@@ -192,25 +192,15 @@
 			));
 		}
 
-		public function testThreadDelete() {
+		public function testDeleteNode_CompleteThread() {
 
 			//* test thread exists before we delete it
 			$countBeforeDelete = $this->Entry->find('count',
-					array( 'conditions' => array( 'tid' => '1' ) ));
+					array('conditions' => array('tid' => '1') ) );
 			$expected = 6;
 			$this->assertEqual($countBeforeDelete, $expected);
 
-			//* try to delete subentry
-			$this->Entry->id = 2;
-			$result = $this->Entry->threadDelete();
-			$this->assertFalse($result);
-
-			$result = $this->Entry->find('count',
-					array( 'conditions' => array( 'tid' => '1' ) ));
-			$this->assertEqual($result, $countBeforeDelete);
-
 			//* try to delete thread
-
 			$this->Entry->id = 1;
 
       $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'),
@@ -239,7 +229,7 @@
 
 			$allBookmarksBeforeDelete = $this->Entry->Bookmark->find('count');
 
-			$result = $this->Entry->threadDelete();
+			$result = $this->Entry->deleteNode();
 			$this->assertTrue($result);
 
 			$result = $this->Entry->find('count',
@@ -491,9 +481,53 @@
 			$this->assertFalse($result);
 		}
 
-		public function testSubthreadForNode() {
+		public function testIsRoot() {
 
-			$this->Entry = $this->getMock('Entry', array('getThreadId', 'treeForNode'),
+			$this->Entry->id = 8;
+			$result = $this->Entry->isRoot();
+			$this->assertFalse($result);
+
+			$result = $this->Entry->isRoot(4);
+			$this->assertTrue($result);
+
+			$entry = array(
+					$this->Entry->alias => array(
+							'pid' => 0,
+					)
+			);
+			$result = $this->Entry->isRoot($entry);
+			$this->assertTrue($result);
+
+			$entry = array(
+					$this->Entry->alias => array(
+							'pid' => 1,
+					)
+			);
+			$result = $this->Entry->isRoot($entry);
+			$this->assertFalse($result);
+		}
+
+		public function testIsRootCached() {
+
+			// get original data
+			$this->Entry->id = 4;
+			$this->Entry->read();
+			$data = $this->Entry->data;
+
+			// setup mock
+			$this->Entry = $this->getMock('Entry', array('find'),
+					array(false, 'entries', 'test')
+			);
+			$this->Entry->data = $data;
+			$this->Entry->expects($this->never())->method('find');
+
+			// test
+			$this->assertTrue($this->Entry->isRoot(4));
+		}
+
+		public function testTreeForNode() {
+
+			$this->Entry = $this->getMock('Entry', array('getThreadId', 'treesForThreads'),
 					array(false, 'entries', 'test')
 			);
 
@@ -522,11 +556,11 @@
 							)
 					));
 			$this->Entry->expects($this->once())
-					->method('treeForNode')
-					->with(1)
+					->method('treesForThreads')
+					->with(array(array('id' => 1)))
 					->will($this->returnValue($ar));
 
-			$result = $this->Entry->subthreadForNode(2);
+			$result = $this->Entry->treeForNode(2);
 			$this->assertEqual($result, array(0 => array('Entry' => array('id' =>'2'), 'User')));
 		}
 

@@ -15,6 +15,10 @@
 						'value' => 'macnemo'
 				),
 				array(
+						'name' => 'forum_email',
+						'value' => 'forum_email@example.com'
+				),
+				array(
 						'name' => 'autolink',
 						'value' => '1',
 				),

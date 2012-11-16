@@ -48,7 +48,7 @@
 				$event->subject()->contain();
 				$rootEntry = $event->subject()->findById($event->data['data']['Entry']['tid']);
 				try {
-					$this->_Controller->email(array(
+					$this->_Controller->SaitoEmail->email(array(
 							'recipient' => array('User'		 => $recipient),
 							'subject'	 => __('New reply to "%s"', $rootEntry['Entry']['subject']),
 							'sender'	 => array(
@@ -80,7 +80,7 @@
 				$event->subject()->contain();
 				$parentEntry = $event->subject()->findById($event->data['data']['Entry']['pid']);
 				try {
-					$this->_Controller->email(array(
+					$this->_Controller->SaitoEmail->email(array(
 							'recipient' => array('User'		 => $recipient),
 							'subject'	 => __('New reply to "%s"', $parentEntry['Entry']['subject']),
 							'sender'	 => array(
@@ -109,7 +109,7 @@
 			$new_user = $event->data['User'];
 			foreach ( $recipients as $recipient ) :
 				try {
-					$this->_Controller->email(array(
+					$this->_Controller->SaitoEmail->email(array(
 							'recipient'	 => $recipient,
 							'subject'		 => __('Successfull registration'),
 							'sender'		 => array(

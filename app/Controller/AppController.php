@@ -21,6 +21,8 @@ class AppController extends Controller {
 			 */
 			'Cookie',
 			'CurrentUser',
+
+			'SaitoEmail',
       'EmailNotification',
 
 			'RequestHandler',
@@ -327,73 +329,4 @@ class AppController extends Controller {
 			Stopwatch::stop('AppController->_setAppStats()');
 		}
 
-		/**
-		 * @td better mvc. refactor into SaitoUser or overwrite CakeEmail?
-		 *
-		 * $options = array(
-		 * 		'recipient' // user-id or ['User']
-		 * 		'sender'		// user-id or ['User']
-		 * 		'template'
-		 * 		'message'
-		 * 		'viewVars'
-		 * );
-		 *
-		 * @param type $options
-		 * @throws Exception
-		 */
-	public function email($options = array()) {
-		$defaults = array(
-				'viewVars'=> array(
-            'webroot' => FULL_BASE_URL . $this->request->webroot,
-        ),
-		);
-		extract(array_merge_recursive($defaults, $options));
-
-		if (!is_array($recipient)) {
-			$this->User->id = $recipient;
-			$this->User->contain();
-			$recipient = $this->User->read();
-			if($recipient == false) {
-				throw new Exception('Can\'t find recipient for email.');
-			}
-		}
-		if (!is_array($sender)) {
-			$this->User->id = $sender;
-			$this->User->contain();
-			$sender = $this->User->read();
-			if($sender == false) {
-				throw new Exception('Can\'t find sender for email.');
-			}
-		}
-
-		$emailConfig = array(
-						'from'	=> array($sender['User']['user_email'] => $sender['User']['username']),
-						'to'          => $recipient['User']['user_email'],
-						'subject'     => $subject,
-						'emailFormat' => 'text',
-						'sender'      => array(
-								Configure::read('Saito.Settings.forum_email') => Configure::read('Saito.Settings.forum_name')),
-					);
-
-		if (isset($template)) :
-			$emailConfig['template'] = $template;
-		endif;
-
-		if (Configure::read('debug') > 2) :
-			$emailConfig['transport'] = 'Debug';
-			$emailConfig['log'] 			= true;
-		endif;
-
-		if (isset($message)):
-			$viewVars['message'] = $message;
-		endif;
-
-		$email = new CakeEmail();
-		$email->config($emailConfig);
-		$email->viewVars($viewVars);
-		$email->send();
-
-	} // end _contact()
-
 }
-?>

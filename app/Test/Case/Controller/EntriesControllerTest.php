@@ -10,6 +10,10 @@
 		public function getInitialThreads($User) {
 			$this->_getInitialThreads($User);
 		}
+
+		public function searchStringSanitizer($string) {
+			return $this->_searchStringSanitizer($string);
+		}
 	}
 
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
@@ -757,15 +761,6 @@
 					'return' => 'view'
 			));
 			$this->assertTextContains('button_mod_panel', $result);
-
-			/**
-			 * Currently mod menu is empty if mod is on his own posting
-			 */
-			$this->_loginUser(2);
-			$result = $this->testAction('entries/view/2', array(
-					'return' => 'view'
-			));
-			$this->assertTextNotContains('button_mod_panel', $result);
 		}
 
 		public function testAppStats() {
@@ -843,6 +838,16 @@
 			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['User']['user_id']);
 			  $this->assertEqual('First_Text', $result['FoundEntries']['0']['Entry']['text']);
 			 */
+		}
+
+		public function testSearchStringSanitizer() {
+
+			$data = 'foo bar +baz -zoo \'';
+			$expected = '+foo +bar +baz -zoo +\\\'';
+
+			$Entries = $this->generate('EntriesMock');
+			$result = $Entries->searchStringSanitizer($data);
+			$this->assertEquals($expected, $result);
 		}
 
 		//-----------------------------------------------

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-14 11:01+0100\n"
-"PO-Revision-Date: 2012-09-14 11:09+0100\n"
+"POT-Creation-Date: 2012-11-14 11:19+0100\n"
+"PO-Revision-Date: 2012-11-14 11:20+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -15,7 +15,7 @@ msgstr ""
 "macnemo_2_github/app/\n"
 "'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.3\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -137,7 +137,7 @@ msgstr ""
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
 #: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
-#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:18
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:38
 msgid "Submit"
 msgstr ""
 
@@ -371,7 +371,7 @@ msgstr ""
 "category without changing your preferences."
 
 #: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:69
-#: Controller/EntriesController.php:865
+#: Controller/EntriesController.php:882
 msgid "All Categories"
 msgstr ""
 
@@ -434,14 +434,14 @@ msgstr "Edit"
 msgid "merge_tree_link"
 msgstr "Merge"
 
-#: View/Elements/entry/view_posting.ctp:179
+#: View/Elements/entry/view_posting.ctp:180
 msgid "delete_tree_link"
 msgstr "Delete"
 
-#: View/Elements/entry/view_posting.ctp:186
+#: View/Elements/entry/view_posting.ctp:187
 msgid "delete_tree_link_confirm_message"
 msgstr ""
-"Deleting a thread can't be undone! Are you sure you want to delete the "
+"Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
 "thread?"
 
 #: View/Elements/layout/disclaimer.ctp:4
@@ -488,7 +488,7 @@ msgid "Generated in %s s."
 msgstr ""
 
 #: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
-#: View/Users/register.ctp:79
+#: View/Users/register.ctp:78
 msgid "register_linkname"
 msgstr "Register"
 
@@ -622,7 +622,7 @@ msgstr ""
 msgid "No video recognized."
 msgstr ""
 
-#: View/Entries/add.ctp:124 Controller/UsersController.php:414
+#: View/Entries/add.ctp:124 Controller/UsersController.php:427
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
@@ -1229,17 +1229,25 @@ msgstr "Confirm New Password"
 msgid "change_password_btn_submit"
 msgstr "Change Password"
 
-#: View/Users/contact.ctp:7
+#: View/Users/contact.ctp:6
 msgid "user_contact_title"
 msgstr "Contact %s"
 
-#: View/Users/contact.ctp:13
+#: View/Users/contact.ctp:15
+msgid "user_contact_sender-contact"
+msgstr "Your Contact Address"
+
+#: View/Users/contact.ctp:18
 msgid "user_contact_subject"
 msgstr "Subject"
 
-#: View/Users/contact.ctp:15
+#: View/Users/contact.ctp:22
 msgid "user_contact_message"
 msgstr "Message"
+
+#: View/Users/contact.ctp:33
+msgid "user_contact_send_carbon_copy"
+msgstr "Send copy to yourself."
 
 #: View/Users/edit.ctp:11
 #, php-format
@@ -1469,20 +1477,20 @@ msgstr "Online"
 msgid "login_linkname"
 msgstr "Login"
 
-#: View/Users/register.ctp:21
+#: View/Users/register.ctp:20
 msgid "register_success_content"
 msgstr ""
 "Your registration is now finished. You are able to loggin now. Have fun!"
 
-#: View/Users/register.ctp:24 Controller/EntriesController.php:329
+#: View/Users/register.ctp:23 Controller/EntriesController.php:329
 msgid "js-required"
 msgstr "To use this forum please enable JavaScript."
 
-#: View/Users/register.ctp:59
+#: View/Users/register.ctp:58
 msgid "register_tos_linktext"
 msgstr "Terms of Service"
 
-#: View/Users/register.ctp:58
+#: View/Users/register.ctp:57
 msgid "register_tos_label"
 msgstr "I agree to the %s"
 
@@ -1609,15 +1617,23 @@ msgstr "Answer"
 msgid "notice_you_are_editing_as_mod"
 msgstr "You're now editing as moderator!"
 
-#: Controller/EntriesController.php:506
+#: Controller/EntriesController.php:511
+msgid "delete_tree_success"
+msgstr "Thread successfully removed."
+
+#: Controller/EntriesController.php:514
+msgid "delete_subtree_success"
+msgstr "Subthread successfully removed."
+
+#: Controller/EntriesController.php:518
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:710
+#: Controller/EntriesController.php:720
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:901
+#: Controller/EntriesController.php:918
 msgid "Custom"
 msgstr ""
 
@@ -1759,11 +1775,15 @@ msgstr ""
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:426
+#: Controller/UsersController.php:412
+msgid "error_email_not-valid"
+msgstr "No valid email address."
+
+#: Controller/UsersController.php:446
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:429
+#: Controller/UsersController.php:449
 msgid "Error, message couldn't be send! "
 msgstr ""
 

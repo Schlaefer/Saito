@@ -8,6 +8,7 @@
 
 		protected $settingsCompact = array(
 				'forum_name'			 => 'macnemo',
+				'forum_email'			 => 'forum_email@example.com',
 				'autolink'				 => '1',
 				'userranks_ranks'	 => array(
 						'10'								 => 'Castaway',

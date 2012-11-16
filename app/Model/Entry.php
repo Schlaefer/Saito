@@ -31,6 +31,7 @@
 		public $actsAs = array(
 				'Containable',
 				'Search.Searchable',
+				'Tree',
 		);
 
 		public $findMethods = array(
@@ -344,36 +345,61 @@
 		$views = $this->saveField('views', $this->field('views') + $amount);
 	}
 
-	public function treeForNode($id, $order = 'last_answer ASC') {
-		return $this->treeForNodes(
-				array(
-						array(
-								'id' => $id,
-								)
-						),
-				$order);
-	}
+		/**
+		 * tree of a single node and its subentries
+     *
+		 * $options = array(
+		 *		'root' => true // performance improvements if it's a known thread-root
+		 *		'complete' => true // include all fields necessary to render the complete entries
+		 * );
+		 *
+		 * @param int $id
+		 * @param array $options
+		 * @return array tree
+		 */
+		public function treeForNode($id, $options = array()) {
+			$defaults = array(
+					'root' => false,
+					'complete' => false,
+			);
+			extract(array_merge($defaults, $options));
 
-	public function treeForNodesComplete($id, $order = 'last_answer ASC') {
-		$result = $this->treeForNodes(
-        array(
-            array('id' => $id)
-				),
-        $order,
-        $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional
-        );
-		if ($result) {
-			$this->_addAdditionalFields($result);
+			if($root) {
+				$tid = $id;
+			} else {
+				$tid = $this->getThreadId($id);
+			}
+
+			$fields = null;
+			if ($complete) {
+					$fields = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+			}
+
+			$tree = $this->treesForThreads(array(array('id' => $tid)), null, $fields);
+
+			if ((int)$tid !== (int)$id) {
+				$tree = $this->treeGetSubtree($tree, $id);
+			}
+
+			if ($complete && $tree) {
+				$this->_addAdditionalFields($tree);
+			}
+
+			return $tree;
 		}
-		return $result;
-	}
 
-	public function treeForNodes($search_array, $order = 'last_answer ASC', $fieldlist = NULL) {
+	/**
+	 * trees for multiple tids
+	 */
+	public function treesForThreads($search_array, $order = NULL, $fieldlist = NULL) {
+		if (empty($search_array)) {
+			return array();
+		}
+
 		Stopwatch::start('Model->Entries->treeForNodes() DB');
 
-		if (empty($search_array)) {
-			Stopwatch::stop('Model->Entries->treeForNodes() DB');
-			return array();
+		if (empty($order)) {
+			$order = 'last_answer ASC';
 		}
 
 		$where = array();
@@ -394,8 +420,7 @@
 		$out = false;
 		if ($threads) {
 			Stopwatch::start('Model->Entries->treeForNodes() CPU');
-			$out = $this->parseTreeInit($threads);
-			$out = $this->sortTime($out);
+			$out = $this->treeBuild($threads);
 			Stopwatch::stop('Model->Entries->treeForNodes() CPU');
 		}
 
@@ -443,56 +468,6 @@
 		return $result;
 	}
 
-	/*
-	 * bread and butter quicksort
-	 */
-	protected function quicksort($in) {
-		if (count($in) < 2)
-			return $in;
-		$left = $right = array();
-
-		reset($in);
-		$pivot_key = key($in);
-		$pivot = array_shift($in);
-
-		foreach ($in as $k => $v) {
-			if ($v['Entry']['time'] < $pivot['Entry']['time'])
-				$left[$k] = $v;
-			else
-				$right[$k] = $v;
-		}
-		return array_merge($this->quicksort($left), array($pivot_key => $pivot), $this->quicksort($right));
-	}
-
-	protected function sortTime($in, $level = 0) {
-		if ($level > 0)
-		{
-				$in = $this->quicksort($in);
-		}
-		foreach($in as $k => $v) {
-			if (isset($v['_children'])) {
-				$in[$k]['_children'] = $this->sortTime($v['_children'], $level+1);
-			}
-
-		}
-		return $in;
-	}
-
-	protected function parseTreeInit($threads) {
-		$tree = array();
-		foreach ($threads as $thread) { 
-			$this->parseTreeRecursive($tree, $thread);
-		}
-		return $tree[0]['_children'];
-	}
-
-	protected function parseTreeRecursive(&$tree, $item) {
-    $id = $item[$this->alias]['id'];
-    $pid = $item[$this->alias]['pid'];
-    $tree[$id] = isset($tree[$id]) ? $item + $tree[$id] : $item;
-		$tree[$pid]['_children'][] = &$tree[$id];
-	}
-
 	public function beforeFind($queryData) {
 	 parent::beforeFind($queryData);
 	 /*
@@ -519,24 +494,34 @@
 			}
 	}
 
-	public function threadDelete() {
-
-		// delete only whole trees
-		$pid = $this->field('pid');
-		if ((int)$pid !== 0) {
-		 return false;
+	/**
+	 * Deletes entry and all it's subentries and associated data
+	 * 
+	 * @param type $id
+	 */
+	public function deleteNode($id = null) {
+		if (empty($id)) {
+			$id = $this->id;
 		}
 
-    $category 	= $this->field('category');
-		$entry_ids 	= Hash::extract($this->_getThreadEntries($this->id), '{n}.Entry.id');
+		$this->contain();
+		$entry = $this->findById($id);
 
-    $success = $this->deleteAll(array('tid' => $this->id), true, true);
+		if (!$entry) {
+			throw new NotFoundException;
+		}
+
+		$ids_to_delete = $this->getIdsForNode($id);
+    $success = $this->deleteAll(
+				array('Entry.id' => $ids_to_delete ), true, true);
 
     if ($success):
-      $this->Category->id = $category;
-      $this->Category->updateThreadCounter();
-			$this->Esevent->deleteSubject($this->id, 'thread');
-			foreach($entry_ids as $entry_id) {
+			if ($this->isRoot($entry)) {
+				$this->Category->id = $entry['Entry']['category'];
+				$this->Category->updateThreadCounter();
+				$this->Esevent->deleteSubject($id, 'thread');
+			}
+			foreach($ids_to_delete as $entry_id) {
 				$this->Esevent->deleteSubject($entry_id, 'entry');
 			}
     endif;
@@ -545,38 +530,19 @@
 	}
 
 		/**
-		 * Get Ids of all Subposting beloging to posting $id
+		 * Get the ID of all subentries of and including entry $id
 		 *
 		 * @param int $id
 		 * @return array Ids
 		 */
-		public function threadIdsForNode($id) {
-			$subthread = $this->subthreadForNode($id);
+		public function getIdsForNode($id) {
+			$subthread = $this->treeForNode($id);
 			$func = function (&$tree, &$entry) {
 						$tree['ids'][] = (int)$entry['Entry']['id'];
 					};
 			Entry::mapTreeElements($subthread, $func);
 			sort($subthread['ids']);
 			return $subthread['ids'];
-		}
-
-		/**
-		 * Structured array of a single posting and its subposting 
-		 *  
-		 * @param int $id
-		 * @return array Subtree
-		 */
-		public function subthreadForNode($id) {
-			$thread_id = $this->getThreadId($id);
-			$complete_thread = $this->treeForNode($thread_id);
-			$func = function (&$tree, &$entry, $id) {
-						if ($entry['Entry']['id'] == $id) {
-							$tree = array($entry);
-							return 'break';
-						}
-					};
-			Entry::mapTreeElements($complete_thread, $func, $id);
-			return $complete_thread;
 		}
 
 	/**
@@ -767,6 +733,35 @@
 			}
 
 			return $verboten;
+		}
+
+		/**
+		 * Test if entry is thread-root
+		 * 
+		 * $id accepts an entry-id or an entry: array('Entry' => array(…))
+		 * 
+		 * @param mixed $id
+		 * @return bool
+		 */
+		public function isRoot($id = null) {
+			if ($id === null) {
+				$id = $this->id;
+			}
+
+			if (is_array($id) && isset($id[$this->alias]['pid'])) {
+				$entry = $id;
+			}
+			elseif (isset($this->data[$this->alias]['id']) && (int)$this->data[$this->alias]['id'] === (int)$id && isset($this->data[$this->alias]['pid'])) {
+				$entry = $this->data;
+			} else {
+				$entry = $this->find('first', array(
+								'contain' => false,
+								'conditions' => array(
+										'id' => $id,
+								)
+						));
+			}
+			return (empty($entry[$this->alias]['pid']));
 		}
 
 		protected function _isLocked($entry) {

@@ -71,7 +71,7 @@ class EntriesController extends AppController {
 			$this->set('cachedThreads', $cachedThreads);
 			 
 			// get threads not available in cache
-			$dbThreads = $this->Entry->treeForNodes($uncachedThreads, $order);
+			$dbThreads = $this->Entry->treesForThreads($uncachedThreads, $order);
 
 			$threads = array();
 			foreach( $initialThreads as $thread ) {
@@ -135,7 +135,7 @@ class EntriesController extends AppController {
 		if (!$tid) {
 			$this->redirect('/');
 		}
-		$entries = $this->Entry->treeForNodesComplete($tid);
+		$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
 
 		if ($entries == false) {
 			throw new NotFoundException();
@@ -255,7 +255,7 @@ class EntriesController extends AppController {
 			return;
 		else:
 			//* full page request
-			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']));
+			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']), array('root' => true));
 			$this->set('title_for_layout', $this->request->data['Entry']['subject']);
 
 		endif;
@@ -485,31 +485,41 @@ class EntriesController extends AppController {
 	}
 
 	public function delete($id = NULL) {
-		// $id must be set
-		if ( !$id ) {
-			$this->redirect('/');
+		if (!$id) {
+			throw new NotFoundException;
 		}
 
-		// Confirm user is allowed
-		if ( !$this->CurrentUser->isMod() ) {
-			$this->redirect('/');
+		if (!$this->CurrentUser->isMod()) {
+			throw new MethodNotAllowedException;
+		}
+
+		$this->Entry->id = $id;
+		$this->Entry->contain();
+		$entry = $this->Entry->findById($id);
+
+		if(!$entry) {
+			throw new NotFoundException;
 		}
 
 		// Delete Entry
-		$this->Entry->id = $id;
-		$success = $this->Entry->threadDelete();
+		$success = $this->Entry->deleteNode($id);
 
 		// Redirect
-		if ( $success ) {
-			$this->_emptyCache($id, $id);
+		if ($success) {
+			$this->_emptyCache($id, $entry['Entry']['tid']);
+			if ($this->Entry->isRoot($entry)) {
+				$this->Session->setFlash(__('delete_tree_success'), 'flash/notice');
+				$this->redirect('/');
+			} else {
+				$this->Session->setFlash(__('delete_subtree_success'), 'flash/notice');
+				$this->redirect('/entries/view/' . $entry['Entry']['pid']);
+			}
 		} else {
 			$this->Session->setFlash(__('delete_tree_error'), 'flash/error');
 			$this->redirect($this->referer());
 		}
 		$this->redirect('/');
 	}
-
-//end delete()
 
 	/**
 	 * Empty function for benchmarking
@@ -573,8 +583,7 @@ class EntriesController extends AppController {
 				// $this->passedArgs['search_term'] = urlencode(urlencode($search_term));
 
 				if ( $searchTerm ) {
-          $searchTerm = Sanitize::escape($searchTerm);
-					$internal_search_term = preg_replace('/(^|\s)(?!-)/i', ' +', $searchTerm);
+					$internal_search_term = $this->_searchStringSanitizer($searchTerm);
 					$this->paginate = array(
 							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$internal_search_term' IN BOOLEAN MODE)*2) + (MATCH (Entry.text) AGAINST ('$internal_search_term' IN BOOLEAN MODE)) + (MATCH (Entry.name) AGAINST ('$internal_search_term' IN BOOLEAN MODE)*4) AS rating",
 							'conditions' => array(
@@ -996,6 +1005,11 @@ class EntriesController extends AppController {
 			}
 		}
 
-}
+	protected function _searchStringSanitizer($search_string) {
+		$search_string = Sanitize::escape($search_string);
+		$search_string = preg_replace('/(^|\s)(?![-+])/i', ' +', $search_string);
 
-?>
+		return trim($search_string);
+	}
+
+}

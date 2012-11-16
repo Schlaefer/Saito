@@ -103,7 +103,7 @@ class UsersController extends AppController {
 			if ($this->User->register($this->request->data)) {
 					$this->request->data['User']['id'] = $this->User->id;
 
-					$this->email(array(
+					$this->SaitoEmail->email(array(
 						'recipient' => $this->request->data,
 						'subject' 	=> __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
 						'sender' 		=> array( 
@@ -371,20 +371,10 @@ class UsersController extends AppController {
 			$this->redirect('/');
 		}
 
-
-		if ( !$this->CurrentUser->getId() ) :
-      if ((int)$id !== 0) :
-        //* anonymous users only contact admin
-        $this->redirect('/');
-      else :
-        $sender['User'] = array(
-            'username'    => 'anonymous',
-            'user_email'  => Configure::read('Saito.Settings.forum_email'),
-        );
-      endif;
-    else:
-      $sender = $this->CurrentUser->getId();
-		endif;
+		// anonymous users only contact admin
+		if (!$this->CurrentUser->isLoggedIn() && (int)$id !== 0) {
+      $this->redirect('/');
+		}
 
 		// set recipient
 		if ((int)$id === 0) {
@@ -402,40 +392,71 @@ class UsersController extends AppController {
 			$recipient =  $this->User->read();
 		}
 
-		if (!$recipient || ((int)$id !== 0) && !$recipient['User']['personal_messages']) :
+		// if recipient was not found
+		if (!$recipient
+				// or user does not allow personal messages
+				|| ((int)$id !== 0) && !$recipient['User']['personal_messages']) :
 			$this->redirect('/');
 		endif;
 
-		$send = false;
-
 		if ($this->request->data) :
+			// send email
+
+			$validation_error = false;
+
+			// validate and set sender
+			if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
+				$sender_contact = $this->request->data['Message']['sender_contact'];
+				App::uses('Validation', 'Utility');
+				if (!Validation::email($sender_contact)) {
+					$this->Session->setFlash(__('error_email_not-valid'));
+					$validation_error = true;
+				} else {
+					$sender['User'] = array(
+							'username'    => '',
+							'user_email'  => $sender_contact,
+					);
+				}
+			} else {
+				$sender = $this->CurrentUser->getId();
+			}
+
+			// validate and set subject
 			$subject = rtrim($this->request->data['Message']['subject']);
-			if (empty($subject)) :
+			if (empty($subject)) {
 				$this->Session->setFlash(__('error_subject_empty'));
-				$this->request->data = array_merge($this->request->data, $recipient);
-		  else :
+				$validation_error = true;
+			}
+
+		  if($validation_error === false) :
 				try {
-					$this->email(array(
+					$email = array(
 							'recipient' => $recipient,
 							'sender' 		=> $sender,
 							'subject' 	=> $subject,
 							'message'		=> $this->request->data['Message']['text'],
 							'template'	=> 'user_contact'
-							));
-					$send = true;
+							);
+
+					if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
+						$email['ccsender'] = true;
+					}
+
+					$this->SaitoEmail->email($email);
 					$this->Session->setFlash(__('Message was send.'), 'flash/notice');
-						$this->redirect('/');
+					return $this->redirect('/');
 				} catch (Exception $exc) {
 					$this->Session->setFlash(__('Error, message couldn\'t be send! ' . $exc->getMessage()), 'flash/error');
 				} // end try
 			endif;
+
 			$this->request->data = $this->request->data + $recipient;
+
 		else :
+			// show form
 			$this->request->data = $recipient;
 	  endif;
-
-		$this->set('send', $send);
-	} // end contact()
+	}
 
 	public function ajax_toggle($toggle) {
 		if(!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) $this->redirect('/');
