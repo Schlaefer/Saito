@@ -159,14 +159,9 @@ EOF
 		);
 		$settings = array_merge($default, $settings);
 
-    /**
-     * Saito doesn't use preview parser
-     */
-    /*
 		if ($settings['parser']) {
 			$settings['parser'] = $this->Html->url(Router::url(array_merge($settings['parser'], array($settings['set']))));
 		}
-     */
 
     /**
      * Saito uses is owne css and sets
