@@ -57,7 +57,7 @@
 			$this->readCache();
 		}
 
-		public function beforeRedirect(Controller $Controller, $url) {
+		public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
 			parent::beforeRedirect($Controller, $url);
 			$this->saveCache();
 		}

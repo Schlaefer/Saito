@@ -33,7 +33,7 @@ class Esnotification extends AppModel {
 		)
 	);
 
-	public function beforeSave() {
+	public function beforeSave($options = array()) {
 		if (empty($this->data[$this->alias]['deactivate'])) {
 			$this->data[$this->alias]['deactivate'] = mt_rand(0,99999999);
 		}

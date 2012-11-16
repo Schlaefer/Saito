@@ -137,6 +137,7 @@ $this->Form->submit(__('Einfügen'),
 						echo $this->MarkitupEditor->editor(
 								'text',
 								array( 
+										'parser' => false,
                     'set' => 'default', 'skin' => 'macnemo',
                     'label' => false, 'tabindex' => 3,
                     'settings' => 'markitupSettings' )

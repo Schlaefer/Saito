@@ -74,11 +74,11 @@ Class CurrentUserComponent extends SaitoUser {
 	 *
 	 * @param type $controller
 	 */
-	public function initialize($controller) {
-		if ($controller->name === 'CakeError') {
+	public function initialize(Controller $Controller) {
+		if ($Controller->name === 'CakeError') {
 			return;
 		}
-		$this->_Controller = $controller;
+		$this->_Controller = $Controller;
 
 		$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
 
@@ -92,13 +92,13 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_configureAuth();
 
 		//* Try Cookie Relogin
-		if (!$controller->Auth->login()) {
+		if (!$this->_Controller->Auth->login()) {
 			// for performance reasons Security::cypher() we check the cookie first
 			// not using the framework
 			if (	 isset($_COOKIE[$this->_persistentCookieName])
-					&& $controller->params['action'] != 'login'
-					&& $controller->params['action'] != 'register'
-					&& $controller->referer() != '/users/login'
+					&& $this->_Controller->params['action'] != 'login'
+					&& $this->_Controller->params['action'] != 'register'
+					&& $this->_Controller->referer() != '/users/login'
 			):
 				$this->_cookieRelogin();
 			endif;
@@ -182,15 +182,12 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_Controller->Session->destroy();
 	}
 
-	public function shutdown($controller) {
-		$this->_writeSession($controller);
+	public function shutdown(Controller $Controller) {
+		$this->_writeSession($Controller);
 	}
 
-// end shutdown();
-
-	public function beforeRedirect(Controller $Controller) {
+	public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
 		$this->_writeSession($Controller);
-
 	}
 
 // end beforeRedirect()

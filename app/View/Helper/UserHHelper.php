@@ -85,14 +85,17 @@
      * if empty
      *
      */
-    public function minusIfEmpty(&$input) {
+    public function minusIfEmpty($input) {
       if ( is_array($input) ) {
+				$out = array();
         foreach ( $input as $k => &$v ) {
-          $v = (empty($v)) ? '–' : $v;
+          $out[$k] = (empty($v)) ? '–' : $v;
         }
+				return $input;
       } else {
-        return (empty($input)) ? '–' : $input;
+        $out = (empty($input)) ? '–' : $input;
       }
+			return $out;
     }
 
     /**

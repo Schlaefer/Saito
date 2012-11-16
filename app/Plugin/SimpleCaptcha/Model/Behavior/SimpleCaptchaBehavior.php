@@ -40,7 +40,7 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 	 * @param type $Model
 	 * @param type $settings 
 	 */
-	public function setup(&$Model, $settings) {
+	public function setup(Model $Model, $settings = array()) {
 		$this->defaults = array_merge(SimpleCaptcha::$defaults, $this->defaults);
 
 		# bootstrap configs
@@ -58,11 +58,10 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 	/**
 	 * Callback which initializes all the captcha related checking
 	 * 
-	 * @param type $Model
-	 * @param type $queryData
+	 * @param Model $Model
 	 * @return bool
 	 */
-	public function beforeValidate($Model, $queryData) {
+	public function beforeValidate(Model $Model) {
 		$this->Model = &$Model;
 
 		if (!$this->_validateCaptchaMinTime($this->Model->data[$this->Model->name])) {
