@@ -858,7 +858,7 @@
     return $count;
   }
 
-	public function beforeSave($options) {
+	public function beforeSave($options = array()) {
 		$out = true;
 
 		// get old entry to compare with new data

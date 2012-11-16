@@ -71,7 +71,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		self::$_videoErrorMessage = new BbcodeMessage();
 	}
 
-	public function beforeRender() {
+	public function beforeRender($viewFile) {
 		$this->quoteSymbol = Configure::read('Saito.Settings.quote_symbol');
 
 		/**

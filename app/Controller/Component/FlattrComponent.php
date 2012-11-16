@@ -2,11 +2,11 @@
 
 class FlattrComponent extends Component {
 
-	public function beforeRender(&$controller) {
+	public function beforeRender(Controller $Controller) {
 		// ### find categories for flattr
-		if ($controller->action === 'add' || $controller->action === 'edit') {
-			$category_flattr = $controller->Entry->Category->find( 'list', array( 'conditions' => 'accession = 0', 'fields'=> array('id')));
-			$controller->set( 'category_flattr', $category_flattr );
+		if ($Controller->action === 'add' || $Controller->action === 'edit') {
+			$category_flattr = $Controller->Entry->Category->find( 'list', array( 'conditions' => 'accession = 0', 'fields'=> array('id')));
+			$Controller->set( 'category_flattr', $category_flattr );
 		}
 	}
 
