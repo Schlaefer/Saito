@@ -30,9 +30,9 @@
 				var Saito_App_controller = " . $this->Js->value($this->request->controller) . ";
 			");
 			if (Configure::read('debug') == 0):
-				echo $this->Html->script('lib/jquery/jquery-1.8.1.min');
+				echo $this->Html->script('lib/jquery/jquery-1.8.3.min');
 			else:
-				echo $this->Html->script('lib/jquery/jquery-1.8.1');
+				echo $this->Html->script('lib/jquery/jquery-1.8.3');
 			endif;
 
 			/*
