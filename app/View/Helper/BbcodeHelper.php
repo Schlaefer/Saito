@@ -38,6 +38,15 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @var array
 	 */
 	protected static $_allowedVideoDomains = null;
+
+	/**
+	 * Flash video domains embeddeble via https
+	 */
+	protected static $_flashVideoDomainsWithHttps = array(
+			'vimeo' => 1,
+			'youtube' => 1
+	);
+
 	public $quoteSymbol;
 
 	/**
@@ -507,6 +516,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		if ( self::_isVideoDomainAllowed($url) === false ) :
 			return self::$_videoErrorMessage->get();
 		endif;
+
+		if (env('HTTPS')) {
+			if (isset(self::$_flashVideoDomainsWithHttps[self::_getDomainForUri($url)])) {
+				$url = str_ireplace('http://', 'https://', $url);
+			}
+		}
 
 		$out = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="' . $width . '" height="' . $height . '">
 									<param name="movie" value="' . $url . '"></param>
