@@ -169,6 +169,21 @@ class UsersController extends AppController {
 	}
 
 	public function view($id = NULL) {
+		// allow user to be viewed by /users/view/<username>
+		if(!empty($id) && !is_numeric($id)) {
+			$this->User->contain();
+			$viewed_user = $this->User->findByUsername($id);
+			if (!empty($viewed_user)) {
+				return $this->redirect(
+						array(
+								'controller' => 'users',
+								'action' => 'view',
+								$viewed_user['User']['id']
+						)
+				);
+			}
+		}
+
 		$this->User->id = $id;
 
 		$this->User->contain(array('UserOnline'));
