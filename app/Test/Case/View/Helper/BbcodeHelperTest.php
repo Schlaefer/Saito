@@ -79,6 +79,9 @@
 		}
 
 		public function testLink() {
+				$https = env('HTTPS');
+				$_SERVER['HTTPS'] = false;
+
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c_bbc_link-dinfo'>[ebay.de]</span>";
 			$result = $this->Bbcode->parse($input);
@@ -226,6 +229,26 @@
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
+
+			$_SERVER['HTTPS'] = $https;
+		}
+
+		public function testLinkHttps() {
+			$https = env('HTTPS');
+			$_SERVER['HTTPS'] = true;
+
+			$input = '[url]/foobar[/url]';
+			$expected = array(
+								'a' => array(
+								'href' => 'https://macnemo.de/foobar',
+					),
+								'preg:/\/foobar/',
+								'/a',
+			);
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+
+			$_SERVER['HTTPS'] = $https;
 		}
 
 		public function testEmail() {

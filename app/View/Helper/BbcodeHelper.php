@@ -774,13 +774,20 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		return $string;
 	}
 
+	/**
+	 * Converts relativ urls to absolute urls
+	 *  
+	 * @param type $string
+	 * @return string
+	 */
 	protected static function _checkAndAddProtocol($string) {
+		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
 		if ( $string[0] !== '/' ) {
 			if ( strpos($string, '://') === FALSE ) {
-				$string = 'http://' . $string;
+				$string = $https . $string;
 			}
 		} else {
-			$string = 'http://' . $_SERVER['SERVER_NAME'] . $string;
+			$string = $https . $_SERVER['SERVER_NAME'] . $string;
 		}
 		return $string;
 	}
