@@ -13,8 +13,8 @@
 			$stopwatch_data = Stopwatch::getJs();
 			$out = $this->Html->script(
 					array(
-						'http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.min.js',
-						'http://cdnjs.cloudflare.com/ajax/libs/flot/0.7/jquery.flot.stack.min.js',
+							'Stopwatch.jquery.flot.min.js',
+							'Stopwatch.jquery.flot.stack.min.js'
 							)
 			);
 			$out .= '<div id="stopwatch-plot" style="width:300px;height:600px;"></div>';
