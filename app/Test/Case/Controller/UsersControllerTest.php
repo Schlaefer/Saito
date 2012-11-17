@@ -267,10 +267,18 @@
 			$this->assertEqual($result['user']['User']['username'], 'Alice');
 
 			/*
+			 * Test profile request by username
+			 */
+			$this->_loginUser(3);
+			$this->testAction('/users/view/Mitch');
+			$this->assertContains('/users/view/2', $this->headers['Location']);
+
+			/*
 			 * if user (profile) doesn't exist
 			 */
 			$result = $this->testAction('/users/view/9999');
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+
 		}
 
     public function testLock() {
