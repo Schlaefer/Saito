@@ -9,7 +9,7 @@
 		</div>
 		<div class="content">
 			<?php echo $this->Form->create(false); ?>
-			<div class="required">
+			<div class="inpu required">
 				<?php
 					if (!$CurrentUser->isLoggedIn()) {
 						echo $this->Form->label('Message.sender_contact', __('user_contact_sender-contact'));
@@ -19,20 +19,27 @@
 					echo $this->Form->text('Message.subject');
 				?>
 			</div>
-			<?php echo $this->Form->label('Message.text', __('user_contact_message')); ?>
-			<?php echo $this->Form->textarea('Message.text', array('style' => 'height: 10em')); ?>
-			<div>
+			<div class="input">
+				<?php echo $this->Form->label('Message.text', __('user_contact_message')); ?>
+				<?php echo $this->Form->textarea('Message.text', array('style' => 'height: 10em')); ?>
+			</div>
 			<?php
 				$checked = true;
 				if (isset($this->request->data['Message']['carbon_copy'])) {
 					$checked = $this->request->data['Message']['carbon_copy'];
 				}
-				echo $this->Form->checkbox('Message.carbon_copy', array(
-						'checked' => $checked
-				));
-				echo $this->Form->label('Message.carbon_copy', __('user_contact_send_carbon_copy'));
+				echo $this->Form->input(
+						'Message.carbon_copy',
+						array(
+								'type' => 'checkbox',
+								'checked' => $checked,
+								'label' => array(
+										'text' => __('user_contact_send_carbon_copy'),
+										'style' => 'display: inline;',
+								),
+						)
+				);
 			?>
-			</div>
 			<div>
 			<?php
 				echo $this->Form->submit(__('Submit'), array(

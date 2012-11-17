@@ -28,6 +28,7 @@
 			 )));
 	 echo $this->Form->input('password_confirm', array(
 			 'type'=>'password',
+			 'div'		=> array( 'class' => 'required' ),
 			 'label'	=> __('change_password_new_password_confirm'),
 			 ));
 	 echo $this->Form->submit(__('change_password_btn_submit'), array( 'class'=> 'btn btn-submit'));

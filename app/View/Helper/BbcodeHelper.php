@@ -38,6 +38,15 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @var array
 	 */
 	protected static $_allowedVideoDomains = null;
+
+	/**
+	 * Flash video domains embeddeble via https
+	 */
+	protected static $_flashVideoDomainsWithHttps = array(
+			'vimeo' => 1,
+			'youtube' => 1
+	);
+
 	public $quoteSymbol;
 
 	/**
@@ -508,6 +517,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			return self::$_videoErrorMessage->get();
 		endif;
 
+		if (env('HTTPS')) {
+			if (isset(self::$_flashVideoDomainsWithHttps[self::_getDomainForUri($url)])) {
+				$url = str_ireplace('http://', 'https://', $url);
+			}
+		}
+
 		$out = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="' . $width . '" height="' . $height . '">
 									<param name="movie" value="' . $url . '"></param>
 									<embed src="' . $url . '" width="' . $width . '" height="' . $height . '" type="application/x-shockwave-flash" wmode="opaque" style="width:' . $width . 'px; height:' . $height . 'px;" id="VideoPlayback" type="application/x-shockwave-flash" flashvars=""> </embed>
@@ -774,13 +789,20 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		return $string;
 	}
 
+	/**
+	 * Converts relativ urls to absolute urls
+	 *  
+	 * @param type $string
+	 * @return string
+	 */
 	protected static function _checkAndAddProtocol($string) {
+		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
 		if ( $string[0] !== '/' ) {
 			if ( strpos($string, '://') === FALSE ) {
-				$string = 'http://' . $string;
+				$string = $https . $string;
 			}
 		} else {
-			$string = 'http://' . $_SERVER['SERVER_NAME'] . $string;
+			$string = $https . $_SERVER['SERVER_NAME'] . $string;
 		}
 		return $string;
 	}
