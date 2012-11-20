@@ -24,16 +24,23 @@
      * @param string $password The unhashed password.
      * @return Mixed Either false on failure, or an array of user data.
      */
-    protected function _findUser($username, $password) {
+    protected function _findUser($conditions, $password = null) {
       $out = FALSE;
 
       $userModel = $this->settings['userModel'];
       list($plugin, $model) = pluginSplit($userModel);
       $fields = $this->settings['fields'];
 
-      $conditions = array(
-          $model . '.' . $fields['username'] => $username,
-      );
+			if (!is_array($conditions)) {
+				if (!$password) {
+					return false;
+				}
+				$username = $conditions;
+				$conditions = array(
+						$model . '.' . $fields['username'] => $username,
+				);
+			}
+
       if ( !empty($this->settings['scope']) ) {
         $conditions = array_merge($conditions, $this->settings['scope']);
       }
