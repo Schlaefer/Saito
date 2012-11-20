@@ -1,12 +1,5 @@
 <?php
 /**
- * Command-line database management utility to automate programmer chores.
- *
- * Schema is CakePHP's database management utility. This helps you maintain versions of
- * of your database.
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -96,6 +89,7 @@ class SchemaShell extends AppShell {
 				$name = $plugin;
 			}
 		}
+		$name = Inflector::classify($name);
 		$this->Schema = new CakeSchema(compact('name', 'path', 'file', 'connection', 'plugin'));
 	}
 
@@ -127,7 +121,9 @@ class SchemaShell extends AppShell {
 		$this->out(__d('cake_console', 'Generating Schema...'));
 		$options = array();
 		if ($this->params['force']) {
-			$options = array('models' => false);
+			$options['models'] = false;
+		} elseif (!empty($this->params['models'])) {
+			$options['models'] = String::tokenize($this->params['models']);
 		}
 
 		$snapshot = false;
@@ -288,7 +284,9 @@ class SchemaShell extends AppShell {
 		$Schema = $this->Schema->load($options);
 
 		if (!$Schema) {
-			$this->err(__d('cake_console', '%s could not be loaded', $this->Schema->path . DS . $this->Schema->file));
+			$this->err(__d('cake_console', 'The chosen schema could not be loaded. Attempted to load:'));
+			$this->err(__d('cake_console', 'File: %s', $this->Schema->path . DS . $this->Schema->file));
+			$this->err(__d('cake_console', 'Name: %s', $this->Schema->name));
 			$this->_stop();
 		}
 		$table = null;
@@ -464,6 +462,10 @@ class SchemaShell extends AppShell {
 			'short' => 's',
 			'help' => __d('cake_console', 'Snapshot number to use/make.')
 		);
+		$models = array(
+			'short' => 'm',
+			'help' => __d('cake_console', 'Specify models as comma separated list.'),
+		);
 		$dry = array(
 			'help' => __d('cake_console', 'Perform a dry run on create and update commands. Queries will be output instead of run.'),
 			'boolean' => true
@@ -489,7 +491,7 @@ class SchemaShell extends AppShell {
 		))->addSubcommand('generate', array(
 			'help' => __d('cake_console', 'Reads from --connection and writes to --path. Generate snapshots with -s'),
 			'parser' => array(
-				'options' => compact('plugin', 'path', 'file', 'name', 'connection', 'snapshot', 'force'),
+				'options' => compact('plugin', 'path', 'file', 'name', 'connection', 'snapshot', 'force', 'models'),
 				'arguments' => array(
 					'snapshot' => array('help' => __d('cake_console', 'Generate a snapshot.'))
 				)

@@ -100,7 +100,7 @@ class SessionHelper extends AppHelper {
  * echo $this->Session->flash('flash', array('element' => 'my_custom_element'));
  * }}}
  *
- * If you want to use an element from a plugin for rendering your flash message you can do that using the 
+ * If you want to use an element from a plugin for rendering your flash message you can do that using the
  * plugin param:
  *
  * {{{
@@ -134,7 +134,7 @@ class SessionHelper extends AppHelper {
 					$class = $flash['params']['class'];
 				}
 				$out = '<div id="' . $key . 'Message" class="' . $class . '">' . $message . '</div>';
-			} elseif ($flash['element'] == '' || $flash['element'] == null) {
+			} elseif (!$flash['element']) {
 				$out = $message;
 			} else {
 				$options = array();

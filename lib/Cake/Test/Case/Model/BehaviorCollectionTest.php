@@ -195,6 +195,29 @@ class TestBehavior extends ModelBehavior {
 	}
 
 /**
+ * afterValidate method
+ *
+ * @param Model $model
+ * @param bool $cascade
+ * @return void
+ */
+	public function afterValidate(Model $model) {
+		$settings = $this->settings[$model->alias];
+		if (!isset($settings['afterValidate']) || $settings['afterValidate'] == 'off') {
+			return parent::afterValidate($model);
+		}
+		switch ($settings['afterValidate']) {
+			case 'on':
+				return false;
+			break;
+			case 'test':
+				$model->data = array('foo');
+				return true;
+			break;
+		}
+	}
+
+/**
  * beforeDelete method
  *
  * @param Model $model
@@ -865,6 +888,7 @@ class BehaviorCollectionTest extends CakeTestCase {
 		$Sample->Behaviors->attach('Test', array('beforeSave' => 'off', 'afterSave' => 'test'));
 		$Sample->create();
 		$expected = $record;
+		unset($expected['Sample']['name']);
 		$result = $Sample->save($record);
 		$expected['Sample']['id'] = $Sample->id;
 		$this->assertSame($expected, $result);
@@ -964,6 +988,27 @@ class BehaviorCollectionTest extends CakeTestCase {
 		$Apple->whitelist = array('unknown');
 		$Apple->validates();
 		$this->assertSame($Apple->whitelist, array('unknown', 'name'));
+	}
+
+/**
+ * testBehaviorValidateAfterCallback method
+ *
+ * @return void
+ */
+	public function testBehaviorValidateAfterCallback() {
+		$Apple = new Apple();
+
+		$Apple->Behaviors->attach('Test');
+		$this->assertSame($Apple->validates(), true);
+
+		$Apple->Behaviors->attach('Test', array('afterValidate' => 'on'));
+		$this->assertSame($Apple->validates(), true);
+		$this->assertSame($Apple->validationErrors, array());
+
+		$Apple->Behaviors->attach('Test', array('afterValidate' => 'test'));
+		$Apple->data = array('bar');
+		$Apple->validates();
+		$this->assertEquals(array('foo'), $Apple->data);
 	}
 
 /**

@@ -213,7 +213,6 @@ class Debugger {
 		if (empty($line)) {
 			$line = '??';
 		}
-		$path = self::trimPath($file);
 
 		$info = compact('code', 'description', 'file', 'line');
 		if (!in_array($info, $self->errors)) {
@@ -250,7 +249,6 @@ class Debugger {
 			break;
 			default:
 				return;
-			break;
 		}
 
 		$data = compact(
@@ -297,9 +295,9 @@ class Debugger {
 		$back = array();
 
 		$_trace = array(
-			'line'     => '??',
-			'file'     => '[internal]',
-			'class'    => null,
+			'line' => '??',
+			'file' => '[internal]',
+			'class' => null,
 			'function' => '[main]'
 		);
 
@@ -319,7 +317,7 @@ class Debugger {
 						foreach ($next['args'] as $arg) {
 							$args[] = Debugger::exportVar($arg);
 						}
-						$reference .= join(', ', $args);
+						$reference .= implode(', ', $args);
 					}
 					$reference .= ')';
 				}
@@ -370,9 +368,6 @@ class Debugger {
 			return str_replace(ROOT, 'ROOT', $path);
 		}
 
-		if (strpos($path, CAKE) === 0) {
-			return str_replace($corePath, 'CORE' . DS, $path);
-		}
 		return $path;
 	}
 
@@ -474,29 +469,23 @@ class Debugger {
 		switch (self::getType($var)) {
 			case 'boolean':
 				return ($var) ? 'true' : 'false';
-			break;
 			case 'integer':
 				return '(int) ' . $var;
 			case 'float':
 				return '(float) ' . $var;
-			break;
 			case 'string':
-				if (trim($var) == '') {
+				if (!trim($var)) {
 					return "''";
 				}
 				return "'" . $var . "'";
-			break;
 			case 'array':
 				return self::_array($var, $depth - 1, $indent + 1);
-			break;
 			case 'resource':
 				return strtolower(gettype($var));
-			break;
 			case 'null':
 				return 'null';
 			default:
 				return self::_object($var, $depth - 1, $indent + 1);
-			break;
 		}
 	}
 
@@ -521,7 +510,7 @@ class Debugger {
 	protected static function _array(array $var, $depth, $indent) {
 		$secrets = array(
 			'password' => '*****',
-			'login'  => '*****',
+			'login' => '*****',
 			'host' => '*****',
 			'database' => '*****',
 			'port' => '*****',
@@ -542,9 +531,15 @@ class Debugger {
 
 		if ($depth >= 0) {
 			foreach ($var as $key => $val) {
+				// Sniff for globals as !== explodes in < 5.4
+				if ($key === 'GLOBALS' && is_array($val) && isset($val['GLOBALS'])) {
+					$val = '[recursion]';
+				} else if ($val !== $var) {
+					$val = self::_export($val, $depth, $indent);
+				}
 				$vars[] = $break . self::exportVar($key) .
 					' => ' .
-					self::_export($val, $depth, $indent);
+					$val;
 			}
 		} else {
 			$vars[] = $break . '[maximum depth reached]';
@@ -576,6 +571,31 @@ class Debugger {
 				$value = self::_export($value, $depth - 1, $indent);
 				$props[] = "$key => " . $value;
 			}
+
+			if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+				$ref = new ReflectionObject($var);
+
+				$reflectionProperties = $ref->getProperties(ReflectionProperty::IS_PROTECTED);
+				foreach ($reflectionProperties as $reflectionProperty) {
+					$reflectionProperty->setAccessible(true);
+					$property = $reflectionProperty->getValue($var);
+
+					$value = self::_export($property, $depth - 1, $indent);
+					$key = $reflectionProperty->name;
+					$props[] = "[protected] $key => " . $value;
+				}
+
+				$reflectionProperties = $ref->getProperties(ReflectionProperty::IS_PRIVATE);
+				foreach ($reflectionProperties as $reflectionProperty) {
+					$reflectionProperty->setAccessible(true);
+					$property = $reflectionProperty->getValue($var);
+
+					$value = self::_export($property, $depth - 1, $indent);
+					$key = $reflectionProperty->name;
+					$props[] = "[private] $key => " . $value;
+				}
+			}
+
 			$out .= $break . implode($break, $props) . $end;
 		}
 		$out .= '}';
@@ -710,8 +730,14 @@ class Debugger {
 
 		$files = $this->trace(array('start' => $data['start'], 'format' => 'points'));
 		$code = '';
-		if (isset($files[1]['file'])) {
-			$code = $this->excerpt($files[1]['file'], $files[1]['line'] - 1, 1);
+		$file = null;
+		if (isset($files[0]['file'])) {
+			$file = $files[0];
+		} elseif (isset($files[1]['file'])) {
+			$file = $files[1];
+		}
+		if ($file) {
+			$code = $this->excerpt($file['file'], $file['line'] - 1, 1);
 		}
 		$trace = $this->trace(array('start' => $data['start'], 'depth' => '20'));
 		$insertOpts = array('before' => '{:', 'after' => '}');
@@ -720,7 +746,7 @@ class Debugger {
 		$info = '';
 
 		foreach ((array)$data['context'] as $var => $value) {
-			$context[] = "\${$var} = " . $this->exportVar($value, 1);
+			$context[] = "\${$var} = " . $this->exportVar($value, 3);
 		}
 
 		switch ($this->_outputFormat) {
@@ -752,11 +778,11 @@ class Debugger {
 				continue;
 			}
 			if (is_array($value)) {
-				$value = join("\n", $value);
+				$value = implode("\n", $value);
 			}
 			$info .= String::insert($tpl[$key], array($key => $value) + $data, $insertOpts);
 		}
-		$links = join(' ', $links);
+		$links = implode(' ', $links);
 
 		if (isset($tpl['callback']) && is_callable($tpl['callback'])) {
 			return call_user_func($tpl['callback'], $data, compact('links', 'info'));

@@ -20,6 +20,7 @@
  */
 
 App::uses('AppHelper', 'View/Helper');
+App::uses('Hash', 'Utility');
 
 /**
  * Text helper library.
@@ -101,8 +102,9 @@ class TextHelper extends AppHelper {
 		$this->_placeholders = array();
 		$options += array('escape' => true);
 
+		$pattern = '#(?<!href="|src="|">)((?:https?|ftp|nntp)://[a-z0-9.\-:]+(?:/[^\s]*)?)#i';
 		$text = preg_replace_callback(
-			'#(?<!href="|src="|">)((?:https?|ftp|nntp)://[^\s<>()]+)#i',
+			$pattern,
 			array(&$this, '_insertPlaceHolder'),
 			$text
 		);

@@ -714,25 +714,6 @@ class ModelValidationTest extends BaseModelTest {
 	}
 
 /**
- * Test that missing validation methods does not trigger errors in production mode.
- *
- * @return void
- */
-	public function testMissingValidationErrorNoTriggering() {
-		Configure::write('debug', 0);
-		$TestModel = new ValidationTest1();
-		$TestModel->create(array('title' => 'foo'));
-		$TestModel->validate = array(
-			'title' => array(
-				'rule' => array('thisOneBringsThePain'),
-				'required' => true
-			)
-		);
-		$TestModel->invalidFields(array('fieldList' => array('title')));
-		$this->assertEquals(array(), $TestModel->validationErrors);
-	}
-
-/**
  * Test placeholder replacement when validation message is an array
  *
  * @return void
@@ -1698,6 +1679,35 @@ class ModelValidationTest extends BaseModelTest {
 
 		$expected = array_map('strtolower', get_class_methods('Article'));
 		$this->assertEquals($expected, array_keys($result));
+	}
+
+/**
+ *  Tests that methods are refreshed when the list of behaviors change
+ *
+ * @return void
+ */
+	public function testGetMethodsRefresh() {
+		$this->loadFixtures('Article', 'Comment');
+		$TestModel = new Article();
+		$Validator = $TestModel->validator();
+
+		$result = $Validator->getMethods();
+
+		$expected = array_map('strtolower', get_class_methods('Article'));
+		$this->assertEquals($expected, array_keys($result));
+
+		$TestModel->Behaviors->attach('Containable');
+		$newList = array(
+			'contain',
+			'resetbindings',
+			'containments',
+			'fielddependencies',
+			'containmentsmap'
+		);
+		$this->assertEquals(array_merge($expected, $newList), array_keys($Validator->getMethods()));
+
+		$TestModel->Behaviors->detach('Containable');
+		$this->assertEquals($expected, array_keys($Validator->getMethods()));
 	}
 
 /**

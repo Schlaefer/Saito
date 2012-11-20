@@ -91,7 +91,7 @@ class IniAcl extends Object implements AclInterface {
  * @return boolean Success
  */
 	public function check($aro, $aco, $action = null) {
-		if ($this->config == null) {
+		if (!$this->config) {
 			$this->config = $this->readConfigFile(APP . 'Config' . DS . 'acl.ini.php');
 		}
 		$aclConfig = $this->config;
@@ -143,7 +143,7 @@ class IniAcl extends Object implements AclInterface {
 	}
 
 /**
- * Parses an INI file and returns an array that reflects the 
+ * Parses an INI file and returns an array that reflects the
  * INI file's section structure. Double-quote friendly.
  *
  * @param string $filename File
