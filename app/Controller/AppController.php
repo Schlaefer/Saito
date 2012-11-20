@@ -50,15 +50,6 @@ class AppController extends Controller {
 	);
 
 	/**
-	 * use themes
-	 *
-	 * deprecated in CakePHP 2.1
-	 *
-	 * @var string
-	 */
-	public $viewClass = 'Theme';
-
-	/**
 	 * name of the theme used
 	 *
 	 * @var string
