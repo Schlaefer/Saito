@@ -39,9 +39,7 @@
 		}
 
 		public function testMixNotFound() {
-			$Entries = $this->generate('Entries', array(
-					'models' => array('User', 'Entry')
-			));
+			$Entries = $this->generate('Entries', array());
 			$this->expectException('NotFoundException');
 			$this->testAction('/entries/mix/9999');
 		}

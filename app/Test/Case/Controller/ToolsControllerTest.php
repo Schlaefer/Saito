@@ -20,7 +20,7 @@
 				'app.user',
 				'app.user_online',
 //		'app.bookmark',
-//		'app.entry',
+				'app.entry',
 //		'app.category',
 //		'app.esevent',
 //		'app.esnotification',

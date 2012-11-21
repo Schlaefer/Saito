@@ -134,7 +134,7 @@ class EntriesController extends AppController {
 		}
 		$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
 
-		if ($entries == false) {
+		if (empty($entries)) {
 			throw new NotFoundException();
 		}
 
