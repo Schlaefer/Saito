@@ -431,7 +431,7 @@
 			$this->testAction( '/admin/users/delete/5', array( 'data' => $data));
       $this->controller->User->contain();
       $result = $this->controller->User->findById(5);
-      $this->assertFalse($result);
+      $this->assertEmpty($result);
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
     }
 

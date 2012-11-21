@@ -1,11 +1,13 @@
 <?php
-App::uses('EsnotificationsController', 'Controller');
+
+	App::uses('EsnotificationsController', 'Controller');
+	App::uses('SaitoControllerTestCase', 'Lib');
 
 /**
  * EsnotificationsController Test Case
  *
  */
-class EsnotificationsControllerTest extends ControllerTestCase {
+class EsnotificationsControllerTest extends SaitoControllerTestCase {
 
 /**
  * Fixtures
