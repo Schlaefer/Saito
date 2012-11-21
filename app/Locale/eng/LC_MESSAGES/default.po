@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-14 11:19+0100\n"
-"PO-Revision-Date: 2012-11-14 11:20+0100\n"
+"PO-Revision-Date: 2012-11-21 08:24+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -381,23 +381,23 @@ msgstr ""
 
 #: View/Elements/entry/thread_cached_init.ctp:8
 msgid "btn-showThreadInMixView"
-msgstr ""
+msgstr "mix"
 
 #: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-threadCollapse"
-msgstr ""
+msgstr "hide"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-showNewThreads"
-msgstr ""
+msgstr "open new"
 
 #: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-closeThreads"
-msgstr ""
+msgstr "close all"
 
 #: View/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-openThreads"
-msgstr ""
+msgstr "open all"
 
 #: View/Elements/entry/view_content.ctp:59
 #, php-format

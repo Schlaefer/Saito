@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-15 14:39+0100\n"
-"PO-Revision-Date: 2012-11-15 14:40+0100\n"
+"PO-Revision-Date: 2012-11-21 08:49+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -397,23 +397,23 @@ msgstr "Anwenden"
 
 #: View/Elements/entry/thread_cached_init.ctp:8
 msgid "btn-showThreadInMixView"
-msgstr "Thread in Mix-Ansicht öffnen."
+msgstr "mix"
 
 #: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-threadCollapse"
-msgstr "Thread ein-/ausklappen."
+msgstr "einklappen"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-showNewThreads"
-msgstr "Alle ungelesenen Beiträge des Threads aufklappen."
+msgstr "neue auf"
 
 #: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-closeThreads"
-msgstr "Alle offenen Beiträge des Threads zuklappen."
+msgstr "alle zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-openThreads"
-msgstr "Alle geschlossenen Beiträge des Threads aufklappen."
+msgstr "alle auf"
 
 #: View/Elements/entry/view_content.ctp:59
 #, php-format

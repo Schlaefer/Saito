@@ -77,10 +77,10 @@ ul.deep-reply {
   overflow: hidden; }
 
 
-  .tree_thread {
+.tree_thread {
   @extend .box-content;
-  padding: 8px;
-  margin-bottom: 4px;
+  padding: 0 1em 1em 1em;
+  margin-bottom: 1em;
   .img_pencil {
     visibility: hidden; }
   ul:first-child {
@@ -94,40 +94,13 @@ ul.thread {
   /*	overflow: hidden; */ }
 
 .thread_tools {
-  opacity: 0.2;
-  border-style: solid;
-  border-color: $saito_gray_dark;
-  border-width: $border_width $border_width 0 $border_width;
-  display: inline-block;
-  margin-left: 35px;
-  border-top-left-radius:$corner_radius;
-  border-top-right-radius:$corner_radius;
-  ul,li {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    display: inline; }
-  li {
-    // setting explizit height for Firefox only
-    height: 15px;
-    float: left; }
-  a {
-    padding: 1px 10px;
-    display: inline-block;
-    text-align: center;
-    width: 13px;
-    height: 13px;
-    &:active {
-      background-color: $saito_gray_dark; } }
-  li {
-    border-right: $border_width solid $saito_gray_dark; }
-  li:first-child {
-    /* we need this for the active state */
-    border-top-left-radius:$corner_radius; }
-  li:last-child {
-    border: none;
-    /* we need this for the active state */
-    border-top-right-radius:$corner_radius; } }
+	padding-left: 2em;
+	font-size: 90%;
+	a {
+		display: inline-block;
+		padding: 4px 0.8em 4px;
+		}
+	}
 
 .thread_inline {
   display: none;

@@ -79,11 +79,3 @@
 	width: 13px;
 	height: 13px;
 }
-
-.ico-threadCollapse     { @extend .sprite-thread-collapse; 	    }
-.ico-threadOpen 		    { @extend .sprite-thread-open; 			    }
-.ico-threadOpenInline   { @extend .sprite-thread-open-inline;   }
-.ico-threadOpenNew      { @extend .sprite-thread-open-new;      }
-.ico-threadOpenMix      { @extend .sprite-thread-open-mix;      }
-.ico-threadCloseInline  { @extend .sprite-thread-close-inline;  }
-
