@@ -227,6 +227,8 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
+include 'version.php';
+
 /**
  * Check if the forum is installed
  */
@@ -249,7 +251,6 @@ Configure::write('Saito.Cache.Thread', TRUE);
  * @td document in namespace
  */
 Configure::write('Saito.markItUp.nextCssId', 11);
-
 
 include 'saito_config.php';
 /*
