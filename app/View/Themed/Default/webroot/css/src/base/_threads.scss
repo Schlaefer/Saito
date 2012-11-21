@@ -42,10 +42,11 @@ ul.deep-reply {
 	position: absolute;
 	vertical-align: text-top;
 	height: 19px;
-	font-size: 13px;
-  > a > i {
-    padding-top: 1px;
-    }
+	> a {
+		display: inline-block;
+		width: 15px;
+		text-align: center;
+		}
 	}
 
 .thread_line-content {

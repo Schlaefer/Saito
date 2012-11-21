@@ -533,8 +533,8 @@ ul.reply, ul.replynew { list-style-type: none; margin: 0 0 0 30px; list-style-ty
 ul.deep-reply { margin: 0px; list-style-type: none; }
 
 /******************************************************************************* Entry thread_line *****************************************************************************/
-.thread_line-pre { position: absolute; vertical-align: text-top; height: 19px; font-size: 13px; }
-.thread_line-pre > a > i { padding-top: 1px; }
+.thread_line-pre { position: absolute; vertical-align: text-top; height: 19px; }
+.thread_line-pre > a { display: inline-block; width: 15px; text-align: center; }
 
 .thread_line-content { padding-left: 18px; display: block; word-break: break-word; }
 .thread_line-content:hover { background: #F0F0F0; }

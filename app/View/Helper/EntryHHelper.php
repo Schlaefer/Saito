@@ -209,7 +209,7 @@
 	<div class="js-thread_line-content {$entry_sub['Entry']['id']} thread_line {$new_post_class}" data-id="{$entry_sub['Entry']['id']}" style='position: relative;'>
 		<div class="thread_line-pre">
 			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
-				<i class="icon-{$span_post_type}"></i>
+				&bull;
 			</a>
 		</div>
 		<a href='{$this->request->webroot}entries/view/{$entry_sub['Entry']['id']}'
