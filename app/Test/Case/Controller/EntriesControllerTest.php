@@ -484,8 +484,8 @@
 			// test that text is quoted
 			$this->assertContains('Second_Text</textarea>', $result);
 			// notification are un/checked
-			$this->assertNotRegEx('/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/', $result);
-			$this->assertRegEx('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
+			$this->assertNoPattern('/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/', $result);
+			$this->assertPattern('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
 		}
 
     public function testEmptyCache() {
