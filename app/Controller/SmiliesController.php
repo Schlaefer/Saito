@@ -1,4 +1,7 @@
 <?php
+
+	App::uses('AppController', 'Controller');
+
 class SmiliesController extends AppController {
 
 	public $name = 'Smilies';

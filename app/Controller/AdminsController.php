@@ -1,5 +1,7 @@
 <?php
 
+	App::uses('AppController', 'Controller');
+
 class AdminsController extends AppController {
 	public $name 	= 'Admins';
 	public $uses	= array();
