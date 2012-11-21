@@ -788,8 +788,10 @@ a.no-color, .no-color { color: #6f6f6f; }
 /*******************************************************************************
 * iPad
 ******************************************************************************/
-@media only screen and (device-width: 768px) { .thread_line-pre, .thread_line-content { -webkit-text-size-adjust: 120%; } }
-@media only screen and (device-width: 768px) and (orientation:portrait) { body, html { width: 768px; min-width: 768px; } }
+@media only screen and (device-width: 768px) { .thread_line-pre, .thread_line-content { -webkit-text-size-adjust: 120%; }
+  .a_a { -webkit-text-size-adjust: 110%; } }
+@media only screen and (device-width: 768px) and (orientation:portrait) { body, html { width: 768px; min-width: 768px; }
+  .postingform_main { width: 490px; } }
 @media only screen and (device-width: 768px) and (orientation:landscape) { body, html { /* don't touch it! */ /*		width: 980px;*/ /*		min-width: 980px;*/ } }
 /******************************************************************************/
 .ui-widget-content a { color: #e74a00; }

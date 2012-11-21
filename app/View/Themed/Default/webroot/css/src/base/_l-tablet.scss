@@ -40,12 +40,22 @@
 	.thread_line-pre, .thread_line-content {
 		-webkit-text-size-adjust: 120%;
 	}
+
+	.a_a {
+		-webkit-text-size-adjust: 110%;
+	}
+
+
 }
 
 @media only screen and (device-width: 768px) and (orientation:portrait) {
 	body,html {
 		width: 768px;
 		min-width: 768px;
+	}
+
+	.postingform_main {
+		width: 490px;
 	}
 }
 @media only screen and (device-width: 768px) and (orientation:landscape) {
