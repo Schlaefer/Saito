@@ -97,8 +97,10 @@
  *	));
  */
 
+if (!isset($engine)) {
 $engine = 'File';
 $prefix = 'saito_';
+}
 
 Cache::config('default', array('engine' => $engine));
 
