@@ -123,6 +123,8 @@ class AppController extends Controller {
 			$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
 		}
 
+		$this->_setAppStats();
+
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
@@ -265,7 +267,6 @@ class AppController extends Controller {
 		 * Shows the disclaimer in the layout
 		 */
 		protected function _showDisclaimer() {
-			$this->_setAppStats();
 			$this->set('showDisclaimer', TRUE);
 		}
 

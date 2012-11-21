@@ -36,37 +36,40 @@
 	<div class='tree_thread <?php echo $entry_sub['Entry']['id'];?>'>
 		<div class="thread_tools">
 			<?php if ($level == 0 && $this->request->params['action'] == 'index') : ?>
-					<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>">
+					<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub['Entry']['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" class="btn-thread_tools">
 						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
-					<?php
-						if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
-						// for cached entries this tests if a thread has only the root posting
-					?>
-						<a class="btn-threadCollapse" href="#">
-							<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>
-						</a>
-					<?php endif; ?>
 						<?php
 						if ($this->request->params['action'] != 'view') :
+							$tag = 'div';
 							if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
 								// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
 								// keinen Show All New Inline View Eintrag
+								$tag = 'a';
 								?>
-									<a href="#" class="js-btn-showAllNewThreadlines">
-										<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
-									</a>
 								<?php
 							endif;
 						endif;
 						?>
-						<a href="#" class="js-btn-openAllThreadlines">
+						<<?php echo $tag; ?> href="#" class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
+									<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
+						</<?php echo $tag; ?>>
+
+						<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
 							<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
 						</a>
-						<a href="#" class="js-btn-closeAllThreadlines">
+						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
 							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
 						</a>
+						<?php
+							if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
+							// for cached entries this tests if a thread has only the root posting
+						?>
+						<a class="btn-thread_tools btn-threadCollapse" href="#">
+							<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>
+						</a>
+						<?php endif; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 		</div>

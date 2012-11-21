@@ -54,7 +54,7 @@
 
 		public function hasNewEntries($entry, $user) {
 			if ($entry['Entry']['pid'] != 0):
-				throw new InvalidArgumentException("Entry is no thread-root, pid != 0");
+				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
 			endif;
 
 			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
@@ -134,7 +134,7 @@
 		 */
 		public function getFastLink($entry, $params = array( 'class' => '' )) {
 //		Stopwatch::start('Helper->EntryH->getFastLink()');
-			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . "</a>";
+			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . '</a>';
 //		Stopwatch::stop('Helper->EntryH->getFastLink()');
 			return $out;
 		}
@@ -198,7 +198,7 @@
 			);
 			extract($params);
 
-			$new_post_class = (($is_new_post) ? " new" : '');
+			$new_post_class = (($is_new_post) ? ' new' : '');
 			$thread_line_cached = $this->threadLineCached($entry_sub, $level);
 
 			// generate current entry
@@ -282,15 +282,13 @@ EOF;
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="mobile-nl">
-  <span class="thread_line-username">
-    <span class="mobile-hide"> – </span>
-		{$entry_sub['User']['username']}
-	</span>
-	{$category}
-	<span class="thread_line-post">
-	  {$time} {$badges}
-  </span>
+<span class="thread_line-username">
+	 –
+	{$entry_sub['User']['username']}
+</span>
+{$category}
+<span class="thread_line-post">
+	{$time} {$badges}
 </span>
 EOF;
 			return $out;

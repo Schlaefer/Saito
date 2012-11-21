@@ -27,13 +27,11 @@
 }
 
 .b {
-  padding: 10px;
   .tree_thread {
     @include box-shadow(0 0 0);
     border: none;
     background: none;
-    padding: 0;
-    margin: 0; }
+		}
   }
 
 /* Inner Content

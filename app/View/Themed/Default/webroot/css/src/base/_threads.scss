@@ -2,6 +2,8 @@
  * Threads
  ******************************************************************************/
 
+$subthread-margin: 25px !default;
+
 // thread and reply links
 // -------------------------------------
 /* dont forget to change the userpref css in user_h.php if you do changes here */
@@ -27,7 +29,7 @@ ul.thread, ul.threadnew {
 
 ul.reply, ul.replynew {
   list-style-type: none;
-  margin: 0 0 0 30px;
+  margin: 0 0 0 $subthread-margin;
   list-style-type: none; }
 
 ul.deep-reply {
@@ -44,13 +46,13 @@ ul.deep-reply {
 	height: 19px;
 	> a {
 		display: inline-block;
-		width: 15px;
+		width: 30px;
 		text-align: center;
 		}
 	}
 
 .thread_line-content {
-	padding-left: 18px;
+	padding-left: 25px;
 	display: block;
   word-break: break-word;
 	&:hover{
@@ -84,22 +86,23 @@ ul.deep-reply {
   .img_pencil {
     visibility: hidden; }
   ul:first-child {
-    margin-left: 30px; } }
+    margin-left: $subthread-margin; } }
 
 ul.thread {
   margin: 0 !important; }
 
 .thread_box {
   /* user_list und inline view sollen sauber getrennt bleiben */
-  /*	overflow: hidden; */ }
+  /*	overflow: hidden; */
+	}
 
 .thread_tools {
-	padding-left: 2em;
 	font-size: 90%;
-	a {
-		display: inline-block;
-		padding: 4px 0.8em 4px;
-		}
+	}
+.btn-thread_tools {
+	display: inline-block;
+	padding: 5px 0.7em 2px;
+	word-spacing: 0;
 	}
 
 .thread_inline {

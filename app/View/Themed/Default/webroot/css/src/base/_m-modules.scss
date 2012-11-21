@@ -21,7 +21,7 @@ a.textlink {
   font-weight: bold;
   }
 
-a.no-color {
+a.no-color, .no-color {
  	@include link-colors($saito-gray);
 }
 
@@ -66,10 +66,14 @@ a.no-color {
   background-color: #ffff99;
   }
 
+.disabled {
+	color: $saito_info_text;
+	}
+
 /** entry/thread_line end ** */
 
 .entry.index {
-  margin-top: -10px;
+  margin-top: -7px;
   }
 
 /* category chooser

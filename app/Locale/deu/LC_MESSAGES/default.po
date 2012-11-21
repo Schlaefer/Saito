@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-15 14:39+0100\n"
-"PO-Revision-Date: 2012-11-21 08:49+0100\n"
+"POT-Creation-Date: 2012-11-21 12:55+0100\n"
+"PO-Revision-Date: 2012-11-21 12:56+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -87,8 +87,8 @@ msgstr "Installieren"
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
-#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:322
-#: Controller/EntriesController.php:374
+#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:319
+#: Controller/EntriesController.php:371
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
@@ -108,7 +108,7 @@ msgstr "Kommentieren"
 msgid "back_to_forum_linkname"
 msgstr "Zurück zum Forum"
 
-#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:26
+#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:48
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
@@ -140,7 +140,7 @@ msgstr "Kategorie hinzufügen"
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
 #: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
-#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:38
+#: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:45
 msgid "Submit"
 msgstr "Absenden"
 
@@ -173,7 +173,7 @@ msgstr "Neuer Beitrag"
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Entries/index.ctp:35 View/Layouts/admin.ctp:47
+#: View/Entries/index.ctp:35 View/Layouts/admin.ctp:51
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -387,7 +387,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:69
-#: Controller/EntriesController.php:882
+#: Controller/EntriesController.php:879
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -401,7 +401,7 @@ msgstr "mix"
 
 #: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-threadCollapse"
-msgstr "einklappen"
+msgstr "thread zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-showNewThreads"
@@ -426,9 +426,9 @@ msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:59
-#: View/Elements/layout/header_login.ctp:38
-#: View/Elements/layout/header_login.ctp:44
-#: View/Elements/layout/header_login.ctp:45 View/Entries/index.ctp:18
+#: View/Elements/layout/header_login.ctp:60
+#: View/Elements/layout/header_login.ctp:66
+#: View/Elements/layout/header_login.ctp:67 View/Entries/index.ctp:18
 #: View/Entries/search.ctp:29 View/Users/view.ctp:155
 msgid "Help"
 msgstr "Hilfe"
@@ -443,7 +443,7 @@ msgstr "Antworten"
 
 #: View/Elements/entry/view_posting.ctp:92
 #: View/Elements/entry/view_posting.ctp:120
-#: Controller/EntriesController.php:480
+#: Controller/EntriesController.php:477
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
@@ -505,31 +505,39 @@ msgstr "Angetrieben durch Saito v%s."
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
-#: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
+#: View/Elements/layout/header_login.ctp:4
+msgid ":users Users online"
+msgstr ":users anwesend"
+
+#: View/Elements/layout/header_login.ctp:10
+msgid ":users+:guests online"
+msgstr ":users+:guests anwesend"
+
+#: View/Elements/layout/header_login.ctp:26 View/Users/register.ctp:6
 #: View/Users/register.ctp:78
 msgid "register_linkname"
 msgstr "Registrieren"
 
-#: View/Elements/layout/header_login.ctp:7
-#: View/Elements/layout/header_login.ctp:9
+#: View/Elements/layout/header_login.ctp:29
+#: View/Elements/layout/header_login.ctp:31
 #: View/Elements/users/login_form.ctp:35
 msgid "login_btn"
 msgstr "Einloggen"
 
-#: View/Elements/layout/header_login.ctp:16
+#: View/Elements/layout/header_login.ctp:38
 msgid "Forum Settings"
 msgstr "Forumseinstellungen"
 
-#: View/Elements/layout/header_login.ctp:22 View/Users/edit.ctp:133
+#: View/Elements/layout/header_login.ctp:44 View/Users/edit.ctp:133
 #: View/Users/view.ctp:88 View/Users/view.ctp:124
 msgid "user_profile"
 msgstr "Profil"
 
-#: View/Elements/layout/header_login.ctp:31
+#: View/Elements/layout/header_login.ctp:53
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: View/Elements/layout/header_login.ctp:46
+#: View/Elements/layout/header_login.ctp:68
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
@@ -560,13 +568,13 @@ msgstr "%s anwesend (%s)"
 
 #: View/Elements/layout/slidetab_userlist.ctp:26
 #: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:26
-#: View/Helper/UserHHelper.php:113
+#: View/Helper/UserHHelper.php:116
 msgid "ud_admin"
 msgstr "Administrator"
 
 #: View/Elements/layout/slidetab_userlist.ctp:27
 #: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:27
-#: View/Helper/UserHHelper.php:111
+#: View/Helper/UserHHelper.php:114
 msgid "ud_mod"
 msgstr "Moderator"
 
@@ -630,7 +638,7 @@ msgstr ""
 "Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
 "innerhalb der nächsten 24 Stunden: %s"
 
-#: View/Entries/add.ctp:36 View/Entries/add.ctp:280
+#: View/Entries/add.ctp:36 View/Entries/add.ctp:281
 msgid "preview"
 msgstr "Vorschau"
 
@@ -642,31 +650,31 @@ msgstr ""
 msgid "No video recognized."
 msgstr "Es wurde kein Video erkannt."
 
-#: View/Entries/add.ctp:124 Controller/UsersController.php:427
+#: View/Entries/add.ctp:124 Controller/UsersController.php:444
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
-#: View/Entries/add.ctp:160
+#: View/Entries/add.ctp:161
 msgid "Cite"
 msgstr "Zitieren"
 
-#: View/Entries/add.ctp:182
+#: View/Entries/add.ctp:183
 msgid "Notify on reply"
 msgstr "Beitrag abonnieren"
 
-#: View/Entries/add.ctp:190
+#: View/Entries/add.ctp:191
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:197 View/Helper/EntryHHelper.php:152
+#: View/Entries/add.ctp:198 View/Helper/EntryHHelper.php:152
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
-#: View/Entries/add.ctp:205
+#: View/Entries/add.ctp:206
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/add.ctp:244 View/Entries/add.ctp:256 View/Entries/add.ctp:313
+#: View/Entries/add.ctp:245 View/Entries/add.ctp:257 View/Entries/add.ctp:314
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -735,30 +743,30 @@ msgstr "Keine Einträge."
 msgid "whole_thread_marking"
 msgstr "gesamter Thread"
 
-#: View/Layouts/admin.ctp:36
+#: View/Layouts/admin.ctp:40
 msgid "Overview"
 msgstr "Übersicht"
 
-#: View/Layouts/admin.ctp:41 View/Settings/admin_edit.ctp:2
+#: View/Layouts/admin.ctp:45 View/Settings/admin_edit.ctp:2
 #: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:11
 #: View/Users/edit.ctp:164
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: View/Layouts/admin.ctp:44 View/Users/admin_add.ctp:2
+#: View/Layouts/admin.ctp:48 View/Users/admin_add.ctp:2
 #: View/Users/admin_index.ctp:1 View/Users/admin_index.ctp:3
 #, fuzzy
 msgid "Users"
 msgstr "Benutzer"
 
-#: View/Layouts/admin.ctp:50 View/SmileyCodes/admin_edit.ctp:1
+#: View/Layouts/admin.ctp:54 View/SmileyCodes/admin_edit.ctp:1
 #: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
 #: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
 #: View/Smilies/admin_index.ctp:3
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:57
+#: View/Layouts/admin.ctp:61
 msgid "Forum"
 msgstr ""
 
@@ -770,11 +778,11 @@ msgstr ""
 msgid "RSS Feed"
 msgstr "RSS Feed"
 
-#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:114
+#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:111
 msgid "Last entries"
 msgstr "Letzte Einträge"
 
-#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:110
+#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:107
 msgid "Last started threads"
 msgstr "Letzte Threads"
 
@@ -1266,11 +1274,11 @@ msgstr "Das alte Passwort ist nicht korrekt."
 msgid "change_password_new_password"
 msgstr "Neues Passwort"
 
-#: View/Users/changepassword.ctp:31
+#: View/Users/changepassword.ctp:32
 msgid "change_password_new_password_confirm"
 msgstr "Neues Passwort wiederholen"
 
-#: View/Users/changepassword.ctp:33
+#: View/Users/changepassword.ctp:34
 msgid "change_password_btn_submit"
 msgstr "Passwort ändern"
 
@@ -1286,11 +1294,11 @@ msgstr "Ihre Kontaktadresse"
 msgid "user_contact_subject"
 msgstr "Betreff"
 
-#: View/Users/contact.ctp:22
+#: View/Users/contact.ctp:23
 msgid "user_contact_message"
 msgstr "Nachricht"
 
-#: View/Users/contact.ctp:33
+#: View/Users/contact.ctp:37
 msgid "user_contact_send_carbon_copy"
 msgstr "Kopie an mich senden"
 
@@ -1545,7 +1553,7 @@ msgid "register_success_content"
 msgstr ""
 "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
-#: View/Users/register.ctp:23 Controller/EntriesController.php:329
+#: View/Users/register.ctp:23 Controller/EntriesController.php:326
 msgid "js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
@@ -1600,112 +1608,112 @@ msgstr "Sperren"
 msgid "No entries created yet."
 msgstr "Noch keine Beiträge verfasst."
 
-#: Controller/BookmarksController.php:66
+#: Controller/BookmarksController.php:68
 msgid "The bookmark could not be saved. Please, try again."
 msgstr ""
 "Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
 "erneut."
 
-#: Controller/BookmarksController.php:90
+#: Controller/BookmarksController.php:92
 msgid "Invalid bookmark"
 msgstr "Lesezeichen konnte nicht gefunden werden."
 
-#: Controller/CategoriesController.php:81
-#: Controller/CategoriesController.php:96
+#: Controller/CategoriesController.php:83
+#: Controller/CategoriesController.php:98
 msgid "The category has been saved"
 msgstr ""
 
-#: Controller/CategoriesController.php:84
-#: Controller/CategoriesController.php:99
+#: Controller/CategoriesController.php:86
+#: Controller/CategoriesController.php:101
 msgid "The category could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/CategoriesController.php:91
+#: Controller/CategoriesController.php:93
 #, fuzzy
 msgid "Invalid category"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/CategoriesController.php:110
+#: Controller/CategoriesController.php:112
 #, fuzzy
 msgid "Invalid id for category"
 msgstr "Passwort stimmt nicht mit Wiederholung überein."
 
-#: Controller/CategoriesController.php:119
+#: Controller/CategoriesController.php:121
 msgid "Category not found."
 msgstr ""
 
-#: Controller/CategoriesController.php:136
+#: Controller/CategoriesController.php:138
 msgid "Target category not found."
 msgstr ""
 
-#: Controller/CategoriesController.php:144
+#: Controller/CategoriesController.php:146
 msgid "Error moving category."
 msgstr ""
 
-#: Controller/CategoriesController.php:147
+#: Controller/CategoriesController.php:149
 #, fuzzy
 msgid "Category moved."
 msgstr "Kategorie"
 
-#: Controller/CategoriesController.php:153
+#: Controller/CategoriesController.php:155
 #, fuzzy
 msgid "Error deleting category."
 msgstr "Flattr-Kategorie"
 
-#: Controller/CategoriesController.php:156
+#: Controller/CategoriesController.php:158
 #, fuzzy
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:96
+#: Controller/EntriesController.php:93
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:217 Controller/EntriesController.php:226
+#: Controller/EntriesController.php:214 Controller/EntriesController.php:223
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
-#: Controller/EntriesController.php:267
+#: Controller/EntriesController.php:264
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:270
+#: Controller/EntriesController.php:267
 msgid "logged_in_users_only"
 msgstr "Nur für eingeloggte Benutzer."
 
-#: Controller/EntriesController.php:320 Controller/EntriesController.php:442
+#: Controller/EntriesController.php:317 Controller/EntriesController.php:439
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:367 Controller/EntriesController.php:476
+#: Controller/EntriesController.php:364 Controller/EntriesController.php:473
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:378
+#: Controller/EntriesController.php:375
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:428
+#: Controller/EntriesController.php:425
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#: Controller/EntriesController.php:511
+#: Controller/EntriesController.php:508
 msgid "delete_tree_success"
 msgstr "Thread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:514
+#: Controller/EntriesController.php:511
 msgid "delete_subtree_success"
 msgstr "Subthread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:518
+#: Controller/EntriesController.php:515
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:720
+#: Controller/EntriesController.php:717
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:918
+#: Controller/EntriesController.php:915
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1722,57 +1730,57 @@ msgstr "Erfolgreich abbestellt."
 msgid "Error. Could not unsubscribe."
 msgstr "Fehler beim Abbestellen."
 
-#: Controller/SmileyCodesController.php:23
-#: Controller/SmileyCodesController.php:40
+#: Controller/SmileyCodesController.php:26
+#: Controller/SmileyCodesController.php:43
 msgid "The smiley code has been saved"
 msgstr ""
 
-#: Controller/SmileyCodesController.php:26
-#: Controller/SmileyCodesController.php:43
+#: Controller/SmileyCodesController.php:29
+#: Controller/SmileyCodesController.php:46
 msgid "The smiley code could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/SmileyCodesController.php:35
+#: Controller/SmileyCodesController.php:38
 #, fuzzy
 msgid "Invalid smiley code"
 msgstr "Passwort stimmt nicht mit Wiederholung überein."
 
-#: Controller/SmileyCodesController.php:55
+#: Controller/SmileyCodesController.php:58
 #, fuzzy
 msgid "Invalid id for smiley code"
 msgstr "Passwort stimmt nicht mit Wiederholung überein."
 
-#: Controller/SmileyCodesController.php:59
+#: Controller/SmileyCodesController.php:62
 msgid "Smiley code deleted"
 msgstr ""
 
-#: Controller/SmileyCodesController.php:62
+#: Controller/SmileyCodesController.php:65
 msgid "Smiley code was not deleted"
 msgstr ""
 
-#: Controller/SmiliesController.php:23 Controller/SmiliesController.php:38
+#: Controller/SmiliesController.php:26 Controller/SmiliesController.php:41
 msgid "The smily has been saved"
 msgstr ""
 
-#: Controller/SmiliesController.php:26 Controller/SmiliesController.php:41
+#: Controller/SmiliesController.php:29 Controller/SmiliesController.php:44
 msgid "The smily could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/SmiliesController.php:33
+#: Controller/SmiliesController.php:36
 #, fuzzy
 msgid "Invalid smily"
 msgstr "Passwort stimmt nicht mit Wiederholung überein."
 
-#: Controller/SmiliesController.php:51
+#: Controller/SmiliesController.php:54
 #, fuzzy
 msgid "Invalid id for smily"
 msgstr "Passwort stimmt nicht mit Wiederholung überein."
 
-#: Controller/SmiliesController.php:55
+#: Controller/SmiliesController.php:58
 msgid "Smily deleted"
 msgstr ""
 
-#: Controller/SmiliesController.php:58
+#: Controller/SmiliesController.php:61
 msgid "Smily was not deleted"
 msgstr ""
 
@@ -1780,91 +1788,91 @@ msgstr ""
 msgid "Caches have been emptied."
 msgstr "Caches wurden geleert."
 
-#: Controller/UploadsController.php:33 Controller/UploadsController.php:86
+#: Controller/UploadsController.php:35 Controller/UploadsController.php:88
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:52 Controller/UsersController.php:293
+#: Controller/UsersController.php:54 Controller/UsersController.php:310
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
 
-#: Controller/UsersController.php:58
+#: Controller/UsersController.php:60
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:108
+#: Controller/UsersController.php:110
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:179 Controller/UsersController.php:200
+#: Controller/UsersController.php:196 Controller/UsersController.php:217
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/UsersController.php:234
+#: Controller/UsersController.php:251
 msgid "user_edit_success"
 msgstr "Die Daten wurden gespeichert."
 
-#: Controller/UsersController.php:247
+#: Controller/UsersController.php:264
 msgid "The user could not be saved. Please, try again."
 msgstr "Der Benutzer konnte nicht gespeichert werden."
 
-#: Controller/UsersController.php:275 Controller/UsersController.php:312
+#: Controller/UsersController.php:292 Controller/UsersController.php:329
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:283
+#: Controller/UsersController.php:300
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:285
+#: Controller/UsersController.php:302
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: Controller/UsersController.php:295
+#: Controller/UsersController.php:312
 #, php-format
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:299
+#: Controller/UsersController.php:316
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:318
+#: Controller/UsersController.php:335
 msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
-#: Controller/UsersController.php:320
+#: Controller/UsersController.php:337
 msgid "You can't delete the installation account."
 msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
-#: Controller/UsersController.php:322
+#: Controller/UsersController.php:339
 #, php-format
 msgid "User %s deleted."
 msgstr "Nutzer %s gelöscht."
 
-#: Controller/UsersController.php:325
+#: Controller/UsersController.php:342
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:350
+#: Controller/UsersController.php:367
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:412
+#: Controller/UsersController.php:429
 msgid "error_email_not-valid"
 msgstr "Keine gültige Email-Adresse."
 
-#: Controller/UsersController.php:446
+#: Controller/UsersController.php:463
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:449
+#: Controller/UsersController.php:466
 #, fuzzy
 msgid "Error, message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:261
+#: Controller/Component/CurrentUserComponent.php:258
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
@@ -1955,7 +1963,7 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:471
+#: View/Helper/BbcodeHelper.php:480
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
@@ -1965,7 +1973,7 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:489
+#: View/Helper/BbcodeHelper.php:498
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
@@ -1975,17 +1983,17 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:720
+#: View/Helper/BbcodeHelper.php:735
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:821
+#: View/Helper/BbcodeHelper.php:843
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:829
+#: View/Helper/BbcodeHelper.php:851
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -2080,11 +2088,11 @@ msgstr "Einbinden"
 msgid "yesterday"
 msgstr "Gestern"
 
-#: View/Helper/UserHHelper.php:109
+#: View/Helper/UserHHelper.php:112
 msgid "ud_user"
 msgstr "Benutzer"
 
-#: View/Helper/UserHHelper.php:160
+#: View/Helper/UserHHelper.php:163
 msgid "userranks_not_found"
 msgstr ""
 
