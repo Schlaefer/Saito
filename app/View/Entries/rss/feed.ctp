@@ -35,13 +35,21 @@
 			 * 
 			 */
 
-			echo  $this->Rss->item(array(), array(
-					'title' 			=> html_entity_decode($entry['Entry']['subject'], ENT_NOQUOTES,'UTF-8'),
-					'link' 				=> $postLink,
-					'guid' 				=> array('url' => $postLink, 'isPermaLink' => 'true'),
-					'description' => array('value' => $bodyText),
-					'dc:creator' 	=> $entry['User']['username'],
-					'pubDate' 		=> $entry['Entry']['time'],
+
+			echo  $this->Rss->item(
+					array(
+							'namespace' => array(
+									'prefix' => 'dc',
+									'url' => 'http://purl.org/dc/elements/1.1/'
+							)
+					),
+					array(
+							'title' 			=> html_entity_decode($entry['Entry']['subject'], ENT_NOQUOTES,'UTF-8'),
+							'link' 				=> $postLink,
+							'guid' 				=> array('url' => $postLink, 'isPermaLink' => 'true'),
+							'description' => array('value' => $bodyText),
+							'dc:creator' 	=> $entry['User']['username'],
+							'pubDate' 		=> $entry['Entry']['time'],
 					)
 				);
 	}
