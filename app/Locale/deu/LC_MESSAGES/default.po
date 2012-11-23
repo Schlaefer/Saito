@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-21 12:55+0100\n"
-"PO-Revision-Date: 2012-11-21 12:56+0100\n"
+"POT-Creation-Date: 2012-11-23 12:32+0100\n"
+"PO-Revision-Date: 2012-11-23 12:34+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -108,7 +108,7 @@ msgstr "Kommentieren"
 msgid "back_to_forum_linkname"
 msgstr "Zurück zum Forum"
 
-#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:48
+#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:26
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
@@ -395,7 +395,7 @@ msgstr "Alle Kategorien"
 msgid "Apply"
 msgstr "Anwenden"
 
-#: View/Elements/entry/thread_cached_init.ctp:8
+#: View/Elements/entry/thread_cached_init.ctp:8 View/Entries/view.ctp:31
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
@@ -426,9 +426,9 @@ msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:59
-#: View/Elements/layout/header_login.ctp:60
-#: View/Elements/layout/header_login.ctp:66
-#: View/Elements/layout/header_login.ctp:67 View/Entries/index.ctp:18
+#: View/Elements/layout/header_login.ctp:38
+#: View/Elements/layout/header_login.ctp:44
+#: View/Elements/layout/header_login.ctp:45 View/Entries/index.ctp:18
 #: View/Entries/search.ctp:29 View/Users/view.ctp:155
 msgid "Help"
 msgstr "Hilfe"
@@ -482,62 +482,55 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:20
-#, php-format
+#: View/Elements/layout/disclaimer.ctp:24
 msgid ""
-"%s Entries in %s Threads; %s registred users, %s logged in, %s anonymous."
+":entries Entries in :threads Threads; :registred registred users, :loggedin "
+"logged in, :anon anonymous"
 msgstr ""
-"%s Beiträge in %s Threads; %s registrierte Benutzer, %s angemeldet, %s Gäste."
+":entries Beiträge in :threads Threads; :registred registrierte Benutzer, :"
+"loggedin angemeldet, :anon Gäste."
 
-#: View/Elements/layout/disclaimer.ctp:32
+#: View/Elements/layout/disclaimer.ctp:38
 msgid "About"
 msgstr "Über"
 
-#: View/Elements/layout/disclaimer.ctp:34
+#: View/Elements/layout/disclaimer.ctp:40
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:44
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr "Angetrieben durch Saito v%s."
 
-#: View/Elements/layout/disclaimer.ctp:36
+#: View/Elements/layout/disclaimer.ctp:42
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:46
 #, php-format
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
-#: View/Elements/layout/header_login.ctp:4
-msgid ":users Users online"
-msgstr ":users anwesend"
-
-#: View/Elements/layout/header_login.ctp:10
-msgid ":users+:guests online"
-msgstr ":users+:guests anwesend"
-
-#: View/Elements/layout/header_login.ctp:26 View/Users/register.ctp:6
+#: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
 #: View/Users/register.ctp:78
 msgid "register_linkname"
 msgstr "Registrieren"
 
-#: View/Elements/layout/header_login.ctp:29
-#: View/Elements/layout/header_login.ctp:31
+#: View/Elements/layout/header_login.ctp:7
+#: View/Elements/layout/header_login.ctp:9
 #: View/Elements/users/login_form.ctp:35
 msgid "login_btn"
 msgstr "Einloggen"
 
-#: View/Elements/layout/header_login.ctp:38
+#: View/Elements/layout/header_login.ctp:16
 msgid "Forum Settings"
 msgstr "Forumseinstellungen"
 
-#: View/Elements/layout/header_login.ctp:44 View/Users/edit.ctp:133
+#: View/Elements/layout/header_login.ctp:22 View/Users/edit.ctp:133
 #: View/Users/view.ctp:88 View/Users/view.ctp:124
 msgid "user_profile"
 msgstr "Profil"
 
-#: View/Elements/layout/header_login.ctp:53
+#: View/Elements/layout/header_login.ctp:31
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: View/Elements/layout/header_login.ctp:68
+#: View/Elements/layout/header_login.ctp:46
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
@@ -555,25 +548,25 @@ msgstr "Letzte Einträge"
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
-#: View/Elements/layout/slidetab_userlist.ctp:12
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:12
+#: View/Elements/layout/slidetab_userlist.ctp:23
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:23
 msgid "user_area_linkname"
 msgstr "Benutzer"
 
-#: View/Elements/layout/slidetab_userlist.ctp:10
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:10
+#: View/Elements/layout/slidetab_userlist.ctp:21
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:21
 #, php-format
 msgid "%s online (%s)"
 msgstr "%s anwesend (%s)"
 
-#: View/Elements/layout/slidetab_userlist.ctp:26
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:26
+#: View/Elements/layout/slidetab_userlist.ctp:37
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:37
 #: View/Helper/UserHHelper.php:116
 msgid "ud_admin"
 msgstr "Administrator"
 
-#: View/Elements/layout/slidetab_userlist.ctp:27
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:27
+#: View/Elements/layout/slidetab_userlist.ctp:38
+#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:38
 #: View/Helper/UserHHelper.php:114
 msgid "ud_mod"
 msgstr "Moderator"
@@ -738,10 +731,6 @@ msgstr "Einfache Suche"
 #: View/Entries/search.ctp:150
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
-
-#: View/Entries/view.ctp:38
-msgid "whole_thread_marking"
-msgstr "gesamter Thread"
 
 #: View/Layouts/admin.ctp:40
 msgid "Overview"
@@ -2095,6 +2084,15 @@ msgstr "Benutzer"
 #: View/Helper/UserHHelper.php:163
 msgid "userranks_not_found"
 msgstr ""
+
+#~ msgid ":users Users online"
+#~ msgstr ":users anwesend"
+
+#~ msgid ":users+:guests online"
+#~ msgstr ":users+:guests anwesend"
+
+#~ msgid "whole_thread_marking"
+#~ msgstr "gesamter Thread"
 
 #~ msgid "register_email_send_content"
 #~ msgstr ""
