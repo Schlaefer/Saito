@@ -69,6 +69,31 @@
   list-style: square;
 }
 
+/* Slidtab Userlist
+// ----------------------------------- */
+
+#slidetabUserlist-counter {
+	position: absolute;
+	right: -2px;
+	bottom: -4px;
+	min-width: 6px;
+	background: #111111;
+	border: 1px solid white;
+	padding: 0 1px;
+	}
+
+.slidetabUserlist-counter-inner {
+	margin: 0 auto;
+	text-shadow: none;
+	text-align: center;
+	color: white;
+	right: 0px;
+	bottom: 0px;
+	line-height: 12px;
+	font-size: 8px;
+	font-weight: bold;
+	}
+
 // slidetab Recent Postings
 // -------------------------------------
 

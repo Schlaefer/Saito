@@ -1,26 +1,4 @@
 <?php
-	if (isset($CurrentUser) && $CurrentUser->isLoggedIn() == FALSE) {
-		$k = String::insert(
-						__(':users Users online'),
-						array('users' => $HeaderCounter['user_online'])
-		);
-		echo "<span class='no-color'>{$k}</span>";
-	} else {
-		$k = String::insert(
-						__(':users+:guests online'),
-						array(
-								'guests' => $HeaderCounter['user_anonymous'],
-								'users' => $HeaderCounter['user_registered']
-								)
-		);
-		echo $this->Html->link(
-				$k,
-				'/users/index',
-				array( 'id' => 'btn_logout'));
-	}
-?>
-	&nbsp;|&nbsp;
-<?php
 if (isset($CurrentUser) && $CurrentUser->isLoggedIn() == FALSE ) {
 	?>
 	<a href="<?php echo $this->request->webroot; ?>users/register/"><?php echo __('register_linkname') ;?></a>
