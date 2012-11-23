@@ -58,6 +58,7 @@
 		<?php endif; ?>
 		<?php echo $this->element('layout/slidetabs'); ?>
 		<div id="content">
+				<script type="text/javascript">$('#content').hide();</script>
 				<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer-pinned">

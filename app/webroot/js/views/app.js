@@ -107,6 +107,12 @@ define([
 							window.location = webroot + 'entries/noupdate/';
 						}, Saito_App_Settings_autoPageReload * 1000);
 				}
+
+				if ((new Date().getTime() - timeAppStart) > 1000) {
+					$('#content').show();
+				} else {
+					$('#content').fadeIn(150, 'easeInOutQuart');
+				}
 			},
 
 			scrollToThread: function(tid) {
