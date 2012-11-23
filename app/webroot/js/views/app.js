@@ -108,7 +108,7 @@ define([
 						}, Saito_App_Settings_autoPageReload * 1000);
 				}
 
-				if ((new Date().getTime() - timeAppStart) > 1000) {
+				if (isMobile || (new Date().getTime() - timeAppStart) > 1500) {
 					$('#content').show();
 				} else {
 					$('#content').fadeIn(150, 'easeInOutQuart');
