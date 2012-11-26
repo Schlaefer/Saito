@@ -783,9 +783,7 @@ class EntriesController extends AppController {
 
 		protected function _automaticalyMarkAsRead() {
 			// ignore browser prefetch
-			if ( (env('HTTP_X_PURPOSE') === 'preview') // Safari
-				|| (env('HTTP_X_MOZ') === 'prefetch') // Firefox
-				) {
+			if ($this->request->isPreview()) {
 				return;
 			} 
 

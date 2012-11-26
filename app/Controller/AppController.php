@@ -28,6 +28,7 @@ class AppController extends Controller {
 			'RequestHandler',
 
 			'Session',
+			'PreviewDetector.PreviewDetector'
 	);
 	public $helpers = array (
 			// app helpers
