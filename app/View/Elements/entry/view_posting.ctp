@@ -188,11 +188,7 @@
 	<?php endif; ?>
 		&nbsp;
 		&nbsp;
-		<?php echo $this->element('entry/bookmark-link', array(
-				'id' => $entry['Entry']['id'],
-				'isBookmarked' => $entry['isBookmarked'],
-				)); ?>
-
+		<?php echo $this->EntryH->bookmarkLink($entry['Entry']['id'], $entry['isBookmarked']); ?>
 	</div>
 
 	<?php endif; ?>

@@ -32,6 +32,50 @@
 		 */
 		protected $_catL10n = array();
 
+		public function bookmarkLink($id, $isBookmarked = false) {
+			$out = '';
+			$bookmark_link_set = $this->Html->link(
+						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark icon-large"></i>',
+						'/bookmarks/index/#' . $id,
+						array(
+								'id'		 => 'bookmarks-add-' . $id,
+								'title'  => __('Entry is bookmarked'),
+								'escape' => false,
+						)
+				);
+
+			if ($isBookmarked) {
+				$out .= $bookmark_link_set;
+			} else {
+				$out .= $this->Html->link(
+						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark-empty icon-large"></i>', '#',
+						array(
+								'id'		 => 'bookmarks-add-' . $id,
+								'title'  => __('Bookmark this entry'),
+								'escape' => false,
+						)
+				);
+				$out .= $this->Html->scriptBlock(<<<EOF
+$(document).ready(function (){
+$("#content").one("click", "#bookmarks-add-{$id}", function (event) {
+	$.ajax({
+		async:true,
+		data:"id={$id}",
+		dataType:"json",
+		success:function (data, textStatus) {
+			$("#bookmarks-add-{$id}").replaceWith('{$bookmark_link_set}');
+			},
+		type:"POST",
+		url:"{$this->webroot}bookmarks/add"
+	});
+	return false;});
+});
+EOF
+				);
+			}
+			return $out;
+		}
+
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
