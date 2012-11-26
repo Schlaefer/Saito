@@ -14,7 +14,7 @@
 							$subject,
 							'/entries/view/'
 							// is not set/unknown when showing preview
-							. (isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null,
+							. ((isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null),
 							array(
 									'class' => 'span_post_type',
 									'escape'	=> false,
