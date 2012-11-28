@@ -92,20 +92,21 @@ define([
 			slideDown: function() {
 				$(this.el).find('.tree_thread > ul > li:not(:first-child)').slideDown('100');
 //				$(this.el).find('.ico-threadOpen').removeClass('ico-threadOpen').addClass('ico-threadCollapse');
-				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
+//				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
 			},
 
 			hide: function() {
 				$(this.el).find('.tree_thread > ul > li:not(:first-child)').hide();
-				$(this.el).find('.ico-threadCollapse').removeClass('ico-threadCollapse').addClass('ico-threadOpen');
+//				$(this.el).find('.ico-threadCollapse').removeClass('ico-threadCollapse').addClass('ico-threadOpen');
 				this.markHidden();
 			},
 
 			markHidden: function() {
-				this.l18n_threadCollapse = $(this.el).find('.btn-threadCollapse').html();
+//				this.l18n_threadCollapse = $(this.el).find('.btn-threadCollapse').html();
 //				$(this.el).find('.ico-threadCollapse').removeClass('ico-threadCollapse').addClass('ico-threadOpen');
-				$(this.el).find('.btn-threadCollapse').prepend('&bull;');
+//				$(this.el).find('.btn-threadCollapse').prepend('&bull;');
 			}
+
 		});
 
 		return ThreadView;

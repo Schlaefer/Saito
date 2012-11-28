@@ -550,6 +550,8 @@ ul.thread { margin: 0 !important; }
 
 .btn-thread_tools { display: inline-block; padding: 5px 0.7em 2px; word-spacing: 0; }
 
+.btn-threadCollapse { position: absolute; width: 30px; text-align: center; }
+
 .thread_inline { display: none; position: relative; margin: 4px 0; /* otherwise link is slidetabs not clickable if inline with is open */ /*	overflow: hidden; */ }
 .thread_inline .btn_back_l, .thread_inline .btn_top_l { float: left; }
 

@@ -62,18 +62,23 @@
 						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
 							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
 						</a>
-						<?php
-							if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
-							// for cached entries this tests if a thread has only the root posting
-						?>
-						<a class="btn-thread_tools btn-threadCollapse" href="#">
-							<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>
-						</a>
-						<?php endif; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 		</div>
-		<?php echo $out; ?>
+		<?php
+			if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
+					// for cached entries this tests if a thread has only the root posting
+					$thread_collapse = <<<EOF
+<a href="#" class="btn-threadCollapse">
+	<i class="icon-caret-down"></i>
+</a>
+EOF;
+					//echo $cacheThreadBoxTitlei18n['btn-threadCollapse'];
+					echo $thread_collapse;
+				endif;
+				echo '<div style="margin-left: 20px;">' . $out . '</div>';
+
+			?>
 	</div>
 </div>
 <?php endforeach; ?>
