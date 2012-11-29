@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-23 12:32+0100\n"
-"PO-Revision-Date: 2012-11-23 12:34+0100\n"
+"POT-Creation-Date: 2012-11-29 12:23+0100\n"
+"PO-Revision-Date: 2012-11-29 12:24+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -86,6 +86,18 @@ msgstr "Installieren"
 #: View/Admins/admin_index.ctp:17
 msgid "Empty Caches"
 msgstr "Cache leeren"
+
+#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:57
+msgid "Stats"
+msgstr "Statistik"
+
+#: View/Admins/admin_stats.ctp:9
+msgid "Entries"
+msgstr "Einträge"
+
+#: View/Admins/admin_stats.ctp:45
+msgid "User Registrations"
+msgstr "Benutzerregistrierungen"
 
 #: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:319
 #: Controller/EntriesController.php:371
@@ -371,14 +383,6 @@ msgstr "flattrn"
 msgid "email_footer"
 msgstr "Diese E-Mail wurde über das Forum %s (%s) gesendet."
 
-#: View/Elements/entry/bookmark-link.ctp:7
-msgid "Entry is bookmarked"
-msgstr "Eintrag ist in den Lesezeichen"
-
-#: View/Elements/entry/bookmark-link.ctp:19
-msgid "Bookmark this entry"
-msgstr "Eintrag zu den Lesezeichen hinzufügen"
-
 #: View/Elements/entry/category-chooser.ctp:12
 #, fuzzy
 msgid "category_chooser_context_exp"
@@ -387,7 +391,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:69
-#: Controller/EntriesController.php:879
+#: Controller/EntriesController.php:877
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -415,13 +419,13 @@ msgstr "alle zu"
 msgid "btn-openThreads"
 msgstr "alle auf"
 
-#: View/Elements/entry/view_content.ctp:59
+#: View/Elements/entry/view_content.ctp:57
 #, php-format
 msgid "%s edited by %s"
 msgstr "%s bearbeitet durch %s"
 
 # msgstr "Aufrufe"
-#: View/Elements/entry/view_content.ctp:70
+#: View/Elements/entry/view_content.ctp:68
 msgid "views_headline"
 msgstr "Aufrufe"
 
@@ -441,21 +445,21 @@ msgstr "Antworten gesperrt durch Moderator."
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
-#: View/Elements/entry/view_posting.ctp:92
-#: View/Elements/entry/view_posting.ctp:120
+#: View/Elements/entry/view_posting.ctp:88
+#: View/Elements/entry/view_posting.ctp:116
 #: Controller/EntriesController.php:477
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:165
+#: View/Elements/entry/view_posting.ctp:156
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:180
+#: View/Elements/entry/view_posting.ctp:167
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:187
+#: View/Elements/entry/view_posting.ctp:170
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
@@ -495,13 +499,13 @@ msgid "About"
 msgstr "Über"
 
 #: View/Elements/layout/disclaimer.ctp:40
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:44
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:52
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr "Angetrieben durch Saito v%s."
 
 #: View/Elements/layout/disclaimer.ctp:42
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:46
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:54
 #, php-format
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
@@ -659,7 +663,7 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:198 View/Helper/EntryHHelper.php:152
+#: View/Entries/add.ctp:198 View/Helper/EntryHHelper.php:196
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
@@ -755,7 +759,7 @@ msgstr "Benutzer"
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:61
+#: View/Layouts/admin.ctp:64
 msgid "Forum"
 msgstr ""
 
@@ -1189,6 +1193,12 @@ msgstr "Smiley bearbeiten"
 msgid "Admin Edit Smiley"
 msgstr "Admin Smiley bearbeiten"
 
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:36
+msgid ""
+":entries mal Seemansgarn in :threads unglaublichen Geschichten; :registred "
+"geheuert, :loggedin an Deck, :anon Blinde Passagiere"
+msgstr ""
+
 #: View/Uploads/add.ctp:10 View/Uploads/index.ctp:29
 msgid "upload_btn"
 msgstr "Hochladen"
@@ -1597,6 +1607,14 @@ msgstr "Sperren"
 msgid "No entries created yet."
 msgstr "Noch keine Beiträge verfasst."
 
+#: Controller/AdminsController.php:44
+msgid "New"
+msgstr "Neu"
+
+#: Controller/AdminsController.php:45
+msgid "Cumulated"
+msgstr "Kumuliert"
+
 #: Controller/BookmarksController.php:68
 msgid "The bookmark could not be saved. Please, try again."
 msgstr ""
@@ -1702,7 +1720,7 @@ msgstr "Thread konnte nicht gelöscht werden."
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:915
+#: Controller/EntriesController.php:913
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1952,7 +1970,7 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:480
+#: View/Helper/BbcodeHelper.php:485
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
@@ -1962,7 +1980,7 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:498
+#: View/Helper/BbcodeHelper.php:503
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
@@ -1972,29 +1990,37 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:735
+#: View/Helper/BbcodeHelper.php:740
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:843
+#: View/Helper/BbcodeHelper.php:848
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:851
+#: View/Helper/BbcodeHelper.php:856
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:149
+#: View/Helper/EntryHHelper.php:42
+msgid "Entry is bookmarked"
+msgstr "Eintrag ist in den Lesezeichen"
+
+#: View/Helper/EntryHHelper.php:54
+msgid "Bookmark this entry"
+msgstr "Eintrag zu den Lesezeichen hinzufügen"
+
+#: View/Helper/EntryHHelper.php:193
 msgid "fixed"
 msgstr "Thread fixiert"
 
-#: View/Helper/EntryHHelper.php:164
+#: View/Helper/EntryHHelper.php:208
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:167
+#: View/Helper/EntryHHelper.php:211
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
