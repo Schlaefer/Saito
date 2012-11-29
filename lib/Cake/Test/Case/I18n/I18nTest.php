@@ -31,6 +31,8 @@ class I18nTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
+
 		Cache::delete('object_map', '_cake_core_');
 		App::build(array(
 			'Locale' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Locale' . DS),
@@ -45,6 +47,8 @@ class I18nTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+
 		Cache::delete('object_map', '_cake_core_');
 		App::build();
 		CakePlugin::unload();
@@ -1889,7 +1893,7 @@ class I18nTest extends CakeTestCase {
 	private function __domainPlural($domain = 'test_plugin') {
 		$plurals = array();
 		for ($number = 0; $number <= 25; $number++) {
-			$plurals[] = sprintf(__dn($domain, '%d = 1', '%d = 0 or > 1', (float)$number), (float)$number );
+			$plurals[] = sprintf(__dn($domain, '%d = 1', '%d = 0 or > 1', (float)$number), (float)$number);
 		}
 		return $plurals;
 	}
@@ -1945,7 +1949,7 @@ class I18nTest extends CakeTestCase {
 	private function __pluralFromCore() {
 		$plurals = array();
 		for ($number = 0; $number <= 25; $number++) {
-			$plurals[] = sprintf(__n('%d = 1 (from core)', '%d = 0 or > 1 (from core)', (float)$number), (float)$number );
+			$plurals[] = sprintf(__n('%d = 1 (from core)', '%d = 0 or > 1 (from core)', (float)$number), (float)$number);
 		}
 		return $plurals;
 	}

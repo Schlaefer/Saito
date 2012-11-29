@@ -1,4 +1,6 @@
 <?php
+	
+	App::uses('AppController', 'Controller');
 
 /**
  * Description of uploads_controller

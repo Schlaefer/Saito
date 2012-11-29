@@ -171,6 +171,19 @@ class Configure {
 	}
 
 /**
+ * Returns true if given variable is set in Configure.
+ *
+ * @param string $var Variable name to check for
+ * @return boolean True if variable is there
+ */
+	public static function check($var = null) {
+		if (empty($var)) {
+			return false;
+		}
+		return Hash::get(self::$_values, $var) !== null;
+	}
+
+/**
  * Used to delete a variable from Configure.
  *
  * Usage:
@@ -185,7 +198,6 @@ class Configure {
  */
 	public static function delete($var = null) {
 		$keys = explode('.', $var);
-		$last = array_pop($keys);
 		self::$_values = Hash::remove(self::$_values, $var);
 	}
 
@@ -261,15 +273,11 @@ class Configure {
  * @throws ConfigureException Will throw any exceptions the reader raises.
  */
 	public static function load($key, $config = 'default', $merge = true) {
-		if (!isset(self::$_readers[$config])) {
-			if ($config === 'default') {
-				App::uses('PhpReader', 'Configure');
-				self::$_readers[$config] = new PhpReader();
-			} else {
-				return false;
-			}
+		$reader = self::_getReader($config);
+		if (!$reader) {
+			return false;
 		}
-		$values = self::$_readers[$config]->read($key);
+		$values = $reader->read($key);
 
 		if ($merge) {
 			$keys = array_keys($values);
@@ -286,7 +294,7 @@ class Configure {
 /**
  * Dump data currently in Configure into $filename.  The serialization format
  * is decided by the config reader attached as $config.  For example, if the
- * 'default' adapter is a PhpReader, the generated file will be a PHP 
+ * 'default' adapter is a PhpReader, the generated file will be a PHP
  * configuration file loadable by the PhpReader.
  *
  * ## Usage
@@ -303,23 +311,42 @@ class Configure {
  * @param string $key The identifier to create in the config adapter.
  *   This could be a filename or a cache key depending on the adapter being used.
  * @param string $config The name of the configured adapter to dump data with.
- * @param array $keys The name of the top-level keys you want to dump. 
+ * @param array $keys The name of the top-level keys you want to dump.
  *   This allows you save only some data stored in Configure.
  * @return boolean success
  * @throws ConfigureException if the adapter does not implement a `dump` method.
  */
 	public static function dump($key, $config = 'default', $keys = array()) {
-		if (empty(self::$_readers[$config])) {
-			throw new ConfigureException(__d('cake', 'There is no "%s" adapter.', $config));
+		$reader = self::_getReader($config);
+		if (!$reader) {
+			throw new ConfigureException(__d('cake_dev', 'There is no "%s" adapter.', $config));
 		}
-		if (!method_exists(self::$_readers[$config], 'dump')) {
-			throw new ConfigureException(__d('cake', 'The "%s" adapter, does not have a dump() method.', $config));
+		if (!method_exists($reader, 'dump')) {
+			throw new ConfigureException(__d('cake_dev', 'The "%s" adapter, does not have a dump() method.', $config));
 		}
 		$values = self::$_values;
 		if (!empty($keys) && is_array($keys)) {
 			$values = array_intersect_key($values, array_flip($keys));
 		}
-		return (bool)self::$_readers[$config]->dump($key, $values);
+		return (bool)$reader->dump($key, $values);
+	}
+
+/**
+ * Get the configured reader. Internally used by `Configure::load()` and `Configure::dump()`
+ * Will create new PhpReader for default if not configured yet.
+ *
+ * @param string $config The name of the configured adapter
+ * @return mixed Reader instance or false
+ */
+	protected static function _getReader($config) {
+		if (!isset(self::$_readers[$config])) {
+			if ($config !== 'default') {
+				return false;
+			}
+			App::uses('PhpReader', 'Configure');
+			self::config($config, new PhpReader());
+		}
+		return self::$_readers[$config];
 	}
 
 /**
@@ -381,7 +408,7 @@ class Configure {
 	}
 /**
  * Set the error and exception handlers.
- * 
+ *
  * @param array $error The Error handling configuration.
  * @param array $exception The exception handling configuration.
  * @return void

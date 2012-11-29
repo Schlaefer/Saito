@@ -32,6 +32,50 @@
 		 */
 		protected $_catL10n = array();
 
+		public function bookmarkLink($id, $isBookmarked = false) {
+			$out = '';
+			$bookmark_link_set = $this->Html->link(
+						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark icon-large"></i>',
+						'/bookmarks/index/#' . $id,
+						array(
+								'id'		 => 'bookmarks-add-' . $id,
+								'title'  => __('Entry is bookmarked'),
+								'escape' => false,
+						)
+				);
+
+			if ($isBookmarked) {
+				$out .= $bookmark_link_set;
+			} else {
+				$out .= $this->Html->link(
+						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark-empty icon-large"></i>', '#',
+						array(
+								'id'		 => 'bookmarks-add-' . $id,
+								'title'  => __('Bookmark this entry'),
+								'escape' => false,
+						)
+				);
+				$out .= $this->Html->scriptBlock(<<<EOF
+$(document).ready(function (){
+$("#content").one("click", "#bookmarks-add-{$id}", function (event) {
+	$.ajax({
+		async:true,
+		data:"id={$id}",
+		dataType:"json",
+		success:function (data, textStatus) {
+			$("#bookmarks-add-{$id}").replaceWith('{$bookmark_link_set}');
+			},
+		type:"POST",
+		url:"{$this->webroot}bookmarks/add"
+	});
+	return false;});
+});
+EOF
+				);
+			}
+			return $out;
+		}
+
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
@@ -54,7 +98,7 @@
 
 		public function hasNewEntries($entry, $user) {
 			if ($entry['Entry']['pid'] != 0):
-				throw new InvalidArgumentException("Entry is no thread-root, pid != 0");
+				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
 			endif;
 
 			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
@@ -134,7 +178,7 @@
 		 */
 		public function getFastLink($entry, $params = array( 'class' => '' )) {
 //		Stopwatch::start('Helper->EntryH->getFastLink()');
-			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . "</a>";
+			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . '</a>';
 //		Stopwatch::stop('Helper->EntryH->getFastLink()');
 			return $out;
 		}
@@ -198,7 +242,7 @@
 			);
 			extract($params);
 
-			$new_post_class = (($is_new_post) ? " new" : '');
+			$new_post_class = (($is_new_post) ? ' new' : '');
 			$thread_line_cached = $this->threadLineCached($entry_sub, $level);
 
 			// generate current entry
@@ -209,7 +253,7 @@
 	<div class="js-thread_line-content {$entry_sub['Entry']['id']} thread_line {$new_post_class}" data-id="{$entry_sub['Entry']['id']}" style='position: relative;'>
 		<div class="thread_line-pre">
 			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
-				<i class="icon-{$span_post_type}"></i>
+				&bull;
 			</a>
 		</div>
 		<a href='{$this->request->webroot}entries/view/{$entry_sub['Entry']['id']}'
@@ -282,15 +326,13 @@ EOF;
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="mobile-nl">
-  <span class="thread_line-username">
-    <span class="mobile-hide"> – </span>
-		{$entry_sub['User']['username']}
-	</span>
-	{$category}
-	<span class="thread_line-post">
-	  {$time} {$badges}
-  </span>
+<span class="thread_line-username">
+	 –
+	{$entry_sub['User']['username']}
+</span>
+{$category}
+<span class="thread_line-post">
+	{$time} {$badges}
 </span>
 EOF;
 			return $out;

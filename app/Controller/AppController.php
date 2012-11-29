@@ -28,6 +28,7 @@ class AppController extends Controller {
 			'RequestHandler',
 
 			'Session',
+			'PreviewDetector.PreviewDetector'
 	);
 	public $helpers = array (
 			// app helpers
@@ -48,15 +49,6 @@ class AppController extends Controller {
 			'Setting',
 			'User',
 	);
-
-	/**
-	 * use themes
-	 *
-	 * deprecated in CakePHP 2.1
-	 *
-	 * @var string
-	 */
-	public $viewClass = 'Theme';
 
 	/**
 	 * name of the theme used
@@ -262,9 +254,7 @@ class AppController extends Controller {
 	protected function _beforeFilterAdminArea() {
     // protect the admin area
     if ( $this->CurrentUser->isAdmin() !== TRUE ) :
-      $this->redirect('/');
       throw new ForbiddenException();
-      exit();
     endif;
 
 		$this->layout = 'admin';
@@ -292,7 +282,7 @@ class AppController extends Controller {
 			if (!isset($this->Entry)) {
 				$this->loadModel('Entry');
 			}
-			$loggedin_users = $this->Entry->User->UserOnline->getLoggedIn();
+			$loggedin_users = $this->User->UserOnline->getLoggedIn();
 			$this->set('UsersOnline', $loggedin_users);
 
 			/* @var $header_counter array or false */

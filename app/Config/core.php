@@ -7,12 +7,12 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       app.Config
  * @since         CakePHP(tm) v 0.2.9
@@ -48,7 +48,7 @@
  *
  * Options:
  *
- * - `handler` - callback - The callback to handle errors. You can set this to any callback type,
+ * - `handler` - callback - The callback to handle errors. You can set this to any callable type,
  *    including anonymous functions.
  * - `level` - int - The level of errors you are interested in capturing.
  * - `trace` - boolean - Include stack traces for errors in log files.
@@ -234,80 +234,16 @@
 	date_default_timezone_set('UTC');
 
 /**
+ * Configure the cache handlers that CakePHP will use for internal
+ * metadata like class maps, and model schema.
  *
- * Cache Engine Configuration
- * Default settings provided below
+ * By default File is used, but for improved performance you should use APC.
  *
- * File storage engine.
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'File', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- * 		'path' => CACHE, //[optional] use system tmp directory - remember to use absolute path
- * 		'prefix' => 'cake_', //[optional]  prefix every cache file with this string
- * 		'lock' => false, //[optional]  use file locking
- * 		'serialize' => true, [optional]
- *	));
- *
- * APC (http://pecl.php.net/package/APC)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Apc', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
- *
- * Xcache (http://xcache.lighttpd.net/)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Xcache', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional] prefix every cache file with this string
- *		'user' => 'user', //user from xcache.admin.user settings
- *		'password' => 'password', //plaintext password (xcache.admin.pass)
- *	));
- *
- * Memcache (http://memcached.org/)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Memcache', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- * 		'servers' => array(
- * 			'127.0.0.1:11211' // localhost, default port 11211
- * 		), //[optional]
- * 		'persistent' => true, // [optional] set this to false for non-persistent connections
- * 		'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
- *	));
- *
- *  Wincache (http://php.net/wincache)
- *
- * 	 Cache::config('default', array(
- *		'engine' => 'Wincache', //[required]
- *		'duration'=> 3600, //[optional]
- *		'probability'=> 100, //[optional]
- *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
- *	));
- */
-
-/**
- * Pick the caching engine to use.  If APC is enabled use it.
- * If running via cli - apc is disabled by default. ensure it's available and enabled in this case
- *
+ * Note: 'default' and other application caches should be configured in app/Config/bootstrap.php.
+ *       Please check the comments in boostrap.php for more info on the cache engines available
+ *       and their setttings.
  */
 $engine = 'File';
-if (extension_loaded('apc') && function_exists('apc_dec') && (php_sapi_name() !== 'cli' || ini_get('apc.enable_cli'))) {
-	$engine = 'Apc';
-}
-
-/**
- * Default Cache
- */
-Cache::config('default', array( 'engine' => $engine ));
 
 // In development mode, caches should expire quickly.
 $duration = '+999 days';
@@ -315,26 +251,8 @@ if (Configure::read('debug') >= 1) {
 	$duration = '+10 seconds';
 }
 
-/**
- * Long term cache for performance cheating
- */
-	Cache::config('postings',
-			array(
-			'engine'	 => $engine,
-			'groups'	 => array('postings'),
-			'prefix'	 => 'saito_postings_',
-			'duration' => 3600,
-	));
-
-/**
- * Short term cache for performance cheating
- */
-	Cache::config('perf-cheat',
-			array(
-			'engine'	 => $engine,
-			'prefix'	 => 'saito_perf-cheat_',
-			'duration' => 180,
-	));
+// Prefix each application on the same server with a different string, to avoid Memcache and APC conflicts.
+$prefix = 'saito_';
 
 /**
  * Configure the cache used for general framework caching.  Path information,
@@ -342,7 +260,7 @@ if (Configure::read('debug') >= 1) {
  */
 Cache::config('_cake_core_', array(
 	'engine' => $engine,
-	'prefix' => 'cake_core_',
+	'prefix' => $prefix . 'cake_core_',
 	'path' => CACHE . 'persistent' . DS,
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
@@ -354,7 +272,7 @@ Cache::config('_cake_core_', array(
  */
 Cache::config('_cake_model_', array(
 	'engine' => $engine,
-	'prefix' => 'cake_model_',
+	'prefix' => $prefix . 'cake_model_',
 	'path' => CACHE . 'models' . DS,
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration

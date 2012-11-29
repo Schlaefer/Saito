@@ -39,7 +39,7 @@
 			$Users						 = $this->generate('Users',
 					array(
 					'models' => array(
-							'User'
+							'User' => array('register')
 					)
 					));
 			$this->_loginUser(1);
@@ -132,7 +132,7 @@
 
 			$Users = $this->generate('Users',
 					array(
-					'models' => array('User')
+					'models' => array('User' => array('register'))
 					));
 			$Users->User->expects($this->never())
 					->method('register');
@@ -160,7 +160,7 @@
 
 			$Users = $this->generate('Users',
 					array(
-					'models' => array('User')
+					'models' => array('User' => array('register'))
 					));
 			$Users->User->expects($this->once())
 					->method('register');
@@ -170,7 +170,7 @@
 			);
 		}
 
-		public function testRegisterCheckboxNotOnPage() {
+		public function tes1RegisterCheckboxNotOnPage() {
 			Configure::write('Saito.Settings.tos_enabled', false);
 			$result = $this->testAction('users/register', array('return' => 'view'));
 			$this->assertNotContains('data[User][tos_confirm]', $result);
@@ -209,7 +209,7 @@
 			$Users = $this->generate('Users',
 					array(
 					'methods' => array('email'),
-					'models' => array('User'),
+					'models' => array('User' => array('register'))
 					));
 			$Users->User->expects($this->once())
 					->method('register')
@@ -431,7 +431,7 @@
 			$this->testAction( '/admin/users/delete/5', array( 'data' => $data));
       $this->controller->User->contain();
       $result = $this->controller->User->findById(5);
-      $this->assertFalse($result);
+      $this->assertEmpty($result);
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
     }
 
@@ -587,7 +587,6 @@
 					));
 			$Users = $this->generate('Users',
 					array(
-									'models'		 => array('User'),
 									'components' => array('SaitoEmail' => array('email'))
 							));
 			$Users->SaitoEmail->expects($this->once())

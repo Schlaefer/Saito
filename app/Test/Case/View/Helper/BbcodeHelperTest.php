@@ -366,7 +366,6 @@
 		}
 
 		public function testIframe() {
-			$this->Bbcode->isParserInitialized = FALSE;
 			$bbcode_img = Configure::read('Saito.Settings.bbcode_img');
 			Configure::write('Saito.Settings.bbcode_img', true);
 
@@ -433,7 +432,6 @@
 		}
 
 		public function testExternalImage() {
-			$this->Bbcode->isParserInitialized = FALSE;
 			$bbcode_img = Configure::read('Saito.Settings.bbcode_img');
 			Configure::write('Saito.Settings.bbcode_img', true);
 
@@ -521,7 +519,6 @@
 		}
 
 		public function testInternalImage() {
-			  $this->Bbcode->isParserInitialized = FALSE;
 			  $bbcode_img = Configure::read('Saito.Settings.bbcode_img');
 			  Configure::write('Saito.Settings.bbcode_img', true);
 

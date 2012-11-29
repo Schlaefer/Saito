@@ -69,11 +69,11 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	protected $_Parser;
 
 	/**
-	 * Stores if parser is initialized.
+	 * Initialized parsers
 	 * 
-	 * @var string
+	 * @var array
 	 */
-	public $isParserInitialized = FALSE;
+	protected $_initializedParsers = array();
 
 	public function __construct(View $View, $settings = array()) {
 		parent::__construct($View, $settings);
@@ -113,14 +113,19 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param array $options
 	 */
 	protected function _initParser(array $options = array( )) {
-		if ( $this->isParserInitialized === TRUE )
-			return;
 
 		$defaults = array(
 				// allows to supress the output of media elements
-				'multimedia' => true
+				'multimedia' => true,
 		);
 		$options = array_merge($defaults, $options);
+
+		$fp = md5(serialize($options));
+		if (isset($this->_initializedParsers[$fp])) {
+			$this->_Parser = $this->_initializedParsers[$fp];
+			return;
+		}
+
 		extract($options);
 
 		$this->_Parser = ClassRegistry::init('StringParser_BBCode');
@@ -307,7 +312,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				array( 'block'), array( )
 		);
 
-		$this->_isParserInitialized = TRUE;
+		$this->_initializedParsers[$fp] = $this->_Parser;
 	}
 
 	/**
@@ -333,7 +338,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$options = array_merge($defaults, $options);
 		extract($options);
 
-		Stopwatch::start('_smilies');
+//		Stopwatch::start('_smilies');
 
 		// Building Smilies 
 		// @td refactor: MVC|method?
@@ -395,7 +400,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			}
 		}
 
-		Stopwatch::stop('_smilies');
+//		Stopwatch::stop('_smilies');
 		return implode('', $string_array);
 	}
 

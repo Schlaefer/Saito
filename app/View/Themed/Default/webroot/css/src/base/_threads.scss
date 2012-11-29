@@ -2,6 +2,8 @@
  * Threads
  ******************************************************************************/
 
+$subthread-margin: 25px !default;
+
 // thread and reply links
 // -------------------------------------
 /* dont forget to change the userpref css in user_h.php if you do changes here */
@@ -27,7 +29,7 @@ ul.thread, ul.threadnew {
 
 ul.reply, ul.replynew {
   list-style-type: none;
-  margin: 0 0 0 30px;
+  margin: 0 0 0 $subthread-margin;
   list-style-type: none; }
 
 ul.deep-reply {
@@ -42,14 +44,15 @@ ul.deep-reply {
 	position: absolute;
 	vertical-align: text-top;
 	height: 19px;
-	font-size: 13px;
-  > a > i {
-    padding-top: 1px;
-    }
+	> a {
+		display: inline-block;
+		width: 30px;
+		text-align: center;
+		}
 	}
 
 .thread_line-content {
-	padding-left: 18px;
+	padding-left: 25px;
 	display: block;
   word-break: break-word;
 	&:hover{
@@ -76,57 +79,31 @@ ul.deep-reply {
   overflow: hidden; }
 
 
-  .tree_thread {
+.tree_thread {
   @extend .box-content;
-  padding: 8px;
-  margin-bottom: 4px;
+  padding: 0 1em 1em 1em;
+  margin-bottom: 1em;
   .img_pencil {
     visibility: hidden; }
   ul:first-child {
-    margin-left: 30px; } }
+    margin-left: $subthread-margin; } }
 
 ul.thread {
   margin: 0 !important; }
 
 .thread_box {
   /* user_list und inline view sollen sauber getrennt bleiben */
-  /*	overflow: hidden; */ }
+  /*	overflow: hidden; */
+	}
 
 .thread_tools {
-  opacity: 0.2;
-  border-style: solid;
-  border-color: $saito_gray_dark;
-  border-width: $border_width $border_width 0 $border_width;
-  display: inline-block;
-  margin-left: 35px;
-  border-top-left-radius:$corner_radius;
-  border-top-right-radius:$corner_radius;
-  ul,li {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    display: inline; }
-  li {
-    // setting explizit height for Firefox only
-    height: 15px;
-    float: left; }
-  a {
-    padding: 1px 10px;
-    display: inline-block;
-    text-align: center;
-    width: 13px;
-    height: 13px;
-    &:active {
-      background-color: $saito_gray_dark; } }
-  li {
-    border-right: $border_width solid $saito_gray_dark; }
-  li:first-child {
-    /* we need this for the active state */
-    border-top-left-radius:$corner_radius; }
-  li:last-child {
-    border: none;
-    /* we need this for the active state */
-    border-top-right-radius:$corner_radius; } }
+	font-size: 90%;
+	}
+.btn-thread_tools {
+	display: inline-block;
+	padding: 5px 0.7em 2px;
+	word-spacing: 0;
+	}
 
 .thread_inline {
   display: none;

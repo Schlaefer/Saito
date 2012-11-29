@@ -55,6 +55,21 @@ class TestTask extends BakeTask {
 	);
 
 /**
+ * Mapping between packages, and their baseclass + package.
+ * This is used to generate App::uses() call to autoload base
+ * classes if a developer has forgotten to do so.
+ *
+ * @var array
+ */
+	public $baseTypes = array(
+		'Model' => array('Model', 'Model'),
+		'Behavior' => array('ModelBehavior', 'Model'),
+		'Controller' => array('Controller', 'Controller'),
+		'Component' => array('Component', 'Controller'),
+		'Helper' => array('Helper', 'View')
+	);
+
+/**
  * Internal list of fixtures that have been added so far.
  *
  * @var array
@@ -68,15 +83,16 @@ class TestTask extends BakeTask {
  */
 	public function execute() {
 		parent::execute();
-		if (empty($this->args)) {
+		$count = count($this->args);
+		if (!$count) {
 			$this->_interactive();
 		}
 
-		if (count($this->args) == 1) {
+		if ($count === 1) {
 			$this->_interactive($this->args[0]);
 		}
 
-		if (count($this->args) > 1) {
+		if ($count > 1) {
 			$type = Inflector::classify($this->args[0]);
 			if ($this->bake($type, $this->args[1])) {
 				$this->out('<success>Done</success>');
@@ -132,6 +148,8 @@ class TestTask extends BakeTask {
 		} elseif ($this->interactive) {
 			$this->getUserFixtures();
 		}
+		list($baseClass, $baseType) = $this->getBaseType($type);
+		App::uses($baseClass, $baseType);
 		App::uses($fullClassName, $realType);
 
 		$methods = array();
@@ -312,6 +330,21 @@ class TestTask extends BakeTask {
 	}
 
 /**
+ * Get the base class and package name for a given type.
+ *
+ * @param string $type The type the class having a test
+ *   generated for is in.
+ * @return array Array of (class, type)
+ * @throws CakeException on invalid types.
+ */
+	public function getBaseType($type) {
+		if (empty($this->baseTypes[$type])) {
+			throw new CakeException(__d('cake_dev', 'Invalid type name'));
+		}
+		return $this->baseTypes[$type];
+	}
+
+/**
  * Get methods declared in the class given.
  * No parent methods will be returned
  *
@@ -479,6 +512,7 @@ class TestTask extends BakeTask {
  */
 	public function generateUses($type, $realType, $className) {
 		$uses = array();
+		$type = strtolower($type);
 		if ($type == 'component') {
 			$uses[] = array('ComponentCollection', 'Controller');
 			$uses[] = array('Component', 'Controller');

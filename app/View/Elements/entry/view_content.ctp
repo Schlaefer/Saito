@@ -12,12 +12,9 @@
 				if ($this->request->action !== 'preview' && ( $this->request->is('ajax') || $this->request->action === 'mix')) {
 					echo $this->Html->link(
 							$subject,
-							array(
-									'controller' => 'entries',
-									'action' => 'view',
-									// is not set/unknown when showing preview
-									(isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null,
-								),
+							'/entries/view/'
+							// is not set/unknown when showing preview
+							. ((isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null),
 							array(
 									'class' => 'span_post_type',
 									'escape'	=> false,
@@ -30,9 +27,10 @@
       – 
       <span class="thread_line-username">
         <?php  if ($CurrentUser->isLoggedIn()) : ?>
-          <?php echo  $this->Html->link($entry['User']['username'],
-                                  array( 'controller' => 'users', 'action' => 'view', $entry['User']['id'])
-                      ); ?>
+          <?php echo  $this->Html->link(
+								$entry['User']['username'],
+								'/users/view/' . $entry['User']['id']
+					); ?>
         <?php  else : ?>
           <?php echo  $entry['User']['username'] ?>
         <?php  endif; ?>

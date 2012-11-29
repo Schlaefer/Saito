@@ -237,7 +237,7 @@
 					)
 					)
 			);
-			return $results;
+			return empty($results) ? false : $results;
 		}
 
 		/**

@@ -16,14 +16,20 @@
     <div class="disclaimer-inside">
       <h3><?php echo __('Status'); ?></h3>
       <?php
-        echo
-        __('%s Entries in %s Threads; %s registred users, %s logged in, %s anonymous.',
-            number_format($HeaderCounter['entries'], null, null, '.'),
-            number_format($HeaderCounter['threads'], null, null, '.'),
-            number_format($HeaderCounter['user'], null, null, '.'),
-            $HeaderCounter['user_registered'],
-            $HeaderCounter['user_anonymous']
-          );
+				$loggedin = $HeaderCounter['user_registered'];
+				if ($CurrentUser->isLoggedIn()) {
+					$loggedin = $this->Html->link($loggedin, '/users/index');
+				}
+				echo String::insert(
+						__(':entries Entries in :threads Threads; :registred registred users, :loggedin logged in, :anon anonymous'),
+						array(
+								'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
+								'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
+								'registred' => number_format($HeaderCounter['user'], null, null, '.'),
+								'loggedin' => $loggedin,
+								'anon' => $HeaderCounter['user_anonymous']
+						)
+					);
       ?>
     </div>
   </div>

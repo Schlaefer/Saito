@@ -1,7 +1,18 @@
 <?php $this->start('slidetab-header'); ?>
 	<div class="btn-slidetabUserlist">
+		<div id="slidetabUserlist-counter"
+				 style="display: <?php echo $isOpen ? 'none' : 'block' ?>;">
+			<div class="slidetabUserlist-counter-inner">
+				<?php echo $HeaderCounter['user_registered']; ?>
+			</div>
+		</div>
 		<i class="icon-group icon-large"></i>
 	</div>
+	<script>
+		$('#slidetab_userlist .slidetab-tab-button').on('click', function(event) {
+				$('#slidetabUserlist-counter').toggle();
+		});
+	</script>
 <?php $this->end('slidetab-header'); ?>
 <?php $this->start('slidetab-content'); ?>
 <?php  if ($CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>

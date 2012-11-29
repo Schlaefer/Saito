@@ -1,5 +1,7 @@
 <?php
-App::uses('AppController', 'Controller');
+
+	App::uses('AppController', 'Controller');
+
 /**
  * Bookmarks Controller
  *

@@ -153,7 +153,7 @@
 
       // user is deleted
       $result = $this->User->findById(3);
-      $this->assertEqual($result, 0);
+      $this->assertEqual($result, array());
 
       // make sure we delete without cascading to associated models
       $expected = $entriesBeforeDelete;
@@ -351,7 +351,7 @@
 			$this->assertTrue($result == true);
 
 			$result = $this->User->findByUsername('Ronald');
-			$this->assertFalse($result);
+			$this->assertEmpty($result);
 
 			$user_count_after_action = $this->User->find('count');
 			$this->assertEqual($user_count_before_action, $user_count_after_action - 1);

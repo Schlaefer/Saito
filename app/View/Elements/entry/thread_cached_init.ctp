@@ -33,55 +33,48 @@
 	 */
 ?>
 <div class="thread_box <?php echo $entry_sub['Entry']['id'];?>" data-id="<?php echo $entry_sub['Entry']['id'];?>">
-	<?php if ($level == 0 && $this->request->params['action'] == 'index') : ?>
-	<div class="thread_tools <?php echo $entry_sub['Entry']['id'];?>">
-	<ul>
-			<li>
-				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub["Entry"]['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" title="<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>">
-          <span class="ico-threadTool ico-threadOpenMix"></span>
-				</a>
-			</li>
-			<?php if ($CurrentUser->isLoggedIn()): ?>
-				<?php
-					if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
-					// for cached entries this tests if a thread has only the root posting
-				?>
-					<li>
-						<a class="btn-threadCollapse" href="#" title="<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>">
-							<span class="ico-threadTool ico-threadCollapse"></span>
-						</a>
-					</li>
-				<?php endif; ?>
-				<?php
+	<div class='tree_thread <?php echo $entry_sub['Entry']['id'];?>'>
+		<div class="thread_tools">
+			<?php if ($level == 0 && $this->request->params['action'] == 'index') : ?>
+					<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub['Entry']['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" class="btn-thread_tools">
+						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
+					</a>
+					<?php if ($CurrentUser->isLoggedIn()): ?>
+						<?php
 						if ($this->request->params['action'] != 'view') :
+							$tag = 'div';
 							if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
 								// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
 								// keinen Show All New Inline View Eintrag
-							?>
-							<li>
-								<a href="#" class="js-btn-showAllNewThreadlines" title="<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>">
-									<span class="ico-threadTool ico-threadOpenNew"></span>
-								</a>
-							</li>
-							<?php
+								$tag = 'a';
+								?>
+								<?php
 							endif;
 						endif;
-				?>
-				<li>
-					<a href="#" class="js-btn-closeAllThreadlines" title="<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>">
-            <span class="ico-threadTool ico-threadCloseInline"></span>
-					</a>
-				</li>
-				<li>
-					<a href="#" class="js-btn-openAllThreadlines" title="<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>">
-						<span class="ico-threadTool ico-threadOpenInline"></span>
-					</a>
-				</li>
-			<?php endif; ?>
-		</ul>
-	</div> <!-- thread_tools -->
-	<?php endif; ?>
-	<div class='tree_thread <?php echo $entry_sub['Entry']['id'];?>'><?php echo $out; ?></div>
+						?>
+						<<?php echo $tag; ?> href="#" class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
+									<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
+						</<?php echo $tag; ?>>
+
+						<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
+							<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
+						</a>
+						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
+							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
+						</a>
+						<?php
+							if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
+							// for cached entries this tests if a thread has only the root posting
+						?>
+						<a class="btn-thread_tools btn-threadCollapse" href="#">
+							<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>
+						</a>
+						<?php endif; ?>
+					<?php endif; ?>
+				<?php endif; ?>
+		</div>
+		<?php echo $out; ?>
+	</div>
 </div>
 <?php endforeach; ?>
 <?php echo Stopwatch::stop('entries/thread_cached_init'); ?>

@@ -87,6 +87,22 @@ define([
 					});
 				});
 
+				// initiate page reload
+				// @td make App property instead of global
+				autoPageReloadTimer = null;
+				if (Saito_App_Settings_autoPageReload) {
+					autoPageReloadTimer = setTimeout(
+						function() {
+							window.location = webroot + 'entries/noupdate/';
+						}, Saito_App_Settings_autoPageReload * 1000);
+				}
+
+				if (isMobile || (new Date().getTime() - timeAppStart) > 1500) {
+					$('#content').show();
+				} else {
+					$('#content').fadeIn(150, 'easeInOutQuart');
+				}
+
 				// scroll to thread
 				if (window.location.href.indexOf('/jump:') > -1) {
 					var results = /jump:(\d+)/.exec(window.location.href);
@@ -98,15 +114,6 @@ define([
 					);
 				}
 
-				// initiate page reload
-				// @td make App property instead of global
-				autoPageReloadTimer = null;
-				if (Saito_App_Settings_autoPageReload) {
-					autoPageReloadTimer = setTimeout(
-						function() {
-							window.location = webroot + 'entries/noupdate/';
-						}, Saito_App_Settings_autoPageReload * 1000);
-				}
 			},
 
 			scrollToThread: function(tid) {

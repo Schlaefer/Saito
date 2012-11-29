@@ -27,14 +27,22 @@
 	<div class="center">
     <div class="disclaimer-inside">
       <h3><?php echo __('Status'); ?></h3>
-			<?php echo  number_format($HeaderCounter['entries'],
-					null, null, '.') ?> mal Seemannsgarn in
-			<?php echo  number_format($HeaderCounter['threads'],
-					null, null, '.') ?> unglaublichen Geschichten;
-			<?php echo  number_format($HeaderCounter['user'],
-					null, null, '.') ?> geheuert,
-			<?php echo  $HeaderCounter['user_registered'] ?> an Deck,
-			<?php echo  $HeaderCounter['user_anonymous'] ?> Blinde Passagiere.
+      <?php
+				$loggedin = $HeaderCounter['user_registered'];
+				if ($CurrentUser->isLoggedIn()) {
+					$loggedin = $this->Html->link($loggedin, '/users/index');
+				}
+				echo String::insert(
+						__(':entries mal Seemansgarn in :threads unglaublichen Geschichten; :registred geheuert, :loggedin an Deck, :anon Blinde Passagiere'),
+						array(
+								'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
+								'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
+								'registred' => number_format($HeaderCounter['user'], null, null, '.'),
+								'loggedin' => $loggedin,
+								'anon' => $HeaderCounter['user_anonymous']
+						)
+					);
+      ?>
 		</div>
 	</div>
 	<div class="right">

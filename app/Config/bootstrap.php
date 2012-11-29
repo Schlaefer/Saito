@@ -1,60 +1,197 @@
 <?php
 /**
- * This file is loaded automatically by the app/webroot/index.php file after the core bootstrap.php
+ * This file is loaded automatically by the app/webroot/index.php file after core.php
  *
- * This is an application wide file to load any function that is not used within a class
- * define. You can also use this to include or require any files in your application.
+ * This file should load/create any application wide configuration settings, such as
+ * Caching, Logging, loading additional configuration files.
  *
- * PHP versions 4 and 5
+ * You should also use this file to include any files that provide global functions/constants
+ * that your application uses.
+ *
+ * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake
- * @subpackage    cake.app.config
+ * @package       app.Config
  * @since         CakePHP(tm) v 0.10.8.2117
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
 /**
+ * Cache Engine Configuration
+ * Default settings provided below
+ *
+ * File storage engine.
+ *
+ * 	 Cache::config('default', array(
+ *		'engine' => 'File', //[required]
+ *		'duration'=> 3600, //[optional]
+ *		'probability'=> 100, //[optional]
+ * 		'path' => CACHE, //[optional] use system tmp directory - remember to use absolute path
+ * 		'prefix' => 'cake_', //[optional]  prefix every cache file with this string
+ * 		'lock' => false, //[optional]  use file locking
+ * 		'serialize' => true, // [optional]
+ * 		'mask' => 0666, // [optional] permission mask to use when creating cache files
+ *	));
+ *
+ * APC (http://pecl.php.net/package/APC)
+ *
+ * 	 Cache::config('default', array(
+ *		'engine' => 'Apc', //[required]
+ *		'duration'=> 3600, //[optional]
+ *		'probability'=> 100, //[optional]
+ * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+ *	));
+ *
+ * Xcache (http://xcache.lighttpd.net/)
+ *
+ * 	 Cache::config('default', array(
+ *		'engine' => 'Xcache', //[required]
+ *		'duration'=> 3600, //[optional]
+ *		'probability'=> 100, //[optional]
+ *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional] prefix every cache file with this string
+ *		'user' => 'user', //user from xcache.admin.user settings
+ *		'password' => 'password', //plaintext password (xcache.admin.pass)
+ *	));
+ *
+ * Memcache (http://memcached.org/)
+ *
+ * 	 Cache::config('default', array(
+ *		'engine' => 'Memcache', //[required]
+ *		'duration'=> 3600, //[optional]
+ *		'probability'=> 100, //[optional]
+ * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+ * 		'servers' => array(
+ * 			'127.0.0.1:11211' // localhost, default port 11211
+ * 		), //[optional]
+ * 		'persistent' => true, // [optional] set this to false for non-persistent connections
+ * 		'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
+ *	));
+ *
+ *  Wincache (http://php.net/wincache)
+ *
+ * 	 Cache::config('default', array(
+ *		'engine' => 'Wincache', //[required]
+ *		'duration'=> 3600, //[optional]
+ *		'probability'=> 100, //[optional]
+ *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+ *	));
+ *
+ * Redis (http://http://redis.io/)
+ *
+ * 	 Cache::config('default', array(
+ *		'engine' => 'Redis', //[required]
+ *		'duration'=> 3600, //[optional]
+ *		'probability'=> 100, //[optional]
+ *		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
+ *		'server' => '127.0.0.1' // localhost
+ *		'port' => 6379 // default port 6379
+ *		'timeout' => 0 // timeout in seconds, 0 = unlimited
+ *		'persistent' => true, // [optional] set this to false for non-persistent connections
+ *	));
+ */
+
+if (!isset($engine)) {
+$engine = 'File';
+$prefix = 'saito_';
+}
+
+Cache::config('default', array('engine' => $engine));
+
+
+/**
+ * Long term cache for performance cheating
+ */
+Cache::config('postings',
+		array(
+		'engine'	 => $engine,
+		'groups'	 => array('postings'),
+		'prefix'	 => $prefix . 'postings_',
+		'duration' => 3600,
+));
+
+/**
+ * Short term cache for performance cheating
+ */
+Cache::config('perf-cheat',
+		array(
+		'engine'	 => $engine,
+		'prefix'	 => $prefix . 'saito_perf-cheat_',
+		'duration' => 180,
+));
+
+/**
  * The settings below can be used to set additional paths to models, views and controllers.
- * This is related to Ticket #470 (https://trac.cakephp.org/ticket/470)
  *
  * App::build(array(
- *     'plugins' => array('/full/path/to/plugins/', '/next/full/path/to/plugins/'),
- *     'models' =>  array('/full/path/to/models/', '/next/full/path/to/models/'),
- *     'views' => array('/full/path/to/views/', '/next/full/path/to/views/'),
- *     'controllers' => array('/full/path/to/controllers/', '/next/full/path/to/controllers/'),
- *     'datasources' => array('/full/path/to/datasources/', '/next/full/path/to/datasources/'),
- *     'behaviors' => array('/full/path/to/behaviors/', '/next/full/path/to/behaviors/'),
- *     'components' => array('/full/path/to/components/', '/next/full/path/to/components/'),
- *     'helpers' => array('/full/path/to/helpers/', '/next/full/path/to/helpers/'),
- *     'vendors' => array('/full/path/to/vendors/', '/next/full/path/to/vendors/'),
- *     'shells' => array('/full/path/to/shells/', '/next/full/path/to/shells/'),
- *     'locales' => array('/full/path/to/locale/', '/next/full/path/to/locale/')
+ *     'Model'                     => array('/path/to/models', '/next/path/to/models'),
+ *     'Model/Behavior'            => array('/path/to/behaviors', '/next/path/to/behaviors'),
+ *     'Model/Datasource'          => array('/path/to/datasources', '/next/path/to/datasources'),
+ *     'Model/Datasource/Database' => array('/path/to/databases', '/next/path/to/database'),
+ *     'Model/Datasource/Session'  => array('/path/to/sessions', '/next/path/to/sessions'),
+ *     'Controller'                => array('/path/to/controllers', '/next/path/to/controllers'),
+ *     'Controller/Component'      => array('/path/to/components', '/next/path/to/components'),
+ *     'Controller/Component/Auth' => array('/path/to/auths', '/next/path/to/auths'),
+ *     'Controller/Component/Acl'  => array('/path/to/acls', '/next/path/to/acls'),
+ *     'View'                      => array('/path/to/views', '/next/path/to/views'),
+ *     'View/Helper'               => array('/path/to/helpers', '/next/path/to/helpers'),
+ *     'Console'                   => array('/path/to/consoles', '/next/path/to/consoles'),
+ *     'Console/Command'           => array('/path/to/commands', '/next/path/to/commands'),
+ *     'Console/Command/Task'      => array('/path/to/tasks', '/next/path/to/tasks'),
+ *     'Lib'                       => array('/path/to/libs', '/next/path/to/libs'),
+ *     'Locale'                    => array('/path/to/locales', '/next/path/to/locales'),
+ *     'Vendor'                    => array('/path/to/vendors', '/next/path/to/vendors'),
+ *     'Plugin'                    => array('/path/to/plugins', '/next/path/to/plugins'),
  * ));
  *
  */
 
 /**
- * As of 1.3, additional rules for the inflector are added below
+ * Custom Inflector rules, can be set to correctly pluralize or singularize table, model, controller names or whatever other
+ * string is passed to the inflection functions
  *
  * Inflector::rules('singular', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-/*
-Configure::write('Markitup.vendors', array(
-		'set'			=> 'bbcode',
-		'skin'		=> 'bbcode',
-    'bbcode' => array('markitup.bbcode_parser.php'),
-));
-*/
+
+	/**
+	 * Cake doesn't handle Smiley <-> Smilies
+	 */
+Inflector::rules('plural', array(
+								'/^(smil)ey$/i' => '\1ies'));
+Inflector::rules('singular', array(
+								'/^(smil)ies$/i' => '\1ey'));
+
+/**
+ * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
+ * Uncomment one of the lines below, as you need. make sure you read the documentation on CakePlugin to use more
+ * advanced ways of loading plugins
+ *
+ * CakePlugin::loadAll(); // Loads all plugins at once
+ * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
+ *
+ */
+
+CakePlugin::load('Stopwatch');
+CakePlugin::load('DebugKit');
+CakePlugin::load('Markitup');
+CakePlugin::load('CakephpGeshi');
+CakePlugin::load('Flattr');
+CakePlugin::load('SimpleCaptcha');
+CakePlugin::load('Install');
+CakePlugin::load('FileUpload');
+CakePlugin::load('Search');
+CakePlugin::load('Embedly');
+CakePlugin::load('BcryptAuthenticate');
+CakePlugin::load('PreviewDetector');
+
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -93,6 +230,8 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
+include 'version.php';
+
 /**
  * Check if the forum is installed
  */
@@ -101,37 +240,6 @@ if ( file_exists(APP . 'Config' . DS . 'installed.txt') ) :
 else :
 	Configure::write('Saito.installed', FALSE);
 endif;
-
-/**
- * Cake doesn't handle Smiley <-> Smilies
- */
-Inflector::rules('plural', array( '/^(smil)ey$/i' => '\1ies' ));
-Inflector::rules('singular', array( '/^(smil)ies$/i' => '\1ey' ));
-
-include_once 'version.php';
-
-	/**
- * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
- * Uncomment one of the lines below, as you need. make sure you read the documentation on CakePlugin to use more
- * advanced ways of loading plugins
- *
- * CakePlugin::loadAll(); // Loads all plugins at once
- * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
- *
- */
-
-// CakePlugin::loadAll();
-CakePlugin::load('Stopwatch');
-CakePlugin::load('DebugKit');
-CakePlugin::load('Markitup');
-CakePlugin::load('CakephpGeshi');
-CakePlugin::load('Flattr');
-CakePlugin::load('SimpleCaptcha');
-CakePlugin::load('Install');
-CakePlugin::load('FileUpload');
-CakePlugin::load('Search');
-CakePlugin::load('Embedly');
-CakePlugin::load('BcryptAuthenticate');
 
 	/**
  * Activate Saito Cache:
@@ -147,5 +255,11 @@ Configure::write('Saito.Cache.Thread', TRUE);
  */
 Configure::write('Saito.markItUp.nextCssId', 11);
 
-
 include 'saito_config.php';
+/*
+Configure::write('Markitup.vendors', array(
+		'set'			=> 'bbcode',
+		'skin'		=> 'bbcode',
+    'bbcode' => array('markitup.bbcode_parser.php'),
+));
+*/

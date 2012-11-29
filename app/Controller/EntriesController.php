@@ -1,9 +1,6 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+	App::uses('AppController', 'Controller');
 
 class EntriesController extends AppController {
 
@@ -137,7 +134,7 @@ class EntriesController extends AppController {
 		}
 		$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
 
-		if ($entries == false) {
+		if (empty($entries)) {
 			throw new NotFoundException();
 		}
 
@@ -786,9 +783,7 @@ class EntriesController extends AppController {
 
 		protected function _automaticalyMarkAsRead() {
 			// ignore browser prefetch
-			if ( (env('HTTP_X_PURPOSE') === 'preview') // Safari
-				|| (env('HTTP_X_MOZ') === 'prefetch') // Firefox
-				) {
+			if ($this->request->isPreview()) {
 				return;
 			} 
 

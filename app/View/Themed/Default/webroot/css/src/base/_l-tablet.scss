@@ -12,16 +12,6 @@
     display: none;
     }
 
-  .thread_line-username {
-    margin-left: 0.5em;
-    }
-
-	.thread_line-pre {
-		height: 36px;
-		line-height: 36px;
-		font-size: 24px;
-		}
-
   }
 
 /*******************************************************************************
@@ -30,14 +20,12 @@
 
 @media only screen and (max-width: 480px) {
 
-	.thread_line, .thread_line-pre {
-		-webkit-text-size-adjust: 180%;
-		line-height: 1.6em;
+	.thread_tools {
+		-webkit-text-size-adjust: 150%;
 		}
 
-	.thread_line-content {
-		padding-left: 50px;
-		padding-bottom: 2px;
+	.thread_line, .thread_line-pre {
+		-webkit-text-size-adjust: 180%;
 		}
 	}
 
@@ -49,20 +37,25 @@
 
 @media only screen and (device-width: 768px) {
 
-	.thread_line-content {
-		padding-left: 30px;
-		padding-bottom: 2px;
-		}
+	.thread_line-pre, .thread_line-content {
+		-webkit-text-size-adjust: 120%;
+	}
 
-	.thread_line-post {
-		line-height: 14px !important;
-		}
+	.a_a {
+		-webkit-text-size-adjust: 110%;
+	}
+
+
 }
 
 @media only screen and (device-width: 768px) and (orientation:portrait) {
 	body,html {
 		width: 768px;
 		min-width: 768px;
+	}
+
+	.postingform_main {
+		width: 490px;
 	}
 }
 @media only screen and (device-width: 768px) and (orientation:landscape) {

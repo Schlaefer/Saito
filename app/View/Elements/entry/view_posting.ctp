@@ -69,11 +69,7 @@
 
 												echo $this->Js->link(
 																	__('forum_answer_linkname'),
-																array(
-																		'controller'=>'entries',
-																		'action' => 'add',
-																		$entry['Entry']['id'],
-																	),
+																	'/entries/add/' . $entry['Entry']['id'],
 																array(
 																	'id' => 'forum_answer_' . $entry['Entry']['id'],
 																	'class' => 'btn btn-submit', 'accesskey' => "a" ,
@@ -90,7 +86,7 @@
 				<span class="small">
 					<?php echo $this->Html->link(
 								__('edit_linkname'),
-								array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
+							'/entries/edit/' . $entry['Entry']['id'],
 								array ( 'class' => 'btn btn-edit', 'accesskey' => "e" )
 								);
 					?>
@@ -118,7 +114,7 @@
 							<li>
 								<?php echo $this->Html->link(
 												'<i class="icon-pencil"></i> ' . __('edit_linkname'),
-												array( 'controller' => 'entries', 'action' => 'edit', $entry['Entry']['id']),
+												'/entries/edit/' . $entry['Entry']['id'],
 												array ( 'escape' => FALSE )
 											);
 								?>
@@ -141,12 +137,7 @@
 											. '<span id="title-entry_' . $key . '-' . $entry['Entry']['id'] . '">'
 											. (($entry['Entry'][$key] == 0) ? __d('nondynamic', $key . '_set_entry_link') : __d('nondynamic', $key . '_unset_entry_link'))
 											. '</span>',
-											array(
-												'controller'	=> 'entries',
-												'action'			=> 'ajax_toggle',
-												$entry['Entry']['id'],
-												$key,
-											),
+											'/entries/ajax_toggle/' .	$entry['Entry']['id'] . '/' . $key,
 											array(
 												'id'			 => 'btn-entry_' . $key . '-' . $entry['Entry']['id'],
 												'success'	=> "$('#title-entry_{$key}-{$entry['Entry']['id']}').html(data);",
@@ -163,11 +154,7 @@
 								<?php
 									echo $this->Html->link(
 											'<i class="icon-resize-small"></i>&nbsp;' . __('merge_tree_link'),
-											array(
-													'controller'	=> 'entries',
-													'action'			=> 'merge',
-													$entry['Entry']['id'],
-											),
+											'/entries/merge/' . $entry['Entry']['id'],
 											array('escape' => FALSE)
 									);
 								?>
@@ -178,11 +165,7 @@
 							<?php
 								echo $this->Html->link(
 										'<i class="icon-trash"></i>&nbsp;' . __('delete_tree_link'),
-										array(
-												'controller'	=> 'entries',
-												'action'			=> 'delete',
-												$entry['Entry']['id'],
-										),
+										'/entries/delete/' . $entry['Entry']['id'],
 										array('escape' => FALSE),
 										__('delete_tree_link_confirm_message')
 								);
@@ -205,11 +188,7 @@
 	<?php endif; ?>
 		&nbsp;
 		&nbsp;
-		<?php echo $this->element('entry/bookmark-link', array(
-				'id' => $entry['Entry']['id'],
-				'isBookmarked' => $entry['isBookmarked'],
-				)); ?>
-
+		<?php echo $this->EntryH->bookmarkLink($entry['Entry']['id'], $entry['isBookmarked']); ?>
 	</div>
 
 	<?php endif; ?>

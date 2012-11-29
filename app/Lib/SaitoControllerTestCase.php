@@ -98,6 +98,9 @@
       if (isset($_COOKIE['SaitoPersistent'])) :
         unset($_COOKIE['SaitoPersistent']);
       endif;
+      if (isset($_COOKIE['Saito'])) :
+        unset($_COOKIE['Saito']);
+      endif;
 			if ( isset($this->controller->Session) && !empty($this->controller->Session) ) :
 				$this->controller->Session->delete('Auth.User');
 			endif;

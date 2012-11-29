@@ -7,16 +7,19 @@
 				Stopwatch::start($slidetab);
 				$id = str_replace('slidetab_', '', $slidetab);
 
-				$this->element('layout/' . $slidetab);
-
 				$style = '';
 				$style2 = '';
+				$isOpen = false;
 				if ($CurrentUser['show_' . $id] == 1) {
 					$style .= 'width: 250px;';
+					$isOpen = true;
 				} else {
 					$style .= 'width: 28px;';
 					$style2 = 'display: none;';
 				}
+
+				$this->element('layout/' . $slidetab, array('isOpen' => $isOpen));
+
 				?>
 				<div id="slidetab_<?php echo $id; ?>" class="slidetab slidetab-<?php echo $id; ?>" style="<?php echo $style ?>" >
 					<div class="slidetab-tab">
