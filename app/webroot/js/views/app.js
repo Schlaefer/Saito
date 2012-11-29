@@ -87,17 +87,6 @@ define([
 					});
 				});
 
-				// scroll to thread
-				if (window.location.href.indexOf('/jump:') > -1) {
-					var results = /jump:(\d+)/.exec(window.location.href);
-					this.scrollToThread(results[1]);
-					window.history.replaceState(
-							'object or string',
-							'Title',
-							window.location.pathname.replace(/jump:\d+(\/)?/, '')
-					);
-				}
-
 				// initiate page reload
 				// @td make App property instead of global
 				autoPageReloadTimer = null;
@@ -113,6 +102,18 @@ define([
 				} else {
 					$('#content').fadeIn(150, 'easeInOutQuart');
 				}
+
+				// scroll to thread
+				if (window.location.href.indexOf('/jump:') > -1) {
+					var results = /jump:(\d+)/.exec(window.location.href);
+					this.scrollToThread(results[1]);
+					window.history.replaceState(
+							'object or string',
+							'Title',
+							window.location.pathname.replace(/jump:\d+(\/)?/, '')
+					);
+				}
+
 			},
 
 			scrollToThread: function(tid) {
