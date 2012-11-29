@@ -6,7 +6,7 @@
 	class UserOnlineTest extends CakeTestCase {
 
 		public $fixtures = array( 'app.user_online', 'app.user', 'app.entry', 'app.category', 'app.upload' );
-    protected $_fields = array( 'fields' => array('id', 'user_id', 'time', 'logged_in'));
+    protected $_fields = array( 'fields' => array('user_id', 'time', 'logged_in'));
 
 		public function testSetOnline() {
 
@@ -32,7 +32,7 @@
 
 			//* insert registered user
 			$user_id = 5;
-			$this->_startUsersOnline[0]['UserOnline'] = array( 'id' => '1', 'user_id' => '5', 'time' => (string)time(), 'logged_in' => 1 );
+			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => '5', 'time' => (string)time(), 'logged_in' => 1 );
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			$this->UserOnline->contain();
@@ -43,7 +43,7 @@
 			//* insert anonymous user
 			session_id('sessionIdTest');
 			$user_id = session_id();
-			$this->_startUsersOnline[1]['UserOnline'] = array( 'id' => '2', 'user_id' => substr(($user_id),
+			$this->_startUsersOnline[1]['UserOnline'] = array('user_id' => substr(($user_id),
 							0, 32), 'time' => time(), 'logged_in' => 0 );
 			$this->UserOnline->setOnline($user_id, FALSE);
 
@@ -82,7 +82,7 @@
 			session_id('sessionIdTest');
 			$user_id = session_id();
 			$this->_startUsersOnline = array( );
-			$this->_startUsersOnline[0]['UserOnline'] = array( 'id' => '2', 'user_id' => substr(($user_id),
+			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => substr(($user_id),
 							0, 32), 'time' => time(), 'logged_in' => 0 );
 			$this->UserOnline->setOnline($user_id, FALSE);
 
@@ -96,7 +96,7 @@
 
 			//* insert new user
 			$user_id = 5;
-			$this->_startUsersOnline[0]['UserOnline'] = array( 'id' => '1', 'user_id' => '5', 'time' => time(), 'logged_in' => 1 );
+			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => '5', 'time' => time(), 'logged_in' => 1 );
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			//* test if user is inserted
@@ -121,7 +121,7 @@
 			$this->UserOnline->setOnline($user_id, TRUE);
 			sleep(2);
 			$user_id = 6;
-			$this->_startUsersOnline[]['UserOnline'] = array( 'id' => '2', 'user_id' => '6', 'time' => time(), 'logged_in' => 1 );
+			$this->_startUsersOnline[]['UserOnline'] = array('user_id' => '6', 'time' => time(), 'logged_in' => 1 );
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			$this->UserOnline->contain();
