@@ -70,7 +70,7 @@ class UserOnline extends AppModel {
 		$user = $this->read();
 		
 		if($user) {
-			$this->id = $user['UserOnline']['id'];
+			$this->id = $user['UserOnline']['user_id'];
 			// only perform performance impacting save operation if user time stamp is actualy outdated
 			if($user['UserOnline']['time'] < (time() - $this->timeUntilOffline)) {
 				$this->save($data);
