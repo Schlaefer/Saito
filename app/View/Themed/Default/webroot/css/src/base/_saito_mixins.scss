@@ -51,9 +51,10 @@
 
 // in page gray headers
 .header_style_2 {
+	$saito_gray_dark: #eaeaea;
 	background-color: $saito_gray_dark;
   @include background(
-      linear-gradient(top, white, darken(#ffffff, 6%) 30%, lighten($saito_gray_dark, 6%) 70%, $saito_gray_dark),
+      linear-gradient(top, lighten($saito_gray_dark, 9%), lighten($saito_gray_dark, 3%) 5%, $saito_gray_dark 95%, darken($saito_gray_dark, 3%)),
       // fallback
       $saito_gray_dark
     );

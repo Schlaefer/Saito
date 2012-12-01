@@ -24,8 +24,8 @@
 		-webkit-text-size-adjust: 150%;
 		}
 
-	.thread_line, .thread_line-pre {
-		-webkit-text-size-adjust: 180%;
+	.tl-cnt, .thread_line-pre, .btn-threadCollapse {
+		-webkit-text-size-adjust: 200%;
 		}
 	}
 
@@ -36,6 +36,11 @@
 ******************************************************************************/
 
 @media only screen and (device-width: 768px) {
+
+	.btn-threadCollapse {
+		-webkit-text-size-adjust: 130%;
+	}
+
 
 	.thread_line-pre, .thread_line-content {
 		-webkit-text-size-adjust: 120%;

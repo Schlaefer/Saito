@@ -40,6 +40,14 @@
 						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
+					&nbsp;
+					&nbsp;
+						<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
+							<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
+						</a>
+						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
+							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
+						</a>
 						<?php
 						if ($this->request->params['action'] != 'view') :
 							$tag = 'div';
@@ -53,32 +61,26 @@
 						endif;
 						?>
 						<<?php echo $tag; ?> href="#" class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
-									<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
+									<?php // echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
+									<?php if ($tag === 'a') echo '<i class="icon-time"></i>'; ?>
+
 						</<?php echo $tag; ?>>
 
-						<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
-							<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
-						</a>
-						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
-							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
-						</a>
 					<?php endif; ?>
 				<?php endif; ?>
 		</div>
 		<?php
-			if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
-					// for cached entries this tests if a thread has only the root posting
-					$thread_collapse = <<<EOF
-<a href="#" class="btn-threadCollapse">
+			if ($this->request->params['controller'] === 'entries'
+					&& $this->request->params['action'] === 'index') {
+					$out = <<<EOF
+<a href="#" class="btn-threadCollapse " title="{$cacheThreadBoxTitlei18n['btn-threadCollapse']}">
 	<i class="icon-caret-down"></i>
 </a>
+<div style="margin-left: 20px;">$out</div>
 EOF;
-					//echo $cacheThreadBoxTitlei18n['btn-threadCollapse'];
-					echo $thread_collapse;
-				endif;
-				echo '<div style="margin-left: 20px;">' . $out . '</div>';
-
-			?>
+			}
+			echo $out;
+		?>
 	</div>
 </div>
 <?php endforeach; ?>
