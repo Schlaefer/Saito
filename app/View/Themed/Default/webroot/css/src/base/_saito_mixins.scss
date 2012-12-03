@@ -54,7 +54,7 @@
 	$saito_gray_dark: #eaeaea;
 	background-color: $saito_gray_dark;
   @include background(
-      linear-gradient(top, lighten($saito_gray_dark, 9%), lighten($saito_gray_dark, 3%) 5%, $saito_gray_dark 95%, darken($saito_gray_dark, 3%)),
+      linear-gradient(top, lighten($saito_gray_dark, 10%), lighten($saito_gray_dark, 3%) 10%, $saito_gray_dark 95%, darken($saito_gray_dark, 8%)),
       // fallback
       $saito_gray_dark
     );
@@ -91,8 +91,8 @@
 	padding: 0px 5px;
 
   // border
-	border-color: silver;
-	border-top-color: $saito_gray_dark;
+	border: #c9c9c9;
+	border-top: $saito_gray_dark;
   border-style: solid;
   border-width: 0 0 $border_width 0;
 

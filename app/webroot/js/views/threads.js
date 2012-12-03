@@ -90,13 +90,13 @@ define([
 			},
 
 			slideUp: function() {
-				$(this.el).find('ul.thread > li:not(:first-child)').slideUp('100');
+				$(this.el).find('ul.thread > li:not(:first-child)').slideUp(300);
 				this.markHidden();
 			},
 
 			slideDown: function() {
-				$(this.el).find('ul.thread > li:not(:first-child)').slideDown('100');
-				$(this.el).find('.icon-caret-right').removeClass('icon-caret-right').addClass('icon-caret-down');
+				$(this.el).find('ul.thread > li:not(:first-child)').slideDown(300);
+				$(this.el).find('.icon-thread-closed').removeClass('icon-thread-closed').addClass('icon-thread-open');
 				$(this.el).find('.btn-threadCollapse').css('padding-top' , '0px');
 //				$(this.el).find('.ico-threadOpen').removeClass('ico-threadOpen').addClass('ico-threadCollapse');
 //				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
@@ -108,8 +108,7 @@ define([
 			},
 
 			markHidden: function() {
-				$(this.el).find('.icon-caret-down').removeClass('icon-caret-down').addClass('icon-caret-right');
-				$(this.el).find('.btn-threadCollapse').css('padding-top' , '1px');
+				$(this.el).find('.icon-thread-open').removeClass('icon-thread-open').addClass('icon-thread-closed');
 				// this.l18n_threadCollapse = $(this.el).find('.btn-threadCollapse').html();
 				// $(this.el).find('.btn-threadCollapse').prepend('&bull;');
 			}

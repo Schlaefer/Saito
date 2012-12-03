@@ -108,14 +108,21 @@ ul.thread {
 	display: inline-block;
 	padding: 3px 15px 1px;
 	word-spacing: 0;
-	/*@extend .info_text;*/
+	@extend .info_text;
 	}
 
 .btn-threadCollapse {
-	position: absolute;
-	padding: 0 3px 0 13px;
-	left: 28px;
-	/*@extend .info_text;*/
+	vertical-align: top;
+	width: 28px;
+	text-align: center;
+	padding: 0 6px 0 5px;
+	height: 100%;
+	@extend .info_text;
+
+	.icon-thread-open, .icon-thread-closed {
+		// prevents wide change when icons has different whide
+		width: 10px;
+		}
 	}
 
 .thread_inline {

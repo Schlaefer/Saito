@@ -37,6 +37,13 @@
   }
 }
 
+.icon-thread-open {
+	@extend .icon-chevron-up;
+	}
+.icon-thread-closed {
+	@extend .icon-chevron-down;
+	}
+
 .icon-huge {
   font-size: 2em;
   vertical-align: bottom;
