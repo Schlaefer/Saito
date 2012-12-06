@@ -38,10 +38,10 @@
 }
 
 .icon-thread-open {
-	@extend .icon-chevron-up;
+	@extend .icon-chevron-down;
 	}
 .icon-thread-closed {
-	@extend .icon-chevron-down;
+	@extend .icon-chevron-right;
 	}
 
 .icon-huge {

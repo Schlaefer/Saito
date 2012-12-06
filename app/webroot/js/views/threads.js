@@ -97,7 +97,6 @@ define([
 			slideDown: function() {
 				$(this.el).find('ul.thread > li:not(:first-child)').slideDown(300);
 				$(this.el).find('.icon-thread-closed').removeClass('icon-thread-closed').addClass('icon-thread-open');
-				$(this.el).find('.btn-threadCollapse').css('padding-top' , '0px');
 //				$(this.el).find('.ico-threadOpen').removeClass('ico-threadOpen').addClass('ico-threadCollapse');
 //				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
 			},

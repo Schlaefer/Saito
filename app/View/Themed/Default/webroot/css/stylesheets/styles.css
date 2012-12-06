@@ -530,7 +530,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 .tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 
-.thread_line-content { padding-left: 25px; display: block; word-break: break-word; }
+.thread_line-content { padding-left: 22px; display: block; word-break: break-word; }
 .thread_line-content:hover { background: #F0F0F0; }
 
 .thread_line-username { font-weight: 600; }
@@ -538,9 +538,9 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 .thread_line-post { font-weight: normal; }
 
 /* thread_slider */
-.t_s { /* 20 px left because of huge, vertical close button */ margin: 5px 5px 5px 30px; border: 1px #eaeaea solid; /* user_list und inline view sollen sauber getrennt bleiben */ overflow: hidden; }
+.t_s { /* margin px left because of huge, vertical close button */ margin: 0px 0px 0px 25px; border: 1px #eaeaea solid; /* user_list und inline view sollen sauber getrennt bleiben */ overflow: hidden; }
 
-.tree_thread { padding: 0 1em 1em; margin-bottom: 1em; }
+.tree_thread { padding: 0 1em 0.8em; margin-bottom: 1em; }
 .tree_thread .img_pencil { visibility: hidden; }
 .tree_thread ul:first-child { margin-left: 25px; }
 
@@ -548,11 +548,11 @@ ul.thread { margin: 0 !important; }
 
 .thread_box { /* user_list und inline view sollen sauber getrennt bleiben */ /*	overflow: hidden; */ }
 
-.thread_tools { padding-left: 40px; font-size: 90%; }
+.thread_tools { padding-left: 10px; font-size: 90%; }
 
-.btn-thread_tools { display: inline-block; padding: 3px 15px 1px; word-spacing: 0; }
+.btn-thread_tools { display: inline-block; padding: 5px 7px 1px; word-spacing: 0; }
 
-.btn-threadCollapse { vertical-align: top; width: 28px; text-align: center; padding: 0 6px 0 5px; height: 100%; }
+.btn-threadCollapse { vertical-align: top; width: 28px; text-align: center; padding: 0 3px 0 5px; height: 100%; }
 .btn-threadCollapse .icon-thread-open, .btn-threadCollapse .icon-thread-closed { width: 10px; }
 
 .thread_inline { display: none; position: relative; margin: 4px 0; /* otherwise link is slidetabs not clickable if inline with is open */ /*	overflow: hidden; */ }
@@ -596,7 +596,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .btn-strip-back { background-image: url('../../img/mix_back.png'); }
 
-.btn-strip-top { background-image: url('../../img/mix_top.png'); background-repeat: no-repeat; border: none; background-color: transparent; background-position: 50% 50%; width: 25px; }
+.btn-strip-top { width: 25px; text-align: center; height: 95%; border: none; background: transparent; margin: -2px 0px 0px -1px; }
 
 .button_mod_panel { display: inline-block; vertical-align: middle; }
 .button_mod_panel ul { /* !important: in inline_view on entries_index the tree ul stuff messes in */ margin: 0 !important; padding: 0 !important; list-style-type: none; }
