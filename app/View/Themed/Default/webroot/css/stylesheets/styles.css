@@ -447,7 +447,7 @@ a { color: #e74a00; text-decoration: none; }
 hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 /******************************************************************************* Slidetabs general layout *****************************************************************************/
-#slidetabs { float: right; overflow: hidden; z-index: 5; position: relative; }
+#slidetabs { float: right; overflow: hidden; z-index: 5; position: relative; line-height: 1.7; }
 
 .slidetab { clear: right; float: right; margin: 5px -1px 2px 10px; overflow: hidden; }
 .slidetab form { clear: none; }
