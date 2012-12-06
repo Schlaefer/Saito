@@ -103,6 +103,11 @@ define([
 					$('#content').fadeIn(150, 'easeInOutQuart');
 				}
 
+				// must be executed after everything is shown;
+				if (typeof Saito_App_setFocus !== 'undefined') {
+					$(Saito_App_setFocus).focus();
+				}
+
 				// scroll to thread
 				if (window.location.href.indexOf('/jump:') > -1) {
 					var results = /jump:(\d+)/.exec(window.location.href);

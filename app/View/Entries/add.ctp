@@ -303,7 +303,10 @@ $this->Form->submit(__('Einfügen'),
 
 <?php
 	// set cursor to category or subject field after load ###
-	echo $this->Js->buffer('$("#EntrySubject").focus();');
+	echo $this->Html->scriptBlock(
+			'var Saito_App_setFocus = "#EntrySubject";',
+			array('inline' => true)
+			);
   echo ($this->request->is('ajax')) ? $this->Js->writeBuffer() : '';
 ?>
 
