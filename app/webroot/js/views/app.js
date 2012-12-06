@@ -102,7 +102,7 @@ define([
 				} else {
 					$('#content').fadeIn(150, 'easeInOutQuart');
 				}
-				window.clearTimeout(options.contentTimeoutId);
+				window.clearTimeout(options.contentTimer.cancel());
 
 				// must be executed after everything is shown;
 				if (typeof Saito_App_setFocus !== 'undefined') {
