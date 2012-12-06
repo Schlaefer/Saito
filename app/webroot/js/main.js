@@ -26,7 +26,13 @@ require.config({
 });
 
 require(['domReady', 'views/app', 'bootstrap', 'jqueryhelpers'], function(domReady, AppView){
+	// fallback if dom does not get ready for some reason to show the content eventually
+	var contentTimeoutId = setTimeout(function() {$('#content').show()}, 7500);
+
 	domReady(function () {
-		var App = new AppView;
+		var App = new AppView({
+			contentTimeoutId: contentTimeoutId
+		});
 	});
+
 });
