@@ -2,7 +2,7 @@
  * Threads
  ******************************************************************************/
 
-$subthread-margin: 20px !default;
+$subthread-margin: 25px !default;
 
 // thread and reply links
 // -------------------------------------
@@ -100,7 +100,7 @@ ul.thread {
 	}
 
 .thread_tools {
-	padding-left: 10px;
+	padding-left: 15px;
 	font-size: 90%;
 	}
 
@@ -119,9 +119,11 @@ ul.thread {
 	height: 100%;
 	@extend .info_text;
 
-	.icon-thread-open, .icon-thread-closed {
+	> .icon-thread-open, > .icon-thread-closed {
 		// prevents wide change when icons has different whide
 		width: 10px;
+		// centers verticaly to bullet
+		line-height: 1.7;
 		}
 	}
 

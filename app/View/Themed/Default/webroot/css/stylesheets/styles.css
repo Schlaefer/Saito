@@ -422,7 +422,7 @@ form .c_markitup_popup_txta { width: 96%; padding: 2%; }
 
 .markItUpHeader ul ul a { display: block; padding-left: 0px; text-indent: 0; width: 120px; padding: 5px 5px 5px 25px; background-position: 2px 50%; }
 
-body { word-spacing: 1px; background-color: #f6f6f6; /* don't use this sucker on mobile devices (e.g. iOS */ /* text-rendering: optimizeLegibility; */ line-height: 1.7; }
+body { word-spacing: 1px; background-color: #f6f6f6; /* don't use this sucker on mobile devices (e.g. iOS */ /* text-rendering: optimizeLegibility; */ line-height: 1.6; }
 
 body, input, textarea, .markItUpPreviewFrame, button { font-size: 12px; font-family: "Open Sans", Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif; }
 
@@ -521,7 +521,7 @@ li.actthread .span_post_type, li.actreply .span_post_type { color: #ff6700; font
 
 ul.thread, ul.threadnew { list-style-type: none; margin: 0px 0px 18px 0px; list-style-type: none; }
 
-ul.reply, ul.replynew { list-style-type: none; margin: 0 0 0 20px; list-style-type: none; }
+ul.reply, ul.replynew { list-style-type: none; margin: 0 0 0 25px; list-style-type: none; }
 
 ul.deep-reply { margin: 0px; list-style-type: none; }
 
@@ -543,18 +543,18 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 .tree_thread { padding: 0 1em 0.8em; margin-bottom: 1em; }
 .tree_thread .img_pencil { visibility: hidden; }
-.tree_thread ul:first-child { margin-left: 20px; }
+.tree_thread ul:first-child { margin-left: 25px; }
 
 ul.thread { margin: 0 !important; }
 
 .thread_box { /* user_list und inline view sollen sauber getrennt bleiben */ /*	overflow: hidden; */ }
 
-.thread_tools { padding-left: 10px; font-size: 90%; }
+.thread_tools { padding-left: 15px; font-size: 90%; }
 
 .btn-thread_tools { display: inline-block; padding: 5px 7px 1px; word-spacing: 0; }
 
 .btn-threadCollapse { vertical-align: top; width: 28px; text-align: center; padding: 0 3px 0 5px; height: 100%; }
-.btn-threadCollapse .icon-thread-open, .btn-threadCollapse .icon-thread-closed { width: 10px; }
+.btn-threadCollapse > .icon-thread-open, .btn-threadCollapse > .icon-thread-closed { width: 10px; line-height: 1.7; }
 
 .thread_inline { display: none; position: relative; margin: 4px 0; /* otherwise link is slidetabs not clickable if inline with is open */ /*	overflow: hidden; */ }
 .thread_inline .btn_back_l, .thread_inline .btn_top_l { float: left; }
