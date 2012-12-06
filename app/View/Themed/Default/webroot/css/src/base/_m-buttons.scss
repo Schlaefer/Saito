@@ -38,25 +38,24 @@
 // -------------------------------------
 .btn-strip {
   height: 100%;
-  width: 15px;
   position: absolute;
+	}
+
+.btn-strip-back {
+  width: 15px;
+  background-image: image-url("mix_back.png");
   border: $border_width solid $saito_gray_dark;
   background-color: $saito_gray_light;
   background-repeat: repeat-y;
 	@extend .c_all-radius;
   &:active {
-    background-color: $saito_gray_dark; } }
-
-.btn-strip-back {
-  background-image: image-url("mix_back.png");
+    background-color: $saito_gray_dark;
+		}
   }
 
 .btn-strip-top {
 	width: 25px;
 	text-align: center;
-	height: 95%;
-	border: none;
-	background: transparent;
 	margin: -2px 0px 0px -1px
   }
 
