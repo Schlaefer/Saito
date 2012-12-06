@@ -112,7 +112,15 @@
 
 .l-box-header {
 	@include c_t_h_3_abs();
+
   }
+
+// fix for showing in close button centered in header
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.l-box-header .btn-icon-close {
+		line-height: 17px;
+		}
+	}
 
 .l-box-footer {
   border-width: $border_width 0 0 0;

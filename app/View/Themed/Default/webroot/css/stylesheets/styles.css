@@ -295,6 +295,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .l-box-header > div > div:first-child { position: absolute; }
 .l-box-header > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
 
+@media screen and (-webkit-min-device-pixel-ratio:0) { .l-box-header .btn-icon-close { line-height: 17px; } }
 .l-box-footer { border-width: 1px 0 0 0; border-style: solid; padding: 10px; }
 
 .box-footer-form { background-color: #fafafa; border-color: #eaeaea; }
