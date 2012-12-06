@@ -24,7 +24,7 @@ define([
 				'focus #header-searchField': 'widenSearchField'
 			},
 
-			initialize: function () {
+			initialize: function (options) {
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
@@ -101,6 +101,12 @@ define([
 					$('#content').show();
 				} else {
 					$('#content').fadeIn(150, 'easeInOutQuart');
+				}
+				window.clearTimeout(options.contentTimer.cancel());
+
+				// must be executed after everything is shown;
+				if (typeof Saito_App_setFocus !== 'undefined') {
+					$(Saito_App_setFocus).focus();
 				}
 
 				// scroll to thread

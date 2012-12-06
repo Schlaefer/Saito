@@ -20,12 +20,12 @@
 
 @media only screen and (max-width: 480px) {
 
-	.thread_tools {
+	.thread_tools, .btn-threadCollapse {
 		-webkit-text-size-adjust: 150%;
 		}
 
-	.thread_line, .thread_line-pre {
-		-webkit-text-size-adjust: 180%;
+	.tl-cnt, .thread_line-pre {
+		-webkit-text-size-adjust: 200%;
 		}
 	}
 
@@ -36,6 +36,10 @@
 ******************************************************************************/
 
 @media only screen and (device-width: 768px) {
+
+	.icon-thread-open, .icon-thread-closed {
+		-webkit-text-size-adjust: 120%;
+		}
 
 	.thread_line-pre, .thread_line-content {
 		-webkit-text-size-adjust: 120%;

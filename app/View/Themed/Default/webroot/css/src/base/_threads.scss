@@ -42,17 +42,20 @@ ul.deep-reply {
 
 .thread_line-pre {
 	position: absolute;
-	vertical-align: text-top;
-	height: 19px;
 	> a {
 		display: inline-block;
-		width: 30px;
+		width: 24px;
 		text-align: center;
 		}
 	}
 
+.tl-cnt {
+	/* fixates subelements as fixes resulting glitch in $.slideUp() */
+	position: relative;
+	}
+
 .thread_line-content {
-	padding-left: 25px;
+	padding-left: 22px;
 	display: block;
   word-break: break-word;
 	&:hover{
@@ -71,8 +74,8 @@ ul.deep-reply {
 
 /* thread_slider */
 .t_s {
-  /* 20 px left because of huge, vertical close button */
-  margin: 5px 5px 5px 20px;
+  /* margin px left because of huge, vertical close button */
+  margin: 0px 0px 0px 25px;
   border: $border_width $saito_gray_dark solid;
 	@extend .c_all-radius;
   /* user_list und inline view sollen sauber getrennt bleiben */
@@ -81,7 +84,7 @@ ul.deep-reply {
 
 .tree_thread {
   @extend .box-content;
-  padding: 0 1em 1em 1em;
+  padding: 0 1em 0.8em;
   margin-bottom: 1em;
   .img_pencil {
     visibility: hidden; }
@@ -97,12 +100,31 @@ ul.thread {
 	}
 
 .thread_tools {
+	padding-left: 15px;
 	font-size: 90%;
 	}
+
 .btn-thread_tools {
 	display: inline-block;
-	padding: 5px 0.7em 2px;
+	padding: 5px 7px 1px;
 	word-spacing: 0;
+	@extend .info_text;
+	}
+
+.btn-threadCollapse {
+	vertical-align: top;
+	width: 28px;
+	text-align: center;
+	padding: 0 3px 0 5px;
+	height: 100%;
+	@extend .info_text;
+
+	> .icon-thread-open, > .icon-thread-closed {
+		// prevents wide change when icons has different whide
+		width: 10px;
+		// centers verticaly to bullet
+		line-height: 1.7;
+		}
 	}
 
 .thread_inline {

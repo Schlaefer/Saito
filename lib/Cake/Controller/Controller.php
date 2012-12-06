@@ -507,7 +507,7 @@ class Controller extends Object implements CakeEventListener {
 		$privateAction = (
 			$method->name[0] === '_' ||
 			!$method->isPublic() ||
-			!in_array($method->name,  $this->methods)
+			!in_array($method->name, $this->methods)
 		);
 		$prefixes = Router::prefixes();
 
@@ -745,7 +745,7 @@ class Controller extends Object implements CakeEventListener {
  *     or an absolute URL
  * @param integer $status Optional HTTP status code (eg: 404)
  * @param boolean $exit If true, exit() will be called after the redirect
- * @return mixed void if $exit = false. Terminates script if $exit = true
+ * @return void
  * @link http://book.cakephp.org/2.0/en/controllers.html#Controller::redirect
  */
 	public function redirect($url, $status = null, $exit = true) {
@@ -755,7 +755,7 @@ class Controller extends Object implements CakeEventListener {
 			extract($status, EXTR_OVERWRITE);
 		}
 		$event = new CakeEvent('Controller.beforeRedirect', $this, array($url, $status, $exit));
-		//TODO: Remove the following line when the events are fully migrated to the CakeEventManager
+
 		list($event->break, $event->breakOn, $event->collectReturn) = array(true, false, true);
 		$this->getEventManager()->dispatch($event);
 
@@ -853,9 +853,8 @@ class Controller extends Object implements CakeEventListener {
  * setAction('action_with_parameters', $parameter1);
  * }}}
  *
- * @param string $action The new action to be 'redirected' to
- * @param mixed  Any other parameters passed to this method will be passed as
- *    parameters to the new action.
+ * @param string $action The new action to be 'redirected' to.
+ *   Any other parameters passed to this method will be passed as parameters to the new action.
  * @return mixed Returns the return value of the called action
  */
 	public function setAction($action) {
@@ -997,7 +996,7 @@ class Controller extends Object implements CakeEventListener {
  * @param string|array $url Relative string or array-based URL to redirect to after the time expires
  * @param integer $pause Time to show the message
  * @param string $layout Layout you want to use, defaults to 'flash'
- * @return void Renders flash layout
+ * @return void
  * @link http://book.cakephp.org/2.0/en/controllers.html#Controller::flash
  */
 	public function flash($message, $url, $pause = 1, $layout = 'flash') {

@@ -199,7 +199,7 @@ class FormHelper extends AppHelper {
 					$this->fieldset[$object->alias]['fields'][$alias] = array('type' => 'multiple');
 				}
 			}
-			if (empty($field)) {
+			if ($field === null || $field === false) {
 				return $this->fieldset[$model]['fields'];
 			} elseif (isset($this->fieldset[$model]['fields'][$field])) {
 				return $this->fieldset[$model]['fields'][$field];
@@ -247,11 +247,15 @@ class FormHelper extends AppHelper {
 		if (empty($validationRules) || count($validationRules) === 0) {
 			return false;
 		}
+
+		$isUpdate = $this->requestType === 'put';
 		foreach ($validationRules as $rule) {
-			$rule->isUpdate($this->requestType === 'put');
-			if (!$rule->isEmptyAllowed()) {
-				return true;
+			$rule->isUpdate($isUpdate);
+			if ($rule->skip()) {
+				continue;
 			}
+
+			return !$rule->allowEmpty;
 		}
 		return false;
 	}
@@ -769,7 +773,7 @@ class FormHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::label
  */
 	public function label($fieldName = null, $text = null, $options = array()) {
-		if (empty($fieldName)) {
+		if ($fieldName === null) {
 			$fieldName = implode('.', $this->entity());
 		}
 
@@ -801,42 +805,43 @@ class FormHelper extends AppHelper {
 	}
 
 /**
- * Generate a set of inputs for `$fields`.  If $fields is null the current model
+ * Generate a set of inputs for `$fields`.  If $fields is null the fields of current model
  * will be used.
  *
- * In addition to controller fields output, `$fields` can be used to control legend
- * and fieldset rendering with the `fieldset` and `legend` keys.
- * `$form->inputs(array('legend' => 'My legend'));` Would generate an input set with
- * a custom legend.  You can customize individual inputs through `$fields` as well.
- *
+ * You can customize individual inputs through `$fields`.
  * {{{
- *	$form->inputs(array(
+ *	$this->Form->inputs(array(
  *		'name' => array('label' => 'custom label')
  *	));
  * }}}
  *
- * In addition to fields control, inputs() allows you to use a few additional options.
+ * In addition to controller fields output, `$fields` can be used to control legend
+ * and fieldset rendering.
+ * `$this->Form->inputs('My legend');` Would generate an input set with a custom legend.
+ * Passing `fieldset` and `legend` key in `$fields` array has been deprecated since 2.3,
+ * for more fine grained control use the `fieldset` and `legend` keys in `$options` param.
  *
+ * @param array $fields An array of fields to generate inputs for, or null.
+ * @param array $blacklist A simple array of fields to not create inputs for.
+ * @param array $options Options array. Valid keys are:
  * - `fieldset` Set to false to disable the fieldset. If a string is supplied it will be used as
  *    the classname for the fieldset element.
  * - `legend` Set to false to disable the legend for the generated input set. Or supply a string
  *    to customize the legend text.
- *
- * @param array $fields An array of fields to generate inputs for, or null.
- * @param array $blacklist a simple array of fields to not create inputs for.
  * @return string Completed form inputs.
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::inputs
  */
-	public function inputs($fields = null, $blacklist = null) {
+	public function inputs($fields = null, $blacklist = null, $options = array()) {
 		$fieldset = $legend = true;
 		$model = $this->model();
+		$modelFields = array_keys($this->_introspectModel($model, 'fields'));
 		if (is_array($fields)) {
-			if (array_key_exists('legend', $fields)) {
+			if (array_key_exists('legend', $fields) && !in_array('legend', $modelFields)) {
 				$legend = $fields['legend'];
 				unset($fields['legend']);
 			}
 
-			if (isset($fields['fieldset'])) {
+			if (isset($fields['fieldset']) && !in_array('fieldset', $modelFields)) {
 				$fieldset = $fields['fieldset'];
 				unset($fields['fieldset']);
 			}
@@ -848,8 +853,15 @@ class FormHelper extends AppHelper {
 			$fields = array();
 		}
 
+		if (isset($options['legend'])) {
+			$legend = $options['legend'];
+		}
+		if (isset($options['fieldset'])) {
+			$fieldset = $options['fieldset'];
+		}
+
 		if (empty($fields)) {
-			$fields = array_keys($this->_introspectModel($model, 'fields'));
+			$fields = $modelFields;
 		}
 
 		if ($legend === true) {
@@ -888,13 +900,13 @@ class FormHelper extends AppHelper {
 			$fieldsetClass = '';
 		}
 
-		if ($fieldset && $legend) {
-			return $this->Html->useTag('fieldset', $fieldsetClass, $this->Html->useTag('legend', $legend) . $out);
-		} elseif ($fieldset) {
-			return $this->Html->useTag('fieldset', $fieldsetClass, $out);
-		} else {
-			return $out;
+		if ($fieldset) {
+			if ($legend) {
+				$out = $this->Html->useTag('legend', $legend) . $out;
+			}
+			$out = $this->Html->useTag('fieldset', $fieldsetClass, $out);
 		}
+		return $out;
 	}
 
 /**
@@ -908,16 +920,18 @@ class FormHelper extends AppHelper {
  * will be treated as a regular html attribute for the generated input.
  *
  * - `type` - Force the type of widget you want. e.g. `type => 'select'`
- * - `label` - Either a string label, or an array of options for the label. See FormHelper::label()
+ * - `label` - Either a string label, or an array of options for the label. See FormHelper::label().
  * - `div` - Either `false` to disable the div, or an array of options for the div.
  *	See HtmlHelper::div() for more options.
- * - `options` - for widgets that take options e.g. radio, select
- * - `error` - control the error message that is produced
+ * - `options` - For widgets that take options e.g. radio, select.
+ * - `error` - Control the error message that is produced. Set to `false` to disable any kind of error reporting (field
+ *    error and error messages).
+ * - `errorMessage` - Boolean to control rendering error messages (field error will still occur).
  * - `empty` - String or boolean to enable empty select box options.
  * - `before` - Content to place before the label + input.
  * - `after` - Content to place after the label + input.
  * - `between` - Content to place between the label + input.
- * - `format` - format template for element order. Any element that is not in the array, will not be in the output.
+ * - `format` - Format template for element order. Any element that is not in the array, will not be in the output.
  *	- Default input format order: array('before', 'label', 'between', 'input', 'after', 'error')
  *	- Default checkbox format order: array('before', 'input', 'between', 'label', 'after', 'error')
  *	- Hidden input will not be formatted
@@ -1066,6 +1080,9 @@ class FormHelper extends AppHelper {
 		$error = $this->_extractOption('error', $options, null);
 		unset($options['error']);
 
+		$errorMessage = $this->_extractOption('errorMessage', $options, true);
+		unset($options['errorMessage']);
+
 		$selected = $this->_extractOption('selected', $options, null);
 		unset($options['selected']);
 
@@ -1145,7 +1162,9 @@ class FormHelper extends AppHelper {
 			$errMsg = $this->error($fieldName, $error);
 			if ($errMsg) {
 				$divOptions = $this->addClass($divOptions, 'error');
-				$out['error'] = $errMsg;
+				if ($errorMessage) {
+					$out['error'] = $errMsg;
+				}
 			}
 		}
 

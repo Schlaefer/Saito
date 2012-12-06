@@ -7,7 +7,7 @@
 
 		public $priority = 1;
 
-		public function beforeDispatch($event) {
+		public function beforeDispatch(CakeEvent $event) {
 			Stopwatch::enable();
 			Stopwatch::start('----------------------- Dispatch -----------------------');
 		}

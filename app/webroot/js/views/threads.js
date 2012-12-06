@@ -28,6 +28,7 @@ define([
 			 */
 			openAllThreadlines: function(event) {
 				event.preventDefault();
+				this.model.set({ isInlineOpened: true })
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false
@@ -43,7 +44,9 @@ define([
 			 * Closes all threadlines
 			 */
 			closeAllThreadlines: function(event) {
-				event.preventDefault();
+				if(event) {
+					event.preventDefault();
+				}
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: true
@@ -59,6 +62,7 @@ define([
 			 */
 			showAllNewThreadlines: function(event) {
 				event.preventDefault();
+				this.model.set({ isInlineOpened: true })
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false,
@@ -72,6 +76,7 @@ define([
 
 			collapseThread: function(event) {
 				event.preventDefault();
+				this.closeAllThreadlines();
 				this.model.toggleCollapseThread();
 				this.model.save();
 			},
@@ -85,27 +90,28 @@ define([
 			},
 
 			slideUp: function() {
-				$(this.el).find('.tree_thread > ul > li:not(:first-child)').slideUp('100');
+				$(this.el).find('ul.thread > li:not(:first-child)').slideUp(300);
 				this.markHidden();
 			},
 
 			slideDown: function() {
-				$(this.el).find('.tree_thread > ul > li:not(:first-child)').slideDown('100');
+				$(this.el).find('ul.thread > li:not(:first-child)').slideDown(300);
+				$(this.el).find('.icon-thread-closed').removeClass('icon-thread-closed').addClass('icon-thread-open');
 //				$(this.el).find('.ico-threadOpen').removeClass('ico-threadOpen').addClass('ico-threadCollapse');
-				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
+//				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
 			},
 
 			hide: function() {
-				$(this.el).find('.tree_thread > ul > li:not(:first-child)').hide();
-				$(this.el).find('.ico-threadCollapse').removeClass('ico-threadCollapse').addClass('ico-threadOpen');
+				$(this.el).find('ul.thread > li:not(:first-child)').hide();
 				this.markHidden();
 			},
 
 			markHidden: function() {
-				this.l18n_threadCollapse = $(this.el).find('.btn-threadCollapse').html();
-//				$(this.el).find('.ico-threadCollapse').removeClass('ico-threadCollapse').addClass('ico-threadOpen');
-				$(this.el).find('.btn-threadCollapse').prepend('&bull;');
+				$(this.el).find('.icon-thread-open').removeClass('icon-thread-open').addClass('icon-thread-closed');
+				// this.l18n_threadCollapse = $(this.el).find('.btn-threadCollapse').html();
+				// $(this.el).find('.btn-threadCollapse').prepend('&bull;');
 			}
+
 		});
 
 		return ThreadView;

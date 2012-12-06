@@ -31,28 +31,32 @@
 
 .btn-icon-close:before {
   // fix for font-awesome icons in lists: li i.
-  width: 0 !important;
+  /*width: 0 !important;*/
   }
 
 //back and top wide button start
 // -------------------------------------
 .btn-strip {
   height: 100%;
-  width: 15px;
   position: absolute;
+	}
+
+.btn-strip-back {
+  width: 15px;
+  background-image: image-url("mix_back.png");
   border: $border_width solid $saito_gray_dark;
   background-color: $saito_gray_light;
   background-repeat: repeat-y;
 	@extend .c_all-radius;
   &:active {
-    background-color: $saito_gray_dark; } }
-
-.btn-strip-back {
-  background-image: image-url("mix_back.png");
+    background-color: $saito_gray_dark;
+		}
   }
 
 .btn-strip-top {
-  background-image: image-url("mix_top.png");
+	width: 25px;
+	text-align: center;
+	margin: -2px 0px 0px -1px
   }
 
 .button_mod_panel {

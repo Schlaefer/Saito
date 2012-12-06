@@ -94,6 +94,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Sets the list of methods to use for validation
  *
+ * @param array $methods Methods list
  * @return void
  **/
 	public function setMethods(&$methods) {
@@ -114,6 +115,8 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * Runs all validation rules in this set and returns a list of
  * validation errors
  *
+ * @param array $data Data array
+ * @param boolean $isUpdate Is record being updated or created
  * @return array list of validation errors for this field
  */
 	public function validate($data, $isUpdate = false) {
@@ -192,7 +195,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * @return CakeValidationSet this instance
  */
 	public function setRule($name, $rule) {
-		if (!$rule instanceof CakeValidationRule) {
+		if (!($rule instanceof CakeValidationRule)) {
 			$rule = new CakeValidationRule($rule);
 		}
 		$this->_rules[$name] = $rule;
@@ -236,9 +239,10 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  */
 	public function setRules($rules = array(), $mergeVars = true) {
 		if ($mergeVars === false) {
-			$this->_rules = $rules;
-		} else {
-			$this->_rules = array_merge($this->_rules, $rules);
+			$this->_rules = array();
+		}
+		foreach ($rules as $name => $rule) {
+			$this->setRule($name, $rule);
 		}
 		return $this;
 	}

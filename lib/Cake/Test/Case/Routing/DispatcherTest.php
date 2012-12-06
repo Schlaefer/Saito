@@ -1195,7 +1195,7 @@ class DispatcherTest extends CakeTestCase {
  *
  * @return void
  */
-	public function testDispatcherFilterSuscriber() {
+	public function testDispatcherFilterSubscriber() {
 		App::build(array(
 			'View' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'View' . DS),
 			'Plugin' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
@@ -1655,72 +1655,6 @@ class DispatcherTest extends CakeTestCase {
 		}
 
 		unset($_POST['_method']);
-	}
-
-/**
- * backupEnvironment method
- *
- * @return void
- */
-	protected function _backupEnvironment() {
-		return array(
-			'App' => Configure::read('App'),
-			'GET' => $_GET,
-			'POST' => $_POST,
-			'SERVER' => $_SERVER
-		);
-	}
-
-/**
- * reloadEnvironment method
- *
- * @return void
- */
-	protected function _reloadEnvironment() {
-		foreach ($_GET as $key => $val) {
-			unset($_GET[$key]);
-		}
-		foreach ($_POST as $key => $val) {
-			unset($_POST[$key]);
-		}
-		foreach ($_SERVER as $key => $val) {
-			unset($_SERVER[$key]);
-		}
-		Configure::write('App', array());
-	}
-
-/**
- * loadEnvironment method
- *
- * @param array $env
- * @return void
- */
-	protected function _loadEnvironment($env) {
-		if ($env['reload']) {
-			$this->_reloadEnvironment();
-		}
-
-		if (isset($env['App'])) {
-			Configure::write('App', $env['App']);
-		}
-
-		if (isset($env['GET'])) {
-			foreach ($env['GET'] as $key => $val) {
-				$_GET[$key] = $val;
-			}
-		}
-
-		if (isset($env['POST'])) {
-			foreach ($env['POST'] as $key => $val) {
-				$_POST[$key] = $val;
-			}
-		}
-
-		if (isset($env['SERVER'])) {
-			foreach ($env['SERVER'] as $key => $val) {
-				$_SERVER[$key] = $val;
-			}
-		}
 	}
 
 /**

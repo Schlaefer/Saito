@@ -26,7 +26,34 @@ require.config({
 });
 
 require(['domReady', 'views/app', 'bootstrap', 'jqueryhelpers'], function(domReady, AppView){
+	// fallback if dom does not get ready for some reason to show the content eventually
+	var contentTimer = {
+		show: function() {
+			$('#content').show();
+			console.log('Dom ready timed out: show content fallback used.');
+			delete this.timeoutID;
+		},
+
+		setup: function() {
+			this.cancel();
+			var self = this;
+			this.timeoutID = window.setTimeout(function() {self.show();}, 5000, "Wake up!");
+		},
+
+		cancel: function() {
+			if(typeof this.timeoutID == "number") {
+				window.clearTimeout(this.timeoutID);
+				delete this.timeoutID;
+			}
+		}
+	};
+	contentTimer.setup();
+
 	domReady(function () {
-		var App = new AppView;
+		var App = new AppView({
+			contentTimer: contentTimer
+		});
 	});
+
+
 });

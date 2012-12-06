@@ -60,7 +60,7 @@ define([
 						});
 						this.tlsV.show();
 
-						$('.js-thread_line-content.' + id).after(this.spinnerTpl({
+						this.$el.find('.js-thread_line-content').after(this.spinnerTpl({
 							id: id
 						}));
 						this.$el.find('.btn-strip-top').on('click', _.bind(this.toggleInlineOpen, this))	;
@@ -85,7 +85,7 @@ define([
 				var scroll = options.scroll || false;
 				var id = this.model.id;
 
-				$('.js-thread_line-content.' + id).fadeOut(
+				this.$el.find('.js-thread_line-content').fadeOut(
 					100,
 					_.bind(
 						function() {
@@ -120,13 +120,16 @@ define([
 				var p = this;
 				// $('.js-thread_inline.' + id).slideUp('fast',
 				$('.js-thread_inline.' + id).hide(0,
-					function() {
-						$('.js-thread_line-content.' + id).slideDown();
-						if (scroll) {
-							p._scrollLineIntoView();
-						}
-					}
-					);
+					_.bind(
+						function() {
+							this.$el.find('.js-thread_line-content').slideDown();
+							if (scroll) {
+								p._scrollLineIntoView();
+							}
+						},
+						this
+					)
+				);
 			},
 
 			/**
@@ -134,7 +137,7 @@ define([
 		 * scroll to that line and highlight it
 		 */
 			_scrollLineIntoView: function () {
-				var thread_line = $('.js-thread_line-content.' + this.model.id);
+				var thread_line = this.$el.find('.js-thread_line-content');
 				if (!thread_line.isScrolledIntoView()) {
 					$(window).scrollTo(
 						thread_line,

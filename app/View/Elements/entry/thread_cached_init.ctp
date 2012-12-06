@@ -40,6 +40,14 @@
 						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
+					&nbsp;
+					&nbsp;
+						<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
+							<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
+						</a>
+						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
+							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
+						</a>
 						<?php
 						if ($this->request->params['action'] != 'view') :
 							$tag = 'div';
@@ -53,27 +61,35 @@
 						endif;
 						?>
 						<<?php echo $tag; ?> href="#" class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
-									<?php echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
+									<?php if ($tag === 'a') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
 						</<?php echo $tag; ?>>
 
-						<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
-							<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
-						</a>
-						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
-							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
-						</a>
-						<?php
-							if ($entry_sub['Entry']['time'] !== $entry_sub['Entry']['last_answer']):
-							// for cached entries this tests if a thread has only the root posting
-						?>
-						<a class="btn-thread_tools btn-threadCollapse" href="#">
-							<?php echo $cacheThreadBoxTitlei18n['btn-threadCollapse']; ?>
-						</a>
-						<?php endif; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 		</div>
-		<?php echo $out; ?>
+		<div style="display: table;">
+			<div style="display: table-row;">
+				<?php
+					$k = 'visibility: collapse;';
+					if (
+							$entry_sub['Entry']['last_answer'] > $entry_sub['Entry']['time']
+							&& $this->request->params['controller'] === 'entries'
+							&& $this->request->params['action'] === 'index') {
+						$k = '';
+					}
+					echo <<<EOF
+<a href="#" class="btn-threadCollapse " title="{$cacheThreadBoxTitlei18n['btn-threadCollapse']}" style="display: table-cell; {$k}">
+<i class="icon-thread-open"></i>
+</a>
+EOF;
+				?>
+			<div style="display: table-cell; vertical-align: top; width: 100%;">
+				<?php
+					echo $out;
+				?>
+			</div>
+		</div>
+		</div>
 	</div>
 </div>
 <?php endforeach; ?>

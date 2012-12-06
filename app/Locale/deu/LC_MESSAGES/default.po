@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-29 12:23+0100\n"
-"PO-Revision-Date: 2012-11-29 12:24+0100\n"
+"PO-Revision-Date: 2012-12-01 08:29+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -409,15 +409,15 @@ msgstr "thread zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-showNewThreads"
-msgstr "neue auf"
+msgstr "neue"
 
 #: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-closeThreads"
-msgstr "alle zu"
+msgstr "zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-openThreads"
-msgstr "alle auf"
+msgstr "auf"
 
 #: View/Elements/entry/view_content.ctp:57
 #, php-format
