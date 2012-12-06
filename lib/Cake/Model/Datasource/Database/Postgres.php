@@ -119,7 +119,7 @@ class Postgres extends DboSource {
 				$this->setEncoding($config['encoding']);
 			}
 			if (!empty($config['schema'])) {
-				 $this->_execute('SET search_path TO ' . $config['schema']);
+				$this->_execute('SET search_path TO ' . $config['schema']);
 			}
 		} catch (PDOException $e) {
 			throw new MissingConnectionException(array(
@@ -407,7 +407,7 @@ class Postgres extends DboSource {
 						$fields[$i] = $prepend . $this->name($build[0]) . '.' . $this->name($build[1]) . ' AS ' . $this->name($build[0] . '__' . $build[1]);
 					}
 				} else {
-					$fields[$i] = preg_replace_callback('/\(([\s\.\w]+)\)/',  array(&$this, '_quoteFunctionField'), $fields[$i]);
+					$fields[$i] = preg_replace_callback('/\(([\s\.\w]+)\)/', array(&$this, '_quoteFunctionField'), $fields[$i]);
 				}
 				$result[] = $fields[$i];
 			}

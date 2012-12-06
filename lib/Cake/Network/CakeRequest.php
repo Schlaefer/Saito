@@ -162,11 +162,12 @@ class CakeRequest implements ArrayAccess {
 	protected function _processPost() {
 		if ($_POST) {
 			$this->data = $_POST;
-		} elseif ($this->is('put') || $this->is('delete')) {
-			$this->data = $this->_readInput();
-			if (strpos(env('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0) {
-				parse_str($this->data, $this->data);
-			}
+		} elseif (
+			($this->is('put') || $this->is('delete')) &&
+			strpos(env('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0
+		) {
+				$data = $this->_readInput();
+				parse_str($data, $this->data);
 		}
 		if (ini_get('magic_quotes_gpc') === '1') {
 			$this->data = stripslashes_deep($this->data);
@@ -763,6 +764,7 @@ class CakeRequest implements ArrayAccess {
  * Provides a read accessor for `$this->query`.  Allows you
  * to use a syntax similar to `CakeSession` for reading url query data.
  *
+ * @param string $name Query string variable name
  * @return mixed The value being read
  */
 	public function query($name) {

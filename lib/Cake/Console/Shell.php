@@ -31,10 +31,18 @@ App::uses('File', 'Utility');
 class Shell extends Object {
 
 /**
- * Output constants for making verbose and quiet shells.
+ * Output constant making verbose shells.
  */
 	const VERBOSE = 2;
+
+/**
+ * Output constant for making normal shells.
+ */
 	const NORMAL = 1;
+
+/**
+ * Output constants for making quiet shells.
+ */
 	const QUIET = 0;
 
 /**
@@ -372,7 +380,9 @@ class Shell extends Object {
 		if (!empty($this->params['quiet'])) {
 			$this->_useLogger(false);
 		}
-
+		if (!empty($this->params['plugin'])) {
+			CakePlugin::load($this->params['plugin']);
+		}
 		$this->command = $command;
 		if (!empty($this->params['help'])) {
 			return $this->_displayHelp($command);
@@ -686,7 +696,9 @@ class Shell extends Object {
 	protected function _checkUnitTest() {
 		if (class_exists('PHPUnit_Framework_TestCase')) {
 			return true;
+			//@codingStandardsIgnoreStart
 		} elseif (@include 'PHPUnit' . DS . 'Autoload.php') {
+			//@codingStandardsIgnoreEnd
 			return true;
 		} elseif (App::import('Vendor', 'phpunit', array('file' => 'PHPUnit' . DS . 'Autoload.php'))) {
 			return true;

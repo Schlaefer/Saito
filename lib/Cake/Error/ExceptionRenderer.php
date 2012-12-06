@@ -88,6 +88,7 @@ class ExceptionRenderer {
  * code error depending on the code used to construct the error.
  *
  * @param Exception $exception Exception
+ * @return mixed Return void or value returned by controller's `appError()` function
  */
 	public function __construct(Exception $exception) {
 		$this->controller = $this->_getController($exception);
@@ -138,6 +139,7 @@ class ExceptionRenderer {
  * @return Controller
  */
 	protected function _getController($exception) {
+		App::uses('AppController', 'Controller');
 		App::uses('CakeErrorController', 'Controller');
 		if (!$request = Router::getRequest(true)) {
 			$request = new CakeRequest();
@@ -149,10 +151,12 @@ class ExceptionRenderer {
 		}
 
 		try {
-			if (class_exists('AppController')) {
-				$controller = new CakeErrorController($request, $response);
-			}
+			$controller = new CakeErrorController($request, $response);
+			$controller->startupProcess();
 		} catch (Exception $e) {
+			if (!empty($controller) && $controller->Components->enabled('RequestHandler')) {
+				$controller->RequestHandler->startup($controller);
+			}
 		}
 		if (empty($controller)) {
 			$controller = new Controller($request, $response);

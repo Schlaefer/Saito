@@ -116,6 +116,10 @@ class Contact extends CakeTestModel {
 		'imnotrequired' => array('required' => false, 'rule' => 'alphaNumeric', 'allowEmpty' => true),
 		'imalsonotrequired' => array(
 			'alpha' => array('rule' => 'alphaNumeric', 'allowEmpty' => true),
+			'between' => array('rule' => array('between', 5, 30)),
+		),
+		'imalsonotrequired2' => array(
+			'alpha' => array('rule' => 'alphaNumeric', 'allowEmpty' => true),
 			'between' => array('rule' => array('between', 5, 30), 'allowEmpty' => true),
 		),
 		'imnotrequiredeither' => array('required' => true, 'rule' => array('between', 5, 30), 'allowEmpty' => true),
@@ -929,7 +933,7 @@ class FormHelperTest extends CakeTestCase {
 		$this->Form->request['_Token'] = array('key' => $key);
 		$result = $this->Form->secure($fields);
 
-		$hash  = '51e3b55a6edd82020b3f29c9ae200e14bbeb7ee5%3AModel.0.hidden%7CModel.0.valid';
+		$hash = '51e3b55a6edd82020b3f29c9ae200e14bbeb7ee5%3AModel.0.hidden%7CModel.0.valid';
 		$hash .= '%7CModel.1.hidden%7CModel.1.valid';
 
 		$expected = array(
@@ -1523,9 +1527,7 @@ class FormHelperTest extends CakeTestCase {
 	}
 
 /**
- * testPasswordValidation method
- *
- * test validation errors on password input.
+ * Test validation errors.
  *
  * @return void
  */
@@ -1549,18 +1551,31 @@ class FormHelperTest extends CakeTestCase {
 			'/div'
 		);
 		$this->assertTags($result, $expected);
+
+		$result = $this->Form->input('Contact.password', array('errorMessage' => false));
+		$expected = array(
+			'div' => array('class' => 'input password error'),
+			'label' => array('for' => 'ContactPassword'),
+			'Password',
+			'/label',
+			'input' => array(
+				'type' => 'password', 'name' => 'data[Contact][password]',
+				'id' => 'ContactPassword', 'class' => 'form-error'
+			),
+			'/div'
+		);
+		$this->assertTags($result, $expected);
 	}
 
 /**
- * testEmptyErrorValidation method
- *
- * test validation error div when validation message is an empty string
+ * Test validation errors, when validation message is an empty string.
  *
  * @access public
  * @return void
  */
 	public function testEmptyErrorValidation() {
 		$this->Form->validationErrors['Contact']['password'] = '';
+
 		$result = $this->Form->input('Contact.password');
 		$expected = array(
 			'div' => array('class' => 'input password error'),
@@ -1577,18 +1592,31 @@ class FormHelperTest extends CakeTestCase {
 			'/div'
 		);
 		$this->assertTags($result, $expected);
+
+		$result = $this->Form->input('Contact.password', array('errorMessage' => false));
+		$expected = array(
+			'div' => array('class' => 'input password error'),
+			'label' => array('for' => 'ContactPassword'),
+			'Password',
+			'/label',
+			'input' => array(
+				'type' => 'password', 'name' => 'data[Contact][password]',
+				'id' => 'ContactPassword', 'class' => 'form-error'
+			),
+			'/div'
+		);
+		$this->assertTags($result, $expected);
 	}
 
 /**
- * testEmptyInputErrorValidation method
- *
- * test validation error div when validation message is overridden by an empty string when calling input()
+ * Test validation errors, when calling input() overriding validation message by an empty string.
  *
  * @access public
  * @return void
  */
 	public function testEmptyInputErrorValidation() {
 		$this->Form->validationErrors['Contact']['password'] = 'Please provide a password';
+
 		$result = $this->Form->input('Contact.password', array('error' => ''));
 		$expected = array(
 			'div' => array('class' => 'input password error'),
@@ -1602,6 +1630,20 @@ class FormHelperTest extends CakeTestCase {
 			array('div' => array('class' => 'error-message')),
 			array(),
 			'/div',
+			'/div'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Form->input('Contact.password', array('error' => '', 'errorMessage' => false));
+		$expected = array(
+			'div' => array('class' => 'input password error'),
+			'label' => array('for' => 'ContactPassword'),
+			'Password',
+			'/label',
+			'input' => array(
+				'type' => 'password', 'name' => 'data[Contact][password]',
+				'id' => 'ContactPassword', 'class' => 'form-error'
+			),
 			'/div'
 		);
 		$this->assertTags($result, $expected);
@@ -2162,6 +2204,23 @@ class FormHelperTest extends CakeTestCase {
 			array('span' => array('class' => 'error-message', 'rel' => 'fake')),
 			'login too large',
 			'/span',
+			'/div'
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * Test that inputs with 0 can be created.
+ *
+ * @return void
+ */
+	public function testInputZero() {
+		$this->Form->create('User');
+		$result = $this->Form->input('0');
+		$expected = array(
+			'div' => array('class' => 'input text'),
+			'label' => array('for' => 'User0'), '/label',
+			'input' => array('type' => 'text', 'name' => 'data[User][0]', 'id' => 'User0'),
 			'/div'
 		);
 		$this->assertTags($result, $expected);
@@ -2824,6 +2883,12 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
+		$result = $this->Form->inputs(null, null, array('legend' => 'Field of Dreams', 'fieldset' => 'classy-stuff'));
+		$this->assertTags($result, $expected);
+
+		$result = $this->Form->inputs('Field of Dreams', null, array('fieldset' => 'classy-stuff'));
+		$this->assertTags($result, $expected);
+
 		$this->Form->create('Contact');
 		$this->Form->request['prefix'] = 'admin';
 		$this->Form->request['action'] = 'admin_edit';
@@ -2888,6 +2953,10 @@ class FormHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$this->Form->create('Contact');
+		$result = $this->Form->inputs(null, null, array('fieldset' => false));
+		$this->assertTags($result, $expected);
+
+		$this->Form->create('Contact');
 		$result = $this->Form->inputs(array('fieldset' => true, 'legend' => false));
 		$expected = array(
 			'fieldset' => array(),
@@ -2937,6 +3006,10 @@ class FormHelperTest extends CakeTestCase {
 			array('div' => array('class' => 'input select')),
 			'*/div',
 		);
+		$this->assertTags($result, $expected);
+
+		$this->Form->create('Contact');
+		$result = $this->Form->inputs(null, null, array('fieldset' => false, 'legend' => 'Hello'));
 		$this->assertTags($result, $expected);
 
 		$this->Form->create('Contact');
@@ -2997,6 +3070,10 @@ class FormHelperTest extends CakeTestCase {
 			'*/div',
 			'/fieldset'
 		);
+		$this->assertTags($result, $expected);
+
+		$this->Form->create('Contact');
+		$result = $this->Form->inputs(null, null, array('legend' => 'Hello'));
 		$this->assertTags($result, $expected);
 	}
 
@@ -7157,6 +7234,20 @@ class FormHelperTest extends CakeTestCase {
 			'input' => array(
 				'type' => 'text', 'name' => 'data[Contact][imalsonotrequired]',
 				'id' => 'ContactImalsonotrequired'
+			),
+			'/div'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Form->input('Contact.imalsonotrequired2');
+		$expected = array(
+			'div' => array('class' => 'input text'),
+			'label' => array('for' => 'ContactImalsonotrequired2'),
+			'Imalsonotrequired2',
+			'/label',
+			'input' => array(
+				'type' => 'text', 'name' => 'data[Contact][imalsonotrequired2]',
+				'id' => 'ContactImalsonotrequired2'
 			),
 			'/div'
 		);

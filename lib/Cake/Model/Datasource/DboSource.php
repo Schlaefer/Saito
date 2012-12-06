@@ -64,7 +64,7 @@ class DboSource extends DataSource {
  * Whether or not to cache the results of DboSource::name() and DboSource::conditions()
  * into the memory cache.  Set to false to disable the use of the memory cache.
  *
- * @var boolean.
+ * @var boolean
  */
 	public $cacheMethods = true;
 
@@ -527,11 +527,11 @@ class DboSource extends DataSource {
  * @return resource Result resource identifier.
  */
 	public function query() {
-		$args	  = func_get_args();
-		$fields	  = null;
-		$order	  = null;
-		$limit	  = null;
-		$page	  = null;
+		$args = func_get_args();
+		$fields = null;
+		$order = null;
+		$limit = null;
+		$page = null;
 		$recursive = null;
 
 		if (count($args) === 1) {
@@ -830,7 +830,7 @@ class DboSource extends DataSource {
 		}
 		if (preg_match('/^([\w-]+)\((.*)\)$/', $data, $matches)) { // Functions
 			return $this->cacheMethod(__FUNCTION__, $cacheKey,
-				 $matches[1] . '(' . $this->name($matches[2]) . ')'
+				$matches[1] . '(' . $this->name($matches[2]) . ')'
 			);
 		}
 		if (
@@ -2281,7 +2281,8 @@ class DboSource extends DataSource {
 			$virtualFields,
 			$fields,
 			$quote,
-			ConnectionManager::getSourceName($this)
+			ConnectionManager::getSourceName($this),
+			$model->table
 		);
 		$cacheKey = md5(serialize($cacheKey));
 		if ($return = $this->cacheMethod(__FUNCTION__, $cacheKey)) {
@@ -2463,6 +2464,10 @@ class DboSource extends DataSource {
 					$not = 'NOT ';
 				}
 
+				if (empty($value)) {
+					continue;
+				}
+
 				if (empty($value[1])) {
 					if ($not) {
 						$out[] = $not . '(' . $value[0] . ')';
@@ -2489,16 +2494,16 @@ class DboSource extends DataSource {
 						$count = count($value);
 						if ($count === 1 && !preg_match("/\s+NOT$/", $key)) {
 							$data = $this->_quoteFields($key) . ' = (';
-						} else {
-							$data = $this->_quoteFields($key) . ' IN (';
-						}
-						if ($quoteValues) {
-							if (is_object($model)) {
-								$columnType = $model->getColumnType($key);
+							if ($quoteValues) {
+								if (is_object($model)) {
+									$columnType = $model->getColumnType($key);
+								}
+								$data .= implode(', ', $this->value($value, $columnType));
 							}
-							$data .= implode(', ', $this->value($value, $columnType));
+							$data .= ')';
+						} else {
+							$data = $this->_parseKey($model, $key, $value);
 						}
-						$data .= ')';
 					} else {
 						$ret = $this->conditionKeysToString($value, $quoteValues, $model);
 						if (count($ret) > 1) {
@@ -2916,6 +2921,10 @@ class DboSource extends DataSource {
 			}
 			$statement->execute();
 			$statement->closeCursor();
+
+			if ($this->fullDebug) {
+				$this->logQuery($sql, $value);
+			}
 		}
 		return $this->commit();
 	}
@@ -2928,7 +2937,7 @@ class DboSource extends DataSource {
  *
  * @param string $table The name of the table to update.
  * @param string $column The column to use when reseting the sequence value.
- * @return boolean success.
+ * @return boolean|void success.
  */
 	public function resetSequence($table, $column) {
 	}

@@ -527,7 +527,7 @@ class Hash {
 			$element = $data[$key];
 			unset($data[$key]);
 
-			if (is_array($element)) {
+			if (is_array($element) && !empty($element)) {
 				if (!empty($data)) {
 					$stack[] = array($data, $path);
 				}
@@ -687,6 +687,7 @@ class Hash {
  *
  * @param array $data The data to reduce.
  * @param string $path The path to extract from $data.
+ * @param callable $function The function to call on each extracted value.
  * @return mixed The reduced value.
  */
 	public static function reduce(array $data, $path, $function) {
@@ -700,6 +701,7 @@ class Hash {
  *
  * @param array $data The data to reduce.
  * @param string $path The path to extract from $data.
+ * @param callable $function The function to call on each extracted value.
  * @return mixed The results of the applied method.
  */
 	public static function apply(array $data, $path, $function) {
@@ -730,6 +732,9 @@ class Hash {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/hash.html#Hash::sort
  */
 	public static function sort(array $data, $path, $dir, $type = 'regular') {
+		if (empty($data)) {
+			return array();
+		}
 		$originalKeys = array_keys($data);
 		$numeric = is_numeric(implode('', $originalKeys));
 		if ($numeric) {
