@@ -112,11 +112,10 @@ ul.thread {
 	}
 
 .btn-threadCollapse {
-	vertical-align: top;
 	width: 28px;
 	text-align: center;
-	padding: 0 3px 0 5px;
-	height: 100%;
+	position: absolute;
+	left: -4px;
 	@extend .info_text;
 
 	> .icon-thread-open, > .icon-thread-closed {
@@ -124,13 +123,14 @@ ul.thread {
 		width: 10px;
 		// centers verticaly to bullet
 		line-height: 1.7;
+		vertical-align: top;
 		}
 	}
 
 .thread_inline {
   display: none;
   position: relative;
-  margin: 4px 0;
+  margin: 0px 0 4px;
   .btn_back_l, .btn_top_l {
     float: left; }
   /* otherwise link is slidetabs not clickable if inline with is open */

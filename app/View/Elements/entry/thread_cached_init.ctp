@@ -67,8 +67,7 @@
 					<?php endif; ?>
 				<?php endif; ?>
 		</div>
-		<div style="display: table;">
-			<div style="display: table-row;">
+			<div style="position: relative;">
 				<?php
 					$k = 'visibility: collapse;';
 					if (
@@ -78,17 +77,16 @@
 						$k = '';
 					}
 					echo <<<EOF
-<a href="#" class="btn-threadCollapse " title="{$cacheThreadBoxTitlei18n['btn-threadCollapse']}" style="display: table-cell; {$k}">
+<a href="#" class="btn-threadCollapse " title="{$cacheThreadBoxTitlei18n['btn-threadCollapse']}" style="{$k}">
 <i class="icon-thread-open"></i>
 </a>
 EOF;
 				?>
-			<div style="display: table-cell; vertical-align: top; width: 100%;">
+			<div style="margin-left: 18px;">
 				<?php
 					echo $out;
 				?>
 			</div>
-		</div>
 		</div>
 	</div>
 </div>
