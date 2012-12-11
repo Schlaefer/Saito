@@ -24,6 +24,7 @@
 			echo $this->Html->scriptBlock("
 				var timeAppStart = new Date().getTime();
 				var isMobile = " . $this->Js->value($this->request->isMobile()) . ";
+				var isPreview = " . $this->Js->value($this->request->isPreview()) . ";
 				var webroot = '{$this->request->webroot}';
 				var Saito_Settings_embedly_enabled = " . $this->Js->value(Configure::read('Saito.Settings.embedly_enabled')) . ";
 				var User_Settings_user_show_inline = " . $this->Js->value($CurrentUser['inline_view_on_click']) . ";
