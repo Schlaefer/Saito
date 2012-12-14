@@ -36,8 +36,8 @@
 						'isPreview' => $this->request->isPreview()
 					),
 					'currentUser' => array(
-						'user_show_inline' => $CurrentUser['inline_view_on_click'],
-						'user_show_thread_collapsed' => $CurrentUser['user_show_thread_collapsed']
+						'user_show_inline' => $CurrentUser['inline_view_on_click'] || false,
+						'user_show_thread_collapsed' => $CurrentUser['user_show_thread_collapsed'] || false
 					)
 			);
 			echo $this->Html->scriptBlock('var SaitoApp = ' . json_encode($SaitoApp));
