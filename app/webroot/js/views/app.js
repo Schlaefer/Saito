@@ -49,8 +49,7 @@ define([
 					}
 					new ThreadView({
 						el: $(element),
-						model: threads.get(threadId),
-						currentUser: this.currentUser
+						model: threads.get(threadId)
 					});
 				}, this));
 

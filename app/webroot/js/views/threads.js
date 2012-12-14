@@ -15,8 +15,7 @@ define([
 				"click .js-btn-showAllNewThreadlines": "showAllNewThreadlines"
 			},
 
-			initialize: function(options){
-				this.currentUser = options.currentUser;
+			initialize: function(){
 				this.model.on('change:isThreadCollapsed', this.toggleCollapseThread, this);
 
 				if (this.model.get('isThreadCollapsed')) {
