@@ -48,6 +48,7 @@
 				'show_recentposts' => array( 'type' => 'boolean', 'null' => false, 'default' => '0' ),
 				'show_recententries' => array( 'type' => 'boolean', 'null' => false, 'default' => '0' ),
 				'inline_view_on_click' => array( 'type' => 'boolean', 'null' => false, 'default' => '0' ),
+				'user_show_thread_collapsed' => array( 'type' => 'boolean', 'null' => false, 'default' => '0' ),
 				'flattr_uid' => array( 'type' => 'string', 'null' => true, 'default' => NULL, 'length' => 24 ),
 				'flattr_allow_user' => array( 'type' => 'boolean', 'null' => true, 'default' => NULL ),
 				'flattr_allow_posting' => array( 'type' => 'boolean', 'null' => true, 'default' => NULL ),
