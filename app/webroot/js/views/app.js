@@ -31,6 +31,7 @@ define([
 				this.app = options.SaitoApp.app;
 				this.settings = options.SaitoApp.app.settings;
 				this.request = options.SaitoApp.request;
+				this.currentUser = options.SaitoApp.currentUser;
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
@@ -38,18 +39,20 @@ define([
 					threads.fetch();
 				}
 
-				$('.thread_box').each(function(element) {
-					var threadId = parseInt($(this).attr('data-id'));
+				$('.thread_box').each(_.bind(function(index, element) {
+					var threadId = parseInt($(element).attr('data-id'));
 					if (!threads.get(threadId)) {
 						threads.add([{
-							id: threadId
+							id: threadId,
+							isThreadCollapsed: this.currentUser.user_show_thread_collapsed
 						}], {silent: true});
 					}
 					new ThreadView({
-						el: $(this),
-						model: threads.get(threadId)
+						el: $(element),
+						model: threads.get(threadId),
+						currentUser: this.currentUser
 					});
-				});
+				}, this));
 
 				// @td if everything is migrated to require/bb set var again
 				threadLines = new ThreadLineCollection;

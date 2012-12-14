@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-29 12:23+0100\n"
-"PO-Revision-Date: 2012-12-01 08:29+0100\n"
+"POT-Creation-Date: 2012-12-14 11:21+0100\n"
+"PO-Revision-Date: 2012-12-14 11:22+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -671,7 +671,7 @@ msgstr "Nicht bürosicher (NBS)"
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/add.ctp:245 View/Entries/add.ctp:257 View/Entries/add.ctp:314
+#: View/Entries/add.ctp:245 View/Entries/add.ctp:257 View/Entries/add.ctp:317
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -1451,87 +1451,96 @@ msgstr ""
 "Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen "
 "Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
 
-#: View/Users/edit.ctp:263
+#: View/Users/edit.ctp:262
+msgid "user_show_thread_collapsed"
+msgstr "Threads einklappen"
+
+#: View/Users/edit.ctp:265
+msgid "user_show_thread_collapsed_exp"
+msgstr ""
+"Threads sind standardmässig eingeklappt und müssen manuell geöffnet werden."
+
+#: View/Users/edit.ctp:270
 msgid "user_pers_msg"
 msgstr "Persönliche&nbsp;Nachrichten empfangen"
 
-#: View/Users/edit.ctp:264
+#: View/Users/edit.ctp:271
 msgid "user_pers_msg_exp"
 msgstr ""
 "Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen "
 "werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen "
 "werden)"
 
-#: View/Users/edit.ctp:271
+#: View/Users/edit.ctp:278
 msgid "user_category_override"
 msgstr "Kategorienfilter"
 
-#: View/Users/edit.ctp:276
+#: View/Users/edit.ctp:283
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
-#: View/Users/edit.ctp:284
+#: View/Users/edit.ctp:291
 msgid "user_time_diff"
 msgstr "Zeitzonen-Differenz"
 
-#: View/Users/edit.ctp:285
+#: View/Users/edit.ctp:292
 msgid "user_time_diff_exp"
 msgstr "Unterschied zur Server-Zeit in Stunden"
 
-#: View/Users/edit.ctp:290
+#: View/Users/edit.ctp:297
 msgid "admin_mod_notif"
 msgstr "E-Mail-Benachrichtigung"
 
-#: View/Users/edit.ctp:292
+#: View/Users/edit.ctp:299
 msgid "admin_mod_notif_exp"
 msgstr "(nur für Admins und Moderatoren)"
 
-#: View/Users/edit.ctp:293
+#: View/Users/edit.ctp:300
 msgid "new_posting_notify_exp"
 msgstr "wenn sich ein neuer Benutzer angemeldet hat"
 
-#: View/Users/edit.ctp:295
+#: View/Users/edit.ctp:302
 msgid "new_user_notify_exp"
 msgstr "wenn ein neues Posting gemacht wurde"
 
-#: View/Users/edit.ctp:302
+#: View/Users/edit.ctp:309
 msgid "user_font_size"
 msgstr "Schriftgröße"
 
-#: View/Users/edit.ctp:319
+#: View/Users/edit.ctp:326
 msgid "user_font_size_exp"
 msgstr "Schriftgröße für alle Schriften (optional)"
 
-#: View/Users/edit.ctp:334 View/Users/view.ctp:104
+#: View/Users/edit.ctp:341 View/Users/view.ctp:104
 msgid "flattr"
 msgstr "flattrn"
 
-#: View/Users/edit.ctp:343
+#: View/Users/edit.ctp:350
 msgid "flattr_uid"
 msgstr "Flattr ID"
 
-#: View/Users/edit.ctp:347
+#: View/Users/edit.ctp:354
 msgid "flattr_allow_user"
 msgstr "Flattrn"
 
-#: View/Users/edit.ctp:348
+#: View/Users/edit.ctp:355
 msgid "flattr_allow_user_exp"
 msgstr ""
 "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn "
 "allgemein für das Benutzerkonto."
 
-#: View/Users/edit.ctp:351
+#: View/Users/edit.ctp:358
 msgid "flattr_allow_posting"
 msgstr "Postings flattrn"
 
-#: View/Users/edit.ctp:352
+#: View/Users/edit.ctp:359
 msgid "flattr_allow_posting_exp"
 msgstr ""
 "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird "
 "automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
-#: View/Users/edit.ctp:358
+#: View/Users/edit.ctp:365
 msgid "button_save"
 msgstr "Speichern"
 
@@ -1607,11 +1616,11 @@ msgstr "Sperren"
 msgid "No entries created yet."
 msgstr "Noch keine Beiträge verfasst."
 
-#: Controller/AdminsController.php:44
+#: Controller/AdminsController.php:45
 msgid "New"
 msgstr "Neu"
 
-#: Controller/AdminsController.php:45
+#: Controller/AdminsController.php:46
 msgid "Cumulated"
 msgstr "Kumuliert"
 
