@@ -24,8 +24,13 @@
 				if ( $CurrentUser->isLoggedIn() ) :
 					echo $this->UserH->generateCss($CurrentUser->getSettings());
 				endif;
+				$SaitoApp = array (
+					'app' => array(
+						'webroot' => $this->request->webroot,
+						),
+					);
+					echo $this->Html->scriptBlock('var SaitoApp = ' . json_encode($SaitoApp));
 				?>
-			<?php echo $this->Html->scriptBlock("var webroot = '{$this->request->webroot}';"); ?>
 			<?php echo $this->Html->script('lib/jquery/jquery-1.8.3.min'); ?>
 	</head>
 	<body>

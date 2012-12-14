@@ -62,7 +62,7 @@ test('markItUp.multimedia()', function() {
 	equal(result, expected, message);
 
   // test embedly with support disabled
-  Saito_Settings_embedly_enabled = 0;
+  SaitoApp.settings.embedly_enabled = 0;
 	message = 'test embed.ly disabled'
 	input = 'https://twitter.com/apfelwiki/status/211385090444505088';
 	result = markItUp.multimedia(input);
@@ -70,7 +70,7 @@ test('markItUp.multimedia()', function() {
 	equal(result, expected, message);
 
   // test embedly with support enabled
-  Saito_Settings_embedly_enabled = 1;
+  SaitoApp.settings.embedly_enabled = 1;
 	message = 'test embed.ly'
 	input = 'https://twitter.com/apfelwiki/status/211385090444505088';
 	result = markItUp.multimedia(input);

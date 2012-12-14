@@ -51,7 +51,7 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
 		},
 		async:true,
 		type:'post',
-		url: webroot + 'entries/view/'  + id
+		url: SaitoApp.app.webroot + 'entries/view/'  + id
 	}
 	);
 };
@@ -70,7 +70,7 @@ ThreadLine.prototype.insertNewLineAfter = function (data) {
 	threads.get(tid).threadlines.add([{
 		id: threadLineId,
 		isNewToUser: true,
-		isAlwaysShownInline: User_Settings_user_show_inline
+		isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
 	}], {silent: true});
 	new ThreadLineView({
 		el: $(el).find('.js-thread_line'),
