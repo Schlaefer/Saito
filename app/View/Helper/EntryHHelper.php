@@ -245,6 +245,13 @@ EOF
 			$new_post_class = (($is_new_post) ? ' new' : '');
 			$thread_line_cached = $this->threadLineCached($entry_sub, $level);
 
+			$thread_line_pre = '&bull;';
+			if ($level === 0
+					&& $CurrentUser['user_show_thread_collapsed']
+					&& strtotime($entry_sub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
+				$thread_line_pre = '&#x2731;';
+			}
+
 			// generate current entry
 			$out = '';
 
@@ -253,7 +260,7 @@ EOF
 	<div class="js-thread_line-content tl-cnt {$new_post_class}">
 		<div class="thread_line-pre">
 			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
-				&bull;
+				{$thread_line_pre}
 			</a>
 		</div>
 		<a href='{$this->request->webroot}entries/view/{$entry_sub['Entry']['id']}'
