@@ -57,7 +57,7 @@
 		<?php echo $this->element('layout/slidetabs'); ?>
 		<div id="content">
 				<script type="text/javascript">
-					if (!isPreview) { $('#content').hide(); }
+					if (!SaitoApp.request.isPreview) { $('#content').hide(); }
 				</script>
 				<?php echo $this->fetch('content'); ?>
 		</div>
