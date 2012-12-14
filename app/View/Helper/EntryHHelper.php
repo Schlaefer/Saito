@@ -247,9 +247,8 @@ EOF
 
 			$thread_line_pre = '&bull;';
 			if ($level === 0
-					&& $CurrentUser['user_show_thread_collapsed']
 					&& strtotime($entry_sub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
-				$thread_line_pre = '&#x2731;';
+				$thread_line_pre = '&#x25CB;';
 			}
 
 			// generate current entry

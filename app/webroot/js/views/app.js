@@ -35,7 +35,7 @@ define([
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
-				if (this.request.controller === 'entries' && this.request.action === 'index' ) {
+				if (this.request.controller === 'entries' && this.request.action === 'index') {
 					threads.fetch();
 				}
 
@@ -44,7 +44,7 @@ define([
 					if (!threads.get(threadId)) {
 						threads.add([{
 							id: threadId,
-							isThreadCollapsed: this.currentUser.user_show_thread_collapsed
+							isThreadCollapsed: this.request.controller === 'entries' && this.request.action === 'index' && this.currentUser.user_show_thread_collapsed
 						}], {silent: true});
 					}
 					new ThreadView({
