@@ -1,11 +1,15 @@
 // doc: <http://docs.jquery.com/Qunit>
 
+var SaitoApp;
+
 module('markItUp');
 test('markItUp.multimedia()', function() {
 	var input,
 			result,
 			expected,
 			message;
+
+	SaitoApp = {app: {settings:{embedly_enabled: 0}}};
 
 	// test html5 video
 	$.each(['mp4', 'webm', 'm4v'], function(key, value) {
@@ -62,7 +66,7 @@ test('markItUp.multimedia()', function() {
 	equal(result, expected, message);
 
   // test embedly with support disabled
-  SaitoApp.settings.embedly_enabled = 0;
+  SaitoApp.app.settings.embedly_enabled = 0;
 	message = 'test embed.ly disabled'
 	input = 'https://twitter.com/apfelwiki/status/211385090444505088';
 	result = markItUp.multimedia(input);
@@ -70,7 +74,7 @@ test('markItUp.multimedia()', function() {
 	equal(result, expected, message);
 
   // test embedly with support enabled
-  SaitoApp.settings.embedly_enabled = 1;
+  SaitoApp.app.settings.embedly_enabled = 1;
 	message = 'test embed.ly'
 	input = 'https://twitter.com/apfelwiki/status/211385090444505088';
 	result = markItUp.multimedia(input);
