@@ -77,7 +77,7 @@ var markItUp = {
 			out = markItUp._videoFallback(textv);
 		}
 
-		if ( SaitoApp.settings.embedly_enabled == 1 && out === '' ) {
+		if ( SaitoApp.app.settings.embedly_enabled == 1 && out === '' ) {
 			out = markItUp._embedly(textv);
 		}
 
