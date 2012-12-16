@@ -77,7 +77,7 @@ var markItUp = {
 			out = markItUp._videoFallback(textv);
 		}
 
-		if ( Saito_Settings_embedly_enabled == 1 && out === '' ) {
+		if ( SaitoApp.settings.embedly_enabled == 1 && out === '' ) {
 			out = markItUp._embedly(textv);
 		}
 
@@ -314,7 +314,7 @@ function slidetabsMakeSortable() {
 			var slidetabsOrder = $(this).sortable('toArray');
 			$.ajax({
 				type: 'POST',
-				url: webroot + 'users/ajax_set',
+				url: SaitoApp.app.webroot + 'users/ajax_set',
 				data: {
 					data : {
 						User: {

@@ -20,17 +20,27 @@
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
-
-			echo $this->Html->scriptBlock("
-				var timeAppStart = new Date().getTime();
-				var isMobile = " . $this->Js->value($this->request->isMobile()) . ";
-				var webroot = '{$this->request->webroot}';
-				var Saito_Settings_embedly_enabled = " . $this->Js->value(Configure::read('Saito.Settings.embedly_enabled')) . ";
-				var User_Settings_user_show_inline = " . $this->Js->value($CurrentUser['inline_view_on_click']) . ";
-				var Saito_App_Settings_autoPageReload = " . (isset($autoPageReload) ? $autoPageReload : 0) . ";
-				var Saito_App_action = " . $this->Js->value($this->request->action) . ";
-				var Saito_App_controller = " . $this->Js->value($this->request->controller) . ";
-			");
+			$SaitoApp = array (
+					'app' => array(
+						'timeAppStart' => 'new Date().getTime()',
+						'webroot' => $this->request->webroot,
+						'settings' => array (
+							'embedly_enabled' => Configure::read('Saito.Settings.embedly_enabled'),
+							'autoPageReload' => (isset($autoPageReload) ? $autoPageReload : 0)
+						)
+					),
+					'request' => array(
+						'action' => $this->request->action,
+						'controller' => $this->request->controller,
+						'isMobile' => $this->request->isMobile(),
+						'isPreview' => $this->request->isPreview()
+					),
+					'currentUser' => array(
+						'user_show_inline' => $CurrentUser['inline_view_on_click'] || false,
+						'user_show_thread_collapsed' => $CurrentUser['user_show_thread_collapsed'] || false
+					)
+			);
+			echo $this->Html->scriptBlock('var SaitoApp = ' . json_encode($SaitoApp));
 			if (Configure::read('debug') == 0):
 				echo $this->Html->script('lib/jquery/jquery-1.8.3.min');
 			else:

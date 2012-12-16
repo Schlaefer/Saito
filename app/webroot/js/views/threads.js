@@ -20,6 +20,8 @@ define([
 
 				if (this.model.get('isThreadCollapsed')) {
 					this.hide();
+				} else {
+					this.show();
 				}
 			},
 
@@ -96,7 +98,7 @@ define([
 
 			slideDown: function() {
 				$(this.el).find('ul.thread > li:not(:first-child)').slideDown(300);
-				$(this.el).find('.icon-thread-closed').removeClass('icon-thread-closed').addClass('icon-thread-open');
+				this.markShown();
 //				$(this.el).find('.ico-threadOpen').removeClass('ico-threadOpen').addClass('ico-threadCollapse');
 //				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
 			},
@@ -104,6 +106,15 @@ define([
 			hide: function() {
 				$(this.el).find('ul.thread > li:not(:first-child)').hide();
 				this.markHidden();
+			},
+
+			show: function() {
+				$(this.el).find('ul.thread > li:not(:first-child)').show();
+				this.markShown();
+			},
+
+			markShown: function() {
+				$(this.el).find('.icon-thread-closed').removeClass('icon-thread-closed').addClass('icon-thread-open');
 			},
 
 			markHidden: function() {

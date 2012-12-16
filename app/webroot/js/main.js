@@ -51,6 +51,7 @@ require(['domReady', 'views/app', 'bootstrap', 'jqueryhelpers'], function(domRea
 
 	domReady(function () {
 		var App = new AppView({
+			SaitoApp: SaitoApp,
 			contentTimer: contentTimer
 		});
 	});

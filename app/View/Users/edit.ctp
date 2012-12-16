@@ -258,6 +258,13 @@
 					<p class="exp"> <?php echo __('inline_view_on_click_exp') ?> </p>
 			</td>
 		</tr>
+		<tr>
+			<td> <?php echo __('user_show_thread_collapsed') ?> </td>
+			<td>
+					<?php echo  $this->Form->checkbox('user_show_thread_collapsed'); ?>
+					<p class="exp"> <?php echo __('user_show_thread_collapsed_exp') ?> </p>
+			</td>
+		</tr>
 	
 			<tr>
 				<td> <?php echo __('user_pers_msg') ?> </td>

@@ -18,6 +18,8 @@ define([
 		// App
 		var AppView = Backbone.View.extend({
 			el: $('body'),
+			settings: {},
+			request: {},
 
 			events: {
 				'click #showLoginForm': 'showLoginForm',
@@ -26,24 +28,30 @@ define([
 
 			initialize: function (options) {
 
+				this.app = options.SaitoApp.app;
+				this.settings = options.SaitoApp.app.settings;
+				this.request = options.SaitoApp.request;
+				this.currentUser = options.SaitoApp.currentUser;
+
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
-				if (Saito_App_controller === 'entries' && Saito_App_action === 'index' ) {
+				if (this.request.controller === 'entries' && this.request.action === 'index') {
 					threads.fetch();
 				}
 
-				$('.thread_box').each(function(element) {
-					var threadId = parseInt($(this).attr('data-id'));
+				$('.thread_box').each(_.bind(function(index, element) {
+					var threadId = parseInt($(element).attr('data-id'));
 					if (!threads.get(threadId)) {
 						threads.add([{
-							id: threadId
+							id: threadId,
+							isThreadCollapsed: this.request.controller === 'entries' && this.request.action === 'index' && this.currentUser.user_show_thread_collapsed
 						}], {silent: true});
 					}
 					new ThreadView({
-						el: $(this),
+						el: $(element),
 						model: threads.get(threadId)
 					});
-				});
+				}, this));
 
 				// @td if everything is migrated to require/bb set var again
 				threadLines = new ThreadLineCollection;
@@ -57,14 +65,14 @@ define([
 						threads.get(threadId).threadlines.add([{
 							id: threadLineId,
 							isNewToUser: isNew,
-							isAlwaysShownInline: User_Settings_user_show_inline
+							isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
 						}], {silent: true});
 						new_model = threads.get(threadId).threadlines.get(threadLineId);
 					} else {
 						threadLines.add([{
 							id: threadLineId,
 							isNewToUser: isNew,
-							isAlwaysShownInline: User_Settings_user_show_inline
+							isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
 						}], {silent: true});
 						new_model = threadLines.get(threadLineId);
 					}
@@ -90,14 +98,14 @@ define([
 				// initiate page reload
 				// @td make App property instead of global
 				autoPageReloadTimer = null;
-				if (Saito_App_Settings_autoPageReload) {
+				if (this.settings.autoPageReload) {
 					autoPageReloadTimer = setTimeout(
-						function() {
-							window.location = webroot + 'entries/noupdate/';
-						}, Saito_App_Settings_autoPageReload * 1000);
+						_.bind(function() {
+							window.location = this.app.webroot + 'entries/noupdate/';
+						}, this), this.settings.autoPageReload * 1000);
 				}
 
-				if (isMobile || (new Date().getTime() - timeAppStart) > 1500) {
+				if (this.request.isMobile || (new Date().getTime() - options.SaitoApp.timeAppStart) > 1500) {
 					$('#content').show();
 				} else {
 					$('#content').fadeIn(150, 'easeInOutQuart');
