@@ -42,9 +42,9 @@
 			);
 			echo $this->Html->scriptBlock('var SaitoApp = ' . json_encode($SaitoApp));
 			if (Configure::read('debug') == 0):
-				echo $this->Html->script('lib/jquery/jquery-1.8.3.min');
+				echo $this->Html->script('lib/jquery/jquery-1.9.0.min');
 			else:
-				echo $this->Html->script('lib/jquery/jquery-1.8.3');
+				echo $this->Html->script('lib/jquery/jquery-1.9.0');
 			endif;
 
 			/*

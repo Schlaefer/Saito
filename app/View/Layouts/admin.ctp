@@ -6,7 +6,7 @@
 		<?php echo $this->Html->charset(); ?>
 		<?php echo $this->Html->script(
 				array(
-						'lib/jquery/jquery-1.8.3.min.js',
+						'lib/jquery/jquery-1.9.0.min.js',
 						'bootstrap/bootstrap'
 				)
 				); ?>
