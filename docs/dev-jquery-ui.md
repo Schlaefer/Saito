@@ -1,5 +1,4 @@
-# jQuery-UI components: #
-
+# jQuery-UI components #
 
 - UI Core
   - Core
@@ -13,7 +12,6 @@
   - Dialog (popups)
 - Effects
   - Core
-  - Drop (unused)
   - Fade (dialog popups)
   - Highlight
   - Scale (dialog popups)
