@@ -163,7 +163,8 @@ define([
 					width: 420,
 					show: 'fade',
 					hide: 'fade',
-					position: ['center', 120]
+					position: ['center', 120],
+                    resizable: false
 				});
 			}
 		});

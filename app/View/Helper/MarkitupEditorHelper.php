@@ -89,6 +89,7 @@ function() {
 		show: {effect: "scale", duration: 200},
 		hide: {effect: "fade", duration: 200},
 		title: "Multimedia",
+		resizable: false,
 		close: function(event, ui) {
   		$('#markitup_media_message').hide();
 		},
