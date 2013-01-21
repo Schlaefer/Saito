@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
 // markItUp! Universal MarkUp Engine, JQuery plugin
-// v 1.1.6
+// v 1.1.x
 // Dual licensed under the MIT and GPL licenses.
 // ----------------------------------------------------------------------------
-// Copyright (C) 2007-2009 Jay Salvat
+// Copyright (C) 2007-2012 Jay Salvat
 // http://markitup.jaysalvat.com/
 // ----------------------------------------------------------------------------
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,16 +26,23 @@
 // ----------------------------------------------------------------------------
 (function($) {
 	$.fn.markItUp = function(settings, extraSettings) {
-		var options, ctrlKey, shiftKey, altKey;
-		ctrlKey = shiftKey = altKey = false;
+		var method, params, options, ctrlKey, shiftKey, altKey; ctrlKey = shiftKey = altKey = false;
+
+		if (typeof settings == 'string') {
+			method = settings;
+			params = extraSettings;
+		} 
 
 		options = {	id:						'',
 					nameSpace:				'',
 					root:					'',
+					previewHandler:			false,
 					previewInWindow:		'', // 'width=800, height=600, resizable=yes, scrollbars=yes'
+					previewInElement:		'',
 					previewAutoRefresh:		true,
 					previewPosition:		'after',
 					previewTemplatePath:	'~/templates/preview.html',
+					previewParser:			false,
 					previewParserPath:		'',
 					previewParserVar:		'data',
 					resizeHandle:			true,
@@ -71,6 +78,20 @@
 
 			options.previewParserPath = localize(options.previewParserPath);
 			options.previewTemplatePath = localize(options.previewTemplatePath);
+
+			if (method) {
+				switch(method) {
+					case 'remove':
+						remove();
+					break;
+					case 'insert':
+						markup(params);
+					break;
+					default: 
+						$.error('Method ' +  method + ' does not exist on jQuery.markItUp');
+				}
+				return;
+			}
 
 			// apply the computed path to ~/
 			function localize(data, inText) {
@@ -108,26 +129,26 @@
 				if (options.resizeHandle === true && $.browser.safari !== true) {
 					resizeHandle = $('<div class="markItUpResizeHandle"></div>')
 						.insertAfter($$)
-						.bind("mousedown", function(e) {
+						.bind("mousedown.markItUp", function(e) {
 							var h = $$.height(), y = e.clientY, mouseMove, mouseUp;
 							mouseMove = function(e) {
 								$$.css("height", Math.max(20, e.clientY+h-y)+"px");
 								return false;
 							};
 							mouseUp = function(e) {
-								$("html").unbind("mousemove", mouseMove).unbind("mouseup", mouseUp);
+								$("html").unbind("mousemove.markItUp", mouseMove).unbind("mouseup.markItUp", mouseUp);
 								return false;
 							};
-							$("html").bind("mousemove", mouseMove).bind("mouseup", mouseUp);
+							$("html").bind("mousemove.markItUp", mouseMove).bind("mouseup.markItUp", mouseUp);
 					});
 					footer.append(resizeHandle);
 				}
 
 				// listen key events
-				$$.keydown(keyPressed).keyup(keyPressed);
+				$$.bind('keydown.markItUp', keyPressed).bind('keyup', keyPressed);
 				
 				// bind an event to catch external calls
-				$$.bind("insertion", function(e, settings) {
+				$$.bind("insertion.markItUp", function(e, settings) {
 					if (settings.target !== false) {
 						get();
 					}
@@ -137,9 +158,13 @@
 				});
 
 				// remember the last focus
-				$$.focus(function() {
+				$$.bind('focus.markItUp', function() {
 					$.markItUp.focused = this;
 				});
+
+				if (options.previewInElement) {
+					refreshPreview();
+				}
 			}
 
 			// recursively build header with dropMenus from markupset
@@ -148,7 +173,7 @@
 				$('li:hover > ul', ul).css('display', 'block');
 				$.each(markupSet, function() {
 					var button = this, t = '', title, li, j;
-					title = (button.key) ? (button.title||'')+' [Ctrl+'+button.key+']' : (button.title||'');
+					title = (button.key) ? (button.name||'')+' [Ctrl+'+button.key+']' : (button.name||'');
 					key   = (button.key) ? 'accesskey="'+button.key+'"' : '';
 					if (button.separator) {
 						li = $('<li class="markItUpSeparator">'+(button.separator||'')+'</li>').appendTo(ul);
@@ -157,27 +182,30 @@
 						for (j = levels.length -1; j >= 0; j--) {
 							t += levels[j]+"-";
 						}
+                        console.log(title);
+                        console.log(button.name);
 						li = $('<li class="markItUpButton markItUpButton'+t+(i)+' '+(button.className||'')+'"><a href="" '+key+' title="'+title+'">'+(button.name||'')+'</a></li>')
-						.bind("contextmenu", function() { // prevent contextmenu on mac and allow ctrl+click
+						.bind("contextmenu.markItUp", function() { // prevent contextmenu on mac and allow ctrl+click
 							return false;
-						}).click(function() {
+						}).bind('click.markItUp', function() {
 							return false;
-						}).mouseup(function() {
+						}).bind("focusin.markItUp", function(){
+                            $$.focus();
+						}).bind('mouseup', function() {
 							if (button.call) {
 								eval(button.call)();
 							}
-							markup(button);
+							setTimeout(function() { markup(button) },1);
 							return false;
-						}).hover(function() {
+						}).bind('mouseenter.markItUp', function() {
 								$('> ul', this).show();
 								$(document).one('click', function() { // close dropmenu if click outside
 										$('ul ul', header).hide();
 									}
 								);
-							}, function() {
+						}).bind('mouseleave.markItUp', function() {
 								$('> ul', this).hide();
-							}
-						).appendTo(ul);
+						}).appendTo(ul);
 						if (button.dropMenu) {
 							levels.push(i);
 							$(li).addClass('markItUpDropMenu').append(dropMenus(button.dropMenu));
@@ -231,17 +259,42 @@
 
 			// build block to insert
 			function build(string) {
-				openWith 	= prepare(clicked.openWith);
-				placeHolder = prepare(clicked.placeHolder);
-				replaceWith = prepare(clicked.replaceWith);
-				closeWith 	= prepare(clicked.closeWith);
+				var openWith 			= prepare(clicked.openWith);
+				var placeHolder 		= prepare(clicked.placeHolder);
+				var replaceWith 		= prepare(clicked.replaceWith);
+				var closeWith 			= prepare(clicked.closeWith);
+				var openBlockWith 		= prepare(clicked.openBlockWith);
+				var closeBlockWith 		= prepare(clicked.closeBlockWith);
+				var multiline 			= clicked.multiline;
+				
 				if (replaceWith !== "") {
 					block = openWith + replaceWith + closeWith;
 				} else if (selection === '' && placeHolder !== '') {
 					block = openWith + placeHolder + closeWith;
 				} else {
-					block = openWith + (string||selection) + closeWith;
+					string = string || selection;
+
+					var lines = [string], blocks = [];
+					
+					if (multiline === true) {
+						lines = string.split(/\r?\n/);
+					}
+					
+					for (var l = 0; l < lines.length; l++) {
+						line = lines[l];
+						var trailingSpaces;
+						if (trailingSpaces = line.match(/ *$/)) {
+							blocks.push(openWith + line.replace(/ *$/g, '') + closeWith + trailingSpaces);
+						} else {
+							blocks.push(openWith + line + closeWith);
+						}
+					}
+					
+					block = blocks.join("\n");
 				}
+
+				block = openBlockWith + block + closeBlockWith;
+
 				return {	block:block, 
 							openWith:openWith, 
 							replaceWith:replaceWith, 
@@ -255,7 +308,6 @@
 				var len, j, n, i;
 				hash = clicked = button;
 				get();
-
 				$.extend(hash, {	line:"", 
 						 			root:options.root,
 									textarea:textarea, 
@@ -269,12 +321,12 @@
 				// callbacks before insertion
 				prepare(options.beforeInsert);
 				prepare(clicked.beforeInsert);
-				if (ctrlKey === true && shiftKey === true) {
+				if ((ctrlKey === true && shiftKey === true) || button.multiline === true) {
 					prepare(clicked.beforeMultiInsert);
 				}			
 				$.extend(hash, { line:1 });
-				
-				if (ctrlKey === true && shiftKey === true) {
+
+				if ((ctrlKey === true && shiftKey === true)) {
 					lines = selection.split(/\r?\n/);
 					for (j = 0, n = lines.length, i = 0; i < n; i++) {
 						if ($.trim(lines[i]) !== '') {
@@ -284,13 +336,15 @@
 							lines[i] = "";
 						}
 					}
+
 					string = { block:lines.join('\n')};
 					start = caretPosition;
-					len = string.block.length + (($.browser.opera) ? n : 0);
+					len = string.block.length + (($.browser.opera) ? n-1 : 0);
 				} else if (ctrlKey === true) {
 					string = build(selection);
 					start = caretPosition + string.openWith.length;
 					len = string.block.length - string.openWith.length - string.closeWith.length;
+					len = len - (string.block.match(/ $/) ? 1 : 0);
 					len -= fixIeBug(string.block);
 				} else if (shiftKey === true) {
 					string = build(selection);
@@ -325,7 +379,7 @@
 				$.extend(hash, { line:'', selection:selection });
 
 				// callbacks after insertion
-				if (ctrlKey === true && shiftKey === true) {
+				if ((ctrlKey === true && shiftKey === true) || button.multiline === true) {
 					prepare(clicked.afterMultiInsert);
 				}
 				prepare(clicked.afterInsert);
@@ -361,7 +415,7 @@
 					var newSelection = document.selection.createRange();
 					newSelection.text = block;
 				} else {
-					$$.val($$.val().substring(0, caretPosition)	+ block + $$.val().substring(caretPosition + selection.length, $$.val().length));
+					textarea.value =  textarea.value.substring(0, caretPosition)  + block + textarea.value.substring(caretPosition + selection.length, textarea.value.length);
 				}
 			}
 
@@ -395,25 +449,33 @@
 						var range = document.selection.createRange(), rangeCopy = range.duplicate();
 						rangeCopy.moveToElementText(textarea);
 						caretPosition = -1;
-						while(rangeCopy.inRange(range)) { // fix most of the ie bugs with linefeeds...
+						while(rangeCopy.inRange(range)) {
 							rangeCopy.moveStart('character');
 							caretPosition ++;
 						}
 					} else { // opera
 						caretPosition = textarea.selectionStart;
 					}
-				} else { // gecko
+				} else { // gecko & webkit
 					caretPosition = textarea.selectionStart;
-					selection = $$.val().substring(caretPosition, textarea.selectionEnd);
+
+					selection = textarea.value.substring(caretPosition, textarea.selectionEnd);
 				} 
 				return selection;
 			}
 
 			// open preview window
 			function preview() {
-				if (!previewWindow || previewWindow.closed) {
+				if (typeof options.previewHandler === 'function') {
+					previewWindow = true;
+				} else if (options.previewInElement) {
+					previewWindow = $(options.previewInElement);
+				} else if (!previewWindow || previewWindow.closed) {
 					if (options.previewInWindow) {
 						previewWindow = window.open('', 'preview', options.previewInWindow);
+						$(window).unload(function() {
+							previewWindow.close();
+						});
 					} else {
 						iFrame = $('<iframe class="markItUpPreviewFrame"></iframe>');
 						if (options.previewPosition == 'after') {
@@ -424,7 +486,6 @@
 						previewWindow = iFrame[iFrame.length - 1].contentWindow || frame[iFrame.length - 1];
 					}
 				} else if (altKey === true) {
-					// Thx Stephen M. Redd for the IE8 fix
 					if (iFrame) {
 						iFrame.remove();
 					} else {
@@ -435,6 +496,9 @@
 				if (!options.previewAutoRefresh) {
 					refreshPreview(); 
 				}
+				if (options.previewInWindow) {
+					previewWindow.focus();
+				}
 			}
 
 			// refresh Preview window
@@ -442,45 +506,52 @@
  				renderPreview();
 			}
 
-			function renderPreview() {		
+			function renderPreview() {
 				var phtml;
-				if (options.previewParserPath !== '') {
-					$.ajax( {
+				if (options.previewHandler && typeof options.previewHandler === 'function') {
+					options.previewHandler( $$.val() );
+				} else if (options.previewParser && typeof options.previewParser === 'function') {
+					var data = options.previewParser( $$.val() );
+					writeInPreview(localize(data, 1) ); 
+				} else if (options.previewParserPath !== '') {
+					$.ajax({
 						type: 'POST',
+						dataType: 'text',
+						global: false,
 						url: options.previewParserPath,
 						data: options.previewParserVar+'='+encodeURIComponent($$.val()),
 						success: function(data) {
 							writeInPreview( localize(data, 1) ); 
 						}
-					} );
+					});
 				} else {
 					if (!template) {
-						$.ajax( {
+						$.ajax({
 							url: options.previewTemplatePath,
+							dataType: 'text',
+							global: false,
 							success: function(data) {
 								writeInPreview( localize(data, 1).replace(/<!-- content -->/g, $$.val()) );
 							}
-						} );
+						});
 					}
 				}
 				return false;
 			}
 			
 			function writeInPreview(data) {
-				if (previewWindow.document) {			
+				if (options.previewInElement) {
+					$(options.previewInElement).html(data);
+				} else if (previewWindow && previewWindow.document) {			
 					try {
 						sp = previewWindow.document.documentElement.scrollTop
 					} catch(e) {
 						sp = 0;
 					}	
-					var h = "test";
 					previewWindow.document.open();
 					previewWindow.document.write(data);
 					previewWindow.document.close();
 					previewWindow.document.documentElement.scrollTop = sp;
-				}
-				if (options.previewInWindow) {
-					previewWindow.focus();
 				}
 			}
 			
@@ -488,25 +559,25 @@
 			function keyPressed(e) { 
 				shiftKey = e.shiftKey;
 				altKey = e.altKey;
-				ctrlKey = (!(e.altKey && e.ctrlKey)) ? e.ctrlKey : false;
+				ctrlKey = (!(e.altKey && e.ctrlKey)) ? (e.ctrlKey || e.metaKey) : false;
 
 				if (e.type === 'keydown') {
 					if (ctrlKey === true) {
-						li = $("a[accesskey="+String.fromCharCode(e.keyCode)+"]", header).parent('li');
+						li = $('a[accesskey="'+((e.keyCode == 13) ? '\\n' : String.fromCharCode(e.keyCode))+'"]', header).parent('li');
 						if (li.length !== 0) {
 							ctrlKey = false;
-							li.triggerHandler('mouseup');
+							setTimeout(function() {
+								li.triggerHandler('mouseup');
+							},1);
 							return false;
 						}
 					}
 					if (e.keyCode === 13 || e.keyCode === 10) { // Enter key
 						if (ctrlKey === true) {  // Enter + Ctrl
-							console.log("onCtrlEnter");
 							ctrlKey = false;
 							markup(options.onCtrlEnter);
 							return options.onCtrlEnter.keepDefault;
 						} else if (shiftKey === true) { // Enter + Shift
-							console.log("onShiftEnter");
 							shiftKey = false;
 							markup(options.onShiftEnter);
 							return options.onShiftEnter.keepDefault;
@@ -516,7 +587,7 @@
 						}
 					}
 					if (e.keyCode === 9) { // Tab key
-						if (shiftKey == true || ctrlKey == true || altKey == true) { // Thx Dr Floob.
+						if (shiftKey == true || ctrlKey == true || altKey == true) {
 							return true;
 						}
 						if (caretOffset !== -1) {
@@ -533,14 +604,19 @@
 				}
 			}
 
+			function remove() {
+				$$.unbind(".markItUp").removeClass('markItUpEditor');
+				$$.parent('div').parent('div.markItUp').parent('div').replaceWith($$);
+				$$.data('markItUp', null);
+			}
+
 			init();
 		});
 	};
 
 	$.fn.markItUpRemove = function() {
 		return this.each(function() {
-				$$ = $(this).unbind().removeClass('markItUpEditor');
-				$$.parent('div').parent('div.markItUp').parent('div').replaceWith($$);
+				$(this).markItUp('remove');
 			}
 		);
 	};
