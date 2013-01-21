@@ -182,8 +182,6 @@
 						for (j = levels.length -1; j >= 0; j--) {
 							t += levels[j]+"-";
 						}
-                        console.log(title);
-                        console.log(button.name);
 						li = $('<li class="markItUpButton markItUpButton'+t+(i)+' '+(button.className||'')+'"><a href="" '+key+' title="'+title+'">'+(button.name||'')+'</a></li>')
 						.bind("contextmenu.markItUp", function() { // prevent contextmenu on mac and allow ctrl+click
 							return false;

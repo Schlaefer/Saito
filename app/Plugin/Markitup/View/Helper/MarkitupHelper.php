@@ -35,8 +35,8 @@ class MarkitupHelper extends AppHelper {
 	public function editor($name, $settings = array()) {
     $jquery_migrate_path = $this->Html->url($this->paths['js'] . 'jquery-migrate-1.0.0.js');
     echo $this->Html->scriptBlock('
-        if(typeof jQuery !== undefined && /1\.[0-8]\.[0-9]/.test($.fn.jquery) === false) {
-            document.write("<script type=\'text/javascript\' src=\''.$jquery_migrate_path.'\'><\/script>");
+        if(typeof jQuery !== "undefined" && /1\.[0-8]\.[0-9]/.test($.fn.jquery) === false && typeof jQuery.migrateWarnings === "undefined" ) {
+            $("head").append(\'<script type="text/javascript" src="'.$jquery_migrate_path.'"><\/script>\');
         }
     ', array('inline' => true, 'safe' => false));
 		echo $this->Html->script($this->paths['js'] . 'jquery.markitup', array('inline' => true));
