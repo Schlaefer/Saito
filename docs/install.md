@@ -28,7 +28,7 @@ Open the URL root and if everything went OK the installer should greet you.
 
 The `tmp`-directory and its subdirectories have to be be writable by the webserver. Set the rights accordingly.
     
-### 4.2 Config Directory  Is Not Writable ###
+### 4.2 Config Directory Is Not Writable ###
 
 The `app/config` folder needs to be writable by the webserver during the installation.
     
@@ -41,12 +41,12 @@ Follow the web-installer's instruction to the end.
 
 ## After the installation
 
-- **Backup app/Config/core.php!**
-- Change the admin password to a secure phrase
+- ** Backup the app/Config directory! **
+- Change the admin-account password to a secure phrase
 - Set email addresses so contacting the admin works:
-	- Set the admin email address (user preferences)
-	- Set the forum email address (forum settings)
-- You made a backup of core.php in step 1, right?
+	- Set the admin-account email address (user preferences)
+	- Set the forum email sender address (forum settings)
+- You did make a backup of app/Config in step 1, right?
 
 # Nginx Configuration for CakePHP <a name="NginxConfigurationForCakePHP"/> #
 
