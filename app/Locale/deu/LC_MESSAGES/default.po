@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-14 11:21+0100\n"
-"PO-Revision-Date: 2012-12-14 11:22+0100\n"
+"POT-Creation-Date: 2013-01-22 11:32+0100\n"
+"PO-Revision-Date: 2013-01-22 14:13+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -239,7 +239,7 @@ msgid "New Category"
 msgstr "Neue Kategorie"
 
 #: View/Categories/admin_index.ctp:34 View/Categories/index.ctp:30
-#: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:222
+#: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:227
 #: View/SmileyCodes/admin_index.ctp:29 View/Smilies/admin_index.ctp:31
 #: View/Users/view.ctp:182
 msgid "Edit"
@@ -253,7 +253,7 @@ msgid "Are you sure you want to delete # %s?"
 msgstr "# %s wirklich löschen?"
 
 #: View/Categories/index.ctp:29 View/Categories/view.ctp:106
-#: View/Settings/admin_index.ctp:246
+#: View/Settings/admin_index.ctp:251
 msgid "View"
 msgstr "Anzeigen"
 
@@ -812,21 +812,21 @@ msgstr "Forum deaktivieren."
 
 #: View/Settings/admin_index.ctp:27 View/Settings/admin_index.ctp:46
 #: View/Settings/admin_index.ctp:70 View/Settings/admin_index.ctp:89
-#: View/Settings/admin_index.ctp:108 View/Settings/admin_index.ctp:132
-#: View/Settings/admin_index.ctp:151 View/Settings/admin_index.ctp:170
-#: View/Settings/admin_index.ctp:194 View/Settings/admin_index.ctp:213
-#: View/Settings/admin_index.ctp:237 View/Settings/admin_index.ctp:261
-#: View/Settings/admin_index.ctp:280 View/Settings/admin_index.ctp:299
-#: View/Settings/admin_index.ctp:318 View/Settings/admin_index.ctp:337
-#: View/Settings/admin_index.ctp:356 View/Settings/admin_index.ctp:375
-#: View/Settings/admin_index.ctp:394 View/Settings/admin_index.ctp:413
-#: View/Settings/admin_index.ctp:432 View/Settings/admin_index.ctp:451
-#: View/Settings/admin_index.ctp:470 View/Settings/admin_index.ctp:494
-#: View/Settings/admin_index.ctp:513 View/Settings/admin_index.ctp:537
-#: View/Settings/admin_index.ctp:556 View/Settings/admin_index.ctp:579
-#: View/Settings/admin_index.ctp:598 View/Settings/admin_index.ctp:617
-#: View/Settings/admin_index.ctp:636 View/Settings/admin_index.ctp:646
-#: View/Settings/admin_index.ctp:665
+#: View/Settings/admin_index.ctp:108 View/Settings/admin_index.ctp:137
+#: View/Settings/admin_index.ctp:156 View/Settings/admin_index.ctp:175
+#: View/Settings/admin_index.ctp:199 View/Settings/admin_index.ctp:218
+#: View/Settings/admin_index.ctp:242 View/Settings/admin_index.ctp:266
+#: View/Settings/admin_index.ctp:285 View/Settings/admin_index.ctp:304
+#: View/Settings/admin_index.ctp:323 View/Settings/admin_index.ctp:342
+#: View/Settings/admin_index.ctp:361 View/Settings/admin_index.ctp:380
+#: View/Settings/admin_index.ctp:399 View/Settings/admin_index.ctp:418
+#: View/Settings/admin_index.ctp:437 View/Settings/admin_index.ctp:456
+#: View/Settings/admin_index.ctp:475 View/Settings/admin_index.ctp:499
+#: View/Settings/admin_index.ctp:518 View/Settings/admin_index.ctp:542
+#: View/Settings/admin_index.ctp:561 View/Settings/admin_index.ctp:584
+#: View/Settings/admin_index.ctp:603 View/Settings/admin_index.ctp:622
+#: View/Settings/admin_index.ctp:641 View/Settings/admin_index.ctp:651
+#: View/Settings/admin_index.ctp:670
 msgid "edit"
 msgstr "Bearbeiten"
 
@@ -871,59 +871,73 @@ msgid "timezone_exp"
 msgstr "Zeitzone, indem sich das Forum befindet."
 
 #: View/Settings/admin_index.ctp:117
+#, fuzzy
+msgid "Email"
+msgstr "E-Mail"
+
+#: View/Settings/admin_index.ctp:119
+msgid "email_admin_config_exp"
+msgstr ""
+"Erweiterte Email-Einstellungen sind durch das Anlegen einer <code>$saito</"
+"code>-Konfiguration in <code>app/config/email.php</code> möglich. Als "
+"Vorlage sollte <code>app/config/email.php.default</code> verwendet werden. "
+"<a href=\"http://book.cakephp.org/2.0/en/core-utility-libraries/email."
+"html#configuration\">Siehe auch.</a>"
+
+#: View/Settings/admin_index.ctp:122
 msgid "Moderation"
 msgstr "Moderation"
 
 #
-#: View/Settings/admin_index.ctp:122
+#: View/Settings/admin_index.ctp:127
 msgid "block_user_ui"
 msgstr "Nutzer sperren"
 
 #
-#: View/Settings/admin_index.ctp:128
+#: View/Settings/admin_index.ctp:133
 msgid "block_user_ui_exp"
 msgstr "Moderatoren dürfen Benutzer sperren."
 
-#: View/Settings/admin_index.ctp:141
+#: View/Settings/admin_index.ctp:146
 msgid "store_ip"
 msgstr "IP speichern"
 
-#: View/Settings/admin_index.ctp:147
+#: View/Settings/admin_index.ctp:152
 msgid "store_ip_exp"
 msgstr ""
 "Beim Einträgen ins Forum werden die IP-Adresse des Eintragenden gespeichert. "
 "Moderatoren wird die Adresse im Eintrag angezeigt."
 
-#: View/Settings/admin_index.ctp:160
+#: View/Settings/admin_index.ctp:165
 msgid "store_ip_anonymized"
 msgstr "IP anonymisieren"
 
-#: View/Settings/admin_index.ctp:166
+#: View/Settings/admin_index.ctp:171
 msgid "store_ip_anonymized_exp"
 msgstr "Anonymisieren der gespeicherten IP-Adresse."
 
-#: View/Settings/admin_index.ctp:179
+#: View/Settings/admin_index.ctp:184
 #, fuzzy
 msgid "Registration"
 msgstr "Registrierung"
 
-#: View/Settings/admin_index.ctp:184
+#: View/Settings/admin_index.ctp:189
 #, fuzzy
 msgid "tos_enabled"
 msgstr "Nutzungsbedingungen aktivieren"
 
-#: View/Settings/admin_index.ctp:190
+#: View/Settings/admin_index.ctp:195
 #, fuzzy
 msgid "tos_enabled_exp"
 msgstr ""
 "Setzt einen Verweis und eine zu bestätigende Checkbox für die "
 "Nutzungsbedingungen auf die Registrierungsseite."
 
-#: View/Settings/admin_index.ctp:203
+#: View/Settings/admin_index.ctp:208
 msgid "tos_url"
 msgstr "Nutzungsbedingungen-URL"
 
-#: View/Settings/admin_index.ctp:209
+#: View/Settings/admin_index.ctp:214
 #, fuzzy
 msgid "tos_url_exp"
 msgstr ""
@@ -931,219 +945,219 @@ msgstr ""
 "Standardseiten verwendet."
 
 #
-#: View/Settings/admin_index.ctp:227
+#: View/Settings/admin_index.ctp:232
 msgid "edit_period"
 msgstr "Nachbearbeitungszeit"
 
 #
-#: View/Settings/admin_index.ctp:233
+#: View/Settings/admin_index.ctp:238
 msgid "edit_period_exp"
 msgstr ""
 "Minuten, die ein neuer Eintrag nach dem Anlegen nachbearbeitet werden kann."
 
 #
-#: View/Settings/admin_index.ctp:251
+#: View/Settings/admin_index.ctp:256
 msgid "edit_delay"
 msgstr "Nachbearbeiten anzeigen"
 
 #
-#: View/Settings/admin_index.ctp:257
+#: View/Settings/admin_index.ctp:262
 msgid "edit_delay_exp"
 msgstr ""
 "Minuten, die ein Eintrag nach dem Anlegen ohne Bearbeitungshinweis "
 "nachbearbeitet werden kann."
 
-#: View/Settings/admin_index.ctp:270
+#: View/Settings/admin_index.ctp:275
 msgid "topics_per_page"
 msgstr "Threads pro Seite"
 
-#: View/Settings/admin_index.ctp:276
+#: View/Settings/admin_index.ctp:281
 msgid "topics_per_page_exp"
 msgstr "Anzahl der Threads, die auf der Startseite angezeigt werden."
 
-#: View/Settings/admin_index.ctp:289
+#: View/Settings/admin_index.ctp:294
 msgid "thread_depth_indent"
 msgstr "Einrücktiefe Threads"
 
-#: View/Settings/admin_index.ctp:295
+#: View/Settings/admin_index.ctp:300
 msgid "thread_depth_indent_exp"
 msgstr ""
 "Ab dieser Tiefe werden werden Einträge in der Thread-Ansicht nicht weiter "
 "nach rechts eingerückt dargestellt."
 
-#: View/Settings/admin_index.ctp:308
+#: View/Settings/admin_index.ctp:313
 msgid "autolink"
 msgstr "Autolink"
 
-#: View/Settings/admin_index.ctp:314
+#: View/Settings/admin_index.ctp:319
 msgid "autolink_exp"
 msgstr "Verweise im Text automatisch erkennen und verlinken."
 
-#: View/Settings/admin_index.ctp:327
+#: View/Settings/admin_index.ctp:332
 msgid "bbcode_img"
 msgstr "Bilder"
 
-#: View/Settings/admin_index.ctp:333
+#: View/Settings/admin_index.ctp:338
 msgid "bbcode_img_exp"
 msgstr "Einbinden von Bildern erlauben."
 
-#: View/Settings/admin_index.ctp:346
+#: View/Settings/admin_index.ctp:351
 msgid "quote_symbol"
 msgstr "Zitatzeichen"
 
-#: View/Settings/admin_index.ctp:352
+#: View/Settings/admin_index.ctp:357
 msgid "quote_symbol_exp"
 msgstr "Zitatzeichen"
 
-#: View/Settings/admin_index.ctp:365
+#: View/Settings/admin_index.ctp:370
 msgid "signature_separator"
 msgstr "Signaturtrenner"
 
-#: View/Settings/admin_index.ctp:371
+#: View/Settings/admin_index.ctp:376
 msgid "signature_separator_exp"
 msgstr "Signaturtrenner"
 
-#: View/Settings/admin_index.ctp:384
+#: View/Settings/admin_index.ctp:389
 msgid "subject_maxlength"
 msgstr "Betrefflänge"
 
-#: View/Settings/admin_index.ctp:390
+#: View/Settings/admin_index.ctp:395
 msgid "subject_maxlength_exp"
 msgstr "Maximale Zeichenanzahl in Betreff."
 
-#: View/Settings/admin_index.ctp:403
+#: View/Settings/admin_index.ctp:408
 msgid "text_word_maxlength"
 msgstr "Wordlänge"
 
-#: View/Settings/admin_index.ctp:409
+#: View/Settings/admin_index.ctp:414
 msgid "text_word_maxlength_exp"
 msgstr "Maximale Zeichenanzahl pro Wort."
 
-#: View/Settings/admin_index.ctp:422
+#: View/Settings/admin_index.ctp:427
 msgid "userranks_show"
 msgstr "Ränge anzeigen"
 
-#: View/Settings/admin_index.ctp:428
+#: View/Settings/admin_index.ctp:433
 msgid "userranks_show_exp"
 msgstr "Benutzerränge anzeigen."
 
-#: View/Settings/admin_index.ctp:441
+#: View/Settings/admin_index.ctp:446
 msgid "userranks_ranks"
 msgstr "Ränge"
 
-#: View/Settings/admin_index.ctp:447
+#: View/Settings/admin_index.ctp:452
 msgid "userranks_ranks_exp"
 msgstr "Benutzerrang basierend auf Anzahl der gemachten Beiträge."
 
 #
-#: View/Settings/admin_index.ctp:460
+#: View/Settings/admin_index.ctp:465
 msgid "video_domains_allowed"
 msgstr "Einbettbare (Video-) Quellen"
 
 #
-#: View/Settings/admin_index.ctp:466
+#: View/Settings/admin_index.ctp:471
 msgid "video_domains_allowed_exp"
 msgstr ""
 "Domainnamen einbindbar für Video und iFrame. Ein Asterisk * bedeuted freies "
 "Einbinden (Vorsicht, dies kann ebenfalls zum Einbinden von Schadsoftware "
 "genutzt werden!)."
 
-#: View/Settings/admin_index.ctp:479
+#: View/Settings/admin_index.ctp:484
 #, fuzzy
 msgid "Category Chooser"
 msgstr "Kategorienfilter"
 
-#: View/Settings/admin_index.ctp:484
+#: View/Settings/admin_index.ctp:489
 msgid "category_chooser_global"
 msgstr "Standard"
 
-#: View/Settings/admin_index.ctp:490
+#: View/Settings/admin_index.ctp:495
 msgid "category_chooser_global_exp"
 msgstr "Kategorienfilter auf der Frontseite immer anzeigen."
 
-#: View/Settings/admin_index.ctp:503
+#: View/Settings/admin_index.ctp:508
 msgid "category_chooser_user_override"
 msgstr "Benutzereinstellung"
 
-#: View/Settings/admin_index.ctp:509
+#: View/Settings/admin_index.ctp:514
 msgid "category_chooser_user_override_exp"
 msgstr ""
 "Erlaubt einem Benutzern den Kategorienfilter in seinen Einstellungen zu "
 "aktivieren, selbst wenn der Filter standardmässig deaktiviert ist."
 
-#: View/Settings/admin_index.ctp:527
+#: View/Settings/admin_index.ctp:532
 msgid "upload_max_img_size"
 msgstr "Uploadgröße maximal"
 
-#: View/Settings/admin_index.ctp:533
+#: View/Settings/admin_index.ctp:538
 msgid "upload_max_img_size_exp"
 msgstr "Maximale Größe, die ein Upload besitzen darf in kB."
 
-#: View/Settings/admin_index.ctp:546
+#: View/Settings/admin_index.ctp:551
 msgid "upload_max_number_of_uploads"
 msgstr "Anzahl an Uploads pro Benutzer"
 
-#: View/Settings/admin_index.ctp:552
+#: View/Settings/admin_index.ctp:557
 msgid "upload_max_number_of_uploads_exp"
 msgstr ""
 "Maximale Anzahl von Dateien, die ein einzelner Benutzer gleichzeitig auf dem "
 "Server hochgeladen haben kann."
 
-#: View/Settings/admin_index.ctp:569
+#: View/Settings/admin_index.ctp:574
 msgid "flattr_enabled"
 msgstr "Flattr aktivieren"
 
-#: View/Settings/admin_index.ctp:575
+#: View/Settings/admin_index.ctp:580
 msgid "flattr_enabled_exp"
 msgstr "Ermöglicht es Benutzern flattr zu verwenden."
 
-#: View/Settings/admin_index.ctp:588
+#: View/Settings/admin_index.ctp:593
 msgid "flattr_language"
 msgstr "Flattr-Sprache"
 
-#: View/Settings/admin_index.ctp:594
+#: View/Settings/admin_index.ctp:599
 msgid "flattr_language_exp"
 msgstr ""
 "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf "
 "flattr.com für Kürzel."
 
-#: View/Settings/admin_index.ctp:607
+#: View/Settings/admin_index.ctp:612
 msgid "flattr_category"
 msgstr "Flattr-Kategorie"
 
-#: View/Settings/admin_index.ctp:613
+#: View/Settings/admin_index.ctp:618
 msgid "flattr_category_exp"
 msgstr ""
 "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe flattr."
 "com für verfügbare Kategorien."
 
-#: View/Settings/admin_index.ctp:632
+#: View/Settings/admin_index.ctp:637
 msgid "embedly_enabled"
 msgstr "Embed.ly aktivieren"
 
-#: View/Settings/admin_index.ctp:634
+#: View/Settings/admin_index.ctp:639
 msgid "embedly_enabled_exp"
 msgstr ""
 "Aktiviert den [embed]-BBcode, welcher seinen Inhalt durch Embed.ly darstellt."
 
-#: View/Settings/admin_index.ctp:642
+#: View/Settings/admin_index.ctp:647
 msgid "embedly_key"
 msgstr "Embed.ly Key"
 
 #
-#: View/Settings/admin_index.ctp:644
+#: View/Settings/admin_index.ctp:649
 msgid "embedly_key_exp"
 msgstr "API-Key, den man nach der Registrierung bei Embed.ly erhält."
 
-#: View/Settings/admin_index.ctp:655
+#: View/Settings/admin_index.ctp:660
 msgid "Debug"
 msgstr ""
 
-#: View/Settings/admin_index.ctp:661
+#: View/Settings/admin_index.ctp:666
 msgid "stopwatch_get"
 msgstr "Stopuhr"
 
-#: View/Settings/admin_index.ctp:663
+#: View/Settings/admin_index.ctp:668
 #, fuzzy
 msgid "stopwatch_get_exp"
 msgstr ""
@@ -1902,11 +1916,11 @@ msgstr "Neu Antwort zu \"%s\""
 msgid "Successfull registration"
 msgstr ""
 
-#: Controller/Component/SaitoEmailComponent.php:100
+#: Controller/Component/SaitoEmailComponent.php:121
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
 msgstr "Kopie Ihrer Nachricht: \":subject\" an \":recipient-name\""
 
-#: Controller/Component/SaitoEmailComponent.php:102
+#: Controller/Component/SaitoEmailComponent.php:123
 #, fuzzy
 msgid "Copy of your message: \":subject\""
 msgstr "Kopie Ihrer Nachricht: :subject"
@@ -2271,9 +2285,6 @@ msgstr ""
 
 #~ msgid "Password"
 #~ msgstr "Passwort"
-
-#~ msgid "User Email"
-#~ msgstr "E-Mail"
 
 #~ msgid "Hide Email"
 #~ msgstr "E-Mail verbergen"

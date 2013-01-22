@@ -74,25 +74,6 @@
 				?>
 			</td>
     </tr>
-    <tr>
-			<td>
-				<?php echo __('forum_email'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['forum_email']; ?>
-			</td>
-      <td>
-				<p><?php echo __('forum_email_exp'); ?></p>
-      </td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'forum_email' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-    </tr>
 		<tr>
 			<td>
 				<?php echo __('timezone'); ?>
@@ -113,6 +94,33 @@
 			</td>
 		</tr>
 	</table>
+
+  <h2><?php echo __('Email'); ?></h2>
+  <table class="table table-striped table-bordered table-condensed">
+  <?php echo $tableHeadersHtml ?>
+    <tr>
+        <td>
+          <?php echo __('forum_email'); ?>
+        </td>
+        <td>
+          <?php echo $Settings['forum_email']; ?>
+        </td>
+        <td>
+            <p><?php echo __('forum_email_exp'); ?></p>
+        </td>
+        <td>
+          <?php echo $this->Html->link(
+          __('edit'),
+          array( 'controller' => 'settings', 'action' => 'edit', 'forum_email' ),
+          array( 'class' => 'btn' )
+        );
+          ?>
+        </td>
+    </tr>
+  </table>
+  <p>
+      <?php echo __('email_admin_config_exp'); ?>
+  </p>
 
 	<h2><?php echo __('Moderation'); ?></h2>
 	<table class="table table-striped table-bordered table-condensed">

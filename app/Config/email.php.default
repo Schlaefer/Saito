@@ -42,6 +42,12 @@
  */
 class EmailConfig {
 
+	public $saito = array(
+		'transport' => 'Mail',
+		// 'charset' => 'utf-8',
+		// 'headerCharset' => 'utf-8',
+	);
+
 	public $default = array(
 		'transport' => 'Mail',
 		'from' => 'you@localhost',
