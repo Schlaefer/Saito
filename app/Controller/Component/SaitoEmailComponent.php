@@ -9,6 +9,12 @@
 
 		protected $_config = array();
 
+    protected $_viewVars = array();
+
+    protected $_recipient = null;
+
+    protected $_sender = null;
+
 		protected $_webroot;
 
 		protected $_app_address;
@@ -35,62 +41,64 @@
 		 * @throws Exception
 		 */
 		public function email($options = array()) {
-			$defaults = array(
-					'viewVars'=> array(
-							'webroot' => FULL_BASE_URL . $this->_webroot,
-					),
-			);
-			extract(array_merge_recursive($defaults, $options));
+      $this->_resetConfig();
+      $this->_config($options);
+			$this->_send($this->_config, $this->_viewVars);
 
-			if (!is_array($recipient)) {
-				$this->User->id = $recipient;
-				$this->User->contain();
-				$recipient = $this->User->read();
-				if($recipient == false) {
-					throw new Exception('Can\'t find recipient for email.');
-				}
-			}
-			if (!is_array($sender)) {
-				$this->User->id = $sender;
-				$this->User->contain();
-				$sender = $this->User->read();
-				if($sender == false) {
-					throw new Exception('Can\'t find sender for email.');
-				}
-			}
-
-			$emailConfig = array(
-							'from'	=> array($sender['User']['user_email'] => $sender['User']['username']),
-							'to'          => $recipient['User']['user_email'],
-							'subject'     => $subject,
-							'emailFormat' => 'text',
-							'sender'      => $this->_app_address,
-						);
-
-			if (isset($template)) :
-				$emailConfig['template'] = $template;
-			endif;
-
-			if (Configure::read('debug') > 2) :
-				$emailConfig['transport'] = 'Debug';
-				$emailConfig['log'] 			= true;
-			endif;
-
-			if (isset($message)):
-				$viewVars['message'] = $message;
-			endif;
-
-			$this->_send($emailConfig, $viewVars);
-
-			if (isset($ccsender) && $ccsender === true) :
-				if (!empty($recipient['User']['username'])) {
-					$emailConfig['to'] = array(
-							$recipient['User']['user_email'] => $recipient['User']['username']
-					);
-				}
-				$this->_sendCopyToOriginalSender($emailConfig, $viewVars);
+			if (isset($options['ccsender']) && $options['ccsender'] === true) :
+				$this->_sendCopyToOriginalSender($this->_config, $this->_viewVars);
 			endif;
 		}
+
+    protected function _resetConfig() {
+      $this->_config = array();
+      $this->_viewVars = array();
+    }
+
+    protected function _config($options = array()) {
+      $defaults = array(
+        'viewVars'=> array(
+          'webroot' => FULL_BASE_URL . $this->_webroot,
+        ),
+      );
+      extract(array_merge_recursive($defaults, $options));
+
+      // get users involved in email
+      foreach(array('recipient', 'sender') as $person) {
+        if (is_array($$person)) {
+          $this->{'_' . $person} = $$person;
+        } else {
+          $this->User->id = $$person;
+          $this->User->contain();
+          $this->{'_' . $person} = $this->User->read();
+          if($this->{'_' . $person} == false) {
+            throw new Exception("Can't find $person for email.");
+          }
+        }
+      }
+
+      $this->_config = array(
+        'from'	=> array($this->_sender['User']['user_email'] => $this->_sender['User']['username']),
+        'to'          => $this->_recipient['User']['user_email'],
+        'subject'     => $subject,
+        'emailFormat' => 'text',
+        'sender'      => $this->_app_address,
+      );
+
+      if (isset($template)) :
+        $this->_config['template'] = $template;
+      endif;
+
+      if (Configure::read('debug') > 2) :
+        $this->_config['transport'] = 'Debug';
+        $this->_config['log'] 			= true;
+      endif;
+
+      if (isset($message)):
+        $this->_viewVars['message'] = $message;
+      endif;
+      $this->_viewVars += $viewVars;
+    }
 
     /**
      * Sends a copy of a completely configured email to the author
@@ -99,6 +107,13 @@
      * @param $view_vars
      */
     protected function _sendCopyToOriginalSender($config, $view_vars) {
+      // use name for recipient if available
+      if (!empty($this->_recipient['User']['username'])) {
+        $emailConfig['to'] = array(
+          $this->_recipient['User']['user_email'] => $this->_recipient['User']['username']
+        );
+      }
+
 			// set new subject
 			$data = array('subject' => $config['subject']);
 			if (is_array($config['to'])) {
