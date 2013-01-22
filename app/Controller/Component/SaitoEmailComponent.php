@@ -31,7 +31,7 @@
 		 * 		'viewVars'
 		 * );
 		 *
-		 * @param type $options
+		 * @param array $options
 		 * @throws Exception
 		 */
 		public function email($options = array()) {
@@ -92,7 +92,13 @@
 			endif;
 		}
 
-		protected function _sendCopyToOriginalSender($config, $view_vars) {
+    /**
+     * Sends a copy of a completely configured email to the author
+     *
+     * @param $config
+     * @param $view_vars
+     */
+    protected function _sendCopyToOriginalSender($config, $view_vars) {
 			// set new subject
 			$data = array('subject' => $config['subject']);
 			if (is_array($config['to'])) {
@@ -100,7 +106,7 @@
 				$str = __('Copy of your message: ":subject" to ":recipient-name"');
 			} else {
 				$str = __('Copy of your message: ":subject"');
-			}
+      }
 			$config['subject'] = String::insert($str, $data);
 
 			// set new addresses
@@ -110,7 +116,13 @@
 			$this->_send($config, $view_vars);
 		}
 
-		protected function _send($config, $view_vars) {
+    /**
+     * Sends the completely configured email
+     *
+     * @param $config
+     * @param $view_vars
+     */
+    protected function _send($config, $view_vars) {
 			$email = new CakeEmail();
 			$email->config($config);
 			$email->viewVars($view_vars);
