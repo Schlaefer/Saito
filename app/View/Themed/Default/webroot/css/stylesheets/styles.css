@@ -528,7 +528,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 /******************************************************************************* Entry thread_line *****************************************************************************/
 .thread_line-pre { position: absolute; }
-.thread_line-pre > a { display: inline-block; width: 24px; text-align: center; }
+.thread_line-pre > a { display: inline-block; width: 24px; text-align: center; padding-top: 8px; }
 
 .tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 
