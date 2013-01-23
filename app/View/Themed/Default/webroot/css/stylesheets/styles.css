@@ -295,7 +295,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .l-box-header > div > div:first-child { position: absolute; }
 .l-box-header > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { .l-box-header .btn-icon-close { line-height: 17px; } }
+@media screen and (-webkit-min-device-pixel-ratio:0) { .l-box-header .btn-icon-close { line-height: 15px; font-size: 12px; } }
 .l-box-footer { border-width: 1px 0 0 0; border-style: solid; padding: 10px; }
 
 .box-footer-form { background-color: #fafafa; border-color: #eaeaea; }
@@ -306,7 +306,8 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .navbar-light, .navbar { border-width: 1px 0; }
 .navbar-light .content, .navbar .content { padding: 10px; }
 
-.markItUpHeader ul a { font-weight: bold; font-size: 18px; text-align: center; line-height: 32px; }
+.markItUpHeader > ul a { font-weight: bold; font-size: 18px; text-align: center; line-height: 32px; }
+.markItUpHeader > ul a > i { line-height: inherit; }
 
 .markItUpHeader ul a:hover { text-shadow: 0 0 1px #999; }
 
@@ -527,7 +528,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 /******************************************************************************* Entry thread_line *****************************************************************************/
 .thread_line-pre { position: absolute; }
-.thread_line-pre > a { display: inline-block; width: 24px; text-align: center; }
+.thread_line-pre > a { display: inline-block; width: 24px; text-align: center; padding-top: 8px; }
 
 .tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 

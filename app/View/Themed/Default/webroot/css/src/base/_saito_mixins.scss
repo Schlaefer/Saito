@@ -118,7 +118,8 @@
 // fix for showing in close button centered in header
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.l-box-header .btn-icon-close {
-		line-height: 17px;
+		line-height: 15px;
+        font-size: 12px;
 		}
 	}
 

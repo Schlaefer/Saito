@@ -245,10 +245,10 @@ EOF
 			$new_post_class = (($is_new_post) ? ' new' : '');
 			$thread_line_cached = $this->threadLineCached($entry_sub, $level);
 
-			$thread_line_pre = '&bull;';
+			$thread_line_pre = '<i class="icon-thread"></i>';
 			if ($level === 0
 					&& strtotime($entry_sub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
-				$thread_line_pre = '&#x25CB;';
+				$thread_line_pre = '<i class="icon-threadnew"></i>';
 			}
 
 			// generate current entry
