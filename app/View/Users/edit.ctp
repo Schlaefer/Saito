@@ -182,6 +182,7 @@
 							),
 							array(
 									'legend'		 => false,
+                  'required' => false,
 									'separator'	 => '<br/>',
 							)
 					);
@@ -192,13 +193,29 @@
 
 		<tr>
 			<td> <?php echo __('user_automaticaly_mark_as_read') ?> </td>
-			<td> <?php echo  $this->Form->checkbox('user_automaticaly_mark_as_read', array( 'label' => false ));  ?> <p class="exp"> <?php echo __('user_automaticaly_mark_as_read_exp') ?> </p></td>
+			<td>
+        <?php
+          echo $this->Form->checkbox(
+            'user_automaticaly_mark_as_read',
+            array(
+              'label' => false,
+              'required' => false
+            )
+          );
+        ?> <p class="exp"> <?php echo __('user_automaticaly_mark_as_read_exp') ?> </p></td>
 		</tr>
 
 		<tr>
 			<td> <?php echo __('user_signatures_hide') ?> </td>
 			<td>
-				<?php echo  $this->Form->checkbox('user_signatures_hide');  ?> <p class="exp"> <?php echo __('user_signatures_hide_exp') ?> </p>
+				<?php
+          echo $this->Form->checkbox(
+            'user_signatures_hide',
+            array(
+              'required' => false
+            )
+          );
+        ?> <p class="exp"> <?php echo __('user_signatures_hide_exp') ?> </p>
 				<br/>
 				<?php echo  $this->Form->checkbox('user_signatures_images_hide'); ?> <p class="exp"> <?php echo __('user_signatures_images_hide_exp') ?> </p>
 			</td>
@@ -210,6 +227,7 @@
 				<?php echo $this->Form->input(
 						'user_forum_refresh_time',
 						array(
+                'required' => false,
 								'maxLength' => 3,
 								'label' => false,
 								'style' => 'width: 3em;',
@@ -268,7 +286,16 @@
 	
 			<tr>
 				<td> <?php echo __('user_pers_msg') ?> </td>
-				<td> <?php echo  $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
+				<td>
+          <?php
+            echo  $this->Form->checkbox(
+              'personal_messages',
+              array(
+                'required' => false
+              )
+            );
+          ?>
+          <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
 			</tr>
 
 			<?php if (!Configure::read('Saito.Settings.category_chooser_global')
