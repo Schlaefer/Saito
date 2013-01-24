@@ -1379,6 +1379,7 @@ class FormHelper extends AppHelper {
 			unset($options['default']);
 		}
 
+    $options += array('required' => false);
 		$options = $this->_initInputField($fieldName, $options) + array('hiddenField' => true);
 		$value = current($this->value($valueOptions));
 		$output = "";
