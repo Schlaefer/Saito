@@ -528,7 +528,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 /******************************************************************************* Entry thread_line *****************************************************************************/
 .thread_line-pre { position: absolute; }
-.thread_line-pre > a { display: inline-block; width: 24px; text-align: center; padding-top: 8px; }
+.thread_line-pre > a { display: inline-block; width: 24px; text-align: center; padding: 8px 0 8px; }
 
 .tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 
@@ -598,7 +598,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .btn-strip-back { width: 15px; background-image: url('../../img/mix_back.png'); border: 1px solid #eaeaea; background-color: #fafafa; background-repeat: repeat-y; }
 .btn-strip-back:active { background-color: #eaeaea; }
 
-.btn-strip-top { width: 25px; text-align: center; margin: 2px 0px 0px -1px; /*padding-top: 5px;*/ }
+.btn-strip-top { width: 25px; text-align: center; margin: 4px 0px 0px -1px; }
 
 .button_mod_panel { display: inline-block; vertical-align: middle; }
 .button_mod_panel ul { /* !important: in inline_view on entries_index the tree ul stuff messes in */ margin: 0 !important; padding: 0 !important; list-style-type: none; }
