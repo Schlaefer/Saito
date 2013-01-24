@@ -8,11 +8,21 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 		</div>
 		<div>
 			<?php
-			echo $this->Form->create(null,
-					array(
-					'url' => array_merge(array( 'action' => 'search' ), $this->request->params['pass']),
+			echo $this->Form->create(
+				null,
+				array(
+					'url' => array_merge(
+						array('action' => 'search'),
+						$this->request->params['pass']
+					),
 					'type' => 'get',
-					'class' => 'search_form', 'style' => 'height: 40px;', 'inputDefaults' => array( 'div' => false, 'label' => false ) ));
+					'class' => 'search_form shp shp-bottom',
+					'style' => 'height: 40px;',
+					'inputDefaults' => array('div' => false, 'label' => false),
+					'data-title'    => __('Help'),
+					'data-content'  => __('search_fulltext_textfield_shp')
+				)
+			);
 			echo $this->Form->submit(__('search_submit'),
 					array( 'div' => false, 'class' => 'btn btn-submit btn_search_submit' ));
 			?>
@@ -22,12 +32,10 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 						array(
 						'div' => false,
             'id'    => 'search_fulltext_textfield',
-						'class' => 'search_textfield shp shp-bottom',
+						'class' => 'search_textfield',
             'style' => 'height: 38px;',
 						'placeholder' => __('search_term'),
 						'value' => $search_term,
-            'data-title'    => __('Help'),
-            'data-content'  => __('search_fulltext_textfield_shp'),
 						)
 				);
 			?>
