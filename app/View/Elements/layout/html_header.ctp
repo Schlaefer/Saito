@@ -43,6 +43,7 @@
 			echo $this->Html->scriptBlock('var SaitoApp = ' . json_encode($SaitoApp));
 			if (Configure::read('debug') == 0):
 				echo $this->Html->script('lib/jquery/jquery-1.9.0.min');
+				echo $this->Html->scriptBlock('jQuery.migrateMute = true;');
 			else:
 				echo $this->Html->script('lib/jquery/jquery-1.9.0');
 			endif;
