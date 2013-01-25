@@ -6,11 +6,15 @@
 $markitup-buttonWidth: 32px;
 $markitup-buttonHeight: 32px;
 
-.markItUpHeader ul a {
+.markItUpHeader > ul a {
   font-weight: bold;
   font-size: 18px;
   text-align: center;
   line-height: $markitup-buttonHeight;
+
+  > i {
+    line-height: inherit;
+    }
   }
 .markItUpHeader ul a:hover {
   text-shadow: 0 0 1px #999;

@@ -7,6 +7,7 @@
 tags
 
 # Saito
+/app/Config/email.php
 /app/Config/database.php
 /app/Config/database.php.dev
 /app/Config/installed.txt

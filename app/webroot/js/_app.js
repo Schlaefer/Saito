@@ -335,22 +335,17 @@ function initSaitoHelp() {
 }
 
 function placeSaitoHelp() {
-	$('.shp-bottom').popover( {
-		placement: 'bottom',
-		trigger: 'manual'
-	})
-	$('.shp-right').popover( {
-		placement: 'right',
-		trigger: 'manual'
-	})
-	$('.shp-left').popover( {
-		placement: 'left',
-		trigger: 'manual'
-	})
+    var defaults = {
+        trigger: 'manual',
+        html: true
+    }
+    var positions = ['bottom', 'right', 'left'];
+    for (var i in positions) {
+        $('.shp-' + positions[i]).popover($.extend(defaults, {placement: positions[i]}));
+    }
 }
 
 function saitoHelpShow() {
-
 	placeSaitoHelp();
 
 	// help on page

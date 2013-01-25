@@ -2,12 +2,20 @@
 * Icons for thread buttons
 ******************************************************************************/
 
+.icon-thread-basics {
+  font-size: 4px;
+  vertical-align: middle;
+}
+
 .icon-thread {
-	@extend .icon-chevron-right;
+  @extend .icon-circle;
+  @extend .icon-thread-basics;
 }
 
 .icon-threadnew {
-	@extend .icon-thread;
+  @extend .icon-circle-blank;
+  @extend .icon-thread-basics;
+  font-size: 5px;
 }
 
 .icon-actthread {
@@ -38,10 +46,10 @@
 }
 
 .icon-thread-open {
-	@extend .icon-chevron-down;
+	@extend .icon-angle-down;
 	}
 .icon-thread-closed {
-	@extend .icon-chevron-right;
+	@extend .icon-angle-right;
 	}
 
 .icon-huge {

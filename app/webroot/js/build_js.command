@@ -24,7 +24,7 @@ done
 yuicompressor 'custom_javascript.js -o custom_javascript-compressed.js'
 
 ### Merge compressed files ###
-cat lib/jquery-ui/jquery-ui-1.8.22.custom.min.js custom_javascript-compressed.js  lib/jquery.scrollTo/jquery.scrollTo-min.js > js.min.js
+cat lib/jquery-ui/jquery-ui-1.9.2.custom.min.js custom_javascript-compressed.js  lib/jquery.scrollTo/jquery.scrollTo-min.js > js.min.js
 
 ### Clean Up Temp Files ###
 rm classes.min.js

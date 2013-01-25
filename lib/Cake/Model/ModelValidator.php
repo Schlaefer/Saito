@@ -90,7 +90,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  * Returns true if all fields pass validation. Will validate hasAndBelongsToMany associations
  * that use the 'with' key as well. Since `Model::_saveMulti` is incapable of exiting a save operation.
  *
- * Will validate the currently set data.  Use `Model::set()` or `Model::create()` to set the active data.
+ * Will validate the currently set data. Use `Model::set()` or `Model::create()` to set the active data.
  *
  * @param array $options An optional array of custom options to be made available in the beforeValidate callback
  * @return boolean True if there are no errors
@@ -130,11 +130,10 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 		$options = array_merge(array('atomic' => true, 'deep' => false), $options);
 		$model->validationErrors = $validationErrors = $return = array();
 		$model->create(null);
+		$return[$model->alias] = true;
 		if (!($model->set($data) && $model->validates($options))) {
 			$validationErrors[$model->alias] = $model->validationErrors;
 			$return[$model->alias] = false;
-		} else {
-			$return[$model->alias] = true;
 		}
 		$data = $model->data;
 		if (!empty($options['deep']) && isset($data[$model->alias])) {
@@ -156,11 +155,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 						$data[$association] = $model->{$association}->data[$model->{$association}->alias];
 					}
 					if (is_array($validates)) {
-						if (in_array(false, Hash::flatten($validates), true)) {
-							$validates = false;
-						} else {
-							$validates = true;
-						}
+						$validates = !in_array(false, Hash::flatten($validates), true);
 					}
 					$return[$association] = $validates;
 				} elseif ($associations[$association] === 'hasMany') {
@@ -231,10 +226,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 		if (!$options['atomic']) {
 			return $return;
 		}
-		if (empty($model->validationErrors)) {
-			return true;
-		}
-		return false;
+		return empty($model->validationErrors);
 	}
 
 /**
@@ -322,9 +314,10 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  */
 	public function getField($name = null) {
 		$this->_parseRules();
-		if ($name !== null && !empty($this->_fields[$name])) {
-			return $this->_fields[$name];
-		} elseif ($name !== null) {
+		if ($name !== null) {
+			if (!empty($this->_fields[$name])) {
+				return $this->_fields[$name];
+			}
 			return null;
 		}
 		return $this->_fields;
@@ -401,16 +394,15 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 		unset($fieldList);
 
 		$validateList = array();
-		if (!empty($whitelist)) {
-			$this->validationErrors = array();
-
-			foreach ((array)$whitelist as $f) {
-				if (!empty($this->_fields[$f])) {
-					$validateList[$f] = $this->_fields[$f];
-				}
-			}
-		} else {
+		if (empty($whitelist)) {
 			return $this->_fields;
+		}
+
+		$this->validationErrors = array();
+		foreach ((array)$whitelist as $f) {
+			if (!empty($this->_fields[$f])) {
+				$validateList[$f] = $this->_fields[$f];
+			}
 		}
 
 		return $validateList;
@@ -442,9 +434,6 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 				} elseif (isset($row[$join]) && isset($row[$join][$model->hasAndBelongsToMany[$assoc]['associationForeignKey']])) {
 					$newData[] = $row[$join];
 				}
-			}
-			if (empty($newData)) {
-				continue;
 			}
 			foreach ($newData as $data) {
 				$data[$model->hasAndBelongsToMany[$assoc]['foreignKey']] = $model->id;

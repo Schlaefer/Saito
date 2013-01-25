@@ -76,12 +76,12 @@
               'replaceWith' => '[img][![' . __('geshi_picture_popup') . ']!][/img]'
             ),
 					'Upload' => array(
-							'name' => '"<i class=\"icon-upload-alt\"></i>"',
+							'name' => '"<i class=\'icon-upload-alt\'></i>"',
               'title' => '"' . __('Upload') .'"',
 							'closeWith' => "function(h) { return showUploadDialog('" . $this->Html->url(array( 'controller' => 'uploads', 'action' => 'index' )) . "'); }",
 							'callback' => true ),
 					'Media' => array(
-							'name' => '"<i class=\"icon-play-circle\"></i>"',
+							'name' => '"<i class=\'icon-play-circle\'></i>"',
               'title' => '"' . __('Media') .'"',
 							'beforeInsert' => <<<EOF
 function() {
@@ -89,6 +89,7 @@ function() {
 		show: {effect: "scale", duration: 200},
 		hide: {effect: "fade", duration: 200},
 		title: "Multimedia",
+		resizable: false,
 		close: function(event, ui) {
   		$('#markitup_media_message').hide();
 		},
