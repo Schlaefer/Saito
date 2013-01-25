@@ -2,20 +2,22 @@
 * Icons for thread buttons
 ******************************************************************************/
 
-.icon-thread-basics {
-  font-size: 4px;
-  vertical-align: middle;
-}
-
 .icon-thread {
-  @extend .icon-circle;
-  @extend .icon-thread-basics;
+  padding-top: 1px;
+  font-family: inherit;
+  &:before {
+    content: "\2022";
+  }
+  font-size: 110%;
 }
 
 .icon-threadnew {
-  @extend .icon-circle-blank;
-  @extend .icon-thread-basics;
-  font-size: 5px;
+  padding-top: 2px;
+  font-family: inherit;
+  font-size: 90%;
+  &:before {
+    content: "\25CB";
+  }
 }
 
 .icon-actthread {
