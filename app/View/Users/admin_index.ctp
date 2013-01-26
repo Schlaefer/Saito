@@ -56,11 +56,13 @@
 $.extend( $.fn.dataTableExt.oStdClasses, {
     "sWrapper": "dataTables_wrapper form-inline"
 });
-$('#usertable').dataTable({
+var userTable = $('#usertable').dataTable({
 	 "sDom": "<'row'<'span4'l><'span6'f>r>t<'row'<'span4'i><'span6'p>>",
 	 "iDisplayLength": 25,
 	 "sPaginationType": "bootstrap"
-	});
+	}).fnSort(
+		[[3, 'desc'], [0, 'asc']]
+	);
 EOF
 	);
 
