@@ -68,7 +68,9 @@
               <?php echo $this->fetch('headerSubnavLeft'); ?>
 						</div>
 						<div>
-							<a href="javascript:window.scrollTo(0,0);" style="width: 100px; display: inline-block; height: 20px;"><i class="icon-arrow-up"></i></a>
+							<a href="javascript:window.scrollTo(0,0);" style="width: 100px; display: inline-block; height: 20px;">
+								&nbsp;<i class="icon-arrow-up"></i>&nbsp;
+							</a>
 						</div>
 						<div class="c_last_child">
 							<?php echo $this->element('layout/header_subnav_right'); ?>
