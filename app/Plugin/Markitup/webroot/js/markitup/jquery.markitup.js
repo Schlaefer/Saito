@@ -189,12 +189,6 @@
 							return false;
 						}).bind("focusin.markItUp", function(){
                             $$.focus();
-						}).bind('mouseup', function() {
-							if (button.call) {
-								eval(button.call)();
-							}
-							setTimeout(function() { markup(button) },1);
-							return false;
 						}).bind('mouseenter.markItUp', function() {
 								$('> ul', this).show();
 								$(document).one('click', function() { // close dropmenu if click outside
@@ -203,7 +197,18 @@
 								);
 						}).bind('mouseleave.markItUp', function() {
 								$('> ul', this).hide();
-						}).appendTo(ul);
+						});
+
+                        var eventToBind = (SaitoApp.request.isMobile == true && levels > 1) ? 'touchend' : 'click';
+                        li.bind(eventToBind, function() {
+                            if (button.call) {
+                                eval(button.call)();
+                            }
+                            setTimeout(function() { markup(button) },1);
+                            return false;
+                        })
+
+                        li.appendTo(ul);
 						if (button.dropMenu) {
 							levels.push(i);
 							$(li).addClass('markItUpDropMenu').append(dropMenus(button.dropMenu));
