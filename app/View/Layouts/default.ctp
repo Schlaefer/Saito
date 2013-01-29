@@ -68,7 +68,7 @@
               <?php echo $this->fetch('headerSubnavLeft'); ?>
 						</div>
 						<div>
-							<a href="javascript:window.scrollTo(0,0);" class="btn-hf-center">
+							<a href="#" id="btn-scrollToTop" class="btn-hf-center">
 								<i class="icon-arrow-up"></i>
 							</a>
 						</div>

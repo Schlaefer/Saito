@@ -23,7 +23,8 @@ define([
 
 			events: {
 				'click #showLoginForm': 'showLoginForm',
-				'focus #header-searchField': 'widenSearchField'
+				'focus #header-searchField': 'widenSearchField',
+                'click #btn-scrollToTop': 'scrollToTop'
 			},
 
 			initialize: function (options) {
@@ -166,7 +167,12 @@ define([
 					position: ['center', 120],
                     resizable: false
 				});
-			}
+			},
+
+            scrollToTop: function(event) {
+                event.preventDefault();
+                window.scrollTo(0, 0);
+            }
 		});
 
 		return AppView;
