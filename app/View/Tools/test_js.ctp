@@ -17,15 +17,20 @@
 		};
 	</script>
 	<!-- Include project files -->
-	<script type="text/javascript" src="js/lib/jquery/jquery-1.9.0.js"></script>
+	<?php
+	  echo $this->Html->script(
+			array(
+				'lib/jquery/jquery-1.9.0.js',
+				'lib/jquery-ui/jquery-ui-1.9.2.custom.min.js',
+				'bootstrap/bootstrap.js',
+				'classes/thread_line.class.js',
+				'_app.js',
+				'lib/jquery.scrollTo/jquery.scrollTo-min.js',
+				'tests/test.js' // Include test files
+			)
+		);
+	?>
 
-	<script type="text/javascript" src="js/lib/jquery-ui/jquery-ui-1.9.2.custom.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
-	<script type="text/javascript" src="js/classes/thread_line.class.js"></script>
-	<script type="text/javascript" src="js/_app.js"></script>
-	<script type="text/javascript" src="js/lib/jquery.scrollTo/jquery.scrollTo-min.js"></script>
-	<!-- Include test files -->
-	<script type="text/javascript" src="js/tests/test.js"></script>
 </head>
 <body>
 	<h1 id="qunit-header">QUnit Test Suite</h1>

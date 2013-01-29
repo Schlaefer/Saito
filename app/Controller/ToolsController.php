@@ -27,6 +27,15 @@
 			return $this->redirect($this->referer());
 		}
 
+		public function testJs() {
+			if (Configure::read('debug') === 0) {
+				echo 'Please activate debug mode.';
+				exit;
+			}
+
+			$this->autoLayout = false;
+		}
+
 		/**
 		 * Gives a deploy script a mean to empty PHP's APC-cache
 		 *
@@ -53,7 +62,10 @@
 
 		public function beforeFilter() {
 			parent::beforeFilter();
-			$this->Auth->allow('clearCache');
+			$this->Auth->allow(
+				'clearCache',
+				'testJs'
+			);
 		}
 
 	}
