@@ -24,7 +24,8 @@ define([
 			events: {
 				'click #showLoginForm': 'showLoginForm',
 				'focus #header-searchField': 'widenSearchField',
-                'click #btn-scrollToTop': 'scrollToTop'
+                'click #btn-scrollToTop': 'scrollToTop',
+                'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead'
 			},
 
 			initialize: function (options) {
@@ -172,6 +173,11 @@ define([
             scrollToTop: function(event) {
                 event.preventDefault();
                 window.scrollTo(0, 0);
+            },
+
+            manuallyMarkAsRead: function(event) {
+                event.preventDefault();
+                document.location.replace(this.app.webroot + 'entries/update');
             }
 		});
 
