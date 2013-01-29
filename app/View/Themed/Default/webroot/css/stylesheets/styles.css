@@ -605,6 +605,9 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .l-button_mod_panel-wrapper { position: absolute; display: inline-block; }
 
+.btn-hf-center { width: 100px; display: inline-block; height: 20px; }
+.btn-hf-center:before, .btn-hf-center:after { content: '\00A0'; }
+
 /******************************************************************************* Buttons Thread Tools *****************************************************************************/
 .ico-threadTool { display: inline-block; margin-top: 1px; width: 13px; height: 13px; }
 
