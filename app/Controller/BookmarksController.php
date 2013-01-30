@@ -77,7 +77,7 @@ class BookmarksController extends AppController {
 			throw new BadRequestException;
 		}
 		$id = $this->request->data['id'];
-		$bookmark = $this->_getBookmark($id, $this->CurrentUser->getId());
+		$this->_getBookmark($id, $this->CurrentUser->getId());
 		$this->autoRender = false;
 		$this->Bookmark->id = $id;
 		if ($this->Bookmark->delete()) {
