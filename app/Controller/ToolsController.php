@@ -11,6 +11,10 @@
 
 		public $uses = array('Ecach');
 
+		public $helpers = array(
+			'JasmineJs.JasmineJs'
+		);
+
 		/**
 		 * Emtpy out all caches
 		 */

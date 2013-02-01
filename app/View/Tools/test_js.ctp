@@ -17,13 +17,7 @@
 
     <!-- include Jasmin -->
 		<?php
-			echo $this->Html->css('lib/jasmine/jasmine.css');
-			echo $this->Html->script(
-				array(
-					'lib/jasmine/jasmine.js',
-					'lib/jasmine/jasmine-html.js'
-				)
-			);
+			echo $this->fetch('JasmineJs');
 		?>
 
     <!-- include libs -->
