@@ -2,17 +2,16 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'collections/threadlines',
-	'views/threadlines',
-	'collections/threads',
-	'views/threads',
-	'collections/postings',
-	'views/postings',
+	'collections/threadlines', 'views/threadlines',
+	'collections/threads', 'views/threads',
+	'collections/postings', 'views/postings',
+    'collections/bookmarks', 'views/bookmarks'
 	], function(
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
-		PostingCollection, PostingView
+		PostingCollection, PostingView,
+        BookmarksCollection, BookmarksView
 		) {
 
 		// App
@@ -106,6 +105,17 @@ define([
 							window.location = this.app.webroot + 'entries/noupdate/';
 						}, this), this.settings.autoPageReload * 1000);
 				}
+
+                // Bookmarks
+                if ($('#bookmarks')) {
+                    var bookmarks = new BookmarksCollection();
+                    new BookmarksView({
+                        el: '#bookmarks',
+                        collection: bookmarks
+                    });
+                }
+
+                /*** Show Page ***/
 
 				if (this.request.isMobile || (new Date().getTime() - options.SaitoApp.timeAppStart) > 1500) {
 					$('#content').show();

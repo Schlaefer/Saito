@@ -76,7 +76,7 @@ class BookmarksController extends AppController {
 		if (!$this->request->is('ajax')) {
 			throw new BadRequestException;
 		}
-		$id = $this->request->data['id'];
+
 		$this->_getBookmark($id, $this->CurrentUser->getId());
 		$this->autoRender = false;
 		$this->Bookmark->id = $id;

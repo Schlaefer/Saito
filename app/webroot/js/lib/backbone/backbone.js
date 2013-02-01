@@ -672,7 +672,7 @@
 
     // Add a model to the beginning of the collection.
     unshift: function(model, options) {
-      model = this._prepareModel(model, options);
+      model = this._prepareModel(model, options)
       this.add(model, _.extend({at: 0}, options));
       return model;
     },
