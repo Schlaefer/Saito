@@ -44,32 +44,11 @@
 			if (Configure::read('debug') == 0):
 				echo $this->Html->script('lib/jquery/jquery-1.9.0.min');
 				echo $this->Html->scriptBlock('jQuery.migrateMute = true;');
+				echo $this->RequireJs->scriptTag('main-prod');
 			else:
 				echo $this->Html->script('lib/jquery/jquery-1.9.0');
+				echo $this->RequireJs->scriptTag('main');
 			endif;
-
-			/*
-			 * Load javascript assets via require.js
-			 */
-			// add version as timestamp to require requests
-			echo $this->Html->scriptBlock(
-					"var require = {urlArgs:"
-					. $this->Js->value($this->Html->getAssetTimestamp(JS_URL . 'main-prod' . '.js'))
-					. "}");
-			// require.js borks out when used with Cakes timestamp.
-			// also we need the relative path for the main-script
-			$tmp_asset_timestamp_cache = Configure::read('Asset.timestamp');
-			Configure::write('Asset.timestamp', false);
-			echo $this->Html->script('lib/require/require.min',
-					array(
-					'data-main' => $this->Html->assetUrl('main' . ((Configure::read('debug') == 0) ? '-prod' : ''),
-							array(
-							'pathPrefix' => JS_URL,
-							'ext'				 => '.js'
-					))
-			));
-			Configure::write('Asset.timestamp', $tmp_asset_timestamp_cache);
-			unset($tmp_asset_timestamp_cache);
 		?>
 		<?php 
 			/*

@@ -35,6 +35,7 @@ class AppController extends Controller {
 			'Bbcode',
 			'UserH',
 			'Markitup.Markitup',
+			'RequireJs',
 			'Stopwatch.Stopwatch',
 			'TextH',
 			'TimeH',
