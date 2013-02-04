@@ -11,6 +11,7 @@ define([
         },
 
         initialize: function() {
+            _.bindAll(this, 'render');
             this.model.on('destroy', this.removeBookmark, this);
         },
 
@@ -21,10 +22,6 @@ define([
 
         removeBookmark: function() {
             this.$el.hide("slide", null, 500, function(){ $(this).remove();});
-        },
-
-        render: function() {
-            alert('test');
         }
 
     });

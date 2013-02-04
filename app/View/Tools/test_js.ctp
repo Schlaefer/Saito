@@ -6,6 +6,10 @@
 
     <script type="text/javascript">
         var SaitoApp = {
+						app: {
+                webroot: "<?php echo $this->request->webroot; ?>",
+								runJsTests: true
+						},
             settings: {
                 embedly_enabled: '1'
             },
@@ -43,19 +47,9 @@
 			);
 		?>
 
-    <!-- include specs -->
-		<?php
-			echo $this->Html->script(
-				array(
-					// 'tests/BookmarkSpec.js',
-					'tests/MarkItUpSpec.js'
-				)
-			);
-		?>
-
 		<!-- include require.js -->
 		<?php
-			echo $this->RequireJs->scriptTag('tests');
+			echo $this->RequireJs->scriptTag('main');
 		?>
 
     <script type="text/javascript">

@@ -6,7 +6,7 @@ define([
 ], function($, _, Backbone, BookmarkView) {
     var BookmarksView = Backbone.View.extend({
         initialize: function() {
-            // this.initCollectionFromDom();
+            this.initCollectionFromDom();
         },
 
         initCollectionFromDom: function() {

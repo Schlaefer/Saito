@@ -29,14 +29,6 @@ class BookmarksController extends AppController {
 				'order' => 'Bookmark.id DESC',
 		));
 		$this->set('bookmarks', $bookmarks);
-		$json = array();
-		foreach($bookmarks as $bookmark) {
-			$json[] = array(
-				'id' => $bookmark['Bookmark']['id'],
-				'title' => $bookmark['Entry']['subject']
-			);
-		}
-		$this->set('json_data', $json);
 	}
 
 	public function add() {
@@ -85,6 +77,7 @@ class BookmarksController extends AppController {
 			throw new BadRequestException;
 		}
 
+		$id = $this->request->data['id'];
 		$this->_getBookmark($id, $this->CurrentUser->getId());
 		$this->autoRender = false;
 		$this->Bookmark->id = $id;

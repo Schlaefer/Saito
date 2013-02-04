@@ -4,9 +4,6 @@
 			'<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'), '/',
 			array('class'	 => 'textlink', 'escape' => FALSE));
 	$this->end();
-	echo $this->Html->scriptBlock(
-		'SaitoApp.view.data = ' .  json_encode($json_data)
-	);
 ?>
 <div class="box-content">
 	<div class="l-box-header box-header">
