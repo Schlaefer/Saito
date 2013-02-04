@@ -21,6 +21,10 @@ define([
 
         removeBookmark: function() {
             this.$el.hide("slide", null, 500, function(){ $(this).remove();});
+        },
+
+        render: function() {
+            alert('test');
         }
 
     });

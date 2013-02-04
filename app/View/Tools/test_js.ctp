@@ -47,9 +47,15 @@
 		<?php
 			echo $this->Html->script(
 				array(
+					'tests/BookmarkSpec.js',
 					'tests/MarkItUpSpec.js'
 				)
 			);
+		?>
+
+		<!-- include require.js -->
+		<?php
+			echo $this->RequireJs->scriptTag('main');
 		?>
 
     <script type="text/javascript">

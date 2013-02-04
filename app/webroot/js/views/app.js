@@ -109,6 +109,7 @@ define([
                 // Bookmarks
                 if ($('#bookmarks')) {
                     var bookmarks = new BookmarksCollection();
+                    bookmarks.reset(options.SaitoApp.view.data);
                     new BookmarksView({
                         el: '#bookmarks',
                         collection: bookmarks
