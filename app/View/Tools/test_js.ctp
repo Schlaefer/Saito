@@ -47,7 +47,7 @@
 		<?php
 			echo $this->Html->script(
 				array(
-					'tests/BookmarkSpec.js',
+					// 'tests/BookmarkSpec.js',
 					'tests/MarkItUpSpec.js'
 				)
 			);
@@ -55,10 +55,11 @@
 
 		<!-- include require.js -->
 		<?php
-			echo $this->RequireJs->scriptTag('main');
+			echo $this->RequireJs->scriptTag('tests');
 		?>
 
     <script type="text/javascript">
+				/*
         (function() {
             var jasmineEnv = jasmine.getEnv();
             jasmineEnv.updateInterval = 1000;
@@ -85,6 +86,7 @@
             }
 
         })();
+        */
     </script>
 
 </head>
