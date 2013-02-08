@@ -26,9 +26,9 @@
 
     <!-- include libs -->
 		<?php
+			echo $this->jQuery->scriptTag();
 			echo $this->Html->script(
 				array(
-					'lib/jquery/jquery-1.9.0.js',
 					'lib/jquery-ui/jquery-ui-1.9.2.custom.min.js',
 					'bootstrap/bootstrap.js',
 					'classes/thread_line.class.js',

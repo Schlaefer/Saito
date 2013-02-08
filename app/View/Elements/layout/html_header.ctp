@@ -21,11 +21,11 @@
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
 			echo $this->Html->scriptBlock($this->Html->getAppJs($this));
+			echo $this->jQuery->scriptTag();
 			if (Configure::read('debug') == 0):
 				echo $this->Html->script('lib/jquery/jquery-1.9.0.min');
 				echo $this->RequireJs->scriptTag('main-prod');
 			else:
-				echo $this->Html->script('lib/jquery/jquery-1.9.0');
 				echo $this->RequireJs->scriptTag('main');
 			endif;
 		?>

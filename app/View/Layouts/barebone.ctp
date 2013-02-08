@@ -30,8 +30,8 @@
 						),
 					);
 					echo $this->Html->scriptBlock('var SaitoApp = ' . json_encode($SaitoApp));
+					echo $this->jQuery->scriptTag();
 				?>
-			<?php echo $this->Html->script('lib/jquery/jquery-1.9.0.min'); ?>
 	</head>
 	<body>
 	<div style ="min-height: 100%; position: relative;">
