@@ -8,7 +8,7 @@
 			'Html'
 		);
 
-		public $jQueryVersion =  "1.9.0";
+		public $jQueryVersion =  "1.9.1";
 
 		public function scriptTag() {
 			$name = "lib/jquery/jquery-" . $this->jQueryVersion;
