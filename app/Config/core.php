@@ -179,11 +179,6 @@
 	));
 
 /**
- * The level of CakePHP security.
- */
-	Configure::write('Security.level', 'medium');
-
-/**
  * A random string used in security hashing methods.
  */
 	Configure::write('Security.salt', 'shouldBeAtLeast22CharsLongNoUnderscores');
