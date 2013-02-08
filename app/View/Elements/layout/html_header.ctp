@@ -20,27 +20,7 @@
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
-			$SaitoApp = array (
-					'app' => array(
-						'timeAppStart' => 'new Date().getTime()',
-						'webroot' => $this->request->webroot,
-						'settings' => array (
-							'embedly_enabled' => Configure::read('Saito.Settings.embedly_enabled'),
-							'autoPageReload' => (isset($autoPageReload) ? $autoPageReload : 0)
-						)
-					),
-					'request' => array(
-						'action' => $this->request->action,
-						'controller' => $this->request->controller,
-						'isMobile' => $this->request->isMobile(),
-						'isPreview' => $this->request->isPreview()
-					),
-					'currentUser' => array(
-						'user_show_inline' => $CurrentUser['inline_view_on_click'] || false,
-						'user_show_thread_collapsed' => $CurrentUser['user_show_thread_collapsed'] || false
-					)
-			);
-			echo $this->Html->scriptBlock('var SaitoApp = ' . json_encode($SaitoApp));
+			echo $this->Html->scriptBlock($this->Html->getAppJs($this));
 			if (Configure::read('debug') == 0):
 				echo $this->Html->script('lib/jquery/jquery-1.9.0.min');
 				echo $this->Html->scriptBlock('jQuery.migrateMute = true;');
@@ -50,7 +30,7 @@
 				echo $this->RequireJs->scriptTag('main');
 			endif;
 		?>
-		<?php 
+		<?php
 			/*
 			 * fixing safari mobile fubar;
 			 * see: http://stackoverflow.com/questions/6448465/jquery-mobile-device-scaling
