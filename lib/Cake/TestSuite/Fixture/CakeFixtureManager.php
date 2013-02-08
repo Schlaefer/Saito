@@ -104,7 +104,7 @@ class CakeFixtureManager {
  * @throws UnexpectedValueException when a referenced fixture does not exist.
  */
 	protected function _loadFixtures($fixtures) {
-		foreach ($fixtures as $index => $fixture) {
+		foreach ($fixtures as $fixture) {
 			$fixtureFile = null;
 			$fixtureIndex = $fixture;
 			if (isset($this->_loaded[$fixture])) {
@@ -175,7 +175,7 @@ class CakeFixtureManager {
 			return;
 		}
 
-		$sources = $db->listSources();
+		$sources = (array)$db->listSources();
 		$table = $db->config['prefix'] . $fixture->table;
 		$exists = in_array($table, $sources);
 

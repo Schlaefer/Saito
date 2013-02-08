@@ -988,7 +988,7 @@ class Model extends Object implements CakeEventListener {
 					$plugin = null;
 
 					if (is_numeric($assoc)) {
-						unset ($this->{$type}[$assoc]);
+						unset($this->{$type}[$assoc]);
 						$assoc = $value;
 						$value = array();
 
@@ -1164,7 +1164,7 @@ class Model extends Object implements CakeEventListener {
 
 				foreach ($fieldSet as $fieldName => $fieldValue) {
 					if (isset($this->validationErrors[$fieldName])) {
-						unset ($this->validationErrors[$fieldName]);
+						unset($this->validationErrors[$fieldName]);
 					}
 
 					if ($modelName === $this->alias) {
@@ -1609,7 +1609,7 @@ class Model extends Object implements CakeEventListener {
 		$fields = array();
 
 		if (!is_array($validate)) {
-			$options = array_merge($defaults, compact('validate', 'fieldList', 'callbacks'));
+			$options = array_merge($defaults, compact('validate', 'fieldList'));
 		} else {
 			$options = array_merge($defaults, $validate);
 		}
@@ -2525,7 +2525,7 @@ class Model extends Object implements CakeEventListener {
 			'fields' => "{$this->alias}.{$this->primaryKey}",
 			'recursive' => 0), compact('conditions'))
 		);
-		if ($ids === false) {
+		if ($ids === false || $ids === null) {
 			return false;
 		}
 

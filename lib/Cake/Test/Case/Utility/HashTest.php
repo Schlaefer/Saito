@@ -170,6 +170,17 @@ class HashTest extends CakeTestCase {
  * return void
  */
 	public function testGet() {
+		$data = array('abc', 'def');
+
+		$result = Hash::get($data, '0');
+		$this->assertEquals('abc', $result);
+
+		$result = Hash::get($data, 0);
+		$this->assertEquals('abc', $result);
+
+		$result = Hash::get($data, '1');
+		$this->assertEquals('def', $result);
+
 		$data = self::articleData();
 
 		$result = Hash::get(array(), '1.Article.title');
@@ -1115,6 +1126,28 @@ class HashTest extends CakeTestCase {
 			array('Item' => array('image' => 'img99.jpg')),
 		);
 		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test that sort() with 'natural' type will fallback to 'regular' as SORT_NATURAL is introduced in PHP 5.4
+ *
+ * @return void
+ */
+	public function testSortNaturalFallbackToRegular() {
+		if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+			$this->markTestSkipped('Skipping SORT_NATURAL fallback test on PHP >= 5.4');
+		}
+
+		$a = array(
+			0 => array('Person' => array('name' => 'Jeff')),
+			1 => array('Shirt' => array('color' => 'black'))
+		);
+		$b = array(
+			0 => array('Shirt' => array('color' => 'black')),
+			1 => array('Person' => array('name' => 'Jeff')),
+		);
+		$sorted = Hash::sort($a, '{n}.Person.name', 'asc', 'natural');
+		$this->assertEquals($sorted, $b);
 	}
 
 /**
@@ -2225,52 +2258,52 @@ class HashTest extends CakeTestCase {
 			'Order.Item.0.Product.sizes.4.Size.qty' => '',
 			'Order.Item.0.Product.sizes.4.Size.size' => '12-18mo',
 			'Order.Item.0.Product.sizes.4.Size.id' => '42',
-			'Order.Item.0.Art.imprint_locations.0.id' => (int) 2,
+			'Order.Item.0.Art.imprint_locations.0.id' => 2,
 			'Order.Item.0.Art.imprint_locations.0.name' => 'Left Chest',
-			'Order.Item.0.Art.imprint_locations.0.imprint_type.id' => (int) 7,
+			'Order.Item.0.Art.imprint_locations.0.imprint_type.id' => 7,
 			'Order.Item.0.Art.imprint_locations.0.imprint_type.type' => 'Embroidery',
 			'Order.Item.0.Art.imprint_locations.0.art' => '',
-			'Order.Item.0.Art.imprint_locations.0.num_colors' => (int) 3,
+			'Order.Item.0.Art.imprint_locations.0.num_colors' => 3,
 			'Order.Item.0.Art.imprint_locations.0.description' => 'Wooo! This is Embroidery!!',
 			'Order.Item.0.Art.imprint_locations.0.lines.0' => 'Platen',
 			'Order.Item.0.Art.imprint_locations.0.lines.1' => 'Logo',
-			'Order.Item.0.Art.imprint_locations.0.height' => (int) 4,
-			'Order.Item.0.Art.imprint_locations.0.width' => (int) 5,
+			'Order.Item.0.Art.imprint_locations.0.height' => 4,
+			'Order.Item.0.Art.imprint_locations.0.width' => 5,
 			'Order.Item.0.Art.imprint_locations.0.stitch_density' => 'Light',
 			'Order.Item.0.Art.imprint_locations.0.metallic_thread' => true,
-			'Order.Item.0.Art.imprint_locations.1.id' => (int) 4,
+			'Order.Item.0.Art.imprint_locations.1.id' => 4,
 			'Order.Item.0.Art.imprint_locations.1.name' => 'Full Back',
-			'Order.Item.0.Art.imprint_locations.1.imprint_type.id' => (int) 6,
+			'Order.Item.0.Art.imprint_locations.1.imprint_type.id' => 6,
 			'Order.Item.0.Art.imprint_locations.1.imprint_type.type' => 'Screenprinting',
 			'Order.Item.0.Art.imprint_locations.1.art' => '',
-			'Order.Item.0.Art.imprint_locations.1.num_colors' => (int) 3,
+			'Order.Item.0.Art.imprint_locations.1.num_colors' => 3,
 			'Order.Item.0.Art.imprint_locations.1.description' => 'Wooo! This is Screenprinting!!',
 			'Order.Item.0.Art.imprint_locations.1.lines.0' => 'Platen',
 			'Order.Item.0.Art.imprint_locations.1.lines.1' => 'Logo',
-			'Order.Item.0.Art.imprint_locations.2.id' => (int) 26,
+			'Order.Item.0.Art.imprint_locations.2.id' => 26,
 			'Order.Item.0.Art.imprint_locations.2.name' => 'HS - JSY Name Below',
-			'Order.Item.0.Art.imprint_locations.2.imprint_type.id' => (int) 9,
+			'Order.Item.0.Art.imprint_locations.2.imprint_type.id' => 9,
 			'Order.Item.0.Art.imprint_locations.2.imprint_type.type' => 'Names',
 			'Order.Item.0.Art.imprint_locations.2.description' => 'Wooo! This is Names!!',
-			'Order.Item.0.Art.imprint_locations.2.sizes.S.0.active' => (int) 1,
+			'Order.Item.0.Art.imprint_locations.2.sizes.S.0.active' => 1,
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.0.name' => 'Benjamin Talavera',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.0.color' => 'Red',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.0.height' => '3',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.0.layout' => 'Arched',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.0.style' => 'Classic',
-			'Order.Item.0.Art.imprint_locations.2.sizes.S.1.active' => (int) 0,
+			'Order.Item.0.Art.imprint_locations.2.sizes.S.1.active' => 0,
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.1.name' => 'Rishi Narayan',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.1.color' => 'Cardinal',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.1.height' => '4',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.1.layout' => 'Straight',
 			'Order.Item.0.Art.imprint_locations.2.sizes.S.1.style' => 'Team US',
-			'Order.Item.0.Art.imprint_locations.2.sizes.M.0.active' => (int) 1,
+			'Order.Item.0.Art.imprint_locations.2.sizes.M.0.active' => 1,
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.0.name' => 'Brandon Plasters',
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.0.color' => 'Red',
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.0.height' => '3',
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.0.layout' => 'Arched',
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.0.style' => 'Classic',
-			'Order.Item.0.Art.imprint_locations.2.sizes.M.1.active' => (int) 0,
+			'Order.Item.0.Art.imprint_locations.2.sizes.M.1.active' => 0,
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.1.name' => 'Andrew Reed',
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.1.color' => 'Cardinal',
 			'Order.Item.0.Art.imprint_locations.2.sizes.M.1.height' => '4',
@@ -2295,10 +2328,10 @@ class HashTest extends CakeTestCase {
 			'Order.QualityControl' => '0',
 			'Order.Receiving' => '0',
 			'Order.ScreenPrinting' => '0',
-			'Order.Stage.art_approval' => (int) 0,
-			'Order.Stage.draft' => (int) 1,
-			'Order.Stage.quote' => (int) 1,
-			'Order.Stage.order' => (int) 1,
+			'Order.Stage.art_approval' => 0,
+			'Order.Stage.draft' => 1,
+			'Order.Stage.quote' => 1,
+			'Order.Stage.order' => 1,
 			'Order.StoreLiason' => '0',
 			'Order.Tag_UI_Email' => '',
 			'Order.Tags' => '',
