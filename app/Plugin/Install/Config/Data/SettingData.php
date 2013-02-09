@@ -141,6 +141,14 @@ class SettingData {
 				'name'	=> 'timezone',
 				'value'	=> 'UTC',
 			),
+		array(
+			'name'	=> 'shoutbox_enabled',
+			'value'	=> '1',
+		),
+		array(
+			'name'	=> 'shoutbox_max_shouts',
+			'value'	=> '10',
+		)
 	);
 }
 ?>
