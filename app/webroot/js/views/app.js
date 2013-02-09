@@ -5,13 +5,15 @@ define([
 	'collections/threadlines', 'views/threadlines',
 	'collections/threads', 'views/threads',
 	'collections/postings', 'views/postings',
-    'collections/bookmarks', 'views/bookmarks'
+    'collections/bookmarks', 'views/bookmarks',
+    'views/shouts'
 	], function(
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingView,
-        BookmarksCollection, BookmarksView
+        BookmarksCollection, BookmarksView,
+        ShoutsView
 		) {
 
 		// App
@@ -106,8 +108,10 @@ define([
 						}, this), this.settings.autoPageReload * 1000);
 				}
 
+                this.initShoutbox();
+
                 // Bookmarks
-                if ($('#bookmarks')) {
+                if ($('#bookmarks').length) {
                     var bookmarks = new BookmarksCollection();
                     new BookmarksView({
                         el: '#bookmarks',
@@ -141,6 +145,15 @@ define([
 				}
 
 			},
+
+            initShoutbox: function() {
+                if($("#shoutbox").length) {
+                    var shoutbox = new ShoutsView({
+                        el: "#shoutbox",
+                        urlBase: this.app.webroot
+                    });
+                }
+            },
 
 			scrollToThread: function(tid) {
 				scrollToTop($('.thread_box.' + tid));

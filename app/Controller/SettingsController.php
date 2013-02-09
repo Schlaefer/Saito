@@ -37,6 +37,8 @@
 				'forum_email'										 => 1,
 				'forum_name'										 => 1,
 				'quote_symbol'									 => 1,
+				'shoutbox_enabled'							 => 1,
+				'shoutbox_max_shouts'						 => 1,
 				'signature_separator'						 => 1,
 				'smilies'												 => 1,
 				'stopwatch_get'									 => 1,
