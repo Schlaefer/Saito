@@ -14,9 +14,8 @@ define([
             "keydown form": "form"
         },
 
-        initialize: function() {
-            // @td
-            this.urlBase = SaitoApp.app.webroot + 'shouts/',
+        initialize: function(options) {
+            this.urlBase = options.urlBase + 'shouts/';
             this.shouts = this.$el.find('.shouts');
             this.poll();
         },
@@ -51,7 +50,7 @@ define([
             this.timeoutId = setTimeout(_.bind(this.poll, this), this.refreshTime);
 
             // update shoutbox only if tab is open
-            if($('#shoutbox').is(":visible") === false) {
+            if(this.$el.is(":visible") === false) {
                 return;
             }
 

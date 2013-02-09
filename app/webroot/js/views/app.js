@@ -149,7 +149,8 @@ define([
             initShoutbox: function() {
                 if($("#shoutbox").length) {
                     var shoutbox = new ShoutsView({
-                        el: "#shoutbox"
+                        el: "#shoutbox",
+                        urlBase: this.app.webroot
                     });
                 }
             },
