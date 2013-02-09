@@ -1,8 +1,9 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function($, _, Backbone) {
+    'backbone',
+    'jqueryAutosize'
+], function($, _, Backbone, jqueryAutosize) {
 
     var ShoutboxView = Backbone.View.extend({
 
@@ -17,17 +18,33 @@ define([
         initialize: function(options) {
             this.urlBase = options.urlBase + 'shouts/';
             this.shouts = this.$el.find('.shouts');
+            this.textarea =  this.$el.find('textarea');
+
+            this.textarea.autosize();
             this.poll();
         },
 
+        resizeIt: function() {
+            var str = this.$el.val();
+            var cols = this.$el.cols;
+
+            var linecount = 0;
+            $(str.split("\n")).each( function(l) {
+                linecount += Math.ceil( l.length / cols ); // take into account long lines
+            } )
+           this.$el.rows = linecount + 1;
+        },
+
         form: function(event) {
+            this.resizeIt();
             if (event.keyCode == 13) {
                 this.submit();
             }
+
         },
 
         clearForm: function() {
-            this.$el.find('textarea').val('');
+            this.textarea.val('').trigger('autosize');
         },
 
         submit: function() {
@@ -35,7 +52,7 @@ define([
                 url: this.urlBase + 'add',
                 type: "post",
                 data: {
-                   text: this.$el.find('textarea').val()
+                   text: this.textarea.val()
                 },
                 success: _.bind(function(data) {
                     this.clearForm();

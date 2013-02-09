@@ -20,6 +20,7 @@ require.config({
 		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
 		bootstrap: 'bootstrap/bootstrap',
 		domReady: 'lib/domReady',
+        jqueryAutosize: 'lib/jquery.autosize',
 		text: 'lib/require/text'
 		// @td include scrollTo after _app.js is gone
 	}

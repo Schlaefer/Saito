@@ -12,7 +12,7 @@
 <?php  if ($CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries') : ?>
 		<div id="shoutbox">
 				<form>
-            <textarea maxlength="255"></textarea>
+            <textarea maxlength="255" rows="1"></textarea>
 				</form>
 				<div class="shouts"></div>
 		</div>

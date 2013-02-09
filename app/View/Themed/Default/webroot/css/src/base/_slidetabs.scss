@@ -126,13 +126,15 @@
 #shoutbox {
 
   textarea {
+    font-size: 12px;
+    line-height: 16px;
     margin: 0 0 1em 0;
     padding: 2px 5px;
     width: 180px;
   }
 
   img {
-    max-width: 190px;
+    max-width: 130px;
   }
 
   .shouts {
