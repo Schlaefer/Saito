@@ -24,23 +24,12 @@ define([
             this.poll();
         },
 
-        resizeIt: function() {
-            var str = this.$el.val();
-            var cols = this.$el.cols;
-
-            var linecount = 0;
-            $(str.split("\n")).each( function(l) {
-                linecount += Math.ceil( l.length / cols ); // take into account long lines
-            } )
-           this.$el.rows = linecount + 1;
-        },
-
         form: function(event) {
-            this.resizeIt();
             if (event.keyCode == 13) {
                 this.submit();
+                this.clearForm();
+                event.preventDefault();
             }
-
         },
 
         clearForm: function() {
@@ -55,7 +44,6 @@ define([
                    text: this.textarea.val()
                 },
                 success: _.bind(function(data) {
-                    this.clearForm();
                     clearTimeout(this.timeoutId);
                     this.poll(data);
                 }, this)
