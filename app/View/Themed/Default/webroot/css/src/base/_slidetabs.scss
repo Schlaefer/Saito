@@ -127,7 +127,7 @@
 
   textarea {
     margin: 0 0 1em 0;
-    padding: 5px;
+    padding: 2px 5px;
     width: 190px;
   }
 
@@ -137,6 +137,10 @@
 
   .shouts {
     word-wrap: break-word;
+  }
+
+  .username {
+    font-weight: bold;
   }
 
 }

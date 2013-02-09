@@ -475,9 +475,10 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 .slidetab-recentposts .slidetab_tree > li li, .slidetab-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 26px !important; text-indent: -1.75em; font-weight: normal; }
 .slidetab-recentposts .slidetab_tree > li li [class^="icon-"], .slidetab-recentposts .slidetab_tree li [class*=" icon-"], .slidetab-recententries .slidetab_tree > li li [class^="icon-"], .slidetab-recententries .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
 
-#shoutbox textarea, #shoutbox .markItUpPreviewFrame { margin: 0 0 1em 0; padding: 5px; width: 190px; }
+#shoutbox textarea, #shoutbox .markItUpPreviewFrame { margin: 0 0 1em 0; padding: 2px 5px; width: 190px; }
 #shoutbox img { max-width: 200px; }
 #shoutbox .shouts { word-wrap: break-word; }
+#shoutbox .username { font-weight: bold; }
 
 /******************************************************************************* Template Layout *****************************************************************************/
 .l-top { position: relative; }
