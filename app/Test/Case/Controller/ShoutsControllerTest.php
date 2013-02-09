@@ -25,4 +25,8 @@ class ShoutsControllerTest extends ControllerTestCase {
 		'app.setting'
 	);
 
+	public function testDummy() {
+
+	}
+
 }
