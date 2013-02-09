@@ -460,7 +460,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 .slidetab-tab-button { position: absolute; width: 20px; line-height: 20px; top: 50%; margin-top: -8px; }
 
-.slidetab-content { margin-left: 28px; min-height: 34px; width: 200px; padding: 10px; }
+.slidetab-content { margin-left: 28px; min-height: 34px; width: 190px; padding: 10px 15px; }
 
 .slidetab_tree > li { margin-bottom: 1em; }
 .slidetab_tree > li:last-child { margin-bottom: 0; }
@@ -475,8 +475,8 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 .slidetab-recentposts .slidetab_tree > li li, .slidetab-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 26px !important; text-indent: -1.75em; font-weight: normal; }
 .slidetab-recentposts .slidetab_tree > li li [class^="icon-"], .slidetab-recentposts .slidetab_tree li [class*=" icon-"], .slidetab-recententries .slidetab_tree > li li [class^="icon-"], .slidetab-recententries .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
 
-#shoutbox textarea, #shoutbox .markItUpPreviewFrame { margin: 0 0 1em 0; padding: 2px 5px; width: 190px; }
-#shoutbox img { max-width: 200px; }
+#shoutbox textarea, #shoutbox .markItUpPreviewFrame { margin: 0 0 1em 0; padding: 2px 5px; width: 180px; }
+#shoutbox img { max-width: 190px; }
 #shoutbox .shouts { word-wrap: break-word; }
 #shoutbox .username { font-weight: bold; }
 
