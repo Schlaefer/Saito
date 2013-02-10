@@ -1,7 +1,6 @@
 <?php
 	$i = count($shouts);
 	foreach($shouts as $shout): ?>
-			<?php echo $this->TimeH->formatTime($shout['Shout']['created']);  ?>
 			<span class="username">
 				<?php echo $shout['User']['username']; ?>:
 			</span>
@@ -10,9 +9,15 @@
 				$shout['Shout']['text'],
 				array('multimedia' => false)
 			);
+		?>
+			<span class="info_text">
+				<?php echo $this->TimeH->formatTime($shout['Shout']['created']); ?>
+			</span>
+		<?php
 			if ($i !== 1):
 				$i--;
-				?><hr/><?php
+				?>
+			<hr/><?php
 			endif;
 	endforeach;
 	unset($i);

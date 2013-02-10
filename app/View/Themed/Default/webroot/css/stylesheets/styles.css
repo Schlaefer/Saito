@@ -479,6 +479,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 #shoutbox img { max-width: 130px; }
 #shoutbox .shouts { word-wrap: break-word; }
 #shoutbox .username { font-weight: bold; }
+#shoutbox .info_text, #shoutbox .btn-thread_tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c_bbc_link-dinfo, #shoutbox .c_bbc_imessage, #shoutbox .c_info_text, #shoutbox .thread_line-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; }
 
 /******************************************************************************* Template Layout *****************************************************************************/
 .l-top { position: relative; }
