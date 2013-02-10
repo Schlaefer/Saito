@@ -43,7 +43,7 @@ Follow the web-installer's instruction to the end.
 
 - ** Backup the app/Config directory! **
 - Change the admin-account password to a secure phrase
-- Set email addresses so contacting the admin works:
+- Set email addresses. [See config-email.md](config-email.md)
 	- Set the admin-account email address (user preferences)
 	- Set the forum email sender address (forum settings)
 - You did make a backup of app/Config in step 1, right?
