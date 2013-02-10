@@ -683,7 +683,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 /** geshi */
 .code { padding: 1em; }
 
-.code ol { list-style: decimal; list-style-position: inside; }
+.code ol { list-style: decimal; padding-left: 40px; }
 
 .geshi-plain-text { font-size: smaller; }
 

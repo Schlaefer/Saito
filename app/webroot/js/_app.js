@@ -393,6 +393,7 @@ $(document).ready( function() {
 
 // start toggle [code] highlight/plain
 $(document).ready(function() {
+    $('.geshi-plain-text').html("<i class='icon-reorder'></i>");
 	$('.entry').delegate('.geshi-plain-text', 'click', function(event) {
 
 		event.preventDefault();
@@ -403,20 +404,20 @@ $(document).ready(function() {
 		// build plain text
 		var htmlText = block.html();
 		var plainText = "";
-		if (jQuery.browser.msie) {
-			plainText = htmlText.replace(/\n/g, "+");
+		if (navigator.appName == 'Microsoft Internet Explorer') {
+			plainText = htmlText.replace(/\n\r/g, "+");
 			plainText = jQuery(plainText).text().replace(/\+\+/g, "\r");
 		} else {
 			plainText = block.text().replace(/code /g, "code \n");
 		}
 
 		// button action
-		if (jQuery(this).html() !== "Show Highlighted Code") {
-			jQuery(this).html("Show Highlighted Code");
+		if (jQuery(this).html() === '<i class="icon-reorder"></i>') {
+            jQuery(this).html("<i class='icon-list-ol'></i>");
 			block.text(plainText).wrapInner("<pre class=\"code\"></pre>");
 			block.data('htmlText', htmlText);
 		} else {
-			jQuery(this).html("Show Plain Text");
+            jQuery(this).empty().html("<i class='icon-reorder'></i>");
 			block.html(block.data('htmlText'));
 		}
 
