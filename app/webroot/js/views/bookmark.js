@@ -17,7 +17,7 @@ define([
 
         deleteBookmark: function(event) {
             event.preventDefault();
-            this.model.delete();
+            this.model.destroy();
         },
 
         removeBookmark: function() {

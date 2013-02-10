@@ -25,11 +25,8 @@ define([
                 options.url = options.url + (options.url.charAt(options.url.length - 1) == '/' ? '' : '/') + this.id;
             }
             Backbone.ajaxSync(method, model, options);
-        },
-
-        delete: function() {
-            this.destroy();
         }
+
     });
     return BookmarkModel;
 });
