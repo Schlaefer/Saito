@@ -15,11 +15,11 @@ require.config({
 	paths: {
 		jquery: 'lib/jquery/jquery-require',
 		jqueryhelpers: 'lib/jqueryhelpers',
-		underscore: 'lib/underscore/underscore',
 		backbone: 'lib/backbone/backbone',
+        underscore: 'lib/underscore/underscore',
 		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
 		bootstrap: 'bootstrap/bootstrap',
-		domReady: 'lib/domReady',
+		domReady: 'lib/require/domReady',
         jqueryAutosize: 'lib/jquery.autosize',
 		text: 'lib/require/text'
 		// @td include scrollTo after _app.js is gone
