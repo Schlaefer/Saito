@@ -18,10 +18,10 @@ body {
   overflow:hidden;
   z-index:5;
   position:relative;
-  -moz-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, #333333 0px 1px 5px inset;
-  -webkit-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, #333333 0px 5px 1px inset;
-  -o-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, #333333 0px 1px 5px inset;
-  box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, #333333 0px 1px 5px inset;
+  -moz-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, rgb(143, 143, 143) 0px 1px 5px inset;
+  -webkit-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, rgb(143, 143, 143) 0px 5px 1px inset;
+  -o-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, rgb(143, 143, 143) 0px 1px 5px inset;
+  box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, rgb(143, 143, 143) 0px 1px 5px inset;
   border-radius:3px;
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
