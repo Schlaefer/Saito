@@ -11,7 +11,8 @@
 		protected  $_files = array(
 			'js' => array(
 				'JasmineJs.jasmine.js',
-				'JasmineJs.jasmine-html.js'
+				'JasmineJs.jasmine-html.js',
+				'JasmineJs.jasmine-jquery.js'
 			),
 			'css' => array(
 				'JasmineJs.jasmine.css'
