@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  {% include 'layouts/head.twig' %}
+  <body>
+    <div id="footerHelper">
+      <div class="container">
+        {% include 'layouts/hero.twig' %}
+        <div class="row">
+          <div class="span10 offset1">
+            {{ content }}
+          </div>
+        </div>
+    </div>
+    <div id="footerPush"></div>
+   </div>
+    <footer>
+      {% include 'layouts/footer.twig' %}
+    </footer>
+    {% include 'layouts/body-footer.twig' %}
+  </body>
+</html>

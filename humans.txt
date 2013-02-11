@@ -1,0 +1,19 @@
+/* TEAM */
+                            
+    developer: Schlaefer
+    Twitter: @Schlaefer
+    Location: Leipzig, Germany
+
+/* THANKS */
+
+    macnemo forum: http://macnemo.de/
+                            
+/* SITE */
+
+    phrozn - Static site generator for PHP: http://www.phrozn.info/
+
+    Last update: 2012-05-19
+    Standards: HTML, CSS, Javascript
+    Components: Compass
+    Software: MacVim, Netbeans, Fireworks, Forklift 
+  
