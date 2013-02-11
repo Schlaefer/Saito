@@ -22,9 +22,6 @@ body {
   -webkit-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, rgb(143, 143, 143) 0px 5px 1px inset;
   -o-box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, rgb(143, 143, 143) 0px 1px 5px inset;
   box-shadow:rgba(255,255,255,0.6) 0px 1px 1px, rgb(143, 143, 143) 0px 1px 5px inset;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
 }
 h1, h2, h3, h4, h5, h6 {
   line-height:1.1;
@@ -131,7 +128,7 @@ section { padding:0 2em; }
   background-image:-ms-radial-gradient(50% 2%,rgba(255,255,255,0.4),rgba(255,255,255,0) 500px), url("../media/img/dots_light.png");
   background-image:radial-gradient(50% 2%,rgba(255,255,255,0.4),rgba(255,255,255,0) 500px), url("../media/img/dots_light.png");
   text-shadow:-1px 2px 3px rgba(255,255,255,0.4), 0px -1px 3px rgba(0,0,0,0.4);
-  box-shadow:0px 2px 3px #333333;
+  box-shadow:0px 2px 3px #888888;
   z-index:10;
   padding:25px 0px 10px;
   position:relative;
