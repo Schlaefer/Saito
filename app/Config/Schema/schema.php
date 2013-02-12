@@ -122,6 +122,19 @@ class AppSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
+	public $shouts = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'text' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'time' => array('type' => 'timestamp', 'null' => true, 'default' => null),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+		),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MEMORY')
+	);
+
 	public $smiley_codes = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'smiley_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
@@ -214,7 +227,9 @@ class AppSchema extends CakeSchema {
 		'show_userlist' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'stores if userlist is shown in front layout'),
 		'show_recentposts' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'show_recententries' => array('type' => 'boolean', 'null' => false, 'default' => null),
+		'show_shoutbox' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'inline_view_on_click' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'user_show_thread_collapsed' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'flattr_uid' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 24, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'flattr_allow_user' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'flattr_allow_posting' => array('type' => 'boolean', 'null' => true, 'default' => null),
