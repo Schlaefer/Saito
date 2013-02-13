@@ -26,6 +26,8 @@
 - [task] migrated js test (we have some) from qunit to jasmine
 - [task] updated markItUp to patched version for jQuery 1.9+ that doesn't need jQuery.migrate
 - [task] removed jQuery.migrate
+- [task] basic email config info in docs/config-email.md
+
 
 [Milestone issues.](https://github.com/Schlaefer/Saito/issues?milestone=10&state=closed)
 
