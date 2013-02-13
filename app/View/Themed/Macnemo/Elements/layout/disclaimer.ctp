@@ -52,6 +52,8 @@
         <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito v%s.', Configure::read("Saito.v")); ?></a>
         <br/>
         <?php echo __('Generated in %s s.', Stopwatch::getWallTime()); ?>
+				<br/>
+				<div class="sprite-ipv6-button"></div>
 			</p>
 		</div>
 
