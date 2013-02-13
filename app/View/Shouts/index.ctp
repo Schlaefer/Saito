@@ -4,18 +4,17 @@
 		foreach($shouts as $shout): ?>
 			<div class="shout" data-id="<?php echo $shout['Shout']['id'] ?>">
 				<span class="username">
-					<?php echo $shout['User']['username']; ?>
-				</span> –
-				<span class="info_text">
-					<?php echo $this->TimeH->formatTime($shout['Shout']['created']); ?>
+					<?php echo $shout['User']['username']; ?>:
 				</span>
-				<br/>
 				<?php
 				echo $this->Bbcode->parse(
 					$shout['Shout']['text'],
 					array('multimedia' => false)
 				);
 				?>
+        <span class="info_text">
+					<?php echo $this->TimeH->formatTime($shout['Shout']['created']); ?>
+				</span>
 			</div>
 			<?php
 			if ($i !== 1):
