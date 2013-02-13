@@ -44,13 +44,60 @@
 
 <p><span class="label label-info">Info</span> <a href="https://github.com/Schlaefer/Saito/tags">Download older versions</a></p>
 
+<h2>2013-02.01</h2>
+
+<ul>
+<li>[new] Shoutbox</li>
+<li>[new] display peek memory usage in stopwatch output</li>
+<li>[fix] #123 Alt-Tags broken in Edit-Window</li>
+<li>[fix] #130 show raw code option broken</li>
+<li>[fix] #131 [embed] is not excluded from bbcode parsing if multimedia is set to false</li>
+<li>[fix] #132 Usercounter on slidetab misalligned</li>
+<li>[fix] js-tests can be run in production mode</li>
+<li>[fix] mark as read button is get link and pollutes browser history</li>
+<li>[fix] wobbeling word baseline in [code] blocks</li>
+<li>[task] #124 Update to CakePHP 2.3</li>
+<li>[task] #125 Update to jQuery 1.9.1</li>
+<li>[task] updated backbone.js (underscore, localStorage)</li>
+<li>[task] updated require.js (domReady, text)</li>
+<li>[task] unified layout center button in header and footer</li>
+<li>[task] refactored bookmark page js from page template into backbone</li>
+<li>[task] refactored scroll to top footer button js into backbone</li>
+<li>[task] unified layout center button in header and footer</li>
+<li>[task] migrated js test (we have some) from qunit to jasmine</li>
+<li>[task] updated markItUp to patched version for jQuery 1.9+ that doesn't need jQuery.migrate</li>
+<li>[task] removed jQuery.migrate</li>
+</ul>
+
+<p><a href="https://github.com/Schlaefer/Saito/issues?milestone=10&amp;state=closed">Milestone issues.</a></p>
+
+<h3>DB Changes</h3>
+
+<p><span class="label label-warning">Note:</span> Don't forget to add your table prefix if necessary.</p>
+
+<pre><code>  INSERT INTO `settings` (`name`, `value`) VALUES ('shoutbox_enabled', '1');
+  INSERT INTO `settings` (`name`, `value`) VALUES ('shoutbox_max_shouts', '10');
+
+  CREATE TABLE `shouts` (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `created` datetime DEFAULT NULL,
+    `modified` datetime DEFAULT NULL,
+    `text` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+    `user_id` int(11) NOT NULL,
+    `time` timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+  ) ENGINE=MEMORY AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+  ALTER TABLE  `users` ADD  `show_shoutbox` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT  '0' AFTER  `show_recententries`
+</code></pre>
+
 <h2>2013-01.05</h2>
 
 <ul>
 <li>[fix] iOS issues with buttons in posting form </li>
 </ul>
 
-<p><a href="https://github.com/Schlaefer/Saito/issues?milestone=9&amp;state=closed">Complete list.</a></p>
+<p><a href="https://github.com/Schlaefer/Saito/issues?milestone=9&amp;state=closed">Milestone issues.</a></p>
 
 <h2>2013-01.04</h2>
 
@@ -59,7 +106,7 @@
 <li>[fix] Up arrow in footer misaligned</li>
 </ul>
 
-<p><a href="https://github.com/Schlaefer/Saito/issues?milestone=8&amp;state=closed">Complete list.</a></p>
+<p><a href="https://github.com/Schlaefer/Saito/issues?milestone=8&amp;state=closed">Milestone issues.</a></p>
 
 <h2>2013-01.03</h2>
 
@@ -798,7 +845,7 @@
       <div class="row">
   <div class="span12">
     <small class="muted">
-      Proudly made in Leipzig, Germany • Last <a href="http://www.phrozn.info/">phrozn</a> on 2013-02-11 
+      Proudly made in Leipzig, Germany • Last <a href="http://www.phrozn.info/">phrozn</a> on 2013-02-13 
     </small>
   </div>
 </div>

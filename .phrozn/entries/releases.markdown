@@ -6,6 +6,30 @@
 
 ## 2013-02.01 ##
 
+- [new] Shoutbox
+- [new] display peek memory usage in stopwatch output
+- [fix] #123 Alt-Tags broken in Edit-Window
+- [fix] #130 show raw code option broken
+- [fix] #131 [embed] is not excluded from bbcode parsing if multimedia is set to false
+- [fix] #132 Usercounter on slidetab misalligned
+- [fix] js-tests can be run in production mode
+- [fix] mark as read button is get link and pollutes browser history
+- [fix] wobbeling word baseline in [code] blocks
+- [task] #124 Update to CakePHP 2.3
+- [task] #125 Update to jQuery 1.9.1
+- [task] updated backbone.js (underscore, localStorage)
+- [task] updated require.js (domReady, text)
+- [task] unified layout center button in header and footer
+- [task] refactored bookmark page js from page template into backbone
+- [task] refactored scroll to top footer button js into backbone
+- [task] unified layout center button in header and footer
+- [task] migrated js test (we have some) from qunit to jasmine
+- [task] updated markItUp to patched version for jQuery 1.9+ that doesn't need jQuery.migrate
+- [task] removed jQuery.migrate
+
+[Milestone issues.](https://github.com/Schlaefer/Saito/issues?milestone=10&state=closed)
+
+
 ### DB Changes
 
 <span class="label label-warning">Note:</span> Don't forget to add your table prefix if necessary.
@@ -30,14 +54,14 @@
 
 - [fix] iOS issues with buttons in posting form 
 
-[Complete list.](https://github.com/Schlaefer/Saito/issues?milestone=9&state=closed)
+[Milestone issues.](https://github.com/Schlaefer/Saito/issues?milestone=9&state=closed)
 
 ## 2013-01.04 ##
 
 - [new] Sort admin usertable by last registrations by default 
 - [fix] Up arrow in footer misaligned
 
-[Complete list.](https://github.com/Schlaefer/Saito/issues?milestone=8&state=closed)
+[Milestone issues.](https://github.com/Schlaefer/Saito/issues?milestone=8&state=closed)
 
 ## 2013-01.03 ##
 
