@@ -69,8 +69,8 @@ define([
                 success: _.bind(function(data) {
                     if (data.length > 0) {
                         this.render(data);
+                        this.lastId = $(data).find('.shout:first').data('id');
                     }
-                    this.lastId = $(data).find('.shout:first').data('id');
                 }, this)
             });
         },
