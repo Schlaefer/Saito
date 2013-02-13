@@ -17,6 +17,12 @@
 				</span>
 			</div>
 			<?php
+			if ($i !== 1):
+				$i--;
+				?>
+          <hr/>
+				<?php
+			endif;
 		endforeach;
 		unset($i);
 	?>
