@@ -25,7 +25,7 @@ define([
         },
 
         form: function(event) {
-            if (event.keyCode == 13) {
+            if (event.keyCode == 13 && event.shiftKey === false) {
                 this.submit();
                 this.clearForm();
                 event.preventDefault();
