@@ -9,7 +9,7 @@ define([
 
         refreshTime: 5000,
 
-        lastPoll: false,
+        lastId: 0,
 
         events: {
             "keydown form": "form"
@@ -62,7 +62,7 @@ define([
             $.ajax({
                 url: this.urlBase + 'index',
                 data: {
-                    lastPoll: this.lastPoll
+                    lastId: this.lastId
                 },
                 method: 'post',
                 dataType: 'html',
@@ -70,7 +70,7 @@ define([
                     if (data.length > 0) {
                         this.render(data);
                     }
-                    this.lastPoll = Math.round(Date.now() / 1000);
+                    this.lastId = $(data).find('.shout:first').data('id');
                 }, this)
             });
         },

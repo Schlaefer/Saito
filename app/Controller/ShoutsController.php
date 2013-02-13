@@ -20,10 +20,9 @@ class ShoutsController extends AppController {
 				)
 			);
 
-			$last_poll = $this->request->data['lastPoll'];
+			$last_id = (int)$this->request->data['lastId'];
 			$last_shout = current($shouts);
-
-			if ($last_poll && strtotime($last_shout['Shout']['time']) < $last_poll) {
+			if ($last_id === (int)$last_shout['Shout']['id']) {
 				$this->autoRender = false;
 				return;
 			}
