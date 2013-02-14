@@ -7,9 +7,9 @@
 ## 2013-02.01 ##
 
 - [new] Shoutbox
-- [new] display peek memory usage in stopwatch output
+- [new] display PHP peek memory usage in debug output
 - [fix] #123 Alt-Tags broken in Edit-Window
-- [fix] #130 show raw code option broken
+- [fix] #130 show raw [code] option broken
 - [fix] #131 [embed] is not excluded from bbcode parsing if multimedia is set to false
 - [fix] #132 Usercounter on slidetab misalligned
 - [fix] js-tests can be run in production mode
@@ -23,7 +23,7 @@
 - [task] refactored bookmark page js from page template into backbone
 - [task] refactored scroll to top footer button js into backbone
 - [task] unified layout center button in header and footer
-- [task] migrated js test (we have some) from qunit to jasmine
+- [task] migrated js test (yes, we have some) from qunit to jasmine
 - [task] updated markItUp to patched version for jQuery 1.9+ that doesn't need jQuery.migrate
 - [task] removed jQuery.migrate
 - [task] basic email config info in docs/config-email.md
