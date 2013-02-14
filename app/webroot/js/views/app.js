@@ -2,17 +2,18 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'collections/threadlines',
-	'views/threadlines',
-	'collections/threads',
-	'views/threads',
-	'collections/postings',
-	'views/postings',
+	'collections/threadlines', 'views/threadlines',
+	'collections/threads', 'views/threads',
+	'collections/postings', 'views/postings',
+    'collections/bookmarks', 'views/bookmarks',
+    'views/shouts'
 	], function(
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
-		PostingCollection, PostingView
+		PostingCollection, PostingView,
+        BookmarksCollection, BookmarksView,
+        ShoutsView
 		) {
 
 		// App
@@ -23,7 +24,9 @@ define([
 
 			events: {
 				'click #showLoginForm': 'showLoginForm',
-				'focus #header-searchField': 'widenSearchField'
+				'focus #header-searchField': 'widenSearchField',
+                'click #btn-scrollToTop': 'scrollToTop',
+                'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead'
 			},
 
 			initialize: function (options) {
@@ -105,6 +108,19 @@ define([
 						}, this), this.settings.autoPageReload * 1000);
 				}
 
+                this.initShoutbox();
+
+                // Bookmarks
+                if ($('#bookmarks').length) {
+                    var bookmarks = new BookmarksCollection();
+                    new BookmarksView({
+                        el: '#bookmarks',
+                        collection: bookmarks
+                    });
+                }
+
+                /*** Show Page ***/
+
 				if (this.request.isMobile || (new Date().getTime() - options.SaitoApp.timeAppStart) > 1500) {
 					$('#content').show();
 				} else {
@@ -129,6 +145,15 @@ define([
 				}
 
 			},
+
+            initShoutbox: function() {
+                if($("#shoutbox").length) {
+                    var shoutbox = new ShoutsView({
+                        el: "#shoutbox",
+                        urlBase: this.app.webroot
+                    });
+                }
+            },
 
 			scrollToThread: function(tid) {
 				scrollToTop($('.thread_box.' + tid));
@@ -166,7 +191,17 @@ define([
 					position: ['center', 120],
                     resizable: false
 				});
-			}
+			},
+
+            scrollToTop: function(event) {
+                event.preventDefault();
+                window.scrollTo(0, 0);
+            },
+
+            manuallyMarkAsRead: function(event) {
+                event.preventDefault();
+                document.location.replace(this.app.webroot + 'entries/update');
+            }
 		});
 
 		return AppView;

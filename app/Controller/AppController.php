@@ -35,6 +35,7 @@ class AppController extends Controller {
 			'Bbcode',
 			'UserH',
 			'Markitup.Markitup',
+			'RequireJs',
 			'Stopwatch.Stopwatch',
 			'TextH',
 			'TimeH',
@@ -67,6 +68,7 @@ class AppController extends Controller {
 		'slidetab_userlist',
 		'slidetab_recentposts',
 		'slidetab_recententries',
+		'slidetab_shoutbox'
 	);
 
 	/**
@@ -241,12 +243,16 @@ class AppController extends Controller {
 	 */
 	protected function _setupSlideTabs() {
 		$slidetabs = $this->installedSlidetabs;
+
 		if (!empty($this->CurrentUser['slidetab_order'])) {
 			$slidetabs_user = unserialize($this->CurrentUser['slidetab_order']);
 			// disabled tabs still set in user-prefs are unset
 			$slidetabs_user = array_intersect($slidetabs_user, $this->installedSlidetabs);
 			// new tabs not set in user-prefs are added
 			$slidetabs = array_unique(array_merge($slidetabs_user, $this->installedSlidetabs));
+		}
+		if (Configure::read('Saito.Settings.shoutbox_enabled') == false) {
+			unset($slidetabs[array_search('slidetab_shoutbox', $slidetabs)]);
 		}
 		$this->set('slidetabs', $slidetabs);
 	}

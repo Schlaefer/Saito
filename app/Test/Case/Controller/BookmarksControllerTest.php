@@ -124,9 +124,9 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 			$Bookmarks = $this->generate('Bookmarks');
 			$this->_loginUser(1);
 			$this->expectException('MethodNotAllowedException');
-			$result = $this->testAction('/bookmarks/delete/',
+			$result = $this->testAction('/bookmarks/delete/1',
 					array(
-					'method' => 'post', 'data'	 => array('id' => 1)
+					'method' => 'post'
 					)
 			);
 
@@ -146,9 +146,9 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
 			$this->controller->Bookmark->expects($this->once())
 					->method('delete');
 			$this->_loginUser(3);
-			$result = $this->testAction('/bookmarks/delete/',
+			$result = $this->testAction('/bookmarks/delete/1',
 					array(
-					'method' => 'post', 'data'	 => array('id' => 1)
+					'method' => 'post',
 					)
 			);
 

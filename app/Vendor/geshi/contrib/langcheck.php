@@ -8,7 +8,7 @@
  * CLI mode is supported
  *
  * @author  Benny Baumann
- * @version $Id: langcheck.php 2174 2009-09-10 09:17:40Z benbe $
+ * @version $Id: langcheck.php 2510 2012-06-27 15:57:55Z reedy_boy $
  */
 header('Content-Type: text/html; charset=utf-8');
 
@@ -187,6 +187,7 @@ your language files can be improved. Please be patient, as this might take some 
 } else { ?>
 <?php echo colorize(TYPE_NOTICE, "#### GeSHi Language File Validation Script ####") ?>
 
+
 To use this script, make sure that <?php echo colorize(TYPE_NOTICE, "geshi.php"); ?> is in the
 parent directory or in your include_path, and that the language files are in a
 subdirectory of GeSHi's directory called <?php echo colorize(TYPE_NOTICE, "geshi/"); ?>.
@@ -221,9 +222,9 @@ if(!$error_abort) {
 if(!$error_abort) {
     if(!defined('GESHI_LANG_ROOT')) {
         report_error(TYPE_ERROR, 'There\'s no information present on where to find the language files!');
-    } else if(!is_dir(GESHI_LANG_ROOT)) {
+    } elseif(!is_dir(GESHI_LANG_ROOT)) {
         report_error(TYPE_ERROR, 'The path "'.GESHI_LANG_ROOT.'" given, does not ressemble a directory!');
-    } else if(!is_readable(GESHI_LANG_ROOT)) {
+    } elseif(!is_readable(GESHI_LANG_ROOT)) {
         report_error(TYPE_ERROR, 'The path "'.GESHI_LANG_ROOT.'" is not readable to this script!');
     }
 }
@@ -245,10 +246,13 @@ if(!$error_abort) {
 
     if(!$error_abort) {
         while ($file = readdir($dir)) {
-            if (!$file || $file[0] == '.' || strpos($file, '.') === false) {
+            if (!$file || $file[0] == '.' || strpos($file, '.php') === false) {
                 continue;
             }
             $lang = substr($file, 0,  strpos($file, '.'));
+            if(4 != strlen($file) - strlen($lang)) {
+                continue;
+            }
             $languages[] = $lang;
         }
         closedir($dir);
@@ -289,14 +293,14 @@ if(!$error_abort) {
 
         if(!is_file($langfile)) {
             report_error(TYPE_ERROR, 'The path "' .$langfile. '" does not ressemble a regular file!');
-        } else if(!is_readable($langfile)) {
+        } elseif(!is_readable($langfile)) {
             report_error(TYPE_ERROR, 'Cannot read file "' .$langfile. '"!');
         } else {
             $langfile_content = file_get_contents($langfile);
-            if(preg_match("/\?>(?:\r?\n|\str_replace(?!\n)){2,}\Z/", $langfile_content)) {
+            if(preg_match("/\?>(?:\r?\n|\r(?!\n)){2,}\Z/", $langfile_content)) {
                 report_error(TYPE_ERROR, 'Language file contains trailing empty lines at EOF!');
             }
-            if(!preg_match("/\?>(?:\r?\n|\str_replace(?!\n))?\Z/", $langfile_content)) {
+            if(!preg_match("/\?>(?:\r?\n|\r(?!\n))?\Z/", $langfile_content)) {
                 report_error(TYPE_ERROR, 'Language file contains no PHP end marker at EOF!');
             }
             if(preg_match("/\t/", $langfile_content)) {
@@ -334,7 +338,7 @@ if(!$error_abort) {
 
             if(!isset($language_data)) {
                 report_error(TYPE_ERROR, 'Language file does not contain a $language_data structure to check!');
-            } else if (!is_array($language_data)) {
+            } elseif (!is_array($language_data)) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data structure which is not an array!');
             }
         }
@@ -342,19 +346,19 @@ if(!$error_abort) {
         if(!$error_abort) {
             if(!isset($language_data['LANG_NAME'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'LANG_NAME\'] specification!');
-            } else if (!is_string($language_data['LANG_NAME'])) {
+            } elseif (!is_string($language_data['LANG_NAME'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'LANG_NAME\'] specification which is not a string!');
             }
 
             if(!isset($language_data['COMMENT_SINGLE'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'COMMENT_SIGNLE\'] structure to check!');
-            } else if (!is_array($language_data['COMMENT_SINGLE'])) {
+            } elseif (!is_array($language_data['COMMENT_SINGLE'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'COMMENT_SINGLE\'] structure which is not an array!');
             }
 
             if(!isset($language_data['COMMENT_MULTI'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'COMMENT_MULTI\'] structure to check!');
-            } else if (!is_array($language_data['COMMENT_MULTI'])) {
+            } elseif (!is_array($language_data['COMMENT_MULTI'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'COMMENT_MULTI\'] structure which is not an array!');
             }
 
@@ -366,7 +370,7 @@ if(!$error_abort) {
 
             if(!isset($language_data['QUOTEMARKS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'QUOTEMARKS\'] structure to check!');
-            } else if (!is_array($language_data['QUOTEMARKS'])) {
+            } elseif (!is_array($language_data['QUOTEMARKS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'QUOTEMARKS\'] structure which is not an array!');
             }
 
@@ -378,17 +382,17 @@ if(!$error_abort) {
 
             if(!isset($language_data['ESCAPE_CHAR'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'ESCAPE_CHAR\'] specification to check!');
-            } else if (!is_string($language_data['ESCAPE_CHAR'])) {
+            } elseif (!is_string($language_data['ESCAPE_CHAR'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'ESCAPE_CHAR\'] specification which is not a string!');
-            } else if (1 < strlen($language_data['ESCAPE_CHAR'])) {
+            } elseif (1 < strlen($language_data['ESCAPE_CHAR'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'ESCAPE_CHAR\'] specification is not empty or exactly one char!');
             }
 
             if(!isset($language_data['CASE_KEYWORDS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'CASE_KEYWORDS\'] specification!');
-            } else if (!is_int($language_data['CASE_KEYWORDS'])) {
+            } elseif (!is_int($language_data['CASE_KEYWORDS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'CASE_KEYWORDS\'] specification which is not an integer!');
-            } else if (GESHI_CAPS_NO_CHANGE != $language_data['CASE_KEYWORDS'] &&
+            } elseif (GESHI_CAPS_NO_CHANGE != $language_data['CASE_KEYWORDS'] &&
                 GESHI_CAPS_LOWER != $language_data['CASE_KEYWORDS'] &&
                 GESHI_CAPS_UPPER != $language_data['CASE_KEYWORDS']) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'CASE_KEYWORDS\'] specification which is neither of GESHI_CAPS_NO_CHANGE, GESHI_CAPS_LOWER nor GESHI_CAPS_UPPER!');
@@ -396,33 +400,33 @@ if(!$error_abort) {
 
             if(!isset($language_data['KEYWORDS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'KEYWORDS\'] structure to check!');
-            } else if (!is_array($language_data['KEYWORDS'])) {
+            } elseif (!is_array($language_data['KEYWORDS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'KEYWORDS\'] structure which is not an array!');
             } else {
                 foreach($language_data['KEYWORDS'] as $kw_key => $kw_value) {
                     if(!is_integer($kw_key)) {
                         report_error(TYPE_WARNING, "Language file contains an key '$kw_key' in \$language_data['KEYWORDS'] that is not integer!");
-                    } else if (!is_array($kw_value)) {
-                        report_error(TYPE_ERROR, "Language file contains a \$language_data['CASE_SENSITIVE']['$kw_value'] structure which is not an array!");
+                    } elseif (!is_array($kw_value)) {
+                        report_error(TYPE_ERROR, "Language file contains a \$language_data['KEYWORDS']['$kw_value'] structure which is not an array!");
                     }
                 }
             }
 
             if(!isset($language_data['SYMBOLS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'SYMBOLS\'] structure to check!');
-            } else if (!is_array($language_data['SYMBOLS'])) {
+            } elseif (!is_array($language_data['SYMBOLS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'SYMBOLS\'] structure which is not an array!');
             }
 
             if(!isset($language_data['CASE_SENSITIVE'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'CASE_SENSITIVE\'] structure to check!');
-            } else if (!is_array($language_data['CASE_SENSITIVE'])) {
+            } elseif (!is_array($language_data['CASE_SENSITIVE'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'CASE_SENSITIVE\'] structure which is not an array!');
             } else {
                 foreach($language_data['CASE_SENSITIVE'] as $cs_key => $cs_value) {
                     if(!is_integer($cs_key)) {
                         report_error(TYPE_WARNING, "Language file contains an key '$cs_key' in \$language_data['CASE_SENSITIVE'] that is not integer!");
-                    } else if (!is_bool($cs_value)) {
+                    } elseif (!is_bool($cs_value)) {
                         report_error(TYPE_ERROR, "Language file contains a Case Sensitivity specification for \$language_data['CASE_SENSITIVE']['$cs_value'] which is not a boolean!");
                     }
                 }
@@ -430,15 +434,15 @@ if(!$error_abort) {
 
             if(!isset($language_data['URLS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'URLS\'] structure to check!');
-            } else if (!is_array($language_data['URLS'])) {
+            } elseif (!is_array($language_data['URLS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'URLS\'] structure which is not an array!');
             } else {
                 foreach($language_data['URLS'] as $url_key => $url_value) {
                     if(!is_integer($url_key)) {
                         report_error(TYPE_WARNING, "Language file contains an key '$url_key' in \$language_data['URLS'] that is not integer!");
-                    } else if (!is_string($url_value)) {
+                    } elseif (!is_string($url_value)) {
                         report_error(TYPE_ERROR, "Language file contains a Documentation URL specification for \$language_data['URLS']['$url_value'] which is not a string!");
-                    } else if (preg_match('#&([^;]*(=|$))#U', $url_value)) {
+                    } elseif (preg_match('#&([^;]*(=|$))#U', $url_value)) {
                         report_error(TYPE_ERROR, "Language file contains unescaped ampersands (&amp;) in \$language_data['URLS']!");
                     }
                 }
@@ -446,9 +450,9 @@ if(!$error_abort) {
 
             if(!isset($language_data['OOLANG'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'OOLANG\'] specification!');
-            } else if (!is_int($language_data['OOLANG']) && !is_bool($language_data['OOLANG'])) {
+            } elseif (!is_int($language_data['OOLANG']) && !is_bool($language_data['OOLANG'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'OOLANG\'] specification which is neither boolean nor integer!');
-            } else if (false !== $language_data['OOLANG'] &&
+            } elseif (false !== $language_data['OOLANG'] &&
                 true !== $language_data['OOLANG'] &&
                 2 !== $language_data['OOLANG']) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'OOLANG\'] specification which is neither of false, true or 2!');
@@ -456,21 +460,21 @@ if(!$error_abort) {
 
             if(!isset($language_data['OBJECT_SPLITTERS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'OBJECT_SPLITTERS\'] structure to check!');
-            } else if (!is_array($language_data['OBJECT_SPLITTERS'])) {
+            } elseif (!is_array($language_data['OBJECT_SPLITTERS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'OBJECT_SPLITTERS\'] structure which is not an array!');
             }
 
             if(!isset($language_data['REGEXPS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'REGEXPS\'] structure to check!');
-            } else if (!is_array($language_data['REGEXPS'])) {
+            } elseif (!is_array($language_data['REGEXPS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'REGEXPS\'] structure which is not an array!');
             }
 
             if(!isset($language_data['STRICT_MODE_APPLIES'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'STRICT_MODE_APPLIES\'] specification!');
-            } else if (!is_int($language_data['STRICT_MODE_APPLIES'])) {
+            } elseif (!is_int($language_data['STRICT_MODE_APPLIES'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'STRICT_MODE_APPLIES\'] specification which is not an integer!');
-            } else if (GESHI_MAYBE != $language_data['STRICT_MODE_APPLIES'] &&
+            } elseif (GESHI_MAYBE != $language_data['STRICT_MODE_APPLIES'] &&
                 GESHI_ALWAYS != $language_data['STRICT_MODE_APPLIES'] &&
                 GESHI_NEVER != $language_data['STRICT_MODE_APPLIES']) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'STRICT_MODE_APPLIES\'] specification which is neither of GESHI_MAYBE, GESHI_ALWAYS nor GESHI_NEVER!');
@@ -478,20 +482,20 @@ if(!$error_abort) {
 
             if(!isset($language_data['SCRIPT_DELIMITERS'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'SCRIPT_DELIMITERS\'] structure to check!');
-            } else if (!is_array($language_data['SCRIPT_DELIMITERS'])) {
+            } elseif (!is_array($language_data['SCRIPT_DELIMITERS'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'SCRIPT_DELIMITERS\'] structure which is not an array!');
             }
 
             if(!isset($language_data['HIGHLIGHT_STRICT_BLOCK'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'HIGHLIGHT_STRICT_BLOCK\'] structure to check!');
-            } else if (!is_array($language_data['HIGHLIGHT_STRICT_BLOCK'])) {
+            } elseif (!is_array($language_data['HIGHLIGHT_STRICT_BLOCK'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'HIGHLIGHT_STRICT_BLOCK\'] structure which is not an array!');
             }
 
             if(isset($language_data['TAB_WIDTH'])) {
                 if (!is_int($language_data['TAB_WIDTH'])) {
                     report_error(TYPE_ERROR, 'Language file contains a $language_data[\'TAB_WIDTH\'] specification which is not an integer!');
-                } else if (1 > $language_data['TAB_WIDTH']) {
+                } elseif (1 > $language_data['TAB_WIDTH']) {
                     report_error(TYPE_ERROR, 'Language file contains a $language_data[\'TAB_WIDTH\'] specification which is less than 1!');
                 }
             }
@@ -504,7 +508,7 @@ if(!$error_abort) {
 
             if(!isset($language_data['STYLES'])) {
                 report_error(TYPE_ERROR, 'Language file contains no $language_data[\'STYLES\'] structure to check!');
-            } else if (!is_array($language_data['STYLES'])) {
+            } elseif (!is_array($language_data['STYLES'])) {
                 report_error(TYPE_ERROR, 'Language file contains a $language_data[\'STYLES\'] structure which is not an array!');
             } else {
                 $style_arrays = array('KEYWORDS', 'COMMENTS', 'ESCAPE_CHAR',
@@ -513,14 +517,14 @@ if(!$error_abort) {
                 foreach($style_arrays as $style_kind) {
                     if(!isset($language_data['STYLES'][$style_kind])) {
                         report_error(TYPE_ERROR, "Language file contains no \$language_data['STYLES']['$style_kind'] structure to check!");
-                    } else if (!is_array($language_data['STYLES'][$style_kind])) {
+                    } elseif (!is_array($language_data['STYLES'][$style_kind])) {
                         report_error(TYPE_ERROR, "Language file contains a \$language_data['STYLES\']['$style_kind'] structure which is not an array!");
                     } else {
                         foreach($language_data['STYLES'][$style_kind] as $sk_key => $sk_value) {
                             if(!is_int($sk_key) && ('COMMENTS' != $style_kind && 'MULTI' != $sk_key)
                                 && !(('STRINGS' == $style_kind || 'ESCAPE_CHAR' == $style_kind) && 'HARD' == $sk_key)) {
                                 report_error(TYPE_WARNING, "Language file contains an key '$sk_key' in \$language_data['STYLES']['$style_kind'] that is not integer!");
-                            } else if (!is_string($sk_value)) {
+                            } elseif (!is_string($sk_value)) {
                                 report_error(TYPE_WARNING, "Language file contains a CSS specification for \$language_data['STYLES']['$style_kind'][$key] which is not a string!");
                             }
                         }
@@ -546,9 +550,9 @@ if(!$error_abort) {
                 foreach($keywords as $id => $kw) {
                     if(!is_string($kw)) {
                         report_error(TYPE_WARNING, "Language file contains an non-string entry at \$language_data['KEYWORDS'][$key][$id]!");
-                    } else if (!strlen($kw)) {
+                    } elseif (!strlen($kw)) {
                         report_error(TYPE_ERROR, "Language file contains an empty string entry at \$language_data['KEYWORDS'][$key][$id]!");
-                    } else if (preg_match('/^([\(\)\{\}\[\]\^=.,:;\-+\*\/%\$\"\'\?]|&[\w#]\w*;)+$/i', $kw)) {
+                    } elseif (preg_match('/^([\(\)\{\}\[\]\^=.,:;\-+\*\/%\$\"\'\?]|&[\w#]\w*;)+$/i', $kw)) {
                         report_error(TYPE_NOTICE, "Language file contains an keyword ('$kw') at \$language_data['KEYWORDS'][$key][$id] which seems to be better suited for the symbols section!");
                     }
                 }
@@ -757,8 +761,9 @@ if ( PHP_SAPI != 'cli' ) {
 </html>
 
 <?php } else { ?>
+
 Validation process completed in <? printf("%.2f", $time_diff); ?> seconds.
 
-GeSHi &copy; 2004-2007 Nigel McNie, 2007-2008 Benny Baumann, released under the GNU GPL
+GeSHi &copy; 2004-2007 Nigel McNie, 2007-2012 Benny Baumann, released under the GNU GPL
 
 <?php } ?>

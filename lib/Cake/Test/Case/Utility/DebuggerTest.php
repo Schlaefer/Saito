@@ -65,7 +65,7 @@ class DebuggerTest extends CakeTestCase {
 	public function testDocRef() {
 		ini_set('docref_root', '');
 		$this->assertEquals(ini_get('docref_root'), '');
-		$debugger = new Debugger();
+		new Debugger();
 		$this->assertEquals(ini_get('docref_root'), 'http://php.net/');
 	}
 
@@ -404,6 +404,32 @@ TEXT;
 		$result = Debugger::exportVar($data);
 		$expected = <<<TEXT
 false
+TEXT;
+		$this->assertTextEquals($expected, $result);
+	}
+
+/**
+ * Test exporting various kinds of false.
+ *
+ * @return void
+ */
+	public function testExportVarZero() {
+		$data = array(
+			'nothing' => '',
+			'null' => null,
+			'false' => false,
+			'szero' => '0',
+			'zero' => 0
+		);
+		$result = Debugger::exportVar($data);
+		$expected = <<<TEXT
+array(
+	'nothing' => '',
+	'null' => null,
+	'false' => false,
+	'szero' => '0',
+	'zero' => (int) 0
+)
 TEXT;
 		$this->assertTextEquals($expected, $result);
 	}

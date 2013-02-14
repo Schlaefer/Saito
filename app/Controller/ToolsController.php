@@ -11,6 +11,10 @@
 
 		public $uses = array('Ecach');
 
+		public $helpers = array(
+			'JasmineJs.JasmineJs'
+		);
+
 		/**
 		 * Emtpy out all caches
 		 */
@@ -25,6 +29,15 @@
 			$this->_clearApc();
 			$this->Session->setFlash(__('Caches have been emptied.'), 'flash/notice');
 			return $this->redirect($this->referer());
+		}
+
+		public function testJs() {
+			if (Configure::read('debug') === 0) {
+				echo 'Please activate debug mode.';
+				exit;
+			}
+
+			$this->autoLayout = false;
 		}
 
 		/**
@@ -53,7 +66,10 @@
 
 		public function beforeFilter() {
 			parent::beforeFilter();
-			$this->Auth->allow('clearCache');
+			$this->Auth->allow(
+				'clearCache',
+				'testJs'
+			);
 		}
 
 	}

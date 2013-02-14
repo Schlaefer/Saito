@@ -527,6 +527,49 @@
 		</tr>
 	</table> <!--	</table>-->
 
+  <h2>Shoutbox</h2>
+  <table class="table table-striped table-bordered table-condensed">
+		<?php echo $tableHeadersHtml ?>
+      <tr>
+          <td>
+						<?php echo __('shoutbox_enabled'); ?>
+          </td>
+          <td>
+						<?php echo $Settings['shoutbox_enabled']; ?>
+          </td>
+          <td>
+              <p><?php echo __('shoutbox_enabled_exp'); ?></p>
+          </td>
+          <td>
+						<?php echo $this->Html->link(
+						__('edit'),
+						array( 'controller' => 'settings', 'action' => 'edit', 'shoutbox_enabled'),
+						array( 'class' => 'btn' )
+					);
+						?>
+          </td>
+      </tr>
+      <tr>
+          <td>
+						<?php echo __('shoutbox_max_shouts'); ?>
+          </td>
+          <td>
+						<?php echo $Settings['shoutbox_max_shouts']; ?>
+          </td>
+          <td>
+              <p><?php echo __('shoutbox_max_shouts_exp'); ?></p>
+          </td>
+          <td>
+						<?php echo $this->Html->link(
+						__('edit'),
+						array( 'controller' => 'settings', 'action' => 'edit', 'shoutbox_max_shouts'),
+						array( 'class' => 'btn' )
+					);
+						?>
+          </td>
+      </tr>
+  </table> <!--	</table>-->
+
 	<h2>Uploads</h2>
 	<table class="table table-striped table-bordered table-condensed">
 		<?php echo $tableHeadersHtml ?>

@@ -7,19 +7,21 @@
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();
 
-  $this->start('headerSubnavCenter');
+	$this->start('headerSubnavCenter');
 		if ($CurrentUser->isLoggedIn()) :
-			echo $this->Html->link('&nbsp;<i class="icon-refresh"></i>&nbsp;', '/entries/update',
-					array(
-							'id'			=> 'btn_manualy_mark_as_read',
-							'escape' => false,
-							'style'	=> "width: 100px; display: inline-block; height: 20px;",
-              'class'         => 'shp shp-bottom',
-              'data-title'    => __('Help'),
-              'data-content'  => __('btn_manualy_mark_as_read_shp'),
-							));
+			echo $this->Html->link(
+				'<i class="icon-refresh"></i>',
+				'#',
+				array(
+					'id' => 'btn-manuallyMarkAsRead',
+					'escape' => false,
+					'class' => 'btn-hf-center shp shp-bottom',
+					'data-title' => __('Help'),
+					'data-content' => __('btn_manualy_mark_as_read_shp'),
+				)
+			);
 		endif;
-  $this->end();
+	$this->end();
 
 	$this->start('headerSubnavRightTop');
 	if (isset($categoryChooserIsUsed) && $categoryChooserIsUsed):

@@ -4,9 +4,10 @@
 	<head>
 		<title><?php echo $title_for_layout ?></title>
 		<?php echo $this->Html->charset(); ?>
-		<?php echo $this->Html->script(
+		<?php
+			echo $this->jQuery->scriptTag();
+			echo $this->Html->script(
 				array(
-						'lib/jquery/jquery-1.9.0.min.js',
 						'bootstrap/bootstrap'
 				)
 				); ?>

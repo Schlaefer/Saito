@@ -227,6 +227,11 @@ a.category_acs_2, .category_acs_2 {
 
 // Slidetab Userlist
 // -------------------------------------
+.slidetab-userlist {
+  .icon-legal:before {
+    content: "\f0a1";
+  }
+}
 .slidetab-actUser {
   font-weight: bold;
 }
@@ -353,3 +358,11 @@ img[src*="gacker_large.png"]:hover {
 	animation-timing-function: ease-in-out;
 	animation-direction: alternate;
 	}
+
+// Sprites
+// -------------------------------------
+
+.sprite-ipv6-button {
+  width: 80px;
+  height: 15px;
+}

@@ -73,6 +73,16 @@
 	position: absolute; display: inline-block;
 	}
 
+.btn-hf-center {
+  width: 100px;
+  display: inline-block;
+  height: 20px;
+
+  &:before, &:after {
+    content: '\00A0';
+    }
+  }
+
 /*******************************************************************************
  * Buttons Thread Tools
  ******************************************************************************/

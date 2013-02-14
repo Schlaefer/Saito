@@ -37,4 +37,31 @@ class AppHelper extends Helper {
 			$webrootPath = WWW_ROOT . str_replace('/', DS, $filepath);
 			return @filemtime($webrootPath);
 	}
+
+	function getAppJs(View $View) {
+		$SaitoApp = array (
+			'app' => array(
+				'version' => Configure::read('Saito.v'),
+				'timeAppStart' => 'new Date().getTime()',
+				'webroot' => $View->request->webroot,
+				'settings' => array (
+					'embedly_enabled' => Configure::read('Saito.Settings.embedly_enabled'),
+					'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0)
+				)
+			),
+			'request' => array(
+				'action' => $View->request->action,
+				'controller' => $View->request->controller,
+				'isMobile' => $View->request->isMobile(),
+				'isPreview' => $View->request->isPreview()
+			),
+			'currentUser' => array(
+				'id' => $View->viewVars['CurrentUser']['id'],
+				'username' => $View->viewVars['CurrentUser']['username'],
+				'user_show_inline' => $View->viewVars['CurrentUser']['inline_view_on_click'] || false,
+				'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
+			)
+		);
+		return 'var SaitoApp = ' . json_encode($SaitoApp);
+	}
 }

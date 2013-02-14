@@ -49,8 +49,8 @@
 .slidetab-content {
   margin-left: 28px;
   min-height: 34px;
-  width: 200px;
-  padding: 10px;
+  width: 190px;
+  padding: 10px 15px;
 }
 
 .slidetab_tree {
@@ -76,7 +76,7 @@
 #slidetabUserlist-counter {
 	position: absolute;
 	right: -2px;
-	bottom: -4px;
+	bottom: -7px;
 	min-width: 6px;
 	background: #111111;
 	border: 1px solid white;
@@ -120,3 +120,37 @@
     }
   }
 
+
+// slidetab Shoutbox
+// -------------------------------------
+#shoutbox {
+
+  textarea {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 0 1em 0;
+    padding: 2px 5px;
+    width: 180px;
+  }
+
+  img {
+    max-width: 130px;
+  }
+
+  .shouts {
+    word-wrap: break-word;
+  }
+
+  .shout {
+    margin: 2px 0;
+  }
+
+  .username {
+  }
+
+  .info_text {
+    color: #999;
+    text-align: center;
+  }
+
+}

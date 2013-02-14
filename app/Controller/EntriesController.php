@@ -94,7 +94,7 @@ class EntriesController extends AppController {
 			endif;
 			$this->Session->write('paginator.lastPage', $currentPage);
 
-			$this->set('showDisclaimer', TRUE);
+			$this->set('showDisclaimer', true);
 
 			Stopwatch::stop('Entries->index()');
 		}
@@ -148,14 +148,18 @@ class EntriesController extends AppController {
     $this->_showAnsweringPanel();
 	}
 
-	# @td MVC user function ?
-
+	/**
+	 * load front page force all entries mark-as-read
+	 */
 	public function update() {
 		$this->autoRender = false;
 		$this->CurrentUser->LastRefresh->forceSet();
 		$this->redirect('/entries/index');
 	}
 
+	/**
+	 * load front page suppressing mark-as-read
+	 */
 	public function noupdate() {
 		$this->Session->write('User_last_refresh_disabled', true);
 		$this->redirect('/entries/index');
@@ -192,7 +196,7 @@ class EntriesController extends AppController {
      * @param int $id
      * @return string
      */
-    public function source($id = NULL) {
+    public function source($id = null) {
       $data = $this->requestAction('/entries/view/' . $id);
 
       $this->autoLayout = false;
@@ -219,7 +223,7 @@ class EntriesController extends AppController {
 		$this->request->data = $this->Entry->find('entry', array('conditions' => array('Entry.id' => $id)));
 
 		//* redirect if posting doesn't exists
-		if ( $this->request->data == FALSE ):
+		if ( $this->request->data == false ):
 			$this->Session->setFlash(__('Invalid post'));
 			return $this->redirect('/');
 		endif;
@@ -327,8 +331,8 @@ class EntriesController extends AppController {
 				return $this->redirect($this->referer());
 			}
 
-			$this->request->data = NULL;
-			if ($id !== NULL) {
+			$this->request->data = null;
+			if ($id !== null) {
 				// check if entry exists by loading its data
 				$this->Entry->contain(array('User', 'Category'));
 				$this->Entry->sanitize(false);
@@ -382,7 +386,7 @@ class EntriesController extends AppController {
 		$this->_teardownAdd();
 	}
 
-	public function edit($id = NULL) {
+	public function edit($id = null) {
 
 		if ( !$id && empty($this->request->data) ):
 			throw new NotFoundException();
@@ -481,7 +485,7 @@ class EntriesController extends AppController {
 		$this->render('/Entries/add');
 	}
 
-	public function delete($id = NULL) {
+	public function delete($id = null) {
 		if (!$id) {
 			throw new NotFoundException;
 		}
@@ -534,7 +538,7 @@ class EntriesController extends AppController {
 		// determine start year for dropdown in form
 		$found_entry = $this->Entry->find('first',
 						array( 'order' => 'Entry.id ASC', 'contain' => false ));
-		if ( $found_entry !== FALSE ) {
+		if ( $found_entry !== false ) {
 			$start_date = strtotime($found_entry['Entry']['time']);
 		} else {
 			$start_date = time();
@@ -863,7 +867,7 @@ class EntriesController extends AppController {
 	 */
 	protected function _getInitialThreads(CurrentUserComponent $User) {
 		Stopwatch::start('Entries->_getInitialThreads() Paginate');
-		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == FALSE ? 'time' : 'last_answer');
+		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == false ? 'time' : 'last_answer');
 		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
 
 			// default for logged-in and logged-out users
@@ -954,7 +958,7 @@ class EntriesController extends AppController {
    * Decide if an answering panel is show when rendering a posting
    */
   protected function _showAnsweringPanel() {
-    $showAnsweringPanel = FALSE;
+    $showAnsweringPanel = false;
 
 		if ($this->CurrentUser->isLoggedIn()) {
 			// Only logged in users see the answering buttons if they …
@@ -965,7 +969,7 @@ class EntriesController extends AppController {
 					// … inline viewing … on entries/index.
 					|| ( $this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index')
 			):
-				$showAnsweringPanel = TRUE;
+				$showAnsweringPanel = true;
 			endif;
 		}
 

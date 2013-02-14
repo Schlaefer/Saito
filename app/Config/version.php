@@ -1,2 +1,2 @@
 <?php
-	Configure::write('Saito.v', '2013-01.05');
+	Configure::write('Saito.v', '2013.02-01');

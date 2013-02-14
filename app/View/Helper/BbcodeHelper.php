@@ -304,13 +304,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					array( 'usecontent_param' => 'default' ), 'img',
 					array( 'block', 'inline', 'link' ), array( )
 			);
-		endif;
 
-    $this->_Parser->addCode(
+			$this->_Parser->addCode(
 				'embed', 'usecontent', array( &$this, '_embed' ),
 				array( 'usecontent_param' => 'default' ), 'embed',
 				array( 'block'), array( )
-		);
+			);
+
+		endif;
 
 		$this->_initializedParsers[$fp] = $this->_Parser;
 	}

@@ -689,6 +689,10 @@
 
     public function testEmbedly() {
 
+			//* setup
+			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
+			Configure::write('Saito.Settings.bbcode_img', true);
+
       $embedly_enabled = Configure::read('Saito.Settings.embedly_enabled');
       $embedly_key = Configure::read('Saito.Settings.embedly_key');
 
@@ -714,8 +718,10 @@
       $this->Bbcode->Embedly = $observer;
       $result = $this->Bbcode->parse($input);
 
+			//* teardown
       Configure::write('Saito.Settings.embedly_enabled', $embedly_enabled);
       Configure::write('Saito.Settings.embedly_key', $embedly_key);
+			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
     }
 
     public function testHtml5Audio() {

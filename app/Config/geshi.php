@@ -8,4 +8,4 @@ $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 2);
 $geshi->set_line_style('background: #f9f9f9;', 'background: #f4f4f4;');
 // $geshi->enable_classes();
 $geshi->set_tab_width(2);
-?>
+$geshi->set_code_style('line-height: inherit;', true);
