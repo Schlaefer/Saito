@@ -6,6 +6,7 @@
 
 		public $helpers = array(
 				'Glasenuhr',
+				'Time',
 		);
 		protected static $_timezoneGroups = array(
 				'UTC' => DateTimeZone::UTC,
@@ -22,6 +23,13 @@
 		protected $today = false;
 		protected $_start = false;
 		protected $_timeDiffToUtc = 0;
+
+		protected $_timeAgoInWordsFuzzyLastEntry;
+		protected $_timeAgoInWordsFuzzyLastItem;
+		protected $_timeAgoInWordsFuzzyInterval;
+
+		protected $_tAIWF_times = array();
+		protected $_tAIWF_entries = array();
 
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
@@ -115,6 +123,43 @@
 			return $time;
 		}
 
+		/**
+		 * @param $time datetime string
+		 * @param array $options
+		 * @return bool|string false or formated time string
+		 */
+		public function timeAgoInWordsFuzzy($time, $options = array()) {
+				$defaults = array(
+					'conversationCoolOff' => 300,
+				);
+				$options += $defaults;
+
+				$time_unix = strtotime($time);
+
+				$out = false;
+
+				if (empty($this->_tAIWF_times)) {
+					$this->_tAIWF_times[] = $time_unix;
+					return $out;
+				}
+
+				$last_time = end($this->_tAIWF_times);
+				$this->_tAIWF_times[] = $time_unix;
+
+				if ($time_unix > $last_time - $options['conversationCoolOff']) {
+					return $out;
+				}
+
+				$this->_tAIWF_entries[] = $time_unix;
+				$out = $this->formatTime(gmdate('Y-m-d H:i:s', $last_time));
+
+				return $out;
+
+			}
+
+		public function timeAgoInWordsFuzzyGetLastTime() {
+			return $this->formatTime(gmdate('Y-m-d H:i:s', end($this->_tAIWF_times)));
+		}
 	}
 
 ?>

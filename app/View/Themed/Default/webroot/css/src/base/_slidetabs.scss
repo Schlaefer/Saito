@@ -141,12 +141,16 @@
     word-wrap: break-word;
   }
 
+  .shout {
+    margin: 2px 0;
+  }
+
   .username {
-    font-weight: bold;
   }
 
   .info_text {
     color: #999;
+    text-align: center;
   }
 
 }

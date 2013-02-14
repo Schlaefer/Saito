@@ -7,7 +7,8 @@ define([
 
     var ShoutboxView = Backbone.View.extend({
 
-        refreshTime: 5000,
+        refreshTimeBase: 5000,
+        refreshTimeMax: 30000,
 
         lastId: 0,
 
@@ -19,6 +20,7 @@ define([
             this.urlBase = options.urlBase + 'shouts/';
             this.shouts = this.$el.find('.shouts');
             this.textarea =  this.$el.find('textarea');
+            this.refreshTimeAct = this.refreshTimeBase;
 
             this.textarea.autosize();
             this.poll();
@@ -52,7 +54,7 @@ define([
 
         poll: function() {
 
-            this.timeoutId = setTimeout(_.bind(this.poll, this), this.refreshTime);
+            this.timeoutId = setTimeout(_.bind(this.poll, this), this.refreshTimeAct);
 
             // update shoutbox only if tab is open
             if(this.$el.is(":visible") === false) {
@@ -70,6 +72,12 @@ define([
                     if (data.length > 0) {
                         this.render(data);
                         this.lastId = $(data).find('.shout:first').data('id');
+                        this.refreshTimeAct = this.refreshTimeBase;
+                    } else {
+                        this.refreshTimeAct = Math.floor(this.refreshTimeAct * (1 + this.refreshTimeAct/40000))
+                        if (this.refreshTimeAct > this.refreshTimeMax) {
+                            this.refreshTimeAct = this.refreshTimeMax
+                        }
                     }
                 }, this)
             });
