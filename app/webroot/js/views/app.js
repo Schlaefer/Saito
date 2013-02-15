@@ -6,16 +6,16 @@ define([
 	'collections/threads', 'views/threads',
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
-    'views/shouts',
-    'views/helps'
+    'views/helps',
+    'collections/slidetabs', 'views/slidetabs'
 	], function(
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingView,
         BookmarksCollection, BookmarksView,
-        ShoutsView,
-        HelpsView
+        HelpsView,
+        SlidetabsCollection, SlidetabsView
 		) {
 
 		// App
@@ -110,9 +110,9 @@ define([
 						}, this), this.settings.autoPageReload * 1000);
 				}
 
-                this.initShoutbox('#shoutbox');
                 this.initBookmarks('#bookmarks');
                 this.initHelp('.shp');
+                this.initSlidetabs('#slidetabs')
 
                 /*** Show Page ***/
 
@@ -141,29 +141,29 @@ define([
 
 			},
 
-            initShoutbox: function(element_n) {
-                if($(element_n).length) {
-                    var shoutbox = new ShoutsView({
-                        el: "#shoutbox",
-                        urlBase: this.app.webroot
-                    });
-                }
-            },
-
             initBookmarks: function(element_n) {
                 if ($(element_n).length) {
                     var bookmarks = new BookmarksCollection();
                     new BookmarksView({
-                        el: '#bookmarks',
+                        el: element_n,
                         collection: bookmarks
                     });
                 }
             },
 
+            initSlidetabs: function(element_n) {
+                var slidetabs = new SlidetabsCollection();
+                new SlidetabsView({
+                    el: element_n,
+                    collection: slidetabs,
+                    webroot: this.app.webroot
+                });
+            },
+
             initHelp: function(element_n) {
                 var helps = new HelpsView({
                     el: 'body',
-                    elementName: '.shp',
+                    elementName: element_n,
                     indicatorName: '#shp-show'
                 });
             },

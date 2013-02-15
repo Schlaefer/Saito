@@ -260,29 +260,6 @@ function showUploadDialog(link) {
 
 /** Upload image box end  **/
 
-
-
-
-/*** slidetabs start ***/
-function layout_slidetabs_toggle(id) {
-	if ($(id).width() < 100) {
-		$(id).animate({
-			'width': 250
-		});
-		$(id + ' .slidetab-content').css( 'display','block');
-	}
-	else {
-		$(id).animate({
-			'width': 28
-		},
-		function() {
-			$(id + ' .slidetab-content').css('display', 'none')
-		}
-		);
-	}
-};
-/*** slidetabs end ***/
-
 /**
  * inits all js for viewing the answering form
  * 

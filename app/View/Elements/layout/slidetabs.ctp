@@ -21,15 +21,13 @@
 				$this->element('layout/' . $slidetab, array('isOpen' => $isOpen));
 
 				?>
-				<div id="slidetab_<?php echo $id; ?>" class="slidetab slidetab-<?php echo $id; ?>" style="<?php echo $style ?>" >
+				<div
+					data-id="<?php echo $id; ?>"
+					class="slidetab slidetab-<?php echo $id; ?>"
+					style="<?php echo $style ?>" >
 					<div class="slidetab-tab">
 						<div class="slidetab-tab-button">
-							<?php
-							$remoteFunction = $this->Js->request('/users/ajax_toggle/show_' . $id);
-							$this->Js->get("#slidetab_$id  .slidetab-tab-button")->event('click',
-									$remoteFunction . ";layout_slidetabs_toggle('#slidetab_$id');");
-							?>
-							<?php
+						<?php
 							echo $this->fetch('slidetab-header');
 							$this->assign('slidetab-header', '');
 						?>
