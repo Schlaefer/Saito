@@ -45,7 +45,7 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 			?>
 		</div>
 		<div style="width: 20%;">
-			<a href="#" onclick="$('.search_form_wrapper').slideToggle('', function (){$('.search_form_wrapper_adv').slideToggle();}); saitoHelpHide(); return false;">
+			<a href="#" onclick="$('.search_form_wrapper').slideToggle('', function (){$('.search_form_wrapper_adv').slideToggle();});return false;">
 <?php echo __('search_advanced'); ?>
 			</a>
 		</div>
@@ -62,8 +62,13 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						 'url' => array_merge(array( 'action' => 'search' ), $this->request->params['pass']),
 				 ));
 				 ?>
-		<div><?php echo $this->Form->input('subject',
-					array( 'div' => false, 'label' => __('subject') )); ?> </div>
+		<div>
+			<?php
+				echo $this->Form->input('subject',
+						array( 'div' => false, 'label' => __('subject'), 'required' => false )
+				);
+			?>
+		</div>
 		<div><?php echo $this->Form->input('text',
 					array( 'div' => false, 'label' => __('Text'), 'type' => 'text' )); ?> </div>
 		<div><?php echo $this->Form->input('name',
