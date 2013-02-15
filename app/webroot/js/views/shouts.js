@@ -13,7 +13,8 @@ define([
         lastId: 0,
 
         events: {
-            "keyup form": "form"
+            "keyup form": "formUp",
+            "keydown form": "formDown"
         },
 
         initialize: function(options) {
@@ -27,12 +28,16 @@ define([
             this.poll();
         },
 
-        form: function(event) {
+        formDown: function(event) {
             if (event.keyCode == 13 && event.shiftKey === false) {
                 this.submit();
                 this.clearForm();
                 event.preventDefault();
-            } else if (this.textarea.val().length > 0) {
+            }
+        },
+
+        formUp: function() {
+            if (this.textarea.val().length > 0) {
                 this.vents.trigger('breakAutoreload');
             } else if (this.textarea.val().length === 0) {
                 this.vents.trigger('initAutoreload');
