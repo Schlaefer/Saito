@@ -29,7 +29,9 @@ require.config({
 if (typeof SaitoApp.app.runJsTests === 'undefined') {
     // run app
 
-    require(['domReady', 'views/app', 'bootstrap', 'jqueryhelpers'], function(domReady, AppView){
+    require(
+        ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers'],
+        function(domReady, AppView, Backbone) {
         // fallback if dom does not get ready for some reason to show the content eventually
         var contentTimer = {
             show: function() {
@@ -52,6 +54,23 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
             }
         };
         contentTimer.setup();
+
+        Backbone.View.prototype.initCollectionFromDom = function(element, collection, view) {
+            var createElement = function(collection, id, element) {
+                collection.add({
+                    id: id
+                });
+                new view({
+                    el: element,
+                    model: collection.get(id)
+                })
+            };
+
+            $(element).each(function(){
+                    createElement(collection, $(this).data('id'), this);
+                }
+            );
+        };
 
         domReady(function () {
             var App = new AppView({
