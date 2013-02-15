@@ -6,14 +6,16 @@ define([
 	'collections/threads', 'views/threads',
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
-    'views/shouts'
+    'views/shouts',
+    'views/helps'
 	], function(
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingView,
         BookmarksCollection, BookmarksView,
-        ShoutsView
+        ShoutsView,
+        HelpsView
 		) {
 
 		// App
@@ -108,16 +110,9 @@ define([
 						}, this), this.settings.autoPageReload * 1000);
 				}
 
-                this.initShoutbox();
-
-                // Bookmarks
-                if ($('#bookmarks').length) {
-                    var bookmarks = new BookmarksCollection();
-                    new BookmarksView({
-                        el: '#bookmarks',
-                        collection: bookmarks
-                    });
-                }
+                this.initShoutbox('#shoutbox');
+                this.initBookmarks('#bookmarks');
+                this.initHelp('.shp');
 
                 /*** Show Page ***/
 
@@ -146,13 +141,31 @@ define([
 
 			},
 
-            initShoutbox: function() {
-                if($("#shoutbox").length) {
+            initShoutbox: function(element_n) {
+                if($(element_n).length) {
                     var shoutbox = new ShoutsView({
                         el: "#shoutbox",
                         urlBase: this.app.webroot
                     });
                 }
+            },
+
+            initBookmarks: function(element_n) {
+                if ($(element_n).length) {
+                    var bookmarks = new BookmarksCollection();
+                    new BookmarksView({
+                        el: '#bookmarks',
+                        collection: bookmarks
+                    });
+                }
+            },
+
+            initHelp: function(element_n) {
+                var helps = new HelpsView({
+                    el: 'body',
+                    elementName: '.shp',
+                    indicatorName: '#shp-show'
+                });
             },
 
 			scrollToThread: function(tid) {

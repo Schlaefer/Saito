@@ -328,63 +328,9 @@ function slidetabsMakeSortable() {
 	});
 };
 
-function initSaitoHelp() {
-	if($('.shp').length > 0) {
-		$('#shp-show').removeClass('no-color')
-	}
-}
-
-function placeSaitoHelp() {
-    var defaults = {
-        trigger: 'manual',
-        html: true
-    }
-    var positions = ['bottom', 'right', 'left'];
-    for (var i in positions) {
-        $('.shp-' + positions[i]).popover($.extend(defaults, {placement: positions[i]}));
-    }
-}
-
-function saitoHelpShow() {
-	placeSaitoHelp();
-
-	// help on page
-	if($('.shp').length > 0) {
-		// hide popovers
-		if ($('#shp-show').data('shown')) {
-			saitoHelpHide();
-		// show popovers
-		} else {
-			$('#shp-show').data('shown', true);
-			$('.shp').each(function(helpElement) {
-				if ($(this).is(':visible')){
-					$(this).popover('show');
-				}
-			});
-		}
-	// no help on page
-	} else {
-		$('#shp-show').popover({
-			placement:  'left',
-			trigger:    'manual'
-		})
-		$('#shp-show').popover('toggle')
-	}
-
-	event.preventDefault();
-}
-
-function saitoHelpHide() {
-	$('#shp-show').data('shown', false)
-	$('.shp').each(function(helpElement) {
-		$(this).popover('hide');
-	});
-}
-
 /************* document ready *******************/
 $(document).ready( function() {
 	slidetabsMakeSortable();
-	initSaitoHelp();
 
 	// new posting entries/add
 	initViewAnswerForm();
