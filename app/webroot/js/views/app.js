@@ -20,9 +20,17 @@ define([
 
 		// App
 		var AppView = Backbone.View.extend({
+
 			el: $('body'),
 			settings: {},
 			request: {},
+
+            /**
+             * global event handler for the app
+             */
+            vent: null,
+
+            autoPageReloadTimer: false,
 
 			events: {
 				'click #showLoginForm': 'showLoginForm',
@@ -37,6 +45,12 @@ define([
 				this.settings = options.SaitoApp.app.settings;
 				this.request = options.SaitoApp.request;
 				this.currentUser = options.SaitoApp.currentUser;
+
+                vents = _.extend({}, Backbone.Events);
+                this.vents = vents;
+
+                this.listenTo(this.vents, 'initAutoreload', this.initAutoreload);
+                this.listenTo(this.vents, 'breakAutoreload', this.breakAutoreload);
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
@@ -89,27 +103,22 @@ define([
 
 				// @td if everything is migrated to require/bb set var again
 				postings = new PostingCollection;
-				$('.js-entry-view-core').each(function(element) {
-					var id = parseInt($(this)[0].getAttribute('data-id'));
+				$('.js-entry-view-core').each(_.bind(function(element) {
+					var id = parseInt($(element)[0].getAttribute('data-id'));
 					postings.add([{
 						id: id
 					}], {silent: true});
 					new PostingView({
 						el: $(this),
-						model: postings.get(id)
+						model: postings.get(id),
+                        vents: this.vents
 					});
-				});
+				}, this));
 
 				// initiate page reload
 				// @td make App property instead of global
-				autoPageReloadTimer = null;
-				if (this.settings.autoPageReload) {
-					autoPageReloadTimer = setTimeout(
-						_.bind(function() {
-							window.location = this.app.webroot + 'entries/noupdate/';
-						}, this), this.settings.autoPageReload * 1000);
-				}
 
+                this.initAutoreload();
                 this.initBookmarks('#bookmarks');
                 this.initHelp('.shp');
                 this.initSlidetabs('#slidetabs')
@@ -156,7 +165,8 @@ define([
                 new SlidetabsView({
                     el: element_n,
                     collection: slidetabs,
-                    webroot: this.app.webroot
+                    webroot: this.app.webroot,
+                    vents: this.vents
                 });
             },
 
@@ -171,6 +181,24 @@ define([
 			scrollToThread: function(tid) {
 				scrollToTop($('.thread_box.' + tid));
 			},
+
+            initAutoreload: function() {
+                this.breakAutoreload();
+                if (this.settings.autoPageReload) {
+                    this.autoPageReloadTimer = setTimeout(
+                        _.bind(function() {
+                            window.location = this.app.webroot + 'entries/noupdate/';
+                        }, this), this.settings.autoPageReload * 1000);
+                }
+
+            },
+
+            breakAutoreload: function() {
+                if (this.autoPageReloadTimer !== false) {
+                    clearTimeout(this.autoPageReloadTimer);
+                    this.autoPageReloadTimer = false;
+                }
+            },
 
 			/**
 			* Widen search field

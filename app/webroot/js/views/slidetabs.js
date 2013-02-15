@@ -11,11 +11,12 @@ define([
         initialize: function(options) {
             this.webroot = options.webroot;
             this.initCollectionFromDom('.slidetab', this.collection, SlidetabView);
+            this.vents = options.vents;
 
             this.makeSortable();
 
             if (this.collection.get('shoutbox')) {
-                this.initShoutbox('#shoutbox', options.webroot);
+                this.initShoutbox('#shoutbox', options.webroot, this.vents);
             }
 
         },
@@ -54,10 +55,11 @@ define([
             });
         },
 
-        initShoutbox: function(element_n, webroot) {
+        initShoutbox: function(element_n, webroot, vents) {
             new ShoutsView({
                 el: "#shoutbox",
-                urlBase: webroot
+                urlBase: webroot,
+                vents: vents
             });
         }
 

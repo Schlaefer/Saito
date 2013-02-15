@@ -36,7 +36,8 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
 			}]);
 			new PostingView({
 				el: $('.js-entry-view-core[data-id=' + id + ']'),
-				model: postings.get(id)
+				model: postings.get(id),
+                vents: vents
 			});
 
 			if (typeof options !== 'undefined' && typeof options.success !== 'undefined') {

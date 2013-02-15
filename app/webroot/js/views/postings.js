@@ -1,14 +1,15 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone',
+	'backbone'
 	], function($, _, Backbone) {
 		// @td if everything is migrated to require/bb set var again
 		PostingView = Backbone.View.extend({
 			className: 'js-entry-view-core',
 
-			initialize: function() {
+			initialize: function(options) {
 				this.model.on('change:isAnsweringFormShown', this.toggleAnsweringForm, this);
+                this.vents = options.vents;
 			},
 
 			toggleAnsweringForm: function() {
@@ -26,9 +27,9 @@ define([
 
 			_showAnsweringForm: function() {
 				$(this.el).find('.posting_formular_slider').slideDown('fast');
-				// @td disable autoreload timeout from App
-				clearTimeout(autoPageReloadTimer);
+                this.vents.trigger('breakAutoreload');
 			},
+
 			_hideAnsweringForm: function() {
 				var html = '<div class="spinner"></div>';
 				$(this.el).find('.posting_formular_slider').slideUp('fast', _.bind(function() {

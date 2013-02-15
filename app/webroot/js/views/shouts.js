@@ -13,12 +13,13 @@ define([
         lastId: 0,
 
         events: {
-            "keydown form": "form"
+            "keyup form": "form"
         },
 
         initialize: function(options) {
             this.urlBase = options.urlBase + 'shouts/';
             this.shouts = this.$el.find('.shouts');
+            this.vents = options.vents;
             this.textarea =  this.$el.find('textarea');
             this.refreshTimeAct = this.refreshTimeBase;
 
@@ -31,6 +32,10 @@ define([
                 this.submit();
                 this.clearForm();
                 event.preventDefault();
+            } else if (this.textarea.val().length > 0) {
+                this.vents.trigger('breakAutoreload');
+            } else if (this.textarea.val().length === 0) {
+                this.vents.trigger('initAutoreload');
             }
         },
 
