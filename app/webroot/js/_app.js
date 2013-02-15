@@ -279,36 +279,8 @@ function initEntryAdd() {
 
 } // end initViewAd()
 
-function slidetabsMakeSortable() {
-	$('#slidetabs').sortable( {
-		start: function(event, ui) {
-			$('#slidetabs').css('overflow', 'visible');
-		},
-		stop: function(event, ui) {
-			$('#slidetabs').css('overflow', 'hidden');
-		},
-		update: function(event, ui) {
-			var slidetabsOrder = $(this).sortable('toArray');
-			$.ajax({
-				type: 'POST',
-				url: SaitoApp.app.webroot + 'users/ajax_set',
-				data: {
-					data : {
-						User: {
-							slidetab_order: slidetabsOrder
-						}
-					}
-				},
-				dataType: 'json'
-			});
-		}
-	});
-};
-
 /************* document ready *******************/
 $(document).ready( function() {
-	slidetabsMakeSortable();
-
 	// new posting entries/add
 	initViewAnswerForm();
 
