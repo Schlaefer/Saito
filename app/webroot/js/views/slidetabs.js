@@ -23,6 +23,7 @@ define([
         makeSortable: function() {
             var webroot = this.webroot;
             this.$el.sortable( {
+                handle: '.slidetab-tab',
                 start:_.bind(function(event, ui) {
                     this.$el.css('overflow', 'visible');
                 }, this),
