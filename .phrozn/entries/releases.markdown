@@ -4,6 +4,15 @@
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## Next ##
+
+- [new] #129 [Slidetab should only be sortable by dragging the slidebar tab][129]
+- [fix] info counter on user needs page reload to show/hide
+- [task] refactored slidetab js code into backbone
+- [task] refactored help dialog js code into backbone
+
+[gh129]: https://github.com/Schlaefer/Saito/issues/129
+
 ## 2013-02.01 ##
 
 - [new] Shoutbox
