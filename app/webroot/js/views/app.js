@@ -104,6 +104,8 @@ define([
 				// @td if everything is migrated to require/bb set var again
 				postings = new PostingCollection;
 				$('.js-entry-view-core').each(_.bind(function(element) {
+                    // sometimes the first element is just a number here, don't know why
+                    if (typeof(element) === 'number') return;
 					var id = parseInt($(element)[0].getAttribute('data-id'));
 					postings.add([{
 						id: id
