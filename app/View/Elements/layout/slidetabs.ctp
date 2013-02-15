@@ -31,8 +31,8 @@
 							?>
 							<?php
 							echo $this->fetch('slidetab-header');
-							$this->Blocks->set('slidetab-header', '');
-							?>
+							$this->assign('slidetab-header', '');
+						?>
 						</div>
 					</div> <!-- button -->
 					<div  class="slidetab-content" style="<?php echo $style2 ?>" >
