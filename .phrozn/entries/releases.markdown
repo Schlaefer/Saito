@@ -6,8 +6,8 @@
 
 ## 2013-02.02 ##
 
-- [new] #129 [Slidetab should only be sortable by dragging the slidebar tab][129] (allows selecting text in sidebar)
-- [fix] #127 [Stop autoreload if text is entered in shoutbox texfield][127]
+- [new] #129 [Slidetab should only be sortable by dragging the slidebar tab][gh129] (allows selecting text in sidebar)
+- [fix] #127 [Stop autoreload if text is entered in shoutbox texfield][gh127]
 - [fix] subject is required in advanced search form
 - [fix] info counter on user slidetab tab needs page reload to show/hide
 - [task] refactored slidetab js code into backbone
