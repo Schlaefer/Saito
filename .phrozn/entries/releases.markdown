@@ -4,13 +4,16 @@
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
-## Next ##
+## 2013-02.02 ##
 
-- [new] #129 [Slidetab should only be sortable by dragging the slidebar tab][129]
-- [fix] info counter on user needs page reload to show/hide
+- [new] #129 [Slidetab should only be sortable by dragging the slidebar tab][129] (allows selecting text in sidebar)
+- [fix] #127 [Stop autoreload if text is entered in shoutbox texfield][127]
+- [fix] subject is required in advanced search form
+- [fix] info counter on user slidetab tab needs page reload to show/hide
 - [task] refactored slidetab js code into backbone
 - [task] refactored help dialog js code into backbone
 
+[gh127]: https://github.com/Schlaefer/Saito/issues/127
 [gh129]: https://github.com/Schlaefer/Saito/issues/129
 
 ## 2013-02.01 ##
