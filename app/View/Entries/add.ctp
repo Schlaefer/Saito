@@ -301,15 +301,6 @@ $this->Form->submit(__('Einfügen'),
 	</div> <!-- postingform -->
 </div> <!-- entry add/reply -->
 
-<?php
-	// set cursor to category or subject field after load ###
-	echo $this->Html->scriptBlock(
-			'var Saito_App_setFocus = "#EntrySubject";',
-			array('inline' => true)
-			);
-  echo ($this->request->is('ajax')) ? $this->Js->writeBuffer() : '';
-?>
-
 <?php if ($this->request->action === 'edit'): ?>
 	<span id="submit-countdown" class="countdown" style="display: none;"></span>
 	<?php

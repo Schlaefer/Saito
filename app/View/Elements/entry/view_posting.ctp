@@ -65,7 +65,8 @@
 													if(!_isScrolledIntoView($('#posting_formular_slider_bottom_".$entry['Entry']['id']."'))) {
 														scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."');
 													}
-													initViewAnswerForm();";
+													$('.postingform input[type=text]:first').focus();
+													";
 
 												echo $this->Js->link(
 																	__('forum_answer_linkname'),

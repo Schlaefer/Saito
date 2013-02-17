@@ -259,29 +259,3 @@ function showUploadDialog(link) {
 }
 
 /** Upload image box end  **/
-
-/**
- * inits all js for viewing the answering form
- * 
- */
-function initViewAnswerForm() {
-	$('.postingform input[type=text]:first').focus();
-} // initViewAnswerForum
-
-function initEntryAdd() {
-
-	// prevent accidently submitting an answer twice
-	$('#content').delegate('.btn-submit', 'click',
-		function () {
-			$(this).attr('disabled', 'disabled');
-		}
-		);
-
-} // end initViewAd()
-
-/************* document ready *******************/
-$(document).ready( function() {
-	// new posting entries/add
-	initViewAnswerForm();
-
-}); // end ready()
