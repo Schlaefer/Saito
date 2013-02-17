@@ -1,8 +1,12 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone'
-	], function($, _, Backbone) {
+	'backbone',
+    'collections/geshis', 'views/geshi'
+	], function(
+        $, _, Backbone,
+        GeshisCollection, GeshiView
+    ) {
 		// @td if everything is migrated to require/bb set var again
 		PostingView = Backbone.View.extend({
 			className: 'js-entry-view-core',
@@ -10,7 +14,25 @@ define([
 			initialize: function(options) {
 				this.model.on('change:isAnsweringFormShown', this.toggleAnsweringForm, this);
                 this.vents = options.vents;
+
+                this.initGeshi('.c_bbc_code-wrapper');
 			},
+
+            initGeshi: function(element_n) {
+                var geshi_elements;
+
+                geshi_elements = this.$(element_n);
+
+                if (geshi_elements.length > 0) {
+                    var geshis = new GeshisCollection();
+                    geshi_elements.each(function(key, element) {
+                        new GeshiView({
+                            el: element,
+                            collection: geshis
+                        })
+                    });
+                }
+            },
 
 			toggleAnsweringForm: function() {
 				if (this.model.get('isAnsweringFormShown')) {

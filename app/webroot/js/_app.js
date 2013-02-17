@@ -285,36 +285,3 @@ $(document).ready( function() {
 	initViewAnswerForm();
 
 }); // end ready()
-
-// start toggle [code] highlight/plain
-$(document).ready(function() {
-    $('.geshi-plain-text').html("<i class='icon-reorder'></i>");
-	$('.entry').delegate('.geshi-plain-text', 'click', function(event) {
-
-		event.preventDefault();
-
-		// selects '.code' block following the button
-		var block = jQuery(this).next();
-
-		// build plain text
-		var htmlText = block.html();
-		var plainText = "";
-		if (navigator.appName == 'Microsoft Internet Explorer') {
-			plainText = htmlText.replace(/\n\r/g, "+");
-			plainText = jQuery(plainText).text().replace(/\+\+/g, "\r");
-		} else {
-			plainText = block.text().replace(/code /g, "code \n");
-		}
-
-		// button action
-		if (jQuery(this).html() === '<i class="icon-reorder"></i>') {
-            jQuery(this).html("<i class='icon-list-ol'></i>");
-			block.text(plainText).wrapInner("<pre class=\"code\"></pre>");
-			block.data('htmlText', htmlText);
-		} else {
-            jQuery(this).empty().html("<i class='icon-reorder'></i>");
-			block.html(block.data('htmlText'));
-		}
-
-	}); // end function(event)
-}); // end toggle [code]
