@@ -698,24 +698,6 @@
 					$this->headers['Location']);
 		}
 
-		/**
-		 * Test for inlined Javascript so inline-view actions work
-		 */
-		public function testViewPostingInlineJavascript() {
-
-			$Entries = $this->generate('Entries');
-			$this->_loginUser(1);
-			// return and evaluate `view` and not `layout` here!
-			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
-			// ajax answer
-			$this->assertContains('$("#forum_answer_1").bind("click",', $result);
-			// ajax pin
-			$this->assertContains('$("#btn-entry_fixed-1").bind("click",', $result);
-			// ajax lock
-			$this->assertContains('$("#btn-entry_locked-1").bind("click",', $result);
-
-		}
-
 		public function testViewBoxFooter() {
 			$result = $this->testAction('entries/view/1', array(
 					'return' => 'view'
