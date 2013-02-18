@@ -37,11 +37,7 @@ if ( $this->getVar('citeText') ) {
 			</div>
 		</div><!-- header -->
 
-		<div class="content">
-			<div id="preview_slider_<?php echo $this->request->data['Entry']['id']; ?>">
-			</div>
-		</div> <!-- content -->
-
+		<div class="content"></div>
 	</div> <!-- preview -->
 
 	<div class="postingform">
@@ -267,6 +263,9 @@ $this->Form->submit(__('Einfügen'),
 								)
 						);
 					}
+					?>
+					&nbsp;
+					<?php
 					echo $this->Html->link(
 							__('preview'),
 							'#',
