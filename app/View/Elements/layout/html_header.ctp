@@ -11,10 +11,8 @@
 			echo $this->Html->css('stylesheets/static.css');
 			echo $this->Html->css('stylesheets/styles.css');
 
-			if (Configure::read('debug') > 0)
+			if (Configure::read('debug') > 0) {
 				echo $this->Html->css('stylesheets/cake.css');
-			if (is_file(APP . 'View' . DS . "Themed" . DS . $this->theme . DS . 'webroot' . DS . "css" . DS . 'stylesheets' . DS . $this->request->params["controller"] . DS . $this->request->params["action"] . ".css")) {
-				echo $this->Html->css('stylesheets/' . $this->request->params["controller"] . "/" . $this->request->params["action"]);
 			}
 
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
