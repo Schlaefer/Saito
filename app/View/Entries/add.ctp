@@ -59,9 +59,8 @@ if ( $this->getVar('citeText') ) {
 			</div>
 		</div>
 
-		<div id="markitup_upload" style=''>
+		<div id="markitup_upload">
             <div class="body">
-                <p>One fine body…</p>
             </div>
 		</div>
 

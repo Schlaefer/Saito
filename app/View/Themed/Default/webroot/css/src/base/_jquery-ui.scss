@@ -1,3 +1,7 @@
+.ui-widget {
+  font-family: inherit;
+}
+
 .ui-widget-header {
 	@extend .header_style_2;
 }

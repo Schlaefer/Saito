@@ -2,6 +2,10 @@ html, body {
 	min-width: 1px;
 }
 
+#markitup_upload {
+  -webkit-overflow-scrolling: touch;
+}
+
 #upload_index {
 	width: 815px;
 	height: 90%;
@@ -23,6 +27,10 @@ html, body {
 		margin-bottom: 2px;
 		font-size: 110%;
 	}
+
+    a {
+      color: inherit;
+    }
 }
 
 .upload_box {

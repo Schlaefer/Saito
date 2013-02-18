@@ -28,11 +28,15 @@ define([
                 this.$('.body').html(this.html)
                 this.$el.dialog({
                     title: "Upload",
-                    resizable: false,
                     autoOpen: true,
                     modal: true,
-                    draggable: false,
                     width: 850,
+                    draggable: false,
+                    resizable: false,
+                    height: $(window).height(),
+                    position: {
+                        at: "center top"
+                    },
                     hide: 'fade'
                 });
             }

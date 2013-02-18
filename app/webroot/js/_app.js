@@ -232,31 +232,3 @@ function insertAtCaret(areaId,text) {
 	}
 //    txtarea.scrollTop = scrollPos;
 }
-
-/**
- * Shows modal jQuery dialog for image upload in Posting form
- */
-var dialog;
-function showUploadDialog(link) {
-	//	event.preventDefault();
-	$dialog = $('<iframe id="uploadDialog" frameborder=0 src="' + link + '"></iframe>')
-	//		var $dialog = $('<div></div>')
-	.load(link)
-	.dialog({
-		autoOpen: false,
-		title: 'Upload',
-		width: 850,
-		height: 500,
-		modal: true,
-		//			show: 'fade',
-		hide: 'fade',
-		position: ['center', 20]
-	});
-	$dialog.dialog('open').css('width', '830').css('height', '95%');
-	$dialog.parent().css('height', '90%');
-	return false;
-
-}
-
-/** Upload image box end  **/
-

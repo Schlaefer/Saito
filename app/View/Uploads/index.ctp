@@ -27,8 +27,8 @@
 					<div class="upload_box_footer" style="display: table-cell; ">
 						<div style="position: relative;">
 	<?php echo $this->Form->button(__("upload_btn"), array( 'class' => 'btn btn-submit', 'type' => 'button' )); ?>
-							<div style="position: absolute; z-index: 2; top:0; right: 0; width: 100%; opacity: 0; cursor: pointer; overflow: hidden; " >
-				<?php echo $this->FileUpload->input(array( 'style' => 'width: 150px;', 'onchange' => 'this.form.submit();' )); ?>
+							<div style="position: absolute; z-index: 2000; top:0; right: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; overflow: hidden; " >
+				<?php echo $this->FileUpload->input(array( 'style' => 'width: 150px; height: 100%', 'onchange' => 'this.form.submit();' )); ?>
 							</div>
 						</div>
 					</div>
