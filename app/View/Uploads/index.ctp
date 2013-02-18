@@ -26,9 +26,23 @@
 				<div style="display: table-row;">
 					<div class="upload_box_footer" style="display: table-cell; ">
 						<div style="position: relative;">
-	<?php echo $this->Form->button(__("upload_btn"), array( 'class' => 'btn btn-submit', 'type' => 'button' )); ?>
+							<?php
+								// To present a nice upload button we generate a dead button.
+								// Beneath the nice dummy button is the actual input file upload,
+								// but it's hidden behind the opacity:0 curtain div.
+							  // z-index: 2000 to have the button above the jQuery UI modal.
+								echo $this->Form->button(
+									__("upload_btn"),
+									array( 'class' => 'btn btn-submit', 'type' => 'button' ));
+							?>
 							<div style="position: absolute; z-index: 2000; top:0; right: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; overflow: hidden; " >
-				<?php echo $this->FileUpload->input(array( 'style' => 'width: 150px; height: 100%', 'onchange' => 'this.form.submit();' )); ?>
+								<?php echo $this->FileUpload->input(
+										array(
+											'style' => 'width: 150px; height: 100%',
+											'onchange' => 'this.form.submit();'
+										)
+							);
+							?>
 							</div>
 						</div>
 					</div>
