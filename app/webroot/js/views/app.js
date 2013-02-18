@@ -7,7 +7,8 @@ define([
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
     'views/helps',
-    'collections/slidetabs', 'views/slidetabs'
+    'collections/slidetabs', 'views/slidetabs',
+    'views/answering'
 	], function(
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
@@ -15,7 +16,8 @@ define([
 		PostingCollection, PostingsView,
         BookmarksCollection, BookmarksView,
         HelpsView,
-        SlidetabsCollection, SlidetabsView
+        SlidetabsCollection, SlidetabsView,
+        AnsweringView
 		) {
 
 		// App
@@ -123,6 +125,16 @@ define([
                 this.initBookmarks('#bookmarks');
                 this.initHelp('.shp');
                 this.initSlidetabs('#slidetabs')
+
+                if($('.entry.add').length > 0) {
+                    // init the entries/add form where answering is not
+                    // appended to a posting
+                    this.answeringForm = new AnsweringView({
+                        el: this.$('.entry.add'),
+                        webroot: this.app.webroot,
+                        id: 'foo'
+                    });
+                }
 
                 /*** Show Page ***/
 
