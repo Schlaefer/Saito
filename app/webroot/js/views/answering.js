@@ -2,11 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'models/preview', 'views/preview',
-    'text!templates/spinner.html'
+    'views/uploads',
+    'models/preview', 'views/preview'
 ], function($, _, Backbone,
-            PreviewModel, PreviewView,
-            spinnerTpl
+            UploadsView,
+            PreviewModel, PreviewView
     ) {
 
     var AnsweringView = Backbone.View.extend({
@@ -17,12 +17,22 @@ define([
 
         events: {
             "click .btn-previewClose": "_closePreview",
-            "click .btn-preview": "_showPreview"
+            "click .btn-preview": "_showPreview",
+
+            "click .btn-markItUp-Upload": "_upload"
         },
 
         initialize: function(options) {
             this.webroot = options.webroot;
             this.id = options.id;
+        },
+
+        _upload: function(event) {
+            event.preventDefault();
+            new UploadsView({
+                el: '#markitup_upload',
+                webroot: this.webroot
+            });
         },
 
         _showPreview: function(event) {

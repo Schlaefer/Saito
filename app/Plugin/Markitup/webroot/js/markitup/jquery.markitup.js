@@ -214,8 +214,8 @@
 						li = $('<li class="markItUpButton markItUpButton'+t+(i)+' '+(button.className||'')+'"><a href="" '+key+' title="'+title+'">'+(button.name||'')+'</a></li>')
 						.bind("contextmenu.markItUp", function() { // prevent contextmenu on mac and allow ctrl+click
 							return false;
-						}).bind('click.markItUp', function() {
-							return false;
+						}).bind('click.markItUp', function(event) {
+                            event.preventDefault();
 						}).bind("focusin.markItUp", function(){
                             $$.focus();
 						}).bind('mouseenter.markItUp', function() {
@@ -229,12 +229,12 @@
 						});
 
                         var eventToBind = (SaitoApp.request.isMobile == true && levels > 1) ? 'touchend' : 'click';
-                        li.bind(eventToBind, function() {
+                        li.bind(eventToBind, function(event) {
                             if (button.call) {
                                 eval(button.call)();
                             }
                             setTimeout(function() { markup(button) },1);
-                            return false;
+                            event.preventDefault();
                         })
 
                         li.appendTo(ul);

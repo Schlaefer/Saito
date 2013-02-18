@@ -76,10 +76,10 @@
               'replaceWith' => '[img][![' . __('geshi_picture_popup') . ']!][/img]'
             ),
 					'Upload' => array(
-							'name' => '"<i class=\'icon-upload-alt\'></i>"',
-              'title' => '"' . __('Upload') .'"',
-							'className' => '"btn-markItUp-Upload"',
-							'callback' => true ),
+							'name' => '<i class=\'icon-upload-alt\'></i>',
+              'title' => __('Upload'),
+							'className' => 'btn-markItUp-Upload'
+							),
 					'Media' => array(
 							'name' => '"<i class=\'icon-play-circle\'></i>"',
               'title' => '"' . __('Media') .'"',

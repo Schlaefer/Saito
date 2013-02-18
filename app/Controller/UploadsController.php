@@ -73,6 +73,7 @@ class UploadsController extends AppController {
 	 * View uploads
 	 */
 	public function index() {
+		$this->autoLayout = false;
 		$user_id = $this->Session->read('Auth.User.id');
 		$images = $this->Upload->find(
 						'all',
@@ -89,7 +90,6 @@ class UploadsController extends AppController {
 		}
 
 		$this->set('images', $images);
-		$this->render('/Uploads/index', 'barebone');
 	} //end index()
 
 	/**

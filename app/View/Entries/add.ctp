@@ -59,6 +59,12 @@ if ( $this->getVar('citeText') ) {
 			</div>
 		</div>
 
+		<div id="markitup_upload" style=''>
+            <div class="body">
+                <p>One fine body…</p>
+            </div>
+		</div>
+
 		<div id='markitup_media' style="display: none; overflow: hidden;">
 			<?php echo 
 			$this->Form->create(FALSE,
