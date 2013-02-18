@@ -12,7 +12,7 @@ define([
 		$, _, Backbone,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
-		PostingCollection, PostingView,
+		PostingCollection, PostingsView,
         BookmarksCollection, BookmarksView,
         HelpsView,
         SlidetabsCollection, SlidetabsView
@@ -111,7 +111,8 @@ define([
 					new PostingView({
 						el: $(element),
 						model: postings.get(id),
-                        vents: this.vents
+                        vents: this.vents,
+                        webroot: this.app.webroot
 					});
 				}, this));
 

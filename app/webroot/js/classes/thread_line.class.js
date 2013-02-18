@@ -6,10 +6,7 @@
 function ThreadLine(id) {
   this.id = id;
 
-  this.id_thread_line			= '.thread_line.' + id;
-  this.id_thread_inline		= '.thread_inline.' 	+ id;
   this.id_thread_slider		=	'#t_s_' + id;
-  this.id_bottom					= '#posting_formular_slider_bottom_' + id;
 };
 
 /**
@@ -37,7 +34,8 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
 			new PostingView({
 				el: $('.js-entry-view-core[data-id=' + id + ']'),
 				model: postings.get(id),
-                vents: vents
+                vents: vents,
+                webroot: SaitoApp.app.webroot
 			});
 
 			if (typeof options !== 'undefined' && typeof options.success !== 'undefined') {

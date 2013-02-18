@@ -61,24 +61,14 @@
 						></i>
 				<?php
 				} elseif (!$answering_forbidden) {
-					$result =  "
-						if(!_isScrolledIntoView($('#posting_formular_slider_bottom_".$entry['Entry']['id']."'))) {
-							scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."');
-						}
-						$('.postingform input[type=text]:first').focus();
-						";
-
-					echo $this->Js->link(
-										__('forum_answer_linkname'),
-										'/entries/add/' . $entry['Entry']['id'],
-									array(
-										'id' => 'forum_answer_' . $entry['Entry']['id'],
-										'class' => 'btn btn-submit', 'accesskey' => "a" ,
-										'update' => '#posting_formular_slider_' . $entry['Entry']['id'] ,
-										'complete'	=> $result,
-										'buffer'	=> false,
-										'beforeSend' => "postings.get({$entry['Entry']['id']}).set({isAnsweringFormShown: true});",
-									)
+					echo $this->Html->link(
+						__('forum_answer_linkname'),
+						'#',
+						array(
+							'class' => 'btn btn-submit js-btn-setAnsweringForm',
+							'data' => $entry['Entry']['id'],
+							'accesskey' => "a",
+						)
 					);
 				};
 			?>
@@ -194,9 +184,6 @@
 
 	<?php endif; ?>
 	<div class="a_b">
-		<div id="posting_formular_slider_<?php echo $entry['Entry']['id']; ?>" class="posting_formular_slider" style="display:none;"  >
-			<div class="spinner"></div>
-		</div>
+		<div class="posting_formular_slider" style="display:none;"></div>
 	</div> <!-- a_b -->
-	<div id="posting_formular_slider_bottom_<?php echo $entry['Entry']['id']; ?>"></div>
 </div>

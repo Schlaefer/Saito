@@ -96,6 +96,8 @@ define([
 								_.bind(
 									function() {
 										// @td eliminate external functions pattern
+                                        // @td needs to be refactored and reimplementation in backbone
+                                        /*
 										if (scroll && !_isScrolledIntoView(this.$el.find('#posting_formular_slider_bottom_' + this.model.id))) {
 											if(_isHeigherThanView(this.$el)) {
 												scrollToTop(this.$el);
@@ -104,6 +106,7 @@ define([
 												scrollToBottom(this.$el.find('#posting_formular_slider_bottom_' + this.model.id));
 											}
 										}
+										*/
 										if (options['tlsV'] !== 'undefined'){
 											this.tlsV.hide();
 										}

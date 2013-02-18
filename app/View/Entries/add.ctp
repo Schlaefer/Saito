@@ -19,21 +19,16 @@ if ( $this->getVar('citeText') ) {
 
 ?>
 <div id ="entry_<?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
-	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
+
+	<div class="preview">
 		<div class="l-box-header box-header">
 			<div>
         <div class="c_first_child">
-					<?php
-					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideOut',
-									array( 'speed' => 'fast' ));
-					$this->Js->get('#btn_preview_close_' . $this->request->data['Entry']['id'])->event('click',
-							$js_r);
-					?>
-					<i id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='icon-close-widget icon-large pointer btn-icon-close' >&nbsp;</i>
+					<i class='icon-close-widget icon-large pointer btn-icon-close btn-previewClose'>&nbsp;</i>
 				</div>
 				<div>
 					<h2>
-<?php echo  __('preview') ?>
+						<?php echo __('preview') ?>
 					</h2>
 				</div>
 				<div class="c_last_child">
@@ -43,17 +38,19 @@ if ( $this->getVar('citeText') ) {
 		</div><!-- header -->
 
 		<div class="content">
-			<div id="spinner_preview_<?php echo $this->request->data['Entry']['id']; ?>" class="spinner"></div>
 			<div id="preview_slider_<?php echo $this->request->data['Entry']['id']; ?>">
 			</div>
 		</div> <!-- content -->
+
 	</div> <!-- preview -->
+
 	<div class="postingform">
 		<div class="l-box-header box-header">
 			<div>
         <div class="c_first_child">
 <?php  if ( $this->request->is('ajax') ) : ?>
-						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-close-widget icon-large btn-icon-close pointer' onclick="postings.get(<?php echo $this->request->data['Entry']['id'] ?>).set({isAnsweringFormShown: false});">&nbsp;
+						<i class='icon-close-widget icon-large btn-icon-close pointer btn-answeringClose'>
+								&nbsp;
             </i>
 <?php  endif; ?>
 				</div>
@@ -270,27 +267,12 @@ $this->Form->submit(__('Einfügen'),
 								)
 						);
 					}
-					?>
-
-					<?php
-					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideIn',
-									array( 'speed' => 'fast' ));
-					$js_r .= "$('#preview_slider_" . $this->request->data['Entry']['id'] . "').html('');";
-					$js_r .= '$("#spinner_preview_' . $this->request->data['Entry']['id'] . '").show()';
-					echo $this->Js->submit(
+					echo $this->Html->link(
 							__('preview'),
+							'#',
 							array(
-							'url' =>array(
-									'controller' => 'entries',
-									'action' => 'preview',
-							),
-							'beforeSend' => $js_r,
-							'id' => 'btn_preview_' . $this->request->data['Entry']['id'],
-							'update' => '#preview_slider_' . $this->request->data['Entry']['id'],
-							'class' => 'btn btn-preview',
-							'complete' => '$("#spinner_preview_' . $this->request->data['Entry']['id'] . '").hide()',
-							'tabindex' => 5,
-							'buffer' => false,
+								'class' => 'btn btn-preview',
+								'tabindex' => 5
 							)
 					);
 					?>
@@ -300,6 +282,7 @@ $this->Form->submit(__('Einfügen'),
 		</div> <!-- content -->
 	</div> <!-- postingform -->
 </div> <!-- entry add/reply -->
+<div class="posting_formular_slider_bottom"></div>
 
 <?php if ($this->request->action === 'edit'): ?>
 	<span id="submit-countdown" class="countdown" style="display: none;"></span>

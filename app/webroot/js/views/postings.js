@@ -2,17 +2,29 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-    'collections/geshis', 'views/geshi'
+    'collections/geshis', 'views/geshi',
+    'views/answering',
+    'text!templates/spinner.html'
 	], function(
         $, _, Backbone,
-        GeshisCollection, GeshiView
+        GeshisCollection, GeshiView,
+        AnsweringView,
+        spinnerTpl
     ) {
 		// @td if everything is migrated to require/bb set var again
 		PostingView = Backbone.View.extend({
+
 			className: 'js-entry-view-core',
+            answeringForm: false,
+
+            events: {
+                "click .js-btn-setAnsweringForm": "setAnsweringForm",
+                "click .btn-answeringClose": "setAnsweringForm"
+            },
 
 			initialize: function(options) {
-				this.model.on('change:isAnsweringFormShown', this.toggleAnsweringForm, this);
+				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
+                this.webroot = options.webroot;
                 this.vents = options.vents;
 
                 this.initGeshi('.c_bbc_code-wrapper');
@@ -34,6 +46,11 @@ define([
                 }
             },
 
+            setAnsweringForm: function(event) {
+                event.preventDefault();
+                this.model.toggle('isAnsweringFormShown')
+            },
+
 			toggleAnsweringForm: function() {
 				if (this.model.get('isAnsweringFormShown')) {
 					this._hideAllAnsweringForms();
@@ -47,17 +64,34 @@ define([
 				}
 			},
 
-			_showAnsweringForm: function() {
-				$(this.el).find('.posting_formular_slider').slideDown('fast');
+            _showAnsweringForm: function() {
                 this.vents.trigger('breakAutoreload');
-			},
+                if (this.answeringForm === false) {
+                    this.$('.posting_formular_slider').html(spinnerTpl);
+                }
+                this.$('.posting_formular_slider').slideDown('fast');
+                if (this.answeringForm === false){
+                    this.answeringForm = new AnsweringView({
+                        el: this.$('.posting_formular_slider'),
+                        webroot: this.webroot,
+                        id: this.model.get('id')
+                    });
+                }
+                this.answeringForm.render();
+            },
 
 			_hideAnsweringForm: function() {
-				var html = '<div class="spinner"></div>';
-				$(this.el).find('.posting_formular_slider').slideUp('fast', _.bind(function() {
-					$(this.el).find('.posting_formular_slider').html(html);
-				}, this));
+                var parent;
+				$(this.el).find('.posting_formular_slider').slideUp('fast')
+
+                // @td @bogus
+                parent = $(this.el).find('.posting_formular_slider').parent();
+                this.answeringForm.remove();
+                this.answeringForm.undelegateEvents();
+                this.answeringForm = false;
+                parent.append('<div class="posting_formular_slider"></div>');
 			},
+
 			_hideAllAnsweringForms: function() {
 				// we have #id problems with more than one markItUp on a page
 				postings.forEach(function(posting){

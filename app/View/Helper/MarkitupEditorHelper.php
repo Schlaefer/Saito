@@ -78,7 +78,7 @@
 					'Upload' => array(
 							'name' => '"<i class=\'icon-upload-alt\'></i>"',
               'title' => '"' . __('Upload') .'"',
-							'closeWith' => "function(h) { return showUploadDialog('" . $this->Html->url(array( 'controller' => 'uploads', 'action' => 'index' )) . "'); }",
+							'className' => '"btn-markItUp-Upload"',
 							'callback' => true ),
 					'Media' => array(
 							'name' => '"<i class=\'icon-play-circle\'></i>"',
