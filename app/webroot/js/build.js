@@ -14,6 +14,8 @@
     'backboneLocalStorage': 'lib/backbone/backbone.localStorage',
     'bootstrap': 'bootstrap/bootstrap.min',
     'domReady': 'lib/require/domReady',
+    jqueryAutosize: 'lib/jquery.autosize',
+    cakeRest: 'lib/saito/backbone.cakeRest',
     'text': 'lib/require/text'
   },
   mainConfigFile: 'main.js'

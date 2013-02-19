@@ -2,6 +2,7 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+    'lib/jquery.i18n',
 	'collections/threadlines', 'views/threadlines',
 	'collections/threads', 'views/threads',
 	'collections/postings', 'views/postings',
@@ -11,6 +12,7 @@ define([
     'views/answering'
 	], function(
 		$, _, Backbone,
+        i18n,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingsView,
@@ -48,11 +50,16 @@ define([
 				this.request = options.SaitoApp.request;
 				this.currentUser = options.SaitoApp.currentUser;
 
+
+                // init global events
                 vents = _.extend({}, Backbone.Events);
                 this.vents = vents;
 
                 this.listenTo(this.vents, 'initAutoreload', this.initAutoreload);
                 this.listenTo(this.vents, 'breakAutoreload', this.breakAutoreload);
+
+                // init i18n
+                $.i18n.setUrl(this.app.webroot + "tools/langJs");
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;

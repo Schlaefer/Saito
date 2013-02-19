@@ -25,13 +25,17 @@ define([
         initialize: function(options) {
             this.webroot = options.webroot;
             this.id = options.id;
+
+            //@td
+            this._upload();
         },
 
         _upload: function(event) {
-            event.preventDefault();
+            //event.preventDefault();
             new UploadsView({
                 el: '#markitup_upload',
-                webroot: this.webroot
+                webroot: this.webroot,
+                textarea: this.$('textarea')
             });
         },
 

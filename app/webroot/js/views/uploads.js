@@ -1,14 +1,32 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function($, _, Backbone) {
+    'backbone',
+    'collections/uploads', 'views/upload',
+    'text!templates/uploads.html'
+], function($, _, Backbone,
+    UploadsCollection, UploadView,
+    uploadsTpl
+    ) {
 
     var UploadsView = Backbone.View.extend({
 
+        // textarea the upload view will insert text into
+        textarea: null,
+
         initialize: function(options) {
             this.webroot = options.webroot;
+            this.textarea = this.textarea;
+
+            this.collection = new UploadsCollection({
+                url: this.webroot
+            });
+
+            this.listenTo(this.collection, "reset", this._addAll);
+
             this.render();
+
+            this.collection.fetch();
         },
 
         _getHtml: function() {
@@ -21,25 +39,32 @@ define([
             });
         },
 
+        _addOne: function(upload) {
+            var uploadView = new UploadView({
+                model: upload
+            })
+            this.$(".content").append(uploadView.render().el);
+        },
+
+        _addAll: function() {
+            this.collection.each(this._addOne, this);
+        },
+
         render: function() {
-            if (_.isEmpty(this.html)) {
-                this._getHtml();
-            } else {
-                this.$('.body').html(this.html)
-                this.$el.dialog({
-                    title: "Upload",
-                    autoOpen: true,
-                    modal: true,
-                    width: 850,
-                    draggable: false,
-                    resizable: false,
-                    height: $(window).height(),
-                    position: {
-                        at: "center top"
-                    },
-                    hide: 'fade'
-                });
-            }
+            this.$('.body').html(_.template(uploadsTpl))
+            this.$el.dialog({
+                title: $.i18n.__("Upload"),
+                autoOpen: true,
+                modal: true,
+                width: 850,
+                draggable: false,
+                resizable: false,
+                height: $(window).height(),
+                position: {
+                    at: "center top"
+                },
+                hide: 'fade'
+            });
             return this;
         }
 

@@ -50,54 +50,6 @@
 	<?php echo $this->Form->end(); ?>
 			</div>
 					<?php endif; ?>
-					<?php foreach ( $images as $image ) : ?>
-			<div class="upload_box" style="display: table;">
-				<div style="position: absolute;">
-					<div class="upload_box_delete" style="position: absolute;">
-						<?php
-						echo $this->Html->link(
-								$this->Html->image('close_db.png',
-										array( 'alt' => __('upload_btn_delete_upload') )),
-								array(
-								'controller' => 'uploads',
-								'action' => 'delete',
-								$image['Upload']['id']
-								),
-								array(
-								'escape' => false,
-								'title' => __('upload_btn_delete_upload'),
-								), 'Wirklich löschen?'); // @lo
-						?>
-					</div>
-				</div>
-				<div style="display: table-row;">
-					<div class="upload_box_header" style= display:table-cell;">
-						<?php
-						echo $this->Html->link(
-								$this->FileUpload->image($image['Upload']['name'],
-										array( 'class' => 'upload_box_image', 'imagePathOnly' => false )),
-								$this->FileUpload->image($image['Upload']['name'],
-										array( 'imagePathOnly' => true )),
-								array(
-								'escape' => false,
-								'target' => '_blank',
-								)
-						);
-						?>
-					</div>
-				</div>
-				<div style="display: table-row;">
-					<div class="upload_box_footer" style="display: table-cell;">
-	<?php
-	$js_r = "var a = greyboxGetParentFunction('greyboxInsertIntoMarkitup') ; a(' [upload]{$image['Upload']['name']}[/upload] ');";
-	echo $this->Html->link(__('upload_btn_insert_into_posting'), '#',
-			array( 'class' => 'btn btn-submit', 'onclick' => $js_r . 'return false;' ))
-	?>
-
-					</div>
-				</div>
-			</div>
-<?php endforeach; ?>
 <div class="clearfix"></div>
 	</div>
 </div>

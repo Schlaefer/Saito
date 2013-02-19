@@ -21,6 +21,7 @@ require.config({
 		bootstrap: 'bootstrap/bootstrap',
 		domReady: 'lib/require/domReady',
         jqueryAutosize: 'lib/jquery.autosize',
+        cakeRest: 'lib/saito/backbone.cakeRest',
 		text: 'lib/require/text'
 		// @td include scrollTo after _app.js is gone
 	}
