@@ -60,7 +60,7 @@
 							endif;
 						endif;
 						?>
-						<<?php echo $tag; ?> href="#" class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
+						<<?php echo $tag; ?> <?php if ($tag === 'a') echo 'href="#"'; ?> class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
 									<?php if ($tag === 'a') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
 						</<?php echo $tag; ?>>
 

@@ -40,7 +40,6 @@ if (isset($CurrentUser) && $CurrentUser->isLoggedIn() == FALSE ) {
         array(
             'id'  => 'shp-show',
             'class'   => 'no-color',
-            'tooltip' => __('Help'),
             'data-title'   => __('Help'),
             'data-content'  => __('No help for this page available.'),
             'escape'  => FALSE,
