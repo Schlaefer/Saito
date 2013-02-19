@@ -1,5 +1,5 @@
-<?php echo $this->Html->docType('xhtml-trans'); ?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php echo $this->Html->docType('html5'); ?>
+<html>
 	<head>
     <title><?php echo $title_for_layout ?></title>
 		<?php echo $this->Html->charset(); ?>
