@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 11:07+0100\n"
-"PO-Revision-Date: 2013-02-09 11:08+0100\n"
+"POT-Creation-Date: 2013-02-19 17:56+0100\n"
+"PO-Revision-Date: 2013-02-19 21:34+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -336,7 +336,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: View/Categories/view.ctp:66 View/Entries/search.ctp:68
+#: View/Categories/view.ctp:66 View/Entries/search.ctp:73
 msgid "Text"
 msgstr ""
 
@@ -375,7 +375,7 @@ msgstr ""
 "Choose your custom categories.<br/><br/>Click on a name to quickly show this "
 "category without changing your preferences."
 
-#: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:77
+#: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:82
 #: Controller/EntriesController.php:881
 msgid "All Categories"
 msgstr ""
@@ -415,8 +415,7 @@ msgstr "views"
 
 #: View/Elements/entry/view_posting.ctp:59
 #: View/Elements/layout/header_login.ctp:38
-#: View/Elements/layout/header_login.ctp:44
-#: View/Elements/layout/header_login.ctp:45 View/Entries/index.ctp:19
+#: View/Elements/layout/header_login.ctp:43 View/Entries/index.ctp:19
 #: View/Entries/search.ctp:22 View/Users/view.ctp:155
 msgid "Help"
 msgstr ""
@@ -425,25 +424,25 @@ msgstr ""
 msgid "answering_forbidden_locked_shp"
 msgstr "Answering forbidden by moderator."
 
-#: View/Elements/entry/view_posting.ctp:71
+#: View/Elements/entry/view_posting.ctp:65
 msgid "forum_answer_linkname"
 msgstr "Answer"
 
-#: View/Elements/entry/view_posting.ctp:88
-#: View/Elements/entry/view_posting.ctp:116
+#: View/Elements/entry/view_posting.ctp:79
+#: View/Elements/entry/view_posting.ctp:107
 #: Controller/EntriesController.php:481
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: View/Elements/entry/view_posting.ctp:156
+#: View/Elements/entry/view_posting.ctp:147
 msgid "merge_tree_link"
 msgstr "Merge"
 
-#: View/Elements/entry/view_posting.ctp:167
+#: View/Elements/entry/view_posting.ctp:158
 msgid "delete_tree_link"
 msgstr "Delete"
 
-#: View/Elements/entry/view_posting.ctp:170
+#: View/Elements/entry/view_posting.ctp:161
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
@@ -516,12 +515,12 @@ msgstr "User Profile"
 msgid "logout_linkname"
 msgstr "Logout"
 
-#: View/Elements/layout/header_login.ctp:46
+#: View/Elements/layout/header_login.ctp:44
 msgid "No help for this page available."
 msgstr ""
 
-#: View/Elements/layout/header_search.ctp:15 View/Entries/search.ctp:26
-#: View/Entries/search.ctp:100
+#: View/Elements/layout/header_search.ctp:16 View/Entries/search.ctp:26
+#: View/Entries/search.ctp:105
 msgid "search_submit"
 msgstr "Search"
 
@@ -533,25 +532,21 @@ msgstr ""
 msgid "user_recentposts"
 msgstr "recent posts"
 
-#: View/Elements/layout/slidetab_userlist.ctp:23
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:23
+#: View/Elements/layout/slidetab_userlist.ctp:18
 msgid "user_area_linkname"
 msgstr "User"
 
-#: View/Elements/layout/slidetab_userlist.ctp:21
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:21
+#: View/Elements/layout/slidetab_userlist.ctp:16
 #, php-format
 msgid "%s online (%s)"
 msgstr ""
 
-#: View/Elements/layout/slidetab_userlist.ctp:37
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:37
+#: View/Elements/layout/slidetab_userlist.ctp:32
 #: View/Helper/UserHHelper.php:116
 msgid "ud_admin"
 msgstr "Administrator"
 
-#: View/Elements/layout/slidetab_userlist.ctp:38
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:38
+#: View/Elements/layout/slidetab_userlist.ctp:33
 #: View/Helper/UserHHelper.php:114
 msgid "ud_mod"
 msgstr "Moderator"
@@ -599,7 +594,7 @@ msgstr "Password"
 msgid "user_pw_confirm"
 msgstr "Confirm Password"
 
-#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:70
+#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:75
 msgid "user_name"
 msgstr "Username"
 
@@ -615,43 +610,43 @@ msgstr ""
 "To activate your account please click the following link: %s within the next "
 "24 hours."
 
-#: View/Entries/add.ctp:36 View/Entries/add.ctp:281
+#: View/Entries/add.ctp:31 View/Entries/add.ctp:275
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:95
+#: View/Entries/add.ctp:93
 msgid "Einfügen"
 msgstr ""
 
-#: View/Entries/add.ctp:106
+#: View/Entries/add.ctp:104
 msgid "No video recognized."
 msgstr ""
 
-#: View/Entries/add.ctp:124 Controller/UsersController.php:444
+#: View/Entries/add.ctp:122 Controller/UsersController.php:444
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:161
+#: View/Entries/add.ctp:159
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:183
+#: View/Entries/add.ctp:181
 msgid "Notify on reply"
 msgstr ""
 
-#: View/Entries/add.ctp:191
+#: View/Entries/add.ctp:189
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:198 View/Helper/EntryHHelper.php:196
+#: View/Entries/add.ctp:196 View/Helper/EntryHHelper.php:196
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
-#: View/Entries/add.ctp:206
+#: View/Entries/add.ctp:204
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
-#: View/Entries/add.ctp:245 View/Entries/add.ctp:257 View/Entries/add.ctp:317
+#: View/Entries/add.ctp:243 View/Entries/add.ctp:255 View/Entries/add.ctp:295
 msgid "submit_button"
 msgstr "Submit"
 
@@ -701,19 +696,19 @@ msgstr "Search"
 msgid "search_advanced"
 msgstr "Advanced Search"
 
-#: View/Entries/search.ctp:66
+#: View/Entries/search.ctp:68
 msgid "subject"
 msgstr "Subject"
 
-#: View/Entries/search.ctp:82
+#: View/Entries/search.ctp:87
 msgid "search_since"
 msgstr "Since"
 
-#: View/Entries/search.ctp:102
+#: View/Entries/search.ctp:107
 msgid "search_simple"
 msgstr "Simple Search"
 
-#: View/Entries/search.ctp:158
+#: View/Entries/search.ctp:163
 msgid "search_nothing_found"
 msgstr "Nothing found."
 
@@ -1183,19 +1178,20 @@ msgid ""
 "geheuert, :loggedin an Deck, :anon Blinde Passagiere"
 msgstr ""
 
-#: View/Uploads/add.ctp:10 View/Uploads/index.ctp:29
+#: View/Uploads/add.ctp:10 View/Uploads/index.ctp:35
+#: webroot/js/templates/uploads.html:27
 msgid "upload_btn"
 msgstr "Upload"
 
-#: View/Uploads/index.ctp:21
+#: View/Uploads/index.ctp:21 webroot/js/templates/uploads.html:10
 msgid "upload_new_title"
-msgstr ""
+msgstr "New Upload"
 
-#: View/Uploads/index.ctp:46 View/Uploads/index.ctp:54
+#: View/Uploads/json/index.ctp:8 View/Uploads/json/index.ctp:17
 msgid "upload_btn_delete_upload"
 msgstr ""
 
-#: View/Uploads/index.ctp:79
+#: View/Uploads/json/index.ctp:38
 msgid "upload_btn_insert_into_posting"
 msgstr "Insert"
 
@@ -1592,7 +1588,7 @@ msgstr ""
 msgid "The bookmark could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/BookmarksController.php:93
+#: Controller/BookmarksController.php:92
 msgid "Invalid bookmark"
 msgstr ""
 
@@ -1756,7 +1752,7 @@ msgstr ""
 msgid "Caches have been emptied."
 msgstr ""
 
-#: Controller/UploadsController.php:35 Controller/UploadsController.php:88
+#: Controller/UploadsController.php:35 Controller/UploadsController.php:89
 msgid "upload_max_number_of_uploads_failed"
 msgstr ""
 
@@ -1930,31 +1926,31 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:485
+#: View/Helper/BbcodeHelper.php:486
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:503
+#: View/Helper/BbcodeHelper.php:504
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:740
+#: View/Helper/BbcodeHelper.php:741
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Enable Embedly"
 
-#: View/Helper/BbcodeHelper.php:848
+#: View/Helper/BbcodeHelper.php:849
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:856
+#: View/Helper/BbcodeHelper.php:857
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -2042,7 +2038,7 @@ msgstr ""
 msgid "geshi_picture_popup"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:80
+#: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:48
 #, fuzzy
 msgid "Upload"
 msgstr "Upload"
@@ -2051,7 +2047,7 @@ msgstr "Upload"
 msgid "Media"
 msgstr ""
 
-#: View/Helper/TimeHHelper.php:92 View/Helper/TimeHHelper.php:111
+#: View/Helper/TimeHHelper.php:100 View/Helper/TimeHHelper.php:119
 msgid "yesterday"
 msgstr ""
 
@@ -2061,6 +2057,37 @@ msgstr "User"
 
 #: View/Helper/UserHHelper.php:163
 msgid "userranks_not_found"
+msgstr ""
+
+#: webroot/js/templates/uploads.html:12
+msgid "upload_info"
+msgstr "max. size: :size kB; type: jpg, jpeg, png, gif"
+
+#: webroot/js/main-prod.js:48
+msgid ""
+"upload_new_title') %></h2>\\n                        <br/>"
+"\\n                        (max. <?php echo $this->Number ->toReadableSize"
+"( Configure::read( 'Saito.Settings. upload_max_img_size') * 1024); ?> jpg, "
+"jpeg, png, gif)\\n                    </div>\\n                </div>"
+"\\n                <div style=\"display: table-row;\">\\n                    "
+"<div class=\"upload_box_footer\" style=\"display: table-cell; \">"
+"\\n                        <div style=\"position: relative;\">"
+"\\n                            <!--\\n                                // To "
+"present a nice upload button we generate a dead button."
+"\\n                                // Beneath the nice dummy button is the "
+"actual input file upload,\\n                                // but it's "
+"hidden behind the opacity:0 curtain div.\\n                              // "
+"z-index: 2000 to have the button above the jQuery UI modal."
+"\\n                              -->\\n                            <button "
+"class=\"btn btn-submit\" type=\"button\">Hochladen</button>"
+"\\n                            <div style=\"position: absolute; z-index: "
+"2000; top:0; right: 0; width: 100%; height: 100%; opacity: 0; cursor: "
+"pointer; overflow: hidden; \" >\\n                                <input "
+"type=\"file\" name=\"data[Upload][0][file]\" style=\"width: 150px; height: "
+"100%\" onchange=\"this.form.submit();\" id=\"Upload0File\">"
+"\\n                            </div>\\n                        </div>"
+"\\n                    </div>\\n                </div>\\n        <?php "
+"endif; ?>\\n    </div>\\n</div>\\n<div class=\"clearfix\"></div>\\n"
 msgstr ""
 
 #~ msgid "whole_thread_marking"

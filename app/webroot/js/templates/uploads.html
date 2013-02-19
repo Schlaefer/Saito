@@ -8,8 +8,9 @@
                     <div style="display: table-row">
                         <div class="upload_box_header" style="display:table-cell;">
                         <h2> <%- $.i18n.__('upload_new_title') %></h2>
-                        <br/>
-                        (max. <?php echo $this->Number ->toReadableSize( Configure::read( 'Saito.Settings. upload_max_img_size') * 1024); ?> jpg, jpeg, png, gif)
+                        <p>
+                            <%- $.i18n.__('upload_info', {size: upload_size}) %>
+                        </p>
                     </div>
                 </div>
                 <div style="display: table-row;">
@@ -21,7 +22,9 @@
                                 // but it's hidden behind the opacity:0 curtain div.
                               // z-index: 2000 to have the button above the jQuery UI modal.
                               -->
-                            <button class="btn btn-submit" type="button">Hochladen</button>
+                            <button class="btn btn-submit" type="button">
+                                <%- $.i18n.__("upload_btn") %>
+                            </button>
                             <div style="position: absolute; z-index: 2000; top:0; right: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; overflow: hidden; " >
                                 <input type="file" name="data[Upload][0][file]" style="width: 150px; height: 100%" onchange="this.form.submit();" id="Upload0File">
                             </div>

@@ -35,7 +35,7 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
 				el: $('.js-entry-view-core[data-id=' + id + ']'),
 				model: postings.get(id),
                 vents: vents,
-                webroot: SaitoApp.app.webroot
+                webroot: SaitoApp.app.settings.webroot
 			});
 
 			if (typeof options !== 'undefined' && typeof options.success !== 'undefined') {
@@ -50,7 +50,7 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
 		},
 		async:true,
 		type:'post',
-		url: SaitoApp.app.webroot + 'entries/view/'  + id
+		url: SaitoApp.app.settings.webroot + 'entries/view/'  + id
 	}
 	);
 };

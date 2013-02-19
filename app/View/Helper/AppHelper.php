@@ -43,9 +43,11 @@ class AppHelper extends Helper {
 			'app' => array(
 				'version' => Configure::read('Saito.v'),
 				'timeAppStart' => 'new Date().getTime()',
-				'webroot' => $View->request->webroot,
 				'settings' => array (
-					'embedly_enabled' => Configure::read('Saito.Settings.embedly_enabled'),
+					'webroot' => $View->request->webroot,
+					'embedly_enabled' => (bool)Configure::read('Saito.Settings.embedly_enabled'),
+					'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
+					'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size'),
 					'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0)
 				)
 			),

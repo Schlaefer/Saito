@@ -2,7 +2,8 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-    'lib/jquery.i18n',
+    'models/appSetting',
+    'lib/jquery.i18n/jquery.i18n.extend',
 	'collections/threadlines', 'views/threadlines',
 	'collections/threads', 'views/threads',
 	'collections/postings', 'views/postings',
@@ -12,6 +13,7 @@ define([
     'views/answering'
 	], function(
 		$, _, Backbone,
+        AppSetting,
         i18n,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
@@ -45,8 +47,8 @@ define([
 
 			initialize: function (options) {
 
-				this.app = options.SaitoApp.app;
-				this.settings = options.SaitoApp.app.settings;
+                AppSetting.set(options.SaitoApp.app.settings);
+
 				this.request = options.SaitoApp.request;
 				this.currentUser = options.SaitoApp.currentUser;
 
@@ -59,7 +61,7 @@ define([
                 this.listenTo(this.vents, 'breakAutoreload', this.breakAutoreload);
 
                 // init i18n
-                $.i18n.setUrl(this.app.webroot + "tools/langJs");
+                $.i18n.setUrl(AppSetting.get('webroot') + "tools/langJs");
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
@@ -121,7 +123,7 @@ define([
 						el: $(element),
 						model: postings.get(id),
                         vents: this.vents,
-                        webroot: this.app.webroot
+                        webroot: this.app.settings.webroot
 					});
 				}, this));
 
@@ -138,7 +140,6 @@ define([
                     // appended to a posting
                     this.answeringForm = new AnsweringView({
                         el: this.$('.entry.add'),
-                        webroot: this.app.webroot,
                         id: 'foo'
                     });
                 }
@@ -180,7 +181,7 @@ define([
                 new SlidetabsView({
                     el: element_n,
                     collection: slidetabs,
-                    webroot: this.app.webroot,
+                    webroot: AppSetting.get('webroot'),
                     vents: this.vents
                 });
             },
@@ -199,11 +200,11 @@ define([
 
             initAutoreload: function() {
                 this.breakAutoreload();
-                if (this.settings.autoPageReload) {
+                if (AppSetting.get('autoPageReload')) {
                     this.autoPageReloadTimer = setTimeout(
                         _.bind(function() {
-                            window.location = this.app.webroot + 'entries/noupdate/';
-                        }, this), this.settings.autoPageReload * 1000);
+                            window.location = this.app.settings.webroot + 'entries/noupdate/';
+                        }, this), AppSetting.get('autoPageReload') * 1000);
                 }
 
             },
@@ -256,7 +257,7 @@ define([
 
             manuallyMarkAsRead: function(event) {
                 event.preventDefault();
-                document.location.replace(this.app.webroot + 'entries/update');
+                document.location.replace(this.app.settings.webroot + 'entries/update');
             }
 		});
 

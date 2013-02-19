@@ -9,7 +9,7 @@ define([
         initialize: function() {
             Backbone.sync = Backbone.ajaxSync;
             // @td
-            this.webroot = SaitoApp.app.webroot + 'bookmarks/';
+            this.webroot = SaitoApp.app.settings.webroot + 'bookmarks/';
         }
 
     });

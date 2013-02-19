@@ -116,36 +116,3 @@
 
 })(jQuery);
 
-$.extend($.i18n, {
-
-    currentString: '',
-
-    setUrl: function(dictUrl) {
-        this.dictUrl = dictUrl;
-        this._loadDict();
-    },
-
-    _loadDict: function() {
-        return $.ajax({
-            url: this.dictUrl,
-            dataType: 'json',
-            async: false,
-            success: $.proxy(function(data) {
-                this.dict = data;
-            }, this)
-        });
-    },
-
-    __: function(string) {
-        var out = '';
-
-        if (typeof this.dict[string] === 'string' && this.dict[string] !== "") {
-            out = this.dict[string];
-        } else {
-            out = string;
-        }
-
-        return out;
-
-    }
-});

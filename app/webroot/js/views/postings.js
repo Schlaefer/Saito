@@ -2,11 +2,13 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+    'models/appSetting',
     'collections/geshis', 'views/geshi',
     'views/answering',
     'text!templates/spinner.html'
 	], function(
         $, _, Backbone,
+        AppSetting,
         GeshisCollection, GeshiView,
         AnsweringView,
         spinnerTpl
@@ -24,7 +26,6 @@ define([
 
 			initialize: function(options) {
 				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
-                this.webroot = options.webroot;
                 this.vents = options.vents;
 
                 this.initGeshi('.c_bbc_code-wrapper');
@@ -73,7 +74,6 @@ define([
                 if (this.answeringForm === false){
                     this.answeringForm = new AnsweringView({
                         el: this.$('.posting_formular_slider'),
-                        webroot: this.webroot,
                         id: this.model.get('id')
                     });
                 }

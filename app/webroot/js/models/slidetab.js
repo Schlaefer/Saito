@@ -6,7 +6,7 @@ define([
 
         initialize: function(options) {
             // @td
-            this.webroot = SaitoApp.app.webroot;
+            this.webroot = SaitoApp.app.settings.webroot;
         },
 
         sync: function() {

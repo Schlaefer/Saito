@@ -7,7 +7,9 @@
     <script type="text/javascript">
         var SaitoApp = {
 						app: {
-                webroot: "<?php echo $this->request->webroot; ?>",
+                settings: {
+										webroot: "<?php echo $this->request->webroot; ?>"
+                },
 								runJsTests: true
 						},
             settings: {

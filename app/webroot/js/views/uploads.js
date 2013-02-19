@@ -2,9 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/appSetting',
     'collections/uploads', 'views/upload',
     'text!templates/uploads.html'
 ], function($, _, Backbone,
+            AppSetting,
     UploadsCollection, UploadView,
     uploadsTpl
     ) {
@@ -15,11 +17,11 @@ define([
         textarea: null,
 
         initialize: function(options) {
-            this.webroot = options.webroot;
             this.textarea = this.textarea;
+            console.log(AppSetting);
 
             this.collection = new UploadsCollection({
-                url: this.webroot
+                url: AppSetting.get('webroot')
             });
 
             this.listenTo(this.collection, "reset", this._addAll);
@@ -27,16 +29,6 @@ define([
             this.render();
 
             this.collection.fetch();
-        },
-
-        _getHtml: function() {
-            $.ajax({
-                url: this.webroot + 'uploads/index',
-                success:_.bind(function(data) {
-                    this.html = data;
-                    this.render();
-                }, this)
-            });
         },
 
         _addOne: function(upload) {
@@ -51,18 +43,20 @@ define([
         },
 
         render: function() {
-            this.$('.body').html(_.template(uploadsTpl))
+            this.$('.body').html(
+                _.template(uploadsTpl)({
+                        upload_size: AppSetting.get('upload_max_img_size')
+                    }
+                )
+            );
             this.$el.dialog({
                 title: $.i18n.__("Upload"),
                 autoOpen: true,
                 modal: true,
-                width: 850,
+                width: 830,
                 draggable: false,
                 resizable: false,
-                height: $(window).height(),
-                position: {
-                    at: "center top"
-                },
+                height: $(window).height() - 40,
                 hide: 'fade'
             });
             return this;

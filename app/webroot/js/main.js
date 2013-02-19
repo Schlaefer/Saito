@@ -103,11 +103,12 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
 
         var specs = [
             'lib/MarkItUpSpec.js',
-            'views/BookmarkViewSpec.js'
+            'lib/jquery.i18n.extendSpec.js'
+            // 'views/BookmarkViewSpec.js'
         ];
 
         specs = _.map(specs, function(value){
-            return SaitoApp.app.webroot + 'js/tests/' + value;
+            return SaitoApp.app.settings.webroot + 'js/tests/' + value;
         });
 
         $(function(){

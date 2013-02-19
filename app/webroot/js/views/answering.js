@@ -2,9 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/appSetting',
     'views/uploads',
     'models/preview', 'views/preview'
 ], function($, _, Backbone,
+            AppSetting,
             UploadsView,
             PreviewModel, PreviewView
     ) {
@@ -23,18 +25,16 @@ define([
         },
 
         initialize: function(options) {
-            this.webroot = options.webroot;
             this.id = options.id;
 
             //@td
-            this._upload();
+            //this._upload();
         },
 
         _upload: function(event) {
             //event.preventDefault();
             new UploadsView({
                 el: '#markitup_upload',
-                webroot: this.webroot,
                 textarea: this.$('textarea')
             });
         },
@@ -46,7 +46,7 @@ define([
 
             if (this.preview === false) {
                 this.preview = new PreviewModel({
-                    webroot: this.webroot
+                    webroot: AppSetting.get('webroot')
                 });
                 new PreviewView({
                     el: this.$('.preview .content'),
@@ -64,7 +64,7 @@ define([
 
         _requestAnsweringForm: function() {
             $.ajax({
-                url: this.webroot + 'entries/add/' + this.id,
+                url: AppSetting.get('webroot') + 'entries/add/' + this.id,
                 success: _.bind(function(data){
                     this.answeringForm = data;
                     this.render();

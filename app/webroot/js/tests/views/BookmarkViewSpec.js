@@ -22,7 +22,7 @@ describe("Bookmark", function() {
         it('Should be tied to a DOM element when created, based off the property provided.', function() {
             //what html element tag name represents this view?
            // expect(this.view.el.tagName.toLowerCase()).toBe('li');
-           expect(true).toBe(true);
+           // expect(true).toBe(true);
         });
     });
 });
