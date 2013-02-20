@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-19 17:56+0100\n"
-"PO-Revision-Date: 2013-02-19 21:34+0100\n"
+"PO-Revision-Date: 2013-02-20 12:56+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -1189,7 +1189,7 @@ msgstr "New Upload"
 
 #: View/Uploads/json/index.ctp:8 View/Uploads/json/index.ctp:17
 msgid "upload_btn_delete_upload"
-msgstr ""
+msgstr "Delete Upload"
 
 #: View/Uploads/json/index.ctp:38
 msgid "upload_btn_insert_into_posting"

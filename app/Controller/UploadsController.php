@@ -66,7 +66,7 @@ class UploadsController extends AppController {
 					$this->Session->setFlash('We are screwed, something went terribly wrong. File not uploaded.<br/>' . implode('<br/>',$message), 'flash/error');
 				}
     }
-		$this->redirect(array('action' => 'index'));
+		// $this->redirect(array('action' => 'index'));
 	} // end add()
 
 	/**

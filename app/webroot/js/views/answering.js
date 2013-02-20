@@ -28,7 +28,7 @@ define([
             this.id = options.id;
 
             //@td
-            //this._upload();
+            this._upload();
         },
 
         _upload: function(event) {

@@ -4,10 +4,12 @@ define([
     'backbone',
     'models/appSetting',
     'collections/uploads', 'views/upload',
+    'views/uploadNew',
     'text!templates/uploads.html'
 ], function($, _, Backbone,
             AppSetting,
     UploadsCollection, UploadView,
+    UploadNewView,
     uploadsTpl
     ) {
 
@@ -18,7 +20,6 @@ define([
 
         initialize: function(options) {
             this.textarea = this.textarea;
-            console.log(AppSetting);
 
             this.collection = new UploadsCollection({
                 url: AppSetting.get('webroot')
@@ -26,8 +27,14 @@ define([
 
             this.listenTo(this.collection, "reset", this._addAll);
 
-            this.render();
+            this.$('.body').html(_.template(uploadsTpl));
 
+            this.uploadNewView = new UploadNewView({
+                el: this.$('.upload_new_c'),
+                collection: this.collection
+            });
+
+            this.render();
             this.collection.fetch();
         },
 
@@ -35,20 +42,16 @@ define([
             var uploadView = new UploadView({
                 model: upload
             })
-            this.$(".content").append(uploadView.render().el);
+            this.$(".uploads_c").append(uploadView.render().el);
         },
 
         _addAll: function() {
+            this.$(".uploads_c").empty();
             this.collection.each(this._addOne, this);
         },
 
         render: function() {
-            this.$('.body').html(
-                _.template(uploadsTpl)({
-                        upload_size: AppSetting.get('upload_max_img_size')
-                    }
-                )
-            );
+            this.uploadNewView.render();
             this.$el.dialog({
                 title: $.i18n.__("Upload"),
                 autoOpen: true,
@@ -56,7 +59,7 @@ define([
                 width: 830,
                 draggable: false,
                 resizable: false,
-                height: $(window).height() - 40,
+                height: window.innerHeight - 40,
                 hide: 'fade'
             });
             return this;

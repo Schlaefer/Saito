@@ -1,23 +1,20 @@
 <?php
 	$out = array();
 	foreach ($images as $image) {
-		$current = array();
+		$current = array(
+			'id' => $image['Upload']['id']
+		);
 		$current['linkDelete'] = $this->Html->link(
 			$this->Html->image(
 				'close_db.png',
 				array('alt' => __('upload_btn_delete_upload'))
 			),
-			array(
-				'controller' => 'uploads',
-				'action' => 'delete',
-				$image['Upload']['id']
-			),
+			'#',
 			array(
 				'escape' => false,
 				'title' => __('upload_btn_delete_upload'),
-			),
-			'Wirklich löschen?'
-		); // @lo
+			)
+		);
 
 		$current['linkImage'] = $this->Html->link(
 			$this->FileUpload->image(

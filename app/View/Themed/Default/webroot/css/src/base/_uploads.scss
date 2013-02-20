@@ -39,8 +39,9 @@ html, body {
 	float: left;
 	margin: 12px;
 	width: 170px;
-	height: 190px;
+	height: 208px;
 	background: none;
+    position: relative;
 }
 
 .upload_box_header {
@@ -62,13 +63,9 @@ html, body {
 }
 
 .upload_box_footer {
-	height: 35px;
-	background: white;
-	border-top: 1px solid $saito_gray_dark;
 	text-align: center;
-	vertical-align: middle;
-	@include border-bottom-right-radius($corner_radius);
-	@include border-bottom-left-radius($corner_radius);
+    height: 30px;
+    vertical-align: middle;
 }
 
 .upload_box_image {

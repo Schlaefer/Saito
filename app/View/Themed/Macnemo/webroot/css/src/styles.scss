@@ -4,6 +4,7 @@
 /* Import basic styles
 // ----------------------------------- */
 @import "../../../../Default/webroot/css/src/base/_import";
+@import "../../../../Default/webroot/css/src/base/_uploads.scss";
 @import "../../../../Default/webroot/css/src/base/_l-layout";
 @import "../../../../Default/webroot/css/src/base/_sprites.scss";
 @import "../../../../Default/webroot/css/src/base/_saito_mixins";
@@ -25,7 +26,6 @@
 @import "../../../../Default/webroot/css/src/base/_m-messages";
 @import "../../../../Default/webroot/css/src/base/_l-tablet";
 @import "../../../../Default/webroot/css/src/base/_jquery-ui.scss";
-@import "../../../../Default/webroot/css/src/base/_uploads.scss";
 
 // theme file
 @import "theme/_theme.scss";

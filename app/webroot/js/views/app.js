@@ -122,8 +122,7 @@ define([
 					new PostingView({
 						el: $(element),
 						model: postings.get(id),
-                        vents: this.vents,
-                        webroot: this.app.settings.webroot
+                        vents: this.vents
 					});
 				}, this));
 
@@ -203,7 +202,7 @@ define([
                 if (AppSetting.get('autoPageReload')) {
                     this.autoPageReloadTimer = setTimeout(
                         _.bind(function() {
-                            window.location = this.app.settings.webroot + 'entries/noupdate/';
+                            window.location = AppSetting.get('webroot') + 'entries/noupdate/';
                         }, this), AppSetting.get('autoPageReload') * 1000);
                 }
 
