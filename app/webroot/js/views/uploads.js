@@ -50,19 +50,29 @@ define([
             this.collection.each(this._addOne, this);
         },
 
+        _setDialogSize: function() {
+            this.$el.dialog("option", "width", window.innerWidth - 80 );
+            this.$el.dialog("option", "height", window.innerHeight - 80 );
+        },
+
         render: function() {
             this.uploadNewView.render();
             this.$el.dialog({
                 title: $.i18n.__("Upload"),
-                autoOpen: true,
                 modal: true,
-                width: 830,
                 draggable: false,
                 resizable: false,
-                height: window.innerHeight - 40,
-                position: ['center', 20],
+                position: [40, 40],
                 hide: 'fade'
             });
+
+            this._setDialogSize();
+            $(window).resize(_.bind(function() {
+                this._setDialogSize();
+            }, this));
+            window.onorientationchange = _.bind(function() {
+                this._setDialogSize();
+            }, this);
             return this;
         }
 
