@@ -60,6 +60,7 @@ define([
                 draggable: false,
                 resizable: false,
                 height: window.innerHeight - 40,
+                position: ['center', 20],
                 hide: 'fade'
             });
             return this;
