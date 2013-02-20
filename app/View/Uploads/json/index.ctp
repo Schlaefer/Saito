@@ -2,7 +2,8 @@
 	$out = array();
 	foreach ($images as $image) {
 		$current = array(
-			'id' => $image['Upload']['id']
+			'id' => $image['Upload']['id'],
+			'name' => $image['Upload']['name'],
 		);
 		$current['linkDelete'] = $this->Html->link(
 			$this->Html->image(

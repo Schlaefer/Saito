@@ -7,8 +7,6 @@ html, body {
 }
 
 #upload_index {
-	width: 815px;
-	height: 90%;
 
 	form, input[type=file] {
 		width: auto;
@@ -20,7 +18,7 @@ html, body {
 	}
 
 	.content {
-		margin: 5px 15px;
+        text-align: center;
 	}
 
 	h2 {
@@ -36,12 +34,12 @@ html, body {
 .upload_box {
 	border: 1px solid $saito_gray_dark;
 	@include border-radius($corner_radius);
-	float: left;
 	margin: 12px;
 	width: 170px;
 	height: 208px;
 	background: none;
     position: relative;
+    display: inline-block;
 }
 
 .upload_box_header {

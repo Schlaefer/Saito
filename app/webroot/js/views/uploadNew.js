@@ -15,15 +15,19 @@ define([
 
     var UploadNewView = Backbone.View.extend({
 
+        className: "box-content upload_box upload-new",
+
         events: {
             "change #Upload0File": "_uploadManual"
         },
 
         initialize: function(options) {
+            this._initDropUploader();
             this.collection = options.collection;
         },
 
         _initDropUploader: function() {
+
             this.$('.upload_box').filedrop({
                 maxfiles: 1,
                 maxfilesize: AppSetting.get('upload_max_img_size'),
@@ -48,7 +52,7 @@ define([
         _uploadManual: function(event) {
             event.preventDefault()
 
-            var formData = new FormData($('.dropbox'));
+            var formData = new FormData();
             formData.append(
                 $('.dropbox input[type="file"]')[0].name,
                 $('.dropbox input[type="file"]')[0].files[0]
@@ -78,7 +82,6 @@ define([
             this.$el.html(_.template(uploadNewTpl)({
                 upload_size: AppSetting.get('upload_max_img_size')
             }));
-            this._initDropUploader();
             return this;
         }
     });

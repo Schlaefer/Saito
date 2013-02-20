@@ -28,14 +28,14 @@ define([
             this.id = options.id;
 
             //@td
-            //this._upload();
+            this._upload();
         },
 
         _upload: function(event) {
             //event.preventDefault();
             new UploadsView({
                 el: '#markitup_upload',
-                textarea: this.$('textarea')
+                textarea: this.$('textarea#EntryText')[0]
             });
         },
 

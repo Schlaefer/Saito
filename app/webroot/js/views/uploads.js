@@ -15,11 +15,12 @@ define([
 
     var UploadsView = Backbone.View.extend({
 
-        // textarea the upload view will insert text into
-        textarea: null,
+        events: {
+            "click .current .btn-submit": "_closeDialog"
+        },
 
         initialize: function(options) {
-            this.textarea = this.textarea;
+            this.textarea = options.textarea;
 
             this.collection = new UploadsCollection({
                 url: AppSetting.get('webroot')
@@ -30,9 +31,9 @@ define([
             this.$('.body').html(_.template(uploadsTpl));
 
             this.uploadNewView = new UploadNewView({
-                el: this.$('.upload_new_c'),
                 collection: this.collection
-            });
+            })
+            this.$('.content').append(this.uploadNewView.render().el);
 
             this.render();
             this.collection.fetch();
@@ -40,19 +41,28 @@ define([
 
         _addOne: function(upload) {
             var uploadView = new UploadView({
-                model: upload
+                model: upload,
+                textarea: this.textarea
             })
-            this.$(".uploads_c").append(uploadView.render().el);
+            this.$(".upload-new").after(uploadView.render().el);
         },
 
         _addAll: function() {
-            this.$(".uploads_c").empty();
+            this._removeAll();
             this.collection.each(this._addOne, this);
+        },
+
+        _removeAll: function() {
+            this.$('.upload_box.current').remove();
         },
 
         _setDialogSize: function() {
             this.$el.dialog("option", "width", window.innerWidth - 80 );
             this.$el.dialog("option", "height", window.innerHeight - 80 );
+        },
+
+        _closeDialog: function() {
+            this.$el.dialog("close");
         },
 
         render: function() {

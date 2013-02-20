@@ -81,7 +81,7 @@ class UploadsController extends AppController {
 								'conditions' => array(
 										'user_id' => $user_id
 									),
-								'order' => 'created desc'
+								'order' => 'created ASC'
 							)
 					);
 
