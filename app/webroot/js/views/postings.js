@@ -26,7 +26,7 @@ define([
 
 			initialize: function(options) {
 				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
-                this.vents = options.vents;
+                this.eventBus = options.eventBus;
 
                 this.initGeshi('.c_bbc_code-wrapper');
 			},
@@ -66,7 +66,7 @@ define([
 			},
 
             _showAnsweringForm: function() {
-                this.vents.trigger('breakAutoreload');
+                this.eventBus.trigger('breakAutoreload');
                 if (this.answeringForm === false) {
                     this.$('.posting_formular_slider').html(spinnerTpl);
                 }
@@ -74,7 +74,8 @@ define([
                 if (this.answeringForm === false){
                     this.answeringForm = new AnsweringView({
                         el: this.$('.posting_formular_slider'),
-                        id: this.model.get('id')
+                        id: this.model.get('id'),
+                        eventBus: this.eventBus
                     });
                 }
                 this.answeringForm.render();

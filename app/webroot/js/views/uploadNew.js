@@ -25,6 +25,7 @@ define([
 
         initialize: function(options) {
             this.collection = options.collection;
+            this.eventBus = options.eventBus;
         },
 
         _initDropUploader: function() {
@@ -54,14 +55,22 @@ define([
                         done();
                     },
                     this),
-                error: function() {
+                error: _.bind(function(err) {
+
+                    this.eventBus.trigger(
+                        'errorMsg',
+                        'Error',
+                        err
+                    );
+
                     switch(err) {
                         case 'FileTypeNotAllowed':
 
+                            break;
                         default:
                             break;
                     }
-                }
+                }, this)
             });
 
         },

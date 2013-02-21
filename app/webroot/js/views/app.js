@@ -8,6 +8,7 @@ define([
 	'collections/threads', 'views/threads',
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
+    'views/notification',
     'views/helps',
     'collections/slidetabs', 'views/slidetabs',
     'views/answering'
@@ -19,6 +20,7 @@ define([
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingsView,
         BookmarksCollection, BookmarksView,
+        NotificationView,
         HelpsView,
         SlidetabsCollection, SlidetabsView,
         AnsweringView
@@ -34,7 +36,7 @@ define([
             /**
              * global event handler for the app
              */
-            vent: null,
+            eventBus: null,
 
             autoPageReloadTimer: false,
 
@@ -54,11 +56,13 @@ define([
 
 
                 // init global events
-                vents = _.extend({}, Backbone.Events);
-                this.vents = vents;
+                this.eventBus = _.extend({}, Backbone.Events);
+                new NotificationView({
+                    eventBus: this.eventBus
+                });
 
-                this.listenTo(this.vents, 'initAutoreload', this.initAutoreload);
-                this.listenTo(this.vents, 'breakAutoreload', this.breakAutoreload);
+                this.listenTo(this.eventBus, 'initAutoreload', this.initAutoreload);
+                this.listenTo(this.eventBus, 'breakAutoreload', this.breakAutoreload);
 
                 // init i18n
                 $.i18n.setUrl(AppSetting.get('webroot') + "tools/langJs");
@@ -122,7 +126,7 @@ define([
 					new PostingView({
 						el: $(element),
 						model: postings.get(id),
-                        vents: this.vents
+                        eventBus: this.eventBus
 					});
 				}, this));
 
@@ -139,7 +143,8 @@ define([
                     // appended to a posting
                     this.answeringForm = new AnsweringView({
                         el: this.$('.entry.add'),
-                        id: 'foo'
+                        id: 'foo',
+                        eventBus: this.eventBus
                     });
                 }
 
@@ -181,7 +186,7 @@ define([
                     el: element_n,
                     collection: slidetabs,
                     webroot: AppSetting.get('webroot'),
-                    vents: this.vents
+                    eventBus: this.eventBus
                 });
             },
 

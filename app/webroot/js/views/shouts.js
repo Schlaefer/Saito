@@ -20,7 +20,7 @@ define([
         initialize: function(options) {
             this.urlBase = options.urlBase + 'shouts/';
             this.shouts = this.$el.find('.shouts');
-            this.vents = options.vents;
+            this.eventBus = options.eventBus;
             this.textarea =  this.$el.find('textarea');
             this.refreshTimeAct = this.refreshTimeBase;
 
@@ -38,9 +38,9 @@ define([
 
         formUp: function() {
             if (this.textarea.val().length > 0) {
-                this.vents.trigger('breakAutoreload');
+                this.eventBus.trigger('breakAutoreload');
             } else if (this.textarea.val().length === 0) {
-                this.vents.trigger('initAutoreload');
+                this.eventBus.trigger('initAutoreload');
             }
         },
 
