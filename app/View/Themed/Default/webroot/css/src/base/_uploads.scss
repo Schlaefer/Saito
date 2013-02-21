@@ -1,8 +1,5 @@
-html, body {
-	min-width: 1px;
-}
-
 #markitup_upload {
+  // smooth scrolling in mobile WebKit
   -webkit-overflow-scrolling: touch;
 }
 
@@ -12,9 +9,6 @@ html, body {
 		width: auto;
 		margin: 0;
 		padding: 0;
-	}
-
-	.header{
 	}
 
 	.content {
@@ -29,44 +23,75 @@ html, body {
     a {
       color: inherit;
     }
+
+    $width: 170px;
+    $topHeight: 140px;
+    $bottomHeight: 40px;
+    $padding: 5px;
+
+    .upload_box {
+      border: 1px solid $saito_gray_dark;
+      @include border-radius($corner_radius);
+      margin: 12px;
+      width: $width;
+      height: $topHeight + $bottomHeight;
+      position: relative;
+      display: inline-block;
+    }
+
+    .upload_box_header {
+      position: relative;
+      height: $topHeight - (2 * $padding);
+      width: $width - (2 * $padding);
+      padding: $padding;
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .upload_box_image {
+      max-width: 140px;
+      max-height: 110px;
+
+      border: 1px solid $saito_gray_dark;
+      padding: 4px;
+      @include border-radius($corner_radius);
+      background: white;
+    }
+
+    .upload_box_delete {
+      position: absolute;
+      z-index: 10;
+      top: -11px;
+      left: -11px;
+    }
+
+    .upload_box_footer {
+      text-align: center;
+      line-height: $bottomHeight - (2 * $padding) - 5px;
+      height: $bottomHeight - (2 * $padding);
+      padding: $padding !important;
+    }
+
+    .upload-drag-indicator, .upload-layer {
+      top: 0;
+      left: 0;
+      position: absolute;
+      width: $width;
+      height: $topHeight;
+    }
+
+    .upload-layer {
+        z-index: 100;
+        opacity: 0;
+    }
+
+    .upload-drag-indicator {
+      background: #ffffff;
+      opacity: 0.9;
+      font-size: $topHeight/2;
+      line-height: $topHeight;
+      display: none;
+    }
 }
 
-.upload_box {
-	border: 1px solid $saito_gray_dark;
-	@include border-radius($corner_radius);
-	margin: 12px;
-	width: 170px;
-	height: 208px;
-	background: none;
-    position: relative;
-    display: inline-block;
-}
-
-.upload_box_header {
-	height: 155px;
-	text-align: center;
-	vertical-align: middle;
-	
-	img {
-		border: 1px solid $saito_gray_dark;
-		padding: 4px;
-		@include border-radius($corner_radius);
-		background: white;
-	}
-}
-
-.upload_box_delete {
-	top: -11px;
-	left: -11px;
-}
-
-.upload_box_footer {
-	text-align: center;
-    height: 30px;
-    vertical-align: middle;
-}
-
-.upload_box_image {
-	max-width: 142px;
-	max-height: 142px;
-}

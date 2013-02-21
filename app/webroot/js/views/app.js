@@ -256,7 +256,7 @@ define([
 
             manuallyMarkAsRead: function(event) {
                 event.preventDefault();
-                document.location.replace(this.app.settings.webroot + 'entries/update');
+                window.redirect(AppSetting.get('webroot') + 'entries/update');
             }
 		});
 

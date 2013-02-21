@@ -27,6 +27,17 @@ require.config({
 	}
 });
 
+/**
+ * Redirects current page to a new url destination without changing browser history
+ *
+ * This also is also the mock to test redirects
+ *
+ * @param destination url to redirect to
+ */
+window.redirect = function(destination) {
+    document.location.replace(destination);
+}
+
 if (typeof SaitoApp.app.runJsTests === 'undefined') {
     // run app
 
@@ -56,6 +67,7 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
         };
         contentTimer.setup();
 
+        // @td
         Backbone.View.prototype.initCollectionFromDom = function(element, collection, view) {
             var createElement = function(collection, id, element) {
                 collection.add({
@@ -88,7 +100,24 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
 
     window.store = "TestStore"; // override local storage store name - for testing
 
-    require(['underscore', 'jquery'], function(_, $){
+    require(['underscore', 'jquery', 'backbone'], function(_, $, Backbone){
+
+        Backbone.View.prototype.initCollectionFromDom = function(element, collection, view) {
+            var createElement = function(collection, id, element) {
+                collection.add({
+                    id: id
+                });
+                new view({
+                    el: element,
+                    model: collection.get(id)
+                })
+            };
+
+            $(element).each(function(){
+                    createElement(collection, $(this).data('id'), this);
+                }
+            );
+        };
 
         var jasmineEnv = jasmine.getEnv();
         jasmineEnv.updateInterval = 1000;
@@ -103,7 +132,8 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
 
         var specs = [
             'lib/MarkItUpSpec.js',
-            'lib/jquery.i18n.extendSpec.js'
+            'lib/jquery.i18n.extendSpec.js',
+            'views/AppViewSpec.js'
             // 'views/BookmarkViewSpec.js'
         ];
 

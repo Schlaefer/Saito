@@ -28,11 +28,11 @@ define([
             this.id = options.id;
 
             //@td
-            this._upload();
+            this._upload(new Event({}));
         },
 
         _upload: function(event) {
-            //event.preventDefault();
+            event.preventDefault();
             new UploadsView({
                 el: '#markitup_upload',
                 textarea: this.$('textarea#EntryText')[0]

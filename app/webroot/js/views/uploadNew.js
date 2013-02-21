@@ -17,40 +17,72 @@ define([
 
         className: "box-content upload_box upload-new",
 
+        wasChild: 'unset',
+
         events: {
             "change #Upload0File": "_uploadManual"
         },
 
         initialize: function(options) {
-            this._initDropUploader();
             this.collection = options.collection;
         },
 
         _initDropUploader: function() {
 
-            this.$('.upload_box').filedrop({
+            this.$('.upload-layer').filedrop({
                 maxfiles: 1,
                 maxfilesize: AppSetting.get('upload_max_img_size'),
                 url: AppSetting.get('webroot') + 'uploads/add',
                 paramname: "data[Upload][0][file]",
-                uploadFinished: _.bind(function(i, file, response, time) {
-                    this._postUpload();
-                }, this),
-                uploadStarted: _.bind(function(i, file, response, time) {
-                    this._setUploadSpinner();
-                }, this)
+                allowedfiletypes: [
+                    'image/jpeg',
+                    'image/jpg',
+                    'image/png',
+                    'image/gif'
+                ],
+                dragOver:_.bind(function(){this._showDragIndicator()}, this),
+                dragLeave:_.bind(function(){this._hideDragIndicator()}, this),
+                uploadFinished: _.bind(
+                    function(i, file, response, time) {
+                        this._postUpload();
+                    },
+                    this),
+                beforeSend: _.bind(
+                    function(file, i, done) {
+                        this._hideDragIndicator();
+                        this._setUploadSpinner();
+                        done();
+                    },
+                    this),
+                error: function() {
+                    switch(err) {
+                        case 'FileTypeNotAllowed':
+
+                        default:
+                            break;
+                    }
+                }
             });
 
         },
 
+        _showDragIndicator: function() {
+            this.$('.upload-drag-indicator').fadeIn();
+        },
+
+        _hideDragIndicator: function() {
+            this.$('.upload-drag-indicator').fadeOut();
+        },
+
         _setUploadSpinner: function() {
-            this.$('.upload_box')
-                .html(spinnerTpl)
-                .wrapInner('<div style="padding-top: 74px;"/>');
+            this.$('.upload_box_header')
+                .html(spinnerTpl);
         },
 
         _uploadManual: function(event) {
             event.preventDefault()
+
+            this._setUploadSpinner();
 
             var formData = new FormData();
             formData.append(
@@ -64,9 +96,6 @@ define([
                 AppSetting.get('webroot') + 'uploads/add',
                 true
             );
-            xhr.upload.onprogress = _.bind(function() {
-                this._setUploadSpinner();
-            }, this);
             xhr.onload = _.bind(function() {
                 this._postUpload();
             }, this);
@@ -82,6 +111,7 @@ define([
             this.$el.html(_.template(uploadNewTpl)({
                 upload_size: AppSetting.get('upload_max_img_size')
             }));
+            this._initDropUploader();
             return this;
         }
     });

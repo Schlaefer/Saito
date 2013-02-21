@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-19 17:56+0100\n"
-"PO-Revision-Date: 2013-02-20 12:56+0100\n"
+"PO-Revision-Date: 2013-02-21 13:15+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -1185,7 +1185,7 @@ msgstr "Upload"
 
 #: View/Uploads/index.ctp:21 webroot/js/templates/uploads.html:10
 msgid "upload_new_title"
-msgstr "New Upload"
+msgstr "Drop Image Here"
 
 #: View/Uploads/json/index.ctp:8 View/Uploads/json/index.ctp:17
 msgid "upload_btn_delete_upload"
@@ -2061,7 +2061,7 @@ msgstr ""
 
 #: webroot/js/templates/uploads.html:12
 msgid "upload_info"
-msgstr "max. size: :size kB; type: jpg, jpeg, png, gif"
+msgstr "Max. size: :size kB; type: jpg, jpeg, png, gif"
 
 #: webroot/js/main-prod.js:48
 msgid ""
