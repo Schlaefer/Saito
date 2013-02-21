@@ -57,6 +57,8 @@ define([
                     this),
                 error: _.bind(function(err) {
 
+                    this._hideDragIndicator();
+
                     this.eventBus.trigger(
                         'errorMsg',
                         'Error',
