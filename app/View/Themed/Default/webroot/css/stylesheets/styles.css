@@ -295,7 +295,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .header_style_2, .box-header, .ui-widget-header { background-color: #eaeaea; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(10%, #f2f2f2), color-stop(95%, #eaeaea), color-stop(100%, #d6d6d6)), #eaeaea; background: -webkit-linear-gradient(top, #ffffff, #f2f2f2 10%, #eaeaea 95%, #d6d6d6), #eaeaea; background: -moz-linear-gradient(top, #ffffff, #f2f2f2 10%, #eaeaea 95%, #d6d6d6), #eaeaea; background: -o-linear-gradient(top, #ffffff, #f2f2f2 10%, #eaeaea 95%, #d6d6d6), #eaeaea; background: -ms-linear-gradient(top, #ffffff, #f2f2f2 10%, #eaeaea 95%, #d6d6d6), #eaeaea; background: linear-gradient(top, #ffffff, #f2f2f2 10%, #eaeaea 95%, #d6d6d6), #eaeaea; border: 1px solid #eaeaea; color: #333333; }
 
 .box-content, .tree_thread, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .entry.edit { background-color: white; border: 1px solid #eaeaea; }
-.box-content .content, .tree_thread .content, .disclaimer-inside .content, .box-form .content, .entry.add .content, .entry.reply .content, .entry.edit .content { padding: 5px; }
+.box-content .content, .tree_thread .content, .disclaimer-inside .content, .box-form .content, .entry.add .content, .entry.reply .content, .entry.edit .content { padding: 10px; }
 
 .box-form, .entry.add, .entry.reply, .entry.edit { background-color: #fafafa; }
 .box-form .content, .entry.add .content, .entry.reply .content, .entry.edit .content { padding: 20px; }
@@ -311,15 +311,15 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .l-box-header > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) { .l-box-header .btn-icon-close { line-height: 15px; font-size: 12px; } }
-.l-box-footer { border-width: 1px 0 0 0; border-style: solid; padding: 5px; }
+.l-box-footer { border-width: 1px 0 0 0; border-style: solid; padding: 10px; }
 
 .box-footer-form { background-color: #fafafa; border-color: #eaeaea; }
-.box-footer-form > .icon-huge { vertical-align: middle; line-height: 1; margin: 0 5px; }
+.box-footer-form > .icon-huge { vertical-align: middle; line-height: 1; margin: 0 10px; }
 
 .box_layout_1 { width: auto; padding: 20px; }
 
 .navbar-light, .navbar { border-width: 1px 0; }
-.navbar-light .content, .navbar .content { padding: 5px; }
+.navbar-light .content, .navbar .content { padding: 10px; }
 
 .markItUpHeader > ul a { font-weight: bold; font-size: 18px; text-align: center; line-height: 32px; }
 .markItUpHeader > ul a > i { line-height: inherit; }
@@ -677,7 +677,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .b .tree_thread { -webkit-box-shadow: 0 0 0; -moz-box-shadow: 0 0 0; box-shadow: 0 0 0; border: none; background: none; }
 
-.a_a_a { padding: 5px; }
+.a_a_a { padding: 10px; }
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
@@ -712,7 +712,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 /** entry/add ** */
 .entry.add .preview, .entry.reply .preview, .entry.edit .preview { display: none; border-bottom: 1px solid #eaeaea; }
-.entry.add .preview .content, .entry.reply .preview .content, .entry.edit .preview .content { background-color: white; padding: 5px; }
+.entry.add .preview .content, .entry.reply .preview .content, .entry.edit .preview .content { background-color: white; padding: 10px; }
 .entry.add label, .entry.reply label, .entry.edit label { display: inline; }
 
 .entry.reply { border: none; }
@@ -794,9 +794,9 @@ a.no-color, .no-color { color: #6f6f6f; }
 /** entry/thread_line end ** */
 .entry.index { margin-top: -7px; }
 
-.category-chooser-ul { margin-bottom: 2.5px; }
+.category-chooser-ul { margin-bottom: 5px; }
 
-.category-chooser-li { padding: 2.5px; }
+.category-chooser-li { padding: 5px; }
 
 /******************************************************************************* Messages Setup *****************************************************************************/
 .flash, .message { clear: both; text-align: center; font-size: 140%; font-weight: bold; margin: 0px 0px 1em; padding: 0.4em; color: white; text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 1px; background-color: #a60202; border: 1px #8a0101 solid; }
@@ -834,7 +834,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .ui-widget-content a { color: #e74a00; }
 
-.ui-dialog .ui-dialog-content { padding: 5px; }
+.ui-dialog .ui-dialog-content { padding: 10px; }
 
 .ui-dialog.ui-widget-content { border: none; border: 4px solid #eaeaea; }
 
@@ -855,7 +855,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .disclaimer { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAAH6aBZzAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MzlGNUZDNkM4QUE1MTFFMDk4ODVDQzc2ODgwOUQ5NkQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MzlGNUZDNkQ4QUE1MTFFMDk4ODVDQzc2ODgwOUQ5NkQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEMDRFNTRGNzhBQTQxMUUwOTg4NUNDNzY4ODA5RDk2RCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEMDRFNTRGODhBQTQxMUUwOTg4NUNDNzY4ODA5RDk2RCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PhjW7yIAAAA7SURBVHjaYvj//z8DQAAxgAiAAGIEs4AAIIDAPCYQAyCAGKBCiiAaIIDg8hApZAZAgCG0IgEmJDZcFgDNJBkU8Eq5oAAAAABJRU5ErkJggg=='); }
 
-.disclaimer-inside { margin: 20px 10px; padding: 5px; }
+.disclaimer-inside { margin: 20px 10px; padding: 10px; }
 .disclaimer-inside a { border-bottom: #dddddd 1px solid; color: #505050; /*		@include hover-link();*/ }
 .disclaimer-inside h1, .disclaimer-inside h2, .disclaimer-inside h3 { font-size: 110%; font-weight: bold; margin-bottom: 0.83em; }
 
