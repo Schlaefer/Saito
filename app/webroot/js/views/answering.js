@@ -29,7 +29,7 @@ define([
             this.eventBus = options.eventBus;
 
             //@td
-            this._upload(new Event({}));
+            // this._upload(new Event({}));
         },
 
         _upload: function(event) {

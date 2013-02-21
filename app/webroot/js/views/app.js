@@ -57,6 +57,8 @@ define([
 
                 // init global events
                 this.eventBus = _.extend({}, Backbone.Events);
+                // @td remove after thread_line.class ist gone
+                eventBus = this.eventBus;
                 new NotificationView({
                     eventBus: this.eventBus
                 });
