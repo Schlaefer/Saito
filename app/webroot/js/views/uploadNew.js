@@ -60,9 +60,12 @@ define([
                     this._hideDragIndicator();
 
                     this.eventBus.trigger(
-                        'errorMsg',
-                        'Error',
-                        err
+                        'notification',
+                        {
+                            title: 'Error',
+                            message: err,
+                            type: 'error'
+                        }
                     );
 
                     switch(err) {

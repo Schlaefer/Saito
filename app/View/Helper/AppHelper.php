@@ -32,6 +32,10 @@ App::uses('Helper', 'View');
  */
 class AppHelper extends Helper {
 
+	protected $_appJs = array(
+			'msg' => array()
+	);
+
 	function getAssetTimestamp($path) {
 			$filepath = preg_replace('/^' . preg_quote($this->request->webroot, '/') . '/', '', $path);
 			$webrootPath = WWW_ROOT . str_replace('/', DS, $filepath);
@@ -39,7 +43,7 @@ class AppHelper extends Helper {
 	}
 
 	function getAppJs(View $View) {
-		$SaitoApp = array (
+		$this->_appJs += array (
 			'app' => array(
 				'version' => Configure::read('Saito.v'),
 				'timeAppStart' => 'new Date().getTime()',
@@ -64,6 +68,21 @@ class AppHelper extends Helper {
 				'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
 			)
 		);
-		return 'var SaitoApp = ' . json_encode($SaitoApp);
+		return 'var SaitoApp = ' . json_encode($this->_appJs);
+	}
+
+	function addAppJsMessage($message, $type = 'info') {
+
+		if (!is_array($message)) {
+			$message = array($message);
+		}
+
+		foreach ($message as $m) {
+			$this->_appJs['msg'][] = array(
+				'message' => $m,
+				'type' => $type
+			);
+		}
+
 	}
 }

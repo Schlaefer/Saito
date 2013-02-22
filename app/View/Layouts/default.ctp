@@ -44,16 +44,6 @@
 				</div>
 			</div>
 		</div>
-		<?php 
-		$flashMessage = $this->Session->flash();
-		$emailMessage = $this->Session->flash('email'); 
-		if ($flashMessage || $emailMessage) : 
-		?>
-			<div id="l-flash-container">
-				<?php echo $flashMessage; ?>
-				<?php echo $emailMessage; ?>
-			</div>
-		<?php endif; ?>
 		<?php echo $this->element('layout/slidetabs'); ?>
 		<div id="content">
 				<script type="text/javascript">

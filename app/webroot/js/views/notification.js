@@ -13,18 +13,37 @@ define([
 
             this.eventBus = options.eventBus;
 
-            this.listenTo(this.eventBus, 'errorMsg', this._error);
+            this.listenTo(this.eventBus, 'notification', this._showNotification);
 
         },
 
-        _error: function(title, message) {
-            var not;
+        _showNotification: function(options) {
+            var logOptions = {
+                    baseCls: "humane-jackedup",
+                    timeout: 5000
+                },
+                notification;
 
-            not = Humane.create({
-                baseCls: 'humane-jackedup',
-                addnCls: "humane-jackedup-error"
-            })
-            not.log(message, title);
+            options.type = options.type || 'info';
+
+            switch(options.type) {
+                case 'warning':
+                    logOptions.addnCls = 'humane-jackedup-warning';
+                    break;
+                case 'info':
+                    logOptions.addnCls =  'humane-jackedup-success';
+                    break;
+                case 'error':
+                    logOptions.addnCls =  'humane-jackedup-error';
+                    logOptions.clickToClose =  true;
+                    break;
+                default:
+                    break
+            }
+
+            notification = Humane.create(logOptions);
+            notification.log(options.message, options.title);
+
         }
 
     });

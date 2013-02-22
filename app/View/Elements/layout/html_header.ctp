@@ -18,7 +18,11 @@
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
+
+			$this->Session->flash();
+			$this->Session->flash('email');
 			echo $this->Html->scriptBlock($this->Html->getAppJs($this));
+
 			echo $this->jQuery->scriptTag();
 			if (Configure::read('debug') == 0):
 				echo $this->RequireJs->scriptTag('main-prod');

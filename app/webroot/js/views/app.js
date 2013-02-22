@@ -56,13 +56,8 @@ define([
 
 
                 // init global events
-                this.eventBus = _.extend({}, Backbone.Events);
-                // @td remove after thread_line.class ist gone
-                eventBus = this.eventBus;
-                new NotificationView({
-                    eventBus: this.eventBus
-                });
-
+                this.initEventBus();
+                this.initMessagesOnEventBus(options.SaitoApp.msg);
                 this.listenTo(this.eventBus, 'initAutoreload', this.initAutoreload);
                 this.listenTo(this.eventBus, 'breakAutoreload', this.breakAutoreload);
 
@@ -190,6 +185,32 @@ define([
                     webroot: AppSetting.get('webroot'),
                     eventBus: this.eventBus
                 });
+            },
+
+            initEventBus: function() {
+                this.eventBus = _.extend({}, Backbone.Events);
+                // @td remove after thread_line.class ist gone
+                eventBus = this.eventBus;
+                new NotificationView({
+                    eventBus: this.eventBus
+                });
+            },
+
+            initMessagesOnEventBus: function(msges) {
+                var i = 0,
+                    send;
+
+                send = _.bind(function(msg) {
+                    this.eventBus.trigger(
+                        'notification',
+                        msg
+                    );
+                });
+
+                _.each(msges, function(msg) {
+                    _.delay(send, i * 5000, msg)
+                    i++;
+                }, this)
             },
 
             initHelp: function(element_n) {
