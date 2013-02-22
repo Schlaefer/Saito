@@ -4,12 +4,26 @@
 
 // Setup
 // -------------------------------------
-$color-flashNoticeBg:   #9ACD32;
+$color-flashNoticeBg:   #333;
+$color-flashSuccessBg:   #9ACD32;
 $color-flashWarningBg:  #FFB800;
 $color-flashErrorBg:    #a60202;
 
 // Flash Messages
 // -------------------------------------
+
+@mixin flash-colors($color, $border-width) {
+  border: $border-width ($color / 1.2) solid;
+  background-color: $color;
+  @include background(
+      linear-gradient(
+        top,
+          $color * 1.1,
+          $color / 1.1
+      ),
+      $color
+  );
+}
 
 .flash, .message {
 	clear: both;
@@ -19,24 +33,84 @@ $color-flashErrorBg:    #a60202;
 	margin: 0px 0px 1em;
 	padding: 0.4em;
 	color: white;
+    @extend .box-shadow;
 	text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
-  background-color: $color-flashErrorBg;
-  border: $border_width ($color-flashErrorBg / 1.2) solid;
+    background-color: $color-flashErrorBg;
+    border: $border_width ($color-flashErrorBg / 1.2) solid;
   }
 
 .flash-error {
-    border-color: $color-flashErrorBg / 1.2;
-		background-color: $color-flashErrorBg;
-	}
+  @include flash-colors($color-flashErrorBg, $border_width);
+  }
 
 .flash-warning {
-    border-color: $color-flashWarningBg / 1.2;
-		background-color: $color-flashWarningBg;
-}
+  @include flash-colors($color-flashWarningBg, $border_width);
+  }
 
 .flash-notice {
-    border-color: $color-flashNoticeBg / 1.2;
-		background-color: $color-flashNoticeBg;
+  @include flash-colors($color-flashNoticeBg, $border_width);
+  }
+
+.flash-success {
+  @include flash-colors($color-flashSuccessBg, $border_width);
+}
+
+// humane.js animation css
+// -------------------------------------
+
+.humane,
+.humane-jackedup {
+  position: fixed;
+  -moz-transition: all 0.6s ease-in-out;
+  -webkit-transition: all 0.6s ease-in-out;
+  -ms-transition: all 0.6s ease-in-out;
+  -o-transition: all 0.6s ease-in-out;
+  transition: all 0.6s ease-in-out;
+  z-index: 100000;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+}
+
+.humane,
+.humane-jackedup {
+  top: 20px;
+  left: 30%;
+  opacity: 0;
+  width: 40%;
+  padding: 10px;
+  text-align: center;
+  -moz-transform: translateY(-100px);
+  -webkit-transform: translateY(-100px);
+  -ms-transform: translateY(-100px);
+  -o-transform: translateY(-100px);
+  transform: translateY(-100px);
+}
+
+.humane-animate,
+.humane-jackedup.humane-jackedup-animate {
+  opacity: 1;
+  -moz-transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);
+}
+.humane-animate:hover,
+.humane-jackedup.humane-jackedup-animate:hover {
+  opacity: 0.7;
+}
+.humane-js-animate,
+.humane-jackedup.humane-jackedup-js-animate {
+  opacity: 1;
+  -moz-transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);
+}
+.humane-js-animate:hover,
+.humane-jackedup.humane-jackedup-js-animate:hover {
+  opacity: 0.7;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
 }
 
 // Validation messaeges
@@ -64,3 +138,5 @@ $color-flashErrorBg:    #a60202;
 		letter-spacing: 0.1em;
 		word-spacing: 0.1em;
 	}
+
+

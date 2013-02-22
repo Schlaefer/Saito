@@ -102,13 +102,12 @@ class UploadsController extends AppController {
 		$file = $this->Upload->read();
 		if($file['Upload']['user_id'] == $this->Session->read('Auth.User.id')) {
 			if($this->Upload->delete(null, false)) {
-				$this->Session->setFlash('Datei gelöscht', 'flash/notice');
+				$this->Session->setFlash('Datei gelöscht', 'flash/success');
 			}
 			else {
 				$this->Session->setFlash('We are screwed, something went terribly wrong. File not deleted.', 'flash/error');
 			}
 		}
-		$this->redirect(array('action' => 'index'));
 	} // end delete
 
 	public function beforeFilter() {

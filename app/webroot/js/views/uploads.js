@@ -44,7 +44,8 @@ define([
         _addOne: function(upload) {
             var uploadView = new UploadView({
                 model: upload,
-                textarea: this.textarea
+                textarea: this.textarea,
+                eventBus: eventBus
             })
             this.$(".upload-new").after(uploadView.render().el);
         },

@@ -18,27 +18,25 @@ define([
         },
 
         _showNotification: function(options) {
-            var logOptions = {
-                    baseCls: "humane-jackedup",
-                    timeout: 5000
-                },
+            var logOptions,
                 notification;
 
             options.type = options.type || 'info';
 
+            logOptions = {
+                    baseCls: "humane-jackedup",
+                    addnCls: "flash flash-" + options.type,
+                    clickToClose: true,
+                    timeout: 4000
+                };
+
             switch(options.type) {
-                case 'warning':
-                    logOptions.addnCls = 'humane-jackedup-warning';
-                    break;
-                case 'info':
-                    logOptions.addnCls =  'humane-jackedup-success';
-                    break;
                 case 'error':
-                    logOptions.addnCls =  'humane-jackedup-error';
                     logOptions.clickToClose =  true;
+                    logOptions.timeOut =  36000000;
                     break;
                 default:
-                    break
+                    break;
             }
 
             notification = Humane.create(logOptions);

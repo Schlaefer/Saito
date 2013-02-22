@@ -18,14 +18,23 @@ define([
 
         initialize: function(options) {
             this.textarea = options.textarea;
+            this.eventBus = options.eventBus;
 
             this.listenTo(this.model, "destroy", this._uploadRemoved)
         },
 
         _removeUpload: function(event) {
-            console.log('foo');
             event.preventDefault();
-            this.model.destroy();
+            this.model.destroy({
+                    success:_.bind(function(model, response) {
+                        console.log(response.SaitoApp.msg);
+                        this.eventBus.trigger(
+                            'notification',
+                             response.SaitoApp.msg[0]
+                        )
+                    }, this)
+                }
+            );
         },
 
         _uploadRemoved: function() {

@@ -1,2 +1,2 @@
 <?php
-	$this->Html->addAppJsMessage($message, 'info');
+	$this->Html->addAppJsMessage($message, 'notice');

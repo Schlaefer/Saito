@@ -85,4 +85,8 @@ class AppHelper extends Helper {
 		}
 
 	}
+
+	function getAppJsMessages() {
+		return $this->_appJs['msg'];
+	}
 }
