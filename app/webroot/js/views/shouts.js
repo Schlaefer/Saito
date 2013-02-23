@@ -7,9 +7,6 @@ define([
 
     var ShoutboxView = Backbone.View.extend({
 
-        refreshTimeBase: 5000,
-        refreshTimeMax: 30000,
-
         lastId: 0,
 
         events: {
@@ -22,10 +19,10 @@ define([
             this.shouts = this.$el.find('.shouts');
             this.eventBus = options.eventBus;
             this.textarea =  this.$el.find('textarea');
-            this.refreshTimeAct = this.refreshTimeBase;
+
+            this.listenTo(this.eventBus, 'lastShoutId', this.poll)
 
             this.textarea.autosize();
-            this.poll();
         },
 
         formDown: function(event) {
@@ -56,15 +53,12 @@ define([
                    text: this.textarea.val()
                 },
                 success: _.bind(function(data) {
-                    clearTimeout(this.timeoutId);
-                    this.poll(data);
+                    this.poll();
                 }, this)
             });
         },
 
-        poll: function() {
-
-            this.timeoutId = setTimeout(_.bind(this.poll, this), this.refreshTimeAct);
+        poll: function(currentShoutId) {
 
             // update shoutbox only if tab is open
             if(this.$el.is(":visible") === false) {
@@ -82,12 +76,6 @@ define([
                     if (data.length > 0) {
                         this.render(data);
                         this.lastId = $(data).find('.shout:first').data('id');
-                        this.refreshTimeAct = this.refreshTimeBase;
-                    } else {
-                        this.refreshTimeAct = Math.floor(this.refreshTimeAct * (1 + this.refreshTimeAct/40000))
-                        if (this.refreshTimeAct > this.refreshTimeMax) {
-                            this.refreshTimeAct = this.refreshTimeMax
-                        }
                     }
                 }, this)
             });

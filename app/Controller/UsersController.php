@@ -426,7 +426,7 @@ class UsersController extends AppController {
 				$sender_contact = $this->request->data['Message']['sender_contact'];
 				App::uses('Validation', 'Utility');
 				if (!Validation::email($sender_contact)) {
-					$this->Session->setFlash(__('error_email_not-valid'));
+					$this->Session->setFlash(__('error_email_not-valid'), 'flash/error');
 					$validation_error = true;
 				} else {
 					$sender['User'] = array(
@@ -441,7 +441,7 @@ class UsersController extends AppController {
 			// validate and set subject
 			$subject = rtrim($this->request->data['Message']['subject']);
 			if (empty($subject)) {
-				$this->Session->setFlash(__('error_subject_empty'));
+				$this->Session->setFlash(__('error_subject_empty'), 'flash/error');
 				$validation_error = true;
 			}
 

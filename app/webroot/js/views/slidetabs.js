@@ -10,8 +10,9 @@ define([
 
         initialize: function(options) {
             this.webroot = options.webroot;
-            this.initCollectionFromDom('.slidetab', this.collection, SlidetabView);
             this.eventBus = options.eventBus;
+
+            this.initCollectionFromDom('.slidetab', this.collection, SlidetabView);
 
             this.makeSortable();
 

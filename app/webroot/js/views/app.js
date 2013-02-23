@@ -2,7 +2,7 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-    'models/appSetting',
+    'models/appSetting', 'models/appStatus',
     'lib/jquery.i18n/jquery.i18n.extend',
 	'collections/threadlines', 'views/threadlines',
 	'collections/threads', 'views/threads',
@@ -14,7 +14,7 @@ define([
     'views/answering'
 	], function(
 		$, _, Backbone,
-        AppSetting,
+        AppSetting, AppStatusModel,
         i18n,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
@@ -57,7 +57,12 @@ define([
 
                 // init global events
                 this.initEventBus();
+
+                // init updating app status
+                this.initAppStatusUpdate();
+
                 this.initMessagesOnEventBus(options.SaitoApp.msg);
+
                 this.listenTo(this.eventBus, 'initAutoreload', this.initAutoreload);
                 this.listenTo(this.eventBus, 'breakAutoreload', this.breakAutoreload);
 
@@ -235,6 +240,57 @@ define([
                 }
 
             },
+
+            initAppStatusUpdate: function() {
+                var resetRefreshTime,
+                    updateAppStatus,
+                    setTimer,
+                    timerId,
+                    refreshTimeAct,
+                    refreshTimeBase = 5000,
+                    refreshTimeMax = 30000;
+
+
+                resetRefreshTime = function() {
+                    if (typeof timerId !== "undefined") {
+                        clearTimeout(timerId);
+                    }
+                    refreshTimeAct = refreshTimeBase;
+                };
+
+                setTimer = function() {
+                    timerId = setTimeout(
+                        updateAppStatus,
+                        refreshTimeAct
+                    );
+                }
+
+                updateAppStatus = _.bind(function() {
+                    setTimer();
+                    this.appStatus.fetch();
+                    refreshTimeAct = Math.floor(refreshTimeAct * (1 + refreshTimeAct/40000))
+                    if (refreshTimeAct > refreshTimeMax) {
+                        refreshTimeAct = refreshTimeMax;
+                    }
+                }, this);
+
+               this.appStatus = new AppStatusModel({
+                    eventBus: this.eventBus
+               })
+               this.listenTo(
+                   this.appStatus,
+                   'change',
+                   function() {
+                       resetRefreshTime();
+                       setTimer();
+                   }
+               );
+
+                updateAppStatus();
+                resetRefreshTime();
+                setTimer()
+            },
+
 
             breakAutoreload: function() {
                 if (this.autoPageReloadTimer !== false) {
