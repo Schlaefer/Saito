@@ -42,7 +42,7 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
     // run app
 
     require(
-        ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers'],
+        ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers', 'lib/saito/backbone.initHelper'],
         function(domReady, AppView, Backbone) {
         // fallback if dom does not get ready for some reason to show the content eventually
         var contentTimer = {
@@ -67,24 +67,6 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
         };
         contentTimer.setup();
 
-        // @td
-        Backbone.View.prototype.initCollectionFromDom = function(element, collection, view) {
-            var createElement = function(collection, id, element) {
-                collection.add({
-                    id: id
-                });
-                new view({
-                    el: element,
-                    model: collection.get(id)
-                })
-            };
-
-            $(element).each(function(){
-                    createElement(collection, $(this).data('id'), this);
-                }
-            );
-        };
-
         domReady(function () {
             var App = new AppView({
                 SaitoApp: SaitoApp,
@@ -98,26 +80,10 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
 } else {
     // run javascript tests
 
-    window.store = "TestStore"; // override local storage store name - for testing
 
     require(['underscore', 'jquery', 'backbone'], function(_, $, Backbone){
 
-        Backbone.View.prototype.initCollectionFromDom = function(element, collection, view) {
-            var createElement = function(collection, id, element) {
-                collection.add({
-                    id: id
-                });
-                new view({
-                    el: element,
-                    model: collection.get(id)
-                })
-            };
-
-            $(element).each(function(){
-                    createElement(collection, $(this).data('id'), this);
-                }
-            );
-        };
+        window.store = "TestStore"; // override local storage store name - for testing
 
         var jasmineEnv = jasmine.getEnv();
         jasmineEnv.updateInterval = 1000;
