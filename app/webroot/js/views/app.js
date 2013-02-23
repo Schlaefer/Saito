@@ -54,6 +54,8 @@ define([
                 this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
                 this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
 
+                this.$el.on('dialogopen', this.fixJqueryUiDialog);
+
                 // init i18n
                 $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
 
@@ -156,8 +158,13 @@ define([
 							window.location.pathname.replace(/jump:\d+(\/)?/, '')
 					);
 				}
-
 			},
+
+            fixJqueryUiDialog: function(event, ui) {
+                $('.ui-icon-closethick')
+                    .attr('class', 'icon icon-close-widget icon-large')
+                    .html('')
+            },
 
             initBookmarks: function(element_n) {
                 if ($(element_n).length) {
