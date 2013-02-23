@@ -2,8 +2,10 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/app',
     'text!templates/upload.html'
 ], function($, _, Backbone,
+            App,
             uploadTpl
     ) {
 
@@ -18,7 +20,6 @@ define([
 
         initialize: function(options) {
             this.textarea = options.textarea;
-            this.eventBus = options.eventBus;
 
             this.listenTo(this.model, "destroy", this._uploadRemoved)
         },
@@ -27,8 +28,7 @@ define([
             event.preventDefault();
             this.model.destroy({
                     success:_.bind(function(model, response) {
-                        console.log(response.SaitoApp.msg);
-                        this.eventBus.trigger(
+                        App.eventBus.trigger(
                             'notification',
                              response.SaitoApp.msg[0]
                         )

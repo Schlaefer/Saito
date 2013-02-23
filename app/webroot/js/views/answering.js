@@ -26,7 +26,6 @@ define([
 
         initialize: function(options) {
             this.id = options.id;
-            this.eventBus = options.eventBus;
 
             //@td
             // this._upload(new Event({}));
@@ -36,8 +35,7 @@ define([
             event.preventDefault();
             new UploadsView({
                 el: '#markitup_upload',
-                textarea: this.$('textarea#EntryText')[0],
-                eventBus: this.eventBus
+                textarea: this.$('textarea#EntryText')[0]
             });
         },
 

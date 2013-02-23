@@ -46,7 +46,6 @@ define([
 
 			initialize: function (options) {
 
-                this.eventBus = App.eventBus;
                 App.settings.set(options.SaitoApp.app.settings)
 
 				this.request = options.SaitoApp.request;
@@ -57,8 +56,8 @@ define([
                 this.initNotifications();
                 this.initMessagesOnEventBus(options.SaitoApp.msg);
 
-                this.listenTo(this.eventBus, 'initAutoreload', this.initAutoreload);
-                this.listenTo(this.eventBus, 'breakAutoreload', this.breakAutoreload);
+                this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
+                this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
 
                 // init i18n
                 $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
@@ -121,8 +120,7 @@ define([
 					}], {silent: true});
 					new PostingView({
 						el: $(element),
-						model: postings.get(id),
-                        eventBus: this.eventBus
+						model: postings.get(id)
 					});
 				}, this));
 
@@ -139,8 +137,7 @@ define([
                     // appended to a posting
                     this.answeringForm = new AnsweringView({
                         el: this.$('.entry.add'),
-                        id: 'foo',
-                        eventBus: this.eventBus
+                        id: 'foo'
                     });
                 }
 
@@ -181,15 +178,12 @@ define([
                 new SlidetabsView({
                     el: element_n,
                     collection: slidetabs,
-                    webroot: App.settings.get('webroot'),
-                    eventBus: this.eventBus
+                    webroot: App.settings.get('webroot')
                 });
             },
 
             initNotifications: function() {
-                new NotificationView({
-                    eventBus: this.eventBus
-                });
+                new NotificationView();
             },
 
             initMessagesOnEventBus: function(msges) {
@@ -197,7 +191,7 @@ define([
                     send;
 
                 send = _.bind(function(msg) {
-                    this.eventBus.trigger(
+                    App.eventBus.trigger(
                         'notification',
                         msg
                     );
@@ -265,9 +259,7 @@ define([
                     }
                 }, this);
 
-               this.appStatus = new AppStatusModel({
-                    eventBus: this.eventBus
-               })
+               this.appStatus = new AppStatusModel()
                this.listenTo(
                    this.appStatus,
                    'change',

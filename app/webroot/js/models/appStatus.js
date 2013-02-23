@@ -11,14 +11,13 @@ define([
         initialize: function(options) {
             this.methodToCakePhpUrl.read = 'status';
 
-            this.eventBus = options.eventBus;
             this.webroot = App.settings.get('webroot') + 'saitos/';
 
             this.listenTo(this, "change:lastShoutId", this._triggerNewShout);
         },
 
         _triggerNewShout: function() {
-            this.eventBus.trigger('lastShoutId', this.get('lastShoutId'))
+            App.eventBus.trigger('lastShoutId', this.get('lastShoutId'))
         }
 
 

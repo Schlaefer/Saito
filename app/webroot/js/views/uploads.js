@@ -21,7 +21,6 @@ define([
 
         initialize: function(options) {
             this.textarea = options.textarea;
-            this.eventBus = options.eventBus;
 
             this.collection = new UploadsCollection({
                 url: App.settings.get('webroot')
@@ -32,8 +31,7 @@ define([
             this.$('.body').html(_.template(uploadsTpl));
 
             this.uploadNewView = new UploadNewView({
-                collection: this.collection,
-                eventBus: this.eventBus
+                collection: this.collection
             })
             this.$('.content').append(this.uploadNewView.render().el);
 
@@ -44,8 +42,7 @@ define([
         _addOne: function(upload) {
             var uploadView = new UploadView({
                 model: upload,
-                textarea: this.textarea,
-                eventBus: eventBus
+                textarea: this.textarea
             })
             this.$(".upload-new").after(uploadView.render().el);
         },

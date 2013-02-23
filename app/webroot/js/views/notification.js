@@ -2,18 +2,18 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/app',
     'lib/humane'
 ], function($, _, Backbone,
+            App,
             Humane
     ) {
 
     var NotificationView = Backbone.View.extend({
 
-        initialize: function(options) {
+        initialize: function() {
 
-            this.eventBus = options.eventBus;
-
-            this.listenTo(this.eventBus, 'notification', this._showNotification);
+            this.listenTo(App.eventBus, 'notification', this._showNotification);
 
         },
 

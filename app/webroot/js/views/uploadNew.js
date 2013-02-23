@@ -25,7 +25,6 @@ define([
 
         initialize: function(options) {
             this.collection = options.collection;
-            this.eventBus = options.eventBus;
         },
 
         _initDropUploader: function() {
@@ -59,7 +58,7 @@ define([
 
                     this._hideDragIndicator();
 
-                    this.eventBus.trigger(
+                    App.eventBus.trigger(
                         'notification',
                         {
                             title: 'Error',

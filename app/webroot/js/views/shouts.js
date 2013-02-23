@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/app',
     'jqueryAutosize'
-], function($, _, Backbone, jqueryAutosize) {
+], function($, _, Backbone, App, jqueryAutosize) {
 
     var ShoutboxView = Backbone.View.extend({
 
@@ -17,10 +18,9 @@ define([
         initialize: function(options) {
             this.urlBase = options.urlBase + 'shouts/';
             this.shouts = this.$el.find('.shouts');
-            this.eventBus = options.eventBus;
             this.textarea =  this.$el.find('textarea');
 
-            this.listenTo(this.eventBus, 'lastShoutId', this.poll)
+            this.listenTo(App.eventBus, 'lastShoutId', this.poll)
 
             this.textarea.autosize();
         },
@@ -35,9 +35,9 @@ define([
 
         formUp: function() {
             if (this.textarea.val().length > 0) {
-                this.eventBus.trigger('breakAutoreload');
+                App.eventBus.trigger('breakAutoreload');
             } else if (this.textarea.val().length === 0) {
-                this.eventBus.trigger('initAutoreload');
+                App.eventBus.trigger('initAutoreload');
             }
         },
 

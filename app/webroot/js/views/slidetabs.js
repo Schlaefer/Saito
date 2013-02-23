@@ -2,22 +2,22 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/app',
     'views/slidetab',
     'views/shouts'
-], function($, _, Backbone, SlidetabView, ShoutsView) {
+], function($, _, Backbone, App, SlidetabView, ShoutsView) {
 
     var SlidetabsView = Backbone.View.extend({
 
         initialize: function(options) {
             this.webroot = options.webroot;
-            this.eventBus = options.eventBus;
 
             this.initCollectionFromDom('.slidetab', this.collection, SlidetabView);
 
             this.makeSortable();
 
             if (this.collection.get('shoutbox')) {
-                this.initShoutbox('#shoutbox', options.webroot, this.eventBus);
+                this.initShoutbox('#shoutbox', options.webroot);
             }
 
         },
@@ -56,11 +56,10 @@ define([
             });
         },
 
-        initShoutbox: function(element_n, webroot, eventBus) {
+        initShoutbox: function(element_n, webroot) {
             new ShoutsView({
                 el: "#shoutbox",
-                urlBase: webroot,
-                eventBus: eventBus
+                urlBase: webroot
             });
         }
 
