@@ -44,9 +44,9 @@ define([
 			initialize: function (options) {
 
                 App.settings.set(options.SaitoApp.app.settings);
+                App.currentUser.set(options.SaitoApp.currentUser);
+                App.request = options.SaitoApp.request;
 
-				this.request = options.SaitoApp.request;
-				this.currentUser = options.SaitoApp.currentUser;
 
                 this.initNotifications();
                 this.initMessagesOnEventBus(options.SaitoApp.msg);
@@ -68,7 +68,7 @@ define([
 					if (!threads.get(threadId)) {
 						threads.add([{
 							id: threadId,
-							isThreadCollapsed: this.request.controller === 'entries' && this.request.action === 'index' && this.currentUser.user_show_thread_collapsed
+							isThreadCollapsed: this.request.controller === 'entries' && this.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
 						}], {silent: true});
 					}
 					new ThreadView({
@@ -89,14 +89,14 @@ define([
 						threads.get(threadId).threadlines.add([{
 							id: threadLineId,
 							isNewToUser: isNew,
-							isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
+							isAlwaysShownInline: App.currentUser.get('user_show_inline')
 						}], {silent: true});
 						new_model = threads.get(threadId).threadlines.get(threadLineId);
 					} else {
 						threadLines.add([{
 							id: threadLineId,
 							isNewToUser: isNew,
-							isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
+							isAlwaysShownInline: App.currentUser.get('user_show_inline')
 						}], {silent: true});
 						new_model = threadLines.get(threadLineId);
 					}

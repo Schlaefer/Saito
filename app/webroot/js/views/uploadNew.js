@@ -106,7 +106,7 @@ define([
             var xhr = new XMLHttpRequest();
             xhr.open(
                 'POST',
-                app.settings.get('webroot') + 'uploads/add',
+                App.settings.get('webroot') + 'uploads/add',
                 true
             );
             xhr.onload = _.bind(function() {

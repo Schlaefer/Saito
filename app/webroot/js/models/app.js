@@ -2,9 +2,10 @@ define([
     'underscore',
     'backbone',
     'models/appSetting',
-    'models/appStatus'
+    'models/appStatus',
+    'models/currentUser'
 ], function(_, Backbone,
-    AppSettingModel, AppStatusModel
+    AppSettingModel, AppStatusModel, CurrentUserModel
     ) {
 
     var AppModel = Backbone.Model.extend({
@@ -24,12 +25,23 @@ define([
          */
         status: null,
 
+        /**
+         * CurrentUser
+         */
+        currentUser: null,
+
+        /**
+         * Request info from CakePHP
+         */
+        request: null,
+
 
         initialize: function(options) {
 
             this.eventBus = _.extend({}, Backbone.Events);
             this.settings = new AppSettingModel();
             this.status = new AppStatusModel();
+            this.currentUser = new CurrentUserModel();
 
             // @td remove export after thread_line.class.js is removed
             eventBus = this.eventBus;
