@@ -35,11 +35,6 @@ define([
 			settings: {},
 			request: {},
 
-            /**
-             * global event handler for the app
-             */
-            eventBus: null,
-
             autoPageReloadTimer: false,
 
 			events: {
@@ -51,18 +46,15 @@ define([
 
 			initialize: function (options) {
 
+                this.eventBus = App.eventBus;
                 App.settings.set(options.SaitoApp.app.settings)
 
 				this.request = options.SaitoApp.request;
 				this.currentUser = options.SaitoApp.currentUser;
 
-
-                // init global events
-                this.initEventBus();
-
-                // init updating app status
                 this.initAppStatusUpdate();
 
+                this.initNotifications();
                 this.initMessagesOnEventBus(options.SaitoApp.msg);
 
                 this.listenTo(this.eventBus, 'initAutoreload', this.initAutoreload);
@@ -194,10 +186,7 @@ define([
                 });
             },
 
-            initEventBus: function() {
-                this.eventBus = _.extend({}, Backbone.Events);
-                // @td remove after thread_line.class ist gone
-                eventBus = this.eventBus;
+            initNotifications: function() {
                 new NotificationView({
                     eventBus: this.eventBus
                 });
@@ -212,7 +201,7 @@ define([
                         'notification',
                         msg
                     );
-                });
+                }, this);
 
                 _.each(msges, function(msg) {
                     _.delay(send, i * 5000, msg)
