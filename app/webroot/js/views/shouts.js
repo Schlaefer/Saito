@@ -15,8 +15,8 @@ define([
             "keydown form": "formDown"
         },
 
-        initialize: function(options) {
-            this.urlBase = options.urlBase + 'shouts/';
+        initialize: function() {
+            this.webroot = App.settings.get('webroot') + 'shouts/';
             this.shouts = this.$el.find('.shouts');
             this.textarea =  this.$el.find('textarea');
 
@@ -47,7 +47,7 @@ define([
 
         submit: function() {
             $.ajax({
-                url: this.urlBase + 'add',
+                url: this.webroot + 'add',
                 type: "post",
                 data: {
                    text: this.textarea.val()
@@ -66,7 +66,7 @@ define([
             }
 
             $.ajax({
-                url: this.urlBase + 'index',
+                url: this.webroot + 'index',
                 data: {
                     lastId: this.lastId
                 },

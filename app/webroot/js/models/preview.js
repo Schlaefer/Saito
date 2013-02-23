@@ -1,7 +1,8 @@
 define([
 	'underscore',
-	'backbone'
-	], function(_, Backbone) {
+	'backbone',
+    'models/app'
+	], function(_, Backbone, App) {
 
 		var PreviewModel = Backbone.Model.extend({
 
@@ -10,8 +11,8 @@ define([
                 data: ""
             },
 
-            initialize: function(options) {
-                this.webroot = options.webroot;
+            initialize: function() {
+                this.webroot = App.settings.get('webroot');
 
                 this.listenTo(this, 'change:data', this._fetchRendered)
             },

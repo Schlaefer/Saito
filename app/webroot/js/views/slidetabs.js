@@ -10,14 +10,14 @@ define([
     var SlidetabsView = Backbone.View.extend({
 
         initialize: function(options) {
-            this.webroot = options.webroot;
+            this.webroot = App.settings.get('webroot');
 
             this.initCollectionFromDom('.slidetab', this.collection, SlidetabView);
 
             this.makeSortable();
 
             if (this.collection.get('shoutbox')) {
-                this.initShoutbox('#shoutbox', options.webroot);
+                this.initShoutbox('#shoutbox', this.webroot);
             }
 
         },
@@ -58,8 +58,7 @@ define([
 
         initShoutbox: function(element_n, webroot) {
             new ShoutsView({
-                el: "#shoutbox",
-                urlBase: webroot
+                el: "#shoutbox"
             });
         }
 

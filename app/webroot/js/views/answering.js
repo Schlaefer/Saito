@@ -45,9 +45,7 @@ define([
             this.$('.preview').slideDown('fast');
 
             if (this.preview === false) {
-                this.preview = new PreviewModel({
-                    webroot: App.settings.get('webroot')
-                });
+                this.preview = new PreviewModel();
                 new PreviewView({
                     el: this.$('.preview .content'),
                     model: this.preview

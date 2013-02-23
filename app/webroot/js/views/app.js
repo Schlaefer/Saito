@@ -177,8 +177,7 @@ define([
                 var slidetabs = new SlidetabsCollection();
                 new SlidetabsView({
                     el: element_n,
-                    collection: slidetabs,
-                    webroot: App.settings.get('webroot')
+                    collection: slidetabs
                 });
             },
 

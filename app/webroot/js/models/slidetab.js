@@ -1,12 +1,12 @@
 define([
     'underscore',
-    'backbone'
-], function(_, Backbone) {
+    'backbone',
+    'models/app'
+], function(_, Backbone, App) {
     var SlidetabModel = Backbone.Model.extend({
 
         initialize: function(options) {
-            // @td
-            this.webroot = SaitoApp.app.settings.webroot;
+            this.webroot = App.settings.get('webroot');
         },
 
         sync: function() {
