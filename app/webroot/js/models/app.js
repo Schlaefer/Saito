@@ -18,6 +18,9 @@ define([
             this.eventBus = _.extend({}, Backbone.Events);
             this.settings = new AppSettingModel();
 
+            // @td remove export after thread_line.class.js is removed
+            eventBus = this.eventBus;
+
         }
 
 
