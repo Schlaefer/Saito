@@ -7,19 +7,13 @@ define([
 
     var AppStatusModel = Backbone.Model.extend({
 
-
         initialize: function(options) {
             this.methodToCakePhpUrl.read = 'status';
-
-            this.webroot = App.settings.get('webroot') + 'saitos/';
-
-            this.listenTo(this, "change:lastShoutId", this._triggerNewShout);
         },
 
-        _triggerNewShout: function() {
-            App.eventBus.trigger('lastShoutId', this.get('lastShoutId'))
+        setWebroot: function(webroot) {
+            this.webroot = webroot + 'saitos/';
         }
-
 
     });
 

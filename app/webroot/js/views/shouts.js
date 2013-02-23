@@ -20,7 +20,7 @@ define([
             this.shouts = this.$el.find('.shouts');
             this.textarea =  this.$el.find('textarea');
 
-            this.listenTo(App.eventBus, 'lastShoutId', this.poll)
+            this.listenTo(App.status, "change:lastShoutId", this.poll);
 
             this.textarea.autosize();
         },
