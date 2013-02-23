@@ -50,7 +50,7 @@ require(
         var contentTimer = {
             show: function() {
                 $('#content').show();
-                console.log('Dom ready timed out: show content fallback used.');
+                console.warn('DOM ready timed out: show content fallback used.');
                 delete this.timeoutID;
             },
 
