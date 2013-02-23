@@ -2,7 +2,8 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-    'models/appSetting', 'models/appStatus',
+    'models/app',
+    'models/appStatus',
     'lib/jquery.i18n/jquery.i18n.extend',
 	'collections/threadlines', 'views/threadlines',
 	'collections/threads', 'views/threads',
@@ -14,7 +15,8 @@ define([
     'views/answering'
 	], function(
 		$, _, Backbone,
-        AppSetting, AppStatusModel,
+        App,
+        AppStatusModel,
         i18n,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
@@ -49,7 +51,7 @@ define([
 
 			initialize: function (options) {
 
-                AppSetting.set(options.SaitoApp.app.settings);
+                App.settings.set(options.SaitoApp.app.settings)
 
 				this.request = options.SaitoApp.request;
 				this.currentUser = options.SaitoApp.currentUser;
@@ -67,7 +69,7 @@ define([
                 this.listenTo(this.eventBus, 'breakAutoreload', this.breakAutoreload);
 
                 // init i18n
-                $.i18n.setUrl(AppSetting.get('webroot') + "tools/langJs");
+                $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
 
 				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection;
@@ -187,7 +189,7 @@ define([
                 new SlidetabsView({
                     el: element_n,
                     collection: slidetabs,
-                    webroot: AppSetting.get('webroot'),
+                    webroot: App.settings.get('webroot'),
                     eventBus: this.eventBus
                 });
             },
@@ -232,11 +234,11 @@ define([
 
             initAutoreload: function() {
                 this.breakAutoreload();
-                if (AppSetting.get('autoPageReload')) {
+                if (App.settings.get('autoPageReload')) {
                     this.autoPageReloadTimer = setTimeout(
                         _.bind(function() {
-                            window.location = AppSetting.get('webroot') + 'entries/noupdate/';
-                        }, this), AppSetting.get('autoPageReload') * 1000);
+                            window.location = App.settings.get('webroot') + 'entries/noupdate/';
+                        }, this), App.settings.get('autoPageReload') * 1000);
                 }
 
             },
@@ -340,7 +342,7 @@ define([
 
             manuallyMarkAsRead: function(event) {
                 event.preventDefault();
-                window.redirect(AppSetting.get('webroot') + 'entries/update');
+                window.redirect(App.settings.get('webroot') + 'entries/update');
             }
 		});
 

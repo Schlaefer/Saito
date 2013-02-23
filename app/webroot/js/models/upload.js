@@ -1,16 +1,16 @@
 define([
     'underscore',
     'backbone',
-    'models/appSetting',
+    'models/app',
     'cakeRest'
 ], function(_, Backbone,
-    AppSettings
+    App
     ) {
 
     var UploadModel = Backbone.Model.extend({
 
         initialize: function() {
-            this.webroot = AppSettings.get('webroot') + 'uploads/';
+            this.webroot = App.settings.get('webroot') + 'uploads/';
         }
 
     });

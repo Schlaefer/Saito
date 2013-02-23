@@ -3,12 +3,12 @@ define([
     'underscore',
     'backbone',
     'lib/jquery.filedrop',
-    'models/appSetting',
+    'models/app',
     'text!templates/uploadNew.html',
     'text!templates/spinner.html'
 ], function($, _, Backbone,
             Filedrop,
-            AppSetting,
+            App,
             uploadNewTpl,
             spinnerTpl
     ) {
@@ -32,8 +32,8 @@ define([
 
             this.$('.upload-layer').filedrop({
                 maxfiles: 1,
-                maxfilesize: AppSetting.get('upload_max_img_size'),
-                url: AppSetting.get('webroot') + 'uploads/add',
+                maxfilesize: App.settings.get('upload_max_img_size'),
+                url: App.settings.get('webroot') + 'uploads/add',
                 paramname: "data[Upload][0][file]",
                 allowedfiletypes: [
                     'image/jpeg',
@@ -107,7 +107,7 @@ define([
             var xhr = new XMLHttpRequest();
             xhr.open(
                 'POST',
-                AppSetting.get('webroot') + 'uploads/add',
+                app.settings.get('webroot') + 'uploads/add',
                 true
             );
             xhr.onload = _.bind(function() {
@@ -123,7 +123,7 @@ define([
 
         render: function() {
             this.$el.html(_.template(uploadNewTpl)({
-                upload_size: AppSetting.get('upload_max_img_size')
+                upload_size: App.settings.get('upload_max_img_size')
             }));
             this._initDropUploader();
             return this;

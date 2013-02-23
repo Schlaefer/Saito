@@ -2,13 +2,13 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-    'models/appSetting',
+    'models/app',
     'collections/geshis', 'views/geshi',
     'views/answering',
     'text!templates/spinner.html'
 	], function(
         $, _, Backbone,
-        AppSetting,
+        App,
         GeshisCollection, GeshiView,
         AnsweringView,
         spinnerTpl

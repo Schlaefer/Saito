@@ -2,12 +2,12 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'models/appSetting',
+    'models/app',
     'collections/uploads', 'views/upload',
     'views/uploadNew',
     'text!templates/uploads.html'
 ], function($, _, Backbone,
-            AppSetting,
+            App,
     UploadsCollection, UploadView,
     UploadNewView,
     uploadsTpl
@@ -24,7 +24,7 @@ define([
             this.eventBus = options.eventBus;
 
             this.collection = new UploadsCollection({
-                url: AppSetting.get('webroot')
+                url: App.settings.get('webroot')
             });
 
             this.listenTo(this.collection, "reset", this._addAll);

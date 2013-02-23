@@ -1,9 +1,9 @@
 define([
     'underscore',
     'backbone',
-    'models/appSetting',
+    'models/app',
     'cakeRest'
-], function(_, Backbone, AppSettings) {
+], function(_, Backbone, App) {
 
     var AppStatusModel = Backbone.Model.extend({
 
@@ -12,7 +12,7 @@ define([
             this.methodToCakePhpUrl.read = 'status';
 
             this.eventBus = options.eventBus;
-            this.webroot = AppSettings.get('webroot') + 'saitos/';
+            this.webroot = App.settings.get('webroot') + 'saitos/';
 
             this.listenTo(this, "change:lastShoutId", this._triggerNewShout);
         },

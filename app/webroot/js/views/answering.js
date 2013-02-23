@@ -2,11 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'models/appSetting',
+    'models/app',
     'views/uploads',
     'models/preview', 'views/preview'
 ], function($, _, Backbone,
-            AppSetting,
+            App,
             UploadsView,
             PreviewModel, PreviewView
     ) {
@@ -48,7 +48,7 @@ define([
 
             if (this.preview === false) {
                 this.preview = new PreviewModel({
-                    webroot: AppSetting.get('webroot')
+                    webroot: App.settings.get('webroot')
                 });
                 new PreviewView({
                     el: this.$('.preview .content'),
@@ -66,7 +66,7 @@ define([
 
         _requestAnsweringForm: function() {
             $.ajax({
-                url: AppSetting.get('webroot') + 'entries/add/' + this.id,
+                url: App.settings.get('webroot') + 'entries/add/' + this.id,
                 success: _.bind(function(data){
                     this.answeringForm = data;
                     this.render();
