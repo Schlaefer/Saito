@@ -38,12 +38,14 @@ window.redirect = function(destination) {
     document.location.replace(destination);
 }
 
-if (typeof SaitoApp.app.runJsTests === 'undefined') {
-    // run app
 
-    require(
-        ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers', 'lib/saito/backbone.initHelper'],
-        function(domReady, AppView, Backbone) {
+require(
+    ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers', 'lib/saito/backbone.initHelper'],
+    function(domReady, AppView, Backbone) {
+
+    if (typeof SaitoApp.app.runJsTests === 'undefined') {
+        // run app
+
         // fallback if dom does not get ready for some reason to show the content eventually
         var contentTimer = {
             show: function() {
@@ -74,14 +76,7 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
             });
         });
 
-
-    });
-
-} else {
-    // run javascript tests
-
-
-    require(['underscore', 'jquery', 'backbone'], function(_, $, Backbone){
+    } else {
 
         window.store = "TestStore"; // override local storage store name - for testing
 
@@ -113,6 +108,6 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
             });
         });
 
-    });
 
-}
+    }
+});
