@@ -38,6 +38,14 @@ window.redirect = function(destination) {
     document.location.replace(destination);
 }
 
+// Camino doesn't support console at all
+if (typeof console === "undefined") {
+    var console = {};
+    console.log = function(message) {
+        return;
+    };
+    console.error = console.debug = console.info =  console.log;
+}
 
 require(
     ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers', 'lib/saito/backbone.initHelper'],
