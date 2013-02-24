@@ -105,7 +105,6 @@ define([
 				postings = new PostingCollection;
 				$('.js-entry-view-core').each(_.bind(function(a,element) {
 					var id = parseInt(element.getAttribute('data-id'));
-                    console.log(id);
 					postings.add([{
 						id: id
 					}], {silent: true});
