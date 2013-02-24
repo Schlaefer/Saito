@@ -4,6 +4,12 @@
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+
+
+## 2013-02.03 ##
+
+- [fix] errors using Camino
+
 ## 2013-02.02 ##
 
 - [new] #129 [Slidetab should only be sortable by dragging the slidebar tab][gh129] (allows selecting text in sidebar)
