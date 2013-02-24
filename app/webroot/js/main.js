@@ -26,6 +26,16 @@ require.config({
 	}
 });
 
+// Camino doesn't support console at all
+if (typeof console === "undefined") {
+    var console = {};
+    console.log = function(message) {
+        return;
+    };
+    console.error = console.debug = console.info =  console.log;
+}
+
+
 if (typeof SaitoApp.app.runJsTests === 'undefined') {
     // run app
 
