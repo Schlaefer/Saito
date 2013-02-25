@@ -65,13 +65,13 @@ if ( $this->getVar('citeText') ) {
 		</div>
 
 		<div id='markitup_media' style="display: none; overflow: hidden;">
-			<?php echo 
+			<?php echo
 			$this->Form->create(FALSE,
 					array(
 					'url' => '#',
 					'style' => 'width: 100%;' ));
 			?>
-			<?php echo 
+			<?php echo
 			$this->Form->label(
 					'media', 'Bitte Verweis oder Code zum Einbinden angeben:',
 					array(
@@ -79,7 +79,7 @@ if ( $this->getVar('citeText') ) {
 					)
 			);
 			?>
-			<?php echo 
+			<?php echo
 			$this->Form->textarea('media',
 					array(
 					'id' => 'markitup_media_txta',
@@ -89,7 +89,7 @@ if ( $this->getVar('citeText') ) {
 			));
 			?>
 			<div class="clearfix"></div>
-<?php echo 
+<?php echo
 $this->Form->submit(__('Einfügen'),
 		array( // @lo
 		'style' => 'float: right;',
@@ -111,7 +111,7 @@ $this->Form->submit(__('Einfügen'),
 					<?php echo $this->EntryH->getCategorySelectForEntry($categories,
 							$this->request->data); ?>
 				<div class="postingform_main">
-					<?php echo 
+					<?php echo
 					$this->Form->input(
 							'subject',
 							array(
@@ -126,7 +126,7 @@ $this->Form->submit(__('Einfügen'),
 					);
 					?>
 				</div>
-						<?php 
+						<?php
 							echo $this->Form->hidden('pid');
 						?>
 				<div class="postingform_main">
@@ -134,7 +134,7 @@ $this->Form->submit(__('Einfügen'),
 						echo $this->MarkitupEditor->getButtonSet('markItUp_' . $this->request->data['Entry']['id']);
 						echo $this->MarkitupEditor->editor(
 								'text',
-								array( 
+								array(
 										'parser' => false,
                     'set' => 'default', 'skin' => 'macnemo',
                     'label' => false, 'tabindex' => 3,

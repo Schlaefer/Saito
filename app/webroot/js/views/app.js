@@ -273,6 +273,11 @@ define([
 				});
 			},
 
+            scrollToTop: function(event) {
+                event.preventDefault();
+                window.scrollTo(0, 0);
+            },
+
             manuallyMarkAsRead: function(event) {
                 event.preventDefault();
                 window.redirect(App.settings.get('webroot') + 'entries/update');

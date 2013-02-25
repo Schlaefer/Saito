@@ -81,24 +81,9 @@
 							'className' => 'btn-markItUp-Upload'
 							),
 					'Media' => array(
-							'name' => '"<i class=\'icon-play-circle\'></i>"',
-              'title' => '"' . __('Media') .'"',
-							'beforeInsert' => <<<EOF
-function() {
-	$('#markitup_media').dialog({
-		show: {effect: "scale", duration: 200},
-		hide: {effect: "fade", duration: 200},
-		title: "Multimedia",
-		resizable: false,
-		close: function(event, ui) {
-  		$('#markitup_media_message').hide();
-		},
-		});
-		setTimeout("$('#markitup_media_txta').focus();", 210);
-}
-EOF
-							,
-							'callback' => TRUE
+							'name' => '<i class=\'icon-play-circle\'></i>',
+              'title' => __('Media'),
+							'className' => 'btn-markItUp-Media'
 					),
 					$separator,
 					'Smilies' => array( 'name' => 'Smilies', 'dropMenu' => $smiliesMarkItUpPacked ),
@@ -182,4 +167,3 @@ EOF
 
   }
 
-?>

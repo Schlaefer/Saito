@@ -73,7 +73,7 @@ define([
                 if (this.answeringForm === false){
                     this.answeringForm = new AnsweringView({
                         el: this.$('.posting_formular_slider'),
-                        id: this.model.get('id')
+                        model: this.model
                     });
                 }
                 this.answeringForm.render();
