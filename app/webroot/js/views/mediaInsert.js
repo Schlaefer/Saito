@@ -9,14 +9,16 @@ define([
     return Backbone.View.extend({
 
         initialize: function() {
-            this.listenTo(this.model, 'change:isAnsweringFormShown', this.remove);
+            if (this.model !== undefined) {
+                this.listenTo(this.model, 'change:isAnsweringFormShown', this.remove);
+            }
         },
 
         _showDialog: function() {
             this.$el.dialog({
                 show: {effect: "scale", duration: 200},
                 hide: {effect: "fade", duration: 200},
-                title: "Multimedia", // @td
+                title: $.i18n.__("Multimedia"),
                 resizable: false,
                 open: function() {
                     setTimeout(function() {$('#markitup_media_txta').focus();}, 210);
