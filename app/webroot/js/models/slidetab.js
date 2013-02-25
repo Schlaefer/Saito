@@ -3,9 +3,12 @@ define([
     'backbone',
     'models/app'
 ], function(_, Backbone, App) {
+
+    "use strict";
+
     var SlidetabModel = Backbone.Model.extend({
 
-        initialize: function(options) {
+        initialize: function() {
             this.webroot = App.settings.get('webroot');
         },
 

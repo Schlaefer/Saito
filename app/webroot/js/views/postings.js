@@ -41,14 +41,14 @@ define([
                         new GeshiView({
                             el: element,
                             collection: geshis
-                        })
+                        });
                     });
                 }
             },
 
             setAnsweringForm: function(event) {
                 event.preventDefault();
-                this.model.toggle('isAnsweringFormShown')
+                this.model.toggle('isAnsweringFormShown');
             },
 
 			toggleAnsweringForm: function() {
@@ -81,7 +81,7 @@ define([
 
 			_hideAnsweringForm: function() {
                 var parent;
-				$(this.el).find('.posting_formular_slider').slideUp('fast')
+				$(this.el).find('.posting_formular_slider').slideUp('fast');
 
                 // @td @bogus
                 parent = $(this.el).find('.posting_formular_slider').parent();

@@ -5,6 +5,8 @@ define([
     'models/geshi'
 ], function($, _, Backbone, GeshiModel) {
 
+    "use strict";
+
     var GeshiView = Backbone.View.extend({
 
         plainText: false,
@@ -21,7 +23,7 @@ define([
 
             this._setPlaintextButton();
 
-            this.listenTo(this.model, 'change', this.render)
+            this.listenTo(this.model, 'change', this.render);
         },
 
         _setPlaintextButton: function() {
@@ -44,7 +46,7 @@ define([
             this.htmlText = this.block.html();
             if (navigator.appName == 'Microsoft Internet Explorer') {
                 this.htmlText = this.htmlText.replace(/\n\r/g, "+");
-                this.plainText = jQuery(this.htmlText).text().replace(/\+\+/g, "\r");
+                this.plainText = $(this.htmlText).text().replace(/\+\+/g, "\r");
             } else {
                 this.plainText = this.block.text().replace(/code /g, "code \n");
             }
@@ -59,7 +61,7 @@ define([
         },
 
         render: function() {
-            this._setPlaintextButton()
+            this._setPlaintextButton();
             this._extractPlaintext();
             this._renderText();
             return this;

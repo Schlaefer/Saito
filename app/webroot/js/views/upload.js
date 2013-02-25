@@ -21,7 +21,7 @@ define([
         initialize: function(options) {
             this.textarea = options.textarea;
 
-            this.listenTo(this.model, "destroy", this._uploadRemoved)
+            this.listenTo(this.model, "destroy", this._uploadRemoved);
         },
 
         _removeUpload: function(event) {
@@ -31,7 +31,7 @@ define([
                         App.eventBus.trigger(
                             'notification',
                              response.SaitoApp.msg[0]
-                        )
+                        );
                     }, this)
                 }
             );

@@ -1,7 +1,7 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone',
+	'backbone'
 	], function($, _, Backbone) {
 
 		var ThreadView = Backbone.View.extend({
@@ -30,14 +30,14 @@ define([
 			 */
 			openAllThreadlines: function(event) {
 				event.preventDefault();
-				this.model.set({ isInlineOpened: true })
+				this.model.set({ isInlineOpened: true });
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false
 					}), function(model) {
 						model.set({
 							isInlineOpened: true
-						})
+						});
 					}, this);
 
 			},
@@ -55,7 +55,7 @@ define([
 					}), function(model) {
 						model.set({
 							isInlineOpened: false
-						})
+						});
 					}, this);
 			},
 
@@ -64,7 +64,7 @@ define([
 			 */
 			showAllNewThreadlines: function(event) {
 				event.preventDefault();
-				this.model.set({ isInlineOpened: true })
+				this.model.set({ isInlineOpened: true });
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false,
@@ -72,7 +72,7 @@ define([
 					}), function(model) {
 						model.set({
 							isInlineOpened: true
-						})
+						});
 					}, this);
 			},
 

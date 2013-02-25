@@ -6,6 +6,8 @@ define([
     'jqueryAutosize'
 ], function($, _, Backbone, App, jqueryAutosize) {
 
+    "use strict";
+
     var ShoutboxView = Backbone.View.extend({
 
         lastId: 0,

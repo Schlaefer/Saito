@@ -1,8 +1,10 @@
 define([
-	'underscore',
-	'backbone',
-    'models/app'
-	], function(_, Backbone, App) {
+'underscore',
+'backbone',
+'models/app'
+], function(_, Backbone, App) {
+
+        "use strict";
 
 		var PreviewModel = Backbone.Model.extend({
 
@@ -14,7 +16,7 @@ define([
             initialize: function() {
                 this.webroot = App.settings.get('webroot');
 
-                this.listenTo(this, 'change:data', this._fetchRendered)
+                this.listenTo(this, 'change:data', this._fetchRendered);
             },
 
             _fetchRendered: function() {
@@ -24,7 +26,7 @@ define([
                     _.bind(function(data) {
                         this.set('rendered', data);
                     }, this)
-                )
+                );
             }
 
 		});

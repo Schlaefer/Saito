@@ -1,4 +1,7 @@
 (function (root, factory) {
+
+    "use strict";
+
     if (typeof define === "function" && define.amd) {
         define(["underscore","backbone"], function(_, Backbone) {
             return factory(_ || root._, Backbone || root.Backbone);
@@ -8,9 +11,9 @@
     }
 })(this, function(_, Backbone) {
 
-    SaitoApp.Mixins = SaitoApp.Mixins || {};
+    "use strict";
 
-    SaitoApp.Mixins.cakeRest = {
+    return {
 
         methodToCakePhpUrl: {
             'read': 'view',

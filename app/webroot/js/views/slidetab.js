@@ -4,6 +4,8 @@ define([
     'backbone'
 ], function($, _, Backbone) {
 
+    "use strict";
+
     var SlidetabView = Backbone.View.extend({
 
         events: {
@@ -13,7 +15,7 @@ define([
         initialize: function() {
             this.model.set('isOpen', this.isOpen());
 
-            this.listenTo(this.model, 'change', this.toggleSlidetab)
+            this.listenTo(this.model, 'change', this.toggleSlidetab);
         },
 
         isOpen: function() {
@@ -46,7 +48,7 @@ define([
                     'width': 28
                 },
                 _.bind(function() {
-                    this.$el.find('.slidetab-content').css('display', 'none')
+                    this.$el.find('.slidetab-content').css('display', 'none');
                 }, this)
             );
         },

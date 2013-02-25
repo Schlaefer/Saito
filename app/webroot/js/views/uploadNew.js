@@ -40,8 +40,8 @@ define([
                     'image/png',
                     'image/gif'
                 ],
-                dragOver:_.bind(function(){this._showDragIndicator()}, this),
-                dragLeave:_.bind(function(){this._hideDragIndicator()}, this),
+                dragOver:_.bind(function(){this._showDragIndicator();}, this),
+                dragLeave:_.bind(function(){this._hideDragIndicator();}, this),
                 uploadFinished: _.bind(
                     function(i, file, response, time) {
                         this._postUpload();
@@ -93,14 +93,18 @@ define([
         },
 
         _uploadManual: function(event) {
-            event.preventDefault()
+            var formData,
+                input;
+
+            event.preventDefault();
 
             this._setUploadSpinner();
 
-            var formData = new FormData();
+            formData = new FormData();
+            input = $('.dropbox input[type="file"]')[0];
             formData.append(
-                $('.dropbox input[type="file"]')[0].name,
-                $('.dropbox input[type="file"]')[0].files[0]
+                input.name,
+                input.files[0]
             );
 
             var xhr = new XMLHttpRequest();

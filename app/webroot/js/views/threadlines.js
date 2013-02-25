@@ -3,7 +3,7 @@ define([
 	'underscore',
 	'backbone',
 	'views/threadline-spinner',
-	'text!templates/threadline-spinner.html',
+	'text!templates/threadline-spinner.html'
 	], function($, _, Backbone, ThreadlineSpinnerView, threadlineSpinnerTpl) {
 		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
@@ -23,7 +23,7 @@ define([
 
 			initialize: function(){
 				this.model.on('change:isInlineOpened', this._toggleInlineOpened, this);
-				
+
 				this.scroll = false;
 			},
 
@@ -110,8 +110,7 @@ define([
 										if (options['tlsV'] !== 'undefined'){
 											this.tlsV.hide();
 										}
-									}
-									, this)
+									}, this)
 								);
 						}, this)
 					);

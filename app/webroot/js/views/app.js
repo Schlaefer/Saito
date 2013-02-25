@@ -109,7 +109,7 @@ define([
 				});
 
 				// @td if everything is migrated to require/bb set var again
-				postings = new PostingCollection;
+				postings = new PostingCollection();
 				$('.js-entry-view-core').each(_.bind(function(a,element) {
 					var id = parseInt(element.getAttribute('data-id'));
 					postings.add([{
@@ -127,7 +127,7 @@ define([
                 this.initAutoreload();
                 this.initBookmarks('#bookmarks');
                 this.initHelp('.shp');
-                this.initSlidetabs('#slidetabs')
+                this.initSlidetabs('#slidetabs');
 
                 if($('.entry.add').length > 0) {
                     // init the entries/add form where answering is not
@@ -163,7 +163,7 @@ define([
             fixJqueryUiDialog: function(event, ui) {
                 $('.ui-icon-closethick')
                     .attr('class', 'icon icon-close-widget icon-large')
-                    .html('')
+                    .html('');
             },
 
             initBookmarks: function(element_n) {
@@ -200,9 +200,9 @@ define([
                 }, this);
 
                 _.each(msges, function(msg) {
-                    _.delay(send, i * 5000, msg)
+                    _.delay(send, i * 5000, msg);
                     i++;
-                }, this)
+                }, this);
             },
 
             initHelp: function(element_n) {
@@ -251,14 +251,18 @@ define([
 			},
 
 			showLoginForm: function(event) {
+                var modalLoginDialog;
+
 				if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
 					return;
 				}
 
+                modalLoginDialog =  $('#modalLoginDialog');
+
 				event.preventDefault();
-				$('#modalLoginDialog').height('auto');
+				modalLoginDialog.height('auto');
 				var title= event.currentTarget.title;
-				$('#modalLoginDialog').dialog({
+				modalLoginDialog.dialog({
 					modal: true,
 					title: title,
 					width: 420,
@@ -268,11 +272,6 @@ define([
                     resizable: false
 				});
 			},
-
-            scrollToTop: function(event) {
-                event.preventDefault();
-                window.scrollTo(0, 0);
-            },
 
             manuallyMarkAsRead: function(event) {
                 event.preventDefault();

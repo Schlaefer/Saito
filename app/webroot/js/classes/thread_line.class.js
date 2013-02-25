@@ -34,7 +34,7 @@ ThreadLine.prototype.load_inline_view = function (options, scroll) {
 			new PostingView({
 				el: $('.js-entry-view-core[data-id=' + id + ']'),
 				model: postings.get(id),
-                eventBus: eventBus,
+                eventBus: window.eventBus,
                 webroot: SaitoApp.app.settings.webroot
 			});
 

@@ -4,6 +4,8 @@ define([
 	'backbone'
 	], function($, _, Backbone) {
 
+        "use strict";
+
 		var ThreadlineSpinnerView = Backbone.View.extend({
 
 			running: false,
@@ -15,7 +17,7 @@ define([
 						return;
 					}
 					this.$el.animate({opacity:0.1}, 900, _.bind(function() {
-						this.$el.animate({opacity:1}, 500, effect())
+						this.$el.animate({opacity:1}, 500, effect());
 					}, this));
 				}, this);
 				this.running = true;

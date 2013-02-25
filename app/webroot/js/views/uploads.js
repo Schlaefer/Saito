@@ -32,7 +32,7 @@ define([
 
             this.uploadNewView = new UploadNewView({
                 collection: this.collection
-            })
+            });
             this.$('.content').append(this.uploadNewView.render().el);
 
             this.render();
@@ -43,7 +43,7 @@ define([
             var uploadView = new UploadView({
                 model: upload,
                 textarea: this.textarea
-            })
+            });
             this.$(".upload-new").after(uploadView.render().el);
         },
 

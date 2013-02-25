@@ -15,7 +15,7 @@ define([
 
     });
 
-    _.extend(BookmarkModel.prototype, SaitoApp.Mixins.cakeRest);
+    _.extend(BookmarkModel.prototype, cakeRest);
 
     return BookmarkModel;
 });

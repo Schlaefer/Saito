@@ -3,6 +3,9 @@ define([
 	'backbone',
 	'collections/threadlines'
 	], function(_, Backbone, ThreadLinesCollection) {
+
+        "use strict";
+
 		var ThreadModel = Backbone.Model.extend({
 
 			defaults: {
@@ -10,7 +13,7 @@ define([
 			},
 
 			initialize: function() {
-				this.threadlines = new ThreadLinesCollection;
+				this.threadlines = new ThreadLinesCollection();
 			},
 
 			toggleCollapseThread: function() {

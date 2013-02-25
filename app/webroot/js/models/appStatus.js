@@ -1,9 +1,10 @@
 define([
     'underscore',
     'backbone',
-    'models/app',
     'cakeRest'
-], function(_, Backbone, App) {
+], function(_, Backbone, cakeRest) {
+
+    "use strict";
 
     var AppStatusModel = Backbone.Model.extend({
 
@@ -18,7 +19,7 @@ define([
 
     });
 
-    _.extend(AppStatusModel.prototype, SaitoApp.Mixins.cakeRest)
+    _.extend(AppStatusModel.prototype, cakeRest);
 
     return AppStatusModel;
 });

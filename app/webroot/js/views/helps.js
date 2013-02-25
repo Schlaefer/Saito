@@ -4,6 +4,8 @@ define([
     'backbone'
 ], function($, _, Backbone) {
 
+    "use strict";
+
     var HelpsView = Backbone.View.extend({
 
         isHelpShown: false,
@@ -32,7 +34,7 @@ define([
             var defaults = {
                 trigger: 'manual',
                 html: true
-            }
+            };
             var positions = ['bottom', 'right', 'left'];
             for (var i in positions) {
                 $(this.elementName + '-' + positions[i]).popover(
@@ -43,7 +45,7 @@ define([
             $(this.indicatorName).popover({
                 placement:  'left',
                 trigger:    'manual'
-            })
+            });
         },
 
         isHelpOnPage: function() {

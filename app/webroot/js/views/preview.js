@@ -6,13 +6,15 @@ define([
 ], function($, _, Backbone,
     spinnerTpl) {
 
+    "use strict";
+
     var PreviewView = Backbone.View.extend({
 
         initialize: function() {
             this.render();
 
-            this.listenTo(this.model, "change:data", this._spinner)
-            this.listenTo(this.model, "change:rendered", this.render)
+            this.listenTo(this.model, "change:data", this._spinner);
+            this.listenTo(this.model, "change:rendered", this.render);
         },
 
        _spinner: function() {

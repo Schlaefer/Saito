@@ -8,6 +8,8 @@ define([
     AppSettingModel, AppStatusModel, CurrentUserModel
     ) {
 
+    "use strict";
+
     var AppModel = Backbone.Model.extend({
 
 
@@ -44,7 +46,7 @@ define([
             this.currentUser = new CurrentUserModel();
 
             // @td remove export after thread_line.class.js is removed
-            eventBus = this.eventBus;
+            window.eventBus = this.eventBus;
 
         },
 
