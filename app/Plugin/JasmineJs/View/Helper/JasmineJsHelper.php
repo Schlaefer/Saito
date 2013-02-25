@@ -12,7 +12,8 @@
 			'js' => array(
 				'JasmineJs.jasmine.js',
 				'JasmineJs.jasmine-html.js',
-				'JasmineJs.jasmine-jquery.js'
+				'JasmineJs.jasmine-jquery.js',
+				'JasmineJs.sinon-1.6.0.js'
 			),
 			'css' => array(
 				'JasmineJs.jasmine.css'
