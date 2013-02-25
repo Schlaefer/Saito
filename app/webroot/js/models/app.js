@@ -4,11 +4,12 @@ define([
     'models/appSetting',
     'models/appStatus',
     'models/currentUser'
-], function(_, Backbone,
+], function (_, Backbone,
     AppSettingModel, AppStatusModel, CurrentUserModel
     ) {
 
     var AppModel = Backbone.Model.extend({
+
 
         /**
          * global event handler for the app
@@ -36,8 +37,7 @@ define([
         request: null,
 
 
-        initialize: function(options) {
-
+        initialize: function () {
             this.eventBus = _.extend({}, Backbone.Events);
             this.settings = new AppSettingModel();
             this.status = new AppStatusModel();
@@ -48,34 +48,40 @@ define([
 
         },
 
-        initAppStatusUpdate: function() {
+        initAppStatusUpdate: function () {
             var resetRefreshTime,
                 updateAppStatus,
                 setTimer,
                 timerId,
+                stopTimer,
                 refreshTimeAct,
                 refreshTimeBase = 5000,
                 refreshTimeMax = 30000;
 
-
-            resetRefreshTime = function() {
-                if (typeof timerId !== "undefined") {
+            stopTimer = function () {
+                if (timerId !== undefined) {
                     clearTimeout(timerId);
                 }
+            },
+
+            resetRefreshTime = function () {
+                stopTimer();
                 refreshTimeAct = refreshTimeBase;
             };
 
-            setTimer = function() {
+            setTimer = function () {
                 timerId = setTimeout(
                     updateAppStatus,
                     refreshTimeAct
                 );
-            }
+            };
 
-            updateAppStatus = _.bind(function() {
+            updateAppStatus = _.bind(function () {
                 setTimer();
                 this.status.fetch();
-                refreshTimeAct = Math.floor(refreshTimeAct * (1 + refreshTimeAct/40000))
+                refreshTimeAct = Math.floor(
+                    refreshTimeAct * (1 + refreshTimeAct / 40000)
+                );
                 if (refreshTimeAct > refreshTimeMax) {
                     refreshTimeAct = refreshTimeMax;
                 }
@@ -86,7 +92,7 @@ define([
             this.listenTo(
                 this.status,
                 'change',
-                function() {
+                function () {
                     resetRefreshTime();
                     setTimer();
                 }
@@ -94,7 +100,7 @@ define([
 
             updateAppStatus();
             resetRefreshTime();
-            setTimer()
+            setTimer();
         }
 
     });

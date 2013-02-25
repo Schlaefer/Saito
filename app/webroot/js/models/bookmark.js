@@ -1,19 +1,21 @@
 define([
     'underscore',
     'backbone',
+    'models/app',
     'cakeRest'
-], function(_, Backbone, cakeRest) {
+], function (_, Backbone, App, cakeRest) {
+
+    "use strict";
 
     var BookmarkModel = Backbone.Model.extend({
 
-        initialize: function() {
-            // @td
-            this.webroot = SaitoApp.app.settings.webroot + 'bookmarks/';
+        initialize: function () {
+            this.webroot = App.settings.get('webroot') + 'bookmarks/';
         }
 
     });
 
-    _.extend(BookmarkModel.prototype, SaitoApp.Mixins.cakeRest)
+    _.extend(BookmarkModel.prototype, SaitoApp.Mixins.cakeRest);
 
     return BookmarkModel;
 });

@@ -3,9 +3,9 @@ define([
     'backbone',
     'models/app',
     'cakeRest'
-], function(_, Backbone,
-    App
-    ) {
+], function(_, Backbone, App) {
+
+    'use strict';
 
     var UploadModel = Backbone.Model.extend({
 
@@ -15,7 +15,7 @@ define([
 
     });
 
-    _.extend(UploadModel.prototype, SaitoApp.Mixins.cakeRest)
+    _.extend(UploadModel.prototype, SaitoApp.Mixins.cakeRest);
 
     return UploadModel;
 });

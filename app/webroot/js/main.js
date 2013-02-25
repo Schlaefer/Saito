@@ -100,10 +100,12 @@ require(
         };
 
         var specs = [
+            'models/AppStatusModelSpec.js',
+            'models/BookmarkModelSpec.js',
+            'models/UploadModelSpec.js',
             'lib/MarkItUpSpec.js',
-            'lib/jquery.i18n.extendSpec.js',
-            'views/AppViewSpec.js'
-            // 'views/BookmarkViewSpec.js'
+            'lib/jquery.i18n.extendSpec.js'
+            // 'views/AppViewSpec.js'
         ];
 
         specs = _.map(specs, function(value){

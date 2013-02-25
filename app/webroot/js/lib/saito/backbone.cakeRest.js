@@ -24,11 +24,14 @@
             options = options || {};
             options.url = this.urlRoot + model.methodToCakePhpUrl[method.toLowerCase()];
             if (!this.isNew()) {
-                options.url = options.url + (options.url.charAt(options.url.length - 1) == '/' ? '' : '/') + this.id;
+                options.url =
+                    options.url +
+                    (options.url.charAt(options.url.length - 1) === '/' ? '' : '/') +
+                    this.id;
             }
             Backbone.sync(method, model, options);
         }
 
-    }
+    };
 
 });
