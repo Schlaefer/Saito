@@ -43,7 +43,6 @@
 	<?php
 		echo $this->Html->scriptBlock("var user_show_inline = '{$this->Session->read('Auth.User.inline_view_on_click')}';");
 	?>
-	<?php echo $this->Html->script('js.min'); ?>
   <?php echo $this->fetch('script'); ?>
 	<?php echo $this->Js->writeBuffer();?>
 	</body>

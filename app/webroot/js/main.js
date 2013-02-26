@@ -14,6 +14,7 @@ require.config({
 	},
 	paths: {
 		jquery: 'lib/jquery/jquery-require',
+        jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
 		jqueryhelpers: 'lib/jqueryhelpers',
 		backbone: 'lib/backbone/backbone',
         underscore: 'lib/underscore/underscore',
@@ -48,7 +49,7 @@ if (typeof console === "undefined") {
 }
 
 require(
-    ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers', 'lib/saito/backbone.initHelper'],
+    ['domReady', 'views/app', 'backbone', 'bootstrap', 'lib/saito/backbone.initHelper'],
     function(domReady, AppView, Backbone) {
 
     if (typeof SaitoApp.app.runJsTests === 'undefined') {
