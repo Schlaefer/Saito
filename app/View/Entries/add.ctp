@@ -73,7 +73,7 @@ if ( $this->getVar('citeText') ) {
 			?>
 			<?php echo
 			$this->Form->label(
-					'media', 'Bitte Verweis oder Code zum Einbinden angeben:',
+					'media', __('Enter link or embedding code:'),
 					array(
 					'class' => 'c_markitup_label',
 					)
@@ -89,9 +89,10 @@ if ( $this->getVar('citeText') ) {
 			));
 			?>
 			<div class="clearfix"></div>
+			<br/>
 <?php echo
-$this->Form->submit(__('Einfügen'),
-		array( // @lo
+$this->Form->submit(__('Insert'),
+		array(
 		'style' => 'float: right;',
 		'class' => 'btn btn-submit',
 		'id' => 'markitup_media_btn',
