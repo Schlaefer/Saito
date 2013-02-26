@@ -15,7 +15,7 @@
 
 		<ul class="category-chooser-ul">
 			<li class="category-chooser-li">
-				<?php 
+				<?php
 					/* For performance reasons we generate the html manually */
 					/*
 					echo $this->Form->checkbox('CatMeta.All',
@@ -66,6 +66,7 @@
 				<?php endforeach; ?>
 		</ul>
 		<?php
+		/*
 			$this->Js->get('#cb-category-chooser-all')->event('click',
 					<<<EOF
 			if (this.checked) {
@@ -76,6 +77,7 @@
 			return true;
 EOF
 			);
+		*/
 		?>
 		<?php echo
 			$this->Form->submit(__('Apply'), array(

@@ -8,10 +8,11 @@ define([
 	'collections/threads', 'views/threads',
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
-    'views/notification',
-    'views/helps',
+    'views/notification', 'views/helps', 'views/categoryChooser',
     'collections/slidetabs', 'views/slidetabs',
-    'views/answering'
+    'views/answering',
+    'jqueryUi',
+    'classes/thread_line.class'
 	], function(
 		$, _, Backbone,
         App,
@@ -20,8 +21,7 @@ define([
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingsView,
         BookmarksCollection, BookmarksView,
-        NotificationView,
-        HelpsView,
+        NotificationView, HelpsView, CategoryChooserView,
         SlidetabsCollection, SlidetabsView,
         AnsweringView
 		) {
@@ -38,7 +38,8 @@ define([
 				'click #showLoginForm': 'showLoginForm',
 				'focus #header-searchField': 'widenSearchField',
                 'click #btn-scrollToTop': 'scrollToTop',
-                'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead'
+                'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
+                "click #btn-category-chooser": "toggleCategoryChooser"
 			},
 
 			initialize: function (options) {
@@ -128,6 +129,7 @@ define([
                 this.initBookmarks('#bookmarks');
                 this.initHelp('.shp');
                 this.initSlidetabs('#slidetabs');
+                this.initCategoryChooser('#category-chooser');
 
                 if($('.entry.add').length > 0) {
                     // init the entries/add form where answering is not
@@ -182,6 +184,18 @@ define([
                     el: element_n,
                     collection: slidetabs
                 });
+            },
+
+            initCategoryChooser: function(element_n) {
+                if ($(element_n).length > 0) {
+                    this.categoryChooser = new CategoryChooserView({
+                        el: element_n
+                    });
+                }
+            },
+
+            toggleCategoryChooser: function() {
+               this.categoryChooser.toggle();
             },
 
             initNotifications: function() {
