@@ -3,7 +3,8 @@ define([
 	'underscore',
 	'backbone',
 	'views/threadline-spinner',
-	'text!templates/threadline-spinner.html'
+	'text!templates/threadline-spinner.html',
+    'lib/saito/jquery.scrollIntoView'
 	], function($, _, Backbone, ThreadlineSpinnerView, threadlineSpinnerTpl) {
 		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
@@ -34,8 +35,8 @@ define([
 			},
 
 			/**
-		 * shows and hides the element that contains an inline posting
-		 */
+             * shows and hides the element that contains an inline posting
+             */
 			toggleInlineOpen: function(event) {
 				event.preventDefault();
 				this.scroll = true;
@@ -135,29 +136,20 @@ define([
 			},
 
 			/**
-		 * if the line is not in the browser windows at the moment
-		 * scroll to that line and highlight it
-		 */
+             * if the line is not in the browser windows at the moment
+             * scroll to that line and highlight it
+             */
 			_scrollLineIntoView: function () {
-				var thread_line = this.$el.find('.js-thread_line-content');
-				if (!thread_line.isScrolledIntoView()) {
-					$(window).scrollTo(
-						thread_line,
-						400,
-						{
-							'offset': -40,
-							easing: 'swing',
-							onAfter: function() {
-								thread_line.effect(
-									"highlight",
-									{
-										times: 1
-									},
-									3000);
-							} //end onAfter
-						}
-						);
-				}
+                var thread_line = this.$('.js-thread_line-content');
+                if (!thread_line.scrollIntoView('isInView')) {
+                    thread_line.scrollIntoView('top')
+                        .effect(
+                            "highlight",
+                            {
+                                times: 1
+                            },
+                            3000);
+                }
 			}
 		});
 

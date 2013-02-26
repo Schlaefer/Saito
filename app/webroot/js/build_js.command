@@ -13,18 +13,17 @@ done;
 
 ### Merging uncompressed files ###
 scripts[0]='classes.min.js'
-scripts[1]='_app.js'
 
 for i in "${scripts[@]}"
 do
-  cat $i >> custom_javascript.js 
+  cat $i >> custom_javascript.js
 done
 
 ### Compress ###
 yuicompressor 'custom_javascript.js -o custom_javascript-compressed.js'
 
 ### Merge compressed files ###
-cat lib/jquery-ui/jquery-ui-1.9.2.custom.min.js custom_javascript-compressed.js  lib/jquery.scrollTo/jquery.scrollTo-min.js > js.min.js
+cat lib/jquery-ui/jquery-ui-1.9.2.custom.min.js custom_javascript-compressed.js > js.min.js
 
 ### Clean Up Temp Files ###
 rm classes.min.js

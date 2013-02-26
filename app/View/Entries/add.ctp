@@ -287,7 +287,6 @@ $this->Form->submit(__('Insert'),
 		</div> <!-- content -->
 	</div> <!-- postingform -->
 </div> <!-- entry add/reply -->
-<div class="posting_formular_slider_bottom"></div>
 
 <?php if ($this->request->action === 'edit'): ?>
 	<span id="submit-countdown" class="countdown" style="display: none;"></span>

@@ -4,7 +4,8 @@ define([
     'backbone',
     'models/app',
     'views/uploads', 'views/mediaInsert',
-    'models/preview', 'views/preview'
+    'models/preview', 'views/preview',
+    'lib/saito/jquery.scrollIntoView'
 ], function($, _, Backbone,
             App,
             UploadsView, MediaInsertView,
@@ -83,9 +84,7 @@ define([
         },
 
         _postProcess: function() {
-            if(!_isScrolledIntoView(this.$('.posting_formular_slider_bottom'))) {
-                scrollToBottom(this.$('.posting_formular_slider_bottom'));
-            }
+            this.$el.scrollIntoView('bottom');
             $('.postingform input[type=text]:first').focus();
         },
 
