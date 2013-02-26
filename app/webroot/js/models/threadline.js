@@ -17,6 +17,7 @@ define([
             new ThreadLine(this.get('id')).load_inline_view(options);
             this.set('isContentLoaded', true);
         }
+
     });
 
     return ThreadLineModel;

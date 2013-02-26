@@ -5,7 +5,6 @@
  */
 function ThreadLine(id) {
   this.id = id;
-
   this.id_thread_slider		=	'#t_s_' + id;
 };
 

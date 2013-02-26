@@ -23,7 +23,8 @@ define([
 			},
 
 			initialize: function(){
-				this.model.on('change:isInlineOpened', this._toggleInlineOpened, this);
+				this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
+                this.listenTo(this.model, 'change:isContentLoaded', this._insertContent);
 
 				this.scroll = false;
 			},
@@ -66,12 +67,7 @@ define([
 						}));
 						this.$el.find('.btn-strip-top').on('click', _.bind(this.toggleInlineOpen, this))	;
 
-						this.model.loadContent({
-							success: _.bind(this._showInlineView, this, {
-								tslV: 'hide',
-								scroll: this.scroll
-							})
-						});
+						this.model.loadContent();
 					} else {
 						this._showInlineView({scroll: this.scroll});
 					}
@@ -80,6 +76,13 @@ define([
 				}
 				this.scroll = false;
 			},
+
+            _insertContent: function() {
+                this._showInlineView({
+                    tslV: 'hide',
+                    scroll: this.scroll
+                });
+            },
 
 			_showInlineView: function (options) {
 				options || (options = {});
