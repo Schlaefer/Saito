@@ -20,11 +20,17 @@ define([
         answeringForm: false,
         preview: false,
 
+        /**
+         * same model as the parent PostingView
+         */
+        model: null,
+
         events: {
             "click .btn-previewClose": "_closePreview",
             "click .btn-preview": "_showPreview",
             "click .btn-markItUp-Upload": "_upload",
-            "click .btn-markItUp-Media": "_media"
+            "click .btn-markItUp-Media": "_media",
+            "click .btn-submit.js-inlined": "_sendInline"
         },
 
         initialize: function() {
@@ -86,6 +92,24 @@ define([
         _postProcess: function() {
             this.$el.scrollIntoView('bottom');
             $('.postingform input[type=text]:first').focus();
+        },
+
+        _sendInline: function(event) {
+            $.ajax({
+                url: App.settings.get('webroot') + "entries/add",
+                type: "POST",
+                data: this.$("#EntryAddForm").serialize(),
+                beforeSend:_.bind(function() {
+                    this.$('.btn.btn-submit').attr('disabled', 'disabled');
+                }, this),
+                success:_.bind(function(data) {
+                    event.preventDefault();
+                    App.eventBus.trigger('appendThreadLine', {
+                        parrentId: this.model.get('id') ,
+                        html: data
+                    });
+                }, this)
+            });
         },
 
         render: function() {

@@ -2,10 +2,13 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+    'models/app',
 	'views/threadline-spinner',
-	'text!templates/threadline-spinner.html',
+    'text!templates/threadline-spinner.html',
+    'views/postings', 'models/posting',
     'lib/saito/jquery.scrollIntoView'
-	], function($, _, Backbone, ThreadlineSpinnerView, threadlineSpinnerTpl) {
+	], function($, _, Backbone, App, ThreadlineSpinnerView, threadlineSpinnerTpl,
+    PostingView, PostingModel) {
 		// @td if everything is migrated to require/bb set var again
 		ThreadLineView = Backbone.View.extend({
 
@@ -22,9 +25,12 @@ define([
 					// 'click .btn-strip-top': 'toggleInlineOpen'
 			},
 
-			initialize: function(){
+			initialize: function(options){
+                this.postings = options.postings;
+                this.collection = options.collection;
+
 				this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
-                this.listenTo(this.model, 'change:isContentLoaded', this._insertContent);
+                this.listenTo(App.eventBus, 'appendThreadLine', this._appendThreadLine);
 
 				this.scroll = false;
 			},
@@ -67,7 +73,7 @@ define([
 						}));
 						this.$el.find('.btn-strip-top').on('click', _.bind(this.toggleInlineOpen, this))	;
 
-						this.model.loadContent();
+                        this._insertContent();
 					} else {
 						this._showInlineView({scroll: this.scroll});
 					}
@@ -78,9 +84,26 @@ define([
 			},
 
             _insertContent: function() {
+                var id;
+                id = this.model.get('id');
+
+                this.postingModel = new PostingModel({
+                    id: id
+                });
+                this.postings.add(this.postingModel);
+
+                new PostingView({
+                    el: this.$('.t_s'),
+                    model: this.postingModel,
+                    collection: this.postings
+                });
+
+                this.postingModel.fetchHtml();
+
+                this.model.set('isContentLoaded', true);
                 this._showInlineView({
-                    tslV: 'hide',
-                    scroll: this.scroll
+                        tslV: 'hide',
+                        scroll: this.scroll
                 });
             },
 
@@ -137,6 +160,30 @@ define([
 					)
 				);
 			},
+
+            _appendThreadLine: function(options) {
+                if (options.parrentId !== this.model.get('id')) { return };
+                var data = options.html;
+                var tid = $(data).find('.js-thread_line').data('tid');
+                this.model.set({isInlineOpened: false});
+                this.postings.get(this.model.get('id')).set({isAnsweringFormShown: false});
+                var el = $('<li>'+data+'</li>').
+                    insertAfter('#ul_thread_' + this.model.get('id') + ' > li:last-child');
+
+                // add to backbone model
+                var threadLineId = $(data).find('.js-thread_line').data('id');
+                this.collection.add([{
+                    id: threadLineId,
+                    isNewToUser: true,
+                    isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
+                }], {silent: true});
+                new ThreadLineView({
+                    el: $(el).find('.js-thread_line'),
+                    model: this.collection.get(threadLineId),
+                    collection: this.collection,
+                    postings: this.postings
+                });
+            },
 
 			/**
              * if the line is not in the browser windows at the moment

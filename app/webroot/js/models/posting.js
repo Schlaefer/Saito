@@ -1,18 +1,32 @@
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'models/app'
+], function (_, Backbone, App) {
 
     "use strict";
 
     var PostingModel = Backbone.Model.extend({
 
         defaults: {
-            isAnsweringFormShown: false
+            isAnsweringFormShown: false,
+            html: ''
         },
 
         toggle: function (attribute) {
             this.set(attribute, !this.get(attribute));
+        },
+
+        fetchHtml: function() {
+            $.ajax({
+                success: _.bind(function(data) {
+                    this.set('html', data);
+                }, this),
+                type: "post",
+                async: false,
+                dateType: "html",
+                url: App.settings.get('webroot') + 'entries/view/'  + this.get('id')
+            });
         }
 
     });

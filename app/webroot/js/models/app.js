@@ -44,10 +44,6 @@ define([
             this.settings = new AppSettingModel();
             this.status = new AppStatusModel();
             this.currentUser = new CurrentUserModel();
-
-            // @td remove export after thread_line.class.js is removed
-            window.eventBus = this.eventBus;
-
         },
 
         initAppStatusUpdate: function () {

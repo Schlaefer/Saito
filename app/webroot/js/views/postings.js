@@ -25,7 +25,11 @@ define([
             },
 
 			initialize: function(options) {
+                this.collection = options.collection;
+
 				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
+                this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
+                this.listenTo(this.model, 'change:html', this.render)
 
                 this.initGeshi('.c_bbc_code-wrapper');
 			},
@@ -85,15 +89,18 @@ define([
 
                 // @td @bogus
                 parent = $(this.el).find('.posting_formular_slider').parent();
-                this.answeringForm.remove();
-                this.answeringForm.undelegateEvents();
-                this.answeringForm = false;
+                // @td @bogus inline answer
+                if (this.answeringForm !== false) {
+                    this.answeringForm.remove();
+                    this.answeringForm.undelegateEvents();
+                    this.answeringForm = false;
+                }
                 parent.append('<div class="posting_formular_slider"></div>');
 			},
 
 			_hideAllAnsweringForms: function() {
 				// we have #id problems with more than one markItUp on a page
-				postings.forEach(function(posting){
+				this.collection.forEach(function(posting){
 					if(posting.get('id') != this.model.get('id')) {
 						posting.set('isAnsweringFormShown', false);
 					}
@@ -112,7 +119,13 @@ define([
 			},
 			_hideBoxActions: function() {
 				$(this.el).find('.l-box-footer').slideUp('fast');
-			}
+			},
+
+            render: function() {
+                this.$el.html(this.model.get('html'));
+                return this;
+            }
+
 		});
 
 		return PostingView;

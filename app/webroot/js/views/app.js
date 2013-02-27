@@ -11,20 +11,21 @@ define([
     'views/notification', 'views/helps', 'views/categoryChooser',
     'collections/slidetabs', 'views/slidetabs',
     'views/answering',
-    'jqueryUi',
-    'classes/thread_line.class'
+    'jqueryUi'
 	], function(
 		$, _, Backbone,
         App,
         i18n,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
-		PostingCollection, PostingsView,
+		PostingCollection, PostingView,
         BookmarksCollection, BookmarksView,
         NotificationView, HelpsView, CategoryChooserView,
         SlidetabsCollection, SlidetabsView,
         AnsweringView
 		) {
+
+        "use strict";
 
 		var AppView = Backbone.View.extend({
 
@@ -43,6 +44,7 @@ define([
 			},
 
 			initialize: function (options) {
+                var threads;
 
                 App.settings.set(options.SaitoApp.app.settings);
                 App.currentUser.set(options.SaitoApp.currentUser);
@@ -61,13 +63,13 @@ define([
                 $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
 
 				// @td if everything is migrated to require/bb set var again
-				threads = new ThreadCollection;
-				if (this.request.controller === 'entries' && this.request.action === 'index') {
+				threads = new ThreadCollection();
+				if (App.request.controller === 'entries' && App.request.action === 'index') {
 					threads.fetch();
 				}
 
 				$('.thread_box').each(_.bind(function(index, element) {
-					var threadId = parseInt($(element).attr('data-id'));
+					var threadId = parseInt($(element).attr('data-id'), 10);
 					if (!threads.get(threadId)) {
 						threads.add([{
 							id: threadId,
@@ -80,13 +82,26 @@ define([
 					});
 				}, this));
 
-				// @td if everything is migrated to require/bb set var again
-				threadLines = new ThreadLineCollection;
-				$('.js-thread_line').each(function(element) {
-					var el = $(this);
-					var threadLineId = parseInt(el[0].getAttribute('data-id'));
-					var threadId = parseInt(el[0].getAttribute('data-tid'));
-					var isNew = el[0].getAttribute('data-new') == true;
+
+                this.postings = new PostingCollection();
+                $('.js-entry-view-core').each(_.bind(function(a,element) {
+                    var id = parseInt(element.getAttribute('data-id'), 10);
+                    this.postings.add([{
+                        id: id
+                    }], {silent: true});
+                    new PostingView({
+                        el: $(element),
+                        model: this.postings.get(id),
+                        collection: this.postings
+                    });
+                }, this));
+
+				var threadLines = new ThreadLineCollection();
+				$('.js-thread_line').each(_.bind(function(index, element) {
+					var el = element;
+					var threadLineId = parseInt(el.getAttribute('data-id'), 10);
+					var threadId = parseInt(el.getAttribute('data-tid'), 10);
+					var isNew = el.getAttribute('data-new') == true;
 					var new_model;
 					if(threads.get(threadId)) {
 						threads.get(threadId).threadlines.add([{
@@ -104,21 +119,10 @@ define([
 						new_model = threadLines.get(threadLineId);
 					}
 					new ThreadLineView({
-						el: $(this),
-						model: new_model
-					});
-				});
-
-				// @td if everything is migrated to require/bb set var again
-				postings = new PostingCollection();
-				$('.js-entry-view-core').each(_.bind(function(a,element) {
-					var id = parseInt(element.getAttribute('data-id'));
-					postings.add([{
-						id: id
-					}], {silent: true});
-					new PostingView({
 						el: $(element),
-						model: postings.get(id)
+                        postings: this.postings,
+						model: new_model,
+                        collection: threadLines
 					});
 				}, this));
 
@@ -228,7 +232,7 @@ define([
             },
 
 			scrollToThread: function(tid) {
-				scrollToTop($('.thread_box.' + tid));
+                $('.thread_box.' + tid)[0].scrollIntoView('top');
 			},
 
             initAutoreload: function() {

@@ -250,24 +250,12 @@ $this->Form->submit(__('Insert'),
 						));
 					} # !i$this->request->is('ajax')
 					else {
-						$js_r = "new ThreadLine('{$this->request->data['Entry']['id']}').insertNewLineAfter(data);";
-						$js_r .= "$('.btn.btn-submit').removeAttr('disabled');";
-						echo $this->Js->submit(
-								__('submit_button'),
-								array(
-								'url' => array(
-										'controller' => 'entries',
-										'action' => 'add',
-										$this->request->data['Entry']['id'],
-								),
+						echo $this->Form->submit(__('submit_button'),
+							array(
 								'id' => 'btn-submit',
-								'beforeSend' => "$('.btn.btn-submit').attr('disabled', 'disabled');",
-								'class' => 'btn btn-submit',
-								'tabindex' => 4,
-								'buffer' => false,
-								'success' => $js_r,
-								)
-						);
+								'class' => 'btn btn-submit js-inlined',
+								'tabindex' => 4
+							));
 					}
 					?>
 					&nbsp;
