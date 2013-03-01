@@ -16,6 +16,11 @@ define([
 
 			spinnerTpl: _.template(threadlineSpinnerTpl),
 
+            /**
+             * Posting collection
+             */
+            postings: null,
+
 			events: {
 					'click .btn_show_thread': 'toggleInlineOpen',
 					'click .link_show_thread': 'toggleInlineOpenFromLink'

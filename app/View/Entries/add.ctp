@@ -59,52 +59,8 @@ if ( $this->getVar('citeText') ) {
 			</div>
 		</div>
 
-		<div id="markitup_upload">
-            <div class="body">
-            </div>
-		</div>
-
-		<div id='markitup_media' style="display: none; overflow: hidden;">
-			<?php echo
-			$this->Form->create(FALSE,
-					array(
-					'url' => '#',
-					'style' => 'width: 100%;' ));
-			?>
-			<?php echo
-			$this->Form->label(
-					'media', __('Enter link or embedding code:'),
-					array(
-					'class' => 'c_markitup_label',
-					)
-			);
-			?>
-			<?php echo
-			$this->Form->textarea('media',
-					array(
-					'id' => 'markitup_media_txta',
-					'class' => 'c_markitup_popup_txta',
-					'rows' => '6',
-					'columns' => '20',
-			));
-			?>
-			<div class="clearfix"></div>
-			<br/>
-<?php echo
-$this->Form->submit(__('Insert'),
-		array(
-		'style' => 'float: right;',
-		'class' => 'btn btn-submit',
-		'id' => 'markitup_media_btn',
-));
-?>
-					<?php echo  $this->Form->end(); ?>
-			<div class="clearfix"></div>
-			<br/>
-			<div id="markitup_media_message" class="flash error" style="display: none;">
-					<?php echo __('No video recognized.'); ?>
-			</div>
-		</div>
+		<div id="markitup_upload"><div class="body"></div></div>
+		<div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
 		<div class="content">
 					<?php echo  $this->Form->create('Entry'); ?>

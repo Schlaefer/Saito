@@ -1,27 +1,30 @@
 define([
-'jquery',
-'underscore',
-'backbone',
-'models/app',
-'lib/saito/markItUp.media'
-], function($, _, Backbone, App, MarkItUpMedia) {
+    'jquery',
+    'underscore',
+    'backbone',
+    'models/app',
+    'lib/saito/markItUp.media',
+    'text!templates/mediaInsert.html'
+], function($, _, Backbone, App, MarkItUpMedia, mediaInsertTpl) {
 
     "use strict";
 
     return Backbone.View.extend({
+
+        template:_.template(mediaInsertTpl),
 
         events: {
             "click #markitup_media_btn": "_insert"
         },
 
         initialize: function() {
-            if (this.model !== undefined) {
+            if (this.model !== undefined && this.model !== null) {
                 this.listenTo(this.model, 'change:isAnsweringFormShown', this.remove);
             }
         },
 
         _insert: function(event) {
-            var out = '',
+            var out,
                 markItUpMedia;
 
             event.preventDefault();
@@ -47,7 +50,7 @@ define([
             this.$el
                 .dialog()
                 .parent()
-                .effect("shake", {times:2}, 60);
+                .effect("shake", {times: 2}, 250);
         },
 
         _closeDialog: function() {
@@ -71,6 +74,7 @@ define([
         },
 
         render: function() {
+            this.$el.html(this.template);
             this._showDialog();
             return this;
         }

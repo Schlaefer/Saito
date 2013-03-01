@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-19 17:57+0100\n"
-"PO-Revision-Date: 2013-02-21 13:16+0100\n"
+"POT-Creation-Date: 2013-03-01 10:26+0100\n"
+"PO-Revision-Date: 2013-03-01 10:27+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -185,7 +185,7 @@ msgstr "Neuer Beitrag"
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Entries/index.ctp:37 View/Layouts/admin.ctp:52
+#: View/Layouts/admin.ctp:52
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -395,7 +395,7 @@ msgstr ""
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
-#: View/Elements/entry/category-chooser.ctp:81
+#: View/Elements/entry/category-chooser.ctp:83
 msgid "Apply"
 msgstr "Anwenden"
 
@@ -630,43 +630,35 @@ msgstr ""
 "Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
 "innerhalb der nächsten 24 Stunden: %s"
 
-#: View/Entries/add.ctp:31 View/Entries/add.ctp:275
+#: View/Entries/add.ctp:31 View/Entries/add.ctp:220
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:93
-msgid "Einfügen"
-msgstr ""
-
-#: View/Entries/add.ctp:104
-msgid "No video recognized."
-msgstr "Es wurde kein Video erkannt."
-
-#: View/Entries/add.ctp:122 Controller/UsersController.php:444
+#: View/Entries/add.ctp:79 Controller/UsersController.php:444
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
-#: View/Entries/add.ctp:159
+#: View/Entries/add.ctp:116
 msgid "Cite"
 msgstr "Zitieren"
 
-#: View/Entries/add.ctp:181
+#: View/Entries/add.ctp:138
 msgid "Notify on reply"
 msgstr "Beitrag abonnieren"
 
-#: View/Entries/add.ctp:189
+#: View/Entries/add.ctp:146
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:196 View/Helper/EntryHHelper.php:196
+#: View/Entries/add.ctp:153 View/Helper/EntryHHelper.php:196
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
-#: View/Entries/add.ctp:204
+#: View/Entries/add.ctp:161
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/add.ctp:243 View/Entries/add.ctp:255 View/Entries/add.ctp:295
+#: View/Entries/add.ctp:200 View/Entries/add.ctp:209 View/Entries/add.ctp:239
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -1225,20 +1217,15 @@ msgid ""
 "geheuert, :loggedin an Deck, :anon Blinde Passagiere"
 msgstr ""
 
-#: View/Uploads/add.ctp:10 View/Uploads/index.ctp:35
-#: webroot/js/templates/uploads.html:27
+#: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Hochladen"
 
-#: View/Uploads/index.ctp:21 webroot/js/templates/uploads.html:10
-msgid "upload_new_title"
-msgstr "Neues Bild hier hineinwerfen"
-
-#: View/Uploads/json/index.ctp:8 View/Uploads/json/index.ctp:17
+#: View/Uploads/json/index.ctp:11 View/Uploads/json/index.ctp:16
 msgid "upload_btn_delete_upload"
 msgstr "Datei löschen"
 
-#: View/Uploads/json/index.ctp:38
+#: View/Uploads/json/index.ctp:36
 msgid "upload_btn_insert_into_posting"
 msgstr "Einfügen"
 
@@ -1579,7 +1566,7 @@ msgstr "Benutzerübersicht"
 msgid "userlist_online"
 msgstr "Status"
 
-#: View/Users/login.ctp:7
+#: View/Users/login.ctp:6
 msgid "login_linkname"
 msgstr "log in"
 
@@ -2126,7 +2113,7 @@ msgstr ""
 "Bitte URI zum Bild (.jpg, .png oder .gif) eingeben.:!:http://beispiel.de/"
 "bild.png"
 
-#: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:48
+#: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:79
 #, fuzzy
 msgid "Upload"
 msgstr "Hochladen"
@@ -2147,35 +2134,46 @@ msgstr "Benutzer"
 msgid "userranks_not_found"
 msgstr ""
 
-#: webroot/js/templates/uploads.html:12
+#: webroot/js/templates/mediaInsert.html:3
+msgid "Enter link or embedding code:"
+msgstr "Bitte Verweis oder Code zum Einbinden angeben:"
+
+#: webroot/js/templates/mediaInsert.html:12
+msgid "Insert"
+msgstr "Einfügen"
+
+#: webroot/js/templates/mediaInsert.html:17
+msgid "Nothing recognized."
+msgstr "Nichts erkannt."
+
+#: webroot/js/templates/uploadNew.html:9
+msgid "upload_new_title"
+msgstr "Neues Bild hier hineinwerfen"
+
+#: webroot/js/templates/uploadNew.html:11
 msgid "upload_info"
 msgstr "Max. :size kB; jpg, jpeg, png, gif"
 
-#: webroot/js/main-prod.js:48
+#: webroot/js/main-prod.js:79
 msgid ""
-"upload_new_title') %></h2>\\n                        <br/>"
-"\\n                        (max. <?php echo $this->Number ->toReadableSize"
-"( Configure::read( 'Saito.Settings. upload_max_img_size') * 1024); ?> jpg, "
-"jpeg, png, gif)\\n                    </div>\\n                </div>"
-"\\n                <div style=\"display: table-row;\">\\n                    "
-"<div class=\"upload_box_footer\" style=\"display: table-cell; \">"
-"\\n                        <div style=\"position: relative;\">"
-"\\n                            <!--\\n                                // To "
-"present a nice upload button we generate a dead button."
-"\\n                                // Beneath the nice dummy button is the "
-"actual input file upload,\\n                                // but it's "
-"hidden behind the opacity:0 curtain div.\\n                              // "
-"z-index: 2000 to have the button above the jQuery UI modal."
-"\\n                              -->\\n                            <button "
-"class=\"btn btn-submit\" type=\"button\">Hochladen</button>"
-"\\n                            <div style=\"position: absolute; z-index: "
-"2000; top:0; right: 0; width: 100%; height: 100%; opacity: 0; cursor: "
-"pointer; overflow: hidden; \" >\\n                                <input "
-"type=\"file\" name=\"data[Upload][0][file]\" style=\"width: 150px; height: "
-"100%\" onchange=\"this.form.submit();\" id=\"Upload0File\">"
-"\\n                            </div>\\n                        </div>"
-"\\n                    </div>\\n                </div>\\n        <?php "
-"endif; ?>\\n    </div>\\n</div>\\n<div class=\"clearfix\"></div>\\n"
+"upload_new_title') %></h2>\\n            <p>\\n                <%- $.i18n.__"
+"('upload_info', {size: upload_size}) %>\\n            </p>\\n        </div>"
+"\\n        <div class=\"l-box-footer box-footer-form upload_box_footer\">"
+"\\n            <div style=\"position: relative;\">\\n                <!--"
+"\\n                    // To present a nice upload button we generate a dead "
+"button.\\n                    // Beneath the nice dummy button is the actual "
+"input file upload,\\n                    // but it's hidden behind the "
+"opacity:0 curtain div.\\n                  // z-index: 2000 to have the "
+"button above the jQuery UI modal.\\n                  -->\\n                "
+"<button class=\"btn btn-submit\" type=\"button\">\\n                    <%- "
+"$.i18n.__(\"upload_btn\") %>\\n                </button>\\n                "
+"<div style=\"position: absolute; z-index: 2000; top:0; right: 0; width: "
+"100%; height: 100%; opacity: 0; cursor: pointer; overflow: hidden; \" >"
+"\\n                    <input id=\"Upload0File"
+"\"\\n                           type=\"file\" name=\"data[Upload][0]"
+"[file]\"\\n                           style=\"width: 150px; height: 100%"
+"\"\\n                            >\\n                </div>\\n            </"
+"div>\\n        </div>\\n    </form>\\n<?php endif; ?>\\n"
 msgstr ""
 
 #~ msgid ":users Users online"
