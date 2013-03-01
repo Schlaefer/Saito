@@ -19,6 +19,7 @@ define([
         rendered: false,
         answeringForm: false,
         preview: false,
+        mediaView: false,
 
         /**
          * same model as the parent PostingView
@@ -52,10 +53,13 @@ define([
         _media: function() {
             event.preventDefault();
 
-            this.mediaView = new MediaInsertView({
-                el: '#markitup_media',
-                model: this.model
-            }).render();
+            if(this.mediaView === false) {
+                this.mediaView = new MediaInsertView({
+                    el: '#markitup_media',
+                    model: this.model
+                });
+            }
+            this.mediaView.render();
         },
 
         _showPreview: function(event) {

@@ -29,8 +29,6 @@ define([
 
             event.preventDefault();
 
-            this.$('#markitup_media_message').hide();
-
             markItUpMedia = MarkItUpMedia;
             out = markItUpMedia.multimedia(
                 this.$('#markitup_media_txta').val(),
@@ -45,6 +43,10 @@ define([
             }
         },
 
+        _hideErrorMessages: function() {
+            this.$('#markitup_media_message').hide();
+        },
+
         _invalidInput: function() {
             this.$('#markitup_media_message').show();
             this.$el
@@ -55,6 +57,7 @@ define([
 
         _closeDialog: function() {
             this.$el.dialog('close');
+            this._hideErrorMessages();
             this.$('#markitup_media_txta').val('');
         },
 
@@ -67,9 +70,9 @@ define([
                 open: function() {
                     setTimeout(function() {$('#markitup_media_txta').focus();}, 210);
                 },
-                close: function() {
-                    $('#markitup_media_message').hide();
-                }
+                close: _.bind(function() {
+                    this._hideErrorMessages();
+                }, this)
             });
         },
 
