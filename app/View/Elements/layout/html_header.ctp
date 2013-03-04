@@ -46,9 +46,9 @@
         var $viewport = $('head').children('meta[name="viewport"]');
         $(window).bind('orientationchange', function() {
             if (window.orientation == 90 || window.orientation == -90 || window.orientation == 270) {
-                $viewport.attr('content', 'height=device-width,width=device-height,initial-scale=1.0,maximum-scale=1.0');
+                $viewport.attr('content', 'height=device-width,width=device-height,initial-scale=1.0');
             } else {
-                $viewport.attr('content', 'height=device-height,width=device-width,initial-scale=1.0,maximum-scale=1.0');
+                $viewport.attr('content', 'height=device-height,width=device-width,initial-scale=1.0');
             }
         }).trigger('orientationchange');
     }
