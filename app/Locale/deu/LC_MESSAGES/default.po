@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-01 10:26+0100\n"
-"PO-Revision-Date: 2013-03-01 10:27+0100\n"
+"POT-Creation-Date: 2013-03-05 11:47+0100\n"
+"PO-Revision-Date: 2013-03-05 11:47+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: __;gettext;gettext_noop;_\n"
 "X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
 "macnemo_2_github/app/\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -185,7 +185,8 @@ msgstr "Neuer Beitrag"
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Layouts/admin.ctp:52
+#: View/Layouts/admin.ctp:52 webroot/js/main-prod.js:79
+#: webroot/js/views/categoryChooser.js:18
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -2114,6 +2115,7 @@ msgstr ""
 "bild.png"
 
 #: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:79
+#: webroot/js/views/uploads.js:71
 #, fuzzy
 msgid "Upload"
 msgstr "Hochladen"
@@ -2154,26 +2156,56 @@ msgstr "Neues Bild hier hineinwerfen"
 msgid "upload_info"
 msgstr "Max. :size kB; jpg, jpeg, png, gif"
 
+#: webroot/js/main-prod.js:79 webroot/js/views/uploadNew.js:71
+msgid "upload_fileTypeNotAllowed"
+msgstr "Dateityp nicht erlaubt."
+
 #: webroot/js/main-prod.js:79
 msgid ""
-"upload_new_title') %></h2>\\n            <p>\\n                <%- $.i18n.__"
-"('upload_info', {size: upload_size}) %>\\n            </p>\\n        </div>"
-"\\n        <div class=\"l-box-footer box-footer-form upload_box_footer\">"
-"\\n            <div style=\"position: relative;\">\\n                <!--"
-"\\n                    // To present a nice upload button we generate a dead "
-"button.\\n                    // Beneath the nice dummy button is the actual "
-"input file upload,\\n                    // but it's hidden behind the "
-"opacity:0 curtain div.\\n                  // z-index: 2000 to have the "
-"button above the jQuery UI modal.\\n                  -->\\n                "
-"<button class=\"btn btn-submit\" type=\"button\">\\n                    <%- "
-"$.i18n.__(\"upload_btn\") %>\\n                </button>\\n                "
-"<div style=\"position: absolute; z-index: 2000; top:0; right: 0; width: "
-"100%; height: 100%; opacity: 0; cursor: pointer; overflow: hidden; \" >"
-"\\n                    <input id=\"Upload0File"
-"\"\\n                           type=\"file\" name=\"data[Upload][0]"
-"[file]\"\\n                           style=\"width: 150px; height: 100%"
-"\"\\n                            >\\n                </div>\\n            </"
-"div>\\n        </div>\\n    </form>\\n<?php endif; ?>\\n"
+"Enter link or embedding code:') %>\n"
+"    </label>\n"
+"    <textarea name=\"data[media]\" id=\"markitup_media_txta\" class="
+"\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\">\n"
+"    </textarea>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div class=\"submit\">\n"
+"        <input style=\"float: right;\" class=\"btn btn-submit\"\n"
+"               id=\"markitup_media_btn\" type=\"submit\"\n"
+"               value=\"<%- $.i18n.__('Insert') %>\"/>\n"
+"    </div>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div id=\"markitup_media_message\" class=\"flash error\" style="
+"\"display: none;\">\n"
+"        <%- $.i18n.__('Nothing recognized.') %>\n"
+"    </div>\n"
+"</form>\n"
+msgstr ""
+
+#: webroot/js/main-prod.js:79 webroot/js/views/mediaInsert.js:68
+#, fuzzy
+msgid "Multimedia"
+msgstr "Einbinden"
+
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
+msgid "tr:first"
+msgstr ""
+
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
+msgid "tr"
+msgstr ""
+
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:28
+msgid "token test"
+msgstr ""
+
+#: webroot/js/views/uploadNew.js:63
+msgid "foobar"
+msgstr ""
+
+#: webroot/js/views/uploadNew.js:64
+msgid "foobar1"
 msgstr ""
 
 #~ msgid ":users Users online"

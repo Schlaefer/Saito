@@ -13,6 +13,8 @@ define([
             spinnerTpl
     ) {
 
+    "use strict";
+
     var UploadNewView = Backbone.View.extend({
 
         className: "box-content upload_box upload-new",
@@ -58,18 +60,16 @@ define([
 
                     this._hideDragIndicator();
 
-                    App.eventBus.trigger(
-                        'notification',
-                        {
-                            title: 'Error',
-                            message: err,
-                            type: 'error'
-                        }
-                    );
-
                     switch(err) {
                         case 'FileTypeNotAllowed':
-
+                            App.eventBus.trigger(
+                                'notification',
+                                {
+                                    title: 'Error',
+                                    message: $.i18n.__('upload_fileTypeNotAllowed'),
+                                    type: 'error'
+                                }
+                            );
                             break;
                         default:
                             break;

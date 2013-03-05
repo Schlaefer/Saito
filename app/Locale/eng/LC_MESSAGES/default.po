@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-19 17:56+0100\n"
-"PO-Revision-Date: 2013-02-21 13:15+0100\n"
+"POT-Creation-Date: 2013-03-05 11:47+0100\n"
+"PO-Revision-Date: 2013-03-05 11:47+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -182,7 +182,8 @@ msgstr ""
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Entries/index.ctp:37 View/Layouts/admin.ctp:52
+#: View/Layouts/admin.ctp:52 webroot/js/main-prod.js:79
+#: webroot/js/views/categoryChooser.js:18
 msgid "Categories"
 msgstr ""
 
@@ -380,7 +381,7 @@ msgstr ""
 msgid "All Categories"
 msgstr ""
 
-#: View/Elements/entry/category-chooser.ctp:81
+#: View/Elements/entry/category-chooser.ctp:83
 msgid "Apply"
 msgstr ""
 
@@ -610,43 +611,35 @@ msgstr ""
 "To activate your account please click the following link: %s within the next "
 "24 hours."
 
-#: View/Entries/add.ctp:31 View/Entries/add.ctp:275
+#: View/Entries/add.ctp:31 View/Entries/add.ctp:220
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:93
-msgid "Einfügen"
-msgstr ""
-
-#: View/Entries/add.ctp:104
-msgid "No video recognized."
-msgstr ""
-
-#: View/Entries/add.ctp:122 Controller/UsersController.php:444
+#: View/Entries/add.ctp:79 Controller/UsersController.php:444
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:159
+#: View/Entries/add.ctp:116
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:181
+#: View/Entries/add.ctp:138
 msgid "Notify on reply"
 msgstr ""
 
-#: View/Entries/add.ctp:189
+#: View/Entries/add.ctp:146
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:196 View/Helper/EntryHHelper.php:196
+#: View/Entries/add.ctp:153 View/Helper/EntryHHelper.php:196
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
-#: View/Entries/add.ctp:204
+#: View/Entries/add.ctp:161
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
-#: View/Entries/add.ctp:243 View/Entries/add.ctp:255 View/Entries/add.ctp:295
+#: View/Entries/add.ctp:200 View/Entries/add.ctp:209 View/Entries/add.ctp:239
 msgid "submit_button"
 msgstr "Submit"
 
@@ -1178,20 +1171,15 @@ msgid ""
 "geheuert, :loggedin an Deck, :anon Blinde Passagiere"
 msgstr ""
 
-#: View/Uploads/add.ctp:10 View/Uploads/index.ctp:35
-#: webroot/js/templates/uploads.html:27
+#: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Upload"
 
-#: View/Uploads/index.ctp:21 webroot/js/templates/uploads.html:10
-msgid "upload_new_title"
-msgstr "Drop Image Here"
-
-#: View/Uploads/json/index.ctp:8 View/Uploads/json/index.ctp:17
+#: View/Uploads/json/index.ctp:11 View/Uploads/json/index.ctp:16
 msgid "upload_btn_delete_upload"
 msgstr "Delete Upload"
 
-#: View/Uploads/json/index.ctp:38
+#: View/Uploads/json/index.ctp:36
 msgid "upload_btn_insert_into_posting"
 msgstr "Insert"
 
@@ -1514,7 +1502,7 @@ msgstr "Registered Users"
 msgid "userlist_online"
 msgstr "Online"
 
-#: View/Users/login.ctp:7
+#: View/Users/login.ctp:6
 msgid "login_linkname"
 msgstr "Login"
 
@@ -2038,7 +2026,8 @@ msgstr ""
 msgid "geshi_picture_popup"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:48
+#: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:79
+#: webroot/js/views/uploads.js:71
 #, fuzzy
 msgid "Upload"
 msgstr "Upload"
@@ -2059,35 +2048,75 @@ msgstr "User"
 msgid "userranks_not_found"
 msgstr ""
 
-#: webroot/js/templates/uploads.html:12
+#: webroot/js/templates/mediaInsert.html:3
+msgid "Enter link or embedding code:"
+msgstr ""
+
+#: webroot/js/templates/mediaInsert.html:12
+msgid "Insert"
+msgstr ""
+
+#: webroot/js/templates/mediaInsert.html:17
+msgid "Nothing recognized."
+msgstr ""
+
+#: webroot/js/templates/uploadNew.html:9
+msgid "upload_new_title"
+msgstr "Drop Image Here"
+
+#: webroot/js/templates/uploadNew.html:11
 msgid "upload_info"
 msgstr "Max. size: :size kB; type: jpg, jpeg, png, gif"
 
-#: webroot/js/main-prod.js:48
+#: webroot/js/main-prod.js:79 webroot/js/views/uploadNew.js:71
+msgid "upload_fileTypeNotAllowed"
+msgstr "File type not allowed."
+
+#: webroot/js/main-prod.js:79
 msgid ""
-"upload_new_title') %></h2>\\n                        <br/>"
-"\\n                        (max. <?php echo $this->Number ->toReadableSize"
-"( Configure::read( 'Saito.Settings. upload_max_img_size') * 1024); ?> jpg, "
-"jpeg, png, gif)\\n                    </div>\\n                </div>"
-"\\n                <div style=\"display: table-row;\">\\n                    "
-"<div class=\"upload_box_footer\" style=\"display: table-cell; \">"
-"\\n                        <div style=\"position: relative;\">"
-"\\n                            <!--\\n                                // To "
-"present a nice upload button we generate a dead button."
-"\\n                                // Beneath the nice dummy button is the "
-"actual input file upload,\\n                                // but it's "
-"hidden behind the opacity:0 curtain div.\\n                              // "
-"z-index: 2000 to have the button above the jQuery UI modal."
-"\\n                              -->\\n                            <button "
-"class=\"btn btn-submit\" type=\"button\">Hochladen</button>"
-"\\n                            <div style=\"position: absolute; z-index: "
-"2000; top:0; right: 0; width: 100%; height: 100%; opacity: 0; cursor: "
-"pointer; overflow: hidden; \" >\\n                                <input "
-"type=\"file\" name=\"data[Upload][0][file]\" style=\"width: 150px; height: "
-"100%\" onchange=\"this.form.submit();\" id=\"Upload0File\">"
-"\\n                            </div>\\n                        </div>"
-"\\n                    </div>\\n                </div>\\n        <?php "
-"endif; ?>\\n    </div>\\n</div>\\n<div class=\"clearfix\"></div>\\n"
+"Enter link or embedding code:') %>\n"
+"    </label>\n"
+"    <textarea name=\"data[media]\" id=\"markitup_media_txta\" class="
+"\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\">\n"
+"    </textarea>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div class=\"submit\">\n"
+"        <input style=\"float: right;\" class=\"btn btn-submit\"\n"
+"               id=\"markitup_media_btn\" type=\"submit\"\n"
+"               value=\"<%- $.i18n.__('Insert') %>\"/>\n"
+"    </div>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div id=\"markitup_media_message\" class=\"flash error\" style="
+"\"display: none;\">\n"
+"        <%- $.i18n.__('Nothing recognized.') %>\n"
+"    </div>\n"
+"</form>\n"
+msgstr ""
+
+#: webroot/js/main-prod.js:79 webroot/js/views/mediaInsert.js:68
+msgid "Multimedia"
+msgstr ""
+
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
+msgid "tr:first"
+msgstr ""
+
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
+msgid "tr"
+msgstr ""
+
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:28
+msgid "token test"
+msgstr ""
+
+#: webroot/js/views/uploadNew.js:63
+msgid "foobar"
+msgstr ""
+
+#: webroot/js/views/uploadNew.js:64
+msgid "foobar1"
 msgstr ""
 
 #~ msgid "whole_thread_marking"
