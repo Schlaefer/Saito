@@ -23,9 +23,11 @@ require.config({
 		domReady: 'lib/require/domReady',
         jqueryAutosize: 'lib/jquery.autosize',
         cakeRest: 'lib/saito/backbone.cakeRest',
-		text: 'lib/require/text'
-		// @td include scrollTo after _app.js is gone
+		text: 'lib/require/text',
+        cs: 'lib/require/cs',
+        "coffee-script": 'lib/coffee-script'
 	}
+
 });
 
 /**
