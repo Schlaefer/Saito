@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'models/app',
-    'lib/humane'
+    'lib/jquery.pnotify'
 ], function($, _, Backbone,
             App,
             Humane
@@ -18,29 +18,35 @@ define([
         },
 
         _showNotification: function(options) {
-            var logOptions,
-                notification;
+            var logOptions;
 
             options.type = options.type || 'info';
 
             logOptions = {
-                    baseCls: "humane-jackedup",
-                    addnCls: "flash flash-" + options.type,
-                    clickToClose: true,
-                    timeout: 4000
+                    title: options.title,
+                    text: options.message,
+                    icon: false,
+                    history: false,
+                    addclass: "flash"
                 };
 
             switch(options.type) {
+                case 'success':
+                    logOptions.addclass += " flash-success";
+                    break;
+                case 'warning':
+                    logOptions.addclass += " flash-warning";
+                    break;
                 case 'error':
-                    logOptions.clickToClose =  true;
-                    logOptions.timeOut =  36000000;
+                    logOptions.addclass += " flash-error";
+                    logOptions.hide = false;
                     break;
                 default:
+                    logOptions.addclass += " flash-notice";
                     break;
             }
 
-            notification = Humane.create(logOptions);
-            notification.log(options.message, options.title);
+            $.pnotify(logOptions);
 
         }
 

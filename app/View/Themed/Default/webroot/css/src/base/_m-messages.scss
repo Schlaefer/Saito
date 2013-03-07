@@ -25,10 +25,8 @@ $color-flashErrorBg:    #a60202;
   );
 }
 
-.flash, .message {
+.flash > .alert, .message {
 	clear: both;
-	text-align: center;
-	font-size: 140%;
 	font-weight: bold;
 	margin: 0px 0px 1em;
 	padding: 0.4em;
@@ -37,82 +35,113 @@ $color-flashErrorBg:    #a60202;
 	text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
     background-color: $color-flashErrorBg;
     border: $border_width ($color-flashErrorBg / 1.2) solid;
-    box-shadow: 0px 1px 15px 2px rgba(0, 0, 0, 0.9);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.8) !important;
   }
 
-.flash-error {
+.flash-error > .alert {
   @include flash-colors($color-flashErrorBg, $border_width);
   }
 
-.flash-warning {
+.flash-warning > .alert {
   @include flash-colors($color-flashWarningBg, $border_width);
   }
 
-.flash-notice {
+.flash-notice > .alert {
   @include flash-colors($color-flashNoticeBg, $border_width);
   }
 
-.flash-success {
+.flash-success > .alert{
   @include flash-colors($color-flashSuccessBg, $border_width);
+
 }
 
-// humane.js animation css
+// pnotify styles
 // -------------------------------------
 
-.humane,
-.humane-jackedup {
+/*
+Document   : jquery.pnotify.default.css
+Created on : Nov 23, 2009, 3:14:10 PM
+Author     : Hunter Perrin
+Version    : 1.2.0
+Link       : http://pinesframework.org/pnotify/
+Description:
+	Default styling for Pines Notify jQuery plugin.
+*/
+/* -- Notice */
+.ui-pnotify {
+  top: 25px;
+  right: 25px;
+  position: absolute;
+  height: auto;
+  /* Ensures notices are above everything */
+  z-index: 9999;
+}
+/* Hides position: fixed from IE6 */
+html > body .ui-pnotify {
   position: fixed;
-  -moz-transition: all 0.3s ease-in-out;
-  -webkit-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  z-index: 100000;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+}
+.ui-pnotify .ui-pnotify-shadow {
+  -webkit-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+  -moz-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+  box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+}
+.ui-pnotify-container {
+  background-position: 0 0;
+  padding: .8em;
+  height: 100%;
+  margin: 0;
+}
+.ui-pnotify-sharp {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.ui-pnotify-closer, .ui-pnotify-sticker {
+  float: right;
+  margin-left: .2em;
+}
+.ui-pnotify-title {
+  display: block;
+  margin-bottom: .4em;
+}
+.ui-pnotify-text {
+  display: block;
+}
+.ui-pnotify-icon, .ui-pnotify-icon span {
+  display: block;
+  float: left;
+  margin-right: .2em;
+}
+/* -- History Pulldown */
+.ui-pnotify-history-container {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  width: 70px;
+  border-top: none;
+  padding: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  -moz-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  /* Ensures history container is above notices. */
+  z-index: 10000;
+}
+.ui-pnotify-history-container .ui-pnotify-history-header {
+  padding: 2px;
+}
+.ui-pnotify-history-container button {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+.ui-pnotify-history-container .ui-pnotify-history-pulldown {
+  display: block;
+  margin: 0 auto;
 }
 
-.humane,
-.humane-jackedup {
-  top: 30px;
-  left: 30%;
-  opacity: 0;
-  width: 40%;
-  padding: 10px;
-  text-align: center;
-  -moz-transform: translateY(-100px);
-  -webkit-transform: translateY(-100px);
-  -ms-transform: translateY(-100px);
-  -o-transform: translateY(-100px);
-  transform: translateY(-100px);
-}
-
-.humane-animate,
-.humane-jackedup.humane-jackedup-animate {
-  opacity: 1;
-  -moz-transform: translateY(0);
-  -webkit-transform: translateY(0);
-  -ms-transform: translateY(0);
-  -o-transform: translateY(0);
-  transform: translateY(0);
-}
-.humane-animate:hover,
-.humane-jackedup.humane-jackedup-animate:hover {
-  opacity: 0.7;
-}
-.humane-js-animate,
-.humane-jackedup.humane-jackedup-js-animate {
-  opacity: 1;
-  -moz-transform: translateY(0);
-  -webkit-transform: translateY(0);
-  -ms-transform: translateY(0);
-  -o-transform: translateY(0);
-  transform: translateY(0);
-}
-.humane-js-animate:hover,
-.humane-jackedup.humane-jackedup-js-animate:hover {
-  opacity: 0.7;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
-}
 
 // Validation messaeges
 // -------------------------------------
