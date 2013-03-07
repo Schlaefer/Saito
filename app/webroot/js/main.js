@@ -51,6 +51,9 @@ if (typeof console === "undefined") {
     console.error = console.debug = console.info =  console.log;
 }
 
+// prevent caching of ajax results
+$.ajaxSetup({ cache: false });
+
 require(
     ['domReady', 'views/app', 'backbone', 'bootstrap', 'lib/saito/backbone.initHelper'],
     function(domReady, AppView, Backbone) {
