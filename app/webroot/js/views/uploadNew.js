@@ -5,12 +5,14 @@ define([
     'lib/jquery.filedrop',
     'models/app',
     'text!templates/uploadNew.html',
-    'text!templates/spinner.html'
+    'text!templates/spinner.html',
+    'humanize'
 ], function($, _, Backbone,
             Filedrop,
             App,
             uploadNewTpl,
-            spinnerTpl
+            spinnerTpl,
+            humanize
     ) {
 
     "use strict";
@@ -33,7 +35,7 @@ define([
 
             this.$('.upload-layer').filedrop({
                 maxfiles: 1,
-                maxfilesize: App.settings.get('upload_max_img_size'),
+                maxfilesize: App.settings.get('upload_max_img_size') / 1024,
                 url: App.settings.get('webroot') + 'uploads/add',
                 paramname: "data[Upload][0][file]",
                 allowedfiletypes: [
@@ -56,24 +58,40 @@ define([
                         done();
                     },
                     this),
-                error: _.bind(function(err) {
+                error: _.bind(function(err, file) {
+                    var message;
 
                     this._hideDragIndicator();
 
                     switch(err) {
                         case 'FileTypeNotAllowed':
-                            App.eventBus.trigger(
-                                'notification',
-                                {
-                                    title: 'Error',
-                                    message: $.i18n.__('upload_fileTypeNotAllowed'),
-                                    type: 'error'
-                                }
+                            message = $.i18n.__('upload_fileTypeNotAllowed');
+                            break;
+                        case 'FileTooLarge':
+                            message = $.i18n.__(
+                                'upload_fileToLarge',
+                                {name: file.name}
                             );
                             break;
+                        case 'BrowserNotSupported':
+                            message = $.i18n.__('upload_browserNotSupported');
+                            break;
+                        case 'TooManyFiles':
+                            message = $.i18n.__('upload_toManyFiles');
+                            break;
                         default:
+                            message = err;
                             break;
                     }
+
+                    App.eventBus.trigger(
+                        'notification',
+                        {
+                            title: 'Error',
+                            message: message,
+                            type: 'error'
+                        }
+                    );
                 }, this)
             });
 
@@ -126,7 +144,9 @@ define([
 
         render: function() {
             this.$el.html(_.template(uploadNewTpl)({
-                upload_size: App.settings.get('upload_max_img_size')
+                upload_size: humanize
+                    .filesize(App.settings.get('upload_max_img_size'))
+
             }));
             this._initDropUploader();
             return this;

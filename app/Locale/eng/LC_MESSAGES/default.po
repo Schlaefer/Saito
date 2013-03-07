@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-05 11:47+0100\n"
-"PO-Revision-Date: 2013-03-05 11:47+0100\n"
+"POT-Creation-Date: 2013-03-05 13:35+0100\n"
+"PO-Revision-Date: 2013-03-07 11:23+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -2066,9 +2066,9 @@ msgstr "Drop Image Here"
 
 #: webroot/js/templates/uploadNew.html:11
 msgid "upload_info"
-msgstr "Max. size: :size kB; type: jpg, jpeg, png, gif"
+msgstr "Max. size: :size; type: jpg, jpeg, png, gif"
 
-#: webroot/js/main-prod.js:79 webroot/js/views/uploadNew.js:71
+#: webroot/js/main-prod.js:79 webroot/js/views/uploadNew.js:66
 msgid "upload_fileTypeNotAllowed"
 msgstr "File type not allowed."
 
@@ -2111,13 +2111,17 @@ msgstr ""
 msgid "token test"
 msgstr ""
 
-#: webroot/js/views/uploadNew.js:63
-msgid "foobar"
-msgstr ""
+#: webroot/js/views/uploadNew.js:69
+msgid "upload_fileToLarge"
+msgstr "File :name to large."
 
-#: webroot/js/views/uploadNew.js:64
-msgid "foobar1"
-msgstr ""
+#: webroot/js/views/uploadNew.js:72
+msgid "upload_browserNotSupported"
+msgstr "Browser not supported."
+
+#: webroot/js/views/uploadNew.js:75
+msgid "upload_toManyFiles"
+msgstr "To many files."
 
 #~ msgid "whole_thread_marking"
 #~ msgstr "Whole Thread"

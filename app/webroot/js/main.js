@@ -25,7 +25,8 @@ require.config({
         cakeRest: 'lib/saito/backbone.cakeRest',
 		text: 'lib/require/text',
         cs: 'lib/require/cs',
-        "coffee-script": 'lib/coffee-script'
+        "coffee-script": 'lib/coffee-script',
+        humanize: "lib/humanize/humanize"
 	}
 
 });

@@ -51,7 +51,7 @@ class AppHelper extends Helper {
 					'webroot' => $View->request->webroot,
 					'embedly_enabled' => (bool)Configure::read('Saito.Settings.embedly_enabled'),
 					'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
-					'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size'),
+					'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
 					'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0)
 				)
 			),
