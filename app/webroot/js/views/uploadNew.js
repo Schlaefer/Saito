@@ -49,7 +49,7 @@ define([
                     dragLeave:_.bind(function(){this._hideDragIndicator();}, this),
                     uploadFinished: _.bind(
                         function(i, file, response, time) {
-                            this._postUpload();
+                            this._postUpload(response);
                         },
                         this),
                     beforeSend: _.bind(
@@ -134,13 +134,19 @@ define([
                 App.settings.get('webroot') + 'uploads/add',
                 true
             );
+            xhr.onloadend = _.bind(function(request){
+                var data;
+                data = JSON.parse(request.target.response);
+                this._postUpload(data);
+            }, this);
             xhr.onload = _.bind(function() {
                 this._postUpload();
             }, this);
             xhr.send(formData);
         },
 
-        _postUpload: function() {
+        _postUpload: function(data) {
+            App.eventBus.trigger('notification', data);
             this.collection.fetch();
             this.render();
         },

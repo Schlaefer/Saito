@@ -9,25 +9,70 @@ define([
             Humane
     ) {
 
+    "use strict";
+
     var NotificationView = Backbone.View.extend({
 
         initialize: function() {
-
-            this.listenTo(App.eventBus, 'notification', this._showNotification);
-
+            this.listenTo(App.eventBus, 'notification', this._showNotifications);
         },
 
-        _showNotification: function(options) {
-            var logOptions;
+        /**
+         * Handles notification output
+         *
+         * options can be a single message:
+         *
+         * {
+         *  message: "message",
+         *  title: "title (optional)",
+         *  type: "success|warning|error|notice (optional)"
+         * }
+         *
+         * or array with a msg property and a message list:
+         *
+         * {
+         *  msg: [{message:…}, {message:…}]
+         *  }
+         *
+         * @param options
+         * @private
+         */
+        _showNotifications: function(options) {
+            if (options.msg === undefined) {
+                if (options.message === undefined) {
+                    return;
+                }
+                options = {
+                    msg: [options]
+                };
+            } else if (options.msg.length === 0) {
+                return;
+            }
 
-            options.type = options.type || 'info';
+            _.each(options.msg, function(msg) {
+                this._showNotification(msg);
+            }, this);
+        },
+
+        /**
+         * Renders a single notification message
+         *
+         * @param options single message
+         * @private
+         */
+        _showNotification: function(options) {
+            var logOptions,
+                delay;
+
+            delay = 5000;
 
             logOptions = {
                     title: options.title,
                     text: options.message,
                     icon: false,
                     history: false,
-                    addclass: "flash"
+                    addclass: "flash",
+                    delay: delay
                 };
 
             switch(options.type) {
@@ -39,7 +84,8 @@ define([
                     break;
                 case 'error':
                     logOptions.addclass += " flash-error";
-                    logOptions.hide = false;
+                    logOptions.delay = delay * 2;
+                    // logOptions.hide = false;
                     break;
                 default:
                     logOptions.addclass += " flash-notice";

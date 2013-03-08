@@ -1,2 +1,0 @@
-<?php
-	$this->Session->flash();

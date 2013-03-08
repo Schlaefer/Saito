@@ -1,5 +1,5 @@
 <?php
-	
+
 	App::uses('AppController', 'Controller');
 
 /**
@@ -22,93 +22,105 @@ class UploadsController extends AppController {
 
 	/**
 	 * Is the current user allowed to upload
-	 * 
+	 *
 	 * @var bool
 	 */
 	public $isUploadAllowed = false;
 
 	/**
-	 * Uploads files
+	 * Uploads new files
 	 */
 	public function add() {
-		if (!$this->isUploadAllowed) {
-				$this->Session->setFlash(sprintf(__('upload_max_number_of_uploads_failed'), $this->maxUploadsPerUser), 'flash/warning');
-				$this->redirect(array('action' => 'index'));
+		$this->autoRender = false;
+
+		if ($this->request->is('post') === false) {
+			throw new BadRequestException();
+			return;
 		}
 
-		if(!empty($this->request->data) && !empty($this->request->data['Upload'][0]['file']['tmp_name'])){
-			 	$a['Upload'] = $this->request->data['Upload'][0];
-			 	$a['Upload']['user_id'] = $this->Session->read('Auth.User.id');
-			 	$a['Upload']['file']['name'] = Inflector::slug(
-						$a['Upload']['user_id'] .'_'
-						.pathinfo($a['Upload']['file']['name'],PATHINFO_FILENAME)
-					)						
-					.'.'.pathinfo($a['Upload']['file']['name'],PATHINFO_EXTENSION);
-			 	$this->Upload->create();
+		if (!$this->isUploadAllowed) {
+			$message = sprintf(
+				__('upload_max_number_of_uploads_failed'),
+				$this->maxUploadsPerUser
+			);
+			$this->JsData->addAppJsMessage($message, 'error');
+		} else {
+			if (!empty($this->request->data) && !empty($this->request->data['Upload'][0]['file']['tmp_name'])) {
+				$a['Upload'] = $this->request->data['Upload'][0];
+				$a['Upload']['user_id'] = $this->Session->read('Auth.User.id');
+				$a['Upload']['file']['name'] = Inflector::slug(
+					$a['Upload']['user_id'] . '_'
+							. pathinfo($a['Upload']['file']['name'], PATHINFO_FILENAME)
+				)
+						. '.' . pathinfo($a['Upload']['file']['name'], PATHINFO_EXTENSION);
+				$this->Upload->create();
 
-				/**
-				 * bubu, but the only way to set this setting before the Upload behavior's
-				 * beforeValidate() is called
-				 */
+				// @bogus, but the only way to set this before the Upload behavior's
+				// beforeValidate() is called
 				$this->Upload->Behaviors->FileUpload->setUp(
 					$this->Upload,
-					array( 'maxFileSize' => (int) Configure::read('Saito.Settings.upload_max_img_size') * 1024 ));
+					array(
+						'maxFileSize' => (int)Configure::read(
+							'Saito.Settings.upload_max_img_size'
+						) * 1024
+					)
+				);
 
-				if($this->Upload->save($a)) {
-					$this->Session->setFlash('Datei erfolgreich hochgeladen', 'flash/notice');
-				}
-				else {
+				if (!$this->Upload->save($a)) {
 					$errors = $this->Upload->validationErrors;
 					$message = array();
-					foreach( $errors as $field => $error) {
-						$message[] =  __d('nondynamic', $field).": ". __d('nondynamic', $error);
+					foreach ($errors as $field => $error) {
+						$message[] = __d('nondynamic', $error);
 					}
-					$this->Session->setFlash('We are screwed, something went terribly wrong. File not uploaded.<br/>' . implode('<br/>',$message), 'flash/error');
+					$this->JsData->addAppJsMessage($message, 'error');
 				}
-    }
-		// $this->redirect(array('action' => 'index'));
-	} // end add()
+			}
+		}
+		return json_encode($this->JsData->getAppJsMessages());
+	}
 
 	/**
 	 * View uploads
 	 */
 	public function index() {
 		$this->autoLayout = false;
-		$user_id = $this->Session->read('Auth.User.id');
-		$images = $this->Upload->find(
-						'all',
-						array(
-								'conditions' => array(
-										'user_id' => $user_id
-									),
-								'order' => 'created ASC'
-							)
-					);
 
-		if (!$this->isUploadAllowed) {
-				$this->Session->setFlash(sprintf(__('upload_max_number_of_uploads_failed'), $this->maxUploadsPerUser), 'flash/warning');
+		if ($this->request->is('ajax') === false) {
+			throw new BadRequestException();
+			return;
 		}
 
+		$user_id = $this->Session->read('Auth.User.id');
+		$images = $this->Upload->find(
+			'all',
+			array(
+				'conditions' => array(
+					'user_id' => $user_id
+				),
+				'order' => 'created ASC'
+			)
+		);
 		$this->set('images', $images);
-	} //end index()
+	}
 
 	/**
 	 * Delete upload
 	 */
 	public function delete($id = null) {
-		if($id == null) $this->redirect(array('action' => 'index'));
+		$this->autoRender = false;
+		if($id == null) {
+			return;
+		}
 
 		$this->Upload->id = $id;
 		$file = $this->Upload->read();
 		if($file['Upload']['user_id'] == $this->Session->read('Auth.User.id')) {
-			if($this->Upload->delete(null, false)) {
-				$this->Session->setFlash('Datei gelöscht', 'flash/success');
-			}
-			else {
-				$this->Session->setFlash('We are screwed, something went terribly wrong. File not deleted.', 'flash/error');
+			if(!$this->Upload->delete(null, false)) {
+				$this->JsData->addAppJsMessage('We are screwed, something went terribly wrong. File not deleted.', 'error');
 			}
 		}
-	} // end delete
+		return json_encode($this->JsData->getAppJsMessages());
+	}
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -118,8 +130,8 @@ class UploadsController extends AppController {
 	} // end beforeFilter()
 
 	/**
-	 * Checks if user `user_id` is allowed to upload files 
-	 * 
+	 * Checks if user `user_id` is allowed to upload files
+	 *
 	 * @param int $user_id
 	 * @return bool
 	 */
@@ -140,7 +152,7 @@ class UploadsController extends AppController {
 
 	/**
 	 * Returns the number of uploads a user `user_id` has made
-	 * 
+	 *
 	 * @param int $user_id
 	 * @return int number of files
 	 */

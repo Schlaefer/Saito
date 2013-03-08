@@ -21,7 +21,7 @@ class AppController extends Controller {
 			 */
 			'Cookie',
 			'CurrentUser',
-
+			'JsData',
 			'SaitoEmail',
       'EmailNotification',
 			// Enabling data view for parsing xml and json

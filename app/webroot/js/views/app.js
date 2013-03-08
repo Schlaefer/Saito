@@ -52,7 +52,7 @@ define([
 
 
                 this.initNotifications();
-                this.initMessagesOnEventBus(options.SaitoApp.msg);
+                App.eventBus.trigger('notification', options.SaitoApp);
 
                 this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
                 this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
@@ -204,23 +204,6 @@ define([
 
             initNotifications: function() {
                 new NotificationView();
-            },
-
-            initMessagesOnEventBus: function(msges) {
-                var i = 0,
-                    send;
-
-                send = _.bind(function(msg) {
-                    App.eventBus.trigger(
-                        'notification',
-                        msg
-                    );
-                }, this);
-
-                _.each(msges, function(msg) {
-                    _.delay(send, i * 5000, msg);
-                    i++;
-                }, this);
             },
 
             initHelp: function(element_n) {

@@ -42,4 +42,13 @@
 			return 'var SaitoApp = ' . json_encode($js);
 		}
 
+		function __call($method, $params) {
+			$proxy = array($this->_JsData, $method);
+			if (is_callable($proxy)) {
+				return call_user_func_array($proxy, $params);
+			} else {
+				return parent::__call($method, $params);
+			}
+		}
+
 	}

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-05 13:35+0100\n"
-"PO-Revision-Date: 2013-03-07 11:23+0100\n"
+"PO-Revision-Date: 2013-03-08 12:16+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -1742,7 +1742,7 @@ msgstr ""
 
 #: Controller/UploadsController.php:35 Controller/UploadsController.php:89
 msgid "upload_max_number_of_uploads_failed"
-msgstr ""
+msgstr "No more uploads possible (max: %s)."
 
 #: Controller/UsersController.php:54 Controller/UsersController.php:310
 #, php-format

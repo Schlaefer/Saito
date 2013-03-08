@@ -25,8 +25,7 @@
 			return $this->_appJs;
 		}
 
-		function addAppJsMessage($message, $type = 'info') {
-
+		public function addAppJsMessage($message, $type = 'info') {
 			if (!is_array($message)) {
 				$message = array($message);
 			}
@@ -37,11 +36,10 @@
 					'type' => $type
 				);
 			}
-
 		}
 
-		function getAppJsMessages() {
-			return $this->_appJs['msg'];
+		public function getAppJsMessages() {
+			return array('msg' => $this->_appJs['msg']);
 		}
 
 	}

@@ -9,6 +9,8 @@ define([
             uploadTpl
     ) {
 
+    "use strict";
+
     var UploadView = Backbone.View.extend({
 
         className: "box-content upload_box current",
@@ -30,7 +32,7 @@ define([
                     success:_.bind(function(model, response) {
                         App.eventBus.trigger(
                             'notification',
-                             response.SaitoApp.msg[0]
+                             response
                         );
                     }, this)
                 }

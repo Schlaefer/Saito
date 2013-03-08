@@ -1,24 +1,24 @@
 <?php
 /**
   * Uploader class handles a single file to be uploaded to the file system
-  * 
+  *
   * @author: Nick Baker
   * @version: since 6.0.0
-  * @link: http://www.webtechnick.com 
+  * @link: http://www.webtechnick.com
   */
 class Uploader {
-  
+
   /**
     * File to upload.
     */
   var $file = array();
-  
+
   /**
     * Global options
     * fileTypes to allow to upload
     */
   var $options = array();
-  
+
   /**
     * errors holds any errors that occur as string values.
     * this can be access to debug the FileUploadComponent
@@ -27,10 +27,10 @@ class Uploader {
     * @access public
     */
   var $errors = array();
-  
+
   /**
     * Definitions of errors that could occur during upload
-    * 
+    *
     * @author Jon Langevin
     * @var array
     */
@@ -44,7 +44,7 @@ class Uploader {
     UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.', //Introduced in PHP 5.1.0.
     UPLOAD_ERR_EXTENSION => 'File upload stopped by extension.' //Introduced in PHP 5.2.0.
   );
-  
+
   /**
     * Final file is set on move_uploaded_file success.
     * This is the file name of the final file that was uploaded
@@ -58,7 +58,7 @@ class Uploader {
   function __construct($options = array()){
     $this->options = array_merge($this->options, $options);
   }
-  
+
   /**
     * Preform requested callbacks on the filename.
     *
@@ -66,7 +66,7 @@ class Uploader {
     * @return string of resulting filename
     * @access private
     */
-  function __handleFileNameCallback($fileName){  
+  function __handleFileNameCallback($fileName){
     if($this->options['fileNameFunction']){
       if($this->options['fileModel']){
         $Model = ClassRegistry::init($this->options['fileModel']);
@@ -82,17 +82,17 @@ class Uploader {
           $fileName = call_user_func($this->options['fileNameFunction'], $fileName);
         }
       }
-      
+
       if(!$fileName){
         $this->_error('No filename resulting after parsing. Function: ' . $this->options['fileNameFunction']);
       }
     }
     return $fileName;
   }
-  
+
   /**
     * Preform requested target patch checks depending on the unique setting
-    * 
+    *
     * @var string chosen filename target_path
     * @return string of resulting target_path
     * @access private
@@ -108,34 +108,34 @@ class Uploader {
 		}
     return $target_path;
   }
-  
+
   /**
     * processFile will take a file, or use the current file given to it
     * and attempt to save the file to the file system.
     * processFile will check to make sure the file is there, and its type is allowed to be saved.
-    * 
+    *
     * @param file array of uploaded file (optional)
-    * @return String | false String of finalFile name saved to the file system or false if unable to save to file system. 
+    * @return String | false String of finalFile name saved to the file system or false if unable to save to file system.
     * @access public
     */
   function processFile($file = null){
     $this->setFile($file);
-    
+
     //check if we have a file and if we allow the type, return false otherwise.
     if(!$this->checkFile() || !$this->checkType() || !$this->checkSize()){
       return false;
     }
-    
+
     //make sure the file doesn't already exist, if it does, add an itteration to it
     $up_dir = $this->options['uploadDir'];
     $fileName = $this->__handleFileNameCallback($this->file['name']);
-    //if callback returns false hault the upload 
+    //if callback returns false hault the upload
     if(!$fileName){
       return false;
-    }    
+    }
     $target_path = $up_dir . DS . $fileName;
     $target_path = $this->__handleUnique($target_path);
-    
+
     //now move the file.
     if(move_uploaded_file($this->file['tmp_name'], $target_path)){
       $this->finalFile = basename($target_path);
@@ -146,17 +146,17 @@ class Uploader {
       return false;
     }
   }
-  
+
   /**
     * setFile will set a this->file if given one.
-    * 
+    *
     * @param file array of uploaded file. (optional)
     * @return void
     */
   function setFile($file = null){
     if($file) $this->file = $file;
   }
-  
+
   /**
     * Returns the extension of the uploaded filename.
     *
@@ -168,7 +168,7 @@ class Uploader {
     $this->setFile($file);
     return strrchr($this->file['name'],".");
   }
-  
+
   /**
   * Adds error messages to the component
   *
@@ -179,7 +179,7 @@ class Uploader {
   function _error($text){
     $this->errors[] = __($text);
   }
-  
+
   /**
   * Checks if the uploaded type is allowed defined in the allowedTypes
   *
@@ -189,14 +189,14 @@ class Uploader {
   */
   function checkType($file = null){
     $this->setFile($file);
-    foreach($this->options['allowedTypes'] as $ext => $types){      
+    foreach($this->options['allowedTypes'] as $ext => $types){
       if(!is_string($ext)){
         $ext = $types;
       }
       if($ext == '*'){
         return true;
       }
-      
+
       $ext = strtolower('.' . str_replace('.','', $ext));
       $file_ext = strtolower($this->_ext());
       if($file_ext == $ext){
@@ -207,13 +207,13 @@ class Uploader {
         else {
           return true;
         }
-      }    
+      }
     }
 
-    $this->_error("extension is not allowed.");
+    $this->_error("Extension is not allowed.");
     return false;
   }
-  
+
   /**
     * Checks if there is a file uploaded
     *
@@ -230,10 +230,10 @@ class Uploader {
       else {
         $this->_error($this->uploadErrors[$this->file['error']]);
       }
-    }        
+    }
     return false;
   }
-  
+
   /**
     * Checks if the file uploaded exceeds the maxFileSize setting (if there is onw)
     *
@@ -251,12 +251,13 @@ class Uploader {
         return true;
       }
       else {
-        $this->_error("File exceeds {$this->options['maxFileSize']} byte limit.");
+        // $this->_error("File exceeds {$this->options['maxFileSize']} byte limit.");
+				$this->_error("File exceeds size limit.");
       }
     }
     return false;
   }
-  
+
   /**
     * removeFile removes a specific file from the uploaded directory
     *
@@ -268,10 +269,10 @@ class Uploader {
     if(!$name || strpos($name, '://')){
       return false;
     }
-    
+
     $up_dir = $this->options['uploadDir'];
     $target_path = $up_dir . DS . $name;
-    
+
     //delete main image -- $name
     if(@unlink($target_path)){
       return true;
@@ -279,10 +280,10 @@ class Uploader {
       return false;
     }
   }
-  
+
   /**
     * hasUpload
-    * 
+    *
     * @return boolean true | false depending if a file was actually uploaded.
     * @param file array of uploaded file (optional)
     */
@@ -290,14 +291,14 @@ class Uploader {
     $this->setFile($file);
     return ($this->_multiArrayKeyExists("tmp_name", $this->file));
   }
-  
+
   /**
     * @return boolean true if errors were detected.
     */
   function hasErrors(){
     return count($this->errors);
   }
-  
+
   /**
     * showErrors itterates through the errors array
     * and returns a concatinated string of errors sepearated by
@@ -314,7 +315,7 @@ class Uploader {
     }
     return $retval;
   }
-  
+
   /**
     * Searches through the $haystack for a $key.
     *
