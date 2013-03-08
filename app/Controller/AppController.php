@@ -24,21 +24,21 @@ class AppController extends Controller {
 
 			'SaitoEmail',
       'EmailNotification',
-
+			// Enabling data view for parsing xml and json
 			'RequestHandler',
-
 			'Session',
 			'PreviewDetector.PreviewDetector'
 	);
 	public $helpers = array (
 			// app helpers
 			'Bbcode',
-			'UserH',
+			'JsData',
 			'Markitup.Markitup',
 			'RequireJs',
 			'Stopwatch.Stopwatch',
 			'TextH',
 			'TimeH',
+			'UserH',
 			// CakePHP helpers
 			'Js' => array('Jquery'),
 			'Html',
@@ -61,7 +61,7 @@ class AppController extends Controller {
 
 	/**
 	 * S(l)idetabs used by the application
-	 * 
+	 *
 	 * @var array
 	 */
 	public $installedSlidetabs = array(
@@ -176,7 +176,7 @@ class AppController extends Controller {
 	 * set in i18n domain file 'page_titles.po' with 'controller/view' title
 	 *
 	 * use plural for for controller title: 'entries/index' (not 'entry/index')!
-	 * 
+	 *
 	 * @td helper?
 	 *
 	 */
@@ -221,7 +221,7 @@ class AppController extends Controller {
 	 * Custom referer which can return only referer's action or controller
 	 *
 	 * @param string $type 'controller' or 'action'
-	 * @return string 
+	 * @return string
 	 */
 	public function localReferer($type = NULL) {
 		$referer = parent::referer(null, true);
