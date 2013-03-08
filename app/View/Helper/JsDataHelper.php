@@ -1,17 +1,20 @@
 <?php
 
 	App::uses('AppHelper', 'View/Helper');
+	App::uses('JsData', 'Lib');
 
 	class JsDataHelper extends AppHelper {
 
+		protected $_JsData;
 
-		protected $_appJs = array(
-			'msg' => array()
-		);
-
+		public function __construct(View $view, $settings = array()) {
+			$this->_JsData = JsData::getInstance();
+			parent::__construct($view, $settings);
+		}
 
 		function getAppJs(View $View) {
-			$this->_appJs += array (
+			$js = $this->_JsData->getJs();
+			$js += array (
 				'app' => array(
 					'version' => Configure::read('Saito.v'),
 					'timeAppStart' => 'new Date().getTime()',
@@ -36,26 +39,7 @@
 					'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
 				)
 			);
-			return 'var SaitoApp = ' . json_encode($this->_appJs);
-		}
-
-		function addAppJsMessage($message, $type = 'info') {
-
-			if (!is_array($message)) {
-				$message = array($message);
-			}
-
-			foreach ($message as $m) {
-				$this->_appJs['msg'][] = array(
-					'message' => $m,
-					'type' => $type
-				);
-			}
-
-		}
-
-		function getAppJsMessages() {
-			return $this->_appJs['msg'];
+			return 'var SaitoApp = ' . json_encode($js);
 		}
 
 	}
