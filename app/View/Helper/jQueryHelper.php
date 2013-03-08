@@ -2,6 +2,11 @@
 
 	App::uses('AppHelper', 'View/Helper');
 
+	/**
+	 * Insert tag for including jQuery
+	 *
+	 * Allows to easily change jQuery version in all layouts
+	 */
 	class jQueryHelper extends AppHelper {
 
 		public $helpers = array(
