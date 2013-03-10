@@ -38,19 +38,55 @@
 			$this->testAction('/uploads/add', array('method' => 'get'));
 		}
 
-		/*
-		public function testAddMaxFilesReached() {
-			$this->expectException('BadRequestException');
-			$this->testAction('/uploads/add', array('method' => 'get'));
-		}
-		*/
+		public function testAddMaxUploadsReached() {
+			$max_uploads = Configure::read(
+				'Saito.Settings.upload_max_number_of_uploads'
+			);
 
-		/**
-		 * testAdd method
-		 *
-		 * @return void
-		 */
-		public function tes1Add() {
+			$current_uploads = 10;
+			Configure::write(
+				'Saito.Settings.upload_max_number_of_uploads',
+				$current_uploads
+			);
+
+			$Uploads = $this->generate(
+				'Uploads',
+				array(
+					'models' => array(
+						'Upload' => array(
+							'countUser',
+							'create'
+						)
+					)
+				)
+			);
+
+			$this->_loginUser(1);
+
+			$Uploads->Upload->expects($this->once())
+				->method('countUser')
+				->with(1)
+				->will($this->returnValue($current_uploads));
+
+			$Uploads->Upload->expects($this->never())
+				->method('create');
+
+			$result = $this->testAction(
+				'/uploads/add',
+				array(
+					'method' => 'post',
+					'return' => 'contents'
+				)
+			);
+			$result = json_decode($result);
+
+			$first_message =  $result->msg[0];
+			$this->assertEqual($first_message->type, 'error');
+
+			Configure::write(
+				'Saito.Settings.upload_max_number_of_uploads',
+				$max_uploads
+			);
 		}
 
 		/**
@@ -86,13 +122,6 @@
 			$this->assertEqual(
 				$result[0]->id, 1);
 		}
-
-		/*
-		public function testIndexUserMustBeLoggedIn() {
-			$this->testAction('/uploads/index', array('method' => 'get'));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot . 'login', $this->headers['Location']);
-		}
-		*/
 
 		public function testDeleteUserMustBeLoggedIn() {
 			$this->expectException('ForbiddenException');
