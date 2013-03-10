@@ -14,8 +14,6 @@ class EntriesController extends AppController {
 	public $components = array(
 			'CacheTree',
 			'Flattr',
-      // for RSS-feed
-      'RequestHandler',
 			'Search.Prg',
 	);
 	/**

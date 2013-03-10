@@ -24,7 +24,7 @@ class AppController extends Controller {
 			'JsData',
 			'SaitoEmail',
       'EmailNotification',
-			// Enabling data view for parsing xml and json
+			// Enabling data view for rss/xml and json
 			'RequestHandler',
 			'Session',
 			'PreviewDetector.PreviewDetector'
