@@ -66,7 +66,7 @@ class EntriesController extends AppController {
 
 			// set cached threads for view
 			$this->set('cachedThreads', $cachedThreads);
-			 
+
 			// get threads not available in cache
 			$dbThreads = $this->Entry->treesForThreads($uncachedThreads, $order);
 
@@ -618,7 +618,7 @@ class EntriesController extends AppController {
 					throw new NotFoundException;
 				}
 			} else {
-				$paginateSettings['conditions']['Entry.category'] = 
+				$paginateSettings['conditions']['Entry.category'] =
 					$this->Entry->Category->getCategoriesForAccession(
 							$this->CurrentUser->getMaxAccession());
 			}
@@ -789,7 +789,7 @@ class EntriesController extends AppController {
 			// ignore browser prefetch
 			if ($this->request->isPreview()) {
 				return;
-			} 
+			}
 
 			if ($this->CurrentUser->isLoggedIn() && $this->CurrentUser['user_automaticaly_mark_as_read']):
 				if (

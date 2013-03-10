@@ -25,6 +25,22 @@
 				'__STRINGPARSER_NODE_ID'
 		);
 
+		protected function _setJson() {
+			$_SERVER['HTTP_ACCEPT'] = 'application/json, text/javascript';
+		}
+
+		protected function _unsetJson() {
+			$_SERVER['HTTP_ACCEPT'] = "text/html,application/xhtml+xml,application/xml";
+		}
+
+		protected function _setAjax() {
+			$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		}
+
+		protected function _unsetAjax() {
+			unset($_ENV['HTTP_X_REQUESTED_WITH']);
+		}
+
 		protected function _loginUser($id) {
       /*
 
@@ -109,11 +125,13 @@
     public function endTest($method) {
       parent::endTest($method);
       $this->_logoutUser();
+			$this->_unsetAjax();
     }
 
 		public function setUp() {
 			parent::setUp();
       $this->_logoutUser();
+			$this->_unsetJson();
 			Configure::write('Cache.disable', true);
       Configure::write('Config.language', 'eng');
 		}

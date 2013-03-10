@@ -34,8 +34,7 @@ class UploadsController extends AppController {
 		$this->autoRender = false;
 
 		if ($this->request->is('post') === false) {
-			throw new BadRequestException();
-			return;
+			throw new MethodNotAllowedException();
 		}
 
 		if (!$this->isUploadAllowed) {
@@ -83,14 +82,11 @@ class UploadsController extends AppController {
 	 * View uploads
 	 */
 	public function index() {
-		$this->autoLayout = false;
-
 		if ($this->request->is('ajax') === false) {
 			throw new BadRequestException();
-			return;
 		}
 
-		$user_id = $this->Session->read('Auth.User.id');
+		$user_id = $this->CurrentUser->getId();
 		$images = $this->Upload->find(
 			'all',
 			array(
@@ -124,6 +120,10 @@ class UploadsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
+
+		if (!$this->CurrentUser->isLoggedIn()) {
+			throw new ForbiddenException();
+		}
 
 		$this->maxUploadsPerUser = (int)Configure::read('Saito.Settings.upload_max_number_of_uploads');
 		$this->_setUploadAllowedForUser($this->Session->read('Auth.User.id'));

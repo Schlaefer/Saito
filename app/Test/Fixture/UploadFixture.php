@@ -15,13 +15,20 @@ class UploadFixture extends CakeTestFixture {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
-	public $record = array(
+	public $records = array(
 		array(
 					'id' => 1,
 					'name'	=> '3_upload_test.png',
 					'type'	=> 'png',
 					'size'	=> '10000',
 					'user_id'	=> '3',
+		),
+		array(
+					'id' => 2,
+					'name'	=> '1_upload_test.png',
+					'type'	=> 'jpg',
+					'size'	=> '20000',
+					'user_id'	=> '1',
 		)
 	);
 
