@@ -2,31 +2,32 @@
 
 	App::uses('AppController', 'Controller');
 
-class EntriesController extends AppController {
+	class EntriesController extends AppController {
 
-	public $name = 'Entries';
-	public $helpers = array(
+		public $name = 'Entries';
+		public $helpers = array(
 			'EntryH',
-      'MarkitupEditor',
+			'MarkitupEditor',
 			'Flattr.Flattr',
 			'Text',
-	);
-	public $components = array(
+		);
+		public $components = array(
 			'CacheTree',
 			'Flattr',
 			'Search.Prg',
-	);
-	/**
-	 * Setup for Search Plugin
-	 *
-	 * @var array
-	 */
-	public $presetVars = array(
-			array( 'field' => 'subject', 'type' => 'value' ),
-			array( 'field' => 'text', 'type' => 'value' ),
-			array( 'field' => 'name', 'type' => 'value' ),
-			array( 'field' => 'category', 'type' => 'value' ),
-	);
+		);
+
+		/**
+		 * Setup for Search Plugin
+		 *
+		 * @var array
+		 */
+		public $presetVars = array(
+			array('field' => 'subject', 'type' => 'value'),
+			array('field' => 'text', 'type' => 'value'),
+			array('field' => 'name', 'type' => 'value'),
+			array('field' => 'category', 'type' => 'value'),
+		);
 
 		public function index() {
 			Stopwatch::start('Entries->index()');
@@ -97,7 +98,7 @@ class EntriesController extends AppController {
 			Stopwatch::stop('Entries->index()');
 		}
 
-	public function feed() {
+		public function feed() {
 			Configure::write('debug', 0);
 
 
@@ -126,34 +127,34 @@ class EntriesController extends AppController {
 			return;
 		}
 
-	public function mix($tid) {
-		if (!$tid) {
-			$this->redirect('/');
+		public function mix($tid) {
+			if (!$tid) {
+				$this->redirect('/');
+			}
+			$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
+
+			if (empty($entries)) {
+				throw new NotFoundException();
+			}
+
+			//* check if anonymous tries to access internal categories
+			if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
+				return $this->redirect('/');
+			}
+
+			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
+			$this->set('entries', $entries);
+			$this->_showAnsweringPanel();
 		}
-		$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
 
-		if (empty($entries)) {
-			throw new NotFoundException();
+		/**
+		 * load front page force all entries mark-as-read
+		 */
+		public function update() {
+			$this->autoRender = false;
+			$this->CurrentUser->LastRefresh->forceSet();
+			$this->redirect('/entries/index');
 		}
-
-		//* check if anonymous tries to access internal categories
-		if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
-			return $this->redirect('/');
-		}
-
-		$this->set('title_for_layout', $entries[0]['Entry']['subject']);
-		$this->set('entries', $entries);
-    $this->_showAnsweringPanel();
-	}
-
-	/**
-	 * load front page force all entries mark-as-read
-	 */
-	public function update() {
-		$this->autoRender = false;
-		$this->CurrentUser->LastRefresh->forceSet();
-		$this->redirect('/entries/index');
-	}
 
 	/**
 	 * load front page suppressing mark-as-read
