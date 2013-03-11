@@ -27,14 +27,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Array with domains from which embedding video is allowed
-	 * 
+	 *
 	 * array(
 	 * 	'youtube' => 1,
 	 *  'vimeo' => 1,
 	 * );
-	 * 
+	 *
 	 * array('*' => 1) means every domain allowed
-	 * 
+	 *
 	 * @var array
 	 */
 	protected static $_allowedVideoDomains = null;
@@ -50,8 +50,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public $quoteSymbol;
 
 	/**
-	 * These are the file exensions we are asume belong to audio files 
-	 * 
+	 * These are the file exensions we are asume belong to audio files
+	 *
 	 * @var array
 	 */
 	protected static $html5_audio_extensions = array(
@@ -64,13 +64,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	protected static $_videoErrorMessage;
 
 	/**
-	 * Markup Parser 
+	 * Markup Parser
 	 */
 	protected $_Parser;
 
 	/**
 	 * Initialized parsers
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_initializedParsers = array();
@@ -96,10 +96,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Generates html from [bbcode]
-	 * 
+	 *
 	 * @param type $string
 	 * @param array $options
-	 * @return string 
+	 * @return string
 	 */
 	public function parse($string, array $options = array( )) {
 		$this->_initParser($options);
@@ -144,7 +144,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
         // Translates [img# foo]bar[/img] to [upload foo]bar[/upload]
         function($string) {
           return preg_replace(
-              '#\[img\#(.*)?\](.+?)\[/img\]#is', 
+              '#\[img\#(.*)?\](.+?)\[/img\]#is',
               "[upload\\1]\\2[/upload]",
               $string
               );
@@ -259,7 +259,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
 
 		//* allows [url=<foo> label=none] to be parsed as [url default=<foo> label=none]
-		$this->_Parser->setMixedAttributeTypes(TRUE);
+		$this->_Parser->setMixedAttributeTypes(true);
 
 		if ( Configure::read('Saito.Settings.bbcode_img') && $multimedia ):
 
@@ -320,7 +320,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * Consolidates '\n\r', '\r' to `\n`
 	 *
 	 * @param string $string
-	 * @return string 
+	 * @return string
 	 */
 	public function _convertLineBreaks($string) {
 		return preg_replace('/\015\012|\015|\012/', "\n", $string);
@@ -333,7 +333,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	public function _smilies($string, $options = array( )) {
 		$defaults = array(
-				'cache' => TRUE,
+				'cache' => true,
 		);
 
 		$options = array_merge($defaults, $options);
@@ -341,7 +341,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 //		Stopwatch::start('_smilies');
 
-		// Building Smilies 
+		// Building Smilies
 		// @td refactor: MVC|method?
 		$smilies = Configure::read('Saito.Smilies.smilies_all');
 
@@ -454,7 +454,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				if ( self::_isVideoDomainAllowed($attributeValue) === false ) :
 					return self::$_videoErrorMessage->get();
 				endif;
-				if ( strpos($attributeValue, '?') === FALSE ) :
+				if ( strpos($attributeValue, '?') === false ) :
 					$attributeValue .= '?';
 				endif;
 				$attributeValue .= '&wmode=Opaque';
@@ -469,10 +469,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Inserts a html5 video tag
-	 * 
+	 *
 	 * @param <type> $url
 	 * @param <type> $width
-	 * @param <type> $height 
+	 * @param <type> $height
 	 */
 	public static function _html5Video($action, $attributes, $content, $params, &$node_object) {
 		// fix audio files mistakenly wrapped into an [video] tag
@@ -497,7 +497,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 * @access protected
 	 */
-	public static function _html5Audio($action, $attributes, $content, $params = NULL, &$node_object = NULL) {
+	public static function _html5Audio($action, $attributes, $content, $params = null, &$node_object = null) {
 		// @lo
 		$out = "<audio src='$content' controls='controls'>";
 		$out .= BbcodeMessage::format(__(
@@ -511,7 +511,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	/**
 	 * @td search for backery class
 	 */
-	public static function _flashVideo($action, $attributes, $content, $params = NULL, &$node_object = NULL) {
+	public static function _flashVideo($action, $attributes, $content, $params = null, &$node_object = null) {
 		preg_match("#(?P<url>.+?)\|(?P<width>.+?)\|(?<height>\d+)#is", $content,
 				$matches);
 		if ( !isset($matches['height']) ) {
@@ -542,12 +542,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
 		} else {
 			$this->FileUpload->reset();
-      $allowedKeys = array_fill_keys(array( 'width', 'height'), FALSE);
+      $allowedKeys = array_fill_keys(array( 'width', 'height'), false);
       $allowedAttributes = array_intersect_key($attributes, $allowedKeys);
 			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content,
 							array(
-                  'autoResize' => FALSE,
-                  'resizeThumbOnly' => FALSE,
+                  'autoResize' => false,
+                  'resizeThumbOnly' => false,
                   ) + $allowedAttributes
           ) . "</div>";
 		}
@@ -558,7 +558,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 *
 	 * @param string $url
 	 * @param string $params
-	 * @return type 
+	 * @return type
 	 */
 	public function _externalImage($action, $attributes, $content, $params, &$node_object) {
 		$options = array(
@@ -570,7 +570,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		// check for 'http://' in front of URI, we don't do relative URIs
 		$url = self::_checkAndAddProtocol($content);
 
-		// process [img=(parameters)] parameters 
+		// process [img=(parameters)] parameters
 		if ( !empty($attributes['default']) ) {
 			$default = trim($attributes['default']);
 			switch ( $default ) :
@@ -617,7 +617,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					continue;
 				endif;
 				// split [bbcode]
-				$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, NULL,
+				$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, null,
 						PREG_SPLIT_DELIM_CAPTURE);
 				$i = 0;
 				$line = '';
@@ -669,10 +669,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public function _url($action, $attributes, $content, $params, &$node_object) {
 
 		$defaults = array(
-				'label' => TRUE,
+				'label' => true,
 		);
 
-		$wasShort = FALSE;
+		$wasShort = false;
 		if ( isset($attributes['default']) ):
 			// [url=...]...[/url]
 			$url = $attributes['default'];
@@ -681,7 +681,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			// [url]...[/url]
 			$url = $content;
 			$text = $content;
-			$wasShort = TRUE;
+			$wasShort = true;
 		endif;
 
 		$options = array_merge($defaults, $attributes);
@@ -696,11 +696,11 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$out = "<a href='$url'>$text</a>";
 
 		//* add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
-		if ( $label !== 'none' && $label !== 'false' && $label !== FALSE && $wasShort === FALSE ) {
+		if ( $label !== 'none' && $label !== 'false' && $label !== false && $wasShort === false ) {
 			$host = '';
-			if ( !empty($url) && preg_match('/\<img\s*?src=/', $text) == FALSE ) {
+			if ( !empty($url) && preg_match('/\<img\s*?src=/', $text) == false ) {
 				$host = self::_getDomainAndTldForUri($url);
-				if ( !empty($host) || $host === FALSE ) {
+				if ( !empty($host) || $host === false ) {
 					$out .= ' <span class=\'c_bbc_link-dinfo\'>[' . $host . ']</span>';
 				}
 			}
@@ -709,8 +709,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	/**
-	 * Marks an <a> link as external to open in a new browser window 
-	 * 
+	 * Marks an <a> link as external to open in a new browser window
+	 *
 	 * @param array $matches
 	 * @return string
 	 */
@@ -737,18 +737,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
   public function _embed($action, $attributes, $content, $params, &$node_object) {
-    if ( Configure::read('Saito.Settings.embedly_enabled') == FALSE ):
+    if ( Configure::read('Saito.Settings.embedly_enabled') == false ):
       return __('[embed] tag not enabled.');
     endif;
 
     if ( $action === 'validate' ) :
-      return TRUE;
+      return true;
     endif;
 
     $out = 'Embeding failed.';
     $this->Embedly->setApiKey(Configure::read('Saito.Settings.embedly_key'));
     $embedly = $this->Embedly->embedly($content);
-    if ( $embedly !== FALSE ) :
+    if ( $embedly !== false ) :
       $out = $embedly;
     endif;
 
@@ -757,7 +757,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Formats quote.
-	 * 
+	 *
 	 * @param string $string
 	 * @return string
 	 */
@@ -777,9 +777,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	/**
 	 * @bogus does this truncate strings or the longest word in the string or what?
 	 * @bogus what about [url=][img]...[/img][url]. Is the [img] url trunctated too?
-	 * 
+	 *
 	 * @param type $string
-	 * @return string 
+	 * @return string
 	 */
 	protected function _truncate($string) {
 		$text_word_maxlength = Configure::read('Saito.Settings.text_word_maxlength');
@@ -796,26 +796,28 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	/**
-	 * Converts relativ urls to absolute urls
-	 *  
+	 * Converts relative urls to absolute urls
+	 *
 	 * @param type $string
 	 * @return string
 	 */
 	protected static function _checkAndAddProtocol($string) {
 		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
-		if ( $string[0] !== '/' ) {
-			if ( strpos($string, '://') === FALSE ) {
-				$string = $https . $string;
+		if (empty($string) === false) {
+			if ($string[0] !== '/') {
+				if (strpos($string, '://') === false) {
+					$string = $https . $string;
+				}
+			} else {
+				$string = $https . $_SERVER['SERVER_NAME'] . $string;
 			}
-		} else {
-			$string = $https . $_SERVER['SERVER_NAME'] . $string;
 		}
 		return $string;
 	}
 
 	/**
 	 * Checks if an domain is allowed by comparing it to the admin preference
-   * 
+   *
 	 * @param string $src
 	 * @return bool
 	 */
@@ -877,7 +879,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	protected static function _getDomainAndTldForUri($uri, $part = 'fulldomain' ) {
 		$host = @parse_url($uri, PHP_URL_HOST);
-		if ( !empty($host) || $host === FALSE ) :
+		if ( !empty($host) || $host === false ) :
 			if ( preg_match('/(?P<fulldomain>(?P<domain>[a-z0-9][a-z0-9\-]{1,63})\.(?<tld>[a-z\.]{2,6}))$/i',
 							$host, $regs) ) {
 				return $regs[$part];

@@ -29,7 +29,7 @@
 		protected $backupGlobalsBlacklist = array(
 			/*
 			 * $GLOBALS['__STRINGPARSER_NODE_ID' is set in stringparser.class.php
-			 * and must not cleared out 
+			 * and must not cleared out
 			 */
 			'__STRINGPARSER_NODE_ID'
 		);
@@ -231,6 +231,13 @@
 			$this->assertTags($result, $expected);
 
 			$_SERVER['HTTPS'] = $https;
+		}
+
+		public function testLinkEmptyUrl() {
+			$input = '[url=][/url]';
+			$expected = "<a href=''></a>";
+			$result = $this->Bbcode->parse($input);
+			$this->assertIdentical($expected, $result);
 		}
 
 		public function testLinkHttps() {
