@@ -52,15 +52,16 @@ if (typeof console === "undefined") {
     console.error = console.debug = console.info =  console.log;
 }
 
-// prevent caching of ajax results
-$.ajaxSetup({ cache: false });
-
 require(
-    ['domReady', 'views/app', 'backbone', 'bootstrap', 'lib/saito/backbone.initHelper'],
-    function(domReady, AppView, Backbone) {
+    ['domReady', 'views/app', 'backbone', 'jquery', 'bootstrap', 'lib/saito/backbone.initHelper'],
+    function(domReady, AppView, Backbone, $) {
 
     if (typeof SaitoApp.app.runJsTests === 'undefined') {
         // run app
+
+        // prevent caching of ajax results
+        $.ajaxSetup({ cache: false });
+
 
         // fallback if dom does not get ready for some reason to show the content eventually
         var contentTimer = {
