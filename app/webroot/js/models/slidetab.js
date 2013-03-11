@@ -14,7 +14,7 @@ define([
 
         sync: function() {
             $.ajax({
-                url: this.webroot + "/users/ajax_toggle/show_" + this.get('id')
+                url: this.webroot + "users/ajax_toggle/show_" + this.get('id')
             });
         }
 
