@@ -30,7 +30,7 @@
       $request = array(
           'urls' => array( $string ),
       );
-      $obj = array_pop($api->oembed($request));
+      $obj = current($api->oembed($request));
 
       if ( isset($obj->html) ):
         // use the html code from embedly if possible
