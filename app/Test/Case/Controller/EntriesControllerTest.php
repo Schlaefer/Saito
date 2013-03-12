@@ -590,7 +590,7 @@
 				$this->testAction('/entries/setcategory/all');
 		}
 
-		public function testSetcategoryAllGet() {
+		public function testSetcategoryAll() {
 				$Entries = $this->generate('Entries', array(
 					'models' => array(
 							'User' => array('set', 'save')
@@ -606,36 +606,6 @@
 						->method('save');
 
 				$this->testAction('/entries/setcategory/all');
-		}
-
-		public function testSetcategoryAllPost() {
-				$Entries = $this->generate('Entries', array(
-					'models' => array(
-							'User' => array('set', 'save')
-							)
-					));
-
-				$this->_loginUser(3);
-
-				$data = array(
-						'CatChooser' => array(
-								'4' => '0',
-								'7' => '1',
-								'9' => '0',
-						),
-						'CatMeta' => array(
-								'All' => '1',
-						)
-				);
-
-				$Entries->User->expects($this->once())
-						->method('set')
-						->with('user_category_active', -1);
-				$Entries->User->expects($this->once())
-						->method('save');
-
-				$this->testAction('/entries/setcategory/all');
-
 		}
 
 		public function testSetcategoryCategory() {
