@@ -80,7 +80,7 @@
 			);
 			$result = json_decode($result);
 
-			$first_message =  $result->msg[0];
+			$first_message = end($result->msg);
 			$this->assertEqual($first_message->type, 'error');
 
 			Configure::write(
