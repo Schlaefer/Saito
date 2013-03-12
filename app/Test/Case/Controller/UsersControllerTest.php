@@ -254,47 +254,37 @@
 		}
 
 		public function testSetcategoryAll() {
-			$Users = $this->generate('Users', array(
-					'models' => array(
-						'User' => array('set', 'save')
-					)
-				));
+			$Users = $this->generate(
+				'Users',
+				array('models' => array('User' => array('setCategory')))
+			);
 
 			$this->_loginUser(3);
 
 			$Users->User->expects($this->once())
-					->method('set')
-					->with('user_category_active', -1);
-			$Users->User->expects($this->once())
-					->method('save');
+					->method('setCategory')
+					->with('all');
 
 			$this->testAction('/users/setcategory/all');
 		}
 
 		public function testSetcategoryCategory() {
-			$Users = $this->generate('Users', array(
-					'models' => array(
-						'User' => array('set', 'save')
-					)
-				));
-
+			$Users = $this->generate(
+				'Users',
+				array('models' => array('User' => array('setCategory')))
+			);
 			$this->_loginUser(3);
-
 			$Users->User->expects($this->once())
-					->method('set')
-					->with('user_category_active', 5);
-			$Users->User->expects($this->once())
-					->method('save');
-
+					->method('setCategory')
+					->with(5);
 			$this->testAction('/users/setcategory/5');
 		}
 
 		public function testSetcategoryCategories() {
-			$Users = $this->generate('Users', array(
-					'models' => array(
-						'User' => array('set', 'save')
-					)
-				));
+			$Users = $this->generate(
+				'Users',
+				array('models' => array('User' => array('setCategory')))
+			);
 
 			$this->_loginUser(3);
 
@@ -305,21 +295,13 @@
 					'9' => '0',
 				),
 				'CatMeta' => array(
-					'All' => '0',
+					'All' => '1',
 				)
 			);
 
-			$dataAt2 = $data['CatChooser'];
-
-			$Users->User->expects($this->at(0))
-					->method('set')
-					->with('user_category_active', 0);
-			$Users->User->expects($this->at(1))
-					->method('set')
-					->with('user_category_custom', $dataAt2);
 			$Users->User->expects($this->once())
-					->method('save');
-
+					->method('setCategory')
+					->with($data['CatChooser']);
 			$this->testAction(
 				'/users/setcategory/',
 				array('data' => $data, 'method' => 'post')

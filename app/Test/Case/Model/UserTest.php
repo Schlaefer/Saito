@@ -34,6 +34,57 @@
 			$this->assertEmpty($result);
 		}
 
+		public function testSetCategoryAll() {
+			$User = $this->getMockForModel(
+				'User',
+				array('set', 'save')
+			);
+			$User->expects($this->once())
+					->method('set')
+					->with('user_category_active', -1);
+			$User->expects($this->once())
+					->method('save');
+			$User->setCategory('all');
+		}
+
+		public function testSetCategorySingle() {
+			$User = $this->getMockForModel(
+				'User',
+				array('set', 'save')
+			);
+			$User->expects($this->once())
+					->method('set')
+					->with('user_category_active', 5);
+			$User->expects($this->once())
+					->method('save');
+			$User->setCategory('5');
+		}
+
+		public function testSetcategoryCategories() {
+			$User = $this->getMockForModel(
+				'User',
+				array('set', 'save')
+			);
+
+			$data = array(
+					'4' => '0',
+					'7' => '1',
+					'9' => '0',
+			);
+
+			$User->expects($this->at(0))
+					->method('set')
+					->with('user_category_active', 0);
+			$User->expects($this->at(1))
+					->method('set')
+					->with('user_category_custom', $data);
+			$User->expects($this->once())
+					->method('save');
+			$User->setCategory($data);
+		}
+
+
+
 		public function testSetLastRefresh() {
 			//* automatic timestamp
 			$this->User->id = 3;
@@ -129,7 +180,7 @@
     public function testDeleteUser() {
 
 			// test that user's notifications are deleted
-			$this->User->Esnotification = $this->getMock('Esnotification', 
+			$this->User->Esnotification = $this->getMock('Esnotification',
 					array('deleteAllFromUser'), array(false, 'esnotifications', 'test'));
 			$this->User->Esnotification->expects($this->once())
 					->method('deleteAllFromUser')
@@ -265,7 +316,7 @@
 							'password_confirm' => 'new_pw'
 					)
 			);
-			$this->assertTrue($this->User->save($data) == TRUE);
+			$this->assertTrue($this->User->save($data) == true);
 			$this->assertFalse(array_key_exists('password', $this->User->validationErrors));
 		}
 
@@ -289,7 +340,7 @@
 							'password_confirm' => 'new_pw_2',
 					)
 			);
-			$this->assertTrue($this->User->save($data) == TRUE);
+			$this->assertTrue($this->User->save($data) == true);
 			$this->assertFalse(array_key_exists('password_old',
 							$this->User->validationErrors));
 		}
@@ -424,7 +475,7 @@
 		public function setUp() {
 			Security::setHash('md5');
 
-			Configure::write('Saito.useSaltForUserPasswords', FALSE);
+			Configure::write('Saito.useSaltForUserPasswords', false);
 
 			$this->User = ClassRegistry::init(array('class' => 'UserMockup', 'alias' => 'User'));
 		}

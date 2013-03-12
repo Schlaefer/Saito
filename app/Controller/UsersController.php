@@ -42,20 +42,20 @@ class UsersController extends AppController {
 			endif;
 
 		elseif ( !empty($this->request->data) ) :
-      $known_error = FALSE;
+      $known_error = false;
       if ( isset($this->request->data['User']['username']) ) :
         $this->User->contain();
         $readUser = $this->User->findByUsername($this->request->data['User']['username']);
-        if ( $readUser !== FALSE ) :
+        if ( $readUser !== false ) :
           $user = new SaitoUser(new ComponentCollection);
           $user->set($readUser['User']);
           if ( $user->isForbidden() ) :
-            $known_error = $known_error || TRUE;
+            $known_error = $known_error || true;
             $this->Session->setFlash(__('User %s is locked.', $readUser['User']['username']), 'flash/warning');
           endif;
         endif;
       endif;
-      if ( $known_error === FALSE) :
+      if ( $known_error === false) :
         // Unknown login error
         $this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
       endif;
@@ -170,7 +170,7 @@ class UsersController extends AppController {
 		endif;
 	}
 
-	public function view($id = NULL) {
+	public function view($id = null) {
 		// allow user to be viewed by /users/view/<username>
 		if(!empty($id) && !is_numeric($id)) {
 			$this->User->contain();
@@ -192,7 +192,7 @@ class UsersController extends AppController {
 		$viewed_user = $this->User->read();
 
 		if (empty($this->request->data)) {
-			if ($id == NULL || (!($viewed_user))) {
+			if ($id == null || (!($viewed_user))) {
 				$this->Session->setFlash((__('Invalid user')));
 				$this->redirect('/');
 			}
@@ -211,7 +211,7 @@ class UsersController extends AppController {
 		$this->set('user', $viewed_user);
 	}
 
-	public function edit($id = NULL) {
+	public function edit($id = null) {
 		if (!$this->allowedToEditUserData || !$id && empty($this->request->data))
 		{ /** no data to find entry or not allowed * */
 			$this->Session->setFlash(__('Invalid user'));
@@ -277,11 +277,11 @@ class UsersController extends AppController {
 		$this->set('user', $this->request->data);
 	}
 
-  public function lock($id = NULL) {
+  public function lock($id = null) {
       if (  (
-              $this->CurrentUser->isAdmin() === TRUE
-              || ($this->CurrentUser->isMod() === TRUE && Configure::read('Saito.Settings.block_user_ui'))
-            ) === FALSE
+              $this->CurrentUser->isAdmin() === true
+              || ($this->CurrentUser->isMod() === true && Configure::read('Saito.Settings.block_user_ui'))
+            ) === false
           ) :
         return $this->redirect('/');
       endif;
@@ -304,7 +304,7 @@ class UsersController extends AppController {
       else :
         $this->User->id = $id;
         $status = $this->User->toggle('user_lock');
-        if ( $status !== FALSE ) :
+        if ( $status !== false ) :
           $message = '';
           if ( $status ) :
             $message = __('User %s is locked.', $readUser['User']['username']);
@@ -321,7 +321,7 @@ class UsersController extends AppController {
       $this->redirect(array( 'action' => 'view', $id ));
     }
 
-  public function admin_delete($id = NULL) {
+  public function admin_delete($id = null) {
 
     $this->User->contain();
     $readUser = $this->User->findById($id);
@@ -383,8 +383,8 @@ class UsersController extends AppController {
 
 	}
 
-	public function contact($id = NULL) {
-		if ($id === NULL) {
+	public function contact($id = null) {
+		if ($id === null) {
 			$this->redirect('/');
 		}
 
@@ -516,25 +516,13 @@ class UsersController extends AppController {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new ForbiddenException();
 		}
-
 		$this->User->id = $this->CurrentUser->getId();
-
 		if ($id === 'all') {
-			// set meta category 'all'
-			$this->User->set('user_category_active', -1);
-			$this->User->save();
+			$this->User->setCategory('all');
 		} elseif (!$id && $this->request->data) {
-			// set custom set
-			$this->User->set('user_category_active', 0);
-			$this->User->set(
-				'user_category_custom',
-				$this->request->data['CatChooser']
-			);
-			$this->User->save();
+			$this->User->setCategory($this->request->data['CatChooser']);
 		} else {
-			// set single category
-			$this->User->set('user_category_active', $id);
-			$this->User->save();
+			$this->User->setCategory($id);
 		}
 		return $this->redirect($this->referer());
 	}
@@ -562,7 +550,7 @@ class UsersController extends AppController {
    * @param int $userToEditId
    * @return type
    */
-	protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = NULL) {
+	protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = null) {
     if (is_null($userToEditId) && isset($this->passedArgs[0])) :
       $userToEditId = $this->passedArgs[0];
     endif;
@@ -572,9 +560,9 @@ class UsersController extends AppController {
 							$userWhoEdits['id'] == $userToEditId	 #users own_entry
 							|| $userWhoEdits['user_type']  == 'admin'	 #user is admin
 			) :
-				$this->allowedToEditUserData = TRUE;
+				$this->allowedToEditUserData = true;
 		  else:
-        $this->allowedToEditUserData = FALSE;
+        $this->allowedToEditUserData = false;
       endif;
 
 			$this->set('allowedToEditUserData', $this->allowedToEditUserData);
