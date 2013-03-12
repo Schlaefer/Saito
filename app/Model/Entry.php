@@ -108,9 +108,9 @@
 		);
 
 		/**
-		 * Fields allowed in public output 
+		 * Fields allowed in public output
 		 *
-		 * @var array 
+		 * @var array
 		 */
 		public $publicFieldsList = '
 			Entry.id,
@@ -182,12 +182,11 @@
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$defaults = array(
-					'user_id'	 => NULL,
+					'user_id'	 => null,
 					'limit'		 => 10,
 					'category' => $this->Category->getCategoriesForAccession($User->getMaxAccession()),
 			);
 			$options = array_merge($defaults, $options);
-			extract($options);
 
 			$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
 			$cached_entry = Cache::read($cache_key, 'postings');
@@ -197,11 +196,11 @@
 			}
 
 			$conditions = array();
-			if ($user_id !== NULL) {
-				$conditions[]['Entry.user_id'] = $user_id;
+			if ($options['user_id'] !== null) {
+				$conditions[]['Entry.user_id'] = $options['user_id'];
 			}
-			if ($category !== NULL):
-				$conditions[]['Entry.category'] = $category;
+			if ($options['category'] !== null):
+				$conditions[]['Entry.category'] = $options['category'];
 			endif;
 
 			$result = $this->find('all',
@@ -209,7 +208,7 @@
 						'contain' => array('User', 'Category'),
 						'fields'		 => $this->threadLineFieldList,
 						'conditions' => $conditions,
-						'limit'			 => $limit,
+						'limit'			 => $options['limit'],
 						'order'			 => 'time DESC',
 					)
 			);
@@ -223,9 +222,9 @@
 
 		/**
 		 * Finds the thread-id for a posting
-		 * 
+		 *
 		 * @param int $id Posting-Id
-		 * @return int Thread-Id 
+		 * @return int Thread-Id
 		 * @throws UnexpectedValueException
 		 */
 		public function getThreadId($id) {
@@ -244,8 +243,8 @@
 		}
 
 	/**
-	 * creates a new root or child entry for a node 
-	 * 
+	 * creates a new root or child entry for a node
+	 *
 	 * Interface see model->save()
 	 */
 	public function createPosting($data = null, $validate = true, $fieldList = array()) {
@@ -254,7 +253,7 @@
 			return FALSE;
 		}
 
-		if ($data['Entry']['pid'] > 0) {	
+		if ($data['Entry']['pid'] > 0) {
 			// reply
 			// get and setup additional data from parent entry
 
@@ -262,7 +261,7 @@
 			$this->contain();
 			$parent_entry = $this->read(array('tid', 'category'));
 			if ( $parent_entry != TRUE ) {
-				//* parent could not be found 
+				//* parent could not be found
 				return FALSE;
 				}
 
@@ -291,7 +290,7 @@
 		if((int)$new_posting['Entry']['pid'] === 0) {
 			// new thread
 
-			// for new thread tid = id 
+			// for new thread tid = id
 			$new_posting['Entry']['tid'] = $new_posting_id;
 
 			if ($this->save($new_posting) != TRUE ) {
@@ -302,9 +301,9 @@
         $this->Category->updateThreadCounter();
       }
 
-		} elseif ($new_posting['Entry']['pid'] > 0) {	
+		} elseif ($new_posting['Entry']['pid'] > 0) {
 			// reply
-			
+
 			// update last answer time in root entry
 			$this->id = $parent_entry['Entry']['tid'];
 			$this->set('last_answer', $new_posting['Entry']['last_answer']);
@@ -500,7 +499,7 @@
 
 	/**
 	 * Deletes entry and all it's subentries and associated data
-	 * 
+	 *
 	 * @param type $id
 	 */
 	public function deleteNode($id = null) {
@@ -551,7 +550,7 @@
 
 	/**
    * Anonymizes the entries for a user
-   * 
+   *
    * @param string $user_id
    * @return bool success
    */
@@ -741,9 +740,9 @@
 
 		/**
 		 * Test if entry is thread-root
-		 * 
+		 *
 		 * $id accepts an entry-id or an entry: array('Entry' => array(…))
-		 * 
+		 *
 		 * @param mixed $id
 		 * @return bool
 		 */
@@ -802,7 +801,7 @@
 
 	/**
 	 * Locks or unlocks a whole thread
-	 * 
+	 *
 	 * Every entry in thread is set to `locked` = '$value'
 	 *
 	 * @param bool $value

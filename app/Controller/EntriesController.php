@@ -32,21 +32,27 @@
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
-			if ( $this->CurrentUser->isLoggedIn() ) {
+			// get data for slidetabs
+			if ($this->CurrentUser->isLoggedIn()) {
 				// get current user's recent entries for slidetab
-				$this->set('recentPosts',
-						$this->Entry->getRecentEntries(
-								array(
-										'user_id' => $this->CurrentUser->getId(),
-										'limit' => 5,
-								), $this->CurrentUser)
+				$this->set(
+					'recentPosts',
+					$this->Entry->getRecentEntries(
+						array(
+							'user_id' => $this->CurrentUser->getId(),
+							'limit'   => 5,
+						),
+						$this->CurrentUser
+					)
 				);
-
 				// get last 10 recent entries for slidetab
-				$this->set('recentEntries',
-						$this->Entry->getRecentEntries(array(),
-								$this->CurrentUser
-								));
+				$this->set(
+					'recentEntries',
+					$this->Entry->getRecentEntries(
+						array(),
+						$this->CurrentUser
+					)
+				);
 			}
 
 			// get threads
