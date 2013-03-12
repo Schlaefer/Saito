@@ -13,8 +13,10 @@ define([
         AnsweringView,
         spinnerTpl
     ) {
-		// @td if everything is migrated to require/bb set var again
-		PostingView = Backbone.View.extend({
+
+        "use strict";
+
+		var PostingView = Backbone.View.extend({
 
 			className: 'js-entry-view-core',
             answeringForm: false,
@@ -29,8 +31,9 @@ define([
 
 				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
                 this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
-                this.listenTo(this.model, 'change:html', this.render)
+                this.listenTo(this.model, 'change:html', this.render);
 
+                // init geshi for entries/view when $el is already there
                 this.initGeshi('.c_bbc_code-wrapper');
 			},
 
@@ -101,7 +104,7 @@ define([
 			_hideAllAnsweringForms: function() {
 				// we have #id problems with more than one markItUp on a page
 				this.collection.forEach(function(posting){
-					if(posting.get('id') != this.model.get('id')) {
+					if(posting.get('id') !== this.model.get('id')) {
 						posting.set('isAnsweringFormShown', false);
 					}
 				}, this);
@@ -123,6 +126,8 @@ define([
 
             render: function() {
                 this.$el.html(this.model.get('html'));
+                // init geshi for entries opened inline
+                this.initGeshi('.c_bbc_code-wrapper');
                 return this;
             }
 

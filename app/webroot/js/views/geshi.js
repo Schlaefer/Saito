@@ -17,7 +17,7 @@ define([
         },
 
         initialize: function() {
-            this.model = new GeshiModel;
+            this.model = new GeshiModel();
             this.collection.push(this.model);
             this.block = this.$('.geshi-plain-text').next();
 
@@ -44,7 +44,7 @@ define([
                 return;
             }
             this.htmlText = this.block.html();
-            if (navigator.appName == 'Microsoft Internet Explorer') {
+            if (navigator.appName === 'Microsoft Internet Explorer') {
                 this.htmlText = this.htmlText.replace(/\n\r/g, "+");
                 this.plainText = $(this.htmlText).text().replace(/\+\+/g, "\r");
             } else {

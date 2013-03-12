@@ -9,8 +9,8 @@ define([
     'lib/saito/jquery.scrollIntoView'
 	], function($, _, Backbone, App, ThreadlineSpinnerView, threadlineSpinnerTpl,
     PostingView, PostingModel) {
-		// @td if everything is migrated to require/bb set var again
-		ThreadLineView = Backbone.View.extend({
+
+		var ThreadLineView = Backbone.View.extend({
 
 			className: 'js-thread_line',
 
@@ -113,7 +113,8 @@ define([
             },
 
 			_showInlineView: function (options) {
-				options || (options = {});
+				options = options || {};
+
 				var scroll = options.scroll || false;
 				var id = this.model.id;
 
@@ -167,7 +168,7 @@ define([
 			},
 
             _appendThreadLine: function(options) {
-                if (options.parrentId !== this.model.get('id')) { return };
+                if (options.parrentId !== this.model.get('id')) { return; }
                 var data = options.html;
                 var tid = $(data).find('.js-thread_line').data('tid');
                 this.model.set({isInlineOpened: false});
