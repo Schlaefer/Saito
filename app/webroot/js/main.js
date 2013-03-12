@@ -112,6 +112,7 @@ require(
             'models/AppStatusModelSpec.js',
             'models/BookmarkModelSpec.js',
             'models/SlidetabModelSpec.js',
+            'models/StatusModelSpec.js',
             'models/UploadModelSpec.js',
             'lib/MarkItUpSpec.js',
             'lib/jquery.i18n.extendSpec.js'

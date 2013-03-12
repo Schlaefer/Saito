@@ -2,7 +2,7 @@ define([], function() {
 
     "use strict";
 
-    describe("Slidetab model", function () {
+    describe("status model", function () {
 
         beforeEach(function () {
             var flag = false,
@@ -12,11 +12,9 @@ define([], function() {
 
             this.server = sinon.fakeServer.create();
 
-            require(['models/slidetab', 'models/app'], _.bind(function(Model, App) {
-                App.settings.set('webroot', this.webroot);
-                that.model = new Model({
-                    id: "testSlider"
-                });
+            require(['models/appStatus', 'models/app'], _.bind(function(Model, App) {
+                that.model = new Model();
+                that.model.setWebroot(this.webroot);
                 flag = true;
             }, this));
 
@@ -29,14 +27,14 @@ define([], function() {
             this.server.restore();
         });
 
-        it('to toggle show at users/ajax_toggle/…', function() {
-            this.model.save();
+        it('reads data from correct url', function() {
+            this.model.fetch();
             expect(this.server.requests.length)
                 .toEqual(1);
             expect(this.server.requests[0].method)
                 .toEqual("GET");
             expect(this.server.requests[0].url)
-                .toEqual(this.webroot + "users/ajax_toggle/show_" + this.model.get('id'));
+                .toEqual(this.webroot + "saitos/status/");
         });
 
     });

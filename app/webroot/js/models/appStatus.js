@@ -8,7 +8,7 @@ define([
 
     var AppStatusModel = Backbone.Model.extend({
 
-        initialize: function(options) {
+        initialize: function() {
             this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
             this.methodToCakePhpUrl.read = 'status/';
         },
