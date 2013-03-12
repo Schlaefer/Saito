@@ -248,6 +248,84 @@
 			$this->assertContains('Name is already used.', $result);
 		}
 
+		public function testSetcategoryNotLoggedIn() {
+			$this->setExpectedException('ForbiddenException');
+			$this->testAction('/users/setcategory/all');
+		}
+
+		public function testSetcategoryAll() {
+			$Users = $this->generate('Users', array(
+					'models' => array(
+						'User' => array('set', 'save')
+					)
+				));
+
+			$this->_loginUser(3);
+
+			$Users->User->expects($this->once())
+					->method('set')
+					->with('user_category_active', -1);
+			$Users->User->expects($this->once())
+					->method('save');
+
+			$this->testAction('/users/setcategory/all');
+		}
+
+		public function testSetcategoryCategory() {
+			$Users = $this->generate('Users', array(
+					'models' => array(
+						'User' => array('set', 'save')
+					)
+				));
+
+			$this->_loginUser(3);
+
+			$Users->User->expects($this->once())
+					->method('set')
+					->with('user_category_active', 5);
+			$Users->User->expects($this->once())
+					->method('save');
+
+			$this->testAction('/users/setcategory/5');
+		}
+
+		public function testSetcategoryCategories() {
+			$Users = $this->generate('Users', array(
+					'models' => array(
+						'User' => array('set', 'save')
+					)
+				));
+
+			$this->_loginUser(3);
+
+			$data = array(
+				'CatChooser' => array(
+					'4' => '0',
+					'7' => '1',
+					'9' => '0',
+				),
+				'CatMeta' => array(
+					'All' => '0',
+				)
+			);
+
+			$dataAt2 = $data['CatChooser'];
+
+			$Users->User->expects($this->at(0))
+					->method('set')
+					->with('user_category_active', 0);
+			$Users->User->expects($this->at(1))
+					->method('set')
+					->with('user_category_custom', $dataAt2);
+			$Users->User->expects($this->once())
+					->method('save');
+
+			$this->testAction(
+				'/users/setcategory/',
+				array('data' => $data, 'method' => 'post')
+			);
+		}
+
 		public function testView() {
 			/*
 			 * unregistred users can't see user profiles

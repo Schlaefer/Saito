@@ -170,35 +170,6 @@
 		$this->redirect('/entries/index');
 	}
 
-		public function setcategory($id = null) {
-			if (!$this->CurrentUser->isLoggedIn()) {
-				throw new ForbiddenException();
-			}
-
-			$this->Entry->User->id = $this->CurrentUser->getId();
-
-			if ($id === 'all') {
-				// set meta category 'all'
-				$this->Entry->User->set('user_category_active', -1);
-				$this->Entry->User->save();
-			} elseif (!$id && $this->request->data) {
-				// set custom set
-				$this->Entry->User->set('user_category_active', 0);
-				$this->Entry->User->set(
-					'user_category_custom',
-					$this->request->data['CatChooser']
-				);
-				$this->Entry->User->save();
-			} else {
-				// set single category
-				$this->Entry->User->set('user_category_active', $id);
-				$this->Entry->User->save();
-			}
-			return $this->redirect(
-				array('controller' => 'entries', 'action' => 'index')
-			);
-		}
-
   /**
      * Outputs raw BBcode of an posting $id
      *

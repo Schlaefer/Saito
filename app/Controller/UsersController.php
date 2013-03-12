@@ -13,7 +13,7 @@ class UsersController extends AppController {
 			'SimpleCaptcha.SimpleCaptcha',
 			'EntryH',
 	);
-	
+
 	protected $allowedToEditUserData = false;
 
 	public function login() {
@@ -108,7 +108,7 @@ class UsersController extends AppController {
 					$this->SaitoEmail->email(array(
 						'recipient' => $this->request->data,
 						'subject' 	=> __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
-						'sender' 		=> array( 
+						'sender' 		=> array(
 								'User' => array(
 										'user_email' 	=> Configure::read('Saito.Settings.forum_email'),
 										'username'		=> Configure::read('Saito.Settings.forum_name')),
@@ -190,7 +190,7 @@ class UsersController extends AppController {
 
 		$this->User->contain(array('UserOnline'));
 		$viewed_user = $this->User->read();
-		
+
 		if (empty($this->request->data)) {
 			if ($id == NULL || (!($viewed_user))) {
 				$this->Session->setFlash((__('Invalid user')));
@@ -212,7 +212,7 @@ class UsersController extends AppController {
 	}
 
 	public function edit($id = NULL) {
-		if (!$this->allowedToEditUserData || !$id && empty($this->request->data)) 
+		if (!$this->allowedToEditUserData || !$id && empty($this->request->data))
 		{ /** no data to find entry or not allowed * */
 			$this->Session->setFlash(__('Invalid user'));
 			$this->redirect('/');
@@ -266,8 +266,8 @@ class UsersController extends AppController {
 		}
 
 
-		if (empty($this->request->data)) { 
-			//* View Entry by id 
+		if (empty($this->request->data)) {
+			//* View Entry by id
 
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
@@ -351,7 +351,7 @@ class UsersController extends AppController {
   }
 
 	public function changepassword($id = null) {
-		if ( $id == null 
+		if ( $id == null
         || !$this->_checkIfEditingIsAllowed($this->CurrentUser, $id) ) :
 			return $this->redirect('/');
 	  endif;
@@ -512,6 +512,33 @@ class UsersController extends AppController {
 		return $this->request->data;
 	}
 
+	public function setcategory($id = null) {
+		if (!$this->CurrentUser->isLoggedIn()) {
+			throw new ForbiddenException();
+		}
+
+		$this->User->id = $this->CurrentUser->getId();
+
+		if ($id === 'all') {
+			// set meta category 'all'
+			$this->User->set('user_category_active', -1);
+			$this->User->save();
+		} elseif (!$id && $this->request->data) {
+			// set custom set
+			$this->User->set('user_category_active', 0);
+			$this->User->set(
+				'user_category_custom',
+				$this->request->data['CatChooser']
+			);
+			$this->User->save();
+		} else {
+			// set single category
+			$this->User->set('user_category_active', $id);
+			$this->User->save();
+		}
+		return $this->redirect($this->referer());
+	}
+
 	public function beforeFilter() {
 		Stopwatch::start('Users->beforeFilter()');
 		parent::beforeFilter();
@@ -533,7 +560,7 @@ class UsersController extends AppController {
    *
    * @param SaitoUser $userWhoEdits
    * @param int $userToEditId
-   * @return type 
+   * @return type
    */
 	protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = NULL) {
     if (is_null($userToEditId) && isset($this->passedArgs[0])) :
