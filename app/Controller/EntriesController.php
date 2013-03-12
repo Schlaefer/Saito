@@ -166,7 +166,7 @@
 
 	public function setcategory($id = null) {
 		if(!$this->CurrentUser->isLoggedIn()) {
-			throw new MethodNotAllowedException();
+			throw new ForbiddenException();
 		}
 
 		if ($id == 'all' || ($this->request->data && $this->request->data['CatMeta']['All'])) {
@@ -636,59 +636,68 @@
 	}
 
 	public function preview() {
-		if ( !$this->request->is('ajax') ) {
-			$this->redirect('/');
+		if ($this->CurrentUser->isLoggedIn() === false) {
+			throw new ForbiddenException();
+		}
+		if ($this->request->is('ajax') === false) {
+			throw new BadRequestException();
+		}
+		if ($this->request->is('put') === false) {
+			throw new MethodNotAllowedException();
 		}
 
-		$this->request->data = $this->_prepareAnswering($this->request->data);
+		$data = $this->request->data;
+		$data = $this->_prepareAnswering($data);
+	  $data = $data['Entry'];
+		$newEntry = array(
+			'Entry' => array(
+				'pid'      => $data['pid'],
+				'subject'  => $data['subject'],
+				'text'     => $data['text'],
+				'category' => $data['category'],
+				'nsfw'     => $data['nsfw'],
+				'fixed'    => false,
+				'views'    => 0,
+				'ip'       => '',
+				'time'     => date("Y-m-d H:i:s")
+			)
+		);
+		$this->Entry->set($newEntry);
 
-		extract($this->request->data['Entry']);
-		unset($this->request->data);
-
-		$this->request->data = array( );
-
-		$this->request->data['Entry']['pid'] = $pid;
-		$this->request->data['Entry']['subject'] = $subject;
-		$this->request->data['Entry']['text'] = $text;
-		$this->request->data['Entry']['category'] = $category;
-		$this->request->data['Entry']['nsfw'] = $nsfw;
-		$this->request->data['Entry']['fixed'] = false;
-		$this->request->data['Entry']['ip'] = '';
-
-
-		$this->Entry->set($this->request->data);
-		$validate = $this->Entry->validates(array( 'fieldList' => array( 'subject', 'text', 'category' ) ));
+		$this->Entry->validates(
+			array('fieldList' => array('subject', 'text', 'category'))
+		);
 		$errors = $this->Entry->validationErrors;
 
-		if ( count($errors) === 0 ) :
-		//* no validation errors
+		if (count($errors) === 0) :
+			// no validation errors
+
 			// Sanitize before validation: maxLength will fail because of html entities
-			$this->request->data['Entry']['subject'] = Sanitize::html($subject);
-			$this->request->data['Entry']['text'] = Sanitize::html($text);
-			$this->request->data['Entry']['views'] = 0;
-			$this->request->data['Entry']['time'] = date("Y-m-d H:i:s");
+			$newEntry['Entry']['subject'] = Sanitize::html($newEntry['Entry']['subject']);
+			$newEntry['Entry']['text'] = Sanitize::html($newEntry['Entry']['text']);
 
+			$newEntry['User'] = $this->CurrentUser->getSettings();
 
-			$this->request->data['User'] = $this->CurrentUser->getSettings();
-
-			$this->request->data = array_merge($this->request->data,
-					$this->Entry->Category->find(
-							'first',
-							array(
-							'conditions' => array(
-									'id' => $this->request->data['Entry']['category']
-							),
-							'contain' => false,
-							)
-					));
-			$this->set('entry', $this->request->data);
+			$newEntry = array_merge(
+				$newEntry,
+				$this->Entry->Category->find(
+					'first',
+					array(
+						'conditions' => array(
+							'id' => $newEntry['Entry']['category']
+						),
+						'contain'    => false,
+					)
+				)
+			);
+			$this->set('entry', $newEntry);
 		else :
-		//* validation errors
+			// validation errors
 			foreach ( $errors as $field => $error ) {
-				$message[] = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
+				$message = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
+				$this->JsData->addAppJsMessage($message, 'error');
 			}
-			$this->set('message', $message);
-			$this->render('/Elements/flash/error');
+			$this->render('/Elements/flash/render');
 		endif;
 	}
 

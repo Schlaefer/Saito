@@ -535,6 +535,39 @@
           'method' => 'post'));
     }
 
+		public function testPreviewLoggedIn() {
+			$this->setExpectedException('ForbiddenException');
+			$this->testAction('/entries/preview');
+		}
+
+		public function testPreviewIsAjax() {
+			$this->generate('Entries');
+			$this->_loginUser(1);
+			$this->setExpectedException('BadRequestException');
+			$this->testAction('/entries/preview');
+		}
+
+		public function testPreviewIsPut() {
+			$this->generate('Entries');
+			$this->_setAjax();
+			$this->_loginUser(1);
+			$this->setExpectedException('MethodNotAllowedException');
+			$this->testAction('/entries/preview', array('method' => 'GET'));
+		}
+
+		/*
+		public function testPreview() {
+			$this->generate('Entries');
+			$this->_setAjax();
+			$this->_loginUser(1);
+
+			$this->testAction(
+				'/entries/preview',
+				array('method' => 'PUT')
+			);
+		}
+		*/
+
 		public function testSearchAdvAccession() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(3);
@@ -553,14 +586,7 @@
 		}
 
 		public function testSetcategoryNotLoggedIn() {
-				$Entries = $this->generate('Entries', array(
-					'models' => array(
-							'User' => array('set', 'save')
-							)
-					));
-				$this->_logoutUser();
-
-				$this->setExpectedException('MethodNotAllowedException');
+				$this->setExpectedException('ForbiddenException');
 				$this->testAction('/entries/setcategory/all');
 		}
 
