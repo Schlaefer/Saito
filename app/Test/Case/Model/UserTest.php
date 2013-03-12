@@ -47,6 +47,9 @@
 			$User->setCategory('all');
 		}
 
+		/**
+		 * Set to a single category – Success
+		 */
 		public function testSetCategorySingle() {
 			$User = $this->getMockForModel(
 				'User',
@@ -60,16 +63,37 @@
 			$User->setCategory('5');
 		}
 
-		public function testSetcategoryCategories() {
+		/**
+		 * Set to a single category – Failure because category does not exists
+		 */
+		public function testSetCategorySingleNotExist() {
+			$this->expectException('InvalidArgumentException');
+			$this->User->setCategory('fwefwe');
+		}
+
+		/**
+		 * Set custom category set - Success
+		 */
+		public function testSetCategoryCustom() {
 			$User = $this->getMockForModel(
 				'User',
 				array('set', 'save')
 			);
 
 			$data = array(
-					'4' => '0',
-					'7' => '1',
-					'9' => '0',
+					'1' => '0',
+					'2' => '1',
+					'3' => '0',
+					'5' => '0',
+					'9999' => '1',
+					array('foo')
+			);
+
+			$expected = array(
+					'1' => false,
+					'2' => true,
+					'3' => false,
+					'5' => false,
 			);
 
 			$User->expects($this->at(0))
@@ -77,13 +101,19 @@
 					->with('user_category_active', 0);
 			$User->expects($this->at(1))
 					->method('set')
-					->with('user_category_custom', $data);
+					->with('user_category_custom', $expected);
 			$User->expects($this->once())
 					->method('save');
 			$User->setCategory($data);
 		}
 
-
+		/**
+		 * Set custom category set - Failure because no valid category is found
+		 */
+		public function testSetCategoryCustomNotExist() {
+			$this->expectException('InvalidArgumentException');
+			$this->User->setCategory(array('foo'));
+		}
 
 		public function testSetLastRefresh() {
 			//* automatic timestamp

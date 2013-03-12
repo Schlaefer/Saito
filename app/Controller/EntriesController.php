@@ -889,18 +889,18 @@
 					$user_cats = array_intersect_key($user_cats, $cats);
 					$this->set('categoryChooserChecked', $user_cats);
 
-					if (!$User->isLoggedIn()) {
+					if ($User->isLoggedIn() === false) {
 						// non logged in user sees his accessions i.e. the default set
 					} elseif ((int)$User['user_category_active'] === -1) {
 						// user has choosen to see all available categories i.e. the default set
 					} elseif ((int)$User['user_category_active'] > 0) {
 						// logged in users sees his active group if he has access rights
 						$cats = array_intersect_key($cats,
-								array($User['user_category_active']	 => 1));
+								array($User['user_category_active']	=> 1));
 						$catCT												 = $User['user_category_active'];
 					} elseif (empty($User['user_category_custom'])) {
 						// for whatever reason we should see a custom category, but there are no set yet
-					} elseif (!empty($User['user_category_custom'])) {
+					} elseif (empty($User['user_category_custom']) === false) {
 						// but if he has no active group and a custom groups set he sees his custom group
 						$cats	 = array_keys($user_cats);
 						$catCT = __('Custom');
