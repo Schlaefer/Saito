@@ -17,7 +17,6 @@
 			$js += array (
 				'app' => array(
 					'version' => Configure::read('Saito.v'),
-					'timeAppStart' => 'new Date().getTime()',
 					'settings' => array (
 						'webroot' => $View->request->webroot,
 						'embedly_enabled' => (bool)Configure::read('Saito.Settings.embedly_enabled'),
@@ -39,7 +38,9 @@
 					'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
 				)
 			);
-			return 'var SaitoApp = ' . json_encode($js);
+			$out = 'var SaitoApp = ' . json_encode($js);
+			$out .= '; SaitoApp.timeAppStart = new Date().getTime();';
+			return $out;
 		}
 
 		function __call($method, $params) {
