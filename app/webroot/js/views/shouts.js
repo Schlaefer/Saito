@@ -17,12 +17,14 @@ define([
             "keydown form": "formDown"
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.webroot = App.settings.get('webroot') + 'shouts/';
             this.shouts = this.$el.find('.shouts');
             this.textarea =  this.$el.find('textarea');
+            this.slidetabModel = options.slidetabModel;
 
             this.listenTo(App.status, "change:lastShoutId", this.poll);
+            this.listenTo(this.slidetabModel, "change:isOpen", this.poll);
 
             this.textarea.autosize();
         },
