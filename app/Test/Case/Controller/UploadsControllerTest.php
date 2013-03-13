@@ -29,6 +29,7 @@
 		public function testAddUserMustBeLoggedIn() {
 			$this->expectException('ForbiddenException');
 			$this->testAction('/uploads/add');
+			$this->assertTrue(isset($this->headers['Location']));
 		}
 
 		public function testAddMustBePost() {
@@ -125,15 +126,51 @@
 
 		public function testDeleteUserMustBeLoggedIn() {
 			$this->expectException('ForbiddenException');
-			$this->testAction('/uploads/delete');
+			$this->testAction('/uploads/delete/1');
+			$this->assertTrue(isset($this->headers['Location']));
 		}
 
-		/**
-		 * testDelete method
-		 *
-		 * @return void
-		 */
+		public function testDeleteCallMustBeAjax() {
+			$this->generate('Uploads');
+			$this->_loginUser(1);
+			$this->expectException('BadRequestException');
+			$this->testAction('/uploads/delete/1', array('method' => 'get'));
+		}
+
+		public function testDeleteIdMustBeGiven() {
+			$this->_setAjax();
+			$this->generate('Uploads');
+			$this->_loginUser(1);
+			$this->expectException('BadRequestException');
+			$this->testAction('/uploads/delete', array('method' => 'get'));
+		}
+
+		public function testDeleteNotUsersImage() {
+			$this->_setAjax();
+			$this->generate('Uploads');
+			$this->_loginUser(1);
+			$this->expectException('ForbiddenException');
+			$this->testAction('/uploads/delete/1', array('method' => 'get'));
+		}
+
+		public function testDeleteImageDoesNotExist() {
+			$this->_setAjax();
+			$this->generate('Uploads');
+			$this->_loginUser(1);
+			$this->expectException('ForbiddenException');
+			$this->testAction('/uploads/delete/9999', array('method' => 'get'));
+		}
+
 		public function testDelete() {
+			$this->_setAjax();
+			$this->generate(
+				'Uploads',
+				array('models' => array('Upload' => array('delete')))
+			);
+			$this->controller->Upload->expects($this->once())
+					->method('delete');
+			$this->_loginUser(3);
+			$this->testAction('/uploads/delete/1', array('method' => 'get'));
 		}
 
 	}

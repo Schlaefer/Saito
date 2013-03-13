@@ -96,20 +96,24 @@
 		 * Delete upload
 		 */
 		public function delete($id = null) {
-			$this->autoRender = false;
-			if ($id == null) {
-				return;
+			if ($this->request->is('ajax') === false || $id === null) {
+				throw new BadRequestException();
 			}
+			$this->autoRender = false;
 
-			$this->Upload->id = $id;
+			$this->Upload->id = (int)$id;
 			$file = $this->Upload->read();
-			if ($file['Upload']['user_id'] == $this->Session->read('Auth.User.id')) {
+			if (	 $file
+					&& $file['Upload']['user_id'] === $this->CurrentUser->getId()
+			) {
 				if (!$this->Upload->delete(null, false)) {
 					$this->JsData->addAppJsMessage(
 						'We are screwed, something went terribly wrong. File not deleted.',
 						'error'
 					);
 				}
+			} else {
+				throw new ForbiddenException();
 			}
 			return json_encode($this->JsData->getAppJsMessages());
 		}
