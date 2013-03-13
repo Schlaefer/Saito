@@ -17,27 +17,27 @@
   *      $fileUpload->input(); //builds the input form based on your FileUploadComponent defaults
   *           -or-
   *      $fileUpload->input(array('var' => 'fileVar', 'model' => 'Picture')); //customized input form.
-  *      
+  *
   */
 App::import('Config', 'FileUpload.file_upload_settings');
 class FileUploadHelper extends AppHelper{
   var $helpers = array('Html', 'Form');
-    
+
   /**
     * the name of the file passed in.
     */
   var $fileName = NULL;
-  
+
   /**
     * Holds the FileUpload component
     */
   var $FileUpload = NULL;
-  
+
   /**
     * Counts the number of inputs, for multiple fileUpload inputing.
     */
   var $inputCount = 0;
-  
+
   /**
     * Default options for showImage
     *
@@ -54,12 +54,12 @@ class FileUploadHelper extends AppHelper{
     'autoResize' => true, //if true, will resize the file automatically if given a valid width.
     'resizeThumbOnly' => true //if true, will only resize the image down -- not up past the original's size
   );
-  
+
   /**
     * FileUpload Settings set in config/file_upload_settings.php
     */
   var $settings = array();
-  
+
   /**
     * Constructor, initiallizes the FileUpload Component
     * and sets the default options.
@@ -67,11 +67,11 @@ class FileUploadHelper extends AppHelper{
   function __construct(View $View, $settings = array()){
 		parent::__construct($View, $settings);
     $this->FileUploadSettings = new FileUploadSettings;
-    
+
     //setup settings
     $this->settings = array_merge($this->FileUploadSettings->defaults, $this->options);
   }
-  
+
   /**
     * Reset the helper to its initial state
     * @access public
@@ -80,18 +80,18 @@ class FileUploadHelper extends AppHelper{
   function reset(){
     $this->fileName = null;
     $this->options = array(
-      'width' => 0, 
-      'resizedDir' => 'resized', 
-      'imagePathOnly' => false, 
-      'autoResize' => true, 
+      'width' => 0,
+      'resizedDir' => 'resized',
+      'imagePathOnly' => false,
+      'autoResize' => true,
       'resizeThumbOnly' => true
     );
-    
+
     //setup settings
     $this->settings = array_merge($this->FileUploadSettings->defaults, $this->options);
     unset($this->newImage);
   }
-  
+
   /**
     * image takes a file_name or Upload.id and returns the HTML image
     *
@@ -99,7 +99,7 @@ class FileUploadHelper extends AppHelper{
     * @param Array|Int $options takes an array of options passed to the image helper, or an integer representing the width of the image to display
     *         options: width = 100 (default), if width is set along with autoResize the uploaded image will be resized.
     * @access public
-    * @return mixed html tag, url string, or false if unable to find image. 
+    * @return mixed html tag, url string, or false if unable to find image.
     */
   function image($name, $options = array()){
     $this->fileName = $name;
@@ -111,7 +111,7 @@ class FileUploadHelper extends AppHelper{
     }
     $this->options = array_merge($this->options, $options);
     $this->settings = array_merge($this->settings, $options);
-      
+
     $img = false;
     if(is_string($name)){
       $img = $this->_getImageByName();
@@ -119,16 +119,16 @@ class FileUploadHelper extends AppHelper{
     elseif(is_int($name)){
       $img = $this->_getImageById();
     }
-    
+
     if($img){
       return $img;
     }
-    
-    $this->log("Unable to find $img");
+
+    // $this->log("Unable to find $img");
     return false;
   }
-  
-  /** 
+
+  /**
     * input takes an array of options and display the file browser html input
     * options.
     * @param Array $options of model and file options.  Defaults to default FileUpload component configuration
@@ -143,21 +143,21 @@ class FileUploadHelper extends AppHelper{
     $configs = $options;
     if($configs['model']){
       unset($options['model'], $options['var']);
-      
+
       return $this->Form->input("{$configs['model']}.".$this->inputCount++.".{$configs['var']}", array_merge(array('type'=>'file'), $options));
     }
     else {
       return "<input type='file' name='data[{$configs['var']}][".$this->inputCount++."]' />";
     }
   }
-  
+
   /**
     * @access protected
     */
   function _getImageById(){
     App::import('Component', 'FileUpload.FileUpload');
     $this->FileUpload = new FileUploadComponent;
-    
+
     $id = $this->fileName;
     $this->FileUpload->options['fileModel'] = $this->settings['fileModel'];
     $Model =& $this->FileUpload->getModel();
@@ -171,7 +171,7 @@ class FileUploadHelper extends AppHelper{
       return false;
     }
   }
-  
+
   /**
     * _getFullPath returns the full path of the file name
     * @access protected
@@ -185,7 +185,7 @@ class FileUploadHelper extends AppHelper{
       return WWW_ROOT . $this->_getUploadPath();
     }
   }
-  
+
   /**
     * _getImagePath returns the image path of the file name
     * @access protected
@@ -199,16 +199,16 @@ class FileUploadHelper extends AppHelper{
       return '/' . $this->_getUploadPath();
     }
   }
-  
+
   /**
-    * _getUploadPath returns the upload path of all files 
+    * _getUploadPath returns the upload path of all files
     * @access protected
     * @return String upload path of all files
     */
   function _getUploadPath(){
     return $this->settings['uploadDir'] . '/' . $this->fileName;
   }
-  
+
   /**
     * _getExt returns the extension of the filename.
     * @access protected
@@ -217,7 +217,7 @@ class FileUploadHelper extends AppHelper{
   function _getExt(){
     return strrchr($this->fileName,".");
   }
-  
+
   /**
     * Get the image by name and width.
     * if width is not specified return full image
@@ -235,7 +235,7 @@ class FileUploadHelper extends AppHelper{
     }
     return $this->_htmlImage();
   }
-  
+
   /**
     * @return String of the resizedpath of a filename or path.
     * @access protected
@@ -247,7 +247,7 @@ class FileUploadHelper extends AppHelper{
     $full_path = (strlen($this->options['resizedDir']) > 0) ? $path . $this->options['resizedDir'] . '/' . $temp_path : $path . $temp_path;
     return $full_path;
   }
-  
+
   /**
     * _resizeImage actually resizes the passed in image.
     * @access protected
@@ -262,7 +262,7 @@ class FileUploadHelper extends AppHelper{
       //$this->autoResize = false;
     }
   }
-  
+
   /**
     * _htmlImage returns the atual HTML of the resized/full image asked for
     * @access protected
@@ -280,22 +280,22 @@ class FileUploadHelper extends AppHelper{
     else {
       $image = $this->_getImagePath();
     }
-    
+
     $options = $this->options; //copy
     //unset the default options
     unset($options['resizedDir'], $options['uploadDir'], $options['imagePathOnly'], $options['autoResize'], $options['resizeThumbOnly']);
     //unset width only if we're not an outsourced image, we have resize turned on, or we don't have a width to begin with.
-    if(!$this->_isOutsideSource() && ($this->options['resizeThumbOnly'] || !$options['width'])) unset($options['width']); 
-    
+    if(!$this->_isOutsideSource() && ($this->options['resizeThumbOnly'] || !$options['width'])) unset($options['width']);
+
     //return the impage path or image html
     if($this->options['imagePathOnly']){
       return $image;
     }
     else {
-      return $this->Html->image($image, $options); 
+      return $this->Html->image($image, $options);
     }
   }
-  
+
   /**
     * _isOutsideSource searches the fileName string for :// to determine if the image source is inside or outside our server
     */
@@ -308,13 +308,13 @@ class FileUploadHelper extends AppHelper{
 
 
 	/**
-	 * Image Resizer. 
+	 * Image Resizer.
 	 * @author : Harish Chauhan
 	 * @copyright : Freeware
 	 * About :This PHP script will resize the given image and can show on the fly or save as image file.
 	 *
 	 */
-	//define("HAR_AUTO_NAME",1);	
+	//define("HAR_AUTO_NAME",1);
 	Class RResizeImage	{
 		var $imgFile="";
 		var $imgWidth=0;
@@ -324,7 +324,7 @@ class FileUploadHelper extends AppHelper{
 		var $type=NULL;
 		var $_img=NULL;
 		var $_error="";
-		
+
 		/**
 		 * Constructor
 		 *
@@ -342,16 +342,16 @@ class FileUploadHelper extends AppHelper{
 				$this->setImage($imgFile);
       }
 		}
-    
+
 		/**
 		 * Error occured while resizing the image.
 		 *
-		 * @return String 
+		 * @return String
 		 */
 		function error(){
 			return $this->_error;
 		}
-		
+
 		/**
 		 * Set image file name
 		 *
@@ -362,17 +362,17 @@ class FileUploadHelper extends AppHelper{
 			$this->imgFile=$imgFile;
 			return $this->_createImage();
 		}
-		
-    /** 
+
+    /**
 		 * @return void
 		 */
 		function close(){
 			return @imagedestroy($this->_img);
 		}
-    
+
 		/**
 		 * Resize a image to given width and height and keep it's current width and height ratio
-		 * 
+		 *
 		 * @param Number $imgwidth
 		 * @param Numnber $imgheight
 		 * @param String $newfile
@@ -390,7 +390,7 @@ class FileUploadHelper extends AppHelper{
 
 			$this->resize_percentage($image_per,$newfile);
 		}
-		 
+
     /**
 		 * Resize an image to given percentage.
 		 *
@@ -403,7 +403,7 @@ class FileUploadHelper extends AppHelper{
 			$newHeight=($this->imgHeight*$percent)/100;
 			return $this->resize($newWidth,$newHeight,$newfile);
 		}
-		
+
     /**
 		 * Resize an image to given X and Y percentage.
 		 *
@@ -417,7 +417,7 @@ class FileUploadHelper extends AppHelper{
 			$newHeight=($this->imgHeight*$ypercent)/100;
 			return $this->resize($newWidth,$newHeight,$newfile);
 		}
-		
+
 		/**
 		 * Resize an image to given width and height
 		 *
@@ -437,23 +437,23 @@ class FileUploadHelper extends AppHelper{
 			}
 			if($width<=0)	$width=$this->imgWidth;
 			if($height<=0) $height=$this->imgHeight;
-				
+
 			return $this->_resize($width,$height,$newfile);
 		}
-		
+
 		/**
 		 * Get the image attributes
 		 * @access Private
-		 * 		
+		 *
 		 */
 		function _getImageInfo()
 		{
 			@list($this->imgWidth,$this->imgHeight,$type,$this->imgAttr)=@getimagesize($this->imgFile);
 			$this->imgType=$this->type[$type];
 		}
-		
+
 		/**
-		 * Create the image resource 
+		 * Create the image resource
 		 * @access Private
 		 * @return Boolean
 		 */
@@ -468,17 +468,17 @@ class FileUploadHelper extends AppHelper{
 			elseif($this->imgType=='PNG'){
 				$this->_img=@imagecreatefrompng($this->imgFile);
 			}
-			
+
 			if(!$this->_img || !@is_resource($this->_img)){
 				$this->_error="Error loading ".$this->imgFile;
 				return false;
 			}
 			return true;
 		}
-		
+
 		/**
 		 * Function is used to resize the image
-		 * 
+		 *
 		 * @access Private
 		 * @param Number $width
 		 * @param Number $height
@@ -493,7 +493,7 @@ class FileUploadHelper extends AppHelper{
 
 			$newimg=@imagecreatetruecolor($width,$height);
 			//imagecolortransparent( $newimg, imagecolorat( $newimg, 0, 0 ) );
-			
+
 			if($this->imgType=='GIF' || $this->imgType=='PNG')	{
 				/** Code to keep transparency of image **/
 				$colorcount = imagecolorstotal($this->_img);
@@ -502,11 +502,11 @@ class FileUploadHelper extends AppHelper{
 				imagepalettecopy($newimg,$this->_img);
 				$transparentcolor = imagecolortransparent($this->_img);
 				imagefill($newimg,0,0,$transparentcolor);
-				imagecolortransparent($newimg,$transparentcolor); 
+				imagecolortransparent($newimg,$transparentcolor);
 			}
 
 			@imagecopyresampled ( $newimg, $this->_img, 0,0,0,0, $width, $height, $this->imgWidth,$this->imgHeight);
-			
+
 			if($newfile===1)	{
 				if(@preg_match("/\..*+$/",@basename($this->imgFile),$matches)){
 			   		$newfile=@substr_replace($this->imgFile,"_har",-@strlen($matches[0]),0);
