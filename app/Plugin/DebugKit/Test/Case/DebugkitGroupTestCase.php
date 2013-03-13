@@ -1,13 +1,6 @@
 <?php
 
-abstract class DebugkitGroupTestCase extends PHPUnit_Framework_TestSuite {
-
-/**
- * Suite define the tests for this suite
- *
- * @return PHPUnit_Framework_TestSuite the instance of PHPUnit_Framework_TestSuite
- */
-	abstract public static function suite();
+class DebugkitGroupTestCase extends PHPUnit_Framework_TestSuite {
 
 	public function __construct() {
 		$label = Inflector::humanize(Inflector::underscore(get_class($this)));
@@ -15,7 +8,6 @@ abstract class DebugkitGroupTestCase extends PHPUnit_Framework_TestSuite {
 	}
 
 	public static function getTestFiles($directory = null, $excludes = null) {
-
 		if (is_array($directory)) {
 			$files = array();
 			foreach ($directory as $d) {
@@ -28,10 +20,8 @@ abstract class DebugkitGroupTestCase extends PHPUnit_Framework_TestSuite {
 			$excludes = self::getTestFiles((array)$excludes);
 		}
 		if ($directory === null || $directory !== realpath($directory)) {
-
 			$basePath = App::pluginPath('DebugKit') . 'Test' . DS . 'Case' . DS;
 			$directory = str_replace(DS . DS, DS, $basePath . $directory);
-
 		}
 
 		$it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
@@ -57,7 +47,6 @@ abstract class DebugkitGroupTestCase extends PHPUnit_Framework_TestSuite {
 		}
 
 		return $files;
-
 	}
 
 }

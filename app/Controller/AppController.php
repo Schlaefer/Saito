@@ -10,7 +10,7 @@ if (Configure::read('debug') > 0) {
 
 class AppController extends Controller {
 	public $components = array (
-//			'DebugKit.Toolbar',
+			// 'DebugKit.Toolbar',
 
 			'Auth',
 
@@ -121,11 +121,14 @@ class AppController extends Controller {
 		}
 
 		$this->_setConfigurationFromGetParams();
-
-		if ($this->modelClass) {
+		if ($this->modelClass && is_callable(array($this->modelClass, 'setCurrentUser'))) {
 			$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
 		}
 
+		// allow sql explain for DebugKit toolbar
+		if ($this->request->plugin === 'debug_kit') {
+			$this->Auth->allow('sql_explain');
+		}
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
