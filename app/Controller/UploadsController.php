@@ -75,41 +75,44 @@
 		 * View uploads
 		 */
 		public function index() {
-															 if ($this->request->is('ajax') === false) {
-															 throw new BadRequestException();
-															 }
+			if ($this->request->is('ajax') === false) {
+				throw new BadRequestException();
+			}
 
-															 $user_id = $this->CurrentUser->getId();
-															 $images = $this->Upload->find(
-															 'all',
-															 array(
-															 'conditions' => array(
-															 'user_id' => $user_id
-															 ),
-															 'order' => 'created ASC'
-															 )
-															 );
-															 $this->set('images', $images);
-																	}
+			$user_id = $this->CurrentUser->getId();
+			$images = $this->Upload->find(
+				'all',
+				array(
+					'conditions' => array(
+						'user_id' => $user_id
+					),
+					'order'      => 'created ASC'
+				)
+			);
+			$this->set('images', $images);
+		}
 
 		/**
 		 * Delete upload
 		 */
 		public function delete($id = null) {
-																					$this->autoRender = false;
-																					if($id == null) {
-																					return;
-																					}
+			$this->autoRender = false;
+			if ($id == null) {
+				return;
+			}
 
-																					$this->Upload->id = $id;
-																					$file = $this->Upload->read();
-																					if($file['Upload']['user_id'] == $this->Session->read('Auth.User.id')) {
-																					if(!$this->Upload->delete(null, false)) {
-																					$this->JsData->addAppJsMessage('We are screwed, something went terribly wrong. File not deleted.', 'error');
-																					}
-																					}
-																					return json_encode($this->JsData->getAppJsMessages());
-																						 }
+			$this->Upload->id = $id;
+			$file = $this->Upload->read();
+			if ($file['Upload']['user_id'] == $this->Session->read('Auth.User.id')) {
+				if (!$this->Upload->delete(null, false)) {
+					$this->JsData->addAppJsMessage(
+						'We are screwed, something went terribly wrong. File not deleted.',
+						'error'
+					);
+				}
+			}
+			return json_encode($this->JsData->getAppJsMessages());
+		}
 
 		public function beforeFilter() {
 			parent::beforeFilter();
