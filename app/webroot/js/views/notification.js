@@ -64,7 +64,7 @@ define([
          */
         _showMessage: function(msg) {
             msg.channel = msg.channel || "notification";
-            msg.title = msg.title || $.i18n.__(msg.type);
+            // msg.title = msg.title || $.i18n.__(msg.type);
 
             switch(msg.channel) {
                 case "form":
