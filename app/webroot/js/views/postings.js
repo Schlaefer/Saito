@@ -30,7 +30,6 @@ define([
                 this.collection = options.collection;
 
 				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
-                this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
                 this.listenTo(this.model, 'change:html', this.render);
 
                 // init geshi for entries/view when $el is already there

@@ -36,6 +36,8 @@ define([
 
         initialize: function() {
             this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
+
+            // autoopen upload view for easy developing
             // this._upload(new Event({}));
         },
 
