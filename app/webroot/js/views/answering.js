@@ -35,6 +35,7 @@ define([
         },
 
         initialize: function() {
+            this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
             // this._upload(new Event({}));
         },
 
@@ -94,7 +95,11 @@ define([
 
         _postProcess: function() {
             this.$el.scrollIntoView('bottom');
-            $('.postingform input[type=text]:first').focus();
+            this._focusSubject();
+        },
+
+        _focusSubject: function() {
+            this.$('.postingform input[type=text]:first').focus();
         },
 
         _sendInline: function(event) {

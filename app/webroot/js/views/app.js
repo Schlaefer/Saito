@@ -151,6 +151,7 @@ define([
 				} else {
 					$('#content').fadeIn(150, 'easeInOutQuart');
 				}
+                App.eventBus.trigger('isAppVisible', true);
 				window.clearTimeout(options.contentTimer.cancel());
 
                 App.eventBus.trigger('notification', options.SaitoApp);
