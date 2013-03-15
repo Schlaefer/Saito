@@ -30,8 +30,6 @@ define([
 		var AppView = Backbone.View.extend({
 
 			el: $('body'),
-			settings: {},
-			request: {},
 
             autoPageReloadTimer: false,
 
@@ -61,21 +59,23 @@ define([
                 // init i18n
                 $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
 
-				// @td if everything is migrated to require/bb set var again
 				threads = new ThreadCollection();
 				if (App.request.controller === 'entries' && App.request.action === 'index') {
 					threads.fetch();
 				}
 
 				$('.thread_box').each(_.bind(function(index, element) {
-					var threadId = parseInt($(element).attr('data-id'), 10);
+                    var threadView,
+                        threadId;
+
+					threadId = parseInt($(element).attr('data-id'), 10);
 					if (!threads.get(threadId)) {
 						threads.add([{
 							id: threadId,
-							isThreadCollapsed: this.request.controller === 'entries' && this.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
+							isThreadCollapsed: App.request.controller === 'entries' && App.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
 						}], {silent: true});
 					}
-					new ThreadView({
+					threadView = new ThreadView({
 						el: $(element),
 						model: threads.get(threadId)
 					});
@@ -84,11 +84,14 @@ define([
 
                 this.postings = new PostingCollection();
                 $('.js-entry-view-core').each(_.bind(function(a,element) {
-                    var id = parseInt(element.getAttribute('data-id'), 10);
+                    var id,
+                        postingView;
+
+                    id = parseInt(element.getAttribute('data-id'), 10);
                     this.postings.add([{
                         id: id
                     }], {silent: true});
-                    new PostingView({
+                    postingView = new PostingView({
                         el: $(element),
                         model: this.postings.get(id),
                         collection: this.postings
@@ -97,10 +100,10 @@ define([
 
 				var threadLines = new ThreadLineCollection();
 				$('.js-thread_line').each(_.bind(function(index, element) {
-					var el = element;
-					var threadLineId = parseInt(el.getAttribute('data-id'), 10);
-					var threadId = parseInt(el.getAttribute('data-tid'), 10);
-					var isNew = el.getAttribute('data-new') == true;
+                    var threadLineView;
+					var threadLineId = parseInt(element.getAttribute('data-id'), 10);
+					var threadId = parseInt(element.getAttribute('data-tid'), 10);
+					var isNew = element.getAttribute('data-new') === 'new';
 					var new_model;
 					if(threads.get(threadId)) {
 						threads.get(threadId).threadlines.add([{
@@ -117,16 +120,13 @@ define([
 						}], {silent: true});
 						new_model = threadLines.get(threadLineId);
 					}
-					new ThreadLineView({
+					threadLineView = new ThreadLineView({
 						el: $(element),
                         postings: this.postings,
 						model: new_model,
                         collection: threadLines
 					});
 				}, this));
-
-				// initiate page reload
-				// @td make App property instead of global
 
                 this.initAutoreload();
                 this.initBookmarks('#bookmarks');
@@ -146,12 +146,7 @@ define([
                 /*** All elements initialized, show page ***/
                 App.initAppStatusUpdate();
 
-				if (this.request.isMobile || (new Date().getTime() - options.SaitoApp.timeAppStart) > 1500) {
-					$('#content').show();
-				} else {
-					$('#content').fadeIn(150, 'easeInOutQuart');
-				}
-                App.eventBus.trigger('isAppVisible', true);
+                this._showPage(options.SaitoApp.timeAppStart);
 				window.clearTimeout(options.contentTimer.cancel());
 
                 App.eventBus.trigger('notification', options.SaitoApp);
@@ -168,6 +163,20 @@ define([
 				}
 			},
 
+            _showPage: function(startTime) {
+                var triggerVisible = function() {
+                    App.eventBus.trigger('isAppVisible', true);
+                };
+
+                if (App.request.isMobile || (new Date().getTime() - startTime) > 1500) {
+                    $('#content').show({
+                        complete: triggerVisible
+                    });
+                } else {
+                    $('#content').fadeIn(150, 'easeInOutQuart', triggerVisible);
+                }
+            },
+
             fixJqueryUiDialog: function(event, ui) {
                 $('.ui-icon-closethick')
                     .attr('class', 'icon icon-close-widget icon-large')
@@ -175,9 +184,10 @@ define([
             },
 
             initBookmarks: function(element_n) {
+                var bookmarksView;
                 if ($(element_n).length) {
                     var bookmarks = new BookmarksCollection();
-                    new BookmarksView({
+                    bookmarksView = new BookmarksView({
                         el: element_n,
                         collection: bookmarks
                     });
@@ -185,8 +195,10 @@ define([
             },
 
             initSlidetabs: function(element_n) {
-                var slidetabs = new SlidetabsCollection();
-                new SlidetabsView({
+                var slidetabs,
+                    slidetabsView;
+                slidetabs = new SlidetabsCollection();
+                slidetabsView = new SlidetabsView({
                     el: element_n,
                     collection: slidetabs
                 });
@@ -205,7 +217,8 @@ define([
             },
 
             initNotifications: function() {
-                new NotificationView();
+                var notificationView;
+                notificationView = new NotificationView();
             },
 
             initHelp: function(element_n) {

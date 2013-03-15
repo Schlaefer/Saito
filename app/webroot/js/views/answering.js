@@ -41,9 +41,7 @@ define([
 
         _upload: function(event) {
             var uploadsView;
-
             event.preventDefault();
-
             uploadsView = new UploadsView({
                 el: '#markitup_upload',
                 textarea: this.$('textarea#EntryText')[0]
@@ -63,19 +61,17 @@ define([
         },
 
         _showPreview: function(event) {
+            var previewModel;
             event.preventDefault();
-
             this.$('.preview').slideDown('fast');
-
             if (this.preview === false) {
-                this.preview = new PreviewModel();
-                new PreviewView({
+                previewModel = new PreviewModel();
+                this.preview = new PreviewView({
                     el: this.$('.preview .content'),
-                    model: this.preview
+                    model: previewModel
                 });
             }
-
-            this.preview.set('data', this.$('form').serialize());
+            this.preview.model.set('data', this.$('form').serialize());
         },
 
         _closePreview: function(event) {
