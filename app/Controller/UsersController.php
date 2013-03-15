@@ -247,10 +247,7 @@ class UsersController extends AppController {
 					$this->request->data = $this->User->read();
 					$this->CurrentUser->refresh();
 				endif;
-
-				$this->Session->setFlash(__('user_edit_success'), 'flash/notice');
 				$this->redirect(array('action' => 'view', $id));
-
 			} else {
 				// save operation failed
 
@@ -261,7 +258,12 @@ class UsersController extends AppController {
 				$this->request->data['User'] = array_merge($user['User'], $this->request->data['User']);
 				$this->User->set($this->request->data);
 				$this->User->validates();
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->JsData->addAppJsMessage(
+					__('The user could not be saved. Please, try again.'),
+					array(
+						'type' => 'error'
+					)
+				);
 			}
 		}
 
