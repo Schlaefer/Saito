@@ -45,13 +45,16 @@
 		 */
 		public function langJs() {
 
+			// dummy translation to load nondynamic.po
+			__d('nondynamic', 'foo');
 			$domains = I18n::domains();
-			$domains =  $domains['default'][Configure::read('Config.language')]['LC_MESSAGES'];
-			unset($domains['%po-header']);
+			$translations =  $domains['nondynamic'][Configure::read('Config.language')]['LC_MESSAGES'];
+			$translations +=  $domains['default'][Configure::read('Config.language')]['LC_MESSAGES'];
+			unset($translations['%po-header']);
 			// $this->response->type('javascript');
 			$this->response->cache('-1 minute', '+1 hour');
 			$this->response->compress();
-			$this->set('lang', $domains);
+			$this->set('lang', $translations);
 
 		}
 

@@ -75,3 +75,19 @@ msgstr "Dateityp ist nicht erlaubt."
 #
 msgid "File exceeds size limit."
 msgstr "Datei ist zu groß."
+
+#
+msgid "error"
+msgstr "Fehler"
+
+#
+msgid "warning"
+msgstr "Warnung"
+
+#
+msgid "notice"
+msgstr "Hinweis"
+
+#
+msgid "success"
+msgstr "Erfolg"

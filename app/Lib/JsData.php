@@ -43,11 +43,13 @@
 
 			foreach ($message as $m) {
 				$nm = array(
-					'title' => (isset($options['title'])) ? $options['title'] : $options['type'],
 					'message' => $m,
 					'type'    => $options['type'],
 					'channel' => $options['channel']
 				);
+				if (isset($options['title'])) {
+					$nm['title'] = $options['title'];
+				}
 				if (isset($options['element'])) {
 					$nm['element'] = $options['element'];
 				}

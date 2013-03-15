@@ -66,3 +66,19 @@ msgstr "Lock"
 #
 msgid "locked_unset_entry_link"
 msgstr "Unlock"
+
+#
+msgid "error"
+msgstr "Error"
+
+#
+msgid "warning"
+msgstr "Warning"
+
+#
+msgid "notice"
+msgstr "notice"
+
+#
+msgid "success"
+msgstr "Success"
