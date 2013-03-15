@@ -801,9 +801,9 @@ a.no-color, .no-color { color: #6f6f6f; }
 /******************************************************************************* Messages Setup *****************************************************************************/
 .ui-pnotify-title { font-weight: bolder; }
 
-.flash > .alert, .message { clear: both; margin: 0px 0px 1em; padding: 10px; color: #b94a48; background-color: #ff5b52; border: 1px #d44b44 solid; }
+.flash > .alert, .message { clear: both; margin: 0px 0px 1em; padding: 10px; color: #b94a48; background-color: #ff2120; border: 1px #d41b1a solid; }
 
-.flash-error > .alert { border: 1px #aa3c36 solid; color: black; background-color: #ff5b52; box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.4) !important; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ff5f56), color-stop(100%, #f2564e)), #ff5b52; background: -webkit-linear-gradient(top, #ff5f56, #f2564e), #ff5b52; background: -moz-linear-gradient(top, #ff5f56, #f2564e), #ff5b52; background: -o-linear-gradient(top, #ff5f56, #f2564e), #ff5b52; background: -ms-linear-gradient(top, #ff5f56, #f2564e), #ff5b52; background: linear-gradient(top, #ff5f56, #f2564e), #ff5b52; text-shadow: none; color: white; }
+.flash-error > .alert { border: 1px #aa1615 solid; color: black; background-color: #ff2120; box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.4) !important; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ff2221), color-stop(100%, #f21f1e)), #ff2120; background: -webkit-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: -moz-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: -o-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: -ms-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: linear-gradient(top, #ff2221, #f21f1e), #ff2120; text-shadow: none; color: white; }
 
 .flash-warning > .alert { border: 1px #aaa288 solid; color: #332800; background-color: #fff4cc; box-shadow: 0px 2px 10px 1px rgba(77, 60, 0, 0.4) !important; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffd6), color-stop(100%, #f2e8c2)), #fff4cc; background: -webkit-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: -moz-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: -o-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: -ms-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; }
 
@@ -849,7 +849,7 @@ html > body .ui-pnotify { position: fixed; }
 
 .ui-pnotify-history-container .ui-pnotify-history-pulldown { display: block; margin: 0 auto; }
 
-.error-message, .message { padding: 5px; /* einziehen Zunge Fehlermeldungen */ /*	padding-top: 5px + $corner_radius;*/ /*	margin-top: -1 * $corner_radius;*/ background-color: #ff5b52; color: white; text-shadow: #595959 0px -1px 1px; }
+.error-message, .message { padding: 5px; /* einziehen Zunge Fehlermeldungen */ /*	padding-top: 5px + $corner_radius;*/ /*	margin-top: -1 * $corner_radius;*/ background-color: #ff2120; color: white; }
 
 .no-content-yet { margin: 1em auto; font-weight: bold; width: 100%; text-align: center; font-size: 35px; color: #DDD; letter-spacing: 0.1em; word-spacing: 0.1em; }
 
