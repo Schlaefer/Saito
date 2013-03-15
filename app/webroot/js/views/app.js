@@ -169,9 +169,8 @@ define([
                 };
 
                 if (App.request.isMobile || (new Date().getTime() - startTime) > 1500) {
-                    $('#content').show({
-                        complete: triggerVisible
-                    });
+                    $('#content').show();
+                    triggerVisible();
                 } else {
                     $('#content').fadeIn(150, 'easeInOutQuart', triggerVisible);
                 }
