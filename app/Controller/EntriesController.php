@@ -676,9 +676,14 @@
 			// validation errors
 			foreach ( $errors as $field => $error ) {
 				$message = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
-				$this->JsData->addAppJsMessage($message, 'error');
+				$this->JsData->addAppJsMessage($message, array(
+						'type' => 'error',
+						'channel' => 'form',
+						'element' => '#Entry' . ucfirst($field)
+					));
 			}
-			$this->render('/Elements/flash/render');
+			$this->autoRender = false;
+			return json_encode($this->JsData->getAppJsMessages());
 		endif;
 	}
 

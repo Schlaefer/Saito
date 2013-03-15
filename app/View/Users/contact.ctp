@@ -9,14 +9,20 @@
 		</div>
 		<div class="content">
 			<?php echo $this->Form->create(false); ?>
-			<div class="inpu required">
+			<div class="input required">
 				<?php
 					if (!$CurrentUser->isLoggedIn()) {
 						echo $this->Form->label('Message.sender_contact', __('user_contact_sender-contact'));
-						echo $this->Form->text('Message.sender_contact');
+						echo $this->Form->text(
+							'Message.sender_contact',
+							array('required' => 'required')
+						);
 					}
 					echo $this->Form->label('Message.subject', __('user_contact_subject'));
-					echo $this->Form->text('Message.subject');
+					echo $this->Form->text(
+						'Message.subject',
+						array('required' => 'required')
+					);
 				?>
 			</div>
 			<div class="input">

@@ -364,7 +364,7 @@ class UsersController extends AppController {
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('change_password_success'), 'flash/notice');
+				$this->Session->setFlash(__('change_password_success'), 'flash/success');
 				return $this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
 			} else {
 				$this->Session->setFlash(
@@ -426,7 +426,14 @@ class UsersController extends AppController {
 				$sender_contact = $this->request->data['Message']['sender_contact'];
 				App::uses('Validation', 'Utility');
 				if (!Validation::email($sender_contact)) {
-					$this->Session->setFlash(__('error_email_not-valid'), 'flash/error');
+					$this->JsData->addAppJsMessage(
+						__('error_email_not-valid'),
+						array(
+							'type'    => 'error',
+							'channel' => 'form',
+							'element' => '#MessageSenderContact'
+						)
+					);
 					$validation_error = true;
 				} else {
 					$sender['User'] = array(
@@ -441,7 +448,14 @@ class UsersController extends AppController {
 			// validate and set subject
 			$subject = rtrim($this->request->data['Message']['subject']);
 			if (empty($subject)) {
-				$this->Session->setFlash(__('error_subject_empty'), 'flash/error');
+				$this->JsData->addAppJsMessage(
+					__('error_subject_empty'),
+					array(
+						'type'    => 'error',
+						'channel' => 'form',
+						'element' => '#MessageSubject'
+					)
+				);
 				$validation_error = true;
 			}
 
@@ -460,10 +474,10 @@ class UsersController extends AppController {
 					}
 
 					$this->SaitoEmail->email($email);
-					$this->Session->setFlash(__('Message was send.'), 'flash/notice');
+					$this->Session->setFlash(__('Message was send.'), 'flash/success');
 					return $this->redirect('/');
 				} catch (Exception $exc) {
-					$this->Session->setFlash(__('Error, message couldn\'t be send! ' . $exc->getMessage()), 'flash/error');
+					$this->Session->setFlash(__('Message couldn\'t be send! ' . $exc->getMessage()), 'flash/error');
 				} // end try
 			endif;
 

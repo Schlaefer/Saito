@@ -659,7 +659,7 @@
 			$this->assertContains($this->controller->request->webroot, $this->headers['Location']);
 		}
 
-		public function testContactNoValidEmail() {
+		public function testContactNoSubject() {
 
 			$data = array(
 											'Message' => array(
@@ -679,11 +679,13 @@
 															 'method' => 'post',
 															 'return' => 'contents',
 					));
-			// @td
-			// $this->assertContains('flashMessage', $result);
+			$this->assertContains(
+				'"type":"error","channel":"form","element":"#MessageSubject"',
+				$result
+			);
 		}
 
-		public function testContactNoSubject() {
+		public function testContactNoValidEmail() {
 
 			$data = array(
 											'Message' => array(
@@ -703,8 +705,11 @@
 															 'method' => 'post',
 															 'return' => 'contents',
 					));
-			// @td
-			// $this->assertContains('flashMessage', $result);
+			$this->assertContains(
+				// @todo make independed from i18n string
+				'"type":"error","channel":"form","element":"#MessageSenderContact"',
+				$result
+			);
 		}
 
 		/**

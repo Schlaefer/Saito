@@ -121,7 +121,7 @@ class AppController extends Controller {
 		}
 
 		$this->_setConfigurationFromGetParams();
-		if ($this->modelClass && is_callable(array($this->modelClass, 'setCurrentUser'))) {
+		if ($this->modelClass) {
 			$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
 		}
 

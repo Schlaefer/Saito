@@ -10,7 +10,8 @@ define([
 
             defaults: {
                 rendered: "",
-                data: ""
+                data: "",
+                fetchingData: 0
             },
 
             initialize: function() {
@@ -20,12 +21,20 @@ define([
             },
 
             _fetchRendered: function() {
+                this.set('fetchingData', 1);
                 $.post(
                     this.webroot + 'entries/preview/',
                     this.get('data'),
                     _.bind(function(data) {
-                        this.set('rendered', data);
-                    }, this)
+                        this.set('fetchingData', 0);
+                        this.set('rendered', data.html);
+                        App.eventBus.trigger('notificationUnset', 'all');
+                        App.eventBus.trigger(
+                            'notification',
+                            data
+                        );
+                    }, this),
+                    'json'
                 );
             }
 

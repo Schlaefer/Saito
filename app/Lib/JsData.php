@@ -25,16 +25,33 @@
 			return $this->_appJs;
 		}
 
-		public function addAppJsMessage($message, $type = 'info') {
+		public function addAppJsMessage($message, $options = null) {
+
+			$defaults = array(
+				'type' => 'notice',
+				'channel' => 'notification'
+			);
+			if (is_string($options)) {
+				$defaults['type'] = $options;
+				$options = array();
+			}
+			$options = array_merge($defaults, $options);
+
 			if (!is_array($message)) {
 				$message = array($message);
 			}
 
 			foreach ($message as $m) {
-				$this->_appJs['msg'][] = array(
+				$nm = array(
+					'title' => (isset($options['title'])) ? $options['title'] : $options['type'],
 					'message' => $m,
-					'type' => $type
+					'type'    => $options['type'],
+					'channel' => $options['channel']
 				);
+				if (isset($options['element'])) {
+					$nm['element'] = $options['element'];
+				}
+				$this->_appJs['msg'][] = $nm;
 			}
 		}
 

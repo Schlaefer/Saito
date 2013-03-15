@@ -5,8 +5,7 @@ define([
     'models/app',
     'lib/jquery.pnotify'
 ], function($, _, Backbone,
-            App,
-            Humane
+            App
     ) {
 
     "use strict";
@@ -14,18 +13,21 @@ define([
     var NotificationView = Backbone.View.extend({
 
         initialize: function() {
-            this.listenTo(App.eventBus, 'notification', this._showNotifications);
+            this.listenTo(App.eventBus, 'notification', this._showMessages);
+            this.listenTo(App.eventBus, 'notificationUnset', this._unset);
         },
 
         /**
-         * Handles notification output
+         * Handles message rendering
          *
          * options can be a single message:
          *
          * {
-         *  message: "message",
-         *  title: "title (optional)",
-         *  type: "success|warning|error|notice (optional)"
+         *  `message` message to display,
+         *  `title` "title (optional)",
+         *  `type` "error|notice(default)|warning|success",
+         *  `channel` "notification(default)|form"
+         *  `element` ".input_selector" if `channel` is "form"
          * }
          *
          * or array with a msg property and a message list:
@@ -37,7 +39,7 @@ define([
          * @param options
          * @private
          */
-        _showNotifications: function(options) {
+        _showMessages: function(options) {
             if (options.msg === undefined) {
                 if (options.message === undefined) {
                     return;
@@ -50,16 +52,46 @@ define([
             }
 
             _.each(options.msg, function(msg) {
-                this._showNotification(msg);
+                this._showMessage(msg);
             }, this);
         },
 
         /**
-         * Renders a single notification message
+         * Renders a single message
          *
          * @param options single message
          * @private
          */
+        _showMessage: function(msg) {
+            msg.channel = msg.channel || "notification";
+            msg.title = msg.title || $.i18n.__(msg.type);
+
+            switch(msg.channel) {
+                case "form":
+                    this._form(msg);
+                    break;
+                case "popover":
+                    this._popover(msg);
+                    break;
+                default:
+                    this._showNotification(msg);
+                    break;
+            }
+
+        },
+
+        _unset: function(msg) {
+            if (msg === 'all') {
+                $('.error-message').remove();
+            }
+        },
+
+        _form: function(msg) {
+            var tpl;
+            tpl = _.template('<div class="error-message"><%= message %></div>');
+            $(msg.element).after(tpl({message: msg.message}));
+        },
+
         _showNotification: function(options) {
             var logOptions,
                 delay;

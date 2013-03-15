@@ -52,7 +52,6 @@ define([
 
 
                 this.initNotifications();
-                App.eventBus.trigger('notification', options.SaitoApp);
 
                 this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
                 this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
@@ -153,6 +152,8 @@ define([
 					$('#content').fadeIn(150, 'easeInOutQuart');
 				}
 				window.clearTimeout(options.contentTimer.cancel());
+
+                App.eventBus.trigger('notification', options.SaitoApp);
 
 				// scroll to thread
 				if (window.location.href.indexOf('/jump:') > -1) {

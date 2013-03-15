@@ -22,6 +22,8 @@ describe("jquery.i18n.extend", function() {
     });
 
     it("replaces :token tags in a string", function() {
+        var expected,
+            result;
 
         expected = "This; is better than fu :tokenNo nothing";
         result = $.i18n.__(
