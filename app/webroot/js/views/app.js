@@ -42,7 +42,10 @@ define([
 			},
 
 			initialize: function (options) {
-                var threads;
+                var threads,
+                    // collection of threadlines not bound to thread
+                    // (bookmarks, search results …)
+                    threadLines;
 
                 App.settings.set(options.SaitoApp.app.settings);
                 App.currentUser.set(options.SaitoApp.currentUser);
@@ -64,6 +67,8 @@ define([
 					threads.fetch();
 				}
 
+                this.postings = new PostingCollection();
+
 				$('.thread_box').each(_.bind(function(index, element) {
                     var threadView,
                         threadId;
@@ -77,12 +82,12 @@ define([
 					}
 					threadView = new ThreadView({
 						el: $(element),
+                        postings: this.postings,
 						model: threads.get(threadId)
 					});
 				}, this));
 
 
-                this.postings = new PostingCollection();
                 $('.js-entry-view-core').each(_.bind(function(a,element) {
                     var id,
                         postingView;
@@ -98,33 +103,25 @@ define([
                     });
                 }, this));
 
-				var threadLines = new ThreadLineCollection();
+				threadLines = new ThreadLineCollection();
 				$('.js-thread_line').each(_.bind(function(index, element) {
-                    var threadLineView;
-					var threadLineId = parseInt(element.getAttribute('data-id'), 10);
-					var threadId = parseInt(element.getAttribute('data-tid'), 10);
-					var isNew = element.getAttribute('data-new') === 'new';
-					var new_model;
-					if(threads.get(threadId)) {
-						threads.get(threadId).threadlines.add([{
-							id: threadLineId,
-							isNewToUser: isNew,
-							isAlwaysShownInline: App.currentUser.get('user_show_inline')
-						}], {silent: true});
-						new_model = threads.get(threadId).threadlines.get(threadLineId);
-					} else {
-						threadLines.add([{
-							id: threadLineId,
-							isNewToUser: isNew,
-							isAlwaysShownInline: App.currentUser.get('user_show_inline')
-						}], {silent: true});
-						new_model = threadLines.get(threadLineId);
-					}
+                    var threadLineView,
+                        threadId,
+                        currentCollection,
+                        new_model;
+
+					threadId = parseInt(element.getAttribute('data-tid'), 10);
+
+                    if(threads.get(threadId)) {
+                        currentCollection = threads.get(threadId).threadlines;
+                    } else {
+                        currentCollection = threadLines;
+                    }
+
 					threadLineView = new ThreadLineView({
 						el: $(element),
                         postings: this.postings,
-						model: new_model,
-                        collection: threadLines
+                        collection: currentCollection
 					});
 				}, this));
 

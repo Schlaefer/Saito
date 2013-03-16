@@ -1,8 +1,12 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone'
-	], function($, _, Backbone) {
+	'backbone',
+    'models/app',
+    'collections/threadlines', 'views/threadlines'
+	], function($, _, Backbone, App, ThreadLinesCollection, ThreadLineView) {
+
+        'use strict';
 
 		var ThreadView = Backbone.View.extend({
 
@@ -15,15 +19,52 @@ define([
 				"click .js-btn-showAllNewThreadlines": "showAllNewThreadlines"
 			},
 
-			initialize: function(){
-				this.model.on('change:isThreadCollapsed', this.toggleCollapseThread, this);
+			initialize: function(options){
+                this.postings = options.postings;
 
 				if (this.model.get('isThreadCollapsed')) {
 					this.hide();
 				} else {
 					this.show();
 				}
+
+                this.listenTo(App.eventBus, 'newEntry', this._newEntry);
+                this.model.on('change:isThreadCollapsed', this.toggleCollapseThread, this);
 			},
+
+            _newEntry: function(options) {
+                var newEl,
+                    html;
+
+                // only append to the id it belongs to
+                if (options.tid !== this.model.get('id')) { return; }
+
+                $.ajax({
+                    async: false,
+                    url: App.settings.get('webroot') +
+                        'entries/threadLine/' +
+                        options.id,
+                    dataType: 'json',
+                    success: function(data) {
+                        html = data.html;
+                    }
+                });
+
+                newEl = this._insertAfter(html, options.pid);
+
+                new ThreadLineView({
+                    el: $(newEl).find('.js-thread_line'),
+                    collection: this.model.threadlines,
+                    postings: this.postings
+                });
+            },
+
+            // @bogus
+            _insertAfter: function(html, threadline_id) {
+                return $('<li>'+html+'</li>').
+                    insertAfter('#ul_thread_' + threadline_id + ' > li:last-child');
+            },
+
 
 			/**
 			 * Opens all threadlines

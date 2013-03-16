@@ -28,6 +28,7 @@ define([
 
 			initialize: function(options) {
                 this.collection = options.collection;
+                this.parent = options.parent || null;
 
 				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
                 this.listenTo(this.model, 'change:html', this.render);
@@ -67,6 +68,9 @@ define([
 					this._showBoxActions();
 					this._hideAnsweringForm();
 					this._showSignature();
+                    if(this.parent !== null) {
+                       this.parent.set('isInlineOpened', false);
+                    }
 				}
 			},
 

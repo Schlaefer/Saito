@@ -278,11 +278,14 @@
 					//* The new posting is requesting an ajax answer
 					if ( $this->localReferer('action') == 'index' ) :
 						//* Ajax request came from front answer on front page /entries/index
-						$this->set('entry_sub', $this->Entry->read(null, $this->Entry->id));
-						// ajax requests so far are always answers
-						$this->set('level', '1');
-						$this->render('/Elements/entry/ajax-thread_cached');
-						return ;
+						$this->autoRender = false;
+						return json_encode(
+							array(
+								'id'  => (int)$new_posting['Entry']['id'],
+								'pid' => (int)$new_posting['Entry']['pid'],
+								'tid' => (int)$new_posting['Entry']['tid']
+							)
+						);
 					endif;
 				else:
 					// answering through POST request
@@ -365,6 +368,12 @@
 
 		$this->_teardownAdd();
 	}
+
+		public function threadLine($id = null) {
+			$this->set('entry_sub', $this->Entry->read(null, $id));
+			// ajax requests so far are always answers
+			$this->set('level', '1');
+		}
 
 	public function edit($id = null) {
 

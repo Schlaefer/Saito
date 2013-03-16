@@ -104,15 +104,17 @@ define([
             $.ajax({
                 url: App.settings.get('webroot') + "entries/add",
                 type: "POST",
+                dataType: 'json',
                 data: this.$("#EntryAddForm").serialize(),
                 beforeSend:_.bind(function() {
                     this.$('.btn.btn-submit').attr('disabled', 'disabled');
                 }, this),
                 success:_.bind(function(data) {
-                    event.preventDefault();
-                    App.eventBus.trigger('appendThreadLine', {
-                        parrentId: this.model.get('id') ,
-                        html: data
+                    this.model.set({isAnsweringFormShown: false});
+                    App.eventBus.trigger('newEntry', {
+                        tid: data.tid,
+                        pid: this.model.get('id'),
+                        id: data.id
                     });
                 }, this)
             });

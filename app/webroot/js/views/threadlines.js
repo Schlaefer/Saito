@@ -10,6 +10,8 @@ define([
 	], function($, _, Backbone, App, ThreadlineSpinnerView, threadlineSpinnerTpl,
     PostingView, PostingModel) {
 
+        "use strict";
+
 		var ThreadLineView = Backbone.View.extend({
 
 			className: 'js-thread_line',
@@ -21,6 +23,8 @@ define([
              */
             postings: null,
 
+            scroll: false,
+
 			events: {
 					'click .btn_show_thread': 'toggleInlineOpen',
 					'click .link_show_thread': 'toggleInlineOpenFromLink'
@@ -31,13 +35,24 @@ define([
 			},
 
 			initialize: function(options){
+                var threadLineId,
+                    isNew;
+
                 this.postings = options.postings;
                 this.collection = options.collection;
 
-				this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
-                this.listenTo(App.eventBus, 'appendThreadLine', this._appendThreadLine);
+                threadLineId = parseInt(this.el.getAttribute('data-id'), 10);
+                isNew = this.el.getAttribute('data-new') === 'new';
 
-				this.scroll = false;
+                this.collection.add([{
+                    id: threadLineId,
+                    isNewToUser: isNew,
+                    isAlwaysShownInline: App.currentUser.get('user_show_inline')
+                }], {silent: true});
+                this.model = this.collection.get(threadLineId);
+
+
+				this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
 			},
 
 			toggleInlineOpenFromLink: function(event) {
@@ -100,7 +115,8 @@ define([
                 new PostingView({
                     el: this.$('.t_s'),
                     model: this.postingModel,
-                    collection: this.postings
+                    collection: this.postings,
+                    parent: this.model
                 });
 
                 this.postingModel.fetchHtml();
@@ -166,30 +182,6 @@ define([
 					)
 				);
 			},
-
-            _appendThreadLine: function(options) {
-                if (options.parrentId !== this.model.get('id')) { return; }
-                var data = options.html;
-                var tid = $(data).find('.js-thread_line').data('tid');
-                this.model.set({isInlineOpened: false});
-                this.postings.get(this.model.get('id')).set({isAnsweringFormShown: false});
-                var el = $('<li>'+data+'</li>').
-                    insertAfter('#ul_thread_' + this.model.get('id') + ' > li:last-child');
-
-                // add to backbone model
-                var threadLineId = $(data).find('.js-thread_line').data('id');
-                this.collection.add([{
-                    id: threadLineId,
-                    isNewToUser: true,
-                    isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
-                }], {silent: true});
-                new ThreadLineView({
-                    el: $(el).find('.js-thread_line'),
-                    model: this.collection.get(threadLineId),
-                    collection: this.collection,
-                    postings: this.postings
-                });
-            },
 
 			/**
              * if the line is not in the browser windows at the moment
