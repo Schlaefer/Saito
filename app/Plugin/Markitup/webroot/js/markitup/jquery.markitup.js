@@ -621,8 +621,8 @@
 						}
 					}
 					if (e.keyCode === 9) { // Tab key
-						if (shiftKey == true || ctrlKey == true || altKey == true) {
-							return false; 
+						if (ctrlKey == true || altKey == true) {
+							return false;
 						}
 						if (caretOffset !== -1) {
 							get();
