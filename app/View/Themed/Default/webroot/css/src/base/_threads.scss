@@ -89,11 +89,13 @@ ul.deep-reply {
   margin-bottom: 1em;
   .img_pencil {
     visibility: hidden; }
-  ul:first-child {
-    margin-left: $subthread-margin; } }
-
-ul.thread {
-  margin: 0 !important; }
+  ul {
+    margin: 0;
+  }
+  ul.reply {
+    margin-left: $subthread-margin;
+  }
+}
 
 .thread_box {
   /* user_list und inline view sollen sauber getrennt bleiben */

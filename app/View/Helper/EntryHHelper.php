@@ -273,21 +273,36 @@ EOF;
 
 			// generate sub-entries of current entry
 			if (isset($entry_sub['_children'])) :
-				$out .= '<li>';
+				$sublevel = $level + 1;
+				$sub = '';
 				foreach ($entry_sub['_children'] as $child) :
-					$out .= $this->threadCached($child, $CurrentUser, $level + 1, $current_entry);
+					$sub .= $this->threadCached($child, $CurrentUser, $sublevel, $current_entry);
 				endforeach;
-				$out .= '</li>';
+				$sub = $this->_wrap($sub, $sublevel, $entry_sub);
+				$out .= '<li>' . $sub . '</li>';
+				// wrap everything up
 			endif;
 
-			// wrap everything up
+			if ($level === 0) {
+				$out = $this->_wrap($out, $level, $entry_sub);
+			}
+			// Stopwatch::stop('EntryH->threadCached');
+			return $out;
+		}
+
+		protected function _wrap($in, $level, $entry_sub) {
+			$out = $in;
+			$class = 'reply';
+			$data = '';
 			if ($level < $this->_maxThreadDepthIndent) {
-				$wrapper_start = '<ul id="ul_thread_' . $entry_sub['Entry']['id'] . '" class="' . (($level === 0) ? 'thread' : 'reply') . '">';
+				if ($level === 0) {
+					$class = 'thread';
+					$data = 'data-id="' . $entry_sub['Entry']['id'] . '"';
+				}
+				$wrapper_start = "<ul {$data} class=\"{$class}\">";
 				$wrapper_end	 = '</ul>';
 				$out					 = $wrapper_start . $out . $wrapper_end;
 			}
-
-			// Stopwatch::stop('EntryH->threadCached');
 			return $out;
 		}
 
@@ -311,7 +326,7 @@ EOF;
 				if (!isset($this->_catL10n[$entry_sub['Category']['accession']])) {
 					$this->_catL10n[$entry_sub['Category']['accession']] = __d('nondynamic',
 						'category_acs_' . $entry_sub['Category']['accession'] . '_exp');
-				} 				
+				}
 				$a = $this->_catL10n[$entry_sub['Category']['accession']];
 				$category = '<span class="category_acs_' . $entry_sub['Category']['accession'] . '"
             title="' . $entry_sub['Category']['description'] . ' ' . ($a) . '">

@@ -565,9 +565,8 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 .tree_thread { padding: 0 1em 0.8em; margin-bottom: 1em; }
 .tree_thread .img_pencil { visibility: hidden; }
-.tree_thread ul:first-child { margin-left: 25px; }
-
-ul.thread { margin: 0 !important; }
+.tree_thread ul { margin: 0; }
+.tree_thread ul.reply { margin-left: 25px; }
 
 .thread_box { /* user_list und inline view sollen sauber getrennt bleiben */ /*	overflow: hidden; */ }
 
