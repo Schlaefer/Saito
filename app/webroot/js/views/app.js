@@ -5,7 +5,7 @@ define([
     'models/app',
     'lib/jquery.i18n/jquery.i18n.extend',
 	'collections/threadlines', 'views/threadlines',
-	'collections/threads', 'views/threads',
+	'collections/threads', 'views/thread',
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
     'views/notification', 'views/helps', 'views/categoryChooser',
