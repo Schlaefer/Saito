@@ -65,10 +65,10 @@ class Stopwatch {
 		switch($event) {
 			case 'start':
 				$x = '* '. $x;
-				break;	
+				break;
 			case 'stop':
 				$x = '† '. $x;
-				break;	
+				break;
 			}
 
 		self::$_events[] = array (
@@ -77,6 +77,7 @@ class Stopwatch {
 				'utime' => $utime-self::$_userStart,
 				'wdiff' => $wdiff,
 				'udiff' => $udiff,
+				'mem'	=> memory_get_usage()
 			);
 
 			// endtime
@@ -93,11 +94,11 @@ class Stopwatch {
 
 		$out = "";
 
-		$out .= "W\tU\tW_delta\tU_delta\n";
+		$out .= "W\tU\tW_delta\tU_delta\tMem [MB]\n";
 		$series_index = 1;
 		foreach(self::$_events as $k => $v) {
 			$out .= '<span id="stopwatch-' . $series_index++ . '" class="stopwatch-row">';
-			$out .= sprintf("%05.3f\t%05.3f\t%05.3f\t%05.3f\t%s\n", $v['wtime'], $v['utime'], $v['wdiff'], $v['udiff'], $v['title']);
+			$out .= sprintf("%05.3f\t%05.3f\t%05.3f\t%05.3f\t%5.1f\t%s\n", $v['wtime'], $v['utime'], $v['wdiff'], $v['udiff'], $v['mem']/1048576, $v['title']);
 			$out .= '</span>';
 		}
 
@@ -122,7 +123,7 @@ class Stopwatch {
 				$v['wtime'] = $v['wtime']-($e_w * $v['times']);
 				$v['utime'] = $v['utime']-($e_w * $v['times']);
 
-			$out .= sprintf("%05.3f\t%05.3f\t%04.1f\t%04.1f\t%u\t%05.3f\t%s\n", 
+			$out .= sprintf("%05.3f\t%05.3f\t%04.1f\t%04.1f\t%u\t%05.3f\t%s\n",
 					$v['wtime'],
 					$v['utime'],
 					$v['wtime']/$wlast,
@@ -186,8 +187,8 @@ class Stopwatch {
 
 	 /**
 	  * Alias for self::stop
-	  * 
-	  * @param type $text 
+	  *
+	  * @param type $text
 	  */
 	public static function end($text) {
 		self::stop($text);
