@@ -92,10 +92,6 @@
 			$this->_fixtureManager->shutDown();
 		}
 
-		public function click() {
-
-		}
-
 		protected function login($test_case = null) {
 			if ($test_case === null) {
 				$test_case = $this;
