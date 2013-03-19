@@ -80,4 +80,25 @@ class DATABASE_CONFIG {
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
+
+	/*** Don't edit below this line! ***/
+
+	public function __construct() {
+		if ($this->_isSelenium()) {
+			$this->default = $this->test;
+		}
+	}
+
+	/**
+	 * Selenium is not detectable by itself, but we try with this @bogus checks
+	 *
+	 * @return bool if request is made by selenium server
+	 */
+	protected function _isSelenium() {
+		return 	isset($_SERVER['SERVER_NAME'])
+						&& strpos($_SERVER['SERVER_NAME'], 'localhost') !== false
+						&& Configure::read('debug')
+						&& isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+						&& $_SERVER['HTTP_X_FORWARDED_FOR'] === "0:0:0:0:0:0:0:1";
+	}
 }

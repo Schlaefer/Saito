@@ -5,7 +5,6 @@
  * and open the template in the editor.
  */
 
-
 require_once '_saitoSelenium.php';
 
 /**
@@ -36,7 +35,7 @@ class postingFormTest extends Saito_SeleniumTestCase {
 		$this->clickAt("link=Popcorn", "1,1");
 		$this->assertEquals(":popcorn:", $this->getValue("EntryText"));
 
-		/* 
+		/*
 		// test if newline and selenium work in the browser at all
 		$this->type("EntryText", "");
 		// $this->type("EntryText", "\n\ntest"); does work in IDE, but not RC, because RC trims
@@ -55,7 +54,7 @@ class postingFormTest extends Saito_SeleniumTestCase {
 		sleep(1);
 		$this->clickAt("link=Popcorn", "1,1");
 		$this->assertEquals("\n\n:popcorn:", $this->getEval("window.document.getElementById('EntryText').value"));
-		 * 
+		 *
 		 */
 
 		/* not stable
