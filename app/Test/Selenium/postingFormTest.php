@@ -1,15 +1,14 @@
 <?php
 
-	require_once '_saitoSelenium.php';
+	require_once 'Lib/SaitoSeleniumTestCase.php';
 
 	class PostingFormTest extends Saito_SeleniumTestCase {
 
-		public function testEntryAddFocusAndTab() {
+		public function testEntryAddFocusHasFocus() {
 			$this->login();
 
 			$this->click("id=btn-entryAdd");
 			$this->waitForPageToLoad("30000");
-			$this->_sleep();
 
 			$focused = $this->getEval('window.jQuery("#EntrySubject").is(":focus");');
 			$this->assertEquals('true', $focused);

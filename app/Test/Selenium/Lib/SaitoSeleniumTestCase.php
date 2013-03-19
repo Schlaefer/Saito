@@ -10,18 +10,18 @@
 	}
 
 	if (!defined('ROOT')) {
-		define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
+		define('ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))));
 	}
 
 	if (!defined('APP_DIR')) {
-		define('APP_DIR', basename(dirname(dirname(dirname(__FILE__)))));
+		define('APP_DIR', basename(dirname(dirname(dirname(dirname(__FILE__))))));
 	}
 
 	if (!defined('WEBROOT_DIR')) {
-		define('WEBROOT_DIR', basename(dirname(dirname(__FILE__))));
+		define('WEBROOT_DIR', basename(dirname(dirname(dirname(__FILE__)))));
 	}
 	if (!defined('WWW_ROOT')) {
-		define('WWW_ROOT', dirname(dirname(__FILE__)) . DS);
+		define('WWW_ROOT', dirname(dirname(dirname(__FILE__)) . DS));
 	}
 
 	require_once ROOT . DS . 'lib' . DS . 'Cake' . DS . 'bootstrap.php';
@@ -98,14 +98,12 @@
 			}
 			$test_case->open();
 			$test_case->waitForPageToLoad();
-			$test_case->_sleep();
 			$test_case->assertEquals(
 				"0",
 				$test_case->getElementHeight("modalLoginDialog")
 			);
 			$test_case->click("showLoginForm");
 			$test_case->waitForPageToLoad("");
-			$test_case->_sleep();
 			$test_case->assertNotEquals(
 				"0",
 				$test_case->getElementHeight("modalLoginDialog")
@@ -129,6 +127,11 @@
 			$test_case->click("btn_logout");
 			$test_case->waitForPageToLoad();
 			$test_case->assertFalse($test_case->isElementPresent("btn_logout"));
+		}
+
+		public function waitForPageToLoad($arg = "30000") {
+			parent::waitForPageToLoad($arg);
+			$this->_sleep();
 		}
 
 		protected function _sleep() {

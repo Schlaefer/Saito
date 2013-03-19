@@ -1,6 +1,6 @@
 <?php
 
-	require_once '_saitoSelenium.php';
+	require_once 'Lib/SaitoSeleniumTestCase.php';
 
 	class LoginAndLogoutTest extends Saito_SeleniumTestCase {
 

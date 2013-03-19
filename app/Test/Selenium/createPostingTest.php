@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-require_once '_saitoSelenium.php';
+	require_once 'Lib/SaitoSeleniumTestCase.php';
 
 // require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
 
