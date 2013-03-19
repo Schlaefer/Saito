@@ -6,7 +6,7 @@ Class CurrentUserComponent extends SaitoUser {
 
 	/**
 	 * Component name
-	 * 
+	 *
 	 * @var string
 	 */
 	public $name = 'CurrentUser';
@@ -14,13 +14,13 @@ Class CurrentUserComponent extends SaitoUser {
 	/**
 	 * Component's components
 	 *
-	 * @var array 
+	 * @var array
 	 */
 	public $components 	= array( 'Cookie' );
 
 	/**
 	 * Manages the persistent login cookie
-	 * 
+	 *
 	 * @var SaitoCurrentUserCookie
 	 */
 	public	$PersistentCookie = NULL;
@@ -199,7 +199,7 @@ Class CurrentUserComponent extends SaitoUser {
 
 	/**
 	 * Returns the name of the persistent cookie
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getPersistentCookieName() {
