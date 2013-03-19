@@ -58,6 +58,10 @@
 						'name' => 'subject_maxlength',
 						'value' => 100,
 				),
+				array(
+					'name' => 'thread_depth_indent',
+					'value' => 25,
+				)
 		);
 
 	}
