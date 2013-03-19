@@ -90,10 +90,10 @@ ul.deep-reply {
   .img_pencil {
     visibility: hidden; }
   ul {
-    margin: 0;
+    margin: 0 0 0 $subthread-margin;
   }
-  ul.reply {
-    margin-left: $subthread-margin;
+  ul.root {
+    margin-left: 0;
   }
 }
 

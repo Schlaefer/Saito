@@ -3,18 +3,20 @@ define([
 	'underscore',
 	'backbone',
     'models/app',
+    'models/threadline',
 	'views/threadline-spinner',
     'text!templates/threadline-spinner.html',
     'views/postings', 'models/posting',
     'lib/saito/jquery.scrollIntoView'
-	], function($, _, Backbone, App, ThreadlineSpinnerView, threadlineSpinnerTpl,
-    PostingView, PostingModel) {
+	], function($, _, Backbone, App, ThreadLineModel, ThreadlineSpinnerView,
+                threadlineSpinnerTpl, PostingView, PostingModel) {
 
         "use strict";
 
 		var ThreadLineView = Backbone.View.extend({
 
 			className: 'js-thread_line',
+            tagName: 'li',
 
 			spinnerTpl: _.template(threadlineSpinnerTpl),
 
@@ -41,18 +43,19 @@ define([
                 this.postings = options.postings;
                 this.collection = options.collection;
 
-                threadLineId = parseInt(this.el.getAttribute('data-id'), 10);
-                isNew = this.el.getAttribute('data-new') === 'new';
-
-                this.collection.add([{
-                    id: threadLineId,
-                    isNewToUser: isNew,
-                    isAlwaysShownInline: App.currentUser.get('user_show_inline')
-                }], {silent: true});
-                this.model = this.collection.get(threadLineId);
-
+                this.model = new ThreadLineModel({
+                    id: options.id,
+                    isNewToUser: isNew
+                });
+                if(options.el === undefined) {
+                    this.model.fetch();
+                } else {
+                    this.model.set({html: this.el}, {silent: true});
+                }
+                this.collection.add(this.model, {silent: true});
 
 				this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
+                this.listenTo(this.model, 'change:html', this.render);
 			},
 
 			toggleInlineOpenFromLink: function(event) {
@@ -198,8 +201,13 @@ define([
                             },
                             3000);
                 }
-			}
-		});
+			},
+
+            render: function() {
+                this.$el.html(this.model.get('html'));
+                return this;
+            }
+        });
 
 		return ThreadLineView;
 

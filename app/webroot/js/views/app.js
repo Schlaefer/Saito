@@ -107,8 +107,8 @@ define([
 				$('.js-thread_line').each(_.bind(function(index, element) {
                     var threadLineView,
                         threadId,
-                        currentCollection,
-                        new_model;
+                        threadLineId,
+                        currentCollection;
 
 					threadId = parseInt(element.getAttribute('data-tid'), 10);
 
@@ -118,8 +118,10 @@ define([
                         currentCollection = threadLines;
                     }
 
+                    threadLineId = parseInt(element.getAttribute('data-id'), 10);
 					threadLineView = new ThreadLineView({
 						el: $(element),
+                        id: threadLineId,
                         postings: this.postings,
                         collection: currentCollection
 					});

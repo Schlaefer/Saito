@@ -28,43 +28,34 @@ define([
 					this.show();
 				}
 
-                this.listenTo(App.eventBus, 'newEntry', this._newEntry);
+                this.listenTo(App.eventBus, 'newEntry', this._showNewThreadLine);
                 this.model.on('change:isThreadCollapsed', this.toggleCollapseThread, this);
 			},
 
-            _newEntry: function(options) {
+            _showNewThreadLine: function(options) {
                 var newEl,
-                    html;
+                    threadLine,
+                    parent,
+                    existingSubthread;
 
                 // only append to the id it belongs to
                 if (options.tid !== this.model.get('id')) { return; }
 
-                $.ajax({
-                    async: false,
-                    url: App.settings.get('webroot') +
-                        'entries/threadLine/' +
-                        options.id,
-                    dataType: 'json',
-                    success: function(data) {
-                        html = data.html;
-                    }
-                });
-
-                newEl = this._insertAfter(html, options.pid);
-
-                new ThreadLineView({
-                    el: $(newEl).find('.js-thread_line'),
+                threadLine = new ThreadLineView({
+                    id: options.id,
                     collection: this.model.threadlines,
                     postings: this.postings
                 });
-            },
 
-            // @bogus
-            _insertAfter: function(html, threadline_id) {
-                return $('<li>'+html+'</li>').
-                    insertAfter('#ul_thread_' + threadline_id + ' > li:last-child');
+                parent = this.$('.js-thread_line[data-id="' + options.pid +'"]');
+                existingSubthread = parent.siblings('li').find('>ul');
+                newEl = threadLine.render().$el;
+                if (existingSubthread.length === 0) {
+                    newEl.wrap("<ul></ul>").parent().wrap("<li></li>").parent().insertAfter(parent);
+                } else {
+                    existingSubthread.append(newEl);
+                }
             },
-
 
 			/**
 			 * Opens all threadlines

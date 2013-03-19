@@ -89,9 +89,9 @@ EOF
 		 * @return boolean
 		 */
 		public function isNewEntry($entry, $user) {
-			$isNewEntry = FALSE;
+			$isNewEntry = false;
 			if (strtotime($user['last_refresh']) < strtotime($entry['Entry']['time'])):
-				$isNewEntry = TRUE;
+				$isNewEntry = true;
 			endif;
 			return $isNewEntry;
 		}
@@ -270,40 +270,42 @@ EOF
 </li>
 EOF;
 
-
 			// generate sub-entries of current entry
 			if (isset($entry_sub['_children'])) :
-				$sublevel = $level + 1;
 				$sub = '';
 				foreach ($entry_sub['_children'] as $child) :
-					$sub .= $this->threadCached($child, $CurrentUser, $sublevel, $current_entry);
+					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $current_entry);
 				endforeach;
-				$sub = $this->_wrap($sub, $sublevel, $entry_sub);
-				$out .= '<li>' . $sub . '</li>';
-				// wrap everything up
+				$out .= '<li>' . $this->_wrapUl($sub) . '</li>';
 			endif;
 
+			// wrap into root ul tag
 			if ($level === 0) {
-				$out = $this->_wrap($out, $level, $entry_sub);
+				$out = $this->_wrapUl($out, $level, $entry_sub['Entry']['id']);
 			}
 			// Stopwatch::stop('EntryH->threadCached');
 			return $out;
 		}
 
-		protected function _wrap($in, $level, $entry_sub) {
-			$out = $in;
-			$class = 'reply';
-			$data = '';
+		/**
+		 * Wraps li tags with ul tag
+		 *
+		 * @param $string li html list
+		 * @param $level
+		 * @param $id
+		 * @return string
+		 */
+		protected function _wrapUl($string, $level = null, $id = null) {
 			if ($level < $this->_maxThreadDepthIndent) {
+				$class = '';
+				$data = '';
 				if ($level === 0) {
-					$class = 'thread';
-					$data = 'data-id="' . $entry_sub['Entry']['id'] . '"';
+					$class = 'class="root"';
+					$data = 'data-id="' . $id . '"';
 				}
-				$wrapper_start = "<ul {$data} class=\"{$class}\">";
-				$wrapper_end	 = '</ul>';
-				$out					 = $wrapper_start . $out . $wrapper_end;
+				$string = "<ul {$data} {$class}>" . $string . '</ul>';
 			}
-			return $out;
+			return $string;
 		}
 
 		/**

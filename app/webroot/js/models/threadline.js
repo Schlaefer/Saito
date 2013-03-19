@@ -1,8 +1,9 @@
 define([
-	'underscore',
-	'backbone',
-    'models/app'
-], function (_, Backbone, App) {
+    'underscore',
+    'backbone',
+    'models/app',
+    'cakeRest'
+], function(_, Backbone, App, cakeRest) {
 
     "use strict";
 
@@ -10,13 +11,27 @@ define([
 
         defaults: {
             isInlineOpened: false,
-            isAlwaysShownInline: false,
+            isAlwaysShownInline: App.currentUser.get('user_show_inline'),
             isNewToUser: false,
-            posting: ''
-        }
+            posting: '',
+            html: ''
+        },
 
+        initialize: function() {
+            this.webroot = App.settings.get('webroot') + 'entries/';
+            this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
+            this.methodToCakePhpUrl.read = 'threadLine/';
+
+            this.listenTo(this, "change:html", this._setIsNewToUser);
+        },
+
+        _setIsNewToUser: function() {
+            // @bogus performance
+            this.set('isNewToUser', $(this.get('html')).data('data-new') === 'new');
+        }
     });
 
-    return ThreadLineModel;
+    _.extend(ThreadLineModel.prototype, cakeRest);
 
+    return ThreadLineModel;
 });
