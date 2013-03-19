@@ -25,7 +25,7 @@ class createPostingTest extends Saito_SeleniumTestCase {
 		parent::tearDown();
 		}
 
-	public function testAddRootPosting() {
+	public function tes1AddRootPosting() {
 
 		$this->login($this);
 
@@ -90,7 +90,7 @@ class createPostingTest extends Saito_SeleniumTestCase {
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("css=div[class*='thread_line {$posting->getId()}']"));
 		$this->assertFalse($this->isElementPresent("css=div[class*='thread_line {$posting->getId()} new']"));
-		 * 
+		 *
 		 */
 
 		if ( is_array($this->_threadsToTearDown) ) {

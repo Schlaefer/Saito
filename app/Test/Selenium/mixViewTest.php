@@ -20,7 +20,7 @@ class mixViewTest extends Saito_SeleniumTestCase {
 		parent::setUp();
 	}
 
-	function testMixView() {
+	function tes1MixView() {
 		$this->login($this);
 
 		$thread = new SaitoTestThread($this);

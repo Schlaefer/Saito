@@ -1,10 +1,12 @@
-<?php echo Stopwatch::start('entries/index'); ?>
 <?php
+	Stopwatch::start('entries/index');
+
   $this->start('headerSubnavLeft');
-  echo $this->Html->link(
-      '<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),
-      '/entries/add',
-      array( 'class' => 'textlink', 'escape' => FALSE ));
+	echo $this->Html->link(
+		'<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),
+		'/entries/add',
+		array('id' => 'btn-entryAdd', 'class' => 'textlink', 'escape' => false)
+	);
   $this->end();
 
 	$this->start('headerSubnavCenter');
@@ -37,8 +39,9 @@
 	endif;
 	$this->end();
 ?>
-
 <div id="entry_index" class="entry index">
 	<?php echo $this->element('entry/thread_cached_init', array ( 'entries_sub' => $entries, 'level' => 0 )) ; ?>
 </div>
-<?php echo Stopwatch::stop('entries/index');?>
+<?php
+	Stopwatch::stop('entries/index');
+?>

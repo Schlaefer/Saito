@@ -24,8 +24,8 @@
 		define('WWW_ROOT', dirname(dirname(__FILE__)) . DS);
 	}
 
-	require_once '../../../lib/Cake/bootstrap.php';
-	require_once '../../../lib/Cake/Core/App.php';
+	require_once ROOT . DS . 'lib' . DS . 'Cake' . DS . 'bootstrap.php';
+	require_once ROOT . DS . 'lib' . DS . 'Cake' . DS . 'Core' . DS . 'App.php';
 	App::uses('CakeFixtureManager', 'TestSuite/Fixture');
 	App::load('CakeFixtureManager');
 	App::uses('CakeTestCase', 'TestSuite');
@@ -98,12 +98,14 @@
 			}
 			$test_case->open();
 			$test_case->waitForPageToLoad();
+			$test_case->_sleep();
 			$test_case->assertEquals(
 				"0",
 				$test_case->getElementHeight("modalLoginDialog")
 			);
 			$test_case->click("showLoginForm");
 			$test_case->waitForPageToLoad("");
+			$test_case->_sleep();
 			$test_case->assertNotEquals(
 				"0",
 				$test_case->getElementHeight("modalLoginDialog")
@@ -127,6 +129,10 @@
 			$test_case->click("btn_logout");
 			$test_case->waitForPageToLoad();
 			$test_case->assertFalse($test_case->isElementPresent("btn_logout"));
+		}
+
+		protected function _sleep() {
+			sleep(2);
 		}
 
 	}
