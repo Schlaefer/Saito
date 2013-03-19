@@ -45,9 +45,9 @@
 		/**
 		 * @var int time between commands in seconds
 		 */
-		public static $setSleep = 2;
+		public static $setSleep = 0;
 
-		public static $userName = 'test';
+		public static $userName = 'Alice';
 		public static $userPassword = 'test';
 
 		/**
