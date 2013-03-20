@@ -136,7 +136,6 @@
 		}
 
 		public function waitForJq($string) {
-			var_dump("selenium.browserbot.getCurrentWindow().{$string}");
 			$this->waitForCondition("selenium.browserbot.getCurrentWindow().{$string}");
 		}
 

@@ -34,7 +34,8 @@ define([
             "click .btn-submit.js-inlined": "_sendInline"
         },
 
-        initialize: function() {
+        initialize: function(options) {
+            this.parentThreadline = options.parentThreadline || null;
             this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
 
             // autoopen upload view for easy developing
@@ -111,6 +112,9 @@ define([
                 }, this),
                 success:_.bind(function(data) {
                     this.model.set({isAnsweringFormShown: false});
+                    if(this.parentThreadline !== null) {
+                        this.parentThreadline.set('isInlineOpened', false);
+                    }
                     App.eventBus.trigger('newEntry', {
                         tid: data.tid,
                         pid: this.model.get('id'),

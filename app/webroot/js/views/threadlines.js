@@ -120,7 +120,7 @@ define([
                     el: this.$('.t_s'),
                     model: this.postingModel,
                     collection: this.postings,
-                    parent: this.model
+                    parentThreadline: this.model
                 });
 
                 this.postingModel.fetchHtml();
@@ -205,7 +205,17 @@ define([
 			},
 
             render: function() {
-                this.$el.html(this.model.get('html'));
+                var $oldEl,
+                    newHtml,
+                    $newEl;
+
+                newHtml =  this.model.get('html');
+                if (newHtml.length > 0) {
+                    $oldEl = this.$el;
+                    $newEl = $(this.model.get('html'));
+                    this.setElement($newEl);
+                    $oldEl.replaceWith($newEl);
+                }
                 return this;
             }
         });

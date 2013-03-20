@@ -6,13 +6,6 @@
 
 		public $nextId = 10;
 
-		public $selectors = array(
-
-		);
-
-		public function tearDown() {
-		}
-
 		public function testInlineAnswer() {
 			$this->login();
 
@@ -24,7 +17,7 @@
 			// test that close button works on new entry
 			$this->_testSingleLine($this->nextId - 1);
 
-			// test that inline answer of an inline answer is working
+			// test that an inline answer of an inline answer is working
 			$lastInlineAnswerId = $this->nextId - 1;
 			$this->_createNewInlineAnswer($lastInlineAnswerId);
 			$this->_testSingleLine($this->nextId - 1);
@@ -101,6 +94,7 @@
 			$this->_waitForThreadlineVisible($parentId);
 
 			// test that new thread line is visible
+			$this->_waitForThreadlineVisible($this->nextId);
 			$this->assertTrue($this->_isThreadlineVisible($this->nextId));
 
 			$this->nextId++;

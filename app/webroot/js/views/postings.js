@@ -28,7 +28,7 @@ define([
 
 			initialize: function(options) {
                 this.collection = options.collection;
-                this.parent = options.parent || null;
+                this.parentThreadline = options.parentThreadline || null;
 
 				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
                 this.listenTo(this.model, 'change:html', this.render);
@@ -68,9 +68,6 @@ define([
 					this._showBoxActions();
 					this._hideAnsweringForm();
 					this._showSignature();
-                    if(this.parent !== null) {
-                       this.parent.set('isInlineOpened', false);
-                    }
 				}
 			},
 
@@ -83,7 +80,8 @@ define([
                 if (this.answeringForm === false){
                     this.answeringForm = new AnsweringView({
                         el: this.$('.posting_formular_slider'),
-                        model: this.model
+                        model: this.model,
+                        parentThreadline: this.parentThreadline
                     });
                 }
                 this.answeringForm.render();
