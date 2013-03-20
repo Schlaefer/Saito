@@ -14,12 +14,15 @@
 
 			// test inline answering
 			$this->_createNewInlineAnswer($id);
-			// test that close button works on new entry
 			$this->_testSingleLine($this->nextId - 1);
 
 			// test that an inline answer of an inline answer is working
 			$lastInlineAnswerId = $this->nextId - 1;
 			$this->_createNewInlineAnswer($lastInlineAnswerId);
+			$this->_testSingleLine($this->nextId - 1);
+
+			// test a new sibling answer
+			$this->_createNewInlineAnswer($id);
 			$this->_testSingleLine($this->nextId - 1);
 		}
 
