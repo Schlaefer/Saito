@@ -1,17 +1,17 @@
-define([
-    'underscore',
-    'backbone',
-    'models/app'
-], function (_, Backbone, App) {
+        define([
+            'underscore',
+            'backbone',
+            'models/app'
+        ], function (_, Backbone, App) {
 
-    "use strict";
+            "use strict";
 
-    var PostingModel = Backbone.Model.extend({
+            var PostingModel = Backbone.Model.extend({
 
-        defaults: {
-            isAnsweringFormShown: false,
-            html: ''
-        },
+                defaults: {
+                    isAnsweringFormShown: false,
+                    html: ''
+                },
 
         toggle: function (attribute) {
             this.set(attribute, !this.get(attribute));
