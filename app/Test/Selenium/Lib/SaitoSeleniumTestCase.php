@@ -135,6 +135,16 @@
 			$this->_sleep();
 		}
 
+		public function waitForJq($string) {
+			var_dump("selenium.browserbot.getCurrentWindow().{$string}");
+			$this->waitForCondition("selenium.browserbot.getCurrentWindow().{$string}");
+		}
+
+		public function waitForVisibleJq($selector) {
+			$selector = str_replace("\'", "'", $selector);
+			$this->waitForJq("$('{$selector}').is(':visible');");
+		}
+
 		protected function _sleep() {
 			sleep(2);
 		}

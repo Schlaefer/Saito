@@ -6,6 +6,10 @@
 
 		public $nextId = 10;
 
+		public $selectors = array(
+
+		);
+
 		public function tearDown() {
 		}
 
@@ -127,50 +131,15 @@
 		}
 
 		protected function _waitForPostingVisible($id) {
-			for ($second = 0; ; $second++) {
-				if ($second >= 60) {
-					$this->fail("timeout");
-				}
-				try {
-					if ($this->isVisible("css=.js-thread_line[data-id={$id}] .js-entry-view-core")) {
-						break;
-					}
-				} catch (Exception $e) {
-				}
-				sleep(1);
-			}
+			$this->waitForVisibleJq(".js-thread_line[data-id={$id}] .js-entry-view-core");
 		}
 
 		protected function _waitForThreadlineVisible($id) {
-			for ($second = 0; ; $second++) {
-				if ($second >= 60) {
-					$this->fail("timeout");
-				}
-				try {
-					if ($this->isVisible("css=.js-thread_line[data-id={$id}] .js-thread_line-content")
-					) {
-						break;
-					}
-				} catch (Exception $e) {
-				}
-				sleep(1);
-			}
+			$this->waitForVisibleJq(".js-thread_line[data-id={$id}] .js-thread_line-content");
 		}
 
 		protected function _waitForAnsweringVisible($id) {
-			for ($second = 0; ; $second++) {
-				if ($second >= 60) {
-					$this->fail("timeout");
-				}
-				try {
-					if ($this->isVisible("css=.js-thread_line[data-id={$id}]  #entry_reply")
-					) {
-						break;
-					}
-				} catch (Exception $e) {
-				}
-				sleep(1);
-			}
+			$this->waitForVisibleJq(".js-thread_line[data-id={$id}]  #entry_reply");
 		}
 
 		protected function _isThreadlineVisible($id) {
