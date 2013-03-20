@@ -24,6 +24,7 @@ define([
                 url: this.dictUrl,
                 dataType: 'json',
                 async: false,
+                cache: true,
                 success: $.proxy(function(data) {
                     this.dict = data;
                 }, this)

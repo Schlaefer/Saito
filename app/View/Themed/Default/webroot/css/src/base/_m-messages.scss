@@ -7,7 +7,7 @@
 $color-flashNoticeBg: #e6efff;
 $color-flashSuccessBg: #c6ff6e;
 $color-flashWarningBg: #fff4cc;
-$color-flashErrorBg: #ff5b52;
+$color-flashErrorBg: #ff2120;
 
 // Flash Messages
 // -------------------------------------
@@ -161,7 +161,6 @@ html > body .ui-pnotify {
 
 	background-color: $color-flashErrorBg;
 	color: white;
-	text-shadow: #595959 0px -1px 1px;
 }
 
 .no-content-yet {
