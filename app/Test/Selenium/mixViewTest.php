@@ -7,14 +7,12 @@
 
 	require_once 'Lib/SaitoSeleniumTestCase.php';
 
-//require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
-
 /**
  * Description of mixViewTest
  *
  * @author siezi
  */
-class mixViewTest extends Saito_SeleniumTestCase {
+class mixViewTest extends SaitoSeleniumTestCase {
 
 	function setUp() {
 		parent::setUp();

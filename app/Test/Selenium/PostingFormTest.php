@@ -2,7 +2,7 @@
 
 	require_once 'Lib/SaitoSeleniumTestCase.php';
 
-	class PostingFormTest extends Saito_SeleniumTestCase {
+	class PostingFormTest extends SaitoSeleniumTestCase {
 
 		public function testEntryAddFocusHasFocus() {
 			$this->login();

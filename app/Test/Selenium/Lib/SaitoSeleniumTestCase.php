@@ -33,7 +33,7 @@
 
 	class CakeTestCaseDummy extends CakeTestCase {}
 
-	class Saito_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
+	class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 
 		public static $browsers = array(
 //			array( 'name' 		=> 'Firefox', 'browser'	=> '*firefox'),
@@ -66,6 +66,7 @@
 			'app.entry',
 			'app.category',
 			'app.smiley',
+			'app.shout',
 			'app.smiley_code',
 			'app.setting',
 			'app.upload',

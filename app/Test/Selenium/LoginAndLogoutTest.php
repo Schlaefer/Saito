@@ -2,7 +2,7 @@
 
 	require_once 'Lib/SaitoSeleniumTestCase.php';
 
-	class LoginAndLogoutTest extends Saito_SeleniumTestCase {
+	class LoginAndLogoutTest extends SaitoSeleniumTestCase {
 
 		function testLoginAndLogoutWithoutCookie() {
 			$this->login($this);

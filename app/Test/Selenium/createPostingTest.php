@@ -14,7 +14,7 @@
  *
  * @author siezi
  */
-class createPostingTest extends Saito_SeleniumTestCase {
+class createPostingTest extends SaitoSeleniumTestCase {
 	protected $_threadsToTearDown = null;
 
 	function setUp() {
