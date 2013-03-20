@@ -94,7 +94,8 @@ define([
 						this.$el.find('.js-thread_line-content').after(this.spinnerTpl({
 							id: id
 						}));
-						this.$el.find('.btn-strip-top').on('click', _.bind(this.toggleInlineOpen, this))	;
+                        // @bogus, why no listenTo?
+						this.$el.find('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this))	;
 
                         this._insertContent();
 					} else {
@@ -144,7 +145,7 @@ define([
 							// performance: show instead slide
 							//						$($('.js-thread_inline.' + id)).slideDown(0,
 
-							$($('.js-thread_inline.' + id)).show(0,
+							this.$('.js-thread_inline').show(0,
 								_.bind(
 									function() {
 										// @td eliminate external functions pattern
@@ -173,7 +174,7 @@ define([
 				var id = this.model.id;
 				var p = this;
 				// $('.js-thread_inline.' + id).slideUp('fast',
-				$('.js-thread_inline.' + id).hide(0,
+				this.$('.js-thread_inline').hide(0,
 					_.bind(
 						function() {
 							this.$el.find('.js-thread_line-content').slideDown();

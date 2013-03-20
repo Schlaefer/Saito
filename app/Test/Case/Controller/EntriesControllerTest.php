@@ -621,13 +621,13 @@
 			$result = $this->testAction('entries/view/1', array(
 					'return' => 'view'
 			));
-			$this->assertTextNotContains('box-footer-entry-actions-1', $result);
+			$this->assertTextNotContains('l-box-footer box-footer-form', $result);
 
 			$this->_loginUser(3);
 			$result = $this->testAction('entries/view/1', array(
 					'return' => 'view'
 			));
-			$this->assertTextContains('box-footer-entry-actions-1', $result);
+			$this->assertTextContains('l-box-footer box-footer-form', $result);
 
 		}
 

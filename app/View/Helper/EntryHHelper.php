@@ -258,7 +258,7 @@ EOF
 <li class="js-thread_line {$span_post_type}" data-id="{$entry_sub['Entry']['id']}" data-tid="{$entry_sub['Entry']['tid']}" data-new="{$is_new_post}">
 	<div class="js-thread_line-content tl-cnt {$new_post_class}">
 		<div class="thread_line-pre">
-			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
+			<a href="#" class="btn_show_thread span_post_type">
 				{$thread_line_pre}
 			</a>
 		</div>
