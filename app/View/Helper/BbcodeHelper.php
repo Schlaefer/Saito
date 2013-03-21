@@ -83,12 +83,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public function beforeRender($viewFile) {
 		$this->quoteSymbol = Configure::read('Saito.Settings.quote_symbol');
 
-		/**
-		 * Configure Geshi
-		 */
-		$this->Geshi->defaultLanguage = 'text';
-		// allow all languages
-		 $this->Geshi->validLanguages = array( true );
 		if ( isset($this->request) && $this->request->action === 'preview' ) {
 			$this->Geshi->showPlainTextButton = false;
 		}
@@ -438,6 +432,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		if ( !empty($attributes) ):
 			$type = key($attributes);
 		endif;
+
+		$this->Geshi->defaultLanguage = 'text';
+		// allow all languages
+		$this->Geshi->validLanguages = array(true);
 
 		$string = '<div class="c_bbc_code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
 		$string = $this->Geshi->highlight($string);
