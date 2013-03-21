@@ -1,18 +1,10 @@
 <?php
-	### setup ###
-	$last_refresh = $CurrentUser['last_refresh'];
-
-	$params = $this->EntryH->generateThreadParams(
-						array(
-								'level'	=> $level,
-								'last_refresh'	=> $last_refresh,
-								'entry_time'	=> $entry_sub['Entry']['time'],
-								'entry_viewed'	=> ($this->request->params['action'] == 'view') ? $entry['Entry']['id'] :  null,
-								'entry_current'	=> $entry_sub['Entry']['id'],
-						)
-					);
-	extract($params);
-	###
+	$span_post_type = $this->EntryH->generateEntryTypeCss(
+		$level,
+		$this->EntryH->isNewEntry($entry_sub, $CurrentUser),
+		$entry_sub['Entry']['id'],
+		($this->request->params['action'] === 'view') ? $entry_sub['Entry']['id'] : null
+	);
 ?>
 <a name="<?php echo $entry_sub['Entry']['id'] ;?>"></a>
 <?php if ($level < Configure::read('Saito.Settings.thread_depth_indent')) : ?>

@@ -11,7 +11,7 @@ define([
 
         defaults: {
             isInlineOpened: false,
-            isAlwaysShownInline: App.currentUser.get('user_show_inline'),
+            isAlwaysShownInline: App.currentUser.get('user_show_inline') || false,
             isNewToUser: false,
             posting: '',
             html: ''
@@ -27,7 +27,7 @@ define([
 
         _setIsNewToUser: function() {
             // @bogus performance
-            this.set('isNewToUser', $(this.get('html')).data('data-new') === 'new');
+            this.set('isNewToUser', $(this.get('html')).data('data-new') === '1');
         }
     });
 
