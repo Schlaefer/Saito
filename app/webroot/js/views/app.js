@@ -168,10 +168,18 @@ define([
                 };
 
                 if (App.request.isMobile || (new Date().getTime() - startTime) > 1500) {
-                    $('#content').show();
+                    $('#content').css('visibility', 'visible');
                     triggerVisible();
                 } else {
-                    $('#content').fadeIn(150, 'easeInOutQuart', triggerVisible);
+                    $('#content')
+                        .css({visibility: 'visible', opacity: 0})
+                        .animate(
+                        { opacity: 1 },
+                        {
+                            duration: 150,
+                            easing: 'easeInOutQuart',
+                            complete: triggerVisible
+                        });
                 }
             },
 
