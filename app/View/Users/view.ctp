@@ -7,12 +7,12 @@
   $this->end();
 ?>
 <div id="user_view" class="user view">
-	<?php 
+	<?php
 		$linkToHistory = $this->Html->link(
 												__('user_show_entries'),
 												array(
 														'controller' 	=> 'entries',
-														'action'			=> 'search',	
+														'action'			=> 'search',
 														'name'				=> $user['User']['username'],
 														'month'				=> strftime('%m', strtotime($user['User']['registered'])),
 														'year'				=> strftime('%Y', strtotime($user['User']['registered'])),
@@ -27,7 +27,7 @@
 						$user['User']['username'] . " <span class='info_text'>({$this->UserH->type($user['User']['user_type'])})</span>", # @td user_type for mod and admin
 					),
 				);
-		
+
 		if ($user['User']['user_lock']) {
 			$table[] = 	array (
 							__('user_block'),
@@ -41,7 +41,7 @@
 						);
 			}
 		if (!empty($user['User']['user_email']) && $user['User']['personal_messages'] == TRUE) {
-			$table[] = 	
+			$table[] =
 					array (
 						__('Contact'),
 						$this->UserH->minusIfEmpty($this->UserH->contact($user['User'])),
@@ -55,14 +55,14 @@
 					);
     endif;
 		if (!empty($user['User']['user_hp'])) {
-			$table[] = 	
+			$table[] =
 					array (
 						__("user_hp"),
 						$this->UserH->minusIfEmpty($this->UserH->homepage($user['User']['user_hp'])),
 					);
 			}
 		if (!empty($user['User']['user_place'])) {
-			$table[] = 	
+			$table[] =
 					array (
 							__('user_place'),
 							$user['User']['user_place'],
@@ -83,7 +83,7 @@
 			));
 
 		if (!empty($user['User']['profile'])) {
-			$table[] = 	
+			$table[] =
 					array (
 							__('user_profile'),
 							$this->Bbcode->parse($user['User']['profile']),
@@ -91,7 +91,7 @@
 			}
 
 		if (!empty($user['User']['signature'])) {
-			$table[] = 	
+			$table[] =
 					array (
 							__('user_signature'),
 							$this->Bbcode->parse($user['User']['signature']),
@@ -105,8 +105,8 @@
 			) {
 				$table[] =	array (
 							__('flattr'),
-							$this->Flattr->button('', 
-									array( 
+							$this->Flattr->button('',
+									array(
 										'uid' => $user['User']['flattr_uid'],
 										'language'	=> Configure::read('Saito.Settings.flattr_language'),
 										'title' => '['.$_SERVER['HTTP_HOST'].'] '.$user['User']['username'] ,
@@ -220,11 +220,11 @@
 			<div>
 				<div class='c_first_child'></div>
 				<div><h1><?php echo $this->TextH->properize( $user['User']['username'] ) . ' ' . __('user_recentposts'); // @lo  ?>
-						
+
 					</h1> </div>
 				<div class='c_last_child'></div>
 			</div>
-		</div>	
+		</div>
 		<div class="content">
 			<?php  if (isset($lastEntries) && !empty($lastEntries)): ?>
 			<ul>
