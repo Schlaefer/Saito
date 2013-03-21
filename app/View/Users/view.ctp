@@ -98,8 +98,11 @@
 					);
 			}
 
-			//* flattr Button
-			if($user['User']['flattr_allow_user'] == TRUE && Configure::read('Saito.Settings.flattr_enabled') == TRUE) {
+			// flattr Button
+			if( Configure::read('Saito.Settings.flattr_enabled') == true
+					&& !empty($entry['User']['flattr_uid'])
+					&& $user['User']['flattr_allow_user'] == true
+			) {
 				$table[] =	array (
 							__('flattr'),
 							$this->Flattr->button('', 

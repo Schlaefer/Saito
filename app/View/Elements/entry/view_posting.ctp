@@ -34,7 +34,7 @@
 					if (Configure::read('Saito.Settings.flattr_enabled') == TRUE
 							// flattr is activated by admin
 							&& $entry['Entry']['flattr'] == TRUE
-							&& $entry['User']['flattr_uid'] == TRUE
+							&& !empty($entry['User']['flattr_uid'])
 					) :
 						echo $this->Flattr->button('',
 								array(
