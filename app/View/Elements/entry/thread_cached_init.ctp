@@ -32,8 +32,8 @@
 	 * this scrapes us up to 10 ms on a 40 threads index page
 	 */
 ?>
-<div class="thread_box <?php echo $entry_sub['Entry']['id'];?>" data-id="<?php echo $entry_sub['Entry']['id'];?>">
-	<div class='tree_thread <?php echo $entry_sub['Entry']['id'];?>'>
+<div class="thread_box" data-id="<?php echo $entry_sub['Entry']['id'];?>">
+	<div class='tree_thread'>
 		<div class="thread_tools">
 			<?php if ($level == 0 && $this->request->params['action'] == 'index') : ?>
 					<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub['Entry']['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" class="btn-thread_tools">
@@ -69,11 +69,11 @@
 		</div>
 			<div style="position: relative;">
 				<?php
-					$k = 'visibility: collapse;';
-					if (
-							$entry_sub['Entry']['last_answer'] > $entry_sub['Entry']['time']
+					$k = 'visibility: hidden;';
+					if (	 $this->EntryH->hasAnswers($entry_sub)
 							&& $this->request->params['controller'] === 'entries'
-							&& $this->request->params['action'] === 'index') {
+							&& $this->request->params['action'] === 'index'
+					) {
 						$k = '';
 					}
 					echo <<<EOF

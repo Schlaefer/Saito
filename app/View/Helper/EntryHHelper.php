@@ -93,6 +93,10 @@ EOF
 						 && strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
 		}
 
+		public function hasAnswers($entry) {
+			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
+		}
+
 		public function hasNewEntries($entry, $user) {
 			if ($entry['Entry']['pid'] != 0):
 				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');

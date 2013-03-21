@@ -22,11 +22,14 @@ define([
 			initialize: function(options){
                 this.postings = options.postings;
 
-				if (this.model.get('isThreadCollapsed')) {
-					this.hide();
-				} else {
-					this.show();
-				}
+                this.$rootUl = this.$('ul.root');
+                this.$subThreadRootIl = this.$rootUl.find('li:not(:first-child)');
+
+                if (this.model.get('isThreadCollapsed')) {
+                    this.hide();
+                } else {
+                    this.show();
+                }
 
                 this.listenTo(App.eventBus, 'newEntry', this._showNewThreadLine);
                 this.model.on('change:isThreadCollapsed', this.toggleCollapseThread, this);
@@ -124,24 +127,24 @@ define([
 			},
 
 			slideUp: function() {
-				$(this.el).find('ul.thread > li:not(:first-child)').slideUp(300);
+				this.$subThreadRootIl.slideUp(300);
 				this.markHidden();
 			},
 
 			slideDown: function() {
-				$(this.el).find('ul.thread > li:not(:first-child)').slideDown(300);
+                this.$subThreadRootIl.slideDown(300);
 				this.markShown();
 //				$(this.el).find('.ico-threadOpen').removeClass('ico-threadOpen').addClass('ico-threadCollapse');
 //				$(this.el).find('.btn-threadCollapse').html(this.l18n_threadCollapse);
 			},
 
 			hide: function() {
-				$(this.el).find('ul.thread > li:not(:first-child)').hide();
+				this.$subThreadRootIl.hide();
 				this.markHidden();
 			},
 
 			show: function() {
-				$(this.el).find('ul.thread > li:not(:first-child)').show();
+				this.$subThreadRootIl.show();
 				this.markShown();
 			},
 
