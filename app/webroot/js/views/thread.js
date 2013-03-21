@@ -114,7 +114,7 @@ define([
 			collapseThread: function(event) {
 				event.preventDefault();
 				this.closeAllThreadlines();
-				this.model.toggleCollapseThread();
+				this.model.toggle('isThreadCollapsed');
 				this.model.save();
 			},
 

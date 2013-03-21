@@ -53,7 +53,8 @@ if (typeof console === "undefined") {
 }
 
 require(
-    ['domReady', 'views/app', 'backbone', 'jquery', 'bootstrap', 'lib/saito/backbone.initHelper'],
+    ['domReady', 'views/app', 'backbone', 'jquery', 'bootstrap',
+        'lib/saito/backbone.initHelper', 'lib/saito/backbone.modelHelper'],
     function(domReady, AppView, Backbone, $) {
 
     if (typeof SaitoApp.app.runJsTests === 'undefined') {
