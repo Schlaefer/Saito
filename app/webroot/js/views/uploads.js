@@ -36,7 +36,7 @@ define([
             this.$('.content').append(this.uploadNewView.render().el);
 
             this.render();
-            this.collection.fetch();
+            this.collection.fetch({reset: true});
         },
 
         _addOne: function(upload) {
