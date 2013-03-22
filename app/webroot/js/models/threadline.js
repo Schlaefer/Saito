@@ -11,7 +11,7 @@ define([
 
         defaults: {
             isInlineOpened: false,
-            isAlwaysShownInline: App.currentUser.get('user_show_inline') || false,
+            isAlwaysShownInline: false,
             isNewToUser: false,
             posting: '',
             html: ''
@@ -21,6 +21,8 @@ define([
             this.webroot = App.settings.get('webroot') + 'entries/';
             this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
             this.methodToCakePhpUrl.read = 'threadLine/';
+
+            this.set('isAlwaysShownInline', App.currentUser.get('user_show_inline') || false);
 
             this.listenTo(this, "change:html", this._setIsNewToUser);
         },
