@@ -807,7 +807,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					$string = $https . $string;
 				}
 			} else {
-				$string = $https . $_SERVER['SERVER_NAME'] . $string;
+				$server = $_SERVER['SERVER_NAME'];
+				$port = $_SERVER['SERVER_PORT'];
+				if (!empty($port) && $port !== '80') {
+					$server = "$server:$port";
+				}
+				$string = $https . $server . $string;
 			}
 		}
 		return $string;

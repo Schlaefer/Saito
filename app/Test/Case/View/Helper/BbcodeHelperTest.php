@@ -233,6 +233,36 @@
 			$_SERVER['HTTPS'] = $https;
 		}
 
+		public function testLocalServerWithRelativeUrlAndServerPort() {
+			$_SERVER['SERVER_PORT'] = '8080';
+
+			$input = '[url]/foobar[/url]';
+			$expected = array(
+				'a' => array(
+					'href' => 'http://macnemo.de:8080/foobar',
+				),
+				'preg:/\/foobar/',
+				'/a',
+			);
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
+		public function testHashLink() {
+			$input = '#2234';
+			$expected = array(
+				'a' => array(
+					'href' => 'http://hash.base/url/2234',
+					'rel' => 'external',
+					'target' => '_blank'
+				),
+				'#2234',
+				'/a',
+			);
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
 		public function testLinkEmptyUrl() {
 			$input = '[url=][/url]';
 			$expected = "<a href=''></a>";
@@ -808,6 +838,12 @@
 				$this->server_name = FALSE;
 			}
 
+			if ( isset($_SERVER['SERVER_PORT']) ) {
+				$this->server_port = $_SERVER['SERVER_PORT'];
+			} else {
+				$this->server_port = false;
+			}
+
 			Configure::write('Saito.Settings.quote_symbol', '»');
 
 			$this->asset_timestamp = Configure::read('Asset.timestamp');
@@ -819,13 +855,19 @@
 			Configure::write('Saito.Settings.autolink', true);
 
 			$_SERVER['SERVER_NAME'] = 'macnemo.de';
+			$_SERVER['SERVER_PORT'] = '80';
 
 			parent::setUp();
 			$Request = new CakeRequest('/');
 			$Controller = new Controller($Request);
 			$View = new View($Controller);
 
+			$settings = array(
+				'hashBaseUrl' => 'hash.base/url/'
+			);
+
 			$this->Bbcode = new BbcodeHelper($View);
+			$this->Bbcode->settings = $settings;
 			$this->Bbcode->beforeRender(null);
 		}
 
@@ -833,6 +875,10 @@
 			parent::tearDown();
 			if ( $this->server_name ) {
 				$_SERVER['SERVER_NAME'] = $this->server_name;
+			}
+
+			if ($this->server_name) {
+				$_SERVER['SERVER_PORT'] = $this->server_port;
 			}
 
 			Configure::write('Asset.timestamp', $this->asset_timestamp);
