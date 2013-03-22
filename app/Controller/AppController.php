@@ -137,6 +137,10 @@ class AppController extends Controller {
 
 		Stopwatch::start('App->beforeRender()');
 
+		$this->helpers['Bbcode'] = array(
+			'hashBaseUrl' => $this->webroot . 'entries/view/'
+		);
+
     $this->set('lastAction', $this->localReferer('action'));
     $this->set('lastController', $this->localReferer('controller'));
 		$this->_setTitleForLayout();

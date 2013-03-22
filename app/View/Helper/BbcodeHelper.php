@@ -63,6 +63,11 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	);
 	protected static $_videoErrorMessage;
 
+	public $settings = array (
+	  // Base Url for _hashLinkInternal()
+		'hashBaseUrl' => ''
+	);
+
 	/**
 	 * Markup Parser
 	 */
@@ -144,6 +149,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
               );
         }
         );
+
+		// #324 internal links
+		$this->_Parser->addFilter(
+			STRINGPARSER_FILTER_PRE,
+			array(&$this, '_hashLinkInternal')
+		);
 
 		//* [code]
 		$this->_Parser->addCode(
@@ -659,6 +670,15 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$url = str_replace('mailto:', '', $url);
 		return "<a href='mailto:$url'>$text</a>";
 		// return $this->MailObfuscator->createLink($url, $text);
+	}
+
+	public function _hashLinkInternal($string) {
+		$string = preg_replace(
+			'/#(\d+)/',
+			"[url={$this->settings['hashBaseUrl']}\\1 label=none]#\\1[/url]",
+			$string
+		);
+		return $string;
 	}
 
 	/**
