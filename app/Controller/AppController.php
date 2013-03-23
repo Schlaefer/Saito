@@ -30,10 +30,9 @@ class AppController extends Controller {
 			'PreviewDetector.PreviewDetector'
 	);
 	public $helpers = array (
-			// app helpers
-			'Bbcode',
+			'Bbcode', // see also settings in beforeRender()
 			'JsData',
-			'Markitup.Markitup',
+			// 'Markitup.Markitup',
 			'RequireJs',
 			'Stopwatch.Stopwatch',
 			'TextH',
@@ -138,7 +137,8 @@ class AppController extends Controller {
 		Stopwatch::start('App->beforeRender()');
 
 		$this->helpers['Bbcode'] = array(
-			'hashBaseUrl' => $this->webroot . 'entries/view/'
+			'hashBaseUrl' => $this->webroot . 'entries/view/',
+			'atBaseUrl'   => $this->webroot . 'users/view/'
 		);
 
     $this->set('lastAction', $this->localReferer('action'));

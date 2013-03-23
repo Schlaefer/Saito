@@ -63,9 +63,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	);
 	protected static $_videoErrorMessage;
 
-	public $settings = array (
-	  // Base Url for _hashLinkInternal()
-		'hashBaseUrl' => ''
+	public $settings = array(
+		'hashBaseUrl' => '', // Base Url for # tags
+		'atBaseUrl'   => '' // Base Url for @ tags
 	);
 
 	/**
@@ -150,11 +150,28 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
         }
         );
 
-		// #324 internal links
-		$this->_Parser->addFilter(
-			STRINGPARSER_FILTER_PRE,
-			array(&$this, '_hashLinkInternal')
-		);
+		if (empty($this->settings['hashBaseUrl']) === false) {
+			// convert internal links to hashtag
+			$this->_Parser->addFilter(
+				STRINGPARSER_FILTER_PRE,
+				array(&$this, '_replaceInternalLinksWithHash')
+			);
+
+			// #<numeric> internal links
+			$this->_Parser->addFilter(
+				STRINGPARSER_FILTER_PRE,
+				array(&$this, '_hashLinkInternal')
+			);
+		}
+
+
+		if (empty($this->settings['atBaseUrl']) === false) {
+			// @<char> internal links
+			$this->_Parser->addFilter(
+				STRINGPARSER_FILTER_PRE,
+				array(&$this, '_atLinkInternal')
+			);
+		}
 
 		//* [code]
 		$this->_Parser->addCode(
@@ -672,10 +689,33 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		// return $this->MailObfuscator->createLink($url, $text);
 	}
 
+	public function _replaceInternalLinksWithHash($string) {
+		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
+		$server = $_SERVER['SERVER_NAME'];
+		$port = $_SERVER['SERVER_PORT'];
+		if (!empty($port) && $port !== '80') {
+			$server = "$server:$port";
+		}
+		$string = preg_replace(
+			"#(?<!=){$https}{$server}{$this->settings['hashBaseUrl']}(\d+)#im",
+			"#\\1",
+			$string);
+		return $string;
+	}
+
 	public function _hashLinkInternal($string) {
 		$string = preg_replace(
-			'/#(\d+)/',
-			"[url={$this->settings['hashBaseUrl']}\\1 label=none]#\\1[/url]",
+			'/(\s|^)#(\d+)/',
+			"\\1[url={$this->settings['hashBaseUrl']}\\2 label=none]#\\2[/url]",
+			$string
+		);
+		return $string;
+	}
+
+	public function _atLinkInternal($string) {
+		$string = preg_replace(
+			'/(\s|^)@(\S+)/m',
+			"\\1[url={$this->settings['atBaseUrl']}\\2 label=none]@\\2[/url]",
 			$string
 		);
 		return $string;

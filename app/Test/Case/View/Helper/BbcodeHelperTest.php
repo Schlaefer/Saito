@@ -261,6 +261,26 @@
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
+
+			$input = '&#039;';
+			$expected = '&#039;';
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
+		public function testAtLink() {
+			$input = '@Alice';
+			$expected = array(
+				'a' => array(
+					'href' => 'http://at.base/url/Alice',
+					'rel' => 'external',
+					'target' => '_blank'
+				),
+				'@Alice',
+				'/a',
+			);
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
 		}
 
 		public function testLinkEmptyUrl() {
@@ -863,7 +883,8 @@
 			$View = new View($Controller);
 
 			$settings = array(
-				'hashBaseUrl' => 'hash.base/url/'
+				'hashBaseUrl' => 'hash.base/url/',
+				'atBaseUrl' => 'at.base/url/'
 			);
 
 			$this->Bbcode = new BbcodeHelper($View);
