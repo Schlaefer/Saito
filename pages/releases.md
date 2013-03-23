@@ -11,18 +11,36 @@ layout: default
 
 ### What's new ###
 
-- [new] new uploader front-end with drag & drop and improved behavior on mobile devices
-- [new] notifications are dynamic overlays and not static on page
-- [new] moved doc format from xhtml to html5
-- [task] refactored all remaining js code into backbone
+This is a release with major code refactoring.
 
-### Update Note ###
+- [new] uploader with drag & drop panel
+- [new] short tag #<entry_id> links to entry
+- [new] short tag @<Username|id> links to user profile
+- [new] show peak memory in stopwatch debug output
+- [fix] improved layout and scrolling behavior in uploader on tablets
+- [fix] slidetabs don't remember state if installed in server root
+- [fix] no pinch & zoom on iPad
+- [fix] show source code button broken in inline open
+- [fix] shift+tab in entries/add textarea now working
+- [fix] hard browser reload don't remember page position
+- [fix] shoutbox doesn't load when first opened
+- [fix] relative local links in bbcode don't work if server port is not `80`
+- [task] new notification and messaging system
+- [task] changed doc format from xhtml to html5
+- [task] refactored all remaining js classes and files into backbone
+- [task] updated backbone.js to 1.0
+- [task] i18n for js frontend
+- [task] more test cases
+- [task] reactivated Selenium test cases which are now using the CakePHP data fixtures
+- [task] cleaned up html tree structure and reduced number of html tags
+- [task] added `youtube-nocookie` domain to trusted video domains (installer)
 
-Major front end code refactoring.
 
 ### Theme ###
 
-If you use a custom `default.ctp` layout make sure to remove the following lines from it:
+#### default.ctp ####
+
+If you use a custom `default.ctp` layout remove the following lines from it:
 
 		<?php
 		$flashMessage = $this->Session->flash();
@@ -34,6 +52,22 @@ If you use a custom `default.ctp` layout make sure to remove the following lines
 				<?php echo $emailMessage; ?>
 			</div>
 		<?php endif; ?>
+
+Replace the line:
+
+    if (!SaitoApp.request.isPreview) { $('#content').hide(); }
+
+with:
+
+    if (!SaitoApp.request.isPreview) { $('#content').css('visibility', 'hidden'); }
+
+
+
+#### styles.scss ####
+
+There is a new `css/src/base/_uploads.scss` file. It has to be included in in `<Theme>/webroot/css/src/styles.scss`:
+
+    @import "base/_uploads";
 
 ## 2013-02.03 ##
 
