@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
-<title data-base="Saito - Threaded Web Forum in PHP"></title>
+<title data-default="Saito - Threaded Web Forum in PHP"></title>
 <!-- styles -->
 <link rel="stylesheet" href="assets/styles/bootstrap/css/bootstrap.css" >
 <link rel="stylesheet" href="assets/styles/font-awesome.css" >

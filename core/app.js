@@ -50,7 +50,7 @@
             var base,
                 title;
 
-            base = $("title").data("base") || "";
+            base = $("title").data("default") || "";
 
             if (base.length > 0) {
                 title = base;
