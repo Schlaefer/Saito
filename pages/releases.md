@@ -17,6 +17,7 @@ This is a release with major code refactoring.
 - [new] short tag #<entry_id> links to entry
 - [new] short tag @<Username|id> links to user profile
 - [new] show peak memory in stopwatch debug output
+- [new] new url for named profiles: users/name/<username>
 - [fix] improved layout and scrolling behavior in uploader on tablets
 - [fix] slidetabs don't remember state if installed in server root
 - [fix] no pinch & zoom on iPad
