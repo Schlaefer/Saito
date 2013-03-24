@@ -152,7 +152,7 @@ class AppController extends Controller {
 			$this->helpers['Bbcode'] = array(
 				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
 				'hashBaseUrl' => $this->webroot . 'entries/view/',
-				'atBaseUrl'   => $this->webroot . 'users/view/',
+				'atBaseUrl'   => $this->webroot . 'users/name/',
 				'atUserList'  => $this->User->find('list', array('fields' => 'username'))
 			);
 		}

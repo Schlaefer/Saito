@@ -170,20 +170,34 @@ class UsersController extends AppController {
 		endif;
 	}
 
-	public function view($id = null) {
-		// allow user to be viewed by /users/view/<username>
-		if(!empty($id) && !is_numeric($id)) {
+	public function name($id = null) {
+		if(!empty($id)) {
 			$this->User->contain();
 			$viewed_user = $this->User->findByUsername($id);
 			if (!empty($viewed_user)) {
 				return $this->redirect(
-						array(
-								'controller' => 'users',
-								'action' => 'view',
-								$viewed_user['User']['id']
-						)
+					array(
+						'controller' => 'users',
+						'action' => 'view',
+						$viewed_user['User']['id']
+					)
 				);
 			}
+		}
+
+		$this->Session->setFlash(__('Invalid user'), 'flash/error');
+		return $this->redirect('/');
+	}
+
+	public function view($id = null) {
+		if(!empty($id) && !is_numeric($id)) {
+			return $this->redirect(
+				array(
+					'controller' => 'users',
+					'action' => 'name',
+					$id
+				)
+			);
 		}
 
 		$this->User->id = $id;
@@ -193,7 +207,7 @@ class UsersController extends AppController {
 
 		if (empty($this->request->data)) {
 			if ($id == null || (!($viewed_user))) {
-				$this->Session->setFlash((__('Invalid user')));
+				$this->Session->setFlash(__('Invalid user'), 'flash/error');
 				$this->redirect('/');
 			}
 		}
