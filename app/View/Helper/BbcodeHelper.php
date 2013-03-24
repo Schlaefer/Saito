@@ -689,8 +689,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	public function _replaceInternalLinksWithHash($string) {
 		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
-		$server = $_SERVER['SERVER_NAME'];
-		$port = $_SERVER['SERVER_PORT'];
+		$server = env('SERVER_NAME');
+		$port = env('SERVER_PORT');
 		if (!empty($port) && $port !== '80') {
 			$server = "$server:$port";
 		}
@@ -816,7 +816,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$parsed_url = @parse_url($url);
 
 		if ( isset($parsed_url['host']) ) {
-			if ( $parsed_url['host'] != $_SERVER['SERVER_NAME'] && $parsed_url['host'] != "www." . $_SERVER['SERVER_NAME'] ) {
+			if ( $parsed_url['host'] != env('SERVER_NAME') && $parsed_url['host'] != "www." . env('SERVER_NAME') ) {
 				$out = " rel='external' target='_blank'";
 			}
 		}
@@ -896,8 +896,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					$string = $https . $string;
 				}
 			} else {
-				$server = $_SERVER['SERVER_NAME'];
-				$port = $_SERVER['SERVER_PORT'];
+				$server = env('SERVER_NAME');
+				$port = env('SERVER_PORT');
 				if (!empty($port) && $port !== '80') {
 					$server = "$server:$port";
 				}
