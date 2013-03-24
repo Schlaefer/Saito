@@ -208,6 +208,7 @@ class UsersController extends AppController {
 							), $this->CurrentUser
 					));
 
+		$this->_initBbcodeHelper();
 		$this->set('user', $viewed_user);
 	}
 

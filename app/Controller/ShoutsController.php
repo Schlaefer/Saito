@@ -27,6 +27,7 @@ class ShoutsController extends AppController {
 				return;
 			}
 
+			$this->_initBbcodeHelper();
 			$this->set('shouts', $shouts);
 		}
 

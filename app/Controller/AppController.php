@@ -30,7 +30,6 @@ class AppController extends Controller {
 			'PreviewDetector.PreviewDetector'
 	);
 	public $helpers = array (
-			'Bbcode', // see also settings in beforeRender()
 			'JsData',
 			// 'Markitup.Markitup',
 			'RequireJs',
@@ -136,11 +135,6 @@ class AppController extends Controller {
 
 		Stopwatch::start('App->beforeRender()');
 
-		$this->helpers['Bbcode'] = array(
-			'hashBaseUrl' => $this->webroot . 'entries/view/',
-			'atBaseUrl'   => $this->webroot . 'users/view/'
-		);
-
     $this->set('lastAction', $this->localReferer('action'));
     $this->set('lastController', $this->localReferer('controller'));
 		$this->_setTitleForLayout();
@@ -149,6 +143,17 @@ class AppController extends Controller {
 		Stopwatch::start('---------------------- Rendering ---------------------- ');
 	}
 
+		/**
+		 * Iniits the Bbcode Helper for use in a View
+		 *
+		 * Call this instead of including in the controller's $helpers array.
+		 */
+		protected function _initBbcodeHelper() {
+			$this->helpers['Bbcode'] = array(
+				'hashBaseUrl' => $this->webroot . 'entries/view/',
+				'atBaseUrl'   => $this->webroot . 'users/view/'
+			);
+		}
 
 		/**
 		 * Set forum configuration from get params in url
