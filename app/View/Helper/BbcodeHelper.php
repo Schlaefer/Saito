@@ -64,8 +64,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	protected static $_videoErrorMessage;
 
 	public $settings = array(
-		'hashBaseUrl' => '', // Base Url for # tags
-		'atBaseUrl'   => '' // Base Url for @ tags
+		'hashBaseUrl' => '', // Base URL for # tags.
+		'atBaseUrl'   => '', // Base URL for @ tags.
+		'atUserList'  => ''  // User list for @ tags.
 	);
 
 	/**
@@ -713,11 +714,42 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _atLinkInternal($string) {
-		$string = preg_replace(
-			'/(\s|^)@(\S+)/m',
-			"\\1[url={$this->settings['atBaseUrl']}\\2 label=none]@\\2[/url]",
-			$string
-		);
+		$tags = array();
+		if (preg_match_all('/(\s|^)@([^\s\pP]+)/m', $string, $tags)) {
+			$users = $this->settings['atUserList'];
+			sort($users);
+			$names = array();
+			if (empty($tags[2]) === false) {
+				$tags = $tags[2];
+				foreach ($tags as $tag) {
+					if (in_array($tag, $users)) {
+						$names[$tag] = 1;
+					} else {
+						$continue = 0;
+						foreach ($users as $user) {
+							if (mb_strpos($user, $tag) === 0){
+								$names[$user] = 1;
+								$continue = true;
+							}
+							if ($continue === false) {
+								break;
+							} elseif ($continue !== 0) {
+								$continue = false;
+							}
+						}
+					}
+				}
+			}
+			krsort($names);
+			foreach($names as $name => $v) {
+				$urlName = urlencode($name);
+				$string = preg_replace(
+					"/@$name/",
+					"[url={$this->settings['atBaseUrl']}{$urlName} label=none]@{$name}[/url]",
+					$string
+				);
+			}
+		}
 		return $string;
 	}
 
@@ -974,5 +1006,3 @@ class BbcodeMessage {
 	}
 
 }
-
-?>

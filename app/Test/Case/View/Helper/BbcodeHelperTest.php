@@ -268,19 +268,18 @@
 			$this->assertTags($result, $expected);
 		}
 
-		public function testAtLink() {
-			$input = '@Alice';
-			$expected = array(
-				'a' => array(
-					'href' => 'http://at.base/url/Alice',
-					'rel' => 'external',
-					'target' => '_blank'
-				),
-				'@Alice',
-				'/a',
-			);
+		public function testAtLinkKnownUsers() {
+			$input = '@Alice @Bob @Bobby Junior @Bobby Tables @Dr. No';
+			$expected =
+					"<a href='http://at.base/url/Alice' rel='external' target='_blank'>@Alice</a>"
+					." @Bob "
+					."<a href='http://at.base/url/Bobby+Junior' rel='external' target='_blank'>@Bobby Junior</a>"
+					." @Bobby Tables "
+					."<a href='http://at.base/url/Dr.+No' rel='external' target='_blank'>@Dr. No</a>";
+
 			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
+			$this->assertEqual($result, $expected);
+
 		}
 
 		public function testLinkEmptyUrl() {
@@ -884,7 +883,10 @@
 
 			$settings = array(
 				'hashBaseUrl' => 'hash.base/url/',
-				'atBaseUrl' => 'at.base/url/'
+				'atBaseUrl' => 'at.base/url/',
+				'atUserList' => array(
+					'Alice', 'Bobby Junior', 'Dr. No'
+				)
 			);
 
 			$this->Bbcode = new BbcodeHelper($View);
