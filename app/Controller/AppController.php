@@ -107,7 +107,7 @@ class AppController extends Controller {
 
 		// disable forum with admin pref
 		if ( Configure::read('Saito.Settings.forum_disabled') && !($this->params['action'] === 'login') ):
-				if ( $this->CurrentUser->isAdmin() !== TRUE ):
+				if ( $this->CurrentUser->isAdmin() !== true ):
 					return $this->render('/Pages/forum_disabled', 'barebone');
         endif;
     endif;
@@ -235,7 +235,7 @@ class AppController extends Controller {
 	 * @param string $type 'controller' or 'action'
 	 * @return string
 	 */
-	public function localReferer($type = NULL) {
+	public function localReferer($type = null) {
 		$referer = parent::referer(null, true);
 		$parsed = Router::parse($referer);
 		if ( isset($parsed[$type]) ):
@@ -271,7 +271,7 @@ class AppController extends Controller {
 
 	protected function _beforeFilterAdminArea() {
     // protect the admin area
-    if ( $this->CurrentUser->isAdmin() !== TRUE ) :
+    if ( $this->CurrentUser->isAdmin() !== true ) :
       throw new ForbiddenException();
     endif;
 
@@ -283,7 +283,7 @@ class AppController extends Controller {
 		 */
 		protected function _showDisclaimer() {
 			$this->_setAppStats();
-			$this->set('showDisclaimer', TRUE);
+			$this->set('showDisclaimer', true);
 		}
 
 		/**
