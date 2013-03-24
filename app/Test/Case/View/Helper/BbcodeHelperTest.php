@@ -687,7 +687,9 @@
 			$this->assertTags($result, $expected);
 
 			// [code]<citation mark>[/code] should not be cited
-			$input = Sanitize::html("[code]\n" . Configure::read('Saito.Settings.quote_symbol') . "\n[/code]");
+			$input = Sanitize::html(
+				"[code]\n" . $this->Bbcode->settings['quoteSymbol'] . "\n[/code]"
+			);
 			$expected = '`span class=.*?c_bbc_citation`';
 			$result = $this->Bbcode->parse($input);
 			$this->assertNoPattern($expected, $result);
@@ -854,7 +856,7 @@
 			if ( isset($_SERVER['SERVER_NAME']) ) {
 				$this->server_name = $_SERVER['SERVER_NAME'];
 			} else {
-				$this->server_name = FALSE;
+				$this->server_name = false;
 			}
 
 			if ( isset($_SERVER['SERVER_PORT']) ) {
@@ -862,8 +864,6 @@
 			} else {
 				$this->server_port = false;
 			}
-
-			Configure::write('Saito.Settings.quote_symbol', '»');
 
 			$this->asset_timestamp = Configure::read('Asset.timestamp');
 
@@ -882,10 +882,13 @@
 			$View = new View($Controller);
 
 			$settings = array(
+				'quoteSymbol' => '»',
 				'hashBaseUrl' => 'hash.base/url/',
-				'atBaseUrl' => 'at.base/url/',
-				'atUserList' => array(
-					'Alice', 'Bobby Junior', 'Dr. No'
+				'atBaseUrl'   => 'at.base/url/',
+				'atUserList'  => array(
+					'Alice',
+					'Bobby Junior',
+					'Dr. No'
 				)
 			);
 

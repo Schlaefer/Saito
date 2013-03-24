@@ -47,8 +47,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			'youtube' => 1
 	);
 
-	public $quoteSymbol;
-
 	/**
 	 * These are the file exensions we are asume belong to audio files
 	 *
@@ -64,9 +62,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	protected static $_videoErrorMessage;
 
 	public $settings = array(
+		'quoteSymbol' => '»',
 		'hashBaseUrl' => '', // Base URL for # tags.
 		'atBaseUrl'   => '', // Base URL for @ tags.
-		'atUserList'  => ''  // User list for @ tags.
+		'atUserList'  => '' // User list for @ tags.
 	);
 
 	/**
@@ -87,8 +86,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function beforeRender($viewFile) {
-		$this->quoteSymbol = Configure::read('Saito.Settings.quote_symbol');
-
 		if ( isset($this->request) && $this->request->action === 'preview' ) {
 			$this->Geshi->showPlainTextButton = false;
 		}
@@ -635,10 +632,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$out = '';
 		if ( !empty($string) ):
 			// split already quoted lines
-			$citeLines = preg_split("/(^{$this->quoteSymbol}.*?$\n)/m", $string, null,
+			$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m", $string, null,
 					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 			foreach ( $citeLines as $citeLine ):
-				if ( mb_strpos($citeLine, $this->quoteSymbol) === 0 ):
+				if ( mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0 ):
 					// already quoted lines need no further processing
 					$out .= $citeLine;
 					continue;
@@ -671,7 +668,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				endforeach;
 				$out .= $line;
 			endforeach;
-			$out = preg_replace("/^/m", $this->quoteSymbol . " ", $out);
+			$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
 		endif;
 		return $out;
 	}
@@ -852,7 +849,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 */
 	public function _quote($string) {
-		$quote_symbol_sanitized = Sanitize::html($this->quoteSymbol);
+		$quote_symbol_sanitized = Sanitize::html($this->settings['quoteSymbol']);
 		$string = preg_replace(
 				// Begin of the text or a new line in the text, maybe one space afterwards
 				'/(^|\n\r\s?)'
