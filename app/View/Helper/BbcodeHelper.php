@@ -48,16 +48,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	);
 
 	/**
-	 * @var string 'http' or 'https'
-	 */
-	protected $_httpProtocol;
-
-	/**
-	 * @var string 'http(s)://foo.bar:<port>'
-	 */
-	protected $_baseUrl;
-
-	/**
 	 * These are the file exensions we are asume belong to audio files
 	 *
 	 * @var array
@@ -159,12 +149,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
         );
 
 		if (empty($this->settings['hashBaseUrl']) === false) {
-			// convert internal links to hashtag
-			$this->_Parser->addFilter(
-				STRINGPARSER_FILTER_PRE,
-				array(&$this, '_replaceInternalLinksWithHash')
-			);
-
 			// #<numeric> internal links
 			$this->_Parser->addFilter(
 				STRINGPARSER_FILTER_PRE,
@@ -451,7 +435,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* autolink without http://, i.e. www.foo.bar/baz
 		$string = preg_replace(
 				"#(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
-				"\\1[url]\\2[/url]", $string
+				"\\1[url=http://\\2]\\2[/url]", $string
 		);
 
 		//* autolink email
@@ -601,8 +585,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				'height' => 'auto',
 		);
 
-		// check for 'http://' in front of URI, we don't do relative URIs
-		$url = $this->_checkAndAddProtocol($content);
+		$url = $content;
 
 		// process [img=(parameters)] parameters
 		if ( !empty($attributes['default']) ) {
@@ -697,15 +680,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		// return $this->MailObfuscator->createLink($url, $text);
 	}
 
-	public function _replaceInternalLinksWithHash($string) {
-		$server = $this->_getBaseUrl();
-		$string = preg_replace(
-			"#(?<!=){$server}{$this->settings['hashBaseUrl']}(\d+)#im",
-			"#\\1",
-			$string);
-		return $string;
-	}
-
 	public function _hashLinkInternal($string) {
 		$string = preg_replace(
 			'/(\s|^)#(\d+)/',
@@ -777,22 +751,19 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		endif;
 
 		$options = array_merge($defaults, $attributes);
-		extract($options);
 
-		$url = $this->_checkAndAddProtocol($url);
-
-		if ( $wasShort ) {
+		if ($wasShort) {
 			$text = $this->_truncate($text);
 		}
 
 		$out = "<a href='$url'>$text</a>";
 
 		//* add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
-		if ( $label !== 'none' && $label !== 'false' && $label !== false && $wasShort === false ) {
-			$host = '';
-			if ( !empty($url) && preg_match('/\<img\s*?src=/', $text) == false ) {
+		$label = $options['label'];
+		if ($label !== 'none' && $label !== 'false' && $label !== false && $wasShort === false) {
+			if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
 				$host = self::_getDomainAndTldForUri($url);
-				if ( !empty($host) || $host === false ) {
+				if (!empty($host) && $host !== false && $host !== env('SERVER_NAME')) {
 					$out .= ' <span class=\'c_bbc_link-dinfo\'>[' . $host . ']</span>';
 				}
 			}
@@ -888,53 +859,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	/**
-	 * Converts relative urls to absolute urls
-	 *
-	 * @param type $string
-	 * @return string
-	 */
-	protected function _checkAndAddProtocol($string) {
-		if (empty($string) === false) {
-			$https = $this->_getHttpProtocol();
-			if ($string[0] !== '/') {
-				if (strpos($string, '://') === false) {
-					$string = $https . $string;
-				}
-			} else {
-				$string = $this->_getBaseUrl() . $string;
-			}
-		}
-		return $string;
-	}
-
-	protected function _getHttpProtocol() {
-		if (empty($this->_httpProtocol)) {
-			$this->_httpProtocol = 'http' . (env('HTTPS') ? 's' : '') . '://';
-		}
-		return $this->_httpProtocol;
-	}
-
-	/**
-	 * Returns server base url `http(s)://foo.bar:<port>`
-	 *
-	 * No trailing slash!
-	 *
-	 * @return string url
-	 */
-	protected function _getBaseUrl() {
-		if (empty($this->_baseUrl)) {
-			$https = $this->_getHttpProtocol();
-			$server = env('SERVER_NAME');
-			$port = env('SERVER_PORT');
-			if (!empty($port) && $port !== '80') {
-				$server = "$server:$port";
-			}
-			$this->_baseUrl = $https . $server;
-		}
-		return $this->_baseUrl;
-	}
-
-	/**
 	 * Checks if an domain is allowed by comparing it to the admin preference
    *
 	 * @param string $src
@@ -998,7 +922,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	protected static function _getDomainAndTldForUri($uri, $part = 'fulldomain' ) {
 		$host = @parse_url($uri, PHP_URL_HOST);
-		if ( !empty($host) || $host === false ) :
+		if ( !empty($host) && $host !== false ) :
 			if ( preg_match('/(?P<fulldomain>(?P<domain>[a-z0-9][a-z0-9\-]{1,63})\.(?<tld>[a-z\.]{2,6}))$/i',
 							$host, $regs) ) {
 				return $regs[$part];

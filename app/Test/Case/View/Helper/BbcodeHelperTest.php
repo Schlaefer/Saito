@@ -116,20 +116,6 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
-			$input = '[url]heise.de/foobar[/url]';
-			$expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>heise.de/foobar</a>";
-			$expected = array(
-					'a' => array(
-							'href' => 'http://heise.de/foobar',
-							'rel' => 'external',
-							'target' => '_blank'
-					),
-					'heise.de/foobar',
-					'/a'
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-
 			// masked link
 			$input = '[url=http://heise.de/foobar]foobar[/url]';
 			$expected = array(
@@ -145,17 +131,6 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
-			$input = '[url=heise.de/bar]foobar[/url]';
-			$expected = "<a href='http://heise.de/bar' rel='external' target='_blank'>foobar</a> <span class='c_bbc_link-dinfo'>[heise.de]</span>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-
-			// masked link: strip subdomain from domain info
-			$input = '[url=www.heise.de/bar]foobar[/url]';
-			$expected = "<a href='http://www.heise.de/bar' rel='external' target='_blank'>foobar</a> <span class='c_bbc_link-dinfo'>[heise.de]</span>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-
 			// masked link with no label
 			$input = '[url=http://heise.de/foobar  label=none ]foobar[/url]';
 			$expected = array(
@@ -170,31 +145,18 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
-			$input = '[url]heise.de/bar[/url]';
-			$expected = array(
-					'a' => array(
-							'href' => 'http://heise.de/bar',
-							'rel' => 'external',
-							'target' => '_blank',
-					),
-					'heise.de/bar',
-					'/a',
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-
 			/**
 			 * local server
 			 */
 			$input = '[url=http://macnemo.de/foobar]foobar[/url]';
-			$expected = "<a href='http://macnemo.de/foobar'>foobar</a> <span class='c_bbc_link-dinfo'>[macnemo.de]</span>";
+			$expected = "<a href='http://macnemo.de/foobar'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
 			$input = '[url]/foobar[/url]';
 			$expected = array(
 					'a' => array(
-							'href' => 'http://macnemo.de/foobar',
+							'href' => '/foobar',
 					),
 					'preg:/\/foobar/',
 					'/a',
@@ -205,13 +167,13 @@
 
 			// test lokaler server with absolute url
 			$input = '[url=/foobar]foobar[/url]';
-			$expected = "<a href='http://macnemo.de/foobar'>foobar</a> <span class='c_bbc_link-dinfo'>[macnemo.de]</span>";
+			$expected = "<a href='/foobar'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
 			// test 'http://' only
 			$input = '[url=http://]foobar[/url]';
-			$expected = "<a href='http://'>foobar</a> <span class='c_bbc_link-dinfo'>[]</span>";
+			$expected = "<a href='http://'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
@@ -233,26 +195,11 @@
 			$_SERVER['HTTPS'] = $https;
 		}
 
-		public function testLocalServerWithRelativeUrlAndServerPort() {
-			$_SERVER['SERVER_PORT'] = '8080';
-
-			$input = '[url]/foobar[/url]';
-			$expected = array(
-				'a' => array(
-					'href' => 'http://macnemo.de:8080/foobar',
-				),
-				'preg:/\/foobar/',
-				'/a',
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-		}
-
 		public function testHashLink() {
 			$input = '#2234';
 			$expected = array(
 				'a' => array(
-					'href' => 'http://macnemo.de/hash/2234',
+					'href' => '/hash/2234',
 				),
 				'#2234',
 				'/a',
@@ -269,11 +216,11 @@
 		public function testAtLinkKnownUsers() {
 			$input = '@Alice @Bob @Bobby Junior @Bobby Tables @Dr. No';
 			$expected =
-					"<a href='http://macnemo.de/at/Alice'>@Alice</a>"
+					"<a href='/at/Alice'>@Alice</a>"
 					." @Bob "
-					."<a href='http://macnemo.de/at/Bobby+Junior'>@Bobby Junior</a>"
+					."<a href='/at/Bobby+Junior'>@Bobby Junior</a>"
 					." @Bobby Tables "
-					."<a href='http://macnemo.de/at/Dr.+No'>@Dr. No</a>";
+					."<a href='/at/Dr.+No'>@Dr. No</a>";
 
 			$result = $this->Bbcode->parse($input);
 			$this->assertEqual($result, $expected);
@@ -284,24 +231,6 @@
 			$expected = "<a href=''></a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
-		}
-
-		public function testLinkHttps() {
-			$https = env('HTTPS');
-			$_SERVER['HTTPS'] = true;
-
-			$input = '[url]/foobar[/url]';
-			$expected = array(
-								'a' => array(
-								'href' => 'https://macnemo.de/foobar',
-					),
-								'preg:/\/foobar/',
-								'/a',
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-
-			$_SERVER['HTTPS'] = $https;
 		}
 
 		public function testEmail() {
@@ -381,6 +310,7 @@
 					),
 					'www.heise.de/foobar',
 					'/a',
+					'span' => array( 'class' => 'c_bbc_link-dinfo' ), '[heise.de]', '/span',
 					' text'
 			);
 			$result = $this->Bbcode->parse($input);
@@ -496,14 +426,9 @@
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
-			$expected = '<img src="http://macnemo.de/somewhere/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
+			$expected = '<img src="'.$this->Bbcode->webroot.'somewhere/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-
-			$input = '[img]heise.de/img/macnemo.png[/img]';
-			$expected = '<img src="http://heise.de/img/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertIdentical($result, $expected);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
@@ -880,8 +805,8 @@
 
 			$settings = array(
 				'quoteSymbol' => '»',
-				'hashBaseUrl' => 'macnemo.de/hash/',
-				'atBaseUrl'   => 'macnemo.de/at/',
+				'hashBaseUrl' => '/hash/',
+				'atBaseUrl'   => '/at/',
 				'atUserList'  => array(
 					'Alice',
 					'Bobby Junior',
