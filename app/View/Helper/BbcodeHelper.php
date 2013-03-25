@@ -48,6 +48,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	);
 
 	/**
+	 * @var string 'http' or 'https'
+	 */
+	protected $_httpProtocol;
+
+	/**
+	 * @var string 'http(s)://foo.bar:<port>'
+	 */
+	protected $_baseUrl;
+
+	/**
 	 * These are the file exensions we are asume belong to audio files
 	 *
 	 * @var array
@@ -592,7 +602,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		);
 
 		// check for 'http://' in front of URI, we don't do relative URIs
-		$url = self::_checkAndAddProtocol($content);
+		$url = $this->_checkAndAddProtocol($content);
 
 		// process [img=(parameters)] parameters
 		if ( !empty($attributes['default']) ) {
@@ -688,14 +698,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _replaceInternalLinksWithHash($string) {
-		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
-		$server = env('SERVER_NAME');
-		$port = env('SERVER_PORT');
-		if (!empty($port) && $port !== '80') {
-			$server = "$server:$port";
-		}
+		$server = $this->_getBaseUrl();
 		$string = preg_replace(
-			"#(?<!=){$https}{$server}{$this->settings['hashBaseUrl']}(\d+)#im",
+			"#(?<!=){$server}{$this->settings['hashBaseUrl']}(\d+)#im",
 			"#\\1",
 			$string);
 		return $string;
@@ -774,7 +779,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$options = array_merge($defaults, $attributes);
 		extract($options);
 
-		$url = self::_checkAndAddProtocol($url);
+		$url = $this->_checkAndAddProtocol($url);
 
 		if ( $wasShort ) {
 			$text = $this->_truncate($text);
@@ -816,7 +821,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$parsed_url = @parse_url($url);
 
 		if ( isset($parsed_url['host']) ) {
-			if ( $parsed_url['host'] != env('SERVER_NAME') && $parsed_url['host'] != "www." . env('SERVER_NAME') ) {
+			if ( $parsed_url['host'] !== env('SERVER_NAME') && $parsed_url['host'] !== "www." . env('SERVER_NAME') ) {
 				$out = " rel='external' target='_blank'";
 			}
 		}
@@ -888,23 +893,45 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param type $string
 	 * @return string
 	 */
-	protected static function _checkAndAddProtocol($string) {
-		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
+	protected function _checkAndAddProtocol($string) {
 		if (empty($string) === false) {
+			$https = $this->_getHttpProtocol();
 			if ($string[0] !== '/') {
 				if (strpos($string, '://') === false) {
 					$string = $https . $string;
 				}
 			} else {
-				$server = env('SERVER_NAME');
-				$port = env('SERVER_PORT');
-				if (!empty($port) && $port !== '80') {
-					$server = "$server:$port";
-				}
-				$string = $https . $server . $string;
+				$string = $this->_getBaseUrl() . $string;
 			}
 		}
 		return $string;
+	}
+
+	protected function _getHttpProtocol() {
+		if (empty($this->_httpProtocol)) {
+			$this->_httpProtocol = 'http' . (env('HTTPS') ? 's' : '') . '://';
+		}
+		return $this->_httpProtocol;
+	}
+
+	/**
+	 * Returns server base url `http(s)://foo.bar:<port>`
+	 *
+	 * No trailing slash!
+	 *
+	 * @return string url
+	 */
+	protected function _getBaseUrl() {
+		if (empty($this->_baseUrl)) {
+			$https = $this->_getHttpProtocol();
+			$server = env('SERVER_NAME');
+			$port = env('SERVER_PORT');
+			if (!empty($port) && $port !== '80') {
+				$server = "$server:$port";
+			}
+			$this->_baseUrl = $https . $server;
+		}
+		return $this->_baseUrl;
 	}
 
 	/**
