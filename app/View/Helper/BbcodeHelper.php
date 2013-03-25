@@ -175,28 +175,28 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$this->_Parser->addCode(
 				'b', 'simple_replace', null,
 				array( 'start_tag' => '<strong>', 'end_tag' => '</strong>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* italic
 		$this->_Parser->addCode(
 				'i', 'simple_replace', null,
 				array( 'start_tag' => '<em>', 'end_tag' => '</em>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* underline
 		$this->_Parser->addCode(
 				'u', 'simple_replace', null,
 				array( 'start_tag' => "<span class='c_bbc_underline'>", 'end_tag' => '</span>' ),
-				'inline', array( 'block', 'inline', 'link' ), array( )
+				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* strike
 		$this->_Parser->addCode(
 				'strike', 'simple_replace', null,
 				array( 'start_tag' => "<del>", 'end_tag' => '</del>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* hr
