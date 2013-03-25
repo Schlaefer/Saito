@@ -857,33 +857,34 @@
     return $count;
   }
 
-	public function beforeSave($options = array()) {
-		$out = true;
+		public function beforeSave($options = array()) {
+			$success = true;
 
-		// get old entry to compare with new data
-		$old_entry = $this->find('first', array(
-				'contain' => false,
-				'conditions' => array(
-						'Entry.id' => $this->id,
-						),
-				)
-		);
-
-		// change category of thread if category of root entry changed
-		if ($old_entry && (int)$old_entry['Entry']['pid'] === 0) {
-			// entry is root entry
+			// change category of thread if category of root entry changed
 			if (isset($this->data['Entry']['category'])) {
-				// category data is provided
-				if ($this->data['Entry']['category'] != $old_entry['Entry']['category']) {
-					// category changed
-					$out = $out && $this->_threadChangeCategory($old_entry['Entry']['tid'],
-							$this->data['Entry']['category']);
+				// get old entry to compare with new data
+				$old_entry = $this->find(
+					'first',
+					array(
+						'contain'    => false,
+						'conditions' => array(
+							'Entry.id' => $this->id,
+						),
+					)
+				);
+
+				if ($old_entry && (int)$old_entry['Entry']['pid'] === 0) {
+					if ((int)$this->data['Entry']['category'] !== (int)$old_entry['Entry']['category']) {
+						$success = $success && $this->_threadChangeCategory(
+							$old_entry['Entry']['tid'],
+							$this->data['Entry']['category']
+						);
+					}
 				}
 			}
-		}
 
-		return $out && parent::beforeSave($options);
-	}
+			return $success && parent::beforeSave($options);
+		}
 
 	/**
 	 * Changes the category of a thread.
