@@ -25,6 +25,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			'Html',
 	);
 
+	protected $_tagElCounter = 0;
+	protected $_tagEls = array();
+	protected $_tagSubsitutes = array(
+		'#' => 'hashLink'
+	);
+
 	/**
 	 * Array with domains from which embedding video is allowed
 	 *
@@ -100,7 +106,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	public function parse($string, array $options = array( )) {
 		$this->_initParser($options);
+		$this->_tagElCounter = 0;
+		$this->_tagEls = array();
 		$string = $this->_Parser->parse($string);
+		$string = $this->_detaginize($string);
 		return $string;
 	}
 
@@ -152,7 +161,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			// #<numeric> internal links
 			$this->_Parser->addFilter(
 				STRINGPARSER_FILTER_PRE,
-				array(&$this, '_hashLinkInternal')
+				array(&$this, '_hashLinkInternalTaginize')
+			);
+
+			$this->_Parser->addCode(
+				'hashLink', 'usecontent', array( &$this, "_hashLinkInternal" ), array( ), 'hashLink',
+				array( 'block' ), array( )
 			);
 		}
 
@@ -213,14 +227,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		//* urls
 		$this->_Parser->addCode(
-				'url', 'usecontent?', array( &$this, '_url' ),
+				'url', 'usecontent?', array( &$this, '_urlTag' ),
 				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline', 'listitem' ), array( )
 		);
 
 		//* link
 		$this->_Parser->addCode(
-				'link', 'usecontent?', array( &$this, '_url' ),
+				'link', 'usecontent?', array( &$this, '_urlTag' ),
 				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline', 'listitem' ), array( )
 		);
@@ -680,13 +694,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		// return $this->MailObfuscator->createLink($url, $text);
 	}
 
-	public function _hashLinkInternal($string) {
-		$string = preg_replace(
-			'/(\s|^)#(\d+)/',
-			"\\1[url={$this->settings['hashBaseUrl']}\\2 label=none]#\\2[/url]",
+	public function _hashLinkInternalTaginize($string) {
+		$string = preg_replace_callback(
+			'/(\s|^)(?<tag>#)(?<element>\d+)/',
+			array($this, '_taginize'),
 			$string
 		);
 		return $string;
+	}
+
+	public function _hashLinkInternal($action, $attributes, $content, $params, &$node_object) {
+		unset($this->_tagEls[$attributes['default']]);
+		return $this->_url($this->settings['hashBaseUrl'] . $content, '#' . $content);
 	}
 
 	public function _atLinkInternal($string) {
@@ -732,7 +751,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	/**
 	 * url urls and [URL]
 	 */
-	public function _url($action, $attributes, $content, $params, &$node_object) {
+	public function _urlTag($action, $attributes, $content, $params, &$node_object) {
 
 		$defaults = array(
 				'label' => true,
@@ -752,15 +771,20 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		$options = array_merge($defaults, $attributes);
 
+		$label = $options['label'];
 		if ($wasShort) {
 			$text = $this->_truncate($text);
+			$label = false;
 		}
 
-		$out = "<a href='$url'>$text</a>";
+		$out = $this->_url($url, $text, $label);
+		return $out;
+	}
 
-		//* add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
-		$label = $options['label'];
-		if ($label !== 'none' && $label !== 'false' && $label !== false && $wasShort === false) {
+	protected function _url($url, $text, $label = false) {
+		$out = "<a href='$url'>$text</a>";
+		// add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
+		if ($label !== false && $label !== 'none' && $label !== 'false') {
 			if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
 				$host = self::_getDomainAndTldForUri($url);
 				if ($host !== false && $host !== env('SERVER_NAME')) {
@@ -931,6 +955,32 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			}
 		endif;
 		return false;
+	}
+
+	protected function _taginize() {
+		$params = func_get_args();
+		$element = $params[0]['element'];
+		$tag = $params[0]['tag'];
+		if (isset($this->_tagSubsitutes[$tag])) {
+			$tag = $this->_tagSubsitutes[$tag];
+		}
+		$string = $params[0][0];
+		$ident = "{$tag}={$this->_tagElCounter}";
+		$replacement = "[$ident]{$element}[/$tag]";
+		$this->_tagEls[$this->_tagElCounter] = array(
+			'tag' => $tag,
+			'replacement' => $replacement,
+			'original' => $string
+		);
+		$this->_tagElCounter++;
+		return $replacement;
+	}
+
+	protected function _detaginize($string) {
+		foreach ($this->_tagEls as $token) {
+			$string = str_replace($token['replacement'], $token['original'], $string);
+		}
+		return $string;
 	}
 }
 

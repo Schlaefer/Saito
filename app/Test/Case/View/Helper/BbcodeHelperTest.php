@@ -211,6 +211,10 @@
 			$expected = '&#039;';
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
+
+			$input = '[code]#2234[/code]';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains('>#2234</a>', $result);
 		}
 
 		public function testAtLinkKnownUsers() {
@@ -224,6 +228,10 @@
 
 			$result = $this->Bbcode->parse($input);
 			$this->assertEqual($result, $expected);
+
+			$input = '[code]@Alice[/code]';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains('>@Alice</a>', $result);
 		}
 
 		public function testLinkEmptyUrl() {
