@@ -239,6 +239,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				array( 'block', 'inline', 'listitem' ), array( )
 		);
 
+		//* autolinks
+		if ( Configure::read('Saito.Settings.autolink') ) {
+			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
+				array(&$this, '_autoLinkPreTaginize'));
+
+			$this->_Parser->addCode(
+				'autoLink', 'usecontent', array( &$this, "_autoLinkPre" ),
+				array( ), 'link',
+				array( 'block' ), array( )
+			);
+		}
+
 		//* email
 		$this->_Parser->addCode(
 				'email', 'usecontent?', array( &$this, '_email' ),
@@ -276,12 +288,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* quote
 		$this->_Parser->addParser(array( 'block', 'inline' ),
 				array( &$this, '_quote' ));
-
-		//* autolinks
-		if ( Configure::read('Saito.Settings.autolink') ) {
-			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
-					'BbcodeHelper::_autoLinkPre');
-		}
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
@@ -433,29 +439,48 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		return implode('', $string_array);
 	}
 
+	public function _autoLinkPre($action, $attributes, $content, $params, &$node_object) {
+		return $this->_url($content, $content, false, true);
+	}
+
 	/**
 	 * automaticaly generate links from raw http:// source without [URL]
 	 *
 	 * @param string $string
 	 * @return string
 	 */
-	public static function _autoLinkPre($string) {
+	public function _autoLinkPreTaginize($string) {
+		// how to pass a element into tageize? url?
+		$that = $this;
+		$replace = function ($matches) use ($that) {
+			$matches += array('tag' => 'autoLink');
+			if(strpos($matches['element'], '://') === false) {
+				$matches['element'] = 'http://' . $matches['element'];
+			}
+			$out = $that->_taginize($matches);
+			if (isset($matches['prefix'])) {
+				$out = $matches['prefix'] . $out;
+			}
+			return $out;
+		};
 		//* autolink http://urls
-		$string = preg_replace(
-				"#(?<=^|[\n ])(?P<content>[\w]+?://.*?[^ \"\n\r\t<]*)#is", "[url]\\1[/url]",
-				$string
+		$string = preg_replace_callback(
+			"#(?<=^|[\n ])(?P<element>[\w]+?://.*?[^ \"\n\r\t<]*)#is",
+			$replace,
+			$string
 		);
 
 		//* autolink without http://, i.e. www.foo.bar/baz
-		$string = preg_replace(
-				"#(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
-				"\\1[url=http://\\2]\\2[/url]", $string
+		$string = preg_replace_callback(
+			"#(?P<prefix>^|[\n ])(?P<element>(www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
+			$replace,
+			$string
 		);
 
 		//* autolink email
 		$string = preg_replace("
 				#(?<=^|[\n ])(?P<content>([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+))#i",
-				"[email]\\1[/email]", $string
+			"[email]\\1[/email]", $string
 		);
 
 		return $string;
@@ -772,16 +797,15 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$options = array_merge($defaults, $attributes);
 
 		$label = $options['label'];
-		if ($wasShort) {
-			$text = $this->_truncate($text);
-			$label = false;
-		}
 
-		$out = $this->_url($url, $text, $label);
+		$out = $this->_url($url, $text, $label, $wasShort);
 		return $out;
 	}
 
-	protected function _url($url, $text, $label = false) {
+	protected function _url($url, $text, $label = false, $trunctate = false) {
+		if ($trunctate === true) {
+			$text = $this->_truncate($text);
+		}
 		$out = "<a href='$url'>$text</a>";
 		// add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
 		if ($label !== false && $label !== 'none' && $label !== 'false') {
@@ -957,7 +981,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		return false;
 	}
 
-	protected function _taginize() {
+	public function _taginize() {
 		$params = func_get_args();
 		$element = $params[0]['element'];
 		$tag = $params[0]['tag'];

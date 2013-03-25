@@ -79,9 +79,6 @@
 		}
 
 		public function testLink() {
-				$https = env('HTTPS');
-				$_SERVER['HTTPS'] = false;
-
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c_bbc_link-dinfo'>[ebay.de]</span>";
 			$result = $this->Bbcode->parse($input);
@@ -191,8 +188,6 @@
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
-
-			$_SERVER['HTTPS'] = $https;
 		}
 
 		public function testHashLink() {
@@ -316,13 +311,18 @@
 							'rel' => 'external',
 							'target' => '_blank',
 					),
-					'www.heise.de/foobar',
+					'http://www.heise.de/foobar',
 					'/a',
-					'span' => array( 'class' => 'c_bbc_link-dinfo' ), '[heise.de]', '/span',
-					' text'
+					'preg:/ text/'
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
+
+			// no autolink in [code]
+			$input = '[code]http://heise.de/foobar[/code]';
+			$needle = 'heise.de/foobar</a>';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains($result, $needle);
 
 			// email autolink
 			$input = 'text mail@tosomeone.com test';
@@ -346,12 +346,12 @@
 			$input = '[url]http://this/url/is/32/chars/long[/url]';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertIdentical($result, $expected);
 
 			$input = 'http://this/url/is/32/chars/long';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertIdentical($result, $expected) ;
 
 			Configure::write('Saito.Settings.text_word_maxlength', $text_word_maxlenghth);
 		}
