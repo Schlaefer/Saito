@@ -236,7 +236,7 @@
 					'fields' => 'Entry.tid'
 
 			));
-			if ($entry == FALSE) {
+			if ($entry == false) {
 				throw new UnexpectedValueException ('Posting not found. Posting-Id: ' . $id);
 			}
 			return $entry['Entry']['tid'];
@@ -250,7 +250,7 @@
 	public function createPosting($data = null, $validate = true, $fieldList = array()) {
 
 		if ( !isset($data['Entry']['pid']) || !isset($data['Entry']['subject']) || !isset($data['Entry']['category']) ) {
-			return FALSE;
+			return false;
 		}
 
 		if ($data['Entry']['pid'] > 0) {
@@ -260,9 +260,9 @@
 			$this->id 		= $data['Entry']['pid'];
 			$this->contain();
 			$parent_entry = $this->read(array('tid', 'category'));
-			if ( $parent_entry != TRUE ) {
+			if ( $parent_entry != true ) {
 				//* parent could not be found
-				return FALSE;
+				return false;
 				}
 
 			//* update new entry with thread data
@@ -277,11 +277,11 @@
 		$this->create();
 		$new_posting = $this->save($data, $validate,$fieldList);
 
-		if ( $new_posting != TRUE ) {
+		if ( $new_posting != true ) {
 			return $new_posting;
 			}
 
-		if ( $new_posting === TRUE ) {
+		if ( $new_posting === true ) {
 			$new_posting = $this->read(null, $this->id);
 		}
 
@@ -293,9 +293,9 @@
 			// for new thread tid = id
 			$new_posting['Entry']['tid'] = $new_posting_id;
 
-			if ($this->save($new_posting) != TRUE ) {
+			if ($this->save($new_posting) != true ) {
 				// @td raise error and/or roll back new entry
-				return FALSE;
+				return false;
 			} else {
         $this->Category->id = $data['Entry']['category'];
         $this->Category->updateThreadCounter();
@@ -307,9 +307,9 @@
 			// update last answer time in root entry
 			$this->id = $parent_entry['Entry']['tid'];
 			$this->set('last_answer', $new_posting['Entry']['last_answer']);
-			if ( $this->save() != TRUE ) {
+			if ( $this->save() != true ) {
 				// @td raise error and/or roll back new entry
-				return FALSE;
+				return false;
 				}
 
 			$this->getEventManager()->dispatch(
@@ -394,7 +394,7 @@
 	/**
 	 * trees for multiple tids
 	 */
-	public function treesForThreads($search_array, $order = NULL, $fieldlist = NULL) {
+	public function treesForThreads($search_array, $order = null, $fieldlist = null) {
 		if (empty($search_array)) {
 			return array();
 		}
@@ -410,7 +410,7 @@
 			$where[] = $search_item['id'];
 		}
 
-		if ($fieldlist === NULL) {
+		if ($fieldlist === null) {
       $fieldlist = $this->threadLineFieldList;
 		}
 
@@ -576,8 +576,8 @@
 	 * @param misc $context Arbitrary data for the function. Useful for providing $this context.
 	 * @param array $tree The whole tree.
 	 */
-	public static function mapTreeElements(&$leafs, $func, $context = NULL, &$tree = NULL) {
-		if ($tree === NULL) {
+	public static function mapTreeElements(&$leafs, $func, $context = null, &$tree = null) {
+		if ($tree === null) {
 			$tree = &$leafs;
 		}
 		foreach ($leafs as &$leaf):
@@ -709,7 +709,7 @@
 						 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
 						 * for mods pinning root-posts.
 						 */
-						&& ( $entry['Entry']['fixed'] == FALSE )
+						&& ( $entry['Entry']['fixed'] == false )
 						&& ( $User->isModOnly() )
 				) :
 					// mods shouldn't mod themselfs
@@ -821,7 +821,7 @@
 	 * @param array $entry
 	 * @return boolean
 	 */
-	public function isAnsweringForbidden($entry = NULL) {
+	public function isAnsweringForbidden($entry = null) {
 		$isAnsweringForbidden = true;
 
 		if (!isset($entry['Entry']['locked'])) return true;
