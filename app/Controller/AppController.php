@@ -13,6 +13,7 @@ class AppController extends Controller {
 			// 'DebugKit.Toolbar',
 
 			'Auth',
+			'Bbcode',
 
 			/**
 			 * You have to have Cookie before CurrentUser to have the salt initialized.
@@ -142,20 +143,6 @@ class AppController extends Controller {
 		Stopwatch::stop('App->beforeRender()');
 		Stopwatch::start('---------------------- Rendering ---------------------- ');
 	}
-
-		/**
-		 * Iniits the Bbcode Helper for use in a View
-		 *
-		 * Call this instead of including in the controller's $helpers array.
-		 */
-		protected function _initBbcodeHelper() {
-			$this->helpers['Bbcode'] = array(
-				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
-				'hashBaseUrl' => $this->webroot . 'entries/view/',
-				'atBaseUrl'   => $this->webroot . 'users/name/',
-				'atUserList'  => $this->User->find('list', array('fields' => 'username'))
-			);
-		}
 
 		/**
 		 * Set forum configuration from get params in url

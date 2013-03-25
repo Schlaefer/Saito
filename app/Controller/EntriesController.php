@@ -124,7 +124,7 @@
 					'conditions' => $conditions,
 					'order'			 => $order,
 					));
-			$this->_initBbcodeHelper();
+			$this->Bbcode->initHelper();
 			$this->set('entries', $entries);
 
 			// serialize for JSON
@@ -150,7 +150,7 @@
 			}
 
 			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
-			$this->_initBbcodeHelper();
+			$this->Bbcode->initHelper();
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 		}
@@ -232,7 +232,7 @@
 
     $this->_showAnsweringPanel();
 
-		$this->_initBbcodeHelper();
+		$this->Bbcode->initHelper();
 		if ( $this->request->is('ajax') ):
 			//* inline view
 			$this->render('/Elements/entry/view_posting');
@@ -683,7 +683,7 @@
 					)
 				)
 			);
-			$this->_initBbcodeHelper();
+			$this->Bbcode->initHelper();
 			$this->set('entry', $newEntry);
 		else :
 			// validation errors
