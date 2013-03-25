@@ -440,6 +440,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _autoLinkPre($action, $attributes, $content, $params, &$node_object) {
+		unset($this->_tagEls[$attributes['default']]);
 		return $this->_url($content, $content, false, true);
 	}
 
