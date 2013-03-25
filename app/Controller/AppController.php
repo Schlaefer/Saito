@@ -15,7 +15,7 @@ class AppController extends Controller {
 			'Auth',
 			'Bbcode' => array(
 				'hashBaseUrl' => 'entries/view/',
-				'atBaseUrl'   => 'users/name',
+				'atBaseUrl'   => 'users/name/',
 			),
 
 			/**
