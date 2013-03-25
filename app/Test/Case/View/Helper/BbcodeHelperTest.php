@@ -252,9 +252,7 @@
 			$input = '#2234';
 			$expected = array(
 				'a' => array(
-					'href' => 'http://hash.base/url/2234',
-					'rel' => 'external',
-					'target' => '_blank'
+					'href' => 'http://macnemo.de/hash/2234',
 				),
 				'#2234',
 				'/a',
@@ -271,15 +269,14 @@
 		public function testAtLinkKnownUsers() {
 			$input = '@Alice @Bob @Bobby Junior @Bobby Tables @Dr. No';
 			$expected =
-					"<a href='http://at.base/url/Alice' rel='external' target='_blank'>@Alice</a>"
+					"<a href='http://macnemo.de/at/Alice'>@Alice</a>"
 					." @Bob "
-					."<a href='http://at.base/url/Bobby+Junior' rel='external' target='_blank'>@Bobby Junior</a>"
+					."<a href='http://macnemo.de/at/Bobby+Junior'>@Bobby Junior</a>"
 					." @Bobby Tables "
-					."<a href='http://at.base/url/Dr.+No' rel='external' target='_blank'>@Dr. No</a>";
+					."<a href='http://macnemo.de/at/Dr.+No'>@Dr. No</a>";
 
 			$result = $this->Bbcode->parse($input);
 			$this->assertEqual($result, $expected);
-
 		}
 
 		public function testLinkEmptyUrl() {
@@ -883,8 +880,8 @@
 
 			$settings = array(
 				'quoteSymbol' => '»',
-				'hashBaseUrl' => 'hash.base/url/',
-				'atBaseUrl'   => 'at.base/url/',
+				'hashBaseUrl' => 'macnemo.de/hash/',
+				'atBaseUrl'   => 'macnemo.de/at/',
 				'atUserList'  => array(
 					'Alice',
 					'Bobby Junior',
