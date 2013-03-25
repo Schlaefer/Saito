@@ -32,7 +32,7 @@
 	 */
 	class AppHelper extends Helper {
 
-		function getAssetTimestamp($path) {
+		public function getAssetTimestamp($path) {
 			$filepath = preg_replace(
 				'/^' . preg_quote($this->request->webroot, '/') . '/',
 				'',

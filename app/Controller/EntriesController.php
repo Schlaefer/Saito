@@ -991,6 +991,11 @@
 				$this->_isAnsweringAllowed($parent_entry);
 				$this->_swapEmptySubject($data, $parent_entry);
 			}
+			if (isset($data['Entry']['text'])) {
+				$data['Entry']['text'] = $this->Bbcode->prepareInput(
+					$data['Entry']['text']
+				);
+			}
 			return $data;
 	}
 

@@ -168,7 +168,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* [code]
 		$this->_Parser->addCode(
 				'code', 'usecontent', array( &$this, "_code" ), array( ), 'code',
-				array( 'block', 'inline' ), array( )
+				array( 'block' ), array( )
 		);
 
 		//* bold
@@ -203,12 +203,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$this->_Parser->addCode(
 				'---', 'simple_replace', null,
 				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block' ), array( )
 		);
 		$this->_Parser->addCode(
 				'hr', 'simple_replace', null,
 				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block' ), array( )
 		);
 
 		//* urls
@@ -228,7 +228,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* email
 		$this->_Parser->addCode(
 				'email', 'usecontent?', array( &$this, '_email' ),
-				array( 'usecontent_param' => 'default' ), 'email',
+				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline' ), array( )
 		);
 
@@ -763,7 +763,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		if ($label !== 'none' && $label !== 'false' && $label !== false && $wasShort === false) {
 			if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
 				$host = self::_getDomainAndTldForUri($url);
-				if (!empty($host) && $host !== false && $host !== env('SERVER_NAME')) {
+				if ($host !== false && $host !== env('SERVER_NAME')) {
 					$out .= ' <span class=\'c_bbc_link-dinfo\'>[' . $host . ']</span>';
 				}
 			}
@@ -922,13 +922,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	protected static function _getDomainAndTldForUri($uri, $part = 'fulldomain' ) {
 		$host = @parse_url($uri, PHP_URL_HOST);
-		if ( !empty($host) && $host !== false ) :
+		if (!empty($host) && $host !== false) :
 			if ( preg_match('/(?P<fulldomain>(?P<domain>[a-z0-9][a-z0-9\-]{1,63})\.(?<tld>[a-z\.]{2,6}))$/i',
 							$host, $regs) ) {
-				return $regs[$part];
+				if(!empty($regs[$part])) {
+					return $regs[$part];
+				}
 			}
 		endif;
-
 		return false;
 	}
 }

@@ -13,7 +13,10 @@ class AppController extends Controller {
 			// 'DebugKit.Toolbar',
 
 			'Auth',
-			'Bbcode',
+			'Bbcode' => array(
+				'hashBaseUrl' => 'entries/view/',
+				'atBaseUrl'   => 'users/name',
+			),
 
 			/**
 			 * You have to have Cookie before CurrentUser to have the salt initialized.
@@ -128,6 +131,8 @@ class AppController extends Controller {
 		if ($this->request->plugin === 'debug_kit') {
 			$this->Auth->allow('sql_explain');
 		}
+
+		$this->request->serverroot = $this->_getServerRoot();
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
@@ -273,6 +278,23 @@ class AppController extends Controller {
 		protected function _showDisclaimer() {
 			$this->_setAppStats();
 			$this->set('showDisclaimer', true);
+		}
+
+		/**
+		 * Returns server base url `http(s)://foo.bar:<port>`
+		 *
+		 * No trailing slash!
+		 *
+		 * @return string url
+		 */
+		protected function _getServerRoot() {
+			$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
+			$server = env('SERVER_NAME');
+			$port = env('SERVER_PORT');
+			if (!empty($port) && $port !== '80') {
+				$server = "$server:$port";
+			}
+			return $https . $server;
 		}
 
 		/**
