@@ -759,9 +759,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					} else {
 						$continue = 0;
 						foreach ($users as $user) {
-							if (mb_strpos($user, $tag) === 0){
+							if (mb_strpos($user, $tag) === 0) {
 								$names[$user] = 1;
 								$continue = true;
+							}
+							if ($continue === false) {
+								break;
+							} elseif ($continue !== 0) {
+								$continue = false;
 							}
 						}
 					}
