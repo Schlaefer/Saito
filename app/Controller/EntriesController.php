@@ -404,8 +404,8 @@
 						'flash/error');
 		}
 
-		if (!$this->Entry->isEditingForbidden($old_entry, $this->CurrentUser)
-				&& $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'))) {
+		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
+		if($forbiddenAsNormalUser) {
 			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 		}
 
