@@ -179,10 +179,9 @@
 		 * @return string
 		 */
 		public function source($id = null) {
-			$data = $this->requestAction('/entries/view/' . $id);
-
-			$this->autoLayout = false;
 			$this->autoRender = false;
+
+			$data = $this->requestAction('/entries/view/' . $id);
 
 			$out = array();
 			$out[] = '<pre style="white-space: pre-wrap;">';
