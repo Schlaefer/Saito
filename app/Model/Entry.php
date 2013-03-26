@@ -29,14 +29,14 @@
 		public $primaryKey = 'id';
 
 		public $actsAs = array(
-				'Containable',
-				'Search.Searchable',
-				'Tree',
+			'Containable',
+			'Search.Searchable',
+			'Tree',
 		);
 
 		public $findMethods = array(
-				'feed'	 => true,
-				'entry'	 => true,
+			'feed'  => true,
+			'entry' => true
 		);
 
 		/**
@@ -45,66 +45,66 @@
 		 * @var array
 		 */
 		public $filterArgs = array(
-				array('name' => 'subject', 'type' => 'like'),
-				array('name' => 'text', 'type' => 'like'),
-				array('name' => 'name', 'type' => 'like'),
-				array('name' => 'category', 'type' => 'int'),
+			array('name' => 'subject', 'type' => 'like'),
+			array('name' => 'text', 'type' => 'like'),
+			array('name' => 'name', 'type' => 'like'),
+			array('name' => 'category', 'type' => 'int'),
 		);
 
 		public $belongsTo = array(
-				'Category' => array(
-						'className'	 => 'Category',
-						'foreignKey' => 'category',
-				),
-				'User'			 => array(
-						'className'		 => 'User',
-						'foreignKey'	 => 'user_id',
-						'counterCache' => true,
-				),
+			'Category' => array(
+				'className'  => 'Category',
+				'foreignKey' => 'category',
+			),
+			'User'     => array(
+				'className'    => 'User',
+				'foreignKey'   => 'user_id',
+				'counterCache' => true,
+			),
 		);
 
 		public $hasMany = array(
-				'Bookmark' => array(
-						'foreignKey' => 'entry_id',
-						'dependent'	 => true,
-				),
-				'Esevent'		 => array(
-						'foreignKey' => 'subject',
-						'conditions' => array('Esevent.subject' => 'Entry.id'),
-				),
+			'Bookmark' => array(
+				'foreignKey' => 'entry_id',
+				'dependent'  => true,
+			),
+			'Esevent'  => array(
+				'foreignKey' => 'subject',
+				'conditions' => array('Esevent.subject' => 'Entry.id'),
+			),
 		);
 
-	public $validate = array(
-				'subject' => array(
-						'notEmpty' => array(
-								'rule'			 => 'notEmpty',
-						),
-						'maxLength'	 => array(
-								// set to Saito admin pref in beforeValidate()
-								'rule' => array('maxLength', 100),
-						),
+		public $validate = array(
+			'subject'  => array(
+				'notEmpty'  => array(
+					'rule' => 'notEmpty',
 				),
-				'category' => array(
-						'notEmpty' => array(
-								'rule'		 => 'notEmpty',
-								'last'		 => true,
-						),
-						'numeric'	 => array(
-								'rule'		 => 'numeric'
-						),
+				'maxLength' => array(
+					// set to Saito admin pref in beforeValidate()
+					'rule' => array('maxLength', 100),
 				),
-				'user_id'	 => array(
-						'rule'	 => 'numeric'
+			),
+			'category' => array(
+				'notEmpty' => array(
+					'rule' => 'notEmpty',
+					'last' => true,
 				),
-				'views'	 => array(
-						'rule' => array('comparison', '>=', 0),
+				'numeric'  => array(
+					'rule' => 'numeric'
 				),
-				'name' => array(),
+			),
+			'user_id'  => array(
+				'rule' => 'numeric'
+			),
+			'views'    => array(
+				'rule' => array('comparison', '>=', 0),
+			),
+			'name'     => array(),
 		);
 
 		protected $fieldsToSanitize = array(
-				'subject',
-				'text',
+			'subject',
+			'text',
 		);
 
 		/**
@@ -778,7 +778,7 @@
 		}
 
 		public function _findEntry($state, $query, $results = array()) {
-			if ($state == 'before') {
+			if ($state === 'before') {
 				$query['contain'] = array('User', 'Category');
 				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 				return $query;
