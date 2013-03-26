@@ -171,6 +171,7 @@
 			Entry.edited,
 			Entry.edited_by,
 			Entry.ip,
+			Entry.category,
 
 			User.id,
 			User.flattr_uid,
@@ -769,6 +770,11 @@
 
 		protected function _isLocked($entry) {
 				return $entry['Entry']['locked'] != false;
+		}
+
+		public function getUnsanitized($id) {
+				$this->sanitize(false);
+				return $this->find('entry', array('conditions' => array('Entry.id' => $id)));
 		}
 
 		public function _findEntry($state, $query, $results = array()) {

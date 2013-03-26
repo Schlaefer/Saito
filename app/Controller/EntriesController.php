@@ -319,10 +319,7 @@
 
 			$this->request->data = null;
 			if ($id !== null) {
-				// check if entry exists by loading its data
-				$this->Entry->contain(array('User', 'Category'));
-				$this->Entry->sanitize(false);
-				$this->request->data = $this->Entry->findById($id);
+				$this->request->data = $this->Entry->getUnsanitized($id);
 			}
 
 			if ( !empty($this->request->data) ):
@@ -384,17 +381,8 @@
 			throw new NotFoundException();
 		endif;
 
-		// read old entry
-		$this->Entry->id = $id;
-		$this->Entry->sanitize(false);
-		$old_entry = $this->Entry->find('first', array(
-				'contain' => array(
-						'User',
-						'Category'),
-				'conditions' => array('Entry.id' => $id),
-		));
+		$old_entry = $this->Entry->getUnsanitized($id);
 
-		// check if entry exists
 		if (!$old_entry):
 			throw new NotFoundException();
 		endif;
@@ -441,7 +429,7 @@
 		// get text of parent entry for citation
 		$parent_entry_id = $old_entry['Entry']['pid'];
 		if ($parent_entry_id > 0) {
-			$parent_entry = $this->_getRawParentEntry($parent_entry_id);
+			$parent_entry = $this->Entry->getUnsanitized($parent_entry_id);
 			$this->set('citeText', $parent_entry['Entry']['text']);
 		}
 
@@ -987,7 +975,7 @@
 	protected function _prepareAnswering($data) {
 			$pid = (int)$data['Entry']['pid'];
 			if ( $pid > 0 ) {
-				$parent_entry = $this->_getRawParentEntry($pid);
+				$parent_entry = $this->Entry->getUnsanitized($pid);
 				$this->_isAnsweringAllowed($parent_entry);
 				$this->_swapEmptySubject($data, $parent_entry);
 			}
@@ -997,16 +985,6 @@
 				);
 			}
 			return $data;
-	}
-
-	protected function _getRawParentEntry($id) {
-		$this->Entry->contain();
-		$this->Entry->sanitize(false);
-		$parent_entry = $this->Entry->findById($id);
-		if(!$parent_entry) {
-			throw new NotFoundException;
-		}
-		return $parent_entry;
 	}
 
 	protected function _swapEmptySubject(&$entry, $parent) {

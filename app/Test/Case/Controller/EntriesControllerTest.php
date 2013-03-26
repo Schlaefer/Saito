@@ -466,12 +466,12 @@
 							)
 					)
 					));
-//			$Entries->SaitoEntry = $this->getMock('SaitoEntry', null, array(new ComponentCollection));
-			$Entries->Entry->expects($this->exactly(3))
-					->method('isEditingForbidden')
-					->will($this->returnValue(false));
 
 			$this->_loginUser(2);
+
+			$Entries->Entry->expects($this->any())
+					->method('isEditingForbidden')
+					->will($this->returnValue(false));
 
 			$result = $this->testAction('entries/edit/2', array(
 					'return' => 'view'
