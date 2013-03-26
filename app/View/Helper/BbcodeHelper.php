@@ -71,7 +71,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		'quoteSymbol' => '»',
 		'hashBaseUrl' => '', // Base URL for # tags.
 		'atBaseUrl'   => '', // Base URL for @ tags.
-		'atUserList'  => '' // User list for @ tags.
+		'atUserList'  => '', // User list for @ tags.
+		'useSmilies'	=> false
 	);
 
 	/**
@@ -126,6 +127,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		);
 		$options = array_merge($defaults, $options);
 
+		$this->settings['useSmilies'] = Configure::read('Saito.Settings.smilies');
+
 		$fp = md5(serialize($options));
 		if (isset($this->_initializedParsers[$fp])) {
 			$this->_Parser = $this->_initializedParsers[$fp];
@@ -140,6 +143,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
 				array( &$this, '_convertLineBreaks' ));
 		$this->_Parser->addParser(array( 'block', 'inline', 'listitem' ), 'nl2br');
+
+		// smilies, @links
+		$this->_Parser->addFilter(
+			STRINGPARSER_FILTER_PRE,
+			array(&$this, '_poorMansCustomSplitterTags')
+		);
 
 		/*
 		 * Support for deprecated [img#] tag. [upload] is used now.
@@ -167,15 +176,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			$this->_Parser->addCode(
 				'hashLink', 'usecontent', array( &$this, "_hashLinkInternal" ), array( ), 'hashLink',
 				array( 'block' ), array( )
-			);
-		}
-
-
-		if (empty($this->settings['atBaseUrl']) === false) {
-			// @<char> internal links
-			$this->_Parser->addFilter(
-				STRINGPARSER_FILTER_PRE,
-				array(&$this, '_atLinkInternal')
 			);
 		}
 
@@ -279,11 +279,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				'listitem', array( 'list' ), array( )
 		);
 		$this->_Parser->setCodeFlag('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
-
-		//* smilies
-		if ( Configure::read('Saito.Settings.smilies') ):
-			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE, array( &$this, '_smilies' ));
-		endif;
 
 		//* quote
 		$this->_Parser->addParser(array( 'block', 'inline' ),
@@ -415,27 +410,43 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			endforeach;
 		endif;
 
-		// prevents parsing of certain areas
-		$string_array = preg_split("/
-			(
-				(?:						# bbcode commands esp. url being replace with smilies
-					\[[^\[]*?\] 	# opening brackets of bbcode, e.g. [url=foo]
-					[^\[]*? 			# middle part between brackets, e.g. linkname
-					\[\/.*?\]			# end brackets of bbcode, e.g. [\/url]
-				)
-			|								# or
-				(?:&[^\s]*;)			# html entities
-			)
-			/xis",
-				$string, 0, PREG_SPLIT_DELIM_CAPTURE);
+		$string = str_replace($s['codes'], $s['replacements'], $string);
+//		Stopwatch::stop('_smilies');
+		return $string;
+	}
 
-		foreach ( $string_array as $key => $value ) {
-			if ( $key % 2 == false ) {
-				$string_array[$key] = str_replace($s['codes'], $s['replacements'], $value);
+	public function _poorMansCustomSplitterTags($string) {
+		// prevents parsing of certain areas
+		$string_array = preg_split(
+			"/
+						(
+							(?:						# bbcode commands esp. url being replace with smilies
+								\[[^\[]*?\] 	# opening brackets of bbcode, e.g. [url=foo]
+								[^\[]*? 			# middle part between brackets, e.g. linkname
+								\[\/.*?\]			# end brackets of bbcode, e.g. [\/url]
+							)
+						|								# or
+							(?:&[^\s]*;)			# html entities
+						| (?:\[code.*?\].*?\[\/code\])
+						)
+						/xis",
+			$string,
+			0,
+			PREG_SPLIT_DELIM_CAPTURE
+		);
+
+		foreach ($string_array as $key => $value) {
+			if ($key % 2 === 0) {
+				$new = $string_array[$key];
+				if ($this->settings['useSmilies']) {
+					$new = $this->_smilies($new);
+				}
+				if (empty($this->settings['atBaseUrl']) === false) {
+					$new = $this->_atLinkInternal($new);
+				}
+				$string_array[$key] = $new;
 			}
 		}
-
-//		Stopwatch::stop('_smilies');
 		return implode('', $string_array);
 	}
 
@@ -752,11 +763,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 								$names[$user] = 1;
 								$continue = true;
 							}
-							if ($continue === false) {
-								break;
-							} elseif ($continue !== 0) {
-								$continue = false;
-							}
 						}
 					}
 				}
@@ -771,6 +777,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				);
 			}
 		}
+
 		return $string;
 	}
 

@@ -582,8 +582,16 @@
 		public function testSmilies() {
 
 			$input = ';)';
-			$expected = array( 'img' => array( 'src' => $this->Bbcode->webroot('img/smilies/wink.png'), 'alt' => ';)', 'title' => 'Wink' ) );
-			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
+			$expected = array(
+				'img' => array(
+					'src'   => $this->Bbcode->webroot(
+						'img/smilies/wink.png'
+					),
+					'alt'   => ';)',
+					'title' => 'Wink'
+				)
+			);
+			$result = $this->Bbcode->parse($input, array('cache' => false));
 			$this->assertTags($result, $expected);
 
 			// test html entities
@@ -595,8 +603,14 @@
 			// test html entities
 			$input = Sanitize::html('foo …) bar €) batz');
 			$expected = 'foo &hellip;) bar &euro;) batz';
-			$result = $this->Bbcode->parse($input, array( 'cache' => FALSE ));
+			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
 			$this->assertIdentical($expected, $result);
+
+			// test no smilies in code
+			$input = '[code text]:)[/code]';
+			$needle = '<img';
+			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
+			$this->assertNotContains($needle, $result);
 		}
 
 		public function testCode() {
@@ -815,6 +829,7 @@
 				'quoteSymbol' => '»',
 				'hashBaseUrl' => '/hash/',
 				'atBaseUrl'   => '/at/',
+				'useSmilies'  => false,
 				'atUserList'  => array(
 					'Alice',
 					'Bobby Junior',
@@ -854,4 +869,3 @@
 
 	}
 
-?>
