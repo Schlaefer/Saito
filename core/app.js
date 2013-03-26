@@ -5,6 +5,18 @@
     "use strict";
 
     var AppModel = Backbone.Model.extend({
+        fetch: function() {
+            $.ajax({
+                url: 'config.json',
+                async: false,
+                success: _.bind(function(data) {
+                    this.set(data);
+                }, this)
+            });
+        }
+    });
+
+    var TemplateModel = Backbone.Model.extend({
         base: "",
         fetch: function() {
             $.ajax({
@@ -21,9 +33,9 @@
         }
     });
 
-    var AppPage = AppModel.extend({base: "pages/"});
-    var AppElement = AppModel.extend({base: "elements/"});
-    var AppLayout = AppModel.extend({base: "layouts/"});
+    var AppPage = TemplateModel.extend({base: "pages/"});
+    var AppElement = TemplateModel.extend({base: "elements/"});
+    var AppLayout = TemplateModel.extend({base: "layouts/"});
     var AppElements = Backbone.Collection.extend({model: AppElement});
     var AppPages = Backbone.Collection.extend({model: AppPage});
     var AppLayouts = Backbone.Collection.extend({model: AppLayout});
@@ -39,6 +51,9 @@
             this.elements = options.elements;
             this.layouts = options.layouts;
 
+            this.model = new AppModel();
+            this.model.fetch();
+
             this.setHead();
         },
 
@@ -50,7 +65,7 @@
             var base,
                 title;
 
-            base = $("title").data("default") || "";
+            base = this.model.get('siteTitle') || "";
 
             if (base.length > 0) {
                 title = base;
@@ -60,7 +75,7 @@
             } else {
                 title = newTitle;
             }
-            $("title").html(title);
+            document.title = title;
         },
 
         setPage: function(pageId) {
@@ -125,7 +140,7 @@
                 }, this);
 
             while(content.match(elementRegex)) {
-                content = content.replace(/\{\{(.*?)\}\}/g, replace);
+                content = content.replace(elementRegex, replace);
             }
             return content;
         },
