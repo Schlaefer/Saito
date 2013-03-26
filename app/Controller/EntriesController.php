@@ -246,83 +246,90 @@
 		Stopwatch::stop('Entries->view()');
 	}
 
-	public function add($id=null) {
-		$this->set('form_title', __('new_entry_linktitle'));
+		public function add($id = null) {
+			$this->set('form_title', __('new_entry_linktitle'));
 
-		if ( !$this->CurrentUser->isLoggedIn() ) {
-			$message = __('logged_in_users_only');
-
-			if ( $this->request->is('ajax') ) {
-				$this->set('message', $message);
-				$this->render('/Elements/empty');
-			} else {
-				$this->Session->setFlash($message, 'flash/notice');
-				return $this->redirect($this->referer());
+			if (!$this->CurrentUser->isLoggedIn()) {
+				if ($this->request->is('ajax')) {
+				} else {
+					$this->Session->setFlash(__('logged_in_users_only'), 'flash/notice');
+					$this->redirect($this->referer());
+				}
+				return;
 			}
-		}
 
-		if ( !empty($this->request->data) ) {
-			// insert new entry
+			if (empty($this->request->data) === false) { // insert new entry
+				$this->request->data                     = $this->_prepareAnswering(
+					$this->request->data
+				);
+				$this->request->data['Entry']['user_id'] = $this->CurrentUser->getId();
+				$this->request->data['Entry']['name']    = $this->CurrentUser['username'];
 
-			// prepare new entry
-			$this->request->data = $this->_prepareAnswering($this->request->data);
-			$this->request->data['Entry']['user_id'] = $this->CurrentUser->getId();
-			$this->request->data['Entry']['name'] = $this->CurrentUser['username'];
+				$new_posting = $this->Entry->createPosting($this->request->data);
 
-			$new_posting = $this->Entry->createPosting($this->request->data);
-
-			if ($new_posting !== false) :
-				// inserting new posting was successful
-
-				$this->_afterNewEntry($new_posting);
-
-				if ( $this->request->is('ajax') ):
-					//* The new posting is requesting an ajax answer
-					if ( $this->localReferer('action') == 'index' ) :
-						//* Ajax request came from front answer on front page /entries/index
-						$this->autoRender = false;
-						return json_encode(
+				if ($new_posting !== false) :
+					// inserting new posting was successful
+					$this->_afterNewEntry($new_posting);
+					if ($this->request->is('ajax')):
+						if ($this->localReferer('action') === 'index'):
+							// Ajax request came from front answer on front page /entries/index
+							$this->autoRender = false;
+							return json_encode(
+								array(
+									'id'  => (int)$new_posting['Entry']['id'],
+									'pid' => (int)$new_posting['Entry']['pid'],
+									'tid' => (int)$new_posting['Entry']['tid']
+								)
+							); else:
+							$this->_stop();
+						endif; else:
+						// answering through POST request
+						if ($this->localReferer('action') === 'mix') {
+							// answer request came from mix ansicht
+							$this->redirect(
+								array(
+									'controller' => 'entries',
+									'action'     => 'mix',
+									$new_posting['Entry']['tid'],
+									'#'          => $this->Entry->id
+								)
+							);
+						}
+						// normal posting from entries/add or entries/view
+						$this->redirect(
 							array(
-								'id'  => (int)$new_posting['Entry']['id'],
-								'pid' => (int)$new_posting['Entry']['pid'],
-								'tid' => (int)$new_posting['Entry']['tid']
+								'controller' => 'entries',
+								'action'     => 'view',
+								$this->Entry->id
 							)
 						);
-					endif;
-				else:
-					// answering through POST request
-					if ( $this->localReferer('action') == 'mix' ):
-						// answer request came from mix ansicht
-						$this->redirect(array( 'controller' => 'entries', 'action' => 'mix', $new_posting['Entry']['tid'], '#' => $this->Entry->id ));
 						return;
 					endif;
-					// normal posting from entries/add or entries/view
-					$this->redirect(array( 'controller' => 'entries', 'action' => 'view', $this->Entry->id ));
-					return;
+				else :
+					// Error while trying to save a post
+					if (count($this->Entry->validationErrors) === 0) {
+						$this->Session->setFlash(
+							__(
+								'Something clogged the tubes. Could not save entry. Try again.'
+							),
+							'flash/error'
+						);
+					}
+					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				endif;
-			else :
-				// Error while trying to save a post
-				if ( count($this->Entry->validationErrors) === 0 ) :
-					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
-				endif;
-				$headerSubnavLeftTitle = __('back_to_overview_linkname');
-			endif;
-		} else {
-			// show answering form
+			} else { // show add form
+				// answering is always a ajax request, prevents add/1234 GET-requests
+				if (!$this->request->is('ajax') && $id !== null) {
+					$this->Session->setFlash(__('js-required'), 'flash/error');
+					$this->redirect($this->referer());
+				}
 
-			// answering is always a ajax request, prevents add/1234 GET-requests
-			if(!$this->request->is('ajax') && $id !== null) {
-				$this->Session->setFlash(__('js-required'), 'flash/error');
-				return $this->redirect($this->referer());
-			}
+				$this->request->data = null;
+				if ($id !== null) {
+					$this->request->data = $this->Entry->getUnsanitized($id);
+				}
 
-			$this->request->data = null;
-			if ($id !== null) {
-				$this->request->data = $this->Entry->getUnsanitized($id);
-			}
-
-			if ( !empty($this->request->data) ):
-					// new posting is answer to existing posting
+				if (!empty($this->request->data)): // answer to existing posting
 
 					$this->_isAnsweringAllowed($this->request->data);
 
@@ -335,21 +342,23 @@
 					$this->set('citeText', $this->request->data['Entry']['text']);
 
 					// get notifications
-					$notis = $this->Entry->Esevent->checkEventsForUser($this->CurrentUser->getId(),
-							array(
-									1 => array(
-									'subject'	 => $this->request->data['Entry']['tid'],
-									'event'		 => 'Model.Entry.replyToThread',
-									'receiver' => 'EmailNotification',
+					$notis = $this->Entry->Esevent->checkEventsForUser(
+						$this->CurrentUser->getId(),
+						array(
+							1 => array(
+								'subject'  => $this->request->data['Entry']['tid'],
+								'event'    => 'Model.Entry.replyToThread',
+								'receiver' => 'EmailNotification',
 							),
-							)
+						)
 					);
 					$this->set('notis', $notis);
 
 					// set Subnav
-					$headerSubnavLeftTitle = __('back_to_posting_from_linkname',
-							$this->request->data['User']['username']);
-				else:
+					$headerSubnavLeftTitle = __(
+						'back_to_posting_from_linkname',
+						$this->request->data['User']['username']
+					); else:
 					// new posting which creates new thread
 					$this->request->data['Entry']['pid'] = 0;
 					$this->request->data['Entry']['tid'] = 0;
@@ -357,16 +366,16 @@
 					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				endif;
 
-			if ( $this->request->is('ajax') ):
-				$this->set('form_title', __('answer_marking'));
-			endif;
+				if ($this->request->is('ajax')):
+					$this->set('form_title', __('answer_marking'));
+				endif;
+			}
+
+			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
+			$this->set('headerSubnavLeftUrl', '/entries/index');
+
+			$this->_teardownAdd();
 		}
-
-    $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
-    $this->set('headerSubnavLeftUrl', '/entries/index');
-
-		$this->_teardownAdd();
-	}
 
 		public function threadLine($id = null) {
 			$this->set('entry_sub', $this->Entry->read(null, $id));

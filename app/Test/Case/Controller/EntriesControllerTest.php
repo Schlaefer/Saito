@@ -494,28 +494,26 @@
           )
       ));
 
-      /*
-       * setup
-       */
       $this->_loginUser(1);
 
-      $data['Entry'] = array(
-          'pid' => 5,
-          'subject' => 'test',
-          'category'  => 4,
-      );
+			$data['Entry'] = array(
+				'pid'      => 5,
+				'subject'  => 'test',
+				'category' => 4,
+			);
 
-      /*
-       * test entries/add
-       */
-      $Entries->CacheTree
-          ->expects($this->once())
-          ->method('delete')
-          ->with($this->equalTo('4'));
+			/*
+			 * test entries/add
+			 */
+			$Entries->CacheTree
+					->expects($this->once())
+					->method('delete')
+					->with($this->equalTo('4'));
 
-			$result = $this->testAction('/entries/add/5', array(
-          'data' => $data,
-          'method' => 'post'));
+			$this->testAction(
+				'/entries/add/5',
+				array('data' => $data, 'method' => 'post')
+			);
 
       /*
        * Test entries/edit

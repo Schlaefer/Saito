@@ -259,14 +259,10 @@
 		$isNewThread = (int)$data['Entry']['pid'] === 0;
 
 		if ($isNewThread === false) {
-			// reply: get and setup additional data from parent entry
-			$this->id = $data['Entry']['pid'];
+			// reply: setup additional data from parent entry
 			$this->contain();
-			$parent_entry = $this->read(array('tid', 'category'));
-			if ($parent_entry === false) {
-				return false;
-			}
-			// update new entry with thread data
+			$parent_entry = $this->read(array('tid', 'category'), $data['Entry']['pid']);
+			if ($parent_entry === false) { return false; }
 			$data['Entry']['tid']      = $parent_entry['Entry']['tid'];
 			$data['Entry']['category'] = $parent_entry['Entry']['category'];
 		}
