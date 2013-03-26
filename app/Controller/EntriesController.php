@@ -377,31 +377,35 @@
 
 	public function edit($id = null) {
 
-		if ( !$id && empty($this->request->data) ):
+		if (!$id && empty($this->request->data)) {
 			throw new NotFoundException();
-		endif;
+		}
 
 		$old_entry = $this->Entry->getUnsanitized($id);
 
-		if (!$old_entry):
+		if (!$old_entry) {
 			throw new NotFoundException();
-		endif;
+		}
 
 		$forbidden = $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser);
 
-		switch ( $forbidden ) {
+		switch ($forbidden) {
 			case 'time':
-				$this->Session->setFlash('Stand by your word bro\', it\'s too late. @lo',
-						'flash/error');
-				return $this->redirect(array( 'action' => 'view', $id ));
+				$this->Session->setFlash(
+					'Stand by your word bro\', it\'s too late. @lo',
+					'flash/error'
+				);
+				return $this->redirect(array('action' => 'view', $id));
 				break;
 			case 'user':
 				$this->Session->setFlash('Not your horse, Hoss! @lo', 'flash/error');
-				return $this->redirect(array( 'action' => 'view', $id ));
+				return $this->redirect(array('action' => 'view', $id));
 				break;
 			case true :
-				$this->Session->setFlash('Something went terribly wrong. Alert the authorties now! @lo',
-						'flash/error');
+				$this->Session->setFlash(
+					'Something went terribly wrong. Alert the authorities now! @lo',
+					'flash/error'
+				);
 		}
 
 		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
@@ -409,16 +413,16 @@
 			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 		}
 
-		if ( !empty($this->request->data) ) {
+		if (!empty($this->request->data)) {
 			$this->request->data = $this->_prepareAnswering($this->request->data);
 			// try to save entry
 			$this->request->data['Entry']['edited'] = date("Y-m-d H:i:s");
 			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
 
-			if ( $new_entry = $this->Entry->save($this->request->data) ) {
-				// new entry was saved
+			$new_entry = $this->Entry->save($this->request->data);
+			if ($new_entry) {
 				$this->_afterNewEntry(am($this->request['data'], $old_entry));
-				return $this->redirect(array( 'action' => 'view', $id ));
+				return $this->redirect(array('action' => 'view', $id));
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
@@ -434,34 +438,32 @@
 		}
 
 		// get notifications
-			$notis = $this->Entry->Esevent->checkEventsForUser($old_entry['Entry']['user_id'],
-					array(
-							array(
-									'subject'	 => $old_entry['Entry']['id'],
-									'event'		 => 'Model.Entry.replyToEntry',
-									'receiver' => 'EmailNotification',
-							),
-							array(
-									'subject'	 => $old_entry['Entry']['tid'],
-									'event'		 => 'Model.Entry.replyToThread',
-									'receiver' => 'EmailNotification',
-							),
-					)
-			);
-			$this->set('notis', $notis);
+		$notis = $this->Entry->Esevent->checkEventsForUser(
+			$old_entry['Entry']['user_id'],
+			array(
+				array(
+					'subject'  => $old_entry['Entry']['id'],
+					'event'    => 'Model.Entry.replyToEntry',
+					'receiver' => 'EmailNotification',
+				),
+				array(
+					'subject'  => $old_entry['Entry']['tid'],
+					'event'    => 'Model.Entry.replyToThread',
+					'receiver' => 'EmailNotification',
+				),
+			)
+		);
+		$this->set('notis', $notis);
 
 		// set headers
     $this->set('headerSubnavLeftUrl', '/entries/index');
-    $this->set(
-        'headerSubnavLeftTitle',
-		    __('back_to_posting_from_linkname', $this->request->data['User']['username'])
-        );
+		$this->set(
+			'headerSubnavLeftTitle',
+			__('back_to_posting_from_linkname', $this->request->data['User']['username'])
+		);
 		$this->set('headerSubnavLeftUrl', array( 'action' => 'view', $id ));
-
 		$this->set('form_title', __('edit_linkname'));
-
 		$this->_teardownAdd();
-
 		$this->render('/Entries/add');
 	}
 
