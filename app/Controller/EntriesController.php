@@ -419,6 +419,7 @@
 			$this->request->data['Entry']['edited'] = date("Y-m-d H:i:s");
 			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
 
+			$this->Entry->id = $id;
 			$new_entry = $this->Entry->save($this->request->data);
 			if ($new_entry) {
 				$this->_afterNewEntry(am($this->request['data'], $old_entry));
