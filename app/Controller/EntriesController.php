@@ -164,33 +164,33 @@
 			$this->redirect('/entries/index');
 		}
 
-	/**
-	 * load front page suppressing mark-as-read
-	 */
-	public function noupdate() {
-		$this->Session->write('User_last_refresh_disabled', true);
-		$this->redirect('/entries/index');
-	}
+		/**
+		 * load front page suppressing mark-as-read
+		 */
+		public function noupdate() {
+			$this->Session->write('User_last_refresh_disabled', true);
+			$this->redirect('/entries/index');
+		}
 
-  /**
-     * Outputs raw BBcode of an posting $id
-     *
-     * @param int $id
-     * @return string
-     */
-    public function source($id = null) {
-      $data = $this->requestAction('/entries/view/' . $id);
+		/**
+		 * Outputs raw BBcode of an posting $id
+		 *
+		 * @param int $id
+		 * @return string
+		 */
+		public function source($id = null) {
+			$data = $this->requestAction('/entries/view/' . $id);
 
-      $this->autoLayout = false;
-      $this->autoRender = false;
+			$this->autoLayout = false;
+			$this->autoRender = false;
 
-      $out = array( );
-      $out[] = '<pre style="white-space: pre-wrap;">';
-      $out[] = $data['Entry']['subject'] . "\n";
-      $out[] = $data['Entry']['text'];
-      $out[] = '</pre>';
-      return implode("\n", $out);
-    }
+			$out = array();
+			$out[] = '<pre style="white-space: pre-wrap;">';
+			$out[] = $data['Entry']['subject'] . "\n";
+			$out[] = $data['Entry']['text'];
+			$out[] = '</pre>';
+			return implode("\n", $out);
+		}
 
     public function view($id=null) {
 		Stopwatch::start('Entries->view()');
