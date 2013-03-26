@@ -733,7 +733,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	public function _hashLinkInternalTaginize($string) {
 		$string = preg_replace_callback(
-			'/(\s|^)(?<tag>#)(?<element>\d+)/',
+			'/(?<=\s|^)(?<tag>#)(?<element>\d+)/',
 			array($this, '_taginize'),
 			$string
 		);
