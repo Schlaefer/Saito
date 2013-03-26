@@ -271,7 +271,7 @@
 
 			$new_posting = $this->Entry->createPosting($this->request->data);
 
-			if ( $new_posting ) :
+			if ($new_posting !== false) :
 				// inserting new posting was successful
 
 				$this->_afterNewEntry($new_posting);

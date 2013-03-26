@@ -250,91 +250,78 @@
 	 */
 	public function createPosting($data = null, $validate = true, $fieldList = array()) {
 
-		if ( !isset($data['Entry']['pid']) || !isset($data['Entry']['subject']) || !isset($data['Entry']['category']) ) {
+		if (	 !isset($data['Entry']['pid'])
+				|| !isset($data['Entry']['subject'])
+				|| !isset($data['Entry']['category'])) {
 			return false;
 		}
 
-		if ($data['Entry']['pid'] > 0) {
-			// reply
-			// get and setup additional data from parent entry
+		$isNewThread = (int)$data['Entry']['pid'] === 0;
 
-			$this->id 		= $data['Entry']['pid'];
+		if ($isNewThread === false) {
+			// reply: get and setup additional data from parent entry
+			$this->id = $data['Entry']['pid'];
 			$this->contain();
 			$parent_entry = $this->read(array('tid', 'category'));
-			if ( $parent_entry != true ) {
-				//* parent could not be found
+			if ($parent_entry === false) {
 				return false;
-				}
-
-			//* update new entry with thread data
-			$data['Entry']['tid'] 				= $parent_entry['Entry']['tid'];
-			$data['Entry']['category'] 		= $parent_entry['Entry']['category'];
+			}
+			// update new entry with thread data
+			$data['Entry']['tid']      = $parent_entry['Entry']['tid'];
+			$data['Entry']['category'] = $parent_entry['Entry']['category'];
 		}
 
-		$data['Entry']['time']				= date("Y-m-d H:i:s");
+		$data['Entry']['time']        = date("Y-m-d H:i:s");
 		$data['Entry']['last_answer'] = date("Y-m-d H:i:s");
-    $data['Entry']['ip']          = self::_getIp();
+		$data['Entry']['ip']          = self::_getIp();
 
 		$this->create();
 		$new_posting = $this->save($data, $validate,$fieldList);
 
-		if ( $new_posting != true ) {
-			return $new_posting;
-			}
-
-		if ( $new_posting === true ) {
-			$new_posting = $this->read(null, $this->id);
-		}
-
+		if ($new_posting === false) { return false; }
 		$new_posting_id	= $this->id;
+		if ($new_posting === true) { $new_posting = $this->read(); }
 
-		if((int)$new_posting['Entry']['pid'] === 0) {
-			// new thread
-
-			// for new thread tid = id
+		if($isNewThread) {
+			// thread-id of new thread is its own id
 			$new_posting['Entry']['tid'] = $new_posting_id;
-
-			if ($this->save($new_posting) != true ) {
+			if ($this->save($new_posting) === false) {
 				// @td raise error and/or roll back new entry
 				return false;
 			} else {
         $this->Category->id = $data['Entry']['category'];
         $this->Category->updateThreadCounter();
       }
-
-		} elseif ($new_posting['Entry']['pid'] > 0) {
-			// reply
-
-			// update last answer time in root entry
+		} else  {
+			// update last answer time of root entry
 			$this->id = $parent_entry['Entry']['tid'];
 			$this->set('last_answer', $new_posting['Entry']['last_answer']);
-			if ( $this->save() != true ) {
+			if ($this->save() === false) {
 				// @td raise error and/or roll back new entry
 				return false;
-				}
+			}
 
 			$this->getEventManager()->dispatch(
-					new CakeEvent(
-							'Model.Entry.replyToEntry',
-							$this,
-							array(
-									'subject'	=> $new_posting['Entry']['pid'],
-									'data' => $new_posting,
-									)
-							)
-					);
+				new CakeEvent(
+					'Model.Entry.replyToEntry',
+					$this,
+					array(
+						'subject' => $new_posting['Entry']['pid'],
+						'data'    => $new_posting,
+					)
+				)
+			);
 			$this->getEventManager()->dispatch(
-					new CakeEvent(
-							'Model.Entry.replyToThread',
-							$this,
-							array(
-									'subject'	=> $new_posting['Entry']['tid'],
-									'data' => $new_posting,
-									)
-							)
-					);
+				new CakeEvent(
+					'Model.Entry.replyToThread',
+					$this,
+					array(
+						'subject' => $new_posting['Entry']['tid'],
+						'data'    => $new_posting,
+					)
+				)
+			);
 		}
-
 		$this->id = $new_posting_id;
 		return $new_posting;
 	}
