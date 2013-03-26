@@ -53,6 +53,7 @@ define([
                     this.model.set({html: this.el}, {silent: true});
                 }
                 this.collection.add(this.model, {silent: true});
+                this.attributes = {'data-id': options.id};
 
 				this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
                 this.listenTo(this.model, 'change:html', this.render);

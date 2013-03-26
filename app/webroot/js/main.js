@@ -116,8 +116,9 @@ require(
             'models/StatusModelSpec.js',
             'models/UploadModelSpec.js',
             'lib/MarkItUpSpec.js',
-            'lib/jquery.i18n.extendSpec.js'
-            // 'views/AppViewSpec.js'
+            'lib/jquery.i18n.extendSpec.js',
+            // 'views/AppViewSpec.js',
+            'views/ThreadViewSpec.js'
         ];
 
         specs = _.map(specs, function(value){

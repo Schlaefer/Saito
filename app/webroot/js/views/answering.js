@@ -102,6 +102,7 @@ define([
         },
 
         _sendInline: function(event) {
+            event.preventDefault();
             $.ajax({
                 url: App.settings.get('webroot') + "entries/add",
                 type: "POST",
