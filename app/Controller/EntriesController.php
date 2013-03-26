@@ -408,11 +408,6 @@
 				);
 		}
 
-		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
-		if($forbiddenAsNormalUser) {
-			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
-		}
-
 		if (!empty($this->request->data)) {
 			$this->request->data = $this->_prepareAnswering($this->request->data);
 			// try to save entry
@@ -427,6 +422,11 @@
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
+		}
+
+		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
+		if($forbiddenAsNormalUser) {
+			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 		}
 
 		$this->request->data = am($old_entry, $this->request->data);
