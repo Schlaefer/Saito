@@ -102,6 +102,7 @@ class DATABASE_CONFIG {
 	);
 
 	public function __construct() {
+	  return;
 		if ($this->_isSelenium()) {
 			$this->default = $this->test;
 		}
