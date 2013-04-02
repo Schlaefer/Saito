@@ -236,7 +236,7 @@ define([
             },
 
 			scrollToThread: function(tid) {
-                $('.thread_box.' + tid)[0].scrollIntoView('top');
+                $('.thread_box[data-id=' + tid + ']')[0].scrollIntoView('top');
 			},
 
             initAutoreload: function() {
