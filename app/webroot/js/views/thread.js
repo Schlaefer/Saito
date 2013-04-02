@@ -23,7 +23,7 @@ define([
                 this.postings = options.postings;
 
                 this.$rootUl = this.$('ul.root');
-                this.$subThreadRootIl = this.$rootUl.find('li:not(:first-child)');
+                this.$subThreadRootIl = $(this.$rootUl.find('li:not(:first-child)')[0]);
 
                 if (this.model.get('isThreadCollapsed')) {
                     this.hide();
@@ -32,7 +32,7 @@ define([
                 }
 
                 this.listenTo(App.eventBus, 'newEntry', this._showNewThreadLine);
-                this.model.on('change:isThreadCollapsed', this.toggleCollapseThread, this);
+                this.listenTo(this.model, 'change:isThreadCollapsed', this.toggleCollapseThread);
 			},
 
             _showNewThreadLine: function(options) {
