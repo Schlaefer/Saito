@@ -1,8 +1,8 @@
-<?php echo $this->Html->docType('html5'); ?>
+<?= $this->Html->docType('html5'); ?>
 <html>
 	<head>
-    <title><?php echo $title_for_layout ?></title>
-		<?php echo $this->Html->charset(); ?>
+    <title><?= $title_for_layout ?></title>
+		<?= $this->Html->charset(); ?>
 		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 		<?php
 			echo $this->fetch('meta');
@@ -54,3 +54,4 @@
     }
 			//]]>
 		</script>
+		<?= $this->fetch('htmlHead'); ?>
