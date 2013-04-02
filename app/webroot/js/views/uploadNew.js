@@ -147,7 +147,7 @@ define([
 
         _postUpload: function(data) {
             App.eventBus.trigger('notification', data);
-            this.collection.fetch();
+            this.collection.fetch({reset: true});
             this.render();
         },
 

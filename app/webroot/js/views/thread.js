@@ -36,27 +36,26 @@ define([
 			},
 
             _showNewThreadLine: function(options) {
-                var newEl,
-                    threadLine,
-                    parent,
-                    existingSubthread;
-
+                var threadLine;
                 // only append to the id it belongs to
                 if (options.tid !== this.model.get('id')) { return; }
-
                 threadLine = new ThreadLineView({
                     id: options.id,
                     collection: this.model.threadlines,
                     postings: this.postings
                 });
+                this._appendThreadlineToThread(options.pid,threadLine.render().$el);
+            },
 
-                parent = this.$('.js-thread_line[data-id="' + options.pid +'"]');
-                existingSubthread = parent.siblings('li').find('>ul');
-                newEl = threadLine.render().$el;
+            _appendThreadlineToThread: function(pid, $el) {
+                var parent,
+                    existingSubthread;
+                parent = this.$('.js-thread_line[data-id="' + pid +'"]');
+                existingSubthread = (parent.next().not('.js_threadline').find('ul:first'));
                 if (existingSubthread.length === 0) {
-                    newEl.wrap("<ul></ul>").parent().wrap("<li></li>").parent().insertAfter(parent);
+                    $el.wrap("<ul></ul>").parent().wrap("<li></li>").parent().insertAfter(parent);
                 } else {
-                    existingSubthread.append(newEl);
+                    existingSubthread.append($el);
                 }
             },
 

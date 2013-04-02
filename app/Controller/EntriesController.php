@@ -124,6 +124,7 @@
 					'conditions' => $conditions,
 					'order'			 => $order,
 					));
+			$this->Bbcode->initHelper();
 			$this->set('entries', $entries);
 
 			// serialize for JSON
@@ -149,6 +150,7 @@
 			}
 
 			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
+			$this->Bbcode->initHelper();
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 		}
@@ -162,33 +164,32 @@
 			$this->redirect('/entries/index');
 		}
 
-	/**
-	 * load front page suppressing mark-as-read
-	 */
-	public function noupdate() {
-		$this->Session->write('User_last_refresh_disabled', true);
-		$this->redirect('/entries/index');
-	}
+		/**
+		 * load front page suppressing mark-as-read
+		 */
+		public function noupdate() {
+			$this->Session->write('User_last_refresh_disabled', true);
+			$this->redirect('/entries/index');
+		}
 
-  /**
-     * Outputs raw BBcode of an posting $id
-     *
-     * @param int $id
-     * @return string
-     */
-    public function source($id = null) {
-      $data = $this->requestAction('/entries/view/' . $id);
+		/**
+		 * Outputs raw BBcode of an posting $id
+		 *
+		 * @param int $id
+		 * @return string
+		 */
+		public function source($id = null) {
+			$this->autoRender = false;
 
-      $this->autoLayout = false;
-      $this->autoRender = false;
+			$data = $this->requestAction('/entries/view/' . $id);
 
-      $out = array( );
-      $out[] = '<pre style="white-space: pre-wrap;">';
-      $out[] = $data['Entry']['subject'] . "\n";
-      $out[] = $data['Entry']['text'];
-      $out[] = '</pre>';
-      return implode("\n", $out);
-    }
+			$out = array();
+			$out[] = '<pre style="white-space: pre-wrap;">';
+			$out[] = $data['Entry']['subject'] . "\n";
+			$out[] = $data['Entry']['text'];
+			$out[] = '</pre>';
+			return implode("\n", $out);
+		}
 
     public function view($id=null) {
 		Stopwatch::start('Entries->view()');
@@ -230,6 +231,7 @@
 
     $this->_showAnsweringPanel();
 
+		$this->Bbcode->initHelper();
 		if ( $this->request->is('ajax') ):
 			//* inline view
 			$this->render('/Elements/entry/view_posting');
@@ -244,86 +246,90 @@
 		Stopwatch::stop('Entries->view()');
 	}
 
-	public function add($id=null) {
-		$this->set('form_title', __('new_entry_linktitle'));
+		public function add($id = null) {
+			$this->set('form_title', __('new_entry_linktitle'));
 
-		if ( !$this->CurrentUser->isLoggedIn() ) {
-			$message = __('logged_in_users_only');
-
-			if ( $this->request->is('ajax') ) {
-				$this->set('message', $message);
-				$this->render('/Elements/empty');
-			} else {
-				$this->Session->setFlash($message, 'flash/notice');
-				return $this->redirect($this->referer());
+			if (!$this->CurrentUser->isLoggedIn()) {
+				if ($this->request->is('ajax')) {
+				} else {
+					$this->Session->setFlash(__('logged_in_users_only'), 'flash/notice');
+					$this->redirect($this->referer());
+				}
+				return;
 			}
-		}
 
-		if ( !empty($this->request->data) ) {
-			// insert new entry
+			if (empty($this->request->data) === false) { // insert new entry
+				$this->request->data                     = $this->_prepareAnswering(
+					$this->request->data
+				);
+				$this->request->data['Entry']['user_id'] = $this->CurrentUser->getId();
+				$this->request->data['Entry']['name']    = $this->CurrentUser['username'];
 
-			// prepare new entry
-			$this->request->data = $this->_prepareAnswering($this->request->data);
-			$this->request->data['Entry']['user_id'] = $this->CurrentUser->getId();
-			$this->request->data['Entry']['name'] = $this->CurrentUser['username'];
+				$new_posting = $this->Entry->createPosting($this->request->data);
 
-			$new_posting = $this->Entry->createPosting($this->request->data);
-
-			if ( $new_posting ) :
-				// inserting new posting was successful
-
-				$this->_afterNewEntry($new_posting);
-
-				if ( $this->request->is('ajax') ):
-					//* The new posting is requesting an ajax answer
-					if ( $this->localReferer('action') == 'index' ) :
-						//* Ajax request came from front answer on front page /entries/index
-						$this->autoRender = false;
-						return json_encode(
+				if ($new_posting !== false) :
+					// inserting new posting was successful
+					$this->_afterNewEntry($new_posting);
+					if ($this->request->is('ajax')):
+						if ($this->localReferer('action') === 'index'):
+							// Ajax request came from front answer on front page /entries/index
+							$this->autoRender = false;
+							return json_encode(
+								array(
+									'id'  => (int)$new_posting['Entry']['id'],
+									'pid' => (int)$new_posting['Entry']['pid'],
+									'tid' => (int)$new_posting['Entry']['tid']
+								)
+							); else:
+							$this->_stop();
+						endif; else:
+						// answering through POST request
+						if ($this->localReferer('action') === 'mix') {
+							// answer request came from mix ansicht
+							$this->redirect(
+								array(
+									'controller' => 'entries',
+									'action'     => 'mix',
+									$new_posting['Entry']['tid'],
+									'#'          => $this->Entry->id
+								)
+							);
+						}
+						// normal posting from entries/add or entries/view
+						$this->redirect(
 							array(
-								'id'  => (int)$new_posting['Entry']['id'],
-								'pid' => (int)$new_posting['Entry']['pid'],
-								'tid' => (int)$new_posting['Entry']['tid']
+								'controller' => 'entries',
+								'action'     => 'view',
+								$this->Entry->id
 							)
 						);
-					endif;
-				else:
-					// answering through POST request
-					if ( $this->localReferer('action') == 'mix' ):
-						// answer request came from mix ansicht
-						$this->redirect(array( 'controller' => 'entries', 'action' => 'mix', $new_posting['Entry']['tid'], '#' => $this->Entry->id ));
 						return;
 					endif;
-					// normal posting from entries/add or entries/view
-					$this->redirect(array( 'controller' => 'entries', 'action' => 'view', $this->Entry->id ));
-					return;
+				else :
+					// Error while trying to save a post
+					if (count($this->Entry->validationErrors) === 0) {
+						$this->Session->setFlash(
+							__(
+								'Something clogged the tubes. Could not save entry. Try again.'
+							),
+							'flash/error'
+						);
+					}
+					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				endif;
-			else :
-				// Error while trying to save a post
-				if ( count($this->Entry->validationErrors) === 0 ) :
-					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'), 'flash/error');
-				endif;
-				$headerSubnavLeftTitle = __('back_to_overview_linkname');
-			endif;
-		} else {
-			// show answering form
+			} else { // show add form
+				// answering is always a ajax request, prevents add/1234 GET-requests
+				if (!$this->request->is('ajax') && $id !== null) {
+					$this->Session->setFlash(__('js-required'), 'flash/error');
+					$this->redirect($this->referer());
+				}
 
-			// answering is always a ajax request, prevents add/1234 GET-requests
-			if(!$this->request->is('ajax') && $id !== null) {
-				$this->Session->setFlash(__('js-required'), 'flash/error');
-				return $this->redirect($this->referer());
-			}
+				$this->request->data = null;
+				if ($id !== null) {
+					$this->request->data = $this->Entry->getUnsanitized($id);
+				}
 
-			$this->request->data = null;
-			if ($id !== null) {
-				// check if entry exists by loading its data
-				$this->Entry->contain(array('User', 'Category'));
-				$this->Entry->sanitize(false);
-				$this->request->data = $this->Entry->findById($id);
-			}
-
-			if ( !empty($this->request->data) ):
-					// new posting is answer to existing posting
+				if (!empty($this->request->data)): // answer to existing posting
 
 					$this->_isAnsweringAllowed($this->request->data);
 
@@ -336,21 +342,23 @@
 					$this->set('citeText', $this->request->data['Entry']['text']);
 
 					// get notifications
-					$notis = $this->Entry->Esevent->checkEventsForUser($this->CurrentUser->getId(),
-							array(
-									1 => array(
-									'subject'	 => $this->request->data['Entry']['tid'],
-									'event'		 => 'Model.Entry.replyToThread',
-									'receiver' => 'EmailNotification',
+					$notis = $this->Entry->Esevent->checkEventsForUser(
+						$this->CurrentUser->getId(),
+						array(
+							1 => array(
+								'subject'  => $this->request->data['Entry']['tid'],
+								'event'    => 'Model.Entry.replyToThread',
+								'receiver' => 'EmailNotification',
 							),
-							)
+						)
 					);
 					$this->set('notis', $notis);
 
 					// set Subnav
-					$headerSubnavLeftTitle = __('back_to_posting_from_linkname',
-							$this->request->data['User']['username']);
-				else:
+					$headerSubnavLeftTitle = __(
+						'back_to_posting_from_linkname',
+						$this->request->data['User']['username']
+					); else:
 					// new posting which creates new thread
 					$this->request->data['Entry']['pid'] = 0;
 					$this->request->data['Entry']['tid'] = 0;
@@ -358,16 +366,16 @@
 					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				endif;
 
-			if ( $this->request->is('ajax') ):
-				$this->set('form_title', __('answer_marking'));
-			endif;
+				if ($this->request->is('ajax')):
+					$this->set('form_title', __('answer_marking'));
+				endif;
+			}
+
+			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
+			$this->set('headerSubnavLeftUrl', '/entries/index');
+
+			$this->_teardownAdd();
 		}
-
-    $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
-    $this->set('headerSubnavLeftUrl', '/entries/index');
-
-		$this->_teardownAdd();
-	}
 
 		public function threadLine($id = null) {
 			$this->set('entry_sub', $this->Entry->read(null, $id));
@@ -377,60 +385,56 @@
 
 	public function edit($id = null) {
 
-		if ( !$id && empty($this->request->data) ):
+		if (!$id && empty($this->request->data)) {
 			throw new NotFoundException();
-		endif;
+		}
 
-		// read old entry
-		$this->Entry->id = $id;
-		$this->Entry->sanitize(false);
-		$old_entry = $this->Entry->find('first', array(
-				'contain' => array(
-						'User',
-						'Category'),
-				'conditions' => array('Entry.id' => $id),
-		));
+		$old_entry = $this->Entry->getUnsanitized($id);
 
-		// check if entry exists
-		if (!$old_entry):
+		if (!$old_entry) {
 			throw new NotFoundException();
-		endif;
+		}
 
 		$forbidden = $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser);
 
-		switch ( $forbidden ) {
+		switch ($forbidden) {
 			case 'time':
-				$this->Session->setFlash('Stand by your word bro\', it\'s too late. @lo',
-						'flash/error');
-				return $this->redirect(array( 'action' => 'view', $id ));
+				$this->Session->setFlash(
+					'Stand by your word bro\', it\'s too late. @lo',
+					'flash/error'
+				);
+				return $this->redirect(array('action' => 'view', $id));
 				break;
 			case 'user':
 				$this->Session->setFlash('Not your horse, Hoss! @lo', 'flash/error');
-				return $this->redirect(array( 'action' => 'view', $id ));
+				return $this->redirect(array('action' => 'view', $id));
 				break;
 			case true :
-				$this->Session->setFlash('Something went terribly wrong. Alert the authorties now! @lo',
-						'flash/error');
+				$this->Session->setFlash(
+					'Something went terribly wrong. Alert the authorities now! @lo',
+					'flash/error'
+				);
 		}
 
-		if (!$this->Entry->isEditingForbidden($old_entry, $this->CurrentUser)
-				&& $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'))) {
-			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
-		}
-
-		if ( !empty($this->request->data) ) {
+		if (!empty($this->request->data)) {
 			$this->request->data = $this->_prepareAnswering($this->request->data);
 			// try to save entry
 			$this->request->data['Entry']['edited'] = date("Y-m-d H:i:s");
 			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
 
-			if ( $new_entry = $this->Entry->save($this->request->data) ) {
-				// new entry was saved
+			$this->Entry->id = $id;
+			$new_entry = $this->Entry->save($this->request->data);
+			if ($new_entry) {
 				$this->_afterNewEntry(am($this->request['data'], $old_entry));
-				return $this->redirect(array( 'action' => 'view', $id ));
+				return $this->redirect(array('action' => 'view', $id));
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
+		}
+
+		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
+		if($forbiddenAsNormalUser) {
+			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 		}
 
 		$this->request->data = am($old_entry, $this->request->data);
@@ -438,39 +442,37 @@
 		// get text of parent entry for citation
 		$parent_entry_id = $old_entry['Entry']['pid'];
 		if ($parent_entry_id > 0) {
-			$parent_entry = $this->_getRawParentEntry($parent_entry_id);
+			$parent_entry = $this->Entry->getUnsanitized($parent_entry_id);
 			$this->set('citeText', $parent_entry['Entry']['text']);
 		}
 
 		// get notifications
-			$notis = $this->Entry->Esevent->checkEventsForUser($old_entry['Entry']['user_id'],
-					array(
-							array(
-									'subject'	 => $old_entry['Entry']['id'],
-									'event'		 => 'Model.Entry.replyToEntry',
-									'receiver' => 'EmailNotification',
-							),
-							array(
-									'subject'	 => $old_entry['Entry']['tid'],
-									'event'		 => 'Model.Entry.replyToThread',
-									'receiver' => 'EmailNotification',
-							),
-					)
-			);
-			$this->set('notis', $notis);
+		$notis = $this->Entry->Esevent->checkEventsForUser(
+			$old_entry['Entry']['user_id'],
+			array(
+				array(
+					'subject'  => $old_entry['Entry']['id'],
+					'event'    => 'Model.Entry.replyToEntry',
+					'receiver' => 'EmailNotification',
+				),
+				array(
+					'subject'  => $old_entry['Entry']['tid'],
+					'event'    => 'Model.Entry.replyToThread',
+					'receiver' => 'EmailNotification',
+				),
+			)
+		);
+		$this->set('notis', $notis);
 
 		// set headers
     $this->set('headerSubnavLeftUrl', '/entries/index');
-    $this->set(
-        'headerSubnavLeftTitle',
-		    __('back_to_posting_from_linkname', $this->request->data['User']['username'])
-        );
+		$this->set(
+			'headerSubnavLeftTitle',
+			__('back_to_posting_from_linkname', $this->request->data['User']['username'])
+		);
 		$this->set('headerSubnavLeftUrl', array( 'action' => 'view', $id ));
-
 		$this->set('form_title', __('edit_linkname'));
-
 		$this->_teardownAdd();
-
 		$this->render('/Entries/add');
 	}
 
@@ -680,6 +682,7 @@
 					)
 				)
 			);
+			$this->Bbcode->initHelper();
 			$this->set('entry', $newEntry);
 		else :
 			// validation errors
@@ -983,21 +986,16 @@
 	protected function _prepareAnswering($data) {
 			$pid = (int)$data['Entry']['pid'];
 			if ( $pid > 0 ) {
-				$parent_entry = $this->_getRawParentEntry($pid);
+				$parent_entry = $this->Entry->getUnsanitized($pid);
 				$this->_isAnsweringAllowed($parent_entry);
 				$this->_swapEmptySubject($data, $parent_entry);
 			}
+			if (isset($data['Entry']['text'])) {
+				$data['Entry']['text'] = $this->Bbcode->prepareInput(
+					$data['Entry']['text']
+				);
+			}
 			return $data;
-	}
-
-	protected function _getRawParentEntry($id) {
-		$this->Entry->contain();
-		$this->Entry->sanitize(false);
-		$parent_entry = $this->Entry->findById($id);
-		if(!$parent_entry) {
-			throw new NotFoundException;
-		}
-		return $parent_entry;
 	}
 
 	protected function _swapEmptySubject(&$entry, $parent) {

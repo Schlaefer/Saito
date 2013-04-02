@@ -79,9 +79,6 @@
 		}
 
 		public function testLink() {
-				$https = env('HTTPS');
-				$_SERVER['HTTPS'] = false;
-
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c_bbc_link-dinfo'>[ebay.de]</span>";
 			$result = $this->Bbcode->parse($input);
@@ -116,20 +113,6 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
-			$input = '[url]heise.de/foobar[/url]';
-			$expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>heise.de/foobar</a>";
-			$expected = array(
-					'a' => array(
-							'href' => 'http://heise.de/foobar',
-							'rel' => 'external',
-							'target' => '_blank'
-					),
-					'heise.de/foobar',
-					'/a'
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-
 			// masked link
 			$input = '[url=http://heise.de/foobar]foobar[/url]';
 			$expected = array(
@@ -145,17 +128,6 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
-			$input = '[url=heise.de/bar]foobar[/url]';
-			$expected = "<a href='http://heise.de/bar' rel='external' target='_blank'>foobar</a> <span class='c_bbc_link-dinfo'>[heise.de]</span>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-
-			// masked link: strip subdomain from domain info
-			$input = '[url=www.heise.de/bar]foobar[/url]';
-			$expected = "<a href='http://www.heise.de/bar' rel='external' target='_blank'>foobar</a> <span class='c_bbc_link-dinfo'>[heise.de]</span>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-
 			// masked link with no label
 			$input = '[url=http://heise.de/foobar  label=none ]foobar[/url]';
 			$expected = array(
@@ -170,31 +142,18 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
-			$input = '[url]heise.de/bar[/url]';
-			$expected = array(
-					'a' => array(
-							'href' => 'http://heise.de/bar',
-							'rel' => 'external',
-							'target' => '_blank',
-					),
-					'heise.de/bar',
-					'/a',
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-
 			/**
 			 * local server
 			 */
 			$input = '[url=http://macnemo.de/foobar]foobar[/url]';
-			$expected = "<a href='http://macnemo.de/foobar'>foobar</a> <span class='c_bbc_link-dinfo'>[macnemo.de]</span>";
+			$expected = "<a href='http://macnemo.de/foobar'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
 			$input = '[url]/foobar[/url]';
 			$expected = array(
 					'a' => array(
-							'href' => 'http://macnemo.de/foobar',
+							'href' => '/foobar',
 					),
 					'preg:/\/foobar/',
 					'/a',
@@ -205,13 +164,13 @@
 
 			// test lokaler server with absolute url
 			$input = '[url=/foobar]foobar[/url]';
-			$expected = "<a href='http://macnemo.de/foobar'>foobar</a> <span class='c_bbc_link-dinfo'>[macnemo.de]</span>";
+			$expected = "<a href='/foobar'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
 			// test 'http://' only
 			$input = '[url=http://]foobar[/url]';
-			$expected = "<a href='http://'>foobar</a> <span class='c_bbc_link-dinfo'>[]</span>";
+			$expected = "<a href='http://'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
@@ -229,8 +188,45 @@
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
+		}
 
-			$_SERVER['HTTPS'] = $https;
+		public function testHashLink() {
+			$input = '#2234';
+			$expected = array(
+				'a' => array(
+					'href' => '/hash/2234',
+				),
+				'#2234',
+				'/a',
+			);
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+
+			$input = '&#039;';
+			$expected = '&#039;';
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+
+			$input = '[code]#2234[/code]';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains('>#2234</a>', $result);
+		}
+
+		public function testAtLinkKnownUsers() {
+			$input = '@Alice @Bob @Bobby Junior @Bobby Tables @Dr. No';
+			$expected =
+					"<a href='/at/Alice'>@Alice</a>"
+					." @Bob "
+					."<a href='/at/Bobby+Junior'>@Bobby Junior</a>"
+					." @Bobby Tables "
+					."<a href='/at/Dr.+No'>@Dr. No</a>";
+
+			$result = $this->Bbcode->parse($input);
+			$this->assertEqual($result, $expected);
+
+			$input = '[code]@Alice[/code]';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains('>@Alice</a>', $result);
 		}
 
 		public function testLinkEmptyUrl() {
@@ -238,24 +234,6 @@
 			$expected = "<a href=''></a>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
-		}
-
-		public function testLinkHttps() {
-			$https = env('HTTPS');
-			$_SERVER['HTTPS'] = true;
-
-			$input = '[url]/foobar[/url]';
-			$expected = array(
-								'a' => array(
-								'href' => 'https://macnemo.de/foobar',
-					),
-								'preg:/\/foobar/',
-								'/a',
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-
-			$_SERVER['HTTPS'] = $https;
 		}
 
 		public function testEmail() {
@@ -333,12 +311,18 @@
 							'rel' => 'external',
 							'target' => '_blank',
 					),
-					'www.heise.de/foobar',
+					'http://www.heise.de/foobar',
 					'/a',
-					' text'
+					'preg:/ text/'
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
+
+			// no autolink in [code]
+			$input = '[code]http://heise.de/foobar[/code]';
+			$needle = 'heise.de/foobar</a>';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains($result, $needle);
 
 			// email autolink
 			$input = 'text mail@tosomeone.com test';
@@ -362,12 +346,12 @@
 			$input = '[url]http://this/url/is/32/chars/long[/url]';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertIdentical($result, $expected);
 
 			$input = 'http://this/url/is/32/chars/long';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertIdentical($result, $expected) ;
 
 			Configure::write('Saito.Settings.text_word_maxlength', $text_word_maxlenghth);
 		}
@@ -450,14 +434,9 @@
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
-			$expected = '<img src="http://macnemo.de/somewhere/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
+			$expected = '<img src="'.$this->Bbcode->webroot.'somewhere/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-
-			$input = '[img]heise.de/img/macnemo.png[/img]';
-			$expected = '<img src="http://heise.de/img/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertIdentical($result, $expected);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
@@ -603,8 +582,16 @@
 		public function testSmilies() {
 
 			$input = ';)';
-			$expected = array( 'img' => array( 'src' => $this->Bbcode->webroot('img/smilies/wink.png'), 'alt' => ';)', 'title' => 'Wink' ) );
-			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
+			$expected = array(
+				'img' => array(
+					'src'   => $this->Bbcode->webroot(
+						'img/smilies/wink.png'
+					),
+					'alt'   => ';)',
+					'title' => 'Wink'
+				)
+			);
+			$result = $this->Bbcode->parse($input, array('cache' => false));
 			$this->assertTags($result, $expected);
 
 			// test html entities
@@ -616,8 +603,14 @@
 			// test html entities
 			$input = Sanitize::html('foo …) bar €) batz');
 			$expected = 'foo &hellip;) bar &euro;) batz';
-			$result = $this->Bbcode->parse($input, array( 'cache' => FALSE ));
+			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
 			$this->assertIdentical($expected, $result);
+
+			// test no smilies in code
+			$input = '[code text]:)[/code]';
+			$needle = '<img';
+			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
+			$this->assertNotContains($needle, $result);
 		}
 
 		public function testCode() {
@@ -638,7 +631,9 @@
 			$this->assertTags($result, $expected);
 
 			// [code]<citation mark>[/code] should not be cited
-			$input = Sanitize::html("[code]\n" . Configure::read('Saito.Settings.quote_symbol') . "\n[/code]");
+			$input = Sanitize::html(
+				"[code]\n" . $this->Bbcode->settings['quoteSymbol'] . "\n[/code]"
+			);
 			$expected = '`span class=.*?c_bbc_citation`';
 			$result = $this->Bbcode->parse($input);
 			$this->assertNoPattern($expected, $result);
@@ -805,10 +800,14 @@
 			if ( isset($_SERVER['SERVER_NAME']) ) {
 				$this->server_name = $_SERVER['SERVER_NAME'];
 			} else {
-				$this->server_name = FALSE;
+				$this->server_name = false;
 			}
 
-			Configure::write('Saito.Settings.quote_symbol', '»');
+			if ( isset($_SERVER['SERVER_PORT']) ) {
+				$this->server_port = $_SERVER['SERVER_PORT'];
+			} else {
+				$this->server_port = false;
+			}
 
 			$this->asset_timestamp = Configure::read('Asset.timestamp');
 
@@ -819,13 +818,27 @@
 			Configure::write('Saito.Settings.autolink', true);
 
 			$_SERVER['SERVER_NAME'] = 'macnemo.de';
+			$_SERVER['SERVER_PORT'] = '80';
 
 			parent::setUp();
 			$Request = new CakeRequest('/');
 			$Controller = new Controller($Request);
 			$View = new View($Controller);
 
+			$settings = array(
+				'quoteSymbol' => '»',
+				'hashBaseUrl' => '/hash/',
+				'atBaseUrl'   => '/at/',
+				'useSmilies'  => false,
+				'atUserList'  => array(
+					'Alice',
+					'Bobby Junior',
+					'Dr. No'
+				)
+			);
+
 			$this->Bbcode = new BbcodeHelper($View);
+			$this->Bbcode->settings = $settings;
 			$this->Bbcode->beforeRender(null);
 		}
 
@@ -833,6 +846,10 @@
 			parent::tearDown();
 			if ( $this->server_name ) {
 				$_SERVER['SERVER_NAME'] = $this->server_name;
+			}
+
+			if ($this->server_name) {
+				$_SERVER['SERVER_PORT'] = $this->server_port;
 			}
 
 			Configure::write('Asset.timestamp', $this->asset_timestamp);
@@ -852,4 +869,3 @@
 
 	}
 
-?>

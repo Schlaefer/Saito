@@ -42,12 +42,11 @@ ul.deep-reply {
 
 .thread_line-pre {
 	position: absolute;
-	> a {
-		display: inline-block;
-		width: 24px;
-		text-align: center;
-        padding: 0px 0 4px;
-		}
+
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+    padding: 0px 0 4px;
 	}
 
 .tl-cnt {

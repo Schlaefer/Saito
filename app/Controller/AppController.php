@@ -13,6 +13,10 @@ class AppController extends Controller {
 			// 'DebugKit.Toolbar',
 
 			'Auth',
+			'Bbcode' => array(
+				'hashBaseUrl' => 'entries/view/',
+				'atBaseUrl'   => 'users/name/',
+			),
 
 			/**
 			 * You have to have Cookie before CurrentUser to have the salt initialized.
@@ -30,10 +34,8 @@ class AppController extends Controller {
 			'PreviewDetector.PreviewDetector'
 	);
 	public $helpers = array (
-			// app helpers
-			'Bbcode',
 			'JsData',
-			'Markitup.Markitup',
+			// 'Markitup.Markitup',
 			'RequireJs',
 			'Stopwatch.Stopwatch',
 			'TextH',
@@ -109,7 +111,7 @@ class AppController extends Controller {
 
 		// disable forum with admin pref
 		if ( Configure::read('Saito.Settings.forum_disabled') && !($this->params['action'] === 'login') ):
-				if ( $this->CurrentUser->isAdmin() !== TRUE ):
+				if ( $this->CurrentUser->isAdmin() !== true ):
 					return $this->render('/Pages/forum_disabled', 'barebone');
         endif;
     endif;
@@ -129,6 +131,8 @@ class AppController extends Controller {
 		if ($this->request->plugin === 'debug_kit') {
 			$this->Auth->allow('sql_explain');
 		}
+
+		$this->request->serverroot = $this->_getServerRoot();
 		Stopwatch::stop('App->beforeFilter()');
 	} // end beforeFilter()
 
@@ -144,7 +148,6 @@ class AppController extends Controller {
 		Stopwatch::stop('App->beforeRender()');
 		Stopwatch::start('---------------------- Rendering ---------------------- ');
 	}
-
 
 		/**
 		 * Set forum configuration from get params in url
@@ -226,7 +229,7 @@ class AppController extends Controller {
 	 * @param string $type 'controller' or 'action'
 	 * @return string
 	 */
-	public function localReferer($type = NULL) {
+	public function localReferer($type = null) {
 		$referer = parent::referer(null, true);
 		$parsed = Router::parse($referer);
 		if ( isset($parsed[$type]) ):
@@ -262,7 +265,7 @@ class AppController extends Controller {
 
 	protected function _beforeFilterAdminArea() {
     // protect the admin area
-    if ( $this->CurrentUser->isAdmin() !== TRUE ) :
+    if ( $this->CurrentUser->isAdmin() !== true ) :
       throw new ForbiddenException();
     endif;
 
@@ -274,7 +277,24 @@ class AppController extends Controller {
 		 */
 		protected function _showDisclaimer() {
 			$this->_setAppStats();
-			$this->set('showDisclaimer', TRUE);
+			$this->set('showDisclaimer', true);
+		}
+
+		/**
+		 * Returns server base url `http(s)://foo.bar:<port>`
+		 *
+		 * No trailing slash!
+		 *
+		 * @return string url
+		 */
+		protected function _getServerRoot() {
+			$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
+			$server = env('SERVER_NAME');
+			$port = env('SERVER_PORT');
+			if (!empty($port) && $port !== '80') {
+				$server = "$server:$port";
+			}
+			return $https . $server;
 		}
 
 		/**

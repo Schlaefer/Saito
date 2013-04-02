@@ -40,6 +40,9 @@ define([
          * @private
          */
         _showMessages: function(options) {
+            if (options === undefined) {
+                return;
+            }
             if (options.msg === undefined) {
                 if (options.message === undefined) {
                     return;

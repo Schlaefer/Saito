@@ -67,7 +67,7 @@ require(
         // fallback if dom does not get ready for some reason to show the content eventually
         var contentTimer = {
             show: function() {
-                $('#content').show();
+                $('#content').css('visibility', 'visible');
                 console.warn('DOM ready timed out: show content fallback used.');
                 delete this.timeoutID;
             },
@@ -116,8 +116,9 @@ require(
             'models/StatusModelSpec.js',
             'models/UploadModelSpec.js',
             'lib/MarkItUpSpec.js',
-            'lib/jquery.i18n.extendSpec.js'
-            // 'views/AppViewSpec.js'
+            'lib/jquery.i18n.extendSpec.js',
+            // 'views/AppViewSpec.js',
+            'views/ThreadViewSpec.js'
         ];
 
         specs = _.map(specs, function(value){

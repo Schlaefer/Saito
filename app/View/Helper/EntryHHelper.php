@@ -212,11 +212,9 @@ EOF
 			$out = <<<EOF
 <li class="js-thread_line {$span_post_type}" data-id="{$entry_sub['Entry']['id']}" data-tid="{$entry_sub['Entry']['tid']}" data-new="{$isNew}">
 	<div class="js-thread_line-content tl-cnt">
-		<div class="thread_line-pre">
-			<a href="#" class="btn_show_thread span_post_type">
-				{$thread_line_pre}
-			</a>
-		</div>
+		<a href="#" class="btn_show_thread thread_line-pre span_post_type">
+			{$thread_line_pre}
+		</a>
 		<a href='{$this->request->webroot}entries/view/{$entry_sub['Entry']['id']}'
 			class='link_show_thread {$entry_sub['Entry']['id']} span_post_type thread_line-content'>
 				{$thread_line_cached}

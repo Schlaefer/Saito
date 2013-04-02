@@ -466,12 +466,12 @@
 							)
 					)
 					));
-//			$Entries->SaitoEntry = $this->getMock('SaitoEntry', null, array(new ComponentCollection));
-			$Entries->Entry->expects($this->exactly(3))
-					->method('isEditingForbidden')
-					->will($this->returnValue(false));
 
 			$this->_loginUser(2);
+
+			$Entries->Entry->expects($this->any())
+					->method('isEditingForbidden')
+					->will($this->returnValue(false));
 
 			$result = $this->testAction('entries/edit/2', array(
 					'return' => 'view'
@@ -494,28 +494,26 @@
           )
       ));
 
-      /*
-       * setup
-       */
       $this->_loginUser(1);
 
-      $data['Entry'] = array(
-          'pid' => 5,
-          'subject' => 'test',
-          'category'  => 4,
-      );
+			$data['Entry'] = array(
+				'pid'      => 5,
+				'subject'  => 'test',
+				'category' => 4,
+			);
 
-      /*
-       * test entries/add
-       */
-      $Entries->CacheTree
-          ->expects($this->once())
-          ->method('delete')
-          ->with($this->equalTo('4'));
+			/*
+			 * test entries/add
+			 */
+			$Entries->CacheTree
+					->expects($this->once())
+					->method('delete')
+					->with($this->equalTo('4'));
 
-			$result = $this->testAction('/entries/add/5', array(
-          'data' => $data,
-          'method' => 'post'));
+			$this->testAction(
+				'/entries/add/5',
+				array('data' => $data, 'method' => 'post')
+			);
 
       /*
        * Test entries/edit
