@@ -62,10 +62,14 @@ define([
             });
         },
 
+        isVisible: function() {
+           return this.$el.find('#shoutbox').is(':visible') === true;
+        },
+
         poll: function(currentShoutId) {
 
             // update shoutbox only if tab is open
-            if(this.$el.is(":visible") === false) {
+            if(this.isVisible === false) {
                 return;
             }
 
