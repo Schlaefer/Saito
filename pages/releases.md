@@ -7,7 +7,7 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
-## Next ##
+## 2013-04.01 ##
 
 ### What's new ###
 
@@ -18,6 +18,8 @@ This is a release with major code refactoring.
 - [new] short tag @<name|id> links to user profile
 - [new] show peak memory in stopwatch debug output
 - [new] new url for named profiles: users/name/<username>
+- [new] sets meta description in entries/view of n/t postings to subject of that posting
+- [new] required min PHP version is now 5.4
 - [fix] #102 [No text format within a list][gh102]
 - [fix] #19 [raw urls in code werden zu url geparst][gh19]
 - [fix] improved layout and scrolling behavior in uploader on tablets
