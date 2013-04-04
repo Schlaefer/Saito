@@ -5,22 +5,20 @@
  * and open the template in the editor.
  */
 
-require_once '_saitoSelenium.php';
-
-//require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
+	require_once 'Lib/SaitoSeleniumTestCase.php';
 
 /**
  * Description of mixViewTest
  *
  * @author siezi
  */
-class mixViewTest extends Saito_SeleniumTestCase {
+class mixViewTest extends SaitoSeleniumTestCase {
 
 	function setUp() {
 		parent::setUp();
 	}
 
-	function testMixView() {
+	function tes1MixView() {
 		$this->login($this);
 
 		$thread = new SaitoTestThread($this);

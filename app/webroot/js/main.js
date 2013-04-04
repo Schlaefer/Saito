@@ -14,6 +14,7 @@ require.config({
 	},
 	paths: {
 		jquery: 'lib/jquery/jquery-require',
+        jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
 		jqueryhelpers: 'lib/jqueryhelpers',
 		backbone: 'lib/backbone/backbone',
         underscore: 'lib/underscore/underscore',
@@ -21,10 +22,26 @@ require.config({
 		bootstrap: 'bootstrap/bootstrap',
 		domReady: 'lib/require/domReady',
         jqueryAutosize: 'lib/jquery.autosize',
-		text: 'lib/require/text'
-		// @td include scrollTo after _app.js is gone
+        cakeRest: 'lib/saito/backbone.cakeRest',
+		text: 'lib/require/text',
+        cs: 'lib/require/cs',
+        "coffee-script": 'lib/coffee-script',
+        humanize: "lib/humanize/humanize",
+        modernizr: "lib/modernizr.custom"
 	}
+
 });
+
+/**
+ * Redirects current page to a new url destination without changing browser history
+ *
+ * This also is also the mock to test redirects
+ *
+ * @param destination url to redirect to
+ */
+window.redirect = function(destination) {
+    document.location.replace(destination);
+}
 
 // Camino doesn't support console at all
 if (typeof console === "undefined") {
@@ -35,18 +52,23 @@ if (typeof console === "undefined") {
     console.error = console.debug = console.info =  console.log;
 }
 
+require(
+    ['domReady', 'views/app', 'backbone', 'jquery', 'bootstrap',
+        'lib/saito/backbone.initHelper', 'lib/saito/backbone.modelHelper'],
+    function(domReady, AppView, Backbone, $) {
 
-if (typeof SaitoApp.app.runJsTests === 'undefined') {
-    // run app
+    if (typeof SaitoApp.app.runJsTests === 'undefined') {
+        // run app
 
-    require(
-        ['domReady', 'views/app', 'backbone', 'bootstrap', 'jqueryhelpers'],
-        function(domReady, AppView, Backbone) {
+        // prevent caching of ajax results
+        $.ajaxSetup({ cache: false });
+
+
         // fallback if dom does not get ready for some reason to show the content eventually
         var contentTimer = {
             show: function() {
-                $('#content').show();
-                console.log('Dom ready timed out: show content fallback used.');
+                $('#content').css('visibility', 'visible');
+                console.warn('DOM ready timed out: show content fallback used.');
                 delete this.timeoutID;
             },
 
@@ -65,23 +87,6 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
         };
         contentTimer.setup();
 
-        Backbone.View.prototype.initCollectionFromDom = function(element, collection, view) {
-            var createElement = function(collection, id, element) {
-                collection.add({
-                    id: id
-                });
-                new view({
-                    el: element,
-                    model: collection.get(id)
-                })
-            };
-
-            $(element).each(function(){
-                    createElement(collection, $(this).data('id'), this);
-                }
-            );
-        };
-
         domReady(function () {
             var App = new AppView({
                 SaitoApp: SaitoApp,
@@ -89,15 +94,9 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
             });
         });
 
+    } else {
 
-    });
-
-} else {
-    // run javascript tests
-
-    window.store = "TestStore"; // override local storage store name - for testing
-
-    require(['underscore', 'jquery'], function(_, $){
+        window.store = "TestStore"; // override local storage store name - for testing
 
         var jasmineEnv = jasmine.getEnv();
         jasmineEnv.updateInterval = 1000;
@@ -111,12 +110,19 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
         };
 
         var specs = [
+            'models/AppStatusModelSpec.js',
+            'models/BookmarkModelSpec.js',
+            'models/SlidetabModelSpec.js',
+            'models/StatusModelSpec.js',
+            'models/UploadModelSpec.js',
             'lib/MarkItUpSpec.js',
-            'views/BookmarkViewSpec.js'
+            'lib/jquery.i18n.extendSpec.js',
+            // 'views/AppViewSpec.js',
+            'views/ThreadViewSpec.js'
         ];
 
         specs = _.map(specs, function(value){
-            return SaitoApp.app.webroot + 'js/tests/' + value;
+            return SaitoApp.app.settings.webroot + 'js/tests/' + value;
         });
 
         $(function(){
@@ -125,6 +131,6 @@ if (typeof SaitoApp.app.runJsTests === 'undefined') {
             });
         });
 
-    });
 
-}
+    }
+});

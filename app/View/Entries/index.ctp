@@ -1,10 +1,12 @@
-<?php echo Stopwatch::start('entries/index'); ?>
 <?php
+	Stopwatch::start('entries/index');
+
   $this->start('headerSubnavLeft');
-  echo $this->Html->link(
-      '<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),
-      '/entries/add',
-      array( 'class' => 'textlink', 'escape' => FALSE ));
+	echo $this->Html->link(
+		'<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),
+		'/entries/add',
+		array('id' => 'btn-entryAdd', 'class' => 'textlink', 'escape' => false)
+	);
   $this->end();
 
 	$this->start('headerSubnavCenter');
@@ -34,34 +36,12 @@
 				)
 		);
 		echo $this->element('entry/category-chooser');
-		$chooser_title = __('Categories');
-		$this->Js->buffer(<<<EOF
-			$('#category-chooser').dialog({
-				autoOpen: false,
-				show: {effect: "scale", duration: 200},
-				hide: {effect: "fade", duration: 200},
-				width: 400,
-				position: [$('#btn-category-chooser').offset().left + $('#btn-category-chooser').width() - $(window).scrollLeft() - 410, $('#btn-category-chooser').offset().top - $(window).scrollTop() + $('#btn-category-chooser').height()],
-				title: "$chooser_title",
-				resizable: false
-				});
-
-EOF
-		);
-		$this->Js->get('#btn-category-chooser')->event('click',
-				<<<EOF
-			if ($('#category-chooser').is(":visible")) {
-				$('#category-chooser').dialog('close');
-			} else {
-				$('#category-chooser').dialog('open');
-			}
-EOF
-		);
 	endif;
 	$this->end();
 ?>
-
 <div id="entry_index" class="entry index">
 	<?php echo $this->element('entry/thread_cached_init', array ( 'entries_sub' => $entries, 'level' => 0 )) ; ?>
 </div>
-<?php echo Stopwatch::stop('entries/index');?>
+<?php
+	Stopwatch::stop('entries/index');
+?>

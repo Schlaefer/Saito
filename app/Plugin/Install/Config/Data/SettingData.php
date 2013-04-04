@@ -43,7 +43,7 @@ class SettingData {
 			),
 		array(
 				'name'	=> 'video_domains_allowed',
-				'value'	=> 'youtube | vimeo',
+				'value'	=> 'youtube | youtube-nocookie | vimeo',
 			),
 		array(
 				'name'	=> 'flattr_category',

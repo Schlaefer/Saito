@@ -1,20 +1,39 @@
 define([
-	'underscore',
-	'backbone',
-	], function(_, Backbone) {
-		var ThreadLineModel = Backbone.Model.extend({
-			defaults: {
-				isContentLoaded: false,
-				isInlineOpened: false,
-				isAlwaysShownInline: false,
-				isNewToUser: false
-			},
-			loadContent: function(options) {
-				new ThreadLine(this.get('id')).load_inline_view(options);
-				this.set('isContentLoaded', true);
-			}
-		});
+    'underscore',
+    'backbone',
+    'models/app',
+    'cakeRest'
+], function(_, Backbone, App, cakeRest) {
 
-		return ThreadLineModel;
+    "use strict";
 
-	});
+    var ThreadLineModel = Backbone.Model.extend({
+
+        defaults: {
+            isInlineOpened: false,
+            isAlwaysShownInline: false,
+            isNewToUser: false,
+            posting: '',
+            html: ''
+        },
+
+        initialize: function() {
+            this.webroot = App.settings.get('webroot') + 'entries/';
+            this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
+            this.methodToCakePhpUrl.read = 'threadLine/';
+
+            this.set('isAlwaysShownInline', App.currentUser.get('user_show_inline') || false);
+
+            this.listenTo(this, "change:html", this._setIsNewToUser);
+        },
+
+        _setIsNewToUser: function() {
+            // @bogus performance
+            this.set('isNewToUser', $(this.get('html')).data('data-new') === '1');
+        }
+    });
+
+    _.extend(ThreadLineModel.prototype, cakeRest);
+
+    return ThreadLineModel;
+});

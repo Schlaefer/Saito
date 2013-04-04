@@ -54,6 +54,25 @@
 
 		public $maxNumberOfShouts = 10;
 
+		public function findLastId() {
+			$out = 0;
+			$last_shout = $this->find(
+				'list',
+				array(
+					'contain' => false,
+					'fields' => 'id',
+					'order' => 'id desc',
+					'limit' => 1
+				)
+			);
+
+			if ($last_shout) {
+				$out = (int)current($last_shout);
+			}
+
+			return $out;
+		}
+
 		public function push($data) {
 
 			$data['Shout']['time'] = gmdate("Y-m-d H:i:s", time());

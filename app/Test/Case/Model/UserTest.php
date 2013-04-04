@@ -34,6 +34,87 @@
 			$this->assertEmpty($result);
 		}
 
+		public function testSetCategoryAll() {
+			$User = $this->getMockForModel(
+				'User',
+				array('set', 'save')
+			);
+			$User->expects($this->once())
+					->method('set')
+					->with('user_category_active', -1);
+			$User->expects($this->once())
+					->method('save');
+			$User->setCategory('all');
+		}
+
+		/**
+		 * Set to a single category – Success
+		 */
+		public function testSetCategorySingle() {
+			$User = $this->getMockForModel(
+				'User',
+				array('set', 'save')
+			);
+			$User->expects($this->once())
+					->method('set')
+					->with('user_category_active', 5);
+			$User->expects($this->once())
+					->method('save');
+			$User->setCategory('5');
+		}
+
+		/**
+		 * Set to a single category – Failure because category does not exists
+		 */
+		public function testSetCategorySingleNotExist() {
+			$this->expectException('InvalidArgumentException');
+			$this->User->setCategory('fwefwe');
+		}
+
+		/**
+		 * Set custom category set - Success
+		 */
+		public function testSetCategoryCustom() {
+			$User = $this->getMockForModel(
+				'User',
+				array('set', 'save')
+			);
+
+			$data = array(
+					'1' => '0',
+					'2' => '1',
+					'3' => '0',
+					'5' => '0',
+					'9999' => '1',
+					array('foo')
+			);
+
+			$expected = array(
+					'1' => false,
+					'2' => true,
+					'3' => false,
+					'5' => false,
+			);
+
+			$User->expects($this->at(0))
+					->method('set')
+					->with('user_category_active', 0);
+			$User->expects($this->at(1))
+					->method('set')
+					->with('user_category_custom', $expected);
+			$User->expects($this->once())
+					->method('save');
+			$User->setCategory($data);
+		}
+
+		/**
+		 * Set custom category set - Failure because no valid category is found
+		 */
+		public function testSetCategoryCustomNotExist() {
+			$this->expectException('InvalidArgumentException');
+			$this->User->setCategory(array('foo'));
+		}
+
 		public function testSetLastRefresh() {
 			//* automatic timestamp
 			$this->User->id = 3;
@@ -129,7 +210,7 @@
     public function testDeleteUser() {
 
 			// test that user's notifications are deleted
-			$this->User->Esnotification = $this->getMock('Esnotification', 
+			$this->User->Esnotification = $this->getMock('Esnotification',
 					array('deleteAllFromUser'), array(false, 'esnotifications', 'test'));
 			$this->User->Esnotification->expects($this->once())
 					->method('deleteAllFromUser')
@@ -265,7 +346,7 @@
 							'password_confirm' => 'new_pw'
 					)
 			);
-			$this->assertTrue($this->User->save($data) == TRUE);
+			$this->assertTrue($this->User->save($data) == true);
 			$this->assertFalse(array_key_exists('password', $this->User->validationErrors));
 		}
 
@@ -289,7 +370,7 @@
 							'password_confirm' => 'new_pw_2',
 					)
 			);
-			$this->assertTrue($this->User->save($data) == TRUE);
+			$this->assertTrue($this->User->save($data) == true);
 			$this->assertFalse(array_key_exists('password_old',
 							$this->User->validationErrors));
 		}
@@ -424,7 +505,7 @@
 		public function setUp() {
 			Security::setHash('md5');
 
-			Configure::write('Saito.useSaltForUserPasswords', FALSE);
+			Configure::write('Saito.useSaltForUserPasswords', false);
 
 			$this->User = ClassRegistry::init(array('class' => 'UserMockup', 'alias' => 'User'));
 		}

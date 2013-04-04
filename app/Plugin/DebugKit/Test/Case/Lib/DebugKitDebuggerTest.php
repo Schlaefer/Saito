@@ -27,6 +27,7 @@ require_once CakePlugin::path('DebugKit') . 'Test' . DS . 'Case' . DS . 'TestFir
  * @subpackage    debug_kit.tests.cases.vendors
  */
 class DebugKitDebuggerTest extends CakeTestCase {
+
 /**
  * setUp method
  *
@@ -36,6 +37,7 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		parent::setUp();
 		Configure::write('log', false);
 	}
+
 /**
  * tearDown method
  *
@@ -46,17 +48,17 @@ class DebugKitDebuggerTest extends CakeTestCase {
 		Configure::write('log', true);
 		DebugKitDebugger::clearTimers();
 	}
+
 /**
  * test output switch to firePHP
  *
  * @return void
  */
 	public function testOutput() {
-
 		$firecake = FireCake::getInstance('TestFireCake');
 		Debugger::getInstance('DebugKitDebugger');
 		Debugger::addFormat('fb', array('callback' => 'DebugKitDebugger::fireError'));
-		Debugger::output('fb');
+		Debugger::outputAs('fb');
 
 		set_error_handler('ErrorHandler::handleError');
 		$foo .= '';
@@ -64,12 +66,12 @@ class DebugKitDebuggerTest extends CakeTestCase {
 
 		$result = $firecake->sentHeaders;
 
-		$this->assertPattern('/GROUP_START/', $result['X-Wf-1-1-1-1']);
-		$this->assertPattern('/ERROR/', $result['X-Wf-1-1-1-2']);
-		$this->assertPattern('/GROUP_END/', $result['X-Wf-1-1-1-4']);
+		$this->assertRegExp('/GROUP_START/', $result['X-Wf-1-1-1-1']);
+		$this->assertRegExp('/ERROR/', $result['X-Wf-1-1-1-2']);
+		$this->assertRegExp('/GROUP_END/', $result['X-Wf-1-1-1-5']);
 
 		Debugger::getInstance('Debugger');
-		Debugger::output();
+		Debugger::outputAs('html');
 	}
 
 }

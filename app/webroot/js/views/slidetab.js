@@ -1,8 +1,11 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function($, _, Backbone) {
+    'backbone',
+    'views/shouts'
+], function($, _, Backbone, ShoutsView) {
+
+    "use strict";
 
     var SlidetabView = Backbone.View.extend({
 
@@ -10,10 +13,16 @@ define([
             "click .slidetab-tab": "clickSlidetab"
         },
 
-        initialize: function() {
+        initialize: function(options) {
+            this.collection = options.collection;
             this.model.set('isOpen', this.isOpen());
 
-            this.listenTo(this.model, 'change', this.toggleSlidetab)
+            this.listenTo(this.model, 'change', this.toggleSlidetab);
+
+            if (this.model.get('id') === 'shoutbox') {
+                this.initShoutbox('#shoutbox', this.webroot);
+            }
+
         },
 
         isOpen: function() {
@@ -46,18 +55,21 @@ define([
                     'width': 28
                 },
                 _.bind(function() {
-                    this.$el.find('.slidetab-content').css('display', 'none')
+                    this.$el.find('.slidetab-content').css('display', 'none');
                 }, this)
             );
         },
 
         toggleSlidetabTabInfo: function() {
             this.$el.find('.slidetab-tab-info').toggle();
+        },
+
+        initShoutbox: function(element_n, webroot) {
+            new ShoutsView({
+                el: this.$el,
+                slidetabModel: this.model
+            });
         }
-
-
-
-
     });
 
     return SlidetabView;

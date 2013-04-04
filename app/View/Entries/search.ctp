@@ -160,7 +160,14 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 				<?php  endforeach; ?>
 				</ul>
 <?php else : ?>
-	<?php echo __('search_nothing_found'); ?>
+				<?php
+				echo $this->element(
+					'generic/no-content-yet',
+					array(
+						'message' => __('search_nothing_found')
+					)
+				);
+				?>
 <?php endif; ?>
 		</div> <!-- content -->
 	</div> <!-- search_results -->

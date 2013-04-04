@@ -25,16 +25,22 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			'Html',
 	);
 
+	protected $_tagElCounter = 0;
+	protected $_tagEls = array();
+	protected $_tagSubsitutes = array(
+		'#' => 'hashLink'
+	);
+
 	/**
 	 * Array with domains from which embedding video is allowed
-	 * 
+	 *
 	 * array(
 	 * 	'youtube' => 1,
 	 *  'vimeo' => 1,
 	 * );
-	 * 
+	 *
 	 * array('*' => 1) means every domain allowed
-	 * 
+	 *
 	 * @var array
 	 */
 	protected static $_allowedVideoDomains = null;
@@ -47,11 +53,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			'youtube' => 1
 	);
 
-	public $quoteSymbol;
-
 	/**
-	 * These are the file exensions we are asume belong to audio files 
-	 * 
+	 * These are the file exensions we are asume belong to audio files
+	 *
 	 * @var array
 	 */
 	protected static $html5_audio_extensions = array(
@@ -63,14 +67,22 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	);
 	protected static $_videoErrorMessage;
 
+	public $settings = array(
+		'quoteSymbol' => '»',
+		'hashBaseUrl' => '', // Base URL for # tags.
+		'atBaseUrl'   => '', // Base URL for @ tags.
+		'atUserList'  => '', // User list for @ tags.
+		'useSmilies'	=> false
+	);
+
 	/**
-	 * Markup Parser 
+	 * Markup Parser
 	 */
 	protected $_Parser;
 
 	/**
 	 * Initialized parsers
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_initializedParsers = array();
@@ -81,14 +93,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function beforeRender($viewFile) {
-		$this->quoteSymbol = Configure::read('Saito.Settings.quote_symbol');
-
-		/**
-		 * Configure Geshi
-		 */
-		$this->Geshi->defaultLanguage = 'text';
-		// allow all languages
-		 $this->Geshi->validLanguages = array( true );
 		if ( isset($this->request) && $this->request->action === 'preview' ) {
 			$this->Geshi->showPlainTextButton = false;
 		}
@@ -96,14 +100,17 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Generates html from [bbcode]
-	 * 
+	 *
 	 * @param type $string
 	 * @param array $options
-	 * @return string 
+	 * @return string
 	 */
 	public function parse($string, array $options = array( )) {
 		$this->_initParser($options);
+		$this->_tagElCounter = 0;
+		$this->_tagEls = array();
 		$string = $this->_Parser->parse($string);
+		$string = $this->_detaginize($string);
 		return $string;
 	}
 
@@ -120,6 +127,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		);
 		$options = array_merge($defaults, $options);
 
+		$this->settings['useSmilies'] = Configure::read('Saito.Settings.smilies');
+
 		$fp = md5(serialize($options));
 		if (isset($this->_initializedParsers[$fp])) {
 			$this->_Parser = $this->_initializedParsers[$fp];
@@ -135,6 +144,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				array( &$this, '_convertLineBreaks' ));
 		$this->_Parser->addParser(array( 'block', 'inline', 'listitem' ), 'nl2br');
 
+		// smilies, @links
+		$this->_Parser->addFilter(
+			STRINGPARSER_FILTER_PRE,
+			array(&$this, '_poorMansCustomSplitterTags')
+		);
+
 		/*
 		 * Support for deprecated [img#] tag. [upload] is used now.
      *
@@ -144,77 +159,102 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
         // Translates [img# foo]bar[/img] to [upload foo]bar[/upload]
         function($string) {
           return preg_replace(
-              '#\[img\#(.*)?\](.+?)\[/img\]#is', 
+              '#\[img\#(.*)?\](.+?)\[/img\]#is',
               "[upload\\1]\\2[/upload]",
               $string
               );
         }
         );
 
+		if (empty($this->settings['hashBaseUrl']) === false) {
+			// #<numeric> internal links
+			$this->_Parser->addFilter(
+				STRINGPARSER_FILTER_PRE,
+				array(&$this, '_hashLinkInternalTaginize')
+			);
+
+			$this->_Parser->addCode(
+				'hashLink', 'usecontent', array( &$this, "_hashLinkInternal" ), array( ), 'hashLink',
+				array( 'block' ), array( )
+			);
+		}
+
 		//* [code]
 		$this->_Parser->addCode(
 				'code', 'usecontent', array( &$this, "_code" ), array( ), 'code',
-				array( 'block', 'inline' ), array( )
+				array( 'block' ), array( )
 		);
 
 		//* bold
 		$this->_Parser->addCode(
 				'b', 'simple_replace', null,
 				array( 'start_tag' => '<strong>', 'end_tag' => '</strong>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* italic
 		$this->_Parser->addCode(
 				'i', 'simple_replace', null,
 				array( 'start_tag' => '<em>', 'end_tag' => '</em>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* underline
 		$this->_Parser->addCode(
 				'u', 'simple_replace', null,
 				array( 'start_tag' => "<span class='c_bbc_underline'>", 'end_tag' => '</span>' ),
-				'inline', array( 'block', 'inline', 'link' ), array( )
+				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* strike
 		$this->_Parser->addCode(
 				'strike', 'simple_replace', null,
 				array( 'start_tag' => "<del>", 'end_tag' => '</del>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
 		//* hr
 		$this->_Parser->addCode(
 				'---', 'simple_replace', null,
 				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block' ), array( )
 		);
 		$this->_Parser->addCode(
 				'hr', 'simple_replace', null,
 				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
-				array( 'block', 'inline', 'link' ), array( )
+				array( 'block' ), array( )
 		);
 
 		//* urls
 		$this->_Parser->addCode(
-				'url', 'usecontent?', array( &$this, '_url' ),
+				'url', 'usecontent?', array( &$this, '_urlTag' ),
 				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline', 'listitem' ), array( )
 		);
 
 		//* link
 		$this->_Parser->addCode(
-				'link', 'usecontent?', array( &$this, '_url' ),
+				'link', 'usecontent?', array( &$this, '_urlTag' ),
 				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline', 'listitem' ), array( )
 		);
 
+		//* autolinks
+		if ( Configure::read('Saito.Settings.autolink') ) {
+			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
+				array(&$this, '_autoLinkPreTaginize'));
+
+			$this->_Parser->addCode(
+				'autoLink', 'usecontent', array( &$this, "_autoLinkPre" ),
+				array( ), 'link',
+				array( 'block' ), array( )
+			);
+		}
+
 		//* email
 		$this->_Parser->addCode(
 				'email', 'usecontent?', array( &$this, '_email' ),
-				array( 'usecontent_param' => 'default' ), 'email',
+				array( 'usecontent_param' => 'default' ), 'link',
 				array( 'block', 'inline' ), array( )
 		);
 
@@ -240,26 +280,15 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		);
 		$this->_Parser->setCodeFlag('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
 
-		//* smilies
-		if ( Configure::read('Saito.Settings.smilies') ):
-			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE, array( &$this, '_smilies' ));
-		endif;
-
 		//* quote
 		$this->_Parser->addParser(array( 'block', 'inline' ),
 				array( &$this, '_quote' ));
-
-		//* autolinks
-		if ( Configure::read('Saito.Settings.autolink') ) {
-			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
-					'BbcodeHelper::_autoLinkPre');
-		}
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
 
 		//* allows [url=<foo> label=none] to be parsed as [url default=<foo> label=none]
-		$this->_Parser->setMixedAttributeTypes(TRUE);
+		$this->_Parser->setMixedAttributeTypes(true);
 
 		if ( Configure::read('Saito.Settings.bbcode_img') && $multimedia ):
 
@@ -320,7 +349,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * Consolidates '\n\r', '\r' to `\n`
 	 *
 	 * @param string $string
-	 * @return string 
+	 * @return string
 	 */
 	public function _convertLineBreaks($string) {
 		return preg_replace('/\015\012|\015|\012/', "\n", $string);
@@ -333,7 +362,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	public function _smilies($string, $options = array( )) {
 		$defaults = array(
-				'cache' => TRUE,
+				'cache' => true,
 		);
 
 		$options = array_merge($defaults, $options);
@@ -341,7 +370,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 //		Stopwatch::start('_smilies');
 
-		// Building Smilies 
+		// Building Smilies
 		// @td refactor: MVC|method?
 		$smilies = Configure::read('Saito.Smilies.smilies_all');
 
@@ -381,28 +410,49 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			endforeach;
 		endif;
 
-		// prevents parsing of certain areas
-		$string_array = preg_split("/
-			(
-				(?:						# bbcode commands esp. url being replace with smilies
-					\[[^\[]*?\] 	# opening brackets of bbcode, e.g. [url=foo]
-					[^\[]*? 			# middle part between brackets, e.g. linkname
-					\[\/.*?\]			# end brackets of bbcode, e.g. [\/url]
-				)
-			|								# or
-				(?:&[^\s]*;)			# html entities
-			)
-			/xis",
-				$string, 0, PREG_SPLIT_DELIM_CAPTURE);
+		$string = str_replace($s['codes'], $s['replacements'], $string);
+//		Stopwatch::stop('_smilies');
+		return $string;
+	}
 
-		foreach ( $string_array as $key => $value ) {
-			if ( $key % 2 == false ) {
-				$string_array[$key] = str_replace($s['codes'], $s['replacements'], $value);
+	public function _poorMansCustomSplitterTags($string) {
+		// prevents parsing of certain areas
+		$string_array = preg_split(
+			"/
+						(
+							(?:						# bbcode commands esp. url being replace with smilies
+								\[[^\[]*?\] 	# opening brackets of bbcode, e.g. [url=foo]
+								[^\[]*? 			# middle part between brackets, e.g. linkname
+								\[\/.*?\]			# end brackets of bbcode, e.g. [\/url]
+							)
+						|								# or
+							(?:&[^\s]*;)			# html entities
+						| (?:\[code.*?\].*?\[\/code\])
+						)
+						/xis",
+			$string,
+			0,
+			PREG_SPLIT_DELIM_CAPTURE
+		);
+
+		foreach ($string_array as $key => $value) {
+			if ($key % 2 === 0) {
+				$new = $string_array[$key];
+				if ($this->settings['useSmilies']) {
+					$new = $this->_smilies($new);
+				}
+				if (empty($this->settings['atBaseUrl']) === false) {
+					$new = $this->_atLinkInternal($new);
+				}
+				$string_array[$key] = $new;
 			}
 		}
-
-//		Stopwatch::stop('_smilies');
 		return implode('', $string_array);
+	}
+
+	public function _autoLinkPre($action, $attributes, $content, $params, &$node_object) {
+		unset($this->_tagEls[$attributes['default']]);
+		return $this->_url($content, $content, false, true);
 	}
 
 	/**
@@ -411,23 +461,38 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param string $string
 	 * @return string
 	 */
-	public static function _autoLinkPre($string) {
+	public function _autoLinkPreTaginize($string) {
+		// how to pass a element into tageize? url?
+		$that = $this;
+		$replace = function ($matches) use ($that) {
+			$matches += array('tag' => 'autoLink');
+			if(strpos($matches['element'], '://') === false) {
+				$matches['element'] = 'http://' . $matches['element'];
+			}
+			$out = $that->_taginize($matches);
+			if (isset($matches['prefix'])) {
+				$out = $matches['prefix'] . $out;
+			}
+			return $out;
+		};
 		//* autolink http://urls
-		$string = preg_replace(
-				"#(?<=^|[\n ])(?P<content>[\w]+?://.*?[^ \"\n\r\t<]*)#is", "[url]\\1[/url]",
-				$string
+		$string = preg_replace_callback(
+			"#(?<=^|[\n ])(?P<element>[\w]+?://.*?[^ \"\n\r\t<]*)#is",
+			$replace,
+			$string
 		);
 
 		//* autolink without http://, i.e. www.foo.bar/baz
-		$string = preg_replace(
-				"#(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
-				"\\1[url]\\2[/url]", $string
+		$string = preg_replace_callback(
+			"#(?P<prefix>^|[\n ])(?P<element>(www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
+			$replace,
+			$string
 		);
 
 		//* autolink email
 		$string = preg_replace("
 				#(?<=^|[\n ])(?P<content>([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+))#i",
-				"[email]\\1[/email]", $string
+			"[email]\\1[/email]", $string
 		);
 
 		return $string;
@@ -438,6 +503,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		if ( !empty($attributes) ):
 			$type = key($attributes);
 		endif;
+
+		$this->Geshi->defaultLanguage = 'text';
+		// allow all languages
+		$this->Geshi->validLanguages = array(true);
 
 		$string = '<div class="c_bbc_code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
 		$string = $this->Geshi->highlight($string);
@@ -454,7 +523,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				if ( self::_isVideoDomainAllowed($attributeValue) === false ) :
 					return self::$_videoErrorMessage->get();
 				endif;
-				if ( strpos($attributeValue, '?') === FALSE ) :
+				if ( strpos($attributeValue, '?') === false ) :
 					$attributeValue .= '?';
 				endif;
 				$attributeValue .= '&wmode=Opaque';
@@ -469,10 +538,10 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Inserts a html5 video tag
-	 * 
+	 *
 	 * @param <type> $url
 	 * @param <type> $width
-	 * @param <type> $height 
+	 * @param <type> $height
 	 */
 	public static function _html5Video($action, $attributes, $content, $params, &$node_object) {
 		// fix audio files mistakenly wrapped into an [video] tag
@@ -497,7 +566,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 * @access protected
 	 */
-	public static function _html5Audio($action, $attributes, $content, $params = NULL, &$node_object = NULL) {
+	public static function _html5Audio($action, $attributes, $content, $params = null, &$node_object = null) {
 		// @lo
 		$out = "<audio src='$content' controls='controls'>";
 		$out .= BbcodeMessage::format(__(
@@ -511,7 +580,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	/**
 	 * @td search for backery class
 	 */
-	public static function _flashVideo($action, $attributes, $content, $params = NULL, &$node_object = NULL) {
+	public static function _flashVideo($action, $attributes, $content, $params = null, &$node_object = null) {
 		preg_match("#(?P<url>.+?)\|(?P<width>.+?)\|(?<height>\d+)#is", $content,
 				$matches);
 		if ( !isset($matches['height']) ) {
@@ -542,12 +611,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
 		} else {
 			$this->FileUpload->reset();
-      $allowedKeys = array_fill_keys(array( 'width', 'height'), FALSE);
+      $allowedKeys = array_fill_keys(array( 'width', 'height'), false);
       $allowedAttributes = array_intersect_key($attributes, $allowedKeys);
 			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content,
 							array(
-                  'autoResize' => FALSE,
-                  'resizeThumbOnly' => FALSE,
+                  'autoResize' => false,
+                  'resizeThumbOnly' => false,
                   ) + $allowedAttributes
           ) . "</div>";
 		}
@@ -558,7 +627,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 *
 	 * @param string $url
 	 * @param string $params
-	 * @return type 
+	 * @return type
 	 */
 	public function _externalImage($action, $attributes, $content, $params, &$node_object) {
 		$options = array(
@@ -567,10 +636,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				'height' => 'auto',
 		);
 
-		// check for 'http://' in front of URI, we don't do relative URIs
-		$url = self::_checkAndAddProtocol($content);
+		$url = $content;
 
-		// process [img=(parameters)] parameters 
+		// process [img=(parameters)] parameters
 		if ( !empty($attributes['default']) ) {
 			$default = trim($attributes['default']);
 			switch ( $default ) :
@@ -608,16 +676,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$out = '';
 		if ( !empty($string) ):
 			// split already quoted lines
-			$citeLines = preg_split("/(^{$this->quoteSymbol}.*?$\n)/m", $string, null,
+			$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m", $string, null,
 					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 			foreach ( $citeLines as $citeLine ):
-				if ( mb_strpos($citeLine, $this->quoteSymbol) === 0 ):
+				if ( mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0 ):
 					// already quoted lines need no further processing
 					$out .= $citeLine;
 					continue;
 				endif;
 				// split [bbcode]
-				$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, NULL,
+				$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, null,
 						PREG_SPLIT_DELIM_CAPTURE);
 				$i = 0;
 				$line = '';
@@ -644,7 +712,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				endforeach;
 				$out .= $line;
 			endforeach;
-			$out = preg_replace("/^/m", $this->quoteSymbol . " ", $out);
+			$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
 		endif;
 		return $out;
 	}
@@ -663,16 +731,71 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		// return $this->MailObfuscator->createLink($url, $text);
 	}
 
+	public function _hashLinkInternalTaginize($string) {
+		$string = preg_replace_callback(
+			'/(?<=\s|^)(?<tag>#)(?<element>\d+)/',
+			array($this, '_taginize'),
+			$string
+		);
+		return $string;
+	}
+
+	public function _hashLinkInternal($action, $attributes, $content, $params, &$node_object) {
+		unset($this->_tagEls[$attributes['default']]);
+		return $this->_url($this->settings['hashBaseUrl'] . $content, '#' . $content);
+	}
+
+	public function _atLinkInternal($string) {
+		$tags = array();
+		if (preg_match_all('/(\s|^)@([^\s\pP]+)/m', $string, $tags)) {
+			$users = $this->settings['atUserList'];
+			sort($users);
+			$names = array();
+			if (empty($tags[2]) === false) {
+				$tags = $tags[2];
+				foreach ($tags as $tag) {
+					if (in_array($tag, $users)) {
+						$names[$tag] = 1;
+					} else {
+						$continue = 0;
+						foreach ($users as $user) {
+							if (mb_strpos($user, $tag) === 0) {
+								$names[$user] = 1;
+								$continue = true;
+							}
+							if ($continue === false) {
+								break;
+							} elseif ($continue !== 0) {
+								$continue = false;
+							}
+						}
+					}
+				}
+			}
+			krsort($names);
+			foreach($names as $name => $v) {
+				$urlName = urlencode($name);
+				$string = preg_replace(
+					"/@$name/",
+					"[url={$this->settings['atBaseUrl']}{$urlName} label=none]@{$name}[/url]",
+					$string
+				);
+			}
+		}
+
+		return $string;
+	}
+
 	/**
 	 * url urls and [URL]
 	 */
-	public function _url($action, $attributes, $content, $params, &$node_object) {
+	public function _urlTag($action, $attributes, $content, $params, &$node_object) {
 
 		$defaults = array(
-				'label' => TRUE,
+				'label' => true,
 		);
 
-		$wasShort = FALSE;
+		$wasShort = false;
 		if ( isset($attributes['default']) ):
 			// [url=...]...[/url]
 			$url = $attributes['default'];
@@ -681,26 +804,27 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			// [url]...[/url]
 			$url = $content;
 			$text = $content;
-			$wasShort = TRUE;
+			$wasShort = true;
 		endif;
 
 		$options = array_merge($defaults, $attributes);
-		extract($options);
 
-		$url = self::_checkAndAddProtocol($url);
+		$label = $options['label'];
 
-		if ( $wasShort ) {
+		$out = $this->_url($url, $text, $label, $wasShort);
+		return $out;
+	}
+
+	protected function _url($url, $text, $label = false, $trunctate = false) {
+		if ($trunctate === true) {
 			$text = $this->_truncate($text);
 		}
-
 		$out = "<a href='$url'>$text</a>";
-
-		//* add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
-		if ( $label !== 'none' && $label !== 'false' && $label !== FALSE && $wasShort === FALSE ) {
-			$host = '';
-			if ( !empty($url) && preg_match('/\<img\s*?src=/', $text) == FALSE ) {
+		// add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
+		if ($label !== false && $label !== 'none' && $label !== 'false') {
+			if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
 				$host = self::_getDomainAndTldForUri($url);
-				if ( !empty($host) || $host === FALSE ) {
+				if ($host !== false && $host !== env('SERVER_NAME')) {
 					$out .= ' <span class=\'c_bbc_link-dinfo\'>[' . $host . ']</span>';
 				}
 			}
@@ -709,8 +833,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	/**
-	 * Marks an <a> link as external to open in a new browser window 
-	 * 
+	 * Marks an <a> link as external to open in a new browser window
+	 *
 	 * @param array $matches
 	 * @return string
 	 */
@@ -729,7 +853,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$parsed_url = @parse_url($url);
 
 		if ( isset($parsed_url['host']) ) {
-			if ( $parsed_url['host'] != $_SERVER['SERVER_NAME'] && $parsed_url['host'] != "www." . $_SERVER['SERVER_NAME'] ) {
+			if ( $parsed_url['host'] !== env('SERVER_NAME') && $parsed_url['host'] !== "www." . env('SERVER_NAME') ) {
 				$out = " rel='external' target='_blank'";
 			}
 		}
@@ -737,18 +861,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
   public function _embed($action, $attributes, $content, $params, &$node_object) {
-    if ( Configure::read('Saito.Settings.embedly_enabled') == FALSE ):
+    if ( Configure::read('Saito.Settings.embedly_enabled') == false ):
       return __('[embed] tag not enabled.');
     endif;
 
     if ( $action === 'validate' ) :
-      return TRUE;
+      return true;
     endif;
 
     $out = 'Embeding failed.';
     $this->Embedly->setApiKey(Configure::read('Saito.Settings.embedly_key'));
     $embedly = $this->Embedly->embedly($content);
-    if ( $embedly !== FALSE ) :
+    if ( $embedly !== false ) :
       $out = $embedly;
     endif;
 
@@ -757,12 +881,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * Formats quote.
-	 * 
+	 *
 	 * @param string $string
 	 * @return string
 	 */
 	public function _quote($string) {
-		$quote_symbol_sanitized = Sanitize::html($this->quoteSymbol);
+		$quote_symbol_sanitized = Sanitize::html($this->settings['quoteSymbol']);
 		$string = preg_replace(
 				// Begin of the text or a new line in the text, maybe one space afterwards
 				'/(^|\n\r\s?)'
@@ -777,9 +901,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	/**
 	 * @bogus does this truncate strings or the longest word in the string or what?
 	 * @bogus what about [url=][img]...[/img][url]. Is the [img] url trunctated too?
-	 * 
+	 *
 	 * @param type $string
-	 * @return string 
+	 * @return string
 	 */
 	protected function _truncate($string) {
 		$text_word_maxlength = Configure::read('Saito.Settings.text_word_maxlength');
@@ -796,26 +920,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	/**
-	 * Converts relativ urls to absolute urls
-	 *  
-	 * @param type $string
-	 * @return string
-	 */
-	protected static function _checkAndAddProtocol($string) {
-		$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
-		if ( $string[0] !== '/' ) {
-			if ( strpos($string, '://') === FALSE ) {
-				$string = $https . $string;
-			}
-		} else {
-			$string = $https . $_SERVER['SERVER_NAME'] . $string;
-		}
-		return $string;
-	}
-
-	/**
 	 * Checks if an domain is allowed by comparing it to the admin preference
-   * 
+   *
 	 * @param string $src
 	 * @return bool
 	 */
@@ -877,14 +983,41 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 */
 	protected static function _getDomainAndTldForUri($uri, $part = 'fulldomain' ) {
 		$host = @parse_url($uri, PHP_URL_HOST);
-		if ( !empty($host) || $host === FALSE ) :
+		if (!empty($host) && $host !== false) :
 			if ( preg_match('/(?P<fulldomain>(?P<domain>[a-z0-9][a-z0-9\-]{1,63})\.(?<tld>[a-z\.]{2,6}))$/i',
 							$host, $regs) ) {
-				return $regs[$part];
+				if(!empty($regs[$part])) {
+					return $regs[$part];
+				}
 			}
 		endif;
-
 		return false;
+	}
+
+	public function _taginize() {
+		$params = func_get_args();
+		$element = $params[0]['element'];
+		$tag = $params[0]['tag'];
+		if (isset($this->_tagSubsitutes[$tag])) {
+			$tag = $this->_tagSubsitutes[$tag];
+		}
+		$string = $params[0][0];
+		$ident = "{$tag}={$this->_tagElCounter}";
+		$replacement = "[$ident]{$element}[/$tag]";
+		$this->_tagEls[$this->_tagElCounter] = array(
+			'tag' => $tag,
+			'replacement' => $replacement,
+			'original' => $string
+		);
+		$this->_tagElCounter++;
+		return $replacement;
+	}
+
+	protected function _detaginize($string) {
+		foreach ($this->_tagEls as $token) {
+			$string = str_replace($token['replacement'], $token['original'], $string);
+		}
+		return $string;
 	}
 }
 
@@ -909,5 +1042,3 @@ class BbcodeMessage {
 	}
 
 }
-
-?>

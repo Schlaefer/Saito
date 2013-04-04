@@ -2,6 +2,7 @@
 <?php
 		echo $this->Form->create(null	, array(
 				'url' => '/entries/search',
+				'id' => 'EntrySearchForm',
 				'type' => 'get',
 				'class' => 'search_form',  
 				'inputDefaults' => array( 'div' => false, 'label' => false )));

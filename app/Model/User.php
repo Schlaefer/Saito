@@ -202,7 +202,7 @@
 		 */
 		protected $_registerGcHasRun = false;
 
-		public function setLastRefresh($lastRefresh = NULL) {
+		public function setLastRefresh($lastRefresh = null) {
 			Stopwatch::start('Users->setLastRefresh()');
 			$data[$this->alias]['last_refresh_tmp'] = date("Y-m-d H:i:s");
 
@@ -211,7 +211,7 @@
 			}
 
 			$this->contain();
-			if ($this->save($data, TRUE, array('last_refresh_tmp', 'last_refresh')) == FALSE) {
+			if ($this->save($data, true, array('last_refresh_tmp', 'last_refresh')) == false) {
 				throw new Exception("Updating last user refresh failed.");
 			}
 			Stopwatch::end('Users->setLastRefresh()');
@@ -240,7 +240,7 @@
 					'last_login' => date('Y-m-d H:i:s'),
 			);
 			$this->contain();
-			if ($this->save($data, TRUE, array('logins', 'last_login')) == FALSE) {
+			if ($this->save($data, true, array('logins', 'last_login')) == false) {
 				throw new Exception("Increment logins failed.");
 			}
 		}
@@ -253,14 +253,14 @@
 		 */
 		public function deleteAllExceptEntries($id) {
 			if ($id == 1)
-				return FALSE;
+				return false;
 
-			$success = TRUE;
+			$success = true;
 			$success = $success && $this->Upload->deleteAllFromUser($id);
 			$success = $success && $this->Esnotification->deleteAllFromUser($id);
 			$success = $success && $this->Entry->anonymizeEntriesFromUser($id);
 			$success = $success && $this->UserOnline->deleteAll(
-							array('user_id'	 => $id), FALSE);
+							array('user_id'	 => $id), false);
 			$success = $success && $this->delete($id, true);
 			return $success;
 		}
@@ -306,7 +306,7 @@
 
 			# @td font-size
 			if (isset($results[0][$this->alias]) && array_key_exists('user_font_size',
-							$results[0][$this->alias]) && $results[0][$this->alias]['user_font_size'] === NULL) {
+							$results[0][$this->alias]) && $results[0][$this->alias]['user_font_size'] === null) {
 				$results[0][$this->alias]['user_font_size'] = 1;
 			}
 			return $results;
@@ -422,6 +422,49 @@
 							'conditions' => array('id' => $id)
 							)
 			);
+		}
+
+		/**
+		 * Set view categories preferences
+		 *
+		 * ## $category
+		 *
+		 * - 'all': set to all categories
+		 * - array: (cat_id1 => true|1|'1', cat_id2 => true|1|'1')
+		 * - int: set to single category_id
+		 *
+		 * @param string|int|array $category
+		 * @throws InvalidArgumentException
+		 */
+		public function setCategory($category) {
+			if ($category === 'all') {
+				// set meta category 'all'
+				$this->set('user_category_active', -1);
+				$this->save();
+			} elseif (is_array($category)) {
+				// set custom set
+				$available_cats = $this->Entry->Category->find('list');
+				$categories = array_intersect_key($category, $available_cats);
+				$new_cats = array();
+				if (count($categories) === 0) {
+					throw new InvalidArgumentException();
+				} else {
+					foreach ($categories as $cat => $v) {
+						$new_cats[$cat] = ($v === true || $v === 1 || $v === '1');
+					}
+				}
+				$this->set('user_category_active', 0);
+				$this->set('user_category_custom', $new_cats);
+				$this->save();
+			} else {
+				$category = (int)$category;
+				if ($category > 0 && $this->Entry->Category->exists((int)$category)) {
+					$this->set('user_category_active', $category);
+					$this->save();
+				} else {
+					throw new InvalidArgumentException();
+				}
+			}
 		}
 
 		/**

@@ -1,7 +1,7 @@
 <?php
 class Category extends AppModel {
 	public $name = 'Category';
-	
+
  	public $actsAs = array('Containable');
 
 	public $cacheQueries = true;
@@ -38,6 +38,10 @@ class Category extends AppModel {
 
 	protected $_cache = array();
 
+	/**
+	 * @param int $accession
+	 * @return array (id1 => 'id1', id2 => 'id2')
+	 */
 	public function getCategoriesForAccession($accession) {
 		$categories = $this->_getCategoriesForAccession($accession);
 		$cIds = array_keys($categories);

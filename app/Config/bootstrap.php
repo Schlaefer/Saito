@@ -247,7 +247,7 @@ endif;
  * true: (default) use cache
  * false: don't use cache
  */
-Configure::write('Saito.Cache.Thread', TRUE);
+Configure::write('Saito.Cache.Thread', true);
 
 /**
  * Add additional buttons to editor

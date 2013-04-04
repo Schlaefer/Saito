@@ -1,16 +1,62 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone'
-	], function($, _, Backbone) {
-		// @td if everything is migrated to require/bb set var again
-		PostingView = Backbone.View.extend({
+	'backbone',
+    'models/app',
+    'collections/geshis', 'views/geshi',
+    'views/answering',
+    'text!templates/spinner.html'
+	], function(
+        $, _, Backbone,
+        App,
+        GeshisCollection, GeshiView,
+        AnsweringView,
+        spinnerTpl
+    ) {
+
+        "use strict";
+
+		var PostingView = Backbone.View.extend({
+
 			className: 'js-entry-view-core',
+            answeringForm: false,
+
+            events: {
+                "click .js-btn-setAnsweringForm": "setAnsweringForm",
+                "click .btn-answeringClose": "setAnsweringForm"
+            },
 
 			initialize: function(options) {
-				this.model.on('change:isAnsweringFormShown', this.toggleAnsweringForm, this);
-                this.vents = options.vents;
+                this.collection = options.collection;
+                this.parentThreadline = options.parentThreadline || null;
+
+				this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
+                this.listenTo(this.model, 'change:html', this.render);
+
+                // init geshi for entries/view when $el is already there
+                this.initGeshi('.c_bbc_code-wrapper');
 			},
+
+            initGeshi: function(element_n) {
+                var geshi_elements;
+
+                geshi_elements = this.$(element_n);
+
+                if (geshi_elements.length > 0) {
+                    var geshis = new GeshisCollection();
+                    geshi_elements.each(function(key, element) {
+                        new GeshiView({
+                            el: element,
+                            collection: geshis
+                        });
+                    });
+                }
+            },
+
+            setAnsweringForm: function(event) {
+                event.preventDefault();
+                this.model.toggle('isAnsweringFormShown');
+            },
 
 			toggleAnsweringForm: function() {
 				if (this.model.get('isAnsweringFormShown')) {
@@ -25,21 +71,41 @@ define([
 				}
 			},
 
-			_showAnsweringForm: function() {
-				$(this.el).find('.posting_formular_slider').slideDown('fast');
-                this.vents.trigger('breakAutoreload');
-			},
+            _showAnsweringForm: function() {
+                App.eventBus.trigger('breakAutoreload');
+                if (this.answeringForm === false) {
+                    this.$('.posting_formular_slider').html(spinnerTpl);
+                }
+                this.$('.posting_formular_slider').slideDown('fast');
+                if (this.answeringForm === false){
+                    this.answeringForm = new AnsweringView({
+                        el: this.$('.posting_formular_slider'),
+                        model: this.model,
+                        parentThreadline: this.parentThreadline
+                    });
+                }
+                this.answeringForm.render();
+            },
 
 			_hideAnsweringForm: function() {
-				var html = '<div class="spinner"></div>';
-				$(this.el).find('.posting_formular_slider').slideUp('fast', _.bind(function() {
-					$(this.el).find('.posting_formular_slider').html(html);
-				}, this));
+                var parent;
+				$(this.el).find('.posting_formular_slider').slideUp('fast');
+
+                // @td @bogus
+                parent = $(this.el).find('.posting_formular_slider').parent();
+                // @td @bogus inline answer
+                if (this.answeringForm !== false) {
+                    this.answeringForm.remove();
+                    this.answeringForm.undelegateEvents();
+                    this.answeringForm = false;
+                }
+                parent.append('<div class="posting_formular_slider"></div>');
 			},
+
 			_hideAllAnsweringForms: function() {
 				// we have #id problems with more than one markItUp on a page
-				postings.forEach(function(posting){
-					if(posting.get('id') != this.model.get('id')) {
+				this.collection.forEach(function(posting){
+					if(posting.get('id') !== this.model.get('id')) {
 						posting.set('isAnsweringFormShown', false);
 					}
 				}, this);
@@ -57,7 +123,15 @@ define([
 			},
 			_hideBoxActions: function() {
 				$(this.el).find('.l-box-footer').slideUp('fast');
-			}
+			},
+
+            render: function() {
+                this.$el.html(this.model.get('html'));
+                // init geshi for entries opened inline
+                this.initGeshi('.c_bbc_code-wrapper');
+                return this;
+            }
+
 		});
 
 		return PostingView;

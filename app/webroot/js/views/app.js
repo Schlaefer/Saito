@@ -2,33 +2,34 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+    'models/app',
+    'lib/jquery.i18n/jquery.i18n.extend',
 	'collections/threadlines', 'views/threadlines',
-	'collections/threads', 'views/threads',
+	'collections/threads', 'views/thread',
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
-    'views/helps',
-    'collections/slidetabs', 'views/slidetabs'
+    'views/notification', 'views/helps', 'views/categoryChooser',
+    'collections/slidetabs', 'views/slidetabs',
+    'views/answering',
+    'jqueryUi'
 	], function(
 		$, _, Backbone,
+        App,
+        i18n,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingView,
         BookmarksCollection, BookmarksView,
-        HelpsView,
-        SlidetabsCollection, SlidetabsView
+        NotificationView, HelpsView, CategoryChooserView,
+        SlidetabsCollection, SlidetabsView,
+        AnsweringView
 		) {
 
-		// App
+        "use strict";
+
 		var AppView = Backbone.View.extend({
 
 			el: $('body'),
-			settings: {},
-			request: {},
-
-            /**
-             * global event handler for the app
-             */
-            vent: null,
 
             autoPageReloadTimer: false,
 
@@ -36,106 +37,118 @@ define([
 				'click #showLoginForm': 'showLoginForm',
 				'focus #header-searchField': 'widenSearchField',
                 'click #btn-scrollToTop': 'scrollToTop',
-                'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead'
+                'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
+                "click #btn-category-chooser": "toggleCategoryChooser"
 			},
 
 			initialize: function (options) {
+                var threads,
+                    // collection of threadlines not bound to thread
+                    // (bookmarks, search results …)
+                    threadLines;
 
-				this.app = options.SaitoApp.app;
-				this.settings = options.SaitoApp.app.settings;
-				this.request = options.SaitoApp.request;
-				this.currentUser = options.SaitoApp.currentUser;
+                App.settings.set(options.SaitoApp.app.settings);
+                App.currentUser.set(options.SaitoApp.currentUser);
+                App.request = options.SaitoApp.request;
 
-                vents = _.extend({}, Backbone.Events);
-                this.vents = vents;
 
-                this.listenTo(this.vents, 'initAutoreload', this.initAutoreload);
-                this.listenTo(this.vents, 'breakAutoreload', this.breakAutoreload);
+                this.initNotifications();
 
-				// @td if everything is migrated to require/bb set var again
-				threads = new ThreadCollection;
-				if (this.request.controller === 'entries' && this.request.action === 'index') {
+                this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
+                this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
+
+                this.$el.on('dialogopen', this.fixJqueryUiDialog);
+
+                // init i18n
+                $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
+
+				threads = new ThreadCollection();
+				if (App.request.controller === 'entries' && App.request.action === 'index') {
 					threads.fetch();
 				}
 
+                this.postings = new PostingCollection();
+
 				$('.thread_box').each(_.bind(function(index, element) {
-					var threadId = parseInt($(element).attr('data-id'));
+                    var threadView,
+                        threadId;
+
+					threadId = parseInt($(element).attr('data-id'), 10);
 					if (!threads.get(threadId)) {
 						threads.add([{
 							id: threadId,
-							isThreadCollapsed: this.request.controller === 'entries' && this.request.action === 'index' && this.currentUser.user_show_thread_collapsed
+							isThreadCollapsed: App.request.controller === 'entries' && App.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
 						}], {silent: true});
 					}
-					new ThreadView({
+					threadView = new ThreadView({
 						el: $(element),
+                        postings: this.postings,
 						model: threads.get(threadId)
 					});
 				}, this));
 
-				// @td if everything is migrated to require/bb set var again
-				threadLines = new ThreadLineCollection;
-				$('.js-thread_line').each(function(element) {
-					var el = $(this);
-					var threadLineId = parseInt(el[0].getAttribute('data-id'));
-					var threadId = parseInt(el[0].getAttribute('data-tid'));
-					var isNew = el[0].getAttribute('data-new') == true;
-					var new_model;
-					if(threads.get(threadId)) {
-						threads.get(threadId).threadlines.add([{
-							id: threadLineId,
-							isNewToUser: isNew,
-							isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
-						}], {silent: true});
-						new_model = threads.get(threadId).threadlines.get(threadLineId);
-					} else {
-						threadLines.add([{
-							id: threadLineId,
-							isNewToUser: isNew,
-							isAlwaysShownInline: SaitoApp.currentUser.user_show_inline
-						}], {silent: true});
-						new_model = threadLines.get(threadLineId);
-					}
-					new ThreadLineView({
-						el: $(this),
-						model: new_model
-					});
-				});
 
-				// @td if everything is migrated to require/bb set var again
-				postings = new PostingCollection;
-				$('.js-entry-view-core').each(_.bind(function(a,element) {
-					var id = parseInt(element.getAttribute('data-id'));
-					postings.add([{
-						id: id
-					}], {silent: true});
-					new PostingView({
+                $('.js-entry-view-core').each(_.bind(function(a,element) {
+                    var id,
+                        postingView;
+
+                    id = parseInt(element.getAttribute('data-id'), 10);
+                    this.postings.add([{
+                        id: id
+                    }], {silent: true});
+                    postingView = new PostingView({
+                        el: $(element),
+                        model: this.postings.get(id),
+                        collection: this.postings
+                    });
+                }, this));
+
+				threadLines = new ThreadLineCollection();
+				$('.js-thread_line').each(_.bind(function(index, element) {
+                    var threadLineView,
+                        threadId,
+                        threadLineId,
+                        currentCollection;
+
+					threadId = parseInt(element.getAttribute('data-tid'), 10);
+
+                    if(threads.get(threadId)) {
+                        currentCollection = threads.get(threadId).threadlines;
+                    } else {
+                        currentCollection = threadLines;
+                    }
+
+                    threadLineId = parseInt(element.getAttribute('data-id'), 10);
+					threadLineView = new ThreadLineView({
 						el: $(element),
-						model: postings.get(id),
-                        vents: this.vents
+                        id: threadLineId,
+                        postings: this.postings,
+                        collection: currentCollection
 					});
 				}, this));
-
-				// initiate page reload
-				// @td make App property instead of global
 
                 this.initAutoreload();
                 this.initBookmarks('#bookmarks');
                 this.initHelp('.shp');
-                this.initSlidetabs('#slidetabs')
+                this.initSlidetabs('#slidetabs');
+                this.initCategoryChooser('#category-chooser');
 
-                /*** Show Page ***/
+                if($('.entry.add').length > 0) {
+                    // init the entries/add form where answering is not
+                    // appended to a posting
+                    this.answeringForm = new AnsweringView({
+                        el: this.$('.entry.add'),
+                        id: 'foo'
+                    });
+                }
 
-				if (this.request.isMobile || (new Date().getTime() - options.SaitoApp.timeAppStart) > 1500) {
-					$('#content').show();
-				} else {
-					$('#content').fadeIn(150, 'easeInOutQuart');
-				}
+                /*** All elements initialized, show page ***/
+                App.initAppStatusUpdate();
+
+                this._showPage(options.SaitoApp.timeAppStart);
 				window.clearTimeout(options.contentTimer.cancel());
 
-				// must be executed after everything is shown;
-				if (typeof Saito_App_setFocus !== 'undefined') {
-					$(Saito_App_setFocus).focus();
-				}
+                App.eventBus.trigger('notification', options.SaitoApp);
 
 				// scroll to thread
 				if (window.location.href.indexOf('/jump:') > -1) {
@@ -147,13 +160,40 @@ define([
 							window.location.pathname.replace(/jump:\d+(\/)?/, '')
 					);
 				}
-
 			},
 
+            _showPage: function(startTime) {
+                var triggerVisible = function() {
+                    App.eventBus.trigger('isAppVisible', true);
+                };
+
+                if (App.request.isMobile || (new Date().getTime() - startTime) > 1500) {
+                    $('#content').css('visibility', 'visible');
+                    triggerVisible();
+                } else {
+                    $('#content')
+                        .css({visibility: 'visible', opacity: 0})
+                        .animate(
+                        { opacity: 1 },
+                        {
+                            duration: 150,
+                            easing: 'easeInOutQuart',
+                            complete: triggerVisible
+                        });
+                }
+            },
+
+            fixJqueryUiDialog: function(event, ui) {
+                $('.ui-icon-closethick')
+                    .attr('class', 'icon icon-close-widget icon-large')
+                    .html('');
+            },
+
             initBookmarks: function(element_n) {
+                var bookmarksView;
                 if ($(element_n).length) {
                     var bookmarks = new BookmarksCollection();
-                    new BookmarksView({
+                    bookmarksView = new BookmarksView({
                         el: element_n,
                         collection: bookmarks
                     });
@@ -161,13 +201,30 @@ define([
             },
 
             initSlidetabs: function(element_n) {
-                var slidetabs = new SlidetabsCollection();
-                new SlidetabsView({
+                var slidetabs,
+                    slidetabsView;
+                slidetabs = new SlidetabsCollection();
+                slidetabsView = new SlidetabsView({
                     el: element_n,
-                    collection: slidetabs,
-                    webroot: this.app.webroot,
-                    vents: this.vents
+                    collection: slidetabs
                 });
+            },
+
+            initCategoryChooser: function(element_n) {
+                if ($(element_n).length > 0) {
+                    this.categoryChooser = new CategoryChooserView({
+                        el: element_n
+                    });
+                }
+            },
+
+            toggleCategoryChooser: function() {
+               this.categoryChooser.toggle();
+            },
+
+            initNotifications: function() {
+                var notificationView;
+                notificationView = new NotificationView();
             },
 
             initHelp: function(element_n) {
@@ -179,16 +236,16 @@ define([
             },
 
 			scrollToThread: function(tid) {
-				scrollToTop($('.thread_box.' + tid));
+                $('.thread_box[data-id=' + tid + ']')[0].scrollIntoView('top');
 			},
 
             initAutoreload: function() {
                 this.breakAutoreload();
-                if (this.settings.autoPageReload) {
+                if (App.settings.get('autoPageReload')) {
                     this.autoPageReloadTimer = setTimeout(
                         _.bind(function() {
-                            window.location = this.app.webroot + 'entries/noupdate/';
-                        }, this), this.settings.autoPageReload * 1000);
+                            window.location = App.settings.get('webroot') + 'entries/noupdate/';
+                        }, this), App.settings.get('autoPageReload') * 1000);
                 }
 
             },
@@ -216,14 +273,18 @@ define([
 			},
 
 			showLoginForm: function(event) {
+                var modalLoginDialog;
+
 				if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
 					return;
 				}
 
+                modalLoginDialog =  $('#modalLoginDialog');
+
 				event.preventDefault();
-				$('#modalLoginDialog').height('auto');
+				modalLoginDialog.height('auto');
 				var title= event.currentTarget.title;
-				$('#modalLoginDialog').dialog({
+				modalLoginDialog.dialog({
 					modal: true,
 					title: title,
 					width: 420,
@@ -241,7 +302,7 @@ define([
 
             manuallyMarkAsRead: function(event) {
                 event.preventDefault();
-                document.location.replace(this.app.webroot + 'entries/update');
+                window.redirect(App.settings.get('webroot') + 'entries/update');
             }
 		});
 

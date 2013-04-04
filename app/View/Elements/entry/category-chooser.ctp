@@ -1,11 +1,17 @@
 <?php Stopwatch::start('category-chooser.ctp'); ?>
 <div id="category-chooser" style="display: none; overflow: hidden;">
 	<div class="box_layout_1 box-form">
-		<?php echo $this->Form->create(null,
-					array(
-					'url' => array('controller' => 'entries', 'action'		 => 'setcategory'),
-					'style'			 => 'clear: none;',
-			));
+		<?php
+		echo $this->Form->create(
+			null,
+			array(
+				'url' => array(
+					'controller' => 'users',
+					'action'     => 'setcategory'
+				),
+				'style' => 'clear: none;',
+			)
+		);
 		?>
 		<div style="float:right; width: 150px; margin-left: 2em;">
 			<p>
@@ -15,7 +21,7 @@
 
 		<ul class="category-chooser-ul">
 			<li class="category-chooser-li">
-				<?php 
+				<?php
 					/* For performance reasons we generate the html manually */
 					/*
 					echo $this->Form->checkbox('CatMeta.All',
@@ -30,10 +36,10 @@
 				<?php
 					/* For performance reasons we generate the html manually */
 					/*
-					echo $this->Html->link(__('All'), '/entries/setcategory/all')
+					echo $this->Html->link(__('All'), '/users/setcategory/all')
 					 */
 				?>
-				<a href="<?php echo $this->webroot; ?>entries/setcategory/all"><?php echo __('All Categories'); ?></a>
+				<a href="<?php echo $this->webroot; ?>users/setcategory/all"><?php echo __('All Categories'); ?></a>
 
 			</li>
 			<?php foreach ($categoryChooser as $key => $title): ?>
@@ -56,16 +62,17 @@
 						<?php
 							/* For performance reasons we generate the html manually */
 							/*
-							echo $this->Html->link($title, '/entries/setcategory/' . $key)
+							echo $this->Html->link($title, '/users/setcategory/' . $key)
 							 *
 							 */
 						?>
-						<a href="<?php echo $this->webroot; ?>entries/setcategory/<?php echo $key; ?>"><?php echo $title; ?></a>
+						<a href="<?php echo $this->webroot; ?>users/setcategory/<?php echo $key; ?>"><?php echo $title; ?></a>
 
 					</li>
 				<?php endforeach; ?>
 		</ul>
 		<?php
+		/*
 			$this->Js->get('#cb-category-chooser-all')->event('click',
 					<<<EOF
 			if (this.checked) {
@@ -76,6 +83,7 @@
 			return true;
 EOF
 			);
+		*/
 		?>
 		<?php echo
 			$this->Form->submit(__('Apply'), array(

@@ -1,14 +1,4 @@
 <div>
-  <?php
-    if ( Configure::read('debug') == 0 ):
-      echo $this->Html->script('js.min');
-    else:
-      echo $this->Html->script('lib/jquery-ui/jquery-ui-1.9.2.custom.min');
-      echo $this->Html->script('classes/thread_line.class');
-      echo $this->Html->script('_app');
-      echo $this->Html->script('lib/jquery.scrollTo/jquery.scrollTo');
-    endif;
-  ?>
   <?php echo $this->fetch('script'); ?>
   <?php echo $this->Js->writeBuffer(); ?>
   <div class='clearfix'></div>

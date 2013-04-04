@@ -4,6 +4,8 @@ define([
     'backbone'
 ], function($, _, Backbone) {
 
+    "use strict";
+
     var BookmarkView = Backbone.View.extend({
 
         events: {

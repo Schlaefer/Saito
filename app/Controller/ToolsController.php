@@ -41,6 +41,24 @@
 		}
 
 		/**
+		 * Output current language strings as json
+		 */
+		public function langJs() {
+
+			// dummy translation to load nondynamic.po
+			__d('nondynamic', 'foo');
+			$domains = I18n::domains();
+			$translations =  $domains['nondynamic'][Configure::read('Config.language')]['LC_MESSAGES'];
+			$translations +=  $domains['default'][Configure::read('Config.language')]['LC_MESSAGES'];
+			unset($translations['%po-header']);
+			// $this->response->type('javascript');
+			$this->response->cache('-1 minute', '+1 hour');
+			$this->response->compress();
+			$this->set('lang', $translations);
+
+		}
+
+		/**
 		 * Gives a deploy script a mean to empty PHP's APC-cache
 		 *
 		 * @link https://github.com/jadb/capcake/wiki/Capcake-and-PHP-APC>
@@ -68,7 +86,8 @@
 			parent::beforeFilter();
 			$this->Auth->allow(
 				'clearCache',
-				'testJs'
+				'testJs',
+				'langJs'
 			);
 		}
 

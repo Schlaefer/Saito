@@ -200,6 +200,21 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini { *padding-top: 1px; *pad
 .collapse { position: relative; height: 0; overflow: hidden; -webkit-transition: height 0.35s ease; -moz-transition: height 0.35s ease; -ms-transition: height 0.35s ease; -o-transition: height 0.35s ease; transition: height 0.35s ease; }
 .collapse.in { height: auto; }
 
+#markitup_upload { -webkit-overflow-scrolling: touch; }
+
+#upload_index form, #upload_index input[type=file] { width: auto; margin: 0; padding: 0; }
+#upload_index .content { text-align: center; }
+#upload_index h2 { margin-bottom: 2px; font-size: 110%; }
+#upload_index a { color: inherit; }
+#upload_index .upload_box { border: 1px solid #e0e0e0; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; margin: 12px; width: 170px; height: 180px; position: relative; display: inline-block; }
+#upload_index .upload_box_header { position: relative; height: 130px; width: 160px; padding: 5px; display: table-cell; vertical-align: middle; text-align: center; }
+#upload_index .upload_box_image { max-width: 140px; max-height: 110px; border: 1px solid #e0e0e0; padding: 4px; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; background: white; }
+#upload_index .upload_box_delete { position: absolute; z-index: 10; top: -11px; left: -11px; }
+#upload_index .upload_box_footer { text-align: center; line-height: 25px; height: 30px; padding: 5px !important; }
+#upload_index .upload-drag-indicator, #upload_index .upload-layer { top: 0; left: 0; position: absolute; width: 170px; height: 140px; }
+#upload_index .upload-layer { z-index: 100; opacity: 0; }
+#upload_index .upload-drag-indicator { background: #ffffff; opacity: 0.9; font-size: 70px; line-height: 140px; display: none; }
+
 html, body { height: 100%; }
 
 body { min-width: 950px; }
@@ -458,7 +473,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 .slidetab-tab { position: relative; float: left; margin-top: 5px; padding: 4px; width: 20px; height: 20px; }
 
-.slidetab-tab-button { position: absolute; width: 20px; line-height: 20px; top: 50%; margin-top: -8px; }
+.slidetab-tab-button { position: absolute; width: 20px; line-height: 14px; top: 50%; margin-top: -8px; }
 
 .slidetab-content { margin-left: 28px; min-height: 34px; width: 190px; padding: 10px 15px; }
 
@@ -475,7 +490,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 .slidetab-recentposts .slidetab_tree > li li, .slidetab-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 26px !important; text-indent: -1.75em; font-weight: normal; }
 .slidetab-recentposts .slidetab_tree > li li [class^="icon-"], .slidetab-recentposts .slidetab_tree li [class*=" icon-"], .slidetab-recententries .slidetab_tree > li li [class^="icon-"], .slidetab-recententries .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
 
-#shoutbox textarea, #shoutbox .markItUpPreviewFrame { font-size: 12px; line-height: 16px; margin: 0 0 1em 0; padding: 2px 5px; width: 180px; }
+#shoutbox textarea, #shoutbox .markItUpPreviewFrame { font-size: 12px; line-height: 16px; margin: 0 0 1em 0; padding: 2px 5px; width: 180px; resize: none; }
 #shoutbox img { max-width: 130px; }
 #shoutbox .shouts { word-wrap: break-word; }
 #shoutbox .shout { margin: 2px 0; }
@@ -533,8 +548,7 @@ ul.reply, ul.replynew { list-style-type: none; margin: 0 0 0 25px; list-style-ty
 ul.deep-reply { margin: 0px; list-style-type: none; }
 
 /******************************************************************************* Entry thread_line *****************************************************************************/
-.thread_line-pre { position: absolute; }
-.thread_line-pre > a { display: inline-block; width: 24px; text-align: center; padding: 0px 0 4px; }
+.thread_line-pre { position: absolute; display: inline-block; width: 24px; text-align: center; padding: 0px 0 4px; }
 
 .tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 
@@ -550,9 +564,8 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 .tree_thread { padding: 0 1em 0.8em; margin-bottom: 1em; }
 .tree_thread .img_pencil { visibility: hidden; }
-.tree_thread ul:first-child { margin-left: 25px; }
-
-ul.thread { margin: 0 !important; }
+.tree_thread ul { margin: 0 0 0 25px; }
+.tree_thread ul.root { margin-left: 0; }
 
 .thread_box { /* user_list und inline view sollen sauber getrennt bleiben */ /*	overflow: hidden; */ }
 
@@ -766,7 +779,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .nowrap { white-space: nowrap; }
 
-.t_shadow, .header_style_2, .box-header, .ui-widget-header, .navbar-light, .navbar, .disclaimer-inside, .slidetab-tab, .slidetab-content { text-shadow: white 0px 1px; }
+.t_shadow, .header_style_2, .box-header, .ui-widget-header, .navbar-light, .navbar, .flash > .alert, .message, .disclaimer-inside, .slidetab-tab, .slidetab-content { text-shadow: white 0px 1px; }
 
 .pointer:hover { cursor: pointer; }
 
@@ -784,15 +797,57 @@ a.no-color, .no-color { color: #6f6f6f; }
 .category-chooser-li { padding: 5px; }
 
 /******************************************************************************* Messages Setup *****************************************************************************/
-.flash, .message { clear: both; text-align: center; font-size: 140%; font-weight: bold; margin: 0px 0px 1em; padding: 0.4em; color: white; text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 1px; background-color: #a60202; border: 1px #8a0101 solid; }
+.ui-pnotify-title { font-weight: bolder; }
 
-.flash-error { border-color: #8a0101; background-color: #a60202; }
+.flash > .alert, .message { clear: both; margin: 0px 0px 1em; padding: 10px; color: #b94a48; background-color: #ff2120; border: 1px #d41b1a solid; }
 
-.flash-warning { border-color: #d49900; background-color: #ffb800; }
+.flash-error > .alert { border: 1px #aa1615 solid; color: black; background-color: #ff2120; box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.4) !important; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ff2221), color-stop(100%, #f21f1e)), #ff2120; background: -webkit-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: -moz-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: -o-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: -ms-linear-gradient(top, #ff2221, #f21f1e), #ff2120; background: linear-gradient(top, #ff2221, #f21f1e), #ff2120; text-shadow: none; color: white; }
 
-.flash-notice { border-color: #80aa29; background-color: yellowgreen; }
+.flash-warning > .alert { border: 1px #aaa288 solid; color: #332800; background-color: #fff4cc; box-shadow: 0px 2px 10px 1px rgba(77, 60, 0, 0.4) !important; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffd6), color-stop(100%, #f2e8c2)), #fff4cc; background: -webkit-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: -moz-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: -o-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: -ms-linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; background: linear-gradient(top, #ffffd6, #f2e8c2), #fff4cc; }
 
-.error-message, .message { padding: 5px; /* einziehen Zunge Fehlermeldungen */ /*	padding-top: 5px + $corner_radius;*/ /*	margin-top: -1 * $corner_radius;*/ background-color: #a60202; color: white; text-shadow: #595959 0px -1px 1px; }
+.flash-notice > .alert { border: 1px #999faa solid; color: #001c4d; background-color: #e6efff; box-shadow: 0px 2px 10px 1px rgba(0, 37, 102, 0.4) !important; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f1faff), color-stop(100%, #dbe3f2)), #e6efff; background: -webkit-linear-gradient(top, #f1faff, #dbe3f2), #e6efff; background: -moz-linear-gradient(top, #f1faff, #dbe3f2), #e6efff; background: -o-linear-gradient(top, #f1faff, #dbe3f2), #e6efff; background: -ms-linear-gradient(top, #f1faff, #dbe3f2), #e6efff; background: linear-gradient(top, #f1faff, #dbe3f2), #e6efff; }
+
+.flash-success > .alert { border: 1px #84aa49 solid; color: black; background-color: #c6ff6e; box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.4) !important; background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #cfff73), color-stop(100%, #bcf268)), #c6ff6e; background: -webkit-linear-gradient(top, #cfff73, #bcf268), #c6ff6e; background: -moz-linear-gradient(top, #cfff73, #bcf268), #c6ff6e; background: -o-linear-gradient(top, #cfff73, #bcf268), #c6ff6e; background: -ms-linear-gradient(top, #cfff73, #bcf268), #c6ff6e; background: linear-gradient(top, #cfff73, #bcf268), #c6ff6e; }
+
+/*
+Document   : jquery.pnotify.default.css
+Created on : Nov 23, 2009, 3:14:10 PM
+Author     : Hunter Perrin
+Version    : 1.2.0
+Link       : http://pinesframework.org/pnotify/
+Description:
+	Default styling for Pines Notify jQuery plugin.
+*/
+/* -- Notice */
+.ui-pnotify { top: 25px; right: 25px; position: absolute; height: auto; /* Ensures notices are above everything */ z-index: 9999; }
+
+/* Hides position: fixed from IE6 */
+html > body .ui-pnotify { position: fixed; }
+
+.ui-pnotify .ui-pnotify-shadow { -webkit-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5); -moz-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5); box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5); }
+
+.ui-pnotify-container { background-position: 0 0; padding: .8em; height: 100%; margin: 0; }
+
+.ui-pnotify-sharp { -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; }
+
+.ui-pnotify-closer, .ui-pnotify-sticker { float: right; margin-left: .2em; }
+
+.ui-pnotify-title { display: block; margin-bottom: .4em; }
+
+.ui-pnotify-text { display: block; }
+
+.ui-pnotify-icon, .ui-pnotify-icon span { display: block; float: left; margin-right: .2em; }
+
+/* -- History Pulldown */
+.ui-pnotify-history-container { position: absolute; top: 0; right: 18px; width: 70px; border-top: none; padding: 0; -webkit-border-top-left-radius: 0; -moz-border-top-left-radius: 0; border-top-left-radius: 0; -webkit-border-top-right-radius: 0; -moz-border-top-right-radius: 0; border-top-right-radius: 0; /* Ensures history container is above notices. */ z-index: 10000; }
+
+.ui-pnotify-history-container .ui-pnotify-history-header { padding: 2px; }
+
+.ui-pnotify-history-container button { cursor: pointer; display: block; width: 100%; }
+
+.ui-pnotify-history-container .ui-pnotify-history-pulldown { display: block; margin: 0 auto; }
+
+.error-message, .message { padding: 5px; /* einziehen Zunge Fehlermeldungen */ /*	padding-top: 5px + $corner_radius;*/ /*	margin-top: -1 * $corner_radius;*/ background-color: #ff2120; color: white; }
 
 .no-content-yet { margin: 1em auto; font-weight: bold; width: 100%; text-align: center; font-size: 35px; color: #DDD; letter-spacing: 0.1em; word-spacing: 0.1em; }
 
@@ -815,17 +870,24 @@ a.no-color, .no-color { color: #6f6f6f; }
   .postingform_main { width: 490px; } }
 @media only screen and (device-width: 768px) and (orientation: landscape) { body, html { /* don't touch it! */ /*		width: 980px;*/ /*		min-width: 980px;*/ } }
 /******************************************************************************/
+.ui-widget { font-family: inherit; }
+
 .ui-widget-content a { color: #e74a00; }
 
 .ui-dialog .ui-dialog-content { padding: 10px; }
 
-.ui-dialog.ui-widget-content { border: none; border: 4px solid #eaeaea; }
+.ui-dialog.ui-widget-content { border: none; border: 1px solid #eaeaea; }
 
 .ui-dialog { position: absolute; padding: 0; box-shadow: 0px 2px 5px #222222; }
 
-.ui-dialog .ui-dialog-titlebar { padding: 0.4em 1em; position: relative; border-top: none; border-left: none; border-right: none; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; -ms-border-bottom-left-radius: 0; -o-border-bottom-left-radius: 0; border-bottom-left-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; -ms-border-bottom-right-radius: 0; -o-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
+.ui-dialog .ui-dialog-titlebar { padding: 0.4em 1em; position: relative; border-top: none; border-left: none; border-right: none; -moz-border-radius-topleft: 0px; -webkit-border-top-left-radius: 0px; -ms-border-top-left-radius: 0px; -o-border-top-left-radius: 0px; border-top-left-radius: 0px; -moz-border-radius-topright: 0px; -webkit-border-top-right-radius: 0px; -ms-border-top-right-radius: 0px; -o-border-top-right-radius: 0px; border-top-right-radius: 0px; -moz-border-radius-bottomleft: 0; -webkit-border-bottom-left-radius: 0; -ms-border-bottom-left-radius: 0; -o-border-bottom-left-radius: 0; border-bottom-left-radius: 0; -moz-border-radius-bottomright: 0; -webkit-border-bottom-right-radius: 0; -ms-border-bottom-right-radius: 0; -o-border-bottom-right-radius: 0; border-bottom-right-radius: 0; }
 
-.ui-dialog-titlebar .ui-dialog-title { margin-left: 16px; }
+.ui-corner-all { -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; }
+
+.ui-dialog .ui-dialog-titlebar { padding-top: 1px; padding-bottom: 1px; }
+.ui-dialog .ui-dialog-titlebar .ui-state-hover { border: none; background-image: none; background: none; padding: 1px; }
+
+.ui-dialog .ui-dialog-title { width: 100%; text-align: center; }
 
 .ui-dialog .ui-dialog-titlebar-close { left: 0.3em; }
 

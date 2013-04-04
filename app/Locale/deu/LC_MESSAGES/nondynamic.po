@@ -68,3 +68,26 @@ msgstr "Sperren"
 msgid "locked_unset_entry_link"
 msgstr "Entsperren"
 
+#
+msgid "Extension is not allowed."
+msgstr "Dateityp ist nicht erlaubt."
+
+#
+msgid "File exceeds size limit."
+msgstr "Datei ist zu groß."
+
+#
+msgid "error"
+msgstr "Fehler"
+
+#
+msgid "warning"
+msgstr "Warnung"
+
+#
+msgid "notice"
+msgstr "Hinweis"
+
+#
+msgid "success"
+msgstr "Erfolg"

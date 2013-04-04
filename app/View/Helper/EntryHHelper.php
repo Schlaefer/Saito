@@ -24,7 +24,7 @@
 		protected $_maxThreadDepthIndent;
 
 		/**
-		 *
+		 * Category localization
 		 *
 		 * Perf-cheat
 		 *
@@ -89,11 +89,12 @@ EOF
 		 * @return boolean
 		 */
 		public function isNewEntry($entry, $user) {
-			$isNewEntry = FALSE;
-			if (strtotime($user['last_refresh']) < strtotime($entry['Entry']['time'])):
-				$isNewEntry = TRUE;
-			endif;
-			return $isNewEntry;
+			return isset($user['last_refresh'])
+						 && strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
+		}
+
+		public function hasAnswers($entry) {
+			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
 		}
 
 		public function hasNewEntries($entry, $user) {
@@ -104,55 +105,17 @@ EOF
 			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
 		}
 
-		public function generateThreadParams($params) {
-
-			extract($params);
-
-			$is_new_post = false;
-			if ( $level == 0 ) {
-				if ( isset($last_refresh)
-						&& strtotime($last_refresh) < strtotime($entry_time)
-				) {
-					$span_post_type = 'threadnew';
-					$is_new_post = true;
-				} else {
-					$span_post_type = 'thread';
-				}
-			} else {
-				if ( isset($last_refresh)
-						&& strtotime($last_refresh) < strtotime($entry_time)
-				) {
-					$span_post_type = 'replynew';
-					$is_new_post = true;
-				} else {
-					$span_post_type = 'reply';
+		public function generateEntryTypeCss($level, $new, $current, $viewed) {
+			$entryType = ($level === 0) ? 'thread' : 'reply';
+			if ($new) {
+				$entryType .= 'new';
+			}
+			if (!empty($viewed)) {
+				if ($current === $viewed) {
+					$entryType = ($level === 0) ? 'actthread' : 'actreply';
 				}
 			}
-
-			### determine act_thread  start ###
-			$act_thread = false;
-			if ( $this->request->params['action'] == 'view' ) {
-				if ( $level == 0 ) {
-					if ( $entry_current == $entry_viewed ) {
-						$span_post_type = 'actthread';
-						$act_thread = true;
-					}
-				} else {
-					if ( $entry_current == $entry_viewed ) {
-						$span_post_type = 'actreply';
-						$act_thread = true;
-					}
-				}
-			}
-			### determine act_thread end ###
-
-			$out = array(
-					'act_thread',
-					'is_new_post',
-					'span_post_type',
-			);
-
-			return compact($out);
+			return $entryType;
 		}
 
     public function getPaginatedIndexPageId($tid, $lastAction) {
@@ -230,21 +193,15 @@ EOF
 		public function threadCached(array $entry_sub, SaitoUser $CurrentUser, $level = 0, array $current_entry = array()) {
 			// Stopwatch::start('EntryH->threadCached');
 			//setup for current entry
-			$params = $this->generateThreadParams(
-					array(
-							'level'					 => $level,
-							'last_refresh'	 => $CurrentUser['last_refresh'],
-							'entry_time'		 => $entry_sub['Entry']['time'],
-							// @td $entry['Entry']['id'] not set in user/view.ctp
-							'entry_viewed'	 => (isset($current_entry['Entry']['id']) && $this->request->params['action'] == 'view') ? $current_entry['Entry']['id'] : null,
-							'entry_current'	 => $entry_sub['Entry']['id'],
-					)
+			$isNew = $this->isNewEntry($entry_sub, $CurrentUser);
+			$span_post_type = $this->generateEntryTypeCss(
+				$level,
+				$isNew,
+				$entry_sub['Entry']['id'],
+				(isset($current_entry['Entry']['id']) && $this->request->params['action'] === 'view') ? $current_entry['Entry']['id'] : null
 			);
-			extract($params);
 
-			$new_post_class = (($is_new_post) ? ' new' : '');
 			$thread_line_cached = $this->threadLineCached($entry_sub, $level);
-
 			$thread_line_pre = '<i class="icon-thread"></i>';
 			if ($level === 0
 					&& strtotime($entry_sub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
@@ -252,16 +209,12 @@ EOF
 			}
 
 			// generate current entry
-			$out = '';
-
-			$out .= <<<EOF
-<li class="js-thread_line {$span_post_type}" data-id="{$entry_sub['Entry']['id']}" data-tid="{$entry_sub['Entry']['tid']}" data-new="{$is_new_post}">
-	<div class="js-thread_line-content tl-cnt {$new_post_class}">
-		<div class="thread_line-pre">
-			<a href="#" class="btn_show_thread {$entry_sub['Entry']['id']} span_post_type">
-				{$thread_line_pre}
-			</a>
-		</div>
+			$out = <<<EOF
+<li class="js-thread_line {$span_post_type}" data-id="{$entry_sub['Entry']['id']}" data-tid="{$entry_sub['Entry']['tid']}" data-new="{$isNew}">
+	<div class="js-thread_line-content tl-cnt">
+		<a href="#" class="btn_show_thread thread_line-pre span_post_type">
+			{$thread_line_pre}
+		</a>
 		<a href='{$this->request->webroot}entries/view/{$entry_sub['Entry']['id']}'
 			class='link_show_thread {$entry_sub['Entry']['id']} span_post_type thread_line-content'>
 				{$thread_line_cached}
@@ -270,25 +223,42 @@ EOF
 </li>
 EOF;
 
-
 			// generate sub-entries of current entry
 			if (isset($entry_sub['_children'])) :
-				$out .= '<li>';
+				$sub = '';
 				foreach ($entry_sub['_children'] as $child) :
-					$out .= $this->threadCached($child, $CurrentUser, $level + 1, $current_entry);
+					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $current_entry);
 				endforeach;
-				$out .= '</li>';
+				$out .= '<li>' . $this->_wrapUl($sub) . '</li>';
 			endif;
 
-			// wrap everything up
-			if ($level < $this->_maxThreadDepthIndent) {
-				$wrapper_start = '<ul id="ul_thread_' . $entry_sub['Entry']['id'] . '" class="' . (($level === 0) ? 'thread' : 'reply') . '">';
-				$wrapper_end	 = '</ul>';
-				$out					 = $wrapper_start . $out . $wrapper_end;
+			// wrap into root ul tag
+			if ($level === 0) {
+				$out = $this->_wrapUl($out, $level, $entry_sub['Entry']['id']);
 			}
-
 			// Stopwatch::stop('EntryH->threadCached');
 			return $out;
+		}
+
+		/**
+		 * Wraps li tags with ul tag
+		 *
+		 * @param $string li html list
+		 * @param $level
+		 * @param $id
+		 * @return string
+		 */
+		protected function _wrapUl($string, $level = null, $id = null) {
+			if ($level < $this->_maxThreadDepthIndent) {
+				$class = '';
+				$data = '';
+				if ($level === 0) {
+					$class = 'class="root"';
+					$data = 'data-id="' . $id . '"';
+				}
+				$string = "<ul {$data} {$class}>" . $string . '</ul>';
+			}
+			return $string;
 		}
 
 		/**
@@ -311,7 +281,7 @@ EOF;
 				if (!isset($this->_catL10n[$entry_sub['Category']['accession']])) {
 					$this->_catL10n[$entry_sub['Category']['accession']] = __d('nondynamic',
 						'category_acs_' . $entry_sub['Category']['accession'] . '_exp');
-				} 				
+				}
 				$a = $this->_catL10n[$entry_sub['Category']['accession']];
 				$category = '<span class="category_acs_' . $entry_sub['Category']['accession'] . '"
             title="' . $entry_sub['Category']['description'] . ' ' . ($a) . '">
@@ -321,10 +291,6 @@ EOF;
 
 			// normal time output
 			$time = $this->TimeH->formatTime($entry_sub['Entry']['time']);
-
-			// the schlaefer awe-some-o macnemo shipbell time output
-			/* <span title="<?php echo $this->TimeH->formatTime($entry_sub['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry_sub['Entry']['time'], 'glasen'); ?>
-			  </span> */
 
 			$subject = $this->getSubject($entry_sub);
 			$badges = $this->getBadges($entry_sub);

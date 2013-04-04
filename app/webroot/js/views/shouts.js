@@ -2,13 +2,13 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'models/app',
     'jqueryAutosize'
-], function($, _, Backbone, jqueryAutosize) {
+], function($, _, Backbone, App, jqueryAutosize) {
+
+    "use strict";
 
     var ShoutboxView = Backbone.View.extend({
-
-        refreshTimeBase: 5000,
-        refreshTimeMax: 30000,
 
         lastId: 0,
 
@@ -18,14 +18,15 @@ define([
         },
 
         initialize: function(options) {
-            this.urlBase = options.urlBase + 'shouts/';
+            this.webroot = App.settings.get('webroot') + 'shouts/';
             this.shouts = this.$el.find('.shouts');
-            this.vents = options.vents;
             this.textarea =  this.$el.find('textarea');
-            this.refreshTimeAct = this.refreshTimeBase;
+            this.slidetabModel = options.slidetabModel;
+
+            this.listenTo(App.status, "change:lastShoutId", this.poll);
+            this.listenTo(this.slidetabModel, "change:isOpen", this.poll);
 
             this.textarea.autosize();
-            this.poll();
         },
 
         formDown: function(event) {
@@ -38,9 +39,9 @@ define([
 
         formUp: function() {
             if (this.textarea.val().length > 0) {
-                this.vents.trigger('breakAutoreload');
+                App.eventBus.trigger('breakAutoreload');
             } else if (this.textarea.val().length === 0) {
-                this.vents.trigger('initAutoreload');
+                App.eventBus.trigger('initAutoreload');
             }
         },
 
@@ -50,29 +51,30 @@ define([
 
         submit: function() {
             $.ajax({
-                url: this.urlBase + 'add',
+                url: this.webroot + 'add',
                 type: "post",
                 data: {
                    text: this.textarea.val()
                 },
                 success: _.bind(function(data) {
-                    clearTimeout(this.timeoutId);
-                    this.poll(data);
+                    this.poll();
                 }, this)
             });
         },
 
-        poll: function() {
+        isVisible: function() {
+           return this.$el.find('#shoutbox').is(':visible') === true;
+        },
 
-            this.timeoutId = setTimeout(_.bind(this.poll, this), this.refreshTimeAct);
+        poll: function(currentShoutId) {
 
             // update shoutbox only if tab is open
-            if(this.$el.is(":visible") === false) {
+            if(this.isVisible === false) {
                 return;
             }
 
             $.ajax({
-                url: this.urlBase + 'index',
+                url: this.webroot + 'index',
                 data: {
                     lastId: this.lastId
                 },
@@ -82,12 +84,6 @@ define([
                     if (data.length > 0) {
                         this.render(data);
                         this.lastId = $(data).find('.shout:first').data('id');
-                        this.refreshTimeAct = this.refreshTimeBase;
-                    } else {
-                        this.refreshTimeAct = Math.floor(this.refreshTimeAct * (1 + this.refreshTimeAct/40000))
-                        if (this.refreshTimeAct > this.refreshTimeMax) {
-                            this.refreshTimeAct = this.refreshTimeMax
-                        }
                     }
                 }, this)
             });

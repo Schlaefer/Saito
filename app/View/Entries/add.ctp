@@ -19,21 +19,16 @@ if ( $this->getVar('citeText') ) {
 
 ?>
 <div id ="entry_<?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>" class="entry <?php echo  ($this->request->is('ajax')) ? 'reply' : 'add'; ?>">
-	<div id="preview_<?php echo $this->request->data['Entry']['id'] ?>" class="preview">
+
+	<div class="preview">
 		<div class="l-box-header box-header">
 			<div>
         <div class="c_first_child">
-					<?php
-					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideOut',
-									array( 'speed' => 'fast' ));
-					$this->Js->get('#btn_preview_close_' . $this->request->data['Entry']['id'])->event('click',
-							$js_r);
-					?>
-					<i id="btn_preview_close_<?php echo $this->request->data['Entry']['id']; ?>" class='icon-close-widget icon-large pointer btn-icon-close' >&nbsp;</i>
+					<i class='icon-close-widget icon-large pointer btn-icon-close btn-previewClose'>&nbsp;</i>
 				</div>
 				<div>
 					<h2>
-<?php echo  __('preview') ?>
+						<?php echo __('preview') ?>
 					</h2>
 				</div>
 				<div class="c_last_child">
@@ -42,18 +37,16 @@ if ( $this->getVar('citeText') ) {
 			</div>
 		</div><!-- header -->
 
-		<div class="content">
-			<div id="spinner_preview_<?php echo $this->request->data['Entry']['id']; ?>" class="spinner"></div>
-			<div id="preview_slider_<?php echo $this->request->data['Entry']['id']; ?>">
-			</div>
-		</div> <!-- content -->
+		<div class="content"></div>
 	</div> <!-- preview -->
+
 	<div class="postingform">
 		<div class="l-box-header box-header">
 			<div>
         <div class="c_first_child">
 <?php  if ( $this->request->is('ajax') ) : ?>
-						<i id="btn_close_<?php echo $this->request->data['Entry']['id'] ?>" class='icon-close-widget icon-large btn-icon-close pointer' onclick="postings.get(<?php echo $this->request->data['Entry']['id'] ?>).set({isAnsweringFormShown: false});">&nbsp;
+						<i class='icon-close-widget icon-large btn-icon-close pointer btn-answeringClose'>
+								&nbsp;
             </i>
 <?php  endif; ?>
 				</div>
@@ -66,46 +59,8 @@ if ( $this->getVar('citeText') ) {
 			</div>
 		</div>
 
-		<div id='markitup_media' style="display: none; overflow: hidden;">
-			<?php echo 
-			$this->Form->create(FALSE,
-					array(
-					'url' => '#',
-					'style' => 'width: 100%;' ));
-			?>
-			<?php echo 
-			$this->Form->label(
-					'media', 'Bitte Verweis oder Code zum Einbinden angeben:',
-					array(
-					'class' => 'c_markitup_label',
-					)
-			);
-			?>
-			<?php echo 
-			$this->Form->textarea('media',
-					array(
-					'id' => 'markitup_media_txta',
-					'class' => 'c_markitup_popup_txta',
-					'rows' => '6',
-					'columns' => '20',
-			));
-			?>
-			<div class="clearfix"></div>
-<?php echo 
-$this->Form->submit(__('Einfügen'),
-		array( // @lo
-		'style' => 'float: right;',
-		'class' => 'btn btn-submit',
-		'id' => 'markitup_media_btn',
-));
-?>
-					<?php echo  $this->Form->end(); ?>
-			<div class="clearfix"></div>
-			<br/>
-			<div id="markitup_media_message" class="flash error" style="display: none;">
-					<?php echo __('No video recognized.'); ?>
-			</div>
-		</div>
+		<div id="markitup_upload"><div class="body"></div></div>
+		<div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
 		<div class="content">
 					<?php echo  $this->Form->create('Entry'); ?>
@@ -113,7 +68,7 @@ $this->Form->submit(__('Einfügen'),
 					<?php echo $this->EntryH->getCategorySelectForEntry($categories,
 							$this->request->data); ?>
 				<div class="postingform_main">
-					<?php echo 
+					<?php echo
 					$this->Form->input(
 							'subject',
 							array(
@@ -128,7 +83,7 @@ $this->Form->submit(__('Einfügen'),
 					);
 					?>
 				</div>
-						<?php 
+						<?php
 							echo $this->Form->hidden('pid');
 						?>
 				<div class="postingform_main">
@@ -136,7 +91,7 @@ $this->Form->submit(__('Einfügen'),
 						echo $this->MarkitupEditor->getButtonSet('markItUp_' . $this->request->data['Entry']['id']);
 						echo $this->MarkitupEditor->editor(
 								'text',
-								array( 
+								array(
 										'parser' => false,
                     'set' => 'default', 'skin' => 'macnemo',
                     'label' => false, 'tabindex' => 3,
@@ -251,46 +206,22 @@ $this->Form->submit(__('Einfügen'),
 						));
 					} # !i$this->request->is('ajax')
 					else {
-						$js_r = "new ThreadLine('{$this->request->data['Entry']['id']}').insertNewLineAfter(data);";
-						$js_r .= "$('.btn.btn-submit').removeAttr('disabled');";
-						echo $this->Js->submit(
-								__('submit_button'),
-								array(
-								'url' => array(
-										'controller' => 'entries',
-										'action' => 'add',
-										$this->request->data['Entry']['id'],
-								),
+						echo $this->Form->submit(__('submit_button'),
+							array(
 								'id' => 'btn-submit',
-								'beforeSend' => "$('.btn.btn-submit').attr('disabled', 'disabled');",
-								'class' => 'btn btn-submit',
-								'tabindex' => 4,
-								'buffer' => false,
-								'success' => $js_r,
-								)
-						);
+								'class' => 'btn btn-submit js-inlined',
+								'tabindex' => 4
+							));
 					}
 					?>
-
+					&nbsp;
 					<?php
-					$js_r = $this->Js->get('#preview_' . $this->request->data['Entry']['id'])->effect('slideIn',
-									array( 'speed' => 'fast' ));
-					$js_r .= "$('#preview_slider_" . $this->request->data['Entry']['id'] . "').html('');";
-					$js_r .= '$("#spinner_preview_' . $this->request->data['Entry']['id'] . '").show()';
-					echo $this->Js->submit(
+					echo $this->Html->link(
 							__('preview'),
+							'#',
 							array(
-							'url' =>array(
-									'controller' => 'entries',
-									'action' => 'preview',
-							),
-							'beforeSend' => $js_r,
-							'id' => 'btn_preview_' . $this->request->data['Entry']['id'],
-							'update' => '#preview_slider_' . $this->request->data['Entry']['id'],
-							'class' => 'btn btn-preview',
-							'complete' => '$("#spinner_preview_' . $this->request->data['Entry']['id'] . '").hide()',
-							'tabindex' => 5,
-							'buffer' => false,
+								'class' => 'btn btn-preview',
+								'tabindex' => 5
 							)
 					);
 					?>
@@ -300,15 +231,6 @@ $this->Form->submit(__('Einfügen'),
 		</div> <!-- content -->
 	</div> <!-- postingform -->
 </div> <!-- entry add/reply -->
-
-<?php
-	// set cursor to category or subject field after load ###
-	echo $this->Html->scriptBlock(
-			'var Saito_App_setFocus = "#EntrySubject";',
-			array('inline' => true)
-			);
-  echo ($this->request->is('ajax')) ? $this->Js->writeBuffer() : '';
-?>
 
 <?php if ($this->request->action === 'edit'): ?>
 	<span id="submit-countdown" class="countdown" style="display: none;"></span>

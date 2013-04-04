@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 11:07+0100\n"
-"PO-Revision-Date: 2013-02-09 11:08+0100\n"
+"POT-Creation-Date: 2013-03-05 13:35+0100\n"
+"PO-Revision-Date: 2013-03-08 12:16+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -182,7 +182,8 @@ msgstr ""
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Entries/index.ctp:37 View/Layouts/admin.ctp:52
+#: View/Layouts/admin.ctp:52 webroot/js/main-prod.js:79
+#: webroot/js/views/categoryChooser.js:18
 msgid "Categories"
 msgstr ""
 
@@ -336,7 +337,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: View/Categories/view.ctp:66 View/Entries/search.ctp:68
+#: View/Categories/view.ctp:66 View/Entries/search.ctp:73
 msgid "Text"
 msgstr ""
 
@@ -375,12 +376,12 @@ msgstr ""
 "Choose your custom categories.<br/><br/>Click on a name to quickly show this "
 "category without changing your preferences."
 
-#: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:77
+#: View/Elements/entry/category-chooser.ctp:36 View/Entries/search.ctp:82
 #: Controller/EntriesController.php:881
 msgid "All Categories"
 msgstr ""
 
-#: View/Elements/entry/category-chooser.ctp:81
+#: View/Elements/entry/category-chooser.ctp:83
 msgid "Apply"
 msgstr ""
 
@@ -415,8 +416,7 @@ msgstr "views"
 
 #: View/Elements/entry/view_posting.ctp:59
 #: View/Elements/layout/header_login.ctp:38
-#: View/Elements/layout/header_login.ctp:44
-#: View/Elements/layout/header_login.ctp:45 View/Entries/index.ctp:19
+#: View/Elements/layout/header_login.ctp:43 View/Entries/index.ctp:19
 #: View/Entries/search.ctp:22 View/Users/view.ctp:155
 msgid "Help"
 msgstr ""
@@ -425,25 +425,25 @@ msgstr ""
 msgid "answering_forbidden_locked_shp"
 msgstr "Answering forbidden by moderator."
 
-#: View/Elements/entry/view_posting.ctp:71
+#: View/Elements/entry/view_posting.ctp:65
 msgid "forum_answer_linkname"
 msgstr "Answer"
 
-#: View/Elements/entry/view_posting.ctp:88
-#: View/Elements/entry/view_posting.ctp:116
+#: View/Elements/entry/view_posting.ctp:79
+#: View/Elements/entry/view_posting.ctp:107
 #: Controller/EntriesController.php:481
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: View/Elements/entry/view_posting.ctp:156
+#: View/Elements/entry/view_posting.ctp:147
 msgid "merge_tree_link"
 msgstr "Merge"
 
-#: View/Elements/entry/view_posting.ctp:167
+#: View/Elements/entry/view_posting.ctp:158
 msgid "delete_tree_link"
 msgstr "Delete"
 
-#: View/Elements/entry/view_posting.ctp:170
+#: View/Elements/entry/view_posting.ctp:161
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
@@ -516,12 +516,12 @@ msgstr "User Profile"
 msgid "logout_linkname"
 msgstr "Logout"
 
-#: View/Elements/layout/header_login.ctp:46
+#: View/Elements/layout/header_login.ctp:44
 msgid "No help for this page available."
 msgstr ""
 
-#: View/Elements/layout/header_search.ctp:15 View/Entries/search.ctp:26
-#: View/Entries/search.ctp:100
+#: View/Elements/layout/header_search.ctp:16 View/Entries/search.ctp:26
+#: View/Entries/search.ctp:105
 msgid "search_submit"
 msgstr "Search"
 
@@ -533,25 +533,21 @@ msgstr ""
 msgid "user_recentposts"
 msgstr "recent posts"
 
-#: View/Elements/layout/slidetab_userlist.ctp:23
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:23
+#: View/Elements/layout/slidetab_userlist.ctp:18
 msgid "user_area_linkname"
 msgstr "User"
 
-#: View/Elements/layout/slidetab_userlist.ctp:21
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:21
+#: View/Elements/layout/slidetab_userlist.ctp:16
 #, php-format
 msgid "%s online (%s)"
 msgstr ""
 
-#: View/Elements/layout/slidetab_userlist.ctp:37
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:37
+#: View/Elements/layout/slidetab_userlist.ctp:32
 #: View/Helper/UserHHelper.php:116
 msgid "ud_admin"
 msgstr "Administrator"
 
-#: View/Elements/layout/slidetab_userlist.ctp:38
-#: View/Themed/Macnemo/Elements/layout/slidetab_userlist.ctp:38
+#: View/Elements/layout/slidetab_userlist.ctp:33
 #: View/Helper/UserHHelper.php:114
 msgid "ud_mod"
 msgstr "Moderator"
@@ -599,7 +595,7 @@ msgstr "Password"
 msgid "user_pw_confirm"
 msgstr "Confirm Password"
 
-#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:70
+#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:75
 msgid "user_name"
 msgstr "Username"
 
@@ -615,43 +611,35 @@ msgstr ""
 "To activate your account please click the following link: %s within the next "
 "24 hours."
 
-#: View/Entries/add.ctp:36 View/Entries/add.ctp:281
+#: View/Entries/add.ctp:31 View/Entries/add.ctp:220
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:95
-msgid "Einfügen"
-msgstr ""
-
-#: View/Entries/add.ctp:106
-msgid "No video recognized."
-msgstr ""
-
-#: View/Entries/add.ctp:124 Controller/UsersController.php:444
+#: View/Entries/add.ctp:79 Controller/UsersController.php:444
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:161
+#: View/Entries/add.ctp:116
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:183
+#: View/Entries/add.ctp:138
 msgid "Notify on reply"
 msgstr ""
 
-#: View/Entries/add.ctp:191
+#: View/Entries/add.ctp:146
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:198 View/Helper/EntryHHelper.php:196
+#: View/Entries/add.ctp:153 View/Helper/EntryHHelper.php:196
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
-#: View/Entries/add.ctp:206
+#: View/Entries/add.ctp:161
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
-#: View/Entries/add.ctp:245 View/Entries/add.ctp:257 View/Entries/add.ctp:317
+#: View/Entries/add.ctp:200 View/Entries/add.ctp:209 View/Entries/add.ctp:239
 msgid "submit_button"
 msgstr "Submit"
 
@@ -701,19 +689,19 @@ msgstr "Search"
 msgid "search_advanced"
 msgstr "Advanced Search"
 
-#: View/Entries/search.ctp:66
+#: View/Entries/search.ctp:68
 msgid "subject"
 msgstr "Subject"
 
-#: View/Entries/search.ctp:82
+#: View/Entries/search.ctp:87
 msgid "search_since"
 msgstr "Since"
 
-#: View/Entries/search.ctp:102
+#: View/Entries/search.ctp:107
 msgid "search_simple"
 msgstr "Simple Search"
 
-#: View/Entries/search.ctp:158
+#: View/Entries/search.ctp:163
 msgid "search_nothing_found"
 msgstr "Nothing found."
 
@@ -1183,19 +1171,15 @@ msgid ""
 "geheuert, :loggedin an Deck, :anon Blinde Passagiere"
 msgstr ""
 
-#: View/Uploads/add.ctp:10 View/Uploads/index.ctp:29
+#: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Upload"
 
-#: View/Uploads/index.ctp:21
-msgid "upload_new_title"
-msgstr ""
-
-#: View/Uploads/index.ctp:46 View/Uploads/index.ctp:54
+#: View/Uploads/json/index.ctp:11 View/Uploads/json/index.ctp:16
 msgid "upload_btn_delete_upload"
-msgstr ""
+msgstr "Delete Upload"
 
-#: View/Uploads/index.ctp:79
+#: View/Uploads/json/index.ctp:36
 msgid "upload_btn_insert_into_posting"
 msgstr "Insert"
 
@@ -1518,7 +1502,7 @@ msgstr "Registered Users"
 msgid "userlist_online"
 msgstr "Online"
 
-#: View/Users/login.ctp:7
+#: View/Users/login.ctp:6
 msgid "login_linkname"
 msgstr "Login"
 
@@ -1592,7 +1576,7 @@ msgstr ""
 msgid "The bookmark could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/BookmarksController.php:93
+#: Controller/BookmarksController.php:92
 msgid "Invalid bookmark"
 msgstr ""
 
@@ -1756,9 +1740,9 @@ msgstr ""
 msgid "Caches have been emptied."
 msgstr ""
 
-#: Controller/UploadsController.php:35 Controller/UploadsController.php:88
+#: Controller/UploadsController.php:35 Controller/UploadsController.php:89
 msgid "upload_max_number_of_uploads_failed"
-msgstr ""
+msgstr "No more uploads possible (max: %s)."
 
 #: Controller/UsersController.php:54 Controller/UsersController.php:310
 #, php-format
@@ -1930,31 +1914,31 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:485
+#: View/Helper/BbcodeHelper.php:486
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:503
+#: View/Helper/BbcodeHelper.php:504
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:740
+#: View/Helper/BbcodeHelper.php:741
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Enable Embedly"
 
-#: View/Helper/BbcodeHelper.php:848
+#: View/Helper/BbcodeHelper.php:849
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:856
+#: View/Helper/BbcodeHelper.php:857
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -2042,7 +2026,8 @@ msgstr ""
 msgid "geshi_picture_popup"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:80
+#: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:79
+#: webroot/js/views/uploads.js:71
 #, fuzzy
 msgid "Upload"
 msgstr "Upload"
@@ -2051,7 +2036,7 @@ msgstr "Upload"
 msgid "Media"
 msgstr ""
 
-#: View/Helper/TimeHHelper.php:92 View/Helper/TimeHHelper.php:111
+#: View/Helper/TimeHHelper.php:100 View/Helper/TimeHHelper.php:119
 msgid "yesterday"
 msgstr ""
 
@@ -2062,6 +2047,81 @@ msgstr "User"
 #: View/Helper/UserHHelper.php:163
 msgid "userranks_not_found"
 msgstr ""
+
+#: webroot/js/templates/mediaInsert.html:3
+msgid "Enter link or embedding code:"
+msgstr ""
+
+#: webroot/js/templates/mediaInsert.html:12
+msgid "Insert"
+msgstr ""
+
+#: webroot/js/templates/mediaInsert.html:17
+msgid "Nothing recognized."
+msgstr ""
+
+#: webroot/js/templates/uploadNew.html:9
+msgid "upload_new_title"
+msgstr "Drop Image Here"
+
+#: webroot/js/templates/uploadNew.html:11
+msgid "upload_info"
+msgstr "Max. size: :size; type: jpg, jpeg, png, gif"
+
+#: webroot/js/main-prod.js:79 webroot/js/views/uploadNew.js:66
+msgid "upload_fileTypeNotAllowed"
+msgstr "File type not allowed."
+
+#: webroot/js/main-prod.js:79
+msgid ""
+"Enter link or embedding code:') %>\n"
+"    </label>\n"
+"    <textarea name=\"data[media]\" id=\"markitup_media_txta\" class="
+"\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\">\n"
+"    </textarea>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div class=\"submit\">\n"
+"        <input style=\"float: right;\" class=\"btn btn-submit\"\n"
+"               id=\"markitup_media_btn\" type=\"submit\"\n"
+"               value=\"<%- $.i18n.__('Insert') %>\"/>\n"
+"    </div>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div id=\"markitup_media_message\" class=\"flash error\" style="
+"\"display: none;\">\n"
+"        <%- $.i18n.__('Nothing recognized.') %>\n"
+"    </div>\n"
+"</form>\n"
+msgstr ""
+
+#: webroot/js/main-prod.js:79 webroot/js/views/mediaInsert.js:68
+msgid "Multimedia"
+msgstr ""
+
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
+msgid "tr:first"
+msgstr ""
+
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
+msgid "tr"
+msgstr ""
+
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:28
+msgid "token test"
+msgstr ""
+
+#: webroot/js/views/uploadNew.js:69
+msgid "upload_fileToLarge"
+msgstr "File :name to large."
+
+#: webroot/js/views/uploadNew.js:72
+msgid "upload_browserNotSupported"
+msgstr "Browser not supported."
+
+#: webroot/js/views/uploadNew.js:75
+msgid "upload_toManyFiles"
+msgstr "To many files."
 
 #~ msgid "whole_thread_marking"
 #~ msgstr "Whole Thread"

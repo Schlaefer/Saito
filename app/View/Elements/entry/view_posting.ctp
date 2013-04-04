@@ -27,60 +27,50 @@
 		</div> <!-- a_a_a -->
 	</div> <!-- a_a -->
 	<?php if (!empty($showAnsweringPanel)): ?>
-		<div id="box-footer-entry-actions-<?php echo $entry['Entry']['id'];?>" class="l-box-footer box-footer-form">
+		<div class="l-box-footer box-footer-form">
 			<div style="float:right">
-						<?php
-						// flattr - Button
-						if (Configure::read('Saito.Settings.flattr_enabled') == TRUE
-								// flattr is activated by admin
-								&& $entry['Entry']['flattr'] == TRUE
-								&& $entry['User']['flattr_uid'] == TRUE
-						) :
-							echo $this->Flattr->button('',
-									array(
-									'uid'								 => $entry['User']['flattr_uid'],
-									'language'					 => Configure::read('Saito.Settings.flattr_language'),
-									'title'							 => $entry['Entry']['subject'],
-									'description'				 => $entry['Entry']['subject'],
-									'cat'								 => Configure::read('Saito.Settings.flattr_category'),
-									'button'						 => 'compact',
-									)
-							);
-						endif;
-						?>
-					</div>
+				<?php
+					// flattr - Button
+					if (Configure::read('Saito.Settings.flattr_enabled') == TRUE
+							// flattr is activated by admin
+							&& $entry['Entry']['flattr'] == TRUE
+							&& !empty($entry['User']['flattr_uid'])
+					) :
+						echo $this->Flattr->button('',
+								array(
+								'uid'								 => $entry['User']['flattr_uid'],
+								'language'					 => Configure::read('Saito.Settings.flattr_language'),
+								'title'							 => $entry['Entry']['subject'],
+								'description'				 => $entry['Entry']['subject'],
+								'cat'								 => Configure::read('Saito.Settings.flattr_category'),
+								'button'						 => 'compact',
+								)
+						);
+					endif;
+				?>
+			</div>
 
-									<?php
-											# @td MCV
-											$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
-											if ($answering_forbidden === 'locked') { ?>
-												<i
-													class="icon-lock icon-huge shp shp-right"
-													data-title="<?php echo __('Help'); ?>"
-													data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
-													></i>
-											<?php
-											} elseif (!$answering_forbidden) {
-												$result =  "
-													if(!_isScrolledIntoView($('#posting_formular_slider_bottom_".$entry['Entry']['id']."'))) {
-														scrollToBottom('#posting_formular_slider_bottom_".$entry['Entry']['id']."');
-													}
-													initViewAnswerForm();";
-
-												echo $this->Js->link(
-																	__('forum_answer_linkname'),
-																	'/entries/add/' . $entry['Entry']['id'],
-																array(
-																	'id' => 'forum_answer_' . $entry['Entry']['id'],
-																	'class' => 'btn btn-submit', 'accesskey' => "a" ,
-																	'update' => '#posting_formular_slider_' . $entry['Entry']['id'] ,
-																	'complete'	=> $result,
-																	'buffer'	=> false,
-																	'beforeSend' => "postings.get({$entry['Entry']['id']}).set({isAnsweringFormShown: true});",
-																)
-												);
-											};
-										?>
+			<?php
+				# @td MCV
+				$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
+				if ($answering_forbidden === 'locked') { ?>
+					<i
+						class="icon-lock icon-huge shp shp-right"
+						data-title="<?php echo __('Help'); ?>"
+						data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
+						></i>
+				<?php
+				} elseif (!$answering_forbidden) {
+					echo $this->Html->link(
+						__('forum_answer_linkname'),
+						'#',
+						array(
+							'class' => 'btn btn-submit js-btn-setAnsweringForm',
+							'accesskey' => "a",
+						)
+					);
+				};
+			?>
 			<?php  if (isset($entry['rights']['isEditingAsUserForbidden']) && $entry['rights']['isEditingAsUserForbidden'] == false) : ?>
 				&nbsp;
 				<span class="small">
@@ -193,9 +183,6 @@
 
 	<?php endif; ?>
 	<div class="a_b">
-		<div id="posting_formular_slider_<?php echo $entry['Entry']['id']; ?>" class="posting_formular_slider" style="display:none;"  >
-			<div class="spinner"></div>
-		</div>
+		<div class="posting_formular_slider" style="display:none;"></div>
 	</div> <!-- a_b -->
-	<div id="posting_formular_slider_bottom_<?php echo $entry['Entry']['id']; ?>"></div>
 </div>

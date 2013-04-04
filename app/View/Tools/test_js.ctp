@@ -1,90 +1,48 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Jasmine Spec Runner</title>
+	<head>
+			<title>Jasmine Spec Runner</title>
 
-    <script type="text/javascript">
-        var SaitoApp = {
-						app: {
-                webroot: "<?php echo $this->request->webroot; ?>",
-								runJsTests: true
-						},
-            settings: {
-                embedly_enabled: '1'
-            },
-            currentUser: {
-                user_show_inline: '0'
-            }
-        };
-    </script>
+			<script type="text/javascript">
+					var SaitoApp = {
+							app: {
+									settings: {
+											webroot: "<?php echo $this->request->webroot; ?>"
+									},
+									runJsTests: true
+							},
+							settings: {
+									embedly_enabled: '1'
+							},
+							currentUser: {
+									user_show_inline: '0'
+							}
+					};
+			</script>
 
-    <!-- include Jasmin -->
-		<?php
-			echo $this->fetch('JasmineJs');
-		?>
+			<!-- include Jasmin -->
+			<?php
+				echo $this->fetch('JasmineJs');
+			?>
 
-    <!-- include libs -->
-		<?php
-			echo $this->jQuery->scriptTag();
-			echo $this->Html->script(
-				array(
-					'lib/jquery-ui/jquery-ui-1.9.2.custom.min.js',
-					'bootstrap/bootstrap.js',
-					'classes/thread_line.class.js',
-					'_app.js',
-					'lib/jquery.scrollTo/jquery.scrollTo-min.js',
-				)
-			);
-		?>
+			<!-- include libs -->
+			<?php
+				echo $this->jQuery->scriptTag();
+				echo $this->Html->script(
+					array(
+						'lib/jquery-ui/jquery-ui-1.9.2.custom.min.js',
+						'bootstrap/bootstrap.js'
+					)
+				);
+			?>
 
-    <!-- include source -->
-		<?php
-			echo $this->Html->script(
-				array(
-					'_app.js',
-				)
-			);
-		?>
-
-		<!-- include require.js -->
-		<?php
-			echo $this->RequireJs->scriptTag('main');
-		?>
-
-    <script type="text/javascript">
-				/*
-        (function() {
-            var jasmineEnv = jasmine.getEnv();
-            jasmineEnv.updateInterval = 1000;
-
-            var htmlReporter = new jasmine.HtmlReporter();
-
-            jasmineEnv.addReporter(htmlReporter);
-
-            jasmineEnv.specFilter = function(spec) {
-                return htmlReporter.specFilter(spec);
-            };
-
-            var currentWindowOnload = window.onload;
-
-            window.onload = function() {
-                if (currentWindowOnload) {
-                    currentWindowOnload();
-                }
-                execJasmine();
-            };
-
-            function execJasmine() {
-                jasmineEnv.execute();
-            }
-
-        })();
-        */
-    </script>
-
-</head>
-
-<body>
-</body>
+			<!-- include require.js -->
+			<script>
+				var require = {urlArgs: Math.floor(Math.random() * 1000000)};
+			</script>
+			<?php
+				echo $this->RequireJs->scriptTag('main');
+			?>
+	</head>
+	<body/>
 </html>

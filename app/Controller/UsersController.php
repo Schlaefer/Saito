@@ -13,7 +13,7 @@ class UsersController extends AppController {
 			'SimpleCaptcha.SimpleCaptcha',
 			'EntryH',
 	);
-	
+
 	protected $allowedToEditUserData = false;
 
 	public function login() {
@@ -42,20 +42,20 @@ class UsersController extends AppController {
 			endif;
 
 		elseif ( !empty($this->request->data) ) :
-      $known_error = FALSE;
+      $known_error = false;
       if ( isset($this->request->data['User']['username']) ) :
         $this->User->contain();
         $readUser = $this->User->findByUsername($this->request->data['User']['username']);
-        if ( $readUser !== FALSE ) :
+        if ( $readUser !== false ) :
           $user = new SaitoUser(new ComponentCollection);
           $user->set($readUser['User']);
           if ( $user->isForbidden() ) :
-            $known_error = $known_error || TRUE;
+            $known_error = $known_error || true;
             $this->Session->setFlash(__('User %s is locked.', $readUser['User']['username']), 'flash/warning');
           endif;
         endif;
       endif;
-      if ( $known_error === FALSE) :
+      if ( $known_error === false) :
         // Unknown login error
         $this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
       endif;
@@ -108,7 +108,7 @@ class UsersController extends AppController {
 					$this->SaitoEmail->email(array(
 						'recipient' => $this->request->data,
 						'subject' 	=> __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
-						'sender' 		=> array( 
+						'sender' 		=> array(
 								'User' => array(
 										'user_email' 	=> Configure::read('Saito.Settings.forum_email'),
 										'username'		=> Configure::read('Saito.Settings.forum_name')),
@@ -170,30 +170,44 @@ class UsersController extends AppController {
 		endif;
 	}
 
-	public function view($id = NULL) {
-		// allow user to be viewed by /users/view/<username>
-		if(!empty($id) && !is_numeric($id)) {
+	public function name($id = null) {
+		if(!empty($id)) {
 			$this->User->contain();
 			$viewed_user = $this->User->findByUsername($id);
 			if (!empty($viewed_user)) {
 				return $this->redirect(
-						array(
-								'controller' => 'users',
-								'action' => 'view',
-								$viewed_user['User']['id']
-						)
+					array(
+						'controller' => 'users',
+						'action' => 'view',
+						$viewed_user['User']['id']
+					)
 				);
 			}
+		}
+
+		$this->Session->setFlash(__('Invalid user'), 'flash/error');
+		return $this->redirect('/');
+	}
+
+	public function view($id = null) {
+		if(!empty($id) && !is_numeric($id)) {
+			return $this->redirect(
+				array(
+					'controller' => 'users',
+					'action' => 'name',
+					$id
+				)
+			);
 		}
 
 		$this->User->id = $id;
 
 		$this->User->contain(array('UserOnline'));
 		$viewed_user = $this->User->read();
-		
+
 		if (empty($this->request->data)) {
-			if ($id == NULL || (!($viewed_user))) {
-				$this->Session->setFlash((__('Invalid user')));
+			if ($id == null || (!($viewed_user))) {
+				$this->Session->setFlash(__('Invalid user'), 'flash/error');
 				$this->redirect('/');
 			}
 		}
@@ -208,11 +222,12 @@ class UsersController extends AppController {
 							), $this->CurrentUser
 					));
 
+		$this->Bbcode->initHelper();
 		$this->set('user', $viewed_user);
 	}
 
-	public function edit($id = NULL) {
-		if (!$this->allowedToEditUserData || !$id && empty($this->request->data)) 
+	public function edit($id = null) {
+		if (!$this->allowedToEditUserData || !$id && empty($this->request->data))
 		{ /** no data to find entry or not allowed * */
 			$this->Session->setFlash(__('Invalid user'));
 			$this->redirect('/');
@@ -247,10 +262,7 @@ class UsersController extends AppController {
 					$this->request->data = $this->User->read();
 					$this->CurrentUser->refresh();
 				endif;
-
-				$this->Session->setFlash(__('user_edit_success'), 'flash/notice');
 				$this->redirect(array('action' => 'view', $id));
-
 			} else {
 				// save operation failed
 
@@ -261,13 +273,18 @@ class UsersController extends AppController {
 				$this->request->data['User'] = array_merge($user['User'], $this->request->data['User']);
 				$this->User->set($this->request->data);
 				$this->User->validates();
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->JsData->addAppJsMessage(
+					__('The user could not be saved. Please, try again.'),
+					array(
+						'type' => 'error'
+					)
+				);
 			}
 		}
 
 
-		if (empty($this->request->data)) { 
-			//* View Entry by id 
+		if (empty($this->request->data)) {
+			//* View Entry by id
 
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
@@ -277,11 +294,11 @@ class UsersController extends AppController {
 		$this->set('user', $this->request->data);
 	}
 
-  public function lock($id = NULL) {
+  public function lock($id = null) {
       if (  (
-              $this->CurrentUser->isAdmin() === TRUE
-              || ($this->CurrentUser->isMod() === TRUE && Configure::read('Saito.Settings.block_user_ui'))
-            ) === FALSE
+              $this->CurrentUser->isAdmin() === true
+              || ($this->CurrentUser->isMod() === true && Configure::read('Saito.Settings.block_user_ui'))
+            ) === false
           ) :
         return $this->redirect('/');
       endif;
@@ -304,7 +321,7 @@ class UsersController extends AppController {
       else :
         $this->User->id = $id;
         $status = $this->User->toggle('user_lock');
-        if ( $status !== FALSE ) :
+        if ( $status !== false ) :
           $message = '';
           if ( $status ) :
             $message = __('User %s is locked.', $readUser['User']['username']);
@@ -321,7 +338,7 @@ class UsersController extends AppController {
       $this->redirect(array( 'action' => 'view', $id ));
     }
 
-  public function admin_delete($id = NULL) {
+  public function admin_delete($id = null) {
 
     $this->User->contain();
     $readUser = $this->User->findById($id);
@@ -351,7 +368,7 @@ class UsersController extends AppController {
   }
 
 	public function changepassword($id = null) {
-		if ( $id == null 
+		if ( $id == null
         || !$this->_checkIfEditingIsAllowed($this->CurrentUser, $id) ) :
 			return $this->redirect('/');
 	  endif;
@@ -364,7 +381,7 @@ class UsersController extends AppController {
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('change_password_success'), 'flash/notice');
+				$this->Session->setFlash(__('change_password_success'), 'flash/success');
 				return $this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
 			} else {
 				$this->Session->setFlash(
@@ -383,8 +400,8 @@ class UsersController extends AppController {
 
 	}
 
-	public function contact($id = NULL) {
-		if ($id === NULL) {
+	public function contact($id = null) {
+		if ($id === null) {
 			$this->redirect('/');
 		}
 
@@ -426,7 +443,14 @@ class UsersController extends AppController {
 				$sender_contact = $this->request->data['Message']['sender_contact'];
 				App::uses('Validation', 'Utility');
 				if (!Validation::email($sender_contact)) {
-					$this->Session->setFlash(__('error_email_not-valid'));
+					$this->JsData->addAppJsMessage(
+						__('error_email_not-valid'),
+						array(
+							'type'    => 'error',
+							'channel' => 'form',
+							'element' => '#MessageSenderContact'
+						)
+					);
 					$validation_error = true;
 				} else {
 					$sender['User'] = array(
@@ -441,7 +465,14 @@ class UsersController extends AppController {
 			// validate and set subject
 			$subject = rtrim($this->request->data['Message']['subject']);
 			if (empty($subject)) {
-				$this->Session->setFlash(__('error_subject_empty'));
+				$this->JsData->addAppJsMessage(
+					__('error_subject_empty'),
+					array(
+						'type'    => 'error',
+						'channel' => 'form',
+						'element' => '#MessageSubject'
+					)
+				);
 				$validation_error = true;
 			}
 
@@ -460,10 +491,10 @@ class UsersController extends AppController {
 					}
 
 					$this->SaitoEmail->email($email);
-					$this->Session->setFlash(__('Message was send.'), 'flash/notice');
+					$this->Session->setFlash(__('Message was send.'), 'flash/success');
 					return $this->redirect('/');
 				} catch (Exception $exc) {
-					$this->Session->setFlash(__('Error, message couldn\'t be send! ' . $exc->getMessage()), 'flash/error');
+					$this->Session->setFlash(__('Message couldn\'t be send! ' . $exc->getMessage()), 'flash/error');
 				} // end try
 			endif;
 
@@ -512,6 +543,21 @@ class UsersController extends AppController {
 		return $this->request->data;
 	}
 
+	public function setcategory($id = null) {
+		if (!$this->CurrentUser->isLoggedIn()) {
+			throw new ForbiddenException();
+		}
+		$this->User->id = $this->CurrentUser->getId();
+		if ($id === 'all') {
+			$this->User->setCategory('all');
+		} elseif (!$id && $this->request->data) {
+			$this->User->setCategory($this->request->data['CatChooser']);
+		} else {
+			$this->User->setCategory($id);
+		}
+		return $this->redirect($this->referer());
+	}
+
 	public function beforeFilter() {
 		Stopwatch::start('Users->beforeFilter()');
 		parent::beforeFilter();
@@ -533,9 +579,9 @@ class UsersController extends AppController {
    *
    * @param SaitoUser $userWhoEdits
    * @param int $userToEditId
-   * @return type 
+   * @return type
    */
-	protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = NULL) {
+	protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = null) {
     if (is_null($userToEditId) && isset($this->passedArgs[0])) :
       $userToEditId = $this->passedArgs[0];
     endif;
@@ -545,9 +591,9 @@ class UsersController extends AppController {
 							$userWhoEdits['id'] == $userToEditId	 #users own_entry
 							|| $userWhoEdits['user_type']  == 'admin'	 #user is admin
 			) :
-				$this->allowedToEditUserData = TRUE;
+				$this->allowedToEditUserData = true;
 		  else:
-        $this->allowedToEditUserData = FALSE;
+        $this->allowedToEditUserData = false;
       endif;
 
 			$this->set('allowedToEditUserData', $this->allowedToEditUserData);

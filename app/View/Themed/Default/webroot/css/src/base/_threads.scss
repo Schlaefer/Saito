@@ -42,12 +42,11 @@ ul.deep-reply {
 
 .thread_line-pre {
 	position: absolute;
-	> a {
-		display: inline-block;
-		width: 24px;
-		text-align: center;
-        padding: 0px 0 4px;
-		}
+
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+    padding: 0px 0 4px;
 	}
 
 .tl-cnt {
@@ -89,11 +88,13 @@ ul.deep-reply {
   margin-bottom: 1em;
   .img_pencil {
     visibility: hidden; }
-  ul:first-child {
-    margin-left: $subthread-margin; } }
-
-ul.thread {
-  margin: 0 !important; }
+  ul {
+    margin: 0 0 0 $subthread-margin;
+  }
+  ul.root {
+    margin-left: 0;
+  }
+}
 
 .thread_box {
   /* user_list und inline view sollen sauber getrennt bleiben */

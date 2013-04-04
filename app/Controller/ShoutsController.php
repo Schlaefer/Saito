@@ -27,6 +27,7 @@ class ShoutsController extends AppController {
 				return;
 			}
 
+			$this->Bbcode->initHelper();
 			$this->set('shouts', $shouts);
 		}
 
@@ -39,7 +40,7 @@ class ShoutsController extends AppController {
 		if ($this->request->is('ajax')) {
 			$data = array(
 				'Shout' => array(
-					'text' => $this->request->data['text'],
+					'text' => $this->Bbcode->prepareInput($this->request->data['text']),
 					'user_id' => $this->CurrentUser->getId()
 				)
 			);

@@ -248,6 +248,66 @@
 			$this->assertContains('Name is already used.', $result);
 		}
 
+		public function testSetcategoryNotLoggedIn() {
+			$this->setExpectedException('ForbiddenException');
+			$this->testAction('/users/setcategory/all');
+		}
+
+		public function testSetcategoryAll() {
+			$Users = $this->generate(
+				'Users',
+				array('models' => array('User' => array('setCategory')))
+			);
+
+			$this->_loginUser(3);
+
+			$Users->User->expects($this->once())
+					->method('setCategory')
+					->with('all');
+
+			$this->testAction('/users/setcategory/all');
+		}
+
+		public function testSetcategoryCategory() {
+			$Users = $this->generate(
+				'Users',
+				array('models' => array('User' => array('setCategory')))
+			);
+			$this->_loginUser(3);
+			$Users->User->expects($this->once())
+					->method('setCategory')
+					->with(5);
+			$this->testAction('/users/setcategory/5');
+		}
+
+		public function testSetcategoryCategories() {
+			$Users = $this->generate(
+				'Users',
+				array('models' => array('User' => array('setCategory')))
+			);
+
+			$this->_loginUser(3);
+
+			$data = array(
+				'CatChooser' => array(
+					'4' => '0',
+					'7' => '1',
+					'9' => '0',
+				),
+				'CatMeta' => array(
+					'All' => '1',
+				)
+			);
+
+			$Users->User->expects($this->once())
+					->method('setCategory')
+					->with($data['CatChooser']);
+			$this->testAction(
+				'/users/setcategory/',
+				array('data' => $data, 'method' => 'post')
+			);
+		}
+
 		public function testView() {
 			/*
 			 * unregistred users can't see user profiles
@@ -269,9 +329,8 @@
 			/*
 			 * Test profile request by username
 			 */
-			$this->_loginUser(3);
 			$this->testAction('/users/view/Mitch');
-			$this->assertContains('/users/view/2', $this->headers['Location']);
+			$this->assertContains('/users/name/Mitch', $this->headers['Location']);
 
 			/*
 			 * if user (profile) doesn't exist
@@ -279,6 +338,13 @@
 			$result = $this->testAction('/users/view/9999');
 			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
 
+		}
+
+		public function testName() {
+			$this->generate('Users');
+			$this->_loginUser(3);
+			$this->testAction('/users/name/Mitch');
+			$this->assertContains('/users/view/2', $this->headers['Location']);
 		}
 
     public function testLock() {
@@ -599,7 +665,7 @@
 			$this->assertContains($this->controller->request->webroot, $this->headers['Location']);
 		}
 
-		public function testContactNoValidEmail() {
+		public function testContactNoSubject() {
 
 			$data = array(
 											'Message' => array(
@@ -619,10 +685,13 @@
 															 'method' => 'post',
 															 'return' => 'contents',
 					));
-			$this->assertContains('flashMessage', $result);
+			$this->assertContains(
+				'"type":"error","channel":"form","element":"#MessageSubject"',
+				$result
+			);
 		}
 
-		public function testContactNoSubject() {
+		public function testContactNoValidEmail() {
 
 			$data = array(
 											'Message' => array(
@@ -642,7 +711,11 @@
 															 'method' => 'post',
 															 'return' => 'contents',
 					));
-			$this->assertContains('flashMessage', $result);
+			$this->assertContains(
+				// @todo make independed from i18n string
+				'"type":"error","channel":"form","element":"#MessageSenderContact"',
+				$result
+			);
 		}
 
 		/**

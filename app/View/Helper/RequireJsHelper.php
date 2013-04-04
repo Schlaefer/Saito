@@ -27,12 +27,18 @@
 				'jsUrl' => JS_URL,
 				'requireUrl' =>  $this->requireUrl
 			);
+			$out = '';
 			// add version as timestamp to require requests
-			$out = $this->Html->scriptBlock(
-				"var require = {urlArgs:"
-						. $this->Js->value($this->Html->getAssetTimestamp($options['jsUrl'] . $dataMain . '.js'))
-						. "
-			}");
+			$isTimestampShown = Configure::read('Asset.timestamp');
+			if ($isTimestampShown === 'force'
+					|| ($isTimestampShown === true && Configure::read('debug') > 0)
+			) {
+					$out .= $this->Html->scriptBlock(
+						"var require = {urlArgs:"
+								. $this->Js->value($this->Html->getAssetTimestamp($options['jsUrl'] . $dataMain . '.js'))
+								. "
+						}");
+			}
 			// require.js borks out when used with Cakes timestamp.
 			// also we need the relative path for the main-script
 			$tmp_asset_timestamp_cache = Configure::read('Asset.timestamp');

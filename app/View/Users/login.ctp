@@ -1,4 +1,3 @@
-<?php echo $this->Session->flash('auth'); ?>
 <div class="box-form">
 	<div class="l-box-header box-header">
 		<div>

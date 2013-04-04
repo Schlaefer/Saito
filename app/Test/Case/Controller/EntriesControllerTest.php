@@ -466,12 +466,12 @@
 							)
 					)
 					));
-//			$Entries->SaitoEntry = $this->getMock('SaitoEntry', null, array(new ComponentCollection));
-			$Entries->Entry->expects($this->exactly(3))
-					->method('isEditingForbidden')
-					->will($this->returnValue(false));
 
 			$this->_loginUser(2);
+
+			$Entries->Entry->expects($this->any())
+					->method('isEditingForbidden')
+					->will($this->returnValue(false));
 
 			$result = $this->testAction('entries/edit/2', array(
 					'return' => 'view'
@@ -494,28 +494,26 @@
           )
       ));
 
-      /*
-       * setup
-       */
       $this->_loginUser(1);
 
-      $data['Entry'] = array(
-          'pid' => 5,
-          'subject' => 'test',
-          'category'  => 4,
-      );
+			$data['Entry'] = array(
+				'pid'      => 5,
+				'subject'  => 'test',
+				'category' => 4,
+			);
 
-      /*
-       * test entries/add
-       */
-      $Entries->CacheTree
-          ->expects($this->once())
-          ->method('delete')
-          ->with($this->equalTo('4'));
+			/*
+			 * test entries/add
+			 */
+			$Entries->CacheTree
+					->expects($this->once())
+					->method('delete')
+					->with($this->equalTo('4'));
 
-			$result = $this->testAction('/entries/add/5', array(
-          'data' => $data,
-          'method' => 'post'));
+			$this->testAction(
+				'/entries/add/5',
+				array('data' => $data, 'method' => 'post')
+			);
 
       /*
        * Test entries/edit
@@ -535,6 +533,39 @@
           'method' => 'post'));
     }
 
+		public function testPreviewLoggedIn() {
+			$this->setExpectedException('ForbiddenException');
+			$this->testAction('/entries/preview');
+		}
+
+		public function testPreviewIsAjax() {
+			$this->generate('Entries');
+			$this->_loginUser(1);
+			$this->setExpectedException('BadRequestException');
+			$this->testAction('/entries/preview');
+		}
+
+		public function testPreviewIsPut() {
+			$this->generate('Entries');
+			$this->_setAjax();
+			$this->_loginUser(1);
+			$this->setExpectedException('MethodNotAllowedException');
+			$this->testAction('/entries/preview', array('method' => 'GET'));
+		}
+
+		/*
+		public function testPreview() {
+			$this->generate('Entries');
+			$this->_setAjax();
+			$this->_loginUser(1);
+
+			$this->testAction(
+				'/entries/preview',
+				array('method' => 'PUT')
+			);
+		}
+		*/
+
 		public function testSearchAdvAccession() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(3);
@@ -550,120 +581,6 @@
 
 			$this->setExpectedException('NotFoundException');
 			$this->testAction('/entries/search/subject:test/text:/name:/category:1/month:07/year:2006/adv:1');
-		}
-
-		public function testSetcategoryNotLoggedIn() {
-				$Entries = $this->generate('Entries', array(
-					'models' => array(
-							'User' => array('set', 'save')
-							)
-					));
-				$this->_logoutUser();
-
-				$this->setExpectedException('MethodNotAllowedException');
-				$this->testAction('/entries/setcategory/all');
-		}
-
-		public function testSetcategoryAllGet() {
-				$Entries = $this->generate('Entries', array(
-					'models' => array(
-							'User' => array('set', 'save')
-							)
-					));
-
-				$this->_loginUser(3);
-
-				$Entries->User->expects($this->once())
-						->method('set')
-						->with('user_category_active', -1);
-				$Entries->User->expects($this->once())
-						->method('save');
-
-				$this->testAction('/entries/setcategory/all');
-		}
-
-		public function testSetcategoryAllPost() {
-				$Entries = $this->generate('Entries', array(
-					'models' => array(
-							'User' => array('set', 'save')
-							)
-					));
-
-				$this->_loginUser(3);
-
-				$data = array(
-						'CatChooser' => array(
-								'4' => '0',
-								'7' => '1',
-								'9' => '0',
-						),
-						'CatMeta' => array(
-								'All' => '1',
-						)
-				);
-
-				$Entries->User->expects($this->once())
-						->method('set')
-						->with('user_category_active', -1);
-				$Entries->User->expects($this->once())
-						->method('save');
-
-				$this->testAction('/entries/setcategory/all');
-
-		}
-
-		public function testSetcategoryCategory() {
-				$Entries = $this->generate('Entries', array(
-					'models' => array(
-							'User' => array('set', 'save')
-							)
-					));
-
-				$this->_loginUser(3);
-
-				$Entries->User->expects($this->once())
-						->method('set')
-						->with('user_category_active', 5);
-				$Entries->User->expects($this->once())
-						->method('save');
-
-				$this->testAction('/entries/setcategory/5');
-		}
-
-		public function testSetcategoryCategories() {
-				$Entries = $this->generate('Entries', array(
-					'models' => array(
-							'User' => array('set', 'save')
-							)
-					));
-
-				$this->_loginUser(3);
-
-				$data = array(
-						'CatChooser' => array(
-								'4' => '0',
-								'7' => '1',
-								'9' => '0',
-						),
-						'CatMeta' => array(
-								'All' => '0',
-						)
-				);
-
-				$dataAt2 = $data['CatChooser'];
-
-				$Entries->User->expects($this->at(0))
-						->method('set')
-						->with('user_category_active', 0);
-				$Entries->User->expects($this->at(1))
-						->method('set')
-						->with('user_category_custom', $dataAt2);
-				$Entries->User->expects($this->once())
-						->method('save');
-
-				$this->testAction('/entries/setcategory/', array(
-						'data' => $data, 'method' => 'post'
-				));
 		}
 
 		public function testView() {
@@ -698,35 +615,17 @@
 					$this->headers['Location']);
 		}
 
-		/**
-		 * Test for inlined Javascript so inline-view actions work
-		 */
-		public function testViewPostingInlineJavascript() {
-
-			$Entries = $this->generate('Entries');
-			$this->_loginUser(1);
-			// return and evaluate `view` and not `layout` here!
-			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
-			// ajax answer
-			$this->assertContains('$("#forum_answer_1").bind("click",', $result);
-			// ajax pin
-			$this->assertContains('$("#btn-entry_fixed-1").bind("click",', $result);
-			// ajax lock
-			$this->assertContains('$("#btn-entry_locked-1").bind("click",', $result);
-
-		}
-
 		public function testViewBoxFooter() {
 			$result = $this->testAction('entries/view/1', array(
 					'return' => 'view'
 			));
-			$this->assertTextNotContains('box-footer-entry-actions-1', $result);
+			$this->assertTextNotContains('l-box-footer box-footer-form', $result);
 
 			$this->_loginUser(3);
 			$result = $this->testAction('entries/view/1', array(
 					'return' => 'view'
 			));
-			$this->assertTextContains('box-footer-entry-actions-1', $result);
+			$this->assertTextContains('l-box-footer box-footer-form', $result);
 
 		}
 

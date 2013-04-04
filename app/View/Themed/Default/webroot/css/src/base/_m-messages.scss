@@ -4,40 +4,150 @@
 
 // Setup
 // -------------------------------------
-$color-flashNoticeBg:   #9ACD32;
-$color-flashWarningBg:  #FFB800;
-$color-flashErrorBg:    #a60202;
+$color-flashNoticeBg: #e6efff;
+$color-flashSuccessBg: #c6ff6e;
+$color-flashWarningBg: #fff4cc;
+$color-flashErrorBg: #ff2120;
 
 // Flash Messages
 // -------------------------------------
 
-.flash, .message {
+@mixin flash-colors($color, $border-width) {
+  border: $border-width ($color / 1.5) solid;
+  color: darken($color, 80%);
+  background-color: $color;
+  box-shadow: 0px 2px 10px 1px rgba(darken($color, 75%), 0.4) !important;
+  @include background(
+      linear-gradient(
+        top,
+          $color * 1.05,
+          $color / 1.05
+      ),
+      $color
+  );
+}
+
+.ui-pnotify-title {
+  font-weight: bolder;
+}
+
+.flash > .alert, .message {
 	clear: both;
-	text-align: center;
-	font-size: 140%;
-	font-weight: bold;
 	margin: 0px 0px 1em;
-	padding: 0.4em;
-	color: white;
-	text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
-  background-color: $color-flashErrorBg;
-  border: $border_width ($color-flashErrorBg / 1.2) solid;
+	padding: $padding;
+	color: #b94a48;
+    @extend .t_shadow;
+	// text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
+    background-color: $color-flashErrorBg;
+    border: $border_width ($color-flashErrorBg / 1.2) solid;
   }
 
-.flash-error {
-    border-color: $color-flashErrorBg / 1.2;
-		background-color: $color-flashErrorBg;
-	}
+.flash-error > .alert {
+  @include flash-colors($color-flashErrorBg, $border_width);
+  text-shadow: none;
+  color: white;
+  }
 
-.flash-warning {
-    border-color: $color-flashWarningBg / 1.2;
-		background-color: $color-flashWarningBg;
+.flash-warning > .alert {
+  @include flash-colors($color-flashWarningBg, $border_width);
+  }
+
+.flash-notice > .alert {
+  @include flash-colors($color-flashNoticeBg, $border_width);
+  }
+
+.flash-success > .alert{
+  @include flash-colors($color-flashSuccessBg, $border_width);
+
 }
 
-.flash-notice {
-    border-color: $color-flashNoticeBg / 1.2;
-		background-color: $color-flashNoticeBg;
+// pnotify styles
+// -------------------------------------
+
+/*
+Document   : jquery.pnotify.default.css
+Created on : Nov 23, 2009, 3:14:10 PM
+Author     : Hunter Perrin
+Version    : 1.2.0
+Link       : http://pinesframework.org/pnotify/
+Description:
+	Default styling for Pines Notify jQuery plugin.
+*/
+/* -- Notice */
+.ui-pnotify {
+  top: 25px;
+  right: 25px;
+  position: absolute;
+  height: auto;
+  /* Ensures notices are above everything */
+  z-index: 9999;
 }
+/* Hides position: fixed from IE6 */
+html > body .ui-pnotify {
+  position: fixed;
+}
+.ui-pnotify .ui-pnotify-shadow {
+  -webkit-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+  -moz-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+  box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
+}
+.ui-pnotify-container {
+  background-position: 0 0;
+  padding: .8em;
+  height: 100%;
+  margin: 0;
+}
+.ui-pnotify-sharp {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.ui-pnotify-closer, .ui-pnotify-sticker {
+  float: right;
+  margin-left: .2em;
+}
+.ui-pnotify-title {
+  display: block;
+  margin-bottom: .4em;
+}
+.ui-pnotify-text {
+  display: block;
+}
+.ui-pnotify-icon, .ui-pnotify-icon span {
+  display: block;
+  float: left;
+  margin-right: .2em;
+}
+/* -- History Pulldown */
+.ui-pnotify-history-container {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  width: 70px;
+  border-top: none;
+  padding: 0;
+  -webkit-border-top-left-radius: 0;
+  -moz-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  -moz-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  /* Ensures history container is above notices. */
+  z-index: 10000;
+}
+.ui-pnotify-history-container .ui-pnotify-history-header {
+  padding: 2px;
+}
+.ui-pnotify-history-container button {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+.ui-pnotify-history-container .ui-pnotify-history-pulldown {
+  display: block;
+  margin: 0 auto;
+}
+
 
 // Validation messaeges
 // -------------------------------------
@@ -51,7 +161,6 @@ $color-flashErrorBg:    #a60202;
 
 	background-color: $color-flashErrorBg;
 	color: white;
-	text-shadow: #595959 0px -1px 1px;
 }
 
 .no-content-yet {
@@ -64,3 +173,5 @@ $color-flashErrorBg:    #a60202;
 		letter-spacing: 0.1em;
 		word-spacing: 0.1em;
 	}
+
+
