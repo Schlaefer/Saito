@@ -37,16 +37,9 @@ define([
 			},
 
 			initialize: function(options){
-                var threadLineId,
-                    isNew;
-
                 this.postings = options.postings;
-                this.collection = options.collection;
 
-                this.model = new ThreadLineModel({
-                    id: options.id,
-                    isNewToUser: isNew
-                });
+                this.model = new ThreadLineModel({id: options.id});
                 if(options.el === undefined) {
                     this.model.fetch();
                 } else {

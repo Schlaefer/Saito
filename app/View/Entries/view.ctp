@@ -1,6 +1,6 @@
-<?php echo  Stopwatch::start('view.ctp'); ?>
-
 <?php
+	Stopwatch::start('view.ctp');
+
   $this->start('headerSubnavLeft');
     echo $this->Html->link(
         '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
@@ -12,10 +12,18 @@
 					)
         );
   $this->end();
-?>
 
-<?php if (!isset($level)) $level = 0; ?>
-<?php
+	$this->append('htmlHead');
+	if (empty($entry['Entry']['text'])) {
+		echo $this->Html->tag(
+			'meta',
+			null,
+			['name' => 'description', 'content' => $entry['Entry']['subject']]
+		);
+	}
+	$this->end('htmlHead');
+
+	if (isset($level) === false) { $level = 0; }
 	if ($show_answer) {
 		$this->Html->scriptBlock("$(window).load(function() { $('#forum_answer_".$entry["Entry"]['id']."').trigger('click'); });", array('inline' => false ));
 	}
@@ -42,4 +50,4 @@
 	</div> <!-- b -->
 </div>
 
-<?php echo  Stopwatch::stop('view.ctp'); ?>
+<?php Stopwatch::stop('view.ctp'); ?>

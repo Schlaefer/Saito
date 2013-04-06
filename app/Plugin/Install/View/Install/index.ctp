@@ -20,11 +20,11 @@
 		}
 
 		// php version
-		if (version_compare(phpversion(), '5.3') >= 0) {
-			echo '<p class="success">' . sprintf(__('PHP version %s > 5.3'), phpversion()) . '</p>';
+		if (version_compare(phpversion(), '5.4') >= 0) {
+			echo '<p class="success">' . sprintf(__('PHP version %s > 5.4'), phpversion()) . '</p>';
 		} else {
 			$check = false;
-			echo '<p class="error">' . sprintf(__('PHP version %s < 5.3'), phpversion()) . '</p>';
+			echo '<p class="error">' . sprintf(__('PHP version %s < 5.4'), phpversion()) . '</p>';
 		}
 
 		if ($check) {

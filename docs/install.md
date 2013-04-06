@@ -2,7 +2,7 @@
 
 - Web server (tested with Apache and nginx)
 - MySQL 5+ (tested with 5.1 and 5.5)
-- PHP 5.3+
+- PHP 5.4+
      - mcrypt enabled
 
 # Installation #
@@ -27,12 +27,12 @@ Open the URL root and if everything went OK the installer should greet you.
 ### 4.1 tmp Directory Is Not Writeable ###
 
 The `tmp`-directory and its subdirectories have to be be writable by the webserver. Set the rights accordingly.
-    
+
 ### 4.2 Config Directory Is Not Writable ###
 
 The `app/config` folder needs to be writable by the webserver during the installation.
-    
-    
+
+
 ### 4.3 Connect to Database ###
 
 Enter the database connection data into the web-installer. If the database connection is OK create the database.
@@ -77,4 +77,4 @@ to
 	Configure::write('debug', 1);
 
 
-/* vim: set filetype=mkd : */ 
+/* vim: set filetype=mkd : */

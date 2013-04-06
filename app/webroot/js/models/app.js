@@ -53,8 +53,8 @@ define([
                 timerId,
                 stopTimer,
                 refreshTimeAct,
-                refreshTimeBase = 5000,
-                refreshTimeMax = 30000;
+                refreshTimeBase = 10000,
+                refreshTimeMax = 90000;
 
             stopTimer = function () {
                 if (timerId !== undefined) {
