@@ -1,5 +1,5 @@
 <?php
-	echo $this->jQuery->scriptTag();
+	echo $this->Layout->jQueryTag();
 
 	$this->Session->flash();
 	$this->Session->flash('email');

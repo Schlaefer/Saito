@@ -5,7 +5,7 @@
 	<?php
 	echo $this->fetch('css');
 	echo $this->Html->charset();
-	echo $this->jQuery->scriptTag();
+	echo $this->Layout->jQueryTag();
 	?>
 </head>
 <body>
