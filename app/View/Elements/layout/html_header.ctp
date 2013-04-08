@@ -19,19 +19,7 @@
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
 
-			$this->Session->flash();
-			$this->Session->flash('email');
-			// @td after full js refactoring and moving getAppJs to the page bottom
-			// this should go into View/Users/login.ctp again
-			$this->Session->flash('auth', array('element' => 'flash/warning'));
-			echo $this->Html->scriptBlock($this->JsData->getAppJs($this));
-
-			echo $this->jQuery->scriptTag();
-			if (Configure::read('debug') == 0):
-				echo $this->RequireJs->scriptTag('main-prod');
-			else:
-				echo $this->RequireJs->scriptTag('main');
-			endif;
+			echo $this->element('layout/script_tags');
 		?>
 		<?php
 			/*
