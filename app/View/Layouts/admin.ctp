@@ -13,6 +13,7 @@
 			echo $this->Html->css(
 				[
 					'bootstrap/css/bootstrap.min.css',
+					'stylesheets/static.css',
 					'stylesheets/admin.css'
 				]
 			);
