@@ -13,6 +13,7 @@ layout: default
 
 - [new] insert images via multimedia button
 - [new] automatically convert fubar dropbox links to dl.dropbox.com (See: <https://www.dropbox.com/help/201/>) if multimedia button is used
+- [new] performance improvements
 - [fix] no notifications in admin area
 - [task] code cleanup
 
