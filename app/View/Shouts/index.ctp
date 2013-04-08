@@ -20,7 +20,7 @@
 			<?php endif;
 			$i = 1;
 			?>
-			<div class="shout" data-id="<?php echo $shout['Shout']['id'] ?>">
+			<div class="shout">
 				<span class="username">
 					<?php
 					echo $this->Html->link(
