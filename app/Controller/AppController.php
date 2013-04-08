@@ -221,6 +221,14 @@ class AppController extends Controller {
 			# $this->Session->setFlash('Smily Cache Updated');
 			$smilies = ClassRegistry::init('Smiley');
 			$smilies->load();
+		# @td make model function:
+		#   @td must be reloaded somewherewhen updated
+		# 	@td user cakephp cachen?
+		protected function _loadSmilies() {
+			if (Configure::read('Saito.Smilies.smilies_all') === null) {
+				$smilies = ClassRegistry::init('Smiley');
+				$smilies->load();
+			}
 		}
 	}
 
