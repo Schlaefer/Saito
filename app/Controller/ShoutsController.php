@@ -8,7 +8,6 @@ App::uses('AppController', 'Controller');
 class ShoutsController extends AppController {
 
 	public function index() {
-
 		$this->autoLayout = false;
 
 		if ($this->request->is('ajax')) {
@@ -20,17 +19,9 @@ class ShoutsController extends AppController {
 				)
 			);
 
-			$last_id = (int)$this->request->data['lastId'];
-			$last_shout = current($shouts);
-			if ($last_id === (int)$last_shout['Shout']['id']) {
-				$this->autoRender = false;
-				return;
-			}
-
 			$this->Bbcode->initHelper();
 			$this->set('shouts', $shouts);
 		}
-
 	}
 
 	public function add() {
