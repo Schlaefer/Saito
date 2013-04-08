@@ -54,4 +54,3 @@
     }
 			//]]>
 		</script>
-		<?= $this->fetch('htmlHead'); ?>
