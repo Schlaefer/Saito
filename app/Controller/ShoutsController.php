@@ -21,6 +21,8 @@ class ShoutsController extends AppController {
 
 			$this->Bbcode->initHelper();
 			$this->set('shouts', $shouts);
+		} else {
+			throw new NotFoundException();
 		}
 	}
 
