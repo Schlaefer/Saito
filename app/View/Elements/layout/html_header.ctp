@@ -2,18 +2,21 @@
 <html>
 	<head>
     <title><?= $title_for_layout ?></title>
-		<?= $this->Html->charset(); ?>
 		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 		<?php
+			echo $this->Html->charset();
 			echo $this->fetch('meta');
 			echo $this->fetch('css');
 
-			echo $this->Html->css('stylesheets/static.css');
-			echo $this->Html->css('stylesheets/styles.css');
-
+			$stylesheets =
+					[
+						'stylesheets/static.css',
+						'stylesheets/styles.css'
+					];
 			if (Configure::read('debug') > 0) {
-				echo $this->Html->css('stylesheets/cake.css');
+				$stylesheets[] = 'stylesheets/cake.css';
 			}
+			echo $this->Html->css($stylesheets);
 
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
