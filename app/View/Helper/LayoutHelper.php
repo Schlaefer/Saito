@@ -8,7 +8,7 @@
 			'Html'
 		];
 
-		public $jQueryVersion =  "1.9.1";
+		public $jQueryVersion = "1.9.1";
 
 		public function beforeLayout($layoutFile) {
 			$stylesheets =
@@ -25,8 +25,9 @@
 		public function jQueryTag() {
 			$name = "lib/jquery/jquery-" . $this->jQueryVersion;
 			if ((int)Configure::read('debug') === 0) {
-				$name .= '.min' ;
+				$name .= '.min';
 			}
+
 			return $this->Html->script($name);
 		}
 	}
