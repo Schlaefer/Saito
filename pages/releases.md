@@ -7,6 +7,12 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-04.03 ##
+
+### What's new ###
+
+- [fix] multimedia button not working
+
 ## 2013-04.02 ##
 
 ### What's new ###
