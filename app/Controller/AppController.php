@@ -211,16 +211,11 @@ class AppController extends Controller {
 		$this->set('title_for_layout', $forumTitle);
 	}
 
-	# @td make model function:
-	#   @td must be reloaded somewherewhen updated
-	# 	@td user cakephp cachen?
-	protected function _loadSmilies() {
-		/** read smilies **/
-		if (!(Configure::read('Saito.Smilies.smilies_all') ))
-		{
-			# $this->Session->setFlash('Smily Cache Updated');
-			$smilies = ClassRegistry::init('Smiley');
-			$smilies->load();
+		protected function _initBbcode() {
+			$this->_loadSmilies();
+			$this->Bbcode->initHelper();
+		}
+
 		# @td make model function:
 		#   @td must be reloaded somewherewhen updated
 		# 	@td user cakephp cachen?
@@ -230,7 +225,6 @@ class AppController extends Controller {
 				$smilies->load();
 			}
 		}
-	}
 
 	/**
 	 * Custom referer which can return only referer's action or controller

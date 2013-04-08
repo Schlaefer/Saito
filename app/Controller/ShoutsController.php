@@ -11,7 +11,6 @@ class ShoutsController extends AppController {
 		$this->autoLayout = false;
 
 		if ($this->request->is('ajax')) {
-			$this->_loadSmilies();
 			$shouts = $this->Shout->find(
 				'all',
 				array(
@@ -19,7 +18,7 @@ class ShoutsController extends AppController {
 				)
 			);
 
-			$this->Bbcode->initHelper();
+			$this->_initBbcode();
 			$this->set('shouts', $shouts);
 		} else {
 			throw new NotFoundException();

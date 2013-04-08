@@ -124,7 +124,7 @@
 					'conditions' => $conditions,
 					'order'			 => $order,
 					));
-			$this->Bbcode->initHelper();
+			$this->_initBbcode();
 			$this->set('entries', $entries);
 
 			// serialize for JSON
@@ -150,7 +150,7 @@
 			}
 
 			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
-			$this->Bbcode->initHelper();
+			$this->_initBbcode();
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 		}
@@ -231,7 +231,7 @@
 
     $this->_showAnsweringPanel();
 
-		$this->Bbcode->initHelper();
+		$this->_initBbcode();
 		if ( $this->request->is('ajax') ):
 			//* inline view
 			$this->render('/Elements/entry/view_posting');
@@ -682,7 +682,7 @@
 					)
 				)
 			);
-			$this->Bbcode->initHelper();
+			$this->_initBbcode();
 			$this->set('entry', $newEntry);
 		else :
 			// validation errors
@@ -781,9 +781,6 @@
 							$this->CurrentUser['user_forum_refresh_time'] * 60);
 				}
 				$this->_setAppStats();
-			}
-			if ($this->request->action !== 'index') {
-				$this->_loadSmilies();
 			}
 
 			$this->_automaticalyMarkAsRead();
@@ -958,6 +955,7 @@
 		//* find categories for dropdown
 		$categories = $this->Entry->Category->getCategoriesSelectForAccession($this->CurrentUser->getMaxAccession());
 		$this->set('categories', $categories);
+		$this->_loadSmilies();
 	}
 
   /**
