@@ -7,6 +7,19 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-04.02 ##
+
+### What's new ###
+
+- [new] insert images via multimedia button
+- [new] automatically convert fubar dropbox links to dl.dropbox.com (See: <https://www.dropbox.com/help/201/>) if multimedia button is used
+- [fix] no notifications in admin area
+- [task] code cleanup
+
+### Migration notes ###
+
+Theme is recompiled.
+
 ## 2013-04.01 ##
 
 ### What's new ###
