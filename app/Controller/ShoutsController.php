@@ -8,11 +8,9 @@ App::uses('AppController', 'Controller');
 class ShoutsController extends AppController {
 
 	public function index() {
-
 		$this->autoLayout = false;
 
 		if ($this->request->is('ajax')) {
-			$this->_loadSmilies();
 			$shouts = $this->Shout->find(
 				'all',
 				array(
@@ -20,17 +18,11 @@ class ShoutsController extends AppController {
 				)
 			);
 
-			$last_id = (int)$this->request->data['lastId'];
-			$last_shout = current($shouts);
-			if ($last_id === (int)$last_shout['Shout']['id']) {
-				$this->autoRender = false;
-				return;
-			}
-
-			$this->Bbcode->initHelper();
+			$this->_initBbcode();
 			$this->set('shouts', $shouts);
+		} else {
+			throw new NotFoundException();
 		}
-
 	}
 
 	public function add() {

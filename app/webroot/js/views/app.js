@@ -3,24 +3,22 @@ define([
 	'underscore',
 	'backbone',
     'models/app',
-    'lib/jquery.i18n/jquery.i18n.extend',
 	'collections/threadlines', 'views/threadlines',
 	'collections/threads', 'views/thread',
 	'collections/postings', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
-    'views/notification', 'views/helps', 'views/categoryChooser',
+    'views/helps', 'views/categoryChooser',
     'collections/slidetabs', 'views/slidetabs',
     'views/answering',
     'jqueryUi'
 	], function(
 		$, _, Backbone,
         App,
-        i18n,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
 		PostingCollection, PostingView,
         BookmarksCollection, BookmarksView,
-        NotificationView, HelpsView, CategoryChooserView,
+        HelpsView, CategoryChooserView,
         SlidetabsCollection, SlidetabsView,
         AnsweringView
 		) {
@@ -41,52 +39,38 @@ define([
                 "click #btn-category-chooser": "toggleCategoryChooser"
 			},
 
-			initialize: function (options) {
-                var threads,
-                    // collection of threadlines not bound to thread
-                    // (bookmarks, search results …)
-                    threadLines;
-
-                App.settings.set(options.SaitoApp.app.settings);
-                App.currentUser.set(options.SaitoApp.currentUser);
-                App.request = options.SaitoApp.request;
-
-
-                this.initNotifications();
+			initialize: function() {
+				this.threads = new ThreadCollection();
+				if (App.request.controller === 'entries' && App.request.action === 'index') {
+					this.threads.fetch();
+				}
+                this.postings = new PostingCollection();
+                // collection of threadlines not bound to thread (bookmarks, search results …)
+				this.threadLines = new ThreadLineCollection();
 
                 this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
                 this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
-
                 this.$el.on('dialogopen', this.fixJqueryUiDialog);
+			},
 
-                // init i18n
-                $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
-
-				threads = new ThreadCollection();
-				if (App.request.controller === 'entries' && App.request.action === 'index') {
-					threads.fetch();
-				}
-
-                this.postings = new PostingCollection();
-
-				$('.thread_box').each(_.bind(function(index, element) {
+            initFromDom: function(options) {
+                $('.thread_box').each(_.bind(function(index, element) {
                     var threadView,
                         threadId;
 
-					threadId = parseInt($(element).attr('data-id'), 10);
-					if (!threads.get(threadId)) {
-						threads.add([{
-							id: threadId,
-							isThreadCollapsed: App.request.controller === 'entries' && App.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
-						}], {silent: true});
-					}
-					threadView = new ThreadView({
-						el: $(element),
+                    threadId = parseInt($(element).attr('data-id'), 10);
+                    if (!this.threads.get(threadId)) {
+                        this.threads.add([{
+                            id: threadId,
+                            isThreadCollapsed: App.request.controller === 'entries' && App.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
+                        }], {silent: true});
+                    }
+                    threadView = new ThreadView({
+                        el: $(element),
                         postings: this.postings,
-						model: threads.get(threadId)
-					});
-				}, this));
-
+                        model: this.threads.get(threadId)
+                    });
+                }, this));
 
                 $('.js-entry-view-core').each(_.bind(function(a,element) {
                     var id,
@@ -103,29 +87,28 @@ define([
                     });
                 }, this));
 
-				threadLines = new ThreadLineCollection();
-				$('.js-thread_line').each(_.bind(function(index, element) {
+                $('.js-thread_line').each(_.bind(function(index, element) {
                     var threadLineView,
                         threadId,
                         threadLineId,
                         currentCollection;
 
-					threadId = parseInt(element.getAttribute('data-tid'), 10);
+                    threadId = parseInt(element.getAttribute('data-tid'), 10);
 
-                    if(threads.get(threadId)) {
-                        currentCollection = threads.get(threadId).threadlines;
+                    if(this.threads.get(threadId)) {
+                        currentCollection = this.threads.get(threadId).threadlines;
                     } else {
-                        currentCollection = threadLines;
+                        currentCollection = this.threadLines;
                     }
 
                     threadLineId = parseInt(element.getAttribute('data-id'), 10);
-					threadLineView = new ThreadLineView({
-						el: $(element),
+                    threadLineView = new ThreadLineView({
+                        el: $(element),
                         id: threadLineId,
                         postings: this.postings,
                         collection: currentCollection
-					});
-				}, this));
+                    });
+                }, this));
 
                 this.initAutoreload();
                 this.initBookmarks('#bookmarks');
@@ -143,26 +126,24 @@ define([
                 }
 
                 /*** All elements initialized, show page ***/
+
                 App.initAppStatusUpdate();
-
-                this._showPage(options.SaitoApp.timeAppStart);
-				window.clearTimeout(options.contentTimer.cancel());
-
+                this._showPage(options.SaitoApp.timeAppStart, options.contentTimer);
                 App.eventBus.trigger('notification', options.SaitoApp);
 
-				// scroll to thread
-				if (window.location.href.indexOf('/jump:') > -1) {
-					var results = /jump:(\d+)/.exec(window.location.href);
-					this.scrollToThread(results[1]);
-					window.history.replaceState(
-							'object or string',
-							'Title',
-							window.location.pathname.replace(/jump:\d+(\/)?/, '')
-					);
-				}
-			},
+                // scroll to thread
+                if (window.location.href.indexOf('/jump:') > -1) {
+                    var results = /jump:(\d+)/.exec(window.location.href);
+                    this.scrollToThread(results[1]);
+                    window.history.replaceState(
+                        'object or string',
+                        'Title',
+                        window.location.pathname.replace(/jump:\d+(\/)?/, '')
+                    );
+                }
+            },
 
-            _showPage: function(startTime) {
+            _showPage: function(startTime, timer) {
                 var triggerVisible = function() {
                     App.eventBus.trigger('isAppVisible', true);
                 };
@@ -181,6 +162,7 @@ define([
                             complete: triggerVisible
                         });
                 }
+                timer.cancel();
             },
 
             fixJqueryUiDialog: function(event, ui) {
@@ -220,11 +202,6 @@ define([
 
             toggleCategoryChooser: function() {
                this.categoryChooser.toggle();
-            },
-
-            initNotifications: function() {
-                var notificationView;
-                notificationView = new NotificationView();
             },
 
             initHelp: function(element_n) {

@@ -27,7 +27,7 @@
 
 			<!-- include libs -->
 			<?php
-				echo $this->jQuery->scriptTag();
+				echo $this->Layout->jQueryTag();
 				echo $this->Html->script(
 					array(
 						'lib/jquery-ui/jquery-ui-1.9.2.custom.min.js',

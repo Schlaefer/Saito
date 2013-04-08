@@ -2,11 +2,27 @@ define(['jquery', 'underscore'], function($, _) {
 
     "use strict";
 
+    var dropbox = {
+
+        cleanUp: function(text) {
+            text = text.replace(/https:\/\/www\.dropbox\.com\//, 'https://dl.dropbox.com/');
+            return text;
+        }
+
+    };
+
     var markItUp = {
+
+        rawUrlCleaner: [dropbox],
 
         multimedia: function(text, options) {
             var textv = $.trim(text);
 
+            _.each(this.rawUrlCleaner, function(cleaner) {
+                textv = cleaner.cleanUp(textv);
+            });
+
+            var patternImage = /\.(png|gif|jpg|jpeg|webp)$/i;
             var patternHtml = /\.(mp4|webm|m4v)$/i;
             var patternAudio = /\.(m4a|ogg|mp3|wav|opus)$/i;
             var patternFlash = /<object/i;
@@ -23,7 +39,9 @@ define(['jquery', 'underscore'], function($, _) {
                 options
             );
 
-            if ( patternHtml.test(textv) ) {
+            if ( patternImage.test(textv) ) {
+                out = markItUp._image(textv);
+            } else if ( patternHtml.test(textv) ) {
                 out = markItUp._videoHtml5(textv);
             } else if ( patternAudio.test(textv) ) {
                 out = markItUp._audioHtml5(textv);
@@ -41,6 +59,10 @@ define(['jquery', 'underscore'], function($, _) {
 
             return out;
 
+        },
+
+        _image: function(text) {
+            return	'[img]' + text + '[/img]';
         },
 
         _videoFlash: function(text) {

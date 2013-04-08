@@ -10,8 +10,6 @@ define([
 
     var ShoutboxView = Backbone.View.extend({
 
-        lastId: 0,
-
         events: {
             "keyup form": "formUp",
             "keydown form": "formDown"
@@ -75,15 +73,11 @@ define([
 
             $.ajax({
                 url: this.webroot + 'index',
-                data: {
-                    lastId: this.lastId
-                },
                 method: 'post',
                 dataType: 'html',
                 success: _.bind(function(data) {
                     if (data.length > 0) {
                         this.render(data);
-                        this.lastId = $(data).find('.shout:first').data('id');
                     }
                 }, this)
             });

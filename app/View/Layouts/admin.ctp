@@ -1,31 +1,31 @@
-<?php echo $this->Html->docType('xhtml-trans'); ?>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?= $this->Html->docType('html5'); ?>
+<html>
 	<head>
 		<title><?php echo $title_for_layout ?></title>
-		<?php echo $this->Html->charset(); ?>
 		<?php
-			echo $this->jQuery->scriptTag();
+			echo $this->Html->charset();
+			echo $this->element('layout/script_tags');
 			echo $this->Html->script(
-				array(
-						'bootstrap/bootstrap'
-				)
-				); ?>
-		<?php echo $this->Html->css(
-				array(
+				[
+					'bootstrap/bootstrap'
+				]
+			);
+			echo $this->Html->css(
+				[
 					'bootstrap/css/bootstrap.min.css',
-					'stylesheets/admin.css',
-					)
-				); ?>
+					'stylesheets/static.css',
+					'stylesheets/admin.css'
+				]
+			);
+		?>
     <style type="text/css">
-      div.submit { 
+      div.submit {
 				/*display: inline-block; margin: 0 1em;*/
 			}
       .modal-footer form {
 				margin: 0;
 			}
     </style>
-
 	</head>
 	<body>
 		<div class="container">
@@ -70,17 +70,6 @@
 					</div>
 				</div>
 			</div>
-			<?php
-			$flashMessage = $this->Session->flash();
-			$emailMessage = $this->Session->flash('email');
-			if ( $flashMessage || $emailMessage ) :
-				?>
-				<div class="alert alert-info">
-					<?php echo $flashMessage; ?>
-					<?php echo $emailMessage; ?>
-				</div>
-			<?php endif; ?>
-
 			<div class="row">
 				<div class="span1">&nbsp;</div>
 				<div class="span10">
@@ -90,7 +79,7 @@
 				<div class="span1">&nbsp;</div>
 			</div>
 		</div>
-		<?php echo $scripts_for_layout; ?>
+		<?php echo $this->fetch('script'); ?>
 		<?php echo $this->Js->writeBuffer(); ?>
 		<?php echo $this->Html->script(
           array(

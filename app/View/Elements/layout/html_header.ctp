@@ -2,36 +2,17 @@
 <html>
 	<head>
     <title><?= $title_for_layout ?></title>
-		<?= $this->Html->charset(); ?>
 		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 		<?php
+			echo $this->Html->charset();
 			echo $this->fetch('meta');
 			echo $this->fetch('css');
-
-			echo $this->Html->css('stylesheets/static.css');
-			echo $this->Html->css('stylesheets/styles.css');
-
-			if (Configure::read('debug') > 0) {
-				echo $this->Html->css('stylesheets/cake.css');
-			}
 
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
 
-			$this->Session->flash();
-			$this->Session->flash('email');
-			// @td after full js refactoring and moving getAppJs to the page bottom
-			// this should go into View/Users/login.ctp again
-			$this->Session->flash('auth', array('element' => 'flash/warning'));
-			echo $this->Html->scriptBlock($this->JsData->getAppJs($this));
-
-			echo $this->jQuery->scriptTag();
-			if (Configure::read('debug') == 0):
-				echo $this->RequireJs->scriptTag('main-prod');
-			else:
-				echo $this->RequireJs->scriptTag('main');
-			endif;
+			echo $this->element('layout/script_tags');
 		?>
 		<?php
 			/*
@@ -54,4 +35,3 @@
     }
 			//]]>
 		</script>
-		<?= $this->fetch('htmlHead'); ?>

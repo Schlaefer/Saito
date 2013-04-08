@@ -13,7 +13,7 @@
         );
   $this->end();
 
-	$this->append('htmlHead');
+	$this->append('meta');
 	if (empty($entry['Entry']['text'])) {
 		echo $this->Html->tag(
 			'meta',
@@ -21,7 +21,7 @@
 			['name' => 'description', 'content' => $entry['Entry']['subject']]
 		);
 	}
-	$this->end('htmlHead');
+	$this->end('meta');
 
 	if (isset($level) === false) { $level = 0; }
 	if ($show_answer) {

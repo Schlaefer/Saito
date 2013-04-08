@@ -222,7 +222,6 @@ class UsersController extends AppController {
 							), $this->CurrentUser
 					));
 
-		$this->Bbcode->initHelper();
 		$this->set('user', $viewed_user);
 	}
 
@@ -566,7 +565,7 @@ class UsersController extends AppController {
 
 		if ($this->request->action === 'view') {
 			$this->_checkIfEditingIsAllowed($this->CurrentUser);
-			$this->_loadSmilies();
+			$this->_initBbcode();
 		}
 		if ($this->request->action === 'edit') {
 			$this->_checkIfEditingIsAllowed($this->CurrentUser);
