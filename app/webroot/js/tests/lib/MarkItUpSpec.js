@@ -85,6 +85,15 @@ define([
                  expect(result).toEqual(expected);
             });
 
+            $.each(['png', 'gif', 'jpg', 'jpeg', 'webp'], function(key, value) {
+                it("outputs an [img] tag for " + value + " files", function() {
+                    input = 'http://foo.bar/baz.' + value;
+                    result = markItUp.multimedia(input);
+                    expected =  '[img]http://foo.bar/baz.' + value + '[/img]';
+                    expect(result).toEqual(expected);
+                });
+            });
+
             it("replaces dropbox horrible html fubar with download link", function() {
                 input = 'https://www.dropbox.com/foo/baz.png';
                 result = markItUp.multimedia(input);

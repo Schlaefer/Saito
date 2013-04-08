@@ -51,7 +51,7 @@ define([
             });
         },
 
-        _media: function() {
+        _media: function(event) {
             event.preventDefault();
 
             if(this.mediaView === false) {
