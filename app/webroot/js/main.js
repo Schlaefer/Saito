@@ -88,7 +88,6 @@ contentTimer.setup();
     // prevent caching of ajax results
     $.ajaxSetup({ cache: false });
 
-
     var app = {
 
         init: function(options) {
@@ -130,6 +129,9 @@ contentTimer.setup();
                             });
                         });
                     } else { // run tests
+
+                        // prevent appending of ?_<timestamp> requested urls
+                        $.ajaxSetup({ cache: true });
 
                         window.store = "TestStore"; // override local storage store name - for testing
 
