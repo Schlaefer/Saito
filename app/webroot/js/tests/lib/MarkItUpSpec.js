@@ -85,6 +85,13 @@ define([
                  expect(result).toEqual(expected);
             });
 
+            it("replaces dropbox horrible html fubar with download link", function() {
+                input = 'https://www.dropbox.com/foo/baz.png';
+                result = markItUp.multimedia(input);
+                expected =  '[img]https://dl.dropbox.com/foo/baz.png[/img]';
+                expect(result).toEqual(expected);
+            });
+
         });
 
     });
