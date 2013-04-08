@@ -1,5 +1,5 @@
 <?= $this->Html->docType('html5'); ?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 	<head>
 		<title><?php echo $title_for_layout ?></title>
 		<?php
@@ -78,7 +78,7 @@
 				<div class="span1">&nbsp;</div>
 			</div>
 		</div>
-		<?php echo $scripts_for_layout; ?>
+		<?php echo $this->fetch('script'); ?>
 		<?php echo $this->Js->writeBuffer(); ?>
 		<?php echo $this->Html->script(
           array(

@@ -36,6 +36,7 @@ class AppController extends Controller {
 	public $helpers = array (
 			'JsData',
 			// 'Markitup.Markitup',
+			'Layout',
 			'RequireJs',
 			'Stopwatch.Stopwatch',
 			'TextH',

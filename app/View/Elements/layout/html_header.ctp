@@ -8,16 +8,6 @@
 			echo $this->fetch('meta');
 			echo $this->fetch('css');
 
-			$stylesheets =
-					[
-						'stylesheets/static.css',
-						'stylesheets/styles.css'
-					];
-			if ($isDebug) {
-				$stylesheets[] = 'stylesheets/cake.css';
-			}
-			echo $this->Html->css($stylesheets);
-
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
