@@ -143,6 +143,7 @@ class AppController extends Controller {
 
     $this->set('lastAction', $this->localReferer('action'));
     $this->set('lastController', $this->localReferer('controller'));
+		$this->set('isDebug', (int)Configure::read('debug') > 0);
 		$this->_setTitleForLayout();
 
 		Stopwatch::stop('App->beforeRender()');

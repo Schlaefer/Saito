@@ -13,7 +13,7 @@
 						'stylesheets/static.css',
 						'stylesheets/styles.css'
 					];
-			if (Configure::read('debug') > 0) {
+			if ($isDebug) {
 				$stylesheets[] = 'stylesheets/cake.css';
 			}
 			echo $this->Html->css($stylesheets);

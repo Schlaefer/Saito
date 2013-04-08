@@ -10,7 +10,7 @@
 	echo $this->Html->scriptBlock($this->JsData->getAppJs($this));
 
 	$requireJsScript = 'main-prod';
-	if ((int)Configure::read('debug') !== 0) {
+	if ($isDebug) {
 		$requireJsScript = 'main';
 	}
 	echo $this->RequireJs->scriptTag($requireJsScript);
