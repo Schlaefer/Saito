@@ -46,7 +46,7 @@ class UsersController extends AppController {
       if ( isset($this->request->data['User']['username']) ) :
         $this->User->contain();
         $readUser = $this->User->findByUsername($this->request->data['User']['username']);
-        if ( $readUser !== false ) :
+        if (empty($readUser) === false) :
           $user = new SaitoUser(new ComponentCollection);
           $user->set($readUser['User']);
           if ( $user->isForbidden() ) :
