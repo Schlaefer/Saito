@@ -4,12 +4,13 @@
  * and constructing helper class objects.
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View
  * @since         CakePHP(tm) v 2.0
@@ -49,7 +50,7 @@ class HelperCollection extends ObjectCollection implements CakeEventListener {
  * if any
  *
  * @param string $helper The helper name to be loaded
- * @return boolean wheter the helper could be loaded or not
+ * @return boolean whether the helper could be loaded or not
  * @throws MissingHelperException When a helper could not be found.
  *    App helpers are searched, and then plugin helpers.
  */

@@ -1,12 +1,13 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2011, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 2.2.0
@@ -169,7 +170,7 @@ class Hash {
  */
 	protected static function _matches(array $data, $selector) {
 		preg_match_all(
-			'/(\[ (?<attr>[^=><!]+?) (\s* (?<op>[><!]?[=]|[><]) \s* (?<val>[^\]]+) )? \])/x',
+			'/(\[ (?<attr>[^=><!]+?) (\s* (?<op>[><!]?[=]|[><]) \s* (?<val>(?:\/.*?\/ | [^\]]+)) )? \])/x',
 			$selector,
 			$conditions,
 			PREG_SET_ORDER
@@ -371,7 +372,7 @@ class Hash {
 	}
 
 /**
- * Returns a formated series of values extracted from `$data`, using
+ * Returns a formatted series of values extracted from `$data`, using
  * `$format` as the format and `$paths` as the values to extract.
  *
  * Usage:
@@ -628,7 +629,7 @@ class Hash {
  * Counts the dimensions of an array.
  * Only considers the dimension of the first element in the array.
  *
- * If you have an un-even or hetrogenous array, consider using Hash::maxDimensions()
+ * If you have an un-even or heterogenous array, consider using Hash::maxDimensions()
  * to get the dimensions of the array.
  *
  * @param array $array Array to count dimensions on
@@ -769,7 +770,7 @@ class Hash {
 
 		$dir = strtolower($dir);
 		$type = strtolower($type);
-		if ($type == 'natural' && version_compare(PHP_VERSION, '5.4.0', '<')) {
+		if ($type === 'natural' && version_compare(PHP_VERSION, '5.4.0', '<')) {
 			$type = 'regular';
 		}
 		if ($dir === 'asc') {
@@ -806,7 +807,7 @@ class Hash {
 
 /**
  * Helper method for sort()
- * Sqaushes an array to a single hash so it can be sorted.
+ * Squashes an array to a single hash so it can be sorted.
  *
  * @param array $data The data to squash.
  * @param string $key The key for the data.

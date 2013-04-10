@@ -5,12 +5,12 @@
  * PHP Version 5.x
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The Open Group Test Suite License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Utility
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -175,6 +175,7 @@ class ValidationTest extends CakeTestCase {
 
 		$this->assertFalse(Validation::alphaNumeric('12 234'));
 		$this->assertFalse(Validation::alphaNumeric('dfd 234'));
+		$this->assertFalse(Validation::alphaNumeric("0\n"));
 		$this->assertFalse(Validation::alphaNumeric("\n"));
 		$this->assertFalse(Validation::alphaNumeric("\t"));
 		$this->assertFalse(Validation::alphaNumeric("\r"));
@@ -2125,6 +2126,10 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::postal('BAA 0ABC', null, 'ca'));
 		$this->assertFalse(Validation::postal('B2A AABC', null, 'ca'));
 		$this->assertFalse(Validation::postal('B2A 2AB', null, 'ca'));
+		$this->assertFalse(Validation::postal('K1A 1D1', null, 'ca'));
+		$this->assertFalse(Validation::postal('K1O 1Q1', null, 'ca'));
+		$this->assertFalse(Validation::postal('A1A 1U1', null, 'ca'));
+		$this->assertFalse(Validation::postal('A1F 1B1', null, 'ca'));
 		$this->assertTrue(Validation::postal('X0A 0A2', null, 'ca'));
 		$this->assertTrue(Validation::postal('G4V 4C3', null, 'ca'));
 

@@ -1,12 +1,13 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 0.9.2
@@ -108,7 +109,7 @@ class ClassRegistry {
 			$defaults = $_this->_config['Model'];
 		}
 		$count = count($objects);
-		$availableDs = array_keys(ConnectionManager::enumConnectionObjects());
+		$availableDs = null;
 
 		foreach ($objects as $settings) {
 			if (is_numeric($settings)) {
@@ -152,6 +153,9 @@ class ClassRegistry {
 						$defaultProperties = $reflection->getDefaultProperties();
 						if (isset($defaultProperties['useDbConfig'])) {
 							$useDbConfig = $defaultProperties['useDbConfig'];
+							if ($availableDs === null) {
+								$availableDs = array_keys(ConnectionManager::enumConnectionObjects());
+							}
 							if (in_array('test_' . $useDbConfig, $availableDs)) {
 								$useDbConfig = 'test_' . $useDbConfig;
 							}

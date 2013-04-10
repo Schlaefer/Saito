@@ -5,17 +5,19 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Core
  * @since         CakePHP(tm) v 1.2.0.6001
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+App::uses('Inflector', 'Utility');
 
 /**
  * App is responsible for path management, class location and class loading.
@@ -424,6 +426,10 @@ class App {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/app.html#App::objects
  */
 	public static function objects($type, $path = null, $cache = true) {
+		if (empty(self::$_objects) && $cache === true) {
+			self::$_objects = (array)Cache::read('object_map', '_cake_core_');
+		}
+
 		$extension = '/\.php$/';
 		$includeDirectories = false;
 		$name = $type;
@@ -432,7 +438,7 @@ class App {
 			$type = 'plugins';
 		}
 
-		if ($type == 'plugins') {
+		if ($type === 'plugins') {
 			$extension = '/.*/';
 			$includeDirectories = true;
 		}
@@ -448,10 +454,6 @@ class App {
 		} elseif ($type === 'file') {
 			$extension = '/\.php$/';
 			$name = $type . str_replace(DS, '', $path);
-		}
-
-		if (empty(self::$_objects) && $cache === true) {
-			self::$_objects = Cache::read('object_map', '_cake_core_');
 		}
 
 		$cacheLocation = empty($plugin) ? 'app' : $plugin;
@@ -636,11 +638,11 @@ class App {
 			return self::_loadClass($name, $plugin, $type, $originalType, $parent);
 		}
 
-		if ($originalType == 'file' && !empty($file)) {
+		if ($originalType === 'file' && !empty($file)) {
 			return self::_loadFile($name, $plugin, $search, $file, $return);
 		}
 
-		if ($originalType == 'vendor') {
+		if ($originalType === 'vendor') {
 			return self::_loadVendor($name, $plugin, $file, $ext);
 		}
 
@@ -659,7 +661,7 @@ class App {
  * @return boolean true indicating the successful load and existence of the class
  */
 	protected static function _loadClass($name, $plugin, $type, $originalType, $parent) {
-		if ($type == 'Console/Command' && $name == 'Shell') {
+		if ($type === 'Console/Command' && $name === 'Shell') {
 			$type = 'Console';
 		} elseif (isset(self::$types[$originalType]['suffix'])) {
 			$suffix = self::$types[$originalType]['suffix'];
@@ -767,7 +769,6 @@ class App {
  */
 	public static function init() {
 		self::$_map += (array)Cache::read('file_map', '_cake_core_');
-		self::$_objects += (array)Cache::read('object_map', '_cake_core_');
 		register_shutdown_function(array('App', 'shutdown'));
 	}
 
@@ -895,7 +896,6 @@ class App {
 		if (self::$_objectCacheChange) {
 			Cache::write('object_map', self::$_objects, '_cake_core_');
 		}
-
 		self::_checkFatalError();
 	}
 

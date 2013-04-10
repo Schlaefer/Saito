@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Network
  * @since         CakePHP(tm) v 2.0
@@ -851,9 +852,9 @@ class CakeResponse {
 /**
  * Sets the Cache-Control must-revalidate directive.
  * must-revalidate indicates that the response should not be served
- * stale by a cache under any cirumstance without first revalidating
+ * stale by a cache under any circumstance without first revalidating
  * with the origin.
- * If called with no parameters, this function will return wheter must-revalidate is present.
+ * If called with no parameters, this function will return whether must-revalidate is present.
  *
  * @param integer $seconds if null, the method will return the current
  * must-revalidate value
@@ -966,7 +967,7 @@ class CakeResponse {
  * value is returned
  *
  * @param string|array $cacheVariances a single Vary string or a array
- * containig the list for variances.
+ * containing the list for variances.
  * @return array
  */
 	public function vary($cacheVariances = null) {
@@ -982,13 +983,13 @@ class CakeResponse {
 
 /**
  * Sets the response Etag, Etags are a strong indicative that a response
- * can be cached by a HTTP client. A bad way of generaing Etags is
+ * can be cached by a HTTP client. A bad way of generating Etags is
  * creating a hash of the response output, instead generate a unique
  * hash of the unique components that identifies a request, such as a
  * modification time, a resource Id, and anything else you consider it
  * makes it unique.
  *
- * Second parameter is used to instuct clients that the content has
+ * Second parameter is used to instruct clients that the content has
  * changed, but sematicallly, it can be used as the same thing. Think
  * for instance of a page with a hit counter, two different page views
  * are equivalent, but they differ by a few bytes. This leaves off to
@@ -996,9 +997,9 @@ class CakeResponse {
  *
  * If no parameters are passed, current Etag header is returned.
  *
- * @param string $hash the unique has that identifies this resposnse
+ * @param string $hash the unique has that identifies this response
  * @param boolean $weak whether the response is semantically the same as
- * other with th same hash or not
+ * other with the same hash or not
  * @return string
  */
 	public function etag($tag = null, $weak = false) {

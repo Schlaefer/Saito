@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Network.Http
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -1064,6 +1065,19 @@ class HttpSocketTest extends CakeTestCase {
 		$socket->configAuth('Test', 'mark', 'passwd');
 		$socket->get('http://example.com/test');
 		$this->assertTrue(strpos($socket->request['header'], 'Authorization: Test mark.passwd') !== false);
+
+		$socket->configAuth(false);
+		$socket->request(array(
+			'method' => 'GET',
+			'uri' => 'http://example.com/test',
+			'auth' => array(
+				'method' => 'Basic',
+				'user' => 'joel',
+				'pass' => 'hunter2'
+			)
+		));
+		$this->assertEquals($socket->request['auth'],array('Basic' => array('user' => 'joel', 'pass' => 'hunter2')));
+		$this->assertTrue(strpos($socket->request['header'], 'Authorization: Basic am9lbDpodW50ZXIy') !== false);
 	}
 
 /**

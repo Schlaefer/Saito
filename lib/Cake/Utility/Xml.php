@@ -7,12 +7,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP v .0.10.3.1400
@@ -101,12 +102,16 @@ class Xml {
 		} elseif (file_exists($input)) {
 			return self::_loadXml(file_get_contents($input), $options);
 		} elseif (strpos($input, 'http://') === 0 || strpos($input, 'https://') === 0) {
-			$socket = new HttpSocket(array('request' => array('redirect' => 10)));
-			$response = $socket->get($input);
-			if (!$response->isOk()) {
+			try {
+				$socket = new HttpSocket(array('request' => array('redirect' => 10)));
+				$response = $socket->get($input);
+				if (!$response->isOk()) {
+					throw new XmlException(__d('cake_dev', 'XML cannot be read.'));
+				}
+				return self::_loadXml($response->body, $options);
+			} catch (SocketException $e) {
 				throw new XmlException(__d('cake_dev', 'XML cannot be read.'));
 			}
-			return self::_loadXml($response->body, $options);
 		} elseif (!is_string($input)) {
 			throw new XmlException(__d('cake_dev', 'Invalid input.'));
 		}
@@ -295,10 +300,9 @@ class Xml {
 			$childValue = (string)$value;
 		}
 
+		$child = $dom->createElement($key);
 		if ($childValue) {
-			$child = $dom->createElement($key, $childValue);
-		} else {
-			$child = $dom->createElement($key);
+			$child->appendChild($dom->createTextNode($childValue));
 		}
 		if ($childNS) {
 			$child->setAttribute('xmlns', $childNS);
