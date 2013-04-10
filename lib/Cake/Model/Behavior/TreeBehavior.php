@@ -7,12 +7,13 @@
  * PHP 5
  *
  * CakePHP :  Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Model.Behavior
  * @since         CakePHP v 1.2.0.4487
@@ -409,7 +410,7 @@ class TreeBehavior extends ModelBehavior {
 			extract(array_merge(array('id' => null), $id));
 		}
 		$overrideRecursive = $recursive;
-		if (empty ($id)) {
+		if (empty($id)) {
 			$id = $Model->id;
 		}
 		extract($this->settings[$Model->alias]);
@@ -442,7 +443,7 @@ class TreeBehavior extends ModelBehavior {
 			extract(array_merge(array('id' => null), $id));
 		}
 		$overrideRecursive = $recursive;
-		if (empty ($id)) {
+		if (empty($id)) {
 			$id = $Model->id;
 		}
 		extract($this->settings[$Model->alias]);
@@ -481,7 +482,7 @@ class TreeBehavior extends ModelBehavior {
 		if (!$number) {
 			return false;
 		}
-		if (empty ($id)) {
+		if (empty($id)) {
 			$id = $Model->id;
 		}
 		extract($this->settings[$Model->alias]);
@@ -539,7 +540,7 @@ class TreeBehavior extends ModelBehavior {
 		if (!$number) {
 			return false;
 		}
-		if (empty ($id)) {
+		if (empty($id)) {
 			$id = $Model->id;
 		}
 		extract($this->settings[$Model->alias]);
@@ -864,7 +865,7 @@ class TreeBehavior extends ModelBehavior {
 		)));
 		$edge = $this->_getMax($Model, $scope, $right, $recursive, $created);
 
-		if (empty ($parentId)) {
+		if (empty($parentId)) {
 			$this->_sync($Model, $edge - $node[$left] + 1, '+', 'BETWEEN ' . $node[$left] . ' AND ' . $node[$right], $created);
 			$this->_sync($Model, $node[$right] - $node[$left] + 1, '-', '> ' . $node[$left], $created);
 		} else {

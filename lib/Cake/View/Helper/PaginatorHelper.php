@@ -5,12 +5,13 @@
  * Generates pagination links
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Helper
  * @since         CakePHP(tm) v 1.2.0
@@ -236,7 +237,7 @@ class PaginatorHelper extends AppHelper {
 			$dir = strtolower(current($params['order']));
 		}
 
-		if ($dir == 'desc') {
+		if ($dir === 'desc') {
 			return 'desc';
 		}
 		return 'asc';
@@ -425,7 +426,7 @@ class PaginatorHelper extends AppHelper {
  * @return array converted url params.
  */
 	protected function _convertUrlKeys($url, $type) {
-		if ($type == 'named') {
+		if ($type === 'named') {
 			return $url;
 		}
 		if (!isset($url['?'])) {
@@ -478,7 +479,7 @@ class PaginatorHelper extends AppHelper {
 
 		if ($this->{$check}($model)) {
 			$url = array_merge(
-				array('page' => $paging['page'] + ($which == 'Prev' ? $step * -1 : $step)),
+				array('page' => $paging['page'] + ($which === 'Prev' ? $step * -1 : $step)),
 				$url
 			);
 			if ($tag === false) {

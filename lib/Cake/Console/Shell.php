@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.5012
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -21,6 +22,7 @@ App::uses('ConsoleOutput', 'Console');
 App::uses('ConsoleInput', 'Console');
 App::uses('ConsoleInputSubcommand', 'Console');
 App::uses('ConsoleOptionParser', 'Console');
+App::uses('ClassRegistry', 'Utility');
 App::uses('File', 'Utility');
 
 /**
@@ -233,7 +235,6 @@ class Shell extends Object {
 		if (empty($this->uses)) {
 			return false;
 		}
-		App::uses('ClassRegistry', 'Utility');
 
 		$uses = is_array($this->uses) ? $this->uses : array($this->uses);
 
@@ -289,7 +290,7 @@ class Shell extends Object {
 			if (!$method->isPublic() || substr($name, 0, 1) === '_') {
 				return false;
 			}
-			if ($method->getDeclaringClass()->name == 'Shell') {
+			if ($method->getDeclaringClass()->name === 'Shell') {
 				return false;
 			}
 			return true;
@@ -402,7 +403,7 @@ class Shell extends Object {
  */
 	protected function _displayHelp($command) {
 		$format = 'text';
-		if (!empty($this->args[0]) && $this->args[0] == 'xml') {
+		if (!empty($this->args[0]) && $this->args[0] === 'xml') {
 			$format = 'xml';
 			$this->stdout->outputAs(ConsoleOutput::RAW);
 		} else {
@@ -653,10 +654,10 @@ class Shell extends Object {
 			$this->out(__d('cake_console', '<warning>File `%s` exists</warning>', $path));
 			$key = $this->in(__d('cake_console', 'Do you want to overwrite?'), array('y', 'n', 'q'), 'n');
 
-			if (strtolower($key) == 'q') {
+			if (strtolower($key) === 'q') {
 				$this->out(__d('cake_console', '<error>Quitting</error>.'), 2);
 				$this->_stop();
-			} elseif (strtolower($key) != 'y') {
+			} elseif (strtolower($key) !== 'y') {
 				$this->out(__d('cake_console', 'Skip `%s`', $path), 2);
 				return false;
 			}
@@ -694,7 +695,7 @@ class Shell extends Object {
 
 		$prompt = __d('cake_console', 'PHPUnit is not installed. Do you want to bake unit test files anyway?');
 		$unitTest = $this->in($prompt, array('y', 'n'), 'y');
-		$result = strtolower($unitTest) == 'y' || strtolower($unitTest) == 'yes';
+		$result = strtolower($unitTest) === 'y' || strtolower($unitTest) === 'yes';
 
 		if ($result) {
 			$this->out();
@@ -824,7 +825,7 @@ class Shell extends Object {
  * If you don't wish to see in your stdout or stderr everything that is logged
  * through CakeLog, call this function with first param as false
  *
- * @param boolean $enable wheter to enable CakeLog output or not
+ * @param boolean $enable whether to enable CakeLog output or not
  * @return void
  */
 	protected function _useLogger($enable = true) {

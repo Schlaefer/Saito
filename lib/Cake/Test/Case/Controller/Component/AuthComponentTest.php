@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Controller.Component
  * @since         CakePHP(tm) v 1.2.0.5347
@@ -417,30 +418,6 @@ class AuthComponentTest extends CakeTestCase {
 	}
 
 /**
- * test that being redirected to the login page, with no post data does
- * not set the session value. Saving the session value in this circumstance
- * can cause the user to be redirected to an already public page.
- *
- * @return void
- */
-	public function testLoginActionNotSettingAuthRedirect() {
-		$_SERVER['HTTP_REFERER'] = '/pages/display/about';
-
-		$this->Controller->data = array();
-		$this->Controller->request->addParams(Router::parse('auth_test/login'));
-		$this->Controller->request->url = 'auth_test/login';
-		$this->Auth->Session->delete('Auth');
-
-		$this->Auth->loginRedirect = '/users/dashboard';
-		$this->Auth->loginAction = 'auth_test/login';
-		$this->Auth->userModel = 'AuthUser';
-
-		$this->Auth->startup($this->Controller);
-		$redirect = $this->Auth->Session->read('Auth.redirect');
-		$this->assertNull($redirect);
-	}
-
-/**
  * testAuthorizeFalse method
  *
  * @return void
@@ -452,6 +429,7 @@ class AuthComponentTest extends CakeTestCase {
 		$this->Controller->Auth->userModel = 'AuthUser';
 		$this->Controller->Auth->authorize = false;
 		$this->Controller->request->addParams(Router::parse('auth_test/add'));
+		$this->Controller->Auth->initialize($this->Controller);
 		$result = $this->Controller->Auth->startup($this->Controller);
 		$this->assertTrue($result);
 

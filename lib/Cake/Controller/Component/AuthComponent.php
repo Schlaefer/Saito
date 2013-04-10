@@ -7,12 +7,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller.Component
  * @since         CakePHP(tm) v 0.10.0.1076
@@ -309,7 +310,7 @@ class AuthComponent extends Component {
 
 		if ($loginAction == $url) {
 			if (empty($request->data)) {
-				if (!$this->Session->check('Auth.redirect') && !$this->loginRedirect && env('HTTP_REFERER')) {
+				if (!$this->Session->check('Auth.redirect') && env('HTTP_REFERER')) {
 					$this->Session->write('Auth.redirect', $controller->referer(null, true));
 				}
 			}
@@ -384,6 +385,8 @@ class AuthComponent extends Component {
 	}
 
 /**
+ * Check if the provided user is authorized for the request.
+ *
  * Uses the configured Authorization adapters to check whether or not a user is authorized.
  * Each adapter will be checked in sequence, if any of them return true, then the user will
  * be authorized for the request.
@@ -392,7 +395,7 @@ class AuthComponent extends Component {
  * @param CakeRequest $request The request to authenticate for. If empty, the current request will be used.
  * @return boolean True if $user is authorized, otherwise false
  */
-	public function isAuthorized($user = null, $request = null) {
+	public function isAuthorized($user = null, CakeRequest $request = null) {
 		if (empty($user) && !$this->user()) {
 			return false;
 		}
@@ -505,7 +508,9 @@ class AuthComponent extends Component {
 	}
 
 /**
- * Maps action names to CRUD operations. Used for controller-based authentication. Make sure
+ * Maps action names to CRUD operations.
+ *
+ * Used for controller-based authentication. Make sure
  * to configure the authorize property before calling this method. As it delegates $map to all the
  * attached authorize objects.
  *
@@ -524,7 +529,9 @@ class AuthComponent extends Component {
 	}
 
 /**
- * Log a user in. If a $user is provided that data will be stored as the logged in user. If `$user` is empty or not
+ * Log a user in.
+ *
+ * If a $user is provided that data will be stored as the logged in user. If `$user` is empty or not
  * specified, the request will be used to identify a user. If the identification was successful,
  * the user record is written to the session key specified in AuthComponent::$sessionKey. Logging in
  * will also change the session id in order to help mitigate session replays.
@@ -547,11 +554,13 @@ class AuthComponent extends Component {
 	}
 
 /**
- * Logs a user out, and returns the login action to redirect to.
- * Triggers the logout() method of all the authenticate objects, so they can perform
- * custom logout logic. AuthComponent will remove the session data, so
- * there is no need to do that in an authentication object. Logging out
- * will also renew the session id. This helps mitigate issues with session replays.
+ * Log a user out.
+ *
+ * Returns the login action to redirect to. Triggers the logout() method of
+ * all the authenticate objects, so they can perform custom logout logic.
+ * AuthComponent will remove the session data, so there is no need to do that
+ * in an authentication object. Logging out will also renew the session id.
+ * This helps mitigate issues with session replays.
  *
  * @return string AuthComponent::$logoutRedirect
  * @see AuthComponent::$logoutRedirect
@@ -634,9 +643,19 @@ class AuthComponent extends Component {
 	}
 
 /**
- * If no parameter is passed, gets the authentication redirect URL. Pass a url in to
- * set the destination a user should be redirected to upon logging in. Will fallback to
- * AuthComponent::$loginRedirect if there is no stored redirect value.
+ * Get the URL a use should be redirected to upon login.
+ *
+ * Pass a url in to set the destination a user should be redirected to upon
+ * logging in.
+ *
+ * If no parameter is passed, gets the authentication redirect URL. The url
+ * returned is as per following rules:
+ *
+ *  - Returns the session Auth.redirect value if it is present and for the same
+ *    domain the current app is running on.
+ *  - If there is no session value and there is a $loginRedirect, the $loginRedirect
+ *    value is returned.
+ *  - If there is no session and no $loginRedirect, / is returned.
  *
  * @param string|array $url Optional URL to write as the login redirect URL.
  * @return string Redirect URL
@@ -652,8 +671,10 @@ class AuthComponent extends Component {
 			if (Router::normalize($redir) == Router::normalize($this->loginAction)) {
 				$redir = $this->loginRedirect;
 			}
-		} else {
+		} elseif ($this->loginRedirect) {
 			$redir = $this->loginRedirect;
+		} else {
+			$redir = '/';
 		}
 		return Router::normalize($redir);
 	}
@@ -744,7 +765,7 @@ class AuthComponent extends Component {
  * @return boolean true if the user is logged in, false otherwise
  */
 	public function loggedIn() {
-		return $this->user() != array();
+		return (boolean)$this->user();
 	}
 
 /**

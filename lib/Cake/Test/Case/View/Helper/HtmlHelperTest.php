@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View.Helper
  * @since         CakePHP(tm) v 1.2.0.4206
@@ -604,6 +605,22 @@ class HtmlHelperTest extends CakeTestCase {
 	}
 
 /**
+ * testCssWithFullBase method
+ *
+ * @return void
+ */
+	public function testCssWithFullBase() {
+		Configure::write('Asset.filter.css', false);
+		$here = $this->Html->url('/', true);
+
+		$result = $this->Html->css('screen', null, array('fullBase' => true));
+		$expected = array(
+			'link' => array('rel' => 'stylesheet', 'type' => 'text/css', 'href' => $here . 'css/screen.css')
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
  * testPluginCssLink method
  *
  * @return void
@@ -971,6 +988,30 @@ class HtmlHelperTest extends CakeTestCase {
 		$result = $this->Html->script('//example.com/js/jquery-1.3.js');
 		$expected = array(
 			'script' => array('type' => 'text/javascript', 'src' => '//example.com/js/jquery-1.3.js')
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * testScriptWithFullBase method
+ *
+ * @return void
+ */
+	public function testScriptWithFullBase() {
+		$here = $this->Html->url('/', true);
+
+		$result = $this->Html->script('foo', array('fullBase' => true));
+		$expected = array(
+			'script' => array('type' => 'text/javascript', 'src' => $here . 'js/foo.js')
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Html->script(array('foobar', 'bar'), array('fullBase' => true));
+		$expected = array(
+			array('script' => array('type' => 'text/javascript', 'src' => $here . 'js/foobar.js')),
+			'/script',
+			array('script' => array('type' => 'text/javascript', 'src' => $here . 'js/bar.js')),
+			'/script',
 		);
 		$this->assertTags($result, $expected);
 	}

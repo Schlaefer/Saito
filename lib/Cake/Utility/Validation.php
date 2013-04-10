@@ -5,12 +5,13 @@
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 1.2.0.3830
@@ -91,7 +92,7 @@ class Validation {
 		if (empty($check) && $check != '0') {
 			return false;
 		}
-		return self::_check($check, '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/mu');
+		return self::_check($check, '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}]+$/Du');
 	}
 
 /**
@@ -110,7 +111,7 @@ class Validation {
 	}
 
 /**
- * Returns true if field is left blank -OR- only whitespace characters are present in it's value
+ * Returns true if field is left blank -OR- only whitespace characters are present in its value
  * Whitespace characters include Space, Tab, Carriage Return, Newline
  *
  * $check can be passed as an array:
@@ -181,7 +182,7 @@ class Validation {
 					return self::luhn($check, $deep);
 				}
 			}
-		} elseif ($type == 'all') {
+		} elseif ($type === 'all') {
 			foreach ($cards['all'] as $value) {
 				$regex = $value;
 
@@ -306,7 +307,7 @@ class Validation {
 		$regex['dMy'] = '/^((31(?!\\ (Feb(ruary)?|Apr(il)?|June?|(Sep(?=\\b|t)t?|Nov)(ember)?)))|((30|29)(?!\\ Feb(ruary)?))|(29(?=\\ Feb(ruary)?\\ (((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))|(0?[1-9])|1\\d|2[0-8])\\ (Jan(uary)?|Feb(ruary)?|Ma(r(ch)?|y)|Apr(il)?|Ju((ly?)|(ne?))|Aug(ust)?|Oct(ober)?|(Sep(?=\\b|t)t?|Nov|Dec)(ember)?)\\ ((1[6-9]|[2-9]\\d)\\d{2})$/';
 		$regex['Mdy'] = '/^(?:(((Jan(uary)?|Ma(r(ch)?|y)|Jul(y)?|Aug(ust)?|Oct(ober)?|Dec(ember)?)\\ 31)|((Jan(uary)?|Ma(r(ch)?|y)|Apr(il)?|Ju((ly?)|(ne?))|Aug(ust)?|Oct(ober)?|(Sep)(tember)?|(Nov|Dec)(ember)?)\\ (0?[1-9]|([12]\\d)|30))|(Feb(ruary)?\\ (0?[1-9]|1\\d|2[0-8]|(29(?=,?\\ ((1[6-9]|[2-9]\\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00)))))))\\,?\\ ((1[6-9]|[2-9]\\d)\\d{2}))$/';
 		$regex['My'] = '%^(Jan(uary)?|Feb(ruary)?|Ma(r(ch)?|y)|Apr(il)?|Ju((ly?)|(ne?))|Aug(ust)?|Oct(ober)?|(Sep(?=\\b|t)t?|Nov|Dec)(ember)?)[ /]((1[6-9]|[2-9]\\d)\\d{2})$%';
-		$regex['my'] = '%^(((0[123456789]|10|11|12)([- /.])(([1][9][0-9][0-9])|([2][0-9][0-9][0-9]))))$%';
+		$regex['my'] = '%^((0[123456789]|10|11|12)([- /.])(([1][9][0-9][0-9])|([2][0-9][0-9][0-9])))$%';
 
 		$format = (is_array($format)) ? array_values($format) : array($format);
 		foreach ($format as $key) {
@@ -528,7 +529,7 @@ class Validation {
  */
 	public static function money($check, $symbolPosition = 'left') {
 		$money = '(?!0,?\d)(?:\d{1,3}(?:([, .])\d{3})?(?:\1\d{3})*|(?:\d+))((?!\1)[,.]\d{2})?';
-		if ($symbolPosition == 'right') {
+		if ($symbolPosition === 'right') {
 			$regex = '/^' . $money . '(?<!\x{00a2})\p{Sc}?$/u';
 		} else {
 			$regex = '/^(?!\x{00a2})\p{Sc}?' . $money . '$/u';
@@ -645,7 +646,9 @@ class Validation {
 					$regex = '/\\A\\b[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}\\b\\z/i';
 					break;
 				case 'ca':
-					$regex = '/\\A\\b[ABCEGHJKLMNPRSTVXY][0-9][A-Z] [0-9][A-Z][0-9]\\b\\z/i';
+					$district = '[ABCEGHJKLMNPRSTVYX]';
+					$letters = '[ABCEGHJKLMNPRSTVWXYZ]';
+					$regex = "/\\A\\b{$district}[0-9]{$letters} [0-9]{$letters}[0-9]\\b\\z/i";
 					break;
 				case 'it':
 				case 'de':
@@ -777,7 +780,7 @@ class Validation {
  * @return boolean Success
  */
 	public static function uuid($check) {
-		$regex = '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i';
+		$regex = '/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$/';
 		return self::_check($check, $regex);
 	}
 
@@ -814,10 +817,8 @@ class Validation {
  */
 	protected static function _check($check, $regex) {
 		if (is_string($regex) && preg_match($regex, $check)) {
-			self::$errors[] = false;
 			return true;
 		} else {
-			self::$errors[] = true;
 			return false;
 		}
 	}

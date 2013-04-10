@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Network.Email
  * @since         CakePHP(tm) v 2.0.0
@@ -1423,7 +1424,7 @@ class CakeEmail {
 /**
  * Render the body of the email.
  *
- * @param string $content Content to render
+ * @param array $content Content to render
  * @return array Email body ready to be sent
  */
 	protected function _render($content) {
@@ -1511,7 +1512,7 @@ class CakeEmail {
  */
 	protected function _getTypes() {
 		$types = array($this->_emailFormat);
-		if ($this->_emailFormat == 'both') {
+		if ($this->_emailFormat === 'both') {
 			$types = array('html', 'text');
 		}
 		return $types;
