@@ -14,6 +14,9 @@ layout: default
 - [fix] no reverse hashing of entries/view links
 - [task] update from CakePHP 2.3 to 2.3.2
 
+### Migration notes ###
+
+Don't forget to update your `lib/Cake` folder.
 
 ## 2013-04.03 ##
 
