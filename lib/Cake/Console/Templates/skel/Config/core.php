@@ -7,12 +7,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       app.Config
  * @since         CakePHP(tm) v 0.2.9
@@ -92,7 +93,15 @@
  * /app/.htaccess
  * /app/webroot/.htaccess
  *
- * And uncomment the App.baseUrl below:
+ * And uncomment the App.baseUrl below. But keep in mind
+ * that plugin assets such as images, CSS and Javascript files
+ * will not work without url rewriting!
+ * To work around this issue you should either symlink or copy
+ * the plugin assets into you app's webroot directory. This is
+ * recommended even when you are using mod_rewrite. Handling static
+ * assets through the Dispatcher is incredibly inefficient and
+ * included primarily as a development convenience - and
+ * thus not recommended for production applications.
  */
 	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 
@@ -163,7 +172,7 @@
  *    value to false, when dealing with older versions of IE, Chrome Frame or certain web-browsing devices and AJAX
  * - `Session.defaults` - The default configuration set to use as a basis for your session.
  *    There are four builtins: php, cake, cache, database.
- * - `Session.handler` - Can be used to enable a custom session handler. Expects an array of of callables,
+ * - `Session.handler` - Can be used to enable a custom session handler. Expects an array of callables,
  *    that can be used with `session_save_handler`. Using this option will automatically add `session.save_handler`
  *    to the ini array.
  * - `Session.autoRegenerate` - Enabling this setting, turns on automatic renewal of sessions, and
@@ -307,7 +316,7 @@
  *
  * Note: 'default' and other application caches should be configured in app/Config/bootstrap.php.
  *       Please check the comments in boostrap.php for more info on the cache engines available
- *       and their setttings.
+ *       and their settings.
  */
 $engine = 'File';
 

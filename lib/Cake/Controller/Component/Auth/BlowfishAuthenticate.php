@@ -3,12 +3,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of the files must retain the above copyright notice.
  *
- * @copyright	Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright	Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link	http://cakephp.org CakePHP(tm) Project
  * @license	MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
@@ -30,7 +31,7 @@ App::uses('FormAuthenticate', 'Controller/Component/Auth');
  * When  configuring BlowfishAuthenticate you can pass in settings to which fields, model and additional conditions
  * are used. See FormAuthenticate::$settings for more information.
  *
- * For inital password hashing/creation see Security::hash(). Other than how the password is initally hashed,
+ * For initial password hashing/creation see Security::hash(). Other than how the password is initially hashed,
  * BlowfishAuthenticate works exactly the same way as FormAuthenticate.
  *
  * @package	Cake.Controller.Component.Auth

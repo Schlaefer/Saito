@@ -8,6 +8,10 @@
 
 		protected $_controller;
 
+		public $server;
+
+		public $webroot;
+
 		public $settings = array(
 			'hashBaseUrl' => '',
 			'atBaseUrl'   => ''
@@ -15,6 +19,8 @@
 
 		public function initialize(Controller $controller) {
 			$this->_controller = $controller;
+			$this->server = FULL_BASE_URL;
+			$this->webroot = $controller->webroot;
 		}
 
 		public function beforeRender(Controller $controller) {
@@ -33,10 +39,12 @@
 		}
 
 		protected function _hashInternalEntryLinks($string) {
-			$server = $this->_controller->request->serverroot;
-			$webroot = $this->_controller->webroot;
 			$string = preg_replace(
-				"#(?<!=){$server}{$webroot}{$this->settings['hashBaseUrl']}(\d+)#im",
+				"%
+				(?<!=) # don't hash if part of [url=…
+				{$this->server}{$this->webroot}{$this->settings['hashBaseUrl']}
+				(\d+)  # the id
+				%imx",
 				"#\\1",
 				$string);
 			return $string;

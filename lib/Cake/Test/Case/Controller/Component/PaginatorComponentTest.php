@@ -7,12 +7,13 @@
  * PHP 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Controller.Component
  * @since         CakePHP(tm) v 2.0
@@ -106,7 +107,7 @@ class PaginatorControllerPost extends CakeTestModel {
  * @return void
  */
 	public function find($conditions = null, $fields = array(), $order = null, $recursive = null) {
-		if ($conditions == 'popular') {
+		if ($conditions === 'popular') {
 			$conditions = array($this->name . '.' . $this->primaryKey . ' > ' => '1');
 			$options = Hash::merge($fields, compact('conditions'));
 			return parent::find('all', $options);
@@ -277,7 +278,7 @@ class PaginatorCustomPost extends CakeTestModel {
  * @return array
  */
 	protected function _findTotals($state, $query, $results = array()) {
-		if ($state == 'before') {
+		if ($state === 'before') {
 			$query['fields'] = array('author_id');
 			$this->virtualFields['total_posts'] = "COUNT({$this->alias}.id)";
 			$query['fields'][] = 'total_posts';
@@ -295,7 +296,7 @@ class PaginatorCustomPost extends CakeTestModel {
  * @return array
  */
 	protected function _findTotalsOperation($state, $query, $results = array()) {
-		if ($state == 'before') {
+		if ($state === 'before') {
 			if (!empty($query['operation']) && $query['operation'] === 'count') {
 				unset($query['limit']);
 				$query['recursive'] = -1;
@@ -393,9 +394,9 @@ class PaginatorComponentTest extends CakeTestCase {
 		$this->assertEquals(array(3, 2, 1), $results);
 
 		$Controller->request->params['named'] = array('sort' => 'NotExisting.field', 'direction' => 'desc');
-		$results = Hash::extract($Controller->Paginator->paginate('PaginatorControllerPost'), '{n}.PaginatorControllerPost.id');
-		$this->assertEquals(1, $Controller->params['paging']['PaginatorControllerPost']['page'], 'Invalid field in query %s');
-		$this->assertEquals(array(1, 2, 3), $results);
+		$Controller->Paginator->paginate('PaginatorControllerPost');
+		$this->assertEquals(1, $Controller->params['paging']['PaginatorControllerPost']['page']);
+		$this->assertEquals(array(), $Controller->PaginatorControllerPost->lastQueries[1]['order'][0], 'no order should be set.');
 
 		$Controller->request->params['named'] = array(
 			'sort' => 'PaginatorControllerPost.author_id', 'direction' => 'allYourBase'

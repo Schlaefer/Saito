@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -133,7 +134,7 @@ class CakeRequest implements ArrayAccess {
 		if (empty($url)) {
 			$url = $this->_url();
 		}
-		if ($url[0] == '/') {
+		if ($url[0] === '/') {
 			$url = substr($url, 1);
 		}
 		$this->url = $url;
@@ -254,7 +255,7 @@ class CakeRequest implements ArrayAccess {
 		if (strpos($uri, '?') !== false) {
 			list($uri) = explode('?', $uri, 2);
 		}
-		if (empty($uri) || $uri == '/' || $uri == '//' || $uri == '/index.php') {
+		if (empty($uri) || $uri === '/' || $uri === '//' || $uri === '/index.php') {
 			return '/';
 		}
 		return $uri;
@@ -305,7 +306,7 @@ class CakeRequest implements ArrayAccess {
 		$this->webroot = $base . '/';
 
 		$docRoot = env('DOCUMENT_ROOT');
-		$docRootContainsWebroot = strpos($docRoot, $dir . '/' . $webroot);
+		$docRootContainsWebroot = strpos($docRoot, $dir . DS . $webroot);
 
 		if (!empty($base) || !$docRootContainsWebroot) {
 			if (strpos($this->webroot, '/' . $dir . '/') === false) {
@@ -411,7 +412,7 @@ class CakeRequest implements ArrayAccess {
 		if (!empty($ref) && !empty($base)) {
 			if ($local && strpos($ref, $base) === 0) {
 				$ref = substr($ref, strlen($base));
-				if ($ref[0] != '/') {
+				if ($ref[0] !== '/') {
 					$ref = '/' . $ref;
 				}
 				return $ref;
@@ -892,10 +893,10 @@ class CakeRequest implements ArrayAccess {
 		if (isset($this->params[$name])) {
 			return $this->params[$name];
 		}
-		if ($name == 'url') {
+		if ($name === 'url') {
 			return $this->query;
 		}
-		if ($name == 'data') {
+		if ($name === 'data') {
 			return $this->data;
 		}
 		return null;

@@ -7,12 +7,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Log
  * @since         CakePHP(tm) v 0.2.9
@@ -55,7 +56,7 @@ App::uses('LogEngineCollection', 'Log');
  * }}}
  *
  * If you require custom logging levels, you can use CakeLog::levels() to
- * append additoinal logging levels.
+ * append additional logging levels.
  *
  * ### Logging scopes
  *
@@ -300,7 +301,7 @@ class CakeLog {
 	}
 
 /**
- * Checks wether $streamName is enabled
+ * Checks whether $streamName is enabled
  *
  * @param string $streamName to check
  * @return bool
@@ -427,7 +428,7 @@ class CakeLog {
 		foreach (self::$_Collection->enabled() as $streamName) {
 			$logger = self::$_Collection->{$streamName};
 			$types = $scopes = $config = array();
-			if ($logger instanceof BaseLog) {
+			if (method_exists($logger, 'config')) {
 				$config = $logger->config();
 			}
 			if (isset($config['types'])) {

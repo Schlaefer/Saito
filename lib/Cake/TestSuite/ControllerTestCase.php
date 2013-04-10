@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.TestSuite
  * @since         CakePHP(tm) v 2.0
@@ -185,7 +186,7 @@ abstract class ControllerTestCase extends CakeTestCase {
  * @throws BadMethodCallException when you call methods that don't exist.
  */
 	public function __call($name, $arguments) {
-		if ($name == 'testAction') {
+		if ($name === 'testAction') {
 			return call_user_func_array(array($this, '_testAction'), $arguments);
 		}
 		throw new BadMethodCallException("Method '{$name}' does not exist.");
@@ -225,7 +226,7 @@ abstract class ControllerTestCase extends CakeTestCase {
 
 		$_SERVER['REQUEST_METHOD'] = strtoupper($options['method']);
 		if (is_array($options['data'])) {
-			if (strtoupper($options['method']) == 'GET') {
+			if (strtoupper($options['method']) === 'GET') {
 				$_GET = $options['data'];
 				$_POST = array();
 			} else {
@@ -262,7 +263,7 @@ abstract class ControllerTestCase extends CakeTestCase {
 			$this->generate($plugin . Inflector::camelize($request->params['controller']));
 		}
 		$params = array();
-		if ($options['return'] == 'result') {
+		if ($options['return'] === 'result') {
 			$params['return'] = 1;
 			$params['bare'] = 1;
 			$params['requested'] = 1;

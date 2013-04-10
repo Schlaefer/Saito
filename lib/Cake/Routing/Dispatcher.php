@@ -8,12 +8,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Routing
  * @since         CakePHP(tm) v 0.2.9
@@ -60,7 +61,7 @@ class Dispatcher implements CakeEventListener {
 
 /**
  * Returns the CakeEventManager instance or creates one if none was
- * creted. Attaches the default listeners and filters
+ * created. Attaches the default listeners and filters
  *
  * @return CakeEventManager
  */
@@ -74,7 +75,7 @@ class Dispatcher implements CakeEventListener {
 	}
 
 /**
- * Returns the list of events this object listents to.
+ * Returns the list of events this object listens to.
  *
  * @return array
  */
@@ -176,7 +177,7 @@ class Dispatcher implements CakeEventListener {
  * @param Controller $controller Controller to invoke
  * @param CakeRequest $request The request object to invoke the controller for.
  * @param CakeResponse $response The response object to receive the output
- * @return CakeResponse te resulting response object
+ * @return CakeResponse the resulting response object
  */
 	protected function _invoke(Controller $controller, CakeRequest $request, CakeResponse $response) {
 		$controller->constructClasses();
@@ -191,7 +192,9 @@ class Dispatcher implements CakeEventListener {
 
 		if ($render && $controller->autoRender) {
 			$response = $controller->render();
-		} elseif ($response->body() === null) {
+		} elseif (!($result instanceof CakeResponse) &&
+			$response->body() === null
+		) {
 			$response->body($result);
 		}
 		$controller->shutdownProcess();

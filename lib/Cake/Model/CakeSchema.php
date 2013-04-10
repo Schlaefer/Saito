@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model
  * @since         CakePHP(tm) v 1.2.0.5550
@@ -226,7 +227,7 @@ class CakeSchema extends Object {
 			foreach ($models as $model) {
 				$importModel = $model;
 				$plugin = null;
-				if ($model == 'AppModel') {
+				if ($model === 'AppModel') {
 					continue;
 				}
 
@@ -411,7 +412,7 @@ class CakeSchema extends Object {
 		if (is_array($fields)) {
 			$cols = array();
 			foreach ($fields as $field => $value) {
-				if ($field != 'indexes' && $field != 'tableParameters') {
+				if ($field !== 'indexes' && $field !== 'tableParameters') {
 					if (is_string($value)) {
 						$type = $value;
 						$value = array('type' => $type);
@@ -419,14 +420,14 @@ class CakeSchema extends Object {
 					$col = "\t\t'{$field}' => array('type' => '" . $value['type'] . "', ";
 					unset($value['type']);
 					$col .= implode(', ', $this->_values($value));
-				} elseif ($field == 'indexes') {
+				} elseif ($field === 'indexes') {
 					$col = "\t\t'indexes' => array(\n\t\t\t";
 					$props = array();
 					foreach ((array)$value as $key => $index) {
 						$props[] = "'{$key}' => array(" . implode(', ', $this->_values($index)) . ")";
 					}
 					$col .= implode(",\n\t\t\t", $props) . "\n\t\t";
-				} elseif ($field == 'tableParameters') {
+				} elseif ($field === 'tableParameters') {
 					$col = "\t\t'tableParameters' => array(";
 					$props = array();
 					foreach ((array)$value as $key => $param) {
@@ -471,7 +472,7 @@ class CakeSchema extends Object {
 		}
 		$tables = array();
 		foreach ($new as $table => $fields) {
-			if ($table == 'missing') {
+			if ($table === 'missing') {
 				continue;
 			}
 			if (!array_key_exists($table, $old)) {
@@ -625,7 +626,7 @@ class CakeSchema extends Object {
 				unset($value['limit']);
 			}
 
-			if (isset($value['default']) && ($value['default'] === '' || $value['default'] === false)) {
+			if (isset($value['default']) && ($value['default'] === '' || ($value['default'] === false && $value['type'] !== 'boolean'))) {
 				unset($value['default']);
 			}
 			if (empty($value['length'])) {

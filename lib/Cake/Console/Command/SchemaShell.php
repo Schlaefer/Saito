@@ -1,12 +1,13 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.5550
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -51,6 +52,8 @@ class SchemaShell extends AppShell {
 		$this->_welcome();
 		$this->out('Cake Schema Shell');
 		$this->hr();
+
+		Configure::write('Cache.disable', 1);
 
 		$name = $path = $connection = $plugin = null;
 		if (!empty($this->params['name'])) {
@@ -304,7 +307,7 @@ class SchemaShell extends AppShell {
  * @param string $table
  * @return void
  */
-	protected function _create($Schema, $table = null) {
+	protected function _create(CakeSchema $Schema, $table = null) {
 		$db = ConnectionManager::getDataSource($this->Schema->connection);
 
 		$drop = $create = array();
@@ -394,7 +397,7 @@ class SchemaShell extends AppShell {
  * @param CakeSchema $Schema
  * @return void
  */
-	protected function _run($contents, $event, &$Schema) {
+	protected function _run($contents, $event, CakeSchema $Schema) {
 		if (empty($contents)) {
 			$this->err(__d('cake_console', 'Sql could not be run'));
 			return;

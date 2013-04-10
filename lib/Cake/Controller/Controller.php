@@ -1,12 +1,13 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller
  * @since         CakePHP(tm) v 0.2.9
@@ -962,7 +963,7 @@ class Controller extends Object implements CakeEventListener {
 		}
 
 		$referer = $this->request->referer($local);
-		if ($referer == '/' && $default) {
+		if ($referer === '/' && $default) {
 			return Router::url($default, true);
 		}
 		return $referer;
@@ -1047,13 +1048,13 @@ class Controller extends Object implements CakeEventListener {
 				if ($fieldOp === 'LIKE') {
 					$key = $key . ' LIKE';
 					$value = '%' . $value . '%';
-				} elseif ($fieldOp && $fieldOp != '=') {
+				} elseif ($fieldOp && $fieldOp !== '=') {
 					$key = $key . ' ' . $fieldOp;
 				}
 				$cond[$key] = $value;
 			}
 		}
-		if ($bool && strtoupper($bool) != 'AND') {
+		if ($bool && strtoupper($bool) !== 'AND') {
 			$cond = array($bool => $cond);
 		}
 		return $cond;
@@ -1095,7 +1096,9 @@ class Controller extends Object implements CakeEventListener {
 
 /**
  * The beforeRedirect method is invoked when the controller's redirect method is called but before any
- * further action. If this method returns false the controller will not continue on to redirect the request.
+ * further action.
+ *
+ * If this method returns false the controller will not continue on to redirect the request.
  * The $url, $status and $exit variables have same meaning as for the controller's method. You can also
  * return a string which will be interpreted as the url to redirect to or return associative array with
  * key 'url' and optionally 'status' and 'exit'.

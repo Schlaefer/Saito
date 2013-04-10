@@ -7,12 +7,13 @@
  * PHP versions 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Validator
  * @since         CakePHP(tm) v 2.2.0
@@ -193,7 +194,7 @@ class CakeValidationRule {
  */
 	public function skip() {
 		if (!empty($this->on)) {
-			if ($this->on == 'create' && $this->isUpdate() || $this->on == 'update' && !$this->isUpdate()) {
+			if ($this->on === 'create' && $this->isUpdate() || $this->on === 'update' && !$this->isUpdate()) {
 				return true;
 			}
 		}
@@ -201,7 +202,7 @@ class CakeValidationRule {
 	}
 
 /**
- * Returns whethere this rule should break validation process for associated field
+ * Returns whether this rule should break validation process for associated field
  * after it fails
  *
  * @return boolean
@@ -241,7 +242,7 @@ class CakeValidationRule {
 
 /**
  * Sets the recordExists configuration value for this rule,
- * ir refers to wheter the model record it is validating exists
+ * ir refers to whether the model record it is validating exists
  * exists in the collection or not (create or update operation)
  *
  * If called with no parameters it will return whether this rule
@@ -288,7 +289,7 @@ class CakeValidationRule {
 	}
 
 /**
- * Resets interal state for this rule, by default it will become valid
+ * Resets internal state for this rule, by default it will become valid
  * and it will set isUpdate() to false
  *
  * @return void
