@@ -17,9 +17,9 @@
 			'atBaseUrl'   => ''
 		);
 
-		public function startup(Controller $controller) {
+		public function initialize(Controller $controller) {
 			$this->_controller = $controller;
-			$this->server = $controller->request->serverroot;
+			$this->server = FULL_BASE_URL;
 			$this->webroot = $controller->webroot;
 		}
 
