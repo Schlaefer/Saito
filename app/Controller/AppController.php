@@ -292,11 +292,12 @@ class AppController extends Controller {
 		 * @return string url
 		 */
 		protected function _getServerRoot() {
-			$https = 'http' . (env('HTTPS') ? 's' : '') . '://';
+			$isHttps = env('HTTPS');
+			$https = 'http' . ($isHttps ? 's' : '') . '://';
 			$server = env('SERVER_NAME');
 			$port = env('SERVER_PORT');
-			if (!empty($port) && $port !== '80') {
-				$server = "$server:$port";
+			if (!empty($port) && (!$isHttps && $port !== '80' || $isHttps && $port !== '443')) {
+					$server = "$server:$port";
 			}
 			return $https . $server;
 		}
