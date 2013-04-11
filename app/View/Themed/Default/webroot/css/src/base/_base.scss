@@ -5,12 +5,13 @@ body {
   line-height: 1.6;
 }
 
-// images
 body, input, textarea, button {
+  margin: 0;
   font-size: 12px;
   font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
 }
 
+// images
 img {
   border: 0px;
 }
