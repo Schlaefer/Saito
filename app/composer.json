@@ -3,6 +3,6 @@
         "vendor-dir": "Vendor"
     },
     "require": {
-
+        "jlong/sass-twitter-bootstrap": "v2.2.2"
     }
 }
