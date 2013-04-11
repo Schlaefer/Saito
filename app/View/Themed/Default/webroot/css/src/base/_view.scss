@@ -7,23 +7,22 @@
   font-size: 1.25em;
   font-weight: bold;
   line-height: normal;
-  }
+}
 
 .posting, .posting img, posting, object, posting embed, .signature {
   max-width: 80em;
-  }
+}
+
+.posting, .author {
+  @extend .p;
+}
+
+.a, ._a_a_a {
+  margin-bottom: $padding;
+}
 
 .author {
   @extend .info_text;
-  margin: 1px 0 1em 0;
-  line-height: 1.4;
-  }
-
-.signature {
-  margin-top: 1em;
-  }
-
-.a { margin-bottom: 10px;
 }
 
 .b {
@@ -31,56 +30,61 @@
     @include box-shadow(0 0 0);
     border: none;
     background: none;
-		}
   }
+}
 
-/* Inner Content
-// ----------------------------------- */
+// Inner content
+// -------------------------------------
 .a_a_a {
-  padding: $padding; }
+  padding: $padding;
+}
 
-/* BBCode
-// ------------------------------------- */
+// BBCode
+// -------------------------------------
 .c_bbc_code-wrapper {
   background-color: #f9f9f9;
-  padding: 4px; }
+  padding: 4px;
+}
 
 .code {
   @extend code;
-  }
+}
 
 .c_bbc_underline {
   @extend u;
 }
 
 .c_bbc_link-dinfo, .c_bbc_imessage {
-	@extend .info_text;
+  @extend .info_text;
 
   font-weight: normal;
   font-style: normal;
   text-decoration: none;
-	}
+}
 
 .c_bbc_imessage {
-	font-style: italic;
+  font-style: italic;
 }
 
 .c_bbc_upload, .c_bbc_external-image {
-	margin: 5px 0;
-	}
+  margin: 5px 0;
+}
 
 .c_bbc_citation {
   color: $saito_info_text;
-  font-style: italic; }
+  font-style: italic;
+}
 
 .c_bbc_ul {
   margin: 0em 2em;
   padding: 0;
-  list-style-image: image-url("bbcode_list_image.png"); }
+  list-style-image: image-url("bbcode_list_image.png");
+}
 
 .c_bbc_li {
   margin: 0.5em 0;
-  padding: 0; }
+  padding: 0;
+}
 
 .c_bbc_hr {
   margin-left: 0.5em;
@@ -88,23 +92,25 @@
   display: inline-block;
 }
 
-
-/** geshi */
+// Geshi
+// see also app/config/geshi.php for zebra colors
+// -------------------------------------
 .code {
-  padding: 1em; }
+  padding: 1em;
+}
 
 .code ol {
   list-style: decimal;
   padding-left: 40px;
-  }
+}
 
 .geshi-plain-text {
-  font-size: smaller; }
+  font-size: smaller;
+}
 
-/* see also app/config/geshi.php for zebra colors */
 
-/* Embedly
-// ----------------------------------- */
+// Embedly
+// -------------------------------------
 .embedly-image {
-	max-height: 256px;
-	}
+  max-height: 256px;
+}
