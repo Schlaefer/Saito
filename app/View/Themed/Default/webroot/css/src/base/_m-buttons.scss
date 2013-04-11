@@ -16,13 +16,13 @@
 
 .btn-submit {
   background-color: $btnSubmitBackground;
-  @include buttonBackground($btnSubmitBackgroundHighlight, $btnSubmitBackground);
+  @include buttonBackground($btnSubmitBackgroundHighlight, $btnSubmitBackground, black, white);
 }
 
 .btn-preview {
   @extend .btn-small;
   background-color: $btnPreviewBackground;
-  @include buttonBackground($btnPreviewBackgroundHighlight, $btnPreviewBackground);
+  @include buttonBackground($btnPreviewBackgroundHighlight, $btnPreviewBackground, black, white);
 }
 
 .btn-edit {
