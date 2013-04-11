@@ -12,6 +12,8 @@
   // reset hat input elements ususally take the whole form width
   width: auto;
   padding: 0.2em 1em;
+  // suppress rounded onclick buttons in Mobile Safari
+  -webkit-appearance: none;
   }
 
 .btn-submit {
