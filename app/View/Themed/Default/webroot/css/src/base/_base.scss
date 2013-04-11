@@ -1,9 +1,7 @@
 body {
   word-spacing: 1px;
   background-color: $saito_body_background;
-  /* don't use this sucker on mobile devices (e.g. iOS */
-  /* text-rendering: optimizeLegibility; */
-
+  // text-rendering: optimizeLegibility; // don't use this sucker on mobile devices (e.g. iOS)
   line-height: 1.6;
 }
 
@@ -59,6 +57,7 @@ a {
   @include link-colors($link_color);
   text-decoration: none;
 }
+
 
 hr {
   border-width: 0;
