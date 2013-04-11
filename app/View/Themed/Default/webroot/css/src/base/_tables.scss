@@ -4,62 +4,64 @@
 
 .table {
   width: 100%;
-  }
-.table tr { }
+}
+
 .table td, .table th {
   padding: 0.8em;
-	}
+}
+
 .table th {
   font-weight: bold;
   background-color: #eee;
-  }
+}
 
 .table.th-left.elegant td:first-child {
   font-weight: bold;
   text-align: right;
   vertical-align: top;
   width: 38%;
-	}
+}
 
 .table.zebra tr.b {
-    background-color: #eee;
-  }
+  background-color: #eee;
+}
 
 .table.border {
   border: 2px solid silver;
   border-right-width: 1px;
   border-collapse: separate;
-	}
+}
 
 .table.border td, .table.border th {
-   border-style: solid;
-   border-color:  silver;
-   border-width: 0 1px 1px 0;
-   }
+  border-style: solid;
+  border-color: silver;
+  border-width: 0 1px 1px 0;
+}
 
-/* Bookmarks table
-// ----------------------------------- */
+// Bookmarks table
+// -------------------------------------
 
 .l-bookmarks-container {
-	overflow: hidden;
-	}
+  overflow: hidden;
+}
+
 .l-bookmarks-row {
-	white-space: nowrap;
-	}
+  white-space: nowrap;
+}
+
 .l-bookmarks-cell {
-	display: inline-table;
-	vertical-align: middle;
-	white-space: normal;
-	}
+  display: inline-table;
+  vertical-align: middle;
+  white-space: normal;
+}
 
 .bookmarks-cell {
-	padding: 0.8em;
-	}
-
+  padding: 0.8em;
+}
 
 .bookmarks-row-header {
-	border-style: solid;
-	border-color:  silver;
-	border-width: 0 0 1px 0;
-	font-weight: bold;
-	}
+  border-style: solid;
+  border-color: silver;
+  border-width: 0 0 1px 0;
+  font-weight: bold;
+}

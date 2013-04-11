@@ -1,14 +1,12 @@
 body {
-  word-spacing: 1px;
   background-color: $saito_body_background;
   // text-rendering: optimizeLegibility; // don't use this sucker on mobile devices (e.g. iOS)
-  line-height: 1.6;
 }
 
-body, input, textarea, button {
+// input
+input {
+  // reset
   margin: 0;
-  font-size: 12px;
-  font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
 }
 
 // images
@@ -17,6 +15,13 @@ img {
 }
 
 // typography
+body, input, textarea, button {
+  word-spacing: 1px;
+  line-height: 1.6;
+  font-size: 12px;
+  font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+}
+
 h1 {
   font-size: 18px;
   font-weight: bold;
@@ -58,7 +63,6 @@ a {
   @include link-colors($link_color);
   text-decoration: none;
 }
-
 
 hr {
   border-width: 0;

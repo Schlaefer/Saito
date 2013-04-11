@@ -42,7 +42,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .btn-large [class^="icon-"], .btn-large [class*=" icon-"] { margin-top: 4px; }
 
-.btn-small, .btn-preview, .btn-edit { border: 1px solid red; padding: 2px 10px; font-size: 11.05px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
+.btn-small, .btn-preview, .btn-edit { padding: 2px 10px; font-size: 11.05px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
 
 .btn-small [class^="icon-"], .btn-preview [class^="icon-"], .btn-edit [class^="icon-"], .btn-small [class*=" icon-"], .btn-preview [class*=" icon-"], .btn-edit [class*=" icon-"] { margin-top: 0; }
 
@@ -490,11 +490,13 @@ form .c_markitup_popup_txta { width: 96%; padding: 2%; }
 
 .markItUpHeader ul ul a { display: block; padding-left: 0px; text-indent: 0; width: 120px; padding: 5px 5px 5px 25px; background-position: 2px 50%; }
 
-body { word-spacing: 1px; background-color: #f6f6f6; line-height: 1.6; }
+body { background-color: #f6f6f6; }
 
-body, input, textarea, .markItUpPreviewFrame, button { margin: 0; font-size: 12px; font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif; }
+input { margin: 0; }
 
 img { border: 0px; }
+
+body, input, textarea, .markItUpPreviewFrame, button { word-spacing: 1px; line-height: 1.6; font-size: 12px; font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif; }
 
 h1 { font-size: 18px; font-weight: bold; margin-bottom: 0.83em; }
 
@@ -651,7 +653,7 @@ form .required { font-weight: bold; }
 
 form .required label:after { color: #ee3322; content: "*"; display: inline; padding-right: 0.5em; }
 
-/******************************************************************************* Buttons  See for bootstrap sass implementation: https://github.com/thomas-mcdonald/bootstrap-sass/blob/master/vendor/assets/stylesheets/bootstrap/_buttons.scss *****************************************************************************/
+/******************************************************************************* Buttons *****************************************************************************/
 .btn { width: auto; padding: 0.2em 1em; -webkit-appearance: none; }
 
 .btn-submit { background-color: #abe337; color: black; text-shadow: white; background-color: #cef380; background-image: -moz-linear-gradient(top, #e6ffb1, #abe337); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e6ffb1), to(#abe337)); background-image: -webkit-linear-gradient(top, #e6ffb1, #abe337); background-image: -o-linear-gradient(top, #e6ffb1, #abe337); background-image: linear-gradient(to bottom, #e6ffb1, #abe337); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE6FFB1', endColorstr='#FFABE337', GradientType=0); border-color: #abe337 #abe337 #82b419; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); *background-color: #abe337; /* Darken IE7 buttons by default so they stand out more given they won't have borders */ filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }
@@ -662,8 +664,6 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .btn-preview:hover, .btn-preview:active, .btn-preview.active, .btn-preview.disabled, .btn-preview[disabled] { color: black; background-color: #fec853; *background-color: #fec03a; }
 .btn-preview:active, .btn-preview.active { background-color: #feb820 \9; }
 
-.btn-icon-close:before { /*width: 0 !important;*/ }
-
 .btn-strip { height: 100%; position: absolute; }
 
 .btn-strip-back { width: 15px; background-image: url('../../img/mix_back.png'); border: 1px solid #eaeaea; background-color: #fafafa; background-repeat: repeat-y; }
@@ -672,7 +672,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .btn-strip-top { width: 25px; text-align: center; margin: 4px 0px 0px -1px; }
 
 .button_mod_panel { display: inline-block; vertical-align: middle; }
-.button_mod_panel ul { /* !important: in inline_view on entries_index the tree ul stuff messes in */ margin: 0 !important; padding: 0 !important; list-style-type: none; }
+.button_mod_panel ul { margin: 0 !important; padding: 0 !important; list-style-type: none; }
 
 .l-button_mod_panel-wrapper { position: absolute; display: inline-block; }
 
