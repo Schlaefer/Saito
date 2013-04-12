@@ -7,6 +7,23 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-04.05 ##
+
+### What's new ###
+
+- [new] redesigned users/index
+- [fix] 1970 timestamp if shoutbox is empty
+- [fix] removed console.log out on preview
+- [task] CSS and HTML cleanup
+- [task] switch to sass-twitter-bootstrap
+
+### Migration notes ###
+
+Recompile theme if necessary.
+
+Instead of depending on the `bootstrap-sass` gem to be installed for compass compiling `sass-twitter-bootstrap` is included now in `app/Vendor`. 
+
+
 ## 2013-04.04 ##
 
 ### What's new ###
