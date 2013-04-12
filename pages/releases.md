@@ -12,8 +12,8 @@ layout: default
 ### What's new ###
 
 - [new] redesigned users/index
-- [fix] 1970 timestamp if shoutbox is empty
-- [fix] removed console.log out on preview
+- [fix] 1970 timestamp if shoutbox has no shouts
+- [fix] removed console.log() call from preview
 - [task] CSS and HTML cleanup
 - [task] switch to sass-twitter-bootstrap
 
