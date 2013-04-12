@@ -71,6 +71,7 @@
 	@extend .c_all-radius;
 
 	@extend .box-shadow-subtle;
+    margin-bottom: $padding;
 
 	.content {
 		padding: $padding;

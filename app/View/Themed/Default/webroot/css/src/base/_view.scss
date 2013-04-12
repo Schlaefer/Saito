@@ -17,10 +17,6 @@
   @extend .p;
 }
 
-.a, ._a_a_a {
-  margin-bottom: $padding;
-}
-
 .author {
   @extend .info_text;
 }

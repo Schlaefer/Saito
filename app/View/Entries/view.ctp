@@ -29,10 +29,9 @@
 	}
 ?>
 <div id="entry_view" class="entry view">
-	<div class="a box-content">
+	<div class="box-content">
 				<?php  echo $this->element('/entry/view_posting', array('entry' => $entry, 'level' => $level,)); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day'))); ?>
-	</div> <!-- a -->
-
+	</div>
 	<div class="b box-content">
 			<div class="thread_tools">
 				<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry['Entry']['tid']; ?>" id="btn_show_mix_<?php echo $entry['Entry']['tid']; ?>" class="btn-thread_tools">
