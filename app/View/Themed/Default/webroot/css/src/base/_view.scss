@@ -21,14 +21,6 @@
   @extend .info_text;
 }
 
-.b {
-  .tree_thread {
-    @include box-shadow(0 0 0);
-    border: none;
-    background: none;
-  }
-}
-
 // BBCode
 // -------------------------------------
 .c_bbc_code-wrapper {
