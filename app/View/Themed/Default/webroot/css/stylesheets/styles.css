@@ -723,8 +723,6 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .b .tree_thread { -webkit-box-shadow: 0 0 0; -moz-box-shadow: 0 0 0; box-shadow: 0 0 0; border: none; background: none; }
 
-.a_a_a { padding: 10px; }
-
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
 .c_bbc_link-dinfo, .c_bbc_imessage { font-weight: normal; font-style: normal; text-decoration: none; }

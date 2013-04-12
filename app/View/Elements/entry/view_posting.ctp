@@ -6,26 +6,24 @@
 	###
 ?>
 <div class="js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
-	<div class="a_a">
-		<div class="a_a_a">
+	<div class="content">
 
-		<?php
-			echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
-		?>
-		<?php if(!$CurrentUser['user_signatures_hide'] && !empty($entry['User']['signature'])) : ?>
-			<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
-			<div>
-				<?php echo Configure::read('Saito.Settings.signature_separator') ?>
-			</div>
-				<?php
-					$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
-					echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
-				?>
-			</div>
-		<?php endif; ?>
+	<?php
+		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
+	?>
+	<?php if(!$CurrentUser['user_signatures_hide'] && !empty($entry['User']['signature'])) : ?>
+		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
+		<div>
+			<?php echo Configure::read('Saito.Settings.signature_separator') ?>
+		</div>
+			<?php
+				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
+				echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
+			?>
+		</div>
+	<?php endif; ?>
 
-		</div> <!-- a_a_a -->
-	</div> <!-- a_a -->
+	</div>
 	<?php if (!empty($showAnsweringPanel)): ?>
 		<div class="l-box-footer box-footer-form">
 			<div style="float:right">
