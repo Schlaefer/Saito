@@ -27,7 +27,6 @@ define([
         render: function () {
             var rendered;
             rendered =  this.model.get('rendered');
-            console.log(rendered);
             if (!rendered) {
                 rendered = '';
             }
