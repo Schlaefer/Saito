@@ -55,13 +55,13 @@ ul.deep-reply {
 	}
 
 .thread_line-content {
-	padding-left: 22px;
-	display: block;
-  word-break: break-word;
-	&:hover{
-		background: #F0F0F0;
-		}
-	}
+    padding-left: 22px;
+    display: block;
+    word-break: break-word;
+    &:hover {
+        @extend .highlight-hover;
+    }
+}
 
 .thread_line-username {
 	font-weight: 600;
