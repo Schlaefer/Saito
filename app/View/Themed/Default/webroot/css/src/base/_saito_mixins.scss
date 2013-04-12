@@ -26,20 +26,11 @@
 
 // the base gradient
 .gradient-base {
-  background:$saito_base_light;
-  @include background(
-      linear-gradient(bottom, $saito_base_light, rgba(255,255,255, 0.6)),
-      // fallback
-      $saito_base_light
-    );
-}
-
-.gradient-base-horizontal {
-  background:$saito_base_light;
-  @include background(
-      linear-gradient(left, $saito_base_light, rgba(255,255,255, 0.6)),
-      // fallback
-      $saito_base_light
+    background: $saito_base_light;
+    @include background(
+        linear-gradient(bottom, $saito_base_light, rgba(255,255,255, 0.6)),
+        // fallback
+        $saito_base_light
     );
 }
 
