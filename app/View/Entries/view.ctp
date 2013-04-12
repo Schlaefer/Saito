@@ -42,8 +42,7 @@
 				'entry/thread_cached_init',
 				array (
 						'entries_sub' => $tree,
-						'level' => 0,
-						'thread_toolbox_buttons' => array('mix' => true)
+						'level' => 0
 						)
 				); ?>
 	</div> <!-- b -->
