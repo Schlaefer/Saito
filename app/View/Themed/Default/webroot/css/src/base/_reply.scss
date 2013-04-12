@@ -1,33 +1,35 @@
-/* Border style for inlined editing forms
-// ----------------------------------- */
+// Border style for inlined editing forms
+// -------------------------------------
 .entry.reply, .entry.add {
-  border-radius: 0 0 $corner_radius $corner_radius;
-  .box-header {
-      border-radius: 0;
-      }
-  }
+    border-radius: 0 0 $corner_radius $corner_radius;
+    .box-header {
+        border-radius: 0;
+    }
+}
+
 .entry.reply .box-header {
-  border-top-width: $border_width;
-  }
+    border-top-width: $border_width;
+}
 
 /** entry/add ** */
 .entry.add, .entry.edit {
-  @extend .box-form;
+    @extend .box-form;
 
-  .preview {
-    display: none;
-    border-bottom: 1px solid $saito_gray_dark;
+    .preview {
+        display: none;
+        border-bottom: 1px solid $saito_gray_dark;
     }
-  .preview .content {
-    background-color: white;
-    padding: $padding;
+    .preview .content {
+        background-color: white;
+        padding: $padding;
     }
 
-  label {
-    display: inline;
+    label {
+        display: inline;
     }
 }
+
 .entry.reply {
-  @extend .entry.add;
-  border: none;
-	}
+    @extend .entry.add;
+    border: none;
+}

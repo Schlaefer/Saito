@@ -26,19 +26,14 @@
  * gradients
  ******************************************************************************/
 
-// the base gradient
-.gradient-base {
+// basic header style, no rounded corners
+.header_style_1 {
     background: $saito_base_light;
     @include background(
         linear-gradient(bottom, $saito_base_light, rgba(255,255,255, 0.6)),
         // fallback
         $saito_base_light
     );
-}
-
-// basic header style, no rounded corners
-.header_style_1 {
-    @extend .gradient-base;
     border: $border_width solid $saito_border;
 }
 
@@ -47,7 +42,13 @@
 	$saito_gray_dark: #eaeaea;
 	background-color: $saito_gray_dark;
       @include background(
-          linear-gradient(top, lighten($saito_gray_dark, 10%), lighten($saito_gray_dark, 3%) 10%, $saito_gray_dark 95%, darken($saito_gray_dark, 8%)),
+          linear-gradient(
+                  top,
+                  lighten($saito_gray_dark, 10%),
+                  lighten($saito_gray_dark, 3%) 10%,
+                  $saito_gray_dark 95%,
+                  darken($saito_gray_dark, 8%)
+          ),
           // fallback
           $saito_gray_dark
     );
@@ -58,14 +59,11 @@
 
 // white content box
 .box-content, .box-form {
-    background-color: white;
-
-    border: $border_width solid $saito_gray_dark;
     @extend .c_all-radius;
-
     @extend .box-shadow-subtle;
+    background-color: white;
+    border: $border_width solid $saito_gray_dark;
     margin-bottom: $padding;
-
     .content {
         padding: $padding;
     }
@@ -73,7 +71,6 @@
 
 .box-form {
     background-color: $saito_gray_light;
-
     .content {
         padding: $padding-content;
     }
@@ -81,6 +78,8 @@
 
 .box-header {
     @extend .header_style_2;
+    @extend .c_top-radius;
+    @extend .box-shadow;
 
     padding: 0px 5px;
 
@@ -90,10 +89,7 @@
     border-style: solid;
     border-width: 0 0 $border_width 0;
 
-    @extend .c_top-radius;
-
-    @extend .box-shadow;
-    // make shure box shadow is always above background; esp. Vorschau header
+    // make shure box shadow is always above background; esp. preview header
     position: relative;
     z-index: 10;
 
@@ -106,7 +102,6 @@
 
 .l-box-header {
     @include c_t_h_3_abs();
-
 }
 
 // fix for showing in close button centered in header
