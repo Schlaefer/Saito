@@ -1,28 +1,30 @@
 /*******************************************************************************
-* border radien
-******************************************************************************/
+ * border radien
+ ******************************************************************************/
 
 .c_top-radius {
-	border-top-left-radius: $corner_radius;
-	border-top-right-radius: $corner_radius;
-	}
+    border-top-left-radius: $corner_radius;
+    border-top-right-radius: $corner_radius;
+}
 
 .c_bottom-radius {
-	border-bottom-left-radius: $corner_radius;
-	border-bottom-right-radius: $corner_radius;
-	}
+    border-bottom-left-radius: $corner_radius;
+    border-bottom-right-radius: $corner_radius;
+}
 
 .c_left-radius {
-	border-bottom-left-radius: $corner_radius;
-	border-top-left-radius: $corner_radius;
-	}
+    border-bottom-left-radius: $corner_radius;
+    border-top-left-radius: $corner_radius;
+}
 
 .c_all-radius {
-	@extend .c_top-radius;
-	@extend .c_bottom-radius;
-	}
+    @extend .c_top-radius;
+    @extend .c_bottom-radius;
+}
 
-/******************************************************************************/
+/*******************************************************************************
+ * gradients
+ ******************************************************************************/
 
 // the base gradient
 .gradient-base {
@@ -36,112 +38,113 @@
 
 // basic header style, no rounded corners
 .header_style_1 {
-  @extend .gradient-base;
-	border: $border_width solid $saito_border;
+    @extend .gradient-base;
+    border: $border_width solid $saito_border;
 }
 
 // in page gray headers
 .header_style_2 {
 	$saito_gray_dark: #eaeaea;
 	background-color: $saito_gray_dark;
-  @include background(
-      linear-gradient(top, lighten($saito_gray_dark, 10%), lighten($saito_gray_dark, 3%) 10%, $saito_gray_dark 95%, darken($saito_gray_dark, 8%)),
-      // fallback
-      $saito_gray_dark
+      @include background(
+          linear-gradient(top, lighten($saito_gray_dark, 10%), lighten($saito_gray_dark, 3%) 10%, $saito_gray_dark 95%, darken($saito_gray_dark, 8%)),
+          // fallback
+          $saito_gray_dark
     );
-  border: $border_width solid $saito_gray_dark;
-  color: #333333;
+    border: $border_width solid $saito_gray_dark;
+    color: #333333;
 	@extend .t_shadow;
 }
 
 // white content box
 .box-content, .box-form {
-	background-color: white;
+    background-color: white;
 
-	border: $border_width solid $saito_gray_dark;
-	@extend .c_all-radius;
+    border: $border_width solid $saito_gray_dark;
+    @extend .c_all-radius;
 
-	@extend .box-shadow-subtle;
+    @extend .box-shadow-subtle;
     margin-bottom: $padding;
 
-	.content {
-		padding: $padding;
+    .content {
+        padding: $padding;
     }
 }
 
 .box-form {
-  background-color: $saito_gray_light;
+    background-color: $saito_gray_light;
 
-	.content {
-		padding: $padding-content;
-		}
- }
+    .content {
+        padding: $padding-content;
+    }
+}
 
 .box-header {
-  @extend .header_style_2;
+    @extend .header_style_2;
 
-	padding: 0px 5px;
+    padding: 0px 5px;
 
-  // border
-	border: #c9c9c9;
-	border-top: $saito_gray_dark;
-  border-style: solid;
-  border-width: 0 0 $border_width 0;
+    // border
+    border: #c9c9c9;
+    border-top: $saito_gray_dark;
+    border-style: solid;
+    border-width: 0 0 $border_width 0;
 
-  @extend .c_top-radius;
+    @extend .c_top-radius;
 
-	@extend .box-shadow;
-	// make shure box shadow is always above background; esp. Vorschau header
-	position:relative;
-	z-index: 10;
+    @extend .box-shadow;
+    // make shure box shadow is always above background; esp. Vorschau header
+    position: relative;
+    z-index: 10;
 
-	h1, h2, h3 {
-		font-size: 13px;
-		font-weight: bold;
-		margin: 0;
-		}
-  }
+    h1, h2, h3 {
+        font-size: 13px;
+        font-weight: bold;
+        margin: 0;
+    }
+}
 
 .l-box-header {
-	@include c_t_h_3_abs();
+    @include c_t_h_3_abs();
 
-  }
+}
 
 // fix for showing in close button centered in header
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-	.l-box-header .btn-icon-close {
-		line-height: 15px;
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .l-box-header .btn-icon-close {
+        line-height: 15px;
         font-size: 12px;
-		}
-	}
+    }
+}
 
 .l-box-footer {
-  border-width: $border_width 0 0 0;
-	border-style: solid;
-	padding: $padding;
-  @extend .c_bottom-radius;
-	}
+    border-width: $border_width 0 0 0;
+    border-style: solid;
+    padding: $padding;
+    @extend .c_bottom-radius;
+}
 
 .box-footer-form {
-	background-color: $saito_gray_light;
-	border-color: $saito_gray_dark;
+    background-color: $saito_gray_light;
+    border-color: $saito_gray_dark;
 
-	& > .icon-huge {
-		vertical-align:middle;
-		line-height: 1;
-		margin: 0 $padding;
-	}
-	}
+    & > .icon-huge {
+        vertical-align: middle;
+        line-height: 1;
+        margin: 0 $padding;
+    }
+}
 
 .box_layout_1 {
-  width: auto;
-  padding: $padding-content; }
+    width: auto;
+    padding: $padding-content;
+}
 
 .navbar-light {
-  @extend .header_style_1;
-  @extend .t_shadow;
-  border-width: $border_width 0;
-  .content {
-    padding: $padding;
-   }
+    @extend .header_style_1;
+    @extend .t_shadow;
+    border-width: $border_width 0;
+    .content {
+        padding: $padding;
+    }
 }
