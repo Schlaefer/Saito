@@ -46,7 +46,7 @@ ul.deep-reply {
     display: inline-block;
     width: 24px;
     text-align: center;
-    padding: 0px 0 4px;
+    padding: 0 0 4px;
 	}
 
 .tl-cnt {
@@ -55,13 +55,13 @@ ul.deep-reply {
 	}
 
 .thread_line-content {
-	padding-left: 22px;
-	display: block;
-  word-break: break-word;
-	&:hover{
-		background: #F0F0F0;
-		}
-	}
+    padding-left: 22px;
+    display: block;
+    word-break: break-word;
+    &:hover {
+        @extend .highlight-hover;
+    }
+}
 
 .thread_line-username {
 	font-weight: 600;
@@ -81,13 +81,8 @@ ul.deep-reply {
   /* user_list und inline view sollen sauber getrennt bleiben */
   overflow: hidden; }
 
-
 .tree_thread {
-  @extend .box-content;
   padding: 0 1em 0.8em;
-  margin-bottom: 1em;
-  .img_pencil {
-    visibility: hidden; }
   ul {
     margin: 0 0 0 $subthread-margin;
   }

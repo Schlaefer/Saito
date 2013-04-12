@@ -3,63 +3,62 @@
  ******************************************************************************/
 
 .table {
-  width: 100%;
-  }
-.table tr { }
-.table td, .table th {
-  padding: 0.8em;
-	}
-.table th {
-  font-weight: bold;
-  background-color: #eee;
-  }
+    width: 100%;
+}
 
+.table td, .table th, .table-padding {
+    padding: $padding;
+}
+
+// elegant
+// -------------------------------------
 .table.th-left.elegant td:first-child {
-  font-weight: bold;
-  text-align: right;
-  vertical-align: top;
-  width: 38%;
-	}
+    font-weight: bold;
+    text-align: right;
+    vertical-align: top;
+    width: 38%;
+}
 
-.table.zebra tr.b {
-    background-color: #eee;
-  }
+// table-zebra
+// -------------------------------------
+.table-zebra {
+    > tbody > tr:hover {
+        @extend .highlight-hover;
+    }
+    > tbody > tr.b {
+        background-color: $saito_gray_light;
+    }
+}
 
-.table.border {
-  border: 2px solid silver;
-  border-right-width: 1px;
-  border-collapse: separate;
-	}
+// table-clean
+// -------------------------------------
+.table-clean th, .table-clean-th-extend {
+    border-style: solid;
+    border-color: silver;
+    border-width: 0 0 1px 0;
+    font-weight: bold;
+}
 
-.table.border td, .table.border th {
-   border-style: solid;
-   border-color:  silver;
-   border-width: 0 1px 1px 0;
-   }
-
-/* Bookmarks table
-// ----------------------------------- */
-
+// Bookmarks table
+// -------------------------------------
 .l-bookmarks-container {
-	overflow: hidden;
-	}
+    overflow: hidden;
+}
+
 .l-bookmarks-row {
-	white-space: nowrap;
-	}
+    white-space: nowrap;
+}
+
 .l-bookmarks-cell {
-	display: inline-table;
-	vertical-align: middle;
-	white-space: normal;
-	}
+    display: inline-table;
+    vertical-align: middle;
+    white-space: normal;
+}
 
 .bookmarks-cell {
-	padding: 0.8em;
-	}
-
+    @extend .table-padding;
+}
 
 .bookmarks-row-header {
-	border-style: solid;
-	border-color:  silver;
-	border-width: 0 0 1px 0;
-	font-weight: bold;
-	}
+    @extend .table-clean-th-extend;
+}

@@ -129,33 +129,34 @@
 		 * @return bool|string false or formated time string
 		 */
 		public function timeAgoInWordsFuzzy($time, $options = array()) {
-				$defaults = array(
-					'conversationCoolOff' => 300,
-				);
-				$options += $defaults;
+			$defaults = array(
+				'conversationCoolOff' => 300,
+			);
+			$options += $defaults;
 
-				$time_unix = strtotime($time);
+			$time_unix = strtotime($time);
 
-				$out = false;
+			$out = false;
 
-				if (empty($this->_tAIWF_times)) {
-					$this->_tAIWF_times[] = $time_unix;
-					return $out;
-				}
-
-				$last_time = end($this->_tAIWF_times);
+			if (empty($this->_tAIWF_times)) {
 				$this->_tAIWF_times[] = $time_unix;
-
-				if ($time_unix > $last_time - $options['conversationCoolOff']) {
-					return $out;
-				}
-
-				$this->_tAIWF_entries[] = $time_unix;
-				$out = $this->formatTime(gmdate('Y-m-d H:i:s', $last_time));
-
 				return $out;
-
 			}
+
+			$last_time = end($this->_tAIWF_times);
+			$this->_tAIWF_times[] = $time_unix;
+
+			if ($time_unix > $last_time - $options['conversationCoolOff']) {
+				return $out;
+			}
+
+			$this->_tAIWF_entries[] = $time_unix;
+			$out                    = $this->formatTime(
+				gmdate('Y-m-d H:i:s', $last_time)
+			);
+
+			return $out;
+		}
 
 		public function timeAgoInWordsFuzzyGetLastTime() {
 			return $this->formatTime(gmdate('Y-m-d H:i:s', end($this->_tAIWF_times)));

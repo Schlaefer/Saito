@@ -69,12 +69,13 @@
 
 	border: $border_width solid $saito_gray_dark;
 	@extend .c_all-radius;
-  
+
 	@extend .box-shadow-subtle;
+    margin-bottom: $padding;
 
 	.content {
 		padding: $padding;
-		}
+    }
 }
 
 .box-form {

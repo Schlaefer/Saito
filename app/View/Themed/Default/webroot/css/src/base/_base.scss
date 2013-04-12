@@ -1,61 +1,68 @@
 body {
-  word-spacing: 1px;
-	background-color: $saito_body_background;
-  /* don't use this sucker on mobile devices (e.g. iOS */
-  /* text-rendering: optimizeLegibility; */
+  background-color: $saito_body_background;
+  // text-rendering: optimizeLegibility; // don't use this sucker on mobile devices (e.g. iOS)
+}
 
-  line-height: 1.6;
-	}
+// input
+input {
+  // reset
+  margin: 0;
+}
 
 // images
-body, input, textarea, button {
-	font-size: 12px;
-	font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
-  }
-
 img {
-  border: 0px; 
-	}
+  border: 0px;
+}
 
 // typography
+body, input, textarea, button {
+  word-spacing: 1px;
+  line-height: 1.6;
+  font-size: 12px;
+  font-family: 'Open Sans', Verdana, Geneva, Lucida, Helvetica, Arial, sans-serif;
+}
+
 h1 {
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 0.83em; }
+  margin-bottom: 0.83em;
+}
 
 h2 {
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 0.83em;
-  margin-top: 0; }
+  margin-top: 0;
+}
 
-p {
-  margin-top: 0px;
-  margin-bottom: 1em; }
+p, .p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
 
-strong, b	{ 
-	font-weight: bold; 
-	}
+strong, b {
+  font-weight: bold;
+}
 
 em, i {
-	font-style: italic;
-	}
+  font-style: italic;
+}
 
 code, pre, tt {
   line-height: inherit;
   font-family: courier-new, courier, monospace;
   background: #f9f9f9;
-  }
+}
 
 u {
-	text-decoration: underline;
-	}
+  text-decoration: underline;
+}
 
 // standard links
 a {
-	@include link-colors($link_color);
-	text-decoration: none;
-	}
+  @include link-colors($link_color);
+  text-decoration: none;
+}
 
 hr {
   border-width: 0;

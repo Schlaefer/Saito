@@ -11,6 +11,15 @@
 				'btn-closeThreads' 				=> __('btn-closeThreads'),
 				'btn-openThreads' 				=> __('btn-openThreads'),
 	);
+	$toolboxButtonsToDisplay = [
+		'mix'   => 1,
+		'open'  => 1,
+		'close' => 1,
+		'new'   => 1,
+	];
+	if (isset($toolboxButtons)) {
+		$toolboxButtonsToDisplay = $toolboxButtons;
+	}
 	?>
 <?php foreach($entries_sub as $entry_sub) : ?>
 <?php
@@ -33,37 +42,40 @@
 	 */
 ?>
 <div class="thread_box" data-id="<?php echo $entry_sub['Entry']['id'];?>">
-	<div class='tree_thread'>
+	<div class='tree_thread box-content'>
 		<div class="thread_tools">
-			<?php if ($level == 0 && $this->request->params['action'] == 'index') : ?>
+			<?php if ($level === 0) : ?>
 					<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub['Entry']['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" class="btn-thread_tools">
 						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
-					&nbsp;
-					&nbsp;
-						<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
-							<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
-						</a>
-						<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
-							<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
-						</a>
+						&nbsp;
+						&nbsp;
+						<?php if (isset($toolboxButtonsToDisplay['open'])) : ?>
+							<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
+								<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
+							</a>
+						<?php endif; ?>
+						<?php if (isset($toolboxButtonsToDisplay['close'])) : ?>
+							<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
+								<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
+							</a>
+						<?php endif; ?>
 						<?php
-						if ($this->request->params['action'] != 'view') :
+						if (isset($toolboxButtonsToDisplay['new'])) :
 							$tag = 'div';
 							if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
 								// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
 								// keinen Show All New Inline View Eintrag
 								$tag = 'a';
-								?>
-								<?php
 							endif;
-						endif;
 						?>
-						<<?php echo $tag; ?> <?php if ($tag === 'a') echo 'href="#"'; ?> class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
+							<<?php echo $tag; ?> <?php if ($tag === 'a') echo 'href="#"'; ?> class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
 									<?php if ($tag === 'a') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
-						</<?php echo $tag; ?>>
-
+							</<?php echo $tag; ?>>
+						<?php
+							endif;
+						?>
 					<?php endif; ?>
 				<?php endif; ?>
 		</div>
