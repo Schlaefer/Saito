@@ -602,7 +602,7 @@ ul.reply, ul.replynew { list-style-type: none; margin: 0 0 0 25px; list-style-ty
 ul.deep-reply { margin: 0px; list-style-type: none; }
 
 /******************************************************************************* Entry thread_line *****************************************************************************/
-.thread_line-pre { position: absolute; display: inline-block; width: 24px; text-align: center; padding: 0px 0 4px; }
+.thread_line-pre { position: absolute; display: inline-block; width: 24px; text-align: center; padding: 0 0 4px; }
 
 .tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 
@@ -616,8 +616,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 /* thread_slider */
 .t_s { /* margin px left because of huge, vertical close button */ margin: 0px 0px 0px 25px; border: 1px #eaeaea solid; /* user_list und inline view sollen sauber getrennt bleiben */ overflow: hidden; }
 
-.tree_thread { padding: 0 1em 0.8em; margin-bottom: 1em; }
-.tree_thread .img_pencil { visibility: hidden; }
+.tree_thread { padding: 0 1em 0.8em; }
 .tree_thread ul { margin: 0 0 0 25px; }
 .tree_thread ul.root { margin-left: 0; }
 

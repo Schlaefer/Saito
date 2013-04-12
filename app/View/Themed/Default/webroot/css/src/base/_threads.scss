@@ -46,7 +46,7 @@ ul.deep-reply {
     display: inline-block;
     width: 24px;
     text-align: center;
-    padding: 0px 0 4px;
+    padding: 0 0 4px;
 	}
 
 .tl-cnt {
@@ -81,12 +81,8 @@ ul.deep-reply {
   /* user_list und inline view sollen sauber getrennt bleiben */
   overflow: hidden; }
 
-
 .tree_thread {
   padding: 0 1em 0.8em;
-  margin-bottom: 1em;
-  .img_pencil {
-    visibility: hidden; }
   ul {
     margin: 0 0 0 $subthread-margin;
   }
