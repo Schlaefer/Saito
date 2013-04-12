@@ -141,14 +141,6 @@ a.category_acs_2, .category_acs_2 {
 /*******************************************************************************
  * Tables
  ******************************************************************************/
-.table th {
-  @extend .gradient-base;
-  }
-
-.table.zebra tr.b {
-    background-color: $saito-gray-light;
-  }
-
 .table.th-left.elegant td:first-child {
   border-right: $border_width solid $saito_gray_dark;
 	}

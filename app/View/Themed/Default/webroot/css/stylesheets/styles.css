@@ -338,7 +338,7 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .c_left-radius, .slidetab-tab, .slidetab-content { border-bottom-left-radius: 0px; border-top-left-radius: 0px; }
 
 /******************************************************************************/
-.gradient-base, .header_style_1, .navbar-light, .navbar, .top-menu, .slidetab-tab, .slidetab-content, .table th { background: #e6edf0; background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #e6edf0), color-stop(100%, rgba(255, 255, 255, 0.6))), #e6edf0; background: -webkit-linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -moz-linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -o-linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; }
+.gradient-base, .header_style_1, .navbar-light, .navbar, .top-menu, .slidetab-tab, .slidetab-content { background: #e6edf0; background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #e6edf0), color-stop(100%, rgba(255, 255, 255, 0.6))), #e6edf0; background: -webkit-linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -moz-linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -o-linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: linear-gradient(bottom, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; }
 
 .gradient-base-horizontal { background: #e6edf0; background: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #e6edf0), color-stop(100%, rgba(255, 255, 255, 0.6))), #e6edf0; background: -webkit-linear-gradient(left, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -moz-linear-gradient(left, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -o-linear-gradient(left, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: linear-gradient(left, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; }
 
@@ -607,7 +607,6 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 .tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 
 .thread_line-content { padding-left: 22px; display: block; word-break: break-word; }
-.thread_line-content:hover { background: #F0F0F0; }
 
 .thread_line-username { font-weight: 600; }
 
@@ -684,27 +683,19 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 /******************************************************************************* Tables *****************************************************************************/
 .table { width: 100%; }
 
-.table td, .table th { padding: 0.8em; }
-
-.table th { font-weight: bold; background-color: #eee; }
+.table td, .table th, .table-padding, .bookmarks-cell { padding: 10px; }
 
 .table.th-left.elegant td:first-child { font-weight: bold; text-align: right; vertical-align: top; width: 38%; }
 
-.table.zebra tr.b { background-color: #eee; }
+.table-zebra > tbody > tr.b { background-color: #fafafa; }
 
-.table.border { border: 2px solid silver; border-right-width: 1px; border-collapse: separate; }
-
-.table.border td, .table.border th { border-style: solid; border-color: silver; border-width: 0 1px 1px 0; }
+.table-clean th, .table-clean-th-extend, .bookmarks-row-header { border-style: solid; border-color: silver; border-width: 0 0 1px 0; font-weight: bold; }
 
 .l-bookmarks-container { overflow: hidden; }
 
 .l-bookmarks-row { white-space: nowrap; }
 
 .l-bookmarks-cell { display: inline-table; vertical-align: middle; white-space: normal; }
-
-.bookmarks-cell { padding: 0.8em; }
-
-.bookmarks-row-header { border-style: solid; border-color: silver; border-width: 0 0 1px 0; font-weight: bold; }
 
 /******************************************************************************* Bootstrap Popovers Adjustments *****************************************************************************/
 .popover { font-size: 0.95em; }
@@ -825,6 +816,8 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .highlight { background-color: #ffff99; }
 
+.highlight-hover, .thread_line-content:hover, .table-zebra > tbody > tr:hover { background: #F0F0F0; }
+
 .disabled { color: #505050; }
 
 /** entry/thread_line end ** */
@@ -916,8 +909,6 @@ a.category_acs_2, .category_acs_2 { background: #d5d5d5; }
 
 /******************************************************************************* View Posting *****************************************************************************/
 /******************************************************************************* Tables *****************************************************************************/
-.table.zebra tr.b { background-color: #fafafa; }
-
 .table.th-left.elegant td:first-child { border-right: 1px solid #eaeaea; }
 
 .table.border { border: 2px solid #eaeaea; border-right-width: 1px; border-radius: 0px; }
