@@ -175,7 +175,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 			$this->_Parser->addCode(
 				'hashLink', 'usecontent', array( &$this, "_hashLinkInternal" ), array( ), 'hashLink',
-				array( 'block' ), array( )
+				['block', 'inline'], []
 			);
 		}
 
@@ -733,7 +733,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	public function _hashLinkInternalTaginize($string) {
 		$string = preg_replace_callback(
-			'/(?<=\s|^)(?<tag>#)(?<element>\d+)/',
+			'/(?<=\s|^|])(?<tag>#)(?<element>\d+)/',
 			array($this, '_taginize'),
 			$string
 		);

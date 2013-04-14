@@ -191,13 +191,15 @@
 		}
 
 		public function testHashLink() {
-			$input = '#2234';
+			$input = "[i]#2234[/i]";
 			$expected = array(
+				'em' => array(),
 				'a' => array(
 					'href' => '/hash/2234',
 				),
 				'#2234',
 				'/a',
+				'/em'
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
