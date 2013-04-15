@@ -15,6 +15,15 @@ interface MarkupParser {
 
 }
 
+/**
+ * Class BbcodeHelper
+ *
+ * There are three parsing methods:
+ *
+ * 1. Native BBCode parsing provided by the BBCode parsing library
+ * 2. Taginizer which wraps and unwraps non BBCode elements with BBCode
+ * 3. Poor mans tag splitter used for (smilies, atLinks)
+ */
 class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	public $helpers = array(
