@@ -1,16 +1,18 @@
 .search_form {
-  position: relative; }
+    position: relative;
+}
 
 .search_form input {
-  margin: 0;
-  padding: 0 0.5em;
-  }
+    margin: 0;
+    padding: 0 0.5em;
+}
 
 .search_form > div {
-  overflow: hidden;
-  position: relative;
-  height: 100%;
-  padding: 0; }
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    padding: 0;
+}
 
 .search_textfield, .btn_search_header {
     color: #222222;
@@ -19,84 +21,84 @@
 }
 
 .search_textfield {
-  height: 22px;
-  margin: 0;
-  width: 100%;
-  border-radius:0;
-  border-top-left-radius:$corner_radius;
-  border-bottom-left-radius:$corner_radius;
-  border-right: 0;
-  font-size: auto; }
+    @extend .c_left-radius;
+    top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-border-right: 0;
 
-.search_textfield:focus {
-  outline-width: 0; }
+    height: 22px;
+    width: 100%;
+
+    &:focus {
+        outline-width: 0;
+    }
+}
 
 .btn_search_submit {
-  /* workaround for firefox font bug */
-  /*		font-family: Helvetica, Arial, Sans-Serif; */
-  @extend .c_right-radius;
-  float: right;
-  margin: 0;
-  height: 100%;
-  border-radius:0;
-  white-space: nowrap;
-  cursor: pointer;
-  }
+    @extend .c_right-radius;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    float: right;
+    margin: 0;
+    height: 100%;
+    white-space: nowrap;
+    cursor: pointer;
+}
 
 .btn_search_header {
-  width: 24px;
-  height: 24px;
-  border-left: none;
-	@extend .box-shadow-inset;
-  margin-left: -1px !important;
-    padding-bottom: 1px; // looks nicer in FF
+    width: 24px;
+    height: 24px;
+    border-left: none;
+    @extend .box-shadow-inset;
+    margin-left: -1px !important;
+    // looks nicer in FF
+    padding-bottom: 1px;
 }
 
 .search_textfield_header {
-  margin-right: -1px !important; }
-
-/** search end ** */
-
-/*** entry_search start ***/
-#entry_search {
-	.search_form_wrapper {
-		display: table;
-		width: 100%;
-		margin-bottom: 20px;
-	  vertical-align: middle;
-
-		input {
-			font-size: 20px;
-		}
-	}
-
-	.search_form_wrapper_adv {
-		margin-bottom: 20px;
-	}
-
-	.search_form_wrapper > div {
-		display: table-cell;
-		padding: 0 5px;
-	  vertical-align: middle;
-	}
-
-	form {
-		width: 100%;
-	}
-
-	.search_results {
-
-		.content {
-			ul {
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-
-				li {
-					margin: 0.2em 0;
-				}
-			}
-		}
-	}
+    margin-right: -1px !important;
 }
 
+// entry_search
+// -------------------------------------
+#entry_search {
+    .search_form_wrapper {
+        display: table;
+        width: 100%;
+        margin-bottom: 20px;
+        vertical-align: middle;
+
+        input {
+            font-size: 20px;
+        }
+    }
+
+    .search_form_wrapper_adv {
+        margin-bottom: 20px;
+    }
+
+    .search_form_wrapper > div {
+        display: table-cell;
+        padding: 0 5px;
+        vertical-align: middle;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    .search_results {
+
+        .content {
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+
+                li {
+                    margin: 0.2em 0;
+                }
+            }
+        }
+    }
+}
