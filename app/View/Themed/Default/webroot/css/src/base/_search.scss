@@ -12,6 +12,12 @@
   height: 100%;
   padding: 0; }
 
+.search_textfield, .btn_search_header {
+    color: #222222;
+    background-color: white;
+    border: 1px solid #a8a8a8;
+}
+
 .search_textfield {
   height: 22px;
   margin: 0;
@@ -19,10 +25,7 @@
   border-radius:0;
   border-top-left-radius:$corner_radius;
   border-bottom-left-radius:$corner_radius;
-  border-right-width: 0;
-  color: #222222;
-  border-color: #a8a8a8;
-  background-color: white;
+  border-right: 0;
   font-size: auto; }
 
 .search_textfield:focus {
@@ -31,13 +34,11 @@
 .btn_search_submit {
   /* workaround for firefox font bug */
   /*		font-family: Helvetica, Arial, Sans-Serif; */
+  @extend .c_right-radius;
   float: right;
   margin: 0;
   height: 100%;
-  font-size: 20px;
   border-radius:0;
-  border-top-right-radius:$corner_radius;
-  border-bottom-right-radius:$corner_radius;
   white-space: nowrap;
   cursor: pointer;
   }
@@ -46,9 +47,10 @@
   width: 24px;
   height: 24px;
   border-left: none;
-  background-color: white;
 	@extend .box-shadow-inset;
-  margin-left: -1px !important; }
+  margin-left: -1px !important;
+    padding-bottom: 1px; // looks nicer in FF
+}
 
 .search_textfield_header {
   margin-right: -1px !important; }

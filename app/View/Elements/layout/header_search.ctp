@@ -10,11 +10,13 @@
 			'inputDefaults' => ['div' => false, 'label' => false]
 		]
 	);
-	echo $this->Form->submit(
-		' ',
+	echo $this->Form->button(
+		"<i class='icon-search'></i>",
 		[
-			'div'   => false,
-			'class' => ' btn_search_submit img_magnifier btn_search_header'
+			'div'    => false,
+			'class'  => 'btn_search_submit btn_search_header',
+			'escape' => false,
+			'type'   => 'submit'
 		]
 	);
 	echo '<div>';
