@@ -25,8 +25,6 @@ define([
              */
             postings: null,
 
-            scroll: false,
-
 			events: {
 					'click .btn_show_thread': 'toggleInlineOpen',
 					'click .link_show_thread': 'toggleInlineOpenFromLink'
@@ -63,7 +61,6 @@ define([
              */
 			toggleInlineOpen: function(event) {
 				event.preventDefault();
-				this.scroll = true;
 				if (!this.model.get('isInlineOpened')) {
 					this.model.set({
 						isInlineOpened: true
@@ -93,16 +90,16 @@ define([
 
                         this._insertContent();
 					} else {
-						this._showInlineView({scroll: this.scroll});
+						this._showInlineView();
 					}
 				} else {
 					this._closeInlineView();
 				}
-				this.scroll = false;
 			},
 
             _insertContent: function() {
-                var id;
+                var id,
+                    postingView;
                 id = this.model.get('id');
 
                 this.postingModel = new PostingModel({
@@ -110,7 +107,7 @@ define([
                 });
                 this.postings.add(this.postingModel);
 
-                new PostingView({
+                postingView = new PostingView({
                     el: this.$('.t_s'),
                     model: this.postingModel,
                     collection: this.postings,
@@ -120,61 +117,35 @@ define([
                 this.postingModel.fetchHtml();
 
                 this.model.set('isContentLoaded', true);
-                this._showInlineView({
-                        tslV: 'hide',
-                        scroll: this.scroll
-                });
+                this._showInlineView();
             },
 
-			_showInlineView: function (options) {
-				options = options || {};
-
-				var scroll = options.scroll || false;
-				var id = this.model.id;
+			_showInlineView: function () {
+                var postShow = _.bind(function () {
+                    this.tlsV.hide();
+                    if (this.$el.scrollIntoView('isInView') === false) {
+                        this.$el.scrollIntoView('bottom');
+                    }
+                }, this);
 
 				this.$el.find('.js-thread_line-content').fadeOut(
 					100,
 					_.bind(
 						function() {
-							// performance: show instead slide
-							//						$($('.js-thread_inline.' + id)).slideDown(0,
-
-							this.$('.js-thread_inline').show(0,
-								_.bind(
-									function() {
-										// @td eliminate external functions pattern
-                                        // @td needs to be refactored and reimplementation in backbone
-                                        /*
-										if (scroll && !_isScrolledIntoView(this.$el.find('#posting_formular_slider_bottom_' + this.model.id))) {
-											if(_isHeigherThanView(this.$el)) {
-												scrollToTop(this.$el);
-											}
-											else {
-												scrollToBottom(this.$el.find('#posting_formular_slider_bottom_' + this.model.id));
-											}
-										}
-										*/
-										if (options['tlsV'] !== 'undefined'){
-											this.tlsV.hide();
-										}
-									}, this)
-								);
+							// performance: show() instead slide()
+							// this.$('.js-thread_inline.' + id).slideDown(0,
+                            this.$('.js-thread_inline').show(0, postShow);
 						}, this)
 					);
 			},
 
 			_closeInlineView: function() {
-				var scroll = this.scroll;
-				var id = this.model.id;
-				var p = this;
 				// $('.js-thread_inline.' + id).slideUp('fast',
 				this.$('.js-thread_inline').hide(0,
 					_.bind(
 						function() {
 							this.$el.find('.js-thread_line-content').slideDown();
-							if (scroll) {
-								p._scrollLineIntoView();
-							}
+                            this._scrollLineIntoView();
 						},
 						this
 					)
