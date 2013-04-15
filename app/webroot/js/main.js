@@ -103,7 +103,7 @@ contentTimer.setup();
 
                 'lib/jquery.i18n/jquery.i18n.extend',
                 'bootstrap', 'lib/saito/backbone.initHelper',
-                'lib/saito/backbone.modelHelper'
+                'lib/saito/backbone.modelHelper', 'lib/fastclick'
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView) {
                     var appView,
@@ -114,6 +114,10 @@ contentTimer.setup();
                     App.request = that.SaitoApp.request;
 
                     notificationView = new NotificationView();
+
+                    window.addEventListener('load', function() {
+                        new FastClick(document.body);
+                    }, false);
 
                     if (that.SaitoApp.app.runJsTests === undefined) { // run app
 
