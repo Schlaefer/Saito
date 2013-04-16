@@ -9,12 +9,14 @@
 	 */
 	class ShoutsController extends AppController {
 
+		public $components = [
+			'Shouts',
+		];
+
 		public function index() {
 			$this->autoLayout = false;
 			if ($this->request->is('ajax')) {
-				$shouts = $this->Shout->get();
-				$this->_initBbcode();
-				$this->set('shouts', $shouts);
+				$this->Shouts->setShoutsForView();
 			} else {
 				throw new NotFoundException();
 			}

@@ -1,9 +1,8 @@
 <?php
 Stopwatch::start('shouts.ctp');
 if (!empty($shouts)) :
-	$cache = Cache::read('Shouts.html');
-	if ($cache && $shouts[0]['Shout']['id'] === $cache['lastId']) {
-		$shouts_html = $cache['html'];
+	if (is_string($shouts)) {
+		$shouts_html = $shouts;
 	} else {
 		$this->start('shouts');
 		?>

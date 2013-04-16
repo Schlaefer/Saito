@@ -11,11 +11,12 @@
 			'Flattr.Flattr',
 			'Text',
 		);
-		public $components = array(
+		public $components = [
 			'CacheTree',
 			'Flattr',
 			'Search.Prg',
-		);
+			'Shouts'
+		];
 
 		/**
 		 * Setup for Search Plugin
@@ -55,8 +56,7 @@
 				);
 				// get shouts
 				if (in_array('slidetab_shoutbox', $this->installedSlidetabs)) {
-					$this->loadModel('Shout');
-					$this->set('shouts', $this->Shout->get());
+					$this->Shouts->setShoutsForView();
 				}
 			}
 
@@ -129,7 +129,7 @@
 					'conditions' => $conditions,
 					'order'			 => $order,
 					));
-			$this->_initBbcode();
+			$this->initBbcode();
 			$this->set('entries', $entries);
 
 			// serialize for JSON
@@ -155,7 +155,7 @@
 			}
 
 			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
-			$this->_initBbcode();
+			$this->initBbcode();
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 		}
@@ -236,7 +236,7 @@
 
     $this->_showAnsweringPanel();
 
-		$this->_initBbcode();
+		$this->initBbcode();
 		if ( $this->request->is('ajax') ):
 			//* inline view
 			$this->render('/Elements/entry/view_posting');
@@ -687,7 +687,7 @@
 					)
 				)
 			);
-			$this->_initBbcode();
+			$this->initBbcode();
 			$this->set('entry', $newEntry);
 		else :
 			// validation errors
