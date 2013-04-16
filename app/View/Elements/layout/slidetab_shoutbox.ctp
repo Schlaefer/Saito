@@ -9,7 +9,9 @@
 				<form>
             <textarea maxlength="255" rows="1"></textarea>
 				</form>
-				<div class="shouts"></div>
+				<div class="shouts">
+					<?= $this->element('shouts/shouts', ['shouts' => $shouts]); ?>
+				</div>
 		</div>
 <?php  endif; ?>
 <?php $this->end('slidetab-content'); ?>

@@ -20,7 +20,7 @@ define([
             this.listenTo(this.model, 'change', this.toggleSlidetab);
 
             if (this.model.get('id') === 'shoutbox') {
-                this.initShoutbox('#shoutbox', this.webroot);
+                this.initShoutbox();
             }
 
         },
@@ -64,9 +64,9 @@ define([
             this.$el.find('.slidetab-tab-info').toggle();
         },
 
-        initShoutbox: function(element_n, webroot) {
+        initShoutbox: function() {
             new ShoutsView({
-                el: this.$el,
+                el: this.$('#shoutbox'),
                 slidetabModel: this.model,
                 model: new ShoutModel()
             });

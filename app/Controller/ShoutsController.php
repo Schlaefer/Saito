@@ -11,15 +11,8 @@
 
 		public function index() {
 			$this->autoLayout = false;
-
 			if ($this->request->is('ajax')) {
-				$shouts = $this->Shout->find(
-					'all',
-					array(
-						'order' => 'Shout.id DESC'
-					)
-				);
-
+				$shouts = $this->Shout->get();
 				$this->_initBbcode();
 				$this->set('shouts', $shouts);
 			} else {

@@ -53,6 +53,9 @@
 						$this->CurrentUser
 					)
 				);
+				// get shouts
+				$this->loadModel('Shout');
+				$this->set('shouts', $this->Shout->get());
 			}
 
 			// get threads
