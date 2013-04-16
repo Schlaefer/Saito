@@ -4,7 +4,7 @@
 	</div>
 <?php $this->end('slidetab-header'); ?>
 <?php $this->start('slidetab-content'); ?>
-<?php if ( $CurrentUser->isLoggedIn() && $this->request->params['action'] == 'index' && $this->request->params['controller'] == 'entries' ) : ?>
+<?php if ( $CurrentUser->isLoggedIn() && $this->request->params['action'] === 'index' && $this->request->params['controller'] === 'entries' ) : ?>
 		<ul class="slidetab_tree">
 			<li>
 				<span title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
