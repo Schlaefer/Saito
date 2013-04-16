@@ -1,5 +1,6 @@
 <div>
 	<?php
+	Stopwatch::start('shouts.ctp');
 	$i = 0;
 	$time_was_output= false;
 	if (!empty($shouts)) :
@@ -46,5 +47,6 @@
 		</div>
 	<?php
 	endif;
+	Stopwatch::end('shouts.ctp');
 	?>
 </div>

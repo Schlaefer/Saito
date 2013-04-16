@@ -21,9 +21,7 @@
 		}
 
 		public function add() {
-
 			$this->autoRender = false;
-
 			if ($this->request->is('ajax')) {
 				$data = array(
 					'Shout' => array(
@@ -33,10 +31,12 @@
 						'user_id' => $this->CurrentUser->getId()
 					)
 				);
-
-				return $this->Shout->push($data);
+				$success = $this->Shout->push($data);
+				if ($success) {
+					clearCache('shouts', null, '');
+				}
+				return $success;
 			}
-
 		}
 
 		public function beforeFilter() {
