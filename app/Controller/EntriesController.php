@@ -54,8 +54,10 @@
 					)
 				);
 				// get shouts
-				$this->loadModel('Shout');
-				$this->set('shouts', $this->Shout->get());
+				if (in_array('slidetab_shoutbox', $this->installedSlidetabs)) {
+					$this->loadModel('Shout');
+					$this->set('shouts', $this->Shout->get());
+				}
 			}
 
 			// get threads
