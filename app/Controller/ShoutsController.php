@@ -31,11 +31,7 @@
 						'user_id' => $this->CurrentUser->getId()
 					)
 				);
-				$success = $this->Shout->push($data);
-				if ($success) {
-					clearCache('shouts', null, '');
-				}
-				return $success;
+				return $this->Shout->push($data);
 			}
 		}
 

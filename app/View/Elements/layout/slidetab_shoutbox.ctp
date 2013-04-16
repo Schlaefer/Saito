@@ -10,11 +10,7 @@
             <textarea maxlength="255" rows="1"></textarea>
 				</form>
 				<div class="shouts">
-					<?= $this->element(
-						'shouts/shouts',
-						['shouts' => $shouts],
-						['cache' => ['key' => 'shouts']]
-					); ?>
+					<?= $this->element('shouts/shouts', ['shouts' => $shouts]); ?>
 				</div>
 		</div>
 <?php  endif; ?>
