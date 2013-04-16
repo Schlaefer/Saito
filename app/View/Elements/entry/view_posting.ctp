@@ -178,9 +178,6 @@
 		&nbsp;
 		<?php echo $this->EntryH->bookmarkLink($entry['Entry']['id'], $entry['isBookmarked']); ?>
 	</div>
-
 	<?php endif; ?>
-	<div class="a_b">
-		<div class="posting_formular_slider" style="display:none;"></div>
-	</div> <!-- a_b -->
+	<div class="posting_formular_slider" style="display:none;"></div>
 </div>

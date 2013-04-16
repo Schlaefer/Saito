@@ -1,20 +1,18 @@
 // Border style for inlined editing forms
-// -------------------------------------
-.entry.reply, .entry.add {
+.entry.reply .box-header {
+    border-top-width: $border_width;
+}
+
+/** entry/add ** */
+.entry.add {
+    @extend .box-form;
     border-radius: 0 0 $corner_radius $corner_radius;
     .box-header {
         border-radius: 0;
     }
 }
 
-.entry.reply .box-header {
-    border-top-width: $border_width;
-}
-
-/** entry/add ** */
 .entry.add, .entry.edit {
-    @extend .box-form;
-
     .preview {
         display: none;
         border-bottom: 1px solid $saito_gray_dark;
@@ -31,5 +29,6 @@
 
 .entry.reply {
     @extend .entry.add;
+    margin-bottom: 0;
     border: none;
 }
