@@ -58,7 +58,8 @@ if (!empty($shouts)) :
 			</div>
 		</div>
 		<?php
-		$shouts_html = $this->end('shouts');
+		$this->end('shouts');
+		$shouts_html = $this->fetch('shouts');
 		$cache = [
 			'lastId' => $shouts[0]['Shout']['id'],
 			'html'   => $shouts_html
