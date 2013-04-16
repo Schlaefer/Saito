@@ -2,8 +2,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'views/shouts'
-], function($, _, Backbone, ShoutsView) {
+    'models/shout', 'views/shouts'
+], function($, _, Backbone, ShoutModel, ShoutsView) {
 
     "use strict";
 
@@ -67,7 +67,8 @@ define([
         initShoutbox: function(element_n, webroot) {
             new ShoutsView({
                 el: this.$el,
-                slidetabModel: this.model
+                slidetabModel: this.model,
+                model: new ShoutModel()
             });
         }
     });

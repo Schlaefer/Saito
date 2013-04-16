@@ -8,6 +8,10 @@ define([
 
     var SlidetabModel = Backbone.Model.extend({
 
+        defaults: {
+            isOpen: false
+        },
+
         initialize: function() {
             this.webroot = App.settings.get('webroot');
         },

@@ -21,14 +21,15 @@ define([
             this.textarea =  this.$el.find('textarea');
             this.slidetabModel = options.slidetabModel;
 
-            this.listenTo(App.status, "change:lastShoutId", this.poll);
-            this.listenTo(this.slidetabModel, "change:isOpen", this.poll);
+            this.listenTo(App.status, "change:lastShoutId", this.fetch);
+            this.listenTo(this.slidetabModel, "change:isOpen", this.fetch);
+            this.listenTo(this.model, "change:html", this.render);
 
             this.textarea.autosize();
         },
 
         formDown: function(event) {
-            if (event.keyCode == 13 && event.shiftKey === false) {
+            if (event.keyCode === 13 && event.shiftKey === false) {
                 this.submit();
                 this.clearForm();
                 event.preventDefault();
@@ -48,43 +49,18 @@ define([
         },
 
         submit: function() {
-            $.ajax({
-                url: this.webroot + 'add',
-                type: "post",
-                data: {
-                   text: this.textarea.val()
-                },
-                success: _.bind(function(data) {
-                    this.poll();
-                }, this)
-            });
+            this.model.set('newShout', this.textarea.val());
         },
 
-        isVisible: function() {
-           return this.$el.find('#shoutbox').is(':visible') === true;
-        },
-
-        poll: function(currentShoutId) {
-
+        fetch: function() {
             // update shoutbox only if tab is open
-            if(this.isVisible === false) {
-                return;
+            if(this.slidetabModel.get('isOpen')) {
+                this.model.fetch();
             }
-
-            $.ajax({
-                url: this.webroot + 'index',
-                method: 'post',
-                dataType: 'html',
-                success: _.bind(function(data) {
-                    if (data.length > 0) {
-                        this.render(data);
-                    }
-                }, this)
-            });
         },
 
         render: function(data) {
-            $(this.shouts).html(data);
+            $(this.shouts).html(this.model.get('html'));
             return this;
         }
 
