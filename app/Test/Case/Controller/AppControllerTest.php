@@ -6,20 +6,21 @@
 
 	class AppControllerTest extends SaitoControllerTestCase {
 
-		public $fixtures = array(
-				'app.bookmark',
-				'app.user',
-				'app.user_online',
-				'app.entry',
-				'app.category',
-				'app.smiley',
-				'app.smiley_code',
-				'app.setting',
-				'app.upload',
-				'app.esnotification',
-				'app.esevent',
-				'app.ecach',
-		);
+		public $fixtures = [
+			'app.bookmark',
+			'app.category',
+			'app.ecach',
+			'app.entry',
+			'app.esevent',
+			'app.esnotification',
+			'app.setting',
+			'app.shout',
+			'app.smiley',
+			'app.smiley_code',
+			'app.upload',
+			'app.user',
+			'app.user_online'
+		];
 
     public function testSetTitleForLayout() {
 
