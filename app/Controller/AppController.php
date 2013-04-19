@@ -211,7 +211,7 @@ class AppController extends Controller {
 		$this->set('title_for_layout', $forumTitle);
 	}
 
-		protected function _initBbcode() {
+		public function initBbcode() {
 			$this->_loadSmilies();
 			$this->Bbcode->initHelper();
 		}

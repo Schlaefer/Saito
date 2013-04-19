@@ -2,8 +2,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'views/shouts'
-], function($, _, Backbone, ShoutsView) {
+    'models/shout', 'views/shouts'
+], function($, _, Backbone, ShoutModel, ShoutsView) {
 
     "use strict";
 
@@ -20,7 +20,7 @@ define([
             this.listenTo(this.model, 'change', this.toggleSlidetab);
 
             if (this.model.get('id') === 'shoutbox') {
-                this.initShoutbox('#shoutbox', this.webroot);
+                this.initShoutbox();
             }
 
         },
@@ -64,10 +64,11 @@ define([
             this.$el.find('.slidetab-tab-info').toggle();
         },
 
-        initShoutbox: function(element_n, webroot) {
+        initShoutbox: function() {
             new ShoutsView({
-                el: this.$el,
-                slidetabModel: this.model
+                el: this.$('#shoutbox'),
+                slidetabModel: this.model,
+                model: new ShoutModel()
             });
         }
     });

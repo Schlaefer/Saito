@@ -30,52 +30,53 @@ define(
                 it("as answer to threadline 1 simple", function() {
                     setFixtures(tl2Fixture);
                     this.view.setElement($('#jasmine-fixtures').find('.thread_box'));
-                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=2] + li + img');
-                    this.view._appendThreadlineToThread(1, $("<img>new</img>"));
-                    expect($('#jasmine-fixtures')).toContain('li[data-id=2] + li + img');
-                    expect($('#jasmine-fixtures').find('img').length).toBe(1);
+                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=2] + li + li.append');
+                    this.view._appendThreadlineToThread(1, $("<li class='append'></li>"));
+                    expect($('#jasmine-fixtures')).toContain('li[data-id=2] + li + li.append');
+                    expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
 
                 it("as answer to threadline 1", function() {
-                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=8] + img');
-                    this.view._appendThreadlineToThread(1, $("<img>new</img>"));
-                    expect($('#jasmine-fixtures')).toContain('li[data-id=8] + img');
-                    expect($('#jasmine-fixtures').find('img').length).toBe(1);
+                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=8] + li.append');
+                    this.view._appendThreadlineToThread(1, $("<li class='append'></li>"));
+                    expect($('#jasmine-fixtures')).toContain('li[data-id=8] + li.append');
+                    expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
 
                 it("as answer to threadline 2", function() {
-                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=4] + img');
-                    this.view._appendThreadlineToThread(2, $("<img>new</img>"));
-                    expect($('#jasmine-fixtures')).toContain('li[data-id=4] + img');
-                    expect($('#jasmine-fixtures').find('img').length).toBe(1);
+                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=4] + li.append');
+                    this.view._appendThreadlineToThread(2, $("<li class='append'></li>"));
+                    expect($('#jasmine-fixtures')).toContain('li[data-id=4] + li.append');
+                    expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
 
                 it("as answer to threadline 3", function() {
-                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=3] + li > ul > img');
-                    this.view._appendThreadlineToThread(3, $("<img>new</img>"));
-                    expect($('#jasmine-fixtures')).toContain('li[data-id=3] + li > ul > img');
-                    expect($('#jasmine-fixtures').find('img').length).toBe(1);
+                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=3] + li > ul > li.append');
+                    this.view._appendThreadlineToThread(3, $("<li class='append'></li>"));
+                    expect($('#jasmine-fixtures')).toContain('li[data-id=3] + li > ul > li.append');
+                    console.log($('#jasmine-fixtures').html());
+                    expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
 
                 it("as answer to threadline 4", function() {
-                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=4] + li > ul > img');
-                    this.view._appendThreadlineToThread(4, $("<img>new</img>"));
-                    expect($('#jasmine-fixtures')).toContain('li[data-id=4] + li > ul > img');
-                    expect($('#jasmine-fixtures').find('img').length).toBe(1);
+                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=4] + li > ul > li.append');
+                    this.view._appendThreadlineToThread(4, $("<li class='append'></li>"));
+                    expect($('#jasmine-fixtures')).toContain('li[data-id=4] + li > ul > li.append');
+                    expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
 
                 it("as answer to threadline 5", function() {
-                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=5] + li > ul > img');
-                    this.view._appendThreadlineToThread(5, $("<img>new</img>"));
-                    expect($('#jasmine-fixtures')).toContain('li[data-id=5] + li > ul > img');
-                    expect($('#jasmine-fixtures').find('img').length).toBe(1);
+                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=5] + li > ul > li.append');
+                    this.view._appendThreadlineToThread(5, $("<li class='append'></li>"));
+                    expect($('#jasmine-fixtures')).toContain('li[data-id=5] + li > ul > li.append');
+                    expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
 
                 it("as answer to threadline 8", function() {
-                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=8] + li > ul > img');
-                    this.view._appendThreadlineToThread(8, $("<img>new</img>"));
-                    expect($('#jasmine-fixtures')).toContain('li[data-id=8] + li > ul > img');
-                    expect($('#jasmine-fixtures').find('img').length).toBe(1);
+                    expect($('#jasmine-fixtures')).not.toContain('li[data-id=8] + li > ul > li.append');
+                    this.view._appendThreadlineToThread(8, $("<li class='append'></li>"));
+                    expect($('#jasmine-fixtures')).toContain('li[data-id=8] + li > ul > li.append');
+                    expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
             });
         });

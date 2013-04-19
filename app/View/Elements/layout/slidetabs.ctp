@@ -1,8 +1,15 @@
-<?php if (!$CurrentUser->isLoggedIn() || $this->request->params['action'] !== 'index' || $this->request->params['controller'] !== 'entries') { return; } ?>
-<?php Stopwatch::start('slidetabs'); ?>
+<?php
+	if (	 $CurrentUser->isLoggedIn() === false
+			|| $this->request->params['action'] !== 'index'
+			|| $this->request->params['controller'] !== 'entries')
+	{
+		return;
+	}
+	Stopwatch::start('slidetabs');
+?>
 <div id="slidetabs">
 	<?php
-		if (!empty($slidetabs)) {
+		if (empty($slidetabs) === false) {
 			foreach ($slidetabs as $slidetab) {
 				Stopwatch::start($slidetab);
 				$id = str_replace('slidetab_', '', $slidetab);
@@ -17,9 +24,7 @@
 					$style .= 'width: 28px;';
 					$style2 = 'display: none;';
 				}
-
 				$this->element('layout/' . $slidetab, array('isOpen' => $isOpen));
-
 				?>
 				<div
 					data-id="<?php echo $id; ?>"

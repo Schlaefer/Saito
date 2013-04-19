@@ -73,6 +73,13 @@
 			return $out;
 		}
 
+		public function get() {
+			return $this->find(
+				'all',
+				['order' => 'Shout.id DESC']
+			);
+		}
+
 		public function push($data) {
 
 			$data['Shout']['time'] = gmdate("Y-m-d H:i:s", time());

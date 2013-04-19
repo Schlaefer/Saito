@@ -565,7 +565,7 @@ class UsersController extends AppController {
 
 		if ($this->request->action === 'view') {
 			$this->_checkIfEditingIsAllowed($this->CurrentUser);
-			$this->_initBbcode();
+			$this->initBbcode();
 		}
 		if ($this->request->action === 'edit') {
 			$this->_checkIfEditingIsAllowed($this->CurrentUser);

@@ -1,32 +1,32 @@
 [
     {
         "name": "jlong/sass-twitter-bootstrap",
-        "version": "v2.2.2",
-        "version_normalized": "2.2.2.0",
-        "target-dir": "twitter/bootstrap",
+        "version": "v2.3.1",
+        "version_normalized": "2.3.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/jlong/sass-twitter-bootstrap.git",
-            "reference": "v2.2.2"
+            "reference": "v2.3.1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/jlong/sass-twitter-bootstrap/zipball/v2.2.2",
-            "reference": "v2.2.2",
+            "url": "https://api.github.com/repos/jlong/sass-twitter-bootstrap/zipball/v2.3.1",
+            "reference": "v2.3.1",
             "shasum": ""
         },
-        "time": "2013-02-04 17:54:01",
+        "time": "2013-03-07 21:01:43",
         "type": "library",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "Apache-2.0"
         ],
-        "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-        "homepage": "http://twitter.github.com/bootstrap/",
+        "description": "A sass port of the sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+        "homepage": "http://github.com/jlong/sass-twitter-bootstrap/",
         "keywords": [
             "bootstrap",
-            "css"
+            "css",
+            "sass"
         ]
     }
 ]
