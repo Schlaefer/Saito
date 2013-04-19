@@ -7,6 +7,26 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-04.06 ##
+
+### What's new ###
+
+- [new] Shoutbox shows content on page load
+- [new] rendered Shoutbox html is cached for better performance
+- [new] improved click responsiveness on iOS
+- [new] Retina magnifier icon in search field
+- [fix] #139 [Reverse Hash Link Not Working][gh139]
+- [fix] no scroll-into-view on inline opening (regression from 2013–04.01)
+- [task] updated bootstrap to 2.3.1
+- [task] updates jQuery to 2.0.0
+- [task] CSS and HTML cleanup
+
+[gh139]: https://github.com/Schlaefer/Saito/issues/139
+
+### Migration Notes ###
+
+jQuery 2.0.0 drops support for IE 8 and below.
+
 ## 2013-04.05 ##
 
 ### What's new ###
