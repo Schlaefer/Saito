@@ -121,26 +121,29 @@ define([
             },
 
 			_showInlineView: function () {
-                var postShow = _.bind(function () {
+                var postShow = _.bind(function() {
                     var shouldScrollOnInlineOpen = this.model.get('shouldScrollOnInlineOpen');
                     this.tlsV.hide();
 
-                    if (shouldScrollOnInlineOpen && this.$el.scrollIntoView('isInView') === false) {
-                        this.$el.scrollIntoView('bottom');
+                    if (shouldScrollOnInlineOpen) {
+                        if (this.$el.scrollIntoView('isInView') === false) {
+                            this.$el.scrollIntoView('bottom');
+                        }
+                    } else {
+                        this.model.set('shouldScrollOnInlineOpen', true);
                     }
-                    this.model.set('shouldScrollOnInlineOpen', true);
                 }, this);
 
-				this.$el.find('.js-thread_line-content').fadeOut(
-					100,
-					_.bind(
-						function() {
-							// performance: show() instead slide()
-							// this.$('.js-thread_inline.' + id).slideDown(0,
+                this.$el.find('.js-thread_line-content').fadeOut(
+                    100,
+                    _.bind(
+                        function() {
+                            // performance: show() instead slide()
+                            // this.$('.js-thread_inline.' + id).slideDown(0,
                             this.$('.js-thread_inline').show(0, postShow);
-						}, this)
-					);
-			},
+                        }, this)
+                );
+            },
 
 			_closeInlineView: function() {
 				// $('.js-thread_inline.' + id).slideUp('fast',
