@@ -69,7 +69,8 @@ define([
 						isInlineOpened: false
 					}), function(model) {
 						model.set({
-							isInlineOpened: true
+							isInlineOpened: true,
+                            shouldScrollOnInlineOpen: false
 						});
 					}, this);
 
@@ -103,7 +104,8 @@ define([
 						isNewToUser: true
 					}), function(model) {
 						model.set({
-							isInlineOpened: true
+							isInlineOpened: true,
+                            shouldScrollOnInlineOpen: false
 						});
 					}, this);
 			},
