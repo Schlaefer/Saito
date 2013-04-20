@@ -7,6 +7,12 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-04.07 ##
+
+### What's new ###
+
+- [fix] don't scroll on mass inline openings (all, new) 
+
 ## 2013-04.06 ##
 
 ### What's new ###
