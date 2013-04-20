@@ -64,7 +64,6 @@ define([
 			 */
 			openAllThreadlines: function(event) {
 				event.preventDefault();
-				this.model.set({ isInlineOpened: true });
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false
@@ -98,7 +97,6 @@ define([
 			 */
 			showAllNewThreadlines: function(event) {
 				event.preventDefault();
-				this.model.set({ isInlineOpened: true });
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false,
