@@ -122,10 +122,13 @@ define([
 
 			_showInlineView: function () {
                 var postShow = _.bind(function () {
+                    var shouldScrollOnInlineOpen = this.model.get('shouldScrollOnInlineOpen');
                     this.tlsV.hide();
-                    if (this.$el.scrollIntoView('isInView') === false) {
+
+                    if (shouldScrollOnInlineOpen && this.$el.scrollIntoView('isInView') === false) {
                         this.$el.scrollIntoView('bottom');
                     }
+                    this.model.set('shouldScrollOnInlineOpen', true);
                 }, this);
 
 				this.$el.find('.js-thread_line-content').fadeOut(

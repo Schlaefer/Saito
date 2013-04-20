@@ -11,6 +11,7 @@ define([
 
         defaults: {
             isInlineOpened: false,
+            shouldScrollOnInlineOpen: true,
             isAlwaysShownInline: false,
             isNewToUser: false,
             posting: '',
@@ -31,6 +32,7 @@ define([
             // @bogus performance
             this.set('isNewToUser', $(this.get('html')).data('data-new') === '1');
         }
+
     });
 
     _.extend(ThreadLineModel.prototype, cakeRest);

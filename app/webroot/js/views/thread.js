@@ -64,13 +64,13 @@ define([
 			 */
 			openAllThreadlines: function(event) {
 				event.preventDefault();
-				this.model.set({ isInlineOpened: true });
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false
 					}), function(model) {
 						model.set({
-							isInlineOpened: true
+							isInlineOpened: true,
+                            shouldScrollOnInlineOpen: false
 						});
 					}, this);
 
@@ -98,14 +98,14 @@ define([
 			 */
 			showAllNewThreadlines: function(event) {
 				event.preventDefault();
-				this.model.set({ isInlineOpened: true });
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: false,
 						isNewToUser: true
 					}), function(model) {
 						model.set({
-							isInlineOpened: true
+							isInlineOpened: true,
+                            shouldScrollOnInlineOpen: false
 						});
 					}, this);
 			},
