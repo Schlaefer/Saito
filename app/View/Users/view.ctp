@@ -212,9 +212,6 @@
 				</div> <!-- #box-footer.form -->
 			<?php endif; ?>
 	</div>
-	<br/>
-	<br/>
-
 	<div class="box-content">
 		<div class="l-box-header box-header">
 			<div>

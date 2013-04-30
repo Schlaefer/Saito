@@ -86,11 +86,11 @@ define([
 				_.each(
 					this.model.threadlines.where({
 						isInlineOpened: true
-					}), function(model) {
-						model.set({
-							isInlineOpened: false
-						});
-					}, this);
+                    }), function(model) {
+                        model.set({
+                            isInlineOpened: false
+                        });
+                    }, this);
 			},
 
 			/**
@@ -103,11 +103,11 @@ define([
 						isInlineOpened: false,
 						isNewToUser: true
 					}), function(model) {
-						model.set({
-							isInlineOpened: true,
+                        model.set({
+                            isInlineOpened: true,
                             shouldScrollOnInlineOpen: false
-						});
-					}, this);
+                        });
+                    }, this);
 			},
 
 			collapseThread: function(event) {

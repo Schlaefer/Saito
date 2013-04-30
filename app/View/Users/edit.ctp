@@ -149,11 +149,10 @@
 				<p class="exp"> <?php echo __('user_signature_exp') ?> </p>
 				</td>
 			</tr>
-		
+
 			</table>
 		</div>
   </div>
-	<br	/>
 
 	<div class="box-form">
 		<div class="l-box-header box-header">
@@ -206,7 +205,7 @@
 
 		<tr>
 			<td> <?php echo __('user_forum_refresh_time') ?> </td>
-			<td> 
+			<td>
 				<?php echo $this->Form->input(
 						'user_forum_refresh_time',
 						array(
@@ -237,7 +236,7 @@
 		<?php
 			/*
 			 * currenty not supported in Saito
-			 * 
+			 *
 		<tr>
 			<td> <?php echo __('user_forum_hr_ruler') ?> </td>
 			<td> <?php echo  $this->Form->checkbox('user_forum_hr_ruler'); ?> <p class="exp"> <?php echo __('user_forum_hr_exp') ?> </p></td>
@@ -265,7 +264,7 @@
 					<p class="exp"> <?php echo __('user_show_thread_collapsed_exp') ?> </p>
 			</td>
 		</tr>
-	
+
 			<tr>
 				<td> <?php echo __('user_pers_msg') ?> </td>
 				<td> <?php echo  $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
@@ -330,7 +329,6 @@
 	</table>
   </div> <!-- content -->
   </div> <!-- box-form -->
-	<br	/>
 
 	<div class="box-form">
 		<div class="l-box-header box-header">
