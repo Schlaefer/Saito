@@ -7,6 +7,13 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-04.08 ##
+
+### What's new ###
+
+- [task] update to CakePHP 2.3.4
+- [task] minor code refactoring 
+
 ## 2013-04.07 ##
 
 ### What's new ###
