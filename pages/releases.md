@@ -7,6 +7,12 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-05.01 ##
+
+### What's new ###
+
+- [fix] fixed some performance regressions introduced in 2013-04.x
+
 ## 2013-04.08 ##
 
 ### What's new ###
