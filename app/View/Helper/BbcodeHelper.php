@@ -76,12 +76,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	);
 	protected static $_videoErrorMessage;
 
+	protected static $_bbcodeUserlist;
+
 	public $settings = array(
 		'quoteSymbol' => '»',
 		'hashBaseUrl' => '', // Base URL for # tags.
 		'atBaseUrl'   => '', // Base URL for @ tags.
-		'atUserList'  => '', // User list for @ tags.
-		'useSmilies'	=> false
+		'User'        => '', // User model for @ tags.
+		'useSmilies'  => false
 	);
 
 	/**
@@ -115,11 +117,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 */
 	public function parse($string, array $options = array( )) {
+		Stopwatch::start('Bbcode::parse');
 		$this->_initParser($options);
 		$this->_tagElCounter = 0;
 		$this->_tagEls = array();
 		$string = $this->_Parser->parse($string);
 		$string = $this->_detaginize($string);
+		Stopwatch::stop('Bbcode::parse');
 		return $string;
 	}
 
@@ -143,6 +147,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			$this->_Parser = $this->_initializedParsers[$fp];
 			return;
 		}
+
+		self::$_bbcodeUserlist = new BbcodeUserlist($this->settings['User']);
 
 		extract($options);
 
@@ -757,7 +763,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public function _atLinkInternal($string) {
 		$tags = array();
 		if (preg_match_all('/(\s|^)@([^\s\pP]+)/m', $string, $tags)) {
-			$users = $this->settings['atUserList'];
+			// would be cleaner to pass userlist by value, but for performance reasons
+			// we only query the db if we actually have any @ tags
+			$users = self::$_bbcodeUserlist->get();
 			sort($users);
 			$names = array();
 			if (empty($tags[2]) === false) {
@@ -1050,4 +1058,27 @@ class BbcodeMessage {
 		return "<div class='c_bbc_imessage'>$message</div>";
 	}
 
+}
+
+interface BbcodeUserlistInterface {
+	/*
+	 * returns array with list of usernames
+	 */
+	public function get();
+}
+
+class BbcodeUserlist implements BbcodeUserlistInterface {
+	protected $_userlist = [];
+	protected $_User;
+
+	public function __construct(User $User) {
+		$this->_User = $User;
+	}
+
+	public function get() {
+		if (empty($this->_userlist)) {
+			$this->_userlist = $this->_User->find('list', ['fields' => 'username']);
+		}
+		return $this->_userlist;
+	}
 }

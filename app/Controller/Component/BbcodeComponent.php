@@ -60,10 +60,7 @@
 				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
 				'hashBaseUrl' => $controller->webroot . $this->settings['hashBaseUrl'],
 				'atBaseUrl'   => $controller->webroot . $this->settings['atBaseUrl'],
-				'atUserList'  => $controller->User->find(
-					'list',
-					array('fields' => 'username')
-				)
+				'User'				=> $controller->User
 			);
 		}
 	}
