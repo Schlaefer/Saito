@@ -275,11 +275,10 @@
 		}
 
 		public function beforeFind($queryData) {
-			parent::beforeFind($queryData);
 			if ($this->_registerGcHasRun === false) {
 				$this->_registerGc();
 			}
-			return true;
+			return parent::beforeFind($queryData);
 		}
 
 		public function afterFind($results, $primary = false) {
