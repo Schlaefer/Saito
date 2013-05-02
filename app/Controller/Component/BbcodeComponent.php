@@ -1,6 +1,7 @@
 <?php
 
 	App::uses('Component', 'Controller');
+	App::uses('BbcodeUserlistUserModel', 'Lib/Bbcode');
 
 	class BbcodeComponent extends Component {
 
@@ -56,38 +57,14 @@
 		 * Call this instead of including in the controller's $helpers array.
 		 */
 		protected function _initHelper(Controller $controller) {
+			$userlist = new BbcodeUserlistUserModel();
+			$userlist->set($controller->User);
 			$controller->helpers['Bbcode'] = array(
 				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
 				'hashBaseUrl' => $controller->webroot . $this->settings['hashBaseUrl'],
 				'atBaseUrl'   => $controller->webroot . $this->settings['atBaseUrl'],
-				'UserList'    => new BbcodeUserlist($controller->User)
+				'UserList'    => $userlist
 			);
 		}
 	}
 
-	interface BbcodeUserlistInterface {
-		/*
-		 * returns array with list of usernames
-		 */
-		public function get();
-	}
-
-	class BbcodeUserlist implements BbcodeUserlistInterface {
-		protected $_userlist = [];
-		protected $_User;
-
-		public function __construct(User $User) {
-			$this->_User = $User;
-		}
-
-		public function set($userlist) {
-			$this->_userlist = $userlist;
-		}
-
-		public function get() {
-			if (empty($this->_userlist)) {
-				$this->_userlist = $this->_User->find('list', ['fields' => 'username']);
-			}
-			return $this->_userlist;
-		}
-	}

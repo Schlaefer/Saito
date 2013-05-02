@@ -16,15 +16,7 @@
 	App::uses('HtmlHelper', 'View/Helper');
 	App::uses('CakeRequest', 'Network');
 
-	class BbcodeUserlistMock {
-		public function set($userlist) {
-			$this->_userlist = $userlist;
-		}
-
-		public function get() {
-			return $this->_userlist;
-		}
-	}
+	App::uses('BbcodeUserlistArray', 'Lib/Bbcode');
 
 	class BbcodeHelperTest extends CakeTestCase {
 
@@ -836,7 +828,7 @@
 			$Request = new CakeRequest('/');
 			$Controller = new Controller($Request);
 			$View = new View($Controller);
-			$BbcodeUserlist = new BbcodeUserlistMock();
+			$BbcodeUserlist = new BbcodeUserlistArray();
 			$BbcodeUserlist->set(array(
 					'Alice',
 					'Bobby Junior',
