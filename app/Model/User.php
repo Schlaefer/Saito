@@ -381,7 +381,7 @@
 			Stopwatch::start('User::registerGc');
 			$last_registerGc = Cache::read('Saito.Cache.registerGc');
 			if(!$last_registerGc || $last_registerGc < time() - 21600) {
-				$this->_registerHasRun = true;
+				$this->_registerGcHasRun = true;
 				$this->deleteAll(array(
 						'activate_code REGEXP "^[0-9][0-9]+$"',
 						'registered <' => date('Y-m-d H:i:s', time() - 86400),

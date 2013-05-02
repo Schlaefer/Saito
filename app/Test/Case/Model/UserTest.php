@@ -426,7 +426,7 @@
 			$this->User->set('registered', date('Y-m-d H:i:s', time() - 90000));
 			$this->User->save();
 
-			Cache::write('Saito.Cache.registerGc', false);
+			Cache::delete('Saito.Cache.registerGc');
 
 			$result = $this->User->findByUsername('Reginald');
 			$this->assertTrue($result == true);
@@ -437,6 +437,15 @@
 			$user_count_after_action = $this->User->find('count');
 			$this->assertEqual($user_count_before_action, $user_count_after_action - 1);
 
+		}
+
+		public function testRegisterGcIsOnlyCalledOncePerRequest() {
+			Cache::delete('Saito.Cache.registerGc');
+			$User = $this->getMockForModel('User', ['deleteAll']);
+			$User->expects($this->once())
+					->method('deleteAll');
+			$User->find('first');
+			$User->find('first');
 		}
 
 		public function testRegister() {
