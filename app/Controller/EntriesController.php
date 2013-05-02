@@ -55,7 +55,7 @@
 					)
 				);
 				// get shouts
-				if (in_array('slidetab_shoutbox', $this->installedSlidetabs)) {
+				if (in_array('slidetab_shoutbox', $this->viewVars['slidetabs'])) {
 					$this->Shouts->setShoutsForView();
 				}
 			}
