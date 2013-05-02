@@ -4,7 +4,7 @@
 		/*
 		 * Returns array with list of usernames
 		 *
-		 * @return boolean Success
+		 * @return array usernames
 		 */
 		public function get();
 	}
