@@ -76,13 +76,11 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	);
 	protected static $_videoErrorMessage;
 
-	protected static $_bbcodeUserlist;
-
 	public $settings = array(
 		'quoteSymbol' => '»',
 		'hashBaseUrl' => '', // Base URL for # tags.
 		'atBaseUrl'   => '', // Base URL for @ tags.
-		'User'        => '', // User model for @ tags.
+		'UserList'    => '', // userlist class for @ tags.
 		'useSmilies'  => false
 	);
 
@@ -147,8 +145,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			$this->_Parser = $this->_initializedParsers[$fp];
 			return;
 		}
-
-		self::$_bbcodeUserlist = new BbcodeUserlist($this->settings['User']);
 
 		extract($options);
 
@@ -765,7 +761,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		if (preg_match_all('/(\s|^)@([^\s\pP]+)/m', $string, $tags)) {
 			// would be cleaner to pass userlist by value, but for performance reasons
 			// we only query the db if we actually have any @ tags
-			$users = self::$_bbcodeUserlist->get();
+			$users = $this->settings['UserList']->get();
 			sort($users);
 			$names = array();
 			if (empty($tags[2]) === false) {
@@ -1060,25 +1056,3 @@ class BbcodeMessage {
 
 }
 
-interface BbcodeUserlistInterface {
-	/*
-	 * returns array with list of usernames
-	 */
-	public function get();
-}
-
-class BbcodeUserlist implements BbcodeUserlistInterface {
-	protected $_userlist = [];
-	protected $_User;
-
-	public function __construct(User $User) {
-		$this->_User = $User;
-	}
-
-	public function get() {
-		if (empty($this->_userlist)) {
-			$this->_userlist = $this->_User->find('list', ['fields' => 'username']);
-		}
-		return $this->_userlist;
-	}
-}
