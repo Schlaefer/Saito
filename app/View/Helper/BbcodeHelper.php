@@ -80,8 +80,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		'quoteSymbol' => '»',
 		'hashBaseUrl' => '', // Base URL for # tags.
 		'atBaseUrl'   => '', // Base URL for @ tags.
-		'atUserList'  => '', // User list for @ tags.
-		'useSmilies'	=> false
+		'UserList'    => '', // userlist class for @ tags.
+		'useSmilies'  => false
 	);
 
 	/**
@@ -115,11 +115,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 */
 	public function parse($string, array $options = array( )) {
+		Stopwatch::start('Bbcode::parse');
 		$this->_initParser($options);
 		$this->_tagElCounter = 0;
 		$this->_tagEls = array();
 		$string = $this->_Parser->parse($string);
 		$string = $this->_detaginize($string);
+		Stopwatch::stop('Bbcode::parse');
 		return $string;
 	}
 
@@ -757,7 +759,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public function _atLinkInternal($string) {
 		$tags = array();
 		if (preg_match_all('/(\s|^)@([^\s\pP]+)/m', $string, $tags)) {
-			$users = $this->settings['atUserList'];
+			// would be cleaner to pass userlist by value, but for performance reasons
+			// we only query the db if we actually have any @ tags
+			$users = $this->settings['UserList']->get();
 			sort($users);
 			$names = array();
 			if (empty($tags[2]) === false) {
@@ -1051,3 +1055,4 @@ class BbcodeMessage {
 	}
 
 }
+

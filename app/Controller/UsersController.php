@@ -41,9 +41,11 @@ class UsersController extends AppController {
 				$this->redirect($this->referer());
 			endif;
 
-		elseif ( !empty($this->request->data) ) :
+		elseif ( !empty($this->request->data)) :
       $known_error = false;
-      if ( isset($this->request->data['User']['username']) ) :
+      if ( 	 isset($this->request->data['User']['username'])
+					&& is_string($this->request->data['User']['username'])
+			) :
         $this->User->contain();
         $readUser = $this->User->findByUsername($this->request->data['User']['username']);
         if (empty($readUser) === false) :

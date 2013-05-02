@@ -16,6 +16,16 @@
 	App::uses('HtmlHelper', 'View/Helper');
 	App::uses('CakeRequest', 'Network');
 
+	class BbcodeUserlistMock {
+		public function set($userlist) {
+			$this->_userlist = $userlist;
+		}
+
+		public function get() {
+			return $this->_userlist;
+		}
+	}
+
 	class BbcodeHelperTest extends CakeTestCase {
 
 		private $Bbcode = null;
@@ -826,17 +836,20 @@
 			$Request = new CakeRequest('/');
 			$Controller = new Controller($Request);
 			$View = new View($Controller);
+			$BbcodeUserlist = new BbcodeUserlistMock();
+			$BbcodeUserlist->set(array(
+					'Alice',
+					'Bobby Junior',
+					'Dr. No'
+				)
+			);
 
 			$settings = array(
 				'quoteSymbol' => '»',
 				'hashBaseUrl' => '/hash/',
 				'atBaseUrl'   => '/at/',
 				'useSmilies'  => false,
-				'atUserList'  => array(
-					'Alice',
-					'Bobby Junior',
-					'Dr. No'
-				)
+				'UserList'  => $BbcodeUserlist
 			);
 
 			$this->Bbcode = new BbcodeHelper($View);

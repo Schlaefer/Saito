@@ -60,10 +60,34 @@
 				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
 				'hashBaseUrl' => $controller->webroot . $this->settings['hashBaseUrl'],
 				'atBaseUrl'   => $controller->webroot . $this->settings['atBaseUrl'],
-				'atUserList'  => $controller->User->find(
-					'list',
-					array('fields' => 'username')
-				)
+				'UserList'    => new BbcodeUserlist($controller->User)
 			);
+		}
+	}
+
+	interface BbcodeUserlistInterface {
+		/*
+		 * returns array with list of usernames
+		 */
+		public function get();
+	}
+
+	class BbcodeUserlist implements BbcodeUserlistInterface {
+		protected $_userlist = [];
+		protected $_User;
+
+		public function __construct(User $User) {
+			$this->_User = $User;
+		}
+
+		public function set($userlist) {
+			$this->_userlist = $userlist;
+		}
+
+		public function get() {
+			if (empty($this->_userlist)) {
+				$this->_userlist = $this->_User->find('list', ['fields' => 'username']);
+			}
+			return $this->_userlist;
 		}
 	}
