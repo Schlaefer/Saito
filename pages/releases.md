@@ -7,6 +7,16 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-05.02 ##
+
+### What's new ###
+
+- [fix] #140 [page content times out (content not shown, js not initalized)][gh140]
+- [task] update to CakePHP 2.3.5
+- [task] minor code refactoring 
+
+[gh140]: https://github.com/Schlaefer/Saito/issues/140
+
 ## 2013-05.01 ##
 
 ### What's new ###
