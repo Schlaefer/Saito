@@ -107,7 +107,8 @@ contentTimer.setup();
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView) {
                     var appView,
-                        notificationView;
+                        notificationView,
+                        appReady;
 
                     App.settings.set(that.SaitoApp.app.settings);
                     App.currentUser.set(that.SaitoApp.currentUser);
@@ -126,12 +127,21 @@ contentTimer.setup();
 
                         appView = new AppView();
 
-                        domReady(function() {
+                        appReady = function() {
                             appView.initFromDom({
                                 SaitoApp: that.SaitoApp,
                                 contentTimer: that.contentTimer
                             });
-                        });
+                        };
+
+                        if (jQuery.isReady) {
+                            appReady();
+                        } else {
+                            domReady(function() {
+                                appReady();
+                            });
+                        }
+
                     } else { // run tests
 
                         // prevent appending of ?_<timestamp> requested urls
