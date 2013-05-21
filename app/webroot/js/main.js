@@ -134,7 +134,7 @@ contentTimer.setup();
                             });
                         };
 
-                        if (jQuery.isReady) {
+                        if ($.isReady) {
                             appReady();
                         } else {
                             domReady(function() {
