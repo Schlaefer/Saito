@@ -5,7 +5,7 @@
 	<div class="span10">
 		<div class="well">
       <p>
-        You are about to delete the user <em><?php echo $user['User']['username']; ?></em>. 
+        You are about to delete the user <em><?php echo $user['User']['username']; ?></em>.
       </p>
       <ul>
         <li>
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 </div>
-<div id="deleteModal" class="modal hide fade">
+<div id="deleteModal" class="modal hide fade" role="dialog"  aria-hidden="true">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
 		<h3>
@@ -45,10 +45,11 @@
 			echo $this->Form->create();
 			echo $this->Form->hidden('modeDelete', array( 'value' => 1 ));
 			echo $this->Form->submit(
-					__("Make It So"),
-					array(
+				__("Make It So"),
+				[
 					'class' => 'btn btn-danger',
-					)
+					'div'   => false
+				]
 			);
 			echo $this->Form->button(
 					__('Abort'),

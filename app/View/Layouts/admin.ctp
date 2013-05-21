@@ -5,11 +5,6 @@
 		<?php
 			echo $this->Html->charset();
 			echo $this->element('layout/script_tags');
-			echo $this->Html->script(
-				[
-					'bootstrap/bootstrap'
-				]
-			);
 			echo $this->Html->css(
 				[
 					'bootstrap/css/bootstrap.min.css',

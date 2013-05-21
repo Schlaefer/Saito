@@ -66,10 +66,11 @@
 			echo $this->Form->create();
 			echo $this->Form->hidden('modeDelete', array( 'value' => 1 ));
 			echo $this->Form->submit(
-					__("Make It So"),
-					array(
+				__("Make It So"),
+				[
 					'class' => 'btn btn-danger',
-					)
+					'div'   => false
+				]
 					// sprintf(__('Are you sure you want to delete # %s?'), $this->request->data['Category']['id'])
 			);
 			echo $this->Form->button(
