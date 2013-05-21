@@ -7,6 +7,17 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-05.03 ##
+
+### What's new ###
+
+- [fix] #141 [Can't delete user: confirmation dialog doesn't stay on screen][gh141]
+- [fix] #142 [Same origin js problem with embed.ly and twitter tweets][gh142]
+- [task] minor code refactoring 
+
+[gh141]: https://github.com/Schlaefer/Saito/issues/141
+[gh142]: https://github.com/Schlaefer/Saito/issues/142
+
 ## 2013-05.02 ##
 
 ### What's new ###
