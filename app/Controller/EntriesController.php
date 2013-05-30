@@ -103,8 +103,7 @@
 				$this->set('title_for_layout', __('page') . ' ' . $currentPage);
 			endif;
 			$this->Session->write('paginator.lastPage', $currentPage);
-
-			$this->set('showDisclaimer', true);
+			$this->showDisclaimer = true;
 
 			Stopwatch::stop('Entries->index()');
 		}
@@ -785,7 +784,6 @@
 					$this->set('autoPageReload',
 							$this->CurrentUser['user_forum_refresh_time'] * 60);
 				}
-				$this->_setAppStats();
 			}
 
 			$this->_automaticalyMarkAsRead();

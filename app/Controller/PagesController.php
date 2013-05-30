@@ -52,6 +52,8 @@ class PagesController extends AppController {
  */
 	public $uses = array();
 
+	public $showDisclaimer =  true;
+
 /**
  * Displays a view
  *

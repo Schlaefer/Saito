@@ -81,6 +81,10 @@ class AppController extends Controller {
 	 */
   protected $_areAppStatsSet = false;
 
+	/**
+	 * @var bool show disclaimer in page footer
+	 */
+	public $showDisclaimer = false;
 
 //	var $persistModel = true;
 
@@ -119,10 +123,6 @@ class AppController extends Controller {
 
 		$this->_setupSlideTabs();
 
-		if ($this->request->controller === 'pages') {
-			$this->_showDisclaimer();
-		}
-
 		$this->_setConfigurationFromGetParams();
 		if ($this->modelClass) {
 			$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
@@ -140,6 +140,10 @@ class AppController extends Controller {
 		parent::beforeRender();
 
 		Stopwatch::start('App->beforeRender()');
+
+		if ($this->showDisclaimer) {
+			$this->_showDisclaimer();
+		}
 
     $this->set('lastAction', $this->localReferer('action'));
     $this->set('lastController', $this->localReferer('controller'));
