@@ -3,7 +3,7 @@
   echo $this->Html->link(
       '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
       '/',
-      array( 'class' => 'textlink', 'escape' => FALSE ));
+      array( 'class' => 'textlink', 'escape' => false ));
   $this->end();
 ?>
 <div id="user_view" class="user view">
@@ -40,7 +40,7 @@
 							$this->UserH->minusIfEmpty($user['User']['user_real_name']),
 						);
 			}
-		if (!empty($user['User']['user_email']) && $user['User']['personal_messages'] == TRUE) {
+		if (!empty($user['User']['user_email']) && $user['User']['personal_messages'] == true) {
 			$table[] =
 					array (
 						__('Contact'),
@@ -172,7 +172,7 @@
 											echo $this->Html->link(
 													'<i class="icon-ban-circle"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
 													array('controller' => 'users', 'action'		 => 'lock', $user['User']['id']),
-													array('escape' => FALSE)
+													array('escape' => false)
 											);
 											?>
 										</li>
@@ -184,7 +184,7 @@
 											echo $this->Html->link(
 													'<i class="icon-pencil"></i> ' . __('Edit'),
 													array('action' => 'edit', $user['User']['id']),
-													array('escape' => FALSE)
+													array('escape' => false)
 											);
 											?>
 										</li>
@@ -193,8 +193,8 @@
 											<?php
 											echo $this->Html->link(
 													'<i class="icon-trash"></i> ' . __('Delete'),
-													array('controller' => 'users', 'action'		 => 'delete', $user['User']['id'], 'admin'			 => TRUE),
-													array('escape' => FALSE)
+													array('controller' => 'users', 'action'		 => 'delete', $user['User']['id'], 'admin'			 => true),
+													array('escape' => false)
 											);
 											?>
 										</li>
@@ -216,27 +216,34 @@
 		<div class="l-box-header box-header">
 			<div>
 				<div class='c_first_child'></div>
-				<div><h1><?php echo $this->TextH->properize( $user['User']['username'] ) . ' ' . __('user_recentposts'); // @lo  ?>
-
-					</h1> </div>
+				<div>
+					<h1>
+						<?=
+							$this->TextH->properize($user['User']['username'])
+							. ' '
+							. __('user_recentposts'); // @lo
+						?>
+					</h1>
+				</div>
 				<div class='c_last_child'></div>
 			</div>
 		</div>
 		<div class="content">
-			<?php  if (isset($lastEntries) && !empty($lastEntries)): ?>
-			<ul>
-				<?php  foreach ($lastEntries as $entry) : ?>
-				<li>
-					<?php echo $this->EntryH->threadCached($entry, $CurrentUser); ?>
-				</li>
-				<?php  endforeach; ?>
-			</ul>
-		<?php else: ?>
-			<?php echo $this->element('generic/no-content-yet', array(
-					'message' => __('No entries created yet.'))); ?>
-		<?php endif; ?>
+			<?php if (isset($lastEntries) && !empty($lastEntries)): ?>
+				<ul>
+					<?php foreach ($lastEntries as $entry) : ?>
+						<li>
+							<?= $this->EntryH->threadCached($entry, $CurrentUser); ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			<?php else : ?>
+				<?=
+				$this->element(
+					'generic/no-content-yet',
+					['message' => __('No entries created yet.')]
+				); ?>
+			<?php endif; ?>
 		</div>
 	</div>
-
-
 </div>
