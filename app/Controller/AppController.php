@@ -296,10 +296,6 @@ class AppController extends Controller {
 			Stopwatch::start('AppController->_setAppStats()');
 			$this->_areAppStatsSet = true;
 
-			// look who's online
-			if (!isset($this->Entry)) {
-				$this->loadModel('Entry');
-			}
 			$loggedin_users = $this->User->UserOnline->getLoggedIn();
 			$this->set('UsersOnline', $loggedin_users);
 
@@ -312,6 +308,10 @@ class AppController extends Controller {
 						'entries'		 => array('model'			 => 'Entry', 'conditions' => ''),
 						'threads'		 => array('model'			 => 'Entry', 'conditions' => array('pid' => 0)),
 				);
+
+				if (!isset($this->Entry)) {
+					$this->loadModel('Entry');
+				}
 
 				// @td foreach not longer feasable, refactor
 				foreach ($countable_items as $titel => $options) {
