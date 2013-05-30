@@ -197,11 +197,10 @@ class AppController extends Controller {
 			if (isset($this->viewVars['title_for_layout'])) {
 				$pageTitle = $this->viewVars['title_for_layout'];
 			} else {
-				$untranslated = $this->params['controller'] . '/' . $this->params['action'];
-				$translated   = __d('page_titles', $untranslated);
-				if ($translated != $untranslated) {
-					$pageTitle = $translated;
-				}
+				$pageTitle = __d(
+					'page_titles',
+					$this->params['controller'] . '/' . $this->params['action']
+				);
 			}
 
 			if (!empty($pageTitle)) {
