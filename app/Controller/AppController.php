@@ -177,39 +177,39 @@ class AppController extends Controller {
 			}
 		}
 
-	/**
-	 * sets title for pages
-	 *
-	 * set in i18n domain file 'page_titles.po' with 'controller/view' title
-	 *
-	 * use plural for for controller title: 'entries/index' (not 'entry/index')!
-	 *
-	 * @td helper?
-	 *
-	 */
-	protected function _setTitleForLayout() {
-		$forumTitle = Configure::read('Saito.Settings.forum_name');
-		if ( empty($forumTitle) ) {
-			return;
-		}
-
-		$pageTitle = null;
-		if ( isset($this->viewVars['title_for_layout']) ) {
-			$pageTitle = $this->viewVars['title_for_layout'];
-		} else {
-			$untranslated = $this->params['controller'] . '/' . $this->params['action'];
-			$translated = __d('page_titles', $untranslated);
-			if ( $translated != $untranslated ) {
-				$pageTitle = $translated;
+		/**
+		 * sets title for pages
+		 *
+		 * set in i18n domain file 'page_titles.po' with 'controller/view' title
+		 *
+		 * use plural for for controller title: 'entries/index' (not 'entry/index')!
+		 *
+		 * @td helper?
+		 *
+		 */
+		protected function _setTitleForLayout() {
+			$forumTitle = Configure::read('Saito.Settings.forum_name');
+			if (empty($forumTitle)) {
+				return;
 			}
-		}
 
-		if ( !empty($pageTitle) ) {
-			$forumTitle = $pageTitle . ' – ' . $forumTitle;
-		}
+			$pageTitle = null;
+			if (isset($this->viewVars['title_for_layout'])) {
+				$pageTitle = $this->viewVars['title_for_layout'];
+			} else {
+				$untranslated = $this->params['controller'] . '/' . $this->params['action'];
+				$translated   = __d('page_titles', $untranslated);
+				if ($translated != $untranslated) {
+					$pageTitle = $translated;
+				}
+			}
 
-		$this->set('title_for_layout', $forumTitle);
-	}
+			if (!empty($pageTitle)) {
+				$forumTitle = $pageTitle . ' – ' . $forumTitle;
+			}
+
+			$this->set('title_for_layout', $forumTitle);
+		}
 
 		public function initBbcode() {
 			$this->_loadSmilies();
