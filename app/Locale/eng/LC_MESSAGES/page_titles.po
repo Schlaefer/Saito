@@ -21,6 +21,10 @@ msgid "entries/add"
 msgstr "New Entry"
 
 #
+msgid "entries/index"
+msgstr "Forum"
+
+#
 msgid "entries/edit"
 msgstr "Edit Entry"
 
@@ -51,3 +55,10 @@ msgstr "User"
 msgid "users/edit"
 msgstr "Edit User"
 
+#
+msgid "bookmarks/index"
+msgstr "Bookmarks"
+
+#
+msgid "bookmarks/edit"
+msgstr "Edit Bookmark"
