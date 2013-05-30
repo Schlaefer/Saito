@@ -215,15 +215,21 @@ class UsersController extends AppController {
 
 		$viewed_user['User']['number_of_entries'] = $this->User->numberOfEntries();
 
+		$entriesShownOnPage = 20;
 		$this->set(
 			'lastEntries',
 			$this->User->Entry->getRecentEntries(
 				[
 					'user_id' => $this->User->id,
-					'limit'   => 20,
+					'limit'   => $entriesShownOnPage,
 				],
 				$this->CurrentUser
 			)
+		);
+
+		$this->set(
+			'hasMoreEntriesThanShownOnPage',
+				($viewed_user['User']['number_of_entries'] - $entriesShownOnPage) > 0
 		);
 
 		$this->set('user', $viewed_user);

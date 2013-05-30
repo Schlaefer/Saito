@@ -8,18 +8,17 @@
 ?>
 <div id="user_view" class="user view">
 	<?php
-		$linkToHistory = $this->Html->link(
-												__('user_show_entries'),
-												array(
-														'controller' 	=> 'entries',
-														'action'			=> 'search',
-														'name'				=> $user['User']['username'],
-														'month'				=> strftime('%m', strtotime($user['User']['registered'])),
-														'year'				=> strftime('%Y', strtotime($user['User']['registered'])),
-														'adv'					=> 1,
-														) ,
-												array('escape' => false)
-												);
+		$urlToHistory = $this->Html->url(
+			[
+				'controller' => 'entries',
+				'action'     => 'search',
+				'name'       => $user['User']['username'],
+				'month'      => strftime('%m', strtotime($user['User']['registered'])),
+				'year'       => strftime('%Y', strtotime($user['User']['registered'])),
+				'adv'        => 1,
+			],
+			true
+		);
 		$table =
 			array (
 					array (
@@ -78,7 +77,13 @@
 							__('user_postings'),
 								$user['User']['number_of_entries']
                 . ( (Configure::read('Saito.Settings.userranks_show')) ? ' ('.  $this->UserH->userRank($user["User"]['number_of_entries']) . ')' : '' )
-								. ' [' . $linkToHistory . ']',
+								. ' ['
+								. $this->Html->link(
+									__('user_show_entries'),
+									$urlToHistory,
+									['escape' => false]
+								)
+								. ']',
 					),
 			));
 
@@ -229,7 +234,13 @@
 			</div>
 		</div>
 		<div class="content">
-			<?php if (isset($lastEntries) && !empty($lastEntries)): ?>
+			<?php if (empty($lastEntries)) : ?>
+				<?=
+				$this->element(
+					'generic/no-content-yet',
+					['message' => __('No entries created yet.')]
+				); ?>
+			<?php else : ?>
 				<ul>
 					<?php foreach ($lastEntries as $entry) : ?>
 						<li>
@@ -237,12 +248,11 @@
 						</li>
 					<?php endforeach; ?>
 				</ul>
-			<?php else : ?>
-				<?=
-				$this->element(
-					'generic/no-content-yet',
-					['message' => __('No entries created yet.')]
-				); ?>
+				<?php if ($hasMoreEntriesThanShownOnPage) : ?>
+					<p style="margin: 0.5em 1em">
+						<?= $this->Html->link(__('Show all'), $urlToHistory) ?>
+					</p>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 	</div>
