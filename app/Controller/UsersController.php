@@ -213,15 +213,18 @@ class UsersController extends AppController {
 			$this->redirect('/');
 		}
 
-		$viewed_user['User']["number_of_entries"] = $this->User->numberOfEntries();
+		$viewed_user['User']['number_of_entries'] = $this->User->numberOfEntries();
 
-		$this->set('lastEntries',
-					$this->User->Entry->getRecentEntries(
-							array(
-							'user_id'	 => $this->User->id,
-							'limit'		 => 20,
-							), $this->CurrentUser
-					));
+		$this->set(
+			'lastEntries',
+			$this->User->Entry->getRecentEntries(
+				[
+					'user_id' => $this->User->id,
+					'limit'   => 20,
+				],
+				$this->CurrentUser
+			)
+		);
 
 		$this->set('user', $viewed_user);
 	}
