@@ -215,9 +215,9 @@
 			$result = $this->Bbcode->parse($input);
 			$this->assertNotContains('>#2234</a>', $result);
 
-			$input = '#2234test';
+			$input = '#2234t';
 			$result = $this->Bbcode->parse($input);
-			$this->assertNotContains('<a', $result);
+			$this->assertEqual('#2234t', $result);
 		}
 
 		public function testAtLinkKnownUsers() {
