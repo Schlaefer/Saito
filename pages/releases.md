@@ -7,6 +7,16 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-05.04 ##
+
+### What's new ###
+
+- [new] link to user entry search at bottom of recent changes in /users/view
+- [new] minor performance improvements using hashlinks
+- [fix] #<number><char> tags were hashlinked
+- [task] update jQuery to 2.0.1
+- minor code refactoring 
+
 ## 2013-05.03 ##
 
 ### What's new ###
