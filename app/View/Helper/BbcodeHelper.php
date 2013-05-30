@@ -744,7 +744,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	public function _hashLinkInternalTaginize($string) {
 		$string = preg_replace_callback(
-			'/(?<=\s|^|])(?<tag>#)(?<element>\d+)/',
+			'/(?<=\s|^|])(?<tag>#)(?<element>\d+)(?!\w)/',
 			array($this, '_taginize'),
 			$string
 		);
@@ -752,6 +752,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _hashLinkInternal($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		unset($this->_tagEls[$attributes['default']]);
 		return $this->_url($this->settings['hashBaseUrl'] . $content, '#' . $content);
 	}

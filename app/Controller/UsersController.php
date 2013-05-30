@@ -192,6 +192,8 @@ class UsersController extends AppController {
 	}
 
 	public function view($id = null) {
+
+		// redirect view/<username> to name/<username>
 		if(!empty($id) && !is_numeric($id)) {
 			return $this->redirect(
 				array(
@@ -203,26 +205,32 @@ class UsersController extends AppController {
 		}
 
 		$this->User->id = $id;
-
 		$this->User->contain(array('UserOnline'));
 		$viewed_user = $this->User->read();
 
-		if (empty($this->request->data)) {
-			if ($id == null || (!($viewed_user))) {
-				$this->Session->setFlash(__('Invalid user'), 'flash/error');
-				$this->redirect('/');
-			}
+		if ($id === null || (!($viewed_user))) {
+			$this->Session->setFlash(__('Invalid user'), 'flash/error');
+			$this->redirect('/');
 		}
 
-		$viewed_user['User']["number_of_entries"] = $this->User->numberOfEntries();
+		$viewed_user['User']['number_of_entries'] = $this->User->numberOfEntries();
 
-		$this->set('lastEntries',
-					$this->User->Entry->getRecentEntries(
-							array(
-							'user_id'	 => $this->User->id,
-							'limit'		 => 20,
-							), $this->CurrentUser
-					));
+		$entriesShownOnPage = 20;
+		$this->set(
+			'lastEntries',
+			$this->User->Entry->getRecentEntries(
+				[
+					'user_id' => $this->User->id,
+					'limit'   => $entriesShownOnPage,
+				],
+				$this->CurrentUser
+			)
+		);
+
+		$this->set(
+			'hasMoreEntriesThanShownOnPage',
+				($viewed_user['User']['number_of_entries'] - $entriesShownOnPage) > 0
+		);
 
 		$this->set('user', $viewed_user);
 	}
