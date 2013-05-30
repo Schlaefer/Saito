@@ -208,11 +208,9 @@ class UsersController extends AppController {
 		$this->User->contain(array('UserOnline'));
 		$viewed_user = $this->User->read();
 
-		if (empty($this->request->data)) {
-			if ($id == null || (!($viewed_user))) {
-				$this->Session->setFlash(__('Invalid user'), 'flash/error');
-				$this->redirect('/');
-			}
+		if ($id === null || (!($viewed_user))) {
+			$this->Session->setFlash(__('Invalid user'), 'flash/error');
+			$this->redirect('/');
 		}
 
 		$viewed_user['User']["number_of_entries"] = $this->User->numberOfEntries();
