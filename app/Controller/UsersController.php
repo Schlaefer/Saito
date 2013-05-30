@@ -233,6 +233,13 @@ class UsersController extends AppController {
 		);
 
 		$this->set('user', $viewed_user);
+		$this->set(
+			'title_for_layout',
+			String::insert(
+				__('User :name'),
+				['name' => $viewed_user['User']['username']]
+			)
+		);
 	}
 
 	public function edit($id = null) {

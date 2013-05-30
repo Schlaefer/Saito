@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-30 09:53+0100\n"
-"PO-Revision-Date: 2013-05-30 09:53+0100\n"
+"POT-Creation-Date: 2013-05-30 12:55+0100\n"
+"PO-Revision-Date: 2013-05-30 12:55+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -634,7 +634,7 @@ msgstr ""
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:79 Controller/UsersController.php:478
+#: View/Entries/add.ctp:79 Controller/UsersController.php:485
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
@@ -1826,7 +1826,7 @@ msgstr "Caches wurden geleert."
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:56 Controller/UsersController.php:336
+#: Controller/UsersController.php:56 Controller/UsersController.php:343
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
@@ -1840,65 +1840,69 @@ msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
 #: Controller/UsersController.php:190 Controller/UsersController.php:212
-#: Controller/UsersController.php:241
+#: Controller/UsersController.php:248
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/UsersController.php:286
+#: Controller/UsersController.php:239
+msgid "User :name"
+msgstr "Benutzer :name"
+
+#: Controller/UsersController.php:293
 msgid "The user could not be saved. Please, try again."
 msgstr "Der Benutzer konnte nicht gespeichert werden."
 
-#: Controller/UsersController.php:318 Controller/UsersController.php:355
+#: Controller/UsersController.php:325 Controller/UsersController.php:362
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:326
+#: Controller/UsersController.php:333
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:328
+#: Controller/UsersController.php:335
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: Controller/UsersController.php:338
+#: Controller/UsersController.php:345
 #, php-format
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:342
+#: Controller/UsersController.php:349
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:361
+#: Controller/UsersController.php:368
 msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
-#: Controller/UsersController.php:363
+#: Controller/UsersController.php:370
 msgid "You can't delete the installation account."
 msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
-#: Controller/UsersController.php:365
+#: Controller/UsersController.php:372
 #, php-format
 msgid "User %s deleted."
 msgstr "Nutzer %s gelöscht."
 
-#: Controller/UsersController.php:368
+#: Controller/UsersController.php:375
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:393
+#: Controller/UsersController.php:400
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:456
+#: Controller/UsersController.php:463
 msgid "error_email_not-valid"
 msgstr "Keine gültige Email-Adresse."
 
-#: Controller/UsersController.php:503
+#: Controller/UsersController.php:510
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:506
+#: Controller/UsersController.php:513
 #, fuzzy
 msgid "Message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
@@ -2014,17 +2018,17 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:878
+#: View/Helper/BbcodeHelper.php:881
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:968
+#: View/Helper/BbcodeHelper.php:971
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:976
+#: View/Helper/BbcodeHelper.php:979
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -2356,9 +2360,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "User Type"
 #~ msgstr "Typ"
-
-#~ msgid "Username"
-#~ msgstr "Benutzername"
 
 #, fuzzy
 #~ msgid "User Real Name"
