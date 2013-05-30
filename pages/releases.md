@@ -13,7 +13,7 @@ layout: default
 
 - [new] link to user entry search at bottom of recent changes in /users/view
 - [new] minor performance improvements using hashlinks
-- [fix] #<number><char> tags were hashlinked
+- [fix] #NumberChar tags are hashlinked
 - [task] update jQuery to 2.0.1
 - minor code refactoring 
 
