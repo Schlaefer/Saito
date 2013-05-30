@@ -192,6 +192,8 @@ class UsersController extends AppController {
 	}
 
 	public function view($id = null) {
+
+		// redirect view/<username> to name/<username>
 		if(!empty($id) && !is_numeric($id)) {
 			return $this->redirect(
 				array(
@@ -203,7 +205,6 @@ class UsersController extends AppController {
 		}
 
 		$this->User->id = $id;
-
 		$this->User->contain(array('UserOnline'));
 		$viewed_user = $this->User->read();
 
