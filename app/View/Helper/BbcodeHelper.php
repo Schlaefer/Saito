@@ -752,6 +752,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _hashLinkInternal($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		unset($this->_tagEls[$attributes['default']]);
 		return $this->_url($this->settings['hashBaseUrl'] . $content, '#' . $content);
 	}
