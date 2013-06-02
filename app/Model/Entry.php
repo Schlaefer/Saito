@@ -334,10 +334,10 @@
 
 		/**
 		 * tree of a single node and its subentries
-     *
+		 *
 		 * $options = array(
-		 *		'root' => true // performance improvements if it's a known thread-root
-		 *		'complete' => true // include all fields necessary to render the complete entries
+		 *    'root' => true // performance improvements if it's a known thread-root
+		 *    'complete' => true // include all fields necessary to render the complete entries
 		 * );
 		 *
 		 * @param int $id
@@ -345,21 +345,20 @@
 		 * @return array tree
 		 */
 		public function treeForNode($id, $options = array()) {
-			$defaults = array(
-					'root' => false,
-					'complete' => false,
-			);
-			extract(array_merge($defaults, $options));
+			$options += [
+				'root'     => false,
+				'complete' => false
+			];
 
-			if($root) {
+			if ($options['root']) {
 				$tid = $id;
 			} else {
 				$tid = $this->getThreadId($id);
 			}
 
 			$fields = null;
-			if ($complete) {
-					$fields = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+			if ($options['complete']) {
+				$fields = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 			}
 
 			$tree = $this->treesForThreads(array(array('id' => $tid)), null, $fields);
@@ -368,14 +367,14 @@
 				$tree = $this->treeGetSubtree($tree, $id);
 			}
 
-			if ($complete && $tree) {
+			if ($options['complete'] && $tree) {
 				$this->_addAdditionalFields($tree);
 			}
 
 			return $tree;
 		}
 
-	/**
+		/**
 	 * trees for multiple tids
 	 */
 	public function treesForThreads($search_array, $order = null, $fieldlist = null) {
