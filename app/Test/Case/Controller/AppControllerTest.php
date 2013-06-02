@@ -29,7 +29,7 @@
           '/entries/index',
           array( 'return' => 'vars')
           );
-      $this->assertEqual($result['title_for_layout'], 'macnemo');
+      $this->assertEqual($result['title_for_layout'], 'Forum – macnemo');
 
       // test nonempty title_for_layout
 			$result = $this->testAction(
