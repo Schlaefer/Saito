@@ -195,22 +195,24 @@ class UsersController extends AppController {
 
 		// redirect view/<username> to name/<username>
 		if(!empty($id) && !is_numeric($id)) {
-			return $this->redirect(
+			$this->redirect(
 				array(
 					'controller' => 'users',
 					'action' => 'name',
 					$id
 				)
 			);
+			return; // test case return
 		}
 
 		$this->User->id = $id;
 		$this->User->contain(array('UserOnline'));
 		$viewed_user = $this->User->read();
 
-		if ($id === null || (!($viewed_user))) {
+		if ($id === null || empty($viewed_user)) {
 			$this->Session->setFlash(__('Invalid user'), 'flash/error');
 			$this->redirect('/');
+			return; // test case return
 		}
 
 		$viewed_user['User']['number_of_entries'] = $this->User->numberOfEntries();
