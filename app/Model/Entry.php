@@ -752,7 +752,11 @@
 		}
 
 		protected function _isLocked($entry) {
-				return $entry['Entry']['locked'] != false;
+			if (!isset($entry['Entry']['locked'])) {
+				throw new InvalidArgumentException;
+			}
+
+			return $entry['Entry']['locked'] != false;
 		}
 
 		public function getUnsanitized($id) {
@@ -810,11 +814,8 @@
 	 * @param array $entry
 	 * @return boolean
 	 */
-	public function isAnsweringForbidden($entry = null) {
+	public function isAnsweringForbidden($entry) {
 		$isAnsweringForbidden = true;
-
-		if (!isset($entry['Entry']['locked'])) return true;
-
 		if ($this->_isLocked($entry)) {
 			$isAnsweringForbidden = 'locked';
 		} else {
