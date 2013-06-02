@@ -375,43 +375,46 @@
 		}
 
 		/**
-	 * trees for multiple tids
-	 */
-	public function treesForThreads($search_array, $order = null, $fieldlist = null) {
-		if (empty($search_array)) {
-			return array();
-		}
+		 * trees for multiple tids
+		 */
+		public function treesForThreads($search_array, $order = null, $fieldlist = null) {
+			if (empty($search_array)) {
+				return array();
+			}
 
-		Stopwatch::start('Model->Entries->treeForNodes() DB');
+			Stopwatch::start('Model->Entries->treeForNodes() DB');
 
-		if (empty($order)) {
-			$order = 'last_answer ASC';
-		}
+			if (empty($order)) {
+				$order = 'last_answer ASC';
+			}
 
-		$where = array();
-		foreach($search_array as $search_item) {
-			$where[] = $search_item['id'];
-		}
+			$where = array();
+			foreach ($search_array as $search_item) {
+				$where[] = $search_item['id'];
+			}
 
-		if ($fieldlist === null) {
-      $fieldlist = $this->threadLineFieldList;
-		}
+			if ($fieldlist === null) {
+				$fieldlist = $this->threadLineFieldList;
+			}
 
-		$threads = $this->_getThreadEntries($where, array(
-					'order'	 => $order,
+			$threads = $this->_getThreadEntries(
+				$where,
+				array(
+					'order' => $order,
 					'fields' => $fieldlist,
-					));
-		Stopwatch::stop('Model->Entries->treeForNodes() DB');
+				)
+			);
+			Stopwatch::stop('Model->Entries->treeForNodes() DB');
 
-		$out = false;
-		if ($threads) {
-			Stopwatch::start('Model->Entries->treeForNodes() CPU');
-			$out = $this->treeBuild($threads);
-			Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+			$out = false;
+			if ($threads) {
+				Stopwatch::start('Model->Entries->treeForNodes() CPU');
+				$out = $this->treeBuild($threads);
+				Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+			}
+
+			return $out;
 		}
-
-		return $out;
-	}
 
 	/**
 		 *
