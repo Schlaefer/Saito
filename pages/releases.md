@@ -16,7 +16,7 @@ layout: default
 - [new] new layout for posting entries
 - [fix] #144 [Deleting a user doesn't empty entry cache][gh144]
 - [fix] #143 [users/view/ should have more descriptive title tag][gh143]
-- [task] replaced blueprint with suzy CSS framework
+- [task] replaced blueprint with susy CSS framework
 - [task] updated fontawesome to 3.1
 - [task] code refactoring
 
