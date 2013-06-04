@@ -32,3 +32,10 @@ $experimental-support-for-khtml: false;
 @import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//dropdowns.scss";
 @import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//popovers.scss";
 @import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//component-animations.scss";
+
+/*******************************************************************************
+ * Susy
+ *
+ * See: http://susy.oddbird.net/
+ ******************************************************************************/
+@import "../../../../../../../Vendor/susy/sass/_susy.scss";

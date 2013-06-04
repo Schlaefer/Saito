@@ -70,202 +70,200 @@
 
 		<div class="content">
 					<?php echo  $this->Form->create('Entry'); ?>
-			<div class="bp_container">
-					<?php echo $this->EntryH->getCategorySelectForEntry($categories,
-							$this->request->data); ?>
-				<div class="postingform_main">
-					<?=
-						$this->Form->input(
-							'subject',
-							[
-								'maxlength' => Configure::read(
-									'Saito.Settings.subject_maxlength'
-								),
-								'label'     => false,
-								'tabindex'  => 2,
-								'error'     => ['notEmpty' => __('error_subject_empty')],
-								'div'       => ['class' => 'requiered'],
-							]
-						);
-					?>
-				</div>
+			<div class="l-postingform_main">
+				<?php echo $this->EntryH->getCategorySelectForEntry(
+					$categories,
+					$this->request->data
+				); ?>
+				<?=
+					$this->Form->input(
+						'subject',
+						[
+							'maxlength' => Configure::read(
+								'Saito.Settings.subject_maxlength'
+							),
+							'label'     => false,
+							'tabindex'  => 2,
+							'error'     => ['notEmpty' => __('error_subject_empty')],
+							'div'       => ['class' => 'requiered'],
+						]
+					);
+				?>
 				<?= $this->Form->hidden('pid'); ?>
-				<div class="postingform_main">
-					<?php
-						echo $this->MarkitupEditor->getButtonSet(
-							'markItUp_' . $this->request->data['Entry']['id']
-						);
-						echo $this->MarkitupEditor->editor(
-							'text',
-							[
-								'parser'   => false,
-								'set'      => 'default',
-								'skin'     => 'macnemo',
-								'label'    => false,
-								'tabindex' => 3,
-								'settings' => 'markitupSettings'
-							]
-						);
-					?>
-				</div>
-				<div class="postingform_right">
-					<?php
-						// add original posting contents
-						if (isset($citeText) && !empty($citeText)) : ?>
-							<div
-									id="<?php echo "btn_insert_original_text_{$this->request->data['Entry']['id']}"; ?>">
-								<?php
-									echo $this->Html->scriptBlock(
-										"var quote_{$this->request->data['Entry']['id']} = " . json_encode(
-											$citeText
-										) . "; ",
-										['inline' => 'true']
-									);
-									// empty the textarea
-									echo $this->Html->scriptBlock(
-										"$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val('')",
-										['inline' => 'true']
-									);
-									echo $this->Html->link(
-										Configure::read('Saito.Settings.quote_symbol') . ' ' . __(
-											'Cite'
-										),
-										'#',
-										[
-											'onclick' => "$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val(quote_{$this->request->data['Entry']['id']} + '" . '\n\n' . "' + $('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val());"
-											. "$('#btn_insert_original_text_{$this->request->data['Entry']['id']}').slideToggle();"
-											. "$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').focus();"
-											. "return false;",
-											'class'   => 'label'
-										]
-									);
-								?>
-							</div>
-						<br/>
-						<?php endif; //add original posting contents ?>
-
-					<div class="checkbox">
-						<?php
-							echo $this->Form->checkbox(
-								'Event.1.event_type_id',
-								['checked' => isset($notis[0]) && $notis[0]]
-							);
-							echo $this->Form->label(
-								'Event.1.event_type_id',
-								__('Notify on reply')
-							);
-						?>
-					</div>
-					<div class="checkbox">
-						<?php
-							echo $this->Form->checkbox(
-								'Event.2.event_type_id',
-								[
-									'checked' => isset($notis[1]) && $notis[1],
-								]
-							);
-							echo $this->Form->label(
-								'Event.2.event_type_id',
-								__('Notify on thread replies')
-							);
-						?>
-					</div>
-					<hr/>
-					<div class="checkbox">
-						<?php
-							echo $this->Form->checkbox('nsfw');
-							echo $this->Form->label('nsfw', __('entry_nsfw_title'));
-						?>
-					</div>
-					<div class="checkbox">
-						<?php
-							// ### flattr checkbox start
-							if (Configure::read(
-										'Saito.Settings.flattr_enabled'
-									) == true && $CurrentUser['flattr_uid'] == true
-							) :
-								echo $this->Form->checkbox('flattr');
-								echo $this->Form->label(
-									'flattr',
-									__('entry_flattr_this_posting')
+				<?php
+					echo $this->MarkitupEditor->getButtonSet(
+						'markItUp_' . $this->request->data['Entry']['id']
+					);
+					echo $this->MarkitupEditor->editor(
+						'text',
+						[
+							'parser'   => false,
+							'set'      => 'default',
+							'skin'     => 'macnemo',
+							'label'    => false,
+							'tabindex' => 3,
+							'settings' => 'markitupSettings'
+						]
+					);
+				?>
+				<?php
+					// add original posting contents
+					if (isset($citeText) && !empty($citeText)) : ?>
+						<div
+								id="<?php echo "btn_insert_original_text_{$this->request->data['Entry']['id']}"; ?>">
+							<?php
+								echo $this->Html->scriptBlock(
+									"var quote_{$this->request->data['Entry']['id']} = " . json_encode(
+										$citeText
+									) . "; ",
+									['inline' => 'true']
 								);
+								// empty the textarea
+								echo $this->Html->scriptBlock(
+									"$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val('')",
+									['inline' => 'true']
+								);
+								echo $this->Html->link(
+									Configure::read('Saito.Settings.quote_symbol') . ' ' . __(
+										'Cite'
+									),
+									'#',
+									[
+										'onclick' => "$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val(quote_{$this->request->data['Entry']['id']} + '" . '\n\n' . "' + $('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val());"
+										. "$('#btn_insert_original_text_{$this->request->data['Entry']['id']}').slideToggle();"
+										. "$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').focus();"
+										. "return false;",
+										'class'   => 'label'
+									]
+								);
+							?>
+						</div>
+						<br/>
+					<?php endif; //add original posting contents ?>
 
-								// ### JS code for dynamicaly switching the checkbox accordingly to category
-								$code_insert = "
+				<div class="bp-threeColumn">
+					<div class="left">
+						<?php
+							# @bogus
+							if (!$this->request->is(
+										'ajax'
+									) || (isset($lastAction) && ($lastAction === 'mix' || $lastAction === 'view' || $lastAction === 'add'))
+							) {
+								echo $this->Form->submit(
+									__('submit_button'),
+									[
+										'id'       => 'btn-submit',
+										'class'    => 'btn btn-submit',
+										'tabindex' => 4,
+										'onclick'  => "this.disabled=true; this.form.submit();"
+									]
+								);
+							} # !i$this->request->is('ajax')
+							else {
+								echo $this->Form->submit(
+									__('submit_button'),
+									[
+										'id'       => 'btn-submit',
+										'class'    => 'btn btn-submit js-inlined',
+										'tabindex' => 4
+									]
+								);
+							}
+						?>
+						&nbsp;
+						<?=
+							$this->Html->link(
+								__('preview'),
+								'#',
+								['class' => 'btn btn-preview', 'tabindex' => 5]
+							);
+						?>
+					</div>
+					<div class="center">
+						<div class="checkbox">
+							<?php
+								echo $this->Form->checkbox(
+									'Event.1.event_type_id',
+									['checked' => isset($notis[0]) && $notis[0]]
+								);
+								echo $this->Form->label(
+									'Event.1.event_type_id',
+									__('Notify on reply')
+								);
+							?>
+						</div>
+						<div class="checkbox">
+							<?php
+								echo $this->Form->checkbox(
+									'Event.2.event_type_id',
+									[
+										'checked' => isset($notis[1]) && $notis[1],
+									]
+								);
+								echo $this->Form->label(
+									'Event.2.event_type_id',
+									__('Notify on thread replies')
+								);
+							?>
+						</div>
+					</div>
+					<div class="right">
+						<div class="checkbox">
+							<?php
+								echo $this->Form->checkbox('nsfw');
+								echo $this->Form->label('nsfw', __('entry_nsfw_title'));
+							?>
+						</div>
+						<div class="checkbox">
+							<?php
+								// ### flattr checkbox start
+								if (Configure::read(
+											'Saito.Settings.flattr_enabled'
+										) == true && $CurrentUser['flattr_uid'] == true
+								) :
+									echo $this->Form->checkbox('flattr');
+									echo $this->Form->label(
+										'flattr',
+										__('entry_flattr_this_posting')
+									);
+
+									// ### JS code for dynamicaly switching the checkbox accordingly to category
+									$code_insert = "
 									var elements = [" . implode(
-											",",
-											$category_flattr
-										) . "];
+												",",
+												$category_flattr
+											) . "];
 									if ( elements.indexOf(parseInt(data)) >= 0 ) {
 											$('#EntryFlattr').attr('checked', true);
 										} else {
 											$('#EntryFlattr').attr('checked', false);
 										}";
 
-								if ($CurrentUser['flattr_allow_posting'] == false) {
-									$code_insert .= "$('#EntryFlattr').attr('checked', false);";
-								}
+									if ($CurrentUser['flattr_allow_posting'] == false) {
+										$code_insert .= "$('#EntryFlattr').attr('checked', false);";
+									}
 
-								if ($this->request->is('ajax')) {
-									// if it an answer
-									$code = "$(document).ready(function (){
+									if ($this->request->is('ajax')) {
+										// if it an answer
+										$code = "$(document).ready(function (){
 										var data = " . $this->request->data['Entry']['category'] . ";
 										$code_insert
 									});";
-								} else {
-									// if it a new posting
-									$code = "$(document).ready(function () { $('#EntryCategory').change(function() {
+									} else {
+										// if it a new posting
+										$code = "$(document).ready(function () { $('#EntryCategory').change(function() {
 										var data = $(this).val();
 										$code_insert
 									})});";
-								}
-								echo $this->Html->scriptBlock($code);
-							endif;
-							// ### flattr checkbox end
-						?>
+									}
+									echo $this->Html->scriptBlock($code);
+								endif;
+								// ### flattr checkbox end
+							?>
+						</div>
 					</div>
 				</div>
-				<!-- postingform_right -->
-				<div class="postingform_main">
-					<?php
-						# @bogus
-						if (!$this->request->is(
-									'ajax'
-								) || (isset($lastAction) && ($lastAction === 'mix' || $lastAction === 'view' || $lastAction === 'add'))
-						) {
-							echo $this->Form->submit(
-								__('submit_button'),
-								[
-									'id'       => 'btn-submit',
-									'class'    => 'btn btn-submit',
-									'tabindex' => 4,
-									'onclick'  => "this.disabled=true; this.form.submit();"
-								]
-							);
-						} # !i$this->request->is('ajax')
-						else {
-							echo $this->Form->submit(
-								__('submit_button'),
-								[
-									'id'       => 'btn-submit',
-									'class'    => 'btn btn-submit js-inlined',
-									'tabindex' => 4
-								]
-							);
-						}
-					?>
-					&nbsp;
-					<?=
-						$this->Html->link(
-							__('preview'),
-							'#',
-							['class' => 'btn btn-preview', 'tabindex' => 5]
-						);
-					?>
-				</div>
-				<!-- postingform_main -->
 			</div>
-			<!-- container -->
 			<?php echo $this->Form->end(); ?>
 		</div>
 		<!-- content -->
