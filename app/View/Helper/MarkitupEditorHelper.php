@@ -54,7 +54,7 @@
               'name' => "<i class='icon-strikethrough'></i>", 'title' => __('Strike Through'),
               'openWith' => '[strike]', 'closeWith' => '[/strike]' ),
 					'Code' => array(
-              'name' => "<i class='icon-cogs'></i>", 'title' => __('Code'),
+              'name' => "<i class='icon-code'></i>", 'title' => __('Code'),
               'openWith' => '[code text]\n', 'closeWith' => '\n[/code]' ),
 					'Bulleted list' => array(
               'name' => "<i class='icon-list-ul'></i>", 'title' => __('Bullet List'),
