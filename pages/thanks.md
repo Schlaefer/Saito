@@ -35,7 +35,7 @@ Und ein Gruß an alle Spender!
 <i class="icon-resize-vertical"></i> Donor	| <i class='icon-resize-vertical'></i> Value 	| <i class='icon-resize-vertical'></i> Last Seen
  ----------------------- | ------ 	| -----
  [macfix.de]               | 1000 € 	| 2013
- [macnemo.de] (Panxatony)  | 75 €	 	| 2011
+ [macnemo.de] (Panxatony)  | 275 €	 	| 2013
  CocoaBärchi &amp; dakapo| 100 € 	| 2013
  Jake                    | 20 €    | 2013
  fwskxgrd                | 150 €	 	| 2012
@@ -47,7 +47,7 @@ redcurry                | 85 € 	 	| 2012
 
 <div>
   <small class="muted">
-  Someone's missing? Want your name linked? Please let us know! – Last updated 2013-06-01.
+  Someone's missing? Want your name linked? Please let us know! – Last updated 2013-06-06.
   </small>
 </div>
 
