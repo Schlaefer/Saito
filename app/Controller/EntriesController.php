@@ -13,6 +13,7 @@
 		);
 		public $components = [
 			'CacheTree',
+			'CacheSupport',
 			'Flattr',
 			'Search.Prg',
 			'Shouts'
@@ -103,8 +104,7 @@
 				$this->set('title_for_layout', __('page') . ' ' . $currentPage);
 			endif;
 			$this->Session->write('paginator.lastPage', $currentPage);
-
-			$this->set('showDisclaimer', true);
+			$this->showDisclaimer = true;
 
 			Stopwatch::stop('Entries->index()');
 		}
@@ -342,6 +342,7 @@
 					$this->request->data['Entry']['pid'] = $id;
 					// we assume that an answers to a nsfw posting isn't nsfw itself
 					unset($this->request->data['Entry']['nsfw']);
+					$this->set('citeSubject', $this->request->data['Entry']['subject']);
 					// subject is empty in answer-form
 					unset($this->request->data['Entry']['subject']);
 					$this->set('citeText', $this->request->data['Entry']['text']);
@@ -503,7 +504,7 @@
 
 		// Redirect
 		if ($success) {
-			$this->_emptyCache($id, $entry['Entry']['tid']);
+			$this->CacheSupport->clearTree($entry['Entry']['tid']);
 			if ($this->Entry->isRoot($entry)) {
 				$this->Session->setFlash(__('delete_tree_success'), 'flash/notice');
 				$this->redirect('/');
@@ -726,7 +727,7 @@
 				// success
 				$this->Entry->contain();
 				$targetEntry = $this->Entry->findById($targetId);
-				$this->_emptyCache($targetEntry['Entry']['id'], $targetEntry['Entry']['id']);
+				$this->CacheSupport->clearTree($targetEntry['Entry']['id']);
 				return $this->redirect('/entries/view/' . $id);
 			} else {
 				$this->Session->setFlash(__("Error"), 'flash/error');
@@ -762,7 +763,7 @@
 			$this->Entry->id = $id;
 			$this->request->data = $this->Entry->toggle($toggle);
 			$tid = $this->Entry->field('tid');
-			$this->_emptyCache($id, $tid);
+			$this->CacheSupport->clearTree($tid);
 			return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
 		}
 
@@ -785,7 +786,6 @@
 					$this->set('autoPageReload',
 							$this->CurrentUser['user_forum_refresh_time'] * 60);
 				}
-				$this->_setAppStats();
 			}
 
 			$this->_automaticalyMarkAsRead();
@@ -830,15 +830,8 @@
 			endif;
 		}
 
-	protected function _emptyCache($id, $tid) {
-    $this->CacheTree->delete($tid);
-		clearCache("element_{$id}_entry_thread_line_cached", 'views', '');
-		clearCache("element_{$id}_entry_view_content", 'views', '');
-		Cache::clearGroup('postings', 'postings');
-	}
-
 	protected function _afterNewEntry($newEntry) {
-			$this->_emptyCache($newEntry['Entry']['id'], $newEntry['Entry']['tid']);
+			$this->CacheSupport->clearTree($newEntry['Entry']['tid']);
 			// set notifications
 			if (isset($newEntry['Event'])) {
 				$notis = array(

@@ -47,17 +47,16 @@
 		public function testAdminEmptyCaches() {
 			$Tools = $this->generate('Tools',
 					array(
-							'models' => array(
-									'Ecach' => array(
-											'deleteAll'
+							'components' => array(
+									'CacheSupport' => array(
+											'clearAll'
 									),
 							)
 					)
 			);
 			$this->_loginUser(1);
-			$Tools->Ecach->expects($this->once())
-					->method('deleteAll')
-					->with(array('true = true'));
+			$Tools->CacheSupport->expects($this->once())
+					->method('clearAll');
 			$this->testAction('admin/tools/emptyCaches');
 		}
 

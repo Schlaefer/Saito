@@ -36,8 +36,9 @@
 		 */
 		protected function _sortTreesAfterTime($in, $level = 0) {
 			if ($level > 0) {
-				$in = $this->_quicksort($in);
+				uasort($in, [$this, '_sort']);
 			}
+
 			foreach ($in as $k => $v) {
 				if (isset($v['_children'])) {
 					$in[$k]['_children'] = $this->_sortTreesAfterTime($v['_children'], $level + 1);
@@ -46,27 +47,8 @@
 			return $in;
 		}
 
-		/**
-		 * bread and butter quicksort
-		 */
-		protected function _quicksort($in) {
-			if (count($in) < 2)
-				return $in;
-			$left = $right = array(
-					);
-
-			reset($in);
-			$pivot_key = key($in);
-			$pivot = array_shift($in);
-
-			foreach ($in as $k => $v) {
-				if ($v['Entry']['time'] < $pivot['Entry']['time'])
-					$left[$k] = $v;
-				else
-					$right[$k] = $v;
-			}
-			return array_merge($this->_quicksort($left),
-					array($pivot_key => $pivot), $this->_quicksort($right));
+		protected function _sort($a, $b) {
+			return ($a['Entry']['time'] > $b['Entry']['time']) ? 1 : -1;
 		}
 
 	}

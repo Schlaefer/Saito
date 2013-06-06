@@ -12,24 +12,19 @@ body {
   margin: 10px 20px; }
 
 /*******************************************************************************
- * Blueprint
+ * Susy
  ******************************************************************************/
 
-$blueprint-grid-columns:      24 !default;
-$blueprint-container-size: 950px !default;
-$blueprint-grid-margin:     10px !default;
-
-// Use this to calculate the width based on the total width.
-// Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
-$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
-
-@import "blueprint";
-
-form.bp { @include blueprint-form; }
+$total-columns  : 12;             // a 12-column grid
+$column-width   : 5em;            // each column is 4em wide
+$gutter-width   : 1em;            // 1em gutters between columns
+$grid-padding   : $gutter-width;  // grid-padding equal to gutters
 
 .bp_container {
+    @include container;
+
+    /*
 	@include container;
-	margin: inherit;
 	// backport from original blueprint framework:
 	// clears out all column floats from last container
 	// for using more than one
@@ -40,37 +35,32 @@ form.bp { @include blueprint-form; }
 		height: 0;
 		clear: both;
 		visibility: hidden; }
-	max-width: 100%;
+	*/
+    // margin: inherit;
+    // max-width: 100%;
 	}
 
 .bp-threeColumn {
-	@extend .bp_container;
-	// put it under bottomnav
-/*	height: 0px;*/
+    @extend .bp_container;
 
-  .left {
-    @include column(8); }
-  .center {
-    @include column(8); }
-  .right {
-    @include column(8, true); }
-	}
+    .left {
+        @include span-columns(4, 12);
+    }
+    .center {
+        @include span-columns(4, 12);
+    }
+    .right {
+        @include span-columns(4 omega, 12);
+    }
+}
 
-
-// @td
-.postingform_main {
-@include column(18); }
-
-.postingform_right {
-  @include column(4, true);
-
-	margin-bottom: 1em;
-
-	.checkbox {
-		white-space: nowrap;
-		}
-	}
-
+.l-postingform_main {
+    max-width: 60em;
+    margin: 0 auto;
+    .checkbox {
+        white-space: nowrap;
+    }
+}
 
   @mixin c_t_h_3_abs($height: 24px, $padding: 5px) {
 	height: $height;

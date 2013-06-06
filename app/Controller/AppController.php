@@ -81,6 +81,10 @@ class AppController extends Controller {
 	 */
   protected $_areAppStatsSet = false;
 
+	/**
+	 * @var bool show disclaimer in page footer
+	 */
+	public $showDisclaimer = false;
 
 //	var $persistModel = true;
 
@@ -119,10 +123,6 @@ class AppController extends Controller {
 
 		$this->_setupSlideTabs();
 
-		if ($this->request->controller === 'pages') {
-			$this->_showDisclaimer();
-		}
-
 		$this->_setConfigurationFromGetParams();
 		if ($this->modelClass) {
 			$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
@@ -140,6 +140,10 @@ class AppController extends Controller {
 		parent::beforeRender();
 
 		Stopwatch::start('App->beforeRender()');
+
+		if ($this->showDisclaimer) {
+			$this->_showDisclaimer();
+		}
 
     $this->set('lastAction', $this->localReferer('action'));
     $this->set('lastController', $this->localReferer('controller'));
@@ -177,39 +181,38 @@ class AppController extends Controller {
 			}
 		}
 
-	/**
-	 * sets title for pages
-	 *
-	 * set in i18n domain file 'page_titles.po' with 'controller/view' title
-	 *
-	 * use plural for for controller title: 'entries/index' (not 'entry/index')!
-	 *
-	 * @td helper?
-	 *
-	 */
-	protected function _setTitleForLayout() {
-		$forumTitle = Configure::read('Saito.Settings.forum_name');
-		if ( empty($forumTitle) ) {
-			return;
-		}
-
-		$pageTitle = null;
-		if ( isset($this->viewVars['title_for_layout']) ) {
-			$pageTitle = $this->viewVars['title_for_layout'];
-		} else {
-			$untranslated = $this->params['controller'] . '/' . $this->params['action'];
-			$translated = __d('page_titles', $untranslated);
-			if ( $translated != $untranslated ) {
-				$pageTitle = $translated;
+		/**
+		 * sets title for pages
+		 *
+		 * set in i18n domain file 'page_titles.po' with 'controller/view' title
+		 *
+		 * use plural for for controller title: 'entries/index' (not 'entry/index')!
+		 *
+		 * @td helper?
+		 *
+		 */
+		protected function _setTitleForLayout() {
+			$forumTitle = Configure::read('Saito.Settings.forum_name');
+			if (empty($forumTitle)) {
+				return;
 			}
-		}
 
-		if ( !empty($pageTitle) ) {
-			$forumTitle = $pageTitle . ' – ' . $forumTitle;
-		}
+			$pageTitle = null;
+			if (isset($this->viewVars['title_for_layout'])) {
+				$pageTitle = $this->viewVars['title_for_layout'];
+			} else {
+				$pageTitle = __d(
+					'page_titles',
+					$this->params['controller'] . '/' . $this->params['action']
+				);
+			}
 
-		$this->set('title_for_layout', $forumTitle);
-	}
+			if (!empty($pageTitle)) {
+				$forumTitle = $pageTitle . ' – ' . $forumTitle;
+			}
+
+			$this->set('title_for_layout', $forumTitle);
+		}
 
 		public function initBbcode() {
 			$this->_loadSmilies();
@@ -293,10 +296,6 @@ class AppController extends Controller {
 			Stopwatch::start('AppController->_setAppStats()');
 			$this->_areAppStatsSet = true;
 
-			// look who's online
-			if (!isset($this->Entry)) {
-				$this->loadModel('Entry');
-			}
 			$loggedin_users = $this->User->UserOnline->getLoggedIn();
 			$this->set('UsersOnline', $loggedin_users);
 
@@ -309,6 +308,10 @@ class AppController extends Controller {
 						'entries'		 => array('model'			 => 'Entry', 'conditions' => ''),
 						'threads'		 => array('model'			 => 'Entry', 'conditions' => array('pid' => 0)),
 				);
+
+				if (!isset($this->Entry)) {
+					$this->loadModel('Entry');
+				}
 
 				// @td foreach not longer feasable, refactor
 				foreach ($countable_items as $titel => $options) {

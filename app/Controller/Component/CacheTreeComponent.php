@@ -113,6 +113,11 @@
 			unset($this->_cachedEntries[$id]);
 		}
 
+		public function reset() {
+			$this->_isUpdated = true;
+			$this->_cachedEntries = [];
+		}
+
 		public function read($id = null) {
 			if ( !$this->_allowRead )
 				return false;

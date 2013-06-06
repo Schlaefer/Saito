@@ -9,7 +9,9 @@
 	 */
 	class ToolsController extends AppController {
 
-		public $uses = array('Ecach');
+		public $components = [
+			'CacheSupport'
+		];
 
 		public $helpers = array(
 			'JasmineJs.JasmineJs'
@@ -19,14 +21,7 @@
 		 * Emtpy out all caches
 		 */
 		public function admin_emptyCaches() {
-			$this->Ecach->deleteAll(array('true = true'));
-
-			Cache::clear(false);
-			Cache::clear(false, 'perf-cheat');
-			Cache::clearGroup('postings');
-			Cache::clearGroup('persistent');
-			Cache::clearGroup('models');
-			$this->_clearApc();
+			$this->CacheSupport->clearAll();
 			$this->Session->setFlash(__('Caches have been emptied.'), 'flash/notice');
 			return $this->redirect($this->referer());
 		}
@@ -65,21 +60,10 @@
 		 */
 		public function clearCache() {
 			if (in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
-				$this->_clearApc();
+				$this->CacheSupport->clearApc();
 				echo json_encode(array('APC Clear Cache' => true));
 			}
 			exit;
-		}
-
-		/**
-		 * Clears out the APC if available
-		 */
-		protected function _clearApc() {
-			if (function_exists('apc_store')) {
-				apc_clear_cache();
-				apc_clear_cache('user');
-				apc_clear_cache('opcode');
-			}
 		}
 
 		public function beforeFilter() {

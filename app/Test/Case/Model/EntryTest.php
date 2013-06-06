@@ -48,17 +48,17 @@
 
 			//* test that thread is unlocked
 			$result = $this->Entry->field('locked');
-			$this->assertTrue($result == FALSE);
+			$this->assertTrue($result == false);
 
 			//* lock thread
 			$this->Entry->toggle('locked');
 			$result = $this->Entry->field('locked');
-			$this->assertTrue($result == TRUE);
+			$this->assertTrue($result == true);
 
 			//* unlock thread again
 			$this->Entry->toggle('locked');
 			$result = $this->Entry->field('locked');
-			$this->assertTrue($result == FALSE);
+			$this->assertTrue($result == false);
 		}
 
 		public function testMergeThreadOntoItself() {
@@ -68,8 +68,8 @@
 		}
 
 		/**
-		 * 
-		 * 
+		 *
+		 *
 		 * Merge subposting 5 in thread 2 onto root-posting in thread 1
 		 */
 		public function testMergeSourceIsNoThreadRoot() {
@@ -80,7 +80,7 @@
 
 		/**
 		 * Test merge
-		 * 
+		 *
 		 * Merge thread 2 (root-id: 4) onto entry 2 in thread 1
 		 */
 		public function testThreadMerge() {
@@ -292,20 +292,17 @@
     }
 
 		public function testIsAnsweringForbidden() {
-			$result = $this->Entry->isAnsweringForbidden();
-			$expected = true;
-			$this->assertSame($result, $expected);
-			$entry = array('Entry' => array('locked'	 => 0));
-			$result = $this->Entry->isAnsweringForbidden($entry);
+			$entry    = array('Entry' => array('locked' => 0));
+			$result   = $this->Entry->isAnsweringForbidden($entry);
 			$expected = false;
 			$this->assertSame($result, $expected);
-			$entry = array('Entry' => array('locked'	 => '0'));
-			$result = $this->Entry->isAnsweringForbidden($entry);
+			$entry    = array('Entry' => array('locked' => '0'));
+			$result   = $this->Entry->isAnsweringForbidden($entry);
 			$expected = false;
 			$this->assertSame($result, $expected);
-			$entry = array('Entry' => array('locked'	 => false));
-			$result = $this->Entry->isAnsweringForbidden($entry);
-		$expected = false;
+			$entry    = array('Entry' => array('locked' => false));
+			$result   = $this->Entry->isAnsweringForbidden($entry);
+			$expected = false;
 			$this->assertSame($result, $expected);
 		}
 

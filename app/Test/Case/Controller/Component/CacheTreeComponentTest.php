@@ -202,6 +202,20 @@
 			$this->assertFalse($result);
 		}
 
+		public function testReset() {
+			// setup
+			$mockData = ['foo' => 'bar'];
+			$this->CacheTree->setCache($mockData);
+			$this->CacheTree->setAllowRead(true);
+			$result = $this->CacheTree->read();
+			$this->assertEqual($result, $mockData);
+
+			// test
+			$this->CacheTree->reset();
+			$result = $this->CacheTree->read();
+			$this->assertEqual($result, []);
+		}
+
 		/**
 		 * testDelete method
 		 *

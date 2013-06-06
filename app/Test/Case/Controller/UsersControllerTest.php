@@ -335,8 +335,11 @@
 			/*
 			 * if user (profile) doesn't exist
 			 */
-			$result = $this->testAction('/users/view/9999');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->testAction('/users/view/9999');
+			$this->assertEqual(
+				FULL_BASE_URL . $this->controller->request->webroot,
+				$this->headers['Location']
+			);
 
 		}
 

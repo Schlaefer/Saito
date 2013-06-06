@@ -253,6 +253,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini { *padding-top: 1px; *pad
 .collapse { position: relative; height: 0; overflow: hidden; -webkit-transition: height 0.35s ease; -moz-transition: height 0.35s ease; -o-transition: height 0.35s ease; transition: height 0.35s ease; }
 .collapse.in { height: auto; }
 
+/******************************************************************************* Susy  See: http://susy.oddbird.net/ *****************************************************************************/
 #markitup_upload { -webkit-overflow-scrolling: touch; }
 
 #upload_index form, #upload_index input[type=file] { width: auto; margin: 0; padding: 0; }
@@ -274,38 +275,28 @@ body { min-width: 950px; }
 
 #l-flash-container { /* make left/right same value as #content margin */ margin: 10px 20px; }
 
-/******************************************************************************* Blueprint *****************************************************************************/
-form.bp label { font-weight: bold; }
-form.bp fieldset { padding: 1.4em; margin: 0 0 1.5em 0; }
-form.bp legend { font-weight: bold; font-size: 1.2em; }
-form.bp input.text, form.bp input.title, form.bp input[type=email], form.bp input[type=text], form.bp input[type=password] { margin: 0.5em 0; background-color: white; padding: 5px; }
-form.bp input.title { font-size: 1.5em; }
-form.bp textarea, form.bp .markItUpPreviewFrame { margin: 0.5em 0; padding: 5px; }
-form.bp select { margin: 0.5em 0; }
-form.bp fieldset { border: 1px solid #cccccc; }
-form.bp input.text, form.bp input.title, form.bp input[type=email], form.bp input[type=text], form.bp input[type=password], form.bp textarea, form.bp .markItUpPreviewFrame { background-color: #fff; border: 1px solid #bbbbbb; }
-form.bp input.text:focus, form.bp input.title:focus, form.bp input[type=email]:focus, form.bp input[type=text]:focus, form.bp input[type=password]:focus, form.bp textarea:focus, form.bp .markItUpPreviewFrame:focus { border-color: #666666; }
-form.bp select { background-color: #fff; border-width: 1px; border-style: solid; }
-form.bp input.text, form.bp input.title, form.bp input[type=email], form.bp input[type=text], form.bp input[type=password] { width: 300px; }
-form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
+/******************************************************************************* Susy *****************************************************************************/
+.bp_container, .bp-threeColumn { *zoom: 1; max-width: 71em; _width: 71em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto;     /*
+	@include container;
+	// backport from original blueprint framework:
+	// clears out all column floats from last container
+	// for using more than one
+	overflow: visible;
+	&:after {
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden; }
+	*/ }
+.bp_container:after, .bp-threeColumn:after { content: ""; display: table; clear: both; }
 
-.bp_container, .bp-threeColumn { width: 950px; margin: 0 auto; overflow: hidden; *zoom: 1; margin: inherit; overflow: visible; max-width: 100%; }
-.bp_container:after, .bp-threeColumn:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.bp-threeColumn .left { width: 32.39437%; float: left; margin-right: 1.40845%; display: inline; }
+.bp-threeColumn .center { width: 32.39437%; float: left; margin-right: 1.40845%; display: inline; }
+.bp-threeColumn .right { width: 32.39437%; float: right; margin-right: 0; *margin-left: -1em; display: inline; }
 
-.bp-threeColumn { /*	height: 0px;*/ }
-.bp-threeColumn .left { display: inline; float: left; margin-right: 10px; width: 310px; }
-* html .bp-threeColumn .left { overflow-x: hidden; }
-.bp-threeColumn .center { display: inline; float: left; margin-right: 10px; width: 310px; }
-* html .bp-threeColumn .center { overflow-x: hidden; }
-.bp-threeColumn .right { display: inline; float: left; margin-right: 0; width: 310px; }
-* html .bp-threeColumn .right { overflow-x: hidden; }
-
-.postingform_main { display: inline; float: left; margin-right: 10px; width: 710px; }
-* html .postingform_main { overflow-x: hidden; }
-
-.postingform_right { display: inline; float: left; margin-right: 0; width: 150px; margin-bottom: 1em; }
-* html .postingform_right { overflow-x: hidden; }
-.postingform_right .checkbox { white-space: nowrap; }
+.l-postingform_main { max-width: 60em; margin: 0 auto; }
+.l-postingform_main .checkbox { white-space: nowrap; }
 
 .c_t_h_3_tbl { display: table; width: 100%; }
 .c_t_h_3_tbl > div { display: table-row; }
@@ -330,9 +321,9 @@ form.bp textarea, form.bp .markItUpPreviewFrame { width: 390px; height: 250px; }
 .sprite-nbs-explicit { padding-left: 27px; height: 13px; display: inline-block; vertical-align: middle; margin-bottom: 1px; }
 
 /******************************************************************************* border radien *****************************************************************************/
-.c_top-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu, .btn-strip-back, .popover-inner, .flash, .message, .box-header { border-top-left-radius: 0px; border-top-right-radius: 0px; }
+.c_top-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group.open .dropdown-menu, .btn-strip-back, .popover-inner, .flash, .message, .box-header { border-top-left-radius: 0px; border-top-right-radius: 0px; }
 
-.c_bottom-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group .btn:first-child, .btn-group.open .dropdown-menu, .btn-strip-back, .popover-inner, .flash, .message, .l-box-footer, .error-message { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
+.c_bottom-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group.open .dropdown-menu, .btn-strip-back, .popover-inner, .flash, .message, .l-box-footer, .error-message { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
 
 .c_left-radius, .search_textfield, .slidetab-tab, .slidetab-content { border-bottom-left-radius: 0px; border-top-left-radius: 0px; }
 

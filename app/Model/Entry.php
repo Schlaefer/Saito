@@ -137,7 +137,7 @@
 		 *
 		 * Entry.text determine if Entry is n/t
 		 *
-		 * @var type string
+		 * @var string
 		 */
 		public $threadLineFieldList = '
 			Entry.id,
@@ -182,12 +182,13 @@
 		public function getRecentEntries(array $options = array(), SaitoUser $User) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
-			$defaults = array(
-					'user_id'	 => null,
-					'limit'		 => 10,
-					'category' => $this->Category->getCategoriesForAccession($User->getMaxAccession()),
-			);
-			$options = array_merge($defaults, $options);
+			$options += [
+				'user_id' => null,
+				'limit' => 10,
+				'category' => $this->Category->getCategoriesForAccession(
+					$User->getMaxAccession()
+				),
+			];
 
 			$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
 			$cached_entry = Cache::read($cache_key, 'postings');
@@ -328,16 +329,16 @@
 		// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
 		if (!env('TRAVIS')) {
 			$this->contain();
-			$views = $this->saveField('views', $this->field('views') + $amount);
+			$this->saveField('views', $this->field('views') + $amount);
 		}
 	}
 
 		/**
 		 * tree of a single node and its subentries
-     *
+		 *
 		 * $options = array(
-		 *		'root' => true // performance improvements if it's a known thread-root
-		 *		'complete' => true // include all fields necessary to render the complete entries
+		 *    'root' => true // performance improvements if it's a known thread-root
+		 *    'complete' => true // include all fields necessary to render the complete entries
 		 * );
 		 *
 		 * @param int $id
@@ -345,176 +346,182 @@
 		 * @return array tree
 		 */
 		public function treeForNode($id, $options = array()) {
-			$defaults = array(
-					'root' => false,
-					'complete' => false,
-			);
-			extract(array_merge($defaults, $options));
+			$options += [
+				'root'     => false,
+				'complete' => false
+			];
 
-			if($root) {
+			if ($options['root']) {
 				$tid = $id;
 			} else {
 				$tid = $this->getThreadId($id);
 			}
 
 			$fields = null;
-			if ($complete) {
-					$fields = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+			if ($options['complete']) {
+				$fields = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 			}
 
-			$tree = $this->treesForThreads(array(array('id' => $tid)), null, $fields);
+			$tree = $this->treesForThreads([['id' => $tid]], null, $fields);
 
 			if ((int)$tid !== (int)$id) {
 				$tree = $this->treeGetSubtree($tree, $id);
 			}
 
-			if ($complete && $tree) {
+			if ($options['complete'] && $tree) {
 				$this->_addAdditionalFields($tree);
 			}
 
 			return $tree;
 		}
 
-	/**
-	 * trees for multiple tids
-	 */
-	public function treesForThreads($search_array, $order = null, $fieldlist = null) {
-		if (empty($search_array)) {
-			return array();
+		/**
+		 * trees for multiple tids
+		 */
+		public function treesForThreads($search_array, $order = null, $fieldlist = null) {
+			if (empty($search_array)) {
+				return [];
+			}
+
+			Stopwatch::start('Model->Entries->treeForNodes() DB');
+
+			if (empty($order)) {
+				$order = 'last_answer ASC';
+			}
+
+			$where = [];
+			foreach ($search_array as $search_item) {
+				$where[] = $search_item['id'];
+			}
+
+			if ($fieldlist === null) {
+				$fieldlist = $this->threadLineFieldList;
+			}
+
+			$threads = $this->_getThreadEntries(
+				$where,
+				[
+					'order' => $order,
+					'fields' => $fieldlist
+				]
+			);
+			Stopwatch::stop('Model->Entries->treeForNodes() DB');
+
+			$out = false;
+			if ($threads) {
+				Stopwatch::start('Model->Entries->treeForNodes() CPU');
+				$out = $this->treeBuild($threads);
+				Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+			}
+
+			return $out;
 		}
 
-		Stopwatch::start('Model->Entries->treeForNodes() DB');
-
-		if (empty($order)) {
-			$order = 'last_answer ASC';
-		}
-
-		$where = array();
-		foreach($search_array as $search_item) {
-			$where[] = $search_item['id'];
-		}
-
-		if ($fieldlist === null) {
-      $fieldlist = $this->threadLineFieldList;
-		}
-
-		$threads = $this->_getThreadEntries($where, array(
-					'order'	 => $order,
-					'fields' => $fieldlist,
-					));
-		Stopwatch::stop('Model->Entries->treeForNodes() DB');
-
-		$out = false;
-		if ($threads) {
-			Stopwatch::start('Model->Entries->treeForNodes() CPU');
-			$out = $this->treeBuild($threads);
-			Stopwatch::stop('Model->Entries->treeForNodes() CPU');
-		}
-
-		return $out;
-	}
-
-	/**
+		/**
 		 *
 		 * @param mixed thread-ids, one int or many array
 		 * @param array optional $params
 		 *
 		 * <pre>
-		 * 	array(
-		 * 			'fields'		=> array('Entry.id'),
-		 * 			'order'			=> 'time ASC',
+		 *  array(
+		 *      'fields'    => array('Entry.id'),
+		 *      'order'      => 'time ASC',
 		 *  )
 		 * </pre>
 		 */
-		protected function _getThreadEntries($tid, array $params = array()) {
-			$default = array(
-					'order'		 => 'last_answer ASC',
-					'fields'	 => $fieldlist = $this->threadLineFieldList,
+		protected function _getThreadEntries($tid, array $params = []) {
+			$params += [
+				'fields' => $this->threadLineFieldList,
+				'order'  => 'last_answer ASC'
+			];
+			$threads = $this->find(
+				'all',
+				[
+					'conditions' => ['tid' => $tid],
+					'contain'    => ['User', 'Category'],
+					'fields'     => $params['fields'],
+					'order'      => $params['order']
+				]
 			);
-			$params		 = array_merge($default, $params);
-			$threads	 = $this->find('all',
-					array(
-					'conditions' => array(
-							'tid'			 => $tid,
-					),
-					'contain'	 => array('User', 'Category'),
-					'fields' => $params['fields'],
-					'order'	 => $params['order'],
-					)
-			);
+
 			return $threads;
 		}
 
-	public function toggle($key) {
-		$result = parent::toggle($key);
+		public function toggle($key) {
+			$result = parent::toggle($key);
 
-		if ($key === 'locked') {
-			$this->_threadLock($result);
+			if ($key === 'locked') {
+				$this->_threadLock($result);
+			}
+
+			return $result;
 		}
 
-		return $result;
-	}
-
-	public function beforeFind($queryData) {
-	 parent::beforeFind($queryData);
-	 /*
-		* workarround for possible cakephp join error for associated tables
-	  * and virtual fields
-	  *
-	  * virtualField user_online trouble
-	  *
-	  * checkout: maybe association alias name collision
-	  *
-	  * checkout in cakephp mailing list/bug tracker
-	  */
-	 $this->User->virtualFields = null;
-	}
-
-	public function beforeValidate($options = array()) {
-	  parent::beforeValidate($options);
-
-	 	$this->validate['subject']['maxLength']['rule'][1] = Configure::read('Saito.Settings.subject_maxlength');
-
-	 	//* in n/t posting delete unnecessary body text
-	 	if( isset($this->data['Entry']['text']) ) {
-			$this->data['Entry']['text'] = rtrim($this->data['Entry']['text']);
-			}
-	}
-
-	/**
-	 * Deletes entry and all it's subentries and associated data
-	 *
-	 * @param type $id
-	 */
-	public function deleteNode($id = null) {
-		if (empty($id)) {
-			$id = $this->id;
+		public function beforeFind($queryData) {
+			parent::beforeFind($queryData);
+			/*
+				* workarround for possible cakephp join error for associated tables
+				* and virtual fields
+				*
+				* virtualField user_online trouble
+				*
+				* checkout: maybe association alias name collision
+				*
+				* checkout in cakephp mailing list/bug tracker
+				*/
+			$this->User->virtualFields = null;
 		}
 
-		$this->contain();
-		$entry = $this->findById($id);
+		public function beforeValidate($options = array()) {
+			parent::beforeValidate($options);
 
-		if (!$entry) {
-			throw new NotFoundException;
+			$this->validate['subject']['maxLength']['rule'][1] = Configure::read(
+				'Saito.Settings.subject_maxlength'
+			);
+
+			//* in n/t posting delete unnecessary body text
+			if (isset($this->data['Entry']['text'])) {
+				$this->data['Entry']['text'] = rtrim($this->data['Entry']['text']);
+			}
 		}
 
-		$ids_to_delete = $this->getIdsForNode($id);
-    $success = $this->deleteAll(
-				array('Entry.id' => $ids_to_delete ), true, true);
-
-    if ($success):
-			if ($this->isRoot($entry)) {
-				$this->Category->id = $entry['Entry']['category'];
-				$this->Category->updateThreadCounter();
-				$this->Esevent->deleteSubject($id, 'thread');
+		/**
+		 * Deletes entry and all it's subentries and associated data
+		 *
+		 * @param type $id
+		 */
+		public function deleteNode($id = null) {
+			if (empty($id)) {
+				$id = $this->id;
 			}
-			foreach($ids_to_delete as $entry_id) {
-				$this->Esevent->deleteSubject($entry_id, 'entry');
-			}
-    endif;
 
-		return $success;
-	}
+			$this->contain();
+			$entry = $this->findById($id);
+
+			if (empty($entry)) {
+				throw new Exception;
+			}
+
+			$ids_to_delete = $this->getIdsForNode($id);
+			$success       = $this->deleteAll(
+				['Entry.id' => $ids_to_delete],
+				true,
+				true
+			);
+
+			if ($success):
+				if ($this->isRoot($entry)) {
+					$this->Category->id = $entry['Entry']['category'];
+					$this->Category->updateThreadCounter();
+					$this->Esevent->deleteSubject($id, 'thread');
+				}
+				foreach ($ids_to_delete as $entry_id) {
+					$this->Esevent->deleteSubject($entry_id, 'entry');
+				}
+			endif;
+
+			return $success;
+		}
 
 		/**
 		 * Get the ID of all subentries of and including entry $id
@@ -524,130 +531,136 @@
 		 */
 		public function getIdsForNode($id) {
 			$subthread = $this->treeForNode($id);
-			$func = function (&$tree, &$entry) {
-						$tree['ids'][] = (int)$entry['Entry']['id'];
-					};
+			$func      = function (&$tree, &$entry) {
+				$tree['ids'][] = (int)$entry['Entry']['id'];
+			};
 			Entry::mapTreeElements($subthread, $func);
 			sort($subthread['ids']);
+
 			return $subthread['ids'];
 		}
 
-	/**
-   * Anonymizes the entries for a user
-   *
-   * @param string $user_id
-   * @return bool success
-   */
-  public function anonymizeEntriesFromUser($user_id) {
+		/**
+		 * Anonymizes the entries for a user
+		 *
+		 * @param string $user_id
+		 * @return bool success
+		 */
+		public function anonymizeEntriesFromUser($user_id) {
 
-    // remove username from all entries and reassign to anonyme user
-    return $this->updateAll(
-        array(
-            'Entry.name'      => "NULL",
-            'Entry.edited_by' => "NULL",
-            'Entry.ip'        => "NULL",
-            'Entry.user_id'   => 0,
-            ),
-        array('Entry.user_id' => $user_id)
-        );
-  }
-
-	/**
-	 * Maps all elements in $tree to function $func
-	 *
-	 * @param type $leafs Current subtree.
-	 * @param function $func Function to execute.
-	 * @param misc $context Arbitrary data for the function. Useful for providing $this context.
-	 * @param array $tree The whole tree.
-	 */
-	public static function mapTreeElements(&$leafs, $func, $context = null, &$tree = null) {
-		if ($tree === null) {
-			$tree = &$leafs;
+			// remove username from all entries and reassign to anonyme user
+			return $this->updateAll(
+				[
+					'Entry.name'      => "NULL",
+					'Entry.edited_by' => "NULL",
+					'Entry.ip'        => "NULL",
+					'Entry.user_id'   => 0,
+				],
+				['Entry.user_id' => $user_id]
+			);
 		}
-		foreach ($leafs as &$leaf):
-			$result = $func($tree, $leaf, $context);
-			if ($result === 'break')
-				return 'break';
-			if(isset($leaf['_children'])):
-				$result =	self::mapTreeElements($leaf['_children'], $func, $context, $tree);
+
+		/**
+		 * Maps all elements in $tree to function $func
+		 *
+		 * @param type $leafs Current subtree.
+		 * @param function $func Function to execute.
+		 * @param misc $context Arbitrary data for the function. Useful for providing $this context.
+		 * @param array $tree The whole tree.
+		 */
+		public static function mapTreeElements(&$leafs, $func, $context = null, &$tree = null) {
+			if ($tree === null) {
+				$tree = & $leafs;
+			}
+			foreach ($leafs as &$leaf):
+				$result = $func($tree, $leaf, $context);
 				if ($result === 'break')
 					return 'break';
-			endif;
-		endforeach;
-	}
-
-	/**
-	 * Merge thread on to entry $targetId
-	 *
-	 * @param int $targetId id of the entry the thread should be appended to
-	 * @return bool true if merge was successfull false otherwise
-	 */
-	public function threadMerge($targetId) {
-		$threadIdSource = $this->id;
-
-		$this->contain();
-		$sourceEntry = $this->findById($threadIdSource);
-
-		// check that source is thread and not an entry
-		if ($sourceEntry['Entry']['pid'] != 0) {
-			return false;
+				if (isset($leaf['_children'])):
+					$result = self::mapTreeElements($leaf['_children'], $func, $context, $tree);
+					if ($result === 'break')
+						return 'break';
+				endif;
+			endforeach;
 		}
 
-		$this->contain();
-		$targetEntry = $this->findById($targetId);
+		/**
+		 * Merge thread on to entry $targetId
+		 *
+		 * @param int $targetId id of the entry the thread should be appended to
+		 * @return bool true if merge was successfull false otherwise
+		 */
+		public function threadMerge($targetId) {
+			$threadIdSource = $this->id;
 
-		// check that target exists
-		if (!$targetEntry) {
-			return false;
-		}
+			$this->contain();
+			$sourceEntry = $this->findById($threadIdSource);
 
-		// check that a thread is not merged onto itself
-		if ($targetEntry['Entry']['tid'] === $sourceEntry['Entry']['tid']) {
-			return false;
-		}
-
-		// set target entry as new parent entry
-		$this->set('pid', $targetEntry['Entry']['id']);
-		if ( $this->save() ) {
-			// associate all entries in source thread to target thread
-			$this->updateAll(
-					array(
-							'tid' => $targetEntry['Entry']['tid'],
-							),
-					array('tid'	=> $this->id)
-			);
-
-			// appended source entries get category of target thread
-			$this->_threadChangeCategory($targetEntry['Entry']['tid'], $targetEntry['Entry']['category']);
-
-			// update target thread last answer if source is newer
-			$sourceLastAnswer = $this->field('last_answer');
-			if (strtotime($sourceLastAnswer) > strtotime($targetEntry['Entry']['last_answer'])) {
-				$this->id = $targetEntry['Entry']['tid'];
-				$this->set('last_answer', $sourceLastAnswer);
-				$this->save();
+			// check that source is thread and not an entry
+			if ($sourceEntry['Entry']['pid'] != 0) {
+				return false;
 			}
 
-			$this->Esevent->transferSubjectForEventType($threadIdSource,
-					$targetEntry['Entry']['tid'], 'thread');
+			$this->contain();
+			$targetEntry = $this->findById($targetId);
 
-			return true;
+			// check that target exists
+			if (!$targetEntry) {
+				return false;
+			}
+
+			// check that a thread is not merged onto itself
+			if ($targetEntry['Entry']['tid'] === $sourceEntry['Entry']['tid']) {
+				return false;
+			}
+
+			// set target entry as new parent entry
+			$this->set('pid', $targetEntry['Entry']['id']);
+			if ($this->save()) {
+				// associate all entries in source thread to target thread
+				$this->updateAll(
+					['tid' => $targetEntry['Entry']['tid']],
+					['tid' => $this->id]
+				);
+
+				// appended source entries get category of target thread
+				$this->_threadChangeCategory(
+					$targetEntry['Entry']['tid'],
+					$targetEntry['Entry']['category']
+				);
+
+				// update target thread last answer if source is newer
+				$sourceLastAnswer = $this->field('last_answer');
+				if (strtotime($sourceLastAnswer) > strtotime($targetEntry['Entry']['last_answer'])) {
+					$this->id = $targetEntry['Entry']['tid'];
+					$this->set('last_answer', $sourceLastAnswer);
+					$this->save();
+				}
+
+				$this->Esevent->transferSubjectForEventType(
+					$threadIdSource,
+					$targetEntry['Entry']['tid'],
+					'thread'
+				);
+
+				return true;
+			}
+
+			return false;
 		}
 
-		return false;
-	}
-
-	protected function _addAdditionalFields(&$entries) {
+		protected function _addAdditionalFields(&$entries) {
 			/**
 			 * Function for checking if entry is bookmarked by current user
 			 *
 			 * @var function
 			 */
-			$ldGetBookmarkForEntryAndUser = function(&$tree, &$element, $_this) {
-						$element['isBookmarked'] = $_this->Bookmark->isBookmarked(
-								$element['Entry']['id'], $_this->_CurrentUser->getId());
-					};
-
+			$ldGetBookmarkForEntryAndUser = function (&$tree, &$element, $_this) {
+				$element['isBookmarked'] = $_this->Bookmark->isBookmarked(
+					$element['Entry']['id'],
+					$_this->_CurrentUser->getId()
+				);
+			};
 			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
 
 			/**
@@ -655,15 +668,14 @@
 			 *
 			 * @var function
 			 */
-			$ldGetRightsForEntryAndUser = function(&$tree, &$element, $_this) {
-						$rights = array(
+			$ldGetRightsForEntryAndUser = function (&$tree, &$element, $_this) {
+				$rights = [
 					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser),
 					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->mockUserType('user')),
-								'isAnsweringForbidden' => $_this->isAnsweringForbidden($element),
-						);
-						$element['rights'] = $rights;
-					};
-
+					'isAnsweringForbidden' => $_this->isAnsweringForbidden($element)
+				];
+				$element['rights'] = $rights;
+			};
 			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
 		}
 
@@ -752,7 +764,11 @@
 		}
 
 		protected function _isLocked($entry) {
-				return $entry['Entry']['locked'] != false;
+			if (!isset($entry['Entry']['locked'])) {
+				throw new InvalidArgumentException;
+			}
+
+			return $entry['Entry']['locked'] != false;
 		}
 
 		public function getUnsanitized($id) {
@@ -810,11 +826,8 @@
 	 * @param array $entry
 	 * @return boolean
 	 */
-	public function isAnsweringForbidden($entry = null) {
+	public function isAnsweringForbidden($entry) {
 		$isAnsweringForbidden = true;
-
-		if (!isset($entry['Entry']['locked'])) return true;
-
 		if ($this->_isLocked($entry)) {
 			$isAnsweringForbidden = 'locked';
 		} else {
