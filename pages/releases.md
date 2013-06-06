@@ -25,6 +25,10 @@ layout: default
 [gh144]: https://github.com/Schlaefer/Saito/issues/144
 [gh143]: https://github.com/Schlaefer/Saito/issues/143
 
+### Migration notes ###
+
+Theme is recompiled.
+
 ## 2013-05.04 ##
 
 ### What's new ###
