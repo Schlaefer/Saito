@@ -82,10 +82,11 @@
 							'maxlength' => Configure::read(
 								'Saito.Settings.subject_maxlength'
 							),
-							'label'     => false,
-							'tabindex'  => 2,
-							'error'     => ['notEmpty' => __('error_subject_empty')],
-							'div'       => ['class' => 'requiered'],
+							'label'       => false,
+							'tabindex'    => 2,
+							'error'       => ['notEmpty' => __('error_subject_empty')],
+							'div'         => ['class' => 'requiered'],
+							'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject')
 						]
 					);
 				?>

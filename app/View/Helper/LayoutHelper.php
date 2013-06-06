@@ -8,7 +8,7 @@
 			'Html'
 		];
 
-		public $jQueryVersion = "2.0.1";
+		public $jQueryVersion = "2.0.2";
 
 		public function beforeLayout($layoutFile) {
 			$stylesheets =

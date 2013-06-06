@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-30 12:55+0100\n"
-"PO-Revision-Date: 2013-05-30 12:55+0100\n"
+"PO-Revision-Date: 2013-06-06 19:45+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -124,7 +124,6 @@ msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #: View/Bookmarks/index.ctp:24 View/Categories/view.ctp:64
-#, fuzzy
 msgid "Subject"
 msgstr "Betreff"
 
