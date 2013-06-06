@@ -14,9 +14,11 @@ layout: default
 - [new] performance improvements esp. rendering flat (and long) thread trees
 - [new] new bbcode icon for source code
 - [new] new layout for posting entries
+- [new] when answering show parent entry's subject as placeholder in empty subject
 - [fix] #144 [Deleting a user doesn't empty entry cache][gh144]
 - [fix] #143 [users/view/ should have more descriptive title tag][gh143]
 - [task] replaced blueprint with susy CSS framework
+- [task] updated jQuery to 2.0.2
 - [task] updated fontawesome to 3.1
 - [task] code refactoring
 
@@ -30,7 +32,6 @@ layout: default
 - [new] link to user entry search at bottom of recent changes in /users/view
 - [new] minor performance improvements using hashlinks
 - [fix] #NumberChar tags are hashlinked
-- [task] update jQuery to 2.0.1
 - minor code refactoring 
 
 ## 2013-05.03 ##
