@@ -8,7 +8,6 @@
 			'CacheTree'
 		];
 
-
 		public function initialize(Controller $Controller) {
 			$this->CacheTree->initialize($Controller);
 		}
@@ -22,26 +21,35 @@
 		}
 
 		public function clearAll() {
-			$this->clearTrees();
+			$this->clearSaito();
 			$this->clearApc();
 			$this->clearCake();
 		}
 
+		public function clearSaito() {
+			Cache::clear(false, 'default');
+			Cache::clear(false, 'short');
+			$this->clearTrees();
+		}
+
 		public function clearCake() {
-			Cache::clear(false);
-			Cache::clear(false, 'perf-cheat');
-			Cache::clearGroup('postings');
 			Cache::clearGroup('persistent');
 			Cache::clearGroup('models');
+			Cache::clearGroup('views');
 		}
 
 		public function clearTree($id) {
-			Cache::clearGroup('postings');
+			$this->_clearEntries();
 			$this->CacheTree->delete($id);
 		}
 
 		public function clearTrees() {
+			$this->_clearEntries();
 			$this->CacheTree->reset();
+		}
+
+		protected function _clearEntries() {
+			Cache::clear(false, 'entries');
 		}
 
 		/**

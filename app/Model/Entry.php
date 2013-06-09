@@ -191,7 +191,7 @@
 			];
 
 			$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
-			$cached_entry = Cache::read($cache_key, 'postings');
+			$cached_entry = Cache::read($cache_key, 'entries');
 			if ($cached_entry) {
 				Stopwatch::stop('Model->User->getRecentEntries()');
 				return $cached_entry;
@@ -215,7 +215,7 @@
 					)
 			);
 
-			Cache::write($cache_key, $result, 'postings');
+			Cache::write($cache_key, $result, 'entries');
 
 			Stopwatch::stop('Model->User->getRecentEntries()');
 			return $result;

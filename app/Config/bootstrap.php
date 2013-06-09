@@ -98,33 +98,40 @@
  */
 
 if (!isset($engine)) {
-$engine = 'File';
-$prefix = 'saito_';
+	$engine = 'File';
+	$prefix = 'saito_';
 }
 
-Cache::config('default', array('engine' => $engine));
-
+Cache::config(
+	'default',
+	['engine' => $engine]
+);
 
 /**
  * Long term cache for performance cheating
  */
-Cache::config('postings',
-		array(
-		'engine'	 => $engine,
-		'groups'	 => array('postings'),
-		'prefix'	 => $prefix . 'postings_',
-		'duration' => 3600,
-));
+Cache::config(
+	'entries',
+	[
+		'engine'   => $engine,
+		'prefix'	 => $prefix,
+		'groups'	 => ['entries'],
+		'duration' => 3600
+	]
+);
 
 /**
  * Short term cache for performance cheating
  */
-Cache::config('perf-cheat',
-		array(
-		'engine'	 => $engine,
-		'prefix'	 => $prefix . 'saito_perf-cheat_',
-		'duration' => 180,
-));
+Cache::config(
+	'short',
+	[
+		'engine'   => $engine,
+		'prefix'	 => $prefix,
+		'groups'	 => ['short'],
+		'duration' => 180
+	]
+);
 
 /**
  * The settings below can be used to set additional paths to models, views and controllers.

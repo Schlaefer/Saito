@@ -300,7 +300,7 @@ class AppController extends Controller {
 			$this->set('UsersOnline', $loggedin_users);
 
 			/* @var $header_counter array or false */
-			$header_counter = Cache::read('header_counter', 'perf-cheat');
+			$header_counter = Cache::read('header_counter', 'short');
 			if (!$header_counter) {
 				$countable_items = array(
 						'user_online' => array('model'			 => 'UserOnline', 'conditions' => ''),
@@ -326,7 +326,7 @@ class AppController extends Controller {
 								array('contain' => false, 'conditions' => $options['conditions']));
 					}
 				}
-				Cache::write('header_counter', $header_counter, 'perf-cheat');
+				Cache::write('header_counter', $header_counter, 'short');
 			}
 			$header_counter['user_registered'] = count($loggedin_users);
 			$anon_user												 = $header_counter['user_online'] - $header_counter['user_registered'];
