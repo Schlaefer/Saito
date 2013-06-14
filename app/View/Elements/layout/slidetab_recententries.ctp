@@ -6,22 +6,25 @@
 <?php $this->start('slidetab-content'); ?>
 	<ul class="slidetab_tree">
 		<li>
-			<?php
-			echo __('Recent entries');
-			?>
+			<?= __('Recent entries') ?>
 		</li>
-		<?php if ( isset($recentEntries) && !empty($recentEntries) ) : ?>
+		<?php if (!empty($recentEntries)) : ?>
 			<li>
 				<ul>
-					<?php foreach ( $recentEntries as $entry ) : ?>
+					<?php foreach ($recentEntries as $entry) : ?>
 						<li>
 							<i class="icon-thread"></i>
-							<?php $entry['Entry']['subject'] = '' . $entry['Entry']['subject']; ?>
-							<?php echo $this->EntryH->getFastLink($entry); ?><br/>
+							<?= $this->EntryH->getFastLink($entry); ?>
+							<br/>
 							<span class='c_info_text'>
-								<?php echo $entry['User']['username']; ?>,
-								<?php echo $this->Time->timeAgoInWords($entry['Entry']['time'],
-										array('accuracy' => array('hour' => 'hour'))); ?>
+								<?= $entry['User']['username']; ?>,
+								<?=
+									$this->Time->timeAgoInWords(
+										$entry['Entry']['time'],
+										[
+											'accuracy' => ['hour' => 'hour']
+										]
+									); ?>
 							</span>
 						</li>
 					<?php endforeach; ?>

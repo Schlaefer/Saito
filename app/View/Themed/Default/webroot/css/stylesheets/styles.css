@@ -476,7 +476,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 .slidetabUserlist-counter-inner { margin: 0 auto; text-shadow: none; text-align: center; color: white; right: 0px; bottom: 0px; line-height: 12px; font-size: 8px; font-weight: bold; }
 
 .slidetab-recentposts .slidetab_tree > li, .slidetab-recententries .slidetab_tree > li { margin-bottom: 0.5em !important; }
-.slidetab-recentposts .slidetab_tree > li li, .slidetab-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 26px !important; text-indent: -1.75em; font-weight: normal; }
+.slidetab-recentposts .slidetab_tree > li li, .slidetab-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 14px !important; text-indent: -7px; font-weight: normal; }
 .slidetab-recentposts .slidetab_tree > li li [class^="icon-"], .slidetab-recentposts .slidetab_tree li [class*=" icon-"], .slidetab-recententries .slidetab_tree > li li [class^="icon-"], .slidetab-recententries .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
 
 #shoutbox textarea, #shoutbox .markItUpPreviewFrame { font-size: 12px; line-height: 16px; margin: 0 0 1em 0; padding: 2px 5px; width: 180px; resize: none; }
