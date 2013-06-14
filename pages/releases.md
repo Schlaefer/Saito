@@ -7,6 +7,22 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+
+## 2013-06.02 ##
+
+### What's new ###
+
+- [fix] #145 [recent entries/postings slidetabs don't update immediately if APC is used for caching][gh145]
+- [fix] #146 [alignment in recent entries/postings is off
+Edit][gh146]
+
+[gh146]: https://github.com/Schlaefer/Saito/issues/146
+[gh145]: https://github.com/Schlaefer/Saito/issues/145
+
+### Migration notes ###
+
+Theme is recompiled.
+
 ## 2013-06.01 ##
 
 ### What's new ###
