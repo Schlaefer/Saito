@@ -100,9 +100,13 @@
 
 			$currentPage = 1;
 			if (isset($this->request->named['page']) && $this->request->named['page'] != 1):
-				$currentPage = $this->request->named['page'];
+				$currentPage = (int)$this->request->named['page'];
 				$this->set('title_for_layout', __('page') . ' ' . $currentPage);
 			endif;
+			if ($currentPage === 1 && $this->CurrentUser->isLoggedIn()) {
+				$this->set('markAsRead', true);
+			}
+			// @bogus
 			$this->Session->write('paginator.lastPage', $currentPage);
 			$this->showDisclaimer = true;
 
@@ -166,14 +170,6 @@
 		public function update() {
 			$this->autoRender = false;
 			$this->CurrentUser->LastRefresh->forceSet();
-			$this->redirect('/entries/index');
-		}
-
-		/**
-		 * load front page suppressing mark-as-read
-		 */
-		public function noupdate() {
-			$this->Session->write('User_last_refresh_disabled', true);
 			$this->redirect('/entries/index');
 		}
 
@@ -779,6 +775,8 @@
 			parent::beforeFilter();
 			Stopwatch::start('Entries->beforeFilter()');
 
+			$this->_automaticalyMarkAsRead();
+
 			$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 			if ($this->request->action === 'index') {
@@ -788,46 +786,45 @@
 				}
 			}
 
-			$this->_automaticalyMarkAsRead();
-
 			Stopwatch::stop('Entries->beforeFilter()');
 		}
 
 		protected function _automaticalyMarkAsRead() {
-			// ignore browser prefetch
-			if ($this->request->isPreview()) {
+			if (!$this->CurrentUser->isLoggedIn() ||
+					!$this->CurrentUser['user_automaticaly_mark_as_read']
+			) {
 				return;
 			}
 
-			if ($this->CurrentUser->isLoggedIn() && $this->CurrentUser['user_automaticaly_mark_as_read']):
-				if (
-						($this->request->params['action'] === 'index' && $this->Session->read('paginator.lastPage') == 1) // deprecated
-				// OR (isset($this->request->params['named']['markAsRead']) || isset($this->request->params['named']['setAsRead'])) // current
-				):
-					// initiate sessions last_refresh_tmp for new sessions
-					if (!$this->Session->read('User.last_refresh_tmp')) {
-						$this->Session->write('User.last_refresh_tmp', time());
-					}
-					if (
-							($this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index') // deprecated
-					// OR (isset($this->request->params['named']['setAsRead'])) // current
-					):
-						// a second session A don't accidentaly mark something as read that isn't read on session B
-						if ($this->Session->read('User.last_refresh_tmp')
-								&& $this->Session->read('User.last_refresh_tmp') > strtotime($this->CurrentUser['last_refresh'])
-						) {
-							if ($this->Session->read('User_last_refresh_disabled')) {
-								$this->Session->write('User_last_refresh_disabled', false);
-							} else {
-								$this->CurrentUser->LastRefresh->set();
-							}
-						}
-						$this->Session->write('User.last_refresh_tmp', time());
-					else:
-						$this->CurrentUser->LastRefresh->setMarker();
-					endif;
-				endif;
-			endif;
+			if ($this->request->action === "index" &&
+					!$this->Session->read('User.last_refresh_tmp')
+			) {
+				// initiate sessions last_refresh_tmp for new sessions
+				$this->Session->write('User.last_refresh_tmp', time());
+			}
+
+			/* // old
+			$isMarkAsReadRequest = $this->localReferer('controller') === 'entries' &&
+					$this->localReferer('action') === 'index' &&
+					$this->request->action === "index";
+			*/
+
+			$isMarkAsReadRequest = isset($this->request->query['mar']) &&
+					$this->request->query['mar'] === '' ;
+
+			if ($isMarkAsReadRequest &&
+					$this->request->isPreview() === false
+			) {
+				// a second session A shall not accidentally mark something as read that isn't read on session B
+				if ($this->Session->read('User.last_refresh_tmp') > strtotime( $this->CurrentUser['last_refresh'])) {
+					$this->CurrentUser->LastRefresh->set();
+				}
+				$this->Session->write('User.last_refresh_tmp', time());
+				$this->redirect('/');
+				return;
+			} elseif ($this->request->action === "index") {
+				$this->CurrentUser->LastRefresh->setMarker();
+			}
 		}
 
 	protected function _afterNewEntry($newEntry) {

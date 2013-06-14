@@ -17,14 +17,19 @@
 						<?php echo Stopwatch::stop('header_search.ctp');?>
 				</div> <!-- .right -->
         <div class="l-top-left hero-text">
-          <?php
-            echo $this->Html->link(
-                $this->Html->image(
-                    'forum_logo.png', array( 'alt' => 'Logo', 'height' => 70 )
-                ),
-                '/',
-                array( 'id' => 'btn_header_logo', 'escape' => false ));
-          ?>
+						<?php
+							echo $this->Html->link(
+								$this->Html->image(
+									'forum_logo.png',
+									['alt' => 'Logo', 'height' => 70]
+								),
+								'/' . (isset($markAsRead) ? '?mar' : ''),
+								$options = [
+									'id'      => 'btn_header_logo',
+									'escape'  => false,
+								]
+							);
+						?>
           <div id="claim"></div>
 				</div> <!-- .left -->
 				<div class="l-top-menu top-menu">
