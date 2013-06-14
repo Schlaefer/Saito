@@ -197,6 +197,8 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini { *padding-top: 1px; *pad
 .open { *z-index: 1000; }
 .open > .dropdown-menu { display: block; }
 
+.dropdown-backdrop { position: fixed; left: 0; right: 0; bottom: 0; top: 0; z-index: 990; }
+
 .pull-right > .dropdown-menu { right: 0; left: auto; }
 
 .dropup .caret, .navbar-fixed-bottom .dropdown .caret { border-top: 0; border-bottom: 4px solid black; content: ""; }

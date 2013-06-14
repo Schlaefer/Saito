@@ -25,13 +25,13 @@ $experimental-support-for-khtml: false;
  *
  * See: https://github.com/jlong/sass-twitter-bootstrap
  ******************************************************************************/
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//variables";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//mixins.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//buttons.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//button-groups.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//dropdowns.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//popovers.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/twitter/bootstrap/lib//component-animations.scss";
+@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//variables";
+@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//mixins.scss";
+@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//buttons.scss";
+@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//button-groups.scss";
+@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//dropdowns.scss";
+@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//popovers.scss";
+@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//component-animations.scss";
 
 /*******************************************************************************
  * Susy
