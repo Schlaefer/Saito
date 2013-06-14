@@ -15,8 +15,9 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 require_once dirname(__FILE__) . DS . 'ModelTestBase.php';
 
 /**
@@ -150,7 +151,7 @@ class ModelDeleteTest extends BaseModelTest {
  * @return void
  */
 	public function testDeleteDependentWithConditions() {
-		$this->loadFixtures('Cd','Book','OverallFavorite');
+		$this->loadFixtures('Cd', 'Book', 'OverallFavorite');
 
 		$Cd = new Cd();
 		$Book = new Book();

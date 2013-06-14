@@ -17,7 +17,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Controller.Component
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Controller', 'Controller');
@@ -31,13 +31,6 @@ App::uses('CakeResponse', 'Network');
  * @package       Cake.Test.Case.Controller.Component
  */
 class PaginatorTestController extends Controller {
-
-/**
- * name property
- *
- * @var string 'PaginatorTest'
- */
-	public $name = 'PaginatorTest';
 
 /**
  * components property
@@ -55,16 +48,9 @@ class PaginatorTestController extends Controller {
 class PaginatorControllerPost extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'PaginatorControllerPost'
- */
-	public $name = 'PaginatorControllerPost';
-
-/**
  * useTable property
  *
- * @var string 'posts'
+ * @var string
  */
 	public $useTable = 'posts';
 
@@ -125,16 +111,9 @@ class PaginatorControllerPost extends CakeTestModel {
 class ControllerPaginateModel extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'ControllerPaginateModel'
- */
-	public $name = 'ControllerPaginateModel';
-
-/**
  * useTable property
  *
- * @var string 'comments'
+ * @var string
  */
 	public $useTable = 'comments';
 
@@ -169,21 +148,21 @@ class PaginatorControllerComment extends CakeTestModel {
 /**
  * name property
  *
- * @var string 'Comment'
+ * @var string
  */
 	public $name = 'Comment';
 
 /**
  * useTable property
  *
- * @var string 'comments'
+ * @var string
  */
 	public $useTable = 'comments';
 
 /**
  * alias property
  *
- * @var string 'PaginatorControllerComment'
+ * @var string
  */
 	public $alias = 'PaginatorControllerComment';
 }
@@ -196,30 +175,16 @@ class PaginatorControllerComment extends CakeTestModel {
 class PaginatorAuthor extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'PaginatorAuthor'
- */
-	public $name = 'PaginatorAuthor';
-
-/**
  * useTable property
  *
- * @var string 'authors'
+ * @var string
  */
 	public $useTable = 'authors';
 
 /**
  * alias property
  *
- * @var string 'PaginatorAuthor'
- */
-	public $alias = 'PaginatorAuthor';
-
-/**
- * alias property
- *
- * @var string 'PaginatorAuthor'
+ * @var string
  */
 	public $virtualFields = array(
 			'joined_offset' => 'PaginatorAuthor.id + 1'

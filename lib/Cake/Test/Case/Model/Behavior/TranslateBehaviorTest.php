@@ -10,7 +10,7 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.5669
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Model', 'Model');
@@ -529,6 +529,36 @@ class TranslateBehaviorTest extends CakeTestCase {
 		$result = $TestModel->read();
 		$expected = array('TranslatedItem' => array_merge($data, array('id' => $TestModel->id, 'locale' => 'spa')));
 		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * test saving/deleting with an alias, uses the model name.
+ *
+ * @return void
+ */
+	public function testSaveDeleteIgnoreAlias() {
+		$this->loadFixtures('Translate', 'TranslatedItem');
+
+		$TestModel = new TranslatedItem(array('alias' => 'SomethingElse'));
+		$TestModel->locale = 'spa';
+		$data = array(
+			'slug' => 'fourth_translated',
+			'title' => 'Leyenda #4',
+			'content' => 'Contenido #4',
+			'translated_article_id' => 1,
+		);
+		$TestModel->create($data);
+		$TestModel->save();
+		$id = $TestModel->id;
+		$result = $TestModel->read();
+		$expected = array($TestModel->alias => array_merge($data, array('id' => $id, 'locale' => 'spa')));
+		$this->assertEquals($expected, $result);
+
+		$TestModel->delete($id);
+		$result = $TestModel->translateModel()->find('count', array(
+			'conditions' => array('foreign_key' => $id)
+		));
+		$this->assertEquals(0, $result);
 	}
 
 /**
