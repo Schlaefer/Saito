@@ -22,16 +22,15 @@ $experimental-support-for-khtml: false;
 
 /*******************************************************************************
  * Bootstrap
- *
- * See: https://github.com/jlong/sass-twitter-bootstrap
+ * Installed as Plugin via bower
  ******************************************************************************/
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//variables";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//mixins.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//buttons.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//button-groups.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//dropdowns.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//popovers.scss";
-@import "../../../../../../../Vendor/jlong/sass-twitter-bootstrap/lib//component-animations.scss";
+@import "../../../../../../../Plugin/Bootstrap/webroot/Vendor/sass-bootstrap/lib//variables";
+@import "../../../../../../../Plugin/Bootstrap/webroot/Vendor/sass-bootstrap/lib//mixins.scss";
+@import "../../../../../../../Plugin/Bootstrap/webroot/Vendor/sass-bootstrap/lib//buttons.scss";
+@import "../../../../../../../Plugin/Bootstrap/webroot/Vendor/sass-bootstrap/lib//button-groups.scss";
+@import "../../../../../../../Plugin/Bootstrap/webroot/Vendor/sass-bootstrap/lib//dropdowns.scss";
+@import "../../../../../../../Plugin/Bootstrap/webroot/Vendor/sass-bootstrap/lib//popovers.scss";
+@import "../../../../../../../Plugin/Bootstrap/webroot/Vendor/sass-bootstrap/lib//component-animations.scss";
 
 /*******************************************************************************
  * Susy
