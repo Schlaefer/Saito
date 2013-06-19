@@ -12,6 +12,7 @@ layout: default
 ### What's New ###
 
 - [new] email addresses are obfuscated in entry output
+- [new] minor performance improvements in entries/mix
 - [fix] #147 [fixes #147 Middle click not working in Firefox
 ][gh147]
 - [fix] fixes html5 validation related errors on entries/add in firefox
