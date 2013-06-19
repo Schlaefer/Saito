@@ -28,7 +28,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /*$experimental-support-for-webkit: true;*/
 /*$experimental-support-for-opera: false;
 /*$experimental-support-for-microsoft: false;*/
-/******************************************************************************* Bootstrap  See: https://github.com/jlong/sass-twitter-bootstrap *****************************************************************************/
+/******************************************************************************* Bootstrap Installed as Plugin via bower *****************************************************************************/
 .btn { display: inline-block; *display: inline; /* IE7 inline-block hack */ *zoom: 1; padding: 4px 12px; margin-bottom: 0; font-size: 13px; line-height: 18px; text-align: center; vertical-align: middle; cursor: pointer; color: #333333; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); background-color: whitesmoke; background-image: -moz-linear-gradient(top, white, #e6e6e6); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(#e6e6e6)); background-image: -webkit-linear-gradient(top, white, #e6e6e6); background-image: -o-linear-gradient(top, white, #e6e6e6); background-image: linear-gradient(to bottom, #ffffff, #e6e6e6); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFE6E6E6', GradientType=0); border-color: #e6e6e6 #e6e6e6 #bfbfbf; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); *background-color: #e6e6e6; /* Darken IE7 buttons by default so they stand out more given they won't have borders */ filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); border: 1px solid #cccccc; *border: 0; border-bottom-color: #b3b3b3; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; *margin-left: .3em; -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); }
 .btn:hover, .btn:focus, .btn:active, .btn.active, .btn.disabled, .btn[disabled] { color: #333333; background-color: #e6e6e6; *background-color: #d9d9d9; }
 .btn:active, .btn.active { background-color: #cccccc \9; }
@@ -197,6 +197,8 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini { *padding-top: 1px; *pad
 .open { *z-index: 1000; }
 .open > .dropdown-menu { display: block; }
 
+.dropdown-backdrop { position: fixed; left: 0; right: 0; bottom: 0; top: 0; z-index: 990; }
+
 .pull-right > .dropdown-menu { right: 0; left: auto; }
 
 .dropup .caret, .navbar-fixed-bottom .dropdown .caret { border-top: 0; border-bottom: 4px solid black; content: ""; }
@@ -321,9 +323,9 @@ body { min-width: 950px; }
 .sprite-nbs-explicit { padding-left: 27px; height: 13px; display: inline-block; vertical-align: middle; margin-bottom: 1px; }
 
 /******************************************************************************* border radien *****************************************************************************/
-.c_top-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group.open .dropdown-menu, .btn-strip-back, .popover-inner, .flash, .message, .box-header { border-top-left-radius: 0px; border-top-right-radius: 0px; }
+.c_top-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn-strip-back, .popover-inner, .flash, .message, .box-header { border-top-left-radius: 0px; border-top-right-radius: 0px; }
 
-.c_bottom-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn, .btn-group, .btn-group.open .dropdown-menu, .btn-strip-back, .popover-inner, .flash, .message, .l-box-footer, .error-message { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
+.c_bottom-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn-strip-back, .popover-inner, .flash, .message, .l-box-footer, .error-message { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
 
 .c_left-radius, .search_textfield, .slidetab-tab, .slidetab-content { border-bottom-left-radius: 0px; border-top-left-radius: 0px; }
 
@@ -587,6 +589,8 @@ form .required { font-weight: bold; }
 form .required label:after { color: #ee3322; content: "*"; display: inline; padding-right: 0.5em; }
 
 /******************************************************************************* Buttons *****************************************************************************/
+.btn, .btn-group, .btn-group > .btn:first-child, .btn-group.open .dropdown-menu { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
+
 .btn { width: auto; padding: 0.2em 1em; -webkit-appearance: none; }
 
 .btn-submit { background-color: #abe337; color: black; text-shadow: white; background-color: #cef380; background-image: -moz-linear-gradient(top, #e6ffb1, #abe337); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e6ffb1), to(#abe337)); background-image: -webkit-linear-gradient(top, #e6ffb1, #abe337); background-image: -o-linear-gradient(top, #e6ffb1, #abe337); background-image: linear-gradient(to bottom, #e6ffb1, #abe337); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE6FFB1', endColorstr='#FFABE337', GradientType=0); border-color: #abe337 #abe337 #82b419; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); *background-color: #abe337; /* Darken IE7 buttons by default so they stand out more given they won't have borders */ filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); }

@@ -7,7 +7,7 @@
 			echo $this->element('layout/script_tags');
 			echo $this->Html->css(
 				[
-					'bootstrap/css/bootstrap.min.css',
+					'/bootstrap/Vendor/sass-bootstrap/bootstrap-2.3.2.min',
 					'stylesheets/static.css',
 					'stylesheets/admin.css'
 				]

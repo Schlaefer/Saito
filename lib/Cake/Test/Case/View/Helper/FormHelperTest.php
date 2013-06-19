@@ -15,8 +15,9 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View.Helper
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('ClassRegistry', 'Utility');
 App::uses('Controller', 'Controller');
 App::uses('View', 'View');
@@ -30,7 +31,6 @@ App::uses('Router', 'Routing');
 /**
  * ContactTestController class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class ContactTestController extends Controller {
@@ -46,7 +46,6 @@ class ContactTestController extends Controller {
 /**
  * Contact class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class Contact extends CakeTestModel {
@@ -138,7 +137,6 @@ class Contact extends CakeTestModel {
 /**
  * ContactTagsContact class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class ContactTagsContact extends CakeTestModel {
@@ -176,7 +174,6 @@ class ContactTagsContact extends CakeTestModel {
 /**
  * ContactNonStandardPk class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class ContactNonStandardPk extends Contact {
@@ -184,7 +181,7 @@ class ContactNonStandardPk extends Contact {
 /**
  * primaryKey property
  *
- * @var string 'pk'
+ * @var string
  */
 	public $primaryKey = 'pk';
 
@@ -205,7 +202,6 @@ class ContactNonStandardPk extends Contact {
 /**
  * ContactTag class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class ContactTag extends Model {
@@ -233,7 +229,6 @@ class ContactTag extends Model {
 /**
  * UserForm class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class UserForm extends CakeTestModel {
@@ -274,7 +269,6 @@ class UserForm extends CakeTestModel {
 /**
  * OpenidUrl class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class OpenidUrl extends CakeTestModel {
@@ -330,7 +324,6 @@ class OpenidUrl extends CakeTestModel {
 /**
  * ValidateUser class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class ValidateUser extends CakeTestModel {
@@ -380,7 +373,6 @@ class ValidateUser extends CakeTestModel {
 /**
  * ValidateProfile class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class ValidateProfile extends CakeTestModel {
@@ -440,7 +432,6 @@ class ValidateProfile extends CakeTestModel {
 /**
  * ValidateItem class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class ValidateItem extends CakeTestModel {
@@ -490,7 +481,6 @@ class ValidateItem extends CakeTestModel {
 /**
  * TestMail class
  *
- * @package	   cake
  * @package       Cake.Test.Case.View.Helper
  */
 class TestMail extends CakeTestModel {
@@ -507,8 +497,7 @@ class TestMail extends CakeTestModel {
 /**
  * FormHelperTest class
  *
- * @package	   cake
- * @subpackage       Cake.Test.Case.View.Helper
+ * @package       Cake.Test.Case.View.Helper
  * @property FormHelper $Form
  */
 class FormHelperTest extends CakeTestCase {
@@ -536,6 +525,7 @@ class FormHelperTest extends CakeTestCase {
 		parent::setUp();
 
 		Configure::write('App.base', '');
+		Configure::delete('Asset');
 		$this->Controller = new ContactTestController();
 		$this->View = new View($this->Controller);
 
@@ -1455,22 +1445,39 @@ class FormHelperTest extends CakeTestCase {
  */
 	public function testTagIsInvalid() {
 		$Contact = ClassRegistry::getObject('Contact');
-		$Contact->validationErrors[0]['email'] = array('Please provide an email');
+		$Contact->validationErrors[0]['email'] = $expected = array('Please provide an email');
 
 		$this->Form->setEntity('Contact.0.email');
 		$result = $this->Form->tagIsInvalid();
-		$expected = array('Please provide an email');
 		$this->assertEquals($expected, $result);
 
 		$this->Form->setEntity('Contact.1.email');
 		$result = $this->Form->tagIsInvalid();
-		$expected = false;
-		$this->assertSame($expected, $result);
+		$this->assertFalse($result);
 
 		$this->Form->setEntity('Contact.0.name');
 		$result = $this->Form->tagIsInvalid();
-		$expected = false;
-		$this->assertSame($expected, $result);
+		$this->assertFalse($result);
+	}
+
+/**
+ * Test tagIsInvalid with validation errors from a saveMany
+ *
+ * @return void
+ */
+	public function testTagIsInvalidSaveMany() {
+		$Contact = ClassRegistry::getObject('Contact');
+		$Contact->validationErrors[0]['email'] = $expected = array('Please provide an email');
+
+		$this->Form->create('Contact');
+
+		$this->Form->setEntity('0.email');
+		$result = $this->Form->tagIsInvalid();
+		$this->assertEquals($expected, $result);
+
+		$this->Form->setEntity('0.Contact.email');
+		$result = $this->Form->tagIsInvalid();
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -1661,7 +1668,7 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->create('ValidateUser', array('type' => 'post', 'action' => 'add'));
 		$encoding = strtolower(Configure::read('App.encoding'));
 		$expected = array(
-			'form' => array('method' => 'post', 'action' => '/validate_users/add', 'id','accept-charset' => $encoding),
+			'form' => array('method' => 'post', 'action' => '/validate_users/add', 'id', 'accept-charset' => $encoding),
 			'div' => array('style' => 'display:none;'),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
 			'/div'
@@ -2263,7 +2270,7 @@ class FormHelperTest extends CakeTestCase {
 
 		$result = $this->Form->input('prueba', array(
 			'type' => 'time', 'timeFormat' => 24 , 'dateFormat' => 'DMY' , 'minYear' => 2008,
-			'maxYear' => date('Y') + 1 ,'interval' => 15
+			'maxYear' => date('Y') + 1 , 'interval' => 15
 		));
 		$result = explode(':', $result);
 		$this->assertNotRegExp('#<option value="12"[^>]*>12</option>#', $result[1]);
@@ -3454,10 +3461,10 @@ class FormHelperTest extends CakeTestCase {
 		$this->Form->create('ValidateProfile');
 		$ValidateProfile = ClassRegistry::getObject('ValidateProfile');
 		$ValidateProfile->validationErrors['city'] = array('required<br>');
-		$result = $this->Form->input('city',array('error' => array('attributes' => array('escape' => true))));
+		$result = $this->Form->input('city', array('error' => array('attributes' => array('escape' => true))));
 		$this->assertRegExp('/required&lt;br&gt;/', $result);
 
-		$result = $this->Form->input('city',array('error' => array('attributes' => array('escape' => false))));
+		$result = $this->Form->input('city', array('error' => array('attributes' => array('escape' => false))));
 		$this->assertRegExp('/required<br>/', $result);
 	}
 
@@ -4524,6 +4531,125 @@ class FormHelperTest extends CakeTestCase {
 			'Three',
 			'/option',
 			array('option' => array('value' => '3x', 'disabled' => 'disabled')),
+			'Stringy',
+			'/option',
+			'/select',
+			'/div'
+		);
+		$this->assertTags($result, $expected);
+
+		$options = array(1 => 'One', 2 => 'Two', '3' => 'Three', '3x' => 'Stringy');
+		$disabled = true;
+		$result = $this->Form->input('Contact.multiple', array('multiple' => 'multiple', 'disabled' => $disabled, 'options' => $options));
+		$expected = array(
+			array('div' => array('class' => 'input select')),
+			array('label' => array('for' => 'ContactMultiple')),
+			'Multiple',
+			'/label',
+			'input' => array(
+				'type' => 'hidden', 'name' => 'data[Contact][multiple]', 'value' => '', 'id' => 'ContactMultiple_'
+			),
+			'select' => array(
+				'name' => 'data[Contact][multiple][]', 'disabled' => 'disabled', 'multiple' => 'multiple', 'id' => 'ContactMultiple'
+			),
+			array('option' => array('value' => '1')),
+			'One',
+			'/option',
+			array('option' => array('value' => '2')),
+			'Two',
+			'/option',
+			array('option' => array('value' => '3')),
+			'Three',
+			'/option',
+			array('option' => array('value' => '3x')),
+			'Stringy',
+			'/option',
+			'/select',
+			'/div'
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * Test generating select with disabled elements.
+ *
+ * @return void
+ */
+	public function testSelectWithDisabledElements() {
+		$options = array(1 => 'One', 2 => 'Two', '3' => 'Three', '3x' => 'Stringy');
+		$disabled = array(2, 3);
+		$result = $this->Form->select('Model.field', $options, array('disabled' => $disabled));
+		$expected = array(
+			'select' => array(
+				'name' => 'data[Model][field]', 'id' => 'ModelField'
+			),
+			array('option' => array('value' => '')),
+			'/option',
+			array('option' => array('value' => '1')),
+			'One',
+			'/option',
+			array('option' => array('value' => '2', 'disabled' => 'disabled')),
+			'Two',
+			'/option',
+			array('option' => array('value' => '3', 'disabled' => 'disabled')),
+			'Three',
+			'/option',
+			array('option' => array('value' => '3x')),
+			'Stringy',
+			'/option',
+			'/select'
+		);
+		$this->assertTags($result, $expected);
+
+		$options = array(1 => 'One', 2 => 'Two', '3' => 'Three', '3x' => 'Stringy');
+		$disabled = array('2', '3x');
+		$result = $this->Form->input('Model.field', array('disabled' => $disabled, 'options' => $options));
+		$expected = array(
+			array('div' => array('class' => 'input select')),
+			array('label' => array('for' => 'ModelField')),
+			'Field',
+			'/label',
+			'select' => array(
+				'name' => 'data[Model][field]', 'id' => 'ModelField'
+			),
+			array('option' => array('value' => '1')),
+			'One',
+			'/option',
+			array('option' => array('value' => '2', 'disabled' => 'disabled')),
+			'Two',
+			'/option',
+			array('option' => array('value' => '3')),
+			'Three',
+			'/option',
+			array('option' => array('value' => '3x', 'disabled' => 'disabled')),
+			'Stringy',
+			'/option',
+			'/select',
+			'/div'
+		);
+		$this->assertTags($result, $expected);
+
+		$options = array(1 => 'One', 2 => 'Two', '3' => 'Three', '3x' => 'Stringy');
+		$disabled = true;
+		$result = $this->Form->input('Model.field', array('disabled' => $disabled, 'options' => $options));
+		$expected = array(
+			array('div' => array('class' => 'input select')),
+			array('label' => array('for' => 'ModelField')),
+			'Field',
+			'/label',
+			'select' => array(
+				'name' => 'data[Model][field]', 'id' => 'ModelField', 'disabled' => 'disabled'
+			),
+			array('option' => array('value' => '1')),
+			'One',
+			'/option',
+			array('option' => array('value' => '2')),
+			'Two',
+			'/option',
+			array('option' => array('value' => '3')),
+			'Three',
+			'/option',
+			array('option' => array('value' => '3x')),
 			'Stringy',
 			'/option',
 			'/select',
@@ -7110,7 +7236,7 @@ class FormHelperTest extends CakeTestCase {
 		$expected = array(
 			'form' => array(
 				'id' => 'ContactNonStandardPkEditForm', 'method' => 'post',
-				'action' => '/contact_non_standard_pks/edit/1','accept-charset' => $encoding
+				'action' => '/contact_non_standard_pks/edit/1', 'accept-charset' => $encoding
 			),
 			'div' => array('style' => 'display:none;'),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'PUT'),
@@ -7355,7 +7481,7 @@ class FormHelperTest extends CakeTestCase {
  */
 	public function testCreateWithAcceptCharset() {
 		$result = $this->Form->create('UserForm', array(
-				'type' => 'post', 'action' => 'login','encoding' => 'iso-8859-1'
+				'type' => 'post', 'action' => 'login', 'encoding' => 'iso-8859-1'
 			)
 		);
 		$expected = array(
@@ -8410,7 +8536,7 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$result = $this->Form->input('ValidateProfile.1.ValidateItem.2.created',array('empty' => true));
+		$result = $this->Form->input('ValidateProfile.1.ValidateItem.2.created', array('empty' => true));
 		$expected = array(
 			'div' => array('class' => 'input date'),
 			'label' => array('for' => 'ValidateProfile1ValidateItem2CreatedMonth'),
@@ -8484,6 +8610,24 @@ class FormHelperTest extends CakeTestCase {
 		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field city', '/div'));
 
 		$result = $this->Form->error('2.city');
+		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field city', '/div'));
+	}
+
+/**
+ * test the correct display of multi-record form validation errors.
+ *
+ * @return void
+ */
+	public function testSaveManyRecordFormValidationErrors() {
+		$this->Form->create('ValidateUser');
+		$ValidateUser = ClassRegistry::getObject('ValidateUser');
+		$ValidateUser->validationErrors[0]['ValidateItem']['name'] = array('Error in field name');
+
+		$result = $this->Form->error('0.ValidateUser.ValidateItem.name');
+		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field name', '/div'));
+
+		$ValidateUser->validationErrors[0]['city'] = array('Error in field city');
+		$result = $this->Form->error('ValidateUser.0.city');
 		$this->assertTags($result, array('div' => array('class' => 'error-message'), 'Error in field city', '/div'));
 	}
 

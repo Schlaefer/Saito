@@ -18,10 +18,14 @@
 			foreach ($threads as $thread) {
 				$id = $thread[$Model->alias]['id'];
 				$pid = $thread[$Model->alias]['pid'];
-				$tree[$id] = isset($tree[$id]) ? $thread + $tree[$id] : $thread;
+				$tree[$id] = isset($tree[$id]) ? $tree[$id] + $thread : $thread;
 				$tree[$pid]['_children'][] = &$tree[$id];
 			}
 
+			// It's possible to do uasort before tree build and  get the same results,
+			// without _sortTreesAfterTime
+			// but then *all* entries have to be sorted whereas now only subthreads with childs
+			// are sorted. So using _sortTreesAfterTime is actually faster in praxis.
 			$sorted_trees = $this->_sortTreesAfterTime($tree[0]['_children']);
 
 			return $sorted_trees;

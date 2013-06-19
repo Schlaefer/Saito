@@ -14,7 +14,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Model.Datasource.Database
  * @since         CakePHP(tm) v 1.2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Model', 'Model');
@@ -65,13 +65,6 @@ class DboPostgresTestDb extends Postgres {
  * @package       Cake.Test.Case.Model.Datasource.Database
  */
 class PostgresTestModel extends Model {
-
-/**
- * name property
- *
- * @var string 'PostgresTestModel'
- */
-	public $name = 'PostgresTestModel';
 
 /**
  * useTable property
@@ -153,13 +146,6 @@ class PostgresTestModel extends Model {
  * @package       Cake.Test.Case.Model.Datasource.Database
  */
 class PostgresClientTestModel extends Model {
-
-/**
- * name property
- *
- * @var string 'PostgresClientTestModel'
- */
-	public $name = 'PostgresClientTestModel';
 
 /**
  * useTable property
@@ -1024,7 +1010,8 @@ class PostgresTest extends CakeTestCase {
 		$this->assertEquals(' LIMIT 20 OFFSET 10', $result);
 
 		$result = $db->limit(10, 300000000000000000000000000000);
-		$this->assertEquals(' LIMIT 10 OFFSET 0', $result);
+		$scientificNotation = sprintf('%.1E', 300000000000000000000000000000);
+		$this->assertNotContains($scientificNotation, $result);
 	}
 
 }

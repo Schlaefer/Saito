@@ -85,8 +85,9 @@
 							'label'       => false,
 							'tabindex'    => 2,
 							'error'       => ['notEmpty' => __('error_subject_empty')],
-							'div'         => ['class' => 'requiered'],
-							'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject')
+							'div'         => ['class' => 'required'],
+							'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject'),
+							'required'		=> ($posting_type === 'reply') ? false : "required"
 						]
 					);
 				?>
@@ -156,7 +157,16 @@
 										'id'       => 'btn-submit',
 										'class'    => 'btn btn-submit',
 										'tabindex' => 4,
-										'onclick'  => "this.disabled=true; this.form.submit();"
+										'onclick'  => "
+										if (typeof this.validity === 'object') {
+											if (this.form.checkValidity()) {
+												this.disabled = true;
+											}
+										} else {
+											this.disabled = true;
+										}
+										this.form.submit();
+										"
 									]
 								);
 							} # !i$this->request->is('ajax')

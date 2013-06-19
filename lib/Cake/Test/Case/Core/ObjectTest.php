@@ -15,7 +15,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Core
  * @since         CakePHP(tm) v 1.2.0.5432
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Object', 'Core');
@@ -31,16 +31,9 @@ App::uses('Model', 'Model');
 class RequestActionPost extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'ControllerPost'
- */
-	public $name = 'RequestActionPost';
-
-/**
  * useTable property
  *
- * @var string 'posts'
+ * @var string
  */
 	public $useTable = 'posts';
 }
@@ -149,14 +142,14 @@ class TestObject extends Object {
 /**
  * firstName property
  *
- * @var string 'Joel'
+ * @var string
  */
 	public $firstName = 'Joel';
 
 /**
  * lastName property
  *
- * @var string 'Moss'
+ * @var string
  */
 	public $lastName = 'Moss';
 
@@ -281,8 +274,6 @@ class TestObject extends Object {
 class ObjectTestModel extends CakeTestModel {
 
 	public $useTable = false;
-
-	public $name = 'ObjectTestModel';
 
 }
 

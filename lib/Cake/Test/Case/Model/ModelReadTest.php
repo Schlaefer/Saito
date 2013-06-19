@@ -15,9 +15,11 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 require_once dirname(__FILE__) . DS . 'ModelTestBase.php';
+
 /**
  * ModelReadTest
  *
@@ -27,7 +29,7 @@ class ModelReadTest extends BaseModelTest {
 
 /**
  * testExists function
- * @retun void
+ * @return void
  */
 	public function testExists() {
 		$this->loadFixtures('User');
@@ -232,7 +234,7 @@ class ModelReadTest extends BaseModelTest {
 			array('Product' => array('type' => 'Music'), array('price' => 4)),
 			array('Product' => array('type' => 'Toy'), array('price' => 3))
 		);
-		$result = $Product->find('all',array(
+		$result = $Product->find('all', array(
 			'fields' => array('Product.type', 'MIN(Product.price) as price'),
 			'group' => 'Product.type',
 			'order' => 'Product.type ASC'
@@ -7717,34 +7719,34 @@ class ModelReadTest extends BaseModelTest {
 			$this->assertFalse((bool)$result['Author']['false']);
 		}
 
-		$result = $Post->find('first',array('fields' => array('author_id')));
+		$result = $Post->find('first', array('fields' => array('author_id')));
 		$this->assertFalse(isset($result['Post']['two']));
 		$this->assertFalse(isset($result['Author']['false']));
 
-		$result = $Post->find('first',array('fields' => array('author_id', 'two')));
+		$result = $Post->find('first', array('fields' => array('author_id', 'two')));
 		$this->assertEquals(2, $result['Post']['two']);
 		$this->assertFalse(isset($result['Author']['false']));
 
-		$result = $Post->find('first',array('fields' => array('two')));
+		$result = $Post->find('first', array('fields' => array('two')));
 		$this->assertEquals(2, $result['Post']['two']);
 
 		$Post->id = 1;
 		$result = $Post->field('two');
 		$this->assertEquals(2, $result);
 
-		$result = $Post->find('first',array(
+		$result = $Post->find('first', array(
 			'conditions' => array('two' => 2),
 			'limit' => 1
 		));
 		$this->assertEquals(2, $result['Post']['two']);
 
-		$result = $Post->find('first',array(
+		$result = $Post->find('first', array(
 			'conditions' => array('two <' => 3),
 			'limit' => 1
 		));
 		$this->assertEquals(2, $result['Post']['two']);
 
-		$result = $Post->find('first',array(
+		$result = $Post->find('first', array(
 			'conditions' => array('NOT' => array('two >' => 3)),
 			'limit' => 1
 		));

@@ -14,7 +14,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model.Datasource
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Model', 'Model');
@@ -26,6 +26,11 @@ App::uses('DboSecondTestSource', 'Model/Datasource');
 App::uses('MockDataSource', 'Model/Datasource');
 require_once dirname(dirname(__FILE__)) . DS . 'models.php';
 
+/**
+ * Class MockPDO
+ *
+ * @package       Cake.Test.Case.Model.Datasource
+ */
 class MockPDO extends PDO {
 
 	public function __construct() {
@@ -33,9 +38,19 @@ class MockPDO extends PDO {
 
 }
 
+/**
+ * Class MockDataSource
+ *
+ * @package       Cake.Test.Case.Model.Datasource
+ */
 class MockDataSource extends DataSource {
 }
 
+/**
+ * Class DboTestSource
+ *
+ * @package       Cake.Test.Case.Model.Datasource
+ */
 class DboTestSource extends DboSource {
 
 	public $nestedSupport = false;
@@ -62,6 +77,11 @@ class DboTestSource extends DboSource {
 
 }
 
+/**
+ * Class DboSecondTestSource
+ *
+ * @package       Cake.Test.Case.Model.Datasource
+ */
 class DboSecondTestSource extends DboSource {
 
 	public $startQuote = '_';
@@ -721,11 +741,11 @@ class DboSourceTest extends CakeTestCase {
  * @return void
  */
 	public function testGetLogParams() {
-		$this->testDb->logQuery('Query 1', array(1,2,'abc'));
+		$this->testDb->logQuery('Query 1', array(1, 2, 'abc'));
 		$this->testDb->logQuery('Query 2', array('field1' => 1, 'field2' => 'abc'));
 
 		$log = $this->testDb->getLog();
-		$expected = array('query' => 'Query 1', 'params' => array(1,2,'abc'), 'affected' => '', 'numRows' => '', 'took' => '');
+		$expected = array('query' => 'Query 1', 'params' => array(1, 2, 'abc'), 'affected' => '', 'numRows' => '', 'took' => '');
 		$this->assertEquals($expected, $log['log'][0]);
 		$expected = array('query' => 'Query 2', 'params' => array('field1' => 1, 'field2' => 'abc'), 'affected' => '', 'numRows' => '', 'took' => '');
 		$this->assertEquals($expected, $log['log'][1]);
@@ -1250,7 +1270,8 @@ class DboSourceTest extends CakeTestCase {
 		$this->assertEquals(' LIMIT 10, 20', $result);
 
 		$result = $db->limit(10, 300000000000000000000000000000);
-		$this->assertEquals(' LIMIT 0, 10', $result);
+		$scientificNotation = sprintf('%.1E', 300000000000000000000000000000);
+		$this->assertNotContains($scientificNotation, $result);
 	}
 
 }

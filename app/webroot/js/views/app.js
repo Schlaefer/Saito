@@ -221,7 +221,7 @@ define([
                 if (App.settings.get('autoPageReload')) {
                     this.autoPageReloadTimer = setTimeout(
                         _.bind(function() {
-                            window.location = App.settings.get('webroot') + 'entries/noupdate/';
+                            window.location = App.settings.get('webroot') + 'entries/';
                         }, this), App.settings.get('autoPageReload') * 1000);
                 }
 

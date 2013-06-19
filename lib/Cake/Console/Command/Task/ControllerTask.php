@@ -14,7 +14,7 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppShell', 'Console/Command');
@@ -178,7 +178,7 @@ class ControllerTask extends BakeTask {
 				$components = $this->doComponents();
 
 				$wannaUseSession = $this->in(
-					__d('cake_console', "Would you like to use Session flash messages?"), array('y','n'), 'y'
+					__d('cake_console', "Would you like to use Session flash messages?"), array('y', 'n'), 'y'
 				);
 			}
 		} else {
@@ -196,7 +196,7 @@ class ControllerTask extends BakeTask {
 		$baked = false;
 		if ($this->interactive === true) {
 			$this->confirmController($controllerName, $useDynamicScaffold, $helpers, $components);
-			$looksGood = $this->in(__d('cake_console', 'Look okay?'), array('y','n'), 'y');
+			$looksGood = $this->in(__d('cake_console', 'Look okay?'), array('y', 'n'), 'y');
 
 			if (strtolower($looksGood) === 'y') {
 				$baked = $this->bake($controllerName, $actions, $helpers, $components);
@@ -263,11 +263,11 @@ class ControllerTask extends BakeTask {
 	protected function _askAboutMethods() {
 		$wannaBakeCrud = $this->in(
 			__d('cake_console', "Would you like to create some basic class methods \n(index(), add(), view(), edit())?"),
-			array('y','n'), 'n'
+			array('y', 'n'), 'n'
 		);
 		$wannaBakeAdminCrud = $this->in(
 			__d('cake_console', "Would you like to create the basic class methods for admin routing?"),
-			array('y','n'), 'n'
+			array('y', 'n'), 'n'
 		);
 		return array($wannaBakeCrud, $wannaBakeAdminCrud);
 	}
@@ -384,7 +384,7 @@ class ControllerTask extends BakeTask {
  * @return array Array of values for property.
  */
 	protected function _doPropertyChoices($prompt, $example) {
-		$proceed = $this->in($prompt, array('y','n'), 'n');
+		$proceed = $this->in($prompt, array('y', 'n'), 'n');
 		$property = array();
 		if (strtolower($proceed) === 'y') {
 			$propertyList = $this->in($example);

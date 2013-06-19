@@ -15,7 +15,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('View', 'View');
@@ -24,7 +24,6 @@ App::uses('Controller', 'Controller');
 App::uses('CacheHelper', 'View/Helper');
 App::uses('HtmlHelper', 'View/Helper');
 App::uses('ErrorHandler', 'Error');
-
 
 /**
  * ViewPostsController class
@@ -36,7 +35,7 @@ class ViewPostsController extends Controller {
 /**
  * name property
  *
- * @var string 'Posts'
+ * @var string
  */
 	public $name = 'Posts';
 
@@ -78,13 +77,6 @@ class ViewPostsController extends Controller {
  * @package       Cake.Test.Case.View
  */
 class ThemePostsController extends Controller {
-
-/**
- * name property
- *
- * @var string 'ThemePosts'
- */
-	public $name = 'ThemePosts';
 
 	public $theme = null;
 
@@ -201,7 +193,7 @@ class TestAfterHelper extends Helper {
 /**
  * property property
  *
- * @var string ''
+ * @var string
  */
 	public $property = '';
 

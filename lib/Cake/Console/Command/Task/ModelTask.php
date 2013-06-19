@@ -14,7 +14,7 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppShell', 'Console/Command');
@@ -234,13 +234,13 @@ class ModelTask extends BakeTask {
 			}
 
 			$prompt = __d('cake_console', "Would you like to supply validation criteria \nfor the fields in your model?");
-			$wannaDoValidation = $this->in($prompt, array('y','n'), 'y');
+			$wannaDoValidation = $this->in($prompt, array('y', 'n'), 'y');
 			if (array_search($useTable, $this->_tables) !== false && strtolower($wannaDoValidation) === 'y') {
 				$validate = $this->doValidation($tempModel);
 			}
 
 			$prompt = __d('cake_console', "Would you like to define model associations\n(hasMany, hasOne, belongsTo, etc.)?");
-			$wannaDoAssoc = $this->in($prompt, array('y','n'), 'y');
+			$wannaDoAssoc = $this->in($prompt, array('y', 'n'), 'y');
 			if (strtolower($wannaDoAssoc) === 'y') {
 				$associations = $this->doAssociations($tempModel);
 			}

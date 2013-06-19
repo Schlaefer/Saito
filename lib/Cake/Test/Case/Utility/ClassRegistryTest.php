@@ -15,8 +15,9 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Utility
  * @since         CakePHP(tm) v 1.2.0.5432
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('ClassRegistry', 'Utility');
 
 /**
@@ -40,13 +41,6 @@ class ClassRegisterModel extends CakeTestModel {
  * @package       Cake.Test.Case.Utility
  */
 class RegisterArticle extends ClassRegisterModel {
-
-/**
- * name property
- *
- * @var string 'RegisterArticle'
- */
-	public $name = 'RegisterArticle';
 }
 
 /**
@@ -55,13 +49,6 @@ class RegisterArticle extends ClassRegisterModel {
  * @package       Cake.Test.Case.Utility
  */
 class RegisterArticleFeatured extends ClassRegisterModel {
-
-/**
- * name property
- *
- * @var string 'RegisterArticleFeatured'
- */
-	public $name = 'RegisterArticleFeatured';
 }
 
 /**
@@ -70,13 +57,6 @@ class RegisterArticleFeatured extends ClassRegisterModel {
  * @package       Cake.Test.Case.Utility
  */
 class RegisterArticleTag extends ClassRegisterModel {
-
-/**
- * name property
- *
- * @var string 'RegisterArticleTag'
- */
-	public $name = 'RegisterArticleTag';
 }
 
 /**
@@ -89,7 +69,7 @@ class RegistryPluginAppModel extends ClassRegisterModel {
 /**
  * tablePrefix property
  *
- * @var string 'something_'
+ * @var string
  */
 	public $tablePrefix = 'something_';
 }
@@ -100,13 +80,6 @@ class RegistryPluginAppModel extends ClassRegisterModel {
  * @package       Cake.Test.Case.Utility
  */
 class TestRegistryPluginModel extends RegistryPluginAppModel {
-
-/**
- * name property
- *
- * @var string 'TestRegistryPluginModel'
- */
-	public $name = 'TestRegistryPluginModel';
 }
 
 /**
@@ -115,13 +88,6 @@ class TestRegistryPluginModel extends RegistryPluginAppModel {
  * @package       Cake.Test.Case.Utility
  */
 class RegisterCategory extends ClassRegisterModel {
-
-/**
- * name property
- *
- * @var string 'RegisterCategory'
- */
-	public $name = 'RegisterCategory';
 }
 /**
  * RegisterPrefixedDs class
@@ -133,7 +99,7 @@ class RegisterPrefixedDs extends ClassRegisterModel {
 /**
  * useDbConfig property
  *
- * @var string 'doesnotexist'
+ * @var string
  */
 	public $useDbConfig = 'doesnotexist';
 }

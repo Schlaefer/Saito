@@ -462,6 +462,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _autoLinkPre($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		unset($this->_tagEls[$attributes['default']]);
 		return $this->_url($content, $content, false, true);
 	}
@@ -510,6 +513,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _code($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		$type = 'text';
 		if ( !empty($attributes) ):
 			$type = key($attributes);
@@ -525,6 +531,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public static function _iframe($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		$out = '<iframe';
 
 		foreach ( $attributes as $attributeName => $attributeValue ):
@@ -555,6 +564,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param <type> $height
 	 */
 	public static function _html5Video($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		// fix audio files mistakenly wrapped into an [video] tag
 		if ( preg_match('/(' . implode('|', self::$html5_audio_extensions) . ')$/i',
 						$content) === 1 ) {
@@ -578,6 +590,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @access protected
 	 */
 	public static function _html5Audio($action, $attributes, $content, $params = null, &$node_object = null) {
+		if ($action === 'validate') {
+			return true;
+		}
 		// @lo
 		$out = "<audio src='$content' controls='controls'>";
 		$out .= BbcodeMessage::format(__(
@@ -592,6 +607,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @td search for backery class
 	 */
 	public static function _flashVideo($action, $attributes, $content, $params = null, &$node_object = null) {
+		if ($action === 'validate') {
+			return true;
+		}
 		preg_match("#(?P<url>.+?)\|(?P<width>.+?)\|(?<height>\d+)#is", $content,
 				$matches);
 		if ( !isset($matches['height']) ) {
@@ -617,6 +635,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _upload($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		if ( empty($attributes) ) {
 			$this->FileUpload->reset();
 			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
@@ -641,6 +662,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return type
 	 */
 	public function _externalImage($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		$options = array(
 				'class' => 'c_bbc_external-image',
 				'width' => 'auto',
@@ -729,17 +753,29 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _email($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		if ( isset($attributes['default']) ):
 			$url = $attributes['default'];
 			$text = $content;
 		else:
 			$url = $content;
-			$text = $content;
 		endif;
 
 		$url = str_replace('mailto:', '', $url);
+
+		/*
+		if (empty($text)) {
+			$text = $content;
+		}
 		return "<a href='mailto:$url'>$text</a>";
-		// return $this->MailObfuscator->createLink($url, $text);
+		*/
+
+		if (empty($text)) {
+			$text = null;
+		}
+		return $this->MailObfuscator->link($url, $text);
 	}
 
 	public function _hashLinkInternalTaginize($string) {
@@ -806,6 +842,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * url urls and [URL]
 	 */
 	public function _urlTag($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 
 		$defaults = array(
 				'label' => true,
@@ -877,12 +916,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
   public function _embed($action, $attributes, $content, $params, &$node_object) {
+		if ( $action === 'validate' ) :
+			return true;
+		endif;
+
     if ( Configure::read('Saito.Settings.embedly_enabled') == false ):
       return __('[embed] tag not enabled.');
-    endif;
-
-    if ( $action === 'validate' ) :
-      return true;
     endif;
 
     $out = 'Embeding failed.';
