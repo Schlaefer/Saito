@@ -186,20 +186,7 @@ Inflector::rules('singular', array(
  *
  */
 
-CakePlugin::load('Stopwatch');
-CakePlugin::load('DebugKit');
-CakePlugin::load('Markitup');
-CakePlugin::load('CakephpGeshi');
-CakePlugin::load('Flattr');
-CakePlugin::load('SimpleCaptcha');
-CakePlugin::load('Install');
-CakePlugin::load('FileUpload');
-CakePlugin::load('Search');
-CakePlugin::load('Embedly');
-CakePlugin::load('BcryptAuthenticate');
-CakePlugin::load('PreviewDetector');
-CakePlugin::load('JasmineJs');
-CakePlugin::load('MailObfuscator');
+CakePlugin::loadAll();
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
