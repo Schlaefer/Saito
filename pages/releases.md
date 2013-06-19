@@ -7,14 +7,61 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-06.03 ##
+
+### What's New ###
+
+- [new] email addresses are obfuscated in entry output
+- [fix] #147 [fixes #147 Middle click not working in Firefox
+][gh147]
+- [fix] fixes html5 validation related errors on entries/add in firefox
+- [task] update to CakePHP 2.3.6
+- [task] refactored auto-mark-as-read
+
+[gh147]: https://github.com/Schlaefer/Saito/issues/147
+
+### Migration Notes ###
+
+#### Misc ####
+
+Theme is recompiled. 
+
+#### default.ctp ####
+
+If you use a custom `default.ctp` file replace :
+
+	    <?php
+            echo $this->Html->link(
+                $this->Html->image(
+                    'forum_logo.png', array( 'alt' => 'Logo', 'height' => 70 )
+                ),
+                '/',
+                array( 'id' => 'btn_header_logo', 'escape' => false ));
+          ?>
+
+with
+
+	<?php
+		echo $this->Html->link(
+			$this->Html->image(
+				'forum_logo.png',
+				['alt' => 'Logo', 'height' => 70]
+			),
+			'/' . (isset($markAsRead) ? '?mar' : ''),
+			$options = [
+				'id'      => 'btn_header_logo',
+				'escape'  => false,
+			]
+		);
+	?>
+
 
 ## 2013-06.02 ##
 
 ### What's new ###
 
 - [fix] #145 [recent entries/postings slidetabs don't update immediately if APC is used for caching][gh145]
-- [fix] #146 [alignment in recent entries/postings is off
-Edit][gh146]
+- [fix] #146 [alignment in recent entries/postings is off][gh146]
 
 [gh146]: https://github.com/Schlaefer/Saito/issues/146
 [gh145]: https://github.com/Schlaefer/Saito/issues/145
