@@ -15,6 +15,7 @@ layout: default
 - [fix] #147 [fixes #147 Middle click not working in Firefox
 ][gh147]
 - [fix] fixes html5 validation related errors on entries/add in firefox
+- [fix] corner radius on mod button not effected by theme settings
 - [task] update to CakePHP 2.3.6
 - [task] refactored auto-mark-as-read
 - [task] consolidated twitter-bootstrap include
