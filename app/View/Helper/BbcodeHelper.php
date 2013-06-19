@@ -729,17 +729,29 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	public function _email($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
 		if ( isset($attributes['default']) ):
 			$url = $attributes['default'];
 			$text = $content;
 		else:
 			$url = $content;
-			$text = $content;
 		endif;
 
 		$url = str_replace('mailto:', '', $url);
+
+		/*
+		if (empty($text)) {
+			$text = $content;
+		}
 		return "<a href='mailto:$url'>$text</a>";
-		// return $this->MailObfuscator->createLink($url, $text);
+		*/
+
+		if (empty($text)) {
+			$text = null;
+		}
+		return $this->MailObfuscator->link($url, $text);
 	}
 
 	public function _hashLinkInternalTaginize($string) {

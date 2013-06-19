@@ -244,58 +244,80 @@
 			$this->assertIdentical($expected, $result);
 		}
 
+		/*
+		 * without obfuscator
+		 */
 		public function testEmail() {
-			// mailto:
+			/*
+				// mailto:
+				$input = '[email]mailto:mail@tosomeone.com[/email]';
+				$expected = "<a href='mailto:mail@tosomeone.com'>mailto:mail@tosomeone.com</a>";
+				$result = $this->Bbcode->parse($input);
+				$this->assertIdentical($expected, $result);
+
+				// mailto: mask
+				$input = '[email=mailto:mail@tosomeone.com]Mail[/email]';
+				$expected = "<a href='mailto:mail@tosomeone.com'>Mail</a>";
+				$result = $this->Bbcode->parse($input);
+				$this->assertIdentical($expected, $result);
+
+				// no mailto:
+				$input = '[email]mail@tosomeone.com[/email]';
+				$expected = "<a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a>";
+				$result = $this->Bbcode->parse($input);
+				$this->assertIdentical($expected, $result);
+
+				// no mailto: mask
+				$input = '[email=mail@tosomeone.com]Mail[/email]';
+				$expected = "<a href='mailto:mail@tosomeone.com'>Mail</a>";
+				$result = $this->Bbcode->parse($input);
+				$this->assertIdentical($expected, $result);
+				*/
+
+		}
+
+		public function testEmailMailto() {
+			$MO = $this->getMock('MailObfuscator', array('link'));
+			$MO->expects($this->once(4))
+					->method('link')
+					->with('mail@tosomeone.com', null);
+			$this->Bbcode->MailObfuscator = $MO;
+
 			$input = '[email]mailto:mail@tosomeone.com[/email]';
-			$expected = "<a href='mailto:mail@tosomeone.com'>mailto:mail@tosomeone.com</a>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->Bbcode->parse($input);
+		}
 
-			// mailto: mask
+		public function testEmailMailtoMask() {
+			$MO = $this->getMock('MailObfuscator', array('link'));
+			$MO->expects($this->once(4))
+					->method('link')
+					->with('mail@tosomeone.com', 'Mail');
+			$this->Bbcode->MailObfuscator = $MO;
+
 			$input = '[email=mailto:mail@tosomeone.com]Mail[/email]';
-			$expected = "<a href='mailto:mail@tosomeone.com'>Mail</a>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->Bbcode->parse($input);
+		}
 
-			// no mailto:
+		public function testEmailNoMailto() {
+			$MO = $this->getMock('MailObfuscator', array('link'));
+			$MO->expects($this->once(4))
+					->method('link')
+					->with('mail@tosomeone.com', null);
+			$this->Bbcode->MailObfuscator = $MO;
+
 			$input = '[email]mail@tosomeone.com[/email]';
-			$expected = "<a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->Bbcode->parse($input);
+		}
 
-			// no mailto: mask
+		public function testEmailNoMailtoMask() {
+			$MO = $this->getMock('MailObfuscator', array('link'));
+			$MO->expects($this->once(4))
+					->method('link')
+					->with('mail@tosomeone.com', 'Mail');
+			$this->Bbcode->MailObfuscator = $MO;
+
 			$input = '[email=mail@tosomeone.com]Mail[/email]';
-			$expected = "<a href='mailto:mail@tosomeone.com'>Mail</a>";
-			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-
-			/**
-			 * Tests for Rot13
-			 *
-			  // mail
-			  $input 		= '[email]mailto:mail@tosomeone.com[/email]';
-			  $expected	=	'<span id=\'moh_0\'></span><script type="text/javascript">Rot13.write(\'<n uers="znvygb:znvy@gbfbzrbar.pbz">znvygb:znvy@gbfbzrbar.pbz</n>\', \'moh_0\');</script>';
-			  $result		= $this->Bbcode->parse($input);
-			  $this->assertIdentical($expected, $result);
-
-			  // mail mask
-			  $input 		= '[email=mailto:mail@tosomeone.com]Mail[/email]';
-			  $expected	=	'<span id=\'moh_1\'></span><script type="text/javascript">Rot13.write(\'<n uers="znvygb:znvy@gbfbzrbar.pbz">Znvy</n>\', \'moh_1\');</script>';
-			  $result		= $this->Bbcode->parse($input);
-			  $this->assertIdentical($expected, $result);
-
-			  // mail without mailto:
-			  $input 		= '[email]mail@tosomeone.com[/email]';
-			  $expected	=	'<span id=\'moh_2\'></span><script type="text/javascript">Rot13.write(\'<n uers="znvygb:znvy@gbfbzrbar.pbz">znvy@gbfbzrbar.pbz</n>\', \'moh_2\');</script>';
-			  $result		= $this->Bbcode->parse($input);
-			  $this->assertIdentical($expected, $result);
-
-			  // mail mask without mailto:
-			  $input 		= '[email=mail@tosomeone.com]Mail[/email]';
-			  $expected	=	'<span id=\'moh_3\'></span><script type="text/javascript">Rot13.write(\'<n uers="znvygb:znvy@gbfbzrbar.pbz">Znvy</n>\', \'moh_3\');</script>';
-			  $result		= $this->Bbcode->parse($input);
-			  $this->assertIdentical($expected, $result);
-			 */
+			$this->Bbcode->parse($input);
 		}
 
 		public function testAutoLink() {
@@ -334,15 +356,11 @@
 
 			// email autolink
 			$input = 'text mail@tosomeone.com test';
-			$expected = "text <a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a> test";
+			// $expected = "text <a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a> test";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
-			/** rot 13
-			  $input 		= 'text mail@tosomeone.com test';
-			  $expected	=	'text <span id=\'moh_4\'></span><script type="text/javascript">Rot13.write(\'<n uers="znvygb:znvy@gbfbzrbar.pbz">znvy@gbfbzrbar.pbz</n>\', \'moh_4\');</script> test';
-			  $result		= $this->Bbcode->parse($input);
-			  $this->assertIdentical($expected, $result);
-			 */
+			// $this->assertIdentical($expected, $result);
+			// @bogus weak test
+			$this->assertRegExp('/^text .*href=".* test$/sm', $result);
 		}
 
 		public function testShortenLink() {
@@ -522,8 +540,8 @@
           array(
               'test.png',
               array(
-                  'autoResize'      => FALSE,
-                  'resizeThumbOnly' => FALSE,
+                  'autoResize'      => false,
+                  'resizeThumbOnly' => false,
                   'width'           => '50',
                   'height'          => '60',
               ),
@@ -715,7 +733,7 @@
       $result = $this->Bbcode->parse($input);
 
       // Embedly is enabled
-      Configure::write('Saito.Settings.embedly_enabled', TRUE);
+      Configure::write('Saito.Settings.embedly_enabled', true);
       Configure::write('Saito.Settings.embedly_key', 'abc123');
 
       $observer = $this->getMock('Embedly', array( 'setApiKey', 'embedly' ));

@@ -199,6 +199,7 @@ CakePlugin::load('Embedly');
 CakePlugin::load('BcryptAuthenticate');
 CakePlugin::load('PreviewDetector');
 CakePlugin::load('JasmineJs');
+CakePlugin::load('MailObfuscator');
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
