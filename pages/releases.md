@@ -17,6 +17,7 @@ layout: default
 - [fix] fixes html5 validation related errors on entries/add in firefox
 - [task] update to CakePHP 2.3.6
 - [task] refactored auto-mark-as-read
+- [task] consolidated twitter-bootstrap include
 
 [gh147]: https://github.com/Schlaefer/Saito/issues/147
 
