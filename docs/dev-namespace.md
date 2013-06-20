@@ -5,7 +5,8 @@ Kind 	| Namespace	| Key 			| Subkey			    | Type 	| Comment
 -----	| ---------	| ----			| -------			    | ----	| -------
 Cache | Saito 		| Settings 	| 						    | 	| Siehe Configuration
 Cache | Saito 		| Cache 		| registerGc 	    | timestamp 	| timestamp of last registerGc
-Cache | Saito 		| Cache 		| catForAccession	| array 	| cache for categories for accesion
+Cache | Saito 		| Cache 		| catForAccession	| array 	    | cache for categories for accession
+Cache | Saito 		| Cache 		| appSettings	    | array 	    | cache for app settings
 Configuration 	| Saito 	| Cache 	| Thread 	| bool 	| if true use thread cache
 Configuration 	| Saito 	| useSaltForUserPasswords	| 	| bool 	| unsalted md5 mode for user passwords
 Configuration 	| Saito		| markItUp	| nextCssId	| int 	| next CSS-ID for button in the markItUp-CSS

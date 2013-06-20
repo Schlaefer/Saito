@@ -36,64 +36,59 @@ class Setting extends AppModel {
 	 * Loads settings from storage into Configuration `Saito.Settings`
 	 *
 	 * ### Options
-	 * 
+	 *
 	 * - `force` Force reread of from storage
 	 *
 	 * @param array $preset allows to overwrite loaded values
    * @param array
 	 * @return array Settings
 	 */
-	public function load($preset = array(), $options = array()) {
+	public function load($preset = [], $options = []) {
 		Stopwatch::start('Settings->getSettings()');
 
-		$defaults = array(
-				'force' => FALSE,
-		);
-		$options = array_merge($defaults, $options);
-		extract($options);
+		$options += [
+			'force' => false
+		];
 
-		// preset must always update Config value
-		if (!empty($preset)) {
-			$force = true;
-		}
+		// $conf_settings = Configure::read('Saito.Settings');
 
-		$config_settings = Configure::read('Saito.Settings');
-		if (!empty($config_settings) && !$force) {
-			$settings = $config_settings;
+		if ($options['force']) {
+			$settings = $this->_load();
 		} else {
-			$settings = $this->getSettings();
-			if ($preset) {
-				$settings = array_merge($settings, $preset);
+			$settings = Cache::read('Saito.appSettings');
+			if (empty($settings)) {
+				$settings = $this->_load();
 			}
-			$this->_updateConfiguration($settings);
 		}
 
+		if ($preset) {
+			$settings = array_merge($settings, $preset);
+		}
+
+		Configure::write('Saito.Settings', $settings);
 		Stopwatch::end('Settings->getSettings()');
+	}
+
+	protected function _load() {
+		$settings = $this->getSettings();
+		Cache::write('Saito.appSettings', $settings);
+		return $settings;
 	}
 
 	public function afterSave($created) {
 		parent::afterSave($created);
-		$this->load(null, array('force' => true));
+		$this->load(null, ['force' => true]);
+	}
+
+	public function clearCache() {
+		Cache::delete('Saito.appSettings');
 	}
 
 	/**
-	 * Updates the Configuration with App Settings
-	 *
-	 * Namespace `Saito.Settings.key = value`
-	 *
-	 * @param array $settings
-	 *
-	 */
-	protected function _updateConfiguration($settings) {
-		Configure::write("Saito.Settings", $settings);
-	} //end _updateConfiguration()
-
-
-	/**
 	 * Returns a key-value array
-	 * 
+	 *
 	 * Fast version of Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
-	 * 
+	 *
 	 * @param array $results
 	 * @return array
 	 */

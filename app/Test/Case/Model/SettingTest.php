@@ -84,6 +84,7 @@
 		}
 
 		public function tearDown() {
+			$this->Setting->clearCache();
 			unset($this->Setting);
 			parent::tearDown();
 		}
