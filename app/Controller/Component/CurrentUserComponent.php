@@ -47,6 +47,17 @@ Class CurrentUserComponent extends SaitoUser {
 	protected $_User = null;
 
 	/**
+	 * array with ids of all user's bookmarks
+	 *
+	 * For performance we cache User->Bookmark->find() here.
+	 *
+	 * format: [entry_id => id, …]
+	 *
+	 * @var array
+	 */
+	protected $_bookmarks = null;
+
+	/**
 	 * Reference to the controller
 	 *
 	 * @var Controller
@@ -205,6 +216,25 @@ Class CurrentUserComponent extends SaitoUser {
 	public function getPersistentCookieName() {
 		return $this->_persistentCookieName;
 	}
+
+		public function getBookmarks() {
+			if ($this->isLoggedIn() === false) {
+				return [];
+			}
+			if ($this->_bookmarks === null) {
+				$this->_bookmarks = [];
+				$bookmarks        = $this->_User->Bookmark->findAllByUserId(
+					$this->getId(),
+					['contain' => false]
+				);
+				if (!empty($bookmarks)) {
+					foreach ($bookmarks as $bookmark) {
+						$this->_bookmarks[(int)$bookmark['Bookmark']['entry_id']] = (int)$bookmark['Bookmark']['id'];
+					}
+				}
+			}
+			return $this->_bookmarks;
+		}
 
 	/**
 	 * write the settings to the session, so that they are available on next request
