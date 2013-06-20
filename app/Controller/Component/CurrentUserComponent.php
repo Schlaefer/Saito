@@ -23,7 +23,7 @@ Class CurrentUserComponent extends SaitoUser {
 	 *
 	 * @var SaitoCurrentUserCookie
 	 */
-	public	$PersistentCookie = NULL;
+	public	$PersistentCookie = null;
 
 	/**
 	 * Name for the persistent Cookie
@@ -37,21 +37,21 @@ Class CurrentUserComponent extends SaitoUser {
 	 *
 	 * @var SaitoLastRefresh
 	 */
-	public $LastRefresh	= NULL;
+	public $LastRefresh	= null;
 
 	/**
 	 * Model User instance exclusive to the CurrentUserComponent
 	 *
 	 * @var User
 	 */
-	protected $_User = NULL;
+	protected $_User = null;
 
 	/**
 	 * Reference to the controller
 	 *
 	 * @var Controller
 	 */
-	protected $_Controller = NULL;
+	protected $_Controller = null;
 
 	/**
 	 * User agent snippets for bots
@@ -125,7 +125,7 @@ Class CurrentUserComponent extends SaitoUser {
 		Stopwatch::start('CurrentUser->_markOnline()');
 
 		$id = $this->getId();
-		if ( $this->isLoggedIn() == FALSE ):
+		if ( $this->isLoggedIn() == false ):
 			// don't count search bots as guests
 			if ($this->_isBot()) {
 				return;
@@ -144,7 +144,7 @@ Class CurrentUserComponent extends SaitoUser {
 		*/
 	protected function _isBot() {
 		return preg_match('/' . implode('|', $this->_botUserAgents) . '/i',
-						env('HTTP_USER_AGENT')) == TRUE;
+						env('HTTP_USER_AGENT')) == true;
 	}
 
 	protected function _cookieRelogin() {
