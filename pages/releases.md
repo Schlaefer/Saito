@@ -7,9 +7,15 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-06.04 ##
+
+### What’s New ###
+
+- [new] performance improvements on entries/mix
+
 ## 2013-06.03 ##
 
-### What's New ###
+### What’s New ###
 
 - [new] email addresses are obfuscated in entry output
 - [new] minor performance improvements in entries/mix
