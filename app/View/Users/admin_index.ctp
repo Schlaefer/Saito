@@ -33,8 +33,10 @@
 							)
 							. '</strong>',
 							$this->UserH->type($user['User']['user_type']),
-							$this->Html->link($user['User']['user_email'],
-									$user['User']['user_email']),
+							$this->Html->link(
+								$user['User']['user_email'],
+								'mailto:' . $user['User']['user_email']
+							),
 							// ouput date format sortable by datatable JS plugin
 							$this->TimeH->formatTime($user['User']['registered'], 'custom', '%Y-%m-%d %H:%M')
 					);
