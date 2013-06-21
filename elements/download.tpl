@@ -1,8 +1,8 @@
 <h4>Get it!</h4>
 <p>
-  <a class="btn" href="https://github.com/Schlaefer/Saito/zipball/2013-06.04">
+  <a class="btn" href="https://github.com/Schlaefer/Saito/zipball/2013-06.05">
     <i class="icon-download-alt"></i>
-    <strong>&nbsp;v2013-06.04</strong>
+    <strong>&nbsp;v2013-06.05</strong>
   </a>
 </p>
 <ul>

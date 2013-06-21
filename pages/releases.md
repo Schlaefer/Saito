@@ -7,6 +7,13 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
 
+## 2013-06.05 ##
+
+### What’s New ###
+
+- [new] performance improvements (settings are now cached)
+- [fix] email addresses in admin user index are link instead of mailto
+
 ## 2013-06.04 ##
 
 ### What’s New ###
