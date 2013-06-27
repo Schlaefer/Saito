@@ -250,15 +250,6 @@
 		public function add($id = null) {
 			$this->set('form_title', __('new_entry_linktitle'));
 
-			if (!$this->CurrentUser->isLoggedIn()) {
-				if ($this->request->is('ajax')) {
-				} else {
-					$this->Session->setFlash(__('logged_in_users_only'), 'flash/notice');
-					$this->redirect($this->referer());
-				}
-				return;
-			}
-
 			if (empty($this->request->data) === false) { // insert new entry
 				$this->request->data                     = $this->_prepareAnswering(
 					$this->request->data

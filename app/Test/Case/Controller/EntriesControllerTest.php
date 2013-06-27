@@ -45,6 +45,15 @@
 			$this->testAction('/entries/mix/9999');
 		}
 
+		/**
+		 * only logged in users should be able to answer
+		 */
+		public function testAddUserNotLoggedInGet() {
+			$this->generate('Entries', ['methods' => 'add']);
+			$this->testAction('/entries/add');
+			$this->assertRedirectedTo('login');
+		}
+
 		public function testNoDirectCallOfAnsweringFormWithId() {
 			$Entries = $this->generate('Entries', array(
 					'methods' => array('referer')
