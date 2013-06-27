@@ -980,9 +980,16 @@
 			$pid = (int)$data['Entry']['pid'];
 			if ($pid > 0) {
 				$parent_entry = $this->Entry->getUnsanitized($pid);
+
 				$this->_isAnsweringAllowed($parent_entry);
-				$this->_swapEmptySubject($data, $parent_entry);
+
+				// if new subject is empty we assume that it's an answer and use the
+				// parent's subject
+				if (empty($entry['Entry']['subject'])) {
+					$entry['Entry']['subject'] = $parent_entry['Entry']['subject'];
+				}
 			}
+
 			if (isset($data['Entry']['text'])) {
 				$data['Entry']['text'] = $this->Bbcode->prepareInput(
 					$data['Entry']['text']
@@ -990,13 +997,6 @@
 			}
 
 			return $data;
-		}
-
-	protected function _swapEmptySubject(&$entry, $parent) {
-			// if send entry is empty we assume that it's a 'Re:' and use the parent subject
-			if (empty($entry['Entry']['subject'])) {
-				$entry['Entry']['subject'] = $parent['Entry']['subject'];
-			}
 		}
 
 	protected function _searchStringSanitizer($search_string) {
