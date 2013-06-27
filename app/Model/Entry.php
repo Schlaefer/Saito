@@ -263,7 +263,9 @@
 			// reply: setup additional data from parent entry
 			$this->contain();
 			$parent_entry = $this->read(array('tid', 'category'), $data['Entry']['pid']);
-			if ($parent_entry === false) { return false; }
+			if ($parent_entry === false) {
+				return false;
+			}
 			$data['Entry']['tid']      = $parent_entry['Entry']['tid'];
 			$data['Entry']['category'] = $parent_entry['Entry']['category'];
 		}
