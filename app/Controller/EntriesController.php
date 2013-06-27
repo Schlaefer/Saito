@@ -250,51 +250,58 @@
 		public function add($id = null) {
 			$this->set('form_title', __('new_entry_linktitle'));
 
-			if (empty($this->request->data) === false) { // insert new entry
-				$this->request->data                     = $this->_prepareAnswering(
-					$this->request->data
-				);
-				$this->request->data['Entry']['user_id'] = $this->CurrentUser->getId();
-				$this->request->data['Entry']['name']    = $this->CurrentUser['username'];
+			// insert new entry
+			if (empty($this->request->data) === false) {
+				$data = $this->request->data;
 
-				$new_posting = $this->Entry->createPosting($this->request->data);
+				$data                     = $this->_prepareAnswering($data);
+				$data['Entry']['user_id'] = $this->CurrentUser->getId();
+				$data['Entry']['name']    = $this->CurrentUser['username'];
 
+				$new_posting = $this->Entry->createPosting($data);
+
+				// inserting new posting was successful
 				if ($new_posting !== false) :
-					// inserting new posting was successful
 					$this->_afterNewEntry($new_posting);
-					if ($this->request->is('ajax')):
-						if ($this->localReferer('action') === 'index'):
-							// Ajax request came from front answer on front page /entries/index
+					if ($this->request->is('ajax')) :
+						// Ajax request came from front answer on front page /entries/index
+						if ($this->localReferer('action') === 'index') {
 							$this->autoRender = false;
+
 							return json_encode(
-								array(
+								[
 									'id'  => (int)$new_posting['Entry']['id'],
 									'pid' => (int)$new_posting['Entry']['pid'],
 									'tid' => (int)$new_posting['Entry']['tid']
-								)
-							); else:
+								]
+							);
+						} else {
 							$this->_stop();
-						endif; else:
-						// answering through POST request
+						}
+					// answering through POST request
+					else :
+						// answer request came from mix ansicht
 						if ($this->localReferer('action') === 'mix') {
-							// answer request came from mix ansicht
 							$this->redirect(
-								array(
+								[
 									'controller' => 'entries',
 									'action'     => 'mix',
 									$new_posting['Entry']['tid'],
 									'#'          => $this->Entry->id
-								)
+								]
 							);
+
+							return;
 						}
 						// normal posting from entries/add or entries/view
 						$this->redirect(
-							array(
+							[
 								'controller' => 'entries',
 								'action'     => 'view',
 								$this->Entry->id
-							)
+							]
 						);
+
 						return;
 					endif;
 				else :
@@ -309,7 +316,9 @@
 					}
 					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				endif;
-			} else { // show add form
+
+			// show add form
+			} else {
 				// answering is always a ajax request, prevents add/1234 GET-requests
 				if (!$this->request->is('ajax') && $id !== null) {
 					$this->Session->setFlash(__('js-required'), 'flash/error');
@@ -967,9 +976,9 @@
 
   }
 
-	protected function _prepareAnswering($data) {
+		protected function _prepareAnswering($data) {
 			$pid = (int)$data['Entry']['pid'];
-			if ( $pid > 0 ) {
+			if ($pid > 0) {
 				$parent_entry = $this->Entry->getUnsanitized($pid);
 				$this->_isAnsweringAllowed($parent_entry);
 				$this->_swapEmptySubject($data, $parent_entry);
@@ -979,8 +988,9 @@
 					$data['Entry']['text']
 				);
 			}
+
 			return $data;
-	}
+		}
 
 	protected function _swapEmptySubject(&$entry, $parent) {
 			// if send entry is empty we assume that it's a 'Re:' and use the parent subject
