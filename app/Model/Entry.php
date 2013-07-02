@@ -275,8 +275,8 @@
 			}
 		}
 
-		$data[$this->alias]['time']        = date("Y-m-d H:i:s");
-		$data[$this->alias]['last_answer'] = date("Y-m-d H:i:s");
+		$data[$this->alias]['time']        = date('Y-m-d H:i:s');
+		$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
 		$data[$this->alias]['ip']          = self::_getIp();
 
 		$this->create();
@@ -329,6 +329,13 @@
 		$this->id = $new_posting_id;
 		return $new_posting;
 	}
+
+		public function update($data, $CurrentUser) {
+			$this->prepareAnswer($data);
+			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
+			$data[$this->alias]['edited_by'] = $CurrentUser['username'];
+			return $this->save($data);
+		}
 
 	/* @mb `views` into extra related table if performance becomes a problem */
 	public function incrementViews($amount=1) {
