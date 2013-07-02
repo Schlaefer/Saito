@@ -251,28 +251,33 @@
 	 */
 	public function createPosting($data = null, $validate = true, $fieldList = array()) {
 
-		if (	 !isset($data['Entry']['pid'])
-				|| !isset($data['Entry']['subject'])
-				|| !isset($data['Entry']['category'])) {
+		if (isset($data[$this->alias]['pid']) === false ||
+				isset($data[$this->alias]['subject']) === false
+		) {
 			return false;
 		}
 
 		$isNewThread = (int)$data['Entry']['pid'] === 0;
 
-		if ($isNewThread === false) {
-			// reply: setup additional data from parent entry
-			$this->contain();
-			$parent_entry = $this->read(array('tid', 'category'), $data['Entry']['pid']);
-			if ($parent_entry === false) {
+		if ($isNewThread === true) {
+			// check that entries are only in existing AND allowed categories
+			$availableCategories = $this->Category->getCategoriesForAccession($this->_CurrentUser->getMaxAccession());
+			if (!isset($availableCategories[$data[$this->alias]['category']])) {
 				return false;
 			}
-			$data['Entry']['tid']      = $parent_entry['Entry']['tid'];
-			$data['Entry']['category'] = $parent_entry['Entry']['category'];
+
+		} else {
+			// reply: setup additional data from parent entry
+			try {
+				$this->prepareAnswer($data);
+			} catch (Exception $e) {
+				return false;
+			}
 		}
 
-		$data['Entry']['time']        = date("Y-m-d H:i:s");
-		$data['Entry']['last_answer'] = date("Y-m-d H:i:s");
-		$data['Entry']['ip']          = self::_getIp();
+		$data[$this->alias]['time']        = date("Y-m-d H:i:s");
+		$data[$this->alias]['last_answer'] = date("Y-m-d H:i:s");
+		$data[$this->alias]['ip']          = self::_getIp();
 
 		$this->create();
 		$new_posting = $this->save($data, $validate,$fieldList);
@@ -283,18 +288,18 @@
 
 		if($isNewThread) {
 			// thread-id of new thread is its own id
-			$new_posting['Entry']['tid'] = $new_posting_id;
+			$new_posting[$this->alias]['tid'] = $new_posting_id;
 			if ($this->save($new_posting) === false) {
 				// @td raise error and/or roll back new entry
 				return false;
 			} else {
-        $this->Category->id = $data['Entry']['category'];
+        $this->Category->id = $data[$this->alias]['category'];
         $this->Category->updateThreadCounter();
       }
 		} else  {
 			// update last answer time of root entry
-			$this->id = $parent_entry['Entry']['tid'];
-			$this->set('last_answer', $new_posting['Entry']['last_answer']);
+			$this->id = $new_posting[$this->alias]['tid'];
+			$this->set('last_answer', $new_posting[$this->alias]['last_answer']);
 			if ($this->save() === false) {
 				// @td raise error and/or roll back new entry
 				return false;
@@ -305,7 +310,7 @@
 					'Model.Entry.replyToEntry',
 					$this,
 					array(
-						'subject' => $new_posting['Entry']['pid'],
+						'subject' => $new_posting[$this->alias]['pid'],
 						'data'    => $new_posting,
 					)
 				)
@@ -315,7 +320,7 @@
 					'Model.Entry.replyToThread',
 					$this,
 					array(
-						'subject' => $new_posting['Entry']['tid'],
+						'subject' => $new_posting[$this->alias]['tid'],
 						'data'    => $new_posting,
 					)
 				)
@@ -599,7 +604,7 @@
 			$sourceEntry = $this->findById($threadIdSource);
 
 			// check that source is thread and not an entry
-			if ($sourceEntry['Entry']['pid'] != 0) {
+			if ($sourceEntry[$this->alias]['pid'] != 0) {
 				return false;
 			}
 
@@ -612,29 +617,29 @@
 			}
 
 			// check that a thread is not merged onto itself
-			if ($targetEntry['Entry']['tid'] === $sourceEntry['Entry']['tid']) {
+			if ($targetEntry[$this->alias]['tid'] === $sourceEntry[$this->alias]['tid']) {
 				return false;
 			}
 
 			// set target entry as new parent entry
-			$this->set('pid', $targetEntry['Entry']['id']);
+			$this->set('pid', $targetEntry[$this->alias]['id']);
 			if ($this->save()) {
 				// associate all entries in source thread to target thread
 				$this->updateAll(
-					['tid' => $targetEntry['Entry']['tid']],
+					['tid' => $targetEntry[$this->alias]['tid']],
 					['tid' => $this->id]
 				);
 
 				// appended source entries get category of target thread
 				$this->_threadChangeCategory(
-					$targetEntry['Entry']['tid'],
-					$targetEntry['Entry']['category']
+					$targetEntry[$this->alias]['tid'],
+					$targetEntry[$this->alias]['category']
 				);
 
 				// update target thread last answer if source is newer
 				$sourceLastAnswer = $this->field('last_answer');
-				if (strtotime($sourceLastAnswer) > strtotime($targetEntry['Entry']['last_answer'])) {
-					$this->id = $targetEntry['Entry']['tid'];
+				if (strtotime($sourceLastAnswer) > strtotime($targetEntry[$this->alias]['last_answer'])) {
+					$this->id = $targetEntry[$this->alias]['tid'];
 					$this->set('last_answer', $sourceLastAnswer);
 					$this->save();
 				}
@@ -764,16 +769,47 @@
 		}
 
 		protected function _isLocked($entry) {
-			if (!isset($entry['Entry']['locked'])) {
+			if (!isset($entry[$this->alias]['locked'])) {
 				throw new InvalidArgumentException;
 			}
 
-			return $entry['Entry']['locked'] != false;
+			return $entry[$this->alias]['locked'] != false;
+		}
+
+		/**
+		 * Adds info from parent entry to an answer
+		 *
+		 * @param $data
+		 */
+		public function prepareAnswer(&$data) {
+			$parent = $this->getUnsanitized($data[$this->alias]['pid']);
+			if ($parent === false) {
+				throw new InvalidArgumentException;
+			}
+
+			if ($this->isAnsweringForbidden($parent)) {
+				throw new ForbiddenException;
+			}
+
+			// if new subject is empty use the parent's subject
+			if (empty($data[$this->alias]['subject'])) {
+				$data[$this->alias]['subject'] = $parent[$this->alias]['subject'];
+			}
+
+			$data[$this->alias]['tid']      = $parent[$this->alias]['tid'];
+			$data[$this->alias]['category'] = $parent[$this->alias]['category'];
 		}
 
 		public function getUnsanitized($id) {
-				$this->sanitize(false);
-				return $this->find('entry', array('conditions' => array('Entry.id' => $id)));
+			$this->sanitize(false);
+
+			return $this->find(
+				'entry',
+				[
+					'contain'    => ['User', 'Category'],
+					'conditions' => ['Entry.id' => $id]
+				]
+			);
 		}
 
 		public function _findEntry($state, $query, $results = array()) {
@@ -863,7 +899,7 @@
 			$success = true;
 
 			// change category of thread if category of root entry changed
-			if (isset($this->data['Entry']['category'])) {
+			if (isset($this->data[$this->alias]['category'])) {
 				// get old entry to compare with new data
 				$old_entry = $this->find(
 					'first',
@@ -875,11 +911,11 @@
 					)
 				);
 
-				if ($old_entry && (int)$old_entry['Entry']['pid'] === 0) {
-					if ((int)$this->data['Entry']['category'] !== (int)$old_entry['Entry']['category']) {
+				if ($old_entry && (int)$old_entry[$this->alias]['pid'] === 0) {
+					if ((int)$this->data[$this->alias]['category'] !== (int)$old_entry[$this->alias]['category']) {
 						$success = $success && $this->_threadChangeCategory(
-							$old_entry['Entry']['tid'],
-							$this->data['Entry']['category']
+							$old_entry[$this->alias]['tid'],
+							$this->data[$this->alias]['category']
 						);
 					}
 				}

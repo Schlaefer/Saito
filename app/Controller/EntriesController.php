@@ -254,7 +254,7 @@
 			if (empty($this->request->data) === false) {
 				$data = $this->request->data;
 
-				$data                     = $this->_prepareAnswering($data);
+				$this->_prepareAnswer($data);
 				$data['Entry']['user_id'] = $this->CurrentUser->getId();
 				$data['Entry']['name']    = $this->CurrentUser['username'];
 
@@ -332,7 +332,9 @@
 
 				if (!empty($this->request->data)): // answer to existing posting
 
-					$this->_isAnsweringAllowed($this->request->data);
+					if ($this->Entry->isAnsweringForbidden($this->request->data)) {
+						throw new ForbiddenException;
+					}
 
 					// create new subentry
 					$this->request->data['Entry']['pid'] = $id;
@@ -419,7 +421,8 @@
 		}
 
 		if (!empty($this->request->data)) {
-			$this->request->data = $this->_prepareAnswering($this->request->data);
+			$this->Entry->prepareAnswer($this->request->data);
+			$this->_prepareAnswer($this->request->data);
 			// try to save entry
 			$this->request->data['Entry']['edited'] = date("Y-m-d H:i:s");
 			$this->request->data['Entry']['edited_by'] = $this->CurrentUser['username'];
@@ -641,7 +644,6 @@
 		}
 
 		$data = $this->request->data;
-		$data = $this->_prepareAnswering($data);
 	  $data = $data['Entry'];
 		$newEntry = array(
 			'Entry' => array(
@@ -656,6 +658,12 @@
 				'time'     => date("Y-m-d H:i:s")
 			)
 		);
+
+		$this->_prepareAnswer($newEntry);
+		if ((int)$newEntry['Entry']['pid'] !== 0) {
+			$this->Entry->prepareAnswer($newEntry);
+		}
+
 		$this->Entry->set($newEntry);
 
 		$this->Entry->validates(
@@ -849,13 +857,6 @@
 			}
 	}
 
-	protected function _isAnsweringAllowed($parent_entry) {
-		$forbidden = $this->Entry->isAnsweringForbidden($parent_entry);
-		if ($forbidden) {
-			throw new ForbiddenException;
-		}
-	}
-
 	/**
 	 * Gets the thread ids of all threads which should be visisble on the an
 	 * entries/index/# page.
@@ -976,27 +977,12 @@
 
   }
 
-		protected function _prepareAnswering($data) {
-			$pid = (int)$data['Entry']['pid'];
-			if ($pid > 0) {
-				$parent_entry = $this->Entry->getUnsanitized($pid);
-
-				$this->_isAnsweringAllowed($parent_entry);
-
-				// if new subject is empty we assume that it's an answer and use the
-				// parent's subject
-				if (empty($entry['Entry']['subject'])) {
-					$entry['Entry']['subject'] = $parent_entry['Entry']['subject'];
-				}
-			}
-
+		protected function _prepareAnswer(&$data) {
 			if (isset($data['Entry']['text'])) {
 				$data['Entry']['text'] = $this->Bbcode->prepareInput(
 					$data['Entry']['text']
 				);
 			}
-
-			return $data;
 		}
 
 	protected function _searchStringSanitizer($search_string) {

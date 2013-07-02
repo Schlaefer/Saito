@@ -4,6 +4,10 @@
 	App::uses('ComponentCollection', 'Controller');
 	App::uses('SaitoUser', 'Lib');
 
+	class EntryMock extends Entry {
+		public $_CurrentUser;
+	}
+
 	class EntryTest extends CakeTestCase {
 
 		public $fixtures = array(
@@ -26,20 +30,35 @@
 			);
 		}
 
-    public function testCreate() {
+    public function testCreateCategoryThreadCounterUpdate() {
       App::uses('Category', 'Model');
 
-      Configure::write('Saito.Settings.subject_maxlength', 75);
-      $this->Entry->Category = $this->getMock('Category', array('updateThreadCounter'), array(false, 'categories', 'test'));
-      $this->Entry->Category->expects($this->once())->method('updateThreadCounter')->will($this->returnValue(true));
-      $data['Entry'] = array(
-          'pid' => 0,
-          'subject' => 'Subject',
-          'category'  => 1,
-          'user_id'   => 1,
-      );
-      $this->Entry->createPosting($data);
+			$SaitoUser = $this->getMock(
+				'SaitoUser',
+				['getMaxAccession'],
+				[new ComponentCollection]
+			);
+			$SaitoUser->expects($this->once())
+					->method('getMaxAccession')
+					->will($this->returnValue(2));
+			$this->Entry->_CurrentUser = $SaitoUser;
 
+      Configure::write('Saito.Settings.subject_maxlength', 75);
+			$this->Entry->Category = $this->getMock(
+				'Category',
+				['updateThreadCounter'],
+				[false, 'categories', 'test']
+			);
+			$this->Entry->Category->expects($this->once())
+					->method('updateThreadCounter')
+					->will($this->returnValue(true));
+			$data['Entry'] = [
+				'pid'      => 0,
+				'subject'  => 'Subject',
+				'category' => 1,
+				'user_id'  => 1
+			];
+      $this->Entry->createPosting($data);
     }
 
 		public function testToggle() {
@@ -583,7 +602,10 @@
      */
     public function setUp() {
       parent::setUp();
-      $this->Entry = ClassRegistry::init('Entry');
+			$this->Entry = ClassRegistry::init([
+					'class' => 'EntryMock',
+					'alias' => 'Entry'
+				]);
     }
 
     /**

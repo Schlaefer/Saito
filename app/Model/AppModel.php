@@ -48,7 +48,7 @@ class AppModel extends Model {
 		} elseif (self::$_lock_no_sanitize === $this->alias) {
 			// sanitizing can only be disabled for one find
 			$this->sanitize(true);
-		} 
+		}
 		return $results;
 	}
 
@@ -64,7 +64,7 @@ class AppModel extends Model {
 	public function toggle($key) {
 		$this->contain();
 		$value = $this->read($key);
-		$value = ($value[$this->name][$key] == 0) ? 1 : 0;
+		$value = ($value[$this->alias][$key] == 0) ? 1 : 0;
 		$this->set($key, $value);
 		$this->save();
 		return $value;
@@ -72,7 +72,7 @@ class AppModel extends Model {
 
   /**
    * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
-   * 
+   *
    * @param string $pipeString
    * @return array
    */
