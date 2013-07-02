@@ -1,0 +1,49 @@
+h3. Geshi Helper Plugin
+
+This plugin provides a simple helper for adding GeSHI syntax highlighting to
+your application.
+
+h3. Installation
+
+Either clone the repository or download a package and place it in a @Geshi@
+directory in one of your plugin paths.  For example @app/Plugin/Geshi@.
+
+h3. Usage
+
+To use the helper, include the helper in your controller:
+
+	public $helpers = array('Geshi.Geshi');
+
+h4. Methods
+
+**highlight($html)**
+
+This method will scan HTML for @<pre>@ blocks with a known lang attribute.  This
+method is good for highlighting code samples in blog posts, or wiki pages.
+
+You can indicate the language of the text in a @<pre>@ block by setting the lang
+attribute.  For example:
+
+	<pre lang="php">
+	<?php
+	echo 'hi'
+	</pre>
+
+Will be highlight as php code.
+
+**highlightText($text, $language)**
+
+This method will highlight @$text@ in @$language@.  Use this method to 
+highlight text in any language GeSHI supports.
+
+h4. Configuration
+
+You can configure the GeSHI instance by creating a @geshi.php@ file in your
+@app/Config@ directory.  This file should contain the code/method calls to
+configure the @$geshi@ object.  An example an be found in
+@Test/Case/geshi.php@
+
+h3. License
+
+This code is licensed under the MIT License.
+GeSHI is licensed under the GPLv2 License.
