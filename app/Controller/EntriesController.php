@@ -34,40 +34,24 @@
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
-			// get data for slidetabs
-			if ($this->CurrentUser->isLoggedIn()) {
-				// get current user's recent entries for slidetab
-				$this->set(
-					'recentPosts',
-					$this->Entry->getRecentEntries(
-						array(
-							'user_id' => $this->CurrentUser->getId(),
-							'limit'   => 5,
-						),
-						$this->CurrentUser
-					)
-				);
-				// get last 10 recent entries for slidetab
-				$this->set(
-					'recentEntries',
-					$this->Entry->getRecentEntries(
-						array(),
-						$this->CurrentUser
-					)
-				);
-				// get shouts
-				if (in_array('slidetab_shoutbox', $this->viewVars['slidetabs'])) {
-					$this->Shouts->setShoutsForView();
-				}
+			$this->_prepareSlidetabData();
+
+			// determine user sort order
+			$sortKey = 'Entry.';
+			if ($this->CurrentUser['user_sort_last_answer'] == false) {
+				$sortKey .= 'time';
+			} else {
+				$sortKey .= 'last_answer';
 			}
+			$order = ['Entry.fixed' => 'DESC', $sortKey => 'DESC'];
 
-			// get threads
-			extract($this->_getInitialThreads($this->CurrentUser));
+			// get initial threads
+			$initialThreads = $this->_getInitialThreads($this->CurrentUser, $order);
 
-			// match threads against cache
-			$cachedThreads = array();
-			$uncachedThreads = array();
-			foreach($initialThreads as $key => $thread) {
+			// match initial threads against cache
+			$cachedThreads = [];
+			$uncachedThreads = [];
+			foreach($initialThreads as $thread) {
 				if ($this->CacheTree->isCacheValid($thread)) {
 					$cachedThreads[$thread['id']] = $thread;
 				} else {
@@ -81,16 +65,18 @@
 			// get threads not available in cache
 			$dbThreads = $this->Entry->treesForThreads($uncachedThreads, $order);
 
-			$threads = array();
-			foreach( $initialThreads as $thread ) {
-				if (isset($cachedThreads[$thread['id']])) {
-					$threads[]['Entry'] = $cachedThreads[$thread['id']];
-					unset($cachedThreads[$thread['id']]);
+			$threads = [];
+			foreach ($initialThreads as $thread) {
+				$id = $thread['id'];
+				if (isset($cachedThreads[$id])) {
+					$threads[]['Entry'] = $cachedThreads[$id];
+					unset($cachedThreads[$id]);
 				} else {
-					foreach($dbThreads as $k => $dbThread) {
-						if($dbThread['Entry']['tid'] == $thread['id']) {
+					foreach ($dbThreads as $k => $dbThread) {
+						if ($dbThread['Entry']['tid'] === $id) {
 							$threads[] = $dbThreads[$k];
 							unset($dbThreads[$k]);
+							break;
 						}
 					}
 				}
@@ -824,117 +810,146 @@
 			}
 		}
 
-	protected function _afterNewEntry($newEntry) {
+		protected function _prepareSlidetabData() {
+			if ($this->CurrentUser->isLoggedIn()) {
+				// get current user's recent entries for slidetab
+				$this->set(
+					'recentPosts',
+					$this->Entry->getRecentEntries(
+						[
+							'user_id' => $this->CurrentUser->getId(),
+							'limit'   => 5
+						],
+						$this->CurrentUser
+					)
+				);
+				// get last 10 recent entries for slidetab
+				$this->set(
+					'recentEntries',
+					$this->Entry->getRecentEntries(
+						[],
+						$this->CurrentUser
+					)
+				);
+				// get shouts
+				if (in_array('slidetab_shoutbox', $this->viewVars['slidetabs'])) {
+					$this->Shouts->setShoutsForView();
+				}
+			}
+		}
+
+		protected function _afterNewEntry($newEntry) {
 			$this->CacheSupport->clearTree($newEntry['Entry']['tid']);
 			// set notifications
 			if (isset($newEntry['Event'])) {
-				$notis = array(
-						array(
-								'subject' 			=> $newEntry['Entry']['id'],
-								'event' 				=> 'Model.Entry.replyToEntry',
-								'receiver'			=> 'EmailNotification',
-								'set' 					=> $newEntry['Event'][1]['event_type_id'],
-						),
-						array(
-								'subject' 			=> $newEntry['Entry']['tid'],
-								'event' 				=> 'Model.Entry.replyToThread',
-								'receiver'			=> 'EmailNotification',
-								'set' 					=> $newEntry['Event'][2]['event_type_id'],
-						),
+				$notis = [
+					[
+						'subject'  => $newEntry['Entry']['id'],
+						'event'    => 'Model.Entry.replyToEntry',
+						'receiver' => 'EmailNotification',
+						'set'      => $newEntry['Event'][1]['event_type_id'],
+					],
+					[
+						'subject'  => $newEntry['Entry']['tid'],
+						'event'    => 'Model.Entry.replyToThread',
+						'receiver' => 'EmailNotification',
+						'set'      => $newEntry['Event'][2]['event_type_id'],
+					]
+				];
+				$this->Entry->Esevent->notifyUserOnEvents(
+					$newEntry['Entry']['user_id'],
+					$notis
 				);
-				$this->Entry->Esevent->notifyUserOnEvents($newEntry['Entry']['user_id'], $notis);
 			}
-	}
-
-	/**
-	 * Gets the thread ids of all threads which should be visisble on the an
-	 * entries/index/# page.
-	 *
-	 * @param CurrentUserComponent $User
-	 * @return array
-	 */
-	protected function _getInitialThreads(CurrentUserComponent $User) {
-		Stopwatch::start('Entries->_getInitialThreads() Paginate');
-		$sort_order = 'Entry.' . ($User['user_sort_last_answer'] == false ? 'time' : 'last_answer');
-		$order = array( 'Entry.fixed' => 'DESC', $sort_order => 'DESC' );
-
-			// default for logged-in and logged-out users
-			$cats				 = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
-
-			// get data for category chooser
-			$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
-					$User->getMaxAccession());
-			$this->set('categoryChooser', $categoryChooser);
-
-			$catCT			 = __('All Categories');
-			$catC_isUsed = false;
-
-			// category chooser
-			if ($User->isLoggedIn()) {
-				if (Configure::read('Saito.Settings.category_chooser_global')
-						|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
-				) {
-					$catC_isUsed = true;
-					/* merge the user-cats with all-cats to include categories which are
-						* new since the user updated his custum-cats the last time
-						* array (4 => '4', 7 => '7', 13 => '13') + array (4 => true, 7 => '0')
-						* becomes
-						* array (4 => true, 7 => '0', 13 => '13')
-						* with 13 => '13' trueish */
-					$user_cats = $User['user_category_custom'] + $cats;
-					/* then filter for zeros to get only the user categories
-						* array (4 => true, 13 => '13') */
-					$user_cats = array_filter($user_cats);
-					$user_cats = array_intersect_key($user_cats, $cats);
-					$this->set('categoryChooserChecked', $user_cats);
-
-					if ($User->isLoggedIn() === false) {
-						// non logged in user sees his accessions i.e. the default set
-					} elseif ((int)$User['user_category_active'] === -1) {
-						// user has choosen to see all available categories i.e. the default set
-					} elseif ((int)$User['user_category_active'] > 0) {
-						// logged in users sees his active group if he has access rights
-						$cats = array_intersect_key($cats,
-								array($User['user_category_active']	=> 1));
-						$catCT												 = $User['user_category_active'];
-					} elseif (empty($User['user_category_custom'])) {
-						// for whatever reason we should see a custom category, but there are no set yet
-					} elseif (empty($User['user_category_custom']) === false) {
-						// but if he has no active group and a custom groups set he sees his custom group
-						$cats	 = array_keys($user_cats);
-						$catCT = __('Custom');
-					}
-
-					$this->set('categoryChooserTitleId', $catCT);
-				}
-			}
-			$this->set('categoryChooserIsUsed', $catC_isUsed);
-
-			$this->paginate = array(
-				/* Whenever you change the conditions here check if you have to adjust
-				 * the db index. Running this query without appropriate db index is a huge
-				 * performance bottleneck!
-				 */
-				'conditions' => array(
-						'pid' => 0,
-						'Entry.category' => $cats,
-				),
-				'contain' => false,
-				'fields' => 'id, pid, tid, time, last_answer',
-				'limit' => Configure::read('Saito.Settings.topics_per_page'),
-				'order' => $order,
-        'getInitialThreads' => 1,
-				)
-		;
-		$initial_threads = $this->paginate();
-
-		$initial_threads_new = array( );
-		foreach ( $initial_threads as $k => $v ) {
-			$initial_threads_new[$k] = $v["Entry"];
 		}
-		Stopwatch::stop('Entries->_getInitialThreads() Paginate');
-		return array( 'initialThreads' => $initial_threads_new, 'order' => $order );
-	}
+
+		/**
+		 * Gets the thread ids of all threads which should be visisble on the an
+		 * entries/index/# page.
+		 *
+		 * @param CurrentUserComponent $User
+		 * @return array
+		 */
+		protected function _getInitialThreads(CurrentUserComponent $User, $order) {
+			Stopwatch::start('Entries->_getInitialThreads() Paginate');
+				// default for logged-in and logged-out users
+				$cats				 = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
+
+				// get data for category chooser
+				$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
+						$User->getMaxAccession());
+				$this->set('categoryChooser', $categoryChooser);
+
+				$catCT			 = __('All Categories');
+				$catC_isUsed = false;
+
+				// category chooser
+				if ($User->isLoggedIn()) {
+					if (Configure::read('Saito.Settings.category_chooser_global')
+							|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
+					) {
+						$catC_isUsed = true;
+						/* merge the user-cats with all-cats to include categories which are
+							* new since the user updated his custum-cats the last time
+							* array (4 => '4', 7 => '7', 13 => '13') + array (4 => true, 7 => '0')
+							* becomes
+							* array (4 => true, 7 => '0', 13 => '13')
+							* with 13 => '13' trueish */
+						$user_cats = $User['user_category_custom'] + $cats;
+						/* then filter for zeros to get only the user categories
+							* array (4 => true, 13 => '13') */
+						$user_cats = array_filter($user_cats);
+						$user_cats = array_intersect_key($user_cats, $cats);
+						$this->set('categoryChooserChecked', $user_cats);
+
+						if ($User->isLoggedIn() === false) {
+							// non logged in user sees his accessions i.e. the default set
+						} elseif ((int)$User['user_category_active'] === -1) {
+							// user has choosen to see all available categories i.e. the default set
+						} elseif ((int)$User['user_category_active'] > 0) {
+							// logged in users sees his active group if he has access rights
+							$cats = array_intersect_key($cats,
+									array($User['user_category_active']	=> 1));
+							$catCT												 = $User['user_category_active'];
+						} elseif (empty($User['user_category_custom'])) {
+							// for whatever reason we should see a custom category, but there are no set yet
+						} elseif (empty($User['user_category_custom']) === false) {
+							// but if he has no active group and a custom groups set he sees his custom group
+							$cats	 = array_keys($user_cats);
+							$catCT = __('Custom');
+						}
+
+						$this->set('categoryChooserTitleId', $catCT);
+					}
+				}
+				$this->set('categoryChooserIsUsed', $catC_isUsed);
+
+				$this->paginate = array(
+					/* Whenever you change the conditions here check if you have to adjust
+					 * the db index. Running this query without appropriate db index is a huge
+					 * performance bottleneck!
+					 */
+					'conditions' => array(
+							'pid' => 0,
+							'Entry.category' => $cats,
+					),
+					'contain' => false,
+					'fields' => 'id, pid, tid, time, last_answer',
+					'limit' => Configure::read('Saito.Settings.topics_per_page'),
+					'order' => $order,
+					'getInitialThreads' => 1,
+					)
+			;
+			$initial_threads = $this->paginate();
+
+			$initial_threads_new = [];
+			foreach ($initial_threads as $k => $v) {
+				$initial_threads_new[$k] = $v['Entry'];
+			}
+			Stopwatch::stop('Entries->_getInitialThreads() Paginate');
+
+			return $initial_threads_new;
+		}
 
 	protected function _teardownAdd() {
 		//* find categories for dropdown
