@@ -34,23 +34,6 @@
 			$this->_initHelper = true;
 		}
 
-		public function prepareInput($string) {
-			$string = $this->_hashInternalEntryLinks($string);
-			return $string;
-		}
-
-		protected function _hashInternalEntryLinks($string) {
-			$string = preg_replace(
-				"%
-				(?<!=) # don't hash if part of [url=…
-				{$this->server}{$this->webroot}{$this->settings['hashBaseUrl']}
-				(\d+)  # the id
-				%imx",
-				"#\\1",
-				$string);
-			return $string;
-		}
-
 		/**
 		 * Inits the Bbcode Helper for use in a View
 		 *

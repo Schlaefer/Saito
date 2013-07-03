@@ -28,11 +28,11 @@
 
 		public $primaryKey = 'id';
 
-		public $actsAs = array(
+		public $actsAs = [
 			'Containable',
 			'Search.Searchable',
-			'Tree',
-		);
+			'Tree'
+		];
 
 		public $findMethods = array(
 			'feed'  => true,
@@ -257,22 +257,16 @@
 			return false;
 		}
 
-		$isNewThread = (int)$data['Entry']['pid'] === 0;
+		// check that entries are only in existing AND allowed categories
+		$availableCategories = $this->Category->getCategoriesForAccession($this->_CurrentUser->getMaxAccession());
+		if (!isset($availableCategories[$data[$this->alias]['category']])) {
+			return false;
+		}
 
-		if ($isNewThread === true) {
-			// check that entries are only in existing AND allowed categories
-			$availableCategories = $this->Category->getCategoriesForAccession($this->_CurrentUser->getMaxAccession());
-			if (!isset($availableCategories[$data[$this->alias]['category']])) {
-				return false;
-			}
-
-		} else {
-			// reply: setup additional data from parent entry
-			try {
-				$this->prepareAnswer($data);
-			} catch (Exception $e) {
-				return false;
-			}
+		try {
+			$this->prepare($data);
+		} catch (Exception $e) {
+			return false;
 		}
 
 		$data[$this->alias]['time']        = date('Y-m-d H:i:s');
@@ -286,7 +280,7 @@
 		$new_posting_id	= $this->id;
 		if ($new_posting === true) { $new_posting = $this->read(); }
 
-		if($isNewThread) {
+		if($this->isRoot($data)) {
 			// thread-id of new thread is its own id
 			$new_posting[$this->alias]['tid'] = $new_posting_id;
 			if ($this->save($new_posting) === false) {
@@ -331,7 +325,7 @@
 	}
 
 		public function update($data, $CurrentUser) {
-			$this->prepareAnswer($data);
+			$this->prepare($data);
 			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
 			$data[$this->alias]['edited_by'] = $CurrentUser['username'];
 			return $this->save($data);
@@ -784,27 +778,52 @@
 		}
 
 		/**
-		 * Adds info from parent entry to an answer
+		 * Preprocesses entry data before saving it
 		 *
 		 * @param $data
+		 * @param bool $isNew
+		 * @throws InvalidArgumentException
+		 * @throws ForbiddenException
 		 */
-		public function prepareAnswer(&$data) {
-			$parent = $this->getUnsanitized($data[$this->alias]['pid']);
-			if ($parent === false) {
-				throw new InvalidArgumentException;
+		public function prepare(&$data, $isRoot = null) {
+			if ($isRoot === null) {
+				$isRoot = $this->isRoot($data);
+			}
+			// adds info from parent entry to an answer
+			if ($isRoot === false) {
+				$parent = $this->getUnsanitized($data[$this->alias]['pid']);
+				if ($parent === false) {
+					throw new InvalidArgumentException;
+				}
+
+				if ($this->isAnsweringForbidden($parent)) {
+					throw new ForbiddenException;
+				}
+
+				// if new subject is empty use the parent's subject
+				if (empty($data[$this->alias]['subject'])) {
+					$data[$this->alias]['subject'] = $parent[$this->alias]['subject'];
+				}
+
+				$data[$this->alias]['tid']      = $parent[$this->alias]['tid'];
+				$data[$this->alias]['category'] = $parent[$this->alias]['category'];
 			}
 
-			if ($this->isAnsweringForbidden($parent)) {
-				throw new ForbiddenException;
+			// text preprocessing
+			if (empty($data[$this->alias]['text']) === false) {
+				if ($this->Behaviors->loaded('Bbcode') === false) {
+					$this->Behaviors->load(
+						'Bbcode',
+						[
+							'hashBaseUrl' => 'entries/view/',
+							'atBaseUrl'   => 'users/name/'
+						]
+					);
+				}
+				$data[$this->alias]['text'] = $this->prepareBbcode(
+					$data[$this->alias]['text']
+				);
 			}
-
-			// if new subject is empty use the parent's subject
-			if (empty($data[$this->alias]['subject'])) {
-				$data[$this->alias]['subject'] = $parent[$this->alias]['subject'];
-			}
-
-			$data[$this->alias]['tid']      = $parent[$this->alias]['tid'];
-			$data[$this->alias]['category'] = $parent[$this->alias]['category'];
 		}
 
 		public function getUnsanitized($id) {
@@ -927,6 +946,7 @@
 					}
 				}
 			}
+
 
 			return $success && parent::beforeSave($options);
 		}

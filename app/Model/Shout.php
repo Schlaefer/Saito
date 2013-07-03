@@ -16,9 +16,9 @@
 		 */
 		public $displayField = 'text';
 
-		public $actsAs = array(
-			'Containable',
-		);
+		public $actsAs = [
+			'Containable'
+		];
 
 		/**
 		 * Validation rules
@@ -104,5 +104,24 @@
 			$oldest_id = current($current_ids);
 			return $this->delete($oldest_id);
 
+		}
+
+		public function beforeSave($options = []) {
+			if ($this->Behaviors->loaded('Bbcode') === false) {
+				$this->Behaviors->load(
+					'Bbcode',
+					[
+						'hashBaseUrl' => 'entries/view/',
+						'atBaseUrl'   => 'users/name/'
+					]
+				);
+			}
+			if (empty($this->data[$this->alias]['text']) === false) {
+				$this->data[$this->alias]['text'] = $this->prepareBbcode(
+					$this->data[$this->alias]['text']
+				);
+			}
+
+			return true;
 		}
 	}

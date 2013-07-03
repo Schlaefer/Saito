@@ -254,7 +254,6 @@
 			if (empty($this->request->data) === false) {
 				$data = $this->request->data;
 
-				$this->_prepareAnswer($data);
 				$data['Entry']['user_id'] = $this->CurrentUser->getId();
 				$data['Entry']['name']    = $this->CurrentUser['username'];
 
@@ -421,7 +420,6 @@
 		}
 
 		if (!empty($this->request->data)) {
-			$this->_prepareAnswer($this->request->data);
 			$this->Entry->id = $id;
 			$new_entry = $this->Entry->update($this->request->data, $this->CurrentUser);
 			if ($new_entry) {
@@ -654,11 +652,7 @@
 			)
 		);
 
-		$this->_prepareAnswer($newEntry);
-		if ((int)$newEntry['Entry']['pid'] !== 0) {
-			$this->Entry->prepareAnswer($newEntry);
-		}
-
+		$this->Entry->prepare($newEntry);
 		$this->Entry->set($newEntry);
 
 		$this->Entry->validates(
@@ -971,14 +965,6 @@
     $this->set('showAnsweringPanel', $showAnsweringPanel);
 
   }
-
-		protected function _prepareAnswer(&$data) {
-			if (!empty($data['Entry']['text'])) {
-				$data['Entry']['text'] = $this->Bbcode->prepareInput(
-					$data['Entry']['text']
-				);
-			}
-		}
 
 	protected function _searchStringSanitizer($search_string) {
 		$search_string = Sanitize::escape($search_string);
