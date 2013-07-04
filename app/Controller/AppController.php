@@ -1,5 +1,6 @@
 <?php
 
+App::uses('BbcodeSettings', 'Lib/Bbcode');
 App::uses('Controller', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
 App::import('Lib', 'Stopwatch.Stopwatch');
@@ -13,10 +14,7 @@ class AppController extends Controller {
 			// 'DebugKit.Toolbar',
 
 			'Auth',
-			'Bbcode' => array(
-				'hashBaseUrl' => 'entries/view/',
-				'atBaseUrl'   => 'users/name/',
-			),
+			'Bbcode',
 
 			/**
 			 * You have to have Cookie before CurrentUser to have the salt initialized.
@@ -96,6 +94,16 @@ class AppController extends Controller {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		Stopwatch::start('App->beforeFilter()');
+
+		$bbcodeSettings = BbcodeSettings::getInstance();
+		$bbcodeSettings->set(
+			[
+				'hashBaseUrl' => 'entries/view/',
+				'atBaseUrl'   => 'users/name/',
+				'server'  => FULL_BASE_URL,
+				'webroot' => $this->webroot
+			]
+		);
 
 		// must be set before forum_disabled switch;
 		$this->theme = Configure::read('Saito.theme');

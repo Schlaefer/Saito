@@ -29,6 +29,7 @@
 		public $primaryKey = 'id';
 
 		public $actsAs = [
+			'Bbcode',
 			'Containable',
 			'Search.Searchable',
 			'Tree'
@@ -249,7 +250,11 @@
 	 *
 	 * Interface see model->save()
 	 */
-	public function createPosting($data = null, $validate = true, $fieldList = array()) {
+	public function createPosting($data, $CurrentUser = null) {
+
+		if ($CurrentUser === null && !empty($this->_CurrentUser)) {
+			$CurrentUser = $this->_CurrentUser;
+		}
 
 		if (isset($data[$this->alias]['pid']) === false ||
 				isset($data[$this->alias]['subject']) === false
@@ -258,7 +263,7 @@
 		}
 
 		// check that entries are only in existing AND allowed categories
-		$availableCategories = $this->Category->getCategoriesForAccession($this->_CurrentUser->getMaxAccession());
+		$availableCategories = $this->Category->getCategoriesForAccession($CurrentUser->getMaxAccession());
 		if (!isset($availableCategories[$data[$this->alias]['category']])) {
 			return false;
 		}
@@ -269,12 +274,15 @@
 			return false;
 		}
 
+		$data[$this->alias]['user_id'] = $CurrentUser->getId();
+		$data[$this->alias]['name']    = $CurrentUser['username'];
+
 		$data[$this->alias]['time']        = date('Y-m-d H:i:s');
 		$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
 		$data[$this->alias]['ip']          = self::_getIp();
 
 		$this->create();
-		$new_posting = $this->save($data, $validate,$fieldList);
+		$new_posting = $this->save($data);
 
 		if ($new_posting === false) { return false; }
 		$new_posting_id	= $this->id;
@@ -810,20 +818,7 @@
 			}
 
 			// text preprocessing
-			if (empty($data[$this->alias]['text']) === false) {
-				if ($this->Behaviors->loaded('Bbcode') === false) {
-					$this->Behaviors->load(
-						'Bbcode',
-						[
-							'hashBaseUrl' => 'entries/view/',
-							'atBaseUrl'   => 'users/name/'
-						]
-					);
-				}
-				$data[$this->alias]['text'] = $this->prepareBbcode(
-					$data[$this->alias]['text']
-				);
-			}
+			$data = $this->prepareBbcode($data);
 		}
 
 		public function getUnsanitized($id) {

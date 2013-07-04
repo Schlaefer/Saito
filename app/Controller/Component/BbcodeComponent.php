@@ -2,6 +2,7 @@
 
 	App::uses('Component', 'Controller');
 	App::uses('BbcodeUserlistUserModel', 'Lib/Bbcode');
+	App::uses('BbcodeSettings', 'Lib/Bbcode');
 
 	class BbcodeComponent extends Component {
 
@@ -9,19 +10,11 @@
 
 		protected $_controller;
 
-		public $server;
-
-		public $webroot;
-
-		public $settings = array(
-			'hashBaseUrl' => '',
-			'atBaseUrl'   => ''
-		);
+		public $settings = null;
 
 		public function initialize(Controller $controller) {
 			$this->_controller = $controller;
-			$this->server = FULL_BASE_URL;
-			$this->webroot = $controller->webroot;
+			$this->settings = new BbcodeSettings();
 		}
 
 		public function beforeRender(Controller $controller) {

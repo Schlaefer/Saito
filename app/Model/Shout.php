@@ -17,6 +17,7 @@
 		public $displayField = 'text';
 
 		public $actsAs = [
+			'Bbcode',
 			'Containable'
 		];
 
@@ -107,20 +108,7 @@
 		}
 
 		public function beforeSave($options = []) {
-			if ($this->Behaviors->loaded('Bbcode') === false) {
-				$this->Behaviors->load(
-					'Bbcode',
-					[
-						'hashBaseUrl' => 'entries/view/',
-						'atBaseUrl'   => 'users/name/'
-					]
-				);
-			}
-			if (empty($this->data[$this->alias]['text']) === false) {
-				$this->data[$this->alias]['text'] = $this->prepareBbcode(
-					$this->data[$this->alias]['text']
-				);
-			}
+			$this->data = $this->prepareBbcode($this->data);
 
 			return true;
 		}

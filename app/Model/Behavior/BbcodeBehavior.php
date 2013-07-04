@@ -1,18 +1,35 @@
 <?php
 
+	App::uses('BbcodeSettings', 'Lib/Bbcode');
 	App::uses('ModelBehavior', 'Model');
 	App::uses('Router', 'Routing');
 
 	class BbcodeBehavior extends ModelBehavior {
 
+		public $settings;
+
 		public function setup(Model $Model, $settings = []) {
-			$this->settings = $settings + [
-						'server'  => FULL_BASE_URL,
-						'webroot' => Router::url('/')
-					];
+			$this->settings = new BbcodeSettings();
 		}
 
-		public function prepareBbcode(Model $Model, $string) {
+		/**
+		 * @param Model $Model
+		 * @param $data string or array with [Alias]['text']
+		 * @return mixed
+		 */
+		public function prepareBbcode(Model $Model, $data) {
+			if (empty($data[$Model->alias]['text']) === false) {
+				$data[$Model->alias]['text'] = $this->_prepareBbcode(
+					$data[$Model->alias]['text']
+				);
+			} elseif (is_string($data)) {
+				$data = $this->_hashInternalEntryLinks($data);
+			}
+
+			return $data;
+		}
+
+		protected function _prepareBbcode($string) {
 			$string = $this->_hashInternalEntryLinks($string);
 
 			return $string;

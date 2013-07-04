@@ -238,12 +238,7 @@
 
 			// insert new entry
 			if (empty($this->request->data) === false) {
-				$data = $this->request->data;
-
-				$data['Entry']['user_id'] = $this->CurrentUser->getId();
-				$data['Entry']['name']    = $this->CurrentUser['username'];
-
-				$new_posting = $this->Entry->createPosting($data);
+				$new_posting = $this->Entry->createPosting($this->request->data);
 
 				// inserting new posting was successful
 				if ($new_posting !== false) :
@@ -265,8 +260,8 @@
 						}
 					// answering through POST request
 					else :
-						// answer request came from mix ansicht
 						if ($this->localReferer('action') === 'mix') {
+							// answer request came from mix ansicht
 							$this->redirect(
 								[
 									'controller' => 'entries',
@@ -276,17 +271,17 @@
 								]
 							);
 
-							return;
-						}
-						// normal posting from entries/add or entries/view
-						$this->redirect(
-							[
-								'controller' => 'entries',
-								'action'     => 'view',
-								$this->Entry->id
-							]
-						);
+						} else {
+							// normal posting from entries/add or entries/view
+							$this->redirect(
+								[
+									'controller' => 'entries',
+									'action'     => 'view',
+									$this->Entry->id
+								]
+							);
 
+						}
 						return;
 					endif;
 				else :
