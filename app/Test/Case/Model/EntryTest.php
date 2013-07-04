@@ -30,20 +30,23 @@
 			);
 		}
 
-    public function testCreateCategoryThreadCounterUpdate() {
-      App::uses('Category', 'Model');
+		public function testCreateCategoryThreadCounterUpdate() {
+			App::uses('Category', 'Model');
 
 			$SaitoUser = $this->getMock(
 				'SaitoUser',
-				['getMaxAccession'],
+				['getMaxAccession', 'getId'],
 				[new ComponentCollection]
 			);
 			$SaitoUser->expects($this->once())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
+			$SaitoUser->expects($this->once())
+					->method('getId')
+					->will($this->returnValue(1));
 			$this->Entry->_CurrentUser = $SaitoUser;
 
-      Configure::write('Saito.Settings.subject_maxlength', 75);
+			Configure::write('Saito.Settings.subject_maxlength', 75);
 			$this->Entry->Category = $this->getMock(
 				'Category',
 				['updateThreadCounter'],
@@ -55,11 +58,10 @@
 			$data['Entry'] = [
 				'pid'      => 0,
 				'subject'  => 'Subject',
-				'category' => 1,
-				'user_id'  => 1
+				'category' => 1
 			];
-      $this->Entry->createPosting($data);
-    }
+			$this->Entry->createPosting($data);
+		}
 
 		public function testToggle() {
 
@@ -620,5 +622,3 @@
     }
 
   }
-
-?>

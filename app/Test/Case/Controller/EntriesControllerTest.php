@@ -7,8 +7,8 @@
 	class EntriesMockController extends EntriesController {
 		public $uses = array('Entry');
 
-		public function getInitialThreads($User) {
-			$this->_getInitialThreads($User);
+		public function getInitialThreads($User, $order = 'Entry.last_answer DESC') {
+			$this->_getInitialThreads($User, $order);
 		}
 
 		public function searchStringSanitizer($string) {
