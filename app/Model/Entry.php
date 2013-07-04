@@ -115,7 +115,7 @@
 		 *
 		 * @var array
 		 */
-		public $publicFieldsList = '
+		protected $_allowedPublicOutputFields = '
 			Entry.id,
 			Entry.pid,
 			Entry.tid,
@@ -182,6 +182,36 @@
 			User.user_place
 		';
 
+		/**
+		 * Allowed external user input
+		 *
+		 * @var array
+		 */
+		protected $_allowedInputFields = [
+			'create' => [
+				'category',
+				'flattr',
+				'nsfw',
+				'pid',
+				'subject',
+				'text'
+			],
+			'update' => [
+				'id',
+				'category',
+				'flattr',
+				'nsfw',
+				'subject'
+			]
+		];
+
+		/**
+		 * Caching for isRoot()
+		 *
+		 * @var array
+		 */
+		protected $_isRoot = [];
+
 		public function getRecentEntries(array $options = array(), SaitoUser $User) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
@@ -247,6 +277,21 @@
 			return $entry['Entry']['tid'];
 		}
 
+		public function getParentId($id) {
+			$entry = $this->find('first', array(
+					'contain' => false,
+					'conditions' => array(
+						'Entry.id' => $id,
+					),
+					'fields' => 'Entry.pid'
+
+				));
+			if ($entry == false) {
+				throw new UnexpectedValueException ('Posting not found. Posting-Id: ' . $id);
+			}
+			return $entry['Entry']['pid'];
+		}
+
 	/**
 	 * creates a new root or child entry for a node
 	 *
@@ -265,7 +310,10 @@
 		}
 
 		try {
-			$this->prepare($data);
+			$this->prepare(
+				$data,
+				['preFilterFields' => 'create']
+			);
 		} catch (Exception $e) {
 			return false;
 		}
@@ -278,7 +326,7 @@
 		$data[$this->alias]['ip']          = self::_getIp();
 
 		$this->create();
-		$new_posting = $this->save($data);
+		$new_posting = $this->save($data, true);
 
 		if ($new_posting === false) { return false; }
 		$new_posting_id	= $this->id;
@@ -331,7 +379,20 @@
 			if ($CurrentUser !== null) {
 				$this->_CurrentUser = $CurrentUser;
 			}
-			$this->prepare($data);
+
+			$data[$this->alias]['id'] = $this->id;
+
+			$this->prepare(
+				$data,
+				['preFilterFields' => 'update']
+			);
+
+			// prevents normal user of changing category of complete thread when answering
+			// @todo this should be refactored together with the change category handling in beforeSave()
+			if ($this->isRoot($data) === false) {
+				unset($data[$this->alias]['category']);
+			}
+
 			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
 			$data[$this->alias]['edited_by'] = $this->_CurrentUser['username'];
 			return $this->save($data);
@@ -698,44 +759,54 @@
 		 * @param SaitoUser $user
 		 * @return boolean
 		 */
-		public function isEditingForbidden(array $entry, SaitoUser $User) {
-			// user is not logged in and not allowed to do anything
-			if (empty($User) || empty($User['id']))
+		public function isEditingForbidden(array $entry, SaitoUser $CurrentUser = null) {
+			if ($CurrentUser !== null) {
+				$this->_CurrentUser = $CurrentUser;
+			}
+
+			// Anon
+			if ($this->_CurrentUser->isLoggedIn() === false) {
 				return true;
+			}
+
+			// Admins
+			if ($this->_CurrentUser->isAdmin()) {
+				return false;
+			}
 
 			$verboten = true;
 
-			// Mod and Admin …
-			# @td mods don't edit admin posts
-			if ($User->isMod() || $User->isAdmin()) {
-				if (
-						(int)$User['id'] === (int)$entry['Entry']['user_id']
-						&& ( time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 ))
+			$editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
+			$expired = strtotime($entry['Entry']['time']) + $editPeriod;
+			$isOverEditLimit = time() > $expired;
+
+			$isCurrentUsersPosting = (int)$this->_CurrentUser->getId()
+					=== (int)$entry['Entry']['user_id'];
+
+			if ($this->_CurrentUser->isMod()) {
+				// Mods
+				// @todo mods don't edit admin posts
+				if ($isCurrentUsersPosting && $isOverEditLimit &&
 						/* Mods should be able to edit their own posts if they are pinned
 						 *
-						 * @td this opens a 'mod can pin and then edit root entries'-loophole,
+						 * @todo this opens a 'mod can pin and then edit root entries'-loophole,
 						 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
 						 * for mods pinning root-posts.
 						 */
-						&& ( $entry['Entry']['fixed'] == false )
-						&& ( $User->isModOnly() )
-				) :
-					// mods shouldn't mod themselfs
+						($entry['Entry']['fixed'] == false)
+				) {
+					// mods don't mod themselves
 					$verboten = 'time';
-				else :
+				} else {
 					$verboten = false;
-				endif;
+				};
 
-				// Normal user and anonymous
 			} else {
-				// check if it's users own posting @td put admin and mods here;
-				if ($User['id'] != $entry['Entry']['user_id']) {
+				// Users
+				if ($isCurrentUsersPosting === false) {
 					$verboten = 'user';
-				}
-				// check if time for editint ran out
-				elseif (time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 )) {
+				} elseif ($isOverEditLimit) {
 					$verboten = 'time';
-					// entry is locked by admin or mod
 				} elseif ($this->_isLocked($entry)) {
 					$verboten = 'locked';
 				} else {
@@ -755,24 +826,37 @@
 		 * @return bool
 		 */
 		public function isRoot($id = null) {
-			if ($id === null) {
-				$id = $this->id;
-			}
+			$md5 = md5(serialize($id));
+			if (isset($this->_isRoot[$md5]) === false) {
+				if ($id === null) {
+					$id = $this->id;
+				}
 
-			if (is_array($id) && isset($id[$this->alias]['pid'])) {
-				$entry = $id;
+				if (is_array($id) && isset($id[$this->alias]['pid'])) {
+					$entry = $id;
+				/*
+				} elseif (isset($this->data[$this->alias]['id']) && (int)$this->data[$this->alias]['id'] === (int)$id && isset($this->data[$this->alias]['pid'])) {
+					$entry = $this->data;
+				*/
+				} else {
+					if (is_array($id) && isset($id[$this->alias]['id'])) {
+						$id = $id[$this->alias]['id'];
+					} elseif (!is_string($id)) {
+						throw new InvalidArgumentException();
+					}
+					$entry = $this->find(
+						'first',
+						array(
+							'contain'    => false,
+							'conditions' => array(
+								'id' => $id,
+							)
+						)
+					);
+				}
+				$this->_isRoot[$md5] = empty($entry[$this->alias]['pid']);
 			}
-			elseif (isset($this->data[$this->alias]['id']) && (int)$this->data[$this->alias]['id'] === (int)$id && isset($this->data[$this->alias]['pid'])) {
-				$entry = $this->data;
-			} else {
-				$entry = $this->find('first', array(
-								'contain' => false,
-								'conditions' => array(
-										'id' => $id,
-								)
-						));
-			}
-			return (empty($entry[$this->alias]['pid']));
+			return $this->_isRoot[$md5];
 		}
 
 		protected function _isLocked($entry) {
@@ -791,13 +875,30 @@
 		 * @throws InvalidArgumentException
 		 * @throws ForbiddenException
 		 */
-		public function prepare(&$data, $isRoot = null) {
+		public function prepare(&$data, array $options = []) {
+			$options += [
+				'isRoot' => null
+			];
+
+			if (isset($options['preFilterFields'])) {
+				$this->_preFilterFields($data, $options['preFilterFields']);
+			}
+			unset($options['preFilterFields']);
+
+			$isRoot = $options['isRoot'];
+			unset($options['isRoot']);
+
 			if ($isRoot === null) {
 				$isRoot = $this->isRoot($data);
 			}
 			// adds info from parent entry to an answer
 			if ($isRoot === false) {
-				$parent = $this->getUnsanitized($data[$this->alias]['pid']);
+				if (!isset($data[$this->alias]['pid'])) {
+					$pid = $this->getParentId($data[$this->alias]['id']);
+				} else {
+					$pid = $data[$this->alias]['pid'];
+				}
+				$parent = $this->getUnsanitized($pid);
 				if ($parent === false) {
 					throw new InvalidArgumentException;
 				}
@@ -819,6 +920,22 @@
 			$data = $this->prepareBbcode($data);
 		}
 
+		/**
+		 * filter out not allowed fields
+		 *
+		 * @param $data
+		 * @param $fields
+		 */
+		protected function _preFilterFields(&$data, $fields) {
+			$data = [
+				$this->alias => array_intersect_key(
+					$data[$this->alias],
+					array_flip($this->_allowedInputFields[$fields])
+				),
+				'Event'      => $data['Event']
+			];
+		}
+
 		public function getUnsanitized($id) {
 			$this->sanitize(false);
 
@@ -831,7 +948,7 @@
 			);
 		}
 
-		public function _findEntry($state, $query, $results = array()) {
+		protected function _findEntry($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['contain'] = array('User', 'Category');
 				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
@@ -852,7 +969,7 @@
 	protected function _findFeed($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$query['contain']	 = array('User');
-				$query['fields']   = $this->publicFieldsList;
+				$query['fields']   = $this->_allowedPublicOutputFields;
 				$query['limit']		 = 10;
 				return $query;
 			}

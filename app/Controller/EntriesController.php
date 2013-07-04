@@ -398,11 +398,12 @@
 					'Something went terribly wrong. Alert the authorities now! @lo',
 					'flash/error'
 				);
+				return;
 		}
 
 		if (!empty($this->request->data)) {
 			$this->Entry->id = $id;
-			$new_entry = $this->Entry->update($this->request->data, $this->CurrentUser);
+			$new_entry = $this->Entry->update($this->request->data);
 			if ($new_entry) {
 				$this->_afterNewEntry(am($this->request['data'], $old_entry));
 				return $this->redirect(array('action' => 'view', $id));
