@@ -110,6 +110,7 @@ class Category extends AppModel {
 	}
 
   public function updateThreadCounter() {
+		// @performance
     $this->Entry->contain();
     $c = $this->Entry->find('count', array(
         'conditions' => array(

@@ -161,8 +161,18 @@
 		}
 
 		public function testChangeThreadCategory() {
+			$SaitoUser = $this->getMock(
+				'SaitoUser',
+				['getMaxAccession'],
+				[new ComponentCollection]
+			);
+			$SaitoUser->expects($this->once())
+					->method('getMaxAccession')
+					->will($this->returnValue(2));
+			$this->Entry->_CurrentUser = $SaitoUser;
+
 			$old_category = 2;
-			$new_cateogory = 1;
+			$new_category = 1;
 
 			$n_before_change = $this->Entry->find('count', array(
 						'contain' => false,
@@ -171,20 +181,17 @@
 								'category' => $old_category,
 						)
 					));
-			$this->assertGreaterThan(0, $n_before_change);
+			$this->assertGreaterThan(1, $n_before_change);
 
 			$this->Entry->id = 1;
-			$this->Entry->save(array(
-					'Entry' => array(
-							'category' => $new_cateogory,
-					)
-			));
+			$this->Entry->_CurrentUser = $SaitoUser;
+			$this->Entry->save(['Entry' => ['category' => $new_category]]);
 
 			$n_after_change = $this->Entry->find('count', array(
 						'contain' => false,
 						'conditions' => array (
 								'tid' => 1,
-								'category' => $new_cateogory,
+								'category' => $new_category,
 						)
 					));
 			$this->assertEqual($n_before_change, $n_after_change);
@@ -200,17 +207,22 @@
 		}
 
 		public function testChangeThreadCategoryNotAnExistingCategory() {
-			$old_category = 2;
+			$SaitoUser = $this->getMock(
+				'SaitoUser',
+				['getMaxAccession'],
+				[new ComponentCollection]
+			);
+			$SaitoUser->expects($this->once())
+					->method('getMaxAccession')
+					->will($this->returnValue(2));
+			$this->Entry->_CurrentUser = $SaitoUser;
+
 			$new_category = 9999;
 
-			$this->expectException('NotFoundException');
-
 			$this->Entry->id = 1;
-			$this->Entry->save(array(
-					'Entry' => array(
-							'category' => $new_category,
-					)
-			));
+			$this->Entry->_CurrentUser = $SaitoUser;
+			$result = $this->Entry->save(['Entry' => ['category' => $new_category]]);
+			$this->assertFalse($result);
 		}
 
 		public function testDeleteNode_CompleteThread() {

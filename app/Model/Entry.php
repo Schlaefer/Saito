@@ -87,12 +87,14 @@
 			),
 			'category' => array(
 				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'last' => true,
+					'rule' => 'notEmpty'
 				),
 				'numeric'  => array(
 					'rule' => 'numeric'
 				),
+				'isAllowed' => [
+					'rule' => 'validateCategoryIsAllowed'
+				]
 			),
 			'user_id'  => array(
 				'rule' => 'numeric'
@@ -252,19 +254,13 @@
 	 */
 	public function createPosting($data, $CurrentUser = null) {
 
-		if ($CurrentUser === null && !empty($this->_CurrentUser)) {
-			$CurrentUser = $this->_CurrentUser;
+		if ($CurrentUser !== null) {
+			$this->_CurrentUser = $CurrentUser;
 		}
 
 		if (isset($data[$this->alias]['pid']) === false ||
 				isset($data[$this->alias]['subject']) === false
 		) {
-			return false;
-		}
-
-		// check that entries are only in existing AND allowed categories
-		$availableCategories = $this->Category->getCategoriesForAccession($CurrentUser->getMaxAccession());
-		if (!isset($availableCategories[$data[$this->alias]['category']])) {
 			return false;
 		}
 
@@ -274,8 +270,8 @@
 			return false;
 		}
 
-		$data[$this->alias]['user_id'] = $CurrentUser->getId();
-		$data[$this->alias]['name']    = $CurrentUser['username'];
+		$data[$this->alias]['user_id'] = $this->_CurrentUser->getId();
+		$data[$this->alias]['name']    = $this->_CurrentUser['username'];
 
 		$data[$this->alias]['time']        = date('Y-m-d H:i:s');
 		$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
@@ -290,8 +286,7 @@
 
 		if($this->isRoot($data)) {
 			// thread-id of new thread is its own id
-			$new_posting[$this->alias]['tid'] = $new_posting_id;
-			if ($this->save($new_posting) === false) {
+			if ($this->save(['tid' => $new_posting_id]) === false) {
 				// @td raise error and/or roll back new entry
 				return false;
 			} else {
@@ -332,10 +327,13 @@
 		return $new_posting;
 	}
 
-		public function update($data, $CurrentUser) {
+		public function update($data, $CurrentUser = null) {
+			if ($CurrentUser !== null) {
+				$this->_CurrentUser = $CurrentUser;
+			}
 			$this->prepare($data);
 			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
-			$data[$this->alias]['edited_by'] = $CurrentUser['username'];
+			$data[$this->alias]['edited_by'] = $this->_CurrentUser['username'];
 			return $this->save($data);
 		}
 
@@ -920,6 +918,7 @@
 			$success = true;
 
 			// change category of thread if category of root entry changed
+			// @bogus @performance check for pid === 0 before loading old_entry
 			if (isset($this->data[$this->alias]['category'])) {
 				// get old entry to compare with new data
 				$old_entry = $this->find(
@@ -942,8 +941,23 @@
 				}
 			}
 
-
 			return $success && parent::beforeSave($options);
+		}
+
+		/**
+		 * check that entries are only in existing and allowed categories
+		 *
+		 * @param $check
+		 * @return bool
+		 */
+		public function validateCategoryIsAllowed($check) {
+			$availableCategories = $this->Category->getCategoriesForAccession(
+				$this->_CurrentUser->getMaxAccession()
+			);
+			if (!isset($availableCategories[$check['category']])) {
+				return false;
+			}
+			return true;
 		}
 
 	/**
