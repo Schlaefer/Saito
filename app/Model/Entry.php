@@ -201,7 +201,8 @@
 				'category',
 				'flattr',
 				'nsfw',
-				'subject'
+				'subject',
+				'text'
 			]
 		];
 
