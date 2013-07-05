@@ -306,9 +306,11 @@
 				$this->_CurrentUser = $CurrentUser;
 			}
 
-			if (isset($data[$this->alias]['pid']) === false ||
-					isset($data[$this->alias]['subject']) === false
-			) {
+			if (!isset($data[$this->alias]['pid'])) {
+				$data[$this->alias]['pid'] = 0;
+			}
+
+			if (isset($data[$this->alias]['subject']) === false) {
 				return false;
 			}
 
@@ -925,13 +927,16 @@
 		 * @param $fields
 		 */
 		protected function _preFilterFields(&$data, $fields) {
+			$org = $data;
 			$data = [
 				$this->alias => array_intersect_key(
 					$data[$this->alias],
 					array_flip($this->_allowedInputFields[$fields])
-				),
-				'Event'      => $data['Event']
+				)
 			];
+			if (isset($org['Event'])) {
+				$data['Event'] = $org['Event'];
+			}
 		}
 
 		public function getUnsanitized($id) {
