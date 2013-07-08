@@ -23,23 +23,19 @@ class UsersController extends AppController {
 		if ( $this->Auth->login() ):
 		// login was successfull
 
-			$this->User->id = $this->Auth->user('id');
-			$this->_successfulLogin();
+			$this->_successfulLogin($this->Auth->user('id'));
 
-      if ( isset($this->request->data['User']) && is_array($this->request->data['User']) && isset($this->request->data['User']['password']) ):
+      if (isset($this->request->data['User']) && is_array($this->request->data['User']) && isset($this->request->data['User']['password']) ):
         $this->User->autoUpdatePassword($this->request->data['User']['password']);
       endif;
 
-			//* setting cookie
-			if ( isset($this->request->data['User']['remember_me']) && $this->request->data['User']['remember_me'] ):
+			if (empty($this->request->data['User']['remember_me']) === false) {
 				$this->CurrentUser->PersistentCookie->set();
-				unset($this->request->data['User']['remember_me']);
-			endif;
+			};
 
-			//* handling redirect after successfull login
-			if ( $this->localReferer('action') === 'login' ) :
-				$this->redirect($this->Auth->redirect());
-			else :
+			if ($this->localReferer('action') === 'login'):
+				$this->redirect($this->Auth->redirectUrl());
+			else:
 				$this->redirect($this->referer());
 			endif;
 
@@ -622,10 +618,9 @@ class UsersController extends AppController {
     return $this->allowedToEditUserData;
 	}
 
-	protected function _successfulLogin() {
-		$this->User->incrementLogins();
+	protected function _successfulLogin($userId) {
+		$this->User->incrementLogins($userId);
 		$this->CurrentUser->refresh();
-
 		$this->User->UserOnline->setOffline(session_id());
 	}
 

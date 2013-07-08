@@ -162,7 +162,7 @@
 
 			$usersBeforeIncrements = $this->User->find('count');
 
-			//* check setup
+			// check setup
 			$this->User->id = 1;
 			$expected = 0;
 			$result = $this->User->field('logins');
@@ -170,7 +170,7 @@
 
 			//* increment one
 			$expected = 1;
-			$this->User->incrementLogins();
+			$this->User->incrementLogins($this->User->id);
 			$result = $this->User->field('logins');
 			$this->assertEqual($expected, $result);
 
@@ -186,7 +186,7 @@
 			$this->assertGreaterThanOrEqual(0, $result);
 
 			//* increment random amount
-			$this->User->incrementLogins(15);
+			$this->User->incrementLogins($this->User->id, 15);
 			$expected = 16;
 			$result = $this->User->field('logins');
 			$this->assertEqual($expected, $result);

@@ -233,15 +233,16 @@
 			return $count;
 		}
 
-		public function incrementLogins($amount = 1) {
-			$data = array();
-			$data[$this->alias] = array(
-					'logins'		 => $this->field('logins') + $amount,
-					'last_login' => date('Y-m-d H:i:s'),
-			);
-			$this->contain();
-			if ($this->save($data, true, array('logins', 'last_login')) == false) {
-				throw new Exception("Increment logins failed.");
+		public function incrementLogins($id, $amount = 1) {
+			$data = [
+				$this->alias => [
+					'id'         => $id,
+					'logins'     => $this->field('logins') + $amount,
+					'last_login' => date('Y-m-d H:i:s')
+				]
+			];
+			if ($this->save($data, true, ['logins', 'last_login']) == false) {
+				throw new Exception('Increment logins failed.');
 			}
 		}
 
