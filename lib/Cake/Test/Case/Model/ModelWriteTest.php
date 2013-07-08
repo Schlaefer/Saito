@@ -33,6 +33,16 @@ require_once dirname(__FILE__) . DS . 'ModelTestBase.php';
 class ModelWriteTest extends BaseModelTest {
 
 /**
+ * override locale to the default (eng).
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		Configure::write('Config.language', 'eng');
+	}
+
+/**
  * Test save() failing when there is no data.
  *
  * @return void
@@ -556,6 +566,28 @@ class ModelWriteTest extends BaseModelTest {
 		$result = $User->find('all', array('order' => 'User.id'));
 		$this->assertEquals(2, $result[0]['User']['post_count']);
 		$this->assertEquals(1, $result[1]['User']['posts_published']);
+	}
+
+/**
+ * Tests that counter caches are unchanged when using 'counterCache' => false
+ *
+ * @return void
+ */
+	public function testCounterCacheSkip() {
+		$this->loadFixtures('CounterCacheUser', 'CounterCachePost');
+		$User = new CounterCacheUser();
+		$Post = new CounterCachePost();
+
+		$data = $Post->find('first', array(
+			'conditions' => array('id' => 1),
+			'recursive' => -1
+		));
+		$data[$Post->alias]['user_id'] = 301;
+		$Post->save($data, array('counterCache' => false));
+
+		$users = $User->find('all', array('order' => 'User.id'));
+		$this->assertEquals(2, $users[0]['User']['post_count']);
+		$this->assertEquals(1, $users[1]['User']['post_count']);
 	}
 
 /**
@@ -4792,7 +4824,7 @@ class ModelWriteTest extends BaseModelTest {
 /**
  * test that saveAll behaves like plain save() when supplied empty data
  *
- * @link http://cakephp.lighthouseapp.com/projects/42648/tickets/277-test-saveall-with-validation-returns-incorrect-boolean-when-saving-empty-data
+ * @link https://cakephp.lighthouseapp.com/projects/42648/tickets/277-test-saveall-with-validation-returns-incorrect-boolean-when-saving-empty-data
  * @return void
  */
 	public function testSaveAllEmptyData() {
@@ -6180,7 +6212,7 @@ class ModelWriteTest extends BaseModelTest {
 /**
  * test that saveMany behaves like plain save() when suplied empty data
  *
- * @link http://cakephp.lighthouseapp.com/projects/42648/tickets/277-test-saveall-with-validation-returns-incorrect-boolean-when-saving-empty-data
+ * @link https://cakephp.lighthouseapp.com/projects/42648/tickets/277-test-saveall-with-validation-returns-incorrect-boolean-when-saving-empty-data
  * @return void
  */
 	public function testSaveManyEmptyData() {
@@ -6199,7 +6231,7 @@ class ModelWriteTest extends BaseModelTest {
 /**
  * test that saveAssociated behaves like plain save() when supplied empty data
  *
- * @link http://cakephp.lighthouseapp.com/projects/42648/tickets/277-test-saveall-with-validation-returns-incorrect-boolean-when-saving-empty-data
+ * @link https://cakephp.lighthouseapp.com/projects/42648/tickets/277-test-saveall-with-validation-returns-incorrect-boolean-when-saving-empty-data
  * @return void
  */
 	public function testSaveAssociatedEmptyData() {
@@ -6523,7 +6555,9 @@ class ModelWriteTest extends BaseModelTest {
 		));
 		$TestModel->saveAll($data, array('fieldList' => $fieldList));
 
-		$result = $TestModel->find('all');
+		$result = $TestModel->find('all', array(
+			'order' => 'Post.id ASC',
+		));
 		$expected = array(
 			'Post' => array (
 				'id' => '4',
@@ -7055,5 +7089,20 @@ class ModelWriteTest extends BaseModelTest {
 			'fields' => array('id', 'published'),
 			'conditions' => array('Item.id' => 1)));
 		$this->assertEquals(true, $result['Item']['published']);
+	}
+
+/**
+ * Test the clear() method.
+ *
+ * @return void
+ */
+	public function testClear() {
+		$this->loadFixtures('Bid');
+		$model = ClassRegistry::init('Bid');
+		$model->set(array('name' => 'Testing', 'message_id' => 3));
+		$this->assertTrue(isset($model->data['Bid']['name']));
+		$this->assertTrue($model->clear());
+		$this->assertFalse(isset($model->data['Bid']['name']));
+		$this->assertFalse(isset($model->data['Bid']['message_id']));
 	}
 }

@@ -368,12 +368,9 @@ class ProjectTask extends AppShell {
 			if ($File->write($result)) {
 				Configure::write('Routing.prefixes', array($name));
 				return true;
-			} else {
-				return false;
 			}
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 /**
@@ -417,7 +414,7 @@ class ProjectTask extends AppShell {
 				$this->out(__d('cake_console', 'You need to enable %s in %s to use prefix routing.',
 					'Configure::write(\'Routing.prefixes\', array(\'admin\'))',
 					'/app/Config/core.php'));
-				$this->_stop();
+				return $this->_stop();
 			}
 			return $admin . '_';
 		}
@@ -438,6 +435,9 @@ class ProjectTask extends AppShell {
 			))->addOption('empty', array(
 				'boolean' => true,
 				'help' => __d('cake_console', 'Create empty files in each of the directories. Good if you are using git')
+			))->addOption('theme', array(
+				'short' => 't',
+				'help' => __d('cake_console', 'Theme to use when baking code.')
 			))->addOption('skel', array(
 				'default' => current(App::core('Console')) . 'Templates' . DS . 'skel',
 				'help' => __d('cake_console', 'The directory layout to use for the new application skeleton. Defaults to cake/Console/Templates/skel of CakePHP used to create the project.')

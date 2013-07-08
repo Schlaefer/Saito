@@ -204,10 +204,10 @@ class Inflector {
 		'/ò|ó|ô|õ|ō|ŏ|ǒ|ő|ơ|ø|ǿ|º/' => 'o',
 		'/Ŕ|Ŗ|Ř/' => 'R',
 		'/ŕ|ŗ|ř/' => 'r',
-		'/Ś|Ŝ|Ş|Š/' => 'S',
-		'/ś|ŝ|ş|š|ſ/' => 's',
-		'/Ţ|Ť|Ŧ/' => 'T',
-		'/ţ|ť|ŧ/' => 't',
+		'/Ś|Ŝ|Ş|Ș|Š/' => 'S',
+		'/ś|ŝ|ş|ș|š|ſ/' => 's',
+		'/Ţ|Ț|Ť|Ŧ/' => 'T',
+		'/ţ|ț|ť|ŧ/' => 't',
 		'/Ù|Ú|Û|Ũ|Ū|Ŭ|Ů|Ű|Ų|Ư|Ǔ|Ǖ|Ǘ|Ǚ|Ǜ/' => 'U',
 		'/ù|ú|û|ũ|ū|ŭ|ů|ű|ų|ư|ǔ|ǖ|ǘ|ǚ|ǜ/' => 'u',
 		'/Ý|Ÿ|Ŷ/' => 'Y',
@@ -308,7 +308,7 @@ class Inflector {
 				} else {
 					self::$_transliteration = $rules + self::$_transliteration;
 				}
-			break;
+				break;
 
 			default:
 				foreach ($rules as $rule => $pattern) {
@@ -334,7 +334,6 @@ class Inflector {
 					}
 				}
 				self::${$var}['rules'] = $rules + self::${$var}['rules'];
-			break;
 		}
 	}
 

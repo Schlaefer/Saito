@@ -238,7 +238,7 @@ class CakeRequest implements ArrayAccess {
 			if ($qPosition !== false && strpos($_SERVER['REQUEST_URI'], '://') > $qPosition) {
 				$uri = $_SERVER['REQUEST_URI'];
 			} else {
-				$uri = substr($_SERVER['REQUEST_URI'], strlen(FULL_BASE_URL));
+				$uri = substr($_SERVER['REQUEST_URI'], strlen(Configure::read('App.fullBaseURL')));
 			}
 		} elseif (isset($_SERVER['PHP_SELF']) && isset($_SERVER['SCRIPT_NAME'])) {
 			$uri = str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['PHP_SELF']);
@@ -257,7 +257,15 @@ class CakeRequest implements ArrayAccess {
 			list($uri) = explode('?', $uri, 2);
 		}
 		if (empty($uri) || $uri === '/' || $uri === '//' || $uri === '/index.php') {
-			return '/';
+			$uri = '/';
+		}
+		$endsWithIndex = '/webroot/index.php';
+		$endsWithLength = strlen($endsWithIndex);
+		if (
+			strlen($uri) >= $endsWithLength &&
+			substr($uri, -$endsWithLength) === $endsWithIndex
+		) {
+			$uri = '/';
 		}
 		return $uri;
 	}
@@ -265,7 +273,12 @@ class CakeRequest implements ArrayAccess {
 /**
  * Returns a base URL and sets the proper webroot
  *
+ * If CakePHP is called with index.php in the URL even though
+ * URL Rewriting is activated (and thus not needed) it swallows
+ * the unnecessary part from $base to prevent issue #3318.
+ *
  * @return string Base URL
+ * @link https://cakephp.lighthouseapp.com/projects/42648-cakephp/tickets/3318
  */
 	protected function _base() {
 		$dir = $webroot = null;
@@ -283,6 +296,10 @@ class CakeRequest implements ArrayAccess {
 		if (!$baseUrl) {
 			$base = dirname(env('PHP_SELF'));
 
+			$indexPos = strpos($base, '/webroot/index.php');
+			if ($indexPos !== false) {
+				$base = substr($base, 0, $indexPos) . '/webroot';
+			}
 			if ($webroot === 'webroot' && $webroot === basename($base)) {
 				$base = dirname($base);
 			}
@@ -295,6 +312,7 @@ class CakeRequest implements ArrayAccess {
 			}
 			$base = implode('/', array_map('rawurlencode', explode('/', $base)));
 			$this->webroot = $base . '/';
+
 			return $this->base = $base;
 		}
 
@@ -406,10 +424,7 @@ class CakeRequest implements ArrayAccess {
 			$ref = $forwarded;
 		}
 
-		$base = '';
-		if (defined('FULL_BASE_URL')) {
-			$base = FULL_BASE_URL . $this->webroot;
-		}
+		$base = Configure::read('App.fullBaseURL') . $this->webroot;
 		if (!empty($ref) && !empty($base)) {
 			if ($local && strpos($ref, $base) === 0) {
 				$ref = substr($ref, strlen($base));
@@ -467,14 +482,21 @@ class CakeRequest implements ArrayAccess {
 	}
 
 /**
- * Check whether or not a Request is a certain type. Uses the built in detection rules
- * as well as additional rules defined with CakeRequest::addDetector(). Any detector can be called
+ * Check whether or not a Request is a certain type.
+ *
+ * Uses the built in detection rules as well as additional rules
+ * defined with CakeRequest::addDetector(). Any detector can be called
  * as `is($type)` or `is$Type()`.
  *
- * @param string $type The type of request you want to check.
+ * @param string|array $type The type of request you want to check. If an array
+ *   this method will return true if the request matches any type.
  * @return boolean Whether or not the request is the type you are checking.
  */
 	public function is($type) {
+		if (is_array($type)) {
+			$result = array_map(array($this, 'is'), $type);
+			return count(array_filter($result)) > 0;
+		}
 		$type = strtolower($type);
 		if (!isset($this->_detectors[$type])) {
 			return false;
@@ -501,6 +523,22 @@ class CakeRequest implements ArrayAccess {
 			return call_user_func($detect['callback'], $this);
 		}
 		return false;
+	}
+
+/**
+ * Check that a request matches all the given types.
+ *
+ * Allows you to test multiple types and union the results.
+ * See CakeRequest::is() for how to add additional types and the
+ * built-in types.
+ *
+ * @param array $types The types to check.
+ * @return boolean Success.
+ * @see CakeRequest::is()
+ */
+	public function isAll(array $types) {
+		$result = array_filter(array_map(array($this, 'is'), $types));
+		return count($result) === count($types);
 	}
 
 /**
@@ -805,6 +843,20 @@ class CakeRequest implements ArrayAccess {
 			return $this;
 		}
 		return Hash::get($this->data, $name);
+	}
+
+/**
+ * Safely access the values in $this->params.
+ *
+ * @param string $name The name of the parameter to get.
+ * @return mixed The value of the provided parameter. Will
+ *   return false if the parameter doesn't exist or is falsey.
+ */
+	public function param($name) {
+		if (!isset($this->params[$name])) {
+			return false;
+		}
+		return $this->params[$name];
 	}
 
 /**

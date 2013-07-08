@@ -644,13 +644,13 @@ class HelperTest extends CakeTestCase {
 			),
 			array('fullBase' => true)
 		);
-		$this->assertEquals(FULL_BASE_URL . '/js/post.js', $result);
+		$this->assertEquals(Router::baseURL() . '/js/post.js', $result);
 
 		$result = $this->Helper->assetUrl('foo.jpg', array('pathPrefix' => 'img/'));
 		$this->assertEquals('img/foo.jpg', $result);
 
 		$result = $this->Helper->assetUrl('foo.jpg', array('fullBase' => true));
-		$this->assertEquals(FULL_BASE_URL . '/foo.jpg', $result);
+		$this->assertEquals(Router::baseURL() . '/foo.jpg', $result);
 
 		$result = $this->Helper->assetUrl('style', array('ext' => '.css'));
 		$this->assertEquals('style.css', $result);
@@ -660,6 +660,9 @@ class HelperTest extends CakeTestCase {
 
 		$result = $this->Helper->assetUrl('foo.jpg?one=two&three=four');
 		$this->assertEquals('foo.jpg?one=two&amp;three=four', $result);
+
+		$result = $this->Helper->assetUrl('dir/big+tall/image', array('ext' => '.jpg'));
+		$this->assertEquals('dir/big%2Btall/image.jpg', $result);
 	}
 
 /**
@@ -674,7 +677,8 @@ class HelperTest extends CakeTestCase {
 			'here' => '/cake_dev/index.php/tasks',
 		));
 		$result = $this->Helper->assetUrl('img/cake.icon.png', array('fullBase' => true));
-		$this->assertEquals('http://localhost/cake_dev/app/webroot/img/cake.icon.png', $result);
+
+		$this->assertEquals($result, FULL_BASE_URL . '/cake_dev/app/webroot/img/cake.icon.png');
 	}
 
 /**

@@ -141,6 +141,19 @@ require CAKE . 'basics.php';
 require CAKE . 'Core' . DS . 'App.php';
 require CAKE . 'Error' . DS . 'exceptions.php';
 
+spl_autoload_register(array('App', 'load'));
+
+App::uses('ErrorHandler', 'Error');
+App::uses('Configure', 'Core');
+App::uses('CakePlugin', 'Core');
+App::uses('Cache', 'Cache');
+App::uses('Object', 'Core');
+App::uses('Multibyte', 'I18n');
+
+App::$bootstrapping = true;
+
+Configure::bootstrap(isset($boot) ? $boot : true);
+
 /**
  * Full URL prefix
  */
@@ -154,21 +167,10 @@ if (!defined('FULL_BASE_URL')) {
 
 	if (isset($httpHost)) {
 		define('FULL_BASE_URL', 'http' . $s . '://' . $httpHost);
+		Configure::write('App.fullBaseURL', FULL_BASE_URL);
 	}
 	unset($httpHost, $s);
 }
-
-spl_autoload_register(array('App', 'load'));
-
-App::uses('ErrorHandler', 'Error');
-App::uses('Configure', 'Core');
-App::uses('CakePlugin', 'Core');
-App::uses('Cache', 'Cache');
-App::uses('Object', 'Core');
-App::uses('Multibyte', 'I18n');
-App::$bootstrapping = true;
-
-Configure::bootstrap(isset($boot) ? $boot : true);
 
 if (function_exists('mb_internal_encoding')) {
 	$encoding = Configure::read('App.encoding');

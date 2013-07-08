@@ -524,6 +524,7 @@ class FormHelperTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		Configure::write('Config.language', 'eng');
 		Configure::write('App.base', '');
 		Configure::delete('Asset');
 		$this->Controller = new ContactTestController();
@@ -4220,6 +4221,32 @@ class FormHelperTest extends CakeTestCase {
 			'/select'
 		);
 		$this->assertTags($result, $expected);
+
+		$result = $this->Form->select('Contact.required_one', array('option A'));
+		$expected = array(
+			'select' => array(
+				'name' => 'data[Contact][required_one]',
+				'id' => 'ContactRequiredOne',
+				'required' => 'required'
+			),
+			array('option' => array('value' => '')), '/option',
+			array('option' => array('value' => '0')), 'option A', '/option',
+			'/select'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Form->select('Contact.required_one', array('option A'), array('disabled' => true));
+		$expected = array(
+			'select' => array(
+				'name' => 'data[Contact][required_one]',
+				'id' => 'ContactRequiredOne',
+				'disabled' => 'disabled'
+			),
+			array('option' => array('value' => '')), '/option',
+			array('option' => array('value' => '0')), 'option A', '/option',
+			'/select'
+		);
+		$this->assertTags($result, $expected);
 	}
 
 /**
@@ -4470,6 +4497,26 @@ class FormHelperTest extends CakeTestCase {
 			array('option' => array('value' => '3x', 'selected' => 'selected')),
 			'Stringy',
 			'/option',
+			'/select'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Form->select('Contact.required_one', array(
+			'1' => 'option A',
+			'2' => 'option B'
+		), array('multiple' => true));
+		$expected = array(
+			'input' => array(
+				'type' => 'hidden', 'name' => 'data[Contact][required_one]', 'value' => '', 'id' => 'ContactRequiredOne_'
+			),
+			'select' => array(
+				'name' => 'data[Contact][required_one][]',
+				'id' => 'ContactRequiredOne',
+				'required' => 'required',
+				'multiple' => 'multiple'
+			),
+			array('option' => array('value' => '1')), 'option A', '/option',
+			array('option' => array('value' => '2')), 'option B', '/option',
 			'/select'
 		);
 		$this->assertTags($result, $expected);
@@ -6625,6 +6672,94 @@ class FormHelperTest extends CakeTestCase {
 		$result = $matches[1];
 		$expected = range(1900, 1881);
 		$this->assertEquals($result, $expected);
+	}
+
+/**
+ * testInputDate method
+ *
+ * Test various inputs with type date and different dateFormat values.
+ * Failing to provide a dateFormat key should not error.
+ * It should simply not pre-select any value then.
+ *
+ * @return void
+ */
+	public function testInputDate() {
+		$this->Form->request->data = array(
+			'User' => array(
+				'month_year' => array('month' => date('m')),
+				'just_year' => array('month' => date('m')),
+				'just_month' => array('year' => date('Y')),
+				'just_day' => array('month' => date('m')),
+			)
+		);
+		$this->Form->create('User');
+		$result = $this->Form->input('month_year',
+				array(
+					'label' => false,
+					'div' => false,
+					'type' => 'date',
+					'dateFormat' => 'MY',
+					'minYear' => 2006,
+					'maxYear' => 2008
+				)
+		);
+		$this->assertContains('value="' . date('m') . '" selected="selected"', $result);
+		$this->assertNotContains('value="2008" selected="selected"', $result);
+
+		$result = $this->Form->input('just_year',
+			array(
+				'type' => 'date',
+				'label' => false,
+				'dateFormat' => 'Y',
+				'minYear' => date('Y'),
+				'maxYear' => date('Y', strtotime('+20 years'))
+			)
+		);
+		$this->assertNotContains('value="' . date('Y') . '" selected="selected"', $result);
+
+		$result = $this->Form->input('just_month',
+			array(
+				'type' => 'date',
+				'label' => false,
+				'dateFormat' => 'M',
+				'empty' => false,
+			)
+		);
+		$this->assertNotContains('value="' . date('m') . '" selected="selected"', $result);
+
+		$result = $this->Form->input('just_day',
+			array(
+				'type' => 'date',
+				'label' => false,
+				'dateFormat' => 'D',
+				'empty' => false,
+			)
+		);
+		$this->assertNotContains('value="' . date('d') . '" selected="selected"', $result);
+	}
+
+/**
+ * testInputDateMaxYear method
+ *
+ * Let's say we want to only allow users born from 2006 to 2008 to register
+ * This being the first singup page, we still don't have any data
+ *
+ * @return void
+ */
+	public function testInputDateMaxYear() {
+		$this->Form->request->data = array();
+		$this->Form->create('User');
+		$result = $this->Form->input('birthday',
+				array(
+					'label' => false,
+					'div' => false,
+					'type' => 'date',
+					'dateFormat' => 'DMY',
+					'minYear' => 2006,
+					'maxYear' => 2008
+				)
+		);
+		$this->assertContains('value="2008" selected="selected"', $result);
 	}
 
 /**
