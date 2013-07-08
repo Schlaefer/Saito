@@ -171,7 +171,7 @@ Class CurrentUserComponent extends SaitoUser {
 	}
 
 	public function refresh() {
-		parent::set($this->_Controller->Session->read('Auth.User'));
+		parent::set($this->_Controller->Auth->user());
 
 		$this->PersistentCookie->initialize($this);
 
