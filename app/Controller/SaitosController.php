@@ -17,11 +17,9 @@
 		public $autoRender = false;
 
 		public function status() {
-			/*
 			if ($this->request->is('ajax') === false) {
 				throw new BadRequestException();
 			}
-			*/
 			$out = array(
 				'lastShoutId' => $this->Shout->findLastId()
 			);
