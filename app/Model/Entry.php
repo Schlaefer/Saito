@@ -828,22 +828,19 @@
 		 * @return bool
 		 */
 		public function isRoot($id = null) {
+			if ($id === null) {
+				$id = $this->id;
+			}
+
 			$md5 = md5(serialize($id));
 			if (isset($this->_isRoot[$md5]) === false) {
-				if ($id === null) {
-					$id = $this->id;
-				}
-
+				// $id was $entry array
 				if (is_array($id) && isset($id[$this->alias]['pid'])) {
 					$entry = $id;
-					/*
-					} elseif (isset($this->data[$this->alias]['id']) && (int)$this->data[$this->alias]['id'] === (int)$id && isset($this->data[$this->alias]['pid'])) {
-						$entry = $this->data;
-					*/
 				} else {
 					if (is_array($id) && isset($id[$this->alias]['id'])) {
 						$id = $id[$this->alias]['id'];
-					} elseif (!is_string($id)) {
+					} elseif (empty($id)) {
 						throw new InvalidArgumentException();
 					}
 					$entry = $this->find(

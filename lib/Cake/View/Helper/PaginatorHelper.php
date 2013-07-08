@@ -134,6 +134,22 @@ class PaginatorHelper extends AppHelper {
 	}
 
 /**
+ * Convenience access to any of the paginator params.
+ *
+ * @param string $key Key of the paginator params array to retreive.
+ * @param string $model Optional model name. Uses the default if none is specified.
+ * @return mixed Content of the requested param.
+ * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/paginator.html#PaginatorHelper::params
+ */
+	public function param($key, $model = null) {
+		$params = $this->params($model);
+		if (!isset($params[$key])) {
+			return null;
+		}
+		return $params[$key];
+	}
+
+/**
  * Sets default options for all pagination links
  *
  * @param array|string $options Default options for pagination links. If a string is supplied - it
@@ -491,22 +507,21 @@ class PaginatorHelper extends AppHelper {
 			}
 			$link = $this->link($title, $url, compact('escape', 'model') + $options);
 			return $this->Html->tag($tag, $link, compact('class'));
-		} else {
-			unset($options['rel']);
-			if (!$tag) {
-				if ($disabledTag) {
-					$tag = $disabledTag;
-					$disabledTag = null;
-				} else {
-					$tag = $_defaults['tag'];
-				}
-			}
-			if ($disabledTag) {
-				$title = $this->Html->tag($disabledTag, $title, compact('escape') + $options);
-				return $this->Html->tag($tag, $title, compact('class'));
-			}
-			return $this->Html->tag($tag, $title, compact('escape', 'class') + $options);
 		}
+		unset($options['rel']);
+		if (!$tag) {
+			if ($disabledTag) {
+				$tag = $disabledTag;
+				$disabledTag = null;
+			} else {
+				$tag = $_defaults['tag'];
+			}
+		}
+		if ($disabledTag) {
+			$title = $this->Html->tag($disabledTag, $title, compact('escape') + $options);
+			return $this->Html->tag($tag, $title, compact('class'));
+		}
+		return $this->Html->tag($tag, $title, compact('escape', 'class') + $options);
 	}
 
 /**
@@ -628,10 +643,10 @@ class PaginatorHelper extends AppHelper {
 				}
 				$out = $start . $options['separator'][0] . $end . $options['separator'][1];
 				$out .= $paging['count'];
-			break;
+				break;
 			case 'pages':
 				$out = $paging['page'] . $options['separator'] . $paging['pageCount'];
-			break;
+				break;
 			default:
 				$map = array(
 					'%page%' => $paging['page'],
@@ -648,7 +663,6 @@ class PaginatorHelper extends AppHelper {
 					'{:page}', '{:pages}', '{:current}', '{:count}', '{:start}', '{:end}', '{:model}'
 				);
 				$out = str_replace($newKeys, array_values($map), $out);
-			break;
 		}
 		return $out;
 	}

@@ -68,12 +68,11 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 		}
 
 		if ( !empty($user) && is_array($user) ) :
-			if (empty($user['id'])) {
-				throw new InvalidArgumentException;
+			if (empty($user['id']) === false) {
+				$this->_id = $user['id'];
+				$this->_isLoggedIn = true;
 			}
 			$this->_settings = $user;
-			$this->_id = (int)$this->_settings['id'];
-			$this->_isLoggedIn = true;
 		else :
 			trigger_error("Can't find user.");
 		endif;

@@ -102,31 +102,34 @@
 		public function feed() {
 			Configure::write('debug', 0);
 
-
-			if (isset($this->request->params['named']['depth']) && $this->request->params['named']['depth'] === 'start') {
-				$title						 = __('Last started threads');
-				$order						 = 'time DESC';
+			if (isset($this->request->params['named']['depth']) &&
+					$this->request->params['named']['depth'] === 'start'
+			) {
+				$title = __('Last started threads');
+				$order             = 'time DESC';
 				$conditions['pid'] = 0;
 			} else {
 				$title = __('Last entries');
 				$order = 'last_answer DESC';
 			}
 
-			$conditions['category'] = $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession());
+			$conditions['category'] = $this->Entry->Category->getCategoriesForAccession(
+				$this->CurrentUser->getMaxAccession()
+			);
 
-			$entries = $this->Entry->find('feed',
-					array(
+			$entries = $this->Entry->find(
+				'feed',
+				[
 					'conditions' => $conditions,
-					'order'			 => $order,
-					));
+					'order'      => $order
+				]
+			);
 			$this->initBbcode();
 			$this->set('entries', $entries);
 
 			// serialize for JSON
 			$this->set('_serialize', 'entries');
 			$this->set('title', $title);
-
-			return;
 		}
 
 		public function mix($tid) {
