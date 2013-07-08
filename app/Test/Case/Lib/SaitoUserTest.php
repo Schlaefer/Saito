@@ -78,6 +78,25 @@
 			$this->assertFalse($result);
 		}
 
+		public function testIsLoggedInUserIdIsMissing() {
+			// missing 'id' key
+			$user = ['username' => 'foo'];
+			$this->expectException('InvalidArgumentException');
+			$this->SaitoUser->set($user);
+		}
+
+		public function testIsLoggedInUserIdIsZero() {
+			$user = ['id' => 0];
+			$this->expectException('InvalidArgumentException');
+			$this->SaitoUser->set($user);
+		}
+
+		public function testIsLoggedInUserIdIsStringZero() {
+			$user = ['id' => '0'];
+			$this->expectException('InvalidArgumentException');
+			$this->SaitoUser->set($user);
+		}
+
 		public function testIsMod() {
 
 			//* anon
