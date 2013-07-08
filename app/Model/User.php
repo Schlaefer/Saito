@@ -415,12 +415,14 @@
 		 * @return bool|array false if not found, array otherwise
 		 */
 		public function getProfile($id) {
-			return $this->find('first',
-							array(
-							'contain'		 => false,
-							'conditions' => array('id' => $id)
-							)
+			$user = $this->find(
+				'first',
+				['contain' => false, 'conditions' => ['id' => $id]]
 			);
+			if ($user) {
+				$user = $user[$this->alias];
+			}
+			return $user;
 		}
 
 		/**

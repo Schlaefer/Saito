@@ -92,6 +92,7 @@ Class CurrentUserComponent extends SaitoUser {
 		$this->_Controller = $Controller;
 
 		$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
+		$this->PersistentCookie->initialize($this);
 
 		/*
 		 * We create a new User Model instance. Otherwise we would overwrite $this->request->data
@@ -99,22 +100,21 @@ Class CurrentUserComponent extends SaitoUser {
 		 */
 		$this->_User = ClassRegistry::init(array( 'class' => 'User', 'alias' => 'currentUser' ));
 
-		$this->refresh();
 		$this->_configureAuth();
+		$authSuccess = $this->_Controller->Auth->login();
 
-		//* Try Cookie Relogin
-		if (!$this->_Controller->Auth->login()) {
-			// for performance reasons Security::cypher() we check the cookie first
-			// not using the framework
-			if (	 isset($_COOKIE[$this->_persistentCookieName])
-					&& $this->_Controller->params['action'] != 'login'
-					&& $this->_Controller->params['action'] != 'register'
-					&& $this->_Controller->referer() != '/users/login'
+		// try relogin via cookie
+		if ($authSuccess !== true) {
+			if (
+					$this->_Controller->params['action'] !== 'login' &&
+					$this->_Controller->params['action'] !== 'register' &&
+					$this->_Controller->referer() !== '/users/login'
 			):
 				$this->_cookieRelogin();
 			endif;
 		}
 
+		$this->refresh();
 		$this->_markOnline();
 	}
 
@@ -160,29 +160,25 @@ Class CurrentUserComponent extends SaitoUser {
 
 	protected function _cookieRelogin() {
 		$cookie = $this->PersistentCookie->get();
-    // is_array -> if cookie could no be correctly deciphered it's just an random string
-		if ( !is_null($cookie) && is_array($cookie) ):
-			if ( $this->_Controller->Auth->login($cookie) ):
-				$this->refresh();
-				return;
-		  endif;
-		endif;
-		$this->PersistentCookie->destroy();
+		// is_array -> if cookie could no be correctly deciphered it's just an random string
+		if ($cookie) {
+			if (!is_null($cookie) && is_array($cookie)):
+				if ($this->_Controller->Auth->login($cookie)):
+					return;
+				endif;
+			endif;
+			$this->PersistentCookie->destroy();
+		}
 	}
 
 	public function refresh() {
 		parent::set($this->_Controller->Auth->user());
-
-		$this->PersistentCookie->initialize($this);
-
-		//*  make shure all session have the same userdata
-		if ( $this->isLoggedIn() ) {
+		// all session should must use current user data (locked, user_type, …)
+		if ($this->isLoggedIn()) {
 			$this->_User->id = $this->getId();
-			$user = $this->_User->getProfile($this->getId());
-			parent::set($user['currentUser']);
+			parent::set($this->_User->getProfile($this->getId()));
 			$this->LastRefresh = new SaitoCurrentUserLastRefresh($this, $this->_User);
 		}
-
 	}
 
 	public function logout() {
@@ -306,7 +302,7 @@ Class SaitoCurrentUserCookie {
 		$this->_setup();
 	}
 
-	public function initialize(SaitoUser $currentUser ) {
+	public function initialize(SaitoUser $currentUser) {
 		$this->_currentUser = $currentUser;
 		$this->_cookieName  = $currentUser->getPersistentCookieName();
 	}
@@ -332,7 +328,6 @@ Class SaitoCurrentUserCookie {
 	public function get() {
 		return $this->_cookie->read($this->_cookiePrefix);
 	}
-
 }
 
 /**
