@@ -20,14 +20,12 @@ class UsersController extends AppController {
 
 	public function login() {
 
-		if ( $this->Auth->login() ):
-		// login was successfull
-
+		if ($this->Auth->login()):
 			$this->_successfulLogin($this->Auth->user('id'));
 
-      if (isset($this->request->data['User']) && is_array($this->request->data['User']) && isset($this->request->data['User']['password']) ):
-        $this->User->autoUpdatePassword($this->request->data['User']['password']);
-      endif;
+      if (empty($this->request->data['User']['password']) === false) {
+				$this->User->autoUpdatePassword($this->request->data['User']['password']);
+			}
 
 			if (empty($this->request->data['User']['remember_me']) === false) {
 				$this->CurrentUser->PersistentCookie->set();
@@ -38,30 +36,28 @@ class UsersController extends AppController {
 			else:
 				$this->redirect($this->referer());
 			endif;
-
-		elseif ( !empty($this->request->data)) :
-      $known_error = false;
-      if ( 	 isset($this->request->data['User']['username'])
-					&& is_string($this->request->data['User']['username'])
-			) :
-        $this->User->contain();
-        $readUser = $this->User->findByUsername($this->request->data['User']['username']);
-        if (empty($readUser) === false) :
-          $user = new SaitoUser(new ComponentCollection);
-          $user->set($readUser['User']);
-          if ( $user->isForbidden() ) :
-            $known_error = $known_error || true;
-            $this->Session->setFlash(__('User %s is locked.', $readUser['User']['username']), 'flash/warning');
-          endif;
-        endif;
-      endif;
-      if ( $known_error === false) :
-        // Unknown login error
-        $this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
+		elseif (empty($this->request->data['User']['username']) === false):
+      $unknownError = true;
+			$this->User->contain();
+			$readUser = $this->User->findByUsername(
+				$this->request->data['User']['username']
+			);
+			if (empty($readUser) === false):
+				$user = new SaitoUser(new ComponentCollection);
+				$user->set($readUser['User']);
+				if ($user->isForbidden()) :
+					$unknownError = false;
+					$this->Session->setFlash(
+						__('User %s is locked.', $readUser['User']['username']),
+						'flash/warning'
+					);
+				endif;
+			endif;
+      if ($unknownError === true):
+        $this->Session->setFlash(__('auth_loginerror'), 'default', [], 'auth');
       endif;
 		endif;
-
-	} //end login()
+	}
 
 	public function logout() {
 		if ($this->Auth->user()) {
