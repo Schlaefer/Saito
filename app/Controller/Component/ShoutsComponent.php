@@ -18,7 +18,7 @@
 				$this->_controller->set('shouts', $cached_shouts['html']);
 			} else {
 				$this->_controller->initBbcode();
-				$this->_controller->set('shouts', $this->_controller->Shout->get());
+				$this->_controller->set('shouts', $shouts);
 			}
 		}
 
