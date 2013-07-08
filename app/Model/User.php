@@ -6,7 +6,7 @@
 	/**
 	 * Authentication methods
 	 */
-	App::uses('BcryptAuthenticate', 'BcryptAuthenticate.Controller/Component/Auth');
+	App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 	App::uses('MlfAuthenticate', 'Controller/Component/Auth');
 	App::uses('Mlf2Authenticate', 'Controller/Component/Auth');
 
@@ -270,7 +270,8 @@
 			$this->contain();
 			$data = $this->read(null, $id);
 			$oldPassword = $data[$this->alias]['password'];
-			if (strpos($oldPassword, BcryptAuthenticate::$hashIdentifier) !== 0):
+			$blowfishHashIdentifier = '$2a$';
+			if (strpos($oldPassword, $blowfishHashIdentifier) !== 0):
 				$this->saveField('password', $password);
 			endif;
 		}
@@ -478,15 +479,23 @@
 		 */
 		protected function _checkPassword($password, $hash) {
 			$supp_auths = array(
-					'BcryptAuthenticate',
+					'BlowfishPasswordHasher',
 					'Mlf2Authenticate',
 					'MlfAuthenticate',
 			);
 			$valid = false;
 			foreach ($supp_auths as $auth) {
-				if ($auth::checkPassword($password, $hash)) {
-					$valid = true;
-					break;
+				if ($auth === 'BlowfishPasswordHasher') {
+					$AuthClass = new $auth();
+					if ($AuthClass->check($password, $hash)) {
+						$valid = true;
+						break;
+					}
+				} else {
+					if ($auth::checkPassword($password, $hash)) {
+						$valid = true;
+						break;
+					}
 				}
 			}
 			return $valid;
@@ -499,7 +508,8 @@
 		 * @return string hashed password
 		 */
 		protected function _hashPassword($password) {
-			return BcryptAuthenticate::hash($password);
+			$auth = new BlowfishPasswordHasher();
+			return $auth->hash($password);
 		}
 
 	}

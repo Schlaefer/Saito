@@ -290,7 +290,10 @@
 						'User.user_lock'     => false
 					]
 				],
-				'BcryptAuthenticate.Bcrypt', // blowfish saito standard
+				// blowfish saito standard
+				'Form' => [
+					'passwordHasher' => 'Blowfish'
+				],
 				'Mlf', // mylittleforum 1 authentication
 				'Mlf2', // mylittleforum 2 auth
 			];
