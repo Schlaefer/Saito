@@ -123,7 +123,7 @@ contentTimer.setup();
                     if (that.SaitoApp.app.runJsTests === undefined) { // run app
 
                         // init i18n
-                        $.i18n.setUrl(App.settings.get('webroot') + "tools/langJs");
+                        $.i18n.setUrl(App.settings.get('webroot') + "saitos/langJs");
 
                         appView = new AppView();
 
