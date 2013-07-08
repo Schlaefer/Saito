@@ -279,20 +279,20 @@
 			// delegate authenticate method
 			// $this->_Controller->Auth->authenticate = $this->_User;
 
-			$authCommonSetup = [
-				'useModel' => 'User',
-				'contain'  => false,
-				'scope'    => [
-					// user has activated his account (e.g. email confirmation)
-					'User.activate_code' => false,
-					// user is not banned by admin or mod
-					'User.user_lock'     => false
-				]
-			];
 			$this->_Controller->Auth->authenticate = [
-				'BcryptAuthenticate.Bcrypt' => $authCommonSetup, // blowfish saito standard
-				'Mlf' => $authCommonSetup, // mylittleforum 1 authentication
-				'Mlf2' => $authCommonSetup, // mylittleforum 2 auth
+				AuthComponent::ALL => [
+					'useModel' => 'User',
+					'contain'  => false,
+					'scope'    => [
+						// user has activated his account (e.g. email confirmation)
+						'User.activate_code' => false,
+						// user is not banned by admin or mod
+						'User.user_lock'     => false
+					]
+				],
+				'BcryptAuthenticate.Bcrypt', // blowfish saito standard
+				'Mlf', // mylittleforum 1 authentication
+				'Mlf2', // mylittleforum 2 auth
 			];
 
 			if ($this->isLoggedIn()):
