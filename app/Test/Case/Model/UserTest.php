@@ -380,7 +380,7 @@
       // test exchanging
 			$new_password = 'testtest';
 			$this->User->id = 3;
-			$this->User->autoUpdatePassword($new_password);
+			$this->User->autoUpdatePassword($this->User->id, $new_password);
 			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
 			$this->assertTrue($result);
 
@@ -389,7 +389,7 @@
 			$this->User->id = 6;
       $old_password = $this->User->field('password');
 
-			$this->User->autoUpdatePassword($new_password);
+			$this->User->autoUpdatePassword($this->User->id, $new_password);
 			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
 			$this->assertTrue($result);
 

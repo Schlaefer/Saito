@@ -19,25 +19,14 @@ class UsersController extends AppController {
 	protected $allowedToEditUserData = false;
 
 	public function login() {
-
-		if ($this->Auth->login()):
-			$this->_successfulLogin($this->Auth->user('id'));
-
-      if (empty($this->request->data['User']['password']) === false) {
-				$this->User->autoUpdatePassword($this->request->data['User']['password']);
-			}
-
-			if (empty($this->request->data['User']['remember_me']) === false) {
-				$this->CurrentUser->PersistentCookie->set();
-			};
-
+		if($this->CurrentUser->login()):
 			if ($this->localReferer('action') === 'login'):
 				$this->redirect($this->Auth->redirectUrl());
 			else:
 				$this->redirect($this->referer());
 			endif;
 		elseif (empty($this->request->data['User']['username']) === false):
-      $unknownError = true;
+			$unknownError = true;
 			$this->User->contain();
 			$readUser = $this->User->findByUsername(
 				$this->request->data['User']['username']
@@ -53,9 +42,9 @@ class UsersController extends AppController {
 					);
 				endif;
 			endif;
-      if ($unknownError === true):
-        $this->Session->setFlash(__('auth_loginerror'), 'default', [], 'auth');
-      endif;
+			if ($unknownError === true):
+				$this->Session->setFlash(__('auth_loginerror'), 'default', [], 'auth');
+			endif;
 		endif;
 	}
 
@@ -612,12 +601,6 @@ class UsersController extends AppController {
 			$this->set('allowedToEditUserData', $this->allowedToEditUserData);
 		}
     return $this->allowedToEditUserData;
-	}
-
-	protected function _successfulLogin($userId) {
-		$this->User->incrementLogins($userId);
-		$this->CurrentUser->refresh();
-		$this->User->UserOnline->setOffline(session_id());
 	}
 
 	protected function _passwordAuthSwitch($data) {

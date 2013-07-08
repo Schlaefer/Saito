@@ -177,7 +177,31 @@
 			}
 		}
 
-		public function refresh() {
+		public function login() {
+			if ($this->_Controller->Auth->login() !== true) {
+				return false;
+			}
+
+			$this->refresh();
+			$this->_User->incrementLogins($this->getId());
+			$this->_User->UserOnline->setOffline(session_id());
+
+			//password update
+			if (empty($this->_Controller->request->data['User']['password']) === false) {
+				$this->_User->autoUpdatePassword(
+					$this->getId(),
+					$this->_Controller->request->data['User']['password']
+				);
+			}
+
+			// set cookie
+			if (empty($this->_Controller->request->data['User']['remember_me']) === false) {
+				$this->PersistentCookie->set();
+			};
+			return true;
+		}
+
+		public function refresh($user = null) {
 			parent::set($this->_Controller->Auth->user());
 			// all session should must use current user data (locked, user_type, …)
 			if ($this->isLoggedIn()) {

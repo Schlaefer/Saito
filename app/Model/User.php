@@ -266,10 +266,10 @@
 			return $success;
 		}
 
-		public function autoUpdatePassword($password) {
+		public function autoUpdatePassword($id, $password) {
 			$this->contain();
-			$data = $this->read();
-			$oldPassword = $data['User']['password'];
+			$data = $this->read(null, $id);
+			$oldPassword = $data[$this->alias]['password'];
 			if (strpos($oldPassword, BcryptAuthenticate::$hashIdentifier) !== 0):
 				$this->saveField('password', $password);
 			endif;
