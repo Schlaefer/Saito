@@ -673,7 +673,7 @@
 		public function testAppStats() {
 
 			Configure::write('Cache.disable', false);
-			Cache::delete('header_counter', 'perf-cheat');
+			Cache::delete('header_counter', 'short');
 
 			// test with no user online
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
