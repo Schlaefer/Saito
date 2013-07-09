@@ -100,7 +100,7 @@ class AppController extends Controller {
 			[
 				'hashBaseUrl' => 'entries/view/',
 				'atBaseUrl'   => 'users/name/',
-				'server'  => FULL_BASE_URL,
+				'server'  => Router::baseURL(),
 				'webroot' => $this->webroot
 			]
 		);

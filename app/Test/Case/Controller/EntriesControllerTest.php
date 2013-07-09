@@ -63,8 +63,7 @@
 					->method('referer')
 					->will($this->returnValue('/foo'));
 			$result = $this->testAction('/entries/add/1');
-			$this->assertEqual(FULL_BASE_URL . $Entries->request->webroot . 'foo',
-					$this->headers['Location']);
+			$this->assertRedirectedTo('foo');
 		}
 
 		public function testBookmarkButtonVisibility() {
@@ -605,8 +604,7 @@
 			$this->assertFalse(isset($this->headers['Location']));
 
 			$result = $this->testAction('/entries/view/4', array('return' => 'view'));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot,
-					$this->headers['Location']);
+			$this->assertRedirectedTo();
 
 			//* logged in user
 			$this->_loginUser(3);
@@ -621,8 +619,7 @@
 
 			//* redirect to index if entry does not exist
 			$result = $this->testAction('/entries/view/9999', array('return' => 'vars'));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot,
-					$this->headers['Location']);
+			$this->assertRedirectedTo();
 		}
 
 		public function testViewBoxFooter() {

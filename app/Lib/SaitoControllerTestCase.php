@@ -111,7 +111,7 @@
 
 		public function assertRedirectedTo($url = '') {
 			$this->assertEqual(
-				FULL_BASE_URL . $this->controller->request->webroot . $url,
+				Router::baseURL() . $this->controller->request->webroot . $url,
 				$this->headers['Location']
 			);
 		}
