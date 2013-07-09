@@ -7,8 +7,8 @@
 	 * Authentication methods
 	 */
 	App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
-	App::uses('MlfAuthenticate', 'Controller/Component/Auth');
-	App::uses('Mlf2Authenticate', 'Controller/Component/Auth');
+	App::uses('MlfPasswordHasher', 'Controller/Component/Auth');
+	App::uses('Mlf2PasswordHasher', 'Controller/Component/Auth');
 
 	/**
 	 * @td verify that old pw is needed for changing pw(?) [See user.test.php both validatePw tests]
@@ -315,9 +315,9 @@
 
 		public function beforeSave($options = array()) {
 			parent::beforeSave($options);
-			if (isset($this->data['User']['password'])) {
-				if (!empty($this->data['User']['password'])) {
-					$this->data['User']['password'] = $this->_hashPassword($this->data['User']['password']);
+			if (isset($this->data[$this->alias]['password'])) {
+				if (!empty($this->data[$this->alias]['password'])) {
+					$this->data[$this->alias]['password'] = $this->_hashPassword($this->data[$this->alias]['password']);
 				}
 			}
 
@@ -478,25 +478,28 @@
 		 * @return boolean TRUE if password match FALSE otherwise
 		 */
 		protected function _checkPassword($password, $hash) {
-			$supp_auths = array(
+			$supp_auths = [
 					'BlowfishPasswordHasher',
-					'Mlf2Authenticate',
-					'MlfAuthenticate',
-			);
+					'Mlf2PasswordHasher',
+					'MlfPasswordHasher'
+			];
 			$valid = false;
 			foreach ($supp_auths as $auth) {
-				if ($auth === 'BlowfishPasswordHasher') {
+				// if ($auth === 'BlowfishPasswordHasher') {
 					$AuthClass = new $auth();
-					if ($AuthClass->check($password, $hash)) {
+					// @: if hash is not valid hash blowfish Security::_crypt() triggers error
+					if (@$AuthClass->check($password, $hash)) {
 						$valid = true;
 						break;
 					}
+				/*
 				} else {
-					if ($auth::checkPassword($password, $hash)) {
+					if ($auth::check($password, $hash)) {
 						$valid = true;
 						break;
 					}
 				}
+				*/
 			}
 			return $valid;
 		}

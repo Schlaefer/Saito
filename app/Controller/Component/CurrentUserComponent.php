@@ -290,12 +290,11 @@
 						'User.user_lock'     => false
 					]
 				],
-				// blowfish saito standard
-				'Form' => [
-					'passwordHasher' => 'Blowfish'
-				],
-				'Mlf', // mylittleforum 1 authentication
+				// 'Mlf' and 'Mlf2' could be 'Form' with different passwordHasher, but
+				// see: https://cakephp.lighthouseapp.com/projects/42648/tickets/3907-allow-multiple-passwordhasher-with-same-authenticate-class-in-auth-config#ticket-3907-1
+				'Mlf', // mylittleforum 1 auth
 				'Mlf2', // mylittleforum 2 auth
+				'Form' => ['passwordHasher' => 'Blowfish'] // blowfish saito standard
 			];
 
 			if ($this->isLoggedIn()):
@@ -304,14 +303,9 @@
 				$this->_Controller->Auth->deny();
 			endif;
 
-			// we have some work todo in users_c/login() before redirecting
-			$this->_Controller->Auth->autoRedirect = false;
-
-			// access to static pages in views/pages is allowed
-			$this->_Controller->Auth->allow('display');
-
-			// l10n
-			$this->_Controller->Auth->authError = __('auth_autherror');
+			$this->_Controller->Auth->autoRedirect = false; // don't redirect after Auth->login()
+			$this->_Controller->Auth->allow('display'); // access to static pages in views/pages is allowed
+			$this->_Controller->Auth->authError = __('auth_autherror'); // l10n
 		}
 
 	}

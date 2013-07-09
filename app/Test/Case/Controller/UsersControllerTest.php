@@ -607,11 +607,12 @@
 
       $this->controller->User->contain();
       $result = $this->controller->User->findById(5);
-      $this->assertTrue(BcryptAuthenticate::checkPassword('test_new', $result['User']['password']));
+
+			App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
+			$pwH = new BlowfishPasswordHasher();
+
+      $this->assertTrue($pwH->check('test_new', $result['User']['password']));
 			$this->assertContains('users/edit', $this->headers['Location']);
-
-
-
     }
 
 		public function testContactForbidden() {
