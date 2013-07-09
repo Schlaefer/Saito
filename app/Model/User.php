@@ -26,6 +26,7 @@
 						),
 				),
 		);
+
 		public $hasMany = array(
 				'Bookmark' => array(
 						'foreignKey'		 => 'user_id',
@@ -192,8 +193,14 @@
 				'profile',
 		);
 
+		protected $_passwordHasher = [
+			'BlowfishPasswordHasher',
+			'Mlf2PasswordHasher',
+			'MlfPasswordHasher'
+		];
+
 		/**
-		 * True if registerGc garbage collection has ran
+		 * True if registerGc garbage collection has ran at this request
 		 *
 		 * registerGc is triggered in beforeFind(). To don't trigger an infinite
 		 * call-loop we set it running here when it's started for the first time
@@ -478,16 +485,11 @@
 		 * @return boolean TRUE if password match FALSE otherwise
 		 */
 		protected function _checkPassword($password, $hash) {
-			$supp_auths = [
-					'BlowfishPasswordHasher',
-					'Mlf2PasswordHasher',
-					'MlfPasswordHasher'
-			];
 			$valid = false;
-			foreach ($supp_auths as $auth) {
-				$AuthClass = new $auth();
+			foreach ($this->_passwordHasher as $passwordHasher) {
+				$PasswordHasherInstance = new $passwordHasher();
 				// @: if hash is not valid hash blowfish Security::_crypt() triggers warnings
-				if (@$AuthClass->check($password, $hash)) {
+				if (@$PasswordHasherInstance->check($password, $hash)) {
 					$valid = true;
 					break;
 				}
