@@ -485,21 +485,12 @@
 			];
 			$valid = false;
 			foreach ($supp_auths as $auth) {
-				// if ($auth === 'BlowfishPasswordHasher') {
-					$AuthClass = new $auth();
-					// @: if hash is not valid hash blowfish Security::_crypt() triggers error
-					if (@$AuthClass->check($password, $hash)) {
-						$valid = true;
-						break;
-					}
-				/*
-				} else {
-					if ($auth::check($password, $hash)) {
-						$valid = true;
-						break;
-					}
+				$AuthClass = new $auth();
+				// @: if hash is not valid hash blowfish Security::_crypt() triggers warnings
+				if (@$AuthClass->check($password, $hash)) {
+					$valid = true;
+					break;
 				}
-				*/
 			}
 			return $valid;
 		}
