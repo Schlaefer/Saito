@@ -8,6 +8,8 @@
 	if ( !defined('FULL_BASE_URL') ) {
 		define('FULL_BASE_URL', 'http://cakephp.org/');
 	}
+	Configure::write('App.fullBaseURL', FULL_BASE_URL);
+
 
 	class SaitoControllerTestCase extends ControllerTestCase {
 
