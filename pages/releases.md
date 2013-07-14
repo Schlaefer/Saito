@@ -5,7 +5,22 @@ layout: default
 
 <i class='icon-info-sign icon-schmuck'></i>
 
-<span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/tags)
+<span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
+
+## Next ##
+
+### What’s New ###
+
+- [fix] #148 encoding in [code] block not working
+- [task] update to CakePHP 2.4beta
+
+Code refactoring. Performance and security improvements.
+
+### Migration notes ###
+
+This version uses a beta version of CakePHP.
+
+Don't forget to update your `lib/Cake` folder.
 
 ## 2013-06.05 ##
 
@@ -26,6 +41,7 @@ layout: default
 
 - [new] email addresses are obfuscated in entry output
 - [new] minor performance improvements in entries/mix
+- [new] all plugins in app/Plugins are now loaded automatically
 - [fix] #147 [fixes #147 Middle click not working in Firefox
 ][gh147]
 - [fix] fixes html5 validation related errors on entries/add in firefox
