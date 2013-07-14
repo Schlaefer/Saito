@@ -29,7 +29,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	public $helpers = array(
 			'FileUpload.FileUpload',
 			'MailObfuscator.MailObfuscator',
-			'CakephpGeshi.Geshi',
+			'Geshi.Geshi',
       'Embedly.Embedly',
 			'Html',
 	);

@@ -25,14 +25,12 @@
 		public function add() {
 			$this->autoRender = false;
 			if ($this->request->is('ajax')) {
-				$data = array(
-					'Shout' => array(
-						'text' => $this->Bbcode->prepareInput(
-							$this->request->data['text']
-						),
+				$data = [
+					'Shout' => [
+						'text'    => $this->request->data['text'],
 						'user_id' => $this->CurrentUser->getId()
-					)
-				);
+					]
+				];
 				return $this->Shout->push($data);
 			}
 		}

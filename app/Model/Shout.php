@@ -16,9 +16,10 @@
 		 */
 		public $displayField = 'text';
 
-		public $actsAs = array(
-			'Containable',
-		);
+		public $actsAs = [
+			'Bbcode',
+			'Containable'
+		];
 
 		/**
 		 * Validation rules
@@ -104,5 +105,11 @@
 			$oldest_id = current($current_ids);
 			return $this->delete($oldest_id);
 
+		}
+
+		public function beforeSave($options = []) {
+			$this->data = $this->prepareBbcode($this->data);
+
+			return true;
 		}
 	}

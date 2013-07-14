@@ -2,77 +2,58 @@
 
 	App::uses('AppController', 'Controller');
 
-class UsersController extends AppController {
+	class UsersController extends AppController {
 
-	public $name = 'Users';
-	public $components = [
-		'CacheSupport'
-	];
+		public $name = 'Users';
+		public $components = [
+			'CacheSupport'
+		];
 
-	public $helpers = array (
+		public $helpers = [
 			'Farbtastic',
 			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',
-			'EntryH',
-	);
+			'EntryH'
+		];
 
-	protected $allowedToEditUserData = false;
+		protected $allowedToEditUserData = false;
 
-	public function login() {
-
-		if ( $this->Auth->login() ):
-		// login was successfull
-
-			$this->User->id = $this->Auth->user('id');
-			$this->_successfulLogin();
-
-      if ( isset($this->request->data['User']) && is_array($this->request->data['User']) && isset($this->request->data['User']['password']) ):
-        $this->User->autoUpdatePassword($this->request->data['User']['password']);
-      endif;
-
-			//* setting cookie
-			if ( isset($this->request->data['User']['remember_me']) && $this->request->data['User']['remember_me'] ):
-				$this->CurrentUser->PersistentCookie->set();
-				unset($this->request->data['User']['remember_me']);
+		public function login() {
+			if ($this->CurrentUser->login()):
+				if ($this->localReferer('action') === 'login'):
+					$this->redirect($this->Auth->redirectUrl());
+				else:
+					$this->redirect($this->referer());
+				endif;
+			elseif (empty($this->request->data['User']['username']) === false):
+				$unknownError = true;
+				$this->User->contain();
+				$readUser = $this->User->findByUsername(
+					$this->request->data['User']['username']
+				);
+				if (empty($readUser) === false):
+					$user = new SaitoUser(new ComponentCollection);
+					$user->set($readUser['User']);
+					if ($user->isForbidden()) :
+						$unknownError = false;
+						$this->Session->setFlash(
+							__('User %s is locked.', $readUser['User']['username']),
+							'flash/warning'
+						);
+					endif;
+				endif;
+				if ($unknownError === true):
+					$this->Session->setFlash(__('auth_loginerror'), 'default', [], 'auth');
+				endif;
 			endif;
-
-			//* handling redirect after successfull login
-			if ( $this->localReferer('action') === 'login' ) :
-				$this->redirect($this->Auth->redirect());
-			else :
-				$this->redirect($this->referer());
-			endif;
-
-		elseif ( !empty($this->request->data)) :
-      $known_error = false;
-      if ( 	 isset($this->request->data['User']['username'])
-					&& is_string($this->request->data['User']['username'])
-			) :
-        $this->User->contain();
-        $readUser = $this->User->findByUsername($this->request->data['User']['username']);
-        if (empty($readUser) === false) :
-          $user = new SaitoUser(new ComponentCollection);
-          $user->set($readUser['User']);
-          if ( $user->isForbidden() ) :
-            $known_error = $known_error || true;
-            $this->Session->setFlash(__('User %s is locked.', $readUser['User']['username']), 'flash/warning');
-          endif;
-        endif;
-      endif;
-      if ( $known_error === false) :
-        // Unknown login error
-        $this->Session->setFlash(__('auth_loginerror'), 'default', array(), 'auth');
-      endif;
-		endif;
-
-	} //end login()
-
-	public function logout() {
-		if ($this->Auth->user()) {
-			$this->CurrentUser->logout();
 		}
-		$this->redirect('/');
-	}
+
+		public function logout() {
+			if ($this->Auth->user()) {
+				$this->CurrentUser->logout();
+			}
+			$this->redirect('/');
+		}
 
 	public function register ($id = null) {
 		Stopwatch::start('Entries->register()');
@@ -132,119 +113,122 @@ class UsersController extends AppController {
 		Stopwatch::stop('Entries->register()');
 	}
 
-	public function admin_index() {
-		$data = $this->User->find('all', array(
-				'contain' => false,
-				'order' => array(
-						'User.username' => 'asc'
-				),
-			)
-		);
-
-		$this->set('users', $data);
-	}
-
-	public function index() {
-		$this->paginate = array(
-				'contain' => 'UserOnline',
-				'conditions'	=> array(
-						'OR'	=> array(
-								'LENGTH(  `UserOnline`.`user_id` ) <' => 11,
-								'ISNULL(  `UserOnline`.`user_id` )'		=> '1',
-					),
-				),
-				'limit' => 400,
-				'order' => array(
-						'UserOnline.logged_in'	 => 'desc',
-						'User.username' => 'asc',
-				),
-		);
-
-		$data = $this->paginate("User");
-		$this->set('users', $data);
-	}
-
-	public function admin_add() {
-		if ( !empty($this->request->data) ) :
-			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-			if ( $this->User->register($this->request->data) ):
-				$this->Session->setFlash('Nutzer erfolgreich angelegt @lo', 'flash/notice');
-				$this->redirect(array( 'action' => 'view', $this->User->id, 'admin' => false ));
-			endif;
-		endif;
-	}
-
-	public function name($id = null) {
-		if(!empty($id)) {
-			$this->User->contain();
-			$viewed_user = $this->User->findByUsername($id);
-			if (!empty($viewed_user)) {
-				return $this->redirect(
-					array(
-						'controller' => 'users',
-						'action' => 'view',
-						$viewed_user['User']['id']
-					)
-				);
-			}
-		}
-
-		$this->Session->setFlash(__('Invalid user'), 'flash/error');
-		return $this->redirect('/');
-	}
-
-	public function view($id = null) {
-
-		// redirect view/<username> to name/<username>
-		if(!empty($id) && !is_numeric($id)) {
-			$this->redirect(
-				array(
-					'controller' => 'users',
-					'action' => 'name',
-					$id
-				)
+		public function admin_index() {
+			$data = $this->User->find(
+				'all',
+				[
+					'contain' => false,
+					'order'   => ['User.username' => 'asc']
+				]
 			);
-			return; // test case return
+			$this->set('users', $data);
 		}
 
-		$this->User->id = $id;
-		$this->User->contain(array('UserOnline'));
-		$viewed_user = $this->User->read();
+		public function index() {
+			$this->paginate = [
+				'contain'    => 'UserOnline',
+				'conditions' => [
+					'OR' => [
+						'LENGTH(  `UserOnline`.`user_id` ) <' => 11,
+						'ISNULL(  `UserOnline`.`user_id` )'   => '1'
+					],
+				],
+				'limit'      => 400,
+				'order'      => [
+					'UserOnline.logged_in' => 'desc',
+					'User.username'        => 'asc'
+				]
+			];
 
-		if ($id === null || empty($viewed_user)) {
+			$data = $this->paginate("User");
+			$this->set('users', $data);
+		}
+
+		public function admin_add() {
+			if (!empty($this->request->data)) :
+				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
+				if ($this->User->register($this->request->data)):
+					$this->Session->setFlash(
+						'Nutzer erfolgreich angelegt @lo',
+						'flash/notice'
+					);
+					$this->redirect(['action' => 'view', $this->User->id, 'admin' => false]);
+				endif;
+			endif;
+		}
+
+		public function name($id = null) {
+			if (!empty($id)) {
+				$this->User->contain();
+				$viewed_user = $this->User->findByUsername($id);
+				if (!empty($viewed_user)) {
+					$this->redirect(
+						[
+							'controller' => 'users',
+							'action'     => 'view',
+							$viewed_user['User']['id']
+						]
+					);
+					return;
+				}
+			}
 			$this->Session->setFlash(__('Invalid user'), 'flash/error');
 			$this->redirect('/');
-			return; // test case return
+			return;
 		}
 
-		$viewed_user['User']['number_of_entries'] = $this->User->numberOfEntries();
+		public function view($id = null) {
+			// redirect view/<username> to name/<username>
+			if (!empty($id) && !is_numeric($id)) {
+				$this->redirect(
+					[
+						'controller' => 'users',
+						'action'     => 'name',
+						$id
+					]
+				);
+				return; // test case return
+			}
 
-		$entriesShownOnPage = 20;
-		$this->set(
-			'lastEntries',
-			$this->User->Entry->getRecentEntries(
-				[
-					'user_id' => $this->User->id,
-					'limit'   => $entriesShownOnPage,
-				],
-				$this->CurrentUser
-			)
-		);
+			$this->User->id = $id;
+			$this->User->contain(['UserOnline']);
+			$viewed_user = $this->User->read();
 
-		$this->set(
-			'hasMoreEntriesThanShownOnPage',
-				($viewed_user['User']['number_of_entries'] - $entriesShownOnPage) > 0
-		);
+			if ($id === null || empty($viewed_user)) {
+				$this->Session->setFlash(__('Invalid user'), 'flash/error');
+				$this->redirect('/');
+				return;
+			}
 
-		$this->set('user', $viewed_user);
-		$this->set(
-			'title_for_layout',
-			String::insert(
-				__('User :name'),
-				['name' => $viewed_user['User']['username']]
-			)
-		);
-	}
+			$viewed_user['User']['number_of_entries'] = $this->User->numberOfEntries(
+			);
+
+			$entriesShownOnPage = 20;
+			$this->set(
+				'lastEntries',
+				$this->User->Entry->getRecentEntries(
+					[
+						'user_id' => $this->User->id,
+						'limit'   => $entriesShownOnPage,
+					],
+					$this->CurrentUser
+				)
+			);
+
+			$this->set(
+				'hasMoreEntriesThanShownOnPage',
+					($viewed_user['User']['number_of_entries'] - $entriesShownOnPage) > 0
+			);
+
+			$this->set('user', $viewed_user);
+			$this->set(
+				'title_for_layout',
+				String::insert(
+					__('User :name'),
+					['name' => $viewed_user['User']['username']]
+				)
+			);
+		}
 
 	public function edit($id = null) {
 		if (!$this->allowedToEditUserData || !$id && empty($this->request->data))
@@ -320,15 +304,17 @@ class UsersController extends AppController {
               || ($this->CurrentUser->isMod() === true && Configure::read('Saito.Settings.block_user_ui'))
             ) === false
           ) :
-        return $this->redirect('/');
+        $this->redirect('/');
+				return;
       endif;
 
       $this->User->contain();
       $readUser = $this->User->findById($id);
-      if ( !$readUser ) :
-        $this->Session->setFlash(__('User not found.'), 'flash/error');
-        return $this->redirect('/');
-      endif;
+			if (!$readUser) :
+				$this->Session->setFlash(__('User not found.'), 'flash/error');
+				$this->redirect('/');
+				return;
+			endif;
 
       $editedUser = new SaitoUser(new ComponentCollection());
       $editedUser->set($readUser['User']);
@@ -342,56 +328,56 @@ class UsersController extends AppController {
         $this->User->id = $id;
         $status = $this->User->toggle('user_lock');
         if ( $status !== false ) :
-          $message = '';
-          if ( $status ) :
-            $message = __('User %s is locked.', $readUser['User']['username']);
-          else :
+					if ($status) :
+						$message = __('User %s is locked.', $readUser['User']['username']);
+          else:
             $message = __('User %s is unlocked.', $readUser['User']['username']);
           endif;
           $this->Session->setFlash($message, 'flash/notice');
-        else :
-          $this->Session->setFlash(__("Error while un/locking."),
-              'flash/error');
+        else:
+					$this->Session->setFlash(__("Error while un/locking."), 'flash/error');
         endif;
       endif;
 
-      $this->redirect(array( 'action' => 'view', $id ));
+		$this->redirect(['action' => 'view', $id]);
+		return;
     }
 
-  public function admin_delete($id = null) {
+		public function admin_delete($id = null) {
 
-    $this->User->contain();
-    $readUser = $this->User->findById($id);
-    if ( !$readUser ) :
-      $this->Session->setFlash(__('User not found.'), 'flash/error');
-      return $this->redirect('/');
-    endif;
+			$this->User->contain();
+			$readUser = $this->User->findById($id);
+			if (!$readUser):
+				$this->Session->setFlash(__('User not found.'), 'flash/error');
+				$this->redirect('/');
+				return;
+			endif;
 
-   if ( isset($this->request->data['User']['modeDelete']) ) :
-      if ( $id == $this->CurrentUser->getId() ) :
-        $this->Session->setFlash(__("You can't delete yourself."), 'flash/error');
-      elseif ( $id == 1 ) :
-        $this->Session->setFlash(__("You can't delete the installation account."), 'flash/error');
-      elseif ($this->User->deleteAllExceptEntries($id)) :
-				$this->CacheSupport->clearTrees();
-        $this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/notice');
-        return $this->redirect('/');
-      else:
-        $this->Session->setFlash(__("Couldn't delete user."), 'flash/error');
-      endif;
+			if (isset($this->request->data['User']['modeDelete'])):
+				if ($id == $this->CurrentUser->getId()) :
+					$this->Session->setFlash(__("You can't delete yourself."), 'flash/error');
+				elseif ($id == 1):
+					$this->Session->setFlash(__("You can't delete the installation account."), 'flash/error');
+				elseif ($this->User->deleteAllExceptEntries($id)):
+					$this->CacheSupport->clearTrees();
+					$this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/notice');
+					$this->redirect('/');
+					return;
+				else:
+					$this->Session->setFlash(__("Couldn't delete user."), 'flash/error');
+				endif;
 
-      return $this->redirect(
-                array( 'controller' => 'users', 'action' => 'view', $id )
-        );
-    endif;
-
-    $this->set('user', $readUser);
-  }
+				$this->redirect(['controller' => 'users', 'action' => 'view', $id]);
+				return;
+				endif;
+				$this->set('user', $readUser);
+		}
 
 	public function changepassword($id = null) {
 		if ( $id == null
         || !$this->_checkIfEditingIsAllowed($this->CurrentUser, $id) ) :
-			return $this->redirect('/');
+			$this->redirect('/');
+			return;
 	  endif;
 
 		$this->User->id = $id;
@@ -403,7 +389,8 @@ class UsersController extends AppController {
 			$this->User->contain('UserOnline');
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('change_password_success'), 'flash/success');
-				return $this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
+				$this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
+				return;
 			} else {
 				$this->Session->setFlash(
             __d('nondynamic',
@@ -421,219 +408,226 @@ class UsersController extends AppController {
 
 	}
 
-	public function contact($id = null) {
-		if ($id === null) {
-			$this->redirect('/');
-		}
+		public function contact($id = null) {
+			if ($id === null) {
+				$this->redirect('/');
+				return;
+			}
 
-		// anonymous users only contact admin
-		if (!$this->CurrentUser->isLoggedIn() && (int)$id !== 0) {
-      $this->redirect('/');
-		}
+			// anonymous users only contact admin
+			if (!$this->CurrentUser->isLoggedIn() && (int)$id !== 0) {
+				$this->redirect('/');
+				return;
+			}
 
-		// set recipient
-		if ((int)$id === 0) {
-			// recipient is forum owner
-			$recipient = array(
-					'User' => array(
-							'username' => Configure::read('Saito.Settings.forum_name'),
-							'user_email' => Configure::read('Saito.Settings.forum_email'),
-					)
-			);
-		} else {
-			// recipient is forum user
-			$this->User->id = $id;
-			$this->User->contain();
-			$recipient =  $this->User->read();
-		}
-
-		// if recipient was not found
-		if (!$recipient
-				// or user does not allow personal messages
-				|| ((int)$id !== 0) && !$recipient['User']['personal_messages']) :
-			$this->redirect('/');
-		endif;
-
-		if ($this->request->data) :
-			// send email
-
-			$validation_error = false;
-
-			// validate and set sender
-			if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
-				$sender_contact = $this->request->data['Message']['sender_contact'];
-				App::uses('Validation', 'Utility');
-				if (!Validation::email($sender_contact)) {
-					$this->JsData->addAppJsMessage(
-						__('error_email_not-valid'),
-						array(
-							'type'    => 'error',
-							'channel' => 'form',
-							'element' => '#MessageSenderContact'
-						)
-					);
-					$validation_error = true;
-				} else {
-					$sender['User'] = array(
-							'username'    => '',
-							'user_email'  => $sender_contact,
-					);
-				}
+			// set recipient
+			if ((int)$id === 0) {
+				// recipient is forum owner
+				$recipient = [
+					'User' => [
+						'username'   => Configure::read('Saito.Settings.forum_name'),
+						'user_email' => Configure::read('Saito.Settings.forum_email')
+					]
+				];
 			} else {
-				$sender = $this->CurrentUser->getId();
+				// recipient is forum user
+				$this->User->id = $id;
+				$this->User->contain();
+				$recipient = $this->User->read();
 			}
 
-			// validate and set subject
-			$subject = rtrim($this->request->data['Message']['subject']);
-			if (empty($subject)) {
-				$this->JsData->addAppJsMessage(
-					__('error_subject_empty'),
-					array(
-						'type'    => 'error',
-						'channel' => 'form',
-						'element' => '#MessageSubject'
-					)
-				);
-				$validation_error = true;
-			}
-
-		  if($validation_error === false) :
-				try {
-					$email = array(
-							'recipient' => $recipient,
-							'sender' 		=> $sender,
-							'subject' 	=> $subject,
-							'message'		=> $this->request->data['Message']['text'],
-							'template'	=> 'user_contact'
-							);
-
-					if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
-						$email['ccsender'] = true;
-					}
-
-					$this->SaitoEmail->email($email);
-					$this->Session->setFlash(__('Message was send.'), 'flash/success');
-					return $this->redirect('/');
-				} catch (Exception $exc) {
-					$this->Session->setFlash(__('Message couldn\'t be send! ' . $exc->getMessage()), 'flash/error');
-				} // end try
+			// if recipient was not found
+			if (!$recipient ||
+					// or user does not allow personal messages
+					((int)$id !== 0) && !$recipient['User']['personal_messages']
+			):
+				$this->redirect('/');
+				return;
 			endif;
 
-			$this->request->data = $this->request->data + $recipient;
+			if ($this->request->data):
+				// send email
 
-		else :
-			// show form
-			$this->request->data = $recipient;
-	  endif;
-	}
+				$validation_error = false;
 
-	public function ajax_toggle($toggle) {
-		if(!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) $this->redirect('/');
+				// validate and set sender
+				if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
+					$sender_contact = $this->request->data['Message']['sender_contact'];
+					App::uses('Validation', 'Utility');
+					if (!Validation::email($sender_contact)) {
+						$this->JsData->addAppJsMessage(
+							__('error_email_not-valid'),
+							[
+								'type'    => 'error',
+								'channel' => 'form',
+								'element' => '#MessageSenderContact'
+							]
+						);
+						$validation_error = true;
+					} else {
+						$sender['User'] = [
+							'username'   => '',
+							'user_email' => $sender_contact
+						];
+					}
+				} else {
+					$sender = $this->CurrentUser->getId();
+				}
 
-		$this->autoRender = false;
-		$allowed_toggles = array(
+				// validate and set subject
+				$subject = rtrim($this->request->data['Message']['subject']);
+				if (empty($subject)) {
+					$this->JsData->addAppJsMessage(
+						__('error_subject_empty'),
+						[
+							'type'    => 'error',
+							'channel' => 'form',
+							'element' => '#MessageSubject'
+						]
+					);
+					$validation_error = true;
+				}
+
+				if($validation_error === false):
+					try {
+						$email = [
+							'recipient' => $recipient,
+							'sender'    => $sender,
+							'subject'   => $subject,
+							'message'   => $this->request->data['Message']['text'],
+							'template'  => 'user_contact'
+						];
+
+						if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
+							$email['ccsender'] = true;
+						}
+
+						$this->SaitoEmail->email($email);
+						$this->Session->setFlash(__('Message was send.'), 'flash/success');
+						$this->redirect('/');
+						return;
+					} catch (Exception $exc) {
+						$this->Session->setFlash(
+							__('Message couldn\'t be send! ' . $exc->getMessage()),
+							'flash/error'
+						);
+					} // end try
+				endif;
+
+				$this->request->data = $this->request->data + $recipient;
+
+			else:
+				// show form
+				$this->request->data = $recipient;
+			endif;
+		}
+
+		public function ajax_toggle($toggle) {
+			if (!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) {
+				$this->redirect('/');
+				return;
+			}
+
+			$this->autoRender = false;
+			$allowed_toggles  = [
 				'show_userlist',
 				'show_recentposts',
 				'show_recententries',
 				'show_shoutbox'
-		);
-		if (in_array($toggle, $allowed_toggles)) {
-			#	$this->Session->setFlash('userlist toggled');
+			];
+			if (in_array($toggle, $allowed_toggles)) {
+				#	$this->Session->setFlash('userlist toggled');
+				$this->User->id             = $this->CurrentUser->getId();
+				$new_value                  = $this->User->toggle($toggle);
+				$this->CurrentUser[$toggle] = $new_value;
+			}
+			return $toggle;
+		}
+
+		public function ajax_set() {
+			if (!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) {
+				$this->redirect('/');
+				return;
+			}
+
+			$this->autoRender = false;
+
+			if (isset($this->request->data['User']['slidetab_order'])) {
+				$out = $this->request->data['User']['slidetab_order'];
+				$out = array_filter($out, 'strlen');
+				$out = serialize($out);
+
+				$this->User->id = $this->CurrentUser->getId();
+				$this->User->saveField('slidetab_order', $out);
+				$this->CurrentUser['slidetab_order'] = $out;
+			}
+
+			return $this->request->data;
+		}
+
+		public function setcategory($id = null) {
+			if (!$this->CurrentUser->isLoggedIn()) {
+				throw new ForbiddenException();
+			}
 			$this->User->id = $this->CurrentUser->getId();
-			$new_value = $this->User->toggle($toggle);
-			$this->CurrentUser[$toggle] =  $new_value;
-		}
-		return $toggle;
-	}
-
-	public function ajax_set() {
-		if(!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) $this->redirect('/');
-
-		$this->autoRender = false;
-
-		if (isset($this->request->data['User']['slidetab_order'])) {
-			$out = $this->request->data['User']['slidetab_order'];
-			$out = array_filter($out, 'strlen');
-			$out = serialize($out);
-
-			$this->User->id = $this->CurrentUser->getId();
-			$this->User->saveField('slidetab_order', $out);
-			$this->CurrentUser['slidetab_order'] = $out;
+			if ($id === 'all') {
+				$this->User->setCategory('all');
+			} elseif (!$id && $this->request->data) {
+				$this->User->setCategory($this->request->data['CatChooser']);
+			} else {
+				$this->User->setCategory($id);
+			}
+			$this->redirect($this->referer());
+			return;
 		}
 
-		return $this->request->data;
-	}
+		public function beforeFilter() {
+			Stopwatch::start('Users->beforeFilter()');
+			parent::beforeFilter();
 
-	public function setcategory($id = null) {
-		if (!$this->CurrentUser->isLoggedIn()) {
-			throw new ForbiddenException();
-		}
-		$this->User->id = $this->CurrentUser->getId();
-		if ($id === 'all') {
-			$this->User->setCategory('all');
-		} elseif (!$id && $this->request->data) {
-			$this->User->setCategory($this->request->data['CatChooser']);
-		} else {
-			$this->User->setCategory($id);
-		}
-		return $this->redirect($this->referer());
-	}
+			$this->Auth->allow('register', 'login', 'contact');
 
-	public function beforeFilter() {
-		Stopwatch::start('Users->beforeFilter()');
-		parent::beforeFilter();
+			if ($this->request->action === 'view') {
+				$this->_checkIfEditingIsAllowed($this->CurrentUser);
+				$this->initBbcode();
+			}
+			if ($this->request->action === 'edit') {
+				$this->_checkIfEditingIsAllowed($this->CurrentUser);
+			}
 
-		$this->Auth->allow('register', 'login', 'contact');
-
-		if ($this->request->action === 'view') {
-			$this->_checkIfEditingIsAllowed($this->CurrentUser);
-			$this->initBbcode();
-		}
-		if ($this->request->action === 'edit') {
-			$this->_checkIfEditingIsAllowed($this->CurrentUser);
+			Stopwatch::stop('Users->beforeFilter()');
 		}
 
-		Stopwatch::stop('Users->beforeFilter()');
-	}
+		/**
+		 *
+		 * @param SaitoUser $userWhoEdits
+		 * @param int $userToEditId
+		 * @return type
+		 */
+		protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = null) {
+			if (is_null($userToEditId) && isset($this->passedArgs[0])) :
+				$userToEditId = $this->passedArgs[0];
+			endif;
 
-  /**
-   *
-   * @param SaitoUser $userWhoEdits
-   * @param int $userToEditId
-   * @return type
-   */
-	protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = null) {
-    if (is_null($userToEditId) && isset($this->passedArgs[0])) :
-      $userToEditId = $this->passedArgs[0];
-    endif;
+			if (isset($userWhoEdits['id']) && isset($userToEditId)) {
+				if (
+						$userWhoEdits['id'] == $userToEditId #users own_entry
+						|| $userWhoEdits['user_type'] == 'admin' #user is admin
+				) :
+					$this->allowedToEditUserData = true;
+				else:
+					$this->allowedToEditUserData = false;
+				endif;
 
-		if (isset($userWhoEdits['id']) && isset($userToEditId)) {
-			if (
-							$userWhoEdits['id'] == $userToEditId	 #users own_entry
-							|| $userWhoEdits['user_type']  == 'admin'	 #user is admin
-			) :
-				$this->allowedToEditUserData = true;
-		  else:
-        $this->allowedToEditUserData = false;
-      endif;
-
-			$this->set('allowedToEditUserData', $this->allowedToEditUserData);
+				$this->set('allowedToEditUserData', $this->allowedToEditUserData);
+			}
+			return $this->allowedToEditUserData;
 		}
-    return $this->allowedToEditUserData;
-	}
 
-	protected function _successfulLogin() {
-		$this->User->incrementLogins();
-		$this->CurrentUser->refresh();
-
-		$this->User->UserOnline->setOffline(session_id());
-	}
-
-	protected function _passwordAuthSwitch($data) {
-		$data['User']['password'] = $data['User']['user_password'];
-		unset($data['User']['user_password']);
-		return $data;
-	}
+		protected function _passwordAuthSwitch($data) {
+			$data['User']['password'] = $data['User']['user_password'];
+			unset($data['User']['user_password']);
+			return $data;
+		}
 
 }
-?>

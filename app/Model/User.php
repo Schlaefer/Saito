@@ -6,9 +6,9 @@
 	/**
 	 * Authentication methods
 	 */
-	App::uses('BcryptAuthenticate', 'BcryptAuthenticate.Controller/Component/Auth');
-	App::uses('MlfAuthenticate', 'Controller/Component/Auth');
-	App::uses('Mlf2Authenticate', 'Controller/Component/Auth');
+	App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
+	App::uses('MlfPasswordHasher', 'Controller/Component/Auth');
+	App::uses('Mlf2PasswordHasher', 'Controller/Component/Auth');
 
 	/**
 	 * @td verify that old pw is needed for changing pw(?) [See user.test.php both validatePw tests]
@@ -26,6 +26,7 @@
 						),
 				),
 		);
+
 		public $hasMany = array(
 				'Bookmark' => array(
 						'foreignKey'		 => 'user_id',
@@ -192,8 +193,14 @@
 				'profile',
 		);
 
+		protected $_passwordHasher = [
+			'BlowfishPasswordHasher',
+			'Mlf2PasswordHasher',
+			'MlfPasswordHasher'
+		];
+
 		/**
-		 * True if registerGc garbage collection has ran
+		 * True if registerGc garbage collection has ran at this request
 		 *
 		 * registerGc is triggered in beforeFind(). To don't trigger an infinite
 		 * call-loop we set it running here when it's started for the first time
@@ -233,15 +240,16 @@
 			return $count;
 		}
 
-		public function incrementLogins($amount = 1) {
-			$data = array();
-			$data[$this->alias] = array(
-					'logins'		 => $this->field('logins') + $amount,
-					'last_login' => date('Y-m-d H:i:s'),
-			);
-			$this->contain();
-			if ($this->save($data, true, array('logins', 'last_login')) == false) {
-				throw new Exception("Increment logins failed.");
+		public function incrementLogins($id, $amount = 1) {
+			$data = [
+				$this->alias => [
+					'id'         => $id,
+					'logins'     => $this->field('logins') + $amount,
+					'last_login' => date('Y-m-d H:i:s')
+				]
+			];
+			if ($this->save($data, true, ['logins', 'last_login']) == false) {
+				throw new Exception('Increment logins failed.');
 			}
 		}
 
@@ -265,11 +273,12 @@
 			return $success;
 		}
 
-		public function autoUpdatePassword($password) {
+		public function autoUpdatePassword($id, $password) {
 			$this->contain();
-			$data = $this->read();
-			$oldPassword = $data['User']['password'];
-			if (strpos($oldPassword, BcryptAuthenticate::$hashIdentifier) !== 0):
+			$data = $this->read(null, $id);
+			$oldPassword = $data[$this->alias]['password'];
+			$blowfishHashIdentifier = '$2a$';
+			if (strpos($oldPassword, $blowfishHashIdentifier) !== 0):
 				$this->saveField('password', $password);
 			endif;
 		}
@@ -313,9 +322,9 @@
 
 		public function beforeSave($options = array()) {
 			parent::beforeSave($options);
-			if (isset($this->data['User']['password'])) {
-				if (!empty($this->data['User']['password'])) {
-					$this->data['User']['password'] = $this->_hashPassword($this->data['User']['password']);
+			if (isset($this->data[$this->alias]['password'])) {
+				if (!empty($this->data[$this->alias]['password'])) {
+					$this->data[$this->alias]['password'] = $this->_hashPassword($this->data[$this->alias]['password']);
 				}
 			}
 
@@ -415,12 +424,14 @@
 		 * @return bool|array false if not found, array otherwise
 		 */
 		public function getProfile($id) {
-			return $this->find('first',
-							array(
-							'contain'		 => false,
-							'conditions' => array('id' => $id)
-							)
+			$user = $this->find(
+				'first',
+				['contain' => false, 'conditions' => ['id' => $id]]
 			);
+			if ($user) {
+				$user = $user[$this->alias];
+			}
+			return $user;
 		}
 
 		/**
@@ -474,14 +485,11 @@
 		 * @return boolean TRUE if password match FALSE otherwise
 		 */
 		protected function _checkPassword($password, $hash) {
-			$supp_auths = array(
-					'BcryptAuthenticate',
-					'Mlf2Authenticate',
-					'MlfAuthenticate',
-			);
 			$valid = false;
-			foreach ($supp_auths as $auth) {
-				if ($auth::checkPassword($password, $hash)) {
+			foreach ($this->_passwordHasher as $passwordHasher) {
+				$PasswordHasherInstance = new $passwordHasher();
+				// @: if hash is not valid hash blowfish Security::_crypt() triggers warnings
+				if (@$PasswordHasherInstance->check($password, $hash)) {
 					$valid = true;
 					break;
 				}
@@ -496,7 +504,8 @@
 		 * @return string hashed password
 		 */
 		protected function _hashPassword($password) {
-			return BcryptAuthenticate::hash($password);
+			$auth = new BlowfishPasswordHasher();
+			return $auth->hash($password);
 		}
 
 	}

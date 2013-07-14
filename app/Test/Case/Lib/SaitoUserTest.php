@@ -78,6 +78,25 @@
 			$this->assertFalse($result);
 		}
 
+		public function testIsLoggedInUserIdIsMissing() {
+			// missing 'id' key
+			$user = ['username' => 'foo'];
+			$this->SaitoUser->set($user);
+			$this->assertFalse($this->SaitoUser->isLoggedIn());
+		}
+
+		public function testIsLoggedInUserIdIsZero() {
+			$user = ['id' => 0];
+			$this->SaitoUser->set($user);
+			$this->assertFalse($this->SaitoUser->isLoggedIn());
+		}
+
+		public function testIsLoggedInUserIdIsStringZero() {
+			$user = ['id' => '0'];
+			$this->SaitoUser->set($user);
+			$this->assertFalse($this->SaitoUser->isLoggedIn());
+		}
+
 		public function testIsMod() {
 
 			//* anon

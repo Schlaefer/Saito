@@ -64,7 +64,7 @@
     protected function _config($options = array()) {
       $defaults = array(
         'viewVars'=> array(
-          'webroot' => FULL_BASE_URL . $this->_webroot,
+          'webroot' => Router::baseURL() . $this->_webroot,
         ),
       );
       extract(array_merge_recursive($defaults, $options));

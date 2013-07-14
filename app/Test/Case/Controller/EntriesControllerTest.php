@@ -7,8 +7,8 @@
 	class EntriesMockController extends EntriesController {
 		public $uses = array('Entry');
 
-		public function getInitialThreads($User) {
-			$this->_getInitialThreads($User);
+		public function getInitialThreads($User, $order = 'Entry.last_answer DESC') {
+			$this->_getInitialThreads($User, $order);
 		}
 
 		public function searchStringSanitizer($string) {
@@ -45,6 +45,15 @@
 			$this->testAction('/entries/mix/9999');
 		}
 
+		/**
+		 * only logged in users should be able to answer
+		 */
+		public function testAddUserNotLoggedInGet() {
+			$this->generate('Entries', ['methods' => 'add']);
+			$this->testAction('/entries/add');
+			$this->assertRedirectedTo('login');
+		}
+
 		public function testNoDirectCallOfAnsweringFormWithId() {
 			$Entries = $this->generate('Entries', array(
 					'methods' => array('referer')
@@ -54,8 +63,7 @@
 					->method('referer')
 					->will($this->returnValue('/foo'));
 			$result = $this->testAction('/entries/add/1');
-			$this->assertEqual(FULL_BASE_URL . $Entries->request->webroot . 'foo',
-					$this->headers['Location']);
+			$this->assertRedirectedTo('foo');
 		}
 
 		public function testBookmarkButtonVisibility() {
@@ -596,8 +604,7 @@
 			$this->assertFalse(isset($this->headers['Location']));
 
 			$result = $this->testAction('/entries/view/4', array('return' => 'view'));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot,
-					$this->headers['Location']);
+			$this->assertRedirectedTo();
 
 			//* logged in user
 			$this->_loginUser(3);
@@ -612,8 +619,7 @@
 
 			//* redirect to index if entry does not exist
 			$result = $this->testAction('/entries/view/9999', array('return' => 'vars'));
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot,
-					$this->headers['Location']);
+			$this->assertRedirectedTo();
 		}
 
 		public function testViewBoxFooter() {
@@ -664,7 +670,7 @@
 		public function testAppStats() {
 
 			Configure::write('Cache.disable', false);
-			Cache::delete('header_counter', 'perf-cheat');
+			Cache::delete('header_counter', 'short');
 
 			// test with no user online
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));

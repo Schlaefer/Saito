@@ -109,6 +109,13 @@
 			$this->controller->Session->write('Auth.User', $users[$id - 1]);
 		}
 
+		public function assertRedirectedTo($url = '') {
+			$this->assertEqual(
+				Router::baseURL() . $this->controller->request->webroot . $url,
+				$this->headers['Location']
+			);
+		}
+
     protected function _logoutUser() {
       // if user is logged-in it should interfere with test runs
       if (isset($_COOKIE['SaitoPersistent'])) :

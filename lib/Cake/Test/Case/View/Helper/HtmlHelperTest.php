@@ -210,7 +210,7 @@ class HtmlHelperTest extends CakeTestCase {
 		Router::reload();
 
 		$result = $this->Html->link('Posts', array('controller' => 'posts', 'action' => 'index', 'full_base' => true));
-		$expected = array('a' => array('href' => FULL_BASE_URL . '/posts'), 'Posts', '/a');
+		$expected = array('a' => array('href' => Router::baseURL() . '/posts'), 'Posts', '/a');
 		$this->assertTags($result, $expected);
 
 		$result = $this->Html->link('Home', '/home', array('confirm' => 'Are you sure you want to do this?'));
@@ -291,6 +291,17 @@ class HtmlHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
+		$result = $this->Html->link('Next >', '#', array(
+			'title' => 'Next >',
+			'escapeTitle' => false
+		));
+		$expected = array(
+			'a' => array('href' => '#', 'title' => 'Next &gt;'),
+			'Next >',
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+
 		$result = $this->Html->link('Original size', array(
 			'controller' => 'images', 'action' => 'view', 3, '?' => array('height' => 100, 'width' => 200)
 		));
@@ -306,6 +317,17 @@ class HtmlHelperTest extends CakeTestCase {
 		$result = $this->Html->link($this->Html->image('test.gif'), '#', array('escape' => false));
 		$expected = array(
 			'a' => array('href' => '#'),
+			'img' => array('src' => 'img/test.gif', 'alt' => ''),
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->Html->link($this->Html->image('test.gif'), '#', array(
+			'title' => 'hey "howdy"',
+			'escapeTitle' => false
+		));
+		$expected = array(
+			'a' => array('href' => '#', 'title' => 'hey &quot;howdy&quot;'),
 			'img' => array('src' => 'img/test.gif', 'alt' => ''),
 			'/a'
 		);
@@ -550,7 +572,7 @@ class HtmlHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		CakePlugin::load('TestPlugin');
-		$result = $this->Html->css('TestPlugin.style', null, array('plugin' => false));
+		$result = $this->Html->css('TestPlugin.style', array('plugin' => false));
 		$expected['link']['href'] = 'preg:/.*css\/TestPlugin\.style\.css/';
 		$this->assertTags($result, $expected);
 		CakePlugin::unload('TestPlugin');
@@ -596,6 +618,49 @@ class HtmlHelperTest extends CakeTestCase {
 		$this->View->expects($this->at(1))
 			->method('append')
 			->with('css', $this->matchesRegularExpression('/more_css_in_head.css/'));
+
+		$result = $this->Html->css('css_in_head', array('inline' => false));
+		$this->assertNull($result);
+
+		$result = $this->Html->css('more_css_in_head', array('inline' => false));
+		$this->assertNull($result);
+
+		$result = $this->Html->css('screen', array('rel' => 'import'));
+		$expected = array(
+			'style' => array('type' => 'text/css'),
+			'preg:/@import url\(.*css\/screen\.css\);/',
+			'/style'
+		);
+		$this->assertTags($result, $expected);
+	}
+
+/**
+ * Test css link BC usage
+ *
+ * @return void
+ */
+	public function testCssLinkBC() {
+		Configure::write('Asset.filter.css', false);
+
+		CakePlugin::load('TestPlugin');
+		$result = $this->Html->css('TestPlugin.style', null, array('plugin' => false));
+		$expected = array(
+			'link' => array(
+				'rel' => 'stylesheet',
+				'type' => 'text/css',
+				'href' => 'preg:/.*css\/TestPlugin\.style\.css/'
+			)
+		);
+		$this->assertTags($result, $expected);
+		CakePlugin::unload('TestPlugin');
+
+		$result = $this->Html->css('screen', 'import');
+		$expected = array(
+			'style' => array('type' => 'text/css'),
+			'preg:/@import url\(.*css\/screen\.css\);/',
+			'/style'
+		);
+		$this->assertTags($result, $expected);
 
 		$result = $this->Html->css('css_in_head', null, array('inline' => false));
 		$this->assertNull($result);

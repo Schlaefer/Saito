@@ -336,10 +336,7 @@
 			 * if user (profile) doesn't exist
 			 */
 			$this->testAction('/users/view/9999');
-			$this->assertEqual(
-				FULL_BASE_URL . $this->controller->request->webroot,
-				$this->headers['Location']
-			);
+			$this->assertRedirectedTo();
 
 		}
 
@@ -354,7 +351,7 @@
 
 			/* not logged in should'nt be allowed */
 			$this->testAction('/users/lock/3');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
       // user can't lock other users
       $this->_loginUser(3);
@@ -390,8 +387,7 @@
 
       // user does not exit
 			$this->testAction('/users/lock/9999');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
-
+			$this->assertRedirectedTo();
 
       // locked user are thrown out
 			$this->testAction('/users/lock/5');
@@ -472,7 +468,7 @@
 			$this->testAction( '/admin/users/delete/9999', array( 'data' => $data));
       $countAfterDelete = $this->controller->User->find('count');
       $this->assertEqual($countBeforeDelete, $countAfterDelete);
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
       /*
        * you can't delete yourself
@@ -501,19 +497,19 @@
       $this->controller->User->contain();
       $result = $this->controller->User->findById(5);
       $this->assertEmpty($result);
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
     }
 
     public function testChangePassword() {
 
       // not logged in user can't change password
       $this->testAction('/users/changepassword/5');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
       // user (4) shouldn't see change password dialog of other users (5)
       $this->_loginUser(4);
       $result = $this->testAction('/users/changepassword/5');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
       // user has access to his own changepassword dialog
       $result = $this->testAction('/users/changepassword/4');
@@ -587,7 +583,7 @@
       $this->controller->User->contain();
       $result = $this->controller->User->read();
       $this->assertEqual($result['User']['password'], $expected);
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
       /*
        * test changing password
@@ -607,11 +603,12 @@
 
       $this->controller->User->contain();
       $result = $this->controller->User->findById(5);
-      $this->assertTrue(BcryptAuthenticate::checkPassword('test_new', $result['User']['password']));
+
+			App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
+			$pwH = new BlowfishPasswordHasher();
+
+      $this->assertTrue($pwH->check('test_new', $result['User']['password']));
 			$this->assertContains('users/edit', $this->headers['Location']);
-
-
-
     }
 
 		public function testContactForbidden() {
@@ -621,11 +618,11 @@
 
 			/* not logged in should'nt be allowed */
 			$this->testAction('/users/contact/3');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
 			/* not logged in should'nt be allowed */
 			$this->testAction('/users/contact/5');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
 			/* logged in and allowed */
 			$this->_loginUser(2);
@@ -635,15 +632,15 @@
 
 			/* logged in but recipient's user-pref doesn't allow it  */
 			$this->testAction('/users/contact/5');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
 			/* no recipient id */
 			$this->testAction('/users/contact/');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 
 			/* recipient does not exist */
 			$this->testAction('/users/contact/9999');
-			$this->assertEqual(FULL_BASE_URL . $this->controller->request->webroot, $this->headers['Location']);
+			$this->assertRedirectedTo();
 		}
 
 		public function testContactAnon() {

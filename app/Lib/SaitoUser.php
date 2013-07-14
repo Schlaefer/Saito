@@ -42,19 +42,19 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 	protected $_Instance = NULL;
 	/**
 	 * User settings
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_settings = NULL;
 	/**
 	 * User ID
-	 * 
+	 *
 	 * @var int
 	 */
 	protected $_id = null;
 	/**
 	 * Stores if a user is logged in
-	 * 
+	 *
 	 * @var bool
 	 */
 	protected $_isLoggedIn = false;
@@ -68,10 +68,11 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 		}
 
 		if ( !empty($user) && is_array($user) ) :
+			if (empty($user['id']) === false) {
+				$this->_id = $user['id'];
+				$this->_isLoggedIn = true;
+			}
 			$this->_settings = $user;
-			// @td should raise error if no id
-			$this->_id = $this->_settings['id'];
-			$this->_isLoggedIn = true;
 		else :
 			trigger_error("Can't find user.");
 		endif;

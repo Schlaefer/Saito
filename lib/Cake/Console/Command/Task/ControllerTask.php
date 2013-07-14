@@ -289,7 +289,7 @@ class ControllerTask extends BakeTask {
 		App::uses($modelImport, $plugin . 'Model');
 		if (!class_exists($modelImport)) {
 			$this->err(__d('cake_console', 'You must have a model for this class to build basic methods. Please try again.'));
-			$this->_stop();
+			return $this->_stop();
 		}
 
 		$modelObj = ClassRegistry::init($currentModelName);
@@ -474,6 +474,9 @@ class ControllerTask extends BakeTask {
 			))->addOption('connection', array(
 				'short' => 'c',
 				'help' => __d('cake_console', 'The connection the controller\'s model is on.')
+			))->addOption('theme', array(
+				'short' => 't',
+				'help' => __d('cake_console', 'Theme to use when baking code.')
 			))->addSubcommand('all', array(
 				'help' => __d('cake_console', 'Bake all controllers with CRUD methods.')
 			))->epilog(__d('cake_console', 'Omitting all arguments and options will enter into an interactive mode.'));

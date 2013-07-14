@@ -3042,7 +3042,7 @@ class ModelReadTest extends BaseModelTest {
 		$Apple = new Apple();
 		$result = $Apple->find('threaded');
 		$result = Hash::extract($result, '{n}.children');
-		$expected = array(array(), array(), array(), array(), array(), array(),	array());
+		$expected = array(array(), array(), array(), array(), array(), array(), array());
 		$this->assertEquals($expected, $result);
 	}
 
@@ -3057,7 +3057,7 @@ class ModelReadTest extends BaseModelTest {
 		$Model->recursive = -1;
 		$result = $Model->find('threaded');
 		$result = Hash::extract($result, '{n}.children');
-		$expected = array(array(), array(), array(), array(), array(), array(),	array());
+		$expected = array(array(), array(), array(), array(), array(), array(), array());
 		$this->assertEquals($expected, $result);
 
 		$result = $Model->find('threaded', array('parent' => 'mother_id'));
@@ -7939,6 +7939,27 @@ class ModelReadTest extends BaseModelTest {
 			array(
 				'conditions' => array(
 					'Article.id NOT' => array(1)
+				)
+			)
+		);
+		$this->assertTrue(is_array($result) && !empty($result));
+	}
+
+/**
+ * test to assert that != in key together with a single element array will work
+ *
+ * @return void
+ */
+	public function testNotEqualsInArrayWithOneValue() {
+		$this->loadFixtures('Article');
+		$Article = new Article();
+		$Article->recursive = -1;
+
+		$result = $Article->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Article.id !=' => array(1)
 				)
 			)
 		);

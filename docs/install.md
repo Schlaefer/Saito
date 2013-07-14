@@ -50,7 +50,7 @@ Follow the web-installer's instruction to the end.
 
 # Nginx Configuration for CakePHP <a name="NginxConfigurationForCakePHP"/> #
 
-@todo
+todo
 
 # Running on your own server
 
@@ -76,5 +76,13 @@ to
 
 	Configure::write('debug', 1);
 
+Also see `app/tmp/logs/error.log`.
+
+# Tips #
+
+If you're able to symlink you should:
+
+- symlink app/webroot/useruploads for easier update
+- [symlink Theme assets to the webfoot folder](http://book.cakephp.org/2.0/en/views/themes.html#increasing-performance-of-plugin-and-theme-assets)
 
 /* vim: set filetype=mkd : */

@@ -28,11 +28,12 @@
 
 		public $primaryKey = 'id';
 
-		public $actsAs = array(
+		public $actsAs = [
+			'Bbcode',
 			'Containable',
 			'Search.Searchable',
-			'Tree',
-		);
+			'Tree'
+		];
 
 		public $findMethods = array(
 			'feed'  => true,
@@ -85,13 +86,15 @@
 				),
 			),
 			'category' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'last' => true,
+				'notEmpty'  => array(
+					'rule' => 'notEmpty'
 				),
-				'numeric'  => array(
+				'numeric'   => array(
 					'rule' => 'numeric'
 				),
+				'isAllowed' => [
+					'rule' => 'validateCategoryIsAllowed'
+				]
 			),
 			'user_id'  => array(
 				'rule' => 'numeric'
@@ -112,7 +115,7 @@
 		 *
 		 * @var array
 		 */
-		public $publicFieldsList = '
+		protected $_allowedPublicOutputFields = '
 			Entry.id,
 			Entry.pid,
 			Entry.tid,
@@ -179,18 +182,49 @@
 			User.user_place
 		';
 
-		public function getRecentEntries(array $options = array(), SaitoUser $User) {
+		/**
+		 * Allowed external user input
+		 *
+		 * @var array
+		 */
+		protected $_allowedInputFields = [
+			'create' => [
+				'category',
+				'flattr',
+				'nsfw',
+				'pid',
+				'subject',
+				'text'
+			],
+			'update' => [
+				'id',
+				'category',
+				'flattr',
+				'nsfw',
+				'subject',
+				'text'
+			]
+		];
+
+		/**
+		 * Caching for isRoot()
+		 *
+		 * @var array
+		 */
+		protected $_isRoot = [];
+
+		public function getRecentEntries(array $options = [], SaitoUser $User) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
-				'user_id' => null,
-				'limit' => 10,
+				'user_id'  => null,
+				'limit'    => 10,
 				'category' => $this->Category->getCategoriesForAccession(
 					$User->getMaxAccession()
 				),
 			];
 
-			$cache_key = 'Entry.recentEntries-' . md5(serialize($options));
+			$cache_key    = 'Entry.recentEntries-' . md5(serialize($options));
 			$cached_entry = Cache::read($cache_key, 'entries');
 			if ($cached_entry) {
 				Stopwatch::stop('Model->User->getRecentEntries()');
@@ -205,14 +239,15 @@
 				$conditions[]['Entry.category'] = $options['category'];
 			endif;
 
-			$result = $this->find('all',
-					array(
-						'contain' => array('User', 'Category'),
-						'fields'		 => $this->threadLineFieldList,
-						'conditions' => $conditions,
-						'limit'			 => $options['limit'],
-						'order'			 => 'time DESC',
-					)
+			$result = $this->find(
+				'all',
+				[
+					'contain'    => array('User', 'Category'),
+					'fields'     => $this->threadLineFieldList,
+					'conditions' => $conditions,
+					'limit'      => $options['limit'],
+					'order'      => 'time DESC'
+				]
 			);
 
 			Cache::write($cache_key, $result, 'entries');
@@ -230,108 +265,154 @@
 		 * @throws UnexpectedValueException
 		 */
 		public function getThreadId($id) {
-			$entry = $this->find('first', array(
-					'contain' => false,
-					'conditions' => array(
-							'Entry.id' => $id,
-					),
-					'fields' => 'Entry.tid'
+			$entry = $this->find(
+				'first',
+				[
+					'contain'    => false,
+					'conditions' => ['Entry.id' => $id],
+					'fields'     => 'Entry.tid'
 
-			));
+				]
+			);
 			if ($entry == false) {
 				throw new UnexpectedValueException ('Posting not found. Posting-Id: ' . $id);
 			}
 			return $entry['Entry']['tid'];
 		}
 
-	/**
-	 * creates a new root or child entry for a node
-	 *
-	 * Interface see model->save()
-	 */
-	public function createPosting($data = null, $validate = true, $fieldList = array()) {
+		public function getParentId($id) {
+			$entry = $this->find(
+				'first',
+				[
+					'contain'    => false,
+					'conditions' => ['Entry.id' => $id],
+					'fields'     => 'Entry.pid'
 
-		if (	 !isset($data['Entry']['pid'])
-				|| !isset($data['Entry']['subject'])
-				|| !isset($data['Entry']['category'])) {
-			return false;
+				]
+			);
+			if ($entry == false) {
+				throw new UnexpectedValueException ('Posting not found. Posting-Id: ' . $id);
+			}
+			return $entry['Entry']['pid'];
 		}
 
-		$isNewThread = (int)$data['Entry']['pid'] === 0;
+		/**
+		 * creates a new root or child entry for a node
+		 *
+		 * Interface see model->save()
+		 */
+		public function createPosting($data, $CurrentUser = null) {
 
-		if ($isNewThread === false) {
-			// reply: setup additional data from parent entry
-			$this->contain();
-			$parent_entry = $this->read(array('tid', 'category'), $data['Entry']['pid']);
-			if ($parent_entry === false) { return false; }
-			$data['Entry']['tid']      = $parent_entry['Entry']['tid'];
-			$data['Entry']['category'] = $parent_entry['Entry']['category'];
-		}
+			if ($CurrentUser !== null) {
+				$this->_CurrentUser = $CurrentUser;
+			}
 
-		$data['Entry']['time']        = date("Y-m-d H:i:s");
-		$data['Entry']['last_answer'] = date("Y-m-d H:i:s");
-		$data['Entry']['ip']          = self::_getIp();
+			if (!isset($data[$this->alias]['pid'])) {
+				$data[$this->alias]['pid'] = 0;
+			}
 
-		$this->create();
-		$new_posting = $this->save($data, $validate,$fieldList);
-
-		if ($new_posting === false) { return false; }
-		$new_posting_id	= $this->id;
-		if ($new_posting === true) { $new_posting = $this->read(); }
-
-		if($isNewThread) {
-			// thread-id of new thread is its own id
-			$new_posting['Entry']['tid'] = $new_posting_id;
-			if ($this->save($new_posting) === false) {
-				// @td raise error and/or roll back new entry
-				return false;
-			} else {
-        $this->Category->id = $data['Entry']['category'];
-        $this->Category->updateThreadCounter();
-      }
-		} else  {
-			// update last answer time of root entry
-			$this->id = $parent_entry['Entry']['tid'];
-			$this->set('last_answer', $new_posting['Entry']['last_answer']);
-			if ($this->save() === false) {
-				// @td raise error and/or roll back new entry
+			if (isset($data[$this->alias]['subject']) === false) {
 				return false;
 			}
 
-			$this->getEventManager()->dispatch(
-				new CakeEvent(
-					'Model.Entry.replyToEntry',
-					$this,
-					array(
-						'subject' => $new_posting['Entry']['pid'],
-						'data'    => $new_posting,
-					)
-				)
-			);
-			$this->getEventManager()->dispatch(
-				new CakeEvent(
-					'Model.Entry.replyToThread',
-					$this,
-					array(
-						'subject' => $new_posting['Entry']['tid'],
-						'data'    => $new_posting,
-					)
-				)
-			);
-		}
-		$this->id = $new_posting_id;
-		return $new_posting;
-	}
+			try {
+				$this->prepare(
+					$data,
+					['preFilterFields' => 'create']
+				);
+			} catch (Exception $e) {
+				return false;
+			}
 
-	/* @mb `views` into extra related table if performance becomes a problem */
-	public function incrementViews($amount=1) {
-		// Workaround for travis-ci error message
-		// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
-		if (!env('TRAVIS')) {
-			$this->contain();
-			$this->saveField('views', $this->field('views') + $amount);
+			$data[$this->alias]['user_id'] = $this->_CurrentUser->getId();
+			$data[$this->alias]['name']    = $this->_CurrentUser['username'];
+
+			$data[$this->alias]['time']        = date('Y-m-d H:i:s');
+			$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
+			$data[$this->alias]['ip']          = self::_getIp();
+
+			$this->create();
+			$new_posting = $this->save($data);
+
+			if ($new_posting === false) {
+				return false;
+			}
+			$new_posting_id = $this->id;
+			if ($new_posting === true) {
+				$new_posting = $this->read();
+			}
+
+			if ($this->isRoot($data)) {
+				// thread-id of new thread is its own id
+				if ($this->save(['tid' => $new_posting_id]) === false) {
+					// @td raise error and/or roll back new entry
+					return false;
+				} else {
+					$this->Category->id = $data[$this->alias]['category'];
+					$this->Category->updateThreadCounter();
+				}
+			} else {
+				// update last answer time of root entry
+				$this->id = $new_posting[$this->alias]['tid'];
+				$this->set('last_answer', $new_posting[$this->alias]['last_answer']);
+				if ($this->save() === false) {
+					// @td raise error and/or roll back new entry
+					return false;
+				}
+
+				$this->getEventManager()->dispatch(
+					new CakeEvent(
+						'Model.Entry.replyToEntry',
+						$this,
+						array(
+							'subject' => $new_posting[$this->alias]['pid'],
+							'data'    => $new_posting,
+						)
+					)
+				);
+				$this->getEventManager()->dispatch(
+					new CakeEvent(
+						'Model.Entry.replyToThread',
+						$this,
+						array(
+							'subject' => $new_posting[$this->alias]['tid'],
+							'data'    => $new_posting,
+						)
+					)
+				);
+			}
+			$this->id = $new_posting_id;
+			return $new_posting;
 		}
-	}
+
+		public function update($data, $CurrentUser = null) {
+			if ($CurrentUser !== null) {
+				$this->_CurrentUser = $CurrentUser;
+			}
+
+			$data[$this->alias]['id'] = $this->id;
+			$this->prepare($data, ['preFilterFields' => 'update']);
+
+			// prevents normal user of changing category of complete thread when answering
+			// @todo this should be refactored together with the change category handling in beforeSave()
+			if ($this->isRoot($data) === false) {
+				unset($data[$this->alias]['category']);
+			}
+
+			$data[$this->alias]['edited']    = date('Y-m-d H:i:s');
+			$data[$this->alias]['edited_by'] = $this->_CurrentUser['username'];
+			return $this->save($data);
+		}
+
+		/* @mb `views` into extra related table if performance becomes a problem */
+		public function incrementViews($amount = 1) {
+			// Workaround for travis-ci error message
+			// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
+			if (!env('TRAVIS')) {
+				$this->contain();
+				$this->saveField('views', $this->field('views') + $amount);
+			}
+		}
 
 		/**
 		 * tree of a single node and its subentries
@@ -449,11 +530,9 @@
 
 		public function toggle($key) {
 			$result = parent::toggle($key);
-
 			if ($key === 'locked') {
 				$this->_threadLock($result);
 			}
-
 			return $result;
 		}
 
@@ -597,7 +676,7 @@
 			$sourceEntry = $this->findById($threadIdSource);
 
 			// check that source is thread and not an entry
-			if ($sourceEntry['Entry']['pid'] != 0) {
+			if ($sourceEntry[$this->alias]['pid'] != 0) {
 				return false;
 			}
 
@@ -610,29 +689,29 @@
 			}
 
 			// check that a thread is not merged onto itself
-			if ($targetEntry['Entry']['tid'] === $sourceEntry['Entry']['tid']) {
+			if ($targetEntry[$this->alias]['tid'] === $sourceEntry[$this->alias]['tid']) {
 				return false;
 			}
 
 			// set target entry as new parent entry
-			$this->set('pid', $targetEntry['Entry']['id']);
+			$this->set('pid', $targetEntry[$this->alias]['id']);
 			if ($this->save()) {
 				// associate all entries in source thread to target thread
 				$this->updateAll(
-					['tid' => $targetEntry['Entry']['tid']],
+					['tid' => $targetEntry[$this->alias]['tid']],
 					['tid' => $this->id]
 				);
 
 				// appended source entries get category of target thread
 				$this->_threadChangeCategory(
-					$targetEntry['Entry']['tid'],
-					$targetEntry['Entry']['category']
+					$targetEntry[$this->alias]['tid'],
+					$targetEntry[$this->alias]['category']
 				);
 
 				// update target thread last answer if source is newer
 				$sourceLastAnswer = $this->field('last_answer');
-				if (strtotime($sourceLastAnswer) > strtotime($targetEntry['Entry']['last_answer'])) {
-					$this->id = $targetEntry['Entry']['tid'];
+				if (strtotime($sourceLastAnswer) > strtotime($targetEntry[$this->alias]['last_answer'])) {
+					$this->id = $targetEntry[$this->alias]['tid'];
 					$this->set('last_answer', $sourceLastAnswer);
 					$this->save();
 				}
@@ -642,10 +721,8 @@
 					$targetEntry['Entry']['tid'],
 					'thread'
 				);
-
 				return true;
 			}
-
 			return false;
 		}
 
@@ -684,44 +761,54 @@
 		 * @param SaitoUser $user
 		 * @return boolean
 		 */
-		public function isEditingForbidden(array $entry, SaitoUser $User) {
-			// user is not logged in and not allowed to do anything
-			if (empty($User) || empty($User['id']))
+		public function isEditingForbidden(array $entry, SaitoUser $CurrentUser = null) {
+			if ($CurrentUser !== null) {
+				$this->_CurrentUser = $CurrentUser;
+			}
+
+			// Anon
+			if ($this->_CurrentUser->isLoggedIn() === false) {
 				return true;
+			}
+
+			// Admins
+			if ($this->_CurrentUser->isAdmin()) {
+				return false;
+			}
 
 			$verboten = true;
 
-			// Mod and Admin …
-			# @td mods don't edit admin posts
-			if ($User->isMod() || $User->isAdmin()) {
-				if (
-						(int)$User['id'] === (int)$entry['Entry']['user_id']
-						&& ( time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 ))
+			$editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
+			$expired = strtotime($entry['Entry']['time']) + $editPeriod;
+			$isOverEditLimit = time() > $expired;
+
+			$isCurrentUsersPosting = (int)$this->_CurrentUser->getId()
+					=== (int)$entry['Entry']['user_id'];
+
+			if ($this->_CurrentUser->isMod()) {
+				// Mods
+				// @todo mods don't edit admin posts
+				if ($isCurrentUsersPosting && $isOverEditLimit &&
 						/* Mods should be able to edit their own posts if they are pinned
 						 *
-						 * @td this opens a 'mod can pin and then edit root entries'-loophole,
+						 * @todo this opens a 'mod can pin and then edit root entries'-loophole,
 						 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
 						 * for mods pinning root-posts.
 						 */
-						&& ( $entry['Entry']['fixed'] == false )
-						&& ( $User->isModOnly() )
-				) :
-					// mods shouldn't mod themselfs
+						($entry['Entry']['fixed'] == false)
+				) {
+					// mods don't mod themselves
 					$verboten = 'time';
-				else :
+				} else {
 					$verboten = false;
-				endif;
+				};
 
-				// Normal user and anonymous
 			} else {
-				// check if it's users own posting @td put admin and mods here;
-				if ($User['id'] != $entry['Entry']['user_id']) {
+				// Users
+				if ($isCurrentUsersPosting === false) {
 					$verboten = 'user';
-				}
-				// check if time for editint ran out
-				elseif (time() > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_period') * 60 )) {
+				} elseif ($isOverEditLimit) {
 					$verboten = 'time';
-					// entry is locked by admin or mod
 				} elseif ($this->_isLocked($entry)) {
 					$verboten = 'locked';
 				} else {
@@ -745,39 +832,126 @@
 				$id = $this->id;
 			}
 
-			if (is_array($id) && isset($id[$this->alias]['pid'])) {
-				$entry = $id;
+			$md5 = md5(serialize($id));
+			if (isset($this->_isRoot[$md5]) === false) {
+				// $id was $entry array
+				if (is_array($id) && isset($id[$this->alias]['pid'])) {
+					$entry = $id;
+				} else {
+					if (is_array($id) && isset($id[$this->alias]['id'])) {
+						$id = $id[$this->alias]['id'];
+					} elseif (empty($id)) {
+						throw new InvalidArgumentException();
+					}
+					$entry = $this->find(
+						'first',
+						array(
+							'contain'    => false,
+							'conditions' => array(
+								'id' => $id,
+							)
+						)
+					);
+				}
+				$this->_isRoot[$md5] = empty($entry[$this->alias]['pid']);
 			}
-			elseif (isset($this->data[$this->alias]['id']) && (int)$this->data[$this->alias]['id'] === (int)$id && isset($this->data[$this->alias]['pid'])) {
-				$entry = $this->data;
-			} else {
-				$entry = $this->find('first', array(
-								'contain' => false,
-								'conditions' => array(
-										'id' => $id,
-								)
-						));
-			}
-			return (empty($entry[$this->alias]['pid']));
+			return $this->_isRoot[$md5];
 		}
 
 		protected function _isLocked($entry) {
-			if (!isset($entry['Entry']['locked'])) {
+			if (!isset($entry[$this->alias]['locked'])) {
 				throw new InvalidArgumentException;
 			}
+			return $entry[$this->alias]['locked'] != false;
+		}
 
-			return $entry['Entry']['locked'] != false;
+		/**
+		 * Preprocesses entry data before saving it
+		 *
+		 * @param $data
+		 * @param bool $isNew
+		 * @throws InvalidArgumentException
+		 * @throws ForbiddenException
+		 */
+		public function prepare(&$data, array $options = []) {
+			$options += [
+				'isRoot' => null
+			];
+
+			if (isset($options['preFilterFields'])) {
+				$this->_preFilterFields($data, $options['preFilterFields']);
+			}
+			unset($options['preFilterFields']);
+
+			$isRoot = $options['isRoot'];
+			unset($options['isRoot']);
+
+			if ($isRoot === null) {
+				$isRoot = $this->isRoot($data);
+			}
+			// adds info from parent entry to an answer
+			if ($isRoot === false) {
+				if (!isset($data[$this->alias]['pid'])) {
+					$pid = $this->getParentId($data[$this->alias]['id']);
+				} else {
+					$pid = $data[$this->alias]['pid'];
+				}
+				$parent = $this->getUnsanitized($pid);
+				if ($parent === false) {
+					throw new InvalidArgumentException;
+				}
+
+				if ($this->isAnsweringForbidden($parent)) {
+					throw new ForbiddenException;
+				}
+
+				// if new subject is empty use the parent's subject
+				if (empty($data[$this->alias]['subject'])) {
+					$data[$this->alias]['subject'] = $parent[$this->alias]['subject'];
+				}
+
+				$data[$this->alias]['tid']      = $parent[$this->alias]['tid'];
+				$data[$this->alias]['category'] = $parent[$this->alias]['category'];
+			}
+
+			// text preprocessing
+			$data = $this->prepareBbcode($data);
+		}
+
+		/**
+		 * filter out not allowed fields
+		 *
+		 * @param $data
+		 * @param $fields
+		 */
+		protected function _preFilterFields(&$data, $fields) {
+			$org = $data;
+			$data = [
+				$this->alias => array_intersect_key(
+					$data[$this->alias],
+					array_flip($this->_allowedInputFields[$fields])
+				)
+			];
+			if (isset($org['Event'])) {
+				$data['Event'] = $org['Event'];
+			}
 		}
 
 		public function getUnsanitized($id) {
-				$this->sanitize(false);
-				return $this->find('entry', array('conditions' => array('Entry.id' => $id)));
+			$this->sanitize(false);
+			return $this->find(
+				'entry',
+				[
+					'contain'    => ['User', 'Category'],
+					'conditions' => ['Entry.id' => $id]
+				]
+			);
 		}
 
-		public function _findEntry($state, $query, $results = array()) {
+		protected function _findEntry($state, $query, $results = array()) {
 			if ($state === 'before') {
 				$query['contain'] = array('User', 'Category');
-				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				$query['fields']  = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 				return $query;
 			}
 			if ($results) {
@@ -787,81 +961,80 @@
 			return $results;
 		}
 
-	/**
-	 * Implements the custom find type 'feed'
-	 *
-	 * Add parameters for generating a rss/json-feed with find('feed', …)
-	 */
-	protected function _findFeed($state, $query, $results = array()) {
+		/**
+		 * Implements the custom find type 'feed'
+		 *
+		 * Add parameters for generating a rss/json-feed with find('feed', …)
+		 */
+		protected function _findFeed($state, $query, $results = array()) {
 			if ($state == 'before') {
-				$query['contain']	 = array('User');
-				$query['fields']   = $this->publicFieldsList;
-				$query['limit']		 = 10;
+				$query['contain'] = array('User');
+				$query['fields']  = $this->_allowedPublicOutputFields;
+				$query['limit']   = 10;
 				return $query;
 			}
 			return $results;
 		}
 
-	/**
-	 * Locks or unlocks a whole thread
-	 *
-	 * Every entry in thread is set to `locked` = '$value'
-	 *
-	 * @param bool $value
-	 */
-	protected function _threadLock($value) {
-		$tid = $this->field('tid');
-		$this->contain();
-		$this->updateAll(
-				array('locked' => $value),
-				array('tid'	=> $tid)
-		);
-	}
-
-	/**
-	 * Checks if answering an entry is allowed
-	 *
-	 * @param array $entry
-	 * @return boolean
-	 */
-	public function isAnsweringForbidden($entry) {
-		$isAnsweringForbidden = true;
-		if ($this->_isLocked($entry)) {
-			$isAnsweringForbidden = 'locked';
-		} else {
-			$isAnsweringForbidden = false;
+		/**
+		 * Locks or unlocks a whole thread
+		 *
+		 * Every entry in thread is set to `locked` = '$value'
+		 *
+		 * @param bool $value
+		 */
+		protected function _threadLock($value) {
+			$tid = $this->field('tid');
+			$this->contain();
+			$this->updateAll(['locked' => $value], ['tid' => $tid]);
 		}
 
-		return $isAnsweringForbidden;
-	}
+		/**
+		 * Checks if answering an entry is allowed
+		 *
+		 * @param array $entry
+		 * @return boolean
+		 */
+		public function isAnsweringForbidden($entry) {
+			$isAnsweringForbidden = true;
+			if ($this->_isLocked($entry)) {
+				$isAnsweringForbidden = 'locked';
+			} else {
+				$isAnsweringForbidden = false;
+			}
+
+			return $isAnsweringForbidden;
+		}
 
 
   public function paginateCount($conditions, $recursive, $extra) {
 
-    if ( isset($extra['getInitialThreads']) ):
-        $this->Category->contain();
-        $categories = $this->Category->find('all',
-            array(
-            'conditions' => array( 'id' => $conditions['Entry.category'] ),
-            'fields' => array( 'thread_count' )
-                ));
-        $count = array_sum(Set::extract('/Category/thread_count', $categories));
-      else:
-        $parameters = array( 'conditions' => $conditions );
-        if ( $recursive != $this->recursive ) {
-          $parameters['recursive'] = $recursive;
-        }
-        $count = $this->find('count', array_merge($parameters, $extra));
-      endif;
-
-    return $count;
-  }
+		if (isset($extra['getInitialThreads'])) {
+			$this->Category->contain();
+			$categories = $this->Category->find(
+				'all',
+				[
+					'conditions' => array('id' => $conditions['Entry.category']),
+					'fields'     => array('thread_count')
+				]
+			);
+			$count = array_sum(Set::extract('/Category/thread_count', $categories));
+		} else {
+			$parameters = array('conditions' => $conditions);
+			if ($recursive != $this->recursive) {
+				$parameters['recursive'] = $recursive;
+			}
+			$count = $this->find('count', array_merge($parameters, $extra));
+		}
+		return $count;
+	}
 
 		public function beforeSave($options = array()) {
 			$success = true;
 
 			// change category of thread if category of root entry changed
-			if (isset($this->data['Entry']['category'])) {
+			// @bogus @performance check for pid === 0 before loading old_entry
+			if (isset($this->data[$this->alias]['category'])) {
 				// get old entry to compare with new data
 				$old_entry = $this->find(
 					'first',
@@ -873,12 +1046,12 @@
 					)
 				);
 
-				if ($old_entry && (int)$old_entry['Entry']['pid'] === 0) {
-					if ((int)$this->data['Entry']['category'] !== (int)$old_entry['Entry']['category']) {
+				if ($old_entry && (int)$old_entry[$this->alias]['pid'] === 0) {
+					if ((int)$this->data[$this->alias]['category'] !== (int)$old_entry[$this->alias]['category']) {
 						$success = $success && $this->_threadChangeCategory(
-							$old_entry['Entry']['tid'],
-							$this->data['Entry']['category']
-						);
+									$old_entry[$this->alias]['tid'],
+									$this->data[$this->alias]['category']
+								);
 					}
 				}
 			}
@@ -886,31 +1059,44 @@
 			return $success && parent::beforeSave($options);
 		}
 
-	/**
-	 * Changes the category of a thread.
-	 *
-	 * Assigns the new category-id to all postings in that thread.
-	 *
-	 * @param int $tid Id of the thread
-	 * @param int $new_category_id Id of the new category
-	 * @return boolean True on success, false on failure
-	 */
-	protected function _threadChangeCategory($tid = null, $new_category_id = null) {
-		if (empty($tid)) {
-			throw new InvalidArgumentException;
+		/**
+		 * check that entries are only in existing and allowed categories
+		 *
+		 * @param $check
+		 * @return bool
+		 */
+		public function validateCategoryIsAllowed($check) {
+			$availableCategories = $this->Category->getCategoriesForAccession(
+				$this->_CurrentUser->getMaxAccession()
+			);
+			if (!isset($availableCategories[$check['category']])) {
+				return false;
+			}
+			return true;
 		}
-		$this->Category->contain();
-		$category_exists = $this->Category->findById($new_category_id);
-		if (!$category_exists) {
-			throw new NotFoundException;
+
+		/**
+		 * Changes the category of a thread.
+		 *
+		 * Assigns the new category-id to all postings in that thread.
+		 *
+		 * @param int $tid Id of the thread
+		 * @param int $new_category_id Id of the new category
+		 * @return boolean True on success, false on failure
+		 */
+		protected function _threadChangeCategory($tid = null, $new_category_id = null) {
+			if (empty($tid)) {
+				throw new InvalidArgumentException;
+			}
+			$this->Category->contain();
+			$category_exists = $this->Category->findById($new_category_id);
+			if (!$category_exists) {
+				throw new NotFoundException;
+			}
+			$out = $this->updateAll(
+				['Entry.category' => $new_category_id],
+				['Entry.tid' => $tid]
+			);
+			return $out;
 		}
-		$out = $this->updateAll(
-				array(
-						'Entry.category' => $new_category_id,
-				),
-				array(
-						'Entry.tid' => $tid,
-		));
-		return $out;
 	}
-}
