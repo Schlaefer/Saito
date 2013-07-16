@@ -81,8 +81,7 @@
 					'rule' => 'notEmpty',
 				),
 				'maxLength' => array(
-					// set to Saito admin pref in beforeValidate()
-					'rule' => array('maxLength', 100),
+					'rule' => 'validateSubjectMaxLength',
 				),
 			),
 			'category' => array(
@@ -218,6 +217,11 @@
 		 * @var array
 		 */
 		protected $_isRoot = [];
+
+		public function __construct($id = false, $table = null, $ds = null) {
+			$this->_initialize();
+			return parent::__construct($id, $table, $ds);
+		}
 
 		public function getRecentEntries(array $options = [], SaitoUser $User) {
 			Stopwatch::start('Model->User->getRecentEntries()');
@@ -562,10 +566,6 @@
 
 		public function beforeValidate($options = array()) {
 			parent::beforeValidate($options);
-			$this->_initialize();
-
-			$this->validate['subject']['maxLength']['rule'][1] =
-					$this->_subjectMaxLenght;
 
 			//* in n/t posting delete unnecessary body text
 			if (isset($this->data['Entry']['text'])) {
@@ -771,7 +771,6 @@
 		 * @return boolean
 		 */
 		public function isEditingForbidden(array $entry, SaitoUser $CurrentUser = null) {
-			$this->_initialize();
 
 			if ($CurrentUser !== null) {
 				$this->_CurrentUser = $CurrentUser;
@@ -1086,6 +1085,21 @@
 		}
 
 		/**
+		 *
+		 *
+		 * Don't use Cake's build in maxLength. Dynamically setting the length
+		 * afterwards in $this->validates it is a bag of hurt with race
+		 * conditions in ModelValidator::_parseRules() when checking
+		 * if ($this->_validate === $this->_model->validate) is true.
+		 *
+		 * @param $check
+		 * @return bool
+		 */
+		public function validateSubjectMaxLength($check) {
+			return mb_strlen($check['subject']) < $this->_subjectMaxLenght;
+		}
+
+		/**
 		 * Changes the category of a thread.
 		 *
 		 * Assigns the new category-id to all postings in that thread.
@@ -1119,7 +1133,7 @@
 				$this->_editPeriod = $appSettings['edit_period'] * 60;
 			}
 			if(isset($appSettings['subject_maxlength'])) {
-				$this->_subjectMaxLenght = $appSettings['subject_maxlength'];
+				$this->_subjectMaxLenght = (int)$appSettings['subject_maxlength'];
 			}
 			$this->_isInitialized = true;
 		}
