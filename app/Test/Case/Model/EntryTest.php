@@ -6,6 +6,7 @@
 
 	class EntryMock extends Entry {
 		public $_CurrentUser;
+		public $_editPeriod;
 	}
 
 	class EntryTest extends CakeTestCase {
@@ -340,11 +341,12 @@
 		}
 
 		public function testIsEditingForbiddenSuccess() {
+			$this->Entry->_editPeriod = 1200;
 			$entry = array(
 					'Entry' => array(
 							'user_id'	 => 1,
 							'time'		 => strftime("%c",
-									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) + 1),
+									time() - $this->Entry->_editPeriod + 1),
 							'locked'	 => 0,
 					)
 			);
@@ -414,13 +416,17 @@
 		}
 
 		public function testIsEditingForbiddenToLate() {
-			$entry = array(
-					'Entry' => array(
-							'user_id'	 => 1,
-							'time'		 => strftime("%c",
-									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) - 1),
+			$this->Entry->_editPeriod = 1200;
+			$entry = [
+				'Entry' => [
+					'user_id' => 1,
+					'locked'  => false,
+					'time'    => strftime(
+						"%c",
+							time() - $this->Entry->_editPeriod - 1
 					)
-			);
+				]
+			];
 			$user = array(
 					'id'				 => 1,
 					'user_type'	 => 'user',
@@ -594,6 +600,10 @@
 		public function testUpdateNoId() {
 			$this->expectException('InvalidArgumentException');
 			$this->Entry->update([]);
+		}
+
+		public function testUpdateEntryDoesNotExist() {
+			$this->Entry->update(['Entry' => ['id' => 999, 'subject' => 'foo']]);
 		}
 
 		/**

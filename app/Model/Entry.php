@@ -206,6 +206,12 @@
 			]
 		];
 
+		protected $_isInitialized = false;
+
+		protected $_editPeriod = 1200;
+
+		protected $_subjectMaxLenght = 100;
+
 		/**
 		 * Caching for isRoot()
 		 *
@@ -556,10 +562,10 @@
 
 		public function beforeValidate($options = array()) {
 			parent::beforeValidate($options);
+			$this->_initialize();
 
-			$this->validate['subject']['maxLength']['rule'][1] = Configure::read(
-				'Saito.Settings.subject_maxlength'
-			);
+			$this->validate['subject']['maxLength']['rule'][1] =
+					$this->_subjectMaxLenght;
 
 			//* in n/t posting delete unnecessary body text
 			if (isset($this->data['Entry']['text'])) {
@@ -765,6 +771,8 @@
 		 * @return boolean
 		 */
 		public function isEditingForbidden(array $entry, SaitoUser $CurrentUser = null) {
+			$this->_initialize();
+
 			if ($CurrentUser !== null) {
 				$this->_CurrentUser = $CurrentUser;
 			}
@@ -781,8 +789,7 @@
 
 			$verboten = true;
 
-			$editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
-			$expired = strtotime($entry['Entry']['time']) + $editPeriod;
+			$expired = strtotime($entry['Entry']['time']) + $this->_editPeriod;
 			$isOverEditLimit = time() > $expired;
 
 			$isCurrentUsersPosting = (int)$this->_CurrentUser->getId()
@@ -1101,5 +1108,19 @@
 				['Entry.tid' => $tid]
 			);
 			return $out;
+		}
+
+		protected function _initialize() {
+			if ($this->_isInitialized) {
+				return;
+			}
+			$appSettings = Configure::read('Saito.Settings');
+			if(isset($appSettings['edit_period'])) {
+				$this->_editPeriod = $appSettings['edit_period'] * 60;
+			}
+			if(isset($appSettings['subject_maxlength'])) {
+				$this->_subjectMaxLenght = $appSettings['subject_maxlength'];
+			}
+			$this->_isInitialized = true;
 		}
 	}
