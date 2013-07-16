@@ -372,11 +372,11 @@
 
 	public function edit($id = null) {
 
-		if (!$id && empty($this->request->data)) {
-			throw new NotFoundException();
+		if (empty($id)) {
+			throw new BadRequestException();
 		}
 
-		$old_entry = $this->Entry->getUnsanitized($id);
+		$old_entry = $this->Entry->getUnsanitized((int)$id);
 
 		if (!$old_entry) {
 			throw new NotFoundException();
@@ -405,8 +405,9 @@
 		}
 
 		if (!empty($this->request->data)) {
-			$this->Entry->id = $id;
-			$new_entry = $this->Entry->update($this->request->data);
+			$data = $this->request->data;
+			$data['Entry']['id'] = $id;
+			$new_entry = $this->Entry->update($data);
 			if ($new_entry) {
 				$this->_afterNewEntry(am($this->request['data'], $old_entry));
 				return $this->redirect(array('action' => 'view', $id));

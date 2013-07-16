@@ -459,7 +459,7 @@
 		public function testEditNoEntryId() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('NotFoundException');
+			$this->expectException('BadRequestException');
 			$this->testAction('entries/edit/');
 		}
 

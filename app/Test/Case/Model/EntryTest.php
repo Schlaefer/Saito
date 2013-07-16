@@ -591,6 +591,11 @@
 			$result = $this->Entry->getThreadId(999);
 		}
 
+		public function testUpdateNoId() {
+			$this->expectException('InvalidArgumentException');
+			$this->Entry->update([]);
+		}
+
 		/**
      * setUp method
      *

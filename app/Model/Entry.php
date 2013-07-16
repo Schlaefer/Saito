@@ -390,7 +390,10 @@
 				$this->_CurrentUser = $CurrentUser;
 			}
 
-			$data[$this->alias]['id'] = $this->id;
+			if (empty($data[$this->alias]['id'])) {
+				throw new InvalidArgumentException('No entry id in Entry::update()');
+			}
+
 			$this->prepare($data, ['preFilterFields' => 'update']);
 
 			// prevents normal user of changing category of complete thread when answering
