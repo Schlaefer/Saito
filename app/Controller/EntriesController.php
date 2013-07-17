@@ -416,8 +416,7 @@
 		}
 
 		$old_entry = $this->Entry->get($id, true);
-		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
-		if($forbiddenAsNormalUser) {
+		if($old_entry['rights']['isEditingAsUserForbidden']) {
 			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 		}
 
