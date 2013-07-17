@@ -376,24 +376,24 @@
 			throw new BadRequestException();
 		}
 
-
-		if (!$old_entry) {
+		$oldEntry = $this->Entry->get($id, true);
+		if (!$oldEntry) {
 			throw new NotFoundException();
 		}
 
-		$forbidden = $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser);
-
-		switch ($forbidden) {
+		switch ($oldEntry['rights']['isEditingForbidden']) {
 			case 'time':
 				$this->Session->setFlash(
 					'Stand by your word bro\', it\'s too late. @lo',
 					'flash/error'
 				);
-				return $this->redirect(array('action' => 'view', $id));
+				$this->redirect(['action' => 'view', $id]);
+				return;
 				break;
 			case 'user':
 				$this->Session->setFlash('Not your horse, Hoss! @lo', 'flash/error');
-				return $this->redirect(array('action' => 'view', $id));
+				$this->redirect(['action' => 'view', $id]);
+				return;
 				break;
 			case true :
 				$this->Session->setFlash(
@@ -403,27 +403,29 @@
 				return;
 		}
 
+		// try to save edit
 		if (!empty($this->request->data)) {
 			$data = $this->request->data;
 			$data['Entry']['id'] = $id;
 			$new_entry = $this->Entry->update($data);
 			if ($new_entry) {
-				$this->_afterNewEntry(am($this->request['data'], $old_entry));
-				return $this->redirect(array('action' => 'view', $id));
+				$this->_afterNewEntry(am($this->request['data'], $oldEntry));
+				$this->redirect(['action' => 'view', $id]);
+				return;
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
 		}
 
-		$old_entry = $this->Entry->get($id, true);
-		if($old_entry['rights']['isEditingAsUserForbidden']) {
+		// show editing form
+		if($oldEntry['rights']['isEditingAsUserForbidden']) {
 			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 		}
 
-		$this->request->data = am($old_entry, $this->request->data);
+		$this->request->data = am($oldEntry, $this->request->data);
 
 		// get text of parent entry for citation
-		$parent_entry_id = $old_entry['Entry']['pid'];
+		$parent_entry_id = $oldEntry['Entry']['pid'];
 		if ($parent_entry_id > 0) {
 			$parent_entry = $this->Entry->get($parent_entry_id, true);
 			$this->set('citeText', $parent_entry['Entry']['text']);
@@ -431,15 +433,15 @@
 
 		// get notifications
 		$notis = $this->Entry->Esevent->checkEventsForUser(
-			$old_entry['Entry']['user_id'],
+			$oldEntry['Entry']['user_id'],
 			array(
 				array(
-					'subject'  => $old_entry['Entry']['id'],
+					'subject'  => $oldEntry['Entry']['id'],
 					'event'    => 'Model.Entry.replyToEntry',
 					'receiver' => 'EmailNotification',
 				),
 				array(
-					'subject'  => $old_entry['Entry']['tid'],
+					'subject'  => $oldEntry['Entry']['tid'],
 					'event'    => 'Model.Entry.replyToThread',
 					'receiver' => 'EmailNotification',
 				),
