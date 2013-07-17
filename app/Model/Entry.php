@@ -36,8 +36,9 @@
 		];
 
 		public $findMethods = array(
-			'feed'  => true,
-			'entry' => true
+			'feed'        => true,
+			'entry'       => true,
+			'unsanitized' => true
 		);
 
 		/**
@@ -905,7 +906,10 @@
 				} else {
 					$pid = $data[$this->alias]['pid'];
 				}
-				$parent = $this->getUnsanitized($pid);
+				$parent = $this->find(
+					'unsanitized',
+					['conditions' => [$this->alias . '.id' => $pid]]
+				);
 				if ($parent === false) {
 					throw new InvalidArgumentException;
 				}
@@ -946,20 +950,22 @@
 			}
 		}
 
-		public function getUnsanitized($id) {
-			$this->sanitize(false);
-			return $this->find(
-				'entry',
-				[
-					'contain'    => ['User', 'Category'],
-					'conditions' => ['Entry.id' => $id]
-				]
-			);
+		protected function _findUnsanitized($state, $query, $results = []) {
+			if ($state === 'before') {
+				$query['sanitize'] = false;
+			}
+			return $this->_findEntry($state, $query, $results);
 		}
 
-		protected function _findEntry($state, $query, $results = array()) {
+		protected function _findEntry($state, $query, $results = []) {
 			if ($state === 'before') {
-				$query['contain'] = array('User', 'Category');
+				if (isset($query['sanitize'])) {
+					if ($query['sanitize'] === false) {
+						$this->sanitize(false);
+					}
+					unset($query['sanitize']);
+				}
+				$query['contain'] = ['User', 'Category'];
 				$query['fields']  = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 				return $query;
 			}
