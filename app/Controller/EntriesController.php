@@ -190,8 +190,8 @@
 			return $this->redirect(array( 'action' => 'index' ));
 		}
 
-		$this->Entry->id = $id;
-		$this->request->data = $this->Entry->find('entry', array('conditions' => array('Entry.id' => $id)));
+		$this->Entry->id     = $id;
+		$this->request->data = $this->Entry->get($id);
 
 		//* redirect if posting doesn't exists
 		if ( $this->request->data == false ):
@@ -310,10 +310,7 @@
 
 				$this->request->data = null;
 				if ($id !== null) {
-					$this->request->data = $this->Entry->find(
-						'unsanitized',
-						['conditions' => ['Entry.id' => $id]]
-					);
+					$this->request->data = $this->Entry->get($id, true);
 				}
 
 				if (!empty($this->request->data)): // answer to existing posting
@@ -418,10 +415,7 @@
 			}
 		}
 
-		$old_entry = $this->Entry->find(
-			'unsanitized',
-			['conditions' => ['Entry.id' => $id]]
-		);
+		$old_entry = $this->Entry->get($id, true);
 		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
 		if($forbiddenAsNormalUser) {
 			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
@@ -432,10 +426,7 @@
 		// get text of parent entry for citation
 		$parent_entry_id = $old_entry['Entry']['pid'];
 		if ($parent_entry_id > 0) {
-			$parent_entry = $this->Entry->find(
-				'unsanitized',
-				['conditions' => ['Entry.id' => $parent_entry_id]]
-			);
+			$parent_entry = $this->Entry->get($parent_entry_id, true);
 			$this->set('citeText', $parent_entry['Entry']['text']);
 		}
 

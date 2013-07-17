@@ -291,6 +291,19 @@
 			return $entry['Entry']['tid'];
 		}
 
+		/**
+		 * Shorthand for reading an entry
+		 */
+		public function get($id, $unsanitized = false) {
+			if (isset($entry[$this->alias]['id'])) {
+				$id = $entry[$this->alias]['id'];
+			}
+			return $this->find(
+				($unsanitized) ? 'unsanitized' : 'entry',
+				['conditions' => [$this->alias.'.id' => $id]]
+			);
+		}
+
 		public function getParentId($id) {
 			$entry = $this->find(
 				'first',
@@ -786,7 +799,7 @@
 			$verboten = true;
 
 			if (!isset($entry['Entry'])) {
-				$entry = $this->find('entry', ['conditions' => [$this->alias.'.id' => $entry]]);
+				$entry = $this->get($entry);
 			}
 
 			if (empty($entry)) {
@@ -910,10 +923,7 @@
 				} else {
 					$pid = $data[$this->alias]['pid'];
 				}
-				$parent = $this->find(
-					'unsanitized',
-					['conditions' => [$this->alias . '.id' => $pid]]
-				);
+				$parent = $this->get($pid, true);
 				if ($parent === false) {
 					throw new InvalidArgumentException;
 				}
