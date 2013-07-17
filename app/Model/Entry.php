@@ -766,39 +766,43 @@
 
 		/**
 		 * Check if someone is allowed to edit an entry
-		 *
-		 * @param array $entry
-		 * @param SaitoUser $user
-		 * @return boolean
 		 */
-		public function isEditingForbidden(array $entry, SaitoUser $CurrentUser = null) {
+		public function isEditingForbidden($entry, SaitoUser $User = null) {
 
-			if ($CurrentUser !== null) {
-				$this->_CurrentUser = $CurrentUser;
+			if ($User === null) {
+				$User = $this->_CurrentUser;
 			}
 
 			// Anon
-			if ($this->_CurrentUser->isLoggedIn() === false) {
+			if ($User->isLoggedIn() !== true) {
 				return true;
 			}
 
 			// Admins
-			if ($this->_CurrentUser->isAdmin()) {
+			if ($User->isAdmin()) {
 				return false;
 			}
 
 			$verboten = true;
 
+			if (!isset($entry['Entry'])) {
+				$entry = $this->find('entry', ['conditions' => [$this->alias.'.id' => $entry]]);
+			}
+
+			if (empty($entry)) {
+				throw new Exception(sprintf('Entry %s not found.', $entry));
+			}
+
 			$expired = strtotime($entry['Entry']['time']) + $this->_editPeriod;
 			$isOverEditLimit = time() > $expired;
 
-			$isCurrentUsersPosting = (int)$this->_CurrentUser->getId()
+			$isUsersPosting = (int)$User->getId()
 					=== (int)$entry['Entry']['user_id'];
 
-			if ($this->_CurrentUser->isMod()) {
+			if ($User->isMod()) {
 				// Mods
 				// @todo mods don't edit admin posts
-				if ($isCurrentUsersPosting && $isOverEditLimit &&
+				if ($isUsersPosting && $isOverEditLimit &&
 						/* Mods should be able to edit their own posts if they are pinned
 						 *
 						 * @todo this opens a 'mod can pin and then edit root entries'-loophole,
@@ -815,7 +819,7 @@
 
 			} else {
 				// Users
-				if ($isCurrentUsersPosting === false) {
+				if ($isUsersPosting === false) {
 					$verboten = 'user';
 				} elseif ($isOverEditLimit) {
 					$verboten = 'time';
