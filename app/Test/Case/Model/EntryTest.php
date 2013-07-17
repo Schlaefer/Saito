@@ -602,8 +602,14 @@
 			$this->Entry->update([]);
 		}
 
+		/**
+		 * Throw error if entry to update does not exist.
+		 *
+		 * Don't accidentally `create`.
+		 */
 		public function testUpdateEntryDoesNotExist() {
-			$this->Entry->update(['Entry' => ['id' => 999, 'subject' => 'foo']]);
+			$this->expectException('NotFoundException');
+			$this->Entry->update(['Entry' => ['id' => 999]]);
 		}
 
 		/**

@@ -415,7 +415,12 @@
 			}
 
 			if (empty($data[$this->alias]['id'])) {
-				throw new InvalidArgumentException('No entry id in Entry::update()');
+				throw new InvalidArgumentException('Missing entry id in arguments.');
+			}
+
+			$id = $data[$this->alias]['id'];
+			if (!$this->exists($id)) {
+				throw new NotFoundException(sprintf('Entry with id `%s` not found.', $id));
 			}
 
 			$this->prepare($data, ['preFilterFields' => 'update']);
