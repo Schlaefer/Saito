@@ -428,6 +428,15 @@
 
 			$data[$this->alias]['edited']    = date('Y-m-d H:i:s');
 			$data[$this->alias]['edited_by'] = $this->_CurrentUser['username'];
+
+			$this->validator()->add(
+				'edited_by',
+				'isEditingAllowed',
+				[
+					'rule' => 'validateEditingAllowed'
+				]
+			);
+
 			return $this->save($data);
 		}
 
@@ -1102,6 +1111,15 @@
 				return false;
 			}
 			return true;
+		}
+
+		public function validateEditingAllowed($check) {
+			$forbidden = $this->isEditingForbidden($this->data['Entry']['id']);
+			if (is_bool($forbidden)) {
+				return !$forbidden;
+			} else {
+				return $forbidden;
+			}
 		}
 
 		/**
