@@ -102,7 +102,7 @@
 			'views'    => array(
 				'rule' => array('comparison', '>=', 0),
 			),
-			'name'     => array(),
+			'name'     => array()
 		);
 
 		protected $fieldsToSanitize = array(
