@@ -657,7 +657,7 @@
 		 * @param misc $context Arbitrary data for the function. Useful for providing $this context.
 		 * @param array $tree The whole tree.
 		 */
-		public static function mapTreeElements(&$leafs, $func, $context = null, &$tree = null) {
+		public static function mapTreeElements(&$leafs, callable $func, $context = null, &$tree = null) {
 			if ($tree === null) {
 				$tree = & $leafs;
 			}
