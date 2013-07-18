@@ -69,7 +69,7 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 
 		if ( !empty($user) && is_array($user) ) :
 			if (empty($user['id']) === false) {
-				$this->_id = $user['id'];
+				$this->_id = (int)$user['id'];
 				$this->_isLoggedIn = true;
 			}
 			$this->_settings = $user;
