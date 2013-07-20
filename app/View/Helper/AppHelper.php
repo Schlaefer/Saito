@@ -33,13 +33,11 @@
 	class AppHelper extends Helper {
 
 		public function getAssetTimestamp($path) {
-			$filepath = preg_replace(
-				'/^' . preg_quote($this->request->webroot, '/') . '/',
-				'',
-				$path
-			);
-			$webrootPath = WWW_ROOT . str_replace('/', DS, $filepath);
-			return @filemtime($webrootPath);
+			$pathWithTimestamp = $this->assetTimestamp($path);
+			// extracts integer unixtimestamp from `path/asset.ext?<unixtimestamp>
+			if ($pathWithTimestamp) {
+				preg_match('/(?<=\?)[\d]+(?=$|\?|\&)/', $pathWithTimestamp, $matches);
+				return (int)$matches[0];
+			}
 		}
-
 	}
