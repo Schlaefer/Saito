@@ -39,10 +39,10 @@
 				['getMaxAccession', 'getId'],
 				[new ComponentCollection]
 			);
-			$SaitoUser->expects($this->once())
+			$SaitoUser->expects($this->any())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
-			$SaitoUser->expects($this->once())
+			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
 			$this->Entry->_CurrentUser = $SaitoUser;
