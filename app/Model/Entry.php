@@ -362,9 +362,9 @@
 				return false;
 			}
 			$new_posting_id = $this->id;
-			if ($new_posting === true) {
-				$new_posting = $this->read();
-			}
+			$this->contain();
+			// make sure we pass the complete ['Entry'] dataset to events
+			$new_posting = $this->read();
 
 			if ($this->isRoot($data)) {
 				// thread-id of new thread is its own id
@@ -378,6 +378,7 @@
 			} else {
 				// update last answer time of root entry
 				$this->id = $new_posting[$this->alias]['tid'];
+				$this->read(null);
 				$this->set('last_answer', $new_posting[$this->alias]['last_answer']);
 				if ($this->save() === false) {
 					// @td raise error and/or roll back new entry
