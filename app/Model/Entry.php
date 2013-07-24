@@ -377,8 +377,8 @@
 				}
 			} else {
 				// update last answer time of root entry
+				$this->clear();
 				$this->id = $new_posting[$this->alias]['tid'];
-				$this->read(null);
 				$this->set('last_answer', $new_posting[$this->alias]['last_answer']);
 				if ($this->save() === false) {
 					// @td raise error and/or roll back new entry
