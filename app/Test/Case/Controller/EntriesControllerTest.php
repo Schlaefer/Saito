@@ -506,40 +506,50 @@
       $this->_loginUser(1);
 
 			$data['Entry'] = array(
-				'pid'      => 5,
-				'subject'  => 'test',
-				'category' => 4,
+				'pid'      => 7,
+				'subject'  => 'test'
 			);
 
 			/*
 			 * test entries/add
 			 */
-			$Entries->CacheTree
-					->expects($this->once())
+			$Entries->CacheTree->expects($this->once())
 					->method('delete')
-					->with($this->equalTo('4'));
+					->with($this->equalTo('1'));
 
+			$Entries->Entry->contain();
 			$this->testAction(
-				'/entries/add/5',
-				array('data' => $data, 'method' => 'post')
+				'/entries/add/7',
+				['data' => $data, 'method' => 'POST']
 			);
 
       /*
        * Test entries/edit
        */
-      $Entries = $this->generate('Entries', array(
-          'components' => array(
-            'CacheTree' => array('delete'),
-          )
-      ));
+			$Entries = $this->generate(
+				'Entries',
+				[
+					'components' => ['CacheTree' => ['delete']],
+					'models'     => ['Entry' => ['update']]
+				]
+			);
 
-      $Entries->CacheTree
-          ->expects($this->once())
-          ->method('delete')
-          ->with($this->equalTo('4'));
-			$result = $this->testAction('/entries/edit/5', array(
-          'data' => $data,
-          'method' => 'post'));
+			$Entries->Entry->expects($this->once())
+					->method('update')
+					->will($this->returnValue(true));
+
+
+			$Entries->CacheTree->expects($this->once())
+					->method('delete')
+					->with($this->equalTo('1'));
+
+			$this->testAction(
+				'/entries/edit/7',
+				[
+					'data'   => $data,
+					'method' => 'post'
+				]
+			);
     }
 
 		public function testPreviewLoggedIn() {

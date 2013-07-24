@@ -55,6 +55,7 @@
 						'last_answer' => '2000-01-04 20:02:00',
 						'category' => 2, // accession = 0
 						'user_id' => 3,
+						'locked' => 0
 				),
 				array(
 						'id' => 2,
@@ -66,6 +67,7 @@
 						'last_answer' => '2000-01-01 20:01:00',
 						'category' => 2,
 						'user_id' => 2,
+						'locked' => 0
 				),
 				array(
 						'id' => 3,
@@ -81,6 +83,7 @@
 						'edited' => '2000-01-01 20:04:00',
 						'edited_by' => 'Ulysses',
 						'ip' => '1.1.1.1',
+						'locked' => 0
 				),
 				array(
 						'id' => 7,
@@ -94,6 +97,7 @@
 						'user_id' => 3,
 						'name' => 'Ulysses',
 						'ip' => '1.1.1.1',
+						'locked' => 0
 				),
 				array(
 						'id' => 8,
@@ -107,6 +111,7 @@
 						'user_id' => 3,
 						'name' => 'Ulysses',
 						'ip' => '1.1.1.1',
+						'locked' => 0
 				),
 				array(
 						'id' => 9,
@@ -120,6 +125,7 @@
 						'user_id' => 3,
 						'name' => 'Ulysses',
 						'ip' => '1.1.1.1',
+						'locked' => 0
 				),
 				//* thread 2
 				array(
@@ -133,6 +139,7 @@
 						// accession = 1
 						'category' => 4,
 						'user_id' => 1,
+						'locked' => 1
 				),
 				array(
 						'id' => 5,
@@ -148,6 +155,7 @@
 						'edited' => '0000-00-00 00:00:00',
 						'edited_by' => NULL,
 						'ip' => '1.1.1.1',
+						'locked' => 1
 				),
 				// thread 3
 				array(
@@ -158,14 +166,15 @@
 						'tid' => 6,
 						'time' => '2000-01-01 11:00:00',
 						'last_answer' => '2000-01-01 11:00:00',
+						// accession = 2,
 						'category' => 1,
 						'user_id' => 1,
 						'name' => 'Alice',
 						'edited' => '0000-00-00 00:00:00',
 						'edited_by' => NULL,
 						'ip' => '1.1.1.3',
-				),
-
+						'locked' => 0
+				)
 		);
 
 	}
