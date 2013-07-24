@@ -174,7 +174,20 @@
 						'edited_by' => NULL,
 						'ip' => '1.1.1.3',
 						'locked' => 0
-				)
+				),
+				// thread 4 public locked
+				[
+					'id'          => 10,
+					'subject'     => 'First_Subject',
+					'text'        => 'First_Text',
+					'pid'         => 0,
+					'tid'         => 10,
+					'time'        => '2000-01-01 10:59:00',
+					'last_answer' => '2000-01-01 10:59:00',
+					'category'    => 2, // accession = 0
+					'user_id'     => 3,
+					'locked'      => 1
+				]
 		);
 
 	}

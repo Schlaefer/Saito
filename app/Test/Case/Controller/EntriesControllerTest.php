@@ -307,20 +307,19 @@
 		}
 
 		public function testIndex() {
-
-			$Entries = $this->generate('Entries');
+			$this->generate('Entries');
 			$this->_logoutUser();
 
 			//* not logged in user
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result  = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 1);
+			$this->assertEqual(count($entries), 2);
 
 			//* logged in user
 			$this->_loginUser(3);
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result  = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 2);
+			$this->assertEqual(count($entries), 3);
 		}
 
 		public function testMergeNoSourceId() {
@@ -688,8 +687,8 @@
 
 			$this->assertEqual($headerCounter['user_online'], 1);
 			$this->assertEqual($headerCounter['user'], 6);
-			$this->assertEqual($headerCounter['entries'], 9);
-			$this->assertEqual($headerCounter['threads'], 3);
+			$this->assertEqual($headerCounter['entries'], 10);
+			$this->assertEqual($headerCounter['threads'], 4);
 			$this->assertEqual($headerCounter['user_registered'], 0);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
 

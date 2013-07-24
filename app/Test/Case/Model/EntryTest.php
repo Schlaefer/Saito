@@ -290,7 +290,7 @@
       $this->assertEqual($result, $expected);
 
       // entries are now assigned to user_id 0
-      $expected = 6;
+      $expected = 7;
       $result = $this->Entry->find('count', array(
           'conditions' => array ('Entry.user_id' => 0)
       ));
