@@ -144,7 +144,13 @@
 			try {
 				$this->_Controller->SaitoEmail->email($config);
 			} catch (Exception $exc) {
-
+				$this->log(
+					sprintf(
+						"Error %s in EmailNotificationComponent::_email() with %s",
+						$exc,
+						print_r($config, true)
+					)
+				);
 			}
 		}
 
