@@ -1,6 +1,6 @@
 <?php
 
-	interface CacheTreeCacheEngine {
+	interface CacheTreeCacheEngineInterface {
 
 		public function getDeprecationSpan();
 
