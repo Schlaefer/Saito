@@ -36,10 +36,10 @@
 			$this->_CurrentUser = $Controller->CurrentUser;
 
 			$cache_config = Cache::settings();
-			if ($cache_config['engine'] === 'File') {
-				$this->_CacheEngine = new CacheTreeDbCacheEngine;
-			} else {
+			if ($cache_config['engine'] === 'Apc') {
 				$this->_CacheEngine = new CacheTreeAppCacheEngine;
+			} else {
+				$this->_CacheEngine = new CacheTreeDbCacheEngine;
 			}
 
 			if (
