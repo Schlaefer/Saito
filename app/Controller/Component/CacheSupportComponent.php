@@ -38,18 +38,16 @@
 			Cache::clearGroup('views');
 		}
 
-		public function clearTree($id) {
-			$this->_clearEntries();
-			$this->CacheTree->delete($id);
 		}
 
-		public function clearTrees() {
-			$this->_clearEntries();
-			$this->CacheTree->reset();
-		}
-
-		protected function _clearEntries() {
+		public function clearTree($id = null) {
 			Cache::clear(false, 'entries');
+			$this->_clearEntries();
+			if ($id === null) {
+				$this->CacheTree->reset();
+			} else {
+				$this->CacheTree->delete($id);
+			}
 		}
 
 		/**
