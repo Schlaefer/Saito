@@ -292,7 +292,7 @@
 		}
 
 		/**
-		 * Shorthand for reading an entry
+		 * Shorthand for reading an entry with full data
 		 */
 		public function get($id, $unsanitized = false) {
 			if (isset($entry[$this->alias]['id'])) {
@@ -437,19 +437,21 @@
 				]
 			);
 
-			$entry = $this->save($data);
+			$result = $this->save($data);
 
-			if ($entry) {
+			if ($result) {
+				$this->contain();
+				$result = $this->read() + $data;
 				$this->_dispatchEvent(
 					'Model.Entry.update',
 					[
-						'subject' => $entry[$this->alias]['id'],
-						'data'    => $entry
+						'subject' => $result[$this->alias]['id'],
+						'data'    => $result
 					]
 				);
 			}
 
-			return $this->save($data);
+			return $result;
 		}
 
 		/* @mb `views` into extra related table if performance becomes a problem */
@@ -582,7 +584,9 @@
 				$this->_threadLock($result);
 			}
 
+			$this->contain();
 			$entry = $this->read();
+
 			$this->_dispatchEvent(
 				'Model.Entry.update',
 				[
