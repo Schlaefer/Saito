@@ -494,63 +494,6 @@
 			$this->assertPattern('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
 		}
 
-    public function testEmptyCache() {
-
-			$Entries = $this->generate(
-				'Entries',
-				['components' => ['CacheSupport' => ['clear']]]
-			);
-
-			$this->_loginUser(1);
-
-			$data['Entry'] = array(
-				'pid'      => 7,
-				'subject'  => 'test'
-			);
-
-
-			/*
-			 * test entries/add
-			 */
-			$Entries->CacheSupport->expects($this->once())
-					->method('clear')
-					->with($this->equalTo('Thread'));
-
-			$Entries->Entry->contain();
-			$this->testAction(
-				'/entries/add/7',
-				['data' => $data, 'method' => 'POST']
-			);
-
-      /*
-       * Test entries/edit
-       */
-			$Entries = $this->generate(
-				'Entries',
-				[
-					'components' => ['CacheSupport' => ['clear']],
-					'models'     => ['Entry' => ['update']]
-				]
-			);
-
-			$Entries->Entry->expects($this->once())
-					->method('update')
-					->will($this->returnValue(true));
-
-
-			$Entries->CacheSupport->expects($this->once())
-					->method('clear')
-					->with($this->equalTo('Thread'));
-
-			$this->testAction(
-				'/entries/edit/7',
-				[
-					'data'   => $data,
-					'method' => 'post'
-				]
-			);
-    }
-
 		public function testPreviewLoggedIn() {
 			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/entries/preview');

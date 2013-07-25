@@ -5,9 +5,6 @@
 	class UsersController extends AppController {
 
 		public $name = 'Users';
-		public $components = [
-			'CacheSupport'
-		];
 
 		public $helpers = [
 			'Farbtastic',
@@ -359,8 +356,7 @@
 				elseif ($id == 1):
 					$this->Session->setFlash(__("You can't delete the installation account."), 'flash/error');
 				elseif ($this->User->deleteAllExceptEntries($id)):
-					$this->CacheSupport->clear('Thread');
-					$this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/notice');
+					$this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/success');
 					$this->redirect('/');
 					return;
 				else:

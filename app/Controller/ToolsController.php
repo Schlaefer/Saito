@@ -9,10 +9,6 @@
 	 */
 	class ToolsController extends AppController {
 
-		public $components = [
-			'CacheSupport'
-		];
-
 		public $helpers = array(
 			'JasmineJs.JasmineJs'
 		);

@@ -42,12 +42,43 @@
 		public function clear($id = null);
 	}
 
+	App::uses('CakeEvent', 'Event');
+	App::uses('CakeEventListener', 'Event');
 	App::uses('CacheTree', 'Lib/CacheTree');
-	class ThreadCacheSupportCachelet implements CacheSupportCacheletInterface {
+	class ThreadCacheSupportCachelet implements CacheSupportCacheletInterface,
+		CakeEventListener {
+
 		protected $_CacheTree;
 
 		public function __construct() {
 			$this->_CacheTree = CacheTree::getInstance();
+			CakeEventManager::instance()->attach($this);
+		}
+
+		public function implementedEvents() {
+			return [
+				'Model.Thread.reset' => 'onThreadReset',
+				'Model.Thread.change' => 'onThreadChanged',
+				'Model.Entry.replyToEntry' => 'onEntryChanged',
+				'Model.Entry.update' => 'onEntryChanged'
+			];
+		}
+
+		public function onThreadReset($event) {
+			$this->clear();
+		}
+
+		public function onThreadChanged($event) {
+			$this->clear($event->data['subject']);
+		}
+
+		public function onEntryChanged($event) {
+			$model_alias = $event->subject()->alias;
+			if (!isset($event->data['data'][$model_alias]['tid'])) {
+				throw new InvalidArgumentException('No thread-id in event data.');
+			}
+			$thread_id = $event->data['data'][$model_alias]['tid'];
+			$this->clear($thread_id);
 		}
 
 		public function clear($id = null) {

@@ -12,7 +12,6 @@
 			'Text',
 		);
 		public $components = [
-			'CacheSupport',
 			'Flattr',
 			'Search.Prg',
 			'Shouts'
@@ -482,7 +481,6 @@
 
 		// Redirect
 		if ($success) {
-			$this->CacheSupport->clear('Thread', $entry['Entry']['tid']);
 			if ($this->Entry->isRoot($entry)) {
 				$this->Session->setFlash(__('delete_tree_success'), 'flash/notice');
 				$this->redirect('/');
@@ -703,11 +701,8 @@
 			$targetId = $this->request->data['Entry']['targetId'];
 			$this->Entry->id = $id;
 			if ($this->Entry->threadMerge($targetId)) {
-				// success
-				$this->Entry->contain();
-				$targetEntry = $this->Entry->findById($targetId);
-				$this->CacheSupport->clear('Thread', $targetEntry['Entry']['id']);
-				return $this->redirect('/entries/view/' . $id);
+				$this->redirect('/entries/view/' . $id);
+				return;
 			} else {
 				$this->Session->setFlash(__("Error"), 'flash/error');
 			}
@@ -741,8 +736,6 @@
 		else {
 			$this->Entry->id = $id;
 			$this->request->data = $this->Entry->toggle($toggle);
-			$tid = $this->Entry->field('tid');
-			$this->CacheSupport->clear('Thread', $tid);
 			return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
 		}
 
@@ -839,7 +832,6 @@
 		}
 
 		protected function _afterNewEntry($newEntry) {
-			$this->CacheSupport->clear('Thread', $newEntry['Entry']['tid']);
 			// set notifications
 			if (isset($newEntry['Event'])) {
 				$notis = [

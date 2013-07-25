@@ -385,25 +385,19 @@
 					return false;
 				}
 
-				$this->getEventManager()->dispatch(
-					new CakeEvent(
-						'Model.Entry.replyToEntry',
-						$this,
-						array(
-							'subject' => $new_posting[$this->alias]['pid'],
-							'data'    => $new_posting,
-						)
-					)
+				$this->_dispatchEvent(
+					'Model.Entry.replyToEntry',
+					[
+						'subject' => $new_posting[$this->alias]['pid'],
+						'data'    => $new_posting
+					]
 				);
-				$this->getEventManager()->dispatch(
-					new CakeEvent(
-						'Model.Entry.replyToThread',
-						$this,
-						array(
-							'subject' => $new_posting[$this->alias]['tid'],
-							'data'    => $new_posting,
-						)
-					)
+				$this->_dispatchEvent(
+					'Model.Entry.replyToThread',
+					[
+						'subject' => $new_posting[$this->alias]['tid'],
+						'data'    => $new_posting
+					]
 				);
 			}
 			$this->id = $new_posting_id;
@@ -442,6 +436,18 @@
 					'rule' => 'validateEditingAllowed'
 				]
 			);
+
+			$entry = $this->save($data);
+
+			if ($entry) {
+				$this->_dispatchEvent(
+					'Model.Entry.update',
+					[
+						'subject' => $entry[$this->alias]['id'],
+						'data'    => $entry
+					]
+				);
+			}
 
 			return $this->save($data);
 		}
@@ -575,6 +581,16 @@
 			if ($key === 'locked') {
 				$this->_threadLock($result);
 			}
+
+			$entry = $this->read();
+			$this->_dispatchEvent(
+				'Model.Entry.update',
+				[
+					'subject' => $entry[$this->alias]['id'],
+					'data' => $entry
+				]
+			);
+
 			return $result;
 		}
 
@@ -621,7 +637,7 @@
 
 			$ids_to_delete = $this->getIdsForNode($id);
 			$success       = $this->deleteAll(
-				['Entry.id' => $ids_to_delete],
+				[$this->alias . '.id' => $ids_to_delete],
 				true,
 				true
 			);
@@ -635,6 +651,11 @@
 				foreach ($ids_to_delete as $entry_id) {
 					$this->Esevent->deleteSubject($entry_id, 'entry');
 				}
+
+				$this->_dispatchEvent(
+					'Model.Thread.change',
+					['subject' => $entry[$this->alias]['tid']]
+				);
 			endif;
 
 			return $success;
@@ -666,7 +687,7 @@
 		public function anonymizeEntriesFromUser($user_id) {
 
 			// remove username from all entries and reassign to anonyme user
-			return $this->updateAll(
+			$success = $this->updateAll(
 				[
 					'Entry.name'      => "NULL",
 					'Entry.edited_by' => "NULL",
@@ -675,6 +696,12 @@
 				],
 				['Entry.user_id' => $user_id]
 			);
+
+			if ($success) {
+				$this->_dispatchEvent('Model.Thread.reset');
+			}
+
+			return $success;
 		}
 
 		/**
@@ -756,12 +783,20 @@
 
 				$this->Esevent->transferSubjectForEventType(
 					$threadIdSource,
-					$targetEntry['Entry']['tid'],
+					$targetEntry[$this->alias]['tid'],
 					'thread'
+				);
+				$this->_dispatchEvent(
+					'Model.Thread.change',
+					['subject' => $targetEntry[$this->alias]['tid']]
 				);
 				return true;
 			}
 			return false;
+		}
+
+		protected function _dispatchEvent($event, $data = []) {
+			$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
 		}
 
 		protected function _addAdditionalFields(&$entries) {

@@ -23,6 +23,7 @@ class AppController extends Controller {
 			 */
 			'Cookie',
 			'CurrentUser',
+			'CacheSupport',
 			'JsData',
 			'SaitoEmail',
       'EmailNotification',
