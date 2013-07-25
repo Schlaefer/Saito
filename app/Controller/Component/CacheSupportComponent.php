@@ -1,12 +1,20 @@
 <?php
 
 	App::uses('Component', 'Controller');
+	App::import('Lib', 'CacheSupport');
 
 	class CacheSupportComponent extends Component {
 
 		public $components = [
 			'CacheTree'
 		];
+
+		protected $_CacheSupport;
+
+		public function __construct(ComponentCollection $collection, $settings = array()) {
+			$this->_CacheSupport = new CacheSupport();
+			parent::__construct($collection, $settings);
+		}
 
 		public function initialize(Controller $Controller) {
 			$this->CacheTree->initialize($Controller);
@@ -21,28 +29,12 @@
 		}
 
 		public function clearAll() {
-			$this->clearSaito();
-			$this->clearApc();
-			$this->clearCake();
-		}
-
-		public function clearSaito() {
-			Cache::clear(false, 'default');
-			Cache::clear(false, 'short');
-			$this->clearTrees();
-		}
-
-		public function clearCake() {
-			Cache::clearGroup('persistent');
-			Cache::clearGroup('models');
-			Cache::clearGroup('views');
-		}
-
+			$this->_CacheSupport->clear();
+			$this->clearTree();
 		}
 
 		public function clearTree($id = null) {
 			Cache::clear(false, 'entries');
-			$this->_clearEntries();
 			if ($id === null) {
 				$this->CacheTree->reset();
 			} else {
@@ -54,11 +46,6 @@
 		 * Clears out the APC if available
 		 */
 		public function clearApc() {
-			if (function_exists('apc_store')) {
-				apc_clear_cache();
-				apc_clear_cache('user');
-				apc_clear_cache('opcode');
-			}
+			$this->_CacheSupport->clear('Apc');
 		}
-
 	}
