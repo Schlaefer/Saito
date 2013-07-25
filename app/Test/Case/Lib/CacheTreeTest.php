@@ -1,9 +1,12 @@
 <?php
 
-	App::uses('CacheTreeComponent', 'Controller/Component');
+	App::uses('CacheTree', 'Lib/CacheTree');
 	App::uses('CurrentUserComponent', 'Controller/Component');
+	App::uses('ComponentCollection', 'Controller');
 
-	class CacheTreeComponentMock extends CacheTreeComponent {
+	class CacheTreeMock extends CacheTree {
+
+		public function __construct() { }
 
 		public function setCache($data) {
 			$this->_cachedEntries = $data;
@@ -30,7 +33,7 @@
 	 * CacheTreeComponent Test Case
 	 *
 	 */
-	class CacheTreeComponentTest extends CakeTestCase {
+	class CacheTreeTest extends CakeTestCase {
 
 		/**
 		 * setUp method
@@ -39,8 +42,7 @@
 		 */
 		public function setUp() {
 			parent::setUp();
-			$Collection = new ComponentCollection();
-			$this->CacheTree = new CacheTreeComponentMock($Collection);
+			$this->CacheTree = new CacheTreeMock();
 
 			$cacheData = array(
 					'1' => array(
@@ -215,51 +217,5 @@
 			$result = $this->CacheTree->read();
 			$this->assertEqual($result, []);
 		}
-
-		/**
-		 * testDelete method
-		 *
-		 * @return void
-		 */
-		public function testDelete() {
-
-		}
-
-		/**
-		 * testRead method
-		 *
-		 * @return void
-		 */
-		public function testRead() {
-
-		}
-
-		/**
-		 * testUpdate method
-		 *
-		 * @return void
-		 */
-		public function testUpdate() {
-
-		}
-
-		/**
-		 * testReadCache method
-		 *
-		 * @return void
-		 */
-		public function testReadCache() {
-
-		}
-
-		/**
-		 * testSaveCache method
-		 *
-		 * @return void
-		 */
-		public function testSaveCache() {
-
-		}
-
 	}
 
