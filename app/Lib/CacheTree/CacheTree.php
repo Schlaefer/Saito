@@ -83,7 +83,8 @@
 				return $this->_validEntries[$entry['id']];
 			endif;
 
-			if ( isset($this->_cachedEntries[$entry['id']]) && strtotime($entry['last_answer']) <= $this->_cachedEntries[$entry['id']]['metadata']['content_last_updated']) {
+			if (isset($this->_cachedEntries[(int)$entry['id']]) &&
+					strtotime($entry['last_answer']) <= $this->_cachedEntries[(int)$entry['id']]['metadata']['content_last_updated']) {
 				if ($this->_isEntryOldForUser($entry)) {
 					$isCacheValid = true;
 				}
@@ -103,7 +104,7 @@
 		public function delete($id) {
 			$this->_isUpdated = TRUE;
 			$this->readCache();
-			unset($this->_cachedEntries[$id]);
+			unset($this->_cachedEntries[(int)$id]);
 		}
 
 		public function reset() {
@@ -118,8 +119,8 @@
 				return $this->_cachedEntries;
 			}
 
-			if ( isset($this->_cachedEntries[$id]) ) {
-				return $this->_cachedEntries[$id]['content'];
+			if ( isset($this->_cachedEntries[(int)$id]) ) {
+				return $this->_cachedEntries[(int)$id]['content'];
 			}
 
 			return FALSE;
@@ -145,7 +146,7 @@
 				'content_last_updated' => $timestamp,
 			);
 			$data = array( 'metadata' => $metadata, 'content' => $content );
-			$this->_cachedEntries[$id] = $data;
+			$this->_cachedEntries[(int)$id] = $data;
 		}
 
 		public function readCache() {
