@@ -7,9 +7,9 @@
 		public function __construct() {
 			$this->addCache(
 				[
-					'Apc',
-					'Cake',
-					'Saito'
+					'Apc'   => 'ApcCacheSupportCachelet',
+					'Cake'  => 'CakeCacheSupportCachelet',
+					'Saito' => 'SaitoCacheSupportCachelet'
 				]
 			);
 		}
@@ -25,36 +25,31 @@
 		}
 
 		public function addCache($cache) {
-			if (is_array($cache)) {
-				foreach ($cache as $name) {
-					$this->_addCachelet($name);
-				}
-			} else {
-				$this->_addCachelet($cache);
+			foreach ($cache as $key => $class_name) {
+				$this->_addCachelet($key, new $class_name);
 			}
 		}
 
-		protected function _addCachelet($cache) {
-			if (!isset($this->_Caches[$cache])) {
-				$cache_name = $cache . 'Cachelet';
-				$this->_Caches[$cache] = new $cache_name;
+		protected function _addCachelet($key, CacheSupportCacheletInterface $cachelet) {
+			if (!isset($this->_Caches[$key])) {
+				$this->_Caches[$key] = $cachelet;
 			}
 		}
 	}
 
 
-	interface Cachelets {
+	interface CacheSupportCacheletInterface {
 		public function clear($id = null);
 	}
 
-	class SaitoCachelet implements Cachelets {
+	class SaitoCacheSupportCachelet implements CacheSupportCacheletInterface {
 		public function clear($id = null) {
 			Cache::clear(false, 'default');
 			Cache::clear(false, 'short');
 		}
 	}
 
-	class ApcCachelet implements Cachelets {
+	class ApcCacheSupportCachelet implements CacheSupportCacheletInterface {
 		public function clear($id = null) {
 			if (function_exists('apc_store')) {
 				apc_clear_cache();
@@ -64,7 +59,7 @@
 		}
 	}
 
-	class CakeCachelet implements  Cachelets {
+	class CakeCacheSupportCachelet implements  CacheSupportCacheletInterface {
 		public function clear($id = null) {
 			Cache::clearGroup('persistent');
 			Cache::clearGroup('models');
