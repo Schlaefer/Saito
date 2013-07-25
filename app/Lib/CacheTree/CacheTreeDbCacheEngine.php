@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('CacheTreeCacheEngine', 'Lib/CacheTree');
+	App::uses('CacheTreeCacheEngineInterface', 'Lib/CacheTree');
 
-	class CacheTreeDbCacheEngine implements CacheTreeCacheEngine {
+	class CacheTreeDbCacheEngine implements CacheTreeCacheEngineInterface {
 
 		protected $_Db;
 

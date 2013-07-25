@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('CacheTreeCacheEngine', 'Lib/CacheTree');
+	App::uses('CacheTreeCacheEngineInterface', 'Lib/CacheTree');
 
-	class CacheTreeAppCacheEngine implements CacheTreeCacheEngine {
+	class CacheTreeAppCacheEngine implements CacheTreeCacheEngineInterface {
 
 		public function getDeprecationSpan() {
 			$cacheConfig = Cache::settings();
