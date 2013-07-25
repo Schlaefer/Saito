@@ -2,50 +2,36 @@
 
 	App::uses('Component', 'Controller');
 	App::import('Lib', 'CacheSupport');
+	App::uses('CacheTree', 'Lib/CacheTree');
 
 	class CacheSupportComponent extends Component {
 
-		public $components = [
-			'CacheTree'
-		];
-
 		protected $_CacheSupport;
 
-		public function __construct(ComponentCollection $collection, $settings = array()) {
-			$this->_CacheSupport = new CacheSupport();
-			parent::__construct($collection, $settings);
-		}
+		public $CacheTree;
 
 		public function initialize(Controller $Controller) {
+			$this->_CacheSupport = new CacheSupport();
+			$this->CacheTree = CacheTree::getInstance();
 			$this->CacheTree->initialize($Controller);
 		}
 
+		public function beforeRender(Controller $Controller) {
+			$Controller->set('CacheTree', $this->CacheTree);
+		}
+
 		public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
-			$this->CacheTree->beforeRedirect($Controller, $url, $status, $exit);
+			$this->CacheTree->saveCache();
 		}
 
 		public function shutdown(Controller $Controller) {
-			$this->CacheTree->shutdown($Controller);
+			$this->CacheTree->saveCache();
 		}
 
-		public function clearAll() {
-			$this->_CacheSupport->clear();
-			$this->clearTree();
-		}
-
-		public function clearTree($id = null) {
-			Cache::clear(false, 'entries');
-			if ($id === null) {
-				$this->CacheTree->reset();
-			} else {
-				$this->CacheTree->delete($id);
+		public function __call($method, $params) {
+			$proxy = [$this->_CacheSupport, $method];
+			if (is_callable($proxy)) {
+				return call_user_func_array($proxy, $params);
 			}
-		}
-
-		/**
-		 * Clears out the APC if available
-		 */
-		public function clearApc() {
-			$this->_CacheSupport->clear('Apc');
 		}
 	}

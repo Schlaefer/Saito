@@ -7,9 +7,10 @@
 		public function __construct() {
 			$this->addCache(
 				[
-					'Apc'   => 'ApcCacheSupportCachelet',
-					'Cake'  => 'CakeCacheSupportCachelet',
-					'Saito' => 'SaitoCacheSupportCachelet'
+					'Apc'    => 'ApcCacheSupportCachelet',
+					'Cake'   => 'CakeCacheSupportCachelet',
+					'Saito'  => 'SaitoCacheSupportCachelet',
+					'Thread' => 'ThreadCacheSupportCachelet'
 				]
 			);
 		}
@@ -37,9 +38,26 @@
 		}
 	}
 
-
 	interface CacheSupportCacheletInterface {
 		public function clear($id = null);
+	}
+
+	App::uses('CacheTree', 'Lib/CacheTree');
+	class ThreadCacheSupportCachelet implements CacheSupportCacheletInterface {
+		protected $_CacheTree;
+
+		public function __construct() {
+			$this->_CacheTree = CacheTree::getInstance();
+		}
+
+		public function clear($id = null) {
+			Cache::clear(false, 'entries');
+			if ($id === null) {
+				$this->_CacheTree->reset();
+			} else {
+				$this->_CacheTree->delete($id);
+			}
+		}
 	}
 
 	class SaitoCacheSupportCachelet implements CacheSupportCacheletInterface {

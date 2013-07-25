@@ -12,7 +12,6 @@
 			'Text',
 		);
 		public $components = [
-			'CacheTree',
 			'CacheSupport',
 			'Flattr',
 			'Search.Prg',
@@ -52,7 +51,7 @@
 			$cachedThreads = [];
 			$uncachedThreads = [];
 			foreach($initialThreads as $thread) {
-				if ($this->CacheTree->isCacheValid($thread)) {
+				if ($this->CacheSupport->CacheTree->isCacheValid($thread)) {
 					$cachedThreads[$thread['id']] = $thread;
 				} else {
 					$uncachedThreads[$thread['id']] = $thread;
@@ -483,7 +482,7 @@
 
 		// Redirect
 		if ($success) {
-			$this->CacheSupport->clearTree($entry['Entry']['tid']);
+			$this->CacheSupport->clear('Thread', $entry['Entry']['tid']);
 			if ($this->Entry->isRoot($entry)) {
 				$this->Session->setFlash(__('delete_tree_success'), 'flash/notice');
 				$this->redirect('/');
@@ -707,7 +706,7 @@
 				// success
 				$this->Entry->contain();
 				$targetEntry = $this->Entry->findById($targetId);
-				$this->CacheSupport->clearTree($targetEntry['Entry']['id']);
+				$this->CacheSupport->clear('Thread', $targetEntry['Entry']['id']);
 				return $this->redirect('/entries/view/' . $id);
 			} else {
 				$this->Session->setFlash(__("Error"), 'flash/error');
@@ -743,7 +742,7 @@
 			$this->Entry->id = $id;
 			$this->request->data = $this->Entry->toggle($toggle);
 			$tid = $this->Entry->field('tid');
-			$this->CacheSupport->clearTree($tid);
+			$this->CacheSupport->clear('Thread', $tid);
 			return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
 		}
 
@@ -840,7 +839,7 @@
 		}
 
 		protected function _afterNewEntry($newEntry) {
-			$this->CacheSupport->clearTree($newEntry['Entry']['tid']);
+			$this->CacheSupport->clear('Thread', $newEntry['Entry']['tid']);
 			// set notifications
 			if (isset($newEntry['Event'])) {
 				$notis = [

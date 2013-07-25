@@ -173,7 +173,7 @@
 
 			$this->_gc();
 			$this->_CacheEngine->write((array)$this->_cachedEntries);
-		}
+	}
 
 		/**
 		 * Garbage collection

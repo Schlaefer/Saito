@@ -496,25 +496,25 @@
 
     public function testEmptyCache() {
 
-      $Entries = $this->generate('Entries', array(
-          'components' => array(
-            'CacheTree' => array('delete'),
-          )
-      ));
+			$Entries = $this->generate(
+				'Entries',
+				['components' => ['CacheSupport' => ['clear']]]
+			);
 
-      $this->_loginUser(1);
+			$this->_loginUser(1);
 
 			$data['Entry'] = array(
 				'pid'      => 7,
 				'subject'  => 'test'
 			);
 
+
 			/*
 			 * test entries/add
 			 */
-			$Entries->CacheTree->expects($this->once())
-					->method('delete')
-					->with($this->equalTo('1'));
+			$Entries->CacheSupport->expects($this->once())
+					->method('clear')
+					->with($this->equalTo('Thread'));
 
 			$Entries->Entry->contain();
 			$this->testAction(
@@ -528,7 +528,7 @@
 			$Entries = $this->generate(
 				'Entries',
 				[
-					'components' => ['CacheTree' => ['delete']],
+					'components' => ['CacheSupport' => ['clear']],
 					'models'     => ['Entry' => ['update']]
 				]
 			);
@@ -538,9 +538,9 @@
 					->will($this->returnValue(true));
 
 
-			$Entries->CacheTree->expects($this->once())
-					->method('delete')
-					->with($this->equalTo('1'));
+			$Entries->CacheSupport->expects($this->once())
+					->method('clear')
+					->with($this->equalTo('Thread'));
 
 			$this->testAction(
 				'/entries/edit/7',

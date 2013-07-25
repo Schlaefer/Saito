@@ -45,29 +45,14 @@
 		}
 
 		public function testAdminEmptyCaches() {
-			$Tools = $this->generate('Tools',
-					array(
-							'components' => array(
-									'CacheSupport' => array(
-											'clearAll'
-									),
-							)
-					)
+			$Tools = $this->generate(
+				'Tools',
+				['components' => ['CacheSupport' => ['clear']]]
 			);
 			$this->_loginUser(1);
 			$Tools->CacheSupport->expects($this->once())
-					->method('clearAll');
+					->method('clear');
 			$this->testAction('admin/tools/emptyCaches');
 		}
-
-		/**
-		 * testClearCache method
-		 *
-		 * @return void
-		 */
-		public function testClearCache() {
-
-		}
-
 	}
 
