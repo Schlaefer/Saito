@@ -578,7 +578,7 @@ class PaginatorComponentTest extends CakeTestCase {
 	}
 
 /**
- * test paginate() and  model default order
+ * test paginate() and model default order
  *
  * @return void
  */
@@ -931,6 +931,23 @@ class PaginatorComponentTest extends CakeTestCase {
 		$result = $this->Paginator->validateSort($model, $options, array('title', 'id'));
 
 		$this->assertNull($result['order']);
+	}
+
+/**
+ * test that fields in the whitelist are not validated
+ *
+ * @return void
+ */
+	public function testValidateSortWhitelistTrusted() {
+		$model = $this->getMock('Model');
+		$model->alias = 'model';
+		$model->expects($this->never())->method('hasField');
+
+		$options = array('sort' => 'body', 'direction' => 'asc');
+		$result = $this->Paginator->validateSort($model, $options, array('body'));
+
+		$expected = array('body' => 'asc');
+		$this->assertEquals($expected, $result['order']);
 	}
 
 /**

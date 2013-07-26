@@ -63,7 +63,6 @@ class ModelWriteTest extends BaseModelTest {
 /**
  * testInsertAnotherHabtmRecordWithSameForeignKey method
  *
- * @access public
  * @return void
  */
 	public function testInsertAnotherHabtmRecordWithSameForeignKey() {
@@ -511,7 +510,6 @@ class ModelWriteTest extends BaseModelTest {
 /**
  * Tests having multiple counter caches for an associated model
  *
- * @access public
  * @return void
  */
 	public function testCounterCacheMultipleCaches() {
@@ -4595,7 +4593,7 @@ class ModelWriteTest extends BaseModelTest {
 		$result = $model->saveAll(array(
 			'Article' => array(
 				'title' => 'Post with Author',
-				'body' => 'This post will be saved  author'
+				'body' => 'This post will be saved author'
 			),
 			'Comment' => array(
 				array('comment' => 'First new comment'),
@@ -5999,7 +5997,7 @@ class ModelWriteTest extends BaseModelTest {
 		$result = $model->saveAssociated(array(
 			'Article' => array(
 				'title' => 'Post with Author',
-				'body' => 'This post will be saved  author'
+				'body' => 'This post will be saved author'
 			),
 			'Comment' => array(
 				array('comment' => 'First new comment'),
