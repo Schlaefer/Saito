@@ -110,7 +110,7 @@
 			$User = new CurrentUserComponent(new ComponentCollection());
 			$User->set(array());
 			$Entries->getInitialThreads($User);
-			$this->assertFalse($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
 		}
 
 		/**
@@ -154,7 +154,7 @@
 					'user_category_override' => 1,
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertFalse($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
 		}
 
 		public function testCategoryChooserEmptyCustomSet() {
@@ -196,7 +196,7 @@
 					'user_category_override' => 1,
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'All Categories');
 		}
 
@@ -248,7 +248,7 @@
 					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
 					'2' => 1,
 					'8' => '8',
@@ -298,7 +298,7 @@
 					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 7);
 			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
 					'1' => 1,

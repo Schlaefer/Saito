@@ -26,7 +26,7 @@
 	$this->end();
 
 	$this->start('headerSubnavRightTop');
-		if (isset($categoryChooserIsUsed) && $categoryChooserIsUsed):
+		if (isset($categoryChooser)):
 			// category-chooser link
 			echo $this->Html->link(
 				'<i class="icon-tags"></i> '
