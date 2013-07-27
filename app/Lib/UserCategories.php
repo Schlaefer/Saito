@@ -27,20 +27,27 @@
 			empty($this->_user['user_category_custom']) === false;
 		}
 
+		protected function _filterOutNonExisting($categories) {
+			return array_intersect_key($categories, $this->_categories);
+		}
+
 		protected function _getCustom() {
-			// merge all-cats onto user-cats to include categories which are
-			// new since the user updated his user-cats the last time
+			// add new categories to custom set
 			//
-			// [4 => '4', 7 => '7', 13 => '13'] + [4 => true, 7 => '0']
+			// [4 => true, 7 => '0'] + [4 => '4', 7 => '7', 13 => '13']
 			// becomes
 			// [4 => true, 7 => '0', 13 => '13']
 			// with 13 => '13' trueish
 			$custom = $this->_user['user_category_custom'] + $this->_categories;
+
 			// then filter for zeros to get only the user categories
 			//  [4 => true, 13 => '13']
 			$custom = array_filter($custom);
-			$custom = array_intersect_key($custom, $this->_categories);
-			return $custom;
+
+			$custom = $this->_filterOutNonExisting($custom);
+
+			$keys = array_keys($custom);
+			return array_combine($keys, $keys);
 		}
 
 		/**
@@ -54,13 +61,12 @@
 			$custom = $this->_getCustom();
 			if ($this->_isSingle()) {
 				$type       = 'single';
-				$categories = array_intersect_key(
-					$this->_categories,
-					[$this->_user['user_category_active'] => 1]
+				$categories = $this->_filterOutNonExisting(
+					[$this->_user['user_category_active'] => $this->_user['user_category_active']]
 				);
 			} elseif ($this->_isCustom()) {
 				$type       = 'custom';
-				$categories = array_keys($custom);
+				$categories = $custom;
 			} else {
 				$type = 'all';
 				$categories =  $this->_categories;
