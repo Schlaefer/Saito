@@ -243,7 +243,7 @@
 
 				// inserting new posting was successful
 				if ($new_posting !== false) :
-					$this->_afterNewEntry($new_posting);
+					$this->_setNotifications($new_posting);
 					if ($this->request->is('ajax')) :
 						// Ajax request came from front answer on front page /entries/index
 						if ($this->localReferer('action') === 'index') {
@@ -407,7 +407,7 @@
 			$data['Entry']['id'] = $id;
 			$new_entry = $this->Entry->update($data);
 			if ($new_entry) {
-				$this->_afterNewEntry(am($this->request['data'], $oldEntry));
+				$this->_setNotifications(am($this->request['data'], $oldEntry));
 				$this->redirect(['action' => 'view', $id]);
 				return;
 			} else {
@@ -831,8 +831,7 @@
 			}
 		}
 
-		protected function _afterNewEntry($newEntry) {
-			// set notifications
+		protected function _setNotifications($newEntry) {
 			if (isset($newEntry['Event'])) {
 				$notis = [
 					[
