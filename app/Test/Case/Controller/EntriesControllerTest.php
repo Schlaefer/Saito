@@ -250,7 +250,7 @@
 			$Entries->getInitialThreads($User);
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
-					'2' => 1,
+					'2' => '2',
 					'8' => '8',
 					));
 			$this->assertEqual($Entries->viewVars['categoryChooser'], array(
@@ -301,8 +301,8 @@
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 7);
 			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
-					'1' => 1,
-					'2' => 1,
+					'1' => '1',
+					'2' => '2',
 					));
 		}
 
