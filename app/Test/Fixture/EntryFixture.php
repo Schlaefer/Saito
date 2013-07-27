@@ -45,18 +45,18 @@
 		 */
 		public $records = array(
 				//* thread 1
-				array(
-						'id' => 1,
-						'subject' => 'First_Subject',
-						'text' => 'First_Text',
-						'pid' => 0,
-						'tid' => 1,
-						'time' => '2000-01-01 20:00:00',
-						'last_answer' => '2000-01-04 20:02:00',
-						'category' => 2, // accession = 0
-						'user_id' => 3,
-						'locked' => 0
-				),
+				[
+					'id'          => 1,
+					'subject'     => 'First_Subject',
+					'text'        => 'First_Text',
+					'pid'         => 0,
+					'tid'         => 1,
+					'time'        => '2000-01-01 20:00:00',
+					'last_answer' => '2000-01-04 20:02:00',
+					'category'    => 2, // accession = 0
+					'user_id'     => 3,
+					'locked'      => 0
+				],
 				array(
 						'id' => 2,
 						'subject' => 'Second_Subject',
@@ -184,6 +184,8 @@
 					'tid'         => 10,
 					'time'        => '2000-01-01 10:59:00',
 					'last_answer' => '2000-01-01 10:59:00',
+					'edited'    	=> '0000-00-00 00:00:00',
+					'edited_by' 	=> null,
 					'category'    => 2, // accession = 0
 					'user_id'     => 3,
 					'locked'      => 1
