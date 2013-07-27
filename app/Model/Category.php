@@ -54,18 +54,8 @@ class Category extends AppModel {
 		return $categories;
 	}
 
-	/*
-	public function afterSave($created) {
-		debug($this->data);
-		if ($created ||
-				$this->clearCache();
-		)
-	}
-	*/
-
 	protected function _getCategoriesForAccession($accession) {
 			if (!isset($this->_cache[$accession])) {
-				// $this->_cache = Cache::read('Saito.Cache.catForAccession');
 				if (empty($this->_cache[$accession])) {
 					$this->_cache[$accession] = $this->find('list',
 						array(
@@ -77,16 +67,9 @@ class Category extends AppModel {
 						)
 					);
 				}
-				// Cache::write('Saito.Cache.catForAccession', $this->_cache);
 			}
 			return $this->_cache[$accession];
 		}
-
-	/*
-	public function clearCache() {
-
-	}
-	*/
 
 	public function mergeIntoCategory($targetCategory) {
 
