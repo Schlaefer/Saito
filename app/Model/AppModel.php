@@ -12,6 +12,11 @@ class AppModel extends Model {
 	# Entry->User->UserOnline
 	public $recursive = 1;
 
+	/*
+	 * Lock to disable sanitation permanently
+	 */
+	static $sanitizeEnabled = true;
+
 	static $sanitize = true;
 
 	/**
@@ -43,11 +48,13 @@ class AppModel extends Model {
 	public function afterFind($results, $primary = false) {
 		parent::afterFind($results, $primary);
 
-		if (self::$sanitize) {
-			$results = $this->_sanitizeFields($results);
-		} elseif (self::$_lock_no_sanitize === $this->alias) {
-			// sanitizing can only be disabled for one find
-			$this->sanitize(true);
+		if (self::$sanitizeEnabled) {
+			if (self::$sanitize) {
+				$results = $this->_sanitizeFields($results);
+			} elseif (self::$_lock_no_sanitize === $this->alias) {
+				// sanitizing can only be disabled for one find
+				$this->sanitize(true);
+			}
 		}
 		return $results;
 	}
