@@ -762,17 +762,17 @@
 		 * @return boolean
 		 */
 		public function isEditingForbidden(array $entry, SaitoUser $CurrentUser = null) {
-			if ($CurrentUser !== null) {
-				$this->_CurrentUser = $CurrentUser;
+			if ($CurrentUser === null) {
+				$CurrentUser = $this->_CurrentUser;
 			}
 
 			// Anon
-			if ($this->_CurrentUser->isLoggedIn() === false) {
+			if ($CurrentUser->isLoggedIn() === false) {
 				return true;
 			}
 
 			// Admins
-			if ($this->_CurrentUser->isAdmin()) {
+			if ($CurrentUser->isAdmin()) {
 				return false;
 			}
 
@@ -782,10 +782,10 @@
 			$expired = strtotime($entry['Entry']['time']) + $editPeriod;
 			$isOverEditLimit = time() > $expired;
 
-			$isCurrentUsersPosting = (int)$this->_CurrentUser->getId()
+			$isCurrentUsersPosting = (int)$CurrentUser->getId()
 					=== (int)$entry['Entry']['user_id'];
 
-			if ($this->_CurrentUser->isMod()) {
+			if ($CurrentUser->isMod()) {
 				// Mods
 				// @todo mods don't edit admin posts
 				if ($isCurrentUsersPosting && $isOverEditLimit &&
