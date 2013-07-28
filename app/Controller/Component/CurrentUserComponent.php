@@ -368,12 +368,18 @@
 			$this->user        = $user;
 		}
 
-		public function forceSet() {
-			$this->_set(date("Y-m-d H:i:s"));
-		}
-
-		public function set() {
-			$this->_set($this->currentUser['last_refresh_tmp']);
+		/**
+		 * @param mixed $timestamp
+		 *
+		 * null|'now'|<`Y-m-d H:i:s` timestamp>
+		 */
+		public function set($timestamp = null) {
+			if ($timestamp === 'now') {
+				$this->_set(date("Y-m-d H:i:s"));
+			} elseif ($timestamp === null) {
+				$timestamp = $this->currentUser['last_refresh_tmp'];
+			}
+			$this->_set($timestamp);
 		}
 
 		public function setMarker() {

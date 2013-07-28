@@ -156,7 +156,7 @@
 		 */
 		public function update() {
 			$this->autoRender = false;
-			$this->CurrentUser->LastRefresh->forceSet();
+			$this->CurrentUser->LastRefresh->set('now');
 			$this->redirect('/entries/index');
 		}
 
