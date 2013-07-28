@@ -7,6 +7,16 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-07.01b ##
+
+### What’s New ###
+
+- [fix] answering in admin category fails
+
+### Migration notes ###
+
+This version uses a beta version of CakePHP. Stay at 2013-06.05 for a stable release.
+
 ## 2013-07.01a ##
 
 ### What’s New ###
@@ -19,7 +29,6 @@ layout: default
 This version uses a beta version of CakePHP. Stay at 2013-06.05 for a stable release.
 
 Don't forget to update your `lib/Cake` folder.
-
 
 ## 2013-07.01 ##
 
