@@ -302,8 +302,11 @@ Marks the user as logout out. Also removes authentication cookies from client.
 Request data:
 
 	{
-		id: 1 // user id
+		"id: 1
 	}
+
+`id`
+: user id
 
 Response: User object with `"isLoggedIn": false` on success.
 
@@ -319,9 +322,19 @@ Send mark as read event.
 Request data:
 
     {
-    	"user_id": 1
+      "id": 1
       "last_refresh": "2013-07-04T19:53:14+00:00"  
     }
 
+`id`
+: user id
+
 `last_refresh`
 : optional: if empty current server time is used
+
+Response:
+
+    {
+      "id": 1
+      "last_refresh": "2013-07-04T19:53:14+00:00"  
+    }
