@@ -482,10 +482,10 @@
 		// Redirect
 		if ($success) {
 			if ($this->Entry->isRoot($entry)) {
-				$this->Session->setFlash(__('delete_tree_success'), 'flash/notice');
+				$this->Session->setFlash(__('delete_tree_success'), 'flash/success');
 				$this->redirect('/');
 			} else {
-				$this->Session->setFlash(__('delete_subtree_success'), 'flash/notice');
+				$this->Session->setFlash(__('delete_subtree_success'), 'flash/success');
 				$this->redirect('/entries/view/' . $entry['Entry']['pid']);
 			}
 		} else {
