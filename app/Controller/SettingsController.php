@@ -62,6 +62,7 @@
 		public function admin_index() {
 			$settings = $this->request->data = $this->Setting->getSettings();
 			$settings = array_intersect_key($settings, $this->_currentlyUsedSettings);
+			$settings['userranks_ranks'] = $this->Setting->pipeMerger($settings['userranks_ranks']);
 			$this->set('Settings', $settings);
 		}
 

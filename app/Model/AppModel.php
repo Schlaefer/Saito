@@ -77,6 +77,14 @@ class AppModel extends Model {
 		return $value;
 	}
 
+	public function pipeMerger(array $data) {
+		$out = [];
+		foreach ($data as $key => $value) {
+			$out[] = "$key=$value";
+		}
+		return implode(' | ', $out);
+	}
+
   /**
    * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
    *
@@ -85,10 +93,10 @@ class AppModel extends Model {
    */
   protected function _pipeSplitter($pipeString) {
     $unpipedArray = array();
-    $ranks = explode("|", $pipeString);
+    $ranks = explode('|', $pipeString);
     foreach ( $ranks as $rank ) :
       $matches = array();
-      $matched = preg_match('/(\d+)\s*=\s*(.*)/', trim($rank), $matches);
+      $matched = preg_match('/(\w+)\s*=\s*(.*)/', trim($rank), $matches);
       if ($matched) {
         $unpipedArray[$matches[1]] = $matches[2];
       }
