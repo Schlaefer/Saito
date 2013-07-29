@@ -87,7 +87,8 @@
 				$this->Setting->id = $id;
 				if ( $this->Setting->save($this->request->data) ) {
 					$this->Session->setFlash('Saved. @lo', 'flash/notice');
-					$this->redirect(array( 'action' => 'index', $id ));
+					$this->redirect(['action' => 'index', '#' => $id]);
+					return;
 				} else {
 					$this->Session->setFlash('Something went wrong @lo', 'flash/error');
 				}
