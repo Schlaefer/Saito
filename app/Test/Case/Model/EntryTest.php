@@ -7,6 +7,10 @@
 	class EntryMock extends Entry {
 		public $_CurrentUser;
 		public $_editPeriod;
+
+		public function prepareBbcode($string) {
+			return $string;
+		}
 	}
 
 	class EntryTest extends CakeTestCase {
@@ -30,6 +34,47 @@
 					'subject' => 'Test Subject',
 					'Text' => 'Text Text',
 					'pid' => '2',
+			);
+		}
+
+		public function testCreateSuccess() {
+			App::uses('Category', 'Model');
+
+			$SaitoUser = $this->getMock(
+				'SaitoUser',
+				['getMaxAccession', 'getId', 'getBookmarks'],
+				[new ComponentCollection]
+			);
+			$SaitoUser->expects($this->any())
+					->method('getMaxAccession')
+					->will($this->returnValue(2));
+			$SaitoUser->expects($this->any())
+					->method('getId')
+					->will($this->returnValue(1));
+			$this->Entry->_CurrentUser = $SaitoUser;
+
+			Configure::write('Saito.Settings.subject_maxlength', 75);
+
+			$data[$this->Entry->alias] = [
+				'pid'      => 0,
+				'subject'  => 'Sübject',
+				'text'     => 'Täxt',
+				'category' => 1
+			];
+
+			$this->Entry->createPosting($data);
+			$result = $this->Entry->get($this->Entry->id, true);
+
+			$expected = $data;
+			$result = array_intersect_key($result, $expected);
+			$result[$this->Entry->alias] = array_intersect_key(
+				$result[$this->Entry->alias],
+				$expected[$this->Entry->alias]
+			);
+
+			$this->assertEqual(
+				$result,
+				$expected
 			);
 		}
 

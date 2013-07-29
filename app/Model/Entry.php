@@ -370,7 +370,7 @@
 
 			if ($this->isRoot($data)) {
 				// thread-id of new thread is its own id
-				if ($this->save(['tid' => $new_posting_id]) === false) {
+				if ($this->save(['tid' => $new_posting_id], false, ['tid']) === false) {
 					// @td raise error and/or roll back new entry
 					return false;
 				} else {
