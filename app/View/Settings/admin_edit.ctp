@@ -1,8 +1,8 @@
 <?php
 	$this->Html->addCrumb(__('Settings'), '/admin/settings');
-	$this->Html->addCrumb(__($this->request->data['Setting']['name']), '#');
+	$this->Html->addCrumb(__d('nondynamic', $this->request->data['Setting']['name']), '#');
 ?>
-<h1><?php echo __($this->request->data['Setting']['name']); ?></h1>
+<h1><?php echo __d('nondynamic', $this->request->data['Setting']['name']); ?></h1>
 <div class="row">
 	<div class="span6">
 		<?php
@@ -14,7 +14,7 @@
 			echo $this->Form->input(
 					'value',
 					array(
-					'label' => __($this->request->data['Setting']['name']),
+					'label' => __d('nondynamic', $this->request->data['Setting']['name']),
 			));
 			echo $this->Form->submit(
 					__('Submit'), array(
@@ -24,6 +24,6 @@
 		?>
 	</div>
 	<div class="span4">
-		<p><?php echo __($this->request->data['Setting']['name'] . '_exp'); ?></p>
+		<p><?php echo __d('nondynamic', $this->request->data['Setting']['name'] . '_exp'); ?></p>
 	</div>
 </div>
