@@ -20,6 +20,8 @@
 				'app.esnotification',
 				);
 
+
+
 		public function testBeforeValidate() {
 
 			//* save entry with text

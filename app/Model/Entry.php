@@ -361,9 +361,11 @@
 			if ($new_posting === false) {
 				return false;
 			}
+
 			$new_posting_id = $this->id;
-			$this->contain();
+
 			// make sure we pass the complete ['Entry'] dataset to events
+			$this->contain();
 			$new_posting = $this->read();
 
 			if ($this->isRoot($data)) {
