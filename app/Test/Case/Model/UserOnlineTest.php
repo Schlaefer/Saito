@@ -96,13 +96,21 @@
 
 			//* insert new user
 			$user_id = 5;
-			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => '5', 'time' => time(), 'logged_in' => 1 );
+			$this->_startUsersOnline[0]['UserOnline'] = [
+				'user_id'   => '5',
+				'logged_in' => 1
+			];
 			$this->UserOnline->setOnline($user_id, TRUE);
 
 			//* test if user is inserted
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
+
+			$time = $result[0]['UserOnline']['time'];
+			$this->assertGreaterThan(time() - 5, $time);
+			unset($result[0]['UserOnline']['time'], $time);
+
 			$this->assertEqual($result, $expected);
 
 			//* try to delte new user
