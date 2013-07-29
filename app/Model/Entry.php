@@ -295,9 +295,6 @@
 		 * Shorthand for reading an entry with full data
 		 */
 		public function get($id, $unsanitized = false) {
-			if (isset($entry[$this->alias]['id'])) {
-				$id = $entry[$this->alias]['id'];
-			}
 			return $this->find(
 				($unsanitized) ? 'unsanitized' : 'entry',
 				['conditions' => [$this->alias.'.id' => $id]]
