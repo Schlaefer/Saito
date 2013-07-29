@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-05 13:35+0100\n"
-"PO-Revision-Date: 2013-03-08 12:16+0100\n"
+"PO-Revision-Date: 2013-07-29 14:19+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -15,7 +15,7 @@ msgstr ""
 "macnemo_2_github/app/\n"
 "'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -769,11 +769,11 @@ msgstr ""
 
 #: View/Settings/admin_index.ctp:17
 msgid "forum_disabled"
-msgstr ""
+msgstr "Disable Forum"
 
 #: View/Settings/admin_index.ctp:23
 msgid "forum_disabled_exp"
-msgstr ""
+msgstr "Shows the maintenance page except for logged in admins."
 
 #: View/Settings/admin_index.ctp:27 View/Settings/admin_index.ctp:46
 #: View/Settings/admin_index.ctp:70 View/Settings/admin_index.ctp:89
@@ -798,11 +798,11 @@ msgstr ""
 
 #: View/Settings/admin_index.ctp:36
 msgid "forum_disabled_text"
-msgstr ""
+msgstr "Maintenance Notice"
 
 #: View/Settings/admin_index.ctp:42
 msgid "forum_disabled_text_exp"
-msgstr ""
+msgstr "Text notice shown on the forum disabled page."
 
 #: View/Settings/admin_index.ctp:55
 msgid "Base Preferences"
@@ -818,11 +818,11 @@ msgstr "The name of this forum."
 
 #: View/Settings/admin_index.ctp:79
 msgid "timezone"
-msgstr ""
+msgstr "Timezone"
 
 #: View/Settings/admin_index.ctp:85
 msgid "timezone_exp"
-msgstr ""
+msgstr "All time values displayed are offset to match this timezone."
 
 #: View/Settings/admin_index.ctp:98
 msgid "Email"
@@ -1051,19 +1051,19 @@ msgstr "Number of entries shown in the Shoutbox."
 
 #: View/Settings/admin_index.ctp:578
 msgid "upload_max_img_size"
-msgstr ""
+msgstr "Upload Max Image Size "
 
 #: View/Settings/admin_index.ctp:584
 msgid "upload_max_img_size_exp"
-msgstr ""
+msgstr "Max image size in kB for uploaded content."
 
 #: View/Settings/admin_index.ctp:597
 msgid "upload_max_number_of_uploads"
-msgstr ""
+msgstr "Max Number of Uploads"
 
 #: View/Settings/admin_index.ctp:603
 msgid "upload_max_number_of_uploads_exp"
-msgstr ""
+msgstr "Max number of uploaded files for a single user."
 
 #: View/Settings/admin_index.ctp:620
 msgid "flattr_enabled"
@@ -1118,10 +1118,10 @@ msgid "stopwatch_get"
 msgstr "Stopwatch"
 
 #: View/Settings/admin_index.ctp:714
-#, fuzzy
 msgid "stopwatch_get_exp"
 msgstr ""
-"Outputs stopwatch times by appending <code>/stopwatch:true/</code> to url."
+"Outputs stopwatch times in production mode for logged in users by appending "
+"<code>/stopwatch:true/</code> to url."
 
 #: View/SmileyCodes/admin_add.ctp:4
 msgid "Add Smiley Code"

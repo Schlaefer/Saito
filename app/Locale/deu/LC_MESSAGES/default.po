@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-05-30 12:55+0100\n"
-"PO-Revision-Date: 2013-06-06 19:45+0100\n"
+"PO-Revision-Date: 2013-07-29 14:20+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
 "macnemo_2_github/app/\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -1161,11 +1161,10 @@ msgid "stopwatch_get"
 msgstr "Stopuhr"
 
 #: View/Settings/admin_index.ctp:714
-#, fuzzy
 msgid "stopwatch_get_exp"
 msgstr ""
 "Ausgabe der Stopuhrzeiten durch Anfügen von <code>/stopwatch:true/</code> an "
-"URL."
+"URL in Production-Modus für eingeloggte Nutzer."
 
 #: View/SmileyCodes/admin_add.ctp:4
 #, fuzzy
