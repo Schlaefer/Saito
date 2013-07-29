@@ -166,7 +166,7 @@ Index of latest threads.
 - request method: `GET`
 - authorization: limited (different categories)
 - query parameter:
-	- `order` (optional)
+	- `order` (optional); pinned entries are always output first
 		- values:
 			- `time` (default)
 			- `answer`
@@ -181,7 +181,8 @@ Response
         {
           "id": 423739,
           "subject": "my subject",
-          "is_nt": true|false
+          "is_nt": true|false,
+          "is_pinned": false,
           "time": "2013-07-04T19:53:14+00:00",
           "last_answer": "2013-07-05T10:45:33+00:00",
           "user_id": 1,
@@ -191,6 +192,10 @@ Response
         },
         …
     ]
+
+`is_pinned`
+: boolean
+: is true if a entry is pinned by a moderator to be shown "on top"
 
 
 ### threads/#id GET ###
