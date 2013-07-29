@@ -43,9 +43,9 @@
 		public function tableRow($name, $Settings) {
 			return $this->Html->tableCells(
 				[
-					__($name),
+					__d('nondynamic', $name),
 					$Settings[$name],
-					"<p>" . __($name . '_exp') . "</p>",
+					"<p>" . __d('nondynamic', $name . '_exp') . "</p>",
 					$this->Html->link(
 						__('edit'),
 						['controller' => 'settings', 'action' => 'edit', $name],

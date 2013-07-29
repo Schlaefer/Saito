@@ -103,7 +103,6 @@
 				<?php foreach($this->Setting->getHeaders() as $key => $title): ?>
 						<li>
 							<a href="#navHeaderAnchor<?= $key ?>">
-								<i class="icon-chevron-right"></i>
 									<?= $title ?>
 							</a>
 						</li>
