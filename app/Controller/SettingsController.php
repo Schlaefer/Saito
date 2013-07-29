@@ -5,9 +5,10 @@
 	class SettingsController extends AppController {
 
 		public $name = 'Settings';
-		public $helpers = array(
-				'TimeH',
-		);
+		public $helpers = [
+				'Setting',
+				'TimeH'
+		];
 
 		/**
 		 * Subset of MLF settings currently used by Saito
