@@ -1178,7 +1178,7 @@
 		 * @return bool
 		 */
 		public function validateSubjectMaxLength($check) {
-			return mb_strlen($check['subject']) < $this->_subjectMaxLenght;
+			return mb_strlen($check['subject']) <= $this->_subjectMaxLenght;
 		}
 
 		/**

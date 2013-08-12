@@ -11,6 +11,10 @@
 		public function prepareBbcode($string) {
 			return $string;
 		}
+
+		public function getSubjectMaxLength() {
+			return $this->_subjectMaxLenght;
+		}
 	}
 
 	class EntryTest extends CakeTestCase {
@@ -53,17 +57,18 @@
 					->will($this->returnValue(1));
 			$this->Entry->_CurrentUser = $SaitoUser;
 
-			Configure::write('Saito.Settings.subject_maxlength', 75);
-
 			$data[$this->Entry->alias] = [
 				'pid'      => 0,
-				'subject'  => 'Sübject',
+				// +1 because str_pad calculates non ascii chars to a string length of 2
+				'subject'  => str_pad('Sübject', $this->Entry->getSubjectMaxLength() + 1, '.'),
 				'text'     => 'Täxt',
 				'category' => 1
 			];
 
 			$this->Entry->createPosting($data);
 			$result = $this->Entry->get($this->Entry->id, true);
+
+			$this->assertEmpty($this->Entry->validationErrors);
 
 			$expected = $data;
 			$result = array_intersect_key($result, $expected);
