@@ -1,7 +1,6 @@
 <?php
 
   App::uses('AppModel', 'Model');
-	App::uses('CakeEvent', 'Event');
 
 	/**
 	 *
@@ -796,10 +795,6 @@
 				return true;
 			}
 			return false;
-		}
-
-		protected function _dispatchEvent($event, $data = []) {
-			$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
 		}
 
 		protected function _addAdditionalFields(&$entries) {

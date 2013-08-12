@@ -3,6 +3,7 @@
 	App::uses('Model', 'Model');
 	App::uses('Sanitize', 'Utility');
 	App::uses('SaitoUser', 'Lib');
+	App::uses('CakeEvent', 'Event');
 
 	// import here so that `cake schema ...` cli works
 	App::import('Lib', 'Stopwatch.Stopwatch');
@@ -114,6 +115,10 @@ class AppModel extends Model {
     endif;
     return $ip;
   }
+
+	protected function _dispatchEvent($event, $data = []) {
+		$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
+	}
 
   /**
    * Rough and tough ip anonymizer
