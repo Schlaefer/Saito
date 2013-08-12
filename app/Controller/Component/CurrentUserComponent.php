@@ -375,7 +375,7 @@
 		 */
 		public function set($timestamp = null) {
 			if ($timestamp === 'now') {
-				$this->_set(date("Y-m-d H:i:s"));
+				$timestamp = date('Y-m-d H:i:s');
 			} elseif ($timestamp === null) {
 				$timestamp = $this->currentUser['last_refresh_tmp'];
 			}
