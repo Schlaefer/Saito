@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-29 14:53+0100\n"
-"PO-Revision-Date: 2013-07-29 14:53+0100\n"
+"POT-Creation-Date: 2013-08-12 09:09+0100\n"
+"PO-Revision-Date: 2013-08-12 09:09+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -124,7 +124,7 @@ msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #: View/Bookmarks/index.ctp:24 View/Categories/view.ctp:64
-#: View/Entries/add.ctp:89
+#: View/Entries/add.ctp:92
 msgid "Subject"
 msgstr "Betreff"
 
@@ -160,7 +160,7 @@ msgstr "Absenden"
 #: View/Categories/index.ctp:51 View/Categories/view.ctp:37
 #: View/Categories/view.ctp:73 View/SmileyCodes/admin_add.ctp:14
 #: View/SmileyCodes/admin_index.ctp:12 View/Smilies/admin_add.ctp:18
-#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:64
+#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:67
 msgid "Actions"
 msgstr "Aktion"
 
@@ -630,35 +630,39 @@ msgstr ""
 "Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
 "innerhalb der nächsten 24 Stunden: %s"
 
-#: View/Entries/add.ctp:34 View/Entries/add.ctp:187
+#: View/Entries/add.ctp:34 View/Entries/add.ctp:190
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:87 Controller/UsersController.php:477
+#: View/Entries/add.ctp:88 Controller/UsersController.php:477
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
-#: View/Entries/add.ctp:130
+#: View/Entries/add.ctp:89
+msgid "error_subject_max_length"
+msgstr "Betreff ist zu lang."
+
+#: View/Entries/add.ctp:133
 msgid "Cite"
 msgstr "Zitieren"
 
-#: View/Entries/add.ctp:155 View/Entries/add.ctp:175 View/Entries/add.ctp:289
+#: View/Entries/add.ctp:158 View/Entries/add.ctp:178 View/Entries/add.ctp:292
 msgid "submit_button"
 msgstr "Eintragen"
 
-#: View/Entries/add.ctp:202
+#: View/Entries/add.ctp:205
 msgid "Notify on reply"
 msgstr "Beitrag abonnieren"
 
-#: View/Entries/add.ctp:216
+#: View/Entries/add.ctp:219
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:225 View/Helper/EntryHHelper.php:159
+#: View/Entries/add.ctp:228 View/Helper/EntryHHelper.php:159
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
-#: View/Entries/add.ctp:238
+#: View/Entries/add.ctp:241
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
@@ -766,10 +770,6 @@ msgstr "Letzte Einträge"
 msgid "Last started threads"
 msgstr "Letzte Threads"
 
-#: View/Settings/admin_edit.ctp:27 View/Settings/admin_timezone.ctp:24
-msgid "_exp"
-msgstr ""
-
 #: View/Settings/admin_index.ctp:7
 msgid "Deactivate Forum"
 msgstr "Forum deaktivieren"
@@ -808,6 +808,10 @@ msgstr "Hochladen"
 
 #: View/Settings/admin_index.ctp:93
 msgid "Debug"
+msgstr ""
+
+#: View/Settings/admin_timezone.ctp:24
+msgid "_exp"
 msgstr ""
 
 #: View/SmileyCodes/admin_add.ctp:4
@@ -1766,22 +1770,22 @@ msgstr "Hochladen"
 msgid "Media"
 msgstr "Einbinden"
 
-#: View/Helper/SettingHelper.php:50
+#: View/Helper/SettingHelper.php:53
 msgid "edit"
 msgstr "Bearbeiten"
 
 # View/Settings/admin_index.ctp:
-#: View/Helper/SettingHelper.php:61
+#: View/Helper/SettingHelper.php:64
 msgid "Key"
 msgstr "Schlüssel"
 
 # View/Settings/admin_index.ctp:
-#: View/Helper/SettingHelper.php:62
+#: View/Helper/SettingHelper.php:65
 msgid "Value"
 msgstr "Wert"
 
 # View/Settings/admin_index.ctp:
-#: View/Helper/SettingHelper.php:63
+#: View/Helper/SettingHelper.php:66
 msgid "Explanation"
 msgstr "Beschreibung"
 
@@ -2013,9 +2017,6 @@ msgstr ""
 
 #~ msgid "signature_separator_exp"
 #~ msgstr "Signaturtrenner"
-
-#~ msgid "subject_maxlength"
-#~ msgstr "Betrefflänge"
 
 #~ msgid "subject_maxlength_exp"
 #~ msgstr "Maximale Zeichenanzahl in Betreff."

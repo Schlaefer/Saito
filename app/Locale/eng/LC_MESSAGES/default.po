@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-29 14:47+0100\n"
-"PO-Revision-Date: 2013-07-29 14:48+0100\n"
+"POT-Creation-Date: 2013-08-12 09:10+0100\n"
+"PO-Revision-Date: 2013-08-12 09:10+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -124,7 +124,7 @@ msgid "Bookmarks"
 msgstr ""
 
 #: View/Bookmarks/index.ctp:24 View/Categories/view.ctp:64
-#: View/Entries/add.ctp:89
+#: View/Entries/add.ctp:92
 msgid "Subject"
 msgstr ""
 
@@ -160,7 +160,7 @@ msgstr ""
 #: View/Categories/index.ctp:51 View/Categories/view.ctp:37
 #: View/Categories/view.ctp:73 View/SmileyCodes/admin_add.ctp:14
 #: View/SmileyCodes/admin_index.ctp:12 View/Smilies/admin_add.ctp:18
-#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:80
+#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:67
 msgid "Actions"
 msgstr ""
 
@@ -612,35 +612,39 @@ msgstr ""
 "To activate your account please click the following link: %s within the next "
 "24 hours."
 
-#: View/Entries/add.ctp:34 View/Entries/add.ctp:187
+#: View/Entries/add.ctp:34 View/Entries/add.ctp:190
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:87 Controller/UsersController.php:477
+#: View/Entries/add.ctp:88 Controller/UsersController.php:477
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:130
+#: View/Entries/add.ctp:89
+msgid "error_subject_max_length"
+msgstr "Subject is to long."
+
+#: View/Entries/add.ctp:133
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:155 View/Entries/add.ctp:175 View/Entries/add.ctp:289
+#: View/Entries/add.ctp:158 View/Entries/add.ctp:178 View/Entries/add.ctp:292
 msgid "submit_button"
 msgstr "Submit"
 
-#: View/Entries/add.ctp:202
+#: View/Entries/add.ctp:205
 msgid "Notify on reply"
 msgstr ""
 
-#: View/Entries/add.ctp:216
+#: View/Entries/add.ctp:219
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:225 View/Helper/EntryHHelper.php:159
+#: View/Entries/add.ctp:228 View/Helper/EntryHHelper.php:159
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
-#: View/Entries/add.ctp:238
+#: View/Entries/add.ctp:241
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
@@ -711,7 +715,7 @@ msgid "Overview"
 msgstr ""
 
 #: View/Layouts/admin.ctp:41 View/Settings/admin_edit.ctp:2
-#: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:114
+#: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:113
 #: View/Users/edit.ctp:163
 msgid "Settings"
 msgstr ""
@@ -746,11 +750,6 @@ msgstr ""
 
 #: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:106
 msgid "Last started threads"
-msgstr ""
-
-#: View/Settings/admin_edit.ctp:27 View/Settings/admin_timezone.ctp:24
-#: View/Helper/SettingHelper.php:48 View/Helper/SettingHelper.php:64
-msgid "_exp"
 msgstr ""
 
 #: View/Settings/admin_index.ctp:7
@@ -788,6 +787,10 @@ msgstr "Upload"
 
 #: View/Settings/admin_index.ctp:93
 msgid "Debug"
+msgstr ""
+
+#: View/Settings/admin_timezone.ctp:24
+msgid "_exp"
 msgstr ""
 
 #: View/SmileyCodes/admin_add.ctp:4
@@ -1705,19 +1708,19 @@ msgstr "Upload"
 msgid "Media"
 msgstr ""
 
-#: View/Helper/SettingHelper.php:66
+#: View/Helper/SettingHelper.php:53
 msgid "edit"
 msgstr ""
 
-#: View/Helper/SettingHelper.php:77
+#: View/Helper/SettingHelper.php:64
 msgid "Key"
 msgstr ""
 
-#: View/Helper/SettingHelper.php:78
+#: View/Helper/SettingHelper.php:65
 msgid "Value"
 msgstr ""
 
-#: View/Helper/SettingHelper.php:79
+#: View/Helper/SettingHelper.php:66
 msgid "Explanation"
 msgstr ""
 
