@@ -54,6 +54,45 @@
 			$this->assertEqual($result, $expected);
 		}
 
+		public function testUpdateEvent() {
+			$Category = $this->getMockForModel('Category', ['_dispatchEvent']);
+			$Category->expects($this->once())
+					->method('_dispatchEvent')
+					->with('Model.Category.update');
+
+			$data = [
+				'Category' => [
+					'category' => 'foo'
+				]
+			];
+			$Category->id = 1;
+			$Category->save($data);
+		}
+
+		public function testNoUpdateEvent() {
+			$Category = $this->getMockForModel('Category', ['_dispatchEvent']);
+			$Category->expects($this->never())
+				->method('_dispatchEvent');
+
+			$data = [
+				'Category' => [
+					'thread_count' => '300'
+				]
+			];
+			$Category->id = 1;
+			$Category->save($data);
+		}
+
+		public function testDeleteEvent() {
+			$Category = $this->getMockForModel('Category', ['_dispatchEvent']);
+			$Category->expects($this->once())
+					->method('_dispatchEvent')
+					->with('Model.Category.delete');
+
+			$Category->id = 1;
+			$Category->delete();
+		}
+
 		public function setUp() {
 			parent::setup();
 			$this->Category = ClassRegistry::init('Category');
@@ -65,5 +104,3 @@
 		}
 
 	}
-
-?>

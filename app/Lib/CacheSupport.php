@@ -57,14 +57,16 @@
 
 		public function implementedEvents() {
 			return [
-				'Model.Thread.reset' => 'onThreadReset',
+				'Model.Thread.reset' => 'onThreadsReset',
 				'Model.Thread.change' => 'onThreadChanged',
 				'Model.Entry.replyToEntry' => 'onEntryChanged',
-				'Model.Entry.update' => 'onEntryChanged'
+				'Model.Entry.update' => 'onEntryChanged',
+				'Model.Category.update' => 'onThreadsReset',
+				'Model.Category.delete' => 'onThreadsReset'
 			];
 		}
 
-		public function onThreadReset($event) {
+		public function onThreadsReset($event) {
 			$this->clear();
 		}
 
