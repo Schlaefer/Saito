@@ -1637,9 +1637,10 @@ class Model extends Object implements CakeEventListener {
 		}
 
 		if (!empty($options['fieldList'])) {
-			$this->whitelist = $options['fieldList'];
 			if (!empty($options['fieldList'][$this->alias]) && is_array($options['fieldList'][$this->alias])) {
 				$this->whitelist = $options['fieldList'][$this->alias];
+			} elseif (Hash::dimensions($options['fieldList']) < 2) {
+				$this->whitelist = $options['fieldList'];
 			}
 		} elseif ($options['fieldList'] === null) {
 			$this->whitelist = array();
@@ -2360,7 +2361,10 @@ class Model extends Object implements CakeEventListener {
 			$options['fieldList'][$this->alias][] = $key;
 			return $options;
 		}
-		if (!empty($options['fieldList']) && is_array($options['fieldList'])) {
+		if (!empty($options['fieldList']) &&
+			is_array($options['fieldList']) &&
+			Hash::dimensions($options['fieldList']) < 2
+		) {
 			$options['fieldList'][] = $key;
 		}
 		return $options;
@@ -2723,7 +2727,7 @@ class Model extends Object implements CakeEventListener {
  *
  * Model::_readDataSource() is used by all find() calls to read from the data source and can be overloaded to allow
  * caching of datasource calls.
- * 
+ *
  * {{{
  * protected function _readDataSource($type, $query) {
  * 		$cacheName = md5(json_encode($query));
@@ -2737,7 +2741,7 @@ class Model extends Object implements CakeEventListener {
  * 		return $results;
  * }
  * }}}
- * 
+ *
  * @param string $type Type of find operation (all / first / count / neighbors / list / threaded)
  * @param array $query Option fields (conditions / fields / joins / limit / offset / order / page / group / callbacks)
  * @return array

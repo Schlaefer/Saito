@@ -359,15 +359,14 @@ class HtmlHelper extends AppHelper {
 			unset($options['confirm']);
 		}
 		if ($confirmMessage) {
-			$confirmMessage = str_replace("'", "\'", $confirmMessage);
-			$confirmMessage = str_replace('"', '\"', $confirmMessage);
-			$options['onclick'] = "return confirm('{$confirmMessage}');";
+			$options['onclick'] = $this->_confirm($confirmMessage, 'return true;', 'return false;');
 		} elseif (isset($options['default']) && !$options['default']) {
 			if (isset($options['onclick'])) {
-				$options['onclick'] .= ' event.returnValue = false; return false;';
+				$options['onclick'] .= ' ';
 			} else {
-				$options['onclick'] = 'event.returnValue = false; return false;';
+				$options['onclick'] = '';
 			}
+			$options['onclick'] .= 'event.returnValue = false; return false;';
 			unset($options['default']);
 		}
 		return sprintf($this->_tags['link'], $url, $this->_parseAttributes($options), $title);
@@ -444,13 +443,13 @@ class HtmlHelper extends AppHelper {
 		if (strpos($path, '//') !== false) {
 			$url = $path;
 		} else {
-			$url = $this->assetUrl($path, $options + array('pathPrefix' => CSS_URL, 'ext' => '.css'));
-			$options = array_diff_key($options, array('fullBase' => null));
+			$url = $this->assetUrl($path, $options + array('pathPrefix' => Configure::read('App.cssBaseUrl'), 'ext' => '.css'));
+			$options = array_diff_key($options, array('fullBase' => null, 'pathPrefix' => null));
 
 			if (Configure::read('Asset.filter.css')) {
-				$pos = strpos($url, CSS_URL);
+				$pos = strpos($url, Configure::read('App.cssBaseUrl'));
 				if ($pos !== false) {
-					$url = substr($url, 0, $pos) . 'ccss/' . substr($url, $pos + strlen(CSS_URL));
+					$url = substr($url, 0, $pos) . 'ccss/' . substr($url, $pos + strlen(Configure::read('App.cssBaseUrl')));
 				}
 			}
 		}
@@ -545,11 +544,11 @@ class HtmlHelper extends AppHelper {
 		$this->_includedScripts[$url] = true;
 
 		if (strpos($url, '//') === false) {
-			$url = $this->assetUrl($url, $options + array('pathPrefix' => JS_URL, 'ext' => '.js'));
-			$options = array_diff_key($options, array('fullBase' => null));
+			$url = $this->assetUrl($url, $options + array('pathPrefix' => Configure::read('App.jsBaseUrl'), 'ext' => '.js'));
+			$options = array_diff_key($options, array('fullBase' => null, 'pathPrefix' => null));
 
 			if (Configure::read('Asset.filter.js')) {
-				$url = str_replace(JS_URL, 'cjs/', $url);
+				$url = str_replace(Configure::read('App.jsBaseUrl'), 'cjs/', $url);
 			}
 		}
 		$attributes = $this->_parseAttributes($options, array('block', 'once'), ' ');
@@ -803,7 +802,7 @@ class HtmlHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/html.html#HtmlHelper::image
  */
 	public function image($path, $options = array()) {
-		$path = $this->assetUrl($path, $options + array('pathPrefix' => IMAGES_URL));
+		$path = $this->assetUrl($path, $options + array('pathPrefix' => Configure::read('App.imageBaseUrl')));
 		$options = array_diff_key($options, array('fullBase' => null, 'pathPrefix' => null));
 
 		if (!isset($options['alt'])) {
@@ -918,12 +917,9 @@ class HtmlHelper extends AppHelper {
 		if (empty($name)) {
 			return $text;
 		}
-		if (is_array($options) && isset($options['escape']) && $options['escape']) {
+		if (isset($options['escape']) && $options['escape']) {
 			$text = h($text);
 			unset($options['escape']);
-		}
-		if (!is_array($options)) {
-			$options = array('class' => $options);
 		}
 		if ($text === null) {
 			$tag = 'tagstart';
@@ -1106,7 +1102,7 @@ class HtmlHelper extends AppHelper {
 		}
 
 		if (isset($options['poster'])) {
-			$options['poster'] = $this->assetUrl($options['poster'], array('pathPrefix' => IMAGES_URL) + $options);
+			$options['poster'] = $this->assetUrl($options['poster'], array('pathPrefix' => Configure::read('App.imageBaseUrl')) + $options);
 		}
 		$text = $options['text'];
 

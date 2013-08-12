@@ -456,7 +456,7 @@ class ObjectTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$result = $this->object->requestAction(
-			Configure::read('App.fullBaseURL') . '/request_action/test_request_action'
+			Configure::read('App.fullBaseUrl') . '/request_action/test_request_action'
 		);
 		$expected = 'This is a test';
 		$this->assertEquals($expected, $result);
@@ -600,7 +600,7 @@ class ObjectTest extends CakeTestCase {
 		$this->assertEquals(null, $result['plugin']);
 
 		$result = $this->object->requestAction('/request_action/params_pass/sort:desc/limit:5');
-		$expected = array('sort' => 'desc', 'limit' => 5,);
+		$expected = array('sort' => 'desc', 'limit' => 5);
 		$this->assertEquals($expected, $result['named']);
 
 		$result = $this->object->requestAction(

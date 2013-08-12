@@ -113,7 +113,7 @@
 
 		public function assertRedirectedTo($url = '') {
 			$this->assertEqual(
-				Router::baseURL() . $this->controller->request->webroot . $url,
+				Router::fullBaseUrl() . $this->controller->request->webroot . $url,
 				$this->headers['Location']
 			);
 		}
