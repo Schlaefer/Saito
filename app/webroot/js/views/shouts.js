@@ -10,6 +10,8 @@ define([
 
     var ShoutboxView = Backbone.View.extend({
 
+        isPrerendered: true,
+
         events: {
             "keyup form": "formUp",
             "keydown form": "formDown"
@@ -60,7 +62,11 @@ define([
         },
 
         render: function(data) {
-            $(this.shouts).html(this.model.get('html'));
+            if (this.isPrerendered) {
+                this.isPrerendered = false;
+            } else {
+                $(this.shouts).html(this.model.get('html'));
+            }
             return this;
         }
 
