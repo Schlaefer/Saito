@@ -7,6 +7,25 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-08.01 ##
+
+### What's new ###
+
+- [new] improved navigation in admin settings
+- [fix] user ranks in admin settings are not shown
+- [fix] changing category title in admin settings doesn't empty thread cache
+- [fix] can't save entry if subject is exactly max length (regression from 2013-07.01)
+- [fix] shoutbox is rendered twice on page load
+- [task] updates to CakePHP2.4-RC1
+
+Significant code refactoring and minor performance improvements.
+
+### Migration notes ###
+
+This version uses a Release Candidate version of CakePHP. Stay at 2013-06.05 for a stable release.
+
+Don't forget to update your `lib/Cake` folder.
+
 ## 2013-07.01b ##
 
 ### What’s New ###
