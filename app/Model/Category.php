@@ -54,18 +54,8 @@ class Category extends AppModel {
 		return $categories;
 	}
 
-	/*
-	public function afterSave($created) {
-		debug($this->data);
-		if ($created ||
-				$this->clearCache();
-		)
-	}
-	*/
-
 	protected function _getCategoriesForAccession($accession) {
 			if (!isset($this->_cache[$accession])) {
-				// $this->_cache = Cache::read('Saito.Cache.catForAccession');
 				if (empty($this->_cache[$accession])) {
 					$this->_cache[$accession] = $this->find('list',
 						array(
@@ -77,16 +67,9 @@ class Category extends AppModel {
 						)
 					);
 				}
-				// Cache::write('Saito.Cache.catForAccession', $this->_cache);
 			}
 			return $this->_cache[$accession];
 		}
-
-	/*
-	public function clearCache() {
-
-	}
-	*/
 
 	public function mergeIntoCategory($targetCategory) {
 
@@ -120,5 +103,18 @@ class Category extends AppModel {
 		$this->saveField('thread_count', $c);
     return $c;
   }
+
+	public function afterDelete() {
+		$this->_dispatchEvent('Model.Category.delete');
+	}
+
+	public function afterSave($created) {
+		// don't empty cache if it's only a thread count update
+		if (!isset($this->data[$this->alias]['thread_count']) &&
+				isset($this->data[$this->alias]['category'])
+		) {
+			$this->_dispatchEvent('Model.Category.update');
+		}
+	}
 
 }

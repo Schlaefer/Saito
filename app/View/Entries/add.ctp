@@ -84,7 +84,10 @@
 							),
 							'label'       => false,
 							'tabindex'    => 2,
-							'error'       => ['notEmpty' => __('error_subject_empty')],
+							'error'       => [
+								'notEmpty' => __('error_subject_empty'),
+								'maxLength' => __('error_subject_max_length')
+							],
 							'div'         => ['class' => 'required'],
 							'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject'),
 							'required'		=> ($posting_type === 'reply') ? false : "required"

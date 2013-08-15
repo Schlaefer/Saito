@@ -1,724 +1,123 @@
 <?php
 	$this->Html->addCrumb(__('Settings'), '/admin/settings');
-  $tableHeadersHtml = $this->Html->tableHeaders(array(
-      __('Key'),
-      __('Value'),
-      __('Explanation'),
-      __('Actions')
-      ));
+  $tableHeadersHtml = $this->Setting->tableHeaders();
+
+	$this->start('settings');
+				echo $this->Setting->table(
+					__('Deactivate Forum'),
+					['forum_disabled', 'forum_disabled_text'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Base Preferences'),
+					['forum_name', 'timezone'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Email'),
+					['forum_email'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Moderation'),
+					['block_user_ui', 'store_ip', 'store_ip_anonymized'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Registration'),
+					['tos_enabled', 'tos_url'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Edit'),
+					['edit_period', 'edit_delay'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('View'),
+					[
+						'topics_per_page',
+						'thread_depth_indent',
+						'autolink',
+						'bbcode_img',
+						'quote_symbol',
+						'signature_separator',
+						'subject_maxlength',
+						'text_word_maxlength',
+						'userranks_show',
+						'userranks_ranks',
+						'video_domains_allowed'
+					],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Category Chooser'),
+					['category_chooser_global', 'category_chooser_user_override'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Shoutbox'),
+					['shoutbox_enabled', 'shoutbox_max_shouts'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					__('Uploads'),
+					['upload_max_img_size', 'upload_max_number_of_uploads'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
+					$this->Html->link('Flattr', 'http://flattr.com/'),
+					['flattr_enabled', 'flattr_language', 'flattr_category'],
+					$Settings,
+					['nav-title' => 'Flattr']
+				);
+
+				echo $this->Setting->table(
+					$this->Html->link('Embed.ly', 'http://embed.ly/'),
+					['embedly_enabled', 'embedly_key'],
+					$Settings,
+					['nav-title' => 'Embedly']
+				);
+
+				echo $this->Setting->table(
+					__('Debug'),
+					['stopwatch_get'],
+					$Settings
+				);
+	$this->end('settings');
 ?>
 <div id="settings_index" class="settings index">
-	<h1><?php echo __('Settings'); ?></h1>
-	<h2><?php echo __('Deactivate Forum'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('forum_disabled'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['forum_disabled']; ?>
-			</td>
-			<td>
-				<p><?php echo __('forum_disabled_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('forum_disabled_text'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['forum_disabled_text']; ?>
-			</td>
-			<td>
-				<p><?php echo __('forum_disabled_text_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'forum_disabled_text'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-  </table>
-
-	<h2><?php echo __('Base Preferences'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-    <tr>
-			<td>
-				<?php echo __('forum_name'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['forum_name']; ?>
-			</td>
-      <td>
-				<p><?php echo __('forum_name_exp'); ?></p>
-      </td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'forum_name' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-    </tr>
-		<tr>
-			<td>
-				<?php echo __('timezone'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['timezone']; ?>
-			</td>
-			<td>
-				<p><?php echo __('timezone_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'timezone'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table>
-
-  <h2><?php echo __('Email'); ?></h2>
-  <table class="table table-striped table-bordered table-condensed">
-  <?php echo $tableHeadersHtml ?>
-    <tr>
-        <td>
-          <?php echo __('forum_email'); ?>
-        </td>
-        <td>
-          <?php echo $Settings['forum_email']; ?>
-        </td>
-        <td>
-            <p><?php echo __('forum_email_exp'); ?></p>
-        </td>
-        <td>
-          <?php echo $this->Html->link(
-          __('edit'),
-          array( 'controller' => 'settings', 'action' => 'edit', 'forum_email' ),
-          array( 'class' => 'btn' )
-        );
-          ?>
-        </td>
-    </tr>
-  </table>
-  <p>
-      <?php echo __('email_admin_config_exp'); ?>
-  </p>
-
-	<h2><?php echo __('Moderation'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('block_user_ui'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['block_user_ui']; ?>
-			</td>
-			<td>
-				<p><?php echo __('block_user_ui_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'block_user_ui' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('store_ip'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['store_ip']; ?>
-			</td>
-			<td>
-				<p><?php echo __('store_ip_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'store_ip' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('store_ip_anonymized'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['store_ip_anonymized']; ?>
-			</td>
-			<td>
-				<p><?php echo __('store_ip_anonymized_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'store_ip_anonymized' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table>
-
-	<h2><?php echo __('Registration'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('tos_enabled'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['tos_enabled']; ?>
-			</td>
-			<td>
-				<p><?php echo __('tos_enabled_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'tos_enabled' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('tos_url'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['tos_url']; ?>
-			</td>
-			<td>
-				<p><?php echo __('tos_url_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'tos_url' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table>
-
-	<h2><?php echo __('Edit'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('edit_period'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['edit_period']; ?>
-			</td>
-			<td>
-				<p><?php echo __('edit_period_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'edit_period' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table> <!--	</table>-->
-
-	<h2><?php echo __('View'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('edit_delay'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['edit_delay']; ?>
-			</td>
-			<td>
-				<p><?php echo __('edit_delay_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'edit_delay' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('topics_per_page'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['topics_per_page']; ?>
-			</td>
-			<td>
-				<p><?php echo __('topics_per_page_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'topics_per_page' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('thread_depth_indent'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['thread_depth_indent']; ?>
-			</td>
-			<td>
-				<p><?php echo __('thread_depth_indent_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'thread_depth_indent' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('autolink'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['autolink']; ?>
-			</td>
-			<td>
-				<p><?php echo __('autolink_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'autolink' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('bbcode_img'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['bbcode_img']; ?>
-			</td>
-			<td>
-				<p><?php echo __('bbcode_img_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'bbcode_img' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('quote_symbol'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['quote_symbol']; ?>
-			</td>
-			<td>
-				<p><?php echo __('quote_symbol_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'quote_symbol' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('signature_separator'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['signature_separator']; ?>
-			</td>
-			<td>
-				<p><?php echo __('signature_separator_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'signature_separator' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('subject_maxlength'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['subject_maxlength']; ?>
-			</td>
-			<td>
-				<p><?php echo __('subject_maxlength_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'subject_maxlength' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('text_word_maxlength'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['text_word_maxlength']; ?>
-			</td>
-			<td>
-				<p><?php echo __('text_word_maxlength_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'text_word_maxlength' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('userranks_show'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['userranks_show']; ?>
-			</td>
-			<td>
-				<p><?php echo __('userranks_show_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'userranks_show' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('userranks_ranks'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['userranks_ranks']; ?>
-			</td>
-			<td>
-				<p><?php echo __('userranks_ranks_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'userranks_ranks' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('video_domains_allowed'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['video_domains_allowed']; ?>
-			</td>
-			<td>
-				<p><?php echo __('video_domains_allowed_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'video_domains_allowed' ),
-										array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table>
-
-	<h2><?php echo __('Category Chooser'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('category_chooser_global'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['category_chooser_global']; ?>
-			</td>
-			<td>
-				<p><?php echo __('category_chooser_global_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'category_chooser_global'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('category_chooser_user_override'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['category_chooser_user_override']; ?>
-			</td>
-			<td>
-				<p><?php echo __('category_chooser_user_override_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'category_chooser_user_override'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table> <!--	</table>-->
-
-  <h2>Shoutbox</h2>
-  <table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-      <tr>
-          <td>
-						<?php echo __('shoutbox_enabled'); ?>
-          </td>
-          <td>
-						<?php echo $Settings['shoutbox_enabled']; ?>
-          </td>
-          <td>
-              <p><?php echo __('shoutbox_enabled_exp'); ?></p>
-          </td>
-          <td>
-						<?php echo $this->Html->link(
-						__('edit'),
-						array( 'controller' => 'settings', 'action' => 'edit', 'shoutbox_enabled'),
-						array( 'class' => 'btn' )
-					);
-						?>
-          </td>
-      </tr>
-      <tr>
-          <td>
-						<?php echo __('shoutbox_max_shouts'); ?>
-          </td>
-          <td>
-						<?php echo $Settings['shoutbox_max_shouts']; ?>
-          </td>
-          <td>
-              <p><?php echo __('shoutbox_max_shouts_exp'); ?></p>
-          </td>
-          <td>
-						<?php echo $this->Html->link(
-						__('edit'),
-						array( 'controller' => 'settings', 'action' => 'edit', 'shoutbox_max_shouts'),
-						array( 'class' => 'btn' )
-					);
-						?>
-          </td>
-      </tr>
-  </table> <!--	</table>-->
-
-	<h2>Uploads</h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('upload_max_img_size'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['upload_max_img_size']; ?>
-			</td>
-			<td>
-				<p><?php echo __('upload_max_img_size_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_img_size'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('upload_max_number_of_uploads'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['upload_max_number_of_uploads']; ?>
-			</td>
-			<td>
-				<p><?php echo __('upload_max_number_of_uploads_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'upload_max_number_of_uploads'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table> <!--	</table>-->
-	<h2><?php echo $this->Html->link('Flattr', 'http://flattr.com/'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-		<tr>
-			<td>
-				<?php echo __('flattr_enabled'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['flattr_enabled']; ?>
-			</td>
-			<td>
-				<p><?php echo __('flattr_enabled_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_enabled'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('flattr_language'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['flattr_language']; ?>
-			</td>
-			<td>
-				<p><?php echo __('flattr_language_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_language'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __('flattr_category'); ?>
-			</td>
-			<td>
-				<?php echo $Settings['flattr_category']; ?>
-			</td>
-			<td>
-				<p><?php echo __('flattr_category_exp'); ?></p>
-			</td>
-			<td>
-				<?php echo $this->Html->link(
-								__('edit'),
-								array( 'controller' => 'settings', 'action' => 'edit', 'flattr_category'),
-								array( 'class' => 'btn' )
-							);
-				?>
-			</td>
-		</tr>
-	</table> <!--	</table>-->
-
-	<h2><?php echo $this->Html->link('Embed.ly', 'http://embed.ly/'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-    <?php
-      echo $this->Html->tableCells(array(
-          array(
-              __('embedly_enabled'),
-              $Settings['embedly_enabled'],
-              __('embedly_enabled_exp'),
-              $this->Html->link(
-                  __('edit'),
-                  array( 'controller' => 'settings', 'action' => 'edit', 'embedly_enabled' ),
-                  array( 'class' => 'btn' )
-              )
-          ),
-          array(
-              __('embedly_key'),
-              $Settings['embedly_key'],
-              __('embedly_key_exp'),
-              $this->Html->link(
-                  __('edit'),
-                  array( 'controller' => 'settings', 'action' => 'edit', 'embedly_key' ),
-                  array( 'class' => 'btn' )
-              )
-          )
-      ));
-    ?>
-	</table>
-
-	<h2><?php echo __('Debug'); ?></h2>
-	<table class="table table-striped table-bordered table-condensed">
-		<?php echo $tableHeadersHtml ?>
-    <?php
-      echo $this->Html->tableCells(array(
-          array(
-              __('stopwatch_get'),
-              $Settings['stopwatch_get'],
-              __('stopwatch_get_exp'),
-              $this->Html->link(
-                  __('edit'),
-                  array( 'controller' => 'settings', 'action' => 'edit', 'stopwatch_get' ),
-                  array( 'class' => 'btn' )
-              )
-          ),
-      ));
-    ?>
-	</table>
+	<div class="row">
+		<div class="span2 navbarsidelist">
+			<ul class="nav nav-list affix" style="margin-top: 10px; width: 120px; padding-right: 0px; font-size: 13px">
+				<?php foreach($this->Setting->getHeaders() as $key => $title): ?>
+						<li>
+							<a href="#navHeaderAnchor<?= $key ?>">
+									<?= $title ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+			</ul>
+		</div>
+		<div class="span8">
+			<h1><?php echo __('Settings'); ?></h1>
+			<?= $this->fetch('settings') ?>
+		</div>
+	</div>
 </div>
+<script>
+	var $body = document.getElementsByTagName('body')[0];
+	$body.setAttribute('data-spy', 'scroll');
+	$body.setAttribute('data-target', '.navbarsidelist');
+	delete $body;
+</script>

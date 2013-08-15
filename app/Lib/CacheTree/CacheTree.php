@@ -1,14 +1,11 @@
 <?php
 
-	App::import('Lib', 'Stopwatch.Stopwatch');
 	App::uses('CacheTreeAppCacheEngine', 'Lib/CacheTree');
 	App::uses('CacheTreeDbCacheEngine', 'Lib/CacheTree');
-	App::uses('Component', 'Controller');
 
-	/**
-	 * @package saito_cache_tree
-	 */
-	class CacheTreeComponent extends Component {
+	class CacheTree {
+
+		private static $instance = null;
 
 		/**
 		 * Stores if an entry is cached and if the cache is valid for this request
@@ -32,14 +29,25 @@
 		protected $_allowRead = false;
 		protected $_isUpdated = false;
 
+		public static function getInstance() {
+			if (self::$instance === null) {
+				$name = get_called_class();
+				self::$instance = new $name;
+			}
+			return self::$instance;
+		}
+
+		protected function __construct() { }
+		private function __clone() { }
+
 		public function initialize(Controller $Controller) {
 			$this->_CurrentUser = $Controller->CurrentUser;
 
 			$cache_config = Cache::settings();
-			if ($cache_config['engine'] === 'File') {
-				$this->_CacheEngine = new CacheTreeDbCacheEngine;
-			} else {
+			if ($cache_config['engine'] === 'Apc') {
 				$this->_CacheEngine = new CacheTreeAppCacheEngine;
+			} else {
+				$this->_CacheEngine = new CacheTreeDbCacheEngine;
 			}
 
 			if (
@@ -55,21 +63,6 @@
 			endif;
 
 			$this->readCache();
-		}
-
-		public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
-			parent::beforeRedirect($Controller, $url);
-			$this->saveCache();
-		}
-
-		public function beforeRender(Controller $Controller) {
-			parent::beforeRender($Controller);
-			$Controller->set('CacheTree', $this);
-		}
-
-		public function shutdown(Controller $Controller) {
-			parent::shutdown($Controller);
-			$this->saveCache();
 		}
 
 		public function isCacheUpdatable(array $entry) {
@@ -90,7 +83,8 @@
 				return $this->_validEntries[$entry['id']];
 			endif;
 
-			if ( isset($this->_cachedEntries[$entry['id']]) && strtotime($entry['last_answer']) <= $this->_cachedEntries[$entry['id']]['metadata']['content_last_updated']) {
+			if (isset($this->_cachedEntries[(int)$entry['id']]) &&
+					strtotime($entry['last_answer']) <= $this->_cachedEntries[(int)$entry['id']]['metadata']['content_last_updated']) {
 				if ($this->_isEntryOldForUser($entry)) {
 					$isCacheValid = true;
 				}
@@ -110,7 +104,7 @@
 		public function delete($id) {
 			$this->_isUpdated = TRUE;
 			$this->readCache();
-			unset($this->_cachedEntries[$id]);
+			unset($this->_cachedEntries[(int)$id]);
 		}
 
 		public function reset() {
@@ -125,8 +119,8 @@
 				return $this->_cachedEntries;
 			}
 
-			if ( isset($this->_cachedEntries[$id]) ) {
-				return $this->_cachedEntries[$id]['content'];
+			if ( isset($this->_cachedEntries[(int)$id]) ) {
+				return $this->_cachedEntries[(int)$id]['content'];
 			}
 
 			return FALSE;
@@ -148,11 +142,11 @@
 			$this->_isUpdated = TRUE;
 			$this->readCache();
 			$metadata = array(
-					'created' => $now,
-					'content_last_updated' => $timestamp,
+				'created' => $now,
+				'content_last_updated' => $timestamp,
 			);
 			$data = array( 'metadata' => $metadata, 'content' => $content );
-			$this->_cachedEntries[$id] = $data;
+			$this->_cachedEntries[(int)$id] = $data;
 		}
 
 		public function readCache() {
@@ -180,7 +174,7 @@
 
 			$this->_gc();
 			$this->_CacheEngine->write((array)$this->_cachedEntries);
-		}
+	}
 
 		/**
 		 * Garbage collection
@@ -195,13 +189,14 @@
 			if ( $number_of_cached_entries > $this->_maxNumberOfEntries ) {
 				// descending time sort
 				uasort($this->_cachedEntries, function($a, $b) {
-					if ($a['metadata']['content_last_updated'] == $b['metadata']['content_last_updated']) {
-						return 0;
-					}
-					return ($a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated']) ? 1 : -1;
+						if ($a['metadata']['content_last_updated'] == $b['metadata']['content_last_updated']) {
+							return 0;
+						}
+						return ($a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated']) ? 1 : -1;
 					});
 				$this->_cachedEntries = array_slice($this->_cachedEntries, 0, $this->_maxNumberOfEntries, true);
 			}
 		}
+
 
 	}

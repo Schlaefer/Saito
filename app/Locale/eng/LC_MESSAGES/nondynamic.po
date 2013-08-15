@@ -82,3 +82,288 @@ msgstr "notice"
 #
 msgid "success"
 msgstr "Success"
+
+#*******************************************************************************
+#* App Settings Start
+#******************************************************************************/
+
+#
+msgid "forum_disabled"
+msgstr "Disable Forum"
+
+#
+msgid "forum_disabled_exp"
+msgstr "Shows the maintenance page except for logged in admins."
+
+#
+msgid "forum_disabled_text"
+msgstr "Maintenance Notice"
+
+#
+msgid "forum_disabled_text_exp"
+msgstr "Text notice shown on the forum disabled page."
+
+#
+msgid "forum_name"
+msgstr "Forum Title"
+
+#
+msgid "forum_name_exp"
+msgstr "The name of this forum."
+
+#
+msgid "timezone"
+msgstr "Timezone"
+
+#
+msgid "timezone_exp"
+msgstr "All time values displayed are offset to match this timezone."
+
+#
+msgid "forum_email"
+msgstr "Email"
+
+#
+msgid "forum_email_exp"
+msgstr "Email address used as sender address for emails send by the forum (e.g. when registering)."
+
+#
+msgid "block_user_ui"
+msgstr "Lock Users"
+
+#
+msgid "block_user_ui_exp"
+msgstr "Moderators are allowed to block users."
+
+#
+msgid "store_ip"
+msgstr "Store IP"
+
+#
+msgid "store_ip_exp"
+msgstr "Stores the IP-address for new entries. The IP is shown do moderators."
+
+#
+msgid "store_ip_anonymized"
+msgstr "IP Anonymized"
+
+#
+msgid "store_ip_anonymized_exp"
+msgstr "Strore IP anonymized."
+
+#
+msgid "tos_enabled"
+msgstr "ToS Enabled"
+
+#
+msgid "tos_enabled_exp"
+msgstr "Puts a Term of Service checkbox and link on the user registration page."
+
+#
+msgid "tos_url"
+msgstr "ToS Url"
+
+#
+msgid "tos_url_exp"
+msgstr "Sets the url for the ToS link. If empty, use the build-in default pages."
+
+#
+msgid "edit_period"
+msgstr "Edit Period"
+
+#
+msgid "edit_period_exp"
+msgstr "Minutes a user can edit a new entry."
+
+#
+msgid "edit_delay"
+msgstr "Show Edit"
+
+#
+msgid "edit_delay_exp"
+msgstr "Minutes a new entry can be edited without being marked as edited."
+
+#
+msgid "topics_per_page"
+msgstr "Topics per Page"
+
+#
+msgid "topics_per_page_exp"
+msgstr "Number of topics shown on the frontpage."
+
+#
+msgid "thread_depth_indent"
+msgstr "Thread Indent Depth"
+
+#
+msgid "thread_depth_indent_exp"
+msgstr "Max. indent to the the right for threads in thread-view. After that threads appear on the same level."
+
+#
+msgid "autolink"
+msgstr "Autolink"
+
+#
+msgid "autolink_exp"
+msgstr "Detect and automatically generate links."
+
+#
+msgid "bbcode_img"
+msgstr "Images"
+
+#
+msgid "bbcode_img_exp"
+msgstr "Allow embedding of images."
+
+#
+msgid "quote_symbol"
+msgstr "Quote Symbol"
+
+#
+msgid "quote_symbol_exp"
+msgstr "Quote symbol."
+
+#
+msgid "signature_separator"
+msgstr "Signature Separator"
+
+#
+msgid "signature_separator_exp"
+msgstr "Signature separator."
+
+#
+msgid "subject_maxlength"
+msgstr "Subject Length"
+
+#
+msgid "subject_maxlength_exp"
+msgstr "Number of chars allowed in subject."
+
+#
+msgid "text_word_maxlength"
+msgstr "Word Length"
+
+#
+msgid "text_word_maxlength_exp"
+msgstr "Max numbers of chars allowed in one word."
+
+#
+msgid "userranks_show"
+msgstr "Enable Ranks"
+
+#
+msgid "userranks_show_exp"
+msgstr "Show user ranks."
+
+#
+msgid "userranks_ranks"
+msgstr "Ranks"
+
+#
+msgid "userranks_ranks_exp"
+msgstr "User ranks based on number of postings."
+
+#
+msgid "video_domains_allowed"
+msgstr "Embeddable Video Sources"
+
+#
+msgid "video_domains_allowed_exp"
+msgstr "Domain names embeddable for video/iframe. Asterisk * means all sources allowed (This could pose a security risk if malicious code is embedded!)."
+
+#
+msgid "category_chooser_global"
+msgstr "Default"
+
+#
+msgid "category_chooser_global_exp"
+msgstr "Always show the category chooser on the front-page."
+
+#
+msgid "category_chooser_user_override"
+msgstr "User Override"
+
+#
+msgid "category_chooser_user_override_exp"
+msgstr "If the category chooser is off be default this allows users to enable it in their user preferences."
+
+#
+msgid "shoutbox_enabled"
+msgstr "Enable"
+
+#
+msgid "shoutbox_enabled_exp"
+msgstr "Shoutbox is enabled."
+
+#
+msgid "shoutbox_max_shouts"
+msgstr "Number"
+
+#
+msgid "shoutbox_max_shouts_exp"
+msgstr "Number of entries shown in the Shoutbox."
+
+#
+msgid "upload_max_img_size"
+msgstr "Upload Max Image Size "
+
+#
+msgid "upload_max_img_size_exp"
+msgstr "Max image size in kB for uploaded content."
+
+#
+msgid "upload_max_number_of_uploads"
+msgstr "Max Number of Uploads"
+
+#
+msgid "upload_max_number_of_uploads_exp"
+msgstr "Max number of uploaded files for a single user."
+
+#
+msgid "flattr_enabled"
+msgstr "Flattr Enabled"
+
+#
+msgid "flattr_enabled_exp"
+msgstr "Allows users to add a flattr button to their profil and their postings."
+
+#
+msgid "flattr_language"
+msgstr "Flattr Language"
+
+#
+msgid "flattr_language_exp"
+msgstr "Flattr expects an language key for the content send. See flattr documentation for available language keys."
+
+#
+msgid "flattr_category"
+msgstr "Flattr Category"
+
+#
+msgid "flattr_category_exp"
+msgstr "See flattr documentation for available categories."
+
+#
+msgid "embedly_enabled"
+msgstr "Enable Embedly"
+
+#
+msgid "embedly_enabled_exp"
+msgstr "Enables the [embed] BBcode which parses content through Embed.ly"
+
+#
+msgid "embedly_key"
+msgstr "Embedly Key"
+
+#
+msgid "embedly_key_exp"
+msgstr "You have to register at Embed.ly to receive an API-key, which you enter here."
+
+#
+msgid "stopwatch_get"
+msgstr "Stopwatch"
+
+#
+msgid "stopwatch_get_exp"
+msgstr "Outputs stopwatch times in production mode for logged in users by appending <code>/stopwatch:true/</code> to url."
+

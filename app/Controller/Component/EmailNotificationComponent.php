@@ -39,65 +39,66 @@
 		}
 
 		protected function _modelEntryReplyToThread($event, array $recipients) {
-			// get parent entry
-			foreach ( $recipients as $recipient ):
-				// don't send answer if new entry belongs to the user itself
-				if ( Configure::read('debug') === 0 && (int)$recipient['id'] === (int)$event->data['data']['Entry']['user_id'] ) {
-					continue;
-				}
-				$event->subject()->contain();
-				$rootEntry = $event->subject()->findById($event->data['data']['Entry']['tid']);
-				try {
-					$this->_Controller->SaitoEmail->email(array(
-							'recipient' => array('User'		 => $recipient),
-							'subject'	 => __('New reply to "%s"', $rootEntry['Entry']['subject']),
-							'sender'	 => array(
-									'User' => array(
-											'user_email' => Configure::read('Saito.Settings.forum_email'),
-											'username'	 => Configure::read('Saito.Settings.forum_name')),
-							),
-							'template'	 => Configure::read('Config.language') . DS . 'notification-model-entry-afterReply',
-							'viewVars'	 => array(
-									'recipient'		 => $recipient,
-									'parentEntry'	 => $rootEntry,
-									'newEntry'		 => $event->data['data'],
-									'notification' => $recipient['Esnotification'],
-							),
-					));
-				} catch ( Exception $exc ) {
+			$event->subject()->contain();
+			$rootEntry = $event->subject()->findById($event->data['data']['Entry']['tid']);
 
+			$config = [
+				'subject'   => __(
+					'New reply to "%s"',
+					$rootEntry['Entry']['subject']
+				),
+				'sender'    => array(
+					'User' => array(
+						'user_email' => Configure::read('Saito.Settings.forum_email'),
+						'username'   => Configure::read('Saito.Settings.forum_name')
+					),
+				),
+				'template'  => Configure::read(
+					'Config.language'
+				) . DS . 'notification-model-entry-afterReply',
+				'viewVars'  => array(
+					'parentEntry'  => $rootEntry,
+					'newEntry'     => $event->data['data'],
+				),
+			];
+			foreach ( $recipients as $recipient ):
+				if ($this->_shouldRecipientReceiveReplyMessage($recipient, $event->data['data']['Entry'])) {
+					$config['recipient'] = ['User' => $recipient];
+					$config['viewVars']['recipient'] = $recipient;
+					$config['viewVars']['notification'] = $recipient['Esnotification'];
+					$this->_email($config);
 				}
 			endforeach;
 		}
 
 		protected function _modelEntryReplyToEntry($event, array $recipients) {
-			// get parent entry
+			$event->subject()->contain();
+			$parentEntry = $event->subject()->findById($event->data['data']['Entry']['pid']);
+			$config = [
+				'subject'   => __(
+					'New reply to "%s"',
+					$parentEntry['Entry']['subject']
+				),
+				'sender'    => array(
+					'User' => array(
+						'user_email' => Configure::read('Saito.Settings.forum_email'),
+						'username'   => Configure::read('Saito.Settings.forum_name')
+					),
+				),
+				'template'  => Configure::read(
+					'Config.language'
+				) . DS . 'notification-model-entry-afterReply',
+				'viewVars'  => array(
+					'parentEntry'  => $parentEntry,
+					'newEntry'     => $event->data['data']
+				)
+			];
 			foreach ( $recipients as $recipient ):
-				// don't send answer if new entry belongs to the user itself
-				if ( Configure::read('debug') === 0 && (int)$recipient['id'] === (int)$event->data['data']['Entry']['user_id'] ) {
-					continue;
-				}
-				$event->subject()->contain();
-				$parentEntry = $event->subject()->findById($event->data['data']['Entry']['pid']);
-				try {
-					$this->_Controller->SaitoEmail->email(array(
-							'recipient' => array('User'		 => $recipient),
-							'subject'	 => __('New reply to "%s"', $parentEntry['Entry']['subject']),
-							'sender'	 => array(
-									'User' => array(
-											'user_email' => Configure::read('Saito.Settings.forum_email'),
-											'username'	 => Configure::read('Saito.Settings.forum_name')),
-							),
-							'template'	 => Configure::read('Config.language') . DS . 'notification-model-entry-afterReply',
-							'viewVars'	 => array(
-									'recipient'		 => $recipient,
-									'parentEntry'	 => $parentEntry,
-									'newEntry'		 => $event->data['data'],
-									'notification' => $recipient['Esnotification'],
-							),
-					));
-				} catch ( Exception $exc ) {
-
+				if ($this->_shouldRecipientReceiveReplyMessage($recipient, $event->data['data']['Entry'])) {
+					$config['recipient'] = ['User' => $recipient];
+					$config['viewVars']['recipient'] = $recipient;
+					$config['viewVars']['notification'] = $recipient['Esnotification'];
+					$this->_email($config);
 				}
 			endforeach;
 		}
@@ -107,23 +108,50 @@
 			if ( !is_array($recipients) )
 				return;
 			$new_user = $event->data['User'];
+			$config = [
+				'subject'   => __('Successfull registration'),
+				'sender'    => array(
+					'User' => array(
+						'user_email' => Configure::read('Saito.Settings.forum_email'),
+						'username'   => Configure::read('Saito.Settings.forum_name')
+					),
+				),
+				'template'  => Configure::read(
+					'Config.language'
+				) . DS . 'notification-admin-user_activated',
+				'viewVars'  => array('user' => $new_user, 'ip' => env('REMOTE_ADDR')),
+
+			];
 			foreach ( $recipients as $recipient ) :
-				try {
-					$this->_Controller->SaitoEmail->email(array(
-							'recipient'	 => $recipient,
-							'subject'		 => __('Successfull registration'),
-							'sender'		 => array(
-									'User' => array(
-											'user_email' => Configure::read('Saito.Settings.forum_email'),
-											'username'	 => Configure::read('Saito.Settings.forum_name')),
-							),
-							'template'	 => Configure::read('Config.language') . DS . 'notification-admin-user_activated',
-							'viewVars'	 => array('user' => $new_user, 'ip'	 => env('REMOTE_ADDR')),
-					));
-				} catch ( Exception $exc ) {
-					
-				}
+				$config['recipient'] = $recipient;
+				$this->_email($config);
 			endforeach;
+		}
+
+		protected function _shouldRecipientReceiveReplyMessage($entry, $recipient) {
+			if (Configure::read('debug') === 0 &&
+					// don't send answer if new entry belongs to the user itself
+					(int)$recipient['id'] === (int)$entry['user_id']
+			) {
+				return false;
+			} else {
+				return true;
+			}
+
+		}
+
+		protected function _email($config) {
+			try {
+				$this->_Controller->SaitoEmail->email($config);
+			} catch (Exception $exc) {
+				$this->log(
+					sprintf(
+						"Error %s in EmailNotificationComponent::_email() with %s",
+						$exc,
+						print_r($config, true)
+					)
+				);
+			}
 		}
 
 		protected function _debug($event, array $receivers) {
@@ -134,5 +162,3 @@
 		}
 
 	}
-
-?>

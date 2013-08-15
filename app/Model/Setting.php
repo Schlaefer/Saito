@@ -27,7 +27,9 @@ class Setting extends AppModel {
 		$settings = $this->find('all');
 		$settings = $this->_compactKeyValue($settings);
 
-    $settings['userranks_ranks'] = $this->_pipeSplitter($settings['userranks_ranks']);
+		$ranks = $this->_pipeSplitter($settings['userranks_ranks']);
+		ksort($ranks);
+		$settings['userranks_ranks'] = $ranks;
 
 		return $settings;
 	}

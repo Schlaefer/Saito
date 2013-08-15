@@ -24,7 +24,7 @@
 					echo $subject;
 				}
 			?>
-      – 
+      –
       <span class="thread_line-username">
         <?php  if ($CurrentUser->isLoggedIn()) : ?>
           <?php echo  $this->Html->link(
@@ -48,7 +48,7 @@
 			<?php  endif; ?>
 
         <?php /* <span title="<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry['Entry']['time'], 'glasen'); ?></span>, */ ?>
-        <?php  
+        <?php
 					echo $this->TimeH->formatTime($entry['Entry']['time']);
 					if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
 							&& strtotime($entry['Entry']['edited']) > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_delay') * 60 )
@@ -72,7 +72,7 @@
 					}
           if ( Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod() ):
           ?>, IP: <?php echo $entry['Entry']['ip']; ?>
-        <?php 
+        <?php
 					endif;
 				?>
 		</div>

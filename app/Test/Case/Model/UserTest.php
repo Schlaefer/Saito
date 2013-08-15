@@ -151,9 +151,9 @@
 			$result = $this->User->numberOfEntries();
 			$this->assertEqual($expected, $result);
 
-			//* two entries
+			//* multiple entries
 			$this->User->id = 3;
-			$expected = 6;
+			$expected = 7;
 			$result = $this->User->numberOfEntries();
 			$this->assertEqual($expected, $result);
 		}

@@ -5,9 +5,10 @@
 	class SettingsController extends AppController {
 
 		public $name = 'Settings';
-		public $helpers = array(
-				'TimeH',
-		);
+		public $helpers = [
+				'Setting',
+				'TimeH'
+		];
 
 		/**
 		 * Subset of MLF settings currently used by Saito
@@ -61,6 +62,7 @@
 		public function admin_index() {
 			$settings = $this->request->data = $this->Setting->getSettings();
 			$settings = array_intersect_key($settings, $this->_currentlyUsedSettings);
+			$settings['userranks_ranks'] = $this->Setting->pipeMerger($settings['userranks_ranks']);
 			$this->set('Settings', $settings);
 		}
 
@@ -86,7 +88,8 @@
 				$this->Setting->id = $id;
 				if ( $this->Setting->save($this->request->data) ) {
 					$this->Session->setFlash('Saved. @lo', 'flash/notice');
-					$this->redirect(array( 'action' => 'index', $id ));
+					$this->redirect(['action' => 'index', '#' => $id]);
+					return;
 				} else {
 					$this->Session->setFlash('Something went wrong @lo', 'flash/error');
 				}

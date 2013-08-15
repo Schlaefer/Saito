@@ -24,7 +24,8 @@
 			'subject_maxlength'   => 100,
 			'tos_enabled'         => 1,
 			'tos_url'             => 'http://example.com/tos-url.html/',
-			'thread_depth_indent' => '25'
+			'thread_depth_indent' => '25',
+			'edit_period'         => '20'
 		);
 
 		public function testAfterSave() {

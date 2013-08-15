@@ -23,6 +23,7 @@ class AppController extends Controller {
 			 */
 			'Cookie',
 			'CurrentUser',
+			'CacheSupport',
 			'JsData',
 			'SaitoEmail',
       'EmailNotification',
@@ -100,7 +101,7 @@ class AppController extends Controller {
 			[
 				'hashBaseUrl' => 'entries/view/',
 				'atBaseUrl'   => 'users/name/',
-				'server'  => Router::baseURL(),
+				'server'  => Router::fullBaseUrl(),
 				'webroot' => $this->webroot
 			]
 		);

@@ -67,19 +67,13 @@ class Configure {
  */
 	public static function bootstrap($boot = true) {
 		if ($boot) {
-			self::write('App', array(
-				'base' => false,
-				'baseUrl' => false,
-				'dir' => APP_DIR,
-				'webroot' => WEBROOT_DIR,
-				'www_root' => WWW_ROOT
-			));
+			self::_appDefaults();
 
 			if (!include APP . 'Config' . DS . 'core.php') {
 				trigger_error(__d('cake_dev', "Can't find application core file. Please create %score.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
 			}
-			App::$bootstrapping = false;
 			App::init();
+			App::$bootstrapping = false;
 			App::build();
 
 			$exception = array(
@@ -107,6 +101,20 @@ class Configure {
 				class_exists('String');
 			}
 		}
+	}
+
+/**
+ * Set app's default configs
+ * @return void
+ */
+	protected static function _appDefaults() {
+		self::write('App', (array)self::read('App') + array(
+			'base' => false,
+			'baseUrl' => false,
+			'dir' => APP_DIR,
+			'webroot' => WEBROOT_DIR,
+			'www_root' => WWW_ROOT
+		));
 	}
 
 /**

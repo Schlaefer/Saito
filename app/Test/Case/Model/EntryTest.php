@@ -6,6 +6,15 @@
 
 	class EntryMock extends Entry {
 		public $_CurrentUser;
+		public $_editPeriod;
+
+		public function prepareBbcode($string) {
+			return $string;
+		}
+
+		public function getSubjectMaxLength() {
+			return $this->_subjectMaxLenght;
+		}
 	}
 
 	class EntryTest extends CakeTestCase {
@@ -19,6 +28,8 @@
 				'app.esnotification',
 				);
 
+
+
 		public function testBeforeValidate() {
 
 			//* save entry with text
@@ -30,6 +41,48 @@
 			);
 		}
 
+		public function testCreateSuccess() {
+			App::uses('Category', 'Model');
+
+			$SaitoUser = $this->getMock(
+				'SaitoUser',
+				['getMaxAccession', 'getId', 'getBookmarks'],
+				[new ComponentCollection]
+			);
+			$SaitoUser->expects($this->any())
+					->method('getMaxAccession')
+					->will($this->returnValue(2));
+			$SaitoUser->expects($this->any())
+					->method('getId')
+					->will($this->returnValue(1));
+			$this->Entry->_CurrentUser = $SaitoUser;
+
+			$data[$this->Entry->alias] = [
+				'pid'      => 0,
+				// +1 because str_pad calculates non ascii chars to a string length of 2
+				'subject'  => str_pad('Sübject', $this->Entry->getSubjectMaxLength() + 1, '.'),
+				'text'     => 'Täxt',
+				'category' => 1
+			];
+
+			$this->Entry->createPosting($data);
+			$result = $this->Entry->get($this->Entry->id, true);
+
+			$this->assertEmpty($this->Entry->validationErrors);
+
+			$expected = $data;
+			$result = array_intersect_key($result, $expected);
+			$result[$this->Entry->alias] = array_intersect_key(
+				$result[$this->Entry->alias],
+				$expected[$this->Entry->alias]
+			);
+
+			$this->assertEqual(
+				$result,
+				$expected
+			);
+		}
+
 		public function testCreateCategoryThreadCounterUpdate() {
 			App::uses('Category', 'Model');
 
@@ -38,10 +91,10 @@
 				['getMaxAccession', 'getId'],
 				[new ComponentCollection]
 			);
-			$SaitoUser->expects($this->once())
+			$SaitoUser->expects($this->any())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
-			$SaitoUser->expects($this->once())
+			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
 			$this->Entry->_CurrentUser = $SaitoUser;
@@ -289,7 +342,7 @@
       $this->assertEqual($result, $expected);
 
       // entries are now assigned to user_id 0
-      $expected = 6;
+      $expected = 7;
       $result = $this->Entry->find('count', array(
           'conditions' => array ('Entry.user_id' => 0)
       ));
@@ -340,11 +393,12 @@
 		}
 
 		public function testIsEditingForbiddenSuccess() {
+			$this->Entry->_editPeriod = 1200;
 			$entry = array(
 					'Entry' => array(
 							'user_id'	 => 1,
 							'time'		 => strftime("%c",
-									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) + 1),
+									time() - $this->Entry->_editPeriod + 1),
 							'locked'	 => 0,
 					)
 			);
@@ -414,13 +468,17 @@
 		}
 
 		public function testIsEditingForbiddenToLate() {
-			$entry = array(
-					'Entry' => array(
-							'user_id'	 => 1,
-							'time'		 => strftime("%c",
-									time() - (Configure::read('Saito.Settings.edit_period') * 60 ) - 1),
+			$this->Entry->_editPeriod = 1200;
+			$entry = [
+				'Entry' => [
+					'user_id' => 1,
+					'locked'  => false,
+					'time'    => strftime(
+						"%c",
+							time() - $this->Entry->_editPeriod - 1
 					)
-			);
+				]
+			];
 			$user = array(
 					'id'				 => 1,
 					'user_type'	 => 'user',
@@ -589,6 +647,21 @@
 		public function testGetThreadIdNotFound() {
 			$this->expectException('UnexpectedValueException');
 			$result = $this->Entry->getThreadId(999);
+		}
+
+		public function testUpdateNoId() {
+			$this->expectException('InvalidArgumentException');
+			$this->Entry->update([]);
+		}
+
+		/**
+		 * Throw error if entry to update does not exist.
+		 *
+		 * Don't accidentally `create`.
+		 */
+		public function testUpdateEntryDoesNotExist() {
+			$this->expectException('NotFoundException');
+			$this->Entry->update(['Entry' => ['id' => 999]]);
 		}
 
 		/**

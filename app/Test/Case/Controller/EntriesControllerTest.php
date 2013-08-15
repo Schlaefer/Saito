@@ -110,7 +110,7 @@
 			$User = new CurrentUserComponent(new ComponentCollection());
 			$User->set(array());
 			$Entries->getInitialThreads($User);
-			$this->assertFalse($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
 		}
 
 		/**
@@ -154,7 +154,7 @@
 					'user_category_override' => 1,
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertFalse($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
 		}
 
 		public function testCategoryChooserEmptyCustomSet() {
@@ -196,7 +196,7 @@
 					'user_category_override' => 1,
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'All Categories');
 		}
 
@@ -248,9 +248,9 @@
 					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
-					'2' => 1,
+					'2' => '2',
 					'8' => '8',
 					));
 			$this->assertEqual($Entries->viewVars['categoryChooser'], array(
@@ -298,29 +298,28 @@
 					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
 			));
 			$Entries->getInitialThreads($User);
-			$this->assertTrue($Entries->viewVars['categoryChooserIsUsed']);
+			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 7);
 			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
-					'1' => 1,
-					'2' => 1,
+					'1' => '1',
+					'2' => '2',
 					));
 		}
 
 		public function testIndex() {
-
-			$Entries = $this->generate('Entries');
+			$this->generate('Entries');
 			$this->_logoutUser();
 
 			//* not logged in user
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result  = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 1);
+			$this->assertEqual(count($entries), 2);
 
 			//* logged in user
 			$this->_loginUser(3);
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result  = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 2);
+			$this->assertEqual(count($entries), 3);
 		}
 
 		public function testMergeNoSourceId() {
@@ -459,7 +458,7 @@
 		public function testEditNoEntryId() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('NotFoundException');
+			$this->expectException('BadRequestException');
 			$this->testAction('entries/edit/');
 		}
 
@@ -494,53 +493,6 @@
 			$this->assertNoPattern('/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/', $result);
 			$this->assertPattern('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
 		}
-
-    public function testEmptyCache() {
-
-      $Entries = $this->generate('Entries', array(
-          'components' => array(
-            'CacheTree' => array('delete'),
-          )
-      ));
-
-      $this->_loginUser(1);
-
-			$data['Entry'] = array(
-				'pid'      => 5,
-				'subject'  => 'test',
-				'category' => 4,
-			);
-
-			/*
-			 * test entries/add
-			 */
-			$Entries->CacheTree
-					->expects($this->once())
-					->method('delete')
-					->with($this->equalTo('4'));
-
-			$this->testAction(
-				'/entries/add/5',
-				array('data' => $data, 'method' => 'post')
-			);
-
-      /*
-       * Test entries/edit
-       */
-      $Entries = $this->generate('Entries', array(
-          'components' => array(
-            'CacheTree' => array('delete'),
-          )
-      ));
-
-      $Entries->CacheTree
-          ->expects($this->once())
-          ->method('delete')
-          ->with($this->equalTo('4'));
-			$result = $this->testAction('/entries/edit/5', array(
-          'data' => $data,
-          'method' => 'post'));
-    }
 
 		public function testPreviewLoggedIn() {
 			$this->setExpectedException('ForbiddenException');
@@ -678,8 +630,8 @@
 
 			$this->assertEqual($headerCounter['user_online'], 1);
 			$this->assertEqual($headerCounter['user'], 6);
-			$this->assertEqual($headerCounter['entries'], 9);
-			$this->assertEqual($headerCounter['threads'], 3);
+			$this->assertEqual($headerCounter['entries'], 10);
+			$this->assertEqual($headerCounter['threads'], 4);
 			$this->assertEqual($headerCounter['user_registered'], 0);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
 

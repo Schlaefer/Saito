@@ -104,7 +104,7 @@
 			$this->Upload->id = (int)$id;
 			$file = $this->Upload->read();
 			if (	 $file
-					&& $file['Upload']['user_id'] === $this->CurrentUser->getId()
+					&& (int)$file['Upload']['user_id'] === $this->CurrentUser->getId()
 			) {
 				if (!$this->Upload->delete(null, false)) {
 					$this->JsData->addAppJsMessage(

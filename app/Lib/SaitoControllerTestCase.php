@@ -8,6 +8,8 @@
 	if ( !defined('FULL_BASE_URL') ) {
 		define('FULL_BASE_URL', 'http://cakephp.org/');
 	}
+	Configure::write('App.fullBaseURL', FULL_BASE_URL);
+
 
 	class SaitoControllerTestCase extends ControllerTestCase {
 
@@ -111,7 +113,7 @@
 
 		public function assertRedirectedTo($url = '') {
 			$this->assertEqual(
-				Router::baseURL() . $this->controller->request->webroot . $url,
+				Router::fullBaseUrl() . $this->controller->request->webroot . $url,
 				$this->headers['Location']
 			);
 		}

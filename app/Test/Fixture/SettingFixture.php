@@ -61,7 +61,11 @@
 				array(
 					'name' => 'thread_depth_indent',
 					'value' => 25,
-				)
+				),
+				[
+					'name' => 'edit_period',
+					'value' => 20,
+				]
 		);
 
 	}

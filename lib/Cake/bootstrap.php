@@ -150,10 +150,6 @@ App::uses('Cache', 'Cache');
 App::uses('Object', 'Core');
 App::uses('Multibyte', 'I18n');
 
-App::$bootstrapping = true;
-
-Configure::bootstrap(isset($boot) ? $boot : true);
-
 /**
  * Full URL prefix
  */
@@ -167,10 +163,18 @@ if (!defined('FULL_BASE_URL')) {
 
 	if (isset($httpHost)) {
 		define('FULL_BASE_URL', 'http' . $s . '://' . $httpHost);
-		Configure::write('App.fullBaseURL', FULL_BASE_URL);
+		Configure::write('App.fullBaseUrl', FULL_BASE_URL);
 	}
 	unset($httpHost, $s);
 }
+
+Configure::write('App.imageBaseUrl', IMAGES_URL);
+Configure::write('App.cssBaseUrl', CSS_URL);
+Configure::write('App.jsBaseUrl', JS_URL);
+
+App::$bootstrapping = true;
+
+Configure::bootstrap(isset($boot) ? $boot : true);
 
 if (function_exists('mb_internal_encoding')) {
 	$encoding = Configure::read('App.encoding');

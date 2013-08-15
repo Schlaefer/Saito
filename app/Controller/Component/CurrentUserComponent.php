@@ -140,7 +140,7 @@
 			Stopwatch::start('CurrentUser->_markOnline()');
 
 			$id = $this->getId();
-			if ($this->isLoggedIn() == false):
+			if ($this->isLoggedIn() === false):
 				// don't count search bots as guests
 				if ($this->_isBot()) {
 					return;
@@ -166,8 +166,8 @@
 
 		protected function _cookieRelogin() {
 			$cookie = $this->PersistentCookie->get();
-			// is_array -> if cookie could no be correctly deciphered it's just an random string
 			if ($cookie) {
+				// is_array -> if cookie could no be correctly deciphered it's just an random string
 				if (!is_null($cookie) && is_array($cookie)):
 					if ($this->_Controller->Auth->login($cookie)):
 						return;
@@ -203,7 +203,7 @@
 
 		public function refresh($user = null) {
 			parent::set($this->_Controller->Auth->user());
-			// all session should must use current user data (locked, user_type, …)
+			// all session have to use current user data (locked, user_type, …)
 			if ($this->isLoggedIn()) {
 				$this->_User->id = $this->getId();
 				parent::set($this->_User->getProfile($this->getId()));
@@ -368,12 +368,18 @@
 			$this->user        = $user;
 		}
 
-		public function forceSet() {
-			$this->_set(date("Y-m-d H:i:s"));
-		}
-
-		public function set() {
-			$this->_set($this->currentUser['last_refresh_tmp']);
+		/**
+		 * @param mixed $timestamp
+		 *
+		 * null|'now'|<`Y-m-d H:i:s` timestamp>
+		 */
+		public function set($timestamp = null) {
+			if ($timestamp === 'now') {
+				$timestamp = date('Y-m-d H:i:s');
+			} elseif ($timestamp === null) {
+				$timestamp = $this->currentUser['last_refresh_tmp'];
+			}
+			$this->_set($timestamp);
 		}
 
 		public function setMarker() {

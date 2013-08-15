@@ -1,7 +1,6 @@
 <?php
 
   App::uses('AppModel', 'Model');
-	App::uses('CakeEvent', 'Event');
 
 	/**
 	 *
@@ -36,8 +35,9 @@
 		];
 
 		public $findMethods = array(
-			'feed'  => true,
-			'entry' => true
+			'feed'        => true,
+			'entry'       => true,
+			'unsanitized' => true
 		);
 
 		/**
@@ -81,8 +81,7 @@
 					'rule' => 'notEmpty',
 				),
 				'maxLength' => array(
-					// set to Saito admin pref in beforeValidate()
-					'rule' => array('maxLength', 100),
+					'rule' => 'validateSubjectMaxLength',
 				),
 			),
 			'category' => array(
@@ -102,7 +101,7 @@
 			'views'    => array(
 				'rule' => array('comparison', '>=', 0),
 			),
-			'name'     => array(),
+			'name'     => array()
 		);
 
 		protected $fieldsToSanitize = array(
@@ -206,12 +205,23 @@
 			]
 		];
 
+		protected $_isInitialized = false;
+
+		protected $_editPeriod = 1200;
+
+		protected $_subjectMaxLenght = 100;
+
 		/**
 		 * Caching for isRoot()
 		 *
 		 * @var array
 		 */
 		protected $_isRoot = [];
+
+		public function __construct($id = false, $table = null, $ds = null) {
+			$this->_initialize();
+			return parent::__construct($id, $table, $ds);
+		}
 
 		public function getRecentEntries(array $options = [], SaitoUser $User) {
 			Stopwatch::start('Model->User->getRecentEntries()');
@@ -280,6 +290,16 @@
 			return $entry['Entry']['tid'];
 		}
 
+		/**
+		 * Shorthand for reading an entry with full data
+		 */
+		public function get($id, $unsanitized = false) {
+			return $this->find(
+				($unsanitized) ? 'unsanitized' : 'entry',
+				['conditions' => [$this->alias.'.id' => $id]]
+			);
+		}
+
 		public function getParentId($id) {
 			$entry = $this->find(
 				'first',
@@ -337,14 +357,16 @@
 			if ($new_posting === false) {
 				return false;
 			}
+
 			$new_posting_id = $this->id;
-			if ($new_posting === true) {
-				$new_posting = $this->read();
-			}
+
+			// make sure we pass the complete ['Entry'] dataset to events
+			$this->contain();
+			$new_posting = $this->read();
 
 			if ($this->isRoot($data)) {
 				// thread-id of new thread is its own id
-				if ($this->save(['tid' => $new_posting_id]) === false) {
+				if ($this->save(['tid' => $new_posting_id], false, ['tid']) === false) {
 					// @td raise error and/or roll back new entry
 					return false;
 				} else {
@@ -353,6 +375,7 @@
 				}
 			} else {
 				// update last answer time of root entry
+				$this->clear();
 				$this->id = $new_posting[$this->alias]['tid'];
 				$this->set('last_answer', $new_posting[$this->alias]['last_answer']);
 				if ($this->save() === false) {
@@ -360,25 +383,19 @@
 					return false;
 				}
 
-				$this->getEventManager()->dispatch(
-					new CakeEvent(
-						'Model.Entry.replyToEntry',
-						$this,
-						array(
-							'subject' => $new_posting[$this->alias]['pid'],
-							'data'    => $new_posting,
-						)
-					)
+				$this->_dispatchEvent(
+					'Model.Entry.replyToEntry',
+					[
+						'subject' => $new_posting[$this->alias]['pid'],
+						'data'    => $new_posting
+					]
 				);
-				$this->getEventManager()->dispatch(
-					new CakeEvent(
-						'Model.Entry.replyToThread',
-						$this,
-						array(
-							'subject' => $new_posting[$this->alias]['tid'],
-							'data'    => $new_posting,
-						)
-					)
+				$this->_dispatchEvent(
+					'Model.Entry.replyToThread',
+					[
+						'subject' => $new_posting[$this->alias]['tid'],
+						'data'    => $new_posting
+					]
 				);
 			}
 			$this->id = $new_posting_id;
@@ -390,7 +407,15 @@
 				$this->_CurrentUser = $CurrentUser;
 			}
 
-			$data[$this->alias]['id'] = $this->id;
+			if (empty($data[$this->alias]['id'])) {
+				throw new InvalidArgumentException('Missing entry id in arguments.');
+			}
+
+			$id = $data[$this->alias]['id'];
+			if (!$this->exists($id)) {
+				throw new NotFoundException(sprintf('Entry with id `%s` not found.', $id));
+			}
+
 			$this->prepare($data, ['preFilterFields' => 'update']);
 
 			// prevents normal user of changing category of complete thread when answering
@@ -401,7 +426,30 @@
 
 			$data[$this->alias]['edited']    = date('Y-m-d H:i:s');
 			$data[$this->alias]['edited_by'] = $this->_CurrentUser['username'];
-			return $this->save($data);
+
+			$this->validator()->add(
+				'edited_by',
+				'isEditingAllowed',
+				[
+					'rule' => 'validateEditingAllowed'
+				]
+			);
+
+			$result = $this->save($data);
+
+			if ($result) {
+				$this->contain();
+				$result = $this->read() + $data;
+				$this->_dispatchEvent(
+					'Model.Entry.update',
+					[
+						'subject' => $result[$this->alias]['id'],
+						'data'    => $result
+					]
+				);
+			}
+
+			return $result;
 		}
 
 		/* @mb `views` into extra related table if performance becomes a problem */
@@ -533,6 +581,18 @@
 			if ($key === 'locked') {
 				$this->_threadLock($result);
 			}
+
+			$this->contain();
+			$entry = $this->read();
+
+			$this->_dispatchEvent(
+				'Model.Entry.update',
+				[
+					'subject' => $entry[$this->alias]['id'],
+					'data' => $entry
+				]
+			);
+
 			return $result;
 		}
 
@@ -553,10 +613,6 @@
 
 		public function beforeValidate($options = array()) {
 			parent::beforeValidate($options);
-
-			$this->validate['subject']['maxLength']['rule'][1] = Configure::read(
-				'Saito.Settings.subject_maxlength'
-			);
 
 			//* in n/t posting delete unnecessary body text
 			if (isset($this->data['Entry']['text'])) {
@@ -583,7 +639,7 @@
 
 			$ids_to_delete = $this->getIdsForNode($id);
 			$success       = $this->deleteAll(
-				['Entry.id' => $ids_to_delete],
+				[$this->alias . '.id' => $ids_to_delete],
 				true,
 				true
 			);
@@ -597,6 +653,11 @@
 				foreach ($ids_to_delete as $entry_id) {
 					$this->Esevent->deleteSubject($entry_id, 'entry');
 				}
+
+				$this->_dispatchEvent(
+					'Model.Thread.change',
+					['subject' => $entry[$this->alias]['tid']]
+				);
 			endif;
 
 			return $success;
@@ -628,7 +689,7 @@
 		public function anonymizeEntriesFromUser($user_id) {
 
 			// remove username from all entries and reassign to anonyme user
-			return $this->updateAll(
+			$success = $this->updateAll(
 				[
 					'Entry.name'      => "NULL",
 					'Entry.edited_by' => "NULL",
@@ -637,6 +698,12 @@
 				],
 				['Entry.user_id' => $user_id]
 			);
+
+			if ($success) {
+				$this->_dispatchEvent('Model.Thread.reset');
+			}
+
+			return $success;
 		}
 
 		/**
@@ -647,7 +714,7 @@
 		 * @param misc $context Arbitrary data for the function. Useful for providing $this context.
 		 * @param array $tree The whole tree.
 		 */
-		public static function mapTreeElements(&$leafs, $func, $context = null, &$tree = null) {
+		public static function mapTreeElements(&$leafs, callable $func, $context = null, &$tree = null) {
 			if ($tree === null) {
 				$tree = & $leafs;
 			}
@@ -718,8 +785,12 @@
 
 				$this->Esevent->transferSubjectForEventType(
 					$threadIdSource,
-					$targetEntry['Entry']['tid'],
+					$targetEntry[$this->alias]['tid'],
 					'thread'
+				);
+				$this->_dispatchEvent(
+					'Model.Thread.change',
+					['subject' => $targetEntry[$this->alias]['tid']]
 				);
 				return true;
 			}
@@ -756,39 +827,43 @@
 
 		/**
 		 * Check if someone is allowed to edit an entry
-		 *
-		 * @param array $entry
-		 * @param SaitoUser $user
-		 * @return boolean
 		 */
-		public function isEditingForbidden(array $entry, SaitoUser $CurrentUser = null) {
-			if ($CurrentUser === null) {
-				$CurrentUser = $this->_CurrentUser;
+		public function isEditingForbidden($entry, SaitoUser $User = null) {
+
+			if ($User === null) {
+				$User = $this->_CurrentUser;
 			}
 
 			// Anon
-			if ($CurrentUser->isLoggedIn() === false) {
+			if ($User->isLoggedIn() !== true) {
 				return true;
 			}
 
 			// Admins
-			if ($CurrentUser->isAdmin()) {
+			if ($User->isAdmin()) {
 				return false;
 			}
 
 			$verboten = true;
 
-			$editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
-			$expired = strtotime($entry['Entry']['time']) + $editPeriod;
+			if (!isset($entry['Entry'])) {
+				$entry = $this->get($entry);
+			}
+
+			if (empty($entry)) {
+				throw new Exception(sprintf('Entry %s not found.', $entry));
+			}
+
+			$expired = strtotime($entry['Entry']['time']) + $this->_editPeriod;
 			$isOverEditLimit = time() > $expired;
 
-			$isCurrentUsersPosting = (int)$CurrentUser->getId()
+			$isUsersPosting = (int)$User->getId()
 					=== (int)$entry['Entry']['user_id'];
 
-			if ($CurrentUser->isMod()) {
+			if ($User->isMod()) {
 				// Mods
 				// @todo mods don't edit admin posts
-				if ($isCurrentUsersPosting && $isOverEditLimit &&
+				if ($isUsersPosting && $isOverEditLimit &&
 						/* Mods should be able to edit their own posts if they are pinned
 						 *
 						 * @todo this opens a 'mod can pin and then edit root entries'-loophole,
@@ -805,7 +880,7 @@
 
 			} else {
 				// Users
-				if ($isCurrentUsersPosting === false) {
+				if ($isUsersPosting === false) {
 					$verboten = 'user';
 				} elseif ($isOverEditLimit) {
 					$verboten = 'time';
@@ -896,7 +971,7 @@
 				} else {
 					$pid = $data[$this->alias]['pid'];
 				}
-				$parent = $this->getUnsanitized($pid);
+				$parent = $this->get($pid, true);
 				if ($parent === false) {
 					throw new InvalidArgumentException;
 				}
@@ -937,20 +1012,22 @@
 			}
 		}
 
-		public function getUnsanitized($id) {
-			$this->sanitize(false);
-			return $this->find(
-				'entry',
-				[
-					'contain'    => ['User', 'Category'],
-					'conditions' => ['Entry.id' => $id]
-				]
-			);
+		protected function _findUnsanitized($state, $query, $results = []) {
+			if ($state === 'before') {
+				$query['sanitize'] = false;
+			}
+			return $this->_findEntry($state, $query, $results);
 		}
 
-		protected function _findEntry($state, $query, $results = array()) {
+		protected function _findEntry($state, $query, $results = []) {
 			if ($state === 'before') {
-				$query['contain'] = array('User', 'Category');
+				if (isset($query['sanitize'])) {
+					if ($query['sanitize'] === false) {
+						$this->sanitize(false);
+					}
+					unset($query['sanitize']);
+				}
+				$query['contain'] = ['User', 'Category'];
 				$query['fields']  = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 				return $query;
 			}
@@ -1075,6 +1152,30 @@
 			return true;
 		}
 
+		public function validateEditingAllowed($check) {
+			$forbidden = $this->isEditingForbidden($this->data['Entry']['id']);
+			if (is_bool($forbidden)) {
+				return !$forbidden;
+			} else {
+				return $forbidden;
+			}
+		}
+
+		/**
+		 *
+		 *
+		 * Don't use Cake's build in maxLength. Dynamically setting the length
+		 * afterwards in $this->validates it is a bag of hurt with race
+		 * conditions in ModelValidator::_parseRules() when checking
+		 * if ($this->_validate === $this->_model->validate) is true.
+		 *
+		 * @param $check
+		 * @return bool
+		 */
+		public function validateSubjectMaxLength($check) {
+			return mb_strlen($check['subject']) <= $this->_subjectMaxLenght;
+		}
+
 		/**
 		 * Changes the category of a thread.
 		 *
@@ -1098,5 +1199,19 @@
 				['Entry.tid' => $tid]
 			);
 			return $out;
+		}
+
+		protected function _initialize() {
+			if ($this->_isInitialized) {
+				return;
+			}
+			$appSettings = Configure::read('Saito.Settings');
+			if(isset($appSettings['edit_period'])) {
+				$this->_editPeriod = $appSettings['edit_period'] * 60;
+			}
+			if(isset($appSettings['subject_maxlength'])) {
+				$this->_subjectMaxLenght = (int)$appSettings['subject_maxlength'];
+			}
+			$this->_isInitialized = true;
 		}
 	}

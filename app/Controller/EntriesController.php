@@ -12,8 +12,6 @@
 			'Text',
 		);
 		public $components = [
-			'CacheTree',
-			'CacheSupport',
 			'Flattr',
 			'Search.Prg',
 			'Shouts'
@@ -52,7 +50,7 @@
 			$cachedThreads = [];
 			$uncachedThreads = [];
 			foreach($initialThreads as $thread) {
-				if ($this->CacheTree->isCacheValid($thread)) {
+				if ($this->CacheSupport->CacheTree->isCacheValid($thread)) {
 					$cachedThreads[$thread['id']] = $thread;
 				} else {
 					$uncachedThreads[$thread['id']] = $thread;
@@ -158,7 +156,7 @@
 		 */
 		public function update() {
 			$this->autoRender = false;
-			$this->CurrentUser->LastRefresh->forceSet();
+			$this->CurrentUser->LastRefresh->set('now');
 			$this->redirect('/entries/index');
 		}
 
@@ -190,8 +188,8 @@
 			return $this->redirect(array( 'action' => 'index' ));
 		}
 
-		$this->Entry->id = $id;
-		$this->request->data = $this->Entry->find('entry', array('conditions' => array('Entry.id' => $id)));
+		$this->Entry->id     = $id;
+		$this->request->data = $this->Entry->get($id);
 
 		//* redirect if posting doesn't exists
 		if ( $this->request->data == false ):
@@ -245,7 +243,7 @@
 
 				// inserting new posting was successful
 				if ($new_posting !== false) :
-					$this->_afterNewEntry($new_posting);
+					$this->_setNotifications($new_posting);
 					if ($this->request->is('ajax')) :
 						// Ajax request came from front answer on front page /entries/index
 						if ($this->localReferer('action') === 'index') {
@@ -310,7 +308,7 @@
 
 				$this->request->data = null;
 				if ($id !== null) {
-					$this->request->data = $this->Entry->getUnsanitized($id);
+					$this->request->data = $this->Entry->get($id, true);
 				}
 
 				if (!empty($this->request->data)): // answer to existing posting
@@ -372,29 +370,28 @@
 
 	public function edit($id = null) {
 
-		if (!$id && empty($this->request->data)) {
+		if (empty($id)) {
+			throw new BadRequestException();
+		}
+
+		$oldEntry = $this->Entry->get($id, true);
+		if (!$oldEntry) {
 			throw new NotFoundException();
 		}
 
-		$old_entry = $this->Entry->getUnsanitized($id);
-
-		if (!$old_entry) {
-			throw new NotFoundException();
-		}
-
-		$forbidden = $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser);
-
-		switch ($forbidden) {
+		switch ($oldEntry['rights']['isEditingForbidden']) {
 			case 'time':
 				$this->Session->setFlash(
 					'Stand by your word bro\', it\'s too late. @lo',
 					'flash/error'
 				);
-				return $this->redirect(array('action' => 'view', $id));
+				$this->redirect(['action' => 'view', $id]);
+				return;
 				break;
 			case 'user':
 				$this->Session->setFlash('Not your horse, Hoss! @lo', 'flash/error');
-				return $this->redirect(array('action' => 'view', $id));
+				$this->redirect(['action' => 'view', $id]);
+				return;
 				break;
 			case true :
 				$this->Session->setFlash(
@@ -404,42 +401,45 @@
 				return;
 		}
 
+		// try to save edit
 		if (!empty($this->request->data)) {
-			$this->Entry->id = $id;
-			$new_entry = $this->Entry->update($this->request->data);
+			$data = $this->request->data;
+			$data['Entry']['id'] = $id;
+			$new_entry = $this->Entry->update($data);
 			if ($new_entry) {
-				$this->_afterNewEntry(am($this->request['data'], $old_entry));
-				return $this->redirect(array('action' => 'view', $id));
+				$this->_setNotifications(am($this->request['data'], $oldEntry));
+				$this->redirect(['action' => 'view', $id]);
+				return;
 			} else {
 				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
 			}
 		}
 
-		$forbiddenAsNormalUser =  $this->Entry->isEditingForbidden($old_entry, $this->CurrentUser->mockUserType('user'));
-		if($forbiddenAsNormalUser) {
+		// show editing form
+		if($oldEntry['rights']['isEditingAsUserForbidden']) {
 			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 		}
 
-		$this->request->data = am($old_entry, $this->request->data);
+		$this->request->data = am($oldEntry, $this->request->data);
 
 		// get text of parent entry for citation
-		$parent_entry_id = $old_entry['Entry']['pid'];
+		$parent_entry_id = $oldEntry['Entry']['pid'];
 		if ($parent_entry_id > 0) {
-			$parent_entry = $this->Entry->getUnsanitized($parent_entry_id);
+			$parent_entry = $this->Entry->get($parent_entry_id, true);
 			$this->set('citeText', $parent_entry['Entry']['text']);
 		}
 
 		// get notifications
 		$notis = $this->Entry->Esevent->checkEventsForUser(
-			$old_entry['Entry']['user_id'],
+			$oldEntry['Entry']['user_id'],
 			array(
 				array(
-					'subject'  => $old_entry['Entry']['id'],
+					'subject'  => $oldEntry['Entry']['id'],
 					'event'    => 'Model.Entry.replyToEntry',
 					'receiver' => 'EmailNotification',
 				),
 				array(
-					'subject'  => $old_entry['Entry']['tid'],
+					'subject'  => $oldEntry['Entry']['tid'],
 					'event'    => 'Model.Entry.replyToThread',
 					'receiver' => 'EmailNotification',
 				),
@@ -481,12 +481,11 @@
 
 		// Redirect
 		if ($success) {
-			$this->CacheSupport->clearTree($entry['Entry']['tid']);
 			if ($this->Entry->isRoot($entry)) {
-				$this->Session->setFlash(__('delete_tree_success'), 'flash/notice');
+				$this->Session->setFlash(__('delete_tree_success'), 'flash/success');
 				$this->redirect('/');
 			} else {
-				$this->Session->setFlash(__('delete_subtree_success'), 'flash/notice');
+				$this->Session->setFlash(__('delete_subtree_success'), 'flash/success');
 				$this->redirect('/entries/view/' . $entry['Entry']['pid']);
 			}
 		} else {
@@ -702,11 +701,8 @@
 			$targetId = $this->request->data['Entry']['targetId'];
 			$this->Entry->id = $id;
 			if ($this->Entry->threadMerge($targetId)) {
-				// success
-				$this->Entry->contain();
-				$targetEntry = $this->Entry->findById($targetId);
-				$this->CacheSupport->clearTree($targetEntry['Entry']['id']);
-				return $this->redirect('/entries/view/' . $id);
+				$this->redirect('/entries/view/' . $id);
+				return;
 			} else {
 				$this->Session->setFlash(__("Error"), 'flash/error');
 			}
@@ -740,8 +736,6 @@
 		else {
 			$this->Entry->id = $id;
 			$this->request->data = $this->Entry->toggle($toggle);
-			$tid = $this->Entry->field('tid');
-			$this->CacheSupport->clearTree($tid);
 			return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
 		}
 
@@ -837,9 +831,7 @@
 			}
 		}
 
-		protected function _afterNewEntry($newEntry) {
-			$this->CacheSupport->clearTree($newEntry['Entry']['tid']);
-			// set notifications
+		protected function _setNotifications($newEntry) {
 			if (isset($newEntry['Event'])) {
 				$notis = [
 					[
@@ -871,57 +863,8 @@
 		 */
 		protected function _getInitialThreads(CurrentUserComponent $User, $order) {
 			Stopwatch::start('Entries->_getInitialThreads() Paginate');
-				// default for logged-in and logged-out users
-				$cats				 = $this->Entry->Category->getCategoriesForAccession($User->getMaxAccession());
 
-				// get data for category chooser
-				$categoryChooser = $this->Entry->Category->getCategoriesSelectForAccession(
-						$User->getMaxAccession());
-				$this->set('categoryChooser', $categoryChooser);
-
-				$catCT			 = __('All Categories');
-				$catC_isUsed = false;
-
-				// category chooser
-				if ($User->isLoggedIn()) {
-					if (Configure::read('Saito.Settings.category_chooser_global')
-							|| (Configure::read('Saito.Settings.category_chooser_user_override') && $User['user_category_override'])
-					) {
-						$catC_isUsed = true;
-						/* merge the user-cats with all-cats to include categories which are
-							* new since the user updated his custum-cats the last time
-							* array (4 => '4', 7 => '7', 13 => '13') + array (4 => true, 7 => '0')
-							* becomes
-							* array (4 => true, 7 => '0', 13 => '13')
-							* with 13 => '13' trueish */
-						$user_cats = $User['user_category_custom'] + $cats;
-						/* then filter for zeros to get only the user categories
-							* array (4 => true, 13 => '13') */
-						$user_cats = array_filter($user_cats);
-						$user_cats = array_intersect_key($user_cats, $cats);
-						$this->set('categoryChooserChecked', $user_cats);
-
-						if ($User->isLoggedIn() === false) {
-							// non logged in user sees his accessions i.e. the default set
-						} elseif ((int)$User['user_category_active'] === -1) {
-							// user has choosen to see all available categories i.e. the default set
-						} elseif ((int)$User['user_category_active'] > 0) {
-							// logged in users sees his active group if he has access rights
-							$cats = array_intersect_key($cats,
-									array($User['user_category_active']	=> 1));
-							$catCT												 = $User['user_category_active'];
-						} elseif (empty($User['user_category_custom'])) {
-							// for whatever reason we should see a custom category, but there are no set yet
-						} elseif (empty($User['user_category_custom']) === false) {
-							// but if he has no active group and a custom groups set he sees his custom group
-							$cats	 = array_keys($user_cats);
-							$catCT = __('Custom');
-						}
-
-						$this->set('categoryChooserTitleId', $catCT);
-					}
-				}
-				$this->set('categoryChooserIsUsed', $catC_isUsed);
+				$categories = $this->_setupCategoryChooser($User);
 
 				$this->paginate = array(
 					/* Whenever you change the conditions here check if you have to adjust
@@ -930,7 +873,7 @@
 					 */
 					'conditions' => array(
 							'pid' => 0,
-							'Entry.category' => $cats,
+							'Entry.category' => $categories,
 					),
 					'contain' => false,
 					'fields' => 'id, pid, tid, time, last_answer',
@@ -948,6 +891,50 @@
 			Stopwatch::stop('Entries->_getInitialThreads() Paginate');
 
 			return $initial_threads_new;
+		}
+
+		protected function _setupCategoryChooser(SaitoUser $User) {
+			$categories = $this->Entry->Category->getCategoriesForAccession(
+				$User->getMaxAccession()
+			);
+
+			$is_used = $User->isLoggedIn() &&
+					(
+							Configure::read('Saito.Settings.category_chooser_global') ||
+							(
+									Configure::read(
+										'Saito.Settings.category_chooser_user_override'
+									) && $User['user_category_override']
+							)
+					);
+
+			if ($is_used) {
+				// @todo find right place for this; also: User::getCategories();
+				App::uses('UserCategories', 'Lib');
+				$UserCategories = new UserCategories($User->getSettings(), $categories);
+				list($categories, $type, $custom) = $UserCategories->get();
+
+				$this->set('categoryChooserChecked', $custom);
+
+				switch ($type) {
+					case 'single':
+						$title = $User['user_category_active'];
+						break;
+					case 'custom':
+						$title = __('Custom');
+						break;
+					default:
+						$title = __('All Categories');
+				}
+				$this->set('categoryChooserTitleId', $title);
+				$this->set(
+					'categoryChooser',
+					$this->Entry->Category->getCategoriesSelectForAccession(
+						$User->getMaxAccession()
+					)
+				);
+			}
+			return $categories;
 		}
 
 	protected function _teardownAdd() {

@@ -6,7 +6,7 @@
 		You are running <strong>Saito version</strong>: <span class='label label-info'> <?php echo Configure::read('Saito.v'); ?></span>.
 	</p>
 	<p>
-		Saito is convinced it's running on the <strong>server</strong>: <span class='label label-info'> <?= Router::baseURL(); ?></span>.
+		Saito is convinced it's running on the <strong>server</strong>: <span class='label label-info'> <?= Router::fullBaseUrl(); ?></span>.
 	</p>
 	<p>
 		Saito believes its <strong>base-URL</strong> is: <span class='label label-info'> <?php echo $this->request->webroot ?></span>.

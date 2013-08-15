@@ -1,66 +1,37 @@
 <?php
 
 	App::uses('Component', 'Controller');
+	App::import('Lib', 'CacheSupport');
+	App::uses('CacheTree', 'Lib/CacheTree');
 
 	class CacheSupportComponent extends Component {
 
-		public $components = [
-			'CacheTree'
-		];
+		protected $_CacheSupport;
+
+		public $CacheTree;
 
 		public function initialize(Controller $Controller) {
+			$this->_CacheSupport = new CacheSupport();
+			$this->CacheTree = CacheTree::getInstance();
 			$this->CacheTree->initialize($Controller);
 		}
 
+		public function beforeRender(Controller $Controller) {
+			$Controller->set('CacheTree', $this->CacheTree);
+		}
+
 		public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
-			$this->CacheTree->beforeRedirect($Controller, $url, $status, $exit);
+			$this->CacheTree->saveCache();
 		}
 
 		public function shutdown(Controller $Controller) {
-			$this->CacheTree->shutdown($Controller);
+			$this->CacheTree->saveCache();
 		}
 
-		public function clearAll() {
-			$this->clearSaito();
-			$this->clearApc();
-			$this->clearCake();
-		}
-
-		public function clearSaito() {
-			Cache::clear(false, 'default');
-			Cache::clear(false, 'short');
-			$this->clearTrees();
-		}
-
-		public function clearCake() {
-			Cache::clearGroup('persistent');
-			Cache::clearGroup('models');
-			Cache::clearGroup('views');
-		}
-
-		public function clearTree($id) {
-			$this->_clearEntries();
-			$this->CacheTree->delete($id);
-		}
-
-		public function clearTrees() {
-			$this->_clearEntries();
-			$this->CacheTree->reset();
-		}
-
-		protected function _clearEntries() {
-			Cache::clear(false, 'entries');
-		}
-
-		/**
-		 * Clears out the APC if available
-		 */
-		public function clearApc() {
-			if (function_exists('apc_store')) {
-				apc_clear_cache();
-				apc_clear_cache('user');
-				apc_clear_cache('opcode');
+		public function __call($method, $params) {
+			$proxy = [$this->_CacheSupport, $method];
+			if (is_callable($proxy)) {
+				return call_user_func_array($proxy, $params);
 			}
 		}
-
 	}

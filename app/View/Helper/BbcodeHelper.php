@@ -114,14 +114,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param array $options
 	 * @return string
 	 */
-	public function parse($string, array $options = array( )) {
-		Stopwatch::start('Bbcode::parse');
-		$this->_initParser($options);
-		$this->_tagElCounter = 0;
-		$this->_tagEls = array();
-		$string = $this->_Parser->parse($string);
-		$string = $this->_detaginize($string);
-		Stopwatch::stop('Bbcode::parse');
+	public function parse($string, array $options = []) {
+		if (empty($string) === false && $string !== 'n/t') {
+			Stopwatch::start('Bbcode::parse');
+			$this->_initParser($options);
+			$this->_tagElCounter = 0;
+			$this->_tagEls = array();
+			$string = $this->_Parser->parse($string);
+			$string = $this->_detaginize($string);
+			Stopwatch::stop('Bbcode::parse');
+		}
 		return $string;
 	}
 

@@ -3,6 +3,7 @@
 	App::uses('Model', 'Model');
 	App::uses('Sanitize', 'Utility');
 	App::uses('SaitoUser', 'Lib');
+	App::uses('CakeEvent', 'Event');
 
 	// import here so that `cake schema ...` cli works
 	App::import('Lib', 'Stopwatch.Stopwatch');
@@ -11,6 +12,11 @@ class AppModel extends Model {
 
 	# Entry->User->UserOnline
 	public $recursive = 1;
+
+	/*
+	 * Lock to disable sanitation permanently
+	 */
+	static $sanitizeEnabled = true;
 
 	static $sanitize = true;
 
@@ -43,11 +49,13 @@ class AppModel extends Model {
 	public function afterFind($results, $primary = false) {
 		parent::afterFind($results, $primary);
 
-		if (self::$sanitize) {
-			$results = $this->_sanitizeFields($results);
-		} elseif (self::$_lock_no_sanitize === $this->alias) {
-			// sanitizing can only be disabled for one find
-			$this->sanitize(true);
+		if (self::$sanitizeEnabled) {
+			if (self::$sanitize) {
+				$results = $this->_sanitizeFields($results);
+			} elseif (self::$_lock_no_sanitize === $this->alias) {
+				// sanitizing can only be disabled for one find
+				$this->sanitize(true);
+			}
 		}
 		return $results;
 	}
@@ -70,6 +78,14 @@ class AppModel extends Model {
 		return $value;
 	}
 
+	public function pipeMerger(array $data) {
+		$out = [];
+		foreach ($data as $key => $value) {
+			$out[] = "$key=$value";
+		}
+		return implode(' | ', $out);
+	}
+
   /**
    * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
    *
@@ -78,10 +94,10 @@ class AppModel extends Model {
    */
   protected function _pipeSplitter($pipeString) {
     $unpipedArray = array();
-    $ranks = explode("|", $pipeString);
+    $ranks = explode('|', $pipeString);
     foreach ( $ranks as $rank ) :
       $matches = array();
-      $matched = preg_match('/(\d+)\s*=\s*(.*)/', trim($rank), $matches);
+      $matched = preg_match('/(\w+)\s*=\s*(.*)/', trim($rank), $matches);
       if ($matched) {
         $unpipedArray[$matches[1]] = $matches[2];
       }
@@ -99,6 +115,20 @@ class AppModel extends Model {
     endif;
     return $ip;
   }
+
+	/**
+	 * Dispatches an event
+	 *
+	 * - Always passes the issuing model class as subject
+	 * - Wrapper for CakeEvent boilerplate code
+	 * - Easier to test
+	 *
+	 * @param string $event event identifier `Model.<modelname>.<event>`
+	 * @param array $data additional event data
+	 */
+	protected function _dispatchEvent($event, $data = []) {
+		$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
+	}
 
   /**
    * Rough and tough ip anonymizer
