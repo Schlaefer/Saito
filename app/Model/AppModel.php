@@ -116,6 +116,16 @@ class AppModel extends Model {
     return $ip;
   }
 
+	/**
+	 * Dispatches an event
+	 *
+	 * - Always passes the issuing model class as subject
+	 * - Wrapper for CakeEvent boilerplate code
+	 * - Easier to test
+	 *
+	 * @param string $event event identifier `Model.<modelname>.<event>`
+	 * @param array $data additional event data
+	 */
 	protected function _dispatchEvent($event, $data = []) {
 		$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
 	}
