@@ -213,6 +213,34 @@
 			$this->assertTrue(isset($result['last_refresh']));
 		}
 
+		/**
+		 * Send timestamp is ignored is not set if it's older than the current one
+		 */
+		public function testMarkAsReadNoPastValues() {
+			$ApiUsers = $this->generate('ApiUsers');
+
+			$user_id = 3;
+			$this->_loginUser($user_id);
+
+			$ApiUsers->User->id = $user_id;
+			$ApiUsers->User->saveField('last_refresh', '2013-07-04 19:53:14');
+
+			$data = [
+				'id'      => $user_id,
+				'last_refresh' => '2013-07-04T19:53:13+00:00'
+			];
+
+			$result = $this->testAction(
+				$this->apiRoot . 'markasread.json',
+				['method' => 'POST', 'data' => $data, 'return' => 'contents']
+			);
+			$result = json_decode($result, true);
+			$expected = [
+				'last_refresh' => '2013-07-04T19:53:14+00:00'
+			];
+			$this->assertEqual($result, $expected);
+		}
+
 		public function testMarkAsReadOnlyAuthenticatedUsers() {
 			$this->generate('ApiUsers', ['methods' => 'markasread']);
 			$this->testAction($this->apiRoot . 'markasread.json', ['method' => 'POST']);

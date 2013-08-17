@@ -328,7 +328,7 @@ Request data:
 
     {
       "id": 1
-      "last_refresh": "2013-07-04T19:53:14+00:00"  
+      "last_refresh": "2013-07-04T19:53:14+00:00"
     }
 
 `id`
@@ -336,10 +336,12 @@ Request data:
 
 `last_refresh`
 : optional: if empty current server time is used
+: if it's older than value on the server the server value will not be changed
 
 Response:
 
     {
       "id": 1
-      "last_refresh": "2013-07-04T19:53:14+00:00"  
+      "last_refresh": "2013-07-04T19:53:14+00:00"
     }
+

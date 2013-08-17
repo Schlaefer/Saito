@@ -79,7 +79,11 @@
 						$timestamp
 					));
 				}
-				$this->CurrentUser->LastRefresh->set(date("Y-m-d H:i:s", $timestamp));
+				$isServerTimestampNewer = strtotime($this->CurrentUser['last_refresh'])
+						> $timestamp;
+				if ($isServerTimestampNewer === false) {
+					$this->CurrentUser->LastRefresh->set(date("Y-m-d H:i:s", $timestamp));
+				}
 			} else {
 				$this->CurrentUser->LastRefresh->set('now');
 			}
