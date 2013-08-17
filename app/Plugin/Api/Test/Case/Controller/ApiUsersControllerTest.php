@@ -237,7 +237,7 @@
 			$result = json_decode($result, true);
 			$expected = [
 				'last_refresh' => '2013-07-04T19:53:14+00:00'
-			];
+			] + $data;
 			$this->assertEqual($result, $expected);
 		}
 

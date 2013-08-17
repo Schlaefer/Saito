@@ -87,6 +87,7 @@
 			} else {
 				$this->CurrentUser->LastRefresh->set('now');
 			}
+			$this->set('id', $user_id);
 			$this->set('last_refresh', $this->CurrentUser['last_refresh']);
 		}
 
