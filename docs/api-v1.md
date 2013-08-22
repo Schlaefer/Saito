@@ -71,6 +71,7 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 
       // *** additional data if user is authorized *** //
       "id": 1,
+      "username": "username",
       "last_refresh": "2013-06-26T15:51:32+00:00",
       "threads_order": "time"
     }
