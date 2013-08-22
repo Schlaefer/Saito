@@ -1784,7 +1784,7 @@ class FormHelper extends AppHelper {
 		$url = '#';
 		$onClick = 'document.' . $formName . '.submit();';
 		if ($confirmMessage) {
-			$options['onclick'] = $this->_confirm($confirmMessage, $onClick);
+			$options['onclick'] = $this->_confirm($confirmMessage, $onClick, '', $options);
 		} else {
 			$options['onclick'] = $onClick . ' ';
 		}
@@ -2884,7 +2884,7 @@ class FormHelper extends AppHelper {
  * @return array inputDefaults
  */
 	public function inputDefaults($defaults = null, $merge = false) {
-		if (!is_null($defaults)) {
+		if ($defaults !== null) {
 			if ($merge) {
 				$this->_inputDefaults = array_merge($this->_inputDefaults, (array)$defaults);
 			} else {
