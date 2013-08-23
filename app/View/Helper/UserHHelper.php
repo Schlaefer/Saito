@@ -126,7 +126,7 @@
       $out = '';
       if ( $user['personal_messages'] && is_string($user['user_email']) ) {
         $out = $this->Html->link(
-            '<i class="icon-envelope icon-large"></i>',
+            '<i class="icon-envelope-alt icon-large"></i>',
             array( 'controller' => 'users', 'action' => 'contact', $user['id'] ),
             array( 'escape' => false ));
       }
