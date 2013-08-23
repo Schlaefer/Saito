@@ -97,29 +97,29 @@ define(['jquery', 'underscore'], function($, _) {
             var out = '',
                 videoId;
 
+            // manually detect popular video services
             if ( /http/.test(text) === false ) {
                 text = 'http://' + text;
             }
-
-            if ( /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i.test(text) ) {
+            if (/(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i.test(text)) {
                 var domain = text.match(/(https?:\/\/)?(www\.)?(.[^\/:]+)/i).pop();
-                // youtube shortener
-                if ( domain === 'youtu.be' ) {
-                    if ( /youtu.be\/(.*?)(&.*)?$/.test(text) ) {
+                // youtube shortener url
+                if (domain === 'youtu.be') {
+                    if (/youtu.be\/(.*?)(&.*)?$/.test(text)) {
                         videoId = text.match(/youtu.be\/(.*?)(&.*)?$/)[1];
                         out = markItUp._createIframe({
-                            url: 'http://www.youtube.com/embed/'+videoId
+                            url: '//www.youtube.com/embed/' + videoId
                         });
                         out = markItUp._videoIframe(out);
                         return out;
                     }
                 }
-                // youtube
-                if ( domain === 'youtube.com' ) {
-                    if ( /v=(.*?)(&.*)?$/.test(text) ) {
+                // youtube url from browser bar
+                if (domain === 'youtube.com') {
+                    if (/v=(.*?)(&.*)?$/.test(text)) {
                         videoId = text.match(/v=(.*?)(&.*)?$/)[1];
                         out = markItUp._createIframe({
-                            url: 'http://www.youtube.com/embed/'+videoId
+                            url: '//www.youtube.com/embed/' + videoId
                         });
                         out = markItUp._videoIframe(out);
                     }

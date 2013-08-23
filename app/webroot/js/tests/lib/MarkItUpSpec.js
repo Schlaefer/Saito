@@ -47,28 +47,28 @@ define([
                                                                                 });
 
             it("outputs an [iframe] tag for a raw youtube url", function() {
-                                                                               input = 'http://www.youtube.com/watch?v=qa-4E8ZDj9s'
-                                                                               result = markItUp.multimedia(input);
-                                                                               expected = '[iframe src=http://www.youtube.com/embed/qa-4E8ZDj9s width=425 '
-                                                                               + 'height=349 frameborder=0 allowfullscreen][/iframe]';
-                                                                               expect(result).toEqual(expected);
-                                                                               });
+                input = 'http://www.youtube.com/watch?v=qa-4E8ZDj9s';
+                result = markItUp.multimedia(input);
+                expected = '[iframe src=//www.youtube.com/embed/qa-4E8ZDj9s' +
+                    ' width=425 height=349 frameborder=0 allowfullscreen][/iframe]';
+                expect(result).toEqual(expected);
+            });
 
             it("outputs an [iframe] tag for a raw youtube url without protocol", function() {
-                                                                                                input = 'www.youtube.com/watch?v=0u8KUgUqprw';
-                                                                                                result = markItUp.multimedia(input);
-                                                                                                expected = '[iframe src=http://www.youtube.com/embed/0u8KUgUqprw width=425 '
-                                                                                                + 'height=349 frameborder=0 allowfullscreen][/iframe]';
-                                                                                                expect(result).toEqual(expected);
-                                                                                                });
+                input = 'www.youtube.com/watch?v=0u8KUgUqprw';
+                result = markItUp.multimedia(input);
+                expected = '[iframe src=//www.youtube.com/embed/0u8KUgUqprw' +
+                    ' width=425 height=349 frameborder=0 allowfullscreen][/iframe]';
+                expect(result).toEqual(expected);
+            });
 
             it("outputs an [iframe] tag for youtu.be url shortener ", function() {
-                                                                                     input = 'http://youtu.be/qa-4E8ZDj9s';
-                                                                                     result = markItUp.multimedia(input);
-                                                                                     expected = '[iframe src=http://www.youtube.com/embed/qa-4E8ZDj9s width=425 '
-                                                                                     + 'height=349 frameborder=0 allowfullscreen][/iframe]';
-                                                                                     expect(result).toEqual(expected);
-                                                                                     });
+                input = 'http://youtu.be/qa-4E8ZDj9s';
+                result = markItUp.multimedia(input);
+                expected = '[iframe src=//www.youtube.com/embed/qa-4E8ZDj9s' +
+                    ' width=425 height=349 frameborder=0 allowfullscreen][/iframe]';
+                expect(result).toEqual(expected);
+            });
 
             it("outputs nothing for embed.ly if embed.ly is disabled", function() {
                                                                                       SaitoApp.app.settings.embedly_enabled = 0;
