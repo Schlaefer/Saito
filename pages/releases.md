@@ -7,6 +7,25 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-08.02 ##
+
+### What's new ###
+
+- [fix] makes youtu.be video insert protocol relative
+- [task] includes require.js in main-prod.js
+- [task] updates jQuery from 2.0.2 to 2.0.3
+- [task] updates CakePHP to 2.4.0-RC2
+- [task] updates font-awesome to 2.3.1 
+- [task] updates require.js to 2.1.8
+- [task] updates r.js to 2.1.8
+- [task] updates text.js to 2.0.10
+
+### Migration notes ###
+
+This version uses a Release Candidate version of CakePHP. Stay at 2013-06.05 for a stable release.
+
+Don't forget to update your `lib/Cake` folder.
+
 ## 2013-08.01 ##
 
 ### What's new ###
