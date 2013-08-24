@@ -359,7 +359,7 @@ class HtmlHelper extends AppHelper {
 			unset($options['confirm']);
 		}
 		if ($confirmMessage) {
-			$options['onclick'] = $this->_confirm($confirmMessage, 'return true;', 'return false;');
+			$options['onclick'] = $this->_confirm($confirmMessage, 'return true;', 'return false;', $options);
 		} elseif (isset($options['default']) && !$options['default']) {
 			if (isset($options['onclick'])) {
 				$options['onclick'] .= ' ';
@@ -556,9 +556,8 @@ class HtmlHelper extends AppHelper {
 
 		if (empty($options['block'])) {
 			return $out;
-		} else {
-			$this->_View->append($options['block'], $out);
 		}
+		$this->_View->append($options['block'], $out);
 	}
 
 /**
@@ -593,9 +592,8 @@ class HtmlHelper extends AppHelper {
 
 		if (empty($options['block'])) {
 			return $out;
-		} else {
-			$this->_View->append($options['block'], $out);
 		}
+		$this->_View->append($options['block'], $out);
 	}
 
 /**

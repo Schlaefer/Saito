@@ -906,7 +906,7 @@ class CakeEmail {
 		if (!class_exists($transportClassname)) {
 			throw new SocketException(__d('cake_dev', 'Class "%s" not found.', $transportClassname));
 		} elseif (!method_exists($transportClassname, 'send')) {
-			throw new SocketException(__d('cake_dev', 'The "%s" do not have send method.', $transportClassname));
+			throw new SocketException(__d('cake_dev', 'The "%s" does not have a %s method.', $transportClassname, 'send()'));
 		}
 
 		return $this->_transportClass = new $transportClassname();
@@ -1621,6 +1621,11 @@ class CakeEmail {
 		}
 		if ($this->_theme) {
 			$View->theme = $this->_theme;
+		}
+		// Convert null to false, as View needs false to disable
+		// the layout.
+		if ($layout === null) {
+			$layout = false;
 		}
 
 		foreach ($types as $type) {

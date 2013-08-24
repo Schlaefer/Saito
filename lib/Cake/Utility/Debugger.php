@@ -203,7 +203,7 @@ class Debugger {
  * @param integer $line Line that triggered the error
  * @param array $context Context
  * @return boolean true if error was handled
- * @deprecated This function is superseded by Debugger::outputError()
+ * @deprecated Will be removed in 3.0. This function is superseded by Debugger::outputError().
  */
 	public static function showError($code, $description, $file = null, $line = null, $context = null) {
 		$self = Debugger::getInstance();
@@ -706,7 +706,7 @@ class Debugger {
 		$self = Debugger::getInstance();
 		$data = null;
 
-		if (is_null($format)) {
+		if ($format === null) {
 			return Debugger::outputAs();
 		}
 
@@ -815,7 +815,7 @@ class Debugger {
 		if (is_object($var)) {
 			return get_class($var);
 		}
-		if (is_null($var)) {
+		if ($var === null) {
 			return 'null';
 		}
 		if (is_string($var)) {
