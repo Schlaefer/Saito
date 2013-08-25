@@ -650,6 +650,9 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
+.c_bbc_spoiler { color: black; background-color: black; }
+.c_bbc_spoiler:hover { color: inherit; background-color: inherit; }
+
 .c_bbc_link-dinfo, .c_bbc_imessage { font-weight: normal; font-style: normal; text-decoration: none; }
 
 .c_bbc_imessage { font-style: italic; }

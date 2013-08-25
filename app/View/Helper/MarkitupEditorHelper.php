@@ -47,9 +47,6 @@
 					'Italic' => array(
               'name' => "<i class='icon-italic'></i>", 'title' => __('Italic'),
               'key' => 'I', 'openWith' => '[i]', 'closeWith' => '[/i]' ),
-					'Underline' => array(
-              'name' => "<i class='icon-underline'></i>", 'title' => __('Underline'),
-              'key' => 'U', 'openWith' => '[u]', 'closeWith' => '[/u]' ),
 					'Stroke' => array(
               'name' => "<i class='icon-strikethrough'></i>", 'title' => __('Strike Through'),
               'openWith' => '[strike]', 'closeWith' => '[/strike]' ),
@@ -59,6 +56,12 @@
 					'Bulleted list' => array(
               'name' => "<i class='icon-list-ul'></i>", 'title' => __('Bullet List'),
               'openWith' => '[list]\n[*] ', 'closeWith' => '\n[*]\n[/list]' ),
+					'Spoiler' => [
+						'name'      => "<i class='icon-stop'></i>",
+						'title'     => __('Spoiler'),
+						'openWith'  => '[spoiler]',
+						'closeWith' => '[/spoiler]'
+					],
 					$separator,
 					'Link' => array(
               'name' => "<i class='icon-link'></i>",

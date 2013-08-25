@@ -219,6 +219,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
+		// spoiler
+		$this->_Parser->addCode(
+			'spoiler', 'simple_replace', null,
+			[
+				'start_tag' => '<span><a href="#" data-content="',
+				'end_tag' => '" class="c_bbc_spoiler" onclick="this.parentNode.innerHTML = this.getAttribute(\'data-content\'); return false;">' .
+				__('Spoiler') .
+				'</a></span>'
+			],
+			'inline', ['block', 'inline', 'link', 'listitem'], []
+		);
+
 		//* strike
 		$this->_Parser->addCode(
 				'strike', 'simple_replace', null,

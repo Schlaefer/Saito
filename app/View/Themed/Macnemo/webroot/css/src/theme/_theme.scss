@@ -64,8 +64,8 @@
  * Markitup
  ******************************************************************************/
 
-.markItUpHeader ul a {
-	text-indent:-10000px;
+.markItUpHeader ul a i, .markItUpButton12 a, .markItUpButton13 a {
+    text-indent: -10000px;
 }
 
 /* bold */
@@ -77,21 +77,20 @@
 .markItUp .markItUpButton2 a	{  background: image_url('markitup/spr_toolbar.png') 0px -96px no-repeat; }
 .markItUp .markItUpButton2 a:hover	{  background-position: -32px -96px; }
 
-/* underline */
-.markItUp .markItUpButton3 a	{ background: image_url('markitup/spr_toolbar.png') 0px -224px no-repeat; }
-.markItUp .markItUpButton3 a:hover	{ background-position: -32px -224px; }
-
 /* stroke */
-.markItUp .markItUpButton4 a	{ background: image_url('markitup/spr_toolbar.png') 0px -192px no-repeat; }
-.markItUp .markItUpButton4 a:hover	{ background-position: -32px -192px; }
+.markItUp .markItUpButton3 a	{ background: image_url('markitup/spr_toolbar.png') 0px -192px no-repeat; }
+.markItUp .markItUpButton3 a:hover	{ background-position: -32px -192px; }
 
 /* code */
-.markItUp .markItUpButton5 a	{ background: image_url('markitup/spr_toolbar.png') 0px -32px no-repeat; }
-.markItUp .markItUpButton5 a:hover	{ background-position: -32px -32px; }
+.markItUp .markItUpButton4 a	{ background: image_url('markitup/spr_toolbar.png') 0px -32px no-repeat; }
+.markItUp .markItUpButton4 a:hover	{ background-position: -32px -32px; }
 
 /* bullet list */
-.markItUp .markItUpButton6 a	{ background: image_url('markitup/spr_toolbar.png') 0px -416px no-repeat; }
-.markItUp .markItUpButton6 a:hover	{ background-position: -32px -416px; }
+.markItUp .markItUpButton5 a	{ background: image_url('markitup/spr_toolbar.png') 0px -416px no-repeat; }
+.markItUp .markItUpButton5 a:hover	{ background-position: -32px -416px; }
+
+/* spoiler */
+.markItUp .markItUpButton6 i { text-indent: 0px; }
 
 /* link */
 .markItUp .markItUpButton7 a	{ background: image_url('markitup/spr_toolbar.png') 0px -128px no-repeat; }
