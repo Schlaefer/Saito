@@ -43,21 +43,27 @@
 			$bbcodeSet = array(
 					'Bold' => array(
               'name' => "<i class='icon-bold'></i>", 'title' => __('Bold'),
+							'className' => 'btn-markItUp-Bold',
               'key' => 'B', 'openWith' => '[b]', 'closeWith' => '[/b]'),
 					'Italic' => array(
               'name' => "<i class='icon-italic'></i>", 'title' => __('Italic'),
+							'className' => 'btn-markItUp-Italic',
               'key' => 'I', 'openWith' => '[i]', 'closeWith' => '[/i]' ),
 					'Stroke' => array(
               'name' => "<i class='icon-strikethrough'></i>", 'title' => __('Strike Through'),
+							'className' => 'btn-markItUp-Stroke',
               'openWith' => '[strike]', 'closeWith' => '[/strike]' ),
 					'Code' => array(
-              'name' => "<i class='icon-code'></i>", 'title' => __('Code'),
+              'name' => "<i class='icon-terminal'></i>", 'title' => __('Code'),
+							'className' => 'btn-markItUp-Code',
               'openWith' => '[code text]\n', 'closeWith' => '\n[/code]' ),
 					'Bulleted list' => array(
               'name' => "<i class='icon-list-ul'></i>", 'title' => __('Bullet List'),
+							'className' => 'btn-markItUp-List',
               'openWith' => '[list]\n[*] ', 'closeWith' => '\n[*]\n[/list]' ),
 					'Spoiler' => [
 						'name'      => "<i class='icon-stop'></i>",
+						'className' => 'btn-markItUp-Spoiler',
 						'title'     => __('Spoiler'),
 						'openWith'  => '[spoiler]',
 						'closeWith' => '[/spoiler]'
@@ -66,41 +72,42 @@
 					'Link' => array(
               'name' => "<i class='icon-link'></i>",
               'title' => __('Link'),
+							'className' => 'btn-markItUp-Link',
               'key' => 'L',
               'openWith' =>
               '[url=[![' . __('geshi_link_popup') . ']!]]',
               'closeWith' => '[/url]',
               'placeHolder' => __('geshi_link_placeholder'),
             ),
-					'Picture' => array(
-              'name' => "<i class='icon-picture'></i>",
-              'title' => __('Picture'),
+					'Media' => array(
+              'name' => "<i class='icon-code'></i>",
+							'className' => 'btn-markItUp-Media',
+							'title' => __('Media'),
               'key' => 'P',
-              'replaceWith' => '[img][![' . __('geshi_picture_popup') . ']!][/img]'
             ),
 					'Upload' => array(
-							'name' => '<i class=\'icon-upload-alt\'></i>',
+							'name' => '<i class=\'icon-upload\'></i>',
               'title' => __('Upload'),
 							'className' => 'btn-markItUp-Upload'
 							),
-					'Media' => array(
-							'name' => '<i class=\'icon-play-circle\'></i>',
-              'title' => __('Media'),
-							'className' => 'btn-markItUp-Media'
-					),
 					$separator,
-					'Smilies' => array( 'name' => 'Smilies', 'dropMenu' => $smiliesMarkItUpPacked ),
+					'Smilies' => array(
+						'name'     => 'Smilies',
+						'className' => 'btn-markItUp-Smilies',
+						'dropMenu' => $smiliesMarkItUpPacked
+					),
 			);
 
 			$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 			if (!empty($additionalButtons)):
 				foreach ( $additionalButtons as $additionalButtonName => $additionalButton):
 					// 'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
-					$bbcodeSet[$additionalButtonName] = array(
-							'name' => $additionalButton['title'],
-							'title' => $additionalButton['title'],
-							'replaceWith' => $additionalButton['code'],
-						);
+					$bbcodeSet[$additionalButtonName] = [
+						'name'        => $additionalButton['title'],
+						'title'       => $additionalButton['title'],
+						'replaceWith' => $additionalButton['code'],
+						'className'   => 'btn-markItUp-' . $additionalButton['title']
+					];
           if ( isset($additionalButton['icon']) ):
             $iconCss .= " .markItUp .markItUpButton{$markitupCssId} a	{ background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['icon']}.png); } ";
             $iconCss .= " .markItUp .markItUpButton{$markitupCssId} a:hover	{ background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$additionalButton['icon']}_hover.png); } ";

@@ -177,7 +177,7 @@ Configure::write('Saito.Cache.Thread', true);
  * Add additional buttons to editor
  * @td document in namespace
  */
-Configure::write('Saito.markItUp.nextCssId', 11);
+Configure::write('Saito.markItUp.nextCssId', 10);
 
 include 'saito_config.php';
 /*
