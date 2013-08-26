@@ -6,8 +6,7 @@ define([
     'models/app',
     'text!templates/uploadNew.html',
     'text!templates/spinner.html',
-    'humanize',
-    'modernizr'
+    'humanize'
 ], function($, _, Backbone,
             Filedrop,
             App,
@@ -33,7 +32,7 @@ define([
 
         _initDropUploader: function() {
 
-            if (Modernizr.draganddrop && window.FileReader) {
+            if (this._browserSupportsDragAndDrop() && window.FileReader) {
                 this.$('.upload-layer').filedrop({
                     maxfiles: 1,
                     maxfilesize: App.settings.get('upload_max_img_size') / 1024,
@@ -98,6 +97,11 @@ define([
             } else {
                 this.$('h2').html($.i18n.__('Upload'));
             }
+        },
+
+        _browserSupportsDragAndDrop: function() {
+            var div = this.$('.upload-layer')[0];
+            return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
         },
 
         _showDragIndicator: function() {
