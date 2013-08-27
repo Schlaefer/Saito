@@ -119,7 +119,8 @@ define([
         },
 
         _uploadManual: function(event) {
-            var formData,
+            var useAjax = true,
+                formData,
                 input;
 
             event.preventDefault();
@@ -132,13 +133,32 @@ define([
                     input.files[0]
                 );
             } catch (e) {
-                this._onUploadError();
+                useAjax = false;
             }
 
             this._setUploadSpinner();
-            this._uploadAjax(formData);
+
+            if (useAjax) {
+                this._uploadAjax(formData);
+            } else {
+                this._uploadIFrame();
+            }
         },
 
+        // compatibility for
+        // - iCab Mobile custom uploader on iOS
+        // - <= IE 9
+        _uploadIFrame: function() {
+            var form = this.$('form'),
+                iframe = this.$('#uploadIFrame');
+
+            iframe.load(_.bind(function(){
+                this._postUpload(iframe.contents().find('body').html());
+                iframe.off('load');
+            }, this));
+
+            form.submit();
+        },
 
         _uploadAjax: function(formData) {
             var xhr = new XMLHttpRequest();
@@ -147,13 +167,7 @@ define([
                 this.uploadUrl
             );
             xhr.onloadend = _.bind(function(request){
-                var data;
-                try {
-                    data = JSON.parse(request.target.response);
-                } catch (e) {
-                    this._onUploadError();
-                }
-                this._postUpload(data);
+                this._postUpload(request.target.response);
             }, this);
             xhr.onerror = this._onUploadError;
             xhr.send(formData);
@@ -167,13 +181,22 @@ define([
         },
 
         _postUpload: function(data) {
+            if (_.isString(data)) {
+                try {
+                    data = JSON.parse(data);
+                } catch (e) {
+                    this._onUploadError();
+                }
+            }
             App.eventBus.trigger('notification', data);
             this.collection.fetch({reset: true});
             this.render();
+
         },
 
         render: function() {
             this.$el.html(_.template(uploadNewTpl)({
+                url: this.uploadUrl,
                 upload_size: humanize
                     .filesize(App.settings.get('upload_max_img_size'))
 
