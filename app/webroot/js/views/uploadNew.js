@@ -27,6 +27,7 @@ define([
         },
 
         initialize: function(options) {
+            this.uploadUrl = App.settings.get('webroot') + 'uploads/add';
             this.collection = options.collection;
         },
 
@@ -36,7 +37,7 @@ define([
                 this.$('.upload-layer').filedrop({
                     maxfiles: 1,
                     maxfilesize: App.settings.get('upload_max_img_size') / 1024,
-                    url: App.settings.get('webroot') + 'uploads/add',
+                    url: this.uploadUrl,
                     paramname: "data[Upload][0][file]",
                     allowedfiletypes: [
                         'image/jpeg',
@@ -123,30 +124,46 @@ define([
 
             event.preventDefault();
 
+            try {
+                formData = new FormData();
+                input = this.$('#Upload0File')[0];
+                formData.append(
+                    input.name,
+                    input.files[0]
+                );
+            } catch (e) {
+                this._onUploadError();
+            }
+
             this._setUploadSpinner();
+            this._uploadAjax(formData);
+        },
 
-            formData = new FormData();
-            input = $('.dropbox input[type="file"]')[0];
-            formData.append(
-                input.name,
-                input.files[0]
-            );
 
+        _uploadAjax: function(formData) {
             var xhr = new XMLHttpRequest();
             xhr.open(
                 'POST',
-                App.settings.get('webroot') + 'uploads/add',
-                true
+                this.uploadUrl
             );
             xhr.onloadend = _.bind(function(request){
                 var data;
-                data = JSON.parse(request.target.response);
+                try {
+                    data = JSON.parse(request.target.response);
+                } catch (e) {
+                    this._onUploadError();
+                }
                 this._postUpload(data);
             }, this);
-            xhr.onload = _.bind(function() {
-                this._postUpload();
-            }, this);
+            xhr.onerror = this._onUploadError;
             xhr.send(formData);
+        },
+
+        _onUploadError: function() {
+            App.eventBus.trigger('notification', {
+                type: "error",
+                message: $.i18n.__("upload_genericError")
+            });
         },
 
         _postUpload: function(data) {

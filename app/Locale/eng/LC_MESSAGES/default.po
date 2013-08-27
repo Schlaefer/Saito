@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-12 09:10+0100\n"
-"PO-Revision-Date: 2013-08-12 09:10+0100\n"
+"POT-Creation-Date: 2013-08-27 08:53+0100\n"
+"PO-Revision-Date: 2013-08-27 08:53+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -183,8 +183,7 @@ msgstr ""
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Layouts/admin.ctp:47 webroot/js/main-prod.js:100
-#: webroot/js/views/categoryChooser.js:18
+#: View/Layouts/admin.ctp:47 webroot/js/views/categoryChooser.js:18
 msgid "Categories"
 msgstr ""
 
@@ -1586,31 +1585,35 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:580
+#: View/Helper/BbcodeHelper.php:228 View/Helper/MarkitupEditorHelper.php:48
+msgid "Spoiler"
+msgstr ""
+
+#: View/Helper/BbcodeHelper.php:592
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:601
+#: View/Helper/BbcodeHelper.php:613
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:926
+#: View/Helper/BbcodeHelper.php:938
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Enable Embedly"
 
-#: View/Helper/BbcodeHelper.php:1012
+#: View/Helper/BbcodeHelper.php:1024
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:1020
+#: View/Helper/BbcodeHelper.php:1032
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -1654,59 +1657,47 @@ msgstr ""
 msgid "Abends"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:45
+#: View/Helper/MarkitupEditorHelper.php:26
 msgid "Bold"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:48
+#: View/Helper/MarkitupEditorHelper.php:30
 msgid "Italic"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:51
-msgid "Underline"
-msgstr ""
-
-#: View/Helper/MarkitupEditorHelper.php:54
+#: View/Helper/MarkitupEditorHelper.php:34
 msgid "Strike Through"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:57
+#: View/Helper/MarkitupEditorHelper.php:38
 msgid "Code"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:60
+#: View/Helper/MarkitupEditorHelper.php:42
 msgid "Bullet List"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:65
+#: View/Helper/MarkitupEditorHelper.php:55
 msgid "Link"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:68
+#: View/Helper/MarkitupEditorHelper.php:59
 msgid "geshi_link_popup"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:70
+#: View/Helper/MarkitupEditorHelper.php:61
 msgid "geshi_link_placeholder"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:74
-msgid "Picture"
+#: View/Helper/MarkitupEditorHelper.php:66
+msgid "Media"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:76
-msgid "geshi_picture_popup"
-msgstr ""
-
-#: View/Helper/MarkitupEditorHelper.php:80 webroot/js/main-prod.js:100
-#: webroot/js/views/uploadNew.js:99 webroot/js/views/uploads.js:71
+#: View/Helper/MarkitupEditorHelper.php:71 webroot/js/views/uploadNew.js:98
+#: webroot/js/views/uploads.js:71
 #, fuzzy
 msgid "Upload"
 msgstr "Upload"
-
-#: View/Helper/MarkitupEditorHelper.php:85
-msgid "Media"
-msgstr ""
 
 #: View/Helper/SettingHelper.php:53
 msgid "edit"
@@ -1756,47 +1747,8 @@ msgstr "Drop Image Here"
 msgid "upload_info"
 msgstr "Max. size: :size; type: jpg, jpeg, png, gif"
 
-#: webroot/js/main-prod.js:100 webroot/js/views/uploadNew.js:69
-msgid "upload_fileTypeNotAllowed"
-msgstr "File type not allowed."
-
-#: webroot/js/main-prod.js:100 webroot/js/views/uploadNew.js:73
-msgid "upload_fileToLarge"
-msgstr "File :name to large."
-
-#: webroot/js/main-prod.js:100 webroot/js/views/uploadNew.js:78
-msgid "upload_browserNotSupported"
-msgstr "Browser not supported."
-
-#: webroot/js/main-prod.js:100 webroot/js/views/uploadNew.js:81
-msgid "upload_toManyFiles"
-msgstr "To many files."
-
-#: webroot/js/main-prod.js:100
-msgid ""
-"Enter link or embedding code:') %>\n"
-"    </label>\n"
-"    <textarea name=\"data[media]\" id=\"markitup_media_txta\" class="
-"\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\">\n"
-"    </textarea>\n"
-"    <div class=\"clearfix\"></div>\n"
-"    <br/>\n"
-"    <div class=\"submit\">\n"
-"        <input style=\"float: right;\" class=\"btn btn-submit\"\n"
-"               id=\"markitup_media_btn\" type=\"submit\"\n"
-"               value=\"<%- $.i18n.__('Insert') %>\"/>\n"
-"    </div>\n"
-"    <div class=\"clearfix\"></div>\n"
-"    <br/>\n"
-"    <div id=\"markitup_media_message\" class=\"flash error\" style="
-"\"display: none;\">\n"
-"        <%- $.i18n.__('Nothing recognized.') %>\n"
-"    </div>\n"
-"</form>\n"
-msgstr ""
-
-#: webroot/js/main-prod.js:100 webroot/js/views/mediaInsert.js:68
-msgid "Multimedia"
+#: Plugin/M/webroot/bower_components/underscore/test/utility.js:71
+msgid "champ"
 msgstr ""
 
 #: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
@@ -1810,6 +1762,30 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:30
 msgid "token test"
 msgstr ""
+
+#: webroot/js/views/mediaInsert.js:68
+msgid "Multimedia"
+msgstr ""
+
+#: webroot/js/views/uploadNew.js:68
+msgid "upload_fileTypeNotAllowed"
+msgstr "File type not allowed."
+
+#: webroot/js/views/uploadNew.js:72
+msgid "upload_fileToLarge"
+msgstr "File :name to large."
+
+#: webroot/js/views/uploadNew.js:77 webroot/js/views/uploadNew.js:137
+msgid "upload_browserNotSupported"
+msgstr "Browser not supported."
+
+#: webroot/js/views/uploadNew.js:80
+msgid "upload_toManyFiles"
+msgstr "To many files."
+
+#: webroot/js/views/uploadNew.js:161
+msgid "upload_genericError"
+msgstr "Error occurred on upload."
 
 #~ msgid "forum_disabled"
 #~ msgstr "Disable Forum"
