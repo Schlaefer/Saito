@@ -37,12 +37,16 @@
 }
 
 .c_bbc_spoiler {
-    color: black;
-    background-color: black;
+    display: inline-block;
 
-    &:hover {
-        color: inherit;
-        background-color: inherit;
+    .c_bbc_spoiler-link {
+        color: black;
+        background-color: black;
+
+        &:hover {
+            color: inherit;
+            background-color: inherit;
+        }
     }
 }
 

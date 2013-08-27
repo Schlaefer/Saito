@@ -219,18 +219,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
-		// spoiler
-		$this->_Parser->addCode(
-			'spoiler', 'simple_replace', null,
-			[
-				'start_tag' => '<span><a href="#" data-content="',
-				'end_tag' => '" class="c_bbc_spoiler" onclick="this.parentNode.innerHTML = this.getAttribute(\'data-content\'); return false;">' .
-				__('Spoiler') .
-				'</a></span>'
-			],
-			'inline', ['block', 'inline', 'link', 'listitem'], []
-		);
-
 		//* strike
 		$this->_Parser->addCode(
 				'strike', 'simple_replace', null,
@@ -311,6 +299,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
+
+		// spoiler
+		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, [&$this, '_spoiler']);
 
 		//* allows [url=<foo> label=none] to be parsed as [url default=<foo> label=none]
 		$this->_Parser->setMixedAttributeTypes(true);
@@ -764,6 +755,31 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
 		endif;
 		return $out;
+	}
+
+	public function _spoiler($string) {
+		return preg_replace_callback(
+			'/\[spoiler\](.*)\[\/spoiler\]/',
+			function ($matches) {
+				$json  = json_encode(['string' => $matches[1]]);
+				$title = __('Spoiler');
+				$id = 'spoiler_' . rand(0, 9999999999999);
+				$out = <<<EOF
+<div class="c_bbc_spoiler">
+	<script>
+		window.$id = $json;
+	</script>
+	<a href="#" class="c_bbc_spoiler-link"
+		onclick='this.parentNode.innerHTML = window.$id.string; delete window.$id; return false;'
+		>
+		$title
+	</a>
+</div>
+EOF;
+				return $out;
+			},
+			$string
+		);
 	}
 
 	public function _email($action, $attributes, $content, $params, &$node_object) {
