@@ -65,25 +65,29 @@
 
 		public function testSpoiler() {
 			$input    = '[spoiler]te "\' xt[/spoiler]';
-			// $input    = '[spoiler]te "\'\/ xt[/spoiler]';
 			$expected = [
-				['span' => true],
+				[
+					'div' => [
+						'class' => 'c_bbc_spoiler',
+						'style' => 'display: inline-block;'
+					]
+				],
+				['script' => true],
+				'preg:/(.*?)(?=<)/',
+				'/script',
 				[
 					'a' => [
 						'href'         => '#',
-						'data-content' => 'te "\' xt',
-						// 'data-content' => 'te &quot;&#039;\/ xt',
-						'class'        => 'c_bbc_spoiler',
-						'onclick'      => 'this.parentNode.innerHTML = this.getAttribute(\'data-content\'); return false;'
+						'class'        => 'c_bbc_spoiler-link',
+						'onclick'
 					]
 				],
-				'Spoiler',
+				'preg:/.*▇ Spoiler ▇.*?(?=<)/',
 				'/a',
-				'/span'
+				'/div'
 			];
-			$result   = $this->Bbcode->parse($input);
-			var_dump($result);
-			$this->assertTags($result, $expected);
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected, true);
 		}
 
 		public function testList() {
