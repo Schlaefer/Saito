@@ -16,49 +16,42 @@ define(['jquery', 'underscore'], function($, _) {
         rawUrlCleaner: [dropbox],
 
         multimedia: function(text, options) {
-            var textv = $.trim(text);
+            var textv = $.trim(text),
+                patternEnd = "([\\/?]|$)",
+
+                patternImage = new RegExp("\\.(png|gif|jpg|jpeg|webp)" + patternEnd, "i"),
+                patternHtml = new RegExp("\\.(mp4|webm|m4v)" + patternEnd, "i"),
+                patternAudio = new RegExp("\\.(m4a|ogg|mp3|wav|opus)" + patternEnd, "i"),
+                patternFlash = /<object/i,
+                patternIframe = /<iframe/i,
+
+                out = '';
+
+            options = options || {};
+            _.defaults(options, { embedlyEnabled: false });
 
             _.each(this.rawUrlCleaner, function(cleaner) {
                 textv = cleaner.cleanUp(textv);
             });
 
-            var patternImage = /\.(png|gif|jpg|jpeg|webp)$/i;
-            var patternHtml = /\.(mp4|webm|m4v)$/i;
-            var patternAudio = /\.(m4a|ogg|mp3|wav|opus)$/i;
-            var patternFlash = /<object/i;
-            var patternIframe = /<iframe/i;
-
-            var out = '';
-
-            options = options || {};
-
-            _.extend(
-                {
-                   embedlyEnabled: false
-                },
-                options
-            );
-
-            if ( patternImage.test(textv) ) {
+            if (patternImage.test(textv)) {
                 out = markItUp._image(textv);
-            } else if ( patternHtml.test(textv) ) {
+            } else if (patternHtml.test(textv)) {
                 out = markItUp._videoHtml5(textv);
-            } else if ( patternAudio.test(textv) ) {
+            } else if (patternAudio.test(textv)) {
                 out = markItUp._audioHtml5(textv);
-            } else if ( patternIframe.test(textv) ) {
+            } else if (patternIframe.test(textv)) {
                 out = markItUp._videoIframe(textv);
-            } else if ( patternFlash.test(textv) ) {
+            } else if (patternFlash.test(textv)) {
                 out = markItUp._videoFlash(textv);
             } else {
                 out = markItUp._videoFallback(textv);
             }
 
-            if ( options.embedlyEnabled === true && out === '' ) {
+            if (options.embedlyEnabled === true && out === '') {
                 out = markItUp._embedly(textv);
             }
-
             return out;
-
         },
 
         _image: function(text) {
