@@ -14,10 +14,24 @@ define([
             markItUp = MarkitUpMedia;
 
             $.each(['m4a', 'ogg', 'mp3', 'wav', 'opus'], function(key, value) {
-                it("outputs an [audio] tag for " + value + " files", function() {
+                it("outputs an [audio] tag for " + value + " files on end of url", function() {
                     input = 'http://foo.bar/baz.' + value;
                     result = markItUp.multimedia(input);
                     expected = '[audio]http://foo.bar/baz.' + value + '[/audio]';
+                    expect(result).toEqual(expected);
+                });
+
+                it("outputs an [audio] tag for " + value + " files in / url", function() {
+                    input = 'http://foo.bar/baz.' + value + '/foo';
+                    result = markItUp.multimedia(input);
+                    expected = '[audio]http://foo.bar/baz.' + value + '/foo[/audio]';
+                    expect(result).toEqual(expected);
+                });
+
+                it("outputs an [audio] tag for " + value + " files in ? url", function() {
+                    input = 'http://foo.bar/baz.' + value + '?foo';
+                    result = markItUp.multimedia(input);
+                    expected = '[audio]http://foo.bar/baz.' + value + '?foo[/audio]';
                     expect(result).toEqual(expected);
                 });
             });

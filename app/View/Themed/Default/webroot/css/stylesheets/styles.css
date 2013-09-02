@@ -647,9 +647,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
-.c_bbc_spoiler { display: inline-block; }
-.c_bbc_spoiler .c_bbc_spoiler-link { color: black; background-color: black; }
-.c_bbc_spoiler .c_bbc_spoiler-link:hover { color: inherit; background-color: inherit; }
+.c_bbc_spoiler .c_bbc_spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
+.c_bbc_spoiler .c_bbc_spoiler-link:hover { color: inherit; background-color: inherit; text-shadow: inherit; }
 
 .c_bbc_link-dinfo, .c_bbc_imessage { font-weight: normal; font-style: normal; text-decoration: none; }
 

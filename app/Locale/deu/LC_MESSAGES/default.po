@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-27 08:52+0100\n"
-"PO-Revision-Date: 2013-08-27 08:53+0100\n"
+"POT-Creation-Date: 2013-09-02 09:40+0100\n"
+"PO-Revision-Date: 2013-09-02 09:41+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -862,7 +862,7 @@ msgid ""
 "geheuert, :loggedin an Deck, :anon Blinde Passagiere"
 msgstr ""
 
-#: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:22
+#: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Hochladen"
 
@@ -1639,11 +1639,7 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:228 View/Helper/MarkitupEditorHelper.php:48
-msgid "Spoiler"
-msgstr ""
-
-#: View/Helper/BbcodeHelper.php:592
+#: View/Helper/BbcodeHelper.php:583
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
@@ -1653,7 +1649,7 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:613
+#: View/Helper/BbcodeHelper.php:604
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
@@ -1663,17 +1659,22 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:938
+#: View/Helper/BbcodeHelper.php:765 View/Helper/BbcodeHelper.php:769
+#: View/Helper/MarkitupEditorHelper.php:48
+msgid "Spoiler"
+msgstr ""
+
+#: View/Helper/BbcodeHelper.php:959
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:1024
+#: View/Helper/BbcodeHelper.php:1045
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:1032
+#: View/Helper/BbcodeHelper.php:1053
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -1753,7 +1754,7 @@ msgstr "Hier den Verweistext eingeben."
 msgid "Media"
 msgstr "Einbinden"
 
-#: View/Helper/MarkitupEditorHelper.php:71 webroot/js/views/uploadNew.js:98
+#: View/Helper/MarkitupEditorHelper.php:71 webroot/js/views/uploadNew.js:99
 #: webroot/js/views/uploads.js:71
 #, fuzzy
 msgid "Upload"
@@ -1791,8 +1792,8 @@ msgid "userranks_not_found"
 msgstr ""
 
 #: webroot/js/templates/mediaInsert.html:3
-msgid "Enter link or embedding code:"
-msgstr "Bitte Verweis oder Code zum Einbinden angeben:"
+msgid "Enter link to media or embedding code:"
+msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben:"
 
 #: webroot/js/templates/mediaInsert.html:12
 msgid "Insert"
@@ -1802,11 +1803,11 @@ msgstr "Einfügen"
 msgid "Nothing recognized."
 msgstr "Nichts erkannt."
 
-#: webroot/js/templates/uploadNew.html:8
+#: webroot/js/templates/uploadNew.html:9
 msgid "upload_new_title"
 msgstr "Neues Bild hier hineinwerfen"
 
-#: webroot/js/templates/uploadNew.html:10
+#: webroot/js/templates/uploadNew.html:11
 msgid "upload_info"
 msgstr "Max. :size; jpg, jpeg, png, gif"
 
@@ -1831,23 +1832,23 @@ msgstr ""
 msgid "Multimedia"
 msgstr "Einbinden"
 
-#: webroot/js/views/uploadNew.js:68
+#: webroot/js/views/uploadNew.js:69
 msgid "upload_fileTypeNotAllowed"
 msgstr "Dateityp nicht erlaubt."
 
-#: webroot/js/views/uploadNew.js:72
+#: webroot/js/views/uploadNew.js:73
 msgid "upload_fileToLarge"
 msgstr "Datei :name zu groß."
 
-#: webroot/js/views/uploadNew.js:77 webroot/js/views/uploadNew.js:137
+#: webroot/js/views/uploadNew.js:78
 msgid "upload_browserNotSupported"
 msgstr "Browser wird nicht unterstützt."
 
-#: webroot/js/views/uploadNew.js:80
+#: webroot/js/views/uploadNew.js:81
 msgid "upload_toManyFiles"
 msgstr "Zu viele Dateien."
 
-#: webroot/js/views/uploadNew.js:161
+#: webroot/js/views/uploadNew.js:179
 msgid "upload_genericError"
 msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 
