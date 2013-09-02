@@ -3,12 +3,11 @@ define(['jquery', 'underscore'], function($, _) {
     "use strict";
 
     var dropbox = {
-
         cleanUp: function(text) {
+            // see: https://www.dropbox.com/help/201/en
             text = text.replace(/https:\/\/www\.dropbox\.com\//, 'https://dl.dropbox.com/');
             return text;
         }
-
     };
 
     var markItUp = {
