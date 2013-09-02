@@ -44,7 +44,9 @@
         word-break: break-word;
 
         &:hover {
-            color: white;
+            color: inherit;
+            background-color: inherit;
+            text-shadow: inherit;
         }
     }
 }
