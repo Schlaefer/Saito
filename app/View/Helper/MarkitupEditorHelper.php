@@ -86,18 +86,10 @@
 		protected function _convertToJsMarkupSet(array $bbcode) {
 			$markitupSet = [];
 			foreach ($bbcode as $set):
-				if (isset($set['callback'])) {
-					unset($set['callback']);
-					$out = [];
-					foreach ($set as $attribute => $value):
-						$out[] = "'$attribute': $value";
-					endforeach;
-					$markitupSet[] = '{' . implode(', ', $out) . "}";
-				} else {
 					$markitupSet[] = stripslashes(json_encode($set));
-				}
 			endforeach;
-			return implode(",\n", $markitupSet);
+			// markItUp callbacks: start with `function`, don't use `"`
+			return preg_replace('/"(function.*?)"/i', '\\1', implode(",\n", $markitupSet));
 		}
 
 		protected function _buildAdditionalButtons(array &$bbcode, &$css) {
