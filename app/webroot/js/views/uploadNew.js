@@ -6,8 +6,7 @@ define([
     'models/app',
     'text!templates/uploadNew.html',
     'text!templates/spinner.html',
-    'humanize',
-    'modernizr'
+    'humanize'
 ], function($, _, Backbone,
             Filedrop,
             App,
@@ -28,16 +27,17 @@ define([
         },
 
         initialize: function(options) {
+            this.uploadUrl = App.settings.get('webroot') + 'uploads/add';
             this.collection = options.collection;
         },
 
         _initDropUploader: function() {
 
-            if (Modernizr.draganddrop && window.FileReader) {
+            if (this._browserSupportsDragAndDrop() && window.FileReader) {
                 this.$('.upload-layer').filedrop({
                     maxfiles: 1,
                     maxfilesize: App.settings.get('upload_max_img_size') / 1024,
-                    url: App.settings.get('webroot') + 'uploads/add',
+                    url: this.uploadUrl,
                     paramname: "data[Upload][0][file]",
                     allowedfiletypes: [
                         'image/jpeg',
@@ -100,6 +100,11 @@ define([
             }
         },
 
+        _browserSupportsDragAndDrop: function() {
+            var div = this.$('.upload-layer')[0];
+            return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
+        },
+
         _showDragIndicator: function() {
             this.$('.upload-drag-indicator').fadeIn();
         },
@@ -114,45 +119,84 @@ define([
         },
 
         _uploadManual: function(event) {
-            var formData,
+            var useAjax = true,
+                formData,
                 input;
 
             event.preventDefault();
 
+            try {
+                formData = new FormData();
+                input = this.$('#Upload0File')[0];
+                formData.append(
+                    input.name,
+                    input.files[0]
+                );
+            } catch (e) {
+                useAjax = false;
+            }
+
             this._setUploadSpinner();
 
-            formData = new FormData();
-            input = $('.dropbox input[type="file"]')[0];
-            formData.append(
-                input.name,
-                input.files[0]
-            );
+            if (useAjax) {
+                this._uploadAjax(formData);
+            } else {
+                this._uploadIFrame();
+            }
+        },
 
+        // compatibility for
+        // - iCab Mobile custom uploader on iOS
+        // - <= IE 9
+        _uploadIFrame: function() {
+            var form = this.$('form'),
+                iframe = this.$('#uploadIFrame');
+
+            iframe.load(_.bind(function(){
+                this._postUpload(iframe.contents().find('body').html());
+                iframe.off('load');
+            }, this));
+
+            form.submit();
+        },
+
+        _uploadAjax: function(formData) {
             var xhr = new XMLHttpRequest();
             xhr.open(
                 'POST',
-                App.settings.get('webroot') + 'uploads/add',
-                true
+                this.uploadUrl
             );
             xhr.onloadend = _.bind(function(request){
-                var data;
-                data = JSON.parse(request.target.response);
-                this._postUpload(data);
+                this._postUpload(request.target.response);
             }, this);
-            xhr.onload = _.bind(function() {
-                this._postUpload();
-            }, this);
+            xhr.onerror = this._onUploadError;
             xhr.send(formData);
         },
 
+        _onUploadError: function() {
+            App.eventBus.trigger('notification', {
+                type: "error",
+                message: $.i18n.__("upload_genericError")
+            });
+        },
+
         _postUpload: function(data) {
+            if (_.isString(data)) {
+                try {
+                    data = JSON.parse(data);
+                } catch (e) {
+                    this._onUploadError();
+                }
+            }
             App.eventBus.trigger('notification', data);
             this.collection.fetch({reset: true});
             this.render();
+
         },
 
         render: function() {
             this.$el.html(_.template(uploadNewTpl)({
+                url: this.uploadUrl,
                 upload_size: humanize
                     .filesize(App.settings.get('upload_max_img_size'))
 

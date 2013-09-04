@@ -63,6 +63,33 @@
 			$this->assertTags($result, $expected);
 		}
 
+		public function testSpoiler() {
+			$input    = '[spoiler]te "\' xt[/spoiler]';
+			$expected = [
+				[
+					'div' => [
+						'class' => 'c_bbc_spoiler',
+						'style' => 'display: inline-block;'
+					]
+				],
+				['script' => true],
+				'preg:/(.*?)(?=<)/',
+				'/script',
+				[
+					'a' => [
+						'href'         => '#',
+						'class'        => 'c_bbc_spoiler-link',
+						'onclick'
+					]
+				],
+				'preg:/.*▇ Spoiler ▇.*?(?=<)/',
+				'/a',
+				'/div'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected, true);
+		}
+
 		public function testList() {
 			$input = "[list]\n[*]fooo\n[*]bar\n[/list]";
 			$expected = array(

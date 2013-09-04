@@ -33,7 +33,7 @@ define([
             this.uploadNewView = new UploadNewView({
                 collection: this.collection
             });
-            this.$('.content').append(this.uploadNewView.render().el);
+            this.$('.content').append(this.uploadNewView.el);
 
             this.render();
             this.collection.fetch({reset: true});

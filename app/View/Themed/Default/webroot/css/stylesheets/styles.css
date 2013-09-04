@@ -368,13 +368,10 @@ body { min-width: 950px; }
 
 .markItUpHeader ul a:hover { text-shadow: 0 0 1px #999; }
 
-.markItUp .markItUpButton11 ul li { min-width: 0px; margin: 0px; }
-
-.markItUp .markItUpButton11 ul li a { background-position: 9px 9px; height: 32px; width: 32px; padding: 0px; }
-
-.markItUp .markItUpButton11 > a { background: url('../../img/markitup/spr_toolbar.png') 0px -384px no-repeat; text-indent: -10000px; }
-
-.markItUp .markItUpButton11 ul { width: 260px; z-index: 1; margin: -21px 0 0 -2px; }
+.markItUp .btn-markItUp-Smilies ul { width: 260px; z-index: 1; margin: -21px 0 0 -2px; }
+.markItUp .btn-markItUp-Smilies ul li { min-width: 0px; margin: 0px; }
+.markItUp .btn-markItUp-Smilies ul li a { background-position: 9px 9px; height: 32px; width: 32px; padding: 0px; }
+.markItUp .btn-markItUp-Smilies > a { background: url('../../img/markitup/spr_toolbar.png') 0px -384px no-repeat; text-indent: -10000px; }
 
 .markItUp .markItUpHeader ul ul li { float: left; border: none; }
 
@@ -649,6 +646,9 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .posting, .posting img, posting, object, posting embed, .signature { max-width: 80em; }
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
+
+.c_bbc_spoiler .c_bbc_spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
+.c_bbc_spoiler .c_bbc_spoiler-link:hover { color: inherit; background-color: inherit; text-shadow: inherit; }
 
 .c_bbc_link-dinfo, .c_bbc_imessage { font-weight: normal; font-style: normal; text-decoration: none; }
 

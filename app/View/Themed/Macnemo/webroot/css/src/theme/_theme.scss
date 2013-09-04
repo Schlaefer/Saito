@@ -64,8 +64,8 @@
  * Markitup
  ******************************************************************************/
 
-.markItUpHeader ul a {
-	text-indent:-10000px;
+.markItUpHeader ul a i, .btn-markItUp-Gacker a,  .btn-markItUp-Popcorn a {
+    text-indent: -10000px;
 }
 
 /* bold */
@@ -77,37 +77,46 @@
 .markItUp .markItUpButton2 a	{  background: image_url('markitup/spr_toolbar.png') 0px -96px no-repeat; }
 .markItUp .markItUpButton2 a:hover	{  background-position: -32px -96px; }
 
-/* underline */
-.markItUp .markItUpButton3 a	{ background: image_url('markitup/spr_toolbar.png') 0px -224px no-repeat; }
-.markItUp .markItUpButton3 a:hover	{ background-position: -32px -224px; }
-
 /* stroke */
-.markItUp .markItUpButton4 a	{ background: image_url('markitup/spr_toolbar.png') 0px -192px no-repeat; }
-.markItUp .markItUpButton4 a:hover	{ background-position: -32px -192px; }
+.markItUp .markItUpButton3 a	{ background: image_url('markitup/spr_toolbar.png') 0px -192px no-repeat; }
+.markItUp .markItUpButton3 a:hover	{ background-position: -32px -192px; }
 
 /* code */
-.markItUp .markItUpButton5 a	{ background: image_url('markitup/spr_toolbar.png') 0px -32px no-repeat; }
-.markItUp .markItUpButton5 a:hover	{ background-position: -32px -32px; }
+.markItUp .markItUpButton4 a	{ background: image_url('markitup/spr_toolbar.png') 0px -32px no-repeat; }
+.markItUp .markItUpButton4 a:hover	{ background-position: -32px -32px; }
 
 /* bullet list */
-.markItUp .markItUpButton6 a	{ background: image_url('markitup/spr_toolbar.png') 0px -416px no-repeat; }
-.markItUp .markItUpButton6 a:hover	{ background-position: -32px -416px; }
+.markItUp .markItUpButton5 a	{ background: image_url('markitup/spr_toolbar.png') 0px -416px no-repeat; }
+.markItUp .markItUpButton5 a:hover	{ background-position: -32px -416px; }
+
+/* spoiler */
+.markItUp .btn-markItUp-Spoiler {
+    a {
+        background: image_url('markitup/spr_toolbar.png') 0px -224px no-repeat;
+        &:hover {
+            background-position: -32px -224px;
+        }
+    }
+}
 
 /* link */
 .markItUp .markItUpButton7 a	{ background: image_url('markitup/spr_toolbar.png') 0px -128px no-repeat; }
 .markItUp .markItUpButton7 a:hover	{ background-position: -32px -128px; }
 
-/* picture */
-.markItUp .markItUpButton8 a	{ background: image_url('markitup/spr_toolbar.png') 0px -160px no-repeat; }
-.markItUp .markItUpButton8 a:hover	{ background-position: -32px -160px; }
+/* video */
+.markItUp .btn-markItUp-Media {
+    a {
+        background: image_url('markitup/spr_toolbar.png') 0px -288px no-repeat;
+        &:hover {
+            background-position: -32px -288px;
+        }
+    }
+}
 
 /* upload */
 .markItUp .markItUpButton9 a	{ background: image_url('markitup/spr_toolbar.png') 0px -256px no-repeat; }
 .markItUp .markItUpButton9 a:hover	{ background-position: -32px -256px; }
 
-/* video */
-.markItUp .markItUpButton10 a	{ background: image_url('markitup/spr_toolbar.png') 0px -288px no-repeat; }
-.markItUp .markItUpButton10 a:hover	{ background-position: -32px -288px; }
 
 /*******************************************************************************
  * Threads

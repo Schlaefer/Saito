@@ -26,8 +26,7 @@ require.config({
 		text: 'lib/require/text',
         cs: 'lib/require/cs',
         "coffee-script": 'lib/coffee-script',
-        humanize: "lib/humanize/humanize",
-        modernizr: "lib/modernizr.custom"
+        humanize: "lib/humanize/humanize"
 	}
 
 });
