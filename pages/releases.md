@@ -7,6 +7,22 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-08.03 ##
+
+### What's new ###
+
+- [new] new [spoiler] bbcode tag with button
+- [new] removed [u] underline bbcode button
+- [new] unified bbcode buttons for image and media
+- [fix] #150 Upload not working in iCab Mobile
+- [task] updates CakePHP to 2.4.0
+
+Code refactoring.
+
+### Migration notes ###
+
+Don't forget to update your `lib/Cake` folder.
+
 ## 2013-08.02 ##
 
 ### What's new ###
