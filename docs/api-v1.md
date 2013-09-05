@@ -71,6 +71,7 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 
       // *** additional data if user is authorized *** //
       "id": 1,
+      "username": "username",
       "last_refresh": "2013-06-26T15:51:32+00:00",
       "threads_order": "time"
     }
@@ -328,7 +329,7 @@ Request data:
 
     {
       "id": 1
-      "last_refresh": "2013-07-04T19:53:14+00:00"  
+      "last_refresh": "2013-07-04T19:53:14+00:00"
     }
 
 `id`
@@ -336,10 +337,12 @@ Request data:
 
 `last_refresh`
 : optional: if empty current server time is used
+: if it's older than value on the server the server value will not be changed
 
 Response:
 
     {
       "id": 1
-      "last_refresh": "2013-07-04T19:53:14+00:00"  
+      "last_refresh": "2013-07-04T19:53:14+00:00"
     }
+

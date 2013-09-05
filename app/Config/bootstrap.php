@@ -115,7 +115,11 @@ Inflector::rules('singular', array(
  *
  */
 
-CakePlugin::loadAll();
+CakePlugin::loadAll(
+	[
+		'Api' => ['bootstrap' => true, 'routes' => true]
+	]
+);
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
