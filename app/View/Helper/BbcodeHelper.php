@@ -376,58 +376,63 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param <type> $string
 	 * @return <type>
 	 */
-	public function _smilies($string, $options = array( )) {
-		$defaults = array(
+	public function _smilies($string, $options = []) {
+		// Stopwatch::start('BbcodeHelper::_smilies');
+		$defaults = [
 				'cache' => true,
-		);
+		];
+		$options += $defaults;
 
-		$options = array_merge($defaults, $options);
-		extract($options);
 
-//		Stopwatch::start('_smilies');
-
-		// Building Smilies
 		// @td refactor: MVC|method?
 		$smilies = Configure::read('Saito.Smilies.smilies_all');
 
 		$build_cache = false;
 
-		if ( !$s = Configure::read("Saito.Smilies.smilies_all_html") ) {
-			if ( !$cache || !$s = Cache::read("Saito.Smilies.smilies_all_html") ) {
+		if (!$s = Configure::read('Saito.Smilies.smilies_all_html')) {
+			if (!$options['cache'] ||
+					!$s = Cache::read('Saito.Smilies.smilies_all_html')
+			) {
 				$build_cache = true;
 			}
 		}
 
-		if ( $build_cache ):
-			$s['codes'] = array( );
-			$s['replacements'] = array( );
-			$s = array( );
-			foreach ( $smilies as $smiley ):
-				$s['codes'][] = $smiley['code'];
-				$s['replacements'][] = $this->Html->image('smilies/' . $smiley['image'],
-						array( 'alt' => "{$smiley['code']}", 'title' => $smiley['title'] ));
-			endforeach;
+		if ($build_cache):
+			$s = [
+				'codes'        => [],
+				'replacements' => []
+			];
+			foreach ($smilies as $smiley) {
+				$s['codes'][]        = $smiley['code'];
+				$s['replacements'][] = $this->Html->image(
+					'smilies/' . $smiley['image'],
+					['alt' => "{$smiley['code']}", 'title' => $smiley['title']]
+				);
+			}
 			Configure::write("Saito.Smilies.smilies_all_html", $s);
-			if ( $cache ) {
+			if ($options['cache']) {
 				Cache::write("Saito.Smilies.smilies_all_html", $s);
 			}
 		endif;
+		unset($options['cache']);
 
 		$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 		if (!empty($additionalButtons)):
-			foreach ( $additionalButtons as $additionalButtonTitle => $additionalButton):
+			foreach ($additionalButtons as $additionalButton):
 				// $s['codes'][] = ':gacker:';
 				$s['codes'][] = $additionalButton['code'];
 				// $s['replacements'][] = $this->Html->image('smilies/gacker_large.png');
-				if ( $additionalButton['type'] === 'image' ):
-					$additionalButton['replacement'] = $this->Html->image('markitup'.DS.$additionalButton['replacement']);
-				endif;
+				if ($additionalButton['type'] === 'image') {
+					$additionalButton['replacement'] = $this->Html->image(
+						'markitup' . DS . $additionalButton['replacement']
+					);
+				}
 				$s['replacements'][] = $additionalButton['replacement'];
 			endforeach;
 		endif;
 
 		$string = str_replace($s['codes'], $s['replacements'], $string);
-//		Stopwatch::stop('_smilies');
+		// Stopwatch::stop('BbcodeHelper::_smilies');
 		return $string;
 	}
 
