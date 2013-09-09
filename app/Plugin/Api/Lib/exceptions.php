@@ -31,3 +31,16 @@
 		}
 
 	}
+
+    class ApiValidationError extends GenericApiError {
+        public function __construct($field, $rule) {
+            $lookup =  $field . ' ' . $rule;
+            \Configure::write('Config.language', 'eng');
+            $message = __d('api', $lookup);
+            $no_explanation = $lookup === $message;
+            if ($no_explanation) {
+               $message = "Internal validation error. Field: `$field` Rule: `$rule`.";
+            }
+            parent::__construct($message);
+        }
+    }

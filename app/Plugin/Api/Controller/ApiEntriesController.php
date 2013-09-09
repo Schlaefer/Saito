@@ -56,12 +56,6 @@
 		}
 
 		public function entriesItemPost() {
-			if ($this->request->is('json') === false ||
-					$this->request->is('post') === false
-			) {
-				throw new MethodNotAllowedException;
-			}
-
 			$data['Entry'] = $this->request->data;
 			if (isset($data['Entry']['category_id'])) {
 				$data['Entry']['category'] = $data['Entry']['category_id'];
@@ -80,10 +74,12 @@
 					$this->Entry->get($new_posting['Entry']['id'], true)
 				);
 			} else {
-				$this->response->statusCode(400);
-				$this->set('error', [
-						'message' => 'Entry could no be created.',
-					]);
+                $errors = $this->Entry->invalidFields();
+                if (!empty($errors)) {
+                    $first_field = key($errors);
+                    throw new \Saito\Api\ApiValidationError($first_field, current($errors[$first_field]));
+                }
+                throw new BadRequestException('Entry could not be created.');
 			}
 		}
 

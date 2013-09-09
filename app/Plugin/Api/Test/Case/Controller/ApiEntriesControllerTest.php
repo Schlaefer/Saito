@@ -82,6 +82,23 @@
 			);
 		}
 
+        public function testEntriesItemPostEmptySubject() {
+            $this->generate('Api.ApiEntries');
+            $this->_loginUser(3);
+            $this->expectException('Saito\Api\ApiValidationError', 'Subject must not be empty.');
+            $this->testAction(
+                $this->apiRoot . 'entries.json',
+                [
+                    'method' => 'POST',
+                    'data'   => [
+                        'subject' => '',
+                        'parent_id' => 0,
+                        'category_id' => 2
+                    ]
+                ]
+            );
+        }
+
 		public function testEntriesItemPutOnlyAuthenticatedUsers() {
 			$this->generate('ApiEntries', ['methods' => 'entriesItemPut']);
 			$this->testAction($this->apiRoot . 'entries/1', ['method' => 'PUT']);
