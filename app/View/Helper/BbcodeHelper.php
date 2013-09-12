@@ -278,6 +278,17 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				array( 'block', 'inline' ), array( )
 		);
 
+		// spoiler in block
+		$this->_Parser->addCode(
+			'spoiler',
+			'callback_replace',
+			[&$this, '_spoiler'],
+			['usecontent_param' => 'default'],
+			'inline',
+			['block', 'inline'],
+			['code']
+		);
+
 		//* lists
 		$this->_Parser->addCode(
 				'list', 'simple_replace', null,
@@ -306,9 +317,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
-
-		// spoiler
-		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, [&$this, '_spoiler']);
 
 		//* allows [url=<foo> label=none] to be parsed as [url default=<foo> label=none]
 		$this->_Parser->setMixedAttributeTypes(true);
@@ -769,20 +777,26 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		return $out;
 	}
 
-	public function _spoiler($string) {
-		return preg_replace_callback(
-			'/\[spoiler\](.*).?\[\/spoiler\]/',
-			function ($matches) {
-				$length = mb_strlen(strip_tags($matches[1]));
-				$minLenght = mb_strlen(__('Spoiler')) + 4;
-				if ($length < $minLenght) {
-					$length = $minLenght;
-				}
-				$title = $this->mb_strpad(' ' . __('Spoiler') . ' ', $length, '▇', STR_PAD_BOTH);
-				$json  = json_encode(['string' => $matches[1]]);
-				$id = 'spoiler_' . rand(0, 9999999999999);
-				$out = <<<EOF
-<div class="c_bbc_spoiler" style="display: inline-block;">
+	public function _spoiler($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
+
+		$length = mb_strlen(strip_tags($content));
+		$minLenght = mb_strlen(__('Spoiler')) + 4;
+		if ($length < $minLenght) {
+			$length = $minLenght;
+		}
+		$title = $this->mb_strpad(
+			' ' . __('Spoiler') . ' ',
+			$length,
+			'▇',
+			STR_PAD_BOTH
+		);
+		$json  = json_encode(['string' => $content]);
+		$id    = 'spoiler_' . rand(0, 9999999999999);
+		$out   = <<<EOF
+<div class="c_bbc_spoiler" style="display: inline;">
 	<script>
 		window.$id = $json;
 	</script>
@@ -794,9 +808,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 </div>
 EOF;
 				return $out;
-			},
-			$string
-		);
 	}
 
 	public function _email($action, $attributes, $content, $params, &$node_object) {

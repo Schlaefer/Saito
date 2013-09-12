@@ -72,16 +72,17 @@
 		}
 
 		public function testSpoiler() {
-			$input    = '[spoiler]te "\' xt[/spoiler]';
+			$input    = 'pre [spoiler] te "\' xt[/spoiler]';
 			$expected = [
+				'pre',
 				[
 					'div' => [
 						'class' => 'c_bbc_spoiler',
-						'style' => 'display: inline-block;'
+						'style' => 'display: inline;'
 					]
 				],
 				['script' => true],
-				'preg:/(.*?)(?=<)/',
+				'preg:/(.*?)"string":" te \\\"\' xt"(.*?)(?=<)/',
 				'/script',
 				[
 					'a' => [
