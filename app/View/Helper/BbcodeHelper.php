@@ -219,11 +219,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
-		//* strike
+		// [strike]
 		$this->_Parser->addCode(
 				'strike', 'simple_replace', null,
-				array( 'start_tag' => "<del>", 'end_tag' => '</del>' ), 'inline',
-				array( 'block', 'inline', 'link', 'listitem' ), array( )
+				['start_tag' => "<del>", 'end_tag' => '</del>'], 'inline',
+				['block', 'inline', 'link', 'listitem'], []
+		);
+
+		// [s] as [strike] shorthand
+		$this->_Parser->addCode(
+			's', 'simple_replace', null,
+			['start_tag' => "<del>", 'end_tag' => '</del>'], 'inline',
+			['block', 'inline', 'link', 'listitem'], []
 		);
 
 		//* hr
