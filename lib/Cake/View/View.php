@@ -98,7 +98,7 @@ class View extends Object {
  *
  * @var mixed A single name as a string or a list of names as an array.
  */
-	public $helpers = array('Html');
+	public $helpers = array();
 
 /**
  * Path to View.
@@ -504,6 +504,8 @@ class View extends Object {
 
 		if (empty($content)) {
 			$content = $this->Blocks->get('content');
+		} else {
+			$this->Blocks->set('content', $content);
 		}
 		$this->getEventManager()->dispatch(new CakeEvent('View.beforeLayout', $this, array($layoutFileName)));
 
