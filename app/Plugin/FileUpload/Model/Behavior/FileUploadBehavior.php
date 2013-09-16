@@ -1,13 +1,13 @@
 <?php
 /**
   * Behavior for file uploads
-  * 
+  *
   * Example Usage:
   *
-  * @example 
+  * @example
   *   var $actsAs = array('FileUpload.FileUpload');
   *
-  * @example 
+  * @example
   *   var $actsAs = array(
   *     'FileUpload.FileUpload' => array(
   *       'uploadDir'    => WEB_ROOT . DS . 'files',
@@ -28,12 +28,12 @@
 App::import('Vendor', 'FileUpload.uploader');
 App::import('Config', 'FileUpload.FileUploadSettings');
 class FileUploadBehavior extends ModelBehavior {
-  
+
   /**
     * Uploader is the uploader instance of class Uploader. This will handle the actual file saving.
     */
   var $Uploader = null;
-  
+
   /**
     * Setup the behavior
     */
@@ -43,13 +43,13 @@ class FileUploadBehavior extends ModelBehavior {
       $options = array();
     }
     $this->options = array_merge($FileUploadSettings->defaults, $options);
-        
+
     $uploader_settings = $this->options;
-    $uploader_settings['uploadDir'] = $this->options['forceWebroot'] ? WWW_ROOT . $uploader_settings['uploadDir'] : $uploader_settings['uploadDir']; 
+    $uploader_settings['uploadDir'] = $this->options['forceWebroot'] ? WWW_ROOT . $uploader_settings['uploadDir'] : $uploader_settings['uploadDir'];
     $uploader_settings['fileModel'] = $Model->alias;
     $this->Uploader = new Uploader($uploader_settings);
   }
- 
+
   /**
     * beforeSave if a file is found, upload it, and then save the filename according to the settings
     *
@@ -58,7 +58,7 @@ class FileUploadBehavior extends ModelBehavior {
     if(isset($Model->data[$Model->alias][$this->options['fileVar']])){
       $file = $Model->data[$Model->alias][$this->options['fileVar']];
       $this->Uploader->file = $file;
-      
+
       if($this->Uploader->hasUpload()){
         $fileName = $this->Uploader->processFile();
         if($fileName){
@@ -76,7 +76,7 @@ class FileUploadBehavior extends ModelBehavior {
     }
     return $Model->beforeSave();
   }
-  
+
   /**
     * Updates validation errors if there was an error uploading the file.
     * presents the user the errors.
@@ -99,17 +99,16 @@ class FileUploadBehavior extends ModelBehavior {
     }
     return $Model->beforeValidate();
   }
-  
+
   /**
     * Automatically remove the uploaded file.
     */
   function beforeDelete(Model $Model, $cascade = true){
     $Model->recursive = -1;
     $data = $Model->read();
-    
+
     $this->Uploader->removeFile($data[$Model->alias][$this->options['fields']['name']]);
     return $Model->beforeDelete($cascade);
   }
-  
+
 }
-?>

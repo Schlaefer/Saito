@@ -4,7 +4,7 @@ App::import('Lib', 'SimpleCaptcha.SimpleCaptcha');
 
 /**
  * Captcha Behavior
- * 
+ *
  * Implements the Behavior for the Captcha which validates the captcha data
  */
 class SimpleCaptchaBehavior extends ModelBehavior {
@@ -12,13 +12,13 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 	private $defaults = array(
 			/**
 			 * Minimum time in seconds which is considered necessary for a human to fill the form
-			 * 
+			 *
 			 * We assume that only a bot is able to fill and answer the form faster.
 			 */
 			'minTime' => 6,
 			/**
 			 * Maximum time in seconds the form is valid.
-			 * 
+			 *
 			 * Prevents harvesting hashs for later use.
 			 */
 			'maxTime' => 1200,
@@ -36,9 +36,9 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Setup instance
-	 * 
+	 *
 	 * @param type $Model
-	 * @param type $settings 
+	 * @param type $settings
 	 */
 	public function setup(Model $Model, $settings = array()) {
 		$this->defaults = array_merge(SimpleCaptcha::$defaults, $this->defaults);
@@ -57,7 +57,7 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Callback which initializes all the captcha related checking
-	 * 
+	 *
 	 * @param Model $Model
 	 * @return bool
 	 */
@@ -83,9 +83,9 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Validates the dummy field
-	 * 
+	 *
 	 * @param array $data
-	 * @return bool 
+	 * @return bool
 	 */
 	protected function _validateDummyField($data) {
 		$dummyField = $this->settings[$this->Model->alias]['dummyField'];
@@ -98,9 +98,9 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * Validates the minimum time
-	 * 
+	 *
 	 * @param array $data
-	 * @return bool 
+	 * @return bool
 	 */
 	protected function _validateCaptchaMinTime($data) {
 		if ($this->settings[$this->Model->alias]['minTime'] <= 0) {
@@ -118,9 +118,9 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 
 	/**
 	 * validates maximum time
-	 * 
+	 *
 	 * @param array $data
-	 * @return bool 
+	 * @return bool
 	 */
 	protected function _validateCaptchaMaxTime($data) {
 		if ($this->settings[$this->Model->alias]['maxTime'] <= 0) {
@@ -136,14 +136,14 @@ class SimpleCaptchaBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Validates captcha calculation 
-	 * 
+	 * Validates captcha calculation
+	 *
 	 * flood protection by false fields and math code
 	 * TODO: build in floodProtection (max Trials etc)
 	 * TODO: SESSION based one as alternative
 	 *
 	 * @param array $data
-	 * @return bool 
+	 * @return bool
 	 */
 	protected function _validateCaptcha($data) {
 		if (!isset($data['captcha'])) {
