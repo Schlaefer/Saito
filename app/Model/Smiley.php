@@ -22,7 +22,7 @@
 			]
 		];
 
-		public function afterSave($created) {
+		public function afterSave($created, $options = array()) {
 			$this->clearCache();
 		}
 

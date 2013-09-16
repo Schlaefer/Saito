@@ -108,7 +108,7 @@ class Category extends AppModel {
 		$this->_dispatchEvent('Model.Category.delete');
 	}
 
-	public function afterSave($created) {
+	public function afterSave($created, $options = array()) {
 		// don't empty cache if it's only a thread count update
 		if (!isset($this->data[$this->alias]['thread_count']) &&
 				isset($this->data[$this->alias]['category'])
