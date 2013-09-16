@@ -67,7 +67,6 @@
 			}
 
 			$new_posting = $this->Entry->createPosting($data);
-			// @todo error/validation handling
 			if ($new_posting) {
 				$this->set(
 					'entry',
