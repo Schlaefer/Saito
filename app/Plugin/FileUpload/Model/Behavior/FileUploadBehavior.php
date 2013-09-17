@@ -81,7 +81,7 @@ class FileUploadBehavior extends ModelBehavior {
     * Updates validation errors if there was an error uploading the file.
     * presents the user the errors.
     */
-	public function beforeValidate(Model $model, $options = array()) {
+	public function beforeValidate(Model $Model, $options = array()) {
     if(isset($Model->data[$Model->alias][$this->options['fileVar']])){
       $file = $Model->data[$Model->alias][$this->options['fileVar']];
       $this->Uploader->file = $file;
