@@ -14,7 +14,7 @@
 
 		public function initialize(Controller $controller) {
 			$this->_controller = $controller;
-			$this->settings = new BbcodeSettings();
+			$this->settings = BbcodeSettings::getInstance();
 		}
 
 		public function beforeRender(Controller $controller) {

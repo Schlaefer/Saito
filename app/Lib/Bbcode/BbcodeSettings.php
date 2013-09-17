@@ -26,10 +26,10 @@
 			return $this->settings;
 		}
 
-		public function __construct() {
+		protected function __construct() {
 		}
 
-		public function __clone() {
+		private function __clone() {
 		}
 
 		public function offsetExists($offset) {

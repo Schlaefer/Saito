@@ -9,7 +9,7 @@
 		public $settings;
 
 		public function setup(Model $Model, $settings = []) {
-			$this->settings = new BbcodeSettings();
+			$this->settings = BbcodeSettings::getInstance();
 		}
 
 		/**
