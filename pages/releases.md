@@ -7,6 +7,27 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-09.01 ##
+
+### What's new ###
+
+- [new] JSON API for basic forum functionality (login, add, edit, logout)
+- [new] [s] as shorthand for [strike] bbcode-tag
+- [new] Smiley model is cached for better performance
+- [new] Updates CakePHP to 2.4.1
+- [fix] fixes missing whitespaces in [spoiler] text
+
+Code refactoring and performance improvements.
+
+There's a new JSON API which is optional at the moment. See docs/api-v1.md for more information.
+
+### DB Changes
+
+<span class="label label-warning">Note:</span> Don't forget to add your table prefix if necessary.
+
+    INSERT INTO `settings` (`name`, `value`) VALUES ('api_enabled', '1');
+    INSERT INTO `settings` (`name`, `value`) VALUES ('api_crossdomain', '');
+
 ## 2013-08.03 ##
 
 ### What's new ###
