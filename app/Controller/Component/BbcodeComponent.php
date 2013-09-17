@@ -8,18 +8,9 @@
 
 		protected $_initHelper = false;
 
-		protected $_controller;
-
-		public $settings = null;
-
-		public function initialize(Controller $controller) {
-			$this->_controller = $controller;
-			$this->settings = BbcodeSettings::getInstance();
-		}
-
 		public function beforeRender(Controller $controller) {
 			if ($this->_initHelper === true) {
-				$this->_initHelper($this->_controller);
+				$this->_initHelper($controller);
 			}
 		}
 
@@ -33,14 +24,17 @@
 		 * Call this instead of including in the controller's $helpers array.
 		 */
 		protected function _initHelper(Controller $controller) {
+			$settings = BbcodeSettings::getInstance();
+
 			$userlist = new BbcodeUserlistUserModel();
 			$userlist->set($controller->User);
-			$controller->helpers['Bbcode'] = array(
+
+			$controller->helpers['Bbcode'] = [
 				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
-				'hashBaseUrl' => $controller->webroot . $this->settings['hashBaseUrl'],
-				'atBaseUrl'   => $controller->webroot . $this->settings['atBaseUrl'],
+				'hashBaseUrl' => $controller->webroot . $settings['hashBaseUrl'],
+				'atBaseUrl'   => $controller->webroot . $settings['atBaseUrl'],
 				'UserList'    => $userlist
-			);
+			];
 		}
 	}
 
