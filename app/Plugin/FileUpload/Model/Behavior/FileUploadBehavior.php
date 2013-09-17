@@ -54,7 +54,7 @@ class FileUploadBehavior extends ModelBehavior {
     * beforeSave if a file is found, upload it, and then save the filename according to the settings
     *
     */
-	public function beforeSave(Model $model, $options = array()) {
+	public function beforeSave(Model $Model, $options = array()) {
     if(isset($Model->data[$Model->alias][$this->options['fileVar']])){
       $file = $Model->data[$Model->alias][$this->options['fileVar']];
       $this->Uploader->file = $file;
