@@ -19,7 +19,6 @@
 			}
 
 			// available categories
-			// @todo test cases for accession
 			$this->layout = 'mobile';
 			$categories = $this->Category->find('all', [
 					'contain' => false,

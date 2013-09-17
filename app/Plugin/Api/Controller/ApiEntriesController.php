@@ -96,7 +96,6 @@
 				[
 					'conditions' => [
 						'Entry.tid'      => $id,
-						// @todo test cases
 						'Entry.category' => $this->Entry->Category->getCategoriesForAccession(
 							$this->CurrentUser->getMaxAccession()
 						),

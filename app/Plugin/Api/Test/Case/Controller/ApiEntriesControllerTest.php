@@ -75,6 +75,37 @@
 			$this->assertEqual(json_decode($result), $expected);
 		}
 
+		/**
+		 * Tests that anon doesn't see user and admin categories
+		 */
+		public function testThreadsNoAdminAnon() {
+			$data = ['limit' => 3];
+			$result = $this->testAction(
+				$this->apiRoot . 'threads.json',
+				['return' => 'contents', 'method' => 'GET', 'data' => $data]
+			);
+			$result = json_decode($result, true);
+			$this->assertEqual(count($result), 2);
+			$this->assertEqual($result[0]['id'], 1);
+			$this->assertEqual($result[1]['id'], 10);
+		}
+
+		/**
+		 * Tests that user doesn't see admin category
+		 */
+		public function testThreadsNoAdminUser() {
+			$this->generate('ApiEntries');
+			$this->_loginUser(3);
+			$data = ['limit' => 2, 'offset' => 1, 'order' => 'answer'];
+			$result = $this->testAction(
+				$this->apiRoot . 'threads.json',
+				['return' => 'contents', 'method' => 'GET', 'data' => $data]
+			);
+			$result = json_decode($result, true);
+			$this->assertEqual($result[0]['id'], 4);
+			$this->assertEqual($result[1]['id'], 10);
+		}
+
 		public function testThreadsDisallowedRequestTypes() {
 			$this->_checkDisallowedRequestType(
 				['POST', 'PUT', 'DELETE'],
@@ -299,6 +330,70 @@ EOF
 				isset($result[0]['is_locked']),
 				'Property `is_locked` should not be visible to anon user.'
 			);
+		}
+
+		/**
+		 * Tests that anon can't see user category
+		 */
+		public function testThreadsItemGetNotLoggedInCategory() {
+			$this->expectException('NotFoundException', 'Thread with id `4` not found.');
+			$this->testAction(
+				$this->apiRoot . 'threads/4.json',
+				['method' => 'GET', 'return' => 'contents']
+			);
+		}
+
+		/**
+		 * Tests that user can see user category
+		 */
+		public function testThreadsItemGetLoggedInCategory() {
+			$this->generate('ApiEntries');
+			$this->_loginUser(3);
+			$result = $this->testAction(
+				$this->apiRoot . 'threads/4.json',
+				['method' => 'GET', 'return' => 'contents']
+			);
+			$result = json_decode($result, true);
+			$this->assertEqual($result[0]['id'], 4);
+		}
+
+		/**
+		 * Tests that anon can't see admin category
+		 */
+		public function testThreadsItemGetNotAdminAnonCategory() {
+			$this->expectException('NotFoundException', 'Thread with id `6` not found.');
+			$this->testAction(
+				$this->apiRoot . 'threads/6.json',
+				['method' => 'GET', 'return' => 'contents']
+			);
+		}
+
+		/**
+		 * Tests that user can't see admin category
+		 */
+		public function testThreadsItemGetNotAdminUserCategory() {
+			$this->generate('ApiEntries');
+			$this->_loginUser(3);
+
+			$this->expectException('NotFoundException', 'Thread with id `6` not found.');
+			$this->testAction(
+				$this->apiRoot . 'threads/6.json',
+				['method' => 'GET', 'return' => 'contents']
+			);
+		}
+
+		/**
+		 * Tests that admin can see admin category.
+		 */
+		public function testThreadsItemGetAdminCategory() {
+			$this->generate('ApiEntries');
+			$this->_loginUser(1);
+			$result = $this->testAction(
+				$this->apiRoot . 'threads/6.json',
+				['method' => 'GET', 'return' => 'contents']
+			);
+			$result = json_decode($result, true);
+			$this->assertEqual($result[0]['id'], 6);
 		}
 
 		public function testThreadsItemDisallowedRequestTypes() {

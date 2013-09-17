@@ -82,4 +82,51 @@ EOF
 
 			$this->assertEqual($result, $expected);
 		}
+
+		public function testBootstrapCategoriesLoggedIn() {
+			$expected = json_decode(<<<EOF
+ [
+    {
+      "id": 2,
+      "order": 3,
+      "title": "Ontopic",
+      "description": "",
+      "accession": 0
+    },
+    {
+      "id": 3,
+      "order": 2,
+      "title": "Another Ontopic",
+      "description": "",
+      "accession": 0
+    },
+    {
+      "id": 4,
+      "order": 4,
+      "title": "Offtopic",
+      "description": "",
+      "accession": 1
+    },
+    {
+      "id": 5,
+      "order": 4,
+      "title": "Trash",
+      "description": "",
+      "accession": 1
+    }
+]
+EOF
+				, true);
+			$this->generate('ApiCore');
+			$this->_loginUser(3);
+			$result = $this->testAction(
+				$this->apiRoot . 'bootstrap.json',
+				[
+					'method' => 'GET',
+					'return' => 'contents'
+				]
+			);
+			$result = json_decode($result, true)['categories'];
+			$this->assertEqual($result, $expected);
+		}
 	}
