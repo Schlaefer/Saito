@@ -512,7 +512,7 @@
 				return [];
 			}
 
-			Stopwatch::start('Model->Entries->treeForNodes() DB');
+			Stopwatch::start('Model->Entries->treeForThreads() DB');
 
 			if (empty($order)) {
 				$order = 'last_answer ASC';
@@ -534,13 +534,13 @@
 					'fields' => $fieldlist
 				]
 			);
-			Stopwatch::stop('Model->Entries->treeForNodes() DB');
+			Stopwatch::stop('Model->Entries->treeForThreads() DB');
 
 			$out = false;
 			if ($threads) {
-				Stopwatch::start('Model->Entries->treeForNodes() CPU');
+				Stopwatch::start('Model->Entries->treeForThreads() CPU');
 				$out = $this->treeBuild($threads);
-				Stopwatch::stop('Model->Entries->treeForNodes() CPU');
+				Stopwatch::stop('Model->Entries->treeForThreads() CPU');
 			}
 
 			return $out;

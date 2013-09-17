@@ -77,8 +77,8 @@ class Setting extends AppModel {
 		return $settings;
 	}
 
-	public function afterSave($created) {
-		parent::afterSave($created);
+	public function afterSave($created, $options = array()) {
+		parent::afterSave($created, $options);
 		$this->load(null, ['force' => true]);
 	}
 

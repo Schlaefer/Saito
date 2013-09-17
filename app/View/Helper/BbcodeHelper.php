@@ -219,11 +219,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
-		//* strike
+		// [strike]
 		$this->_Parser->addCode(
 				'strike', 'simple_replace', null,
-				array( 'start_tag' => "<del>", 'end_tag' => '</del>' ), 'inline',
-				array( 'block', 'inline', 'link', 'listitem' ), array( )
+				['start_tag' => "<del>", 'end_tag' => '</del>'], 'inline',
+				['block', 'inline', 'link', 'listitem'], []
+		);
+
+		// [s] as [strike] shorthand
+		$this->_Parser->addCode(
+			's', 'simple_replace', null,
+			['start_tag' => "<del>", 'end_tag' => '</del>'], 'inline',
+			['block', 'inline', 'link', 'listitem'], []
 		);
 
 		//* hr
@@ -271,6 +278,17 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				array( 'block', 'inline' ), array( )
 		);
 
+		// spoiler in block
+		$this->_Parser->addCode(
+			'spoiler',
+			'callback_replace',
+			[&$this, '_spoiler'],
+			['usecontent_param' => 'default'],
+			'inline',
+			['block', 'inline'],
+			['code']
+		);
+
 		//* lists
 		$this->_Parser->addCode(
 				'list', 'simple_replace', null,
@@ -299,9 +317,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
-
-		// spoiler
-		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, [&$this, '_spoiler']);
 
 		//* allows [url=<foo> label=none] to be parsed as [url default=<foo> label=none]
 		$this->_Parser->setMixedAttributeTypes(true);
@@ -376,58 +391,63 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @param <type> $string
 	 * @return <type>
 	 */
-	public function _smilies($string, $options = array( )) {
-		$defaults = array(
+	public function _smilies($string, $options = []) {
+		// Stopwatch::start('BbcodeHelper::_smilies');
+		$defaults = [
 				'cache' => true,
-		);
+		];
+		$options += $defaults;
 
-		$options = array_merge($defaults, $options);
-		extract($options);
 
-//		Stopwatch::start('_smilies');
-
-		// Building Smilies
 		// @td refactor: MVC|method?
 		$smilies = Configure::read('Saito.Smilies.smilies_all');
 
 		$build_cache = false;
 
-		if ( !$s = Configure::read("Saito.Smilies.smilies_all_html") ) {
-			if ( !$cache || !$s = Cache::read("Saito.Smilies.smilies_all_html") ) {
+		if (!$s = Configure::read('Saito.Smilies.smilies_all_html')) {
+			if (!$options['cache'] ||
+					!$s = Cache::read('Saito.Smilies.smilies_all_html')
+			) {
 				$build_cache = true;
 			}
 		}
 
-		if ( $build_cache ):
-			$s['codes'] = array( );
-			$s['replacements'] = array( );
-			$s = array( );
-			foreach ( $smilies as $smiley ):
-				$s['codes'][] = $smiley['code'];
-				$s['replacements'][] = $this->Html->image('smilies/' . $smiley['image'],
-						array( 'alt' => "{$smiley['code']}", 'title' => $smiley['title'] ));
-			endforeach;
+		if ($build_cache):
+			$s = [
+				'codes'        => [],
+				'replacements' => []
+			];
+			foreach ($smilies as $smiley) {
+				$s['codes'][]        = $smiley['code'];
+				$s['replacements'][] = $this->Html->image(
+					'smilies/' . $smiley['image'],
+					['alt' => "{$smiley['code']}", 'title' => $smiley['title']]
+				);
+			}
 			Configure::write("Saito.Smilies.smilies_all_html", $s);
-			if ( $cache ) {
+			if ($options['cache']) {
 				Cache::write("Saito.Smilies.smilies_all_html", $s);
 			}
 		endif;
+		unset($options['cache']);
 
 		$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 		if (!empty($additionalButtons)):
-			foreach ( $additionalButtons as $additionalButtonTitle => $additionalButton):
+			foreach ($additionalButtons as $additionalButton):
 				// $s['codes'][] = ':gacker:';
 				$s['codes'][] = $additionalButton['code'];
 				// $s['replacements'][] = $this->Html->image('smilies/gacker_large.png');
-				if ( $additionalButton['type'] === 'image' ):
-					$additionalButton['replacement'] = $this->Html->image('markitup'.DS.$additionalButton['replacement']);
-				endif;
+				if ($additionalButton['type'] === 'image') {
+					$additionalButton['replacement'] = $this->Html->image(
+						'markitup' . DS . $additionalButton['replacement']
+					);
+				}
 				$s['replacements'][] = $additionalButton['replacement'];
 			endforeach;
 		endif;
 
 		$string = str_replace($s['codes'], $s['replacements'], $string);
-//		Stopwatch::stop('_smilies');
+		// Stopwatch::stop('BbcodeHelper::_smilies');
 		return $string;
 	}
 
@@ -757,20 +777,26 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		return $out;
 	}
 
-	public function _spoiler($string) {
-		return preg_replace_callback(
-			'/\[spoiler\](.*).?\[\/spoiler\]/',
-			function ($matches) {
-				$length = mb_strlen(strip_tags($matches[1]));
-				$minLenght = mb_strlen(__('Spoiler')) + 4;
-				if ($length < $minLenght) {
-					$length = $minLenght;
-				}
-				$title = $this->mb_strpad(' ' . __('Spoiler') . ' ', $length, '▇', STR_PAD_BOTH);
-				$json  = json_encode(['string' => $matches[1]]);
-				$id = 'spoiler_' . rand(0, 9999999999999);
-				$out = <<<EOF
-<div class="c_bbc_spoiler" style="display: inline-block;">
+	public function _spoiler($action, $attributes, $content, $params, &$node_object) {
+		if ($action === 'validate') {
+			return true;
+		}
+
+		$length = mb_strlen(strip_tags($content));
+		$minLenght = mb_strlen(__('Spoiler')) + 4;
+		if ($length < $minLenght) {
+			$length = $minLenght;
+		}
+		$title = $this->mb_strpad(
+			' ' . __('Spoiler') . ' ',
+			$length,
+			'▇',
+			STR_PAD_BOTH
+		);
+		$json  = json_encode(['string' => $content]);
+		$id    = 'spoiler_' . rand(0, 9999999999999);
+		$out   = <<<EOF
+<div class="c_bbc_spoiler" style="display: inline;">
 	<script>
 		window.$id = $json;
 	</script>
@@ -782,9 +808,6 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 </div>
 EOF;
 				return $out;
-			},
-			$string
-		);
 	}
 
 	public function _email($action, $attributes, $content, $params, &$node_object) {

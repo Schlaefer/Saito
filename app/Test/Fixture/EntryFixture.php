@@ -41,157 +41,162 @@
 		 *
 		 *	- 6
 		 *
+		 *  - 10
+		 *
 		 * @var type array
 		 */
 		public $records = array(
-				//* thread 1
-				[
-					'id'          => 1,
-					'subject'     => 'First_Subject',
-					'text'        => 'First_Text',
-					'pid'         => 0,
-					'tid'         => 1,
-					'time'        => '2000-01-01 20:00:00',
-					'last_answer' => '2000-01-04 20:02:00',
-					'category'    => 2, // accession = 0
-					'user_id'     => 3,
-					'locked'      => 0
-				],
-				array(
-						'id' => 2,
-						'subject' => 'Second_Subject',
-						'text' => 'Second_Text',
-						'pid' => 1,
-						'tid' => 1,
-						'time' => '2000-01-01 20:01:00',
-						'last_answer' => '2000-01-01 20:01:00',
-						'category' => 2,
-						'user_id' => 2,
-						'locked' => 0
-				),
-				array(
-						'id' => 3,
-						'subject' => 'Third_Subject',
-						'text' => 'Third_Text',
-						'pid' => 2,
-						'tid' => 1,
-						'time' => '2000-01-01 20:02:00',
-						'last_answer' => '2000-01-01 20:02:00',
-						'category' => 2,
-						'user_id' => 3,
-						'name' => 'Ulysses',
-						'edited' => '2000-01-01 20:04:00',
-						'edited_by' => 'Ulysses',
-						'ip' => '1.1.1.1',
-						'locked' => 0
-				),
-				array(
-						'id' => 7,
-						'subject' => 'Fouth_Subject',
-						'text' => 'Fourth_Text',
-						'pid' => 9,
-						'tid' => 1,
-						'time' => '2000-01-02 20:03:00',
-						'last_answer' => '2000-01-02 20:03:00',
-						'category' => 2,
-						'user_id' => 3,
-						'name' => 'Ulysses',
-						'ip' => '1.1.1.1',
-						'locked' => 0
-				),
-				array(
-						'id' => 8,
-						'subject' => 'Fifth_Subject',
-						'text' => 'Fifth_Text',
-						'pid' => 1,
-						'tid' => 1,
-						'time' => '2000-01-03 20:02:00',
-						'last_answer' => '2000-01-03 20:02:00',
-						'category' => 2,
-						'user_id' => 3,
-						'name' => 'Ulysses',
-						'ip' => '1.1.1.1',
-						'locked' => 0
-				),
-				array(
-						'id' => 9,
-						'subject' => 'Sixth_Subject',
-						'text' => 'Sixth_Text',
-						'pid' => 2,
-						'tid' => 1,
-						'time' => '2000-01-04 20:02:00',
-						'last_answer' => '2000-01-04 20:02:00',
-						'category' => 2,
-						'user_id' => 3,
-						'name' => 'Ulysses',
-						'ip' => '1.1.1.1',
-						'locked' => 0
-				),
-				//* thread 2
-				array(
-						'id' => 4,
-						'subject' => 'Second Thread First_Subject',
-						'text' => '',
-						'pid' => 0,
-						'tid' => 4,
-						'time' => '2000-01-01 10:00:00',
-						'last_answer' => '2000-01-04 20:02:00',
-						// accession = 1
-						'category' => 4,
-						'user_id' => 1,
-						'locked' => 1
-				),
-				array(
-						'id' => 5,
-						'subject' => 'Second Thread Second_Subject',
-						'text' => '',
-						'pid' => 4,
-						'tid' => 4,
-						'time' => '2000-01-04 20:02:00',
-						'last_answer' => '2000-01-04 20:02:00',
-						'category' => 4,
-						'user_id' => 3,
-						'name' => 'Ulysses',
-						'edited' => '0000-00-00 00:00:00',
-						'edited_by' => NULL,
-						'ip' => '1.1.1.1',
-						'locked' => 1
-				),
-				// thread 3
-				array(
-						'id' => 6,
-						'subject' => 'Third Thread First_Subject',
-						'text' => '',
-						'pid' => 0,
-						'tid' => 6,
-						'time' => '2000-01-01 11:00:00',
-						'last_answer' => '2000-01-01 11:00:00',
-						// accession = 2,
-						'category' => 1,
-						'user_id' => 1,
-						'name' => 'Alice',
-						'edited' => '0000-00-00 00:00:00',
-						'edited_by' => NULL,
-						'ip' => '1.1.1.3',
-						'locked' => 0
-				),
-				// thread 4 public locked
-				[
-					'id'          => 10,
-					'subject'     => 'First_Subject',
-					'text'        => 'First_Text',
-					'pid'         => 0,
-					'tid'         => 10,
-					'time'        => '2000-01-01 10:59:00',
-					'last_answer' => '2000-01-01 10:59:00',
-					'edited'    	=> '0000-00-00 00:00:00',
-					'edited_by' 	=> null,
-					'category'    => 2, // accession = 0
-					'user_id'     => 3,
-					'locked'      => 1
-				]
+			// thread 1
+			// -------------------------------------
+			[
+				'id'          => 1,
+				'subject'     => 'First_Subject',
+				'text'        => 'First_Text',
+				'pid'         => 0,
+				'tid'         => 1,
+				'time'        => '2000-01-01 20:00:00',
+				'last_answer' => '2000-01-04 20:02:00',
+				'category'    => 2, // accession = 0
+				'user_id'     => 3,
+				'locked'      => 0
+			],
+			[
+				'id'          => 2,
+				'subject'     => 'Second_Subject',
+				'text'        => 'Second_Text',
+				'pid'         => 1,
+				'tid'         => 1,
+				'time'        => '2000-01-01 20:01:00',
+				'last_answer' => '2000-01-01 20:01:00',
+				'category'    => 2,
+				'user_id'     => 2,
+				'locked'      => 0
+			],
+			[
+				'id'          => 3,
+				'subject'     => 'Third_Subject',
+				'text'        => 'Third_Text',
+				'pid'         => 2,
+				'tid'         => 1,
+				'time'        => '2000-01-01 20:02:00',
+				'last_answer' => '2000-01-01 20:02:00',
+				'category'    => 2,
+				'user_id'     => 3,
+				'name'        => 'Ulysses',
+				'edited'      => '2000-01-01 20:04:00',
+				'edited_by'   => 'Ulysses',
+				'ip'          => '1.1.1.1',
+				'locked'      => 0
+			],
+			[
+				'id'          => 7,
+				'subject'     => 'Fouth_Subject',
+				'text'        => 'Fourth_Text',
+				'pid'         => 9,
+				'tid'         => 1,
+				'time'        => '2000-01-02 20:03:00',
+				'last_answer' => '2000-01-02 20:03:00',
+				'category'    => 2,
+				'user_id'     => 3,
+				'name'        => 'Ulysses',
+				'ip'          => '1.1.1.1',
+				'locked'      => 0
+			],
+			[
+				'id'          => 8,
+				'subject'     => 'Fifth_Subject',
+				'text'        => 'Fifth_Text',
+				'pid'         => 1,
+				'tid'         => 1,
+				'time'        => '2000-01-03 20:02:00',
+				'last_answer' => '2000-01-03 20:02:00',
+				'category'    => 2,
+				'user_id'     => 3,
+				'name'        => 'Ulysses',
+				'ip'          => '1.1.1.1',
+				'locked'      => 0
+			],
+			[
+				'id'          => 9,
+				'subject'     => 'Sixth_Subject',
+				'text'        => 'Sixth_Text',
+				'pid'         => 2,
+				'tid'         => 1,
+				'time'        => '2000-01-04 20:02:00',
+				'last_answer' => '2000-01-04 20:02:00',
+				'category'    => 2,
+				'user_id'     => 3,
+				'name'        => 'Ulysses',
+				'ip'          => '1.1.1.1',
+				'locked'      => 0
+			],
+
+			// thread 2
+			// -------------------------------------
+			[
+				'id'          => 4,
+				'subject'     => 'Second Thread First_Subject',
+				'text'        => '',
+				'pid'         => 0,
+				'tid'         => 4,
+				'time'        => '2000-01-01 10:00:00',
+				'last_answer' => '2000-01-04 20:02:00',
+				'category'    => 4, // accession = 1
+				'user_id'     => 1,
+				'locked'      => 1
+			],
+			[
+				'id'          => 5,
+				'subject'     => 'Second Thread Second_Subject',
+				'text'        => '',
+				'pid'         => 4,
+				'tid'         => 4,
+				'time'        => '2000-01-04 20:02:00',
+				'last_answer' => '2000-01-04 20:02:00',
+				'category'    => 4,
+				'user_id'     => 3,
+				'name'        => 'Ulysses',
+				'edited'      => '0000-00-00 00:00:00',
+				'edited_by'   => null,
+				'ip'          => '1.1.1.1',
+				'locked'      => 1
+			],
+
+			// thread 3
+			// -------------------------------------
+			[
+				'id'          => 6,
+				'subject'     => 'Third Thread First_Subject',
+				'text'        => '',
+				'pid'         => 0,
+				'tid'         => 6,
+				'time'        => '2000-01-01 11:00:00',
+				'last_answer' => '2000-01-01 11:00:00',
+				'category'    => 1, // accession = 2
+				'user_id'     => 1,
+				'name'        => 'Alice',
+				'edited'      => '0000-00-00 00:00:00',
+				'edited_by'   => null,
+				'ip'          => '1.1.1.3',
+				'locked'      => 0
+			],
+
+			// thread 4
+			// -------------------------------------
+			[
+				'id'          => 10,
+				'subject'     => 'First_Subject',
+				'text'        => 'First_Text',
+				'pid'         => 0,
+				'tid'         => 10,
+				'time'        => '2000-01-01 10:59:00',
+				'last_answer' => '2000-01-01 10:59:00',
+				'edited'      => '0000-00-00 00:00:00',
+				'edited_by'   => null,
+				'category'    => 2, // accession = 0
+				'user_id'     => 3,
+				'locked'      => 1
+			]
 		);
 
 	}
-
-?>

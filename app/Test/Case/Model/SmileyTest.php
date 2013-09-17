@@ -40,13 +40,13 @@
 		public function setUp() {
 			parent::setUp();
 			$this->Smiley = ClassRegistry::init('Smiley');
+			$this->Smiley->clearCache();
 		}
 
 		public function tearDown() {
+			$this->Smiley->clearCache();
 			unset($this->Smiley);
 			parent::tearDown();
 		}
 
 	}
-
-?>

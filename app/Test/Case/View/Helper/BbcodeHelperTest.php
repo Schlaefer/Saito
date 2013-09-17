@@ -55,25 +55,34 @@
 			$expected = array( 'span' => array( 'class' => 'c_bbc_underline' ), 'text', '/span' );
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
+		}
 
-			//* strike
-			$input = '[strike]text[/strike]';
-			$expected = array( 'del' => array( ), 'text', '/del' );
+		public function testStrike() {
+			$expected = ['del' => [], 'text', '/del'];
+
+			// [strike]
+			$input  = '[strike]text[/strike]';
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+
+			// [s]
+			$input  = '[s]text[/s]';
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
 		public function testSpoiler() {
-			$input    = '[spoiler]te "\' xt[/spoiler]';
+			$input    = 'pre [spoiler] te "\' xt[/spoiler]';
 			$expected = [
+				'pre',
 				[
 					'div' => [
 						'class' => 'c_bbc_spoiler',
-						'style' => 'display: inline-block;'
+						'style' => 'display: inline;'
 					]
 				],
 				['script' => true],
-				'preg:/(.*?)(?=<)/',
+				'preg:/(.*?)"string":" te \\\"\' xt"(.*?)(?=<)/',
 				'/script',
 				[
 					'a' => [
