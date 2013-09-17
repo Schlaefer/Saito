@@ -73,12 +73,14 @@
 					$this->Entry->get($new_posting['Entry']['id'], true)
 				);
 			} else {
-                $errors = $this->Entry->invalidFields();
-                if (!empty($errors)) {
-                    $first_field = key($errors);
-                    throw new \Saito\Api\ApiValidationError($first_field, current($errors[$first_field]));
-                }
-                throw new BadRequestException('Entry could not be created.');
+				$errors = $this->Entry->invalidFields();
+				if (!empty($errors)) {
+					$first_field = key($errors);
+					throw new \Saito\Api\ApiValidationError($first_field, current(
+						$errors[$first_field]
+					));
+				}
+				throw new BadRequestException('Entry could not be created.');
 			}
 		}
 
