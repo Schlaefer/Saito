@@ -68,6 +68,7 @@
 
 			$new_posting = $this->Entry->createPosting($data);
 			if ($new_posting) {
+				$this->initBbcode();
 				$this->set(
 					'entry',
 					$this->Entry->get($new_posting['Entry']['id'], true)
@@ -111,6 +112,7 @@
 				throw new NotFoundException(sprintf('Thread with id `%s` not found.', $id));
 			}
 
+			$this->initBbcode();
 			$this->set('entries', $entries);
 		}
 
@@ -153,8 +155,6 @@
 
 		public function beforeFilter() {
 			parent::beforeFilter();
-			// @todo performance; load only when needed for output of BBCode html
-			$this->_loadSmilies();
 			$this->Auth->allow('threadsGet', 'threadsItemGet');
 		}
 
