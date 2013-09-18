@@ -116,11 +116,11 @@ define([
                 this.initSlidetabs('#slidetabs');
                 this.initCategoryChooser('#category-chooser');
 
-                if($('.entry.add').length > 0) {
+                if($('.entry.add-not-inline').length > 0) {
                     // init the entries/add form where answering is not
                     // appended to a posting
                     this.answeringForm = new AnsweringView({
-                        el: this.$('.entry.add'),
+                        el: this.$('.entry.add-not-inline'),
                         id: 'foo'
                     });
                 }

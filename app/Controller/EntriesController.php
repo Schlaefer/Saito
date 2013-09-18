@@ -356,6 +356,7 @@
 			}
 
 			$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
+			$this->set('is_inline', (int)$this->request->data['Entry']['pid'] !== 0);
 			$this->set('form_id', $this->request->data['Entry']['pid']);
 			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
 			$this->set('headerSubnavLeftUrl', '/entries/index');
@@ -449,6 +450,7 @@
 		$this->set('notis', $notis);
 
 		$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
+		$this->set('is_inline', false);
 		$this->set('form_id', $this->request->data['Entry']['pid']);
 
 		// set headers
@@ -620,7 +622,7 @@
 		if ($this->request->is('ajax') === false) {
 			throw new BadRequestException();
 		}
-		if ($this->request->is('put') === false) {
+		if ($this->request->is('get')) {
 			throw new MethodNotAllowedException();
 		}
 
