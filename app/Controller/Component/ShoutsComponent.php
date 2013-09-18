@@ -13,12 +13,16 @@
 		public function setShoutsForView() {
 			$this->_controller->loadModel('Shout');
 			$shouts = $this->_controller->Shout->get();
-			$cached_shouts = Cache::read('Shouts.html');
-			if ($cached_shouts && $shouts[0]['Shout']['id'] === $cached_shouts['lastId']) {
-				$this->_controller->set('shouts', $cached_shouts['html']);
+			if (empty($shouts)) {
+				$this->_controller->set('shouts', null);
 			} else {
-				$this->_controller->initBbcode();
-				$this->_controller->set('shouts', $shouts);
+				$cached_shouts = Cache::read('Shouts.html');
+				if ($cached_shouts && $shouts[0]['Shout']['id'] === $cached_shouts['lastId']) {
+					$this->_controller->set('shouts', $cached_shouts['html']);
+				} else {
+					$this->_controller->initBbcode();
+					$this->_controller->set('shouts', $shouts);
+				}
 			}
 		}
 
