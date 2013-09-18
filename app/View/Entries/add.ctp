@@ -138,35 +138,15 @@
 
 				<div class="bp-threeColumn">
 					<div class="left">
-						<?php
-							# @bogus^2
-							if (!$this->request->is(
-										'ajax'
-									) || (isset($lastAction) && ($lastAction === 'mix' || $lastAction === 'view' || $lastAction === 'add'))
-							) {
-								$inline = false;
-							} else {
-								$inline = true;
-							}
-
-							echo $this->Form->submit(
+						<?=
+							$this->Form->submit(
 								__('submit_button'),
 								[
 									'id'         => 'btn-submit',
-									'class'      => 'btn btn-submit' . (($inline) ? ' js-inlined' : ''),
+									'class'      => 'btn btn-submit',
 									'tabindex'   => 4,
 									'ondblclick' => 'return false;',
-									'onclick'    => "
-									if ({$inline}) return false;
-									if (typeof this.validity === 'object' &&
-										this.form.checkValidity() === false) {
-										return true;
-									} else {
-											this.disabled = true;
-											this.form.submit();
-									}
-									return false;
-									"
+									'onclick'    => 'return false;'
 								]
 							);
 						?>

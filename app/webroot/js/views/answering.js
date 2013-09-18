@@ -31,7 +31,7 @@ define([
             "click .btn-preview": "_showPreview",
             "click .btn-markItUp-Upload": "_upload",
             "click .btn-markItUp-Media": "_media",
-            "click .btn-submit.js-inlined": "_sendInline"
+            "click .btn-submit": "_send"
         },
 
         initialize: function(options) {
@@ -99,6 +99,39 @@ define([
 
         _focusSubject: function() {
             this.$('.postingform input[type=text]:first').focus();
+        },
+
+        _send: function(event) {
+            if (this.parentThreadline) {
+                this._sendInline(event);
+            } else {
+                this._sendRedirect(event);
+            }
+        },
+
+        _sendRedirect: function(event) {
+            var target = event.currentTarget;
+            event.preventDefault();
+            if (typeof target.validity === 'object' &&
+                target.form.checkValidity() === false) {
+                // we can't trigger JS validation messages via form.submit()
+                // so we create and click this hidden dummy submit button
+                var submit = _.bind(function() {
+                    if (!this.checkValidityDummy) {
+                        this.checkValidityDummy = $('<button></button>', {
+                            type: 'submit',
+                            style: 'display: none;'
+                        });
+                        $(target).after(this.checkValidityDummy);
+                    }
+                    this.checkValidityDummy.click();
+                }, this);
+
+                submit();
+            } else {
+                target.disabled = true;
+                target.form.submit();
+            }
         },
 
         _sendInline: function(event) {
