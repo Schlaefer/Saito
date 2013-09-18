@@ -1,4 +1,4 @@
-<div id="entry_search">
+<div class="entry search">
 	<div class="search_form_wrapper" style="<?php
 if ( isset($this->request->params['data']['Entry']['adv']) ) {
 	echo "display:none;";

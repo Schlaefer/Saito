@@ -36,7 +36,7 @@
 		);
 	}
 ?>
-<div id="entry_view" class="entry view">
+<div class="entry view">
 	<div class="box-content">
 		<?=
 			$this->element(

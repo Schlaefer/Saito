@@ -42,7 +42,7 @@
 		endif;
 	$this->end();
 ?>
-	<div id="entry_index" class="entry index">
+	<div class="entry index">
 		<?= $this->element(
 			'entry/thread_cached_init',
 			['entries_sub' => $entries, 'level' => 0]

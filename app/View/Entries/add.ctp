@@ -7,11 +7,8 @@
 		array('class' => 'textlink', 'escape' => false)
 	);
 	$this->end();
-	$posting_type = ($is_answer) ? 'reply' : 'add';
 ?>
-	<div id="entry_<?= $posting_type ?>"
-			 class="entry <?= $posting_type ?> <?= ($is_inline) ? '' : 'add-not-inline' ?>">
-
+	<div class="entry <?= ($is_answer) ? 'reply' : 'add' ?> <?= ($is_inline) ? '' : 'add-not-inline' ?>">
 	<div class="preview">
 		<div class="l-box-header box-header">
 			<div>
