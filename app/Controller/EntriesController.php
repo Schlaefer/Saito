@@ -300,24 +300,24 @@
 
 			// show add form
 			} else {
-				// answering is always a ajax request, prevents add/1234 GET-requests
-				if (!$this->request->is('ajax') && $id !== null) {
-					$this->Session->setFlash(__('js-required'), 'flash/error');
-					$this->redirect($this->referer());
-				}
-
+				$is_answer = $id !== null;
 				$this->request->data = null;
-				if ($id !== null) {
-					$this->request->data = $this->Entry->get($id, true);
-				}
 
-				if (!empty($this->request->data)): // answer to existing posting
+				if ($is_answer) {
+					if ($this->request->is('ajax') === false) {
+						$this->Session->setFlash(__('js-required'), 'flash/error');
+						$this->redirect($this->referer());
+						return;
+					}
+
+					$this->request->data = $this->Entry->get($id, true);
 
 					if ($this->Entry->isAnsweringForbidden($this->request->data)) {
 						throw new ForbiddenException;
 					}
 
 					// create new subentry
+					unset($this->request->data['Entry']['id']);
 					$this->request->data['Entry']['pid'] = $id;
 					// we assume that an answers to a nsfw posting isn't nsfw itself
 					unset($this->request->data['Entry']['nsfw']);
@@ -343,19 +343,20 @@
 					$headerSubnavLeftTitle = __(
 						'back_to_posting_from_linkname',
 						$this->request->data['User']['username']
-					); else:
+					);
+
+					$this->set('form_title', __('answer_marking'));
+				} else {
 					// new posting which creates new thread
 					$this->request->data['Entry']['pid'] = 0;
 					$this->request->data['Entry']['tid'] = 0;
 
 					$headerSubnavLeftTitle = __('back_to_overview_linkname');
-				endif;
-
-				if ($this->request->is('ajax')):
-					$this->set('form_title', __('answer_marking'));
-				endif;
+				}
 			}
 
+			$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
+			$this->set('form_id', $this->request->data['Entry']['pid']);
 			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
 			$this->set('headerSubnavLeftUrl', '/entries/index');
 
@@ -446,6 +447,9 @@
 			)
 		);
 		$this->set('notis', $notis);
+
+		$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
+		$this->set('form_id', $this->request->data['Entry']['pid']);
 
 		// set headers
     $this->set('headerSubnavLeftUrl', '/entries/index');

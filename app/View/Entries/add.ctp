@@ -7,18 +7,7 @@
 		array('class' => 'textlink', 'escape' => false)
 	);
 	$this->end();
-
-	// new entries have no id (i.e. no reply an no edit), so wie set a filler var
-	if (!isset($this->request->data['Entry']['id'])) {
-		$this->request->data['Entry']['id'] = 'foo';
-	}
-
-	// cite entry text if necessary
-	if ($this->getVar('citeText')) {
-		$citeText = $this->Bbcode->citeText($this->getVar('citeText'));
-	}
-
-	$posting_type = ($this->request->is('ajax')) ? 'reply' : 'add';
+	$posting_type = ($is_answer) ? 'reply' : 'add';
 ?>
 	<div id="entry_<?= $posting_type ?>" class="entry <?= $posting_type ?>">
 
@@ -90,14 +79,14 @@
 							],
 							'div'         => ['class' => 'required'],
 							'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject'),
-							'required'		=> ($posting_type === 'reply') ? false : "required"
+							'required'		=> ($is_answer) ? false : "required"
 						]
 					);
 				?>
 				<?= $this->Form->hidden('pid'); ?>
 				<?php
 					echo $this->MarkitupEditor->getButtonSet(
-						'markItUp_' . $this->request->data['Entry']['id']
+						'markItUp_' . $form_id
 					);
 					echo $this->MarkitupEditor->editor(
 						'text',
@@ -113,19 +102,20 @@
 				?>
 				<?php
 					// add original posting contents
-					if (isset($citeText) && !empty($citeText)) : ?>
+					if (empty($citeText) === false) :
+						?>
 						<div
-								id="<?php echo "btn_insert_original_text_{$this->request->data['Entry']['id']}"; ?>">
+								id="<?= "btn_insert_original_text_{$form_id}"; ?>">
 							<?php
 								echo $this->Html->scriptBlock(
-									"var quote_{$this->request->data['Entry']['id']} = " . json_encode(
-										$citeText
+									"var quote_{$form_id} = " . json_encode(
+										$this->Bbcode->citeText($this->getVar('citeText'))
 									) . "; ",
 									['inline' => 'true']
 								);
 								// empty the textarea
 								echo $this->Html->scriptBlock(
-									"$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val('')",
+									"$('#markItUp_{$form_id} #EntryText').val('')",
 									['inline' => 'true']
 								);
 								echo $this->Html->link(
@@ -134,9 +124,9 @@
 									),
 									'#',
 									[
-										'onclick' => "$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val(quote_{$this->request->data['Entry']['id']} + '" . '\n\n' . "' + $('#markItUp_{$this->request->data['Entry']['id']} #EntryText').val());"
-										. "$('#btn_insert_original_text_{$this->request->data['Entry']['id']}').slideToggle();"
-										. "$('#markItUp_{$this->request->data['Entry']['id']} #EntryText').focus();"
+										'onclick' => "$('#markItUp_{$form_id} #EntryText').val(quote_{$form_id} + '" . '\n\n' . "' + $('#markItUp_{$form_id} #EntryText').val());"
+										. "$('#btn_insert_original_text_{$form_id}').slideToggle();"
+										. "$('#markItUp_{$form_id} #EntryText').focus();"
 										. "return false;",
 										'class'   => 'label'
 									]
@@ -149,40 +139,36 @@
 				<div class="bp-threeColumn">
 					<div class="left">
 						<?php
-							# @bogus
+							# @bogus^2
 							if (!$this->request->is(
 										'ajax'
 									) || (isset($lastAction) && ($lastAction === 'mix' || $lastAction === 'view' || $lastAction === 'add'))
 							) {
-								echo $this->Form->submit(
-									__('submit_button'),
-									[
-										'id'       => 'btn-submit',
-										'class'    => 'btn btn-submit',
-										'tabindex' => 4,
-										'onclick'  => "
-										if (typeof this.validity === 'object') {
-											if (this.form.checkValidity()) {
-												this.disabled = true;
-											}
-										} else {
-											this.disabled = true;
-										}
-										this.form.submit();
-										"
-									]
-								);
-							} # !i$this->request->is('ajax')
-							else {
-								echo $this->Form->submit(
-									__('submit_button'),
-									[
-										'id'       => 'btn-submit',
-										'class'    => 'btn btn-submit js-inlined',
-										'tabindex' => 4
-									]
-								);
+								$inline = false;
+							} else {
+								$inline = true;
 							}
+
+							echo $this->Form->submit(
+								__('submit_button'),
+								[
+									'id'         => 'btn-submit',
+									'class'      => 'btn btn-submit' . (($inline) ? ' js-inlined' : ''),
+									'tabindex'   => 4,
+									'ondblclick' => 'return false;',
+									'onclick'    => "
+									if ({$inline}) return false;
+									if (typeof this.validity === 'object' &&
+										this.form.checkValidity() === false) {
+										return true;
+									} else {
+											this.disabled = true;
+											this.form.submit();
+									}
+									return false;
+									"
+								]
+							);
 						?>
 						&nbsp;
 						<?=
