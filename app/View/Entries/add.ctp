@@ -100,41 +100,22 @@
 						]
 					);
 				?>
-				<?php
-					// add original posting contents
-					if (empty($citeText) === false) :
+				<?php if (empty($citeText) === false) : ?>
+					<div class="cite-container">
+						<?=
+							$this->Html->link(
+								Configure::read('Saito.Settings.quote_symbol')
+								. ' ' . __('Cite'),
+								'#',
+								[
+									'data-text' => $this->Bbcode->citeText($citeText),
+									'class'     => 'btn-cite label'
+								]
+							);
 						?>
-						<div
-								id="<?= "btn_insert_original_text_{$form_id}"; ?>">
-							<?php
-								echo $this->Html->scriptBlock(
-									"var quote_{$form_id} = " . json_encode(
-										$this->Bbcode->citeText($this->getVar('citeText'))
-									) . "; ",
-									['inline' => 'true']
-								);
-								// empty the textarea
-								echo $this->Html->scriptBlock(
-									"$('#markItUp_{$form_id} #EntryText').val('')",
-									['inline' => 'true']
-								);
-								echo $this->Html->link(
-									Configure::read('Saito.Settings.quote_symbol') . ' ' . __(
-										'Cite'
-									),
-									'#',
-									[
-										'onclick' => "$('#markItUp_{$form_id} #EntryText').val(quote_{$form_id} + '" . '\n\n' . "' + $('#markItUp_{$form_id} #EntryText').val());"
-										. "$('#btn_insert_original_text_{$form_id}').slideToggle();"
-										. "$('#markItUp_{$form_id} #EntryText').focus();"
-										. "return false;",
-										'class'   => 'label'
-									]
-								);
-							?>
-						</div>
-						<br/>
-					<?php endif; //add original posting contents ?>
+						<br/><br/>
+					</div>
+				<?php endif; ?>
 
 				<div class="bp-threeColumn">
 					<div class="left">

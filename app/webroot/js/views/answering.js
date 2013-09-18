@@ -31,15 +31,28 @@ define([
             "click .btn-preview": "_showPreview",
             "click .btn-markItUp-Upload": "_upload",
             "click .btn-markItUp-Media": "_media",
-            "click .btn-submit": "_send"
+            "click .btn-submit": "_send",
+            "click .btn-cite": "_cite"
         },
 
         initialize: function(options) {
             this.parentThreadline = options.parentThreadline || null;
+
             this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
 
-            // autoopen upload view for easy developing
+            // auto-open upload view for easy developing
             // this._upload(new Event({}));
+        },
+
+        _cite: function(event) {
+            event.preventDefault();
+            var citeContainer = this.$('.cite-container'),
+                citeText = this.$('.btn-cite').data('text'),
+                currentText = this.$textarea.val();
+
+            this.$textarea.val(citeText + "\n\n" + currentText);
+            citeContainer.slideToggle();
+            this.$textarea.focus();
         },
 
         _upload: function(event) {
@@ -47,7 +60,7 @@ define([
             event.preventDefault();
             uploadsView = new UploadsView({
                 el: '#markitup_upload',
-                textarea: this.$('textarea#EntryText')[0]
+                textarea: this.$textarea[0]
             });
         },
 
@@ -82,6 +95,11 @@ define([
             this.$('.preview').slideUp('fast');
         },
 
+        _setupTextArea: function() {
+            this.$textarea = $('textarea#EntryText');
+            this.$textarea.val('');
+        },
+
         _requestAnsweringForm: function() {
             $.ajax({
                 url: App.settings.get('webroot') + 'entries/add/' + this.model.get('id'),
@@ -92,7 +110,7 @@ define([
             });
         },
 
-        _postProcess: function() {
+        _postRendering: function() {
             this.$el.scrollIntoView('bottom');
             this._focusSubject();
         },
@@ -164,8 +182,9 @@ define([
             } else if (this.rendered === false) {
                 this.rendered = true;
                 this.$el.html(this.answeringForm);
-                _.defer(function(caller){
-                   caller._postProcess();
+                this._setupTextArea();
+                _.defer(function(caller) {
+                    caller._postRendering();
                 }, this);
             }
             return this;
