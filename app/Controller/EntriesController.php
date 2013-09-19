@@ -645,9 +645,7 @@
 		$this->Entry->prepare($newEntry);
 		$this->Entry->set($newEntry);
 
-		$this->Entry->validates(
-			array('fieldList' => array('subject', 'text', 'category'))
-		);
+		$this->Entry->validates(['fieldList' => ['subject', 'text', 'category']]);
 		$errors = $this->Entry->validationErrors;
 
 		if (count($errors) === 0) :
