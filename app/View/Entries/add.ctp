@@ -118,14 +118,13 @@
 				<div class="bp-threeColumn">
 					<div class="left">
 						<?=
-							$this->Form->submit(
+							$this->Form->button(
 								__('submit_button'),
 								[
 									'id'         => 'btn-submit',
 									'class'      => 'btn btn-submit',
 									'tabindex'   => 4,
-									'ondblclick' => 'return false;',
-									'onclick'    => 'return false;'
+									'type'       => 'button'
 								]
 							);
 						?>
