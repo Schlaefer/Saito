@@ -20,6 +20,7 @@ define([
         answeringForm: false,
         preview: false,
         mediaView: false,
+        sendInProgress: false,
 
         /**
          * same model as the parent PostingView
@@ -127,6 +128,11 @@ define([
         },
 
         _send: function(event) {
+            if (this.sendInProgress) {
+                event.preventDefault();
+                return;
+            }
+            this.sendInProgress = true;
             if (this.parentThreadline) {
                 this._sendInline(event);
             } else {
