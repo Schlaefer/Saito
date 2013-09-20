@@ -32,7 +32,8 @@ define([
             "click .btn-markItUp-Upload": "_upload",
             "click .btn-markItUp-Media": "_media",
             "click .btn-submit": "_send",
-            "click .btn-cite": "_cite"
+            "click .btn-cite": "_cite",
+            "keypress .inp-subject": "_onKeyPressSubject"
         },
 
         initialize: function(options) {
@@ -53,6 +54,12 @@ define([
             this.$textarea.val(citeText + "\n\n" + currentText);
             citeContainer.slideToggle();
             this.$textarea.focus();
+        },
+
+        _onKeyPressSubject: function(event) {
+            if (event.keyCode === 13) {
+                this._send(event);
+            }
         },
 
         _upload: function(event) {
@@ -128,10 +135,10 @@ define([
         },
 
         _sendRedirect: function(event) {
-            var target = event.currentTarget;
+            var button = this.$('.btn-submit')[0];
             event.preventDefault();
-            if (typeof target.validity === 'object' &&
-                target.form.checkValidity() === false) {
+            if (typeof button.validity === 'object' &&
+                button.form.checkValidity() === false) {
                 // we can't trigger JS validation messages via form.submit()
                 // so we create and click this hidden dummy submit button
                 var submit = _.bind(function() {
@@ -140,15 +147,15 @@ define([
                             type: 'submit',
                             style: 'display: none;'
                         });
-                        $(target).after(this.checkValidityDummy);
+                        $(button).after(this.checkValidityDummy);
                     }
                     this.checkValidityDummy.click();
                 }, this);
 
                 submit();
             } else {
-                target.disabled = true;
-                target.form.submit();
+                button.disabled = true;
+                button.form.submit();
             }
         },
 
