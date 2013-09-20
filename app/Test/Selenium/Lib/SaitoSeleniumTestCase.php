@@ -255,7 +255,7 @@
 					$this->_testCase->fail("timeout");
 				}
 				try {
-					if ($this->_testCase->isElementPresent("entry_reply")) {
+					if ($this->_testCase->isElementPresent("css=.entry.reply")) {
 						break;
 					}
 				} catch (Exception $e) {

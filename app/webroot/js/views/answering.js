@@ -31,15 +31,35 @@ define([
             "click .btn-preview": "_showPreview",
             "click .btn-markItUp-Upload": "_upload",
             "click .btn-markItUp-Media": "_media",
-            "click .btn-submit.js-inlined": "_sendInline"
+            "click .btn-submit": "_send",
+            "click .btn-cite": "_cite",
+            "keypress .inp-subject": "_onKeyPressSubject"
         },
 
         initialize: function(options) {
             this.parentThreadline = options.parentThreadline || null;
+
             this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
 
-            // autoopen upload view for easy developing
+            // auto-open upload view for easy developing
             // this._upload(new Event({}));
+        },
+
+        _cite: function(event) {
+            event.preventDefault();
+            var citeContainer = this.$('.cite-container'),
+                citeText = this.$('.btn-cite').data('text'),
+                currentText = this.$textarea.val();
+
+            this.$textarea.val(citeText + "\n\n" + currentText);
+            citeContainer.slideToggle();
+            this.$textarea.focus();
+        },
+
+        _onKeyPressSubject: function(event) {
+            if (event.keyCode === 13) {
+                this._send(event);
+            }
         },
 
         _upload: function(event) {
@@ -47,7 +67,7 @@ define([
             event.preventDefault();
             uploadsView = new UploadsView({
                 el: '#markitup_upload',
-                textarea: this.$('textarea#EntryText')[0]
+                textarea: this.$textarea[0]
             });
         },
 
@@ -82,6 +102,11 @@ define([
             this.$('.preview').slideUp('fast');
         },
 
+        _setupTextArea: function() {
+            this.$textarea = $('textarea#EntryText');
+            this.$textarea.val('');
+        },
+
         _requestAnsweringForm: function() {
             $.ajax({
                 url: App.settings.get('webroot') + 'entries/add/' + this.model.get('id'),
@@ -92,13 +117,46 @@ define([
             });
         },
 
-        _postProcess: function() {
+        _postRendering: function() {
             this.$el.scrollIntoView('bottom');
             this._focusSubject();
         },
 
         _focusSubject: function() {
             this.$('.postingform input[type=text]:first').focus();
+        },
+
+        _send: function(event) {
+            if (this.parentThreadline) {
+                this._sendInline(event);
+            } else {
+                this._sendRedirect(event);
+            }
+        },
+
+        _sendRedirect: function(event) {
+            var button = this.$('.btn-submit')[0];
+            event.preventDefault();
+            if (typeof button.validity === 'object' &&
+                button.form.checkValidity() === false) {
+                // we can't trigger JS validation messages via form.submit()
+                // so we create and click this hidden dummy submit button
+                var submit = _.bind(function() {
+                    if (!this.checkValidityDummy) {
+                        this.checkValidityDummy = $('<button></button>', {
+                            type: 'submit',
+                            style: 'display: none;'
+                        });
+                        $(button).after(this.checkValidityDummy);
+                    }
+                    this.checkValidityDummy.click();
+                }, this);
+
+                submit();
+            } else {
+                button.disabled = true;
+                button.form.submit();
+            }
         },
 
         _sendInline: function(event) {
@@ -131,8 +189,9 @@ define([
             } else if (this.rendered === false) {
                 this.rendered = true;
                 this.$el.html(this.answeringForm);
-                _.defer(function(caller){
-                   caller._postProcess();
+                this._setupTextArea();
+                _.defer(function(caller) {
+                    caller._postRendering();
                 }, this);
             }
             return this;

@@ -4,7 +4,7 @@
 
 	class InlineAnswerTest extends SaitoSeleniumTestCase {
 
-		public $nextId = 10;
+		public $nextId = 11;
 
 		public function testInlineAnswer() {
 			$this->login();
@@ -40,7 +40,7 @@
 			for ($second = 0; ; $second++) {
 				if ($second >= 60) $this->fail("timeout");
 				try {
-					if (!$this->isElementPresent("css=.js-thread_line[data-id={$id}]  #entry_reply")) break;
+					if (!$this->isElementPresent("css=.js-thread_line[data-id={$id}]  .entry.reply")) break;
 				} catch (Exception $e) {}
 				sleep(1);
 			}
@@ -75,7 +75,7 @@
 					$this->fail("timeout");
 				}
 				try {
-					if ($this->isVisible("css=.js-thread_line[data-id={$parentId}]  #entry_reply")
+					if ($this->isVisible("css=.js-thread_line[data-id={$parentId}] .entry.reply")
 					) {
 						break;
 					}
@@ -136,7 +136,7 @@
 		}
 
 		protected function _waitForAnsweringVisible($id) {
-			$this->waitForVisibleJq(".js-thread_line[data-id={$id}]  #entry_reply");
+			$this->waitForVisibleJq(".js-thread_line[data-id={$id}]  .entry.reply");
 		}
 
 		protected function _isThreadlineVisible($id) {

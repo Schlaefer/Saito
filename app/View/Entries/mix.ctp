@@ -14,7 +14,7 @@
   $this->end();
 ?>
 
-<div id="entry_mix" class="entry mix" style="position:relative;">
+<div class="entry mix" style="position:relative;">
 	<?php
 		echo $this->Html->link(
         '<div class="btn-strip btn-strip-back">&nbsp;</div>',
