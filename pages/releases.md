@@ -7,6 +7,15 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-09.02 ##
+
+### What's new ###
+
+- [fix] improves "double click to send twice"-protection in entry form
+- [fix] show ValidityState messages in entry form
+
+Code refactoring.
+
 ## 2013-09.01 ##
 
 ### What's new ###
@@ -19,7 +28,7 @@ layout: default
 
 Code refactoring and performance improvements.
 
-There's a new JSON API which is optional at the moment. See docs/api-v1.md for more information.
+There's a new JSON API which is optional at the moment. See `docs/api-v1.md` for more information.
 
 ### DB Changes
 
