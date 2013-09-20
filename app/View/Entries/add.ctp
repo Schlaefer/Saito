@@ -70,6 +70,7 @@
 								'Saito.Settings.subject_maxlength'
 							),
 							'label'       => false,
+							'class'       => 'inp-subject',
 							'tabindex'    => 2,
 							'error'       => [
 								'notEmpty' => __('error_subject_empty'),
