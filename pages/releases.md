@@ -13,6 +13,7 @@ layout: default
 
 - [fix] resovles thread tree sort ambiguity if entries have same time
 - [fix] no upload form in entries/add
+- [fix] performance improvement in entries/view 
 
 ## 2013-09.02 ##
 
