@@ -40,6 +40,11 @@ define([
         initialize: function(options) {
             this.parentThreadline = options.parentThreadline || null;
 
+            if (!this.parentThreadline) {
+                //* view came directly from server and is ready without rendering
+                this._setupTextArea();
+            }
+
             this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
 
             // auto-open upload view for easy developing
