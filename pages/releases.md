@@ -7,6 +7,13 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-09.03 ##
+
+### What's new ###
+
+- [fix] resovles thread tree sort ambiguity if entries have same time
+- [fix] no upload form in entries/add
+
 ## 2013-09.02 ##
 
 ### What's new ###
