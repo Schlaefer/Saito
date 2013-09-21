@@ -179,7 +179,7 @@
 			return implode("\n", $out);
 		}
 
-    public function view($id=null) {
+	public function view($id = null) {
 		Stopwatch::start('Entries->view()');
 
 		//* redirect if no id is given
@@ -192,27 +192,27 @@
 		$this->request->data = $this->Entry->get($id);
 
 		//* redirect if posting doesn't exists
-		if ( $this->request->data == false ):
+		if ($this->request->data == false):
 			$this->Session->setFlash(__('Invalid post'));
-			return $this->redirect('/');
+			return$this->redirect('/');
 		endif;
 
-		//* check if anonymous tries to access internal catgories
-		if ( $this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession() ) {
+		//* check if anonymous tries to access internal categories
+		if ($this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
 			return $this->redirect('/');
 		}
 
-    if ( !empty($this->request->params['requested']) ):
-      return $this->request->data;
-    endif;
+		if (!empty($this->request->params['requested'])):
+			return $this->request->data;
+		endif;
 
 		$a = array($this->request->data);
 		list($this->request->data) = $a;
 		$this->set('entry', $this->request->data);
 
-		if ( $this->request->data['Entry']['user_id'] != $this->CurrentUser->getId() ):
+		if ($this->request->data['Entry']['user_id'] != $this->CurrentUser->getId()):
 			$this->Entry->incrementViews();
-    endif;
+		endif;
 
 		// @td doku
 		$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
@@ -226,9 +226,14 @@
 			return;
 		else:
 			//* full page request
-			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']), array('root' => true));
+			$this->set(
+				'tree',
+				$this->Entry->treeForNode(
+					$this->request->data['Entry']['tid'],
+					['root' => true]
+				)
+			);
 			$this->set('title_for_layout', $this->request->data['Entry']['subject']);
-
 		endif;
 
 		Stopwatch::stop('Entries->view()');

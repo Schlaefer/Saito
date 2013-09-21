@@ -52,7 +52,11 @@
 		}
 
 		protected function _sort($a, $b) {
-			return ($a['Entry']['time'] > $b['Entry']['time']) ? 1 : -1;
+			if ($a['Entry']['time'] === $b['Entry']['time']) {
+				return ($a['Entry']['id'] > $b['Entry']['id']) ? 1 : -1;
+			} else {
+				return ($a['Entry']['time'] > $b['Entry']['time']) ? 1 : -1;
+			}
 		}
 
 	}

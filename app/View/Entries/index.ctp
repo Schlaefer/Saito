@@ -5,7 +5,7 @@
 		echo $this->Html->link(
 			'<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),
 			'/entries/add',
-			array('id' => 'btn-entryAdd', 'class' => 'textlink', 'escape' => false)
+			['class' => 'btn-entryAdd textlink', 'escape' => false]
 		);
 	$this->end();
 
