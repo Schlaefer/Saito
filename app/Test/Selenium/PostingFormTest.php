@@ -7,7 +7,7 @@
 		public function testEntryAddFocusHasFocus() {
 			$this->login();
 
-			$this->click("id=btn-entryAdd");
+			$this->click("css=.btn-entryAdd");
 			$this->waitForPageToLoad("30000");
 
 			$focused = $this->getEval('window.jQuery("#EntrySubject").is(":focus");');
