@@ -226,7 +226,13 @@
 			return;
 		else:
 			//* full page request
-			$this->set('tree', $this->Entry->treeForNode($this->request->data['Entry']['tid']), array('root' => true));
+			$this->set(
+				'tree',
+				$this->Entry->treeForNode(
+					$this->request->data['Entry']['tid'],
+					['root' => true]
+				)
+			);
 			$this->set('title_for_layout', $this->request->data['Entry']['subject']);
 		endif;
 
