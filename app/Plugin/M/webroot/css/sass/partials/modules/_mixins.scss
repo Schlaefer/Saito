@@ -1,0 +1,25 @@
+.c_t_h_3_abs {
+    h1, h2, h3 {
+        margin: 0;
+        padding: 0;
+    }
+
+    & > div {
+        position: relative;
+    }
+    & > div > div {
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+    & > div > div:first-child {
+        position: absolute;
+    }
+
+    & > div > div:last-child  {
+        position: absolute;
+        top: 0;
+        right: 0;
+        text-align: right;
+    }
+}

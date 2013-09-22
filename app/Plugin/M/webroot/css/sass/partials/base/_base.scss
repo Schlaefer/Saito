@@ -1,0 +1,21 @@
+// Base
+// -------------------------------------
+html, body, button, input, select, textarea {
+    font-family:  'Helvetica Neue', Helvetica, Roboto, Verdana, Geneva, Lucida, Arial, sans-serif;
+    color: $font-color;
+    background-color: white;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: $link-color;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+
