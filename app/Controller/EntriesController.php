@@ -330,6 +330,8 @@
 					// subject is empty in answer-form
 					unset($this->request->data['Entry']['subject']);
 					$this->set('citeText', $this->request->data['Entry']['text']);
+					// text field is empty in answer
+					unset($this->request->data['Entry']['text']);
 
 					// get notifications
 					$notis = $this->Entry->Esevent->checkEventsForUser(

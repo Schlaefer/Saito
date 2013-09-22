@@ -110,7 +110,6 @@ define([
 
         _setupTextArea: function() {
             this.$textarea = $('textarea#EntryText');
-            this.$textarea.val('');
         },
 
         _requestAnsweringForm: function() {
@@ -164,6 +163,7 @@ define([
                 }, this);
 
                 submit();
+                this.sendInProgress = false;
             } else {
                 button.disabled = true;
                 button.form.submit();
