@@ -1,0 +1,25 @@
+// Change the setup of your theme here
+
+// Macnemo
+// -------------------------------------
+
+// main font color
+$font-color: #333;
+// lighter font color used for info text
+$font-color-light: #999;
+// link color
+$link-color: #FF4700;
+// color for app interface elements
+$app-link-color: $link-color;
+
+// light backgrounds and dividers
+$base-light: #ffffd9;
+// $base-light background if item is selected
+$base-selected: #FFFB9D;
+
+$divider-light: #b3f139;
+
+// indicating old/viewed content
+$indicator-old: #FFF8EC;
+// indicating new/unread content
+$indicator-new: #FF8F00;

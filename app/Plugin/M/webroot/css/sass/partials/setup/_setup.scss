@@ -1,0 +1,35 @@
+/*******************************************************************************
+ * Setup
+ ******************************************************************************/
+
+// Color
+// -------------------------------------
+
+// main font color
+$font-color: #333;
+// lighter font color used for info text
+$font-color-light: #999;
+// link color
+$link-color: #E74A00;
+// color for app interface elements
+$app-link-color: $link-color;
+
+// base-light
+$base-light: rgb(240, 243, 245);
+// $base-light background if item is selected
+$base-selected: #DAE4EB;
+
+$divider-light: $base-light;
+
+// indicating old/viewed content
+$indicator-old: rgb(221, 227, 230);
+// indicating new/unread content
+$indicator-new: #607D86;
+
+
+// Sizes
+// -------------------------------------
+$padding: 10px;
+$button-nav-size: 22px;
+
+

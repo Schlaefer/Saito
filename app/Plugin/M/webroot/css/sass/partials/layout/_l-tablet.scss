@@ -1,0 +1,22 @@
+@media only screen and (min-width: 640px) {
+
+     .hide-tablet {
+        display: none;
+    }
+
+    .container-index {
+        width: 320px;
+    }
+
+    .container-mix {
+        left: 320px;
+        border-left: 2px solid white
+    }
+
+    .container-mix, .container-mix.hidden {
+        -webkit-transform: none;
+        -ms-transform: none;
+        -o-transform: none;
+        transform: none;
+    }
+}
