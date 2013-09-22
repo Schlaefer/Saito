@@ -7,6 +7,12 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-09.04 ##
+
+### What's new ###
+
+- [fix] fixes some issues in entries/edit and entries/add 
+
 ## 2013-09.03 ##
 
 ### What's new ###
