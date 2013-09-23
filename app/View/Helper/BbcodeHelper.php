@@ -235,14 +235,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		//* hr
 		$this->_Parser->addCode(
-				'---', 'simple_replace', null,
-				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
-				array( 'block' ), array( )
+				'---', 'simple_replace_single', null,
+				['start_tag' => '<hr class="c_bbc_hr">'], 'inline',
+				['block'], []
 		);
 		$this->_Parser->addCode(
-				'hr', 'simple_replace', null,
-				array( 'start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>' ), 'inline',
-				array( 'block' ), array( )
+				'hr', 'simple_replace_single', null,
+				['start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>'], 'inline',
+				['block'], []
 		);
 
 		//* urls

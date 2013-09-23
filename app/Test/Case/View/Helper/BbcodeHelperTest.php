@@ -745,6 +745,20 @@
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
+		public function testHr() {
+			$input = '[hr][hr]';
+			$expected = '<hr class="c_bbc_hr"><hr class="c_bbc_hr">';
+			$result = $this->Bbcode->parse($input);
+			$this->assertEqual($result, $expected);
+		}
+
+		public function testHrShort() {
+			$input = '[---][---]';
+			$expected = '<hr class="c_bbc_hr"><hr class="c_bbc_hr">';
+			$result = $this->Bbcode->parse($input);
+			$this->assertEqual($result, $expected);
+		}
+
     public function testEmbedly() {
 
 			//* setup
