@@ -690,11 +690,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		if ($action === 'validate') {
 			return true;
 		}
-		$options = array(
-				'class' => 'c_bbc_external-image',
-				'width' => 'auto',
-				'height' => 'auto',
-		);
+		$options = [
+				'class' => 'c_bbc_external-image'
+		];
 
 		$url = $content;
 
