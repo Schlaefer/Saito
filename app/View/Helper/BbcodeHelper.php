@@ -691,15 +691,15 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			return true;
 		}
 		$options = [
-				'class' => 'c_bbc_external-image'
+			'class' => 'c_bbc_external-image'
 		];
 
 		$url = $content;
 
 		// process [img=(parameters)] parameters
-		if ( !empty($attributes['default']) ) {
+		if (!empty($attributes['default'])) {
 			$default = trim($attributes['default']);
-			switch ( $default ) :
+			switch ($default) :
 				case 'left':
 					$options['style'] = 'float: left;';
 					break;
@@ -708,13 +708,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 					break;
 				default :
 					preg_match('/(\d{0,3})(?:x(\d{0,3}))?/i', $default, $dimension);
-					// $dimenson for [img=50] or [img=50x100]
+					// $dimension for [img=50] or [img=50x100]
 					// [0] (50) or (50x100)
 					// [1] (50)
 					// [2] (100)
-					if ( !empty($dimension[1]) ) {
+					if (!empty($dimension[1])) {
 						$options['width'] = $dimension[1];
-						if ( !empty($dimension[2]) ) {
+						if (!empty($dimension[2])) {
 							$options['height'] = $dimension[2];
 						}
 					}
