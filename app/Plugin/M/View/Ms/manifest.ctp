@@ -7,6 +7,7 @@ CACHE:
 <?php
 	$assets = [
 		'M.dist/styles.css',
+		'M.dist/theme.css',
 		'M.dist/js.js',
 		'M.dist/font/fontawesome-webfont.woff'
 	];

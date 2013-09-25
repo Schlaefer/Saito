@@ -39,6 +39,9 @@
 					. filemtime(
 						App::pluginPath('M') . 'webroot/dist/styles.css'
 					)
+					. filemtime(
+						App::pluginPath('M') . 'webroot/dist/theme.css'
+					)
 			);
 		}
 	}
