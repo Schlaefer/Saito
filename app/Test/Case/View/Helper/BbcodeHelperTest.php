@@ -490,19 +490,19 @@
 
 			// test for standard URIs
 			$input = '[img]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" class="c_bbc_external-image" alt="" />';
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
-			$expected = '<img src="'.$this->Bbcode->webroot.'somewhere/macnemo.png" class="c_bbc_external-image" width="auto" height="auto" alt="" />';
+			$expected = '<img src="'.$this->Bbcode->webroot.'somewhere/macnemo.png" class="c_bbc_external-image" alt="" />';
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($result, $expected);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c_bbc_external-image" width="50" height="auto" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" class="c_bbc_external-image" width="50" alt="" />';
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
@@ -519,8 +519,6 @@
 									'src' => 'http://localhost/img/macnemo.png',
 									'class' => "c_bbc_external-image",
 									'style' => "float: left;",
-									'width' => "auto",
-									'height' => "auto",
 									'alt' => "",
 					) )
 			);
@@ -534,8 +532,6 @@
 									'src' => 'http://localhost/img/macnemo.png',
 									'class' => "c_bbc_external-image",
 									'style' => "float: right;",
-									'width' => "auto",
-									'height' => "auto",
 									'alt' => "",
 					) )
 			);
@@ -554,8 +550,6 @@
 					array( 'img' => array(
 									'src' => 'http://heise.de/img.png',
 									'class' => 'c_bbc_external-image',
-									'width' => 'auto',
-									'height' => 'auto',
 									'alt' => '',
 					) ),
 					'/a'
@@ -749,6 +743,20 @@
 
 			//* teardown
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
+		}
+
+		public function testHr() {
+			$input = '[hr][hr]';
+			$expected = '<hr class="c_bbc_hr"><hr class="c_bbc_hr">';
+			$result = $this->Bbcode->parse($input);
+			$this->assertEqual($result, $expected);
+		}
+
+		public function testHrShort() {
+			$input = '[---][---]';
+			$expected = '<hr class="c_bbc_hr"><hr class="c_bbc_hr">';
+			$result = $this->Bbcode->parse($input);
+			$this->assertEqual($result, $expected);
 		}
 
     public function testEmbedly() {
