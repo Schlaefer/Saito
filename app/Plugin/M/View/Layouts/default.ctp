@@ -7,7 +7,7 @@
 	<meta name="apple-mobile-web-app-title" content="<?= $short_title_for_layout ?>">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="viewport" content="initial-scale=1.0">
-	<?= $this->Html->css('M.../dist/styles.css') ?>
+	<?= $this->Html->css(['M.../dist/common.css', 'M.../dist/theme.css']) ?>
 	<script>
 		window.Saito = {
 			webroot: "<?= $this->webroot ?>"
