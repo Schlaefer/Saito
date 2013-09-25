@@ -37,7 +37,7 @@
 					Configure::read('debug')
 					. filemtime(App::pluginPath('M') . 'webroot/dist/js.js')
 					. filemtime(
-						App::pluginPath('M') . 'webroot/dist/styles.css'
+						App::pluginPath('M') . 'webroot/dist/common.css'
 					)
 					. filemtime(
 						App::pluginPath('M') . 'webroot/dist/theme.css'
