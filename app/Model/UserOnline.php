@@ -36,56 +36,49 @@ class UserOnline extends AppModel {
 
 	/**
 	 * Sets user `$id` online
-	 * 
+	 *
 	 * The `$delete_id` is handy if a user logs in or out:
 	 * We can remove his IP before setting the uid_<user_id> and vice versa.
 	 *
 	 * @param string $id `user_id` from table `User` or IP address
 	 * @param bool $loggedIn user is logged-in
 	 */
-	public function setOnline($id, $loggedIn = NULL) {
+	public function setOnline($id, $logged_in = null) {
 //		Stopwatch::start('Model->UserOnline->setOnline()');
 
-		if ( empty($id) ) {
-			throw new InvalidArgumentException('Invalid Argument in setOnline()');	
+		if (empty($id)) {
+			throw new InvalidArgumentException('Invalid Argument in setOnline()');
 		}
-		if ( $loggedIn === NULL ) {
-			throw new InvalidArgumentException('Invalid Argument $loggedIn in setOnline()');	
+		if ($logged_in === null) {
+			throw new InvalidArgumentException('Invalid Argument $loggedIn in setOnline()');
 		}
 
-		$this->id = $id; 
+		$this->id = $this->_getShortendedId($id);
 
 		//* setup data
-		$data = array();
-		$data['UserOnline']['user_id']	= $id;
-
-		if ( $loggedIn == TRUE ) {
-			$data['UserOnline']['logged_in']	= true;
-		} else {
-			$this->id = $data['UserOnline']['user_id'] = $this->_getShortendedId($id);
-			$data['UserOnline']['logged_in']	= false;
-			}
+		$data = [
+			'UserOnline' => [
+				'user_id'   => $this->id,
+				'logged_in' => $logged_in
+			]
+		];
 
 		$this->contain();
 		$user = $this->read();
-		
-		if($user) {
-			$this->id = $user['UserOnline']['user_id'];
-			// only perform performance impacting save operation if user time stamp is actualy outdated
-			if($user['UserOnline']['time'] < (time() - $this->timeUntilOffline)) {
+
+		if ($user) {
+			// only hit database if timestamp is outdated
+			if ($user['UserOnline']['time'] < (time() - $this->timeUntilOffline)) {
 				$this->save($data);
 			}
 		} else {
-			$this->id = NULL;
+			$this->id = null;
 			$this->create();
 			$this->save($data);
 		}
 
-		// $this->log($this->find('all', array('contain'=>false)));
 		$this->_deleteOutdated();
-
-//		Stopwatch::stop('Model->UserOnline->setOnline()');
-	}
+		}
 
 	/**
 	 * Removes user with `$id` from UserOnline
