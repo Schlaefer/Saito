@@ -13,7 +13,7 @@ layout: default
 
 - [fix] fixes invalid html
 - [fix] [hr]/[---] don't need a close tag anymore
-- [fix] media overflow on inline opening
+- [fix] media overflow in inline opening
 
 ## 2013-09.04 ##
 
