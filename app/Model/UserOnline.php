@@ -39,20 +39,18 @@
 		}
 
 		/**
-		 * Sets user `$id` online
+		 * Sets user with `$id` online
 		 *
-		 * The `$delete_id` is handy if a user logs in or out:
-		 * We can remove his IP before setting the uid_<user_id> and vice versa.
-		 *
-		 * @param string $id `user_id` from table `User` or IP address
-		 * @param bool $loggedIn user is logged-in
+		 * @param string $id identifier
+		 * @param boolean $logged_in user is logged-in
+		 * @throws InvalidArgumentException
 		 */
-		public function setOnline($id, $logged_in = null) {
+		public function setOnline($id, $logged_in) {
 
 			if (empty($id)) {
 				throw new InvalidArgumentException('Invalid Argument $id in setOnline()');
 			}
-			if ($logged_in === null) {
+			if (!is_bool($logged_in)) {
 				throw new InvalidArgumentException('Invalid Argument $logged_in in setOnline()');
 			}
 
