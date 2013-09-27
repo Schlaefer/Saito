@@ -16,6 +16,14 @@
 			]
 		];
 
+		public $validate = [
+			'user_id' => [
+				'rule'       => 'isUnique',
+				'required'   => true,
+				'allowEmpty' => false
+			]
+		];
+
 		/**
 		 * Time in seconds until a user is considered offline
 		 *
