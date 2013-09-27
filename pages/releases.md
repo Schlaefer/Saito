@@ -7,6 +7,14 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-09.05 ##
+
+### What's new ###
+
+- [fix] fixes invalid html
+- [fix] [hr]/[---] don't need a close tag anymore
+- [fix] media overflow on inline opening
+
 ## 2013-09.04 ##
 
 ### What's new ###
