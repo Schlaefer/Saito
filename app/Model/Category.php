@@ -6,37 +6,27 @@ class Category extends AppModel {
 
 	public $cacheQueries = true;
 
-	public $hasMany = array (
-		"Entry" => array (
-			'className' => 'Entry',
-			'foreignKey' => 'category',
-		)
-	);
+	public $hasMany = [
+		'Entry' => [
+			'className'  => 'Entry',
+			'foreignKey' => 'category'
+		]
+	];
 
-	public $validate = array(
-		'category_order' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'accession' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+	public $validate = [
+		'category_order' => [
+			'numeric' => [
+				'rule' => ['numeric']
+			],
+		],
+		'accession'      => [
+			'numeric' => [
+				'rule' => ['numeric']
+			],
+		],
+	];
 
-	protected $_cache = array();
+	protected $_cache = [];
 
 	/**
 	 * @param int $accession
