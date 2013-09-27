@@ -9,8 +9,13 @@
   line-height: normal;
 }
 
-.posting, .posting img, posting, object, posting embed, .signature {
-  max-width: 80em;
+.posting {
+    img, object, embed {
+        max-width: 100%;
+    }
+    .signature {
+        max-width: 80em;
+    }
 }
 
 .posting, .author {

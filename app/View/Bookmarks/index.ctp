@@ -51,11 +51,9 @@
 									);
 									?>
 								</div>
-								<div class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
-									<?php
-									$thread = $this->EntryH->threadCached($entry_sub, $CurrentUser);
-									echo "<a name={$bookmark['Entry']['id']}></a>" . $thread;
-									?>
+								<div id="<?= $bookmark['Entry']['id'] ?>"
+										 class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
+									<?= $this->EntryH->threadCached($entry_sub, $CurrentUser); ?>
 								</div>
 								<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
 									<?php

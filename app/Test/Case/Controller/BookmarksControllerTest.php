@@ -13,14 +13,15 @@ class BookmarksControllerTest extends SaitoControllerTestCase {
  *
  * @var array
  */
-	public $fixtures = array(
-			'app.bookmark',
-			'app.category',
-			'app.entry',
-			'app.setting',
-			'app.user',
-			'app.user_online',
-	);
+	public $fixtures = [
+		'app.bookmark',
+		'app.category',
+		'app.ecach',
+		'app.entry',
+		'app.setting',
+		'app.user',
+		'app.user_online'
+	];
 
 	public function testIndexNotAllowed() {
 		$this->expectException('MethodNotAllowedException');
