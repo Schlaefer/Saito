@@ -15,6 +15,7 @@
 		public $saveKeysToOutput = [];
 
 		public function login() {
+			$this->CurrentUser->logout();
 
 			if (isset($this->request->data['username']) === false) {
 				throw new BadRequestException('Field `username` is missing.');
