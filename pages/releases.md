@@ -7,6 +7,15 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-09.06 ##
+
+### What's new ###
+
+- [fix fixes mandatory category select in search form
+- [fix] [API] always logout on login attempt
+
+Code refactoring.
+
 ## 2013-09.05 ##
 
 ### What's new ###
