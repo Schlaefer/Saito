@@ -10,11 +10,11 @@
 	<?= $this->Html->css(['M.../dist/common.css', 'M.../dist/theme.css']) ?>
 	<script>
 		window.Saito = {
-			webroot: "<?= $this->webroot ?>"
 			webroot: "<?= $this->webroot ?>",
 			callbacks: { }
 		};
 	</script>
+	<?= $this->element('custom_html_header') ?>
 	<?php
 		if ($isDebug) {
 			// $requireJsScript = 'main-prod';

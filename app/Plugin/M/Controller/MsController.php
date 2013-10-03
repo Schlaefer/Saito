@@ -35,7 +35,7 @@
 			$this->set(
 				'touch',
 					Configure::read('debug')
-					. filemtime(App::pluginPath('M') . 'View/Layouts/default.ctp')
+					. filemtime(App::pluginPath('M') . 'View/Elements/custom_html_header.ctp')
 					. filemtime(App::pluginPath('M') . 'webroot/dist/js.js')
 					. filemtime(
 						App::pluginPath('M') . 'webroot/dist/common.css'
