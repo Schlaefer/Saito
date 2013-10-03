@@ -6,37 +6,27 @@ class Category extends AppModel {
 
 	public $cacheQueries = true;
 
-	public $hasMany = array (
-		"Entry" => array (
-			'className' => 'Entry',
-			'foreignKey' => 'category',
-		)
-	);
+	public $hasMany = [
+		'Entry' => [
+			'className'  => 'Entry',
+			'foreignKey' => 'category'
+		]
+	];
 
-	public $validate = array(
-		'category_order' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'accession' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+	public $validate = [
+		'category_order' => [
+			'numeric' => [
+				'rule' => ['numeric']
+			],
+		],
+		'accession'      => [
+			'numeric' => [
+				'rule' => ['numeric']
+			],
+		],
+	];
 
-	protected $_cache = array();
+	protected $_cache = [];
 
 	/**
 	 * @param int $accession
@@ -92,17 +82,26 @@ class Category extends AppModel {
 		return parent::delete($this->field('id'), false) && $entriesDeleted;
 	}
 
-  public function updateThreadCounter() {
+	/**
+	 * Updates thread counter from entry table
+	 *
+	 * @return integer current thread count
+	 */
+	public function updateThreadCounter() {
 		// @performance
-    $this->Entry->contain();
-    $c = $this->Entry->find('count', array(
-        'conditions' => array(
-            'pid' => 0,
-            'Entry.category' => $this->id),
-        ));
-		$this->saveField('thread_count', $c);
-    return $c;
-  }
+		$count = $this->Entry->find(
+			'count',
+			[
+				'contain' => false,
+				'conditions' => [
+					'pid'            => 0,
+					'Entry.category' => $this->id
+				]
+			]
+		);
+		$this->saveField('thread_count', $count);
+		return $count;
+	}
 
 	public function afterDelete() {
 		$this->_dispatchEvent('Model.Category.delete');

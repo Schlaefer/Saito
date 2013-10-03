@@ -74,14 +74,16 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 		<div><?php echo $this->Form->input('name',
 					array( 'div' => false, 'label' => __('user_name') )); ?> </div>
 		<div>
-			<?php
-				echo $this->Form->select('category',
-						$categories,
-						array(
-								'value' => $this->request->data['Entry']['category'],
-								'empty' => __('All Categories'),
-						)
-				);
+			<?=
+				$this->Form->select(
+					'category',
+					$categories,
+					[
+						'value' => $this->request->data['Entry']['category'],
+						'empty' => __('All Categories'),
+						'required' => false
+					]
+				)
 			?>
 			&nbsp;
 			<?php echo __("search_since"); ?>:

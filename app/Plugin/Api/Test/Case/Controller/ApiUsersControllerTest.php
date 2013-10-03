@@ -84,8 +84,19 @@
 			];
 			$ApiUsers = $this->generate(
 				'ApiUsers',
-				['components' => ['CurrentUser' => ['login', 'initialize', 'isLoggedIn']]]
+				[
+					'components' => [
+						'CurrentUser' => [
+							'login',
+							'initialize',
+							'isLoggedIn',
+							'logout'
+						]
+					]
+				]
 			);
+			$ApiUsers->CurrentUser->expects($this->once())
+					->method('logout');
 			$ApiUsers->CurrentUser->expects($this->once())
 					->method('login');
 			$ApiUsers->CurrentUser->expects($this->any())

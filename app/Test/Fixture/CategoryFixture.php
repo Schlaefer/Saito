@@ -9,7 +9,7 @@
 				'description' => array( 'type' => 'string', 'null' => true, 'default' => NULL ),
 				'accession' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4 ),
 				'standard_category' => array( 'type' => 'integer', 'null' => true, 'default' => '1', 'length' => 4 ),
-				'thread_count' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'length' => 11 ),
+				'thread_count' => array( 'type' => 'integer', 'null' => false, 'default' => 0, 'length' => 11 ),
 //		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 //		'tableParameters' => array()
 		);

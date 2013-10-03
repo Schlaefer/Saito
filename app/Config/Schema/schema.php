@@ -29,7 +29,7 @@ class AppSchema extends CakeSchema {
 		'category' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'accession' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
-		'thread_count' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'thread_count' => array('type' => 'integer', 'null' => false, 'default' => 0),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
