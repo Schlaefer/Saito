@@ -11,6 +11,8 @@
 	<script>
 		window.Saito = {
 			webroot: "<?= $this->webroot ?>"
+			webroot: "<?= $this->webroot ?>",
+			callbacks: { }
 		};
 	</script>
 	<?php
