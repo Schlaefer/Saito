@@ -64,6 +64,12 @@
 				);
 
 				echo $this->Setting->table(
+					__('API'),
+					['api_enabled', 'api_crossdomain'],
+					$Settings
+				);
+
+				echo $this->Setting->table(
 					__('Shoutbox'),
 					['shoutbox_enabled', 'shoutbox_max_shouts'],
 					$Settings
