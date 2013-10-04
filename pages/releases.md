@@ -11,7 +11,7 @@ layout: default
 
 ### What's new ###
 
-- [fix fixes mandatory category select in search form
+- [fix] fixes mandatory category select in search form
 - [fix] [API] always logout on login attempt
 
 Code refactoring.
