@@ -275,7 +275,8 @@ Response: Entry object of the updated entry.
 
 ### login POST ###
 
-Marks user as logged in. Also sends authentication cookies to client.
+Marks user as logged in. Removes existing authentication cookie and sets a new
+on successful login.
 
 - url: `api/v1/login`
 - request method: `POST`
@@ -295,7 +296,6 @@ Request data:
 : stay logged in/set cookie
 
 Response: User object.
-
 
 ### logout POST ###
 
