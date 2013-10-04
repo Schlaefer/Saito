@@ -99,11 +99,12 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 
     {
       "edit_period": 20,
+      "shoutbox_enabled": true,
       "subject_maxlength": 75
     }
 
 `edit_period`
-: period after creating it that editing is allowed in minutes
+: period after creating an entry that editing is allowed in minutes
 
 ### Server ###
 
