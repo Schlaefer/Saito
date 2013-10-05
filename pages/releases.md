@@ -7,6 +7,12 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-09.07 ##
+
+### What's new ###
+
+- [new] [API] `shoutbox_enabled` attribute in bootstrap
+
 ## 2013-09.06 ##
 
 ### What's new ###
