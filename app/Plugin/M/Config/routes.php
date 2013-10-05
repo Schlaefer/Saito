@@ -1,6 +1,6 @@
 <?php
 	Router::connect(
-		'/m/ms/',
+		'/mobile',
 		[
 			'plugin'     => 'M',
 			'controller' => 'ms',
