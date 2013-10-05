@@ -4,10 +4,13 @@
 			<h3><?php echo __('Ressources'); ?> </h3>
 			<ul>
 				<li>
-					<a href="http://macnemo.de/wiki/">Wiki</a>
+					<a href="<?= $this->webroot ?>mobile">Mobil</a>
 				</li>
 				<li>
-					<a href="<?php echo $this->request->webroot ?>users/contact/0"><?php echo __('Contact') ?></a>
+					<a href="https://macnemo.de/wiki/">Wiki</a>
+				</li>
+				<li>
+					<a href="<?= $this->webroot ?>users/contact/0"><?= __('Contact') ?></a>
 				</li>
 				<li>
 					<a href="aim:gochat?roomname=macnemo">Plauderecke</a>
@@ -16,7 +19,7 @@
 					<a href="http://macnemo.de/wiki/index.php/Main/Impressum">Impressum</a>
 				</li>
 				<li>
-          <a href="<?php echo $this->request->webroot ?>pages/rss_feeds"><?php echo __('RSS') ?></a>
+          <a href="<?= $this->webroot ?>pages/rss_feeds"><?= __('RSS') ?></a>
 				</li>
 				<li>
           <a href="http://www.google.com/moderator/#15/e=d490b&amp;t=d490b.40">Feedback geben</a>
@@ -26,7 +29,7 @@
 	</div>
 	<div class="center">
     <div class="disclaimer-inside">
-      <h3><?php echo __('Status'); ?></h3>
+      <h3><?= __('Status'); ?></h3>
       <?php
 				$loggedin = $HeaderCounter['user_registered'];
 				if ($CurrentUser->isLoggedIn()) {
@@ -49,9 +52,9 @@
     <div class="disclaimer-inside">
 			<h3> Maschinenraum </h3>
 			<p>
-        <a href="http://saito.siezi.com/"><?php echo __('Powered by Saito v%s.', Configure::read("Saito.v")); ?></a>
+        <a href="http://saito.siezi.com/"><?= __('Powered by Saito v%s.', Configure::read("Saito.v")); ?></a>
         <br/>
-        <?php echo __('Generated in %s s.', Stopwatch::getWallTime()); ?>
+        <?= __('Generated in %s s.', Stopwatch::getWallTime()); ?>
 			</p>
 			<div class="sprite-ipv6-button"></div>
 		</div>
