@@ -65,7 +65,11 @@
 				[
 					'name' => 'edit_period',
 					'value' => 20,
-				]
+				],
+			[
+				'name'  => 'shoutbox_enabled',
+				'value' => true
+			]
 		);
 
 	}

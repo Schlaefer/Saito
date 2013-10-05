@@ -25,7 +25,8 @@
 			'tos_enabled'         => 1,
 			'tos_url'             => 'http://example.com/tos-url.html/',
 			'thread_depth_indent' => '25',
-			'edit_period'         => '20'
+			'edit_period'         => '20',
+			'shoutbox_enabled'		=> true
 		);
 
 		public function testAfterSave() {

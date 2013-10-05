@@ -99,11 +99,12 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 
     {
       "edit_period": 20,
+      "shoutbox_enabled": true,
       "subject_maxlength": 75
     }
 
 `edit_period`
-: period after creating it that editing is allowed in minutes
+: period after creating an entry that editing is allowed in minutes
 
 ### Server ###
 
@@ -275,7 +276,8 @@ Response: Entry object of the updated entry.
 
 ### login POST ###
 
-Marks user as logged in. Also sends authentication cookies to client.
+Marks user as logged in. Removes existing authentication cookie and sets a new
+on successful login.
 
 - url: `api/v1/login`
 - request method: `POST`
@@ -295,7 +297,6 @@ Request data:
 : stay logged in/set cookie
 
 Response: User object.
-
 
 ### logout POST ###
 
