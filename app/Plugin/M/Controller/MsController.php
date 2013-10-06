@@ -45,4 +45,15 @@
 					)
 			);
 		}
+
+		public function clientLog() {
+			$this->autoLayout = false;
+			$this->autoRender = false;
+			if (isset($this->request->data['message'])) {
+				$message = $this->request->data['message'];
+				echo CakeLog::write('mobile-client', $message) ? 0 : 1;
+			} else {
+				echo 1;
+			}
+		}
 	}

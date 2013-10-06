@@ -118,7 +118,7 @@ Inflector::rules('singular', array(
 CakePlugin::loadAll(
 	[
 		'Api' => ['bootstrap' => true, 'routes' => true],
-		'M' => ['routes' => true]
+		'M'   => ['bootstrap' => true, 'routes' => true]
 	]
 );
 
