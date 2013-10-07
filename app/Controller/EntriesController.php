@@ -5,30 +5,35 @@
 	class EntriesController extends AppController {
 
 		public $name = 'Entries';
-		public $helpers = array(
+
+		public $helpers = [
 			'EntryH',
 			'MarkitupEditor',
 			'Flattr.Flattr',
 			'Text',
-		);
+		];
+
 		public $components = [
 			'Flattr',
 			'Search.Prg',
 			'Shouts'
 		];
 
-		/**
-		 * Setup for Search Plugin
-		 *
-		 * @var array
-		 */
-		public $presetVars = array(
-			array('field' => 'subject', 'type' => 'value'),
-			array('field' => 'text', 'type' => 'value'),
-			array('field' => 'name', 'type' => 'value'),
-			array('field' => 'category', 'type' => 'value'),
-		);
+/**
+ * Setup for Search Plugin
+ *
+ * @var array
+ */
+		public $presetVars = [
+			['field' => 'subject', 'type' => 'value'],
+			['field' => 'text', 'type' => 'value'],
+			['field' => 'name', 'type' => 'value'],
+			['field' => 'category', 'type' => 'value'],
+		];
 
+/**
+ *
+ */
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
@@ -49,7 +54,7 @@
 			// match initial threads against cache
 			$cachedThreads = [];
 			$uncachedThreads = [];
-			foreach($initialThreads as $thread) {
+			foreach ($initialThreads as $thread) {
 				if ($this->CacheSupport->CacheTree->isCacheValid($thread)) {
 					$cachedThreads[$thread['id']] = $thread;
 				} else {
@@ -97,6 +102,9 @@
 			Stopwatch::stop('Entries->index()');
 		}
 
+/**
+ *
+ */
 		public function feed() {
 			Configure::write('debug', 0);
 
@@ -104,7 +112,7 @@
 					$this->request->params['named']['depth'] === 'start'
 			) {
 				$title = __('Last started threads');
-				$order             = 'time DESC';
+				$order = 'time DESC';
 				$conditions['pid'] = 0;
 			} else {
 				$title = __('Last entries');
@@ -119,7 +127,7 @@
 				'feed',
 				[
 					'conditions' => $conditions,
-					'order'      => $order
+					'order' => $order
 				]
 			);
 			$this->initBbcode();
@@ -130,6 +138,11 @@
 			$this->set('title', $title);
 		}
 
+/**
+ * @param $tid
+ *
+ * @throws NotFoundException
+ */
 		public function mix($tid) {
 			if (!$tid) {
 				$this->redirect('/');
@@ -151,21 +164,22 @@
 			$this->_showAnsweringPanel();
 		}
 
-		/**
-		 * load front page force all entries mark-as-read
-		 */
+/**
+ * load front page force all entries mark-as-read
+ */
 		public function update() {
 			$this->autoRender = false;
 			$this->CurrentUser->LastRefresh->set('now');
 			$this->redirect('/entries/index');
 		}
 
-		/**
-		 * Outputs raw BBcode of an posting $id
-		 *
-		 * @param int $id
-		 * @return string
-		 */
+/**
+ * Outputs raw BBcode of an posting $id
+ *
+ * @param int $id
+ *
+ * @return string
+ */
 		public function source($id = null) {
 			$this->autoRender = false;
 
@@ -179,76 +193,89 @@
 			return implode("\n", $out);
 		}
 
-	public function view($id = null) {
-		Stopwatch::start('Entries->view()');
+/**
+ * @param null $id
+ *
+ * @return array|void
+ */
+		public function view($id = null) {
+			Stopwatch::start('Entries->view()');
 
-		//* redirect if no id is given
-		if ( !$id ) {
-			$this->Session->setFlash(__('Invalid post'));
-			return $this->redirect(array( 'action' => 'index' ));
+			//* redirect if no id is given
+			if ( !$id ) {
+				$this->Session->setFlash(__('Invalid post'));
+				return $this->redirect(array( 'action' => 'index' ));
+			}
+
+			$this->Entry->id = $id;
+			$this->request->data = $this->Entry->get($id);
+
+			//* redirect if posting doesn't exists
+			if ($this->request->data == false):
+				$this->Session->setFlash(__('Invalid post'));
+				$this->redirect('/');
+				return;
+			endif;
+
+			//* check if anonymous tries to access internal categories
+			if ($this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
+				$this->redirect('/');
+				return;
+			}
+
+			if (!empty($this->request->params['requested'])):
+				return $this->request->data;
+			endif;
+
+			$a = array($this->request->data);
+			list($this->request->data) = $a;
+			$this->set('entry', $this->request->data);
+
+			if ($this->request->data['Entry']['user_id'] != $this->CurrentUser->getId()):
+				$this->Entry->incrementViews();
+			endif;
+
+			// @td doku
+			$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
+
+			$this->_showAnsweringPanel();
+
+			$this->initBbcode();
+			if ($this->request->is('ajax')) {
+				//* inline view
+				$this->render('/Elements/entry/view_posting');
+				return;
+			} else {
+				//* full page request
+				$this->set(
+					'tree',
+					$this->Entry->treeForNode(
+						$this->request->data['Entry']['tid'],
+						['root' => true]
+					)
+				);
+				$this->set('title_for_layout', $this->request->data['Entry']['subject']);
+			}
+
+			Stopwatch::stop('Entries->view()');
 		}
 
-		$this->Entry->id     = $id;
-		$this->request->data = $this->Entry->get($id);
-
-		//* redirect if posting doesn't exists
-		if ($this->request->data == false):
-			$this->Session->setFlash(__('Invalid post'));
-			return$this->redirect('/');
-		endif;
-
-		//* check if anonymous tries to access internal categories
-		if ($this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
-			return $this->redirect('/');
-		}
-
-		if (!empty($this->request->params['requested'])):
-			return $this->request->data;
-		endif;
-
-		$a = array($this->request->data);
-		list($this->request->data) = $a;
-		$this->set('entry', $this->request->data);
-
-		if ($this->request->data['Entry']['user_id'] != $this->CurrentUser->getId()):
-			$this->Entry->incrementViews();
-		endif;
-
-		// @td doku
-		$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
-
-    $this->_showAnsweringPanel();
-
-		$this->initBbcode();
-		if ( $this->request->is('ajax') ):
-			//* inline view
-			$this->render('/Elements/entry/view_posting');
-			return;
-		else:
-			//* full page request
-			$this->set(
-				'tree',
-				$this->Entry->treeForNode(
-					$this->request->data['Entry']['tid'],
-					['root' => true]
-				)
-			);
-			$this->set('title_for_layout', $this->request->data['Entry']['subject']);
-		endif;
-
-		Stopwatch::stop('Entries->view()');
-	}
-
+/**
+ * @param null $id
+ *
+ * @return string
+ * @throws ForbiddenException
+ */
 		public function add($id = null) {
 			$this->set('form_title', __('new_entry_linktitle'));
 
 			// insert new entry
 			if (empty($this->request->data) === false) {
-				$new_posting = $this->Entry->createPosting($this->request->data);
+				$newPosting = $this->Entry->createPosting($this->request->data);
 
 				// inserting new posting was successful
-				if ($new_posting !== false) :
-					$this->_setNotifications($new_posting);
+				if ($newPosting !== false) :
+					$this->_setNotifications($newPosting);
 					if ($this->request->is('ajax')) :
 						// Ajax request came from front answer on front page /entries/index
 						if ($this->localReferer('action') === 'index') {
@@ -256,9 +283,9 @@
 
 							return json_encode(
 								[
-									'id'  => (int)$new_posting['Entry']['id'],
-									'pid' => (int)$new_posting['Entry']['pid'],
-									'tid' => (int)$new_posting['Entry']['tid']
+									'id' => (int)$newPosting['Entry']['id'],
+									'pid' => (int)$newPosting['Entry']['pid'],
+									'tid' => (int)$newPosting['Entry']['tid']
 								]
 							);
 						} else {
@@ -271,9 +298,9 @@
 							$this->redirect(
 								[
 									'controller' => 'entries',
-									'action'     => 'mix',
-									$new_posting['Entry']['tid'],
-									'#'          => $this->Entry->id
+									'action' => 'mix',
+									$newPosting['Entry']['tid'],
+									'#' => $this->Entry->id
 								]
 							);
 
@@ -282,7 +309,7 @@
 							$this->redirect(
 								[
 									'controller' => 'entries',
-									'action'     => 'view',
+									'action' => 'view',
 									$this->Entry->id
 								]
 							);
@@ -305,10 +332,10 @@
 
 			// show add form
 			} else {
-				$is_answer = $id !== null;
+				$isAnswer = $id !== null;
 				$this->request->data = null;
 
-				if ($is_answer) {
+				if ($isAnswer) {
 					if ($this->request->is('ajax') === false) {
 						$this->Session->setFlash(__('js-required'), 'flash/error');
 						$this->redirect($this->referer());
@@ -338,8 +365,8 @@
 						$this->CurrentUser->getId(),
 						array(
 							1 => array(
-								'subject'  => $this->request->data['Entry']['tid'],
-								'event'    => 'Model.Entry.replyToThread',
+								'subject' => $this->request->data['Entry']['tid'],
+								'event' => 'Model.Entry.replyToThread',
 								'receiver' => 'EmailNotification',
 							),
 						)
@@ -377,101 +404,110 @@
 			$this->set('level', '1');
 		}
 
-	public function edit($id = null) {
-
-		if (empty($id)) {
-			throw new BadRequestException();
-		}
-
-		$oldEntry = $this->Entry->get($id, true);
-		if (!$oldEntry) {
-			throw new NotFoundException();
-		}
-
-		switch ($oldEntry['rights']['isEditingForbidden']) {
-			case 'time':
-				$this->Session->setFlash(
-					'Stand by your word bro\', it\'s too late. @lo',
-					'flash/error'
-				);
-				$this->redirect(['action' => 'view', $id]);
-				return;
-				break;
-			case 'user':
-				$this->Session->setFlash('Not your horse, Hoss! @lo', 'flash/error');
-				$this->redirect(['action' => 'view', $id]);
-				return;
-				break;
-			case true :
-				$this->Session->setFlash(
-					'Something went terribly wrong. Alert the authorities now! @lo',
-					'flash/error'
-				);
-				return;
-		}
-
-		// try to save edit
-		if (!empty($this->request->data)) {
-			$data = $this->request->data;
-			$data['Entry']['id'] = $id;
-			$new_entry = $this->Entry->update($data);
-			if ($new_entry) {
-				$this->_setNotifications(am($this->request['data'], $oldEntry));
-				$this->redirect(['action' => 'view', $id]);
-				return;
-			} else {
-				$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
+/**
+ * @param null $id
+ *
+ * @throws NotFoundException
+ * @throws BadRequestException
+ */
+		public function edit($id = null) {
+			if (empty($id)) {
+				throw new BadRequestException();
 			}
-		}
 
-		// show editing form
-		if($oldEntry['rights']['isEditingAsUserForbidden']) {
-			$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
-		}
+			$oldEntry = $this->Entry->get($id, true);
+			if (!$oldEntry) {
+				throw new NotFoundException();
+			}
 
-		$this->request->data = am($oldEntry, $this->request->data);
+			switch ($oldEntry['rights']['isEditingForbidden']) {
+				case 'time':
+					$this->Session->setFlash(
+						'Stand by your word bro\', it\'s too late. @lo',
+						'flash/error'
+					);
+					$this->redirect(['action' => 'view', $id]);
+					return;
+				case 'user':
+					$this->Session->setFlash('Not your horse, Hoss! @lo', 'flash/error');
+					$this->redirect(['action' => 'view', $id]);
+					return;
+				case true :
+					$this->Session->setFlash(
+						'Something went terribly wrong. Alert the authorities now! @lo',
+						'flash/error'
+					);
+					return;
+			}
 
-		// get text of parent entry for citation
-		$parent_entry_id = $oldEntry['Entry']['pid'];
-		if ($parent_entry_id > 0) {
-			$parent_entry = $this->Entry->get($parent_entry_id, true);
-			$this->set('citeText', $parent_entry['Entry']['text']);
-		}
+			// try to save edit
+			if (!empty($this->request->data)) {
+				$data = $this->request->data;
+				$data['Entry']['id'] = $id;
+				$newEntry = $this->Entry->update($data);
+				if ($newEntry) {
+					$this->_setNotifications(am($this->request['data'], $oldEntry));
+					$this->redirect(['action' => 'view', $id]);
+					return;
+				} else {
+					$this->Session->setFlash(__('Something clogged the tubes. Could not save entry. Try again.'));
+				}
+			}
 
-		// get notifications
-		$notis = $this->Entry->Esevent->checkEventsForUser(
-			$oldEntry['Entry']['user_id'],
-			array(
+			// show editing form
+			if ($oldEntry['rights']['isEditingAsUserForbidden']) {
+				$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
+			}
+
+			$this->request->data = am($oldEntry, $this->request->data);
+
+			// get text of parent entry for citation
+			$parentEntryId = $oldEntry['Entry']['pid'];
+			if ($parentEntryId > 0) {
+				$parentEntry = $this->Entry->get($parentEntryId, true);
+				$this->set('citeText', $parentEntry['Entry']['text']);
+			}
+
+			// get notifications
+			$notis = $this->Entry->Esevent->checkEventsForUser(
+				$oldEntry['Entry']['user_id'],
 				array(
-					'subject'  => $oldEntry['Entry']['id'],
-					'event'    => 'Model.Entry.replyToEntry',
-					'receiver' => 'EmailNotification',
-				),
-				array(
-					'subject'  => $oldEntry['Entry']['tid'],
-					'event'    => 'Model.Entry.replyToThread',
-					'receiver' => 'EmailNotification',
-				),
-			)
-		);
-		$this->set('notis', $notis);
+					array(
+						'subject' => $oldEntry['Entry']['id'],
+						'event' => 'Model.Entry.replyToEntry',
+						'receiver' => 'EmailNotification',
+					),
+					array(
+						'subject' => $oldEntry['Entry']['tid'],
+						'event' => 'Model.Entry.replyToThread',
+						'receiver' => 'EmailNotification',
+					),
+				)
+			);
+			$this->set('notis', $notis);
 
-		$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
-		$this->set('is_inline', false);
-		$this->set('form_id', $this->request->data['Entry']['pid']);
+			$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
+			$this->set('is_inline', false);
+			$this->set('form_id', $this->request->data['Entry']['pid']);
 
-		// set headers
-    $this->set('headerSubnavLeftUrl', '/entries/index');
-		$this->set(
-			'headerSubnavLeftTitle',
-			__('back_to_posting_from_linkname', $this->request->data['User']['username'])
-		);
-		$this->set('headerSubnavLeftUrl', array( 'action' => 'view', $id ));
-		$this->set('form_title', __('edit_linkname'));
-		$this->_teardownAdd();
-		$this->render('/Entries/add');
-	}
+			// set headers
+			$this->set('headerSubnavLeftUrl', '/entries/index');
+			$this->set(
+				'headerSubnavLeftTitle',
+				__('back_to_posting_from_linkname', $this->request->data['User']['username'])
+			);
+			$this->set('headerSubnavLeftUrl', array( 'action' => 'view', $id ));
+			$this->set('form_title', __('edit_linkname'));
+			$this->_teardownAdd();
+			$this->render('/Entries/add');
+		}
 
+/**
+ * @param null $id
+ *
+ * @throws NotFoundException
+ * @throws MethodNotAllowedException
+ */
 	public function delete($id = null) {
 		if (!$id) {
 			throw new NotFoundException;
@@ -485,7 +521,7 @@
 		$this->Entry->contain();
 		$entry = $this->Entry->findById($id);
 
-		if(!$entry) {
+		if (!$entry) {
 			throw new NotFoundException;
 		}
 
@@ -508,255 +544,278 @@
 		$this->redirect('/');
 	}
 
-	/**
-	 * Empty function for benchmarking
-	 */
-	public function e()  {
-		Stopwatch::start('Entries->e()');
-		Stopwatch::stop('Entries->e()');
-	}
-
-	public function search() {
-
-//		debug($this->request->data);
-//		debug($this->request->params);
-//		debug($this->passedArgs);
-		// determine start year for dropdown in form
-		$found_entry = $this->Entry->find('first',
-						array( 'order' => 'Entry.id ASC', 'contain' => false ));
-		if ( $found_entry !== false ) {
-			$start_date = strtotime($found_entry['Entry']['time']);
-		} else {
-			$start_date = time();
-		}
-		$this->set('start_year', date('Y', $start_date));
-
-		// get categories for dropdown
-		$categories = $this->Entry->Category->getCategoriesSelectForAccession(
-				$this->CurrentUser->getMaxAccession());
-		$this->set('categories', $categories);
-
-		//* calculate current month and year
-		if ( empty($this->request->data['Entry']['month']) && empty($searchStartMonth))  {
-			// start in last month
-			//	$start_date = mktime(0,0,0,((int)date('m')-1), 28, (int)date('Y'));
-			$searchStartMonth = date('n', $start_date);
-			$searchStartYear  = date('Y', $start_date);
+/**
+ * Empty function for benchmarking
+ */
+		public function e() {
+			Stopwatch::start('Entries->e()');
+			Stopwatch::stop('Entries->e()');
 		}
 
-		// extract search_term for simple search
-		$searchTerm = '';
-		if ( isset($this->request->data['Entry']['search_term']) ) {
-			$searchTerm = $this->request->data['Entry']['search_term'];
-		} elseif ( isset($this->request->params['named']['search_term']) ) {
-			$searchTerm = $this->request->params['named']['search_term'];
-		} elseif ( isset($this->request['url']['search_term']) ) {
-			// search_term is send via get parameter
-			$searchTerm = $this->request['url']['search_term'];
-		}
-		$this->set('search_term', $searchTerm);
-
-		if ( isset($this->passedArgs['adv']) ) {
-			$this->request->params['data']['Entry']['adv'] = 1;
-		}
-
-		if ( !isset($this->request->data['Entry']['adv']) && !isset($this->request->params['named']['adv']) ) {
-			// Simple Search
-			if ( $searchTerm ) {
-				Router::connectNamed(array( 'search_term' ));
-
-				$this->passedArgs['search_term'] = $searchTerm;
-				/* stupid apache rewrite urlencode bullshit */
-				// $this->passedArgs['search_term'] = urlencode(urlencode($search_term));
-
-				if ( $searchTerm ) {
-					$internal_search_term = $this->_searchStringSanitizer($searchTerm);
-					$this->paginate = array(
-							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$internal_search_term' IN BOOLEAN MODE)*2) + (MATCH (Entry.text) AGAINST ('$internal_search_term' IN BOOLEAN MODE)) + (MATCH (Entry.name) AGAINST ('$internal_search_term' IN BOOLEAN MODE)*4) AS rating",
-							'conditions' => array(
-                "MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$internal_search_term' IN BOOLEAN MODE)",
-                'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())),
-							'order' => 'rating DESC, `Entry`.`time` DESC',
-							'limit' => 25,
-					);
-					$found_entries = $this->paginate('Entry');
-
-					$this->set('FoundEntries', $found_entries);
-					$this->request->data['Entry']['search']['term'] = $searchTerm;
-				}
+/**
+ * @throws NotFoundException
+ */
+		public function search() {
+			/*
+			debug($this->request->data);
+			debug($this->request->params);
+			debug($this->passedArgs);
+			*/
+			// determine start year for dropdown in form
+			$foundEntry = $this->Entry->find(
+				'first',
+				['order' => 'Entry.id ASC', 'contain' => false]
+			);
+			if ($foundEntry !== false) {
+				$startDate = strtotime($foundEntry['Entry']['time']);
+			} else {
+				$startDate = time();
 			}
-		} else {
-			// Advanced Search
-			if (isset($this->request->params['named']['month'])):
-				$searchStartMonth = (int)$this->request->params['named']['month'];
-				$searchStartYear  = (int)$this->request->params['named']['year'];
-			endif;
+			$this->set('start_year', date('Y', $startDate));
 
-			$this->Prg->commonProcess();
-			$paginateSettings = array();
-			$paginateSettings['conditions'] = $this->Entry->parseCriteria(
-					$this->request->params['named']);
-			$paginateSettings['conditions']['time >'] = date(
-					'Y-m-d H:i:s', mktime( 0, 0, 0, $searchStartMonth, 1, $searchStartYear ));
+			// get categories for dropdown
+			$categories = $this->Entry->Category->getCategoriesSelectForAccession(
+					$this->CurrentUser->getMaxAccession());
+			$this->set('categories', $categories);
 
-			if((int)$this->request->data['Entry']['category'] !== 0) {
-				if (!isset($categories[(int)$this->request->data['Entry']['category']])) {
-					throw new NotFoundException;
+			//* calculate current month and year
+			if (empty($this->request->data['Entry']['month']) && empty($searchStartMonth)) {
+				// start in last month
+				//	$start_date = mktime(0,0,0,((int)date('m')-1), 28, (int)date('Y'));
+				$searchStartMonth = date('n', $startDate);
+				$searchStartYear = date('Y', $startDate);
+			}
+
+			// extract search_term for simple search
+			$searchTerm = '';
+			if ( isset($this->request->data['Entry']['search_term']) ) {
+				$searchTerm = $this->request->data['Entry']['search_term'];
+			} elseif ( isset($this->request->params['named']['search_term']) ) {
+				$searchTerm = $this->request->params['named']['search_term'];
+			} elseif ( isset($this->request['url']['search_term']) ) {
+				// search_term is send via get parameter
+				$searchTerm = $this->request['url']['search_term'];
+			}
+			$this->set('search_term', $searchTerm);
+
+			if ( isset($this->passedArgs['adv']) ) {
+				$this->request->params['data']['Entry']['adv'] = 1;
+			}
+
+			if ( !isset($this->request->data['Entry']['adv']) && !isset($this->request->params['named']['adv']) ) {
+				// Simple Search
+				if ( $searchTerm ) {
+					Router::connectNamed(array( 'search_term' ));
+
+					$this->passedArgs['search_term'] = $searchTerm;
+					/* stupid apache rewrite urlencode bullshit */
+					// $this->passedArgs['search_term'] = urlencode(urlencode($search_term));
+
+					if ( $searchTerm ) {
+						$internalSearchTerm = $this->_searchStringSanitizer($searchTerm);
+						$this->paginate = [
+							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)*2) + (MATCH (Entry.text) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)) + (MATCH (Entry.name) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)*4) AS rating",
+							'conditions' => [
+									"MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)",
+									'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())
+								],
+							'order' => 'rating DESC, `Entry`.`time` DESC',
+							'limit' => 25
+						];
+						$fountEntries = $this->paginate('Entry');
+
+						$this->set('FoundEntries', $fountEntries);
+						$this->request->data['Entry']['search']['term'] = $searchTerm;
+					}
 				}
 			} else {
-				$paginateSettings['conditions']['Entry.category'] =
-					$this->Entry->Category->getCategoriesForAccession(
-							$this->CurrentUser->getMaxAccession());
+				// Advanced Search
+				if (isset($this->request->params['named']['month'])):
+					$searchStartMonth = (int)$this->request->params['named']['month'];
+					$searchStartYear = (int)$this->request->params['named']['year'];
+				endif;
+
+				$this->Prg->commonProcess();
+				$paginateSettings = array();
+				$paginateSettings['conditions'] = $this->Entry->parseCriteria(
+						$this->request->params['named']);
+				$paginateSettings['conditions']['time >'] = date(
+						'Y-m-d H:i:s', mktime( 0, 0, 0, $searchStartMonth, 1, $searchStartYear ));
+
+				if ((int)$this->request->data['Entry']['category'] !== 0) {
+					if (!isset($categories[(int)$this->request->data['Entry']['category']])) {
+						throw new NotFoundException;
+					}
+				} else {
+					$paginateSettings['conditions']['Entry.category'] =
+						$this->Entry->Category->getCategoriesForAccession(
+								$this->CurrentUser->getMaxAccession());
+				}
+
+				$paginateSettings['order'] = array('Entry.time' => 'DESC');
+				$paginateSettings['limit'] = 25;
+				$this->paginate = $paginateSettings;
+				$this->set('FoundEntries', $this->paginate());
 			}
 
-			$paginateSettings['order'] = array('Entry.time' => 'DESC');
-			$paginateSettings['limit'] = 25;
-			$this->paginate = $paginateSettings;
-			$this->set('FoundEntries', $this->paginate());
+			if (!isset($this->request->data['Entry']['category'])) {
+				$this->request->data['Entry']['category']	= 0;
+			}
+			$this->request->data['Entry']['month'] = $searchStartMonth;
+			$this->request->data['Entry']['year'] = $searchStartYear;
 		}
 
-		if(!isset($this->request->data['Entry']['category'])) {
-			$this->request->data['Entry']['category']	= 0;
-		}
-		$this->request->data['Entry']['month'] = $searchStartMonth;
-		$this->request->data['Entry']['year']  = $searchStartYear;
-	}
+/**
+ * @return string
+ * @throws MethodNotAllowedException
+ * @throws BadRequestException
+ * @throws ForbiddenException
+ */
+		public function preview() {
+			if ($this->CurrentUser->isLoggedIn() === false) {
+				throw new ForbiddenException();
+			}
+			if ($this->request->is('ajax') === false) {
+				throw new BadRequestException();
+			}
+			if ($this->request->is('get')) {
+				throw new MethodNotAllowedException();
+			}
 
-	public function preview() {
-		if ($this->CurrentUser->isLoggedIn() === false) {
-			throw new ForbiddenException();
-		}
-		if ($this->request->is('ajax') === false) {
-			throw new BadRequestException();
-		}
-		if ($this->request->is('get')) {
-			throw new MethodNotAllowedException();
-		}
-
-		$data = $this->request->data;
-	  $data = $data['Entry'];
-		$newEntry = array(
-			'Entry' => array(
-				'pid'      => $data['pid'],
-				'subject'  => $data['subject'],
-				'text'     => $data['text'],
-				'category' => $data['category'],
-				'nsfw'     => $data['nsfw'],
-				'fixed'    => false,
-				'views'    => 0,
-				'ip'       => '',
-				'time'     => date("Y-m-d H:i:s")
-			)
-		);
-
-		$this->Entry->prepare($newEntry);
-		$this->Entry->set($newEntry);
-
-		$this->Entry->validates(['fieldList' => ['subject', 'text', 'category']]);
-		$errors = $this->Entry->validationErrors;
-
-		if (count($errors) === 0) :
-			// no validation errors
-
-			// Sanitize before validation: maxLength will fail because of html entities
-			$newEntry['Entry']['subject'] = Sanitize::html($newEntry['Entry']['subject']);
-			$newEntry['Entry']['text'] = Sanitize::html($newEntry['Entry']['text']);
-
-			$newEntry['User'] = $this->CurrentUser->getSettings();
-
-			$newEntry = array_merge(
-				$newEntry,
-				$this->Entry->Category->find(
-					'first',
-					array(
-						'conditions' => array(
-							'id' => $newEntry['Entry']['category']
-						),
-						'contain'    => false,
-					)
+			$data = $this->request->data;
+			$data = $data['Entry'];
+			$newEntry = array(
+				'Entry' => array(
+					'pid' => $data['pid'],
+					'subject' => $data['subject'],
+					'text' => $data['text'],
+					'category' => $data['category'],
+					'nsfw' => $data['nsfw'],
+					'fixed' => false,
+					'views' => 0,
+					'ip' => '',
+					'time' => date("Y-m-d H:i:s")
 				)
 			);
-			$this->initBbcode();
-			$this->set('entry', $newEntry);
-		else :
-			// validation errors
-			foreach ( $errors as $field => $error ) {
-				$message = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
-				$this->JsData->addAppJsMessage($message, array(
-						'type' => 'error',
-						'channel' => 'form',
-						'element' => '#Entry' . ucfirst($field)
-					));
+
+			$this->Entry->prepare($newEntry);
+			$this->Entry->set($newEntry);
+
+			$this->Entry->validates(['fieldList' => ['subject', 'text', 'category']]);
+			$errors = $this->Entry->validationErrors;
+
+			if (count($errors) === 0) :
+				// no validation errors
+
+				// Sanitize before validation: maxLength will fail because of html entities
+				$newEntry['Entry']['subject'] = Sanitize::html($newEntry['Entry']['subject']);
+				$newEntry['Entry']['text'] = Sanitize::html($newEntry['Entry']['text']);
+
+				$newEntry['User'] = $this->CurrentUser->getSettings();
+
+				$newEntry = array_merge(
+					$newEntry,
+					$this->Entry->Category->find(
+						'first',
+						array(
+							'conditions' => array(
+								'id' => $newEntry['Entry']['category']
+							),
+							'contain' => false,
+						)
+					)
+				);
+				$this->initBbcode();
+				$this->set('entry', $newEntry);
+			else :
+				// validation errors
+				foreach ($errors as $field => $error) {
+					$message = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
+					$this->JsData->addAppJsMessage($message, array(
+							'type' => 'error',
+							'channel' => 'form',
+							'element' => '#Entry' . ucfirst($field)
+						));
+				}
+				$this->autoRender = false;
+				return json_encode($this->JsData->getAppJsMessages());
+			endif;
+		}
+
+/**
+ * @param null $id
+ *
+ * @throws NotFoundException
+ * @throws MethodNotAllowedException
+ */
+		public function merge($id = null) {
+			if (!$id) {
+				throw new NotFoundException();
 			}
+
+			if (!$this->CurrentUser->isMod() && !$this->CurrentUser->isAdmin()) {
+				throw new MethodNotAllowedException;
+			}
+
+			$this->Entry->contain();
+			$data = $this->Entry->findById($id);
+
+			if (!$data || (int)$data['Entry']['pid'] !== 0) {
+				throw new NotFoundException();
+			}
+
+			// perform move operation
+			if (isset($this->request->data['Entry']['targetId'])) {
+				$targetId = $this->request->data['Entry']['targetId'];
+				$this->Entry->id = $id;
+				if ($this->Entry->threadMerge($targetId)) {
+					$this->redirect('/entries/view/' . $id);
+					return;
+				} else {
+					$this->Session->setFlash(__("Error"), 'flash/error');
+				}
+			}
+
+			$this->layout = 'admin';
+			$this->request->data = $data;
+		}
+
+/**
+ * @param null $id
+ * @param null $toggle
+ *
+ * @return translated
+ */
+		public function ajax_toggle($id = null, $toggle = null) {
+			$this->autoLayout = false;
 			$this->autoRender = false;
-			return json_encode($this->JsData->getAppJsMessages());
-		endif;
-	}
 
-	public function merge($id = null) {
-		if (!$id) { throw new NotFoundException(); }
-
-		if (!$this->CurrentUser->isMod() && !$this->CurrentUser->isAdmin()) {
-			throw new MethodNotAllowedException;
-		}
-
-		$this->Entry->contain();
-		$data = $this->Entry->findById($id);
-
-		if (!$data || (int)$data['Entry']['pid'] !== 0) {
-			throw new NotFoundException();
-		}
-
-		// perform move operation
-		if (isset($this->request->data['Entry']['targetId'])) {
-			$targetId = $this->request->data['Entry']['targetId'];
-			$this->Entry->id = $id;
-			if ($this->Entry->threadMerge($targetId)) {
-				$this->redirect('/entries/view/' . $id);
+			if (!$id || !$toggle || !$this->request->is('ajax')) {
 				return;
-			} else {
-				$this->Session->setFlash(__("Error"), 'flash/error');
 			}
+
+			// check if the requested toggle is allowed to be changed via this function
+			$allowedToggles = array(
+					'fixed',
+					'locked',
+			);
+			if (!in_array($toggle, $allowedToggles)) {
+				$this->request->data = false;
+
+				// check is user is allowed to perform operation
+				// luckily we only mod options in the allowed toggles
+			} elseif ( $this->CurrentUser->isMod() === false ) {
+				$this->request->data = false;
+			} else {
+				//* let's toggle
+				$this->Entry->id = $id;
+				$this->request->data = $this->Entry->toggle($toggle);
+				return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
+			}
+
+			$this->set('json_data', (string)$this->request->data);
+			$this->render('/Elements/json/json_data');
 		}
-
-		$this->layout = 'admin';
-		$this->request->data = $data;
-	}
-
-	public function ajax_toggle($id = null, $toggle = null) {
-		$this->autoLayout = false;
-		$this->autoRender = false;
-
-		if ( !$id || !$toggle || !$this->request->is('ajax') )
-			return;
-
-		// check if the requested toggle is allowed to be changed via this function
-		$allowed_toggles = array(
-				'fixed',
-				'locked',
-		);
-		if ( !in_array($toggle, $allowed_toggles) ) {
-			$this->request->data = false;
-
-			// check is user is allowed to perform operation
-			// luckily we only mod options in the allowed toggles
-		} elseif ( $this->CurrentUser->isMod() === false ) {
-			$this->request->data = false;
-		}
-		// let's toggle
-		else {
-			$this->Entry->id = $id;
-			$this->request->data = $this->Entry->toggle($toggle);
-			return ($this->request->data == 0) ? __d('nondynamic', $toggle . '_set_entry_link') : __d('nondynamic', $toggle . '_unset_entry_link');
-		}
-
-		$this->set('json_data', (string) $this->request->data);
-		$this->render('/Elements/json/json_data');
-
-		// perform toggle
-	}
-
-//end ajax_toggle()
 
 		public function beforeFilter() {
 			parent::beforeFilter();
@@ -797,7 +856,7 @@
 			*/
 
 			$isMarkAsReadRequest = isset($this->request->query['mar']) &&
-					$this->request->query['mar'] === '' ;
+					$this->request->query['mar'] === '';
 
 			if ($isMarkAsReadRequest &&
 					$this->request->isPreview() === false
@@ -822,7 +881,7 @@
 					$this->Entry->getRecentEntries(
 						[
 							'user_id' => $this->CurrentUser->getId(),
-							'limit'   => 5
+							'limit' => 5
 						],
 						$this->CurrentUser
 					)
@@ -846,16 +905,16 @@
 			if (isset($newEntry['Event'])) {
 				$notis = [
 					[
-						'subject'  => $newEntry['Entry']['id'],
-						'event'    => 'Model.Entry.replyToEntry',
+						'subject' => $newEntry['Entry']['id'],
+						'event' => 'Model.Entry.replyToEntry',
 						'receiver' => 'EmailNotification',
-						'set'      => $newEntry['Event'][1]['event_type_id'],
+						'set' => $newEntry['Event'][1]['event_type_id'],
 					],
 					[
-						'subject'  => $newEntry['Entry']['tid'],
-						'event'    => 'Model.Entry.replyToThread',
+						'subject' => $newEntry['Entry']['tid'],
+						'event' => 'Model.Entry.replyToThread',
 						'receiver' => 'EmailNotification',
-						'set'      => $newEntry['Event'][2]['event_type_id'],
+						'set' => $newEntry['Event'][2]['event_type_id'],
 					]
 				];
 				$this->Entry->Esevent->notifyUserOnEvents(
@@ -865,43 +924,43 @@
 			}
 		}
 
-		/**
-		 * Gets the thread ids of all threads which should be visisble on the an
-		 * entries/index/# page.
-		 *
-		 * @param CurrentUserComponent $User
-		 * @return array
-		 */
+/**
+ * Gets the thread ids of all threads which should be visisble on the an
+ * entries/index/# page.
+ *
+ * @param CurrentUserComponent $User
+ * @return array
+ */
 		protected function _getInitialThreads(CurrentUserComponent $User, $order) {
 			Stopwatch::start('Entries->_getInitialThreads() Paginate');
 
-				$categories = $this->_setupCategoryChooser($User);
+			$categories = $this->_setupCategoryChooser($User);
 
-				$this->paginate = array(
-					/* Whenever you change the conditions here check if you have to adjust
-					 * the db index. Running this query without appropriate db index is a huge
-					 * performance bottleneck!
-					 */
-					'conditions' => array(
-							'pid' => 0,
-							'Entry.category' => $categories,
-					),
-					'contain' => false,
-					'fields' => 'id, pid, tid, time, last_answer',
-					'limit' => Configure::read('Saito.Settings.topics_per_page'),
-					'order' => $order,
-					'getInitialThreads' => 1,
-					)
-			;
-			$initial_threads = $this->paginate();
+			$this->paginate = array(
+				/* Whenever you change the conditions here check if you have to adjust
+				 * the db index. Running this query without appropriate db index is a huge
+				 * performance bottleneck!
+				 */
+				'conditions' => array(
+						'pid' => 0,
+						'Entry.category' => $categories
+				),
+				'contain' => false,
+				'fields' => 'id, pid, tid, time, last_answer',
+				'limit' => Configure::read('Saito.Settings.topics_per_page'),
+				'order' => $order,
+				'getInitialThreads' => 1,
+			);
 
-			$initial_threads_new = [];
-			foreach ($initial_threads as $k => $v) {
-				$initial_threads_new[$k] = $v['Entry'];
+			$initialThreads = $this->paginate();
+
+			$initialThreadsNew = [];
+			foreach ($initialThreads as $k => $v) {
+				$initialThreadsNew[$k] = $v['Entry'];
 			}
 			Stopwatch::stop('Entries->_getInitialThreads() Paginate');
 
-			return $initial_threads_new;
+			return $initialThreadsNew;
 		}
 
 		protected function _setupCategoryChooser(SaitoUser $User) {
@@ -909,7 +968,7 @@
 				$User->getMaxAccession()
 			);
 
-			$is_used = $User->isLoggedIn() &&
+			$isUsed = $User->isLoggedIn() &&
 					(
 							Configure::read('Saito.Settings.category_chooser_global') ||
 							(
@@ -919,7 +978,7 @@
 							)
 					);
 
-			if ($is_used) {
+			if ($isUsed) {
 				// @todo find right place for this; also: User::getCategories();
 				App::uses('UserCategories', 'Lib');
 				$UserCategories = new UserCategories($User->getSettings(), $categories);
@@ -948,41 +1007,38 @@
 			return $categories;
 		}
 
-	protected function _teardownAdd() {
-		//* find categories for dropdown
-		$categories = $this->Entry->Category->getCategoriesSelectForAccession($this->CurrentUser->getMaxAccession());
-		$this->set('categories', $categories);
-		$this->_loadSmilies();
-	}
-
-  /**
-   * Decide if an answering panel is show when rendering a posting
-   */
-  protected function _showAnsweringPanel() {
-    $showAnsweringPanel = false;
-
-		if ($this->CurrentUser->isLoggedIn()) {
-			// Only logged in users see the answering buttons if they …
-			if ( // … directly on entries/view but not inline
-					($this->request->action === 'view' && !$this->request->is('ajax'))
-					// … directly in entries/mix
-					|| $this->request->action === 'mix'
-					// … inline viewing … on entries/index.
-					|| ( $this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index')
-			):
-				$showAnsweringPanel = true;
-			endif;
+		protected function _teardownAdd() {
+			//* find categories for dropdown
+			$categories = $this->Entry->Category->getCategoriesSelectForAccession($this->CurrentUser->getMaxAccession());
+			$this->set('categories', $categories);
+			$this->_loadSmilies();
 		}
 
-    $this->set('showAnsweringPanel', $showAnsweringPanel);
+/**
+ * Decide if an answering panel is show when rendering a posting
+ */
+		protected function _showAnsweringPanel() {
+			$showAnsweringPanel = false;
 
-  }
+			if ($this->CurrentUser->isLoggedIn()) {
+				// Only logged in users see the answering buttons if they …
+				if ( // … directly on entries/view but not inline
+						($this->request->action === 'view' && !$this->request->is('ajax'))
+						// … directly in entries/mix
+						|| $this->request->action === 'mix'
+						// … inline viewing … on entries/index.
+						|| ( $this->localReferer('controller') === 'entries' && $this->localReferer('action') === 'index')
+				):
+					$showAnsweringPanel = true;
+				endif;
+			}
+			$this->set('showAnsweringPanel', $showAnsweringPanel);
+		}
 
-	protected function _searchStringSanitizer($search_string) {
-		$search_string = Sanitize::escape($search_string);
-		$search_string = preg_replace('/(^|\s)(?![-+])/i', ' +', $search_string);
+		protected function _searchStringSanitizer($searchString) {
+			$searchString = Sanitize::escape($searchString);
+			$searchString = preg_replace('/(^|\s)(?![-+])/i', ' +', $searchString);
+			return trim($searchString);
+		}
 
-		return trim($search_string);
 	}
-
-}

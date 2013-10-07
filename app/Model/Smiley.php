@@ -3,6 +3,7 @@
 	class Smiley extends AppModel {
 
 		public $name = 'Smiley';
+
 		public $validate = [
 			'order' => [
 				'numeric' => [
@@ -12,12 +13,13 @@
 					//'required' => false,
 					//'last' => false, // Stop validation after this rule
 					//'on' => 'create', // Limit validation to 'create' or 'update' operations
-				],
-			],
+				]
+			]
 		];
+
 		public $hasMany = [
 			'SmileyCode' => [
-				'className'  => 'SmileyCode',
+				'className' => 'SmileyCode',
 				'foreignKey' => 'smiley_id'
 			]
 		];
@@ -41,7 +43,7 @@
 
 			$smilies = Cache::read('Saito.Smilies.smilies_all');
 			if (!$smilies) {
-				$smilies    = [];
+				$smilies = [];
 				$smiliesRaw = $this->find('all', ['order' => 'Smiley.order ASC']);
 
 				foreach ($smiliesRaw as $smileyRaw) {
@@ -54,7 +56,7 @@
 					foreach ($smileyRaw['SmileyCode'] as $smileyRawCode) {
 						unset($smileyRaw['Smiley']['id']);
 						$smileyRaw['Smiley']['code'] = $smileyRawCode['code'];
-						$smilies[]                   = $smileyRaw['Smiley'];
+						$smilies[] = $smileyRaw['Smiley'];
 					}
 				}
 				Cache::write('Saito.Smilies.smilies_all', $smilies);

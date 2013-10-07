@@ -6,15 +6,17 @@
 	class EmailNotificationComponent extends Component implements CakeEventListener {
 
 		protected $_Controller;
+
 		protected $_Esevent;
+
 		protected $_handledEvents = array(
-				'Model.Entry.replyToEntry'	 => 'modelEntryReplyToEntry',
-				'Model.Entry.replyToThread'	 => 'modelEntryReplyToThread',
+			'Model.Entry.replyToEntry' => 'modelEntryReplyToEntry',
+			'Model.Entry.replyToThread' => 'modelEntryReplyToThread',
 		);
 
 		public function startup(Controller $controller) {
 			parent::startup($controller);
-			$this->_Esevent = ClassRegistry::init(array('class'						 => 'Esevent'));
+			$this->_Esevent = ClassRegistry::init(array('class' => 'Esevent'));
 			CakeEventManager::instance()->attach($this);
 			$this->_Controller = $controller;
 		}
@@ -35,7 +37,6 @@
 					$this->$method($event, $recipients);
 				}
 			endif;
-			return;
 		}
 
 		protected function _modelEntryReplyToThread($event, array $recipients) {
@@ -43,25 +44,25 @@
 			$rootEntry = $event->subject()->findById($event->data['data']['Entry']['tid']);
 
 			$config = [
-				'subject'   => __(
+				'subject' => __(
 					'New reply to "%s"',
 					$rootEntry['Entry']['subject']
 				),
-				'sender'    => array(
+				'sender' => array(
 					'User' => array(
 						'user_email' => Configure::read('Saito.Settings.forum_email'),
-						'username'   => Configure::read('Saito.Settings.forum_name')
+						'username' => Configure::read('Saito.Settings.forum_name')
 					),
 				),
-				'template'  => Configure::read(
+				'template' => Configure::read(
 					'Config.language'
 				) . DS . 'notification-model-entry-afterReply',
-				'viewVars'  => array(
-					'parentEntry'  => $rootEntry,
-					'newEntry'     => $event->data['data'],
+				'viewVars' => array(
+					'parentEntry' => $rootEntry,
+					'newEntry' => $event->data['data'],
 				),
 			];
-			foreach ( $recipients as $recipient ):
+			foreach ($recipients as $recipient):
 				if ($this->_shouldRecipientReceiveReplyMessage($recipient, $event->data['data']['Entry'])) {
 					$config['recipient'] = ['User' => $recipient];
 					$config['viewVars']['recipient'] = $recipient;
@@ -75,25 +76,25 @@
 			$event->subject()->contain();
 			$parentEntry = $event->subject()->findById($event->data['data']['Entry']['pid']);
 			$config = [
-				'subject'   => __(
+				'subject' => __(
 					'New reply to "%s"',
 					$parentEntry['Entry']['subject']
 				),
-				'sender'    => array(
+				'sender' => array(
 					'User' => array(
 						'user_email' => Configure::read('Saito.Settings.forum_email'),
-						'username'   => Configure::read('Saito.Settings.forum_name')
+						'username' => Configure::read('Saito.Settings.forum_name')
 					),
 				),
-				'template'  => Configure::read(
+				'template' => Configure::read(
 					'Config.language'
 				) . DS . 'notification-model-entry-afterReply',
-				'viewVars'  => array(
-					'parentEntry'  => $parentEntry,
-					'newEntry'     => $event->data['data']
+				'viewVars' => array(
+					'parentEntry' => $parentEntry,
+					'newEntry' => $event->data['data']
 				)
 			];
-			foreach ( $recipients as $recipient ):
+			foreach ($recipients as $recipient):
 				if ($this->_shouldRecipientReceiveReplyMessage($recipient, $event->data['data']['Entry'])) {
 					$config['recipient'] = ['User' => $recipient];
 					$config['viewVars']['recipient'] = $recipient;
@@ -105,24 +106,25 @@
 
 		public function userActivatedAdminNotice($event) {
 			$recipients = Configure::read('Saito.Notification.userActivatedAdminNoticeToUserWithID');
-			if ( !is_array($recipients) )
+			if (!is_array($recipients)) {
 				return;
-			$new_user = $event->data['User'];
+			}
+			$newUser = $event->data['User'];
 			$config = [
-				'subject'   => __('Successfull registration'),
-				'sender'    => array(
+				'subject' => __('Successfull registration'),
+				'sender' => array(
 					'User' => array(
 						'user_email' => Configure::read('Saito.Settings.forum_email'),
-						'username'   => Configure::read('Saito.Settings.forum_name')
+						'username' => Configure::read('Saito.Settings.forum_name')
 					),
 				),
-				'template'  => Configure::read(
+				'template' => Configure::read(
 					'Config.language'
 				) . DS . 'notification-admin-user_activated',
-				'viewVars'  => array('user' => $new_user, 'ip' => env('REMOTE_ADDR')),
+				'viewVars' => array('user' => $newUser, 'ip' => env('REMOTE_ADDR')),
 
 			];
-			foreach ( $recipients as $recipient ) :
+			foreach ($recipients as $recipient) :
 				$config['recipient'] = $recipient;
 				$this->_email($config);
 			endforeach;
@@ -137,7 +139,6 @@
 			} else {
 				return true;
 			}
-
 		}
 
 		protected function _email($config) {
@@ -156,7 +157,7 @@
 
 		protected function _debug($event, array $receivers) {
 			debug($event);
-			foreach ( $receivers as $receiver ) {
+			foreach ($receivers as $receiver) {
 				debug($receiver);
 			}
 		}

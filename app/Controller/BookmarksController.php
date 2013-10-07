@@ -3,16 +3,19 @@
 	App::uses('AppController', 'Controller');
 
 /**
- * Bookmarks Controller
- *
- * @property Bookmark $Bookmark
- */
+* Bookmarks Controller
+*
+* @property Bookmark $Bookmark
+*/
 class BookmarksController extends AppController {
 
 	public $helpers = array(
 		'EntryH',
 	);
 
+	/**
+	 * @throws MethodNotAllowedException
+	 */
 	public function index() {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
@@ -86,8 +89,8 @@ class BookmarksController extends AppController {
 		return false;
 	}
 
-	protected function _getBookmark($bookmark_id, $user_id) {
-		$this->Bookmark->id = $bookmark_id;
+	protected function _getBookmark($bookmarkId, $userId) {
+		$this->Bookmark->id = $bookmarkId;
 		if (!$this->Bookmark->exists()) {
 			throw new NotFoundException(__('Invalid bookmark'));
 		}
@@ -96,8 +99,8 @@ class BookmarksController extends AppController {
 							'Category', 'User'
 					))
 			);
-		$bookmark = $this->Bookmark->findById($bookmark_id);
-		if ($user_id != $bookmark['Bookmark']['user_id']) {
+		$bookmark = $this->Bookmark->findById($bookmarkId);
+		if ($userId != $bookmark['Bookmark']['user_id']) {
 			throw new MethodNotAllowedException;
 		}
 		return $bookmark;

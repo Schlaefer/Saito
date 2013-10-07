@@ -13,7 +13,7 @@
 			'EntryH'
 		];
 
-		protected $allowedToEditUserData = false;
+		protected $_allowedToEditUserData = false;
 
 		public function login() {
 			if ($this->CurrentUser->login()):
@@ -52,70 +52,72 @@
 			$this->redirect('/');
 		}
 
-	public function register ($id = null) {
-		Stopwatch::start('Entries->register()');
+		public function register($id = null) {
+			Stopwatch::start('Entries->register()');
 
-		$this->set('register_success', false);
+			$this->set('register_success', false);
 
-	 	$this->Auth->logout();
+			$this->Auth->logout();
 
-		// user clicked link in confirm mail
-		// @td make name arg
-		if ($id && isset($this->passedArgs[1])) :
-			$this->User->contain('UserOnline');
-			$user = $this->User->read(null, $id);
-			if ($user["User"]['activate_code'] == $this->passedArgs[1]) :
-        $this->User->id = $id;
-        if ( $this->User->activate() ) :
-          $this->Auth->login($user);
-          $this->set('register_success', 'success');
-        endif;
-			else :
-				$this->redirect(array( 'controller' => 'entries', 'action' => 'index'));
-      endif;
-    endif;
-
-		if (!empty($this->request->data) && !Configure::read('Saito.Settings.tos_enabled')) {
-			$this->request->data['User']['tos_confirm'] = true;
-		}
-
-		if (!empty($this->request->data) && $this->request->data['User']['tos_confirm']) {
-			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-
-			$this->request->data['User']['activate_code'] = mt_rand(1000000,9999999);
-			$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
-			if ($this->User->register($this->request->data)) {
-					$this->request->data['User']['id'] = $this->User->id;
-
-					$this->SaitoEmail->email(array(
-						'recipient' => $this->request->data,
-						'subject' 	=> __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
-						'sender' 		=> array(
-								'User' => array(
-										'user_email' 	=> Configure::read('Saito.Settings.forum_email'),
-										'username'		=> Configure::read('Saito.Settings.forum_name')),
-								),
-						'template' 	=> 'user_register',
-						'viewVars'	=> array('user' => $this->request->data),
-					));
-					$this->set('register_success', 'email_send');
-			} else {
-				// 'unswitch' the passwordAuthSwitch to get the error message to the field
-				if (isset($this->User->validationErrors['password'])) {
-					$this->User->validationErrors['user_password'] = $this->User->validationErrors['password'];
+			// user clicked link in confirm mail
+			// @td make name arg
+			if ($id && isset($this->passedArgs[1])) {
+				$this->User->contain('UserOnline');
+				$user = $this->User->read(null, $id);
+				if ($user["User"]['activate_code'] == $this->passedArgs[1]) {
+					$this->User->id = $id;
+					if ($this->User->activate()) :
+						$this->Auth->login($user);
+						$this->set('register_success', 'success');
+					endif;
+				} else {
+					$this->redirect(array('controller' => 'entries', 'action' => 'index'));
+					return;
 				}
-				$this->request->data['User']['tos_confirm'] = false;
+			};
+
+			if (!empty($this->request->data) && !Configure::read('Saito.Settings.tos_enabled')) {
+				$this->request->data['User']['tos_confirm'] = true;
 			}
+
+			if (!empty($this->request->data) && $this->request->data['User']['tos_confirm']) {
+				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
+
+				$this->request->data['User']['activate_code'] = mt_rand(1000000, 9999999);
+				$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
+				if ($this->User->register($this->request->data)) {
+						$this->request->data['User']['id'] = $this->User->id;
+
+						$this->SaitoEmail->email(array(
+							'recipient' => $this->request->data,
+							'subject' => __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
+								'sender' => array(
+									'User' => array(
+										'user_email' => Configure::read('Saito.Settings.forum_email'),
+										'username' => Configure::read('Saito.Settings.forum_name')
+									),
+								),
+								'template' => 'user_register',
+								'viewVars' => array('user' => $this->request->data),
+						));
+						$this->set('register_success', 'email_send');
+				} else {
+					// 'unswitch' the passwordAuthSwitch to get the error message to the field
+					if (isset($this->User->validationErrors['password'])) {
+						$this->User->validationErrors['user_password'] = $this->User->validationErrors['password'];
+					}
+					$this->request->data['User']['tos_confirm'] = false;
+				}
+			}
+			Stopwatch::stop('Entries->register()');
 		}
-		Stopwatch::stop('Entries->register()');
-	}
 
 		public function admin_index() {
 			$data = $this->User->find(
 				'all',
 				[
 					'contain' => false,
-					'order'   => ['User.username' => 'asc']
+					'order' => ['User.username' => 'asc']
 				]
 			);
 			$this->set('users', $data);
@@ -123,17 +125,17 @@
 
 		public function index() {
 			$this->paginate = [
-				'contain'    => 'UserOnline',
+				'contain' => 'UserOnline',
 				'conditions' => [
 					'OR' => [
 						'LENGTH(  `UserOnline`.`user_id` ) <' => 11,
-						'ISNULL(  `UserOnline`.`user_id` )'   => '1'
+						'ISNULL(  `UserOnline`.`user_id` )' => '1'
 					],
 				],
-				'limit'      => 400,
-				'order'      => [
+				'limit' => 400,
+				'order' => [
 					'UserOnline.logged_in' => 'desc',
-					'User.username'        => 'asc'
+					'User.username' => 'asc'
 				]
 			];
 
@@ -157,13 +159,13 @@
 		public function name($id = null) {
 			if (!empty($id)) {
 				$this->User->contain();
-				$viewed_user = $this->User->findByUsername($id);
-				if (!empty($viewed_user)) {
+				$viewedUser = $this->User->findByUsername($id);
+				if (!empty($viewedUser)) {
 					$this->redirect(
 						[
 							'controller' => 'users',
-							'action'     => 'view',
-							$viewed_user['User']['id']
+							'action' => 'view',
+							$viewedUser['User']['id']
 						]
 					);
 					return;
@@ -171,7 +173,6 @@
 			}
 			$this->Session->setFlash(__('Invalid user'), 'flash/error');
 			$this->redirect('/');
-			return;
 		}
 
 		public function view($id = null) {
@@ -180,7 +181,7 @@
 				$this->redirect(
 					[
 						'controller' => 'users',
-						'action'     => 'name',
+						'action' => 'name',
 						$id
 					]
 				);
@@ -189,16 +190,15 @@
 
 			$this->User->id = $id;
 			$this->User->contain(['UserOnline']);
-			$viewed_user = $this->User->read();
+			$viewedUser = $this->User->read();
 
-			if ($id === null || empty($viewed_user)) {
+			if ($id === null || empty($viewedUser)) {
 				$this->Session->setFlash(__('Invalid user'), 'flash/error');
 				$this->redirect('/');
 				return;
 			}
 
-			$viewed_user['User']['number_of_entries'] = $this->User->numberOfEntries(
-			);
+			$viewedUser['User']['number_of_entries'] = $this->User->numberOfEntries();
 
 			$entriesShownOnPage = 20;
 			$this->set(
@@ -206,7 +206,7 @@
 				$this->User->Entry->getRecentEntries(
 					[
 						'user_id' => $this->User->id,
-						'limit'   => $entriesShownOnPage,
+						'limit' => $entriesShownOnPage,
 					],
 					$this->CurrentUser
 				)
@@ -214,22 +214,22 @@
 
 			$this->set(
 				'hasMoreEntriesThanShownOnPage',
-					($viewed_user['User']['number_of_entries'] - $entriesShownOnPage) > 0
+					($viewedUser['User']['number_of_entries'] - $entriesShownOnPage) > 0
 			);
 
-			$this->set('user', $viewed_user);
+			$this->set('user', $viewedUser);
 			$this->set(
 				'title_for_layout',
 				String::insert(
 					__('User :name'),
-					['name' => $viewed_user['User']['username']]
+					['name' => $viewedUser['User']['username']]
 				)
 			);
 		}
 
 	public function edit($id = null) {
-		if (!$this->allowedToEditUserData || !$id && empty($this->request->data))
-		{ /** no data to find entry or not allowed * */
+		if (!$this->_allowedToEditUserData || !$id && empty($this->request->data)) {
+			//* no data to find entry or not allowed
 			$this->Session->setFlash(__('Invalid user'));
 			$this->redirect('/');
 		}
@@ -239,7 +239,8 @@
 
 			$this->User->id = $id;
 
-			if ($this->CurrentUser['user_type'] != 'admin') { /** make shure only admin can edit these fields * */
+			if ($this->CurrentUser['user_type'] != 'admin') {
+				//* make shure only admin can edit these fields
 				# @td refactor this admin fields together with view: don't repeat code
 				unset($this->request->data['User']['username']);
 				unset($this->request->data['User']['user_email']);
@@ -283,10 +284,8 @@
 			}
 		}
 
-
 		if (empty($this->request->data)) {
 			//* View Entry by id
-
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
 			$this->User->sanitize(false);
@@ -295,86 +294,86 @@
 		$this->set('user', $this->request->data);
 	}
 
-  public function lock($id = null) {
-      if (  (
-              $this->CurrentUser->isAdmin() === true
-              || ($this->CurrentUser->isMod() === true && Configure::read('Saito.Settings.block_user_ui'))
-            ) === false
-          ) :
-        $this->redirect('/');
+		public function lock($id = null) {
+			$modLockingEnabled = $this->CurrentUser->isMod() === true &&
+					Configure::read('Saito.Settings.block_user_ui');
+			if (($this->CurrentUser->isAdmin() === true || $modLockingEnabled) === false ) {
+				$this->redirect('/');
 				return;
-      endif;
+			}
 
-      $this->User->contain();
-      $readUser = $this->User->findById($id);
+			$this->User->contain();
+			$readUser = $this->User->findById($id);
 			if (!$readUser) :
 				$this->Session->setFlash(__('User not found.'), 'flash/error');
 				$this->redirect('/');
 				return;
 			endif;
 
-      $editedUser = new SaitoUser(new ComponentCollection());
-      $editedUser->set($readUser['User']);
+			$editedUser = new SaitoUser(new ComponentCollection());
+			$editedUser->set($readUser['User']);
 
-      if ( $id == $this->CurrentUser->getId() ) :
-        $this->Session->setFlash(__("You can't lock yourself."), 'flash/error');
-      elseif ( $editedUser->isAdmin() ) :
-        $this->Session->setFlash(__("You can't lock administrators.", 'flash/error'),
-            'flash/error');
-      else :
-        $this->User->id = $id;
-        $status = $this->User->toggle('user_lock');
-        if ( $status !== false ) :
-					if ($status) :
+			if ($id == $this->CurrentUser->getId()) {
+				$this->Session->setFlash(__("You can't lock yourself."), 'flash/error');
+			} elseif ($editedUser->isAdmin()) {
+				$this->Session->setFlash(
+					__("You can't lock administrators.", 'flash/error'),
+					'flash/error'
+				);
+			} else {
+				$this->User->id = $id;
+				$status = $this->User->toggle('user_lock');
+				if ($status !== false) {
+					if ($status) {
 						$message = __('User %s is locked.', $readUser['User']['username']);
-          else:
-            $message = __('User %s is unlocked.', $readUser['User']['username']);
-          endif;
-          $this->Session->setFlash($message, 'flash/notice');
-        else:
+					} else {
+						$message = __(
+							'User %s is unlocked.',
+							$readUser['User']['username']
+						);
+					}
+					$this->Session->setFlash($message, 'flash/notice');
+				} else {
 					$this->Session->setFlash(__("Error while un/locking."), 'flash/error');
-        endif;
-      endif;
-
-		$this->redirect(['action' => 'view', $id]);
-		return;
-    }
+				}
+			}
+			$this->redirect(['action' => 'view', $id]);
+		}
 
 		public function admin_delete($id = null) {
-
 			$this->User->contain();
 			$readUser = $this->User->findById($id);
-			if (!$readUser):
+			if (!$readUser) {
 				$this->Session->setFlash(__('User not found.'), 'flash/error');
 				$this->redirect('/');
 				return;
-			endif;
+			}
 
-			if (isset($this->request->data['User']['modeDelete'])):
-				if ($id == $this->CurrentUser->getId()) :
+			if (isset($this->request->data['User']['modeDelete'])) {
+				if ($id == $this->CurrentUser->getId()) {
 					$this->Session->setFlash(__("You can't delete yourself."), 'flash/error');
-				elseif ($id == 1):
+				} elseif ($id == 1) {
 					$this->Session->setFlash(__("You can't delete the installation account."), 'flash/error');
-				elseif ($this->User->deleteAllExceptEntries($id)):
+				} elseif ($this->User->deleteAllExceptEntries($id)) {
 					$this->Session->setFlash(__('User %s deleted.', $readUser['User']['username']), 'flash/success');
 					$this->redirect('/');
 					return;
-				else:
+				} else {
 					$this->Session->setFlash(__("Couldn't delete user."), 'flash/error');
-				endif;
-
+				}
 				$this->redirect(['controller' => 'users', 'action' => 'view', $id]);
 				return;
-				endif;
-				$this->set('user', $readUser);
+			}
+			$this->set('user', $readUser);
 		}
 
 	public function changepassword($id = null) {
-		if ( $id == null
-        || !$this->_checkIfEditingIsAllowed($this->CurrentUser, $id) ) :
+		if ($id == null ||
+				!$this->_checkIfEditingIsAllowed($this->CurrentUser, $id)
+		) :
 			$this->redirect('/');
 			return;
-	  endif;
+		endif;
 
 		$this->User->id = $id;
 		$user = null;
@@ -385,23 +384,24 @@
 			$this->User->contain('UserOnline');
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('change_password_success'), 'flash/success');
-				$this->redirect( array('controller'=>'users', 'action'=>'edit', $id));
+				$this->redirect(['controller' => 'users', 'action' => 'edit', $id]);
 				return;
 			} else {
 				$this->Session->setFlash(
-            __d('nondynamic',
-                current(array_pop($this->User->validationErrors))),
-            'flash/error');
-      }
-	  endif;
-
+					__d(
+						'nondynamic',
+						current(array_pop($this->User->validationErrors))
+					),
+					'flash/error'
+				);
+			}
+		endif;
 
 		// we have to fill it for the form magic to work
-    $this->User->contain("UserOnline");
-    $user = $this->User->read();
-    $user['User']['password'] = '';
-    $this->request->data = $user;
-
+		$this->User->contain("UserOnline");
+		$user = $this->User->read();
+		$user['User']['password'] = '';
+		$this->request->data = $user;
 	}
 
 		public function contact($id = null) {
@@ -421,7 +421,7 @@
 				// recipient is forum owner
 				$recipient = [
 					'User' => [
-						'username'   => Configure::read('Saito.Settings.forum_name'),
+						'username' => Configure::read('Saito.Settings.forum_name'),
 						'user_email' => Configure::read('Saito.Settings.forum_email')
 					]
 				];
@@ -444,26 +444,26 @@
 			if ($this->request->data):
 				// send email
 
-				$validation_error = false;
+				$validationError = false;
 
 				// validate and set sender
 				if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
-					$sender_contact = $this->request->data['Message']['sender_contact'];
+					$senderContact = $this->request->data['Message']['sender_contact'];
 					App::uses('Validation', 'Utility');
-					if (!Validation::email($sender_contact)) {
+					if (!Validation::email($senderContact)) {
 						$this->JsData->addAppJsMessage(
 							__('error_email_not-valid'),
 							[
-								'type'    => 'error',
+								'type' => 'error',
 								'channel' => 'form',
 								'element' => '#MessageSenderContact'
 							]
 						);
-						$validation_error = true;
+						$validationError = true;
 					} else {
 						$sender['User'] = [
-							'username'   => '',
-							'user_email' => $sender_contact
+							'username' => '',
+							'user_email' => $senderContact
 						];
 					}
 				} else {
@@ -476,22 +476,22 @@
 					$this->JsData->addAppJsMessage(
 						__('error_subject_empty'),
 						[
-							'type'    => 'error',
+							'type' => 'error',
 							'channel' => 'form',
 							'element' => '#MessageSubject'
 						]
 					);
-					$validation_error = true;
+					$validationError = true;
 				}
 
-				if($validation_error === false):
+				if ($validationError === false):
 					try {
 						$email = [
 							'recipient' => $recipient,
-							'sender'    => $sender,
-							'subject'   => $subject,
-							'message'   => $this->request->data['Message']['text'],
-							'template'  => 'user_contact'
+							'sender' => $sender,
+							'subject' => $subject,
+							'message' => $this->request->data['Message']['text'],
+							'template' => 'user_contact'
 						];
 
 						if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
@@ -525,17 +525,16 @@
 			}
 
 			$this->autoRender = false;
-			$allowed_toggles  = [
+			$allowedToggles = [
 				'show_userlist',
 				'show_recentposts',
 				'show_recententries',
 				'show_shoutbox'
 			];
-			if (in_array($toggle, $allowed_toggles)) {
-				#	$this->Session->setFlash('userlist toggled');
-				$this->User->id             = $this->CurrentUser->getId();
-				$new_value                  = $this->User->toggle($toggle);
-				$this->CurrentUser[$toggle] = $new_value;
+			if (in_array($toggle, $allowedToggles)) {
+				$this->User->id = $this->CurrentUser->getId();
+				$newValue = $this->User->toggle($toggle);
+				$this->CurrentUser[$toggle] = $newValue;
 			}
 			return $toggle;
 		}
@@ -561,6 +560,11 @@
 			return $this->request->data;
 		}
 
+/**
+ * @param null $id
+ *
+ * @throws ForbiddenException
+ */
 		public function setcategory($id = null) {
 			if (!$this->CurrentUser->isLoggedIn()) {
 				throw new ForbiddenException();
@@ -574,7 +578,6 @@
 				$this->User->setCategory($id);
 			}
 			$this->redirect($this->referer());
-			return;
 		}
 
 		public function beforeFilter() {
@@ -594,12 +597,12 @@
 			Stopwatch::stop('Users->beforeFilter()');
 		}
 
-		/**
-		 *
-		 * @param SaitoUser $userWhoEdits
-		 * @param int $userToEditId
-		 * @return type
-		 */
+/**
+ *
+ * @param SaitoUser $userWhoEdits
+ * @param int $userToEditId
+ * @return type
+ */
 		protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = null) {
 			if (is_null($userToEditId) && isset($this->passedArgs[0])) :
 				$userToEditId = $this->passedArgs[0];
@@ -610,14 +613,14 @@
 						$userWhoEdits['id'] == $userToEditId #users own_entry
 						|| $userWhoEdits['user_type'] == 'admin' #user is admin
 				) :
-					$this->allowedToEditUserData = true;
+					$this->_allowedToEditUserData = true;
 				else:
-					$this->allowedToEditUserData = false;
+					$this->_allowedToEditUserData = false;
 				endif;
 
-				$this->set('allowedToEditUserData', $this->allowedToEditUserData);
+				$this->set('allowedToEditUserData', $this->_allowedToEditUserData);
 			}
-			return $this->allowedToEditUserData;
+			return $this->_allowedToEditUserData;
 		}
 
 		protected function _passwordAuthSwitch($data) {
@@ -626,4 +629,4 @@
 			return $data;
 		}
 
-}
+	}

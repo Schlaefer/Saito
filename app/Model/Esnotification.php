@@ -8,7 +8,6 @@ App::uses('AppModel', 'Model');
  */
 class Esnotification extends AppModel {
 
-
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
@@ -35,7 +34,7 @@ class Esnotification extends AppModel {
 
 	public function beforeSave($options = array()) {
 		if (empty($this->data[$this->alias]['deactivate'])) {
-			$this->data[$this->alias]['deactivate'] = mt_rand(0,99999999);
+			$this->data[$this->alias]['deactivate'] = mt_rand(0, 99999999);
 		}
 
 		return parent::beforeSave();

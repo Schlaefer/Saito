@@ -3,26 +3,31 @@
 	App::uses('AppController', 'Controller');
 
 	class UploadsController extends AppController {
-		public $name = 'Uploads';
-		public $helpers = array( 'FileUpload.FileUpload', 'Number');
 
-		/**
-		 * Max # of uploads a user can do
-		 *
-		 * @var int
-		 */
+		public $name = 'Uploads';
+
+		public $helpers = array('FileUpload.FileUpload', 'Number');
+
+/**
+ * Max # of uploads a user can do
+ *
+ * @var int
+ */
 		public $maxUploadsPerUser = 10;
 
-		/**
-		 * Is the current user allowed to upload
-		 *
-		 * @var bool
-		 */
+/**
+ * Is the current user allowed to upload
+ *
+ * @var bool
+ */
 		public $isUploadAllowed = false;
 
-		/**
-		 * Uploads new files
-		 */
+/**
+ * Uploads new files
+ *
+ * @return string
+ * @throws MethodNotAllowedException
+ */
 		public function add() {
 			$this->autoRender = false;
 
@@ -41,10 +46,13 @@
 					$a['Upload'] = $this->request->data['Upload'][0];
 					$a['Upload']['user_id'] = $this->Session->read('Auth.User.id');
 					$a['Upload']['file']['name'] = Inflector::slug(
-						$a['Upload']['user_id'] . '_'
-								. pathinfo($a['Upload']['file']['name'], PATHINFO_FILENAME)
-					)
-							. '.' . pathinfo($a['Upload']['file']['name'], PATHINFO_EXTENSION);
+								$a['Upload']['user_id'] . '_' .
+								pathinfo($a['Upload']['file']['name'], PATHINFO_FILENAME)
+							) .
+							'.' . pathinfo(
+								$a['Upload']['file']['name'],
+								PATHINFO_EXTENSION
+							);
 					$this->Upload->create();
 
 					// @bogus, but the only way to set this before the Upload behavior's
@@ -71,30 +79,38 @@
 			return json_encode($this->JsData->getAppJsMessages());
 		}
 
-		/**
-		 * View uploads
-		 */
+/**
+ * View uploads
+ *
+ * @throws BadRequestException
+ */
 		public function index() {
 			if ($this->request->is('ajax') === false) {
 				throw new BadRequestException();
 			}
 
-			$user_id = $this->CurrentUser->getId();
+			$userId = $this->CurrentUser->getId();
 			$images = $this->Upload->find(
 				'all',
 				array(
 					'conditions' => array(
-						'user_id' => $user_id
+						'user_id' => $userId
 					),
-					'order'      => 'created ASC'
+					'order' => 'created ASC'
 				)
 			);
 			$this->set('images', $images);
 		}
 
-		/**
-		 * Delete upload
-		 */
+/**
+ * Delete upload
+ *
+ * @param null $id
+ *
+ * @return string
+ * @throws BadRequestException
+ * @throws ForbiddenException
+ */
 		public function delete($id = null) {
 			if ($this->request->is('ajax') === false || $id === null) {
 				throw new BadRequestException();
@@ -103,8 +119,8 @@
 
 			$this->Upload->id = (int)$id;
 			$file = $this->Upload->read();
-			if (	 $file
-					&& (int)$file['Upload']['user_id'] === $this->CurrentUser->getId()
+			if ($file &&
+					(int)$file['Upload']['user_id'] === $this->CurrentUser->getId()
 			) {
 				if (!$this->Upload->delete(null, false)) {
 					$this->JsData->addAppJsMessage(
@@ -118,6 +134,10 @@
 			return json_encode($this->JsData->getAppJsMessages());
 		}
 
+/**
+ * @return CakeResponse|void
+ * @throws ForbiddenException
+ */
 		public function beforeFilter() {
 			parent::beforeFilter();
 
@@ -131,7 +151,8 @@
 			$this->maxUploadsPerUser = (int)Configure::read(
 				'Saito.Settings.upload_max_number_of_uploads'
 			);
-			$count_current = $this->Upload->countUser($this->CurrentUser->getId());
-			$this->isUploadAllowed = $count_current < $this->maxUploadsPerUser;
+			$countCurrent = $this->Upload->countUser($this->CurrentUser->getId());
+			$this->isUploadAllowed = $countCurrent < $this->maxUploadsPerUser;
 		}
+
 	}

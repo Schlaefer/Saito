@@ -14,15 +14,11 @@
 			}
 		}
 
-		public function initHelper() {
-			$this->_initHelper = true;
-		}
-
-		/**
-		 * Inits the Bbcode Helper for use in a View
-		 *
-		 * Call this instead of including in the controller's $helpers array.
-		 */
+/**
+ * Inits the Bbcode Helper for use in a View
+ *
+ * Call this instead of including in the controller's $helpers array.
+ */
 		protected function _initHelper(Controller $controller) {
 			$settings = BbcodeSettings::getInstance();
 
@@ -32,9 +28,13 @@
 			$controller->helpers['Bbcode'] = [
 				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
 				'hashBaseUrl' => $controller->webroot . $settings['hashBaseUrl'],
-				'atBaseUrl'   => $controller->webroot . $settings['atBaseUrl'],
-				'UserList'    => $userlist
+				'atBaseUrl' => $controller->webroot . $settings['atBaseUrl'],
+				'UserList' => $userlist
 			];
 		}
-	}
 
+		public function initHelper() {
+			$this->_initHelper = true;
+		}
+
+	}

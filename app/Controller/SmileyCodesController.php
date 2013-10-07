@@ -7,11 +7,11 @@ class SmileyCodesController extends AppController {
 	public $name = 'SmileyCodes';
 
 	public $paginate = array(
-			/*
-				* sets limit unrealisticly high so we should never reach the upper limit
-				* i.e. always show all entries on one page
-				*/
-			'limit' => 1000,
+		/*
+		 * sets limit unrealisticly high so we should never reach the upper limit
+		 * i.e. always show all entries on one page
+		 */
+		'limit' => 1000
 	);
 
 	public function admin_index() {
@@ -56,14 +56,13 @@ class SmileyCodesController extends AppController {
 	public function admin_delete($id = null) {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid id for smiley code'));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect(array('action' => 'index'));
 		}
 		if ($this->SmileyCode->delete($id)) {
 			$this->Session->setFlash(__('Smiley code deleted'));
-			$this->redirect(array('action'=>'index'));
+			$this->redirect(array('action' => 'index'));
 		}
 		$this->Session->setFlash(__('Smiley code was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
 }
-?>
