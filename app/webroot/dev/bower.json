@@ -1,0 +1,6 @@
+{
+    "name": "Saito",
+    "dependencies": {
+        "marionette": "latest"
+    }
+}
