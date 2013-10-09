@@ -16,6 +16,8 @@
  */
 		protected $_currentlyUsedSettings = array(
 			'autolink' => 1,
+			'api_enabled' => 1,
+			'api_crossdomain' => 1,
 			'bbcode_img' => 1,
 			'block_user_ui' => 1,
 			/*
