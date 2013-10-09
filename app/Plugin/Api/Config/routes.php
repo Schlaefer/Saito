@@ -65,6 +65,18 @@
 		]
 	);
 
+	// Shouts
+	// -------------------------------------
+	Router::connect(
+		'/api/v1/shouts',
+		[
+			'plugin'     => 'Api',
+			'controller' => 'ApiShouts',
+			'action'     => 'shoutsGet',
+			'[method]'   => 'GET'
+		]
+	);
+
 	// Misc
 	// -------------------------------------
 

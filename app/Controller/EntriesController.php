@@ -10,6 +10,7 @@
 			'EntryH',
 			'MarkitupEditor',
 			'Flattr.Flattr',
+			'Shouts',
 			'Text',
 		];
 

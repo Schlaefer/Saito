@@ -1,56 +1,52 @@
 <?php
-Stopwatch::start('shouts.ctp');
-if (!empty($shouts)) :
-	if (is_string($shouts)) {
-		$shouts_html = $shouts;
-	} else {
+	Stopwatch::start('shouts.ctp');
+	$cache = Cache::read('Saito.Shouts.html');
+	if (!empty($cache) && $cache['lastId'] === $shouts[0]['Shout']['id']) :
+		$shouts_html = $cache['html'];
+	else:
+		$shouts = $this->Shouts->prepare($shouts);
 		$this->start('shouts');
 		?>
 		<div>
 			<?php
-			$i = 0;
-			$time_was_output = false;
-			foreach ($shouts as $shout) :
-				$time = $this->TimeH->timeAgoInWordsFuzzy($shout['Shout']['time']);
-				?>
-				<?php
-				if ($time):
+				$i = 0;
+				$time_was_output = false;
+				foreach ($shouts as $shout) :
+					$time = $this->TimeH->timeAgoInWordsFuzzy($shout['time']);
 					?>
-					<div class='info_text' style="">
-						<?php
-						echo $time;
-						$time_was_output = true;
+					<?php
+					if ($time):
 						?>
-						&nbsp;
-					</div>
-				<?php elseif ($i > 0): ?>
-					<hr/>
-				<?php endif;
-				$i = 1;
-				?>
-				<div class="shout">
+						<div class='info_text' style="">
+							<?php
+								echo $time;
+								$time_was_output = true;
+							?>
+							&nbsp;
+						</div>
+					<?php elseif ($i > 0): ?>
+						<hr/>
+					<?php endif;
+					$i = 1;
+					?>
+					<div class="shout">
 					<span class="username">
 						<?php
-						echo $this->Html->link(
-							$shout['User']['username'],
-							array(
-								'controller' => 'users',
-								'action'     => 'view',
-								$shout['User']['id']
-							)
-						);
+							echo $this->Html->link(
+								$shout['user_name'],
+								[
+									'controller' => 'users',
+									'action' => 'view',
+									$shout['user_id']
+								]
+							);
 						?>:
 					</span>
-					<?php
-					echo $this->Bbcode->parse(
-						$shout['Shout']['text'],
-						array('multimedia' => false)
-					);
-					?>
-				</div>
-			<?php
-			endforeach;
-			unset($i);
+						<?= $shout['html'] ?>
+					</div>
+				<?php
+				endforeach;
+				unset($i);
 			?>
 			<div class='info_text'>
 				<?php echo $this->TimeH->timeAgoInWordsFuzzyGetLastTime(); ?>
@@ -60,12 +56,11 @@ if (!empty($shouts)) :
 		$this->end('shouts');
 		$shouts_html = $this->fetch('shouts');
 		$cache = [
-			'lastId' => $shouts[0]['Shout']['id'],
-			'html'   => $shouts_html
+			'lastId' => $shouts[0]['id'],
+			'html' => $shouts_html
 		];
-		Cache::write('Shouts.html', $cache);
-	}
+		Cache::write('Saito.Shouts.html', $cache);
+	endif;
 	echo $shouts_html;
-endif;
-Stopwatch::end('shouts.ctp');
+	Stopwatch::end('shouts.ctp');
 ?>

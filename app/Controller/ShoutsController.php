@@ -15,9 +15,11 @@
  * @throws NotFoundException
  */
 		public function index() {
+			$this->autoRender = false;
 			$this->autoLayout = false;
 			if ($this->request->is('ajax')) {
 				$this->Shouts->setShoutsForView();
+				$this->render('../Elements/shouts/shouts');
 			} else {
 				throw new NotFoundException();
 			}

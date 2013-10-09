@@ -6,24 +6,36 @@
 
 		protected $_controller;
 
+		protected $_maxNumberOfShouts;
+
+		protected $_Shouts;
+
 		public function startup(Controller $controller) {
 			$this->_controller = $controller;
+			$this->_maxNumberOfShouts = (int)Configure::read(
+				'Saito.Settings.shoutbox_max_shouts'
+			);
 		}
 
 		public function setShoutsForView() {
-			$this->_controller->loadModel('Shout');
-			$shouts = $this->_controller->Shout->get();
-			if (empty($shouts)) {
-				$this->_controller->set('shouts', null);
-			} else {
-				$cachedShouts = Cache::read('Shouts.html');
-				if ($cachedShouts && $shouts[0]['Shout']['id'] === $cachedShouts['lastId']) {
-					$this->_controller->set('shouts', $cachedShouts['html']);
-				} else {
-					$this->_controller->initBbcode();
-					$this->_controller->set('shouts', $shouts);
-				}
-			}
+			$shouts = $this->get();
+			$this->_controller->set('shouts', $shouts);
 		}
 
+		public function get() {
+			if (!$this->_Shouts) {
+				$this->_load();
+			}
+			$shouts = $this->_Shout->get();
+			return $shouts;
+		}
+
+/**
+ * Loads and initializes the model
+ */
+		public function _load() {
+			$this->_controller->loadModel('Shout');
+			$this->_Shout = $this->_controller->Shout;
+			$this->_Shout->maxNumberOfShouts = $this->_maxNumberOfShouts;
+		}
 	}

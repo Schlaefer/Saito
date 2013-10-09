@@ -347,3 +347,30 @@ Response:
       "last_refresh": "2013-07-04T19:53:14+00:00"
     }
 
+### shouts GET ###
+
+Get all current shouts
+
+- url: `api/v1/shouts`
+- request method: `GET`
+- authorization: logged in
+
+Response:
+
+    [
+      {
+        "id": 1,
+        "time": "2013-07-04T19:53:14+00:00",
+        "text": "raw text",
+        "html": "rendered text",
+        "user_id": 1,
+        "user_name": "Alice"
+      },
+      …
+    ]
+
+@todo
+
+### shouts POST ###
+
+@todo
