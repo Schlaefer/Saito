@@ -18,6 +18,8 @@
 		}
 
 		public function setShoutsForView() {
+			// @performance only do if cache is not valid and html need to be rendered
+			$this->_controller->initBbcode();
 			$shouts = $this->get();
 			$this->_controller->set('shouts', $shouts);
 		}

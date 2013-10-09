@@ -1,6 +1,11 @@
 <?php
 	Stopwatch::start('entries/index');
 
+	// set data for immediate shoutbox rendering
+	if ((bool)Configure::read('Saito.Settings.shoutbox_enabled') === true) {
+		$this->JsData->set('shouts', $this->Shouts->prepare($shouts));
+	}
+
 	$this->start('headerSubnavLeft');
 		echo $this->Html->link(
 			'<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),

@@ -225,6 +225,10 @@
 		}
 
 		public function initBbcode() {
+			if (isset($this->_bbcodeInitialized)) {
+				return;
+			}
+			$this->_bbcodeInitialized = true;
 			$this->_loadSmilies();
 			$this->Bbcode->initHelper();
 		}

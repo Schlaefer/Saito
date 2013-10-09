@@ -25,6 +25,10 @@
 			return $this->_appJs;
 		}
 
+		public function set($key, $value) {
+			$this->_appJs[$key] = $value;
+		}
+
 		public function addAppJsMessage($message, $options = null) {
 
 			$defaults = array(

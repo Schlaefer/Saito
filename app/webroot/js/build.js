@@ -3,6 +3,7 @@
 ({
   baseUrl: "./",
   name: 'main',
+  findNestedDependencies: true,
   out: './main-prod.js',
   // dir: "../js-build",
   // optimize: 'none',

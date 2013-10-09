@@ -10,8 +10,11 @@
 
 		protected $_cacheKey = 'Saito.Shouts.prepared';
 
-		function prepare($shouts) {
-			$lastId = $shouts[0]['Shout']['id'];
+		public function prepare($shouts) {
+			if (empty($shouts)) {
+				return [];
+			}
+			$lastId = (int)$shouts[0]['Shout']['id'];
 			$cache = $this->_readCache($lastId);
 			if ($cache) {
 				return $cache;
@@ -20,7 +23,7 @@
 			$prepared = [];
 			foreach ($shouts as $shout) {
 				$prepared[] = [
-					'id' => $shout['Shout']['id'],
+					'id' => (int)$shout['Shout']['id'],
 					'time' => $shout['Shout']['time'],
 					'text' => $shout['Shout']['text'],
 					'html' => $this->Bbcode->parse(

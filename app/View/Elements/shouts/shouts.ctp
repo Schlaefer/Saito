@@ -1,7 +1,10 @@
 <?php
 	Stopwatch::start('shouts.ctp');
+	if (empty($shouts)) {
+		return;
+	}
 	$cache = Cache::read('Saito.Shouts.html');
-	if (!empty($cache) && $cache['lastId'] === $shouts[0]['Shout']['id']) :
+	if (!empty($cache['lastId']) && $cache['lastId'] === $shouts[0]['Shout']['id']) :
 		$shouts_html = $cache['html'];
 	else:
 		$shouts = $this->Shouts->prepare($shouts);

@@ -1,27 +1,39 @@
 define([
-    'underscore',
-    'backbone',
-    'models/app'
-], function(_, Backbone, App) {
+  'underscore',
+  'backbone',
+  'app/vent',
+  'models/app'
+], function(_, Backbone, EventBus, App) {
 
-    "use strict";
+  "use strict";
 
-    var SlidetabModel = Backbone.Model.extend({
+  var SlidetabModel = Backbone.Model.extend({
 
-        defaults: {
-            isOpen: false
-        },
+    defaults: {
+      isOpen: false
+    },
 
-        initialize: function() {
-            this.webroot = App.settings.get('webroot');
-        },
+    initialize: function() {
+      this.webroot = App.settings.get('webroot');
+      this.listenTo(this, 'change:isOpen', this.onChangeIsOpen);
+    },
 
-        sync: function() {
-            $.ajax({
-                url: this.webroot + "users/ajax_toggle/show_" + this.get('id')
-            });
-        }
+    onChangeIsOpen: function() {
+      EventBus.vent.trigger('slidetab:open', {
+            slidetab: this.get('id'),
+            open: this.get('isOpen')
+          }
+      );
+    },
 
-    });
-    return SlidetabModel;
+    sync: function() {
+      $.ajax({
+        url: this.webroot + "users/ajax_toggle/show_" + this.get('id')
+      });
+    }
+
+  });
+
+  return SlidetabModel;
+
 });
