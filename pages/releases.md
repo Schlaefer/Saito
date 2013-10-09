@@ -7,6 +7,13 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-10.01 ##
+
+### What's new ###
+
+- [new] mobile view
+- [fix] iframe overflow on viewing entries
+
 ## 2013-09.07 ##
 
 ### What's new ###
