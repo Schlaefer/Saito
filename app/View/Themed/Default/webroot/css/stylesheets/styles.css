@@ -643,7 +643,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 /******************************************************************************* View Posting *****************************************************************************/
 .postingheadline { margin-bottom: 2px; font-size: 1.25em; font-weight: bold; line-height: normal; }
 
-.posting img, .posting object, .posting embed, .posting video { max-width: 100%; }
+.posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
 .posting .signature { max-width: 80em; }
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
