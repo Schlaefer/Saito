@@ -5,35 +5,43 @@
 	class TimeHHelper extends AppHelper {
 
 		public $helpers = array(
-				'Glasenuhr',
-				'Time',
+			'Glasenuhr',
+			'Time',
 		);
+
 		protected static $_timezoneGroups = array(
-				'UTC' => DateTimeZone::UTC,
-				'Africa' => DateTimeZone::AFRICA,
-				'America' => DateTimeZone::AMERICA,
-				'Antarctica' => DateTimeZone::ANTARCTICA,
-				'Asia' => DateTimeZone::ASIA,
-				'Atlantic' => DateTimeZone::ATLANTIC,
-				'Europe' => DateTimeZone::EUROPE,
-				'Indian' => DateTimeZone::INDIAN,
-				'Pacific' => DateTimeZone::PACIFIC,
+			'UTC' => DateTimeZone::UTC,
+			'Africa' => DateTimeZone::AFRICA,
+			'America' => DateTimeZone::AMERICA,
+			'Antarctica' => DateTimeZone::ANTARCTICA,
+			'Asia' => DateTimeZone::ASIA,
+			'Atlantic' => DateTimeZone::ATLANTIC,
+			'Europe' => DateTimeZone::EUROPE,
+			'Indian' => DateTimeZone::INDIAN,
+			'Pacific' => DateTimeZone::PACIFIC,
 		);
-		protected $now = false;
-		protected $today = false;
+
+		protected $_now = false;
+
+		protected $_today = false;
+
 		protected $_start = false;
+
 		protected $_timeDiffToUtc = 0;
 
 		protected $_timeAgoInWordsFuzzyLastEntry;
+
 		protected $_timeAgoInWordsFuzzyLastItem;
+
 		protected $_timeAgoInWordsFuzzyInterval;
 
 		protected $_tAIWF_times = array();
+
 		protected $_tAIWF_entries = array();
 
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
-			$this->now = time();
+			$this->_now = time();
 			$this->today = mktime(0, 0, 0);
 
 			// @td reimplement unsing Cake 2.2 CakeTime (?)
@@ -68,23 +76,32 @@
 			return $options;
 		}
 
-		#@td user/admin time zone diff and admin format settings
-
+/**
+ *
+ *
+ * #@td user/admin time zone diff and admin format settings
+ *
+ * @param        $timestamp
+ * @param string $format
+ * @param null   $custom
+ *
+ * @return bool|string
+ */
 		public function formatTime($timestamp, $format = 'normal', $custom = null) {
-//		Stopwatch::start('formatTime');
+		// Stopwatch::start('formatTime');
 			$timestamp = strtotime($timestamp) - $this->_timeDiffToUtc;
 
-			if ( $format == 'normal' ) {
+			if ($format == 'normal') {
 				$time_string = $this->_normal($timestamp);
-			} elseif ( $format === 'short' ) {
+			} elseif ($format === 'short') {
 				$time_string = $this->_short($timestamp);
-			} elseif ( $format == 'custom' ) {
+			} elseif ($format == 'custom') {
 				$time_string = strftime($custom, $timestamp);
-			} elseif ( $format == 'glasen' ) {
+			} elseif ($format == 'glasen') {
 				$time_string = $this->_glasen($timestamp);
 			}
-//		Stopwatch::stop('formatTime');
 
+			// Stopwatch::stop('formatTime');
 			return $time_string;
 		}
 
@@ -92,10 +109,10 @@
 
 		protected function _normal($timestamp) {
 			$time = '';
-			if ( $timestamp > $this->today || $timestamp > ( $this->now - 21600 ) ) {
+			if ($timestamp > $this->_today || $timestamp > ($this->_now - 21600)) {
 				// today or in the last 6 hours
 				$time = strftime("%H:%M", $timestamp);
-			} elseif ( $timestamp > ($this->today - 64800) ) {
+			} elseif ($timestamp > ($this->_today - 64800)) {
 				// yesterday but in the last 18 hours
 				$time = __('yesterday') . ' ' . strftime("%H:%M", $timestamp);
 			} else {
@@ -103,7 +120,8 @@
 				$time = strftime("%d.%m.%Y %H:%M", $timestamp);
 			}
 
-			$time = '<span title="' . strftime("%d.%m.%Y %T", $timestamp) . '">' . $time . '</span>';
+			$time = '<span title="' . strftime("%d.%m.%Y %T", $timestamp) . '">' .
+					$time . '</span>';
 			return $time;
 		}
 
@@ -113,9 +131,9 @@
 		}
 
 		protected function _glasen($timestamp) {
-			if ( $timestamp > $this->today || $timestamp > ( $this->now - 21600 ) ) {
+			if ( $timestamp > $this->_today || $timestamp > ( $this->_now - 21600 ) ) {
 				$time = $this->Glasenuhr->ftime($timestamp);
-			} elseif ( $timestamp > $this->today - 64800 ) {
+			} elseif ( $timestamp > $this->_today - 64800 ) {
 				$time = __('yesterday') . ' ' . $this->Glasenuhr->ftime($timestamp);
 			} else {
 				$time = strftime("%d.%m.%Y", $timestamp) . ' ' . $this->Glasenuhr->ftime($timestamp);
@@ -161,6 +179,6 @@
 		public function timeAgoInWordsFuzzyGetLastTime() {
 			return $this->formatTime(gmdate('Y-m-d H:i:s', end($this->_tAIWF_times)));
 		}
+
 	}
 
-?>
