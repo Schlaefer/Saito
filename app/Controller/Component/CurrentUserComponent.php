@@ -137,17 +137,17 @@
  */
 		protected function _markOnline() {
 			Stopwatch::start('CurrentUser->_markOnline()');
-
-			$id = $this->getId();
-			if ($this->isLoggedIn() === false):
+			$_isLoggedIn = $this->isLoggedIn();
+			if ($_isLoggedIn) {
+				$_id = $this->getId();
+			} else {
 				// don't count search bots as guests
 				if ($this->_isBot()) {
 					return;
 				}
-				$id = session_id();
-			endif;
-			$this->_User->UserOnline->setOnline($id, $this->isLoggedIn());
-
+				$_id = session_id();
+			}
+			$this->_User->UserOnline->setOnline($_id, $_isLoggedIn);
 			Stopwatch::stop('CurrentUser->_markOnline()');
 		}
 
