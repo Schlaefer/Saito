@@ -59,8 +59,7 @@ class TimeHHelperTest extends CakeTestCase {
 		$result = $this->TimeH->timeAgoInWordsFuzzy(
 			$time,
 			array(
-				'conversationCoolOff' => 240,
-				'intervalMax' => 3600
+				'conversationCoolOff' => 240
 			)
 		);
 		$this->assertFalse($result);
