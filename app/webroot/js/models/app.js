@@ -1,10 +1,11 @@
 define([
     'underscore',
     'backbone',
+    'app/vent',
     'models/appSetting',
     'models/appStatus',
     'models/currentUser'
-], function (_, Backbone,
+], function (_, Backbone, Vent,
     AppSettingModel, AppStatusModel, CurrentUserModel
     ) {
 
@@ -40,10 +41,12 @@ define([
 
 
         initialize: function () {
-            this.eventBus = _.extend({}, Backbone.Events);
-            this.settings = new AppSettingModel();
-            this.status = new AppStatusModel();
-            this.currentUser = new CurrentUserModel();
+          this.eventBus = Vent.vent;
+          this.commands = Vent.commands;
+          this.reqres = Vent.reqres;
+          this.settings = new AppSettingModel();
+          this.status = new AppStatusModel();
+          this.currentUser = new CurrentUserModel();
         },
 
         initAppStatusUpdate: function () {
