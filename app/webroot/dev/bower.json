@@ -1,6 +1,7 @@
 {
-    "name": "Saito",
-    "dependencies": {
-        "marionette": "latest"
-    }
+  "name": "Saito",
+  "dependencies": {
+    "marionette": "latest",
+    "momentjs": "~2.3.1"
+  }
 }

@@ -37,7 +37,10 @@
 						'user_id' => $this->CurrentUser->getId()
 					]
 				];
-				return $this->Shout->push($data);
+				if ($this->Shout->push($data)) {
+					$this->Shouts->setShoutsForView();
+					$this->render('Api.ApiShouts/json/shouts_get');
+				}
 			}
 		}
 

@@ -94,13 +94,12 @@ define(['jquery', 'app/app', 'app/vent', 'marionette',
             initAdd: function() {
               var addModel = new ShoutModel({
                 webroot: webroot,
-                apiroot: apiroot
+                apiroot: apiroot,
+                collection: this.shoutsCollection
               });
               this.layout.add.show(new ShoutboxAddView({
                 model: addModel
               }));
-              // reload shouts after new entry
-              this.shoutsCollection.listenTo(addModel, 'sync', this.shoutsCollection.fetch);
             }
 
           };

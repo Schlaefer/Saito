@@ -5,6 +5,7 @@
 	class ShoutsHelper extends AppHelper {
 
 		public $helpers = [
+			'Api.Api',
 			'Bbcode'
 		];
 
@@ -16,7 +17,7 @@
 			}
 			$lastId = (int)$shouts[0]['Shout']['id'];
 			$cache = $this->_readCache($lastId);
-			if ($cache) {
+			if ($cache && false) {
 				return $cache;
 			}
 
@@ -24,7 +25,7 @@
 			foreach ($shouts as $shout) {
 				$prepared[] = [
 					'id' => (int)$shout['Shout']['id'],
-					'time' => $shout['Shout']['time'],
+					'time' => $this->Api->mysqlTimestampToIso($shout['Shout']['time']),
 					'text' => $shout['Shout']['text'],
 					'html' => $this->Bbcode->parse(
 						$shout['Shout']['text'],

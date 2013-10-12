@@ -1,38 +1,41 @@
 require.config({
-    shim: {
-        underscore: {
-            exports: '_'
-        },
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
-        },
-        backboneLocalStorage: {
-            deps: ['backbone'],
-            exports: 'Store'
-        },
-        marionette: {
-            deps: ['underscore', 'backbone', 'jquery'],
-            exports: 'Marionette'
-        }
-	},
-	paths: {
-        underscore: 'lib/underscore/underscore',
-        bootstrap: 'bootstrap/bootstrap',
-		jquery: 'lib/jquery/jquery-require',
-        marionette: '../dev/bower_components/marionette/lib/backbone.marionette',
-        jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
-		jqueryhelpers: 'lib/jqueryhelpers',
-		backbone: 'lib/backbone/backbone',
-		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
-		domReady: 'lib/require/domReady',
-        jqueryAutosize: 'lib/jquery.autosize',
-        cakeRest: 'lib/saito/backbone.cakeRest',
-		text: 'lib/require/text',
-        cs: 'lib/require/cs',
-        "coffee-script": 'lib/coffee-script',
-        humanize: "lib/humanize/humanize"
-	}
+  shim: {
+    underscore: {
+      exports: '_'
+    },
+    backbone: {
+      deps: ['underscore', 'jquery'],
+      exports: 'Backbone'
+    },
+    backboneLocalStorage: {
+      deps: ['backbone'],
+      exports: 'Store'
+    },
+    marionette: {
+      deps: ['underscore', 'backbone', 'jquery'],
+      exports: 'Marionette'
+    }
+  },
+  paths: {
+    underscore: 'lib/underscore/underscore',
+    bootstrap: 'bootstrap/bootstrap',
+    jquery: 'lib/jquery/jquery-require',
+    marionette: '../dev/bower_components/marionette/lib/backbone.marionette',
+    jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
+    jqueryhelpers: 'lib/jqueryhelpers',
+    backbone: 'lib/backbone/backbone',
+    backboneLocalStorage: 'lib/backbone/backbone.localStorage',
+    domReady: 'lib/require/domReady',
+    jqueryAutosize: 'lib/jquery.autosize',
+    cakeRest: 'lib/saito/backbone.cakeRest',
+    text: 'lib/require/text',
+    cs: 'lib/require/cs',
+    "coffee-script": 'lib/coffee-script',
+    humanize: "lib/humanize/humanize",
+    // moments
+    moment: '../dev/bower_components/momentjs/moment',
+    'moment-de': '../dev/bower_components/momentjs/lang/de'
+  }
 
 });
 
@@ -77,18 +80,6 @@ contentTimer.setup();
 (function(window, SaitoApp, contentTimer, jasmine) {
 
     "use strict";
-
-    // @todo find better place
-    Date.toUnix = function(string) {
-      "use strict";
-      return new Date(string.replace(/-/g, "/")).getTime() /  1000;
-    };
-
-    // @todo find better place
-    Date.nowUnix = function() {
-      "use strict";
-      return Math.round(Date.now() / 1000);
-    };
 
     /**
      * Redirects current page to a new url destination without changing browser history

@@ -7,6 +7,8 @@ define([
 
     var ShoutboxView = Marionette.ItemView.extend({
 
+        className: 'shout',
+
         initialize: function(options) {
             this.webroot = options.webroot;
         },

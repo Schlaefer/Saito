@@ -36,6 +36,8 @@ define(
                 'domReady', 'views/app', 'backbone', 'jquery', 'models/app',
                 'views/notification',
 
+                'app/time',
+
                 'lib/jquery.i18n/jquery.i18n.extend',
                 'bootstrap', 'lib/saito/backbone.initHelper',
                 'lib/saito/backbone.modelHelper', 'lib/fastclick'

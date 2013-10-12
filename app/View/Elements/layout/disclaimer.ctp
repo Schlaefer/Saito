@@ -6,6 +6,9 @@
         <li>
           <a href="<?= $this->request->webroot ?>users/contact/0"><?= __('Contact') ?></a>
         </li>
+				<li>
+					<a href="<?= $this->request->webroot ?>mobile/"><?= __('Mobile') ?></a>
+				</li>
         <li>
           <a href="<?= $this->request->webroot ?>pages/rss_feeds"><?= __('RSS') ?></a>
         </li>

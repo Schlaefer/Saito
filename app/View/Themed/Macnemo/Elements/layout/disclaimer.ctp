@@ -4,6 +4,9 @@
 			<h3><?= __('Ressources') ?></h3>
 			<ul>
 				<li>
+					<a href="<?= $this->request->webroot ?>mobile/"><?= __('Mobile') ?></a>
+				</li>
+				<li>
 					<a href="http://macnemo.de/wiki/">Wiki</a>
 				</li>
 				<li>
@@ -19,7 +22,7 @@
 				</li>
 				<li>
 				<li>
-					<a href="http://www.google.com/moderator/#15/e=d490b&amp;t=d490b.40">Feedback geben</a>
+					<a href="http://www.google.com/moderator/#15/e=d490b&amp;t=d490b.40">Feedback geben</a
 				</li>
 			</ul>
 		</div>
@@ -60,4 +63,3 @@
 		</div>
 	</div>
 </div>
-/div>

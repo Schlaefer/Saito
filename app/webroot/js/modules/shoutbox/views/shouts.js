@@ -1,7 +1,7 @@
 define([
-  'jquery', 'underscore', 'backbone', 'marionette',
+  'jquery', 'underscore', 'backbone', 'marionette', 'moment',
   'modules/shoutbox/views/shout'
-], function($, _, Backbone, Marionette, ShoutView) {
+], function($, _, Backbone, Marionette, moment, ShoutView) {
 
   "use strict";
 
@@ -10,6 +10,8 @@ define([
     itemView: ShoutView,
 
     itemViewOptions: {},
+
+    tpl: _.template('<div class="info_text"><span title="<%= time_long %>"><%= time %></span></div>'),
 
     conversationCoolOff: 300,
     previousItemTime: null,
@@ -23,36 +25,32 @@ define([
     },
 
     onBeforeItemAdded: function(itemView) {
-      var itemTime = Date.toUnix(itemView.model.get('time'));
+      var itemTime = moment(itemView.model.get('time'));
       this.itemTime = itemTime;
-
       if (this.previousItemTime === null) {
         this.previousItemTime = itemTime;
         return;
       }
-      if ((this.previousItemTime - itemTime) > this.conversationCoolOff) {
-        this.$el.append('<div class="info_text">' + this.formatTime(this.previousItemTime) + '</div>');
+      if ((this.previousItemTime.unix() - itemTime.unix()) > this.conversationCoolOff) {
+        this.appendTimestamp(this.previousItemTime);
       } else {
         this.$el.append('<hr>');
       }
       this.previousItemTime = itemTime;
     },
 
-    // @todo
-    formatTime: function(unixTimestamp) {
-      var date = new Date(unixTimestamp * 1000);
-      var pad = "00";
-      // @todo +2
-      var hours = '' + (date.getHours() + 2);
-      hours = pad.substring(0, pad.length - hours.length) + hours;
-      var minutes = '' + date.getMinutes();
-      minutes = pad.substring(0, pad.length - minutes.length) + minutes;
-      return  hours + ':' + minutes;
+    appendTimestamp: function(time) {
+      this.$el.append(this.tpl({
+        time: time.format('LT'),
+        time_long: time.format('llll')
+      }));
     },
 
     onRender: function() {
       this.previousItemTime = null;
-      this.$el.append('<div class="info_text">' + this.formatTime(this.itemTime) + '</div>');
+      if (this.itemTime) {
+        this.appendTimestamp(this.itemTime);
+      }
     }
 
   });

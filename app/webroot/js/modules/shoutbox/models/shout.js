@@ -1,31 +1,32 @@
 define(['underscore', 'backbone'], function(_, Backbone) {
 
-    "use strict";
+  "use strict";
 
-    var ShoutModel = Backbone.Model.extend({
+  var ShoutModel = Backbone.Model.extend({
 
-        initialize: function(options) {
-            this.webroot = options.webroot + 'shouts/';
-            this.apiroot = options.apiroot + 'shouts/';
+    initialize: function(options) {
+      // this.apiroot = options.apiroot + 'shouts/';
+      this.webroot = options.webroot + 'shouts/';
+      this.collection = options.collection;
+    },
 
-            this.listenTo(this, "change:text", this.send);
+    save: function() {
+      $.ajax({
+        url: this.webroot + 'add',
+        type: "post",
+        dataType: 'json',
+        data: {
+          text: this.get('text')
         },
+        context: this
+      }).done(function(data) {
+            // reload shouts after new entry
+            this.collection.reset(data);
+          });
+    }
 
-        send: function() {
-            $.ajax({
-                url: this.webroot + 'add',
-                type: "post",
-                data: {
-                    text: this.get('text')
-                },
-                context: this
-            }).done(function() {
-                    this.trigger('sync');
-                });
-        }
+  });
 
-    });
-
-    return ShoutModel;
+  return ShoutModel;
 
 });
