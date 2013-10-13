@@ -1,9 +1,9 @@
-define(['jquery', 'app/app', 'app/vent', 'marionette',
+define(['jquery', 'app/app', 'models/app', 'marionette',
         'modules/shoutbox/collections/shouts', 'modules/shoutbox/models/shout',
         'modules/shoutbox/views/shouts', 'modules/shoutbox/views/add',
         'modules/shoutbox/views/control',
         'text!modules/shoutbox/templates/layout.html'],
-    function($, Application, EventBus, Marionette, ShoutsCollection, ShoutModel, ShoutsCollectionView, ShoutboxAddView, ShoutboxControlView, LayoutTpl) {
+    function($, Application, App, Marionette, ShoutsCollection, ShoutModel, ShoutsCollectionView, ShoutboxAddView, ShoutboxControlView, LayoutTpl) {
 
       "use strict";
 
@@ -12,8 +12,8 @@ define(['jquery', 'app/app', 'app/vent', 'marionette',
       ShoutboxModule.addInitializer(function(options) {
         var shouts = options.SaitoApp.shouts;
         // @todo
-        var webroot = EventBus.reqres.request('webroot');
-        var apiroot = EventBus.reqres.request('apiroot');
+        var webroot = App.reqres.request('webroot');
+        var apiroot = App.reqres.request('apiroot');
 
         if ($("#shoutbox").length) {
           var Shoutbox = {
@@ -34,11 +34,11 @@ define(['jquery', 'app/app', 'app/vent', 'marionette',
 
             initShoutsCollection: function() {
               this.shoutsCollection = new ShoutsCollection(shouts, {
-                apiroot: apiroot
+                apiroot: apiroot,
               });
 
               var update = _.bind(function() {
-                var prevent = !EventBus.reqres.request('slidetab:open', 'shoutbox');
+                var prevent = !App.reqres.request('slidetab:open', 'shoutbox');
                 if (prevent) {
                   return;
                 }
@@ -46,16 +46,19 @@ define(['jquery', 'app/app', 'app/vent', 'marionette',
               }, this);
 
               // always update when slidetab is opened
-              EventBus.vent.on('slidetab:open', _.bind(function(data) {
+              App.eventBus.on('slidetab:open', _.bind(function(data) {
                 if (data.slidetab === 'shoutbox') {
                   update();
                 }
               }, this));
 
               // connect external app trigger to issue a reload
-              EventBus.commands.setHandler("shoutbox:update", _.bind(function(id) {
-                var lastShoutId = this.shoutsCollection.at(0).get('id');
-                if (id === lastShoutId) {
+              App.commands.setHandler("shoutbox:update", _.bind(function(id) {
+                var currentShoutId = 0;
+                if (this.shoutsCollection.size() > 0) {
+                  currentShoutId = this.shoutsCollection.at(0).get('id');
+                }
+                if (id === currentShoutId) {
                   return;
                 }
                 update();

@@ -31,7 +31,7 @@
 						$shout['Shout']['text'],
 						['multimedia' => false]
 					),
-					'user_id' => $shout['Shout']['user_id'],
+					'user_id' => (int)$shout['Shout']['user_id'],
 					'user_name' => $shout['Shout']['username']
 				];
 			}

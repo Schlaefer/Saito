@@ -45,6 +45,7 @@ define([
                 this._setupTextArea();
             }
 
+            // focus can only be set after element is visible in page
             this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
 
             // auto-open upload view for easy developing

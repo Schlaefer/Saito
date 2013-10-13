@@ -20,7 +20,7 @@ require.config({
     underscore: 'lib/underscore/underscore',
     bootstrap: 'bootstrap/bootstrap',
     jquery: 'lib/jquery/jquery-require',
-    marionette: '../dev/bower_components/marionette/lib/backbone.marionette',
+    marionette: '../dev/bower_components/marionette/backbone.marionette',
     jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
     jqueryhelpers: 'lib/jqueryhelpers',
     backbone: 'lib/backbone/backbone',
@@ -33,8 +33,8 @@ require.config({
     "coffee-script": 'lib/coffee-script',
     humanize: "lib/humanize/humanize",
     // moments
-    moment: '../dev/bower_components/momentjs/moment',
-    'moment-de': '../dev/bower_components/momentjs/lang/de'
+    moment: '../dev/bower_components/momentjs/js/moment',
+    'moment-de': '../dev/bower_components/momentjs/js/de'
   }
 
 });

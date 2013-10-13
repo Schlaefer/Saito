@@ -32,7 +32,7 @@
 					'isPreview' => $View->request->isPreview()
 				),
 				'currentUser' => array(
-					'id' => $View->viewVars['CurrentUser']['id'],
+					'id' => (int)$View->viewVars['CurrentUser']['id'],
 					'username' => $View->viewVars['CurrentUser']['username'],
 					'user_show_inline' => $View->viewVars['CurrentUser']['inline_view_on_click'] || false,
 					'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false

@@ -64,6 +64,11 @@ define(
                     appView = new AppView();
 
                     appReady = function() {
+                        // we need the App object initialized
+                        // @todo decouple
+                        if ('shouts' in AppInitData) {
+                          app.bootstrapShoutbox();
+                        }
                         appView.initFromDom({
                             SaitoApp: options.SaitoApp,
                             contentTimer: options.contentTimer
@@ -121,25 +126,28 @@ define(
 
     var Application = new Marionette.Application();
 
-    if (AppInitData.app.runJsTests === undefined) {
+      if (AppInitData.app.runJsTests === undefined) {
         Application.addInitializer(app.bootstrapApp);
-        if ('shouts' in AppInitData) {
-            Application.addInitializer(app.bootstrapShoutbox);
-        }
-    } else {
+        Application.addInitializer(function() {
+          require(['modules/html5-notification/html5-notification'],
+              function(Html5NotificationModule) {
+                Html5NotificationModule.start();
+              });
+        });
+      } else {
         Application.addInitializer(app.bootstrapTest);
-    }
-    Application.start({
+      }
+      Application.start({
         contentTimer: contentTimer,
         SaitoApp: AppInitData
-    });
+      });
 
-    EventBus.reqres.setHandler('webroot', function() {
+      EventBus.reqres.setHandler('webroot', function() {
         return AppInitData.app.settings.webroot;
-    });
-    EventBus.reqres.setHandler('apiroot', function() {
+      });
+      EventBus.reqres.setHandler('apiroot', function() {
         return AppInitData.app.settings.webroot + 'api/v1/';
-    });
+      });
 
     return Application;
 

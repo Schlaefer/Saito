@@ -1,9 +1,9 @@
 define([
   'underscore',
   'backbone',
-  'app/vent',
+  'models/app',
   'models/slidetab'
-], function(_, Backbone, EventBus, SlidetabModel) {
+], function(_, Backbone, App, SlidetabModel) {
 
   'use strict';
 
@@ -12,7 +12,7 @@ define([
     model: SlidetabModel,
 
     initialize: function() {
-      EventBus.reqres.setHandler('slidetab:open', _.bind(this.isOpen, this));
+      App.reqres.setHandler('slidetab:open', _.bind(this.isOpen, this));
     },
 
     // returns if particular slidetab is open or not
