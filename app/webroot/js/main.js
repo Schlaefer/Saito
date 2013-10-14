@@ -30,9 +30,7 @@ require.config({
     jqueryhelpers: 'lib/jqueryhelpers',
     domReady: 'lib/require/domReady',
     cakeRest: 'lib/saito/backbone.cakeRest',
-    text: 'lib/require/text',
-    cs: 'lib/require/cs',
-    "coffee-script": 'lib/coffee-script'
+    text: 'lib/require/text'
   }
 });
 

@@ -27,17 +27,6 @@ module.exports = function(grunt) {
 
           // just to many comments in bootstrap
           preserveLicenseComments: false,
-
-          //Stub out the cs coffee-script module after a build since
-          //it will not be needed.
-          stubModules: ['cs'],
-
-          //The optimization will load CoffeeScript to convert
-          //the CoffeeScript files to plain JS. Use the exclude
-          //directive so that the coffee-script module is not included
-          //in the built file.
-          exclude: ['coffee-script'],
-
           mainConfigFile: './app/webroot/js/main.js'
         }
       }
