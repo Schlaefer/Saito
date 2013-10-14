@@ -33,7 +33,7 @@ require.config({
     text: 'lib/require/text',
     // moment
     moment: '../dev/bower_components/momentjs/js/moment',
-    'moment-de': '../dev/bower_components/momentjs/js/de'
+    'moment-de': '../dev/bower_components/momentjs/lang/de'
   }
 });
 
