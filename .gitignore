@@ -15,3 +15,4 @@ tags
 Capfile
 deploy.rb
 
+!/app/webroot/dev/bower_components

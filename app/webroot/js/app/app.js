@@ -40,7 +40,7 @@ define(
 
                 'lib/jquery.i18n/jquery.i18n.extend',
                 'bootstrap', 'lib/saito/backbone.initHelper',
-                'lib/saito/backbone.modelHelper', 'lib/fastclick'
+                'lib/saito/backbone.modelHelper', 'fastclick'
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView) {
                     var appView,
