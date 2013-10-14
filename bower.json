@@ -5,7 +5,6 @@
     "backbone": "~1.0.0",
     "marionette": "1.1.0"
   },
-  // file definitions for grunt-bower-tasks
   "exportsOverride": {
     "underscore": {
       "js": "underscore.js"
