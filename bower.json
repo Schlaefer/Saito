@@ -1,0 +1,17 @@
+{
+  "name": "Saito",
+  "dependencies": {
+    "underscore": "~1.5.2",
+    "backbone": "~1.0.0",
+    "marionette": "1.1.0"
+  },
+  // file definitions for grunt-bower-tasks
+  "exportsOverride": {
+    "underscore": {
+      "js": "underscore.js"
+    },
+    "backbone": {
+      "js": "backbone.js"
+    }
+  }
+}
