@@ -3,7 +3,11 @@
   "dependencies": {
     "underscore": "~1.5.2",
     "backbone": "~1.0.0",
-    "marionette": "1.1.0"
+    "marionette": "1.1.0",
+    "Backbone.localStorage": "~1.1.7",
+    "humanize": "~0.0.9",
+    "jquery-autosize": "~1.17.8",
+    "fastclick": "latest"
   },
   "exportsOverride": {
     "underscore": {
@@ -11,6 +15,18 @@
     },
     "backbone": {
       "js": "backbone.js"
+    },
+    "Backbone.localStorage": {
+      "js": "backbone.localStorage.js"
+    },
+    "humanize": {
+      "js": "humanize.js"
+    },
+    "jquery-autosize": {
+      "js": "jquery.autosize.js"
+    },
+    "fastclick": {
+      "js": "lib/fastclick.js"
     }
   }
 }

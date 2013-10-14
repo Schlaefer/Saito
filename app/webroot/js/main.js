@@ -17,21 +17,22 @@ require.config({
     }
   },
   paths: {
-    underscore: '../dev/bower_components/underscore/js/underscore',
     backbone: '../dev/bower_components/backbone/js/backbone',
+    backboneLocalStorage: '../dev/bower_components/Backbone.localStorage/js/backbone.localStorage',
+    fastclick: '../dev/bower_components/fastclick/js/fastclick',
+    humanize: '../dev/bower_components/humanize/js/humanize',
+    jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
+    marionette: '../dev/bower_components/marionette/backbone.marionette',
+    underscore: '../dev/bower_components/underscore/js/underscore',
     bootstrap: 'bootstrap/bootstrap',
     jquery: 'lib/jquery/jquery-require',
-    marionette: '../dev/bower_components/marionette/backbone.marionette',
     jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
     jqueryhelpers: 'lib/jqueryhelpers',
-    backboneLocalStorage: 'lib/backbone/backbone.localStorage',
     domReady: 'lib/require/domReady',
-    jqueryAutosize: 'lib/jquery.autosize',
     cakeRest: 'lib/saito/backbone.cakeRest',
     text: 'lib/require/text',
     cs: 'lib/require/cs',
-    "coffee-script": 'lib/coffee-script',
-    humanize: "lib/humanize/humanize"
+    "coffee-script": 'lib/coffee-script'
   }
 });
 
@@ -99,7 +100,7 @@ contentTimer.setup();
 
                 'lib/jquery.i18n/jquery.i18n.extend',
                 'bootstrap', 'lib/saito/backbone.initHelper',
-                'lib/saito/backbone.modelHelper', 'lib/fastclick'
+                'lib/saito/backbone.modelHelper', 'fastclick'
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView) {
                     var appView,
