@@ -1,0 +1,8 @@
+{
+  "name": "Saito",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-bower-task": "~0.3.2",
+    "grunt-contrib-requirejs": "~0.4.1"
+  }
+}
