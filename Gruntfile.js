@@ -22,6 +22,10 @@ module.exports = function(grunt) {
           findNestedDependencies: true,
           out: './app/webroot/js/main-prod.js',
           optimize: 'uglify2',
+          paths: {
+            requireLib: 'lib/require/require.min'
+          },
+          include: ['requireLib'],
           // dir: "../js-build",
           // optimize: 'none',
 
