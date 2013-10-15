@@ -8,8 +8,6 @@
 			'Html'
 		];
 
-		public $jQueryVersion = "2.0.3";
-
 		public function beforeLayout($layoutFile) {
 			$stylesheets =
 					[
@@ -23,11 +21,13 @@
 		}
 
 		public function jQueryTag() {
-			$name = "lib/jquery/jquery-" . $this->jQueryVersion;
+			$path = '';
+			$name = 'jquery';
 			if ((int)Configure::read('debug') === 0) {
-				$name .= '.min';
+				$name = $name . '.min';
+			} else {
+				$path = '../dev/bower_components/jquery/';
 			}
-
-			return $this->Html->script($name);
+			return $this->Html->script($path . $name);
 		}
 	}

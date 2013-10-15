@@ -34,16 +34,25 @@ module.exports = function(grunt) {
           mainConfigFile: './app/webroot/js/main.js'
         }
       }
+    },
+    uglify: {
+      release: {
+        files: {
+          './app/webroot/js/jquery.min.js': ['./app/webroot/dev/bower_components/jquery/jquery.js']
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('dev-setup', [
     'bower:devsetup'
   ]);
   grunt.registerTask('release', [
-    'requirejs:release'
+    'requirejs:release',
+    'uglify:release'
   ]);
 };
