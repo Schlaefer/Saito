@@ -6,6 +6,11 @@ define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
     // @todo test browser support
     _enabled: true,
 
+    /**
+     * hide notification after this seconds
+     */
+    _hideAfter: 4,
+
     initialize: function() {
       this.listenTo(App.eventBus, 'html5-notification', this.notification);
       App.commands.setHandler('app:html5-notification:activate', this._activate);
@@ -27,6 +32,10 @@ define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
             data.message
         );
         notification.show();
+        // hide the notification after
+        setTimeout(function(){
+          notification.close();
+        }, this._hideAfter * 1000);
       }
     },
 

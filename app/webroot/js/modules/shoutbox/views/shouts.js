@@ -28,8 +28,6 @@ define([
       add: function(model) {
         if (this._isEnabled !== true) { return; }
         // user's own shout
-        console.log(this._currentUserId);
-        console.log(model.get('user_id'));
         if (this._currentUserId === model.get('user_id')) { return; }
         if (model.get('id') <= this._last) { return; }
         this._models.push(model);
