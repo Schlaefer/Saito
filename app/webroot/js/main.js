@@ -1,36 +1,10 @@
 require.config({
-  shim: {
-    underscore: {
-      exports: '_'
-    },
-    backbone: {
-      deps: ['underscore', 'jquery'],
-      exports: 'Backbone'
-    },
-    backboneLocalStorage: {
-      deps: ['backbone'],
-      exports: 'Store'
-    },
-    marionette: {
-      deps: ['underscore', 'backbone', 'jquery'],
-      exports: 'Marionette'
-    }
-  },
+  // paths necessary until file is migrated into common.js
   paths: {
-    backbone: '../dev/bower_components/backbone/js/backbone',
-    backboneLocalStorage: '../dev/bower_components/Backbone.localStorage/js/backbone.localStorage',
-    fastclick: '../dev/bower_components/fastclick/js/fastclick',
-    humanize: '../dev/bower_components/humanize/js/humanize',
-    jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
-    marionette: '../dev/bower_components/marionette/backbone.marionette',
-    underscore: '../dev/bower_components/underscore/js/underscore',
-    bootstrap: 'bootstrap/bootstrap',
-    jquery: 'lib/jquery/jquery-require',
-    jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
-    jqueryhelpers: 'lib/jqueryhelpers',
-    domReady: 'lib/require/domReady',
-    cakeRest: 'lib/saito/backbone.cakeRest',
-    text: 'lib/require/text'
+    // Comment to load all common.js files separately from
+    // bower_components/ or vendors/.
+    // Run `grunt dev-setup` to install bower components first.
+    common: '../dist/common'
   }
 });
 
@@ -182,17 +156,22 @@ contentTimer.setup();
         }
     };
 
+    // jquery is already included in the page when require.js starts
+    define('jquery', function() { return jQuery; });
+
+  require(['common'], function() {
     require(['marionette'], function(Marionette) {
-        var Application = new Marionette.Application();
-        if (SaitoApp.app.runJsTests === undefined) {
-            Application.addInitializer(app.bootstrapApp);
-        } else {
-            Application.addInitializer(app.bootstrapTest);
-        }
-        Application.start({
-            contentTimer: contentTimer,
-            SaitoApp: SaitoApp
-        });
+      var Application = new Marionette.Application();
+      if (SaitoApp.app.runJsTests === undefined) {
+        Application.addInitializer(app.bootstrapApp);
+      } else {
+        Application.addInitializer(app.bootstrapTest);
+      }
+      Application.start({
+        contentTimer: contentTimer,
+        SaitoApp: SaitoApp
+      });
     });
+  });
 
 })(this, SaitoApp, contentTimer, jasmine);

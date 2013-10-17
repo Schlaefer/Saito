@@ -233,7 +233,7 @@
 <?php if ($this->request->action === 'edit'): ?>
 	<span id="submit-countdown" class="countdown" style="display: none;"></span>
 	<?php
-		echo $this->Html->script('lib/countdown/jquery.countdown.min');
+		echo $this->Html->script('../dist/jquery.countdown.min');
 		$sbl = __('submit_button');
 		$st  = (Configure::read('Saito.Settings.edit_period') * 60 ) - (time() - (strtotime($this->request->data['Entry']['time'])));
 		$this->Js->buffer(<<<EOF

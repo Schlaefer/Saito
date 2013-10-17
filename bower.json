@@ -8,7 +8,10 @@
     "Backbone.localStorage": "~1.1.7",
     "humanize": "~0.0.9",
     "jquery-autosize": "~1.17.8",
-    "fastclick": "latest"
+    "fastclick": "latest",
+    "requirejs-domready": "~2.0.1",
+    "requirejs-text": "~2.0.10",
+    "requirejs": "~2.1.9"
   },
   "exportsOverride": {
     "underscore": {
@@ -28,6 +31,15 @@
     },
     "fastclick": {
       "js": "lib/fastclick.js"
+    },
+    "requirejs": {
+      "js": "require.js"
+    },
+    "requirejs-domready": {
+      "js": "domReady.js"
+    },
+    "requirejs-text": {
+      "js": "text.js"
     }
   }
 }
