@@ -18,7 +18,6 @@
 			'debug' => '../dev/bower_components/requirejs/js/require',
 			// @todo
 			'prod' => '../dev/bower_components/requirejs/js/require',
-			// 'prod' => 'require.min.js'
 		];
 
 		/**

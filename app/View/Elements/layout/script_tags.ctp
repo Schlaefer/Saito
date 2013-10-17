@@ -9,11 +9,5 @@
 
 	echo $this->Html->scriptBlock($this->JsData->getAppJs($this));
 
-	// if ($isDebug) {
-		$requireJsScript = 'main';
-		echo $this->RequireJs->scriptTag($requireJsScript);
-	/*
-	} else {
-		echo $this->Html->script('../release-tmp/main-prod');
-	}
-	*/
+	$requireJsScript = 'main';
+	echo $this->RequireJs->scriptTag($requireJsScript);
