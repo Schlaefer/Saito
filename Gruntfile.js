@@ -21,8 +21,10 @@ module.exports = function(grunt) {
             options: {
               baseUrl: "./app/webroot/js",
               dir: "./app/webroot/release-tmp",
-              optimize: "none",
+              optimize: "uglify2",
               skipDirOptimize: true,
+              // just to many comments in bootstrap
+              preserveLicenseComments: false,
               shim: {
                 underscore: {
                   exports: '_'
