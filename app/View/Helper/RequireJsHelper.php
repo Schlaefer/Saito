@@ -9,7 +9,16 @@
 			'Js'
 		);
 
-		public $requireUrl = 'lib/require/require.min';
+/**
+ * url to require.js relative app/webroot/js
+ *
+ * @var array
+ */
+		protected $_requireUrl = [
+			'debug' => '../dev/bower_components/requirejs/js/require',
+			// @todo
+			'prod' => '../dev/bower_components/requirejs/js/require',
+		];
 
 		/**
 		 * Inserts <script> tag for including require.js
@@ -23,9 +32,10 @@
 		 * @param array $options additional options
 		 */
 		public function scriptTag($dataMain, $options = array()) {
+			// require.js should already be included in production js
 			$options += array(
-				'jsUrl' => JS_URL,
-				'requireUrl' =>  $this->requireUrl
+				'jsUrl'      => $this->_jsRoot(),
+				'requireUrl' => $this->_requireUrl()
 			);
 			$out = '';
 			// add version as timestamp to require requests
@@ -58,6 +68,24 @@
 			);
 			Configure::write('Asset.timestamp', $tmp_asset_timestamp_cache);
 			return $out;
+		}
+
+		protected function _jsRoot() {
+			$debug = Configure::read('debug') > 0;
+			if ($debug) {
+				return JS_URL;
+			} else {
+				return JS_URL . '/../dist/';
+			}
+		}
+
+		protected function _requireUrl() {
+			$debug = Configure::read('debug') > 0;
+			if ($debug) {
+				return $this->_requireUrl['debug'];
+			} else {
+				return $this->_requireUrl['prod'];
+			}
 		}
 
 	}

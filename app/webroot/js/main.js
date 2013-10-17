@@ -1,36 +1,10 @@
 require.config({
-  shim: {
-    underscore: {
-      exports: '_'
-    },
-    backbone: {
-      deps: ['underscore', 'jquery'],
-      exports: 'Backbone'
-    },
-    backboneLocalStorage: {
-      deps: ['backbone'],
-      exports: 'Store'
-    },
-    marionette: {
-      deps: ['underscore', 'backbone', 'jquery'],
-      exports: 'Marionette'
-    }
-  },
+  // paths necessary until file is migrated into common.js
   paths: {
-    backbone: '../dev/bower_components/backbone/js/backbone',
-    backboneLocalStorage: '../dev/bower_components/Backbone.localStorage/js/backbone.localStorage',
-    fastclick: '../dev/bower_components/fastclick/js/fastclick',
-    humanize: '../dev/bower_components/humanize/js/humanize',
-    jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
-    marionette: '../dev/bower_components/marionette/backbone.marionette',
-    underscore: '../dev/bower_components/underscore/js/underscore',
-    bootstrap: 'bootstrap/bootstrap',
-    jquery: 'lib/jquery/jquery-require',
-    jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
-    jqueryhelpers: 'lib/jqueryhelpers',
-    domReady: 'lib/require/domReady',
-    cakeRest: 'lib/saito/backbone.cakeRest',
-    text: 'lib/require/text',
+    // Comment to load all common.js files separately from
+    // bower_components/ or vendors/.
+    // Run `grunt dev-setup` to install bower components first.
+    common: '../dist/common',
     // moment
     moment: '../dev/bower_components/momentjs/js/moment',
     'moment-de': '../dev/bower_components/momentjs/lang/de'
@@ -77,20 +51,27 @@ contentTimer.setup();
 
 (function(window, SaitoApp, contentTimer, jasmine) {
 
-    "use strict";
+  "use strict";
 
-    /**
-     * Redirects current page to a new url destination without changing browser history
-     *
-     * This also is also the mock to test redirects
-     *
-     * @param destination url to redirect to
-     */
-    window.redirect = function(destination) {
-        document.location.replace(destination);
-    };
+  /**
+   * Redirects current page to a new url destination without changing browser history
+   *
+   * This also is also the mock to test redirects
+   *
+   * @param destination url to redirect to
+   */
+  window.redirect = function(destination) {
+    document.location.replace(destination);
+  };
 
-    // prevent caching of ajax results
-    $.ajaxSetup({cache: false});
+  // prevent caching of ajax results
+  $.ajaxSetup({cache: false});
+
+  define('jquery', function() { return jQuery; });
+
+
+  require(['common'], function() {
     require(['app/app']);
+  });
+
 })(this, SaitoApp, contentTimer, jasmine);
