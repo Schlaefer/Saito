@@ -54,6 +54,58 @@
 			$this->assertRedirectedTo('login');
 		}
 
+		/**
+		 * successfull add request
+		 */
+		public function testAddSuccess() {
+			//* setup mock and data
+			$C = $this->generate(
+				'Entries',
+				['models' => ['Esevent' => ['notifyUserOnEvents']]]
+			);
+			$this->_loginUser(1);
+			$data = [
+				'Entry' =>	 [
+					'subject' => 'subject',
+					'text' => 'text',
+					'category' => 1,
+				],
+				'Event' => [
+					1 => ['event_type_id' => 0],
+					2 => ['event_type_id' => 1]
+				]
+			];
+
+			//* setup notification test
+			$expected = [
+				[
+					'subject' => 11,
+					'event' => 'Model.Entry.replyToEntry',
+					'receiver' => 'EmailNotification',
+					'set' => 0,
+				],
+				[
+					'subject' => 11,
+					'event' => 'Model.Entry.replyToThread',
+					'receiver' => 'EmailNotification',
+					'set' => 1,
+				]
+			];
+			$C->Entry->Esevent->expects($this->once())
+					->method('notifyUserOnEvents')
+					->with(1, $expected);
+
+			//* test
+			$this->testAction(
+				'entries/add',
+				[
+					'data' => $data,
+					'method' => 'POST',
+					'return' => 'vars'
+				]
+			);
+		}
+
 		public function testNoDirectCallOfAnsweringFormWithId() {
 			$Entries = $this->generate('Entries', array(
 					'methods' => array('referer')
