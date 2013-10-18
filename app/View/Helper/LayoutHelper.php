@@ -21,12 +21,10 @@
 		}
 
 		public function jQueryTag() {
-			$url = '';
+			$url = '../dist/';
 			$name = 'jquery';
 			if ((int)Configure::read('debug') === 0) {
-				$name = '../dist/' . $name . '.min';
-			} else {
-				$url = '../dev/bower_components/jquery/';
+				$name = $name . '.min';
 			}
 			return $this->Html->script($url . $name);
 		}

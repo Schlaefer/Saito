@@ -15,9 +15,8 @@
  * @var array
  */
 		protected $_requireUrl = [
-			'debug' => '../dev/bower_components/requirejs/js/require',
-			// @todo
-			'prod' => '../dev/bower_components/requirejs/js/require',
+			'debug' => '../dist/require',
+			'prod' => '../dist/require.min'
 		];
 
 		/**

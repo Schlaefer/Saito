@@ -84,35 +84,31 @@ module.exports = function(grunt) {
                   exclude: ['common']
                 }
               ]
-
-              /*
-               baseUrl: "./app/webroot/js",
-               name: 'main',
-               findNestedDependencies: true,
-               out: './app/webroot/js/main-prod.js',
-               optimize: 'uglify2',
-               paths: {
-               requireLib: 'lib/require/require.min'
-               },
-               include: ['requireLib'],
-               // dir: "../js-build",
-               // optimize: 'none',
-
-               // just to many comments in bootstrap
-               preserveLicenseComments: false,
-               mainConfigFile: './app/webroot/js/main.js'
-               */
             }
           }
         },
         uglify: {
           release: {
             files: {
-              './app/webroot/dist/jquery.min.js': ['./app/webroot/dev/bower_components/jquery/jquery.js']
+              './app/webroot/dist/jquery.min.js': ['./app/webroot/dev/bower_components/jquery/jquery.js'],
+              './app/webroot/dist/require.min.js': ['./app/webroot/dev/bower_components/requirejs/js/require.js']
             }
           }
         },
         copy: {
+          // non minified files needed for debug modus
+          nonmin: {
+            files: [
+              {
+                src: ['./app/webroot/dev/bower_components/jquery/jquery.js'],
+                dest: './app/webroot/dist/jquery.js'
+              },
+              {
+                src: ['./app/webroot/dev/bower_components/requirejs/js/require.js'],
+                dest: './app/webroot/dist/require.js'
+              }
+            ]
+          },
           release: {
             files: [
               {
@@ -151,13 +147,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('dev-setup', [
-    'bower:devsetup'
+    'bower:devsetup',
+    'copy:nonmin'
   ]);
   grunt.registerTask('release', [
     'clean:release',
     'requirejs:release',
     'uglify:release',
     'copy:release',
+    'copy:nonmin',
     'clean:releasePost'
   ]);
 }
