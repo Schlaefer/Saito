@@ -233,7 +233,7 @@
 <?php if ($this->request->action === 'edit'): ?>
 	<span id="submit-countdown" class="countdown" style="display: none;"></span>
 	<?php
-		echo $this->Html->script('lib/countdown/jquery.countdown.min');
+		echo $this->Html->script('../dist/jquery.countdown.min');
 		$sbl = __('submit_button');
 		$st  = (Configure::read('Saito.Settings.edit_period') * 60 ) - (time() - (strtotime($this->request->data['Entry']['time'])));
 		$this->Js->buffer(<<<EOF
@@ -242,13 +242,16 @@
 		compact: true,
 		format: 'MS',
 		onTick: function(periods) {
+				var setButtonText = function(text) {
+					$('#btn-submit').text(text);
+				};
 				if (periods[5] > 1 || (periods[5] == 1 && periods[6] > 30)) {
 					periods[5] = periods[5] + 1;
-					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[5] + ' min)');
+					setButtonText('$sbl' + ' (' + periods[5] + ' min)');
 				} else if (periods[5] == 1) {
-					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[5] + ' min ' + periods[6] + ' s)');
+					setButtonText('$sbl' + ' (' + periods[5] + ' min ' + periods[6] + ' s)');
 				} else {
-					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[6] + ' s)');
+					setButtonText('$sbl' + ' (' + periods[6] + ' s)');
 				}
 		},
 		onExpiry: function() {

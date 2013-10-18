@@ -3,26 +3,29 @@
 class Setting extends AppModel {
 
 	public $name = 'Setting';
+
 	public $primaryKey = 'name';
 
 	public $validate = array (
-//			'name' => array (
-//					'rule' => 'VALID_NOT_EMPTY',
-//					'message' => 'FATAL: No variable name specified'
-//				),
+		/*
+		'name' => array (
+				'rule' => 'VALID_NOT_EMPTY',
+				'message' => 'FATAL: No variable name specified'
+			),
+		*/
 	);
 
 	/* @td getSettings vs Load why to functions? */
 
-	/**
-	 * Reads settings from DB and returns them in a compact array
-	 *
-	 * Note that this is the stored config in the DB. It may differ from the
-	 * current config used by the app in Config::read('Saito.Settings'), e.g.
-	 * when modified with a load-preset.
-	 *
-	 * @return array Settings
-	 */
+/**
+ * Reads settings from DB and returns them in a compact array
+ *
+ * Note that this is the stored config in the DB. It may differ from the
+ * current config used by the app in Config::read('Saito.Settings'), e.g.
+ * when modified with a load-preset.
+ *
+ * @return array Settings
+ */
 	public function getSettings() {
 		$settings = $this->find('all');
 		$settings = $this->_compactKeyValue($settings);
@@ -34,17 +37,17 @@ class Setting extends AppModel {
 		return $settings;
 	}
 
-	/**
-	 * Loads settings from storage into Configuration `Saito.Settings`
-	 *
-	 * ### Options
-	 *
-	 * - `force` Force reread of from storage
-	 *
-	 * @param array $preset allows to overwrite loaded values
-   * @param array
-	 * @return array Settings
-	 */
+/**
+ * Loads settings from storage into Configuration `Saito.Settings`
+ *
+ * ### Options
+ *
+ * - `force` Force reread of from storage
+ *
+ * @param array $preset allows to overwrite loaded values
+ * @param array
+ * @return array Settings
+ */
 	public function load($preset = [], $options = []) {
 		Stopwatch::start('Settings->getSettings()');
 
@@ -86,17 +89,17 @@ class Setting extends AppModel {
 		Cache::delete('Saito.appSettings');
 	}
 
-	/**
-	 * Returns a key-value array
-	 *
-	 * Fast version of Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
-	 *
-	 * @param array $results
-	 * @return array
-	 */
+/**
+ * Returns a key-value array
+ *
+ * Fast version of Set::combine($results, '{n}.Setting.name', '{n}.Setting.value');
+ *
+ * @param array $results
+ * @return array
+ */
 	protected function _compactKeyValue($results) {
 		$settings = array();
-		foreach($results as $result) {
+		foreach ($results as $result) {
 			$settings[$result[$this->alias]['name']] = $result[$this->alias]['value'];
 		}
 		return $settings;

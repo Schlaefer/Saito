@@ -2,73 +2,73 @@
 
 	App::import('Lib', 'SaitoUser');
 
-	Class CurrentUserComponent extends SaitoUser {
+	class CurrentUserComponent extends SaitoUser {
 
-		/**
-		 * Component name
-		 *
-		 * @var string
-		 */
+/**
+ * Component name
+ *
+ * @var string
+ */
 		public $name = 'CurrentUser';
 
-		/**
-		 * Component's components
-		 *
-		 * @var array
-		 */
+/**
+ * Component's components
+ *
+ * @var array
+ */
 		public $components = ['Cookie'];
 
-		/**
-		 * Manages the persistent login cookie
-		 *
-		 * @var SaitoCurrentUserCookie
-		 */
+/**
+ * Manages the persistent login cookie
+ *
+ * @var SaitoCurrentUserCookie
+ */
 		public $PersistentCookie = null;
 
-		/**
-		 * Name for the persistent Cookie
-		 *
-		 * @var string
-		 */
+/**
+ * Name for the persistent Cookie
+ *
+ * @var string
+ */
 		protected $_persistentCookieName = 'SaitoPersistent';
 
-		/**
-		 * Manages the last refresh/mark entries as read for the current user
-		 *
-		 * @var SaitoLastRefresh
-		 */
+/**
+ * Manages the last refresh/mark entries as read for the current user
+ *
+ * @var SaitoLastRefresh
+ */
 		public $LastRefresh = null;
 
-		/**
-		 * Model User instance exclusive to the CurrentUserComponent
-		 *
-		 * @var User
-		 */
+/**
+ * Model User instance exclusive to the CurrentUserComponent
+ *
+ * @var User
+ */
 		protected $_User = null;
 
-		/**
-		 * array with ids of all user's bookmarks
-		 *
-		 * For performance we cache User->Bookmark->find() here.
-		 *
-		 * format: [entry_id => id, …]
-		 *
-		 * @var array
-		 */
+/**
+ * array with ids of all user's bookmarks
+ *
+ * For performance we cache User->Bookmark->find() here.
+ *
+ * format: [entry_id => id, …]
+ *
+ * @var array
+ */
 		protected $_bookmarks = null;
 
-		/**
-		 * Reference to the controller
-		 *
-		 * @var Controller
-		 */
+/**
+ * Reference to the controller
+ *
+ * @var Controller
+ */
 		protected $_Controller = null;
 
-		/**
-		 * User agent snippets for bots
-		 *
-		 * @var array
-		 */
+/**
+ * User agent snippets for bots
+ *
+ * @var array
+ */
 		protected $_botUserAgents = [
 			'archive',
 			'bot',
@@ -81,10 +81,10 @@
 			'validator'
 		];
 
-		/**
-		 *
-		 * @param type $controller
-		 */
+/**
+ *
+ * @param type $controller
+ */
 		public function initialize(Controller $Controller) {
 			if ($Controller->name === 'CakeError') {
 				return;
@@ -130,33 +130,32 @@
 					);
 				endif;
 			endif;
-
 		}
 
-		/**
-		 * Marks users as online
-		 */
+/**
+ * Marks users as online
+ */
 		protected function _markOnline() {
 			Stopwatch::start('CurrentUser->_markOnline()');
-
-			$id = $this->getId();
-			if ($this->isLoggedIn() === false):
+			$_isLoggedIn = $this->isLoggedIn();
+			if ($_isLoggedIn) {
+				$_id = $this->getId();
+			} else {
 				// don't count search bots as guests
 				if ($this->_isBot()) {
 					return;
 				}
-				$id = session_id();
-			endif;
-			$this->_User->UserOnline->setOnline($id, $this->isLoggedIn());
-
+				$_id = session_id();
+			}
+			$this->_User->UserOnline->setOnline($_id, $_isLoggedIn);
 			Stopwatch::stop('CurrentUser->_markOnline()');
 		}
 
-		/**
-		 * Detects if the current user is a bot
-		 *
-		 * @return boolean
-		 */
+/**
+ * Detects if the current user is a bot
+ *
+ * @return boolean
+ */
 		protected function _isBot() {
 			return preg_match(
 				'/' . implode('|', $this->_botUserAgents) . '/i',
@@ -232,11 +231,11 @@
 			$Controller->set('CurrentUser', $this);
 		}
 
-		/**
-		 * Returns the name of the persistent cookie
-		 *
-		 * @return string
-		 */
+/**
+ * Returns the name of the persistent cookie
+ *
+ * @return string
+ */
 		public function getPersistentCookieName() {
 			return $this->_persistentCookieName;
 		}
@@ -247,7 +246,7 @@
 			}
 			if ($this->_bookmarks === null) {
 				$this->_bookmarks = [];
-				$bookmarks        = $this->_User->Bookmark->findAllByUserId(
+				$bookmarks = $this->_User->Bookmark->findAllByUserId(
 					$this->getId(),
 					['contain' => false]
 				);
@@ -260,9 +259,9 @@
 			return $this->_bookmarks;
 		}
 
-		/**
-		 * write the settings to the session, so that they are available on next request
-		 */
+/**
+ * write the settings to the session, so that they are available on next request
+ */
 		protected function _writeSession(&$controller) {
 			if ($controller->action !== 'logout' && $controller->Auth->user()):
 				$controller->Session->write(
@@ -272,9 +271,9 @@
 			endif;
 		}
 
-		/**
-		 * Configures the auth component
-		 */
+/**
+ * Configures the auth component
+ */
 		protected function _configureAuth() {
 			// delegate authenticate method
 			// $this->_Controller->Auth->authenticate = $this->_User;
@@ -282,12 +281,12 @@
 			$this->_Controller->Auth->authenticate = [
 				AuthComponent::ALL => [
 					'useModel' => 'User',
-					'contain'  => false,
-					'scope'    => [
+					'contain' => false,
+					'scope' => [
 						// user has activated his account (e.g. email confirmation)
 						'User.activate_code' => false,
 						// user is not banned by admin or mod
-						'User.user_lock'     => false
+						'User.user_lock' => false
 					]
 				],
 				// 'Mlf' and 'Mlf2' could be 'Form' with different passwordHasher, but
@@ -310,13 +309,15 @@
 
 	}
 
-	/**
-	 * Handles the persistent cookie for cookie relogin
-	 */
-	Class SaitoCurrentUserCookie {
+/**
+ * Handles the persistent cookie for cookie relogin
+ */
+	class SaitoCurrentUserCookie {
 
 		protected $_cookie;
+
 		protected $_cookieName = 'SaitoPersistent';
+
 		protected $_cookiePrefix = 'AU';
 
 		protected $_currentUser;
@@ -326,19 +327,19 @@
 			$this->_setup();
 		}
 
-		public function initialize(SaitoUser $currentUser) {
-			$this->_currentUser = $currentUser;
-			$this->_cookieName  = $currentUser->getPersistentCookieName();
-		}
-
 		protected function _setup() {
 			$this->_cookie->name = $this->_cookieName;
 			$this->_cookie->type('rijndael');
 		}
 
+		public function initialize(SaitoUser $currentUser) {
+			$this->_currentUser = $currentUser;
+			$this->_cookieName = $currentUser->getPersistentCookieName();
+		}
+
 		public function set() {
-			$cookie              = [
-				'id'       => $this->_currentUser->getId(),
+			$cookie = [
+				'id' => $this->_currentUser->getId(),
 				'username' => $this->_currentUser['username'],
 				'password' => $this->_currentUser['password']
 			];
@@ -353,42 +354,44 @@
 		public function get() {
 			return $this->_cookie->read($this->_cookiePrefix);
 		}
+
 	}
 
-	/**
-	 * Mark-Entries-As-Read-User-Last-Refresh-Time-O-Mat
-	 */
-	Class SaitoCurrentUserLastRefresh {
+/**
+ * Mark-Entries-As-Read-User-Last-Refresh-Time-O-Mat
+ */
+	class SaitoCurrentUserLastRefresh {
 
-		protected $user;
-		protected $currentUser;
+		protected $_user;
+
+		protected $_currentUser;
 
 		public function __construct(SaitoUser $currentUser, User $user) {
-			$this->currentUser = $currentUser;
-			$this->user        = $user;
+			$this->_currentUser = $currentUser;
+			$this->_user = $user;
 		}
 
-		/**
-		 * @param mixed $timestamp
-		 *
-		 * null|'now'|<`Y-m-d H:i:s` timestamp>
-		 */
+/**
+ * @param mixed $timestamp
+ *
+ * null|'now'|<`Y-m-d H:i:s` timestamp>
+ */
 		public function set($timestamp = null) {
 			if ($timestamp === 'now') {
 				$timestamp = date('Y-m-d H:i:s');
 			} elseif ($timestamp === null) {
-				$timestamp = $this->currentUser['last_refresh_tmp'];
+				$timestamp = $this->_currentUser['last_refresh_tmp'];
 			}
 			$this->_set($timestamp);
 		}
 
-		public function setMarker() {
-			$this->user->setLastRefresh();
+		protected function _set($newLastRefresh) {
+			$this->_user->setLastRefresh($newLastRefresh);
+			$this->_currentUser['last_refresh'] = $newLastRefresh;
 		}
 
-		protected function _set($newLastRefresh) {
-			$this->user->setLastRefresh($newLastRefresh);
-			$this->currentUser['last_refresh'] = $newLastRefresh;
+		public function setMarker() {
+			$this->_user->setLastRefresh();
 		}
 
 	}

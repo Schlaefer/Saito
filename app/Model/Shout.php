@@ -2,18 +2,18 @@
 
 	App::uses('AppModel', 'Model');
 
-	/**
-	 * Shout Model
-	 *
-	 * @property User $User
-	 */
+/**
+ * Shout Model
+ *
+ * @property User $User
+ */
 	class Shout extends AppModel {
 
-		/**
-		 * Display field
-		 *
-		 * @var string
-		 */
+/**
+ * Display field
+ *
+ * @var string
+ */
 		public $displayField = 'text';
 
 		public $actsAs = [
@@ -21,11 +21,11 @@
 			'Containable'
 		];
 
-		/**
-		 * Validation rules
-		 *
-		 * @var array
-		 */
+/**
+ * Validation rules
+ *
+ * @var array
+ */
 		public $validate = array(
 			'text' => array(
 				'maxlength' => array(
@@ -34,11 +34,11 @@
 			),
 		);
 
-		/**
-		 * belongsTo associations
-		 *
-		 * @var array
-		 */
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
 		public $belongsTo = array(
 			'User' => array(
 				'className' => 'User',
@@ -50,14 +50,14 @@
 		);
 
 		protected $fieldsToSanitize = array(
-			 'text',
+			'text'
 		);
 
 		public $maxNumberOfShouts = 10;
 
 		public function findLastId() {
 			$out = 0;
-			$last_shout = $this->find(
+			$lastShout = $this->find(
 				'list',
 				array(
 					'contain' => false,
@@ -66,11 +66,9 @@
 					'limit' => 1
 				)
 			);
-
-			if ($last_shout) {
-				$out = (int)current($last_shout);
+			if ($lastShout) {
+				$out = (int)current($lastShout);
 			}
-
 			return $out;
 		}
 
@@ -82,7 +80,6 @@
 		}
 
 		public function push($data) {
-
 			$data['Shout']['time'] = gmdate("Y-m-d H:i:s", time());
 			$this->create($data);
 			$success = $this->save();
@@ -92,24 +89,24 @@
 				$success = $this->shift();
 				$count -= 1;
 			}
-
 			return $success;
 		}
 
 		public function shift() {
-
-			$current_ids = $this->find('list', array(
+			$currentIds = $this->find(
+				'list',
+				[
 					'fields' => 'Shout.id',
 					'order' => 'Shout.id ASC'
-				));
-			$oldest_id = current($current_ids);
-			return $this->delete($oldest_id);
-
+				]
+			);
+			$oldestId = current($currentIds);
+			return $this->delete($oldestId);
 		}
 
 		public function beforeSave($options = []) {
 			$this->data = $this->prepareBbcode($this->data);
-
 			return true;
 		}
+
 	}

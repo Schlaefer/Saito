@@ -12,11 +12,11 @@
 			$this->settings = BbcodeSettings::getInstance();
 		}
 
-		/**
-		 * @param Model $Model
-		 * @param $data string or array with [Alias]['text']
-		 * @return mixed
-		 */
+/**
+ * @param Model $Model
+ * @param $data string or array with [Alias]['text']
+ * @return mixed
+ */
 		public function prepareBbcode(Model $Model, $data) {
 			if (empty($data[$Model->alias]['text']) === false) {
 				$data[$Model->alias]['text'] = $this->_prepareBbcode(

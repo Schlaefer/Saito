@@ -1,26 +1,26 @@
 <?php
 
-  App::uses('AppModel', 'Model');
+	App::uses('AppModel', 'Model');
 
-	/**
-	 *
-	 *
-	 * Model notes
-	 * ===========
-	 *
-	 * Entry.name
-	 * ----------
-	 *
-	 * Came from mlf. Is still used in fulltext index.
-	 *
-	 * Entry.edited_by
-	 * ---------------
-	 *
-	 * Came from mlf.
-	 *
-	 * @td After mlf is gone `edited_by` should conatin a User.id, not the username string.
-	 *
-	 */
+/**
+ *
+ *
+ * Model notes
+ * ===========
+ *
+ * Entry.name
+ * ----------
+ *
+ * Came from mlf. Is still used in fulltext index.
+ *
+ * Entry.edited_by
+ * ---------------
+ *
+ * Came from mlf.
+ *
+ * @td After mlf is gone `edited_by` should conatin a User.id, not the username string.
+ *
+ */
 	class Entry extends AppModel {
 
 		public $name = 'Entry';
@@ -35,16 +35,16 @@
 		];
 
 		public $findMethods = array(
-			'feed'        => true,
-			'entry'       => true,
+			'feed' => true,
+			'entry' => true,
 			'unsanitized' => true
 		);
 
-		/**
-		 * Fields for search plugin
-		 *
-		 * @var array
-		 */
+/**
+ * Fields for search plugin
+ *
+ * @var array
+ */
 		public $filterArgs = array(
 			array('name' => 'subject', 'type' => 'like'),
 			array('name' => 'text', 'type' => 'like'),
@@ -54,12 +54,12 @@
 
 		public $belongsTo = array(
 			'Category' => array(
-				'className'  => 'Category',
+				'className' => 'Category',
 				'foreignKey' => 'category',
 			),
-			'User'     => array(
-				'className'    => 'User',
-				'foreignKey'   => 'user_id',
+			'User' => array(
+				'className' => 'User',
+				'foreignKey' => 'user_id',
 				'counterCache' => true,
 			),
 		);
@@ -67,17 +67,17 @@
 		public $hasMany = array(
 			'Bookmark' => array(
 				'foreignKey' => 'entry_id',
-				'dependent'  => true,
+				'dependent' => true,
 			),
-			'Esevent'  => array(
+			'Esevent' => array(
 				'foreignKey' => 'subject',
 				'conditions' => array('Esevent.subject' => 'Entry.id'),
 			),
 		);
 
 		public $validate = array(
-			'subject'  => array(
-				'notEmpty'  => array(
+			'subject' => array(
+				'notEmpty' => array(
 					'rule' => 'notEmpty',
 				),
 				'maxLength' => array(
@@ -85,23 +85,23 @@
 				),
 			),
 			'category' => array(
-				'notEmpty'  => array(
+				'notEmpty' => array(
 					'rule' => 'notEmpty'
 				),
-				'numeric'   => array(
+				'numeric' => array(
 					'rule' => 'numeric'
 				),
 				'isAllowed' => [
 					'rule' => 'validateCategoryIsAllowed'
 				]
 			),
-			'user_id'  => array(
+			'user_id' => array(
 				'rule' => 'numeric'
 			),
-			'views'    => array(
+			'views' => array(
 				'rule' => array('comparison', '>=', 0),
 			),
-			'name'     => array()
+			'name' => array()
 		);
 
 		protected $fieldsToSanitize = array(
@@ -109,11 +109,11 @@
 			'text',
 		);
 
-		/**
-		 * Fields allowed in public output
-		 *
-		 * @var array
-		 */
+/**
+ * Fields allowed in public output
+ *
+ * @var array
+ */
 		protected $_allowedPublicOutputFields = '
 			Entry.id,
 			Entry.pid,
@@ -134,13 +134,13 @@
 			User.username
 		';
 
-		/**
-		 * field list necessary for displaying a thread_line
-		 *
-		 * Entry.text determine if Entry is n/t
-		 *
-		 * @var string
-		 */
+/**
+ * field list necessary for displaying a thread_line
+ *
+ * Entry.text determine if Entry is n/t
+ *
+ * @var string
+ */
 		public $threadLineFieldList = '
 			Entry.id,
 			Entry.pid,
@@ -164,11 +164,11 @@
 			Category.description
 		';
 
-		/**
-		 * fields additional to $threadLineFieldList to show complete entry
-		 *
-		 * @var string
-		 */
+/**
+ * fields additional to $threadLineFieldList to show complete entry
+ *
+ * @var string
+ */
 		public $showEntryFieldListAdditional = '
 			Entry.edited,
 			Entry.edited_by,
@@ -181,11 +181,11 @@
 			User.user_place
 		';
 
-		/**
-		 * Allowed external user input
-		 *
-		 * @var array
-		 */
+/**
+ * Allowed external user input
+ *
+ * @var array
+ */
 		protected $_allowedInputFields = [
 			'create' => [
 				'category',
@@ -211,11 +211,11 @@
 
 		protected $_subjectMaxLenght = 100;
 
-		/**
-		 * Caching for isRoot()
-		 *
-		 * @var array
-		 */
+/**
+ * Caching for isRoot()
+ *
+ * @var array
+ */
 		protected $_isRoot = [];
 
 		public function __construct($id = false, $table = null, $ds = null) {
@@ -227,18 +227,18 @@
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
-				'user_id'  => null,
-				'limit'    => 10,
+				'user_id' => null,
+				'limit' => 10,
 				'category' => $this->Category->getCategoriesForAccession(
 					$User->getMaxAccession()
 				),
 			];
 
-			$cache_key    = 'Entry.recentEntries-' . md5(serialize($options));
-			$cached_entry = Cache::read($cache_key, 'entries');
-			if ($cached_entry) {
+			$_cacheKey = 'Entry.recentEntries-' . md5(serialize($options));
+			$_cachedEntry = Cache::read($_cacheKey, 'entries');
+			if ($_cachedEntry) {
 				Stopwatch::stop('Model->User->getRecentEntries()');
-				return $cached_entry;
+				return $_cachedEntry;
 			}
 
 			$conditions = array();
@@ -252,51 +252,50 @@
 			$result = $this->find(
 				'all',
 				[
-					'contain'    => array('User', 'Category'),
-					'fields'     => $this->threadLineFieldList,
+					'contain' => array('User', 'Category'),
+					'fields' => $this->threadLineFieldList,
 					'conditions' => $conditions,
-					'limit'      => $options['limit'],
-					'order'      => 'time DESC'
+					'limit' => $options['limit'],
+					'order' => 'time DESC'
 				]
 			);
 
-			Cache::write($cache_key, $result, 'entries');
+			Cache::write($_cacheKey, $result, 'entries');
 
 			Stopwatch::stop('Model->User->getRecentEntries()');
 			return $result;
 		}
 
-
-		/**
-		 * Finds the thread-id for a posting
-		 *
-		 * @param int $id Posting-Id
-		 * @return int Thread-Id
-		 * @throws UnexpectedValueException
-		 */
+/**
+ * Finds the thread-id for a posting
+ *
+ * @param int $id Posting-Id
+ * @return int Thread-Id
+ * @throws UnexpectedValueException
+ */
 		public function getThreadId($id) {
 			$entry = $this->find(
 				'first',
 				[
-					'contain'    => false,
+					'contain' => false,
 					'conditions' => ['Entry.id' => $id],
-					'fields'     => 'Entry.tid'
+					'fields' => 'Entry.tid'
 
 				]
 			);
 			if ($entry == false) {
-				throw new UnexpectedValueException ('Posting not found. Posting-Id: ' . $id);
+				throw new UnexpectedValueException('Posting not found. Posting-Id: ' . $id);
 			}
 			return $entry['Entry']['tid'];
 		}
 
-		/**
-		 * Shorthand for reading an entry with full data
-		 */
+/**
+ * Shorthand for reading an entry with full data
+ */
 		public function get($id, $unsanitized = false) {
 			return $this->find(
 				($unsanitized) ? 'unsanitized' : 'entry',
-				['conditions' => [$this->alias.'.id' => $id]]
+				['conditions' => [$this->alias . '.id' => $id]]
 			);
 		}
 
@@ -304,9 +303,9 @@
 			$entry = $this->find(
 				'first',
 				[
-					'contain'    => false,
+					'contain' => false,
 					'conditions' => ['Entry.id' => $id],
-					'fields'     => 'Entry.pid'
+					'fields' => 'Entry.pid'
 
 				]
 			);
@@ -316,13 +315,17 @@
 			return $entry['Entry']['pid'];
 		}
 
-		/**
-		 * creates a new root or child entry for a node
-		 *
-		 * Interface see model->save()
-		 */
+/**
+ * creates a new root or child entry for a node
+ *
+ * Interface see model->save()
+ *
+ * @param      $data
+ * @param null $CurrentUser
+ *
+ * @return array|bool
+ */
 		public function createPosting($data, $CurrentUser = null) {
-
 			if ($CurrentUser !== null) {
 				$this->_CurrentUser = $CurrentUser;
 			}
@@ -345,39 +348,40 @@
 			}
 
 			$data[$this->alias]['user_id'] = $this->_CurrentUser->getId();
-			$data[$this->alias]['name']    = $this->_CurrentUser['username'];
+			$data[$this->alias]['name'] = $this->_CurrentUser['username'];
 
-			$data[$this->alias]['time']        = date('Y-m-d H:i:s');
+			$data[$this->alias]['time'] = date('Y-m-d H:i:s');
 			$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
-			$data[$this->alias]['ip']          = self::_getIp();
+			$data[$this->alias]['ip'] = self::_getIp();
 
 			$this->create();
-			$new_posting = $this->save($data);
+			$_newPosting = $this->save($data);
 
-			if ($new_posting === false) {
+			if ($_newPosting === false) {
 				return false;
 			}
 
-			$new_posting_id = $this->id;
+			$_newPostingId = $this->id;
 
 			// make sure we pass the complete ['Entry'] dataset to events
 			$this->contain();
-			$new_posting = $this->read();
+			$_newPosting = $this->read();
 
 			if ($this->isRoot($data)) {
 				// thread-id of new thread is its own id
-				if ($this->save(['tid' => $new_posting_id], false, ['tid']) === false) {
+				if ($this->save(['tid' => $_newPostingId], false, ['tid']) === false) {
 					// @td raise error and/or roll back new entry
 					return false;
 				} else {
+					$_newPosting[$this->alias]['tid'] = $_newPostingId;
 					$this->Category->id = $data[$this->alias]['category'];
 					$this->Category->updateThreadCounter();
 				}
 			} else {
 				// update last answer time of root entry
 				$this->clear();
-				$this->id = $new_posting[$this->alias]['tid'];
-				$this->set('last_answer', $new_posting[$this->alias]['last_answer']);
+				$this->id = $_newPosting[$this->alias]['tid'];
+				$this->set('last_answer', $_newPosting[$this->alias]['last_answer']);
 				if ($this->save() === false) {
 					// @td raise error and/or roll back new entry
 					return false;
@@ -386,20 +390,20 @@
 				$this->_dispatchEvent(
 					'Model.Entry.replyToEntry',
 					[
-						'subject' => $new_posting[$this->alias]['pid'],
-						'data'    => $new_posting
+						'subject' => $_newPosting[$this->alias]['pid'],
+						'data' => $_newPosting
 					]
 				);
 				$this->_dispatchEvent(
 					'Model.Entry.replyToThread',
 					[
-						'subject' => $new_posting[$this->alias]['tid'],
-						'data'    => $new_posting
+						'subject' => $_newPosting[$this->alias]['tid'],
+						'data' => $_newPosting
 					]
 				);
 			}
-			$this->id = $new_posting_id;
-			return $new_posting;
+			$this->id = $_newPostingId;
+			return $_newPosting;
 		}
 
 		public function update($data, $CurrentUser = null) {
@@ -424,7 +428,7 @@
 				unset($data[$this->alias]['category']);
 			}
 
-			$data[$this->alias]['edited']    = date('Y-m-d H:i:s');
+			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
 			$data[$this->alias]['edited_by'] = $this->_CurrentUser['username'];
 
 			$this->validator()->add(
@@ -444,7 +448,7 @@
 					'Model.Entry.update',
 					[
 						'subject' => $result[$this->alias]['id'],
-						'data'    => $result
+						'data' => $result
 					]
 				);
 			}
@@ -452,7 +456,10 @@
 			return $result;
 		}
 
-		/* @mb `views` into extra related table if performance becomes a problem */
+/**
+ *
+ * @mb `views` into extra related table if performance becomes a problem
+ */
 		public function incrementViews($amount = 1) {
 			// Workaround for travis-ci error message
 			// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
@@ -462,21 +469,21 @@
 			}
 		}
 
-		/**
-		 * tree of a single node and its subentries
-		 *
-		 * $options = array(
-		 *    'root' => true // performance improvements if it's a known thread-root
-		 *    'complete' => true // include all fields necessary to render the complete entries
-		 * );
-		 *
-		 * @param int $id
-		 * @param array $options
-		 * @return array tree
-		 */
+/**
+ * tree of a single node and its subentries
+ *
+ * $options = array(
+ *    'root' => true // performance improvements if it's a known thread-root
+ *    'complete' => true // include all fields necessary to render the complete entries
+ * );
+ *
+ * @param int $id
+ * @param array $options
+ * @return array tree
+ */
 		public function treeForNode($id, $options = array()) {
 			$options += [
-				'root'     => false,
+				'root' => false,
 				'complete' => false
 			];
 
@@ -504,9 +511,9 @@
 			return $tree;
 		}
 
-		/**
-		 * trees for multiple tids
-		 */
+/**
+ * trees for multiple tids
+ */
 		public function treesForThreads($search_array, $order = null, $fieldlist = null) {
 			if (empty($search_array)) {
 				return [];
@@ -519,8 +526,8 @@
 			}
 
 			$where = [];
-			foreach ($search_array as $search_item) {
-				$where[] = $search_item['id'];
+			foreach ($search_array as $_searchItem) {
+				$where[] = $_searchItem['id'];
 			}
 
 			if ($fieldlist === null) {
@@ -546,30 +553,31 @@
 			return $out;
 		}
 
-		/**
-		 *
-		 * @param mixed thread-ids, one int or many array
-		 * @param array optional $params
-		 *
-		 * <pre>
-		 *  array(
-		 *      'fields'    => array('Entry.id'),
-		 *      'order'      => 'time ASC',
-		 *  )
-		 * </pre>
-		 */
+/**
+ * @param       $tid
+ * @param array $params
+ *
+ * @return array
+ *
+ * <pre>
+ *  array(
+ *      'fields'    => array('Entry.id'),
+ *      'order'      => 'time ASC',
+ *  )
+ * </pre>
+ */
 		protected function _getThreadEntries($tid, array $params = []) {
 			$params += [
 				'fields' => $this->threadLineFieldList,
-				'order'  => 'last_answer ASC'
+				'order' => 'last_answer ASC'
 			];
 			$threads = $this->find(
 				'all',
 				[
 					'conditions' => ['tid' => $tid],
-					'contain'    => ['User', 'Category'],
-					'fields'     => $params['fields'],
-					'order'      => $params['order']
+					'contain' => ['User', 'Category'],
+					'fields' => $params['fields'],
+					'order' => $params['order']
 				]
 			);
 
@@ -620,11 +628,12 @@
 			}
 		}
 
-		/**
-		 * Deletes entry and all it's subentries and associated data
-		 *
-		 * @param type $id
-		 */
+/**
+ * Deletes entry and all it's subentries and associated data
+ *
+ * @return bool
+ * @throws Exception
+ */
 		public function deleteNode($id = null) {
 			if (empty($id)) {
 				$id = $this->id;
@@ -637,9 +646,9 @@
 				throw new Exception;
 			}
 
-			$ids_to_delete = $this->getIdsForNode($id);
-			$success       = $this->deleteAll(
-				[$this->alias . '.id' => $ids_to_delete],
+			$_idsToDelete = $this->getIdsForNode($id);
+			$success = $this->deleteAll(
+				[$this->alias . '.id' => $_idsToDelete],
 				true,
 				true
 			);
@@ -650,8 +659,8 @@
 					$this->Category->updateThreadCounter();
 					$this->Esevent->deleteSubject($id, 'thread');
 				}
-				foreach ($ids_to_delete as $entry_id) {
-					$this->Esevent->deleteSubject($entry_id, 'entry');
+				foreach ($_idsToDelete as $_entryId) {
+					$this->Esevent->deleteSubject($_entryId, 'entry');
 				}
 
 				$this->_dispatchEvent(
@@ -663,15 +672,15 @@
 			return $success;
 		}
 
-		/**
-		 * Get the ID of all subentries of and including entry $id
-		 *
-		 * @param int $id
-		 * @return array Ids
-		 */
+/**
+ * Get the ID of all subentries of and including entry $id
+ *
+ * @param int $id
+ * @return array Ids
+ */
 		public function getIdsForNode($id) {
 			$subthread = $this->treeForNode($id);
-			$func      = function (&$tree, &$entry) {
+			$func = function (&$tree, &$entry) {
 				$tree['ids'][] = (int)$entry['Entry']['id'];
 			};
 			Entry::mapTreeElements($subthread, $func);
@@ -680,23 +689,23 @@
 			return $subthread['ids'];
 		}
 
-		/**
-		 * Anonymizes the entries for a user
-		 *
-		 * @param string $user_id
-		 * @return bool success
-		 */
-		public function anonymizeEntriesFromUser($user_id) {
-
+/**
+ * Anonymizes the entries for a user
+ *
+ * @param string $userId
+ *
+ * @return bool success
+ */
+		public function anonymizeEntriesFromUser($userId) {
 			// remove username from all entries and reassign to anonyme user
 			$success = $this->updateAll(
 				[
-					'Entry.name'      => "NULL",
+					'Entry.name' => "NULL",
 					'Entry.edited_by' => "NULL",
-					'Entry.ip'        => "NULL",
-					'Entry.user_id'   => 0,
+					'Entry.ip' => "NULL",
+					'Entry.user_id' => 0,
 				],
-				['Entry.user_id' => $user_id]
+				['Entry.user_id' => $userId]
 			);
 
 			if ($success) {
@@ -706,36 +715,40 @@
 			return $success;
 		}
 
-		/**
-		 * Maps all elements in $tree to function $func
-		 *
-		 * @param type $leafs Current subtree.
-		 * @param function $func Function to execute.
-		 * @param misc $context Arbitrary data for the function. Useful for providing $this context.
-		 * @param array $tree The whole tree.
-		 */
+/**
+ * Maps all elements in $tree to function $func
+ *
+ * @param          $leafs
+ * @param callable $func
+ * @param null     $context
+ * @param null     $tree
+ *
+ * @return string
+ */
 		public static function mapTreeElements(&$leafs, callable $func, $context = null, &$tree = null) {
 			if ($tree === null) {
 				$tree = & $leafs;
 			}
 			foreach ($leafs as &$leaf):
 				$result = $func($tree, $leaf, $context);
-				if ($result === 'break')
+				if ($result === 'break') {
 					return 'break';
-				if (isset($leaf['_children'])):
+				}
+				if (isset($leaf['_children'])) {
 					$result = self::mapTreeElements($leaf['_children'], $func, $context, $tree);
-					if ($result === 'break')
+					if ($result === 'break') {
 						return 'break';
-				endif;
+					}
+				}
 			endforeach;
 		}
 
-		/**
-		 * Merge thread on to entry $targetId
-		 *
-		 * @param int $targetId id of the entry the thread should be appended to
-		 * @return bool true if merge was successfull false otherwise
-		 */
+/**
+ * Merge thread on to entry $targetId
+ *
+ * @param int $targetId id of the entry the thread should be appended to
+ * @return bool true if merge was successfull false otherwise
+ */
 		public function threadMerge($targetId) {
 			$threadIdSource = $this->id;
 
@@ -797,23 +810,25 @@
 			return false;
 		}
 
+		/*
+		 * Function for checking if entry is bookmarked by current user
+		 *
+		 * @var function
+		 */
 		protected function _addAdditionalFields(&$entries) {
-			/**
-			 * Function for checking if entry is bookmarked by current user
-			 *
-			 * @var function
-			 */
 			$ldGetBookmarkForEntryAndUser = function (&$tree, &$element, $_this) {
 					$bookmarks = $this->_CurrentUser->getBookmarks();
 					$element['isBookmarked'] = isset($bookmarks[$element['Entry']['id']]);
 			};
 			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
 
-			/**
-			 * Function for checking user rights on an entry
-			 *
-			 * @var function
-			 */
+		/*
+		 * Function for checking user rights on an entry
+		 *
+		 * @param $tree
+		 * @param $element
+		 * @param $_this
+		 */
 			$ldGetRightsForEntryAndUser = function (&$tree, &$element, $_this) {
 				$rights = [
 					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser),
@@ -825,11 +840,15 @@
 			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
 		}
 
-		/**
-		 * Check if someone is allowed to edit an entry
-		 */
+/**
+ * Check if someone is allowed to edit an entry
+ * @param           $entry
+ * @param SaitoUser $User
+ *
+ * @return bool|string
+ * @throws Exception
+ */
 		public function isEditingForbidden($entry, SaitoUser $User = null) {
-
 			if ($User === null) {
 				$User = $this->_CurrentUser;
 			}
@@ -857,8 +876,7 @@
 			$expired = strtotime($entry['Entry']['time']) + $this->_editPeriod;
 			$isOverEditLimit = time() > $expired;
 
-			$isUsersPosting = (int)$User->getId()
-					=== (int)$entry['Entry']['user_id'];
+			$isUsersPosting = (int)$User->getId() === (int)$entry['Entry']['user_id'];
 
 			if ($User->isMod()) {
 				// Mods
@@ -894,14 +912,16 @@
 			return $verboten;
 		}
 
-		/**
-		 * Test if entry is thread-root
-		 *
-		 * $id accepts an entry-id or an entry: array('Entry' => array(…))
-		 *
-		 * @param mixed $id
-		 * @return bool
-		 */
+/**
+ * Test if entry is thread-root
+ *
+ * $id accepts an entry-id or an entry: array('Entry' => array(…))
+ *
+ * @param null $id
+ *
+ * @return mixed
+ * @throws InvalidArgumentException
+ */
 		public function isRoot($id = null) {
 			if ($id === null) {
 				$id = $this->id;
@@ -921,7 +941,7 @@
 					$entry = $this->find(
 						'first',
 						array(
-							'contain'    => false,
+							'contain' => false,
 							'conditions' => array(
 								'id' => $id,
 							)
@@ -940,14 +960,15 @@
 			return $entry[$this->alias]['locked'] != false;
 		}
 
-		/**
-		 * Preprocesses entry data before saving it
-		 *
-		 * @param $data
-		 * @param bool $isNew
-		 * @throws InvalidArgumentException
-		 * @throws ForbiddenException
-		 */
+/**
+ * Preprocesses entry data before saving it
+ *
+ * @param       $data
+ * @param array $options
+ *
+ * @throws InvalidArgumentException
+ * @throws ForbiddenException
+ */
 		public function prepare(&$data, array $options = []) {
 			$options += [
 				'isRoot' => null
@@ -985,7 +1006,7 @@
 					$data[$this->alias]['subject'] = $parent[$this->alias]['subject'];
 				}
 
-				$data[$this->alias]['tid']      = $parent[$this->alias]['tid'];
+				$data[$this->alias]['tid'] = $parent[$this->alias]['tid'];
 				$data[$this->alias]['category'] = $parent[$this->alias]['category'];
 			}
 
@@ -993,12 +1014,12 @@
 			$data = $this->prepareBbcode($data);
 		}
 
-		/**
-		 * filter out not allowed fields
-		 *
-		 * @param $data
-		 * @param $fields
-		 */
+/**
+ * filter out not allowed fields
+ *
+ * @param $data
+ * @param $fields
+ */
 		protected function _preFilterFields(&$data, $fields) {
 			$org = $data;
 			$data = [
@@ -1028,7 +1049,7 @@
 					unset($query['sanitize']);
 				}
 				$query['contain'] = ['User', 'Category'];
-				$query['fields']  = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 				return $query;
 			}
 			if ($results) {
@@ -1038,40 +1059,40 @@
 			return $results;
 		}
 
-		/**
-		 * Implements the custom find type 'feed'
-		 *
-		 * Add parameters for generating a rss/json-feed with find('feed', …)
-		 */
+/**
+ * Implements the custom find type 'feed'
+ *
+ * Add parameters for generating a rss/json-feed with find('feed', …)
+ */
 		protected function _findFeed($state, $query, $results = array()) {
 			if ($state == 'before') {
 				$query['contain'] = array('User');
-				$query['fields']  = $this->_allowedPublicOutputFields;
-				$query['limit']   = 10;
+				$query['fields'] = $this->_allowedPublicOutputFields;
+				$query['limit'] = 10;
 				return $query;
 			}
 			return $results;
 		}
 
-		/**
-		 * Locks or unlocks a whole thread
-		 *
-		 * Every entry in thread is set to `locked` = '$value'
-		 *
-		 * @param bool $value
-		 */
+/**
+ * Locks or unlocks a whole thread
+ *
+ * Every entry in thread is set to `locked` = '$value'
+ *
+ * @param bool $value
+ */
 		protected function _threadLock($value) {
 			$tid = $this->field('tid');
 			$this->contain();
 			$this->updateAll(['locked' => $value], ['tid' => $tid]);
 		}
 
-		/**
-		 * Checks if answering an entry is allowed
-		 *
-		 * @param array $entry
-		 * @return boolean
-		 */
+/**
+ * Checks if answering an entry is allowed
+ *
+ * @param array $entry
+ * @return boolean
+ */
 		public function isAnsweringForbidden($entry) {
 			$isAnsweringForbidden = true;
 			if ($this->_isLocked($entry)) {
@@ -1083,28 +1104,26 @@
 			return $isAnsweringForbidden;
 		}
 
-
-  public function paginateCount($conditions, $recursive, $extra) {
-
-		if (isset($extra['getInitialThreads'])) {
-			$this->Category->contain();
-			$categories = $this->Category->find(
-				'all',
-				[
-					'conditions' => array('id' => $conditions['Entry.category']),
-					'fields'     => array('thread_count')
-				]
-			);
-			$count = array_sum(Set::extract('/Category/thread_count', $categories));
-		} else {
-			$parameters = array('conditions' => $conditions);
-			if ($recursive != $this->recursive) {
-				$parameters['recursive'] = $recursive;
+		public function paginateCount($conditions, $recursive, $extra) {
+			if (isset($extra['getInitialThreads'])) {
+				$this->Category->contain();
+				$categories = $this->Category->find(
+					'all',
+					[
+						'conditions' => array('id' => $conditions['Entry.category']),
+						'fields' => array('thread_count')
+					]
+				);
+				$count = array_sum(Set::extract('/Category/thread_count', $categories));
+			} else {
+				$parameters = array('conditions' => $conditions);
+				if ($recursive != $this->recursive) {
+					$parameters['recursive'] = $recursive;
+				}
+				$count = $this->find('count', array_merge($parameters, $extra));
 			}
-			$count = $this->find('count', array_merge($parameters, $extra));
+			return $count;
 		}
-		return $count;
-	}
 
 		public function beforeSave($options = array()) {
 			$success = true;
@@ -1113,20 +1132,20 @@
 			// @bogus @performance check for pid === 0 before loading old_entry
 			if (isset($this->data[$this->alias]['category'])) {
 				// get old entry to compare with new data
-				$old_entry = $this->find(
+				$oldEntry = $this->find(
 					'first',
 					array(
-						'contain'    => false,
+						'contain' => false,
 						'conditions' => array(
 							'Entry.id' => $this->id,
 						),
 					)
 				);
 
-				if ($old_entry && (int)$old_entry[$this->alias]['pid'] === 0) {
-					if ((int)$this->data[$this->alias]['category'] !== (int)$old_entry[$this->alias]['category']) {
+				if ($oldEntry && (int)$oldEntry[$this->alias]['pid'] === 0) {
+					if ((int)$this->data[$this->alias]['category'] !== (int)$oldEntry[$this->alias]['category']) {
 						$success = $success && $this->_threadChangeCategory(
-									$old_entry[$this->alias]['tid'],
+									$oldEntry[$this->alias]['tid'],
 									$this->data[$this->alias]['category']
 								);
 					}
@@ -1136,12 +1155,12 @@
 			return $success && parent::beforeSave($options);
 		}
 
-		/**
-		 * check that entries are only in existing and allowed categories
-		 *
-		 * @param $check
-		 * @return bool
-		 */
+/**
+ * check that entries are only in existing and allowed categories
+ *
+ * @param $check
+ * @return bool
+ */
 		public function validateCategoryIsAllowed($check) {
 			$availableCategories = $this->Category->getCategoriesForAccession(
 				$this->_CurrentUser->getMaxAccession()
@@ -1161,41 +1180,44 @@
 			}
 		}
 
-		/**
-		 *
-		 *
-		 * Don't use Cake's build in maxLength. Dynamically setting the length
-		 * afterwards in $this->validates it is a bag of hurt with race
-		 * conditions in ModelValidator::_parseRules() when checking
-		 * if ($this->_validate === $this->_model->validate) is true.
-		 *
-		 * @param $check
-		 * @return bool
-		 */
+/**
+ *
+ *
+ * Don't use Cake's build in maxLength. Dynamically setting the length
+ * afterwards in $this->validates it is a bag of hurt with race
+ * conditions in ModelValidator::_parseRules() when checking
+ * if ($this->_validate === $this->_model->validate) is true.
+ *
+ * @param $check
+ * @return bool
+ */
 		public function validateSubjectMaxLength($check) {
 			return mb_strlen($check['subject']) <= $this->_subjectMaxLenght;
 		}
 
-		/**
-		 * Changes the category of a thread.
-		 *
-		 * Assigns the new category-id to all postings in that thread.
-		 *
-		 * @param int $tid Id of the thread
-		 * @param int $new_category_id Id of the new category
-		 * @return boolean True on success, false on failure
-		 */
-		protected function _threadChangeCategory($tid = null, $new_category_id = null) {
+/**
+ * Changes the category of a thread.
+ *
+ * Assigns the new category-id to all postings in that thread.
+ *
+ * @param null $tid
+ * @param null $newCategoryId
+ *
+ * @return bool
+ * @throws NotFoundException
+ * @throws InvalidArgumentException
+ */
+		protected function _threadChangeCategory($tid = null, $newCategoryId = null) {
 			if (empty($tid)) {
 				throw new InvalidArgumentException;
 			}
 			$this->Category->contain();
-			$category_exists = $this->Category->findById($new_category_id);
-			if (!$category_exists) {
+			$categoryExists = $this->Category->findById($newCategoryId);
+			if (!$categoryExists) {
 				throw new NotFoundException;
 			}
 			$out = $this->updateAll(
-				['Entry.category' => $new_category_id],
+				['Entry.category' => $newCategoryId],
 				['Entry.tid' => $tid]
 			);
 			return $out;
@@ -1206,12 +1228,13 @@
 				return;
 			}
 			$appSettings = Configure::read('Saito.Settings');
-			if(isset($appSettings['edit_period'])) {
+			if (isset($appSettings['edit_period'])) {
 				$this->_editPeriod = $appSettings['edit_period'] * 60;
 			}
-			if(isset($appSettings['subject_maxlength'])) {
+			if (isset($appSettings['subject_maxlength'])) {
 				$this->_subjectMaxLenght = (int)$appSettings['subject_maxlength'];
 			}
 			$this->_isInitialized = true;
 		}
+
 	}

@@ -2,21 +2,21 @@
 
 	App::uses('AppController', 'Controller');
 
-	/**
-	 * Esnotifications Controller
-	 *
-	 * @property Esnotification $Esnotification
-	 */
+/**
+ * Esnotifications Controller
+ *
+ * @property Esnotification $Esnotification
+ */
 	class EsnotificationsController extends AppController {
 
-		/**
-		 * delete method
-		 *
-		 * @throws MethodNotAllowedException
-		 * @throws NotFoundException
-		 * @param string $id
-		 * @return void
-		 */
+/**
+ * delete method
+ *
+ * @throws MethodNotAllowedException
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
 		public function unsubscribe($id = null) {
 			$this->Esnotification->id = $id;
 			if (!$this->Esnotification->exists()) {

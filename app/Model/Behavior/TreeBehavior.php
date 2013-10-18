@@ -2,14 +2,14 @@
 
 	class TreeBehavior extends ModelBehavior {
 
-		public function treeGetSubtree(Model $Model, $tree, $node_id) {
-			$func = function (&$tree, &$entry, $node_id) {
-						if ((int)$entry['Entry']['id'] === (int)$node_id) {
-							$tree = array($entry);
-							return 'break';
-						}
-					};
-			Entry::mapTreeElements($tree, $func, $node_id);
+		public function treeGetSubtree(Model $Model, $tree, $_nodeId) {
+			$func = function (&$tree, &$entry, $_nodeId) {
+				if ((int)$entry['Entry']['id'] === (int)$_nodeId) {
+					$tree = array($entry);
+					return 'break';
+				}
+			};
+			Entry::mapTreeElements($tree, $func, $_nodeId);
 			return $tree;
 		}
 
@@ -26,18 +26,18 @@
 			// without _sortTreesAfterTime
 			// but then *all* entries have to be sorted whereas now only subthreads with childs
 			// are sorted. So using _sortTreesAfterTime is actually faster in praxis.
-			$sorted_trees = $this->_sortTreesAfterTime($tree[0]['_children']);
+			$_sortedTrees = $this->_sortTreesAfterTime($tree[0]['_children']);
 
-			return $sorted_trees;
+			return $_sortedTrees;
 		}
 
-		/**
-		 * Sort all entries in trees after time
-		 *
-		 * @param array $in array with trees
-		 * @param int $level
-		 * @return array
-		 */
+/**
+ * Sort all entries in trees after time
+ *
+ * @param array $in array with trees
+ * @param int $level
+ * @return array
+ */
 		protected function _sortTreesAfterTime($in, $level = 0) {
 			if ($level > 0) {
 				uasort($in, [$this, '_sort']);

@@ -2,17 +2,18 @@
 
 	App::uses('AppController', 'Controller');
 
-	/**
-	 * Shouts Controller
-	 *
-	 * @property Shout $Shout
-	 */
+/**
+ * Shouts Controller
+ */
 	class ShoutsController extends AppController {
 
 		public $components = [
 			'Shouts',
 		];
 
+/**
+ * @throws NotFoundException
+ */
 		public function index() {
 			$this->autoLayout = false;
 			if ($this->request->is('ajax')) {
@@ -22,12 +23,15 @@
 			}
 		}
 
+/**
+ * @return mixed
+ */
 		public function add() {
 			$this->autoRender = false;
 			if ($this->request->is('ajax')) {
 				$data = [
 					'Shout' => [
-						'text'    => $this->request->data['text'],
+						'text' => $this->request->data['text'],
 						'user_id' => $this->CurrentUser->getId()
 					]
 				];
@@ -35,6 +39,10 @@
 			}
 		}
 
+/**
+ * @return CakeResponse|void
+ * @throws MethodNotAllowedException
+ */
 		public function beforeFilter() {
 			parent::beforeFilter();
 
@@ -45,7 +53,6 @@
 			$this->Shout->maxNumberOfShouts = Configure::read(
 				'Saito.Settings.shoutbox_max_shouts'
 			);
-
 		}
 
 	}

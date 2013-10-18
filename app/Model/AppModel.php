@@ -8,142 +8,142 @@
 	// import here so that `cake schema ...` cli works
 	App::import('Lib', 'Stopwatch.Stopwatch');
 
-class AppModel extends Model {
+	class AppModel extends Model {
 
-	# Entry->User->UserOnline
-	public $recursive = 1;
+		# Entry->User->UserOnline
+		public $recursive = 1;
 
-	/*
-	 * Lock to disable sanitation permanently
-	 */
-	static $sanitizeEnabled = true;
+/**
+ * Lock to disable sanitation permanently
+ */
+		static $sanitizeEnabled = true;
 
-	static $sanitize = true;
+		static $sanitize = true;
 
-	/**
-	 * Lock sanitize that it's associated models are also not sanitized
-	 *
-	 * @var mixed false or string
-	 */
-	static $_lock_no_sanitize = false;
+/**
+ * Lock sanitize that it's associated models are also not sanitized
+ *
+ * @var mixed false or string
+ */
+		protected static $_lockNoSanitize = false;
 
-	protected $_CurrentUser;
+		protected $_CurrentUser;
 
-	public function setCurrentUser(SaitoUser $CurrentUser) {
-		$this->_CurrentUser = $CurrentUser;
-	}
+		public function setCurrentUser(SaitoUser $CurrentUser) {
+			$this->_CurrentUser = $CurrentUser;
+		}
 
-	protected function _sanitizeFields($results) {
-		if (isset($this->fieldsToSanitize)) {
-			foreach ($results as $k => $result) {
-				foreach ($this->fieldsToSanitize as $field) {
-					if (isset($results[$k][$this->name][$field])) {
-						$results[$k][$this->alias][$field] = Sanitize::html($result[$this->alias][$field]);
+		protected function _sanitizeFields($results) {
+			if (isset($this->fieldsToSanitize)) {
+				foreach ($results as $k => $result) {
+					foreach ($this->fieldsToSanitize as $field) {
+						if (isset($results[$k][$this->name][$field])) {
+							$results[$k][$this->alias][$field] = Sanitize::html($result[$this->alias][$field]);
+						}
 					}
 				}
 			}
+			return $results;
 		}
-		return $results;
-	}
 
-	public function afterFind($results, $primary = false) {
-		parent::afterFind($results, $primary);
+		public function afterFind($results, $primary = false) {
+			parent::afterFind($results, $primary);
 
-		if (self::$sanitizeEnabled) {
-			if (self::$sanitize) {
-				$results = $this->_sanitizeFields($results);
-			} elseif (self::$_lock_no_sanitize === $this->alias) {
-				// sanitizing can only be disabled for one find
-				$this->sanitize(true);
+			if (self::$sanitizeEnabled) {
+				if (self::$sanitize) {
+					$results = $this->_sanitizeFields($results);
+				} elseif (self::$_lockNoSanitize === $this->alias) {
+					// sanitizing can only be disabled for one find
+					$this->sanitize(true);
+				}
 			}
+			return $results;
 		}
-		return $results;
-	}
 
-	public function sanitize($switch = true) {
-		if (!$switch) {
-			self::$_lock_no_sanitize = $this->alias;
-		} else {
-			self::$_lock_no_sanitize = false;
+		public function sanitize($switch = true) {
+			if (!$switch) {
+				self::$_lockNoSanitize = $this->alias;
+			} else {
+				self::$_lockNoSanitize = false;
+			}
+			self::$sanitize = $switch;
 		}
-		self::$sanitize = $switch;
-	}
 
-	public function toggle($key) {
-		$this->contain();
-		$value = $this->read($key);
-		$value = ($value[$this->alias][$key] == 0) ? 1 : 0;
-		$this->set($key, $value);
-		$this->save();
-		return $value;
-	}
-
-	public function pipeMerger(array $data) {
-		$out = [];
-		foreach ($data as $key => $value) {
-			$out[] = "$key=$value";
+		public function toggle($key) {
+			$this->contain();
+			$value = $this->read($key);
+			$value = ($value[$this->alias][$key] == 0) ? 1 : 0;
+			$this->set($key, $value);
+			$this->save();
+			return $value;
 		}
-		return implode(' | ', $out);
+
+		public function pipeMerger(array $data) {
+			$out = [];
+			foreach ($data as $key => $value) {
+				$out[] = "$key=$value";
+			}
+			return implode(' | ', $out);
+		}
+
+/**
+ * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
+ *
+ * @param string $pipeString
+ * @return array
+ */
+		protected function _pipeSplitter($pipeString) {
+			$unpipedArray = array();
+			$ranks = explode('|', $pipeString);
+			foreach ($ranks as $rank) :
+				$matches = array();
+				$matched = preg_match('/(\w+)\s*=\s*(.*)/', trim($rank), $matches);
+				if ($matched) {
+					$unpipedArray[$matches[1]] = $matches[2];
+				}
+			endforeach;
+			return $unpipedArray;
+		}
+
+		protected static function _getIp() {
+			$ip = null;
+			if ( Configure::read('Saito.Settings.store_ip') ):
+				$ip = env('REMOTE_ADDR');
+				if ( Configure::read('Saito.Settings.store_ip_anonymized' ) ):
+					$ip = self::_anonymizeIp($ip);
+				endif;
+			endif;
+			return $ip;
+		}
+
+/**
+ * Dispatches an event
+ *
+ * - Always passes the issuing model class as subject
+ * - Wrapper for CakeEvent boilerplate code
+ * - Easier to test
+ *
+ * @param string $event event identifier `Model.<modelname>.<event>`
+ * @param array $data additional event data
+ */
+		protected function _dispatchEvent($event, $data = []) {
+			$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
+		}
+
+/**
+ * Rough and tough ip anonymizer
+ *
+ * @param string $ip
+ * @return string
+ */
+		protected static function _anonymizeIp($ip) {
+			$strlen = strlen($ip);
+			if ($strlen > 6) :
+				$divider = (int)floor($strlen / 4) + 1;
+				$ip = substr_replace($ip, '…', $divider, $strlen - (2 * $divider));
+			endif;
+
+			return $ip;
+		}
+
 	}
-
-  /**
-   * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
-   *
-   * @param string $pipeString
-   * @return array
-   */
-  protected function _pipeSplitter($pipeString) {
-    $unpipedArray = array();
-    $ranks = explode('|', $pipeString);
-    foreach ( $ranks as $rank ) :
-      $matches = array();
-      $matched = preg_match('/(\w+)\s*=\s*(.*)/', trim($rank), $matches);
-      if ($matched) {
-        $unpipedArray[$matches[1]] = $matches[2];
-      }
-    endforeach;
-    return $unpipedArray;
-  }
-
-  protected static function _getIp() {
-    $ip = NULL;
-    if ( Configure::read('Saito.Settings.store_ip') ):
-      $ip = env('REMOTE_ADDR');
-      if ( Configure::read('Saito.Settings.store_ip_anonymized' ) ):
-        $ip = self::_anonymizeIp($ip);
-      endif;
-    endif;
-    return $ip;
-  }
-
-	/**
-	 * Dispatches an event
-	 *
-	 * - Always passes the issuing model class as subject
-	 * - Wrapper for CakeEvent boilerplate code
-	 * - Easier to test
-	 *
-	 * @param string $event event identifier `Model.<modelname>.<event>`
-	 * @param array $data additional event data
-	 */
-	protected function _dispatchEvent($event, $data = []) {
-		$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
-	}
-
-  /**
-   * Rough and tough ip anonymizer
-   *
-   * @param string $ip
-   * @return string
-   */
-  protected static function _anonymizeIp($ip) {
-    $strlen = strlen($ip);
-    if ( $strlen > 6 ) :
-      $divider = (int)floor($strlen / 4) + 1;
-      $ip = substr_replace($ip, '…', $divider, $strlen - (2 * $divider));
-    endif;
-
-    return $ip;
-  }
-
-}

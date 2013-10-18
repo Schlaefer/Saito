@@ -65,12 +65,20 @@
 				'category' => 1
 			];
 
-			$this->Entry->createPosting($data);
-			$result = $this->Entry->get($this->Entry->id, true);
+			$lastEntry = $this->Entry->find(
+				'first',
+				['contain' => false, 'order' => ['Entry.id' => 'DESC']]
+			);
+			$expectedThreadId = (int)$lastEntry['Entry']['tid'] + 1 . '';
+
+			$result = $this->Entry->createPosting($data);
 
 			$this->assertEmpty($this->Entry->validationErrors);
 
 			$expected = $data;
+			$expected['Entry']['tid'] = $expectedThreadId;
+			$expected['Entry']['subject'] = Sanitize::html($expected['Entry']['subject']);
+			$expected['Entry']['text'] = Sanitize::html($expected['Entry']['text']);
 			$result = array_intersect_key($result, $expected);
 			$result[$this->Entry->alias] = array_intersect_key(
 				$result[$this->Entry->alias],

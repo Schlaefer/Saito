@@ -1,0 +1,45 @@
+{
+  "name": "Saito",
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "underscore": "~1.5.2",
+    "backbone": "~1.0.0",
+    "marionette": "1.1.0",
+    "Backbone.localStorage": "~1.1.7",
+    "humanize": "~0.0.9",
+    "jquery-autosize": "~1.17.8",
+    "fastclick": "latest",
+    "requirejs-domready": "~2.0.1",
+    "requirejs-text": "~2.0.10",
+    "requirejs": "~2.1.9"
+  },
+  "exportsOverride": {
+    "underscore": {
+      "js": "underscore.js"
+    },
+    "backbone": {
+      "js": "backbone.js"
+    },
+    "Backbone.localStorage": {
+      "js": "backbone.localStorage.js"
+    },
+    "humanize": {
+      "js": "humanize.js"
+    },
+    "jquery-autosize": {
+      "js": "jquery.autosize.js"
+    },
+    "fastclick": {
+      "js": "lib/fastclick.js"
+    },
+    "requirejs": {
+      "js": "require.js"
+    },
+    "requirejs-domready": {
+      "js": "domReady.js"
+    },
+    "requirejs-text": {
+      "js": "text.js"
+    }
+  }
+}

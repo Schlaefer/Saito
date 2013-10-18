@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'models/app',
-    'lib/jquery.pnotify'
+    '../../dev/vendors/pnotify/jquery.pnotify'
 ], function($, _, Backbone,
             App
     ) {

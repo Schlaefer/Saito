@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'lib/jquery.filedrop',
+    '../../dev/vendors/jquery-filedrop/jquery.filedrop',
     'models/app',
     'text!templates/uploadNew.html',
     'text!templates/spinner.html',

@@ -14,4 +14,3 @@ tags
 /app/webroot/useruploads/*.*
 Capfile
 deploy.rb
-

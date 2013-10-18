@@ -5,6 +5,7 @@
 	class CategoriesController extends AppController {
 
 		public $name = 'Categories';
+
 		public $paginate = array(
 				/*
 				 * sets limit unrealisticly high so we should never reach the upper limit
@@ -125,7 +126,7 @@
 
 			if ( isset($this->request->data['Category']['modeDelete']) ):
 				$failure = false;
-			
+
 				if ( isset($this->request->data['Category']['modeMove']) && isset($this->request->data['Category']['targetCategory']) ):
 					/* move category items before deleting the cateogry */
 
@@ -176,4 +177,3 @@
 
 	}
 
-?>

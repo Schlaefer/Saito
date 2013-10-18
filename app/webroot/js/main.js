@@ -1,34 +1,11 @@
 require.config({
-	shim: {
-		underscore: {
-			exports: '_'
-		},
-		backbone: {
-			deps: ["underscore", "jquery"],
-			exports: "Backbone"
-		},
-		backboneLocalStorage: {
-			deps:["backbone"],
-			exports: "Store"
-		}
-	},
-	paths: {
-		jquery: 'lib/jquery/jquery-require',
-        jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
-		jqueryhelpers: 'lib/jqueryhelpers',
-		backbone: 'lib/backbone/backbone',
-        underscore: 'lib/underscore/underscore',
-		backboneLocalStorage: 'lib/backbone/backbone.localStorage',
-		bootstrap: 'bootstrap/bootstrap',
-		domReady: 'lib/require/domReady',
-        jqueryAutosize: 'lib/jquery.autosize',
-        cakeRest: 'lib/saito/backbone.cakeRest',
-		text: 'lib/require/text',
-        cs: 'lib/require/cs',
-        "coffee-script": 'lib/coffee-script',
-        humanize: "lib/humanize/humanize"
-	}
-
+  // paths necessary until file is migrated into common.js
+  paths: {
+    // Comment to load all common.js files separately from
+    // bower_components/ or vendors/.
+    // Run `grunt dev-setup` to install bower components first.
+    common: '../dist/common'
+  }
 });
 
 if (typeof jasmine === "undefined") {
@@ -85,114 +62,116 @@ contentTimer.setup();
     };
 
     // prevent caching of ajax results
-    $.ajaxSetup({ cache: false });
+    $.ajaxSetup({cache: false});
 
     var app = {
-
-        init: function(options) {
-            this.contentTimer = options.contentTimer;
-            this.SaitoApp = options.SaitoApp;
-        },
-
-        bootstrap: function() {
-            var that = this;
+        bootstrapApp: function(options) {
             require([
                 'domReady', 'views/app', 'backbone', 'jquery', 'models/app',
                 'views/notification',
 
                 'lib/jquery.i18n/jquery.i18n.extend',
                 'bootstrap', 'lib/saito/backbone.initHelper',
-                'lib/saito/backbone.modelHelper', 'lib/fastclick'
+                'lib/saito/backbone.modelHelper', 'fastclick'
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView) {
                     var appView,
-                        notificationView,
                         appReady;
 
-                    App.settings.set(that.SaitoApp.app.settings);
-                    App.currentUser.set(that.SaitoApp.currentUser);
-                    App.request = that.SaitoApp.request;
+                    App.settings.set(options.SaitoApp.app.settings);
+                    App.currentUser.set(options.SaitoApp.currentUser);
+                    App.request = options.SaitoApp.request;
 
-                    notificationView = new NotificationView();
+                    new NotificationView();
 
                     window.addEventListener('load', function() {
                         new FastClick(document.body);
                     }, false);
 
-                    if (that.SaitoApp.app.runJsTests === undefined) { // run app
+                    // init i18n
+                    $.i18n.setUrl(App.settings.get('webroot') + "saitos/langJs");
 
-                        // init i18n
-                        $.i18n.setUrl(App.settings.get('webroot') + "saitos/langJs");
+                    appView = new AppView();
 
-                        appView = new AppView();
+                    appReady = function() {
+                        appView.initFromDom({
+                            SaitoApp: options.SaitoApp,
+                            contentTimer: options.contentTimer
+                        });
+                    };
 
-                        appReady = function() {
-                            appView.initFromDom({
-                                SaitoApp: that.SaitoApp,
-                                contentTimer: that.contentTimer
-                            });
-                        };
-
-                        if ($.isReady) {
+                    if ($.isReady) {
+                        appReady();
+                    } else {
+                        domReady(function() {
                             appReady();
-                        } else {
-                            domReady(function() {
-                                appReady();
-                            });
-                        }
-
-                    } else { // run tests
-
-                        // prevent appending of ?_<timestamp> requested urls
-                        $.ajaxSetup({ cache: true });
-
-                        window.store = "TestStore"; // override local storage store name - for testing
-
-                        var jasmineEnv = jasmine.getEnv();
-                        jasmineEnv.updateInterval = 1000;
-
-                        var htmlReporter = new jasmine.HtmlReporter();
-
-                        jasmineEnv.addReporter(htmlReporter);
-
-                        jasmineEnv.specFilter = function(spec) {
-                            return htmlReporter.specFilter(spec);
-                        };
-
-                        var specs = [
-                            'models/AppStatusModelSpec.js',
-                            'models/BookmarkModelSpec.js',
-                            'models/SlidetabModelSpec.js',
-                            'models/StatusModelSpec.js',
-                            'models/UploadModelSpec.js',
-                            'lib/MarkItUpSpec.js',
-                            'lib/jquery.i18n.extendSpec.js',
-                            // 'views/AppViewSpec.js',
-                            'views/ThreadViewSpec.js'
-                        ];
-
-                        specs = _.map(specs, function(value) {
-                            return that.SaitoApp.app.settings.webroot + 'js/tests/' + value;
                         });
-
-                        $(function() {
-                            require(specs, function() {
-                                jasmineEnv.execute();
-                            });
-                        });
-
-
                     }
+
+                }
+            );
+        },
+
+        bootstrapTest: function(options) {
+            require(['domReady', 'views/app', 'backbone', 'jquery'],
+                function(domReady, AppView, Backbone, $) {
+                    // prevent appending of ?_<timestamp> requested urls
+                    $.ajaxSetup({ cache: true });
+                    // override local storage store name - for testing
+                    window.store = "TestStore";
+
+                    var jasmineEnv = jasmine.getEnv();
+                    jasmineEnv.updateInterval = 1000;
+
+                    var htmlReporter = new jasmine.HtmlReporter();
+
+                    jasmineEnv.addReporter(htmlReporter);
+                    jasmineEnv.specFilter = function(spec) {
+                        return htmlReporter.specFilter(spec);
+                    };
+
+                    var specs = [
+                        'models/AppStatusModelSpec.js',
+                        'models/BookmarkModelSpec.js',
+                        'models/SlidetabModelSpec.js',
+                        'models/StatusModelSpec.js',
+                        'models/UploadModelSpec.js',
+                        'lib/MarkItUpSpec.js',
+                        'lib/jquery.i18n.extendSpec.js',
+                        // 'views/AppViewSpec.js',
+                        'views/ThreadViewSpec.js'
+                    ];
+
+                    specs = _.map(specs, function(value) {
+                        return options.SaitoApp.app.settings.webroot + 'js/tests/' + value;
+                    });
+
+                    $(function() {
+                        require(specs, function() {
+                            jasmineEnv.execute();
+                        });
+                    });
                 }
             );
         }
     };
 
-    window.Application = app;
-    window.Application.init({
+    // jquery is already included in the page when require.js starts
+    define('jquery', function() { return jQuery; });
+
+  require(['common'], function() {
+    require(['marionette'], function(Marionette) {
+      var Application = new Marionette.Application();
+      if (SaitoApp.app.runJsTests === undefined) {
+        Application.addInitializer(app.bootstrapApp);
+      } else {
+        Application.addInitializer(app.bootstrapTest);
+      }
+      Application.start({
         contentTimer: contentTimer,
         SaitoApp: SaitoApp
+      });
     });
-    window.Application.bootstrap();
+  });
 
 })(this, SaitoApp, contentTimer, jasmine);
