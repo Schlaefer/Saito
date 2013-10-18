@@ -42,7 +42,7 @@
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_now = time();
-			$this->today = mktime(0, 0, 0);
+			$this->_today = mktime(0, 0, 0);
 
 			// @td reimplement unsing Cake 2.2 CakeTime (?)
 			$timezone_settings = Configure::read('Saito.Settings.timezone');
