@@ -242,13 +242,16 @@
 		compact: true,
 		format: 'MS',
 		onTick: function(periods) {
+				var setButtonText = function(text) {
+					$('#btn-submit').text(text);
+				};
 				if (periods[5] > 1 || (periods[5] == 1 && periods[6] > 30)) {
 					periods[5] = periods[5] + 1;
-					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[5] + ' min)');
+					setButtonText('$sbl' + ' (' + periods[5] + ' min)');
 				} else if (periods[5] == 1) {
-					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[5] + ' min ' + periods[6] + ' s)');
+					setButtonText('$sbl' + ' (' + periods[5] + ' min ' + periods[6] + ' s)');
 				} else {
-					$('#btn-submit').attr('value', '$sbl' + ' (' + periods[6] + ' s)');
+					setButtonText('$sbl' + ' (' + periods[6] + ' s)');
 				}
 		},
 		onExpiry: function() {
