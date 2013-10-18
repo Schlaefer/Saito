@@ -7,6 +7,15 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-10.02 ##
+
+### What's new ###
+
+- [fix] #158 Checkboxes for email notifications not working on new entries.
+- [fix] missing remaining time on submit button when editing
+- [task] move frontend components to bower
+- [task] use grunt for js dev-setup and release generation
+
 ## 2013-10.01 ##
 
 ### What's new ###
