@@ -373,6 +373,7 @@
 					// @td raise error and/or roll back new entry
 					return false;
 				} else {
+					$_newPosting[$this->alias]['tid'] = $_newPostingId;
 					$this->Category->id = $data[$this->alias]['category'];
 					$this->Category->updateThreadCounter();
 				}

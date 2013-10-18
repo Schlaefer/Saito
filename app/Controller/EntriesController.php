@@ -276,7 +276,7 @@
 
 				// inserting new posting was successful
 				if ($newPosting !== false) :
-					$this->_setNotifications($newPosting);
+					$this->_setNotifications($newPosting + $this->request->data);
 					if ($this->request->is('ajax')) :
 						// Ajax request came from front answer on front page /entries/index
 						if ($this->localReferer('action') === 'index') {

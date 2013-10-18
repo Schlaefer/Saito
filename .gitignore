@@ -14,8 +14,3 @@ tags
 /app/webroot/useruploads/*.*
 Capfile
 deploy.rb
-
-# needed for debug modus > 0
-/app/webroot/dev/bower_components
-!/app/webroot/dev/bower_components/jquery
-!/app/webroot/dev/bower_components/requirejs
