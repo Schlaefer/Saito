@@ -34,12 +34,15 @@
 		}
 
 		protected function _sanitizeFields($results) {
-			if (isset($this->fieldsToSanitize)) {
-				foreach ($results as $k => $result) {
-					foreach ($this->fieldsToSanitize as $field) {
-						if (isset($results[$k][$this->name][$field])) {
-							$results[$k][$this->alias][$field] = Sanitize::html($result[$this->alias][$field]);
-						}
+			if (!isset($this->fieldsToSanitize)) {
+				return $results;
+			}
+			foreach ($results as $k => $result) {
+				foreach ($this->fieldsToSanitize as $field) {
+					if (isset($results[$k][$this->name][$field])) {
+						$results[$k][$this->alias][$field] = Sanitize::html(
+							$result[$this->alias][$field]
+						);
 					}
 				}
 			}
