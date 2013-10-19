@@ -139,16 +139,30 @@ module.exports = function(grunt) {
         clean: {
           release: ['./app/webroot/dist'],
           releasePost: ['./app/webroot/release-tmp']
+        },
+        phpcs: {
+          controllers: {dir: './app/Controller'},
+          models: {dir: './app/Model'},
+          lib: {dir: './app/Lib'},
+          helpers: {dir: './app/View/Helper'},
+          api: {dir: './app/Plugin/Api'},
+          mobile: {dir: './app/Plugin/M'},
+          options: {
+            standard: 'CakePHP',
+            ignore: 'webroot',
+            // suppress warnings
+            warningSeverity: 8
+          }
         }
       }
-  )
-  ;
+  );
 
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-phpcs');
 
   grunt.registerTask('dev-setup', [
     'bower:devsetup',

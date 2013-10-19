@@ -4,15 +4,16 @@ If you have any individual questions please contact via means provided by [the S
 
 Please fill bugs and make pull requests at [github][saito-github].
 
+# Setup #
+
+To setup the full the development environment install [npm][npm] and execute `grunt dev-setup`. Compile the files for a release with `grunt release`.
+
 # Conventions #
 
 The git branching is following the [gitflow][gitflow] model.
 
-PHP coding standards is generally following [CakePHPs][php-coding-standards].
+PHP coding standards is generally following [CakePHPs][php-coding-standards]. Check via `grunt phpcs`.
 
-# Setup #
-
-To setup the full the development environment install [npm][npm] and execute `grunt dev-setup`. Compile the files for a release with `grunt release`.
 
 [saito-homepage]: http://saito.siezi.com
 [saito-github]: https://github.com/Schlaefer/Saito
