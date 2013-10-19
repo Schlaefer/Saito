@@ -16,9 +16,9 @@
 /**
  * Lock to disable sanitation permanently
  */
-		static $sanitizeEnabled = true;
+		public static $sanitizeEnabled = true;
 
-		static $sanitize = true;
+		public static $sanitize = true;
 
 /**
  * Lock sanitize that it's associated models are also not sanitized
@@ -34,11 +34,11 @@
 		}
 
 		protected function _sanitizeFields($results) {
-			if (!isset($this->fieldsToSanitize)) {
+			if (!isset($this->_fieldsToSanitize)) {
 				return $results;
 			}
 			foreach ($results as $k => $result) {
-				foreach ($this->fieldsToSanitize as $field) {
+				foreach ($this->_fieldsToSanitize as $field) {
 					if (isset($results[$k][$this->name][$field])) {
 						$results[$k][$this->alias][$field] = Sanitize::html(
 							$result[$this->alias][$field]
