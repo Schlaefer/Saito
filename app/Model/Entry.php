@@ -228,7 +228,7 @@
  * @param SaitoUser $User
  * @return array|mixed
  */
-		public function getRecentEntries(array $options = [], SaitoUser $User) {
+		public function getRecentEntries(SaitoUser $User, array $options = []) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
