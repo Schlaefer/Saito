@@ -2,7 +2,7 @@
 	Stopwatch::start('entries/index');
 
 	// set data for immediate shoutbox rendering
-	if ((bool)Configure::read('Saito.Settings.shoutbox_enabled') === true) {
+	if (isset($shouts)) {
 		$this->JsData->set('shouts', $this->Shouts->prepare($shouts));
 	}
 
