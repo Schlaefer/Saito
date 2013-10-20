@@ -7,7 +7,6 @@
 	class TextHHelperTest extends CakeTestCase {
 
 		public function testProperize() {
-
 			$input = 'Jack';
 			$expected = 'Jacks';
 			$result = $this->TextH->properize($input);
@@ -48,5 +47,3 @@
 		}
 
 	}
-
-?>

@@ -207,7 +207,7 @@
 					$this->CurrentUser,
 					[
 						'user_id' => $this->User->id,
-						'limit'   => $entriesShownOnPage
+						'limit' => $entriesShownOnPage
 					]
 				)
 			);

@@ -7,23 +7,23 @@
 	 */
 	class BbcodeSettings implements ArrayAccess {
 
-		protected $settings = [];
+		protected $_settings = [];
 
-		private static $instance = null;
+		private static $__instance = null;
 
-		static function getInstance() {
-			if (self::$instance === null) {
-				self::$instance = new BbcodeSettings();
+		public static function getInstance() {
+			if (self::$__instance === null) {
+				self::$__instance = new BbcodeSettings();
 			}
-			return self::$instance;
+			return self::$__instance;
 		}
 
 		public function set($settings) {
-			$this->settings = $settings + $this->settings;
+			$this->_settings = $settings + $this->_settings;
 		}
 
 		public function get() {
-			return $this->settings;
+			return $this->_settings;
 		}
 
 		protected function __construct() {
@@ -33,18 +33,19 @@
 		}
 
 		public function offsetExists($offset) {
-			isset(self::$instance->settings[$offset]);
+			isset(self::$__instance->_settings[$offset]);
 		}
 
 		public function offsetGet($offset) {
-			return self::$instance->settings[$offset];
+			return self::$__instance->_settings[$offset];
 		}
 
 		public function offsetSet($offset, $value) {
-			self::$instance->settings[$offset] = $value;
+			self::$__instance->_settings[$offset] = $value;
 		}
 
 		public function offsetUnset($offset) {
-			unset(self::$instance->settings[$offset]);
+			unset(self::$__instance->_settings[$offset]);
 		}
+
 	}

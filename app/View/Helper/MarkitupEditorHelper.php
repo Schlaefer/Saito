@@ -12,41 +12,58 @@
 			$this->_nextCssId = Configure::read('Saito.markItUp.nextCssId');
 		}
 
-		/**
-		 * Generates markItUp editor buttons based on forum config
-		 *
-		 * @param type $id
-		 * @return string
-		 */
+/**
+ * Generates markItUp editor buttons based on forum config
+ *
+ * @param type $id
+ * @return string
+ */
 		public function getButtonSet($id) {
 			$css = '';
 			$separator = ['separator' => '---------------'];
 			$bbcode = array(
 				'Bold' => array(
-					'name' => "<i class='icon-bold'></i>", 'title' => __('Bold'),
+					'name' => "<i class='icon-bold'></i>",
+					'title' => __('Bold'),
 					'className' => 'btn-markItUp-Bold',
-					'key' => 'B', 'openWith' => '[b]', 'closeWith' => '[/b]'),
+					'key' => 'B',
+					'openWith' => '[b]',
+					'closeWith' => '[/b]'
+				),
 				'Italic' => array(
-					'name' => "<i class='icon-italic'></i>", 'title' => __('Italic'),
+					'name' => "<i class='icon-italic'></i>",
+					'title' => __('Italic'),
 					'className' => 'btn-markItUp-Italic',
-					'key' => 'I', 'openWith' => '[i]', 'closeWith' => '[/i]' ),
+					'key' => 'I',
+					'openWith' => '[i]',
+					'closeWith' => '[/i]'
+				),
 				'Stroke' => array(
-					'name' => "<i class='icon-strikethrough'></i>", 'title' => __('Strike Through'),
+					'name' => "<i class='icon-strikethrough'></i>",
+					'title' => __('Strike Through'),
 					'className' => 'btn-markItUp-Stroke',
-					'openWith' => '[strike]', 'closeWith' => '[/strike]' ),
+					'openWith' => '[strike]',
+					'closeWith' => '[/strike]'
+				),
 				'Code' => array(
-					'name' => "<i class='icon-terminal'></i>", 'title' => __('Code'),
+					'name' => "<i class='icon-terminal'></i>",
+					'title' => __('Code'),
 					'className' => 'btn-markItUp-Code',
-					'openWith' => '[code text]\n', 'closeWith' => '\n[/code]' ),
+					'openWith' => '[code text]\n',
+					'closeWith' => '\n[/code]'
+				),
 				'Bulleted list' => array(
-					'name' => "<i class='icon-list-ul'></i>", 'title' => __('Bullet List'),
+					'name' => "<i class='icon-list-ul'></i>",
+					'title' => __('Bullet List'),
 					'className' => 'btn-markItUp-List',
-					'openWith' => '[list]\n[*] ', 'closeWith' => '\n[*]\n[/list]' ),
+					'openWith' => '[list]\n[*] ',
+					'closeWith' => '\n[*]\n[/list]'
+				),
 				'Spoiler' => [
-					'name'      => "<i class='icon-stop'></i>",
+					'name' => "<i class='icon-stop'></i>",
 					'className' => 'btn-markItUp-Spoiler',
-					'title'     => __('Spoiler'),
-					'openWith'  => '[spoiler]',
+					'title' => __('Spoiler'),
+					'openWith' => '[spoiler]',
 					'closeWith' => '[/spoiler]'
 				],
 				$separator,
@@ -93,17 +110,17 @@
 		}
 
 		protected function _buildAdditionalButtons(array &$bbcode, &$css) {
-			$additional_buttons = Configure::read(
+			$_additionalButtons = Configure::read(
 				'Saito.markItUp.additionalButtons'
 			);
-			if (!empty($additional_buttons)):
-				foreach ($additional_buttons as $name => $button):
+			if (!empty($_additionalButtons)):
+				foreach ($_additionalButtons as $name => $button):
 					// 'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
 					$bbcode[$name] = [
-						'name'        => $button['title'],
-						'title'       => $button['title'],
+						'name' => $button['title'],
+						'title' => $button['title'],
 						'replaceWith' => $button['code'],
-						'className'   => 'btn-markItUp-' . $button['title']
+						'className' => 'btn-markItUp-' . $button['title']
 					];
 					if (isset($button['icon'])) {
 						$css .= <<<EOF
@@ -121,15 +138,15 @@ EOF;
 		}
 
 		protected function _buildSmilies(array &$bbcode, &$css) {
-			$smilies        = Configure::read('Saito.Smilies.smilies_all');
-			$smilies_packed = [];
+			$smilies = Configure::read('Saito.Smilies.smilies_all');
+			$_smiliesPacked = [];
 
-			$i              = 1;
+			$i = 1;
 			foreach ($smilies as $smiley) {
-				if (isset($smilies_packed[$smiley['icon']])) {
+				if (isset($_smiliesPacked[$smiley['icon']])) {
 					continue;
 				}
-				$smilies_packed[$smiley['icon']] =
+				$_smiliesPacked[$smiley['icon']] =
 						array(
 							'name' => '' /* $smiley['title'] */,
 							// additional space to prevent smiley concatenation:
@@ -148,22 +165,22 @@ EOF;
 			$this->_nextCssId++;
 
 			$bbcode['Smilies'] = [
-				'name'      => 'Smilies',
+				'name' => 'Smilies',
 				'className' => 'btn-markItUp-Smilies',
-				'dropMenu'  => $smilies_packed
+				'dropMenu' => $_smiliesPacked
 			];
 		}
 
 		protected function _build($settings) {
-			$default  = array(
-				'set'      => 'default',
-				'skin'     => 'simple',
+			$default = array(
+				'set' => 'default',
+				'skin' => 'simple',
 				'settings' => 'mySettings',
-				'parser'   => array(
-					'plugin'     => 'markitup',
+				'parser' => array(
+					'plugin' => 'markitup',
 					'controller' => 'markitup',
-					'action'     => 'preview',
-					'admin'      => false,
+					'action' => 'preview',
+					'admin' => false,
 				)
 			);
 			$settings = array_merge($default, $settings);
@@ -174,7 +191,7 @@ EOF;
 				);
 			}
 
-			/**
+			/*
 			 * Saito uses is owne css and sets
 			 */
 			/*

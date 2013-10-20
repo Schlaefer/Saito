@@ -2,19 +2,19 @@
 
 	App::uses('ApiControllerTestCase', 'Api.Lib');
 
-	/**
-	 * ApiEntriesController Test Case
-	 *
-	 */
+/**
+ * ApiEntriesController Test Case
+ *
+ */
 	class ApiEntriesControllerTest extends ApiControllerTestCase {
 
-		protected $apiRoot = 'api/v1/';
+		protected $_apiRoot = 'api/v1/';
 
-		/**
-		 * Fixtures
-		 *
-		 * @var array
-		 */
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 		public $fixtures = array(
 			'plugin.api.entry',
 			'plugin.api.category',
@@ -30,11 +30,11 @@
 			'plugin.api.smiley_code'
 		);
 
-		/**
-		 * testThreads method
-		 *
-		 * @return void
-		 */
+/**
+ * testThreads method
+ *
+ * @return void
+ */
 		public function testThreads() {
 			$this->generate('Api.ApiEntries');
 
@@ -42,7 +42,7 @@
 
 			$data = ['limit' => 2, 'offset' => 1, 'order' => 'answer'];
 			$result = $this->testAction(
-				$this->apiRoot . 'threads.json',
+				$this->_apiRoot . 'threads.json',
 				['return' => 'contents', 'method' => 'GET', 'data' => $data]
 			);
 			$expected = json_decode('
@@ -75,13 +75,13 @@
 			$this->assertEqual(json_decode($result), $expected);
 		}
 
-		/**
-		 * Tests that anon doesn't see user and admin categories
-		 */
+/**
+ * Tests that anon doesn't see user and admin categories
+ */
 		public function testThreadsNoAdminAnon() {
 			$data = ['limit' => 3];
 			$result = $this->testAction(
-				$this->apiRoot . 'threads.json',
+				$this->_apiRoot . 'threads.json',
 				['return' => 'contents', 'method' => 'GET', 'data' => $data]
 			);
 			$result = json_decode($result, true);
@@ -90,15 +90,15 @@
 			$this->assertEqual($result[1]['id'], 10);
 		}
 
-		/**
-		 * Tests that user doesn't see admin category
-		 */
+/**
+ * Tests that user doesn't see admin category
+ */
 		public function testThreadsNoAdminUser() {
 			$this->generate('ApiEntries');
 			$this->_loginUser(3);
 			$data = ['limit' => 2, 'offset' => 1, 'order' => 'answer'];
 			$result = $this->testAction(
-				$this->apiRoot . 'threads.json',
+				$this->_apiRoot . 'threads.json',
 				['return' => 'contents', 'method' => 'GET', 'data' => $data]
 			);
 			$result = json_decode($result, true);
@@ -109,41 +109,42 @@
 		public function testThreadsDisallowedRequestTypes() {
 			$this->_checkDisallowedRequestType(
 				['POST', 'PUT', 'DELETE'],
-					$this->apiRoot . 'threads'
+					$this->_apiRoot . 'threads'
 			);
 		}
 
-        public function testEntriesItemPostEmptySubject() {
-            $this->generate('Api.ApiEntries');
-            $this->_loginUser(3);
-            $this->expectException('Saito\Api\ApiValidationError', 'Subject must not be empty.');
-            $this->testAction(
-                $this->apiRoot . 'entries.json',
-                [
-                    'method' => 'POST',
-                    'data'   => [
-                        'subject' => '',
-                        'parent_id' => 0,
-                        'category_id' => 2
-                    ]
-                ]
-            );
-        }
+		public function testEntriesItemPostEmptySubject() {
+			$this->generate('Api.ApiEntries');
+			$this->_loginUser(3);
+			$this->expectException('Saito\Api\ApiValidationError',
+				'Subject must not be empty.');
+			$this->testAction(
+				$this->_apiRoot . 'entries.json',
+				[
+					'method' => 'POST',
+					'data' => [
+						'subject' => '',
+						'parent_id' => 0,
+						'category_id' => 2
+					]
+				]
+			);
+		}
 
 		public function testEntriesItemPutOnlyAuthenticatedUsers() {
 			$this->generate('ApiEntries', ['methods' => 'entriesItemPut']);
-			$this->testAction($this->apiRoot . 'entries/1', ['method' => 'PUT']);
+			$this->testAction($this->_apiRoot . 'entries/1', ['method' => 'PUT']);
 			$this->assertRedirectedTo('login');
 		}
 
 		public function testEntriesItemEntryIdMustBeProvided() {
 			$this->expectException('BadRequestException', 'Missing entry id.');
-			$this->testAction($this->apiRoot . 'entries/', ['method' => 'PUT']);
+			$this->testAction($this->_apiRoot . 'entries/', ['method' => 'PUT']);
 		}
 
 		public function testEntriesItemPutEntryMustExist() {
 			$this->expectException('NotFoundException', 'Entry with id `999` not found.');
-			$this->testAction($this->apiRoot . 'entries/999', ['method' => 'PUT']);
+			$this->testAction($this->_apiRoot . 'entries/999', ['method' => 'PUT']);
 		}
 
 		public function testEntriesItemPutForbiddenTime() {
@@ -151,12 +152,12 @@
 			$this->_loginUser(3);
 			$this->expectException('ForbiddenException', 'The editing time ran out.');
 			$this->testAction(
-				$this->apiRoot . 'entries/1',
+				$this->_apiRoot . 'entries/1',
 				[
 					'method' => 'PUT',
-					'data'   => [
+					'data' => [
 						'subject' => 'foo',
-						'text'    => 'bar'
+						'text' => 'bar'
 					]
 				]
 			);
@@ -169,12 +170,12 @@
 			$id = 2;
 			$ApiEntries->Entry->save(['id' => $id, 'time' => date('c', time())]);
 			$this->testAction(
-				$this->apiRoot . 'entries/' . $id,
+				$this->_apiRoot . 'entries/' . $id,
 				[
 					'method' => 'PUT',
-					'data'   => [
+					'data' => [
 						'subject' => 'foo',
-						'text'    => 'bar'
+						'text' => 'bar'
 					]
 				]
 			);
@@ -194,12 +195,12 @@
 			$this->_loginUser(3);
 			$this->expectException('ForbiddenException', 'Editing is forbidden for unknown reason.');
 			$this->testAction(
-				$this->apiRoot . 'entries/1',
+				$this->_apiRoot . 'entries/1',
 				[
 					'method' => 'PUT',
-					'data'   => [
+					'data' => [
 						'subject' => 'foo',
-						'text'    => 'bar'
+						'text' => 'bar'
 					]
 				]
 			);
@@ -210,12 +211,12 @@
 			$this->_loginUser(1);
 			$id = 1;
 			$result = $this->testAction(
-				$this->apiRoot . 'entries/' . $id . '.json',
+				$this->_apiRoot . 'entries/' . $id . '.json',
 				[
 					'method' => 'PUT',
-					'data'   => [
+					'data' => [
 						'subject' => 'foo',
-						'text'    => 'bar'
+						'text' => 'bar'
 					],
 					'return' => 'contents'
 				]
@@ -241,10 +242,10 @@
 			', true);
 
 			$result = json_decode($result, true);
-			$edit_time = $result['edit_time'];
+			$_editTime = $result['edit_time'];
 			unset($result['edit_time']);
 
-			$this->assertGreaterThan(time() - 5, strtotime($edit_time));
+			$this->assertGreaterThan(time() - 5, strtotime($_editTime));
 
 			$this->assertEqual($result, $expected);
 		}
@@ -262,12 +263,12 @@
 				->method('update')
 				->will($this->returnValue(false));
 			$this->testAction(
-				$this->apiRoot . 'entries/' . $id,
+				$this->_apiRoot . 'entries/' . $id,
 				[
 					'method' => 'PUT',
-					'data'   => [
+					'data' => [
 						'subject' => 'foo',
-						'text'    => 'bar'
+						'text' => 'bar'
 					]
 				]
 			);
@@ -276,23 +277,23 @@
 		public function testEntriesItemDisallowedRequestTypes() {
 			$this->_checkDisallowedRequestType(
 				['GET', 'POST', 'DELETE'],
-					$this->apiRoot . 'entries/1'
+					$this->_apiRoot . 'entries/1'
 			);
 		}
 
 		public function testThreadsItemGetThreadNotFound() {
 			$this->expectException('NotFoundException', 'Thread with id `2` not found.');
-			$this->testAction($this->apiRoot . 'threads/2.json', ['method' => 'GET']);
+			$this->testAction($this->_apiRoot . 'threads/2.json', ['method' => 'GET']);
 		}
 
 		public function testThreadsItemGet() {
 			$this->generate('ApiEntries');
 			$this->_loginUser(3);
 			$result = $this->testAction(
-				$this->apiRoot . 'threads/1.json',
+				$this->_apiRoot . 'threads/1.json',
 				['method' => 'GET', 'return' => 'contents']
 			);
-			$expected = json_decode(<<< EOF
+			$json = <<< EOF
 				[
 					{
 						"id": 3,
@@ -313,8 +314,8 @@
 						"is_locked": false
 				}
 			]
-EOF
-			, true);
+EOF;
+			$expected = json_decode($json, true);
 			$result = json_decode($result, true);
 			$this->assertCount(6, $result);
 			$this->assertEqual($result[2], $expected[0]);
@@ -322,7 +323,7 @@ EOF
 
 		public function testThreadsItemGetNotLoggedIn() {
 			$result = $this->testAction(
-				$this->apiRoot . 'threads/10.json',
+				$this->_apiRoot . 'threads/10.json',
 				['method' => 'GET', 'return' => 'contents']
 			);
 			$result = json_decode($result, true);
@@ -332,64 +333,64 @@ EOF
 			);
 		}
 
-		/**
-		 * Tests that anon can't see user category
-		 */
+/**
+ * Tests that anon can't see user category
+ */
 		public function testThreadsItemGetNotLoggedInCategory() {
 			$this->expectException('NotFoundException', 'Thread with id `4` not found.');
 			$this->testAction(
-				$this->apiRoot . 'threads/4.json',
+				$this->_apiRoot . 'threads/4.json',
 				['method' => 'GET', 'return' => 'contents']
 			);
 		}
 
-		/**
-		 * Tests that user can see user category
-		 */
+/**
+ * Tests that user can see user category
+ */
 		public function testThreadsItemGetLoggedInCategory() {
 			$this->generate('ApiEntries');
 			$this->_loginUser(3);
 			$result = $this->testAction(
-				$this->apiRoot . 'threads/4.json',
+				$this->_apiRoot . 'threads/4.json',
 				['method' => 'GET', 'return' => 'contents']
 			);
 			$result = json_decode($result, true);
 			$this->assertEqual($result[0]['id'], 4);
 		}
 
-		/**
-		 * Tests that anon can't see admin category
-		 */
+/**
+ * Tests that anon can't see admin category
+ */
 		public function testThreadsItemGetNotAdminAnonCategory() {
 			$this->expectException('NotFoundException', 'Thread with id `6` not found.');
 			$this->testAction(
-				$this->apiRoot . 'threads/6.json',
+				$this->_apiRoot . 'threads/6.json',
 				['method' => 'GET', 'return' => 'contents']
 			);
 		}
 
-		/**
-		 * Tests that user can't see admin category
-		 */
+/**
+ * Tests that user can't see admin category
+ */
 		public function testThreadsItemGetNotAdminUserCategory() {
 			$this->generate('ApiEntries');
 			$this->_loginUser(3);
 
 			$this->expectException('NotFoundException', 'Thread with id `6` not found.');
 			$this->testAction(
-				$this->apiRoot . 'threads/6.json',
+				$this->_apiRoot . 'threads/6.json',
 				['method' => 'GET', 'return' => 'contents']
 			);
 		}
 
-		/**
-		 * Tests that admin can see admin category.
-		 */
+/**
+ * Tests that admin can see admin category.
+ */
 		public function testThreadsItemGetAdminCategory() {
 			$this->generate('ApiEntries');
 			$this->_loginUser(1);
 			$result = $this->testAction(
-				$this->apiRoot . 'threads/6.json',
+				$this->_apiRoot . 'threads/6.json',
 				['method' => 'GET', 'return' => 'contents']
 			);
 			$result = json_decode($result, true);
@@ -399,7 +400,8 @@ EOF
 		public function testThreadsItemDisallowedRequestTypes() {
 			$this->_checkDisallowedRequestType(
 				['PUT', 'POST', 'DELETE'],
-					$this->apiRoot . 'threads/1'
+					$this->_apiRoot . 'threads/1'
 			);
 		}
+
 	}

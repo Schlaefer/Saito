@@ -21,7 +21,6 @@
 		}
 
 		public function testGetFastLink() {
-
 			$this->EntryH->webroot = 'localhost/';
 
 			//*
@@ -64,4 +63,3 @@
 
 	}
 
-?>

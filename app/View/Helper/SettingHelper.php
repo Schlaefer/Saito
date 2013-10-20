@@ -10,26 +10,25 @@
 			'Html'
 		];
 
-		public function table($table_name, array $setting_names, $Settings, array $options = []) {
+		public function table($tableName, array $settingNames, $Settings, array $options = []) {
 			$defaults = [
-				'nav-title' => $table_name
+				'nav-title' => $tableName
 			];
 			$options += $defaults;
 
 			$out = $this->tableHeaders();
 			$anchors = '';
-			foreach ($setting_names as $name) {
+			foreach ($settingNames as $name) {
 				$out .= $this->tableRow($name, $Settings);
 				$anchors .= '<a name="' . $name . '"></a>';
 			}
 			$key = $this->addHeader($options['nav-title']);
-			$out = '<table class="table table-striped table-bordered table-condensed">'
-					. $out
-					. '</table>';
-			$out = '<div id="navHeaderAnchor' . $key . '"></div>'
-					. $anchors
-					. '<h2>' . $table_name . '</h2>'
-					. $out;
+			$out = '<table class="table table-striped table-bordered table-condensed">' .
+					$out . '</table>';
+			$out = '<div id="navHeaderAnchor' . $key . '"></div>' .
+					$anchors .
+					'<h2>' . $tableName . '</h2>' .
+					$out;
 			return $out;
 		}
 
@@ -68,4 +67,5 @@
 				]
 			);
 		}
+
 	}

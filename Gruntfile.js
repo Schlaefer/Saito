@@ -144,9 +144,18 @@ module.exports = function(grunt) {
           controllers: {dir: './app/Controller'},
           models: {dir: './app/Model'},
           lib: {dir: './app/Lib'},
-          helpers: {dir: './app/View/Helper'},
-          api: {dir: './app/Plugin/Api'},
-          mobile: {dir: './app/Plugin/M'},
+          view: {
+            dir: './app/View',
+            options: {
+              ignore: 'Themed'
+            }
+          },
+          plugins: {
+            dir: './app/Plugin',
+            options: {
+              ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,Search,SimpleCaptcha,webroot'
+            }
+          },
           options: {
             standard: 'CakePHP',
             ignore: 'webroot',

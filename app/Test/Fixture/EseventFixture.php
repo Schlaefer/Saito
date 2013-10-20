@@ -26,26 +26,26 @@ class EseventFixture extends CakeTestFixture {
  * @var array
  */
 	public $records = array(
-				array(
-						'id'			 => 1,
-						'subject'	 => 1,
-						'event'		 => 1
-				),
-				array(
-						'id'			 => 2,
-						'subject'	 => 1,
-						'event'		 => 2
-				),
-				array(
-						'id'			 => 3,
-						'subject'	 => 2,
-						'event'		 => 1
-				),
-				array(
-						'id'			 => 4,
-						'subject'	 => 1,
-						'event'		 => 3
-				),
-		);
+		array(
+			'id' => 1,
+			'subject' => 1,
+			'event' => 1
+		),
+		array(
+			'id' => 2,
+			'subject' => 1,
+			'event' => 2
+		),
+		array(
+			'id' => 3,
+			'subject' => 2,
+			'event' => 1
+		),
+		array(
+			'id' => 4,
+			'subject' => 1,
+			'event' => 3
+		),
+	);
 
 }

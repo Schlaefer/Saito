@@ -16,10 +16,10 @@
 			$this->Shouts->setShoutsForView();
 		}
 
-		/**
-		 * @return CakeResponse|void
-		 * @throws MethodNotAllowedException
-		 */
+/**
+ * @return CakeResponse|void
+ * @throws MethodNotAllowedException
+ */
 		public function beforeFilter() {
 			parent::beforeFilter();
 			if (Configure::read('Saito.Settings.shoutbox_enabled') == false) {

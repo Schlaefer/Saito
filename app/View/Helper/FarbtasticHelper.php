@@ -1,4 +1,5 @@
 <?php
+	// @codingStandardsIgnoreFile
 	App::uses('AppHelper', 'View/Helper');
 /**
  *    Farbtastic helper

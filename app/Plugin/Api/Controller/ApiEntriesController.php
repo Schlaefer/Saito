@@ -18,7 +18,7 @@
 				$order = 'last_answer';
 			}
 			$order = [
-				'Entry.fixed'     => 'DESC',
+				'Entry.fixed' => 'DESC',
 				'Entry.' . $order => 'DESC'
 			];
 
@@ -39,23 +39,27 @@
 				'Entry.category' => $this->Entry->Category->getCategoriesForAccession(
 					$this->CurrentUser->getMaxAccession()
 				),
-				'Entry.pid'      => 0
+				'Entry.pid' => 0
 			];
 
 			$entries = $this->Entry->find(
 				'all',
 				[
 					'conditions' => $conditions,
-					'order'      => $order,
-					'limit'      => $limit,
-					'offset'     => $offset,
-					'contain'    => ['Category', 'User']
+					'order' => $order,
+					'limit' => $limit,
+					'offset' => $offset,
+					'contain' => ['Category', 'User']
 				]
 			);
 			$this->set('entries', $entries);
 		}
 
-		public function entriesItemPost() {
+/**
+ * @throws Saito\Api\ApiValidationError
+ * @throws BadRequestException
+ */
+	public function entriesItemPost() {
 			$data['Entry'] = $this->request->data;
 			if (isset($data['Entry']['category_id'])) {
 				$data['Entry']['category'] = $data['Entry']['category_id'];
@@ -66,27 +70,31 @@
 				unset($data['Entry']['parent_id']);
 			}
 
-			$new_posting = $this->Entry->createPosting($data);
-			if ($new_posting) {
+			$_newPosting = $this->Entry->createPosting($data);
+			if ($_newPosting) {
 				$this->initBbcode();
 				$this->set(
 					'entry',
-					$this->Entry->get($new_posting['Entry']['id'], true)
+					$this->Entry->get($_newPosting['Entry']['id'], true)
 				);
 			} else {
 				$errors = $this->Entry->invalidFields();
 				if (!empty($errors)) {
-					$first_field = key($errors);
-					throw new \Saito\Api\ApiValidationError($first_field, current(
-						$errors[$first_field]
+					$_firstField = key($errors);
+					throw new \Saito\Api\ApiValidationError($_firstField, current(
+						$errors[$_firstField]
 					));
 				}
 				throw new BadRequestException('Entry could not be created.');
 			}
-		}
+	}
 
+/**
+ * @param $id
+ * @throws NotFoundException
+ * @throws BadRequestException
+ */
 		public function threadsItemGet($id) {
-
 			if (empty($id)) {
 				throw new BadRequestException('Missing entry id.');
 			}
@@ -98,13 +106,13 @@
 				'all',
 				[
 					'conditions' => [
-						'Entry.tid'      => $id,
+						'Entry.tid' => $id,
 						'Entry.category' => $this->Entry->Category->getCategoriesForAccession(
 							$this->CurrentUser->getMaxAccession()
 						),
 					],
-					'order'      => $order,
-					'contain'    => ['Category', 'User']
+					'order' => $order,
+					'contain' => ['Category', 'User']
 				]
 			);
 
@@ -116,8 +124,13 @@
 			$this->set('entries', $entries);
 		}
 
+/**
+ * @param null $id
+ * @throws NotFoundException
+ * @throws BadRequestException
+ * @throws ForbiddenException
+ */
 		public function entriesItemPut($id = null) {
-
 			if (empty($id)) {
 				throw new BadRequestException('Missing entry id.');
 			}

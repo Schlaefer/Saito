@@ -28,11 +28,11 @@
 		}
 
 		public static function isPreview() {
-			$is_preview = (
+			$_isPreview = (
 					(env('HTTP_X_PURPOSE') === 'preview') // Safari
 					|| (env('HTTP_X_MOZ') === 'prefetch') // Firefox
 			);
-			return $is_preview;
+			return $_isPreview;
 		}
 
 	}

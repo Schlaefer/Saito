@@ -7,9 +7,9 @@
 		public function __construct() {
 			$this->addCache(
 				[
-					'Apc'    => 'ApcCacheSupportCachelet',
-					'Cake'   => 'CakeCacheSupportCachelet',
-					'Saito'  => 'SaitoCacheSupportCachelet',
+					'Apc' => 'ApcCacheSupportCachelet',
+					'Cake' => 'CakeCacheSupportCachelet',
+					'Saito' => 'SaitoCacheSupportCachelet',
 					'Thread' => 'ThreadCacheSupportCachelet'
 				]
 			);
@@ -26,8 +26,8 @@
 		}
 
 		public function addCache($cache) {
-			foreach ($cache as $key => $class_name) {
-				$this->_addCachelet($key, new $class_name);
+			foreach ($cache as $key => $_className) {
+				$this->_addCachelet($key, new $_className);
 			}
 		}
 
@@ -36,15 +36,19 @@
 				$this->_Caches[$key] = $cachelet;
 			}
 		}
+
 	}
 
 	interface CacheSupportCacheletInterface {
+
 		public function clear($id = null);
+
 	}
 
 	App::uses('CakeEvent', 'Event');
 	App::uses('CakeEventListener', 'Event');
 	App::uses('CacheTree', 'Lib/CacheTree');
+
 	class ThreadCacheSupportCachelet implements CacheSupportCacheletInterface,
 		CakeEventListener {
 
@@ -74,13 +78,17 @@
 			$this->clear($event->data['subject']);
 		}
 
+/**
+ * @param $event
+ * @throws InvalidArgumentException
+ */
 		public function onEntryChanged($event) {
-			$model_alias = $event->subject()->alias;
-			if (!isset($event->data['data'][$model_alias]['tid'])) {
+			$_modelAlias = $event->subject()->alias;
+			if (!isset($event->data['data'][$_modelAlias]['tid'])) {
 				throw new InvalidArgumentException('No thread-id in event data.');
 			}
-			$thread_id = $event->data['data'][$model_alias]['tid'];
-			$this->clear($thread_id);
+			$_threadId = $event->data['data'][$_modelAlias]['tid'];
+			$this->clear($_threadId);
 		}
 
 		public function clear($id = null) {
@@ -91,16 +99,20 @@
 				$this->_CacheTree->delete($id);
 			}
 		}
+
 	}
 
 	class SaitoCacheSupportCachelet implements CacheSupportCacheletInterface {
+
 		public function clear($id = null) {
 			Cache::clear(false, 'default');
 			Cache::clear(false, 'short');
 		}
+
 	}
 
 	class ApcCacheSupportCachelet implements CacheSupportCacheletInterface {
+
 		public function clear($id = null) {
 			if (function_exists('apc_store')) {
 				apc_clear_cache();
@@ -108,12 +120,15 @@
 				apc_clear_cache('opcode');
 			}
 		}
+
 	}
 
-	class CakeCacheSupportCachelet implements  CacheSupportCacheletInterface {
+	class CakeCacheSupportCachelet implements CacheSupportCacheletInterface {
+
 		public function clear($id = null) {
 			Cache::clearGroup('persistent');
 			Cache::clearGroup('models');
 			Cache::clearGroup('views');
 		}
+
 	}

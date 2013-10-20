@@ -12,7 +12,7 @@
 			parent::__construct($view, $settings);
 		}
 
-		function getAppJs(View $View) {
+		public function getAppJs(View $View) {
 			$js = $this->_JsData->getJs();
 			$js += array (
 				'app' => array(
@@ -43,7 +43,7 @@
 			return $out;
 		}
 
-		function __call($method, $params) {
+		public function __call($method, $params) {
 			$proxy = array($this->_JsData, $method);
 			if (is_callable($proxy)) {
 				return call_user_func_array($proxy, $params);
