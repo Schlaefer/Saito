@@ -63,7 +63,7 @@ define([
                 if (timerId !== undefined) {
                     clearTimeout(timerId);
                 }
-            },
+            };
 
             resetRefreshTime = function () {
                 stopTimer();

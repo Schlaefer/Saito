@@ -162,6 +162,17 @@ module.exports = function(grunt) {
             // suppress warnings
             warningSeverity: 8
           }
+        },
+        jshint: {
+          all: ['Gruntfile.js', './app/webroot/js/**/*.js'],
+          options: {
+            ignores: [
+              './app/webroot/js/bootstrap/*.js',
+              './app/webroot/js/farbtastic/*.js',
+              './app/webroot/js/lib/**/*.js'
+            ]
+          }
+        },
         }
       }
   );
@@ -172,10 +183,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-phpcs');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   grunt.registerTask('dev-setup', [
     'bower:devsetup',
     'copy:nonmin'
+  ]);
+  grunt.registerTask('test', [
+    'jshint',
+    'phpcs'
   ]);
   grunt.registerTask('release', [
     'clean:release',
