@@ -8,7 +8,7 @@
 
 All timestamps are ISO 8601 UTC.
 
-All text is raw with unencoded html entities unless mentioned otherwise.
+All text is raw with unencoded html entities unless mentioned otherwise (or explicitly delivered as `html`).
 
 #### Entries and Threads ####
 

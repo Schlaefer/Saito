@@ -29,7 +29,9 @@ define([
     },
 
     clearForm: function() {
-      this.textarea.val('').trigger('autosize');
+      // trigger resize to shrink the textarea back to one line after
+      // entering multi-line text
+      this.textarea.val('').trigger('autosize.resize');
     },
 
     formDown: function(event) {
