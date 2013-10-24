@@ -54,7 +54,6 @@ define(
                     expect($('#jasmine-fixtures')).not.toContain('li[data-id=3] + li > ul > li.append');
                     this.view._appendThreadlineToThread(3, $("<li class='append'></li>"));
                     expect($('#jasmine-fixtures')).toContain('li[data-id=3] + li > ul > li.append');
-                    console.log($('#jasmine-fixtures').html());
                     expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
                 });
 

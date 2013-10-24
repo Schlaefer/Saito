@@ -5,13 +5,11 @@
 		<?php
 			echo $this->Html->charset();
 			echo $this->element('layout/script_tags');
-			echo $this->Html->css(
-				[
-					'/bootstrap/Vendor/sass-bootstrap/bootstrap-2.3.2.min',
-					'stylesheets/static.css',
-					'stylesheets/admin.css'
-				]
-			);
+			echo $this->Html->css([
+				'/bootstrap/Vendor/sass-bootstrap/bootstrap-2.3.2.min',
+				'stylesheets/static.css',
+				'stylesheets/admin.css'
+			]);
 		?>
     <style type="text/css">
       div.submit {
@@ -74,15 +72,11 @@
 				<div class="span1">&nbsp;</div>
 			</div>
 		</div>
-		<?php echo $this->fetch('script'); ?>
-		<?php echo $this->Js->writeBuffer(); ?>
-		<?php echo $this->Html->script(
-          array(
-              'lib/datatables-bootstrap/datatables-bootstrap.js',
-          )
-      );
-
+		<?php
+			echo $this->fetch('script');
+			echo $this->Js->writeBuffer();
+			echo $this->Html->script(['lib/datatables-bootstrap/datatables-bootstrap.js']);
+			echo $this->element('sql_dump');
 		?>
-		<?php echo $this->element('sql_dump'); ?>
 	</body>
 </html>
