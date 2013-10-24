@@ -163,7 +163,7 @@ module.exports = function(grunt) {
             }
           },
           options: {
-            standard: 'CakePHP',
+            standard: 'app/Test/phpcs-ruleset.xml',
             ignore: 'webroot',
             // suppress warnings
             warningSeverity: 8
@@ -205,6 +205,7 @@ module.exports = function(grunt) {
     'bower:devsetup',
     'copy:nonmin'
   ]);
+  grunt.registerTask('test:cake', ['shell:testCake']);
   grunt.registerTask('test', [
     'jshint',
     'shell:testCake',
