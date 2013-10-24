@@ -226,17 +226,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('dev-setup', [
-    'bower:devsetup',
-    'copy:nonmin'
-  ]);
+  grunt.registerTask('dev-setup', [ 'bower:devsetup', 'copy:nonmin' ]);
+
+  grunt.registerTask('test:js', ['jasmine', 'jshint']);
   grunt.registerTask('test:cake', ['shell:testCake']);
-  grunt.registerTask('test', [
-    'jasmine',
-    'jshint',
-    'shell:testCake',
-    'phpcs'
-  ]);
+  grunt.registerTask('test:php', ['test:cake', 'phpcs']);
+  grunt.registerTask('test', ['test:js', 'test:php']);
+
   grunt.registerTask('release', [
     'clean:release',
     'requirejs:release',
