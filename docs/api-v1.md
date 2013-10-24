@@ -369,8 +369,18 @@ Response:
       …
     ]
 
-@todo
-
 ### shouts POST ###
 
-@todo
+- url: `api/v1/shouts`
+- request method: `POST`
+- authorization: logged in
+
+Request:
+
+	{
+		"text": "Shouttext"
+	}
+
+Response:
+
+On success current shouts same as "shouts GET".

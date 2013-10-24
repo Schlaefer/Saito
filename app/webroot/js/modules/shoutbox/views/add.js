@@ -17,8 +17,15 @@ define([
     },
 
     submit: function() {
-      this.model.set('text', this.textarea.val());
-      this.model.save();
+      this.model.save(
+          {text: this.textarea.val()},
+          {
+            success: _.bind(function(model, response) {
+              // update view with latest data coming as answer from the add request
+              this.collection.reset(response);
+            }, this)
+          }
+      );
     },
 
     clearForm: function() {

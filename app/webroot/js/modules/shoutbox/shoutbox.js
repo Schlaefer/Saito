@@ -95,13 +95,12 @@ define(['jquery', 'app/app', 'models/app', 'marionette',
             },
 
             initAdd: function() {
-              var addModel = new ShoutModel({
-                webroot: webroot,
-                apiroot: apiroot,
-                collection: this.shoutsCollection
+              var addModel = new ShoutModel({}, {
+                urlRoot: apiroot + 'shouts/'
               });
               this.layout.add.show(new ShoutboxAddView({
-                model: addModel
+                model: addModel,
+                collection: this.shoutsCollection
               }));
             }
 

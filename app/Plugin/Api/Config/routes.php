@@ -87,6 +87,16 @@
 		]
 	);
 
+	Router::connect(
+		'/api/v1/shouts',
+		[
+			'plugin' => 'Api',
+			'controller' => 'ApiShouts',
+			'action' => 'shoutsPost',
+			'[method]' => 'POST'
+		]
+	);
+
 	// Misc
 	// -------------------------------------
 
