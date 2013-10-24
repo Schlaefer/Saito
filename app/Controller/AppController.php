@@ -166,7 +166,13 @@
 		}
 
 /**
- * Set forum configuration from get params in url
+ * Sets forum configuration from GET parameter in url
+ *
+ * Available named parameters
+ *
+ * - theme:<foo>
+ * - stopwatch:true
+ * - lang:<lang_id>
  */
 		protected function _setConfigurationFromGetParams() {
 			if ($this->CurrentUser->isLoggedIn()) {
@@ -184,7 +190,6 @@
 				if (isset($this->passedArgs['lang'])) {
 					$L10n = ClassRegistry::init('L10n');
 					if ($L10n->catalog($this->passedArgs['lang'])) {
-						// $this->Session->write('Config.language', $this->passedArgs['lang']);
 						Configure::write('Config.language', $this->passedArgs['lang']);
 					}
 				};
