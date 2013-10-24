@@ -349,7 +349,7 @@ Response:
 
 ### shouts GET ###
 
-Get all current shouts
+Get all shouts
 
 - url: `api/v1/shouts`
 - request method: `GET`
@@ -371,6 +371,8 @@ Response:
 
 ### shouts POST ###
 
+Adds a new shout.
+
 - url: `api/v1/shouts`
 - request method: `POST`
 - authorization: logged in
@@ -383,4 +385,4 @@ Request:
 
 Response:
 
-On success current shouts same as "shouts GET".
+On success responses with all current shouts. Same as "shouts GET".
