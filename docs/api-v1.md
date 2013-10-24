@@ -349,7 +349,7 @@ Response:
 
 ### shouts GET ###
 
-Get all shouts
+Get all shouts.
 
 - url: `api/v1/shouts`
 - request method: `GET`
