@@ -172,7 +172,6 @@ module.exports = function(grunt) {
               './app/webroot/js/lib/**/*.js'
             ]
           }
-        },
         }
       }
   );
