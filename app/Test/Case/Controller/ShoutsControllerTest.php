@@ -26,7 +26,6 @@ class ShoutsControllerTest extends ControllerTestCase {
 	);
 
 	public function testDummy() {
-
 	}
 
 }

@@ -2,19 +2,19 @@
 
 	App::uses('ApiControllerTestCase', 'Api.Lib');
 
-	/**
-	 * ApiUsersController Test Case
-	 *
-	 */
+/**
+ * ApiUsersController Test Case
+ *
+ */
 	class ApiCoreControllerTest extends ApiControllerTestCase {
 
-		protected $apiRoot = 'api/v1/';
+		protected $_apiRoot = 'api/v1/';
 
-		/**
-		 * Fixtures
-		 *
-		 * @var array
-		 */
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 		public $fixtures = array(
 			'plugin.api.entry',
 			'plugin.api.category',
@@ -29,8 +29,7 @@
 		);
 
 		public function testBootstrap() {
-
-			$expected = json_decode(<<<EOF
+			$_json = <<<EOF
 {
   "categories": [
     {
@@ -57,11 +56,11 @@
     "isLoggedIn": false
   }
 }
-EOF
-			, true);
+EOF;
+			$expected = json_decode($_json, true);
 
 			$result = $this->testAction(
-				$this->apiRoot . 'bootstrap.json',
+				$this->_apiRoot . 'bootstrap.json',
 				[
 					'method' => 'GET',
 					'return' => 'contents'
@@ -72,8 +71,8 @@ EOF
 
 			// test server_time
 			$this->assertNotEmpty($result['server']['time']);
-			$server_time = strtotime($result['server']['time']);
-			$withinTheLastFewSeconds = $server_time > (time() - 20);
+			$_serverTime = strtotime($result['server']['time']);
+			$withinTheLastFewSeconds = $_serverTime > (time() - 20);
 			$this->assertTrue($withinTheLastFewSeconds);
 			unset($result['server']['time']);
 
@@ -85,7 +84,7 @@ EOF
 		}
 
 		public function testBootstrapCategoriesLoggedIn() {
-			$expected = json_decode(<<<EOF
+			$_json = <<<EOF
  [
     {
       "id": 2,
@@ -116,12 +115,12 @@ EOF
       "accession": 1
     }
 ]
-EOF
-				, true);
+EOF;
+			$expected = json_decode($_json, true);
 			$this->generate('ApiCore');
 			$this->_loginUser(3);
 			$result = $this->testAction(
-				$this->apiRoot . 'bootstrap.json',
+				$this->_apiRoot . 'bootstrap.json',
 				[
 					'method' => 'GET',
 					'return' => 'contents'
@@ -130,4 +129,5 @@ EOF
 			$result = json_decode($result, true)['categories'];
 			$this->assertEqual($result, $expected);
 		}
+
 	}

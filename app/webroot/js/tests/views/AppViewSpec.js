@@ -12,38 +12,14 @@ describe("App", function() {
                         }
                     },
                     request: {
-                        controller: 'foo'
+                        controller: 'dummydata'
                     }
                 };
 
-            // @td
-            var contentTimer = {
-                show: function() {
-                    $('#content').show();
-                    console.log('Dom ready timed out: show content fallback used.');
-                    delete this.timeoutID;
-                },
-
-                setup: function() {
-                    this.cancel();
-                    var self = this;
-                    this.timeoutID = window.setTimeout(function() {self.show();}, 5000, "Wake up!");
-                },
-
-                cancel: function() {
-                    if(typeof this.timeoutID == "number") {
-                        window.clearTimeout(this.timeoutID);
-                        delete this.timeoutID;
-                    }
-                }
-            };
-            contentTimer.setup();
-
-            require(['views/app'], function(View) {
-                that.view = new View({
-                    SaitoApp: SaitoApp,
-                    contentTimer: contentTimer
-                });
+            require(['views/app', 'models/app'], function(View, App) {
+                App.settings.set('webroot', '/web/redirect/');
+                App.request = SaitoApp.request;
+                that.view = new View();
                 flag = true;
             });
 
@@ -55,10 +31,10 @@ describe("App", function() {
         it('manually mark as read should call entries/update', function() {
             spyOn(window, 'redirect');
 
-            this.view.manuallyMarkAsRead(new Event('foo'));
+            this.view.manuallyMarkAsRead();
 
             expect(window.redirect).toHaveBeenCalledWith(
-                '/web/root/entries/update'
+                '/web/redirect/entries/update'
             );
         });
     });

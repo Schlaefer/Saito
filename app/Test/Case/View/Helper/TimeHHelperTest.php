@@ -53,7 +53,6 @@ class TimeHHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testTimeAgoInWordsFuzzy() {
-
 		// first run, no output
 		$time = '2010-01-01 19:00:01';
 		$result = $this->TimeH->timeAgoInWordsFuzzy(

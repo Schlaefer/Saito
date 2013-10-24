@@ -1,6 +1,4 @@
-define([
-    'lib/saito/markItUp.media'
-], function(MarkitUpMedia) {
+define([ 'lib/saito/markItUp.media' ], function(MarkitUpMedia) {
 
     describe("markItUp library", function() {
 
@@ -85,7 +83,6 @@ define([
             });
 
             it("outputs nothing for embed.ly if embed.ly is disabled", function() {
-                SaitoApp.app.settings.embedly_enabled = 0;
                 input = 'https://twitter.com/apfelwiki/status/211385090444505088';
                 result = markItUp.multimedia(input);
                 expected = '';

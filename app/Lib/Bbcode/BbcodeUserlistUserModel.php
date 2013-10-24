@@ -3,7 +3,9 @@
 	App::uses('BbcodeUserlistInterface', 'Lib/Bbcode');
 
 	class BbcodeUserlistUserModel implements BbcodeUserlistInterface {
+
 		protected $_userlist = [];
+
 		protected $_User;
 
 		public function set(User $User) {
@@ -16,4 +18,5 @@
 			}
 			return $this->_userlist;
 		}
+
 	}

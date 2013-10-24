@@ -14,7 +14,7 @@
 
 		public function error($error) {
 			$message = $error->getMessage();
-			$url  = $this->controller->request->here();
+			$url = $this->controller->request->here();
 
 			$code = (($error->getCode() > 500 && $error->getCode(
 							) < 506) || $error->getCode() < 500) ? $error->getCode() : 500;
@@ -31,8 +31,8 @@
 			$this->controller->set(
 				array(
 					'message' => h($message),
-					'url'     => h($url),
-					'error'   => $error,
+					'url' => h($url),
+					'error' => $error,
 				)
 			);
 			$this->_outputMessage('apierror');

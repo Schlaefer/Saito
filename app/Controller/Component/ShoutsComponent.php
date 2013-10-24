@@ -35,9 +35,10 @@
 /**
  * Loads and initializes the model
  */
-		public function _load() {
+		protected function _load() {
 			$this->_controller->loadModel('Shout');
 			$this->_Shout = $this->_controller->Shout;
 			$this->_Shout->maxNumberOfShouts = $this->_maxNumberOfShouts;
 		}
+
 	}

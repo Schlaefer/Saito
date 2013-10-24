@@ -204,11 +204,11 @@
 			$this->set(
 				'lastEntries',
 				$this->User->Entry->getRecentEntries(
+					$this->CurrentUser,
 					[
 						'user_id' => $this->User->id,
-						'limit' => $entriesShownOnPage,
-					],
-					$this->CurrentUser
+						'limit' => $entriesShownOnPage
+					]
 				)
 			);
 

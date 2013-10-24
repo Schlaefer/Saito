@@ -2,19 +2,19 @@
 
 	App::uses('ApiControllerTestCase', 'Api.Lib');
 
-	/**
-	 * ApiUsersController Test Case
-	 *
-	 */
+/**
+ * ApiUsersController Test Case
+ *
+ */
 	class ApiUsersControllerTest extends ApiControllerTestCase {
 
-		protected $apiRoot = 'api/v1/';
+		protected $_apiRoot = 'api/v1/';
 
-		/**
-		 * Fixtures
-		 *
-		 * @var array
-		 */
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 		public $fixtures = array(
 			'plugin.api.entry',
 			'plugin.api.category',
@@ -33,7 +33,7 @@
 				'BadRequestException',
 				'Field `username` is missing.'
 			);
-			$this->testAction($this->apiRoot . 'login', ['method' => 'POST']);
+			$this->testAction($this->_apiRoot . 'login', ['method' => 'POST']);
 		}
 
 		public function testLoginNoPassword() {
@@ -45,7 +45,7 @@
 				'username' => 'Jane'
 			];
 			$this->testAction(
-				$this->apiRoot . 'login',
+				$this->_apiRoot . 'login',
 				['data' => $data, 'method' => 'POST']
 			);
 		}
@@ -70,7 +70,7 @@
 			');
 
 			$result = $this->testAction(
-				$this->apiRoot . 'login.json',
+				$this->_apiRoot . 'login.json',
 				['method' => 'POST', 'data' => $data, 'return' => 'contents']
 			);
 			$this->assertEqual(json_decode($result), $expected);
@@ -104,7 +104,7 @@
 					->will($this->returnValue(false));
 			$this->expectException('UnauthorizedException');
 			$this->testAction(
-				$this->apiRoot . 'login',
+				$this->_apiRoot . 'login',
 				['method' => 'POST', 'data' => $data]
 			);
 		}
@@ -112,7 +112,7 @@
 		public function testLoginDisallowedRequestType() {
 			$this->_checkDisallowedRequestType(
 				['GET', 'PUT', 'DELETE'],
-					$this->apiRoot . 'login'
+					$this->_apiRoot . 'login'
 			);
 		}
 
@@ -122,7 +122,7 @@
 			$data = [ ];
 			$this->expectException('InvalidArgumentException', 'User id is missing.');
 			$this->testAction(
-				$this->apiRoot . 'markasread',
+				$this->_apiRoot . 'markasread',
 				['method' => 'POST', 'data' => $data]
 			);
 		}
@@ -135,7 +135,7 @@
 			];
 			$this->expectException('ForbiddenException', 'You are not authorized for user id `1`.');
 			$this->testAction(
-				$this->apiRoot . 'markasread',
+				$this->_apiRoot . 'markasread',
 				['method' => 'POST', 'data' => $data]
 			);
 		}
@@ -154,28 +154,27 @@
 				]
 			);
 
-			$user_id = 3;
+			$_userId = 3;
 
 			$ApiUsers->CurrentUser->expects($this->any())
 					->method('isLoggedIn')
 					->will($this->returnValue(true));
 			$ApiUsers->CurrentUser->expects($this->any())
 					->method('getId')
-					->will($this->returnValue($user_id));
-
+					->will($this->returnValue($_userId));
 
 			$ApiUsers->CurrentUser->LastRefresh = $this->getMock('Object', ['set']);
 			$ApiUsers->CurrentUser->LastRefresh->expects($this->once())
 					->method('set')
 					->with('now');
 
-			$this->_loginUser($user_id);
+			$this->_loginUser($_userId);
 			$data = [
-				'id' => $user_id
+				'id' => $_userId
 			];
 
 			$result = $this->testAction(
-				$this->apiRoot . 'markasread.json',
+				$this->_apiRoot . 'markasread.json',
 				['method' => 'POST', 'data' => $data, 'return' => 'contents']
 			);
 			$result = json_decode($result, true);
@@ -196,54 +195,53 @@
 				]
 			);
 
-			$user_id = 3;
+			$_userId = 3;
 
 			$ApiUsers->CurrentUser->expects($this->any())
 					->method('isLoggedIn')
 					->will($this->returnValue(true));
 			$ApiUsers->CurrentUser->expects($this->any())
 					->method('getId')
-					->will($this->returnValue($user_id));
-
+					->will($this->returnValue($_userId));
 
 			$ApiUsers->CurrentUser->LastRefresh = $this->getMock('Object', ['set']);
 			$ApiUsers->CurrentUser->LastRefresh->expects($this->once())
 					->method('set')
 					->with('2013-07-04 19:53:14');
 
-			$this->_loginUser($user_id);
+			$this->_loginUser($_userId);
 			$data = [
-				'id'      => $user_id,
+				'id' => $_userId,
 				'last_refresh' => '2013-07-04T19:53:14+00:00'
 			];
 
 			$result = $this->testAction(
-				$this->apiRoot . 'markasread.json',
+				$this->_apiRoot . 'markasread.json',
 				['method' => 'POST', 'data' => $data, 'return' => 'contents']
 			);
 			$result = json_decode($result, true);
 			$this->assertTrue(isset($result['last_refresh']));
 		}
 
-		/**
-		 * Send timestamp is ignored is not set if it's older than the current one
-		 */
+/**
+ * Send timestamp is ignored is not set if it's older than the current one
+ */
 		public function testMarkAsReadNoPastValues() {
 			$ApiUsers = $this->generate('ApiUsers');
 
-			$user_id = 3;
-			$this->_loginUser($user_id);
+			$_userId = 3;
+			$this->_loginUser($_userId);
 
-			$ApiUsers->User->id = $user_id;
+			$ApiUsers->User->id = $_userId;
 			$ApiUsers->User->saveField('last_refresh', '2013-07-04 19:53:14');
 
 			$data = [
-				'id'      => $user_id,
+				'id' => $_userId,
 				'last_refresh' => '2013-07-04T19:53:13+00:00'
 			];
 
 			$result = $this->testAction(
-				$this->apiRoot . 'markasread.json',
+				$this->_apiRoot . 'markasread.json',
 				['method' => 'POST', 'data' => $data, 'return' => 'contents']
 			);
 			$result = json_decode($result, true);
@@ -255,14 +253,14 @@
 
 		public function testMarkAsReadOnlyAuthenticatedUsers() {
 			$this->generate('ApiUsers', ['methods' => 'markasread']);
-			$this->testAction($this->apiRoot . 'markasread.json', ['method' => 'POST']);
+			$this->testAction($this->_apiRoot . 'markasread.json', ['method' => 'POST']);
 			$this->assertRedirectedTo('login');
 		}
 
 		public function testMarkAsReadDisallowedRequestType() {
 			$this->_checkDisallowedRequestType(
 				['GET', 'PUT', 'DELETE'],
-					$this->apiRoot . 'markasread'
+					$this->_apiRoot . 'markasread'
 			);
 		}
 

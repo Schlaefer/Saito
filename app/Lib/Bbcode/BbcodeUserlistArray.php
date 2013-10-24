@@ -3,6 +3,7 @@
 	App::uses('BbcodeUserlistInterface', 'Lib/Bbcode');
 
 	class BbcodeUserlistArray implements BbcodeUserlistInterface {
+
 		protected $_userlist = [];
 
 		public function set($userlist) {
@@ -12,4 +13,5 @@
 		public function get() {
 			return $this->_userlist;
 		}
+
 	}

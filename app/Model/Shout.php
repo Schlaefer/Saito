@@ -53,9 +53,9 @@
 			)
 		);
 
-		protected $fieldsToSanitize = array(
+		protected $_fieldsToSanitize = [
 			'text'
-		);
+		];
 
 		public $maxNumberOfShouts = 10;
 

@@ -8,7 +8,7 @@
 			'Html'
 		);
 
-		protected  $_files = array(
+		protected $_files = array(
 			'js' => array(
 				'JasmineJs.jasmine.js',
 				'JasmineJs.jasmine-html.js',
@@ -35,4 +35,5 @@
 				)
 			);
 		}
+
 	}

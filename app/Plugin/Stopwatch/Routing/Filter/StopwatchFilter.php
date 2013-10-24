@@ -1,17 +1,15 @@
 <?php
 
-	App::uses('DispatcherFilter', 'Routing');
-  App::uses('Stopwatch', 'Stopwatch.Lib');
+App::uses('DispatcherFilter', 'Routing');
+App::uses('Stopwatch', 'Stopwatch.Lib');
 
-	class StopwatchFilter extends DispatcherFilter {
+class StopwatchFilter extends DispatcherFilter {
 
-		public $priority = 1;
+	public $priority = 1;
 
-		public function beforeDispatch(CakeEvent $event) {
-			Stopwatch::enable();
-			Stopwatch::start('----------------------- Dispatch -----------------------');
-		}
-
+	public function beforeDispatch(CakeEvent $event) {
+		Stopwatch::enable();
+		Stopwatch::start('----------------------- Dispatch -----------------------');
 	}
 
-?>
+}

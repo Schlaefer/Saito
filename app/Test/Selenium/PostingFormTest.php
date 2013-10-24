@@ -14,7 +14,7 @@
 			$this->assertEquals('true', $focused);
 		}
 
-		function tes1PostingFormCase() {
+		public function tes1PostingFormCase() {
 			$this->login();
 			$thread = new SaitoTestThread($this);
 			$thread->openAddNewThreadForm();
@@ -60,7 +60,6 @@
 			$this->setCursorPosition("EntryText", "-1");
 			$this->assertEquals(0, $this->getCursorPosition("EntryText"));
 			*/
-
 
 			$this->logout();
 		}

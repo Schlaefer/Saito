@@ -1,5 +1,7 @@
 <?php
 
+	// @codingStandardsIgnoreFile
+
 App::uses('AppHelper', 'View/Helper');
 App::import('Vendor', 'stringparser_bbcode/stringparser_bbcode');
 

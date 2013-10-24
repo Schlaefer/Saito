@@ -35,9 +35,9 @@
 
 		protected $_timeAgoInWordsFuzzyInterval;
 
-		protected $_tAIWF_times = array();
+		protected $_tAIWFTimes = array();
 
-		protected $_tAIWF_entries = array();
+		protected $_tAIWFEntries = array();
 
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
@@ -45,11 +45,11 @@
 			$this->_today = mktime(0, 0, 0);
 
 			// @td reimplement unsing Cake 2.2 CakeTime (?)
-			$timezone_settings = Configure::read('Saito.Settings.timezone');
-			if (empty($timezone_settings)) {
-				$timezone_settings = 'UTC';
+			$_timezoneSettings = Configure::read('Saito.Settings.timezone');
+			if (empty($_timezoneSettings)) {
+				$_timezoneSettings = 'UTC';
 			}
-			$timezone = new DateTimeZone($timezone_settings);
+			$timezone = new DateTimeZone($_timezoneSettings);
 			$timeInTimezone = new DateTime('now', $timezone);
 			$timeOnServer = new DateTime('now');
 			$this->_timeDiffToUtc = $timeOnServer->getOffset() - $timeInTimezone->getOffset();
@@ -60,16 +60,16 @@
 
 			$allTimeZonesValues = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 
-			foreach ( self::$_timezoneGroups as $groupTitle => $groupId ) :
+			foreach (self::$_timezoneGroups as $groupTitle => $groupId) :
 				$timeZones = DateTimeZone::listIdentifiers($groupId);
-				foreach ( $timeZones as $timeZoneTitle ) :
+				foreach ($timeZones as $timeZoneTitle) :
 					$timezone = new DateTimeZone($timeZoneTitle);
 					$timeInTimezone = new DateTime('now', $timezone);
 					$timeDiffToUtc = $timeInTimezone->getOffset() / 3600;
 					$options[$groupTitle][$timeZoneTitle] =
-							$timeZoneTitle
-							. ' (' . $timeInTimezone->format('H:m')
-							. '; ' . $timeDiffToUtc . ')';
+							$timeZoneTitle .
+							' (' . $timeInTimezone->format('H:m') .
+							'; ' . $timeDiffToUtc . ')';
 				endforeach;
 			endforeach;
 
@@ -88,24 +88,22 @@
  * @return bool|string
  */
 		public function formatTime($timestamp, $format = 'normal', $custom = null) {
-		// Stopwatch::start('formatTime');
+			// Stopwatch::start('formatTime');
 			$timestamp = strtotime($timestamp) - $this->_timeDiffToUtc;
 
 			if ($format == 'normal') {
-				$time_string = $this->_normal($timestamp);
+				$_timeString = $this->_normal($timestamp);
 			} elseif ($format === 'short') {
-				$time_string = $this->_short($timestamp);
+				$_timeString = $this->_short($timestamp);
 			} elseif ($format == 'custom') {
-				$time_string = strftime($custom, $timestamp);
+				$_timeString = strftime($custom, $timestamp);
 			} elseif ($format == 'glasen') {
-				$time_string = $this->_glasen($timestamp);
+				$_timeString = $this->_glasen($timestamp);
 			}
 
 			// Stopwatch::stop('formatTime');
-			return $time_string;
+			return $_timeString;
 		}
-
-// end formatTime()
 
 		protected function _normal($timestamp) {
 			$time = '';
@@ -141,43 +139,43 @@
 			return $time;
 		}
 
-		/**
-		 * @param $time datetime string
-		 * @param array $options
-		 * @return bool|string false or formated time string
-		 */
+/**
+ * @param $time datetime string
+ * @param array $options
+ * @return bool|string false or formated time string
+ */
 		public function timeAgoInWordsFuzzy($time, $options = array()) {
 			$defaults = array(
 				'conversationCoolOff' => 300,
 			);
 			$options += $defaults;
 
-			$time_unix = strtotime($time);
+			$_timeUnix = strtotime($time);
 
 			$out = false;
 
-			if (empty($this->_tAIWF_times)) {
-				$this->_tAIWF_times[] = $time_unix;
+			if (empty($this->_tAIWFTimes)) {
+				$this->_tAIWFTimes[] = $_timeUnix;
 				return $out;
 			}
 
-			$last_time = end($this->_tAIWF_times);
-			$this->_tAIWF_times[] = $time_unix;
+			$_lastTime = end($this->_tAIWFTimes);
+			$this->_tAIWFTimes[] = $_timeUnix;
 
-			if ($time_unix > $last_time - $options['conversationCoolOff']) {
+			if ($_timeUnix > $_lastTime - $options['conversationCoolOff']) {
 				return $out;
 			}
 
-			$this->_tAIWF_entries[] = $time_unix;
-			$out                    = $this->formatTime(
-				gmdate('Y-m-d H:i:s', $last_time)
+			$this->_tAIWFEntries[] = $_timeUnix;
+			$out = $this->formatTime(
+				gmdate('Y-m-d H:i:s', $_lastTime)
 			);
 
 			return $out;
 		}
 
 		public function timeAgoInWordsFuzzyGetLastTime() {
-			return $this->formatTime(gmdate('Y-m-d H:i:s', end($this->_tAIWF_times)));
+			return $this->formatTime(gmdate('Y-m-d H:i:s', end($this->_tAIWFTimes)));
 		}
 
 	}

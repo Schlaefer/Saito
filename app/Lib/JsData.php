@@ -30,7 +30,6 @@
 		}
 
 		public function addAppJsMessage($message, $options = null) {
-
 			$defaults = array(
 				'type' => 'notice',
 				'channel' => 'notification'
@@ -48,7 +47,7 @@
 			foreach ($message as $m) {
 				$nm = array(
 					'message' => $m,
-					'type'    => $options['type'],
+					'type' => $options['type'],
 					'channel' => $options['channel']
 				);
 				if (isset($options['title'])) {

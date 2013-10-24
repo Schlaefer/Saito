@@ -39,7 +39,7 @@ class Validation {
  * @var array
  */
 	protected static $_pattern = array(
-		'hostname' => '(?:[_a-z0-9][-_a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,})'
+		'hostname' => '(?:[_\p{L}0-9][-_\p{L}0-9]*\.)*(?:[\p{L}0-9][-\p{L}0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,})'
 	);
 
 /**
@@ -431,7 +431,7 @@ class Validation {
 		}
 
 		if ($regex === null) {
-			$regex = '/^[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+)*@' . self::$_pattern['hostname'] . '$/i';
+			$regex = '/^[\p{L}0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[\p{L}0-9!#$%&\'*+\/=?^_`{|}~-]+)*@' . self::$_pattern['hostname'] . '$/ui';
 		}
 		$return = self::_check($check, $regex);
 		if ($deep === false || $deep === null) {
@@ -497,7 +497,7 @@ class Validation {
 		if ($type === 'ipv6') {
 			$flags = FILTER_FLAG_IPV6;
 		}
-		return (boolean)filter_var($check, FILTER_VALIDATE_IP, array('flags' => $flags));
+		return (bool)filter_var($check, FILTER_VALIDATE_IP, array('flags' => $flags));
 	}
 
 /**
@@ -756,7 +756,7 @@ class Validation {
  */
 	public static function url($check, $strict = false) {
 		self::_populateIp();
-		$validChars = '([' . preg_quote('!"$&\'()*+,-.@_:;=~[]') . '\/0-9a-z\p{L}\p{N}]|(%[0-9a-f]{2}))';
+		$validChars = '([' . preg_quote('!"$&\'()*+,-.@_:;=~[]') . '\/0-9\p{L}\p{N}]|(%[0-9a-f]{2}))';
 		$regex = '/^(?:(?:https?|ftps?|sftp|file|news|gopher):\/\/)' . (!empty($strict) ? '' : '?') .
 			'(?:' . self::$_pattern['IPv4'] . '|\[' . self::$_pattern['IPv6'] . '\]|' . self::$_pattern['hostname'] . ')(?::[1-9][0-9]{0,4})?' .
 			'(?:\/?|\/' . $validChars . '*)?' .
@@ -791,13 +791,13 @@ class Validation {
 	}
 
 /**
- * Checks that a value is a valid uuid - http://tools.ietf.org/html/rfc4122
+ * Checks that a value is a valid UUID - http://tools.ietf.org/html/rfc4122
  *
  * @param string $check Value to check
  * @return boolean Success
  */
 	public static function uuid($check) {
-		$regex = '/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$/';
+		$regex = '/^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[0-5][a-fA-F0-9]{3}-[089aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$/';
 		return self::_check($check, $regex);
 	}
 

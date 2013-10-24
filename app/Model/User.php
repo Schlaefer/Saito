@@ -179,7 +179,7 @@
 			),
 		);
 
-		protected $fieldsToSanitize = array(
+		protected $_fieldsToSanitize = [
 				'user_hp',
 				'user_place',
 				'user_email',
@@ -192,8 +192,8 @@
 				'username',
 				*/
 				'signature',
-				'profile',
-		);
+				'profile'
+		];
 
 		protected $_passwordHasher = [
 			'BlowfishPasswordHasher',

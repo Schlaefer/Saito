@@ -23,7 +23,7 @@
             new view({
                 el: element,
                 model: collection.get(id)
-            })
+            });
         };
 
         $(element).each(function(){

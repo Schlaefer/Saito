@@ -9,19 +9,20 @@
 		public $fixtures = array( 'app.setting' );
 
 		public function testUserRank() {
-
-			$_userranks_show = Configure::read('Saito.Settings.userranks_show');
-			$_userranks_ranks = Configure::read('Saito.Settings.userranks_ranks');
+			$_userranksShow = Configure::read('Saito.Settings.userranks_show');
+			$_userranksRanks = Configure::read('Saito.Settings.userranks_ranks');
 
 			Configure::write('Saito.Settings.userranks_show', '1');
-			Configure::write('Saito.Settings.userranks_ranks', array(
-					'10'=>'Castaway',
-          '20'=>'Other',
-          '30'=>'Dharma',
-          '100'=>'Jacob')
-      );
+			Configure::write('Saito.Settings.userranks_ranks',
+				array(
+					'10' => 'Castaway',
+					'20' => 'Other',
+					'30' => 'Dharma',
+					'100' => 'Jacob'
+				)
+			);
 
-      $this->UserH->beforeRender(null);
+			$this->UserH->beforeRender(null);
 
 			$expected = 'Castaway';
 			$result = $this->UserH->userRank(0);
@@ -47,8 +48,8 @@
 			$result = $this->UserH->userRank(101);
 			$this->assertEqual($expected, $result);
 
-			Configure::write('Saito.Settings.userranks_show', $_userranks_show);
-			Configure::write('Saito.Settings.userranks_ranks', $_userranks_ranks);
+			Configure::write('Saito.Settings.userranks_show', $_userranksShow);
+			Configure::write('Saito.Settings.userranks_ranks', $_userranksRanks);
 		}
 
 		public function setUp() {
@@ -66,4 +67,3 @@
 
 	}
 
-?>

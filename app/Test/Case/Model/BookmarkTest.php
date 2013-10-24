@@ -24,7 +24,6 @@ class BookmarkTest extends CakeTestCase {
 	);
 
 	public function testDummy() {
-
 	}
 
 /**

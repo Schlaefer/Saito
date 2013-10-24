@@ -12,7 +12,7 @@ describe("jquery.i18n.extend", function() {
                 {
                     "token test": ":tokenA; is :token_b than fu :tokenNo :token-c"
                 }
-            )
+            );
             flag = true;
         });
 

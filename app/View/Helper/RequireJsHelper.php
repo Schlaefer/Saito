@@ -19,21 +19,22 @@
 			'prod' => '../dist/require.min'
 		];
 
-		/**
-		 * Inserts <script> tag for including require.js
-		 *
-		 * ### Options
-		 *
-		 * - `jsUrl` Base url to javascript. 'app/webroot/js' by default.
-		 * - `requireUrl Url to require.js. Without '.js' extension.
-		 *
-		 * @param string $dataMain data-main tag start script without .js extension
-		 * @param array $options additional options
-		 */
+/**
+ * Inserts <script> tag for including require.js
+ *
+ * ### Options
+ *
+ * - `jsUrl` Base url to javascript. 'app/webroot/js' by default.
+ * - `requireUrl Url to require.js. Without '.js' extension.
+ *
+ * @param string $dataMain data-main tag start script without .js extension
+ * @param array $options additional options
+ * @return string
+ */
 		public function scriptTag($dataMain, $options = array()) {
 			// require.js should already be included in production js
 			$options += array(
-				'jsUrl'      => $this->_jsRoot(),
+				'jsUrl' => $this->_jsRoot(),
 				'requireUrl' => $this->_requireUrl()
 			);
 			$out = '';
@@ -42,30 +43,30 @@
 			if ($isTimestampShown === 'force'
 					|| ($isTimestampShown === true && Configure::read('debug') > 0)
 			) {
-					$out .= $this->Html->scriptBlock(
-						"var require = {urlArgs:"
-								. $this->Js->value($this->Html->getAssetTimestamp($options['jsUrl'] . $dataMain . '.js'))
-								. "
-						}");
+				$out .= $this->Html->scriptBlock(
+					"var require = {urlArgs:" .
+					$this->Js->value(
+						$this->Html->getAssetTimestamp($options['jsUrl'] . $dataMain . '.js'
+						)
+					) . " }"
+				);
 			}
 			// require.js borks out when used with Cakes timestamp.
 			// also we need the relative path for the main-script
-			$tmp_asset_timestamp_cache = Configure::read('Asset.timestamp');
+			$_tmpAssetTimestampCache = Configure::read('Asset.timestamp');
 			Configure::write('Asset.timestamp', false);
 			$out .= $this->Html->script(
 				$options['requireUrl'],
-				array(
-					'data-main' => $this->Html->assetUrl(
-						$dataMain,
-						array(
+				[
+					'data-main' => $this->Html->assetUrl($dataMain,
+						[
 							'pathPrefix' => $options['jsUrl'],
-							'ext'		 => '.js'
-
-						)
+							'ext' => '.js'
+						]
 					)
-				)
+				]
 			);
-			Configure::write('Asset.timestamp', $tmp_asset_timestamp_cache);
+			Configure::write('Asset.timestamp', $_tmpAssetTimestampCache);
 			return $out;
 		}
 

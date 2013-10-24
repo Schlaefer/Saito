@@ -7,7 +7,6 @@
 	class SaitoUserTest extends CakeTestCase {
 
 		public function testGetSettings() {
-
 			//* initialize with real user
 			$user = array(
 					'id' => '1',
@@ -22,11 +21,10 @@
 			$user = null;
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getSettings();
-			$this->assertFalse(empty($result) === FALSE);
+			$this->assertFalse(empty($result) === false);
 		}
 
 		public function testGetId() {
-
 			//* initialize with real user
 			$user = array(
 					'id' => '2',
@@ -39,17 +37,17 @@
 			$user = null;
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getId();
-			$this->assertTrue(empty($result) === TRUE);
+			$this->assertTrue(empty($result) === true);
 
 			$user = false;
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getId();
-			$this->assertTrue(empty($result) === TRUE);
+			$this->assertTrue(empty($result) === true);
 
 			$user = '';
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getId();
-			$this->assertTrue(empty($result) === TRUE);
+			$this->assertTrue(empty($result) === true);
 		}
 
 		public function testIsLoggedIn() {
@@ -98,7 +96,6 @@
 		}
 
 		public function testIsMod() {
-
 			//* anon
 			$user = null;
 			$this->SaitoUser->set($user);
@@ -142,8 +139,8 @@
 
 			//* user
 			$user = array(
-					'id'				 => '2',
-					'user_type'	 => 'user',
+				'id' => '2',
+				'user_type' => 'user',
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->isModOnly();
@@ -151,8 +148,8 @@
 
 			//* initialize with real user
 			$user = array(
-					'id'				 => '2',
-					'user_type'	 => 'mod',
+				'id' => '2',
+				'user_type' => 'mod',
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->isModOnly();
@@ -160,8 +157,8 @@
 
 			//* admin
 			$user = array(
-					'id'				 => '2',
-					'user_type'	 => 'admin',
+				'id' => '2',
+				'user_type' => 'admin',
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->isModOnly();
@@ -169,7 +166,6 @@
 		}
 
 		public function testIsAdmin() {
-
 			//* anon
 			$user = null;
 			$this->SaitoUser->set($user);
@@ -205,7 +201,6 @@
 		}
 
 		public function testGetMaxAccession() {
-
 			//* anon
 			$user = null;
 			$this->SaitoUser->set($user);
@@ -241,7 +236,6 @@
 		}
 
 		public function testIsUser() {
-
 			//* anon
 			$user = null;
 			$this->SaitoUser->set($user);
@@ -259,8 +253,8 @@
 
 			//* initialize with real user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'mod',
+				'id' => '2',
+				'user_type' => 'mod',
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->isUser();
@@ -268,8 +262,8 @@
 
 			//* admin
 			$user = array(
-					'id' => '2',
-					'user_type' => 'admin',
+				'id' => '2',
+				'user_type' => 'admin',
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->isUser();
@@ -277,7 +271,6 @@
 		}
 
 		public function testArrayAccessors() {
-
 			$user = array(
 					'id' => '2',
 					'user_type' => 'user',
@@ -293,7 +286,6 @@
 		}
 
 		public function testmockUserType() {
-
 			$user = array(
 					'id' => '2',
 					'user_type' => 'admin',

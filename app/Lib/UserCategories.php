@@ -3,12 +3,13 @@
 	class UserCategories {
 
 		protected $_user;
+
 		protected $_categories;
 
-		/**
-		 * @param array $user
-		 * @param array $categories
-		 */
+/**
+ * @param array $user
+ * @param array $categories
+ */
 		public function __construct(array $user, array $categories) {
 			$this->_user = $user;
 			$this->_categories = $categories;
@@ -50,28 +51,28 @@
 			return array_combine($keys, $keys);
 		}
 
-		/**
-		 * @return array
-		 *
-		 * $categories: array with categories for the active type [cat_id1, cat_id2, …]
-		 * $type: active type: 'all', 'single' or 'custom'
-		 * $custom: categories for 'custom' [cat_id1, cat_id2, …]
-		 */
+/**
+ * @return array
+ *
+ * $categories: array with categories for the active type [cat_id1, cat_id2, …]
+ * $type: active type: 'all', 'single' or 'custom'
+ * $custom: categories for 'custom' [cat_id1, cat_id2, …]
+ */
 		public function get() {
 			$custom = $this->_getCustom();
 			if ($this->_isSingle()) {
-				$type       = 'single';
+				$type = 'single';
 				$categories = $this->_filterOutNonExisting(
 					[$this->_user['user_category_active'] => $this->_user['user_category_active']]
 				);
 			} elseif ($this->_isCustom()) {
-				$type       = 'custom';
+				$type = 'custom';
 				$categories = $custom;
 			} else {
 				$type = 'all';
-				$categories =  $this->_categories;
+				$categories = $this->_categories;
 			}
 			return [$categories, $type, $custom];
 		}
-	}
 
+	}

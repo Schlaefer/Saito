@@ -1,7 +1,4 @@
-define(
-    ['marionette', 'app/vent'],
-    function(Marionette, EventBus) {
-
+define(['marionette', 'app/vent'], function(Marionette, EventBus) {
     // @todo
     //noinspection JSHint
     var AppInitData = SaitoApp;
@@ -78,65 +75,18 @@ define(
                     whenReady(appReady);
                 }
             );
-        },
-
-        bootstrapTest: function(options) {
-            require(['domReady', 'views/app', 'backbone', 'jquery'],
-                function(domReady, AppView, Backbone, $) {
-                    // prevent appending of ?_<timestamp> requested urls
-                    $.ajaxSetup({ cache: true });
-                    // override local storage store name - for testing
-                    window.store = "TestStore";
-
-                    var jasmineEnv = jasmine.getEnv();
-                    jasmineEnv.updateInterval = 1000;
-
-                    var htmlReporter = new jasmine.HtmlReporter();
-
-                    jasmineEnv.addReporter(htmlReporter);
-                    jasmineEnv.specFilter = function(spec) {
-                        return htmlReporter.specFilter(spec);
-                    };
-
-                    var specs = [
-                        'models/AppStatusModelSpec.js',
-                        'models/BookmarkModelSpec.js',
-                        'models/SlidetabModelSpec.js',
-                        'models/StatusModelSpec.js',
-                        'models/UploadModelSpec.js',
-                        'lib/MarkItUpSpec.js',
-                        'lib/jquery.i18n.extendSpec.js',
-                        // 'views/AppViewSpec.js',
-                        'views/ThreadViewSpec.js'
-                    ];
-
-                    specs = _.map(specs, function(value) {
-                        return options.SaitoApp.app.settings.webroot + 'js/tests/' + value;
-                    });
-
-                    $(function() {
-                        require(specs, function() {
-                            jasmineEnv.execute();
-                        });
-                    });
-                }
-            );
         }
     };
 
     var Application = new Marionette.Application();
 
-      if (AppInitData.app.runJsTests === undefined) {
-        Application.addInitializer(app.bootstrapApp);
-        Application.addInitializer(function() {
-          require(['modules/html5-notification/html5-notification'],
-              function(Html5NotificationModule) {
-                Html5NotificationModule.start();
-              });
-        });
-      } else {
-        Application.addInitializer(app.bootstrapTest);
-      }
+      Application.addInitializer(app.bootstrapApp);
+      Application.addInitializer(function() {
+        require(['modules/html5-notification/html5-notification'],
+            function(Html5NotificationModule) {
+              Html5NotificationModule.start();
+            });
+      });
       Application.start({
         contentTimer: contentTimer,
         SaitoApp: AppInitData

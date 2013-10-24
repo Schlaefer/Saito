@@ -278,7 +278,9 @@ define([
             },
 
             manuallyMarkAsRead: function(event) {
-                event.preventDefault();
+                if(event) {
+                  event.preventDefault();
+                }
                 window.redirect(App.settings.get('webroot') + 'entries/update');
             }
 		});

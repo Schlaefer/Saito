@@ -7,10 +7,10 @@
 	Router::connect(
 		'/api/v1/threads',
 		[
-			'plugin'     => 'Api',
+			'plugin' => 'Api',
 			'controller' => 'ApiEntries',
-			'action'     => 'threadsGet',
-			'[method]'   => 'GET'
+			'action' => 'threadsGet',
+			'[method]' => 'GET'
 		]
 	);
 
@@ -18,10 +18,10 @@
 	Router::connect(
 		'/api/v1/threads/*',
 		[
-			'plugin'     => 'Api',
+			'plugin' => 'Api',
 			'controller' => 'ApiEntries',
-			'action'     => 'threadsItemGet',
-			'[method]' 	=> 	'GET'
+			'action' => 'threadsItemGet',
+			'[method]' => 'GET'
 		]
 	);
 
@@ -31,13 +31,23 @@
 	// Create
 	Router::connect(
 		'/api/v1/entries',
-		['plugin' => 'Api', 'controller' => 'ApiEntries', 'action' => 'entriesItemPost', '[method]' => 'POST']
+		[
+			'plugin' => 'Api',
+			'controller' => 'ApiEntries',
+			'action' => 'entriesItemPost',
+			'[method]' => 'POST'
+		]
 	);
 
 	// Update
 	Router::connect(
 		'/api/v1/entries/*',
-		['plugin' => 'Api', 'controller' => 'ApiEntries', 'action' => 'entriesItemPut', '[method]' => 'PUT']
+		[
+			'plugin' => 'Api',
+			'controller' => 'ApiEntries',
+			'action' => 'entriesItemPut',
+			'[method]' => 'PUT'
+		]
 	);
 
 	// User
@@ -47,9 +57,9 @@
 	Router::connect(
 		'/api/v1/login',
 		[
-			'plugin'     => 'Api',
+			'plugin' => 'Api',
 			'controller' => 'ApiUsers',
-			'action'		 => 'login',
+			'action' => 'login',
 			'[method]' => 'POST'
 		]
 	);
@@ -58,9 +68,9 @@
 	Router::connect(
 		'/api/v1/logout',
 		[
-			'plugin'     => 'Api',
+			'plugin' => 'Api',
 			'controller' => 'ApiUsers',
-			'action'		 => 'logout',
+			'action' => 'logout',
 			'[method]' => 'POST'
 		]
 	);
@@ -70,10 +80,10 @@
 	Router::connect(
 		'/api/v1/shouts',
 		[
-			'plugin'     => 'Api',
+			'plugin' => 'Api',
 			'controller' => 'ApiShouts',
-			'action'     => 'shoutsGet',
-			'[method]'   => 'GET'
+			'action' => 'shoutsGet',
+			'[method]' => 'GET'
 		]
 	);
 
@@ -84,10 +94,10 @@
 	Router::connect(
 		'/api/v1/bootstrap',
 		[
-			'plugin'     => 'Api',
+			'plugin' => 'Api',
 			'controller' => 'ApiCore',
-			'action'     => 'bootstrap',
-			'[method]'   => 'GET'
+			'action' => 'bootstrap',
+			'[method]' => 'GET'
 		]
 	);
 
@@ -95,10 +105,10 @@
 	Router::connect(
 		'/api/v1/markasread',
 		[
-			'plugin'     => 'Api',
+			'plugin' => 'Api',
 			'controller' => 'ApiUsers',
-			'action'     => 'markasread',
-			'[method]'   => 'POST'
+			'action' => 'markasread',
+			'[method]' => 'POST'
 		]
 	);
 

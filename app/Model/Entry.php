@@ -104,10 +104,10 @@
 			'name' => array()
 		);
 
-		protected $fieldsToSanitize = array(
+		protected $_fieldsToSanitize = [
 			'subject',
-			'text',
-		);
+			'text'
+		];
 
 /**
  * Fields allowed in public output
@@ -223,7 +223,12 @@
 			return parent::__construct($id, $table, $ds);
 		}
 
-		public function getRecentEntries(array $options = [], SaitoUser $User) {
+/**
+ * @param array $options
+ * @param SaitoUser $User
+ * @return array|mixed
+ */
+		public function getRecentEntries(SaitoUser $User, array $options = []) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
@@ -299,6 +304,11 @@
 			);
 		}
 
+/**
+ * @param $id
+ * @return mixed
+ * @throws UnexpectedValueException
+ */
 		public function getParentId($id) {
 			$entry = $this->find(
 				'first',
@@ -310,7 +320,7 @@
 				]
 			);
 			if ($entry == false) {
-				throw new UnexpectedValueException ('Posting not found. Posting-Id: ' . $id);
+				throw new UnexpectedValueException('Posting not found. Posting-Id: ' . $id);
 			}
 			return $entry['Entry']['pid'];
 		}
@@ -406,6 +416,13 @@
 			return $_newPosting;
 		}
 
+/**
+ * @param $data
+ * @param null $CurrentUser
+ * @return array|mixed
+ * @throws NotFoundException
+ * @throws InvalidArgumentException
+ */
 		public function update($data, $CurrentUser = null) {
 			if ($CurrentUser !== null) {
 				$this->_CurrentUser = $CurrentUser;
@@ -514,8 +531,8 @@
 /**
  * trees for multiple tids
  */
-		public function treesForThreads($search_array, $order = null, $fieldlist = null) {
-			if (empty($search_array)) {
+		public function treesForThreads($searchArray, $order = null, $fieldlist = null) {
+			if (empty($searchArray)) {
 				return [];
 			}
 
@@ -526,7 +543,7 @@
 			}
 
 			$where = [];
-			foreach ($search_array as $_searchItem) {
+			foreach ($searchArray as $_searchItem) {
 				$where[] = $_searchItem['id'];
 			}
 
@@ -810,25 +827,25 @@
 			return false;
 		}
 
-		/*
-		 * Function for checking if entry is bookmarked by current user
-		 *
-		 * @var function
-		 */
 		protected function _addAdditionalFields(&$entries) {
+			/*
+			 * Function for checking if entry is bookmarked by current user
+			 *
+			 * @param $entries
+			 */
 			$ldGetBookmarkForEntryAndUser = function (&$tree, &$element, $_this) {
 					$bookmarks = $this->_CurrentUser->getBookmarks();
 					$element['isBookmarked'] = isset($bookmarks[$element['Entry']['id']]);
 			};
 			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
 
-		/*
-		 * Function for checking user rights on an entry
-		 *
-		 * @param $tree
-		 * @param $element
-		 * @param $_this
-		 */
+			/*
+			 * Function for checking user rights on an entry
+			 *
+			 * @param $tree
+			 * @param $element
+			 * @param $_this
+			 */
 			$ldGetRightsForEntryAndUser = function (&$tree, &$element, $_this) {
 				$rights = [
 					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser),

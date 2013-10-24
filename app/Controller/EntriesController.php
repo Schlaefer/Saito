@@ -880,20 +880,17 @@
 				$this->set(
 					'recentPosts',
 					$this->Entry->getRecentEntries(
+						$this->CurrentUser,
 						[
 							'user_id' => $this->CurrentUser->getId(),
 							'limit' => 5
-						],
-						$this->CurrentUser
+						]
 					)
 				);
 				// get last 10 recent entries for slidetab
 				$this->set(
 					'recentEntries',
-					$this->Entry->getRecentEntries(
-						[],
-						$this->CurrentUser
-					)
+					$this->Entry->getRecentEntries($this->CurrentUser)
 				);
 				// get shouts
 				if (in_array('slidetab_shoutbox', $this->viewVars['slidetabs'])) {
