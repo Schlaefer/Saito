@@ -172,6 +172,16 @@ module.exports = function(grunt) {
               './app/webroot/js/lib/**/*.js'
             ]
           }
+        },
+        shell: {
+          testCake: {
+            command: './lib/Cake/Console/cake test app all --stderr',
+            options: {
+              stdout: true,
+              stderr: true,
+              failOnError: true
+            }
+          }
         }
       }
   );
@@ -183,6 +193,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-phpcs');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-shell');
 
   grunt.registerTask('dev-setup', [
     'bower:devsetup',
@@ -190,6 +201,7 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('test', [
     'jshint',
+    'shell:testCake',
     'phpcs'
   ]);
   grunt.registerTask('release', [
