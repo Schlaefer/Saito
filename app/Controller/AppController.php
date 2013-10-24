@@ -125,11 +125,11 @@
 
 			// disable forum with admin pref
 			if (Configure::read('Saito.Settings.forum_disabled') &&
-					!($this->params['action'] === 'login')
+					$this->request['action'] !== 'login' &&
+					!$this->CurrentUser->isAdmin()
 			) {
-				if ($this->CurrentUser->isAdmin() !== true) {
-					return $this->render('/Pages/forum_disabled', 'barebone');
-				}
+				return $this->render('/Pages/forum_disabled', 'barebone');
+				exit;
 			}
 
 			$this->_setupSlideTabs();
@@ -155,7 +155,6 @@
 			if ($this->showDisclaimer) {
 				$this->_showDisclaimer();
 			}
-
 			$this->set('lastAction', $this->localReferer('action'));
 			$this->set('lastController', $this->localReferer('controller'));
 			$this->set('isDebug', (int)Configure::read('debug') > 0);
