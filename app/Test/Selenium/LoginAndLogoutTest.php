@@ -4,13 +4,13 @@
 
 	class LoginAndLogoutTest extends SaitoSeleniumTestCase {
 
-		function testLoginAndLogoutWithoutCookie() {
+		public function testLoginAndLogoutWithoutCookie() {
 			$this->login($this);
 			$this->logout($this);
 		}
 
 		public function testLoginAndLogoutWithCookie() {
-			$cookie_name = "SaitoPersistent[AU]";
+			$cookieName = "SaitoPersistent[AU]";
 
 			$this->open();
 			$this->waitForPageToLoad();
@@ -23,11 +23,11 @@
 			$this->assertTrue(
 				(bool)preg_match(
 					'/^[\s\S]*$/',
-					$this->getCookieByName($cookie_name)
+					$this->getCookieByName($cookieName)
 				)
 			);
 			$this->logout($this);
-			$this->assertFalse($this->isCookiePresent($cookie_name));
+			$this->assertFalse($this->isCookiePresent($cookieName));
 		}
 
 	}

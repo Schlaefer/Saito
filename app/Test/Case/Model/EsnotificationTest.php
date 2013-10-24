@@ -60,9 +60,9 @@ class EsnotificationTest extends CakeTestCase {
 		$allEntriesAfterDeletion = $this->Esnotification->find('count');
 
 		$this->assertEqual($eventsBeforeDeletion, $eventsAfterDeletion);
-		$this->assertEqual($allEntriesAfterDeletion, $allEntriesBeforeDeletion-$userEntriesBeforeDeletion);
+		$this->assertEqual($allEntriesAfterDeletion,
+				$allEntriesBeforeDeletion - $userEntriesBeforeDeletion);
 		$this->assertEqual($userEntriesAfterDeletion, 0);
-
 	}
 
 }

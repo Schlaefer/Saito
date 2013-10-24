@@ -3,12 +3,13 @@
 	App::uses('User', 'Model');
 	App::uses('Security', 'Utility');
 
-  class UserMockup extends User {
+	class UserMockup extends User {
 
-    public function checkPassword($password, $hash) {
-      return $this->_checkPassword($password, $hash);
-    }
-  }
+		public function checkPassword($password, $hash) {
+			return $this->_checkPassword($password, $hash);
+		}
+
+	}
 
 	class UserTestCase extends CakeTestCase {
 
@@ -28,8 +29,8 @@
 
 		public function testEmptyUserCategoryCustom() {
 			$this->User->contain();
-			$result	 = $this->User->read('user_category_custom', 1);
-			$result	 = $result['User']['user_category_custom'];
+			$result = $this->User->read('user_category_custom', 1);
+			$result = $result['User']['user_category_custom'];
 			$this->assertTrue(is_array($result));
 			$this->assertEmpty($result);
 		}
@@ -81,19 +82,19 @@
 			);
 
 			$data = array(
-					'1' => '0',
-					'2' => '1',
-					'3' => '0',
-					'5' => '0',
-					'9999' => '1',
-					array('foo')
+				'1' => '0',
+				'2' => '1',
+				'3' => '0',
+				'5' => '0',
+				'9999' => '1',
+				array('foo')
 			);
 
 			$expected = array(
-					'1' => false,
-					'2' => true,
-					'3' => false,
-					'5' => false,
+				'1' => false,
+				'2' => true,
+				'3' => false,
+				'5' => false,
 			);
 
 			$User->expects($this->at(0))
@@ -107,9 +108,9 @@
 			$User->setCategory($data);
 		}
 
-		/**
-		 * Set custom category set - Failure because no valid category is found
-		 */
+/**
+ * Set custom category set - Failure because no valid category is found
+ */
 		public function testSetCategoryCustomNotExist() {
 			$this->expectException('InvalidArgumentException');
 			$this->User->setCategory(array('foo'));
@@ -124,7 +125,7 @@
 			$this->assertEqual($expected, $result);
 
 			//* with explicit timestamp
-			$prev_result = $result;
+			$_prevResult = $result;
 
 			$this->User->id = 1;
 			$expected = '0000-00-00 00:00:00';
@@ -133,12 +134,11 @@
 			$this->assertEqual($expected, $result);
 
 			$result = $this->User->field('last_refresh_tmp');
-			$timeDiff = strtotime($result) - strtotime($prev_result);
+			$timeDiff = strtotime($result) - strtotime($_prevResult);
 			$this->assertLessThanOrEqual(1, $timeDiff);
 		}
 
 		public function testNumberOfEntry() {
-
 			//* zero entries
 			$this->User->id = 4;
 			$expected = 0;
@@ -159,7 +159,6 @@
 		}
 
 		public function testIncrementLogins() {
-
 			$usersBeforeIncrements = $this->User->find('count');
 
 			// check setup
@@ -174,12 +173,12 @@
 			$result = $this->User->field('logins');
 			$this->assertEqual($expected, $result);
 
-			$last_login = new DateTime($this->User->field('last_login'));
+			$_lastLogin = new DateTime($this->User->field('last_login'));
 			$now = new DateTime();
 			/* on a decently performing server the timestamp is maybe not equal
 			 * but within one second time diff
 			 */
-			$diff = $now->diff($last_login);
+			$diff = $now->diff($_lastLogin);
 			$result = (int)$diff->format("s");
 			$expected = 1;
 			$this->assertLessThanOrEqual($expected, $result);
@@ -191,12 +190,12 @@
 			$result = $this->User->field('logins');
 			$this->assertEqual($expected, $result);
 
-			$last_login = new DateTime($this->User->field('last_login'));
+			$_lastLogin = new DateTime($this->User->field('last_login'));
 			$now = new DateTime();
 			/* on a decently performing server the timestamp is maybe not equal
 			 * but within one second time diff
 			 */
-			$diff = $now->diff($last_login);
+			$diff = $now->diff($_lastLogin);
 			$result = (int)$diff->format("s");
 			$expected = 1;
 			$this->assertLessThanOrEqual($expected, $result);
@@ -207,77 +206,75 @@
 			$this->assertEqual($usersBeforeIncrements, $usersAfterIncrements);
 		}
 
-    public function testDeleteUser() {
-
+		public function testDeleteUser() {
 			// test that user's notifications are deleted
 			$this->User->Esnotification = $this->getMock('Esnotification',
-					array('deleteAllFromUser'), array(false, 'esnotifications', 'test'));
+				array('deleteAllFromUser'),
+				array(false, 'esnotifications', 'test'));
 			$this->User->Esnotification->expects($this->once())
 					->method('deleteAllFromUser')
 					->with(3)
 					->will($this->returnValue(true));
 
 			//
-      $result = $this->User->findById(3);
-      $this->assertTrue($result > 0);
+			$result = $this->User->findById(3);
+			$this->assertTrue($result > 0);
 
-      $entriesBeforeDelete = $this->User->Entry->find('count');
+			$entriesBeforeDelete = $this->User->Entry->find('count');
 
 			$allBookmarksBeforeDelete = $this->User->Bookmark->find('count');
 			$userBookmarksBeforeDelete = count($this->User->Bookmark->findAllByUserId(3));
 			// user has bookmarks before the test
-      $this->assertGreaterThan(0, $userBookmarksBeforeDelete);
+			$this->assertGreaterThan(0, $userBookmarksBeforeDelete);
 			// other users have bookmarks
-      $this->assertGreaterThan($userBookmarksBeforeDelete, $allBookmarksBeforeDelete);
+			$this->assertGreaterThan($userBookmarksBeforeDelete,
+				$allBookmarksBeforeDelete);
 
-      $this->User->deleteAllExceptEntries(3);
+			$this->User->deleteAllExceptEntries(3);
 
-      // user is deleted
-      $result = $this->User->findById(3);
-      $this->assertEqual($result, array());
+			// user is deleted
+			$result = $this->User->findById(3);
+			$this->assertEqual($result, array());
 
-      // make sure we delete without cascading to associated models
-      $expected = $entriesBeforeDelete;
-      $result = $this->User->Entry->find('count');
-      $this->assertEqual($result, $expected);
+			// make sure we delete without cascading to associated models
+			$expected = $entriesBeforeDelete;
+			$result = $this->User->Entry->find('count');
+			$this->assertEqual($result, $expected);
 
 			// delete associated bookmarks
 			$userBookmarksAfterDelete = count($this->User->Bookmark->findAllByUserId(3));
-      $this->assertEqual($userBookmarksAfterDelete, 0);
+			$this->assertEqual($userBookmarksAfterDelete, 0);
 			$allBookmarksAfterDelete = $this->User->Bookmark->find('count');
-      $this->assertEqual($allBookmarksBeforeDelete - $userBookmarksBeforeDelete, $allBookmarksAfterDelete);
-
-    }
+			$this->assertEqual($allBookmarksBeforeDelete - $userBookmarksBeforeDelete,
+				$allBookmarksAfterDelete);
+		}
 
 		public function testSetPassword() {
-
-			$new_password = 'test1';
+			$_newPassword = 'test1';
 			$this->User->id = 3;
-			$this->User->saveField('password', $new_password);
-			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
+			$this->User->saveField('password', $_newPassword);
+			$result = $this->User->checkPassword($_newPassword, $this->User->field('password'));
 			$this->assertTrue($result);
-
 		}
 
 		public function testAfterFind() {
-
 			//* setting prefix for empty colors
 			$this->User->id = 3;
 			$data = array(
-					'User' => array(
-							'user_color_new_postings' => '',
-							'user_color_old_postings' => '',
-							'user_color_actual_posting' => '',
-					),
+				'User' => array(
+					'user_color_new_postings' => '',
+					'user_color_old_postings' => '',
+					'user_color_actual_posting' => '',
+				),
 			);
 			$this->User->save($data);
 			$this->User->contain();
 			$expected = array(
-					$this->User->name => array(
-							'user_color_new_postings' => '#',
-							'user_color_old_postings' => '#',
-							'user_color_actual_posting' => '#',
-					),
+				$this->User->name => array(
+					'user_color_new_postings' => '#',
+					'user_color_old_postings' => '#',
+					'user_color_actual_posting' => '#',
+				),
 			);
 			$result = $this->User->read(array( 'user_color_new_postings', 'user_color_old_postings', 'user_color_actual_posting' ));
 			$this->assertEqual($expected, $result);
@@ -290,9 +287,9 @@
 
 			$this->User->id = 3;
 			$data = array(
-					'User' => array(
-							'user_font_size' => '0.95',
-					)
+				'User' => array(
+					'user_font_size' => '0.95',
+				)
 			);
 			$this->User->save($data);
 			$expected = 0.95;
@@ -301,13 +298,12 @@
 		}
 
 		public function testBeforeValidate() {
-
 			//*
 			$this->User->id = 3;
 			$data = array(
-					'User' => array(
-							'user_forum_refresh_time' => '1',
-					)
+				'User' => array(
+					'user_forum_refresh_time' => '1',
+				)
 			);
 			$this->User->save($data);
 			$expected = 1;
@@ -317,9 +313,9 @@
 			//*
 			$this->User->id = 3;
 			$data = array(
-					'User' => array(
-							'user_forum_refresh_time' => '',
-					)
+				'User' => array(
+					'user_forum_refresh_time' => '',
+				)
 			);
 			$this->User->save($data);
 			$expected = 0;
@@ -328,23 +324,23 @@
 		}
 
 		public function testValidateConfirmPassword() {
-
 			$this->User->id = 3;
 			$data = array(
-					'User' => array(
-							'password' => 'new_pw',
-							'password_confirm' => 'new_pw_wrong'
-					)
+				'User' => array(
+					'password' => 'new_pw',
+					'password_confirm' => 'new_pw_wrong'
+				)
 			);
 			$this->assertFalse($this->User->save($data));
-			$this->assertTrue(array_key_exists('password', $this->User->validationErrors));
+			$this->assertTrue(array_key_exists('password',
+				$this->User->validationErrors));
 
 			$this->User->id = 3;
 			$data = array(
-					'User' => array(
-							'password' => 'new_pw',
-							'password_confirm' => 'new_pw'
-					)
+				'User' => array(
+					'password' => 'new_pw',
+					'password_confirm' => 'new_pw'
+				)
 			);
 			$this->assertTrue($this->User->save($data) == true);
 			$this->assertFalse(array_key_exists('password', $this->User->validationErrors));
@@ -353,71 +349,70 @@
 		public function testValidateCheckOldPassword() {
 			$this->User->id = 3;
 			$data = array(
-					'User' => array(
-							'password_old' => 'something',
-							'password' => 'new_pw_2',
-							'password_confirm' => 'new_pw_2',
-					)
+				'User' => array(
+					'password_old' => 'something',
+					'password' => 'new_pw_2',
+					'password_confirm' => 'new_pw_2',
+				)
 			);
 			$this->assertFalse($this->User->save($data));
 			$this->assertTrue(array_key_exists('password_old',
-							$this->User->validationErrors));
+				$this->User->validationErrors));
 
 			$data = array(
-					'User' => array(
-							'password_old' => 'test',
-							'password' => 'new_pw_2',
-							'password_confirm' => 'new_pw_2',
-					)
+				'User' => array(
+					'password_old' => 'test',
+					'password' => 'new_pw_2',
+					'password_confirm' => 'new_pw_2',
+				)
 			);
 			$this->assertTrue($this->User->save($data) == true);
 			$this->assertFalse(array_key_exists('password_old',
-							$this->User->validationErrors));
+				$this->User->validationErrors));
 		}
 
-    public function testAutoUpdatePassword() {
-
-      // test exchanging
-			$new_password = 'testtest';
+		public function testAutoUpdatePassword() {
+			// test exchanging
+			$_newPassword = 'testtest';
 			$this->User->id = 3;
-			$this->User->autoUpdatePassword($this->User->id, $new_password);
-			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
+			$this->User->autoUpdatePassword($this->User->id, $_newPassword);
+			$result = $this->User->checkPassword($_newPassword, $this->User->field('password'));
 			$this->assertTrue($result);
 
-      // don't exchange if up to date
-			$new_password = 'testtest';
+			// don't exchange if up to date
+			$_newPassword = 'testtest';
 			$this->User->id = 6;
-      $old_password = $this->User->field('password');
+			$_oldPassword = $this->User->field('password');
 
-			$this->User->autoUpdatePassword($this->User->id, $new_password);
-			$result = $this->User->checkPassword($new_password, $this->User->field('password'));
+			$this->User->autoUpdatePassword($this->User->id, $_newPassword);
+			$result = $this->User->checkPassword($_newPassword,
+				$this->User->field('password'));
 			$this->assertTrue($result);
 
-      $new_password = $this->User->field('password');
-      $this->assertEqual($old_password, $new_password);
-    }
+			$_newPassword = $this->User->field('password');
+			$this->assertEqual($_oldPassword, $_newPassword);
+		}
 
 		public function testRegisterGc() {
-
-			$user_count_before_action = $this->User->find('count');
+			$_userCountBeforeAction = $this->User->find('count');
 
 			$user1 = array(
-					'User' => array(
-							'username' => 'Reginald',
-							'password' => 'test',
-							'password_confirm' => 'test',
-							'user_email' => 'Reginald@example.com',
-							'activate_code' => 5,
-					),
+				'User' => array(
+					'username' => 'Reginald',
+					'password' => 'test',
+					'password_confirm' => 'test',
+					'user_email' => 'Reginald@example.com',
+					'activate_code' => 5,
+				),
 			);
 			$user2 = array(
-					'User' => array(
-							'username' => 'Ronald',
-							'password' => 'test',
-							'password_confirm' => 'test',
-							'user_email' => 'Ronald@example.com',
-							'activate_code' => 539,
-					),
+				'User' => array(
+					'username' => 'Ronald',
+					'password' => 'test',
+					'password_confirm' => 'test',
+					'user_email' => 'Ronald@example.com',
+					'activate_code' => 539,
+				),
 			);
 			$this->User->register($user1);
 			$this->User->register($user2);
@@ -434,9 +429,8 @@
 			$result = $this->User->findByUsername('Ronald');
 			$this->assertEmpty($result);
 
-			$user_count_after_action = $this->User->find('count');
-			$this->assertEqual($user_count_before_action, $user_count_after_action - 1);
-
+			$_userCountAfterAction = $this->User->find('count');
+			$this->assertEqual($_userCountBeforeAction, $_userCountAfterAction - 1);
 		}
 
 		public function testRegisterGcIsOnlyCalledOncePerRequest() {
@@ -449,7 +443,6 @@
 		}
 
 		public function testRegister() {
-
 			// new user
 			$pw = 'test';
 			$data = array(
@@ -480,32 +473,31 @@
 			$result = $result['User'];
 			$result = array_intersect_key($result, $expected);
 			$this->assertEqual($result, $expected);
-
 		}
 
 		public function testRegisterValidation() {
 			$data = array(
-					'User' => array(
-							'username'				 => 'mitch',
-							'user_email'			 => 'alice@example.com',
-							'password'		 => 'NewUserspassword',
-							'password_confirm' => 'NewUser1spassword',
-					),
+				'User' => array(
+					'username' => 'mitch',
+					'user_email' => 'alice@example.com',
+					'password' => 'NewUserspassword',
+					'password_confirm' => 'NewUser1spassword'
+				),
 			);
 
 			$result = $this->User->register($data);
 			$this->assertFalse($result);
 
 			$expected = array(
-					'password' => array(
-							'validation_error_pwConfirm'
-					),
-					'username' => array(
-							'isUnique'
-					),
-					'user_email' => array(
-							'isUnique'
-					)
+				'password' => array(
+					'validation_error_pwConfirm'
+				),
+				'username' => array(
+					'isUnique'
+				),
+				'user_email' => array(
+					'isUnique'
+				)
 			);
 
 			$this->assertEqual($this->User->validationErrors, $expected);

@@ -144,6 +144,12 @@ module.exports = function(grunt) {
           controllers: {dir: './app/Controller'},
           models: {dir: './app/Model'},
           lib: {dir: './app/Lib'},
+          tests: {
+            dir: './app/Test',
+            options: {
+              ignore: 'Selenium'
+            }
+          },
           view: {
             dir: './app/View',
             options: {

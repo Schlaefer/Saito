@@ -6,7 +6,8 @@
 
 	class CacheTreeMock extends CacheTree {
 
-		public function __construct() { }
+		public function __construct() {
+		}
 
 		public function setCache($data) {
 			$this->_cachedEntries = $data;
@@ -123,7 +124,6 @@
 		}
 
 		public function testIsCacheValidReadDisabled() {
-
 			$userData = array(
 					'id' => 1,
 					'last_refresh' => date('Y-m-d H:i:s', time() - 7200)
@@ -140,7 +140,6 @@
 		}
 
 		public function testIsCacheValid() {
-
 			$userData = array(
 					'id' => 1,
 					'last_refresh' => date('Y-m-d H:i:s', time() - 5400)
@@ -157,7 +156,6 @@
 		}
 
 		public function testIsCacheValidNotLoggedIn() {
-
 			$userData = array( );
 			$this->CacheTree->setUser($userData);
 
@@ -171,7 +169,6 @@
 		}
 
 		public function testIsCacheValidNewAnswerForUser() {
-
 			$userData = array(
 					'id' => 1,
 					'last_refresh' => date('Y-m-d H:i:s', time() - 10000)
@@ -188,7 +185,6 @@
 		}
 
 		public function testIsCacheValidNewAnswerInThread() {
-
 			$userData = array(
 					'id' => 1,
 					'last_refresh' => date('Y-m-d H:i:s', time() - 0)
@@ -217,5 +213,6 @@
 			$result = $this->CacheTree->read();
 			$this->assertEqual($result, []);
 		}
+
 	}
 

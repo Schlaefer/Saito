@@ -5,12 +5,23 @@
 
 	class UserOnlineTest extends CakeTestCase {
 
-		public $fixtures = array( 'app.user_online', 'app.user', 'app.entry', 'app.category', 'app.upload' );
-    protected $_fields = array( 'fields' => array('user_id', 'time', 'logged_in'));
+		public $fixtures = array(
+			'app.user_online',
+			'app.user',
+			'app.entry',
+			'app.category',
+			'app.upload'
+		);
+
+		protected $_fields = array(
+			'fields' => array(
+				'user_id',
+				'time',
+				'logged_in'
+			)
+		);
 
 		public function testSetOnline() {
-
-
 			//* argument id test
 			$result = false;
 			try {
@@ -29,11 +40,10 @@
 			}
 			$this->assertTrue($result);
 
-
 			//* insert registered user
-			$user_id = 5;
+			$_userId = 5;
 			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => '5', 'time' => (string)time(), 'logged_in' => 1 );
-			$this->UserOnline->setOnline($user_id, TRUE);
+			$this->UserOnline->setOnline($_userId, true);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
@@ -42,10 +52,10 @@
 
 			//* insert anonymous user
 			session_id('sessionIdTest');
-			$user_id = session_id();
-			$this->_startUsersOnline[1]['UserOnline'] = array('user_id' => substr(($user_id),
+			$_userId = session_id();
+			$this->_startUsersOnline[1]['UserOnline'] = array('user_id' => substr(($_userId),
 							0, 32), 'time' => time(), 'logged_in' => 0 );
-			$this->UserOnline->setOnline($user_id, FALSE);
+			$this->UserOnline->setOnline($_userId, false);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
@@ -56,8 +66,8 @@
 			sleep(1);
 
 			//* update registered user before time
-			$user_id = 5;
-			$this->UserOnline->setOnline($user_id, TRUE);
+			$_userId = 5;
+			$this->UserOnline->setOnline($_userId, true);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
@@ -66,8 +76,8 @@
 
 			//* update anonymous user before time
 			session_id('sessionIdTest');
-			$user_id = session_id();
-			$this->UserOnline->setOnline($user_id, FALSE);
+			$_userId = session_id();
+			$this->UserOnline->setOnline($_userId, false);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
@@ -80,11 +90,11 @@
 			//* update anonymous user after time
 			$this->UserOnline->timeUntilOffline = 1;
 			session_id('sessionIdTest');
-			$user_id = session_id();
+			$_userId = session_id();
 			$this->_startUsersOnline = array( );
-			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => substr(($user_id),
+			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => substr(($_userId),
 							0, 32), 'time' => time(), 'logged_in' => 0 );
-			$this->UserOnline->setOnline($user_id, FALSE);
+			$this->UserOnline->setOnline($_userId, false);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
@@ -93,14 +103,13 @@
 		}
 
 		public function testSetOffline() {
-
 			//* insert new user
-			$user_id = 5;
+			$_userId = 5;
 			$this->_startUsersOnline[0]['UserOnline'] = [
-				'user_id'   => '5',
+				'user_id' => '5',
 				'logged_in' => 1
 			];
-			$this->UserOnline->setOnline($user_id, TRUE);
+			$this->UserOnline->setOnline($_userId, true);
 
 			//* test if user is inserted
 			$this->UserOnline->contain();
@@ -114,7 +123,7 @@
 			$this->assertEqual($result, $expected);
 
 			//* try to delte new user
-			$this->UserOnline->setOffline($user_id);
+			$this->UserOnline->setOffline($_userId);
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = array( );
@@ -125,12 +134,12 @@
 			$this->UserOnline->timeUntilOffline = 1;
 
 			//* test remove outdated
-			$user_id = 5;
-			$this->UserOnline->setOnline($user_id, TRUE);
+			$_userId = 5;
+			$this->UserOnline->setOnline($_userId, true);
 			sleep(2);
-			$user_id = 6;
+			$_userId = 6;
 			$this->_startUsersOnline[]['UserOnline'] = array('user_id' => '6', 'time' => time(), 'logged_in' => 1 );
-			$this->UserOnline->setOnline($user_id, TRUE);
+			$this->UserOnline->setOnline($_userId, true);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
@@ -139,24 +148,23 @@
 		}
 
 		public function testGetLoggedIn() {
-
-			/**
+			/*
 			 * test empty results, no user is logged in
 			 */
 			$result = $this->UserOnline->getLoggedIn();
 			$expected = array( );
 			$this->assertEqual($result, $expected);
 
-			/**
+			/*
 			 * test
 			 */
 			// login one user
-			$user_id = 3;
-			$this->UserOnline->setOnline($user_id, TRUE);
+			$_userId = 3;
+			$this->UserOnline->setOnline($_userId, true);
 
 			session_id('sessionIdTest');
-			$user_id = session_id();
-			$this->UserOnline->setOnline($user_id, FALSE);
+			$_userId = session_id();
+			$this->UserOnline->setOnline($_userId, false);
 
 			$result = $this->UserOnline->getLoggedIn();
 			$expected[] = array(
@@ -182,5 +190,3 @@
 		}
 
 	}
-
-?>

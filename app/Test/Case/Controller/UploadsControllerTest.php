@@ -40,14 +40,14 @@
 		}
 
 		public function testAddMaxUploadsReached() {
-			$max_uploads = Configure::read(
+			$_maxUploads = Configure::read(
 				'Saito.Settings.upload_max_number_of_uploads'
 			);
 
-			$current_uploads = 10;
+			$_currentUploads = 10;
 			Configure::write(
 				'Saito.Settings.upload_max_number_of_uploads',
-				$current_uploads
+				$_currentUploads
 			);
 
 			$Uploads = $this->generate(
@@ -65,12 +65,12 @@
 			$this->_loginUser(1);
 
 			$Uploads->Upload->expects($this->once())
-				->method('countUser')
-				->with(1)
-				->will($this->returnValue($current_uploads));
+					->method('countUser')
+					->with(1)
+					->will($this->returnValue($_currentUploads));
 
 			$Uploads->Upload->expects($this->never())
-				->method('create');
+					->method('create');
 
 			$result = $this->testAction(
 				'/uploads/add',
@@ -81,12 +81,12 @@
 			);
 			$result = json_decode($result);
 
-			$first_message = end($result->msg);
-			$this->assertEqual($first_message->type, 'error');
+			$_firstMessage = end($result->msg);
+			$this->assertEqual($_firstMessage->type, 'error');
 
 			Configure::write(
 				'Saito.Settings.upload_max_number_of_uploads',
-				$max_uploads
+				$_maxUploads
 			);
 		}
 
@@ -114,14 +114,17 @@
 			$this->generate('Uploads');
 			$this->_loginUser(3);
 			$result = $this->testAction(
-				'/uploads/index', array('return' => 'contents'));
-			;
+				'/uploads/index',
+				array('return' => 'contents')
+			);
 			$result = json_decode($result);
 			$this->assertCount(1, $result);
 			$this->assertEqual(
-				$result[0]->name, '3_upload_test.png');
+				$result[0]->name,
+				'3_upload_test.png');
 			$this->assertEqual(
-				$result[0]->id, 1);
+				$result[0]->id,
+				1);
 		}
 
 		public function testDeleteUserMustBeLoggedIn() {

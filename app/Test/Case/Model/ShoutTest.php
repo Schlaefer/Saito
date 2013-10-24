@@ -18,7 +18,6 @@
 		);
 
 		public function testSanitize() {
-
 			$data = array(
 				'Shout' => array(
 					'text' => '<',
@@ -30,12 +29,10 @@
 			$result = $this->Shout->findById($id);
 
 			$this->assertTextEquals('&lt;', $result['Shout']['text']);
-
 		}
 
 		public function testPush() {
-
-			$number_of_shouts = $this->Shout->find('count');
+			$_numberOfShouts = $this->Shout->find('count');
 
 			$data = array(
 				'Shout' => array(
@@ -53,13 +50,11 @@
 			$this->assertEqual($data['Shout'], $result);
 
 			$result = $this->Shout->find('count');
-			$expected = $number_of_shouts + 1;
+			$expected = $_numberOfShouts + 1;
 			$this->assertEqual($result, $expected);
-
 		}
 
 		public function testNoRotate() {
-
 			$model = $this->getMockForModel(
 				'Shout',
 				array('shift')
@@ -72,19 +67,17 @@
 				)
 			);
 
-			$number_of_shouts = $this->Shout->find('count');
-			$this->assertGreaterThanOrEqual(3, $number_of_shouts);
+			$_numberOfShouts = $this->Shout->find('count');
+			$this->assertGreaterThanOrEqual(3, $_numberOfShouts);
 
-			$model->maxNumberOfShouts = $number_of_shouts + 1;
+			$model->maxNumberOfShouts = $_numberOfShouts + 1;
 
 			$model->expects($this->never())
 					->method('shift');
 			$model->push($data);
-
 		}
 
 		public function testRotate() {
-
 			$model = $this->getMockForModel(
 				'Shout',
 				array('shift')
@@ -97,29 +90,28 @@
 				)
 			);
 
-			$number_of_shouts = $this->Shout->find('count');
-			$this->assertGreaterThanOrEqual(3, $number_of_shouts);
+			$_numberOfShouts = $this->Shout->find('count');
+			$this->assertGreaterThanOrEqual(3, $_numberOfShouts);
 
-			$model->maxNumberOfShouts = $number_of_shouts - 1;
+			$model->maxNumberOfShouts = $_numberOfShouts - 1;
 
 			$model->expects($this->exactly(2))
 					->method('shift')
 					->will($this->returnValue(true));
 			$model->push($data);
-
 		}
 
 		public function testShift() {
-
 			$before = $this->Shout->find('all', array(
-					'fields' => 'Shout.id',
-					'order' => 'Shout.id ASC'
-				));
+				'fields' => 'Shout.id',
+				'order' => 'Shout.id ASC'
+			));
 
-			$result =$this->Shout->shift();
+			$result = $this->Shout->shift();
 			$this->assertTrue($result);
 
-			$after = $this->Shout->find('all', array(
+			$after = $this->Shout->find('all',
+				array(
 					'fields' => 'Shout.id',
 					'order' => 'Shout.id ASC'
 				));
@@ -127,7 +119,6 @@
 			array_shift($before);
 
 			$this->assertEqual($after, $before);
-
 		}
 
 	/**
