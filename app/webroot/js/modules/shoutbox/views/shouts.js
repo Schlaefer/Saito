@@ -48,7 +48,7 @@ define([
     },
 
     /**
-     * Appends timestamp and/or <hr> to shout
+     * Puts timestamp or <hr> between shouts
      */
     _Delimiter: {
       _conversationCoolOff: 300,
@@ -68,9 +68,9 @@ define([
           return;
         }
         if ((this._previousItemTime.unix() - itemTime.unix()) > this._conversationCoolOff) {
-          this._appendTimestamp(this._previousItemTime);
+          this._append(this._previousItemTime);
         } else {
-          this.$el.append('<hr>');
+          this._append('<hr>');
         }
         this._previousItemTime = itemTime;
       },
@@ -78,15 +78,20 @@ define([
       finish: function() {
         this._previousItemTime = null;
         if (this._itemTime) {
-          this._appendTimestamp(this._itemTime);
+          this._append(this._itemTime);
         }
       },
 
-      _appendTimestamp: function(time) {
-        this.$el.append(this.tpl({
-          time: time.format('LT'),
-          time_long: time.format('llll')
-        }));
+      _append: function(time) {
+        var _toAppend = time;
+        // time is Moment object
+        if (_.isObject(time)) {
+          _toAppend = this.tpl({
+                time: time.format('LT'),
+                time_long: time.format('llll')
+              });
+        }
+        this.$el.append(_toAppend);
       }
     },
 
