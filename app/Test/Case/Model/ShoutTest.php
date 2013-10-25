@@ -17,20 +17,6 @@
 			'user',
 		);
 
-		public function testSanitize() {
-			$data = array(
-				'Shout' => array(
-					'text' => '<',
-					'user_id' => 3
-				)
-			);
-			$this->Shout->push($data);
-			$id = $this->Shout->id;
-			$result = $this->Shout->findById($id);
-
-			$this->assertTextEquals('&lt;', $result['Shout']['text']);
-		}
-
 		public function testPush() {
 			$_numberOfShouts = $this->Shout->find('count');
 
