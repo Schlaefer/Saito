@@ -29,7 +29,7 @@ define([
       } else {
         this.notify.removeAttr('checked');
       }
-      this.notify.show();
+      this.$('#shoutbox-notify-label').show();
     },
 
     onChangeNotify: function() {

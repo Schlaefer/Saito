@@ -13,7 +13,6 @@ define([
 
     var AppModel = Backbone.Model.extend({
 
-
         /**
          * global event handler for the app
          */
@@ -38,7 +37,6 @@ define([
          * Request info from CakePHP
          */
         request: null,
-
 
         initialize: function () {
           this.eventBus = Vent.vent;

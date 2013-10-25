@@ -18,22 +18,20 @@ define(['marionette', 'app/vent'], function(Marionette, EventBus) {
 
     var app = {
 
-        bootstrapShoutbox: function(options) {
-            whenReady(function() {
-                require(
-                    ['modules/shoutbox/shoutbox'],
-                    function(ShoutboxModule) {
-                        ShoutboxModule.start();
-                    });
-            });
-        },
+      bootstrapShoutbox: function() {
+        whenReady(function() {
+          require(['modules/shoutbox/shoutbox'], function(ShoutboxModule) {
+            ShoutboxModule.start();
+          });
+        });
+      },
 
         bootstrapApp: function(options) {
             require([
                 'domReady', 'views/app', 'backbone', 'jquery', 'models/app',
                 'views/notification',
 
-                'app/time',
+                'app/time', 'lib/Saito/isAppVisible',
 
                 'lib/jquery.i18n/jquery.i18n.extend',
                 'bootstrap', 'lib/saito/backbone.initHelper',
