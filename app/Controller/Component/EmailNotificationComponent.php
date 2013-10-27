@@ -1,39 +1,28 @@
 <?php
 
-	App::uses('CakeEvent', 'Event');
-	App::uses('CakeEventListener', 'Event');
+	App::uses('NotificationComponent', 'Lib/Controller/Component');
 
-	class EmailNotificationComponent extends Component implements CakeEventListener {
-
-		protected $_Controller;
-
-		protected $_Esevent;
+	class EmailNotificationComponent extends NotificationComponent {
 
 		protected $_handledEvents = array(
 			'Model.Entry.replyToEntry' => 'modelEntryReplyToEntry',
 			'Model.Entry.replyToThread' => 'modelEntryReplyToThread',
 		);
 
-		public function startup(Controller $controller) {
-			parent::startup($controller);
-			$this->_Esevent = ClassRegistry::init(array('class' => 'Esevent'));
-			CakeEventManager::instance()->attach($this);
-			$this->_Controller = $controller;
-		}
-
 		public function implementedEvents() {
-			$handledEvents = array_fill_keys(array_keys($this->_handledEvents),
-					'dispatchEvent');
+			$handledEvents = parent::implementedEvents();
 			$handledEvents['Model.User.afterActivate'] = 'userActivatedAdminNotice';
 			return $handledEvents;
 		}
 
-		public function dispatchEvent($event) {
+		protected function _process($event) {
 			$recipients = $this->_Esevent->getUsersForEventOnSubjectWithReceiver(
-					$event->name(), $event->data['subject'], 'EmailNotification');
+				$event->name(),
+				$event->data['subject'],
+				'EmailNotification');
 			if ($recipients):
 				$method = '_' . $this->_handledEvents[$event->name()];
-				if ( method_exists($this, $method) ) {
+				if (method_exists($this, $method)) {
 					$this->$method($event, $recipients);
 				}
 			endif;
