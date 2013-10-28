@@ -69,6 +69,10 @@
 			[
 				'name' => 'shoutbox_enabled',
 				'value' => true
+			],
+			[
+			'name' => 'shoutbox_max_shouts',
+			'value' => 5
 			]
 		);
 

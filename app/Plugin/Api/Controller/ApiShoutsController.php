@@ -12,6 +12,9 @@
 			'Shouts'
 		];
 
+		/**
+		 * Renders all shouts
+		 */
 		public function shoutsGet() {
 			$this->Shouts->setShoutsForView();
 		}
@@ -23,6 +26,9 @@
 		 */
 		public function shoutsPost() {
 			$this->autoLayout = false;
+			if (!isset($this->request->data['text'])) {
+				throw new BadRequestException('Missing text.');
+			}
 			$data = [
 				'Shout' => [
 					'text' => $this->request->data['text'],
@@ -37,16 +43,18 @@
 			}
 		}
 
-/**
- * @return CakeResponse|void
- * @throws MethodNotAllowedException
- */
+		/**
+		 * Called before controller action
+		 *
+		 * @return CakeResponse|void
+		 * @throws MethodNotAllowedException
+		 */
 		public function beforeFilter() {
 			parent::beforeFilter();
-
 			if (Configure::read('Saito.Settings.shoutbox_enabled') == false) {
 				throw new MethodNotAllowedException();
 			}
+			$this->_checkLoggedIn();
 		}
 
 	}

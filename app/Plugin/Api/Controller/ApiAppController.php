@@ -10,7 +10,6 @@
  */
 		public function beforeFilter() {
 			AppModel::$sanitizeEnabled = false;
-
 			parent::beforeFilter();
 
 			$_apiEnabled = Configure::read('Saito.Settings.api_enabled');
@@ -35,5 +34,18 @@
 			return $this->response->type() === 'application/json';
 		}
 
-	}
+		/**
+		 * Throws Error if action is only allowed for logged in users
+		 *
+		 * @throws Saito\Api\ApiAuthException
+		 */
+		protected function _checkLoggedIn() {
+			$this->Auth->unauthorizedRedirect = false;
+			if ($this->CurrentUser->isLoggedIn() === false &&
+					!in_array($this->request->action, $this->Auth->allowedActions)
+			) {
+				throw new Saito\Api\ApiAuthException();
+			}
+		}
 
+	}
