@@ -1,4 +1,5 @@
-define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
+define(['underscore', 'backbone', 'models/app'],
+    function(_, Backbone, App) {
 
   'use strict';
 
@@ -10,7 +11,7 @@ define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
 
     initialize: function() {
       this.listenTo(App.eventBus, 'html5-notification', this.notification);
-      App.commands.setHandler('app:html5-notification:activate', this._activate);
+      App.commands.setHandler('app:html5-notification:activate', this._activate, this);
       App.reqres.setHandler('app:html5-notification:available', this._isEnabled, this);
     },
 
@@ -23,13 +24,10 @@ define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
       });
 
       if (data.always || _isAppHidden) {
-        // @todo browser support
-        var notification = window.webkitNotifications.createNotification(
-            data.icon,
-            data.title,
-            data.message
-        );
-        notification.show();
+        var notification = new window.Notification(data.title, {
+          icon: data.icon,
+          body: data.message
+        });
 
         // prevents chrome to keep the notification on screen endlessly
         var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -42,15 +40,18 @@ define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
     },
 
     _activate: function() {
-      // @todo browser support
-      if (window.webkitNotifications.checkPermission() !== 0) {
-        window.webkitNotifications.requestPermission();
+      // Chrome does not support window.Notification.permission as of Chrome 30
+      if ("permission" in window.Notification && window.Notification.permission !== 'granted') {
+        window.Notification.requestPermission();
+        return;
+      } else {
+        window.Notification.requestPermission();
       }
+
     },
 
     _isEnabled: function() {
-      // @todo browser support
-      if (window.webkitNotifications) {
+      if ("Notification" in window) {
         return true;
       } else {
         return false;
