@@ -20,6 +20,12 @@ define([
       this._putNotifyCheckbox();
     },
 
+    serializeData: function() {
+      return {
+        n: $.i18n.__('Notification')
+      };
+    },
+
     _putNotifyCheckbox: function() {
       var active = App.reqres.request('app:html5-notification:available');
       if (active !== true) { return; }
