@@ -212,6 +212,34 @@ module.exports = function(grunt) {
               }
             }
           }
+        },
+        compass: {
+          watchCommon: {
+            options: {
+              basePath: './app/webroot/css/',
+              config: './app/webroot/css/config.rb',
+              watch: true
+            }
+          },
+          watchDefault: {
+            options: {
+              basePath: './app/View/Themed/Default/webroot/css/',
+              config: './app/View/Themed/Default/webroot/css/config.rb',
+              watch: true
+            }
+          },
+          compileExampleTheme: {
+            options: {
+              basePath: './app/View/Themed/Macnemo/webroot/css/',
+              config: './app/View/Themed/Macnemo/webroot/css/config.rb'
+            }
+          }
+        },
+        concurrent: {
+          compassWatch: ['compass:watchCommon', 'compass:watchDefault'],
+          options: {
+            logConcurrentOutput: true
+          }
         }
       }
   );
@@ -225,6 +253,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-contrib-compass');
 
   grunt.registerTask('dev-setup', [ 'bower:devsetup', 'copy:nonmin' ]);
 
@@ -233,13 +263,16 @@ module.exports = function(grunt) {
   grunt.registerTask('test:php', ['test:cake', 'phpcs']);
   grunt.registerTask('test', ['test:js', 'test:php']);
 
+  grunt.registerTask('compass:watch', 'concurrent:compassWatch');
+  grunt.registerTask('compass:compile', ['compass:compileExampleTheme']);
+
   grunt.registerTask('release', [
     'clean:release',
+    'compass:compile',
     'requirejs:release',
     'uglify:release',
     'copy:release',
     'copy:nonmin',
     'clean:releasePost'
   ]);
-}
-;
+};

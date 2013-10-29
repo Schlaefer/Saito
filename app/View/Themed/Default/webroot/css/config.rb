@@ -15,5 +15,9 @@ output_style = :compact
 
 # Eliminate query string on the end of image-url
 asset_cache_buster do |path, file|
-    
+
 end
+
+# 10.9 Mavericks compile failure
+# see: http://hugo.castanho.me/code/invalid-us-ascii-character-xe2/
+Encoding.default_external = "utf-8"
