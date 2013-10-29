@@ -1,62 +1,59 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'models/app',
-    'text!templates/upload.html',
-    'lib/saito/jquery.insertAtCaret'
-], function($, _, Backbone,
-            App,
-            uploadTpl
-    ) {
+  'jquery',
+  'underscore',
+  'backbone',
+  'models/app',
+  'text!templates/upload.html',
+  'lib/saito/jquery.insertAtCaret'
+], function($, _, Backbone, App, uploadTpl) {
 
-    "use strict";
+  "use strict";
 
-    var UploadView = Backbone.View.extend({
+  var UploadView = Backbone.View.extend({
 
-        className: "box-content upload_box current",
+    className: "box-content upload_box current",
 
-        events: {
-            "click .upload_box_delete": "_removeUpload",
-            "click .btn-submit" : "_insert"
-        },
+    events: {
+      "click .upload_box_delete": "_removeUpload",
+      "click .btn-submit": "_insert"
+    },
 
-        initialize: function(options) {
-            this.textarea = options.textarea;
+    initialize: function(options) {
+      this.textarea = options.textarea;
 
-            this.listenTo(this.model, "destroy", this._uploadRemoved);
-        },
+      this.listenTo(this.model, "destroy", this._uploadRemoved);
+    },
 
-        _removeUpload: function(event) {
-            event.preventDefault();
-            this.model.destroy({
-                    success:_.bind(function(model, response) {
-                        App.eventBus.trigger(
-                            'notification',
-                             response
-                        );
-                    }, this)
-                }
-            );
-        },
+    _removeUpload: function(event) {
+      event.preventDefault();
+      this.model.destroy({
+            success: _.bind(function(model, response) {
+              App.eventBus.trigger(
+                  'notification',
+                  response
+              );
+            }, this)
+          }
+      );
+    },
 
-        _uploadRemoved: function() {
-            this.remove();
-        },
+    _uploadRemoved: function() {
+      this.remove();
+    },
 
-        _insert: function(event) {
-            event.preventDefault();
-            $(this.textarea).insertAtCaret(
-                "[upload]" + this.model.get('name') + "[/upload]");
-        },
+    _insert: function(event) {
+      event.preventDefault();
+      $(this.textarea).insertAtCaret(
+          "[upload]" + this.model.get('name') + "[/upload]");
+    },
 
-        render: function() {
-            this.$el.html(_.template(uploadTpl, this.model.toJSON()));
-            return this;
-        }
+    render: function() {
+      this.$el.html(_.template(uploadTpl, this.model.toJSON()));
+      return this;
+    }
 
-    });
+  });
 
-    return UploadView;
+  return UploadView;
 
 });
