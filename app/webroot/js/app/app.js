@@ -1,4 +1,6 @@
-define(['marionette', 'app/vent'], function(Marionette, EventBus) {
+define(['marionette', 'app/core', 'app/vent',
+  'modules/html5-notification/html5-notification'],
+    function(Marionette, Core, EventBus) {
     // @todo
     //noinspection JSHint
     var AppInitData = SaitoApp;
@@ -30,6 +32,7 @@ define(['marionette', 'app/vent'], function(Marionette, EventBus) {
             require([
                 'domReady', 'views/app', 'backbone', 'jquery', 'models/app',
                 'views/notification',
+                'modules/html5-notification/html5-notification',
 
                 'app/time', 'lib/Saito/isAppVisible',
 
@@ -37,13 +40,17 @@ define(['marionette', 'app/vent'], function(Marionette, EventBus) {
                 'bootstrap', 'lib/saito/backbone.initHelper',
                 'lib/saito/backbone.modelHelper', 'fastclick'
             ],
-                function(domReady, AppView, Backbone, $, App, NotificationView) {
+                function(domReady, AppView, Backbone, $, App, NotificationView,
+                         Html5NotificationModule
+                    ) {
                     var appView,
                         appReady;
 
                     App.settings.set(options.SaitoApp.app.settings);
                     App.currentUser.set(options.SaitoApp.currentUser);
                     App.request = options.SaitoApp.request;
+
+                    Html5NotificationModule.start();
 
                     //noinspection JSHint
                     new NotificationView();
@@ -76,15 +83,9 @@ define(['marionette', 'app/vent'], function(Marionette, EventBus) {
         }
     };
 
-    var Application = new Marionette.Application();
+      var Application = Core;
 
       Application.addInitializer(app.bootstrapApp);
-      Application.addInitializer(function() {
-        require(['modules/html5-notification/html5-notification'],
-            function(Html5NotificationModule) {
-              Html5NotificationModule.start();
-            });
-      });
       Application.start({
         contentTimer: contentTimer,
         SaitoApp: AppInitData

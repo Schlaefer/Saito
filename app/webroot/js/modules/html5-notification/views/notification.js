@@ -9,7 +9,10 @@ define(['underscore', 'backbone', 'models/app'],
      */
     _hideAfter: 10,
 
-    initialize: function() {
+    _iconUrl: false,
+
+    initialize: function(options) {
+      this._iconUrl = options.iconUrl;
       this.listenTo(App.eventBus, 'html5-notification', this.notification);
       App.commands.setHandler('app:html5-notification:activate', this._activate, this);
       App.reqres.setHandler('app:html5-notification:available', this._isEnabled, this);
@@ -18,8 +21,7 @@ define(['underscore', 'backbone', 'models/app'],
     notification: function(data) {
       var _isAppHidden = !App.reqres.request('isAppVisible');
       data = _.defaults(data, {
-        // @todo
-        icon: 'http://macnemo.de/wiki/uploads/Main/macnemo_iphone2.png',
+        icon: this._iconUrl,
         always: false
       });
 
