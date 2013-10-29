@@ -31,23 +31,20 @@ class ShoutFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 2,
-			'created' => '2013-02-08 11:49:31',
-			'modified' => '2013-02-08 11:49:31',
+			'time' => '2013-02-08 11:49:31',
 			'text' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 1
 		),
 		array(
 			'id' => 3,
-			'created' => '2013-02-08 11:49:31',
-			'modified' => '2013-02-08 11:49:31',
+			'time' => '2013-02-08 11:49:31',
 			'text' => 'Lorem ipsum dolor sit amet',
 			'user_id' => 1
 		),
 		array(
 			'id' => 4,
-			'created' => '2013-02-08 11:49:31',
-			'modified' => '2013-02-08 11:49:31',
-			'text' => 'Lorem ipsum dolor sit amet',
+			'time' => '2013-02-08 11:49:31',
+			'text' => "<script></script>[i]italic[/i]",
 			'user_id' => 1
 		),
 	);

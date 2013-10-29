@@ -1,14 +1,16 @@
 # API v1 #
 
+If you have any questions please contact via the means provided by the [Saito Homepage](http://saito.siezi.com).
+
 ## Objects ##
 
 ### Introduction ###
 
 #### Basics ####
 
-All timestamps are ISO 8601 UTC.
+All timestamps are ISO 8601 UTC (e.g. `2013-09-15T19:12:17+00:00`).
 
-All text is raw with unencoded html entities unless mentioned otherwise.
+All text is raw with unencoded html entities unless mentioned otherwise (or explicitly delivered as `html`).
 
 #### Entries and Threads ####
 
@@ -64,6 +66,7 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 : `edit_time`":
 : timestamp of edit or `null` if unedited
 
+
 ### User ###
 
     {
@@ -78,6 +81,7 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 
 `threads_order`
 : values: `time`, `answer`
+
 
 ### Category ###
 
@@ -95,6 +99,7 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 `accession`
 :  `0`: all; `1`: registered users; `2`: mod/admin
 
+
 ### Settings ###
 
     {
@@ -106,6 +111,7 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 `edit_period`
 : period after creating an entry that editing is allowed in minutes
 
+
 ### Server ###
 
     {
@@ -114,6 +120,7 @@ Every entry with a `time < last_refresh` is considered old/read and vice versa. 
 
 `time`
 : current server time
+
 
 ## Endpoints ##
 
@@ -130,7 +137,11 @@ A successful request will respond with a 2xx HTTP code, on errors the code is 4x
 
 Authentication is handled by sending the standard Saito cookies (session or permanent).
 
-### bootstrap GET ###
+
+### Bootstrap ###
+
+
+#### bootstrap GET ####
 
 Global data about application and user state.
 
@@ -138,9 +149,10 @@ Global data about application and user state.
 - request method: `GET`
 - authorization: limited
 - returns:
-	- information about the current user
 	- categories accessible to the current user
 	- global forum settings
+	- global server variables
+	- information about the current user
 
 Response:
 
@@ -160,7 +172,26 @@ Response:
     }
 
 
-### threads GET ###
+### Threads ###
+
+
+#### threads/#id GET ####
+
+Complete thread with id `<thread_id>`
+
+- url: `api/v1/threads/<thread_id>`
+- authorization: limited (different categories)
+- request method: `GET`
+
+Response: List of Entry objects
+
+    [
+      // Entry object 1,
+      …
+    ]
+
+
+#### threads GET ####
 
 Index of latest threads.
 
@@ -200,23 +231,68 @@ Response
 : is true if a entry is pinned by a moderator to be shown "on top"
 
 
-### threads/#id GET ###
-
-Complete thread with id `<thread_id>`
-
-- url: `api/v1/threads/<thread_id>`
-- authorization: limited (different categories)
-- request method: `GET`
-
-Response: List of Entry objects
-
-    [
-      // Entry object 1,
-      …
-    ]
+### Entries ###
 
 
-### entries POST ###
+#### markasread POST ####
+
+Send mark as read event.
+
+- url: `api/v1/marksasread`
+- request method: `POST`
+- authorization: logged in
+
+Request data:
+
+    {
+      "id": 1
+      "last_refresh": "2013-07-04T19:53:14+00:00"
+    }
+
+`id`
+: user id
+
+`last_refresh`
+: optional: if empty current server time is used
+: if it's older than value on the server the server value will not be changed
+
+Response:
+
+    {
+      "id": 1
+      "last_refresh": "2013-07-04T19:53:14+00:00"
+    }
+
+
+#### entries/#id PUT ####
+
+Updates an existing entry.
+
+- url: `api/v1/entries/<entry_id>`
+- request method: `PUT`
+- authorization: logged in
+
+Request data:
+
+	{
+		"subject": "test",
+		"text": "test",
+		"category_id": 2
+	}
+
+`subject`
+: optional for non-root entries
+
+`text`
+: optional
+
+`category_id`
+: only for root entries
+
+Response: Entry object of the updated entry.
+
+
+#### entries POST ####
 
 Create a new entry.
 
@@ -246,35 +322,30 @@ Request data for creating an answer to an existing entry:
 Response: Entry object of the newly created entry.
 
 
-### entries/#id PUT ###
+### Login/Logout ###
 
-Updates an existing entry.
 
-- url: `api/v1/entries/<entry_id>`
-- request method: `PUT`
+#### logout POST ####
+
+Marks the user as logout out. Also removes authentication cookies from client.
+
+- url: `api/v1/logout`
+- request method: `POST`
 - authorization: logged in
 
 Request data:
 
 	{
-		"subject": "test",
-		"text": "test",
-		"category_id": 2
+		"id: 1
 	}
 
-`subject`
-: optional for non-root entries
+`id`
+: user id
 
-`text`
-: optional
-
-`category_id`
-: only for root entries
-
-Response: Entry object of the updated entry.
+Response: User object with `"isLoggedIn": false` on success.
 
 
-### login POST ###
+#### login POST ####
 
 Marks user as logged in. Removes existing authentication cookie and sets a new
 on successful login.
@@ -298,58 +369,13 @@ Request data:
 
 Response: User object.
 
-### logout POST ###
 
-Marks the user as logout out. Also removes authentication cookies from client.
-
-- url: `api/v1/logout`
-- request method: `POST`
-- authorization: logged in
-
-Request data:
-
-	{
-		"id: 1
-	}
-
-`id`
-: user id
-
-Response: User object with `"isLoggedIn": false` on success.
+### Shoubox ###
 
 
-### markasread POST ###
+#### shouts GET ####
 
-Send mark as read event.
-
-- url: `api/v1/marksasread`
-- request method: `POST`
-- authorization: logged in
-
-Request data:
-
-    {
-      "id": 1
-      "last_refresh": "2013-07-04T19:53:14+00:00"
-    }
-
-`id`
-: user id
-
-`last_refresh`
-: optional: if empty current server time is used
-: if it's older than value on the server the server value will not be changed
-
-Response:
-
-    {
-      "id": 1
-      "last_refresh": "2013-07-04T19:53:14+00:00"
-    }
-
-### shouts GET ###
-
-Get all current shouts
+Get all shouts.
 
 - url: `api/v1/shouts`
 - request method: `GET`
@@ -369,8 +395,21 @@ Response:
       …
     ]
 
-@todo
 
-### shouts POST ###
+#### shouts POST ####
 
-@todo
+Adds a new shout.
+
+- url: `api/v1/shouts`
+- request method: `POST`
+- authorization: logged in
+
+Request:
+
+	{
+		"text": "Shouttext"
+	}
+
+Response:
+
+On success responses with all current shouts. Same as "shouts GET".

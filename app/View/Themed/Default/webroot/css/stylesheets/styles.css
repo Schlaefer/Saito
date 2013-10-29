@@ -482,6 +482,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 #shoutbox .shout { margin: 2px 0; }
 #shoutbox textarea, #shoutbox .markItUpPreviewFrame { font-size: 12px; line-height: 16px; margin: 0 0 1em 0; padding: 2px 5px; width: 180px; resize: none; }
 #shoutbox .info_text, #shoutbox .btn-thread_tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c_bbc_link-dinfo, #shoutbox .c_bbc_imessage, #shoutbox .c_info_text, #shoutbox .thread_line-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; text-align: center; }
+#shoutbox input, #shoutbox label { font-size: 100%; }
 
 #shoutbox-shouts { word-wrap: break-word; }
 

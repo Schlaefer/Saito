@@ -8,7 +8,7 @@
 
 		protected $_maxNumberOfShouts;
 
-		protected $_Shouts;
+		protected $_ShoutModel;
 
 		public function startup(Controller $controller) {
 			$this->_controller = $controller;
@@ -24,11 +24,18 @@
 			$this->_controller->set('shouts', $shouts);
 		}
 
-		public function get() {
-			if (!$this->_Shouts) {
+		public function push($data) {
+			if (!$this->_ShoutModel) {
 				$this->_load();
 			}
-			$shouts = $this->_Shout->get();
+			return $this->_ShoutModel->push($data);
+		}
+
+		public function get() {
+			if (!$this->_ShoutsModel) {
+				$this->_load();
+			}
+			$shouts = $this->_ShoutModel->get();
 			return $shouts;
 		}
 
@@ -37,8 +44,8 @@
  */
 		protected function _load() {
 			$this->_controller->loadModel('Shout');
-			$this->_Shout = $this->_controller->Shout;
-			$this->_Shout->maxNumberOfShouts = $this->_maxNumberOfShouts;
+			$this->_ShoutModel = $this->_controller->Shout;
+			$this->_ShoutModel->maxNumberOfShouts = $this->_maxNumberOfShouts;
 		}
 
 	}

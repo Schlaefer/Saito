@@ -53,10 +53,6 @@
 			)
 		);
 
-		protected $_fieldsToSanitize = [
-			'text'
-		];
-
 		public $maxNumberOfShouts = 10;
 
 		public function findLastId() {

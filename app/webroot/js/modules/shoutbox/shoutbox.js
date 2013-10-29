@@ -11,7 +11,6 @@ define(['jquery', 'app/app', 'models/app', 'marionette',
 
       ShoutboxModule.addInitializer(function(options) {
         var shouts = options.SaitoApp.shouts;
-        // @todo
         var webroot = App.reqres.request('webroot');
         var apiroot = App.reqres.request('apiroot');
 
@@ -34,7 +33,7 @@ define(['jquery', 'app/app', 'models/app', 'marionette',
 
             initShoutsCollection: function() {
               this.shoutsCollection = new ShoutsCollection(shouts, {
-                apiroot: apiroot,
+                apiroot: apiroot
               });
 
               var update = _.bind(function() {
@@ -95,13 +94,12 @@ define(['jquery', 'app/app', 'models/app', 'marionette',
             },
 
             initAdd: function() {
-              var addModel = new ShoutModel({
-                webroot: webroot,
-                apiroot: apiroot,
-                collection: this.shoutsCollection
+              var addModel = new ShoutModel({}, {
+                urlRoot: apiroot + 'shouts/'
               });
               this.layout.add.show(new ShoutboxAddView({
-                model: addModel
+                model: addModel,
+                collection: this.shoutsCollection
               }));
             }
 

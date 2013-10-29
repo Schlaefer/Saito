@@ -26,6 +26,15 @@
 
 	}
 
+	class ApiAuthException extends GenericApiError {
+
+		public function __construct($message = '') {
+			$message = 'Route or action is not authorized.';
+			parent::__construct($message);
+		}
+
+	}
+
 	class UnknownRouteException extends GenericApiError {
 
 		public function __construct($message = '') {
