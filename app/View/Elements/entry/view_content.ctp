@@ -64,16 +64,15 @@
 					else :
 						echo ',';
 					endif;
-				?>
-        <?php echo  __('views_headline') ?>: <?php echo  $entry['Entry']['views'] ?><?php
-					$badges = $this->EntryH->getBadges($entry);
-					if ($badges) {
-						echo ' ' . $badges . ' ';
+					echo ' ' . __('views_headline') . ': ' . $entry['Entry']['views'];
+
+					echo '<span class="posting-badges">';
+					echo $this->EntryH->getBadges($entry);
+					echo '</span>';
+
+					if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod()) {
+						echo ', IP: ' . $entry['Entry']['ip'];
 					}
-          if ( Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod() ):
-          ?>, IP: <?php echo $entry['Entry']['ip']; ?>
-        <?php
-					endif;
 				?>
 		</div>
 

@@ -23,7 +23,8 @@ define([
 
             events: {
                 "click .js-btn-setAnsweringForm": "setAnsweringForm",
-                "click .btn-answeringClose": "setAnsweringForm"
+                "click .btn-answeringClose": "setAnsweringForm",
+                "click .btn-solves": "onBtnSolves"
             },
 
 			initialize: function(options) {
@@ -35,7 +36,37 @@ define([
 
                 // init geshi for entries/view when $el is already there
                 this.initGeshi('.c_bbc_code-wrapper');
-			},
+
+        this.model.set('isSolved',
+            this.$('.btn-solves').hasClass('solves-isSolved'),
+            {silent: true});
+        this.listenTo(this.model, 'change:isSolved', this.toggleSolved);
+      },
+
+      onBtnSolves: function(event) {
+        event.preventDefault();
+        this.model.toggle('isSolved');
+      },
+
+      toggleSolved: function() {
+        var _$el = this.$('.btn-solves'),
+            _$globalIconHook = $('.solves.' + this.model.get('id')),
+            _$badge = this.$('.solves'),
+            _isSolved = this.model.get('isSolved'),
+            _html = '';
+
+        if (_isSolved) {
+          _$el.addClass('solves-isSolved');
+          // @todo sync with EntryHHelper
+          _html = '<i class="icon-badge-solves solves-isSolved"></i>';
+        } else {
+          _$el.removeClass('solves-isSolved');
+        }
+        _$badge.html(_html);
+        // Sets other badges on the page, prominently in thread-line.
+        // @todo should be handled as state by global model for the entry
+        _$globalIconHook.html(_html);
+      },
 
             initGeshi: function(element_n) {
                 var geshi_elements;

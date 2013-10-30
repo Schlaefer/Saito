@@ -172,11 +172,11 @@
 			}
 			// empty block or menu cascades in entries/mix
 			$this->Blocks->set('modMenu', '');
+	 	endif;
+
+		echo $this->EntryH->bookmarkLink($entry['Entry']['id'], $entry['isBookmarked']);
+		echo $this->EntryH->markSolvedLink($entry, $rootEntry, $CurrentUser);
 		?>
-	<?php endif; ?>
-		&nbsp;
-		&nbsp;
-		<?php echo $this->EntryH->bookmarkLink($entry['Entry']['id'], $entry['isBookmarked']); ?>
 	</div>
 	<?php endif; ?>
 	<div class="posting_formular_slider" style="display:none;"></div>
