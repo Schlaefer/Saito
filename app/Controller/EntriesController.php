@@ -554,10 +554,28 @@
 		 *
 		 * @param $id
 		 * @throws BadRequestException
+		 * @throws ForbiddenException
+		 * @throws Exception
 		 */
 		public function solve($id) {
+			if (!$this->CurrentUser->isLoggedIn()) {
+				throw new ForbiddenException;
+			}
+			$entry = $this->Entry->get($id);
+			if (!$entry) {
+				throw new BadRequestException;
+			}
+			$rootEntry = $this->Entry->get($entry['Entry']['tid']);
+			if ((int)$rootEntry['User']['id'] !== $this->CurrentUser->getId()) {
+				throw new ForbiddenException;
+			}
 			$this->autoRender = false;
-			if (!$this->Entry->toggleSolve($id)) {
+			try {
+				$success = $this->Entry->toggleSolve($id);
+				if (!$success) {
+					throw new Exception;
+				}
+			} catch (Exception $e) {
 				throw new BadRequestException;
 			}
 		}

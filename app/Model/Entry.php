@@ -610,10 +610,15 @@
 		 * Marks a sub-entry as solution to a root entry
 		 *
 		 * @param $id
+		 * @return bool
+		 * @throws InvalidArgumentException
 		 */
 		public function toggleSolve($id) {
 			$this->contain();
 			$_entry = $this->read(null, $id);
+			if (empty($_entry) || $this->isRoot($_entry)) {
+				throw new InvalidArgumentException;
+			}
 			if ($_entry[$this->alias]['solves']) {
 				$value = 0;
 			} else {

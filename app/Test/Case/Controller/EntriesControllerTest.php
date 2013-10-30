@@ -788,6 +788,55 @@
 			$this->assertEquals($expected, $result);
 		}
 
+		public function testSolveNotLoggedIn() {
+			$this->generate('Entries', ['methods' => 'solve']);
+			$this->testAction('/entries/solve/1');
+			$this->assertRedirectedTo('login');
+		}
+
+		public function testSolveNoEntry() {
+			$this->generate('Entries');
+			$this->_loginUser(1);
+			$this->expectException('BadRequestException');
+			$this->testAction('/entries/solve/9999');
+		}
+
+		public function testSolveNotRootEntryUser() {
+			$this->generate('Entries');
+			$this->_loginUser(2);
+			$this->expectException('ForbiddenException');
+			$this->testAction('/entries/solve/1');
+		}
+
+		public function testSolveIsRootEntry() {
+			$this->generate('Entries');
+			$this->_loginUser(3);
+			$this->expectException('BadRequestException');
+			$this->testAction('/entries/solve/1');
+		}
+
+		public function testSolveSaveError() {
+			$Entries = $this->generate('Entries', ['models' => ['Entry' => ['toggleSolve']]]);
+			$this->_loginUser(3);
+			$Entries->Entry->expects($this->once())
+				->method('toggleSolve')
+				->with('1')
+				->will($this->returnValue(false));
+			$this->expectException('BadRequestException');
+			$this->testAction('/entries/solve/1');
+		}
+
+		public function testSolve() {
+			$Entries = $this->generate('Entries', ['models' => ['Entry' => ['toggleSolve']]]);
+			$this->_loginUser(3);
+			$Entries->Entry->expects($this->once())
+					->method('toggleSolve')
+					->with('1')
+					->will($this->returnValue(true));
+			$result = $this->testAction('/entries/solve/1');
+			$this->assertTextEquals($result, '');
+		}
+
 		//-----------------------------------------------
 
 		public function setUp() {
