@@ -30,6 +30,7 @@
 
 		protected function _modelEntryReplyToThread($event, array $recipients) {
 			$event->subject()->contain();
+			$event->subject()->sanitize(false);
 			$rootEntry = $event->subject()->findById($event->data['data']['Entry']['tid']);
 
 			$config = [
@@ -63,6 +64,7 @@
 
 		protected function _modelEntryReplyToEntry($event, array $recipients) {
 			$event->subject()->contain();
+			$event->subject()->sanitize(false);
 			$parentEntry = $event->subject()->findById($event->data['data']['Entry']['pid']);
 			$config = [
 				'subject' => __(

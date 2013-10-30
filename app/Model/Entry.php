@@ -376,6 +376,7 @@
 
 			// make sure we pass the complete ['Entry'] dataset to events
 			$this->contain();
+			$this->sanitize(false);
 			$_newPosting = $this->read();
 
 			if ($this->isRoot($data)) {
@@ -413,7 +414,10 @@
 					]
 				);
 			}
+
 			$this->id = $_newPostingId;
+			$_newPosting[$this->alias]['subject'] = Sanitize::html($_newPosting[$this->alias]['subject']);
+			$_newPosting[$this->alias]['text'] = Sanitize::html($_newPosting[$this->alias]['text']);
 			return $_newPosting;
 		}
 
