@@ -39,6 +39,7 @@
 						'/bookmarks/index/#' . $id,
 						array(
 							'id' => 'bookmarks-add-' . $id,
+							'class' => 'btn-bookmark-add',
 							'title' => __('Entry is bookmarked'),
 							'escape' => false,
 						)
@@ -51,6 +52,7 @@
 						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark-empty icon-large"></i>', '#',
 						array(
 							'id' => 'bookmarks-add-' . $id,
+							'class' => 'btn-bookmark-add',
 							'title' => __('Bookmark this entry'),
 							'escape' => false,
 						)
@@ -93,8 +95,38 @@ EOF
 			&& strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
 		}
 
+		public function isRoot($entry) {
+			return (int)$entry['Entry']['pid'] === 0;
+		}
+
 		public function hasAnswers($entry) {
 			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
+		}
+
+		public function markSolvedLink($entry, $rootEntry, $CurrentUser) {
+			$out = '';
+			// no button on root entry
+			if ($this->isRoot($entry)) {
+				return $out;
+			}
+			// only thread creator can mark as solved
+			if ($CurrentUser->getId() !== (int)$rootEntry['Entry']['user_id']) {
+				return $out;
+			}
+
+			$_isSolution = !empty($entry['Entry']['solves']);
+			$out = $this->Html->link(
+				'<i class="icon-badge-solves icon-large"></i>',
+				'#',
+				array(
+					'class' => 'btn-solves' .
+							($entry['Entry']['solves'] ? ' solves-isSolved ' : ''),
+					'data-id' => $entry['Entry']['id'],
+					'title' => __('Mark entry as helpful'),
+					'escape' => false,
+				)
+			);
+			return $out;
 		}
 
 /**
@@ -157,14 +189,20 @@ EOF
 		}
 
 		public function getBadges($entry) {
-			$out = array();
+			$out = '';
 			if ($entry['Entry']['fixed']) :
-				$out[] = '<i class="icon-pushpin" title="' . __('fixed') . '"></i>';
+				$out .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i> ';
 			endif;
 			if ($entry['Entry']['nsfw']):
-				$out[] = '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span>';
+				$out .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span> ';
 			endif;
-			return implode(' ', $out);
+			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
+			if ($entry['Entry']['solves']) {
+				$out .= '<i class="icon-badge-solves solves-isSolved" title="' .
+						__('Helpful entry') . '"></i>';
+			}
+			$out .= '</span>';
+			return $out;
 		}
 
 		public function getCategorySelectForEntry($categories, $entry) {

@@ -26,6 +26,7 @@
 				'nsfw' => array( 'type' => 'boolean', 'null' => true, 'default' => null, 'collate' => null, 'comment' => '' ),
 				'ip' => array( 'type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
 				'reposts' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
+				'solves' => array( 'type' => 'integer', 'null' => false, 'default' => '0'),
 		);
 
 /**

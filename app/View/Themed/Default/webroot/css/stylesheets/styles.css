@@ -648,6 +648,10 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
 .posting .signature { max-width: 80em; }
 
+.posting-badges i { padding: 0 0.5ex; }
+
+.btn-solves, .btn-bookmark-add { padding-left: 3em; }
+
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
 .c_bbc_spoiler .c_bbc_spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
@@ -674,6 +678,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .geshi-plain-text { font-size: smaller; }
 
 .embedly-image { max-height: 256px; }
+
+.solves-isSolved { color: green; }
 
 .entry.reply .box-header { border-top-width: 1px; }
 

@@ -5,7 +5,7 @@ define([
     'models/app',
 	'collections/threadlines', 'views/threadlines',
 	'collections/threads', 'views/thread',
-	'collections/postings', 'views/postings',
+	'collections/postings', 'models/posting', 'views/postings',
     'collections/bookmarks', 'views/bookmarks',
     'views/helps', 'views/categoryChooser',
     'collections/slidetabs', 'views/slidetabs',
@@ -16,7 +16,7 @@ define([
         App,
 		ThreadLineCollection, ThreadLineView,
 		ThreadCollection, ThreadView,
-		PostingCollection, PostingView,
+		PostingCollection, PostingModel, PostingView,
         BookmarksCollection, BookmarksView,
         HelpsView, CategoryChooserView,
         SlidetabsCollection, SlidetabsView,
@@ -74,12 +74,12 @@ define([
 
                 $('.js-entry-view-core').each(_.bind(function(a,element) {
                     var id,
-                        postingView;
+                        postingView,
+                        postingModel;
 
                     id = parseInt(element.getAttribute('data-id'), 10);
-                    this.postings.add([{
-                        id: id
-                    }], {silent: true});
+                    postingModel = new PostingModel({id: id});
+                    this.postings.add(postingModel, {silent: true});
                     postingView = new PostingView({
                         el: $(element),
                         model: this.postings.get(id),

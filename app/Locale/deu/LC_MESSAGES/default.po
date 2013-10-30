@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-29 12:04+0100\n"
-"PO-Revision-Date: 2013-10-29 12:04+0100\n"
+"POT-Creation-Date: 2013-10-30 13:19+0100\n"
+"PO-Revision-Date: 2013-10-30 13:20+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -98,8 +98,8 @@ msgstr "Einträge"
 msgid "User Registrations"
 msgstr "Benutzerregistrierungen"
 
-#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:331
-#: Controller/EntriesController.php:389
+#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:327
+#: Controller/EntriesController.php:385
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
@@ -391,7 +391,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:42 View/Entries/search.ctp:83
-#: Controller/EntriesController.php:995
+#: Controller/EntriesController.php:1004
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -425,7 +425,7 @@ msgid "%s edited by %s"
 msgstr "%s bearbeitet durch %s"
 
 # msgstr "Aufrufe"
-#: View/Elements/entry/view_content.ctp:68
+#: View/Elements/entry/view_content.ctp:67
 msgid "views_headline"
 msgstr "Aufrufe"
 
@@ -446,7 +446,7 @@ msgstr "Antworten"
 
 #: View/Elements/entry/view_posting.ctp:76
 #: View/Elements/entry/view_posting.ctp:104
-#: Controller/EntriesController.php:501
+#: Controller/EntriesController.php:497
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
@@ -665,7 +665,7 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:173 View/Helper/EntryHHelper.php:165
+#: View/Entries/add.ctp:173 View/Helper/EntryHHelper.php:196
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
@@ -769,11 +769,11 @@ msgstr ""
 msgid "RSS Feed"
 msgstr "RSS Feed"
 
-#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:119
+#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:113
 msgid "Last entries"
 msgstr "Letzte Einträge"
 
-#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:115
+#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:109
 msgid "Last started threads"
 msgstr "Letzte Threads"
 
@@ -1226,7 +1226,7 @@ msgid "register_success_content"
 msgstr ""
 "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
-#: View/Users/register.ctp:23 Controller/EntriesController.php:341
+#: View/Users/register.ctp:23 Controller/EntriesController.php:337
 msgid "js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
@@ -1350,51 +1350,51 @@ msgstr "Flattr-Kategorie"
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:94
+#: Controller/EntriesController.php:91
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:207 Controller/EntriesController.php:216
+#: Controller/EntriesController.php:202 Controller/EntriesController.php:211
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
-#: Controller/EntriesController.php:271
+#: Controller/EntriesController.php:267
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:326 Controller/EntriesController.php:454
+#: Controller/EntriesController.php:322 Controller/EntriesController.php:450
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:379 Controller/EntriesController.php:498
+#: Controller/EntriesController.php:375 Controller/EntriesController.php:494
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:383
+#: Controller/EntriesController.php:379
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:460
+#: Controller/EntriesController.php:456
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#: Controller/EntriesController.php:535
+#: Controller/EntriesController.php:531
 msgid "delete_tree_success"
 msgstr "Thread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:538
+#: Controller/EntriesController.php:534
 msgid "delete_subtree_success"
 msgstr "Subthread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:542
+#: Controller/EntriesController.php:538
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:776
+#: Controller/EntriesController.php:785
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:992
+#: Controller/EntriesController.php:1001
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1692,15 +1692,23 @@ msgstr "Eintrag ist in den Lesezeichen"
 msgid "Bookmark this entry"
 msgstr "Eintrag zu den Lesezeichen hinzufügen"
 
-#: View/Helper/EntryHHelper.php:162
+#: View/Helper/EntryHHelper.php:124
+msgid "Mark entry as helpful"
+msgstr "Beitrag als hilfreich markieren."
+
+#: View/Helper/EntryHHelper.php:193
 msgid "fixed"
 msgstr "Thread fixiert"
 
-#: View/Helper/EntryHHelper.php:177
+#: View/Helper/EntryHHelper.php:201
+msgid "Helpful entry"
+msgstr "Hilfreicher Beitrag"
+
+#: View/Helper/EntryHHelper.php:214
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:180
+#: View/Helper/EntryHHelper.php:217
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
@@ -2636,6 +2644,10 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/control.js:25
+msgid "Notification"
+msgstr "Benachrichtigung"
+
 #: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:69
 msgid "upload_fileTypeNotAllowed"
 msgstr "Dateityp nicht erlaubt."
@@ -2691,10 +2703,6 @@ msgstr ""
 #: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
 msgid "tr"
 msgstr ""
-
-#: webroot/js/modules/shoutbox/views/control.js:25
-msgid "Notification"
-msgstr "Benachrichtigung"
 
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:30
 msgid "token test"

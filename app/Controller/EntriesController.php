@@ -32,9 +32,6 @@
 			['field' => 'category', 'type' => 'value'],
 		];
 
-/**
- *
- */
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
@@ -103,9 +100,6 @@
 			Stopwatch::stop('Entries->index()');
 		}
 
-/**
- *
- */
 		public function feed() {
 			Configure::write('debug', 0);
 
@@ -159,6 +153,7 @@
 				return $this->redirect('/');
 			}
 
+			$this->_setRootEntry($entries[0]);
 			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
 			$this->initBbcode();
 			$this->set('entries', $entries);
@@ -240,8 +235,9 @@
 			$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
 
 			$this->_showAnsweringPanel();
-
 			$this->initBbcode();
+			$this->_setRootEntry($this->request->data);
+
 			if ($this->request->is('ajax')) {
 				//* inline view
 				$this->render('/Elements/entry/view_posting');
@@ -551,6 +547,19 @@
 		public function e() {
 			Stopwatch::start('Entries->e()');
 			Stopwatch::stop('Entries->e()');
+		}
+
+		/**
+		 * Marks sub-entry $id as solution to its current root-entry
+		 *
+		 * @param $id
+		 * @throws BadRequestException
+		 */
+		public function solve($id) {
+			$this->autoRender = false;
+			if (!$this->Entry->toggleSolve($id)) {
+				throw new BadRequestException;
+			}
 		}
 
 /**
@@ -1037,6 +1046,20 @@
 			$searchString = Sanitize::escape($searchString);
 			$searchString = preg_replace('/(^|\s)(?![-+])/i', ' +', $searchString);
 			return trim($searchString);
+		}
+
+		protected function _setRootEntry($entry) {
+			if ((int)$entry['Entry']['pid'] !== 0) {
+				$_rootEntry = $this->Entry->find('first',
+					[
+						'contain' => false,
+						'conditions' => ['Entry.id' => $this->request->data['Entry']['tid']],
+						'fields' => ['Entry.user_id']
+					]);
+			} else {
+				$_rootEntry = $entry;
+			}
+			$this->set('rootEntry', $_rootEntry);
 		}
 
 	}

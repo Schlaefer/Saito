@@ -156,6 +156,7 @@
 			Entry.flattr,
 			Entry.nsfw,
 			Entry.name,
+			Entry.solves,
 
 			User.username,
 
@@ -599,6 +600,28 @@
 			);
 
 			return $threads;
+		}
+
+		/**
+		 * Marks a sub-entry as solution to a root entry
+		 *
+		 * @param $id
+		 */
+		public function toggleSolve($id) {
+			$this->contain();
+			$_entry = $this->read(null, $id);
+			if ($_entry[$this->alias]['solves']) {
+				$value = 0;
+			} else {
+				$value = $_entry[$this->alias]['tid'];
+			}
+			$success = $this->saveField('solves', $value);
+			if ($success) {
+				$_entry[$this->alias]['solves'] = $value;
+				$this->_dispatchEvent('Model.Entry.update',
+					['subject' => $id, 'data' => $_entry]);
+			}
+			return $success;
 		}
 
 		public function toggle($key) {
