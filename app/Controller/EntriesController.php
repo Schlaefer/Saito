@@ -714,12 +714,14 @@
 			$data = $data['Entry'];
 			$newEntry = array(
 				'Entry' => array(
+					'id' => 'preview',
 					'pid' => $data['pid'],
 					'subject' => $data['subject'],
 					'text' => $data['text'],
 					'category' => $data['category'],
 					'nsfw' => $data['nsfw'],
 					'fixed' => false,
+					'solves' => 0,
 					'views' => 0,
 					'ip' => '',
 					'time' => date("Y-m-d H:i:s")
