@@ -12,7 +12,11 @@ debug_info = true
 line_numbers = true
 output_style = :compressed
 
+# 10.9 Mavericks compile failure
+# see: http://hugo.castanho.me/code/invalid-us-ascii-character-xe2/
+Encoding.default_external = "utf-8"
+
 # Eliminate query string on the end of image-url
 asset_cache_buster do |path, file|
-    
+
 end

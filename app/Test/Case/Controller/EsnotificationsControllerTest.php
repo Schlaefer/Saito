@@ -34,7 +34,7 @@ class EsnotificationsControllerTest extends SaitoControllerTestCase {
 		$Esnotifications->Esnotification->expects($this->once())
 				->method('deleteNotificationWithId')
 				->with(4)
-				->will($this->returnValue(TRUE));
+				->will($this->returnValue(true));
 
 		$result = $this->testAction('/esnotifications/unsubscribe/4/token:4234/');
 	}

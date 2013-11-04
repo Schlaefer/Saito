@@ -10,6 +10,7 @@
 			'EntryH',
 			'MarkitupEditor',
 			'Flattr.Flattr',
+			'Shouts',
 			'Text',
 		];
 
@@ -31,9 +32,6 @@
 			['field' => 'category', 'type' => 'value'],
 		];
 
-/**
- *
- */
 		public function index() {
 			Stopwatch::start('Entries->index()');
 
@@ -102,9 +100,6 @@
 			Stopwatch::stop('Entries->index()');
 		}
 
-/**
- *
- */
 		public function feed() {
 			Configure::write('debug', 0);
 
@@ -158,6 +153,7 @@
 				return $this->redirect('/');
 			}
 
+			$this->_setRootEntry($entries[0]);
 			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
 			$this->initBbcode();
 			$this->set('entries', $entries);
@@ -239,8 +235,9 @@
 			$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
 
 			$this->_showAnsweringPanel();
-
 			$this->initBbcode();
+			$this->_setRootEntry($this->request->data);
+
 			if ($this->request->is('ajax')) {
 				//* inline view
 				$this->render('/Elements/entry/view_posting');
@@ -552,6 +549,37 @@
 			Stopwatch::stop('Entries->e()');
 		}
 
+		/**
+		 * Marks sub-entry $id as solution to its current root-entry
+		 *
+		 * @param $id
+		 * @throws BadRequestException
+		 * @throws ForbiddenException
+		 * @throws Exception
+		 */
+		public function solve($id) {
+			if (!$this->CurrentUser->isLoggedIn()) {
+				throw new ForbiddenException;
+			}
+			$entry = $this->Entry->get($id);
+			if (!$entry) {
+				throw new BadRequestException;
+			}
+			$rootEntry = $this->Entry->get($entry['Entry']['tid']);
+			if ((int)$rootEntry['User']['id'] !== $this->CurrentUser->getId()) {
+				throw new ForbiddenException;
+			}
+			$this->autoRender = false;
+			try {
+				$success = $this->Entry->toggleSolve($id);
+				if (!$success) {
+					throw new Exception;
+				}
+			} catch (Exception $e) {
+				throw new BadRequestException;
+			}
+		}
+
 /**
  * @throws NotFoundException
  */
@@ -686,12 +714,14 @@
 			$data = $data['Entry'];
 			$newEntry = array(
 				'Entry' => array(
+					'id' => 'preview',
 					'pid' => $data['pid'],
 					'subject' => $data['subject'],
 					'text' => $data['text'],
 					'category' => $data['category'],
 					'nsfw' => $data['nsfw'],
 					'fixed' => false,
+					'solves' => 0,
 					'views' => 0,
 					'ip' => '',
 					'time' => date("Y-m-d H:i:s")
@@ -879,20 +909,17 @@
 				$this->set(
 					'recentPosts',
 					$this->Entry->getRecentEntries(
+						$this->CurrentUser,
 						[
 							'user_id' => $this->CurrentUser->getId(),
 							'limit' => 5
-						],
-						$this->CurrentUser
+						]
 					)
 				);
 				// get last 10 recent entries for slidetab
 				$this->set(
 					'recentEntries',
-					$this->Entry->getRecentEntries(
-						[],
-						$this->CurrentUser
-					)
+					$this->Entry->getRecentEntries($this->CurrentUser)
 				);
 				// get shouts
 				if (in_array('slidetab_shoutbox', $this->viewVars['slidetabs'])) {
@@ -1039,6 +1066,20 @@
 			$searchString = Sanitize::escape($searchString);
 			$searchString = preg_replace('/(^|\s)(?![-+])/i', ' +', $searchString);
 			return trim($searchString);
+		}
+
+		protected function _setRootEntry($entry) {
+			if ((int)$entry['Entry']['pid'] !== 0) {
+				$_rootEntry = $this->Entry->find('first',
+					[
+						'contain' => false,
+						'conditions' => ['Entry.id' => $this->request->data['Entry']['tid']],
+						'fields' => ['Entry.user_id']
+					]);
+			} else {
+				$_rootEntry = $entry;
+			}
+			$this->set('rootEntry', $_rootEntry);
 		}
 
 	}

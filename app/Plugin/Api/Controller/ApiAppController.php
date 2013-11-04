@@ -4,20 +4,22 @@
 
 	class ApiAppController extends AppController {
 
+/**
+ * @return CakeResponse|void
+ * @throws Saito\Api\ApiDisabledException
+ */
 		public function beforeFilter() {
-
 			AppModel::$sanitizeEnabled = false;
-
 			parent::beforeFilter();
 
-			$api_enabled = Configure::read('Saito.Settings.api_enabled');
-			if (empty($api_enabled)) {
+			$_apiEnabled = Configure::read('Saito.Settings.api_enabled');
+			if (empty($_apiEnabled)) {
 				throw new \Saito\Api\ApiDisabledException;
 			}
 
-			$api_allow_origin = Configure::read('Saito.Settings.api_crossdomain');
-			if (!empty($api_allow_origin)) {
-				$this->response->header('Access-Control-Allow-Origin', $api_allow_origin);
+			$_apiAllowOrigin = Configure::read('Saito.Settings.api_crossdomain');
+			if (!empty($_apiAllowOrigin)) {
+				$this->response->header('Access-Control-Allow-Origin', $_apiAllowOrigin);
 			}
 
 			$this->request->addDetector(
@@ -31,5 +33,19 @@
 		public function isJson() {
 			return $this->response->type() === 'application/json';
 		}
-	}
 
+		/**
+		 * Throws Error if action is only allowed for logged in users
+		 *
+		 * @throws Saito\Api\ApiAuthException
+		 */
+		protected function _checkLoggedIn() {
+			$this->Auth->unauthorizedRedirect = false;
+			if ($this->CurrentUser->isLoggedIn() === false &&
+					!in_array($this->request->action, $this->Auth->allowedActions)
+			) {
+				throw new Saito\Api\ApiAuthException();
+			}
+		}
+
+	}

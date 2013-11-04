@@ -7,7 +7,7 @@
 		protected $_Db;
 
 		public function __construct() {
-			$this->_Db						 = ClassRegistry::init('Ecach');
+			$this->_Db = ClassRegistry::init('Ecach');
 			$this->_Db->primaryKey = 'key';
 		}
 
@@ -24,11 +24,9 @@
 		}
 
 		public function write(array $data) {
-			return $this->_Db->save(array(
-							'Ecach' => array(
-									'key'		 => 'EntrySub',
-									'value'	 => serialize($data))
-					));
+			return $this->_Db->save([
+				'Ecach' => ['key' => 'EntrySub', 'value' => serialize($data)]
+			]);
 		}
 
 	}

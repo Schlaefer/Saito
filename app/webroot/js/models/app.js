@@ -1,17 +1,17 @@
 define([
     'underscore',
     'backbone',
+    'app/vent',
     'models/appSetting',
     'models/appStatus',
     'models/currentUser'
-], function (_, Backbone,
+], function (_, Backbone, Vent,
     AppSettingModel, AppStatusModel, CurrentUserModel
     ) {
 
     "use strict";
 
     var AppModel = Backbone.Model.extend({
-
 
         /**
          * global event handler for the app
@@ -38,12 +38,13 @@ define([
          */
         request: null,
 
-
         initialize: function () {
-            this.eventBus = _.extend({}, Backbone.Events);
-            this.settings = new AppSettingModel();
-            this.status = new AppStatusModel();
-            this.currentUser = new CurrentUserModel();
+          this.eventBus = Vent.vent;
+          this.commands = Vent.commands;
+          this.reqres = Vent.reqres;
+          this.settings = new AppSettingModel();
+          this.status = new AppStatusModel();
+          this.currentUser = new CurrentUserModel();
         },
 
         initAppStatusUpdate: function () {
@@ -60,7 +61,7 @@ define([
                 if (timerId !== undefined) {
                     clearTimeout(timerId);
                 }
-            },
+            };
 
             resetRefreshTime = function () {
                 stopTimer();

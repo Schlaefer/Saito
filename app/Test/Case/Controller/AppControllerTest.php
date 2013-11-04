@@ -22,30 +22,29 @@
 			'app.user_online'
 		];
 
-    public function testSetTitleForLayout() {
-
-      // test empty title_for_layout
+		public function testSetTitleForLayout() {
+			// test empty title_for_layout
 			$result = $this->testAction(
-          '/entries/index',
-          array( 'return' => 'vars')
-          );
-      $this->assertEqual($result['title_for_layout'], 'Forum – macnemo');
+				'/entries/index',
+				array('return' => 'vars')
+			);
+			$this->assertEqual($result['title_for_layout'], 'Forum – macnemo');
 
-      // test nonempty title_for_layout
+			// test nonempty title_for_layout
 			$result = $this->testAction(
-          '/entries/view/1',
-          array( 'return' => 'vars')
-          );
-      $this->assertEqual($result['title_for_layout'], 'First_Subject – macnemo');
+				'/entries/view/1',
+				array('return' => 'vars')
+			);
+			$this->assertEqual($result['title_for_layout'], 'First_Subject – macnemo');
 
-      // test empty title for layout with page_titles.po set
+			// test empty title for layout with page_titles.po set
 			$this->_loginUser(1);
 			$result = $this->testAction(
-          '/entries/add',
-          array( 'return' => 'vars')
-          );
-      $this->assertEqual($result['title_for_layout'], 'New Entry – macnemo');
-    }
+				'/entries/add',
+				array('return' => 'vars')
+			);
+			$this->assertEqual($result['title_for_layout'], 'New Entry – macnemo');
+		}
 
 		public function testLocalReferer() {
 			$this->testAction('/entries/index');
@@ -77,7 +76,7 @@
 
 			$_SERVER['HTTP_REFERER'] = FULL_BASE_URL . $this->controller->webroot . '';
 			$result = $this->controller->localReferer('controller');
-			if ( Configure::read('Saito.installed') ) :
+			if (Configure::read('Saito.installed')) :
 				$expected = 'entries';
 			else:
 				$expected = 'install';
@@ -87,7 +86,7 @@
 			//* external referer
 			$_SERVER['HTTP_REFERER'] = 'http://heise.de/foobar/baz.html';
 			$result = $this->controller->localReferer('controller');
-			if ( Configure::read('Saito.installed') ) :
+			if (Configure::read('Saito.installed')) :
 				$expected = 'entries';
 			else:
 				$expected = 'install';
@@ -102,7 +101,7 @@
 
 		public function testCurrentUser() {
 			//* check there's no current user
-			$result = $this->testAction('/entries/index', array( 'return' => 'vars' ));
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 
 			$this->assertTrue(is_null($result['CurrentUser']->getId()));
 			$this->assertFalse($result['CurrentUser']->isLoggedIn());
@@ -111,13 +110,11 @@
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(3);
 			$result = $this->testAction(
-					'/entries/index'
-					, array( 'return' => 'vars' )
+				'/entries/index',
+				array('return' => 'vars')
 			);
 			$this->assertEqual($result['CurrentUser']->getId(), 3);
 			$this->assertTrue($result['CurrentUser']->isLoggedIn());
 		}
 
 	}
-
-?>

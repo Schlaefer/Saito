@@ -15,44 +15,46 @@
 				'TimeH',
 		);
 
-		/**
-		 *
-		 * Perf-cheat
-		 *
-		 * @var int
-		 */
+/**
+ *
+ * Perf-cheat
+ *
+ * @var int
+ */
 		protected $_maxThreadDepthIndent;
 
-		/**
-		 * Category localization
-		 *
-		 * Perf-cheat
-		 *
-		 * @var array
-		 */
+/**
+ * Category localization
+ *
+ * Perf-cheat
+ *
+ * @var array
+ */
 		protected $_catL10n = array();
 
 		public function bookmarkLink($id, $isBookmarked = false) {
 			$out = '';
-			$bookmark_link_set = $this->Html->link(
+			$_bookmarkLinkSet = $this->Html->link(
 						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark icon-large"></i>',
 						'/bookmarks/index/#' . $id,
 						array(
-								'id'		 => 'bookmarks-add-' . $id,
-								'title'  => __('Entry is bookmarked'),
-								'escape' => false,
+							'id' => 'bookmarks-add-' . $id,
+							'class' => 'btn-bookmark-add',
+							'title' => __('Entry is bookmarked'),
+							'escape' => false,
 						)
 				);
 
 			if ($isBookmarked) {
-				$out .= $bookmark_link_set;
+				$out .= $_bookmarkLinkSet;
 			} else {
 				$out .= $this->Html->link(
 						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark-empty icon-large"></i>', '#',
 						array(
-								'id'		 => 'bookmarks-add-' . $id,
-								'title'  => __('Bookmark this entry'),
-								'escape' => false,
+							'id' => 'bookmarks-add-' . $id,
+							'class' => 'btn-bookmark-add',
+							'title' => __('Bookmark this entry'),
+							'escape' => false,
 						)
 				);
 				$out .= $this->Html->scriptBlock(<<<EOF
@@ -63,7 +65,7 @@ $("#content").one("click", "#bookmarks-add-{$id}", function (event) {
 		data:"id={$id}",
 		dataType:"json",
 		success:function (data, textStatus) {
-			$("#bookmarks-add-{$id}").replaceWith('{$bookmark_link_set}');
+			$("#bookmarks-add-{$id}").replaceWith('{$_bookmarkLinkSet}');
 			},
 		type:"POST",
 		url:"{$this->webroot}bookmarks/add"
@@ -81,22 +83,58 @@ EOF
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
 		}
 
-		/**
-		 * Decides if an $entry is new to/unseen by a $user
-		 *
-		 * @param type $entry
-		 * @param type $user
-		 * @return boolean
-		 */
+/**
+ * Decides if an $entry is new to/unseen by a $user
+ *
+ * @param type $entry
+ * @param type $user
+ * @return boolean
+ */
 		public function isNewEntry($entry, $user) {
 			return isset($user['last_refresh'])
-						 && strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
+			&& strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
+		}
+
+		public function isRoot($entry) {
+			return (int)$entry['Entry']['pid'] === 0;
 		}
 
 		public function hasAnswers($entry) {
 			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
 		}
 
+		public function markSolvedLink($entry, $rootEntry, $CurrentUser) {
+			$out = '';
+			// no button on root entry
+			if ($this->isRoot($entry)) {
+				return $out;
+			}
+			// only thread creator can mark as solved
+			if ($CurrentUser->getId() !== (int)$rootEntry['Entry']['user_id']) {
+				return $out;
+			}
+
+			$_isSolution = !empty($entry['Entry']['solves']);
+			$out = $this->Html->link(
+				'<i class="icon-badge-solves icon-large"></i>',
+				'#',
+				array(
+					'class' => 'btn-solves' .
+							($entry['Entry']['solves'] ? ' solves-isSolved ' : ''),
+					'data-id' => $entry['Entry']['id'],
+					'title' => __('Mark entry as helpful'),
+					'escape' => false,
+				)
+			);
+			return $out;
+		}
+
+/**
+ * @param $entry
+ * @param $user
+ * @return bool
+ * @throws InvalidArgumentException
+ */
 		public function hasNewEntries($entry, $user) {
 			if ($entry['Entry']['pid'] != 0):
 				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
@@ -118,31 +156,31 @@ EOF
 			return $entryType;
 		}
 
-    public function getPaginatedIndexPageId($tid, $lastAction) {
-      $indexPage = '/entries/index';
+		public function getPaginatedIndexPageId($tid, $lastAction) {
+			$indexPage = '/entries/index';
 
-      if ( $lastAction !== 'add' ):
-        if ( $this->Session->read('paginator.lastPage') ):
-          $indexPage .= '/page:' . $this->Session->read('paginator.lastPage');
-        endif;
-      endif;
-      $indexPage .= '/jump:' . $tid;
+			if ($lastAction !== 'add'):
+				if ($this->Session->read('paginator.lastPage')):
+					$indexPage .= '/page:' . $this->Session->read('paginator.lastPage');
+				endif;
+			endif;
+			$indexPage .= '/jump:' . $tid;
 
-      return $indexPage;
-    }
+			return $indexPage;
+		}
 
-		/**
-		 * This function may be called serveral hundred times on the front page.
-		 * Don't make ist slow, benchmark!
-		 *
-		 * @param type $entry
-		 * @param type $params
-		 * @return string
-		 */
-		public function getFastLink($entry, $params = array( 'class' => '' )) {
-//		Stopwatch::start('Helper->EntryH->getFastLink()');
+/**
+ * This function may be called serveral hundred times on the front page.
+ * Don't make ist slow, benchmark!
+ *
+ * @param $entry
+ * @param array $params
+ * @return string
+ */
+		public function getFastLink($entry, $params = array('class' => '')) {
+			// Stopwatch::start('Helper->EntryH->getFastLink()');
 			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . '</a>';
-//		Stopwatch::stop('Helper->EntryH->getFastLink()');
+			// Stopwatch::stop('Helper->EntryH->getFastLink()');
 			return $out;
 		}
 
@@ -151,14 +189,20 @@ EOF
 		}
 
 		public function getBadges($entry) {
-			$out = array();
+			$out = '';
 			if ($entry['Entry']['fixed']) :
-				$out[] = '<i class="icon-pushpin" title="' . __('fixed') . '"></i>';
+				$out .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i> ';
 			endif;
 			if ($entry['Entry']['nsfw']):
-				$out[] = '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span>';
+				$out .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span> ';
 			endif;
-			return implode(' ', $out);
+			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
+			if ($entry['Entry']['solves']) {
+				$out .= '<i class="icon-badge-solves solves-isSolved" title="' .
+						__('Helpful entry') . '"></i>';
+			}
+			$out .= '</span>';
+			return $out;
 		}
 
 		public function getCategorySelectForEntry($categories, $entry) {
@@ -184,70 +228,70 @@ EOF
 			return $out;
 		}
 
-		/**
-		 *
-		 *
-		 * Everything you do in here is in worst case done a few hundred times on
-		 * the frontpage. Think about (and benchmark) performance before you change it.
-		 */
-		public function threadCached(array $entry_sub, SaitoUser $CurrentUser, $level = 0, array $current_entry = array()) {
+/**
+ *
+ *
+ * Everything you do in here is in worst case done a few hundred times on
+ * the frontpage. Think about (and benchmark) performance before you change it.
+ */
+		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = array()) {
 			// Stopwatch::start('EntryH->threadCached');
 			//setup for current entry
-			$isNew = $this->isNewEntry($entry_sub, $CurrentUser);
-			$span_post_type = $this->generateEntryTypeCss(
+			$isNew = $this->isNewEntry($entrySub, $CurrentUser);
+			$_spanPostType = $this->generateEntryTypeCss(
 				$level,
 				$isNew,
-				$entry_sub['Entry']['id'],
-				(isset($current_entry['Entry']['id']) && $this->request->params['action'] === 'view') ? $current_entry['Entry']['id'] : null
+				$entrySub['Entry']['id'],
+				(isset($currentEntry['Entry']['id']) && $this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null
 			);
 
-			$thread_line_cached = $this->threadLineCached($entry_sub, $level);
-			$thread_line_pre = '<i class="icon-thread"></i>';
+			$_threadLineCached = $this->threadLineCached($entrySub, $level);
+			$_threadLinePre = '<i class="icon-thread"></i>';
 			if ($level === 0
-					&& strtotime($entry_sub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
-				$thread_line_pre = '<i class="icon-threadnew"></i>';
+					&& strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
+				$_threadLinePre = '<i class="icon-threadnew"></i>';
 			}
 
 			// generate current entry
 			$out = <<<EOF
-<li class="js-thread_line {$span_post_type}" data-id="{$entry_sub['Entry']['id']}" data-tid="{$entry_sub['Entry']['tid']}" data-new="{$isNew}">
+<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$isNew}">
 	<div class="js-thread_line-content tl-cnt">
 		<a href="#" class="btn_show_thread thread_line-pre span_post_type">
-			{$thread_line_pre}
+			{$_threadLinePre}
 		</a>
-		<a href='{$this->request->webroot}entries/view/{$entry_sub['Entry']['id']}'
-			class='link_show_thread {$entry_sub['Entry']['id']} span_post_type thread_line-content'>
-				{$thread_line_cached}
+		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
+			class='link_show_thread {$entrySub['Entry']['id']} span_post_type thread_line-content'>
+				{$_threadLineCached}
 		</a>
 	</div>
 </li>
 EOF;
 
 			// generate sub-entries of current entry
-			if (isset($entry_sub['_children'])) :
+			if (isset($entrySub['_children'])) :
 				$sub = '';
-				foreach ($entry_sub['_children'] as $child) :
-					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $current_entry);
+				foreach ($entrySub['_children'] as $child) :
+					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $currentEntry);
 				endforeach;
 				$out .= '<li>' . $this->_wrapUl($sub) . '</li>';
 			endif;
 
 			// wrap into root ul tag
 			if ($level === 0) {
-				$out = $this->_wrapUl($out, $level, $entry_sub['Entry']['id']);
+				$out = $this->_wrapUl($out, $level, $entrySub['Entry']['id']);
 			}
 			// Stopwatch::stop('EntryH->threadCached');
 			return $out;
 		}
 
-		/**
-		 * Wraps li tags with ul tag
-		 *
-		 * @param $string li html list
-		 * @param $level
-		 * @param $id
-		 * @return string
-		 */
+/**
+ * Wraps li tags with ul tag
+ *
+ * @param $string li html list
+ * @param $level
+ * @param $id
+ * @return string
+ */
 		protected function _wrapUl($string, $level = null, $id = null) {
 			if ($level < $this->_maxThreadDepthIndent) {
 				$class = '';
@@ -261,46 +305,46 @@ EOF;
 			return $string;
 		}
 
-		/**
-		 *
-		 *
-		 * Everything you do in here is in worst case done a few hundred times on
-		 * the frontpage. Think about (and benchmark) performance before you change it.
-		 */
-		public function threadLineCached(array $entry_sub, $level) {
+/**
+ *
+ *
+ * Everything you do in here is in worst case done a few hundred times on
+ * the frontpage. Think about (and benchmark) performance before you change it.
+ */
+		public function threadLineCached(array $entrySub, $level) {
 			/* because of performance we use dont use $this->Html->link(...):
-			 * $out.= $this->EntryH->getFastLink($entry_sub,
-			 *     array( 'class' => "link_show_thread {$entry_sub['Entry']['id']} span_post_type" ));
+			 * $out.= $this->EntryH->getFastLink($entrySub,
+			 *     array( 'class' => "link_show_thread {$entrySub['Entry']['id']} span_post_type" ));
 			 */
 
 			/*because of performance we use hard coded links instead the cakephp helper:
-			 * echo $this->Html->link($entry_sub['User']['username'], '/users/view/'. $entry_sub['User']['id']);
+			 * echo $this->Html->link($entrySub['User']['username'], '/users/view/'. $entrySub['User']['id']);
 			 */
 			$category = '';
 			if ($level === 0) :
-				if (!isset($this->_catL10n[$entry_sub['Category']['accession']])) {
-					$this->_catL10n[$entry_sub['Category']['accession']] = __d('nondynamic',
-						'category_acs_' . $entry_sub['Category']['accession'] . '_exp');
+				if (!isset($this->_catL10n[$entrySub['Category']['accession']])) {
+					$this->_catL10n[$entrySub['Category']['accession']] = __d('nondynamic',
+						'category_acs_' . $entrySub['Category']['accession'] . '_exp');
 				}
-				$a = $this->_catL10n[$entry_sub['Category']['accession']];
-				$category = '<span class="category_acs_' . $entry_sub['Category']['accession'] . '"
-            title="' . $entry_sub['Category']['description'] . ' ' . ($a) . '">
-        (' . $entry_sub['Category']['category'] . ')
+				$a = $this->_catL10n[$entrySub['Category']['accession']];
+				$category = '<span class="category_acs_' . $entrySub['Category']['accession'] . '"
+            title="' . $entrySub['Category']['description'] . ' ' . ($a) . '">
+        (' . $entrySub['Category']['category'] . ')
       </span>';
 			endif;
 
 			// normal time output
-			$time = $this->TimeH->formatTime($entry_sub['Entry']['time']);
+			$time = $this->TimeH->formatTime($entrySub['Entry']['time']);
 
-			$subject = $this->getSubject($entry_sub);
-			$badges = $this->getBadges($entry_sub);
+			$subject = $this->getSubject($entrySub);
+			$badges = $this->getBadges($entrySub);
 
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
 <span class="thread_line-username">
 	 –
-	{$entry_sub['User']['username']}
+	{$entrySub['User']['username']}
 </span>
 {$category}
 <span class="thread_line-post">

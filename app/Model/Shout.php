@@ -21,6 +21,10 @@
 			'Containable'
 		];
 
+		public $virtualFields = [
+			'username' => 'User.username'
+		];
+
 /**
  * Validation rules
  *
@@ -49,10 +53,6 @@
 			)
 		);
 
-		protected $fieldsToSanitize = array(
-			'text'
-		);
-
 		public $maxNumberOfShouts = 10;
 
 		public function findLastId() {
@@ -72,15 +72,24 @@
 			return $out;
 		}
 
+/**
+ * Get all shouts
+ *
+ * @return array
+ */
 		public function get() {
-			return $this->find(
+			$shouts = $this->find(
 				'all',
-				['order' => 'Shout.id DESC']
+				[
+					'contain' => 'User.username',
+					'order' => 'Shout.id DESC'
+				]
 			);
+			return $shouts;
 		}
 
 		public function push($data) {
-			$data['Shout']['time'] = gmdate("Y-m-d H:i:s", time());
+			$data[$this->alias]['time'] = gmdate("Y-m-d H:i:s", time());
 			$this->create($data);
 			$success = $this->save();
 

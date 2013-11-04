@@ -3,19 +3,19 @@
 	App::uses('AppController', 'Controller');
 
 /**
-* Bookmarks Controller
-*
-* @property Bookmark $Bookmark
-*/
+ * Bookmarks Controller
+ *
+ * @property Bookmark $Bookmark
+ */
 class BookmarksController extends AppController {
 
 	public $helpers = array(
 		'EntryH',
 	);
 
-	/**
-	 * @throws MethodNotAllowedException
-	 */
+/**
+ * @throws MethodNotAllowedException
+ */
 	public function index() {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
@@ -34,6 +34,11 @@ class BookmarksController extends AppController {
 		$this->set('bookmarks', $bookmarks);
 	}
 
+/**
+ * @return bool
+ * @throws MethodNotAllowedException
+ * @throws BadRequestException
+ */
 	public function add() {
 		if (!$this->request->is('ajax')) {
 			throw new BadRequestException;
@@ -56,16 +61,17 @@ class BookmarksController extends AppController {
 		}
 	}
 
+/**
+ * @param null $id
+ * @throws MethodNotAllowedException
+ */
 	public function edit($id = null) {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
 		}
-
 		$bookmark = $this->_getBookmark($id, $this->CurrentUser->getId());
-
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Bookmark->save($this->request->data)) {
-//				$this->Session->setFlash(__('The bookmark has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The bookmark could not be saved. Please, try again.'));
@@ -75,6 +81,11 @@ class BookmarksController extends AppController {
 		}
 	}
 
+/**
+ * @param null $id
+ * @return bool
+ * @throws BadRequestException
+ */
 	public function delete($id = null) {
 		if (!$this->request->is('ajax')) {
 			throw new BadRequestException;
@@ -89,6 +100,13 @@ class BookmarksController extends AppController {
 		return false;
 	}
 
+/**
+ * @param $bookmarkId
+ * @param $userId
+ * @return mixed
+ * @throws NotFoundException
+ * @throws MethodNotAllowedException
+ */
 	protected function _getBookmark($bookmarkId, $userId) {
 		$this->Bookmark->id = $bookmarkId;
 		if (!$this->Bookmark->exists()) {

@@ -14,9 +14,9 @@
 			'Containable',
 		);
 
-		protected $fieldsToSanitize = array(
-			'comment',
-		);
+		protected $_fieldsToSanitize = [
+			'comment'
+		];
 
 /**
  * Validation rules

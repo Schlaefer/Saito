@@ -2,19 +2,19 @@
 
 	App::uses('ApiControllerTestCase', 'Api.Lib');
 
-	/**
-	 * ApiUsersController Test Case
-	 *
-	 */
+/**
+ * ApiUsersController Test Case
+ *
+ */
 	class ApiAppControllerTest extends ApiControllerTestCase {
 
-		protected $apiRoot = 'api/v1/';
+		protected $_apiRoot = 'api/v1/';
 
-		/**
-		 * Fixtures
-		 *
-		 * @var array
-		 */
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 		public $fixtures = array(
 			'plugin.api.entry',
 			'plugin.api.category',
@@ -31,13 +31,13 @@
 		public function testApiDisabled() {
 			Configure::write('Saito.Settings.api_enabled', '0');
 			$this->expectException('Saito\Api\ApiDisabledException');
-			$this->testAction($this->apiRoot . 'bootstrap.json');
+			$this->testAction($this->_apiRoot . 'bootstrap.json');
 		}
 
 		public function testApiEnabled() {
 			Configure::write('Saito.Settings.api_enabled', '1');
 			$this->expectException('Saito\Api\UnknownRouteException');
-			$this->testAction($this->apiRoot . 'foobar');
+			$this->testAction($this->_apiRoot . 'foobar');
 		}
 
 		public function testApiAllowOriginHeader() {
@@ -45,7 +45,7 @@
 			Configure::write('Saito.Settings.api_crossdomain', $expected);
 			$Controller = $this->generate('ApiCore');
 			$this->testAction(
-				$this->apiRoot . 'bootstrap.json',
+				$this->_apiRoot . 'bootstrap.json',
 				[
 					'method' => 'GET',
 					'return' => 'contents'
@@ -59,7 +59,7 @@
 			Configure::write('Saito.Settings.api_crossdomain', '');
 			$Controller = $this->generate('ApiCore');
 			$this->testAction(
-				$this->apiRoot . 'bootstrap.json',
+				$this->_apiRoot . 'bootstrap.json',
 				[
 					'method' => 'GET',
 					'return' => 'contents'
@@ -68,4 +68,5 @@
 			$headers = $Controller->response->header();
 			$this->assertFalse(isset($headers['Access-Control-Allow-Origin']));
 		}
+
 	}

@@ -4,12 +4,5 @@
 </div>
 <?php $this->end('slidetab-header'); ?>
 <?php $this->start('slidetab-content'); ?>
-		<div id="shoutbox">
-				<form>
-						<textarea maxlength="255" rows="1"></textarea>
-				</form>
-				<div class="shouts">
-					<?= $this->element('shouts/shouts', ['shouts' => $shouts]); ?>
-				</div>
-		</div>
+		<div id='shoutbox'></div>
 <?php $this->end('slidetab-content'); ?>

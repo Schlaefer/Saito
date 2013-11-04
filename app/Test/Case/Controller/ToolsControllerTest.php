@@ -54,5 +54,6 @@
 					->method('clear');
 			$this->testAction('admin/tools/emptyCaches');
 		}
+
 	}
 

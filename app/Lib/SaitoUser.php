@@ -23,6 +23,7 @@ interface ForumsUser {
 	public function getMaxAccession();
 
 	public function mockUserType($type);
+
 }
 
 class SaitoUser extends Component implements ForumsUser, ArrayAccess {
@@ -34,36 +35,39 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 			'admin'	=> 3,
 	);
 
-	/**
-	 * User model
-	 *
-	 * @var object
-	 */
-	protected $_Instance = NULL;
-	/**
-	 * User settings
-	 *
-	 * @var array
-	 */
-	protected $_settings = NULL;
-	/**
-	 * User ID
-	 *
-	 * @var int
-	 */
+/**
+ * User model
+ *
+ * @var object
+ */
+	protected $_Instance = null;
+
+/**
+ * User settings
+ *
+ * @var array
+ */
+	protected $_settings = null;
+
+/**
+ * User ID
+ *
+ * @var int
+ */
 	protected $_id = null;
-	/**
-	 * Stores if a user is logged in
-	 *
-	 * @var bool
-	 */
+
+/**
+ * Stores if a user is logged in
+ *
+ * @var bool
+ */
 	protected $_isLoggedIn = false;
 
 	public function set($user) {
 		if ( empty($user) ) {
-			$this->_id = NULL;
-			$this->_settings = NULL;
-			$this->_isLoggedIn = FALSE;
+			$this->_id = null;
+			$this->_settings = null;
+			$this->_isLoggedIn = false;
 			return false;
 		}
 
@@ -76,32 +80,26 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 		else :
 			trigger_error("Can't find user.");
 		endif;
-
 	}
 
 	public function getSettings() {
 		return $this->_settings;
-
 	}
 
 	public function getId() {
 		return $this->_id;
-
 	}
 
 	public function isLoggedIn() {
 		return $this->_isLoggedIn;
-
 	}
 
 	public function isUser() {
 		return self::_isUserForRole($this->_settings['user_type']);
-
 	}
 
 	public function isMod() {
 		return self::_isModForRole($this->_settings['user_type']);
-
 	}
 
 	public function isModOnly() {
@@ -110,11 +108,10 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 
 	public function isAdmin() {
 		return self::_isAdminForRole($this->_settings['user_type']);
-
 	}
 
 	public function isForbidden() {
-		return empty($this->_settings['user_lock']) === FALSE;
+		return empty($this->_settings['user_lock']) === false;
 	}
 
 	public function mockUserType($type) {
@@ -134,39 +131,35 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 	protected static function _isUserForRole($userType) {
 		$accession = self::_maxAccessionForUserType($userType);
 		return ($accession >= 1) ? true : false;
-
 	}
 
 	protected static function _isModForRole($userType) {
 		$accession = self::_maxAccessionForUserType($userType);
 		return ($accession >= 2) ? true : false;
-
 	}
 
 	protected static function _isAdminForRole($userType) {
 		$accession = self::_maxAccessionForUserType($userType);
 		return ($accession === 3) ? true : false;
-
 	}
 
-	/**
-	 * Get maximum value of the allowed accession
-	 *
-	 * Very handy for DB requests
-	 *
-	 * @mlf some day we will have user->type->accession->categories tables and relations,
-	 * that will be an happy day
-	 *
-	 * @return int
-	 */
+/**
+ * Get maximum value of the allowed accession
+ *
+ * Very handy for DB requests
+ *
+ * @mlf some day we will have user->type->accession->categories tables and relations,
+ * that will be an happy day
+ *
+ * @return int
+ */
 	public function getMaxAccession() {
 		$userType = $this->_getRole();
 		return self::_maxAccessionForUserType($userType);
-
 	}
 
 	protected static function _maxAccessionForUserType($userType) {
-		if ( isset(self::$__accessions[$userType]) ) :
+		if (isset(self::$__accessions[$userType])) :
 			return self::$__accessions[$userType];
 		else :
 			return 0;
@@ -190,5 +183,3 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 	}
 
 }
-
-?>

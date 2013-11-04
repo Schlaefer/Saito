@@ -125,11 +125,11 @@
 
 			// disable forum with admin pref
 			if (Configure::read('Saito.Settings.forum_disabled') &&
-					!($this->params['action'] === 'login')
+					$this->request['action'] !== 'login' &&
+					!$this->CurrentUser->isAdmin()
 			) {
-				if ($this->CurrentUser->isAdmin() !== true) {
-					return $this->render('/Pages/forum_disabled', 'barebone');
-				}
+				return $this->render('/Pages/forum_disabled', 'barebone');
+				exit;
 			}
 
 			$this->_setupSlideTabs();
@@ -155,7 +155,6 @@
 			if ($this->showDisclaimer) {
 				$this->_showDisclaimer();
 			}
-
 			$this->set('lastAction', $this->localReferer('action'));
 			$this->set('lastController', $this->localReferer('controller'));
 			$this->set('isDebug', (int)Configure::read('debug') > 0);
@@ -166,7 +165,13 @@
 		}
 
 /**
- * Set forum configuration from get params in url
+ * Sets forum configuration from GET parameter in url
+ *
+ * Available named parameters
+ *
+ * - theme:<foo>
+ * - stopwatch:true
+ * - lang:<lang_id>
  */
 		protected function _setConfigurationFromGetParams() {
 			if ($this->CurrentUser->isLoggedIn()) {
@@ -184,7 +189,6 @@
 				if (isset($this->passedArgs['lang'])) {
 					$L10n = ClassRegistry::init('L10n');
 					if ($L10n->catalog($this->passedArgs['lang'])) {
-						// $this->Session->write('Config.language', $this->passedArgs['lang']);
 						Configure::write('Config.language', $this->passedArgs['lang']);
 					}
 				};
@@ -225,6 +229,10 @@
 		}
 
 		public function initBbcode() {
+			if (isset($this->_bbcodeInitialized)) {
+				return;
+			}
+			$this->_bbcodeInitialized = true;
 			$this->_loadSmilies();
 			$this->Bbcode->initHelper();
 		}

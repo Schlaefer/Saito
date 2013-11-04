@@ -5,7 +5,6 @@
 	class ThreadCollapseTest extends SaitoSeleniumTestCase {
 
 		public function testThreadCollapse() {
-
 			$this->open();
 			$this->waitForPageToLoad();
 			$this->assertTrue($this->isVisible("css=.thread_box[data-id=1] .btn-threadCollapse"));

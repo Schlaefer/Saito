@@ -18,6 +18,14 @@
     }
 }
 
+.posting-badges i {
+  padding: 0 0.5ex;
+}
+
+.btn-solves, .btn-bookmark-add {
+  padding-left: 3em;
+}
+
 .posting, .author {
   @extend .p;
 }
@@ -115,4 +123,8 @@
 // -------------------------------------
 .embedly-image {
   max-height: 256px;
+}
+
+.solves-isSolved {
+  color: green;
 }

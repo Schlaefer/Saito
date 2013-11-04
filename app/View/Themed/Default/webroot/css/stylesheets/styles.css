@@ -478,11 +478,13 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 .slidetab-recentposts .slidetab_tree > li li, .slidetab-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 14px !important; text-indent: -7px; font-weight: normal; }
 .slidetab-recentposts .slidetab_tree > li li [class^="icon-"], .slidetab-recentposts .slidetab_tree li [class*=" icon-"], .slidetab-recententries .slidetab_tree > li li [class^="icon-"], .slidetab-recententries .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
 
-#shoutbox textarea, #shoutbox .markItUpPreviewFrame { font-size: 12px; line-height: 16px; margin: 0 0 1em 0; padding: 2px 5px; width: 180px; resize: none; }
 #shoutbox img { max-width: 130px; }
-#shoutbox .shouts { word-wrap: break-word; }
 #shoutbox .shout { margin: 2px 0; }
+#shoutbox textarea, #shoutbox .markItUpPreviewFrame { font-size: 12px; line-height: 16px; margin: 0 0 1em 0; padding: 2px 5px; width: 180px; resize: none; }
 #shoutbox .info_text, #shoutbox .btn-thread_tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c_bbc_link-dinfo, #shoutbox .c_bbc_imessage, #shoutbox .c_info_text, #shoutbox .thread_line-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; text-align: center; }
+#shoutbox input, #shoutbox label { font-size: 100%; }
+
+#shoutbox-shouts { word-wrap: break-word; }
 
 /******************************************************************************* Template Layout *****************************************************************************/
 .l-top { position: relative; }
@@ -646,6 +648,10 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
 .posting .signature { max-width: 80em; }
 
+.posting-badges i { padding: 0 0.5ex; }
+
+.btn-solves, .btn-bookmark-add { padding-left: 3em; }
+
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
 .c_bbc_spoiler .c_bbc_spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
@@ -672,6 +678,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .geshi-plain-text { font-size: smaller; }
 
 .embedly-image { max-height: 256px; }
+
+.solves-isSolved { color: green; }
 
 .entry.reply .box-header { border-top-width: 1px; }
 

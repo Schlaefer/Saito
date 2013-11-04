@@ -2,17 +2,17 @@
 	Router::connect(
 		'/mobile',
 		[
-			'plugin'     => 'M',
+			'plugin' => 'M',
 			'controller' => 'ms',
-			'action'     => 'index'
+			'action' => 'index'
 		]
 	);
 
 	Router::connect(
 		'/m/ms/cache.manifest',
 		[
-			'plugin'     => 'M',
+			'plugin' => 'M',
 			'controller' => 'ms',
-			'action'     => 'manifest'
+			'action' => 'manifest'
 		]
 	);

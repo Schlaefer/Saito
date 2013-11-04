@@ -125,6 +125,14 @@
 // -------------------------------------
 #shoutbox {
 
+  img {
+    max-width: 130px;
+  }
+
+  .shout {
+    margin: 2px 0;
+  }
+
   textarea {
     font-size: 12px;
     line-height: 16px;
@@ -132,18 +140,6 @@
     padding: 2px 5px;
     width: 180px;
     resize: none;
-  }
-
-  img {
-    max-width: 130px;
-  }
-
-  .shouts {
-    word-wrap: break-word;
-  }
-
-  .shout {
-    margin: 2px 0;
   }
 
   .username {
@@ -154,4 +150,13 @@
     text-align: center;
   }
 
+  input, label {
+    font-size: 100%;
+  }
+
 }
+
+#shoutbox-shouts {
+    word-wrap: break-word;
+}
+

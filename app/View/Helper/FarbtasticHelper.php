@@ -1,4 +1,5 @@
 <?php
+	// @codingStandardsIgnoreFile
 	App::uses('AppHelper', 'View/Helper');
 /**
  *    Farbtastic helper
@@ -33,7 +34,6 @@ class FarbtasticHelper extends Helper  {
     */
     function input($name, $label='') {
 
-				debug($this->Html->assetUrl('js/foo.png'));
         $icon_file = '../../js/farbtastic/color.png'; // update to wherever your icon is.
 
         list($model, $fieldname) = split('\.', $name);

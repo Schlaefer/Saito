@@ -1,6 +1,9 @@
 <?php
 
+
+	// @codingStandardsIgnoreStart
 	namespace Saito\Api;
+	// @codingStandardsIgnoreEnd
 
 
 	class GenericApiError extends \BadRequestException {
@@ -15,10 +18,21 @@
 	}
 
 	class ApiDisabledException extends GenericApiError {
+
 		public function __construct($message = '') {
 			$message = 'API is disabled.';
 			parent::__construct($message);
 		}
+
+	}
+
+	class ApiAuthException extends GenericApiError {
+
+		public function __construct($message = '') {
+			$message = 'Route or action is not authorized.';
+			parent::__construct($message);
+		}
+
 	}
 
 	class UnknownRouteException extends GenericApiError {
@@ -32,15 +46,17 @@
 
 	}
 
-    class ApiValidationError extends GenericApiError {
-        public function __construct($field, $rule) {
-            $lookup =  $field . ' ' . $rule;
-            \Configure::write('Config.language', 'eng');
-            $message = __d('api', $lookup);
-            $no_explanation = $lookup === $message;
-            if ($no_explanation) {
-               $message = "Internal validation error. Field: `$field` Rule: `$rule`.";
-            }
-            parent::__construct($message);
-        }
-    }
+	class ApiValidationError extends GenericApiError {
+
+		public function __construct($field, $rule) {
+			$lookup = $field . ' ' . $rule;
+			\Configure::write('Config.language', 'eng');
+			$message = __d('api', $lookup);
+			$_noExplanation = $lookup === $message;
+			if ($_noExplanation) {
+				$message = "Internal validation error. Field: `$field` Rule: `$rule`.";
+			}
+			parent::__construct($message);
+		}
+
+	}

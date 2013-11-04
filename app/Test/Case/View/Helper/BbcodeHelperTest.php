@@ -1,5 +1,7 @@
 <?php
 
+	// @codingStandardsIgnoreFile
+
 	/* Bbcode Test cases generated on: 2010-08-02 07:08:44 : 1280727824 */
 	App::import('Lib', 'Stopwatch.Stopwatch');
 	App::import('Helper',

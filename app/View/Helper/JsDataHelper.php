@@ -12,7 +12,7 @@
 			parent::__construct($view, $settings);
 		}
 
-		function getAppJs(View $View) {
+		public function getAppJs(View $View) {
 			$js = $this->_JsData->getJs();
 			$js += array (
 				'app' => array(
@@ -22,7 +22,13 @@
 						'embedly_enabled' => (bool)Configure::read('Saito.Settings.embedly_enabled'),
 						'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
 						'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
-						'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0)
+						'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0),
+						'notificationIcon' => $this->assetUrl(
+									'apple-touch-icon-precomposed.png',
+									[
+										'pathPrefix' => Configure::read('App.imageBaseUrl'),
+										'fullBase' => true
+									])
 					)
 				),
 				'request' => array(
@@ -32,7 +38,7 @@
 					'isPreview' => $View->request->isPreview()
 				),
 				'currentUser' => array(
-					'id' => $View->viewVars['CurrentUser']['id'],
+					'id' => (int)$View->viewVars['CurrentUser']['id'],
 					'username' => $View->viewVars['CurrentUser']['username'],
 					'user_show_inline' => $View->viewVars['CurrentUser']['inline_view_on_click'] || false,
 					'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
@@ -43,7 +49,7 @@
 			return $out;
 		}
 
-		function __call($method, $params) {
+		public function __call($method, $params) {
 			$proxy = array($this->_JsData, $method);
 			if (is_callable($proxy)) {
 				return call_user_func_array($proxy, $params);

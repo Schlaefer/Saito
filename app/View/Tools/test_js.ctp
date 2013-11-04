@@ -3,21 +3,8 @@
 	<head>
 			<title>Jasmine Spec Runner</title>
 
-			<script type="text/javascript">
-					var SaitoApp = {
-							app: {
-									settings: {
-											webroot: "<?php echo $this->request->webroot; ?>"
-									},
-									runJsTests: true
-							},
-							settings: {
-									embedly_enabled: '1'
-							},
-							currentUser: {
-									user_show_inline: '0'
-							}
-					};
+			<script>
+				window.webroot = "<?= $this->request->webroot; ?>"
 			</script>
 
 			<!-- include Jasmin -->
@@ -37,11 +24,8 @@
 			?>
 
 			<!-- include require.js -->
-			<script>
-				var require = {urlArgs: Math.floor(Math.random() * 1000000)};
-			</script>
 			<?php
-				echo $this->RequireJs->scriptTag('main');
+				echo $this->RequireJs->scriptTag('test');
 			?>
 	</head>
 	<body/>

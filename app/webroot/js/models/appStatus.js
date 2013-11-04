@@ -1,25 +1,34 @@
 define([
-    'underscore',
-    'backbone',
-    'cakeRest'
-], function(_, Backbone, cakeRest) {
+  'underscore',
+  'backbone',
+  'cakeRest',
+  'app/vent'
+], function(_, Backbone, cakeRest, EventBus) {
 
-    "use strict";
+  "use strict";
 
-    var AppStatusModel = Backbone.Model.extend({
+  var AppStatusModel = Backbone.Model.extend({
 
-        initialize: function() {
-            this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
-            this.methodToCakePhpUrl.read = 'status/';
-        },
+    initialize: function() {
+      this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
+      this.methodToCakePhpUrl.read = 'status/';
 
-        setWebroot: function(webroot) {
-            this.webroot = webroot + 'saitos/';
-        }
+      this.listenTo(this, 'change:lastShoutId', this.onNewShout);
+    },
 
-    });
+    onNewShout: function(model) {
+      var id = model.get('lastShoutId');
+      EventBus.commands.execute('shoutbox:update', id);
+    },
 
-    _.extend(AppStatusModel.prototype, cakeRest);
+    setWebroot: function(webroot) {
+      this.webroot = webroot + 'saitos/';
+    }
 
-    return AppStatusModel;
+  });
+
+  _.extend(AppStatusModel.prototype, cakeRest);
+
+  return AppStatusModel;
+
 });

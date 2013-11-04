@@ -29,7 +29,7 @@ class AppSchema extends CakeSchema {
 		'category' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'accession' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
-		'thread_count' => array('type' => 'integer', 'null' => false, 'default' => 0),
+		'thread_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -70,6 +70,7 @@ class AppSchema extends CakeSchema {
 		'flattr' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'nsfw' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'ip' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 39, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+		'solves' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'tid' => array('column' => 'tid', 'unique' => 0),

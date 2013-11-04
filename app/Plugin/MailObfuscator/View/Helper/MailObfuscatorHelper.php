@@ -3,6 +3,7 @@
 	App::uses('AppHelper', 'View/Helper');
 
 	class MailObfuscatorHelper extends AppHelper {
+
 		public $helpers = [
 			'Html'
 		];
@@ -29,5 +30,6 @@
 
 			return $mailto;
 		}
+
 	}
 

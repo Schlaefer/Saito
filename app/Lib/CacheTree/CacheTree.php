@@ -5,46 +5,51 @@
 
 	class CacheTree {
 
-		private static $instance = null;
+		private static $__instance = null;
 
-		/**
-		 * Stores if an entry is cached and if the cache is valid for this request
-		 *
-		 * @var array
-		 */
+/**
+ * Stores if an entry is cached and if the cache is valid for this request
+ *
+ * @var array
+ */
 		protected $_validEntries = array();
 
 		protected $_cachedEntries = null;
 
-		/**
-		 * Max number of stored entries
-		 *
-		 * @var integer
-		 */
+/**
+ * Max number of stored entries
+ *
+ * @var integer
+ */
 		protected $_maxNumberOfEntries = 240;
 
 		protected $_CurrentUser;
 
 		protected $_allowUpdate = false;
+
 		protected $_allowRead = false;
+
 		protected $_isUpdated = false;
 
 		public static function getInstance() {
-			if (self::$instance === null) {
+			if (self::$__instance === null) {
 				$name = get_called_class();
-				self::$instance = new $name;
+				self::$__instance = new $name;
 			}
-			return self::$instance;
+			return self::$__instance;
 		}
 
-		protected function __construct() { }
-		private function __clone() { }
+		protected function __construct() {
+		}
+
+		private function __clone() {
+		}
 
 		public function initialize(Controller $Controller) {
 			$this->_CurrentUser = $Controller->CurrentUser;
 
-			$cache_config = Cache::settings();
-			if ($cache_config['engine'] === 'Apc') {
+			$_cacheConfig = Cache::settings();
+			if ($_cacheConfig['engine'] === 'Apc') {
 				$this->_CacheEngine = new CacheTreeAppCacheEngine;
 			} else {
 				$this->_CacheEngine = new CacheTreeDbCacheEngine;
@@ -53,13 +58,13 @@
 			if (
 					$Controller->params['controller'] === 'entries' && $Controller->params['action'] === 'index'
 			) {
-				$this->_allowUpdate 	= true;
-				$this->_allowRead 		= true;
+				$this->_allowUpdate = true;
+				$this->_allowRead = true;
 			}
 
-			if ( Configure::read('debug') > 1 || Configure::read('Saito.Cache.Thread') == FALSE ):
-				$this->_allowUpdate 	= false;
-				$this->_allowRead 		= false;
+			if (Configure::read('debug') > 1 || Configure::read('Saito.Cache.Thread') == false):
+				$this->_allowUpdate = false;
+				$this->_allowRead = false;
 			endif;
 
 			$this->readCache();
@@ -102,7 +107,7 @@
 		}
 
 		public function delete($id) {
-			$this->_isUpdated = TRUE;
+			$this->_isUpdated = true;
 			$this->readCache();
 			unset($this->_cachedEntries[(int)$id]);
 		}
@@ -113,9 +118,10 @@
 		}
 
 		public function read($id = null) {
-			if ( !$this->_allowRead )
+			if (!$this->_allowRead) {
 				return false;
-			if ( $id === null ) {
+			}
+			if ($id === null) {
 				return $this->_cachedEntries;
 			}
 
@@ -123,23 +129,26 @@
 				return $this->_cachedEntries[(int)$id]['content'];
 			}
 
-			return FALSE;
+			return false;
 		}
 
-		/**
-		 * Puts an entry into the cache
-		 *
-		 * @param type $id Entry-id
-		 * @param type $content Content to be saved in the cache
-		 * @param int $timestamp Unix timestamp
-		 */
+/**
+ * Puts an entry into the cache
+ *
+ * @param $id
+ * @param $content
+ * @param null $timestamp
+ * @return bool
+ */
 		public function update($id, $content, $timestamp = null) {
 			$now = time();
 			if (!$timestamp) {
 				$timestamp = $now;
 			}
-			if (!$this->_allowUpdate) { return false; }
-			$this->_isUpdated = TRUE;
+			if (!$this->_allowUpdate) {
+				return false;
+			}
+			$this->_isUpdated = true;
 			$this->readCache();
 			$metadata = array(
 				'created' => $now,
@@ -150,17 +159,17 @@
 		}
 
 		public function readCache() {
-			if ( $this->_cachedEntries === NULL ):
+			if ($this->_cachedEntries === null):
 				Stopwatch::start('SaitoCacheTree->readCache()');
 				$this->_cachedEntries = $this->_CacheEngine->read();
 
 				$depractionTime = time() - $this->_CacheEngine->getDeprecationSpan();
 
-				if(!empty($this->_cachedEntries)) {
+				if (!empty($this->_cachedEntries)) {
 					foreach ($this->_cachedEntries as $id => $entry) {
 						if ($entry['metadata']['created'] < $depractionTime) {
 							unset($this->_cachedEntries[$id]);
-							$this->_isUpdated = TRUE;
+							$this->_isUpdated = true;
 						}
 					}
 				}
@@ -169,34 +178,35 @@
 		}
 
 		public function saveCache() {
-			if ( $this->_isUpdated === FALSE )
+			if ($this->_isUpdated === false) {
 				return false;
+			}
 
 			$this->_gc();
 			$this->_CacheEngine->write((array)$this->_cachedEntries);
-	}
+		}
 
-		/**
-		 * Garbage collection
-		 *
-		 * Remove old entries from the cache.
-		 */
+/**
+ * Garbage collection
+ *
+ * Remove old entries from the cache.
+ */
 		protected function _gc() {
-			if ( !$this->_cachedEntries )
+			if (!$this->_cachedEntries) {
 				return false;
+			}
 
-			$number_of_cached_entries = count($this->_cachedEntries);
-			if ( $number_of_cached_entries > $this->_maxNumberOfEntries ) {
+			$_numberOfCachedEntries = count($this->_cachedEntries);
+			if ($_numberOfCachedEntries > $this->_maxNumberOfEntries) {
 				// descending time sort
 				uasort($this->_cachedEntries, function($a, $b) {
 						if ($a['metadata']['content_last_updated'] == $b['metadata']['content_last_updated']) {
 							return 0;
 						}
 						return ($a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated']) ? 1 : -1;
-					});
+				});
 				$this->_cachedEntries = array_slice($this->_cachedEntries, 0, $this->_maxNumberOfEntries, true);
 			}
 		}
-
 
 	}

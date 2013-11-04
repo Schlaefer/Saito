@@ -41,7 +41,7 @@
 			$translations = $domains['nondynamic'][Configure::read('Config.language')]['LC_MESSAGES'];
 			$translations += $domains['default'][Configure::read('Config.language')]['LC_MESSAGES'];
 			unset($translations['%po-header']);
-			// $this->response->type('javascript');
+			$this->response->type('json');
 			$this->response->cache('-1 minute', '+1 hour');
 			$this->response->compress();
 			return json_encode($translations);

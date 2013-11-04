@@ -14,10 +14,10 @@
 		 */
 		public function setUp() {
 			parent::setUp();
-			$this->Bbcode           = new BbcodeBehavior();
+			$this->Bbcode = new BbcodeBehavior();
 			$this->Bbcode->settings = [
-				'server'      => 'http://example.com',
-				'webroot'     => '/foo/',
+				'server' => 'http://example.com',
+				'webroot' => '/foo/',
 				'hashBaseUrl' => 'hash/base/'
 			];
 		}
@@ -40,13 +40,13 @@
 		 */
 		public function tes1PrepareInputHashString() {
 			$Model = $this->getMock('Model');
-			$input    = 'http://example.com/foo/hash/base/345';
-			$result   = $this->Bbcode->prepareBbcode($Model, $input);
+			$input = 'http://example.com/foo/hash/base/345';
+			$result = $this->Bbcode->prepareBbcode($Model, $input);
 			$expected = "#345";
 			$this->assertEqual($result, $expected);
 
-			$input    = '[url=http://example.com/foo/hash/base/345]foo[/url]';
-			$result   = $this->Bbcode->prepareBbcode($Model, $input);
+			$input = '[url=http://example.com/foo/hash/base/345]foo[/url]';
+			$result = $this->Bbcode->prepareBbcode($Model, $input);
 			$expected = $input;
 			$this->assertEqual($result, $expected);
 		}
@@ -58,17 +58,17 @@
 		 */
 		public function testPrepareInputHashArray() {
 			$Model = $this->getMock('Model');
-			$input    = [
+			$input = [
 				$Model->alias => [
 					'text' => 'http://example.com/foo/hash/base/345'
 				]
 			];
-			$expected =[
+			$expected = [
 				$Model->alias => [
-					'text' =>  '#345'
+					'text' => '#345'
 				]
 			];
-			$result   = $this->Bbcode->prepareBbcode($Model, $input);
+			$result = $this->Bbcode->prepareBbcode($Model, $input);
 			$this->assertEqual($result, $expected);
 		}
 

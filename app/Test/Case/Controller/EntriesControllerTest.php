@@ -5,7 +5,10 @@
 	App::uses('SaitoControllerTestCase', 'Lib');
 
 	class EntriesMockController extends EntriesController {
+
+		// @codingStandardsIgnoreStart
 		public $uses = array('Entry');
+		// @codingStandardsIgnoreEnd
 
 		public function getInitialThreads($User, $order = 'Entry.last_answer DESC') {
 			$this->_getInitialThreads($User, $order);
@@ -14,6 +17,7 @@
 		public function searchStringSanitizer($string) {
 			return $this->_searchStringSanitizer($string);
 		}
+
 	}
 
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
@@ -36,7 +40,8 @@
 
 		public function testMix() {
 			$result = $this->testAction('/entries/mix/1', array('return' => 'vars'));
-			$this->assertStringStartsWith('First_Subject', $result['title_for_layout']);
+			$this->assertStringStartsWith('First_Subject',
+				$result['title_for_layout']);
 		}
 
 		public function testMixNotFound() {
@@ -65,7 +70,7 @@
 			);
 			$this->_loginUser(1);
 			$data = [
-				'Entry' =>	 [
+				'Entry' => [
 					'subject' => 'subject',
 					'text' => 'text',
 					'category' => 1,
@@ -107,9 +112,10 @@
 		}
 
 		public function testNoDirectCallOfAnsweringFormWithId() {
-			$Entries = $this->generate('Entries', array(
+			$Entries = $this->generate('Entries',
+				array(
 					'methods' => array('referer')
-			));
+				));
 			$this->_loginUser(1);
 			$Entries->expects($this->once())
 					->method('referer')
@@ -119,14 +125,12 @@
 		}
 
 		public function testBookmarkButtonVisibility() {
-
 			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
 			$this->assertNotContains('bookmarks-add-1', $result);
 
 			$this->_loginUser(3);
 			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
 			$this->assertContains('bookmarks-add-1', $result);
-
 		}
 
 		/**
@@ -134,15 +138,15 @@
 		 */
 		public function testCategoryChooserNotLoggedIn() {
 			$Entries = $this->generate('EntriesMock',
-					array(
+				array(
 					'methods' => array(
-							'paginate',
+						'paginate',
 					),
 					'models' => array(
-							'Category' => array('getCategoriesForAccession'),
-							'User' => array('getMaxAccession'),
+						'Category' => array('getCategoriesForAccession'),
+						'User' => array('getMaxAccession'),
 					)
-					));
+				));
 
 			Configure::write('Saito.Settings.category_chooser_global', 1);
 
@@ -153,9 +157,11 @@
 			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
-									1 => '1', 2 => '2', 7 => '7'
-									)
-							));
+							1 => '1',
+							2 => '2',
+							7 => '7'
+						)
+					));
 
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
@@ -170,15 +176,15 @@
 		 */
 		public function testCategoryChooserDeactivated() {
 			$Entries = $this->generate('EntriesMock',
-					array(
+				array(
 					'methods' => array(
-							'paginate',
+						'paginate',
 					),
 					'models' => array(
-							'Category' => array('getCategoriesForAccession'),
-							'User' => array('getMaxAccession'),
+						'Category' => array('getCategoriesForAccession'),
+						'User' => array('getMaxAccession'),
 					)
-					));
+				));
 
 			Configure::write('Saito.Settings.category_chooser_global', 0);
 			Configure::write('Saito.Settings.category_chooser_user_override', 0);
@@ -190,20 +196,22 @@
 			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
-									1 => '1', 2 => '2', 7 => '7'
-									)
-							));
+							1 => '1',
+							2 => '2',
+							7 => '7'
+						)
+					));
 
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 			$User->set(array(
-					'id'										 => 1,
-					'user_sort_last_answer'	 => 1,
-					'user_type'							 => 'admin',
-					'user_category_active'	 => 0,
-					'user_category_custom'	 => '',
-					'user_category_override' => 1,
+				'id' => 1,
+				'user_sort_last_answer' => 1,
+				'user_type' => 'admin',
+				'user_category_active' => 0,
+				'user_category_custom' => '',
+				'user_category_override' => 1,
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
@@ -211,15 +219,15 @@
 
 		public function testCategoryChooserEmptyCustomSet() {
 			$Entries = $this->generate('EntriesMock',
-					array(
+				array(
 					'methods' => array(
-							'paginate',
+						'paginate',
 					),
 					'models' => array(
-							'Category' => array('getCategoriesForAccession'),
-							'User' => array('getMaxAccession'),
+						'Category' => array('getCategoriesForAccession'),
+						'User' => array('getMaxAccession'),
 					)
-					));
+				));
 
 			Configure::write('Saito.Settings.category_chooser_global', 0);
 			Configure::write('Saito.Settings.category_chooser_user_override', 1);
@@ -231,21 +239,23 @@
 			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
-									1 => '1', 2 => '2', 7 => '7'
-									)
-							));
+							1 => '1',
+							2 => '2',
+							7 => '7'
+						)
+					));
 
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 			$User->set(array());
 			$User->set(array(
-					'id'										 => 1,
-					'user_sort_last_answer'	 => 1,
-					'user_type'							 => 'admin',
-					'user_category_active'	 => 0,
-					'user_category_custom'	 => array(),
-					'user_category_override' => 1,
+				'id' => 1,
+				'user_sort_last_answer' => 1,
+				'user_type' => 'admin',
+				'user_category_active' => 0,
+				'user_category_custom' => array(),
+				'user_category_override' => 1,
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
@@ -259,15 +269,18 @@
 		 */
 		public function testCategoryChooserCustomSet() {
 			$Entries = $this->generate('EntriesMock',
-					array(
+				array(
 					'methods' => array(
-							'paginate',
+						'paginate',
 					),
 					'models' => array(
-							'Category' => array('getCategoriesForAccession', 'getCategoriesSelectForAccession'),
-							'User' => array('getMaxAccession'),
+						'Category' => array(
+							'getCategoriesForAccession',
+							'getCategoriesSelectForAccession'
+						),
+						'User' => array('getMaxAccession'),
 					)
-					));
+				));
 
 			Configure::write('Saito.Settings.category_chooser_global', 1);
 
@@ -278,52 +291,59 @@
 			$Entries->Entry->Category->expects($this->once())
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
-									2 => '2', 7 => '7', 8 => '8'
-									)
-							));
+							2 => '2',
+							7 => '7',
+							8 => '8'
+						)
+					));
 			$Entries->Entry->Category->expects($this->once())
 					->method('getCategoriesSelectForAccession')
 					->will($this->returnValue(array(
-									2 => 'Ontopic', 7 => 'Foo', 8 => 'Bar'
-									)
-							));
+							2 => 'Ontopic',
+							7 => 'Foo',
+							8 => 'Bar'
+						)
+					));
 
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 			$User->set(array());
 			$User->set(array(
-					'id'										 => 1,
-					'user_sort_last_answer'	 => 1,
-					'user_type'							 => 'admin',
-					'user_category_active'	 => 0,
-					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
+				'id' => 1,
+				'user_sort_last_answer' => 1,
+				'user_type' => 'admin',
+				'user_category_active' => 0,
+				'user_category_custom' => array(1 => 1, 2 => 1, 7 => 0),
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
-			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
+			$this->assertEqual($Entries->viewVars['categoryChooserChecked'],
+				array(
 					'2' => '2',
 					'8' => '8',
-					));
-			$this->assertEqual($Entries->viewVars['categoryChooser'], array(
+				));
+			$this->assertEqual($Entries->viewVars['categoryChooser'],
+				array(
 					'2' => 'Ontopic',
 					'7' => 'Foo',
 					'8' => 'Bar',
-					));
-			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'Custom');
+				));
+			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'],
+				'Custom');
 		}
 
 		public function testCategoryChooserSingleCategory() {
 			$Entries = $this->generate('EntriesMock',
-					array(
+				array(
 					'methods' => array(
-							'paginate',
+						'paginate',
 					),
 					'models' => array(
-							'Category' => array('getCategoriesForAccession'),
-							'User' => array('getMaxAccession'),
+						'Category' => array('getCategoriesForAccession'),
+						'User' => array('getMaxAccession'),
 					)
-					));
+				));
 
 			Configure::write('Saito.Settings.category_chooser_global', 1);
 
@@ -334,28 +354,31 @@
 			$Entries->Entry->Category->expects($this->exactly(1))
 					->method('getCategoriesForAccession')
 					->will($this->returnValue(array(
-									1 => '1', 2 => '2', 7 => '7'
-									)
-							));
+							1 => '1',
+							2 => '2',
+							7 => '7'
+						)
+					));
 
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 			$User->set(array());
 			$User->set(array(
-					'id'										 => 1,
-					'user_sort_last_answer'	 => 1,
-					'user_type'							 => 'admin',
-					'user_category_active'	 => 7,
-					'user_category_custom'	 => array(1 => 1, 2 => 1, 7 => 0),
+				'id' => 1,
+				'user_sort_last_answer' => 1,
+				'user_type' => 'admin',
+				'user_category_active' => 7,
+				'user_category_custom' => array(1 => 1, 2 => 1, 7 => 0),
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
 			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 7);
-			$this->assertEqual($Entries->viewVars['categoryChooserChecked'], array(
+			$this->assertEqual($Entries->viewVars['categoryChooserChecked'],
+				array(
 					'1' => '1',
 					'2' => '2',
-					));
+				));
 		}
 
 		public function testIndex() {
@@ -363,124 +386,127 @@
 			$this->_logoutUser();
 
 			//* not logged in user
-			$result  = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
 			$this->assertEqual(count($entries), 2);
 
 			//* logged in user
 			$this->_loginUser(3);
-			$result  = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
 			$this->assertEqual(count($entries), 3);
 		}
 
 		public function testMergeNoSourceId() {
 			$Entries = $this->generate('Entries',
-					array(
+				array(
 					'models' => array(
-							'Entry' => array('merge')
+						'Entry' => array('merge')
 					)
-					));
+				));
 			$this->_loginUser(2);
 
 			$data = array(
-					'Entry' => array(
-							'targetId' => 2,
-					)
+				'Entry' => array(
+					'targetId' => 2,
+				)
 			);
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
 			$this->expectException('NotFoundException');
 			$result = $this->testAction('/entries/merge/',
-					array(
-					'data'	 => $data, 'method' => 'post'
-					));
+				array(
+					'data' => $data,
+					'method' => 'post'
+				));
 		}
 
 		public function testMergeSourceIdNotFound() {
 			$Entries = $this->generate('Entries',
-					array(
+				array(
 					'models' => array(
-							'Entry' => array('merge')
+						'Entry' => array('merge')
 					)
-					));
+				));
 			$this->_loginUser(2);
 
 			$data = array(
-					'Entry' => array(
-							'targetId' => 2,
-					)
+				'Entry' => array(
+					'targetId' => 2,
+				)
 			);
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
 			$this->expectException('NotFoundException');
 			$result = $this->testAction('/entries/merge/9999',
-					array(
-					'data'	 => $data, 'method' => 'post'
-					));
+				array(
+					'data' => $data,
+					'method' => 'post'
+				));
 		}
 
 		public function testMergeShowForm() {
 			$Entries = $this->generate('Entries',
-					array(
+				array(
 					'models' => array(
-							'Entry' => array('merge')
+						'Entry' => array('merge')
 					)
-					));
+				));
 			$this->_loginUser(2);
 
 			$data = array(
-					'Entry' => array()
+				'Entry' => array()
 			);
 			$Entries->Entry->expects($this->never())
 					->method('merge');
 			$result = $this->testAction('/entries/merge/4',
-					array(
-					'data'	 => $data, 'method' => 'post'
-					));
+				array(
+					'data' => $data,
+					'method' => 'post'
+				));
 			$this->assertFalse(isset($this->headers['Location']));
 		}
 
 		public function testMergeIsNotAuthorized() {
 			$Entries = $this->generate('Entries',
-					array(
+				array(
 					'models' => array(
-							'Entry' => array('merge')
+						'Entry' => array('merge')
 					)
-					));
+				));
 			$this->_loginUser(3);
 
 			$data = array(
-					'Entry' => array(
-							'targetId' => 2,
-					)
+				'Entry' => array(
+					'targetId' => 2,
+				)
 			);
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
 			$this->expectException('MethodNotAllowedException');
 			$result = $this->testAction('/entries/merge/4',
-					array(
-					'data'	 => $data, 'method' => 'post'
-					));
+				array(
+					'data' => $data,
+					'method' => 'post'
+				));
 		}
 
 		public function testMerge() {
-
 			$Entries = $this->generate('Entries',
-					array(
+				array(
 					'models' => array(
-							'Entry' => array('threadMerge')
+						'Entry' => array('threadMerge')
 					)
-					));
+				));
 			$this->_loginUser(2);
 
 			$data = array(
-					'Entry' => array(
-							'targetId' => 2,
-					)
+				'Entry' => array(
+					'targetId' => 2,
+				)
 			);
 
 			$Entries->Entry->expects($this->exactly(1))
@@ -489,9 +515,10 @@
 					->will($this->returnValue(true));
 
 			$result = $this->testAction('/entries/merge/4',
-					array(
-					'data'	 => $data, 'method' => 'post'
-					));
+				array(
+					'data' => $data,
+					'method' => 'post'
+				));
 		}
 
 		/**
@@ -519,13 +546,13 @@
 		 */
 		public function testEditShowForm() {
 			$Entries = $this->generate('Entries',
-					array(
+				array(
 					'models' => array(
-							'Entry' => array(
-									'isEditingForbidden',
-							)
+						'Entry' => array(
+							'isEditingForbidden',
+						)
 					)
-					));
+				));
 
 			$this->_loginUser(2);
 
@@ -533,9 +560,10 @@
 					->method('isEditingForbidden')
 					->will($this->returnValue(false));
 
-			$result = $this->testAction('entries/edit/2', array(
+			$result = $this->testAction('entries/edit/2',
+				array(
 					'return' => 'view'
-			));
+				));
 
 			// test that subject is quoted
 			$this->assertContains('value="Second_Subject"', $result);
@@ -627,17 +655,18 @@
 		}
 
 		public function testViewBoxFooter() {
-			$result = $this->testAction('entries/view/1', array(
+			$result = $this->testAction('entries/view/1',
+				array(
 					'return' => 'view'
-			));
+				));
 			$this->assertTextNotContains('l-box-footer box-footer-form', $result);
 
 			$this->_loginUser(3);
-			$result = $this->testAction('entries/view/1', array(
+			$result = $this->testAction('entries/view/1',
+				array(
 					'return' => 'view'
-			));
+				));
 			$this->assertTextContains('l-box-footer box-footer-form', $result);
-
 		}
 
 		/**
@@ -647,32 +676,34 @@
 			/**
 			 * Mod Button is not visible for anon users
 			 */
-			$result = $this->testAction('entries/view/1', array(
+			$result = $this->testAction('entries/view/1',
+				array(
 					'return' => 'view'
-			));
+				));
 			$this->assertTextNotContains('button_mod_panel', $result);
 
 			/**
 			 * Mod Button is not visible for normal users
 			 */
 			$this->_loginUser(3);
-			$result = $this->testAction('entries/view/1', array(
+			$result = $this->testAction('entries/view/1',
+				array(
 					'return' => 'view'
-			));
+				));
 			$this->assertTextNotContains('button_mod_panel', $result);
 
 			/**
 			 * Mod Button is visible for mods
 			 */
 			$this->_loginUser(2);
-			$result = $this->testAction('entries/view/1', array(
+			$result = $this->testAction('entries/view/1',
+				array(
 					'return' => 'view'
-			));
+				));
 			$this->assertTextContains('button_mod_panel', $result);
 		}
 
 		public function testAppStats() {
-
 			Configure::write('Cache.disable', false);
 			Cache::delete('header_counter', 'short');
 
@@ -690,7 +721,7 @@
 			// test with one user online
 			$this->_loginUser(2);
 
-			$result = $this->testAction('/entries/index', array('return'			 => 'vars'));
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$headerCounter = $result['HeaderCounter'];
 
 			/* without cache
@@ -707,7 +738,7 @@
 			// test with second user online
 			$this->_loginUser(3);
 
-			$result = $this->testAction('/entries/index', array('return'			 => 'vars'));
+			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$headerCounter = $result['HeaderCounter'];
 
 			// with cache
@@ -749,7 +780,6 @@
 		}
 
 		public function testSearchStringSanitizer() {
-
 			$data = 'foo bar +baz -zoo \'';
 			$expected = '+foo +bar +baz -zoo +\\\'';
 
@@ -758,20 +788,67 @@
 			$this->assertEquals($expected, $result);
 		}
 
+		public function testSolveNotLoggedIn() {
+			$this->generate('Entries', ['methods' => 'solve']);
+			$this->testAction('/entries/solve/1');
+			$this->assertRedirectedTo('login');
+		}
+
+		public function testSolveNoEntry() {
+			$this->generate('Entries');
+			$this->_loginUser(1);
+			$this->expectException('BadRequestException');
+			$this->testAction('/entries/solve/9999');
+		}
+
+		public function testSolveNotRootEntryUser() {
+			$this->generate('Entries');
+			$this->_loginUser(2);
+			$this->expectException('ForbiddenException');
+			$this->testAction('/entries/solve/1');
+		}
+
+		public function testSolveIsRootEntry() {
+			$this->generate('Entries');
+			$this->_loginUser(3);
+			$this->expectException('BadRequestException');
+			$this->testAction('/entries/solve/1');
+		}
+
+		public function testSolveSaveError() {
+			$Entries = $this->generate('Entries', ['models' => ['Entry' => ['toggleSolve']]]);
+			$this->_loginUser(3);
+			$Entries->Entry->expects($this->once())
+				->method('toggleSolve')
+				->with('1')
+				->will($this->returnValue(false));
+			$this->expectException('BadRequestException');
+			$this->testAction('/entries/solve/1');
+		}
+
+		public function testSolve() {
+			$Entries = $this->generate('Entries', ['models' => ['Entry' => ['toggleSolve']]]);
+			$this->_loginUser(3);
+			$Entries->Entry->expects($this->once())
+					->method('toggleSolve')
+					->with('1')
+					->will($this->returnValue(true));
+			$result = $this->testAction('/entries/solve/1');
+			$this->assertTextEquals($result, '');
+		}
+
 		//-----------------------------------------------
 
 		public function setUp() {
 			parent::setUp();
-			$this->_saito_settings_topics_per_page = Configure::read('Saito.Settings.topics_per_page');
+			$this->_saitoSettingsTopicsPerPage = Configure::read('Saito.Settings.topics_per_page');
 			Configure::write('Saito.Settings.topics_per_page', 20);
 		}
 
 		public function tearDown() {
 			parent::tearDown();
 			Configure::write('Saito.Settings.topics_per_page',
-					$this->_saito_settings_topics_per_page);
+				$this->_saitoSettingsTopicsPerPage);
 		}
 
 	}
-
-?>

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-07 12:52+0100\n"
-"PO-Revision-Date: 2013-10-07 12:52+0100\n"
+"POT-Creation-Date: 2013-10-30 13:19+0100\n"
+"PO-Revision-Date: 2013-10-30 13:20+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -86,7 +86,7 @@ msgstr "Installieren"
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
-#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:53
+#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:51
 msgid "Stats"
 msgstr "Statistik"
 
@@ -98,8 +98,8 @@ msgstr "Einträge"
 msgid "User Registrations"
 msgstr "Benutzerregistrierungen"
 
-#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:303
-#: Controller/EntriesController.php:361
+#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:327
+#: Controller/EntriesController.php:385
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
@@ -160,7 +160,7 @@ msgstr "Absenden"
 #: View/Categories/index.ctp:51 View/Categories/view.ctp:37
 #: View/Categories/view.ctp:73 View/SmileyCodes/admin_add.ctp:14
 #: View/SmileyCodes/admin_index.ctp:12 View/Smilies/admin_add.ctp:18
-#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:67
+#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:66
 msgid "Actions"
 msgstr "Aktion"
 
@@ -184,7 +184,8 @@ msgstr "Neuer Beitrag"
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Layouts/admin.ctp:47 webroot/js/views/categoryChooser.js:18
+#: View/Layouts/admin.ctp:45 webroot/dist/main.js:3
+#: webroot/js/views/categoryChooser.js:18
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -390,7 +391,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:42 View/Entries/search.ctp:83
-#: Controller/EntriesController.php:938
+#: Controller/EntriesController.php:1004
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -424,13 +425,13 @@ msgid "%s edited by %s"
 msgstr "%s bearbeitet durch %s"
 
 # msgstr "Aufrufe"
-#: View/Elements/entry/view_content.ctp:68
+#: View/Elements/entry/view_content.ctp:67
 msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:57
 #: View/Elements/layout/header_login.ctp:38
-#: View/Elements/layout/header_login.ctp:43 View/Entries/index.ctp:21
+#: View/Elements/layout/header_login.ctp:43 View/Entries/index.ctp:26
 #: View/Entries/search.ctp:22 View/Users/view.ctp:163
 msgid "Help"
 msgstr "Hilfe"
@@ -445,7 +446,7 @@ msgstr "Antworten"
 
 #: View/Elements/entry/view_posting.ctp:76
 #: View/Elements/entry/view_posting.ctp:104
-#: Controller/EntriesController.php:470
+#: Controller/EntriesController.php:497
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
@@ -567,12 +568,12 @@ msgid "%s online (%s)"
 msgstr "%s anwesend (%s)"
 
 #: View/Elements/layout/slidetab_userlist.ctp:31
-#: View/Helper/UserHHelper.php:116
+#: View/Helper/UserHHelper.php:117
 msgid "ud_admin"
 msgstr "Administrator"
 
 #: View/Elements/layout/slidetab_userlist.ctp:32
-#: View/Helper/UserHHelper.php:114
+#: View/Helper/UserHHelper.php:115
 msgid "ud_mod"
 msgstr "Moderator"
 
@@ -664,7 +665,7 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:173 View/Helper/EntryHHelper.php:159
+#: View/Entries/add.ctp:173 View/Helper/EntryHHelper.php:196
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
@@ -672,11 +673,11 @@ msgstr "Nicht bürosicher (NBS)"
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/index.ctp:6
+#: View/Entries/index.ctp:11
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
 
-#: View/Entries/index.ctp:22
+#: View/Entries/index.ctp:27
 msgid "btn_manualy_mark_as_read_shp"
 msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
 
@@ -733,30 +734,30 @@ msgstr "Einfache Suche"
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
-#: View/Layouts/admin.ctp:36
+#: View/Layouts/admin.ctp:34
 msgid "Overview"
 msgstr "Übersicht"
 
-#: View/Layouts/admin.ctp:41 View/Settings/admin_edit.ctp:2
+#: View/Layouts/admin.ctp:39 View/Settings/admin_edit.ctp:2
 #: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:119
 #: View/Users/edit.ctp:163
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: View/Layouts/admin.ctp:44 View/Users/admin_add.ctp:2
+#: View/Layouts/admin.ctp:42 View/Users/admin_add.ctp:2
 #: View/Users/admin_index.ctp:1 View/Users/admin_index.ctp:3
 #, fuzzy
 msgid "Users"
 msgstr "Benutzer"
 
-#: View/Layouts/admin.ctp:50 View/SmileyCodes/admin_edit.ctp:1
+#: View/Layouts/admin.ctp:48 View/SmileyCodes/admin_edit.ctp:1
 #: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
 #: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
 #: View/Smilies/admin_index.ctp:3
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:60
+#: View/Layouts/admin.ctp:58
 msgid "Forum"
 msgstr ""
 
@@ -768,11 +769,11 @@ msgstr ""
 msgid "RSS Feed"
 msgstr "RSS Feed"
 
-#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:110
+#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:113
 msgid "Last entries"
 msgstr "Letzte Einträge"
 
-#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:106
+#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:109
 msgid "Last started threads"
 msgstr "Letzte Threads"
 
@@ -1225,7 +1226,7 @@ msgid "register_success_content"
 msgstr ""
 "Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
 
-#: View/Users/register.ctp:23 Controller/EntriesController.php:313
+#: View/Users/register.ctp:23 Controller/EntriesController.php:337
 msgid "js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
@@ -1284,116 +1285,116 @@ msgstr "Noch keine Beiträge verfasst."
 msgid "Show all"
 msgstr "Alle anzeigen"
 
-#: Controller/AdminsController.php:45
+#: Controller/AdminsController.php:47
 msgid "New"
 msgstr "Neu"
 
-#: Controller/AdminsController.php:46
+#: Controller/AdminsController.php:48
 msgid "Cumulated"
 msgstr "Kumuliert"
 
-#: Controller/BookmarksController.php:68
+#: Controller/BookmarksController.php:77
 msgid "The bookmark could not be saved. Please, try again."
 msgstr ""
 "Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
 "erneut."
 
-#: Controller/BookmarksController.php:92
+#: Controller/BookmarksController.php:113
 msgid "Invalid bookmark"
 msgstr "Lesezeichen konnte nicht gefunden werden."
 
-#: Controller/CategoriesController.php:83
-#: Controller/CategoriesController.php:98
+#: Controller/CategoriesController.php:84
+#: Controller/CategoriesController.php:99
 msgid "The category has been saved"
 msgstr ""
 
-#: Controller/CategoriesController.php:86
-#: Controller/CategoriesController.php:101
+#: Controller/CategoriesController.php:87
+#: Controller/CategoriesController.php:102
 msgid "The category could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/CategoriesController.php:93
+#: Controller/CategoriesController.php:94
 #, fuzzy
 msgid "Invalid category"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/CategoriesController.php:112
+#: Controller/CategoriesController.php:113
 #, fuzzy
 msgid "Invalid id for category"
 msgstr "Passwort stimmt nicht mit Wiederholung überein."
 
-#: Controller/CategoriesController.php:121
+#: Controller/CategoriesController.php:122
 msgid "Category not found."
 msgstr ""
 
-#: Controller/CategoriesController.php:138
+#: Controller/CategoriesController.php:139
 msgid "Target category not found."
 msgstr ""
 
-#: Controller/CategoriesController.php:146
+#: Controller/CategoriesController.php:147
 msgid "Error moving category."
 msgstr ""
 
-#: Controller/CategoriesController.php:149
+#: Controller/CategoriesController.php:150
 #, fuzzy
 msgid "Category moved."
 msgstr "Kategorie"
 
-#: Controller/CategoriesController.php:155
+#: Controller/CategoriesController.php:156
 #, fuzzy
 msgid "Error deleting category."
 msgstr "Flattr-Kategorie"
 
-#: Controller/CategoriesController.php:158
+#: Controller/CategoriesController.php:159
 #, fuzzy
 msgid "Category deleted."
 msgstr "Kategorie"
 
-#: Controller/EntriesController.php:88
+#: Controller/EntriesController.php:91
 msgid "page"
 msgstr "Seite"
 
-#: Controller/EntriesController.php:187 Controller/EntriesController.php:196
+#: Controller/EntriesController.php:202 Controller/EntriesController.php:211
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
-#: Controller/EntriesController.php:243
+#: Controller/EntriesController.php:267
 msgid "new_entry_linktitle"
 msgstr "Neuen Eintrag verfassen"
 
-#: Controller/EntriesController.php:298 Controller/EntriesController.php:423
+#: Controller/EntriesController.php:322 Controller/EntriesController.php:450
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:351 Controller/EntriesController.php:467
+#: Controller/EntriesController.php:375 Controller/EntriesController.php:494
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:355
+#: Controller/EntriesController.php:379
 msgid "answer_marking"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:429
+#: Controller/EntriesController.php:456
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#: Controller/EntriesController.php:498
+#: Controller/EntriesController.php:531
 msgid "delete_tree_success"
 msgstr "Thread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:501
+#: Controller/EntriesController.php:534
 msgid "delete_subtree_success"
 msgstr "Subthread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:505
+#: Controller/EntriesController.php:538
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:718
+#: Controller/EntriesController.php:785
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:935
+#: Controller/EntriesController.php:1001
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1468,11 +1469,11 @@ msgstr ""
 msgid "Caches have been emptied."
 msgstr "Caches wurden geleert."
 
-#: Controller/UploadsController.php:35
+#: Controller/UploadsController.php:40
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:37 Controller/UsersController.php:329
+#: Controller/UsersController.php:37 Controller/UsersController.php:328
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
@@ -1481,11 +1482,11 @@ msgstr "Benutzer %s wurde gesperrt."
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:92
+#: Controller/UsersController.php:93
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:172 Controller/UsersController.php:195
+#: Controller/UsersController.php:174 Controller/UsersController.php:196
 #: Controller/UsersController.php:233
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
@@ -1494,19 +1495,19 @@ msgstr "Ungültiger Benutzer"
 msgid "User :name"
 msgstr "Benutzer :name"
 
-#: Controller/UsersController.php:278
+#: Controller/UsersController.php:279
 msgid "The user could not be saved. Please, try again."
 msgstr "Der Benutzer konnte nicht gespeichert werden."
 
-#: Controller/UsersController.php:311 Controller/UsersController.php:348
+#: Controller/UsersController.php:308 Controller/UsersController.php:347
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:320
+#: Controller/UsersController.php:317
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:322
+#: Controller/UsersController.php:320
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
@@ -1515,28 +1516,28 @@ msgstr "Administratoren können nicht gesperrt werden."
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:335
+#: Controller/UsersController.php:337
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:355
+#: Controller/UsersController.php:354
 msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
-#: Controller/UsersController.php:357
+#: Controller/UsersController.php:356
 msgid "You can't delete the installation account."
 msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
-#: Controller/UsersController.php:359
+#: Controller/UsersController.php:358
 #, php-format
 msgid "User %s deleted."
 msgstr "Nutzer %s gelöscht."
 
-#: Controller/UsersController.php:363
+#: Controller/UsersController.php:362
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:387
+#: Controller/UsersController.php:386
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
@@ -1553,25 +1554,25 @@ msgstr "Nachricht wurde versandt."
 msgid "Message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
 
-#: Controller/Component/CurrentUserComponent.php:308
+#: Controller/Component/CurrentUserComponent.php:307
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
-#: Controller/Component/EmailNotificationComponent.php:47
-#: Controller/Component/EmailNotificationComponent.php:79
+#: Controller/Component/EmailNotificationComponent.php:37
+#: Controller/Component/EmailNotificationComponent.php:69
 #, php-format
 msgid "New reply to \"%s\""
 msgstr "Neu Antwort zu \"%s\""
 
-#: Controller/Component/EmailNotificationComponent.php:112
+#: Controller/Component/EmailNotificationComponent.php:103
 msgid "Successfull registration"
 msgstr ""
 
-#: Controller/Component/SaitoEmailComponent.php:143
+#: Controller/Component/SaitoEmailComponent.php:142
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
 msgstr "Kopie Ihrer Nachricht: \":subject\" an \":recipient-name\""
 
-#: Controller/Component/SaitoEmailComponent.php:145
+#: Controller/Component/SaitoEmailComponent.php:144
 #, fuzzy
 msgid "Copy of your message: \":subject\""
 msgstr "Kopie Ihrer Nachricht: :subject"
@@ -1619,32 +1620,32 @@ msgstr "Installation erfolgreich abgeschlossen"
 msgid "Captcha"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:26
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:24
 msgid "Nacht"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:27
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:25
 msgid "Morgen"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:28
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:26
 msgid "Vormittag"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:29
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:27
 msgid "Nachmittag"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:30
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:28
 #: View/Helper/GlasenuhrHelper.php:33
 msgid "Freiwache"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:31
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:29
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:603
+#: View/Helper/BbcodeHelper.php:605
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
@@ -1654,7 +1655,7 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:624
+#: View/Helper/BbcodeHelper.php:626
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
@@ -1664,22 +1665,22 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:784 View/Helper/BbcodeHelper.php:789
-#: View/Helper/MarkitupEditorHelper.php:48
+#: View/Helper/BbcodeHelper.php:786 View/Helper/BbcodeHelper.php:791
+#: View/Helper/MarkitupEditorHelper.php:65
 msgid "Spoiler"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:980
+#: View/Helper/BbcodeHelper.php:982
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:1066
+#: View/Helper/BbcodeHelper.php:1068
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:1074
+#: View/Helper/BbcodeHelper.php:1076
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -1691,15 +1692,23 @@ msgstr "Eintrag ist in den Lesezeichen"
 msgid "Bookmark this entry"
 msgstr "Eintrag zu den Lesezeichen hinzufügen"
 
-#: View/Helper/EntryHHelper.php:156
+#: View/Helper/EntryHHelper.php:124
+msgid "Mark entry as helpful"
+msgstr "Beitrag als hilfreich markieren."
+
+#: View/Helper/EntryHHelper.php:193
 msgid "fixed"
 msgstr "Thread fixiert"
 
-#: View/Helper/EntryHHelper.php:171
+#: View/Helper/EntryHHelper.php:201
+msgid "Helpful entry"
+msgstr "Hilfreicher Beitrag"
+
+#: View/Helper/EntryHHelper.php:214
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:174
+#: View/Helper/EntryHHelper.php:217
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
@@ -1723,76 +1732,76 @@ msgstr ""
 msgid "Abends"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:26
+#: View/Helper/MarkitupEditorHelper.php:27
 msgid "Bold"
 msgstr "Fett"
 
-#: View/Helper/MarkitupEditorHelper.php:30
+#: View/Helper/MarkitupEditorHelper.php:35
 msgid "Italic"
 msgstr "Kursiv"
 
-#: View/Helper/MarkitupEditorHelper.php:34
+#: View/Helper/MarkitupEditorHelper.php:43
 msgid "Strike Through"
 msgstr "Durchgestrichen"
 
-#: View/Helper/MarkitupEditorHelper.php:38
+#: View/Helper/MarkitupEditorHelper.php:50
 msgid "Code"
 msgstr "Quellcode"
 
-#: View/Helper/MarkitupEditorHelper.php:42
+#: View/Helper/MarkitupEditorHelper.php:57
 msgid "Bullet List"
 msgstr "Liste"
 
-#: View/Helper/MarkitupEditorHelper.php:55
+#: View/Helper/MarkitupEditorHelper.php:72
 msgid "Link"
 msgstr "Verweis"
 
-#: View/Helper/MarkitupEditorHelper.php:59
+#: View/Helper/MarkitupEditorHelper.php:76
 msgid "geshi_link_popup"
 msgstr "Bitte URI zum Verweis eingeben.:!:http://beispiel.de/"
 
-#: View/Helper/MarkitupEditorHelper.php:61
+#: View/Helper/MarkitupEditorHelper.php:78
 msgid "geshi_link_placeholder"
 msgstr "Hier den Verweistext eingeben."
 
-#: View/Helper/MarkitupEditorHelper.php:66
+#: View/Helper/MarkitupEditorHelper.php:83
 msgid "Media"
 msgstr "Einbinden"
 
-#: View/Helper/MarkitupEditorHelper.php:71 webroot/js/views/uploadNew.js:99
-#: webroot/js/views/uploads.js:71
+#: View/Helper/MarkitupEditorHelper.php:88 webroot/dist/main.js:2
+#: webroot/js/views/uploadNew.js:99 webroot/js/views/uploads.js:71
 #, fuzzy
 msgid "Upload"
 msgstr "Hochladen"
 
-#: View/Helper/SettingHelper.php:53
+#: View/Helper/SettingHelper.php:52
 msgid "edit"
 msgstr "Bearbeiten"
 
 # View/Settings/admin_index.ctp:
-#: View/Helper/SettingHelper.php:64
+#: View/Helper/SettingHelper.php:63
 msgid "Key"
 msgstr "Schlüssel"
 
 # View/Settings/admin_index.ctp:
-#: View/Helper/SettingHelper.php:65
+#: View/Helper/SettingHelper.php:64
 msgid "Value"
 msgstr "Wert"
 
 # View/Settings/admin_index.ctp:
-#: View/Helper/SettingHelper.php:66
+#: View/Helper/SettingHelper.php:65
 msgid "Explanation"
 msgstr "Beschreibung"
 
-#: View/Helper/TimeHHelper.php:100 View/Helper/TimeHHelper.php:119
+#: View/Helper/TimeHHelper.php:105 View/Helper/TimeHHelper.php:125
 msgid "yesterday"
 msgstr "Gestern"
 
-#: View/Helper/UserHHelper.php:112
+#: View/Helper/UserHHelper.php:113
 msgid "ud_user"
 msgstr "Benutzer"
 
-#: View/Helper/UserHHelper.php:163
+#: View/Helper/UserHHelper.php:166
 msgid "userranks_not_found"
 msgstr ""
 
@@ -2635,6 +2644,58 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/control.js:25
+msgid "Notification"
+msgstr "Benachrichtigung"
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:69
+msgid "upload_fileTypeNotAllowed"
+msgstr "Dateityp nicht erlaubt."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:73
+msgid "upload_fileToLarge"
+msgstr "Datei :name zu groß."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:78
+msgid "upload_browserNotSupported"
+msgstr "Browser wird nicht unterstützt."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:81
+msgid "upload_toManyFiles"
+msgstr "Zu viele Dateien."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:179
+msgid "upload_genericError"
+msgstr "Beim Hochladen ist ein Fehler aufgetreten."
+
+#: webroot/dist/main.js:2
+msgid ""
+"Enter link to media or embedding code:') %>\n"
+"    </label>\n"
+"    <textarea name=\"data[media]\" id=\"markitup_media_txta\" class="
+"\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\">\n"
+"    </textarea>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div class=\"submit\">\n"
+"        <input style=\"float: right;\" class=\"btn btn-submit\"\n"
+"               id=\"markitup_media_btn\" type=\"submit\"\n"
+"               value=\"<%- $.i18n.__('Insert') %>\"/>\n"
+"    </div>\n"
+"    <div class=\"clearfix\"></div>\n"
+"    <br/>\n"
+"    <div id=\"markitup_media_message\" class=\"flash error\" style="
+"\"display: none;\">\n"
+"        <%- $.i18n.__('Nothing recognized.') %>\n"
+"    </div>\n"
+"</form>\n"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/views/mediaInsert.js:68
+#, fuzzy
+msgid "Multimedia"
+msgstr "Einbinden"
+
 #: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
 msgid "tr:first"
 msgstr ""
@@ -2646,31 +2707,6 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:30
 msgid "token test"
 msgstr ""
-
-#: webroot/js/views/mediaInsert.js:68
-#, fuzzy
-msgid "Multimedia"
-msgstr "Einbinden"
-
-#: webroot/js/views/uploadNew.js:69
-msgid "upload_fileTypeNotAllowed"
-msgstr "Dateityp nicht erlaubt."
-
-#: webroot/js/views/uploadNew.js:73
-msgid "upload_fileToLarge"
-msgstr "Datei :name zu groß."
-
-#: webroot/js/views/uploadNew.js:78
-msgid "upload_browserNotSupported"
-msgstr "Browser wird nicht unterstützt."
-
-#: webroot/js/views/uploadNew.js:81
-msgid "upload_toManyFiles"
-msgstr "Zu viele Dateien."
-
-#: webroot/js/views/uploadNew.js:179
-msgid "upload_genericError"
-msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 
 #~ msgid "Underline"
 #~ msgstr "Unterstrichen"

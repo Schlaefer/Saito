@@ -1,26 +1,26 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
-	App::import('Lib', 'Stopwatch.Stopwatch');
+App::uses('AppHelper', 'View/Helper');
+App::import('Lib', 'Stopwatch.Stopwatch');
 
-	class StopwatchHelper extends AppHelper {
+class StopwatchHelper extends AppHelper {
 
-		public $helpers = array(
-				'Html'
+	public $helpers = array(
+		'Html'
+	);
+
+	public function plot() {
+		$stopwatchData = Stopwatch::getJs();
+		$out = $this->Html->script(
+			array(
+				'Stopwatch.jquery.flot.min.js',
+				'Stopwatch.jquery.flot.stack.min.js'
+			)
 		);
-
-		public function plot() {
-			$stopwatch_data = Stopwatch::getJs();
-			$out = $this->Html->script(
-					array(
-							'Stopwatch.jquery.flot.min.js',
-							'Stopwatch.jquery.flot.stack.min.js'
-							)
-			);
-			$out .= '<div id="stopwatch-plot" style="width:300px;height:600px;"></div>';
-			$out .= '<div style="width: 300px;"><div id="stopwatch-exp">---</div><div id="stopwatch-legend"></div></div>';
-			$out .= $this->Html->scriptBlock(<<<EOF
-		$.plot($("#stopwatch-plot"), {$stopwatch_data}, {
+		$out .= '<div id="stopwatch-plot" style="width:300px;height:600px;"></div>';
+		$out .= '<div style="width: 300px;"><div id="stopwatch-exp">---</div><div id="stopwatch-legend"></div></div>';
+		$out .= $this->Html->scriptBlock(<<<EOF
+		$.plot($("#stopwatch-plot"), {$stopwatchData}, {
 				series: {
 						stack: true,
 						lines: {show: false, steps: false },
@@ -54,13 +54,13 @@
         }
     });
 EOF
-				);
-			return $out;
-		}
-
-		public function getResult() {
-			return "<pre>" . Stopwatch::getString() . "</pre>";
-		}
-
+		);
+		return $out;
 	}
+
+	public function getResult() {
+		return "<pre>" . Stopwatch::getString() . "</pre>";
+	}
+
+}
 

@@ -3,7 +3,10 @@
 	body > div {
 		min-height: inherit; height: 100%;
 	}
-	body {position:relative;}
+	body {
+		position:relative;
+		min-height: 100%;
+	}
 	.outer {
 		width: 320px;
 		margin: 0 auto;
@@ -19,10 +22,9 @@
 	h1.header {
 		margin-bottom: 60px;
 		font-size: 60px;
+		font-family: sans-serif;
 	}
 	.rotate {
-		-moz-transform:matrix(0.99,-0.11,0.11,0.99,0,0);
-		-moz-transform-origin:center;
 		-webkit-transform:matrix(0.99,-0.11,0.11,0.99,0,0);
 		-webkit-transform-origin:center;
 		-o-transform:matrix(0.99,-0.11,0.11,0.99,0,0);
@@ -45,14 +47,9 @@
 
 		padding: 40px;
 
-		background-image:-moz-linear-gradient(64% 1% -96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
-		background-image:-webkit-gradient(linear,64% 1%,53% 108%,color-stop(0, rgb(254,253,201)),color-stop(1, rgb(247,243,128)));
-		background-image:-webkit-linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
-		background-image:-o-linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
-		background-image:-ms-linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
-		background-image:linear-gradient(-96deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
-		-moz-box-shadow:0px 2px 4px 0px rgba(88,88,43,0.63);
-		-webkit-box-shadow:0px 2px 4px 0px rgba(88,88,43,0.63);
+		background-image:-o-linear-gradient(170deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
+		background-image:-ms-linear-gradient(170deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
+		background-image:linear-gradient(170deg,rgb(254,253,201) 0%,rgb(247,243,128) 100%);
 		box-shadow:0px 2px 4px 0px rgba(88,88,43,0.63);
 		-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX = 0,OffY = 2,Color = #a158582b,Positive = true)";
 		filter:progid:DXImageTransform.Microsoft.dropshadow(OffX = 0,OffY = 2,Color = #a158582b,Positive = true);
@@ -67,13 +64,9 @@
 		left: 4px;
 		bottom: 4px;
 		background: transparent;
-		-webkit-transform: skew(-5deg) rotate(-5deg);
-		-moz-transform: skew(-5deg) rotate(-5deg);
 		-ms-transform: skew(-5deg) rotate(-5deg);
 		-o-transform: skew(-5deg) rotate(-5deg);
 		transform: skew(-5deg) rotate(-5deg);
-		-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-		-moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 		z-index: -1;
 	}
@@ -81,8 +74,6 @@
 	{
 		left: auto;
 		right: 4px;
-		-webkit-transform: skew(5deg) rotate(5deg);
-		-moz-transform: skew(5deg) rotate(5deg);
 		-ms-transform: skew(5deg) rotate(5deg);
 		-o-transform: skew(5deg) rotate(5deg);
 		transform: skew(5deg) rotate(5deg);

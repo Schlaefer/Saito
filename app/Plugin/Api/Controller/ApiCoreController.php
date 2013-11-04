@@ -8,9 +8,11 @@
 			'Category'
 		];
 
-		/**
-		 * Returns basic info
-		 */
+/**
+ * Returns basic info
+ *
+ * @throws NotFoundException
+ */
 		public function bootstrap() {
 			if ($this->request->is('GET') === false ||
 					$this->request->is('json') === false
@@ -30,6 +32,9 @@
 			$this->set('categories', Hash::extract($categories, '{n}.Category'));
 		}
 
+/**
+ * @throws Saito\Api\UnknownRouteException
+ */
 		public function unknownRoute() {
 			throw new \Saito\Api\UnknownRouteException;
 		}
@@ -38,6 +43,5 @@
 			parent::beforeFilter();
 			$this->Auth->allow('bootstrap', 'unknownRoute');
 		}
-
 
 	}

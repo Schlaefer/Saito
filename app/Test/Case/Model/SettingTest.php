@@ -4,33 +4,33 @@
 
 	class SettingTest extends CakeTestCase {
 
-		public $fixtures = array( 'app.setting' );
+		public $fixtures = array('app.setting');
 
-		protected $settingsCompact = array(
-			'forum_name'          => 'macnemo',
-			'forum_email'         => 'forum_email@example.com',
-			'autolink'            => '1',
-			'userranks_ranks'     => array(
-				'10'  => 'Castaway',
-				'20'  => 'Other',
-				'30'  => 'Dharma',
+		protected $_settingsCompact = array(
+			'forum_name' => 'macnemo',
+			'forum_email' => 'forum_email@example.com',
+			'autolink' => '1',
+			'userranks_ranks' => array(
+				'10' => 'Castaway',
+				'20' => 'Other',
+				'30' => 'Dharma',
 				'100' => 'Jacob'
 			),
-			'quote_symbol'        => '>',
-			'smilies'             => 1,
-			'topics_per_page'     => 20,
-			'timezone'            => 'UTC',
-			'block_user_ui'       => 1,
-			'subject_maxlength'   => 100,
-			'tos_enabled'         => 1,
-			'tos_url'             => 'http://example.com/tos-url.html/',
+			'quote_symbol' => '>',
+			'smilies' => 1,
+			'topics_per_page' => 20,
+			'timezone' => 'UTC',
+			'block_user_ui' => 1,
+			'subject_maxlength' => 100,
+			'tos_enabled' => 1,
+			'tos_url' => 'http://example.com/tos-url.html/',
 			'thread_depth_indent' => '25',
-			'edit_period'         => '20',
-			'shoutbox_enabled'		=> true
+			'edit_period' => '20',
+			'shoutbox_enabled' => true,
+			'shoutbox_max_shouts' => 5
 		);
 
 		public function testAfterSave() {
-
 			$data = array(
 					'value' => 'test',
 			);
@@ -39,14 +39,14 @@
 			$this->Setting->save($data);
 
 			$result = $this->Setting->getSettings();
-			$expected = array_merge($this->settingsCompact,
+			$expected = array_merge($this->_settingsCompact,
 					array( 'forum_name' => 'test', 'autolink' => 1 ));
 			$this->assertEqual($result, $expected);
 		}
 
 		public function testGetSettings() {
 			$result = $this->Setting->getSettings();
-			$expected = $this->settingsCompact;
+			$expected = $this->_settingsCompact;
 			$this->assertEqual($result, $expected);
 		}
 
@@ -59,25 +59,23 @@
 			$this->Setting->load();
 
 			$preset = array(
-					'lock'								 => 'hatch',
-					'timezone'						 => 'island',
+				'lock' => 'hatch',
+				'timezone' => 'island',
 			);
 			$this->Setting->load($preset);
 			$result = Configure::read('Saito.Settings');
-			$expected = $this->settingsCompact;
+			$expected = $this->_settingsCompact;
 			$expected['lock'] = 'hatch';
 			$expected['timezone'] = 'island';
 			$this->assertEqual($result, $expected);
 		}
 
 		public function testLoad() {
-
 			Configure::write('Saito.Settings', null);
 			$this->Setting->load();
 			$result = Configure::read('Saito.Settings');
-			$expected = $this->settingsCompact;
+			$expected = $this->_settingsCompact;
 			$this->assertEqual($result, $expected);
-
 		}
 
 		public function setUp() {
@@ -92,5 +90,3 @@
 		}
 
 	}
-
-?>

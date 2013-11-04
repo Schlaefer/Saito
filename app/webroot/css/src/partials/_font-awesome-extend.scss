@@ -36,6 +36,10 @@
 	@extend .icon-reply;
 }
 
+.icon-badge-solves {
+  @extend .icon-check-sign;
+}
+
 .icon-close-widget {
   @extend .icon-remove-sign;
   // @bogus: with it the close buttons do not work

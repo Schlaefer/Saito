@@ -11,7 +11,8 @@
     "fastclick": "latest",
     "requirejs-domready": "~2.0.1",
     "requirejs-text": "~2.0.10",
-    "requirejs": "~2.1.9"
+    "requirejs": "~2.1.9",
+    "momentjs": "~2.3.1"
   },
   "exportsOverride": {
     "underscore": {
@@ -40,6 +41,10 @@
     },
     "requirejs-text": {
       "js": "text.js"
+    },
+    "momentjs": {
+      "js": "moment.js",
+      "lang": "lang/*.js"
     }
   }
 }

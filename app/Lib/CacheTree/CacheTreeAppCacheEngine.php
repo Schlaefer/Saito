@@ -17,4 +17,5 @@
 		public function write(array $data) {
 			return Cache::write('EntrySub', $data);
 		}
+
 	}
