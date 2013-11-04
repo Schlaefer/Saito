@@ -7,6 +7,10 @@ define([
 
     var CurrentUserModel = Backbone.Model.extend({
 
+      isLoggedIn: function() {
+        return this.get('id') > 0;
+      }
+
     });
 
     return CurrentUserModel;

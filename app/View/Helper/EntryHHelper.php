@@ -32,52 +32,6 @@
  */
 		protected $_catL10n = array();
 
-		public function bookmarkLink($id, $isBookmarked = false) {
-			$out = '';
-			$_bookmarkLinkSet = $this->Html->link(
-						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark icon-large"></i>',
-						'/bookmarks/index/#' . $id,
-						array(
-							'id' => 'bookmarks-add-' . $id,
-							'class' => 'btn-bookmark-add',
-							'title' => __('Entry is bookmarked'),
-							'escape' => false,
-						)
-				);
-
-			if ($isBookmarked) {
-				$out .= $_bookmarkLinkSet;
-			} else {
-				$out .= $this->Html->link(
-						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark-empty icon-large"></i>', '#',
-						array(
-							'id' => 'bookmarks-add-' . $id,
-							'class' => 'btn-bookmark-add',
-							'title' => __('Bookmark this entry'),
-							'escape' => false,
-						)
-				);
-				$out .= $this->Html->scriptBlock(<<<EOF
-$(document).ready(function (){
-$("#content").one("click", "#bookmarks-add-{$id}", function (event) {
-	$.ajax({
-		async:true,
-		data:"id={$id}",
-		dataType:"json",
-		success:function (data, textStatus) {
-			$("#bookmarks-add-{$id}").replaceWith('{$_bookmarkLinkSet}');
-			},
-		type:"POST",
-		url:"{$this->webroot}bookmarks/add"
-	});
-	return false;});
-});
-EOF
-				);
-			}
-			return $out;
-		}
-
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
@@ -101,31 +55,6 @@ EOF
 
 		public function hasAnswers($entry) {
 			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
-		}
-
-		public function markSolvedLink($entry, $rootEntry, $CurrentUser) {
-			$out = '';
-			// no button on root entry
-			if ($this->isRoot($entry)) {
-				return $out;
-			}
-			// only thread creator can mark as solved
-			if ($CurrentUser->getId() !== (int)$rootEntry['Entry']['user_id']) {
-				return $out;
-			}
-
-			$out = $this->Html->link(
-				'<i class="icon-badge-solves icon-large"></i>',
-				'#',
-				array(
-					'class' => 'btn-solves' .
-							($entry['Entry']['solves'] ? ' solves-isSolved ' : ''),
-					'data-id' => $entry['Entry']['id'],
-					'title' => __('Mark entry as helpful'),
-					'escape' => false,
-				)
-			);
-			return $out;
 		}
 
 /**

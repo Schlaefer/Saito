@@ -2,12 +2,18 @@
 	### setup ###
 	if (!isset($level)) $level = 0;
 	if (!isset($last_action)) $last_action = null;
-  $editLinkIsShown = FALSE;
+	$editLinkIsShown = false;
+
+	$_jsEntry = json_encode([
+		'pid' => (int)$entry['Entry']['pid'],
+		'isBookmarked' => $entry['isBookmarked'],
+		'isSolves' => (bool)$entry['Entry']['solves'],
+		'rootEntryUserId' => (int)$rootEntry['Entry']['user_id']
+	]);
 	###
 ?>
 <div class="js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
 	<div class="content">
-
 	<?php
 		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
 	?>
@@ -173,11 +179,10 @@
 			// empty block or menu cascades in entries/mix
 			$this->Blocks->set('modMenu', '');
 	 	endif;
-
-		echo $this->EntryH->bookmarkLink($entry['Entry']['id'], $entry['isBookmarked']);
-		echo $this->EntryH->markSolvedLink($entry, $rootEntry, $CurrentUser);
 		?>
+		<span class="js-buttons"></span>
 	</div>
 	<?php endif; ?>
 	<div class="posting_formular_slider" style="display:none;"></div>
+	<div class='js-data' data-entry='<?= $_jsEntry ?>'></div>
 </div>
