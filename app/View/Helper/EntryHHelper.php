@@ -114,7 +114,6 @@ EOF
 				return $out;
 			}
 
-			$_isSolution = !empty($entry['Entry']['solves']);
 			$out = $this->Html->link(
 				'<i class="icon-badge-solves icon-large"></i>',
 				'#',
