@@ -7,6 +7,32 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-10.03 ##
+
+### What's new ###
+
+- [new] #9 thread-starter can mark helpful answers
+- [new] Shoutbox notifications if window is in background
+- [new] Shoutbox JSON-API
+- [fix] #162 Special chars in email notifications are html encoded 
+- [task] rewritten Shoutbox consuming the API
+- [task] adds several new grunt commands: `grunt test`, `grunt compass:watch`, `grunt compass:compile`
+- [task] adds phpcs, jasmine, jshint tests to `grunt test`
+- [task] updates CakePHP to 2.4.2
+- [task] code cleanup and refactoring
+
+Notifications use the image `[Theme/]webroot/img/apple-touch-icon-precomposed.png` as icon.
+
+### Regressions ###
+
+- no shoutbox in mobile view
+
+### DB Changes ###
+
+ <span class="label label-warning">Note:</span> Don't forget to add your table prefix if necessary.
+
+    ALTER TABLE  `forum_entries` ADD  `solves` INT( 11 ) NOT NULL DEFAULT  '0';     
+
 ## 2013-10.02 ##
 
 ### What's new ###
