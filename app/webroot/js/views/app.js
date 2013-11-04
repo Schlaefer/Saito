@@ -127,7 +127,7 @@ define([
 
                 /*** All elements initialized, show page ***/
 
-                App.initAppStatusUpdate();
+                App.status.start();
                 this._showPage(options.SaitoApp.timeAppStart, options.contentTimer);
                 App.eventBus.trigger('notification', options.SaitoApp);
 
