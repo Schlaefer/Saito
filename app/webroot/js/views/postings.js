@@ -115,10 +115,10 @@ define([
 
     _hideAnsweringForm: function() {
       var parent;
-      $(this.el).find('.posting_formular_slider').slideUp('fast');
+      this.$('.posting_formular_slider').slideUp('fast');
 
       // @td @bogus
-      parent = $(this.el).find('.posting_formular_slider').parent();
+      parent = this.$('.posting_formular_slider').parent();
       // @td @bogus inline answer
       if (this.answeringForm !== false) {
         this.answeringForm.remove();
@@ -138,19 +138,19 @@ define([
     },
 
     _showSignature: function() {
-      $(this.el).find('.signature').slideDown('fast');
+      this.$('.signature').slideDown('fast');
     },
 
     _hideSignature: function() {
-      $(this.el).find('.signature').slideUp('fast');
+      this.$('.signature').slideUp('fast');
     },
 
     _showBoxActions: function() {
-      $(this.el).find('.l-box-footer').slideDown('fast');
+      this.$('.l-box-footer').slideDown('fast');
     },
 
     _hideBoxActions: function() {
-      $(this.el).find('.l-box-footer').slideUp('fast');
+      this.$('.l-box-footer').slideUp('fast');
     },
 
     render: function() {
