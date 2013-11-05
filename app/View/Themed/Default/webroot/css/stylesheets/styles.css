@@ -273,7 +273,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini { *padding-top: 1px; *pad
 
 html, body { height: 100%; }
 
-body { min-width: 950px; }
+body { min-width: 768px; }
 
 #l-flash-container { /* make left/right same value as #content margin */ margin: 10px 20px; }
 
