@@ -228,33 +228,36 @@ EOF
 			return $out;
 		}
 
-/**
- *
- *
- * Everything you do in here is in worst case done a few hundred times on
- * the frontpage. Think about (and benchmark) performance before you change it.
- */
-		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = array()) {
+		/**
+		 *
+		 *
+		 * Everything you do in here is in worst case done a few hundred times on
+		 * the frontpage. Think about (and benchmark) performance before you change it.
+		 */
+		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = []) {
 			// Stopwatch::start('EntryH->threadCached');
 			//setup for current entry
-			$isNew = $this->isNewEntry($entrySub, $CurrentUser);
-			$_spanPostType = $this->generateEntryTypeCss(
-				$level,
-				$isNew,
+			$_isNew = $this->isNewEntry($entrySub, $CurrentUser);
+			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
+					$this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null;
+			$_spanPostType = $this->generateEntryTypeCss($level,
+				$_isNew,
 				$entrySub['Entry']['id'],
-				(isset($currentEntry['Entry']['id']) && $this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null
-			);
+				$_currentlyViewed);
 
 			$_threadLineCached = $this->threadLineCached($entrySub, $level);
-			$_threadLinePre = '<i class="icon-thread"></i>';
-			if ($level === 0
-					&& strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
+
+			if ($level === 0 &&
+					strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])
+			) {
 				$_threadLinePre = '<i class="icon-threadnew"></i>';
+			} else {
+				$_threadLinePre = '<i class="icon-thread"></i>';
 			}
 
 			// generate current entry
 			$out = <<<EOF
-<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$isNew}">
+<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
 	<div class="js-thread_line-content tl-cnt">
 		<a href="#" class="btn_show_thread thread_line-pre span_post_type">
 			{$_threadLinePre}
@@ -268,13 +271,13 @@ EOF
 EOF;
 
 			// generate sub-entries of current entry
-			if (isset($entrySub['_children'])) :
+			if (isset($entrySub['_children'])) {
 				$sub = '';
-				foreach ($entrySub['_children'] as $child) :
+				foreach ($entrySub['_children'] as $child) {
 					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $currentEntry);
-				endforeach;
+				}
 				$out .= '<li>' . $this->_wrapUl($sub) . '</li>';
-			endif;
+			}
 
 			// wrap into root ul tag
 			if ($level === 0) {
@@ -284,14 +287,14 @@ EOF;
 			return $out;
 		}
 
-/**
- * Wraps li tags with ul tag
- *
- * @param $string li html list
- * @param $level
- * @param $id
- * @return string
- */
+		/**
+		 * Wraps li tags with ul tag
+		 *
+		 * @param $string li html list
+		 * @param $level
+		 * @param $id
+		 * @return string
+		 */
 		protected function _wrapUl($string, $level = null, $id = null) {
 			if ($level < $this->_maxThreadDepthIndent) {
 				$class = '';
@@ -342,14 +345,9 @@ EOF;
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="thread_line-username">
-	 –
-	{$entrySub['User']['username']}
-</span>
+<span class="thread_line-username"> – {$entrySub['User']['username']}</span>
 {$category}
-<span class="thread_line-post">
-	{$time} {$badges}
-</span>
+<span class="thread_line-post"> {$time} {$badges} </span>
 EOF;
 			return $out;
 		}
