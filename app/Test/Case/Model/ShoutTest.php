@@ -1,4 +1,5 @@
 <?php
+
 	App::uses('Shout', 'Shoutbox.Model');
 
 	/**
@@ -18,6 +19,11 @@
 		);
 
 		public function testPush() {
+			$this->Shout = $this->getMockForModel('Shout', ['prepareBbcode']);
+			$this->Shout->expects($this->once())
+					->method('prepareBbcode')
+					->will($this->returnArgument(0));
+
 			$_numberOfShouts = $this->Shout->find('count');
 
 			$data = array(
@@ -41,10 +47,10 @@
 		}
 
 		public function testNoRotate() {
-			$model = $this->getMockForModel(
-				'Shout',
-				array('shift')
-			);
+			$model = $this->getMockForModel('Shout', ['shift', 'prepareBbcode']);
+			$model->expects($this->once())
+					->method('prepareBbcode')
+					->will($this->returnArgument(0));
 
 			$data = array(
 				'Shout' => array(
@@ -64,10 +70,10 @@
 		}
 
 		public function testRotate() {
-			$model = $this->getMockForModel(
-				'Shout',
-				array('shift')
-			);
+			$model = $this->getMockForModel('Shout', ['shift', 'prepareBbcode']);
+			$model->expects($this->once())
+					->method('prepareBbcode')
+					->will($this->returnArgument(0));
 
 			$data = array(
 				'Shout' => array(
