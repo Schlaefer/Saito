@@ -7,7 +7,7 @@ define(['jquery', 'marionette', 'models/app'], function($, Marionette, App) {
 
     className: 'btn-solves',
 
-    template: _.template('<i class="icon-badge-solves icon-large"></i>'),
+    template: _.template('<i class="fa fa-badge-solves fa-lg"></i>'),
 
     events: {
       "click": '_onClick'

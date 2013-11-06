@@ -12,7 +12,8 @@
     "requirejs-domready": "~2.0.1",
     "requirejs-text": "~2.0.10",
     "requirejs": "~2.1.9",
-    "momentjs": "~2.3.1"
+    "momentjs": "~2.3.1",
+    "font-awesome": "~4.0.3"
   },
   "exportsOverride": {
     "underscore": {

@@ -33,11 +33,6 @@
   @extend .btn-small;
 }
 
-.btn-icon-close:before {
-  // fix for font-awesome icons in lists: li i.
-  // width: 0 !important;
-}
-
 //back and top wide button start
 // -------------------------------------
 .btn-strip {

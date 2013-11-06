@@ -111,6 +111,20 @@ module.exports = function(grunt) {
               {
                 src: ['./app/webroot/dev/bower_components/requirejs/js/require.js'],
                 dest: './app/webroot/dist/require.js'
+              },
+              // font-awesome fonts
+              {
+                expand: true,
+                cwd: './app/webroot/dev/bower_components/font-awesome/fonts/',
+                src: '*',
+                dest: './app/webroot/css/stylesheets/fonts/'
+              },
+              // font-awesome scss
+              {
+                expand: true,
+                cwd: './app/webroot/dev/bower_components/font-awesome/scss/',
+                src: '*',
+                dest: './app/webroot/css/src/partials/lib/font-awesome/'
               }
             ]
           },
@@ -138,6 +152,11 @@ module.exports = function(grunt) {
           }
         },
         clean: {
+          devsetup: [
+            // font-awesome
+            './app/webroot/css/stylesheets/fonts/',
+            './app/webroot/css/src/partials/lib/font-awesome/'
+          ],
           release: ['./app/webroot/dist'],
           releasePost: ['./app/webroot/release-tmp']
         },
@@ -256,16 +275,22 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-contrib-compass');
 
-  grunt.registerTask('dev-setup', [ 'bower:devsetup', 'copy:nonmin' ]);
+  // dev-setup
+  grunt.registerTask('dev-setup', [
+    'clean:devsetup', 'bower:devsetup', 'copy:nonmin'
+  ]);
 
+  // test
   grunt.registerTask('test:js', ['jasmine', 'jshint']);
   grunt.registerTask('test:cake', ['shell:testCake']);
   grunt.registerTask('test:php', ['test:cake', 'phpcs']);
   grunt.registerTask('test', ['test:js', 'test:php']);
 
+  // compass
   grunt.registerTask('compass:watch', 'concurrent:compassWatch');
   grunt.registerTask('compass:compile', ['compass:compileExampleTheme']);
 
+  // release
   grunt.registerTask('release', [
     'clean:release',
     'compass:compile',

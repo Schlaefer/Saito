@@ -2,7 +2,7 @@
 	// header subnav
 	$this->start('headerSubnavLeft');
 	echo $this->Html->link(
-		'<i class="icon-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle,
+		'<i class="fa fa-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle,
 		$headerSubnavLeftUrl,
 		array('class' => 'textlink', 'escape' => false)
 	);
@@ -13,7 +13,7 @@
 		<div class="l-box-header box-header">
 			<div>
 				<div class="c_first_child">
-					<i class='icon-close-widget icon-large pointer btn-icon-close btn-previewClose'>
+					<i class='fa fa-close-widget fa-lg pointer btn-previewClose'>
 						&nbsp;</i>
 				</div>
 				<div>
@@ -36,7 +36,7 @@
 			<div>
 				<div class="c_first_child">
 					<?php if ($this->request->is('ajax')) : ?>
-						<i class='icon-close-widget icon-large btn-icon-close pointer btn-answeringClose'>
+						<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'>
 							&nbsp;
 						</i>
 					<?php endif; ?>

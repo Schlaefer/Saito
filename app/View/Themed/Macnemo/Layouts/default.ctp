@@ -66,7 +66,7 @@
 						</div>
 						<div>
 							<a href="#" id="btn-scrollToTop" class="btn-hf-center">
-                <i class="icon-arrow-up"></i>
+                <i class="fa fa-arrow-up"></i>
 							</a>
 						</div>
 						<div class="c_last_child">

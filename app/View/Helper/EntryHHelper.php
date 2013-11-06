@@ -119,14 +119,14 @@
 		public function getBadges($entry) {
 			$out = '';
 			if ($entry['Entry']['fixed']) :
-				$out .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i> ';
+				$out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
 			endif;
 			if ($entry['Entry']['nsfw']):
 				$out .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span> ';
 			endif;
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {
-				$out .= '<i class="icon-badge-solves solves-isSolved" title="' .
+				$out .= '<i class="fa fa-badge-solves solves-isSolved" title="' .
 						__('Helpful entry') . '"></i>';
 			}
 			$out .= '</span>';
@@ -178,9 +178,9 @@
 			if ($level === 0 &&
 					strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])
 			) {
-				$_threadLinePre = '<i class="icon-threadnew"></i>';
+				$_threadLinePre = '<i class="fa fa-threadnew"></i>';
 			} else {
-				$_threadLinePre = '<i class="icon-thread"></i>';
+				$_threadLinePre = '<i class="fa fa-thread"></i>';
 			}
 
 			// generate current entry

@@ -90,7 +90,7 @@
 					}
 					echo <<<EOF
 <a href="#" class="btn-threadCollapse " title="{$cacheThreadBoxTitlei18n['btn-threadCollapse']}" style="{$k}">
-<i class="icon-thread-open"></i>
+<i class="fa fa-thread-open"></i>
 </a>
 EOF;
 				?>

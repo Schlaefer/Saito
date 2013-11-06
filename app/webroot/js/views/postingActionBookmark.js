@@ -8,7 +8,7 @@ define(['jquery', 'underscore', 'marionette', 'models/app'],
 
     className: 'btn-bookmark-add',
 
-    template: _.template('<i class="icon-large"></i>'),
+    template: _.template('<i class="fa fa-lg"></i>'),
 
     events: {
       'click': '_onClick'
@@ -46,12 +46,12 @@ define(['jquery', 'underscore', 'marionette', 'models/app'],
     _toggle: function() {
       var _$icon = this.$('i');
       if (this.model.get('isBookmarked')) {
-        _$icon.removeClass('icon-bookmark-empty');
-        _$icon.addClass('icon-bookmark');
+        _$icon.removeClass('fa-bookmark-o');
+        _$icon.addClass('fa-bookmark');
         this.$el.attr('title', $.i18n.__('Entry is bookmarked'));
       } else {
-        _$icon.removeClass('icon-bookmark');
-        _$icon.addClass('icon-bookmark-empty');
+        _$icon.removeClass('fa-bookmark');
+        _$icon.addClass('fa-bookmark-o');
         this.$el.attr('title', $.i18n.__('Bookmark the entry'));
       }
     },

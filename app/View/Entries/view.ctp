@@ -3,7 +3,7 @@
 
   $this->start('headerSubnavLeft');
 		echo $this->Html->link(
-			'<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
+			'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'),
 			$this->EntryH->getPaginatedIndexPageId(
 				$entry['Entry']['tid'],
 				$lastAction

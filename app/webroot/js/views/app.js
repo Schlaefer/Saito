@@ -167,7 +167,7 @@ define([
 
             fixJqueryUiDialog: function(event, ui) {
                 $('.ui-icon-closethick')
-                    .attr('class', 'icon icon-close-widget icon-large')
+                    .attr('class', 'jqueryUi-closethick-fix')
                     .html('');
             },
 

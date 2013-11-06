@@ -115,8 +115,8 @@ ul.deep-reply {
 	left: -4px;
 	@extend .info_text;
 
-	> .icon-thread-open, > .icon-thread-closed {
-		// prevents wide change when icons has different whide
+	> .fa-thread-open, > .fa-thread-closed {
+		// prevents wide change when icons has different width
 		width: 10px;
 		// centers verticaly to bullet
         padding: 4px 0 8px;

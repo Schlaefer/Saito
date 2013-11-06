@@ -1,7 +1,7 @@
 <?php
 	$this->start('headerSubnavLeft');
   echo $this->Html->link(
-      '<i class="icon-arrow-left"></i> ' . __('back_to_overview_linkname'),
+      '<i class="fa fa-arrow-left"></i> ' . __('back_to_overview_linkname'),
       '/bookmarks/index/#' . $this->request->data['Entry']['id'],
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();

@@ -1,7 +1,7 @@
 <?php
   $this->start('headerSubnavLeft');
   echo $this->Html->link(
-      '<i class="icon-arrow-left"></i> ' . __('Back'),
+      '<i class="fa fa-arrow-left"></i> ' . __('Back'),
       array ( 'controller' => 'users', 'action' => 'view', $this->request->data['User']['id']),
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();

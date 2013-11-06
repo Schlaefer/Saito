@@ -27,7 +27,7 @@
 		public function banned($isBanned) {
 			$out = '';
 			if ($isBanned) :
-				$out = '<i class="icon-ban-circle"></i>';
+				$out = '<i class="fa fa-ban fa-lg"></i>';
 			endif;
 			return $out;
 		}
@@ -128,7 +128,7 @@
 			$out = '';
 			if ($user['personal_messages'] && is_string($user['user_email'])) {
 				$out = $this->Html->link(
-					'<i class="icon-envelope-alt icon-large"></i>',
+					'<i class="fa fa-envelope-o fa-lg"></i>',
 					array('controller' => 'users', 'action' => 'contact', $user['id']),
 					array('escape' => false));
 			}
@@ -148,7 +148,7 @@
 				}
 				if (substr($url, 0, 4) == 'http') {
 					$out = $this->Html->link(
-						'<i class="icon-home icon-large"></i>',
+						'<i class="fa fa-home fa-lg"></i>',
 						$url,
 						array('escape' => false));
 				}

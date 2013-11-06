@@ -148,11 +148,11 @@ define([
 			},
 
 			markShown: function() {
-				$(this.el).find('.icon-thread-closed').removeClass('icon-thread-closed').addClass('icon-thread-open');
+				$(this.el).find('.fa-thread-closed').removeClass('fa-thread-closed').addClass('fa-thread-open');
 			},
 
 			markHidden: function() {
-				$(this.el).find('.icon-thread-open').removeClass('icon-thread-open').addClass('icon-thread-closed');
+				$(this.el).find('.fa-thread-open').removeClass('fa-thread-open').addClass('fa-thread-closed');
 				// this.l18n_threadCollapse = $(this.el).find('.btn-threadCollapse').html();
 				// $(this.el).find('.btn-threadCollapse').prepend('&bull;');
 			}

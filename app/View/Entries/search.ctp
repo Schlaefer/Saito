@@ -133,7 +133,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						<?php
 						if ( $this->Paginator->hasPrev() )
 							echo $this->Paginator->prev(
-                  '<i class="icon-chevron-left"></i>',
+                  '<i class="fa fa-chevron-left"></i>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 						<?php
@@ -142,7 +142,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						<?php
 						if ( $this->Paginator->hasNext() )
 							echo $this->Paginator->next(
-                  '<i class="icon-chevron-right"></i>',
+                  '<i class="fa fa-chevron-right"></i>',
 									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
 						?>
 					</div>
