@@ -31,7 +31,7 @@ Notifications use the image `[Theme/]webroot/img/apple-touch-icon-precomposed.pn
 
  <span class="label label-warning">Note:</span> Don't forget to add your table prefix if necessary.
 
-    ALTER TABLE  `forum_entries` ADD  `solves` INT( 11 ) NOT NULL DEFAULT  '0';     
+    ALTER TABLE  `entries` ADD  `solves` INT( 11 ) NOT NULL DEFAULT  '0';     
 
 ## 2013-10.02 ##
 
