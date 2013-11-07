@@ -69,10 +69,13 @@
   }
 }
 
+/*
+ * 1: #57 fixes mod button drop-down overlapped in inline-view
+ */
 .l-button_mod_panel-wrapper {
-  // #57 fix mod button overlapped in inline-view
-  position: absolute;
+  position: absolute; /* 1 */
   display: inline-block;
+  padding-top: 1px;
 }
 
 .btn-hf-center {

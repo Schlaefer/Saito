@@ -7,7 +7,7 @@ define(['jquery', 'marionette', 'models/app'], function($, Marionette, App) {
 
     className: 'btn-solves',
 
-    template: _.template('<i class="fa fa-badge-solves fa-lg"></i>'),
+    template: _.template('<i class="fa fa-badge-solves-o fa-lg"></i>'),
 
     events: {
       "click": '_onClick'
@@ -53,8 +53,13 @@ define(['jquery', 'marionette', 'models/app'], function($, Marionette, App) {
 
       if (_isSolves) {
         _$icon.addClass('solves-isSolved');
+        _$icon.removeClass('fa-badge-solves-o');
+        _$icon.addClass('fa-badge-solves');
         _html = this.$el.html();
+        _html = $(_html).removeClass('fa-lg');
       } else {
+        _$icon.removeClass('fa-badge-solves');
+        _$icon.addClass('fa-badge-solves-o');
         _$icon.removeClass('solves-isSolved');
       }
       this._toggleGlobal(_html);

@@ -40,6 +40,10 @@
   @extend .fa-check-square;
 }
 
+.fa-badge-solves-o {
+  @extend .fa-check-square-o;
+}
+
 .fa-close-widget {
   @extend .fa-times-circle;
   // @bogus: with it the close buttons do not work
@@ -76,10 +80,7 @@
   color: #444;
 }
 
-li {
-    .icon-large[class^="icon-"],
-    .icon-large[class*=" icon-"]  {
-        /* 1.5 increased font size for icon-large * 1.25 width */
-        width: auto;
-    }
+li .#{$fa-css-prefix}-lg {
+  /* 1.5 increased font size for icon-large * 1.25 width */
+  width: auto;
 }

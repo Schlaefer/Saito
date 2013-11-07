@@ -547,8 +547,8 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 .thread_line-post { font-weight: normal; }
 
-/* thread_slider */
-.t_s { /* margin px left because of huge, vertical close button */ margin: 0px 0px 0px 25px; border: 1px #eaeaea solid; /* user_list und inline view sollen sauber getrennt bleiben */ overflow: hidden; }
+/** thread slider  1: margin px left because of huge vertical close button 2: inline-open box shall not run under open slidetabs */
+.t_s { margin: 0px 0px 0px 25px; /* 1 */ border: 1px #eaeaea solid; overflow: hidden; /* 2 */ }
 
 .tree_thread { padding: 0 1em 0.8em; }
 .tree_thread ul { margin: 0 0 0 25px; }
@@ -609,7 +609,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .button_mod_panel { display: inline-block; vertical-align: middle; }
 .button_mod_panel ul { margin: 0 !important; padding: 0 !important; list-style-type: none; }
 
-.l-button_mod_panel-wrapper { position: absolute; display: inline-block; }
+/* 1: #57 fixes mod button drop-down overlapped in inline-view */
+.l-button_mod_panel-wrapper { position: absolute; /* 1 */ display: inline-block; padding-top: 1px; }
 
 .btn-hf-center { width: 100px; display: inline-block; height: 20px; }
 .btn-hf-center:before, .btn-hf-center:after { content: '\00A0'; }
@@ -649,7 +650,9 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .posting-badges i { padding: 0 0.5ex; }
 
-.btn-solves, .btn-bookmark-add { padding-left: 3em; }
+.js-buttons a:first-child { padding-left: 3em; }
+
+.btn-solves, .btn-bookmark-add { padding: 0 1.5em; }
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
