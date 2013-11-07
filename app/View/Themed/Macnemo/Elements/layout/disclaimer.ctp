@@ -12,6 +12,7 @@
 				<li>
 					<a href="<?= $this->request->webroot ?>users/contact/0"><?= __('Contact') ?></a>
 				</li>
+				<li>
 					<a href="aim:gochat?roomname=macnemo">Plauderecke</a>
 				</li>
 				<li>
@@ -21,8 +22,7 @@
 					<a href="<?= $this->request->webroot ?>pages/rss_feeds"><?= __('RSS') ?></a>
 				</li>
 				<li>
-				<li>
-					<a href="http://www.google.com/moderator/#15/e=d490b&amp;t=d490b.40">Feedback geben</a
+					<a href="http://www.google.com/moderator/#15/e=d490b&amp;t=d490b.40">Feedback geben</a>
 				</li>
 			</ul>
 		</div>

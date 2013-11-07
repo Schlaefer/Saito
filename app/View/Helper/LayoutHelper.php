@@ -21,12 +21,13 @@
 		}
 
 		public function jQueryTag() {
-			$url = '../dist/';
+			$url = 'dist/';
 			$name = 'jquery';
 			if ((int)Configure::read('debug') === 0) {
 				$name = $name . '.min';
 			}
-			return $this->Html->script($url . $name);
+			return $this->Html->script($this->Html->assetUrl($url . $name,
+				['ext' => '.js', 'fullBase' => true]));
 		}
 
 	}
