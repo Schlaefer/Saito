@@ -13,12 +13,12 @@
 			'JasmineJs.JasmineJs'
 		);
 
-/**
- * Emtpy out all caches
- */
+		/**
+		 * Empty out all caches
+		 */
 		public function admin_emptyCaches() {
 			$this->CacheSupport->clear();
-			$this->Session->setFlash(__('Caches have been emptied.'), 'flash/notice');
+			$this->Session->setFlash(__('Caches cleared.'), 'flash/success');
 			return $this->redirect($this->referer());
 		}
 
@@ -38,8 +38,8 @@
  */
 		public function clearCache() {
 			if (in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1'))) {
-				$this->CacheSupport->clear('Apc');
-				echo json_encode(array('APC Clear Cache' => true));
+				$this->CacheSupport->clear(['Apc', 'OpCache']);
+				echo json_encode(['Opcode Clear Cache' => true]);
 			}
 			exit;
 		}
