@@ -2,7 +2,7 @@
 	// header subnav
 	$this->start('headerSubnavLeft');
 	echo $this->Html->link(
-		'<i class="icon-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle,
+		'<i class="fa fa-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle,
 		$headerSubnavLeftUrl,
 		array('class' => 'textlink', 'escape' => false)
 	);
@@ -13,7 +13,7 @@
 		<div class="l-box-header box-header">
 			<div>
 				<div class="c_first_child">
-					<i class='icon-close-widget icon-large pointer btn-icon-close btn-previewClose'>
+					<i class='fa fa-close-widget fa-lg pointer btn-previewClose'>
 						&nbsp;</i>
 				</div>
 				<div>
@@ -36,7 +36,7 @@
 			<div>
 				<div class="c_first_child">
 					<?php if ($this->request->is('ajax')) : ?>
-						<i class='icon-close-widget icon-large btn-icon-close pointer btn-answeringClose'>
+						<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'>
 							&nbsp;
 						</i>
 					<?php endif; ?>
@@ -58,42 +58,38 @@
 		<div class="content">
 					<?php echo  $this->Form->create('Entry'); ?>
 			<div class="l-postingform_main">
-				<?php echo $this->EntryH->getCategorySelectForEntry(
-					$categories,
-					$this->request->data
-				); ?>
-				<?=
-					$this->Form->input(
+				<?php
+					echo $this->EntryH->getCategorySelectForEntry(
+						$categories,
+						$this->request->data
+					);
+					echo $this->Form->input(
 						'subject',
 						[
-							'maxlength' => Configure::read(
-								'Saito.Settings.subject_maxlength'
-							),
-							'label'       => false,
-							'class'       => 'inp-subject',
-							'tabindex'    => 2,
-							'error'       => [
+							'maxlength' => Configure::read('Saito.Settings.subject_maxlength'),
+							'label' => false,
+							'class' => 'inp-subject',
+							'tabindex' => 2,
+							'error' => [
 								'notEmpty' => __('error_subject_empty'),
 								'maxLength' => __('error_subject_max_length')
 							],
-							'div'         => ['class' => 'required'],
+							'div' => ['class' => 'required'],
 							'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject'),
-							'required'		=> ($is_answer) ? false : "required"
+							'required' => ($is_answer) ? false : "required"
 						]
 					);
-				?>
-				<?= $this->Form->hidden('pid'); ?>
-				<?php
+					echo $this->Form->hidden('pid');
 					echo $this->MarkitupEditor->getButtonSet(
 						'markItUp_' . $form_id
 					);
 					echo $this->MarkitupEditor->editor(
 						'text',
 						[
-							'parser'   => false,
-							'set'      => 'default',
-							'skin'     => 'macnemo',
-							'label'    => false,
+							'parser' => false,
+							'set' => 'default',
+							'skin' => 'macnemo',
+							'label' => false,
 							'tabindex' => 3,
 							'settings' => 'markitupSettings'
 						]
@@ -108,7 +104,7 @@
 								'#',
 								[
 									'data-text' => $this->Bbcode->citeText($citeText),
-									'class'     => 'btn-cite label'
+									'class' => 'btn-cite label'
 								]
 							);
 						?>
@@ -176,9 +172,8 @@
 						<div class="checkbox">
 							<?php
 								// ### flattr checkbox start
-								if (Configure::read(
-											'Saito.Settings.flattr_enabled'
-										) == true && $CurrentUser['flattr_uid'] == true
+								if (Configure::read('Saito.Settings.flattr_enabled') == true &&
+										$CurrentUser['flattr_uid'] == true
 								) :
 									echo $this->Form->checkbox('flattr');
 									echo $this->Form->label(

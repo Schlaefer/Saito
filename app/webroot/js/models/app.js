@@ -5,10 +5,8 @@ define([
     'models/appSetting',
     'models/appStatus',
     'models/currentUser'
-], function (_, Backbone, Vent,
-    AppSettingModel, AppStatusModel, CurrentUserModel
-    ) {
-
+], function (_, Backbone, Vent, AppSettingModel, AppStatusModel,
+             CurrentUserModel) {
     "use strict";
 
     var AppModel = Backbone.Model.extend({
@@ -43,63 +41,8 @@ define([
           this.commands = Vent.commands;
           this.reqres = Vent.reqres;
           this.settings = new AppSettingModel();
-          this.status = new AppStatusModel();
+          this.status = new AppStatusModel({}, {settings: this.settings});
           this.currentUser = new CurrentUserModel();
-        },
-
-        initAppStatusUpdate: function () {
-            var resetRefreshTime,
-                updateAppStatus,
-                setTimer,
-                timerId,
-                stopTimer,
-                refreshTimeAct,
-                refreshTimeBase = 10000,
-                refreshTimeMax = 90000;
-
-            stopTimer = function () {
-                if (timerId !== undefined) {
-                    clearTimeout(timerId);
-                }
-            };
-
-            resetRefreshTime = function () {
-                stopTimer();
-                refreshTimeAct = refreshTimeBase;
-            };
-
-            setTimer = function () {
-                timerId = setTimeout(
-                    updateAppStatus,
-                    refreshTimeAct
-                );
-            };
-
-            updateAppStatus = _.bind(function () {
-                setTimer();
-                this.status.fetch();
-                refreshTimeAct = Math.floor(
-                    refreshTimeAct * (1 + refreshTimeAct / 40000)
-                );
-                if (refreshTimeAct > refreshTimeMax) {
-                    refreshTimeAct = refreshTimeMax;
-                }
-            }, this);
-
-            this.status.setWebroot(this.settings.get('webroot'));
-
-            this.listenTo(
-                this.status,
-                'change',
-                function () {
-                    resetRefreshTime();
-                    setTimer();
-                }
-            );
-
-            updateAppStatus();
-            resetRefreshTime();
-            setTimer();
         }
 
     });

@@ -32,52 +32,6 @@
  */
 		protected $_catL10n = array();
 
-		public function bookmarkLink($id, $isBookmarked = false) {
-			$out = '';
-			$_bookmarkLinkSet = $this->Html->link(
-						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark icon-large"></i>',
-						'/bookmarks/index/#' . $id,
-						array(
-							'id' => 'bookmarks-add-' . $id,
-							'class' => 'btn-bookmark-add',
-							'title' => __('Entry is bookmarked'),
-							'escape' => false,
-						)
-				);
-
-			if ($isBookmarked) {
-				$out .= $_bookmarkLinkSet;
-			} else {
-				$out .= $this->Html->link(
-						'<i id="bookmarks-add-icon-' . $id . '" class="icon-bookmark-empty icon-large"></i>', '#',
-						array(
-							'id' => 'bookmarks-add-' . $id,
-							'class' => 'btn-bookmark-add',
-							'title' => __('Bookmark this entry'),
-							'escape' => false,
-						)
-				);
-				$out .= $this->Html->scriptBlock(<<<EOF
-$(document).ready(function (){
-$("#content").one("click", "#bookmarks-add-{$id}", function (event) {
-	$.ajax({
-		async:true,
-		data:"id={$id}",
-		dataType:"json",
-		success:function (data, textStatus) {
-			$("#bookmarks-add-{$id}").replaceWith('{$_bookmarkLinkSet}');
-			},
-		type:"POST",
-		url:"{$this->webroot}bookmarks/add"
-	});
-	return false;});
-});
-EOF
-				);
-			}
-			return $out;
-		}
-
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
@@ -101,32 +55,6 @@ EOF
 
 		public function hasAnswers($entry) {
 			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
-		}
-
-		public function markSolvedLink($entry, $rootEntry, $CurrentUser) {
-			$out = '';
-			// no button on root entry
-			if ($this->isRoot($entry)) {
-				return $out;
-			}
-			// only thread creator can mark as solved
-			if ($CurrentUser->getId() !== (int)$rootEntry['Entry']['user_id']) {
-				return $out;
-			}
-
-			$_isSolution = !empty($entry['Entry']['solves']);
-			$out = $this->Html->link(
-				'<i class="icon-badge-solves icon-large"></i>',
-				'#',
-				array(
-					'class' => 'btn-solves' .
-							($entry['Entry']['solves'] ? ' solves-isSolved ' : ''),
-					'data-id' => $entry['Entry']['id'],
-					'title' => __('Mark entry as helpful'),
-					'escape' => false,
-				)
-			);
-			return $out;
 		}
 
 /**
@@ -191,14 +119,14 @@ EOF
 		public function getBadges($entry) {
 			$out = '';
 			if ($entry['Entry']['fixed']) :
-				$out .= '<i class="icon-pushpin" title="' . __('fixed') . '"></i> ';
+				$out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
 			endif;
 			if ($entry['Entry']['nsfw']):
 				$out .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span> ';
 			endif;
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {
-				$out .= '<i class="icon-badge-solves solves-isSolved" title="' .
+				$out .= '<i class="fa fa-badge-solves solves-isSolved" title="' .
 						__('Helpful entry') . '"></i>';
 			}
 			$out .= '</span>';
@@ -228,33 +156,36 @@ EOF
 			return $out;
 		}
 
-/**
- *
- *
- * Everything you do in here is in worst case done a few hundred times on
- * the frontpage. Think about (and benchmark) performance before you change it.
- */
-		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = array()) {
+		/**
+		 *
+		 *
+		 * Everything you do in here is in worst case done a few hundred times on
+		 * the frontpage. Think about (and benchmark) performance before you change it.
+		 */
+		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = []) {
 			// Stopwatch::start('EntryH->threadCached');
 			//setup for current entry
-			$isNew = $this->isNewEntry($entrySub, $CurrentUser);
-			$_spanPostType = $this->generateEntryTypeCss(
-				$level,
-				$isNew,
+			$_isNew = $this->isNewEntry($entrySub, $CurrentUser);
+			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
+					$this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null;
+			$_spanPostType = $this->generateEntryTypeCss($level,
+				$_isNew,
 				$entrySub['Entry']['id'],
-				(isset($currentEntry['Entry']['id']) && $this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null
-			);
+				$_currentlyViewed);
 
 			$_threadLineCached = $this->threadLineCached($entrySub, $level);
-			$_threadLinePre = '<i class="icon-thread"></i>';
-			if ($level === 0
-					&& strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])) {
-				$_threadLinePre = '<i class="icon-threadnew"></i>';
+
+			if ($level === 0 &&
+					strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])
+			) {
+				$_threadLinePre = '<i class="fa fa-threadnew"></i>';
+			} else {
+				$_threadLinePre = '<i class="fa fa-thread"></i>';
 			}
 
 			// generate current entry
 			$out = <<<EOF
-<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$isNew}">
+<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
 	<div class="js-thread_line-content tl-cnt">
 		<a href="#" class="btn_show_thread thread_line-pre span_post_type">
 			{$_threadLinePre}
@@ -268,13 +199,13 @@ EOF
 EOF;
 
 			// generate sub-entries of current entry
-			if (isset($entrySub['_children'])) :
+			if (isset($entrySub['_children'])) {
 				$sub = '';
-				foreach ($entrySub['_children'] as $child) :
+				foreach ($entrySub['_children'] as $child) {
 					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $currentEntry);
-				endforeach;
+				}
 				$out .= '<li>' . $this->_wrapUl($sub) . '</li>';
-			endif;
+			}
 
 			// wrap into root ul tag
 			if ($level === 0) {
@@ -284,14 +215,14 @@ EOF;
 			return $out;
 		}
 
-/**
- * Wraps li tags with ul tag
- *
- * @param $string li html list
- * @param $level
- * @param $id
- * @return string
- */
+		/**
+		 * Wraps li tags with ul tag
+		 *
+		 * @param $string li html list
+		 * @param $level
+		 * @param $id
+		 * @return string
+		 */
 		protected function _wrapUl($string, $level = null, $id = null) {
 			if ($level < $this->_maxThreadDepthIndent) {
 				$class = '';
@@ -342,14 +273,9 @@ EOF;
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="thread_line-username">
-	 –
-	{$entrySub['User']['username']}
-</span>
+<span class="thread_line-username"> – {$entrySub['User']['username']}</span>
 {$category}
-<span class="thread_line-post">
-	{$time} {$badges}
-</span>
+<span class="thread_line-post"> {$time} {$badges} </span>
 EOF;
 			return $out;
 		}

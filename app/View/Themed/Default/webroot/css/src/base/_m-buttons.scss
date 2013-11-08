@@ -33,11 +33,6 @@
   @extend .btn-small;
 }
 
-.btn-icon-close:before {
-  // fix for font-awesome icons in lists: li i.
-  // width: 0 !important;
-}
-
 //back and top wide button start
 // -------------------------------------
 .btn-strip {
@@ -74,10 +69,13 @@
   }
 }
 
+/*
+ * 1: #57 fixes mod button drop-down overlapped in inline-view
+ */
 .l-button_mod_panel-wrapper {
-  // #57 fix mod button overlapped in inline-view
-  position: absolute;
+  position: absolute; /* 1 */
   display: inline-block;
+  padding-top: 1px;
 }
 
 .btn-hf-center {

@@ -8,7 +8,7 @@
 
 	$this->start('headerSubnavLeft');
 		echo $this->Html->link(
-			'<i class="icon-plus"></i>&nbsp; ' . __('new_entry_linkname'),
+			'<i class="fa fa-plus"></i>&nbsp; ' . __('new_entry_linkname'),
 			'/entries/add',
 			['class' => 'btn-entryAdd textlink', 'escape' => false]
 		);
@@ -17,7 +17,7 @@
 	$this->start('headerSubnavCenter');
 		if ($CurrentUser->isLoggedIn()) :
 			echo $this->Html->link(
-				'<i class="icon-refresh"></i>',
+				'<i class="fa fa-refresh"></i>',
 				'#',
 				[
 					'id'           => 'btn-manuallyMarkAsRead',
@@ -34,7 +34,7 @@
 		if (isset($categoryChooser)):
 			// category-chooser link
 			echo $this->Html->link(
-				'<i class="icon-tags"></i> '
+				'<i class="fa fa-tags"></i> '
 					. ((isset($categoryChooser[$categoryChooserTitleId])) ? $categoryChooser[$categoryChooserTitleId] : $categoryChooserTitleId)
 					. '&nbsp;',
 				'#',

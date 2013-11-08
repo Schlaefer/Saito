@@ -2,7 +2,7 @@
 * Icons for thread buttons
 ******************************************************************************/
 
-.icon-thread {
+.fa-thread {
   padding-top: 1px;
   font-family: inherit;
   &:before {
@@ -11,7 +11,7 @@
   font-size: 110%;
 }
 
-.icon-threadnew {
+.fa-threadnew {
   padding-top: 2px;
   font-family: inherit;
   font-size: 90%;
@@ -21,11 +21,11 @@
 }
 
 .icon-actthread {
-	@extend .icon-thread;
+	@extend .fa-thread;
 }
 
 .icon-reply {
-	@extend .icon-thread;
+	@extend .fa-thread;
 }
 
 .icon-replynew {
@@ -36,12 +36,16 @@
 	@extend .icon-reply;
 }
 
-.icon-badge-solves {
-  @extend .icon-check-sign;
+.fa-badge-solves {
+  @extend .fa-check-square;
 }
 
-.icon-close-widget {
-  @extend .icon-remove-sign;
+.fa-badge-solves-o {
+  @extend .fa-check-square-o;
+}
+
+.fa-close-widget {
+  @extend .fa-times-circle;
   // @bogus: with it the close buttons do not work
   position: relative;
   color: #666;
@@ -51,23 +55,32 @@
   }
 }
 
-.icon-thread-open {
-	@extend .icon-angle-down;
-	}
-.icon-thread-closed {
-	@extend .icon-angle-right;
-	}
+/*
+ * 1: fixes vertical positioning
+ */
+.ui-dialog .ui-dialog-titlebar-close > .jqueryUi-closethick-fix {
+  @extend .fa;
+  @extend .fa-close-widget;
+  @extend .fa-lg;
 
-.icon-huge {
+  line-height: 2px; /* 1 */
+}
+
+.fa-thread-open {
+  @extend .fa-angle-down;
+}
+
+.fa-thread-closed {
+  @extend .fa-angle-right;
+}
+
+.fa-huge {
   font-size: 2em;
   vertical-align: bottom;
   color: #444;
 }
 
-li {
-    .icon-large[class^="icon-"],
-    .icon-large[class*=" icon-"]  {
-        /* 1.5 increased font size for icon-large * 1.25 width */
-        width: auto;
-    }
+li .#{$fa-css-prefix}-lg {
+  /* 1.5 increased font size for icon-large * 1.25 width */
+  width: auto;
 }

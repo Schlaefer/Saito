@@ -6,10 +6,10 @@ define([
     'models/threadline',
 	'views/threadline-spinner',
     'text!templates/threadline-spinner.html',
-    'views/postings', 'models/posting',
+    'views/postingLayout', 'models/posting',
     'lib/saito/jquery.scrollIntoView'
 	], function($, _, Backbone, App, ThreadLineModel, ThreadlineSpinnerView,
-                threadlineSpinnerTpl, PostingView, PostingModel) {
+                threadlineSpinnerTpl, PostingLayout, PostingModel) {
 
         "use strict";
 
@@ -56,69 +56,68 @@ define([
 				}
 			},
 
-			/**
-             * shows and hides the element that contains an inline posting
-             */
-			toggleInlineOpen: function(event) {
-				event.preventDefault();
-				if (!this.model.get('isInlineOpened')) {
-					this.model.set({
-						isInlineOpened: true
-					});
-				} else {
-					this.model.set({
-						isInlineOpened: false
-					});
-				}
-			},
+      /**
+       * shows and hides the element that contains an inline posting
+       */
+      toggleInlineOpen: function(event) {
+        event.preventDefault();
+        if (!this.model.get('isInlineOpened')) {
+          this.model.set({
+            isInlineOpened: true
+          });
+        } else {
+          this.model.set({
+            isInlineOpened: false
+          });
+        }
+      },
 
-			_toggleInlineOpened: function(model, isInlineOpened) {
-				if(isInlineOpened) {
-					var id = this.model.id;
+      _toggleInlineOpened: function(model, isInlineOpened) {
+        if (isInlineOpened) {
+          var id = this.model.id;
 
-					if (!this.model.get('isContentLoaded')) {
-						this.tlsV = new ThreadlineSpinnerView({
-							el: this.$el.find('.thread_line-pre i')
-						});
-						this.tlsV.show();
+          if (!this.model.get('isContentLoaded')) {
+            this.tlsV = new ThreadlineSpinnerView({
+              el: this.$el.find('.thread_line-pre i')
+            });
+            this.tlsV.show();
 
-						this.$el.find('.js-thread_line-content').after(this.spinnerTpl({
-							id: id
-						}));
-                        // @bogus, why no listenTo?
-						this.$el.find('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this))	;
+            this.$el.find('.js-thread_line-content').after(this.spinnerTpl({
+              id: id
+            }));
+            // @bogus, why no listenTo?
+            this.$el.find('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this));
 
-                        this._insertContent();
-					} else {
-						this._showInlineView();
-					}
-				} else {
-					this._closeInlineView();
-				}
-			},
+            this._insertContent();
+          } else {
+            this._showInlineView();
+          }
+        } else {
+          this._closeInlineView();
+        }
+      },
 
-            _insertContent: function() {
-                var id,
-                    postingView;
-                id = this.model.get('id');
+      _insertContent: function() {
+        var id,
+            postingLayout;
+        id = this.model.get('id');
 
-                this.postingModel = new PostingModel({
-                    id: id
-                });
-                this.postings.add(this.postingModel);
+        this.postingModel = new PostingModel({
+          id: id
+        });
+        this.postings.add(this.postingModel);
 
-                postingView = new PostingView({
-                    el: this.$('.t_s'),
-                    model: this.postingModel,
-                    collection: this.postings,
-                    parentThreadline: this.model
-                });
+        postingLayout = new PostingLayout({
+          el: this.$('.t_s'),
+          inline: true,
+          model: this.postingModel,
+          collection: this.postings,
+          parentThreadline: this.model
+        });
 
-                this.postingModel.fetchHtml();
-
-                this.model.set('isContentLoaded', true);
-                this._showInlineView();
-            },
+        this.model.set('isContentLoaded', true);
+        this._showInlineView();
+      },
 
 			_showInlineView: function () {
                 var postShow = _.bind(function() {

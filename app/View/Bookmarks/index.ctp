@@ -1,7 +1,7 @@
 <?php
 	$this->start('headerSubnavLeft');
 	echo $this->Html->link(
-			'<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'), '/',
+			'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'), '/',
 			array('class'	 => 'textlink', 'escape' => FALSE));
 	$this->end();
 ?>
@@ -41,7 +41,7 @@
 								<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
 									<?php
 									echo $this->Html->link(
-											'<i class="icon-trash icon-large"></i>',
+											'<i class="fa fa-trash-o fa-lg"></i>',
 											'#',
 											array(
 													'class'		 => 'btn-bookmark-delete',
@@ -58,7 +58,7 @@
 								<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
 									<?php
 									echo $this->Html->link(
-											'<i class="icon-edit icon-large"></i>',
+											'<i class="fa fa-edit fa-lg"></i>',
 											array(
 											'controller' => 'bookmarks',
 											'action'		 => 'edit',

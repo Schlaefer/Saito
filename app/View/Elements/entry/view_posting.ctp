@@ -2,12 +2,18 @@
 	### setup ###
 	if (!isset($level)) $level = 0;
 	if (!isset($last_action)) $last_action = null;
-  $editLinkIsShown = FALSE;
+	$editLinkIsShown = false;
+
+	$_jsEntry = json_encode([
+		'pid' => (int)$entry['Entry']['pid'],
+		'isBookmarked' => $entry['isBookmarked'],
+		'isSolves' => (bool)$entry['Entry']['solves'],
+		'rootEntryUserId' => (int)$rootEntry['Entry']['user_id']
+	]);
 	###
 ?>
 <div class="js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
 	<div class="content">
-
 	<?php
 		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
 	?>
@@ -53,7 +59,7 @@
 				$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
 				if ($answering_forbidden === 'locked') { ?>
 					<i
-						class="icon-lock icon-huge shp shp-right"
+						class="fa fa-lock fa-huge shp shp-right"
 						data-title="<?php echo __('Help'); ?>"
 						data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
 						></i>
@@ -89,9 +95,9 @@
 				<div class="button_mod_panel <?php echo $entry['Entry']['id'];?>" >
 					<div class="btn-group">
 						<button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-							<i class="icon-wrench"></i>
+							<i class="fa fa-wrench"></i>
 							&nbsp;
-							<i class="icon-caret-down"></i>
+							<i class="fa fa-caret-down"></i>
 							</button>
 						<ul class="dropdown-menu">
 						<?php
@@ -101,7 +107,7 @@
 							?>
 							<li>
 								<?php echo $this->Html->link(
-												'<i class="icon-pencil"></i> ' . __('edit_linkname'),
+												'<i class="fa fa-pencil"></i> ' . __('edit_linkname'),
 												'/entries/edit/' . $entry['Entry']['id'],
 												array ( 'escape' => FALSE )
 											);
@@ -115,8 +121,8 @@
 							<?php endif; ?>
 							<?php
 								$ajax_toggle_options = array(
-										'fixed' => 'icon-pushpin',
-										'locked' => 'icon-lock'
+										'fixed' => 'fa fa-thumb-tack',
+										'locked' => 'fa fa-lock'
 								);
 								foreach($ajax_toggle_options as $key => $icon):
 										echo '<li>';
@@ -141,7 +147,7 @@
 							<li>
 								<?php
 									echo $this->Html->link(
-											'<i class="icon-resize-small"></i>&nbsp;' . __('merge_tree_link'),
+											'<i class="fa fa-compress"></i>&nbsp;' . __('merge_tree_link'),
 											'/entries/merge/' . $entry['Entry']['id'],
 											array('escape' => FALSE)
 									);
@@ -152,7 +158,7 @@
 						<li>
 							<?php
 								echo $this->Html->link(
-										'<i class="icon-trash"></i>&nbsp;' . __('delete_tree_link'),
+										'<i class="fa fa-trash-o"></i>&nbsp;' . __('delete_tree_link'),
 										'/entries/delete/' . $entry['Entry']['id'],
 										array('escape' => FALSE),
 										__('delete_tree_link_confirm_message')
@@ -173,11 +179,10 @@
 			// empty block or menu cascades in entries/mix
 			$this->Blocks->set('modMenu', '');
 	 	endif;
-
-		echo $this->EntryH->bookmarkLink($entry['Entry']['id'], $entry['isBookmarked']);
-		echo $this->EntryH->markSolvedLink($entry, $rootEntry, $CurrentUser);
 		?>
+		<span class="js-buttons"></span>
 	</div>
 	<?php endif; ?>
 	<div class="posting_formular_slider" style="display:none;"></div>
+	<div class='js-data' data-entry='<?= $_jsEntry ?>'></div>
 </div>

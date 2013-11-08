@@ -1,7 +1,7 @@
 <?php
   $this->start('headerSubnavLeft');
   echo $this->Html->link(
-      '<i class="icon-arrow-left"></i> ' . __('back_to_forum_linkname'),
+      '<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'),
       '/',
       array( 'class' => 'textlink', 'escape' => false ));
   $this->end();
@@ -165,9 +165,9 @@
 								 >
 							<div class="btn-group">
 								<button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-									<i class="icon-wrench"></i>
+									<i class="fa fa-wrench"></i>
 									&nbsp;
-									<i class="icon-caret-down"></i>
+									<i class="fa fa-caret-down"></i>
 								</button>
 								<ul class="dropdown-menu">
 									<?php if ($CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui'))) : ?>
@@ -175,7 +175,7 @@
 										<li>
 											<?php
 											echo $this->Html->link(
-													'<i class="icon-ban-circle"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
+													'<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
 													array('controller' => 'users', 'action'		 => 'lock', $user['User']['id']),
 													array('escape' => false)
 											);
@@ -187,7 +187,7 @@
 										<li>
 											<?php
 											echo $this->Html->link(
-													'<i class="icon-pencil"></i> ' . __('Edit'),
+													'<i class="fa fa-pencil"></i> ' . __('Edit'),
 													array('action' => 'edit', $user['User']['id']),
 													array('escape' => false)
 											);
@@ -197,7 +197,7 @@
 										<li>
 											<?php
 											echo $this->Html->link(
-													'<i class="icon-trash"></i> ' . __('Delete'),
+													'<i class="fa fa-trash-o"></i> ' . __('Delete'),
 													array('controller' => 'users', 'action'		 => 'delete', $user['User']['id'], 'admin'			 => true),
 													array('escape' => false)
 											);

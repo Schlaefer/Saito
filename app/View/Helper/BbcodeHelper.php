@@ -904,32 +904,27 @@ EOF;
 			return true;
 		}
 
-		$defaults = array(
-				'label' => true,
-		);
-
-		$wasShort = false;
-		if ( isset($attributes['default']) ):
+		$_isShortTag = false;
+		$defaults = [
+			'label' => true
+		];
+		if (isset($attributes['default'])) {
 			// [url=...]...[/url]
 			$url = $attributes['default'];
 			$text = $content;
-		else:
+		} else {
 			// [url]...[/url]
+			$_isShortTag = true;
 			$url = $content;
 			$text = $content;
-			$wasShort = true;
-		endif;
-
+		}
 		$options = array_merge($defaults, $attributes);
 
-		$label = $options['label'];
-
-		$out = $this->_url($url, $text, $label, $wasShort);
-		return $out;
+		return $this->_url($url, $text, $options['label'], $_isShortTag);
 	}
 
-	protected function _url($url, $text, $label = false, $trunctate = false) {
-		if ($trunctate === true) {
+	protected function _url($url, $text, $label = false, $truncate = false) {
+		if ($truncate === true) {
 			$text = $this->_truncate($text);
 		}
 		$out = "<a href='$url'>$text</a>";
@@ -1012,22 +1007,25 @@ EOF;
 	}
 
 	/**
+	 * Truncates long links
+	 *
 	 * @bogus does this truncate strings or the longest word in the string or what?
-	 * @bogus what about [url=][img]...[/img][url]. Is the [img] url trunctated too?
+	 * @bogus what about [url=][img]...[/img][url]. Is the [img] url truncated too?
 	 *
 	 * @param type $string
 	 * @return string
 	 */
 	protected function _truncate($string) {
-		$text_word_maxlength = Configure::read('Saito.Settings.text_word_maxlength');
-		$substitue_char = ' … ';
+		$_textWordMaxLength = Configure::read('Saito.Settings.text_word_maxlength');
+		$_placeholder = ' … ';
 
-		if ( mb_strlen($string) > $text_word_maxlength ) {
-			$left_margin = (int) floor($text_word_maxlength / 2);
-			$right_margin = (int) (-1 * ($text_word_maxlength - $left_margin - mb_strlen($substitue_char)));
+		if (mb_strlen($string) > $_textWordMaxLength) {
+			$left_margin = (int)floor($_textWordMaxLength / 2);
+			$right_margin = (int)(-1 * ($_textWordMaxLength - $left_margin - mb_strlen($_placeholder)));
 
-			$string = mb_substr($string, 0, $left_margin) . $substitue_char . mb_substr($string,
-							$right_margin);
+			$string = mb_substr($string,
+						0,
+						$left_margin) . $_placeholder . mb_substr($string, $right_margin);
 		}
 		return $string;
 	}

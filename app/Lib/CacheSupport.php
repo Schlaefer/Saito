@@ -7,7 +7,10 @@
 		public function __construct() {
 			$this->addCache(
 				[
+					// php caches
 					'Apc' => 'ApcCacheSupportCachelet',
+					'OpCache' => 'OpCacheSupportCachelet',
+					// application caches
 					'Cake' => 'CakeCacheSupportCachelet',
 					'Saito' => 'SaitoCacheSupportCachelet',
 					'Thread' => 'ThreadCacheSupportCachelet'
@@ -15,10 +18,22 @@
 			);
 		}
 
+		/**
+		 * @param mixed	$cache cache to clear
+		 * 				null: all
+		 * 				string: name of specific cache
+		 * 				array: multiple name strings
+		 * @param null $id
+		 */
 		public function clear($cache = null, $id = null) {
+			if (is_array($cache)) {
+				foreach ($cache as $_c) {
+					$this->clear($_c, $id);
+				}
+			}
 			if ($cache === null) {
-				foreach ($this->_Caches as $Cachelet) {
-					$Cachelet->clear();
+				foreach ($this->_Caches as $_Cache) {
+					$_Cache->clear();
 				}
 			} else {
 				$this->_Caches[$cache]->clear($id);
@@ -118,6 +133,16 @@
 				apc_clear_cache();
 				apc_clear_cache('user');
 				apc_clear_cache('opcode');
+			}
+		}
+
+	}
+
+	class OpCacheSupportCachelet implements CacheSupportCacheletInterface {
+
+		public function clear($id = null) {
+			if (function_exists('opcache_reset')) {
+				opcache_reset();
 			}
 		}
 

@@ -11,7 +11,7 @@
 		]
 	);
 	echo $this->Form->button(
-		"<i class='icon-search'></i>",
+		"<i class='fa fa-search'></i>",
 		[
 			'div'    => false,
 			'class'  => 'btn_search_submit btn_search_header',

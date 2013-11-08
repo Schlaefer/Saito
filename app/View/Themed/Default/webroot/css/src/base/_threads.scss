@@ -72,14 +72,18 @@ ul.deep-reply {
 		font-weight: normal;
 }
 
-/* thread_slider */
+/**
+ * thread slider
+ *
+ * 1: margin px left because of huge vertical close button
+ * 2: inline-open box shall not run under open slidetabs
+ */
 .t_s {
-  /* margin px left because of huge, vertical close button */
-  margin: 0px 0px 0px 25px;
+  margin: 0px 0px 0px 25px; /* 1 */
   border: $border_width $saito_gray_dark solid;
-	@extend .c_all-radius;
-  /* user_list und inline view sollen sauber getrennt bleiben */
-  overflow: hidden; }
+  @extend .c_all-radius;
+  overflow: hidden; /* 2 */
+}
 
 .tree_thread {
   padding: 0 1em 0.8em;
@@ -115,8 +119,8 @@ ul.deep-reply {
 	left: -4px;
 	@extend .info_text;
 
-	> .icon-thread-open, > .icon-thread-closed {
-		// prevents wide change when icons has different whide
+	> .fa-thread-open, > .fa-thread-closed {
+		// prevents wide change when icons has different width
 		width: 10px;
 		// centers verticaly to bullet
         padding: 4px 0 8px;

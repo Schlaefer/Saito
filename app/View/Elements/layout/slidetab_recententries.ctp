@@ -1,6 +1,6 @@
 <?php $this->start('slidetab-header'); ?>
 	<div class="btn-slidetabRecententries">
-		<i class="icon-time icon-large"></i>
+		<i class="fa fa-clock-o fa-lg"></i>
 	</div>
 <?php $this->end('slidetab-header'); ?>
 <?php $this->start('slidetab-content'); ?>
@@ -13,7 +13,7 @@
 				<ul>
 					<?php foreach ($recentEntries as $entry) : ?>
 						<li>
-							<i class="icon-thread"></i>
+							<i class="fa fa-thread"></i>
 							<?= $this->EntryH->getFastLink($entry); ?>
 							<br/>
 							<span class='c_info_text'>

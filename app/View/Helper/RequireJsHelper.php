@@ -15,8 +15,8 @@
  * @var array
  */
 		protected $_requireUrl = [
-			'debug' => '../dist/require',
-			'prod' => '../dist/require.min'
+			'debug' => 'dist/require',
+			'prod' => 'dist/require.min'
 		];
 
 /**
@@ -56,14 +56,17 @@
 			$_tmpAssetTimestampCache = Configure::read('Asset.timestamp');
 			Configure::write('Asset.timestamp', false);
 			$out .= $this->Html->script(
-				$options['requireUrl'],
+				$this->Html->assetUrl(
+					$options['requireUrl'],
+					['ext' => '.js', 'fullBase' => true]
+				),
 				[
 					'data-main' => $this->Html->assetUrl($dataMain,
-						[
-							'pathPrefix' => $options['jsUrl'],
-							'ext' => '.js'
-						]
-					)
+								[
+									'pathPrefix' => $options['jsUrl'],
+									'ext' => '.js'
+								]
+							)
 				]
 			);
 			Configure::write('Asset.timestamp', $_tmpAssetTimestampCache);

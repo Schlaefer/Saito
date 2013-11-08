@@ -273,7 +273,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini { *padding-top: 1px; *pad
 
 html, body { height: 100%; }
 
-body { min-width: 950px; }
+body { min-width: 768px; }
 
 #l-flash-container { /* make left/right same value as #content margin */ margin: 10px 20px; }
 
@@ -352,11 +352,10 @@ body { min-width: 950px; }
 .l-box-header > div > div:first-child { position: absolute; }
 .l-box-header > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
 
-@media screen and (-webkit-min-device-pixel-ratio: 0) { .l-box-header .btn-icon-close { line-height: 15px; font-size: 12px; } }
 .l-box-footer { border-width: 1px 0 0 0; border-style: solid; padding: 10px; }
 
 .box-footer-form { background-color: #fafafa; border-color: #eaeaea; }
-.box-footer-form > .icon-huge { vertical-align: middle; line-height: 1; margin: 0 10px; }
+.box-footer-form > .fa-huge { vertical-align: middle; line-height: 1; margin: 0 10px; }
 
 .box_layout_1 { width: auto; padding: 20px; }
 
@@ -476,7 +475,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 .slidetab-recentposts .slidetab_tree > li, .slidetab-recententries .slidetab_tree > li { margin-bottom: 0.5em !important; }
 .slidetab-recentposts .slidetab_tree > li li, .slidetab-recententries .slidetab_tree > li li { overflow: hidden; text-overflow: ellipsis; padding-left: 14px !important; text-indent: -7px; font-weight: normal; }
-.slidetab-recentposts .slidetab_tree > li li [class^="icon-"], .slidetab-recentposts .slidetab_tree li [class*=" icon-"], .slidetab-recententries .slidetab_tree > li li [class^="icon-"], .slidetab-recententries .slidetab_tree li [class*=" icon-"] { text-align: right; padding-right: 0.25em; }
+.slidetab-recentposts .slidetab_tree > li li [class^="fa"], .slidetab-recentposts .slidetab_tree li [class*=" fa"], .slidetab-recententries .slidetab_tree > li li [class^="fa"], .slidetab-recententries .slidetab_tree li [class*=" fa"] { text-align: right; padding-right: 0.25em; }
 
 #shoutbox img { max-width: 130px; }
 #shoutbox .shout { margin: 2px 0; }
@@ -548,8 +547,8 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 
 .thread_line-post { font-weight: normal; }
 
-/* thread_slider */
-.t_s { /* margin px left because of huge, vertical close button */ margin: 0px 0px 0px 25px; border: 1px #eaeaea solid; /* user_list und inline view sollen sauber getrennt bleiben */ overflow: hidden; }
+/** thread slider  1: margin px left because of huge vertical close button 2: inline-open box shall not run under open slidetabs */
+.t_s { margin: 0px 0px 0px 25px; /* 1 */ border: 1px #eaeaea solid; overflow: hidden; /* 2 */ }
 
 .tree_thread { padding: 0 1em 0.8em; }
 .tree_thread ul { margin: 0 0 0 25px; }
@@ -562,7 +561,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 .btn-thread_tools { display: inline-block; padding: 5px 7px 1px; word-spacing: 0; }
 
 .btn-threadCollapse { width: 28px; text-align: center; position: absolute; left: -4px; }
-.btn-threadCollapse > .icon-thread-open, .btn-threadCollapse > .icon-thread-closed { width: 10px; padding: 4px 0 8px; }
+.btn-threadCollapse > .fa-thread-open, .btn-threadCollapse > .fa-thread-closed { width: 10px; padding: 4px 0 8px; }
 
 .thread_inline { display: none; position: relative; margin: 0px 0 4px; /* otherwise link is slidetabs not clickable if inline with is open */ /*	overflow: hidden; */ }
 .thread_inline .btn_back_l, .thread_inline .btn_top_l { float: left; }
@@ -610,7 +609,8 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .button_mod_panel { display: inline-block; vertical-align: middle; }
 .button_mod_panel ul { margin: 0 !important; padding: 0 !important; list-style-type: none; }
 
-.l-button_mod_panel-wrapper { position: absolute; display: inline-block; }
+/* 1: #57 fixes mod button drop-down overlapped in inline-view */
+.l-button_mod_panel-wrapper { position: absolute; /* 1 */ display: inline-block; padding-top: 1px; }
 
 .btn-hf-center { width: 100px; display: inline-block; height: 20px; }
 .btn-hf-center:before, .btn-hf-center:after { content: '\00A0'; }
@@ -650,7 +650,9 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .posting-badges i { padding: 0 0.5ex; }
 
-.btn-solves, .btn-bookmark-add { padding-left: 3em; }
+.js-buttons a:first-child { padding-left: 3em; }
+
+.btn-solves, .btn-bookmark-add { padding: 0 1.5em; }
 
 .c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
@@ -803,7 +805,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 /*******************************************************************************
 * iPad
 ******************************************************************************/
-@media only screen and (device-width: 768px) { .icon-thread-open, .icon-thread-closed { -webkit-text-size-adjust: 120%; }
+@media only screen and (device-width: 768px) { .fa-thread-open, .fa-thread-closed { -webkit-text-size-adjust: 120%; }
   .thread_line-pre, .thread_line-content { -webkit-text-size-adjust: 120%; }
   .a_a { -webkit-text-size-adjust: 110%; } }
 @media only screen and (device-width: 768px) and (orientation: portrait) { body, html { width: 768px; min-width: 768px; }

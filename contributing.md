@@ -8,6 +8,8 @@ Please fill bugs and make pull requests at [github][saito-github].
 
 To setup the full the development environment install [npm][npm] and execute `grunt dev-setup`. Compile the files for a release with `grunt release`.
 
+You have to install `phpcs` and the [CakePHP Codesniffer](https://github.com/cakephp/cakephp-codesniffer) manually.
+
 # Conventions #
 
 The git branching is following the [gitflow][gitflow] model.

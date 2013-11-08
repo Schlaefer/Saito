@@ -72,7 +72,7 @@
 						?>
 							<<?php echo $tag; ?> <?php if ($tag === 'a') echo 'href="#"'; ?> class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
 									<?php if ($tag === 'a') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
-							</<?php echo $tag; ?>>
+							</<?= $tag ?>>
 						<?php
 							endif;
 						?>
@@ -82,22 +82,20 @@
 			<div style="position: relative;">
 				<?php
 					$k = 'visibility: hidden;';
-					if (	 $this->EntryH->hasAnswers($entry_sub)
-							&& $this->request->params['controller'] === 'entries'
-							&& $this->request->params['action'] === 'index'
+					if ($this->EntryH->hasAnswers($entry_sub) &&
+							$this->request->params['controller'] === 'entries' &&
+							$this->request->params['action'] === 'index'
 					) {
 						$k = '';
 					}
 					echo <<<EOF
 <a href="#" class="btn-threadCollapse " title="{$cacheThreadBoxTitlei18n['btn-threadCollapse']}" style="{$k}">
-<i class="icon-thread-open"></i>
+<i class="fa fa-thread-open"></i>
 </a>
 EOF;
 				?>
 			<div style="margin-left: 18px;">
-				<?php
-					echo $out;
-				?>
+				<?= $out; ?>
 			</div>
 		</div>
 	</div>
