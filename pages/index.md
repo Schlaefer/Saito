@@ -74,7 +74,7 @@ Please don't hesitate to [file issues or suggest ideas][Saito Issues].
 
 ## Mitmachen
 
-Bitte nicht zögern [Ideen und Fehler melden][Saito Issues]!
+Bitte nicht zögern, [Ideen und Fehler zu melden][Saito Issues]!
 
 </div>
 </div>
