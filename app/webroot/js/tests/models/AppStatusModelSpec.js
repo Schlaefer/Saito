@@ -13,9 +13,11 @@ define([], function() {
             this.server = sinon.fakeServer.create();
 
             require(['models/appStatus', 'models/app'], _.bind(function(Model, App) {
-                that.model = new Model();
-                that.model.setWebroot(this.webroot);
-                flag = true;
+              var webroot = this.webroot;
+              that.model = new Model({}, {settings: {
+                get: function() { return webroot; }
+              }});
+              flag = true;
             }, this));
 
             waitsFor(function() {
@@ -24,11 +26,12 @@ define([], function() {
         });
 
         afterEach(function() {
+            delete(this.model);
             this.server.restore();
         });
 
         it('fetches data from saitos/status/', function() {
-            this.model.fetch();
+            this.model.start();
             expect(this.server.requests.length)
                 .toEqual(1);
             expect(this.server.requests[0].method)

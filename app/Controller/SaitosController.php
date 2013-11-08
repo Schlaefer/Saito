@@ -25,7 +25,7 @@
 				'lastShoutId' => $this->Shout->findLastId()
 			];
 			$data = json_encode($data);
-			if($this->request->accepts('text/event-streams')) {
+			if ($this->request->accepts('text/event-streams')) {
 				return $this->_statusAsEventStream($data);
 			} else {
 				return $this->_statusAsJson($data);
