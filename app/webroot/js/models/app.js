@@ -41,7 +41,7 @@ define([
           this.commands = Vent.commands;
           this.reqres = Vent.reqres;
           this.settings = new AppSettingModel();
-          this.status = new AppStatusModel({settings: this.settings});
+          this.status = new AppStatusModel({}, {settings: this.settings});
           this.currentUser = new CurrentUserModel();
         }
 

@@ -10,7 +10,7 @@ define([
 
     stream: null,
 
-    initialize: function(options) {
+    initialize: function(attributes, options) {
       this.settings = options.settings;
       this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
       this.methodToCakePhpUrl.read = 'status/';
@@ -63,7 +63,7 @@ define([
      *
      * @private
      */
-    _poll: function () {
+    _poll: function() {
       var resetRefreshTime,
           updateAppStatus,
           setTimer,
@@ -73,33 +73,37 @@ define([
           refreshTimeBase = 10000,
           refreshTimeMax = 90000;
 
-      stopTimer = function () {
+      stopTimer = function() {
         if (timerId !== undefined) {
           clearTimeout(timerId);
         }
       };
 
-      resetRefreshTime = function () {
+      resetRefreshTime = function() {
         stopTimer();
         refreshTimeAct = refreshTimeBase;
       };
 
-      setTimer = function () {
+      setTimer = function() {
         timerId = setTimeout(
             updateAppStatus,
             refreshTimeAct
         );
       };
 
-      updateAppStatus = _.bind(function () {
+      updateAppStatus = _.bind(function() {
         setTimer();
-        this.fetch();
-        refreshTimeAct = Math.floor(
-            refreshTimeAct * (1 + refreshTimeAct / 40000)
-        );
-        if (refreshTimeAct > refreshTimeMax) {
-          refreshTimeAct = refreshTimeMax;
-        }
+        this.fetch({
+          success: function() {
+            refreshTimeAct = Math.floor(
+                refreshTimeAct * (1 + refreshTimeAct / 40000)
+            );
+            if (refreshTimeAct > refreshTimeMax) {
+              refreshTimeAct = refreshTimeMax;
+            }
+          },
+          error: stopTimer
+        });
       }, this);
 
       this.listenTo(this, 'change', function() {
