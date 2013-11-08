@@ -120,17 +120,8 @@
 			$Entries->expects($this->once())
 					->method('referer')
 					->will($this->returnValue('/foo'));
-			$result = $this->testAction('/entries/add/1');
+			$this->testAction('/entries/add/1');
 			$this->assertRedirectedTo('foo');
-		}
-
-		public function testBookmarkButtonVisibility() {
-			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
-			$this->assertNotContains('bookmarks-add-1', $result);
-
-			$this->_loginUser(3);
-			$result = $this->testAction('/entries/view/1', array('return' => 'view'));
-			$this->assertContains('bookmarks-add-1', $result);
 		}
 
 		/**
