@@ -7,6 +7,19 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-11.01 ##
+
+### What's new ###
+
+- [new] reduces minimum page width to 768px
+- [new] PHP 5.5 support
+- [fix] [mobile] long links overflow content area
+- [task] refactors Bookmark and Solves buttons in posting form
+- [task] #163 - implements Server Side Events for status messages (disabled by default)
+- [task] updates to font-awesome 4, marionette 1.2.2, backbone 1.1
+
+Code formatting and refactoring.
+
 ## 2013-10.03 ##
 
 ### What's new ###

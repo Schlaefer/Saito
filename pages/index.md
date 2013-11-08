@@ -6,7 +6,7 @@ layout:	home
 
 ##	What is it
 
-Saito is an open source threaded web forum written in PHP (atop of [CakePHP]).
+Saito is an open source threaded web forum written in PHP (atop of [CakePHP] and [Marionette]).
 
 See [macnemo.de] or [macfix.de] for a running installation.
 
@@ -15,7 +15,7 @@ See [macnemo.de] or [macfix.de] for a running installation.
 
 ## Was
 
-Saito ist ein Open Source Webforum geschrieben in PHP auf Basis von [CakePHP].
+Saito ist ein Open Source Webforum geschrieben in PHP ([CakePHP] und [Marionette]).
 
 Es kann sich im bei [macnemo.de] oder [macfix.de] angeschaut werden.
 
@@ -28,18 +28,18 @@ Es kann sich im bei [macnemo.de] oder [macfix.de] angeschaut werden.
 
 ## Why
 
-We had the need for a classic threaded forum for [macnemo.de] but with modern, maintainable and extendable source.
+We had the need for a classic threaded forum but with modern, maintainable and extendable source.
 
-One goal was to have it deployable even on cheap webhosters.
+It should be deployable on simple shared hosting accounts.
 
 </div>
 <div class="span5" markdown="1">
 
 ## Warum
 
-Wir wollten ein klassisches Forum mit Baumstruktur für [macnemo.de] und gleichzeitig einen halbwegs modernen, wartbaren und erweiterbaren Quellcode.
+Wir wollten ein klassisches Forum mit Baumstruktur und modernen, wartbaren und erweiterbaren Quellcode.
 
-Ein Ziel war es, das Forum auf Webhostern selbst im günstigsten Paket installieren zu können.
+Das Forum sollte auf günstigen Webpräsenzen zu installieren sein.
 
 </div>
 </div>
@@ -74,7 +74,7 @@ Please don't hesitate to [file issues or suggest ideas][Saito Issues].
 
 ## Mitmachen
 
-Bitte nicht zögern, [Ideen und Fehler zu berichten][Saito Issues]!
+Bitte nicht zögern [Ideen und Fehler melden][Saito Issues]!
 
 </div>
 </div>
@@ -86,7 +86,7 @@ Bitte nicht zögern, [Ideen und Fehler zu berichten][Saito Issues]!
 
 ## Buzzword Bingo
 
-PHP 5.4, MySQL, CakePHP, UTF-8, BBCode, No Template Engine, Geshi, RSS-Feed, Image Upload, Captcha, Localization, Smilies, html5-Audio/-Video and flash/iframe Video Embedding, Custom Colors, Inline Opening and Editing, Signatures, Messages via Email, Mark as Read, flattr, embed.ly, jQuery, jQuery UI, Sass/Compass, Blueprint, Bootstrap, Backbone, Premature Optimization – **BINGO!**
+PHP 5.4+, MySQL, CakePHP, UTF-8, BBCode, No Template Engine, Geshi, RSS-Feed, Image Upload, Captcha, Localization, Smilies, html5-Audio/-Video and flash/iframe Video Embedding, Custom Colors, Inline Opening and Editing, Signatures, Messages via Email, Mark as Read,, Mark as Helpful, flattr, embed.ly, jQuery, jQuery UI, Sass/Compass, Backbone/Marionette, Premature Optimization – **BINGO!**
 
 </div>
 </div>
@@ -130,6 +130,7 @@ Who wrote this and why? Wait … where are my pants?!
 </div>
 
 [CakePHP]: http://cakephp.org/
+[Marionette]: http://marionettejs.com/
 [macnemo.de]: http://macnemo.de/
 [macfix.de]: http://www.macfix.de/
 [testforum]: http://saito.siezi.com/forum/
