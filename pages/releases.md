@@ -7,6 +7,12 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-11.02 ##
+
+### What's new ###
+
+- [new] #166 Invalidate mobile cache manifest on `Empty Caches` button
+
 ## 2013-11.01 ##
 
 ### What's new ###
