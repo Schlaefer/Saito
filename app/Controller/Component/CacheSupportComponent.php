@@ -12,8 +12,31 @@
 
 		public function initialize(Controller $Controller) {
 			$this->_CacheSupport = new CacheSupport();
+			$this->_addConfigureCachelets();
 			$this->CacheTree = CacheTree::getInstance();
 			$this->CacheTree->initialize($Controller);
+		}
+
+		/**
+		 * Adds additional cachelets from Configure `Saito.Cachelets`
+		 *
+		 * E.g. use in `Plugin/<foo>/Config/bootstrap.php`:
+		 *
+		 * <code>
+		 * Configure::write('Saito.Cachelets.M', ['location' => 'M.Lib', 'name' => 'MCacheSupportCachelet']);
+		 * </code>
+		 */
+		protected function _addConfigureCachelets() {
+			$_additionalCachelets = Configure::read('Saito.Cachelets');
+			if (!$_additionalCachelets) {
+				return;
+			}
+			foreach ($_additionalCachelets as $_c) {
+				if (!class_exists(($_c['name']))) {
+					App::uses($_c['name'], $_c['location']);
+				}
+				$this->_CacheSupport->add(new $_c['name']);
+			}
 		}
 
 		public function beforeRender(Controller $Controller) {

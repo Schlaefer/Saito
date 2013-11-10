@@ -34,7 +34,9 @@
 
 			$this->set(
 				'touch',
+				md5(
 					Configure::read('debug') .
+					filemtime(App::pluginPath('M') . 'webroot/touch.txt') .
 					filemtime(App::pluginPath('M') . 'View/Elements/custom_html_header.ctp') .
 					filemtime(App::pluginPath('M') . 'webroot/dist/js.js') .
 					filemtime(
@@ -43,6 +45,7 @@
 					filemtime(
 						App::pluginPath('M') . 'webroot/dist/theme.css'
 					)
+				)
 			);
 		}
 
