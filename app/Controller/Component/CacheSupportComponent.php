@@ -17,6 +17,15 @@
 			$this->CacheTree->initialize($Controller);
 		}
 
+		/**
+		 * Adds additional cachelets from Configure `Saito.Cachelets`
+		 *
+		 * E.g. use in `Plugin/<foo>/Config/bootstrap.php`:
+		 *
+		 * <code>
+		 * Configure::write('Saito.Cachelets.M', ['location' => 'M.Lib', 'name' => 'MCacheSupportCachelet']);
+		 * </code>
+		 */
 		protected function _addConfigureCachelets() {
 			$_additionalCachelets = Configure::read('Saito.Cachelets');
 			if (!$_additionalCachelets) {

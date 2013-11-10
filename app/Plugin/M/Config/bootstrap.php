@@ -11,3 +11,5 @@
 			'scopes' => ['mobile-client']
 		]
 	);
+
+	Configure::write('Saito.Cachelets.M', ['location' => 'M.Lib', 'name' => 'MCacheSupportCachelet']);
