@@ -12,8 +12,22 @@
 
 		public function initialize(Controller $Controller) {
 			$this->_CacheSupport = new CacheSupport();
+			$this->_addConfigureCachelets();
 			$this->CacheTree = CacheTree::getInstance();
 			$this->CacheTree->initialize($Controller);
+		}
+
+		protected function _addConfigureCachelets() {
+			$_additionalCachelets = Configure::read('Saito.Cachelets');
+			if (!$_additionalCachelets) {
+				return;
+			}
+			foreach ($_additionalCachelets as $_c) {
+				if (!class_exists(($_c['name']))) {
+					App::uses($_c['name'], $_c['location']);
+				}
+				$this->_CacheSupport->add(new $_c['name']);
+			}
 		}
 
 		public function beforeRender(Controller $Controller) {

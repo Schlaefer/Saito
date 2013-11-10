@@ -1,24 +1,25 @@
 Cache
 =====
 
-Kind 	| Namespace	| Key 			| Subkey			    | Type 	| Comment
------	| ---------	| ----			| -------			    | ----	| -------
-Cache | Saito 		| Settings 	| 						    | 	| Siehe Configuration
-Cache | Saito 		| Cache 		| registerGc 	    | timestamp 	| timestamp of last registerGc
-Cache | Saito 		| Cache 		| catForAccession	| array 	    | cache for categories for accession
-Cache | Saito 		| Cache 		| appSettings	    | array 	    | cache for app settings
-Cache 	        | Saito 	| Smilies 	| smilies_all 	| array 	| Smilies from `smilies` table
-Configuration 	| Saito 	| Cache 	| Thread 	| bool 	| if true use thread cache
-Configuration 	| Saito 	| useSaltForUserPasswords	| 	| bool 	| unsalted md5 mode for user passwords
-Configuration 	| Saito		| markItUp	| nextCssId	| int 	| next CSS-ID for button in the markItUp-CSS
-Configuration		| Saito		| markItUp 	| additionalButtons	| array 	| Additional buttons shown in the markItUpEditor
-Configuration 	| Saito 	| Settings 	| 	| array 	| Array with App Settings
-Configuration 	| Saito 	| Slidetabs 	| all 	| array 	| names of all installed slidetabs
-Configuration 	| Saito 	| Smilies 	| smilies_all 	| array 	| Smilies from `smilies` table
-Configuration 	| Saito 	| Smlies 	| smilies_all_html	| array 	| Html-formatierte Smilies
-Configuration 	| Saito 	| theme 	| 	| string	| theme name; default ist "default"
-Configuration 	| Saito 	| v 	| 	| string	| internal revision number
-Session 	| User 	| last_refresh_tmp 	| 	| integer	| Speichert letzten Session Login für Mark as Read
+Kind 	          | Namespace	| Key 			              | Subkey			    | Type 	      | Comment
+-----	          | ---------	| ----			              | -------			    | ----	      | -------
+Cache           | Saito 		| Settings 	              | 						    | 	          | Siehe Configuration
+Cache           | Saito 		| Cache 		              | registerGc 	    | timestamp 	| timestamp of last registerGc
+Cache           | Saito 		| Cache 		              | catForAccession	| array 	    | cache for categories for accession
+Cache           | Saito 		| Cache 		              | appSettings	    | array 	    | cache for app settings
+Cache 	        | Saito     | Smilies 	              | smilies_all 	  | array 	    | Smilies from `smilies` table
+Configuration 	| Saito     | Cache 	                | Thread 	        | bool 	      | if true use thread cache
+Configuration 	| Saito     | Cachelets 	            |  	              | string      |
+Configuration 	| Saito 	  | useSaltForUserPasswords	| 	| bool 	| unsalted md5 mode for user passwords
+Configuration 	| Saito		  | markItUp	| nextCssId	| int 	| next CSS-ID for button in the markItUp-CSS
+Configuration		| Saito		  | markItUp 	| additionalButtons	| array 	| Additional buttons shown in the markItUpEditor
+Configuration 	| Saito 	  | Settings 	| 	| array 	| Array with App Settings
+Configuration 	| Saito 	  | Slidetabs 	| all 	| array 	| names of all installed slidetabs
+Configuration 	| Saito 	  | Smilies 	| smilies_all 	| array 	| Smilies from `smilies` table
+Configuration 	| Saito 	  | Smlies 	| smilies_all_html	| array 	| Html-formatierte Smilies
+Configuration 	| Saito 	  | theme 	| 	| string	| theme name; default ist "default"
+Configuration 	| Saito 	  | v 	| 	| string	| internal revision number
+Session 	      | User 	    | last_refresh_tmp 	| 	| integer	| Speichert letzten Session Login für Mark as Read
 
 
 Settings
