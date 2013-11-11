@@ -8,6 +8,7 @@ class StopwatchFilter extends DispatcherFilter {
 	public $priority = 1;
 
 	public function beforeDispatch(CakeEvent $event) {
+		Stopwatch::init();
 		Stopwatch::enable();
 		Stopwatch::start('----------------------- Dispatch -----------------------');
 	}
