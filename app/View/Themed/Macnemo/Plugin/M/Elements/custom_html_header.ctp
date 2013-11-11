@@ -1,0 +1,1 @@
+<link rel="apple-touch-icon" href="<?= $this->Html->assetUrl('img/apple-touch-icon-precomposed.png') ?>"/>

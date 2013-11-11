@@ -7,7 +7,13 @@
 	<meta name="apple-mobile-web-app-title" content="<?= $short_title_for_layout ?>">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="viewport" content="initial-scale=1.0">
-	<?= $this->Html->css(['M.../dist/common.css', 'M.../dist/theme.css']) ?>
+	<?php
+		$_cssOptions = ['ext' => '.css', 'fullBase' => true];
+		echo $_commonCssUrl = $this->Html->css([
+			$this->Html->assetUrl('M.dist/common', $_cssOptions),
+			$this->Html->assetUrl('M.dist/theme', $_cssOptions)
+		]);
+	?>
 	<script>
 		window.Saito = {
 			webroot: "<?= $this->webroot ?>",
