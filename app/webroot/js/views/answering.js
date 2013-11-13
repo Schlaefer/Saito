@@ -4,9 +4,11 @@ define([
   'backbone',
   'models/app',
   'views/uploads', 'views/mediaInsert',
+  'views/editCountdown',
   'models/preview', 'views/preview',
   'lib/saito/jquery.scrollIntoView'
-], function($, _, Backbone, App, UploadsView, MediaInsertView, PreviewModel, PreviewView) {
+], function($, _, Backbone, App, UploadsView, MediaInsertView, EditCountdown,
+            PreviewModel, PreviewView) {
   'use strict';
 
   return Backbone.View.extend({
@@ -20,6 +22,13 @@ define([
     mediaView: false,
 
     sendInProgress: false,
+
+    /**
+     * current action
+     *
+     * either 'edit' or 'add'
+     */
+    _action: null,
 
     /**
      * same model as the parent PostingView
@@ -37,13 +46,11 @@ define([
     },
 
     initialize: function(options) {
-      var _entry = this.$('.js-data').data('entry');
-      console.log(_entry);
       this.parentThreadline = options.parentThreadline || null;
 
       if (!this.parentThreadline) {
         //* view came directly from server and is ready without rendering
-        this._setupTextArea();
+        this._onFormReady();
       }
 
       // focus can only be set after element is visible in page
@@ -127,6 +134,33 @@ define([
     _postRendering: function() {
       this.$el.scrollIntoView('bottom');
       this._focusSubject();
+      this._onFormReady();
+    },
+
+    _onFormReady: function() {
+      this._setupTextArea();
+
+      var _$data = this.$('.js-data');
+      if (_$data.length > 0 && _$data.data('meta').action === 'edit') {
+        var _entry = this.$('.js-data').data('entry');
+        this.model.set(_entry, {silent: true});
+        this._addCountdown();
+      }
+    },
+
+    /**
+     * Adds countdown to Submit button
+     *
+     * @private
+     */
+    _addCountdown: function() {
+      var _$submitButton = this.$('.js-btn-submit');
+      var editCountdown = new EditCountdown({
+        el: _$submitButton,
+        model: this.model,
+        editPeriod: App.settings.get('editPeriod'),
+        done: 'disable'
+      });
     },
 
     _focusSubject: function() {
@@ -202,7 +236,6 @@ define([
       } else if (this.rendered === false) {
         this.rendered = true;
         this.$el.html(this.answeringForm);
-        this._setupTextArea();
         _.defer(function(caller) {
           caller._postRendering();
         }, this);

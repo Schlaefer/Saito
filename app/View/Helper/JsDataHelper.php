@@ -14,36 +14,37 @@
 
 		public function getAppJs(View $View) {
 			$js = $this->_JsData->getJs();
-			$js += array (
-				'app' => array(
+			$js += [
+				'app' => [
 					'version' => Configure::read('Saito.v'),
-					'settings' => array (
-						'webroot' => $View->request->webroot,
-						'embedly_enabled' => (bool)Configure::read('Saito.Settings.embedly_enabled'),
-						'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
-						'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
+					'settings' => [
 						'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0),
+						'embedly_enabled' => (bool)Configure::read('Saito.Settings.embedly_enabled'),
+						'editPeriod' => (int)Configure::read('Saito.Settings.edit_period'),
 						'notificationIcon' => $this->assetUrl(
 									'apple-touch-icon-precomposed.png',
 									[
 										'pathPrefix' => Configure::read('App.imageBaseUrl'),
 										'fullBase' => true
-									])
-					)
-				),
-				'request' => array(
+									]),
+						'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
+						'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
+						'webroot' => $View->request->webroot
+					]
+				],
+				'request' => [
 					'action' => $View->request->action,
 					'controller' => $View->request->controller,
 					'isMobile' => $View->request->isMobile(),
 					'isPreview' => $View->request->isPreview()
-				),
-				'currentUser' => array(
+				],
+				'currentUser' => [
 					'id' => (int)$View->viewVars['CurrentUser']['id'],
 					'username' => $View->viewVars['CurrentUser']['username'],
 					'user_show_inline' => $View->viewVars['CurrentUser']['inline_view_on_click'] || false,
 					'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
-				)
-			);
+				]
+			];
 			$out = 'var SaitoApp = ' . json_encode($js);
 			$out .= '; SaitoApp.timeAppStart = new Date().getTime();';
 			return $out;
