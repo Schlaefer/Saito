@@ -33,10 +33,20 @@
   padding-top: 15px;
   }
 
+.l-top-menu-wrapper {
+  position: relative;
+}
+
 .l-top-menu {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+
+@media all and (max-width: $layout-tablet-maxWidth) {
+  .l-top-menu {
+    position: relative;
+  }
 }
 
 .top-menu {
@@ -46,7 +56,17 @@
   border-width: $border_width 0 0 $border_width;
 	// workaround fow webkit bug 101443 https://bugs.webkit.org/show_bug.cgi?id=101443
 	word-spacing: 0px;
+  text-align:right;
+  @extend .t_shadow;
+}
+
+@media all and (max-width: $layout-tablet-maxWidth) {
+  .l-top-menu {
+    border-left: none;
+    font-size: inherit;
+    line-height: inherit;
   }
+}
 
 .top-search > form {
   height: 26px;
