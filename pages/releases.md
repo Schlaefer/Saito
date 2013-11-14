@@ -7,6 +7,16 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-11.03 ##
+
+### What's new ###
+
+- [new] #165 Add edit-time onto edit button
+- [new] Stopwatch outputs warm-up times in debug output
+- [new] improves responsive layout
+- [fix] mobile: fixes mobile view only using default theme assets
+- [task] refactors edit time from .ctp-template into .js-view
+
 ## 2013-11.02 ##
 
 ### What's new ###
