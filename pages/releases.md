@@ -14,6 +14,7 @@ layout: default
 - [new] #165 Add edit-time onto edit button
 - [new] Stopwatch outputs warm-up times in debug output
 - [new] improves responsive layout
+- [new] mobile customization documentation in `docs/config-customizing.md`
 - [fix] mobile: fixes mobile view only using default theme assets
 - [task] refactors edit time from .ctp-template into .js-view
 
