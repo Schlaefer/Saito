@@ -26,6 +26,9 @@ module.exports = function(grunt) {
       marionette: {
         deps: ['underscore', 'backbone' /*, 'jquery' */],
         exports: 'Marionette'
+      },
+      jqueryTinyTimer: {
+        deps: [/* 'jquery' */]
       }
     },
     // paths used by r.js
@@ -39,6 +42,7 @@ module.exports = function(grunt) {
       humanize: '../dev/bower_components/humanize/js/humanize',
       jquery: '../dev/bower_components/jquery/jquery',
       jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
+      jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
       jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
       marionette: '../dev/bower_components/marionette/backbone.marionette',
       text: '../dev/bower_components/requirejs-text/js/text',
@@ -60,6 +64,7 @@ module.exports = function(grunt) {
           'marionette',
           'humanize',
           'jqueryAutosize',
+          'jqueryTinyTimer',
           'jqueryUi',
           'text',
           'underscore'
@@ -137,10 +142,6 @@ module.exports = function(grunt) {
               {
                 src: ['./app/webroot/release-tmp/main.js'],
                 dest: './app/webroot/dist/main.js'
-              },
-              {
-                src: ['./app/webroot/dev/vendors/countdown/jquery.countdown.min.js'],
-                dest: './app/webroot/dist/jquery.countdown.min.js'
               },
               {
                 expand: true,

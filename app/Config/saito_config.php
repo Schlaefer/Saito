@@ -3,7 +3,7 @@
   /**
    * Saito Enduser Configuration
    */
-  
+
   /**
    * Setting default language (mandantory)
    *

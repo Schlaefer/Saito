@@ -2,6 +2,8 @@
 
 class Stopwatch {
 
+	protected static $_startupTime = 0;
+
 	protected static $_instance = null;
 
 	protected static $_enableTimer = false;
@@ -107,6 +109,8 @@ class Stopwatch {
 		self::start('now');
 
 		$out = "";
+		$out .= 'Time to Cake: ' . sprintf('%05.3f', TIME_START - $_SERVER['REQUEST_TIME_FLOAT']) . " s\n";
+		$out .= 'Cake bootstrap: ' . sprintf('%05.3f', self::$_startupTime - TIME_START) . " s\n";
 
 		$out .= "W\tU\tW_delta\tU_delta\tMem [MB]\n";
 		$_seriesIndex = 1;
@@ -171,6 +175,10 @@ class Stopwatch {
 		}
 		$out = json_encode($data);
 		return $out;
+	}
+
+	public static function init() {
+			self::$_startupTime = microtime(true);
 	}
 
 	public static function enable() {

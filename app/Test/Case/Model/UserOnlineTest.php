@@ -47,7 +47,13 @@
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
+
+			$_time = $result[0]['UserOnline']['time'];
+			unset($result[0]['UserOnline']['time']);
+			$this->assertWithinMargin($_time, time(), 1);
+
 			$expected = $this->_startUsersOnline;
+			unset($expected[0]['UserOnline']['time']);
 			$this->assertEqual($result, $expected);
 
 			//* insert anonymous user

@@ -1,0 +1,33 @@
+.badgelet, .shout {
+    background-color: #FFFFD9;
+    border-color: #FFF8EC;
+}
+
+.badgelet-first, .badgelet.is-selected {
+    background-color: #FFFB9D;
+}
+
+.badgelet.is-flagged {
+    border-left-color: #FF8F00;
+}
+.badgelet.is-flagged .badgelet-flag {
+    border-bottom-color: #FF8F00;
+}
+
+input:focus, textarea:focus {
+    outline-color: #FEC853 !important;
+    outline-style: solid !important;
+    outline-width: medium !important;
+}
+
+.logo-placement:after {
+    content: "macnemo";
+}
+
+a, .applink {
+    color: #DB0000;
+}
+
+#nprogress .bar {
+    background: #DB0000;
+}

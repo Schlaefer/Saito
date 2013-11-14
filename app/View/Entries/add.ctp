@@ -1,4 +1,15 @@
 <?php
+	//data passed as json model
+	$_jsMeta = json_encode([
+		'action' => $this->request->action
+	]);
+	$_jsEntry = '{}';
+	if ($this->request->action === 'edit') {
+		$_jsEntry = json_encode([
+			'time' => $this->TimeH->mysqlTimestampToIso($this->request->data['Entry']['time'])
+		]);
+	}
+
 	// header subnav
 	$this->start('headerSubnavLeft');
 	echo $this->Html->link(
@@ -119,7 +130,7 @@
 								__('submit_button'),
 								[
 									'id'         => 'btn-submit',
-									'class'      => 'btn btn-submit',
+									'class'      => 'btn btn-submit js-btn-submit',
 									'tabindex'   => 4,
 									'type'       => 'button'
 								]
@@ -223,36 +234,5 @@
 		<!-- content -->
 	</div>
 	<!-- postingform -->
+	<div class='js-data' data-entry='<?= $_jsEntry ?>' data-meta='<?= $_jsMeta ?>'></div>
 	</div> <!-- entry add/reply -->
-
-<?php if ($this->request->action === 'edit'): ?>
-	<span id="submit-countdown" class="countdown" style="display: none;"></span>
-	<?php
-		echo $this->Html->script('../dist/jquery.countdown.min');
-		$sbl = __('submit_button');
-		$st  = (Configure::read('Saito.Settings.edit_period') * 60 ) - (time() - (strtotime($this->request->data['Entry']['time'])));
-		$this->Js->buffer(<<<EOF
-	$('#submit-countdown').countdown({
-		until: +$st,
-		compact: true,
-		format: 'MS',
-		onTick: function(periods) {
-				var setButtonText = function(text) {
-					$('#btn-submit').text(text);
-				};
-				if (periods[5] > 1 || (periods[5] == 1 && periods[6] > 30)) {
-					periods[5] = periods[5] + 1;
-					setButtonText('$sbl' + ' (' + periods[5] + ' min)');
-				} else if (periods[5] == 1) {
-					setButtonText('$sbl' + ' (' + periods[5] + ' min ' + periods[6] + ' s)');
-				} else {
-					setButtonText('$sbl' + ' (' + periods[6] + ' s)');
-				}
-		},
-		onExpiry: function() {
-				$('#btn-submit').attr('disabled', 'disabled');
-			}
-	});
-EOF
-			);
-endif; ?>

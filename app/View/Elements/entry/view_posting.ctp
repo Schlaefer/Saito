@@ -1,16 +1,17 @@
 <?php
-	### setup ###
-	if (!isset($level)) $level = 0;
-	if (!isset($last_action)) $last_action = null;
+	// setup
+	if (!isset($level)) { $level = 0; }
+	if (!isset($last_action)) { $last_action = null; }
 	$editLinkIsShown = false;
 
+	//data passed as json model
 	$_jsEntry = json_encode([
 		'pid' => (int)$entry['Entry']['pid'],
 		'isBookmarked' => $entry['isBookmarked'],
 		'isSolves' => (bool)$entry['Entry']['solves'],
-		'rootEntryUserId' => (int)$rootEntry['Entry']['user_id']
+		'rootEntryUserId' => (int)$rootEntry['Entry']['user_id'],
+		'time' => $this->TimeH->mysqlTimestampToIso($entry['Entry']['time'])
 	]);
-	###
 ?>
 <div class="js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
 	<div class="content">
@@ -75,14 +76,17 @@
 					);
 				};
 			?>
-			<?php  if (isset($entry['rights']['isEditingAsUserForbidden']) && $entry['rights']['isEditingAsUserForbidden'] == false) : ?>
+			<?php if (isset($entry['rights']['isEditingAsUserForbidden']) &&
+					!$entry['rights']['isEditingAsUserForbidden']
+			) : ?>
 				&nbsp;
 				<span class="small">
-					<?php echo $this->Html->link(
-								__('edit_linkname'),
-							'/entries/edit/' . $entry['Entry']['id'],
-								array ( 'class' => 'btn btn-edit', 'accesskey' => "e" )
-								);
+					<?=
+						$this->Html->link(
+							__('edit_linkname'),
+								'/entries/edit/' . $entry['Entry']['id'],
+							['class' => 'btn btn-edit js-btn-edit', 'accesskey' => 'e']
+						);
 					?>
 				</span>
 			<?php endif; ?>

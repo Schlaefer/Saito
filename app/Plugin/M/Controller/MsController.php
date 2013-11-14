@@ -11,8 +11,7 @@
 		];
 
 		public function index() {
-			$this->layout = 'default';
-			$this->theme = 'default';
+			$this->layout = 'plugin-m';
 			$this->set('title_for_layout', 'Mobile');
 			$this->set(
 				'short_title_for_layout',
@@ -31,22 +30,6 @@
 			$this->autoLayout = false;
 			$this->response->type('appcache');
 			$this->response->disableCache();
-
-			$this->set(
-				'touch',
-				md5(
-					Configure::read('debug') .
-					filemtime(App::pluginPath('M') . 'webroot/touch.txt') .
-					filemtime(App::pluginPath('M') . 'View/Elements/custom_html_header.ctp') .
-					filemtime(App::pluginPath('M') . 'webroot/dist/js.js') .
-					filemtime(
-						App::pluginPath('M') . 'webroot/dist/common.css'
-					) .
-					filemtime(
-						App::pluginPath('M') . 'webroot/dist/theme.css'
-					)
-				)
-			);
 		}
 
 		public function clientLog() {

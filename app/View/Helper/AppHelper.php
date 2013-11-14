@@ -32,13 +32,22 @@
  */
 	class AppHelper extends Helper {
 
+		/**
+		 * Returns the unix timestamp for a file
+		 *
+		 * @param $path as url `m/dist/theme.css
+		 * @return int
+		 * @throws InvalidArgumentException
+		 */
 		public function getAssetTimestamp($path) {
 			$pathWithTimestamp = $this->assetTimestamp($path);
 			// extracts integer unixtimestamp from `path/asset.ext?<unixtimestamp>
 			if ($pathWithTimestamp) {
-				preg_match('/(?<=\?)[\d]+(?=$|\?|\&)/', $pathWithTimestamp, $matches);
-				return (int)$matches[0];
+				if (preg_match('/(?<=\?)[\d]+(?=$|\?|\&)/', $pathWithTimestamp, $matches)) {
+					return (int)$matches[0];
+				}
 			}
+			throw new InvalidArgumentException("File $path not found.");
 		}
 
 	}

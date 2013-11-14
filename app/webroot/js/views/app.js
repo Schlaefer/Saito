@@ -121,7 +121,7 @@ define([
                     // appended to a posting
                     this.answeringForm = new AnsweringView({
                         el: this.$('.entry.add-not-inline'),
-                        id: 'foo'
+                        model: new PostingModel({id: 'foo'})
                     });
                 }
 

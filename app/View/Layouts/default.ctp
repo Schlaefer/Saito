@@ -32,10 +32,12 @@
 						?>
           <div id="claim"></div>
 				</div> <!-- .left -->
-				<div class="l-top-menu top-menu">
-						<?php echo $this->element('layout/header_login'); ?>
-				</div>
 		</div> <!-- #top -->
+		<div class="l-top-menu-wrapper">
+			<div class="l-top-menu top-menu">
+				<?php echo $this->element('layout/header_login'); ?>
+			</div>
+		</div>
 		<div id="topnav" class="navbar">
 			<div>
 				<div>

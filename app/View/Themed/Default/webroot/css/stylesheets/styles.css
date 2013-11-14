@@ -278,19 +278,7 @@ body { min-width: 768px; }
 #l-flash-container { /* make left/right same value as #content margin */ margin: 10px 20px; }
 
 /******************************************************************************* Susy *****************************************************************************/
-.bp_container, .bp-threeColumn { *zoom: 1; max-width: 71em; _width: 71em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto;     /*
-	@include container;
-	// backport from original blueprint framework:
-	// clears out all column floats from last container
-	// for using more than one
-	overflow: visible;
-	&:after {
-		content: ".";
-		display: block;
-		height: 0;
-		clear: both;
-		visibility: hidden; }
-	*/ }
+.bp_container, .bp-threeColumn { *zoom: 1; max-width: 71em; _width: 71em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto; }
 .bp_container:after, .bp-threeColumn:after { content: ""; display: table; clear: both; }
 
 .bp-threeColumn .left { width: 32.39437%; float: left; margin-right: 1.40845%; display: inline; }
@@ -500,10 +488,14 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 .l-top-right { padding-top: 15px; }
 
+.l-top-menu-wrapper { position: relative; }
+
 .l-top-menu { position: absolute; bottom: 0; right: 0; }
 
-.top-menu { padding: 2px 1em; font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; word-spacing: 0px; }
+@media all and (max-width: 768px) { .l-top-menu { position: relative; } }
+.top-menu { padding: 2px 1em; font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; word-spacing: 0px; text-align: right; }
 
+@media all and (max-width: 768px) { .l-top-menu { border-left: none; font-size: inherit; line-height: inherit; } }
 .top-search > form { height: 26px; font-size: 12px; }
 
 .navbar { padding: 0 20px; border-width: 1px 0 1px 0; }
@@ -757,7 +749,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .nowrap { white-space: nowrap; }
 
-.t_shadow, .header_style_2, .box-header, .ui-widget-header, .navbar-light, .navbar, .flash > .alert, .message, .disclaimer-inside, .slidetab-tab, .slidetab-content { text-shadow: white 0px 1px; }
+.t_shadow, .header_style_2, .box-header, .ui-widget-header, .navbar-light, .navbar, .top-menu, .flash > .alert, .message, .disclaimer-inside, .slidetab-tab, .slidetab-content { text-shadow: white 0px 1px; }
 
 .pointer:hover { cursor: pointer; }
 
