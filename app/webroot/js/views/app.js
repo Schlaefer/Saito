@@ -31,13 +31,14 @@ define([
 
             autoPageReloadTimer: false,
 
-			events: {
-				'click #showLoginForm': 'showLoginForm',
-				'focus #header-searchField': 'widenSearchField',
-                'click #btn-scrollToTop': 'scrollToTop',
-                'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
-                "click #btn-category-chooser": "toggleCategoryChooser"
-			},
+      events: {
+        'click #showLoginForm': 'showLoginForm',
+        'focus #header-searchField': 'widenSearchField',
+        'click #btn-scrollToTop': 'scrollToTop',
+        'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
+        "click #btn-category-chooser": "toggleCategoryChooser",
+        'click #btn_header_logo': '_onEntriesIndexReload'
+      },
 
 			initialize: function() {
 				this.threads = new ThreadCollection();
@@ -281,8 +282,18 @@ define([
                 if(event) {
                   event.preventDefault();
                 }
+                this._onEntriesIndexReload();
                 window.redirect(App.settings.get('webroot') + 'entries/update');
-            }
+            },
+
+      _onEntriesIndexReload: function() {
+        var _controller = App.request.controller,
+            _action = App.request.action;
+        if (_controller !== 'entries' || _action !== 'index') {
+          return;
+        }
+        App.commands.execute('shoutbox:mar', {silent: true});
+      }
 		});
 
 		return AppView;

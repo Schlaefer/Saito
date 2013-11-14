@@ -1,6 +1,6 @@
 <?php $this->start('slidetab-header'); ?>
 <div class="btn-slidetabShoutbox">
-    <i class="fa fa-comment-o fa-lg"></i>
+    <i class="fa fa-comments-o fa-lg"></i>
 </div>
 <?php $this->end('slidetab-header'); ?>
 <?php $this->start('slidetab-content'); ?>

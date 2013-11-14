@@ -11,9 +11,16 @@ define([
 
     template: _.template(Tpl),
 
+    _placeholder: {
+      a: $.i18n.__('Hit ⌃s to focus'),
+      b: $.i18n.__('Hit enter to mark as read')
+    },
+
     events: {
       "keyup form": "formUp",
-      "keydown form": "formDown"
+      "keydown form": "formDown",
+      "blur #shoutbox-input": "_setPlaceholder",
+      "focus #shoutbox-input": "_setPlaceholder"
     },
 
     submit: function() {
@@ -21,11 +28,32 @@ define([
           {text: this.textarea.val()},
           {
             success: _.bind(function(model, response) {
-              // update view with latest data coming as answer from the add request
+              // assumes all local shouts are read if user sends a new shout
+              App.commands.execute('shoutbox:mar', {silent: true});
+              // update view with latest data coming as answer from the add
               this.collection.reset(response);
             }, this)
           }
       );
+    },
+
+    _setPlaceholder: function() {
+      // Chrome is to fast to pickup the focus if not deferred
+      _.defer(_.bind(function() {
+        var _placeholder;
+        if (this.textarea.is(':focus')) {
+          _placeholder = this._placeholder.b;
+        } else {
+          _placeholder = this._placeholder.a;
+        }
+        this.textarea.attr('placeholder', _placeholder);
+      }, this));
+    },
+
+    serializeData: function() {
+      return {
+        placeholder: this._placeholder.a
+      };
     },
 
     clearForm: function() {
@@ -37,12 +65,16 @@ define([
     formDown: function(event) {
       if (event.keyCode === 13 && event.shiftKey === false) {
         event.preventDefault();
-        this.submit();
-        this.clearForm();
+        if (this.textarea.val().length > 0) {
+          this.submit();
+          this.clearForm();
+        } else {
+          App.commands.execute('shoutbox:mar');
+        }
       }
     },
 
-    formUp: function() {
+    formUp: function(event) {
       if (this.textarea.val().length > 0) {
         App.eventBus.trigger('breakAutoreload');
       } else if (this.textarea.val().length === 0) {
@@ -53,6 +85,12 @@ define([
     onShow: function() {
       this.textarea = this.$('#shoutbox-input');
       this.textarea.autosize();
+      this._setPlaceholder();
+      $(window).keydown(_.bind(function(event) {
+        if (event.ctrlKey === true && event.which === 83) {
+          this.textarea.focus();
+        }
+      }, this));
     }
 
   });
