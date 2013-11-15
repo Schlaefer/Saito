@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-30 13:19+0100\n"
-"PO-Revision-Date: 2013-10-30 13:20+0100\n"
+"POT-Creation-Date: 2013-11-15 09:58+0100\n"
+"PO-Revision-Date: 2013-11-15 10:07+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -124,7 +124,7 @@ msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #: View/Bookmarks/index.ctp:24 View/Categories/view.ctp:64
-#: View/Entries/add.ctp:80
+#: View/Entries/add.ctp:89
 msgid "Subject"
 msgstr "Betreff"
 
@@ -391,7 +391,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:42 View/Entries/search.ctp:83
-#: Controller/EntriesController.php:1004
+#: Controller/EntriesController.php:1024
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -429,36 +429,36 @@ msgstr "%s bearbeitet durch %s"
 msgid "views_headline"
 msgstr "Aufrufe"
 
-#: View/Elements/entry/view_posting.ctp:57
+#: View/Elements/entry/view_posting.ctp:64
 #: View/Elements/layout/header_login.ctp:38
 #: View/Elements/layout/header_login.ctp:43 View/Entries/index.ctp:26
 #: View/Entries/search.ctp:22 View/Users/view.ctp:163
 msgid "Help"
 msgstr "Hilfe"
 
-#: View/Elements/entry/view_posting.ctp:58
+#: View/Elements/entry/view_posting.ctp:65
 msgid "answering_forbidden_locked_shp"
 msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:63
+#: View/Elements/entry/view_posting.ctp:70
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
-#: View/Elements/entry/view_posting.ctp:76
-#: View/Elements/entry/view_posting.ctp:104
+#: View/Elements/entry/view_posting.ctp:86
+#: View/Elements/entry/view_posting.ctp:114
 #: Controller/EntriesController.php:497
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:144
+#: View/Elements/entry/view_posting.ctp:154
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:155
+#: View/Elements/entry/view_posting.ctp:165
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:158
+#: View/Elements/entry/view_posting.ctp:168
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
@@ -481,7 +481,7 @@ msgid "Mobile"
 msgstr "Mobil"
 
 #: View/Elements/layout/disclaimer.ctp:13
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:21
+#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:22
 msgid "RSS"
 msgstr ""
 
@@ -637,39 +637,39 @@ msgstr ""
 "Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
 "innerhalb der nächsten 24 Stunden: %s"
 
-#: View/Entries/add.ctp:21 View/Entries/add.ctp:135
+#: View/Entries/add.ctp:32 View/Entries/add.ctp:142
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:76 Controller/UsersController.php:477
+#: View/Entries/add.ctp:85 Controller/UsersController.php:477
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
-#: View/Entries/add.ctp:77
+#: View/Entries/add.ctp:86
 msgid "error_subject_max_length"
 msgstr "Betreff ist zu lang."
 
-#: View/Entries/add.ctp:107
+#: View/Entries/add.ctp:114
 msgid "Cite"
 msgstr "Zitieren"
 
-#: View/Entries/add.ctp:123 View/Entries/add.ctp:237
+#: View/Entries/add.ctp:130
 msgid "submit_button"
 msgstr "Eintragen"
 
-#: View/Entries/add.ctp:150
+#: View/Entries/add.ctp:157
 msgid "Notify on reply"
 msgstr "Beitrag abonnieren"
 
-#: View/Entries/add.ctp:164
+#: View/Entries/add.ctp:171
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:173 View/Helper/EntryHHelper.php:196
+#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:125
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
-#: View/Entries/add.ctp:186
+#: View/Entries/add.ctp:192
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
@@ -1390,11 +1390,11 @@ msgstr "Subthread erfolgreich entfernt."
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:785
+#: Controller/EntriesController.php:805
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:1001
+#: Controller/EntriesController.php:1021
 msgid "Custom"
 msgstr "Angepasst"
 
@@ -1466,8 +1466,8 @@ msgid "Smily was not deleted"
 msgstr ""
 
 #: Controller/ToolsController.php:21
-msgid "Caches have been emptied."
-msgstr "Caches wurden geleert."
+msgid "Caches cleared."
+msgstr ""
 
 #: Controller/UploadsController.php:40
 msgid "upload_max_number_of_uploads_failed"
@@ -1558,13 +1558,13 @@ msgstr "Fehler, Nachricht konnte nicht versandt werden."
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
-#: Controller/Component/EmailNotificationComponent.php:37
-#: Controller/Component/EmailNotificationComponent.php:69
+#: Controller/Component/EmailNotificationComponent.php:38
+#: Controller/Component/EmailNotificationComponent.php:71
 #, php-format
 msgid "New reply to \"%s\""
 msgstr "Neu Antwort zu \"%s\""
 
-#: Controller/Component/EmailNotificationComponent.php:103
+#: Controller/Component/EmailNotificationComponent.php:105
 msgid "Successfull registration"
 msgstr ""
 
@@ -1670,45 +1670,33 @@ msgstr ""
 msgid "Spoiler"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:982
+#: View/Helper/BbcodeHelper.php:977
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:1068
+#: View/Helper/BbcodeHelper.php:1066
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:1076
+#: View/Helper/BbcodeHelper.php:1074
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:42
-msgid "Entry is bookmarked"
-msgstr "Eintrag ist in den Lesezeichen"
-
-#: View/Helper/EntryHHelper.php:54
-msgid "Bookmark this entry"
-msgstr "Eintrag zu den Lesezeichen hinzufügen"
-
-#: View/Helper/EntryHHelper.php:124
-msgid "Mark entry as helpful"
-msgstr "Beitrag als hilfreich markieren."
-
-#: View/Helper/EntryHHelper.php:193
+#: View/Helper/EntryHHelper.php:122
 msgid "fixed"
 msgstr "Thread fixiert"
 
-#: View/Helper/EntryHHelper.php:201
+#: View/Helper/EntryHHelper.php:130
 msgid "Helpful entry"
 msgstr "Hilfreicher Beitrag"
 
-#: View/Helper/EntryHHelper.php:214
+#: View/Helper/EntryHHelper.php:143
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:217
+#: View/Helper/EntryHHelper.php:146
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
@@ -2644,9 +2632,30 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:15
+msgid "Hit ⌃s to focus"
+msgstr "⌃s für Focus"
+
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:16
+msgid "Hit enter to mark as read"
+msgstr "Enter für gelesen markieren"
+
 #: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/control.js:25
 msgid "Notification"
 msgstr "Benachrichtigung"
+
+#: webroot/dist/main.js:2 webroot/js/views/postingActionBookmark.js:51
+msgid "Entry is bookmarked"
+msgstr "Eintrag ist in den Lesezeichen"
+
+#: webroot/dist/main.js:2 webroot/js/views/postingActionBookmark.js:55
+#, fuzzy
+msgid "Bookmark the entry"
+msgstr "Eintrag zu den Lesezeichen hinzufügen"
+
+#: webroot/dist/main.js:2 webroot/js/views/postingActionSolves.js:26
+msgid "Mark entry as helpful"
+msgstr "Beitrag als hilfreich markieren."
 
 #: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:69
 msgid "upload_fileTypeNotAllowed"
@@ -2707,6 +2716,9 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:30
 msgid "token test"
 msgstr ""
+
+#~ msgid "Caches have been emptied."
+#~ msgstr "Caches wurden geleert."
 
 #~ msgid "Underline"
 #~ msgstr "Unterstrichen"
