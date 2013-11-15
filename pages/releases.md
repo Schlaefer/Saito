@@ -7,6 +7,18 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-11.04 ##
+
+### What's new ###
+
+- [new] marks new shoutbox entries on per browser basis
+- [fix] sets user online if the page is open (temp. workaround for regression)
+- [fix] adds time until Stopwatch startup to Stopwatch::getWallTime
+- [fix] excludes search button from sequential tab focus
+- [task] CSS tweak
+
+Code refactoring.
+
 ## 2013-11.03 ##
 
 ### What's new ###
