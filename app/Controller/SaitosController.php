@@ -6,7 +6,7 @@
  * Saitos Controller
  *
  */
-	class SaitosController extends Controller {
+	class SaitosController extends AppController {
 
 		public $uses = array(
 			'Shout'
@@ -66,6 +66,10 @@
 			$this->response->cache('-1 minute', '+1 hour');
 			$this->response->compress();
 			return json_encode($translations);
+		}
+
+		public function beforeFilter() {
+			$this->Auth->allow(['status', 'langJs']);
 		}
 
 	}
