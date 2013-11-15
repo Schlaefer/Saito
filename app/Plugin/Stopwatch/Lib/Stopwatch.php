@@ -101,6 +101,18 @@ class Stopwatch {
 		self::$_stopwatchCalls++;
 	}
 
+	static protected function _timeToCake() {
+		return TIME_START - $_SERVER['REQUEST_TIME_FLOAT'];
+	}
+
+	static protected function _timeFromCakeToStopwatch() {
+		return self::$_startupTime - TIME_START;
+	}
+
+	static protected function _timeToStopwatch() {
+		return self::$_startupTime - $_SERVER['REQUEST_TIME_FLOAT'];
+	}
+
 	public static function getString() {
 		if (self::$_enableTimer === false) {
 			return;
@@ -109,8 +121,8 @@ class Stopwatch {
 		self::start('now');
 
 		$out = "";
-		$out .= 'Time to Cake: ' . sprintf('%05.3f', TIME_START - $_SERVER['REQUEST_TIME_FLOAT']) . " s\n";
-		$out .= 'Cake bootstrap: ' . sprintf('%05.3f', self::$_startupTime - TIME_START) . " s\n";
+		$out .= 'Time to Cake: ' . sprintf('%05.3f', self::_timeToCake()) . " s\n";
+		$out .= 'Cake bootstrap: ' . sprintf('%05.3f', self::_timeFromCakeToStopwatch()) . " s\n";
 
 		$out .= "W\tU\tW_delta\tU_delta\tMem [MB]\n";
 		$_seriesIndex = 1;
@@ -204,7 +216,8 @@ class Stopwatch {
 	public static function getWallTime() {
 		self::start('getWallTime()');
 		self::end('getWallTime()');
-		return sprintf("%05.3f", self::$_events[count(self::$_events) - 1]['wtime']);
+		return sprintf("%05.3f",
+				self::$_events[count(self::$_events) - 1]['wtime'] + self::_timeToStopwatch());
 	}
 
 /**
