@@ -120,7 +120,6 @@
     }
   }
 
-
 // slidetab Shoutbox
 // -------------------------------------
 #shoutbox {
@@ -133,18 +132,6 @@
     margin: 2px 0;
   }
 
-  textarea {
-    font-size: 12px;
-    line-height: 16px;
-    margin: 0 0 1em 0;
-    padding: 2px 5px;
-    width: 180px;
-    resize: none;
-  }
-
-  .username {
-  }
-
   .info_text {
     color: #999;
     text-align: center;
@@ -154,6 +141,15 @@
     font-size: 100%;
   }
 
+}
+
+#shoutbox-input {
+  font-size: 12px;
+  line-height: 16px;
+  margin: 0 0 1em 0;
+  padding: 2px 5px;
+  width: 180px;
+  resize: none;
 }
 
 #shoutbox-shouts {
