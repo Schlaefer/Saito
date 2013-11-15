@@ -18,6 +18,34 @@ layout: default
 - [fix] mobile: fixes mobile view only using default theme assets
 - [task] refactors edit time from .ctp-template into .js-view
 
+### Migration Notes ###
+
+#### Theme ####
+
+Theme is recompiled. 
+
+#### default.ctp ####
+
+If you use a custom `default.ctp` file replace:
+
+    <div id="claim"></div>
+            </div> <!-- .left -->
+            <div class="l-top-menu top-menu">
+                <?php echo $this->element('layout/header_login'); ?>
+            </div>
+        </div> <!-- #top -->
+	    
+with
+
+			<div id="claim"></div>
+		</div> <!-- .left -->
+	</div> <!-- #top -->
+    <div class="l-top-menu-wrapper">
+      <div class="l-top-menu top-menu">
+        <?php echo $this->element('layout/header_login'); ?>
+      </div>
+    </div>
+
 ## 2013-11.02 ##
 
 ### What's new ###
@@ -276,7 +304,7 @@ Theme is recompiled.
 
 #### default.ctp ####
 
-If you use a custom `default.ctp` file replace :
+If you use a custom `default.ctp` file replace:
 
 	    <?php
             echo $this->Html->link(
