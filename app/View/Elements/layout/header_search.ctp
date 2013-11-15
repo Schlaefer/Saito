@@ -16,6 +16,7 @@
 				'div' => false,
 				'class' => 'btn_search_submit btn_search_header',
 				'escape' => false,
+				'tabindex' => -1,
 				'type' => 'submit'
 			]
 		);
