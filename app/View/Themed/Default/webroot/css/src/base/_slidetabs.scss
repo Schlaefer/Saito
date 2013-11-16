@@ -130,6 +130,11 @@
 
   .shout {
     margin: 2px 0;
+
+    & > .fa {
+      color: #999;
+    }
+
   }
 
   .info_text {
