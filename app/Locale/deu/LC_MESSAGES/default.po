@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-15 09:58+0100\n"
-"PO-Revision-Date: 2013-11-15 10:07+0100\n"
+"POT-Creation-Date: 2013-11-16 09:24+0100\n"
+"PO-Revision-Date: 2013-11-16 09:24+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -544,7 +544,7 @@ msgstr "Ausloggen"
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
-#: View/Elements/layout/header_search.ctp:28 View/Entries/search.ctp:26
+#: View/Elements/layout/header_search.ctp:29 View/Entries/search.ctp:26
 #: View/Entries/search.ctp:107
 msgid "search_submit"
 msgstr "Suchen"
@@ -2632,9 +2632,9 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
-#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:15
+#: webroot/dist/main.js:2
 msgid "Hit ⌃s to focus"
-msgstr "⌃s für Focus"
+msgstr "⌃s für Fokus"
 
 #: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:16
 msgid "Hit enter to mark as read"
@@ -2713,7 +2713,15 @@ msgstr ""
 msgid "tr"
 msgstr ""
 
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:30
+#: webroot/js/modules/shoutbox/views/add.js:15
+msgid "Shout :shortcut"
+msgstr ""
+
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:26
+msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
+msgstr ""
+
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
 msgid "token test"
 msgstr ""
 
