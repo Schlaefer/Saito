@@ -38,19 +38,14 @@ define([
          *
          */
         __: function(string, tokens) {
-            var out = '';
-
-            if (typeof this.dict[string] === 'string' && this.dict[string] !== "") {
-                out = this.dict[string];
-                if (typeof tokens === 'object') {
-                    out = this._insert(out, tokens);
-                }
-            } else {
-                out = string;
-            }
-
-            return out;
-
+          var out = string;
+          if (typeof this.dict[string] === 'string' && this.dict[string] !== '') {
+            out = this.dict[string];
+          }
+          if (typeof tokens === 'object') {
+            out = this._insert(out, tokens);
+          }
+          return out;
         },
 
         _insert: function(string, tokens) {
