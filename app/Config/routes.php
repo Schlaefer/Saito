@@ -72,6 +72,11 @@
 	);
 
 	/**
+	 * Dynamic Assets
+	 */
+	Router::connect('/da/:action/*', ['controller' => 'DynamicAssets']);
+
+	/**
 	 * Pagination for entries/index
 	 */
 	/*
