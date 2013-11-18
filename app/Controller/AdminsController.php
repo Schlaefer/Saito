@@ -8,12 +8,35 @@ class AdminsController extends AppController {
 
 	public $uses = [];
 
+	public $helpers = [
+		'Admin'
+	];
+
 	public function admin_index() {
 	}
 
 	public function admin_stats() {
 		$this->set('user_registrations', $this->_getMonthStats('User', 'registered'));
 		$this->set('entries', $this->_getMonthStats('Entry', 'time'));
+	}
+
+	public function admin_logs() {
+		// order here is output order in frontend
+		$_logsToRead = ['error', 'debug'];
+
+		// will contain ['error' => '<string>', 'debug' => '<string>']
+		$_logs = [];
+		foreach ($_logsToRead as $_log) {
+			$_path = LOGS . $_log . '.log';
+			$_content = '';
+			if (file_exists($_path)) {
+				$_size = filesize($_path);
+				$_content = file_get_contents($_path, false, null, $_size - 65536);
+			}
+			$_logs[$_log] = $_content;
+		}
+
+		$this->set('logs', $_logs);
 	}
 
 	protected function _getMonthStats($model, $field) {
