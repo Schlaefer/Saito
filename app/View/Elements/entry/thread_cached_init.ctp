@@ -45,21 +45,21 @@
 	<div class='tree_thread box-content'>
 		<div class="thread_tools">
 			<?php if ($level === 0) : ?>
-					<a href="<?php echo $this->request->webroot;?>entries/mix/<?php echo $entry_sub['Entry']['tid']; ?>" id="btn_show_mix_<?php echo $entry_sub['Entry']['tid']; ?>" class="btn-thread_tools">
+					<a href="<?= $this->request->webroot; ?>entries/mix/<?= $entry_sub['Entry']['tid']; ?>" class="btn-thread_tools" rel="nofollow">
 						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
 						&nbsp;
 						&nbsp;
 						<?php if (isset($toolboxButtonsToDisplay['open'])) : ?>
-							<a href="#" class="btn-thread_tools js-btn-openAllThreadlines">
+							<button class="btnLink btn-thread_tools js-btn-openAllThreadlines">
 								<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
-							</a>
+							</button>
 						<?php endif; ?>
 						<?php if (isset($toolboxButtonsToDisplay['close'])) : ?>
-							<a href="#" class="btn-thread_tools js-btn-closeAllThreadlines">
+							<button class="btnLink btn-thread_tools js-btn-closeAllThreadlines">
 								<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
-							</a>
+							</button>
 						<?php endif; ?>
 						<?php
 						if (isset($toolboxButtonsToDisplay['new'])) :
@@ -67,11 +67,11 @@
 							if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
 								// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
 								// keinen Show All New Inline View Eintrag
-								$tag = 'a';
+								$tag = 'button';
 							endif;
 						?>
-							<<?php echo $tag; ?> <?php if ($tag === 'a') echo 'href="#"'; ?> class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
-									<?php if ($tag === 'a') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
+							<<?= $tag; ?><?php if ($tag === 'button') echo 'href="#"'; ?> class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
+									<?php if ($tag === 'button') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
 							</<?= $tag ?>>
 						<?php
 							endif;
@@ -81,20 +81,20 @@
 		</div>
 			<div style="position: relative;">
 				<?php
-					$k = 'visibility: hidden;';
+					$_style = 'visibility: hidden;';
 					if ($this->EntryH->hasAnswers($entry_sub) &&
 							$this->request->params['controller'] === 'entries' &&
 							$this->request->params['action'] === 'index'
 					) {
-						$k = '';
+						$_style = '';
 					}
-					echo <<<EOF
-<a href="#" class="btn-threadCollapse " title="{$cacheThreadBoxTitlei18n['btn-threadCollapse']}" style="{$k}">
-<i class="fa fa-thread-open"></i>
-</a>
-EOF;
 				?>
-			<div style="margin-left: 18px;">
+				<button class="btnLink btn-threadCollapse "
+								title="<?= $cacheThreadBoxTitlei18n['btn-threadCollapse'] ?>"
+								style="<?= $_style ?>">
+					<i class="fa fa-thread-open"></i>
+				</button>
+			<div class="t_cbe">
 				<?= $out; ?>
 			</div>
 		</div>

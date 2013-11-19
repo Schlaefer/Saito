@@ -33,6 +33,25 @@
   @extend .btn-small;
 }
 
+.btnLink {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-appearance: none;
+  color: $link_color;
+
+  /*
+   * 1: remove outline on click
+   */
+  &:active {
+    outline: none; /* 1 */
+  }
+}
+
 //back and top wide button start
 // -------------------------------------
 .btn-strip {

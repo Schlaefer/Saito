@@ -3,11 +3,14 @@
  ******************************************************************************/
 
 .popover {
-  font-size: 0.95em
-  }
+  font-size: 0.95em !important;
+  color: $font-color-base;
+}
+
 .popover-title {
-  padding: 5px 11px;
-  }
+  padding: 5px 11px !important;
+}
+
 .popover-content {
-  padding: 5px 10px;
-  }
+  padding: 5px 10px !important;
+}
