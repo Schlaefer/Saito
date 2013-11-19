@@ -1,45 +1,47 @@
-<?php echo Stopwatch::start('entries/thread_cached_init'); ?>
 <?php
+	echo Stopwatch::start('entries/thread_cached_init');
+
 	/*
 	 * Caching the localized threadbox title tags.
 	 * Depending on the number of threads on the page i10n can cost several ms.
 	 */
 	$cacheThreadBoxTitlei18n = array(
-				'btn-showThreadInMixView' => __('btn-showThreadInMixView'),
-				'btn-threadCollapse' 			=> __('btn-threadCollapse'),
-				'btn-showNewThreads' 			=> __('btn-showNewThreads'),
-				'btn-closeThreads' 				=> __('btn-closeThreads'),
-				'btn-openThreads' 				=> __('btn-openThreads'),
+		'btn-showThreadInMixView' => __('btn-showThreadInMixView'),
+		'btn-threadCollapse' => __('btn-threadCollapse'),
+		'btn-showNewThreads' => __('btn-showNewThreads'),
+		'btn-closeThreads' => __('btn-closeThreads'),
+		'btn-openThreads' => __('btn-openThreads'),
 	);
 	$toolboxButtonsToDisplay = [
-		'mix'   => 1,
-		'open'  => 1,
+		'mix' => 1,
+		'open' => 1,
 		'close' => 1,
-		'new'   => 1,
+		'new' => 1,
 	];
 	if (isset($toolboxButtons)) {
 		$toolboxButtonsToDisplay = $toolboxButtons;
 	}
-	?>
-<?php foreach($entries_sub as $entry_sub) : ?>
-<?php
-	$use_cached_entry = isset($cachedThreads[$entry_sub['Entry']['id']]);
-	if ($use_cached_entry) {
-		$out = $CacheTree->read($entry_sub['Entry']['id']);
-	} else {
-		$out = $this->EntryH->threadCached($entry_sub, $CurrentUser, 0, (isset($entry) ? $entry : array()));
-		if (!isset($this->request->named['page']) || (int)$this->request->named['page'] < 3) {
-			if ($CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
-				$CacheTree->update($entry_sub['Entry']['id'], $out);
+
+	foreach ($entries_sub as $entry_sub) :
+		$use_cached_entry = isset($cachedThreads[$entry_sub['Entry']['id']]);
+		if ($use_cached_entry) {
+			$out = $CacheTree->read($entry_sub['Entry']['id']);
+		} else {
+			$out = $this->EntryH->threadCached($entry_sub,
+				$CurrentUser,
+				0,
+				(isset($entry) ? $entry : array()));
+			if (!isset($this->request->named['page']) || (int)$this->request->named['page'] < 3) {
+				if ($CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
+					$CacheTree->update($entry_sub['Entry']['id'], $out);
+				}
 			}
 		}
-	}
-?>
-<?php
-	/*
-	 * for performance reasons we don't use $this->Html->link() in the .thread_box but hardcoded <a>
-	 * this scrapes us up to 10 ms on a 40 threads index page
-	 */
+
+		/*
+		 * for performance reasons we don't use $this->Html->link() in the .thread_box but hardcoded <a>
+		 * this scrapes us up to 10 ms on a 40 threads index page
+		 */
 ?>
 <div class="thread_box" data-id="<?php echo $entry_sub['Entry']['id'];?>">
 	<div class='tree_thread box-content'>
