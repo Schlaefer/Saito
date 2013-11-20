@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-16 09:24+0100\n"
-"PO-Revision-Date: 2013-11-16 09:24+0100\n"
+"POT-Creation-Date: 2013-11-20 10:03+0100\n"
+"PO-Revision-Date: 2013-11-20 10:05+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -86,6 +86,15 @@ msgstr "Installieren"
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
+#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:54
+msgid "Logs"
+msgstr ""
+
+#: View/Admins/admin_logs.ctp:3
+#, php-format
+msgid "Latest log entries. See full logs at \"%s\"."
+msgstr "Letzte Log-Einträge. Vollständige Logs befinden sich in \"%s\"."
+
 #: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:51
 msgid "Stats"
 msgstr "Statistik"
@@ -119,7 +128,7 @@ msgstr "Kommentieren"
 msgid "back_to_forum_linkname"
 msgstr "Zurück zum Forum"
 
-#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:26
+#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:34
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
@@ -399,23 +408,23 @@ msgstr "Alle Kategorien"
 msgid "Apply"
 msgstr "Anwenden"
 
-#: View/Elements/entry/thread_cached_init.ctp:8
+#: View/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
-#: View/Elements/entry/thread_cached_init.ctp:9
+#: View/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-threadCollapse"
 msgstr "thread zu"
 
-#: View/Elements/entry/thread_cached_init.ctp:10
+#: View/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-showNewThreads"
 msgstr "neue"
 
-#: View/Elements/entry/thread_cached_init.ctp:11
+#: View/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-closeThreads"
 msgstr "zu"
 
-#: View/Elements/entry/thread_cached_init.ctp:12
+#: View/Elements/entry/thread_cached_init.ctp:13
 msgid "btn-openThreads"
 msgstr "auf"
 
@@ -430,8 +439,8 @@ msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:64
-#: View/Elements/layout/header_login.ctp:38
-#: View/Elements/layout/header_login.ctp:43 View/Entries/index.ctp:26
+#: View/Elements/layout/header_login.ctp:47
+#: View/Elements/layout/header_login.ctp:50 View/Entries/index.ctp:30
 #: View/Entries/search.ctp:22 View/Users/view.ctp:163
 msgid "Help"
 msgstr "Hilfe"
@@ -516,31 +525,31 @@ msgstr "Angetrieben durch Saito v%s."
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
-#: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
+#: View/Elements/layout/header_login.ctp:5 View/Users/register.ctp:6
 #: View/Users/register.ctp:78
 msgid "register_linkname"
 msgstr "Registrieren"
 
-#: View/Elements/layout/header_login.ctp:7
-#: View/Elements/layout/header_login.ctp:9
+#: View/Elements/layout/header_login.ctp:10
+#: View/Elements/layout/header_login.ctp:12
 #: View/Elements/users/login_form.ctp:35
 msgid "login_btn"
 msgstr "Einloggen"
 
-#: View/Elements/layout/header_login.ctp:16
+#: View/Elements/layout/header_login.ctp:19
 msgid "Forum Settings"
 msgstr "Forumseinstellungen"
 
-#: View/Elements/layout/header_login.ctp:22 View/Users/edit.ctp:133
+#: View/Elements/layout/header_login.ctp:30 View/Users/edit.ctp:133
 #: View/Users/view.ctp:93 View/Users/view.ctp:132
 msgid "user_profile"
 msgstr "Profil"
 
-#: View/Elements/layout/header_login.ctp:31
+#: View/Elements/layout/header_login.ctp:39
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: View/Elements/layout/header_login.ctp:44
+#: View/Elements/layout/header_login.ctp:48
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
@@ -677,7 +686,7 @@ msgstr "Flattr-Knopf anzeigen"
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
 
-#: View/Entries/index.ctp:27
+#: View/Entries/index.ctp:31
 msgid "btn_manualy_mark_as_read_shp"
 msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
 
@@ -757,7 +766,7 @@ msgstr "Benutzer"
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:58
+#: View/Layouts/admin.ctp:61
 msgid "Forum"
 msgstr ""
 
@@ -1285,11 +1294,11 @@ msgstr "Noch keine Beiträge verfasst."
 msgid "Show all"
 msgstr "Alle anzeigen"
 
-#: Controller/AdminsController.php:47
+#: Controller/AdminsController.php:70
 msgid "New"
 msgstr "Neu"
 
-#: Controller/AdminsController.php:48
+#: Controller/AdminsController.php:71
 msgid "Cumulated"
 msgstr "Kumuliert"
 
@@ -1645,6 +1654,14 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
+#: View/Helper/AdminHelper.php:47
+msgid "No log file found."
+msgstr "Keine Log-Datei vorhanden."
+
+#: View/Helper/AdminHelper.php:58
+msgid "Details"
+msgstr ""
+
 #: View/Helper/BbcodeHelper.php:605
 #, fuzzy
 msgid ""
@@ -1781,7 +1798,7 @@ msgstr "Wert"
 msgid "Explanation"
 msgstr "Beschreibung"
 
-#: View/Helper/TimeHHelper.php:105 View/Helper/TimeHHelper.php:125
+#: View/Helper/TimeHHelper.php:107 View/Helper/TimeHHelper.php:127
 msgid "yesterday"
 msgstr "Gestern"
 
@@ -2632,9 +2649,9 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
-#: webroot/dist/main.js:2
-msgid "Hit ⌃s to focus"
-msgstr "⌃s für Fokus"
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:15
+msgid "Shout :shortcut"
+msgstr ""
 
 #: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:16
 msgid "Hit enter to mark as read"
@@ -2713,10 +2730,6 @@ msgstr ""
 msgid "tr"
 msgstr ""
 
-#: webroot/js/modules/shoutbox/views/add.js:15
-msgid "Shout :shortcut"
-msgstr ""
-
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:26
 msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
 msgstr ""
@@ -2724,6 +2737,9 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
 msgid "token test"
 msgstr ""
+
+#~ msgid "Hit ⌃s to focus"
+#~ msgstr "⌃s für Fokus"
 
 #~ msgid "Caches have been emptied."
 #~ msgstr "Caches wurden geleert."
