@@ -12,8 +12,8 @@ layout: default
 ### What's new ###
 
 - [new] show latest log entries in admin area
-- [fix] help popup now showing
-- [task] refactors status and language file requests
+- [fix] help popup not showing
+- [task] refactors status and language asset requests
 - [task] layout tweaks
 
 ### Migration notes ###
