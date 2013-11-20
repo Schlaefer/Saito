@@ -63,7 +63,7 @@
   @extend .fa-close-widget;
   @extend .fa-lg;
 
-  line-height: 2px; /* 1 */
+  vertical-align: baseline; /* 1 */
 }
 
 .fa-thread-open {

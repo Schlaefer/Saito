@@ -5,7 +5,7 @@
 .hero {
   @include background($saito_base);
   @include background-image(
-    linear-gradient(top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)),
     inline-image("dots_light.png"));
 }
 

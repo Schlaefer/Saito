@@ -35,7 +35,7 @@
 .header_style_1 {
     background: $saito_base_light;
     @include background(
-        linear-gradient(bottom, $saito_base_light, rgba(255,255,255, 0.6)),
+        linear-gradient(0deg, $saito_base_light, rgba(255,255,255, 0.6)),
         // fallback
         $saito_base_light
     );
@@ -48,11 +48,11 @@
 	background-color: $saito_gray_dark;
       @include background(
           linear-gradient(
-                  top,
-                  lighten($saito_gray_dark, 10%),
+                  180deg,
+                  lighten($saito_gray_dark, 10%) 0%,
                   lighten($saito_gray_dark, 3%) 10%,
                   $saito_gray_dark 95%,
-                  darken($saito_gray_dark, 8%)
+                  darken($saito_gray_dark, 8%) 100%
           ),
           // fallback
           $saito_gray_dark
