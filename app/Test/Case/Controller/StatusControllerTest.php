@@ -6,7 +6,7 @@
 	 * ShoutsController Test Case
 	 *
 	 */
-	class SaitosControllerTest extends SaitoControllerTestCase {
+	class StatusControllerTest extends SaitoControllerTestCase {
 
 		/**
 		 * Fixtures
@@ -28,13 +28,13 @@
 
 		public function testStatusMustBeAjax() {
 			$this->expectException('BadRequestException');
-			$this->testAction('/saitos/status');
+			$this->testAction('/status/status');
 		}
 
 		public function testStatusIfNotLoggedIn() {
 			$this->_setJson();
 			$this->_setAjax();
-			$this->testAction('/saitos/status');
+			$this->testAction('/status/status');
 			$this->assertFalse(isset($this->headers['Location']));
 		}
 
@@ -46,7 +46,7 @@
 					'lastShoutId' => 4
 				)
 			);
-			$result = $this->testAction('/saitos/status', array('return' => 'contents'));
+			$result = $this->testAction('/status/status', ['return' => 'contents']);
 			$this->assertEqual($result, $expected);
 		}
 

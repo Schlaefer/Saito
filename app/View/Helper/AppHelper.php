@@ -32,6 +32,12 @@
  */
 	class AppHelper extends Helper {
 
+		protected static $_tagId = 0;
+
+		public static function tagId() {
+			return 'id' . static::$_tagId++;
+		}
+
 		/**
 		 * Returns the unix timestamp for a file
 		 *

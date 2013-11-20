@@ -12,7 +12,7 @@ define([
     template: _.template(Tpl),
 
     _placeholder: {
-      a: $.i18n.__('Hit ⌃s to focus'),
+      a: $.i18n.__('Shout :shortcut', {shortcut: '⌃s'}),
       b: $.i18n.__('Hit enter to mark as read')
     },
 

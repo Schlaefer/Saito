@@ -50,6 +50,9 @@
 							<li class="<?php  if (stristr($this->request->here, 'stats')) { echo 'active'; }; ?>">
 								<?php echo $this->Html->link(__('Stats'), '/admin/admins/stats'); ?>
 							</li>
+							<li class="<?php  if (stristr($this->request->here, 'logs')) { echo 'active'; }; ?>">
+								<?php echo $this->Html->link(__('Logs'), '/admin/admins/logs'); ?>
+							</li>
 						</ul>
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>

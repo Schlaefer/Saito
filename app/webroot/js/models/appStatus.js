@@ -36,7 +36,7 @@ define([
     },
 
     _setWebroot: function(webroot) {
-      this.webroot = webroot + 'saitos/';
+      this.webroot = webroot + 'status/';
     },
 
     /**

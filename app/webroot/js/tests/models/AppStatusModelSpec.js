@@ -37,7 +37,7 @@ define([], function() {
             expect(this.server.requests[0].method)
                 .toEqual("GET");
             expect(this.server.requests[0].url)
-                .toEqual(this.webroot + "saitos/status/");
+                .toEqual(this.webroot + "status/status/");
         });
 
     });

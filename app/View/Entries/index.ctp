@@ -10,7 +10,11 @@
 		echo $this->Html->link(
 			'<i class="fa fa-plus"></i>&nbsp; ' . __('new_entry_linkname'),
 			'/entries/add',
-			['class' => 'btn-entryAdd textlink', 'escape' => false]
+			[
+				'class' => 'btn-entryAdd textlink',
+				'escape' => false,
+				'rel' => 'nofollow'
+			]
 		);
 	$this->end();
 

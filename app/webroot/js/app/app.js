@@ -61,7 +61,7 @@ define(['marionette', 'app/core', 'app/vent',
                     }, false);
 
                     // init i18n
-                    $.i18n.setUrl(App.settings.get('webroot') + "saitos/langJs");
+                    $.i18n.setUrl(App.settings.get('webroot') + 'da/langJs');
 
                     appView = new AppView();
 

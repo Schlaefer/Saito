@@ -87,6 +87,8 @@
 				$_timeString = $this->_short($timestamp);
 			} elseif ($format == 'custom') {
 				$_timeString = strftime($custom, $timestamp);
+			} elseif ($format == 'eng') {
+				$_timeString = strftime('%F %T', $timestamp);
 			} elseif ($format == 'glasen') {
 				$_timeString = $this->_glasen($timestamp);
 			}
