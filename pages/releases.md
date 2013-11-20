@@ -7,6 +7,19 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-11.05 ##
+
+### What's new ###
+
+- [new] show latest log entries in admin area
+- [fix] help popup now showing
+- [task] refactors status and language file requests
+- [task] layout tweaks
+
+### Migration notes ###
+
+Theme is recompiled.
+
 ## 2013-11.04 ##
 
 ### What's new ###
