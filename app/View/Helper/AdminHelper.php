@@ -5,8 +5,6 @@
 	class CakeLogEntry {
 
 		public function __construct($text) {
-			$this->_text = $text;
-
 			$lines = explode("\n", trim($text));
 			$_firstLine = array_shift($lines);
 			preg_match('/^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) (.*?): (.*)/',
@@ -42,16 +40,17 @@
 			'TimeH'
 		];
 
-		public function formatCakeLog($errorLog) {
-			preg_match_all('/(^\d\d\d\d-(.*?))(?=^\d\d\d\d-)/ms', $errorLog, $errors);
-			if (empty($errors[1])) {
+		public function formatCakeLog($log) {
+			$_nErrorsToShow = 20;
+			$errors = preg_split('/(?=^\d{4}-\d{2}-\d{2})/m', $log, -1, PREG_SPLIT_NO_EMPTY);
+			if (empty($errors)) {
 				return '<p>' . __('No log file found.') . '</p>';
 			}
 
 			$out = '';
 			$k = 0;
-			$errors[1] = array_reverse($errors[1]);
-			foreach ($errors[1] as $error) {
+			$errors = array_reverse($errors);
+			foreach ($errors as $error) {
 				$e = new CakeLogEntry($error);
 				$_i = self::tagId();
 				$_details = $e->details();
@@ -72,7 +71,7 @@
 				}
 				$out .= '</div></div>';
 				$out .= '</pre>' . "\n";
-				if ($k++ > 20) {
+				if ($k++ > $_nErrorsToShow) {
 					break;
 				}
 
