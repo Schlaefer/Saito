@@ -19,7 +19,7 @@ $color-flashErrorBg: #ff2120;
   box-shadow: 0px 2px 10px 1px rgba(darken($color, 75%), 0.4) !important;
   @include background(
       linear-gradient(
-        top,
+        180deg,
           $color * 1.05,
           $color / 1.05
       ),
