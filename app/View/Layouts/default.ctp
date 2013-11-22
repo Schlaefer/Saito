@@ -86,5 +86,10 @@
 		?>
 	</div>
   <?php echo $this->element('layout/html_footer'); ?>
+	<noscript>
+		<div id="noscript-warning">
+			<?= __('This web-application needs JavaScript to run. Please activate JavaScript in your browser.') ?>
+		</div>
+	</noscript>
 	</body>
 </html>

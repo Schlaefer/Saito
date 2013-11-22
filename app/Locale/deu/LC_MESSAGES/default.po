@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-20 10:03+0100\n"
-"PO-Revision-Date: 2013-11-20 10:05+0100\n"
+"POT-Creation-Date: 2013-11-22 10:57+0100\n"
+"PO-Revision-Date: 2013-11-22 10:58+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -769,6 +769,14 @@ msgstr ""
 #: View/Layouts/admin.ctp:61
 msgid "Forum"
 msgstr ""
+
+#: View/Layouts/default.ctp:91
+msgid ""
+"This web-application needs JavaScript to run. Please activate JavaScript in "
+"your browser."
+msgstr ""
+"Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
+"Browser."
 
 #: View/Pages/rss_feeds.ctp:1
 msgid "RSS Feeds"
