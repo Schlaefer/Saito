@@ -31,6 +31,10 @@ define([
         this.show();
       }
 
+      if (!App.reqres.request('app:localStorage:available')) {
+        this._hideCollapseButton();
+      }
+
       this.listenTo(App.eventBus, 'newEntry', this._showNewThreadLine);
       this.listenTo(this.model, 'change:isThreadCollapsed', this.toggleCollapseThread);
     },
@@ -108,6 +112,10 @@ define([
               shouldScrollOnInlineOpen: false
             });
           }, this);
+    },
+
+    _hideCollapseButton: function() {
+      this.$('.btn-threadCollapse').css('visibility', 'hidden');
     },
 
     collapseThread: function(event) {

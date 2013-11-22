@@ -223,7 +223,8 @@ module.exports = function(grunt) {
               ],
               helpers: [
                 './app/webroot/js/lib/bootstrapHelper.js',
-                './app/webroot/js/tests/jasmineBootstrapHelper.js'
+                './app/webroot/js/tests/jasmineBootstrapHelper.js',
+                './app/webroot/js/lib/postBootstrapHelper.js'
               ],
               keepRunner: false,
               template: require('grunt-template-jasmine-requirejs'),

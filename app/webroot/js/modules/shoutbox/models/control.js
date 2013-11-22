@@ -1,5 +1,5 @@
 define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
-  "use strict";
+  'use strict';
 
   var ShoutboxControlModel = Backbone.Model.extend({
 
@@ -46,16 +46,17 @@ define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
       if (_.isArray(key)) {
         _.each(key, function(e) { this._restore(e); }, this);
       }
-      if ('localStorage' in window) {
+      if (App.reqres.request('app:localStorage:available')) {
         this.set(key, JSON.parse(localStorage.getItem('shoutbox-' + key)));
       }
     },
 
     _save: function(key) {
-      if ('localStorage' in window) {
+      if (App.reqres.request('app:localStorage:available')) {
         localStorage.setItem('shoutbox-' + key, JSON.stringify(this.get(key)));
       }
     }
+
   });
 
   return new ShoutboxControlModel();
