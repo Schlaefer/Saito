@@ -761,7 +761,9 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .disabled { color: #505050; }
 
-#noscript-warning { position: fixed; z-index: 50; left: 0; top: 0; right: 0; padding: 1ex 0; opacity: 0.95; background: #FFC202; color: white; text-shadow: 0 0 2px #7E6500; text-align: center; font-weight: bolder; font-size: 16px; box-shadow: 0 0 3px #7E6500; }
+.app-prerequisites-warnings { position: fixed; z-index: 50; left: 0; top: 0; right: 0; }
+
+.app-prerequisites-warning { padding: 1ex 0; opacity: 0.95; background: #FF0202; color: white; text-shadow: 0 1px 2px #530D01; text-align: center; font-weight: bolder; box-shadow: 0 0 3px #530D01; }
 
 .entry.index { margin-top: -7px; }
 

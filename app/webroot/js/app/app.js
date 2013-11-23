@@ -32,6 +32,7 @@ define(['marionette', 'app/core', 'app/vent',
             require([
                 'domReady', 'views/app', 'backbone', 'jquery', 'models/app',
                 'views/notification',
+                'views/prerequisitesTester',
                 'modules/html5-notification/html5-notification',
 
                 'app/time', 'lib/Saito/isAppVisible',
@@ -41,12 +42,18 @@ define(['marionette', 'app/core', 'app/vent',
                 'lib/saito/backbone.modelHelper', 'fastclick'
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView,
+                         PrerequisitesTesterView,
                          Html5NotificationModule
                     ) {
                     var appView,
-                        appReady;
+                        appReady,
+                        prerequisitesTesterView;
 
+                    // do this always first
                     App.settings.set(options.SaitoApp.app.settings);
+                    // init i18n, do this always second
+                    $.i18n.setUrl(App.settings.get('webroot') + 'da/langJs');
+
                     App.currentUser.set(options.SaitoApp.currentUser);
                     App.request = options.SaitoApp.request;
 
@@ -60,8 +67,9 @@ define(['marionette', 'app/core', 'app/vent',
                         new FastClick(document.body);
                     }, false);
 
-                    // init i18n
-                    $.i18n.setUrl(App.settings.get('webroot') + 'da/langJs');
+                    prerequisitesTesterView = new PrerequisitesTesterView({
+                      el: $('.app-prerequisites-warnings')
+                    });
 
                     appView = new AppView();
 

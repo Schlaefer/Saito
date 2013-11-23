@@ -74,22 +74,23 @@ a.no-color, .no-color {
 	color: $saito_info_text;
 	}
 
-#noscript-warning {
+.app-prerequisites-warnings {
   position: fixed;
   z-index: 50;
   left: 0;
   top: 0;
   right: 0;
+}
 
+.app-prerequisites-warning {
   padding: 1ex 0;
   opacity: 0.95;
-  background: #FFC202;
+  background: #FF0202;
   color: white;
-  text-shadow: 0 0 2px #7E6500;
+  text-shadow: 0 1px 2px #530D01;
   text-align: center;
   font-weight: bolder;
-  font-size: 16px;
-  box-shadow: 0 0 3px #7E6500;
+  box-shadow: 0 0 3px #530D01;
 }
 
 .entry.index {

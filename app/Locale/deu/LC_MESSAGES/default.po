@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 10:57+0100\n"
-"PO-Revision-Date: 2013-11-22 10:58+0100\n"
+"POT-Creation-Date: 2013-11-22 17:18+0100\n"
+"PO-Revision-Date: 2013-11-22 17:18+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -770,9 +770,10 @@ msgstr ""
 msgid "Forum"
 msgstr ""
 
-#: View/Layouts/default.ctp:91
+#: View/Layouts/default.ctp:92
+#, fuzzy
 msgid ""
-"This web-application needs JavaScript to run. Please activate JavaScript in "
+"This web-application depends on JavaScript. Please activate JavaScript in "
 "your browser."
 msgstr ""
 "Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
@@ -884,6 +885,14 @@ msgstr "Smiley bearbeiten"
 #: View/Smilies/admin_edit.ctp:4
 msgid "Admin Edit Smiley"
 msgstr "Admin Smiley bearbeiten"
+
+#: View/Themed/Macnemo/Layouts/default.ctp:93
+msgid ""
+"This web-application needs JavaScript to run. Please activate JavaScript in "
+"your browser."
+msgstr ""
+"Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
+"Browser."
 
 #: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
@@ -2745,6 +2754,14 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
 msgid "token test"
 msgstr ""
+
+#: webroot/js/views/prerequisitesTester.js:14
+msgid ""
+"This web-application depends on Cookies and localStorage. Please make those "
+"available in your browser."
+msgstr ""
+"Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren Sie "
+"diese im Browser."
 
 #~ msgid "Hit ⌃s to focus"
 #~ msgstr "⌃s für Fokus"

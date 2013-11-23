@@ -88,10 +88,12 @@
 		?>
 	</div>
   <?php echo $this->element('layout/html_footer'); ?>
-	<noscript>
-		<div id="noscript-warning">
-			<?= __('This web-application needs JavaScript to run. Please activate JavaScript in your browser.') ?>
-		</div>
-	</noscript>
+	<div class="app-prerequisites-warnings">
+		<noscript>
+			<div class="app-prerequisites-warning">
+				<?= __('This web-application depends on JavaScript. Please activate JavaScript in your browser.') ?>
+			</div>
+		</noscript>
+	</div>
 	</body>
 </html>
