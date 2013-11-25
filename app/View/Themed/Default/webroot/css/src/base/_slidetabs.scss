@@ -53,7 +53,10 @@
   padding: 10px 15px;
 }
 
-.slidetab_tree {
+.slidetab-list {
+  // list-style: square;
+  // margin-left: 2em;
+  /*
   > li {
     margin-bottom: 1em;
   }
@@ -61,64 +64,109 @@
   > li:last-child {
     margin-bottom: 0;
   }
+    */
 }
 
 .slidetab_subtree {
+  /*
 	padding-left: 2em;
 	margin-top: -1em;
-
-  list-style: square;
+	*/
 }
 
-/* Slidtab Userlist
-// ----------------------------------- */
+// slidetab userlist
+// -------------------------------------
 
 #slidetabUserlist-counter {
-	position: absolute;
-	right: -2px;
-	bottom: -7px;
-	min-width: 6px;
-	background: #111111;
-	border: 1px solid white;
-	padding: 0 1px;
-	}
+  position: absolute;
+  right: -2px;
+  bottom: -7px;
+  min-width: 6px;
+  background: #111111;
+  border: 1px solid white;
+  padding: 0 1px;
+}
 
 .slidetabUserlist-counter-inner {
-	margin: 0 auto;
-	text-shadow: none;
-	text-align: center;
-	color: white;
-	right: 0px;
-	bottom: 0px;
-	line-height: 12px;
-	font-size: 8px;
-	font-weight: bold;
-	}
+  margin: 0 auto;
+  text-shadow: none;
+  text-align: center;
+  color: white;
+  right: 0px;
+  bottom: 0px;
+  line-height: 12px;
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.slidetab-userlist-icon {
+  display: inline-block;
+  width: 1em;
+  padding-left: $padding;
+}
+
+/*
+.slidetabUserlist-user {
+  &:before {
+    width: 1.5em;
+    height: 1.1em;
+    content: "";
+    display: inline-block;
+    background-size: 0.9em;
+    background-position: 0 2px;
+    background-image: inline-image('user.svg');
+    background-repeat: no-repeat;
+  }
+}
+
+.slidetabUserlist-mod {
+  &:before {
+    width: 1.5em;
+    height: 1.1em;
+    content: "";
+    display: inline-block;
+    background-size: 0.9em;
+    background-position: 0 2px;
+    background-image: inline-image('mod.svg');
+    background-repeat: no-repeat;
+  }
+}
+
+.slidetabUserlist-admin {
+  &:before {
+    width: 1.5em;
+    height: 1.1em;
+    content: "";
+    display: inline-block;
+    background-size: 1.3em;
+    background-position: 0 2px;
+    background-image: inline-image('admin.svg');
+    background-repeat: no-repeat;
+  }
+}
+*/
 
 // slidetab Recent Postings
 // -------------------------------------
 
 .slidetab-recentposts .slidetab_tree,
 .slidetab-recententries .slidetab_tree {
-	> li {
-		margin-bottom: 0.5em !important;
-		}
-	> li li {
+  > li {
     // gentle handling of overflow for long words in subject
     // -------------------------------------
-		overflow: hidden;
-		text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-		padding-left: 14px !important;
-		text-indent:  -7px;
-		font-weight: normal;
-		}
+    padding-left: 14px !important;
+    text-indent: -7px;
+    font-weight: normal;
+  }
 
-  > li li [class^="fa"], li [class*=" fa"] {
+  > li [class^="fa"], li [class*=" fa"] {
     text-align: right;
     padding-right: 0.25em;
-    }
   }
+}
 
 // slidetab Shoutbox
 // -------------------------------------

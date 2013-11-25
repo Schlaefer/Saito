@@ -4,18 +4,16 @@
 	</div>
 <?php $this->end('slidetab-header'); ?>
 <?php $this->start('slidetab-content'); ?>
+	<h4>
+		<?= __('Recent entries') ?>
+	</h4>
+	<?php if (!empty($recentEntries)) : ?>
 	<ul class="slidetab_tree">
-		<li>
-			<?= __('Recent entries') ?>
-		</li>
-		<?php if (!empty($recentEntries)) : ?>
+		<?php foreach ($recentEntries as $entry) : ?>
 			<li>
-				<ul>
-					<?php foreach ($recentEntries as $entry) : ?>
-						<li>
-							<i class="fa fa-thread"></i>
-							<?= $this->EntryH->getFastLink($entry); ?>
-							<br/>
+				<i class="fa fa-thread"></i>
+				<?= $this->EntryH->getFastLink($entry); ?>
+				<br/>
 							<span class='c_info_text'>
 								<?= $entry['User']['username']; ?>,
 								<?=
@@ -26,9 +24,8 @@
 										]
 									); ?>
 							</span>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
+			</li>
+		<?php endforeach; ?>
 	</ul>
+<?php endif; ?>
 <?php $this->end('slidetab-content'); ?>

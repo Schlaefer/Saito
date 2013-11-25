@@ -1,0 +1,252 @@
+// setup
+// -------------------------------------
+
+$yellow-lighter: rgb(255, 255, 240);
+$yellow: #ffed9f;
+$orange-lighter: #fff5cf;
+$orange: #ffa70e;
+$orange-darker: #fe5603;
+
+$padding: 10px;
+$padding-content: 16px;
+$padding-body: 2 * $padding-content;
+
+@import "partials/_pill";
+
+// reset
+// -------------------------------------
+
+#top, .navbar, .disclaimer, .top-menu {
+  background: none;
+  border: none;
+}
+
+#top, .l-top-left {
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+#topnav, #bottomnav {
+  box-shadow: none;
+}
+
+#top, .l-top-right {
+  margin: 0;
+  padding: 0 $padding-content;
+}
+
+.btn {
+  border: none;
+  box-shadow: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+// theme
+// -------------------------------------
+
+body {
+  background: $yellow;
+  background-image: image-url('bb.svg');
+  background-repeat: no-repeat;
+  background-position: 50% 5px;
+}
+
+body, input, textarea, .markItUpPreviewFrame, button {
+}
+
+#content {
+  @extend .body-padding;
+  padding-bottom: 30px;
+}
+
+#topnav, #bottomnav {
+  @extend .body-padding;
+}
+
+a, a.textlink, .btnLink, li.thread .span_post_type, li.reply .span_post_type {
+  color: $orange-darker;
+}
+
+li.threadnew .span_post_type, li.replynew .span_post_type {
+  color: #333;
+}
+
+.btn {
+  @extend .pill;
+
+  &:hover {
+    @extend .pill;
+  }
+}
+
+.body-padding  {
+  padding-left: $padding-body;
+  padding-right: $padding-body;
+}
+
+.btn-submit {
+  background: $orange-darker;
+  &:hover {
+    background: $orange-darker;
+  }
+}
+
+#top {
+  @extend .body-padding;
+  padding-left: 0;
+  height: 63px;
+}
+
+.l-top-right {
+  right: 50px;
+  top: 19px;
+  padding: 0;
+}
+
+.l-top-menu-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.l-top-menu {
+  position: relative;
+  font-size: inherit;
+}
+
+.top-menu {
+  @extend .body-padding;
+}
+
+.top-menu-item-text {
+  display: none;
+}
+
+.top-menu-item {
+  text-shadow: none !important;
+  @extend .pill;
+  @extend .pill-top;
+  @extend .pill-invert;
+  margin-left: $padding;
+  width: 1em;
+}
+
+#btn_header_logo {
+  display: block;
+  height: 63px;
+  width: 522px;
+}
+
+#macnemo-support {
+  text-align: center;
+}
+
+#macnemo-support-content {
+  display: inline-block;
+}
+
+.navbar-content {
+  position: relative;
+}
+
+#btn-category-chooser > i {
+  display: none;
+}
+
+.navbar-center {
+  background: white;
+  border: 1px solid $orange;
+  height: 1.6em;
+  border-radius: $pill-border-radius;
+  padding: 0.2em 1em !important;
+}
+
+.navbar-left, .navbar-right {
+  height: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding: 0.3em 2em !important;
+  font-weight: bold;
+}
+
+.navbar-left {
+}
+
+.navbar-right {
+}
+
+.slidetab {
+  margin-top: 2px;
+  margin-bottom: $padding-content - 2px;
+}
+
+.slidetab-tab, .slidetab-content {
+  text-shadow: none;
+}
+
+.slidetab-tab {
+  border-color: $orange;
+  margin-top: $padding-content;
+  background: $orange;
+  color: white;
+  border-top-left-radius: $pill-border-radius;
+  border-bottom-left-radius: $pill-border-radius;
+}
+
+.slidetab-content {
+  padding: $padding-content;
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 167, 0, 0.6);
+
+  h4 {
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  > .content {
+    background: $yellow-lighter;
+  }
+}
+
+.slidetab-userlist-icon {
+  padding-left: 0;
+}
+
+.box-content {
+  box-shadow: none;
+}
+
+.thread_box {
+  margin-bottom: $padding-content;
+}
+
+.disclaimer-inside {
+  border: none;
+  box-shadow: none;
+  background: #fff5cf;
+
+  a {
+    border-bottom: none;
+    color: $orange-darker;
+    text-shadow: none;
+  }
+}
+
+.box-header {
+  display: none;
+}
+
+.preview {
+  border-top: 1px solid #dcdcdc;
+}
+
+/*
+.entry.add, .entry.reply {
+  border: none;
+  box-shadow: none;
+  background: $yellow;
+}
+*/
+

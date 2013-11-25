@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   width="369"
+   height="164"
+   id="svg2">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3870">
+      <stop
+         id="stop3872"
+         style="stop-color:#ffffff;stop-opacity:0.15972222"
+         offset="0" />
+      <stop
+         id="stop4526"
+         style="stop-color:#ffffff;stop-opacity:0.39607844"
+         offset="0.72146118" />
+      <stop
+         id="stop3874"
+         style="stop-color:#ffffff;stop-opacity:0.47569445"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       cx="483.57904"
+       cy="234.14029"
+       r="10.357142"
+       fx="483.57904"
+       fy="234.14029"
+       id="radialGradient3890"
+       xlink:href="#linearGradient3870"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="516.05621"
+       cy="255.64484"
+       r="14.642858"
+       fx="516.05621"
+       fy="255.64484"
+       id="radialGradient3892"
+       xlink:href="#linearGradient3870"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="466.29904"
+       cy="302.62866"
+       r="23.928572"
+       fx="466.29904"
+       fy="302.62866"
+       id="radialGradient3894"
+       xlink:href="#linearGradient3870"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="336.11169"
+       cy="340.06067"
+       r="43.92857"
+       fx="336.11169"
+       fy="340.06067"
+       id="radialGradient3896"
+       xlink:href="#linearGradient3870"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="273.22949"
+       cy="253.45641"
+       r="9.6428576"
+       fx="273.22949"
+       fy="253.45641"
+       id="radialGradient3898"
+       xlink:href="#linearGradient3870"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="213.29387"
+       cy="281.72748"
+       r="25"
+       fx="213.29387"
+       fy="281.72748"
+       id="radialGradient3900"
+       xlink:href="#linearGradient3870"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       cx="177.16565"
+       cy="247.68893"
+       r="13.571428"
+       fx="177.16565"
+       fy="247.68893"
+       id="radialGradient3902"
+       xlink:href="#linearGradient3870"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-888.36218)"
+     id="layer1"
+     style="display:none">
+    <rect
+       width="369.73734"
+       height="164.16054"
+       x="-1.0101526"
+       y="887.70734"
+       id="rect4496"
+       style="color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  </g>
+  <g
+     transform="translate(0,-888.36218)"
+     id="layer2"
+     style="display:inline">
+    <path
+       d="m 189.64285,249.14789 a 13.571428,13.571428 0 1 1 -27.14285,0 13.571428,13.571428 0 1 1 27.14285,0 z"
+       transform="translate(-162.85451,663.05581)"
+       id="path3088"
+       style="color:#000000;fill:url(#radialGradient3902);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       d="m 240.35715,283.79074 a 25,25 0 1 1 -50,0 25,25 0 1 1 50,0 z"
+       transform="translate(-162.85451,663.05581)"
+       id="path3090"
+       style="color:#000000;fill:url(#radialGradient3900);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       d="m 282.14286,252.36218 a 9.6428576,9.6428576 0 1 1 -19.28572,0 9.6428576,9.6428576 0 1 1 19.28572,0 z"
+       transform="translate(-162.85451,663.05581)"
+       id="path3092"
+       style="color:#000000;fill:url(#radialGradient3898);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       d="m 385.71428,340.57648 a 43.92857,43.92857 0 1 1 -87.85714,0 43.92857,43.92857 0 1 1 87.85714,0 z"
+       transform="translate(-163.21166,665.91296)"
+       id="path3094"
+       style="color:#000000;fill:url(#radialGradient3896);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       d="m 486.78572,300.21933 a 23.928572,23.928572 0 1 1 -47.85714,0 23.928572,23.928572 0 1 1 47.85714,0 z"
+       transform="matrix(1.0597015,0,0,1.0597015,-190.84492,650.84656)"
+       id="path3096"
+       style="color:#000000;fill:url(#radialGradient3894);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.88732398;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       d="m 531.42856,252.36218 a 14.642858,14.642858 0 1 1 -29.28571,0 14.642858,14.642858 0 1 1 29.28571,0 z"
+       transform="translate(-162.85451,663.05581)"
+       id="path3098"
+       style="color:#000000;fill:url(#radialGradient3892);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <path
+       d="m 493.57144,234.50504 a 10.357142,10.357142 0 1 1 -20.71429,0 10.357142,10.357142 0 1 1 20.71429,0 z"
+       transform="translate(-162.85451,663.05581)"
+       id="path3100"
+       style="color:#000000;fill:url(#radialGradient3890);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  </g>
+</svg>

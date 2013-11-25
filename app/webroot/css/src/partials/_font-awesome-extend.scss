@@ -44,6 +44,14 @@
   @extend .fa-check-square-o;
 }
 
+.fa-mod {
+  @extend .fa-gavel;
+}
+
+.fa-admin {
+  @extend .fa-wrench;
+}
+
 .fa-close-widget {
   @extend .fa-times-circle;
   // @bogus: with it the close buttons do not work

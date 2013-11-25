@@ -7,7 +7,7 @@
 	}
 	Stopwatch::start('slidetabs');
 ?>
-<div id="slidetabs">
+<aside id="slidetabs">
 	<?php
 		if (empty($slidetabs) === false) {
 			foreach ($slidetabs as $slidetab) {
@@ -52,5 +52,5 @@
 			}
 		}
 	?>
-</div>
+</aside>
 <?php Stopwatch::stop('slidetabs'); ?>

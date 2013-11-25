@@ -9,10 +9,6 @@
 		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" class="l-top hero" >
-				<div class="l-top-spnsr">
- 					<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden"><?php echo $this->Html->image('forum_logo_badge.png', array( 'alt' => 'Spenden', 'width' => '80', 'height' => '70')); ?></a>
-
-				</div>
 				<div class="l-top-right hero-text">
 						<?php echo Stopwatch::start('header_search.ctp');?>
 							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
@@ -37,7 +33,7 @@
 		</div> <!-- #top -->
 		<div class="l-top-menu-wrapper">
 			<div class="l-top-menu top-menu">
-				<?php echo $this->element('layout/header_login'); ?>
+				<?= $this->element('layout/header_login', ['divider' => '|']); ?>
 			</div>
 		</div>
 		<div id="topnav" class="navbar">

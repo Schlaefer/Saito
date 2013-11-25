@@ -56,6 +56,19 @@
 	word-spacing: 0px;
   text-align:right;
   @extend .t_shadow;
+
+  > .top-menu-item {
+    @extend .t_shadow;
+    padding: 0 0.5em;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
 }
 
 @media all and (max-width: $layout-tablet-maxWidth) {

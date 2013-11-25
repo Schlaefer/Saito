@@ -3,7 +3,7 @@
 
 		echo $this->Html->css('stylesheets/static.css');
 		echo $this->Html->css('../theme/Default/css/stylesheets/styles.css');
-		echo $this->Html->css('theme');
+		echo $this->Html->css('stylesheets/theme');
 	?>
 		<link rel="apple-touch-icon" href="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'apple-touch-icon-precomposed.png'; ?>"/>
 	</head>
@@ -12,43 +12,46 @@
 			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
-		<div id="top" class="l-top hero" >
-				<div class="l-top-right hero-text">
-						<?php echo Stopwatch::start('header_search.ctp');?>
-							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
-						<?php echo Stopwatch::stop('header_search.ctp');?>
-				</div> <!-- .right -->
-        <div class="l-top-left hero-text">
-          <?php
-						echo $this->Html->link(
-							$this->Html->image(
-								'forum_logo.png',
-								['alt' => 'Logo', 'height' => 70]
-							),
-								'/' . (isset($markAsRead) ? '?mar' : ''),
-							$options = [
-								'id'      => 'btn_header_logo',
-								'escape'  => false,
-							]
-						);
-          ?>
-          <div id="claim"></div>
-				</div> <!-- .left -->
-		</div> <!-- #top -->
+		<div id="macnemo-support">
+			<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden" class="pill pill-top">
+				Unterstützen
+			</a>
+		</div>
 		<div class="l-top-menu-wrapper">
 			<div class="l-top-menu top-menu">
-				<?php echo $this->element('layout/header_login'); ?>
+				<?= $this->element('layout/header_login', ['divider' => '']); ?>
+			</div>
+		</div>
+		<div id="top" class="l-top hero">
+			<div class="l-top-right hero-text">
+				<?php echo Stopwatch::start('header_search.ctp'); ?>
+				<?php if ($CurrentUser->isLoggedIn()) {
+					echo $this->element('layout/header_search', ['cache' => '+1 hour']);
+				} ?>
+				<?php echo Stopwatch::stop('header_search.ctp'); ?>
+			</div>
+			<div class="l-top-left hero-text">
+				<?php
+					echo $this->Html->link(
+						$this->Html->image('forum_logo.svg', ['alt' => 'Logo']),
+							'/' . (isset($markAsRead) ? '?mar' : ''),
+						$options = [
+							'id' => 'btn_header_logo',
+							'escape' => false,
+						]
+					);
+				?>
 			</div>
 		</div>
 		<div id="topnav" class="navbar">
-			<div>
-				<div>
-          <?php echo $this->fetch('headerSubnavLeft'); ?>
+			<div class="navbar-content">
+				<div class="navbar-left">
+					<?php echo $this->fetch('headerSubnavLeft'); ?>
 				</div>
-				<div>
-          <?php echo $this->fetch('headerSubnavCenter'); ?>
+				<div class="navbar-center">
+					<?php echo $this->fetch('headerSubnavCenter'); ?>
 				</div>
-				<div class="c_last_child">
+				<div class="navbar-right c_last_child">
 					<?php echo $this->element('layout/header_subnav_right'); ?>
 				</div>
 			</div>
@@ -62,18 +65,18 @@
 		</div>
 		<div id="footer-pinned">
 			<div id="bottomnav" class="navbar">
-				<div>
-						<div>
-              <?php echo $this->fetch('headerSubnavLeft'); ?>
-						</div>
-						<div>
-							<a href="#" id="btn-scrollToTop" class="btn-hf-center">
-                <i class="fa fa-arrow-up"></i>
-							</a>
-						</div>
-						<div class="c_last_child">
-							<?php echo $this->element('layout/header_subnav_right'); ?>
-						</div>
+				<div class="navbar-content">
+					<div class="navbar-left">
+						<?php echo $this->fetch('headerSubnavLeft'); ?>
+					</div>
+					<div class="navbar-center">
+						<a href="#" id="btn-scrollToTop" class="btn-hf-center">
+							<i class="fa fa-arrow-up"></i>
+						</a>
+					</div>
+					<div class="navbar-right c_last_child">
+						<?php echo $this->element('layout/header_subnav_right'); ?>
+					</div>
 				</div>
 			</div>
 		</div>
