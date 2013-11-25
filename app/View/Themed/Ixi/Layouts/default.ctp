@@ -1,32 +1,37 @@
 	<?php
 		echo $this->element('layout/html_header');
+
+		echo $this->Html->css('stylesheets/static.css');
+		echo $this->Html->css('../theme/Default/css/stylesheets/styles.css');
+		echo $this->Html->css('theme');
 	?>
+		<link rel="apple-touch-icon" href="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'apple-touch-icon-precomposed.png'; ?>"/>
 	</head>
 	<body>
-		<?php if (isset($CurrentUser) && !$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
+		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
 			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
 	<div style ="min-height: 100%; position: relative;">
 		<div id="top" class="l-top hero" >
 				<div class="l-top-right hero-text">
 						<?php echo Stopwatch::start('header_search.ctp');?>
-							<?php if (isset($CurrentUser) && $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
+							<?php if ( $CurrentUser->isLoggedIn() ) { echo $this->element('layout/header_search', array('cache' => '+1 hour')); } ?>
 						<?php echo Stopwatch::stop('header_search.ctp');?>
 				</div> <!-- .right -->
         <div class="l-top-left hero-text">
-						<?php
-							echo $this->Html->link(
-								$this->Html->image(
-									'forum_logo.png',
-									['alt' => 'Logo', 'height' => 70]
-								),
+          <?php
+						echo $this->Html->link(
+							$this->Html->image(
+								'forum_logo.png',
+								['alt' => 'Logo', 'height' => 70]
+							),
 								'/' . (isset($markAsRead) ? '?mar' : ''),
-								$options = [
-									'id'      => 'btn_header_logo',
-									'escape'  => false,
-								]
-							);
-						?>
+							$options = [
+								'id'      => 'btn_header_logo',
+								'escape'  => false,
+							]
+						);
+          ?>
           <div id="claim"></div>
 				</div> <!-- .left -->
 		</div> <!-- #top -->
@@ -63,7 +68,7 @@
 						</div>
 						<div>
 							<a href="#" id="btn-scrollToTop" class="btn-hf-center">
-								<i class="fa fa-arrow-up"></i>
+                <i class="fa fa-arrow-up"></i>
 							</a>
 						</div>
 						<div class="c_last_child">
@@ -83,5 +88,12 @@
 		?>
 	</div>
   <?php echo $this->element('layout/html_footer'); ?>
+	<div class="app-prerequisites-warnings">
+		<noscript>
+			<div class="app-prerequisites-warning">
+				<?= __('This web-application depends on JavaScript. Please activate JavaScript in your browser.') ?>
+			</div>
+		</noscript>
+	</div>
 	</body>
 </html>
