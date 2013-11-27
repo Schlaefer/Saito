@@ -7,6 +7,21 @@ layout: default
 
 <span class="label label-info">Info</span> [Download older versions](https://github.com/Schlaefer/Saito/releases/)
 
+## 2013-11.06 ##
+
+### What's new
+
+- [new] show warning if JavaScript is not available
+- [new] show warning if localStorage is not available
+- [fix] don't timeout DOM if localStorage is not available
+- [fix] layout tweaks
+- [task] updates CakePHP to 2.4.3
+- [task] makes auth cookie http only
+
+### Migration notes
+
+Theme is recompiled and uses compass 0.13.alpha.10+ instead of 0.12.
+
 ## 2013-11.05 ##
 
 ### What's new ###
