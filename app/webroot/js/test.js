@@ -33,7 +33,8 @@ require(['lib/bootstrapHelper', 'common', 'tests/jasmineBootstrapHelper'], funct
       'models/UploadModelSpec.js',
       'lib/MarkItUpSpec.js',
       'lib/jquery.i18n.extendSpec.js',
-      // 'views/AppViewSpec.js',
+      'views/AppViewSpec.js',
+      'views/PrerequisitesTesterSpec.js',
       'views/ThreadViewSpec.js'
     ];
 

@@ -330,6 +330,7 @@
 		protected function _setup() {
 			$this->_cookie->name = $this->_cookieName;
 			$this->_cookie->type('rijndael');
+			$this->_cookie->httpOnly = true;
 		}
 
 		public function initialize(SaitoUser $currentUser) {
