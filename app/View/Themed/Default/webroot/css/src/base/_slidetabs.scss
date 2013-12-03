@@ -2,6 +2,8 @@
  * Slidetabs general layout
  ******************************************************************************/
 
+$slidetab-width: 280px;
+
 #slidetabs {
   float: right;
   overflow: hidden;
@@ -46,10 +48,12 @@
   margin-top: -8px;
 }
 
-.slidetab-content {
+.slidetab-outer {
   margin-left: 28px;
-  min-height: 34px;
-  width: 190px;
+  min-height: 40px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: $slidetab-width - 29px;
   padding: 10px 15px;
 }
 
@@ -105,47 +109,6 @@
   padding-left: $padding;
 }
 
-/*
-.slidetabUserlist-user {
-  &:before {
-    width: 1.5em;
-    height: 1.1em;
-    content: "";
-    display: inline-block;
-    background-size: 0.9em;
-    background-position: 0 2px;
-    background-image: inline-image('user.svg');
-    background-repeat: no-repeat;
-  }
-}
-
-.slidetabUserlist-mod {
-  &:before {
-    width: 1.5em;
-    height: 1.1em;
-    content: "";
-    display: inline-block;
-    background-size: 0.9em;
-    background-position: 0 2px;
-    background-image: inline-image('mod.svg');
-    background-repeat: no-repeat;
-  }
-}
-
-.slidetabUserlist-admin {
-  &:before {
-    width: 1.5em;
-    height: 1.1em;
-    content: "";
-    display: inline-block;
-    background-size: 1.3em;
-    background-position: 0 2px;
-    background-image: inline-image('admin.svg');
-    background-repeat: no-repeat;
-  }
-}
-*/
-
 // slidetab Recent Postings
 // -------------------------------------
 
@@ -193,16 +156,18 @@
   input, label {
     font-size: 100%;
   }
+}
 
+#shoutbox {
+  min-height: 50px;
 }
 
 #shoutbox-input {
   font-size: 12px;
   line-height: 16px;
-  margin: 0 0 1em 0;
-  padding: 2px 5px;
-  width: 180px;
   resize: none;
+  width: $slidetab-width - 80px;
+  padding: 2px 5px;
 }
 
 #shoutbox-shouts {

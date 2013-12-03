@@ -20,7 +20,7 @@ define([
         },
 
         isOpen: function() {
-            return this.$el.find(".slidetab-content").is(":visible");
+            return this.$el.find(".slidetab-outer").is(":visible");
         },
 
         clickSlidetab: function(model) {
@@ -38,9 +38,9 @@ define([
 
         show: function() {
             this.$el.animate({
-                'width': 250
+                'width': 280
             });
-            this.$el.find('.slidetab-content').css('display','block');
+            this.$el.find('.slidetab-outer').css('display','block');
         },
 
         hide: function() {
@@ -49,7 +49,7 @@ define([
                     'width': 28
                 },
                 _.bind(function() {
-                    this.$el.find('.slidetab-content').css('display', 'none');
+                    this.$el.find('.slidetab-outer').css('display', 'none');
                 }, this)
             );
         },

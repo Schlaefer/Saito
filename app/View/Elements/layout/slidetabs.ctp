@@ -18,7 +18,7 @@
 				$style2 = '';
 				$isOpen = false;
 				if ($CurrentUser['show_' . $id] == 1) {
-					$style .= 'width: 250px;';
+					$style .= 'width: 280px;';
 					$isOpen = true;
 				} else {
 					$style .= 'width: 28px;';
@@ -33,13 +33,13 @@
 					<div class="slidetab-tab">
 						<div class="slidetab-tab-button">
 						<?php
-							echo $this->fetch('slidetab-header');
-							$this->assign('slidetab-header', '');
+							echo $this->fetch('slidetab-tab-button');
+							$this->assign('slidetab-tab-button', '');
 						?>
 						</div>
 					</div> <!-- button -->
-					<div  class="slidetab-content" style="<?php echo $style2 ?>" >
-						<div class="content">
+					<div class="slidetab-outer" style="<?php echo $style2 ?>" >
+						<div class="slidetab-inner">
 							<?php
 							echo $this->fetch('slidetab-content');
 							$this->Blocks->set('slidetab-content', '');

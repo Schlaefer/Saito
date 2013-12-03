@@ -303,12 +303,12 @@ body { min-width: 768px; }
 
 .c_bottom-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn-strip-back, .popover-inner, .flash, .message, .l-box-footer, .error-message { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
 
-.c_left-radius, .search_textfield, .slidetab-tab, .slidetab-content { border-bottom-left-radius: 0px; border-top-left-radius: 0px; }
+.c_left-radius, .search_textfield, .slidetab-tab, .slidetab-outer { border-bottom-left-radius: 0px; border-top-left-radius: 0px; }
 
 .c_right-radius, .btn_search_submit { border-bottom-right-radius: 0px; border-top-right-radius: 0px; }
 
 /******************************************************************************* gradients *****************************************************************************/
-.header_style_1, .navbar-light, .navbar, .top-menu, .slidetab-tab, .slidetab-content { background: #e6edf0; background: -moz-linear-gradient(90deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -o-linear-gradient(90deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -webkit-linear-gradient(90deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: linear-gradient(0deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; border: 1px solid #aeb9bd; }
+.header_style_1, .navbar-light, .navbar, .top-menu, .slidetab-tab, .slidetab-outer { background: #e6edf0; background: -moz-linear-gradient(90deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -o-linear-gradient(90deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: -webkit-linear-gradient(90deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; background: linear-gradient(0deg, #e6edf0, rgba(255, 255, 255, 0.6)), #e6edf0; border: 1px solid #aeb9bd; }
 
 .header_style_2, .box-header, .ui-widget-header { background-color: #eaeaea; background: -moz-linear-gradient(270deg, #ffffff 0%, #f2f2f2 10%, #eaeaea 95%, #d6d6d6 100%), #eaeaea; background: -o-linear-gradient(270deg, #ffffff 0%, #f2f2f2 10%, #eaeaea 95%, #d6d6d6 100%), #eaeaea; background: -webkit-linear-gradient(270deg, #ffffff 0%, #f2f2f2 10%, #eaeaea 95%, #d6d6d6 100%), #eaeaea; background: linear-gradient(180deg, #ffffff 0%, #f2f2f2 10%, #eaeaea 95%, #d6d6d6 100%), #eaeaea; border: 1px solid #eaeaea; color: #333333; }
 
@@ -438,7 +438,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 .slidetab-tab-button { position: absolute; width: 20px; line-height: 14px; top: 50%; margin-top: -8px; }
 
-.slidetab-content { margin-left: 28px; min-height: 34px; width: 190px; padding: 10px 15px; }
+.slidetab-outer { margin-left: 28px; min-height: 40px; box-sizing: border-box; -moz-box-sizing: border-box; width: 251px; padding: 10px 15px; }
 
 .slidetab-list {   /* > li { margin-bottom: 1em; }
  > li:last-child { margin-bottom: 0; } */ }
@@ -454,16 +454,6 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 .slidetab-userlist-icon { display: inline-block; width: 1em; padding-left: 10px; }
 
-/*
-.slidetabUserlist-user { &:before { width: 1.5em; height: 1.1em; content: ""; display: inline-block; background-size: 0.9em; background-position: 0 2px; background-image: inline-image('user.svg'); background-repeat: no-repeat; }
-}
-
-.slidetabUserlist-mod { &:before { width: 1.5em; height: 1.1em; content: ""; display: inline-block; background-size: 0.9em; background-position: 0 2px; background-image: inline-image('mod.svg'); background-repeat: no-repeat; }
-}
-
-.slidetabUserlist-admin { &:before { width: 1.5em; height: 1.1em; content: ""; display: inline-block; background-size: 1.3em; background-position: 0 2px; background-image: inline-image('admin.svg'); background-repeat: no-repeat; }
-}
-*/
 .slidetab-recentposts .slidetab_tree > li, .slidetab-recententries .slidetab_tree > li { overflow: hidden; text-overflow: ellipsis; padding-left: 14px !important; text-indent: -7px; font-weight: normal; }
 .slidetab-recentposts .slidetab_tree > li [class^="fa"], .slidetab-recentposts .slidetab_tree li [class*=" fa"], .slidetab-recententries .slidetab_tree > li [class^="fa"], .slidetab-recententries .slidetab_tree li [class*=" fa"] { text-align: right; padding-right: 0.25em; }
 
@@ -473,7 +463,9 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 #shoutbox .info_text, #shoutbox .btnLink.btn-thread_tools, #shoutbox a.btn-thread_tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c_bbc_link-dinfo, #shoutbox .c_bbc_imessage, #shoutbox .c_info_text, #shoutbox .thread_line-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; text-align: center; }
 #shoutbox input, #shoutbox label { font-size: 100%; }
 
-#shoutbox-input { font-size: 12px; line-height: 16px; margin: 0 0 1em 0; padding: 2px 5px; width: 180px; resize: none; }
+#shoutbox { min-height: 50px; }
+
+#shoutbox-input { font-size: 12px; line-height: 16px; resize: none; width: 200px; padding: 2px 5px; }
 
 #shoutbox-shouts { word-wrap: break-word; }
 
@@ -723,7 +715,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .entry.search .search_results .content ul li { margin: 0.2em 0; }
 
 /******************************************************************************* Shadows *****************************************************************************/
-.box-shadow, .box-header, .markItUpHeader ul ul, #topnav, .slidetab-tab, .slidetab-content { box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); }
+.box-shadow, .box-header, .markItUpHeader ul ul, #topnav, .slidetab-tab, .slidetab-outer { box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15); }
 
 .box-shadow-subtle, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply { box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.08); }
 
@@ -755,7 +747,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .nowrap { white-space: nowrap; }
 
-.t_shadow, .header_style_2, .box-header, .ui-widget-header, .navbar-light, .navbar, .top-menu, .top-menu > .top-menu-item, .flash > .alert, .message, .disclaimer-inside, .slidetab-tab, .slidetab-content { text-shadow: white 0px 1px; }
+.t_shadow, .header_style_2, .box-header, .ui-widget-header, .navbar-light, .navbar, .top-menu, .top-menu > .top-menu-item, .flash > .alert, .message, .disclaimer-inside, .slidetab-tab, .slidetab-outer { text-shadow: white 0px 1px; }
 
 .pointer:hover { cursor: pointer; }
 
@@ -874,7 +866,7 @@ a.category_acs_2, .category_acs_2 { background: #d5d5d5; }
 /******************************************************************************* Slidetabs general layout *****************************************************************************/
 .slidetab h4 { font-weight: bold; }
 
-.slidetab-tab, .slidetab-content { font-size: 0.95em; margin-bottom: 2px; }
+.slidetab-tab, .slidetab-outer { font-size: 0.95em; margin-bottom: 2px; }
 
 .slidetab-actUser { font-weight: bold; }
 
