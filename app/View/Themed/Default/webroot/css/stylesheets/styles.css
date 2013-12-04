@@ -487,10 +487,9 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 .l-top-menu { position: absolute; bottom: 0; right: 0; }
 
 @media all and (max-width: 768px) { .l-top-menu { position: relative; } }
-.top-menu { padding: 2px 1em; font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; word-spacing: 0px; text-align: right; }
-.top-menu > .top-menu-item { padding: 0 0.5em; }
-.top-menu > .top-menu-item:first-child { padding-left: 0; }
-.top-menu > .top-menu-item:last-child { padding-right: 0; }
+.top-menu { font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; word-spacing: 0px; text-align: right; /* 1: workaround for wrong box width calculation/wrapping bug in webkit */ }
+.top-menu > .top-menu-item { padding: 2px 0.5em; display: inline-block; }
+.top-menu button { word-spacing: inherit; /* 1 */ }
 
 @media all and (max-width: 768px) { .l-top-menu { border-left: none; font-size: inherit; line-height: inherit; } }
 .top-search > form { height: 26px; font-size: 12px; }

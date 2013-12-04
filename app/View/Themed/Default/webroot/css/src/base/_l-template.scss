@@ -48,7 +48,6 @@
 }
 
 .top-menu {
-  padding: 2px 1em;
   font-size: 10px;
   line-height: 12px;
   border-width: $border_width 0 0 $border_width;
@@ -59,15 +58,15 @@
 
   > .top-menu-item {
     @extend .t_shadow;
-    padding: 0 0.5em;
+    padding: 2px 0.5em;
+    display: inline-block;
+  }
 
-    &:first-child {
-      padding-left: 0;
-    }
-
-    &:last-child {
-      padding-right: 0;
-    }
+  /*
+   * 1: workaround for wrong box width calculation/wrapping bug in webkit
+   */
+  button {
+    word-spacing: inherit; /* 1 */
   }
 }
 

@@ -4,7 +4,7 @@
 .pill-invert, .top-menu-item { color: #ffa70e; background: white; }
 .pill-invert a, .top-menu-item a { color: #ffa70e; }
 
-.pill-top, .top-menu-item { border-top-right-radius: 0; border-top-left-radius: 0; }
+.pill-top, .top-menu-item { border-top: none; border-top-right-radius: 0; border-top-left-radius: 0; }
 
 .pill-right { border-top-left-radius: 0; border-bottom-left-radius: 0; }
 
@@ -41,9 +41,11 @@ li.threadnew .span_post_type, li.replynew .span_post_type { color: #333; }
 
 .l-top-menu { position: relative; font-size: inherit; }
 
+.top-menu { line-height: inherit; }
+
 .top-menu-item-text { display: none; }
 
-.top-menu-item { text-shadow: none !important; margin-left: 10px; width: 1em; }
+.top-menu-item { text-shadow: none !important; margin-left: 10px; }
 
 #btn_header_logo { display: block; height: 63px; width: 522px; }
 
