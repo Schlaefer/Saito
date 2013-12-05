@@ -973,7 +973,7 @@
 						'Entry.category' => $categories
 				),
 				'contain' => false,
-				'fields' => 'id, pid, tid, time, last_answer',
+				'fields' => 'id, pid, tid, time, last_answer, fixed',
 				'limit' => Configure::read('Saito.Settings.topics_per_page'),
 				'order' => $order,
 				'getInitialThreads' => 1,

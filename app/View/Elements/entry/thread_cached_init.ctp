@@ -43,7 +43,7 @@
 		 * this scrapes us up to 10 ms on a 40 threads index page
 		 */
 ?>
-<div class="thread_box" data-id="<?php echo $entry_sub['Entry']['id'];?>">
+<div class="thread_box" data-id="<?= $entry_sub['Entry']['id'] ?>">
 	<div class='tree_thread box-content'>
 		<div class="thread_tools">
 			<?php if ($level === 0) : ?>

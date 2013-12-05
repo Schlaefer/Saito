@@ -57,6 +57,10 @@
 			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
 		}
 
+		public function isPinned($entry) {
+			return (bool)$entry['Entry']['fixed'];
+		}
+
 /**
  * @param $entry
  * @param $user
