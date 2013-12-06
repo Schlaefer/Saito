@@ -1,3 +1,19 @@
+#top, .navbar, .disclaimer, .top-menu { background: none; border: none; }
+
+#top, .l-top-left { height: auto; padding: 0; margin: 0; }
+
+#topnav, #bottomnav { box-shadow: none; }
+
+#top, .l-top-right { margin: 0; padding: 0 16px; }
+
+.btn { border: none; box-shadow: none; background: none; padding: 0; margin: 0; }
+
+.box-shadow-inset, input[type=text], input[type=password], textarea, .markItUpPreviewFrame, .btn_search_header { outline-color: #ffa70e; box-shadow: none; }
+
+.t-contentbox-bg, .t-contentbox, .ui-widget-content.ui-dialog-content, .slidetab-outer, .ui-dialog { background: rgba(255, 255, 255, 0.6); }
+
+.t-contentbox, .ui-widget-content.ui-dialog-content, .slidetab-outer { padding: 16px; border-color: rgba(255, 167, 0, 0.6); }
+
 .pill, .btn, .btn:hover, .top-menu-item { color: white; background: #ffa70e; border: 1px solid #ffa70e; padding: 0.1em 1em !important; font-weight: bold; border-radius: 12px; text-shadow: none; }
 .pill a, .btn a, .btn:hover a, .top-menu-item a { color: white; }
 
@@ -10,15 +26,14 @@
 
 .pill-left { border-top-right-radius: 0; border-bottom-right-radius: 0; }
 
-#top, .navbar, .disclaimer, .top-menu { background: none; border: none; }
+@font-face { font-family: 'theme-iconsregular'; src: url("../../font/theme-icons-webfont.eot"); src: url("../../font/theme-icons-webfont.woff") format("woff"), url("../../font/theme-icons-webfont.ttf") format("truetype"); font-weight: normal; font-style: normal; }
+.macnemo-theme-icons, .fa-admin, .fa-mod { font-family: theme-iconsregular; font-size: 120%; }
 
-#top, .l-top-left { height: auto; padding: 0; margin: 0; }
+.fa-admin:before { content: "\0061"; }
 
-#topnav, #bottomnav { box-shadow: none; }
+.fa-mod:before { content: "\006D"; }
 
-#top, .l-top-right { margin: 0; padding: 0 16px; }
-
-.btn { border: none; box-shadow: none; background: none; padding: 0; margin: 0; }
+.ui-widget-header { background: none; border: none; }
 
 body { background: #ffed9f; background-image: url('../../img/bb.svg'); background-repeat: no-repeat; background-position: 50% 5px; }
 
@@ -26,7 +41,7 @@ body { background: #ffed9f; background-image: url('../../img/bb.svg'); backgroun
 
 a, a.textlink, .btnLink, li.thread .span_post_type, li.reply .span_post_type { color: #fe5603; }
 
-li.threadnew .span_post_type, li.replynew .span_post_type { color: #333; }
+li.threadnew .span_post_type, li.replynew .span_post_type { color: #333333; }
 
 .body-padding, #content, #topnav, #bottomnav, #top, .top-menu { padding-left: 32px; padding-right: 32px; }
 
@@ -35,7 +50,8 @@ li.threadnew .span_post_type, li.replynew .span_post_type { color: #333; }
 
 #top { padding-left: 0; height: 63px; }
 
-.l-top-right { right: 50px; top: 19px; padding: 0; }
+.l-top-right { right: 33px; top: 19px; padding: 0; }
+.l-top-right form { width: 218px; }
 
 .l-top-menu-wrapper { position: absolute; top: 0; right: 0; }
 
@@ -45,7 +61,8 @@ li.threadnew .span_post_type, li.replynew .span_post_type { color: #333; }
 
 .top-menu-item-text { display: none; }
 
-.top-menu-item { text-shadow: none !important; margin-left: 10px; }
+.top-menu-item { text-shadow: none !important; margin-left: 23px; }
+.top-menu-item.btnLink { color: #ffa70e; }
 
 #btn_header_logo { display: block; height: 63px; width: 522px; }
 
@@ -65,9 +82,9 @@ li.threadnew .span_post_type, li.replynew .span_post_type { color: #333; }
 
 .slidetab-tab, .slidetab-outer { text-shadow: none; }
 
-.slidetab-tab { border-color: #ffa70e; margin-top: 16px; background: #ffa70e; color: white; border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+.slidetab-tab { border-color: #ffa70e; margin-top: 12px; background: #ffa70e; color: white; border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
 
-.slidetab-outer { padding: 16px; background: rgba(255, 255, 255, 0.6); border-color: rgba(255, 167, 0, 0.6); }
+.slidetab-header { color: #838383; margin: -0.5em 0 0.5em 0; font-size: 110%; }
 
 .slidetab-content { padding: 16px; background: ivory; }
 
@@ -78,6 +95,11 @@ li.threadnew .span_post_type, li.replynew .span_post_type { color: #333; }
 .box-content { box-shadow: none; }
 
 .thread_box { margin-bottom: 16px; }
+
+.btn-threadCollapse { color: #505050; }
+
+.macnemo-thread-pinned { position: absolute; left: 0; width: 100%; text-align: center; margin-top: -9px; }
+.macnemo-thread-pinned img { height: 11px; }
 
 .disclaimer-inside { border: none; box-shadow: none; background: #fff5cf; }
 .disclaimer-inside a { border-bottom: none; color: #fe5603; text-shadow: none; }

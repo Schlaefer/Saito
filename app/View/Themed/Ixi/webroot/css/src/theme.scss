@@ -1,17 +1,18 @@
 // setup
 // -------------------------------------
 
+@import "compass/typography/links/link-colors";
+
 $yellow-lighter: rgb(255, 255, 240);
 $yellow: #ffed9f;
 $orange-lighter: #fff5cf;
 $orange: #ffa70e;
 $orange-darker: #fe5603;
+$color-info: #505050;
 
 $padding: 10px;
 $padding-content: 16px;
 $padding-body: 2 * $padding-content;
-
-@import "partials/_pill";
 
 // reset
 // -------------------------------------
@@ -44,8 +45,18 @@ $padding-body: 2 * $padding-content;
   margin: 0;
 }
 
+.box-shadow-inset, input[type=text], input[type=password], textarea, .markItUpPreviewFrame, .btn_search_header {
+  outline-color: $orange;
+  box-shadow: none;
+}
+
 // theme
 // -------------------------------------
+
+@import "partials/_t-contentbox";
+@import "partials/_pill";
+@import "partials/_icons";
+@import "partials/_jqueryui";
 
 body {
   background: $yellow;
@@ -67,11 +78,11 @@ body, input, textarea, .markItUpPreviewFrame, button {
 }
 
 a, a.textlink, .btnLink, li.thread .span_post_type, li.reply .span_post_type {
-  color: $orange-darker;
+  @include link-colors($orange-darker);
 }
 
 li.threadnew .span_post_type, li.replynew .span_post_type {
-  color: #333;
+  @include link-colors(#333);
 }
 
 .btn {
@@ -101,9 +112,13 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
 }
 
 .l-top-right {
-  right: 50px;
+  right: 33px;
   top: 19px;
   padding: 0;
+
+  form {
+    width: 218px;
+  }
 }
 
 .l-top-menu-wrapper {
@@ -131,7 +146,11 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
   @extend .pill;
   @extend .pill-top;
   @extend .pill-invert;
-  margin-left: $padding;
+  margin-left: 23px;
+
+  &.btnLink {
+    color: $orange;
+  }
 }
 
 #btn_header_logo {
@@ -189,17 +208,21 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
 
 .slidetab-tab {
   border-color: $orange;
-  margin-top: $padding-content;
+  margin-top: $padding-content - 4px;
   background: $orange;
   color: white;
   border-top-left-radius: $pill-border-radius;
   border-bottom-left-radius: $pill-border-radius;
 }
 
+.slidetab-header {
+  color: adjust-color($color-info, $lightness: 20%);
+  margin: -0.5em 0 0.5em 0;
+  font-size: 110%;
+}
+
 .slidetab-outer {
-  padding: $padding-content;
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(255, 167, 0, 0.6);
+  @extend .t-contentbox;
 }
 
 .slidetab-content {
@@ -221,6 +244,22 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
 
 .thread_box {
   margin-bottom: $padding-content;
+}
+
+.btn-threadCollapse {
+  color: $color-info;
+}
+
+.macnemo-thread-pinned {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  margin-top: -9px;
+
+  img {
+    height: 11px;
+  }
 }
 
 .disclaimer-inside {

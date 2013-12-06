@@ -57,25 +57,8 @@ $slidetab-width: 280px;
   padding: 10px 15px;
 }
 
-.slidetab-list {
-  // list-style: square;
-  // margin-left: 2em;
-  /*
-  > li {
-    margin-bottom: 1em;
-  }
-
-  > li:last-child {
-    margin-bottom: 0;
-  }
-    */
-}
-
-.slidetab_subtree {
-  /*
-	padding-left: 2em;
-	margin-top: -1em;
-	*/
+.slidetab-header {
+  margin-bottom: 1em;
 }
 
 // slidetab userlist
@@ -174,3 +157,10 @@ $slidetab-width: 280px;
     word-wrap: break-word;
 }
 
+.shoutbox-shout-cu > .username {
+  font-weight: bold;
+}
+
+.shoutbox-shout-old {
+  color: #999;
+}

@@ -63,10 +63,10 @@
   }
 
   /*
-   * 1: workaround for wrong box width calculation/wrapping bug in webkit
+   * 1: workaround for https://code.google.com/p/chromium/issues/detail?id=326083
    */
   button {
-    word-spacing: inherit; /* 1 */
+    word-spacing: 0px; /* 1 */
   }
 }
 

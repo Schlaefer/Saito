@@ -440,13 +440,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 .slidetab-outer { margin-left: 28px; min-height: 40px; box-sizing: border-box; -moz-box-sizing: border-box; width: 251px; padding: 10px 15px; }
 
-.slidetab-list {   /* > li { margin-bottom: 1em; }
- > li:last-child { margin-bottom: 0; } */ }
-
-.slidetab_subtree {   /*
-	padding-left: 2em;
-	margin-top: -1em;
-	*/ }
+.slidetab-header { margin-bottom: 1em; }
 
 #slidetabUserlist-counter { position: absolute; right: -2px; bottom: -7px; min-width: 6px; background: #111111; border: 1px solid white; padding: 0 1px; }
 
@@ -469,6 +463,10 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 #shoutbox-shouts { word-wrap: break-word; }
 
+.shoutbox-shout-cu > .username { font-weight: bold; }
+
+.shoutbox-shout-old { color: #999; }
+
 /******************************************************************************* Template Layout *****************************************************************************/
 .l-top { position: relative; }
 
@@ -487,9 +485,9 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 .l-top-menu { position: absolute; bottom: 0; right: 0; }
 
 @media all and (max-width: 768px) { .l-top-menu { position: relative; } }
-.top-menu { font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; word-spacing: 0px; text-align: right; /* 1: workaround for wrong box width calculation/wrapping bug in webkit */ }
+.top-menu { font-size: 10px; line-height: 12px; border-width: 1px 0 0 1px; word-spacing: 0px; text-align: right; /* 1: workaround for https://code.google.com/p/chromium/issues/detail?id=326083 */ }
 .top-menu > .top-menu-item { padding: 2px 0.5em; display: inline-block; }
-.top-menu button { word-spacing: inherit; /* 1 */ }
+.top-menu button { word-spacing: 0px; /* 1 */ }
 
 @media all and (max-width: 768px) { .l-top-menu { border-left: none; font-size: inherit; line-height: inherit; } }
 .top-search > form { height: 26px; font-size: 12px; }
@@ -699,7 +697,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 .search_textfield { top-right-radius: 0; border-bottom-right-radius: 0; border-border-right: 0; height: 22px; width: 100%; }
 .search_textfield:focus { outline-width: 0; }
 
-.btn_search_submit { border-top-left-radius: 0; border-bottom-left-radius: 0; float: right; margin: 0; height: 100%; white-space: nowrap; cursor: pointer; }
+.btn_search_submit { border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important; float: right; margin: 0; height: 100%; white-space: nowrap; cursor: pointer; }
 
 .btn_search_header { width: 24px; height: 24px; border-left: none; margin-left: -1px !important; padding-bottom: 1px; }
 

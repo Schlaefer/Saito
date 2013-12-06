@@ -1,0 +1,10 @@
+.t-contentbox-bg {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.t-contentbox {
+  @extend .t-contentbox-bg;
+  padding: $padding-content;
+  border-color: rgba(255, 167, 0, 0.6);
+}
+
