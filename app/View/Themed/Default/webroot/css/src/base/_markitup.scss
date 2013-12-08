@@ -132,19 +132,39 @@ form .c_markitup_popup_txta {
 .markItUp {
 	outline:none;
 }
+
+.markItUpHeader {
+  background: $saito_gray_dark;
+  border-bottom: 1px solid $saito_gray_input_border;
+  @extend .box-shadow-inset;
+}
+
+.markItUpHeader ul:after  {
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 .markItUp a:link,
 .markItUp a:visited {
 	color:#333;
 	text-decoration:none;
 }
-.markItUp  {
-}
+
 .markItUpContainer  {
+  border: 1px solid $saito_gray_input_border;
+  background: white;
+  @extend .box-shadow-inset;
 }
+
 .markItUpEditor {
+  box-shadow: none;
+  border: none;
 	clear:both; display:block;
 	overflow:auto;
 	height: 16em;
+  background: none;
 }
 .markItUpPreviewFrame	{
 	@extend textarea;
@@ -158,6 +178,7 @@ form .c_markitup_popup_txta {
 	width:100%;
 }
 .markItUpResizeHandle {
+  display: none;
 	overflow:hidden;
 	width:22px; height:5px;
 	margin-left:auto;

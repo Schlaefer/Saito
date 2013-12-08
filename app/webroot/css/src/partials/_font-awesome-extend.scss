@@ -52,6 +52,14 @@
   @extend .fa-wrench;
 }
 
+.fa-multimedia {
+  @extend .fa-code;
+}
+
+.fa-s-code {
+  @extend .fa-terminal;
+}
+
 .fa-close-widget {
   @extend .fa-times-circle;
   // @bogus: with it the close buttons do not work

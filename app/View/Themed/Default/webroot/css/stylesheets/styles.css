@@ -362,15 +362,21 @@ form .c_markitup_popup_txta { width: 96%; padding: 2%; }
 
 .markItUp { outline: none; }
 
+.markItUpHeader { background: #eaeaea; border-bottom: 1px solid #aaaaaa; }
+
+.markItUpHeader ul:after { content: " "; display: block; height: 0; clear: both; }
+
 .markItUp a:link, .markItUp a:visited { color: #333; text-decoration: none; }
 
-.markItUpEditor { clear: both; display: block; overflow: auto; height: 16em; }
+.markItUpContainer { border: 1px solid #aaaaaa; background: white; }
+
+.markItUpEditor { box-shadow: none; border: none; clear: both; display: block; overflow: auto; height: 16em; background: none; }
 
 .markItUpPreviewFrame { overflow: auto; background-color: #FFF; width: 99.9%; height: 300px; margin: 5px 0; }
 
 .markItUpFooter { width: 100%; }
 
-.markItUpResizeHandle { overflow: hidden; width: 22px; height: 5px; margin-left: auto; margin-right: auto; background-image: url('../../img/markitup/handle.png'); cursor: n-resize; }
+.markItUpResizeHandle { display: none; overflow: hidden; width: 22px; height: 5px; margin-left: auto; margin-right: auto; background-image: url('../../img/markitup/handle.png'); cursor: n-resize; }
 
 /******************************************************************************/
 /* first row of buttons */
@@ -718,7 +724,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .box-shadow-up, #bottomnav { box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.15); }
 
-.box-shadow-inset, input[type=text], input[type=password], textarea, .markItUpPreviewFrame, .btn_search_header { box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 1px, 0px 1px 1px rgba(0, 0, 0, 0.3) inset; }
+.box-shadow-inset, .markItUpHeader, .markItUpContainer, input[type=text], input[type=password], textarea, .markItUpPreviewFrame, .btn_search_header { box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 1px, 0px 1px 1px rgba(0, 0, 0, 0.3) inset; }
 
 .box-shadow-inset-subtle { box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 1px, whitesmoke 0px 1px 1px inset; }
 

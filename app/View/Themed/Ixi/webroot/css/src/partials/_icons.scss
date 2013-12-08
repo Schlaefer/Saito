@@ -1,20 +1,18 @@
-
 @font-face {
   font-family: 'theme-iconsregular';
   src: url('../../font/theme-icons-webfont.eot');
-  src: url('../../font/theme-icons-webfont.woff') format('woff'),
-  url('../../font/theme-icons-webfont.ttf') format('truetype');
+  src: url('../../font/theme-icons-webfont.woff') format('woff'), url('../../font/theme-icons-webfont.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 .macnemo-theme-icons {
   font-family: theme-iconsregular;
-  font-size: 120%;
 }
 
 .fa-admin {
   @extend .macnemo-theme-icons;
+  font-size: 120%;
   &:before {
     content: "\0061";
   }
@@ -22,7 +20,16 @@
 
 .fa-mod {
   @extend .macnemo-theme-icons;
+  font-size: 120%;
   &:before {
     content: "\006D";
   }
 }
+
+.fa-multimedia {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\0065";
+  }
+}
+
