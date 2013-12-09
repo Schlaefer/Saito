@@ -362,7 +362,7 @@ form .c_markitup_popup_txta { width: 96%; padding: 2%; }
 
 .markItUp { outline: none; }
 
-.markItUpHeader { background: #eaeaea; border-bottom: 1px solid #aaaaaa; }
+.markItUpHeader { background: #eaeaea; }
 
 .markItUpHeader ul:after { content: " "; display: block; height: 0; clear: both; }
 

@@ -28,12 +28,18 @@
 
 .pill-left { border-top-right-radius: 0; border-bottom-right-radius: 0; }
 
-@font-face { font-family: 'theme-iconsregular'; src: url("../../font/theme-icons-webfont.eot"); src: url("../../font/theme-icons-webfont.woff") format("woff"), url("../../font/theme-icons-webfont.ttf") format("truetype"); font-weight: normal; font-style: normal; }
-.macnemo-theme-icons, .fa-admin, .fa-mod { font-family: theme-iconsregular; font-size: 120%; }
+@font-face { font-family: 'theme-iconsregular'; src: url("../../font/theme-icons-webfont.woff") format("woff"), url("../../font/theme-icons-webfont.ttf") format("truetype"); font-weight: normal; font-style: normal; }
+.macnemo-theme-icons, .fa-admin, .fa-mod, .fa-multimedia, .fa-s-gacker, .fa-s-popcorn { font-family: theme-iconsregular; font-size: 120%; }
 
 .fa-admin:before { content: "\0061"; }
 
 .fa-mod:before { content: "\006D"; }
+
+.fa-multimedia:before { content: "\0065"; }
+
+.fa-s-gacker:before { content: "\0067"; }
+
+.fa-s-popcorn:before { content: "\0070"; }
 
 .ui-widget-header { background: none; border: none; }
 
@@ -110,9 +116,4 @@ li.threadnew .span_post_type, li.replynew .span_post_type { color: #333333; }
 
 .preview { border-top: 1px solid #dcdcdc; }
 
-.markItUpContainer, .markItUpHeader { border-top-left-radius: 12px; border-top-right-radius: 12px; }
-
-/*
-.entry.add, .entry.reply { border: none; box-shadow: none; background: $yellow;
-}
-*/
+.markItUpSeparator { display: none; }
