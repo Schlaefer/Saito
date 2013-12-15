@@ -7,14 +7,16 @@
 	<g>
 		<g>
 			<circle fill="#FFA700" cx="9" cy="9" r="9"/>
-			<rect x="6.088" y="5.448" fill="#FFFFFF" width="1.879" height="2.7"/>
-			<rect x="10.109" y="5.448" fill="#FFFFFF" width="1.803" height="2.7"/>
 		</g>
 	</g>
-	<rect x="3.686" y="11.754" fill="#FFFFFF" width="10.629" height="1.267"/>
-	<rect x="7.016" y="10.385" fill="#FFFFFF" width="1.299" height="4.005"/>
-	<rect x="10.016" y="10.385" fill="#FFFFFF" width="1.299" height="4.005"/>
+	<rect x="3.686" y="11.754" fill="#FFFFFF" width="10.628" height="1.268"/>
+	<rect x="7.016" y="10.385" fill="#FFFFFF" width="1.299" height="4.006"/>
+	<rect x="10.016" y="10.385" fill="#FFFFFF" width="1.299" height="4.006"/>
 	<rect x="13.016" y="10.385" fill="#FFFFFF" width="1.299" height="5.658"/>
-	<rect x="3.686" y="10.385" fill="#FFFFFF" width="1.301" height="4.005"/>
+	<rect x="3.686" y="10.385" fill="#FFFFFF" width="1.301" height="4.006"/>
+</g>
+<g>
+	<rect x="5.156" y="4.857" fill="#FFFFFF" width="2.479" height="3.563"/>
+	<rect x="10.462" y="4.857" fill="#FFFFFF" width="2.382" height="3.563"/>
 </g>
 </svg>

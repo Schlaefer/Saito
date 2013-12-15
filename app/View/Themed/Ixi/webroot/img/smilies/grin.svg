@@ -6,9 +6,11 @@
 <g>
 	<g>
 		<circle fill="#FFA700" cx="9" cy="8.999" r="9"/>
-		<rect x="6.088" y="5.447" fill="#FFFFFF" width="1.879" height="2.7"/>
-		<rect x="10.107" y="5.447" fill="#FFFFFF" width="1.805" height="2.7"/>
 	</g>
 	<path fill="#FFFFFF" d="M14.584,10.061c0,0-3.029,4.654-5.658,4.654c-2.631,0-5.51-4.654-5.51-4.654"/>
+</g>
+<g>
+	<rect x="5.156" y="4.75" fill="#FFFFFF" width="2.479" height="3.563"/>
+	<rect x="10.462" y="4.75" fill="#FFFFFF" width="2.382" height="3.563"/>
 </g>
 </svg>
