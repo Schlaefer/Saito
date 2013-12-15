@@ -66,6 +66,8 @@ define([
                 show: {effect: "scale", duration: 200},
                 hide: {effect: "fade", duration: 200},
                 title: $.i18n.__("Multimedia"),
+                minWidth: 346,
+                position: {at: 'left+50% top+40%'},
                 resizable: false,
                 open: function() {
                     setTimeout(function() {$('#markitup_media_txta').focus();}, 210);

@@ -226,12 +226,11 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
 }
 
 .slidetab-outer {
-  @extend .t-contentbox;
+  @extend .box-2;
 }
 
 .slidetab-content {
-  padding: $padding-content;
-  background: $yellow-lighter;
+  @extend .box-2-body;
 }
 
 .slidetab-userlist-icon {

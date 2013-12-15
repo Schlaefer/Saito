@@ -117,12 +117,10 @@ $markitup-buttonHeight: 32px;
 
 // Saito markitup code
 // -------------------------------------
-.c_markitup_label {
-	padding: 0.5em;
-}
 form .c_markitup_popup_txta {
-	width: 96%;
+	width: 100%;
 	padding: 2%;
+  @include box-sizing(border-box);
 }
 
 /* -------------------------------------------------------------------*

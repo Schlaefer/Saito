@@ -1,10 +1,49 @@
-.t-contentbox-bg {
-  background: rgba(255, 255, 255, 0.6);
-}
+@import "compass/css3/box-sizing";
 
-.t-contentbox {
-  @extend .t-contentbox-bg;
+// Slidetabs like class
+// -------------------------------------
+
+.box-2 {
+  background: rgba(255, 255, 255, 0.6);
   padding: $padding-content;
   border-color: rgba(255, 167, 0, 0.6);
 }
 
+.box-2-body {
+  padding: $padding-content;
+  background: $yellow-lighter;
+}
+
+// jQueryUI-Popup like class
+// -------------------------------------
+
+$box-3-padding-outer: 22px;
+
+.box-3 {
+  @extend .box-2;
+  @extend .box-3-bg;
+  padding: 0 $box-3-padding-outer $box-3-padding-outer;
+}
+
+.box-3-header {
+  @extend .box-3-bg;
+  min-height: $box-3-padding-outer;
+}
+
+.box-3-bg {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.box-3-body {
+  @extend .box-2-body;
+  background: white;
+  border: 1px solid #eceded;
+}
+
+/**
+ * makes arbitrary child of .box-3 a .box-3-body element
+ */
+.box-3 > * {
+  @extend .box-3-body;
+  @include box-sizing(border-box);
+}

@@ -1,12 +1,21 @@
-.ui-widget-header {
+.ui-widget {
   background: none;
+}
+
+.ui-widget-header {
+  @extend .box-3-header;
   border: none;
 }
 
-.ui-dialog {
-  @extend .t-contentbox-bg;
+.ui-widget-content.ui-dialog-content > * {
+  margin-bottom: 0;
+  box-shadow: none;
 }
 
 .ui-widget-content.ui-dialog-content {
-  @extend .t-contentbox;
+  @extend .box-3;
+}
+
+.jqueryUi-closethick-fix:before {
+  content: '\f00d' !important;
 }

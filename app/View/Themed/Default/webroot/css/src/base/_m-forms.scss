@@ -10,7 +10,8 @@ input, textarea {
   /* chrome in linux */
   outline-color: $saito_accent_dark;
   max-width: 60em;
-  }
+  margin-bottom: 0.5em;
+}
 
 input[type=checkbox], input[type=radio] {
 	width: auto;
@@ -26,19 +27,24 @@ input[type=text], input[type=password], textarea {
   }
 
 div.input, div.required, div.submit {
-  padding-bottom: 0.5em;
-  }
+  margin-bottom: 0.5em;
+}
+
 form > div.box-form, form > div.box-content {
   padding: 0;
   }
 
 form div.submit {
-  display: inline;
+  // display: inline;
   }
 
 label, .label {
   margin-bottom: 3px;
 	}
+
+.input-last {
+  margin-bottom: 0;
+}
 
 /* formating required fields
 // ----------------------------------- */

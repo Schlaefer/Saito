@@ -356,9 +356,7 @@ body { min-width: 768px; }
 
 .markItUp .preview a { background-image: url(images/preview.png); }
 
-.c_markitup_label { padding: 0.5em; }
-
-form .c_markitup_popup_txta { width: 96%; padding: 2%; }
+form .c_markitup_popup_txta { width: 100%; padding: 2%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 .markItUp { outline: none; }
 
@@ -561,20 +559,20 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 .thread_inline .btn_back_l, .thread_inline .btn_top_l { float: left; }
 
 /******************************************************************************* Forms *****************************************************************************/
-input, textarea, .markItUpPreviewFrame { padding: 0.2em 0.5em; border: 1px solid #aaaaaa; width: 98%; /* chrome in linux */ outline-color: #607d86; max-width: 60em; }
+input, textarea, .markItUpPreviewFrame { padding: 0.2em 0.5em; border: 1px solid #aaaaaa; width: 98%; /* chrome in linux */ outline-color: #607d86; max-width: 60em; margin-bottom: 0.5em; }
 
 input[type=checkbox], input[type=radio] { width: auto; margin-bottom: 0.5em; margin-right: 0.5em; }
 
 /* inset shadow for text fiedls */
 input[type=text], input[type=password], textarea, .markItUpPreviewFrame { border-color: #aaaaaa; display: block; }
 
-div.input, div.required, div.submit { padding-bottom: 0.5em; }
+div.input, div.required, div.submit { margin-bottom: 0.5em; }
 
 form > div.box-form, form > div.entry.add, form > div.entry.reply, form > div.box-content, form > div.disclaimer-inside { padding: 0; }
 
-form div.submit { display: inline; }
-
 label, .label { margin-bottom: 3px; }
+
+.input-last { margin-bottom: 0; }
 
 form .required { font-weight: bold; }
 
@@ -808,7 +806,7 @@ a.no-color, .no-color { color: #6f6f6f; }
   .postingform_main { width: 490px; } }
 @media only screen and (device-width: 768px) and (orientation: landscape) { body, html { /* don't touch it! */ /*		width: 980px;*/ /*		min-width: 980px;*/ } }
 /******************************************************************************/
-.ui-widget { font-family: inherit; }
+.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget .markItUpPreviewFrame, .ui-widget button { font-family: inherit; }
 
 .ui-widget-content a { color: #e74a00; }
 
