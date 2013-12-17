@@ -6,7 +6,7 @@
 		<?php if (isset($CurrentUser) && !$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
 			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
-	<div style ="min-height: 100%; position: relative;">
+	<div class="body">
 		<div id="top" class="l-top hero">
 			<div class="l-top-right hero-text">
 				<?php echo Stopwatch::start('header_search.ctp'); ?>

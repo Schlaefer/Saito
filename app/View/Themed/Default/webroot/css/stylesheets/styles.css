@@ -272,6 +272,8 @@ html, body { height: 100%; }
 
 body { min-width: 768px; }
 
+.body { min-height: 100%; position: relative; }
+
 #l-flash-container { /* make left/right same value as #content margin */ margin: 10px 20px; }
 
 /******************************************************************************* Susy *****************************************************************************/
