@@ -3,15 +3,20 @@
 // Slidetabs like class
 // -------------------------------------
 
+.box-2-bg {
+  background: rgba(255, 255, 200, 0.6);
+}
+
 .box-2 {
-  background: rgba(255, 255, 255, 0.6);
+  @extend .box-2-bg;
   padding: $padding-content;
   border-color: rgba(255, 167, 0, 0.6);
 }
 
 .box-2-body {
-  padding: $padding-content;
+  padding: $padding;
   background: $yellow-lighter;
+  border: none;
 }
 
 // jQueryUI-Popup like class
@@ -31,13 +36,11 @@ $box-3-padding-outer: 22px;
 }
 
 .box-3-bg {
-  background: rgba(255, 255, 255, 0.9);
+  @extend .box-2-bg;
 }
 
 .box-3-body {
   @extend .box-2-body;
-  background: white;
-  border: 1px solid #eceded;
 }
 
 /**

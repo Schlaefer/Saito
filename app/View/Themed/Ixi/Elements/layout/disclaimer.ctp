@@ -1,4 +1,4 @@
-<div class="l-disclaimer bp-threeColumn">
+<div class="l-disclaimer">
 	<div class="left">
 		<div class="disclaimer-inside">
 			<h3><?= __('Ressources') ?></h3>

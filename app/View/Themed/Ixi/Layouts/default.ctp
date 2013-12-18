@@ -11,7 +11,7 @@
 		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
 			<?php echo $this->element('users/login_modal'); ?>
 		<?php endif; ?>
-	<div style ="min-height: 100%; position: relative;">
+	<div class="body">
 		<div id="macnemo-support">
 			<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden" class="pill pill-top">
 				Unterstützen

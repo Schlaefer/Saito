@@ -10,16 +10,18 @@ $orange: #ffa70e;
 $orange-darker: #fe5603;
 $color-info: #505050;
 
-$padding: 10px;
+$padding: 8px;
 $padding-content: 16px;
-$padding-body: 2 * $padding-content;
+$padding-body: 38px;
 
 // reset
 // -------------------------------------
 
-#top, .navbar, .disclaimer, .top-menu {
-  background: none;
+#top, .navbar, .disclaimer, .top-menu, .btn, .disclaimer-inside {
   border: none;
+  box-shadow: none;
+  background: none;
+  text-shadow: none;
 }
 
 #top, .l-top-left {
@@ -38,9 +40,6 @@ $padding-body: 2 * $padding-content;
 }
 
 .btn {
-  border: none;
-  box-shadow: none;
-  background: none;
   padding: 0;
   margin: 0;
 }
@@ -64,9 +63,17 @@ $padding-body: 2 * $padding-content;
 
 body {
   background: $yellow;
+}
+
+/**
+ * 1: workaround for no background positioning for <body> in iOS Webkit
+ */
+.body {
+  /* 1 */
+  background-position: 50% 5px;
   background-image: image-url('bb.svg');
   background-repeat: no-repeat;
-  background-position: 50% 5px;
+
 }
 
 body, input, textarea, .markItUpPreviewFrame, button {
@@ -116,7 +123,7 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
 }
 
 .l-top-right {
-  right: 33px;
+  right: $padding-body;
   top: 19px;
   padding: 0;
 
@@ -150,7 +157,11 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
   @extend .pill;
   @extend .pill-top;
   @extend .pill-invert;
-  margin-left: 23px;
+  margin-left: 30px;
+
+  padding: 0.1em 0.6em !important;
+  font-size: 120%;
+  margin-top: -2px;
 
   &.btnLink {
     color: $orange;
@@ -265,10 +276,15 @@ li.threadnew .span_post_type, li.replynew .span_post_type {
   }
 }
 
+.l-disclaimer {
+  padding: $padding $padding-body;
+}
+
 .disclaimer-inside {
   border: none;
   box-shadow: none;
   background: #fff5cf;
+  margin: $padding-content 0;
 
   a {
     border-bottom: none;
