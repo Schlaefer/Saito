@@ -164,7 +164,8 @@ EOF;
 			$this->_nextCssId++;
 
 			$bbcode['Smilies'] = [
-				'name' => 'Smilies',
+				'name' => "<i class='fa fa-s-smile-o'></i>",
+				'title' => __('Smilies'),
 				'className' => 'btn-markItUp-Smilies',
 				'dropMenu' => $_smiliesPacked
 			];
