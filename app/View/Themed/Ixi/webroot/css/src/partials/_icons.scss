@@ -52,3 +52,10 @@
     content: "\0070";
   }
 }
+
+.fa-s-smile-o {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\0073";
+  }
+}
