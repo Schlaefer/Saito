@@ -4,8 +4,11 @@
 		echo $this->Html->css('stylesheets/static.css');
 		echo $this->Html->css('../theme/Default/css/stylesheets/styles.css');
 		echo $this->Html->css('stylesheets/theme');
+
+		echo $this->Layout->appleTouchIcon([241], ['size' => false]);
+		echo $this->Layout->appleTouchIcon([57, 76, 120, 152, 241]);
+		echo $this->Layout->androidTouchIcon([241]);
 	?>
-		<link rel="apple-touch-icon" href="<?php echo $this->request->webroot . 'theme' . DS . $this->theme . DS . IMAGES_URL . 'apple-touch-icon-precomposed.png'; ?>"/>
 	</head>
 	<body>
 		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
