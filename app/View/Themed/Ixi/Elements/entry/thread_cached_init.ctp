@@ -44,7 +44,7 @@
 		 */
 ?>
 <div class="thread_box" data-id="<?= $entry_sub['Entry']['id'] ?>">
-	<div class='tree_thread box-content'>
+	<div class='threadBox-body box-content'>
 		<div class="thread_tools">
 			<?php if ($level === 0) : ?>
 			<?php if ($this->EntryH->isPinned($entry_sub) &&

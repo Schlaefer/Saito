@@ -541,9 +541,10 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 /** thread slider  1: margin px left because of huge vertical close button 2: inline-open box shall not run under open slidetabs */
 .t_s { margin: 0px 0px 0px 25px; /* 1 */ border: 1px #eaeaea solid; overflow: hidden; /* 2 */ }
 
-.tree_thread { padding: 0 1em 0.8em; }
-.tree_thread ul { margin: 0 0 0 25px; }
-.tree_thread ul.root { margin-left: 0; }
+.threadBox-body { padding: 0 1em 0.8em; }
+
+.threadTree-node { margin: 0 0 0 25px; }
+.threadTree-node.root { margin-left: 0; }
 
 .t_cbe { margin-left: 18px; }
 

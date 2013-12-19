@@ -85,15 +85,18 @@ ul.deep-reply {
   overflow: hidden; /* 2 */
 }
 
-.tree_thread {
+.threadBox-body {
   padding: 0 1em 0.8em;
-  ul {
-    margin: 0 0 0 $subthread-margin;
-  }
-  ul.root {
+}
+
+.threadTree-node {
+  margin: 0 0 0 $subthread-margin;
+
+  &.root {
     margin-left: 0;
   }
 }
+
 .t_cbe {
   margin-left: 18px;
 }
