@@ -22,7 +22,7 @@
 						'embedly_enabled' => (bool)Configure::read('Saito.Settings.embedly_enabled'),
 						'editPeriod' => (int)Configure::read('Saito.Settings.edit_period'),
 						'notificationIcon' => $this->assetUrl(
-									'apple-touch-icon-precomposed.png',
+									'html5-notification-icon.png',
 									[
 										'pathPrefix' => Configure::read('App.imageBaseUrl'),
 										'fullBase' => true
