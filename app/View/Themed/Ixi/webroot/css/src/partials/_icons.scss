@@ -3,16 +3,6 @@
 @include font-face('theme-iconsregular',
   inline-font-files('theme-icons-webfont.woff', woff));
 
-/*
-@font-face {
-  font-family: 'theme-iconsregular';
-  src: ('../../font/theme-icons-webfont.woff') format('woff'),
-  url('../../font/theme-icons-webfont.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-*/
-
 .macnemo-theme-icons {
   font-family: theme-iconsregular;
   font-size: 120%;
@@ -36,6 +26,14 @@
   @extend .macnemo-theme-icons;
   &:before {
     content: "\0065";
+  }
+}
+
+.fa-refresh {
+  @extend .macnemo-theme-icons;
+  font-size: 160%;
+  &:before {
+    content: "\0072";
   }
 }
 

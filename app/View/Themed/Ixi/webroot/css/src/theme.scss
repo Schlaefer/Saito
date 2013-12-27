@@ -1,7 +1,9 @@
 // setup
 // -------------------------------------
 
+@import "compass/css3/images";
 @import "compass/typography/links/link-colors";
+@import "compass/css3/border-radius";
 @import "compass/css3/box-sizing";
 
 $yellow-lighter: rgb(255, 255, 240);
@@ -60,6 +62,8 @@ button::-moz-focus-inner {
 .box-shadow-inset, input[type=text], input[type=password], textarea, .markItUpPreviewFrame, .btn_search_header {
   outline-color: $orange;
   box-shadow: none;
+  // reset inner shadow from Mobile Safari iOS
+  -webkit-appearance: none;
 }
 
 // theme
@@ -69,6 +73,10 @@ button::-moz-focus-inner {
 @import "partials/_pill";
 @import "partials/_icons";
 @import "partials/_jqueryui";
+
+html {
+  overflow-y: scroll;
+}
 
 body {
   background: $yellow;
@@ -83,9 +91,6 @@ body {
   background-image: image-url('bb.svg');
   background-repeat: no-repeat;
 
-}
-
-body, input, textarea, .markItUpPreviewFrame, button {
 }
 
 #content {
@@ -140,7 +145,7 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   padding: 0;
 
   form {
-    width: 216px;
+    width: 212px;
   }
 }
 
@@ -179,7 +184,7 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   @extend .pill;
   @extend .pill-top;
   @extend .pill-invert;
-  margin-left: 30px;
+  margin-left: 29px;
 
   @extend %l-top-menu-item;
 
@@ -201,7 +206,6 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 
 #macnemo-support {
   text-align: center;
-  //
   margin-top: -1px;
   height: 23px;
   @include box-sizing(border-box);
@@ -232,7 +236,7 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   height: 100%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  padding: 0.3em 2em !important;
+  padding: 0.3em $padding-content !important;
   font-weight: bold;
 }
 
@@ -240,46 +244,6 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 }
 
 .navbar-right {
-}
-
-.slidetab {
-  margin-top: 2px;
-  margin-bottom: $padding-content - 2px;
-}
-
-.slidetab-tab, .slidetab-outer {
-  text-shadow: none;
-}
-
-.slidetab-tab {
-  border-color: $orange;
-  margin-top: $padding-content - 4px;
-  background: $orange;
-  color: white;
-  border-top-left-radius: $pill-border-radius;
-  border-bottom-left-radius: $pill-border-radius;
-}
-
-.slidetab-header {
-  color: adjust-color($color-info, $lightness: 20%);
-  margin: -0.5em 0 0.5em 0;
-  font-size: 110%;
-}
-
-.slidetab-outer {
-  @extend .box-2;
-}
-
-.slidetab-content {
-  @extend .box-2-body;
-}
-
-.slidetab-userlist-icon {
-  padding-left: 0;
-}
-
-#shoutbox-input {
-  width: 206px;
 }
 
 .box-content {
@@ -342,27 +306,71 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   display: none;
 }
 
-/*
-.markItUp .btn-markItUp-Smilies {
-  ul {
-    width: 260px;
-    z-index: 1;
-    margin: -21px 0 0 -2px;
-    li {
-      min-width: 0px;
-      margin: 0px;
-      a {
-        background-position: 9px 9px;
-        height: 32px;
-        width: 32px;
-        padding: 0px;
-      }
-    }
-  }
+// Slidetabs
+// -------------------------------------
 
-  > a {
-    background: image_url('markitup/spr_toolbar.png') 0px -384px no-repeat;
-    text-indent: -10000px;
-  }
+.slidetab {
+  margin-top: 2px;
+  margin-bottom: $padding-content - 2px;
 }
-*/
+
+.slidetab-tab, .slidetab-outer {
+  text-shadow: none;
+}
+
+.slidetab-tab {
+  border-color: $orange;
+  margin-top: $padding-content - 4px;
+  background: $orange;
+  color: white;
+  border-top-left-radius: $pill-border-radius;
+  border-bottom-left-radius: $pill-border-radius;
+}
+
+.slidetab-header {
+  color: adjust-color($color-info, $lightness: 20%);
+  margin: -0.5em 0 0.5em 0;
+  font-size: 110%;
+}
+
+.slidetab-outer {
+  @extend .box-2;
+}
+
+.slidetab-content {
+  @extend .box-2-body;
+}
+
+.slidetab-userlist-icon {
+  padding-left: 0;
+}
+
+$slidetabUserlistCounter-size: 14px;
+#slidetabUserlist-counter {
+  background: #ff5600;
+  @include border-radius($slidetabUserlistCounter-size / 2 + 1);
+  min-width: $slidetabUserlistCounter-size;
+  min-height: $slidetabUserlistCounter-size;
+  border: none;
+}
+
+.slidetabUserlist-counter-inner {
+  line-height: $slidetabUserlistCounter-size;
+}
+
+#shoutbox-input {
+  width: 206px;
+  margin-bottom: 0;
+}
+
+#shoutbox-add {
+  margin-bottom: 0;
+}
+
+// Posting Form
+// -------------------------------------
+
+.postingform .bp-threeColumn {
+  // Buttons linksbündig mit Textfeld
+  margin-left: -1em;
+}

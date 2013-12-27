@@ -1,5 +1,10 @@
 .ui-dialog {
   box-shadow: none;
+
+  input, textarea {
+    max-width: 100%;
+    @include box-sizing(border-box);
+  }
 }
 
 .ui-widget {

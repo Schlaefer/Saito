@@ -15,7 +15,7 @@
    id="svg5496"
    sodipodi:version="0.32"
    inkscape:version="0.48.4 r9943 custom"
-   sodipodi:docname="theme-icons.inkscape.svg"
+   sodipodi:docname="theme-icons-master.inkscape.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <metadata
      id="metadata5594">
@@ -42,11 +42,11 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="0.92705971"
-     inkscape:cx="322.6645"
-     inkscape:cy="406.12457"
-     inkscape:window-x="0"
+     inkscape:cx="196.99838"
+     inkscape:cy="492.4189"
+     inkscape:window-x="1"
      inkscape:window-y="22"
-     inkscape:current-layer="layer11"
+     inkscape:current-layer="layer2"
      inkscape:window-maximized="0">
     <sodipodi:guide
        orientation="horizontal"
@@ -288,9 +288,19 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Smile">
+    <path
+       style="fill:#636363"
+       inkscape:connector-curvature="0"
+       d="m 456.58474,397.4767 c 0,126.48801 -102.5302,229.06935 -229.06936,229.06935 C 101.00181,626.57162 -1.57953,523.96471 -1.57953,397.4767 c 0,-126.51358 102.58134,-229.06935 229.06935,-229.06935 126.56472,0 229.09492,102.55577 229.09492,229.06935 z M 86.402124,430 c 0,0 57.836236,97.26307 138.812086,97.26307 C 306.19006,527.26307 368.62865,430 368.62865,430 H 86.402124 z m 42.520626,-56.96691 h 63.56361 v -91.33114 h -63.56361 v 91.33114 z m 136.17852,0 h 61.05789 v -91.33114 h -61.05789 v 91.33114 z"
+       id="path3117" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="layer12"
      inkscape:label="popcorn"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <g
        id="g4430"

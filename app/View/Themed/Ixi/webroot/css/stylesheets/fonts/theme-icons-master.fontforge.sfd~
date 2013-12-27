@@ -680,12 +680,11 @@ EndSplineSet
 Validated: 33
 EndChar
 
-StartChar: Reload
-Encoding: 6 114 7
+StartChar: NameMe.6
+Encoding: 6 -1 7
 Width: 1792
 VWidth: 0
-HStem: 153.054 125.206<541.268 773.017> 1193.73 125.194<531.776 897.434>
-VStem: 132.822 125.193<554.278 919.938> 1173.49 125.195<614.067 913.139>
+Flags: HO
 LayerCount: 2
 Fore
 SplineSet
@@ -707,7 +706,6 @@ SplineSet
  392.623 153.061 132.822 415.482 132.822 737.297 c 4
  132.822 1059.04 392.6 1318.93 714.451 1318.93 c 4
 EndSplineSet
-Validated: 524289
 EndChar
 EndChars
 EndSplineFont

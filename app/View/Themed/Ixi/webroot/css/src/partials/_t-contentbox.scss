@@ -2,7 +2,10 @@
 // -------------------------------------
 
 .box-2-bg {
-  background: rgba(255, 255, 255, 0.9);
+  @include background(
+    linear-gradient(top, rgba(255,255, 200, 1), rgba(255, 255, 200, 0.37) 28px, rgba(255, 255, 200, 0) 33px),
+    rgba(255, 255, 200, 0.6)
+  );
 }
 
 %box-2-border {
@@ -17,7 +20,7 @@
 
 .box-2-body {
   padding: $padding;
-  background: white;
+  background: rgb(255, 255, 240);
   border: none;
 }
 
@@ -44,10 +47,12 @@ $box-3-padding-outer: 22px;
 
 .box-3-bg {
   @extend .box-2-bg;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .box-3-body {
   @extend .box-2-body;
+  background: white;
 }
 
 /**
