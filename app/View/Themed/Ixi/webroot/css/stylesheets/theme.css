@@ -75,6 +75,8 @@ a, a.textlink, .btnLink, li.thread .span_post_type, li.reply .span_post_type { c
 
 li.threadnew .span_post_type, li.replynew .span_post_type { color: #333333; }
 
+li.actthread .span_post_type, li.actreply .span_post_type { color: #df0000; }
+
 .body-padding, #content, #topnav, #bottomnav, #top, .top-menu { padding-left: 38px; padding-right: 38px; }
 
 .btn-submit { background: #fe5603; }
