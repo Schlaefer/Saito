@@ -16,7 +16,7 @@
 		<?php endif; ?>
 	<div class="body">
 		<div id="macnemo-support">
-			<a href="/wiki/Main/Unterst%c3%bctzen" title="Spenden" class="pill pill-top">
+			<a id="macnemo-support-content" href="/wiki/Main/Unterst%c3%bctzen" title="Spenden" class="pill pill-top">
 				Unterstützen
 			</a>
 		</div>

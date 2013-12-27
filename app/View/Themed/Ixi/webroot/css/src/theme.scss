@@ -2,6 +2,7 @@
 // -------------------------------------
 
 @import "compass/typography/links/link-colors";
+@import "compass/css3/box-sizing";
 
 $yellow-lighter: rgb(255, 255, 240);
 $yellow: #ffed9f;
@@ -16,6 +17,12 @@ $padding-body: 38px;
 
 // reset
 // -------------------------------------
+
+// remove default FF button padding
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
 
 #top, .navbar, .disclaimer, .top-menu, .btn, .disclaimer-inside {
   border: none;
@@ -42,6 +49,7 @@ $padding-body: 38px;
 .btn {
   padding: 0;
   margin: 0;
+  border: none;
 }
 
 .box-shadow-inset, input[type=text], input[type=password], textarea, .markItUpPreviewFrame, .btn_search_header {
@@ -100,12 +108,10 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   @include link-colors(#DF0000);
 }
 
-.btn {
+.btn, .btn:hover, .btn:active, .btn:focus {
   @extend .pill;
-
-  &:hover {
-    @extend .pill;
-  }
+  border: none;
+  box-shadow: none;
 }
 
 .body-padding  {
@@ -115,8 +121,9 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 
 .btn-submit {
   background: $orange-darker;
-  &:hover {
+  &:hover, &:active, &:focus {
     background: $orange-darker;
+    box-shadow: none;
   }
 }
 
@@ -132,7 +139,7 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   padding: 0;
 
   form {
-    width: 218px;
+    width: 216px;
   }
 }
 
@@ -156,6 +163,16 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   display: none;
 }
 
+%l-top-menu-item {
+  // don't show empty border on top in FF
+  margin-top: -1px;
+  // height should be 22px, add 1 px for margin-top: -1px
+  height: 23px;
+  @include box-sizing(border-box);
+
+  padding: 2px 8px !important;
+}
+
 .top-menu-item {
   text-shadow: none !important;
   @extend .pill;
@@ -163,9 +180,12 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   @extend .pill-invert;
   margin-left: 30px;
 
-  padding: 0.1em 0.6em !important;
-  font-size: 120%;
-  margin-top: -2px;
+  @extend %l-top-menu-item;
+
+  & > i {
+    width: 12px;
+    font-size: 120%;
+  }
 
   &.btnLink {
     color: $orange;
@@ -180,10 +200,15 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 
 #macnemo-support {
   text-align: center;
+  //
+  margin-top: -1px;
+  height: 23px;
+  @include box-sizing(border-box);
 }
 
 #macnemo-support-content {
   display: inline-block;
+  @extend %l-top-menu-item;
 }
 
 .navbar-content {
