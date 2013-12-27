@@ -1,3 +1,7 @@
+.ui-dialog {
+  box-shadow: none;
+}
+
 .ui-widget {
   background: none;
 }
@@ -12,6 +16,10 @@
   box-shadow: none;
 }
 
+.ui-dialog.ui-widget-content {
+  @extend %box-3-border;
+}
+
 .ui-widget-content.ui-dialog-content {
   @extend .box-3;
 }
@@ -19,3 +27,10 @@
 .jqueryUi-closethick-fix:before {
   content: '\f00d' !important;
 }
+
+// Smaller close mark
+.jqueryUi-closethick-fix {
+  font-size: 1em !important;
+  bottom: 3px;
+}
+

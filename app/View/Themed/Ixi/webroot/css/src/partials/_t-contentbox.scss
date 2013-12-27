@@ -2,18 +2,22 @@
 // -------------------------------------
 
 .box-2-bg {
-  background: rgba(255, 255, 200, 0.6);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+%box-2-border {
+  border-color: rgba(255, 167, 0, 0.6);
 }
 
 .box-2 {
   @extend .box-2-bg;
+  @extend %box-2-border;
   padding: $padding-content;
-  border-color: rgba(255, 167, 0, 0.6);
 }
 
 .box-2-body {
   padding: $padding;
-  background: $yellow-lighter;
+  background: white;
   border: none;
 }
 
@@ -26,6 +30,11 @@ $box-3-padding-outer: 22px;
   @extend .box-2;
   @extend .box-3-bg;
   padding: 0 $box-3-padding-outer $box-3-padding-outer;
+}
+
+%box-3-border {
+  @extend %box-2-border;
+  border-width: 2px;
 }
 
 .box-3-header {
