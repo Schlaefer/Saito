@@ -49,16 +49,16 @@ define(['views/thread', 'models/thread', 'collections/postings',
           });
 
           it("as answer to threadline 3", function() {
-            expect($('#jasmine-fixtures')).not.toContain('li[data-id=3] + li > ul > li.append');
+            expect($('#jasmine-fixtures')).not.toContain('li[data-id=3] + li > ul.threadTree-node > li.append');
             this.view._appendThreadlineToThread(3, $("<li class='append'></li>"));
-            expect($('#jasmine-fixtures')).toContain('li[data-id=3] + li > ul > li.append');
+            expect($('#jasmine-fixtures')).toContain('li[data-id=3] + li > ul.threadTree-node > li.append');
             expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
           });
 
           it("as answer to threadline 4", function() {
-            expect($('#jasmine-fixtures')).not.toContain('li[data-id=4] + li > ul > li.append');
+            expect($('#jasmine-fixtures')).not.toContain('li[data-id=4] + li > ul.threadTree-node > li.append');
             this.view._appendThreadlineToThread(4, $("<li class='append'></li>"));
-            expect($('#jasmine-fixtures')).toContain('li[data-id=4] + li > ul > li.append');
+            expect($('#jasmine-fixtures')).toContain('li[data-id=4] + li > ul.threadTree-node > li.append');
             expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
           });
 
@@ -70,9 +70,9 @@ define(['views/thread', 'models/thread', 'collections/postings',
           });
 
           it("as answer to threadline 8", function() {
-            expect($('#jasmine-fixtures')).not.toContain('li[data-id=8] + li > ul > li.append');
+            expect($('#jasmine-fixtures')).not.toContain('li[data-id=8] + li > ul.threadTree-node > li.append');
             this.view._appendThreadlineToThread(8, $("<li class='append'></li>"));
-            expect($('#jasmine-fixtures')).toContain('li[data-id=8] + li > ul > li.append');
+            expect($('#jasmine-fixtures')).toContain('li[data-id=8] + li > ul.threadTree-node > li.append');
             expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
           });
         });
