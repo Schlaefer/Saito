@@ -73,6 +73,7 @@ button::-moz-focus-inner {
 @import "partials/_pill";
 @import "partials/_icons";
 @import "partials/_jqueryui";
+@import "partials/_move-da-chicken";
 
 html {
   overflow-y: scroll;
@@ -329,8 +330,11 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 
 .slidetab-header {
   color: adjust-color($color-info, $lightness: 20%);
-  margin: -0.5em 0 0.5em 0;
   font-size: 110%;
+
+  > h4 {
+    margin: -0.5em 0 0.5em 0;
+  }
 }
 
 .slidetab-outer {
