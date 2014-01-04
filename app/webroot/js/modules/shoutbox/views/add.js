@@ -50,6 +50,18 @@ define([
       }, this));
     },
 
+    /**
+     * Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=33654
+     */
+    _firefoxRowFix: function() {
+      if(navigator.userAgent.toLowerCase().indexOf('firefox') === -1) {
+        return;
+      }
+      var _lineHeight = parseFloat(this.textarea.css('line-height')),
+          _lines = this.textarea.attr("rows") * 1;
+      this.textarea.css('height', _lines * _lineHeight);
+    },
+
     serializeData: function() {
       return {
         placeholder: this._placeholder.a
@@ -84,6 +96,7 @@ define([
 
     onShow: function() {
       this.textarea = this.$('#shoutbox-input');
+      this._firefoxRowFix();
       this.textarea.autosize();
       this._setPlaceholder();
       $(window).keydown(_.bind(function(event) {
