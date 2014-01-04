@@ -8,7 +8,9 @@
 		echo $this->Layout->appleTouchIcon([241], ['size' => false]);
 		echo $this->Layout->appleTouchIcon([57, 76, 120, 152, 241]);
 		echo $this->Layout->androidTouchIcon([241]);
+		// keep classic favicon last, or Firefox will pick up shortcut icon
 	?>
+		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 	</head>
 	<body>
 		<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>

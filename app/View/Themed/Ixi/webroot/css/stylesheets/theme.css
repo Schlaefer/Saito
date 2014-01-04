@@ -215,6 +215,8 @@ li.actthread .span_post_type, li.actreply .span_post_type { color: #df0000; }
 
 #shoutbox-add { margin-bottom: 0; }
 
+.shoutbox-shout-old { color: #5a5a5a; }
+
 .postingform .bp-threeColumn { margin-left: -1em; }
 
 @-moz-document url-prefix() { textarea { height: 1em; } }
