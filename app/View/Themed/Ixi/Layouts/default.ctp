@@ -84,15 +84,21 @@
 			</div>
 		</div>
 	</div>
-	<div class="disclaimer" style="overflow:hidden;">
-		<?php
-			if( isset($showDisclaimer) ) {
-				Stopwatch::start('layout/disclaimer.ctp');
-				echo $this->element('layout/disclaimer');
-				Stopwatch::stop('layout/disclaimer.ctp');
-			}
-		?>
-	</div>
+	<?php
+		if (isset($showDisclaimer)) {
+	?>
+		<style>body > .body { margin-bottom: 374px; } </style>
+		<div class="disclaimer" style="overflow:hidden;">
+			<?php
+					Stopwatch::start('layout/disclaimer.ctp');
+					echo $this->element('layout/disclaimer');
+					Stopwatch::stop('layout/disclaimer.ctp');
+			?>
+		</div>
+		&nbsp;
+	<?php
+		}
+	?>
   <?php echo $this->element('layout/html_footer'); ?>
 	<div class="app-prerequisites-warnings">
 		<noscript>

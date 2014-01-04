@@ -6,7 +6,7 @@ button::-moz-focus-inner { border: 0; padding: 0; }
 
 #top, .l-top-left { height: auto; padding: 0; margin: 0; }
 
-#topnav, #bottomnav { box-shadow: none; }
+#topnav, #bottomnav { box-shadow: none; height: inherit; }
 
 #top, .l-top-right { margin: 0; padding: 0 16px; }
 
@@ -115,10 +115,10 @@ img[src*="gacker_large.svg"]:hover { -webkit-animation-name: move-da-chicken; -w
 
 html { overflow-y: scroll; }
 
-body { background: #ffed9f; }
+body { background: #ffed9f; -webkit-tap-highlight-color: rgba(253, 184, 18, 0.4); }
 
 /** 1: workaround for no background positioning for <body> in iOS Webkit */
-.body { /* 1 */ background-position: 50% 5px; background-image: url('../../img/bb.svg'); background-repeat: no-repeat; }
+body > .body { background: #ffed9f; /* 1 */ background-position: 50% 5px; background-image: url('../../img/bb.svg'); background-repeat: no-repeat; }
 
 #content { padding-bottom: 30px; }
 
@@ -132,8 +132,8 @@ li.actthread .span_post_type, li.actreply .span_post_type { color: #df0000; }
 
 .body-padding, #content, #topnav, #bottomnav, #top, .top-menu { padding-left: 38px; padding-right: 38px; }
 
-.btn-submit { background: #fe5603; }
-.btn-submit:hover, .btn-submit:active, .btn-submit:focus { background: #fe5603; box-shadow: none; }
+.btn-submit, .btn-submit[disabled] { background: #fe5603; color: white; }
+.btn-submit:hover, .btn-submit:active, .btn-submit:focus, .btn-submit[disabled]:hover, .btn-submit[disabled]:active, .btn-submit[disabled]:focus { background: #fe5603; box-shadow: none; }
 
 #top { padding-left: 0; height: 63px; }
 
@@ -177,6 +177,8 @@ li.actthread .span_post_type, li.actreply .span_post_type { color: #df0000; }
 .macnemo-thread-pinned { position: absolute; left: 0; width: 100%; text-align: center; margin-top: -9px; }
 .macnemo-thread-pinned img { height: 11px; }
 
+.disclaimer { position: fixed; bottom: 0; z-index: -100; width: 100%; }
+
 .l-disclaimer { padding: 8px 38px; }
 
 .disclaimer-inside { border: none; box-shadow: none; background: #fff5cf; margin: 16px 0; }
@@ -185,6 +187,10 @@ li.actthread .span_post_type, li.actreply .span_post_type { color: #df0000; }
 .box-header { display: none; }
 
 .preview { border-top: 1px solid #dcdcdc; }
+
+.l-button_mod_panel-wrapper { padding-top: 0; }
+
+.entry.view .js-buttons i { vertical-align: text-bottom; }
 
 .markItUp a:link, .markItUp a:visited { color: #636363; }
 
@@ -210,3 +216,5 @@ li.actthread .span_post_type, li.actreply .span_post_type { color: #df0000; }
 #shoutbox-add { margin-bottom: 0; }
 
 .postingform .bp-threeColumn { margin-left: -1em; }
+
+@-moz-document url-prefix() { textarea { height: 1em; } }

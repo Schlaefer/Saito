@@ -46,6 +46,7 @@ button::-moz-focus-inner {
 
 #topnav, #bottomnav {
   box-shadow: none;
+  height: inherit;
 }
 
 #top, .l-top-right {
@@ -81,17 +82,18 @@ html {
 
 body {
   background: $yellow;
+  -webkit-tap-highlight-color: rgba(253, 184, 18, 0.4);
 }
 
 /**
  * 1: workaround for no background positioning for <body> in iOS Webkit
  */
-.body {
+body > .body {
+  background: $yellow;
   /* 1 */
   background-position: 50% 5px;
   background-image: image-url('bb.svg');
   background-repeat: no-repeat;
-
 }
 
 #content {
@@ -115,7 +117,7 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   @include link-colors(#DF0000);
 }
 
-.btn, .btn:hover, .btn:active, .btn:focus {
+.btn, .btn:hover, .btn:active, .btn:focus{
   @extend .pill;
   border: none;
   box-shadow: none;
@@ -126,8 +128,9 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   padding-right: $padding-body;
 }
 
-.btn-submit {
+.btn-submit, .btn-submit[disabled]  {
   background: $orange-darker;
+  color: white;
   &:hover, &:active, &:focus {
     background: $orange-darker;
     box-shadow: none;
@@ -271,6 +274,13 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   }
 }
 
+.disclaimer {
+  position: fixed;
+  bottom: 0;
+  z-index: -100;
+  width: 100%
+}
+
 .l-disclaimer {
   padding: $padding $padding-body;
 }
@@ -294,6 +304,14 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 
 .preview {
   border-top: 1px solid #dcdcdc;
+}
+
+.l-button_mod_panel-wrapper {
+  padding-top: 0;
+}
+
+.entry.view .js-buttons i {
+  vertical-align: text-bottom;
 }
 
 // markItUp
@@ -377,4 +395,10 @@ $slidetabUserlistCounter-size: 14px;
 .postingform .bp-threeColumn {
   // Buttons linksbündig mit Textfeld
   margin-left: -1em;
+}
+
+@-moz-document url-prefix() {
+  textarea {
+    height: 1em;
+  }
 }
