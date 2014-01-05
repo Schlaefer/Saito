@@ -27,11 +27,12 @@ button::-moz-focus-inner {
 }
 
 .box-shadow, .box-header, .markItUpHeader ul ul, .markItUpHeader,
-.markItUpContainer #topnav, .slidetab-tab, .slidetab-outer {
+.markItUpContainer #topnav, .slidetab-tab, .slidetab-outer, .box-shadow-subtle,
+.box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply  {
   box-shadow: none;
 }
 
-#top, .navbar, .disclaimer, .top-menu, .btn, .disclaimer-inside {
+#top, .navbar, .disclaimer, .top-menu, .btn {
   border: none;
   box-shadow: none;
   background: none;
@@ -224,6 +225,10 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   position: relative;
 }
 
+.navbar-center {
+  font-weight: bold;
+}
+
 #btn-category-chooser > i {
   display: none;
 }
@@ -256,6 +261,10 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 
 .thread_box {
   margin-bottom: $padding-content;
+}
+
+.thread_line-post .fa-thumb-tack {
+  display: none;
 }
 
 .btn-threadCollapse {
@@ -328,6 +337,10 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 // Slidetabs
 // -------------------------------------
 
+#slidetabs {
+  top: 7px;
+}
+
 .slidetab {
   margin-top: 2px;
   margin-bottom: $padding-content - 2px;
@@ -390,7 +403,7 @@ $slidetabUserlistCounter-size: 14px;
 }
 
 .shoutbox-shout-old {
-  color: rgb(90, 90, 90);
+  color: rgb(135, 135, 135);
 }
 
 // Posting Form

@@ -1,4 +1,7 @@
 	<?php
+		// @todo
+		$this->Blocks->set('css', '');
+
 		echo $this->element('layout/html_header');
 
 		echo $this->Html->css('stylesheets/static.css');
@@ -54,7 +57,16 @@
 					<?php echo $this->fetch('headerSubnavLeft'); ?>
 				</div>
 				<div class="navbar-center">
-					<?php echo $this->fetch('headerSubnavCenter'); ?>
+					<?php
+						if ($this->request->controller !== 'entries' ||
+								!in_array($this->request->action, ['mix', 'view'])) {
+							$_navCenter = $this->fetch('headerSubnavCenter');
+							if (empty($_navCenter)) {
+								$_navCenter = $title_for_page;
+							}
+							echo $_navCenter;
+						}
+					?>
 				</div>
 				<div class="navbar-right c_last_child">
 					<?php echo $this->element('layout/header_subnav_right'); ?>
