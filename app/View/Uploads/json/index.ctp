@@ -32,14 +32,6 @@
 			)
 		);
 
-		$current['linkInsert'] = $this->Html->link(
-			__('upload_btn_insert_into_posting'),
-			'#',
-			array(
-				'class' => 'btn btn-submit',
-			)
-		);
-
 		$out[] = $current;
 
 	}
