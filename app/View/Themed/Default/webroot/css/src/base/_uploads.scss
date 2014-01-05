@@ -70,7 +70,7 @@
     .upload_box_footer {
       text-align: center;
       line-height: $bottomHeight - (2 * $local-padding) - 5px;
-      height: $bottomHeight - (2 * $local-padding);
+      height: $bottomHeight - (2 * $local-padding) - 1px;
       padding: $local-padding !important;
     }
 

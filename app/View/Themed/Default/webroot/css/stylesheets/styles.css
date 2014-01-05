@@ -263,7 +263,7 @@ button.btn.btn-mini, input[type="submit"].btn.btn-mini { *padding-top: 1px; *pad
 #upload_index .upload_box_header { position: relative; height: 130px; width: 160px; padding: 5px; display: table-cell; vertical-align: middle; text-align: center; }
 #upload_index .upload_box_image { max-width: 140px; max-height: 110px; border: 1px solid #e0e0e0; padding: 4px; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; background: white; }
 #upload_index .upload_box_delete { position: absolute; z-index: 10; top: -11px; left: -11px; }
-#upload_index .upload_box_footer { text-align: center; line-height: 25px; height: 30px; padding: 5px !important; }
+#upload_index .upload_box_footer { text-align: center; line-height: 25px; height: 29px; padding: 5px !important; }
 #upload_index .upload-drag-indicator, #upload_index .upload-layer { top: 0; left: 0; position: absolute; width: 170px; height: 140px; }
 #upload_index .upload-layer { z-index: 100; opacity: 0; }
 #upload_index .upload-drag-indicator { background: #ffffff; opacity: 0.9; font-size: 70px; line-height: 140px; display: none; }
