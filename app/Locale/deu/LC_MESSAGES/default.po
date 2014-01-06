@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 17:18+0100\n"
-"PO-Revision-Date: 2013-11-22 17:18+0100\n"
+"POT-Creation-Date: 2014-01-06 09:52+0100\n"
+"PO-Revision-Date: 2014-01-06 09:52+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
 "macnemo_2_github/app/\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -128,7 +128,7 @@ msgstr "Kommentieren"
 msgid "back_to_forum_linkname"
 msgstr "Zurück zum Forum"
 
-#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:34
+#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:50
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
@@ -409,22 +409,27 @@ msgid "Apply"
 msgstr "Anwenden"
 
 #: View/Elements/entry/thread_cached_init.ctp:9
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-threadCollapse"
 msgstr "thread zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:11
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-showNewThreads"
 msgstr "neue"
 
 #: View/Elements/entry/thread_cached_init.ctp:12
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-closeThreads"
 msgstr "zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:13
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:13
 msgid "btn-openThreads"
 msgstr "auf"
 
@@ -439,8 +444,8 @@ msgid "views_headline"
 msgstr "Aufrufe"
 
 #: View/Elements/entry/view_posting.ctp:64
-#: View/Elements/layout/header_login.ctp:47
-#: View/Elements/layout/header_login.ctp:50 View/Entries/index.ctp:30
+#: View/Elements/layout/header_login.ctp:67
+#: View/Elements/layout/header_login.ctp:71 View/Entries/index.ctp:30
 #: View/Entries/search.ctp:22 View/Users/view.ctp:163
 msgid "Help"
 msgstr "Hilfe"
@@ -474,32 +479,38 @@ msgstr ""
 "werden!"
 
 #: View/Elements/layout/disclaimer.ctp:4
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:4
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
 msgstr "Ressourcen"
 
 #: View/Elements/layout/disclaimer.ctp:7
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:13
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:13
 #: View/Users/view.ctp:45
 msgid "Contact"
 msgstr "Kontakt"
 
 #: View/Elements/layout/disclaimer.ctp:10
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:7
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:7
 msgid "Mobile"
 msgstr "Mobil"
 
 #: View/Elements/layout/disclaimer.ctp:13
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:22
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:22
 msgid "RSS"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:20
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:32
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:32
 msgid "Status"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:28
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:40
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:40
 msgid ""
 ":entries Entries in :threads Threads; :registred registred users, :loggedin "
@@ -509,47 +520,50 @@ msgstr ""
 "loggedin angemeldet, :anon Gäste."
 
 #: View/Elements/layout/disclaimer.ctp:43
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:55
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:55
 msgid "About"
 msgstr "Über"
 
 #: View/Elements/layout/disclaimer.ctp:46
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:58
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:58
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr "Angetrieben durch Saito v%s."
 
 #: View/Elements/layout/disclaimer.ctp:49
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:61
 #: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:61
 #, php-format
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
-#: View/Elements/layout/header_login.ctp:5 View/Users/register.ctp:6
+#: View/Elements/layout/header_login.ctp:9 View/Users/register.ctp:6
 #: View/Users/register.ctp:78
 msgid "register_linkname"
 msgstr "Registrieren"
 
-#: View/Elements/layout/header_login.ctp:10
-#: View/Elements/layout/header_login.ctp:12
+#: View/Elements/layout/header_login.ctp:14
+#: View/Elements/layout/header_login.ctp:18
 #: View/Elements/users/login_form.ctp:35
 msgid "login_btn"
 msgstr "Einloggen"
 
-#: View/Elements/layout/header_login.ctp:19
+#: View/Elements/layout/header_login.ctp:28
 msgid "Forum Settings"
 msgstr "Forumseinstellungen"
 
-#: View/Elements/layout/header_login.ctp:30 View/Users/edit.ctp:133
+#: View/Elements/layout/header_login.ctp:43 View/Users/edit.ctp:133
 #: View/Users/view.ctp:93 View/Users/view.ctp:132
 msgid "user_profile"
 msgstr "Profil"
 
-#: View/Elements/layout/header_login.ctp:39
+#: View/Elements/layout/header_login.ctp:58
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: View/Elements/layout/header_login.ctp:48
+#: View/Elements/layout/header_login.ctp:68
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
@@ -557,6 +571,17 @@ msgstr "Keine Hilfe für diese Seite verfügbar."
 #: View/Entries/search.ctp:107
 msgid "search_submit"
 msgstr "Suchen"
+
+#: View/Elements/layout/html_footer.ctp:5
+#: View/Themed/Ixi/Layouts/default.ctp:108
+#: View/Themed/Macnemo/Layouts/default.ctp:90
+#, fuzzy
+msgid ""
+"This web-application depends on JavaScript. Please activate JavaScript in "
+"your browser."
+msgstr ""
+"Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
+"Browser."
 
 #: View/Elements/layout/slidetab_recententries.ctp:9
 #, fuzzy
@@ -576,15 +601,20 @@ msgstr "Benutzer"
 msgid "%s online (%s)"
 msgstr "%s anwesend (%s)"
 
-#: View/Elements/layout/slidetab_userlist.ctp:31
+#: View/Elements/layout/slidetab_userlist.ctp:34
 #: View/Helper/UserHHelper.php:117
 msgid "ud_admin"
 msgstr "Administrator"
 
-#: View/Elements/layout/slidetab_userlist.ctp:32
+#: View/Elements/layout/slidetab_userlist.ctp:37
 #: View/Helper/UserHHelper.php:115
 msgid "ud_mod"
 msgstr "Moderator"
+
+#: View/Elements/layout/slidetab_userlist.ctp:40
+#: View/Helper/UserHHelper.php:113
+msgid "ud_user"
+msgstr "Benutzer"
 
 #: View/Elements/users/add_form_core.ctp:4
 msgid "error_name_reserved"
@@ -674,7 +704,7 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:125
+#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:129
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
@@ -688,7 +718,7 @@ msgstr "Neuer Eintrag"
 
 #: View/Entries/index.ctp:31
 msgid "btn_manualy_mark_as_read_shp"
-msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
+msgstr "Alle Einträge als gelesen markieren."
 
 #: View/Entries/merge.ctp:2
 #, php-format
@@ -762,22 +792,13 @@ msgstr "Benutzer"
 #: View/Layouts/admin.ctp:48 View/SmileyCodes/admin_edit.ctp:1
 #: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
 #: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
-#: View/Smilies/admin_index.ctp:3
+#: View/Smilies/admin_index.ctp:3 View/Helper/MarkitupEditorHelper.php:168
 msgid "Smilies"
 msgstr ""
 
 #: View/Layouts/admin.ctp:61
 msgid "Forum"
 msgstr ""
-
-#: View/Layouts/default.ctp:92
-#, fuzzy
-msgid ""
-"This web-application depends on JavaScript. Please activate JavaScript in "
-"your browser."
-msgstr ""
-"Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
-"Browser."
 
 #: View/Pages/rss_feeds.ctp:1
 msgid "RSS Feeds"
@@ -886,25 +907,13 @@ msgstr "Smiley bearbeiten"
 msgid "Admin Edit Smiley"
 msgstr "Admin Smiley bearbeiten"
 
-#: View/Themed/Macnemo/Layouts/default.ctp:93
-msgid ""
-"This web-application needs JavaScript to run. Please activate JavaScript in "
-"your browser."
-msgstr ""
-"Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
-"Browser."
-
 #: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Hochladen"
 
-#: View/Uploads/json/index.ctp:11 View/Uploads/json/index.ctp:16
+#: View/Uploads/json/index.ctp:10 View/Uploads/json/index.ctp:14
 msgid "upload_btn_delete_upload"
 msgstr "Datei löschen"
-
-#: View/Uploads/json/index.ctp:36
-msgid "upload_btn_insert_into_posting"
-msgstr "Einfügen"
 
 #: View/Users/admin_add.ctp:3 View/Users/admin_add.ctp:5
 #: View/Users/admin_add.ctp:9
@@ -1385,8 +1394,8 @@ msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
 #: Controller/EntriesController.php:267
-msgid "new_entry_linktitle"
-msgstr "Neuen Eintrag verfassen"
+msgid "Write a New Entry"
+msgstr "Neuen Beitrag verfassen"
 
 #: Controller/EntriesController.php:322 Controller/EntriesController.php:450
 msgid "Something clogged the tubes. Could not save entry. Try again."
@@ -1397,7 +1406,7 @@ msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
 #: Controller/EntriesController.php:379
-msgid "answer_marking"
+msgid "Write a Reply"
 msgstr "Antwort verfassen"
 
 #: Controller/EntriesController.php:456
@@ -1718,19 +1727,19 @@ msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:122
+#: View/Helper/EntryHHelper.php:126
 msgid "fixed"
 msgstr "Thread fixiert"
 
-#: View/Helper/EntryHHelper.php:130
+#: View/Helper/EntryHHelper.php:134
 msgid "Helpful entry"
 msgstr "Hilfreicher Beitrag"
 
-#: View/Helper/EntryHHelper.php:143
+#: View/Helper/EntryHHelper.php:147
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:146
+#: View/Helper/EntryHHelper.php:150
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
@@ -1819,10 +1828,6 @@ msgstr "Beschreibung"
 msgid "yesterday"
 msgstr "Gestern"
 
-#: View/Helper/UserHHelper.php:113
-msgid "ud_user"
-msgstr "Benutzer"
-
 #: View/Helper/UserHHelper.php:166
 msgid "userranks_not_found"
 msgstr ""
@@ -1831,13 +1836,17 @@ msgstr ""
 msgid "Enter link to media or embedding code:"
 msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben:"
 
-#: webroot/js/templates/mediaInsert.html:12
+#: webroot/js/templates/mediaInsert.html:8
 msgid "Insert"
 msgstr "Einfügen"
 
-#: webroot/js/templates/mediaInsert.html:17
+#: webroot/js/templates/mediaInsert.html:10
 msgid "Nothing recognized."
 msgstr "Nichts erkannt."
+
+#: webroot/js/templates/upload.html:9
+msgid "upload_btn_insert_into_posting"
+msgstr "Einfügen"
 
 #: webroot/js/templates/uploadNew.html:9
 msgid "upload_new_title"
@@ -2622,7 +2631,7 @@ msgstr ""
 
 #: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:583
 #: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:409
-msgid "a <a href=\"#\">link</a><script>alert(\"hello world!\")</scr"
+msgid "a <a href=\"#\">link</a><script>alert(\"hello world!\")</script>"
 msgstr ""
 
 #: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:584
@@ -2715,18 +2724,12 @@ msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 msgid ""
 "Enter link to media or embedding code:') %>\n"
 "    </label>\n"
-"    <textarea name=\"data[media]\" id=\"markitup_media_txta\" class="
-"\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\">\n"
-"    </textarea>\n"
-"    <div class=\"clearfix\"></div>\n"
-"    <br/>\n"
-"    <div class=\"submit\">\n"
-"        <input style=\"float: right;\" class=\"btn btn-submit\"\n"
-"               id=\"markitup_media_btn\" type=\"submit\"\n"
-"               value=\"<%- $.i18n.__('Insert') %>\"/>\n"
-"    </div>\n"
-"    <div class=\"clearfix\"></div>\n"
-"    <br/>\n"
+"    <textarea name=\"data[media]\" id=\"markitup_media_txta\"\n"
+"              class=\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\"></"
+"textarea>\n"
+"    <input class=\"btn btn-submit\" id=\"markitup_media_btn\" type=\"submit"
+"\"\n"
+"           value=\"<%- $.i18n.__('Insert') %>\">\n"
 "    <div id=\"markitup_media_message\" class=\"flash error\" style="
 "\"display: none;\">\n"
 "        <%- $.i18n.__('Nothing recognized.') %>\n"
@@ -2738,6 +2741,14 @@ msgstr ""
 #, fuzzy
 msgid "Multimedia"
 msgstr "Einbinden"
+
+#: webroot/dist/main.js:4 webroot/js/views/prerequisitesTester.js:14
+msgid ""
+"This web-application depends on Cookies and localStorage. Please make those "
+"available in your browser."
+msgstr ""
+"Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren Sie "
+"diese im Browser."
 
 #: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
 msgid "tr:first"
@@ -2755,13 +2766,18 @@ msgstr ""
 msgid "token test"
 msgstr ""
 
-#: webroot/js/views/prerequisitesTester.js:14
-msgid ""
-"This web-application depends on Cookies and localStorage. Please make those "
-"available in your browser."
-msgstr ""
-"Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren Sie "
-"diese im Browser."
+#~ msgid "new_entry_linktitle"
+#~ msgstr "Neuen Eintrag verfassen"
+
+#~ msgid "answer_marking"
+#~ msgstr "Antwort verfassen"
+
+#~ msgid ""
+#~ "This web-application needs JavaScript to run. Please activate JavaScript "
+#~ "in your browser."
+#~ msgstr ""
+#~ "Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript "
+#~ "im Browser."
 
 #~ msgid "Hit ⌃s to focus"
 #~ msgstr "⌃s für Fokus"

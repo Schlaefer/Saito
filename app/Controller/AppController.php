@@ -225,6 +225,10 @@
 				$forumTitle = $pageTitle . ' – ' . $forumTitle;
 			}
 
+			if (!isset($this->viewVars['title_for_page'])) {
+				$this->set('title_for_page', $pageTitle);
+			}
+
 			$this->set('title_for_layout', $forumTitle);
 		}
 

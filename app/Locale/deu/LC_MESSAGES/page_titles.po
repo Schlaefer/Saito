@@ -17,10 +17,6 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #
-msgid "entries/add"
-msgstr "Neuen Eintrag verfassen"
-
-#
 msgid "entries/index"
 msgstr "Forum"
 
