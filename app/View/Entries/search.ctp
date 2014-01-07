@@ -1,3 +1,37 @@
+<?php
+	/**
+	 * Navigation header subnav right
+	 */
+	$this->start('headerSubnavRightTop');
+	if (isset($this->Paginator) && !empty($FoundEntries)) {
+		// Paremters passed by paginator links
+		if (isset($this->passedArgs['search_term'])) {
+			$_options = ['url' => ['search_term' => $this->passedArgs['search_term']]];
+		} else {
+			unset($this->passedArgs['search_term']);
+			$_options = ['url' => array_merge([], $this->passedArgs)];
+		}
+		$this->Paginator->options($_options);
+		if ($this->Paginator->hasPrev()) {
+			echo $this->Paginator->prev(
+				'<i class="fa fa-chevron-left"></i>',
+				['escape' => false],
+				null,
+				['class' => 'disabled']);
+			echo '&nbsp;';
+		}
+		echo $this->Paginator->counter(array('format' => '%page%/%pages%'));
+		if ($this->Paginator->hasNext()) {
+			echo '&nbsp;';
+			echo $this->Paginator->next(
+				'<i class="fa fa-chevron-right"></i>',
+				['escape' => false],
+				null,
+				['class' => 'disabled']);
+		}
+	}
+	$this->end();
+?>
 <div class="entry search">
 	<div class="search_form_wrapper" style="<?php
 if ( isset($this->request->params['data']['Entry']['adv']) ) {
@@ -113,55 +147,25 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
     </div> <!-- content -->
 	</div> <!-- search_form_wrapper_adv -->
 	<div class="search_results box-content">
-<?php if ( isset($this->Paginator) && !empty($FoundEntries) ) : ?>
-			<div class="l-box-header box-header">
-				<div>
-					<div class="c_first_child"></div>
-					<div></div>
-					<div class="c_last_child">
-						<?php
-						/**
-						 * Paremters passed by paginator links
-						 */
-						if ( isset($this->passedArgs['search_term']) ):
-							$this->Paginator->options(array( 'url' => array( 'search_term' => $this->passedArgs['search_term'] ) ));
-						else:
-							unset($this->passedArgs['search_term']);
-							$this->Paginator->options(array( 'url' => array_merge( array( ), $this->passedArgs) ));
-						endif;
-						?>
-						<?php
-						if ( $this->Paginator->hasPrev() )
-							echo $this->Paginator->prev(
-                  '<i class="fa fa-chevron-left"></i>',
-									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
-						?>
-						<?php
-						echo $this->Paginator->counter(array( 'format' => '%page%/%pages%' ));
-						?>
-						<?php
-						if ( $this->Paginator->hasNext() )
-							echo $this->Paginator->next(
-                  '<i class="fa fa-chevron-right"></i>',
-									array( 'escape' => false ), null, array( 'class' => 'disabled' ));
-						?>
-					</div>
-	<?php
-	?>
-					&nbsp;
+		<div class="l-box-header box-header">
+			<div>
+				<div class="c_first_child"></div>
+				<div></div>
+				<div class="c_last_child">
 				</div>
-			</div> <!-- header -->
-				<?php  endif; ?>
+			</div>
+		</div>
+		<!-- header -->
 		<div class="content">
-					<?php  if ( isset($FoundEntries) && !empty($FoundEntries) ) : ?>
+			<?php if (isset($FoundEntries) && !empty($FoundEntries)) : ?>
 				<ul>
-						<?php  foreach ( $FoundEntries as $entry ) : ?>
+					<?php foreach ($FoundEntries as $entry) : ?>
 						<li>
-						<?php echo $this->EntryH->threadCached($entry, $CurrentUser); ?>
+							<?php echo $this->EntryH->threadCached($entry, $CurrentUser); ?>
 						</li>
-				<?php  endforeach; ?>
+					<?php endforeach; ?>
 				</ul>
-<?php else : ?>
+			<?php else : ?>
 				<?php
 				echo $this->element(
 					'generic/no-content-yet',
@@ -170,7 +174,7 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 					)
 				);
 				?>
-<?php endif; ?>
+			<?php endif; ?>
 		</div> <!-- content -->
 	</div> <!-- search_results -->
 </div> <!-- entry_search -->
