@@ -1,0 +1,145 @@
+html, body {
+  height: 100%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body, .btnLink, textarea, input[type=text] {
+  font-family: Cabin;
+  color: $font-color;
+  font-weight: 400;
+  background-color: $background-color;
+}
+
+body {
+  font-size: 1.4em;
+  padding: 0 2 * $padding;
+}
+
+.l-body {
+  min-width: $layout_min_width;
+  @include box-sizing(border-box);
+}
+
+input, textarea {
+  font-size: 1em;
+  padding: 0.5em;
+  @include box-sizing(border-box);
+  outline-color: $outline-color;
+}
+
+body, h1, h2, h3, h4 {
+  line-height: 1.5em;
+}
+
+h1, h2, h3, #hero-home-link {
+  font-size: 1.4em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+.btnLink {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: inherit;
+  font-size: 1em;
+  -webkit-appearance: none;
+}
+
+a, .btnLink {
+  @include unstyled-link;
+  @include link-colors($link-color);
+  cursor: pointer;
+}
+
+hr {
+  border-width: 0;
+  border-bottom: 1px solid $border-color;
+}
+
+header {
+  text-align: center;
+}
+
+body.headerClosed {
+  $_height: 40px;
+
+  .top-menu {
+    display: none;
+  }
+
+  header {
+    margin-left: -2*$padding;
+    margin-right: -2*$padding;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba($background-color, 0.93);
+    height: $_height;
+  }
+
+  #js-top-menu-open {
+    display: block;
+    line-height: $_height;
+    padding: 0 2* $padding;
+  }
+
+  #hero-home-link {
+    padding-top: 0.5 * $padding;
+    padding-bottom: 0.5 * $padding;
+  }
+}
+
+#hero {
+  position: relative;
+  border-bottom: 1px solid $border-color;
+}
+
+#hero-home-link {
+  font-weight: bold;
+  padding: $padding;
+}
+
+#js-top-menu-open {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+.top-menu {
+  border-bottom: 1px solid $border-color;
+}
+
+.top-menu-item {
+  padding: $padding;
+  display: inline-block;
+}
+
+.navbar {
+  padding: $padding 0;
+  @include c_t_h_3_abs;
+}
+
+#content {
+  padding: 0 2 * $padding 50px;
+}
+
+.l-postingform_main {
+  max-width: 60em;
+  margin: 0 auto;
+  .checkbox {
+    white-space: nowrap;
+  }
+}
+.solves-isSolved {
+  color: #008000;
+}
+

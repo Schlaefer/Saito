@@ -15,7 +15,7 @@
   /**
    * Set the theme
    */
-  Configure::write('Saito.theme', 'Ixi');
+  Configure::write('Saito.theme', 'Paz');
 
   /**
    * Add additional buttons to editor

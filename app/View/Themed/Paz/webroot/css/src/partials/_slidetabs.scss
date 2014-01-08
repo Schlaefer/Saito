@@ -1,0 +1,10 @@
+#slidetabs {
+  float: right;
+  position: relative;
+  z-index: 5;
+  margin-right: - 2 * $padding;
+  margin-left: $padding;
+
+  background: $background-color;
+}
+
