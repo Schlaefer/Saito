@@ -229,6 +229,10 @@
 				$this->set('title_for_page', $pageTitle);
 			}
 
+			if (!isset($this->viewVars['forum_name'])) {
+				$this->set('forum_name', Configure::read('Saito.Settings.forum_name'));
+			}
+
 			$this->set('title_for_layout', $forumTitle);
 		}
 
