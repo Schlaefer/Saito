@@ -262,7 +262,7 @@ EOF;
 						'category_acs_' . $entrySub['Category']['accession'] . '_exp');
 				}
 				$a = $this->_catL10n[$entrySub['Category']['accession']];
-				$category = '<span class="category_acs_' . $entrySub['Category']['accession'] . '"
+				$category = '<span class="threadline-category acs-' . $entrySub['Category']['accession'] . '"
             title="' . $entrySub['Category']['description'] . ' ' . ($a) . '">
         (' . $entrySub['Category']['category'] . ')
       </span>';

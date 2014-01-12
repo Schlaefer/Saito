@@ -124,20 +124,24 @@
 
 // categories
 // -------------------------------------
-/* all users/public */
-a.category_acs_0, .category_acs_0 {
+.threadline-category {
   @include link-colors($saito_accent2_dark);
-  font-weight: 600; }
+}
+
+/* all users/public */
+.acs-0 {
+  font-weight: 600;
+}
 
 /* regular users */
-a.category_acs_1, .category_acs_1 {
-  @extend a.category_acs_0;
-  font-variant: small-caps; }
+.acs-1 {
+  font-variant: small-caps;
+}
 
 /* mod and admins */
-a.category_acs_2, .category_acs_2 {
-  @extend a.category_acs_0;
-  background: #d5d5d5; }
+.acs-2 {
+  background: #d5d5d5;
+}
 
 /*******************************************************************************
  * View Posting

@@ -36,7 +36,7 @@
         <?php  endif; ?>
       </span>
 			<?php  if ($entry['Entry']['pid'] == 0) : ?>
-        <span class='category_acs_<?php echo $entry['Category']['accession']; ?>'
+        <span class='threadline-category acs-<?= $entry['Category']['accession']; ?>'
             title="<?php echo $entry['Category']['description']; ?> (<?php echo __d('nondynamic', 'category_acs_'.$entry['Category']['accession'].'_exp'); ?>)">
         (<?php echo $entry['Category']['category']; ?>)
         </span>

@@ -1,5 +1,6 @@
 .l-box-header {
   display: none;
+  @include c_t_h_3_abs();
 }
 
 li.thread .span_post_type, li.reply .span_post_type {
@@ -16,11 +17,6 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   font-weight: bold;
 }
 
-.l-box-header {
-  @include c_t_h_3_abs();
-}
-
-
 .threadTree-node, ul.thread, ul.reply {
   list-style: none;
   margin-top: 0;
@@ -32,10 +28,6 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 
 .thread_line-username {
   font-weight: 500;
-}
-
-.category_acs_0, .category_acs_1, .category_acs_2 {
-  font-weight: normal;
 }
 
 .slidetab {

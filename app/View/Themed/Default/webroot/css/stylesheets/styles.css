@@ -545,7 +545,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 .threadTree-node { margin: 0 0 0 25px; }
 .threadTree-node.root { margin-left: 0; }
 
-.threadBox-tt { margin-left: 18px; }
+.threadBox-threadTree { margin-left: 18px; }
 
 .threadBox { /* user_list und inline view sollen sauber getrennt bleiben */ /*	overflow: hidden; */ }
 
@@ -842,14 +842,16 @@ a.no-color, .no-color { color: #6f6f6f; }
 .disclaimer-inside h1, .disclaimer-inside h2, .disclaimer-inside h3 { font-size: 110%; font-weight: bold; margin-bottom: 0.83em; }
 
 /******************************************************************************* Threads *****************************************************************************/
+.threadline-category { color: #607d86; }
+
 /* all users/public */
-a.category_acs_0, a.category_acs_1, .category_acs_1, a.category_acs_2, .category_acs_2, .category_acs_0 { color: #607d86; font-weight: 600; }
+.acs-0 { font-weight: 600; }
 
 /* regular users */
-a.category_acs_1, .category_acs_1 { font-variant: small-caps; }
+.acs-1 { font-variant: small-caps; }
 
 /* mod and admins */
-a.category_acs_2, .category_acs_2 { background: #d5d5d5; }
+.acs-2 { background: #d5d5d5; }
 
 /******************************************************************************* View Posting *****************************************************************************/
 /******************************************************************************* Tables *****************************************************************************/
