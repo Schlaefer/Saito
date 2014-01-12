@@ -45,7 +45,7 @@ define([
     },
 
     initFromDom: function(options) {
-      $('.thread_box').each(_.bind(function(index, element) {
+      $('.threadBox').each(_.bind(function(index, element) {
         var threadView,
             threadId;
 
@@ -206,7 +206,7 @@ define([
     },
 
     scrollToThread: function(tid) {
-      $('.thread_box[data-id=' + tid + ']')[0].scrollIntoView('top');
+      $('.threadBox[data-id=' + tid + ']')[0].scrollIntoView('top');
     },
 
     initAutoreload: function() {

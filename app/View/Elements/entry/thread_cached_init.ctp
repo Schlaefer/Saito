@@ -39,27 +39,27 @@
 		}
 
 		/*
-		 * for performance reasons we don't use $this->Html->link() in the .thread_box but hardcoded <a>
+		 * for performance reasons we don't use $this->Html->link() in the .threadBox but hardcoded <a>
 		 * this scrapes us up to 10 ms on a 40 threads index page
 		 */
 ?>
-<div class="thread_box" data-id="<?= $entry_sub['Entry']['id'] ?>">
-	<div class='threadBox-body box-content'>
-		<div class="thread_tools">
+<div class="threadBox" data-id="<?= $entry_sub['Entry']['id'] ?>">
+	<div class="threadBox-body box-content">
+		<div class="threadBox-tools">
 			<?php if ($level === 0) : ?>
-					<a href="<?= $this->request->webroot; ?>entries/mix/<?= $entry_sub['Entry']['tid']; ?>" class="btn-thread_tools" rel="nofollow">
+					<a href="<?= $this->request->webroot; ?>entries/mix/<?= $entry_sub['Entry']['tid']; ?>" class="btn-threadBox-tools" rel="nofollow">
 						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
 						&nbsp;
 						&nbsp;
 						<?php if (isset($toolboxButtonsToDisplay['open'])) : ?>
-							<button class="btnLink btn-thread_tools js-btn-openAllThreadlines">
+							<button class="btnLink btn-threadBox-tools js-btn-openAllThreadlines">
 								<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
 							</button>
 						<?php endif; ?>
 						<?php if (isset($toolboxButtonsToDisplay['close'])) : ?>
-							<button class="btnLink btn-thread_tools js-btn-closeAllThreadlines">
+							<button class="btnLink btn-threadBox-tools js-btn-closeAllThreadlines">
 								<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
 							</button>
 						<?php endif; ?>
@@ -72,7 +72,7 @@
 								$tag = 'button';
 							endif;
 						?>
-							<<?= $tag; ?><?php if ($tag === 'button') echo 'href="#"'; ?> class="btn-thread_tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
+							<<?= $tag; ?><?php if ($tag === 'button') echo 'href="#"'; ?> class="btn-threadBox-tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
 									<?php if ($tag === 'button') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
 							</<?= $tag ?>>
 						<?php
@@ -96,7 +96,7 @@
 								style="<?= $_style ?>">
 					<i class="fa fa-thread-open"></i>
 				</button>
-			<div class="t_cbe">
+			<div class="threadBox-threadTree">
 				<?= $out; ?>
 			</div>
 		</div>

@@ -10,7 +10,7 @@ define([
 
   var ThreadView = Backbone.View.extend({
 
-    className: 'thread_box',
+    className: 'threadBox',
 
     events: {
       "click .btn-threadCollapse": "collapseThread",

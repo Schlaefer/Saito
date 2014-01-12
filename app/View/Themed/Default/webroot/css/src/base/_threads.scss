@@ -97,21 +97,21 @@ ul.deep-reply {
   }
 }
 
-.t_cbe {
+.threadBox-threadTree {
   margin-left: 18px;
 }
 
-.thread_box {
+.threadBox {
   /* user_list und inline view sollen sauber getrennt bleiben */
   /*	overflow: hidden; */
 	}
 
-.thread_tools {
-	padding-left: 15px;
-	font-size: 90%;
-	}
+.threadBox-tools {
+  padding-left: 15px;
+  font-size: 90%;
+}
 
-.btnLink.btn-thread_tools, a.btn-thread_tools {
+.btnLink.btn-threadBox-tools, a.btn-threadBox-tools {
 	display: inline-block;
 	padding: 5px 7px 1px;
 	word-spacing: 0;

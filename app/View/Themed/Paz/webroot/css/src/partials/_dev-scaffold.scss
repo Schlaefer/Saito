@@ -57,7 +57,7 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   }
 }
 
-.thread_box {
+.threadBox {
   margin-bottom: 2 * $padding;
 }
 
@@ -65,11 +65,11 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   font-weight: 700;
 }
 
-.thread_tools {
+.threadBox-tools {
   font-size: 0.85em;
 }
 
-.btn-thread_tools {
+.btn-threadBox-tools {
   margin-right: 1em;
 }
 

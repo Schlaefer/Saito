@@ -89,13 +89,13 @@ li.actthread .span_post_type, li.actreply .span_post_type { font-weight: bold; }
 .slidetab ul { list-style: none; padding: 0; }
 .slidetab h4 { margin: 0; }
 
-.thread_box { margin-bottom: 2em; }
+.threadBox { margin-bottom: 2em; }
 
 .thread_line-username { font-weight: 700; }
 
-.thread_tools { font-size: 0.85em; }
+.threadBox-tools { font-size: 0.85em; }
 
-.btn-thread_tools { margin-right: 1em; }
+.btn-threadBox-tools { margin-right: 1em; }
 
 .thread_line-post { font-size: 0.8em; color: #727272; font-weight: normal; }
 
