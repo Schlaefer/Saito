@@ -283,13 +283,6 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   }
 }
 
-.disclaimer {
-  position: fixed;
-  bottom: 0;
-  z-index: -100;
-  width: 100%
-}
-
 .l-disclaimer {
   padding: $padding $padding-body;
 }
