@@ -189,7 +189,7 @@
 
 			// generate current entry
 			$out = <<<EOF
-<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
+<li class="threadLeaf {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
 	<div class="js-thread_line-content tl-cnt">
 		<button href="#" class="btnLink btn_show_thread thread_line-pre span_post_type">
 			{$_threadLinePre}

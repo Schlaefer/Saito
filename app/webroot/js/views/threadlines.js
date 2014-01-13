@@ -15,8 +15,8 @@ define([
 
 		var ThreadLineView = Backbone.View.extend({
 
-			className: 'js-thread_line',
-            tagName: 'li',
+      className: 'threadLeaf',
+      tagName: 'li',
 
 			spinnerTpl: _.template(threadlineSpinnerTpl),
 

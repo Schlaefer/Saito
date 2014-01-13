@@ -62,7 +62,9 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 #slidetabs { float: right; position: relative; z-index: 5; margin-right: -2em; margin-left: 1em; background: #28282b; }
 
-.threadline-category { font-weight: normal; color: #f7e7d2; }
+.threadBox { margin-bottom: 2em; }
+
+.threadBox-tools { font-size: 0.85em; }
 
 .l-box-header { display: none; height: 24px; }
 .l-box-header h1, .l-box-header h2, .l-box-header h3 { margin: 0; padding: 0; }
@@ -87,13 +89,11 @@ li.actthread .span_post_type, li.actreply .span_post_type { font-weight: bold; }
 .slidetab ul { list-style: none; padding: 0; }
 .slidetab h4 { margin: 0; }
 
-.threadBox { margin-bottom: 2em; }
-
 .thread_line-username { font-weight: 700; }
 
-.threadBox-tools { font-size: 0.85em; }
-
 .btn-threadBox-tools { margin-right: 1em; }
+
+.threadline-category { font-weight: normal; color: #f7e7d2; }
 
 .thread_line-post { font-size: 0.8em; color: #8c8276; font-weight: normal; }
 

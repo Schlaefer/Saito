@@ -80,7 +80,7 @@ define([
         });
       }, this));
 
-      $('.js-thread_line').each(_.bind(function(index, element) {
+      $('.threadLeaf').each(_.bind(function(index, element) {
         var threadLineView,
             threadId,
             threadLineId,
