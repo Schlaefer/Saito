@@ -3,13 +3,17 @@
   @include c_t_h_3_abs();
 }
 
+threadTree-node {
+
+}
+
 li.thread .span_post_type, li.reply .span_post_type {
   @include link-colors($font-color-read);
   font-weight: 400;
 }
 
 /* new threads and replies: */
-li.threadnew .span_post_type, li.replynew .span_post_type {
+.threadnew .span_post_type, li.replynew .span_post_type {
   font-weight: bold;
 }
 
@@ -49,21 +53,19 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   }
 }
 
-.threadBox {
-  margin-bottom: 2 * $padding;
-}
-
 .thread_line-username {
   font-weight: 700;
-}
-
-.threadBox-tools {
-  font-size: 0.85em;
 }
 
 .btn-threadBox-tools {
   margin-right: 1em;
 }
+
+.threadline-category {
+  font-weight: normal;
+  color: $font-color;
+}
+
 
 .thread_line-post {
   font-size: 0.8em;
@@ -219,6 +221,13 @@ textarea, .textarea, input[type=text] {
   margin-top: $padding;
   padding: 2*$padding 0;
   font-size: 0.85em;
+}
+
+
+.c_bbc_hr {
+  margin-left: 0.5em;
+  width: 10em;
+  display: inline-block;
 }
 
 /*******************************************************************************

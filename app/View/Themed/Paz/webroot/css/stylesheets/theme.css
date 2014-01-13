@@ -76,7 +76,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 li.thread .span_post_type, li.reply .span_post_type { color: #333333; font-weight: 400; }
 
 /* new threads and replies: */
-li.threadnew .span_post_type, li.replynew .span_post_type { font-weight: bold; }
+.threadnew .span_post_type, li.replynew .span_post_type { font-weight: bold; }
 
 li.actthread .span_post_type, li.actreply .span_post_type { font-weight: bold; }
 
@@ -153,6 +153,8 @@ textarea, .textarea, input[type=text] { width: 100%; -webkit-appearance: none; b
 .t_s { margin: 0px 0px 0px 25px; }
 
 .disclaimer { border-top: 1px solid #e2e2e2; margin-top: 1em; padding: 2em 0; font-size: 0.85em; }
+
+.c_bbc_hr { margin-left: 0.5em; width: 10em; display: inline-block; }
 
 /******************************************************************************* Susy *****************************************************************************/
 .bp_container, .bp-threeColumn { *zoom: 1; max-width: 71em; _width: 71em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto; }

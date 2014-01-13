@@ -1,4 +1,11 @@
-.threadline-category {
-  font-weight: normal;
-  color: $font-color;
+// Thread Box
+// -------------------------------------
+
+.threadBox {
+  margin-bottom: 2 * $padding;
 }
+
+.threadBox-tools {
+  font-size: 0.85em;
+}
+
