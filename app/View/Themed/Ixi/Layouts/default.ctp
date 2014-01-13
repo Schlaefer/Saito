@@ -101,7 +101,6 @@
 	<?php
 		if (isset($showDisclaimer)) {
 	?>
-		<style>body > .body { margin-bottom: 374px; } </style>
 		<div class="disclaimer" style="overflow:hidden;">
 			<?php
 					Stopwatch::start('layout/disclaimer.ctp');
