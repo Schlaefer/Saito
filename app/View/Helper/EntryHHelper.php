@@ -76,13 +76,15 @@
 		}
 
 		public function generateEntryTypeCss($level, $new, $current, $viewed) {
-			$entryType = ($level === 0) ? 'thread' : 'reply';
+			$entryType = ($level === 0) ? 'et-root' : 'et-reply';
 			if ($new) {
-				$entryType .= 'new';
+				$entryType .= ' et-new';
+			} else {
+				$entryType .= ' et-old';
 			}
 			if (!empty($viewed)) {
 				if ($current === $viewed) {
-					$entryType = ($level === 0) ? 'actthread' : 'actreply';
+					$entryType .= ' et-current';
 				}
 			}
 			return $entryType;
@@ -191,11 +193,11 @@
 			$out = <<<EOF
 <li class="threadLeaf {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
 	<div class="js-thread_line-content tl-cnt">
-		<button href="#" class="btnLink btn_show_thread thread_line-pre span_post_type">
+		<button href="#" class="btnLink btn_show_thread thread_line-pre et">
 			{$_threadLinePre}
 		</button>
 		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
-			class='link_show_thread {$entrySub['Entry']['id']} span_post_type thread_line-content'>
+			class='link_show_thread {$entrySub['Entry']['id']} et thread_line-content'>
 				{$_threadLineCached}
 		</a>
 	</div>
@@ -247,9 +249,9 @@ EOF;
  * the frontpage. Think about (and benchmark) performance before you change it.
  */
 		public function threadLineCached(array $entrySub, $level) {
-			/* because of performance we use dont use $this->Html->link(...):
+			/* because of performance we use don't use $this->Html->link(...):
 			 * $out.= $this->EntryH->getFastLink($entrySub,
-			 *     array( 'class' => "link_show_thread {$entrySub['Entry']['id']} span_post_type" ));
+			 *     ['class' => "link_show_thread {$entrySub['Entry']['id']} et"]);
 			 */
 
 			/*because of performance we use hard coded links instead the cakephp helper:

@@ -3,24 +3,6 @@
   @include c_t_h_3_abs();
 }
 
-threadTree-node {
-
-}
-
-li.thread .span_post_type, li.reply .span_post_type {
-  @include link-colors($font-color-read);
-  font-weight: 400;
-}
-
-/* new threads and replies: */
-.threadnew .span_post_type, li.replynew .span_post_type {
-  font-weight: bold;
-}
-
-li.actthread .span_post_type, li.actreply .span_post_type {
-  font-weight: bold;
-}
-
 .threadTree-node, ul.thread, ul.reply {
   list-style: none;
   margin-top: 0;
@@ -28,10 +10,6 @@ li.actthread .span_post_type, li.actreply .span_post_type {
   &.root {
     padding-left: 20px;
   }
-}
-
-.thread_line-username {
-  font-weight: 500;
 }
 
 .slidetab {
@@ -54,7 +32,7 @@ li.actthread .span_post_type, li.actreply .span_post_type {
 }
 
 .thread_line-username {
-  font-weight: 700;
+  font-weight: bold;
 }
 
 .btn-threadBox-tools {

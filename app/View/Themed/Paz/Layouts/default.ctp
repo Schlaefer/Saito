@@ -1,5 +1,5 @@
 	<?php
-		// @todo
+		// @todo; also look out for/fix custom colors li-bullets
 		$this->Blocks->set('css', '');
 
 		echo $this->element('layout/html_header');

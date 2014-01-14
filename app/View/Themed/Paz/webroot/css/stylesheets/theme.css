@@ -6,7 +6,7 @@ html, body { height: 100%; }
 
 html { font-size: 62.5%; }
 
-body, .btnLink, textarea, input[type=text] { font-family: Cabin; color: #333333; font-weight: 400; background-color: white; }
+body, .btnLink, textarea, input[type=text] { font-family: Cabin; color: #222222; font-weight: 400; background-color: white; }
 
 body { font-size: 1.4em; padding: 0 2em; }
 
@@ -66,6 +66,14 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .threadBox-tools { font-size: 0.85em; }
 
+.et-root .et, .et-reply .et { color: #d50606; }
+
+.et-new .et { font-weight: bold; }
+
+.et-old .et { color: #222222; }
+
+.et-current .et { color: #ff5c00; }
+
 .l-box-header { display: none; height: 24px; }
 .l-box-header h1, .l-box-header h2, .l-box-header h3 { margin: 0; padding: 0; }
 .l-box-header > div { position: relative; }
@@ -73,27 +81,18 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .l-box-header > div > div:first-child { position: absolute; }
 .l-box-header > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
 
-li.thread .span_post_type, li.reply .span_post_type { color: #333333; font-weight: 400; }
-
-/* new threads and replies: */
-.threadnew .span_post_type, li.replynew .span_post_type { font-weight: bold; }
-
-li.actthread .span_post_type, li.actreply .span_post_type { font-weight: bold; }
-
 .threadTree-node, ul.thread, ul.reply { list-style: none; margin-top: 0; }
 .threadTree-node.root, ul.thread.root, ul.reply.root { padding-left: 20px; }
-
-.thread_line-username { font-weight: 500; }
 
 .slidetab { margin-bottom: 3em; padding: 1em 2em; border-left: 1px solid #e2e2e2; box-sizing: border-box; font-size: 0.85em; }
 .slidetab ul { list-style: none; padding: 0; }
 .slidetab h4 { margin: 0; }
 
-.thread_line-username { font-weight: 700; }
+.thread_line-username { font-weight: bold; }
 
 .btn-threadBox-tools { margin-right: 1em; }
 
-.threadline-category { font-weight: normal; color: #333333; }
+.threadline-category { font-weight: normal; color: #222222; }
 
 .thread_line-post { font-size: 0.8em; color: #727272; font-weight: normal; }
 
@@ -142,7 +141,7 @@ textarea, .textarea, input[type=text] { width: 100%; -webkit-appearance: none; b
 
 .markItUpHeader { border-bottom: 1px solid #b8b8b8; background: white; }
 
-.markItUp a:link, .markItUp a:visited { color: #333333 !important; }
+.markItUp a:link, .markItUp a:visited { color: #222222 !important; }
 
 .markItUpSeparator { display: none; }
 

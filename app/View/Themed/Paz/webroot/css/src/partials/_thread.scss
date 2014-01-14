@@ -9,3 +9,19 @@
   font-size: 0.85em;
 }
 
+// thread and reply types
+//
+// don't forget to apply changes here to the user custom color CSS
+// -------------------------------------
+.et-root .et, .et-reply .et {
+  @include link-colors($link-color);
+}
+.et-new .et {
+  font-weight: bold;
+}
+.et-old .et {
+  @include link-colors($font-color-read);
+}
+.et-current .et {
+  @include link-colors($font-color-current);
+}

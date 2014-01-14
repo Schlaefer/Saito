@@ -1,5 +1,5 @@
 <?php
-	$span_post_type = $this->EntryH->generateEntryTypeCss(
+	$_et = $this->EntryH->generateEntryTypeCss(
 		$level,
 		$this->EntryH->isNewEntry($entry_sub, $CurrentUser),
 		$entry_sub['Entry']['id'],
@@ -10,7 +10,7 @@
 	<ul class="<?php echo  ($level == 0) ? 'thread' : 'reply';?>">
 <?php endif;?>
 		<li id="<?= $entry_sub['Entry']['id']?>"
-				class="<?php echo $span_post_type ?>" style="margin-bottom: 20px;">
+				class="<?= $_et ?>" style="margin-bottom: 20px;">
 					<div class="a box-content">
 						<?php
 							echo $this->element('/entry/view_posting', array('entry' => $entry_sub, 'level' => $level, )); #'cache' => array('key' => $entry_sub["Entry"]['id'], 'time' => '+1 day') ));

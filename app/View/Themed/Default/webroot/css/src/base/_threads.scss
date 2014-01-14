@@ -7,18 +7,19 @@ $subthread-margin: 25px !default;
 // thread and reply links
 // -------------------------------------
 /* dont forget to change the userpref css in user_h.php if you do changes here */
-li.thread .span_post_type, li.reply .span_post_type {
+
+.et-root .et, .et-reply .et {
   @include link-colors($thread_color_normal);
-  font-weight: bold; }
+  font-weight: bold;
+}
 
-/* new threads and replies: */
-li.threadnew .span_post_type, li.replynew .span_post_type {
+.et-new .et {
   @include link-colors($thread_color_new);
-  font-weight: bold; }
+}
 
-li.actthread .span_post_type, li.actreply .span_post_type {
+.et-current .et {
   @include link-colors($thread_color_actual);
-  font-weight: bold; }
+}
 
 // thread tree
 // -------------------------------------

@@ -11,15 +11,12 @@
 //				debug($this->request->action); debug($last_action); debug($isAjax);
 				if ($this->request->action !== 'preview' && ( $this->request->is('ajax') || $this->request->action === 'mix')) {
 					echo $this->Html->link(
-							$subject,
-							'/entries/view/'
-							// is not set/unknown when showing preview
-							. ((isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null),
-							array(
-									'class' => 'span_post_type',
-									'escape'	=> false,
-							)
-						);
+						$subject,
+						'/entries/view/' .
+						// is not set/unknown when showing preview
+						((isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null),
+						['class' => 'et', 'escape' => false]
+					);
 				} else {
 					echo $subject;
 				}

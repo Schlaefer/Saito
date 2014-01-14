@@ -513,12 +513,11 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 
 /******************************************************************************* Threads *****************************************************************************/
 /* dont forget to change the userpref css in user_h.php if you do changes here */
-li.thread .span_post_type, li.reply .span_post_type { color: #111111; font-weight: bold; }
+.et-root .et, .et-reply .et { color: #111111; font-weight: bold; }
 
-/* new threads and replies: */
-li.threadnew .span_post_type, li.replynew .span_post_type { color: #e74a00; font-weight: bold; }
+.et-new .et { color: #e74a00; }
 
-li.actthread .span_post_type, li.actreply .span_post_type { color: #ff6700; font-weight: bold; }
+.et-current .et { color: #ff6700; }
 
 ul.thread, ul.threadnew { list-style-type: none; margin: 0px 0px 18px 0px; list-style-type: none; }
 

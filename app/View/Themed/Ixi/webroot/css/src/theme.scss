@@ -106,15 +106,15 @@ body > .body {
   @extend .body-padding;
 }
 
-a, a.textlink, .btnLink, li.thread .span_post_type, li.reply .span_post_type {
+a, a.textlink, .btnLink, .et-root .et, .et-reply .et {
   @include link-colors($orange-darker);
 }
 
-li.threadnew .span_post_type, li.replynew .span_post_type {
+.et-new .et {
   @include link-colors(#333);
 }
 
-li.actthread .span_post_type, li.actreply .span_post_type {
+.et-current .et {
   @include link-colors(#DF0000);
 }
 

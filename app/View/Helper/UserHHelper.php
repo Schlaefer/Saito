@@ -62,16 +62,16 @@
 				$_cOld = $User['user_color_old_postings'];
 				$_cAct = $User['user_color_actual_posting'];
 
-				$_aMetatags = array('link', 'visited', 'hover', 'active');
+				$_aMetatags = ['', ':link', ':visited', ':hover', ':active'];
 				foreach ($_aMetatags as $_aMetatag) {
 					if (!empty($_cOld) && $_cOld !== '#') {
-						$out[] = "li.thread .span_post_type:$_aMetatag, li.reply .span_post_type:$_aMetatag	{ color: $_cOld; }";
+						$out[] = ".et-root .et$_aMetatag, .et-reply .et$_aMetatag	{ color: $_cOld; }";
 					}
 					if (!empty($_cNew) && $_cNew !== '#') {
-						$out[] = "li.threadnew .span_post_type:$_aMetatag, li.replynew .span_post_type:$_aMetatag { color: $_cNew; }";
+						$out[] = ".et-new .et$_aMetatag { color: $_cNew; }";
 					}
 					if (!empty($_cAct) && $_cAct !== '#') {
-						$out[] = "li.actthread .span_post_type:$_aMetatag, li.actreply .span_post_type:$_aMetatag 	{ color: $_cAct; }";
+						$out[] = ".et-current .et$_aMetatag { color: $_cAct; }";
 					}
 				}
 			}
