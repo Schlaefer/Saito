@@ -192,12 +192,12 @@
 			// generate current entry
 			$out = <<<EOF
 <li class="threadLeaf {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
-	<div class="js-thread_line-content tl-cnt">
-		<button href="#" class="btnLink btn_show_thread thread_line-pre et">
+	<div class="threadLine">
+		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
 			{$_threadLinePre}
 		</button>
 		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
-			class='link_show_thread {$entrySub['Entry']['id']} et thread_line-content'>
+			class='link_show_thread {$entrySub['Entry']['id']} et threadLine-content'>
 				{$_threadLineCached}
 		</a>
 	</div>
@@ -264,7 +264,7 @@ EOF;
 						'category_acs_' . $entrySub['Category']['accession'] . '_exp');
 				}
 				$a = $this->_catL10n[$entrySub['Category']['accession']];
-				$category = '<span class="threadline-category acs-' . $entrySub['Category']['accession'] . '"
+				$category = '<span class="c-category acs-' . $entrySub['Category']['accession'] . '"
             title="' . $entrySub['Category']['description'] . ' ' . ($a) . '">
         (' . $entrySub['Category']['category'] . ')
       </span>';
@@ -279,9 +279,9 @@ EOF;
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="thread_line-username"> – {$entrySub['User']['username']}</span>
+<span class="c-username"> – {$entrySub['User']['username']}</span>
 {$category}
-<span class="thread_line-post"> {$time} {$badges} </span>
+<span class="threadLine-post"> {$time} {$badges} </span>
 EOF;
 			return $out;
 		}

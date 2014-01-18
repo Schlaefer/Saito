@@ -7,7 +7,7 @@
 	);
 ?>
 <?php if ($level < Configure::read('Saito.Settings.thread_depth_indent')) : ?>
-	<ul class="<?php echo  ($level == 0) ? 'thread' : 'reply';?>">
+	<ul class="threadTree-node<?php echo ($level === 0) ? ' root' : ''; ?>">
 <?php endif;?>
 		<li id="<?= $entry_sub['Entry']['id']?>"
 				class="<?= $_et ?>" style="margin-bottom: 20px;">

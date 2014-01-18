@@ -458,7 +458,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 #shoutbox img { max-width: 130px; }
 #shoutbox .shout { margin: 2px 0; }
 #shoutbox .shout > .fa { color: #999; }
-#shoutbox .info_text, #shoutbox .btnLink.btn-threadBox-tools, #shoutbox a.btn-threadBox-tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c_bbc_link-dinfo, #shoutbox .c_bbc_imessage, #shoutbox .c_info_text, #shoutbox .thread_line-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; text-align: center; }
+#shoutbox .infoText, #shoutbox .btnLink.btn-threadBox-tools, #shoutbox a.btn-threadBox-tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c_bbc_link-dinfo, #shoutbox .c_bbc_imessage, #shoutbox .c_info_text, #shoutbox .threadLine-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; text-align: center; }
 #shoutbox input, #shoutbox label { font-size: 100%; }
 
 #shoutbox { min-height: 50px; }
@@ -526,15 +526,15 @@ ul.reply, ul.replynew { list-style-type: none; margin: 0 0 0 25px; list-style-ty
 ul.deep-reply { margin: 0px; list-style-type: none; }
 
 /******************************************************************************* Entry thread_line *****************************************************************************/
-.thread_line-pre { position: absolute; display: inline-block; width: 24px; text-align: center; padding: 0 0 4px; }
+.threadLine-pre { position: absolute; display: inline-block; width: 24px; text-align: center; padding: 0 0 4px; }
 
-.tl-cnt { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
+.threadLine { /* fixates subelements as fixes resulting glitch in $.slideUp() */ position: relative; }
 
-.thread_line-content { padding-left: 22px; display: block; word-break: break-word; }
+.threadLine-content { padding-left: 22px; display: block; word-space: break-word; }
 
-.thread_line-username { font-weight: 600; }
+.c-username { font-weight: 600; }
 
-.thread_line-post { font-weight: normal; }
+.threadLine-post { font-weight: normal; }
 
 /** thread slider  1: margin px left because of huge vertical close button 2: inline-open box shall not run under open slidetabs */
 .t_s { margin: 0px 0px 0px 25px; /* 1 */ border: 1px #eaeaea solid; overflow: hidden; /* 2 */ }
@@ -740,9 +740,9 @@ a.textlink { color: #e74a00; text-decoration: none; font-weight: bold; }
 
 a.no-color, .no-color { color: #6f6f6f; }
 
-.info_text, .btnLink.btn-threadBox-tools, a.btn-threadBox-tools, .btn-threadCollapse, .author, .c_bbc_link-dinfo, .c_bbc_imessage, .c_info_text, .thread_line-post, .disclaimer-inside, .signature { color: #505050; }
+.infoText, .btnLink.btn-threadBox-tools, a.btn-threadBox-tools, .btn-threadCollapse, .author, .c_bbc_link-dinfo, .c_bbc_imessage, .c_info_text, .threadLine-post, .disclaimer-inside, .signature { color: #505050; }
 
-.small, .c_info_text, .thread_line-post, .disclaimer-inside, .signature { font-size: 90%; }
+.small, .c_info_text, .threadLine-post, .disclaimer-inside, .signature { font-size: 90%; }
 
 .super { font-size: 0.83em; line-height: 0.5em; vertical-align: baseline; position: relative; top: -0.2em; }
 
@@ -756,7 +756,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .highlight { background-color: #ffff99; }
 
-.highlight-hover, .thread_line-content:hover, .table-zebra > tbody > tr:hover { background: #F0F0F0; }
+.highlight-hover, .threadLine-content:hover, .table-zebra > tbody > tr:hover { background: #F0F0F0; }
 
 .disabled { color: #505050; }
 
@@ -794,13 +794,13 @@ a.no-color, .no-color { color: #6f6f6f; }
 * Phone
 ******************************************************************************/
 @media only screen and (max-width: 480px) { .threadBox-tools, .btn-threadCollapse { -webkit-text-size-adjust: 150%; }
-  .tl-cnt, .thread_line-pre { -webkit-text-size-adjust: 200%; } }
+  .threadLine, .threadLine-pre { -webkit-text-size-adjust: 200%; } }
 /******************************************************************************/
 /*******************************************************************************
 * iPad
 ******************************************************************************/
 @media only screen and (device-width: 768px) { .fa-thread-open, .fa-thread-closed { -webkit-text-size-adjust: 120%; }
-  .thread_line-pre, .thread_line-content { -webkit-text-size-adjust: 120%; }
+  .threadLine-pre, .threadLine-content { -webkit-text-size-adjust: 120%; }
   .a_a { -webkit-text-size-adjust: 110%; } }
 @media only screen and (device-width: 768px) and (orientation: portrait) { body, html { width: 768px; min-width: 768px; }
   .postingform_main { width: 490px; } }
@@ -841,7 +841,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 .disclaimer-inside h1, .disclaimer-inside h2, .disclaimer-inside h3 { font-size: 110%; font-weight: bold; margin-bottom: 0.83em; }
 
 /******************************************************************************* Threads *****************************************************************************/
-.threadline-category { color: #607d86; }
+.c-category { color: #607d86; }
 
 /* all users/public */
 .acs-0 { font-weight: 600; }

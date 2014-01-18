@@ -16,6 +16,8 @@ body, .btnLink, textarea, input[type=text] {
 body {
   font-size: 1.4em;
   padding: 0 2 * $padding;
+  max-width: 70em;
+  margin: 0 auto;
 }
 
 .l-body {
@@ -34,8 +36,8 @@ body, h1, h2, h3, h4 {
   line-height: 1.5em;
 }
 
-h1, h2, h3, #hero-home-link {
-  font-size: 1.4em;
+h1, h2, h3, h4, #hero-home-link {
+  font-size: $font-size-large;
 }
 
 h4 {
@@ -81,8 +83,7 @@ body.headerClosed {
     position: -webkit-sticky;
     top: 0;
     z-index: 100;
-    background: rgba($background-color, 0.93);
-    height: $_height;
+    @include background(linear-gradient(to top, rgba($background-color, 0.85), $background-color 90%));
   }
 
   #js-top-menu-open {
@@ -123,6 +124,11 @@ body.headerClosed {
   display: inline-block;
 }
 
+.top-menu-aside {
+  position: absolute;
+  right: 0
+}
+
 .navbar {
   padding: $padding 0;
   @include c_t_h_3_abs;
@@ -139,7 +145,31 @@ body.headerClosed {
     white-space: nowrap;
   }
 }
+
+.infoText, .author {
+  color: $info-color;
+}
+
+.c-category {
+  color: $font-color;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.c-username {
+  font-weight: bold;
+}
+
+.signature {
+  @extend .infoText;
+  font-size: $font-size-small;
+  text-align: center;
+}
+
 .solves-isSolved {
   color: #008000;
 }
 
+%highlight-hover {
+  background: $highlight-hover-color;
+}

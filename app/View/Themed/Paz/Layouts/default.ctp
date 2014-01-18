@@ -31,6 +31,9 @@
 		document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
 		SaitoApp.app.settings.themePreset = preset;
 	</script>
+
+	<link href='//fonts.googleapis.com/css?family=Average' rel='stylesheet' type='text/css'>
+
 	<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
 	</head>
 <body class="l-body">
@@ -69,7 +72,7 @@
 						'/entries/search',
 						['class' => 'top-menu-item', 'escape' => false]);
 					?>
-					<span style="position: absolute; right:0">
+					<span class="top-menu-aside">
 						<button id="js-themeSwitcher" class="btnLink top-menu-item"></button>
 						<button id="js-top-menu-close" class="btnLink top-menu-item">
 							<i class="fa fa-minus-square-o"></i>
@@ -124,6 +127,11 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			if (true || window.innerHeight >= $(document).height()) {
+				$('#footer-pinned').css('display', 'none');
+			}
+		</script>
 	</div>
 	<?php if (isset($showDisclaimer)) : ?>
 		<div class="disclaimer" style="overflow:hidden;">

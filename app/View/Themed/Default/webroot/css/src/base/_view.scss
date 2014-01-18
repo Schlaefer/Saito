@@ -27,7 +27,7 @@
 }
 
 .author {
-  @extend .info_text;
+  @extend .infoText;
 }
 
 // Buttons
@@ -74,7 +74,7 @@
 }
 
 .c_bbc_link-dinfo, .c_bbc_imessage {
-  @extend .info_text;
+  @extend .infoText;
 
   font-weight: normal;
   font-style: normal;

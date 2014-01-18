@@ -7,48 +7,64 @@
 		</div>
 	</div>
 	<div class="content">
+		Sort by:
+		<?php
+		echo $this->Paginator->sort('username', __('username_marking'));
+			echo ", ";
+		echo $this->Paginator->sort('User.user_type', __('user_type'));
+			echo ", ";
+		echo $this->Paginator->sort('UserOnline.user_id', __('userlist_online'));
+			echo ", ";
+		echo $this->Paginator->sort('registered', __('registered'));
+			?>
 		<table class="table table-clean table-zebra">
-			<thead>
-				<?php
-				$tableHeaders = array(
+			<!-- thead>
+			<?php
+				$_showBlocked = Configure::read('Saito.Settings.block_user_ui');
+				$tableHeaders = [
 					$this->Paginator->sort('username', __('username_marking')),
 					$this->Paginator->sort('User.user_type', __('user_type')),
-					$this->Paginator->sort('UserOnline.user_id', __("userlist_online")),
-					$this->Paginator->sort('registered', __("registered")),
-				);
-				if( Configure::read('Saito.Settings.block_user_ui') ) :
+					// $this->Paginator->sort('UserOnline.user_id', __('userlist_online')),
+					// $this->Paginator->sort('registered', __('registered')),
+				];
+				if($_showBlocked) {
 					$tableHeaders[] = $this->Paginator->sort('user_lock', __('user_lock'));
-				endif;
+				}
 				echo $this->Html->tableHeaders($tableHeaders);
 				?>
-			</thead>
+			</thead -->
 			<tbody>
-				<?php foreach ( $users as $user) : ?>
-					<?php
-					$tableCells = array (
-						'<strong>'
-								. $this->Html->link(
+			<?php
+				foreach ($users as $user):
+					$tableCells = [
+						$this->Html->link(
 							$user['User']['username'],
-							array(
+							[
 								'controller' => 'users',
 								'action' => 'view',
-								$user['User']['id'])
-						)
-								. '</strong>',
-						$this->UserH->type($user['User']['user_type']), # @td translate
-						($user['UserOnline']['logged_in']) ? 'Online' : $this->UserH->minusIfEmpty($a=''),
-						$this->TimeH->formatTime($user['User']['registered'])
-					);
-					if( Configure::read('Saito.Settings.block_user_ui') ) :
+								$user['User']['id']
+							]
+						),
+						// @todo translate
+						$this->UserH->type($user['User']['user_type']) .
+						'<br>' . ($user['UserOnline']['logged_in'] ? 'Online' : 'Not Online') .
+				'<br> Registriert seit: ' . $this->TimeH->formatTime($user['User']['registered'], 'custom', '%d.%m.%Y')
+						/*
+				'Type:' . $this->UserH->type($user['User']['user_type'])
+				. '<br> Online:' . ($user['UserOnline']['logged_in']) ? 'Online' : $this->UserH->minusIfEmpty($a = '')
+				'Registred:' . $this->TimeH->formatTime($user['User']['registered'])
+				*/
+					];
+					if ($_showBlocked) {
 						$tableCells[] = $this->UserH->banned($user['User']['user_lock']);
-					endif;
+					};
 					echo $this->Html->tableCells(
-						array ( $tableCells ),
-						array ( 'class' => 'a' ),
-						array ( 'class' => 'b' )
+						[$tableCells],
+						['class' => 'a'],
+						['class' => 'b']
 					);
-					?>
-				<?php endforeach; ?>
+				endforeach;
+			?>
 			</tbody>
 		</table>
 	</div>
