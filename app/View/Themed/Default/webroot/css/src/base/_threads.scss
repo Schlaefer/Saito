@@ -79,7 +79,7 @@ ul.deep-reply {
  * 1: margin px left because of huge vertical close button
  * 2: inline-open box shall not run under open slidetabs
  */
-.t_s {
+.threadInline-slider {
   margin: 0px 0px 0px 25px; /* 1 */
   border: $border_width $saito_gray_dark solid;
   @extend .c_all-radius;

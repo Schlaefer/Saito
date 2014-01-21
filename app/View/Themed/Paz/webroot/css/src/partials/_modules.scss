@@ -134,16 +134,27 @@ body.headerClosed {
   @include c_t_h_3_abs;
 }
 
-#content {
-  padding: 0 2 * $padding 50px;
+.navbar .pageHeading {
+  margin: 0;
 }
 
-.l-postingform_main {
-  max-width: 60em;
+.pageHeading {
+  font-size: 1em;
+  display: inline-block;
+  font-weight: normal;
   margin: 0 auto;
-  .checkbox {
-    white-space: nowrap;
+
+  &:after {
+    content: "";
+    position: relative;
+    border-bottom: 2px solid $border-color;
+    height: 1px;
+    display: block;
   }
+}
+
+#content {
+  padding: 0 2 * $padding 50px;
 }
 
 .infoText, .author {

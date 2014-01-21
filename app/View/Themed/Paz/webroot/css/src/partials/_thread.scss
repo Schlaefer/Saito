@@ -76,12 +76,19 @@ $threadLine-pre-padding: 2em;
   .c-category {
     color: $font-color;
   }
-
 }
 
 .threadLine-post {
   @extend .infoText;
   font-size: $font-size-small;
   font-weight: normal;
+}
+
+
+// Thread Inline
+// -------------------------------------
+
+.threadInline-slider {
+  margin-left: $btn-strip-top-width;
 }
 

@@ -108,7 +108,7 @@ define([
         this.postings.add(this.postingModel);
 
         postingLayout = new PostingLayout({
-          el: this.$('.t_s'),
+          el: this.$('.threadInline-slider'),
           inline: true,
           model: this.postingModel,
           collection: this.postings,

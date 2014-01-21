@@ -1,262 +1,87 @@
-body { margin: 0; padding: 0; }
-
-ul { padding-left: 2em; }
-
-html, body { height: 100%; }
-
-html { font-size: 62.5%; }
-
-body, .btnLink, textarea, input[type=text] { font-family: Cabin; color: #222222; font-weight: 400; background-color: white; }
-
-body { font-size: 1.4em; padding: 0 2em; max-width: 70em; margin: 0 auto; }
-
-.l-body { min-width: 500px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
-
-input, textarea { font-size: 1em; padding: 0.5em; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; outline-color: #b8b8b8; }
-
-body, h1, h2, h3, h4 { line-height: 1.5em; }
-
-h1, h2, h3, h4, #hero-home-link { font-size: 1.35em; }
-
-h4 { font-size: 1em; }
-
-.btnLink { border: none; background: none; margin: 0; padding: 0; cursor: pointer; line-height: inherit; font-size: 1em; -webkit-appearance: none; }
-
-a, .btnLink { color: inherit; text-decoration: inherit; cursor: inherit; color: #d50606; cursor: pointer; }
-a:active, a:focus, .btnLink:active, .btnLink:focus { outline: none; }
-
-hr { border-width: 0; border-bottom: 1px solid #e2e2e2; }
-
-header { text-align: center; }
-
-body.headerClosed .top-menu { display: none; }
-body.headerClosed header { margin-left: -2em; margin-right: -2em; position: -webkit-sticky; top: 0; z-index: 100; background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: -o-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: linear-gradient(to top, rgba(255, 255, 255, 0.85), #ffffff 90%); }
-body.headerClosed #js-top-menu-open { display: block; line-height: 40px; padding: 0 2em; }
-body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
-
-#hero { position: relative; border-bottom: 1px solid #e2e2e2; }
-
-#hero-home-link { font-weight: bold; padding: 1em; }
-
-#js-top-menu-open { position: absolute; bottom: 0; right: 0; display: none; }
-
-.top-menu { border-bottom: 1px solid #e2e2e2; }
-
-.top-menu-item { padding: 1em; display: inline-block; }
-
-.top-menu-aside { position: absolute; right: 0; }
-
-.navbar { padding: 1em 0; height: 24px; }
-.navbar > div { position: relative; }
-.navbar > div > div { text-align: center; white-space: nowrap; vertical-align: middle; }
-.navbar > div > div:first-child { position: absolute; }
-.navbar > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
-
-#content { padding: 0 2em 50px; }
-
-.l-postingform_main { max-width: 60em; margin: 0 auto; }
-.l-postingform_main .checkbox { white-space: nowrap; }
-
-.infoText, .signature, .threadLine-post, .c_bbc_link-dinfo, .author { color: #727272; }
-
-.c-category { color: #222222; font-weight: normal; white-space: nowrap; }
-
-.c-username { font-weight: bold; }
-
-.signature { font-size: 0.85em; text-align: center; }
-
-.solves-isSolved { color: #008000; }
-
-.threadLine-content:hover { background: #f0f0f0; }
-
-#site { min-height: 100%; position: relative; }
-
-#slidetabs { float: right; position: relative; z-index: 5; margin-right: -2em; margin-left: 1em; background: white; }
-
-.threadTree-node { padding-left: 2em; }
-
-.threadTree-node, .threadCollection-node { list-style: none; }
-.threadTree-node.root, .threadCollection-node.root { margin: 0; padding: 0; }
-
-.threadCollection-node .threadTree-node { padding-left: 0; }
-
-.threadBox { margin-bottom: 2em; }
-
-.threadBox-tools { padding-left: 2em; font-size: 0.85em; }
-
-.threadBox .threadTree-node.root { padding-left: 20px; }
-
-.et-root .et, .et-reply .et { color: #d50606; }
-
-.et-new .et { font-weight: bold; }
-
-.et-old .et { color: #222222; }
-
-.et-current .et { color: red; }
-
-.threadLine-pre { float: left; text-align: center; width: 2em; }
-
-.threadLine-content { word-wrap: break-word; display: block; padding-left: 2em; }
-.threadLine-content .c-category { color: #222222; }
-
-.threadLine-post { font-size: 0.85em; font-weight: normal; }
-
-.table { margin: 0 auto; border-collapse: collapse; width: 100%; }
-.table th, .table td { padding: 1em 1em; text-align: left; vertical-align: top; }
-.table td:first-child { font-weight: bold; text-align: right; width: 38%; border-right: 1px solid #e2e2e2; }
-
-.table-zebra { border-spacing: 0 2em; border-collapse: separate; }
-.table-zebra thead { border-bottom: 2px solid #e2e2e2; }
-
-.user.view .box-content:first-of-type .l-box-header { display: none; }
-
-.add-not-inline .l-box-header { display: none; }
-
-#content .l-box-header { height: auto; margin-top: 2em; padding-top: 1em; margin-bottom: 1em; }
-
-.l-box-header { height: 24px; }
-.l-box-header > div { position: relative; }
-.l-box-header > div > div { text-align: center; white-space: nowrap; vertical-align: middle; }
-.l-box-header > div > div:first-child { position: absolute; }
-.l-box-header > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
-
-.box-header { margin: 0 0 1em; }
-
-.navbar .pageHeading, .navbar .box-header h1, .box-header .navbar h1, .navbar .box-header h2, .box-header .navbar h2 { margin: 0; }
-
-.pageHeading, .box-header h1, .box-header h2 { font-size: 1em; display: inline-block; font-weight: normal; margin: 0 auto; }
-.pageHeading:after, .box-header h1:after, .box-header h2:after { content: ""; border-bottom: 2px solid #E2E2E2; height: 1px; display: block; position: relative; }
-
-.slidetab { margin-bottom: 3em; padding: 1em 2em; border-left: 1px solid #e2e2e2; box-sizing: border-box; font-size: 0.85em; }
-.slidetab ul { list-style: none; padding: 0; }
-.slidetab h4 { margin: 0; }
-
-.btn-threadBox-tools { margin-right: 1em; }
-
-.c_bbc_link-dinfo { font-size: 0.85em; }
-
-.btn-threadCollapse { width: 28px; text-align: center; position: absolute; left: -4px; }
-
-#shoutbox img { max-width: 100%; }
-#shoutbox .infoText, #shoutbox .signature, #shoutbox .threadLine-post, #shoutbox .c_bbc_link-dinfo { text-align: center; }
-
-.slidetab-tab { display: none; }
-
-.postingheadline { margin-bottom: 2px; margin-top: 0; font-weight: normal; font-size: 1.485em; font-family: Average; }
-
-.posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
-
-.entry.view { margin: 0 auto; }
-
-.posting { margin-bottom: 1em; }
-
-.fa-threadnew { font-size: 110%; }
-
-.fa-threadnew::before { content: "\2022"; }
-
-.author { margin-bottom: 1em; }
-.author > .meta { font-size: 0.85em; }
-
-.l-button_mod_panel-wrapper { display: none; }
-
-.l-box-footer { padding: 1em 0; margin: 1em -2em; border: 1px solid #e2e2e2; border-width: 0 0 1px 0; }
-
-.js-buttons a { padding-left: 1em; }
-
-.content { padding: 1em 0; }
-
-input, .input { margin: 0.3em; }
-
-textarea, .textarea, input[type=text] { width: 100%; -webkit-appearance: none; border: 1px solid #b8b8b8; border-radius: 3px; }
-
-.preview { display: none; }
-
-#footer-pinned { width: 100%; position: absolute; bottom: 0px; }
-
-.markItUpHeader { border-bottom: 1px solid #b8b8b8; background: white; }
-
-.markItUp a:link, .markItUp a:visited { color: #222222 !important; }
-
-.markItUpSeparator { display: none; }
-
-.btn-strip-top { width: 25px; text-align: center; margin: 4px 0px 0px -1px; }
-
-.btn-strip { height: 100%; position: absolute; }
-
-.t_s { margin: 0px 0px 0px 25px; }
-
-.disclaimer { border-top: 1px solid #e2e2e2; margin-top: 1em; padding: 2em 0; font-size: 0.85em; }
-
-.c_bbc_hr { margin-left: 0.5em; width: 10em; display: inline-block; }
-
-.c_bbc_ul { padding-left: 0; list-style-type: none; position: relative; }
-
-.c_bbc_li::before { content: "\2022"; display: block; position: absolute; left: -1em; }
-
-/******************************************************************************* Susy *****************************************************************************/
-.bp_container, .bp-threeColumn { *zoom: 1; max-width: 71em; _width: 71em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto; }
-.bp_container:after, .bp-threeColumn:after { content: ""; display: table; clear: both; }
-
-.bp-threeColumn .left { width: 32.39437%; float: left; margin-right: 1.40845%; display: inline; }
-.bp-threeColumn .center { width: 32.39437%; float: left; margin-right: 1.40845%; display: inline; }
-.bp-threeColumn .right { width: 32.39437%; float: right; margin-right: 0; *margin-left: -1em; display: inline; }
-
-.markItUpHeader > ul a { font-weight: bold; font-size: 18px; text-align: center; line-height: 32px; }
-.markItUpHeader > ul a > i { line-height: inherit; }
-
-.markItUpHeader ul a:hover { text-shadow: 0 0 1px #999; }
-
-.markItUp .btn-markItUp-Smilies ul { width: 260px; z-index: 1; margin: -21px 0 0 -2px; }
-.markItUp .btn-markItUp-Smilies ul li { min-width: 0px; margin: 0px; }
-.markItUp .btn-markItUp-Smilies ul li a { background-position: 9px 9px; height: 32px; width: 32px; padding: 0px; }
-
-.markItUp .markItUpHeader ul ul li { float: left; border: none; }
-
-.markItUp .markItUpHeader ul ul li:active { background-color: #eee; }
-
-form .c_markitup_popup_txta { width: 100%; padding: 2%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
-
-.markItUp { outline: none; }
-
-.markItUpHeader ul:after { content: " "; display: block; height: 0; clear: both; }
-
-.markItUp a:link, .markItUp a:visited { color: #333; text-decoration: none; }
-
-.markItUpEditor { box-shadow: none; border: none; clear: both; display: block; overflow: auto; height: 16em; background: none; }
-
-.markItUpPreviewFrame { overflow: auto; background-color: #FFF; width: 99.9%; height: 300px; margin: 5px 0; }
-
-.markItUpFooter { width: 100%; }
-
-.markItUpResizeHandle { display: none; overflow: hidden; width: 22px; height: 5px; margin-left: auto; margin-right: auto; cursor: n-resize; }
-
-/******************************************************************************/
-/* first row of buttons */
-.markItUpHeader ul, .markItUpHeader li { padding: 0; margin: 0; }
-
-.markItUpHeader ul li { min-width: 32px; height: 32px; margin: 3px; list-style: none; float: left; position: relative; }
-
-.markItUpHeader ul li:hover > ul { display: block; }
-
-.markItUpHeader ul .markItUpDropMenu { /*	background:transparent image_url('markitup/menu.png') no-repeat 100% 70%;*/ margin-right: 5px; }
-
-.markItUpHeader ul .markItUpDropMenu li { margin-right: 0px; }
-
-/* next rows of buttons */
-.markItUpHeader ul ul { display: none; position: absolute; top: 18px; left: 0px; background: #FFF; border: 1px solid #000; border: 1px solid #e2e2e2; }
-
-.markItUpHeader ul ul li { float: none; border-bottom: 1px solid #000; }
-
-.markItUpHeader ul .markItUpSeparator { min-width: 1px; margin: 0 10px; width: 1px; height: 32px; overflow: hidden; background-color: #CCC; }
-
-.markItUpHeader ul ul .markItUpSeparator { width: auto; height: 1px; margin: 0px; }
-
-.markItUpHeader ul a { display: block; min-width: 32px; height: 32px; /*text-indent:-10000px;*/ background-repeat: no-repeat; padding: 0px; margin: 0px; }
-
-.markItUpHeader ul ul a { display: block; padding-left: 0px; text-indent: 0; width: 120px; padding: 5px 5px 5px 25px; background-position: 2px 50%; }
-
-@media only screen and (max-width: 768px) { .top-menu-aside { position: relative; }
-  #content { padding-left: 1em; padding-right: 1em; }
-  .l-box-footer { margin-left: -1em; margin-right: -1em; } }
-@media only screen and (max-width: 600px) { #slidetabs { float: none; } }
-@media only screen and (device-width: 768px) { body { -webkit-text-size-adjust: 110%; } }
+/*
+Syntax error: Undefined variable: "$btn-strip-top-width".
+        on line 92 of /Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/View/Themed/Paz/webroot/css/src/partials/_thread.scss
+        from line 9 of /Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/View/Themed/Paz/webroot/css/src/theme.scss
+
+Backtrace:
+/Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/View/Themed/Paz/webroot/css/src/partials/_thread.scss:92
+/Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/View/Themed/Paz/webroot/css/src/theme.scss:9
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:369:in `visit_prop'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `block in visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `block in with_base'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:115:in `with_frame'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `with_base'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:392:in `block (2 levels) in visit_rule'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:392:in `map'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:392:in `block in visit_rule'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:174:in `with_environment'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:390:in `visit_rule'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `block in visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `block in with_base'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:115:in `with_frame'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `with_base'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:292:in `block (2 levels) in visit_import'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:292:in `map'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:292:in `block in visit_import'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:88:in `block in with_import'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:115:in `with_frame'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:88:in `with_import'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:289:in `visit_import'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `block in visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `block in with_base'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:115:in `with_frame'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/stack.rb:79:in `with_base'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:153:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:53:in `map'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:162:in `block in visit_children'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:174:in `with_environment'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:161:in `visit_children'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:181:in `visit_root'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:152:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/tree/root_node.rb:20:in `render'
+/Users/siezi/lib/gems/gems/sass-3.3.0.rc.1/lib/sass/engine.rb:277:in `render'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:146:in `block (2 levels) in compile'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:132:in `timed'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:145:in `block in compile'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/logger.rb:46:in `red'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:144:in `compile'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:124:in `compile_if_required'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:109:in `block (2 levels) in run'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:107:in `each'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:107:in `block in run'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:132:in `timed'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/compiler.rb:106:in `run'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/compiler.rb:24:in `compile'
+/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/forwardable.rb:171:in `compile'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/project_watcher.rb:95:in `sass_modified'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/project_watcher.rb:83:in `sass_callback'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/watch.rb:14:in `call'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/watch.rb:14:in `run_callback'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/project_watcher.rb:63:in `block in listen_callback'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/project_watcher.rb:60:in `each'
+/Users/siezi/lib/gems/gems/compass-0.13.alpha.10/lib/compass/watcher/project_watcher.rb:60:in `listen_callback'
+/Users/siezi/lib/gems/gems/listen-1.1.6/lib/listen/listener.rb:236:in `call'
+/Users/siezi/lib/gems/gems/listen-1.1.6/lib/listen/listener.rb:236:in `on_change'
+/Users/siezi/lib/gems/gems/listen-1.1.6/lib/listen/listener.rb:271:in `block in initialize_adapter'
+/Users/siezi/lib/gems/gems/listen-1.1.6/lib/listen/adapter.rb:244:in `call'
+/Users/siezi/lib/gems/gems/listen-1.1.6/lib/listen/adapter.rb:244:in `report_changes'
+/Users/siezi/lib/gems/gems/listen-1.1.6/lib/listen/adapter.rb:313:in `poll_changed_directories'
+/Users/siezi/lib/gems/gems/listen-1.1.6/lib/listen/adapter.rb:289:in `block in start_poller'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$btn-strip-top-width\".\A         on line 92 of /Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/View/Themed/Paz/webroot/css/src/partials/_thread.scss\A         from line 9 of /Users/siezi/Sites/private/personal_projects/macnemo_2_github/app/View/Themed/Paz/webroot/css/src/theme.scss"; }

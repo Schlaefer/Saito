@@ -300,9 +300,9 @@ body { min-width: 768px; }
 .sprite-nbs-explicit { padding-left: 27px; height: 13px; display: inline-block; vertical-align: middle; margin-bottom: 1px; }
 
 /******************************************************************************* border radien *****************************************************************************/
-.c_top-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn-strip-back, .popover-inner, .flash, .message, .box-header { border-top-left-radius: 0px; border-top-right-radius: 0px; }
+.c_top-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .threadInline-slider, input, textarea, .markItUpPreviewFrame, .btn-strip-back, .popover-inner, .flash, .message, .box-header { border-top-left-radius: 0px; border-top-right-radius: 0px; }
 
-.c_bottom-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .t_s, input, textarea, .markItUpPreviewFrame, .btn-strip-back, .popover-inner, .flash, .message, .l-box-footer, .error-message { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
+.c_bottom-radius, .c_all-radius, .box-content, .disclaimer-inside, .box-form, .entry.add, .entry.reply, .markItUpHeader ul ul, .threadInline-slider, input, textarea, .markItUpPreviewFrame, .btn-strip-back, .popover-inner, .flash, .message, .l-box-footer, .error-message { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; }
 
 .c_left-radius, .search_textfield, .slidetab-tab, .slidetab-outer { border-bottom-left-radius: 0px; border-top-left-radius: 0px; }
 
@@ -537,7 +537,7 @@ ul.deep-reply { margin: 0px; list-style-type: none; }
 .threadLine-post { font-weight: normal; }
 
 /** thread slider  1: margin px left because of huge vertical close button 2: inline-open box shall not run under open slidetabs */
-.t_s { margin: 0px 0px 0px 25px; /* 1 */ border: 1px #eaeaea solid; overflow: hidden; /* 2 */ }
+.threadInline-slider { margin: 0px 0px 0px 25px; /* 1 */ border: 1px #eaeaea solid; overflow: hidden; /* 2 */ }
 
 .threadBox-body { padding: 0 1em 0.8em; }
 
