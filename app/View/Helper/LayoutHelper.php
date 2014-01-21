@@ -100,4 +100,15 @@
 			return $_out;
 		}
 
+		/**
+		 * Generates page heading html
+		 *
+		 * @param string $heading
+		 * @param string $tag
+		 * @return string
+		 */
+		public function pageHeading($heading, $tag = 'h1') {
+			return "<{$tag} class=\"pageHeading\">{$heading}</{$tag}>";
+		}
+
 	}

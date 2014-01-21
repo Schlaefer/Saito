@@ -92,7 +92,7 @@
 								!in_array($this->request->action, ['mix', 'view'])) {
 							$_navCenter = $this->fetch('headerSubnavCenter');
 							if (empty($_navCenter)) {
-								$_navCenter = $title_for_page;
+								$_navCenter = $this->Layout->pageHeading($title_for_page);
 							}
 							echo $_navCenter;
 						}
