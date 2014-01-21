@@ -103,6 +103,16 @@
 			return $indexPage;
 		}
 
+		/**
+		 * evaluates if entry is n/t
+		 *
+		 * @param $entry
+		 * @return bool
+		 */
+		public function isNt($entry) {
+			return empty($entry['Entry']['text']);
+		}
+
 /**
  * This function may be called serveral hundred times on the front page.
  * Don't make ist slow, benchmark!
