@@ -7,7 +7,7 @@
 /*******************************************************************************
 * Import compass framework
 ******************************************************************************/
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, .code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, .c_bbc_underline, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline; }
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, .code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, .c-bbcode-underline, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline; }
 
 html { line-height: 1; }
 
@@ -423,7 +423,7 @@ em, i { font-style: italic; }
 
 code, .code, pre, tt { line-height: inherit; font-family: courier-new, courier, monospace; background: #f9f9f9; }
 
-u, .c_bbc_underline { text-decoration: underline; }
+u, .c-bbcode-underline { text-decoration: underline; }
 
 a { color: #e74a00; text-decoration: none; }
 
@@ -458,7 +458,7 @@ hr { border-width: 0; border-bottom: 1px solid #eaeaea; }
 #shoutbox img { max-width: 130px; }
 #shoutbox .shout { margin: 2px 0; }
 #shoutbox .shout > .fa { color: #999; }
-#shoutbox .infoText, #shoutbox .btnLink.btn-threadBox-tools, #shoutbox a.btn-threadBox-tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c_bbc_link-dinfo, #shoutbox .c_bbc_imessage, #shoutbox .c_info_text, #shoutbox .threadLine-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; text-align: center; }
+#shoutbox .infoText, #shoutbox .btnLink.btn-threadBox-tools, #shoutbox a.btn-threadBox-tools, #shoutbox .btn-threadCollapse, #shoutbox .author, #shoutbox .c-bbcode-link-dinfo, #shoutbox .c-bbcode-imessage, #shoutbox .c_info_text, #shoutbox .threadLine-post, #shoutbox .disclaimer-inside, #shoutbox .signature { color: #999; text-align: center; }
 #shoutbox input, #shoutbox label { font-size: 100%; }
 
 #shoutbox { min-height: 50px; }
@@ -649,24 +649,24 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .btn-solves, .btn-bookmark-add { padding: 0 1.5em; }
 
-.c_bbc_code-wrapper { background-color: #f9f9f9; padding: 4px; }
+.c-bbcode-code-wrapper { background-color: #f9f9f9; padding: 4px; }
 
-.c_bbc_spoiler .c_bbc_spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
-.c_bbc_spoiler .c_bbc_spoiler-link:hover { color: inherit; background-color: inherit; text-shadow: inherit; }
+.c-bbcode-spoiler .c-bbcode-spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
+.c-bbcode-spoiler .c-bbcode-spoiler-link:hover { color: inherit; background-color: inherit; text-shadow: inherit; }
 
-.c_bbc_link-dinfo, .c_bbc_imessage { font-weight: normal; font-style: normal; text-decoration: none; }
+.c-bbcode-link-dinfo, .c-bbcode-imessage { font-weight: normal; font-style: normal; text-decoration: none; }
 
-.c_bbc_imessage { font-style: italic; }
+.c-bbcode-imessage { font-style: italic; }
 
-.c_bbc_upload, .c_bbc_external-image { margin: 5px 0; }
+.c-bbcode-upload, .c-bbcode-external-image { margin: 5px 0; }
 
-.c_bbc_citation { color: #505050; font-style: italic; }
+.c-bbcode-citation { color: #505050; font-style: italic; }
 
-.c_bbc_ul { margin: 0em 2em; padding: 0; list-style-image: url('../../img/bbcode_list_image.png'); }
+.c-bbcode-ul { margin: 0em 2em; padding: 0; list-style-image: url('../../img/bbcode_list_image.png'); }
 
-.c_bbc_li { margin: 0.5em 0; padding: 0; }
+.c-bbcode-li { margin: 0.5em 0; padding: 0; }
 
-.c_bbc_hr { margin-left: 0.5em; width: 10em; display: inline-block; }
+.c-bbcode-hr { margin-left: 0.5em; width: 10em; display: inline-block; }
 
 .code { padding: 1em; }
 
@@ -740,7 +740,7 @@ a.textlink { color: #e74a00; text-decoration: none; font-weight: bold; }
 
 a.no-color, .no-color { color: #6f6f6f; }
 
-.infoText, .btnLink.btn-threadBox-tools, a.btn-threadBox-tools, .btn-threadCollapse, .author, .c_bbc_link-dinfo, .c_bbc_imessage, .c_info_text, .threadLine-post, .disclaimer-inside, .signature { color: #505050; }
+.infoText, .btnLink.btn-threadBox-tools, a.btn-threadBox-tools, .btn-threadCollapse, .author, .c-bbcode-link-dinfo, .c-bbcode-imessage, .c_info_text, .threadLine-post, .disclaimer-inside, .signature { color: #505050; }
 
 .small, .c_info_text, .threadLine-post, .disclaimer-inside, .signature { font-size: 90%; }
 
