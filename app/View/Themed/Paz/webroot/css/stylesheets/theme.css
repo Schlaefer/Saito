@@ -77,6 +77,8 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 #slidetabs { float: right; position: relative; z-index: 5; margin-right: -2em; margin-left: 1em; background: white; }
 
+.slidetab-userlist-icon { display: inline-block; width: 1.1em; }
+
 .threadTree-node { padding-left: 2em; }
 
 .threadTree-node, .threadCollection-node { list-style: none; }
@@ -132,6 +134,11 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .slidetab { margin-bottom: 3em; padding: 1em 2em; border-left: 1px solid #e2e2e2; box-sizing: border-box; font-size: 0.85em; }
 .slidetab ul { list-style: none; padding: 0; }
 .slidetab h4 { margin: 0; }
+
+.posting_formular_slider .entry.reply { border-top: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2; margin-bottom: 2em; padding-bottom: 1em; }
+.posting_formular_slider .entry.reply > .l-box-header { margin-top: 1em !important; }
+
+.posting + .signature { margin-top: -1em; }
 
 .l-postingform_main { max-width: 60em; margin: 0 auto; }
 .l-postingform_main .checkbox { white-space: nowrap; }

@@ -17,6 +17,21 @@
   }
 }
 
+.posting_formular_slider .entry.reply  {
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 2 * $padding;
+  padding-bottom: 1 * $padding;
+
+  > .l-box-header {
+    margin-top: $padding !important;
+  }
+}
+
+.posting + .signature {
+  margin-top: -1em;
+}
+
 .l-postingform_main {
   max-width: 60em;
   margin: 0 auto;
