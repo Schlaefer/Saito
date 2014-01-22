@@ -122,15 +122,11 @@ a.category_acs_2, .category_acs_2 {
  * Slidetabs general layout
  ******************************************************************************/
 
-.slidetab_subtree {
-	font-weight: normal;
-}
-
-.slidetab_tree {
+.slidetab h4 {
   font-weight: bold;
 }
 
-.slidetab-tab, .slidetab-content {
+.slidetab-tab, .slidetab-outer {
   font-size: 0.95em;
 
   @extend .header_style_1;
@@ -140,32 +136,6 @@ a.category_acs_2, .category_acs_2 {
 
   margin-bottom: 2px;
 }
-
-.slidetab_subtree {
-	font-weight: normal;
-
-	> li {
-		margin-bottom: 0;
-		@extend .sprites;
-		@include sprite-row(2);
-		width: auto;
-		// height of the bullet image
-		height: auto;
-		padding: 0 0 0 17px;
-	}
-
-	> li:last-child {
-		// we can't use @extend .sprites; -> breaks IE8 because of last-child
-		@include sprite-background($sprites_image);
-		@include sprite-row(3);
-		width: auto;
-		// height of the bullet image
-		height: 15px;
-		// temporary fix for last line being to small if user line-height pref is > +1
-		padding-bottom: 0.5em;
-	}
-}
-
 
 // Slidetab Userlist
 // -------------------------------------

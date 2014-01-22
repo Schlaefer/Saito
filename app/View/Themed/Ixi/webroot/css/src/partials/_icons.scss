@@ -1,0 +1,59 @@
+@import "compass/css3/font-face";
+
+@include font-face('theme-iconsregular',
+  inline-font-files('theme-icons-webfont.woff', woff));
+
+.macnemo-theme-icons {
+  font-family: theme-iconsregular;
+  font-size: 120%;
+}
+
+.fa-admin {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\0061";
+  }
+}
+
+.fa-mod {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\006D";
+  }
+}
+
+.fa-multimedia {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\0065";
+  }
+}
+
+.fa-refresh {
+  @extend .macnemo-theme-icons;
+  font-size: 160%;
+  &:before {
+    content: "\0072";
+  }
+}
+
+.fa-s-gacker {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\0067";
+  }
+}
+
+.fa-s-popcorn {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\0070";
+  }
+}
+
+.fa-s-smile-o {
+  @extend .macnemo-theme-icons;
+  &:before {
+    content: "\0073";
+  }
+}

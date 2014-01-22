@@ -57,7 +57,7 @@ define([
       parent = this.$('.js-thread_line[data-id="' + pid + '"]');
       existingSubthread = (parent.next().not('.js_threadline').find('ul:first'));
       if (existingSubthread.length === 0) {
-        $el.wrap("<ul></ul>").parent().wrap("<li></li>").parent().insertAfter(parent);
+        $el.wrap("<ul class=\"threadTree-node\"></ul>").parent().wrap("<li></li>").parent().insertAfter(parent);
       } else {
         existingSubthread.append($el);
       }

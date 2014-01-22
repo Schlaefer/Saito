@@ -1,33 +1,34 @@
-<?php $this->start('slidetab-header'); ?>
+<?php $this->start('slidetab-tab-button'); ?>
 	<div class="btn-slidetabRecentposts">
 		<i class="fa fa-book fa-lg"></i>
 	</div>
-<?php $this->end('slidetab-header'); ?>
+<?php $this->end('slidetab-tab-button'); ?>
 <?php $this->start('slidetab-content'); ?>
-	<ul class="slidetab_tree">
-		<li>
-			<span title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
-				<?php
-					// @lo
-					echo $this->TextH->properize($CurrentUser['username'])
-							. ' ' . __('user_recentposts');
-				?>
-			</span>
-		</li>
+	<div class="slidetab-header">
+		<h4>
+					<span title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
+						<?php
+							// @lo
+							echo $this->TextH->properize($CurrentUser['username'])
+									. ' ' . __('user_recentposts');
+						?>
+					</span>
+		</h4>
+	</div>
+	<div class="slidetab-content">
 		<?php if (!empty($recentPosts)) : ?>
-		<li>
-			<ul>
+			<ul class="slidetab_tree">
 				<?php foreach ($recentPosts as $entry) : ?>
 					<li>
 						<i class="fa fa-thread"></i>
 						<?= $this->EntryH->getFastLink($entry) ?>
 						<br/>
-							<span class='c_info_text'>
-								<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>
-							</span>
+									<span class='c_info_text'>
+										<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>
+									</span>
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<?php endif; ?>
-	</ul>
+		<?php endif; ?>
+	</div>
 <?php $this->end('slidetab-content'); ?>

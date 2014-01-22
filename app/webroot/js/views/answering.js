@@ -57,7 +57,7 @@ define([
       this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
 
       // auto-open upload view for easy developing
-      // this._upload(new Event({}));
+      // this._upload();
     },
 
     _cite: function(event) {
@@ -79,7 +79,9 @@ define([
 
     _upload: function(event) {
       var uploadsView;
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
       uploadsView = new UploadsView({
         el: '#markitup_upload',
         textarea: this.$textarea[0]

@@ -24,10 +24,13 @@ define([
 
       var _isNew = this.model.get('id') > SbCM.get('mar'),
           _isOwn = this.model.get('user_id') === App.currentUser.get('id');
+      if (_isOwn) {
+        this.$el.addClass('shoutbox-shout-cu');
+      }
       if (_isNew && !_isOwn) {
-        data.icon = 'fa-comment';
+        this.$el.addClass('shoutbox-shout-new');
       } else {
-        data.icon = 'fa-comment-o';
+        this.$el.addClass('shoutbox-shout-old');
       }
       return data;
     },

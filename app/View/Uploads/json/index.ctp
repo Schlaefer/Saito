@@ -6,10 +6,8 @@
 			'name' => $image['Upload']['name'],
 		);
 		$current['linkDelete'] = $this->Html->link(
-			$this->Html->image(
-				'close_db.png',
-				array('alt' => __('upload_btn_delete_upload'))
-			),
+			'<i class="fa fa-trash-o" title="' .
+			__('upload_btn_delete_upload') . '"></i>',
 			'#',
 			array(
 				'escape' => false,
@@ -29,14 +27,6 @@
 			array(
 				'escape' => false,
 				'target' => '_blank',
-			)
-		);
-
-		$current['linkInsert'] = $this->Html->link(
-			__('upload_btn_insert_into_posting'),
-			'#',
-			array(
-				'class' => 'btn btn-submit',
 			)
 		);
 

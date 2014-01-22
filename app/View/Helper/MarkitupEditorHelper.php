@@ -46,7 +46,7 @@
 					'closeWith' => '[/strike]'
 				),
 				'Code' => array(
-					'name' => "<i class='fa fa-terminal'></i>",
+					'name' => "<i class='fa fa-s-code'></i>",
 					'title' => __('Code'),
 					'className' => 'btn-markItUp-Code',
 					'openWith' => '[code text]\n',
@@ -78,7 +78,7 @@
 					'placeHolder' => __('geshi_link_placeholder'),
 				),
 				'Media' => array(
-					'name' => "<i class='fa fa-code'></i>",
+					'name' => "<i class='fa fa-multimedia'></i>",
 					'className' => 'btn-markItUp-Media',
 					'title' => __('Media'),
 					'key' => 'P',
@@ -115,9 +115,9 @@
 			);
 			if (!empty($_additionalButtons)):
 				foreach ($_additionalButtons as $name => $button):
-					// 'Gacker' => array( 'name' => 'Gacker', 'replaceWith' => ':gacker:' ),
+					// 'Gacker' => ['name' => 'Gacker', 'replaceWith' => ':gacker:'],
 					$bbcode[$name] = [
-						'name' => $button['title'],
+						'name' => $button['name'],
 						'title' => $button['title'],
 						'replaceWith' => $button['code'],
 						'className' => 'btn-markItUp-' . $button['title']
@@ -125,10 +125,9 @@
 					if (isset($button['icon'])) {
 						$css .= <<<EOF
 .markItUp .markItUpButton{$this->_nextCssId} a {
-		background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$button['icon']}.png);
-}
-.markItUp .markItUpButton{$this->_nextCssId} a:hover	{
-		background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$button['icon']}_hover.png);
+		background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$button['icon']});
+		text-indent: -10000px;
+		background-size: 100% 100%;
 }
 EOF;
 					}
@@ -165,7 +164,8 @@ EOF;
 			$this->_nextCssId++;
 
 			$bbcode['Smilies'] = [
-				'name' => 'Smilies',
+				'name' => "<i class='fa fa-s-smile-o'></i>",
+				'title' => __('Smilies'),
 				'className' => 'btn-markItUp-Smilies',
 				'dropMenu' => $_smiliesPacked
 			];

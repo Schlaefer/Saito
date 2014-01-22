@@ -15,21 +15,33 @@
   /**
    * Set the theme
    */
-  Configure::write('Saito.theme', 'Default');
+  Configure::write('Saito.theme', 'Ixi');
 
   /**
    * Add additional buttons to editor
-   */
+	 *
+	 * You can theme them with
+	 *
+	 * <code>
+	 * 	.markItUp .markItUpButton<Id> a {
+	 * 		…
+	 *	}
+	 * </code>
+   *
   /*
   Configure::write(
       'Saito.markItUp.additionalButtons',
       array(
         'Button1' => array(
-            'title'       => 'Button 1'
-            // image in img/markitup/<button>.png
-            'icon'			=> 'button1',
+  					// button-text
+  					'name' => 'Do Something',
+  					// hover title
+            'title'       => 'Button 1',
             // code inserted into text
             'code' 				=> ':action:',
+
+						// image in img/markitup/<icon-name>, replaces `name` (optional)
+						'icon'			=> 'icon-name.png', (optional)
             // format replacement as image (optional)
             'type'				=> 'image',
             // replacement in output if type is image

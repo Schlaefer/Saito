@@ -21,10 +21,6 @@
 		font-size: 110%;
 	}
 
-    a {
-      color: inherit;
-    }
-
     $width: 170px;
     $topHeight: 140px;
     $bottomHeight: 40px;
@@ -63,14 +59,15 @@
     .upload_box_delete {
       position: absolute;
       z-index: 10;
-      top: -11px;
-      left: -11px;
+      bottom: 8px;
+      right: 5px;
+      font-size: 16px;
     }
 
     .upload_box_footer {
       text-align: center;
       line-height: $bottomHeight - (2 * $local-padding) - 5px;
-      height: $bottomHeight - (2 * $local-padding);
+      height: $bottomHeight - (2 * $local-padding) - 1px;
       padding: $local-padding !important;
     }
 
