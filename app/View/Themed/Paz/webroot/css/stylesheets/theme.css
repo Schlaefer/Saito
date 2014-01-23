@@ -197,6 +197,8 @@ textarea, .textarea, input[type=text] { width: 100%; -webkit-appearance: none; b
 
 .btn-strip-top { width: 25px; text-align: center; margin: 4px 0px 0px -1px; }
 
+.js-entry-view-core { margin: 0 auto; max-width: 54em; }
+
 .threadInline-slider .js-entry-view-core { padding: 1em; }
 .threadInline-slider .js-entry-view-core .signature { display: none; }
 
