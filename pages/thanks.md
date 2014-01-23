@@ -33,21 +33,21 @@ Und ein Gruß an alle Spender!
 </div>
 
 <i class="icon-resize-vertical"></i> Donor	| <i class='icon-resize-vertical'></i> Value 	| <i class='icon-resize-vertical'></i> Last Seen
- ----------------------- | ------ 	| -----
- [macfix.de]               | 1150 € 	| 2013
- [macnemo.de] (Panxatony)  | 275 €	 	| 2013
- CocoaBärchi &amp; dakapo| 100 € 	| 2013
- Jake                    | 20 €    | 2013
- fwskxgrd                | 150 €	 	| 2012
-redcurry                | 85 € 	 	| 2012
- iXimus                  | 75 €    | 2012
- kt007                   | 50 €    | 2012
- truth		                | 15 € 		| 2012
- 1984                    | 50 € 	 	| 2010
+ -----------------------    | ------ 	| -----
+ [macfix.de]                | 1250 € 	| 2014
+ [macnemo.de] (Panxatony)   | 325 €	 	| 2014
+ CocoaBärchi &amp; dakapo   | 100 € 	| 2013
+ Jake                       | 20 €    | 2013
+ fwskxgrd                   | 150 €	 	| 2012
+redcurry                    | 85 € 	 	| 2012
+ iXimus                     | 75 €    | 2012
+ kt007                      | 50 €    | 2012
+ truth		                  | 15 € 		| 2012
+ 1984                       | 50 € 	 	| 2010
 
 <div>
   <small class="muted">
-  Someone's missing? Want your name linked? Please let us know! – Last updated 2013-10-03.
+  Someone's missing? Want your name linked? Please let us know! – Last updated 2014-01-23.
   </small>
 </div>
 
