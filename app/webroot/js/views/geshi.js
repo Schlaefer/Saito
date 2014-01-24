@@ -26,12 +26,17 @@ define([
             this.listenTo(this.model, 'change', this.render);
         },
 
-        _setPlaintextButton: function() {
-            if (this.model.get('isPlaintext')) {
-                this.$('.geshi-plain-text').html("<i class='icon-list-ol'></i>");
-            } else {
-                this.$('.geshi-plain-text').html("<i class='icon-reorder'></i>");
+        _setPlaintextButton: function(event) {
+            var _icon;
+            if (event) {
+              event.preventDefault();
             }
+            if (this.model.get('isPlaintext')) {
+                _icon = 'fa-list-ol';
+            } else {
+                _icon = 'fa-align-justify';
+            }
+            this.$('.geshi-plain-text').html("<i class='fa " + _icon + "'></i>");
         },
 
         _togglePlaintext: function(event) {
