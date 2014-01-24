@@ -231,7 +231,8 @@
 		protected function _setForumTitle($pageTitle, $forumName) {
 			$_forumTitle = $pageTitle;
 			if (!empty($forumName)) {
-				$_forumTitle = __('forum-title-template', [$pageTitle, $forumName]);
+				$_forumTitle = String::insert(__('forum-title-template'),
+						['page' => $pageTitle, 'forum' => $forumName]);
 			}
 			$this->set('title_for_layout', $_forumTitle);
 			return $_forumTitle;
