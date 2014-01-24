@@ -91,6 +91,9 @@ $threadLine-pre-padding: 2em;
 $btn-strip-top-width: 25px;
 
 .threadInline-slider {
+  // prevents wide inline content to drop below slidetabs
+  overflow: hidden;
+
   margin-left: $btn-strip-top-width;
 }
 
