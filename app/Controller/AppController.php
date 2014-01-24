@@ -30,7 +30,8 @@
 			// Enabling data view for rss/xml and json
 			'RequestHandler',
 			'Session',
-			'PreviewDetector.PreviewDetector'
+			'PreviewDetector.PreviewDetector',
+			'Themes'
 		];
 
 		public $helpers = [
@@ -105,9 +106,6 @@
 					'webroot' => $this->webroot
 				]
 			);
-
-			// must be set before forum_disabled switch;
-			$this->theme = Configure::read('Saito.theme');
 
 			// Load forum settings
 			$this->Setting->load(Configure::read('Saito.Settings'));

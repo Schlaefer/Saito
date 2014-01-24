@@ -222,6 +222,20 @@
 			</td>
 		</tr>
 
+		<?php if (count($availableThemes) > 1): ?>
+			<tr>
+				<td> <?= __('user_theme') ?> </td>
+				<td> <?=
+						$this->Form->input('user_theme',
+								[
+										'options' => $availableThemes,
+										'label' => false,
+								]) ?>
+					<p class="exp"> <?= __('user_theme_exp') ?> </p>
+				</td>
+			</tr>
+		<?php endif; ?>
+
 		<tr>
 			<td> <?php echo __('user_colors') ?> </td>
 			<td>
