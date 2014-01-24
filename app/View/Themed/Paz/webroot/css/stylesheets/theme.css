@@ -111,6 +111,8 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .c-bbcode-code-wrapper { padding: 1em; }
 
+.code { padding: 1em; }
+
 .c-bbcode-link-dinfo { font-size: 0.85em; }
 
 .c-bbcode-upload, .c-bbcode-external-image { margin: 1em; }
