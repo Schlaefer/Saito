@@ -236,6 +236,7 @@ class AppSchema extends CakeSchema {
 		'user_category_override' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'user_category_active' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'user_category_custom' => array('type' => 'string', 'null' => false, 'length' => 512, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+		'user_theme' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'username' => array('column' => 'username', 'unique' => 1)
