@@ -29,7 +29,6 @@
 			'user_lock' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'pwf_code' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 			'activate_code' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 7),
-			'user_font_size' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 			'user_signatures_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'user_signatures_images_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'user_forum_refresh_time' => array('type' => 'integer', 'null' => true, 'default' => '0'),

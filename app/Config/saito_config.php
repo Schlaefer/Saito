@@ -13,9 +13,24 @@
   Configure::write('Config.language', 'eng');
 
   /**
-   * Set the theme
+   * Sets the default theme
    */
-  Configure::write('Saito.theme', 'Paz');
+  Configure::write('Saito.themes.default', 'Default');
+
+	/**
+	 * Sets additional themes available for all users
+	 *
+	 * `*` - all installed themes (in Themed folder)
+	 * `['A', 'B']` - only themes 'A' and 'B' (Themed folder names)
+	 */
+	Configure::write('Saito.themes.available.all', '*');
+
+	/**
+	 * Sets additional themes available for specific users only
+	 *
+	 * [<user-id> => '<theme name>', …]
+	 */
+	 // Configure::write('Saito.themes.available.users', [1 => ['C']]);
 
   /**
    * Add additional buttons to editor
