@@ -164,7 +164,7 @@ code, .code, pre, tt { line-height: inherit; font-family: courier-new, courier, 
 
 .entry.view { margin: 0 auto; }
 
-.posting { margin-bottom: 1em; }
+.posting { margin-bottom: 1em; word-wrap: break-word; }
 
 .fa-threadnew { font-size: 110%; }
 

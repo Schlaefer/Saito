@@ -98,6 +98,8 @@ code, pre, tt {
 
 .posting {
   margin-bottom: 1em;
+  // break overlong words/links if overflow is hidden by .threadInline-slider
+  word-wrap: break-word;
 }
 
 .fa-threadnew {
