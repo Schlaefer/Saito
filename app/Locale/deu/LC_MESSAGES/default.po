@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-06 09:52+0100\n"
-"PO-Revision-Date: 2014-01-08 09:27+0100\n"
+"POT-Creation-Date: 2014-01-24 11:33+0100\n"
+"PO-Revision-Date: 2014-01-24 11:54+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -357,7 +357,7 @@ msgstr "Benutzer"
 msgid "Name"
 msgstr "Benutzername"
 
-#: View/Categories/view.ctp:66 View/Entries/search.ctp:73
+#: View/Categories/view.ctp:66 View/Entries/search.ctp:107
 msgid "Text"
 msgstr "Text"
 
@@ -399,7 +399,7 @@ msgstr ""
 "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine "
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
-#: View/Elements/entry/category-chooser.ctp:42 View/Entries/search.ctp:83
+#: View/Elements/entry/category-chooser.ctp:42 View/Entries/search.ctp:117
 #: Controller/EntriesController.php:1024
 msgid "All Categories"
 msgstr "Alle Kategorien"
@@ -446,7 +446,7 @@ msgstr "Aufrufe"
 #: View/Elements/entry/view_posting.ctp:64
 #: View/Elements/layout/header_login.ctp:67
 #: View/Elements/layout/header_login.ctp:71 View/Entries/index.ctp:30
-#: View/Entries/search.ctp:22 View/Users/view.ctp:163
+#: View/Entries/search.ctp:56 View/Users/view.ctp:163
 msgid "Help"
 msgstr "Hilfe"
 
@@ -480,38 +480,31 @@ msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:4
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:4
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
 msgstr "Ressourcen"
 
 #: View/Elements/layout/disclaimer.ctp:7
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:13
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:13
-#: View/Users/view.ctp:45
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:13 View/Users/view.ctp:45
 msgid "Contact"
 msgstr "Kontakt"
 
 #: View/Elements/layout/disclaimer.ctp:10
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:7
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:7
 msgid "Mobile"
 msgstr "Mobil"
 
 #: View/Elements/layout/disclaimer.ctp:13
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:22
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:22
 msgid "RSS"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:20
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:32
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:32
 msgid "Status"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:28
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:40
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:40
 msgid ""
 ":entries Entries in :threads Threads; :registred registred users, :loggedin "
 "logged in, :anon anonymous"
@@ -521,20 +514,17 @@ msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:43
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:55
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:55
 msgid "About"
 msgstr "Über"
 
 #: View/Elements/layout/disclaimer.ctp:46
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:58
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:58
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr "Angetrieben durch Saito v%s."
 
 #: View/Elements/layout/disclaimer.ctp:49
 #: View/Themed/Ixi/Elements/layout/disclaimer.ctp:61
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:61
 #, php-format
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
@@ -567,14 +557,13 @@ msgstr "Ausloggen"
 msgid "No help for this page available."
 msgstr "Keine Hilfe für diese Seite verfügbar."
 
-#: View/Elements/layout/header_search.ctp:29 View/Entries/search.ctp:26
-#: View/Entries/search.ctp:107
+#: View/Elements/layout/header_search.ctp:29 View/Entries/search.ctp:60
+#: View/Entries/search.ctp:141
 msgid "search_submit"
 msgstr "Suchen"
 
 #: View/Elements/layout/html_footer.ctp:5
-#: View/Themed/Ixi/Layouts/default.ctp:108
-#: View/Themed/Macnemo/Layouts/default.ctp:90
+#: View/Themed/Ixi/Layouts/default.ctp:119
 #, fuzzy
 msgid ""
 "This web-application depends on JavaScript. Please activate JavaScript in "
@@ -660,7 +649,7 @@ msgstr "Passwort"
 msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
-#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:75
+#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:109
 msgid "user_name"
 msgstr "Benutzername"
 
@@ -734,7 +723,7 @@ msgstr ""
 msgid "Back"
 msgstr "Zurück"
 
-#: View/Entries/search.ctp:23
+#: View/Entries/search.ctp:57
 msgid "search_fulltext_textfield_shp"
 msgstr ""
 "+ bedeutet UND<br/>- bedeutet NICHT<br/>[kein Operator] impliziert ODER<br/"
@@ -749,27 +738,27 @@ msgstr ""
 "die exakte Phrase „some words“ enthalten. Dies wäre etwa „some words of "
 "wisdom“, nicht aber „some noise words“."
 
-#: View/Entries/search.ctp:37
+#: View/Entries/search.ctp:71
 msgid "search_term"
 msgstr "Suchbegriff"
 
-#: View/Entries/search.ctp:49
+#: View/Entries/search.ctp:83
 msgid "search_advanced"
 msgstr "Erweiterte Suche"
 
-#: View/Entries/search.ctp:68
+#: View/Entries/search.ctp:102
 msgid "subject"
 msgstr "Betreff"
 
-#: View/Entries/search.ctp:89
+#: View/Entries/search.ctp:123
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:109
+#: View/Entries/search.ctp:143
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Entries/search.ctp:169
+#: View/Entries/search.ctp:173
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
@@ -1326,6 +1315,10 @@ msgstr "Neu"
 #: Controller/AdminsController.php:71
 msgid "Cumulated"
 msgstr "Kumuliert"
+
+#: Controller/AppController.php:239
+msgid "forum-title-template"
+msgstr "%s – %s"
 
 #: Controller/BookmarksController.php:77
 msgid "The bookmark could not be saved. Please, try again."
