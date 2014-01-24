@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-24 11:30+0100\n"
-"PO-Revision-Date: 2014-01-24 13:24+0100\n"
+"POT-Creation-Date: 2014-01-24 18:13+0100\n"
+"PO-Revision-Date: 2014-01-24 18:14+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -571,17 +571,17 @@ msgid "%s online (%s)"
 msgstr ""
 
 #: View/Elements/layout/slidetab_userlist.ctp:34
-#: View/Helper/UserHHelper.php:117
+#: View/Helper/UserHHelper.php:100
 msgid "ud_admin"
 msgstr "Administrator"
 
 #: View/Elements/layout/slidetab_userlist.ctp:37
-#: View/Helper/UserHHelper.php:115
+#: View/Helper/UserHHelper.php:98
 msgid "ud_mod"
 msgstr "Moderator"
 
 #: View/Elements/layout/slidetab_userlist.ctp:40
-#: View/Helper/UserHHelper.php:113
+#: View/Helper/UserHHelper.php:96
 msgid "ud_user"
 msgstr "User"
 
@@ -648,7 +648,7 @@ msgstr ""
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:85 Controller/UsersController.php:477
+#: View/Entries/add.ctp:85 Controller/UsersController.php:480
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
@@ -1079,110 +1079,114 @@ msgstr ""
 msgid "user_forum_refresh_time_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:226
+#: View/Users/edit.ctp:227
+msgid "user_theme"
+msgstr "Theme"
+
+#: View/Users/edit.ctp:234
+msgid "user_theme_exp"
+msgstr "Choose a different look. (optional)"
+
+#: View/Users/edit.ctp:240
 msgid "user_colors"
 msgstr ""
 
-#: View/Users/edit.ctp:228
+#: View/Users/edit.ctp:242
 msgid "user_color_new_postings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:230
+#: View/Users/edit.ctp:244
 msgid "user_color_old_postinings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:232
+#: View/Users/edit.ctp:246
 msgid "user_color_actual_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:254
+#: View/Users/edit.ctp:268
 msgid "inline_view_on_click"
 msgstr ""
 
-#: View/Users/edit.ctp:257
+#: View/Users/edit.ctp:271
 msgid "inline_view_on_click_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:261
+#: View/Users/edit.ctp:275
 #, fuzzy
 msgid "user_show_thread_collapsed"
 msgstr "Show User's Entries"
 
-#: View/Users/edit.ctp:264
+#: View/Users/edit.ctp:278
 msgid "user_show_thread_collapsed_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:269
+#: View/Users/edit.ctp:283
 msgid "user_pers_msg"
 msgstr ""
 
-#: View/Users/edit.ctp:270
+#: View/Users/edit.ctp:284
 msgid "user_pers_msg_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:277
+#: View/Users/edit.ctp:291
 #, fuzzy
 msgid "user_category_override"
 msgstr "Category-Chooser"
 
-#: View/Users/edit.ctp:282
+#: View/Users/edit.ctp:296
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
 
-#: View/Users/edit.ctp:290
+#: View/Users/edit.ctp:304
 msgid "user_time_diff"
 msgstr ""
 
-#: View/Users/edit.ctp:291
+#: View/Users/edit.ctp:305
 msgid "user_time_diff_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:296
+#: View/Users/edit.ctp:310
 msgid "admin_mod_notif"
 msgstr ""
 
-#: View/Users/edit.ctp:298
+#: View/Users/edit.ctp:312
 msgid "admin_mod_notif_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:299
+#: View/Users/edit.ctp:313
 msgid "new_posting_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:301
+#: View/Users/edit.ctp:315
 msgid "new_user_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:325
-msgid "user_font_size_exp"
-msgstr ""
-
-#: View/Users/edit.ctp:339 View/Users/view.ctp:112
+#: View/Users/edit.ctp:330 View/Users/view.ctp:112
 msgid "flattr"
 msgstr ""
 
-#: View/Users/edit.ctp:348
+#: View/Users/edit.ctp:339
 msgid "flattr_uid"
 msgstr ""
 
-#: View/Users/edit.ctp:352
+#: View/Users/edit.ctp:343
 msgid "flattr_allow_user"
 msgstr ""
 
-#: View/Users/edit.ctp:353
+#: View/Users/edit.ctp:344
 msgid "flattr_allow_user_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:356
+#: View/Users/edit.ctp:347
 msgid "flattr_allow_posting"
 msgstr ""
 
-#: View/Users/edit.ctp:357
+#: View/Users/edit.ctp:348
 msgid "flattr_allow_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:363
+#: View/Users/edit.ctp:354
 msgid "button_save"
 msgstr ""
 
@@ -1268,7 +1272,7 @@ msgstr ""
 msgid "Cumulated"
 msgstr ""
 
-#: Controller/AppController.php:239
+#: Controller/AppController.php:232
 msgid "forum-title-template"
 msgstr ":page – :forum"
 
@@ -1440,7 +1444,7 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr "No more uploads possible (max: %s)."
 
-#: Controller/UsersController.php:37 Controller/UsersController.php:328
+#: Controller/UsersController.php:37 Controller/UsersController.php:331
 #, php-format
 msgid "User %s is locked."
 msgstr ""
@@ -1467,58 +1471,58 @@ msgstr "Username"
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:308 Controller/UsersController.php:347
+#: Controller/UsersController.php:311 Controller/UsersController.php:350
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
 
-#: Controller/UsersController.php:317
+#: Controller/UsersController.php:320
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:320
+#: Controller/UsersController.php:323
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:331
+#: Controller/UsersController.php:334
 #, php-format
 msgid "User %s is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:337
+#: Controller/UsersController.php:340
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:354
+#: Controller/UsersController.php:357
 msgid "You can't delete yourself."
 msgstr ""
 
-#: Controller/UsersController.php:356
+#: Controller/UsersController.php:359
 msgid "You can't delete the installation account."
 msgstr ""
 
-#: Controller/UsersController.php:358
+#: Controller/UsersController.php:361
 #, php-format
 msgid "User %s deleted."
 msgstr ""
 
-#: Controller/UsersController.php:362
+#: Controller/UsersController.php:365
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:386
+#: Controller/UsersController.php:389
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:455
+#: Controller/UsersController.php:458
 msgid "error_email_not-valid"
 msgstr "No valid email address."
 
-#: Controller/UsersController.php:502
+#: Controller/UsersController.php:505
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:507
+#: Controller/UsersController.php:510
 msgid "Message couldn't be send! "
 msgstr ""
 
@@ -1751,7 +1755,7 @@ msgstr ""
 msgid "yesterday"
 msgstr ""
 
-#: View/Helper/UserHHelper.php:166
+#: View/Helper/UserHHelper.php:149
 msgid "userranks_not_found"
 msgstr ""
 
