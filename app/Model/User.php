@@ -135,9 +135,6 @@
 					'rule' => array('between', 0, 9999999)
 				)
 			),
-			'user_font_size' => array(
-				'rule' => 'numeric'
-			),
 			'user_signatures_hide' => array(
 				'rule' => array('boolean')
 			),
@@ -322,11 +319,6 @@
 				}
 			}
 
-			# @td font-size
-			if (isset($results[0][$this->alias]) && array_key_exists('user_font_size',
-							$results[0][$this->alias]) && $results[0][$this->alias]['user_font_size'] === null) {
-				$results[0][$this->alias]['user_font_size'] = 1;
-			}
 			return $results;
 		}
 

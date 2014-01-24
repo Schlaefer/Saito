@@ -1154,10 +1154,6 @@ msgstr ""
 msgid "new_user_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:308
-msgid "user_font_size"
-msgstr ""
-
 #: View/Users/edit.ctp:325
 msgid "user_font_size_exp"
 msgstr ""

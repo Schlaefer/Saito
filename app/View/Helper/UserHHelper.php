@@ -41,21 +41,6 @@
 		public function generateCss(array $User) {
 			$_styles = [];
 
-			// font-size
-			$_fontSize = $User['user_font_size'];
-			if ($_fontSize != 1) {
-				$_fontSize = -1 * (1 - $_fontSize) * 20 + 12;
-				if (!empty($_fontSize)) {
-					$_styles[] = "body { font-size:" . $_fontSize . "px; }";
-					// scales the the following parameter to a subjective nicer view
-					// @td set generaly to 1 1/3 em of font size ?
-					$_lineHeight = number_format((1 + 1 / 2) * $_fontSize, 3, '.', '');
-					$_styles[] = "li { line-height:{$_lineHeight}px; }";
-					// $out[] =  "li { line-height: 1.45; }";
-					$_styles[] = "ul.thread {margin-bottom:{$_lineHeight}px ;}";
-				}
-			}
-
 			// colors
 			$_cNew = $User['user_color_new_postings'];
 			$_cOld = $User['user_color_old_postings'];

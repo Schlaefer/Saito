@@ -278,23 +278,6 @@
 			);
 			$result = $this->User->read(array( 'user_color_new_postings', 'user_color_old_postings', 'user_color_actual_posting' ));
 			$this->assertEqual($expected, $result);
-
-			//* setting default font-size
-			$this->User->id = 3;
-			$expected = 1;
-			$result = $this->User->field('user_font_size');
-			$this->assertEqual($result, $expected);
-
-			$this->User->id = 3;
-			$data = array(
-				'User' => array(
-					'user_font_size' => '0.95',
-				)
-			);
-			$this->User->save($data);
-			$expected = 0.95;
-			$result = $this->User->field('user_font_size');
-			$this->assertEqual($result, $expected);
 		}
 
 		public function testBeforeValidate() {
