@@ -176,8 +176,8 @@
 		protected function _setConfigurationFromGetParams() {
 			if ($this->CurrentUser->isLoggedIn()) {
 				// testing different themes on the fly with `theme` GET param /theme:<foo>/
-				if (isset($this->passedArgs['theme'])):
-					$this->theme = $this->passedArgs['theme'];
+				if (isset($this->request->query['theme'])):
+					$this->theme = $this->request->query['theme'];
 				endif;
 
 				// activate stopwatch
