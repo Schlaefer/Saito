@@ -69,6 +69,8 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .signature { font-size: 0.85em; text-align: center; }
 
+.signature-divider { padding-bottom: 1em; }
+
 .solves-isSolved { color: #008000; }
 
 .threadLine-content:hover { background: #4d3d00; }
@@ -139,8 +141,6 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .posting_formular_slider .entry.reply { border-top: 1px solid #4d3d00; border-bottom: 1px solid #4d3d00; margin-bottom: 2em; padding-bottom: 1em; }
 .posting_formular_slider .entry.reply > .l-box-header { margin-top: 1em !important; }
-
-.posting + .signature { margin-top: -1em; }
 
 .l-postingform_main { max-width: 60em; margin: 0 auto; }
 .l-postingform_main .checkbox { white-space: nowrap; }
