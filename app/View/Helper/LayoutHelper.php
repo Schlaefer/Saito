@@ -82,7 +82,7 @@
 			];
 			$options += $_defaults;
 
-			$_xSize = "{$size}x{$size}" ;
+			$_xSize = "{$size}x{$size}";
 
 			$_basename = $options['baseName'];
 			if ($options['precomposed']) {
