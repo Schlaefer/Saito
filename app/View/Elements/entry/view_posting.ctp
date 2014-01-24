@@ -20,9 +20,9 @@
 	?>
 	<?php if(!$CurrentUser['user_signatures_hide'] && !empty($entry['User']['signature'])) : ?>
 		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
-		<div>
-			<?php echo Configure::read('Saito.Settings.signature_separator') ?>
-		</div>
+			<div class="signature-divider">
+				<?= Configure::read('Saito.Settings.signature_separator') ?>
+			</div>
 			<?php
 				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
 				echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
