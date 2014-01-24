@@ -121,7 +121,7 @@
 			endforeach;
 		}
 
-		protected function _shouldRecipientReceiveReplyMessage($entry, $recipient) {
+		protected function _shouldRecipientReceiveReplyMessage($recipient, $entry) {
 			if (Configure::read('debug') === 0 &&
 					// don't send answer if new entry belongs to the user itself
 					(int)$recipient['id'] === (int)$entry['user_id']
