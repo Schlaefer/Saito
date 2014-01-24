@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-24 11:30+0100\n"
-"PO-Revision-Date: 2014-01-24 11:55+0100\n"
+"PO-Revision-Date: 2014-01-24 13:24+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -1274,7 +1274,7 @@ msgstr ""
 
 #: Controller/AppController.php:239
 msgid "forum-title-template"
-msgstr "%s – %s"
+msgstr ":page – :forum"
 
 #: Controller/BookmarksController.php:77
 msgid "The bookmark could not be saved. Please, try again."
