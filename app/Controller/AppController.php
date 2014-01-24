@@ -167,32 +167,32 @@
 /**
  * Sets forum configuration from GET parameter in url
  *
- * Available named parameters
- *
- * - theme:<foo>
+ * - theme=<foo>
  * - stopwatch:true
  * - lang:<lang_id>
  */
 		protected function _setConfigurationFromGetParams() {
-			if ($this->CurrentUser->isLoggedIn()) {
-				// testing different themes on the fly with `theme` GET param /theme:<foo>/
-				if (isset($this->request->query['theme'])):
-					$this->theme = $this->request->query['theme'];
-				endif;
-
-				// activate stopwatch
-				if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
-					$this->set('showStopwatchOutput', true);
-				};
-
-				// change language
-				if (isset($this->passedArgs['lang'])) {
-					$L10n = ClassRegistry::init('L10n');
-					if ($L10n->catalog($this->passedArgs['lang'])) {
-						Configure::write('Config.language', $this->passedArgs['lang']);
-					}
-				};
+			if (!$this->CurrentUser->isLoggedIn()) {
+				return;
 			}
+
+			// change theme on the fly with ?theme=<name>
+			if (isset($this->request->query['theme'])) {
+				$this->theme = $this->request->query['theme'];
+			}
+
+			// activate stopwatch
+			if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
+				$this->set('showStopwatchOutput', true);
+			};
+
+			// change language
+			if (isset($this->passedArgs['lang'])) {
+				$L10n = ClassRegistry::init('L10n');
+				if ($L10n->catalog($this->passedArgs['lang'])) {
+					Configure::write('Config.language', $this->passedArgs['lang']);
+				}
+			};
 		}
 
 /**
