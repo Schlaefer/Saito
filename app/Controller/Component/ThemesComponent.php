@@ -55,22 +55,32 @@
 		 * Sets available themes
 		 */
 		protected function _setAvailable() {
-			$_themes = [];
+			$_themesSubset = [];
 
+			$this->_available = $this->_themeDirs();
+
+			// allowed themes for all users
 			if (isset($this->_config['available']['all']) &&
 					$this->_config['available']['all'] !== '*') {
-				$_themes = $this->_config['available']['all'];
+				$_themesSubset = $this->_config['available']['all'];
 			}
 
+			// allowed user themes
 			$_currentUserId = $this->_Controller->CurrentUser->getId();
 			if (isset($this->_config['available']['users'][$_currentUserId])) {
-				$_themes = array_merge($_themes,
+				$_themesSubset = array_merge($_themesSubset,
 						$this->_config['available']['users'][$_currentUserId]);
 			}
 
-			$this->_available = array_intersect($_themes, $this->_themeDirs());
+			// filter themes
+			if ($_themesSubset) {
+				$this->_available = array_intersect($this->_available, $_themesSubset);
+			}
 
+			// default theme is always available
 			array_unshift($this->_available, $this->_config['default']);
+
+			// make sure default/every theme is in list only one time
 			$this->_available = array_unique($this->_available);
 		}
 
