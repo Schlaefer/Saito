@@ -673,7 +673,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .code ol { list-style: decimal; padding-left: 40px; }
 
-.geshi-plain-text { font-size: smaller; }
+.geshi-plain-text { font-size: smaller; padding: 1em; }
 
 .embedly-image { max-height: 256px; }
 
