@@ -16,14 +16,38 @@
 
 		public function initialize(Controller $controller) {
 			$this->_Controller = $controller;
-			$this->_config = Configure::read('Saito.themes');
-			$this->_Controller->theme = $this->getApplied();
+		}
+
+		/**
+		 * Sets and/or gets current theme
+		 *
+		 * @param mixed $params name string or config array
+		 * @return string current theme
+		 * @throws InvalidArgumentException
+		 * @throws UnexpectedValueException
+		 */
+		public function theme($params = null) {
+			if (is_array($params)) {
+				$this->_config = $params;
+				$this->_setTheme($this->_getApplied());
+			} elseif (is_string($params)) {
+				$this->_setTheme($params);
+			}
+			if (empty($this->_applied)) {
+				if ($params === null) {
+					throw new UnexpectedValueException('Theme could not be determined: ',
+							print_r($params, true));
+				} else {
+					throw new InvalidArgumentException('Theme is not set yet.');
+				}
+			}
+			return $this->_applied;
 		}
 
 		/**
 		 * Gets currently applied theme
 		 */
-		public function getApplied() {
+		protected function _getApplied() {
 			if ($this->_applied) {
 				return $this->_applied;
 			}
@@ -37,6 +61,15 @@
 				$this->_applied = $this->_config['default'];
 			}
 			return $this->_applied;
+		}
+
+		public function setDefault() {
+			$this->_setTheme($this->_config['default']);
+		}
+
+		protected function _setTheme($theme) {
+			$this->_applied = $theme;
+			$this->_Controller->theme = $this->_applied;
 		}
 
 		/**
@@ -60,9 +93,12 @@
 			$this->_available = $this->_themeDirs();
 
 			// allowed themes for all users
-			if (isset($this->_config['available']['all']) &&
-					$this->_config['available']['all'] !== '*') {
-				$_themesSubset = $this->_config['available']['all'];
+			if (isset($this->_config['available']['all'])) {
+				if ($this->_config['available']['all'] !== '*') {
+					$_themesSubset = $this->_config['available']['all'];
+				}
+			} else {
+				$_themesSubset = [$this->_config['default']];
 			}
 
 			// allowed user themes

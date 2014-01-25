@@ -107,6 +107,8 @@
 				]
 			);
 
+			$this->Themes->theme(Configure::read('Saito.themes'));
+
 			// Load forum settings
 			$this->Setting->load(Configure::read('Saito.Settings'));
 
@@ -126,6 +128,7 @@
 					$this->request['action'] !== 'login' &&
 					!$this->CurrentUser->isAdmin()
 			) {
+				$this->Themes->setDefault();
 				return $this->render('/Pages/forum_disabled', 'barebone');
 				exit;
 			}
