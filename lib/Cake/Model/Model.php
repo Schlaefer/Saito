@@ -1140,7 +1140,9 @@ class Model extends Object implements CakeEventListener {
 				));
 			}
 
-			$this->_schema = null;
+			if ($sources) {
+				$this->_schema = null;
+			}
 		}
 
 		$this->table = $this->useTable = $tableName;
@@ -2699,7 +2701,8 @@ class Model extends Object implements CakeEventListener {
 		}
 
 		$ids = $this->find('all', array_merge(array(
-			'fields' => "{$this->alias}.{$this->primaryKey}",
+			'fields' => "DISTINCT {$this->alias}.{$this->primaryKey}",
+			'order' => false,
 			'recursive' => 0), compact('conditions'))
 		);
 
