@@ -55,10 +55,6 @@ define([
       _previousItemTime: null,
       tpl: _.template('<div class="info_text"><span title="<%= time_long %>"><%= time %></span></div>'),
 
-      init: function(options) {
-        this.$el = options.$el;
-      },
-
       append: function(itemView) {
         var itemTime = moment(itemView.model.get('time'));
         this._itemTime = itemTime;
@@ -67,10 +63,11 @@ define([
           this._previousItemTime = itemTime;
           return;
         }
+        this.$el = itemView.$el;
         if ((this._previousItemTime.unix() - itemTime.unix()) > this._conversationCoolOff) {
-          this._append(this._previousItemTime);
+          this._prepend(this._previousItemTime);
         } else {
-          this._append('<hr>');
+          this._prepend('<hr>');
         }
         this._previousItemTime = itemTime;
       },
@@ -78,26 +75,29 @@ define([
       finish: function() {
         this._previousItemTime = null;
         if (this._itemTime) {
-          this._append(this._itemTime);
+          this.$el.after(this._formatTime(this._itemTime));
         }
       },
 
-      _append: function(time) {
-        var _toAppend = time;
+      _prepend: function(time) {
+        this.$el.before(this._formatTime(time));
+      },
+
+      _formatTime: function(time) {
+        var out = time;
         // time is Moment object
         if (_.isObject(time)) {
-          _toAppend = this.tpl({
-                time: time.format('LT'),
-                time_long: time.format('llll')
-              });
+          out = this.tpl({
+            time: time.format('LT'),
+            time_long: time.format('llll')
+          });
         }
-        this.$el.append(_toAppend);
+        return out;
       }
     },
 
     initialize: function(options) {
       this.itemViewOptions.webroot = options.webroot;
-      this._Delimiter.init({$el: this.$el});
       // setup Notifications
       this.setupNotifications();
       this.listenTo(SbCM, 'change:notify', this.setupNotifications);
@@ -119,11 +119,8 @@ define([
       this.$el.html('');
     },
 
-    onBeforeItemAdded: function(itemView) {
-      this._Delimiter.append(itemView);
-    },
-
     onAfterItemAdded: function(itemView) {
+      this._Delimiter.append(itemView);
       this._Notifications.add(itemView.model);
     },
 
