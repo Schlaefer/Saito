@@ -8,7 +8,7 @@
 			echo $this->fetch('meta');
 			echo $this->fetch('css');
 
-			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
+			if ($CurrentUser->isLoggedIn()):
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
 

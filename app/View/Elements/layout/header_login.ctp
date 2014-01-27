@@ -2,7 +2,7 @@
 	if (!isset($divider))	{
 		$divider = '';
 	}
-	if (isset($CurrentUser) && $CurrentUser->isLoggedIn() == false) {
+	if ($CurrentUser->isLoggedIn() == false) {
 		?>
 		<a href="<?= $this->request->webroot; ?>users/register/"
 			 class='top-menu-item' rel="nofollow">

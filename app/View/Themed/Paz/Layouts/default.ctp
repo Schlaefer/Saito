@@ -43,7 +43,7 @@
 			$('body').addClass('headerClosed');
 		}
 	</script>
-	<?php if (isset($CurrentUser) && !$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
+	<?php if (!$CurrentUser->isLoggedIn() && $this->request->params['action'] != 'login') : ?>
 		<?php echo $this->element('users/login_modal'); ?>
 	<?php endif; ?>
 	<div id="site">
@@ -67,11 +67,13 @@
 			<div class="top-menu">
 				<div class="top-menu-body">
 					<?= $this->element('layout/header_login', ['divider' => '']); ?>
-					<?= $this->Html->link(
-						'<i class="fa fa-search"></i> ' . h(__('Search')),
-						'/entries/search',
-						['class' => 'top-menu-item', 'escape' => false]);
-					?>
+					<?php if ($CurrentUser->isLoggedIn()): ?>
+						<?= $this->Html->link(
+							'<i class="fa fa-search"></i> ' . h(__('Search')),
+							'/entries/search',
+							['class' => 'top-menu-item', 'escape' => false]);
+						?>
+					<?php endif; ?>
 					<span class="top-menu-aside">
 						<button id="js-themeSwitcher" class="btnLink top-menu-item"></button>
 						<button id="js-top-menu-close" class="btnLink top-menu-item">
