@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-27 18:24+0100\n"
-"PO-Revision-Date: 2014-01-27 19:40+0100\n"
+"PO-Revision-Date: 2014-01-27 21:02+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -992,7 +992,7 @@ msgstr ""
 
 #: View/Users/edit.ctp:69 View/Users/edit.ctp:97
 msgid "user_pw_exp"
-msgstr ""
+msgstr "Change password"
 
 #: View/Users/edit.ctp:105
 msgid "user_show_email"
@@ -1008,7 +1008,7 @@ msgstr "Real Name"
 
 #: View/Users/edit.ctp:116
 msgid "user_real_name_exp"
-msgstr ""
+msgstr "(optional)"
 
 #: View/Users/edit.ctp:121 View/Users/view.ctp:60
 msgid "user_hp"
@@ -1016,7 +1016,7 @@ msgstr "Homepage"
 
 #: View/Users/edit.ctp:123
 msgid "user_hp_exp"
-msgstr ""
+msgstr "URL to homepage (optional)"
 
 #: View/Users/edit.ctp:128 View/Users/view.ctp:67
 msgid "user_place"
@@ -1024,11 +1024,11 @@ msgstr "Place"
 
 #: View/Users/edit.ctp:129
 msgid "user_place_exp"
-msgstr ""
+msgstr "(optional)"
 
 #: View/Users/edit.ctp:138
 msgid "user_profile_exp"
-msgstr ""
+msgstr "Info shown in user profile"
 
 #: View/Users/edit.ctp:144 View/Users/view.ctp:103
 msgid "user_signature"
@@ -1036,51 +1036,53 @@ msgstr "Signature"
 
 #: View/Users/edit.ctp:149
 msgid "user_signature_exp"
-msgstr ""
+msgstr "Signature shown at every posting"
 
 #: View/Users/edit.ctp:173
 msgid "user_sort_last_answer"
-msgstr ""
+msgstr "Thread Sort Order"
 
 #: View/Users/edit.ctp:179
 msgid "user_sort_last_answer_time"
-msgstr ""
+msgstr "Time"
 
 #: View/Users/edit.ctp:180
 msgid "user_sort_last_answer_last_answer"
-msgstr ""
+msgstr "Last Answer"
 
 #: View/Users/edit.ctp:188
 msgid "user_sort_last_answer_exp"
 msgstr ""
+"Order of thread on homepage. Time: fixed order by thread start time. Last "
+"Answer: threads with new answers are shown first."
 
 #: View/Users/edit.ctp:193
 msgid "user_automaticaly_mark_as_read"
-msgstr ""
+msgstr "Auto Mark-As-Read"
 
 #: View/Users/edit.ctp:194
 msgid "user_automaticaly_mark_as_read_exp"
-msgstr ""
+msgstr "Click on page logo to mark old entries as read."
 
 #: View/Users/edit.ctp:198
 msgid "user_signatures_hide"
-msgstr ""
+msgstr "Hide Signatures"
 
 #: View/Users/edit.ctp:200
 msgid "user_signatures_hide_exp"
-msgstr ""
+msgstr "Hide other user's signatures"
 
 #: View/Users/edit.ctp:202
 msgid "user_signatures_images_hide_exp"
-msgstr ""
+msgstr "Hide images in other user's signatures"
 
 #: View/Users/edit.ctp:207
 msgid "user_forum_refresh_time"
-msgstr ""
+msgstr "Auto Refresh"
 
 #: View/Users/edit.ctp:220
 msgid "user_forum_refresh_time_exp"
-msgstr ""
+msgstr "Reload homepage after this amount of minutes"
 
 #: View/Users/edit.ctp:227
 msgid "user_theme"
@@ -1092,44 +1094,44 @@ msgstr "Choose a different look. (optional)"
 
 #: View/Users/edit.ctp:240
 msgid "user_colors"
-msgstr ""
+msgstr "Colors"
 
 #: View/Users/edit.ctp:242
 msgid "user_color_new_postings_exp"
-msgstr ""
+msgstr "New postings"
 
 #: View/Users/edit.ctp:244
 msgid "user_color_old_postinings_exp"
-msgstr ""
+msgstr "Old postings"
 
 #: View/Users/edit.ctp:246
 msgid "user_color_actual_posting_exp"
-msgstr ""
+msgstr "Currently viewed posting"
 
 #: View/Users/edit.ctp:268
 msgid "inline_view_on_click"
-msgstr ""
+msgstr "Inline-Open"
 
 #: View/Users/edit.ctp:271
 msgid "inline_view_on_click_exp"
-msgstr ""
+msgstr "Click on a posting opens inline"
 
 #: View/Users/edit.ctp:275
-#, fuzzy
 msgid "user_show_thread_collapsed"
-msgstr "Show User's Entries"
+msgstr "Thread Collpase"
 
 #: View/Users/edit.ctp:278
 msgid "user_show_thread_collapsed_exp"
-msgstr ""
+msgstr "Show all thread collapsed by default"
 
 #: View/Users/edit.ctp:283
 msgid "user_pers_msg"
-msgstr ""
+msgstr "Messaging"
 
 #: View/Users/edit.ctp:284
 msgid "user_pers_msg_exp"
 msgstr ""
+"Allow other users to contact you via email. You email address is not visible."
 
 #: View/Users/edit.ctp:291
 #, fuzzy
@@ -1171,27 +1173,27 @@ msgstr ""
 
 #: View/Users/edit.ctp:339
 msgid "flattr_uid"
-msgstr ""
+msgstr "Flattr-ID"
 
 #: View/Users/edit.ctp:343
 msgid "flattr_allow_user"
-msgstr ""
+msgstr "Flattrn"
 
 #: View/Users/edit.ctp:344
 msgid "flattr_allow_user_exp"
-msgstr ""
+msgstr "Flattr button on profile page"
 
 #: View/Users/edit.ctp:347
 msgid "flattr_allow_posting"
-msgstr ""
+msgstr "Flattr Postings"
 
 #: View/Users/edit.ctp:348
 msgid "flattr_allow_posting_exp"
-msgstr ""
+msgstr "Ontopic postings have flatter button activated by default"
 
 #: View/Users/edit.ctp:354
 msgid "button_save"
-msgstr ""
+msgstr "Save"
 
 #: View/Users/index.ctp:17
 msgid "userlist_online"
