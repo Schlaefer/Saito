@@ -41,21 +41,21 @@
 				$this->UserH->minusIfEmpty($user['User']['user_real_name'])
 		];
 	}
-	if (!empty($user['User']['user_email']) && $user['User']['personal_messages'] == true) {
-		$table[] =
-				array(
-						__('Contact'),
-						$this->UserH->minusIfEmpty($this->UserH->contact($user['User'])),
-				);
+
+	if (!empty($user['User']['user_email']) &&
+			$user['User']['personal_messages'] == true
+	) {
+		$_contact = $this->UserH->minusIfEmpty($this->UserH->contact($user['User']));
+		if ($CurrentUser->isAdmin()) {
+			$_contact .= ' ' . $this->Layout->infoText(
+							'(' .
+							$this->Text->autoLinkEmails($user['User']['user_email']) .
+							')'
+					);
+		}
+		$table[] = [__('Contact'), $_contact];
 	}
-	if ($CurrentUser->isAdmin()):
-		$table[] =
-				array(
-						__('userlist_email'),
-						$this->Html->link($user['User']['user_email'],
-								'mailto:' . $user['User']['user_email']),
-				);
-	endif;
+
 	if (!empty($user['User']['user_hp'])) {
 		$table[] = [
 				__("user_hp"),

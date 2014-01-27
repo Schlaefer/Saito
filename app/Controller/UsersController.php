@@ -10,7 +10,8 @@
 			'Farbtastic',
 			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',
-			'EntryH'
+			'EntryH',
+			'Text'
 		];
 
 		protected $_allowedToEditUserData = false;
