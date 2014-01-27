@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-24 18:13+0100\n"
-"PO-Revision-Date: 2014-01-24 18:14+0100\n"
+"POT-Creation-Date: 2014-01-27 12:19+0100\n"
+"PO-Revision-Date: 2014-01-27 12:20+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -924,12 +924,12 @@ msgid "New User"
 msgstr "Neuer Benutzer"
 
 #: View/Users/admin_index.ctp:10 View/Users/edit.ctp:32 View/Users/edit.ctp:80
-#: View/Users/index.ctp:14 View/Users/view.ctp:25
+#: View/Users/index.ctp:17 View/Users/view.ctp:25
 msgid "username_marking"
 msgstr "Benutzername"
 
 #: View/Users/admin_index.ctp:11 View/Users/edit.ctp:42
-#: View/Users/index.ctp:15
+#: View/Users/index.ctp:18
 msgid "user_type"
 msgstr "Typ"
 
@@ -937,11 +937,11 @@ msgstr "Typ"
 msgid "user_email"
 msgstr "Email"
 
-#: View/Users/admin_index.ctp:13 View/Users/index.ctp:17
+#: View/Users/admin_index.ctp:13 View/Users/index.ctp:25
 msgid "registered"
 msgstr "Registriert"
 
-#: View/Users/admin_index.ctp:16 View/Users/index.ctp:20
+#: View/Users/admin_index.ctp:16 View/Users/index.ctp:31
 msgid "user_lock"
 msgstr "Sperre"
 
@@ -1232,13 +1232,28 @@ msgstr ""
 msgid "button_save"
 msgstr "Speichern"
 
-#: View/Users/index.ctp:5
-msgid "reg_users_hl"
-msgstr "Benutzerübersicht"
-
-#: View/Users/index.ctp:16
+#: View/Users/index.ctp:20
 msgid "userlist_online"
-msgstr "Status"
+msgstr "Online"
+
+#: View/Users/index.ctp:36
+#, php-format
+msgid "Sort by: %s"
+msgstr "Sortieren nach: %s"
+
+#: View/Users/index.ctp:60
+msgid "Online"
+msgstr ""
+
+#: View/Users/index.ctp:62
+#, php-format
+msgid "user_since %s"
+msgstr "Mitglied seit %s"
+
+#: View/Users/index.ctp:68
+#, php-format
+msgid "%s banned"
+msgstr "%s gesperrt"
 
 #: View/Users/login.ctp:6
 msgid "login_linkname"
@@ -1316,7 +1331,7 @@ msgstr "Neu"
 msgid "Cumulated"
 msgstr "Kumuliert"
 
-#: Controller/AppController.php:232
+#: Controller/AppController.php:235
 msgid "forum-title-template"
 msgstr ":page – :forum"
 
@@ -2758,6 +2773,9 @@ msgstr ""
 msgid "token test"
 msgstr ""
 
+#~ msgid "Joined %s"
+#~ msgstr "Beigetreten am %s"
+
 #~ msgid "new_entry_linktitle"
 #~ msgstr "Neuen Eintrag verfassen"
 
@@ -2776,9 +2794,6 @@ msgstr ""
 
 #~ msgid "Caches have been emptied."
 #~ msgstr "Caches wurden geleert."
-
-#~ msgid "Underline"
-#~ msgstr "Unterstrichen"
 
 #~ msgid "Picture"
 #~ msgstr "Bild"

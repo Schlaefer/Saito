@@ -619,9 +619,13 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .table td, .table th, .table-padding, .bookmarks-cell { padding: 10px; }
 
-.table.th-left.elegant td:first-child { font-weight: bold; text-align: right; vertical-align: top; width: 38%; }
+.table-menu { float: right; }
+.table-menu .asc, .table-menu .desc { font-weight: bold; }
+.table-menu .asc:after { content: "\002005\002193\002005"; }
+.table-menu .desc:after { content: "\002005\002191\002005"; }
 
-.table-zebra > tbody > tr.b { background-color: #fafafa; }
+.table.th-left td:first-child { font-weight: bold; text-align: right; vertical-align: top; width: 38%; }
+.table.th-left.row-sep { border-spacing: 0 20px; border-collapse: separate; }
 
 .table-clean th, .table-clean-th-extend, .bookmarks-row-header { border-style: solid; border-color: silver; border-width: 0 0 1px 0; font-weight: bold; }
 
@@ -757,7 +761,7 @@ a.no-color, .no-color { color: #6f6f6f; }
 
 .highlight { background-color: #ffff99; }
 
-.highlight-hover, .thread_line-content:hover, .table-zebra > tbody > tr:hover { background: #F0F0F0; }
+.highlight-hover, .thread_line-content:hover { background: #F0F0F0; }
 
 .disabled { color: #505050; }
 
@@ -853,7 +857,7 @@ a.category_acs_2, .category_acs_2 { background: #d5d5d5; }
 
 /******************************************************************************* View Posting *****************************************************************************/
 /******************************************************************************* Tables *****************************************************************************/
-.table.th-left.elegant td:first-child { border-right: 1px solid #eaeaea; }
+.table.th-left td:first-child { border-right: 1px solid #eaeaea; }
 
 .table.border { border: 2px solid #eaeaea; border-right-width: 1px; border-radius: 0px; }
 .table.border tr:first-child td:first-child, .table.border tr:first-child th:first-child { border-top-left-radius: 0px; }

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-24 18:13+0100\n"
-"PO-Revision-Date: 2014-01-24 18:14+0100\n"
+"POT-Creation-Date: 2014-01-27 12:13+0100\n"
+"PO-Revision-Date: 2014-01-27 12:13+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -420,45 +420,45 @@ msgstr "close all"
 msgid "btn-openThreads"
 msgstr "open all"
 
-#: View/Elements/entry/view_content.ctp:57
+#: View/Elements/entry/view_content.ctp:58
 #, php-format
 msgid "%s edited by %s"
 msgstr ""
 
-#: View/Elements/entry/view_content.ctp:67
+#: View/Elements/entry/view_content.ctp:68
 msgid "views_headline"
 msgstr "views"
 
-#: View/Elements/entry/view_posting.ctp:64
+#: View/Elements/entry/view_posting.ctp:67
 #: View/Elements/layout/header_login.ctp:67
 #: View/Elements/layout/header_login.ctp:71 View/Entries/index.ctp:30
 #: View/Entries/search.ctp:56 View/Users/view.ctp:163
 msgid "Help"
 msgstr ""
 
-#: View/Elements/entry/view_posting.ctp:65
+#: View/Elements/entry/view_posting.ctp:68
 msgid "answering_forbidden_locked_shp"
 msgstr "Answering forbidden by moderator."
 
-#: View/Elements/entry/view_posting.ctp:70
+#: View/Elements/entry/view_posting.ctp:73
 msgid "forum_answer_linkname"
 msgstr "Answer"
 
-#: View/Elements/entry/view_posting.ctp:86
-#: View/Elements/entry/view_posting.ctp:114
+#: View/Elements/entry/view_posting.ctp:89
+#: View/Elements/entry/view_posting.ctp:117
 #: Controller/EntriesController.php:497
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: View/Elements/entry/view_posting.ctp:154
+#: View/Elements/entry/view_posting.ctp:157
 msgid "merge_tree_link"
 msgstr "Merge"
 
-#: View/Elements/entry/view_posting.ctp:165
+#: View/Elements/entry/view_posting.ctp:168
 msgid "delete_tree_link"
 msgstr "Delete"
 
-#: View/Elements/entry/view_posting.ctp:168
+#: View/Elements/entry/view_posting.ctp:171
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
@@ -672,7 +672,7 @@ msgstr ""
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:129
+#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:141
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
@@ -871,6 +871,10 @@ msgstr ""
 msgid "Admin Edit Smiley"
 msgstr ""
 
+#: View/Themed/Paz/Layouts/default.ctp:71
+msgid "Search"
+msgstr ""
+
 #: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Upload"
@@ -898,12 +902,12 @@ msgid "New User"
 msgstr ""
 
 #: View/Users/admin_index.ctp:10 View/Users/edit.ctp:32 View/Users/edit.ctp:80
-#: View/Users/index.ctp:14 View/Users/view.ctp:25
+#: View/Users/index.ctp:19 View/Users/view.ctp:25
 msgid "username_marking"
 msgstr "Name"
 
 #: View/Users/admin_index.ctp:11 View/Users/edit.ctp:42
-#: View/Users/index.ctp:15
+#: View/Users/index.ctp:20
 msgid "user_type"
 msgstr "Type"
 
@@ -911,14 +915,13 @@ msgstr "Type"
 msgid "user_email"
 msgstr "Email"
 
-#: View/Users/admin_index.ctp:13 View/Users/index.ctp:17
+#: View/Users/admin_index.ctp:13 View/Users/index.ctp:27
 msgid "registered"
 msgstr "Registered"
 
-#: View/Users/admin_index.ctp:16 View/Users/index.ctp:20
-#, fuzzy
+#: View/Users/admin_index.ctp:16 View/Users/index.ctp:33
 msgid "user_lock"
-msgstr "Blocked"
+msgstr "Banned"
 
 #: View/Users/changepassword.ctp:9 View/Users/edit.ctp:65
 #: View/Users/edit.ctp:93
@@ -1190,13 +1193,27 @@ msgstr ""
 msgid "button_save"
 msgstr ""
 
-#: View/Users/index.ctp:5
-msgid "reg_users_hl"
-msgstr "Registered Users"
+#: View/Users/index.ctp:17
+msgid "Sort by"
+msgstr ""
 
-#: View/Users/index.ctp:16
+#: View/Users/index.ctp:22
 msgid "userlist_online"
 msgstr "Online"
+
+#: View/Users/index.ctp:61
+msgid "Online"
+msgstr ""
+
+#: View/Users/index.ctp:63
+#, php-format
+msgid "user_since %s"
+msgstr "Joined %s"
+
+#: View/Users/index.ctp:69
+#, php-format
+msgid "%s banned"
+msgstr ""
 
 #: View/Users/login.ctp:6
 msgid "login_linkname"
@@ -1226,7 +1243,7 @@ msgstr "Place"
 
 #: View/Users/view.ctp:73
 msgid "user_since"
-msgstr "Registered"
+msgstr "Joined"
 
 #: View/Users/view.ctp:74
 msgid "date_short"
@@ -1272,7 +1289,7 @@ msgstr ""
 msgid "Cumulated"
 msgstr ""
 
-#: Controller/AppController.php:232
+#: Controller/AppController.php:235
 msgid "forum-title-template"
 msgstr ":page – :forum"
 
@@ -1657,19 +1674,19 @@ msgstr ""
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:126
+#: View/Helper/EntryHHelper.php:138
 msgid "fixed"
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:134
+#: View/Helper/EntryHHelper.php:146
 msgid "Helpful entry"
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:147
+#: View/Helper/EntryHHelper.php:159
 msgid "cateogry"
 msgstr "Category"
 
-#: View/Helper/EntryHHelper.php:150
+#: View/Helper/EntryHHelper.php:162
 msgid "error_category_empty"
 msgstr "Category must not be empty."
 

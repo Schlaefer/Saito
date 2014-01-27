@@ -10,24 +10,36 @@
     padding: $padding;
 }
 
-// elegant
+.table-menu {
+  float: right;
+
+  .asc, .desc {
+    font-weight: bold;
+  }
+
+  .asc:after {
+    content: "\002005\002193\002005";
+  }
+
+  .desc:after {
+    content: "\002005\002191\002005";
+  }
+}
+
+// th-left
 // -------------------------------------
-.table.th-left.elegant td:first-child {
+.table.th-left {
+  td:first-child {
     font-weight: bold;
     text-align: right;
     vertical-align: top;
     width: 38%;
-}
+  }
 
-// table-zebra
-// -------------------------------------
-.table-zebra {
-    > tbody > tr:hover {
-        @extend .highlight-hover;
-    }
-    > tbody > tr.b {
-        background-color: $saito_gray_light;
-    }
+  &.row-sep {
+    border-spacing: 0 2*$padding;
+    border-collapse: separate;
+  }
 }
 
 // table-clean
