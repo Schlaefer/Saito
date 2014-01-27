@@ -219,11 +219,8 @@
 
 			$this->set('user', $viewedUser);
 			$this->set(
-				'title_for_layout',
-				String::insert(
-					__('User :name'),
-					['name' => $viewedUser['User']['username']]
-				)
+					'title_for_layout',
+					__('User %s', $viewedUser['User']['username'])
 			);
 		}
 
