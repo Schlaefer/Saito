@@ -17,7 +17,7 @@
 			}
 			$lastId = (int)$shouts[0]['Shout']['id'];
 			$cache = $this->_readCache($lastId);
-			if ($cache && false) {
+			if ($cache) {
 				return $cache;
 			}
 
