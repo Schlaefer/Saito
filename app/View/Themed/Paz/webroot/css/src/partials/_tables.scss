@@ -1,4 +1,4 @@
-.table {
+.table.th-left {
   margin: 0 auto;
   border-collapse: collapse;
   width: 100%;
@@ -9,40 +9,37 @@
     vertical-align: top;
   }
 
-  tr {
-  }
-
   td:first-child {
     font-weight: bold;
     text-align: right;
     width: 38%;
     border-right: 1px solid $border-color;
   }
+
+  &.row-sep {
+      border-spacing: 0 2*$padding;
+      border-collapse: separate;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
 }
 
-.table-zebra {
+.table-menu {
+  float: right;
 
-  border-spacing: 0 2*$padding;
-  border-collapse: separate;
-
-  thead {
-    border-bottom: 2px solid $border-color;
+  .asc, .desc {
+    font-weight: bold;
   }
 
-  .a, .b {
+  .asc:after {
+    content: "\002005\002193\002005";
   }
 
-  tr {
-    // background: lighten($border-color, 10%);
+  .desc:after {
+    content: "\002005\002191\002005";
   }
-
-  tr:hover {
-   //  @extend %highlight-hover;
-  }
-
 }
-
-.table.th-left {
-
-}
-

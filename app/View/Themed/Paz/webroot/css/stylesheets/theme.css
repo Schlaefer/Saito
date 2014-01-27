@@ -128,12 +128,16 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .c-bbcode-spoiler .c-bbcode-spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
 .c-bbcode-spoiler .c-bbcode-spoiler-link:hover { color: inherit; background-color: inherit; text-shadow: inherit; }
 
-.table { margin: 0 auto; border-collapse: collapse; width: 100%; }
-.table th, .table td { padding: 1em 1em; text-align: left; vertical-align: top; }
-.table td:first-child { font-weight: bold; text-align: right; width: 38%; border-right: 1px solid #e2e2e2; }
+.table.th-left { margin: 0 auto; border-collapse: collapse; width: 100%; }
+.table.th-left th, .table.th-left td { padding: 1em 1em; text-align: left; vertical-align: top; }
+.table.th-left td:first-child { font-weight: bold; text-align: right; width: 38%; border-right: 1px solid #e2e2e2; }
+.table.th-left.row-sep { border-spacing: 0 2em; border-collapse: separate; }
+.table.th-left ul { margin: 0; padding: 0; list-style-type: none; }
 
-.table-zebra { border-spacing: 0 2em; border-collapse: separate; }
-.table-zebra thead { border-bottom: 2px solid #e2e2e2; }
+.table-menu { float: right; }
+.table-menu .asc, .table-menu .desc { font-weight: bold; }
+.table-menu .asc:after { content: "\002005\002193\002005"; }
+.table-menu .desc:after { content: "\002005\002191\002005"; }
 
 .slidetab { margin-bottom: 3em; padding: 1em 2em; border-left: 1px solid #e2e2e2; box-sizing: border-box; font-size: 0.85em; }
 .slidetab ul { list-style: none; padding: 0; }
