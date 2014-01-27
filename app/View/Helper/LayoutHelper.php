@@ -108,7 +108,7 @@
 		 * @return string
 		 */
 		public function pageHeading($heading, $tag = 'h1') {
-			return "<{$tag} class=\"pageHeading\">{$heading}</{$tag}>";
+			return $this->Html->tag($tag, $heading, ['class' => 'pageHeading']);
 		}
 
 	}
