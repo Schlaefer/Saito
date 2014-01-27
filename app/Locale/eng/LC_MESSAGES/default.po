@@ -1193,10 +1193,6 @@ msgstr ""
 msgid "button_save"
 msgstr ""
 
-#: View/Users/index.ctp:8
-msgid "reg_users_hl"
-msgstr "Registered Users"
-
 #: View/Users/index.ctp:17
 msgid "Sort by"
 msgstr ""
