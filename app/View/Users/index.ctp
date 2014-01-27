@@ -40,7 +40,7 @@
 							<?=
 								$this->Html->link(
 										$user['User']['username'],
-										['/users/view', $user['User']['id']]);
+										'/users/view/' . $user['User']['id']);
 							?>
 						</td>
 						<td>
