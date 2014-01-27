@@ -2,7 +2,7 @@
 	<div class="l-box-header box-header">
 		<div>
 			<div class='c_first_child'></div>
-			<div><h1><?= __('reg_users_hl'); ?></h1></div>
+			<div><h1><?= $title_for_page ?></h1></div>
 			<div class='c_last_child'></div>
 		</div>
 	</div>

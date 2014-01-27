@@ -1232,10 +1232,6 @@ msgstr ""
 msgid "button_save"
 msgstr "Speichern"
 
-#: View/Users/index.ctp:8
-msgid "reg_users_hl"
-msgstr "Benutzerübersicht"
-
 #: View/Users/index.ctp:20
 msgid "userlist_online"
 msgstr "Online"
