@@ -183,7 +183,7 @@
 			}
 
 			// activate stopwatch
-			if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
+			if (isset($this->request->query['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
 				$this->set('showStopwatchOutput', true);
 			};
 
