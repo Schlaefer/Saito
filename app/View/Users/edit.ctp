@@ -11,7 +11,7 @@
 	echo __('Edit %s Profil', $this->TextH->properize($this->request->data['User']['username']));
 	?>
 </h1>
-<div id="user_edit" class="user edit">
+<div class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
 	<div class="box-form">
 		<div class="l-box-header box-header">

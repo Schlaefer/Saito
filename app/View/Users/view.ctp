@@ -6,7 +6,7 @@
       array( 'class' => 'textlink', 'escape' => false ));
   $this->end();
 ?>
-<div id="user_view" class="user view">
+<div class="user view">
 	<?php
 		$urlToHistory = $this->Html->url(
 			[

@@ -1,4 +1,4 @@
-<div id="user_contact" class="user contact">
+<div class="user contact">
 	<div class="box-form">
 		<div class="l-box-header box-header">
 			<div>
