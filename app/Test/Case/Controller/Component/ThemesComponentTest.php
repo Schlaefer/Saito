@@ -106,7 +106,7 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual(array_values($_r), ['Default', 'Ixi', 'Paz']);
+			$this->assertEqual(array_values($_r), ['Default', 'Ixi']);
 		}
 
 		public function testGetAvailableUserNotAllowed() {
@@ -141,7 +141,7 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual(array_values($_r), ['Default', 'Paz']);
+			$this->assertEqual(array_values($_r), ['Default']);
 		}
 
 	}
