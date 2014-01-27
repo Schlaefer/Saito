@@ -1,0 +1,43 @@
+$pill-border-radius: 14px;
+$pill-color: white;
+$pill-background: $orange;
+
+.pill {
+  color: white;
+  background: $pill-background;
+  border: 1px solid $pill-background;
+  padding: 0.1em 1em !important;
+  font-weight: bold;
+  border-radius: $pill-border-radius;
+  text-shadow: none;
+
+  a {
+    color: white;
+  }
+}
+
+.pill-invert {
+  color: $pill-background;
+  background: $pill-color;
+
+  a {
+    color: $pill-background;
+  }
+}
+
+.pill-top {
+  border-top: none;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.pill-right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.pill-left {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+

@@ -6,6 +6,11 @@ body {
   min-width: $layout_min_width;
 }
 
+.body {
+  min-height: 100%;
+  position: relative;
+}
+
 // container arround flash messages
 #l-flash-container {
 	/* make left/right same value as #content margin */

@@ -30,7 +30,8 @@
 			// Enabling data view for rss/xml and json
 			'RequestHandler',
 			'Session',
-			'PreviewDetector.PreviewDetector'
+			'PreviewDetector.PreviewDetector',
+			'Themes'
 		];
 
 		public $helpers = [
@@ -106,8 +107,7 @@
 				]
 			);
 
-			// must be set before forum_disabled switch;
-			$this->theme = Configure::read('Saito.theme');
+			$this->Themes->theme(Configure::read('Saito.themes'));
 
 			// Load forum settings
 			$this->Setting->load(Configure::read('Saito.Settings'));
@@ -128,6 +128,7 @@
 					$this->request['action'] !== 'login' &&
 					!$this->CurrentUser->isAdmin()
 			) {
+				$this->Themes->setDefault();
 				return $this->render('/Pages/forum_disabled', 'barebone');
 				exit;
 			}
@@ -158,7 +159,7 @@
 			$this->set('lastAction', $this->localReferer('action'));
 			$this->set('lastController', $this->localReferer('controller'));
 			$this->set('isDebug', (int)Configure::read('debug') > 0);
-			$this->_setTitleForLayout();
+			$this->_setLayoutTitles();
 
 			Stopwatch::stop('App->beforeRender()');
 			Stopwatch::start('---------------------- Rendering ---------------------- ');
@@ -167,65 +168,102 @@
 /**
  * Sets forum configuration from GET parameter in url
  *
- * Available named parameters
- *
- * - theme:<foo>
+ * - theme=<foo>
  * - stopwatch:true
  * - lang:<lang_id>
  */
 		protected function _setConfigurationFromGetParams() {
-			if ($this->CurrentUser->isLoggedIn()) {
-				// testing different themes on the fly with `theme` GET param /theme:<foo>/
-				if (isset($this->passedArgs['theme'])):
-					$this->theme = $this->passedArgs['theme'];
-				endif;
-
-				// activate stopwatch
-				if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
-					$this->set('showStopwatchOutput', true);
-				};
-
-				// change language
-				if (isset($this->passedArgs['lang'])) {
-					$L10n = ClassRegistry::init('L10n');
-					if ($L10n->catalog($this->passedArgs['lang'])) {
-						Configure::write('Config.language', $this->passedArgs['lang']);
-					}
-				};
-			}
-		}
-
-/**
- * sets title for pages
- *
- * set in i18n domain file 'page_titles.po' with 'controller/view' title
- *
- * use plural for for controller title: 'entries/index' (not 'entry/index')!
- *
- * @td helper?
- *
- */
-		protected function _setTitleForLayout() {
-			$forumTitle = Configure::read('Saito.Settings.forum_name');
-			if (empty($forumTitle)) {
+			if (!$this->CurrentUser->isLoggedIn()) {
 				return;
 			}
 
-			$pageTitle = null;
-			if (isset($this->viewVars['title_for_layout'])) {
-				$pageTitle = $this->viewVars['title_for_layout'];
+			// change theme on the fly with ?theme=<name>
+			if (isset($this->request->query['theme'])) {
+				$this->theme = $this->request->query['theme'];
+			}
+
+			// activate stopwatch
+			if (isset($this->passedArgs['stopwatch']) && Configure::read('Saito.Settings.stopwatch_get')) {
+				$this->set('showStopwatchOutput', true);
+			};
+
+			// change language
+			if (isset($this->passedArgs['lang'])) {
+				$L10n = ClassRegistry::init('L10n');
+				if ($L10n->catalog($this->passedArgs['lang'])) {
+					Configure::write('Config.language', $this->passedArgs['lang']);
+				}
+			};
+		}
+
+/**
+ * sets layout/title/page vars
+ *
+ * @td helper?
+ */
+		protected function _setLayoutTitles() {
+			$_pageTitle = $this->_setPageTitle();
+			$_forumName = $this->_setForumName();
+			$this->_setForumTitle($_pageTitle, $_forumName);
+		}
+
+		/**
+		 * Sets forum name according to forum settings if not already set
+		 *
+		 * @return string
+		 */
+		protected function _setForumName() {
+			if (isset($this->viewVars['forum_name'])) {
+				$_forumName = $this->viewVars['forum_name'];
 			} else {
-				$pageTitle = __d(
+				$_forumName = Configure::read('Saito.Settings.forum_name');
+			}
+			$this->set('forum_name', $_forumName);
+			return $_forumName;
+		}
+
+		/**
+		 * Sets forum title `<page> - <forum>`
+		 *
+		 * @param string $pageTitle
+		 * @param string $forumName
+		 * @return string
+		 */
+		protected function _setForumTitle($pageTitle, $forumName) {
+			$_forumTitle = $pageTitle;
+			if (!empty($forumName)) {
+				$_forumTitle = String::insert(__('forum-title-template'),
+						['page' => $pageTitle, 'forum' => $forumName]);
+			}
+			$this->set('title_for_layout', $_forumTitle);
+			return $_forumTitle;
+		}
+
+		/**
+		 * Sets page title
+		 *
+		 * Looks in this order for:
+		 * 1. title_for_page
+		 * 2. title_for_layout
+		 * 3. `page_titles.po` language file with 'controller/view' title,
+		 * 		use plural for for controller title: 'entries/index' (not 'entry/index')!
+		 *
+		 * @return string
+		 */
+		protected function _setPageTitle() {
+			if (isset($this->viewVars['title_for_page'])) {
+				$_pageTitle = $this->viewVars['title_for_page'];
+			} elseif (isset($this->viewVars['title_for_layout'])) {
+				// provides CakePHP backwards-compatibility
+				$_pageTitle = $this->viewVars['title_for_layout'];
+			} else {
+				$_pageTitle = __d(
 					'page_titles',
-					$this->params['controller'] . '/' . $this->params['action']
+						$this->params['controller'] . '/' . $this->params['action']
 				);
 			}
-
-			if (!empty($pageTitle)) {
-				$forumTitle = $pageTitle . ' – ' . $forumTitle;
-			}
-
-			$this->set('title_for_layout', $forumTitle);
+			$this->set('title_for_page', $_pageTitle);
+			return $_pageTitle;
 		}
 
 		public function initBbcode() {

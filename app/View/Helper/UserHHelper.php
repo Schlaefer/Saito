@@ -38,45 +38,28 @@
  * @param null $User
  * @return string
  */
-		public function generateCss($User = null) {
-			$out = array();
-			$out[] = "<style type='text/css'>";
+		public function generateCss(array $User) {
+			$_styles = [];
 
-			if (isset($User['id'])) {
+			// colors
+			$_cNew = $User['user_color_new_postings'];
+			$_cOld = $User['user_color_old_postings'];
+			$_cAct = $User['user_color_actual_posting'];
 
-				$_fontSize = $User['user_font_size'];
-				if ($_fontSize != 1) {
-					$_fontSize = -1 * (1 - $_fontSize) * 20 + 12;
-					if (!empty($_fontSize)) {
-						$out[] = "body { font-size:" . $_fontSize . "px; }";
-						// scales the the following parameter to a subjective nicer view
-						// @td set generaly to 1 1/3 em of font size ?
-						$_lineHeight = number_format((1 + 1 / 2) * $_fontSize, 3, '.', '');
-						$out[] = "li { line-height:{$_lineHeight}px; }";
-						// $out[] =  "li { line-height: 1.45; }";
-						$out[] = "ul.thread {margin-bottom:{$_lineHeight}px ;}";
-					}
+			$_aMetatags = array('link', 'visited', 'hover', 'active');
+			foreach ($_aMetatags as $_aMetatag) {
+				if (!empty($_cOld) && $_cOld !== '#') {
+					$_styles[] = "li.thread .span_post_type:$_aMetatag, li.reply .span_post_type:$_aMetatag	{ color: $_cOld; }";
 				}
-
-				$_cNew = $User['user_color_new_postings'];
-				$_cOld = $User['user_color_old_postings'];
-				$_cAct = $User['user_color_actual_posting'];
-
-				$_aMetatags = array('link', 'visited', 'hover', 'active');
-				foreach ($_aMetatags as $_aMetatag) {
-					if (!empty($_cOld) && $_cOld !== '#') {
-						$out[] = "li.thread .span_post_type:$_aMetatag, li.reply .span_post_type:$_aMetatag	{ color: $_cOld; }";
-					}
-					if (!empty($_cNew) && $_cNew !== '#') {
-						$out[] = "li.threadnew .span_post_type:$_aMetatag, li.replynew .span_post_type:$_aMetatag { color: $_cNew; }";
-					}
-					if (!empty($_cAct) && $_cAct !== '#') {
-						$out[] = "li.actthread .span_post_type:$_aMetatag, li.actreply .span_post_type:$_aMetatag 	{ color: $_cAct; }";
-					}
+				if (!empty($_cNew) && $_cNew !== '#') {
+					$_styles[] = "li.threadnew .span_post_type:$_aMetatag, li.replynew .span_post_type:$_aMetatag { color: $_cNew; }";
+				}
+				if (!empty($_cAct) && $_cAct !== '#') {
+					$_styles[] = "li.actthread .span_post_type:$_aMetatag, li.actreply .span_post_type:$_aMetatag 	{ color: $_cAct; }";
 				}
 			}
-			$out[] = "</style>";
-			return implode(" ", $out);
+
+			return '<style type="text/css">' . implode(" ", $_styles) . '</style>';
 		}
 
 /**

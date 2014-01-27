@@ -57,6 +57,10 @@
 			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
 		}
 
+		public function isPinned($entry) {
+			return (bool)$entry['Entry']['fixed'];
+		}
+
 /**
  * @param $entry
  * @param $user
@@ -225,13 +229,13 @@ EOF;
 		 */
 		protected function _wrapUl($string, $level = null, $id = null) {
 			if ($level < $this->_maxThreadDepthIndent) {
-				$class = '';
+				$class = 'threadTree-node';
 				$data = '';
 				if ($level === 0) {
-					$class = 'class="root"';
+					$class .= ' root';
 					$data = 'data-id="' . $id . '"';
 				}
-				$string = "<ul {$data} {$class}>" . $string . '</ul>';
+				$string = "<ul {$data} class=\"{$class}\">{$string}</ul>";
 			}
 			return $string;
 		}

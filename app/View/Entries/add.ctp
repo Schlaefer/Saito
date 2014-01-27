@@ -54,7 +54,7 @@
 				</div>
 				<div>
 					<h2>
-						<?= $form_title; ?>
+						<?= $title_for_page ?>
 					</h2>
 				</div>
 				<div class="c_last_child">&nbsp;</div>

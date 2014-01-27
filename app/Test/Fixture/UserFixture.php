@@ -29,7 +29,6 @@
 			'user_lock' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'pwf_code' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 			'activate_code' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 7),
-			'user_font_size' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 			'user_signatures_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'user_signatures_images_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'user_forum_refresh_time' => array('type' => 'integer', 'null' => true, 'default' => '0'),
@@ -53,6 +52,7 @@
 			'user_category_override' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 			'user_category_active' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 			'user_category_custom' => array('type' => 'string', 'null' => false, 'length' => 512, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+			'user_theme' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 			'indexes' => array(
 				'PRIMARY' => array('column' => 'id', 'unique' => 1),
 				'username' => array('column' => 'username', 'unique' => 1)

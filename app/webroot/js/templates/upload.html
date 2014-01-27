@@ -1,6 +1,3 @@
-<div class="upload_box_delete">
-    <%= linkDelete %>
-</div>
 <div>
     <div class="upload_box_header">
         <%= linkImage %>
@@ -8,6 +5,11 @@
 </div>
 <div>
     <div class="l-box-footer box-footer-form upload_box_footer">
-        <%= linkInsert %>
+        <button class="btn btn-submit">
+            <%- $.i18n.__('upload_btn_insert_into_posting') %>
+        </button>
+        <div class="upload_box_delete">
+            <%= linkDelete %>
+        </div>
     </div>
 </div>

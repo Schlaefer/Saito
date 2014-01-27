@@ -264,7 +264,7 @@
  * @throws ForbiddenException
  */
 		public function add($id = null) {
-			$this->set('form_title', __('new_entry_linktitle'));
+			$this->set('title_for_layout', __('Write a New Entry'));
 
 			// insert new entry
 			if (empty($this->request->data) === false) {
@@ -376,7 +376,7 @@
 						$this->request->data['User']['username']
 					);
 
-					$this->set('form_title', __('answer_marking'));
+					$this->set('title_for_layout', __('Write a Reply'));
 				} else {
 					// new posting which creates new thread
 					$this->request->data['Entry']['pid'] = 0;
@@ -973,7 +973,7 @@
 						'Entry.category' => $categories
 				),
 				'contain' => false,
-				'fields' => 'id, pid, tid, time, last_answer',
+				'fields' => 'id, pid, tid, time, last_answer, fixed',
 				'limit' => Configure::read('Saito.Settings.topics_per_page'),
 				'order' => $order,
 				'getInitialThreads' => 1,

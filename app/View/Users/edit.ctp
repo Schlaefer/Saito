@@ -222,6 +222,20 @@
 			</td>
 		</tr>
 
+		<?php if (count($availableThemes) > 1): ?>
+			<tr>
+				<td> <?= __('user_theme') ?> </td>
+				<td> <?=
+						$this->Form->input('user_theme',
+								[
+										'options' => $availableThemes,
+										'label' => false,
+								]) ?>
+					<p class="exp"> <?= __('user_theme_exp') ?> </p>
+				</td>
+			</tr>
+		<?php endif; ?>
+
 		<tr>
 			<td> <?php echo __('user_colors') ?> </td>
 			<td>
@@ -303,29 +317,6 @@
 				</tr>
 			<?php  endif ; ?>
 		<?php  endif; ?>
-
-		<tr>
-			<td> <?php echo __('user_font_size') ?> </td>
-			<td> <?php echo  $this->Form->input('user_font_size', array(
-					'options' => array (
-						'1.25'	=> '5',
-						'1.20'	=> '4',
-						'1.15'	=> '3',
-						'1.10'	=> '2',
-						'1.05'	=> '1',
-						'1'			=> '0',
-						'0.95'	=> '-1',
-						'0.9'		=> '-2',
-						'0.85'	=> '-3',
-						'0.8'		=> '-4',
-						'0.75'	=> '-5',
-					),
-					'label'	=> false,
-					));  ?>
-				<p class="exp"> <?php echo __('user_font_size_exp') ?> </p>
-			</td>
-		</tr>
-
 	</table>
   </div> <!-- content -->
   </div> <!-- box-form -->

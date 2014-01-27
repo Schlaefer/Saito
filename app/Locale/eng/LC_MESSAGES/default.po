@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-27 08:53+0100\n"
-"PO-Revision-Date: 2013-08-27 08:53+0100\n"
+"POT-Creation-Date: 2014-01-27 12:13+0100\n"
+"PO-Revision-Date: 2014-01-27 12:13+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -15,7 +15,7 @@ msgstr ""
 "macnemo_2_github/app/\n"
 "'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -85,7 +85,16 @@ msgstr ""
 msgid "Empty Caches"
 msgstr ""
 
-#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:53
+#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:54
+msgid "Logs"
+msgstr ""
+
+#: View/Admins/admin_logs.ctp:3
+#, php-format
+msgid "Latest log entries. See full logs at \"%s\"."
+msgstr ""
+
+#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:51
 msgid "Stats"
 msgstr ""
 
@@ -98,8 +107,8 @@ msgstr ""
 msgid "User Registrations"
 msgstr "Registration"
 
-#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:298
-#: Controller/EntriesController.php:351
+#: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:327
+#: Controller/EntriesController.php:385
 msgid "back_to_overview_linkname"
 msgstr "Back to Overview"
 
@@ -111,7 +120,7 @@ msgstr ""
 msgid "Enter your comment here"
 msgstr ""
 
-#: View/Bookmarks/edit.ctp:37 View/Bookmarks/index.ctp:71
+#: View/Bookmarks/edit.ctp:37 View/Bookmarks/index.ctp:69
 msgid "btn-comment-title"
 msgstr "Comment"
 
@@ -119,12 +128,12 @@ msgstr "Comment"
 msgid "back_to_forum_linkname"
 msgstr "Go Back to the Forum"
 
-#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:26
+#: View/Bookmarks/index.ctp:12 View/Elements/layout/header_login.ctp:50
 msgid "Bookmarks"
 msgstr ""
 
 #: View/Bookmarks/index.ctp:24 View/Categories/view.ctp:64
-#: View/Entries/add.ctp:92
+#: View/Entries/add.ctp:89
 msgid "Subject"
 msgstr ""
 
@@ -139,7 +148,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: View/Bookmarks/index.ctp:87
+#: View/Bookmarks/index.ctp:85
 msgid "No bookmarks created yet."
 msgstr ""
 
@@ -160,7 +169,7 @@ msgstr ""
 #: View/Categories/index.ctp:51 View/Categories/view.ctp:37
 #: View/Categories/view.ctp:73 View/SmileyCodes/admin_add.ctp:14
 #: View/SmileyCodes/admin_index.ctp:12 View/Smilies/admin_add.ctp:18
-#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:67
+#: View/Smilies/admin_index.ctp:14 View/Helper/SettingHelper.php:66
 msgid "Actions"
 msgstr ""
 
@@ -183,7 +192,8 @@ msgstr ""
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Layouts/admin.ctp:47 webroot/js/views/categoryChooser.js:18
+#: View/Layouts/admin.ctp:45 webroot/dist/main.js:3
+#: webroot/js/views/categoryChooser.js:18
 msgid "Categories"
 msgstr ""
 
@@ -337,7 +347,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: View/Categories/view.ctp:66 View/Entries/search.ctp:73
+#: View/Categories/view.ctp:66 View/Entries/search.ctp:107
 msgid "Text"
 msgstr ""
 
@@ -376,8 +386,8 @@ msgstr ""
 "Choose your custom categories.<br/><br/>Click on a name to quickly show this "
 "category without changing your preferences."
 
-#: View/Elements/entry/category-chooser.ctp:42 View/Entries/search.ctp:82
-#: Controller/EntriesController.php:927
+#: View/Elements/entry/category-chooser.ctp:42 View/Entries/search.ctp:117
+#: Controller/EntriesController.php:1024
 msgid "All Categories"
 msgstr ""
 
@@ -385,27 +395,32 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: View/Elements/entry/thread_cached_init.ctp:8
+#: View/Elements/entry/thread_cached_init.ctp:9
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
-#: View/Elements/entry/thread_cached_init.ctp:9
+#: View/Elements/entry/thread_cached_init.ctp:10
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-threadCollapse"
 msgstr "hide"
 
-#: View/Elements/entry/thread_cached_init.ctp:10
+#: View/Elements/entry/thread_cached_init.ctp:11
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-showNewThreads"
 msgstr "open new"
 
-#: View/Elements/entry/thread_cached_init.ctp:11
+#: View/Elements/entry/thread_cached_init.ctp:12
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-closeThreads"
 msgstr "close all"
 
-#: View/Elements/entry/thread_cached_init.ctp:12
+#: View/Elements/entry/thread_cached_init.ctp:13
+#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:13
 msgid "btn-openThreads"
 msgstr "open all"
 
-#: View/Elements/entry/view_content.ctp:57
+#: View/Elements/entry/view_content.ctp:58
 #, php-format
 msgid "%s edited by %s"
 msgstr ""
@@ -414,116 +429,129 @@ msgstr ""
 msgid "views_headline"
 msgstr "views"
 
-#: View/Elements/entry/view_posting.ctp:57
-#: View/Elements/layout/header_login.ctp:38
-#: View/Elements/layout/header_login.ctp:43 View/Entries/index.ctp:21
-#: View/Entries/search.ctp:22 View/Users/view.ctp:163
+#: View/Elements/entry/view_posting.ctp:67
+#: View/Elements/layout/header_login.ctp:67
+#: View/Elements/layout/header_login.ctp:71 View/Entries/index.ctp:30
+#: View/Entries/search.ctp:56 View/Users/view.ctp:163
 msgid "Help"
 msgstr ""
 
-#: View/Elements/entry/view_posting.ctp:58
+#: View/Elements/entry/view_posting.ctp:68
 msgid "answering_forbidden_locked_shp"
 msgstr "Answering forbidden by moderator."
 
-#: View/Elements/entry/view_posting.ctp:63
+#: View/Elements/entry/view_posting.ctp:73
 msgid "forum_answer_linkname"
 msgstr "Answer"
 
-#: View/Elements/entry/view_posting.ctp:76
-#: View/Elements/entry/view_posting.ctp:104
-#: Controller/EntriesController.php:457
+#: View/Elements/entry/view_posting.ctp:89
+#: View/Elements/entry/view_posting.ctp:117
+#: Controller/EntriesController.php:497
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: View/Elements/entry/view_posting.ctp:144
+#: View/Elements/entry/view_posting.ctp:157
 msgid "merge_tree_link"
 msgstr "Merge"
 
-#: View/Elements/entry/view_posting.ctp:155
+#: View/Elements/entry/view_posting.ctp:168
 msgid "delete_tree_link"
 msgstr "Delete"
 
-#: View/Elements/entry/view_posting.ctp:158
+#: View/Elements/entry/view_posting.ctp:171
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
 "thread?"
 
 #: View/Elements/layout/disclaimer.ctp:4
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:4
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:7
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:10
-#: View/Users/view.ctp:45
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:13 View/Users/view.ctp:45
 msgid "Contact"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:10
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:19
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:7
+msgid "Mobile"
+msgstr ""
+
+#: View/Elements/layout/disclaimer.ctp:13
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:22
 msgid "RSS"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:17
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:29
+#: View/Elements/layout/disclaimer.ctp:20
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:32
 msgid "Status"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:24
+#: View/Elements/layout/disclaimer.ctp:28
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:40
 msgid ""
 ":entries Entries in :threads Threads; :registred registred users, :loggedin "
 "logged in, :anon anonymous"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:38
+#: View/Elements/layout/disclaimer.ctp:43
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:55
 msgid "About"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:40
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:52
+#: View/Elements/layout/disclaimer.ctp:46
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:58
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:42
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:54
+#: View/Elements/layout/disclaimer.ctp:49
+#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:61
 #, php-format
 msgid "Generated in %s s."
 msgstr ""
 
-#: View/Elements/layout/header_login.ctp:4 View/Users/register.ctp:6
+#: View/Elements/layout/header_login.ctp:9 View/Users/register.ctp:6
 #: View/Users/register.ctp:78
 msgid "register_linkname"
 msgstr "Register"
 
-#: View/Elements/layout/header_login.ctp:7
-#: View/Elements/layout/header_login.ctp:9
+#: View/Elements/layout/header_login.ctp:14
+#: View/Elements/layout/header_login.ctp:18
 #: View/Elements/users/login_form.ctp:35
 msgid "login_btn"
 msgstr "Login"
 
-#: View/Elements/layout/header_login.ctp:16
+#: View/Elements/layout/header_login.ctp:28
 msgid "Forum Settings"
 msgstr ""
 
-#: View/Elements/layout/header_login.ctp:22 View/Users/edit.ctp:133
+#: View/Elements/layout/header_login.ctp:43 View/Users/edit.ctp:133
 #: View/Users/view.ctp:93 View/Users/view.ctp:132
 msgid "user_profile"
 msgstr "User Profile"
 
-#: View/Elements/layout/header_login.ctp:31
+#: View/Elements/layout/header_login.ctp:58
 msgid "logout_linkname"
 msgstr "Logout"
 
-#: View/Elements/layout/header_login.ctp:44
+#: View/Elements/layout/header_login.ctp:68
 msgid "No help for this page available."
 msgstr ""
 
-#: View/Elements/layout/header_search.ctp:28 View/Entries/search.ctp:26
-#: View/Entries/search.ctp:105
+#: View/Elements/layout/header_search.ctp:29 View/Entries/search.ctp:60
+#: View/Entries/search.ctp:141
 msgid "search_submit"
 msgstr "Search"
+
+#: View/Elements/layout/html_footer.ctp:5
+#: View/Themed/Ixi/Layouts/default.ctp:119
+msgid ""
+"This web-application depends on JavaScript. Please activate JavaScript in "
+"your browser."
+msgstr ""
 
 #: View/Elements/layout/slidetab_recententries.ctp:9
 msgid "Recent entries"
@@ -542,15 +570,20 @@ msgstr "User"
 msgid "%s online (%s)"
 msgstr ""
 
-#: View/Elements/layout/slidetab_userlist.ctp:31
-#: View/Helper/UserHHelper.php:116
+#: View/Elements/layout/slidetab_userlist.ctp:34
+#: View/Helper/UserHHelper.php:100
 msgid "ud_admin"
 msgstr "Administrator"
 
-#: View/Elements/layout/slidetab_userlist.ctp:32
-#: View/Helper/UserHHelper.php:114
+#: View/Elements/layout/slidetab_userlist.ctp:37
+#: View/Helper/UserHHelper.php:98
 msgid "ud_mod"
 msgstr "Moderator"
+
+#: View/Elements/layout/slidetab_userlist.ctp:40
+#: View/Helper/UserHHelper.php:96
+msgid "ud_user"
+msgstr "User"
 
 #: View/Elements/users/add_form_core.ctp:4
 msgid "error_name_reserved"
@@ -595,7 +628,7 @@ msgstr "Password"
 msgid "user_pw_confirm"
 msgstr "Confirm Password"
 
-#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:75
+#: View/Elements/users/login_form.ctp:9 View/Entries/search.ctp:109
 msgid "user_name"
 msgstr "Username"
 
@@ -611,47 +644,47 @@ msgstr ""
 "To activate your account please click the following link: %s within the next "
 "24 hours."
 
-#: View/Entries/add.ctp:34 View/Entries/add.ctp:190
+#: View/Entries/add.ctp:32 View/Entries/add.ctp:142
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:88 Controller/UsersController.php:477
+#: View/Entries/add.ctp:85 Controller/UsersController.php:480
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
-#: View/Entries/add.ctp:89
+#: View/Entries/add.ctp:86
 msgid "error_subject_max_length"
 msgstr "Subject is to long."
 
-#: View/Entries/add.ctp:133
+#: View/Entries/add.ctp:114
 msgid "Cite"
 msgstr ""
 
-#: View/Entries/add.ctp:158 View/Entries/add.ctp:178 View/Entries/add.ctp:292
+#: View/Entries/add.ctp:130
 msgid "submit_button"
 msgstr "Submit"
 
-#: View/Entries/add.ctp:205
+#: View/Entries/add.ctp:157
 msgid "Notify on reply"
 msgstr ""
 
-#: View/Entries/add.ctp:219
+#: View/Entries/add.ctp:171
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:228 View/Helper/EntryHHelper.php:159
+#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:141
 msgid "entry_nsfw_title"
 msgstr "NSFW"
 
-#: View/Entries/add.ctp:241
+#: View/Entries/add.ctp:192
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
 
-#: View/Entries/index.ctp:6
+#: View/Entries/index.ctp:11
 msgid "new_entry_linkname"
 msgstr "New Entry"
 
-#: View/Entries/index.ctp:22
+#: View/Entries/index.ctp:31
 msgid "btn_manualy_mark_as_read_shp"
 msgstr "Marks all new entries as read."
 
@@ -669,7 +702,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: View/Entries/search.ctp:23
+#: View/Entries/search.ctp:57
 msgid "search_fulltext_textfield_shp"
 msgstr ""
 "+ stands for AND<br/>- stands for NOT<br/>[no operator] implies "
@@ -685,53 +718,53 @@ msgstr ""
 "example, entries that contain “some words of wisdom” but not “some noise "
 "words”).\""
 
-#: View/Entries/search.ctp:37
+#: View/Entries/search.ctp:71
 msgid "search_term"
 msgstr "Search"
 
-#: View/Entries/search.ctp:49
+#: View/Entries/search.ctp:83
 msgid "search_advanced"
 msgstr "Advanced Search"
 
-#: View/Entries/search.ctp:68
+#: View/Entries/search.ctp:102
 msgid "subject"
 msgstr "Subject"
 
-#: View/Entries/search.ctp:87
+#: View/Entries/search.ctp:123
 msgid "search_since"
 msgstr "Since"
 
-#: View/Entries/search.ctp:107
+#: View/Entries/search.ctp:143
 msgid "search_simple"
 msgstr "Simple Search"
 
-#: View/Entries/search.ctp:167
+#: View/Entries/search.ctp:173
 msgid "search_nothing_found"
 msgstr "Nothing found."
 
-#: View/Layouts/admin.ctp:36
+#: View/Layouts/admin.ctp:34
 msgid "Overview"
 msgstr ""
 
-#: View/Layouts/admin.ctp:41 View/Settings/admin_edit.ctp:2
-#: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:113
+#: View/Layouts/admin.ctp:39 View/Settings/admin_edit.ctp:2
+#: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:119
 #: View/Users/edit.ctp:163
 msgid "Settings"
 msgstr ""
 
-#: View/Layouts/admin.ctp:44 View/Users/admin_add.ctp:2
+#: View/Layouts/admin.ctp:42 View/Users/admin_add.ctp:2
 #: View/Users/admin_index.ctp:1 View/Users/admin_index.ctp:3
 msgid "Users"
 msgstr ""
 
-#: View/Layouts/admin.ctp:50 View/SmileyCodes/admin_edit.ctp:1
+#: View/Layouts/admin.ctp:48 View/SmileyCodes/admin_edit.ctp:1
 #: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
 #: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
-#: View/Smilies/admin_index.ctp:3
+#: View/Smilies/admin_index.ctp:3 View/Helper/MarkitupEditorHelper.php:168
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:60
+#: View/Layouts/admin.ctp:61
 msgid "Forum"
 msgstr ""
 
@@ -743,11 +776,11 @@ msgstr ""
 msgid "RSS Feed"
 msgstr ""
 
-#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:110
+#: View/Pages/rss_feeds.ctp:4 Controller/EntriesController.php:113
 msgid "Last entries"
 msgstr ""
 
-#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:106
+#: View/Pages/rss_feeds.ctp:7 Controller/EntriesController.php:109
 msgid "Last started threads"
 msgstr ""
 
@@ -776,15 +809,19 @@ msgid "Category Chooser"
 msgstr ""
 
 #: View/Settings/admin_index.ctp:67
-msgid "Shoutbox"
+msgid "API"
 msgstr ""
 
 #: View/Settings/admin_index.ctp:73
+msgid "Shoutbox"
+msgstr ""
+
+#: View/Settings/admin_index.ctp:79
 #, fuzzy
 msgid "Uploads"
 msgstr "Upload"
 
-#: View/Settings/admin_index.ctp:93
+#: View/Settings/admin_index.ctp:99
 msgid "Debug"
 msgstr ""
 
@@ -834,23 +871,17 @@ msgstr ""
 msgid "Admin Edit Smiley"
 msgstr ""
 
-#: View/Themed/Macnemo/Elements/layout/disclaimer.ctp:36
-msgid ""
-":entries mal Seemansgarn in :threads unglaublichen Geschichten; :registred "
-"geheuert, :loggedin an Deck, :anon Blinde Passagiere"
+#: View/Themed/Paz/Layouts/default.ctp:71
+msgid "Search"
 msgstr ""
 
-#: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:22
+#: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Upload"
 
-#: View/Uploads/json/index.ctp:11 View/Uploads/json/index.ctp:16
+#: View/Uploads/json/index.ctp:10 View/Uploads/json/index.ctp:14
 msgid "upload_btn_delete_upload"
 msgstr "Delete Upload"
-
-#: View/Uploads/json/index.ctp:36
-msgid "upload_btn_insert_into_posting"
-msgstr "Insert"
 
 #: View/Users/admin_add.ctp:3 View/Users/admin_add.ctp:5
 #: View/Users/admin_add.ctp:9
@@ -871,12 +902,12 @@ msgid "New User"
 msgstr ""
 
 #: View/Users/admin_index.ctp:10 View/Users/edit.ctp:32 View/Users/edit.ctp:80
-#: View/Users/index.ctp:14 View/Users/view.ctp:25
+#: View/Users/index.ctp:19 View/Users/view.ctp:25
 msgid "username_marking"
 msgstr "Name"
 
 #: View/Users/admin_index.ctp:11 View/Users/edit.ctp:42
-#: View/Users/index.ctp:15
+#: View/Users/index.ctp:20
 msgid "user_type"
 msgstr "Type"
 
@@ -884,14 +915,13 @@ msgstr "Type"
 msgid "user_email"
 msgstr "Email"
 
-#: View/Users/admin_index.ctp:13 View/Users/index.ctp:17
+#: View/Users/admin_index.ctp:13 View/Users/index.ctp:27
 msgid "registered"
 msgstr "Registered"
 
-#: View/Users/admin_index.ctp:16 View/Users/index.ctp:20
-#, fuzzy
+#: View/Users/admin_index.ctp:16 View/Users/index.ctp:33
 msgid "user_lock"
-msgstr "Blocked"
+msgstr "Banned"
 
 #: View/Users/changepassword.ctp:9 View/Users/edit.ctp:65
 #: View/Users/edit.ctp:93
@@ -1052,124 +1082,138 @@ msgstr ""
 msgid "user_forum_refresh_time_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:226
+#: View/Users/edit.ctp:227
+msgid "user_theme"
+msgstr "Theme"
+
+#: View/Users/edit.ctp:234
+msgid "user_theme_exp"
+msgstr "Choose a different look. (optional)"
+
+#: View/Users/edit.ctp:240
 msgid "user_colors"
 msgstr ""
 
-#: View/Users/edit.ctp:228
+#: View/Users/edit.ctp:242
 msgid "user_color_new_postings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:230
+#: View/Users/edit.ctp:244
 msgid "user_color_old_postinings_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:232
+#: View/Users/edit.ctp:246
 msgid "user_color_actual_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:254
+#: View/Users/edit.ctp:268
 msgid "inline_view_on_click"
 msgstr ""
 
-#: View/Users/edit.ctp:257
+#: View/Users/edit.ctp:271
 msgid "inline_view_on_click_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:261
+#: View/Users/edit.ctp:275
 #, fuzzy
 msgid "user_show_thread_collapsed"
 msgstr "Show User's Entries"
 
-#: View/Users/edit.ctp:264
+#: View/Users/edit.ctp:278
 msgid "user_show_thread_collapsed_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:269
+#: View/Users/edit.ctp:283
 msgid "user_pers_msg"
 msgstr ""
 
-#: View/Users/edit.ctp:270
+#: View/Users/edit.ctp:284
 msgid "user_pers_msg_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:277
+#: View/Users/edit.ctp:291
 #, fuzzy
 msgid "user_category_override"
 msgstr "Category-Chooser"
 
-#: View/Users/edit.ctp:282
+#: View/Users/edit.ctp:296
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
 
-#: View/Users/edit.ctp:290
+#: View/Users/edit.ctp:304
 msgid "user_time_diff"
 msgstr ""
 
-#: View/Users/edit.ctp:291
+#: View/Users/edit.ctp:305
 msgid "user_time_diff_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:296
+#: View/Users/edit.ctp:310
 msgid "admin_mod_notif"
 msgstr ""
 
-#: View/Users/edit.ctp:298
+#: View/Users/edit.ctp:312
 msgid "admin_mod_notif_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:299
+#: View/Users/edit.ctp:313
 msgid "new_posting_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:301
+#: View/Users/edit.ctp:315
 msgid "new_user_notify_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:308
-msgid "user_font_size"
-msgstr ""
-
-#: View/Users/edit.ctp:325
-msgid "user_font_size_exp"
-msgstr ""
-
-#: View/Users/edit.ctp:339 View/Users/view.ctp:112
+#: View/Users/edit.ctp:330 View/Users/view.ctp:112
 msgid "flattr"
 msgstr ""
 
-#: View/Users/edit.ctp:348
+#: View/Users/edit.ctp:339
 msgid "flattr_uid"
 msgstr ""
 
-#: View/Users/edit.ctp:352
+#: View/Users/edit.ctp:343
 msgid "flattr_allow_user"
 msgstr ""
 
-#: View/Users/edit.ctp:353
+#: View/Users/edit.ctp:344
 msgid "flattr_allow_user_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:356
+#: View/Users/edit.ctp:347
 msgid "flattr_allow_posting"
 msgstr ""
 
-#: View/Users/edit.ctp:357
+#: View/Users/edit.ctp:348
 msgid "flattr_allow_posting_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:363
+#: View/Users/edit.ctp:354
 msgid "button_save"
 msgstr ""
 
-#: View/Users/index.ctp:5
-msgid "reg_users_hl"
-msgstr "Registered Users"
+#: View/Users/index.ctp:17
+msgid "Sort by"
+msgstr ""
 
-#: View/Users/index.ctp:16
+#: View/Users/index.ctp:22
 msgid "userlist_online"
 msgstr "Online"
+
+#: View/Users/index.ctp:61
+msgid "Online"
+msgstr ""
+
+#: View/Users/index.ctp:63
+#, php-format
+msgid "user_since %s"
+msgstr "Joined %s"
+
+#: View/Users/index.ctp:69
+#, php-format
+msgid "%s banned"
+msgstr ""
 
 #: View/Users/login.ctp:6
 msgid "login_linkname"
@@ -1180,7 +1224,7 @@ msgid "register_success_content"
 msgstr ""
 "Your registration is now finished. You are able to loggin now. Have fun!"
 
-#: View/Users/register.ctp:23 Controller/EntriesController.php:305
+#: View/Users/register.ctp:23 Controller/EntriesController.php:337
 msgid "js-required"
 msgstr "To use this forum please enable JavaScript."
 
@@ -1199,7 +1243,7 @@ msgstr "Place"
 
 #: View/Users/view.ctp:73
 msgid "user_since"
-msgstr "Registered"
+msgstr "Joined"
 
 #: View/Users/view.ctp:74
 msgid "date_short"
@@ -1237,109 +1281,113 @@ msgstr ""
 msgid "Show all"
 msgstr ""
 
-#: Controller/AdminsController.php:45
+#: Controller/AdminsController.php:70
 msgid "New"
 msgstr ""
 
-#: Controller/AdminsController.php:46
+#: Controller/AdminsController.php:71
 msgid "Cumulated"
 msgstr ""
 
-#: Controller/BookmarksController.php:68
+#: Controller/AppController.php:235
+msgid "forum-title-template"
+msgstr ":page – :forum"
+
+#: Controller/BookmarksController.php:77
 msgid "The bookmark could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/BookmarksController.php:92
+#: Controller/BookmarksController.php:113
 msgid "Invalid bookmark"
 msgstr ""
 
-#: Controller/CategoriesController.php:83
-#: Controller/CategoriesController.php:98
+#: Controller/CategoriesController.php:84
+#: Controller/CategoriesController.php:99
 msgid "The category has been saved"
 msgstr ""
 
-#: Controller/CategoriesController.php:86
-#: Controller/CategoriesController.php:101
+#: Controller/CategoriesController.php:87
+#: Controller/CategoriesController.php:102
 msgid "The category could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/CategoriesController.php:93
+#: Controller/CategoriesController.php:94
 msgid "Invalid category"
 msgstr ""
 
-#: Controller/CategoriesController.php:112
+#: Controller/CategoriesController.php:113
 msgid "Invalid id for category"
 msgstr ""
 
-#: Controller/CategoriesController.php:121
+#: Controller/CategoriesController.php:122
 msgid "Category not found."
 msgstr ""
 
-#: Controller/CategoriesController.php:138
+#: Controller/CategoriesController.php:139
 msgid "Target category not found."
 msgstr ""
 
-#: Controller/CategoriesController.php:146
+#: Controller/CategoriesController.php:147
 msgid "Error moving category."
 msgstr ""
 
-#: Controller/CategoriesController.php:149
+#: Controller/CategoriesController.php:150
 msgid "Category moved."
 msgstr ""
 
-#: Controller/CategoriesController.php:155
+#: Controller/CategoriesController.php:156
 msgid "Error deleting category."
 msgstr ""
 
-#: Controller/CategoriesController.php:158
+#: Controller/CategoriesController.php:159
 msgid "Category deleted."
 msgstr ""
 
-#: Controller/EntriesController.php:88
+#: Controller/EntriesController.php:91
 msgid "page"
 msgstr ""
 
-#: Controller/EntriesController.php:187 Controller/EntriesController.php:196
+#: Controller/EntriesController.php:202 Controller/EntriesController.php:211
 msgid "Invalid post"
 msgstr ""
 
-#: Controller/EntriesController.php:238
-msgid "new_entry_linktitle"
-msgstr "New Entry"
+#: Controller/EntriesController.php:267
+msgid "Write a New Entry"
+msgstr ""
 
-#: Controller/EntriesController.php:293 Controller/EntriesController.php:414
+#: Controller/EntriesController.php:322 Controller/EntriesController.php:450
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:344 Controller/EntriesController.php:454
+#: Controller/EntriesController.php:375 Controller/EntriesController.php:494
 msgid "back_to_posting_from_linkname"
 msgstr "Zurück zum Eintrag von %s"
 
-#: Controller/EntriesController.php:355
-msgid "answer_marking"
-msgstr "Answer"
+#: Controller/EntriesController.php:379
+msgid "Write a Reply"
+msgstr ""
 
-#: Controller/EntriesController.php:420
+#: Controller/EntriesController.php:456
 msgid "notice_you_are_editing_as_mod"
 msgstr "You're now editing as moderator!"
 
-#: Controller/EntriesController.php:485
+#: Controller/EntriesController.php:531
 msgid "delete_tree_success"
 msgstr "Thread successfully removed."
 
-#: Controller/EntriesController.php:488
+#: Controller/EntriesController.php:534
 msgid "delete_subtree_success"
 msgstr "Subthread successfully removed."
 
-#: Controller/EntriesController.php:492
+#: Controller/EntriesController.php:538
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:707
+#: Controller/EntriesController.php:805
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:924
+#: Controller/EntriesController.php:1021
 msgid "Custom"
 msgstr ""
 
@@ -1406,14 +1454,14 @@ msgid "Smily was not deleted"
 msgstr ""
 
 #: Controller/ToolsController.php:21
-msgid "Caches have been emptied."
+msgid "Caches cleared."
 msgstr ""
 
-#: Controller/UploadsController.php:35
+#: Controller/UploadsController.php:40
 msgid "upload_max_number_of_uploads_failed"
 msgstr "No more uploads possible (max: %s)."
 
-#: Controller/UsersController.php:37 Controller/UsersController.php:329
+#: Controller/UsersController.php:37 Controller/UsersController.php:331
 #, php-format
 msgid "User %s is locked."
 msgstr ""
@@ -1422,11 +1470,11 @@ msgstr ""
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
-#: Controller/UsersController.php:92
+#: Controller/UsersController.php:93
 msgid "register_email_subject"
 msgstr "Welcome to %s!"
 
-#: Controller/UsersController.php:172 Controller/UsersController.php:195
+#: Controller/UsersController.php:174 Controller/UsersController.php:196
 #: Controller/UsersController.php:233
 msgid "Invalid user"
 msgstr ""
@@ -1436,11 +1484,11 @@ msgstr ""
 msgid "User :name"
 msgstr "Username"
 
-#: Controller/UsersController.php:278
+#: Controller/UsersController.php:279
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:311 Controller/UsersController.php:348
+#: Controller/UsersController.php:311 Controller/UsersController.php:350
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
@@ -1449,71 +1497,71 @@ msgstr "Nothing found."
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:322
+#: Controller/UsersController.php:323
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:331
+#: Controller/UsersController.php:334
 #, php-format
 msgid "User %s is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:335
+#: Controller/UsersController.php:340
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:355
+#: Controller/UsersController.php:357
 msgid "You can't delete yourself."
 msgstr ""
 
-#: Controller/UsersController.php:357
+#: Controller/UsersController.php:359
 msgid "You can't delete the installation account."
 msgstr ""
 
-#: Controller/UsersController.php:359
+#: Controller/UsersController.php:361
 #, php-format
 msgid "User %s deleted."
 msgstr ""
 
-#: Controller/UsersController.php:363
+#: Controller/UsersController.php:365
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:387
+#: Controller/UsersController.php:389
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:455
+#: Controller/UsersController.php:458
 msgid "error_email_not-valid"
 msgstr "No valid email address."
 
-#: Controller/UsersController.php:502
+#: Controller/UsersController.php:505
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:507
+#: Controller/UsersController.php:510
 msgid "Message couldn't be send! "
 msgstr ""
 
-#: Controller/Component/CurrentUserComponent.php:308
+#: Controller/Component/CurrentUserComponent.php:307
 msgid "auth_autherror"
 msgstr "Access to this function is restricted!"
 
-#: Controller/Component/EmailNotificationComponent.php:47
-#: Controller/Component/EmailNotificationComponent.php:79
+#: Controller/Component/EmailNotificationComponent.php:38
+#: Controller/Component/EmailNotificationComponent.php:71
 #, php-format
 msgid "New reply to \"%s\""
 msgstr ""
 
-#: Controller/Component/EmailNotificationComponent.php:112
+#: Controller/Component/EmailNotificationComponent.php:105
 msgid "Successfull registration"
 msgstr ""
 
-#: Controller/Component/SaitoEmailComponent.php:143
+#: Controller/Component/SaitoEmailComponent.php:142
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
 msgstr ""
 
-#: Controller/Component/SaitoEmailComponent.php:145
+#: Controller/Component/SaitoEmailComponent.php:144
 msgid "Copy of your message: \":subject\""
 msgstr ""
 
@@ -1560,80 +1608,85 @@ msgstr ""
 msgid "Captcha"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:26
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:24
 msgid "Nacht"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:27
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:25
 msgid "Morgen"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:28
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:26
 msgid "Vormittag"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:29
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:27
 msgid "Nachmittag"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:30
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:28
 #: View/Helper/GlasenuhrHelper.php:33
 msgid "Freiwache"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:31
+#: Test/Case/View/Helper/GlasenuhrHelperTest.php:29
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:228 View/Helper/MarkitupEditorHelper.php:48
-msgid "Spoiler"
+#: View/Helper/AdminHelper.php:47
+msgid "No log file found."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:592
+#: View/Helper/AdminHelper.php:58
+msgid "Details"
+msgstr ""
+
+#: View/Helper/BbcodeHelper.php:605
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:613
+#: View/Helper/BbcodeHelper.php:626
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
 "modernbrowser. In order to watch this stream you need an HTML5 capable "
 "browser."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:938
+#: View/Helper/BbcodeHelper.php:786 View/Helper/BbcodeHelper.php:791
+#: View/Helper/MarkitupEditorHelper.php:65
+msgid "Spoiler"
+msgstr ""
+
+#: View/Helper/BbcodeHelper.php:977
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Enable Embedly"
 
-#: View/Helper/BbcodeHelper.php:1024
+#: View/Helper/BbcodeHelper.php:1066
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:1032
+#: View/Helper/BbcodeHelper.php:1074
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:42
-msgid "Entry is bookmarked"
-msgstr ""
-
-#: View/Helper/EntryHHelper.php:54
-msgid "Bookmark this entry"
-msgstr ""
-
-#: View/Helper/EntryHHelper.php:156
+#: View/Helper/EntryHHelper.php:138
 msgid "fixed"
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:171
+#: View/Helper/EntryHHelper.php:146
+msgid "Helpful entry"
+msgstr ""
+
+#: View/Helper/EntryHHelper.php:159
 msgid "cateogry"
 msgstr "Category"
 
-#: View/Helper/EntryHHelper.php:174
+#: View/Helper/EntryHHelper.php:162
 msgid "error_category_empty"
 msgstr "Category must not be empty."
 
@@ -1657,98 +1710,984 @@ msgstr ""
 msgid "Abends"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:26
+#: View/Helper/MarkitupEditorHelper.php:27
 msgid "Bold"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:30
+#: View/Helper/MarkitupEditorHelper.php:35
 msgid "Italic"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:34
+#: View/Helper/MarkitupEditorHelper.php:43
 msgid "Strike Through"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:38
+#: View/Helper/MarkitupEditorHelper.php:50
 msgid "Code"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:42
+#: View/Helper/MarkitupEditorHelper.php:57
 msgid "Bullet List"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:55
+#: View/Helper/MarkitupEditorHelper.php:72
 msgid "Link"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:59
+#: View/Helper/MarkitupEditorHelper.php:76
 msgid "geshi_link_popup"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:61
+#: View/Helper/MarkitupEditorHelper.php:78
 msgid "geshi_link_placeholder"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:66
+#: View/Helper/MarkitupEditorHelper.php:83
 msgid "Media"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:71 webroot/js/views/uploadNew.js:98
-#: webroot/js/views/uploads.js:71
+#: View/Helper/MarkitupEditorHelper.php:88 webroot/dist/main.js:2
+#: webroot/js/views/uploadNew.js:99 webroot/js/views/uploads.js:71
 #, fuzzy
 msgid "Upload"
 msgstr "Upload"
 
-#: View/Helper/SettingHelper.php:53
+#: View/Helper/SettingHelper.php:52
 msgid "edit"
 msgstr ""
 
-#: View/Helper/SettingHelper.php:64
+#: View/Helper/SettingHelper.php:63
 msgid "Key"
 msgstr ""
 
-#: View/Helper/SettingHelper.php:65
+#: View/Helper/SettingHelper.php:64
 msgid "Value"
 msgstr ""
 
-#: View/Helper/SettingHelper.php:66
+#: View/Helper/SettingHelper.php:65
 msgid "Explanation"
 msgstr ""
 
-#: View/Helper/TimeHHelper.php:100 View/Helper/TimeHHelper.php:119
+#: View/Helper/TimeHHelper.php:107 View/Helper/TimeHHelper.php:127
 msgid "yesterday"
 msgstr ""
 
-#: View/Helper/UserHHelper.php:112
-msgid "ud_user"
-msgstr "User"
-
-#: View/Helper/UserHHelper.php:163
+#: View/Helper/UserHHelper.php:149
 msgid "userranks_not_found"
 msgstr ""
 
 #: webroot/js/templates/mediaInsert.html:3
-msgid "Enter link or embedding code:"
+msgid "Enter link to media or embedding code:"
 msgstr ""
 
-#: webroot/js/templates/mediaInsert.html:12
+#: webroot/js/templates/mediaInsert.html:8
 msgid "Insert"
 msgstr ""
 
-#: webroot/js/templates/mediaInsert.html:17
+#: webroot/js/templates/mediaInsert.html:10
 msgid "Nothing recognized."
 msgstr ""
 
-#: webroot/js/templates/uploadNew.html:8
+#: webroot/js/templates/upload.html:9
+msgid "upload_btn_insert_into_posting"
+msgstr "Insert"
+
+#: webroot/js/templates/uploadNew.html:9
 msgid "upload_new_title"
 msgstr "Drop Image Here"
 
-#: webroot/js/templates/uploadNew.html:10
+#: webroot/js/templates/uploadNew.html:11
 msgid "upload_info"
 msgstr "Max. size: :size; type: jpg, jpeg, png, gif"
 
-#: Plugin/M/webroot/bower_components/underscore/test/utility.js:71
+#: Plugin/M/webroot/dev/bower_components/underscore/test/utility.js:71
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/utility.js:51
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/test_underscore/utility.js:41
 msgid "champ"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/findup-sync/node_modules/lodash/lodash.js:4498
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/findup-sync/node_modules/lodash/dist/lodash.compat.js:4491
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/findup-sync/node_modules/lodash/dist/lodash.js:4341
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/findup-sync/node_modules/lodash/dist/lodash.underscore.js:3699
+msgid "moe"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/findup-sync/node_modules/lodash/test/test.js:2649
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/findup-sync/node_modules/lodash/test/test.js:2663
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:362
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:494
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:272
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:359
+msgid "0"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:22
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:12
+msgid "  foobar  "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:46
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:189
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:190
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:191
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:36
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:140
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:141
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:142
+msgid "whitespace"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:50
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:40
+msgid "Hello worls"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:54
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:215
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:216
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:44
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:161
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:162
+msgid "Hello "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:58
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:224
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:48
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:167
+msgid "https://edtsech@bitbucket.org/edtsech/underscore.strings"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:73
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:237
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:63
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:180
+msgid "the titleize string method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:77
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:81
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:203
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:204
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:205
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:327
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:328
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:342
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:67
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:71
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:152
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:153
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:154
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:244
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:245
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:256
+msgid "Hello world"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:89
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:79
+msgid "<div>Blah blah blah</div>"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:93
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:83
+msgid "&lt;div&gt;Blah blah blah&lt;/div&gt;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:97
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:428
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:436
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:87
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:316
+msgid "Hello World"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:101
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:105
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:109
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:113
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:117
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:450
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:451
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:452
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:472
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:473
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:483
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:484
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:485
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings_standalone.js:6
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:91
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:95
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:99
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:103
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:107
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:327
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:328
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:329
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:343
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:344
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:351
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:352
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:353
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings_standalone.js:6
+msgid "foo"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:121
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:111
+msgid "10.232323"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:125
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:129
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:133
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:137
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:115
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:119
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:123
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:127
+msgid "aaa_bbb_ccc"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:141
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:131
+#, fuzzy
+msgid "separator"
+msgstr "Moderation"
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/speed.js:145
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:607
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/speed.js:135
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:424
+msgid "Un éléphant à l'orée du bois"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:16
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:56
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:75
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:10
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:31
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:48
+msgid " foo"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:17
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:58
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:76
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:11
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:33
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:49
+msgid "foo "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:18
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:59
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:79
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:12
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:34
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:52
+msgid " foo "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:19
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:20
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:13
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:14
+msgid "    foo     "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:21
+msgid "\t    foo \t  "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:23
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:64
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:81
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:16
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:37
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:54
+msgid "ffoo"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:24
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:65
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:82
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:17
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:38
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:55
+msgid "ooff"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:25
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:66
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:83
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:18
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:39
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:56
+msgid "ffooff"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:28
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:68
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:85
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:21
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:41
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:58
+msgid "_-foobar-_"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:30
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:74
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:23
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:47
+msgid "http://foo/"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:31
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:24
+msgid "c:\\"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:57
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:32
+msgid "    foo"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:77
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:50
+msgid "foo     "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:78
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:51
+msgid "foo  bar     "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:93
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:64
+msgid "fabio"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:110
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:359
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:76
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:269
+msgid " "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:126
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:89
+msgid " foo    bar   "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:137
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:148
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:97
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:108
+#, python-format
+msgid "Hello %s"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:138
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:149
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:98
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:109
+#, python-format
+msgid "hello %s"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:157
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:167
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:117
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:124
+msgid "foobar"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:158
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:118
+msgid "oobar"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:170
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:127
+msgid "fooba"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:206
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:155
+msgid "x.xx....x.x"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:230
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:361
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:173
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:271
+msgid "a"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:231
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:174
+msgid "A"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:232
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:175
+msgid "+"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:238
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:181
+msgid "the titleize string  method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:242
+msgid "let's have some fun"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:243
+msgid "a-dash-separated-string"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:244
+msgid "A-DASH-SEPARATED-STRING"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:249
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:186
+msgid "the_camelize_string_method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:250
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:187
+msgid "-the-camelize-string-method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:251
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:188
+msgid "the camelize string method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:252
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:189
+msgid " the camelize  string method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:253
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:190
+msgid "the camelize   string method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:261
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:195
+msgid "the-underscored-string-method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:262
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:196
+msgid "theUnderscoredStringMethod"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:263
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:197
+msgid "TheUnderscoredStringMethod"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:264
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:198
+msgid " the underscored  string method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:272
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:203
+msgid "the_dasherize_string_method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:273
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:204
+msgid "TheDasherizeStringMethod"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:274
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:205
+msgid "thisIsATest"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:275
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:206
+msgid "this Is A Test"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:276
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:207
+msgid "thisIsATest123"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:277
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:208
+msgid "123thisIsATest"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:278
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:209
+msgid "the dasherize string method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:279
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:210
+msgid "the  dasherize string method  "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:280
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:211
+msgid "téléphone"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:281
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:212
+msgid "foo$bar"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:296
+msgid "_som eWeird---name-"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:308
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:230
+#, fuzzy
+msgid "some_class_name"
+msgstr "Real Name"
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:309
+msgid "my wonderfull class_name"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:310
+msgid "my wonderfull.class.name"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:314
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:234
+msgid "the_humanize_string_method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:315
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:235
+msgid "ThehumanizeStringMethod"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:316
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:236
+msgid "the humanize string method"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:317
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:237
+msgid "the humanize_id string method_id"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:318
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:238
+msgid "the  humanize string method  "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:319
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:239
+msgid "   capitalize dash-CamelCase_underscore trim  "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:329
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:419
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:246
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:310
+msgid "Hello"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:337
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:341
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:251
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:255
+msgid "Hello, cruel world"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:338
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:339
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:340
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:252
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:253
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:254
+msgid "Hello, world"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:343
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:347
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:257
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:261
+msgid "Привет, жестокий мир"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:344
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:345
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:346
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:348
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:258
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:259
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:260
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:262
+msgid "Привет, мир"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:349
+msgid "alksjd!!!!!!...."
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:360
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:270
+msgid "\n"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:375
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:277
+msgid "<div>Blah & \"blah\" & 'blah'</div>"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:377
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:279
+msgid "&lt;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:385
+msgid ""
+"&lt;div&gt;Blah &amp; &quot;blah&quot; &amp; &apos;blah&#39;&lt;/div&gt;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:387
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:287
+msgid "&amp;lt;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:388
+msgid "&apos;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:389
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:288
+msgid "&#39;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:390
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:289
+msgid "&#0039;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:391
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:290
+msgid "&#x4a;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:392
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:291
+msgid "&#x04A;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:393
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:292
+msgid "&#X4A;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:394
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:293
+msgid "&_#39;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:395
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:294
+msgid "&#39_;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:396
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:295
+msgid "&amp;#38;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:397
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:296
+msgid "&#38;amp;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:406
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:302
+msgid "I love you!"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:407
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:303
+msgid " I    love   you!  "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:408
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:304
+msgid "I_love_you!"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:409
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:305
+msgid "I-love-you!"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:413
+msgid "   "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:427
+msgid "AaBbCcDdEe"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:435
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:315
+msgid ""
+"Hello\n"
+"World"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:444
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:446
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:447
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:448
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:449
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:459
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:461
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:462
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:469
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:471
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:480
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:482
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:321
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:323
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:324
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:325
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:326
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:333
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:335
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:336
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:340
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:342
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:348
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:350
+msgid "1"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:492
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:357
+msgid "not a number"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:495
+msgid "0.0"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:496
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:497
+msgid "0.1"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:498
+msgid "  0.1 "
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:499
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:360
+msgid "0000"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:500
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:501
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:502
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:361
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:362
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:363
+msgid "2.345"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:503
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:364
+msgid "2.344"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:504
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:365
+msgid "2"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:507
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:368
+msgid "-2"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:533
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:534
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:535
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:536
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:537
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:538
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:546
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:547
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:548
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:549
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:550
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:558
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:559
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:560
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:561
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:562
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:570
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:571
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:572
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:573
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:574
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:372
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:373
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:374
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:375
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:376
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:381
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:382
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:383
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:384
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:385
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:390
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:391
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:392
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:393
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:394
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:399
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:400
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:401
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:402
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:403
+msgid "This_is_a_test_string"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:582
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:408
+msgid "a <a href=\"#\">link</a>"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:583
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:409
+msgid "a <a href=\"#\">link</a><script>alert(\"hello world!\")</script>"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:584
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:410
+msgid "<html><body>hello world</body></html>"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:606
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:423
+msgid "Jack & Jill like numbers 1,2,3 and 4 and silly characters ?%.$!/"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:608
+msgid "I know latin characters: á í ó ú ç ã õ ñ ü ă ș ț"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:609
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:426
+msgid "I am a word too, even though I am but a single letter: i!"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:660
+msgid "false"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/strings.js:667
+msgid "true"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/lodash/lodash.js:3608
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/lodash/lodash.underscore.js:3116
+msgid "curly"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:285
+msgid ""
+"&lt;div&gt;Blah &amp; &quot;blah&quot; &amp; &apos;blah&apos;&lt;/div&gt;"
+msgstr ""
+
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/strings.js:425
+msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:15
+msgid "Shout :shortcut"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/add.js:16
+msgid "Hit enter to mark as read"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/modules/shoutbox/views/control.js:25
+msgid "Notification"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/views/postingActionBookmark.js:51
+msgid "Entry is bookmarked"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/views/postingActionBookmark.js:55
+msgid "Bookmark the entry"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/views/postingActionSolves.js:26
+msgid "Mark entry as helpful"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:69
+msgid "upload_fileTypeNotAllowed"
+msgstr "File type not allowed."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:73
+msgid "upload_fileToLarge"
+msgstr "File :name to large."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:78
+msgid "upload_browserNotSupported"
+msgstr "Browser not supported."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:81
+msgid "upload_toManyFiles"
+msgstr "To many files."
+
+#: webroot/dist/main.js:2 webroot/js/views/uploadNew.js:179
+msgid "upload_genericError"
+msgstr "Error occurred on upload."
+
+#: webroot/dist/main.js:2
+msgid ""
+"Enter link to media or embedding code:') %>\n"
+"    </label>\n"
+"    <textarea name=\"data[media]\" id=\"markitup_media_txta\"\n"
+"              class=\"c_markitup_popup_txta\" rows=\"6\" columns=\"20\"></"
+"textarea>\n"
+"    <input class=\"btn btn-submit\" id=\"markitup_media_btn\" type=\"submit"
+"\"\n"
+"           value=\"<%- $.i18n.__('Insert') %>\">\n"
+"    <div id=\"markitup_media_message\" class=\"flash error\" style="
+"\"display: none;\">\n"
+"        <%- $.i18n.__('Nothing recognized.') %>\n"
+"    </div>\n"
+"</form>\n"
+msgstr ""
+
+#: webroot/dist/main.js:2 webroot/js/views/mediaInsert.js:68
+msgid "Multimedia"
+msgstr ""
+
+#: webroot/dist/main.js:4 webroot/js/views/prerequisitesTester.js:14
+msgid ""
+"This web-application depends on Cookies and localStorage. Please make those "
+"available in your browser."
 msgstr ""
 
 #: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
@@ -1759,33 +2698,19 @@ msgstr ""
 msgid "tr"
 msgstr ""
 
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:30
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:26
+msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
+msgstr ""
+
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
 msgid "token test"
 msgstr ""
 
-#: webroot/js/views/mediaInsert.js:68
-msgid "Multimedia"
-msgstr ""
+#~ msgid "new_entry_linktitle"
+#~ msgstr "New Entry"
 
-#: webroot/js/views/uploadNew.js:68
-msgid "upload_fileTypeNotAllowed"
-msgstr "File type not allowed."
-
-#: webroot/js/views/uploadNew.js:72
-msgid "upload_fileToLarge"
-msgstr "File :name to large."
-
-#: webroot/js/views/uploadNew.js:77 webroot/js/views/uploadNew.js:137
-msgid "upload_browserNotSupported"
-msgstr "Browser not supported."
-
-#: webroot/js/views/uploadNew.js:80
-msgid "upload_toManyFiles"
-msgstr "To many files."
-
-#: webroot/js/views/uploadNew.js:161
-msgid "upload_genericError"
-msgstr "Error occurred on upload."
+#~ msgid "answer_marking"
+#~ msgstr "Answer"
 
 #~ msgid "forum_disabled"
 #~ msgstr "Disable Forum"

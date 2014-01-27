@@ -12,22 +12,20 @@
   text-align: right;
   }
 
-.l-top-spnsr, .l-top-left, .l-top {
+.l-top-left, .l-top {
   height: 70px;
-  }
-
-.l-top-spnsr, .l-top-left {
-  float: left;
-  }
-
-.l-top-spnsr {
-  width: 80px;
   }
 
 .l-top-left, .l-top-right {
   margin: 0;
   padding-right: $padding-content;
   }
+
+.l-top-left {
+  float: left;
+  margin-left: 80px;
+}
+
 
 .l-top-right {
   padding-top: 15px;
@@ -50,7 +48,6 @@
 }
 
 .top-menu {
-  padding: 2px 1em;
   font-size: 10px;
   line-height: 12px;
   border-width: $border_width 0 0 $border_width;
@@ -58,6 +55,19 @@
 	word-spacing: 0px;
   text-align:right;
   @extend .t_shadow;
+
+  > .top-menu-item {
+    @extend .t_shadow;
+    padding: 2px 0.5em;
+    display: inline-block;
+  }
+
+  /*
+   * 1: workaround for https://code.google.com/p/chromium/issues/detail?id=326083
+   */
+  button {
+    word-spacing: 0px; /* 1 */
+  }
 }
 
 @media all and (max-width: $layout-tablet-maxWidth) {

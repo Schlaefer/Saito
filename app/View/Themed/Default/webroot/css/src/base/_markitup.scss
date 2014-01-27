@@ -77,11 +77,6 @@ $markitup-buttonHeight: 32px;
             }
         }
     }
-
-    > a {
-        background: image_url('markitup/spr_toolbar.png') 0px -384px no-repeat;
-        text-indent: -10000px;
-    }
 }
 
 .markItUp .markItUpHeader ul ul li { float: left; border: none; }
@@ -117,12 +112,10 @@ $markitup-buttonHeight: 32px;
 
 // Saito markitup code
 // -------------------------------------
-.c_markitup_label {
-	padding: 0.5em;
-}
 form .c_markitup_popup_txta {
-	width: 96%;
+	width: 100%;
 	padding: 2%;
+  @include box-sizing(border-box);
 }
 
 /* -------------------------------------------------------------------*
@@ -132,19 +125,38 @@ form .c_markitup_popup_txta {
 .markItUp {
 	outline:none;
 }
+
+.markItUpHeader {
+  background: $saito_gray_dark;
+  @extend .box-shadow-inset;
+}
+
+.markItUpHeader ul:after  {
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
+}
+
 .markItUp a:link,
 .markItUp a:visited {
 	color:#333;
 	text-decoration:none;
 }
-.markItUp  {
-}
+
 .markItUpContainer  {
+  border: 1px solid $saito_gray_input_border;
+  background: white;
+  @extend .box-shadow-inset;
 }
+
 .markItUpEditor {
+  box-shadow: none;
+  border: none;
 	clear:both; display:block;
 	overflow:auto;
 	height: 16em;
+  background: none;
 }
 .markItUpPreviewFrame	{
 	@extend textarea;
@@ -158,6 +170,7 @@ form .c_markitup_popup_txta {
 	width:100%;
 }
 .markItUpResizeHandle {
+  display: none;
 	overflow:hidden;
 	width:22px; height:5px;
 	margin-left:auto;

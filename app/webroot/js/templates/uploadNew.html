@@ -13,20 +13,20 @@
     </div>
     <div class="l-box-footer box-footer-form upload_box_footer">
         <div style="position: relative;">
-            <!--
-                // To present a nice upload button we generate a dead button.
-                // Beneath the nice dummy button is the actual input file upload,
-                // but it's hidden behind the opacity:0 curtain div.
-              // z-index: 2000 to have the button above the jQuery UI modal.
-              -->
+            <%
+            // To present a nice upload button we generate a dead button.
+            // Beneath the nice dummy button is the actual input file upload,
+            // but it's hidden behind the opacity:0 curtain div.
+            // z-index: 2000 to have the button above the jQuery UI modal.
+            %>
             <button class="btn btn-submit" type="button">
                 <%- $.i18n.__("upload_btn") %>
             </button>
             <div style="position: absolute; z-index: 2000; top:0; right: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; overflow: hidden; " >
                 <input id="Upload0File"
+                       class="btn btn-submit"
                        type="file" name="data[Upload][0][file]"
-                       style="width: 150px; height: 100%"
-                        >
+                       style="width: 150px; height: 100%">
             </div>
         </div>
     </div>

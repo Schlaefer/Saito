@@ -44,6 +44,22 @@
   @extend .fa-check-square-o;
 }
 
+.fa-mod {
+  @extend .fa-gavel;
+}
+
+.fa-admin {
+  @extend .fa-wrench;
+}
+
+.fa-multimedia {
+  @extend .fa-code;
+}
+
+.fa-s-code {
+  @extend .fa-terminal;
+}
+
 .fa-close-widget {
   @extend .fa-times-circle;
   // @bogus: with it the close buttons do not work
@@ -53,6 +69,10 @@
   &:hover {
     color: #444;
   }
+}
+
+.fa-s-smile-o {
+  @extend .fa-smile-o;
 }
 
 /*

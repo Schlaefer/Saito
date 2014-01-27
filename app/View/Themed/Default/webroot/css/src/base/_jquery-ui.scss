@@ -1,4 +1,4 @@
-.ui-widget {
+.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
   font-family: inherit;
 }
 
@@ -6,7 +6,7 @@
 	@extend .header_style_2;
 }
 
-.ui-widget-content a { 
+.ui-widget-content a {
 	color: $link_color;
 }
 .ui-dialog .ui-dialog-content {

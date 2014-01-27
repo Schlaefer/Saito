@@ -22,28 +22,31 @@
 			'app.user_online'
 		];
 
-		public function testSetTitleForLayout() {
-			// test empty title_for_layout
-			$result = $this->testAction(
-				'/entries/index',
-				array('return' => 'vars')
-			);
+		/**
+		 * Test empty title_for_layout
+		 */
+		public function testSetTitleForLayoutEmpty() {
+			$result = $this->testAction( '/entries/index', ['return' => 'vars']);
 			$this->assertEqual($result['title_for_layout'], 'Forum – macnemo');
+			$this->assertEqual($result['title_for_page'], 'Forum');
+			$this->assertEqual($result['forum_name'], 'macnemo');
+		}
 
-			// test nonempty title_for_layout
-			$result = $this->testAction(
-				'/entries/view/1',
-				array('return' => 'vars')
-			);
-			$this->assertEqual($result['title_for_layout'], 'First_Subject – macnemo');
+		/**
+		 * test nonempty title_for_layout
+		 */
+		public function testSetTitleForLayoutNotEmpty() {
+			$result = $this->testAction('/entries/view/1', ['return' => 'vars']);
+			$this->assertEqual($result['title_for_layout'],
+				'First_Subject – macnemo');
+		}
 
-			// test empty title for layout with page_titles.po set
-			$this->_loginUser(1);
-			$result = $this->testAction(
-				'/entries/add',
-				array('return' => 'vars')
-			);
-			$this->assertEqual($result['title_for_layout'], 'New Entry – macnemo');
+		/**
+		 * test empty title for layout with page_titles.po set
+		 */
+		public function testSetTitleForLayoutPoFile() {
+			$result = $this->testAction('/users/register', ['return' => 'vars']);
+			$this->assertEqual($result['title_for_layout'], 'Register – macnemo');
 		}
 
 		public function testLocalReferer() {

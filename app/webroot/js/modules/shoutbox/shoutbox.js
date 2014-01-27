@@ -78,6 +78,10 @@ define(['jquery', 'app/app', 'models/app', 'marionette',
 
               this.layout = new ShoutboxLayout();
               this.layout.render();
+
+              this.layout.$('#shoutbox-add').addClass('slidetab-header');
+              this.layout.$('#shoutbox-shouts').addClass('slidetab-content');
+              this.layout.$('#shoutbox-control').addClass('slidetab-footer');
             },
 
             initShouts: function() {
