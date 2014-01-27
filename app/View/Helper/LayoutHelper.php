@@ -111,4 +111,14 @@
 			return $this->Html->tag($tag, $heading, ['class' => 'pageHeading']);
 		}
 
+		/**
+		 * Generates intoText tag
+		 *
+		 * @param string $content
+		 * @return string
+		 */
+		public function infoText($content) {
+			return $this->Html->tag('span', $content, ['class' => 'infoText']);
+		}
+
 	}
