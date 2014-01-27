@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-27 12:19+0100\n"
-"PO-Revision-Date: 2014-01-27 12:20+0100\n"
+"POT-Creation-Date: 2014-01-27 17:39+0100\n"
+"PO-Revision-Date: 2014-01-27 17:39+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -433,46 +433,46 @@ msgstr "zu"
 msgid "btn-openThreads"
 msgstr "auf"
 
-#: View/Elements/entry/view_content.ctp:57
+#: View/Elements/entry/view_content.ctp:58
 #, php-format
 msgid "%s edited by %s"
 msgstr "%s bearbeitet durch %s"
 
 # msgstr "Aufrufe"
-#: View/Elements/entry/view_content.ctp:67
+#: View/Elements/entry/view_content.ctp:68
 msgid "views_headline"
 msgstr "Aufrufe"
 
-#: View/Elements/entry/view_posting.ctp:64
+#: View/Elements/entry/view_posting.ctp:67
 #: View/Elements/layout/header_login.ctp:67
 #: View/Elements/layout/header_login.ctp:71 View/Entries/index.ctp:30
 #: View/Entries/search.ctp:56 View/Users/view.ctp:163
 msgid "Help"
 msgstr "Hilfe"
 
-#: View/Elements/entry/view_posting.ctp:65
+#: View/Elements/entry/view_posting.ctp:68
 msgid "answering_forbidden_locked_shp"
 msgstr "Antworten gesperrt durch Moderator."
 
-#: View/Elements/entry/view_posting.ctp:70
+#: View/Elements/entry/view_posting.ctp:73
 msgid "forum_answer_linkname"
 msgstr "Antworten"
 
-#: View/Elements/entry/view_posting.ctp:86
-#: View/Elements/entry/view_posting.ctp:114
+#: View/Elements/entry/view_posting.ctp:89
+#: View/Elements/entry/view_posting.ctp:117
 #: Controller/EntriesController.php:497
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:154
+#: View/Elements/entry/view_posting.ctp:157
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:165
+#: View/Elements/entry/view_posting.ctp:168
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:168
+#: View/Elements/entry/view_posting.ctp:171
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
@@ -693,7 +693,7 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:129
+#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:141
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
@@ -896,6 +896,10 @@ msgstr "Smiley bearbeiten"
 msgid "Admin Edit Smiley"
 msgstr "Admin Smiley bearbeiten"
 
+#: View/Themed/Paz/Layouts/default.ctp:71
+msgid "Search"
+msgstr "Suche"
+
 #: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Hochladen"
@@ -924,12 +928,12 @@ msgid "New User"
 msgstr "Neuer Benutzer"
 
 #: View/Users/admin_index.ctp:10 View/Users/edit.ctp:32 View/Users/edit.ctp:80
-#: View/Users/index.ctp:17 View/Users/view.ctp:25
+#: View/Users/index.ctp:13 View/Users/view.ctp:25
 msgid "username_marking"
 msgstr "Benutzername"
 
 #: View/Users/admin_index.ctp:11 View/Users/edit.ctp:42
-#: View/Users/index.ctp:18
+#: View/Users/index.ctp:15
 msgid "user_type"
 msgstr "Typ"
 
@@ -937,11 +941,11 @@ msgstr "Typ"
 msgid "user_email"
 msgstr "Email"
 
-#: View/Users/admin_index.ctp:13 View/Users/index.ctp:25
+#: View/Users/admin_index.ctp:13 View/Users/index.ctp:22
 msgid "registered"
 msgstr "Registriert"
 
-#: View/Users/admin_index.ctp:16 View/Users/index.ctp:31
+#: View/Users/admin_index.ctp:16 View/Users/index.ctp:29
 msgid "user_lock"
 msgstr "Sperre"
 
@@ -1232,25 +1236,25 @@ msgstr ""
 msgid "button_save"
 msgstr "Speichern"
 
-#: View/Users/index.ctp:20
+#: View/Users/index.ctp:17
 msgid "userlist_online"
 msgstr "Online"
 
-#: View/Users/index.ctp:36
+#: View/Users/index.ctp:32
 #, php-format
 msgid "Sort by: %s"
 msgstr "Sortieren nach: %s"
 
-#: View/Users/index.ctp:60
-msgid "Online"
-msgstr ""
-
-#: View/Users/index.ctp:62
+#: View/Users/index.ctp:51
 #, php-format
 msgid "user_since %s"
 msgstr "Mitglied seit %s"
 
-#: View/Users/index.ctp:68
+#: View/Users/index.ctp:57
+msgid "Online"
+msgstr ""
+
+#: View/Users/index.ctp:60
 #, php-format
 msgid "%s banned"
 msgstr "%s gesperrt"
@@ -1734,19 +1738,19 @@ msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:126
+#: View/Helper/EntryHHelper.php:138
 msgid "fixed"
 msgstr "Thread fixiert"
 
-#: View/Helper/EntryHHelper.php:134
+#: View/Helper/EntryHHelper.php:146
 msgid "Helpful entry"
 msgstr "Hilfreicher Beitrag"
 
-#: View/Helper/EntryHHelper.php:147
+#: View/Helper/EntryHHelper.php:159
 msgid "cateogry"
 msgstr "Kategorie"
 
-#: View/Helper/EntryHHelper.php:150
+#: View/Helper/EntryHHelper.php:162
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
