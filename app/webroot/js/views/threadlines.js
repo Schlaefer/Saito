@@ -15,8 +15,8 @@ define([
 
 		var ThreadLineView = Backbone.View.extend({
 
-			className: 'js-thread_line',
-            tagName: 'li',
+      className: 'threadLeaf',
+      tagName: 'li',
 
 			spinnerTpl: _.template(threadlineSpinnerTpl),
 
@@ -78,11 +78,11 @@ define([
 
           if (!this.model.get('isContentLoaded')) {
             this.tlsV = new ThreadlineSpinnerView({
-              el: this.$el.find('.thread_line-pre i')
+              el: this.$el.find('.threadLine-pre i')
             });
             this.tlsV.show();
 
-            this.$el.find('.js-thread_line-content').after(this.spinnerTpl({
+            this.$el.find('.threadLine').after(this.spinnerTpl({
               id: id
             }));
             // @bogus, why no listenTo?
@@ -108,7 +108,7 @@ define([
         this.postings.add(this.postingModel);
 
         postingLayout = new PostingLayout({
-          el: this.$('.t_s'),
+          el: this.$('.threadInline-slider'),
           inline: true,
           model: this.postingModel,
           collection: this.postings,
@@ -133,7 +133,7 @@ define([
                     }
                 }, this);
 
-                this.$el.find('.js-thread_line-content').fadeOut(
+                this.$el.find('.threadLine').fadeOut(
                     100,
                     _.bind(
                         function() {
@@ -149,7 +149,7 @@ define([
 				this.$('.js-thread_inline').hide(0,
 					_.bind(
 						function() {
-							this.$el.find('.js-thread_line-content').slideDown();
+							this.$el.find('.threadLine').slideDown();
                             this._scrollLineIntoView();
 						},
 						this
@@ -162,7 +162,7 @@ define([
              * scroll to that line and highlight it
              */
 			_scrollLineIntoView: function () {
-                var thread_line = this.$('.js-thread_line-content');
+                var thread_line = this.$('.threadLine');
                 if (!thread_line.scrollIntoView('isInView')) {
                     thread_line.scrollIntoView('top')
                         .effect(

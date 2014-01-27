@@ -23,7 +23,7 @@
 			array (
 					array (
 						__('username_marking'),
-						$user['User']['username'] . " <span class='info_text'>({$this->UserH->type($user['User']['user_type'])})</span>", # @td user_type for mod and admin
+						$user['User']['username'] . " <span class='infoText'>({$this->UserH->type($user['User']['user_type'])})</span>", # @td user_type for mod and admin
 					),
 				);
 
@@ -241,7 +241,7 @@
 					['message' => __('No entries created yet.')]
 				); ?>
 			<?php else : ?>
-				<ul>
+				<ul class="threadCollection-node root">
 					<?php foreach ($lastEntries as $entry) : ?>
 						<li>
 							<?= $this->EntryH->threadCached($entry, $CurrentUser); ?>

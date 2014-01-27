@@ -20,11 +20,11 @@
 
 @media only screen and (max-width: 480px) {
 
-	.thread_tools, .btn-threadCollapse {
+	.threadBox-tools, .btn-threadCollapse {
 		-webkit-text-size-adjust: 150%;
 		}
 
-	.tl-cnt, .thread_line-pre {
+	.threadLine, .threadLine-pre {
 		-webkit-text-size-adjust: 200%;
 		}
 	}
@@ -41,7 +41,7 @@
 		-webkit-text-size-adjust: 120%;
 		}
 
-	.thread_line-pre, .thread_line-content {
+	.threadLine-pre, .threadLine-content {
 		-webkit-text-size-adjust: 120%;
 	}
 

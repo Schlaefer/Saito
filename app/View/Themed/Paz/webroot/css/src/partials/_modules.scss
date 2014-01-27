@@ -1,0 +1,194 @@
+html, body {
+  height: 100%;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body, .btnLink, textarea, input[type=text] {
+  font-family: Cabin;
+  color: $font-color;
+  font-weight: 400;
+  background-color: $background-color;
+}
+
+body {
+  font-size: 1.4em;
+  padding: 0 2 * $padding;
+  max-width: 70em;
+  margin: 0 auto;
+}
+
+.l-body {
+  min-width: $layout_min_width;
+  @include box-sizing(border-box);
+}
+
+input, textarea {
+  font-size: 1em;
+  padding: 0.5em;
+  @include box-sizing(border-box);
+  outline-color: $outline-color;
+}
+
+body, h1, h2, h3, h4 {
+  line-height: 1.5em;
+}
+
+h1, h2, h3, h4, #hero-home-link {
+  font-size: $font-size-large;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+.btnLink {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: inherit;
+  font-size: 1em;
+  -webkit-appearance: none;
+}
+
+a, .btnLink {
+  @include unstyled-link;
+  @include link-colors($link-color);
+  cursor: pointer;
+}
+
+u {
+  text-decoration: underline;
+}
+
+hr {
+  border-width: 0;
+  border-bottom: 1px solid $border-color;
+}
+
+header {
+  text-align: center;
+}
+
+body.headerClosed {
+  $_height: 40px;
+
+  .top-menu {
+    display: none;
+  }
+
+  header {
+    margin-left: -2*$padding;
+    margin-right: -2*$padding;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 100;
+    @include background(linear-gradient(to top, rgba($background-color, 0.85), $background-color 90%));
+  }
+
+  #js-top-menu-open {
+    display: block;
+    line-height: $_height;
+    padding: 0 2* $padding;
+  }
+
+  #hero-home-link {
+    padding-top: 0.5 * $padding;
+    padding-bottom: 0.5 * $padding;
+  }
+}
+
+#hero {
+  position: relative;
+  border-bottom: 1px solid $border-color;
+}
+
+#hero-home-link {
+  font-weight: bold;
+  padding: $padding;
+}
+
+#js-top-menu-open {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+.top-menu {
+  border-bottom: 1px solid $border-color;
+}
+
+.top-menu-item {
+  padding: $padding;
+  display: inline-block;
+}
+
+.top-menu-aside {
+  position: absolute;
+  right: 0
+}
+
+.navbar {
+  padding: $padding 0;
+  @include c_t_h_3_abs;
+}
+
+.navbar .pageHeading {
+  margin: 0;
+}
+
+.pageHeading {
+  font-size: 1em;
+  display: inline-block;
+  font-weight: normal;
+  margin: 0 auto;
+
+  &:after {
+    content: "";
+    position: relative;
+    border-bottom: 2px solid $border-color;
+    height: 1px;
+    display: block;
+  }
+}
+
+#content {
+  padding: 0 2 * $padding 50px;
+}
+
+.infoText, .author {
+  color: $info-color;
+}
+
+.c-category {
+  color: $font-color;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.c-username {
+  font-weight: bold;
+}
+
+.signature {
+  @extend .infoText;
+  font-size: $font-size-small;
+  text-align: center;
+}
+
+.signature-divider {
+  padding-bottom: 1em;
+}
+
+.solves-isSolved {
+  color: #008000;
+}
+
+%highlight-hover {
+  background: $highlight-hover-color;
+}

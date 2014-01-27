@@ -10,7 +10,7 @@ define([
 
   var ThreadView = Backbone.View.extend({
 
-    className: 'thread_box',
+    className: 'threadBox',
 
     events: {
       "click .btn-threadCollapse": "collapseThread",
@@ -54,7 +54,7 @@ define([
     _appendThreadlineToThread: function(pid, $el) {
       var parent,
           existingSubthread;
-      parent = this.$('.js-thread_line[data-id="' + pid + '"]');
+      parent = this.$('.threadLeaf[data-id="' + pid + '"]');
       existingSubthread = (parent.next().not('.js_threadline').find('ul:first'));
       if (existingSubthread.length === 0) {
         $el.wrap("<ul class=\"threadTree-node\"></ul>").parent().wrap("<li></li>").parent().insertAfter(parent);

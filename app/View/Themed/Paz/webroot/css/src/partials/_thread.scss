@@ -1,0 +1,99 @@
+// Tread Tree/Collection
+// -------------------------------------
+.threadTree-node {
+  padding-left: 2 * $padding;
+}
+
+.threadTree-node, .threadCollection-node {
+  list-style: none;
+
+  &.root {
+    margin: 0;
+    padding: 0;
+  }
+
+}
+
+.threadCollection-node .threadTree-node {
+  padding-left: 0;
+}
+
+// Thread Box/ Collection
+// -------------------------------------
+
+.threadBox {
+  margin-bottom: 2 * $padding;
+}
+
+.threadBox-tools {
+  padding-left: 2 * $padding;
+  font-size: $font-size-small;
+}
+
+.threadBox .threadTree-node.root {
+  padding-left: 20px;
+}
+
+// thread and reply types
+//
+// don't forget to apply changes here to the user custom color CSS
+// -------------------------------------
+.et-root .et, .et-reply .et {
+  @include link-colors($link-color);
+}
+.et-new .et {
+  font-weight: bold;
+}
+.et-old .et {
+  @include link-colors($font-color-read);
+}
+.et-current .et {
+  @include link-colors($font-color-current);
+}
+
+// threadLine
+// -------------------------------------
+
+$threadLine-pre-padding: 2em;
+
+.threadLine-pre {
+  float: left;
+  text-align: center;
+  width: $threadLine-pre-padding;
+}
+
+.threadLine-content {
+  word-wrap: break-word;
+  // wide click target and hover-highlight
+  display: block;
+  // same left alignment border to threadLine with n > 1 lines
+  padding-left: $threadLine-pre-padding;
+
+  &:hover {
+    @extend %highlight-hover;
+  }
+
+  .c-category {
+    color: $font-color;
+  }
+}
+
+.threadLine-post {
+  @extend .infoText;
+  font-size: $font-size-small;
+  font-weight: normal;
+}
+
+
+// Thread Inline
+// -------------------------------------
+
+$btn-strip-top-width: 25px;
+
+.threadInline-slider {
+  // prevents wide inline content to drop below slidetabs
+  overflow: hidden;
+
+  margin-left: $btn-strip-top-width;
+}
+

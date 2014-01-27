@@ -27,7 +27,7 @@
 }
 
 .author {
-  @extend .info_text;
+  @extend .infoText;
 }
 
 // Buttons
@@ -45,7 +45,7 @@
 
 // BBCode
 // -------------------------------------
-.c_bbc_code-wrapper {
+.c-bbcode-code-wrapper {
   background-color: #f9f9f9;
   padding: 4px;
 }
@@ -54,12 +54,12 @@
   @extend code;
 }
 
-.c_bbc_underline {
+.c-bbcode-underline {
   @extend u;
 }
 
-.c_bbc_spoiler {
-    .c_bbc_spoiler-link {
+.c-bbcode-spoiler {
+    .c-bbcode-spoiler-link {
         color: black;
         background-color: black;
         text-shadow: none;
@@ -73,39 +73,39 @@
     }
 }
 
-.c_bbc_link-dinfo, .c_bbc_imessage {
-  @extend .info_text;
+.c-bbcode-link-dinfo, .c-bbcode-imessage {
+  @extend .infoText;
 
   font-weight: normal;
   font-style: normal;
   text-decoration: none;
 }
 
-.c_bbc_imessage {
+.c-bbcode-imessage {
   font-style: italic;
 }
 
-.c_bbc_upload, .c_bbc_external-image {
+.c-bbcode-upload, .c-bbcode-external-image {
   margin: 5px 0;
 }
 
-.c_bbc_citation {
+.c-bbcode-citation {
   color: $saito_info_text;
   font-style: italic;
 }
 
-.c_bbc_ul {
+.c-bbcode-ul {
   margin: 0em 2em;
   padding: 0;
   list-style-image: image-url("bbcode_list_image.png");
 }
 
-.c_bbc_li {
+.c-bbcode-li {
   margin: 0.5em 0;
   padding: 0;
 }
 
-.c_bbc_hr {
+.c-bbcode-hr {
   margin-left: 0.5em;
   width: 10em;
   display: inline-block;

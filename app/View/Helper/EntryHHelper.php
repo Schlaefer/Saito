@@ -76,13 +76,15 @@
 		}
 
 		public function generateEntryTypeCss($level, $new, $current, $viewed) {
-			$entryType = ($level === 0) ? 'thread' : 'reply';
+			$entryType = ($level === 0) ? 'et-root' : 'et-reply';
 			if ($new) {
-				$entryType .= 'new';
+				$entryType .= ' et-new';
+			} else {
+				$entryType .= ' et-old';
 			}
 			if (!empty($viewed)) {
 				if ($current === $viewed) {
-					$entryType = ($level === 0) ? 'actthread' : 'actreply';
+					$entryType .= ' et-current';
 				}
 			}
 			return $entryType;
@@ -99,6 +101,16 @@
 			$indexPage .= '/jump:' . $tid;
 
 			return $indexPage;
+		}
+
+		/**
+		 * evaluates if entry is n/t
+		 *
+		 * @param $entry
+		 * @return bool
+		 */
+		public function isNt($entry) {
+			return empty($entry['Entry']['text']);
 		}
 
 /**
@@ -189,13 +201,13 @@
 
 			// generate current entry
 			$out = <<<EOF
-<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
-	<div class="js-thread_line-content tl-cnt">
-		<button href="#" class="btnLink btn_show_thread thread_line-pre span_post_type">
+<li class="threadLeaf {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
+	<div class="threadLine">
+		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
 			{$_threadLinePre}
 		</button>
 		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
-			class='link_show_thread {$entrySub['Entry']['id']} span_post_type thread_line-content'>
+			class='link_show_thread {$entrySub['Entry']['id']} et threadLine-content'>
 				{$_threadLineCached}
 		</a>
 	</div>
@@ -247,9 +259,9 @@ EOF;
  * the frontpage. Think about (and benchmark) performance before you change it.
  */
 		public function threadLineCached(array $entrySub, $level) {
-			/* because of performance we use dont use $this->Html->link(...):
+			/* because of performance we use don't use $this->Html->link(...):
 			 * $out.= $this->EntryH->getFastLink($entrySub,
-			 *     array( 'class' => "link_show_thread {$entrySub['Entry']['id']} span_post_type" ));
+			 *     ['class' => "link_show_thread {$entrySub['Entry']['id']} et"]);
 			 */
 
 			/*because of performance we use hard coded links instead the cakephp helper:
@@ -262,7 +274,7 @@ EOF;
 						'category_acs_' . $entrySub['Category']['accession'] . '_exp');
 				}
 				$a = $this->_catL10n[$entrySub['Category']['accession']];
-				$category = '<span class="category_acs_' . $entrySub['Category']['accession'] . '"
+				$category = '<span class="c-category acs-' . $entrySub['Category']['accession'] . '"
             title="' . $entrySub['Category']['description'] . ' ' . ($a) . '">
         (' . $entrySub['Category']['category'] . ')
       </span>';
@@ -277,9 +289,9 @@ EOF;
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="thread_line-username"> – {$entrySub['User']['username']}</span>
+<span class="c-username"> – {$entrySub['User']['username']}</span>
 {$category}
-<span class="thread_line-post"> {$time} {$badges} </span>
+<span class="threadLine-post"> {$time} {$badges} </span>
 EOF;
 			return $out;
 		}

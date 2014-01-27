@@ -53,7 +53,7 @@ define([
     _Delimiter: {
       _conversationCoolOff: 300,
       _previousItemTime: null,
-      tpl: _.template('<div class="info_text"><span title="<%= time_long %>"><%= time %></span></div>'),
+      tpl: _.template('<div class="infoText"><span title="<%= time_long %>"><%= time %></span></div>'),
 
       append: function(itemView) {
         var itemTime = moment(itemView.model.get('time'));

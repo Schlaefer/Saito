@@ -18,7 +18,10 @@
 	<?php
 		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
 	?>
-	<?php if(!$CurrentUser['user_signatures_hide'] && !empty($entry['User']['signature'])) : ?>
+	<?php if (!$CurrentUser['user_signatures_hide'] &&
+			!empty($entry['User']['signature']) &&
+			!$this->EntryH->isNt($entry)
+	): ?>
 		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
 			<div class="signature-divider">
 				<?= Configure::read('Saito.Settings.signature_separator') ?>

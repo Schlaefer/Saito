@@ -25,7 +25,7 @@ a.no-color, .no-color {
  	@include link-colors($saito-gray);
 }
 
-.info_text {
+.infoText {
   color: $saito_info_text;
 	}
 
@@ -34,7 +34,7 @@ a.no-color, .no-color {
 	}
 
 .c_info_text {
-	@extend .info_text;
+	@extend .infoText;
 	@extend .small;
 	}
 
