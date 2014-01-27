@@ -188,10 +188,11 @@
 			};
 
 			// change language
-			if (isset($this->passedArgs['lang'])) {
+			if (isset($this->request->query['lang'])) {
 				$L10n = ClassRegistry::init('L10n');
-				if ($L10n->catalog($this->passedArgs['lang'])) {
-					Configure::write('Config.language', $this->passedArgs['lang']);
+				$lang = $this->request->query['lang'];
+				if ($L10n->catalog($lang)) {
+					Configure::write('Config.language', $lang);
 				}
 			};
 		}
