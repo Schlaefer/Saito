@@ -76,19 +76,23 @@
 					strtotime($user['User']['registered']))
 	];
 
-	$table[] =
-			[
-					__('user_postings'),
-					$user['User']['number_of_entries'] .
-					((Configure::read('Saito.Settings.userranks_show')) ? ' (' . $this->UserH->userRank($user["User"]['number_of_entries']) . ')' : '') .
-					' [' .
-					$this->Html->link(__('user_show_entries'),
-							$urlToHistory,
-							['escape' => false]
-					) .
-					']',
-			];
+	// number of postings
+	if (Configure::read('Saito.Settings.userranks_show')) {
+		$_userRank = $this->Layout-> infoText(' (' .
+				$this->UserH->userRank($user['User']['number_of_entries']) .
+				')');
+		;
+	} else {
+		$_userRank = '';
+	}
+	$table[] = [
+			__('user_postings'),
+			$this->Html->link($user['User']['number_of_entries'],
+					$urlToHistory,
+					['escape' => false]) . $_userRank
+	];
 
+	// profile
 	if (!empty($user['User']['profile'])) {
 		$table[] = [
 				__('user_profile'),

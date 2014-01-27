@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-27 18:24+0100\n"
-"PO-Revision-Date: 2014-01-27 19:00+0100\n"
+"PO-Revision-Date: 2014-01-27 19:40+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -1252,7 +1252,7 @@ msgstr "%b. %d, %Y"
 
 #: View/Users/view.ctp:79
 msgid "user_postings"
-msgstr "Number of Postings"
+msgstr "Postings"
 
 #: View/Users/view.ctp:84
 msgid "user_show_entries"
