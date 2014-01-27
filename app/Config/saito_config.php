@@ -23,7 +23,7 @@
 	 * `*` - all installed themes (in Themed folder)
 	 * `['A', 'B']` - only themes 'A' and 'B' (Themed folder names)
 	 */
-	Configure::write('Saito.themes.available.all', '*');
+	// Configure::write('Saito.themes.available.all', '*');
 
 	/**
 	 * Sets additional themes available for specific users only

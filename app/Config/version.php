@@ -1,2 +1,2 @@
 <?php
-	Configure::write('Saito.v', '2-RC3');
+	Configure::write('Saito.v', '2');
