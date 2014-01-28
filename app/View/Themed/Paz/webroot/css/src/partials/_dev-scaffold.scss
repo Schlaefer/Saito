@@ -205,21 +205,14 @@ textarea, .textarea, input[type=text] {
 
 // l-box-header
 // -------------------------------------
-.user.view {
-  .box-content:first-of-type .l-box-header {
-    display: none;
-  }
-}
-
-.add-not-inline {
-  .l-box-header {
-    display: none;
-  }
+.l-box-header.pageTitle {
+  // theme prefers heading shown in navbar
+  display: none;
 }
 
 #content .l-box-header {
   height: auto;
-  margin-top: 2*$padding;
+  // margin-top: 2*$padding;
   padding-top: $padding;
   margin-bottom: $padding;
 }

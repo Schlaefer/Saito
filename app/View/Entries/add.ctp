@@ -43,7 +43,7 @@
 	<!-- preview -->
 
 	<div class="postingform">
-		<div class="l-box-header box-header">
+		<div class="l-box-header box-header pageTitle">
 			<div>
 				<div class="c_first_child">
 					<?php if ($this->request->is('ajax')) : ?>

@@ -210,11 +210,9 @@ textarea, .textarea, input[type=text] { width: 100%; -webkit-appearance: none; b
 
 .disclaimer { border-top: 1px solid #4d3d00; margin-top: 1em; padding: 2em 0; font-size: 0.85em; }
 
-.user.view .box-content:first-of-type .l-box-header { display: none; }
+.l-box-header.pageTitle { display: none; }
 
-.add-not-inline .l-box-header { display: none; }
-
-#content .l-box-header { height: auto; margin-top: 2em; padding-top: 1em; margin-bottom: 1em; }
+#content .l-box-header { height: auto; padding-top: 1em; margin-bottom: 1em; }
 
 .l-box-header { height: 24px; }
 .l-box-header > div { position: relative; }

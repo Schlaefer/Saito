@@ -1,6 +1,6 @@
 <div class="user index">
 	<div class="box-content">
-		<div class="l-box-header box-header">
+		<div class="l-box-header box-header pageTitle">
 			<div>
 				<div class='c_first_child'></div>
 				<div><h1><?= $title_for_page ?></h1></div>
