@@ -7,8 +7,10 @@
   $this->end();
 ?>
 <h1>
-	<?php
-	echo __('Edit %s Profil', $this->TextH->properize($this->request->data['User']['username']));
+	<?=
+		__('Edit %s Profil',
+				Properize::prop($this->request->data['User']['username'])
+		);
 	?>
 </h1>
 <div class="user edit">

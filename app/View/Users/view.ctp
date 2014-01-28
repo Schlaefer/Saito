@@ -134,7 +134,12 @@
 		<div>
 			<div class='c_first_child'></div>
 			<div>
-				<h1><? $this->TextH->properize($user['User']['username']) . ' ' . __('user_profile'); ?></h1>
+					<h1>
+						<?=
+							Properize::prop($user['User']['username']) . ' '
+							. __('user_profile');
+						?>
+					</h1>
 			</div>
 			<div class='c_last_child'></div>
 		</div>
@@ -240,12 +245,12 @@
 		<div>
 			<div class='c_first_child'></div>
 			<div>
-				<h1>
-					<?=
-						$this->TextH->properize($user['User']['username']) . ' ' .
-						__('user_recentposts');
-					?>
-				</h1>
+					<h1>
+						<?=
+							Properize::prop($user['User']['username']) . ' ' .
+							__('user_recentposts');
+						?>
+					</h1>
 			</div>
 			<div class='c_last_child'></div>
 		</div>

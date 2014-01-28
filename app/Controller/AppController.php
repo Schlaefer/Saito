@@ -1,5 +1,6 @@
 <?php
 
+	App::uses('Properize', 'Lib');
 	App::uses('BbcodeSettings', 'Lib/Bbcode');
 	App::uses('Controller', 'Controller');
 	App::uses('CakeEmail', 'Network/Email');
@@ -40,7 +41,6 @@
 			'Layout',
 			'RequireJs',
 			'Stopwatch.Stopwatch',
-			'TextH',
 			'TimeH',
 			'UserH',
 			// CakePHP helpers
@@ -139,6 +139,9 @@
 			if ($this->modelClass) {
 				$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
 			}
+
+			// must be set after all language chooser
+			Properize::setLanguage(Configure::read('Config.language'));
 
 			// allow sql explain for DebugKit toolbar
 			if ($this->request->plugin === 'debug_kit') {
