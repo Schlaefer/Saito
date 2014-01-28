@@ -8,7 +8,7 @@ layout:	home
 
 Saito is an open source threaded web forum written in PHP (atop of [CakePHP] and [Marionette]).
 
-See [macnemo.de] or [macfix.de] for a running installation.
+Test the [demo install][testforum] (login: test/test) or see production sites like [macnemo.de] or [macfix.de].
 
 </div>
 <div class="span5" markdown="1">
@@ -17,7 +17,7 @@ See [macnemo.de] or [macfix.de] for a running installation.
 
 Saito ist ein Open Source Webforum geschrieben in PHP ([CakePHP] und [Marionette]).
 
-Es kann sich im bei [macnemo.de] oder [macfix.de] angeschaut werden.
+Es kann in der [Demo-Installation][testforum] (Login: test/test) getestet oder bei bspw. bei [macnemo.de] oder [macfix.de] angeschaut werden.
 
 </div>
 </div>
@@ -133,6 +133,6 @@ Who wrote this and why? Wait … where are my pants?!
 [Marionette]: http://marionettejs.com/
 [macnemo.de]: http://macnemo.de/
 [macfix.de]: http://www.macfix.de/
-[testforum]: http://saito.siezi.com/forum/
+[testforum]: http://saito.gopagoda.com/
 [Saito Code]: https://github.com/Schlaefer/Saito
 [Saito Issues]: https://github.com/Schlaefer/Saito/issues
