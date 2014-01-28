@@ -78,10 +78,9 @@
 
 	// number of postings
 	if (Configure::read('Saito.Settings.userranks_show')) {
-		$_userRank = $this->Layout-> infoText(' (' .
+		$_userRank = $this->Layout->infoText(' (' .
 				$this->UserH->userRank($user['User']['number_of_entries']) .
-				')');
-		;
+				')');;
 	} else {
 		$_userRank = '';
 	}
@@ -126,156 +125,153 @@
 				)
 		];
 	}
-
 ?>
-
-<div class="box-content">
-	<div class="l-box-header box-header">
-		<div>
-			<div class='c_first_child'></div>
+<div class="users view">
+	<div class="box-content">
+		<div class="l-box-header box-header">
 			<div>
+				<div class='c_first_child'></div>
+				<div>
 					<h1>
 						<?=
 							Properize::prop($user['User']['username']) . ' '
 							. __('user_profile');
 						?>
 					</h1>
+				</div>
+				<div class='c_last_child'></div>
 			</div>
-			<div class='c_last_child'></div>
 		</div>
-	</div>
-	<div class="content">
+		<div class="content">
+			<table class='table th-left elegant'>
+				<?= $this->Html->tableCells($table); ?>
+			</table>
+		</div>
 
-
-		<table class='table th-left elegant'>
-			<?= $this->Html->tableCells($table); ?>
-		</table>
-	</div>
-
-	<?php
-		$isModMenuPopulated = false;
-		$isUsersEntry = $CurrentUser->getId() == $user['User']['id'];
-		$isMod = $CurrentUser->isMod();
-		if ($isUsersEntry || $isMod):
-			?>
-			<div class="l-box-footer box-footer-form">
-				<?php if ($isUsersEntry) : ?>
-					<?php
-					echo $this->Html->link(
-							__('edit_userdata'),
-							array('action' => 'edit', $user['User']['id']),
-							array('id' => 'btn_user_edit', 'class' => 'btn btn-submit')
-					);
-					?>
-				<?php endif; ?>
-				<?php if ($isMod) : ?>
-					<?php $this->start('modMenu'); ?>
-					&nbsp;
-					<div class="button_mod_panel shp shp-right"
-							 data-title="<?php echo __('Help'); ?>"
-							 data-content="<?php echo __('button_mod_panel_shp'); ?>"
-							>
-						<div class="btn-group">
-							<button class="btn dropdown-toggle btn-mini"
-											data-toggle="dropdown">
-								<i class="fa fa-wrench"></i>
-								&nbsp;
-								<i class="fa fa-caret-down"></i>
-							</button>
-							<ul class="dropdown-menu">
-								<?php if ($CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui'))) : ?>
-									<?php $isModMenuPopulated = true; ?>
-									<li>
-										<?php
-											echo $this->Html->link(
-													'<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
-													array(
-															'controller' => 'users',
-															'action' => 'lock',
-															$user['User']['id']
-													),
-													array('escape' => false)
-											);
-										?>
-									</li>
-								<?php endif; ?>
-								<?php if ($CurrentUser->isAdmin()) : ?>
-									<?php $isModMenuPopulated = true; ?>
-									<li>
-										<?php
-											echo $this->Html->link(
-													'<i class="fa fa-pencil"></i> ' . __('Edit'),
-													array('action' => 'edit', $user['User']['id']),
-													array('escape' => false)
-											);
-										?>
-									</li>
-									<li class="divider"></li>
-									<li>
-										<?php
-											echo $this->Html->link(
-													'<i class="fa fa-trash-o"></i> ' . __('Delete'),
-													array(
-															'controller' => 'users',
-															'action' => 'delete',
-															$user['User']['id'],
-															'admin' => true
-													),
-													array('escape' => false)
-											);
-										?>
-									</li>
-								<?php endif; ?>
-							</ul>
+		<?php
+			$isModMenuPopulated = false;
+			$isUsersEntry = $CurrentUser->getId() == $user['User']['id'];
+			$isMod = $CurrentUser->isMod();
+			if ($isUsersEntry || $isMod):
+				?>
+				<div class="l-box-footer box-footer-form">
+					<?php if ($isUsersEntry) : ?>
+						<?php
+						echo $this->Html->link(
+								__('edit_userdata'),
+								array('action' => 'edit', $user['User']['id']),
+								array('id' => 'btn_user_edit', 'class' => 'btn btn-submit')
+						);
+						?>
+					<?php endif; ?>
+					<?php if ($isMod) : ?>
+						<?php $this->start('modMenu'); ?>
+						&nbsp;
+						<div class="button_mod_panel shp shp-right"
+								 data-title="<?php echo __('Help'); ?>"
+								 data-content="<?php echo __('button_mod_panel_shp'); ?>"
+								>
+							<div class="btn-group">
+								<button class="btn dropdown-toggle btn-mini"
+												data-toggle="dropdown">
+									<i class="fa fa-wrench"></i>
+									&nbsp;
+									<i class="fa fa-caret-down"></i>
+								</button>
+								<ul class="dropdown-menu">
+									<?php if ($CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui'))) : ?>
+										<?php $isModMenuPopulated = true; ?>
+										<li>
+											<?php
+												echo $this->Html->link(
+														'<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
+														array(
+																'controller' => 'users',
+																'action' => 'lock',
+																$user['User']['id']
+														),
+														array('escape' => false)
+												);
+											?>
+										</li>
+									<?php endif; ?>
+									<?php if ($CurrentUser->isAdmin()) : ?>
+										<?php $isModMenuPopulated = true; ?>
+										<li>
+											<?php
+												echo $this->Html->link(
+														'<i class="fa fa-pencil"></i> ' . __('Edit'),
+														array('action' => 'edit', $user['User']['id']),
+														array('escape' => false)
+												);
+											?>
+										</li>
+										<li class="divider"></li>
+										<li>
+											<?php
+												echo $this->Html->link(
+														'<i class="fa fa-trash-o"></i> ' . __('Delete'),
+														array(
+																'controller' => 'users',
+																'action' => 'delete',
+																$user['User']['id'],
+																'admin' => true
+														),
+														array('escape' => false)
+												);
+											?>
+										</li>
+									<?php endif; ?>
+								</ul>
+							</div>
+							<!-- /btn-group -->
 						</div>
-						<!-- /btn-group -->
-					</div>
-					<?php $this->end('modMenu'); ?>
-					<?php
-					if ($isModMenuPopulated) {
-						echo $this->fetch('modMenu');
-					}
-					?>
-				<?php endif; ?>
-			</div> <!-- #box-footer.form -->
-		<?php endif; ?>
-</div>
-<div class="box-content">
-	<div class="l-box-header box-header">
-		<div>
-			<div class='c_first_child'></div>
+						<?php $this->end('modMenu'); ?>
+						<?php
+						if ($isModMenuPopulated) {
+							echo $this->fetch('modMenu');
+						}
+						?>
+					<?php endif; ?>
+				</div> <!-- #box-footer.form -->
+			<?php endif; ?>
+	</div>
+	<div class="box-content">
+		<div class="l-box-header box-header">
 			<div>
+				<div class='c_first_child'></div>
+				<div>
 					<h1>
 						<?=
 							Properize::prop($user['User']['username']) . ' ' .
 							__('user_recentposts');
 						?>
 					</h1>
+				</div>
+				<div class='c_last_child'></div>
 			</div>
-			<div class='c_last_child'></div>
+		</div>
+		<div class="content">
+			<?php if (empty($lastEntries)): ?>
+				<?=
+				$this->element(
+						'generic/no-content-yet',
+						['message' => __('No entries created yet.')]
+				); ?>
+			<?php else: ?>
+				<ul class="threadCollection-node root">
+					<?php foreach ($lastEntries as $entry): ?>
+						<li>
+							<?= $this->EntryH->threadCached($entry, $CurrentUser); ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				<?php if ($hasMoreEntriesThanShownOnPage) : ?>
+					<p style="margin: 0.5em 1em">
+						<?= $this->Html->link(__('Show all'), $urlToHistory) ?>
+					</p>
+				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 	</div>
-	<div class="content">
-		<?php if (empty($lastEntries)): ?>
-			<?=
-			$this->element(
-					'generic/no-content-yet',
-					['message' => __('No entries created yet.')]
-			); ?>
-		<?php else: ?>
-			<ul class="threadCollection-node root">
-				<?php foreach ($lastEntries as $entry): ?>
-					<li>
-						<?= $this->EntryH->threadCached($entry, $CurrentUser); ?>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-			<?php if ($hasMoreEntriesThanShownOnPage) : ?>
-				<p style="margin: 0.5em 1em">
-					<?= $this->Html->link(__('Show all'), $urlToHistory) ?>
-				</p>
-			<?php endif; ?>
-		<?php endif; ?>
-	</div>
-</div>
 </div>
