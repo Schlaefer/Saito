@@ -133,10 +133,7 @@
 				<div class='c_first_child'></div>
 				<div>
 					<h1>
-						<?=
-							Properize::prop($user['User']['username']) . ' '
-							. __('user_profile');
-						?>
+						<?= __('Profile') ?>
 					</h1>
 				</div>
 				<div class='c_last_child'></div>
@@ -242,10 +239,7 @@
 				<div class='c_first_child'></div>
 				<div>
 					<h1>
-						<?=
-							Properize::prop($user['User']['username']) . ' ' .
-							__('user_recentposts');
-						?>
+						<?= __('user_recentposts'); ?>
 					</h1>
 				</div>
 				<div class='c_last_child'></div>

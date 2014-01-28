@@ -559,7 +559,7 @@ msgstr ""
 
 #: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:245
 msgid "user_recentposts"
-msgstr "recent posts"
+msgstr "Recent Posts"
 
 #: View/Elements/layout/slidetab_userlist.ctp:17
 msgid "user_area_linkname"

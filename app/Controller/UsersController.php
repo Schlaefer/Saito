@@ -221,7 +221,7 @@
 			$this->set('user', $viewedUser);
 			$this->set(
 					'title_for_layout',
-					__('User %s', $viewedUser['User']['username'])
+					$viewedUser['User']['username']
 			);
 		}
 
