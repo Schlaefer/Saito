@@ -203,6 +203,10 @@ textarea, .textarea, input[type=text] {
   font-size: 0.85em;
 }
 
+.ui-dialog .ui-dialog-titlebar-close {
+  left: $padding;
+}
+
 // l-box-header
 // -------------------------------------
 .l-box-header.pageTitle {

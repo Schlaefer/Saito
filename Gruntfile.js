@@ -43,7 +43,7 @@ module.exports = function(grunt) {
       jquery: '../dev/bower_components/jquery/jquery',
       jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
       jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
-      jqueryUi: 'lib/jquery-ui/jquery-ui-1.9.2.custom.min',
+      jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
       marionette: '../dev/bower_components/marionette/backbone.marionette',
       text: '../dev/bower_components/requirejs-text/js/text',
       underscore: '../dev/bower_components/underscore/js/underscore',
