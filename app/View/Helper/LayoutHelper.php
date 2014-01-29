@@ -121,4 +121,34 @@
 			return $this->Html->tag('span', $content, ['class' => 'infoText']);
 		}
 
+		public function dropdownMenuButton(array $menuItems, array $options = []) {
+			$options += ['class' => ''];
+			$_divider = '<li class="dropdown-divider"></li>';
+			$_menu = '';
+			foreach ($menuItems as $_menuItem) {
+				if ($_menuItem === 'divider') {
+					$_menu .= $_divider;
+				} else {
+					$_menu .= "<li>$_menuItem</li>";
+				}
+			}
+			$_id = AppHelper::tagId();
+			$_button = $this->Html->tag(
+					'button',
+					'<i class="fa fa-wrench"></i>&nbsp;<i class="fa fa-caret-down"></i>',
+					$options + [
+							'escape' => false,
+							'onclick' => "$(this).dropdown('attach', '#d$_id');"
+					]);
+			$_out = <<<EOF
+				$_button
+				<div id="d$_id" class=" dropdown-relative dropdown dropdown-tip">
+					<ul class="dropdown-menu">
+							$_menu
+					</ul>
+				</div>
+EOF;
+			return $_out;
+		}
+
 	}

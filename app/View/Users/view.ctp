@@ -146,90 +146,70 @@
 		</div>
 
 		<?php
-			$isModMenuPopulated = false;
 			$isUsersEntry = $CurrentUser->getId() == $user['User']['id'];
 			$isMod = $CurrentUser->isMod();
 			if ($isUsersEntry || $isMod):
 				?>
 				<div class="l-box-footer box-footer-form">
-					<?php if ($isUsersEntry) : ?>
-						<?php
-						echo $this->Html->link(
-								__('edit_userdata'),
-								array('action' => 'edit', $user['User']['id']),
-								array('id' => 'btn_user_edit', 'class' => 'btn btn-submit')
-						);
-						?>
-					<?php endif; ?>
-					<?php if ($isMod) : ?>
-						<?php $this->start('modMenu'); ?>
-						&nbsp;
-						<div class="button_mod_panel shp shp-right"
-								 data-title="<?php echo __('Help'); ?>"
-								 data-content="<?php echo __('button_mod_panel_shp'); ?>"
-								>
-							<div class="btn-group">
-								<button class="btn dropdown-toggle btn-mini"
-												data-toggle="dropdown">
-									<i class="fa fa-wrench"></i>
-									&nbsp;
-									<i class="fa fa-caret-down"></i>
-								</button>
-								<ul class="dropdown-menu">
-									<?php if ($CurrentUser->isAdmin() || ($CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui'))) : ?>
-										<?php $isModMenuPopulated = true; ?>
-										<li>
-											<?php
-												echo $this->Html->link(
-														'<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
-														array(
-																'controller' => 'users',
-																'action' => 'lock',
-																$user['User']['id']
-														),
-														array('escape' => false)
-												);
-											?>
-										</li>
-									<?php endif; ?>
-									<?php if ($CurrentUser->isAdmin()) : ?>
-										<?php $isModMenuPopulated = true; ?>
-										<li>
-											<?php
-												echo $this->Html->link(
-														'<i class="fa fa-pencil"></i> ' . __('Edit'),
-														array('action' => 'edit', $user['User']['id']),
-														array('escape' => false)
-												);
-											?>
-										</li>
-										<li class="divider"></li>
-										<li>
-											<?php
-												echo $this->Html->link(
-														'<i class="fa fa-trash-o"></i> ' . __('Delete'),
-														array(
-																'controller' => 'users',
-																'action' => 'delete',
-																$user['User']['id'],
-																'admin' => true
-														),
-														array('escape' => false)
-												);
-											?>
-										</li>
-									<?php endif; ?>
-								</ul>
-							</div>
-							<!-- /btn-group -->
-						</div>
-						<?php $this->end('modMenu'); ?>
-						<?php
-						if ($isModMenuPopulated) {
-							echo $this->fetch('modMenu');
+					<?php
+						// default edit link
+						if ($isUsersEntry) {
+							echo $this->Html->link(
+									__('edit_userdata'),
+									array('action' => 'edit', $user['User']['id']),
+									array('id' => 'btn_user_edit', 'class' => 'btn btn-submit')
+							);
 						}
-						?>
-					<?php endif; ?>
+
+						if ($isMod) {
+							$_menuItems = [];
+
+							// lock user
+							if ($CurrentUser->isAdmin() ||
+									($CurrentUser->isMod() &&
+											Configure::read('Saito.Settings.block_user_ui'))
+							) {
+								$_menuItems[] = $this->Html->link(
+										'<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
+										array(
+												'controller' => 'users',
+												'action' => 'lock',
+												$user['User']['id']
+										),
+										array('escape' => false)
+								);
+
+								if ($CurrentUser->isAdmin()) {
+									// edit user
+									$_menuItems[] = $this->Html->link(
+											'<i class="fa fa-pencil"></i> ' . __('Edit'),
+											array('action' => 'edit', $user['User']['id']),
+											array('escape' => false)
+									);
+									$_menuItems[] = 'divider';
+
+								}
+								// delete user
+								$_menuItems[] = $this->Html->link(
+										'<i class="fa fa-trash-o"></i> ' . __('Delete'),
+										array(
+												'controller' => 'users',
+												'action' => 'delete',
+												$user['User']['id'],
+												'admin' => true
+										),
+										array('escape' => false)
+								);
+							}
+
+							echo $this->Layout->dropdownMenuButton($_menuItems,
+									[
+											'class' => 'btnLink js-button shp shp-right',
+											'data-title' => __('Help'),
+											'data-content' => __('button_mod_panel_shp')
+									]);
+						}
+					?>
 				</div> <!-- #box-footer.form -->
 			<?php endif; ?>
 	</div>
