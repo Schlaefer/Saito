@@ -35,7 +35,6 @@ module.exports = function(grunt) {
     paths: {
       backbone: '../dev/bower_components/backbone/js/backbone',
       backboneLocalStorage: '../dev/bower_components/Backbone.localStorage/js/backbone.localStorage',
-      bootstrap: 'bootstrap/bootstrap',
       cakeRest: 'lib/saito/backbone.cakeRest',
       domReady: '../dev/bower_components/requirejs-domready/js/domReady',
       fastclick: '../dev/bower_components/fastclick/js/fastclick',
@@ -57,7 +56,6 @@ module.exports = function(grunt) {
         include: [
           'backbone',
           'backboneLocalStorage',
-          'bootstrap',
           'cakeRest',
           'domReady',
           'fastclick',
