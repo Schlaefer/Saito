@@ -38,6 +38,7 @@ define(['marionette', 'app/core', 'app/vent',
                 'app/time', 'lib/Saito/isAppVisible',
 
                 'lib/jquery.i18n/jquery.i18n.extend',
+                'jqueryDropdown',
                 'lib/saito/backbone.initHelper',
                 'lib/saito/backbone.modelHelper', 'fastclick'
             ],

@@ -28,6 +28,7 @@ require.config({
     fastclick: '../dev/bower_components/fastclick/js/fastclick',
     humanize: '../dev/bower_components/humanize/js/humanize',
     jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
+    jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
     jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
     jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
     marionette: '../dev/bower_components/marionette/backbone.marionette',
