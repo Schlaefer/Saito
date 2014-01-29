@@ -17,6 +17,7 @@ define([
     },
 
     initialize: function(options) {
+      return;
       this.indicatorName = options.indicatorName;
       this.elementName = options.elementName;
 
