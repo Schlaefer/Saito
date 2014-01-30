@@ -18,7 +18,7 @@
 	echo $this->Form->input('user_password',
 			array(
 					'type' => 'password',
-					'div' => ['class' => 'required'],
+					'div' => ['class' => 'input required'],
 					'error' => array(
 							'notEmpty' => __('error_password_empty'),
 							'validation_error_pwConfirm' => __('error_password_confirm'),

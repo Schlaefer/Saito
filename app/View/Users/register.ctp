@@ -1,5 +1,5 @@
 	<div class="box-form">
-	<div class="l-box-header box-header">
+	<div class="l-box-header box-header pageTitle">
 		<div>
 			<div class='c_first_child'></div>
 			<div>
@@ -40,7 +40,7 @@
 							'captchaResultTooFast'	 => __d('simple_captcha',
 									'Captcha result too fast'),
 					),
-					'div'										 => array('class' => 'required'),
+							'div' => ['class' => 'input required'],
 					)
 			);
 			if (Configure::read('Saito.Settings.tos_enabled')):
@@ -49,7 +49,7 @@
 				if (empty($tos_url)) {
 					$tos_url = '/pages/' . Configure::read('Config.language') . '/tos';
 				};
-				
+
 				echo $this->Form->input('tos_confirm',
 						array(
 						'type' => 'checkbox',

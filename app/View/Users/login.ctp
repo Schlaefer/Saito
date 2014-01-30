@@ -1,5 +1,5 @@
 <div class="box-form">
-	<div class="l-box-header box-header">
+	<div class="l-box-header box-header pageTitle">
 		<div>
 			<div class='c_first_child'></div>
 			<div>
@@ -9,7 +9,7 @@
 		</div>
 	</div>
 	<div class="content">
-		<?php 
+		<?php
 			echo $this->element('users/login_form');
 			// set cursor into field username
 			echo $this->Js->buffer('$("#tf-login-username").focus();');
