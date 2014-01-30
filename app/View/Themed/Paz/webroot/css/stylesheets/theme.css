@@ -6,7 +6,7 @@ html, body { height: 100%; }
 
 html { font-size: 62.5%; }
 
-body, .btnLink, .btn-submit, textarea, input[type=text] { font-family: Cabin; color: #222222; font-weight: 400; background-color: white; }
+body, .btnLink, .btn-submit, textarea, input[type=text], input[type=password] { font-family: Cabin; color: #222222; font-weight: 400; background-color: white; }
 
 body { font-size: 1.4em; padding: 0 2em; max-width: 70em; margin: 0 auto; }
 
@@ -243,6 +243,10 @@ textarea, input[type=text], input[type=password], .markItUp { -webkit-appearance
 .threadInline-slider .js-entry-view-core .signature { display: none; }
 
 .disclaimer { border-top: 1px solid #e2e2e2; margin-top: 1em; padding: 2em 0; font-size: 0.85em; }
+
+.ui-dialog { background: white; border-color: #e2e2e2; }
+
+.jqueryUi-closethick-fix { color: #d50606 !important; }
 
 .ui-dialog .ui-dialog-content { padding: 0 2em 2em; }
 .ui-dialog .ui-dialog-content ul { padding: 0; }

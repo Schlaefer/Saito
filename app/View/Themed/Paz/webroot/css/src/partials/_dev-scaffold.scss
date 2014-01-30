@@ -308,6 +308,15 @@ textarea, input[type=text], input[type=password], .markItUp {
   font-size: 0.85em;
 }
 
+.ui-dialog {
+  background: $background-color;
+  border-color: $border-color;
+}
+
+.jqueryUi-closethick-fix {
+  color: $link-color !important;
+}
+
 .ui-dialog .ui-dialog-content {
   padding: 0 2em 2em;
 
