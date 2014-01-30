@@ -1,11 +1,12 @@
 .slidetab {
-  margin-bottom: 3 * $padding;
-  padding: $padding 2*$padding;
-
-  border-left: 1px solid $border-color;
+  margin-bottom: 2 * $padding;
 
   box-sizing: border-box;
   font-size: 0.85em;
+
+  // hides closed slidetab
+  float: right;
+  clear: both;
 
   ul {
     list-style: none;
@@ -16,6 +17,64 @@
     margin: 0;
   }
 }
+
+.slidetab-outer {
+  min-height: 40px;
+
+  margin-left: 28px;
+  padding: $padding 2*$padding;
+
+  border-left: 1px solid $border-color;
+}
+
+.slidetab-tab {
+  position: relative;
+  float: left;
+  margin-top: 5px;
+  padding: 4px;
+  width: 20px;
+  height: 20px;
+}
+
+.slidetab-tab-button {
+  color: $link-color;
+  cursor: pointer;
+  position: relative;
+}
+
+
+// slidetab userlist
+// -------------------------------------
+
+#slidetabUserlist-counter {
+  position: absolute;
+  right: -2px;
+  bottom: -7px;
+  min-width: 6px;
+  background: #111111;
+  border: 1px solid white;
+  padding: 0 1px;
+}
+
+.slidetabUserlist-counter-inner {
+  margin: 0 auto;
+  text-shadow: none;
+  text-align: center;
+  color: white;
+  right: 0px;
+  bottom: 0px;
+  line-height: 12px;
+  font-size: 8px;
+  font-weight: bold;
+}
+
+.slidetab-userlist-icon {
+  display: inline-block;
+  width: 1em;
+  padding-left: $padding;
+}
+
+// -------------------------------------
 
 .posting_formular_slider .entry.reply  {
   border-top: 1px solid $border-color;
@@ -80,10 +139,6 @@ code, pre, tt {
   .infoText {
     text-align: center;
   }
-}
-
-.slidetab-tab {
-  display: none;
 }
 
 .postingheadline {

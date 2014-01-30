@@ -149,9 +149,21 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .bookmarks-cell { padding: 1em; }
 
-.slidetab { margin-bottom: 3em; padding: 1em 2em; border-left: 1px solid #e2e2e2; box-sizing: border-box; font-size: 0.85em; }
+.slidetab { margin-bottom: 2em; box-sizing: border-box; font-size: 0.85em; float: right; clear: both; }
 .slidetab ul { list-style: none; padding: 0; }
 .slidetab h4 { margin: 0; }
+
+.slidetab-outer { min-height: 40px; margin-left: 28px; padding: 1em 2em; border-left: 1px solid #e2e2e2; }
+
+.slidetab-tab { position: relative; float: left; margin-top: 5px; padding: 4px; width: 20px; height: 20px; }
+
+.slidetab-tab-button { color: #d50606; cursor: pointer; position: relative; }
+
+#slidetabUserlist-counter { position: absolute; right: -2px; bottom: -7px; min-width: 6px; background: #111111; border: 1px solid white; padding: 0 1px; }
+
+.slidetabUserlist-counter-inner { margin: 0 auto; text-shadow: none; text-align: center; color: white; right: 0px; bottom: 0px; line-height: 12px; font-size: 8px; font-weight: bold; }
+
+.slidetab-userlist-icon { display: inline-block; width: 1em; padding-left: 1em; }
 
 .posting_formular_slider .entry.reply { border-top: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2; margin-bottom: 2em; padding-bottom: 1em; }
 .posting_formular_slider .entry.reply > .l-box-header { margin-top: 1em !important; }
@@ -171,8 +183,6 @@ code, .code, pre, tt { line-height: inherit; font-family: courier-new, courier, 
 
 #shoutbox img { max-width: 100%; }
 #shoutbox .infoText, #shoutbox .signature, #shoutbox .threadLine-post, #shoutbox .c-bbcode-link-dinfo { text-align: center; }
-
-.slidetab-tab { display: none; }
 
 .postingheadline { margin-bottom: 2px; margin-top: 0; font-weight: normal; font-size: 1.485em; font-family: 'Crimson Text', Serif; }
 
