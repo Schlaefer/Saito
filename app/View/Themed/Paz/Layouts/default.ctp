@@ -29,7 +29,8 @@
 		SaitoApp.app.settings.themePreset = preset;
 	</script>
 
-	<link href='//fonts.googleapis.com/css?family=Average' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+
 
 	<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
 	</head>

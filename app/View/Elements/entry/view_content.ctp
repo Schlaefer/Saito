@@ -15,7 +15,7 @@
 						'/entries/view/' .
 						// is not set/unknown when showing preview
 						((isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null),
-						['class' => 'et', 'escape' => false]
+						['escape' => false]
 					);
 				} else {
 					echo $subject;

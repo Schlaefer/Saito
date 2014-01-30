@@ -40,6 +40,17 @@
   }
 }
 
+.btn-submit {
+  &, &:hover, &:active, &:focus {
+    @extend .btnLink;
+    padding: 0em 0.8em;
+    border-radius: 5px;
+    background-color: $link-color;
+    color: $background-color;
+    text-shadow: none;
+  }
+}
+
 .btn-threadBox-tools {
   margin-right: 1em;
 }
@@ -83,7 +94,7 @@ code, pre, tt {
   font-weight: normal;
 
   font-size: 1.1 * $font-size-large;
-  font-family: Average;
+  font-family: 'Crimson Text', Serif;
 
 }
 
@@ -119,30 +130,56 @@ code, pre, tt {
 }
 
 .l-button_mod_panel-wrapper {
-  display: none;
+  display: inline-block;
 }
 
+$box-footer-quick-fix: 2*$padding;
 .l-box-footer {
   padding: $padding 0 ;
-  margin: $padding -2 * $padding;
+  margin: $padding -1*$box-footer-quick-fix;
   border: 1px solid $border-color;
   border-width: 0 0 1px 0;
 }
 
-.js-buttons a {
-  padding-left: $padding;
+.box-footer-form {
+  padding-left: $box-footer-quick-fix;
+  padding-right: $box-footer-quick-fix;
+}
+
+.js-buttons a, .js-button {
+  margin-left: 2em;
+}
+
+.dropdown .dropdown-menu LI>A:hover, .dropdown .dropdown-menu LABEL:hover {
+  background-color: $link-color;
+  color: $background-color;
+  cursor: pointer;
 }
 
 .content {
   padding: 1em 0;
 }
 
-input, .input {
-  margin: 0.3 * $padding;
+.no-content-yet {
+  margin: 1em auto;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  font-size: 35px;
+  color: #DDD;
+  letter-spacing: 0.1em;
+  word-spacing: 0.1em;
 }
 
-textarea, .textarea, input[type=text] {
+.input {
+  margin: 0 0 $padding;
+}
+
+textarea, .textarea, input[type=text], input[type=password] {
   width: 100%;
+}
+
+textarea, input[type=text], input[type=password], .markItUp {
   // reset inner shadow from Mobile Safari iOS
   -webkit-appearance: none;
   border: 1px solid $input-border-color;

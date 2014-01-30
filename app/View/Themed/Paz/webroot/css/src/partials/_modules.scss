@@ -55,6 +55,13 @@ h4 {
   -webkit-appearance: none;
 }
 
+// remove outline on click
+.ui-dialog-titlebar-close, .btnLink {
+  &:active, &:focus {
+    outline: none;
+  }
+}
+
 a, .btnLink {
   @include unstyled-link;
   @include link-colors($link-color);
