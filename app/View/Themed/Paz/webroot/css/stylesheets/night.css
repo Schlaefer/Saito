@@ -205,9 +205,13 @@ code, .code, pre, tt { line-height: inherit; font-family: courier-new, courier, 
 
 .l-button_mod_panel-wrapper { display: inline-block; }
 
-.l-box-footer { padding: 1em 0; margin: 1em -2em; border: 1px solid #4d3d00; border-width: 0 0 1px 0; }
+.l-box-footer { padding: 1em 0; }
 
-.box-footer-form { padding-left: 2em; padding-right: 2em; }
+.box-content { border: 1px solid #4d3d00; border-width: 0 0 1px; padding: 1em; }
+
+body .box-content:last-of-type { border-width: 0; }
+
+.mix .box-content:last-of-type { border-bottom-width: 1px; }
 
 .js-buttons a, .js-button { margin-left: 2em; }
 

@@ -204,14 +204,26 @@ code, pre, tt {
 $box-footer-quick-fix: 2*$padding;
 .l-box-footer {
   padding: $padding 0 ;
-  margin: $padding -1*$box-footer-quick-fix;
+ // margin: $padding -1*$box-footer-quick-fix;
+}
+
+.box-content {
   border: 1px solid $border-color;
-  border-width: 0 0 1px 0;
+  border-width: 0 0 1px;
+  padding: $padding;
+}
+
+body .box-content:last-of-type {
+  border-width: 0;
+}
+
+.mix .box-content:last-of-type {
+  border-bottom-width: 1px;
 }
 
 .box-footer-form {
-  padding-left: $box-footer-quick-fix;
-  padding-right: $box-footer-quick-fix;
+  // padding-left: $box-footer-quick-fix;
+  // padding-right: $box-footer-quick-fix;
 }
 
 .js-buttons a, .js-button {

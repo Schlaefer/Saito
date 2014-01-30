@@ -43,7 +43,7 @@
 	<!-- preview -->
 
 	<div class="postingform">
-		<div class="l-box-header box-header pageTitle">
+		<div class="l-box-header box-header <?= (!$is_inline) ? 'pageTitle' : '' ?>">
 			<div>
 				<div class="c_first_child">
 					<?php if ($this->request->is('ajax')) : ?>
