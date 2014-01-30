@@ -76,6 +76,21 @@
 
 // -------------------------------------
 
+/* formating required fields
+// ----------------------------------- */
+form .required {
+  font-weight: bold;
+}
+
+form .required label:after {
+  color: #ee3322;
+  content: "*";
+  display: inline;
+  padding-right: 0.5em;
+}
+
+// -------------------------------------
+
 .posting_formular_slider .entry.reply  {
   border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
@@ -291,6 +306,14 @@ textarea, input[type=text], input[type=password], .markItUp {
   margin-top: $padding;
   padding: 2*$padding 0;
   font-size: 0.85em;
+}
+
+.ui-dialog .ui-dialog-content {
+  padding: 0 2em 2em;
+
+  ul {
+    padding: 0;
+  }
 }
 
 .ui-dialog .ui-dialog-titlebar-close {

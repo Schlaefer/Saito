@@ -1,0 +1,94 @@
+/*******************************************************************************
+ * Messages Setup
+ ******************************************************************************/
+
+// Setup
+// -------------------------------------
+$color-flashNoticeBg: #e6efff;
+$color-flashSuccessBg: #c6ff6e;
+$color-flashWarningBg: #fff4cc;
+$color-flashErrorBg: #ff2120;
+$border_width: 1px;
+
+%t_shadow {
+  text-shadow: white 0px 1px;
+}
+
+// Flash Messages
+// -------------------------------------
+
+@mixin flash-colors($color, $border-width) {
+  border: $border_width ($color / 1.5) solid;
+  color: darken($color, 80%);
+  background-color: $color;
+  box-shadow: 0px 2px 10px 1px rgba(darken($color, 75%), 0.4) !important;
+  @include background(
+      linear-gradient(
+        180deg,
+          $color * 1.05,
+          $color / 1.05
+      ),
+      $color
+  );
+}
+
+.ui-pnotify-title {
+  font-weight: bolder;
+}
+
+.flash > .alert, .message {
+	clear: both;
+	margin: 0px 0px 1em;
+	padding: $padding;
+	color: #b94a48;
+    @extend %t_shadow;
+	// text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
+    background-color: $color-flashErrorBg;
+    border: $border_width ($color-flashErrorBg / 1.2) solid;
+  }
+
+.flash-error > .alert {
+  @include flash-colors($color-flashErrorBg, $border_width);
+  text-shadow: none;
+  color: white;
+  }
+
+.flash-warning > .alert {
+  @include flash-colors($color-flashWarningBg, $border_width);
+  }
+
+.flash-notice > .alert {
+  @include flash-colors($color-flashNoticeBg, $border_width);
+  }
+
+.flash-success > .alert{
+  @include flash-colors($color-flashSuccessBg, $border_width);
+
+}
+
+// Validation messaeges
+// -------------------------------------
+
+.error-message, .message {
+	padding: 5px;
+
+	/* einziehen Zunge Fehlermeldungen */
+  /*	padding-top: 5px + $corner_radius;*/
+  /*	margin-top: -1 * $corner_radius;*/
+
+	background-color: $color-flashErrorBg;
+	color: white;
+}
+
+.no-content-yet {
+		margin: 1em auto;
+		font-weight: bold;
+		width: 100%;
+		text-align: center;
+		font-size: 35px;
+		color: #DDD;
+		letter-spacing: 0.1em;
+		word-spacing: 0.1em;
+	}
+
+
