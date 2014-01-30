@@ -41,7 +41,7 @@ define([
                 if(options.el === undefined) {
                     this.model.fetch();
                 } else {
-                    this.model.set({html: this.el}, {silent: true});
+                    this.model.set({html: this.el});
                 }
                 this.collection.add(this.model, {silent: true});
                 this.attributes = {'data-id': options.id};

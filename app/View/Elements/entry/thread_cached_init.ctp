@@ -64,16 +64,15 @@
 							</button>
 						<?php endif; ?>
 						<?php
-						if (isset($toolboxButtonsToDisplay['new'])) :
-							$tag = 'div';
-							if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) :
-								// Gecachte Einträge enthalten prinzipiell keine neue Links und brauchen
-								// keinen Show All New Inline View Eintrag
-								$tag = 'button';
-							endif;
+							if (isset($toolboxButtonsToDisplay['new'])) :
+								if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) {
+									$tag = 'button';
+								} else {
+									$tag = 'span';
+								}
 						?>
-							<<?= $tag; ?><?php if ($tag === 'button') echo 'href="#"'; ?> class="btn-threadBox-tools js-btn-showAllNewThreadlines <?php echo ($tag === 'div') ? 'disabled' : ''; ?>">
-									<?php if ($tag === 'button') echo $cacheThreadBoxTitlei18n['btn-showNewThreads']; ?>
+							<<?= $tag; ?>  class="<?php if ($tag === 'button') echo 'btnLink'; ?> btn-threadBox-tools js-btn-showAllNewThreadlines <?php echo ($tag !== 'button') ? 'disabled' : ''; ?>">
+									<?= $cacheThreadBoxTitlei18n['btn-showNewThreads'] ?>
 							</<?= $tag ?>>
 						<?php
 							endif;
