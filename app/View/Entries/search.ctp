@@ -96,18 +96,18 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 						 'url' => array_merge(array( 'action' => 'search' ), $this->request->params['pass']),
 				 ));
 				 ?>
-		<div>
+		<div class="input">
 			<?php
 				echo $this->Form->input('subject',
 						array( 'div' => false, 'label' => __('subject'), 'required' => false )
 				);
 			?>
 		</div>
-		<div><?php echo $this->Form->input('text',
+		<div class="input"><?php echo $this->Form->input('text',
 					array( 'div' => false, 'label' => __('Text'), 'type' => 'text' )); ?> </div>
-		<div><?php echo $this->Form->input('name',
+		<div class="input"><?php echo $this->Form->input('name',
 					array( 'div' => false, 'label' => __('user_name') )); ?> </div>
-		<div>
+		<div class="input">
 			<?=
 				$this->Form->select(
 					'category',
@@ -137,12 +137,12 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 		</div>
 		<div><?php echo $this->Form->input('adv',
 					array( 'type' => 'hidden', 'value' => 1 )); ?> </div>
-		<div>
+		<div class="input">
 <?php echo $this->Form->submit(__('search_submit'), array( 'class' => 'btn btn-submit' )); ?>
+		</div>
 			<a href="#" onclick="$('.search_form_wrapper_adv').slideToggle('', function (){$('.search_form_wrapper').slideToggle();}); return false;">
 				&nbsp;<?php echo __('search_simple'); ?>
 			</a>
-		</div>
 <?php echo $this->Form->end(); ?>
     </div> <!-- content -->
 	</div> <!-- search_form_wrapper_adv -->

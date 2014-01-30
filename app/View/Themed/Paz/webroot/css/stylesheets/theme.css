@@ -306,6 +306,30 @@ form .c_markitup_popup_txta { width: 100%; padding: 2%; -moz-box-sizing: border-
 
 .markItUpHeader ul ul a { display: block; padding-left: 0px; text-indent: 0; width: 120px; padding: 5px 5px 5px 25px; background-position: 2px 50%; }
 
+.entry.search .search_form_wrapper { display: table; width: 100%; margin-bottom: 20px; vertical-align: middle; }
+.entry.search .search_form_wrapper_adv { margin-bottom: 20px; }
+.entry.search .search_form_wrapper > div { display: table-cell; padding: 0 5px; vertical-align: middle; }
+.entry.search form { width: 100%; }
+.entry.search .search_results .content ul { list-style-type: none; margin: 0; padding: 0; }
+.entry.search .search_results .content ul li { margin: 0.2em 0; }
+
+.search_form { position: relative; }
+
+.search_form > div { overflow: hidden; position: relative; height: 100%; padding: 0; }
+
+.search_textfield, .btn_search_header { color: #222222; background-color: white; border: 1px solid #a8a8a8; }
+
+.search_textfield { top-right-radius: 0; border-bottom-right-radius: 0; border-border-right: 0; height: 22px; width: 100%; }
+.search_textfield:focus { outline-width: 0; }
+
+.btn_search_submit { float: right; margin: 0; white-space: nowrap; cursor: pointer; margin-left: 1em; height: 38px; }
+
+#search_fulltext_textfield { height: 38px; }
+
+.btn_search_header { width: 24px; height: 24px; border-left: none; margin-left: -1px !important; padding-bottom: 1px; }
+
+.search_textfield_header { margin-right: -1px !important; }
+
 @media only screen and (max-width: 768px) { .top-menu-aside { position: relative; }
   #content { padding-left: 1em; padding-right: 1em; }
   .l-box-footer { margin-left: -1em; margin-right: -1em; } }
