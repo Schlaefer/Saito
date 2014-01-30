@@ -68,10 +68,9 @@
  * @throws InvalidArgumentException
  */
 		public function hasNewEntries($entry, $user) {
-			if ($entry['Entry']['pid'] != 0):
+			if ($entry['Entry']['pid'] != 0) {
 				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
-			endif;
-
+			}
 			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
 		}
 
