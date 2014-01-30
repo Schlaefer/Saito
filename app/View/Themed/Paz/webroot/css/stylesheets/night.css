@@ -6,7 +6,7 @@ html, body { height: 100%; }
 
 html { font-size: 62.5%; }
 
-body, .btnLink, .btn-submit, .btn-submit:hover, .btn-submit:active, .btn-submit:focus, textarea, input[type=text] { font-family: Cabin; color: #f7e7d2; font-weight: 400; background-color: #28282b; }
+body, .btnLink, .btn-submit, textarea, input[type=text] { font-family: Cabin; color: #f7e7d2; font-weight: 400; background-color: #28282b; }
 
 body { font-size: 1.4em; padding: 0 2em; max-width: 70em; margin: 0 auto; }
 
@@ -20,11 +20,11 @@ h1, h2, h3, h4, #hero-home-link { font-size: 1.35em; }
 
 h4 { font-size: 1em; }
 
-.btnLink, .btn-submit, .btn-submit:hover, .btn-submit:active, .btn-submit:focus { border: none; background: none; margin: 0; padding: 0; cursor: pointer; line-height: inherit; font-size: 1em; -webkit-appearance: none; }
+.btnLink, .btn-submit { border: none; background: none; margin: 0; padding: 0; cursor: pointer; line-height: inherit; font-size: 1em; -webkit-appearance: none; }
 
 .ui-dialog-titlebar-close:active, .ui-dialog-titlebar-close:focus, .btnLink:active, .btn-submit:active, .btnLink:focus, .btn-submit:focus { outline: none; }
 
-a, .btnLink, .btn-submit, .btn-submit:hover, .btn-submit:active, .btn-submit:focus { color: inherit; text-decoration: inherit; cursor: inherit; color: #ffcc00; cursor: pointer; }
+a, .btnLink, .btn-submit { color: inherit; text-decoration: inherit; cursor: inherit; color: #ffcc00; cursor: pointer; }
 a:active, a:focus, .btnLink:active, .btn-submit:active, .btnLink:focus, .btn-submit:focus { outline: none; }
 
 u, .c-bbcode-underline { text-decoration: underline; }
@@ -159,7 +159,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .l-postingform_main { max-width: 60em; margin: 0 auto; }
 .l-postingform_main .checkbox { white-space: nowrap; }
 
-.btn-submit, .btn-submit:hover, .btn-submit:active, .btn-submit:focus { padding: 0em 0.8em; border-radius: 5px; background-color: #ffcc00; color: #28282b; text-shadow: none; }
+.btn-submit { padding: 0em 0.8em; border-radius: 5px; background-color: #ffcc00; color: #28282b; text-shadow: none; }
 
 .btn-threadBox-tools { margin-right: 1em; }
 

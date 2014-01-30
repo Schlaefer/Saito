@@ -41,14 +41,12 @@
 }
 
 .btn-submit {
-  &, &:hover, &:active, &:focus {
     @extend .btnLink;
     padding: 0em 0.8em;
     border-radius: 5px;
     background-color: $link-color;
     color: $background-color;
     text-shadow: none;
-  }
 }
 
 .btn-threadBox-tools {
