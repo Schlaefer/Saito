@@ -7,10 +7,10 @@
   $this->end();
 ?>
 <div class="box-content">
-	<div class="l-box-header box-header">
+	<div class="l-box-header box-header pageTitle">
 		<div>
 			<div class='c_first_child'></div>
-			<div><h1><?php echo __('Edit Bookmark'); ?></h1></div>
+			<div><h1><?= $this->Layout->pageHeading(__('Edit Bookmark')); ?></h1></div>
 			<div class='c_last_child'></div>
 		</div>
 	</div>

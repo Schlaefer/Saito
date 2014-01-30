@@ -632,7 +632,7 @@ form .required label:after { color: #ee3322; content: "*"; display: inline; padd
 
 .l-bookmarks-row { white-space: nowrap; }
 
-.l-bookmarks-cell { display: inline-table; vertical-align: middle; white-space: normal; }
+.l-bookmarks-cell { display: inline-table; vertical-align: middle; white-space: normal; min-width: 16px; box-sizing: border-box; }
 
 /******************************************************************************* Bootstrap Popovers Adjustments *****************************************************************************/
 .popover { font-size: 0.95em !important; color: #333333; }

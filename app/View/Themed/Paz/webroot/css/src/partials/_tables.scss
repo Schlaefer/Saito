@@ -43,3 +43,25 @@
     content: "\002005\002191\002005";
   }
 }
+
+// Bookmarks table
+// -------------------------------------
+.l-bookmarks-container {
+  overflow: hidden;
+}
+
+.l-bookmarks-row {
+  white-space: nowrap;
+}
+
+.l-bookmarks-cell {
+  display: inline-table;
+  vertical-align: middle;
+  white-space: normal;
+  min-width: 16px;
+  box-sizing: border-box;
+}
+
+.bookmarks-cell {
+  padding: $padding;
+}

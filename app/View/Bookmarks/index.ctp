@@ -22,12 +22,12 @@
 			<?php if ($bookmarks): ?>
 					<div class="l-bookmarks-container">
 						<div class="l-bookmarks-row bookmarks-row-header">
-							<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%">
 							</div>
 							<div class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
 								<?php echo __('Subject'); ?>
 							</div>
-							<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%; padding-left: 0">
 							</div>
 							<div class="l-bookmarks-cell bookmarks-cell" style="width: 30%">
 								<?php echo __('Comment'); ?>
@@ -42,7 +42,7 @@
 							);
 							?>
 							<div class="l-bookmarks-row js-bookmark" data-id="<?php echo $bookmark['Bookmark']['id']; ?>">
-								<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+								<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%">
 									<?php
 									echo $this->Html->link(
 											'<i class="fa fa-trash-o fa-lg"></i>',
@@ -59,7 +59,7 @@
 										 class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
 									<?= $this->EntryH->threadCached($entry_sub, $CurrentUser); ?>
 								</div>
-								<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+								<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%; padding-left: 0">
 									<?php
 									echo $this->Html->link(
 											'<i class="fa fa-edit fa-lg"></i>',

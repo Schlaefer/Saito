@@ -65,6 +65,8 @@
     display: inline-table;
     vertical-align: middle;
     white-space: normal;
+    min-width: 16px;
+    box-sizing: border-box;
 }
 
 .bookmarks-cell {
