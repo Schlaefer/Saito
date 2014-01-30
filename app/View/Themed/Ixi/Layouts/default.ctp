@@ -1,7 +1,4 @@
 	<?php
-		// @todo
-		$this->Blocks->set('css', '');
-
 		echo $this->element('layout/html_header');
 
 		echo $this->Html->css('stylesheets/static.css');

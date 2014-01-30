@@ -16,6 +16,10 @@
 		}
 
 		public function beforeLayout($layoutFile) {
+			// @todo
+			if (strtolower($this->_View->theme) !== 'default') {
+				return;
+			}
 			$stylesheets =
 					[
 						'stylesheets/static.css',
