@@ -63,7 +63,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 #content { padding: 0 2em 50px; }
 
-.infoText, .signature, .threadLine-post, .c-bbcode-link-dinfo, .author { color: #727272; }
+.infoText, .signature, .threadLine-post, .c-bbcode-link-dinfo, .author, .disabled { color: #727272; }
 
 .c-category { color: #222222; font-weight: normal; white-space: nowrap; }
 
