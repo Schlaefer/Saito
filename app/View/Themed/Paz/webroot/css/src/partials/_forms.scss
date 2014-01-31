@@ -1,0 +1,23 @@
+.input {
+  margin: 0 0 $padding;
+}
+
+textarea, input[type=text], input[type=password], %textinput {
+  width: 100%;
+  border: 1px solid $input-border-color;
+  border-radius: 3px;
+  // resets inner shadow from Mobile Safari iOS
+  -webkit-appearance: none;
+}
+
+.required {
+  font-weight: bold;
+
+  label:after {
+    color: #ee3322;
+    content: "\20F0";
+    display: inline;
+    padding-left: 0.25em;
+    padding-right: 0.5em;
+  }
+}

@@ -1,11 +1,10 @@
 @import "compass/reset/utilities";
 
-body {
+body, ul {
   margin: 0;
   padding: 0;
 }
 
 ul {
-  padding-left: 2em;
   list-style: none;
 }

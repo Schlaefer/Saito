@@ -1,11 +1,3 @@
-html, body {
-  height: 100%;
-}
-
-html {
-  font-size: 62.5%;
-}
-
 body, .btnLink, textarea, input[type=text], input[type=password] {
   font-family: Cabin;
   color: $font-color;
@@ -199,3 +191,13 @@ body.headerClosed {
 %highlight-hover {
   background: $highlight-hover-color;
 }
+
+.no-content-yet {
+  font-weight: bold;
+  text-align: center;
+  font-size: 3*$font-size;
+  color: $info-color-bold;
+  letter-spacing: 0.1em;
+  word-spacing: 0.1em;
+}
+

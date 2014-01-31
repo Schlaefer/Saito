@@ -4,6 +4,7 @@ $font-color: #f7e7d2;
 $font-color-current: #6FFA13;
 $link-color: #FC0;
 $info-color: #8c8276;
+$info-color-bold: darken($info-color, 10);
 
 $border-color: darken($link-color, 35%);
 $input-border-color: $border-color;

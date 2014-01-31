@@ -2,6 +2,7 @@
 @import "partials/_reset";
 @import "partials/_layout-mixins";
 
+@import "partials/_base.scss";
 @import "partials/_modules.scss";
 
 @import "partials/_layout";
@@ -9,6 +10,8 @@
 @import "partials/_thread";
 @import "partials/_posting";
 @import "partials/_tables";
+@import "partials/_forms";
+@import "partials/_markitup";
 
 @import "partials/_dev-scaffold";
 @import "partials/_dev-m-messages";

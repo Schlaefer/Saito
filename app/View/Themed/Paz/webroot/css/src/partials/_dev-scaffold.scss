@@ -1,96 +1,3 @@
-.slidetab {
-  margin-bottom: 2 * $padding;
-
-  box-sizing: border-box;
-  font-size: 0.85em;
-
-  // hides closed slidetab
-  float: right;
-  clear: both;
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  h4 {
-    margin: 0;
-  }
-}
-
-.slidetab-outer {
-  min-height: 40px;
-
-  margin-left: 28px;
-  padding: $padding 2*$padding;
-
-  border-left: 1px solid $border-color;
-}
-
-.slidetab-tab {
-  position: relative;
-  float: left;
-  margin-top: 5px;
-  padding: 4px;
-  width: 20px;
-  height: 20px;
-}
-
-.slidetab-tab-button {
-  color: $link-color;
-  cursor: pointer;
-  position: relative;
-}
-
-
-// slidetab userlist
-// -------------------------------------
-
-#slidetabUserlist-counter {
-  position: absolute;
-  right: -2px;
-  bottom: -7px;
-  min-width: 6px;
-  background: #111111;
-  border: 1px solid white;
-  padding: 0 1px;
-}
-
-.slidetabUserlist-counter-inner {
-  margin: 0 auto;
-  text-shadow: none;
-  text-align: center;
-  color: white;
-  right: 0px;
-  bottom: 0px;
-  line-height: 12px;
-  font-size: 8px;
-  font-weight: bold;
-}
-
-.slidetab-userlist-icon {
-  display: inline-block;
-  width: 1em;
-  padding-left: $padding;
-}
-
-// -------------------------------------
-
-/* formating required fields
-// ----------------------------------- */
-form .required {
-  font-weight: bold;
-}
-
-form .required label:after {
-  color: #ee3322;
-  content: "*";
-  display: inline;
-  padding-right: 0.5em;
-}
-
-// -------------------------------------
-
 .posting_formular_slider .entry.reply  {
   border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
@@ -100,10 +7,6 @@ form .required label:after {
   > .l-box-header {
     margin-top: $padding !important;
   }
-}
-
-.posting + .signature {
-  // margin-top: -1em;
 }
 
 .l-postingform_main {
@@ -117,7 +20,7 @@ form .required label:after {
 .btn-submit {
     @extend .btnLink;
     padding: 0em 0.8em;
-    border-radius: 5px;
+    border-radius: 3px;
     background-color: $link-color;
     color: $background-color;
     text-shadow: none;
@@ -127,11 +30,6 @@ form .required label:after {
   margin-right: 1em;
 }
 
-.c-bbcode-link-dinfo {
-  @extend .infoText;
-  font-size: $font-size-small;
-}
-
 .btn-threadCollapse {
   width: 28px;
   text-align: center;
@@ -139,31 +37,56 @@ form .required label:after {
   left: -4px;
 }
 
-code, pre, tt {
-  line-height: inherit;
-  font-family: courier-new, courier, monospace;
-  background: #f9f9f9;
+.preview {
+  display: none;
+  margin-bottom: $padding;
+  padding-bottom: $padding;
+  border-bottom: 1px solid $border-color;
+  pointer: cursor;
+}
+
+.signature {
+  margin-bottom: $padding;
+
+  .c-bbcode-upload, .c-bbcode-external-image {
+    margin: 0;
+  }
 }
 
 
-#shoutbox {
-  img {
-    max-width: 100%;
+.ui-dialog , #site {
+  .markItUp {
+    border: none;
   }
 
-  .infoText {
-    text-align: center;
+  textarea, input[type=text], input[type=password] {
+    background: #f9f9f9;
+    border: none;
+    border-left: 2px solid darken($border-color, 10);
+    border-radius: 0 !important;
+    outline-style: none;
   }
+
+  .entry.add {
+    textarea, input[type=text], input[type=password] {
+      padding: 10px;
+    }
+  }
+
+  .markItUpHeader {
+    border: none;
+  }
+
 }
 
-.postingheadline {
+
+.postingheadline, #site .inp-subject {
   margin-bottom: 2px;
   margin-top: 0;
   font-weight: normal;
 
   font-size: 1.1 * $font-size-large;
   font-family: 'Crimson Text', Serif;
-
 }
 
 .posting img, .posting object, .posting embed, .posting video, .posting iframe {
@@ -221,11 +144,6 @@ body .box-content:last-of-type {
   border-bottom-width: 1px;
 }
 
-.box-footer-form {
-  // padding-left: $box-footer-quick-fix;
-  // padding-right: $box-footer-quick-fix;
-}
-
 .js-buttons a, .js-button {
   margin-left: 2em;
 }
@@ -234,40 +152,6 @@ body .box-content:last-of-type {
   background-color: $link-color;
   color: $background-color;
   cursor: pointer;
-}
-
-.content {
-  padding: 1em 0;
-}
-
-.no-content-yet {
-  margin: 1em auto;
-  font-weight: bold;
-  width: 100%;
-  text-align: center;
-  font-size: 35px;
-  color: #DDD;
-  letter-spacing: 0.1em;
-  word-spacing: 0.1em;
-}
-
-.input {
-  margin: 0 0 $padding;
-}
-
-textarea, .textarea, input[type=text], input[type=password] {
-  width: 100%;
-}
-
-textarea, input[type=text], input[type=password], .markItUp {
-  // reset inner shadow from Mobile Safari iOS
-  -webkit-appearance: none;
-  border: 1px solid $input-border-color;
-  border-radius: 3px;
-}
-
-.preview {
-  display: none;
 }
 
 #footer-pinned {
@@ -283,10 +167,6 @@ textarea, input[type=text], input[type=password], .markItUp {
 
 .markItUp a:link, .markItUp a:visited {
   color: $font-color !important;
-}
-
-.markItUpSeparator {
-  display: none;
 }
 
 .btn-strip {
@@ -343,6 +223,11 @@ textarea, input[type=text], input[type=password], .markItUp {
 
 // l-box-header
 // -------------------------------------
+
+.box-header .fa-lg {
+  font-size: 1em;
+}
+
 .l-box-header.pageTitle {
   // theme prefers heading shown in navbar
   display: none;
@@ -407,15 +292,15 @@ $layout-tablet-maxWidth: 768px;
 // markItUp!
 // By Jay Salvat - http://markitup.jaysalvat.com/
 // ------------------------------------------------------------------*/
+$markItUp-buttonWidth: 32px;
+$markItUp-buttonHeight: $markItUp-buttonWidth;
 
-$markitup-buttonWidth: 32px;
-$markitup-buttonHeight: 32px;
 
 .markItUpHeader > ul a {
   font-weight: bold;
   font-size: 18px;
   text-align: center;
-  line-height: $markitup-buttonHeight;
+  line-height: $markItUp-buttonHeight;
 
   > i {
     line-height: inherit;
@@ -581,8 +466,8 @@ form .c_markitup_popup_txta {
 }
 
 .markItUpHeader ul li	{
-  min-width: $markitup-buttonWidth;
-  height: $markitup-buttonHeight;
+  min-width: $markItUp-buttonWidth;
+  height: $markItUp-buttonHeight;
 
   margin: 3px;
 
@@ -616,17 +501,7 @@ form .c_markitup_popup_txta {
   float:none;
   border-bottom:1px solid #000;
 }
-.markItUpHeader ul ul .markItUpDropMenu {
-  // background:#FFF image_url('markitup/submenu.png') no-repeat 100% 50%;
-}
-.markItUpHeader ul .markItUpSeparator {
-  min-width: 1px;
-  margin:0 10px;
-  width:1px;
-  height:32px;
-  overflow:hidden;
-  background-color:#CCC;
-}
+
 .markItUpHeader ul ul .markItUpSeparator {
   width:auto; height:1px;
   margin:0px;
@@ -634,8 +509,8 @@ form .c_markitup_popup_txta {
 
 .markItUpHeader ul a {
   display:block;
-  min-width:$markitup-buttonWidth;
-  height:$markitup-buttonHeight;
+  min-width: $markItUp-buttonWidth;
+  height: $markItUp-buttonHeight;
   /*text-indent:-10000px;*/
   background-repeat:no-repeat;
   padding:0px;

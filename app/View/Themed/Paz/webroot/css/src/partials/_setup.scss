@@ -8,6 +8,7 @@ $font-color: #222 !default;
 $font-color-read: $font-color !default;
 $font-color-current: #F00 !default;
 $info-color: #727272 !default;
+$info-color-bold: lighten($info-color, 40) !default;
 $link-color: rgb(213, 6, 6) !default;
 
 $background-color: white !default;

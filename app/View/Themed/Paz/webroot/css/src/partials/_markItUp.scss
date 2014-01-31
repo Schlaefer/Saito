@@ -1,0 +1,16 @@
+.markItUp {
+  $markItUp-buttonWidth: 32px;
+  $markItUp-buttonHeight: $markItUp-buttonWidth;
+
+  @extend %textinput;
+
+  .markItUpSeparator {
+    min-width: 1px;
+    width:1px;
+    height:32px;
+    overflow:hidden;
+    background-color: $input-border-color;
+    margin-left: $markItUp-buttonWidth/4;
+    margin-right: $markItUp-buttonWidth/4;
+  }
+}

@@ -20,7 +20,7 @@
  */
 		public function getButtonSet($id) {
 			$css = '';
-			$separator = ['separator' => '---------------'];
+			$separator = ['separator' => '&nbsp;'];
 			$bbcode = array(
 				'Bold' => array(
 					'name' => "<i class='fa fa-bold'></i>",
