@@ -70,10 +70,7 @@
 					<?php echo  $this->Form->create('Entry'); ?>
 			<div class="l-postingform_main">
 				<?php
-					echo $this->EntryH->getCategorySelectForEntry(
-						$categories,
-						$this->request->data
-					);
+					echo $this->EntryH->categorySelect($this->request->data, $categories);
 					echo $this->Form->input(
 						'subject',
 						[

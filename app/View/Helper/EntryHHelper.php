@@ -148,26 +148,23 @@
 			return $out;
 		}
 
-		public function getCategorySelectForEntry($categories, $entry) {
-			if ( $entry['Entry']['pid'] == 0 ):
+		public function categorySelect($entry, $categories) {
+			if ($entry['Entry']['pid'] == 0) {
 				$out = $this->Form->input(
 						'category',
-						array(
-						'options' => array( $categories ),
-						'empty' => '',
-						'label' => __('cateogry') . ':',
-						'tabindex' => 1,
-						'error' => array(
-								'notEmpty' => __('error_category_empty'),
-						),
-						)
+						[
+								'options' => [$categories],
+								'empty' => true,
+								'label' => __('Category'),
+								'tabindex' => 1,
+								'error' => ['notEmpty' => __('error_category_empty')]
+						]
 				);
-			else :
-				// Send category for easy access in entries/preview when anwsering.
-				// If an entry is actually saved this value is not used but is looked up in DB.
+			} else {
+				// Send category for easy access in entries/preview when answering
+				// (not used when saved).
 				$out = $this->Form->hidden('category');
-			endif;
-
+			}
 			return $out;
 		}
 

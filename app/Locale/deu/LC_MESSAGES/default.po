@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-28 11:39+0100\n"
-"PO-Revision-Date: 2014-01-28 11:39+0100\n"
+"POT-Creation-Date: 2014-01-31 10:10+0100\n"
+"PO-Revision-Date: 2014-01-31 10:11+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -86,7 +86,7 @@ msgstr "Installieren"
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
-#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:54
+#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:55
 msgid "Logs"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Latest log entries. See full logs at \"%s\"."
 msgstr "Letzte Log-Einträge. Vollständige Logs befinden sich in \"%s\"."
 
-#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:51
+#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:52
 msgid "Stats"
 msgstr "Statistik"
 
@@ -144,7 +144,7 @@ msgstr "Kommentar"
 #: View/Bookmarks/index.ctp:53 View/Categories/admin_index.ctp:39
 #: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
 #: View/Categories/view.ctp:108 View/SmileyCodes/admin_index.ctp:30
-#: View/Smilies/admin_index.ctp:32 View/Users/view.ctp:210
+#: View/Smilies/admin_index.ctp:32 View/Users/view.ctp:194
 msgid "Delete"
 msgstr "Löschen"
 
@@ -193,7 +193,7 @@ msgstr "Neuer Beitrag"
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Layouts/admin.ctp:45 webroot/dist/main.js:3
+#: View/Layouts/admin.ctp:46 webroot/dist/main.js:3
 #: webroot/js/views/categoryChooser.js:18
 msgid "Categories"
 msgstr "Kategorien"
@@ -250,7 +250,7 @@ msgstr "Neue Kategorie"
 #: View/Categories/admin_index.ctp:34 View/Categories/index.ctp:30
 #: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:37
 #: View/SmileyCodes/admin_index.ctp:29 View/Smilies/admin_index.ctp:31
-#: View/Users/view.ctp:200
+#: View/Users/view.ctp:185
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -281,7 +281,7 @@ msgid "next"
 msgstr "nächste"
 
 #: View/Categories/view.ctp:2 View/Categories/view.ctp:14
-#: View/Categories/view.ctp:65
+#: View/Categories/view.ctp:65 View/Helper/EntryHHelper.php:158
 #, fuzzy
 msgid "Category"
 msgstr "Kategorie"
@@ -446,7 +446,7 @@ msgstr "Aufrufe"
 #: View/Elements/entry/view_posting.ctp:67
 #: View/Elements/layout/header_login.ctp:67
 #: View/Elements/layout/header_login.ctp:71 View/Entries/index.ctp:30
-#: View/Entries/search.ctp:56 View/Users/view.ctp:168
+#: View/Entries/search.ctp:56 View/Users/view.ctp:208
 msgid "Help"
 msgstr "Hilfe"
 
@@ -459,20 +459,20 @@ msgid "forum_answer_linkname"
 msgstr "Antworten"
 
 #: View/Elements/entry/view_posting.ctp:89
-#: View/Elements/entry/view_posting.ctp:117
+#: View/Elements/entry/view_posting.ctp:106
 #: Controller/EntriesController.php:497
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: View/Elements/entry/view_posting.ctp:157
+#: View/Elements/entry/view_posting.ctp:144
 msgid "merge_tree_link"
 msgstr "Zusammenlegen"
 
-#: View/Elements/entry/view_posting.ctp:168
+#: View/Elements/entry/view_posting.ctp:153
 msgid "delete_tree_link"
 msgstr "Löschen"
 
-#: View/Elements/entry/view_posting.ctp:171
+#: View/Elements/entry/view_posting.ctp:156
 msgid "delete_tree_link_confirm_message"
 msgstr ""
 "(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
@@ -563,7 +563,7 @@ msgid "search_submit"
 msgstr "Suchen"
 
 #: View/Elements/layout/html_footer.ctp:5
-#: View/Themed/Ixi/Layouts/default.ctp:119
+#: View/Themed/Ixi/Layouts/default.ctp:116
 #, fuzzy
 msgid ""
 "This web-application depends on JavaScript. Please activate JavaScript in "
@@ -577,7 +577,7 @@ msgstr ""
 msgid "Recent entries"
 msgstr "Letzte Einträge"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:244
+#: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:222
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
@@ -605,47 +605,47 @@ msgstr "Moderator"
 msgid "ud_user"
 msgstr "Benutzer"
 
-#: View/Elements/users/add_form_core.ctp:4
+#: View/Elements/users/add_form_core.ctp:5
 msgid "error_name_reserved"
 msgstr "Der Name ist bereits vergeben."
 
-#: View/Elements/users/add_form_core.ctp:5
+#: View/Elements/users/add_form_core.ctp:6
 msgid "error_no_name"
 msgstr "Es wurde kein Name eingegeben."
 
-#: View/Elements/users/add_form_core.ctp:7
+#: View/Elements/users/add_form_core.ctp:8
 msgid "register_user_name"
 msgstr "Benutzername"
 
-#: View/Elements/users/add_form_core.ctp:11
+#: View/Elements/users/add_form_core.ctp:13
 msgid "error_email_reserved"
 msgstr ""
 "Es ist bereits ein Benutzer mit der angegebenen E-Mail-Adresse vorhanden."
 
-#: View/Elements/users/add_form_core.ctp:12
+#: View/Elements/users/add_form_core.ctp:14
 msgid "error_email_wrong"
 msgstr "Die eingegebene E-Mail-Adresse sieht nicht richtig aus."
 
-#: View/Elements/users/add_form_core.ctp:14
+#: View/Elements/users/add_form_core.ctp:16
 msgid "register_user_email"
 msgstr "E-Mail Adresse"
 
-#: View/Elements/users/add_form_core.ctp:20 View/Users/changepassword.ctp:18
+#: View/Elements/users/add_form_core.ctp:23 View/Users/changepassword.ctp:18
 #: View/Users/changepassword.ctp:26
 msgid "error_password_empty"
 msgstr "Passwort darf nicht leer sein."
 
-#: View/Elements/users/add_form_core.ctp:21 View/Users/changepassword.ctp:27
+#: View/Elements/users/add_form_core.ctp:24 View/Users/changepassword.ctp:27
 msgid "error_password_confirm"
 msgstr "Password stimmt nicht mit Wiederholung überein."
 
-#: View/Elements/users/add_form_core.ctp:23
+#: View/Elements/users/add_form_core.ctp:26
 #: View/Elements/users/login_form.ctp:18 View/Users/edit.ctp:64
 #: View/Users/edit.ctp:76 View/Users/edit.ctp:92
 msgid "user_pw"
 msgstr "Passwort"
 
-#: View/Elements/users/add_form_core.ctp:28
+#: View/Elements/users/add_form_core.ctp:32
 msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
@@ -693,7 +693,7 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:141
+#: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:140
 msgid "entry_nsfw_title"
 msgstr "Nicht bürosicher (NBS)"
 
@@ -754,7 +754,7 @@ msgstr "Betreff"
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Entries/search.ctp:143
+#: View/Entries/search.ctp:144
 msgid "search_simple"
 msgstr "Einfache Suche"
 
@@ -762,30 +762,30 @@ msgstr "Einfache Suche"
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
-#: View/Layouts/admin.ctp:34
+#: View/Layouts/admin.ctp:35
 msgid "Overview"
 msgstr "Übersicht"
 
-#: View/Layouts/admin.ctp:39 View/Settings/admin_edit.ctp:2
+#: View/Layouts/admin.ctp:40 View/Settings/admin_edit.ctp:2
 #: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:119
 #: View/Users/edit.ctp:165
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: View/Layouts/admin.ctp:42 View/Users/admin_add.ctp:2
+#: View/Layouts/admin.ctp:43 View/Users/admin_add.ctp:2
 #: View/Users/admin_index.ctp:1 View/Users/admin_index.ctp:3
 #, fuzzy
 msgid "Users"
 msgstr "Benutzer"
 
-#: View/Layouts/admin.ctp:48 View/SmileyCodes/admin_edit.ctp:1
+#: View/Layouts/admin.ctp:49 View/SmileyCodes/admin_edit.ctp:1
 #: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
 #: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
 #: View/Smilies/admin_index.ctp:3 View/Helper/MarkitupEditorHelper.php:168
 msgid "Smilies"
 msgstr ""
 
-#: View/Layouts/admin.ctp:61
+#: View/Layouts/admin.ctp:62
 msgid "Forum"
 msgstr ""
 
@@ -896,7 +896,7 @@ msgstr "Smiley bearbeiten"
 msgid "Admin Edit Smiley"
 msgstr "Admin Smiley bearbeiten"
 
-#: View/Themed/Paz/Layouts/default.ctp:72
+#: View/Themed/Paz/Layouts/default.ctp:70
 msgid "Search"
 msgstr "Suche"
 
@@ -1306,25 +1306,25 @@ msgstr "Profil"
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
-#: View/Users/view.ctp:169
+#: View/Users/view.ctp:173
+msgid "Unlock"
+msgstr "Freigeben"
+
+#: View/Users/view.ctp:173
+msgid "Lock"
+msgstr "Sperren"
+
+#: View/Users/view.ctp:209
 msgid "button_mod_panel_shp"
 msgstr ""
 "Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder "
 "Thread zu bearbeiten."
 
-#: View/Users/view.ctp:184
-msgid "Unlock"
-msgstr "Freigeben"
-
-#: View/Users/view.ctp:184
-msgid "Lock"
-msgstr "Sperren"
-
-#: View/Users/view.ctp:256
+#: View/Users/view.ctp:233
 msgid "No entries created yet."
 msgstr "Noch keine Beiträge verfasst."
 
-#: View/Users/view.ctp:268
+#: View/Users/view.ctp:245
 msgid "Show all"
 msgstr "Alle anzeigen"
 
@@ -1346,7 +1346,7 @@ msgstr ""
 "Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
 "erneut."
 
-#: Controller/BookmarksController.php:113
+#: Controller/BookmarksController.php:116
 msgid "Invalid bookmark"
 msgstr "Lesezeichen konnte nicht gefunden werden."
 
@@ -1735,19 +1735,15 @@ msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 msgid "Video domain is not allowed."
 msgstr ""
 
-#: View/Helper/EntryHHelper.php:138
+#: View/Helper/EntryHHelper.php:137
 msgid "fixed"
 msgstr "Thread fixiert"
 
-#: View/Helper/EntryHHelper.php:146
+#: View/Helper/EntryHHelper.php:145
 msgid "Helpful entry"
 msgstr "Hilfreicher Beitrag"
 
-#: View/Helper/EntryHHelper.php:159
-msgid "cateogry"
-msgstr "Kategorie"
-
-#: View/Helper/EntryHHelper.php:162
+#: View/Helper/EntryHHelper.php:160
 msgid "error_category_empty"
 msgstr "Kategorie darf nicht leer sein."
 
@@ -2773,6 +2769,9 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
 msgid "token test"
 msgstr ""
+
+#~ msgid "cateogry"
+#~ msgstr "Kategorie"
 
 #~ msgid "user_show_entries"
 #~ msgstr "Beiträge anzeigen"
