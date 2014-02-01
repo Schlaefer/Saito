@@ -16,21 +16,17 @@
 		var theme = '<?= $_theme ?>',
 				preset = localStorage.theme;
 				css = 'theme';
-		if (!preset) {
-			preset = 'automatic'
+		if (preset) {
+			css = preset;
 		}
-		if (preset !== 'automatic') {
-			theme = preset;
-		}
-		if (theme === 'night') {
-			css = 'night'
+		if (css === 'automatic') {
+			css = theme ;
 		}
 		document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
 		SaitoApp.app.settings.themePreset = preset;
 	</script>
 
-	<link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
-
+	<link href='//fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
 
 	<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
 	</head>
@@ -81,28 +77,22 @@
 				</div>
 			</div>
 		</header>
-		<div class="navbar">
-			<div class="navbar-body">
-				<div class="navbar-left">
-					<?php echo $this->fetch('headerSubnavLeft'); ?>
-				</div>
-				<div class="navbar-center">
-					<?php
-						if ($this->request->controller !== 'entries' ||
-								!in_array($this->request->action, ['mix', 'view'])) {
-							$_navCenter = $this->fetch('headerSubnavCenter');
-							if (empty($_navCenter)) {
-								$_navCenter = $this->Layout->pageHeading($title_for_page);
-							}
-							echo $_navCenter;
-						}
-					?>
-				</div>
-				<div class="navbar-right c_last_child">
-					<?php echo $this->element('layout/header_subnav_right'); ?>
-				</div>
-			</div>
-		</div>
+		<?php
+			$_navCenter = '';
+			if ($this->request->controller !== 'entries' ||
+					!in_array($this->request->action, ['mix', 'view'])) {
+				$_navCenter = $this->fetch('headerSubnavCenter');
+				if (empty($_navCenter)) {
+					$_navCenter = $this->Layout->pageHeading($title_for_page);
+				}
+			}
+			echo $this->Layout->heading([
+							'first' => $this->fetch('headerSubnavLeft'),
+							'middle' => $_navCenter,
+							'last' => $this->element('layout/header_subnav_right')
+					],
+					['class' => 'navbar']);
+		?>
 		<?php echo $this->element('layout/slidetabs'); ?>
 		<div id="content">
 			<script type="text/javascript">
@@ -112,19 +102,14 @@
 		</div>
 		<div id="footer-pinned">
 			<div id="bottomnav" class="navbar">
-				<div class="navbar-content">
-					<div class="navbar-left">
-						<?php echo $this->fetch('headerSubnavLeft'); ?>
-					</div>
-					<div class="navbar-center">
-						<a href="#" id="btn-scrollToTop" class="btn-hf-center">
-							<i class="fa fa-arrow-up"></i>
-						</a>
-					</div>
-					<div class="navbar-right c_last_child">
-						<?php echo $this->element('layout/header_subnav_right'); ?>
-					</div>
-				</div>
+				<?=
+					$this->Layout->heading([
+									'first' => $this->fetch('headerSubnavLeft'),
+									'middle' => '<a href="#" id="btn-scrollToTop" class="btn-hf-center"><i class="fa fa-arrow-up"></i></a>',
+									'last' => $this->element('layout/header_subnav_right')
+							],
+							['class' => 'navbar-content'])
+				?>
 			</div>
 		</div>
 		<script>

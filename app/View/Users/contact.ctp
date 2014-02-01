@@ -1,13 +1,8 @@
 <div class="user contact">
-	<div class="box-form">
-		<div class="l-box-header box-header">
-			<div>
-				<div class='c_first_child'></div>
-				<div><h2><?php echo __('user_contact_title', $this->request->data['User']['username']); ?> </h2></div>
-				<div class='c_last_child'></div>
-			</div>
-		</div>
-		<div class="content">
+	<div class="panel">
+		<?= $this->Layout->panelHeading(__('user_contact_title',
+				$this->request->data['User']['username']), ['pageHeading' => true]) ?>
+		<div class="panel-content panel-form">
 			<?php echo $this->Form->create(false); ?>
 			<div class="input required">
 				<?php

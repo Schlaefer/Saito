@@ -63,7 +63,7 @@
 
 			// footer in posting is visible
 			$this->assertTrue(
-				$this->isVisible("css=.threadLeaf[data-id={$parentId}] .l-box-footer")
+				$this->isVisible("css=.threadLeaf[data-id={$parentId}] .panel-footer")
 			);
 
 			// opening answer form
@@ -86,7 +86,7 @@
 
 			// footer in posting is now hidden
 			$this->assertFalse(
-				$this->isVisible("css=.threadLeaf[data-id={$parentId}] .l-box-footer")
+				$this->isVisible("css=.threadLeaf[data-id={$parentId}] .panel-footer")
 			);
 
 			// type subject in answering field

@@ -127,19 +127,9 @@
 	}
 ?>
 <div class="users view">
-	<div class="box-content">
-		<div class="l-box-header box-header">
-			<div>
-				<div class='c_first_child'></div>
-				<div>
-					<h1>
-						<?= __('Profile') ?>
-					</h1>
-				</div>
-				<div class='c_last_child'></div>
-			</div>
-		</div>
-		<div class="content">
+	<div class="panel">
+		<?= $this->Layout->panelHeading(__('Profile')) ?>
+		<div class="panel-content">
 			<table class='table th-left elegant'>
 				<?= $this->Html->tableCells($table); ?>
 			</table>
@@ -150,7 +140,7 @@
 			$isMod = $CurrentUser->isMod();
 			if ($isUsersEntry || $isMod):
 				?>
-				<div class="l-box-footer box-footer-form">
+				<div class="panel-footer panel-form">
 					<?php
 						// default edit link
 						if ($isUsersEntry) {
@@ -210,22 +200,12 @@
 									]);
 						}
 					?>
-				</div> <!-- #box-footer.form -->
+				</div>
 			<?php endif; ?>
 	</div>
-	<div class="box-content">
-		<div class="l-box-header box-header">
-			<div>
-				<div class='c_first_child'></div>
-				<div>
-					<h1>
-						<?= __('user_recentposts'); ?>
-					</h1>
-				</div>
-				<div class='c_last_child'></div>
-			</div>
-		</div>
-		<div class="content">
+	<div class="panel">
+		<?= $this->Layout->panelHeading(__('user_recentposts')) ?>
+		<div class="panel-content">
 			<?php if (empty($lastEntries)): ?>
 				<?=
 				$this->element(

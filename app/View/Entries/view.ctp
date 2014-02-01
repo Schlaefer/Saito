@@ -37,7 +37,7 @@
 	}
 ?>
 <div class="entry view">
-	<div class="box-content">
+	<div class="panel">
 		<?=
 			$this->element(
 				'/entry/view_posting',

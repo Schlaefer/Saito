@@ -107,7 +107,7 @@ define([
       if (this.preview === false) {
         previewModel = new PreviewModel();
         this.preview = new PreviewView({
-          el: this.$('.preview .content'),
+          el: this.$('.preview .panel-content'),
           model: previewModel
         });
       }

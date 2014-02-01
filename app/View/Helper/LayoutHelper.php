@@ -5,7 +5,7 @@
 	class LayoutHelper extends AppHelper {
 
 		public $helpers = [
-			'Html'
+				'Html'
 		];
 
 		protected $_themeImgUrl = null;
@@ -22,8 +22,8 @@
 			}
 			$stylesheets =
 					[
-						'stylesheets/static.css',
-						'stylesheets/styles.css'
+							'stylesheets/static.css',
+							'stylesheets/styles.css'
 					];
 			if (Configure::read('debug')) {
 				$stylesheets[] = 'stylesheets/cake.css';
@@ -38,7 +38,7 @@
 				$name = $name . '.min';
 			}
 			return $this->Html->script($this->Html->assetUrl($url . $name,
-				['ext' => '.js', 'fullBase' => true]));
+					['ext' => '.js', 'fullBase' => true]));
 		}
 
 		/**
@@ -63,10 +63,10 @@
 		 *
 		 * @param mixed $size integer or array with integer
 		 * @param array $options
-		 * 	`baseName` (default: 'app-icon')
-		 * 	`precomposed` adds '-precomposed' to baseName (default: false)
-		 * 	`rel` (default: 'apple-touch-icon')
-		 * 	`size` outputs "size"-attribute (default: true)
+		 *  `baseName` (default: 'app-icon')
+		 *  `precomposed` adds '-precomposed' to baseName (default: false)
+		 *  `rel` (default: 'apple-touch-icon')
+		 *  `size` outputs "size"-attribute (default: true)
 		 * @return string
 		 */
 		protected function _touchIcon($size, array $options = []) {
@@ -79,10 +79,10 @@
 			}
 
 			$_defaults = [
-				'baseName' => 'app-icon',
-				'precomposed' => false,
-				'rel' => 'apple-touch-icon',
-				'size' => true
+					'baseName' => 'app-icon',
+					'precomposed' => false,
+					'rel' => 'apple-touch-icon',
+					'size' => true
 			];
 			$options += $_defaults;
 
@@ -153,6 +153,40 @@
 				</div>
 EOF;
 			return $_out;
+		}
+
+		public function panelHeading($content, array $options = []) {
+			$options += [
+					'class' => 'panel-heading',
+					'pageHeading' => false,
+					'tag' => 'h2'
+			];
+			if ($options['pageHeading']) {
+				$options['class'] .= ' pageTitle';
+				$options['tag'] = 'h1';
+			}
+			if (is_string($content)) {
+				$content = ['middle' => $content];
+			}
+			$content['middle'] =  "<{$options['tag']}>{$content['middle']}</{$options['tag']}>";
+			return $this->heading($content, $options);
+		}
+
+		public function heading($content, array $options = []) {
+			$options += ['class' => ''];
+			if (is_string($content)) {
+				$_content = ['middle' => $content];
+			} else {
+				$_content = $content;
+			}
+			$_content += ['first' => '', 'middle' => '', 'last' => ''];
+			return <<<EOF
+				<div class="{$options['class']} heading-3">
+					<div class='heading-3-first'>{$_content['first']}</div>
+					<div class='heading-3-middle'>{$_content['middle']}</div>
+					<div class='heading-3-last'>{$_content['last']}</div>
+				</div>
+EOF;
 		}
 
 	}

@@ -21,7 +21,13 @@
 // Thread Box/ Collection
 // -------------------------------------
 
-.threadBox { }
+.threadBox {
+  margin: 1em 0;
+}
+
+.threadBox-body.panel {
+  border: none;
+}
 
 .threadBox-tools {
   padding-left: 2 * $padding;

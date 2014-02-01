@@ -11,3 +11,11 @@ $input-border-color: $border-color;
 $highlight-hover-color: $border-color;
 
 @import "theme";
+
+// @todo
+.ui-dialog , #site {
+  textarea, input[type=text], input[type=password] {
+    background: #1F1800;
+  }
+}
+

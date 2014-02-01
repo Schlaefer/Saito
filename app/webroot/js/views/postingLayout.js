@@ -20,12 +20,12 @@ define(['underscore', 'marionette',
       this.model.set(_entry, {silent: true});
 
       var contentView = new ContentView({
-        el: this.$('.content'),
+        el: this.$('.panel-content'),
         model: this.model
       });
 
       var actionsView = new ActionView({
-        el: this.$('.box-footer-form'),
+        el: this.$('.panel-footer'),
         model: this.model
       });
 

@@ -6,15 +6,10 @@
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();
 ?>
-<div class="box-content">
-	<div class="l-box-header box-header pageTitle">
-		<div>
-			<div class='c_first_child'></div>
-			<div><h1><?= $this->Layout->pageHeading(__('Edit Bookmark')); ?></h1></div>
-			<div class='c_last_child'></div>
-		</div>
-	</div>
-	<div class="content">
+<div class="panel">
+	<?= $this->Layout->panelHeading($this->Layout->pageHeading(__('Edit Bookmark')),
+			['pageHeading' => true]) ?>
+	<div class="panel-content">
 		<?php
 					$entry = array(
 							'Entry'		 => $this->request->data['Entry'],
@@ -24,7 +19,7 @@
 			echo $this->element('/entry/view_content', array(
 				'entry' => $entry)); ?>
 	</div>
-	<div class="l-box-footer box-footer-form">
+	<div class="panel-footer panel-form">
 		<?php
 			echo $this->Form->create();
 			echo $this->Html->div('input textarea',

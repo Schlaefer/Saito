@@ -21,52 +21,29 @@
 ?>
 	<div class="entry <?= ($is_answer) ? 'reply' : 'add' ?> <?= ($is_inline) ? '' : 'add-not-inline' ?>">
 	<div class="preview">
-		<div class="l-box-header box-header">
-			<div>
-				<div class="c_first_child">
-					<i class='fa fa-close-widget fa-lg pointer btn-previewClose'>
-						&nbsp;</i>
-				</div>
-				<div>
-					<h2>
-						<?php echo __('preview') ?>
-					</h2>
-				</div>
-				<div class="c_last_child">
-					&nbsp;
-				</div>
-			</div>
-		</div>
-		<!-- header -->
-		<div class="content"></div>
+		<?=
+			$this->Layout->panelHeading([
+					'first' => "<i class='fa fa-close-widget fa-lg pointer btn-previewClose'> &nbsp;</i>",
+					'middle' => __('preview')
+			]) ?>
+		<div class="panel-content"></div>
 	</div>
 	<!-- preview -->
 
-	<div class="postingform">
-		<div class="l-box-header box-header <?= (!$is_inline) ? 'pageTitle' : '' ?>">
-			<div>
-				<div class="c_first_child">
-					<?php if ($this->request->is('ajax')) : ?>
-						<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'>
-							&nbsp;
-						</i>
-					<?php endif; ?>
-				</div>
-				<div>
-					<h2>
-						<?= $title_for_page ?>
-					</h2>
-				</div>
-				<div class="c_last_child">&nbsp;</div>
-			</div>
-		</div>
-
+	<div class="postingform panel-form">
+		<?php
+		 $_first = ($this->request->is('ajax')) ? "<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'> &nbsp; </i>" : '';
+			echo $this->Layout->panelHeading([
+					'first' => $_first,
+					'middle' => $title_for_page,
+					['class' => (!$is_inline) ? 'pageTitle' : '']
+			]) ?>
 		<div id="markitup_upload">
 			<div class="body"></div>
 		</div>
 		<div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
-		<div class="content">
+		<div class="panel-content">
 					<?php echo  $this->Form->create('Entry'); ?>
 			<div class="l-postingform_main">
 				<?php

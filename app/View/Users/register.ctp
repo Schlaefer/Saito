@@ -1,14 +1,7 @@
-	<div class="box-form">
-	<div class="l-box-header box-header pageTitle">
-		<div>
-			<div class='c_first_child'></div>
-			<div>
-				<h1><?php echo __('register_linkname'); ?></h1>
-			</div>
-			<div class='c_last_child'></div>
-		</div>
-	</div>
-	<div class="content">
+<div class="panel">
+		<?= $this->Layout->panelHeading(__('register_linkname'),
+				['pageHeading' => true]) ?>
+	<div class="panel-content panel-form">
 	<?php if ($register_success == 'email_send') : ?>
 			<?php
 				echo $this->element(

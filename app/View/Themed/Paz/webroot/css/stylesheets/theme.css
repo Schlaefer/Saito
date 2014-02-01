@@ -52,16 +52,12 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .top-menu-aside { position: absolute; right: 0; }
 
-.navbar { padding: 1em 0; height: 24px; }
-.navbar > div { position: relative; }
-.navbar > div > div { text-align: center; white-space: nowrap; vertical-align: middle; }
-.navbar > div > div:first-child { position: absolute; }
-.navbar > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
+.navbar { margin: 1em 0; }
 
-.navbar .pageHeading, .navbar .box-header h1, .box-header .navbar h1, .navbar .box-header h2, .box-header .navbar h2 { margin: 0; }
+.navbar .pageHeading, .navbar .panel-heading h1, .panel-heading .navbar h1, .navbar .panel-heading h2, .panel-heading .navbar h2 { margin: 0; }
 
-.pageHeading, .box-header h1, .box-header h2, .ui-dialog-title { font-size: 1em; display: inline-block; font-weight: normal; margin: 0 auto; }
-.pageHeading:after, .box-header h1:after, .box-header h2:after, .ui-dialog-title:after { content: ""; position: relative; border-bottom: 2px solid #e2e2e2; height: 1px; display: block; }
+.pageHeading, .panel-heading h1, .panel-heading h2, .ui-dialog-title { font-size: 1em; display: inline-block; font-weight: normal; margin: 0 auto; }
+.pageHeading:after, .panel-heading h1:after, .panel-heading h2:after, .ui-dialog-title:after { content: ""; position: relative; border-bottom: 2px solid #e2e2e2; height: 1px; display: block; }
 
 #content { padding: 0 2em 50px; }
 
@@ -109,6 +105,10 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .threadTree-node.root, .threadCollection-node.root { margin: 0; padding: 0; }
 
 .threadCollection-node .threadTree-node { padding-left: 0; }
+
+.threadBox { margin: 1em 0; }
+
+.threadBox-body.panel { border: none; }
 
 .threadBox-tools { padding-left: 2em; font-size: 0.85em; }
 
@@ -177,7 +177,6 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 .markItUp .markItUpSeparator { min-width: 1px; width: 1px; height: 32px; overflow: hidden; background-color: #b8b8b8; margin-left: 8px; margin-right: 8px; }
 
 .posting_formular_slider .entry.reply { border-top: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2; margin-bottom: 2em; padding-bottom: 1em; }
-.posting_formular_slider .entry.reply > .l-box-header { margin-top: 1em !important; }
 
 .l-postingform_main { max-width: 60em; margin: 0 auto; }
 .l-postingform_main .checkbox { white-space: nowrap; }
@@ -198,9 +197,11 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 .ui-dialog .entry.add textarea, .ui-dialog .entry.add input[type=text], .ui-dialog .entry.add input[type=password], #site .entry.add textarea, #site .entry.add input[type=text], #site .entry.add input[type=password] { padding: 10px; }
 .ui-dialog .markItUpHeader, #site .markItUpHeader { border: none; }
 
-.postingheadline, #site .inp-subject { margin-bottom: 2px; margin-top: 0; font-weight: normal; font-size: 1.485em; font-family: 'Crimson Text', Serif; }
+.postingheadline, #site .inp-subject { margin-bottom: 2px; margin-top: 0; font-weight: normal; font-size: 1.485em; font-family: 'Fenix', Serif; text-rendering: optimizeLegibility; }
 
 .posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
+
+.posting embed, .posting video, .posting iframe { display: block; margin: 0 auto; }
 
 .entry.view { margin: 0 auto; }
 
@@ -210,18 +211,26 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 
 .fa-threadnew::before { content: "\2022"; }
 
+.heading-3 { height: 24px; position: relative; }
+.heading-3 h1, .heading-3 h2, .heading-3 h3 { margin: 0; padding: 0; }
+.heading-3 > div { line-height: 14px; padding: 5px 0; text-align: center; white-space: nowrap; vertical-align: middle; }
+.heading-3 > div:first-child { position: absolute; }
+.heading-3 > div:last-child { position: absolute; top: 0; right: 0; text-align: right; }
+
 .author { margin-bottom: 1em; }
 .author > .meta { font-size: 0.85em; }
 
 .l-button_mod_panel-wrapper { display: inline-block; }
 
-.l-box-footer { padding: 1em 0; }
+.panel-footer { padding: 1em 0; }
 
-.box-content { border: 1px solid #e2e2e2; border-width: 0 0 1px; padding: 1em; }
+.panel { padding: 1em; }
 
-body .box-content:last-of-type { border-width: 0; }
+.panel-footer.panel-form { border: 1px solid #e2e2e2; border-width: 0 0 1px; padding: 1em; }
 
-.mix .box-content:last-of-type { border-bottom-width: 1px; }
+body .panel-content:last-of-type { border-width: 0; }
+
+.mix .panel-content:last-of-type { border-bottom-width: 1px; }
 
 .js-buttons a, .js-button { margin-left: 2em; }
 
@@ -253,19 +262,12 @@ body .box-content:last-of-type { border-width: 0; }
 
 .ui-dialog .ui-dialog-titlebar-close { left: 1em; }
 
-.box-header .fa-lg { font-size: 1em; }
+.panel-heading .fa-lg { font-size: 1em; }
+.panel-heading.pageTitle { display: none; }
 
-.l-box-header.pageTitle { display: none; }
+#content .panel-heading { height: auto; padding-top: 1em; margin-bottom: 1em; }
 
-#content .l-box-header { height: auto; padding-top: 1em; margin-bottom: 1em; }
-
-.l-box-header { height: 24px; }
-.l-box-header > div { position: relative; }
-.l-box-header > div > div { text-align: center; white-space: nowrap; vertical-align: middle; }
-.l-box-header > div > div:first-child { position: absolute; }
-.l-box-header > div > .c_last_child { position: absolute; top: 0; right: 0; text-align: right; }
-
-.box-header { margin: 0 0 1em; }
+.panel-heading { margin: 0 0 1em; }
 
 /******************************************************************************* Susy *****************************************************************************/
 .bp_container, .bp-threeColumn { *zoom: 1; max-width: 71em; _width: 71em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto; }
@@ -370,6 +372,6 @@ form .c_markitup_popup_txta { width: 100%; padding: 2%; -moz-box-sizing: border-
 
 @media only screen and (max-width: 768px) { .top-menu-aside { position: relative; }
   #content { padding-left: 1em; padding-right: 1em; }
-  .l-box-footer { margin-left: -1em; margin-right: -1em; } }
+  .panel-footer { margin-left: -1em; margin-right: -1em; } }
 @media only screen and (max-width: 600px) { #slidetabs { float: none; } }
 @media only screen and (device-width: 768px) { body { -webkit-text-size-adjust: 110%; } }

@@ -14,7 +14,7 @@
 	]);
 ?>
 <div class="js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
-	<div class="content">
+	<div class="panel-content">
 	<?php
 		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
 	?>
@@ -35,7 +35,7 @@
 
 	</div>
 	<?php if (!empty($showAnsweringPanel)): ?>
-		<div class="l-box-footer box-footer-form">
+		<div class="panel-footer panel-form">
 			<div style="float:right">
 				<?php
 					// flattr - Button

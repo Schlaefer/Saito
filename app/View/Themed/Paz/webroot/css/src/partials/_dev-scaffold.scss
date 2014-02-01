@@ -3,10 +3,6 @@
   border-bottom: 1px solid $border-color;
   margin-bottom: 2 * $padding;
   padding-bottom: 1 * $padding;
-
-  > .l-box-header {
-    margin-top: $padding !important;
-  }
 }
 
 .l-postingform_main {
@@ -53,7 +49,6 @@
   }
 }
 
-
 .ui-dialog , #site {
   .markItUp {
     border: none;
@@ -76,9 +71,7 @@
   .markItUpHeader {
     border: none;
   }
-
 }
-
 
 .postingheadline, #site .inp-subject {
   margin-bottom: 2px;
@@ -86,11 +79,17 @@
   font-weight: normal;
 
   font-size: 1.1 * $font-size-large;
-  font-family: 'Crimson Text', Serif;
+  font-family: 'Fenix', Serif;
+  text-rendering: optimizeLegibility;
 }
 
 .posting img, .posting object, .posting embed, .posting video, .posting iframe {
   max-width: 100%;
+}
+
+.posting embed, .posting video, .posting iframe {
+  display: block;
+  margin: 0 auto;
 }
 
 .entry.view {
@@ -112,6 +111,10 @@
   content:"\2022";
 }
 
+.heading-3 {
+  @include c_t_h_3_abs;
+}
+
 .author {
   margin-bottom: 1em;
 
@@ -125,22 +128,26 @@
 }
 
 $box-footer-quick-fix: 2*$padding;
-.l-box-footer {
+.panel-footer {
   padding: $padding 0 ;
  // margin: $padding -1*$box-footer-quick-fix;
 }
 
-.box-content {
+.panel {
+  padding: $padding;
+}
+
+.panel-footer.panel-form {
   border: 1px solid $border-color;
   border-width: 0 0 1px;
   padding: $padding;
 }
 
-body .box-content:last-of-type {
+body .panel-content:last-of-type {
   border-width: 0;
 }
 
-.mix .box-content:last-of-type {
+.mix .panel-content:last-of-type {
   border-bottom-width: 1px;
 }
 
@@ -221,31 +228,29 @@ body .box-content:last-of-type {
   left: $padding;
 }
 
-// l-box-header
+// panel
 // -------------------------------------
 
-.box-header .fa-lg {
-  font-size: 1em;
+.panel-heading {
+  .fa-lg {
+    font-size: 1em;
+  }
+
+  &.pageTitle {
+    // theme prefers heading shown in navbar
+    display: none;
+  }
 }
 
-.l-box-header.pageTitle {
-  // theme prefers heading shown in navbar
-  display: none;
-}
 
-#content .l-box-header {
+#content .panel-heading {
   height: auto;
   // margin-top: 2*$padding;
   padding-top: $padding;
   margin-bottom: $padding;
 }
 
-.l-box-header {
-  // display: none;
-  @include c_t_h_3_abs();
-}
-
-.box-header {
+.panel-heading {
   margin: 0 0 $padding;
 
   h1, h2 {

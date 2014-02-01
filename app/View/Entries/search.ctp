@@ -84,12 +84,12 @@ if ( isset($this->request->params['data']['Entry']['adv']) ) {
 			</a>
 		</div>
 	</div> <!-- search_form_wrapper -->
-	<div class="search_form_wrapper_adv box-form" style="<?php
+	<div class="search_form_wrapper_adv panel" style="<?php
 if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 	echo "display:none;";
 }
 ?>">
-    <div class="content">
+    <div class="panel-content panel-form">
 				 <?php
 				 echo $this->Form->create('Entry',
 						 array(
@@ -144,19 +144,10 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 				&nbsp;<?php echo __('search_simple'); ?>
 			</a>
 <?php echo $this->Form->end(); ?>
-    </div> <!-- content -->
+    </div>
 	</div> <!-- search_form_wrapper_adv -->
-	<div class="search_results box-content">
-		<div class="l-box-header box-header">
-			<div>
-				<div class="c_first_child"></div>
-				<div></div>
-				<div class="c_last_child">
-				</div>
-			</div>
-		</div>
-		<!-- header -->
-		<div class="content">
+	<div class="search_results panel">
+		<div class="panel-content">
 			<?php if (isset($FoundEntries) && !empty($FoundEntries)) : ?>
 				<ul>
 					<?php foreach ($FoundEntries as $entry) : ?>
@@ -175,6 +166,6 @@ if ( !isset($this->request->params['data']['Entry']['adv']) ) {
 				);
 				?>
 			<?php endif; ?>
-		</div> <!-- content -->
+		</div>
 	</div> <!-- search_results -->
 </div> <!-- entry_search -->

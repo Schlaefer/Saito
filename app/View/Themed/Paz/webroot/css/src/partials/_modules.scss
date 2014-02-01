@@ -133,8 +133,7 @@ body.headerClosed {
 }
 
 .navbar {
-  padding: $padding 0;
-  @include c_t_h_3_abs;
+  margin: $padding 0;
 }
 
 .navbar .pageHeading {
@@ -201,3 +200,5 @@ body.headerClosed {
   word-spacing: 0.1em;
 }
 
+// Panel
+// -------------------------------------

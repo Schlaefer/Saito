@@ -18,7 +18,7 @@ define([
 
     var UploadNewView = Backbone.View.extend({
 
-        className: "box-content upload_box upload-new",
+        className: "panel-content upload_box upload-new",
 
         wasChild: 'unset',
 

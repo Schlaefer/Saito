@@ -44,7 +44,7 @@
 		 */
 ?>
 <div class="threadBox" data-id="<?= $entry_sub['Entry']['id'] ?>">
-	<div class="threadBox-body box-content">
+	<div class="threadBox-body panel">
 		<div class="threadBox-tools">
 			<?php if ($level === 0) : ?>
 					<a href="<?= $this->request->webroot; ?>entries/mix/<?= $entry_sub['Entry']['tid']; ?>" class="btn-threadBox-tools" rel="nofollow">

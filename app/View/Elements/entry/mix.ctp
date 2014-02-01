@@ -11,7 +11,7 @@
 <?php endif;?>
 		<li id="<?= $entry_sub['Entry']['id']?>"
 				class="<?= $_et ?>" style="margin-bottom: 20px;">
-					<div class="a box-content">
+					<div class="a panel">
 						<?php
 							echo $this->element('/entry/view_posting', array('entry' => $entry_sub, 'level' => $level, )); #'cache' => array('key' => $entry_sub["Entry"]['id'], 'time' => '+1 day') ));
 						?>
