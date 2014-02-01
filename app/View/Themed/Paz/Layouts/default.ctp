@@ -1,12 +1,15 @@
-	<?php
-		echo $this->element('layout/html_header');
+<?= $this->element('layout/html_header') ?>
 
+	<link href='//fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+	<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
+
+	<?php
 		echo $this->Html->css('stylesheets/static.css');
 		if ((time() > date_sunrise(time(), SUNFUNCS_RET_TIMESTAMP, 51.5, 9.9) &&
 				time() < date_sunset(time(), SUNFUNCS_RET_TIMESTAMP, 51.5, 9.9))
 		) {
 			// echo $this->Html->css('stylesheets/theme');
-			$_theme = 'day';
+			$_theme = 'theme'; //day
 		} else {
 			// echo $this->Html->css('stylesheets/night');
 			$_theme = 'night';
@@ -16,19 +19,22 @@
 		var theme = '<?= $_theme ?>',
 				preset = localStorage.theme;
 				css = 'theme';
-		if (preset) {
-			css = preset;
+
+		if (!preset) {
+			preset = 'day'
 		}
-		if (css === 'automatic') {
-			css = theme ;
+
+		if (preset === 'automatic') {
+			css = theme;
 		}
+		if (preset === 'night') {
+			css = 'night';
+		}
+
 		document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
 		SaitoApp.app.settings.themePreset = preset;
 	</script>
 
-	<link href='//fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
-
-	<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
 	</head>
 <body class="l-body">
 	<script>

@@ -18,9 +18,9 @@ define(['jquery', 'underscore', 'marionette'], function($, _, Marionette) {
     },
 
     templates: {
-      automatic: '<i class="fa fa-clock-o"></i>',
       day: '<i class="fa fa-sun-o"></i>',
-      night: '<i class="fa fa-moon-o"></i>'
+      night: '<i class="fa fa-moon-o"></i>',
+      automatic: '<i class="fa fa-clock-o"></i>'
     },
 
     _switchTheme: function(event) {
