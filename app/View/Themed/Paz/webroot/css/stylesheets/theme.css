@@ -201,7 +201,7 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 
 .posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
 
-.posting embed, .posting video, .posting iframe { display: block; margin: 0 auto; }
+.posting embed, .posting video, .posting iframe, .posting .c-bbcode-external-image { display: block; margin: 0 auto; }
 
 .entry.view { margin: 0 auto; }
 

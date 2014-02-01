@@ -201,7 +201,7 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 
 .posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
 
-.posting embed, .posting video, .posting iframe { display: block; margin: 0 auto; }
+.posting embed, .posting video, .posting iframe, .posting .c-bbcode-external-image { display: block; margin: 0 auto; }
 
 .entry.view { margin: 0 auto; }
 
@@ -375,4 +375,4 @@ form .c_markitup_popup_txta { width: 100%; padding: 2%; -moz-box-sizing: border-
   .panel-footer { margin-left: -1em; margin-right: -1em; } }
 @media only screen and (max-width: 600px) { #slidetabs { float: none; } }
 @media only screen and (device-width: 768px) { body { -webkit-text-size-adjust: 110%; } }
-.ui-dialog textarea, .ui-dialog input[type=text], .ui-dialog input[type=password], #site textarea, #site input[type=text], #site input[type=password] { background: #1F1800; }
+.ui-dialog textarea, .ui-dialog input[type=text], .ui-dialog input[type=password], #site textarea, #site input[type=text], #site input[type=password] { background: #1F1800; border-left: 2px solid #4d3d00; }

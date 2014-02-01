@@ -16,6 +16,7 @@ $highlight-hover-color: $border-color;
 .ui-dialog , #site {
   textarea, input[type=text], input[type=password] {
     background: #1F1800;
+    border-left: 2px solid $border-color;
   }
 }
 
