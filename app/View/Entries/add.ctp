@@ -32,12 +32,12 @@
 
 	<div class="postingform panel-form">
 		<?php
-		 $_first = ($this->request->is('ajax')) ? "<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'> &nbsp; </i>" : '';
+		 $_first = ($is_inline) ? "<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'> &nbsp; </i>" : '';
 			echo $this->Layout->panelHeading([
-					'first' => $_first,
-					'middle' => $title_for_page,
-					['class' => (!$is_inline) ? 'pageTitle' : '']
-			]) ?>
+							'first' => $_first,
+							'middle' => $title_for_page,
+					],
+					['pageHeading' => !$is_inline]);?>
 		<div id="markitup_upload">
 			<div class="body"></div>
 		</div>
