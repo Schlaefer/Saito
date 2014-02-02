@@ -9,11 +9,19 @@
 
 .c-bbcode-code-wrapper {
   padding: $padding;
+
+  ol {
+    color: #333;
+    background: #F0FCEF;
+
+    li {
+      padding-left: 0.5em;
+    }
+  }
 }
 
 .code {
   @extend code;
-  padding: 1em;
 }
 
 .c-bbcode-underline {

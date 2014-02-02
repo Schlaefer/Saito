@@ -1,2 +1,59 @@
 @import "_posting-bbcode";
 
+.postingLayout {
+  margin: 0 auto;
+  max-width: 54em;
+}
+
+.postingLayout-slider {
+  display: none;
+
+  .postingform {
+    border-top: 1px solid $border-color;
+  }
+  .preview {
+    border-top: 1px solid $border-color;
+    border-bottom: none;
+  }
+}
+
+.postingBody-heading {
+  margin-bottom: 2px;
+  margin-top: 0;
+
+  @extend %schmuckfont;
+  font-weight: normal;
+  font-size: 1.1 * $font-size-large;
+}
+
+.postingBody-info {
+  @extend .infoText;
+  margin-bottom: 1em;
+
+  > .meta {
+    font-size: $font-size-small;
+  }
+}
+
+.postingBody-text {
+  margin-bottom: 1em;
+  // break overlong words/links if overflow is hidden by .threadInline-slider
+  word-wrap: break-word;
+
+  object, embed, video, iframe, img {
+    max-width: 100%;
+  }
+
+  object, embed, video, iframe, .c-bbcode-external-image {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.postingBody-signature {
+  margin-bottom: $padding;
+
+  .c-bbcode-upload, .c-bbcode-external-image {
+    margin: 0;
+  }
+}

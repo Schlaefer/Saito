@@ -7,16 +7,11 @@ $info-color: #8c8276;
 $info-color-bold: darken($info-color, 10);
 
 $border-color: darken($link-color, 35%);
-$input-border-color: $border-color;
+
+$form-background-color: #1E1E20;
+$input-background-color: #303035;
+$input-border-color: $link-color;
+
 $highlight-hover-color: $border-color;
 
 @import "theme";
-
-// @todo
-.ui-dialog , #site {
-  textarea, input[type=text], input[type=password] {
-    background: #1F1800;
-    border-left: 2px solid $border-color;
-  }
-}
-

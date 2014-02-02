@@ -3,9 +3,13 @@
 }
 
 textarea, input[type=text], input[type=password], %textinput {
+  outline-style: none;
+  border-style: none;
   width: 100%;
-  border: 1px solid $input-border-color;
-  border-radius: $border-radius;
+
+  background: $input-background-color;
+  // border-left: 2px solid darken($border-color, 10);
+  border-left: 2px solid $input-border-color;
   // resets inner shadow from Mobile Safari iOS
   -webkit-appearance: none;
 }
@@ -19,3 +23,20 @@ textarea, input[type=text], input[type=password], %textinput {
     padding-right: 0.5em;
   }
 }
+
+// buttons
+// -------------------------------------
+
+.btn-submit {
+  @extend .btnLink;
+  padding: 0em 0.8em;
+  border-radius: $border-radius;
+  background-color: $link-color;
+  color: $background-color;
+
+  &[disabled=disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+

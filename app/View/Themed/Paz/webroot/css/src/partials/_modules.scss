@@ -1,3 +1,6 @@
+@import "modules_panels";
+@import "modules_jqueryui";
+
 body, .btnLink, textarea, input[type=text], input[type=password] {
   font-family: Cabin;
   color: $font-color;
@@ -10,6 +13,11 @@ body {
   padding: 0 2 * $padding;
   max-width: 70em;
   margin: 0 auto;
+}
+
+%schmuckfont {
+  font-family: 'Fenix', Serif;
+  text-rendering: optimizeLegibility;
 }
 
 .l-body {
@@ -159,7 +167,7 @@ body.headerClosed {
   padding: 0 2 * $padding 50px;
 }
 
-.infoText, .author, .disabled {
+.infoText, .disabled {
   color: $info-color;
 }
 
@@ -170,16 +178,16 @@ body.headerClosed {
 }
 
 .c-username {
-  font-weight: bold;
+  color: $font-color;
 }
 
-.signature {
+.postingBody-signature {
   @extend .infoText;
   font-size: $font-size-small;
   text-align: center;
 }
 
-.signature-divider {
+.postingBody-signature-divider {
   padding-bottom: 1em;
 }
 
@@ -199,6 +207,3 @@ body.headerClosed {
   letter-spacing: 0.1em;
   word-spacing: 0.1em;
 }
-
-// Panel
-// -------------------------------------

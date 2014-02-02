@@ -1,7 +1,7 @@
 // Tread Tree/Collection
 // -------------------------------------
 .threadTree-node {
-  padding-left: 2 * $padding;
+  padding-left: 30px;
 }
 
 .threadTree-node, .threadCollection-node {
@@ -18,7 +18,14 @@
   padding-left: 0;
 }
 
-// Thread Box/ Collection
+.btn-threadCollapse {
+  width: 28px;
+  text-align: center;
+  position: absolute;
+  left: -4px;
+}
+
+// Thread Box/Collection
 // -------------------------------------
 
 .threadBox {
@@ -36,6 +43,10 @@
 
 .threadBox .threadTree-node.root {
   padding-left: 20px;
+}
+
+.btn-threadBox-tools {
+  margin-right: 1em;
 }
 
 // thread and reply types
@@ -101,3 +112,10 @@ $btn-strip-top-width: 25px;
   margin-left: $btn-strip-top-width;
 }
 
+// mix
+// -------------------------------------
+
+.mixEntry {
+  border-bottom: 1px solid $border-color;
+  margin-bottom: $padding;
+}

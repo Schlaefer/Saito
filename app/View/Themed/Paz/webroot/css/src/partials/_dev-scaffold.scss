@@ -1,93 +1,14 @@
-.btn-submit {
-    @extend .btnLink;
-    padding: 0em 0.8em;
-    border-radius: $border-radius;
-    background-color: $link-color;
-    color: $background-color;
-    text-shadow: none;
-}
-
-.btn-threadBox-tools {
-  margin-right: 1em;
-}
-
-.btn-threadCollapse {
-  width: 28px;
-  text-align: center;
-  position: absolute;
-  left: -4px;
-}
-
-.preview {
-  display: none;
-  margin-bottom: $padding;
-  padding: $padding;
-  border-bottom: 1px solid $border-color;
-}
-
-.posting_formular_slider {
-  .postingform {
-    border-top: 1px solid $border-color;
-  }
-  .preview {
-    border-top: 1px solid $border-color;
-    border-bottom: none;
-  }
-}
-
-.signature {
-  margin-bottom: $padding;
-
-  .c-bbcode-upload, .c-bbcode-external-image {
-    margin: 0;
-  }
-}
-
-.ui-dialog , #site {
-  .markItUp {
-    border: none;
+.postingform {
+  .subject {
+    @extend %schmuckfont;
+    font-size: 1.2 * $font-size;
   }
 
+  // make different font em padding in subject and text visually more harmonic
   textarea, input[type=text], input[type=password] {
-    background: lighten(#f9f9f9, 1%);
-    border: none;
-    border-left: 2px solid darken($border-color, 10);
-    border-radius: 0 !important;
-    outline-style: none;
+    padding-left: 10px;
+    padding-right: 10px;
   }
-
-  .entry.add {
-    textarea, input[type=text], input[type=password] {
-      padding: 10px;
-    }
-  }
-
-  .markItUpHeader {
-    border: none;
-  }
-}
-
-.postingheadline, #site .inp-subject {
-  margin-bottom: 2px;
-  margin-top: 0;
-  font-weight: normal;
-
-  font-size: 1.1 * $font-size-large;
-  font-family: 'Fenix', Serif;
-  text-rendering: optimizeLegibility;
-}
-
-#site .inp-subject {
-  font-size: 1.2 * $font-size;
-}
-
-.posting img, .posting object, .posting embed, .posting video, .posting iframe {
-  max-width: 100%;
-}
-
-.posting embed, .posting video, .posting iframe, .posting .c-bbcode-external-image {
-  display: block;
-  margin: 0 auto;
 }
 
 .entry.view {
@@ -97,12 +18,6 @@
   .threadBox {
     border-top: 1px solid $border-color;
   }
-}
-
-.posting {
-  margin-bottom: 1em;
-  // break overlong words/links if overflow is hidden by .threadInline-slider
-  word-wrap: break-word;
 }
 
 .fa-threadnew {
@@ -117,42 +32,8 @@
   @include c_t_h_3_abs;
 }
 
-.author {
-  margin-bottom: 1em;
-
-  > .meta {
-    font-size: $font-size-small;
-  }
-}
-
 .l-button_mod_panel-wrapper {
   display: inline-block;
-}
-
-
-.panel {
-  padding: $padding;
-}
-
-.panel-content {
-}
-
-.panel-footer {
-  padding: $padding 0 ;
-
-  &.panel-form {
-    margin-top: 2*$padding;
-  }
-}
-
-.panel-form {
-  background: #F9F9F9;
-  background: darken(#f9f9f9, 4);
-  padding: $padding;
-}
-
-.a.panel {
-  border-bottom: 1px solid $border-color;
 }
 
 .js-buttons a, .js-button {
@@ -171,11 +52,6 @@
   bottom: 0px;
 }
 
-.markItUpHeader {
-  border-bottom: 1px solid $input-border-color;
-  background: none; // $background-color;
-}
-
 .markItUp a:link, .markItUp a:visited {
   color: $font-color !important;
 }
@@ -191,15 +67,10 @@
   margin: 4px 0px 0px -1px;
 }
 
-.js-entry-view-core {
-  margin: 0 auto;
-  max-width: 54em;
-}
-
-.threadInline-slider .js-entry-view-core {
+.threadInline-slider .postingLayout {
   padding: $padding;
 
-  .signature {
+  .postingBody-signature {
     display: none;
   }
 }
@@ -210,58 +81,6 @@
   padding: 2*$padding 0;
   font-size: 0.85em;
 }
-
-.ui-dialog {
-  background: $background-color;
-  border-color: $border-color;
-}
-
-.jqueryUi-closethick-fix {
-  color: $link-color !important;
-}
-
-.ui-dialog .ui-dialog-content {
-  padding: 0 2em 2em;
-
-  ul {
-    padding: 0;
-  }
-}
-
-.ui-dialog .ui-dialog-titlebar-close {
-  left: $padding;
-}
-
-// panel
-// -------------------------------------
-
-.panel-heading {
-  .fa-lg {
-    font-size: 1em;
-  }
-
-  &.pageTitle {
-    // theme prefers heading shown in navbar
-    display: none;
-  }
-}
-
-
-#content .panel-heading {
-  height: auto;
-  // margin-top: 2*$padding;
-  // padding-top: $padding;
-  margin-bottom: $padding;
-}
-
-.panel-heading {
-  margin: 0 0 $padding;
-
-  h1, h2 {
-    @extend .pageHeading;
-  }
-}
-
 
 /*******************************************************************************
  * Susy
@@ -501,10 +320,6 @@ form .c_markitup_popup_txta {
   position:absolute;
   top:18px; left:0px;
   background:#FFF;
-  border:1px solid #000;
-  // @extend .c_all-radius;
-  // @extend .box-shadow;
-  border: 1px solid $border-color;
 }
 .markItUpHeader ul ul li {
   float:none;
