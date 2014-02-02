@@ -1,8 +1,8 @@
 .posting_formular_slider .entry.reply  {
-  border-top: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
-  margin-bottom: 2 * $padding;
-  padding-bottom: 1 * $padding;
+  // border-top: 1px solid $border-color;
+  // border-bottom: 1px solid $border-color;
+  // margin-bottom: 2 * $padding;
+  // padding-bottom: 1 * $padding;
 }
 
 .l-postingform_main {
@@ -13,10 +13,11 @@
   }
 }
 
+
 .btn-submit {
     @extend .btnLink;
     padding: 0em 0.8em;
-    border-radius: 3px;
+    border-radius: $border-radius;
     background-color: $link-color;
     color: $background-color;
     text-shadow: none;
@@ -36,9 +37,18 @@
 .preview {
   display: none;
   margin-bottom: $padding;
-  padding-bottom: $padding;
+  padding: $padding;
   border-bottom: 1px solid $border-color;
-  pointer: cursor;
+}
+
+.posting_formular_slider {
+  .postingform {
+    border-top: 1px solid $border-color;
+  }
+  .preview {
+    border-top: 1px solid $border-color;
+    border-bottom: none;
+  }
 }
 
 .signature {
@@ -55,7 +65,7 @@
   }
 
   textarea, input[type=text], input[type=password] {
-    background: #f9f9f9;
+    background: lighten(#f9f9f9, 1%);
     border: none;
     border-left: 2px solid darken($border-color, 10);
     border-radius: 0 !important;
@@ -83,6 +93,10 @@
   text-rendering: optimizeLegibility;
 }
 
+#site .inp-subject {
+  font-size: 1.2 * $font-size;
+}
+
 .posting img, .posting object, .posting embed, .posting video, .posting iframe {
   max-width: 100%;
 }
@@ -95,6 +109,10 @@
 .entry.view {
   // max-width: 60em;
   margin: 0 auto;
+
+  .threadBox {
+    border-top: 1px solid $border-color;
+  }
 }
 
 .posting {
@@ -127,28 +145,30 @@
   display: inline-block;
 }
 
-$box-footer-quick-fix: 2*$padding;
-.panel-footer {
-  padding: $padding 0 ;
- // margin: $padding -1*$box-footer-quick-fix;
-}
 
 .panel {
   padding: $padding;
 }
 
-.panel-footer.panel-form {
-  border: 1px solid $border-color;
-  border-width: 0 0 1px;
+.panel-content {
+}
+
+.panel-footer {
+  padding: $padding 0 ;
+
+  &.panel-form {
+    margin-top: 2*$padding;
+  }
+}
+
+.panel-form {
+  background: #F9F9F9;
+  background: darken(#f9f9f9, 4);
   padding: $padding;
 }
 
-body .panel-content:last-of-type {
-  border-width: 0;
-}
-
-.mix .panel-content:last-of-type {
-  border-bottom-width: 1px;
+.a.panel {
+  border-bottom: 1px solid $border-color;
 }
 
 .js-buttons a, .js-button {
@@ -169,7 +189,7 @@ body .panel-content:last-of-type {
 
 .markItUpHeader {
   border-bottom: 1px solid $input-border-color;
-  background: $background-color;
+  background: none; // $background-color;
 }
 
 .markItUp a:link, .markItUp a:visited {
@@ -246,7 +266,7 @@ body .panel-content:last-of-type {
 #content .panel-heading {
   height: auto;
   // margin-top: 2*$padding;
-  padding-top: $padding;
+  // padding-top: $padding;
   margin-bottom: $padding;
 }
 

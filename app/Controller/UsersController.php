@@ -293,6 +293,11 @@
 			$this->request->data = $this->User->read();
 		}
 		$this->set('user', $this->request->data);
+		$this->set(
+				'title_for_layout',
+				__('Edit %s Profil',
+						Properize::prop($this->request->data['User']['username']))
+		);
 	}
 
 		public function lock($id = null) {

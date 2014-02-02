@@ -220,12 +220,12 @@
 						</li>
 					<?php endforeach; ?>
 				</ul>
-				<?php if ($hasMoreEntriesThanShownOnPage) : ?>
-					<p style="margin: 0.5em 1em">
-						<?= $this->Html->link(__('Show all'), $urlToHistory) ?>
-					</p>
-				<?php endif; ?>
 			<?php endif; ?>
 		</div>
+		<?php if ($hasMoreEntriesThanShownOnPage) : ?>
+			<div class="panel-footer panel-form">
+				<?= $this->Html->link(__('Show all'), $urlToHistory) ?>
+			</div>
+		<?php endif; ?>
 	</div>
 </div>

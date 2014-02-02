@@ -1,8 +1,9 @@
 @import "compass/typography";
 @import "compass/css3/box-sizing";
 
-$layout_min_width: 500px !default;
+$layout_min_width: 400px !default;
 $padding: 1em !default;
+$border-radius: 3px !default;
 
 $font-color: #222 !default;
 $font-color-read: $font-color !default;

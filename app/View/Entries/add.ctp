@@ -30,7 +30,7 @@
 	</div>
 	<!-- preview -->
 
-	<div class="postingform panel-form">
+	<div class="postingform panel">
 		<?php
 		 $_first = ($is_inline) ? "<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'> &nbsp; </i>" : '';
 			echo $this->Layout->panelHeading([
@@ -43,7 +43,7 @@
 		</div>
 		<div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
-		<div class="panel-content">
+		<div class="panel-content panel-form">
 					<?php echo  $this->Form->create('Entry'); ?>
 			<div class="l-postingform_main">
 				<?php

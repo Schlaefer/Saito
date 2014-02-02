@@ -6,17 +6,11 @@
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();
 ?>
-<h1>
-	<?=
-		__('Edit %s Profil',
-				Properize::prop($this->request->data['User']['username'])
-		);
-	?>
-</h1>
 <div class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
 	<div class="panel">
-		<?= $this->Layout->panelHeading(__('Profil')) ?>
+		<?= $this->Layout->panelHeading($title_for_page,
+				['pageHeading' => true]) ?>
     <div class='panel-content panel-form'>
 			<table class="table th-left elegant">
 				<?php  if ( $CurrentUser->isAdmin() ) : ?>
@@ -300,7 +294,7 @@
 			<?php  endif ; ?>
 		<?php  endif; ?>
 	</table>
-  </div>
+  </div> <!-- content -->
   </div>
 
 	<div class="panel">

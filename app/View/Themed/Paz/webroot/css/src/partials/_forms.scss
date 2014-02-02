@@ -5,14 +5,12 @@
 textarea, input[type=text], input[type=password], %textinput {
   width: 100%;
   border: 1px solid $input-border-color;
-  border-radius: 3px;
+  border-radius: $border-radius;
   // resets inner shadow from Mobile Safari iOS
   -webkit-appearance: none;
 }
 
 .required {
-  font-weight: bold;
-
   label:after {
     color: #ee3322;
     content: "\20F0";

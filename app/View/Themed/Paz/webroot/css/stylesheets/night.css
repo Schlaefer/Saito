@@ -12,7 +12,7 @@ body, .btnLink, .btn-submit, textarea, input[type=text], input[type=password] { 
 
 body { font-size: 1.4em; padding: 0 2em; max-width: 70em; margin: 0 auto; }
 
-.l-body { min-width: 500px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+.l-body { min-width: 400px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 input, textarea { font-size: 1em; padding: 0.5em; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; outline-color: #4d3d00; }
 
@@ -96,6 +96,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .slidetabUserlist-counter-inner { text-align: center; color: white; line-height: 12px; font-size: 8px; }
 
+#shoutbox { word-wrap: break-word; }
 #shoutbox img { max-width: 100%; }
 #shoutbox .infoText, #shoutbox .signature, #shoutbox .threadLine-post, #shoutbox .c-bbcode-link-dinfo { text-align: center; }
 
@@ -171,12 +172,9 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 textarea, input[type=text], input[type=password], .markItUp { width: 100%; border: 1px solid #4d3d00; border-radius: 3px; -webkit-appearance: none; }
 
-.required { font-weight: bold; }
 .required label:after { color: #ee3322; content: "\20F0"; display: inline; padding-left: 0.25em; padding-right: 0.5em; }
 
 .markItUp .markItUpSeparator { min-width: 1px; width: 1px; height: 32px; overflow: hidden; background-color: #4d3d00; margin-left: 8px; margin-right: 8px; }
-
-.posting_formular_slider .entry.reply { border-top: 1px solid #4d3d00; border-bottom: 1px solid #4d3d00; margin-bottom: 2em; padding-bottom: 1em; }
 
 .l-postingform_main { max-width: 60em; margin: 0 auto; }
 .l-postingform_main .checkbox { white-space: nowrap; }
@@ -187,23 +185,29 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 
 .btn-threadCollapse { width: 28px; text-align: center; position: absolute; left: -4px; }
 
-.preview { display: none; margin-bottom: 1em; padding-bottom: 1em; border-bottom: 1px solid #4d3d00; pointer: cursor; }
+.preview { display: none; margin-bottom: 1em; padding: 1em; border-bottom: 1px solid #4d3d00; }
+
+.posting_formular_slider .postingform { border-top: 1px solid #4d3d00; }
+.posting_formular_slider .preview { border-top: 1px solid #4d3d00; border-bottom: none; }
 
 .signature { margin-bottom: 1em; }
 .signature .c-bbcode-upload, .signature .c-bbcode-external-image { margin: 0; }
 
 .ui-dialog .markItUp, #site .markItUp { border: none; }
-.ui-dialog textarea, .ui-dialog input[type=text], .ui-dialog input[type=password], #site textarea, #site input[type=text], #site input[type=password] { background: #f9f9f9; border: none; border-left: 2px solid #1a1400; border-radius: 0 !important; outline-style: none; }
+.ui-dialog textarea, .ui-dialog input[type=text], .ui-dialog input[type=password], #site textarea, #site input[type=text], #site input[type=password] { background: #fcfcfc; border: none; border-left: 2px solid #1a1400; border-radius: 0 !important; outline-style: none; }
 .ui-dialog .entry.add textarea, .ui-dialog .entry.add input[type=text], .ui-dialog .entry.add input[type=password], #site .entry.add textarea, #site .entry.add input[type=text], #site .entry.add input[type=password] { padding: 10px; }
 .ui-dialog .markItUpHeader, #site .markItUpHeader { border: none; }
 
 .postingheadline, #site .inp-subject { margin-bottom: 2px; margin-top: 0; font-weight: normal; font-size: 1.485em; font-family: 'Fenix', Serif; text-rendering: optimizeLegibility; }
+
+#site .inp-subject { font-size: 1.2em; }
 
 .posting img, .posting object, .posting embed, .posting video, .posting iframe { max-width: 100%; }
 
 .posting embed, .posting video, .posting iframe, .posting .c-bbcode-external-image { display: block; margin: 0 auto; }
 
 .entry.view { margin: 0 auto; }
+.entry.view .threadBox { border-top: 1px solid #4d3d00; }
 
 .posting { margin-bottom: 1em; word-wrap: break-word; }
 
@@ -213,7 +217,7 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 
 .heading-3 { height: 24px; position: relative; }
 .heading-3 h1, .heading-3 h2, .heading-3 h3 { margin: 0; padding: 0; }
-.heading-3 > div { line-height: 14px; padding: 5px 0; text-align: center; white-space: nowrap; vertical-align: middle; }
+.heading-3 > div { line-height: 24px; padding: 0px 0; text-align: center; white-space: nowrap; vertical-align: middle; }
 .heading-3 > div:first-child { position: absolute; }
 .heading-3 > div:last-child { position: absolute; top: 0; right: 0; text-align: right; }
 
@@ -222,15 +226,14 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 
 .l-button_mod_panel-wrapper { display: inline-block; }
 
-.panel-footer { padding: 1em 0; }
-
 .panel { padding: 1em; }
 
-.panel-footer.panel-form { border: 1px solid #4d3d00; border-width: 0 0 1px; padding: 1em; }
+.panel-footer { padding: 1em 0; }
+.panel-footer.panel-form { margin-top: 2em; }
 
-body .panel-content:last-of-type { border-width: 0; }
+.panel-form { background: #F9F9F9; background: #efefef; padding: 1em; }
 
-.mix .panel-content:last-of-type { border-bottom-width: 1px; }
+.a.panel { border-bottom: 1px solid #4d3d00; }
 
 .js-buttons a, .js-button { margin-left: 2em; }
 
@@ -238,7 +241,7 @@ body .panel-content:last-of-type { border-width: 0; }
 
 #footer-pinned { width: 100%; position: absolute; bottom: 0px; }
 
-.markItUpHeader { border-bottom: 1px solid #4d3d00; background: #28282b; }
+.markItUpHeader { border-bottom: 1px solid #4d3d00; background: none; }
 
 .markItUp a:link, .markItUp a:visited { color: #f7e7d2 !important; }
 
@@ -265,7 +268,7 @@ body .panel-content:last-of-type { border-width: 0; }
 .panel-heading .fa-lg { font-size: 1em; }
 .panel-heading.pageTitle { display: none; }
 
-#content .panel-heading { height: auto; padding-top: 1em; margin-bottom: 1em; }
+#content .panel-heading { height: auto; margin-bottom: 1em; }
 
 .panel-heading { margin: 0 0 1em; }
 
@@ -373,6 +376,7 @@ form .c_markitup_popup_txta { width: 100%; padding: 2%; -moz-box-sizing: border-
 @media only screen and (max-width: 768px) { .top-menu-aside { position: relative; }
   #content { padding-left: 1em; padding-right: 1em; }
   .panel-footer { margin-left: -1em; margin-right: -1em; } }
-@media only screen and (max-width: 600px) { #slidetabs { float: none; } }
+@media only screen and (max-width: 600px) { #slidetabs { float: none; }
+  .slidetab { width: 100% !important; } }
 @media only screen and (device-width: 768px) { body { -webkit-text-size-adjust: 110%; } }
 .ui-dialog textarea, .ui-dialog input[type=text], .ui-dialog input[type=password], #site textarea, #site input[type=text], #site input[type=password] { background: #1F1800; border-left: 2px solid #4d3d00; }
