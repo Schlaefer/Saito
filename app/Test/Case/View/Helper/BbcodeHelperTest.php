@@ -230,29 +230,51 @@
 			$this->assertTags($result, $expected);
 		}
 
-		public function testHashLink() {
+		public function testHashLinkSuccess() {
+			// inline content ([i])
 			$input = "[i]#2234[/i]";
-			$expected = array(
-				'em' => array(),
-				'a' => array(
-					'href' => '/hash/2234',
-				),
-				'#2234',
-				'/a',
-				'/em'
-			);
+			$expected = [
+					'em' => [],
+					'a' => [
+							'href' => '/hash/2234'
+					],
+					'#2234',
+					'/a',
+					'/em'
+			];
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
+			// lists
+			$input = "[list][*]#2234[/list]";
+			$expected = [
+					'ul' => ['class'],
+					'li' => ['class'],
+					'a' => [
+							'href' => '/hash/2234'
+					],
+					'#2234',
+					'/a',
+					'/li',
+					'/ul'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
+		public function testHashLinkFailure() {
+			// don't hash html encoded chars
 			$input = '&#039;';
 			$expected = '&#039;';
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
+			// don't hash code
 			$input = '[code]#2234[/code]';
 			$result = $this->Bbcode->parse($input);
 			$this->assertNotContains('>#2234</a>', $result);
 
+			// not a valid hash
 			$input = '#2234t';
 			$result = $this->Bbcode->parse($input);
 			$this->assertEqual('#2234t', $result);

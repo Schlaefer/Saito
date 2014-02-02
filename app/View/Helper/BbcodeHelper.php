@@ -190,7 +190,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 			$this->_Parser->addCode(
 				'hashLink', 'usecontent', array( &$this, "_hashLinkInternal" ), array( ), 'hashLink',
-				['block', 'inline'], []
+				['block', 'inline', 'listitem'], []
 			);
 		}
 
