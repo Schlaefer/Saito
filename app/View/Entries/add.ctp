@@ -45,7 +45,6 @@
 
 		<div class="panel-content panel-form">
 					<?php echo  $this->Form->create('Entry'); ?>
-			<div class="l-postingform_main">
 				<?php
 					echo $this->EntryH->categorySelect($this->request->data, $categories);
 					echo $this->Form->input(
@@ -202,7 +201,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 			<?php echo $this->Form->end(); ?>
 		</div>
 		<!-- content -->

@@ -176,9 +176,6 @@ textarea, input[type=text], input[type=password], .markItUp { width: 100%; borde
 
 .markItUp .markItUpSeparator { min-width: 1px; width: 1px; height: 32px; overflow: hidden; background-color: #b8b8b8; margin-left: 8px; margin-right: 8px; }
 
-.l-postingform_main { max-width: 60em; margin: 0 auto; }
-.l-postingform_main .checkbox { white-space: nowrap; }
-
 .btn-submit { padding: 0em 0.8em; border-radius: 3px; background-color: #d50606; color: white; text-shadow: none; }
 
 .btn-threadBox-tools { margin-right: 1em; }
