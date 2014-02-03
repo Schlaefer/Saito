@@ -102,7 +102,7 @@ class BookmarksController extends AppController {
 	}
 
 /**
- * Returns unsanitized bookmark
+ * Gets bookmark with Bookmark itself unsanitized
  *
  * @param $bookmarkId
  * @param $userId
@@ -120,11 +120,16 @@ class BookmarksController extends AppController {
 							'Category', 'User'
 					))
 			);
-		$this->Bookmark->sanitize(false);
 		$bookmark = $this->Bookmark->findById($bookmarkId);
 		if ($userId != $bookmark['Bookmark']['user_id']) {
 			throw new MethodNotAllowedException;
 		}
+
+		// @todo @bogus everything must be sanitized except for bookmark to edit
+		$this->Bookmark->sanitize(false);
+		$this->Bookmark->contain();
+		$bookmark['Bookmark'] = $this->Bookmark->findById($bookmarkId)['Bookmark'];
+
 		return $bookmark;
 	}
 

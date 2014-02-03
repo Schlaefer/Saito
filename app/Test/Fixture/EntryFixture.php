@@ -184,7 +184,7 @@
 			[
 				'id' => 10,
 				'subject' => 'First_Subject',
-				'text' => 'First_Text',
+				'text' => "<script>alert('foo');<script>",
 				'pid' => 0,
 				'tid' => 10,
 				'time' => '2000-01-01 10:59:00',
