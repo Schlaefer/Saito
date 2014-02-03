@@ -78,7 +78,7 @@
 /*
  * 1: fixes vertical positioning
  */
-.ui-dialog .ui-dialog-titlebar-close > .jqueryUi-closethick-fix {
+.jqueryUi-closethick-fix {
   @extend .fa;
   @extend .fa-close-widget;
   @extend .fa-lg;
