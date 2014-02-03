@@ -42,7 +42,7 @@ define([
       "click .btn-markItUp-Media": "_media",
       "click .btn-submit": "_send",
       "click .btn-cite": "_cite",
-      "keypress .inp-subject": "_onKeyPressSubject"
+      "keypress .js-subject": "_onKeyPressSubject"
     },
 
     initialize: function(options) {
@@ -72,6 +72,7 @@ define([
     },
 
     _onKeyPressSubject: function(event) {
+      // intercepts sending to form's action url when inline answering
       if (event.keyCode === 13) {
         this._send(event);
       }
