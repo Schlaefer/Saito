@@ -1,7 +1,5 @@
 <?php
-	### setup ###
-	if (!isset($last_action)) $last_action = null;
-	###
+	SDV($last_action, null);
 ?>
 
 		<h2 class="postingheadline">

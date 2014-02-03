@@ -1,5 +1,6 @@
 <?php
 
+	include App::path('Lib')[0] . 'BaseFunctions.php';
 	App::uses('Properize', 'Lib');
 	App::uses('BbcodeSettings', 'Lib/Bbcode');
 	App::uses('Controller', 'Controller');

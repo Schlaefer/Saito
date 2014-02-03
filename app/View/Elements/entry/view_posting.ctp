@@ -1,7 +1,7 @@
 <?php
 	// setup
-	if (!isset($level)) { $level = 0; }
-	if (!isset($last_action)) { $last_action = null; }
+	SDV($level, 0);
+	SDV($last_action, null);
 	$editLinkIsShown = false;
 
 	//data passed as json model
