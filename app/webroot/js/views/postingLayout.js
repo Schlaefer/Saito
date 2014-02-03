@@ -25,12 +25,12 @@ define(['underscore', 'marionette',
       });
 
       var actionsView = new ActionView({
-        el: this.$('.panel-footer'),
+        el: this.$('.postingLayout-actions'),
         model: this.model
       });
 
       var sliderView = new SliderView({
-        el: this.$('.posting_formular_slider'),
+        el: this.$('.postingLayout-slider'),
         model: this.model,
         collection: this.collection,
         parentThreadline: options.parentThreadline

@@ -14,8 +14,8 @@
 		'time' => $this->TimeH->mysqlTimestampToIso($entry['Entry']['time'])
 	]);
 ?>
-<div class="js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
-	<div class="panel-content">
+<div class="postingLayout js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
+	<div class="postingLayout-body panel-content">
 		<?php
 			if (!$CurrentUser['user_signatures_hide'] &&
 					!empty($entry['User']['signature']) &&
@@ -31,24 +31,25 @@
 					]);
 		?>
 	</div>
+
 	<?php if (!empty($showAnsweringPanel)): ?>
-		<div class="panel-footer panel-form">
+		<div class="postingLayout-actions panel-footer panel-form">
 			<div style="float:right">
 				<?php
 					// flattr - Button
-					if (Configure::read('Saito.Settings.flattr_enabled') == TRUE
+					if (Configure::read('Saito.Settings.flattr_enabled') == true
 							// flattr is activated by admin
-							&& $entry['Entry']['flattr'] == TRUE
+							&& $entry['Entry']['flattr'] == true
 							&& !empty($entry['User']['flattr_uid'])
 					) :
 						echo $this->Flattr->button('',
 								array(
-								'uid'								 => $entry['User']['flattr_uid'],
-								'language'					 => Configure::read('Saito.Settings.flattr_language'),
-								'title'							 => $entry['Entry']['subject'],
-								'description'				 => $entry['Entry']['subject'],
-								'cat'								 => Configure::read('Saito.Settings.flattr_category'),
-								'button'						 => 'compact',
+										'uid' => $entry['User']['flattr_uid'],
+										'language' => Configure::read('Saito.Settings.flattr_language'),
+										'title' => $entry['Entry']['subject'],
+										'description' => $entry['Entry']['subject'],
+										'cat' => Configure::read('Saito.Settings.flattr_category'),
+										'button' => 'compact',
 								)
 						);
 					endif;
@@ -57,22 +58,23 @@
 
 			<?php
 				# @td MCV
-				$answering_forbidden =  $entry['rights']['isAnsweringForbidden'];
-				if ($answering_forbidden === 'locked') { ?>
+				$answering_forbidden = $entry['rights']['isAnsweringForbidden'];
+				if ($answering_forbidden === 'locked') {
+					?>
 					<i
-						class="fa fa-lock fa-huge shp shp-right"
-						data-title="<?php echo __('Help'); ?>"
-						data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
-						></i>
+							class="fa fa-lock fa-huge shp shp-right"
+							data-title="<?php echo __('Help'); ?>"
+							data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
+							></i>
 				<?php
 				} elseif (!$answering_forbidden) {
 					echo $this->Html->link(
-						__('forum_answer_linkname'),
-						'#',
-						array(
-							'class' => 'btn btn-submit js-btn-setAnsweringForm',
-							'accesskey' => "a",
-						)
+							__('forum_answer_linkname'),
+							'#',
+							array(
+									'class' => 'btn btn-submit js-btn-setAnsweringForm',
+									'accesskey' => "a",
+							)
 					);
 				};
 			?>
@@ -83,9 +85,9 @@
 				<span class="small">
 					<?=
 						$this->Html->link(
-							__('edit_linkname'),
+								__('edit_linkname'),
 								'/entries/edit/' . $entry['Entry']['id'],
-							['class' => 'btn btn-edit js-btn-edit', 'accesskey' => 'e']
+								['class' => 'btn btn-edit js-btn-edit', 'accesskey' => 'e']
 						);
 					?>
 				</span>
@@ -157,9 +159,10 @@
 							['class' => 'btnLink js-button']);
 				}
 			?>
-		<span class="js-buttons"></span>
-	</div>
+			<span class="js-buttons"></span>
+		</div>
 	<?php endif; ?>
-	<div class="posting_formular_slider" style="display:none;"></div>
+
+	<div class="postingLayout-slider"></div>
 	<div class='js-data' data-entry='<?= $_jsEntry ?>'></div>
 </div>

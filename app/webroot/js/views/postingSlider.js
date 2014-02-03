@@ -61,7 +61,7 @@ define(['jquery', 'marionette', 'models/app', 'views/answering',
           }
           // @td @bogus mix answer
           this.$el.html('');
-          var $newEl = $('<div class="posting_formular_slider"></div>');
+          var $newEl = $('<div class="postingLayout-slider"></div>');
           this.setElement($newEl);
           parent.append($newEl);
           */
