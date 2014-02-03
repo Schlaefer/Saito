@@ -10,8 +10,8 @@
 	<ul class="threadTree-node<?php echo ($level === 0) ? ' root' : ''; ?>">
 <?php endif; ?>
 	<li id="<?= $entry_sub['Entry']['id'] ?>"
-			class="<?= $_et ?>" style="margin-bottom: 20px;">
-		<div class="a panel">
+			class="<?= $_et ?>" style="">
+		<div class="mixEntry panel">
 			<?=
 				$this->element('/entry/view_posting',
 						[
