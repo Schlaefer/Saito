@@ -57,12 +57,12 @@ define([
 
       append: function(itemView) {
         var itemTime = moment(itemView.model.get('time'));
-        this._itemTime = itemTime;
         // first entry
         if (this._previousItemTime === null) {
           this._previousItemTime = itemTime;
           return;
         }
+        this._itemTime = itemTime;
         this.$el = itemView.$el;
         if ((this._previousItemTime.unix() - itemTime.unix()) > this._conversationCoolOff) {
           this._prepend(this._previousItemTime);
