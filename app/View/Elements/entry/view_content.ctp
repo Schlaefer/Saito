@@ -66,13 +66,13 @@
 					endif;
 					echo ' ' . __('views_headline') . ': ' . $entry['Entry']['views'];
 
-					echo '<span class="posting-badges">';
-					echo $this->EntryH->getBadges($entry);
-					echo '</span>';
-
 					if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod()) {
 						echo ', IP: ' . $entry['Entry']['ip'];
 					}
+
+					echo ' <span class="posting-badges">';
+					echo $this->EntryH->getBadges($entry);
+					echo '</span>';
 				?>
 			</span>
 		</div>
