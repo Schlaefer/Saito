@@ -23,7 +23,7 @@
 	<div class="preview">
 		<?=
 			$this->Layout->panelHeading([
-					'first' => "<i class='fa fa-close-widget fa-lg pointer btn-previewClose'> &nbsp;</i>",
+					'first' => "<i class='fa fa-close-widget pointer btn-previewClose'> &nbsp;</i>",
 					'middle' => __('preview')
 			]) ?>
 		<div class="panel-content"></div>
@@ -32,7 +32,7 @@
 
 	<div class="postingform panel">
 		<?php
-		 $_first = ($is_inline) ? "<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'> &nbsp; </i>" : '';
+		 $_first = ($is_inline) ? "<i class='fa fa-close-widget pointer btn-answeringClose'> &nbsp; </i>" : '';
 			echo $this->Layout->panelHeading([
 							'first' => $_first,
 							'middle' => $title_for_page,
