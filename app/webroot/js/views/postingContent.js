@@ -22,11 +22,11 @@ define(['jquery', 'underscore', 'marionette', 'collections/geshis',
         },
 
         _showSignature: function() {
-          this.$('.signature').slideDown('fast');
+          this.$('.postingBody-signature').slideDown('fast');
         },
 
         _hideSignature: function() {
-          this.$('.signature').slideUp('fast');
+          this.$('.postingBody-signature').slideUp('fast');
         },
 
         _initGeshi: function(element_n) {

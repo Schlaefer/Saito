@@ -20,7 +20,7 @@ define(['underscore', 'marionette',
       this.model.set(_entry, {silent: true});
 
       var contentView = new ContentView({
-        el: this.$('.panel-content'),
+        el: this.$('.postingBody'),
         model: this.model
       });
 

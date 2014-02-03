@@ -2,11 +2,12 @@
 	SDV($last_action, null);
 	SDV($signature, false);
 ?>
-		<h2 class="postingheadline">
+	<div class="postingBody">
+		<h2 class="postingBody-heading">
 			<?php
 				$subject = $this->EntryH->getSubject($entry);
 				// only make subject a link if it is not in entries/view
-//				debug($this->request->action); debug($last_action); debug($isAjax);
+				// debug($this->request->action); debug($last_action); debug($isAjax);
 				if ($this->request->action !== 'preview' && ( $this->request->is('ajax') || $this->request->action === 'mix')) {
 					echo $this->Html->link(
 						$subject,
@@ -20,7 +21,7 @@
 				}
 			?>
 		</h2>
-		<div class="author">
+		<div class="postingBody-info">
       <span class="c-username">
         <?php  if ($CurrentUser->isLoggedIn()) : ?>
 					<?php echo  $this->Html->link(
@@ -76,16 +77,20 @@
 			</span>
 		</div>
 
-		<div class='posting'> <?php echo $this->Bbcode->parse($entry['Entry']['text']); ?> </div>
+		<div class='postingBody-text'>
+			<?= $this->Bbcode->parse($entry['Entry']['text']) ?>
+		</div>
 
 		<?php if ($signature): ?>
-			<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
-				<div class="signature-divider">
+			<div id="signature_<?= $entry['Entry']['id'] ?>" class="postingBody-signature">
+				<div class="postingBody-signature-divider">
 					<?= Configure::read('Saito.Settings.signature_separator') ?>
 				</div>
 				<?php
-					$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
-					echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
+					$multimedia = ($CurrentUser->isLoggedIn()) ? !$CurrentUser['user_signatures_images_hide'] : true;
+					echo $this->Bbcode->parse($entry['User']['signature'],
+							array('multimedia' => $multimedia));
 				?>
 			</div>
 		<?php endif; ?>
+	</div>
