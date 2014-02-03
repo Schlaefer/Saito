@@ -29,7 +29,7 @@ define([
         },
 
         _setIsNewToUser: function() {
-          if (this.get('html').getAttribute('data-new') === '1') {
+          if ($(this.get('html'))[0].getAttribute('data-new') === '1') {
             this.set('isNewToUser', true);
           }
         }
