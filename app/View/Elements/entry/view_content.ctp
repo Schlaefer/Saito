@@ -1,7 +1,7 @@
 <?php
 	SDV($last_action, null);
+	SDV($signature, false);
 ?>
-
 		<h2 class="postingheadline">
 			<?php
 				$subject = $this->EntryH->getSubject($entry);
@@ -77,3 +77,15 @@
 		</div>
 
 		<div class='posting'> <?php echo $this->Bbcode->parse($entry['Entry']['text']); ?> </div>
+
+		<?php if ($signature): ?>
+			<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
+				<div class="signature-divider">
+					<?= Configure::read('Saito.Settings.signature_separator') ?>
+				</div>
+				<?php
+					$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
+					echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
+				?>
+			</div>
+		<?php endif; ?>

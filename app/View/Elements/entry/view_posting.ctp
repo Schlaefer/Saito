@@ -3,6 +3,7 @@
 	SDV($level, 0);
 	SDV($last_action, null);
 	$editLinkIsShown = false;
+	$_showSignature = false;
 
 	//data passed as json model
 	$_jsEntry = json_encode([
@@ -15,24 +16,20 @@
 ?>
 <div class="js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
 	<div class="panel-content">
-	<?php
-		echo $this->element('/entry/view_content', array('entry' => $entry, 'level' => $level, )); # 'cache' => array('key' => $entry["Entry"]['id'], 'time' => '+1 day') ));
-	?>
-	<?php if (!$CurrentUser['user_signatures_hide'] &&
-			!empty($entry['User']['signature']) &&
-			!$this->EntryH->isNt($entry)
-	): ?>
-		<div id="signature_<?php echo $entry['Entry']['id'];?>" class="signature">
-			<div class="signature-divider">
-				<?= Configure::read('Saito.Settings.signature_separator') ?>
-			</div>
-			<?php
-				$multimedia = ( $CurrentUser->isLoggedIn() ) ? !$CurrentUser['user_signatures_images_hide'] : true;
-				echo $this->Bbcode->parse($entry['User']['signature'], array('multimedia' => $multimedia));
-			?>
-		</div>
-	<?php endif; ?>
-
+		<?php
+			if (!$CurrentUser['user_signatures_hide'] &&
+					!empty($entry['User']['signature']) &&
+					!$this->EntryH->isNt($entry)
+			) {
+				$_showSignature = true;
+			}
+			echo $this->element('/entry/view_content',
+					[
+							'entry' => $entry,
+							'level' => $level,
+							'signature' => $_showSignature
+					]);
+		?>
 	</div>
 	<?php if (!empty($showAnsweringPanel)): ?>
 		<div class="panel-footer panel-form">
