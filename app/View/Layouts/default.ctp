@@ -58,7 +58,6 @@
 			<?=
 				$this->Layout->heading([
 								'first' => $this->fetch('headerSubnavLeft'),
-								'middle' => '<a href="#" id="btn-scrollToTop" class="btn-hf-center"><i class="fa fa-arrow-up"></i></a>',
 								'last' => $this->element('layout/header_subnav_right')
 						],
 						['class' => 'navbar-content'])

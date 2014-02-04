@@ -24,7 +24,6 @@ define([
     events: {
       'click #showLoginForm': 'showLoginForm',
       'focus #header-searchField': 'widenSearchField',
-      'click #btn-scrollToTop': 'scrollToTop',
       'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
       "click #btn-category-chooser": "toggleCategoryChooser",
       'click #btn_header_logo': '_onEntriesIndexReload'
@@ -263,11 +262,6 @@ define([
         position: ['center', 120],
         resizable: false
       });
-    },
-
-    scrollToTop: function(event) {
-      event.preventDefault();
-      window.scrollTo(0, 0);
     },
 
     manuallyMarkAsRead: function(event) {
