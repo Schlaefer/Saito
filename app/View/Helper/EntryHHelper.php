@@ -187,20 +187,12 @@
 
 			$_threadLineCached = $this->threadLineCached($entrySub, $level);
 
-			if ($level === 0 &&
-					strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])
-			) {
-				$_threadLinePre = '<i class="fa fa-threadnew"></i>';
-			} else {
-				$_threadLinePre = '<i class="fa fa-thread"></i>';
-			}
-
 			// generate current entry
 			$out = <<<EOF
 <li class="threadLeaf {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
 	<div class="threadLine">
 		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
-			{$_threadLinePre}
+			<i class="fa fa-thread"></i>
 		</button>
 		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
 			class='link_show_thread {$entrySub['Entry']['id']} et threadLine-content'>
