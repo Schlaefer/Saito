@@ -48,6 +48,12 @@
     display: block;
     margin: 0 auto;
   }
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
 }
 
 .postingBody-signature {

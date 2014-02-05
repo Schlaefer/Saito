@@ -380,6 +380,19 @@
 			$this->Bbcode->parse($input);
 		}
 
+		public function testFloat() {
+			$expected = [
+					'div' => ['class' => 'c-bbcode-float'],
+					'text',
+					'/div',
+					'more'
+			];
+
+			$input  = '[float]text[/float]more';
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
 		public function testAutoLink() {
 			$input = 'http://heise.de/foobar';
 			$expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a>";

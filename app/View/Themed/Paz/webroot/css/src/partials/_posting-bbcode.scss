@@ -56,6 +56,13 @@
   display: inline-block;
 }
 
+.c-bbcode-float {
+  max-width: 50%;
+  clear: both;
+  float: left;
+  margin: $padding;
+}
+
 .c-bbcode-spoiler {
   .c-bbcode-spoiler-link {
     color: black;

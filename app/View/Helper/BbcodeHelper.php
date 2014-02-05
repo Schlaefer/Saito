@@ -132,6 +132,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	/**
 	 * Setup StringParser_BBCode();
 	 *
+	 * see: http://christian-seiler.de/projekte/php/bbcode/doc/en/chapter2.php
+	 *
 	 * @param array $options
 	 */
 	protected function _initParser(array $options = array( )) {
@@ -289,6 +291,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			'inline',
 			['block', 'inline'],
 			['code']
+		);
+
+		//* float
+		$this->_Parser->addCode(
+				'float', 'simple_replace', null,
+				['start_tag' => '<div class="c-bbcode-float">', 'end_tag' => '</div>'],
+				'block',
+				['block'], []
 		);
 
 		//* lists
