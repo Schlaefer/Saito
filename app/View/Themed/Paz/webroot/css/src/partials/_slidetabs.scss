@@ -1,3 +1,7 @@
+$slidetab-width: 280px;
+$slidetab-tab-width: 28px;
+$slidetab-content-width: $slidetab-width - $slidetab-tab-width;
+
 #slidetabs {
   float: right;
   position: relative;
@@ -9,6 +13,8 @@
 }
 
 .slidetab {
+  width: $slidetab-tab-width;
+
   margin-bottom: 2 * $padding;
   @include box-sizing(border-box);
   font-size: $font-size-small;
@@ -22,11 +28,20 @@
   }
 }
 
+.slidetab.is-open {
+  width: $slidetab-width;
+
+  .slidetab-outer {
+    display: block;
+  }
+}
+
 .slidetab-outer {
+  display: none;
   // prevents tab-button hanging in "mid air" on uninitialized shoutbox
   min-height: 40px;
   // tab-button space
-  margin-left: 28px;
+  margin-left: $slidetab-tab-width;
 
   padding: $padding 2*$padding;
   border-left: 1px solid $border-color;

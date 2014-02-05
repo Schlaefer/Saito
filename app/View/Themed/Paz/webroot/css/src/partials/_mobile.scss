@@ -1,7 +1,6 @@
 @media only screen and (max-width: 768px) {
-
-  .top-menu-aside {
-    position: relative;
+  body {
+    -webkit-text-size-adjust: 110%;
   }
 
   #content {
@@ -16,14 +15,47 @@
 
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (orientation: landscape) and (max-width: 568px) {
+  body {
+    width: 568px;
+  }
+}
+
+@media only screen and (max-width: 568px) {
+  body {
+    -webkit-text-size-adjust: 100%;
+  }
 
   #slidetabs {
     float: none;
   }
 
-  .slidetab {
-    width: 100% !important;
+  .slidetabs {
+    margin: 0;
+  }
+
+  .slidetab.is-open {
+    float: none;
+    width: 100%;
+  }
+
+  .threadBox {
+    max-width: 100%;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .threadBox-body {
+    width: 100%;
+    padding: 0;
+  }
+
+  .threadTree-node {
+    min-width: 10em;
+  }
+
+  .threadLeaf {
+    // border-right: 1px solid $border-color;
   }
 
 }

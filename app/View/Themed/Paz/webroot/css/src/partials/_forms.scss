@@ -12,6 +12,8 @@ textarea, input[type=text], input[type=password], %textinput {
   border-left: 2px solid $input-border-color;
   // resets inner shadow from Mobile Safari iOS
   -webkit-appearance: none;
+  // fix for buggy -webkit-appearance: none; (iOS 7-)
+  border-radius: 0;
 }
 
 .required {
@@ -39,4 +41,55 @@ textarea, input[type=text], input[type=password], %textinput {
     cursor: not-allowed;
   }
 }
+
+// buttons with icon only
+.btn-icon {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.dropdown .dropdown-menu {
+  > li > a:hover {
+    background-color: $link-color;
+    color: $background-color;
+    cursor: pointer;
+  }
+}
+
+// strip buttons
+// -------------------------------------
+.btn-strip {
+  height: 100%;
+  position: absolute;
+}
+
+// inline-open close
+.btn-strip-top {
+  width: 25px;
+  text-align: center;
+  margin: 4px 0px 0px -1px;
+}
+
+// mix back
+.btn-strip-back {
+  $btn-strip-width: 15px;
+  width: $btn-strip-width;
+  background-color: $form-background-color;
+  background-repeat: repeat-y;
+  &:active {
+    background-color: $form-background-color;
+  }
+
+  &:before {
+    font-family: 'FontAwesome';
+    content: '\f060';
+    font-size: 12px;
+    width: $btn-strip-width;
+    text-align: center;
+    display: block;
+    position: absolute;
+    top: 50%;
+  }
+}
+
 

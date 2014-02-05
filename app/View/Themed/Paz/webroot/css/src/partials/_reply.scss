@@ -1,3 +1,16 @@
+.postingform {
+  .subject {
+    @extend %schmuckfont;
+    font-size: 1.2 * $font-size;
+  }
+
+  // make different font em padding in subject and text visually more harmonic
+  textarea, input[type=text] {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 .preview {
   display: none;
   margin-bottom: $padding;

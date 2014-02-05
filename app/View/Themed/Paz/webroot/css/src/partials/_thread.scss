@@ -112,8 +112,15 @@ $btn-strip-top-width: 25px;
   margin-left: $btn-strip-top-width;
 }
 
-// mix
+
+// page specific
 // -------------------------------------
+
+.entry.view {
+  .threadBox {
+    border-top: 1px solid $border-color;
+  }
+}
 
 .mixEntry {
   border-bottom: 1px solid $border-color;

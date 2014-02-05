@@ -1,0 +1,60 @@
+// toggle between simple and advanced search
+// -------------------------------------
+.entry.search {
+  .search_form_wrapper_adv {
+    display: none;
+  }
+}
+
+.entry.search.is-advanced {
+  .search_form_wrapper {
+    display: none;
+  }
+
+  .search_form_wrapper_adv {
+    display: block;
+  }
+}
+
+// simple search
+// -------------------------------------
+.search_form_wrapper {
+  $simple-search-height: 38px;
+
+  display: table;
+  width: 100%;
+  margin-bottom: 20px;
+  vertical-align: middle;
+
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .search_form > div {
+    // puts textbox next to button
+    overflow: hidden;
+  }
+
+  #search_fulltext_textfield {
+    height: $simple-search-height;
+  }
+
+  .btn_search_submit {
+    // puts button next to search field
+    float: right;
+
+    white-space: nowrap;
+    margin-left: 1em;
+    height: $simple-search-height;
+  }
+}
+
+
+// advanced search
+// -------------------------------------
+.search_form_wrapper_adv {
+  margin-bottom: 20px;
+}
+

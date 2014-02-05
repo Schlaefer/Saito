@@ -8,13 +8,101 @@
     @extend %textinput;
   }
 
-  .markItUpSeparator {
-    min-width: 1px;
-    width:1px;
-    height: $markItUp-buttonHeight;
-    overflow:hidden;
-    background-color: $input-border-color;
-    margin-left: $markItUp-buttonWidth/4;
-    margin-right: $markItUp-buttonWidth/4;
+  .markItUpHeader > ul {
+
+    .markItUpSeparator {
+      min-width: 1px;
+      width: 1px;
+      overflow: hidden;
+      background-color: $input-border-color;
+      margin-left: $markItUp-buttonWidth/4;
+      margin-right: $markItUp-buttonWidth/4;
+    }
+
+    // all levels
+    &, li {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    li {
+      margin: 0;
+      @include at-breakpoint($susy-tablet) {
+        margin: 3px;
+      }
+      min-width: $markItUp-buttonWidth;
+      height: $markItUp-buttonHeight;
+      position: relative;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      line-height: $markItUp-buttonHeight;
+      min-width: $markItUp-buttonWidth;
+      height: $markItUp-buttonHeight;
+      background-repeat:no-repeat;
+
+      @include at-breakpoint($susy-tablet) {
+        font-size: 18px;
+      }
+
+      &:link, &:visited {
+        color: $font-color;
+      }
+    }
+
+    // first level
+    > li {
+      float: left;
+    }
+
+    // second level
+    > li {
+      // open second level on hover
+      > ul {
+        display: block;
+      }
+
+      > ul {
+        display: none;
+        position: absolute;
+        top: 18px;
+        left: 0px;
+        background: $background-color;
+      }
+
+      > ul > li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        float: left;
+
+        position: relative;
+      }
+    }
   }
+
+  .btn-markItUp-Smilies {
+    & > ul {
+      width: 260px;
+      z-index: 1;
+      // centers popup on button
+      margin: -21px 0 0 -2px;
+
+      .markItUpButton {
+        margin: 0px;
+
+        > a {
+          background-position: 9px 9px;
+          height: 32px;
+          width: 32px;
+          padding: 0px;
+        }
+      }
+    }
+  }
+
 }

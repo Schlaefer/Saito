@@ -25,3 +25,12 @@
   }
 }
 
+@mixin responsiveIconText() {
+  .saito-icon-text {
+    display: none;
+
+    @include at-breakpoint($susy-tablet) {
+      display: inline;
+    }
+  }
+}

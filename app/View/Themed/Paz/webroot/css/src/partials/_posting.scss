@@ -3,6 +3,17 @@
 .postingLayout {
   margin: 0 auto;
   max-width: 54em;
+
+  // changes for inline opening
+  .threadInline-slider & {
+    // visual border for posting in inline-open
+    padding: $padding;
+
+    // hide signatures in inline open by default
+    .postingBody-signature {
+      display: none;
+    }
+  }
 }
 
 .postingLayout-slider {
