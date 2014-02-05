@@ -146,8 +146,8 @@
 						if ($isUsersEntry) {
 							echo $this->Html->link(
 									__('edit_userdata'),
-									array('action' => 'edit', $user['User']['id']),
-									array('id' => 'btn_user_edit', 'class' => 'btn btn-submit')
+									['action' => 'edit', $user['User']['id']],
+									['id' => 'btn_user_edit', 'class' => 'btn btn-submit panel-footer-form-btn']
 							);
 						}
 
@@ -194,7 +194,7 @@
 
 							echo $this->Layout->dropdownMenuButton($_menuItems,
 									[
-											'class' => 'btnLink js-button shp shp-right',
+											'class' => 'btnLink btn-icon panel-footer-form-btn shp shp-right',
 											'data-title' => __('Help'),
 											'data-content' => __('button_mod_panel_shp')
 									]);
@@ -224,7 +224,9 @@
 		</div>
 		<?php if ($hasMoreEntriesThanShownOnPage) : ?>
 			<div class="panel-footer panel-form">
-				<?= $this->Html->link(__('Show all'), $urlToHistory) ?>
+				<?= $this->Html->link(__('Show all'),
+						$urlToHistory,
+						['class' => 'panel-footer-form-bnt']) ?>
 			</div>
 		<?php endif; ?>
 	</div>

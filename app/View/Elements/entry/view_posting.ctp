@@ -71,23 +71,22 @@
 					echo $this->Html->link(
 							__('forum_answer_linkname'),
 							'#',
-							array(
-									'class' => 'btn btn-submit js-btn-setAnsweringForm',
+							[
+									'class' => 'btn btn-submit js-btn-setAnsweringForm panel-footer-form-btn',
 									'accesskey' => "a",
-							)
+							]
 					);
 				};
 			?>
 			<?php if (isset($entry['rights']['isEditingAsUserForbidden']) &&
 					!$entry['rights']['isEditingAsUserForbidden']
 			) : ?>
-				&nbsp;
 				<span class="small">
 					<?=
 						$this->Html->link(
 								__('edit_linkname'),
 								'/entries/edit/' . $entry['Entry']['id'],
-								['class' => 'btn btn-edit js-btn-edit', 'accesskey' => 'e']
+								['class' => 'btn btn-edit js-btn-edit panel-footer-form-btn', 'accesskey' => 'e']
 						);
 					?>
 				</span>
@@ -154,12 +153,10 @@
 							array('escape' => false),
 							__('delete_tree_link_confirm_message')
 					);
-
-					echo $this->Layout->dropdownMenuButton($_menuItems,
-							['class' => 'btnLink js-button']);
 				}
+				echo $this->Layout->dropdownMenuButton($_menuItems,
+						['class' => 'btnLink btn-icon panel-footer-form-btn']);
 			?>
-			<span class="js-buttons"></span>
 		</div>
 	<?php endif; ?>
 

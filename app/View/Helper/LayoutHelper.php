@@ -146,7 +146,7 @@
 					]);
 			$_out = <<<EOF
 				$_button
-				<div id="d$_id" class=" dropdown-relative dropdown dropdown-tip">
+				<div id="d$_id" class="dropdown-relative dropdown dropdown-tip">
 					<ul class="dropdown-menu">
 							$_menu
 					</ul>

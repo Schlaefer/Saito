@@ -5,7 +5,7 @@ define(['jquery', 'marionette', 'models/app'], function($, Marionette, App) {
 
     tagName: 'a',
 
-    className: 'btn-solves',
+    className: 'btn-solves btn-icon panel-footer-form-btn',
 
     template: _.template('<i class="fa fa-badge-solves-o fa-lg"></i>'),
 
