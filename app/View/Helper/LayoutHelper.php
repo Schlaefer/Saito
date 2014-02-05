@@ -125,6 +125,13 @@
 			return $this->Html->tag('span', $content, ['class' => 'infoText']);
 		}
 
+		public function textWithIcon($text, $icon) {
+			return <<<EOF
+				<i class="saito-icon fa fa-$icon"></i>
+				<span class="saito-icon-text">$text</span>
+EOF;
+		}
+
 		public function dropdownMenuButton(array $menuItems, array $options = []) {
 			$options += ['class' => ''];
 			$_divider = '<li class="dropdown-divider"></li>';

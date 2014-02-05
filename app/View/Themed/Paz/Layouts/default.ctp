@@ -69,7 +69,7 @@
 					<?= $this->element('layout/header_login', ['divider' => '']); ?>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
 						<?= $this->Html->link(
-							'<i class="fa fa-search"></i> ' . h(__('Search')),
+							$this->Layout->textWithIcon(h(__('Search')), 'bookmark'),
 							'/entries/search',
 							['class' => 'top-menu-item', 'escape' => false]);
 						?>
