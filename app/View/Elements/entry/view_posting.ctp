@@ -153,9 +153,10 @@
 							array('escape' => false),
 							__('delete_tree_link_confirm_message')
 					);
+
+					echo $this->Layout->dropdownMenuButton($_menuItems,
+							['class' => 'btnLink btn-icon panel-footer-form-btn']);
 				}
-				echo $this->Layout->dropdownMenuButton($_menuItems,
-						['class' => 'btnLink btn-icon panel-footer-form-btn']);
 			?>
 		</div>
 	<?php endif; ?>
