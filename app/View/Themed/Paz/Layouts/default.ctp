@@ -47,7 +47,7 @@
 					<?= $this->element('layout/header_login', ['divider' => '']); ?>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
 						<?= $this->Html->link(
-							$this->Layout->textWithIcon(h(__('Search')), 'bookmark'),
+							$this->Layout->textWithIcon(h(__('Search')), 'search'),
 							'/entries/search',
 							['class' => 'top-menu-item', 'escape' => false]);
 						?>
