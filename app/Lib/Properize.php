@@ -8,6 +8,12 @@
 			static::$_lang = $lang;
 		}
 
+		/**
+		 * @param $string word to properize
+		 * @param string $language
+		 * @return $string
+		 * @throws InvalidArgumentException
+		 */
 		public static function prop($string, $language = null) {
 			if ($language === null) {
 				$language = static::$_lang;

@@ -175,7 +175,7 @@ EOF;
 			if (is_string($content)) {
 				$content = ['middle' => $content];
 			}
-			$content['middle'] =  "<{$options['tag']}>{$content['middle']}</{$options['tag']}>";
+			$content['middle'] = "<{$options['tag']}>{$content['middle']}</{$options['tag']}>";
 			return $this->heading($content, $options);
 		}
 

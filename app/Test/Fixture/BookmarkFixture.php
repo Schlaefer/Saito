@@ -40,7 +40,7 @@ class BookmarkFixture extends CakeTestFixture {
 		array(
 			'id' => 2,
 			'user_id' => 3,
-			'entry_id' => 10,
+			'entry_id' => 3,
 			'comment' => '< Comment 2',
 			'created' => '2012-08-07 19:51:45',
 			'modified' => '2012-08-07 19:51:45'

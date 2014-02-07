@@ -99,8 +99,8 @@
 			$this->assertEqual($Bookmarks->request->data['Bookmark']['comment'],
 					'< Comment 2');
 			// special chars are escaped in entry-text
-			$this->assertNotContains('<lgtscript', $Bookmarks->request->data['Entry']['text']);
-			$this->assertNotContains('<script', $Bookmarks->request->data['Entry']['text']);
+			$this->assertContains('&lt;', $Bookmarks->request->data['Entry']['text']);
+			$this->assertNotContains('<', $Bookmarks->request->data['Entry']['text']);
 		}
 
 		public function testEditSave() {
