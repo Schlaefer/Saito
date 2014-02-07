@@ -14,13 +14,16 @@ define(['jquery', 'underscore', 'marionette'], function($, _, Marionette) {
 
     initialize: function(options) {
       this._preset = options.preset;
+      // if valus is not recognized use default
+      if (!this.templates[this._preset]) {
+        this._preset = Object.keys(this.templates)[0];
+      }
       this.render();
     },
 
     templates: {
-      day: '<i class="fa fa-sun-o"></i>',
-      night: '<i class="fa fa-moon-o"></i>',
-      automatic: '<i class="fa fa-clock-o"></i>'
+      theme: '<i class="fa fa-sun-o"></i>',
+      night: '<i class="fa fa-moon-o"></i>'
     },
 
     _switchTheme: function(event) {

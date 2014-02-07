@@ -1,40 +1,18 @@
 <?= $this->element('layout/html_header') ?>
-
-	<link href='//fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
-	<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
-
-	<?php
-		echo $this->Html->css('stylesheets/static.css');
-		if ((time() > date_sunrise(time(), SUNFUNCS_RET_TIMESTAMP, 51.5, 9.9) &&
-				time() < date_sunset(time(), SUNFUNCS_RET_TIMESTAMP, 51.5, 9.9))
-		) {
-			// echo $this->Html->css('stylesheets/theme');
-			$_theme = 'theme'; //day
-		} else {
-			// echo $this->Html->css('stylesheets/night');
-			$_theme = 'night';
-		}
-	?>
-	<script>
-		var theme = '<?= $_theme ?>',
+		<link href='//fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+		<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
+		<?= $this->Html->css('stylesheets/static.css') ?>
+		<script>
+			var css = 'theme';
+			try {
 				preset = localStorage.theme;
-				css = 'theme';
-
-		if (!preset) {
-			preset = 'day'
-		}
-
-		if (preset === 'automatic') {
-			css = theme;
-		}
-		if (preset === 'night') {
-			css = 'night';
-		}
-
-		document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
-		SaitoApp.app.settings.themePreset = preset;
-	</script>
-
+				if (preset && preset === 'night') {
+					css = 'night';
+				}
+			} catch (e) {}
+			document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
+			SaitoApp.app.settings.themePreset = css;
+		</script>
 	</head>
 <body class="l-body">
 	<script>
