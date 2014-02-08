@@ -228,6 +228,8 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .mixEntry { border-bottom: 1px solid #e2e2e2; margin-bottom: 1em; }
 
+.c-bbcode-citation { font-style: italic; color: #727272; }
+
 .c-bbcode-code-wrapper { padding: 1em; }
 .c-bbcode-code-wrapper ol { color: #333; background: #F0FCEF; }
 .c-bbcode-code-wrapper ol li { padding-left: 0.5em; }
