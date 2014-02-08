@@ -90,7 +90,7 @@
 		protected function _setAvailable() {
 			$_themesSubset = [];
 
-			$this->_available = $this->_themeDirs();
+			$this->_available = $this->themeDirs();
 
 			// allowed themes for all users
 			if (isset($this->_config['available']['all'])) {
@@ -125,7 +125,7 @@
 		 *
 		 * @return array with Theme names
 		 */
-		protected function _themeDirs() {
+		public function themeDirs() {
 			$_ThemeDir = new Folder(App::paths()['View'][0] . 'Themed');
 			return $_ThemeDir->read()[0];
 		}
