@@ -30,7 +30,7 @@ input, textarea {
 }
 
 body, h1, h2, h3, h4 {
-  line-height: 1.5em;
+  line-height: $line-height;
 }
 
 h1, h2, h3, h4, #hero-home-link {

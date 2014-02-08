@@ -215,7 +215,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .et-current .et { color: #6ffa13; }
 
-.threadLine-pre { float: left; text-align: center; width: 2em; }
+.threadLine-pre { float: left; text-align: center; width: 2em; max-height: 1.5em; }
 
 .threadLine-content { word-wrap: break-word; display: block; padding-left: 2em; }
 .threadLine-content .c-category { color: #f7e7d2; }

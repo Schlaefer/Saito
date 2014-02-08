@@ -75,6 +75,8 @@ $threadLine-pre-padding: 2em;
   float: left;
   text-align: center;
   width: $threadLine-pre-padding;
+  // lines may get pushed to right if to high
+  max-height: $line-height;
 }
 
 .threadLine-content {
