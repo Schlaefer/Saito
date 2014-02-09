@@ -74,3 +74,18 @@
     margin: 0;
   }
 }
+
+// posting badges
+// -------------------------------------
+
+%posting-badge {
+  padding: 0px 0.5em;
+  font-size: $font-size-small;
+  vertical-align: top;
+}
+
+.posting-badge-nsfw {
+  @extend %posting-badge;
+  color: #FFF;
+  background-color: #F00;
+}
