@@ -181,6 +181,7 @@ body.headerClosed {
 .disclaimer {
   border-top: 1px solid $border-color;
   font-size: $font-size-small;
+  padding-bottom: $padding;
 }
 
 .infoText, .disabled {
