@@ -676,6 +676,9 @@ msgstr ""
 msgid "posting.badge.nsfw"
 msgstr "NSFW"
 
+msgid "posting.badge.nsfw.exp"
+msgstr "Not safe for work (NSFW)"
+
 #: View/Entries/add.ctp:192
 msgid "entry_flattr_this_posting"
 msgstr "flattr-Button"
