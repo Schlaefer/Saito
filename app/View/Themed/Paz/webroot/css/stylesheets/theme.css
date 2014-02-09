@@ -236,7 +236,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .c-bbcode-link-dinfo { font-size: 0.85em; }
 
-.c-bbcode-upload, .c-bbcode-external-image { margin: 1em; }
+.c-bbcode-upload, .c-bbcode-external-image { margin: 1em; text-align: center; }
 
 .c-bbcode-ul { padding-left: 0; list-style-type: none; position: relative; }
 
@@ -264,7 +264,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .postingBody-text { margin-bottom: 1em; word-wrap: break-word; }
 .postingBody-text object, .postingBody-text embed, .postingBody-text video, .postingBody-text iframe, .postingBody-text img { max-width: 100%; }
-.postingBody-text object, .postingBody-text embed, .postingBody-text video, .postingBody-text iframe, .postingBody-text .c-bbcode-external-image { display: block; margin: 0 auto; }
+.postingBody-text object, .postingBody-text embed, .postingBody-text video, .postingBody-text iframe, .postingBody-text .c-bbcode-external-image, .postingBody-text .c-bbcode-upload { display: block; margin: 0 auto; }
 .postingBody-text:after { content: ''; display: block; clear: both; }
 
 .postingBody-signature { margin-bottom: 1em; }
