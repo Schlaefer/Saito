@@ -17,12 +17,15 @@ define([
     },
 
     initialize: function(options) {
-      return;
+      /*
+      deactivated: bootstrap is missing
+
       this.indicatorName = options.indicatorName;
       this.elementName = options.elementName;
 
       this.activateHelpButton();
       this.placeHelp();
+      */
     },
 
     activateHelpButton: function() {

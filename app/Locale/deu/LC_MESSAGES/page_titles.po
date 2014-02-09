@@ -58,3 +58,7 @@ msgstr "Lesezeichen"
 #
 msgid "bookmarks/edit"
 msgstr "Lesezeichen bearbeiten"
+
+#
+msgid "users/changepassword"
+msgstr "Passwort ändern"

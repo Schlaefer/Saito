@@ -76,7 +76,7 @@
 			[
 				'id' => 3,
 				'subject' => 'Third_Subject',
-				'text' => 'Third_Text',
+				'text' => '< Third_Text',
 				'pid' => 2,
 				'tid' => 1,
 				'time' => '2000-01-01 20:02:00',

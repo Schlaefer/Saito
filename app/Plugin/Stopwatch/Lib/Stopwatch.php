@@ -39,6 +39,21 @@ class Stopwatch {
 	private function __clone() {
 	}
 
+	static public function reset() {
+		self::$_startupTime = 0;
+		self::$_instance = null;
+		self::$_enableTimer = false;
+		self::$_wallStart = 0;
+		self::$_userStart = 0;
+		self::$_wallLast = 0;
+		self::$_userLast = 0;
+		self::$_events;
+		self::$_sums = array();
+		self::$_starts = array();
+		self::$_stopwatchTime = 0;
+		self::$_stopwatchCalls = 0;
+	}
+
 	static protected function _addEvent($x, $event = null) {
 		if (self::$_enableTimer === false) {
 			return;
@@ -190,6 +205,7 @@ class Stopwatch {
 	}
 
 	public static function init() {
+			self::reset();
 			self::$_startupTime = microtime(true);
 	}
 

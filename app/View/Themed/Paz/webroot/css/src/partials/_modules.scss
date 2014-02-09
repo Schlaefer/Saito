@@ -30,7 +30,7 @@ input, textarea {
 }
 
 body, h1, h2, h3, h4 {
-  line-height: 1.5em;
+  line-height: $line-height;
 }
 
 h1, h2, h3, h4, #hero-home-link {
@@ -181,6 +181,7 @@ body.headerClosed {
 .disclaimer {
   border-top: 1px solid $border-color;
   font-size: $font-size-small;
+  padding-bottom: $padding;
 }
 
 .infoText, .disabled {
@@ -239,5 +240,6 @@ body.headerClosed {
   margin-left: 0.5em;
 }
 
-@import "modules_panels";
-@import "modules_jqueryui";
+@import "modules-panels";
+@import "modules-jqueryui";
+@import "modules-spinner";

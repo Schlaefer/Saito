@@ -60,13 +60,15 @@
 				# @td MCV
 				$answering_forbidden = $entry['rights']['isAnsweringForbidden'];
 				if ($answering_forbidden === 'locked') {
-					?>
-					<i
-							class="fa fa-lock fa-huge shp shp-right"
-							data-title="<?php echo __('Help'); ?>"
-							data-content="<?php echo __('answering_forbidden_locked_shp'); ?>"
-							></i>
-				<?php
+
+					echo $this->Html->tag(
+							'span',
+							$this->Layout->textWithIcon(__('forum_answer_linkname'), 'lock'),
+							[
+									'class' => 'btn btn-submit panel-footer-form-btn',
+									'disabled' => 'disabled'
+							]
+					);
 				} elseif (!$answering_forbidden) {
 					echo $this->Html->link(
 							__('forum_answer_linkname'),
@@ -153,9 +155,10 @@
 							array('escape' => false),
 							__('delete_tree_link_confirm_message')
 					);
+
+					echo $this->Layout->dropdownMenuButton($_menuItems,
+							['class' => 'btnLink btn-icon panel-footer-form-btn']);
 				}
-				echo $this->Layout->dropdownMenuButton($_menuItems,
-						['class' => 'btnLink btn-icon panel-footer-form-btn']);
 			?>
 		</div>
 	<?php endif; ?>

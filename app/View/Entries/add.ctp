@@ -20,7 +20,7 @@
 	$this->end();
 ?>
 	<div class="entry <?= ($is_answer) ? 'reply' : 'add' ?> <?= ($is_inline) ? '' : 'add-not-inline' ?>">
-	<div class="preview">
+	<div class="preview panel">
 		<?=
 			$this->Layout->panelHeading([
 					'first' => "<i class='fa fa-close-widget pointer btn-previewClose'> &nbsp;</i>",
