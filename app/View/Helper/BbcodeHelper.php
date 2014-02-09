@@ -680,14 +680,14 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			return "<div class='c-bbcode-upload'>" . $this->FileUpload->image($content) . "</div>";
 		} else {
 			$this->FileUpload->reset();
-      $allowedKeys = array_fill_keys(array( 'width', 'height'), false);
-      $allowedAttributes = array_intersect_key($attributes, $allowedKeys);
+			$allowedKeys = array_fill_keys(array( 'width', 'height'), false);
+			$allowedAttributes = array_intersect_key($attributes, $allowedKeys);
 			return "<div class='c-bbcode-upload'>" . $this->FileUpload->image($content,
-							array(
-                  'autoResize' => false,
-                  'resizeThumbOnly' => false,
-                  ) + $allowedAttributes
-          ) . "</div>";
+					array(
+							'autoResize' => false,
+							'resizeThumbOnly' => false,
+					) + $allowedAttributes
+			) . "</div>";
 		}
 	}
 
