@@ -673,7 +673,7 @@ msgid "Notify on thread replies"
 msgstr ""
 
 #: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:141
-msgid "entry_nsfw_title"
+msgid "posting.badge.nsfw"
 msgstr "NSFW"
 
 #: View/Entries/add.ctp:192

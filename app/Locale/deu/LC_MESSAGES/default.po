@@ -693,8 +693,11 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
+msgid "posting.badge.nsfw"
+msgstr "NBS"
+
 #: View/Entries/add.ctp:180 View/Helper/EntryHHelper.php:140
-msgid "entry_nsfw_title"
+msgid "posting.badge.nsfw.exp"
 msgstr "Nicht bürosicher (NBS)"
 
 #: View/Entries/add.ctp:192
