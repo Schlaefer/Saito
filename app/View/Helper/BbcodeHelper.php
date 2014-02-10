@@ -675,21 +675,21 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		if ($action === 'validate') {
 			return true;
 		}
-		if ( empty($attributes) ) {
-			$this->FileUpload->reset();
-			return "<div class='c-bbcode-upload'>" . $this->FileUpload->image($content) . "</div>";
-		} else {
-			$this->FileUpload->reset();
-			$allowedKeys = array_fill_keys(array( 'width', 'height'), false);
-			$allowedAttributes = array_intersect_key($attributes, $allowedKeys);
-			return "<div class='c-bbcode-upload'>" . $this->FileUpload->image($content,
-					array(
+		$this->FileUpload->reset();
+		$_params = [];
+		if (!empty($attributes)) {
+			$_allowedKeys = array_fill_keys(['width', 'height'], false);
+			$_allowedAttributes = array_intersect_key($attributes, $_allowedKeys);
+			$_params = [
 							'autoResize' => false,
 							'resizeThumbOnly' => false,
-					) + $allowedAttributes
-			) . "</div>";
+					] + $_allowedAttributes;
 		}
+		$_out = "<div class='c-bbcode-upload'>" .
+				$this->FileUpload->image($content, $_params) . "</div>";
+		return $_out;
 	}
+
 
 	/**
 	 * Provides links for external images

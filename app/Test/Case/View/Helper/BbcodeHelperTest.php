@@ -603,7 +603,7 @@
 
          // Create a map of arguments to return values.
         $map = array(
-          array( 'test.png', '<img src="test.png" />' ),
+          array( 'test.png', [], '<img src="test.png" />'),
           array(
               'test.png',
               array(
