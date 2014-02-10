@@ -1,18 +1,20 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'views/bookmark'
+  'jquery',
+  'underscore',
+  'backbone',
+  'views/bookmark'
 ], function($, _, Backbone, BookmarkView) {
 
-    "use strict";
+  "use strict";
 
-    var BookmarksView = Backbone.View.extend({
+  var BookmarksView = Backbone.View.extend({
 
-        initialize: function() {
-            this.initCollectionFromDom('.js-bookmark', this.collection, BookmarkView);
-        }
+    initialize: function() {
+      this.initCollectionFromDom('.js-bookmark', this.collection, BookmarkView);
+    }
 
-    });
-    return BookmarksView;
+  });
+
+  return BookmarksView;
+
 });

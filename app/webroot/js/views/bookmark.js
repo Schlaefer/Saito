@@ -1,32 +1,32 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone'
+  'jquery',
+  'underscore',
+  'backbone'
 ], function($, _, Backbone) {
 
-    "use strict";
+  "use strict";
 
-    var BookmarkView = Backbone.View.extend({
+  var BookmarkView = Backbone.View.extend({
 
-        events: {
-            'click .btn-bookmark-delete': 'deleteBookmark'
-        },
+    events: {
+      'click .btn-bookmark-delete': 'deleteBookmark'
+    },
 
-        initialize: function() {
-            _.bindAll(this, 'render');
-            this.model.on('destroy', this.removeBookmark, this);
-        },
+    initialize: function() {
+      _.bindAll(this, 'render');
+      this.model.on('destroy', this.removeBookmark, this);
+    },
 
-        deleteBookmark: function(event) {
-            event.preventDefault();
-            this.model.destroy();
-        },
+    deleteBookmark: function(event) {
+      event.preventDefault();
+      this.model.destroy();
+    },
 
-        removeBookmark: function() {
-            this.$el.hide("slide", null, 500, function(){ $(this).remove();});
-        }
+    removeBookmark: function() {
+      this.$el.hide("slide", null, 500, function() { $(this).remove();});
+    }
 
-    });
+  });
 
-    return BookmarkView;
+  return BookmarkView;
 });
