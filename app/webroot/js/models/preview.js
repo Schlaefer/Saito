@@ -9,9 +9,9 @@ define([
 		var PreviewModel = Backbone.Model.extend({
 
             defaults: {
-                rendered: "",
-                data: "",
-                fetchingData: 0
+                isFetchingData: false,
+                rendered: null,
+                data: null
             },
 
             initialize: function() {
@@ -21,12 +21,12 @@ define([
             },
 
             _fetchRendered: function() {
-                this.set('fetchingData', 1);
+                this.set('fetchingData', true);
                 $.post(
                     this.webroot + 'entries/preview/',
                     this.get('data'),
                     _.bind(function(data) {
-                        this.set('fetchingData', 0);
+                        this.set('fetchingData', false);
                         this.set('rendered', data.html);
                         App.eventBus.trigger('notificationUnset', 'all');
                         App.eventBus.trigger(

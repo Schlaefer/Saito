@@ -7,31 +7,29 @@ define([
 
   "use strict";
 
-  var PreviewView = Backbone.View.extend({
+  var PreviewView = Marionette.ItemView.extend({
 
-    initialize: function() {
-      this.render();
-
-      this.listenTo(this.model, "change:fetchingData", this._spinner);
-      this.listenTo(this.model, "change:rendered", this.render);
+    templates: {
+      content: _.template("<%= rendered %>"),
+      spinner: _.template(spinnerTpl)
     },
 
-    _spinner: function(model) {
-      if (model.get('fetchingData')) {
-        this.$el.html(spinnerTpl);
-      } else {
-        this.$el.html('');
+    modelEvents: {
+      'change:fetchingData': '_fetchingData',
+      'change:rendered': 'render'
+    },
+
+    _fetchingData: function() {
+      if (this.model.get('fetchingData')) {
+        this.render();
       }
     },
 
-    render: function() {
-      var rendered;
-      rendered = this.model.get('rendered');
-      if (!rendered) {
-        rendered = '';
+    getTemplate: function() {
+      if (this.model.get('fetchingData')) {
+        return this.templates.spinner;
       }
-      this.$el.html(rendered);
-      return this;
+      return this.templates.content;
     }
 
   });
