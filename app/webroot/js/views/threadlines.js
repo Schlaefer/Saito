@@ -1,18 +1,18 @@
 define([
   'jquery',
   'underscore',
-  'backbone',
+  'marionette',
   'models/app',
   'models/threadline',
   'views/threadline-spinner',
   'text!templates/threadline-spinner.html',
   'views/postingLayout', 'models/posting',
   'lib/saito/jquery.scrollIntoView'
-], function($, _, Backbone, App, ThreadLineModel, ThreadlineSpinnerView, threadlineSpinnerTpl, PostingLayout, PostingModel) {
+], function($, _, Marionette, App, ThreadLineModel, ThreadlineSpinnerView, threadlineSpinnerTpl, PostingLayout, PostingModel) {
 
   "use strict";
 
-  var ThreadLineView = Backbone.View.extend({
+  var ThreadLineView = Marionette.ItemView.extend({
 
     className: 'threadLeaf',
 
@@ -25,12 +25,17 @@ define([
      */
     postings: null,
 
-    events: {
-      'click .btn_show_thread': 'toggleInlineOpen',
-      'click .link_show_thread': 'toggleInlineOpenFromLink'
+    ui: {
+      btnShowThread: '.btn_show_thread',
+      linkShowThread: '.link_show_thread'
+    },
 
-      // is bound manualy after dom insert  in _toggleInlineOpened
-      // to hightlight the correct click target in iOS
+    events: {
+      'click @ui.btnShowThread': 'toggleInlineOpen',
+      'click @ui.linkShowThread': 'toggleInlineOpenFromLink'
+
+      // is bound manually after dom insert in _toggleInlineOpened
+      // to highlight the correct click target in iOS
       // 'click .btn-strip-top': 'toggleInlineOpen'
     },
 
