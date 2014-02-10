@@ -229,16 +229,6 @@ body.headerClosed {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-// pulse animation
-// -------------------------------------
-@keyframes pulse { 65% { opacity: 0.1; } }
-@-webkit-keyframes pulse { 65% { opacity: 0.1; } }
-
-.is-pulsing {
-  animation: pulse 1.4s infinite;
-  -webkit-animation: pulse 1.4s infinite;
-}
-
 // pagination
 // -------------------------------------
 

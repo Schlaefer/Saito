@@ -4,11 +4,10 @@ define([
   'marionette',
   'models/app',
   'models/threadline',
-  'views/threadline-spinner',
   'text!templates/threadline-spinner.html',
   'views/postingLayout', 'models/posting',
   'lib/saito/jquery.scrollIntoView'
-], function($, _, Marionette, App, ThreadLineModel, ThreadlineSpinnerView, threadlineSpinnerTpl, PostingLayout, PostingModel) {
+], function($, _, Marionette, App, ThreadLineModel, threadlineSpinnerTpl, PostingLayout, PostingModel) {
 
   "use strict";
 
@@ -18,7 +17,7 @@ define([
 
     tagName: 'li',
 
-    spinnerTpl: _.template(threadlineSpinnerTpl),
+    spinnerTpl: threadlineSpinnerTpl,
 
     /**
      * Posting collection
@@ -70,30 +69,18 @@ define([
     },
 
     _toggleInlineOpened: function(model, isInlineOpened) {
-      if (isInlineOpened) {
-        var id = this.model.id;
-
-        if (!this.model.get('isContentLoaded')) {
-          this.tlsV = new ThreadlineSpinnerView({
-            el: this.$el.find('.threadLine-pre i')
-          });
-          this.tlsV.show();
-
-          this.$el.find('.threadLine').after(this.spinnerTpl({
-            id: id
-          }));
-          // @bogus, why no listenTo?
-          this.$el.find('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this));
-
-          // @bogus gives tlsV time to start async animation in modern browser;
-          // better: make PostingLayout model fetch async
-          _.delay(_.bind(function() { this._insertContent(); }, this), 25);
-        } else {
-          this._showInlineView();
-        }
-      } else {
+      if (!isInlineOpened) {
         this._closeInlineView();
+        return;
       }
+      if (!this.model.get('isContentLoaded')) {
+        this.$('.threadLine').after(this.spinnerTpl);
+        // @bogus, why no listenTo?
+        this.$('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this));
+        this._insertContent();
+        this.model.set('isContentLoaded', true);
+      }
+      this._showInlineView();
     },
 
     _insertContent: function() {
@@ -113,16 +100,11 @@ define([
         collection: this.postings,
         parentThreadline: this.model
       });
-
-      this.model.set('isContentLoaded', true);
-      this._showInlineView();
     },
 
     _showInlineView: function() {
       var postShow = _.bind(function() {
         var shouldScrollOnInlineOpen = this.model.get('shouldScrollOnInlineOpen');
-        this.tlsV.hide();
-
         if (shouldScrollOnInlineOpen) {
           if (this.$el.scrollIntoView('isInView') === false) {
             this.$el.scrollIntoView('bottom');
@@ -132,15 +114,12 @@ define([
         }
       }, this);
 
-      this.$el.find('.threadLine').fadeOut(
-          100,
-          _.bind(
+      this.$('.threadLine').fadeOut(100, _.bind(
               function() {
                 // performance: show() instead slide()
                 // this.$('.js-thread_inline.' + id).slideDown(0,
                 this.$('.js-thread_inline').show(0, postShow);
-              }, this)
-      );
+              }, this));
     },
 
     _closeInlineView: function() {
