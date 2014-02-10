@@ -344,6 +344,8 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 #upload_index .upload-layer { z-index: 100; opacity: 0; }
 #upload_index .upload-drag-indicator { background: #ffffff; opacity: 0.9; font-size: 70px; line-height: 140px; display: none; }
 
+.thread_inline { position: relative; }
+
 .ui-pnotify h4 { margin: 0; padding: 0; }
 .ui-pnotify .ui-pnotify-title { font-weight: bolder; }
 
