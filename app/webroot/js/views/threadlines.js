@@ -88,7 +88,9 @@ define([
           // @bogus, why no listenTo?
           this.$el.find('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this));
 
-          this._insertContent();
+          // @bogus gives tlsV time to start async animation in modern browser;
+          // better: make PostingLayout model fetch async
+          _.delay(_.bind(function() { this._insertContent(); }, this), 25);
         } else {
           this._showInlineView();
         }
