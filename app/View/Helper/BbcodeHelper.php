@@ -563,6 +563,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$this->Geshi->validLanguages = array(true);
 
 		$string = '<div class="c-bbcode-code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
+		$string = $this->_detaginize($string);
 		$string = $this->Geshi->highlight($string);
 		return $string;
 	}

@@ -740,6 +740,12 @@
       $this->assertContains($expected, $result);
 		}
 
+		public function testCodeDetaginize() {
+			$input = '[code bash]pre http://example.com post[/code]';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains('autoLink', $result);
+		}
+
 		public function testMarkiereZitat() {
 
 			$input = Sanitize::html("» test");
