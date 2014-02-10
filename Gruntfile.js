@@ -243,15 +243,15 @@ module.exports = function(grunt) {
           },
           watchDefault: {
             options: {
-              basePath: './app/View/Themed/Default/webroot/css/',
-              config: './app/View/Themed/Default/webroot/css/config.rb',
+              basePath: './app/View/Themed/Paz/webroot/css/',
+              config: './app/View/Themed/Paz/webroot/css/config.rb',
               watch: true
             }
           },
           compileExampleTheme: {
             options: {
-              basePath: './app/View/Themed/Ixi/webroot/css/',
-              config: './app/View/Themed/Ixi/webroot/css/config.rb'
+              basePath: './app/View/Themed/Example/webroot/css/',
+              config: './app/View/Themed/Example/webroot/css/config.rb'
             }
           }
         },
@@ -295,7 +295,7 @@ module.exports = function(grunt) {
   // release
   grunt.registerTask('release', [
     'clean:release',
-    'compass:compile',
+    // 'compass:compile',
     'requirejs:release',
     'uglify:release',
     'copy:release',
