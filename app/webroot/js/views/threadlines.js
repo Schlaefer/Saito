@@ -66,15 +66,7 @@ define([
      */
     toggleInlineOpen: function(event) {
       event.preventDefault();
-      if (!this.model.get('isInlineOpened')) {
-        this.model.set({
-          isInlineOpened: true
-        });
-      } else {
-        this.model.set({
-          isInlineOpened: false
-        });
-      }
+      this.model.toggle('isInlineOpened');
     },
 
     _toggleInlineOpened: function(model, isInlineOpened) {
