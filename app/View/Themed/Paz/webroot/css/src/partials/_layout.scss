@@ -1,0 +1,27 @@
+#site {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: $padding;
+}
+
+.bp-threeColumn {
+  $total-columns  : 1;             // a 12-column grid
+  $column-width   : 60em;            // each column is 4em wide
+  $gutter-width   : 4em;            // 1em gutters between columns
+  $grid-padding   : 1em;  // grid-padding equal to gutters
+
+  @include container;
+
+  @include at-breakpoint($susy-tablet) {
+    .left {
+      @include span-columns(4, 12);
+    }
+    .center {
+      @include span-columns(4, 12);
+    }
+    .right {
+      @include span-columns(4 omega, 12);
+    }
+  }
+}
+

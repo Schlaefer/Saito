@@ -374,4 +374,4 @@ msgstr "Stopuhr"
 
 #
 msgid "stopwatch_get_exp"
-msgstr "Ausgabe der Stopuhrzeiten durch Anfügen von <code>/stopwatch:true/</code> an URL in Production-Modus für eingeloggte Nutzer."
+msgstr "Ausgabe der Stopuhrzeiten durch Anfügen von <code>?stopwatch=true</code> an URL in Production-Modus für eingeloggte Nutzer."

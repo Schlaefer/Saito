@@ -1,13 +1,7 @@
 <div class="user index">
-	<div class="box-content">
-		<div class="l-box-header box-header">
-			<div>
-				<div class='c_first_child'></div>
-				<div><h1><?= $title_for_page ?></h1></div>
-				<div class='c_last_child'></div>
-			</div>
-		</div>
-		<div class="content">
+	<div class="panel">
+		<?= $this->Layout->panelHeading($title_for_page, ['pageHeading' => true]) ?>
+		<div class="panel-content">
 			<div class="table-menu">
 				<?php
 					$_sortBy = $this->Paginator->sort('username', __('username_marking'));

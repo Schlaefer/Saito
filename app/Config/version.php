@@ -1,2 +1,2 @@
 <?php
-	Configure::write('Saito.v', '2.0.1');
+	Configure::write('Saito.v', '3.0.0');

@@ -1,0 +1,24 @@
+.ui-dialog {
+  @extend %dialog-hover;
+  background: $background-color;
+  border-color: $border-color;
+
+  .ui-dialog-titlebar-close {
+    left: $padding;
+
+  }
+
+  .jqueryUi-closethick-fix {
+    color: $input-border-color;
+  }
+
+  > .ui-dialog-content {
+    padding: 0;
+
+    > .panel {
+      padding-top: 0;
+    }
+  }
+}
+
+

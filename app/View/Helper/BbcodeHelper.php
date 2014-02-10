@@ -132,6 +132,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	/**
 	 * Setup StringParser_BBCode();
 	 *
+	 * see: http://christian-seiler.de/projekte/php/bbcode/doc/en/chapter2.php
+	 *
 	 * @param array $options
 	 */
 	protected function _initParser(array $options = array( )) {
@@ -190,7 +192,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 			$this->_Parser->addCode(
 				'hashLink', 'usecontent', array( &$this, "_hashLinkInternal" ), array( ), 'hashLink',
-				['block', 'inline'], []
+				['block', 'inline', 'listitem'], []
 			);
 		}
 
@@ -217,7 +219,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* underline
 		$this->_Parser->addCode(
 				'u', 'simple_replace', null,
-				array( 'start_tag' => "<span class='c_bbc_underline'>", 'end_tag' => '</span>' ),
+				array( 'start_tag' => "<span class='c-bbcode-underline'>", 'end_tag' => '</span>' ),
 				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
 		);
 
@@ -238,12 +240,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* hr
 		$this->_Parser->addCode(
 				'---', 'simple_replace_single', null,
-				['start_tag' => '<hr class="c_bbc_hr">'], 'inline',
+				['start_tag' => '<hr class="c-bbcode-hr">'], 'inline',
 				['block'], []
 		);
 		$this->_Parser->addCode(
 				'hr', 'simple_replace_single', null,
-				['start_tag' => '<hr class="c_bbc_hr">', 'end_tag' => '</hr>'], 'inline',
+				['start_tag' => '<hr class="c-bbcode-hr">', 'end_tag' => '</hr>'], 'inline',
 				['block'], []
 		);
 
@@ -291,10 +293,18 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			['code']
 		);
 
+		//* float
+		$this->_Parser->addCode(
+				'float', 'simple_replace', null,
+				['start_tag' => '<div class="c-bbcode-float">', 'end_tag' => '</div>'],
+				'block',
+				['block'], []
+		);
+
 		//* lists
 		$this->_Parser->addCode(
 				'list', 'simple_replace', null,
-				array( 'start_tag' => '<ul class="c_bbc_ul">', 'end_tag' => '</ul>' ),
+				array( 'start_tag' => '<ul class="c-bbcode-ul">', 'end_tag' => '</ul>' ),
 				'list', array( 'block', 'listitem', 'quote' ), array( ));
 		$this->_Parser->setCodeFlag('list', 'paragraph_type',
 				BBCODE_PARAGRAPH_BLOCK_ELEMENT);
@@ -308,7 +318,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* listitem
 		$this->_Parser->addCode(
 				'*', 'simple_replace', null,
-				array( 'start_tag' => '<li class="c_bbc_li">', 'end_tag' => '</li>' ),
+				array( 'start_tag' => '<li class="c-bbcode-li">', 'end_tag' => '</li>' ),
 				'listitem', array( 'list' ), array( )
 		);
 		$this->_Parser->setCodeFlag('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
@@ -552,7 +562,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		// allow all languages
 		$this->Geshi->validLanguages = array(true);
 
-		$string = '<div class="c_bbc_code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
+		$string = '<div class="c-bbcode-code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
 		$string = $this->Geshi->highlight($string);
 		return $string;
 	}
@@ -667,12 +677,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		}
 		if ( empty($attributes) ) {
 			$this->FileUpload->reset();
-			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content) . "</div>";
+			return "<div class='c-bbcode-upload'>" . $this->FileUpload->image($content) . "</div>";
 		} else {
 			$this->FileUpload->reset();
       $allowedKeys = array_fill_keys(array( 'width', 'height'), false);
       $allowedAttributes = array_intersect_key($attributes, $allowedKeys);
-			return "<div class='c_bbc_upload'>" . $this->FileUpload->image($content,
+			return "<div class='c-bbcode-upload'>" . $this->FileUpload->image($content,
 							array(
                   'autoResize' => false,
                   'resizeThumbOnly' => false,
@@ -693,7 +703,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			return true;
 		}
 		$options = [
-			'class' => 'c_bbc_external-image'
+			'class' => 'c-bbcode-external-image'
 		];
 
 		$url = $content;
@@ -796,11 +806,11 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		$json  = json_encode(['string' => $content]);
 		$id    = 'spoiler_' . rand(0, 9999999999999);
 		$out   = <<<EOF
-<div class="c_bbc_spoiler" style="display: inline;">
+<div class="c-bbcode-spoiler" style="display: inline;">
 	<script>
 		window.$id = $json;
 	</script>
-	<a href="#" class="c_bbc_spoiler-link"
+	<a href="#" class="c-bbcode-spoiler-link"
 		onclick='this.parentNode.innerHTML = window.$id.string; delete window.$id; return false;'
 		>
 		$title
@@ -933,7 +943,7 @@ EOF;
 			if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
 				$host = self::_getDomainAndTldForUri($url);
 				if ($host !== false && $host !== env('SERVER_NAME')) {
-					$out .= ' <span class=\'c_bbc_link-dinfo\'>[' . $host . ']</span>';
+					$out .= ' <span class=\'c-bbcode-link-dinfo\'>[' . $host . ']</span>';
 				}
 			}
 		}
@@ -1000,7 +1010,7 @@ EOF;
 				'/(^|\n\r\s?)'
 				. $quote_symbol_sanitized
 				. '\s([^\n\r]*)/m',
-				"\\1<span class=\"c_bbc_citation\">" . $quote_symbol_sanitized . " \\2</span>",
+				"\\1<span class=\"c-bbcode-citation\">" . $quote_symbol_sanitized . " \\2</span>",
 				$string
 		);
 		return $string;
@@ -1181,7 +1191,7 @@ class BbcodeMessage {
 	}
 
 	public static function format($message) {
-		return "<div class='c_bbc_imessage'>$message</div>";
+		return "<div class='c-bbcode-imessage'>$message</div>";
 	}
 
 }

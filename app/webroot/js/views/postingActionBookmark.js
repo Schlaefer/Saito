@@ -6,7 +6,7 @@ define(['jquery', 'underscore', 'marionette', 'models/app'],
 
     tagName: 'a',
 
-    className: 'btn-bookmark-add',
+    className: 'btn-bookmark-add btn-icon panel-footer-form-btn',
 
     template: _.template('<i class="fa fa-lg"></i>'),
 

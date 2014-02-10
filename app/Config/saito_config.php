@@ -15,7 +15,7 @@
   /**
    * Sets the default theme
    */
-  Configure::write('Saito.themes.default', 'Default');
+  Configure::write('Saito.themes.default', 'Paz');
 
 	/**
 	 * Sets additional themes available for all users

@@ -5,25 +5,19 @@
 			array('class'	 => 'textlink', 'escape' => FALSE));
 	$this->end();
 ?>
-<div class="box-content">
-	<div class="l-box-header box-header">
-		<div>
-			<div class='c_first_child'></div>
-			<div><h1><?php echo $this->TextH->properize($CurrentUser['username']) . ' ' . __('Bookmarks'); ?></h1> </div>
-			<div class='c_last_child'></div>
-		</div>
-	</div>
-	<div class="content">
+<div class="panel">
+	<?= $this->Layout->panelHeading(__('Bookmarks'), ['pageHeading' => true]) ?>
+	<div class="panel-content">
 		<div id="bookmarks">
 			<?php if ($bookmarks): ?>
 					<div class="l-bookmarks-container">
 						<div class="l-bookmarks-row bookmarks-row-header">
-							<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%">
 							</div>
 							<div class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
 								<?php echo __('Subject'); ?>
 							</div>
-							<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+							<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%; padding-left: 0">
 							</div>
 							<div class="l-bookmarks-cell bookmarks-cell" style="width: 30%">
 								<?php echo __('Comment'); ?>
@@ -38,7 +32,7 @@
 							);
 							?>
 							<div class="l-bookmarks-row js-bookmark" data-id="<?php echo $bookmark['Bookmark']['id']; ?>">
-								<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+								<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%">
 									<?php
 									echo $this->Html->link(
 											'<i class="fa fa-trash-o fa-lg"></i>',
@@ -55,7 +49,7 @@
 										 class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
 									<?= $this->EntryH->threadCached($entry_sub, $CurrentUser); ?>
 								</div>
-								<div class="l-bookmarks-cell bookmarks-cell" style="width: 16px">
+								<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%; padding-left: 0">
 									<?php
 									echo $this->Html->link(
 											'<i class="fa fa-edit fa-lg"></i>',

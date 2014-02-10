@@ -1,0 +1,37 @@
+.panel {
+  padding: $padding;
+}
+
+.panel-heading {
+  margin: 0 0 $padding;
+
+  &.pageTitle {
+    // theme shows heading layout navbar
+    display: none;
+  }
+
+  h1, h2 {
+    @extend .pageHeading;
+  }
+}
+
+.panel-content {
+}
+
+
+.panel-footer {
+  padding: $padding 0 ;
+
+  &.panel-form {
+    margin-top: 2*$padding;
+  }
+}
+
+.panel-form {
+  background: $form-background-color;
+  padding: $padding;
+}
+
+.panel-footer-form-btn {
+  margin-right: 1em;
+}

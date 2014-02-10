@@ -1,14 +1,7 @@
-	<div class="box-form">
-	<div class="l-box-header box-header">
-		<div>
-			<div class='c_first_child'></div>
-			<div>
-				<h1><?php echo __('register_linkname'); ?></h1>
-			</div>
-			<div class='c_last_child'></div>
-		</div>
-	</div>
-	<div class="content">
+<div class="panel">
+		<?= $this->Layout->panelHeading(__('register_linkname'),
+				['pageHeading' => true]) ?>
+	<div class="panel-content panel-form">
 	<?php if ($register_success == 'email_send') : ?>
 			<?php
 				echo $this->element(
@@ -40,7 +33,7 @@
 							'captchaResultTooFast'	 => __d('simple_captcha',
 									'Captcha result too fast'),
 					),
-					'div'										 => array('class' => 'required'),
+							'div' => ['class' => 'input required'],
 					)
 			);
 			if (Configure::read('Saito.Settings.tos_enabled')):
@@ -49,7 +42,7 @@
 				if (empty($tos_url)) {
 					$tos_url = '/pages/' . Configure::read('Config.language') . '/tos';
 				};
-				
+
 				echo $this->Form->input('tos_confirm',
 						array(
 						'type' => 'checkbox',

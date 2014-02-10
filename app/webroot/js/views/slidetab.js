@@ -40,7 +40,7 @@ define([
             this.$el.animate({
                 'width': 280
             });
-            this.$el.find('.slidetab-outer').css('display','block');
+            this.$el.addClass('is-open');
         },
 
         hide: function() {
@@ -49,7 +49,7 @@ define([
                     'width': 28
                 },
                 _.bind(function() {
-                    this.$el.find('.slidetab-outer').css('display', 'none');
+                    this.$el.removeClass('is-open');
                 }, this)
             );
         },

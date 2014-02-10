@@ -15,6 +15,7 @@
 			'app.category',
 			'app.smiley',
 			'app.smiley_code',
+			'app.shout',
 			'app.setting',
 			'app.upload',
 			'app.esnotification',
@@ -208,10 +209,13 @@
 			);
 
 			$Users = $this->generate('Users',
-				array(
-					'methods' => array('email'),
-					'models' => array('User' => array('register'))
-				));
+					[
+							'components' => ['SaitoEmail' => ['email']],
+							'methods' => ['email'],
+							'models' => ['User' => ['register']]
+					]);
+			$Users->SaitoEmail->expects($this->once())
+					->method('email');
 			$Users->User->expects($this->once())
 					->method('register')
 					->will($this->returnValue(true));
@@ -726,7 +730,7 @@
 			$result = $this->testAction('users/view/5', array(
 					'return' => 'view'
 			));
-			$this->assertTextNotContains('button_mod_panel', $result);
+			$this->assertTextNotContains('dropdown', $result);
 
 			/**
 			 * Mod Button is not visible for normal users
@@ -735,7 +739,7 @@
 			$result = $this->testAction('users/view/5', array(
 					'return' => 'view'
 			));
-			$this->assertTextNotContains('button_mod_panel', $result);
+			$this->assertTextNotContains('dropdown', $result);
 
 			/**
 			 * Mod Button is visible for admin
@@ -744,7 +748,7 @@
 			$result = $this->testAction('users/view/5', array(
 					'return' => 'view'
 			));
-			$this->assertTextContains('button_mod_panel', $result);
+			$this->assertTextContains('dropdown', $result);
 
 			/**
 			 * Mod Button is currently visible for mod
@@ -753,7 +757,7 @@
 			$result = $this->testAction('users/view/5', array(
 					'return' => 'view'
 			));
-			$this->assertTextContains('button_mod_panel', $result);
+			$this->assertTextContains('dropdown', $result);
 		}
 
 		public function testViewModButtonEmpty() {
@@ -768,7 +772,7 @@
 			$result = $this->testAction('users/view/5', array(
 					'return' => 'view'
 			));
-			$this->assertTextNotContains('button_mod_panel', $result);
+			$this->assertTextNotContains('dropdown', $result);
 		}
 
 		public function testViewModButtonBlockUiTrue() {

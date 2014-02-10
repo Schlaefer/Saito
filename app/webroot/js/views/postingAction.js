@@ -24,7 +24,7 @@ define([
 
     _initFormElements: function() {
       _.each(this._jsButtons, function(View) {
-        this.$('.js-buttons').append(new View({model: this.model}).$el);
+        this.$el.append(new View({model: this.model}).$el);
       }, this);
       var _$editButton = this.$('.js-btn-edit');
       if (_$editButton.length > 0) {

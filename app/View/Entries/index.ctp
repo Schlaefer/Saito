@@ -8,7 +8,7 @@
 
 	$this->start('headerSubnavLeft');
 		echo $this->Html->link(
-			'<i class="fa fa-plus"></i>&nbsp; ' . __('new_entry_linkname'),
+			$this->Layout->textWithIcon(h(__('new_entry_linkname')), 'plus'),
 			'/entries/add',
 			[
 				'class' => 'btn-entryAdd textlink',
@@ -37,10 +37,13 @@
 	$this->start('headerSubnavRightTop');
 		if (isset($categoryChooser)):
 			// category-chooser link
+			if (isset($categoryChooser[$categoryChooserTitleId])) {
+				$_title = $categoryChooser[$categoryChooserTitleId];
+			} else {
+				$_title = $categoryChooserTitleId;
+			}
 			echo $this->Html->link(
-				'<i class="fa fa-tags"></i> '
-					. ((isset($categoryChooser[$categoryChooserTitleId])) ? $categoryChooser[$categoryChooserTitleId] : $categoryChooserTitleId)
-					. '&nbsp;',
+				$this->Layout->textWithIcon($_title, 'tags'),
 				'#',
 				[
 					'id'     => 'btn-category-chooser',

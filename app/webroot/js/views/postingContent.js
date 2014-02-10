@@ -10,7 +10,7 @@ define(['jquery', 'underscore', 'marionette', 'collections/geshis',
           this.listenTo(this.model, 'change:html', this.render);
 
           // init form/elements for entries/view when $el is already there
-          this._initGeshi('.c_bbc_code-wrapper');
+          this._initGeshi('.c-bbcode-code-wrapper');
         },
 
         _toggleAnsweringForm: function() {
@@ -22,11 +22,11 @@ define(['jquery', 'underscore', 'marionette', 'collections/geshis',
         },
 
         _showSignature: function() {
-          this.$('.signature').slideDown('fast');
+          this.$('.postingBody-signature').slideDown('fast');
         },
 
         _hideSignature: function() {
-          this.$('.signature').slideUp('fast');
+          this.$('.postingBody-signature').slideUp('fast');
         },
 
         _initGeshi: function(element_n) {
@@ -41,7 +41,7 @@ define(['jquery', 'underscore', 'marionette', 'collections/geshis',
 
         render: function() {
           this.$el.html(this.model.get('html'));
-          this._initGeshi('.c_bbc_code-wrapper');
+          this._initGeshi('.c-bbcode-code-wrapper');
           return this;
         }
 

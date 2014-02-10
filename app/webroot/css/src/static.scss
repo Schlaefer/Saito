@@ -1,4 +1,6 @@
-@import "partials/lib/_jquery-ui-1.9.2.custom";
+@import "CSS:../../dev/bower_components/jquery-dropdown/jquery.dropdown";
+
+@import "partials/lib/_jquery-ui.custom";
 
 $fa-font-path: "../stylesheets/font";
 @import "partials/lib/font-awesome/font-awesome";
@@ -6,3 +8,4 @@ $fa-font-path: "../stylesheets/font";
 @import "partials/lib/_pnotify";
 
 @import "partials/_font-awesome-extend";
+@import "partials/_jquery-ui";

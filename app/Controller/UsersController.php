@@ -10,7 +10,8 @@
 			'Farbtastic',
 			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',
-			'EntryH'
+			'EntryH',
+			'Text'
 		];
 
 		protected $_allowedToEditUserData = false;
@@ -219,11 +220,8 @@
 
 			$this->set('user', $viewedUser);
 			$this->set(
-				'title_for_layout',
-				String::insert(
-					__('User :name'),
-					['name' => $viewedUser['User']['username']]
-				)
+					'title_for_layout',
+					$viewedUser['User']['username']
 			);
 		}
 
@@ -295,6 +293,11 @@
 			$this->request->data = $this->User->read();
 		}
 		$this->set('user', $this->request->data);
+		$this->set(
+				'title_for_layout',
+				__('Edit %s Profil',
+						Properize::prop($this->request->data['User']['username']))
+		);
 	}
 
 		public function lock($id = null) {

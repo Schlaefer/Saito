@@ -11,15 +11,6 @@
   font-size: 110%;
 }
 
-.fa-threadnew {
-  padding-top: 2px;
-  font-family: inherit;
-  font-size: 90%;
-  &:before {
-    content: "\25CB";
-  }
-}
-
 .icon-actthread {
 	@extend .fa-thread;
 }
@@ -78,12 +69,12 @@
 /*
  * 1: fixes vertical positioning
  */
-.ui-dialog .ui-dialog-titlebar-close > .jqueryUi-closethick-fix {
+.jqueryUi-closethick-fix {
   @extend .fa;
   @extend .fa-close-widget;
   @extend .fa-lg;
 
-  vertical-align: baseline; /* 1 */
+  // vertical-align: baseline; /* 1 */
 }
 
 .fa-thread-open {

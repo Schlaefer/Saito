@@ -15,20 +15,16 @@
 				$id = str_replace('slidetab_', '', $slidetab);
 
 				$style = '';
-				$style2 = '';
 				$isOpen = false;
 				if ($CurrentUser['show_' . $id] == 1) {
-					$style .= 'width: 280px;';
 					$isOpen = true;
 				} else {
-					$style .= 'width: 28px;';
-					$style2 = 'display: none;';
 				}
 				$this->element('layout/' . $slidetab, array('isOpen' => $isOpen));
 				?>
 				<div
 					data-id="<?php echo $id; ?>"
-					class="slidetab slidetab-<?php echo $id; ?>"
+					class="slidetab slidetab-<?= $id ?> <?= $isOpen ? 'is-open' : '' ?>"
 					style="<?php echo $style ?>" >
 					<div class="slidetab-tab">
 						<div class="slidetab-tab-button">
@@ -38,7 +34,7 @@
 						?>
 						</div>
 					</div> <!-- button -->
-					<div class="slidetab-outer" style="<?php echo $style2 ?>" >
+					<div class="slidetab-outer">
 						<div class="slidetab-inner">
 							<?php
 							echo $this->fetch('slidetab-content');

@@ -20,66 +20,39 @@
 	$this->end();
 ?>
 	<div class="entry <?= ($is_answer) ? 'reply' : 'add' ?> <?= ($is_inline) ? '' : 'add-not-inline' ?>">
-	<div class="preview">
-		<div class="l-box-header box-header">
-			<div>
-				<div class="c_first_child">
-					<i class='fa fa-close-widget fa-lg pointer btn-previewClose'>
-						&nbsp;</i>
-				</div>
-				<div>
-					<h2>
-						<?php echo __('preview') ?>
-					</h2>
-				</div>
-				<div class="c_last_child">
-					&nbsp;
-				</div>
-			</div>
-		</div>
-		<!-- header -->
-		<div class="content"></div>
+	<div class="preview panel">
+		<?=
+			$this->Layout->panelHeading([
+					'first' => "<i class='fa fa-close-widget pointer btn-previewClose'> &nbsp;</i>",
+					'middle' => __('preview')
+			]) ?>
+		<div class="panel-content"></div>
 	</div>
 	<!-- preview -->
 
-	<div class="postingform">
-		<div class="l-box-header box-header">
-			<div>
-				<div class="c_first_child">
-					<?php if ($this->request->is('ajax')) : ?>
-						<i class='fa fa-close-widget fa-lg pointer btn-answeringClose'>
-							&nbsp;
-						</i>
-					<?php endif; ?>
-				</div>
-				<div>
-					<h2>
-						<?= $title_for_page ?>
-					</h2>
-				</div>
-				<div class="c_last_child">&nbsp;</div>
-			</div>
-		</div>
-
+	<div class="postingform panel">
+		<?php
+		 $_first = ($is_inline) ? "<i class='fa fa-close-widget pointer btn-answeringClose'> &nbsp; </i>" : '';
+			echo $this->Layout->panelHeading([
+							'first' => $_first,
+							'middle' => $title_for_page,
+					],
+					['pageHeading' => !$is_inline]);?>
 		<div id="markitup_upload">
 			<div class="body"></div>
 		</div>
 		<div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
-		<div class="content">
+		<div class="panel-content panel-form">
 					<?php echo  $this->Form->create('Entry'); ?>
-			<div class="l-postingform_main">
 				<?php
-					echo $this->EntryH->getCategorySelectForEntry(
-						$categories,
-						$this->request->data
-					);
+					echo $this->EntryH->categorySelect($this->request->data, $categories);
 					echo $this->Form->input(
 						'subject',
 						[
 							'maxlength' => Configure::read('Saito.Settings.subject_maxlength'),
 							'label' => false,
-							'class' => 'inp-subject',
+							'class' => 'js-subject subject',
 							'tabindex' => 2,
 							'error' => [
 								'notEmpty' => __('error_subject_empty'),
@@ -228,7 +201,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 			<?php echo $this->Form->end(); ?>
 		</div>
 		<!-- content -->

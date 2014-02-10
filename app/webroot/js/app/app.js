@@ -38,7 +38,8 @@ define(['marionette', 'app/core', 'app/vent',
                 'app/time', 'lib/Saito/isAppVisible',
 
                 'lib/jquery.i18n/jquery.i18n.extend',
-                'bootstrap', 'lib/saito/backbone.initHelper',
+                'jqueryDropdown',
+                'lib/saito/backbone.initHelper',
                 'lib/saito/backbone.modelHelper', 'fastclick'
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView,

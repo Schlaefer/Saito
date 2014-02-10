@@ -6,26 +6,12 @@
       array( 'class' => 'textlink', 'escape' => FALSE ));
   $this->end();
 ?>
-<h1>
-	<?php
-	echo __('Edit %s Profil', $this->TextH->properize($this->request->data['User']['username']));
-	?>
-</h1>
-<div id="user_edit" class="user edit">
+<div class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
-	<div class="box-form">
-		<div class="l-box-header box-header">
-			<div>
-				<div class='c_first_child'></div>
-				<div>
-          <h2>
-            <?php echo __('Profil'); ?>
-          </h2>
-        </div>
-				<div class='c_last_child'></div>
-			</div>
-		</div>
-    <div class='content'>
+	<div class="panel">
+		<?= $this->Layout->panelHeading($title_for_page,
+				['pageHeading' => true]) ?>
+    <div class='panel-content panel-form'>
 			<table class="table th-left elegant">
 				<?php  if ( $CurrentUser->isAdmin() ) : ?>
 					<tr>
@@ -154,19 +140,9 @@
 		</div>
   </div>
 
-	<div class="box-form">
-		<div class="l-box-header box-header">
-			<div>
-				<div class='c_first_child'></div>
-				<div>
-          <h2>
-            <?php echo __('Settings'); ?>
-          </h2>
-        </div>
-				<div class='c_last_child'></div>
-			</div>
-		</div>
-    <div class='content'>
+	<div class="panel">
+	<?= $this->Layout->panelHeading(__('Settings')) ?>
+	<div class='panel-content panel-form'>
 	<table class="table th-left elegant">
 
 		<tr>
@@ -319,21 +295,11 @@
 		<?php  endif; ?>
 	</table>
   </div> <!-- content -->
-  </div> <!-- box-form -->
+  </div>
 
-	<div class="box-form">
-		<div class="l-box-header box-header">
-			<div>
-				<div class='c_first_child'></div>
-				<div>
-          <h2>
-            <?php echo __('flattr'); ?>
-          </h2>
-        </div>
-				<div class='c_last_child'></div>
-			</div>
-		</div>
-  <div class='content'>
+	<div class="panel">
+		<?= $this->Layout->panelHeading(__('flattr')) ?>
+		<div class='panel-content panel-form'>
     <table class="table th-left elegant">
       <tr>
         <td><?php echo __('flattr_uid'); ?></td>

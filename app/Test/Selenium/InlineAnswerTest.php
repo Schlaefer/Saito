@@ -35,12 +35,12 @@
 			$this->_openThreadline($id);
 			$this->_openAnswerForm($id);
 			// click answering close button
-			$this->click("css=.js-thread_line[data-id={$id}] .btn-answeringClose");
+			$this->click("css=.threadLeaf[data-id={$id}] .btn-answeringClose");
 			// wait for answering form to be closed
 			for ($second = 0; ; $second++) {
 				if ($second >= 60) $this->fail("timeout");
 				try {
-					if (!$this->isElementPresent("css=.js-thread_line[data-id={$id}]  .entry.reply")) break;
+					if (!$this->isElementPresent("css=.threadLeaf[data-id={$id}]  .entry.reply")) break;
 				} catch (Exception $e) {}
 				sleep(1);
 			}
@@ -63,7 +63,7 @@
 
 			// footer in posting is visible
 			$this->assertTrue(
-				$this->isVisible("css=.js-thread_line[data-id={$parentId}] .l-box-footer")
+				$this->isVisible("css=.threadLeaf[data-id={$parentId}] .panel-footer")
 			);
 
 			// opening answer form
@@ -75,7 +75,7 @@
 					$this->fail("timeout");
 				}
 				try {
-					if ($this->isVisible("css=.js-thread_line[data-id={$parentId}] .entry.reply")
+					if ($this->isVisible("css=.threadLeaf[data-id={$parentId}] .entry.reply")
 					) {
 						break;
 					}
@@ -86,13 +86,13 @@
 
 			// footer in posting is now hidden
 			$this->assertFalse(
-				$this->isVisible("css=.js-thread_line[data-id={$parentId}] .l-box-footer")
+				$this->isVisible("css=.threadLeaf[data-id={$parentId}] .panel-footer")
 			);
 
 			// type subject in answering field
-			$this->type("css=.js-thread_line[data-id={$parentId}]  #EntrySubject", "Id: {$this->nextId}");
+			$this->type("css=.threadLeaf[data-id={$parentId}]  #EntrySubject", "Id: {$this->nextId}");
 			// send the inline answering form
-			$this->click("css=.js-thread_line[data-id={$parentId}] #btn-submit");
+			$this->click("css=.threadLeaf[data-id={$parentId}] #btn-submit");
 
 			$this->_waitForThreadlineVisible($parentId);
 
@@ -105,7 +105,7 @@
 
 		protected function _openAnswerForm($id) {
 			// opening answer form
-			$this->click("css=.js-thread_line[data-id={$id}] .js-btn-setAnsweringForm");
+			$this->click("css=.threadLeaf[data-id={$id}] .js-btn-setAnsweringForm");
 			$this->_waitForAnsweringVisible($id);
 		}
 
@@ -113,41 +113,41 @@
 			// test that thread line is visible
 			$this->assertTrue(
 				$this->isVisible(
-					"css=.js-thread_line[data-id={$id}] .js-thread_line-content"
+					"css=.threadLeaf[data-id={$id}] .threadLeaf-content"
 				)
 			);
 			// click to open threadline
-			$this->click("css=.js-thread_line[data-id={$id}] .btn_show_thread");
+			$this->click("css=.threadLeaf[data-id={$id}] .btn_show_thread");
 			$this->_waitForPostingVisible($id);
 			// threadline should now be invisible
 			$this->assertFalse($this->_isThreadlineVisible($id));
 		}
 
 		protected function _closeThreadline($id) {
-			$this->click("css=.js-thread_line[data-id={$id}] .js-btn-strip");
+			$this->click("css=.threadLeaf[data-id={$id}] .js-btn-strip");
 		}
 
 		protected function _waitForPostingVisible($id) {
-			$this->waitForVisibleJq(".js-thread_line[data-id={$id}] .js-entry-view-core");
+			$this->waitForVisibleJq(".threadLeaf[data-id={$id}] .js-entry-view-core");
 		}
 
 		protected function _waitForThreadlineVisible($id) {
-			$this->waitForVisibleJq(".js-thread_line[data-id={$id}] .js-thread_line-content");
+			$this->waitForVisibleJq(".threadLeaf[data-id={$id}] .threadLeaf-content");
 		}
 
 		protected function _waitForAnsweringVisible($id) {
-			$this->waitForVisibleJq(".js-thread_line[data-id={$id}]  .entry.reply");
+			$this->waitForVisibleJq(".threadLeaf[data-id={$id}]  .entry.reply");
 		}
 
 		protected function _isThreadlineVisible($id) {
 			return $this->isVisible(
-				"css=.js-thread_line[data-id={$id}] .js-thread_line-content"
+				"css=.threadLeaf[data-id={$id}] .threadLeaf-content"
 			);
 		}
 
 		protected function _isPostingVisible($id) {
 			return $this->isVisible(
-				"css=.js-thread_line[data-id={$id}] .js-entry-view-core"
+				"css=.threadLeaf[data-id={$id}] .js-entry-view-core"
 			);
 		}
 	}

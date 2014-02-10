@@ -54,7 +54,7 @@
 
 			//* underline
 			$input = '[u]text[/u]';
-			$expected = array( 'span' => array( 'class' => 'c_bbc_underline' ), 'text', '/span' );
+			$expected = array( 'span' => array( 'class' => 'c-bbcode-underline' ), 'text', '/span' );
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 		}
@@ -79,7 +79,7 @@
 				'pre',
 				[
 					'div' => [
-						'class' => 'c_bbc_spoiler',
+						'class' => 'c-bbcode-spoiler',
 						'style' => 'display: inline;'
 					]
 				],
@@ -89,7 +89,7 @@
 				[
 					'a' => [
 						'href'         => '#',
-						'class'        => 'c_bbc_spoiler-link',
+						'class'        => 'c-bbcode-spoiler-link',
 						'onclick'
 					]
 				],
@@ -104,12 +104,12 @@
 		public function testList() {
 			$input = "[list]\n[*]fooo\n[*]bar\n[/list]";
 			$expected = array(
-					array( 'ul' => array( 'class' => 'c_bbc_ul' ) ),
-					array( 'li' => array( 'class' => 'c_bbc_li' ) ),
+					array( 'ul' => array( 'class' => 'c-bbcode-ul' ) ),
+					array( 'li' => array( 'class' => 'c-bbcode-li' ) ),
 					'fooo',
 					array( 'br' => array( ) ),
 					'/li',
-					array( 'li' => array( 'class' => 'c_bbc_li' ) ),
+					array( 'li' => array( 'class' => 'c-bbcode-li' ) ),
 					'bar',
 					'/li',
 					'/ul'
@@ -120,7 +120,7 @@
 
 		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
-			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c_bbc_link-dinfo'>[ebay.de]</span>";
+			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
@@ -163,7 +163,7 @@
 					),
 					'foobar',
 					'/a',
-					'span' => array( 'class' => 'c_bbc_link-dinfo' ), '[heise.de]', '/span'
+					'span' => array( 'class' => 'c-bbcode-link-dinfo' ), '[heise.de]', '/span'
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
@@ -224,35 +224,57 @@
 					),
 					'foobar',
 					'/a',
-					'span' => array( 'class' => 'c_bbc_link-dinfo' ), '[heise.co.uk]', '/span'
+					'span' => array( 'class' => 'c-bbcode-link-dinfo' ), '[heise.co.uk]', '/span'
 			);
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
-		public function testHashLink() {
+		public function testHashLinkSuccess() {
+			// inline content ([i])
 			$input = "[i]#2234[/i]";
-			$expected = array(
-				'em' => array(),
-				'a' => array(
-					'href' => '/hash/2234',
-				),
-				'#2234',
-				'/a',
-				'/em'
-			);
+			$expected = [
+					'em' => [],
+					'a' => [
+							'href' => '/hash/2234'
+					],
+					'#2234',
+					'/a',
+					'/em'
+			];
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
+			// lists
+			$input = "[list][*]#2234[/list]";
+			$expected = [
+					'ul' => ['class'],
+					'li' => ['class'],
+					'a' => [
+							'href' => '/hash/2234'
+					],
+					'#2234',
+					'/a',
+					'/li',
+					'/ul'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
+		public function testHashLinkFailure() {
+			// don't hash html encoded chars
 			$input = '&#039;';
 			$expected = '&#039;';
 			$result = $this->Bbcode->parse($input);
 			$this->assertTags($result, $expected);
 
+			// don't hash code
 			$input = '[code]#2234[/code]';
 			$result = $this->Bbcode->parse($input);
 			$this->assertNotContains('>#2234</a>', $result);
 
+			// not a valid hash
 			$input = '#2234t';
 			$result = $this->Bbcode->parse($input);
 			$this->assertEqual('#2234t', $result);
@@ -356,6 +378,19 @@
 
 			$input = '[email=mail@tosomeone.com]Mail[/email]';
 			$this->Bbcode->parse($input);
+		}
+
+		public function testFloat() {
+			$expected = [
+					'div' => ['class' => 'c-bbcode-float'],
+					'text',
+					'/div',
+					'more'
+			];
+
+			$input  = '[float]text[/float]more';
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
 		}
 
 		public function testAutoLink() {
@@ -492,25 +527,25 @@
 
 			// test for standard URIs
 			$input = '[img]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c_bbc_external-image" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" alt="" />';
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
-			$expected = '<img src="'.$this->Bbcode->webroot.'somewhere/macnemo.png" class="c_bbc_external-image" alt="" />';
+			$expected = '<img src="'.$this->Bbcode->webroot.'somewhere/macnemo.png" class="c-bbcode-external-image" alt="" />';
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($result, $expected);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c_bbc_external-image" width="50" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" alt="" />';
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
 			// test scaling with 2 parameters
 			$input = '[img=50x100]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c_bbc_external-image" width="50" height="100" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" height="100" alt="" />';
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
@@ -519,7 +554,7 @@
 			$expected = array(
 					array( 'img' => array(
 									'src' => 'http://localhost/img/macnemo.png',
-									'class' => "c_bbc_external-image",
+									'class' => "c-bbcode-external-image",
 									'style' => "float: left;",
 									'alt' => "",
 					) )
@@ -532,7 +567,7 @@
 			$expected = array(
 					array( 'img' => array(
 									'src' => 'http://localhost/img/macnemo.png',
-									'class' => "c_bbc_external-image",
+									'class' => "c-bbcode-external-image",
 									'style' => "float: right;",
 									'alt' => "",
 					) )
@@ -551,7 +586,7 @@
 					) ),
 					array( 'img' => array(
 									'src' => 'http://heise.de/img.png',
-									'class' => 'c_bbc_external-image',
+									'class' => 'c-bbcode-external-image',
 									'alt' => '',
 					) ),
 					'/a'
@@ -589,7 +624,7 @@
         // internal image
 			  $input 		= '[upload]test.png[/upload]';
 			  $expected = array(
-			  array( 'div' => array('class' => 'c_bbc_upload')),
+			  array( 'div' => array('class' => 'c-bbcode-upload')),
 			  array( 'img' => array(
 			  'src'	=> 'test.png',
 			  )),
@@ -601,7 +636,7 @@
         // internal image with attributes
 			  $input = '[upload width=50 height=60]test.png[/upload]';
         $expected = array(
-            array( 'div' => array( 'class' => 'c_bbc_upload' ) ),
+            array( 'div' => array( 'class' => 'c-bbcode-upload' ) ),
             array( 'img' => array(
                     'src'     => 'test.png',
                     'width'   => '50',
@@ -618,7 +653,7 @@
 			  $input 		= '[img#]test.png[/img]';
 			  $expected = array(
 			  array( 'div' => array(
-            'class' => 'c_bbc_upload'
+            'class' => 'c-bbcode-upload'
             ) ),
           array( 'img' => array(
                   'src' => 'test.png',
@@ -630,7 +665,7 @@
 
 			  // nested image does not have [domain.info]
 			  $input 		= '[url=http://heise.de][upload]test.png[/upload][/url]';
-			  $expected	=	"/c_bbc_link-dinfo/";
+			  $expected	=	"/c-bbcode-link-dinfo/";
 			  $result		= $this->Bbcode->parse($input);
 			  $this->assertNoPattern($expected, $result);
 
@@ -682,7 +717,7 @@
 			//* test escaping of [bbcode]
 			$input = '[code][b]text[b][/code]';
 			$expected = array(
-					array( 'div' => array( 'class' => 'c_bbc_code-wrapper' ) ),
+					array( 'div' => array( 'class' => 'c-bbcode-code-wrapper' ) ),
 					'preg:/.*?\[b\]text\[b\].*/',
 			);
 			$result = $this->Bbcode->parse($input);
@@ -692,7 +727,7 @@
 			$input = Sanitize::html(
 				"[code]\n" . $this->Bbcode->settings['quoteSymbol'] . "\n[/code]"
 			);
-			$expected = '`span class=.*?c_bbc_citation`';
+			$expected = '`span class=.*?c-bbcode-citation`';
 			$result = $this->Bbcode->parse($input);
 			$this->assertNoPattern($expected, $result);
 
@@ -710,7 +745,7 @@
 			$input = Sanitize::html("» test");
 			$result = $this->Bbcode->parse($input);
 			$expected = array(
-					'span' => array( 'class' => 'c_bbc_citation' ),
+					'span' => array( 'class' => 'c-bbcode-citation' ),
 					'&raquo; test',
 					'/span',
 			);
@@ -749,14 +784,14 @@
 
 		public function testHr() {
 			$input = '[hr][hr]';
-			$expected = '<hr class="c_bbc_hr"><hr class="c_bbc_hr">';
+			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
 			$result = $this->Bbcode->parse($input);
 			$this->assertEqual($result, $expected);
 		}
 
 		public function testHrShort() {
 			$input = '[---][---]';
-			$expected = '<hr class="c_bbc_hr"><hr class="c_bbc_hr">';
+			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
 			$result = $this->Bbcode->parse($input);
 			$this->assertEqual($result, $expected);
 		}

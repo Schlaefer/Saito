@@ -8,7 +8,7 @@
 			echo $this->fetch('meta');
 			echo $this->fetch('css');
 
-			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
+			if ($CurrentUser->isLoggedIn()):
 				echo $this->UserH->generateCss($CurrentUser->getSettings());
 			endif;
 
@@ -20,7 +20,7 @@
 			 * see: http://stackoverflow.com/questions/6448465/jquery-mobile-device-scaling
 			 */
 			?>
-		<meta name="viewport" content="height=device-height,width=device-width" />
+		<meta name="viewport" content="width=device-width" />
 		<script type="text/javascript">
 			//<![CDATA[
     if (navigator.userAgent.match(/iPad/i)) {

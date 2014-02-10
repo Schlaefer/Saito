@@ -107,7 +107,7 @@
 				$time = __('yesterday') . ' ' . strftime("%H:%M", $timestamp);
 			} else {
 				// yesterday and 18 hours and older
-				$time = strftime("%d.%m.%Y %H:%M", $timestamp);
+				$time = strftime("%d.%m.%Y", $timestamp);
 			}
 
 			$time = '<span title="' . strftime("%d.%m.%Y %T", $timestamp) . '">' .

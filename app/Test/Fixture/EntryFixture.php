@@ -76,7 +76,7 @@
 			[
 				'id' => 3,
 				'subject' => 'Third_Subject',
-				'text' => 'Third_Text',
+				'text' => '< Third_Text',
 				'pid' => 2,
 				'tid' => 1,
 				'time' => '2000-01-01 20:02:00',
@@ -184,7 +184,7 @@
 			[
 				'id' => 10,
 				'subject' => 'First_Subject',
-				'text' => 'First_Text',
+				'text' => "<script>alert('foo');<script>",
 				'pid' => 0,
 				'tid' => 10,
 				'time' => '2000-01-01 10:59:00',

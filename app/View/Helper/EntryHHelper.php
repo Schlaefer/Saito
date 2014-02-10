@@ -68,21 +68,22 @@
  * @throws InvalidArgumentException
  */
 		public function hasNewEntries($entry, $user) {
-			if ($entry['Entry']['pid'] != 0):
+			if ($entry['Entry']['pid'] != 0) {
 				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
-			endif;
-
+			}
 			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
 		}
 
 		public function generateEntryTypeCss($level, $new, $current, $viewed) {
-			$entryType = ($level === 0) ? 'thread' : 'reply';
+			$entryType = ($level === 0) ? 'et-root' : 'et-reply';
 			if ($new) {
-				$entryType .= 'new';
+				$entryType .= ' et-new';
+			} else {
+				$entryType .= ' et-old';
 			}
 			if (!empty($viewed)) {
 				if ($current === $viewed) {
-					$entryType = ($level === 0) ? 'actthread' : 'actreply';
+					$entryType .= ' et-current';
 				}
 			}
 			return $entryType;
@@ -99,6 +100,16 @@
 			$indexPage .= '/jump:' . $tid;
 
 			return $indexPage;
+		}
+
+		/**
+		 * evaluates if entry is n/t
+		 *
+		 * @param $entry
+		 * @return bool
+		 */
+		public function isNt($entry) {
+			return empty($entry['Entry']['text']);
 		}
 
 /**
@@ -137,26 +148,23 @@
 			return $out;
 		}
 
-		public function getCategorySelectForEntry($categories, $entry) {
-			if ( $entry['Entry']['pid'] == 0 ):
+		public function categorySelect($entry, $categories) {
+			if ($entry['Entry']['pid'] == 0) {
 				$out = $this->Form->input(
 						'category',
-						array(
-						'options' => array( $categories ),
-						'empty' => '',
-						'label' => __('cateogry') . ':',
-						'tabindex' => 1,
-						'error' => array(
-								'notEmpty' => __('error_category_empty'),
-						),
-						)
+						[
+								'options' => [$categories],
+								'empty' => true,
+								'label' => __('Category'),
+								'tabindex' => 1,
+								'error' => ['notEmpty' => __('error_category_empty')]
+						]
 				);
-			else :
-				// Send category for easy access in entries/preview when anwsering.
-				// If an entry is actually saved this value is not used but is looked up in DB.
+			} else {
+				// Send category for easy access in entries/preview when answering
+				// (not used when saved).
 				$out = $this->Form->hidden('category');
-			endif;
-
+			}
 			return $out;
 		}
 
@@ -179,23 +187,15 @@
 
 			$_threadLineCached = $this->threadLineCached($entrySub, $level);
 
-			if ($level === 0 &&
-					strtotime($entrySub['Entry']['last_answer']) > strtotime($CurrentUser['last_refresh'])
-			) {
-				$_threadLinePre = '<i class="fa fa-threadnew"></i>';
-			} else {
-				$_threadLinePre = '<i class="fa fa-thread"></i>';
-			}
-
 			// generate current entry
 			$out = <<<EOF
-<li class="js-thread_line {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
-	<div class="js-thread_line-content tl-cnt">
-		<button href="#" class="btnLink btn_show_thread thread_line-pre span_post_type">
-			{$_threadLinePre}
+<li class="threadLeaf {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
+	<div class="threadLine">
+		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
+			<i class="fa fa-thread"></i>
 		</button>
 		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
-			class='link_show_thread {$entrySub['Entry']['id']} span_post_type thread_line-content'>
+			class='link_show_thread {$entrySub['Entry']['id']} et threadLine-content'>
 				{$_threadLineCached}
 		</a>
 	</div>
@@ -247,9 +247,9 @@ EOF;
  * the frontpage. Think about (and benchmark) performance before you change it.
  */
 		public function threadLineCached(array $entrySub, $level) {
-			/* because of performance we use dont use $this->Html->link(...):
+			/* because of performance we use don't use $this->Html->link(...):
 			 * $out.= $this->EntryH->getFastLink($entrySub,
-			 *     array( 'class' => "link_show_thread {$entrySub['Entry']['id']} span_post_type" ));
+			 *     ['class' => "link_show_thread {$entrySub['Entry']['id']} et"]);
 			 */
 
 			/*because of performance we use hard coded links instead the cakephp helper:
@@ -262,7 +262,7 @@ EOF;
 						'category_acs_' . $entrySub['Category']['accession'] . '_exp');
 				}
 				$a = $this->_catL10n[$entrySub['Category']['accession']];
-				$category = '<span class="category_acs_' . $entrySub['Category']['accession'] . '"
+				$category = '<span class="c-category acs-' . $entrySub['Category']['accession'] . '"
             title="' . $entrySub['Category']['description'] . ' ' . ($a) . '">
         (' . $entrySub['Category']['category'] . ')
       </span>';
@@ -277,9 +277,9 @@ EOF;
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="thread_line-username"> – {$entrySub['User']['username']}</span>
+<span class="c-username"> – {$entrySub['User']['username']}</span>
 {$category}
-<span class="thread_line-post"> {$time} {$badges} </span>
+<span class="threadLine-post"> {$time} {$badges} </span>
 EOF;
 			return $out;
 		}

@@ -1,0 +1,103 @@
+$slidetab-width: 280px;
+$slidetab-tab-width: 28px;
+$slidetab-content-width: $slidetab-width - $slidetab-tab-width;
+
+#slidetabs {
+  float: right;
+  position: relative;
+  z-index: 5;
+  margin-right: - 2 * $padding;
+  margin-left: $padding;
+
+  background: $background-color;
+}
+
+.slidetab {
+  width: $slidetab-tab-width;
+
+  margin-bottom: 2 * $padding;
+  @include box-sizing(border-box);
+  font-size: $font-size-small;
+
+  // hides closed slidetab
+  float: right;
+  clear: both;
+
+  h4 {
+    margin: 0;
+  }
+}
+
+.slidetab.is-open {
+  width: $slidetab-width;
+
+  .slidetab-outer {
+    display: block;
+  }
+}
+
+.slidetab-outer {
+  display: none;
+  // prevents tab-button hanging in "mid air" on uninitialized shoutbox
+  min-height: 40px;
+  // tab-button space
+  margin-left: $slidetab-tab-width;
+
+  padding: $padding 2*$padding;
+  border-left: 1px solid $border-color;
+}
+
+.slidetab-tab {
+  float: left;
+  padding: 4px;
+  width: 20px;
+  height: 20px;
+  // anchors userlist-counter
+  position: relative;
+}
+
+.slidetab-tab-button {
+  color: $link-color;
+  cursor: pointer;
+}
+
+// slidetab userlist
+// -------------------------------------
+
+.slidetab-userlist-icon {
+  display: inline-block;
+  width: 1.1em;
+  padding-left: $padding;
+}
+
+#slidetabUserlist-counter {
+  position: absolute;
+  min-width: 6px;
+  background: #111111;
+  border: 1px solid white;
+  padding: 0 1px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.slidetabUserlist-counter-inner {
+  text-align: center;
+  color: white;
+  line-height: 12px;
+  font-size: 8px;
+}
+
+// shoutbox
+// -------------------------------------
+
+#shoutbox {
+  word-wrap: break-word;
+
+  img {
+    max-width: 100%;
+  }
+
+  .infoText {
+    text-align: center;
+  }
+}

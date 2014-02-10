@@ -58,3 +58,7 @@ msgstr "Bookmarks"
 #
 msgid "bookmarks/edit"
 msgstr "Edit Bookmark"
+
+#
+msgid "users/changepassword"
+msgstr "Change Password"

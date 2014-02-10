@@ -19,7 +19,7 @@ define(['views/thread', 'models/thread', 'collections/postings',
             });
             setFixtures(tl1Fixture);
             this.view = new ThreadView({
-              el: $('#jasmine-fixtures').find('.thread_box'),
+              el: $('#jasmine-fixtures').find('.threadBox'),
               postings: this.postings,
               model: this.model
             });
@@ -27,7 +27,7 @@ define(['views/thread', 'models/thread', 'collections/postings',
 
           it("as answer to threadline 1 simple", function() {
             setFixtures(tl2Fixture);
-            this.view.setElement($('#jasmine-fixtures').find('.thread_box'));
+            this.view.setElement($('#jasmine-fixtures').find('.threadBox'));
             expect($('#jasmine-fixtures')).not.toContain('li[data-id=2] + li + li.append');
             this.view._appendThreadlineToThread(1, $("<li class='append'></li>"));
             expect($('#jasmine-fixtures')).toContain('li[data-id=2] + li + li.append');

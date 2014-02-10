@@ -10,6 +10,7 @@
 				'stylesheets/static.css',
 				'stylesheets/admin.css'
 			]);
+			echo $this->Html->script('bootstrap/bootstrap');
 		?>
     <style type="text/css">
       div.submit {

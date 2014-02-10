@@ -77,6 +77,7 @@ class BookmarksController extends AppController {
 				$this->Session->setFlash(__('The bookmark could not be saved. Please, try again.'));
 			}
 		} else {
+			$this->initBbcode();
 			$this->request->data = $bookmark;
 		}
 	}
@@ -101,11 +102,13 @@ class BookmarksController extends AppController {
 	}
 
 /**
+ * Gets bookmark with Bookmark itself unsanitized
+ *
  * @param $bookmarkId
  * @param $userId
  * @return mixed
- * @throws NotFoundException
- * @throws MethodNotAllowedException
+ * @throws NotFoundException if bookmark does not exist
+ * @throws MethodNotAllowedException if bookmark does not belong to current user
  */
 	protected function _getBookmark($bookmarkId, $userId) {
 		$this->Bookmark->id = $bookmarkId;
@@ -121,6 +124,12 @@ class BookmarksController extends AppController {
 		if ($userId != $bookmark['Bookmark']['user_id']) {
 			throw new MethodNotAllowedException;
 		}
+
+		// @todo @bogus everything must be sanitized except for bookmark to edit
+		$this->Bookmark->sanitize(false);
+		$this->Bookmark->contain();
+		$bookmark['Bookmark'] = $this->Bookmark->findById($bookmarkId)['Bookmark'];
+
 		return $bookmark;
 	}
 

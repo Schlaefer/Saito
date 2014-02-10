@@ -650,14 +650,14 @@
 				array(
 					'return' => 'view'
 				));
-			$this->assertTextNotContains('l-box-footer box-footer-form', $result);
+			$this->assertTextNotContains('panel-footer panel-form', $result);
 
 			$this->_loginUser(3);
 			$result = $this->testAction('entries/view/1',
 				array(
 					'return' => 'view'
 				));
-			$this->assertTextContains('l-box-footer box-footer-form', $result);
+			$this->assertTextContains('panel-footer panel-form', $result);
 		}
 
 		/**
@@ -671,7 +671,7 @@
 				array(
 					'return' => 'view'
 				));
-			$this->assertTextNotContains('button_mod_panel', $result);
+			$this->assertTextNotContains('dropdown', $result);
 
 			/**
 			 * Mod Button is not visible for normal users
@@ -681,7 +681,7 @@
 				array(
 					'return' => 'view'
 				));
-			$this->assertTextNotContains('button_mod_panel', $result);
+			$this->assertTextNotContains('dropdown', $result);
 
 			/**
 			 * Mod Button is visible for mods
@@ -691,7 +691,7 @@
 				array(
 					'return' => 'view'
 				));
-			$this->assertTextContains('button_mod_panel', $result);
+			$this->assertTextContains('dropdown', $result);
 		}
 
 		public function testAppStats() {

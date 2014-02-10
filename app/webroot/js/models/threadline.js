@@ -29,8 +29,9 @@ define([
         },
 
         _setIsNewToUser: function() {
-            // @bogus performance
-            this.set('isNewToUser', $(this.get('html')).data('data-new') === '1');
+          if ($(this.get('html'))[0].getAttribute('data-new') === '1') {
+            this.set('isNewToUser', true);
+          }
         }
 
     });

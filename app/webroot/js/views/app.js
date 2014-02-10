@@ -24,7 +24,6 @@ define([
     events: {
       'click #showLoginForm': 'showLoginForm',
       'focus #header-searchField': 'widenSearchField',
-      'click #btn-scrollToTop': 'scrollToTop',
       'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
       "click #btn-category-chooser": "toggleCategoryChooser",
       'click #btn_header_logo': '_onEntriesIndexReload'
@@ -45,7 +44,7 @@ define([
     },
 
     initFromDom: function(options) {
-      $('.thread_box').each(_.bind(function(index, element) {
+      $('.threadBox').each(_.bind(function(index, element) {
         var threadView,
             threadId;
 
@@ -80,7 +79,7 @@ define([
         });
       }, this));
 
-      $('.js-thread_line').each(_.bind(function(index, element) {
+      $('.threadLeaf').each(_.bind(function(index, element) {
         var threadLineView,
             threadId,
             threadLineId,
@@ -206,7 +205,7 @@ define([
     },
 
     scrollToThread: function(tid) {
-      $('.thread_box[data-id=' + tid + ']')[0].scrollIntoView('top');
+      $('.threadBox[data-id=' + tid + ']')[0].scrollIntoView('top');
     },
 
     initAutoreload: function() {
@@ -263,11 +262,6 @@ define([
         position: ['center', 120],
         resizable: false
       });
-    },
-
-    scrollToTop: function(event) {
-      event.preventDefault();
-      window.scrollTo(0, 0);
     },
 
     manuallyMarkAsRead: function(event) {

@@ -19,6 +19,8 @@
 			'app.ecach',
 			'app.entry',
 			'app.setting',
+			'app.smiley',
+			'app.smiley_code',
 			'app.user',
 			'app.user_online'
 		];
@@ -90,7 +92,18 @@
 			$result = $this->testAction('/bookmarks/edit/1');
 		}
 
-		public function testEdit() {
+		public function testEditRead() {
+			$Bookmarks = $this->generate('Bookmarks');
+			$this->_loginUser(3);
+			$result = $this->testAction('/bookmarks/edit/2', ['method' => 'GET']);
+			$this->assertEqual($Bookmarks->request->data['Bookmark']['comment'],
+					'< Comment 2');
+			// special chars are escaped in entry-text
+			$this->assertContains('&lt;', $Bookmarks->request->data['Entry']['text']);
+			$this->assertNotContains('<', $Bookmarks->request->data['Entry']['text']);
+		}
+
+		public function testEditSave() {
 			$Bookmarks = $this->generate('Bookmarks',
 				array(
 					'models' => array(

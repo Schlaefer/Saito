@@ -6,7 +6,8 @@ define([
   'views/uploads', 'views/mediaInsert',
   'views/editCountdown',
   'models/preview', 'views/preview',
-  'lib/saito/jquery.scrollIntoView'
+  'lib/saito/jquery.scrollIntoView',
+  'jqueryAutosize'
 ], function($, _, Backbone, App, UploadsView, MediaInsertView, EditCountdown,
             PreviewModel, PreviewView) {
   'use strict';
@@ -42,12 +43,13 @@ define([
       "click .btn-markItUp-Media": "_media",
       "click .btn-submit": "_send",
       "click .btn-cite": "_cite",
-      "keypress .inp-subject": "_onKeyPressSubject"
+      "keypress .js-subject": "_onKeyPressSubject"
     },
 
     initialize: function(options) {
       this.parentThreadline = options.parentThreadline || null;
 
+      this._setupTextArea();
       if (!this.parentThreadline) {
         //* view came directly from server and is ready without rendering
         this._onFormReady();
@@ -68,10 +70,12 @@ define([
 
       this.$textarea.val(citeText + "\n\n" + currentText);
       citeContainer.slideToggle();
+      this.$textarea.trigger('autosize.resize');
       this.$textarea.focus();
     },
 
     _onKeyPressSubject: function(event) {
+      // intercepts sending to form's action url when inline answering
       if (event.keyCode === 13) {
         this._send(event);
       }
@@ -107,7 +111,7 @@ define([
       if (this.preview === false) {
         previewModel = new PreviewModel();
         this.preview = new PreviewView({
-          el: this.$('.preview .content'),
+          el: this.$('.preview .panel-content'),
           model: previewModel
         });
       }
@@ -120,7 +124,8 @@ define([
     },
 
     _setupTextArea: function() {
-      this.$textarea = $('textarea#EntryText');
+      this.$textarea = this.$('textarea#EntryText');
+      this.$textarea.autosize();
     },
 
     _requestAnsweringForm: function() {

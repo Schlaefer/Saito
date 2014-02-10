@@ -53,16 +53,16 @@ define([
     _Delimiter: {
       _conversationCoolOff: 300,
       _previousItemTime: null,
-      tpl: _.template('<div class="info_text"><span title="<%= time_long %>"><%= time %></span></div>'),
+      tpl: _.template('<div class="infoText"><span title="<%= time_long %>"><%= time %></span></div>'),
 
       append: function(itemView) {
         var itemTime = moment(itemView.model.get('time'));
-        this._itemTime = itemTime;
         // first entry
         if (this._previousItemTime === null) {
           this._previousItemTime = itemTime;
           return;
         }
+        this._itemTime = itemTime;
         this.$el = itemView.$el;
         if ((this._previousItemTime.unix() - itemTime.unix()) > this._conversationCoolOff) {
           this._prepend(this._previousItemTime);

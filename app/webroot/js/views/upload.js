@@ -11,7 +11,7 @@ define([
 
   var UploadView = Backbone.View.extend({
 
-    className: "box-content upload_box current",
+    className: "panel-content upload_box current",
 
     events: {
       "click .upload_box_delete": "_removeUpload",

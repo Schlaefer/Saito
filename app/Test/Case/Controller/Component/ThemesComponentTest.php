@@ -13,6 +13,14 @@
 
 	}
 
+	class ThemesComponentMock extends ThemesComponent {
+
+		public function themeDirs() {
+			return ['Default', 'Ixi', 'Paz'];
+		}
+
+	}
+
 	/**
 	 * ThemesComponent Test Case
 	 *
@@ -27,7 +35,7 @@
 		public function setUp() {
 			parent::setUp();
 			$Collection = new ComponentCollection();
-			$this->Themes = new ThemesComponent($Collection);
+			$this->Themes = new ThemesComponentMock($Collection);
 
 			$this->ThemeConfig = Configure::read('Saito.themes');
 
@@ -142,6 +150,13 @@
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
 			$this->assertEqual(array_values($_r), ['Default']);
+		}
+
+		public function testThemeDirs() {
+			$Collection = new ComponentCollection();
+			$this->Themes = new ThemesComponent($Collection);
+			$result = $this->Themes->themeDirs();
+			$this->assertEqual($result, ['Paz']);
 		}
 
 	}

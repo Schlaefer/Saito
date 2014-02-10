@@ -20,17 +20,17 @@ define(['underscore', 'marionette',
       this.model.set(_entry, {silent: true});
 
       var contentView = new ContentView({
-        el: this.$('.content'),
+        el: this.$('.postingBody'),
         model: this.model
       });
 
       var actionsView = new ActionView({
-        el: this.$('.box-footer-form'),
+        el: this.$('.postingLayout-actions'),
         model: this.model
       });
 
       var sliderView = new SliderView({
-        el: this.$('.posting_formular_slider'),
+        el: this.$('.postingLayout-slider'),
         model: this.model,
         collection: this.collection,
         parentThreadline: options.parentThreadline
