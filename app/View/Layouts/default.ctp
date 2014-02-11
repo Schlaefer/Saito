@@ -3,16 +3,21 @@
 		<link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
 		<?= $this->Html->css('stylesheets/static.css') ?>
 		<script>
-			var css = 'theme';
-			try {
-				preset = localStorage.theme;
-				if (preset && preset === 'night') {
-					css = 'night';
-				}
-			} catch (e) {}
-			document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
-			SaitoApp.app.settings.themePreset = css;
+			(function(SaitoApp) {
+				var css = 'theme';
+				try {
+					preset = localStorage.theme;
+					if (preset && preset === 'night') {
+						css = 'night';
+					}
+				} catch (e) {}
+				document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
+				SaitoApp.app.theme = {preset: css};
+			})(SaitoApp);
 		</script>
+		<noscript>
+			<?= $this->Html->css('stylesheets/theme.css') ?>
+		</noscript>
 	</head>
 <body class="l-body">
 	<script>
@@ -94,14 +99,11 @@
 			?>
 		</div>
 	<?php endif; ?>
-<?php echo $this->element('layout/html_footer'); ?>
+<?= $this->element('layout/html_footer'); ?>
 	<script>
-		require(['common'], function(){
+		require(['common'], function() {
 			require([SaitoApp.app.settings.webroot + 'theme/Paz/js/theme.js']);
-			require([SaitoApp.app.settings.webroot + 'theme/Paz/js/theme-switcher.js'], function(TS) {
-				new TS({preset: SaitoApp.app.settings.themePreset});
-			});
-		})
+		});
 	</script>
 </body>
 </html>
