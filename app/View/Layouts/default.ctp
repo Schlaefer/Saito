@@ -12,7 +12,7 @@
 					}
 				} catch (e) {}
 				document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'theme/Paz/css/stylesheets/' + css + '.css" />');
-				SaitoApp.app.settings.themePreset = css;
+				SaitoApp.app.theme = {preset: css};
 			})(SaitoApp);
 		</script>
 		<noscript>
@@ -102,11 +102,8 @@
 <?= $this->element('layout/html_footer'); ?>
 	<script>
 		require(['common'], function() {
-			require([SaitoApp.app.settings.webroot + 'theme/Paz/js/theme.js'],
-					function(Theme) {
-						Theme.start({preset: SaitoApp.app.settings.themePreset})
-					});
-		})
+			require([SaitoApp.app.settings.webroot + 'theme/Paz/js/theme.js']);
+		});
 	</script>
 </body>
 </html>
