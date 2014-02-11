@@ -10,4 +10,7 @@
 	echo $this->Html->scriptBlock($this->JsData->getAppJs($this));
 
 	$requireJsScript = 'main';
+	if (!Configure::read('debug')) {
+		$requireJsScript .= '.min';
+	}
 	echo $this->RequireJs->scriptTag($requireJsScript);
