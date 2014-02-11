@@ -48,13 +48,13 @@ define([
       });
     },
 
-    fetchHtml: function() {
+    fetchHtml: function(options) {
       $.ajax({
         success: _.bind(function(data) {
           this.set('html', data);
+          if (options || options.success) { options.success(); }
         }, this),
         type: 'POST',
-        async: false,
         dateType: "html",
         url: App.settings.get('webroot') + 'entries/view/' + this.get('id')
       });

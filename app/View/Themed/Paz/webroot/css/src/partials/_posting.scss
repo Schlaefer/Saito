@@ -55,7 +55,7 @@
     max-width: 100%;
   }
 
-  object, embed, video, iframe, .c-bbcode-external-image {
+  object, embed, video, iframe, .c-bbcode-external-image, .c-bbcode-upload {
     display: block;
     margin: 0 auto;
   }
@@ -73,4 +73,19 @@
   .c-bbcode-upload, .c-bbcode-external-image {
     margin: 0;
   }
+}
+
+// posting badges
+// -------------------------------------
+
+%posting-badge {
+  padding: 0px 0.5em;
+  font-size: $font-size-small;
+  vertical-align: top;
+}
+
+.posting-badge-nsfw {
+  @extend %posting-badge;
+  color: #FFF;
+  background-color: #F00;
 }

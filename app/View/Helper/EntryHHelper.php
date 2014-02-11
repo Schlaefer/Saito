@@ -137,7 +137,9 @@
 				$out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
 			endif;
 			if ($entry['Entry']['nsfw']):
-				$out .= '<span class="sprite-nbs-explicit" title="' . __('entry_nsfw_title') . '"></span> ';
+				$out .= '<span class="posting-badge-nsfw" title="' .
+						__('entry_nsfw_title') . '">' . __('posting.badge.nsfw') .
+						'</span> ';
 			endif;
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {

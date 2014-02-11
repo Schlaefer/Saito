@@ -1,6 +1,7 @@
 define(['underscore', 'marionette',
-  'views/postingAction', 'views/postingContent', 'views/postingSlider'],
-    function(_, Marionette, ActionView, ContentView, SliderView) {
+  'views/postingAction', 'views/postingContent', 'views/postingSlider',
+  'text!templates/spinner.html'],
+    function(_, Marionette, ActionView, ContentView, SliderView, spinnerTpl) {
   'use strict';
 
   var postingLayout = Marionette.Layout.extend({
@@ -12,9 +13,23 @@ define(['underscore', 'marionette',
       });
       // ensures html/data is loaded and in DOM
       if (options.inline) {
-        this.model.fetchHtml();
-        this.$el.html(this.model.get('html'));
+        this._loadData(options);
+      } else {
+        this._dataReady(options);
       }
+    },
+
+    _loadData: function(options) {
+      this.$el.html(spinnerTpl);
+      this.model.fetchHtml({
+        success: _.bind(function() {
+          this.$el.html(this.model.get('html'));
+          this._dataReady(options);
+        }, this)
+      });
+    },
+
+    _dataReady: function(options) {
       // grabs inline-data from html content
       var _entry = this.$('.js-data').data('entry');
       this.model.set(_entry, {silent: true});

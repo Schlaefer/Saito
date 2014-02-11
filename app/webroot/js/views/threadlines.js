@@ -1,195 +1,173 @@
 define([
-	'jquery',
-	'underscore',
-	'backbone',
-    'models/app',
-    'models/threadline',
-	'views/threadline-spinner',
-    'text!templates/threadline-spinner.html',
-    'views/postingLayout', 'models/posting',
-    'lib/saito/jquery.scrollIntoView'
-	], function($, _, Backbone, App, ThreadLineModel, ThreadlineSpinnerView,
-                threadlineSpinnerTpl, PostingLayout, PostingModel) {
+  'jquery',
+  'underscore',
+  'marionette',
+  'models/app',
+  'models/threadline',
+  'text!templates/threadline-spinner.html',
+  'views/postingLayout', 'models/posting',
+  'lib/saito/jquery.scrollIntoView'
+], function($, _, Marionette, App, ThreadLineModel, threadlineSpinnerTpl, PostingLayout, PostingModel) {
 
-        "use strict";
+  "use strict";
 
-		var ThreadLineView = Backbone.View.extend({
+  var ThreadLineView = Marionette.ItemView.extend({
 
-      className: 'threadLeaf',
-      tagName: 'li',
+    className: 'threadLeaf',
 
-			spinnerTpl: _.template(threadlineSpinnerTpl),
+    tagName: 'li',
 
-            /**
-             * Posting collection
-             */
-            postings: null,
+    spinnerTpl: threadlineSpinnerTpl,
 
-			events: {
-					'click .btn_show_thread': 'toggleInlineOpen',
-					'click .link_show_thread': 'toggleInlineOpenFromLink'
+    /**
+     * Posting collection
+     */
+    postings: null,
 
-					// is bound manualy after dom insert  in _toggleInlineOpened
-					// to hightlight the correct click target in iOS
-					// 'click .btn-strip-top': 'toggleInlineOpen'
-			},
+    ui: {
+      btnShowThread: '.btn_show_thread',
+      linkShowThread: '.link_show_thread'
+    },
 
-			initialize: function(options){
-                this.postings = options.postings;
+    events: {
+      'click @ui.btnShowThread': 'toggleInlineOpen',
+      'click @ui.linkShowThread': 'toggleInlineOpenFromLink'
 
-                this.model = new ThreadLineModel({id: options.id});
-                if(options.el === undefined) {
-                    this.model.fetch();
-                } else {
-                    this.model.set({html: this.el});
-                }
-                this.collection.add(this.model, {silent: true});
-                this.attributes = {'data-id': options.id};
+      // is bound manually after dom insert in _toggleInlineOpened
+      // to highlight the correct click target in iOS
+      // 'click .btn-strip-top': 'toggleInlineOpen'
+    },
 
-				this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
-                this.listenTo(this.model, 'change:html', this.render);
-			},
+    initialize: function(options) {
+      this.postings = options.postings;
 
-			toggleInlineOpenFromLink: function(event) {
-				if (this.model.get('isAlwaysShownInline')) {
-					this.toggleInlineOpen(event);
-				}
-			},
+      this.model = new ThreadLineModel({id: options.id});
+      if (options.el === undefined) {
+        this.model.fetch();
+      } else {
+        this.model.set({html: this.el});
+      }
+      this.collection.add(this.model, {silent: true});
+      this.attributes = {'data-id': options.id};
 
-      /**
-       * shows and hides the element that contains an inline posting
-       */
-      toggleInlineOpen: function(event) {
-        event.preventDefault();
-        if (!this.model.get('isInlineOpened')) {
-          this.model.set({
-            isInlineOpened: true
-          });
-        } else {
-          this.model.set({
-            isInlineOpened: false
-          });
-        }
-      },
+      this.listenTo(this.model, 'change:isInlineOpened', this._toggleInlineOpened);
+      this.listenTo(this.model, 'change:html', this.render);
+    },
 
-      _toggleInlineOpened: function(model, isInlineOpened) {
-        if (isInlineOpened) {
-          var id = this.model.id;
+    toggleInlineOpenFromLink: function(event) {
+      if (this.model.get('isAlwaysShownInline')) {
+        this.toggleInlineOpen(event);
+      }
+    },
 
-          if (!this.model.get('isContentLoaded')) {
-            this.tlsV = new ThreadlineSpinnerView({
-              el: this.$el.find('.threadLine-pre i')
-            });
-            this.tlsV.show();
+    /**
+     * shows and hides the element that contains an inline posting
+     */
+    toggleInlineOpen: function(event) {
+      event.preventDefault();
+      this.model.toggle('isInlineOpened');
+    },
 
-            this.$el.find('.threadLine').after(this.spinnerTpl({
-              id: id
-            }));
-            // @bogus, why no listenTo?
-            this.$el.find('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this));
+    _toggleInlineOpened: function(model, isInlineOpened) {
+      if (!isInlineOpened) {
+        this._closeInlineView();
+        return;
+      }
+      if (!this.model.get('isContentLoaded')) {
+        this.$('.threadLine').after(this.spinnerTpl);
+        // @bogus, why no listenTo?
+        this.$('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this));
+        this._insertContent();
+        this.model.set('isContentLoaded', true);
+      }
+      this._showInlineView();
+    },
 
-            this._insertContent();
-          } else {
-            this._showInlineView();
+    _insertContent: function() {
+      var id,
+          postingLayout;
+      id = this.model.get('id');
+
+      this.postingModel = new PostingModel({
+        id: id
+      });
+      this.postings.add(this.postingModel);
+
+      postingLayout = new PostingLayout({
+        el: this.$('.threadInline-slider'),
+        inline: true,
+        model: this.postingModel,
+        collection: this.postings,
+        parentThreadline: this.model
+      });
+    },
+
+    _showInlineView: function() {
+      var postShow = _.bind(function() {
+        var shouldScrollOnInlineOpen = this.model.get('shouldScrollOnInlineOpen');
+        if (shouldScrollOnInlineOpen) {
+          if (this.$el.scrollIntoView('isInView') === false) {
+            this.$el.scrollIntoView('bottom');
           }
         } else {
-          this._closeInlineView();
+          this.model.set('shouldScrollOnInlineOpen', true);
         }
-      },
+      }, this);
 
-      _insertContent: function() {
-        var id,
-            postingLayout;
-        id = this.model.get('id');
+      this.$('.threadLine').fadeOut(100, _.bind(
+              function() {
+                // performance: show() instead slide()
+                // this.$('.js-thread_inline.' + id).slideDown(0,
+                this.$('.js-thread_inline').show(0, postShow);
+              }, this));
+    },
 
-        this.postingModel = new PostingModel({
-          id: id
-        });
-        this.postings.add(this.postingModel);
+    _closeInlineView: function() {
+      // $('.js-thread_inline.' + id).slideUp('fast',
+      this.$('.js-thread_inline').hide(0,
+          _.bind(
+              function() {
+                this.$el.find('.threadLine').slideDown();
+                this._scrollLineIntoView();
+              },
+              this
+          )
+      );
+    },
 
-        postingLayout = new PostingLayout({
-          el: this.$('.threadInline-slider'),
-          inline: true,
-          model: this.postingModel,
-          collection: this.postings,
-          parentThreadline: this.model
-        });
-
-        this.model.set('isContentLoaded', true);
-        this._showInlineView();
-      },
-
-			_showInlineView: function () {
-                var postShow = _.bind(function() {
-                    var shouldScrollOnInlineOpen = this.model.get('shouldScrollOnInlineOpen');
-                    this.tlsV.hide();
-
-                    if (shouldScrollOnInlineOpen) {
-                        if (this.$el.scrollIntoView('isInView') === false) {
-                            this.$el.scrollIntoView('bottom');
-                        }
-                    } else {
-                        this.model.set('shouldScrollOnInlineOpen', true);
-                    }
-                }, this);
-
-                this.$el.find('.threadLine').fadeOut(
-                    100,
-                    _.bind(
-                        function() {
-                            // performance: show() instead slide()
-                            // this.$('.js-thread_inline.' + id).slideDown(0,
-                            this.$('.js-thread_inline').show(0, postShow);
-                        }, this)
-                );
+    /**
+     * if the line is not in the browser windows at the moment
+     * scroll to that line and highlight it
+     */
+    _scrollLineIntoView: function() {
+      var thread_line = this.$('.threadLine');
+      if (!thread_line.scrollIntoView('isInView')) {
+        thread_line.scrollIntoView('top')
+            .effect(
+            "highlight",
+            {
+              times: 1
             },
+            3000);
+      }
+    },
 
-			_closeInlineView: function() {
-				// $('.js-thread_inline.' + id).slideUp('fast',
-				this.$('.js-thread_inline').hide(0,
-					_.bind(
-						function() {
-							this.$el.find('.threadLine').slideDown();
-                            this._scrollLineIntoView();
-						},
-						this
-					)
-				);
-			},
+    render: function() {
+      var $oldEl,
+          newHtml,
+          $newEl;
 
-			/**
-             * if the line is not in the browser windows at the moment
-             * scroll to that line and highlight it
-             */
-			_scrollLineIntoView: function () {
-                var thread_line = this.$('.threadLine');
-                if (!thread_line.scrollIntoView('isInView')) {
-                    thread_line.scrollIntoView('top')
-                        .effect(
-                            "highlight",
-                            {
-                                times: 1
-                            },
-                            3000);
-                }
-			},
+      newHtml = this.model.get('html');
+      if (newHtml.length > 0) {
+        $oldEl = this.$el;
+        $newEl = $(this.model.get('html'));
+        this.setElement($newEl);
+        $oldEl.replaceWith($newEl);
+      }
+      return this;
+    }
+  });
 
-            render: function() {
-                var $oldEl,
-                    newHtml,
-                    $newEl;
+  return ThreadLineView;
 
-                newHtml =  this.model.get('html');
-                if (newHtml.length > 0) {
-                    $oldEl = this.$el;
-                    $newEl = $(this.model.get('html'));
-                    this.setElement($newEl);
-                    $oldEl.replaceWith($newEl);
-                }
-                return this;
-            }
-        });
-
-		return ThreadLineView;
-
-	});
+});

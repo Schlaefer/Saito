@@ -603,7 +603,7 @@
 
          // Create a map of arguments to return values.
         $map = array(
-          array( 'test.png', '<img src="test.png" />' ),
+          array( 'test.png', [], '<img src="test.png" />'),
           array(
               'test.png',
               array(
@@ -738,6 +738,12 @@
 			$result = $this->Bbcode->parse($input);
 			$expected = 'lang="php"';
       $this->assertContains($expected, $result);
+		}
+
+		public function testCodeDetaginize() {
+			$input = '[code bash]pre http://example.com post[/code]';
+			$result = $this->Bbcode->parse($input);
+			$this->assertNotContains('autoLink', $result);
 		}
 
 		public function testMarkiereZitat() {

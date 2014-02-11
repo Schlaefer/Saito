@@ -150,7 +150,7 @@
 						<div class="checkbox">
 							<?php
 								echo $this->Form->checkbox('nsfw');
-								echo $this->Form->label('nsfw', __('entry_nsfw_title'));
+								echo $this->Form->label('nsfw', __('posting.badge.nsfw.exp'));
 							?>
 						</div>
 						<div class="checkbox">
