@@ -56,7 +56,7 @@
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
 							<li>
-								<a href="http://saito.siezi.com/">
+								<a href="<?= Configure::read('Saito.saitoHomepage') ?>">
 									Saito
 								</a>
 							</li>

@@ -42,7 +42,7 @@
     <div class="disclaimer-inside">
       <h3><?= __('About') ?></h3>
       <p>
-        <a href="http://saito.siezi.com/">
+        <a href="<?= Configure::read('Saito.saitoHomepage') ?>">
 					<?= __('Powered by Saito v%s.', Configure::read("Saito.v")) ?>
 				</a>
         <br/>

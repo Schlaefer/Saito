@@ -18,6 +18,7 @@ Configuration 	| Saito 	  | Slidetabs 	| all 	| array 	| names of all installed 
 Configuration 	| Saito 	  | Smilies 	| smilies_all 	| array 	| Smilies from `smilies` table
 Configuration 	| Saito 	  | Smlies 	| smilies_all_html	| array 	| Html-formatierte Smilies
 Configuration 	| Saito 	  | theme 	| 	| string	| theme name; default ist "default"
+Configuration 	| Saito 	  | saitoHomepage 	| 	| string	| Saito homepage URL 
 Configuration 	| Saito 	  | v 	| 	| string	| internal revision number
 Session 	      | User 	    | last_refresh_tmp 	| 	| integer	| Speichert letzten Session Login für Mark as Read
 
