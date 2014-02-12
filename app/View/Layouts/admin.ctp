@@ -26,9 +26,7 @@
 			<div class="navbar">
 				<div class="navbar-inner">
 					<div class="container" style="width: auto;">
-						<a class="brand" href="http://saito.siezi.com/">
-							Saito
-						</a>
+						<?= $this->Html->link(__('Forum'), '/', ['class' => 'brand']); ?>
 						<ul class="nav">
 							<li class="<?php  if (preg_match('/\/admin$/', $this->request->here)) { echo 'active'; }; ?>">
 								<?php
@@ -58,10 +56,9 @@
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
 							<li>
-								<?php
-								echo $this->Html->link(__('Forum'),
-										array( 'controller' => 'entries', 'action' => 'index', 'admin' => false ));
-								?>
+								<a href="http://saito.siezi.com/">
+									Saito
+								</a>
 							</li>
 						</ul>
 					</div>
