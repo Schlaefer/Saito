@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-12 19:33+0100\n"
-"PO-Revision-Date: 2014-02-12 19:33+0100\n"
+"PO-Revision-Date: 2014-02-12 20:05+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -64,7 +64,7 @@ msgstr "Das config Verzeichnis hat NICHT die erforderlichen Schreibrechte"
 #: Plugin/Install/View/Install/index.ctp:24
 #, php-format
 msgid "PHP version %s > 5.4"
-msgstr " "
+msgstr ""
 
 #: Plugin/Install/View/Install/index.ctp:27
 #, php-format
@@ -731,11 +731,11 @@ msgstr "Alle Einträge als gelesen markieren."
 #: View/Entries/merge.ctp:2
 #, php-format
 msgid "Merge thread %s"
-msgstr ""
+msgstr "Thread %s anfügen"
 
 #: View/Entries/merge.ctp:9
 msgid "Merge onto entry with ID:"
-msgstr ""
+msgstr "Anfügen an den Beitrag mit ID:"
 
 #: View/Entries/mix.ctp:5 View/Users/changepassword.ctp:4
 #: View/Users/edit.ctp:4
