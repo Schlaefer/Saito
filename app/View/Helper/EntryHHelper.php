@@ -140,6 +140,7 @@
 						__('entry_nsfw_title') . '">' . __('posting.badge.nsfw') .
 						'</span> ';
 			endif;
+			// anchor for inserting solve-icon via FE-JS
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {
 				$out .= '<i class="fa fa-badge-solves solves-isSolved" title="' .
