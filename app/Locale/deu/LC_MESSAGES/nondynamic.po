@@ -375,3 +375,19 @@ msgstr "Stopuhr"
 #
 msgid "stopwatch_get_exp"
 msgstr "Ausgabe der Stopuhrzeiten durch Anfügen von <code>?stopwatch=true</code> an URL in Production-Modus für eingeloggte Nutzer."
+
+#
+msgid "api_enabled"
+msgstr "API aktiviert"
+
+#
+msgid "api_enabled_exp"
+msgstr "Aktiviert die API für externen Zugriff. Wird u.A. für die Shoutbox oder die Mobilversion benötigt."
+
+#
+msgid "api_crossdomain"
+msgstr "API CORS"
+
+#
+msgid "api_crossdomain_exp"
+msgstr "Wert für den Access-Control-Allow-Origin Header (Standard ist leer)."

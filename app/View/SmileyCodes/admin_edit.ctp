@@ -14,7 +14,7 @@
 	<?php
 		echo $this->Form->submit(
 				__('Submit'), array(
-				'class' => 'btn-primary',
+				'class' => 'btn btn-primary',
 		));
 		echo $this->Form->end();
 	?>

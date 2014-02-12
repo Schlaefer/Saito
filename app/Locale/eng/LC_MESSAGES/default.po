@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 16:10+0100\n"
-"PO-Revision-Date: 2014-02-12 16:10+0100\n"
+"POT-Creation-Date: 2014-02-12 19:27+0100\n"
+"PO-Revision-Date: 2014-02-12 19:27+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -81,11 +81,16 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
-#: View/Admins/admin_index.ctp:17
+#: View/Admins/admin_index.ctp:3
+#, fuzzy
+msgid "admin.sysInfo.h"
+msgstr "System-Info"
+
+#: View/Admins/admin_index.ctp:19
 msgid "Empty Caches"
 msgstr ""
 
-#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:55
+#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:53
 msgid "Logs"
 msgstr ""
 
@@ -94,7 +99,7 @@ msgstr ""
 msgid "Latest log entries. See full logs at \"%s\"."
 msgstr ""
 
-#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:52
+#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:50
 msgid "Stats"
 msgstr ""
 
@@ -192,12 +197,17 @@ msgstr ""
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Layouts/admin.ctp:46 webroot/dist/main.min.js:3
+#: View/Layouts/admin.ctp:44 webroot/dist/main.min.js:3
 #: webroot/js/views/categoryChooser.js:25
 msgid "Categories"
 msgstr ""
 
+#: View/Categories/admin_add.ctp:9
+msgid "Title"
+msgstr ""
+
 #: View/Categories/admin_add.ctp:13 View/Categories/admin_edit.ctp:14
+#: View/Categories/admin_index.ctp:15 View/Categories/admin_index.ctp:51
 #: View/Categories/view.ctp:24
 msgid "Accession"
 msgstr ""
@@ -214,6 +224,10 @@ msgstr ""
 #: View/Categories/admin_add.ctp:18 View/Categories/admin_edit.ctp:19
 msgid "Mod"
 msgstr ""
+
+#: View/Categories/admin_add.ctp:24
+msgid "category.create"
+msgstr "Create Category"
 
 #: View/Categories/admin_delete.ctp:2 View/Categories/view.ctp:40
 msgid "Delete Category"
@@ -245,12 +259,20 @@ msgstr ""
 msgid "New Category"
 msgstr ""
 
+#: View/Categories/admin_index.ctp:12
+msgid "sort.order"
+msgstr "Order"
+
 #: View/Categories/admin_index.ctp:34 View/Categories/index.ctp:30
 #: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:37
 #: View/SmileyCodes/admin_index.ctp:29 View/Smilies/admin_index.ctp:31
 #: View/Users/view.ctp:175
 msgid "Edit"
 msgstr ""
+
+#: View/Categories/admin_index.ctp:51
+msgid "accession.exp"
+msgstr "0 Public, 1 User, 2 Mod and Admins"
 
 #: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
 #: View/Categories/view.ctp:40 View/Categories/view.ctp:108
@@ -738,30 +760,30 @@ msgstr "Simple Search"
 msgid "search_nothing_found"
 msgstr "Nothing found."
 
-#: View/Layouts/admin.ctp:35
+#: View/Layouts/admin.ctp:29
+msgid "Forum"
+msgstr ""
+
+#: View/Layouts/admin.ctp:33
 msgid "Overview"
 msgstr ""
 
-#: View/Layouts/admin.ctp:40 View/Settings/admin_edit.ctp:2
+#: View/Layouts/admin.ctp:38 View/Settings/admin_edit.ctp:2
 #: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:119
 #: View/Users/edit.ctp:144
 msgid "Settings"
 msgstr ""
 
-#: View/Layouts/admin.ctp:43 View/Users/admin_add.ctp:2
+#: View/Layouts/admin.ctp:41 View/Users/admin_add.ctp:2
 #: View/Users/admin_index.ctp:1 View/Users/admin_index.ctp:3
 msgid "Users"
 msgstr ""
 
-#: View/Layouts/admin.ctp:49 View/SmileyCodes/admin_edit.ctp:1
+#: View/Layouts/admin.ctp:47 View/SmileyCodes/admin_edit.ctp:1
 #: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
 #: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
 #: View/Smilies/admin_index.ctp:3 View/Helper/MarkitupEditorHelper.php:168
 msgid "Smilies"
-msgstr ""
-
-#: View/Layouts/admin.ctp:62
-msgid "Forum"
 msgstr ""
 
 #: View/Layouts/default.ctp:55
@@ -2708,14 +2730,20 @@ msgstr ""
 msgid "token test"
 msgstr ""
 
+#~ msgid "admin.sysInfo.version"
+#~ msgstr "Saito version: %s"
+
+#~ msgid "admin.sysInfo.server"
+#~ msgstr "Server: %s"
+
+#~ msgid "admin.sysInfo.baseUrl"
+#~ msgstr "Base-URL: %s"
+
 #~ msgid "answering_forbidden_locked_shp"
 #~ msgstr "Answering forbidden by moderator."
 
 #~ msgid "user_show_entries"
 #~ msgstr "Show User's Entries"
-
-#~ msgid "cateogry"
-#~ msgstr "Category"
 
 #, fuzzy
 #~ msgid "User :name"

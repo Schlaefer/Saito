@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 16:08+0100\n"
-"PO-Revision-Date: 2014-02-12 16:09+0100\n"
+"POT-Creation-Date: 2014-02-12 19:33+0100\n"
+"PO-Revision-Date: 2014-02-12 19:33+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -64,7 +64,7 @@ msgstr "Das config Verzeichnis hat NICHT die erforderlichen Schreibrechte"
 #: Plugin/Install/View/Install/index.ctp:24
 #, php-format
 msgid "PHP version %s > 5.4"
-msgstr ""
+msgstr " "
 
 #: Plugin/Install/View/Install/index.ctp:27
 #, php-format
@@ -82,11 +82,16 @@ msgstr ""
 msgid "Install"
 msgstr "Installieren"
 
-#: View/Admins/admin_index.ctp:17
+#: View/Admins/admin_index.ctp:3
+#, fuzzy
+msgid "admin.sysInfo.h"
+msgstr "Systeminfo"
+
+#: View/Admins/admin_index.ctp:19
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
-#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:55
+#: View/Admins/admin_logs.ctp:1 View/Layouts/admin.ctp:53
 msgid "Logs"
 msgstr ""
 
@@ -95,7 +100,7 @@ msgstr ""
 msgid "Latest log entries. See full logs at \"%s\"."
 msgstr "Letzte Log-Einträge. Vollständige Logs befinden sich in \"%s\"."
 
-#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:52
+#: View/Admins/admin_stats.ctp:8 View/Layouts/admin.ctp:50
 msgid "Stats"
 msgstr "Statistik"
 
@@ -193,15 +198,20 @@ msgstr "Neuer Beitrag"
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Categories/index.ctp:2
-#: View/Layouts/admin.ctp:46 webroot/dist/main.min.js:3
+#: View/Layouts/admin.ctp:44 webroot/dist/main.min.js:3
 #: webroot/js/views/categoryChooser.js:25
 msgid "Categories"
 msgstr "Kategorien"
 
+#: View/Categories/admin_add.ctp:9
+msgid "Title"
+msgstr "Titel"
+
 #: View/Categories/admin_add.ctp:13 View/Categories/admin_edit.ctp:14
+#: View/Categories/admin_index.ctp:15 View/Categories/admin_index.ctp:51
 #: View/Categories/view.ctp:24
 msgid "Accession"
-msgstr ""
+msgstr "Zugriff"
 
 #: View/Categories/admin_add.ctp:16 View/Categories/admin_edit.ctp:17
 msgid "Anonymous"
@@ -215,6 +225,10 @@ msgstr "Benutzer"
 #: View/Categories/admin_add.ctp:18 View/Categories/admin_edit.ctp:19
 msgid "Mod"
 msgstr "Moderator"
+
+#: View/Categories/admin_add.ctp:24
+msgid "category.create"
+msgstr "Kategorie anlegen"
 
 #: View/Categories/admin_delete.ctp:2 View/Categories/view.ctp:40
 #, fuzzy
@@ -242,6 +256,11 @@ msgstr "Abbrechen"
 msgid "Edit Category"
 msgstr "Kategorie bearbeiten"
 
+#: View/Categories/admin_edit.ctp:9 View/Categories/admin_index.ctp:12
+#: View/Smilies/admin_add.ctp:8
+msgid "sort.order"
+msgstr "Sortierung"
+
 #: View/Categories/admin_index.ctp:5 View/Categories/index.ctp:53
 #: View/Categories/view.ctp:42
 msgid "New Category"
@@ -253,6 +272,10 @@ msgstr "Neue Kategorie"
 #: View/Users/view.ctp:175
 msgid "Edit"
 msgstr "Bearbeiten"
+
+#: View/Categories/admin_index.ctp:51
+msgid "accession.exp"
+msgstr "0 Öffentlich, 1 Benutzer, 2 Moderatoren und Administratoren"
 
 #: View/Categories/edit.ctp:20 View/Categories/index.ctp:31
 #: View/Categories/view.ctp:40 View/Categories/view.ctp:108
@@ -292,7 +315,7 @@ msgstr ""
 
 #: View/Categories/view.ctp:9
 msgid "Category Order"
-msgstr ""
+msgstr "Kategorienreihenfolge"
 
 #: View/Categories/view.ctp:19
 msgid "Description"
@@ -665,7 +688,7 @@ msgstr ""
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:58 Controller/UsersController.php:483
+#: View/Entries/add.ctp:58 Controller/UsersController.php:481
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
@@ -758,31 +781,31 @@ msgstr "Einfache Suche"
 msgid "search_nothing_found"
 msgstr "Keine Einträge."
 
-#: View/Layouts/admin.ctp:35
+#: View/Layouts/admin.ctp:29
+msgid "Forum"
+msgstr ""
+
+#: View/Layouts/admin.ctp:33
 msgid "Overview"
 msgstr "Übersicht"
 
-#: View/Layouts/admin.ctp:40 View/Settings/admin_edit.ctp:2
+#: View/Layouts/admin.ctp:38 View/Settings/admin_edit.ctp:2
 #: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:119
 #: View/Users/edit.ctp:144
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: View/Layouts/admin.ctp:43 View/Users/admin_add.ctp:2
+#: View/Layouts/admin.ctp:41 View/Users/admin_add.ctp:2
 #: View/Users/admin_index.ctp:1 View/Users/admin_index.ctp:3
 #, fuzzy
 msgid "Users"
 msgstr "Benutzer"
 
-#: View/Layouts/admin.ctp:49 View/SmileyCodes/admin_edit.ctp:1
+#: View/Layouts/admin.ctp:47 View/SmileyCodes/admin_edit.ctp:1
 #: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
 #: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
 #: View/Smilies/admin_index.ctp:3 View/Helper/MarkitupEditorHelper.php:168
 msgid "Smilies"
-msgstr ""
-
-#: View/Layouts/admin.ctp:62
-msgid "Forum"
 msgstr ""
 
 #: View/Layouts/default.ctp:55
@@ -887,6 +910,14 @@ msgstr "Neuer Smiley Code"
 #: View/Smilies/admin_add.ctp:3 View/Smilies/admin_add.ctp:4
 msgid "Add Smiley"
 msgstr "Smiley hinzufügen"
+
+#: View/Smilies/admin_add.ctp:9
+msgid "Icon"
+msgstr "Ikon"
+
+#: View/Smilies/admin_add.ctp:10
+msgid "Image"
+msgstr "Bild"
 
 #: View/Smilies/admin_edit.ctp:2
 msgid "Edit Smiley"
@@ -1529,7 +1560,7 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:38 Controller/UsersController.php:334
+#: Controller/UsersController.php:38 Controller/UsersController.php:332
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
@@ -1542,75 +1573,75 @@ msgstr "Fehler beim Login!"
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:152
+#: Controller/UsersController.php:151
 msgid "user.admin.add.success"
 msgstr "Nutzer wurde erfolgreich angelegt."
 
-#: Controller/UsersController.php:175 Controller/UsersController.php:197
-#: Controller/UsersController.php:231
+#: Controller/UsersController.php:173 Controller/UsersController.php:195
+#: Controller/UsersController.php:229
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/UsersController.php:277
+#: Controller/UsersController.php:275
 msgid "The user could not be saved. Please, try again."
 msgstr "Der Benutzer konnte nicht gespeichert werden."
 
-#: Controller/UsersController.php:298
+#: Controller/UsersController.php:296
 #, php-format
 msgid "Edit %s Profil"
 msgstr "%s Profil bearbeiten"
 
-#: Controller/UsersController.php:314 Controller/UsersController.php:353
+#: Controller/UsersController.php:312 Controller/UsersController.php:351
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:323
+#: Controller/UsersController.php:321
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:326
+#: Controller/UsersController.php:324
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: Controller/UsersController.php:337
+#: Controller/UsersController.php:335
 #, php-format
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:343
+#: Controller/UsersController.php:341
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:360
+#: Controller/UsersController.php:358
 msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
-#: Controller/UsersController.php:362
+#: Controller/UsersController.php:360
 msgid "You can't delete the installation account."
 msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
-#: Controller/UsersController.php:364
+#: Controller/UsersController.php:362
 #, php-format
 msgid "User %s deleted."
 msgstr "Nutzer %s gelöscht."
 
-#: Controller/UsersController.php:368
+#: Controller/UsersController.php:366
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:392
+#: Controller/UsersController.php:390
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:461
+#: Controller/UsersController.php:459
 msgid "error_email_not-valid"
 msgstr "Keine gültige Email-Adresse."
 
-#: Controller/UsersController.php:508
+#: Controller/UsersController.php:506
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:513
+#: Controller/UsersController.php:511
 #, fuzzy
 msgid "Message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
@@ -2777,6 +2808,18 @@ msgstr ""
 msgid "token test"
 msgstr ""
 
+#~ msgid "Create"
+#~ msgstr "Anlegen"
+
+#~ msgid "admin.sysInfo.version"
+#~ msgstr "Saito-Version: %s"
+
+#~ msgid "admin.sysInfo.server"
+#~ msgstr "Server: %s"
+
+#~ msgid "admin.sysInfo.baseUrl"
+#~ msgstr "Basis-URL: %s"
+
 #~ msgid "answering_forbidden_locked_shp"
 #~ msgstr "Antworten gesperrt durch Moderator."
 
@@ -3364,10 +3407,6 @@ msgstr ""
 #~ msgid "back_to_posting_linkname"
 #~ msgstr "zurück zum Posting von"
 
-#, fuzzy
-#~ msgid "Image"
-#~ msgstr "Seite"
-
 #~ msgid "[NSFW]"
 #~ msgstr "[NBS]"
 
@@ -3378,9 +3417,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Bitte URI zum Video (h.264 oder WebM) eingeben.:!:http://beispiel.de/"
 #~ "video.mp4"
-
-#~ msgid "search_sort_order"
-#~ msgstr "Sortierung"
 
 #~ msgid "captcha_result_too_fast"
 #~ msgstr "Sie waren zu schnell mit der Eingabe."
