@@ -144,7 +144,7 @@
 				'user_lock' => 0,
 				'personal_messages' => 0,
 				'user_category_custom' => '',
-				'registered' => '2009-01-01 00:00',
+				'registered' => '2010-09-01 11:12',
 				'activate_code' => 0,
 			),
 		);

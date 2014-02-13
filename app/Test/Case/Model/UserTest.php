@@ -35,6 +35,11 @@
 			$this->assertEmpty($result);
 		}
 
+		public function testFindLatest() {
+			$result = $this->User->find('latest');
+			$this->assertEqual($result['User']['id'], 6);
+		}
+
 		public function testSetCategoryAll() {
 			$User = $this->getMockForModel(
 				'User',

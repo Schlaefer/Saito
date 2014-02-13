@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 19:27+0100\n"
-"PO-Revision-Date: 2014-02-12 19:27+0100\n"
+"POT-Creation-Date: 2014-02-13 20:36+0100\n"
+"PO-Revision-Date: 2014-02-13 20:36+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -163,7 +163,8 @@ msgid "Add Category"
 msgstr ""
 
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
-#: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
+#: View/Categories/edit.ctp:14 View/Entries/merge.ctp:9
+#: View/Settings/admin_edit.ctp:20 View/SmileyCodes/admin_add.ctp:8
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
 #: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:46
 msgid "Submit"
@@ -254,14 +255,15 @@ msgstr ""
 msgid "Edit Category"
 msgstr ""
 
+#: View/Categories/admin_edit.ctp:9 View/Categories/admin_index.ctp:12
+#: View/Smilies/admin_add.ctp:8 View/Smilies/admin_edit.ctp:9
+msgid "sort.order"
+msgstr "Order"
+
 #: View/Categories/admin_index.ctp:5 View/Categories/index.ctp:53
 #: View/Categories/view.ctp:42
 msgid "New Category"
 msgstr ""
-
-#: View/Categories/admin_index.ctp:12
-msgid "sort.order"
-msgstr "Order"
 
 #: View/Categories/admin_index.ctp:34 View/Categories/index.ctp:30
 #: View/Categories/view.ctp:107 View/Settings/admin_index.ctp:37
@@ -418,27 +420,22 @@ msgid "Apply"
 msgstr ""
 
 #: View/Elements/entry/thread_cached_init.ctp:9
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-threadCollapse"
 msgstr "hide"
 
 #: View/Elements/entry/thread_cached_init.ctp:11
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-showNewThreads"
 msgstr "open new"
 
 #: View/Elements/entry/thread_cached_init.ctp:12
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-closeThreads"
 msgstr "close all"
 
 #: View/Elements/entry/thread_cached_init.ctp:13
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:13
 msgid "btn-openThreads"
 msgstr "open all"
 
@@ -477,50 +474,45 @@ msgstr ""
 "thread?"
 
 #: View/Elements/layout/disclaimer.ctp:4
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:7
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:13 View/Users/view.ctp:56
+#: View/Elements/layout/disclaimer.ctp:7 View/Users/view.ctp:56
 msgid "Contact"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:10
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:7
 msgid "Mobile"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:13
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:22
 msgid "RSS"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:20
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:32
 msgid "Status"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:28
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:40
 msgid ""
-":entries Entries in :threads Threads; :registred registred users, :loggedin "
-"logged in, :anon anonymous"
-msgstr ""
-
-#: View/Elements/layout/disclaimer.ctp:43
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:55
-msgid "About"
+":entries Entries in :threads Threads; :registered members, :loggedin logged "
+"in, :anon anonymous"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:46
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:58
+msgid "disclaimer.newestMember"
+msgstr "The newest member is %s."
+
+#: View/Elements/layout/disclaimer.ctp:53
+msgid "About"
+msgstr ""
+
+#: View/Elements/layout/disclaimer.ctp:56
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr ""
 
-#: View/Elements/layout/disclaimer.ctp:49
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:61
+#: View/Elements/layout/disclaimer.ctp:59
 #, php-format
 msgid "Generated in %s s."
 msgstr ""
@@ -565,7 +557,6 @@ msgid "search_submit"
 msgstr "Search"
 
 #: View/Elements/layout/html_footer.ctp:5
-#: View/Themed/Ixi/Layouts/default.ctp:105
 msgid ""
 "This web-application depends on JavaScript. Please activate JavaScript in "
 "your browser."
@@ -711,7 +702,7 @@ msgstr "Marks all new entries as read."
 msgid "Merge thread %s"
 msgstr ""
 
-#: View/Entries/merge.ctp:9
+#: View/Entries/merge.ctp:8
 msgid "Merge onto entry with ID:"
 msgstr ""
 
@@ -883,6 +874,14 @@ msgstr ""
 
 #: View/Smilies/admin_add.ctp:3 View/Smilies/admin_add.ctp:4
 msgid "Add Smiley"
+msgstr ""
+
+#: View/Smilies/admin_add.ctp:9
+msgid "Icon"
+msgstr ""
+
+#: View/Smilies/admin_add.ctp:10
+msgid "Image"
 msgstr ""
 
 #: View/Smilies/admin_edit.ctp:2
@@ -1585,38 +1584,38 @@ msgstr ""
 msgid "Embed.ly API-key not set."
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:99
+#: Plugin/Install/Controller/InstallController.php:102
 msgid "Installation: Welcome"
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:114
+#: Plugin/Install/Controller/InstallController.php:117
 msgid "Step 1: Database"
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:133
+#: Plugin/Install/Controller/InstallController.php:136
 #, php-format
 msgid "Could not connect to database: %s"
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:137
-#: Plugin/Install/Controller/InstallController.php:187
+#: Plugin/Install/Controller/InstallController.php:140
+#: Plugin/Install/Controller/InstallController.php:190
 msgid "Could not connect to database."
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:153
+#: Plugin/Install/Controller/InstallController.php:156
 msgid "Could not write database.php file."
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:178
+#: Plugin/Install/Controller/InstallController.php:181
 msgid "Step 2: Build database"
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:197
+#: Plugin/Install/Controller/InstallController.php:200
 #, php-format
 msgid "Could not create table: %s"
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:259
+#: Plugin/Install/Controller/InstallController.php:262
 msgid "Installation completed successfully"
 msgstr ""
 
