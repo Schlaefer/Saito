@@ -101,7 +101,7 @@
 	<?php endif; ?>
 <?= $this->element('layout/html_footer'); ?>
 	<script>
-		require(['common'], function() {
+		require(['common<?= $isDebug ? '' : '.min' ?>'], function() {
 			require([SaitoApp.app.settings.webroot + 'theme/Paz/js/theme.js']);
 		});
 	</script>
