@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-13 20:04+0100\n"
-"PO-Revision-Date: 2014-02-13 20:05+0100\n"
+"POT-Creation-Date: 2014-02-13 20:40+0100\n"
+"PO-Revision-Date: 2014-02-13 20:41+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -516,9 +516,8 @@ msgstr ""
 "angemeldet, :anon Gäste."
 
 #: View/Elements/layout/disclaimer.ctp:46
-#, php-format
-msgid "Newest member is: %s."
-msgstr "Neuestes Mitglied ist: %s."
+msgid "disclaimer.newestMember"
+msgstr "Neuestes Mitglied ist %s."
 
 #: View/Elements/layout/disclaimer.ctp:53
 msgid "About"
@@ -2798,6 +2797,9 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
 msgid "token test"
 msgstr ""
+
+#~ msgid "Newest member is: %s."
+#~ msgstr "Neuestes Mitglied ist: %s."
 
 #~ msgid "Create"
 #~ msgstr "Anlegen"
