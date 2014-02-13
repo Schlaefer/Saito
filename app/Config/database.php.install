@@ -98,7 +98,7 @@ class DATABASE_CONFIG {
 		'password' => 'password',
 		'database' => 'test_database_name',
 		'prefix' => '',
-		'encoding' => 'UTF8',
+		'encoding' => 'utf8',
 	);
 
 	public function __construct() {

@@ -55,7 +55,7 @@ class InstallController extends InstallAppController {
 		'database'=> 'croogo',
 		'schema'=> null,
 		'prefix'=> null,
-		'encoding' => 'UTF8',
+		'encoding' => 'utf8',
 		'port' => null,
 	);
 
