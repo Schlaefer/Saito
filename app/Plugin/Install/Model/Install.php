@@ -63,7 +63,13 @@
 			$User->id = $User->field('id', ['username' => 'admin']);
 			Security::setHash('md5');
 			Configure::write('Security.salt', $salt);
-			$saved = $User->saveField('password', 'password');
+			$saved = $User->save([
+					'User' => [
+							'password' => 'password',
+							'password_confirm' => 'password',
+							'registered' => date('Y-m-d H:i:s')
+					]
+			]);
 
 			/*
 			// create administrative user
