@@ -71,6 +71,9 @@ class InstallController extends InstallAppController {
 		$this->layout = 'install';
 		App::import('Component', 'Session');
 		$this->Session = new SessionComponent($this->Components);
+
+		Cache::clear(false, '_cake_core_');
+		Cache::clear(false, '_cake_model_');
 	}
 
 /**
