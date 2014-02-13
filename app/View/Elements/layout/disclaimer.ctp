@@ -25,7 +25,7 @@
 						$loggedin = $this->Html->link($loggedin, '/users/index');
 					}
 					echo String::insert(
-							__(':entries Entries in :threads Threads; :registred registred users, :loggedin logged in, :anon anonymous'),
+							__(':entries Entries in :threads Threads; :registered members, :loggedin logged in, :anon anonymous'),
 							[
 									'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
 									'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
