@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 19:33+0100\n"
-"PO-Revision-Date: 2014-02-12 20:05+0100\n"
+"POT-Creation-Date: 2014-02-14 11:21+0100\n"
+"PO-Revision-Date: 2014-02-14 11:21+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -87,7 +87,19 @@ msgstr "Installieren"
 msgid "admin.sysInfo.h"
 msgstr "Systeminfo"
 
-#: View/Admins/admin_index.ctp:19
+#: View/Admins/admin_index.ctp:7
+msgid "admin.sysInfo.version"
+msgstr "Saito-Version: %s"
+
+#: View/Admins/admin_index.ctp:8
+msgid "admin.sysInfo.server"
+msgstr "Server: %s"
+
+#: View/Admins/admin_index.ctp:9
+msgid "admin.sysInfo.baseUrl"
+msgstr "Basis-URL: %s"
+
+#: View/Admins/admin_index.ctp:15
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
@@ -163,7 +175,8 @@ msgid "Add Category"
 msgstr "Kategorie hinzufügen"
 
 #: View/Categories/add.ctp:13 View/Categories/admin_edit.ctp:26
-#: View/Categories/edit.ctp:14 View/Settings/admin_edit.ctp:20
+#: View/Categories/edit.ctp:14 View/Entries/merge.ctp:9
+#: View/Settings/admin_edit.ctp:20 View/SmileyCodes/admin_add.ctp:8
 #: View/SmileyCodes/admin_edit.ctp:16 View/Smilies/admin_add.ctp:12
 #: View/Smilies/admin_edit.ctp:13 View/Users/contact.ctp:46
 msgid "Submit"
@@ -257,7 +270,7 @@ msgid "Edit Category"
 msgstr "Kategorie bearbeiten"
 
 #: View/Categories/admin_edit.ctp:9 View/Categories/admin_index.ctp:12
-#: View/Smilies/admin_add.ctp:8
+#: View/Smilies/admin_add.ctp:8 View/Smilies/admin_edit.ctp:9
 msgid "sort.order"
 msgstr "Sortierung"
 
@@ -432,27 +445,22 @@ msgid "Apply"
 msgstr "Anwenden"
 
 #: View/Elements/entry/thread_cached_init.ctp:9
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-threadCollapse"
 msgstr "thread zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:11
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-showNewThreads"
 msgstr "neue"
 
 #: View/Elements/entry/thread_cached_init.ctp:12
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-closeThreads"
 msgstr "zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:13
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:13
 msgid "btn-openThreads"
 msgstr "auf"
 
@@ -492,32 +500,26 @@ msgstr ""
 "werden!"
 
 #: View/Elements/layout/disclaimer.ctp:4
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
 msgstr "Ressourcen"
 
-#: View/Elements/layout/disclaimer.ctp:7
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:13 View/Users/view.ctp:56
+#: View/Elements/layout/disclaimer.ctp:7 View/Users/view.ctp:56
 msgid "Contact"
 msgstr "Kontakt"
 
 #: View/Elements/layout/disclaimer.ctp:10
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:7
 msgid "Mobile"
 msgstr "Mobil"
 
 #: View/Elements/layout/disclaimer.ctp:13
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:22
 msgid "RSS"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:20
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:32
 msgid "Status"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:28
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:40
 msgid ""
 ":entries Entries in :threads Threads; :registred registred users, :loggedin "
 "logged in, :anon anonymous"
@@ -526,18 +528,15 @@ msgstr ""
 "loggedin angemeldet, :anon Gäste."
 
 #: View/Elements/layout/disclaimer.ctp:43
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:55
 msgid "About"
 msgstr "Über"
 
 #: View/Elements/layout/disclaimer.ctp:46
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:58
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr "Angetrieben durch Saito v%s."
 
 #: View/Elements/layout/disclaimer.ctp:49
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:61
 #, php-format
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
@@ -582,7 +581,6 @@ msgid "search_submit"
 msgstr "Suchen"
 
 #: View/Elements/layout/html_footer.ctp:5
-#: View/Themed/Ixi/Layouts/default.ctp:105
 #, fuzzy
 msgid ""
 "This web-application depends on JavaScript. Please activate JavaScript in "
@@ -733,7 +731,7 @@ msgstr "Alle Einträge als gelesen markieren."
 msgid "Merge thread %s"
 msgstr "Thread %s anfügen"
 
-#: View/Entries/merge.ctp:9
+#: View/Entries/merge.ctp:8
 msgid "Merge onto entry with ID:"
 msgstr "Anfügen an den Beitrag mit ID:"
 
@@ -1650,38 +1648,38 @@ msgstr "Fehler, Nachricht konnte nicht versandt werden."
 msgid "Embed.ly API-key not set."
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:99
+#: Plugin/Install/Controller/InstallController.php:102
 msgid "Installation: Welcome"
 msgstr ""
 
-#: Plugin/Install/Controller/InstallController.php:114
+#: Plugin/Install/Controller/InstallController.php:117
 msgid "Step 1: Database"
 msgstr "Schritt 1: Datenbank"
 
-#: Plugin/Install/Controller/InstallController.php:133
+#: Plugin/Install/Controller/InstallController.php:136
 #, php-format
 msgid "Could not connect to database: %s"
 msgstr "Konnte keine Verbindung zur Datenbank %s aufbauen"
 
-#: Plugin/Install/Controller/InstallController.php:137
-#: Plugin/Install/Controller/InstallController.php:187
+#: Plugin/Install/Controller/InstallController.php:140
+#: Plugin/Install/Controller/InstallController.php:190
 msgid "Could not connect to database."
 msgstr "Keine Verbindung zur Datenbank möglich"
 
-#: Plugin/Install/Controller/InstallController.php:153
+#: Plugin/Install/Controller/InstallController.php:156
 msgid "Could not write database.php file."
 msgstr "Die Datei database.php konnte nicht geschrieben werden."
 
-#: Plugin/Install/Controller/InstallController.php:178
+#: Plugin/Install/Controller/InstallController.php:181
 msgid "Step 2: Build database"
 msgstr "Schritt 2: Datenbank anlegen"
 
-#: Plugin/Install/Controller/InstallController.php:197
+#: Plugin/Install/Controller/InstallController.php:200
 #, php-format
 msgid "Could not create table: %s"
 msgstr "Konnte Tabelle %s nicht anlegen"
 
-#: Plugin/Install/Controller/InstallController.php:259
+#: Plugin/Install/Controller/InstallController.php:262
 msgid "Installation completed successfully"
 msgstr "Installation erfolgreich abgeschlossen"
 
@@ -1714,11 +1712,11 @@ msgstr ""
 msgid "Abend"
 msgstr ""
 
-#: View/Helper/AdminHelper.php:47
+#: View/Helper/AdminHelper.php:52
 msgid "No log file found."
 msgstr "Keine Log-Datei vorhanden."
 
-#: View/Helper/AdminHelper.php:58
+#: View/Helper/AdminHelper.php:63
 msgid "Details"
 msgstr ""
 
@@ -2810,15 +2808,6 @@ msgstr ""
 
 #~ msgid "Create"
 #~ msgstr "Anlegen"
-
-#~ msgid "admin.sysInfo.version"
-#~ msgstr "Saito-Version: %s"
-
-#~ msgid "admin.sysInfo.server"
-#~ msgstr "Server: %s"
-
-#~ msgid "admin.sysInfo.baseUrl"
-#~ msgstr "Basis-URL: %s"
 
 #~ msgid "answering_forbidden_locked_shp"
 #~ msgstr "Antworten gesperrt durch Moderator."
