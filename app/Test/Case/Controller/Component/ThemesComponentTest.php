@@ -92,7 +92,7 @@
 					->will($this->returnValue(1));
 
 			$config = [
-				'default' => 'Default'
+					'default' => 'Default'
 			];
 
 			$this->Themes->theme($config);
@@ -114,7 +114,7 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual(array_values($_r), ['Default', 'Ixi']);
+			$this->assertEqual(array_values($_r), ['Default', 'Ixi', 'Paz']);
 		}
 
 		public function testGetAvailableUserNotAllowed() {
@@ -149,7 +149,7 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual(array_values($_r), ['Default']);
+			$this->assertEqual(array_values($_r), ['Default', 'Paz']);
 		}
 
 		public function testThemeDirs() {
