@@ -95,3 +95,8 @@ li .#{$fa-css-prefix}-lg {
   /* 1.5 increased font size for icon-large * 1.25 width */
   width: auto;
 }
+
+.fa-s-edit, .c-bbcode-edit {
+  @extend .fa;
+  @extend .fa-pencil;
+}

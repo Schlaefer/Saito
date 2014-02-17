@@ -249,6 +249,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				['block'], []
 		);
 
+		//* edit icon
+		$this->_Parser->addCode(
+				'e', 'simple_replace_single', null,
+				['start_tag' => '<ins class="c-bbcode-edit"></ins>'], 'inline',
+				['block', 'inline', 'listitem'], []
+		);
+
 		//* urls
 		$this->_Parser->addCode(
 				'url', 'usecontent?', array( &$this, '_urlTag' ),

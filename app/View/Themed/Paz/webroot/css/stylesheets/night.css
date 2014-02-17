@@ -8,6 +8,8 @@ html { font-size: 62.5%; }
 
 code, .code, pre, tt { line-height: inherit; font-family: courier-new, courier, monospace; }
 
+ins { text-decoration: inherit; }
+
 .c-bbcode-ul, .staticPage ul { padding-left: 0; list-style-type: none; position: relative; }
 
 .c-bbcode-li:before, .staticPage li:before { content: "\2022"; display: block; position: absolute; left: -1em; }
@@ -81,7 +83,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .disclaimer { border-top: 1px solid #4d3d00; font-size: 0.85em; padding-bottom: 1em; }
 
-.infoText, .postingBody-signature, .threadLine-post, .c-bbcode-link-dinfo, .postingBody-info, .disabled { color: #8c8276; }
+.infoText, .postingBody-signature, .threadLine-post, .c-bbcode-link-dinfo, .c-bbcode-edit, .postingBody-info, .disabled { color: #8c8276; }
 
 .c-category { color: #f7e7d2; font-weight: normal; white-space: nowrap; }
 
@@ -190,7 +192,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 #shoutbox { word-wrap: break-word; }
 #shoutbox img { max-width: 100%; }
-#shoutbox .infoText, #shoutbox .postingBody-signature, #shoutbox .threadLine-post, #shoutbox .c-bbcode-link-dinfo, #shoutbox .postingBody-info { text-align: center; }
+#shoutbox .infoText, #shoutbox .postingBody-signature, #shoutbox .threadLine-post, #shoutbox .c-bbcode-link-dinfo, #shoutbox .c-bbcode-edit, #shoutbox .postingBody-info { text-align: center; }
 
 .threadTree-node { padding-left: 30px; }
 
@@ -248,6 +250,8 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .c-bbcode-spoiler .c-bbcode-spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
 .c-bbcode-spoiler .c-bbcode-spoiler-link:hover { color: inherit; background-color: inherit; text-shadow: inherit; }
+
+.c-bbcode-edit { padding: 0 0.3em; }
 
 .postingLayout { margin: 0 auto; max-width: 54em; }
 .threadInline-slider .postingLayout { padding: 1em; }
