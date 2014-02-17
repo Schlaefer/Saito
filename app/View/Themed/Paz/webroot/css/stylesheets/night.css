@@ -113,7 +113,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .panel-footer { padding: 1em 0; }
 .panel-footer.panel-form { margin-top: 2em; }
 
-.panel-form { background: #1e1e20; padding: 1em; }
+.panel-form { background: #1e1e20; padding: 0.3em 1em; }
 
 .panel-footer-form-btn { margin-right: 1em; }
 
@@ -254,7 +254,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .c-bbcode-edit { padding: 0 0.3em; }
 
 .postingLayout { margin: 0 auto; max-width: 54em; }
-.threadInline-slider .postingLayout { padding: 1em; }
+.threadInline-slider .postingLayout { padding: 0 1em 1em; }
 .threadInline-slider .postingLayout .postingBody-signature { display: none; }
 
 .postingLayout-slider { display: none; }
@@ -262,6 +262,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .postingLayout-slider .preview { border-top: 1px solid #4d3d00; border-bottom: none; }
 
 .postingBody-heading { margin-bottom: 2px; margin-top: 0; font-weight: normal; font-size: 1.485em; }
+.threadInline-slider .postingBody-heading { font-size: 1.25em; }
 
 .postingBody-info { margin-bottom: 1em; }
 .postingBody-info > .meta { font-size: 0.85em; }
