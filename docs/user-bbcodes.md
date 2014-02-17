@@ -1,6 +1,5 @@
 # Saito flavored BBCode #
 
-
 BBCodes available in front-end. The availability of some BBCode-tags depends on forum-configuration (e.g. multimedia-settings) or place (e.g. no multimedia tags in Shoutbox).
 
 ## Bold ##
@@ -37,6 +36,10 @@ Outputs struck through text. Also has shorthand `[s]text[/s]`.
 ## Horizontal Ruler ##
 
 `[hr]` or `[---]` creates an horizontal ruler.
+
+## Edit Marker ##
+
+`[e]` creates an edit marker.
 
 ## Links ##
 
