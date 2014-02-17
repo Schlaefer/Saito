@@ -37,8 +37,13 @@
 	class AdminHelper extends AppHelper {
 
 		public $helpers = [
+			'Html',
 			'TimeH'
 		];
+
+		public function badge($text, $type = 'info') {
+			return $this->Html->tag('span', $text, ['class' => "label label-$type"]);
+		}
 
 		public function formatCakeLog($log) {
 			$_nErrorsToShow = 20;

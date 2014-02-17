@@ -61,7 +61,7 @@
  *
  * @var string
  */
-		public $theme = 'default';
+		public $theme = 'paz';
 
 /**
  * S(l)idetabs used by the application

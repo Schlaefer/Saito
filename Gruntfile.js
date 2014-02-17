@@ -136,11 +136,11 @@ module.exports = function(grunt) {
             files: [
               {
                 src: ['./app/webroot/release-tmp/common.js'],
-                dest: './app/webroot/dist/common.js'
+                dest: './app/webroot/dist/common.min.js'
               },
               {
                 src: ['./app/webroot/release-tmp/main.js'],
-                dest: './app/webroot/dist/main.js'
+                dest: './app/webroot/dist/main.min.js'
               },
               {
                 expand: true,

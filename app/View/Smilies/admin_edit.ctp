@@ -6,7 +6,7 @@
 	<fieldset>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('order');
+		echo $this->Form->input('order', ['label' => __('sort.order')]);
 		echo $this->Form->input('icon');
 		echo $this->Form->input('image');
 		echo $this->Form->input('title');

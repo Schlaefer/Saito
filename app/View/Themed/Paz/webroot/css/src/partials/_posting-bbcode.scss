@@ -41,16 +41,11 @@
 }
 
 .c-bbcode-ul {
-  padding-left: 0;
-  list-style-type: none;
-  position: relative;
+  @extend %ul;
 }
 
-.c-bbcode-li::before {
-  content: "\2022";
-  display: block;
-  position: absolute;
-  left: -1em;
+.c-bbcode-li {
+  @extend %li;
 }
 
 .c-bbcode-hr {

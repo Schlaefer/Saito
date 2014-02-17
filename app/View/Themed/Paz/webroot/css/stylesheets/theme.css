@@ -8,6 +8,10 @@ html { font-size: 62.5%; }
 
 code, .code, pre, tt { line-height: inherit; font-family: courier-new, courier, monospace; }
 
+.c-bbcode-ul, .staticPage ul { padding-left: 0; list-style-type: none; position: relative; }
+
+.c-bbcode-li:before, .staticPage li:before { content: "\2022"; display: block; position: absolute; left: -1em; }
+
 body, .btnLink, .btn-submit, textarea, input[type=text], input[type=password] { font-family: Cabin; color: #222222; font-weight: 400; background-color: white; }
 
 body { font-size: 1.4em; padding: 0 2em; max-width: 70em; margin: 0 auto; }
@@ -91,7 +95,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .threadLine-content:hover { background: #f0f0f0; }
 
-.no-content-yet { font-weight: bold; text-align: center; font-size: 3em; color: #d8d8d8; letter-spacing: 0.1em; word-spacing: 0.1em; }
+.no-content-yet { font-weight: bold; text-align: center; font-size: 3em; color: #d8d8d8; letter-spacing: 0.1em; word-spacing: 0.1em; padding: 1em 0; }
 
 .ui-dialog, .flash-error > .alert, .flash-warning > .alert, .flash-notice > .alert, .flash-success > .alert { box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25); }
 
@@ -237,10 +241,6 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .c-bbcode-link-dinfo { font-size: 0.85em; }
 
 .c-bbcode-upload, .c-bbcode-external-image { margin: 1em; text-align: center; }
-
-.c-bbcode-ul { padding-left: 0; list-style-type: none; position: relative; }
-
-.c-bbcode-li::before { content: "\2022"; display: block; position: absolute; left: -1em; }
 
 .c-bbcode-hr { margin-left: 0.5em; width: 10em; display: inline-block; }
 

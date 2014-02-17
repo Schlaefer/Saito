@@ -9,10 +9,10 @@
 	<table cellpadding="0" cellspacing="0" class="table table-striped table-bordered table-condensed">
 		<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('category_order'); ?></th>
+			<th><?php echo $this->Paginator->sort('category_order', __('sort.order')); ?></th>
 			<th><?php echo $this->Paginator->sort('category'); ?></th>
 			<th><?php echo $this->Paginator->sort('description'); ?></th>
-			<th><?php echo $this->Paginator->sort('accession'); ?></th>
+			<th><?php echo $this->Paginator->sort('accession', __('Accession')); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 		</tr>
 		<?php
@@ -48,6 +48,6 @@
 			<?php endforeach; ?>
 	</table>
 	<p>
-		<span class="label label-info">Accesssion:</span> 0 Public, 1 User, 2 Mod u. Admins <!-- @lo -->
+		<span class="label label-info"><?= __('Accession') ?></span> <?= __('accession.exp') ?>
 	</p>
 </div>

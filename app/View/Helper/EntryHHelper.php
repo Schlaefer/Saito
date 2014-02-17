@@ -112,21 +112,20 @@
 			return empty($entry['Entry']['text']);
 		}
 
-/**
- * This function may be called serveral hundred times on the front page.
- * Don't make ist slow, benchmark!
- *
- * @param $entry
- * @param array $params
- * @return string
- */
 		public function getFastLink($entry, $params = array('class' => '')) {
-			// Stopwatch::start('Helper->EntryH->getFastLink()');
-			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>{$entry['Entry']['subject']}" . (empty($entry['Entry']['text']) ? ' n/t' : '') . '</a>';
-			// Stopwatch::stop('Helper->EntryH->getFastLink()');
+			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>" .
+					$this->getSubject($entry) . '</a>';
 			return $out;
 		}
 
+		/**
+		 *
+		 * This function may be called serveral hundred times on the front page.
+		 * Don't make ist slow, benchmark!
+		 *
+		 * @param $entry
+		 * @return string
+		 */
 		public function getSubject($entry) {
 			return $entry['Entry']['subject'] . (empty($entry['Entry']['text']) ? ' n/t' : '');
 		}
@@ -141,6 +140,7 @@
 						__('entry_nsfw_title') . '">' . __('posting.badge.nsfw') .
 						'</span> ';
 			endif;
+			// anchor for inserting solve-icon via FE-JS
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {
 				$out .= '<i class="fa fa-badge-solves solves-isSolved" title="' .

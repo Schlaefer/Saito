@@ -11,3 +11,17 @@ code, pre, tt {
   font-family: courier-new, courier, monospace;
 }
 
+%ul {
+  padding-left: 0;
+  list-style-type: none;
+  position: relative;
+}
+
+%li {
+  &:before {
+    content: "\2022";
+    display: block;
+    position: absolute;
+    left: -1em;
+  }
+}

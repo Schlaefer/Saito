@@ -6,7 +6,7 @@
 	<fieldset>
 		<?php
 //		echo $this->Form->input('category_order');
-		echo $this->Form->input('category', array( 'label' => 'Title' ));
+		echo $this->Form->input('category', ['label' => __('Title')]);
 		echo $this->Form->input('description');
 		echo $this->Form->input('accession',
 				array(
@@ -21,7 +21,7 @@
 		);
 		?>
 	</fieldset>
-	<?php echo $this->Form->submit(null,
+	<?php echo $this->Form->submit(__('category.create'),
 			array( 'class' => 'btn btn-primary' )); ?>
 	<?php echo $this->Form->end(); ?>
 </div>

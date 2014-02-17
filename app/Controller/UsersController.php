@@ -147,13 +147,11 @@
 		public function admin_add() {
 			if (!empty($this->request->data)) :
 				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-				if ($this->User->register($this->request->data)):
-					$this->Session->setFlash(
-						'Nutzer erfolgreich angelegt @lo',
-						'flash/notice'
-					);
+				if ($this->User->register($this->request->data)) {
+					$this->Session->setFlash(__('user.admin.add.success'),
+							'flash/success');
 					$this->redirect(['action' => 'view', $this->User->id, 'admin' => false]);
-				endif;
+				}
 			endif;
 		}
 

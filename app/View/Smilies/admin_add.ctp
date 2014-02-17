@@ -5,9 +5,9 @@
 <?php echo $this->Form->create('Smiley');?>
 	<fieldset>
 	<?php
-		echo $this->Form->input('order');
-		echo $this->Form->input('icon');
-		echo $this->Form->input('image');
+		echo $this->Form->input('order', ['label' => __('sort.order')]);
+		echo $this->Form->input('icon', ['label' => __('Icon')]);
+		echo $this->Form->input('image', ['label' => __('Image')]);
 		echo $this->Form->input('title');
 		echo $this->Form->submit(__('Submit'), array('class' => 'btn btn-primary'));
 	?>

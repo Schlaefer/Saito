@@ -55,7 +55,7 @@ class InstallController extends InstallAppController {
 		'database'=> 'croogo',
 		'schema'=> null,
 		'prefix'=> null,
-		'encoding' => 'UTF8',
+		'encoding' => 'utf8',
 		'port' => null,
 	);
 
@@ -71,6 +71,9 @@ class InstallController extends InstallAppController {
 		$this->layout = 'install';
 		App::import('Component', 'Session');
 		$this->Session = new SessionComponent($this->Components);
+
+		Cache::clear(false, '_cake_core_');
+		Cache::clear(false, '_cake_model_');
 	}
 
 /**

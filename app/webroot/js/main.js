@@ -4,7 +4,7 @@ require.config({
     // Comment to load all common.js files separately from
     // bower_components/ or vendors/.
     // Run `grunt dev-setup` to install bower components first.
-    common: '../dist/common',
+    common: '../dist/common.min',
     // moment
     moment: '../dev/bower_components/momentjs/js/moment',
     'moment-de': '../dev/bower_components/momentjs/lang/de'

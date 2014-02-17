@@ -1,41 +1,39 @@
 define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'text!templates/spinner.html'
-], function ($, _, Backbone, spinnerTpl) {
+  'jquery',
+  'underscore',
+  'marionette',
+  'text!templates/spinner.html'
+], function($, _, Marionette, spinnerTpl) {
 
-    "use strict";
+  "use strict";
 
-    var PreviewView = Backbone.View.extend({
+  var PreviewView = Marionette.ItemView.extend({
 
-        initialize: function () {
-            this.render();
+    templates: {
+      content: _.template("<%= rendered %>"),
+      spinner: _.template(spinnerTpl)
+    },
 
-            this.listenTo(this.model, "change:fetchingData", this._spinner);
-            this.listenTo(this.model, "change:rendered", this.render);
-        },
+    modelEvents: {
+      'change:fetchingData': '_fetchingData',
+      'change:rendered': 'render'
+    },
 
-        _spinner: function (model) {
-            if (model.get('fetchingData')) {
-                this.$el.html(spinnerTpl);
-            } else {
-                this.$el.html('');
-            }
-        },
+    _fetchingData: function() {
+      if (this.model.get('fetchingData')) {
+        this.render();
+      }
+    },
 
-        render: function () {
-            var rendered;
-            rendered =  this.model.get('rendered');
-            if (!rendered) {
-                rendered = '';
-            }
-            this.$el.html(rendered);
-            return this;
-        }
+    getTemplate: function() {
+      if (this.model.get('fetchingData')) {
+        return this.templates.spinner;
+      }
+      return this.templates.content;
+    }
 
-    });
+  });
 
-    return PreviewView;
+  return PreviewView;
 
 });

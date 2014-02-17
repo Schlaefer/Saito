@@ -1,0 +1,9 @@
+.staticPage {
+  ul {
+    @extend %ul;
+  }
+
+  li {
+    @extend %li;
+  }
+}
