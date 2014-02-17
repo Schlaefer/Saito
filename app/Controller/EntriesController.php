@@ -158,6 +158,9 @@
 			$this->initBbcode();
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
+
+			$this->Entry->threadIncrementViews($entries[0]['Entry']['tid'],
+					$this->CurrentUser->getId());
 		}
 
 /**

@@ -226,6 +226,37 @@
 			$this->assertEqual($result, $expected);
 		}
 
+		public function testThreadIncrementView() {
+			$_tid = 4;
+			$this->Entry->threadIncrementViews($_tid);
+			$result = $this->Entry->find('all', [
+				'contain' => false,
+				'conditions' => ['Entry.tid' => $_tid],
+				'fields' => ['Entry.views']
+			]);
+			$expected = array(
+					0 => ['Entry' => ['views' => '1']],
+					1 => ['Entry' => ['views' => '1']]
+			);
+			$this->assertEqual($result, $expected);
+		}
+
+		public function testThreadIncrementViewOmitUser() {
+			$_tid = 4;
+			$_userId = 3;
+			$this->Entry->threadIncrementViews($_tid, $_userId);
+			$result = $this->Entry->find('all', [
+					'contain' => false,
+					'conditions' => ['Entry.tid' => $_tid],
+					'fields' => ['Entry.views']
+			]);
+			$expected = array(
+					0 => ['Entry' => ['views' => '1']],
+					1 => ['Entry' => ['views' => '0']]
+			);
+			$this->assertEqual($result, $expected);
+		}
+
 		public function testChangeThreadCategory() {
 			$SaitoUser = $this->getMock(
 				'SaitoUser',

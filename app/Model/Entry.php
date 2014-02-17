@@ -478,6 +478,28 @@
 			return $result;
 		}
 
+		/**
+		 * Update view counter on all entries in a thread
+		 *
+		 * Note that this function unbinds the model associations for performance.
+		 * Otherwise updateAll() left joins all associated models.
+		 *
+		 * @param $tid thread-ID
+		 * @param $uid entries with this user-id are not updated
+		 */
+		public function threadIncrementViews($tid, $uid = null) {
+			Stopwatch::start('Entry::threadIncrementViews');
+			$_where = ['Entry.tid' => $tid];
+			if ($uid && is_int($uid)) {
+				$_where['Entry.user_id !='] = $uid;
+			}
+			// $_belongsTo = $this->belongsTo;
+			$this->unbindModel(['belongsTo' => array_keys($this->belongsTo)]);
+			$this->updateAll(['Entry.views' => 'Entry.views + 1'], $_where);
+			// $this->bindModel(['belongsTo' => $_belongsTo]);
+			Stopwatch::stop('Entry::threadIncrementViews');
+		}
+
 /**
  *
  * @mb `views` into extra related table if performance becomes a problem
