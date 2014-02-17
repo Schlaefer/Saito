@@ -517,7 +517,7 @@
 		/**
 		 * Find the latest, successfully registered user
 		 */
-		public function _findLatest($state, $query, $results = []) {
+		protected function _findLatest($state, $query, $results = []) {
 			if ($state === 'before') {
 				$query['contain'] = false;
 				$query['limit'] = 1;
