@@ -29,47 +29,35 @@
 		 * to use (in this case, /app/View/Pages/home.ctp)...
 		 */
 		Router::connect(
-			'/',
-			array('controller' => 'entries', 'action' => 'index', 'home')
+				'/',
+				['controller' => 'entries', 'action' => 'index', 'home']
 		);
 	} else {
 		/**
 		 * installer route
 		 */
 		Router::connect(
-			'/',
-			array(
-				'plugin'     => 'install',
-				'controller' => 'install',
-				'action'     => 'index'
-			)
+				'/',
+				['plugin' => 'install', 'controller' => 'install', 'action' => 'index']
 		);
 	}
 
 	/**
 	 * /users/login -> /login
 	 */
-	Router::connect(
-		'/login',
-		array('controller' => 'users', 'action' => 'login')
-	);
+	Router::connect('/login', ['controller' => 'users', 'action' => 'login']);
 
 
 	/**
 	 * ...and connect the rest of 'Pages' controller's urls.
 	 */
-	Router::connect(
-		'/pages/*',
-		array('controller' => 'pages', 'action' => 'display')
-	);
+	Router::connect('/pages/*', ['controller' => 'pages', 'action' => 'display']);
 
 	/**
 	 * Admin Route
 	 */
-	Router::connect(
-		'/admin',
-		array('controller' => 'admins', 'action' => 'index', 'admin' => true)
-	);
+	Router::connect('/admin',
+			['controller' => 'admins', 'action' => 'index', 'admin' => true]);
 
 	/**
 	 * Dynamic Assets
