@@ -179,7 +179,7 @@ module.exports = function(grunt) {
           plugins: {
             dir: './app/Plugin',
             options: {
-              ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,Search,SimpleCaptcha,webroot'
+              ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
             }
           },
           options: {

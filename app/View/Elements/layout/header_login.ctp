@@ -47,12 +47,3 @@
 		);
 	}
 ?>
-<?= $divider ?>
-<!-- button id="shp-show" class="btnLink no-color top-menu-item"
-				data-title="<?= __('Help') ?>"
-				data-content="<?= __('No help for this page available.') ?>">
-	<i class="fa fa-question-circle"></i>
-	<span class="top-menu-item-text">
-		<?= __('Help') ?>
-	</span>
-</button -->

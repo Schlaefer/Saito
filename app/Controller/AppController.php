@@ -41,6 +41,7 @@
 			// 'Markitup.Markitup',
 			'Layout',
 			'RequireJs',
+			'SaitoHelp.SaitoHelp',
 			'Stopwatch.Stopwatch',
 			'TimeH',
 			'UserH',

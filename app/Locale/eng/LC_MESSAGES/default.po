@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-14 11:21+0100\n"
-"PO-Revision-Date: 2014-02-14 11:21+0100\n"
+"PO-Revision-Date: 2014-02-19 12:10+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -1077,11 +1077,11 @@ msgstr ""
 
 #: View/Users/edit.ctp:169
 msgid "user_automaticaly_mark_as_read"
-msgstr "Auto Mark-As-Read"
+msgstr "Intelligent Mark as Read"
 
 #: View/Users/edit.ctp:170
 msgid "user_automaticaly_mark_as_read_exp"
-msgstr "Click on page logo to mark old entries as read."
+msgstr "Intelligent Mark as Read (iMAR)"
 
 #: View/Users/edit.ctp:174
 msgid "user_signatures_hide"

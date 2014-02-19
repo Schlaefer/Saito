@@ -200,7 +200,8 @@ define([
       var helps = new HelpsView({
         el: 'body',
         elementName: element_n,
-        indicatorName: '#shp-show'
+        indicatorName: '#shp-show',
+        webroot: App.settings.get('webroot')
       });
     },
 

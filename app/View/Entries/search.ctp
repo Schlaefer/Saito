@@ -46,11 +46,9 @@
 								'url' => array_merge(['action' => 'search'],
 										$this->request->params['pass']),
 								'type' => 'get',
-								'class' => 'search_form shp shp-bottom',
+								'class' => 'search_form',
 								'style' => 'height: 40px;',
-								'inputDefaults' => ['div' => false, 'label' => false],
-								'data-title' => __('Help'),
-								'data-content' => __('search_fulltext_textfield_shp')
+								'inputDefaults' => ['div' => false, 'label' => false]
 						]
 				);
 				echo $this->Form->submit(__('search_submit'),
@@ -65,7 +63,8 @@
 							[
 									'div' => false,
 									'id' => 'search_fulltext_textfield',
-									'class' => 'search_textfield',
+									'class' => 'search_textfield shp',
+									'data-shpid' => 1,
 									'style' => 'height: 38px;',
 									'placeholder' => __('search_term'),
 									'value' => $search_term

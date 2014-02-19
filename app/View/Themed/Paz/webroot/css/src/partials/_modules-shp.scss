@@ -1,0 +1,39 @@
+// saito help popup
+
+.shp-show-btn {
+  display: none;
+
+  &.is-active {
+    display: inline-block;
+  }
+}
+
+.shp-tooltip {
+  display: inline-block;
+  overflow: visible !important;
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid $border-color;
+  background: $background-color;
+  @extend %dialog-hover;
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: solid;
+    border-color: $input-border-color transparent transparent transparent;
+    top: 27px;
+    left: 7px;
+  }
+}
+
+.shp-tooltip-link {
+  padding: 5px;
+}

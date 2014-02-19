@@ -26,9 +26,8 @@
 				[
 					'id'           => 'btn-manuallyMarkAsRead',
 					'escape'       => false,
-					'class'        => 'btn-hf-center shp shp-bottom',
-					'data-title'   => __('Help'),
-					'data-content' => __('btn_manualy_mark_as_read_shp')
+					'class' => 'btn-hf-center shp',
+					'data-shpid' => 2,
 				]
 			);
 		endif;

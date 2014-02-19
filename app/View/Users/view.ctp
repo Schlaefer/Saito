@@ -193,9 +193,7 @@
 							if (!empty($_menuItems)) {
 								echo $this->Layout->dropdownMenuButton($_menuItems,
 										[
-												'class' => 'btnLink btn-icon panel-footer-form-btn shp shp-right',
-												'data-title' => __('Help'),
-												'data-content' => __('button_mod_panel_shp')
+												'class' => 'btnLink btn-icon panel-footer-form-btn',
 										]);
 							}
 						}

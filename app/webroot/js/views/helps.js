@@ -10,6 +10,8 @@ define([
 
     isHelpShown: false,
 
+    tpl: _.template('<div class="shp-tooltip"><a href="<%= webroot %>help/<%= id %>" class="shp-tooltip-link"><i class="fa fa-question-circle"></i></a></div>'),
+
     events: function() {
       var out = {};
       out["click " + this.indicatorName] = "toggle";
@@ -17,48 +19,25 @@ define([
     },
 
     initialize: function(options) {
-      /*
-      deactivated: bootstrap is missing
-
       this.indicatorName = options.indicatorName;
       this.elementName = options.elementName;
+      this.webroot = options.webroot;
 
       this.activateHelpButton();
-      this.placeHelp();
-      */
     },
 
     activateHelpButton: function() {
       if (this.isHelpOnPage()) {
-        $(this.indicatorName).removeClass('no-color');
+        $(this.indicatorName).addClass('is-active');
       }
-    },
-
-    placeHelp: function() {
-      var defaults = {
-        trigger: 'manual',
-        html: true
-      };
-      var positions = ['bottom', 'right', 'left'];
-      for (var i = 0; i < positions.length; i++) {
-        $(this.elementName + '-' + positions[i]).popover(
-            $.extend(defaults, {placement: positions[i]})
-        );
-      }
-
-      $(this.indicatorName).popover({
-        placement: 'left',
-        trigger: 'manual'
-      });
     },
 
     isHelpOnPage: function() {
-      return this.$el.find(this.elementName).length > 0;
+      return this.$(this.elementName).length > 0;
     },
 
     toggle: function(event) {
       event.preventDefault();
-
       if (this.isHelpShown) {
         this.hide();
       } else {
@@ -66,20 +45,28 @@ define([
       }
     },
 
-
     show: function() {
       this.isHelpShown = true;
       if (this.isHelpOnPage()) {
-        $(this.elementName).popover('show');
-      } else {
-        $(this.indicatorName).popover('show');
+        var that = this;
+        $(this.elementName).each(function() {
+          var $element = $(this),
+              id = $element.data('shpid'),
+              offset = $element.position();
+          var $k = $(that.tpl({id: id, webroot: that.webroot}));
+          $element.after($k);
+          $k.css({
+            left: offset.left + $element.width()/2 - 14,
+            top: offset.top - $element.height()/2 - 23
+          });
+        });
+
       }
     },
 
     hide: function() {
       this.isHelpShown = false;
-      $(this.elementName).popover('hide');
-      $(this.indicatorName).popover('hide');
+      $('.shp-tooltip').remove();
     }
   });
 

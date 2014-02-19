@@ -58,6 +58,9 @@
 						?>
 					<?php endif; ?>
 					<span class="top-menu-aside">
+						<button id="shp-show" class="btnLink shp-show-btn top-menu-item">
+							<i class="fa fa-question-circle"></i>
+						</button>
 						<button id="js-themeSwitcher" class="btnLink top-menu-item"></button>
 						<button id="js-top-menu-close" class="btnLink top-menu-item">
 							<i class="fa fa-minus-square-o"></i>
