@@ -92,7 +92,7 @@
 					->will($this->returnValue(1));
 
 			$config = [
-				'default' => 'Default'
+					'default' => 'Default'
 			];
 
 			$this->Themes->theme($config);
