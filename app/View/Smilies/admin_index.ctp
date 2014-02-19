@@ -1,4 +1,5 @@
 <?php $this->Html->addCrumb(__('Smilies'), '/admin/smilies'); ?>
+<?= $this->Admin->help(4) ?>
 <div class="smilies index">
 	<h1><?php echo __('Smilies');?></h1>
 	<?php echo $this->Html->link(__('New Smiley'), array('action' => 'add'), array('class' => 'btn')); ?> &nbsp; | &nbsp;
