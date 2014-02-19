@@ -113,9 +113,9 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .panel-heading.pageTitle { display: none; }
 
 .panel-footer { padding: 1em 0; }
-.panel-footer.panel-form { margin-top: 2em; }
+.panel-footer.panel-form { margin-top: 2em; padding: 0.3em 1em; }
 
-.panel-form { background: #1e1e20; padding: 0.3em 1em; }
+.panel-form { background: #1e1e20; padding: 1em 1em; }
 
 .panel-footer-form-btn { margin-right: 1em; }
 
