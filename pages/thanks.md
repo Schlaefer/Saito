@@ -36,9 +36,9 @@ Und ein Gruß an alle Spender!
  -----------------------    | ------ 	| -----
  [macfix.de]                | 1250 € 	| 2014
  [macnemo.de] (Panxatony)   | 325 €	 	| 2014
+ fwskxgrd                   | 250 €	 	| 2014
  CocoaBärchi &amp; dakapo   | 100 € 	| 2013
  Jake                       | 20 €    | 2013
- fwskxgrd                   | 150 €	 	| 2012
 redcurry                    | 85 € 	 	| 2012
  iXimus                     | 75 €    | 2012
  kt007                      | 50 €    | 2012
