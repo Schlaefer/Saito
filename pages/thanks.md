@@ -47,7 +47,7 @@ redcurry                    | 85 € 	 	| 2012
 
 <div>
   <small class="muted">
-  Someone's missing? Want your name linked? Please let us know! – Last updated 2014-01-23.
+  Someone's missing? Want your name linked? Please let us know! – Last updated 2014-02-20.
   </small>
 </div>
 
