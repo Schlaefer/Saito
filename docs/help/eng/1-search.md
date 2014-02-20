@@ -10,4 +10,4 @@ No operator implies `OR`. `apple banana` finds entries that contain at least one
 
 `apple*` finds entries that contain words such as “apple”, “apples”, “applesauce”, or “applet”.
 
-`"some words"` Find entries that contain the exact phrase “some words” (for example, entries that contain “some words of wisdom” but not “some noise words”).\"
+`"some words"` Find entries that contain the exact phrase “some words” (for example, entries that contain “some words of wisdom” but not “some noise words”).
