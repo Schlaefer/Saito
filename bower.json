@@ -15,7 +15,8 @@
     "momentjs": "~2.3.1",
     "font-awesome": "~4.0.3",
     "jquery-tinytimer": "~0.1.4",
-    "jquery-dropdown": "~1.0.4"
+    "jquery-dropdown": "~1.0.4",
+    "drop": "~0.4.0"
   },
   "exportsOverride": {
     "underscore": {

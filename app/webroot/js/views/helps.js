@@ -1,8 +1,9 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
-], function($, _, Backbone) {
+  'backbone',
+  'drop'
+], function($, _, Backbone, Drop) {
 
   "use strict";
 
@@ -10,7 +11,9 @@ define([
 
     isHelpShown: false,
 
-    tpl: _.template('<div class="shp-tooltip"><a href="<%= webroot %>help/<%= id %>" class="shp-tooltip-link"><i class="fa fa-question-circle"></i></a></div>'),
+    _popups: [],
+
+    tpl: _.template('<a href="<%= webroot %>help/<%= id %>"><i class="fa fa-question-circle"></i></a>'),
 
     events: function() {
       var out = {};
@@ -48,25 +51,31 @@ define([
     show: function() {
       this.isHelpShown = true;
       if (this.isHelpOnPage()) {
-        var that = this;
-        $(this.elementName).each(function() {
-          var $element = $(this),
-              id = $element.data('shpid'),
-              offset = $element.position();
-          var $k = $(that.tpl({id: id, webroot: that.webroot}));
-          $element.after($k);
-          $k.css({
-            left: offset.left + $element.width()/2 - 14,
-            top: offset.top - $element.height()/2 - 23
+        if (this._popups.length === 0) {
+          var that = this;
+          $(this.elementName).each(function() {
+            var $element = $(this),
+                id = $element.data('shpid'),
+                $k = that.tpl({id: id, webroot: that.webroot});
+            that._popups.push(new Drop({
+              target: this,
+              content: $k,
+              classes: 'drop-theme-arrows',
+              position: 'top center'
+            }));
           });
+        }
+        this._popups.forEach(function(element) {
+          element.open();
         });
-
       }
     },
 
     hide: function() {
       this.isHelpShown = false;
-      $('.shp-tooltip').remove();
+      this._popups.forEach(function(element) {
+        element.close();
+      });
     }
   });
 
