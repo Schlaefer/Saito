@@ -101,6 +101,12 @@ class DATABASE_CONFIG {
 		'encoding' => 'utf8',
 	);
 
+	/*** Don't edit below this line! ***/
+
+	public $saitoHelp = [
+		'datasource' => 'SaitoHelp.SaitoHelpSource'
+	];
+
 	public function __construct() {
 	  return;
 		if ($this->_isSelenium()) {

@@ -144,7 +144,7 @@ Please use the provided GUI-features.
 
 ### Embed.ly ###
 
-If activated `[embed.ly]<URL>[/embed]` tries to embed the URL via [embed.ly](http://embed.ly/).
+If activated `[embed]<URL>[/embed]` tries to embed the URL via [embed.ly](http://embed.ly/).
 
 ## Layout ##
 
