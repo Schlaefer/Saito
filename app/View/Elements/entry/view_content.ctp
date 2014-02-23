@@ -12,7 +12,7 @@
 				) {
 					echo $this->Html->link($subject,
 							'/entries/view/' . $entry['Entry']['id'],
-							['escape' => false]);
+							['escape' => false, 'class' => 'et']);
 				} else {
 					echo $subject;
 				}
