@@ -170,16 +170,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
      *
      * Remove if appropriate 2011-06-20.
 		 */
-    $this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
-        // Translates [img# foo]bar[/img] to [upload foo]bar[/upload]
-        function($string) {
-          return preg_replace(
-              '#\[img\#(.*)?\](.+?)\[/img\]#is',
-              "[upload\\1]\\2[/upload]",
-              $string
-              );
-        }
-        );
+		$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
+				// Translates [img# foo]bar[/img] to [upload foo]bar[/upload]
+				function ($string) {
+					return preg_replace(
+							'#\[img\#(.*)?\](.+?)\[/img\]#is',
+							"[upload\\1]\\2[/upload]",
+							$string
+					);
+				}
+		);
 
 		if (empty($this->settings['hashBaseUrl']) === false) {
 			// #<numeric> internal links
@@ -745,40 +745,43 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		}
 		$out = '';
 		// split already quoted lines
-		$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m", $string, null,
+		$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m",
+				$string,
+				null,
 				PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 		foreach ( $citeLines as $citeLine ):
-			if ( mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0 ):
+			if (mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0) {
 				// already quoted lines need no further processing
 				$out .= $citeLine;
 				continue;
-			endif;
+			}
 			// split [bbcode]
-			$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, null,
+			$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`',
+					$citeLine,
+					null,
 					PREG_SPLIT_DELIM_CAPTURE);
 			$i = 0;
 			$line = '';
-			foreach ( $matches as $match ):
-				/*
-				 * the [bbcode] preg_split uses a backreference \2 which is in the $matches
-				 * but is not needed in the results
-				 * @td elegant solution
-				 */
+			foreach ($matches as $match) {
+				 // the [bbcode] preg_split uses a backreference \2 which is in the $matches
+				 // but is not needed in the results
+				 // @todo elegant solution
 				$i++;
-				if ( $i % 3 == 0 ):
+				if ($i % 3 == 0) {
 					continue;
-				endif;
-
-				if ( mb_strpos($match, '[') !== 0 ):
+				}
+				// wrap long lines
+				if (mb_strpos($match, '[') !== 0) {
 					$line .= wordwrap($match);
-				else:
+				} else {
 					$line .= $match;
-				endif;
-				if ( mb_strlen($line) > 60 ):
+				}
+				// add newline to wrapped lines
+				if (mb_strlen($line) > 60) {
 					$out .= $line . "\n";
 					$line = '';
-				endif;
-			endforeach;
+				}
+			}
 			$out .= $line;
 		endforeach;
 		$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
