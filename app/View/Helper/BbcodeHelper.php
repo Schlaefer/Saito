@@ -325,8 +325,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		);
 		$this->_Parser->setCodeFlag('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
 
-		//* quote
-		$this->_Parser->addParser(['block', 'inline'], [&$this, '_quote']);
+		// quote
+		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, [&$this, '_quote']);
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
@@ -1005,13 +1005,13 @@ EOF;
 	 * @return string
 	 */
 	public function _quote($string) {
-		$quote_symbol_sanitized = Sanitize::html($this->settings['quoteSymbol']);
+		$_quoteSymbolSanitized = Sanitize::html($this->settings['quoteSymbol']);
 		$string = preg_replace(
 				// Begin of the text or a new line in the text, maybe one space afterwards
 				'/(^|\n\r\s?)'
-				. $quote_symbol_sanitized
-				. '\s([^\n\r]*)/m',
-				"\\1<span class=\"c-bbcode-citation\">" . $quote_symbol_sanitized . " \\2</span>",
+				. $_quoteSymbolSanitized
+				. '\s(.*)(?!\<br)/m',
+				"\\1<span class=\"c-bbcode-citation\">" . $_quoteSymbolSanitized . " \\2</span>",
 				$string
 		);
 		return $string;
