@@ -740,47 +740,48 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 */
 	public function citeText($string) {
+		if (empty($string)) {
+			return '';
+		}
 		$out = '';
-		if ( !empty($string) ):
-			// split already quoted lines
-			$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m", $string, null,
-					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-			foreach ( $citeLines as $citeLine ):
-				if ( mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0 ):
-					// already quoted lines need no further processing
-					$out .= $citeLine;
+		// split already quoted lines
+		$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m", $string, null,
+				PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		foreach ( $citeLines as $citeLine ):
+			if ( mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0 ):
+				// already quoted lines need no further processing
+				$out .= $citeLine;
+				continue;
+			endif;
+			// split [bbcode]
+			$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, null,
+					PREG_SPLIT_DELIM_CAPTURE);
+			$i = 0;
+			$line = '';
+			foreach ( $matches as $match ):
+				/*
+				 * the [bbcode] preg_split uses a backreference \2 which is in the $matches
+				 * but is not needed in the results
+				 * @td elegant solution
+				 */
+				$i++;
+				if ( $i % 3 == 0 ):
 					continue;
 				endif;
-				// split [bbcode]
-				$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, null,
-						PREG_SPLIT_DELIM_CAPTURE);
-				$i = 0;
-				$line = '';
-				foreach ( $matches as $match ):
-					/*
-					 * the [bbcode] preg_split uses a backreference \2 which is in the $matches
-					 * but is not needed in the results
-					 * @td elegant solution
-					 */
-					$i++;
-					if ( $i % 3 == 0 ):
-						continue;
-					endif;
 
-					if ( mb_strpos($match, '[') !== 0 ):
-						$line .= wordwrap($match);
-					else:
-						$line .= $match;
-					endif;
-					if ( mb_strlen($line) > 60 ):
-						$out .= $line . "\n";
-						$line = '';
-					endif;
-				endforeach;
-				$out .= $line;
+				if ( mb_strpos($match, '[') !== 0 ):
+					$line .= wordwrap($match);
+				else:
+					$line .= $match;
+				endif;
+				if ( mb_strlen($line) > 60 ):
+					$out .= $line . "\n";
+					$line = '';
+				endif;
 			endforeach;
-			$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
-		endif;
+			$out .= $line;
+		endforeach;
+		$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
 		return $out;
 	}
 
