@@ -41,6 +41,7 @@
 			// 'Markitup.Markitup',
 			'Layout',
 			'RequireJs',
+			'SaitoHelp.SaitoHelp',
 			'Stopwatch.Stopwatch',
 			'TimeH',
 			'UserH',
@@ -401,6 +402,7 @@
 						);
 					}
 				}
+				$headCounter['latestUser'] = $this->Entry->User->find('latest');
 				Cache::write('header_counter', $headCounter, 'short');
 			}
 			$headCounter['user_registered'] = count($loggedinUsers);

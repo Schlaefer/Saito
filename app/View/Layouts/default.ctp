@@ -58,6 +58,9 @@
 						?>
 					<?php endif; ?>
 					<span class="top-menu-aside">
+						<button id="shp-show" class="btnLink shp-show-btn top-menu-item">
+							<i class="fa fa-question-circle"></i>
+						</button>
 						<button id="js-themeSwitcher" class="btnLink top-menu-item"></button>
 						<button id="js-top-menu-close" class="btnLink top-menu-item">
 							<i class="fa fa-minus-square-o"></i>
@@ -89,6 +92,23 @@
 			</script>
 			<?php echo $this->fetch('content'); ?>
 		</div>
+		<?php if ($this->request->controller === 'entries' && $this->request->action === 'index'): ?>
+			<div id="footer-pinned">
+				<div id="bottomnav" class="navbar">
+					<?=
+						$this->Layout->heading([
+										'first' => $this->fetch('headerSubnavLeft'),
+										'middle' => '<a href="#" id="btn-scrollToTop" class="btn-hf-center"><i class="fa fa-arrow-up"></i></a>',
+										'last' => $this->element('layout/header_subnav_right')
+								],
+								['class' => 'navbar-content'])
+					?>
+				</div>
+			</div>
+			<script>
+				document.getElementById('content').style.paddingBottom = '50px';
+			</script>
+		<?php endif; ?>
 	</div>
 	<?php if (isset($showDisclaimer)) : ?>
 		<div class="disclaimer" style="overflow:hidden;">

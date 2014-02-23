@@ -178,6 +178,12 @@ body.headerClosed {
   padding: 0 2 * $padding;
 }
 
+#footer-pinned {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+}
+
 .disclaimer {
   border-top: 1px solid $border-color;
   font-size: $font-size-small;
@@ -244,3 +250,4 @@ body.headerClosed {
 @import "modules-panels";
 @import "modules-jqueryui";
 @import "modules-spinner";
+@import "modules-shp";

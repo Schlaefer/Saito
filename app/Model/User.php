@@ -176,6 +176,10 @@
 			),
 		);
 
+		public $findMethods = [
+				'latest' => true
+		];
+
 		protected $_fieldsToSanitize = [
 				'user_hp',
 				'user_place',
@@ -508,6 +512,23 @@
 		protected function _hashPassword($password) {
 			$auth = new BlowfishPasswordHasher();
 			return $auth->hash($password);
+		}
+
+		/**
+		 * Find the latest, successfully registered user
+		 */
+		protected function _findLatest($state, $query, $results = []) {
+			if ($state === 'before') {
+				$query['contain'] = false;
+				$query['limit'] = 1;
+				$query['conditions'][$this->alias . '.activate_code'] = 0;
+				$query['order'] = $this->alias . '.id DESC';
+				return $query;
+			}
+			if (empty($results[0])) {
+				return [];
+			}
+			return $results[0];
 		}
 
 	}

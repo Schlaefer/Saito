@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-14 11:21+0100\n"
-"PO-Revision-Date: 2014-02-14 11:21+0100\n"
+"PO-Revision-Date: 2014-02-19 12:12+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -521,13 +521,17 @@ msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:28
 msgid ""
-":entries Entries in :threads Threads; :registred registred users, :loggedin "
-"logged in, :anon anonymous"
+":entries Entries in :threads Threads; :registered members, :loggedin logged "
+"in, :anon anonymous"
 msgstr ""
-":entries Beiträge in :threads Threads; :registred registrierte Benutzer, :"
-"loggedin angemeldet, :anon Gäste."
+":entries Beiträge in :threads Threads; :registered Mitglieder, :loggedin "
+"angemeldet, :anon Gäste."
 
-#: View/Elements/layout/disclaimer.ctp:43
+#: View/Elements/layout/disclaimer.ctp:46
+msgid "disclaimer.newestMember"
+msgstr "Neuestes Mitglied ist %s."
+
+#: View/Elements/layout/disclaimer.ctp:53
 msgid "About"
 msgstr "Über"
 
@@ -1102,13 +1106,11 @@ msgstr ""
 
 #: View/Users/edit.ctp:169
 msgid "user_automaticaly_mark_as_read"
-msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
+msgstr "Intelligentes Gelesen-Markieren"
 
 #: View/Users/edit.ctp:170
 msgid "user_automaticaly_mark_as_read_exp"
-msgstr ""
-"Beim erneuten Laden der Frontseite (bspw. durch Klick auf Logo im Kopf) wird "
-"die Hervorhebung aktueller Beiträge zurückgesetzt."
+msgstr "Intelligentes Gelesen-Markieren (iMAR)"
 
 #: View/Users/edit.ctp:174
 msgid "user_signatures_hide"
@@ -2805,6 +2807,9 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
 msgid "token test"
 msgstr ""
+
+#~ msgid "Newest member is: %s."
+#~ msgstr "Neuestes Mitglied ist: %s."
 
 #~ msgid "Create"
 #~ msgstr "Anlegen"

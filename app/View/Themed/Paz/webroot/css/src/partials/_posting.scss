@@ -7,7 +7,7 @@
   // changes for inline opening
   .threadInline-slider & {
     // visual border for posting in inline-open
-    padding: $padding;
+    padding: 0 $padding $padding;
 
     // hide signatures in inline open by default
     .postingBody-signature {
@@ -35,6 +35,10 @@
   @extend %schmuckfont;
   font-weight: normal;
   font-size: 1.1 * $font-size-large;
+
+  .threadInline-slider & {
+    font-size: 1.25em;
+  }
 }
 
 .postingBody-info {

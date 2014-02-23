@@ -18,18 +18,18 @@
 .panel-content {
 }
 
-
 .panel-footer {
-  padding: $padding 0 ;
+  padding: $padding 0;
 
   &.panel-form {
     margin-top: 2*$padding;
+    padding: 0.3*$padding $padding;
   }
 }
 
 .panel-form {
   background: $form-background-color;
-  padding: $padding;
+  padding: $padding $padding;
 }
 
 .panel-footer-form-btn {

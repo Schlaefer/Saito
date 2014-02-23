@@ -167,7 +167,16 @@
 
 		<tr>
 			<td> <?php echo __('user_automaticaly_mark_as_read') ?> </td>
-			<td> <?php echo  $this->Form->checkbox('user_automaticaly_mark_as_read', array( 'label' => false ));  ?> <p class="exp"> <?php echo __('user_automaticaly_mark_as_read_exp') ?> </p></td>
+			<td>
+				<?= $this->Form->checkbox('user_automaticaly_mark_as_read', ['label' => false ]); ?>
+				<p class="exp">
+					<?php
+						echo __('user_automaticaly_mark_as_read_exp');
+						echo '&nbsp;';
+						echo $this->SaitoHelp->icon(2);
+					?>
+				</p>
+			</td>
 		</tr>
 
 		<tr>

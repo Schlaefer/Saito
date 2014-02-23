@@ -85,6 +85,10 @@ class DATABASE_CONFIG {
 
 	/*** Don't edit below this line! ***/
 
+	public $saitoHelp = [
+		'datasource' => 'SaitoHelp.SaitoHelpSource'
+	];
+
 	public function __construct() {
     return;
 		if ($this->_isSelenium()) {

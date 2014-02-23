@@ -18,24 +18,34 @@
   <div class="center">
     <div class="disclaimer-inside">
       <h3><?= __('Status') ?></h3>
-      <?php
-				$loggedin = $HeaderCounter['user_registered'];
-				if ($CurrentUser->isLoggedIn()) {
-					$loggedin = $this->Html->link($loggedin, '/users/index');
-				}
-				echo String::insert(
-					__(
-						':entries Entries in :threads Threads; :registred registred users, :loggedin logged in, :anon anonymous'
-					),
-					[
-							'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
-							'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
-							'registred' => number_format($HeaderCounter['user'], null, null, '.'),
-							'loggedin' => $loggedin,
-							'anon' => $HeaderCounter['user_anonymous']
-					]
-				);
-      ?>
+			<p>
+				<?php
+					$loggedin = $HeaderCounter['user_registered'];
+					if ($CurrentUser->isLoggedIn()) {
+						$loggedin = $this->Html->link($loggedin, '/users/index');
+					}
+					echo String::insert(
+							__(':entries Entries in :threads Threads; :registered members, :loggedin logged in, :anon anonymous'),
+							[
+									'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
+									'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
+									'registered' => number_format($HeaderCounter['user'], null, null, '.'),
+									'loggedin' => $loggedin,
+									'anon' => $HeaderCounter['user_anonymous']
+							]);
+				?>
+			</p>
+			<p>
+				<?php
+					$_user = $HeaderCounter['latestUser']['User'];
+					$_u = $_user['username'];
+					if ($CurrentUser->isLoggedIn()) {
+						$_u = $this->Html->link($_user['username'],
+								'/users/view/' . $_user['id']);
+					}
+					echo __('disclaimer.newestMember', $_u);
+				?>
+			</p>
     </div>
   </div>
   <div class="right">

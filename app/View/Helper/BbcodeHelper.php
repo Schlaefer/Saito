@@ -136,12 +136,12 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 *
 	 * @param array $options
 	 */
-	protected function _initParser(array $options = array( )) {
+	protected function _initParser(array $options = []) {
 
-		$defaults = array(
-				// allows to supress the output of media elements
+		$defaults = [
+			// allows to suppress the output of media elements
 				'multimedia' => true,
-		);
+		];
 		$options = array_merge($defaults, $options);
 
 		$this->settings['useSmilies'] = Configure::read('Saito.Settings.smilies');
@@ -152,19 +152,17 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			return;
 		}
 
-		extract($options);
-
 		$this->_Parser = ClassRegistry::init('StringParser_BBCode');
 
 		//* newline
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
-				array( &$this, '_convertLineBreaks' ));
-		$this->_Parser->addParser(array( 'block', 'inline', 'listitem' ), 'nl2br');
+				[&$this, '_convertLineBreaks']);
+		$this->_Parser->addParser(['block', 'inline', 'listitem'], 'nl2br');
 
 		// smilies, @links
 		$this->_Parser->addFilter(
 			STRINGPARSER_FILTER_PRE,
-			array(&$this, '_poorMansCustomSplitterTags')
+			[&$this, '_poorMansCustomSplitterTags']
 		);
 
 		/*
@@ -198,29 +196,30 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 		//* [code]
 		$this->_Parser->addCode(
-				'code', 'usecontent', array( &$this, "_code" ), array( ), 'code',
-				array( 'block' ), array( )
+				'code', 'usecontent',
+				[&$this, "_code"], [], 'code',
+				['block'], []
 		);
 
 		//* bold
 		$this->_Parser->addCode(
 				'b', 'simple_replace', null,
-				array( 'start_tag' => '<strong>', 'end_tag' => '</strong>' ), 'inline',
-				array( 'block', 'inline', 'link', 'listitem' ), array( )
+				['start_tag' => '<strong>', 'end_tag' => '</strong>'], 'inline',
+				['block', 'inline', 'link', 'listitem'], []
 		);
 
 		//* italic
 		$this->_Parser->addCode(
 				'i', 'simple_replace', null,
-				array( 'start_tag' => '<em>', 'end_tag' => '</em>' ), 'inline',
-				array( 'block', 'inline', 'link', 'listitem' ), array( )
+				['start_tag' => '<em>', 'end_tag' => '</em>'], 'inline',
+				['block', 'inline', 'link', 'listitem' ], []
 		);
 
 		//* underline
 		$this->_Parser->addCode(
 				'u', 'simple_replace', null,
-				array( 'start_tag' => "<span class='c-bbcode-underline'>", 'end_tag' => '</span>' ),
-				'inline', array( 'block', 'inline', 'link', 'listitem' ), array( )
+				['start_tag' => '<span class="c-bbcode-underline">', 'end_tag' => '</span>'],
+				'inline', ['block', 'inline', 'link', 'listitem'], []
 		);
 
 		// [strike]
@@ -249,48 +248,51 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				['block'], []
 		);
 
+		//* edit icon
+		$this->_Parser->addCode(
+				'e', 'simple_replace_single', null,
+				['start_tag' => '<ins class="c-bbcode-edit"></ins>'], 'inline',
+				['block', 'inline', 'listitem'], []
+		);
+
 		//* urls
 		$this->_Parser->addCode(
 				'url', 'usecontent?', array( &$this, '_urlTag' ),
-				array( 'usecontent_param' => 'default' ), 'link',
-				array( 'block', 'inline', 'listitem' ), array( )
+				['usecontent_param' => 'default'], 'link',
+				['block', 'inline', 'listitem'], []
 		);
 
 		//* link
 		$this->_Parser->addCode(
-				'link', 'usecontent?', array( &$this, '_urlTag' ),
-				array( 'usecontent_param' => 'default' ), 'link',
-				array( 'block', 'inline', 'listitem' ), array( )
+				'link', 'usecontent?', [&$this, '_urlTag'],
+				['usecontent_param' => 'default'], 'link',
+				['block', 'inline', 'listitem'], []
 		);
 
 		//* autolinks
-		if ( Configure::read('Saito.Settings.autolink') ) {
+		if (Configure::read('Saito.Settings.autolink')) {
 			$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
-				array(&$this, '_autoLinkPreTaginize'));
+				[&$this, '_autoLinkPreTaginize']);
 
 			$this->_Parser->addCode(
-				'autoLink', 'usecontent', array( &$this, "_autoLinkPre" ),
-				array( ), 'link',
-				array( 'block' ), array( )
+				'autoLink', 'usecontent', [&$this, "_autoLinkPre"],
+				[], 'link',
+				['block'], []
 			);
 		}
 
 		//* email
 		$this->_Parser->addCode(
-				'email', 'usecontent?', array( &$this, '_email' ),
-				array( 'usecontent_param' => 'default' ), 'link',
-				array( 'block', 'inline' ), array( )
+				'email', 'usecontent?', [&$this, '_email'],
+				['usecontent_param' => 'default'], 'link',
+				['block', 'inline'], []
 		);
 
 		// spoiler in block
 		$this->_Parser->addCode(
-			'spoiler',
-			'callback_replace',
-			[&$this, '_spoiler'],
-			['usecontent_param' => 'default'],
-			'inline',
-			['block', 'inline'],
-			['code']
+			'spoiler', 'callback_replace', [&$this, '_spoiler'],
+			['usecontent_param' => 'default'], 'inline',
+			['block', 'inline'], ['code']
 		);
 
 		//* float
@@ -318,14 +320,13 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* listitem
 		$this->_Parser->addCode(
 				'*', 'simple_replace', null,
-				array( 'start_tag' => '<li class="c-bbcode-li">', 'end_tag' => '</li>' ),
-				'listitem', array( 'list' ), array( )
+				['start_tag' => '<li class="c-bbcode-li">', 'end_tag' => '</li>'],
+				'listitem', ['list'], []
 		);
 		$this->_Parser->setCodeFlag('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
 
 		//* quote
-		$this->_Parser->addParser(array( 'block', 'inline' ),
-				array( &$this, '_quote' ));
+		$this->_Parser->addParser(['block', 'inline'], [&$this, '_quote']);
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
@@ -333,54 +334,54 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		//* allows [url=<foo> label=none] to be parsed as [url default=<foo> label=none]
 		$this->_Parser->setMixedAttributeTypes(true);
 
-		if ( Configure::read('Saito.Settings.bbcode_img') && $multimedia ):
+		if (Configure::read('Saito.Settings.bbcode_img') && $options['multimedia']):
 
 			// video - iframe
 			$this->_Parser->addCode(
 					'iframe', 'usecontent', 'BbcodeHelper::_iframe',
-					array( 'usecontent_param' => 'default' ), 'img',
-					array( 'block', 'inline' ), array( )
+					['usecontent_param' => 'default'], 'img',
+					['block', 'inline'], []
 			);
 
 			// video - flash
 			$this->_Parser->addCode(
 					'flash_video', 'usecontent', 'BbcodeHelper::_flashVideo',
-					array( 'usecontent_param' => 'default' ), 'img',
-					array( 'block', 'inline' ), array( )
+					['usecontent_param' => 'default'], 'img',
+					['block', 'inline'], []
 			);
 
 			// video - html5
 			$this->_Parser->addCode(
 					'video', 'usecontent', 'BbcodeHelper::_html5Video',
-					array( 'usecontent_param' => 'default' ), 'img',
-					array( 'block', 'inline' ), array( )
+					['usecontent_param' => 'default'], 'img',
+					['block', 'inline'], []
 			);
 
 			// audio - html5
 			$this->_Parser->addCode(
 					'audio', 'usecontent', 'BbcodeHelper::_html5Audio',
-					array( 'usecontent_param' => 'default' ), 'img',
-					array( 'block', 'inline' ), array( )
+					['usecontent_param' => 'default'], 'img',
+					['block', 'inline'], []
 			);
 
 			// external images
 			$this->_Parser->addCode(
-					'img', 'usecontent', array( &$this, '_externalImage' ),
-					array( 'usecontent_param' => 'default' ), 'img',
-					array( 'block', 'inline', 'link' ), array( )
+					'img', 'usecontent', [&$this, '_externalImage'],
+					['usecontent_param' => 'default'], 'img',
+					['block', 'inline', 'link'], []
 			);
 
 			// image upload
 			$this->_Parser->addCode(
-					'upload', 'usecontent', array( &$this, '_upload' ),
-					array( 'usecontent_param' => 'default' ), 'img',
-					array( 'block', 'inline', 'link' ), array( )
+					'upload', 'usecontent', [&$this, '_upload'],
+					['usecontent_param' => 'default'], 'img',
+					['block', 'inline', 'link'], []
 			);
 
 			$this->_Parser->addCode(
-				'embed', 'usecontent', array( &$this, '_embed' ),
-				array( 'usecontent_param' => 'default' ), 'embed',
-				array( 'block'), array( )
+				'embed', 'usecontent', [&$this, '_embed'],
+				['usecontent_param' => 'default'], 'embed',
+				['block'], []
 			);
 
 		endif;
@@ -400,8 +401,9 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 
 	/**
 	 * @mlf Just rebuild the smily system
-	 * @param <type> $string
-	 * @return <type>
+	 * @param $string
+	 * @param array $options
+	 * @return mixed
 	 */
 	public function _smilies($string, $options = []) {
 		// Stopwatch::start('BbcodeHelper::_smilies');
@@ -410,37 +412,31 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		];
 		$options += $defaults;
 
-
 		// @td refactor: MVC|method?
 		$smilies = Configure::read('Saito.Smilies.smilies_all');
 
-		$build_cache = false;
+		$_buildCache = false;
 
 		if (!$s = Configure::read('Saito.Smilies.smilies_all_html')) {
-			if (!$options['cache'] ||
-					!$s = Cache::read('Saito.Smilies.smilies_all_html')
-			) {
-				$build_cache = true;
+			if (!$options['cache'] || !$s = Cache::read('Saito.Smilies.smilies_all_html')) {
+				$_buildCache = true;
 			}
 		}
 
-		if ($build_cache):
-			$s = [
-				'codes'        => [],
-				'replacements' => []
-			];
+		if ($_buildCache) {
+			$s = ['codes' => [], 'replacements' => []];
 			foreach ($smilies as $smiley) {
-				$s['codes'][]        = $smiley['code'];
+				$s['codes'][] = $smiley['code'];
 				$s['replacements'][] = $this->Html->image(
-					'smilies/' . $smiley['image'],
-					['alt' => "{$smiley['code']}", 'title' => $smiley['title']]
+						'smilies/' . $smiley['image'],
+						['alt' => $smiley['code'], 'title' => $smiley['title']]
 				);
 			}
-			Configure::write("Saito.Smilies.smilies_all_html", $s);
+			Configure::write('Saito.Smilies.smilies_all_html', $s);
 			if ($options['cache']) {
-				Cache::write("Saito.Smilies.smilies_all_html", $s);
+				Cache::write('Saito.Smilies.smilies_all_html', $s);
 			}
-		endif;
+		}
 		unset($options['cache']);
 
 		$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
@@ -451,7 +447,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 				// $s['replacements'][] = $this->Html->image('smilies/gacker_large.png');
 				if ($additionalButton['type'] === 'image') {
 					$additionalButton['replacement'] = $this->Html->image(
-						'markitup' . DS . $additionalButton['replacement']
+							'markitup' . DS . $additionalButton['replacement']
 					);
 				}
 				$s['replacements'][] = $additionalButton['replacement'];

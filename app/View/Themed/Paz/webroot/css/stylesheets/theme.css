@@ -8,6 +8,8 @@ html { font-size: 62.5%; }
 
 code, .code, pre, tt { line-height: inherit; font-family: courier-new, courier, monospace; }
 
+ins { text-decoration: inherit; }
+
 .c-bbcode-ul, .staticPage ul { padding-left: 0; list-style-type: none; position: relative; }
 
 .c-bbcode-li:before, .staticPage li:before { content: "\2022"; display: block; position: absolute; left: -1em; }
@@ -79,9 +81,11 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 #content { padding: 0 2em; }
 
+#footer-pinned { width: 100%; position: absolute; bottom: 0px; }
+
 .disclaimer { border-top: 1px solid #e2e2e2; font-size: 0.85em; padding-bottom: 1em; }
 
-.infoText, .postingBody-signature, .threadLine-post, .c-bbcode-link-dinfo, .postingBody-info, .disabled { color: #727272; }
+.infoText, .postingBody-signature, .threadLine-post, .c-bbcode-link-dinfo, .c-bbcode-edit, .postingBody-info, .disabled { color: #727272; }
 
 .c-category { color: #222222; font-weight: normal; white-space: nowrap; }
 
@@ -109,9 +113,9 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .panel-heading.pageTitle { display: none; }
 
 .panel-footer { padding: 1em 0; }
-.panel-footer.panel-form { margin-top: 2em; }
+.panel-footer.panel-form { margin-top: 2em; padding: 0.3em 1em; }
 
-.panel-form { background: #e7e7e7; padding: 1em; }
+.panel-form { background: #e7e7e7; padding: 1em 1em; }
 
 .panel-footer-form-btn { margin-right: 1em; }
 
@@ -122,6 +126,8 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .ui-dialog > .ui-dialog-content > .panel { padding-top: 0; }
 
 .spinner > div { background-color: #e2e2e2 !important; }
+
+.spinner { padding: 1em; }
 
 .spinner { margin: 0 auto; width: 50px; height: 30px; text-align: center; font-size: 10px; }
 
@@ -139,6 +145,9 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
   20% { -webkit-transform: scaleY(1); } }
 @keyframes stretchdelay { 0%, 40%, 100% { transform: scaleY(0.4); -webkit-transform: scaleY(0.4); }
   20% { transform: scaleY(1); -webkit-transform: scaleY(1); } }
+.shp-show-btn { display: none; }
+.shp-show-btn.is-active { display: inline-block; }
+
 .input { margin: 0 0 1em; }
 
 textarea, input[type=text], input[type=password], .markItUp textarea { outline-style: none; border-style: none; width: 100%; background: #fbfbfb; border-left: 2px solid #a5a5a5; -webkit-appearance: none; border-radius: 0; }
@@ -160,7 +169,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .btn-strip-back:active { background-color: #e7e7e7; }
 .btn-strip-back:before { font-family: 'FontAwesome'; content: '\f060'; font-size: 12px; width: 15px; text-align: center; display: block; position: absolute; top: 50%; }
 
-#site { min-height: 100%; position: relative; padding-bottom: 1em; }
+#site { min-height: 100%; position: relative; }
 
 .bp-threeColumn { *zoom: 1; max-width: 60em; _width: 60em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto; }
 .bp-threeColumn:after { content: ""; display: table; clear: both; }
@@ -190,7 +199,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 #shoutbox { word-wrap: break-word; }
 #shoutbox img { max-width: 100%; }
-#shoutbox .infoText, #shoutbox .postingBody-signature, #shoutbox .threadLine-post, #shoutbox .c-bbcode-link-dinfo, #shoutbox .postingBody-info { text-align: center; }
+#shoutbox .infoText, #shoutbox .postingBody-signature, #shoutbox .threadLine-post, #shoutbox .c-bbcode-link-dinfo, #shoutbox .c-bbcode-edit, #shoutbox .postingBody-info { text-align: center; }
 
 .threadTree-node { padding-left: 30px; }
 
@@ -249,8 +258,10 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .c-bbcode-spoiler .c-bbcode-spoiler-link { color: black; background-color: black; text-shadow: none; word-break: break-word; }
 .c-bbcode-spoiler .c-bbcode-spoiler-link:hover { color: inherit; background-color: inherit; text-shadow: inherit; }
 
+.c-bbcode-edit { padding: 0 0.3em; }
+
 .postingLayout { margin: 0 auto; max-width: 54em; }
-.threadInline-slider .postingLayout { padding: 1em; }
+.threadInline-slider .postingLayout { padding: 0 1em 1em; }
 .threadInline-slider .postingLayout .postingBody-signature { display: none; }
 
 .postingLayout-slider { display: none; }
@@ -258,6 +269,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .postingLayout-slider .preview { border-top: 1px solid #e2e2e2; border-bottom: none; }
 
 .postingBody-heading { margin-bottom: 2px; margin-top: 0; font-weight: normal; font-size: 1.485em; }
+.threadInline-slider .postingBody-heading { font-size: 1.25em; }
 
 .postingBody-info { margin-bottom: 1em; }
 .postingBody-info > .meta { font-size: 0.85em; }

@@ -70,6 +70,8 @@
 					echo $this->MarkitupEditor->editor(
 						'text',
 						[
+							'class' => 'shp',
+							'data-shpid' => 3,
 							'parser' => false,
 							'set' => 'default',
 							'skin' => 'macnemo',

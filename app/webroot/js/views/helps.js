@@ -1,14 +1,19 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
-], function($, _, Backbone) {
+  'backbone',
+  'drop'
+], function($, _, Backbone, Drop) {
 
   "use strict";
 
   var HelpsView = Backbone.View.extend({
 
     isHelpShown: false,
+
+    _popups: [],
+
+    tpl: _.template('<a href="<%= webroot %>help/<%= id %>"><i class="fa fa-question-circle"></i></a>'),
 
     events: function() {
       var out = {};
@@ -17,48 +22,25 @@ define([
     },
 
     initialize: function(options) {
-      /*
-      deactivated: bootstrap is missing
-
       this.indicatorName = options.indicatorName;
       this.elementName = options.elementName;
+      this.webroot = options.webroot;
 
       this.activateHelpButton();
-      this.placeHelp();
-      */
     },
 
     activateHelpButton: function() {
       if (this.isHelpOnPage()) {
-        $(this.indicatorName).removeClass('no-color');
+        $(this.indicatorName).addClass('is-active');
       }
-    },
-
-    placeHelp: function() {
-      var defaults = {
-        trigger: 'manual',
-        html: true
-      };
-      var positions = ['bottom', 'right', 'left'];
-      for (var i = 0; i < positions.length; i++) {
-        $(this.elementName + '-' + positions[i]).popover(
-            $.extend(defaults, {placement: positions[i]})
-        );
-      }
-
-      $(this.indicatorName).popover({
-        placement: 'left',
-        trigger: 'manual'
-      });
     },
 
     isHelpOnPage: function() {
-      return this.$el.find(this.elementName).length > 0;
+      return this.$(this.elementName).length > 0;
     },
 
     toggle: function(event) {
       event.preventDefault();
-
       if (this.isHelpShown) {
         this.hide();
       } else {
@@ -66,20 +48,34 @@ define([
       }
     },
 
-
     show: function() {
       this.isHelpShown = true;
       if (this.isHelpOnPage()) {
-        $(this.elementName).popover('show');
-      } else {
-        $(this.indicatorName).popover('show');
+        if (this._popups.length === 0) {
+          var that = this;
+          $(this.elementName).each(function() {
+            var $element = $(this),
+                id = $element.data('shpid'),
+                $k = that.tpl({id: id, webroot: that.webroot});
+            that._popups.push(new Drop({
+              target: this,
+              content: $k,
+              classes: 'drop-theme-arrows',
+              position: 'top center'
+            }));
+          });
+        }
+        this._popups.forEach(function(element) {
+          element.open();
+        });
       }
     },
 
     hide: function() {
       this.isHelpShown = false;
-      $(this.elementName).popover('hide');
-      $(this.indicatorName).popover('hide');
+      this._popups.forEach(function(element) {
+        element.close();
+      });
     }
   });
 

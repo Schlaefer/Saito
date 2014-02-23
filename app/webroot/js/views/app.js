@@ -24,6 +24,7 @@ define([
     events: {
       'click #showLoginForm': 'showLoginForm',
       'focus #header-searchField': 'widenSearchField',
+      'click #btn-scrollToTop': 'scrollToTop',
       'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
       "click #btn-category-chooser": "toggleCategoryChooser",
       'click #btn_header_logo': '_onEntriesIndexReload'
@@ -200,7 +201,8 @@ define([
       var helps = new HelpsView({
         el: 'body',
         elementName: element_n,
-        indicatorName: '#shp-show'
+        indicatorName: '#shp-show',
+        webroot: App.settings.get('webroot')
       });
     },
 
@@ -262,6 +264,11 @@ define([
         position: ['center', 120],
         resizable: false
       });
+    },
+
+    scrollToTop: function(event) {
+      event.preventDefault();
+      window.scrollTo(0, 0);
     },
 
     manuallyMarkAsRead: function(event) {

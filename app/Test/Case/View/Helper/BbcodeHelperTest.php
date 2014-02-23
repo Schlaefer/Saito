@@ -304,6 +304,18 @@
 			$this->assertIdentical($expected, $result);
 		}
 
+		public function testEditMarker() {
+			$input = '[e]';
+			$expected = [
+				'ins' => [
+					'class' => 'c-bbcode-edit'
+				],
+				'/ins'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
 		/*
 		 * without obfuscator
 		 */
