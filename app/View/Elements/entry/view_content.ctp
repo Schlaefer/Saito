@@ -7,15 +7,12 @@
 			<?php
 				$subject = $this->EntryH->getSubject($entry);
 				// only make subject a link if it is not in entries/view
-				// debug($this->request->action); debug($last_action); debug($isAjax);
-				if ($this->request->action !== 'preview' && ( $this->request->is('ajax') || $this->request->action === 'mix')) {
-					echo $this->Html->link(
-						$subject,
-						'/entries/view/' .
-						// is not set/unknown when showing preview
-						((isset($entry['Entry']['id'])) ? $entry['Entry']['id'] : null),
-						['escape' => false]
-					);
+				if ($this->request->action !== 'preview' &&
+						($this->request->is('ajax') || $this->request->action === 'mix')
+				) {
+					echo $this->Html->link($subject,
+							'/entries/view/' . $entry['Entry']['id'],
+							['escape' => false]);
 				} else {
 					echo $subject;
 				}
