@@ -170,16 +170,16 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
      *
      * Remove if appropriate 2011-06-20.
 		 */
-    $this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
-        // Translates [img# foo]bar[/img] to [upload foo]bar[/upload]
-        function($string) {
-          return preg_replace(
-              '#\[img\#(.*)?\](.+?)\[/img\]#is',
-              "[upload\\1]\\2[/upload]",
-              $string
-              );
-        }
-        );
+		$this->_Parser->addFilter(STRINGPARSER_FILTER_PRE,
+				// Translates [img# foo]bar[/img] to [upload foo]bar[/upload]
+				function ($string) {
+					return preg_replace(
+							'#\[img\#(.*)?\](.+?)\[/img\]#is',
+							"[upload\\1]\\2[/upload]",
+							$string
+					);
+				}
+		);
 
 		if (empty($this->settings['hashBaseUrl']) === false) {
 			// #<numeric> internal links
@@ -325,8 +325,8 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 		);
 		$this->_Parser->setCodeFlag('*', 'closetag', BBCODE_CLOSETAG_OPTIONAL);
 
-		//* quote
-		$this->_Parser->addParser(['block', 'inline'], [&$this, '_quote']);
+		// quote
+		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, [&$this, '_quote']);
 
 		// open external links in new browser
 		$this->_Parser->addFilter(STRINGPARSER_FILTER_POST, 'BbcodeHelper::_relLink');
@@ -740,47 +740,51 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	 * @return string
 	 */
 	public function citeText($string) {
+		if (empty($string)) {
+			return '';
+		}
 		$out = '';
-		if ( !empty($string) ):
-			// split already quoted lines
-			$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m", $string, null,
-					PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-			foreach ( $citeLines as $citeLine ):
-				if ( mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0 ):
-					// already quoted lines need no further processing
-					$out .= $citeLine;
+		// split already quoted lines
+		$citeLines = preg_split("/(^{$this->settings['quoteSymbol']}.*?$\n)/m",
+				$string,
+				null,
+				PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		foreach ( $citeLines as $citeLine ):
+			if (mb_strpos($citeLine, $this->settings['quoteSymbol']) === 0) {
+				// already quoted lines need no further processing
+				$out .= $citeLine;
+				continue;
+			}
+			// split [bbcode]
+			$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`',
+					$citeLine,
+					null,
+					PREG_SPLIT_DELIM_CAPTURE);
+			$i = 0;
+			$line = '';
+			foreach ($matches as $match) {
+				 // the [bbcode] preg_split uses a backreference \2 which is in the $matches
+				 // but is not needed in the results
+				 // @todo elegant solution
+				$i++;
+				if ($i % 3 == 0) {
 					continue;
-				endif;
-				// split [bbcode]
-				$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`', $citeLine, null,
-						PREG_SPLIT_DELIM_CAPTURE);
-				$i = 0;
-				$line = '';
-				foreach ( $matches as $match ):
-					/*
-					 * the [bbcode] preg_split uses a backreference \2 which is in the $matches
-					 * but is not needed in the results
-					 * @td elegant solution
-					 */
-					$i++;
-					if ( $i % 3 == 0 ):
-						continue;
-					endif;
-
-					if ( mb_strpos($match, '[') !== 0 ):
-						$line .= wordwrap($match);
-					else:
-						$line .= $match;
-					endif;
-					if ( mb_strlen($line) > 60 ):
-						$out .= $line . "\n";
-						$line = '';
-					endif;
-				endforeach;
-				$out .= $line;
-			endforeach;
-			$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
-		endif;
+				}
+				// wrap long lines
+				if (mb_strpos($match, '[') !== 0) {
+					$line .= wordwrap($match);
+				} else {
+					$line .= $match;
+				}
+				// add newline to wrapped lines
+				if (mb_strlen($line) > 60) {
+					$out .= $line . "\n";
+					$line = '';
+				}
+			}
+			$out .= $line;
+		endforeach;
+		$out = preg_replace("/^/m", $this->settings['quoteSymbol'] . " ", $out);
 		return $out;
 	}
 
@@ -1001,13 +1005,13 @@ EOF;
 	 * @return string
 	 */
 	public function _quote($string) {
-		$quote_symbol_sanitized = Sanitize::html($this->settings['quoteSymbol']);
+		$_quoteSymbolSanitized = Sanitize::html($this->settings['quoteSymbol']);
 		$string = preg_replace(
 				// Begin of the text or a new line in the text, maybe one space afterwards
 				'/(^|\n\r\s?)'
-				. $quote_symbol_sanitized
-				. '\s([^\n\r]*)/m',
-				"\\1<span class=\"c-bbcode-citation\">" . $quote_symbol_sanitized . " \\2</span>",
+				. $_quoteSymbolSanitized
+				. '\s(.*)(?!\<br)/m',
+				"\\1<span class=\"c-bbcode-citation\">" . $_quoteSymbolSanitized . " \\2</span>",
 				$string
 		);
 		return $string;

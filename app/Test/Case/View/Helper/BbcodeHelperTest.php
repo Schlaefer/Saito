@@ -770,6 +770,22 @@
 			$this->assertTags($result, $expected);
 		}
 
+		public function testQuote() {
+			$_qs = Sanitize::html($this->Bbcode->settings['quoteSymbol']);
+			$input = "$_qs fo [b]test[/b] ba";
+			$result = $this->Bbcode->parse($input);
+			$expected = [
+					'span' => ['class' => 'c-bbcode-citation'],
+					$_qs . ' fo ',
+					'strong' => [],
+					'test',
+					'/strong',
+					' ba',
+					'/span'
+			];
+			$this->assertTags($result, $expected);
+		}
+
 		public function testHtml5Video() {
 			//* setup
 			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');

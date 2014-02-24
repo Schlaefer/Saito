@@ -1,6 +1,12 @@
 #site {
+  min-width: $layout_min_width;
+  @include box-sizing(border-box);
   min-height: 100%;
   position: relative;
+
+  padding: 0 2 * $padding;
+  max-width: 70em;
+  margin: 0 auto;
 }
 
 .bp-threeColumn {

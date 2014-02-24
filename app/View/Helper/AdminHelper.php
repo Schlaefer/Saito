@@ -37,9 +37,14 @@
 	class AdminHelper extends AppHelper {
 
 		public $helpers = [
+			'SaitoHelp',
 			'Html',
 			'TimeH'
 		];
+
+		public function help($id) {
+			return $this->SaitoHelp->icon($id, ['style' => 'float: right;']);
+		}
 
 		public function badge($text, $type = 'info') {
 			return $this->Html->tag('span', $text, ['class' => "label label-$type"]);

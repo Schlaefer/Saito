@@ -11,10 +11,10 @@
 
 		public $helpers = ['Html'];
 
-		public function icon($id) {
+		public function icon($id, array $options = []) {
 			return $this->Html->link('<i class="fa fa-question-circle"></i>',
 					"/help/$id",
-					['escape' => false]);
+					['escape' => false] + $options);
 		}
 
 		public function parse($text) {

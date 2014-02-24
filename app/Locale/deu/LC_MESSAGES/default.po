@@ -634,6 +634,9 @@ msgstr "Der Name ist bereits vergeben."
 msgid "error_no_name"
 msgstr "Es wurde kein Name eingegeben."
 
+msgid "model.user.validate.username.hasAllowedChars"
+msgstr "Der Name enthält unerlaubte Sonderzeichen."
+
 #: View/Elements/users/add_form_core.ctp:8
 msgid "register_user_name"
 msgstr "Benutzername"

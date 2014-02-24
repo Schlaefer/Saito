@@ -56,7 +56,11 @@
 				'notEmpty' => array(
 					'rule' => 'notEmpty',
 					'last' => 'true'
-				)
+				),
+				'hasAllowedChars' => [
+					'rule' => ['validateHasAllowedChars'],
+					'last' => true
+				]
 			),
 			'user_type' => array(
 				'allowedChoice' => array(
@@ -201,6 +205,11 @@
 			'Mlf2PasswordHasher',
 			'MlfPasswordHasher'
 		];
+
+		/**
+		 * @var array chars not allowed in username
+		 */
+		protected $_disallowedCharsInUsername = ['\'', ';', '&', '<', '>' ];
 
 /**
  * True if registerGc garbage collection has ran at this request
@@ -364,6 +373,15 @@
 				$valid = true;
 			}
 			return $valid;
+		}
+
+		public function validateHasAllowedChars($data) {
+			foreach ($this->_disallowedCharsInUsername as $char) {
+				if (mb_strpos($data['username'], $char) !== false) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 /**
