@@ -16,15 +16,6 @@
 		}
 
 		public function beforeLayout($layoutFile) {
-			// @todo
-			if (strtolower($this->_View->theme) !== 'default') {
-				return;
-			}
-			$stylesheets =
-					[
-							'stylesheets/static.css',
-							'stylesheets/styles.css'
-					];
 			if (Configure::read('debug')) {
 				$stylesheets[] = 'stylesheets/cake.css';
 			}
