@@ -2,6 +2,7 @@
 	echo $this->Form->input('username',
 			[
 					'error' => [
+							'hasAllowedChars' => __('model.user.validate.username.hasAllowedChars'),
 							'isUnique' => __('error_name_reserved'),
 							'notEmpty' => __('error_no_name')
 					],
