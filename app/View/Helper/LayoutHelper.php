@@ -19,7 +19,9 @@
 			if (Configure::read('debug')) {
 				$stylesheets[] = 'stylesheets/cake.css';
 			}
-			$this->Html->css($stylesheets, null, ['inline' => false]);
+			if (!empty($stylesheets)) {
+				$this->Html->css($stylesheets, null, ['inline' => false]);
+			}
 		}
 
 		public function jQueryTag() {
