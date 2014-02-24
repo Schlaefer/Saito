@@ -75,7 +75,7 @@
 				$this->initBbcode();
 				$this->set(
 					'entry',
-					$this->Entry->get($_newPosting['Entry']['id'], true)
+					$this->Entry->get($_newPosting['Entry']['id'])
 				);
 			} else {
 				$errors = $this->Entry->invalidFields();
@@ -159,7 +159,7 @@
 				$this->initBbcode();
 				$this->set(
 					'entry',
-					$this->Entry->get($entry['Entry']['id'], true)
+					$this->Entry->get($entry['Entry']['id'])
 				);
 			} else {
 				throw new BadRequestException('Tried to save entry but failed for unknown reason.');

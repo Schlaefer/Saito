@@ -344,7 +344,7 @@
 						return;
 					}
 
-					$this->request->data = $this->Entry->get($id, true);
+					$this->request->data = $this->Entry->get($id);
 
 					if ($this->Entry->isAnsweringForbidden($this->request->data)) {
 						throw new ForbiddenException;
@@ -417,7 +417,7 @@
 				throw new BadRequestException();
 			}
 
-			$oldEntry = $this->Entry->get($id, true);
+			$oldEntry = $this->Entry->get($id);
 			if (!$oldEntry) {
 				throw new NotFoundException();
 			}
@@ -466,7 +466,7 @@
 			// get text of parent entry for citation
 			$parentEntryId = $oldEntry['Entry']['pid'];
 			if ($parentEntryId > 0) {
-				$parentEntry = $this->Entry->get($parentEntryId, true);
+				$parentEntry = $this->Entry->get($parentEntryId);
 				$this->set('citeText', $parentEntry['Entry']['text']);
 			}
 
@@ -732,7 +732,6 @@
 					'time' => date("Y-m-d H:i:s")
 				)
 			);
-
 			$this->Entry->prepare($newEntry);
 			$this->Entry->set($newEntry);
 
@@ -741,13 +740,7 @@
 
 			if (count($errors) === 0) :
 				// no validation errors
-
-				// Sanitize before validation: maxLength will fail because of html entities
-				$newEntry['Entry']['subject'] = Sanitize::html($newEntry['Entry']['subject']);
-				$newEntry['Entry']['text'] = Sanitize::html($newEntry['Entry']['text']);
-
 				$newEntry['User'] = $this->CurrentUser->getSettings();
-
 				$newEntry = array_merge(
 					$newEntry,
 					$this->Entry->Category->find(

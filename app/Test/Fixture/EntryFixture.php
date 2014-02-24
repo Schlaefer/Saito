@@ -44,6 +44,8 @@
  *
  *  - 10
  *
+ *  - 11
+ *
  * @var type array
  */
 		public $records = array(
@@ -194,6 +196,22 @@
 				'category' => 2, // accession = 0
 				'user_id' => 3,
 				'locked' => 1
+			],
+			// thread 5
+			// -------------------------------------
+			[
+			'id' => 11,
+				'subject' => '&<Subject',
+				'text' => "&<Text",
+				'pid' => 0,
+				'tid' => 11,
+				'time' => '2000-01-01 10:59:00',
+				'last_answer' => '2000-01-01 10:59:00',
+				'edited' => '0000-00-00 00:00:00',
+				'edited_by' => null,
+				'category' => 2, // accession = 0
+				'user_id' => 7,
+				'locked' => 0
 			]
 		);
 

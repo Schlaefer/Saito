@@ -44,7 +44,7 @@
 						<span class="slidetab-userlist-icon" title="<?= $_title ?>">
 								<i class="fa <?= $_icon ?>"></i>
 						</span>
-						<?= $user['User']['username']; ?>
+						<?= h($user['User']['username']) ?>
 					</a>
 				</li>
 			<?php endforeach; ?>

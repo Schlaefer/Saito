@@ -95,12 +95,17 @@
 		public function testEditRead() {
 			$Bookmarks = $this->generate('Bookmarks');
 			$this->_loginUser(3);
-			$result = $this->testAction('/bookmarks/edit/2', ['method' => 'GET']);
+			$result = $this->testAction('/bookmarks/edit/5', ['method' => 'GET', 'return' => 'view']);
 			$this->assertEqual($Bookmarks->request->data['Bookmark']['comment'],
-					'< Comment 2');
-			// special chars are escaped in entry-text
-			$this->assertContains('&lt;', $Bookmarks->request->data['Entry']['text']);
-			$this->assertNotContains('<', $Bookmarks->request->data['Entry']['text']);
+					'<BookmarkComment');
+
+			// special chars are escaped
+			$this->assertContains('&lt;BookmarkComment', $result);
+			$this->assertNotContains('<BookmarkComment', $result);
+			$this->assertContains('&lt;Subject', $result);
+			$this->assertNotContains('<Subject', $result);
+			$this->assertContains('&lt;Text', $result);
+			$this->assertNotContains('<Text', $result);
 		}
 
 		public function testEditSave() {

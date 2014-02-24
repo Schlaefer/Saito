@@ -13,7 +13,7 @@
 		),
 		'text'          => $entry['Entry']['text'],
 		'html'          => $this->Bbcode->parse(
-			h($entry['Entry']['text']),
+			$entry['Entry']['text'],
 			['multimedia' => true]
 		),
 		'user_id'       => (int)$entry['Entry']['user_id'],

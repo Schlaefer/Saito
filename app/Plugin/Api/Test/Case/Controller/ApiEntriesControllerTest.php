@@ -85,7 +85,7 @@
 				['return' => 'contents', 'method' => 'GET', 'data' => $data]
 			);
 			$result = json_decode($result, true);
-			$this->assertEqual(count($result), 2);
+			$this->assertEqual(count($result), 3);
 			$this->assertEqual($result[0]['id'], 1);
 			$this->assertEqual($result[1]['id'], 10);
 		}

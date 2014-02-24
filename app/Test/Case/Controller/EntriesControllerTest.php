@@ -81,16 +81,20 @@
 				]
 			];
 
+			$latestEntry = $C->Entry->find('first',
+					['contain' => false, 'order' => ['Entry.id' => 'desc']]);
+			$expectedId = $latestEntry['Entry']['id'] + 1;
+
 			//* setup notification test
 			$expected = [
 				[
-					'subject' => 11,
+					'subject' => $expectedId,
 					'event' => 'Model.Entry.replyToEntry',
 					'receiver' => 'EmailNotification',
 					'set' => 0,
 				],
 				[
-					'subject' => 11,
+					'subject' => $expectedId,
 					'event' => 'Model.Entry.replyToThread',
 					'receiver' => 'EmailNotification',
 					'set' => 1,
@@ -379,13 +383,30 @@
 			//* not logged in user
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 2);
+			$this->assertEqual(count($entries), 3);
 
 			//* logged in user
 			$this->_loginUser(3);
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 3);
+			$this->assertEqual(count($entries), 4);
+		}
+
+		public function testIndexSanitation() {
+			$this->generate('Entries');
+			$this->_loginUser(7);
+
+			// uses contents to check in slidetabs
+			$result = $this->testAction('/entries/index', ['return' => 'contents']);
+			// uses <body>-HTML only: exclude <head> which may contain unescaped JS-data
+			preg_match('/<body(.*)<\/body>/sm', $result, $matches);
+			$result = $matches[0];
+			$this->assertTextNotContains('&<Subject', $result);
+			$this->assertTextContains('&amp;&lt;Subject', $result);
+			$this->assertTextNotContains('&<Username', $result);
+			$this->assertTextContains('&amp;&lt;Username', $result);
+			// check for no double encoding
+			$this->assertTextNotContains('&amp;amp;&amp;lt;Username', $result);
 		}
 
 		public function testMergeNoSourceId() {
@@ -694,6 +715,16 @@
 			$this->assertTextContains('dropdown', $result);
 		}
 
+		public function testViewSanitation() {
+			$result = $this->testAction('/entries/view/11', ['return' => 'view']);
+			$this->assertTextNotContains('&<Subject', $result);
+			$this->assertTextContains('&amp;&lt;Subject', $result);
+			$this->assertTextNotContains('&<Text', $result);
+			$this->assertTextContains('&amp;&lt;Text', $result);
+			$this->assertTextNotContains('&<Username', $result);
+			$this->assertTextContains('&amp;&lt;Username', $result);
+		}
+
 		public function testAppStats() {
 			Configure::write('Cache.disable', false);
 			Cache::delete('header_counter', 'short');
@@ -703,9 +734,9 @@
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEqual($headerCounter['user_online'], 1);
-			$this->assertEqual($headerCounter['user'], 6);
-			$this->assertEqual($headerCounter['entries'], 10);
-			$this->assertEqual($headerCounter['threads'], 4);
+			$this->assertEqual($headerCounter['user'], 7);
+			$this->assertEqual($headerCounter['entries'], 11);
+			$this->assertEqual($headerCounter['threads'], 5);
 			$this->assertEqual($headerCounter['user_registered'], 0);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
 

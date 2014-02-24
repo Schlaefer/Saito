@@ -13,60 +13,7 @@
 		# Entry->User->UserOnline
 		public $recursive = 1;
 
-/**
- * Lock to disable sanitation permanently
- */
-		public static $sanitizeEnabled = true;
-
-		public static $sanitize = true;
-
-/**
- * Lock sanitize that it's associated models are also not sanitized
- *
- * @var mixed false or string
- */
-		protected static $_lockNoSanitize = false;
-
 		public $SharedObjects;
-
-		protected function _sanitizeFields($results) {
-			if (!isset($this->_fieldsToSanitize)) {
-				return $results;
-			}
-			foreach ($results as $k => $result) {
-				foreach ($this->_fieldsToSanitize as $field) {
-					if (isset($results[$k][$this->name][$field])) {
-						$results[$k][$this->alias][$field] = Sanitize::html(
-							$result[$this->alias][$field]
-						);
-					}
-				}
-			}
-			return $results;
-		}
-
-		public function afterFind($results, $primary = false) {
-			parent::afterFind($results, $primary);
-
-			if (self::$sanitizeEnabled) {
-				if (self::$sanitize) {
-					$results = $this->_sanitizeFields($results);
-				} elseif (self::$_lockNoSanitize === $this->alias) {
-					// sanitizing can only be disabled for one find
-					$this->sanitize(true);
-				}
-			}
-			return $results;
-		}
-
-		public function sanitize($switch = true) {
-			if (!$switch) {
-				self::$_lockNoSanitize = $this->alias;
-			} else {
-				self::$_lockNoSanitize = false;
-			}
-			self::$sanitize = $switch;
-		}
 
 		public function toggle($key) {
 			$this->contain();

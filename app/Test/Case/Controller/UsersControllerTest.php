@@ -344,6 +344,20 @@
 			$this->assertRedirectedTo();
 		}
 
+		public function testViewSanitation() {
+			$this->generate('Users');
+			$this->_loginUser(3);
+			$result = $this->testAction('/users/view/7', ['return' => 'view']);
+
+			$this->assertTextContains('&amp;&lt;Username', $result);
+			$this->assertTextContains('&amp;&lt;RealName', $result);
+			$this->assertTextContains('&amp;&lt;Homepage', $result);
+			$this->assertTextContains('&amp;&lt;Place', $result);
+			$this->assertTextContains('&amp;&lt;Profile', $result);
+			$this->assertTextContains('&amp;&lt;Signature', $result);
+			$this->assertTextNotContains('<&Username', $result);
+		}
+
 		public function testName() {
 			$this->generate('Users');
 			$this->_loginUser(3);

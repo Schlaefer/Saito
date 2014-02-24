@@ -38,11 +38,7 @@
 			<p>
 				<?php
 					$_user = $HeaderCounter['latestUser']['User'];
-					$_u = $_user['username'];
-					if ($CurrentUser->isLoggedIn()) {
-						$_u = $this->Html->link($_user['username'],
-								'/users/view/' . $_user['id']);
-					}
+					$_u = $this->Layout->linkToUserProfile($_user, $CurrentUser);
 					echo __('disclaimer.newestMember', $_u);
 				?>
 			</p>

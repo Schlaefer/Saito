@@ -36,8 +36,7 @@
 
 		public $findMethods = array(
 			'feed' => true,
-			'entry' => true,
-			'unsanitized' => true
+			'entry' => true
 		);
 
 /**
@@ -101,13 +100,15 @@
 			'views' => array(
 				'rule' => array('comparison', '>=', 0),
 			),
+			/*
+			Wenn @mlf sollte, wenn die Performance es zulässt, der Name sowieso nicht in
+			der `entries` Tabelle stehen, sondern sauber über die `User.id` Verbindung
+			aus der `User` Tabelle entnommen werden. Dies ist im Moment schon der Fall,
+			so dass dieses Feld @mlf entfernt werden kann und damit auch wieder dieser Hack.
+			@td validate input for username [a-z][A-Z][0-9][_-]
+			*/
 			'name' => array()
 		);
-
-		protected $_fieldsToSanitize = [
-			'subject',
-			'text'
-		];
 
 /**
  * Fields allowed in public output
@@ -298,11 +299,9 @@
 /**
  * Shorthand for reading an entry with full data
  */
-		public function get($id, $unsanitized = false) {
-			return $this->find(
-				($unsanitized) ? 'unsanitized' : 'entry',
-				['conditions' => [$this->alias . '.id' => $id]]
-			);
+		public function get($id) {
+			return $this->find('entry',
+					['conditions' => [$this->alias . '.id' => $id]]);
 		}
 
 /**
@@ -372,7 +371,6 @@
 
 			// make sure we pass the complete ['Entry'] dataset to events
 			$this->contain();
-			$this->sanitize(false);
 			$_newPosting = $this->read();
 
 			if ($this->isRoot($data)) {

@@ -25,7 +25,7 @@
 			$this->Layout->panelHeading([
 					'first' => "<i class='fa fa-close-widget pointer btn-previewClose'> &nbsp;</i>",
 					'middle' => __('preview')
-			]) ?>
+			], ['escape' => false]) ?>
 		<div class="panel-content"></div>
 	</div>
 	<!-- preview -->
@@ -37,7 +37,7 @@
 							'first' => $_first,
 							'middle' => $title_for_page,
 					],
-					['pageHeading' => !$is_inline]);?>
+					['pageHeading' => !$is_inline, 'escape' => false]);?>
 		<div id="markitup_upload">
 			<div class="body"></div>
 		</div>

@@ -127,7 +127,7 @@
 		 * @return string
 		 */
 		public function getSubject($entry) {
-			return $entry['Entry']['subject'] . (empty($entry['Entry']['text']) ? ' n/t' : '');
+			return h($entry['Entry']['subject']) . (empty($entry['Entry']['text']) ? ' n/t' : '');
 		}
 
 		public function getBadges($entry) {
@@ -275,11 +275,12 @@ EOF;
 
 			$subject = $this->getSubject($entrySub);
 			$badges = $this->getBadges($entrySub);
+			$username = h($entrySub['User']['username']);
 
 			// wrap everything up
 			$out = <<<EOF
 {$subject}
-<span class="c-username"> – {$entrySub['User']['username']}</span>
+<span class="c-username"> – {$username}</span>
 {$category}
 <span class="threadLine-post"> {$time} {$badges} </span>
 EOF;

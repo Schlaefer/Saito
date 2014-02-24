@@ -66,9 +66,7 @@
 									?>
 								</div>
 								<div class="l-bookmarks-cell bookmarks-cell" style="width: 30%">
-									<?php
-									echo $bookmark['Bookmark']['comment'];
-									?>
+									<?= h($bookmark['Bookmark']['comment']) ?>
 								</div>
 							</div>
 						<?php } ?>

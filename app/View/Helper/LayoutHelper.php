@@ -105,7 +105,9 @@
 		 * @return string
 		 */
 		public function pageHeading($heading, $tag = 'h1') {
-			return $this->Html->tag($tag, $heading, ['class' => 'pageHeading']);
+			return $this->Html->tag($tag,
+					$heading,
+					['class' => 'pageHeading', 'escape' => true]);
 		}
 
 		/**
@@ -158,6 +160,7 @@ EOF;
 		public function panelHeading($content, array $options = []) {
 			$options += [
 					'class' => 'panel-heading',
+					'escape' => true,
 					'pageHeading' => false,
 					'tag' => 'h2'
 			];
@@ -168,25 +171,43 @@ EOF;
 			if (is_string($content)) {
 				$content = ['middle' => $content];
 			}
+
+			if ($options['escape']) {
+				foreach ($content as $k => $v) {
+					$content[$k] = h($v);
+				}
+			}
+
 			$content['middle'] = "<{$options['tag']}>{$content['middle']}</{$options['tag']}>";
+
+			$options['escape'] = false;
 			return $this->heading($content, $options);
 		}
 
 		public function heading($content, array $options = []) {
-			$options += ['class' => ''];
+			$options += ['class' => '', 'escape' => true];
 			if (is_string($content)) {
 				$_content = ['middle' => $content];
 			} else {
 				$_content = $content;
 			}
 			$_content += ['first' => '', 'middle' => '', 'last' => ''];
-			return <<<EOF
-				<div class="{$options['class']} heading-3">
-					<div class='heading-3-first'>{$_content['first']}</div>
-					<div class='heading-3-middle'>{$_content['middle']}</div>
-					<div class='heading-3-last'>{$_content['last']}</div>
-				</div>
-EOF;
+			$out = '';
+			foreach (['first', 'middle', 'last'] as $key) {
+				$out .= '<div class="heading-3-' . $key . '">';
+				$out .= $options['escape'] ? h($_content[$key]) : $_content[$key];
+				$out .= '</div>';
+			}
+			return "<div class=\"{$options['class']} heading-3\">$out</div>";
+		}
+
+		public function linkToUserProfile($user, SaitoUser $CurrentUser) {
+			if ($CurrentUser->isLoggedIn()) {
+				return $this->Html->link($user['username'],
+						'/users/view/' . $user['id']);
+			} else {
+				return h($user['username']);
+			}
 		}
 
 	}

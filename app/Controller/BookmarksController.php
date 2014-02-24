@@ -125,8 +125,6 @@ class BookmarksController extends AppController {
 			throw new MethodNotAllowedException;
 		}
 
-		// @todo @bogus everything must be sanitized except for bookmark to edit
-		$this->Bookmark->sanitize(false);
 		$this->Bookmark->contain();
 		$bookmark['Bookmark'] = $this->Bookmark->findById($bookmarkId)['Bookmark'];
 

@@ -147,6 +147,26 @@
 				'registered' => '2010-09-01 11:12',
 				'activate_code' => 0,
 			),
+			[
+			'id' => 7,
+				'username' => '&<Username',
+				'user_type' => 'user',
+				'user_email' => 'xss@example.com',
+				'user_real_name' => '&<RealName',
+				'user_hp' => '&<Homepage',
+				'user_place' => '&<Place',
+				'profile' => '&<Profile',
+				'signature' => '&<Signature',
+				//testtest
+				'password' => '$2a$10$7d0000dd8a37f797acb53OY.oaPgJ2vV4PE3.VBpmsm9OM/zMlzNq',
+				'slidetab_order' => null,
+				'user_automaticaly_mark_as_read' => 1,
+				'user_lock' => 0,
+				'personal_messages' => 0,
+				'user_category_custom' => '',
+				'registered' => '2010-09-02 11:00',
+				'activate_code' => 0,
+			]
 		);
 
 	}
