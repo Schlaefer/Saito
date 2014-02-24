@@ -52,7 +52,7 @@ define([
       $.ajax({
         success: _.bind(function(data) {
           this.set('html', data);
-          if (options || options.success) { options.success(); }
+          if (options && options.success) { options.success(); }
         }, this),
         type: 'POST',
         dateType: "html",
