@@ -43,7 +43,7 @@
 		];
 
 		public function help($id) {
-			return  $this->SaitoHelp->icon($id, ['style' => 'float: right;']);
+			return $this->SaitoHelp->icon($id, ['style' => 'float: right;']);
 		}
 
 		public function badge($text, $type = 'info') {
