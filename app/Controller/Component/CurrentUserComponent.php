@@ -166,13 +166,7 @@
 		protected function _cookieRelogin() {
 			$cookie = $this->PersistentCookie->get();
 			if ($cookie) {
-				// is_array -> if cookie could no be correctly deciphered it's just an random string
-				if (!is_null($cookie) && is_array($cookie)):
-					if ($this->_Controller->Auth->login($cookie)):
-						return;
-					endif;
-				endif;
-				$this->PersistentCookie->destroy();
+				$this->_Controller->Auth->login($cookie);
 			}
 		}
 
@@ -352,8 +346,21 @@
 			$this->_cookie->destroy();
 		}
 
+		/**
+		 * Gets cookie values
+		 *
+		 * @return bool|array cookie values if found, `false` otherwise
+		 */
 		public function get() {
-			return $this->_cookie->read($this->_cookiePrefix);
+			$cookie = $this->_cookie->read($this->_cookiePrefix);
+			if (is_null($cookie) ||
+					// cookie couldn't be deciphered correctly and is a meaningless string
+					!is_array($cookie)
+			) {
+				$this->destroy();
+				return false;
+			}
+			return $cookie;
 		}
 
 	}
