@@ -195,8 +195,13 @@
 		}
 
 		public function refresh($user = null) {
+		/**
+		 * Updates user-data from DB
+		 */
+			// preliminary set user-data from Cake's Auth handler
 			parent::set($this->_Controller->Auth->user());
-			// all session have to use current user data (locked, user_type, …)
+			// set user-data from current DB data: ensures that *all sessions*
+			// use the same set of data (user got locked, user-type was demoted …)
 			if ($this->isLoggedIn()) {
 				$this->_User->id = $this->getId();
 				parent::set($this->_User->getProfile($this->getId()));
