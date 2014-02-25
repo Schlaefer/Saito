@@ -103,20 +103,16 @@
 			);
 
 			$this->_configureAuth();
-			$authSuccess = $this->_Controller->Auth->login();
-
-			// try relogin via cookie
-			if ($authSuccess !== true) {
-				if (
-						$this->_Controller->params['action'] !== 'login' &&
+			if (!$this->_reLoginSession()) {
+				// don't auto-login on login related pages
+				if ($this->_Controller->params['action'] !== 'login' &&
 						$this->_Controller->params['action'] !== 'register' &&
 						$this->_Controller->referer() !== '/users/login'
-				):
-					$this->_cookieRelogin();
-				endif;
+				) {
+					$this->_reLoginCookie();
+				}
 			}
 
-			$this->refresh();
 			$this->_markOnline();
 		}
 
@@ -163,15 +159,33 @@
 			) == true;
 		}
 
-		protected function _cookieRelogin() {
+		/**
+		 * Logs-in registered users
+		 *
+		 * @param null|array $user user-data, if null request-data is used
+		 * @return bool true if user is logged in false otherwise
+		 */
+		protected function _login($user = null) {
+			$this->_Controller->Auth->login($user);
+			$this->refresh();
+			return $this->isLoggedIn();
+		}
+
+		protected function _reLoginSession() {
+			return $this->_login();
+		}
+
+		protected function _reLoginCookie() {
 			$cookie = $this->PersistentCookie->get();
 			if ($cookie) {
-				$this->_Controller->Auth->login($cookie);
+				$this->_login($cookie);
+				return $this->isLoggedIn();
 			}
+			return false;
 		}
 
 		public function login() {
-			if ($this->_Controller->Auth->login() !== true) {
+			if (!$this->_login()) {
 				return false;
 			}
 
@@ -195,7 +209,7 @@
 		}
 
 		/**
-		 * Updates user-data from DB
+		 * Sets user-data
 		 */
 		public function refresh() {
 			// preliminary set user-data from Cake's Auth handler
