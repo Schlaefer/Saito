@@ -194,10 +194,10 @@
 			return true;
 		}
 
-		public function refresh($user = null) {
 		/**
 		 * Updates user-data from DB
 		 */
+		public function refresh() {
 			// preliminary set user-data from Cake's Auth handler
 			parent::set($this->_Controller->Auth->user());
 			// set user-data from current DB data: ensures that *all sessions*
