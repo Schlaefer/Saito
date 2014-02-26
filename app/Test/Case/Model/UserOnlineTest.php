@@ -48,9 +48,7 @@
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 
-			$_time = $result[0]['UserOnline']['time'];
-			unset($result[0]['UserOnline']['time']);
-			$this->assertWithinMargin($_time, time(), 1);
+			$this->_assertTimeIsNow($result[0]);
 
 			$expected = $this->_startUsersOnline;
 			unset($expected[0]['UserOnline']['time']);
@@ -97,13 +95,20 @@
 			$this->UserOnline->timeUntilOffline = 1;
 			session_id('sessionIdTest');
 			$_userId = session_id();
-			$this->_startUsersOnline = array( );
-			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => substr(($_userId),
-							0, 32), 'time' => time(), 'logged_in' => 0 );
+			$this->_startUsersOnline = [];
+			$this->_startUsersOnline[0]['UserOnline'] = [
+					'user_id' => substr(($_userId),
+							0,
+							32),
+					'logged_in' => 0
+			];
 			$this->UserOnline->setOnline($_userId, false);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
+
+			$this->_assertTimeIsNow($result[0]);
+
 			$expected = $this->_startUsersOnline;
 			$this->assertEqual($result, $expected);
 		}
@@ -181,6 +186,11 @@
 					)
 			);
 			$this->assertEqual($result, $expected);
+		}
+
+		protected function _assertTimeIsNow(&$UserOnline) {
+			$this->assertWithinMargin($UserOnline['UserOnline']['time'], time(), 1);
+			unset($UserOnline['UserOnline']['time']);
 		}
 
 		public function setUp() {
