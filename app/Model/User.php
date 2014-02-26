@@ -17,7 +17,15 @@
 
 		public $name = 'User';
 
-		public $actsAs = array('Containable');
+		public $actsAs = [
+				'Containable',
+				'Cron.Cron' => [
+						'registerGc' => [
+								'id' => 'User.registerGc',
+								'due' => 'daily',
+						]
+				]
+		];
 
 		public $hasOne = array(
 			'UserOnline' => array(
@@ -212,16 +220,6 @@
 		protected $_disallowedCharsInUsername = ['\'', ';', '&', '<', '>' ];
 
 /**
- * True if registerGc garbage collection has ran at this request
- *
- * registerGc is triggered in beforeFind(). To don't trigger an infinite
- * call-loop we set it running here when it's started for the first time
- *
- * @var bool
- */
-		protected $_registerGcHasRun = false;
-
-/**
  * @param null $lastRefresh
  *
  * @throws Exception
@@ -301,13 +299,6 @@
 			if (strpos($oldPassword, $blowfishHashIdentifier) !== 0):
 				$this->saveField('password', $password);
 			endif;
-		}
-
-		public function beforeFind($queryData) {
-			if ($this->_registerGcHasRun === false) {
-				$this->_registerGc();
-			}
-			return parent::beforeFind($queryData);
 		}
 
 		public function afterFind($results, $primary = false) {
@@ -410,18 +401,12 @@
  *
  * Deletes all timed out and unactivated registrations
  */
-		protected function _registerGc() {
-			Stopwatch::start('User::registerGc');
-			$lastRegisterGc = Cache::read('Saito.Cache.registerGc');
-			if (!$lastRegisterGc || $lastRegisterGc < time() - 21600) {
-				$this->_registerGcHasRun = true;
-				$this->deleteAll(array(
-						'activate_code REGEXP "^[0-9][0-9]+$"',
-						'registered <' => date('Y-m-d H:i:s', time() - 86400),
-				), false);
-				Cache::write('Saito.Cache.registerGc', time());
-			}
-			Stopwatch::stop('User::registerGc');
+		public function registerGc() {
+			$this->deleteAll([
+							'activate_code REGEXP "^[0-9][0-9]+$"',
+							'registered <' => date('Y-m-d H:i:s', time() - 86400)
+					],
+					false);
 		}
 
 		public function activate() {
