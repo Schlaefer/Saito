@@ -26,6 +26,7 @@
 			'Cookie',
 			'CurrentUser',
 			'CacheSupport',
+			'Cron.Cron',
 			'JsData',
 			'SaitoEmail',
 			'EmailNotification',
