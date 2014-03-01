@@ -409,12 +409,9 @@
 			} elseif ($timestamp === null) {
 				$timestamp = $this->_currentUser['last_refresh_tmp'];
 			}
-			$this->_set($timestamp);
-		}
 
-		protected function _set($newLastRefresh) {
-			$this->_user->setLastRefresh($newLastRefresh);
-			$this->_currentUser['last_refresh'] = $newLastRefresh;
+			$this->_user->setLastRefresh($timestamp);
+			$this->_currentUser['last_refresh'] = $timestamp;
 		}
 
 		public function setMarker() {
