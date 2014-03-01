@@ -89,6 +89,15 @@
  */
 		public $showDisclaimer = false;
 
+		/**
+		 * objects shared between controllers & models
+		 *
+		 * Avoids a lot of boilerplate code and shuffling around singletons.
+		 *
+		 * @var array objects shared between controllers & models
+		 */
+		public $SharedObjects = [];
+
 		public function __construct($request = null, $response = null) {
 			Stopwatch::start(
 				'---------------------- Controller ----------------------'
@@ -139,9 +148,6 @@
 			$this->_setupSlideTabs();
 
 			$this->_setConfigurationFromGetParams();
-			if ($this->modelClass) {
-				$this->{$this->modelClass}->setCurrentUser($this->CurrentUser);
-			}
 
 			// must be set after all language chooser
 			Properize::setLanguage(Configure::read('Config.language'));
