@@ -1,6 +1,8 @@
 <?php
 
-	class SmileyCode extends AppModel {
+	App::uses('AppSettingModel', 'Lib/Model');
+
+	class SmileyCode extends AppSettingModel {
 
 		public $name = 'SmileyCode';
 
@@ -12,4 +14,13 @@
 				'foreignKey' => 'smiley_id'
 			)
 		);
+
+		public function afterSave($created, $options = []) {
+			parent::afterSave($created, $options);
+		}
+
+		public function afterDelete() {
+			parent::afterDelete();
+		}
+
 	}

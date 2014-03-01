@@ -12,6 +12,9 @@
 
 		public function initialize(Controller $Controller) {
 			$this->_CacheSupport = new CacheSupport();
+			if ($Controller->modelClass) {
+				$Controller->{$Controller->modelClass}->SharedObjects['CacheSupport'] = $this->_CacheSupport;
+			}
 			$this->_addConfigureCachelets();
 			$this->CacheTree = CacheTree::getInstance();
 			$this->CacheTree->initialize($Controller);

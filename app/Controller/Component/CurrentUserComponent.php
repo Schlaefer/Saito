@@ -90,6 +90,9 @@
 				return;
 			}
 			$this->_Controller = $Controller;
+			if ($this->_Controller->modelClass) {
+				$this->_Controller->{$this->_Controller->modelClass}->SharedObjects['CurrentUser'] = $this;
+			}
 
 			$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
 			$this->PersistentCookie->initialize($this);

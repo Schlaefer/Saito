@@ -1,6 +1,8 @@
 <?php
 
-	class Smiley extends AppModel {
+	App::uses('AppSettingModel', 'Lib/Model');
+
+	class Smiley extends AppSettingModel {
 
 		public $name = 'Smiley';
 
@@ -20,11 +22,11 @@
 		];
 
 		public function afterSave($created, $options = array()) {
-			$this->clearCache();
+			parent::afterSave($created, $options);
 		}
 
-		public function clearCache() {
-			Cache::delete('Saito.Smilies.smilies_all');
+		public function afterDelete() {
+			parent::afterDelete();
 		}
 
 		public function load($force = false) {

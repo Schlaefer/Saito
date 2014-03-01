@@ -1,6 +1,7 @@
 <?php
 
-	App::uses('Smily', 'Model');
+	App::uses('Smiley', 'Model');
+	App::uses('CacheSupport', 'Lib');
 
 	class SmileyTest extends CakeTestCase {
 
@@ -36,9 +37,24 @@
 			$this->assertEqual($result, $expected);
 		}
 
+		public function testCacheClearAfterDelete() {
+			$this->Smiley = $this->getMockforModel('Smiley', ['clearCache']);
+			$this->Smiley->expects($this->once())
+					->method('clearCache');
+			$this->Smiley->delete(1);
+		}
+
+		public function testCacheClearAfterSave() {
+			$this->Smiley = $this->getMockforModel('Smiley', ['clearCache']);
+			$this->Smiley->expects($this->once())
+				->method('clearCache');
+			$this->Smiley->save(['id' => 1, 'code' => ';-)']);
+		}
+
 		public function setUp() {
 			parent::setUp();
 			$this->Smiley = ClassRegistry::init('Smiley');
+			$this->Smiley->SharedObjects['CacheSupport'] = new CacheSupport();
 			$this->Smiley->clearCache();
 		}
 
