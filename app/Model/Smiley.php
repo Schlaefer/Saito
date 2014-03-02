@@ -1,18 +1,15 @@
 <?php
 
-	class Smiley extends AppModel {
+	App::uses('AppSettingModel', 'Lib/Model');
+
+	class Smiley extends AppSettingModel {
 
 		public $name = 'Smiley';
 
 		public $validate = [
 			'order' => [
 				'numeric' => [
-					'rule' => ['numeric'],
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					//'required' => false,
-					//'last' => false, // Stop validation after this rule
-					//'on' => 'create', // Limit validation to 'create' or 'update' operations
+					'rule' => ['numeric']
 				]
 			]
 		];
@@ -25,11 +22,11 @@
 		];
 
 		public function afterSave($created, $options = array()) {
-			$this->clearCache();
+			parent::afterSave($created, $options);
 		}
 
-		public function clearCache() {
-			Cache::delete('Saito.Smilies.smilies_all');
+		public function afterDelete() {
+			parent::afterDelete();
 		}
 
 		public function load($force = false) {

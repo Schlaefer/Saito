@@ -382,6 +382,8 @@
 		}
 
 		public function testRegisterGc() {
+			Configure::write('Saito.Settings.topics_per_page', 20);
+
 			$_userCountBeforeAction = $this->User->find('count');
 
 			$user1 = array(
@@ -409,7 +411,8 @@
 			$this->User->set('registered', date('Y-m-d H:i:s', time() - 90000));
 			$this->User->save();
 
-			Cache::delete('Saito.Cache.registerGc');
+			$this->User->clearHistoryCron();
+			$this->User->executeCron();
 
 			$result = $this->User->findByUsername('Reginald');
 			$this->assertTrue($result == true);
@@ -419,15 +422,6 @@
 
 			$_userCountAfterAction = $this->User->find('count');
 			$this->assertEqual($_userCountBeforeAction, $_userCountAfterAction - 1);
-		}
-
-		public function testRegisterGcIsOnlyCalledOncePerRequest() {
-			Cache::delete('Saito.Cache.registerGc');
-			$User = $this->getMockForModel('User', ['deleteAll']);
-			$User->expects($this->once())
-					->method('deleteAll');
-			$User->find('first');
-			$User->find('first');
 		}
 
 		public function testRegister() {

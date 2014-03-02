@@ -27,11 +27,7 @@
  */
 		protected static $_lockNoSanitize = false;
 
-		protected $_CurrentUser;
-
-		public function setCurrentUser(SaitoUser $CurrentUser) {
-			$this->_CurrentUser = $CurrentUser;
-		}
+		public $SharedObjects;
 
 		protected function _sanitizeFields($results) {
 			if (!isset($this->_fieldsToSanitize)) {

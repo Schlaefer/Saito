@@ -90,6 +90,9 @@
 				return;
 			}
 			$this->_Controller = $Controller;
+			if ($this->_Controller->modelClass) {
+				$this->_Controller->{$this->_Controller->modelClass}->SharedObjects['CurrentUser'] = $this;
+			}
 
 			$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
 			$this->PersistentCookie->initialize($this);
@@ -103,20 +106,16 @@
 			);
 
 			$this->_configureAuth();
-			$authSuccess = $this->_Controller->Auth->login();
-
-			// try relogin via cookie
-			if ($authSuccess !== true) {
-				if (
-						$this->_Controller->params['action'] !== 'login' &&
+			if (!$this->_reLoginSession()) {
+				// don't auto-login on login related pages
+				if ($this->_Controller->params['action'] !== 'login' &&
 						$this->_Controller->params['action'] !== 'register' &&
 						$this->_Controller->referer() !== '/users/login'
-				):
-					$this->_cookieRelogin();
-				endif;
+				) {
+					$this->_reLoginCookie();
+				}
 			}
 
-			$this->refresh();
 			$this->_markOnline();
 		}
 
@@ -163,21 +162,33 @@
 			) == true;
 		}
 
-		protected function _cookieRelogin() {
+		/**
+		 * Logs-in registered users
+		 *
+		 * @param null|array $user user-data, if null request-data is used
+		 * @return bool true if user is logged in false otherwise
+		 */
+		protected function _login($user = null) {
+			$this->_Controller->Auth->login($user);
+			$this->refresh();
+			return $this->isLoggedIn();
+		}
+
+		protected function _reLoginSession() {
+			return $this->_login();
+		}
+
+		protected function _reLoginCookie() {
 			$cookie = $this->PersistentCookie->get();
 			if ($cookie) {
-				// is_array -> if cookie could no be correctly deciphered it's just an random string
-				if (!is_null($cookie) && is_array($cookie)):
-					if ($this->_Controller->Auth->login($cookie)):
-						return;
-					endif;
-				endif;
-				$this->PersistentCookie->destroy();
+				$this->_login($cookie);
+				return $this->isLoggedIn();
 			}
+			return false;
 		}
 
 		public function login() {
-			if ($this->_Controller->Auth->login() !== true) {
+			if (!$this->_login()) {
 				return false;
 			}
 
@@ -200,9 +211,14 @@
 			return true;
 		}
 
-		public function refresh($user = null) {
+		/**
+		 * Sets user-data
+		 */
+		public function refresh() {
+			// preliminary set user-data from Cake's Auth handler
 			parent::set($this->_Controller->Auth->user());
-			// all session have to use current user data (locked, user_type, …)
+			// set user-data from current DB data: ensures that *all sessions*
+			// use the same set of data (user got locked, user-type was demoted …)
 			if ($this->isLoggedIn()) {
 				$this->_User->id = $this->getId();
 				parent::set($this->_User->getProfile($this->getId()));
@@ -352,8 +368,21 @@
 			$this->_cookie->destroy();
 		}
 
+		/**
+		 * Gets cookie values
+		 *
+		 * @return bool|array cookie values if found, `false` otherwise
+		 */
 		public function get() {
-			return $this->_cookie->read($this->_cookiePrefix);
+			$cookie = $this->_cookie->read($this->_cookiePrefix);
+			if (is_null($cookie) ||
+					// cookie couldn't be deciphered correctly and is a meaningless string
+					!is_array($cookie)
+			) {
+				$this->destroy();
+				return false;
+			}
+			return $cookie;
 		}
 
 	}
@@ -383,12 +412,9 @@
 			} elseif ($timestamp === null) {
 				$timestamp = $this->_currentUser['last_refresh_tmp'];
 			}
-			$this->_set($timestamp);
-		}
 
-		protected function _set($newLastRefresh) {
-			$this->_user->setLastRefresh($newLastRefresh);
-			$this->_currentUser['last_refresh'] = $newLastRefresh;
+			$this->_user->setLastRefresh($timestamp);
+			$this->_currentUser['last_refresh'] = $timestamp;
 		}
 
 		public function setMarker() {

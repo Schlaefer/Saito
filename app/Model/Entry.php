@@ -338,7 +338,7 @@
  */
 		public function createPosting($data, $CurrentUser = null) {
 			if ($CurrentUser !== null) {
-				$this->_CurrentUser = $CurrentUser;
+				$this->SharedObjects['CurrentUser'] = $CurrentUser;
 			}
 
 			if (!isset($data[$this->alias]['pid'])) {
@@ -358,8 +358,8 @@
 				return false;
 			}
 
-			$data[$this->alias]['user_id'] = $this->_CurrentUser->getId();
-			$data[$this->alias]['name'] = $this->_CurrentUser['username'];
+			$data[$this->alias]['user_id'] = $this->SharedObjects['CurrentUser']->getId();
+			$data[$this->alias]['name'] = $this->SharedObjects['CurrentUser']['username'];
 
 			$data[$this->alias]['time'] = date('Y-m-d H:i:s');
 			$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
@@ -430,7 +430,7 @@
  */
 		public function update($data, $CurrentUser = null) {
 			if ($CurrentUser !== null) {
-				$this->_CurrentUser = $CurrentUser;
+				$this->SharedObjects['CurrentUser'] = $CurrentUser;
 			}
 
 			if (empty($data[$this->alias]['id'])) {
@@ -451,7 +451,7 @@
 			}
 
 			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
-			$data[$this->alias]['edited_by'] = $this->_CurrentUser['username'];
+			$data[$this->alias]['edited_by'] = $this->SharedObjects['CurrentUser']['username'];
 
 			$this->validator()->add(
 				'edited_by',
@@ -888,7 +888,7 @@
 			 * @param $entries
 			 */
 			$ldGetBookmarkForEntryAndUser = function (&$tree, &$element, $_this) {
-					$bookmarks = $this->_CurrentUser->getBookmarks();
+					$bookmarks = $this->SharedObjects['CurrentUser']->getBookmarks();
 					$element['isBookmarked'] = isset($bookmarks[$element['Entry']['id']]);
 			};
 			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
@@ -902,8 +902,8 @@
 			 */
 			$ldGetRightsForEntryAndUser = function (&$tree, &$element, $_this) {
 				$rights = [
-					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser),
-					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->_CurrentUser->mockUserType('user')),
+					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->SharedObjects['CurrentUser']),
+					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->SharedObjects['CurrentUser']->mockUserType('user')),
 					'isAnsweringForbidden' => $_this->isAnsweringForbidden($element)
 				];
 				$element['rights'] = $rights;
@@ -921,7 +921,7 @@
  */
 		public function isEditingForbidden($entry, SaitoUser $User = null) {
 			if ($User === null) {
-				$User = $this->_CurrentUser;
+				$User = $this->SharedObjects['CurrentUser'];
 			}
 
 			// Anon
@@ -1234,7 +1234,7 @@
  */
 		public function validateCategoryIsAllowed($check) {
 			$availableCategories = $this->Category->getCategoriesForAccession(
-				$this->_CurrentUser->getMaxAccession()
+				$this->SharedObjects['CurrentUser']->getMaxAccession()
 			);
 			if (!isset($availableCategories[$check['category']])) {
 				return false;

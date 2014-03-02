@@ -159,8 +159,20 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+CakeLog::config('saito', array(
+		'engine' => 'FileLog',
+		'size' => '1MB',
+		'rotate' => '4',
+		'types' => ['saito.info'],
+		'file' => 'saito'
+));
 
 include 'version.php';
+
+/**
+ * Sets if additional app runtime information is logged
+ */
+Configure::write('Saito.Globals.logInfo', false);
 
 /**
  * Check if the forum is installed

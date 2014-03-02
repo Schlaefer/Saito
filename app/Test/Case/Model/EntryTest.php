@@ -63,7 +63,7 @@
 			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
-			$this->Entry->_CurrentUser = $SaitoUser;
+			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			$data[$this->Entry->alias] = [
 				'pid' => 0,
@@ -113,7 +113,7 @@
 			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
-			$this->Entry->_CurrentUser = $SaitoUser;
+			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			Configure::write('Saito.Settings.subject_maxlength', 75);
 			$this->Entry->Category = $this->getMock(
@@ -266,7 +266,7 @@
 			$SaitoUser->expects($this->once())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
-			$this->Entry->_CurrentUser = $SaitoUser;
+			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			$_oldCategory = 2;
 			$_newCategory = 1;
@@ -281,7 +281,7 @@
 			$this->assertGreaterThan(1, $_nBeforeChange);
 
 			$this->Entry->id = 1;
-			$this->Entry->_CurrentUser = $SaitoUser;
+			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 			$this->Entry->save(['Entry' => ['category' => $_newCategory]]);
 
 			$_nAfterChange = $this->Entry->find('count', array(
@@ -312,7 +312,7 @@
 			$SaitoUser->expects($this->once())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
-			$this->Entry->_CurrentUser = $SaitoUser;
+			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			$_newCategory = 9999;
 
