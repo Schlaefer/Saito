@@ -133,22 +133,24 @@
 			$this->set('title', $title);
 		}
 
-/**
- * @param $tid
- *
- * @throws NotFoundException
- */
+		/**
+		 * Mix view
+		 *
+		 * @param $tid
+		 * @throws NotFoundException
+		 */
 		public function mix($tid) {
 			if (!$tid) {
 				$this->redirect('/');
 			}
-			$entries = $this->Entry->treeForNode($tid, array('root' => true, 'complete' => true));
+			$entries = $this->Entry->treeForNode($tid,
+					['root' => true, 'complete' => true]);
 
 			if (empty($entries)) {
 				throw new NotFoundException();
 			}
 
-			//* check if anonymous tries to access internal categories
+			// check if anonymous tries to access internal categories
 			if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
 				return $this->redirect('/');
 			}
