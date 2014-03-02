@@ -336,11 +336,7 @@
  *
  * @return array|bool
  */
-		public function createPosting($data, $CurrentUser = null) {
-			if ($CurrentUser !== null) {
-				$this->SharedObjects['CurrentUser'] = $CurrentUser;
-			}
-
+		public function createPosting($data) {
 			if (!isset($data[$this->alias]['pid'])) {
 				$data[$this->alias]['pid'] = 0;
 			}
