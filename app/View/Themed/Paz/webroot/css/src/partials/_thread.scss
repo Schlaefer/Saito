@@ -56,9 +56,8 @@
 .et-root .et, .et-reply .et {
   @include link-colors($link-color);
 }
-.et-new .et {
-  font-weight: bold;
-}
+.et-new .et {}
+
 .et-old .et {
   @include link-colors($font-color-read);
 }

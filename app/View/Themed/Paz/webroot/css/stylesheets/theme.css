@@ -222,8 +222,6 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .et-root .et, .et-reply .et { color: #d50606; }
 
-.et-new .et { font-weight: bold; }
-
 .et-old .et { color: #222222; }
 
 .et-current .et { color: red; }
