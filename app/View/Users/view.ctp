@@ -6,17 +6,11 @@
 			array('class' => 'textlink', 'escape' => false));
 	$this->end();
 
-	$urlToHistory = $this->Html->url(
-			[
-					'controller' => 'entries',
-					'action' => 'search',
-					'name' => $user['User']['username'],
-					'month' => strftime('%m', strtotime($user['User']['registered'])),
-					'year' => strftime('%Y', strtotime($user['User']['registered'])),
-					'adv' => 1
-			],
-			true
-	);
+	$urlToHistory = [
+			'controller' => 'searches',
+			'action' => 'advanced',
+			'?' => ['name' => $user['User']['username'], 'nstrict' => 1]
+	];
 
 	$table = [
 			[

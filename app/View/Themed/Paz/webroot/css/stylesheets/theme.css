@@ -103,6 +103,12 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .ui-dialog, .flash-error > .alert, .flash-warning > .alert, .flash-notice > .alert, .flash-success > .alert { box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25); }
 
+.sort-menu .asc, .sort-menu .desc { font-weight: bold; }
+.sort-menu .asc:after { content: "\002005\002193\002005"; }
+.sort-menu .desc:after { content: "\002005\002191\002005"; }
+
+.sort-menu-item { padding: 0 0.5em; }
+
 .prev { margin-right: 0.5em; }
 
 .next { margin-left: 0.5em; }
@@ -296,9 +302,6 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .table.th-left ul { margin: 0; padding: 0; list-style-type: none; }
 
 .table-menu { float: right; }
-.table-menu .asc, .table-menu .desc { font-weight: bold; }
-.table-menu .asc:after { content: "\002005\002193\002005"; }
-.table-menu .desc:after { content: "\002005\002191\002005"; }
 
 .l-bookmarks-container { overflow: hidden; }
 
@@ -324,18 +327,13 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .markItUp .btn-markItUp-Smilies > ul .markItUpButton { margin: 0px; }
 .markItUp .btn-markItUp-Smilies > ul .markItUpButton > a { background-position: 9px 9px; height: 32px; width: 32px; padding: 0px; }
 
-.entry.search .search_form_wrapper_adv { display: none; }
+.searchForm-wrapper { margin-bottom: 20px; }
 
-.entry.search.is-advanced .search_form_wrapper { display: none; }
-.entry.search.is-advanced .search_form_wrapper_adv { display: block; }
-
-.search_form_wrapper { display: table; width: 100%; margin-bottom: 20px; vertical-align: middle; }
-.search_form_wrapper > div { display: table-cell; vertical-align: middle; text-align: center; }
-.search_form_wrapper .search_form > div { overflow: hidden; }
-.search_form_wrapper #search_fulltext_textfield { height: 38px; }
-.search_form_wrapper .btn_search_submit { float: right; white-space: nowrap; margin-left: 1em; height: 38px; }
-
-.search_form_wrapper_adv { margin-bottom: 20px; }
+.searchForm { display: table; width: 100%; vertical-align: middle; }
+.searchForm > div { display: table-cell; vertical-align: middle; }
+.searchForm .search_form > div { overflow: hidden; }
+.searchForm #search_fulltext_textfield { height: 38px; }
+.searchForm .btn_search_submit { float: right; white-space: nowrap; margin-left: 1em; height: 38px; }
 
 #markitup_upload { -webkit-overflow-scrolling: touch; }
 

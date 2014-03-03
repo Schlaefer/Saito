@@ -16,20 +16,7 @@
 
 		public $components = [
 			'Flattr',
-			'Search.Prg',
 			'Shouts'
-		];
-
-/**
- * Setup for Search Plugin
- *
- * @var array
- */
-		public $presetVars = [
-			['field' => 'subject', 'type' => 'value'],
-			['field' => 'text', 'type' => 'value'],
-			['field' => 'name', 'type' => 'value'],
-			['field' => 'category', 'type' => 'value'],
 		];
 
 		public function index() {
@@ -586,119 +573,6 @@
 		}
 
 /**
- * @throws NotFoundException
- */
-		public function search() {
-			/*
-			debug($this->request->data);
-			debug($this->request->params);
-			debug($this->passedArgs);
-			*/
-			// determine start year for dropdown in form
-			$foundEntry = $this->Entry->find(
-				'first',
-				['order' => 'Entry.id ASC', 'contain' => false]
-			);
-			if ($foundEntry !== false) {
-				$startDate = strtotime($foundEntry['Entry']['time']);
-			} else {
-				$startDate = time();
-			}
-			$this->set('start_year', date('Y', $startDate));
-
-			// get categories for dropdown
-			$categories = $this->Entry->Category->getCategoriesSelectForAccession(
-					$this->CurrentUser->getMaxAccession());
-			$this->set('categories', $categories);
-
-			//* calculate current month and year
-			if (empty($this->request->data['Entry']['month']) && empty($searchStartMonth)) {
-				// start in last month
-				//	$start_date = mktime(0,0,0,((int)date('m')-1), 28, (int)date('Y'));
-				$searchStartMonth = date('n', $startDate);
-				$searchStartYear = date('Y', $startDate);
-			}
-
-			// extract search_term for simple search
-			$searchTerm = '';
-			if ( isset($this->request->data['Entry']['search_term']) ) {
-				$searchTerm = $this->request->data['Entry']['search_term'];
-			} elseif ( isset($this->request->params['named']['search_term']) ) {
-				$searchTerm = $this->request->params['named']['search_term'];
-			} elseif ( isset($this->request['url']['search_term']) ) {
-				// search_term is send via get parameter
-				$searchTerm = $this->request['url']['search_term'];
-			}
-			$this->set('search_term', $searchTerm);
-
-			if ( isset($this->passedArgs['adv']) ) {
-				$this->request->params['data']['Entry']['adv'] = 1;
-			}
-
-			if ( !isset($this->request->data['Entry']['adv']) && !isset($this->request->params['named']['adv']) ) {
-				// Simple Search
-				if ( $searchTerm ) {
-					Router::connectNamed(array( 'search_term' ));
-
-					$this->passedArgs['search_term'] = $searchTerm;
-					/* stupid apache rewrite urlencode bullshit */
-					// $this->passedArgs['search_term'] = urlencode(urlencode($search_term));
-
-					if ( $searchTerm ) {
-						$internalSearchTerm = $this->_searchStringSanitizer($searchTerm);
-						$this->paginate = [
-							'fields' => "*, (MATCH (Entry.subject) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)*2) + (MATCH (Entry.text) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)) + (MATCH (Entry.name) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)*4) AS rating",
-							'conditions' => [
-									"MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$internalSearchTerm' IN BOOLEAN MODE)",
-									'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())
-								],
-							'order' => 'rating DESC, `Entry`.`time` DESC',
-							'limit' => 25
-						];
-						$fountEntries = $this->paginate('Entry');
-
-						$this->set('FoundEntries', $fountEntries);
-						$this->request->data['Entry']['search']['term'] = $searchTerm;
-					}
-				}
-			} else {
-				// Advanced Search
-				if (isset($this->request->params['named']['month'])):
-					$searchStartMonth = (int)$this->request->params['named']['month'];
-					$searchStartYear = (int)$this->request->params['named']['year'];
-				endif;
-
-				$this->Prg->commonProcess();
-				$paginateSettings = array();
-				$paginateSettings['conditions'] = $this->Entry->parseCriteria(
-						$this->request->params['named']);
-				$paginateSettings['conditions']['time >'] = date(
-						'Y-m-d H:i:s', mktime( 0, 0, 0, $searchStartMonth, 1, $searchStartYear ));
-
-				if ((int)$this->request->data['Entry']['category'] !== 0) {
-					if (!isset($categories[(int)$this->request->data['Entry']['category']])) {
-						throw new NotFoundException;
-					}
-				} else {
-					$paginateSettings['conditions']['Entry.category'] =
-						$this->Entry->Category->getCategoriesForAccession(
-								$this->CurrentUser->getMaxAccession());
-				}
-
-				$paginateSettings['order'] = array('Entry.time' => 'DESC');
-				$paginateSettings['limit'] = 25;
-				$this->paginate = $paginateSettings;
-				$this->set('FoundEntries', $this->paginate());
-			}
-
-			if (!isset($this->request->data['Entry']['category'])) {
-				$this->request->data['Entry']['category']	= 0;
-			}
-			$this->request->data['Entry']['month'] = $searchStartMonth;
-			$this->request->data['Entry']['year'] = $searchStartYear;
-		}
-
-/**
  * @return string
  * @throws MethodNotAllowedException
  * @throws BadRequestException
@@ -1058,12 +932,6 @@
 				endif;
 			}
 			$this->set('showAnsweringPanel', $showAnsweringPanel);
-		}
-
-		protected function _searchStringSanitizer($searchString) {
-			$searchString = Sanitize::escape($searchString);
-			$searchString = preg_replace('/(^|\s)(?![-+])/i', ' +', $searchString);
-			return trim($searchString);
 		}
 
 		protected function _setRootEntry($entry) {

@@ -39,17 +39,17 @@
 			'entry' => true
 		);
 
-/**
- * Fields for search plugin
- *
- * @var array
- */
-		public $filterArgs = array(
-			array('name' => 'subject', 'type' => 'like'),
-			array('name' => 'text', 'type' => 'like'),
-			array('name' => 'name', 'type' => 'like'),
-			array('name' => 'category', 'type' => 'int'),
-		);
+		/**
+		 * Fields for search plugin
+		 *
+		 * @var array
+		 */
+		public $filterArgs = [
+				'subject' => ['type' => 'like'],
+				'text' => ['type' => 'like'],
+				'name' => ['type' => 'like'],
+				'category' => ['type' => 'value'],
+		];
 
 		public $belongsTo = array(
 			'Category' => array(

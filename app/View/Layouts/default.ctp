@@ -53,7 +53,7 @@
 					<?php if ($CurrentUser->isLoggedIn()): ?>
 						<?= $this->Html->link(
 							$this->Layout->textWithIcon(h(__('Search')), 'search'),
-							'/entries/search',
+							'/searches/simple',
 							['class' => 'top-menu-item', 'escape' => false]);
 						?>
 					<?php endif; ?>

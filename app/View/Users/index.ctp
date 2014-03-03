@@ -2,7 +2,7 @@
 	<div class="panel">
 		<?= $this->Layout->panelHeading($title_for_page, ['pageHeading' => true]) ?>
 		<div class="panel-content">
-			<div class="table-menu">
+			<div class="table-menu sort-menu">
 				<?php
 					$_sortBy = $this->Paginator->sort('username', __('username_marking'));
 					$_sortBy .= ', ' . $this->Paginator->sort('User.user_type',
