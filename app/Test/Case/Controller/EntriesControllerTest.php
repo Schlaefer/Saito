@@ -115,6 +115,47 @@
 			);
 		}
 
+		public function testAddSubjectToLong() {
+			$Entries = $this->generate( 'Entries');
+			$this->_loginUser(1);
+
+			// maxlength attribute is set for textfield
+			$result = $this->testAction('entries/add',
+					['method' => 'GET', 'return' => 'view']
+			);
+			$this->assertTextContains('maxlength="40"', $result);
+
+			// subject is one char to long
+			$data = [
+					'Entry' => [
+						// 41 chars
+							'subject' => 'Vorher wie ich in der mobilen Version ka…',
+							'category' => 1,
+							'pid' => 0
+					],
+					'Event' => [
+							1 => ['event_type_id' => 0],
+							2 => ['event_type_id' => 1]
+					]
+			];
+
+			$result = $this->testAction(
+					'entries/add',
+					['data' => $data, 'method' => 'POST', 'return' => 'view']
+			);
+			$this->assertTextContains('Subject is to long.', $result);
+			$id = $Entries->Entry->find('count') + 1;
+
+			// subject has max length
+			$data['Entry']['subject'] = mb_substr($data['Entry']['subject'], 1);
+			$this->testAction(
+					'entries/add',
+					['data' => $data, 'method' => 'POST']
+			);
+
+			$this->assertRedirectedTo('entries/view/' . $id);
+		}
+
 		public function testNoDirectCallOfAnsweringFormWithId() {
 			$Entries = $this->generate('Entries',
 				array(

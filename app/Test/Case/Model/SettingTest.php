@@ -21,7 +21,7 @@
 			'topics_per_page' => 20,
 			'timezone' => 'UTC',
 			'block_user_ui' => 1,
-			'subject_maxlength' => 100,
+			'subject_maxlength' => 40,
 			'tos_enabled' => 1,
 			'tos_url' => 'http://example.com/tos-url.html/',
 			'thread_depth_indent' => '25',
