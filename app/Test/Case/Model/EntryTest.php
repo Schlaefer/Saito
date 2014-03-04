@@ -557,6 +557,7 @@
 		}
 
 		public function testIsEditingForbiddenModToLateNotFixed() {
+			Configure::write('Saito.Settings.edit_period', 20);
 			$entry = array(
 				'Entry' => array(
 					'user_id' => 1,

@@ -207,11 +207,10 @@
 			]
 		];
 
-		protected $_isInitialized = false;
-
-		protected $_editPeriod = 1200;
-
-		protected $_subjectMaxLenght = 100;
+		protected $_settings = [
+			'edit_period' => 20,
+			'subject_maxlength' => 100
+		];
 
 /**
  * Caching for isRoot()
@@ -219,11 +218,6 @@
  * @var array
  */
 		protected $_isRoot = [];
-
-		public function __construct($id = false, $table = null, $ds = null) {
-			$this->_initialize();
-			return parent::__construct($id, $table, $ds);
-		}
 
 /**
  * @param array $options
@@ -938,7 +932,8 @@
 				throw new Exception(sprintf('Entry %s not found.', $entry));
 			}
 
-			$expired = strtotime($entry['Entry']['time']) + $this->_editPeriod;
+			$expired = ($this->_setting('edit_period') * 60) +
+					strtotime($entry['Entry']['time']);
 			$isOverEditLimit = time() > $expired;
 
 			$isUsersPosting = (int)$User->getId() === (int)$entry['Entry']['user_id'];
@@ -1257,7 +1252,7 @@
  * @return bool
  */
 		public function validateSubjectMaxLength($check) {
-			return mb_strlen($check['subject']) <= $this->_subjectMaxLenght;
+			return mb_strlen($check['subject']) <= $this->_setting('subject_maxlength');
 		}
 
 /**
@@ -1286,20 +1281,6 @@
 				['Entry.tid' => $tid]
 			);
 			return $out;
-		}
-
-		protected function _initialize() {
-			if ($this->_isInitialized) {
-				return;
-			}
-			$appSettings = Configure::read('Saito.Settings');
-			if (isset($appSettings['edit_period'])) {
-				$this->_editPeriod = $appSettings['edit_period'] * 60;
-			}
-			if (isset($appSettings['subject_maxlength'])) {
-				$this->_subjectMaxLenght = (int)$appSettings['subject_maxlength'];
-			}
-			$this->_isInitialized = true;
 		}
 
 	}

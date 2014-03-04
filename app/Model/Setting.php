@@ -55,8 +55,6 @@ class Setting extends AppModel {
 			'force' => false
 		];
 
-		// $conf_settings = Configure::read('Saito.Settings');
-
 		if ($options['force']) {
 			$settings = $this->_load();
 		} else {

@@ -10,6 +10,8 @@
 
 	class AppModel extends Model {
 
+		protected $_settings = [];
+
 		# Entry->User->UserOnline
 		public $recursive = 1;
 
@@ -90,6 +92,26 @@
 			endif;
 
 			return $ip;
+		}
+
+		/**
+		 * gets app setting
+		 *
+		 * falls back to local definition if available
+		 *
+		 * @param $name
+		 * @return mixed
+		 * @throws UnexpectedValueException
+		 */
+		protected function _setting($name) {
+			$setting = Configure::read('Saito.Settings.' . $name);
+			if ($setting !== null) {
+				return $setting;
+			}
+			if (isset($this->_settings[$name])) {
+				return $this->_settings[$name];
+			}
+			throw new UnexpectedValueException;
 		}
 
 	}
