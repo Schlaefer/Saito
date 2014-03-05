@@ -72,6 +72,10 @@
 				'foreignKey' => 'subject',
 				'conditions' => array('Esevent.subject' => 'Entry.id'),
 			),
+			'UserRead' => [
+				'foreignKey' => 'entry_id',
+				'dependent' => true
+			]
 		);
 
 		public $validate = array(

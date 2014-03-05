@@ -175,6 +175,11 @@ include 'version.php';
 Configure::write('Saito.Globals.logInfo', false);
 
 /**
+ * Empiric number matching the average number of postings per thread
+ */
+Configure::write('Saito.Globals.postingsPerThread', 10);
+
+	/**
  * Check if the forum is installed
  */
 if ( file_exists(APP . 'Config' . DS . 'installed.txt') ) :

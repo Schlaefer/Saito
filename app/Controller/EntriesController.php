@@ -150,6 +150,8 @@
 
 			$this->Entry->threadIncrementViews($entries[0]['Entry']['tid'],
 					$this->CurrentUser->getId());
+
+			$this->_marMixThread = $tid;
 		}
 
 /**
@@ -229,6 +231,8 @@
 			$this->_showAnsweringPanel();
 			$this->initBbcode();
 			$this->_setRootEntry($this->request->data);
+
+			$this->CurrentUser->ReadEntries->set($this->request->data);
 
 			if ($this->request->is('ajax')) {
 				//* inline view
@@ -735,6 +739,18 @@
 			}
 
 			Stopwatch::stop('Entries->beforeFilter()');
+		}
+
+		public function afterFilter() {
+			if (isset($this->_marMixThread)) {
+				$entries = $this->Entry->find('all',
+						[
+								'contain' => false,
+								'conditions' => ['Entry.tid' => $this->_marMixThread],
+								'fields' => ['Entry.id', 'Entry.time']
+						]);
+				$this->CurrentUser->ReadEntries->set($entries);
+			}
 		}
 
 		protected function _automaticalyMarkAsRead() {

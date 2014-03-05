@@ -19,7 +19,8 @@
 			'app.smiley_code',
 			'app.upload',
 			'app.user',
-			'app.user_online'
+			'app.user_online',
+			'app.user_read'
 		];
 
 		/**

@@ -22,7 +22,8 @@
 			'app.smiley',
 			'app.smiley_code',
 			'app.user',
-			'app.user_online'
+			'app.user_online',
+			'app.user_read'
 		];
 
 		public function testIndexNotAllowed() {

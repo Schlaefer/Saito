@@ -10,6 +10,7 @@
 			'app.bookmark',
 			'app.user',
 			'app.user_online',
+			'app.user_read',
 			'app.ecach',
 			'app.entry',
 			'app.category',

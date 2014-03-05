@@ -49,6 +49,11 @@
 				'className' => 'Entry',
 				'foreignKey' => 'user_id'
 			),
+			'UserRead' => [
+					'className' => 'UserRead',
+					'foreignKey' => 'user_id',
+					'dependent' => true
+			],
 			'Upload' => array(
 				'className' => 'Upload',
 				'foreignKey' => 'user_id'

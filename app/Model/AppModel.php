@@ -2,7 +2,7 @@
 
 	App::uses('Model', 'Model');
 	App::uses('Sanitize', 'Utility');
-	App::uses('SaitoUser', 'Lib');
+	App::uses('SaitoUser', 'Lib/SaitoUser');
 	App::uses('CakeEvent', 'Event');
 
 	// import here so that `cake schema ...` cli works

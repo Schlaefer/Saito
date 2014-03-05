@@ -45,8 +45,14 @@
  * @return boolean
  */
 		public function isNewEntry($entry, $user) {
-			return isset($user['last_refresh'])
-			&& strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
+			if (!isset($user['last_refresh'])) {
+				return false;
+			}
+			$read = $user->ReadEntries->get();
+			$_isNew = strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']) &&
+					!isset($read[$entry['Entry']['id']]);
+
+			return $_isNew;
 		}
 
 		public function isRoot($entry) {

@@ -1,6 +1,6 @@
 <?php
 
-	App::import('Lib', 'SaitoUser');
+	App::import('Lib/SaitoUser', 'SaitoUser');
 	App::uses('AppHelper', 'View/Helper');
 
 /**
