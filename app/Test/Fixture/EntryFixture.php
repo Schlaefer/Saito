@@ -2,32 +2,189 @@
 
 	class EntryFixture extends CakeTestFixture {
 
-		public $fields = array(
-				'created' => array( 'type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => '' ),
-				'modified' => array( 'type' => 'datetime', 'null' => true, 'default' => null, 'collate' => null, 'comment' => '' ),
-				'id' => array( 'type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'collate' => null, 'comment' => '' ),
-				'pid' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index', 'collate' => null, 'comment' => '' ),
-				'tid' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index', 'collate' => null, 'comment' => '' ),
-				'uniqid' => array( 'type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
-				'time' => array( 'type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'key' => 'index', 'collate' => null, 'comment' => '' ),
-				'last_answer' => array( 'type' => 'timestamp', 'null' => false, 'default' => '0000-00-00 00:00:00', 'key' => 'index', 'collate' => null, 'comment' => '' ),
-				'edited' => array( 'type' => 'timestamp', 'null' => false, 'default' => '0000-00-00 00:00:00', 'collate' => null, 'comment' => '' ),
-				'edited_by' => array( 'type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
-				'user_id' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'key' => 'index', 'collate' => null, 'comment' => '' ),
-				'name' => array( 'type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
-				'subject' => array( 'type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
-				'category' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'collate' => null, 'comment' => '' ),
-				'text' => array( 'type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
-				'email_notify' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'collate' => null, 'comment' => '' ),
-				'locked' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'collate' => null, 'comment' => '' ),
-				'fixed' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'collate' => null, 'comment' => '' ),
-				'views' => array( 'type' => 'integer', 'null' => true, 'default' => '0', 'collate' => null, 'comment' => '' ),
-				'flattr' => array( 'type' => 'boolean', 'null' => true, 'default' => null, 'collate' => null, 'comment' => '' ),
-				'nsfw' => array( 'type' => 'boolean', 'null' => true, 'default' => null, 'collate' => null, 'comment' => '' ),
-				'ip' => array( 'type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8' ),
-				'reposts' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
-				'solves' => array( 'type' => 'integer', 'null' => false, 'default' => '0'),
-		);
+		public $fields = [
+				'created' => [
+						'type' => 'datetime',
+						'null' => true,
+						'default' => null,
+						'collate' => null,
+						'comment' => ''
+				],
+				'modified' => [
+						'type' => 'datetime',
+						'null' => true,
+						'default' => null,
+						'collate' => null,
+						'comment' => ''
+				],
+				'id' => [
+						'type' => 'integer',
+						'null' => false,
+						'default' => null,
+						'key' => 'primary',
+						'collate' => null,
+						'comment' => ''
+				],
+				'pid' => [
+						'type' => 'integer',
+						'null' => false,
+						'default' => '0',
+						'key' => 'index',
+						'collate' => null,
+						'comment' => ''
+				],
+				'tid' => [
+						'type' => 'integer',
+						'null' => false,
+						'default' => '0',
+						'key' => 'index',
+						'collate' => null,
+						'comment' => ''
+				],
+				'uniqid' => [
+						'type' => 'string',
+						'null' => true,
+						'default' => null,
+						'collate' => 'utf8_general_ci',
+						'comment' => '',
+						'charset' => 'utf8'
+				],
+				'time' => [
+						'type' => 'timestamp',
+						'null' => false,
+						'default' => 'CURRENT_TIMESTAMP',
+						'key' => 'index',
+						'collate' => null,
+						'comment' => ''
+				],
+				'last_answer' => [
+						'type' => 'timestamp',
+						'null' => false,
+						'default' => '0000-00-00 00:00:00',
+						'key' => 'index',
+						'collate' => null,
+						'comment' => ''
+				],
+				'edited' => [
+						'type' => 'timestamp',
+						'null' => false,
+						'default' => '0000-00-00 00:00:00',
+						'collate' => null,
+						'comment' => ''
+				],
+				'edited_by' => [
+						'type' => 'string',
+						'null' => true,
+						'default' => null,
+						'collate' => 'utf8_general_ci',
+						'comment' => '',
+						'charset' => 'utf8'
+				],
+				'user_id' => [
+						'type' => 'integer',
+						'null' => true,
+						'default' => '0',
+						'key' => 'index',
+						'collate' => null,
+						'comment' => ''
+				],
+				'name' => [
+						'type' => 'string',
+						'null' => true,
+						'default' => null,
+						'collate' => 'utf8_general_ci',
+						'comment' => '',
+						'charset' => 'utf8'
+				],
+				'subject' => [
+						'type' => 'string',
+						'null' => true,
+						'default' => null,
+						'key' => 'index',
+						'collate' => 'utf8_general_ci',
+						'comment' => '',
+						'charset' => 'utf8'
+				],
+				'category' => [
+						'type' => 'integer',
+						'null' => false,
+						'default' => '0',
+						'collate' => null,
+						'comment' => ''
+				],
+				'text' => [
+						'type' => 'text',
+						'null' => true,
+						'default' => null,
+						'collate' => 'utf8_general_ci',
+						'comment' => '',
+						'charset' => 'utf8'
+				],
+				'email_notify' => [
+						'type' => 'integer',
+						'null' => true,
+						'default' => '0',
+						'length' => 4,
+						'collate' => null,
+						'comment' => ''
+				],
+				'locked' => [
+						'type' => 'integer',
+						'null' => true,
+						'default' => '0',
+						'length' => 4,
+						'collate' => null,
+						'comment' => ''
+				],
+				'fixed' => [
+						'type' => 'integer',
+						'null' => true,
+						'default' => '0',
+						'length' => 4,
+						'collate' => null,
+						'comment' => ''
+				],
+				'views' => [
+						'type' => 'integer',
+						'null' => true,
+						'default' => '0',
+						'collate' => null,
+						'comment' => ''
+				],
+				'flattr' => [
+						'type' => 'boolean',
+						'null' => true,
+						'default' => null,
+						'collate' => null,
+						'comment' => ''
+				],
+				'nsfw' => [
+						'type' => 'boolean',
+						'null' => true,
+						'default' => null,
+						'collate' => null,
+						'comment' => ''
+				],
+				'ip' => [
+						'type' => 'string',
+						'null' => true,
+						'default' => null,
+						'collate' => 'utf8_general_ci',
+						'comment' => '',
+						'charset' => 'utf8'
+				],
+				'reposts' => [
+						'type' => 'integer',
+						'null' => false,
+						'default' => '0',
+						'length' => 4
+				],
+				'solves' => [
+						'type' => 'integer',
+						'null' => false,
+						'default' => '0'
+				],
+		];
 
 /**
  * 	- 1
