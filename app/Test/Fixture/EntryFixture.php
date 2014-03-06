@@ -184,6 +184,9 @@
 						'null' => false,
 						'default' => '0'
 				],
+				'tableParameters' => [
+						'engine' => 'MyISAM'
+				]
 		];
 
 /**

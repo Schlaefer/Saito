@@ -52,7 +52,7 @@
 			}
 
 			// sanitize search-term for manual SQL-query
-			$query['q'] = Sanitize::escape($query['q']);
+			$query['q'] = $this->_sanitize($query['q']);
 			// space should imply AND (not OR): it becomes '+' operator
 			$query['q'] = ltrim(preg_replace('/(^|\s)(?![-+"><])/i', ' +', $query['q']));
 
@@ -153,6 +153,10 @@
 			}
 
 			$this->set(compact('month', 'year'));
+		}
+
+		protected function _sanitize($string) {
+			return Sanitize::escape($string);
 		}
 
 		protected function _filterQuery($params) {
