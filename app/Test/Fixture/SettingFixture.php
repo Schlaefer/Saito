@@ -56,7 +56,7 @@
 			),
 			array(
 				'name' => 'subject_maxlength',
-				'value' => 100,
+				'value' => 40,
 			),
 			array(
 				'name' => 'thread_depth_indent',

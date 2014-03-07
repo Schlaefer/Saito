@@ -2,7 +2,7 @@
 
 	App::uses('Model', 'Model');
 	App::uses('Sanitize', 'Utility');
-	App::uses('SaitoUser', 'Lib');
+	App::uses('SaitoUser', 'Lib/SaitoUser');
 	App::uses('CakeEvent', 'Event');
 
 	// import here so that `cake schema ...` cli works
@@ -10,63 +10,12 @@
 
 	class AppModel extends Model {
 
+		protected $_settings = [];
+
 		# Entry->User->UserOnline
 		public $recursive = 1;
 
-/**
- * Lock to disable sanitation permanently
- */
-		public static $sanitizeEnabled = true;
-
-		public static $sanitize = true;
-
-/**
- * Lock sanitize that it's associated models are also not sanitized
- *
- * @var mixed false or string
- */
-		protected static $_lockNoSanitize = false;
-
 		public $SharedObjects;
-
-		protected function _sanitizeFields($results) {
-			if (!isset($this->_fieldsToSanitize)) {
-				return $results;
-			}
-			foreach ($results as $k => $result) {
-				foreach ($this->_fieldsToSanitize as $field) {
-					if (isset($results[$k][$this->name][$field])) {
-						$results[$k][$this->alias][$field] = Sanitize::html(
-							$result[$this->alias][$field]
-						);
-					}
-				}
-			}
-			return $results;
-		}
-
-		public function afterFind($results, $primary = false) {
-			parent::afterFind($results, $primary);
-
-			if (self::$sanitizeEnabled) {
-				if (self::$sanitize) {
-					$results = $this->_sanitizeFields($results);
-				} elseif (self::$_lockNoSanitize === $this->alias) {
-					// sanitizing can only be disabled for one find
-					$this->sanitize(true);
-				}
-			}
-			return $results;
-		}
-
-		public function sanitize($switch = true) {
-			if (!$switch) {
-				self::$_lockNoSanitize = $this->alias;
-			} else {
-				self::$_lockNoSanitize = false;
-			}
-			self::$sanitize = $switch;
-		}
 
 		public function toggle($key) {
 			$this->contain();
@@ -143,6 +92,26 @@
 			endif;
 
 			return $ip;
+		}
+
+		/**
+		 * gets app setting
+		 *
+		 * falls back to local definition if available
+		 *
+		 * @param $name
+		 * @return mixed
+		 * @throws UnexpectedValueException
+		 */
+		protected function _setting($name) {
+			$setting = Configure::read('Saito.Settings.' . $name);
+			if ($setting !== null) {
+				return $setting;
+			}
+			if (isset($this->_settings[$name])) {
+				return $this->_settings[$name];
+			}
+			throw new UnexpectedValueException;
 		}
 
 	}

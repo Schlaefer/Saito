@@ -1,6 +1,6 @@
 <?php
 
-	App::import('Lib', 'SaitoUser');
+	App::import('Lib/SaitoUser', 'SaitoUser');
 	App::uses('AppHelper', 'View/Helper');
 
 /**
@@ -63,26 +63,6 @@
 		}
 
 /**
- * If input is text and empty return minus.
- *
- * If input is array make check all strings in first level and change to minus
- * if empty
- *
- */
-		public function minusIfEmpty($input) {
-			if (is_array($input)) {
-				$out = array();
-				foreach ($input as $k => &$v) {
-					$out[$k] = (empty($v)) ? '–' : $v;
-				}
-				return $input;
-			} else {
-				$out = (empty($input)) ? '–' : $input;
-			}
-			return $out;
-		}
-
-/**
  * Translates user types
  *
  * @param $type
@@ -134,6 +114,8 @@
 						'<i class="fa fa-home fa-lg"></i>',
 						$url,
 						array('escape' => false));
+				} else {
+					$out = h($url);
 				}
 			}
 			return $out;

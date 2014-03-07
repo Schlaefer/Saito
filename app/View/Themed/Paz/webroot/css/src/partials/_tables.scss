@@ -30,18 +30,6 @@
 
 .table-menu {
   float: right;
-
-  .asc, .desc {
-    font-weight: bold;
-  }
-
-  .asc:after {
-    content: "\002005\002193\002005";
-  }
-
-  .desc:after {
-    content: "\002005\002191\002005";
-  }
 }
 
 // Bookmarks table

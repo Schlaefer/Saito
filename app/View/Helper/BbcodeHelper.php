@@ -122,7 +122,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			$this->_initParser($options);
 			$this->_tagElCounter = 0;
 			$this->_tagEls = array();
-			$string = $this->_Parser->parse($string);
+			$string = $this->_Parser->parse(h($string));
 			$string = $this->_detaginize($string);
 			Stopwatch::stop('Bbcode::parse');
 		}
@@ -1005,7 +1005,7 @@ EOF;
 	 * @return string
 	 */
 	public function _quote($string) {
-		$_quoteSymbolSanitized = Sanitize::html($this->settings['quoteSymbol']);
+		$_quoteSymbolSanitized = h($this->settings['quoteSymbol']);
 		$string = preg_replace(
 				// Begin of the text or a new line in the text, maybe one space afterwards
 				'/(^|\n\r\s?)'

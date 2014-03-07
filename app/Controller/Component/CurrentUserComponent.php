@@ -1,6 +1,7 @@
 <?php
 
-	App::import('Lib', 'SaitoUser');
+	App::import('Lib/SaitoUser', 'SaitoUser');
+	App::uses('SaitoCurrentUserReadEntries', 'Lib/SaitoUser');
 
 	class CurrentUserComponent extends SaitoUser {
 
@@ -16,7 +17,7 @@
  *
  * @var array
  */
-		public $components = ['Cookie'];
+		public $components = ['Cookie', 'Cron.Cron'];
 
 /**
  * Manages the persistent login cookie
@@ -38,6 +39,8 @@
  * @var SaitoLastRefresh
  */
 		public $LastRefresh = null;
+
+		public $ReadEntries;
 
 /**
  * Model User instance exclusive to the CurrentUserComponent
@@ -94,16 +97,17 @@
 				$this->_Controller->{$this->_Controller->modelClass}->SharedObjects['CurrentUser'] = $this;
 			}
 
-			$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
-			$this->PersistentCookie->initialize($this);
-
 			/*
 			 * We create a new User Model instance. Otherwise we would overwrite $this->request->data
 			 * when reading in refresh(), causing error e.g. saving the user prefs.
 			 */
 			$this->_User = ClassRegistry::init(
-				['class' => 'User', 'alias' => 'currentUser']
+					['class' => 'User', 'alias' => 'currentUser']
 			);
+
+			$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
+			$this->PersistentCookie->initialize($this);
+			$this->ReadEntries = new SaitoCurrentUserReadEntries($this);
 
 			$this->_configureAuth();
 			if (!$this->_reLoginSession()) {
@@ -115,6 +119,15 @@
 					$this->_reLoginCookie();
 				}
 			}
+
+			if ($this->isLoggedIn()) {
+				$this->Cron->addCronJob('ReadUser.' . $this->getId(),
+						'hourly',
+						[$this->ReadEntries, 'gcUser']);
+			}
+			$this->Cron->addCronJob('ReadUser.global',
+					'hourly',
+					[$this->ReadEntries, 'gcGlobal']);
 
 			$this->_markOnline();
 		}
@@ -195,7 +208,6 @@
 			$this->refresh();
 			$this->_User->incrementLogins($this->getId());
 			$this->_User->UserOnline->setOffline(session_id());
-
 			//password update
 			if (empty($this->_Controller->request->data['User']['password']) === false) {
 				$this->_User->autoUpdatePassword(
@@ -208,6 +220,7 @@
 			if (empty($this->_Controller->request->data['User']['remember_me']) === false) {
 				$this->PersistentCookie->set();
 			};
+
 			return true;
 		}
 
@@ -254,6 +267,10 @@
  */
 		public function getPersistentCookieName() {
 			return $this->_persistentCookieName;
+		}
+
+		public function getModel() {
+			return $this->_User;
 		}
 
 		public function getBookmarks() {
@@ -415,6 +432,7 @@
 
 			$this->_user->setLastRefresh($timestamp);
 			$this->_currentUser['last_refresh'] = $timestamp;
+			$this->_currentUser->ReadEntries->delete();
 		}
 
 		public function setMarker() {

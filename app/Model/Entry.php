@@ -36,21 +36,20 @@
 
 		public $findMethods = array(
 			'feed' => true,
-			'entry' => true,
-			'unsanitized' => true
+			'entry' => true
 		);
 
-/**
- * Fields for search plugin
- *
- * @var array
- */
-		public $filterArgs = array(
-			array('name' => 'subject', 'type' => 'like'),
-			array('name' => 'text', 'type' => 'like'),
-			array('name' => 'name', 'type' => 'like'),
-			array('name' => 'category', 'type' => 'int'),
-		);
+		/**
+		 * Fields for search plugin
+		 *
+		 * @var array
+		 */
+		public $filterArgs = [
+				'subject' => ['type' => 'like'],
+				'text' => ['type' => 'like'],
+				'name' => ['type' => 'like'],
+				'category' => ['type' => 'value'],
+		];
 
 		public $belongsTo = array(
 			'Category' => array(
@@ -73,6 +72,10 @@
 				'foreignKey' => 'subject',
 				'conditions' => array('Esevent.subject' => 'Entry.id'),
 			),
+			'UserRead' => [
+				'foreignKey' => 'entry_id',
+				'dependent' => true
+			]
 		);
 
 		public $validate = array(
@@ -101,13 +104,15 @@
 			'views' => array(
 				'rule' => array('comparison', '>=', 0),
 			),
+			/*
+			Wenn @mlf sollte, wenn die Performance es zulässt, der Name sowieso nicht in
+			der `entries` Tabelle stehen, sondern sauber über die `User.id` Verbindung
+			aus der `User` Tabelle entnommen werden. Dies ist im Moment schon der Fall,
+			so dass dieses Feld @mlf entfernt werden kann und damit auch wieder dieser Hack.
+			@td validate input for username [a-z][A-Z][0-9][_-]
+			*/
 			'name' => array()
 		);
-
-		protected $_fieldsToSanitize = [
-			'subject',
-			'text'
-		];
 
 /**
  * Fields allowed in public output
@@ -206,11 +211,10 @@
 			]
 		];
 
-		protected $_isInitialized = false;
-
-		protected $_editPeriod = 1200;
-
-		protected $_subjectMaxLenght = 100;
+		protected $_settings = [
+			'edit_period' => 20,
+			'subject_maxlength' => 100
+		];
 
 /**
  * Caching for isRoot()
@@ -218,11 +222,6 @@
  * @var array
  */
 		protected $_isRoot = [];
-
-		public function __construct($id = false, $table = null, $ds = null) {
-			$this->_initialize();
-			return parent::__construct($id, $table, $ds);
-		}
 
 /**
  * @param array $options
@@ -298,11 +297,9 @@
 /**
  * Shorthand for reading an entry with full data
  */
-		public function get($id, $unsanitized = false) {
-			return $this->find(
-				($unsanitized) ? 'unsanitized' : 'entry',
-				['conditions' => [$this->alias . '.id' => $id]]
-			);
+		public function get($id) {
+			return $this->find('entry',
+					['conditions' => [$this->alias . '.id' => $id]]);
 		}
 
 /**
@@ -336,11 +333,7 @@
  *
  * @return array|bool
  */
-		public function createPosting($data, $CurrentUser = null) {
-			if ($CurrentUser !== null) {
-				$this->SharedObjects['CurrentUser'] = $CurrentUser;
-			}
-
+		public function createPosting($data) {
 			if (!isset($data[$this->alias]['pid'])) {
 				$data[$this->alias]['pid'] = 0;
 			}
@@ -376,7 +369,6 @@
 
 			// make sure we pass the complete ['Entry'] dataset to events
 			$this->contain();
-			$this->sanitize(false);
 			$_newPosting = $this->read();
 
 			if ($this->isRoot($data)) {
@@ -944,7 +936,8 @@
 				throw new Exception(sprintf('Entry %s not found.', $entry));
 			}
 
-			$expired = strtotime($entry['Entry']['time']) + $this->_editPeriod;
+			$expired = ($this->_setting('edit_period') * 60) +
+					strtotime($entry['Entry']['time']);
 			$isOverEditLimit = time() > $expired;
 
 			$isUsersPosting = (int)$User->getId() === (int)$entry['Entry']['user_id'];
@@ -1263,7 +1256,7 @@
  * @return bool
  */
 		public function validateSubjectMaxLength($check) {
-			return mb_strlen($check['subject']) <= $this->_subjectMaxLenght;
+			return mb_strlen($check['subject']) <= $this->_setting('subject_maxlength');
 		}
 
 /**
@@ -1292,20 +1285,6 @@
 				['Entry.tid' => $tid]
 			);
 			return $out;
-		}
-
-		protected function _initialize() {
-			if ($this->_isInitialized) {
-				return;
-			}
-			$appSettings = Configure::read('Saito.Settings');
-			if (isset($appSettings['edit_period'])) {
-				$this->_editPeriod = $appSettings['edit_period'] * 60;
-			}
-			if (isset($appSettings['subject_maxlength'])) {
-				$this->_subjectMaxLenght = (int)$appSettings['subject_maxlength'];
-			}
-			$this->_isInitialized = true;
 		}
 
 	}

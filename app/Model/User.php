@@ -49,6 +49,11 @@
 				'className' => 'Entry',
 				'foreignKey' => 'user_id'
 			),
+			'UserRead' => [
+					'className' => 'UserRead',
+					'foreignKey' => 'user_id',
+					'dependent' => true
+			],
 			'Upload' => array(
 				'className' => 'Upload',
 				'foreignKey' => 'user_id'
@@ -190,22 +195,6 @@
 
 		public $findMethods = [
 				'latest' => true
-		];
-
-		protected $_fieldsToSanitize = [
-				'user_hp',
-				'user_place',
-				'user_email',
-				/*
-				Wenn @mlf sollte, wenn die Performance es zulässt, der Name sowieso nicht in
-				der `entries` Tabelle stehen, sondern sauber über die `User.id` Verbindung
-				aus der `User` Tabelle entnommen werden. Dies ist im Moment schon der Fall,
-				so dass dieses Feld @mlf entfernt werden kann und damit auch wieder dieser Hack.
-				@td validate input for username [a-z][A-Z][0-9][_-]
-				'username',
-				*/
-				'signature',
-				'profile'
 		];
 
 		protected $_passwordHasher = [

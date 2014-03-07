@@ -61,6 +61,14 @@ class BookmarkFixture extends CakeTestFixture {
 			'created' => '2012-08-07 09:51:45',
 			'modified' => '2012-08-07 09:51:45'
 		),
+		[
+				'id' => 5,
+				'user_id' => 3,
+				'entry_id' => 11,
+				'comment' => '<BookmarkComment',
+				'created' => '2012-08-07 09:51:45',
+				'modified' => '2012-08-07 09:51:45'
+		]
 	);
 
 }

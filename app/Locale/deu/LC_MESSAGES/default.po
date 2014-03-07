@@ -1537,6 +1537,18 @@ msgstr ""
 msgid "The smily could not be saved. Please, try again."
 msgstr ""
 
+msgid "Time"
+msgstr "Zeit"
+
+msgid "Rank"
+msgstr "Rang"
+
+msgid "search.q.minLength"
+msgstr "Suchbegriffe müssen mindestens %s Buchstaben enthalten."
+
+msgid "search.nstrict"
+msgstr "Exakter Name"
+
 #: Controller/SmiliesController.php:36
 #, fuzzy
 msgid "Invalid smily"

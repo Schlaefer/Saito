@@ -6,22 +6,16 @@
 			array('class' => 'textlink', 'escape' => false));
 	$this->end();
 
-	$urlToHistory = $this->Html->url(
-			[
-					'controller' => 'entries',
-					'action' => 'search',
-					'name' => $user['User']['username'],
-					'month' => strftime('%m', strtotime($user['User']['registered'])),
-					'year' => strftime('%Y', strtotime($user['User']['registered'])),
-					'adv' => 1
-			],
-			true
-	);
+	$urlToHistory = [
+			'controller' => 'searches',
+			'action' => 'advanced',
+			'?' => ['name' => $user['User']['username'], 'nstrict' => 1]
+	];
 
 	$table = [
 			[
 					__('username_marking'),
-					$user['User']['username'] . " <span class='infoText'>({$this->UserH->type($user['User']['user_type'])})</span>",
+					h($user['User']['username']) . " <span class='infoText'>({$this->UserH->type($user['User']['user_type'])})</span>",
 				# @td user_type for mod and admin
 			]
 	];
@@ -36,14 +30,14 @@
 	if (!empty($user['User']['user_real_name'])) {
 		$table[] = [
 				__('user_real_name'),
-				$this->UserH->minusIfEmpty($user['User']['user_real_name'])
+				h($user['User']['user_real_name'])
 		];
 	}
 
 	if (!empty($user['User']['user_email']) &&
 			$user['User']['personal_messages'] == true
 	) {
-		$_contact = $this->UserH->minusIfEmpty($this->UserH->contact($user['User']));
+		$_contact = $this->UserH->contact($user['User']);
 		if ($CurrentUser->isAdmin()) {
 			$_contact .= ' ' . $this->Layout->infoText(
 							'(' .
@@ -56,15 +50,15 @@
 
 	if (!empty($user['User']['user_hp'])) {
 		$table[] = [
-				__("user_hp"),
-				$this->UserH->minusIfEmpty($this->UserH->homepage($user['User']['user_hp']))
+				__('user_hp'),
+				$this->UserH->homepage($user['User']['user_hp'])
 		];
 	}
 
 	if (!empty($user['User']['user_place'])) {
 		$table[] = [
 				__('user_place'),
-				$user['User']['user_place']
+				h($user['User']['user_place'])
 		];
 	}
 

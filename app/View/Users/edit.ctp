@@ -64,12 +64,12 @@
 				<?php else: ?>
 				<tr>
 					<td> <?php echo __('username_marking'); ?></td>
-					<td> <?php echo $this->request->data['User']['username']; ?> </td>
+					<td> <?= h($this->request->data['User']['username']) ?> </td>
 				</tr>
 
 				<tr>
 					<td> <?php echo __('userlist_email'); ?> </td>
-					<td> <?php echo $this->request->data['User']['user_email']; ?> </td>
+					<td> <?= h($this->request->data['User']['user_email']) ?> </td>
 				</tr>
 
 				<tr>

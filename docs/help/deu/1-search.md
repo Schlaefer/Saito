@@ -1,4 +1,6 @@
-# Einfache Suche
+# Einfache Suche #
+
+## Suchoperatoren
 
 Kein Operator impliziert `ODER`. `apple banana` findet Datensätze, die mindestens eines der beiden Wörter enthalten.
 
@@ -6,8 +8,8 @@ Kein Operator impliziert `ODER`. `apple banana` findet Datensätze, die mindeste
 
 `+apple macintosh` findet Datensätze, die das Wort „apple“ enthalten, stuft aber solche Datensätze höher ein, die auch „macintosh“ enthalten.
 
-`-` bedeutet `NICHT`. `+apple -macintosh` Findet Datensätze, die das Wort „apple“, aber nicht das Wort „macintosh“ enthalten.
+`-` bedeutet `NICHT`. `+apple -macintosh` findet Datensätze, die das Wort „apple“, aber nicht das Wort „macintosh“ enthalten.
 
-'apple*' Findet Datensätze, die Wörter wie „apple“, „apples“, „applesauce“ oder „applet“ enthalten.
+`apple*` findet Datensätze, die Wörter wie „apple“, „apples“, „applesauce“ oder „applet“ enthalten. Dieser Operator funktioniert *nicht* am Anfang eines Wortes!
 
 `"some words"` findet Datensätze, die die exakte Phrase „some words“ enthalten. Dies wäre etwa „some words of wisdom“, nicht aber „some noise words“.

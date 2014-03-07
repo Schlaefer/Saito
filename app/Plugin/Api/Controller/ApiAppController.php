@@ -9,7 +9,6 @@
  * @throws Saito\Api\ApiDisabledException
  */
 		public function beforeFilter() {
-			AppModel::$sanitizeEnabled = false;
 			parent::beforeFilter();
 
 			$_apiEnabled = Configure::read('Saito.Settings.api_enabled');

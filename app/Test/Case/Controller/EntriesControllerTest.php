@@ -14,10 +14,6 @@
 			$this->_getInitialThreads($User, $order);
 		}
 
-		public function searchStringSanitizer($string) {
-			return $this->_searchStringSanitizer($string);
-		}
-
 	}
 
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
@@ -35,7 +31,8 @@
 			'app.smiley_code',
 			'app.upload',
 			'app.user',
-			'app.user_online'
+			'app.user_online',
+			'app.user_read'
 		];
 
 		public function testMix() {
@@ -81,16 +78,20 @@
 				]
 			];
 
+			$latestEntry = $C->Entry->find('first',
+					['contain' => false, 'order' => ['Entry.id' => 'desc']]);
+			$expectedId = $latestEntry['Entry']['id'] + 1;
+
 			//* setup notification test
 			$expected = [
 				[
-					'subject' => 11,
+					'subject' => $expectedId,
 					'event' => 'Model.Entry.replyToEntry',
 					'receiver' => 'EmailNotification',
 					'set' => 0,
 				],
 				[
-					'subject' => 11,
+					'subject' => $expectedId,
 					'event' => 'Model.Entry.replyToThread',
 					'receiver' => 'EmailNotification',
 					'set' => 1,
@@ -109,6 +110,47 @@
 					'return' => 'vars'
 				]
 			);
+		}
+
+		public function testAddSubjectToLong() {
+			$Entries = $this->generate( 'Entries');
+			$this->_loginUser(1);
+
+			// maxlength attribute is set for textfield
+			$result = $this->testAction('entries/add',
+					['method' => 'GET', 'return' => 'view']
+			);
+			$this->assertTextContains('maxlength="40"', $result);
+
+			// subject is one char to long
+			$data = [
+					'Entry' => [
+						// 41 chars
+							'subject' => 'Vorher wie ich in der mobilen Version ka…',
+							'category' => 1,
+							'pid' => 0
+					],
+					'Event' => [
+							1 => ['event_type_id' => 0],
+							2 => ['event_type_id' => 1]
+					]
+			];
+
+			$result = $this->testAction(
+					'entries/add',
+					['data' => $data, 'method' => 'POST', 'return' => 'view']
+			);
+			$this->assertTextContains('Subject is to long.', $result);
+			$id = $Entries->Entry->find('count') + 1;
+
+			// subject has max length
+			$data['Entry']['subject'] = mb_substr($data['Entry']['subject'], 1);
+			$this->testAction(
+					'entries/add',
+					['data' => $data, 'method' => 'POST']
+			);
+
+			$this->assertRedirectedTo('entries/view/' . $id);
 		}
 
 		public function testNoDirectCallOfAnsweringFormWithId() {
@@ -379,13 +421,30 @@
 			//* not logged in user
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 2);
+			$this->assertEqual(count($entries), 3);
 
 			//* logged in user
 			$this->_loginUser(3);
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 3);
+			$this->assertEqual(count($entries), 4);
+		}
+
+		public function testIndexSanitation() {
+			$this->generate('Entries');
+			$this->_loginUser(7);
+
+			// uses contents to check in slidetabs
+			$result = $this->testAction('/entries/index', ['return' => 'contents']);
+			// uses <body>-HTML only: exclude <head> which may contain unescaped JS-data
+			preg_match('/<body(.*)<\/body>/sm', $result, $matches);
+			$result = $matches[0];
+			$this->assertTextNotContains('&<Subject', $result);
+			$this->assertTextContains('&amp;&lt;Subject', $result);
+			$this->assertTextNotContains('&<Username', $result);
+			$this->assertTextContains('&amp;&lt;Username', $result);
+			// check for no double encoding
+			$this->assertTextNotContains('&amp;amp;&amp;lt;Username', $result);
 		}
 
 		public function testMergeNoSourceId() {
@@ -598,23 +657,6 @@
 		}
 		*/
 
-		public function testSearchAdvAccession() {
-			$Entries = $this->generate('Entries');
-			$this->_loginUser(3);
-
-			$result = $this->testAction('/entries/search/subject:third%20thread/category:/adv:1',
-					array('return' => 'vars'));
-			$this->assertEmpty($result['FoundEntries']);
-		}
-
-		public function testSearchAdvForbiddenCategory() {
-			$Entries = $this->generate('Entries');
-			$this->_loginUser(3);
-
-			$this->setExpectedException('NotFoundException');
-			$this->testAction('/entries/search/subject:test/text:/name:/category:1/month:07/year:2006/adv:1');
-		}
-
 		public function testView() {
 			//* not logged in user
 			$Entries = $this->generate('Entries');
@@ -694,6 +736,16 @@
 			$this->assertTextContains('dropdown', $result);
 		}
 
+		public function testViewSanitation() {
+			$result = $this->testAction('/entries/view/11', ['return' => 'view']);
+			$this->assertTextNotContains('&<Subject', $result);
+			$this->assertTextContains('&amp;&lt;Subject', $result);
+			$this->assertTextNotContains('&<Text', $result);
+			$this->assertTextContains('&amp;&lt;Text', $result);
+			$this->assertTextNotContains('&<Username', $result);
+			$this->assertTextContains('&amp;&lt;Username', $result);
+		}
+
 		public function testAppStats() {
 			Configure::write('Cache.disable', false);
 			Cache::delete('header_counter', 'short');
@@ -703,9 +755,9 @@
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEqual($headerCounter['user_online'], 1);
-			$this->assertEqual($headerCounter['user'], 6);
-			$this->assertEqual($headerCounter['entries'], 10);
-			$this->assertEqual($headerCounter['threads'], 4);
+			$this->assertEqual($headerCounter['user'], 7);
+			$this->assertEqual($headerCounter['entries'], 11);
+			$this->assertEqual($headerCounter['threads'], 5);
 			$this->assertEqual($headerCounter['user_registered'], 0);
 			$this->assertEqual($headerCounter['user_anonymous'], 1);
 
@@ -744,39 +796,6 @@
 			));
 			$this->assertEqual($result['entries'][0]['Entry']['subject'], 'First_Subject');
 			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
-		}
-
-		public function testGetViewVarsSearch() {
-			/*
-
-			  $this->_loginUser("Charles");
-			  $this->_prepareAction('/entries/search', $this->cu['user_id']);
-
-			  $data['Entry']['search']['term'] = 'first_text';
-			  $data['Entry']['search']['start']['month'] = '01';
-			  $data['Entry']['search']['start']['year'] = '1990';
-			  $result = $this->testAction('/entries/search', array( 'return' => 'vars', 'data' => $data));
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['Entry']['user_id']);
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['User']['user_id']);
-			  $this->assertEqual('First_Text', $result['FoundEntries']['0']['Entry']['text']);
-
-			  $data['Entry']['search']['term'] = 'first_subject';
-			  $data['Entry']['search']['start']['month'] = '01';
-			  $data['Entry']['search']['start']['year'] = '1990';
-			  $result = $this->testAction('/entries/search', array( 'return' => 'vars', 'data' => $data));
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['Entry']['user_id']);
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['User']['user_id']);
-			  $this->assertEqual('First_Text', $result['FoundEntries']['0']['Entry']['text']);
-			 */
-		}
-
-		public function testSearchStringSanitizer() {
-			$data = 'foo bar +baz -zoo \'';
-			$expected = '+foo +bar +baz -zoo +\\\'';
-
-			$Entries = $this->generate('EntriesMock');
-			$result = $Entries->searchStringSanitizer($data);
-			$this->assertEquals($expected, $result);
 		}
 
 		public function testSolveNotLoggedIn() {

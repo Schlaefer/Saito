@@ -17,6 +17,7 @@
 			'app.shout',
 			'app.user',
 			'app.user_online',
+			'app.user_read',
 			'app.bookmark',
 			'app.entry',
 			'app.category',

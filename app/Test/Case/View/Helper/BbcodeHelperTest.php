@@ -11,7 +11,6 @@
 	));
 	App::import('Helper', 'MailObfuscator.MailObfuscator');
 
-	App::uses('Sanitize', 'Utility');
 	App::uses('Controller', 'Controller');
 	App::uses('View', 'View');
 	App::uses('BbcodeHelper', 'View/Helper');
@@ -84,7 +83,7 @@
 					]
 				],
 				['script' => true],
-				'preg:/(.*?)"string":" te \\\"\' xt"(.*?)(?=<)/',
+				'preg:/(.*?)"string":" te &quot;&#039; xt"(.*?)(?=<)/',
 				'/script',
 				[
 					'a' => [
@@ -120,7 +119,7 @@
 
 		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
-			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";
+			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
 
@@ -263,12 +262,6 @@
 		}
 
 		public function testHashLinkFailure() {
-			// don't hash html encoded chars
-			$input = '&#039;';
-			$expected = '&#039;';
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
-
 			// don't hash code
 			$input = '[code]#2234[/code]';
 			$result = $this->Bbcode->parse($input);
@@ -700,16 +693,18 @@
 			$this->assertTags($result, $expected);
 
 			// test html entities
-			$input = Sanitize::html('ü :-) ü');
-			$expected = array( '&uuml; ', 'img' => array( 'src' => $this->Bbcode->webroot('img/smilies/smile_image.png'), 'alt' => ':-)', 'title' => 'Smile' ), ' &uuml;' );
+			$input = h('ü :-) ü');
+			$expected = [
+					'ü ',
+					'img' => [
+							'src' => $this->Bbcode->webroot('img/smilies/smile_image.png'),
+							'alt' => ':-)',
+							'title' => 'Smile'
+					],
+					' ü'
+			];
 			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
 			$this->assertTags($result, $expected);
-
-			// test html entities
-			$input = Sanitize::html('foo …) bar €) batz');
-			$expected = 'foo &hellip;) bar &euro;) batz';
-			$result = $this->Bbcode->parse($input, array( 'cache' => false ));
-			$this->assertIdentical($expected, $result);
 
 			// test no smilies in code
 			$input = '[code text]:)[/code]';
@@ -719,7 +714,6 @@
 		}
 
 		public function testCode() {
-
 			//* test whitespace
 			$input = "[code]\ntest\n[/code]";
 			$expected = "/>test</";
@@ -736,7 +730,7 @@
 			$this->assertTags($result, $expected);
 
 			// [code]<citation mark>[/code] should not be cited
-			$input = Sanitize::html(
+			$input = h(
 				"[code]\n" . $this->Bbcode->settings['quoteSymbol'] . "\n[/code]"
 			);
 			$expected = '`span class=.*?c-bbcode-citation`';
@@ -758,21 +752,9 @@
 			$this->assertNotContains('autoLink', $result);
 		}
 
-		public function testMarkiereZitat() {
-
-			$input = Sanitize::html("» test");
-			$result = $this->Bbcode->parse($input);
-			$expected = array(
-					'span' => array( 'class' => 'c-bbcode-citation' ),
-					'&raquo; test',
-					'/span',
-			);
-			$this->assertTags($result, $expected);
-		}
-
 		public function testQuote() {
-			$_qs = Sanitize::html($this->Bbcode->settings['quoteSymbol']);
-			$input = "$_qs fo [b]test[/b] ba";
+			$_qs = h($this->Bbcode->settings['quoteSymbol']);
+			$input = $this->Bbcode->settings['quoteSymbol'] . ' fo [b]test[/b] ba';
 			$result = $this->Bbcode->parse($input);
 			$expected = [
 					'span' => ['class' => 'c-bbcode-citation'],

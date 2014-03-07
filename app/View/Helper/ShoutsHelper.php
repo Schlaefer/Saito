@@ -28,7 +28,7 @@
 					'time' => $this->Api->mysqlTimestampToIso($shout['Shout']['time']),
 					'text' => $shout['Shout']['text'],
 					'html' => $this->Bbcode->parse(
-						h($shout['Shout']['text']),
+						$shout['Shout']['text'],
 						['multimedia' => false]
 					),
 					'user_id' => (int)$shout['Shout']['user_id'],

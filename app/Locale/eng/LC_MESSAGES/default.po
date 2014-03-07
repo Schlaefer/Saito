@@ -1535,6 +1535,12 @@ msgstr ""
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
+msgid "search.q.minLength"
+msgstr "Search terms must be at least %s characters long."
+
+msgid "search.nstrict"
+msgstr "Exact username"
+
 #: Controller/UsersController.php:296
 #, php-format
 msgid "Edit %s Profil"

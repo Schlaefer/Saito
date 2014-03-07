@@ -3,7 +3,7 @@
 		echo $this->Form->create(
 			null,
 			[
-				'url' => '/entries/search',
+				'url' => '/searches/simple',
 				'id' => 'EntrySearchForm',
 				'type' => 'get',
 				'class' => 'search_form',
@@ -22,7 +22,7 @@
 		);
 		echo '<div>';
 		echo $this->Form->input(
-			'search_term',
+			'q',
 			[
 				'id' => 'header-searchField',
 				'class' => 'search_textfield search_textfield_header',

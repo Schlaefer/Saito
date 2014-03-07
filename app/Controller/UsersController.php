@@ -284,7 +284,6 @@
 			//* View Entry by id
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
-			$this->User->sanitize(false);
 			$this->set('availableThemes',
 					array_combine($this->Themes->getAvailable(),
 							$this->Themes->getAvailable()));

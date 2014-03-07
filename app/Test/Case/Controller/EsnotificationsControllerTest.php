@@ -19,6 +19,7 @@ class EsnotificationsControllerTest extends SaitoControllerTestCase {
 		'app.setting',
 		'app.user',
 		'app.user_online',
+		'app.user_read',
 		'app.entry',
 		'app.category',
 		'app.esevent',

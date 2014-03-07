@@ -53,7 +53,7 @@
 					<?php if ($CurrentUser->isLoggedIn()): ?>
 						<?= $this->Html->link(
 							$this->Layout->textWithIcon(h(__('Search')), 'search'),
-							'/entries/search',
+							'/searches/simple',
 							['class' => 'top-menu-item', 'escape' => false]);
 						?>
 					<?php endif; ?>
@@ -78,12 +78,13 @@
 					$_navCenter = $this->Layout->pageHeading($title_for_page);
 				}
 			}
+
 			echo $this->Layout->heading([
 							'first' => $this->fetch('headerSubnavLeft'),
 							'middle' => $_navCenter,
 							'last' => $this->element('layout/header_subnav_right')
 					],
-					['class' => 'navbar']);
+					['class' => 'navbar', 'escape' => false]);
 		?>
 		<?php echo $this->element('layout/slidetabs'); ?>
 		<div id="content">
@@ -101,7 +102,7 @@
 										'middle' => '<a href="#" id="btn-scrollToTop" class="btn-hf-center"><i class="fa fa-arrow-up"></i></a>',
 										'last' => $this->element('layout/header_subnav_right')
 								],
-								['class' => 'navbar-content'])
+								['class' => 'navbar-content', 'escape' => false])
 					?>
 				</div>
 			</div>

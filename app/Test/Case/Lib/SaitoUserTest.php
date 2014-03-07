@@ -2,7 +2,7 @@
 
 	App::uses('Component', 'Controller');
 	App::uses('ComponentCollection', 'Controller');
-	App::uses('SaitoUser', 'Lib');
+	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	class SaitoUserTest extends CakeTestCase {
 

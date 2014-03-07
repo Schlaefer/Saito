@@ -20,16 +20,7 @@
 		</h2>
 		<div class="postingBody-info">
       <span class="c-username">
-        <?php  if ($CurrentUser->isLoggedIn()) : ?>
-					<?php echo  $this->Html->link(
-						$entry['User']['username'],
-							'/users/view/' . $entry['User']['id']
-					); ?>
-				<?php
-					else:
-						echo $entry['User']['username'];
-					endif;
-				?>
+        <?= $this->Layout->linkToUserProfile($entry['User'], $CurrentUser); ?>
       </span>
 			–
 			<?php if ($entry['Entry']['pid'] == 0) : ?>
@@ -40,9 +31,12 @@
 			<?php endif; ?>
 
 			<span class="meta">
-				<?php  if ($CurrentUser->isLoggedIn()) : ?>
-					<?php echo   (!empty($entry['User']['user_place'])) ? $entry['User']['user_place'].',' : '' ;  ?>
-				<?php  endif; ?>
+				<?php
+					if (isset($entry['User']['user_place']) &&
+							!empty($entry['User']['user_place'])) {
+						echo h($entry['User']['user_place']) . ',';
+					}
+				?>
 
 				<?php /* <span title="<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry['Entry']['time'], 'glasen'); ?></span>, */ ?>
 				<?php

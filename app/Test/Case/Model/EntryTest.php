@@ -2,7 +2,7 @@
 
 	App::uses('Entry', 'Model');
 	App::uses('ComponentCollection', 'Controller');
-	App::uses('SaitoUser', 'Lib');
+	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	// @codingStandardsIgnoreStart
 	class EntryMock extends Entry {
@@ -557,6 +557,7 @@
 		}
 
 		public function testIsEditingForbiddenModToLateNotFixed() {
+			Configure::write('Saito.Settings.edit_period', 20);
 			$entry = array(
 				'Entry' => array(
 					'user_id' => 1,

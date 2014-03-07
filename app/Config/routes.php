@@ -60,6 +60,12 @@
 			['controller' => 'admins', 'action' => 'index', 'admin' => true]);
 
 	/**
+	 * Default search action
+	 */
+	Router::connect('/searches',
+			['controller' => 'searches', 'action' => 'simple']);
+
+	/**
 	 * Dynamic Assets
 	 */
 	Router::connect('/da/:action/*', ['controller' => 'DynamicAssets']);
