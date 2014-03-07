@@ -14,10 +14,6 @@
 			$this->_getInitialThreads($User, $order);
 		}
 
-		public function searchStringSanitizer($string) {
-			return $this->_searchStringSanitizer($string);
-		}
-
 	}
 
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
@@ -661,23 +657,6 @@
 		}
 		*/
 
-		public function testSearchAdvAccession() {
-			$Entries = $this->generate('Entries');
-			$this->_loginUser(3);
-
-			$result = $this->testAction('/entries/search/subject:third%20thread/category:/adv:1',
-					array('return' => 'vars'));
-			$this->assertEmpty($result['FoundEntries']);
-		}
-
-		public function testSearchAdvForbiddenCategory() {
-			$Entries = $this->generate('Entries');
-			$this->_loginUser(3);
-
-			$this->setExpectedException('NotFoundException');
-			$this->testAction('/entries/search/subject:test/text:/name:/category:1/month:07/year:2006/adv:1');
-		}
-
 		public function testView() {
 			//* not logged in user
 			$Entries = $this->generate('Entries');
@@ -817,39 +796,6 @@
 			));
 			$this->assertEqual($result['entries'][0]['Entry']['subject'], 'First_Subject');
 			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
-		}
-
-		public function testGetViewVarsSearch() {
-			/*
-
-			  $this->_loginUser("Charles");
-			  $this->_prepareAction('/entries/search', $this->cu['user_id']);
-
-			  $data['Entry']['search']['term'] = 'first_text';
-			  $data['Entry']['search']['start']['month'] = '01';
-			  $data['Entry']['search']['start']['year'] = '1990';
-			  $result = $this->testAction('/entries/search', array( 'return' => 'vars', 'data' => $data));
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['Entry']['user_id']);
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['User']['user_id']);
-			  $this->assertEqual('First_Text', $result['FoundEntries']['0']['Entry']['text']);
-
-			  $data['Entry']['search']['term'] = 'first_subject';
-			  $data['Entry']['search']['start']['month'] = '01';
-			  $data['Entry']['search']['start']['year'] = '1990';
-			  $result = $this->testAction('/entries/search', array( 'return' => 'vars', 'data' => $data));
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['Entry']['user_id']);
-			  $this->assertEqual($this->cu['user_id'], $result['FoundEntries']['0']['User']['user_id']);
-			  $this->assertEqual('First_Text', $result['FoundEntries']['0']['Entry']['text']);
-			 */
-		}
-
-		public function testSearchStringSanitizer() {
-			$data = 'foo bar +baz -zoo \'';
-			$expected = '+foo +bar +baz -zoo +\\\'';
-
-			$Entries = $this->generate('EntriesMock');
-			$result = $Entries->searchStringSanitizer($data);
-			$this->assertEquals($expected, $result);
 		}
 
 		public function testSolveNotLoggedIn() {
