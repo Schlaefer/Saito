@@ -1,4 +1,4 @@
-<?php
+<?php 
 class AppSchema extends CakeSchema {
 
 	public function before($event = array()) {
@@ -118,7 +118,7 @@ class AppSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'key' => 'primary'),
 		'value' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'indexes' => array(
-
+			
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
@@ -172,14 +172,29 @@ class AppSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
+	public $user_read = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
+		'entry_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'user_id' => array('column' => 'user_id', 'unique' => 0),
+			'entry_id' => array('column' => 'entry_id', 'unique' => 0)
+		),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+
 	public $useronline = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'time' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 14),
 		'user_id' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 32, 'key' => 'primary', 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'logged_in' => array('type' => 'boolean', 'null' => false, 'default' => null, 'key' => 'index'),
 		'indexes' => array(
-			'PRIMARY' => array('column' => 'user_id', 'unique' => 1),
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'user_id' => array('column' => 'user_id', 'unique' => 0),
 			'logged_in' => array('column' => 'logged_in', 'unique' => 0)
 		),
@@ -222,6 +237,7 @@ class AppSchema extends CakeSchema {
 		'user_color_new_postings' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_color_actual_posting' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_color_old_postings' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+		'user_theme' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_show_own_signature' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 		'slidetab_order' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 512, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'show_userlist' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'stores if userlist is shown in front layout'),
@@ -236,7 +252,6 @@ class AppSchema extends CakeSchema {
 		'user_category_override' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'user_category_active' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'user_category_custom' => array('type' => 'string', 'null' => false, 'length' => 512, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'user_theme' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'username' => array('column' => 'username', 'unique' => 1)
