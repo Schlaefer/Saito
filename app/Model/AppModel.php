@@ -26,6 +26,21 @@
 			return $value;
 		}
 
+		/**
+		 * @param $id model ID
+		 * @param $key
+		 * @param int $amount positive or negative integer
+		 * @throws InvalidArgumentException
+		 */
+		public function increment($id, $field, $amount = 1) {
+			if (!is_int($amount)) {
+				throw new InvalidArgumentException;
+			}
+			$field = $this->alias . '.' . $field;
+			$this->updateAll([$field => $field . ' + ' . $amount],
+					[$this->alias . '.id' => $id]);
+		}
+
 		public function pipeMerger(array $data) {
 			$out = [];
 			foreach ($data as $key => $value) {

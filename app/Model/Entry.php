@@ -500,8 +500,7 @@
 			// Workaround for travis-ci error message
 			// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
 			if (!env('TRAVIS')) {
-				$this->contain();
-				$this->saveField('views', $this->field('views') + $amount);
+				$this->increment($this->id, 'views', $amount);
 			}
 		}
 
