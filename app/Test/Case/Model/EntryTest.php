@@ -29,6 +29,7 @@
 			'app.ecach',
 			'app.user',
 			'app.user_online',
+			'app.user_read',
 			'app.entry',
 			'app.category',
 			'app.smiley',
