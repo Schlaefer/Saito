@@ -17,6 +17,14 @@
 
 		public $SharedObjects;
 
+		public function __get($name) {
+			switch ($name) {
+				case 'CurrentUser':
+					return $this->SharedObjects['CurrentUser'];
+			}
+			return parent::__get($name);
+		}
+
 		public function toggle($key) {
 			$this->contain();
 			$value = $this->read($key);
