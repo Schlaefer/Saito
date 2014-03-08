@@ -315,6 +315,12 @@
 			return $results;
 		}
 
+		public function afterSave($created, $options = []) {
+			if ($created === false && isset($this->data[$this->alias]['username'])) {
+				$this->_dispatchEvent('Model.User.username.change');
+			}
+		}
+
 		public function beforeSave($options = array()) {
 			parent::beforeSave($options);
 			if (isset($this->data[$this->alias]['password'])) {

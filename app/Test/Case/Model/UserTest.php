@@ -263,6 +263,15 @@
 			$this->assertTrue($result);
 		}
 
+		public function testSetUsername() {
+			$User = $this->getMockForModel('User', ['_dispatchEvent']);
+			$User->id = 1;
+			$User->expects($this->once())
+					->method('_dispatchEvent')
+					->with('Model.User.username.change');
+			$User->saveField('username', 'foo');
+		}
+
 		public function testAfterFind() {
 			//* setting prefix for empty colors
 			$this->User->id = 3;
