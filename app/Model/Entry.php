@@ -625,24 +625,32 @@
 		 * @param $id
 		 * @return bool
 		 * @throws InvalidArgumentException
+		 * @throws ForbiddenException
 		 */
 		public function toggleSolve($id) {
-			$this->contain();
-			$_entry = $this->read(null, $id);
-			if (empty($_entry) || $this->isRoot($_entry)) {
+			$entry = $this->get($id);
+			if (empty($entry) || $this->isRoot($entry)) {
 				throw new InvalidArgumentException;
 			}
-			if ($_entry[$this->alias]['solves']) {
+
+			$root = $this->get($entry['Entry']['tid']);
+			if ((int)$root['User']['id'] !== $this->CurrentUser->getId()) {
+				throw new ForbiddenException;
+			}
+
+			if ($entry[$this->alias]['solves']) {
 				$value = 0;
 			} else {
-				$value = $_entry[$this->alias]['tid'];
+				$value = $entry[$this->alias]['tid'];
 			}
+			$this->id = $id;
 			$success = $this->saveField('solves', $value);
-			if ($success) {
-				$_entry[$this->alias]['solves'] = $value;
-				$this->_dispatchEvent('Model.Entry.update',
-					['subject' => $id, 'data' => $_entry]);
+			if (!$success) {
+				return $success;
 			}
+			$this->_dispatchEvent('Model.Entry.update',
+					['subject' => $id, 'data' => $entry]);
+			$entry[$this->alias]['solves'] = $value;
 			return $success;
 		}
 
