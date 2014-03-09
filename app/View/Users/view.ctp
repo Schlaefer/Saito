@@ -83,6 +83,14 @@
 					['escape' => false]) . $_userRank
 	];
 
+	// helpful postings
+	if (!empty($user['User']['solves_count'])) {
+		$table[] = [
+				$this->EntryH->solvedBadge(),
+				$user['User']['solves_count']
+		];
+	}
+
 	// profile
 	if (!empty($user['User']['profile'])) {
 		$table[] = [

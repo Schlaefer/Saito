@@ -124,6 +124,11 @@
 			return $out;
 		}
 
+		public function solvedBadge() {
+			return '<i class="fa fa-badge-solves solves-isSolved" title="' .
+					__('Helpful entry') . '"></i>';
+		}
+
 		/**
 		 *
 		 * This function may be called serveral hundred times on the front page.
@@ -149,8 +154,7 @@
 			// anchor for inserting solve-icon via FE-JS
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {
-				$out .= '<i class="fa fa-badge-solves solves-isSolved" title="' .
-						__('Helpful entry') . '"></i>';
+				$out .= $this->solvedBadge();
 			}
 			$out .= '</span>';
 			return $out;

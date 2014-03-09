@@ -216,6 +216,7 @@
 					($viewedUser['User']['number_of_entries'] - $entriesShownOnPage) > 0
 			);
 
+			$viewedUser['User']['solves_count'] = $this->User->countSolved($this->User->id);
 			$this->set('user', $viewedUser);
 			$this->set(
 					'title_for_layout',
