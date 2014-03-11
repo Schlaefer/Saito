@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="CakePHP" default="release">
+
+    <property file="build.properties"/>
+
+    <exec command="cat app/Config/version.php | grep 'Saito.v' | grep -Po '([0-9]{1,}\..*)(?='\'')'"
+          outputProperty="saito.version"/>
+
+    <fileset id="release-fileset" dir="${git.dir}">
+        <include name=".htaccess"/>
+        <include name="index.php"/>
+        <include name="README.md"/>
+        <include name="app/**"/>
+        <include name="docs/**"/>
+        <include name="vendor/**"/>
+        <exclude name="**/css/src/**"/>
+    </fileset>
+
+    <!-- start fresh each time.  Remove the dist and build dirs -->
+    <target name="clean-build-dir">
+        <delete dir="${build.dir}" includeemptydirs="true"/>
+    </target>
+
+    <target name="clean" depends="clean-build-dir">
+        <delete dir="${dist.dir}" includeemptydirs="true"/>
+    </target>
+
+    <target name="create-dirs" depends="clean">
+        <echo msg="Creating build + dist directories."/>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>
+
+    <target name="release" depends="create-dirs">
+        <echo msg="Create release in dist/"/>
+
+        <input propertyName="git.branch" defaultValue="master" message="Remote git branch to use?"></input>
+
+        <echo msg="Checkout master"/>
+        <exec command="git clone -b ${git.branch} https://github.com/Schlaefer/Saito.git"
+              dir="${build.dir}"/>
+
+        <echo msg="Install composer packages"/>
+        <exec command="composer install --no-dev" dir="${git.dir}"/>
+
+        <echo msg="Moving files to build directory"/>
+        <move todir="${build.dir}">
+            <fileset refid="release-fileset"/>
+        </move>
+
+        <echo msg="Delete git directory"/>
+        <delete dir="${git.dir}" includeemptydirs="true"/>
+
+        <echo msg="Creating Zip"/>
+        <zip destfile="${dist.dir}/saito-release-${git.branch}-${saito.version}.zip" basedir="${build.dir}"/>
+
+        <echo msg="Cleanup build dir"/>
+        <phingcall target="clean-build-dir"/>
+    </target>
+
+    <target name="test">
+        <echo msg="test"/>
+    </target>
+
+</project>

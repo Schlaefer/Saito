@@ -12,5 +12,8 @@ tags
 /app/Config/database.php.dev
 /app/Config/installed.txt
 /app/webroot/useruploads/*.*
+build/
+dist/
+vendor/
 Capfile
 deploy.rb
