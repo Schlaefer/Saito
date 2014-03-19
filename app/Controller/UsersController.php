@@ -300,9 +300,9 @@
 	}
 
 		public function lock($id = null) {
-			$modLockingEnabled = $this->CurrentUser->isMod() === true &&
+			$modLockingEnabled = $this->CurrentUser->isMod() &&
 					Configure::read('Saito.Settings.block_user_ui');
-			if (($this->CurrentUser->isAdmin() === true || $modLockingEnabled) === false ) {
+			if (($this->CurrentUser->isAdmin() || $modLockingEnabled) === false ) {
 				$this->redirect('/');
 				return;
 			}
