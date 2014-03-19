@@ -24,12 +24,15 @@ class Setting extends AppModel {
  * current config used by the app in Config::read('Saito.Settings'), e.g.
  * when modified with a load-preset.
  *
+ * @throws UnexpectedValueException
  * @return array Settings
  */
 	public function getSettings() {
 		$settings = $this->find('all');
+		if (empty($settings)) {
+			throw new UnexpectedValueException('No settings found in settings table.');
+		}
 		$settings = $this->_compactKeyValue($settings);
-
 		$ranks = $this->_pipeSplitter($settings['userranks_ranks']);
 		ksort($ranks);
 		$settings['userranks_ranks'] = $ranks;
