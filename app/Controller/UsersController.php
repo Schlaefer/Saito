@@ -223,15 +223,20 @@
 			);
 		}
 
+	/**
+	 * @param null $id
+	 * @throws Saito\ForbiddenException
+	 * @throws BadRequestException
+	 */
 	public function edit($id = null) {
-		if(!$id) {
+		if (!$id) {
 			throw new BadRequestException;
 		}
-		if (!$this->_isEditingAllowed($this->CurrentUser, $id) ||
-				empty($this->request->data)) {
-			//* no data to find entry or not allowed
-			$this->Session->setFlash(__('Invalid user'));
-			$this->redirect('/');
+		if (!$this->_isEditingAllowed($this->CurrentUser, $id)) {
+			throw new \Saito\ForbiddenException("Attempt to edit user $id.", [
+				'CurrentUser' => $this->CurrentUser,
+				'Request' => $this->request
+			]);
 		}
 
 		// try to save entry
@@ -302,6 +307,10 @@
 		);
 	}
 
+		/**
+		 * @param null $id
+		 * @throws BadRequestException
+		 */
 		public function lock($id = null) {
 			if (!$id) {
 				throw new BadRequestException;
@@ -528,6 +537,9 @@
 			endif;
 		}
 
+		/**
+		 * @throws BadRequestException
+		 */
 		private function __ajaxBeforeFilter() {
 			if (!$this->request->is('ajax')) {
 				throw new BadRequestException;
@@ -568,11 +580,11 @@
 			return $this->request->data;
 		}
 
-/**
- * @param null $id
- *
- * @throws ForbiddenException
- */
+		/**
+		 * @param null $id
+		 *
+		 * @throws ForbiddenException
+		 */
 		public function setcategory($id = null) {
 			if (!$this->CurrentUser->isLoggedIn()) {
 				throw new ForbiddenException();

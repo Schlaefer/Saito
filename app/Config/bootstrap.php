@@ -176,7 +176,15 @@ CakeLog::config('saito', array(
 		'types' => ['saito.info'],
 		'file' => 'saito'
 ));
+CakeLog::config('auth', array(
+		'engine' => 'FileLog',
+		'size' => '1MB',
+		'rotate' => '4',
+		'types' => ['saito.forbidden'],
+		'file' => 'auth'
+));
 
+include APP . 'Lib' . DS . 'SaitoExceptions.php';
 include 'version.php';
 
 /**

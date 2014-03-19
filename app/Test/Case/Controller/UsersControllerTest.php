@@ -314,35 +314,37 @@
 			);
 		}
 
-		public function testView() {
-			/*
-			 * unregistred users can't see user profiles
-			 */
-			$result = $this->testAction('/users/view/1');
-			$this->assertContains('/login', $this->headers['Location']);
-
-			/*
-			 * registred users can see user profiles
-			 */
-			$this->_loginUser(3);
-			$result = $this->testAction('/users/view/1');
-			$this->assertFalse(isset($this->headers['Location']));
-
-			$result = $this->testAction('/users/view/1', array('return' => 'vars'));
-			$this->assertEqual($result['user']['User']['id'], 1);
-			$this->assertEqual($result['user']['User']['username'], 'Alice');
-
-			/*
-			 * Test profile request by username
-			 */
+		public function testViewProfileRequestByUsername() {
 			$this->testAction('/users/view/Mitch');
 			$this->assertContains('/users/name/Mitch', $this->headers['Location']);
+		}
 
-			/*
-			 * if user (profile) doesn't exist
-			 */
+		public function testViewProfileForbiddenForAnon() {
+			$this->testAction('/users/view/1');
+			$this->assertContains('/login', $this->headers['Location']);
+		}
+
+		public function testViewProfileDoesNotExist() {
+			$this->generate('Users');
+			$this->_loginUser(3);
 			$this->testAction('/users/view/9999');
 			$this->assertRedirectedTo();
+		}
+
+		public function testView() {
+			$userId = 3;
+			$C = $this->generate('Users', ['models' => ['User' => ['countSolved']]]);
+			$C->User->expects($this->once())
+					->method('countSolved')
+					->with($userId)
+					->will($this->returnValue(16));
+			$this->_loginUser(1);
+
+			$result = $this->testAction("/users/view/$userId", ['return' => 'vars']);
+			$this->assertFalse(isset($this->headers['Location']));
+			$this->assertEqual($result['user']['User']['id'], 3);
+			$this->assertEqual($result['user']['User']['username'], 'Ulysses');
+			$this->assertEqual($result['user']['User']['solves_count'], '16');
 		}
 
 		public function testViewSanitation() {
@@ -364,6 +366,31 @@
 			$this->_loginUser(3);
 			$this->testAction('/users/name/Mitch');
 			$this->assertContains('/users/view/2', $this->headers['Location']);
+		}
+
+		public function testEditNotLoggedIn() {
+			$this->expectException('Saito\ForbiddenException');
+			$this->testAction('/users/edit/3');
+		}
+
+		public function testEditNotUsersEntryGet() {
+			$this->generate('Users');
+			$this->_loginUser(2); // mod
+			$this->expectException('Saito\ForbiddenException');
+			$this->testAction('/users/edit/3', ['method' => 'GET']);
+		}
+
+		public function testEditNotUsersEntryPost() {
+			$this->generate('Users');
+			$this->_loginUser(2); // mod
+			$this->expectException('Saito\ForbiddenException');
+			$this->testAction('/users/edit/3', ['method' => 'POST']);
+		}
+
+		public function testEditNotUsersEntryButAdmin() {
+			$this->generate('Users');
+			$this->_loginUser(1); // mod
+			$this->testAction('/users/edit/3', ['method' => 'POST']);
 		}
 
 		public function testLock() {
