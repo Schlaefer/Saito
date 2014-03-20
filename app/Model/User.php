@@ -222,7 +222,14 @@
 			}
 
 			$this->contain();
-			if ($this->save($data, true, array('last_refresh_tmp', 'last_refresh')) == false) {
+			$success = $this->save($data,
+					[
+							'callbacks' => false,
+							'counterCache' => false,
+							'validate' => false,
+							'fieldList' => ['last_refresh_tmp', 'last_refresh']
+					]);
+			if ($success == false) {
 				throw new Exception("Updating last user refresh failed.");
 			}
 			Stopwatch::end('Users->setLastRefresh()');
