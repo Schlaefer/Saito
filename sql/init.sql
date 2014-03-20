@@ -33,7 +33,7 @@ CREATE TABLE `bookmarks` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `bookmarks` WRITE;
 /*!40000 ALTER TABLE `bookmarks` DISABLE KEYS */;
@@ -200,7 +200,7 @@ CREATE TABLE `esnotifications` (
   `esreceiver_id` int(11) NOT NULL,
   `deactivate` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `esnotifications` WRITE;
 /*!40000 ALTER TABLE `esnotifications` DISABLE KEYS */;
@@ -293,7 +293,7 @@ CREATE TABLE `smiley_codes` (
   `smiley_id` int(11) NOT NULL DEFAULT '0',
   `code` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `smiley_codes` WRITE;
 /*!40000 ALTER TABLE `smiley_codes` DISABLE KEYS */;

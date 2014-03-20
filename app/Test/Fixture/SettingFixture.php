@@ -6,7 +6,11 @@
 				'name' => array( 'type' => 'string', 'null' => true, 'default' => null ),
 				'value' => array( 'type' => 'string', 'null' => true, 'default' => null ),
 				'indexes' => array( ),
-				'tableParameters' => array( )
+				'tableParameters' => [
+						'charset' => 'utf8',
+						'collate' => 'utf8_unicode_ci',
+						'engine' => 'MyISAM'
+				]
 		);
 
 		public $records = array(
