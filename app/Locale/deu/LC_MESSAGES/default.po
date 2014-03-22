@@ -99,6 +99,9 @@ msgstr "Server: %s"
 msgid "admin.sysInfo.baseUrl"
 msgstr "Basis-URL: %s"
 
+msgid "admin.sysInfo.sitemap"
+msgstr "Sitemap-URL: %s"
+
 #: View/Admins/admin_index.ctp:15
 msgid "Empty Caches"
 msgstr "Cache leeren"

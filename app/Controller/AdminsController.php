@@ -9,7 +9,8 @@ class AdminsController extends AppController {
 	public $uses = [];
 
 	public $helpers = [
-		'Admin'
+		'Admin',
+		'Sitemap.Sitemap'
 	];
 
 	public function admin_index() {
