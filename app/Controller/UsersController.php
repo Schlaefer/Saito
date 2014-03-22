@@ -235,7 +235,7 @@
 
 			$this->User->id = $id;
 
-			if ($this->CurrentUser['user_type'] != 'admin') {
+			if ($this->CurrentUser['user_type'] !== 'admin') {
 				//* make shure only admin can edit these fields
 				# @td refactor this admin fields together with view: don't repeat code
 				unset($this->request->data['User']['username']);
@@ -243,7 +243,8 @@
 				unset($this->request->data['User']['user_type']);
 			}
 
-			if ( $this->CurrentUser['user_type'] == 'mod' || $this->CurrentUser['user_type'] == 'admin' ) {
+			if ($this->CurrentUser['user_type'] === 'mod' ||
+					$this->CurrentUser['user_type'] === 'admin') {
 				unset($this->request->data['User']['new_posting_notify']);
 				unset($this->request->data['User']['new_user_notify']);
 			}

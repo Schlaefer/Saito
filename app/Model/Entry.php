@@ -351,8 +351,8 @@
 				return false;
 			}
 
-			$data[$this->alias]['user_id'] = $this->SharedObjects['CurrentUser']->getId();
-			$data[$this->alias]['name'] = $this->SharedObjects['CurrentUser']['username'];
+			$data[$this->alias]['user_id'] = $this->CurrentUser->getId();
+			$data[$this->alias]['name'] = $this->CurrentUser['username'];
 
 			$data[$this->alias]['time'] = date('Y-m-d H:i:s');
 			$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
@@ -422,7 +422,7 @@
  */
 		public function update($data, $CurrentUser = null) {
 			if ($CurrentUser !== null) {
-				$this->SharedObjects['CurrentUser'] = $CurrentUser;
+				$this->CurrentUser = $CurrentUser;
 			}
 
 			if (empty($data[$this->alias]['id'])) {
@@ -443,7 +443,7 @@
 			}
 
 			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
-			$data[$this->alias]['edited_by'] = $this->SharedObjects['CurrentUser']['username'];
+			$data[$this->alias]['edited_by'] = $this->CurrentUser['username'];
 
 			$this->validator()->add(
 				'edited_by',
@@ -500,8 +500,7 @@
 			// Workaround for travis-ci error message
 			// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
 			if (!env('TRAVIS')) {
-				$this->contain();
-				$this->saveField('views', $this->field('views') + $amount);
+				$this->increment($this->id, 'views', $amount);
 			}
 		}
 
@@ -626,24 +625,32 @@
 		 * @param $id
 		 * @return bool
 		 * @throws InvalidArgumentException
+		 * @throws ForbiddenException
 		 */
 		public function toggleSolve($id) {
-			$this->contain();
-			$_entry = $this->read(null, $id);
-			if (empty($_entry) || $this->isRoot($_entry)) {
+			$entry = $this->get($id);
+			if (empty($entry) || $this->isRoot($entry)) {
 				throw new InvalidArgumentException;
 			}
-			if ($_entry[$this->alias]['solves']) {
+
+			$root = $this->get($entry['Entry']['tid']);
+			if ((int)$root['User']['id'] !== $this->CurrentUser->getId()) {
+				throw new ForbiddenException;
+			}
+
+			if ($entry[$this->alias]['solves']) {
 				$value = 0;
 			} else {
-				$value = $_entry[$this->alias]['tid'];
+				$value = $entry[$this->alias]['tid'];
 			}
+			$this->id = $id;
 			$success = $this->saveField('solves', $value);
-			if ($success) {
-				$_entry[$this->alias]['solves'] = $value;
-				$this->_dispatchEvent('Model.Entry.update',
-					['subject' => $id, 'data' => $_entry]);
+			if (!$success) {
+				return $success;
 			}
+			$this->_dispatchEvent('Model.Entry.update',
+					['subject' => $id, 'data' => $entry]);
+			$entry[$this->alias]['solves'] = $value;
 			return $success;
 		}
 
@@ -880,7 +887,7 @@
 			 * @param $entries
 			 */
 			$ldGetBookmarkForEntryAndUser = function (&$tree, &$element, $_this) {
-					$bookmarks = $this->SharedObjects['CurrentUser']->getBookmarks();
+					$bookmarks = $this->CurrentUser->getBookmarks();
 					$element['isBookmarked'] = isset($bookmarks[$element['Entry']['id']]);
 			};
 			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
@@ -894,8 +901,8 @@
 			 */
 			$ldGetRightsForEntryAndUser = function (&$tree, &$element, $_this) {
 				$rights = [
-					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->SharedObjects['CurrentUser']),
-					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->SharedObjects['CurrentUser']->mockUserType('user')),
+					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->CurrentUser),
+					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->CurrentUser->mockUserType('user')),
 					'isAnsweringForbidden' => $_this->isAnsweringForbidden($element)
 				];
 				$element['rights'] = $rights;
@@ -913,7 +920,7 @@
  */
 		public function isEditingForbidden($entry, SaitoUser $User = null) {
 			if ($User === null) {
-				$User = $this->SharedObjects['CurrentUser'];
+				$User = $this->CurrentUser;
 			}
 
 			// Anon
@@ -1227,7 +1234,7 @@
  */
 		public function validateCategoryIsAllowed($check) {
 			$availableCategories = $this->Category->getCategoriesForAccession(
-				$this->SharedObjects['CurrentUser']->getMaxAccession()
+				$this->CurrentUser->getMaxAccession()
 			);
 			if (!isset($availableCategories[$check['category']])) {
 				return false;

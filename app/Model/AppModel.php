@@ -17,6 +17,14 @@
 
 		public $SharedObjects;
 
+		public function __get($name) {
+			switch ($name) {
+				case 'CurrentUser':
+					return $this->SharedObjects['CurrentUser'];
+			}
+			return parent::__get($name);
+		}
+
 		public function toggle($key) {
 			$this->contain();
 			$value = $this->read($key);
@@ -24,6 +32,21 @@
 			$this->set($key, $value);
 			$this->save();
 			return $value;
+		}
+
+		/**
+		 * @param $id model ID
+		 * @param $key
+		 * @param int $amount positive or negative integer
+		 * @throws InvalidArgumentException
+		 */
+		public function increment($id, $field, $amount = 1) {
+			if (!is_int($amount)) {
+				throw new InvalidArgumentException;
+			}
+			$field = $this->alias . '.' . $field;
+			$this->updateAll([$field => $field . ' + ' . $amount],
+					[$this->alias . '.id' => $id]);
 		}
 
 		public function pipeMerger(array $data) {

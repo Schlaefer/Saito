@@ -92,7 +92,8 @@
 				'Model.Entry.replyToEntry' => 'onEntryChanged',
 				'Model.Entry.update' => 'onEntryChanged',
 				'Model.Category.update' => 'onThreadsReset',
-				'Model.Category.delete' => 'onThreadsReset'
+				'Model.Category.delete' => 'onThreadsReset',
+				'Model.User.username.change' => 'onThreadsReset'
 			];
 		}
 

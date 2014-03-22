@@ -557,14 +557,6 @@
 			if (!$this->CurrentUser->isLoggedIn()) {
 				throw new ForbiddenException;
 			}
-			$entry = $this->Entry->get($id);
-			if (!$entry) {
-				throw new BadRequestException;
-			}
-			$rootEntry = $this->Entry->get($entry['Entry']['tid']);
-			if ((int)$rootEntry['User']['id'] !== $this->CurrentUser->getId()) {
-				throw new ForbiddenException;
-			}
 			$this->autoRender = false;
 			try {
 				$success = $this->Entry->toggleSolve($id);

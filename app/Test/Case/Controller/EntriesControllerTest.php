@@ -814,7 +814,7 @@
 		public function testSolveNotRootEntryUser() {
 			$this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('ForbiddenException');
+			$this->expectException('BadRequestException');
 			$this->testAction('/entries/solve/1');
 		}
 

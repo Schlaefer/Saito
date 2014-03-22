@@ -293,26 +293,35 @@
 		public function afterFind($results, $primary = false) {
 			$results = parent::afterFind($results, $primary);
 
-			if (isset($results[0][$this->alias]) && array_key_exists('user_color_new_postings',
-							$results[0][$this->alias])) {
-				//* @td refactor this shit
-				if (empty($results[0][$this->alias]['user_color_new_postings'])) {
-					$results[0][$this->alias]['user_color_new_postings'] = '#';
-					$results[0][$this->alias]['user_color_old_postings'] = '#';
-					$results[0][$this->alias]['user_color_actual_posting'] = '#';
+			if (isset($results[0][$this->alias])) {
+				if (array_key_exists('user_color_new_postings',
+						$results[0][$this->alias])
+				) {
+					//* @td refactor this shit
+					if (empty($results[0][$this->alias]['user_color_new_postings'])) {
+						$results[0][$this->alias]['user_color_new_postings'] = '#';
+						$results[0][$this->alias]['user_color_old_postings'] = '#';
+						$results[0][$this->alias]['user_color_actual_posting'] = '#';
+					}
 				}
-			}
 
-			if (isset($results[0][$this->alias]) && isset($results[0][$this->alias]['user_category_custom'])) {
-				if (empty($results[0][$this->alias]['user_category_custom'])) {
-					$results[0][$this->alias]['user_category_custom'] = array();
-				} else {
-					$results[0][$this->alias]['user_category_custom'] =
-							unserialize($results[0][$this->alias]['user_category_custom']);
+				if (isset($results[0][$this->alias]['user_category_custom'])) {
+					if (empty($results[0][$this->alias]['user_category_custom'])) {
+						$results[0][$this->alias]['user_category_custom'] = [];
+					} else {
+						$results[0][$this->alias]['user_category_custom'] =
+								unserialize($results[0][$this->alias]['user_category_custom']);
+					}
 				}
 			}
 
 			return $results;
+		}
+
+		public function afterSave($created, $options = []) {
+			if ($created === false && isset($this->data[$this->alias]['username'])) {
+				$this->_dispatchEvent('Model.User.username.change');
+			}
 		}
 
 		public function beforeSave($options = array()) {

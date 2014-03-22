@@ -47,7 +47,7 @@ class Stopwatch {
 		self::$_userStart = 0;
 		self::$_wallLast = 0;
 		self::$_userLast = 0;
-		self::$_events;
+		self::$_events = [];
 		self::$_sums = array();
 		self::$_starts = array();
 		self::$_stopwatchTime = 0;
