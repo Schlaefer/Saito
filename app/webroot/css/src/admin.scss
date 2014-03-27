@@ -8,6 +8,14 @@ body, ul, li {
   line-height: 1.6em;
 }
 
+// overwrite drop.js css that breaks bootstrap
+li.dropdown {
+  position: relative;
+  z-index: 0;
+  display: block; !important
+}
+
+
 /* Datatables
 // ----------------------------------- */
 table.table thead .sorting,

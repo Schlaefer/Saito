@@ -1,54 +1,15 @@
 <?php
-	echo $this->Html->script(
-			array(
-					'lib/flot/jquery.flot.min.js',
-			)
-		);
-	?>
-<h1> <?php echo __('Stats'); ?> </h1>
-<h2> <?php echo __('Entries'); ?> </h2>
+	echo $this->Html->script(['lib/flot/jquery.flot.min.js']);
 
-<div id="plot-entries" class="admin-stats-plot"></div>
+	echo $this->Html->tag('h1', __('admin.stats.yearly'));
 
-	<?php
-		echo $this->Html->scriptBlock(<<<EOF
-var plot = function(el, data) {
-	$.plot(
-		$(el),
-		data,
-		{
-			xaxis: {
-				mode: "time",
-				timeformat: "%y/%m"
-			},
-			yaxes: [ {},
-							{
-								alignTicksWithAxis: 1,
-								position: 'right'
-							} ],
-			legend: {
-				position: 'nw'
-			},
-			series: {
-				lines: {
-					steps: true
-				}
-			}
-			}
-		);
-	};
+	echo $this->Flot->plot(__('admin.stats.epa'), $postingsPA);
+	echo $this->Flot->plot(__('admin.stats.epac'), $categoryPostingsPA);
 
-	plot("#plot-entries", {$entries});
-EOF
-		);
-	?>
-<h2> <?php echo __('User Registrations'); ?> </h2>
+	echo $this->Flot->plot(__('admin.stats.au'), $activeUserPA);
+	echo $this->Html->para(null, __('admin.stats.audisc'));
 
-<div id="plot-user-registration" class="admin-stats-plot"></div>
+	echo $this->Flot->plot(__('admin.stats.apu'), $averagePostingsPerUserPA);
+	echo $this->Html->para(null, __('admin.stats.audisc'));
 
-	<?php
-		echo $this->Html->scriptBlock(<<<EOF
-	plot("#plot-user-registration", {$user_registrations});
-EOF
-		);
-	?>
+	echo $this->Flot->plot(__('admin.stats.ur'), $registrationsPA);
