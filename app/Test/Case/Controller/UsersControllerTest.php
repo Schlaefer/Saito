@@ -332,14 +332,19 @@
 		}
 
 		public function testView() {
-			$C = $this->generate('Users');
-			$this->_loginUser(3);
-			$result = $this->testAction('/users/view/1');
-			$this->assertFalse(isset($this->headers['Location']));
+			$userId = 3;
+			$C = $this->generate('Users', ['models' => ['User' => ['countSolved']]]);
+			$C->User->expects($this->once())
+					->method('countSolved')
+					->with($userId)
+					->will($this->returnValue(16));
+			$this->_loginUser(1);
 
-			$result = $this->testAction('/users/view/1', array('return' => 'vars'));
-			$this->assertEqual($result['user']['User']['id'], 1);
-			$this->assertEqual($result['user']['User']['username'], 'Alice');
+			$result = $this->testAction("/users/view/$userId", ['return' => 'vars']);
+			$this->assertFalse(isset($this->headers['Location']));
+			$this->assertEqual($result['user']['User']['id'], 3);
+			$this->assertEqual($result['user']['User']['username'], 'Ulysses');
+			$this->assertEqual($result['user']['User']['solves_count'], '16');
 		}
 
 		public function testView() {
