@@ -89,7 +89,7 @@
 	echo $this->fetch('script');
 	echo $this->Js->writeBuffer();
 	echo $this->Html->script(['lib/datatables-bootstrap/datatables-bootstrap.js']);
-	echo $this->element('sql_dump');
+	echo $this->element('layout/debug_footer');
 ?>
 </body>
 </html>
