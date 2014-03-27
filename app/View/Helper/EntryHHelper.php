@@ -215,11 +215,12 @@ EOF;
 
 			// generate sub-entries of current entry
 			if (isset($entrySub['_children'])) {
+				$subLevel = $level + 1;
 				$sub = '';
 				foreach ($entrySub['_children'] as $child) {
-					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $currentEntry);
+					$sub .= $this->threadCached($child, $CurrentUser, $subLevel, $currentEntry);
 				}
-				$out .= '<li>' . $this->_wrapUl($sub) . '</li>';
+				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
 			}
 
 			// wrap into root ul tag
@@ -238,16 +239,17 @@ EOF;
 		 * @return string
 		 */
 		protected function _wrapUl($string, $level = null, $id = null) {
-			if ($level < $this->_maxThreadDepthIndent) {
-				$class = 'threadTree-node';
-				$data = '';
-				if ($level === 0) {
-					$class .= ' root';
-					$data = 'data-id="' . $id . '"';
-				}
-				$string = "<ul {$data} class=\"{$class}\">{$string}</ul>";
+			if ($level >= $this->_maxThreadDepthIndent) {
+				return $string;
 			}
-			return $string;
+
+			$class = 'threadTree-node';
+			$data = '';
+			if ($level === 0) {
+				$class .= ' root';
+				$data = 'data-id="' . $id . '"';
+			}
+			return "<ul {$data} class=\"{$class}\">{$string}</ul>";
 		}
 
 /**
