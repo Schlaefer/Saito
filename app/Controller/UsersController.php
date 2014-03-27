@@ -113,11 +113,19 @@
 
 		public function admin_index() {
 			$data = $this->User->find(
-				'all',
-				[
-					'contain' => false,
-					'order' => ['User.username' => 'asc']
-				]
+					'all',
+					[
+							'contain' => false,
+							'fields' => [
+									'id',
+									'username',
+									'user_type',
+									'user_email',
+									'registered',
+									'user_lock'
+							],
+							'order' => ['User.username' => 'asc']
+					]
 			);
 			$this->set('users', $data);
 		}
