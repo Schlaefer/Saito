@@ -347,22 +347,6 @@
 			$this->assertEqual($result['user']['User']['solves_count'], '16');
 		}
 
-		public function testView() {
-			$userId = 3;
-			$C = $this->generate('Users', ['models' => ['User' => ['countSolved']]]);
-			$C->User->expects($this->once())
-					->method('countSolved')
-					->with($userId)
-					->will($this->returnValue(16));
-			$this->_loginUser(1);
-
-			$result = $this->testAction("/users/view/$userId", ['return' => 'vars']);
-			$this->assertFalse(isset($this->headers['Location']));
-			$this->assertEqual($result['user']['User']['id'], 3);
-			$this->assertEqual($result['user']['User']['username'], 'Ulysses');
-			$this->assertEqual($result['user']['User']['solves_count'], '16');
-		}
-
 		public function testViewSanitation() {
 			$this->generate('Users');
 			$this->_loginUser(3);
@@ -385,19 +369,28 @@
 		}
 
 		public function testEditNotLoggedIn() {
-				//	todo
+			$this->expectException('Saito\ForbiddenException');
+			$this->testAction('/users/edit/3');
 		}
 
 		public function testEditNotUsersEntryGet() {
-				//	todo
+			$this->generate('Users');
+			$this->_loginUser(2); // mod
+			$this->expectException('Saito\ForbiddenException');
+			$this->testAction('/users/edit/3', ['method' => 'GET']);
 		}
 
 		public function testEditNotUsersEntryPost() {
-			//	todo
+			$this->generate('Users');
+			$this->_loginUser(2); // mod
+			$this->expectException('Saito\ForbiddenException');
+			$this->testAction('/users/edit/3', ['method' => 'POST']);
 		}
 
 		public function testEditNotUsersEntryButAdmin() {
-			// todo
+			$this->generate('Users');
+			$this->_loginUser(1); // mod
+			$this->testAction('/users/edit/3', ['method' => 'POST']);
 		}
 
 		public function testLock() {
