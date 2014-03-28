@@ -1,6 +1,8 @@
 # Setup Dev Environment #
 
-It's recommended to use Vagrant to setup the dev environment:
+## Via Vagrant ##
+
+It's recommended to use Vagrant to setup the dev-VM:
 
 1. [Install Vagrant][Vagrant Download]
 2. [Install Virtual Box][VirtualBox Download]
@@ -13,7 +15,11 @@ The VM's IP is `192.168.2.250`. Add `192.168.2.250 saito.dev` to your local host
 
 To ssh into Saito's app-root use `vagrant ssh`.
 
-(For a manual installation refer to the scripts in `puphet/files/exec-ones`).
+
+## Via Manual Setup ##
+
+You must at least run `composer install`. For a full dev setup refer to the scripts in `puphpet/files/exec-ones`.
+
 
 # Conventions #
 
