@@ -1,0 +1,11 @@
+{
+  "name": "schlaefer/saito",
+  "description": "Saito - The Threaded Forum",
+  "keywords": ["forum", "cakephp"],
+  "license": "MIT",
+  "homepage": "http://saito.siezi.com/",
+  "support": {
+    "source": "https://github.com/Schlaefer/Saito",
+    "issues": "https://github.com/Schlaefer/Saito/issues"
+  }
+}
