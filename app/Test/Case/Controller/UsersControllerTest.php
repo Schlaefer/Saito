@@ -174,7 +174,7 @@
 			);
 		}
 
-		public function tes1RegisterCheckboxNotOnPage() {
+		public function testRegisterCheckboxNotOnPage() {
 			Configure::write('Saito.Settings.tos_enabled', false);
 			$result = $this->testAction('users/register', array('return' => 'view'));
 			$this->assertNotContains('data[User][tos_confirm]', $result);
