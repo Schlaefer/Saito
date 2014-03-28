@@ -1,3 +1,4 @@
 User-agent: *
-Disallow: /entries/search
+Disallow: /help
+Disallow: /searches
 Disallow: /useruploads
