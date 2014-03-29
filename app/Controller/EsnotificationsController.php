@@ -30,7 +30,7 @@
 				throw new MethodNotAllowedException();
 			}
 			if ($this->Esnotification->deleteNotificationWithId($id)) {
-				$this->Session->setFlash(__('Succesfully unsubscribed.'), 'flash/notice');
+				$this->Session->setFlash(__('Succesfully unsubscribed.'), 'flash/success');
 				$this->redirect('/');
 			}
 			$this->Session->setFlash(__('Error. Could not unsubscribe.'));
