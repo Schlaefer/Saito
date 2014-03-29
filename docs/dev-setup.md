@@ -11,7 +11,7 @@ It's recommended to use Vagrant to setup the dev-VM:
 
 If `vagrant up` fails on the initial run try to provision again: `vagrant shutdown; vagrant up; vagrant provision`.
 
-The VM's IP is `192.168.2.250`. Add `192.168.2.250 saito.dev` to your local host file and open <http://saito.dev> in your browser. 
+The VM's IP is `192.168.2.250`. Add `192.168.2.250 saito.dev` to your local host file and open <http://saito.dev> in your browser. MailCatcher is available at <http://saito.dev:1080/>.
 
 To ssh into Saito's app-root use `vagrant ssh`.
 

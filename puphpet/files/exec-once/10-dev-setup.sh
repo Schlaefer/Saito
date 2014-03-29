@@ -47,5 +47,7 @@ composer install;
 ### run Saito dev setup
 grunt dev-setup;
 
-# init vagrant database config
+# set vagrant database config
 cp /vagrant/app/Config/database.php.vagrant /vagrant/app/Config/database.php;
+# set vagrant email config
+cp /vagrant/app/Config/email.php.vagrant /vagrant/app/Config/email.php;
