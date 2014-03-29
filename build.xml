@@ -36,7 +36,7 @@
 
         <input propertyName="git.branch" defaultValue="master" message="Remote git branch to use?"></input>
 
-        <echo msg="Checkout master"/>
+        <echo msg="Checkout ${git.branch}"/>
         <exec command="git clone -b ${git.branch} https://github.com/Schlaefer/Saito.git"
               dir="${build.dir}"/>
 
@@ -52,7 +52,8 @@
         <delete dir="${git.dir}" includeemptydirs="true"/>
 
         <echo msg="Creating Zip"/>
-        <zip destfile="${dist.dir}/saito-release-${git.branch}-${saito.version}.zip" basedir="${build.dir}"/>
+        <exec command="php -r &quot;echo str_replace('/', '-', '${git.branch}');&quot;" outputProperty="git.branch.clean"/>
+        <zip destfile="${dist.dir}/saito-release-${git.branch.clean}-${saito.version}.zip" basedir="${build.dir}"/>
 
         <echo msg="Cleanup build dir"/>
         <phingcall target="clean-build-dir"/>
