@@ -7,7 +7,7 @@ vagrantfile-local:
         network:
             private_network: 192.168.2.250
             forwarded_port:
-                XhbHZ0zTC8UR:
+                jjMnm4gmXXtW:
                     host: '5675'
                     guest: '22'
         provider:
@@ -27,8 +27,7 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            b3BnjeemG0hy:
-                id: vagrant-root
+            giHnInGZhVRK:
                 source: ./
                 target: /var/www
                 nfs: 'true'
@@ -73,7 +72,7 @@ apache:
         - php
         - rewrite
     vhosts:
-        n10E3Z3jfJms:
+        a0nVxkZ5FPus:
             servername: saito.dev
             docroot: /var/www
             port: '80'
@@ -82,8 +81,27 @@ apache:
             override:
                 - All
             custom_fragment: ''
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
     mod_pagespeed: 0
     mod_spdy: 0
+nginx:
+    install: 0
+    vhosts:
+        5wJeTaFuFVUQ:
+            server_name: awesome.dev
+            server_aliases:
+                - www.awesome.dev
+            www_root: /var/www/awesome.dev
+            listen_port: '80'
+            index_files:
+                - index.html
+                - index.htm
+                - index.php
+            envvars:
+                - 'APP_ENV dev'
 php:
     install: '1'
     version: '54'
@@ -123,7 +141,7 @@ mysql:
     phpmyadmin: '1'
     adminer: 0
     databases:
-        J53hB94PeaQ7:
+        4x6pdQPXtcn9:
             grant:
                 - ALL
             name: default
@@ -131,7 +149,7 @@ mysql:
             user: user
             password: user
             sql_file: /var/www/sql/init.sql
-        r4nzMeW1grIc:
+        LyRNka9IT02m:
             grant:
                 - ALL
             name: test
