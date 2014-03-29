@@ -16,7 +16,7 @@ Download the latest release from <http://siezi.saito.com/>.
 
 ### Via Composer
 
-	composer create-project schlaefer/saito . dev-master`
+	composer create-project schlaefer/saito . dev-master
 
 ## 2. Create Database ##
 
