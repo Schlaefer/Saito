@@ -1,8 +1,3 @@
-<?php
-	if (!$this->get('isDebug')) {
-		return;
-	}
-?>
 <div id="debugFooter">
 	<?php
 		if ($this->get('showStopwatchOutput')) {
