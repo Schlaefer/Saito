@@ -107,6 +107,13 @@
 
 		public function beforeFilter() {
 			parent::beforeFilter();
+
+			// CakeErrors run through this beforeFilter, which is usually not necessary
+			// for error messages
+			if ($this->name === 'CakeError') {
+					return;
+			}
+
 			Stopwatch::start('App->beforeFilter()');
 
 			$bbcodeSettings = BbcodeSettings::getInstance();

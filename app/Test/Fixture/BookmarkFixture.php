@@ -14,13 +14,17 @@ class BookmarkFixture extends CakeTestFixture {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'entry_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'comment' => array('type' => 'string', 'null' => false, 'collate' => 'latin1_general_ci', 'charset' => 'latin1'),
+		'comment' => array('type' => 'string', 'null' => false, 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_general_ci', 'engine' => 'InnoDB')
+			'tableParameters' => [
+					'engine' => 'MyISAM',
+					'charset' => 'utf8',
+					'collate' => 'utf8_general_ci'
+			]
 	);
 
 /**

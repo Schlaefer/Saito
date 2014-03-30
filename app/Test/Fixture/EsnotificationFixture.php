@@ -18,7 +18,12 @@ class EsnotificationFixture extends CakeTestFixture {
 		'deactivate' => array('type' => 'integer', 'null' => false, 'default' => 0),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		)
+		),
+		'tableParameters' => [
+				'engine' => 'MyISAM',
+				'charset' => 'utf8',
+				'collate' => 'utf8_general_ci'
+		]
 	);
 
 /**

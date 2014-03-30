@@ -11,6 +11,7 @@
 			$suite->addTestDirectory(TESTS . 'Case' . DS . 'Model');
 			$suite->addTestDirectory(TESTS . 'Case' . DS . 'View' . DS . 'Helper');
 			$suite->addTestDirectoryRecursive(App::pluginPath('Api') . 'Test');
+			$suite->addTestDirectoryRecursive(App::pluginPath('Sitemap') . 'Test');
 			return $suite;
 		}
 

@@ -1,22 +1,22 @@
 {
   "name": "Saito",
   "dependencies": {
-    "jquery": "~2.1",
-    "underscore": "~1.5.2",
-    "backbone": "~1.1.0",
-    "marionette": "~1.5.1",
-    "Backbone.localStorage": "~1.1.7",
-    "humanize": "~0.0.9",
-    "jquery-autosize": "~1.17.8",
+    "jquery": "2.1",
+    "underscore": "1.5.2",
+    "backbone": "1.1.0",
+    "marionette": "1.5.1",
+    "Backbone.localStorage": "1.1.7",
+    "humanize": "0.0.9",
+    "jquery-autosize": "1.17.8",
     "fastclick": "latest",
-    "requirejs-domready": "~2.0.1",
-    "requirejs-text": "~2.0.10",
-    "requirejs": "~2.1.9",
-    "momentjs": "~2.3.1",
-    "font-awesome": "~4.0.3",
-    "jquery-tinytimer": "~0.1.4",
-    "jquery-dropdown": "~1.0.4",
-    "drop": "~0.4.0"
+    "requirejs-domready": "2.0.1",
+    "requirejs-text": "2.0.10",
+    "requirejs": "2.1.10",
+    "momentjs": "2.3.1",
+    "font-awesome": "4.0.3",
+    "jquery-tinytimer": "0.1.4",
+    "jquery-dropdown": "1.0.4",
+    "drop": "0.4.0"
   },
   "exportsOverride": {
     "underscore": {
@@ -50,5 +50,8 @@
       "js": "moment.js",
       "lang": "lang/*.js"
     }
+  },
+  "resolutions": {
+    "jquery": "2.1"
   }
 }

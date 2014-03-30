@@ -222,7 +222,14 @@
 			}
 
 			$this->contain();
-			if ($this->save($data, true, array('last_refresh_tmp', 'last_refresh')) == false) {
+			$success = $this->save($data,
+					[
+							'callbacks' => false,
+							'counterCache' => false,
+							'validate' => false,
+							'fieldList' => ['last_refresh_tmp', 'last_refresh']
+					]);
+			if ($success == false) {
 				throw new Exception("Updating last user refresh failed.");
 			}
 			Stopwatch::end('Users->setLastRefresh()');
@@ -439,6 +446,30 @@
 				$user = $user[$this->alias];
 			}
 			return $user;
+		}
+
+		public function countSolved($id) {
+			$count = $this->Entry->find('count',
+					[
+							'contain' => false,
+							'conditions' => [
+									'Entry.user_id' => $id,
+									'Entry.solves >' => '0'
+							],
+						// only count if user is not thread starter/don't count self-answers
+							'joins' => [
+									[
+											'table' => $this->Entry->table,
+											'alias' => 'Root',
+											'type' => 'INNER',
+											'conditions' => [
+													'Root.id = Entry.solves',
+													'Root.user_id != Entry.user_id'
+											]
+									]
+							]
+					]);
+			return $count;
 		}
 
 /**

@@ -30,7 +30,7 @@
  *
  * @var array
  */
-		protected $_catL10n = array();
+		protected $_catL10n = [];
 
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
@@ -124,6 +124,11 @@
 			return $out;
 		}
 
+		public function solvedBadge() {
+			return '<i class="fa fa-badge-solves solves-isSolved" title="' .
+					__('Helpful entry') . '"></i>';
+		}
+
 		/**
 		 *
 		 * This function may be called serveral hundred times on the front page.
@@ -138,19 +143,18 @@
 
 		public function getBadges($entry) {
 			$out = '';
-			if ($entry['Entry']['fixed']) :
+			if ($entry['Entry']['fixed']) {
 				$out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
-			endif;
-			if ($entry['Entry']['nsfw']):
+			}
+			if ($entry['Entry']['nsfw']) {
 				$out .= '<span class="posting-badge-nsfw" title="' .
 						__('entry_nsfw_title') . '">' . __('posting.badge.nsfw') .
 						'</span> ';
-			endif;
+			}
 			// anchor for inserting solve-icon via FE-JS
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {
-				$out .= '<i class="fa fa-badge-solves solves-isSolved" title="' .
-						__('Helpful entry') . '"></i>';
+				$out .= $this->solvedBadge();
 			}
 			$out .= '</span>';
 			return $out;
@@ -183,7 +187,6 @@
 		 * the frontpage. Think about (and benchmark) performance before you change it.
 		 */
 		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = []) {
-			// Stopwatch::start('EntryH->threadCached');
 			//setup for current entry
 			$_isNew = $this->isNewEntry($entrySub, $CurrentUser);
 			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
@@ -212,18 +215,18 @@ EOF;
 
 			// generate sub-entries of current entry
 			if (isset($entrySub['_children'])) {
+				$subLevel = $level + 1;
 				$sub = '';
 				foreach ($entrySub['_children'] as $child) {
-					$sub .= $this->threadCached($child, $CurrentUser, $level + 1, $currentEntry);
+					$sub .= $this->threadCached($child, $CurrentUser, $subLevel, $currentEntry);
 				}
-				$out .= '<li>' . $this->_wrapUl($sub) . '</li>';
+				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
 			}
 
 			// wrap into root ul tag
 			if ($level === 0) {
 				$out = $this->_wrapUl($out, $level, $entrySub['Entry']['id']);
 			}
-			// Stopwatch::stop('EntryH->threadCached');
 			return $out;
 		}
 
@@ -236,16 +239,17 @@ EOF;
 		 * @return string
 		 */
 		protected function _wrapUl($string, $level = null, $id = null) {
-			if ($level < $this->_maxThreadDepthIndent) {
-				$class = 'threadTree-node';
-				$data = '';
-				if ($level === 0) {
-					$class .= ' root';
-					$data = 'data-id="' . $id . '"';
-				}
-				$string = "<ul {$data} class=\"{$class}\">{$string}</ul>";
+			if ($level >= $this->_maxThreadDepthIndent) {
+				return $string;
 			}
-			return $string;
+
+			$class = 'threadTree-node';
+			$data = '';
+			if ($level === 0) {
+				$class .= ' root';
+				$data = 'data-id="' . $id . '"';
+			}
+			return "<ul {$data} class=\"{$class}\">{$string}</ul>";
 		}
 
 /**
@@ -255,26 +259,18 @@ EOF;
  * the frontpage. Think about (and benchmark) performance before you change it.
  */
 		public function threadLineCached(array $entrySub, $level) {
-			/* because of performance we use don't use $this->Html->link(...):
-			 * $out.= $this->EntryH->getFastLink($entrySub,
-			 *     ['class' => "link_show_thread {$entrySub['Entry']['id']} et"]);
-			 */
-
-			/*because of performance we use hard coded links instead the cakephp helper:
-			 * echo $this->Html->link($entrySub['User']['username'], '/users/view/'. $entrySub['User']['id']);
-			 */
 			$category = '';
-			if ($level === 0) :
+			if ($level === 0) {
 				if (!isset($this->_catL10n[$entrySub['Category']['accession']])) {
 					$this->_catL10n[$entrySub['Category']['accession']] = __d('nondynamic',
 						'category_acs_' . $entrySub['Category']['accession'] . '_exp');
 				}
-				$a = $this->_catL10n[$entrySub['Category']['accession']];
+				$categoryTitle = $this->_catL10n[$entrySub['Category']['accession']];
 				$category = '<span class="c-category acs-' . $entrySub['Category']['accession'] . '"
-            title="' . $entrySub['Category']['description'] . ' ' . ($a) . '">
+            title="' . $entrySub['Category']['description'] . ' ' . ($categoryTitle) . '">
         (' . $entrySub['Category']['category'] . ')
       </span>';
-			endif;
+			}
 
 			// normal time output
 			$time = $this->TimeH->formatTime($entrySub['Entry']['time']);

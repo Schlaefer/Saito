@@ -9,7 +9,14 @@
 
 ## 1. Get the Code ##
 
-Go to <http://siezi.saito.com/> and download the latest release.
+
+### Via Download
+
+Download the latest release from <http://siezi.saito.com/>.
+
+### Via Composer
+
+	composer create-project schlaefer/saito . dev-master
 
 ## 2. Create Database ##
 

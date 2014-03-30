@@ -14,8 +14,6 @@
 			'Text'
 		];
 
-		protected $_allowedToEditUserData = false;
-
 		public function login() {
 			if ($this->CurrentUser->login()):
 				if ($this->localReferer('action') === 'login'):
@@ -115,11 +113,19 @@
 
 		public function admin_index() {
 			$data = $this->User->find(
-				'all',
-				[
-					'contain' => false,
-					'order' => ['User.username' => 'asc']
-				]
+					'all',
+					[
+							'contain' => false,
+							'fields' => [
+									'id',
+									'username',
+									'user_type',
+									'user_email',
+									'registered',
+									'user_lock'
+							],
+							'order' => ['User.username' => 'asc']
+					]
 			);
 			$this->set('users', $data);
 		}
@@ -197,6 +203,7 @@
 				return;
 			}
 
+			$this->initBbcode();
 			$viewedUser['User']['number_of_entries'] = $this->User->numberOfEntries();
 
 			$entriesShownOnPage = 20;
@@ -216,6 +223,7 @@
 					($viewedUser['User']['number_of_entries'] - $entriesShownOnPage) > 0
 			);
 
+			$viewedUser['User']['solves_count'] = $this->User->countSolved($this->User->id);
 			$this->set('user', $viewedUser);
 			$this->set(
 					'title_for_layout',
@@ -223,11 +231,20 @@
 			);
 		}
 
+	/**
+	 * @param null $id
+	 * @throws Saito\ForbiddenException
+	 * @throws BadRequestException
+	 */
 	public function edit($id = null) {
-		if (!$this->_allowedToEditUserData || !$id && empty($this->request->data)) {
-			//* no data to find entry or not allowed
-			$this->Session->setFlash(__('Invalid user'));
-			$this->redirect('/');
+		if (!$id) {
+			throw new BadRequestException;
+		}
+		if (!$this->_isEditingAllowed($this->CurrentUser, $id)) {
+			throw new \Saito\ForbiddenException("Attempt to edit user $id.", [
+				'CurrentUser' => $this->CurrentUser,
+				'Request' => $this->request
+			]);
 		}
 
 		// try to save entry
@@ -298,21 +315,27 @@
 		);
 	}
 
+		/**
+		 * @param null $id
+		 * @throws BadRequestException
+		 */
 		public function lock($id = null) {
-			$modLockingEnabled = $this->CurrentUser->isMod() === true &&
-					Configure::read('Saito.Settings.block_user_ui');
-			if (($this->CurrentUser->isAdmin() === true || $modLockingEnabled) === false ) {
+			if (!$id) {
+				throw new BadRequestException;
+			}
+
+			if (!($this->CurrentUser->isAdmin() || $this->viewVars['modLocking'])) {
 				$this->redirect('/');
 				return;
 			}
 
 			$this->User->contain();
 			$readUser = $this->User->findById($id);
-			if (!$readUser) :
+			if (!$readUser) {
 				$this->Session->setFlash(__('User not found.'), 'flash/error');
 				$this->redirect('/');
 				return;
-			endif;
+			}
 
 			$editedUser = new SaitoUser(new ComponentCollection());
 			$editedUser->set($readUser['User']);
@@ -336,7 +359,7 @@
 							$readUser['User']['username']
 						);
 					}
-					$this->Session->setFlash($message, 'flash/notice');
+					$this->Session->setFlash($message, 'flash/success');
 				} else {
 					$this->Session->setFlash(__("Error while un/locking."), 'flash/error');
 				}
@@ -373,7 +396,7 @@
 
 	public function changepassword($id = null) {
 		if ($id == null ||
-				!$this->_checkIfEditingIsAllowed($this->CurrentUser, $id)
+				!$this->_isEditingAllowed($this->CurrentUser, $id)
 		) :
 			$this->redirect('/');
 			return;
@@ -522,13 +545,19 @@
 			endif;
 		}
 
-		public function ajax_toggle($toggle) {
-			if (!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) {
-				$this->redirect('/');
-				return;
+		/**
+		 * @throws BadRequestException
+		 */
+		private function __ajaxBeforeFilter() {
+			if (!$this->request->is('ajax')) {
+				throw new BadRequestException;
 			}
-
 			$this->autoRender = false;
+		}
+
+		public function ajax_toggle($toggle) {
+			$this->__ajaxBeforeFilter();
+
 			$allowedToggles = [
 				'show_userlist',
 				'show_recentposts',
@@ -544,12 +573,7 @@
 		}
 
 		public function ajax_set() {
-			if (!$this->CurrentUser->isLoggedIn() || !$this->request->is('ajax')) {
-				$this->redirect('/');
-				return;
-			}
-
-			$this->autoRender = false;
+			$this->__ajaxBeforeFilter();
 
 			if (isset($this->request->data['User']['slidetab_order'])) {
 				$out = $this->request->data['User']['slidetab_order'];
@@ -564,11 +588,11 @@
 			return $this->request->data;
 		}
 
-/**
- * @param null $id
- *
- * @throws ForbiddenException
- */
+		/**
+		 * @param null $id
+		 *
+		 * @throws ForbiddenException
+		 */
 		public function setcategory($id = null) {
 			if (!$this->CurrentUser->isLoggedIn()) {
 				throw new ForbiddenException();
@@ -589,42 +613,25 @@
 			parent::beforeFilter();
 
 			$this->Auth->allow('register', 'login', 'contact');
-
-			if ($this->request->action === 'view') {
-				$this->_checkIfEditingIsAllowed($this->CurrentUser);
-				$this->initBbcode();
-			}
-			if ($this->request->action === 'edit') {
-				$this->_checkIfEditingIsAllowed($this->CurrentUser);
-			}
+			$this->set('modLocking',
+					$this->CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui')
+			);
 
 			Stopwatch::stop('Users->beforeFilter()');
 		}
 
-/**
- *
- * @param SaitoUser $userWhoEdits
- * @param int $userToEditId
- * @return type
- */
-		protected function _checkIfEditingIsAllowed(SaitoUser $userWhoEdits, $userToEditId = null) {
-			if (is_null($userToEditId) && isset($this->passedArgs[0])) :
-				$userToEditId = $this->passedArgs[0];
-			endif;
-
-			if (isset($userWhoEdits['id']) && isset($userToEditId)) {
-				if (
-						$userWhoEdits['id'] == $userToEditId #users own_entry
-						|| $userWhoEdits['user_type'] == 'admin' #user is admin
-				) :
-					$this->_allowedToEditUserData = true;
-				else:
-					$this->_allowedToEditUserData = false;
-				endif;
-
-				$this->set('allowedToEditUserData', $this->_allowedToEditUserData);
+		/**
+		 * Checks if the current user is allowed to edit user $userId
+		 *
+		 * @param SaitoUser $CurrentUser
+		 * @param int $userId
+		 * @return type
+		 */
+		protected function _isEditingAllowed(SaitoUser $CurrentUser, $userId) {
+			if ($CurrentUser->isAdmin()) {
+				return true;
 			}
-			return $this->_allowedToEditUserData;
+			return $CurrentUser->getId() === (int)$userId;
 		}
 
 		protected function _passwordAuthSwitch($data) {

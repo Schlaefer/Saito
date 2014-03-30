@@ -98,6 +98,36 @@ msgstr "Server: %s"
 msgid "admin.sysInfo.baseUrl"
 msgstr "Base-URL: %s"
 
+msgid "admin.sysInfo.sitemap"
+msgstr "Sitemap-URL: %s"
+
+msgid "admin.stats.yearly"
+msgstr "Yearly Stats"
+
+msgid "admin.stats.detailed"
+msgstr "Detailed Stats"
+
+msgid "admin.stats.insfd"
+msgstr "Insufficient data."
+
+msgid "admin.stats.epa"
+msgstr "Postings"
+
+msgid "admin.stats.epac"
+msgstr "Postings per Category"
+
+msgid "admin.stats.apu"
+msgstr "Average Number of Postings per User"
+
+msgid "admin.stats.au"
+msgstr "Active Users"
+
+msgid "admin.stats.ur"
+msgstr "Registrations"
+
+msgid "admin.stats.audisc"
+msgstr "Users with at least one posting or more."
+
 #: View/Admins/admin_index.ctp:15
 msgid "Empty Caches"
 msgstr ""

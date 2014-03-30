@@ -19,36 +19,35 @@
 			?>
 		</thead>
 		<tbody>
-			<?php foreach ($users as $user) : ?>
-					<?php
-					$tableCells = array(
-							'<strong>'
-							. $this->Html->link(
-									$user['User']['username'],
-									array(
-									'controller' => 'users',
-									'action'		 => 'view',
-									'admin'			 => false,
-									$user['User']['id'])
-							)
-							. '</strong>',
-							$this->UserH->type($user['User']['user_type']),
-							$this->Html->link(
+		<?php
+			$blockUi = Configure::read('Saito.Settings.block_user_ui');
+			foreach ($users as $user) {
+				$tableCells = [
+						'<strong>'
+						. $this->Html->link($user['User']['username'],
+								"/users/view/{$user['User']['id']}")
+						. '</strong>',
+						$this->UserH->type($user['User']['user_type']),
+						$this->Html->link(
 								$user['User']['user_email'],
 								'mailto:' . $user['User']['user_email']
-							),
-							// ouput date format sortable by datatable JS plugin
-							$this->TimeH->formatTime($user['User']['registered'], 'custom', '%Y-%m-%d %H:%M')
-					);
-					if (Configure::read('Saito.Settings.block_user_ui')) :
-						// without the &nbsp; the JS-sorting with the datatables plugin doesn't work
-						$tableCells[] = $this->UserH->banned($user['User']['user_lock']) . '&nbsp;';
-					endif;
-					echo $this->Html->tableCells(
-							array($tableCells), array('class' => 'a'), array('class' => 'b')
-					);
-					?>
-	<?php endforeach; ?>
+						),
+					// output date format sortable by datatable JS plugin
+						$this->TimeH->formatTime($user['User']['registered'],
+								'custom',
+								'%Y-%m-%d %H:%M')
+				];
+				if ($blockUi) {
+					// without the &nbsp; the JS-sorting with the datatables plugin doesn't work
+					$tableCells[] = $this->UserH->banned($user['User']['user_lock']) . '&nbsp;';
+				}
+				echo $this->Html->tableCells(
+						array($tableCells),
+						array('class' => 'a'),
+						array('class' => 'b')
+				);
+			}
+		?>
 		</tbody>
 	</table>
 </div>
