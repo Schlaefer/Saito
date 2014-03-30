@@ -1,7 +1,7 @@
 <h4>Get it!</h4>
 <p>
-  <a class="btn" href="https://github.com/Schlaefer/Saito/archive/3.2.1.zip">
-    <i class="icon-download-alt"></i>&nbsp;<strong>v3.2.1</strong>
+  <a class="btn" href="https://github.com/Schlaefer/Saito/releases/download/3.3.0/saito-release-master-3.3.0.zip">
+    <i class="icon-download-alt"></i>&nbsp;<strong>v3.3.0</strong>
   </a>
 </p>
 <ul>
