@@ -7,5 +7,19 @@
   "support": {
     "source": "https://github.com/Schlaefer/Saito",
     "issues": "https://github.com/Schlaefer/Saito/issues"
+  },
+  "repositories": [
+    {
+      "type": "pear",
+      "url": "http://pear.cakephp.org"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "ext-mcrypt": "*",
+    "pear-cakephp/cakephp": "2.4.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*"
   }
 }

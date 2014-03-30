@@ -83,6 +83,14 @@
 					['escape' => false]) . $_userRank
 	];
 
+	// helpful postings
+	if (!empty($user['User']['solves_count'])) {
+		$table[] = [
+				$this->EntryH->solvedBadge(),
+				$user['User']['solves_count']
+		];
+	}
+
 	// profile
 	if (!empty($user['User']['profile'])) {
 		$table[] = [
@@ -147,10 +155,7 @@
 							$_menuItems = [];
 
 							// lock user
-							if ($CurrentUser->isAdmin() ||
-									($CurrentUser->isMod() &&
-											Configure::read('Saito.Settings.block_user_ui'))
-							) {
+							if ($CurrentUser->isAdmin() || $modLocking) {
 								$_menuItems[] = $this->Html->link(
 										'<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
 										array(
@@ -160,17 +165,17 @@
 										),
 										array('escape' => false)
 								);
+							}
 
-								if ($CurrentUser->isAdmin()) {
-									// edit user
-									$_menuItems[] = $this->Html->link(
-											'<i class="fa fa-pencil"></i> ' . __('Edit'),
-											array('action' => 'edit', $user['User']['id']),
-											array('escape' => false)
-									);
-									$_menuItems[] = 'divider';
+							if ($CurrentUser->isAdmin()) {
+								// edit user
+								$_menuItems[] = $this->Html->link(
+										'<i class="fa fa-pencil"></i> ' . __('Edit'),
+										array('action' => 'edit', $user['User']['id']),
+										array('escape' => false)
+								);
+								$_menuItems[] = 'divider';
 
-								}
 								// delete user
 								$_menuItems[] = $this->Html->link(
 										'<i class="fa fa-trash-o"></i> ' . __('Delete'),

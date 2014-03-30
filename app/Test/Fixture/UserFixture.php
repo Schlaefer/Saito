@@ -57,7 +57,7 @@
 				'PRIMARY' => array('column' => 'id', 'unique' => 1),
 				'username' => array('column' => 'username', 'unique' => 1)
 			),
-			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
+			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 		);
 
 		public $records = array(

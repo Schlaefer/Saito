@@ -9,7 +9,11 @@ class SmileyCodeFixture extends CakeTestFixture {
 		'smiley_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'code' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-		'tableParameters' => array()
+		'tableParameters' => [
+				'engine' => 'MyISAM',
+				'charset' => 'utf8',
+				'collate' => 'utf8_general_ci'
+		]
 	);
 
 	public $records = array(

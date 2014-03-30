@@ -212,6 +212,11 @@
 			$this->assertEqual($usersBeforeIncrements, $usersAfterIncrements);
 		}
 
+		public function testCountSolves() {
+			$result = $this->User->countSolved(3);
+			$this->assertEqual($result, 1);
+		}
+
 		public function testDeleteUser() {
 			// test that user's notifications are deleted
 			$this->User->Esnotification = $this->getMock('Esnotification',

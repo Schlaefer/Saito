@@ -34,6 +34,15 @@ define('WWW_ROOT', ROOT . DS . APP_DIR . DS . WEBROOT_DIR . DS);
  * outside of the distributed structure.
  * Full path to the directory containing "cake". Do not add trailing directory separator
  */
+
+// Core path for CakePHP 2 via composer
+if (!defined('CAKE_CORE_INCLUDE_PATH')) {
+	define(
+	'CAKE_CORE_INCLUDE_PATH',
+			ROOT . DS . 'vendor/pear-pear.cakephp.org/CakePHP'
+	);
+}
+
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
 }

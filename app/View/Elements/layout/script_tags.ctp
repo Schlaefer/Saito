@@ -1,4 +1,5 @@
 <?php
+	SDV($require, true);
 	echo $this->Layout->jQueryTag();
 
 	$this->Session->flash();
@@ -9,8 +10,10 @@
 
 	echo $this->Html->scriptBlock($this->JsData->getAppJs($this));
 
-	$requireJsScript = 'main';
-	if (!Configure::read('debug')) {
-		$requireJsScript .= '.min';
+	if ($require) {
+		$requireJsScript = 'main';
+		if (!Configure::read('debug')) {
+			$requireJsScript .= '.min';
+		}
+		echo $this->RequireJs->scriptTag($requireJsScript);
 	}
-	echo $this->RequireJs->scriptTag($requireJsScript);

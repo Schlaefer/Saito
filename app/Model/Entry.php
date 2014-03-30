@@ -1104,21 +1104,8 @@
 			}
 		}
 
-		protected function _findUnsanitized($state, $query, $results = []) {
-			if ($state === 'before') {
-				$query['sanitize'] = false;
-			}
-			return $this->_findEntry($state, $query, $results);
-		}
-
 		protected function _findEntry($state, $query, $results = []) {
 			if ($state === 'before') {
-				if (isset($query['sanitize'])) {
-					if ($query['sanitize'] === false) {
-						$this->sanitize(false);
-					}
-					unset($query['sanitize']);
-				}
 				$query['contain'] = ['User', 'Category'];
 				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
 				return $query;

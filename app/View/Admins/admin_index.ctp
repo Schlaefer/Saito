@@ -6,7 +6,9 @@
 		$this->Html->nestedList([
 				__('admin.sysInfo.version', $this->Admin->badge(Configure::read('Saito.v'))),
 				__('admin.sysInfo.server', $this->Admin->badge(Router::fullBaseUrl())),
-				__('admin.sysInfo.baseUrl', $this->Admin->badge($this->request->webroot))
+				__('admin.sysInfo.baseUrl', $this->Admin->badge($this->request->webroot)),
+				__('admin.sysInfo.sitemap',
+						$this->Admin->badge($this->Sitemap->sitemapUrl()))
 		])
 	?>
 </div>

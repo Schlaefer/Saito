@@ -171,6 +171,11 @@ class Stopwatch {
 		$wlast = $_lastTimestamp['wtime'] / 100;
 		$ulast = $_lastTimestamp['utime'] / 100;
 		foreach (self::$_sums as $k => $v) {
+			// on vagrant $ulast may be 0 for unknown reason when running test cases
+			// ugly hack to suppress output in test-cases, where it isn't read anyway
+			if (empty($ulast)) {
+				break;
+			}
 			$v['wtime'] = $v['wtime'] - ($_eW * $v['times']);
 			$v['utime'] = $v['utime'] - ($_eW * $v['times']);
 

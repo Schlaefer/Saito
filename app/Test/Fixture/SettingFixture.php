@@ -3,77 +3,36 @@
 	class SettingFixture extends CakeTestFixture {
 
 		public $fields = array(
-				'name' => array( 'type' => 'string', 'null' => true, 'default' => null ),
-				'value' => array( 'type' => 'string', 'null' => true, 'default' => null ),
-				'indexes' => array( ),
-				'tableParameters' => array( )
+				'name' => array('type' => 'string', 'null' => true, 'default' => null),
+				'value' => array('type' => 'string', 'null' => true, 'default' => null),
+				'indexes' => array(),
+				'tableParameters' => [
+						'charset' => 'utf8',
+						'collate' => 'utf8_unicode_ci',
+						'engine' => 'MyISAM'
+				]
 		);
 
 		public $records = array(
-			array(
-				'name' => 'forum_name',
-				'value' => 'macnemo'
-			),
-			array(
-				'name' => 'forum_email',
-				'value' => 'forum_email@example.com'
-			),
-			array(
-				'name' => 'autolink',
-				'value' => '1',
-			),
-			array(
-				'name' => 'userranks_ranks',
-				'value' => '10=Castaway|20=Other|30=Dharma|100=Jacob',
-			),
-			array(
-				'name' => 'quote_symbol',
-				'value' => '>',
-			),
-			array(
-				'name' => 'smilies',
-				'value' => 1,
-			),
-			array(
-				'name' => 'tos_enabled',
-				'value' => 1,
-			),
-			array(
-				'name' => 'tos_url',
-				'value' => 'http://example.com/tos-url.html/',
-			),
-			array(
-				'name' => 'topics_per_page',
-				'value' => '20',
-			),
-			array(
-				'name' => 'timezone',
-				'value' => 'UTC',
-			),
-			array(
-				'name' => 'block_user_ui',
-				'value' => 1,
-			),
-			array(
-				'name' => 'subject_maxlength',
-				'value' => 40,
-			),
-			array(
-				'name' => 'thread_depth_indent',
-				'value' => 25,
-			),
-			[
-				'name' => 'edit_period',
-				'value' => 20,
-			],
-			[
-				'name' => 'shoutbox_enabled',
-				'value' => true
-			],
-			[
-			'name' => 'shoutbox_max_shouts',
-			'value' => 5
-			]
+				['name' => 'autolink', 'value' => '1'],
+				['name' => 'block_user_ui', 'value' => '1'],
+				['name' => 'edit_period', 'value' => '20'],
+				['name' => 'forum_email', 'value' => 'forum_email@example.com'],
+				['name' => 'forum_name', 'value' => 'macnemo'],
+				['name' => 'quote_symbol', 'value' => '>'],
+				['name' => 'shoutbox_enabled', 'value' => '1'],
+				['name' => 'shoutbox_max_shouts', 'value' => '5'],
+				['name' => 'smilies', 'value' => 1],
+				['name' => 'subject_maxlength', 'value' => 40],
+				['name' => 'thread_depth_indent', 'value' => 25],
+				['name' => 'timezone', 'value' => 'UTC'],
+				['name' => 'topics_per_page', 'value' => '20'],
+				['name' => 'tos_enabled', 'value' => 1],
+				['name' => 'tos_url', 'value' => 'http://example.com/tos-url.html/'],
+				[
+						'name' => 'userranks_ranks',
+						'value' => '10=Castaway|20=Other|30=Dharma|100=Jacob'
+				],
 		);
 
 	}

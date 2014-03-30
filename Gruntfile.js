@@ -209,7 +209,7 @@ module.exports = function(grunt) {
         },
         shell: {
           testCake: {
-            command: './lib/Cake/Console/cake test app all --stderr',
+            command: './app/Console/cake test app all --stderr',
             options: {
               stdout: true,
               stderr: true,

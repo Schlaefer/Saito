@@ -2,6 +2,11 @@
 
 	class EntryFixture extends CakeTestFixture {
 
+		protected $_common = [
+			'locked' => 0,
+			'solves' => 0
+		];
+
 		public $fields = [
 				'created' => [
 						'type' => 'datetime',
@@ -185,7 +190,9 @@
 						'default' => '0'
 				],
 				'tableParameters' => [
-						'engine' => 'MyISAM'
+						'engine' => 'MyISAM',
+						'charset' => 'utf8',
+						'collate' => 'utf8_general_ci'
 				]
 		];
 
@@ -220,8 +227,7 @@
 				'time' => '2000-01-01 20:00:00',
 				'last_answer' => '2000-01-04 20:02:00',
 				'category' => 2, // accession = 0
-				'user_id' => 3,
-				'locked' => 0
+				'user_id' => 3
 			],
 			[
 				'id' => 2,
@@ -232,8 +238,7 @@
 				'time' => '2000-01-01 20:01:00',
 				'last_answer' => '2000-01-01 20:01:00',
 				'category' => 2,
-				'user_id' => 2,
-				'locked' => 0
+				'user_id' => 2
 			],
 			[
 				'id' => 3,
@@ -249,7 +254,7 @@
 				'edited' => '2000-01-01 20:04:00',
 				'edited_by' => 'Ulysses',
 				'ip' => '1.1.1.1',
-				'locked' => 0
+				'solves' => 1
 			],
 			[
 				'id' => 7,
@@ -263,7 +268,7 @@
 				'user_id' => 3,
 				'name' => 'Ulysses',
 				'ip' => '1.1.1.1',
-				'locked' => 0
+				'solves' => 1
 			],
 			[
 				'id' => 8,
@@ -276,8 +281,7 @@
 				'category' => 2,
 				'user_id' => 3,
 				'name' => 'Ulysses',
-				'ip' => '1.1.1.1',
-				'locked' => 0
+				'ip' => '1.1.1.1'
 			],
 			[
 				'id' => 9,
@@ -290,8 +294,7 @@
 				'category' => 2,
 				'user_id' => 3,
 				'name' => 'Ulysses',
-				'ip' => '1.1.1.1',
-				'locked' => 0
+				'ip' => '1.1.1.1'
 			],
 			// thread 2
 			// -------------------------------------
@@ -321,7 +324,8 @@
 				'edited' => '0000-00-00 00:00:00',
 				'edited_by' => null,
 				'ip' => '1.1.1.1',
-				'locked' => 1
+				'locked' => 1,
+				'solves' => 4
 			],
 			// thread 3
 			// -------------------------------------
@@ -338,8 +342,7 @@
 				'name' => 'Alice',
 				'edited' => '0000-00-00 00:00:00',
 				'edited_by' => null,
-				'ip' => '1.1.1.3',
-				'locked' => 0
+				'ip' => '1.1.1.3'
 			],
 			// thread 4
 			// -------------------------------------
@@ -370,9 +373,15 @@
 				'edited' => '0000-00-00 00:00:00',
 				'edited_by' => null,
 				'category' => 2, // accession = 0
-				'user_id' => 7,
-				'locked' => 0
+				'user_id' => 7
 			]
 		);
+
+		public function init() {
+			foreach ($this->records as $k => $record) {
+				$this->records[$k] += $this->_common;
+			}
+			return parent::init();
+		}
 
 	}

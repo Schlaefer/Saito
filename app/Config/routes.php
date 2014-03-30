@@ -71,6 +71,12 @@
 	Router::connect('/da/:action/*', ['controller' => 'DynamicAssets']);
 
 	/**
+	 * Sitemaps
+	 */
+	Router::connect('/sitemap', ['plugin' => 'sitemap', 'controller' => 'sitemaps']);
+	Router::connect('/sitemaps/:action/*', ['plugin' => 'sitemap', 'controller' => 'sitemaps']);
+
+	/**
 	 * Pagination for entries/index
 	 */
 	/*
@@ -85,7 +91,7 @@
 	/**
 	 * RSS & JSON setup
 	 */
-	Router::parseExtensions('rss', 'json');
+	Router::parseExtensions('rss', 'json', 'xml');
 
 	/**
 	 * Load all plugin routes. See the CakePlugin documentation on
