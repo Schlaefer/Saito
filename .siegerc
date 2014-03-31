@@ -121,7 +121,7 @@ connection = close
 # Default number of simulated  concurrent users
 # ex: concurrent = 25
 #
-concurrent = 5
+concurrent = 2
 
 #
 # Default duration of the siege.  The right hand argument has
@@ -130,7 +130,7 @@ concurrent = 5
 # are assumed.
 # ex: time = 50M
 #
-time = 2M
+time = 1M
 
 #
 # Repetitions.  The length of siege may be specified in client
