@@ -44,6 +44,9 @@ npm install;
 ### install local composer packages
 composer install;
 
+### install siege for Cake siege console task
+sudo apt-get -y install siege;
+
 ### run Saito dev setup
 grunt dev-setup;
 
