@@ -75,9 +75,9 @@
 			}
 			foreach ($entries as $key => $entry) {
 				unset($entries[$key]);
-				$lastmod = strtotime($entry['Entry']['time']);
+				$lastmod = strtotime($entry['Entry']['edited']);
 				if ($lastmod < 1) {
-					$lastmod = strtotime($entry['Entry']['edited']);
+					$lastmod = strtotime($entry['Entry']['time']);
 				}
 				if ($lastmod + HOUR > $now) {
 					$changefreq = 'hourly';
