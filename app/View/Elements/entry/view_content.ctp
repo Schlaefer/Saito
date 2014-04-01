@@ -49,11 +49,12 @@
 								$entry['Entry']['edited_by']
 							)
 						);
-						echo ',';
-					else :
-						echo ',';
 					endif;
-					echo ' ' . __('views_headline') . ': ' . $entry['Entry']['views'];
+
+					// SEO: removes keyword "views"
+					if ($CurrentUser->isLoggedIn()) {
+						echo ', ' . __('views_headline') . ': ' . $entry['Entry']['views'];
+					}
 
 					if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod()) {
 						echo ', IP: ' . $entry['Entry']['ip'];
