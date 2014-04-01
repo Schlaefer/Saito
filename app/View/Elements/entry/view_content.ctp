@@ -19,16 +19,14 @@
 			?>
 		</h2>
 		<div class="postingBody-info">
-      <span class="c-username">
-        <?= $this->Layout->linkToUserProfile($entry['User'], $CurrentUser); ?>
-      </span>
+			<span class='c-category acs-<?= $entry['Category']['accession']; ?>'
+						title="<?php echo $entry['Category']['description']; ?> (<?= __d('nondynamic', 'category_acs_'.$entry['Category']['accession'].'_exp'); ?>)">
+			<?= $entry['Category']['category']; ?>
+			</span>
 			–
-			<?php if ($entry['Entry']['pid'] == 0) : ?>
-				<span class='c-category acs-<?= $entry['Category']['accession']; ?>'
-							title="<?php echo $entry['Category']['description']; ?> (<?= __d('nondynamic', 'category_acs_'.$entry['Category']['accession'].'_exp'); ?>)">
-        <?= $entry['Category']['category']; ?>,
-        </span>
-			<?php endif; ?>
+      <span class="c-username">
+        <?= $this->Layout->linkToUserProfile($entry['User'], $CurrentUser); ?>,
+      </span>
 
 			<span class="meta">
 				<?php
