@@ -1,6 +1,7 @@
 <?php
-	echo Stopwatch::start('entries/thread_cached_init');
+	Stopwatch::start('entries/thread_cached_init');
 
+	SDV($level, 0);
 	/*
 	 * Caching the localized threadbox title tags.
 	 * Depending on the number of threads on the page i10n can cost several ms.
@@ -102,4 +103,4 @@
 	</div>
 </div>
 <?php endforeach; ?>
-<?php echo Stopwatch::stop('entries/thread_cached_init'); ?>
+<?php Stopwatch::stop('entries/thread_cached_init'); ?>

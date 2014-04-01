@@ -183,72 +183,59 @@
 			return implode("\n", $out);
 		}
 
-/**
- * @param null $id
- *
- * @return array|void
- */
 		public function view($id = null) {
 			Stopwatch::start('Entries->view()');
 
-			//* redirect if no id is given
-			if ( !$id ) {
+			// redirect if no id is given
+			if (!$id) {
 				$this->Session->setFlash(__('Invalid post'));
-				return $this->redirect(array( 'action' => 'index' ));
+				return $this->redirect(['action' => 'index']);
 			}
 
 			$this->Entry->id = $id;
-			$this->request->data = $this->Entry->get($id);
+			$entry = $this->Entry->get($id);
 
-			//* redirect if posting doesn't exists
-			if ($this->request->data == false):
+			// redirect if posting doesn't exists
+			if ($entry == false) {
 				$this->Session->setFlash(__('Invalid post'));
 				$this->redirect('/');
 				return;
-			endif;
+			}
 
-			//* check if anonymous tries to access internal categories
-			if ($this->request->data['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
+			// check if anonymous tries to access internal categories
+			if ($entry['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
 				$this->redirect('/');
 				return;
 			}
 
-			if (!empty($this->request->params['requested'])):
-				return $this->request->data;
-			endif;
+			// for /source/<id> view
+			if (!empty($this->request->params['requested'])) {
+				return $entry;
+			}
 
-			$a = array($this->request->data);
-			list($this->request->data) = $a;
-			$this->set('entry', $this->request->data);
+			$this->set('entry', $entry);
 
-			if ($this->request->data['Entry']['user_id'] != $this->CurrentUser->getId()):
+			if ($entry['Entry']['user_id'] != $this->CurrentUser->getId()) {
 				$this->Entry->incrementViews();
-			endif;
-
-			// @td doku
-			$this->set('show_answer', (isset($this->request->data['show_answer'])) ? true : false);
-
+			}
+			$this->_setRootEntry($entry);
 			$this->_showAnsweringPanel();
+
 			$this->initBbcode();
-			$this->_setRootEntry($this->request->data);
 
-			$this->CurrentUser->ReadEntries->set($this->request->data);
+			$this->CurrentUser->ReadEntries->set($entry);
 
+			// inline open
 			if ($this->request->is('ajax')) {
-				//* inline view
 				$this->render('/Elements/entry/view_posting');
 				return;
-			} else {
-				//* full page request
-				$this->set(
-					'tree',
-					$this->Entry->treeForNode(
-						$this->request->data['Entry']['tid'],
-						['root' => true]
-					)
-				);
-				$this->set('title_for_layout', $this->request->data['Entry']['subject']);
 			}
+
+			// full page request
+			$this->set('tree',
+					$this->Entry->treeForNode($entry['Entry']['tid'], ['root' => true]));
+
+			$this->set('title_for_layout', $entry['Entry']['subject']);
 
 			Stopwatch::stop('Entries->view()');
 		}
@@ -947,7 +934,7 @@
 				$_rootEntry = $this->Entry->find('first',
 					[
 						'contain' => false,
-						'conditions' => ['Entry.id' => $this->request->data['Entry']['tid']],
+						'conditions' => ['Entry.id' => $entry['Entry']['tid']],
 						'fields' => ['Entry.user_id']
 					]);
 			} else {
