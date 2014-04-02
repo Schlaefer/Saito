@@ -117,6 +117,21 @@
 			$this->assertTags($result, $expected);
 		}
 
+		public function testMaskLinkWithoutProtocol() {
+			$input = '[url=thetempe.st/station]purge[/url]';
+			$expected = [
+					'a' => [
+							'href' => 'http://thetempe.st/station',
+							'rel' => 'external',
+							'target' => '_blank'
+					],
+					'purge',
+					'/a'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
 		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";

@@ -935,6 +935,16 @@ EOF;
 	}
 
 	protected function _url($url, $text, $label = false, $truncate = false) {
+
+		// add http:// to URLs without protocol
+		if (strpos($url, '://') === false) {
+			// use Cakes Validation class to detect valid URL
+			App::uses('Validation', 'Utility');
+			if (Validation::url($url)) {
+				$url = 'http://' . $url;
+			}
+		}
+
 		if ($truncate === true) {
 			$text = $this->_truncate($text);
 		}
