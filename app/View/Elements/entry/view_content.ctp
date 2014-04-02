@@ -32,23 +32,25 @@
 
 				<span class="meta">
 					<?php
-						if (isset($entry['User']['user_place']) &&
-								!empty($entry['User']['user_place'])) {
-							echo h($entry['User']['user_place']) . ',';
+						if (!empty($entry['User']['user_place'])) {
+							echo h($entry['User']['user_place']) . ', ';
 						}
 
 						echo $this->TimeH->formatTime($entry['Entry']['time']);
-						if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
-								&& strtotime($entry['Entry']['edited']) > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_delay') * 60 )
-						):
-							echo ' – ';
-							echo __('%s edited by %s',
-									array(
-											$this->TimeH->formatTime($entry['Entry']['edited']),
-											$entry['Entry']['edited_by']
-									)
-							);
-						endif;
+
+						if (!empty($entry['Entry']['edited_by'])) {
+							$editDelay = strtotime($entry['Entry']['time']) +
+									(Configure::read('Saito.Settings.edit_delay') * MINUTE);
+							if (strtotime($entry['Entry']['edited']) > $editDelay) {
+								echo ' – ';
+								echo __('%s edited by %s',
+										array(
+												$this->TimeH->formatTime($entry['Entry']['edited']),
+												$entry['Entry']['edited_by']
+										)
+								);
+							}
+						}
 
 						// SEO: removes keyword "views"
 						if ($CurrentUser->isLoggedIn()) {
