@@ -1,22 +1,24 @@
 <?php
 	SDV($last_action, null);
 	SDV($signature, false);
+	$schemaMeta = [];
 ?>
-	<article class="postingBody">
+	<article itemscope itemtype="http://schema.org/Article" class="postingBody">
 		<header>
-			<h2 class="postingBody-heading">
+			<h2 itemprop="headline name" class="postingBody-heading">
 				<?php
 					$subject = $this->EntryH->getSubject($entry);
+					$url = $this->Html->url('/entries/view/' . $entry['Entry']['id'], true);
+					$schemaMeta['url'] = $url;
 					// only make subject a link if it is not in entries/view
 					if ($this->request->action !== 'preview' &&
 							($this->request->is('ajax') || $this->request->action === 'mix')
 					) {
-						echo $this->Html->link($subject,
-								'/entries/view/' . $entry['Entry']['id'],
+						$subject = $this->Html->link($subject,
+								$url,
 								['escape' => false, 'class' => 'et']);
-					} else {
-						echo $subject;
 					}
+					echo $subject;
 				?>
 			</h2>
 		</header>
@@ -26,8 +28,11 @@
 				<?= $entry['Category']['category']; ?>
 				</span>
 			–
-				<span class="c-username">
-					<?= $this->Layout->linkToUserProfile($entry['User'], $CurrentUser); ?>,
+				<span itemscope itemprop="author" itemtype="http://schema.org/Person">
+					<span itemprop="name" class="c-username">
+						<?=
+							$this->Layout->linkToUserProfile($entry['User'], $CurrentUser);
+						?></span>,
 				</span>
 
 				<span class="meta">
@@ -37,6 +42,8 @@
 						}
 
 						echo $this->TimeH->formatTime($entry['Entry']['time']);
+						$schemaMeta['datePublished'] = date('c',
+								strtotime($entry['Entry']['time']));
 
 						if (!empty($entry['Entry']['edited_by'])) {
 							$editDelay = strtotime($entry['Entry']['time']) +
@@ -44,18 +51,20 @@
 							if (strtotime($entry['Entry']['edited']) > $editDelay) {
 								echo ' – ';
 								echo __('%s edited by %s',
-										array(
+										[
 												$this->TimeH->formatTime($entry['Entry']['edited']),
 												$entry['Entry']['edited_by']
-										)
+										]
 								);
 							}
+							$schemaMeta['dateModified'] = date('c', strtotime($entry['Entry']['edited']));
 						}
 
 						// SEO: removes keyword "views"
 						if ($CurrentUser->isLoggedIn()) {
 							echo ', ' . __('views_headline') . ': ' . $entry['Entry']['views'];
 						}
+						$schemaMeta['interactionCount'] = "UserPageVisits:{$entry['Entry']['views']}";
 
 						if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod()) {
 							echo ', IP: ' . $entry['Entry']['ip'];
@@ -68,12 +77,12 @@
 				</span>
 		</aside>
 
-		<div class='postingBody-text'>
+		<div itemprop="articleBody text" class='postingBody-text'>
 			<?= $this->Bbcode->parse($entry['Entry']['text']) ?>
 		</div>
 
 		<?php if ($signature): ?>
-			<footer id="signature_<?= $entry['Entry']['id'] ?>" class="postingBody-signature">
+			<footer class="postingBody-signature">
 				<div class="postingBody-signature-divider">
 					<?= Configure::read('Saito.Settings.signature_separator') ?>
 				</div>
@@ -83,5 +92,16 @@
 							array('multimedia' => $multimedia));
 				?>
 			</footer>
-		<?php endif; ?>
+			<?php
+				endif;
+				array_walk($schemaMeta, function ($value, $attribute) {
+							switch ($attribute) {
+								case 'url':
+									echo "<link itemprop=\"$attribute\" href=\"$value\"/>";
+									break;
+								default:
+									echo "<meta itemprop=\"$attribute\" content=\"$value\"/>";
+							}
+						});
+			?>
 	</article>

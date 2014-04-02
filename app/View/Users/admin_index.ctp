@@ -34,8 +34,8 @@
 						),
 					// output date format sortable by datatable JS plugin
 						$this->TimeH->formatTime($user['User']['registered'],
-								'custom',
-								'%Y-%m-%d %H:%M')
+								'%Y-%m-%d %H:%M',
+								['wrap' => false])
 				];
 				if ($blockUi) {
 					// without the &nbsp; the JS-sorting with the datatables plugin doesn't work
