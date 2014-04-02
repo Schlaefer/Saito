@@ -39,10 +39,10 @@ u, .c-bbcode-underline { text-decoration: underline; }
 
 hr { border-width: 0; border-bottom: 1px solid #e2e2e2; }
 
-header { text-align: center; }
+#site-header { text-align: center; }
 
 body.headerClosed .top-menu { display: none; }
-body.headerClosed header { margin-left: -2em; margin-right: -2em; position: -webkit-sticky; top: 0; z-index: 100; background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: -o-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: linear-gradient(to top, rgba(255, 255, 255, 0.85), #ffffff 90%); }
+body.headerClosed header { margin-left: -2em; margin-right: -2em; position: -webkit-sticky; top: 0; z-index: 100; background: -moz-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.85), #ffffff 90%); background: linear-gradient(to top, rgba(255, 255, 255, 0.85), #ffffff 90%); }
 body.headerClosed #js-top-menu-open { display: block; line-height: 40px; padding: 0 2em; }
 body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
