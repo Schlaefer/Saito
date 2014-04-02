@@ -40,7 +40,7 @@
 
 						if (!empty($entry['Entry']['edited_by'])) {
 							$editDelay = strtotime($entry['Entry']['time']) +
-									(Configure::read('Saito.Settings.edit_delay') * MINUTE);
+									Configure::read('Saito.Settings.edit_delay');
 							if (strtotime($entry['Entry']['edited']) > $editDelay) {
 								echo ' – ';
 								echo __('%s edited by %s',
