@@ -36,10 +36,7 @@
 								!empty($entry['User']['user_place'])) {
 							echo h($entry['User']['user_place']) . ',';
 						}
-					?>
 
-					<?php /* <span title="<?php echo $this->TimeH->formatTime($entry['Entry']['time']); ?>"><?php echo $this->TimeH->formatTime($entry['Entry']['time'], 'glasen'); ?></span>, */ ?>
-					<?php
 						echo $this->TimeH->formatTime($entry['Entry']['time']);
 						if (isset($entry['Entry']['edited_by']) && !is_null($entry['Entry']['edited_by'])
 								&& strtotime($entry['Entry']['edited']) > strtotime($entry['Entry']['time']) + ( Configure::read('Saito.Settings.edit_delay') * 60 )
