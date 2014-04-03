@@ -4,8 +4,6 @@
 
 		protected $_CU;
 
-		protected $_readEntries = null;
-
 		protected $_UserRead;
 
 		protected $_minPostingsToKeep;
@@ -95,10 +93,7 @@
 		}
 
 		public function get() {
-			if ($this->_readEntries === null) {
-				$this->_readEntries = $this->_UserRead->getUser($this->_id());
-			}
-			return $this->_readEntries;
+			return $this->_UserRead->getUser($this->_id());
 		}
 
 		public function delete() {
