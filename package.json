@@ -13,6 +13,6 @@
     "grunt-template-jasmine-requirejs": "0.1.7",
     "grunt-contrib-jshint": "0.6.4",
     "grunt-concurrent": "0.4.1",
-    "grunt-contrib-compass": "0.6.0"
+    "grunt-contrib-compass": "~0.7.2"
   }
 }
