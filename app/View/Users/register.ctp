@@ -1,7 +1,7 @@
 <div class="panel">
 		<?= $this->Layout->panelHeading(__('register_linkname'),
 				['pageHeading' => true]) ?>
-	<div class="panel-content panel-form">
+	<div class="panel-content">
 	<?php if ($register_success == 'email_send') : ?>
 			<?php
 				echo $this->element(
