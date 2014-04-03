@@ -22,7 +22,6 @@
 			'last_refresh' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 			'last_refresh_tmp' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 			'user_view' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-			'new_user_notify' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'personal_messages' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'time_difference' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'user_lock' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),

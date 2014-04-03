@@ -1203,10 +1203,6 @@ msgstr ""
 msgid "user_time_diff_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:291
-msgid "new_user_notify_exp"
-msgstr ""
-
 #: View/Users/edit.ctp:301 View/Users/view.ctp:115
 msgid "flattr"
 msgstr ""

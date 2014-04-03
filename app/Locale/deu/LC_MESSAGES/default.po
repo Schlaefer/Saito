@@ -1238,10 +1238,6 @@ msgstr "Zeitzonen-Differenz"
 msgid "user_time_diff_exp"
 msgstr "Unterschied zur Server-Zeit in Stunden"
 
-#: View/Users/edit.ctp:291
-msgid "new_user_notify_exp"
-msgstr "wenn ein neues Posting gemacht wurde"
-
 #: View/Users/edit.ctp:301 View/Users/view.ctp:115
 msgid "flattr"
 msgstr "flattrn"
