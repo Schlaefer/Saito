@@ -1674,31 +1674,6 @@ msgstr ""
 msgid "Captcha"
 msgstr ""
 
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:24
-msgid "Nacht"
-msgstr ""
-
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:25
-msgid "Morgen"
-msgstr ""
-
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:26
-msgid "Vormittag"
-msgstr ""
-
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:27
-msgid "Nachmittag"
-msgstr ""
-
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:28
-#: View/Helper/GlasenuhrHelper.php:33
-msgid "Freiwache"
-msgstr ""
-
-#: Test/Case/View/Helper/GlasenuhrHelperTest.php:29
-msgid "Abend"
-msgstr ""
-
 #: View/Helper/AdminHelper.php:52
 msgid "No log file found."
 msgstr ""
@@ -1760,26 +1735,6 @@ msgstr ""
 #: View/Helper/EntryHHelper.php:162
 msgid "error_category_empty"
 msgstr "Category must not be empty."
-
-#: View/Helper/GlasenuhrHelper.php:29
-msgid "Nachts"
-msgstr ""
-
-#: View/Helper/GlasenuhrHelper.php:30
-msgid "Morgens"
-msgstr ""
-
-#: View/Helper/GlasenuhrHelper.php:31
-msgid "Vormittags"
-msgstr ""
-
-#: View/Helper/GlasenuhrHelper.php:32
-msgid "Nachmittags"
-msgstr ""
-
-#: View/Helper/GlasenuhrHelper.php:34
-msgid "Abends"
-msgstr ""
 
 #: View/Helper/MarkitupEditorHelper.php:27
 msgid "Bold"

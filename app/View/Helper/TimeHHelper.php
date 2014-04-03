@@ -5,7 +5,6 @@
 	class TimeHHelper extends AppHelper {
 
 		public $helpers = array(
-			'Glasenuhr',
 			'Time'
 		);
 
@@ -90,10 +89,6 @@
 				$_timeString = date('d.m.', $timestamp);
 			} elseif ($format === 'eng') {
 				$_timeString = strftime('%F %T', $timestamp);
-			/*
-			} elseif ($format === 'glasen') {
-				$_timeString = $this->_glasen($timestamp);
-			*/
 			} else {
 				$_timeString = strftime($format, $timestamp);
 			}
@@ -129,17 +124,6 @@
 				$time = strftime("%d.%m.%Y", $timestamp);
 			}
 
-			return $time;
-		}
-
-		protected function _glasen($timestamp) {
-			if ( $timestamp > $this->_today || $timestamp > ( $this->_now - 21600 ) ) {
-				$time = $this->Glasenuhr->ftime($timestamp);
-			} elseif ( $timestamp > $this->_today - 64800 ) {
-				$time = __('yesterday') . ' ' . $this->Glasenuhr->ftime($timestamp);
-			} else {
-				$time = strftime("%d.%m.%Y", $timestamp) . ' ' . $this->Glasenuhr->ftime($timestamp);
-			}
 			return $time;
 		}
 
