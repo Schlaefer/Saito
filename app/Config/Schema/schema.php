@@ -221,7 +221,6 @@ class AppSchema extends CakeSchema {
 		'last_refresh_tmp' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'user_view' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'personal_messages' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
-		'time_difference' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 		'user_lock' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 		'pwf_code' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'activate_code' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 7),

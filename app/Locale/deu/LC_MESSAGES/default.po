@@ -1230,14 +1230,6 @@ msgstr "Kategorienfilter"
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
-#: View/Users/edit.ctp:280
-msgid "user_time_diff"
-msgstr "Zeitzonen-Differenz"
-
-#: View/Users/edit.ctp:281
-msgid "user_time_diff_exp"
-msgstr "Unterschied zur Server-Zeit in Stunden"
-
 #: View/Users/edit.ctp:301 View/Users/view.ctp:115
 msgid "flattr"
 msgstr "flattrn"

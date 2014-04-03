@@ -132,7 +132,6 @@
 			'personal_messages' => array(
 				'rule' => array('boolean')
 			),
-			'time_difference' => array(),
 			# User durch admin/mod gesperrt?
 			'user_lock' => array(
 				'rule' => array('boolean')

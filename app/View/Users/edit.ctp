@@ -283,13 +283,6 @@
 				</td>
 			</tr>
 			<?php endif; ?>
-
-		<?php  if(false) : ?>
-			<tr>
-				<td> <?php echo __('user_time_diff') ?> </td>
-				<td> <?php echo $this->Form->input('time_difference', array( 'options' => array_combine(range(-24,24),range(-24,24)), 'label' => false,));  ?> <p class="exp"> <?php echo __('user_time_diff_exp') ?> </p></td>
-			</tr>
-		<?php  endif; ?>
 	</table>
   </div> <!-- content -->
   </div>
