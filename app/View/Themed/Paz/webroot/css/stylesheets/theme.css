@@ -175,7 +175,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 .btn-strip-back:active { background-color: #e7e7e7; }
 .btn-strip-back:before { font-family: 'FontAwesome'; content: '\f060'; font-size: 12px; width: 15px; text-align: center; display: block; position: absolute; top: 50%; }
 
-#site { min-width: 400px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; min-height: 100%; position: relative; padding: 0 2em; max-width: 70em; margin: 0 auto; }
+#site { min-width: 400px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; min-height: 100%; position: relative; padding: 0 2em 3em; max-width: 70em; margin: 0 auto; }
 
 .bp-threeColumn { *zoom: 1; max-width: 60em; _width: 60em; padding-left: 1em; padding-right: 1em; margin-left: auto; margin-right: auto; }
 .bp-threeColumn:after { content: ""; display: table; clear: both; }

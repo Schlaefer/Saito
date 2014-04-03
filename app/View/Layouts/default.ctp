@@ -106,9 +106,6 @@
 					?>
 				</div>
 			</div>
-			<script>
-				document.getElementById('content').style.paddingBottom = '50px';
-			</script>
 		<?php endif; ?>
 	</div>
 	<?php if (isset($showDisclaimer)) : ?>
