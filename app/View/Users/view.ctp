@@ -22,7 +22,7 @@
 
 	if ($user['User']['user_lock']) {
 		$table[] = [
-				__('user_block'),
+				__('user.set.lock.t'),
 				$this->UserH->banned($user['User']['user_lock']),
 		];
 	}

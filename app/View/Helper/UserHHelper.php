@@ -69,15 +69,14 @@
  * @return mixed
  */
 		public function type($type) {
-			# we could do this cleverer, but we want to write
-			# all strings explicitly for Poedit
+			// write out all __() strings for l10n
 			switch ($type):
 				case 'user':
-					return __('ud_user');
+					return __('user.type.user');
 				case 'mod':
-					return __('ud_mod');
+					return __('user.type.mod');
 				case 'admin':
-					return __('ud_admin');
+					return __('user.type.admin');
 			endswitch;
 		}
 

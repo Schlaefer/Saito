@@ -13,7 +13,7 @@
 						__("registered"),
 				);
 				if (Configure::read('Saito.Settings.block_user_ui')) :
-					$tableHeaders[] = __('user_lock');
+					$tableHeaders[] = __('user.set.lock.t');
 				endif;
 				echo $this->Html->tableHeaders($tableHeaders);
 			?>

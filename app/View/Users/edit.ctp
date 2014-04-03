@@ -29,15 +29,12 @@
 						<td>
 							<?php
 									echo $this->Form->radio('user_type',
-											array(
-													'user'	 => __('User'),
-													'mod'		 => __('Moderator'),
-													'admin'	 => __('Administrator'),
-											),
-											array(
-													'legend'	 => false,
-													'separator'	 => '<br/>',
-											)
+											[
+													'user'	 => __('user.type.user'),
+													'mod'		 => __('user.type.mod'),
+													'admin'	 => __('user.type.admin'),
+											],
+											['legend' => false, 'separator' => '<br/>']
 									);
 									?>
 						</td>

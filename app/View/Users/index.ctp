@@ -20,7 +20,7 @@
 					$_showBlocked = Configure::read('Saito.Settings.block_user_ui');
 					if ($_showBlocked) {
 						$_sortBy .= ', ' . $this->Paginator->sort('user_lock',
-										__('user_lock'),
+										__('user.set.lock.t'),
 										['direction' => 'desc']);
 					}
 					echo __('Sort by: %s', $_sortBy);
