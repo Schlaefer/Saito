@@ -22,7 +22,7 @@ class SettingData {
 			['name' => 'forum_disabled', 'value' => '0'],
 			['name' => 'forum_disabled_text', 'value' => 'We\'ll back soon'],
 			['name' => 'forum_email', 'value' => ''],
-			['name' => 'forum_name', 'value' => ''],
+			['name' => 'forum_name', 'value' => 'Saito Forum'],
 			['name' => 'quote_symbol', 'value' => '»'],
 			['name' => 'shoutbox_enabled', 'value' => '1'],
 			['name' => 'shoutbox_max_shouts', 'value' => '10'],
