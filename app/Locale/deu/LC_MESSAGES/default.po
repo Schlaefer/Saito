@@ -3134,29 +3134,6 @@ msgstr ""
 #~ msgid "_unset_entry_link"
 #~ msgstr "Neuer Eintrag"
 
-#~ msgid "user_forum_hr_ruler"
-#~ msgstr "Trennstrich"
-
-#~ msgid "user_forum_hr_exp"
-#~ msgstr ""
-#~ "Anzeige eines horizontalen Trennstriches zwischen den Threads in der "
-#~ "Thread-Ansicht (optional)"
-
-#~ msgid "user_standard_view"
-#~ msgstr "Standardansicht"
-
-#~ msgid "user_view_thread"
-#~ msgstr "Thread"
-
-#~ msgid "user_view_board"
-#~ msgstr "Board"
-
-#~ msgid "user_view_mixed"
-#~ msgstr "Mixed"
-
-#~ msgid "user_standard_view_exp"
-#~ msgstr "In welcher Ansicht soll das Forum standardmässig angezeigt werden."
-
 #~ msgid "All"
 #~ msgstr "Alles"
 

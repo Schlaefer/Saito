@@ -232,23 +232,6 @@
 			</td>
 		</tr>
 
-		<?php
-			/*
-			 * currenty not supported in Saito
-			 *
-		<tr>
-			<td> <?php echo __('user_forum_hr_ruler') ?> </td>
-			<td> <?php echo  $this->Form->checkbox('user_forum_hr_ruler'); ?> <p class="exp"> <?php echo __('user_forum_hr_exp') ?> </p></td>
-		</tr>
-
-		<tr>
-			<td> <?php echo __('user_standard_view') ?> </td>
-			<td> <?php echo $this->Form->radio('user_view', array( 'thread' => __('user_view_thread'), 'board' => __('user_view_board', 1) , 'mix' => __('user_view_mixed', 1)), array( 'legend' => false));  ?>
-				<p class="exp"> <?php echo __('user_standard_view_exp') ?> </p>
-			</td>
-		</tr>
-			 */
-			?>
 		<tr>
 			<td> <?php echo __('inline_view_on_click') ?> </td>
 			<td>

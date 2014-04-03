@@ -93,19 +93,8 @@
 				],
 				'hide_email' => ['rule' => ['boolean']],
 				'logins' => ['rule' => 'numeric'],
-				'user_view' => array(
-						'allowedChoice' => [
-								'rule' => ['inList', array('thread', 'mix', 'board')]
-						]
-				),
 				'personal_messages' => ['rule' => ['boolean']],
 				'user_lock' => ['rule' => ['boolean']],
-			/*
-			 * password forgotten code
-			 *
-			 * store temporary md5 code after password is send
-			 */
-				'pwf_code' => [],
 				'activate_code' => [
 						'numeric' => ['rule' => 'numeric', 'allowEmpty' => false],
 						'between' => ['rule' => ['between', 0, 9999999]]
@@ -117,7 +106,6 @@
 						'greaterNull' => ['rule' => ['comparison', '>=', 0]],
 						'maxLength' => ['rule' => ['maxLength', 3]],
 				],
-				'user_forum_hr_ruler' => ['rule' => ['boolean']],
 				'user_automaticaly_mark_as_read' => ['rule' => ['boolean']],
 				'user_sort_last_answer' => ['rule' => ['boolean']],
 				'user_show_own_signature' => ['rule' => ['boolean']],
@@ -326,7 +314,6 @@
 			$defaults = array(
 				'registered' => date("Y-m-d H:i:s"),
 				'user_type' => 'user',
-				'user_view' => 'thread',
 				'activate_code' => 0,
 			);
 			$data = array_merge($defaults, $data[$this->alias]);

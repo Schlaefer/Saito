@@ -455,14 +455,9 @@
 
 			$this->assertTrue($this->User->checkPassword($pw, $this->User->field('password')));
 
-			$result = $this->User->read(array( 'username', 'user_email', 'user_type', 'user_view', 'registered'));
+			$result = $this->User->read(['username', 'user_email', 'user_type', 'registered']);
 			$expected = array_merge($data['User'],
-					array(
-					'registered' => date('Y-m-d H:i:s', $now),
-					'user_type' => 'user',
-					'user_view' => 'thread',
-					)
-			);
+					['registered' => date('Y-m-d H:i:s', $now), 'user_type' => 'user']);
 
 			unset($expected['password_confirm']);
 			unset($expected['password']);
