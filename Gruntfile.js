@@ -246,14 +246,16 @@ module.exports = function(grunt) {
             options: {
               basePath: './app/webroot/css/',
               config: './app/webroot/css/config.rb',
-              watch: true
+              watch: true,
+              poll: true
             }
           },
           watchDefault: {
             options: {
               basePath: './app/View/Themed/Paz/webroot/css/',
               config: './app/View/Themed/Paz/webroot/css/config.rb',
-              watch: true
+              watch: true,
+              poll: true
             }
           },
           compileExampleTheme: {
