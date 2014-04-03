@@ -42,7 +42,11 @@
 
 			//* insert registered user
 			$_userId = 5;
-			$this->_startUsersOnline[0]['UserOnline'] = array('user_id' => '5', 'time' => (string)time(), 'logged_in' => 1 );
+			$this->_startUsersOnline[0]['UserOnline'] = [
+					'user_id' => '5',
+					'time' => (string)time(),
+					'logged_in' => 1
+			];
 			$this->UserOnline->setOnline($_userId, true);
 
 			$this->UserOnline->contain();
@@ -57,13 +61,18 @@
 			//* insert anonymous user
 			session_id('sessionIdTest');
 			$_userId = session_id();
-			$this->_startUsersOnline[1]['UserOnline'] = array('user_id' => substr(($_userId),
-							0, 32), 'time' => time(), 'logged_in' => 0 );
+			$this->_startUsersOnline[1]['UserOnline'] = [
+					'user_id' => substr(($_userId), 0, 32),
+					'time' => (string)time(),
+					'logged_in' => 0
+			];
 			$this->UserOnline->setOnline($_userId, false);
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
-			$expected = $this->_startUsersOnline;
+			$this->_assertTimeIsNow($result[1]);
+			$result = Hash::remove($result, '{n}.UserOnline.time');
+			$expected = Hash::remove($this->_startUsersOnline, '{n}.UserOnline.time');
 			$this->assertEquals($result, $expected);
 
 			/*			 * * Second 1 ** */
@@ -75,7 +84,8 @@
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
-			$expected = $this->_startUsersOnline;
+			$result = Hash::remove($result, '{n}.UserOnline.time');
+			$expected = Hash::remove($this->_startUsersOnline, '{n}.UserOnline.time');
 			$this->assertEquals($result, $expected);
 
 			//* update anonymous user before time
@@ -85,7 +95,8 @@
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
-			$expected = $this->_startUsersOnline;
+			$result = Hash::remove($result, '{n}.UserOnline.time');
+			$expected = Hash::remove($this->_startUsersOnline, '{n}.UserOnline.time');
 			$this->assertEquals($result, $expected);
 
 			/*			 * * Second 2 ** */
