@@ -155,7 +155,7 @@
 				)
 			);
 
-			$this->assertEqual($expected, $notificationsAfter);
+			$this->assertEquals($expected, $notificationsAfter);
 
 			// old events should be gone
 			$countOldEventsAfter = $this->Esevent->find('count',
@@ -166,7 +166,7 @@
 						'event' => array(1, 3),
 					)
 				));
-			$this->assertEqual($countOldEventsAfter, 0);
+			$this->assertEquals($countOldEventsAfter, 0);
 
 			// user should still have all his notifications
 			$countUserNotificationsAfter = $this->Esevent->Esnotification->User->find('count',
@@ -174,12 +174,12 @@
 					'contain' => array('Esnotification'),
 					'conditions' => array('id' => 1)
 				));
-			$this->assertEqual($countUserNotificationsBefore,
+			$this->assertEquals($countUserNotificationsBefore,
 					$countUserNotificationsAfter);
 
 			// no notification should be lost
 			$countNotificationsAfter = $this->Esevent->Esnotification->find('count');
-			$this->assertEqual($countNotificationsBefore, $countNotificationsAfter);
+			$this->assertEquals($countNotificationsBefore, $countNotificationsAfter);
 		}
 
 		/**
@@ -277,7 +277,7 @@
 						'event' => 1,
 					)
 				));
-			$this->assertEqual($result, 1);
+			$this->assertEquals($result, 1);
 
 			$result = $this->Esevent->Esnotification->find('count',
 				array(
@@ -286,7 +286,7 @@
 						'esreceiver_id' => 1,
 					)
 				));
-			$this->assertEqual($result, 1);
+			$this->assertEquals($result, 1);
 
 			/*
 			 * same event but different user
@@ -302,10 +302,10 @@
 						'event' => 1,
 					)
 				));
-			$this->assertEqual($result, 1);
+			$this->assertEquals($result, 1);
 
 			// no new entry was made in the event table
-			$this->assertEqual($lastInsertedId, $this->Esevent->getInsertID());
+			$this->assertEquals($lastInsertedId, $this->Esevent->getInsertID());
 
 			// new entry was made in notification table
 			$result = $this->Esevent->Esnotification->find('count',
@@ -315,7 +315,7 @@
 						'esreceiver_id' => 1,
 					)
 				));
-			$this->assertEqual($result, 2);
+			$this->assertEquals($result, 2);
 		}
 
 		/**
@@ -381,7 +381,7 @@
 
 			$result = $this->Esevent->checkEventsForUser(1, $notfications);
 			$expected = array(true, false, false);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testDeleteSubject() {
@@ -413,12 +413,12 @@
 
 			// Check that events are deleted
 			$result = $this->Esevent->find('all');
-			$this->assertEqual($result, $expectedEvents);
+			$this->assertEquals($result, $expectedEvents);
 
 			// Check that notifications are deleted
 			$result = $this->Esevent->find('all');
 			$result = Hash::extract($result, '{n}.Esnotification.{n}');
-			$this->assertEqual($result, $expectedNotifications);
+			$this->assertEquals($result, $expectedNotifications);
 		}
 
 		public function testGetEventSet() {
@@ -446,7 +446,7 @@
 				'receiver' => 1,
 			);
 			$result = $this->Esevent->getEventSet($data);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		/**
@@ -482,7 +482,7 @@
 			$result = $this->Esevent->getUsersForEventOnSubjectWithReceiver('Model.Entry.replyToEntry',
 				1,
 				'EmailNotification');
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 	}

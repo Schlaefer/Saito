@@ -82,7 +82,7 @@
 			$result = json_decode($result);
 
 			$_firstMessage = end($result->msg);
-			$this->assertEqual($_firstMessage->type, 'error');
+			$this->assertEquals($_firstMessage->type, 'error');
 
 			Configure::write(
 				'Saito.Settings.upload_max_number_of_uploads',
@@ -119,10 +119,10 @@
 			);
 			$result = json_decode($result);
 			$this->assertCount(1, $result);
-			$this->assertEqual(
+			$this->assertEquals(
 				$result[0]->name,
 				'3_upload_test.png');
-			$this->assertEqual(
+			$this->assertEquals(
 				$result[0]->id,
 				1);
 		}

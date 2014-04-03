@@ -10,22 +10,22 @@
 			$input = 'Jack';
 			$expected = 'Jack’s';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$input = 'James';
 			$expected = 'James’';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$input = 'James™';
 			$expected = 'James™’s';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$input = 'JAMES';
 			$expected = 'JAMES’';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 		}
 
 		public function testProperizeDeu() {
@@ -34,26 +34,26 @@
 			$input = 'Jack';
 			$expected = 'Jacks';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$input = 'James';
 			$expected = 'James’';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$input = 'James™';
 			$expected = 'James™s';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$input = 'JAMES';
 			$expected = 'JAMES’';
 			$result = Properize::prop($input);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
-			$this->assertEqual(Properize::prop('Bruce'), 'Bruce’');
-			$this->assertEqual(Properize::prop('Weiß'), 'Weiß’');
-			$this->assertEqual(Properize::prop('Merz'), 'Merz’');
+			$this->assertEquals(Properize::prop('Bruce'), 'Bruce’');
+			$this->assertEquals(Properize::prop('Weiß'), 'Weiß’');
+			$this->assertEquals(Properize::prop('Merz'), 'Merz’');
 		}
 
 	}

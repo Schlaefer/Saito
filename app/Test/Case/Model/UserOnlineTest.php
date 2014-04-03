@@ -52,7 +52,7 @@
 
 			$expected = $this->_startUsersOnline;
 			unset($expected[0]['UserOnline']['time']);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			//* insert anonymous user
 			session_id('sessionIdTest');
@@ -64,7 +64,7 @@
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			/*			 * * Second 1 ** */
 			sleep(1);
@@ -76,7 +76,7 @@
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			//* update anonymous user before time
 			session_id('sessionIdTest');
@@ -86,7 +86,7 @@
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			/*			 * * Second 2 ** */
 			sleep(1);
@@ -110,7 +110,7 @@
 			$this->_assertTimeIsNow($result[0]);
 
 			$expected = $this->_startUsersOnline;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testSetOffline() {
@@ -131,14 +131,14 @@
 			$this->assertGreaterThan(time() - 5, $time);
 			unset($result[0]['UserOnline']['time'], $time);
 
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			//* try to delte new user
 			$this->UserOnline->setOffline($_userId);
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = array( );
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testDeleteOutdated() {
@@ -155,7 +155,7 @@
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
 			$expected = $this->_startUsersOnline;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testGetLoggedIn() {
@@ -164,7 +164,7 @@
 			 */
 			$result = $this->UserOnline->getLoggedIn();
 			$expected = array( );
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			/*
 			 * test
@@ -185,7 +185,7 @@
 							'user_type' => 'user',
 					)
 			);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		protected function _assertTimeIsNow(&$UserOnline) {

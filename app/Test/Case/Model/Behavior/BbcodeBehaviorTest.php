@@ -43,12 +43,12 @@
 			$input = 'http://example.com/foo/hash/base/345';
 			$result = $this->Bbcode->prepareBbcode($Model, $input);
 			$expected = "#345";
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			$input = '[url=http://example.com/foo/hash/base/345]foo[/url]';
 			$result = $this->Bbcode->prepareBbcode($Model, $input);
 			$expected = $input;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		/**
@@ -69,7 +69,7 @@
 				]
 			];
 			$result = $this->Bbcode->prepareBbcode($Model, $input);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 	}

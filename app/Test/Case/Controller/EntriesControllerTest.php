@@ -292,7 +292,7 @@
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
-			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 'All Categories');
+			$this->assertEquals($Entries->viewVars['categoryChooserTitleId'], 'All Categories');
 		}
 
 		/**
@@ -351,18 +351,18 @@
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
-			$this->assertEqual($Entries->viewVars['categoryChooserChecked'],
+			$this->assertEquals($Entries->viewVars['categoryChooserChecked'],
 				array(
 					'2' => '2',
 					'8' => '8',
 				));
-			$this->assertEqual($Entries->viewVars['categoryChooser'],
+			$this->assertEquals($Entries->viewVars['categoryChooser'],
 				array(
 					'2' => 'Ontopic',
 					'7' => 'Foo',
 					'8' => 'Bar',
 				));
-			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'],
+			$this->assertEquals($Entries->viewVars['categoryChooserTitleId'],
 				'Custom');
 		}
 
@@ -406,8 +406,8 @@
 			));
 			$Entries->getInitialThreads($User);
 			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
-			$this->assertEqual($Entries->viewVars['categoryChooserTitleId'], 7);
-			$this->assertEqual($Entries->viewVars['categoryChooserChecked'],
+			$this->assertEquals($Entries->viewVars['categoryChooserTitleId'], 7);
+			$this->assertEquals($Entries->viewVars['categoryChooserChecked'],
 				array(
 					'1' => '1',
 					'2' => '2',
@@ -421,13 +421,13 @@
 			//* not logged in user
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 3);
+			$this->assertEquals(count($entries), 3);
 
 			//* logged in user
 			$this->_loginUser(3);
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$entries = $result['entries'];
-			$this->assertEqual(count($entries), 4);
+			$this->assertEquals(count($entries), 4);
 		}
 
 		public function testIndexSanitation() {
@@ -663,7 +663,7 @@
 			$this->_logoutUser();
 
 			$result = $this->testAction('/entries/view/1', array('return' => 'vars'));
-			$this->assertEqual($result['entry']['Entry']['id'], 1);
+			$this->assertEquals($result['entry']['Entry']['id'], 1);
 
 			$result = $this->testAction('/entries/view/2');
 			$this->assertFalse(isset($this->headers['Location']));
@@ -674,7 +674,7 @@
 			//* logged in user
 			$this->_loginUser(3);
 			$result = $this->testAction('/entries/view/4', array('return' => 'vars'));
-			$this->assertEqual($result['entry']['Entry']['id'], 4);
+			$this->assertEquals($result['entry']['Entry']['id'], 4);
 
 			$result = $this->testAction('/entries/view/2', array('return' => 'vars'));
 			$this->assertFalse(isset($this->headers['Location']));
@@ -754,12 +754,12 @@
 			$result = $this->testAction('/entries/index', array('return' => 'vars'));
 			$headerCounter = $result['HeaderCounter'];
 
-			$this->assertEqual($headerCounter['user_online'], 1);
-			$this->assertEqual($headerCounter['user'], 7);
-			$this->assertEqual($headerCounter['entries'], 11);
-			$this->assertEqual($headerCounter['threads'], 5);
-			$this->assertEqual($headerCounter['user_registered'], 0);
-			$this->assertEqual($headerCounter['user_anonymous'], 1);
+			$this->assertEquals($headerCounter['user_online'], 1);
+			$this->assertEquals($headerCounter['user'], 7);
+			$this->assertEquals($headerCounter['entries'], 11);
+			$this->assertEquals($headerCounter['threads'], 5);
+			$this->assertEquals($headerCounter['user_registered'], 0);
+			$this->assertEquals($headerCounter['user_anonymous'], 1);
 
 			// test with one user online
 			$this->_loginUser(2);
@@ -768,15 +768,15 @@
 			$headerCounter = $result['HeaderCounter'];
 
 			/* without cache
-			$this->assertEqual($headerCounter['user_online'], 2);
-			$this->assertEqual($headerCounter['user_registered'], 1);
-			$this->assertEqual($headerCounter['user_anonymous'], 1);
+			$this->assertEquals($headerCounter['user_online'], 2);
+			$this->assertEquals($headerCounter['user_registered'], 1);
+			$this->assertEquals($headerCounter['user_anonymous'], 1);
 			 */
 
 			// with cache
-			$this->assertEqual($headerCounter['user_online'], 1);
-			$this->assertEqual($headerCounter['user_registered'], 1);
-			$this->assertEqual($headerCounter['user_anonymous'], 0);
+			$this->assertEquals($headerCounter['user_online'], 1);
+			$this->assertEquals($headerCounter['user_registered'], 1);
+			$this->assertEquals($headerCounter['user_anonymous'], 0);
 
 			// test with second user online
 			$this->_loginUser(3);
@@ -785,16 +785,16 @@
 			$headerCounter = $result['HeaderCounter'];
 
 			// with cache
-			$this->assertEqual($headerCounter['user_online'], 1);
-			$this->assertEqual($headerCounter['user_registered'], 2);
-			$this->assertEqual($headerCounter['user_anonymous'], 0);
+			$this->assertEquals($headerCounter['user_online'], 1);
+			$this->assertEquals($headerCounter['user_registered'], 2);
+			$this->assertEquals($headerCounter['user_anonymous'], 0);
 		}
 
 		public function testFeedJson() {
 			$result = $this->testAction('/entries/feed/feed.json', array(
 					'return' => 'vars',
 			));
-			$this->assertEqual($result['entries'][0]['Entry']['subject'], 'First_Subject');
+			$this->assertEquals($result['entries'][0]['Entry']['subject'], 'First_Subject');
 			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
 		}
 

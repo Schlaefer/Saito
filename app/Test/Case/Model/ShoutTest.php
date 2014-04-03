@@ -39,11 +39,11 @@
 			$this->assertGreaterThan(time() - 60, strtotime($result['Shout']['time']));
 
 			$result = array_intersect_key($result['Shout'], $data['Shout']);
-			$this->assertEqual($data['Shout'], $result);
+			$this->assertEquals($data['Shout'], $result);
 
 			$result = $this->Shout->find('count');
 			$expected = $_numberOfShouts + 1;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testNoRotate() {
@@ -110,7 +110,7 @@
 
 			array_shift($before);
 
-			$this->assertEqual($after, $before);
+			$this->assertEquals($after, $before);
 		}
 
 	/**

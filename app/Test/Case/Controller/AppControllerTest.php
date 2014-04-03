@@ -28,9 +28,9 @@
 		 */
 		public function testSetTitleForLayoutEmpty() {
 			$result = $this->testAction( '/entries/index', ['return' => 'vars']);
-			$this->assertEqual($result['title_for_layout'], 'Forum – macnemo');
-			$this->assertEqual($result['title_for_page'], 'Forum');
-			$this->assertEqual($result['forum_name'], 'macnemo');
+			$this->assertEquals($result['title_for_layout'], 'Forum – macnemo');
+			$this->assertEquals($result['title_for_page'], 'Forum');
+			$this->assertEquals($result['forum_name'], 'macnemo');
 		}
 
 		/**
@@ -38,7 +38,7 @@
 		 */
 		public function testSetTitleForLayoutNotEmpty() {
 			$result = $this->testAction('/entries/view/1', ['return' => 'vars']);
-			$this->assertEqual($result['title_for_layout'],
+			$this->assertEquals($result['title_for_layout'],
 				'First_Subject – macnemo');
 		}
 
@@ -47,7 +47,7 @@
 		 */
 		public function testSetTitleForLayoutPoFile() {
 			$result = $this->testAction('/users/register', ['return' => 'vars']);
-			$this->assertEqual($result['title_for_layout'], 'Register – macnemo');
+			$this->assertEquals($result['title_for_layout'], 'Register – macnemo');
 		}
 
 		public function testLocalReferer() {
@@ -117,7 +117,7 @@
 				'/entries/index',
 				array('return' => 'vars')
 			);
-			$this->assertEqual($result['CurrentUser']->getId(), 3);
+			$this->assertEquals($result['CurrentUser']->getId(), 3);
 			$this->assertTrue($result['CurrentUser']->isLoggedIn());
 		}
 

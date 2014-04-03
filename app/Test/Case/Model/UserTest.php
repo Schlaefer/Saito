@@ -38,7 +38,7 @@
 
 		public function testFindLatest() {
 			$result = $this->User->find('latest');
-			$this->assertEqual($result['User']['id'], 7);
+			$this->assertEquals($result['User']['id'], 7);
 		}
 
 		public function testSetCategoryAll() {
@@ -128,7 +128,7 @@
 			$expected = date('Y-m-d H:i:s');
 			$this->User->setLastRefresh();
 			$result = $this->User->field('last_refresh_tmp');
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			//* with explicit timestamp
 			$_prevResult = $result;
@@ -137,7 +137,7 @@
 			$expected = '0000-00-00 00:00:00';
 			$this->User->setLastRefresh($expected);
 			$result = $this->User->field('last_refresh');
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$result = $this->User->field('last_refresh_tmp');
 			$timeDiff = strtotime($result) - strtotime($_prevResult);
@@ -149,19 +149,19 @@
 			$this->User->id = 4;
 			$expected = 0;
 			$result = $this->User->numberOfEntries();
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			//* one entry
 			$this->User->id = 2;
 			$expected = 1;
 			$result = $this->User->numberOfEntries();
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			//* multiple entries
 			$this->User->id = 3;
 			$expected = 7;
 			$result = $this->User->numberOfEntries();
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 		}
 
 		public function testIncrementLogins() {
@@ -171,13 +171,13 @@
 			$this->User->id = 1;
 			$expected = 0;
 			$result = $this->User->field('logins');
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			//* increment one
 			$expected = 1;
 			$this->User->incrementLogins($this->User->id);
 			$result = $this->User->field('logins');
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$_lastLogin = new DateTime($this->User->field('last_login'));
 			$now = new DateTime();
@@ -194,7 +194,7 @@
 			$this->User->incrementLogins($this->User->id, 15);
 			$expected = 16;
 			$result = $this->User->field('logins');
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$_lastLogin = new DateTime($this->User->field('last_login'));
 			$now = new DateTime();
@@ -209,12 +209,12 @@
 
 			//* check we have no DB leaking
 			$usersAfterIncrements = $this->User->find('count');
-			$this->assertEqual($usersBeforeIncrements, $usersAfterIncrements);
+			$this->assertEquals($usersBeforeIncrements, $usersAfterIncrements);
 		}
 
 		public function testCountSolves() {
 			$result = $this->User->countSolved(3);
-			$this->assertEqual($result, 1);
+			$this->assertEquals($result, 1);
 		}
 
 		public function testDeleteUser() {
@@ -245,18 +245,18 @@
 
 			// user is deleted
 			$result = $this->User->findById(3);
-			$this->assertEqual($result, array());
+			$this->assertEquals($result, array());
 
 			// make sure we delete without cascading to associated models
 			$expected = $entriesBeforeDelete;
 			$result = $this->User->Entry->find('count');
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// delete associated bookmarks
 			$userBookmarksAfterDelete = count($this->User->Bookmark->findAllByUserId(3));
-			$this->assertEqual($userBookmarksAfterDelete, 0);
+			$this->assertEquals($userBookmarksAfterDelete, 0);
 			$allBookmarksAfterDelete = $this->User->Bookmark->find('count');
-			$this->assertEqual($allBookmarksBeforeDelete - $userBookmarksBeforeDelete,
+			$this->assertEquals($allBookmarksBeforeDelete - $userBookmarksBeforeDelete,
 				$allBookmarksAfterDelete);
 		}
 
@@ -297,7 +297,7 @@
 				),
 			);
 			$result = $this->User->read(array( 'user_color_new_postings', 'user_color_old_postings', 'user_color_actual_posting' ));
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 		}
 
 		public function testBeforeValidate() {
@@ -311,7 +311,7 @@
 			$this->User->save($data);
 			$expected = 1;
 			$result = $this->User->field('user_forum_refresh_time');
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			//*
 			$this->User->id = 3;
@@ -323,7 +323,7 @@
 			$this->User->save($data);
 			$expected = 0;
 			$result = $this->User->field('user_forum_refresh_time');
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testValidateConfirmPassword() {
@@ -393,7 +393,7 @@
 			$this->assertTrue($result);
 
 			$_newPassword = $this->User->field('password');
-			$this->assertEqual($_oldPassword, $_newPassword);
+			$this->assertEquals($_oldPassword, $_newPassword);
 		}
 
 		public function testRegisterGc() {
@@ -436,7 +436,7 @@
 			$this->assertEmpty($result);
 
 			$_userCountAfterAction = $this->User->find('count');
-			$this->assertEqual($_userCountBeforeAction, $_userCountAfterAction - 1);
+			$this->assertEquals($_userCountBeforeAction, $_userCountAfterAction - 1);
 		}
 
 		public function testRegister() {
@@ -469,7 +469,7 @@
 
 			$result = $result['User'];
 			$result = array_intersect_key($result, $expected);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testRegisterValidation() {
@@ -497,7 +497,7 @@
 				)
 			);
 
-			$this->assertEqual($this->User->validationErrors, $expected);
+			$this->assertEquals($this->User->validationErrors, $expected);
 		}
 
 		public function setUp() {
