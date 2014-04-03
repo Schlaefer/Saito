@@ -1203,18 +1203,6 @@ msgstr ""
 msgid "user_time_diff_exp"
 msgstr ""
 
-#: View/Users/edit.ctp:286
-msgid "admin_mod_notif"
-msgstr ""
-
-#: View/Users/edit.ctp:288
-msgid "admin_mod_notif_exp"
-msgstr ""
-
-#: View/Users/edit.ctp:289
-msgid "new_posting_notify_exp"
-msgstr ""
-
 #: View/Users/edit.ctp:291
 msgid "new_user_notify_exp"
 msgstr ""

@@ -289,18 +289,6 @@
 				<td> <?php echo __('user_time_diff') ?> </td>
 				<td> <?php echo $this->Form->input('time_difference', array( 'options' => array_combine(range(-24,24),range(-24,24)), 'label' => false,));  ?> <p class="exp"> <?php echo __('user_time_diff_exp') ?> </p></td>
 			</tr>
-
-			<?php  if ( $CurrentUser->isMod() ) : ?>
-				<tr>
-					<td> <?php echo __('admin_mod_notif') ?> </td>
-					<td>
-						<p class="exp"> <?php echo __('admin_mod_notif_exp') ?> </p>
-						<?php echo  $this->Form->checkbox('new_posting_notify');  ?> <p class="exp"> <?php echo __('new_posting_notify_exp') ?> </p>
-						<br/>
-						<?php echo  $this->Form->checkbox('new_user_notify'); ?> <p class="exp"> <?php echo __('new_user_notify_exp') ?> </p>
-					</td>
-				</tr>
-			<?php  endif ; ?>
 		<?php  endif; ?>
 	</table>
   </div> <!-- content -->
