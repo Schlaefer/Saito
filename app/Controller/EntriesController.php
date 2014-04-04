@@ -142,13 +142,14 @@
 				return $this->redirect('/');
 			}
 
-			$this->_setRootEntry($entries[0]);
-			$this->set('title_for_layout', $entries[0]['Entry']['subject']);
+			$root = $entries[0];
+			$this->_setRootEntry($root);
+			$this->_setTitleFromEntry($root, __('view.type.mix'));
 			$this->initBbcode();
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 
-			$this->Entry->threadIncrementViews($entries[0]['Entry']['tid'],
+			$this->Entry->threadIncrementViews($root['Entry']['tid'],
 					$this->CurrentUser->getId());
 
 			$this->_marMixThread = $tid;
@@ -234,8 +235,7 @@
 			// full page request
 			$this->set('tree',
 					$this->Entry->treeForNode($entry['Entry']['tid'], ['root' => true]));
-
-			$this->set('title_for_layout', $entry['Entry']['subject']);
+			$this->_setTitleFromEntry($entry);
 
 			Stopwatch::stop('Entries->view()');
 		}
@@ -941,6 +941,23 @@
 				$_rootEntry = $entry;
 			}
 			$this->set('rootEntry', $_rootEntry);
+		}
+
+		protected function _setTitleFromEntry($entry, $type = null) {
+			if ($type === null) {
+				$template =	__(':subject | :category');
+			} else {
+				$template =	__(':subject (:type) | :category');
+			}
+			$this->set('title_for_layout',
+					String::insert($template,
+							[
+									'category' => $entry['Category']['category'],
+									'subject' => $entry['Entry']['subject'],
+									'type' => $type
+							]
+					)
+			);
 		}
 
 	}

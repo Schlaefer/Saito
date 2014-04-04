@@ -39,7 +39,7 @@
 		public function testSetTitleForLayoutNotEmpty() {
 			$result = $this->testAction('/entries/view/1', ['return' => 'vars']);
 			$this->assertEquals($result['title_for_layout'],
-				'First_Subject – macnemo');
+				'First_Subject | Ontopic – macnemo');
 		}
 
 		/**

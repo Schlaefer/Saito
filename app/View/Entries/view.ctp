@@ -12,17 +12,6 @@
 			['class' => 'textlink', 'escape' => false, 'rel' => 'nofollow']
 	);
 	$this->end();
-
-	// description meta tag
-	$this->append('meta');
-	if (empty($entry['Entry']['text'])) {
-		echo $this->Html->tag(
-				'meta',
-				null,
-				['name' => 'description', 'content' => $entry['Entry']['subject']]
-		);
-	}
-	$this->end('meta');
 ?>
 <div class="entry view">
 	<div class="panel">

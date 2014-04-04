@@ -836,6 +836,20 @@
 			$this->testAction('/entries/solve/1');
 		}
 
+		public function testSeo() {
+			$result = $this->testAction('/entries/index', ['return' => 'contents']);
+			$this->assertTextNotContains('noindex', $result);
+			$expected = '<link rel="canonical" href="' . Router::url('/',
+							true) . '"/>';
+			$this->assertTextContains($expected, $result);
+
+			Configure::write('Saito.Settings.topics_per_page', 2);
+			$result = $this->testAction('/entries/index/page:2/', ['return' => 'contents']);
+			$this->assertTextNotContains('rel="canonical"', $result);
+			$expected = '<meta name="robots" content="noindex, follow">';
+			$this->assertTextContains($expected, $result);
+		}
+
 		public function testSolve() {
 			$Entries = $this->generate('Entries', ['models' => ['Entry' => ['toggleSolve']]]);
 			$this->_loginUser(3);

@@ -1,6 +1,14 @@
 <?php
 	Stopwatch::start('entries/index');
 
+	if ($this->Paginator->current() === 1) {
+		$cUrl = $this->Html->url('/', true);
+		$seo = '<link rel="canonical" href="' . $cUrl . '"/>';
+	} else {
+		$seo = '<meta name="robots" content="noindex, follow">';
+	}
+	$this->append('meta', $seo);
+
 	// set data for immediate shoutbox rendering
 	if (isset($shouts)) {
 		$this->JsData->set('shouts', $this->Shouts->prepare($shouts));
