@@ -4,6 +4,7 @@
 	use Ciconia\Extension\Gfm;
 
 	App::import('Vendor', 'SaitoHelp.autoload');
+	Cake2ComposerAutoloadFix();
 
 	App::uses('AppHelper', 'View/Helper');
 

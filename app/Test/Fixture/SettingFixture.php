@@ -16,6 +16,7 @@
 		public $records = array(
 				['name' => 'autolink', 'value' => '1'],
 				['name' => 'block_user_ui', 'value' => '1'],
+				['name' => 'edit_delay', 'value' => '3'],
 				['name' => 'edit_period', 'value' => '20'],
 				['name' => 'forum_email', 'value' => 'forum_email@example.com'],
 				['name' => 'forum_name', 'value' => 'macnemo'],

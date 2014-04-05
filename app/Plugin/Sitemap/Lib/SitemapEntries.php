@@ -75,16 +75,16 @@
 			}
 			foreach ($entries as $key => $entry) {
 				unset($entries[$key]);
-				$lastmod = strtotime($entry['Entry']['time']);
+				$lastmod = strtotime($entry['Entry']['edited']);
 				if ($lastmod < 1) {
-					$lastmod = strtotime($entry['Entry']['edited']);
+					$lastmod = strtotime($entry['Entry']['time']);
 				}
-				if ($lastmod + HOUR > $now) {
-					$changefreq = 'hourly';
-				} elseif ($lastmod + DAY > $now) {
-					$changefreq = 'daily';
-				} else {
+				if ($now > ($lastmod + (3 * DAY))) { // old entries
 					$changefreq = 'monthly';
+				} elseif ($now > ($lastmod + DAY)) { // recently active entries
+					$changefreq = 'daily';
+				} else { // currently active entries
+					$changefreq = 'hourly';
 				}
 				$urls[] = [
 						'loc' => 'entries/view/' . $entry['Entry']['id'],

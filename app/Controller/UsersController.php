@@ -260,12 +260,6 @@
 				unset($this->request->data['User']['user_type']);
 			}
 
-			if ($this->CurrentUser['user_type'] === 'mod' ||
-					$this->CurrentUser['user_type'] === 'admin') {
-				unset($this->request->data['User']['new_posting_notify']);
-				unset($this->request->data['User']['new_user_notify']);
-			}
-
 			if ($this->User->save($this->request->data)) {
 				// save operation was successfull
 

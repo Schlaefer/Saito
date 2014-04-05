@@ -30,7 +30,7 @@
 		<?php echo $this->element('users/login_modal'); ?>
 	<?php endif; ?>
 	<div id="site">
-		<header>
+		<header id="site-header">
 			<div id="hero">
 				<?php
 					$_title = '<div id="hero-home-link">' . h($forum_name) . '</div>';
@@ -106,9 +106,6 @@
 					?>
 				</div>
 			</div>
-			<script>
-				document.getElementById('content').style.paddingBottom = '50px';
-			</script>
 		<?php endif; ?>
 	</div>
 	<?php if (isset($showDisclaimer)) : ?>

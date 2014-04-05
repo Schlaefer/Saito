@@ -33,9 +33,14 @@ class Setting extends AppModel {
 			throw new UnexpectedValueException('No settings found in settings table.');
 		}
 		$settings = $this->_compactKeyValue($settings);
+
+		// extract ranks
 		$ranks = $this->_pipeSplitter($settings['userranks_ranks']);
 		ksort($ranks);
 		$settings['userranks_ranks'] = $ranks;
+
+		// edit_delay is normed to seconds
+		$settings['edit_delay'] = (int)$settings['edit_delay'] * 60;
 
 		return $settings;
 	}

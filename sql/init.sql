@@ -72,8 +72,8 @@ LOCK TABLES `categories` WRITE;
 
 INSERT INTO `categories` (`id`, `category_order`, `category`, `description`, `accession`, `standard_category`, `thread_count`)
 VALUES
-	(1,1,'Admin','',2,1,0),
-	(2,3,'Ontopic','',0,1,1),
+	(1,1,'Admin','',2,1,1),
+	(2,3,'Ontopic','',0,1,4),
 	(3,2,'Another Ontopic','',0,1,0),
 	(4,4,'Offtopic','',1,1,1),
 	(5,4,'Trash','',1,0,0);

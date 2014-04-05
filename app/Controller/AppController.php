@@ -1,6 +1,5 @@
 <?php
 
-	include App::path('Lib')[0] . 'BaseFunctions.php';
 	App::uses('Properize', 'Lib');
 	App::uses('BbcodeSettings', 'Lib/Bbcode');
 	App::uses('Controller', 'Controller');
@@ -234,10 +233,9 @@
 		 */
 		protected function _setForumName() {
 			if (isset($this->viewVars['forum_name'])) {
-				$_forumName = $this->viewVars['forum_name'];
-			} else {
-				$_forumName = Configure::read('Saito.Settings.forum_name');
+				return $this->viewVars['forum_name'];
 			}
+			$_forumName = Configure::read('Saito.Settings.forum_name');
 			$this->set('forum_name', $_forumName);
 			return $_forumName;
 		}

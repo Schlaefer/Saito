@@ -117,6 +117,21 @@
 			$this->assertTags($result, $expected);
 		}
 
+		public function testMaskLinkWithoutProtocol() {
+			$input = '[url=thetempe.st/station]purge[/url]';
+			$expected = [
+					'a' => [
+							'href' => 'http://thetempe.st/station',
+							'rel' => 'external',
+							'target' => '_blank'
+					],
+					'purge',
+					'/a'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
 		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";
@@ -270,7 +285,7 @@
 			// not a valid hash
 			$input = '#2234t';
 			$result = $this->Bbcode->parse($input);
-			$this->assertEqual('#2234t', $result);
+			$this->assertEquals('#2234t', $result);
 		}
 
 		public function testAtLinkKnownUsers() {
@@ -283,7 +298,7 @@
 					."<a href='/at/Dr.+No'>@Dr. No</a>";
 
 			$result = $this->Bbcode->parse($input);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			$input = '[code]@Alice[/code]';
 			$result = $this->Bbcode->parse($input);
@@ -802,14 +817,14 @@
 			$input = '[hr][hr]';
 			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
 			$result = $this->Bbcode->parse($input);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testHrShort() {
 			$input = '[---][---]';
 			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
 			$result = $this->Bbcode->parse($input);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
     public function testEmbedly() {
@@ -873,12 +888,12 @@
 			$input = "";
 			$result = $this->Bbcode->citeText($input);
 			$expected = "";
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			$input = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789";
 			$result = $this->Bbcode->citeText($input);
 			$expected = "» 123456789 123456789 123456789 123456789 123456789 123456789 123456789\n» 123456789\n";
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		/*		 * ******************** Setup ********************** */

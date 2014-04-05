@@ -15,8 +15,8 @@
 				'options' =>
 				array(
 						0 => __('Anonymous'),
-						1 => __('User'),
-						2 => __('Mod'),
+						1 => __('user.type.user'),
+						2 => __('user.type.mod')
 				)
 				)
 		);

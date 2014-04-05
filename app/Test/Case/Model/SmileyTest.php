@@ -34,7 +34,7 @@
 					'code' => ';-)',
 					),
 			);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testCacheClearAfterDelete() {

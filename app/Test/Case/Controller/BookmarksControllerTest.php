@@ -97,7 +97,7 @@
 			$Bookmarks = $this->generate('Bookmarks');
 			$this->_loginUser(3);
 			$result = $this->testAction('/bookmarks/edit/5', ['method' => 'GET', 'return' => 'view']);
-			$this->assertEqual($Bookmarks->request->data['Bookmark']['comment'],
+			$this->assertEquals($Bookmarks->request->data['Bookmark']['comment'],
 					'<BookmarkComment');
 
 			// special chars are escaped

@@ -31,13 +31,13 @@
 						 class="<?php echo ($user['User']['id'] == $CurrentUser->getId()) ? 'slidetab-actUser' : '' ?>">
 						<?php
 							if ($this->UserH->isAdmin($user['User'])) {
-								$_title = __('ud_admin');
+								$_title = __('user.type.admin');
 								$_icon = 'fa-admin';
 							} elseif ($this->UserH->isMod($user['User'])) {
-								$_title = __('ud_mod');
+								$_title = __('user.type.mod');
 								$_icon = 'fa-mod';
 							} else {
-								$_title = __('ud_user');
+								$_title = __('user.type.user');
 								$_icon = 'fa-user';
 							}
 						?>

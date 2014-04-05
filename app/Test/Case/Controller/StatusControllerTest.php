@@ -48,7 +48,7 @@
 				)
 			);
 			$result = $this->testAction('/status/status', ['return' => 'contents']);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 	}

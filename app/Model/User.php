@@ -60,138 +60,62 @@
 			)
 		);
 
-		public $validate = array(
-			'username' => array(
-				'isUnique' => array(
-					'rule' => 'isUnique',
-					'last' => 'true'
-				),
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'last' => 'true'
-				),
-				'hasAllowedChars' => [
-					'rule' => ['validateHasAllowedChars'],
-					'last' => true
-				]
-			),
-			'user_type' => array(
-				'allowedChoice' => array(
-					'rule' => array('inList', array('user', 'admin', 'mod'))
-				)
-			),
-			'password' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'last' => 'true',
-				),
-				'pwConfirm' => array(
-					'rule' => array('validateConfirmPassword'),
-					'last' => 'true',
-					'message' => 'validation_error_pwConfirm'
-				)
-			),
-			'password_confirm' => array(),
-			'password_old' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-					'last' => 'true',
-				),
-				'pwCheckOld' => array(
-					'rule' => array('validateCheckOldPassword'),
-					'last' => 'true',
-					'message' => 'validation_error_pwCheckOld'
-				)
-			),
-			'user_email' => array(
-				'isUnique' => array(
-					'rule' => 'isUnique',
-					'last' => 'true'
-				),
-				'isEmail' => array(
-					'rule' => array('email', true),
-					'last' => 'true'
-				)
-			),
-			'hide_email' => array(
-				'rule' => array('boolean')
-			),
-			# @td we don't use this field yet
-			'logins' => array(
-				'rule' => 'numeric'
-			),
-			'registered' => array(),
-			'user_view' => array(
-				'allowedChoice' => array(
-					'rule' => array('inList', array('thread', 'mix', 'board'))
-				)
-			),
-			'new_postin_notify' => array(
-				'rule' => array('boolean')
-			),
-			'personal_messages' => array(
-				'rule' => array('boolean')
-			),
-			'time_difference' => array(),
-			# User durch admin/mod gesperrt?
-			'user_lock' => array(
-				'rule' => array('boolean')
-			),
-			/*
-			 * password forgotten code
-			 *
-			 * store temporary md5 code after password is send
-			 */
-			'pwf_code' => array(),
-			'activate_code' => array(
-				'numeric' => array(
-					'rule' => 'numeric',
-					'allowEmpty' => false
-				),
-				'between' => array(
-					'rule' => array('between', 0, 9999999)
-				)
-			),
-			'user_signatures_hide' => array(
-				'rule' => array('boolean')
-			),
-			'user_signature_images_hide' => array(
-				'rule' => array('boolean')
-			),
-			'user_forum_refresh_time' => array(
-				'numeric' => array(
-					'rule' => 'numeric'
-				),
-				'greaterNull' => array(
-					'rule' => array('comparison', '>=', 0)
-				),
-				'maxLength' => array(
-					'rule' => array('maxLength', 3)
-				),
-			),
-			'user_forum_hr_ruler' => array(
-				'rule' => array('boolean')
-			),
-			'user_automaticaly_mark_as_read' => array(
-				'rule' => array('boolean')
-			),
-			'user_sort_last_answer' => array(
-				'rule' => array('boolean')
-			),
-			'user_show_own_signature' => array(
-				'rule' => array('boolean')
-			),
-			'user_color_new_postings' => array(
-				'rule' => '/^#?[a-f0-9]{0,6}$/i'
-			),
-			'user_color_old_postings' => array(
-				'rule' => '/^#?[a-f0-9]{0,6}$/i',
-				'message' => '*'
-			),
-			'user_color_actual_posting' => array(
-				'rule' => '/^#?[a-f0-9]{0,6}$/i'
-			),
-		);
+		public $validate = [
+				'username' => [
+						'isUnique' => ['rule' => 'isUnique'],
+						'notEmpty' => ['rule' => 'notEmpty'],
+						'hasAllowedChars' => ['rule' => ['validateHasAllowedChars']]
+				],
+				'user_type' => [
+						'allowedChoice' => ['rule' => ['inList', ['user', 'admin', 'mod']]]
+				],
+				'password' => [
+						'notEmpty' => ['rule' => 'notEmpty'],
+						'pwConfirm' => [
+								'rule' => ['validateConfirmPassword'],
+								'message' => 'validation_error_pwConfirm'
+						]
+				],
+				'password_old' => [
+						'notEmpty' => [
+								'rule' => 'notEmpty',
+								'last' => 'true',
+						],
+						'pwCheckOld' => [
+								'rule' => ['validateCheckOldPassword'],
+								'last' => 'true',
+								'message' => 'validation_error_pwCheckOld'
+						]
+				],
+				'user_email' => [
+						'isUnique' => ['rule' => 'isUnique', 'last' => 'true'],
+						'isEmail' => ['rule' => ['email', true], 'last' => 'true']
+				],
+				'hide_email' => ['rule' => ['boolean']],
+				'logins' => ['rule' => 'numeric'],
+				'personal_messages' => ['rule' => ['boolean']],
+				'user_lock' => ['rule' => ['boolean']],
+				'activate_code' => [
+						'numeric' => ['rule' => 'numeric', 'allowEmpty' => false],
+						'between' => ['rule' => ['between', 0, 9999999]]
+				],
+				'user_signatures_hide' => ['rule' => ['boolean']],
+				'user_signature_images_hide' => ['rule' => ['boolean']],
+				'user_forum_refresh_time' => [
+						'numeric' => ['rule' => 'numeric'],
+						'greaterNull' => ['rule' => ['comparison', '>=', 0]],
+						'maxLength' => ['rule' => ['maxLength', 3]],
+				],
+				'user_automaticaly_mark_as_read' => ['rule' => ['boolean']],
+				'user_sort_last_answer' => ['rule' => ['boolean']],
+				'user_show_own_signature' => ['rule' => ['boolean']],
+				'user_color_new_postings' => ['rule' => '/^#?[a-f0-9]{0,6}$/i'],
+				'user_color_old_postings' => [
+						'rule' => '/^#?[a-f0-9]{0,6}$/i',
+						'message' => '*'
+				],
+				'user_color_actual_posting' => ['rule' => '/^#?[a-f0-9]{0,6}$/i']
+		];
 
 		public $findMethods = [
 				'latest' => true
@@ -390,7 +314,6 @@
 			$defaults = array(
 				'registered' => date("Y-m-d H:i:s"),
 				'user_type' => 'user',
-				'user_view' => 'thread',
 				'activate_code' => 0,
 			);
 			$data = array_merge($defaults, $data[$this->alias]);

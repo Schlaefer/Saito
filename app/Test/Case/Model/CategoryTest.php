@@ -12,7 +12,7 @@
 				(int)3 => 'Another Ontopic',
 				(int)2 => 'Ontopic'
 			);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			$result = $this->Category->getCategoriesSelectForAccession(1);
 			$expected = array(
@@ -21,7 +21,7 @@
 				(int)4 => 'Offtopic',
 				(int)5 => 'Trash'
 			);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			$result = $this->Category->getCategoriesSelectForAccession(2);
 			$expected = array(
@@ -31,24 +31,24 @@
 				(int)4 => 'Offtopic',
 				(int)5 => 'Trash'
 			);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testGetCategoriesForAccession() {
 			// test for accession 0 (everybody)
 			$result = $this->Category->getCategoriesForAccession(0);
 			$expected = array( '2' => '2', '3' => '3' );
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// test for accession 1 (user)
 			$result = $this->Category->getCategoriesForAccession(1);
 			$expected = array( '2' => '2', '3' => '3', '4' => '4', '5' => '5' );
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// test for accession 2 (admin)
 			$result = $this->Category->getCategoriesForAccession(2);
 			$expected = array( '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5' );
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testUpdateEvent() {

@@ -63,8 +63,8 @@
 		public function testSetThemeString() {
 			$_name = 'NameOfTheme';
 			$_r = $this->Themes->theme($_name);
-			$this->assertEqual($_r, $_name);
-			$this->assertEqual($this->Themes->theme(), $_name);
+			$this->assertEquals($_r, $_name);
+			$this->assertEquals($this->Themes->theme(), $_name);
 		}
 
 		/**
@@ -83,7 +83,7 @@
 
 			$this->Themes->theme($config);
 			$this->Themes->setDefault();
-			$this->assertEqual($this->Themes->theme(), 'Default');
+			$this->assertEquals($this->Themes->theme(), 'Default');
 		}
 
 		public function testGetAvailableOneTheme() {
@@ -97,7 +97,7 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual($_r, ['Default']);
+			$this->assertEquals($_r, ['Default']);
 		}
 
 		public function testGetAvailableAll() {
@@ -114,7 +114,7 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual(array_values($_r), ['Default', 'Ixi', 'Paz']);
+			$this->assertEquals(array_values($_r), ['Default', 'Ixi', 'Paz']);
 		}
 
 		public function testGetAvailableUserNotAllowed() {
@@ -132,7 +132,7 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual(array_values($_r), ['Default', 'Ixi']);
+			$this->assertEquals(array_values($_r), ['Default', 'Ixi']);
 		}
 
 		public function testGetAvailableUserAllowed() {
@@ -149,14 +149,14 @@
 
 			$this->Themes->theme($config);
 			$_r = $this->Themes->getAvailable();
-			$this->assertEqual(array_values($_r), ['Default', 'Paz']);
+			$this->assertEquals(array_values($_r), ['Default', 'Paz']);
 		}
 
 		public function testThemeDirs() {
 			$Collection = new ComponentCollection();
 			$this->Themes = new ThemesComponent($Collection);
 			$result = $this->Themes->themeDirs();
-			$this->assertEqual($result, ['Paz']);
+			$this->assertEquals($result, ['Paz']);
 		}
 
 	}

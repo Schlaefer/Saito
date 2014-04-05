@@ -15,7 +15,7 @@
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getSettings();
-			$this->assertEqual($user, $result);
+			$this->assertEquals($user, $result);
 
 			//* initialize with real user
 			$user = null;
@@ -31,7 +31,7 @@
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getId();
-			$this->assertEqual(2, $result);
+			$this->assertEquals(2, $result);
 
 			//* initialize with empty
 			$user = null;
@@ -205,7 +205,7 @@
 			$user = null;
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getMaxAccession();
-			$this->assertEqual(0, $result);
+			$this->assertEquals(0, $result);
 
 			//* user
 			$user = array(
@@ -214,7 +214,7 @@
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getMaxAccession();
-			$this->assertEqual(1, $result);
+			$this->assertEquals(1, $result);
 
 			//* initialize with real user
 			$user = array(
@@ -223,7 +223,7 @@
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getMaxAccession();
-			$this->assertEqual(2, $result);
+			$this->assertEquals(2, $result);
 
 			//* admin
 			$user = array(
@@ -232,7 +232,7 @@
 			);
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->getMaxAccession();
-			$this->assertEqual(3, $result);
+			$this->assertEquals(3, $result);
 		}
 
 		public function testIsUser() {
@@ -278,7 +278,7 @@
 			$this->SaitoUser->set($user);
 
 			$this->SaitoUser['foo'] = 'bar';
-			$this->assertEqual($this->SaitoUser['foo'], 'bar');
+			$this->assertEquals($this->SaitoUser['foo'], 'bar');
 
 			$this->assertTrue(isset($this->SaitoUser['foo']));
 			unset($this->SaitoUser['foo']);
@@ -297,7 +297,7 @@
 			$this->SaitoUser->set($user);
 			$result = $this->SaitoUser->mockUserType('user');
 			$this->SaitoUser->set($expected);
-			$this->assertEqual($this->SaitoUser, $result);
+			$this->assertEquals($this->SaitoUser, $result);
 		}
 
 		public function setUp() {

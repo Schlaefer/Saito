@@ -121,7 +121,7 @@ connection = close
 # Default number of simulated  concurrent users
 # ex: concurrent = 25
 #
-concurrent = 5
+concurrent = 2
 
 #
 # Default duration of the siege.  The right hand argument has
@@ -130,7 +130,7 @@ concurrent = 5
 # are assumed.
 # ex: time = 50M
 #
-time = 2M
+time = 1M
 
 #
 # Repetitions.  The length of siege may be specified in client
@@ -330,7 +330,7 @@ spinner = true
 # also appears in your urls.txt file.
 #
 # login-url = http://eos.haha.com/login.jsp POST name=jeff&pass=foo
-login-url = http://localhost/private/personal_projects/macnemo_2_github/users/login/ POST data[User][username]=test&data[User][password]=test
+login-url = http://saito.dev/users/login/ POST data[User][username]=test&data[User][password]=test
 #
 # Siege versions after 2.69 support multi logins; you can configure
 # them with multiple login-url directives. Place each one on a separate

@@ -25,6 +25,7 @@
 			'tos_enabled' => 1,
 			'tos_url' => 'http://example.com/tos-url.html/',
 			'thread_depth_indent' => '25',
+			'edit_delay' => 180,
 			'edit_period' => '20',
 			'shoutbox_enabled' => true,
 			'shoutbox_max_shouts' => 5
@@ -41,13 +42,13 @@
 			$result = $this->Setting->getSettings();
 			$expected = array_merge($this->_settingsCompact,
 					array( 'forum_name' => 'test', 'autolink' => 1 ));
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testGetSettings() {
 			$result = $this->Setting->getSettings();
 			$expected = $this->_settingsCompact;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		/**
@@ -67,7 +68,7 @@
 			$expected = $this->_settingsCompact;
 			$expected['lock'] = 'hatch';
 			$expected['timezone'] = 'island';
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testLoad() {
@@ -75,7 +76,7 @@
 			$this->Setting->load();
 			$result = Configure::read('Saito.Settings');
 			$expected = $this->_settingsCompact;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function setUp() {

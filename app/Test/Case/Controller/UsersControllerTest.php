@@ -107,17 +107,17 @@
 			$userAfterLogin = $this->Users->User->read();
 
 			// redirect
-			$this->assertEqual($this->Users->redirectUrl, $this->Users->referer());
+			$this->assertEquals($this->Users->redirectUrl, $this->Users->referer());
 			// user has to be in useronline
 			$this->assertTrue($this->Users->User->UserOnline->findByUserId(3));
 
 			// time is stored as last login time
-			$this->assertEqual($timeOfLogin, $userAfterLogin['User']['last_login']);
+			$this->assertEquals($timeOfLogin, $userAfterLogin['User']['last_login']);
 
 			// check that there was no false insertion of new users through relationships
 			// leave this test of the end of testLogin()
 			$registeredUsersAfterLogin = $this->Users->User->find('count');
-			$this->assertEqual($registeredUsersBeforeLogin,
+			$this->assertEquals($registeredUsersBeforeLogin,
 				$registeredUsersAfterLogin);
 		}
 
@@ -342,9 +342,9 @@
 
 			$result = $this->testAction("/users/view/$userId", ['return' => 'vars']);
 			$this->assertFalse(isset($this->headers['Location']));
-			$this->assertEqual($result['user']['User']['id'], 3);
-			$this->assertEqual($result['user']['User']['username'], 'Ulysses');
-			$this->assertEqual($result['user']['User']['solves_count'], '16');
+			$this->assertEquals($result['user']['User']['id'], 3);
+			$this->assertEquals($result['user']['User']['username'], 'Ulysses');
+			$this->assertEquals($result['user']['User']['solves_count'], '16');
 		}
 
 		public function testViewSanitation() {
@@ -511,7 +511,7 @@
 			$this->_loginUser(6);
 			$this->testAction('/admin/users/delete/9999', array('data' => $data));
 			$countAfterDelete = $this->controller->User->find('count');
-			$this->assertEqual($countBeforeDelete, $countAfterDelete);
+			$this->assertEquals($countBeforeDelete, $countAfterDelete);
 			$this->assertRedirectedTo();
 
 			/*
@@ -579,7 +579,7 @@
 			$this->controller->User->id = 4;
 			$this->controller->User->contain();
 			$result = $this->controller->User->read();
-			$this->assertEqual($result['User']['password'], $expected);
+			$this->assertEquals($result['User']['password'], $expected);
 			$this->assertFalse(isset($this->headers['Location']));
 
 			/*
@@ -602,7 +602,7 @@
 			$this->controller->User->id = 4;
 			$this->controller->User->contain();
 			$result = $this->controller->User->read();
-			$this->assertEqual($result['User']['password'], $expected);
+			$this->assertEquals($result['User']['password'], $expected);
 			$this->assertFalse(isset($this->headers['Location']));
 
 			/*
@@ -624,7 +624,7 @@
 			$this->controller->User->id = 1;
 			$this->controller->User->contain();
 			$result = $this->controller->User->read();
-			$this->assertEqual($result['User']['password'], $expected);
+			$this->assertEquals($result['User']['password'], $expected);
 			$this->assertRedirectedTo();
 
 			/*

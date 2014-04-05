@@ -35,9 +35,7 @@
 				return;
 			}
 			foreach ($_additionalCachelets as $_c) {
-				if (!class_exists(($_c['name']))) {
-					App::uses($_c['name'], $_c['location']);
-				}
+				App::uses($_c['name'], $_c['location']);
 				$this->_CacheSupport->add(new $_c['name']);
 			}
 		}

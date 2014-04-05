@@ -4,8 +4,6 @@
 
 		protected $_CU;
 
-		protected $_readEntries = null;
-
 		protected $_UserRead;
 
 		protected $_minPostingsToKeep;
@@ -74,18 +72,18 @@
 				return;
 			}
 
-			$youngestDeletedEntryId = array_shift(array_slice($entries,
-					$numberOfEntries - $maxEntriesToKeep,
-					1));
-			$this->_UserRead->deleteUserEntriesBefore($this->_id(),
-					$youngestDeletedEntryId);
+			$entriesToDelete = $numberOfEntries - $maxEntriesToKeep;
+			// assign dummy var to prevent Strict notice on reference passing
+			$dummy = array_slice($entries, $entriesToDelete, 1);
+			$oldestIdToKeep = array_shift($dummy);
+			$this->_UserRead->deleteUserEntriesBefore($this->_id(), $oldestIdToKeep);
 
 			// all entries older than (and including) the deleted entries become
 			// old entries by updating the MAR-timestamp
 			$youngestDeletedEntry = $this->_CU->getModel()->Entry->find('first',
 					[
 							'contain' => false,
-							'conditions' => ['Entry.id' => $youngestDeletedEntryId],
+							'conditions' => ['Entry.id' => $oldestIdToKeep],
 							'fields' => ['Entry.time']
 					]);
 			// can't use  $this->_CU->LastRefresh->set() because this would also
@@ -95,10 +93,7 @@
 		}
 
 		public function get() {
-			if ($this->_readEntries === null) {
-				$this->_readEntries = $this->_UserRead->getUser($this->_id());
-			}
-			return $this->_readEntries;
+			return $this->_UserRead->getUser($this->_id());
 		}
 
 		public function delete() {

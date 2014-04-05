@@ -26,27 +26,27 @@
 
 			$expected = 'Castaway';
 			$result = $this->UserH->userRank(0);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$expected = 'Castaway';
 			$result = $this->UserH->userRank(10);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$expected = 'Other';
 			$result = $this->UserH->userRank(11);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$expected = 'Jacob';
 			$result = $this->UserH->userRank(99);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$expected = 'Jacob';
 			$result = $this->UserH->userRank(100);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$expected = 'Jacob';
 			$result = $this->UserH->userRank(101);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			Configure::write('Saito.Settings.userranks_show', $_userranksShow);
 			Configure::write('Saito.Settings.userranks_ranks', $_userranksRanks);

@@ -22,7 +22,7 @@
 				'description' => '',
 				'accession' => 2,
 				'standard_category' => 1,
-				'thread_count' => 0,
+				'thread_count' => 1,
 			),
 			array(
 				'id' => 2,
@@ -31,7 +31,7 @@
 				'description' => '',
 				'accession' => 0,
 				'standard_category' => 1,
-				'thread_count' => 1,
+				'thread_count' => 4,
 			),
 			array(
 				'id' => 3,

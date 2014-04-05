@@ -61,13 +61,13 @@
 			Configure::write('Saito.Settings.thread_depth_indent', 9999);
 			$this->EntryH->beforeRender(null);
 			$result = $this->EntryH->threadCached($entries, $SaitoUser, 0);
-			$this->assertEqual(substr_count($result, '<ul'), 3);
+			$this->assertEquals(substr_count($result, '<ul'), 3);
 
 			// max depth should only allow 1 level
 			Configure::write('Saito.Settings.thread_depth_indent', 2);
 			$this->EntryH->beforeRender(null);
 			$result = $this->EntryH->threadCached($entries, $SaitoUser, 0);
-			$this->assertEqual(substr_count($result, '<ul'), 2);
+			$this->assertEquals(substr_count($result, '<ul'), 2);
 		}
 
 		public function testGetFastLink() {
@@ -83,7 +83,7 @@
 			);
 			$expected = "<a href='localhost/entries/view/3' class=''>Subject</a>";
 			$result = $this->EntryH->getFastLink($entry);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			//* test n/t posting
 			$entry = array( 'Entry' => array(
@@ -95,7 +95,7 @@
 			);
 			$expected = "<a href='localhost/entries/view/1' class=''>Subject n/t</a>";
 			$result = $this->EntryH->getFastLink($entry);
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			//*  test 'class' input
 			$entry = array( 'Entry' => array(
@@ -108,7 +108,7 @@
 			$class = 'my_test_class foo';
 			$expected = "<a href='localhost/entries/view/3' class='my_test_class foo'>Subject</a>";
 			$result = $this->EntryH->getFastLink($entry, array( 'class' => $class ));
-			$this->assertEqual($expected, $result);
+			$this->assertEquals($expected, $result);
 		}
 
 	}

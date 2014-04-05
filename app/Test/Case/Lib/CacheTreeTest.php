@@ -206,12 +206,12 @@
 			$this->CacheTree->setCache($mockData);
 			$this->CacheTree->setAllowRead(true);
 			$result = $this->CacheTree->read();
-			$this->assertEqual($result, $mockData);
+			$this->assertEquals($result, $mockData);
 
 			// test
 			$this->CacheTree->reset();
 			$result = $this->CacheTree->read();
-			$this->assertEqual($result, []);
+			$this->assertEquals($result, []);
 		}
 
 	}

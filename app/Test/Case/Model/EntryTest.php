@@ -94,7 +94,7 @@
 				$expected[$this->Entry->alias]
 			);
 
-			$this->assertEqual(
+			$this->assertEquals(
 				$result,
 				$expected
 			);
@@ -186,7 +186,7 @@
 			$appendedEntry = $this->Entry->find(
 					'count', array(
 							'conditions' => array ('Entry.id' => 4, 'Entry.pid' => 2 )));
-			$this->assertEqual($appendedEntry, 0);
+			$this->assertEquals($appendedEntry, 0);
 
 			// count both threads
 			$targetEntryCount = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));
@@ -198,33 +198,33 @@
 
 			// target thread is contains now all entries
 			$targetEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '1')));
-			$this->assertEqual($targetEntryCountAfterMerge, $sourceEntryCount + $targetEntryCount);
+			$this->assertEquals($targetEntryCountAfterMerge, $sourceEntryCount + $targetEntryCount);
 
 			//appended entries have category of target thread
 			$targetCategoryCount = $this->Entry->find('count', array(
 					'conditions' => array ('Entry.tid' => 1, 'Entry.category' => 2)
 					));
-			$this->assertEqual($targetCategoryCount, $targetEntryCount + $sourceEntryCount);
+			$this->assertEquals($targetCategoryCount, $targetEntryCount + $sourceEntryCount);
 
 			// source thread is gone
 			$sourceEntryCountAfterMerge = $this->Entry->find('count', array('conditions' => array ('tid' => '4')));
-			$this->assertEqual($sourceEntryCountAfterMerge, 0);
+			$this->assertEquals($sourceEntryCountAfterMerge, 0);
 
 			// entry is appended now
 			$appendedEntry = $this->Entry->find(
 					'count', array(
 							'conditions' => array ('Entry.id' => 4, 'Entry.pid' => '2' )));
-			$this->assertEqual($appendedEntry, 1);
+			$this->assertEquals($appendedEntry, 1);
 		}
 
 		public function testIdsForNode() {
 			$expected = array(2, 3, 7, 9);
 			$result = $this->Entry->getIdsForNode(2);
-			$this->assertEqual(array_values($result), array_values($expected));
+			$this->assertEquals(array_values($result), array_values($expected));
 
 			$expected = array(1, 2, 3, 7, 8, 9);
 			$result = $this->Entry->getIdsForNode(1);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testThreadIncrementView() {
@@ -239,7 +239,7 @@
 					0 => ['Entry' => ['views' => '1']],
 					1 => ['Entry' => ['views' => '1']]
 			);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testThreadIncrementViewOmitUser() {
@@ -255,7 +255,7 @@
 					0 => ['Entry' => ['views' => '1']],
 					1 => ['Entry' => ['views' => '0']]
 			);
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testChangeThreadCategory() {
@@ -292,7 +292,7 @@
 					'category' => $_newCategory,
 				)
 			));
-			$this->assertEqual($_nBeforeChange, $_nAfterChange);
+			$this->assertEquals($_nBeforeChange, $_nAfterChange);
 
 			$_nAfterChangeOld = $this->Entry->find('count', array(
 				'contain' => false,
@@ -301,7 +301,7 @@
 					'category' => $_oldCategory
 				)
 			));
-			$this->assertEqual(0, $_nAfterChangeOld);
+			$this->assertEquals(0, $_nAfterChangeOld);
 		}
 
 		public function testChangeThreadCategoryNotAnExistingCategory() {
@@ -328,7 +328,7 @@
 			$countBeforeDelete = $this->Entry->find('count',
 					array('conditions' => array('tid' => '1') ) );
 			$expected = 6;
-			$this->assertEqual($countBeforeDelete, $expected);
+			$this->assertEquals($countBeforeDelete, $expected);
 
 			//* try to delete thread
 			$this->Entry->id = 1;
@@ -366,12 +366,12 @@
 			$result = $this->Entry->find('count',
 					array( 'conditions' => array( 'tid' => '1' ) ));
 			$expected = 0;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// delete associated bookmarks
 			$allBookmarksAfterDelete = $this->Entry->Bookmark->find('count');
 			$numberOfBookmarksForTheDeletedThread = 3;
-			$this->assertEqual($allBookmarksBeforeDelete - $numberOfBookmarksForTheDeletedThread,
+			$this->assertEquals($allBookmarksBeforeDelete - $numberOfBookmarksForTheDeletedThread,
 				$allBookmarksAfterDelete);
 		}
 
@@ -386,7 +386,7 @@
 				array(
 					'conditions' => array('Entry.user_id' => 3)
 				));
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// entries are now assigned to user_id 0
 			$expected = 7;
@@ -394,7 +394,7 @@
 				array(
 					'conditions' => array('Entry.user_id' => 0)
 				));
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// name is removed
 			$expected = 0;
@@ -402,7 +402,7 @@
 				array(
 					'conditions' => array('Entry.name' => 'Ulysses')
 				));
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// edited by is removed
 			$expected = 0;
@@ -410,7 +410,7 @@
 				array(
 					'conditions' => array('Entry.edited_by' => 'Ulysses')
 				));
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// ip is removed
 			$expected = 0;
@@ -418,12 +418,12 @@
 				array(
 					'conditions' => array('Entry.ip' => '1.1.1.1')
 				));
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			// all entries are still there
 			$expected = $entriesBeforeActions;
 			$result = $this->Entry->find('count');
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testIsAnsweringForbidden() {
@@ -512,7 +512,7 @@
 			$SaitoUser->set($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEqual($result, 'user');
+			$this->assertEquals($result, 'user');
 		}
 
 		public function testIsEditingForbiddenToLate() {
@@ -535,7 +535,7 @@
 			$SaitoUser->set($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEqual($result, 'time');
+			$this->assertEquals($result, 'time');
 		}
 
 		public function testIsEditingForbiddenLocked() {
@@ -554,7 +554,7 @@
 			$SaitoUser->set($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEqual($result, 'locked');
+			$this->assertEquals($result, 'locked');
 		}
 
 		public function testIsEditingForbiddenModToLateNotFixed() {
@@ -575,7 +575,7 @@
 			$SaitoUser->set($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEqual($result, 'time');
+			$this->assertEquals($result, 'time');
 		}
 
 		public function testIsEditingForbiddenModToLateFixed() {
@@ -680,18 +680,18 @@
 					->will($this->returnValue($ar));
 
 			$result = $this->Entry->treeForNode(2);
-			$this->assertEqual($result,
+			$this->assertEquals($result,
 				array(0 => array('Entry' => array('id' => '2'), 'User')));
 		}
 
 		public function testGetThreadId() {
 			$result = $this->Entry->getThreadId(1);
 			$expected = 1;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 
 			$result = $this->Entry->getThreadId(5);
 			$expected = 4;
-			$this->assertEqual($result, $expected);
+			$this->assertEquals($result, $expected);
 		}
 
 		public function testGetThreadIdNotFound() {

@@ -78,41 +78,21 @@
 			]
 		);
 
-		public $validate = array(
-			'subject' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty',
-				),
-				'maxLength' => array(
-					'rule' => 'validateSubjectMaxLength',
-				),
-			),
-			'category' => array(
-				'notEmpty' => array(
-					'rule' => 'notEmpty'
-				),
-				'numeric' => array(
-					'rule' => 'numeric'
-				),
-				'isAllowed' => [
-					'rule' => 'validateCategoryIsAllowed'
-				]
-			),
-			'user_id' => array(
-				'rule' => 'numeric'
-			),
-			'views' => array(
-				'rule' => array('comparison', '>=', 0),
-			),
-			/*
-			Wenn @mlf sollte, wenn die Performance es zulässt, der Name sowieso nicht in
-			der `entries` Tabelle stehen, sondern sauber über die `User.id` Verbindung
-			aus der `User` Tabelle entnommen werden. Dies ist im Moment schon der Fall,
-			so dass dieses Feld @mlf entfernt werden kann und damit auch wieder dieser Hack.
-			@td validate input for username [a-z][A-Z][0-9][_-]
-			*/
-			'name' => array()
-		);
+		public $validate = [
+				'subject' => [
+						'notEmpty' => ['rule' => 'notEmpty'],
+						'maxLength' => ['rule' => 'validateSubjectMaxLength']
+				],
+				'category' => [
+						'notEmpty' => ['rule' => 'notEmpty'],
+						'numeric' => ['rule' => 'numeric'],
+						'isAllowed' => ['rule' => 'validateCategoryIsAllowed']
+				],
+				'user_id' => ['rule' => 'numeric'],
+				'views' => ['rule' => ['comparison', '>=', 0]],
+			// used in full text search
+				'name' => array()
+		];
 
 /**
  * Fields allowed in public output

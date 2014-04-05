@@ -5,8 +5,7 @@
 	class TimeHHelper extends AppHelper {
 
 		public $helpers = array(
-			'Glasenuhr',
-			'Time',
+			'Time'
 		);
 
 		protected static $_timezoneGroups = array(
@@ -66,31 +65,47 @@
 			return $options;
 		}
 
-/**
- *
- *
- * #@td user/admin time zone diff and admin format settings
- *
- * @param        $timestamp
- * @param string $format
- * @param null   $custom
- *
- * @return bool|string
- */
-		public function formatTime($timestamp, $format = 'normal', $custom = null) {
+		/**
+		 * outputs a formatted time string
+		 *
+		 * #@td user/admin time zone diff and admin format settings
+		 *
+		 * @param $timestamp
+		 * @param string $format
+		 * @param array $options
+		 * @return string
+		 */
+		public function formatTime($timestamp, $format = 'normal', array $options = []) {
 			// Stopwatch::start('formatTime');
+			$options += [
+				'wrap' => true
+			];
+
 			$timestamp = strtotime($timestamp) - $this->_timeDiffToUtc;
 
-			if ($format == 'normal') {
+			if ($format === 'normal' || empty($format)) {
 				$_timeString = $this->_normal($timestamp);
 			} elseif ($format === 'short') {
-				$_timeString = $this->_short($timestamp);
-			} elseif ($format == 'custom') {
-				$_timeString = strftime($custom, $timestamp);
-			} elseif ($format == 'eng') {
+				$_timeString = date('d.m.', $timestamp);
+			} elseif ($format === 'eng') {
 				$_timeString = strftime('%F %T', $timestamp);
-			} elseif ($format == 'glasen') {
-				$_timeString = $this->_glasen($timestamp);
+			} else {
+				$_timeString = strftime($format, $timestamp);
+			}
+
+			if ($options['wrap']) {
+				$attributes = [
+					'datetime' => date(DATE_RFC3339, $timestamp),
+					'title' => strftime("%F %T", $timestamp)
+				];
+				if (is_array($options['wrap'])) {
+					$attributes += $options['wrap'];
+				}
+				foreach ($attributes as $attribute => $value) {
+					$attributes[$attribute] = "$attribute=\"$value\"";
+				}
+				$attributes = implode(' ', $attributes);
+				$_timeString = "<time $attributes>$_timeString</time>";
 			}
 
 			// Stopwatch::stop('formatTime');
@@ -98,7 +113,6 @@
 		}
 
 		protected function _normal($timestamp) {
-			$time = '';
 			if ($timestamp > $this->_today || $timestamp > ($this->_now - 21600)) {
 				// today or in the last 6 hours
 				$time = strftime("%H:%M", $timestamp);
@@ -110,24 +124,6 @@
 				$time = strftime("%d.%m.%Y", $timestamp);
 			}
 
-			$time = '<span title="' . strftime("%d.%m.%Y %T", $timestamp) . '">' .
-					$time . '</span>';
-			return $time;
-		}
-
-		protected function _short($timestamp) {
-			$time = date("d.m.", $timestamp);
-			return $time;
-		}
-
-		protected function _glasen($timestamp) {
-			if ( $timestamp > $this->_today || $timestamp > ( $this->_now - 21600 ) ) {
-				$time = $this->Glasenuhr->ftime($timestamp);
-			} elseif ( $timestamp > $this->_today - 64800 ) {
-				$time = __('yesterday') . ' ' . $this->Glasenuhr->ftime($timestamp);
-			} else {
-				$time = strftime("%d.%m.%Y", $timestamp) . ' ' . $this->Glasenuhr->ftime($timestamp);
-			}
 			return $time;
 		}
 
