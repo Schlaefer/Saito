@@ -107,6 +107,9 @@
 		public function beforeFilter() {
 			parent::beforeFilter();
 
+			// must be called before CakeError early return
+			$this->Themes->theme(Configure::read('Saito.themes'));
+
 			// CakeErrors run through this beforeFilter, which is usually not necessary
 			// for error messages
 			if ($this->name === 'CakeError') {
@@ -124,8 +127,6 @@
 					'webroot' => $this->webroot
 				]
 			);
-
-			$this->Themes->theme(Configure::read('Saito.themes'));
 
 			// Load forum settings
 			$this->Setting->load(Configure::read('Saito.Settings'));

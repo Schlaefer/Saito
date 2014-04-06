@@ -393,6 +393,13 @@
 			$this->testAction('/users/edit/3', ['method' => 'POST']);
 		}
 
+		public function testIndex() {
+			$this->generate('Users');
+			$this->_loginUser(1);
+			// basic test: creating view should not throw error
+			$this->testAction('/users/index', ['return' => 'view']);
+		}
+
 		public function testLock() {
 			/* not logged in should'nt be allowed */
 			$this->testAction('/users/lock/3');

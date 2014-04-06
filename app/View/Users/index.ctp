@@ -44,7 +44,6 @@
 											$this->UserH->type($user['User']['user_type']),
 											__('user_since %s',
 													$this->TimeH->formatTime($user['User']['registered'],
-															'custom',
 															'%d.%m.%Y')),
 									];
 									if ($user['UserOnline']['logged_in']) {
