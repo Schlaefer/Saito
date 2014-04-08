@@ -37,6 +37,7 @@ require.config({
     jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
     jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
     marionette: '../dev/bower_components/marionette/backbone.marionette',
+    templateHelpers: 'lib/saito/templateHelpers',
     tether: '../dev/bower_components/tether/tether',
     text: '../dev/bower_components/requirejs-text/js/text',
     underscore: '../dev/bower_components/underscore/js/underscore'

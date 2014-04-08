@@ -2,14 +2,17 @@ define([
   'jquery', 'underscore', 'backbone', 'marionette',
   'models/app',
   'modules/shoutbox/models/control',
+  'templateHelpers',
   'text!modules/shoutbox/templates/shout.html'
-], function($, _, Backbone, Marionette, App, SbCM, Tpl) {
+], function($, _, Backbone, Marionette, App, SbCM, TemplateHelpers, Tpl) {
 
   "use strict";
 
   var ShoutboxView = Marionette.ItemView.extend({
 
     className: 'shout',
+
+    templateHelpers: TemplateHelpers,
 
     initialize: function(options) {
       this.webroot = options.webroot;
@@ -18,11 +21,8 @@ define([
     },
 
     serializeData: function() {
-      var data = this.model.toJSON();
-      data.user_url = this.webroot + 'users/view/' +
-          this.model.get('user_id');
-
-      var _isNew = this.model.get('id') > SbCM.get('mar'),
+      var data = this.model.toJSON(),
+          _isNew = this.model.get('id') > SbCM.get('mar'),
           _isOwn = this.model.get('user_id') === App.currentUser.get('id');
       if (_isOwn) {
         this.$el.addClass('shoutbox-shout-cu');
