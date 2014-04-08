@@ -114,6 +114,18 @@
 						'rule' => '/^#?[a-f0-9]{0,6}$/i',
 						'message' => '*'
 				],
+				'user_place_lat' => [
+					'numeric' => ['rule' => 'numeric', 'allowEmpty' => true],
+					'roundedGeoFormat' => ['rule' => '/^\d{1,2}(\.\d{0,4})?$/']
+				],
+				'user_place_lng' => [
+					'numeric' => ['rule' => 'numeric', 'allowEmpty' => true],
+					'roundedGeoFormat' => ['rule' => '/^\d{1,2}(\.\d{0,4})?$/']
+				],
+				'user_place_zoom' => [
+					'numeric' => ['rule' => ['naturalNumber', 0], 'allowEmpty' => true],
+					'between' => ['rule' => ['between', 0, 25]]
+				],
 				'user_color_actual_posting' => ['rule' => '/^#?[a-f0-9]{0,6}$/i']
 		];
 

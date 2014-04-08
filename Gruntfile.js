@@ -129,6 +129,19 @@ module.exports = function(grunt) {
                 cwd: './app/webroot/dev/bower_components/font-awesome/scss/',
                 src: '*',
                 dest: './app/webroot/css/src/partials/lib/font-awesome/'
+              },
+              // leaflet
+              {
+                expand: true,
+                cwd: './app/Vendor/leaflet/',
+                src: '**',
+                dest: './app/webroot/dist/leaflet/'
+              },
+              {
+                expand: true,
+                cwd: './app/webroot/dev/bower_components/leaflet.markercluster/dist/',
+                src: '*',
+                dest: './app/webroot/dist/leaflet/'
               }
             ]
           },

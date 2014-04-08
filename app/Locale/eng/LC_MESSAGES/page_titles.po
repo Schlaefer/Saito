@@ -52,6 +52,10 @@ msgid "users/edit"
 msgstr "Edit User"
 
 #
+msgid "users/map"
+msgstr "Map"
+
+#
 msgid "bookmarks/index"
 msgstr "Bookmarks"
 

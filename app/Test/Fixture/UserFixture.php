@@ -12,6 +12,9 @@
 			'hide_email' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'user_hp' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 			'user_place' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+			'user_place_lat' => array('type' => 'float', 'null' => true, 'default' => null),
+			'user_place_lng' => array('type' => 'float', 'null' => true, 'default' => null),
+			'user_place_zoom' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
 			'signature' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 			'profile' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 			'entry_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
@@ -97,6 +100,8 @@
 				'user_category_custom' => '',
 				'registered' => '2009-01-01 00:00',
 				'activate_code' => 0,
+				'user_place_lat' => 21.610,
+				'user_place_lng' => -158.096
 			),
 			array(
 				'id' => 4,

@@ -13,6 +13,13 @@ define(['underscore', 'app/vent'], function(_, Vent) {
         linkToUserProfile: _.template('<a href="<%- url %>"><%- name %></a>')
       },
 
+      /**
+       * generates link to user profile
+       *
+       * @param id user id
+       * @param name user name
+       * @returns string
+       */
       linkToUserProfile: function(id, name) {
         var url = this.urlToUserProfile(id);
         return this.templates.linkToUserProfile({url: url, name: name});

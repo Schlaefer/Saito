@@ -96,6 +96,13 @@
 				);
 
 				echo $this->Setting->table(
+						$this->Html->link(__('admin.set.map'), 'http://developer.mapquest.com/'),
+						['map_enabled', 'map_api_key'],
+						$Settings,
+						['nav-title' => 'Map']
+				);
+
+				echo $this->Setting->table(
 					__('Debug'),
 					['stopwatch_get'],
 					$Settings

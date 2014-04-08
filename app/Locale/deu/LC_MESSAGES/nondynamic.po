@@ -366,7 +366,7 @@ msgstr "Embed.ly Key"
 
 #
 msgid "embedly_key_exp"
-msgstr "API-Key, den man nach der Registrierung bei Embed.ly erhält."
+msgstr "API-Schlüssel, den man nach der Registrierung bei Embed.ly erhält."
 
 #
 msgid "stopwatch_get"
@@ -391,3 +391,19 @@ msgstr "API CORS"
 #
 msgid "api_crossdomain_exp"
 msgstr "Wert für den Access-Control-Allow-Origin Header (Standard ist leer)."
+
+#
+msgid "map_enabled"
+msgstr "Kartennutzung aktivieren"
+
+#
+msgid "map_enabled_exp"
+msgstr "Aktivieren um Karten mit Hilfe von mapquest.com anzuzeigen."
+
+#
+msgid "map_api_key"
+msgstr "API Schlüssel"
+
+#
+msgid "map_api_key_exp"
+msgstr "Mapquest API Schlüssel."

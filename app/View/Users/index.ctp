@@ -1,4 +1,15 @@
+<?php
+	$this->start('headerSubnavLeft');
+	echo $this->Html->link(
+			'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'),
+			'/',
+			array('class' => 'textlink', 'escape' => false));
+	$this->end();
+
+	$this->element('users/menu');
+?>
 <div class="user index">
+
 	<div class="panel">
 		<?= $this->Layout->panelHeading($title_for_page, ['pageHeading' => true]) ?>
 		<div class="panel-content">

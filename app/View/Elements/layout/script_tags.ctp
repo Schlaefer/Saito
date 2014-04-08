@@ -10,6 +10,8 @@
 
 	echo $this->Html->scriptBlock($this->JsData->getAppJs($this));
 
+	echo $this->fetch('script-head');
+
 	if ($require) {
 		$requireJsScript = 'main';
 		if (!Configure::read('debug')) {

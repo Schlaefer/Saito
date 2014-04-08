@@ -6,6 +6,8 @@
 			array('class' => 'textlink', 'escape' => false));
 	$this->end();
 
+	$this->element('users/menu');
+
 	$urlToHistory = [
 			'controller' => 'searches',
 			'action' => 'advanced',
@@ -59,6 +61,13 @@
 		$table[] = [
 				__('user_place'),
 				h($user['User']['user_place'])
+		];
+	}
+
+	if (Configure::read('Saito.Settings.map_enabled') && !empty($user['User']['user_place_lat'])) {
+		$table[] = [
+				'',
+				$this->Map->map($user)
 		];
 	}
 
