@@ -6,30 +6,15 @@ module.exports = function(grunt) {
   var requireJsOptions = {
     baseUrl: "./app/webroot/js",
     dir: "./app/webroot/release-tmp",
-    optimize: "uglify2",
+    optimize: "uglify2", // "none"
     skipDirOptimize: true,
     findNestedDependencies: true,
     // just to many comments in bootstrap
     preserveLicenseComments: false,
     shim: {
-      underscore: {
-        exports: '_'
-      },
-      backbone: {
-        deps: ['underscore' /*, 'jquery' */],
-        exports: 'Backbone'
-      },
-      backboneLocalStorage: {
-        deps: ['backbone'],
-        exports: 'Store'
-      },
       drop: {
         deps: ['tether'],
         exports: 'Drop'
-      },
-      marionette: {
-        deps: ['underscore', 'backbone' /*, 'jquery' */],
-        exports: 'Marionette'
       },
       jqueryTinyTimer: {
         deps: [/* 'jquery' */]
@@ -49,11 +34,14 @@ module.exports = function(grunt) {
       jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
       jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
       jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
-      marionette: '../dev/bower_components/marionette/backbone.marionette',
       templateHelpers: 'lib/saito/templateHelpers',
       tether: '../dev/bower_components/tether/tether',
       text: '../dev/bower_components/requirejs-text/js/text',
       underscore: '../dev/bower_components/underscore/js/underscore',
+      // marionette
+      marionette: '../dev/bower_components/marionette/backbone.marionette',
+      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/lib/amd/backbone.wreqr',
+      "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
       // moment
       moment: '../dev/bower_components/momentjs/js/moment',
       'moment-de': '../dev/bower_components/momentjs/lang/de'
@@ -64,6 +52,8 @@ module.exports = function(grunt) {
         include: [
           'backbone',
           'backboneLocalStorage',
+          'backbone.babysitter',
+          'backbone.wreqr',
           'cakeRest',
           'domReady',
           'drop',

@@ -1,24 +1,9 @@
 // config used in dev mode (loading each file)
 require.config({
   shim: {
-    underscore: {
-      exports: '_'
-    },
-    backbone: {
-      deps: ['underscore' /*, 'jquery'*/],
-      exports: 'Backbone'
-    },
-    backboneLocalStorage: {
-      deps: ['backbone'],
-      exports: 'Store'
-    },
     drop: {
       deps: ['tether'],
       exports: 'Drop'
-    },
-    marionette: {
-      deps: ['underscore', 'backbone' /*, 'jquery' */],
-      exports: 'Marionette'
     },
     jqueryTinyTimer: {
       deps: [/* 'jquery' */]
@@ -36,10 +21,13 @@ require.config({
     jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
     jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
     jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
-    marionette: '../dev/bower_components/marionette/backbone.marionette',
     templateHelpers: 'lib/saito/templateHelpers',
     tether: '../dev/bower_components/tether/tether',
     text: '../dev/bower_components/requirejs-text/js/text',
-    underscore: '../dev/bower_components/underscore/js/underscore'
+    underscore: '../dev/bower_components/underscore/js/underscore',
+    // marionette
+    marionette: '../dev/bower_components/marionette/backbone.marionette',
+    "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
+    "backbone.wreqr": '../dev/bower_components/backbone.wreqr/lib/amd/backbone.wreqr'
   }
 });
