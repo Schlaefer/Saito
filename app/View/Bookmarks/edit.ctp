@@ -7,8 +7,8 @@
   $this->end();
 ?>
 <div class="panel">
-	<?= $this->Layout->panelHeading($this->Layout->pageHeading(__('Edit Bookmark')),
-			['pageHeading' => true]) ?>
+	<?= $this->Layout->panelHeading(__('Edit Bookmark'),
+		['pageHeading' => true]) ?>
 	<div class="panel-content">
 		<?php
 					$entry = array(
