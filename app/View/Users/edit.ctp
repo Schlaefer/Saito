@@ -1,10 +1,11 @@
 <?php
   $this->start('headerSubnavLeft');
-  echo $this->Html->link(
-      '<i class="fa fa-arrow-left"></i> ' . __('Back'),
-      array ( 'controller' => 'users', 'action' => 'view', $this->request->data['User']['id']),
-      array( 'class' => 'textlink', 'escape' => FALSE ));
-  $this->end();
+	echo $this->Layout->navbarItem(
+		'<i class="fa fa-arrow-left"></i> ' . __('Back'),
+		['controller' => 'users', 'action' => 'view',
+			$this->request->data['User']['id']],
+		['escape' => false]);
+	$this->end();
 ?>
 <div class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>

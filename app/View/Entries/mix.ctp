@@ -1,15 +1,12 @@
 <?php
 	Stopwatch::start('entries/mix');
 	$this->start('headerSubnavLeft');
-	echo $this->Html->link(
-			'<i class="fa fa-arrow-left"></i> ' . __('Back'),
-			$this->EntryH->getPaginatedIndexPageId($entries[0]['Entry']['tid'],
-					$lastAction),
-			[
-					'class' => 'textlink',
-					'escape' => false,
-					'rel' => 'nofollow',
-			]
+
+	echo $this->Layout->navbarItem(
+		'<i class="fa fa-arrow-left"></i> ' . __('Back'),
+		$this->EntryH->getPaginatedIndexPageId($entries[0]['Entry']['tid'],
+			$lastAction),
+		['escape' => false, 'rel' => 'nofollow']
 	);
 	$this->end();
 ?>

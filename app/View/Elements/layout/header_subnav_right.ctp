@@ -5,7 +5,7 @@
 ?>
 <?php // if a page has a global paginator we assume it's always shown top right ?>
 <?php if (isset($this->Paginator) && $this->request->params['action'] == 'index') : ?>
-	<span class="paginator">
+	<span class="paginator navbar-item right">
 		<?php
 		$this->Paginator->options(array('url' => null));
 

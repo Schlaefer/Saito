@@ -210,4 +210,22 @@ EOF;
 			}
 		}
 
+		public function navbarItem($content, $url, array $options = []) {
+			$defaults = [
+				'class' => 'navbar-item',
+				'position' => 'left'
+			];
+			$class = '';
+			if (isset($options['class'])) {
+				$class = $options['class'];
+				unset($options['class']);
+			}
+			$options += $defaults;
+
+			$options['class'] .= " {$options['position']} $class";
+			unset($class, $options['position']);
+
+			echo $this->Html->link($content, $url, $options);
+		}
+
 	}

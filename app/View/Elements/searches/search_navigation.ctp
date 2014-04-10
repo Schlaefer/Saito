@@ -1,5 +1,6 @@
 <?php
 	$this->start('headerSubnavRightTop');
+	echo '<span class="navbar-item right">';
 	if (!empty($results)) {
 		if ($this->Paginator->current() > 2) {
 			echo $this->Paginator->first(
@@ -29,4 +30,5 @@
 					['class' => 'disabled']);
 		}
 	}
+	echo '</span>';
 	$this->end();

@@ -12,10 +12,10 @@
 
 	// header subnav
 	$this->start('headerSubnavLeft');
-	echo $this->Html->link(
+	echo $this->Layout->navbarItem(
 		'<i class="fa fa-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle,
 		$headerSubnavLeftUrl,
-		array('class' => 'textlink', 'escape' => false)
+		['escape' => false]
 	);
 	$this->end();
 ?>

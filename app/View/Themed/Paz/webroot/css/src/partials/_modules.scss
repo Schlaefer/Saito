@@ -151,6 +151,15 @@ body.headerClosed {
   margin: 0;
 }
 
+.navbar-item {
+  &.left {
+    padding-right: 1em;
+  }
+  &.right {
+    padding-left: 1em;
+  }
+}
+
 .heading-3 {
   @include c_t_h_3_abs;
 }
