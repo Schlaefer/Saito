@@ -37,7 +37,7 @@ Und ein Gruß an alle Spender!
  [macfix.de]                | 1250 € 	| 2014
  [macnemo.de] (Panxatony)   | 325 €	 	| 2014
  fwskxgrd                   | 250 €	 	| 2014
- CocoaBärchi &amp; dakapo   | 100 € 	| 2013
+ CocoaBärchi &amp; dakapo   | 200 € 	| 2014
  Jake                       | 20 €    | 2013
 redcurry                    | 85 € 	 	| 2012
  iXimus                     | 75 €    | 2012
@@ -47,7 +47,7 @@ redcurry                    | 85 € 	 	| 2012
 
 <div>
   <small class="muted">
-  Someone's missing? Want your name linked? Please let us know! – Last updated 2014-02-20.
+  Someone's missing? Want your name linked? Please let us know! – Last updated 2014-04-10.
   </small>
 </div>
 
