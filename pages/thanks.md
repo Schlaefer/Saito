@@ -1,4 +1,4 @@
-title: Thanks
+/title: Thanks
 ---
 
 <div class="row" markdown="1">
@@ -32,7 +32,7 @@ Und ein Gruß an alle Spender!
 </div>
 </div>
 
-<i class="icon-resize-vertical"></i> Donor	| <i class='icon-resize-vertical'></i> Value 	| <i class='icon-resize-vertical'></i> Last Seen
+<i class="icon-resize-vertical"></i> Donor	| <i class='icon-resize-vertical'></i> Value (since 01.2012)	| <i class='icon-resize-vertical'></i> Last Seen
  -----------------------    | ------ 	| -----
  [macfix.de]                | 1250 € 	| 2014
  [macnemo.de] (Panxatony)   | 325 €	 	| 2014

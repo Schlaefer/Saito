@@ -8,6 +8,7 @@
   <li>
     <!-- a href='#/releases'>Release Notes</a -->
     <a href='https://github.com/Schlaefer/Saito/releases'>Release Notes</a>
+    (<a href='#/releases'>Old</a>)
   </li>
   <li>
     <a href='#/notes-of-interest'>Notes of Interest</a>
