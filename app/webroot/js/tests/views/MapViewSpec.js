@@ -1,4 +1,4 @@
-// initialize/mock global leaflet objects
+// initialize global leaflet objects
 var L = {};
 var MQ = {};
 
@@ -15,6 +15,7 @@ define([
     describe("View", function() {
 
       var _stubLeafletGlobalObjects = function() {
+        //
         var MapLayer = {
           on: sinon.stub(),
           addLayer: sinon.stub(),

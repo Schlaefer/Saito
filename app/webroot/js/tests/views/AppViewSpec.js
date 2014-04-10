@@ -2,9 +2,8 @@ describe("App", function() {
 
     describe("View", function() {
 
-        beforeEach(function() {
-            var flag = false,
-                that = this,
+        beforeEach(function(done) {
+            var that = this,
                 SaitoApp = {
                     app: {
                             settings: {
@@ -20,12 +19,9 @@ describe("App", function() {
                 App.settings.set('webroot', '/web/redirect/');
                 App.request = SaitoApp.request;
                 that.view = new View();
-                flag = true;
+                done();
             });
 
-            waitsFor(function() {
-                return flag;
-            });
         });
 
         it('manually mark as read should call entries/update', function() {
