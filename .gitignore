@@ -13,7 +13,7 @@ tags
 /app/Config/installed.txt
 /app/webroot/useruploads/*.*
 build/
-dist/
+/dist/
 vendor/
 Capfile
 deploy.rb
