@@ -88,12 +88,13 @@ class DATABASE_CONFIG {
 	var $default = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'localhost',
+		'host' => '127.0.0.1',
 		'login' => 'user',
 		'password' => 'user',
 		'database' => 'default',
 		'prefix' => '',
 		'encoding' => 'utf8',
+		// 'port' => 4444
 		// 'port' => '/private/tmp/mysql.sock',
 
 	);
@@ -101,12 +102,13 @@ class DATABASE_CONFIG {
 	var $test = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
-		'host' => 'localhost',
+		'host' => '127.0.0.1',
 		'login' => 'user',
 		'password' => 'user',
 		'database' => 'test',
 		'prefix' => '',
 		'encoding' => 'utf8',
+		// 'port' => 4444
 		// 'port' => '/private/tmp/mysql.sock',
 	);
 

@@ -174,23 +174,23 @@ module.exports = function(grunt) {
           releasePost: ['./app/webroot/release-tmp']
         },
         phpcs: {
-          controllers: {dir: './app/Controller'},
-          models: {dir: './app/Model'},
-          lib: {dir: './app/Lib'},
+          controllers: {dir: ['./app/Controller']},
+          models: {dir: ['./app/Model']},
+          lib: {dir: ['./app/Lib']},
           tests: {
-            dir: './app/Test',
+            dir: ['./app/Test'],
             options: {
               ignore: 'Selenium'
             }
           },
           view: {
-            dir: './app/View',
+            dir: ['./app/View'],
             options: {
               ignore: 'Themed'
             }
           },
           plugins: {
-            dir: './app/Plugin',
+            dir: ['./app/Plugin'],
             options: {
               ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
             }
