@@ -28,6 +28,6 @@ require.config({
     // marionette
     marionette: '../dev/bower_components/marionette/backbone.marionette',
     "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
-    "backbone.wreqr": '../dev/bower_components/backbone.wreqr/lib/amd/backbone.wreqr'
+    "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr'
   }
 });

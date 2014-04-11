@@ -40,7 +40,7 @@ module.exports = function(grunt) {
       underscore: '../dev/bower_components/underscore/js/underscore',
       // marionette
       marionette: '../dev/bower_components/marionette/backbone.marionette',
-      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/lib/amd/backbone.wreqr',
+      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
       "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
       // moment
       moment: '../dev/bower_components/momentjs/js/moment',
