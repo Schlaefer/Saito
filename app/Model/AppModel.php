@@ -137,4 +137,25 @@
 			throw new UnexpectedValueException;
 		}
 
+		/**
+		 * Inclusive Validation::range()
+		 *
+		 * @param array $check
+		 * @param float $lower
+		 * @param float $upper
+		 * @return bool
+		 * @see https://github.com/cakephp/cakephp/issues/3304
+		 */
+		public function inRange($check, $lower = null, $upper = null) {
+			$check = reset($check);
+			if (!is_numeric($check)) {
+				return false;
+			}
+			if (isset($lower) && isset($upper)) {
+				return ($check >= $lower && $check <= $upper);
+			}
+			// fallback to 'parent'
+			return Validation::range($check, $lower, $upper);
+		}
+
 	}
