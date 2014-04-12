@@ -314,11 +314,6 @@
 			$this->User->clear();
 
 			$this->User->id = 3;
-			$success = $this->User->save(['User' => ['user_place_lat' => -180.0001]]);
-			$this->assertFalse($success);
-			$this->User->clear();
-
-			$this->User->id = 3;
 			$success = $this->User->save(['User' => ['user_place_zoom' => -1]]);
 			$this->assertFalse($success);
 			$this->User->clear();
