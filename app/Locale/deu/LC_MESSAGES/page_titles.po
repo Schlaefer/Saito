@@ -52,6 +52,10 @@ msgid "users/edit"
 msgstr "Benutzer bearbeiten"
 
 #
+msgid "users/map"
+msgstr "Karte"
+
+#
 msgid "bookmarks/index"
 msgstr "Lesezeichen"
 

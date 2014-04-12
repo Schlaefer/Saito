@@ -1,10 +1,11 @@
 <?php
   $this->start('headerSubnavLeft');
-  echo $this->Html->link(
-      '<i class="fa fa-arrow-left"></i> ' . __('Back'),
-      array ( 'controller' => 'users', 'action' => 'view', $this->request->data['User']['id']),
-      array( 'class' => 'textlink', 'escape' => FALSE ));
-  $this->end();
+	echo $this->Layout->navbarItem(
+		'<i class="fa fa-arrow-left"></i> ' . __('Back'),
+		['controller' => 'users', 'action' => 'view',
+			$this->request->data['User']['id']],
+		['escape' => false]);
+	$this->end();
 ?>
 <div class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
@@ -109,7 +110,35 @@
 
 			<tr>
 				<td> <?php echo __('user_place') ?></td>
-				<td> <?php echo  $this->Form->input('user_place', array( 'label' => false ));  ?> <p class="exp"> <?php echo __('user_place_exp') ?> </p></td>
+				<td>
+					<?php
+						echo $this->Form->input('user_place', ['label' => false]);
+						echo $this->Html->para('exp', __('user_place_exp'));
+
+						if (Configure::read('Saito.Settings.map_enabled')):
+							echo $this->Map->map($this->request->data,
+								[
+									'type' => 'edit',
+									'fields' => [
+										'edit' => '#UserUserPlace',
+										'update' => [
+											'lat' => ['#UserUserPlaceLat'],
+											'lng' => ['#UserUserPlaceLng'],
+											'zoom' => ['#UserUserPlaceZoom']
+										]
+									],
+								]);
+							echo $this->SaitoHelp->icon(5);
+							foreach (['lat', 'lng', 'zoom'] as $name) {
+								$field = "user_place_$name";
+								echo $this->Form->hidden($field, ['label' => false]);
+								if ($this->Form->isFieldError($field)) {
+									echo $this->Form->error($field);
+								}
+							}
+						endif;
+					?>
+				</td>
 			</tr>
 
 			<tr>

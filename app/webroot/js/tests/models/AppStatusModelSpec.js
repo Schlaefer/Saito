@@ -4,7 +4,7 @@ define([], function() {
 
     describe("App status model", function () {
 
-        beforeEach(function () {
+        beforeEach(function (done) {
             var flag = false,
                 that = this;
 
@@ -17,12 +17,9 @@ define([], function() {
               that.model = new Model({}, {settings: {
                 get: function() { return webroot; }
               }});
-              flag = true;
+              done();
             }, this));
 
-            waitsFor(function() {
-                return flag;
-            });
         });
 
         afterEach(function() {

@@ -23,6 +23,8 @@
 			'app.esevent',
 		);
 
+		const MAPQUEST = 'mapquestapi.com/sdk';
+
 		public function testAdminAdd() {
 			$data = array(
 				'User' => array(
@@ -359,6 +361,45 @@
 			$this->assertTextContains('&amp;&lt;Profile', $result);
 			$this->assertTextContains('&amp;&lt;Signature', $result);
 			$this->assertTextNotContains('<&Username', $result);
+		}
+
+		public function testMapDisabled() {
+			$this->generate('Users');
+			$this->_loginUser(3);
+			$result = $this->testAction('/users/edit/3', ['return' => 'contents']);
+			$this->assertTextNotContains('class="saito-usermap"', $result);
+			$this->assertTextNotContains(static::MAPQUEST, $result);
+
+			$result = $this->testAction('/users/map', ['return' => 'view']);
+			$this->assertTextNotContains('class="saito-usermap"', $result);
+			$this->assertRedirectedTo();
+		}
+
+		public function testMapActivated() {
+			Configure::write('Saito.Settings.map_enabled', 1);
+
+			$this->generate('Users');
+			$this->_loginUser(3);
+			$result = $this->testAction('/users/edit/3', ['return' => 'contents']);
+			$this->assertTextContains('class="saito-usermap"', $result);
+			$this->assertTextContains(static::MAPQUEST, $result);
+
+			$result = $this->testAction('/users/view/2', ['return' => 'view']);
+			$this->assertTextNotContains('class="saito-usermap"', $result);
+			$result = $this->testAction('/users/view/3', ['return' => 'view']);
+			$this->assertTextContains('class="saito-usermap"', $result);
+
+			$result = $this->testAction('/users/map', ['return' => 'view']);
+			$this->assertTextContains('class="saito-usermap"', $result);
+
+			// Map CSS and JS should only be included on page if necessary
+			$result = $this->testAction('/users/index', ['return' => 'contents']);
+			$this->assertTextNotContains(static::MAPQUEST, $result);
+		}
+
+		public function testMapsNotLoggedIn() {
+			$this->expectException('MissingActionException');
+			$this->testAction('/users/maps');
 		}
 
 		public function testName() {

@@ -1,4 +1,4 @@
 <span class="username">
-    <a href="<%= user_url %>"><%= user_name %></a>:
+    <%= User.linkToUserProfile(user_id, user_name) %>:
 </span>
 <%= html %>

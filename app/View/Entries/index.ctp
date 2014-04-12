@@ -15,14 +15,15 @@
 	}
 
 	$this->start('headerSubnavLeft');
-	echo $this->Html->link(
-			$this->Layout->textWithIcon(h(__('new_entry_linkname')), 'plus'),
-			'/entries/add',
-			[
-					'class' => 'btn-entryAdd textlink',
-					'escape' => false,
-					'rel' => 'nofollow'
-			]
+
+	echo $this->Layout->navbarItem(
+		$this->Layout->textWithIcon(h(__('new_entry_linkname')), 'plus'),
+		'/entries/add',
+		[
+			'class' => 'btn-entryAdd',
+			'escape' => false,
+			'rel' => 'nofollow'
+		]
 	);
 	$this->end();
 
@@ -52,7 +53,8 @@
 		echo $this->Html->link(
 				$this->Layout->textWithIcon($_title, 'tags'),
 				'#',
-				['id' => 'btn-category-chooser', 'escape' => false]
+				['id' => 'btn-category-chooser', 'class' => 'navbar-item right',
+					'escape' => false]
 		);
 		echo $this->element('entry/category-chooser');
 	endif;

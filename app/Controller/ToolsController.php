@@ -9,10 +9,6 @@
  */
 	class ToolsController extends AppController {
 
-		public $helpers = array(
-			'JasmineJs.JasmineJs'
-		);
-
 		/**
 		 * Empty out all caches
 		 */

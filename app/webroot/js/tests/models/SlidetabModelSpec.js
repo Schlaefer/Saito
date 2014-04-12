@@ -4,9 +4,8 @@ define([], function() {
 
     describe("Slidetab model", function () {
 
-        beforeEach(function () {
-            var flag = false,
-                that = this;
+        beforeEach(function (done) {
+            var that = this;
 
             this.webroot = '/foo/bar/';
 
@@ -17,12 +16,9 @@ define([], function() {
                 that.model = new Model({
                     id: "testSlider"
                 });
-                flag = true;
+                done();
             }, this));
 
-            waitsFor(function() {
-                return flag;
-            });
         });
 
         afterEach(function() {

@@ -6,9 +6,8 @@ define([], function () {
 
         describe('uses CakePHP urls', function() {
 
-            beforeEach(function () {
-                var flag = false,
-                    that = this;
+            beforeEach(function (done) {
+                var that = this;
 
                 this.webroot = '/foo/bar/';
 
@@ -17,12 +16,9 @@ define([], function () {
                 require(['models/' + controller, 'models/app'], _.bind(function(Model, App) {
                     App.settings.set('webroot', this.webroot);
                     that.model = new Model();
-                    flag = true;
+                    done();
                 }, this));
 
-                waitsFor(function() {
-                    return flag;
-                });
             });
 
             afterEach(function() {

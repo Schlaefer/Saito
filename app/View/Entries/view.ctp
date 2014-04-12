@@ -3,13 +3,10 @@
 
 	// subnav left
 	$this->start('headerSubnavLeft');
-	echo $this->Html->link(
-			'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'),
-			$this->EntryH->getPaginatedIndexPageId(
-					$entry['Entry']['tid'],
-					$lastAction
-			),
-			['class' => 'textlink', 'escape' => false, 'rel' => 'nofollow']
+	echo $this->Layout->navbarItem(
+		'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'),
+		$this->EntryH->getPaginatedIndexPageId($entry['Entry']['tid'], $lastAction),
+		['escape' => false, 'rel' => 'nofollow']
 	);
 	$this->end();
 ?>

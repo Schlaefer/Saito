@@ -1,37 +1,14 @@
 <?php
-  echo $this->fetch('headerSubnavRightTop');
+	echo $this->fetch('headerSubnavRightTop');
 	echo $this->assign('headerSubnavRightTop', '');
-  echo $this->fetch('headerSubnavRight');
-?>
-<?php // if a page has a global paginator we assume it's always shown top right ?>
-<?php if (isset($this->Paginator) && $this->request->params['action'] == 'index') : ?>
-	<span class="paginator">
-		<?php
-		$this->Paginator->options(array('url' => null));
+	echo $this->fetch('headerSubnavRight');
 
-			echo $this->Paginator->prev(
-							'<i class="fa fa-chevron-left"></i>',
-							array(
-									'escape'	=> false,
-									'rel'			=> 'prev',
-							),
-							null,
-							array('style' => 'display:none;'));
-		?>
-
-		<span style="padding: 0 1px;">
-			<?php echo $this->Paginator->current(); ?>
-		</span>
-
-		<?php
-			echo $this->Paginator->next(
-							'<i class="fa fa-chevron-right"></i>',
-							array(
-									'escape'	=> false,
-									'rel'			=> 'next',
-							),
-							null,
-							array('style' => 'display:none;'));
-		?>
-	</span>
-<?php endif; ?>
+	// if a page has a global paginator we assume it's always shown top right
+	if (isset($this->Paginator)) {
+		$options = [];
+		if ($this->request->params['action'] == 'index') {
+			$this->Paginator->options(['url' => null]);
+			$options = ['format' => '%page%'];
+		}
+		echo $this->element('layout/paginator_control', ['options' => $options]);
+	}

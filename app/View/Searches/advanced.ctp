@@ -1,7 +1,5 @@
 <?php
 	SDV($results, []);
-
-	$this->element('searches/search_navigation', ['results' => $results]);
 ?>
 
 <div class="search advanced">

@@ -367,7 +367,6 @@ msgstr "Stopwatch"
 msgid "stopwatch_get_exp"
 msgstr "Outputs stopwatch times in production mode for logged in users by appending <code>?stopwatch=true</code> to url."
 
-
 #
 msgid "api_enabled"
 msgstr "API enabled"
@@ -383,3 +382,19 @@ msgstr "API CORS"
 #
 msgid "api_crossdomain_exp"
 msgstr "Value for Access-Control-Allow-Origin header (default is empty)."
+
+#
+msgid "map_enabled"
+msgstr "Activate Maps"
+
+#
+msgid "map_enabled_exp"
+msgstr "Activate to use external mapquest.com service to provide map related features."
+
+#
+msgid "map_api_key"
+msgstr "API Key"
+
+#
+msgid "map_api_key_exp"
+msgstr "Mapquest API Key."

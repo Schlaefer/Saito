@@ -252,6 +252,8 @@ VALUES
   ('forum_disabled_text', 'We\'ll back soon'),
   ('forum_email', 'forum_email@example.com'),
   ('forum_name', 'macnemo'),
+  ('map_enabled', '0'),
+  ('map_api_key', ''),
   ('quote_symbol', '>'),
   ('signature_separator', '⁂'),
   ('smilies', '1'),

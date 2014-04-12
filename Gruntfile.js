@@ -6,30 +6,15 @@ module.exports = function(grunt) {
   var requireJsOptions = {
     baseUrl: "./app/webroot/js",
     dir: "./app/webroot/release-tmp",
-    optimize: "uglify2",
+    optimize: "uglify2", // "none"
     skipDirOptimize: true,
     findNestedDependencies: true,
     // just to many comments in bootstrap
     preserveLicenseComments: false,
     shim: {
-      underscore: {
-        exports: '_'
-      },
-      backbone: {
-        deps: ['underscore' /*, 'jquery' */],
-        exports: 'Backbone'
-      },
-      backboneLocalStorage: {
-        deps: ['backbone'],
-        exports: 'Store'
-      },
       drop: {
         deps: ['tether'],
         exports: 'Drop'
-      },
-      marionette: {
-        deps: ['underscore', 'backbone' /*, 'jquery' */],
-        exports: 'Marionette'
       },
       jqueryTinyTimer: {
         deps: [/* 'jquery' */]
@@ -49,10 +34,14 @@ module.exports = function(grunt) {
       jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
       jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
       jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
-      marionette: '../dev/bower_components/marionette/backbone.marionette',
+      templateHelpers: 'lib/saito/templateHelpers',
       tether: '../dev/bower_components/tether/tether',
       text: '../dev/bower_components/requirejs-text/js/text',
       underscore: '../dev/bower_components/underscore/js/underscore',
+      // marionette
+      marionette: '../dev/bower_components/marionette/backbone.marionette',
+      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
+      "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
       // moment
       moment: '../dev/bower_components/momentjs/js/moment',
       'moment-de': '../dev/bower_components/momentjs/lang/de'
@@ -63,6 +52,8 @@ module.exports = function(grunt) {
         include: [
           'backbone',
           'backboneLocalStorage',
+          'backbone.babysitter',
+          'backbone.wreqr',
           'cakeRest',
           'domReady',
           'drop',
@@ -74,6 +65,7 @@ module.exports = function(grunt) {
           'jqueryUi',
           'text',
           'tether',
+          'templateHelpers',
           'underscore'
         ],
         // jquery is loaded externally on html page
@@ -137,6 +129,19 @@ module.exports = function(grunt) {
                 cwd: './app/webroot/dev/bower_components/font-awesome/scss/',
                 src: '*',
                 dest: './app/webroot/css/src/partials/lib/font-awesome/'
+              },
+              // leaflet
+              {
+                expand: true,
+                cwd: './app/Vendor/leaflet/',
+                src: '**',
+                dest: './app/webroot/dist/leaflet/'
+              },
+              {
+                expand: true,
+                cwd: './app/webroot/dev/bower_components/leaflet.markercluster/dist/',
+                src: '*',
+                dest: './app/webroot/dist/leaflet/'
               }
             ]
           },
@@ -169,23 +174,23 @@ module.exports = function(grunt) {
           releasePost: ['./app/webroot/release-tmp']
         },
         phpcs: {
-          controllers: {dir: './app/Controller'},
-          models: {dir: './app/Model'},
-          lib: {dir: './app/Lib'},
+          controllers: {dir: ['./app/Controller']},
+          models: {dir: ['./app/Model']},
+          lib: {dir: ['./app/Lib']},
           tests: {
-            dir: './app/Test',
+            dir: ['./app/Test'],
             options: {
               ignore: 'Selenium'
             }
           },
           view: {
-            dir: './app/View',
+            dir: ['./app/View'],
             options: {
               ignore: 'Themed'
             }
           },
           plugins: {
-            dir: './app/Plugin',
+            dir: ['./app/Plugin'],
             options: {
               ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
             }
@@ -292,7 +297,11 @@ module.exports = function(grunt) {
   ]);
 
   // test
-  grunt.registerTask('test:js', ['jasmine', 'jshint']);
+  grunt.registerTask('test:js', [
+    // jasmine is broken with version 0.6.x
+    // https://github.com/cloudchen/grunt-template-jasmine-requirejs
+    // 'jasmine',
+    'jshint']);
   grunt.registerTask('test:cake', ['shell:testCake']);
   grunt.registerTask('test:phpcs', ['phpcs']); // alias for `grunt phpcs`
   grunt.registerTask('test:php', ['test:cake', 'phpcs']);

@@ -1,10 +1,12 @@
 <?php
 	$this->start('headerSubnavLeft');
-	echo $this->Html->link(
-			'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'),
-			'/',
-			array('class' => 'textlink', 'escape' => false));
+	echo $this->Layout->navbarItem(
+		'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'),
+		'/',
+		['escape' => false]);
 	$this->end();
+
+	$this->element('users/menu');
 
 	$urlToHistory = [
 			'controller' => 'searches',
@@ -59,6 +61,13 @@
 		$table[] = [
 				__('user_place'),
 				h($user['User']['user_place'])
+		];
+	}
+
+	if (Configure::read('Saito.Settings.map_enabled') && !empty($user['User']['user_place_lat'])) {
+		$table[] = [
+				'',
+				$this->Map->map($user)
 		];
 	}
 

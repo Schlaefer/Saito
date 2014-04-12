@@ -3,23 +3,32 @@
 	<head>
 			<title>Jasmine Spec Runner</title>
 
-			<script>
-				window.webroot = "<?= $this->request->webroot; ?>"
-			</script>
-
 			<!-- include libs -->
 			<?php
 				echo $this->Layout->jQueryTag();
-				// Jasmin
-				echo $this->fetch('JasmineJs');
-				echo $this->Html->script(
-					array(
+
+				echo $this->Html->css(
+				// jasmin core
+					['../dev/bower_components/jasmine/lib/jasmine-core/jasmine']
+				);
+				echo $this->Html->script([
+						// jasmin core
+						'../dev/bower_components/jasmine/lib/jasmine-core/jasmine',
+						'../dev/bower_components/jasmine/lib/jasmine-core/jasmine-html',
+						'tests/boot.js',
+						// jasmin extensions
+						'../dev/bower_components/jasmine-jquery/jasmine-jquery.js',
+						'../dev/bower_components/sinonjs/sinon.js',
+
+						//
 						'lib/jquery-ui/jquery-ui.custom.min.js',
 						'bootstrap/bootstrap.js'
-					)
+					]
 				);
 			?>
-
+		<script>
+			window.webroot = "<?= $this->request->webroot; ?>"
+		</script>
 			<!-- include require.js -->
 			<?php
 				echo $this->RequireJs->scriptTag('test');

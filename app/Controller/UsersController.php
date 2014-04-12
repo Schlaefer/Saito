@@ -11,6 +11,7 @@
 			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',
 			'EntryH',
+			'Map',
 			'Text'
 		];
 
@@ -159,6 +160,27 @@
 					$this->redirect(['action' => 'view', $this->User->id, 'admin' => false]);
 				}
 			endif;
+		}
+
+		public function map() {
+			if (!Configure::read('Saito.Settings.map_enabled')) {
+				$this->Session->setFlash(__('admin.setting.disabled', __('admin.feat.map')), 'flash/error');
+				$this->redirect('/');
+				return;
+			}
+			$users = $this->User->find('all',
+					[
+							'contain' => false,
+							'conditions' => ['user_place_lat !=' => null],
+							'fields' => [
+									'User.id',
+									'User.username',
+									'User.user_place_lat',
+									'User.user_place_lng'
+							]
+					]
+			);
+			$this->set(compact('users'));
 		}
 
 		public function name($id = null) {

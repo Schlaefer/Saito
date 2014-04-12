@@ -34,6 +34,7 @@ define(['marionette', 'app/core', 'app/vent',
                 'views/notification',
                 'views/prerequisitesTester',
                 'modules/html5-notification/html5-notification',
+                'modules/usermap/usermap',
 
                 'app/time', 'lib/Saito/isAppVisible',
 
@@ -43,8 +44,8 @@ define(['marionette', 'app/core', 'app/vent',
                 'lib/saito/backbone.modelHelper', 'fastclick'
             ],
                 function(domReady, AppView, Backbone, $, App, NotificationView,
-                         PrerequisitesTesterView,
-                         Html5NotificationModule
+                         PrerequisitesTesterView, Html5NotificationModule,
+                         UsermapModule
                     ) {
                     var appView,
                         appReady,
@@ -59,6 +60,7 @@ define(['marionette', 'app/core', 'app/vent',
                     App.request = options.SaitoApp.request;
 
                     Html5NotificationModule.start();
+                    UsermapModule.start();
 
                     //noinspection JSHint
                     new NotificationView();

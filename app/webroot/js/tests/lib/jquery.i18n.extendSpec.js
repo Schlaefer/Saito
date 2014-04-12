@@ -2,21 +2,15 @@ describe("jquery.i18n.extend", function() {
 
   describe('replaces :token tags', function() {
 
-    beforeEach(function() {
-      var flag = false,
-          that = this;
-
+    beforeEach(function(done) {
       require([
         'jquery',
         'lib/jquery.i18n/jquery.i18n.extend'
       ], function($) {
         $.i18n.setDict({});
-        flag = true;
+        done();
       });
 
-      waitsFor(function() {
-        return flag;
-      });
     });
 
     it('in a s string not in the dictionary', function() {
@@ -58,4 +52,3 @@ describe("jquery.i18n.extend", function() {
   });
 
 });
-

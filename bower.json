@@ -2,9 +2,9 @@
   "name": "Saito",
   "dependencies": {
     "jquery": "2.1",
-    "underscore": "1.5.2",
-    "backbone": "1.1.0",
-    "marionette": "1.5.1",
+    "underscore": "1.6.0",
+    "backbone": "1.1.2",
+    "marionette": "1.7.4",
     "Backbone.localStorage": "1.1.7",
     "humanize": "0.0.9",
     "jquery-autosize": "1.17.8",
@@ -16,7 +16,11 @@
     "font-awesome": "4.0.3",
     "jquery-tinytimer": "0.1.4",
     "jquery-dropdown": "1.0.4",
-    "drop": "0.4.0"
+    "drop": "0.4.0",
+    "leaflet.markercluster": "~0.4.0",
+    "jasmine": "~2.0.0",
+    "jasmine-jquery": "~2.0.3",
+    "sinonjs": "~1.9.0"
   },
   "exportsOverride": {
     "underscore": {
@@ -24,6 +28,12 @@
     },
     "backbone": {
       "js": "backbone.js"
+    },
+    "backbone.babysitter": {
+      "js": "lib/amd/*"
+    },
+    "backbone.wreqr": {
+      "js": "lib/amd/*"
     },
     "Backbone.localStorage": {
       "js": "backbone.localStorage.js"

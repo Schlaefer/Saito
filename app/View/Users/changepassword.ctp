@@ -1,10 +1,11 @@
 <?php
-  $this->start('headerSubnavLeft');
-  echo $this->Html->link(
-      '<i class="fa fa-arrow-left"></i> ' . __('Back'),
-      array ( 'controller' => 'users', 'action' => 'edit', $this->request->data['User']['id'] ),
-      array( 'class' => 'textlink', 'escape' => FALSE ));
-  $this->end();
+	$this->start('headerSubnavLeft');
+	echo $this->Layout->navbarItem(
+		'<i class="fa fa-arrow-left"></i> ' . __('Back'),
+		['controller' => 'users', 'action' => 'edit',
+			$this->request->data['User']['id']],
+		['escape' => false]);
+	$this->end();
 ?>
 <div class="panel">
 	<?= $this->Layout->panelHeading(__('change_password_link'),
