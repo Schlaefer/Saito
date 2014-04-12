@@ -3,6 +3,8 @@
 	class EntryFixture extends CakeTestFixture {
 
 		protected $_common = [
+			'edited' => '0000-00-00 00:00:00',
+			'edited_by' => null,
 			'locked' => 0,
 			'solves' => 0
 		];
@@ -321,8 +323,6 @@
 				'category' => 4,
 				'user_id' => 3,
 				'name' => 'Ulysses',
-				'edited' => '0000-00-00 00:00:00',
-				'edited_by' => null,
 				'ip' => '1.1.1.1',
 				'locked' => 1,
 				'solves' => 4
@@ -340,8 +340,6 @@
 				'category' => 1, // accession = 2
 				'user_id' => 1,
 				'name' => 'Alice',
-				'edited' => '0000-00-00 00:00:00',
-				'edited_by' => null,
 				'ip' => '1.1.1.3'
 			],
 			// thread 4
@@ -354,8 +352,6 @@
 				'tid' => 10,
 				'time' => '2000-01-01 10:59:00',
 				'last_answer' => '2000-01-01 10:59:00',
-				'edited' => '0000-00-00 00:00:00',
-				'edited_by' => null,
 				'category' => 2, // accession = 0
 				'user_id' => 3,
 				'locked' => 1
@@ -370,8 +366,6 @@
 				'tid' => 11,
 				'time' => '2000-01-01 10:59:00',
 				'last_answer' => '2000-01-01 10:59:00',
-				'edited' => '0000-00-00 00:00:00',
-				'edited_by' => null,
 				'category' => 2, // accession = 0
 				'user_id' => 7
 			]

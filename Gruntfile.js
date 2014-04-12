@@ -40,7 +40,7 @@ module.exports = function(grunt) {
       underscore: '../dev/bower_components/underscore/js/underscore',
       // marionette
       marionette: '../dev/bower_components/marionette/backbone.marionette',
-      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/lib/amd/backbone.wreqr',
+      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
       "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
       // moment
       moment: '../dev/bower_components/momentjs/js/moment',
@@ -174,23 +174,23 @@ module.exports = function(grunt) {
           releasePost: ['./app/webroot/release-tmp']
         },
         phpcs: {
-          controllers: {dir: './app/Controller'},
-          models: {dir: './app/Model'},
-          lib: {dir: './app/Lib'},
+          controllers: {dir: ['./app/Controller']},
+          models: {dir: ['./app/Model']},
+          lib: {dir: ['./app/Lib']},
           tests: {
-            dir: './app/Test',
+            dir: ['./app/Test'],
             options: {
               ignore: 'Selenium'
             }
           },
           view: {
-            dir: './app/View',
+            dir: ['./app/View'],
             options: {
               ignore: 'Themed'
             }
           },
           plugins: {
-            dir: './app/Plugin',
+            dir: ['./app/Plugin'],
             options: {
               ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
             }
