@@ -5,13 +5,15 @@
 			'url' => '/users/index',
 			'title' => __d('page_titles', 'users/index'),
 			'icon' => 'users'
-		],
-		'map' => [
+		]
+	];
+	if (Configure::read('Saito.Settings.map_enabled')) {
+		$userMenu['map'] = [
 			'url' => '/users/map',
 			'title' => __d('page_titles', 'users/map'),
 			'icon' => 'map-marker'
-		]
-	];
+		];
+	}
 	foreach ($userMenu as $m) {
 		if (strpos($this->here, $m['url']) !== false) {
 			continue;
@@ -21,5 +23,7 @@
 			$m['url'],
 			['position' => 'right', 'escape' => false]);
 	}
-	echo implode($menu);
+	if (!empty($menu)) {
+		echo implode($menu);
+	}
 	$this->end();

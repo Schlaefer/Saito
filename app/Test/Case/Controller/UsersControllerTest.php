@@ -363,10 +363,32 @@
 			$this->assertTextNotContains('<&Username', $result);
 		}
 
+		public function testMapLinkInMenu() {
+			$this->generate('Users');
+			$this->_loginUser(3);
+
+			// not enabled, no link
+			$result = $this->testAction('/users/view/2', ['return' => 'contents']);
+			$this->assertTextNotContains('/users/map', $result);
+			$result = $this->testAction('/users/index', ['return' => 'contents']);
+			$this->assertTextNotContains('/users/map', $result);
+
+			// not enabled, link
+			Configure::write('Saito.Settings.map_enabled', 1);
+			$result = $this->testAction('/users/view/2', ['return' => 'contents']);
+			$this->assertTextContains('/users/map', $result);
+			$result = $this->testAction('/users/index', ['return' => 'contents']);
+			$this->assertTextContains('/users/map', $result);
+		}
+
 		public function testMapDisabled() {
 			$this->generate('Users');
 			$this->_loginUser(3);
 			$result = $this->testAction('/users/edit/3', ['return' => 'contents']);
+			$this->assertTextNotContains('class="saito-usermap"', $result);
+			$this->assertTextNotContains(static::MAPQUEST, $result);
+
+			$result = $this->testAction('/users/view/3', ['return' => 'contents']);
 			$this->assertTextNotContains('class="saito-usermap"', $result);
 			$this->assertTextNotContains(static::MAPQUEST, $result);
 
