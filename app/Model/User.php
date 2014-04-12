@@ -115,16 +115,16 @@
 						'message' => '*'
 				],
 				'user_place_lat' => [
-					'numeric' => ['rule' => 'numeric', 'allowEmpty' => true],
-					'roundedGeoFormat' => ['rule' => '/^\d{1,2}(\.\d{0,4})?$/']
+					'validLatitude' => ['rule' => ['inRange', -90, 90],
+						'allowEmpty' => true],
 				],
 				'user_place_lng' => [
-					'numeric' => ['rule' => 'numeric', 'allowEmpty' => true],
-					'roundedGeoFormat' => ['rule' => '/^\d{1,2}(\.\d{0,4})?$/']
+					'validLongitude' => ['rule' => ['inRange', -180, 180],
+						'allowEmpty' => true],
 				],
 				'user_place_zoom' => [
 					'numeric' => ['rule' => ['naturalNumber', 0], 'allowEmpty' => true],
-					'between' => ['rule' => ['between', 0, 25]]
+					'between' => ['rule' => ['inRange', 0, 25]]
 				],
 				'user_color_actual_posting' => ['rule' => '/^#?[a-f0-9]{0,6}$/i']
 		];
