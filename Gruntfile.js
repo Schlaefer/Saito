@@ -37,7 +37,7 @@ module.exports = function(grunt) {
       templateHelpers: 'lib/saito/templateHelpers',
       tether: '../dev/bower_components/tether/tether',
       text: '../dev/bower_components/requirejs-text/js/text',
-      underscore: '../dev/bower_components/underscore/js/underscore',
+      underscore: '../dev/bower_components/lodash/js/lodash',
       // marionette
       marionette: '../dev/bower_components/marionette/backbone.marionette',
       "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
