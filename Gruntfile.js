@@ -1,7 +1,18 @@
 //noinspection JSHint
 
+var _ = require('lodash');
+
 module.exports = function(grunt) {
   'use strict';
+
+  var requireCommon = require('./app/webroot/js/common.js'),
+      requireConfig = {
+        shim: requireCommon.shim,
+        paths: _.extend(requireCommon.paths, {
+          moment: '../dev/bower_components/momentjs/js/moment',
+          'moment-de': '../dev/bower_components/momentjs/lang/de'
+        })
+      };
 
   var requireJsOptions = {
     baseUrl: "./app/webroot/js",
@@ -9,43 +20,9 @@ module.exports = function(grunt) {
     optimize: "uglify2", // "none"
     skipDirOptimize: true,
     findNestedDependencies: true,
-    // just to many comments in bootstrap
-    preserveLicenseComments: false,
-    shim: {
-      drop: {
-        deps: ['tether'],
-        exports: 'Drop'
-      },
-      jqueryTinyTimer: {
-        deps: [/* 'jquery' */]
-      }
-    },
-    // paths used by r.js
-    paths: {
-      backbone: '../dev/bower_components/backbone/js/backbone',
-      backboneLocalStorage: '../dev/bower_components/Backbone.localStorage/js/backbone.localStorage',
-      cakeRest: 'lib/saito/backbone.cakeRest',
-      domReady: '../dev/bower_components/requirejs-domready/js/domReady',
-      drop: '../dev/bower_components/drop/drop',
-      fastclick: '../dev/bower_components/fastclick/js/fastclick',
-      humanize: '../dev/bower_components/humanize/js/humanize',
-      jquery: '../dev/bower_components/jquery/jquery',
-      jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
-      jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
-      jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
-      jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
-      templateHelpers: 'lib/saito/templateHelpers',
-      tether: '../dev/bower_components/tether/tether',
-      text: '../dev/bower_components/requirejs-text/js/text',
-      underscore: '../dev/bower_components/lodash/js/lodash',
-      // marionette
-      marionette: '../dev/bower_components/marionette/backbone.marionette',
-      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
-      "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
-      // moment
-      moment: '../dev/bower_components/momentjs/js/moment',
-      'moment-de': '../dev/bower_components/momentjs/lang/de'
-    },
+    preserveLicenseComments: false, // just to many comments in bootstrap
+    shim: requireConfig.shim,
+    paths: requireConfig.paths, // paths used by r.js
     modules: [
       {
         name: "common",
@@ -61,6 +38,7 @@ module.exports = function(grunt) {
           'marionette',
           'humanize',
           'jqueryAutosize',
+          'jqueryDropdown',
           'jqueryTinyTimer',
           'jqueryUi',
           'text',
