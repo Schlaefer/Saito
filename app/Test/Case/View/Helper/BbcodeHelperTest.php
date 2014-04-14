@@ -136,7 +136,7 @@
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			/**
 			 * external server
@@ -202,7 +202,7 @@
 			$input = '[url=http://macnemo.de/foobar]foobar[/url]';
 			$expected = "<a href='http://macnemo.de/foobar'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			$input = '[url]/foobar[/url]';
 			$expected = array(
@@ -220,13 +220,13 @@
 			$input = '[url=/foobar]foobar[/url]';
 			$expected = "<a href='/foobar'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			// test 'http://' only
 			$input = '[url=http://]foobar[/url]';
 			$expected = "<a href='http://'>foobar</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			// test for co.uk
 			$input = '[url=http://heise.co.uk/foobar]foobar[/url]';
@@ -309,7 +309,7 @@
 			$input = '[url=][/url]';
 			$expected = "<a href=''></a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 		}
 
 		public function testEditMarker() {
@@ -333,25 +333,25 @@
 				$input = '[email]mailto:mail@tosomeone.com[/email]';
 				$expected = "<a href='mailto:mail@tosomeone.com'>mailto:mail@tosomeone.com</a>";
 				$result = $this->Bbcode->parse($input);
-				$this->assertIdentical($expected, $result);
+				$this->assertEquals($expected, $result);
 
 				// mailto: mask
 				$input = '[email=mailto:mail@tosomeone.com]Mail[/email]';
 				$expected = "<a href='mailto:mail@tosomeone.com'>Mail</a>";
 				$result = $this->Bbcode->parse($input);
-				$this->assertIdentical($expected, $result);
+				$this->assertEquals($expected, $result);
 
 				// no mailto:
 				$input = '[email]mail@tosomeone.com[/email]';
 				$expected = "<a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a>";
 				$result = $this->Bbcode->parse($input);
-				$this->assertIdentical($expected, $result);
+				$this->assertEquals($expected, $result);
 
 				// no mailto: mask
 				$input = '[email=mail@tosomeone.com]Mail[/email]';
 				$expected = "<a href='mailto:mail@tosomeone.com'>Mail</a>";
 				$result = $this->Bbcode->parse($input);
-				$this->assertIdentical($expected, $result);
+				$this->assertEquals($expected, $result);
 				*/
 
 		}
@@ -417,13 +417,13 @@
 			$input = 'http://heise.de/foobar';
 			$expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			// autolink surrounded by text
 			$input = 'some http://heise.de/foobar text';
 			$expected = "some <a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a> text";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			// no autolink in [code]
 			$input = '[code]http://heise.de/foobar[/code]';
@@ -435,7 +435,7 @@
 			$input = 'text mail@tosomeone.com test';
 			// $expected = "text <a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a> test";
 			$result = $this->Bbcode->parse($input);
-			// $this->assertIdentical($expected, $result);
+			// $this->assertEquals($expected, $result);
 			// @bogus weak test
 			$this->assertRegExp('/^text .*href=".* test$/sm', $result);
 		}
@@ -532,12 +532,12 @@
 			$input = '[url]http://this/url/is/32/chars/long[/url]';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($result, $expected);
+			$this->assertEquals($expected, $result);
 
 			$input = 'http://this/url/is/32/chars/long';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($result, $expected) ;
+			$this->assertEquals($expected, $result) ;
 
 			Configure::write('Saito.Settings.text_word_maxlength', $text_word_maxlenghth);
 		}
@@ -616,25 +616,25 @@
 			$input = '[img]http://localhost/img/macnemo.png[/img]';
 			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" alt="" />';
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
 			$expected = '<img src="'.$this->Bbcode->webroot.'somewhere/macnemo.png" class="c-bbcode-external-image" alt="" />';
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($result, $expected);
+			$this->assertEquals($expected, $result);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
 			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" alt="" />';
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			// test scaling with 2 parameters
 			$input = '[img=50x100]http://localhost/img/macnemo.png[/img]';
 			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" height="100" alt="" />';
 			$result = $this->Bbcode->parse($input);
-			$this->assertIdentical($expected, $result);
+			$this->assertEquals($expected, $result);
 
 			// float left
 			$input = '[img=left]http://localhost/img/macnemo.png[/img]';
