@@ -413,7 +413,7 @@
 			$this->assertTags($result, $expected);
 		}
 
-		public function testAutoLink() {
+		public function testLinkAuto() {
 			$input = 'http://heise.de/foobar';
 			$expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a>";
 			$result = $this->Bbcode->parse($input);
@@ -424,22 +424,6 @@
 			$expected = "some <a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a> text";
 			$result = $this->Bbcode->parse($input);
 			$this->assertIdentical($expected, $result);
-
-			// autolink without http:// prefix
-			$input = 'some www.heise.de/foobar text';
-			$expected = array(
-					'some ',
-					'a' => array(
-							'href' => 'http://www.heise.de/foobar',
-							'rel' => 'external',
-							'target' => '_blank',
-					),
-					'http://www.heise.de/foobar',
-					'/a',
-					'preg:/ text/'
-			);
-			$result = $this->Bbcode->parse($input);
-			$this->assertTags($result, $expected);
 
 			// no autolink in [code]
 			$input = '[code]http://heise.de/foobar[/code]';
@@ -454,6 +438,89 @@
 			// $this->assertIdentical($expected, $result);
 			// @bogus weak test
 			$this->assertRegExp('/^text .*href=".* test$/sm', $result);
+		}
+
+		public function testLinkAutoWithoutHttpPrefix() {
+			$input = 'some www.example.com/foobar text';
+			$expected = [
+				'some ',
+				'a' => [
+					'href' => 'http://www.example.com/foobar',
+					'rel' => 'external',
+					'target' => '_blank',
+				],
+				'http://www.example.com/foobar',
+				'/a',
+				' text'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
+		public function testLinkAutoUrlWithinParentheses() {
+			$input = 'some (www.example.com/foobar) text';
+			$expected = [
+				'some (',
+				'a' => [
+					'href' => 'http://www.example.com/foobar',
+					'rel' => 'external',
+					'target' => '_blank',
+				],
+				'http://www.example.com/foobar',
+				'/a',
+				') text'
+			];
+			$result = $this->Bbcode->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
+		public function testLinkAutoSurroundingChars() {
+			$input = 'text http://example.com/?foo,,, text';
+			$result = $this->Bbcode->parse($input);
+			$expected = [
+				'text ',
+				'a' => [
+					'href' => 'http://example.com/?foo,,',
+					'rel' => 'external',
+					'target' => '_blank',
+				],
+				'http://example.com/?foo,,',
+				'/a',
+				', text'
+			];
+			$this->assertTags($result, $expected);
+
+			// Question mark
+			$input = 'question http://example.com/? Text';
+			$result = $this->Bbcode->parse($input);
+			$expected = [
+				'question ',
+				'a' => [
+					'href' => 'http://example.com/',
+					'rel' => 'external',
+					'target' => '_blank',
+				],
+				'http://example.com/',
+				'/a',
+				'? Text'
+			];
+			$this->assertTags($result, $expected);
+
+			// No Question mark but url
+			$input = 'no question http://example.com/?foo=bar text';
+			$result = $this->Bbcode->parse($input);
+			$expected = [
+				'no question ',
+				'a' => [
+					'href' => 'http://example.com/?foo=bar',
+					'rel' => 'external',
+					'target' => '_blank',
+				],
+				'http://example.com/?foo=bar',
+				'/a',
+				' text'
+			];
+			$this->assertTags($result, $expected);
 		}
 
 		public function testShortenLink() {
