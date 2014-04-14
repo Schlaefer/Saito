@@ -6,40 +6,46 @@ require.config({
     // Run `grunt dev-setup` to install bower components first.
     common: '../dist/common.min',
 
-    // moment
-    moment: '../dev/bower_components/momentjs/js/moment',
-    'moment-de': '../dev/bower_components/momentjs/lang/de'
+    templateHelpers: 'lib/saito/templateHelpers'
   }
 });
 
 require(['lib/bootstrapHelper', 'common', 'tests/jasmineBootstrapHelper'], function() {
-  require(['jquery', 'underscore'], function($, _) {
-    // override local storage store name - for testing
-    window.store = "TestStore";
+  require([
+    // used in function
+    'jquery', 'underscore',
+    // common test case files
+    'lib/jquery.i18n/jquery.i18n.extend'],
+      function($, _) {
+        // override local storage store name - for testing
+        window.store = "TestStore";
+        // make empty dict available for test cases
+        $.i18n.setDict({});
 
-    var jasmineEnv = jasmine.getEnv(),
-    specs = [
-      'models/AppStatusModelSpec.js',
-      'models/BookmarkModelSpec.js',
-      'models/SlidetabModelSpec.js',
-      'models/UploadModelSpec.js',
-      'lib/MarkItUpSpec.js',
-      'lib/jquery.i18n.extendSpec.js',
-      'views/AppViewSpec.js',
-      'views/MapViewSpec.js',
-      'views/PrerequisitesTesterSpec.js',
-      'views/ThreadViewSpec.js'
-    ];
+        var jasmineEnv = jasmine.getEnv(),
+            specs = [
+              'models/AppStatusModelSpec.js',
+              'models/BookmarkModelSpec.js',
+              'models/SlidetabModelSpec.js',
+              'models/UploadModelSpec.js',
+              'lib/MarkItUpSpec.js',
+              'lib/jquery.i18n.extendSpec.js',
+              'lib/TemplateHelpersSpec.js',
+              'views/AppViewSpec.js',
+              'views/MapViewSpec.js',
+              'views/PrerequisitesTesterSpec.js',
+              'views/ThreadViewSpec.js'
+            ];
 
-    specs = _.map(specs, function(value) {
-      return window.webroot + 'js/tests/' + value;
-    });
-    delete(window.webroot);
+        specs = _.map(specs, function(value) {
+          return window.webroot + 'js/tests/' + value;
+        });
+        delete(window.webroot);
 
-    $(function() {
-      require(specs, function() {
-        jasmineEnv.execute();
+        $(function() {
+          require(specs, function() {
+            jasmineEnv.execute();
+          });
+        });
       });
-    });
-  });
 });

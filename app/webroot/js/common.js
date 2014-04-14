@@ -31,14 +31,16 @@
       jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
       jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
       jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
-      templateHelpers: 'lib/saito/templateHelpers',
       tether: '../dev/bower_components/tether/tether',
       text: '../dev/bower_components/requirejs-text/js/text',
       underscore: '../dev/bower_components/lodash/js/lodash',
       // marionette
       marionette: '../dev/bower_components/marionette/backbone.marionette',
       "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
-      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr'
+      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
+      // moment
+      moment: '../dev/bower_components/momentjs/js/moment',
+      'moment-de': '../dev/bower_components/momentjs/lang/de'
     }
   };
 

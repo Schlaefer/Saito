@@ -8,8 +8,7 @@
       requireConfig = {
         shim: requireCommon.shim,
         paths: _.extend(requireCommon.paths, {
-          moment: '../dev/bower_components/momentjs/js/moment',
-          'moment-de': '../dev/bower_components/momentjs/lang/de'
+          templateHelpers: 'lib/saito/templateHelpers'
         })
       };
 
@@ -35,6 +34,7 @@
           'drop',
           'fastclick',
           'marionette',
+          'moment', 'moment-de',
           'humanize',
           'jqueryAutosize',
           'jqueryDropdown',
@@ -42,7 +42,6 @@
           'jqueryUi',
           'text',
           'tether',
-          'templateHelpers',
           'underscore'
         ],
         // jquery is loaded externally on html page

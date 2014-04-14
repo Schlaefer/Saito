@@ -1,8 +1,9 @@
 define([
-  'jquery', 'underscore', 'backbone', 'marionette', 'moment', 'models/app',
+  'jquery', 'underscore', 'backbone', 'marionette',  'models/app',
+  'templateHelpers',
   'modules/shoutbox/views/shout',
   'modules/shoutbox/models/control'
-], function($, _, Backbone, Marionette, moment, App, ShoutView, SbCM) {
+], function($, _, Backbone, Marionette, App, TemplateHelpers, ShoutView, SbCM) {
 
   "use strict";
 
@@ -53,10 +54,10 @@ define([
     _Delimiter: {
       _conversationCoolOff: 300,
       _previousItemTime: null,
-      tpl: _.template('<div class="infoText"><span title="<%= time_long %>"><%= time %></span></div>'),
+      tpl: _.template('<div class="infoText"><%= time %></div>'),
 
       append: function(itemView) {
-        var itemTime = moment(itemView.model.get('time'));
+        var itemTime = TemplateHelpers.Time.moment(itemView.model.get('time'));
         // first entry
         if (this._previousItemTime === null) {
           this._previousItemTime = itemTime;
@@ -87,10 +88,12 @@ define([
         var out = time;
         // time is Moment object
         if (_.isObject(time)) {
-          out = this.tpl({
-            time: time.format('LT'),
-            time_long: time.format('llll')
-          });
+          var diff = TemplateHelpers.Time.moment().utc().diff(time) / 1000,
+              format = 'normal';
+          if (diff > 64800) {
+            format = 'longWithTime';
+          }
+          out = this.tpl({ time: TemplateHelpers.Time.format(time, format) });
         }
         return out;
       }
