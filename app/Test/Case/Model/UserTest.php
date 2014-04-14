@@ -547,7 +547,22 @@
 					'isUnique'
 				)
 			);
+			$this->assertEquals($this->User->validationErrors, $expected);
+		}
 
+		public function testRegisterValidationUsernameDisallowedChars() {
+			$data = [
+				'User' => [
+					'username' => 'Eloise in the <I>-Post',
+					'user_email' => 'church@losangeles.com',
+					'password' => 'Daniel',
+					'password_confirm' => 'Daniel'
+				],
+			];
+			$result = $this->User->register($data);
+			$this->assertFalse($result);
+
+			$expected = ['username' => ['hasAllowedChars']];
 			$this->assertEquals($this->User->validationErrors, $expected);
 		}
 

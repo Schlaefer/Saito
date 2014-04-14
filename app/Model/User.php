@@ -139,10 +139,9 @@
 			'MlfPasswordHasher'
 		];
 
-		/**
-		 * @var array chars not allowed in username
-		 */
-		protected $_disallowedCharsInUsername = ['\'', ';', '&', '<', '>' ];
+		protected $_settings = [
+			'user_name_disallowed_chars' => ['\'', ';', '&', '<', '>']
+		];
 
 /**
  * @param null $lastRefresh
@@ -308,7 +307,7 @@
 		}
 
 		public function validateHasAllowedChars($data) {
-			foreach ($this->_disallowedCharsInUsername as $char) {
+			foreach ($this->_setting('user_name_disallowed_chars') as $char) {
 				if (mb_strpos($data['username'], $char) !== false) {
 					return false;
 				}

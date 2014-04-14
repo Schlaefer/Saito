@@ -10,6 +10,9 @@
 
 	class AppModel extends Model {
 
+		/**
+		 * @var array model settings; can be overwritten by DB or config Settings
+		 */
 		protected $_settings = [];
 
 		# Entry->User->UserOnline
