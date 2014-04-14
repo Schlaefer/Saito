@@ -5,7 +5,7 @@
    */
 
   /**
-   * Setting default language (mandantory)
+   * Setting default language (mandatory)
    *
    * Use ISO 639-2 Code http://www.loc.gov/standards/iso639-2/php/code_list.php
    * So german would be: deu
@@ -74,16 +74,12 @@
 	 *
 	 * Provide an array with user IDs. To notify the admin (usually user-id 1):
 	 *
-	 *     array(1)
+	 *     [1]
 	 *
 	 * To notify the admin with id 1 and the user with the id 5:
 	 *
-	 *     array(1, 5)
+	 *     [1, 5]
    */
   /*
-  Configure::write('Saito.Notification.userActivatedAdminNoticeToUserWithID',
-    array(1)
-   );
+  Configure::write('Saito.Notification.userActivatedAdminNoticeToUserWithID', [1]);
    */
-
-?>
