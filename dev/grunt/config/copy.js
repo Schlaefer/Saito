@@ -1,3 +1,4 @@
+/*jshint node: true */
 module.exports = {
   // non minified files needed for debug modus
   nonmin: {

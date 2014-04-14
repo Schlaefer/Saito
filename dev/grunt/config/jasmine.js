@@ -1,4 +1,6 @@
+/*jshint node: true */
 module.exports = function(requireJsOptions) {
+  'use strict';
   return {
     test: {
       // src: './app/webroot/js/main.js',

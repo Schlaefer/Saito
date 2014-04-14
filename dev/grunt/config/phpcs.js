@@ -1,3 +1,4 @@
+/*jshint node: true */
 module.exports = {
   controllers: {dir: ['./app/Controller']},
   models: {dir: ['./app/Model']},

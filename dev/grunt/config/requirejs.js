@@ -1,5 +1,5 @@
 (function(module) {
-  /*jslint node: true */
+  /*jshint node: true */
   'use strict';
 
   var _ = require('lodash'),
