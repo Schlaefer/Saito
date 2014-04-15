@@ -99,7 +99,7 @@
 						$this->Html->link(__('admin.set.map'), 'http://developer.mapquest.com/'),
 						['map_enabled', 'map_api_key'],
 						$Settings,
-						['nav-title' => 'Map']
+						['nav-title' => __('admin.set.map')]
 				);
 
 				echo $this->Setting->table(

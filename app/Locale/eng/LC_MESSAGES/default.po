@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-15 11:18+0100\n"
-"PO-Revision-Date: 2014-04-15 11:18+0100\n"
+"PO-Revision-Date: 2014-04-15 11:38+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -729,7 +729,7 @@ msgstr "Upload"
 
 #: View/Settings/admin_index.ctp:99
 msgid "admin.set.map"
-msgstr "map"
+msgstr "Map"
 
 #: View/Settings/admin_index.ctp:106
 msgid "Debug"
