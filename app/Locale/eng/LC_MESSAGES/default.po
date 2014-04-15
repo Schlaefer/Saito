@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 10:45+0100\n"
-"PO-Revision-Date: 2014-04-15 10:45+0100\n"
+"POT-Creation-Date: 2014-04-15 11:18+0100\n"
+"PO-Revision-Date: 2014-04-15 11:18+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -88,7 +88,7 @@ msgstr "System-Info"
 
 #: View/Admins/admin_index.ctp:7
 msgid "admin.sysInfo.version"
-msgstr "Saito version: %s"
+msgstr "Saito Version: %s"
 
 #: View/Admins/admin_index.ctp:8
 msgid "admin.sysInfo.server"
@@ -102,7 +102,15 @@ msgstr "Base-URL: %s"
 msgid "admin.sysInfo.sitemap"
 msgstr "Sitemap-URL: %s"
 
-#: View/Admins/admin_index.ctp:17
+#: View/Admins/admin_index.ctp:11
+msgid "admin.sysInfo.cce"
+msgstr "Core Cache Engine: %s"
+
+#: View/Admins/admin_index.ctp:12
+msgid "admin.sysInfo.cse"
+msgstr "Saito Cache Engine: %s "
+
+#: View/Admins/admin_index.ctp:19
 msgid "Empty Caches"
 msgstr ""
 
@@ -2591,6 +2599,14 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:42
 msgid "token test"
 msgstr ""
+
+#, fuzzy
+#~ msgid "admin.sysInfo.coreEngine"
+#~ msgstr "Saito version: %s"
+
+#, fuzzy
+#~ msgid "admin.sysInfo.saitoEngine"
+#~ msgstr "Sitemap-URL: %s"
 
 #, fuzzy
 #~ msgid "Profile"

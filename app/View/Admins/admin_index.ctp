@@ -2,14 +2,16 @@
 	<h1>
 		<?= __('admin.sysInfo.h') ?>
 	</h1>
-	<?=
-		$this->Html->nestedList([
-				__('admin.sysInfo.version', $this->Admin->badge(Configure::read('Saito.v'))),
-				__('admin.sysInfo.server', $this->Admin->badge(Router::fullBaseUrl())),
-				__('admin.sysInfo.baseUrl', $this->Admin->badge($this->request->webroot)),
-				__('admin.sysInfo.sitemap',
-						$this->Admin->badge($this->Sitemap->sitemapUrl()))
-		])
+	<?php
+		$si = [
+			__('admin.sysInfo.version', $this->Admin->badge(Configure::read('Saito.v'))),
+			__('admin.sysInfo.server', $this->Admin->badge(Router::fullBaseUrl())),
+			__('admin.sysInfo.baseUrl', $this->Admin->badge($this->request->webroot)),
+			__('admin.sysInfo.sitemap', $this->Admin->badge($this->Sitemap->sitemapUrl())),
+			__('admin.sysInfo.cce', $this->Admin->badge(Cache::settings('_cake_core_')['engine'])),
+			__('admin.sysInfo.cse', $this->Admin->badge(Cache::settings('default')['engine']))
+		];
+		echo $this->Html->nestedList($si)
 	?>
 </div>
 <hr/>

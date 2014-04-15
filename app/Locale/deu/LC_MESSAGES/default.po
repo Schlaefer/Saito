@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 10:45+0100\n"
-"PO-Revision-Date: 2014-04-15 10:45+0100\n"
+"POT-Creation-Date: 2014-04-15 11:17+0100\n"
+"PO-Revision-Date: 2014-04-15 11:21+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -103,7 +103,15 @@ msgstr "Basis-URL: %s"
 msgid "admin.sysInfo.sitemap"
 msgstr "Sitemap-URL: %s"
 
-#: View/Admins/admin_index.ctp:17
+#: View/Admins/admin_index.ctp:11
+msgid "admin.sysInfo.cce"
+msgstr "Cache-Methode Kern: %s"
+
+#: View/Admins/admin_index.ctp:12
+msgid "admin.sysInfo.cse"
+msgstr "Cache-Methode Saito: %s"
+
+#: View/Admins/admin_index.ctp:19
 msgid "Empty Caches"
 msgstr "Cache leeren"
 
