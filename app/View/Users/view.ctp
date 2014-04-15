@@ -137,7 +137,7 @@
 ?>
 <div class="users view">
 	<div class="panel">
-		<?= $this->Layout->panelHeading(__('Profile')) ?>
+		<?= $this->Layout->panelHeading(__('user.b.profile')) ?>
 		<div class="panel-content">
 			<table class='table th-left elegant'>
 				<?= $this->Html->tableCells($table); ?>

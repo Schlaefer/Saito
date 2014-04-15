@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-09 14:59+0100\n"
-"PO-Revision-Date: 2014-04-09 17:05+0100\n"
+"POT-Creation-Date: 2014-04-15 10:45+0100\n"
+"PO-Revision-Date: 2014-04-15 10:45+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -165,7 +165,8 @@ msgstr "Hier Kommentar eingeben"
 msgid "btn-comment-title"
 msgstr "Kommentieren"
 
-#: View/Bookmarks/index.ctp:4 View/Entries/view.ctp:7 View/Users/view.ctp:4
+#: View/Bookmarks/index.ctp:4 View/Entries/view.ctp:7 View/Users/index.ctp:4
+#: View/Users/view.ctp:4
 msgid "back_to_forum_linkname"
 msgstr "Zurück zum Forum"
 
@@ -183,7 +184,7 @@ msgstr "Kommentar"
 
 #: View/Bookmarks/index.ctp:43 View/Categories/admin_index.ctp:39
 #: View/SmileyCodes/admin_index.ctp:30 View/Smilies/admin_index.ctp:33
-#: View/Users/view.ctp:189
+#: View/Users/view.ctp:190
 msgid "Delete"
 msgstr "Löschen"
 
@@ -194,7 +195,7 @@ msgstr "Noch keine Lesezeichen angelegt."
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Layouts/admin.ctp:44
-#: webroot/dist/main.min.js:3 webroot/js/views/categoryChooser.js:25
+#: webroot/dist/main.min.js:2 webroot/js/views/categoryChooser.js:25
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -216,13 +217,13 @@ msgid "Anonymous"
 msgstr ""
 
 #: View/Categories/admin_add.ctp:17 View/Categories/admin_edit.ctp:18
-#: View/Elements/layout/slidetab_userlist.ctp:40 View/Users/edit.ctp:33
+#: View/Elements/layout/slidetab_userlist.ctp:40 View/Users/edit.ctp:34
 #: View/Helper/UserHHelper.php:75
 msgid "user.type.user"
 msgstr "Benutzer"
 
 #: View/Categories/admin_add.ctp:18 View/Categories/admin_edit.ctp:19
-#: View/Elements/layout/slidetab_userlist.ctp:37 View/Users/edit.ctp:34
+#: View/Elements/layout/slidetab_userlist.ctp:37 View/Users/edit.ctp:35
 #: View/Helper/UserHHelper.php:77
 msgid "user.type.mod"
 msgstr "Moderator"
@@ -280,7 +281,7 @@ msgstr "Aktion"
 
 #: View/Categories/admin_index.ctp:34 View/Settings/admin_index.ctp:37
 #: View/SmileyCodes/admin_index.ctp:29 View/Smilies/admin_index.ctp:32
-#: View/Users/view.ctp:181
+#: View/Users/view.ctp:182
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -299,7 +300,7 @@ msgstr ""
 "Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine "
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
-#: View/Elements/entry/category-chooser.ctp:43 View/Searches/advanced.ctp:41
+#: View/Elements/entry/category-chooser.ctp:43 View/Searches/advanced.ctp:39
 #: Controller/EntriesController.php:891
 msgid "All Categories"
 msgstr "Alle Kategorien"
@@ -367,7 +368,7 @@ msgstr ""
 msgid "Ressources"
 msgstr "Ressourcen"
 
-#: View/Elements/layout/disclaimer.ctp:7 View/Users/view.ctp:48
+#: View/Elements/layout/disclaimer.ctp:7 View/Users/view.ctp:50
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -424,17 +425,17 @@ msgstr "Einloggen"
 msgid "Forum Settings"
 msgstr "Forumseinstellungen"
 
-#: View/Elements/layout/header_login.ctp:35 View/Users/edit.ctp:147
-#: View/Users/view.ctp:105
-msgid "user_profile"
+#: View/Elements/layout/header_login.ctp:35 View/Users/view.ctp:140
+#, fuzzy
+msgid "user.b.profile"
 msgstr "Profil"
 
 #: View/Elements/layout/header_login.ctp:44
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: View/Elements/layout/header_search.ctp:29 View/Searches/advanced.ctp:58
-#: View/Searches/simple.ctp:25
+#: View/Elements/layout/header_search.ctp:29 View/Searches/advanced.ctp:56
+#: View/Searches/simple.ctp:23
 msgid "search_submit"
 msgstr "Suchen"
 
@@ -452,7 +453,7 @@ msgstr ""
 msgid "Recent entries"
 msgstr "Letzte Einträge"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:212
+#: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:213
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
@@ -465,7 +466,7 @@ msgstr "Benutzer"
 msgid "%s online (%s)"
 msgstr "%s anwesend (%s)"
 
-#: View/Elements/layout/slidetab_userlist.ctp:34 View/Users/edit.ctp:35
+#: View/Elements/layout/slidetab_userlist.ctp:34 View/Users/edit.ctp:36
 #: View/Helper/UserHHelper.php:79
 msgid "user.type.admin"
 msgstr "Administrator"
@@ -503,18 +504,18 @@ msgstr "Die eingegebene E-Mail-Adresse sieht nicht richtig aus."
 msgid "register_user_email"
 msgstr "E-Mail Adresse"
 
-#: View/Elements/users/add_form_core.ctp:24 View/Users/changepassword.ctp:20
-#: View/Users/changepassword.ctp:28
+#: View/Elements/users/add_form_core.ctp:24 View/Users/changepassword.ctp:21
+#: View/Users/changepassword.ctp:29
 msgid "error_password_empty"
 msgstr "Passwort darf nicht leer sein."
 
-#: View/Elements/users/add_form_core.ctp:25 View/Users/changepassword.ctp:29
+#: View/Elements/users/add_form_core.ctp:25 View/Users/changepassword.ctp:30
 msgid "error_password_confirm"
 msgstr "Password stimmt nicht mit Wiederholung überein."
 
 #: View/Elements/users/add_form_core.ctp:27
-#: View/Elements/users/login_form.ctp:18 View/Users/edit.ctp:45
-#: View/Users/edit.ctp:57 View/Users/edit.ctp:73
+#: View/Elements/users/login_form.ctp:18 View/Users/edit.ctp:46
+#: View/Users/edit.ctp:58 View/Users/edit.ctp:74
 msgid "user_pw"
 msgstr "Passwort"
 
@@ -522,7 +523,7 @@ msgstr "Passwort"
 msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
-#: View/Elements/users/login_form.ctp:9 View/Searches/advanced.ctp:22
+#: View/Elements/users/login_form.ctp:9 View/Searches/advanced.ctp:20
 msgid "user_name"
 msgstr "Benutzername"
 
@@ -574,7 +575,7 @@ msgstr "Nicht bürosicher (NBS)"
 msgid "entry_flattr_this_posting"
 msgstr "Flattr-Knopf anzeigen"
 
-#: View/Entries/index.ctp:19
+#: View/Entries/index.ctp:20
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
 
@@ -587,7 +588,7 @@ msgstr "Thread %s anfügen"
 msgid "Merge onto entry with ID:"
 msgstr "Anfügen an den Beitrag mit ID:"
 
-#: View/Entries/mix.ctp:5 View/Users/changepassword.ctp:4
+#: View/Entries/mix.ctp:6 View/Users/changepassword.ctp:4
 #: View/Users/edit.ctp:4
 msgid "Back"
 msgstr "Zurück"
@@ -602,7 +603,7 @@ msgstr "Übersicht"
 
 #: View/Layouts/admin.ctp:38 View/Settings/admin_edit.ctp:2
 #: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:126
-#: View/Users/edit.ctp:172
+#: View/Users/edit.ctp:170
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -643,48 +644,48 @@ msgstr "Letzte Einträge"
 msgid "Last started threads"
 msgstr "Letzte Threads"
 
-#: View/Searches/advanced.ctp:17
+#: View/Searches/advanced.ctp:15
 msgid "subject"
 msgstr "Betreff"
 
-#: View/Searches/advanced.ctp:19
+#: View/Searches/advanced.ctp:17
 msgid "Text"
 msgstr "Text"
 
-#: View/Searches/advanced.ctp:30
+#: View/Searches/advanced.ctp:28
 msgid "search.nstrict"
 msgstr "Exakter Name"
 
-#: View/Searches/advanced.ctp:45
+#: View/Searches/advanced.ctp:43
 msgid "search_since"
 msgstr "Seit"
 
-#: View/Searches/advanced.ctp:64
+#: View/Searches/advanced.ctp:62
 msgid "search_simple"
 msgstr "Einfache Suche"
 
-#: View/Searches/simple.ctp:39
+#: View/Searches/simple.ctp:37
 msgid "search_term"
 msgstr "Suchbegriff"
 
-#: View/Searches/simple.ctp:42
+#: View/Searches/simple.ctp:40
 msgid "search.q.minLength"
 msgstr "Suchbegriffe müssen mindestens %s Buchstaben enthalten."
 
-#: View/Searches/simple.ctp:52
+#: View/Searches/simple.ctp:50
 msgid "search_advanced"
 msgstr "Erweiterte Suche"
 
-#: View/Searches/simple.ctp:69
+#: View/Searches/simple.ctp:67
 #, fuzzy
 msgid "Time"
 msgstr "Zeit"
 
-#: View/Searches/simple.ctp:70
+#: View/Searches/simple.ctp:68
 msgid "Rank"
 msgstr "Rang"
 
-#: View/Searches/simple.ctp:71 View/Users/index.ctp:27
+#: View/Searches/simple.ctp:69 View/Users/index.ctp:36
 #, php-format
 msgid "Sort by: %s"
 msgstr "Sortieren nach: %s"
@@ -828,13 +829,13 @@ msgstr "Entferne Benutzer %s"
 msgid "New User"
 msgstr "Neuer Benutzer"
 
-#: View/Users/admin_index.ctp:10 View/Users/edit.ctp:18 View/Users/edit.ctp:63
-#: View/Users/index.ctp:8 View/Users/view.ctp:17
+#: View/Users/admin_index.ctp:10 View/Users/edit.ctp:19 View/Users/edit.ctp:64
+#: View/Users/index.ctp:17 View/Users/view.ctp:19
 msgid "username_marking"
 msgstr "Benutzername"
 
-#: View/Users/admin_index.ctp:11 View/Users/edit.ctp:28
-#: View/Users/index.ctp:10
+#: View/Users/admin_index.ctp:11 View/Users/edit.ctp:29
+#: View/Users/index.ctp:19
 msgid "user_type"
 msgstr "Typ"
 
@@ -842,38 +843,38 @@ msgstr "Typ"
 msgid "user_email"
 msgstr "Email"
 
-#: View/Users/admin_index.ctp:13 View/Users/index.ctp:17
+#: View/Users/admin_index.ctp:13 View/Users/index.ctp:26
 msgid "registered"
 msgstr "Registriert"
 
-#: View/Users/admin_index.ctp:16 View/Users/index.ctp:24
-#: View/Users/view.ctp:25
+#: View/Users/admin_index.ctp:16 View/Users/index.ctp:33
+#: View/Users/view.ctp:27
 #, fuzzy
 msgid "user.set.lock.t"
 msgstr "Sperre"
 
-#: View/Users/changepassword.ctp:10 View/Users/edit.ctp:48
-#: View/Users/edit.ctp:76
+#: View/Users/changepassword.ctp:11 View/Users/edit.ctp:49
+#: View/Users/edit.ctp:77
 msgid "change_password_link"
 msgstr "Passwort ändern"
 
-#: View/Users/changepassword.ctp:17
+#: View/Users/changepassword.ctp:18
 msgid "change_password_old_password"
 msgstr "Altes Passwort"
 
-#: View/Users/changepassword.ctp:21
+#: View/Users/changepassword.ctp:22
 msgid "error_password_check_old"
 msgstr "Das alte Passwort ist nicht korrekt."
 
-#: View/Users/changepassword.ctp:25
+#: View/Users/changepassword.ctp:26
 msgid "change_password_new_password"
 msgstr "Neues Passwort"
 
-#: View/Users/changepassword.ctp:34
+#: View/Users/changepassword.ctp:35
 msgid "change_password_new_password_confirm"
 msgstr "Neues Passwort wiederholen"
 
-#: View/Users/changepassword.ctp:36
+#: View/Users/changepassword.ctp:37
 msgid "change_password_btn_submit"
 msgstr "Passwort ändern"
 
@@ -897,219 +898,223 @@ msgstr "Nachricht"
 msgid "user_contact_send_carbon_copy"
 msgstr "Kopie an mich senden"
 
-#: View/Users/edit.ctp:23 View/Users/edit.ctp:68
+#: View/Users/edit.ctp:24 View/Users/edit.ctp:69
 msgid "userlist_email"
 msgstr "E-Mail"
 
-#: View/Users/edit.ctp:52 View/Users/edit.ctp:80
+#: View/Users/edit.ctp:53 View/Users/edit.ctp:81
 msgid "user_pw_exp"
 msgstr "Aktuelles Passwort durch ein neues ersetzen."
 
-#: View/Users/edit.ctp:88
+#: View/Users/edit.ctp:89
 msgid "user_show_email"
 msgstr "E-Mail-Link anzeigen"
 
-#: View/Users/edit.ctp:91
+#: View/Users/edit.ctp:92
 msgid "user_show_email_exp"
 msgstr ""
 "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an die E-"
 "Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht eingesehen "
 "werden."
 
-#: View/Users/edit.ctp:97 View/Users/view.ctp:32
+#: View/Users/edit.ctp:98 View/Users/view.ctp:34
 msgid "user_real_name"
 msgstr "Realer Name"
 
-#: View/Users/edit.ctp:99
+#: View/Users/edit.ctp:100
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:104 View/Users/view.ctp:53
+#: View/Users/edit.ctp:105 View/Users/view.ctp:55
 msgid "user_hp"
 msgstr "Homepage"
 
-#: View/Users/edit.ctp:106
+#: View/Users/edit.ctp:107
 msgid "user_hp_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:111 View/Users/view.ctp:60
+#: View/Users/edit.ctp:112 View/Users/view.ctp:62
 msgid "user_place"
 msgstr "Ort"
 
-#: View/Users/edit.ctp:115
+#: View/Users/edit.ctp:116
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:152
+#: View/Users/edit.ctp:145 View/Users/view.ctp:106
+msgid "user_profile"
+msgstr "Profil"
+
+#: View/Users/edit.ctp:150
 msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
-#: View/Users/edit.ctp:158 View/Users/view.ctp:112
+#: View/Users/edit.ctp:156 View/Users/view.ctp:113
 msgid "user_signature"
 msgstr "Signatur"
 
-#: View/Users/edit.ctp:163
+#: View/Users/edit.ctp:161
 msgid "user_signature_exp"
 msgstr "Signatur, welche an eigene Postings angehängt wird."
 
-#: View/Users/edit.ctp:177
+#: View/Users/edit.ctp:175
 msgid "user_sort_last_answer"
 msgstr "Sortierreihenfolge"
 
-#: View/Users/edit.ctp:183
+#: View/Users/edit.ctp:181
 msgid "user_sort_last_answer_time"
 msgstr "Zeit"
 
-#: View/Users/edit.ctp:184
+#: View/Users/edit.ctp:182
 msgid "user_sort_last_answer_last_answer"
 msgstr "Letzte Antwort"
 
-#: View/Users/edit.ctp:192
+#: View/Users/edit.ctp:190
 msgid "user_sort_last_answer_exp"
 msgstr ""
 "Reihenfolge nach der die Threads auf der Startseite geordnet werden. Zeit: "
 "feste Reihenfolge nach Startzeitpunkt des Threads. Letzte Antwort: Threads "
 "mit neuen Antworten wandern nach oben."
 
-#: View/Users/edit.ctp:197
+#: View/Users/edit.ctp:195
 msgid "user_automaticaly_mark_as_read"
 msgstr "Intelligentes Gelesen-Markieren"
 
-#: View/Users/edit.ctp:202
+#: View/Users/edit.ctp:200
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr "Intelligentes Gelesen-Markieren (iMAR)"
 
-#: View/Users/edit.ctp:211
+#: View/Users/edit.ctp:209
 msgid "user_signatures_hide"
 msgstr "Signaturen ausblenden"
 
-#: View/Users/edit.ctp:213
+#: View/Users/edit.ctp:211
 msgid "user_signatures_hide_exp"
 msgstr "Signaturen der anderen Benutzer komplett ausblenden."
 
-#: View/Users/edit.ctp:215
+#: View/Users/edit.ctp:213
 msgid "user_signatures_images_hide_exp"
 msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
 
-#: View/Users/edit.ctp:220
+#: View/Users/edit.ctp:218
 msgid "user_forum_refresh_time"
 msgstr "Aktualisierungszeit"
 
-#: View/Users/edit.ctp:233
+#: View/Users/edit.ctp:231
 msgid "user_forum_refresh_time_exp"
 msgstr ""
 "Zeit in Minuten, nach der die Forumsübersicht automatisch neu geladen wird "
 "(optional)"
 
-#: View/Users/edit.ctp:240
+#: View/Users/edit.ctp:238
 msgid "user_theme"
 msgstr "Theme"
 
-#: View/Users/edit.ctp:247
+#: View/Users/edit.ctp:245
 msgid "user_theme_exp"
 msgstr "Anderes Aussehen auswählen. (optional)"
 
-#: View/Users/edit.ctp:253
+#: View/Users/edit.ctp:251
 msgid "user_colors"
 msgstr "Farben"
 
-#: View/Users/edit.ctp:255
+#: View/Users/edit.ctp:253
 msgid "user_color_new_postings_exp"
 msgstr "Neue Beiträge"
 
-#: View/Users/edit.ctp:257
+#: View/Users/edit.ctp:255
 msgid "user_color_old_postinings_exp"
 msgstr "Alte Beiträge"
 
-#: View/Users/edit.ctp:259
+#: View/Users/edit.ctp:257
 msgid "user_color_actual_posting_exp"
 msgstr "Aktueller Beitrag"
 
-#: View/Users/edit.ctp:264
+#: View/Users/edit.ctp:262
 msgid "inline_view_on_click"
 msgstr "Posting aufklappen"
 
-#: View/Users/edit.ctp:267
+#: View/Users/edit.ctp:265
 msgid "inline_view_on_click_exp"
 msgstr ""
 "Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen "
 "Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
 
-#: View/Users/edit.ctp:271
+#: View/Users/edit.ctp:269
 msgid "user_show_thread_collapsed"
 msgstr "Threads einklappen"
 
-#: View/Users/edit.ctp:274
+#: View/Users/edit.ctp:272
 msgid "user_show_thread_collapsed_exp"
 msgstr ""
 "Threads sind standardmässig eingeklappt und müssen manuell geöffnet werden."
 
-#: View/Users/edit.ctp:279
+#: View/Users/edit.ctp:277
 msgid "user_pers_msg"
 msgstr "Persönliche&nbsp;Nachrichten empfangen"
 
-#: View/Users/edit.ctp:280
+#: View/Users/edit.ctp:278
 msgid "user_pers_msg_exp"
 msgstr ""
 "Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen "
 "werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen "
 "werden)"
 
-#: View/Users/edit.ctp:287
+#: View/Users/edit.ctp:285
 msgid "user_category_override"
 msgstr "Kategorienfilter"
 
-#: View/Users/edit.ctp:292
+#: View/Users/edit.ctp:290
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
-#: View/Users/edit.ctp:302 View/Users/view.ctp:123
+#: View/Users/edit.ctp:300 View/Users/view.ctp:124
 msgid "flattr"
 msgstr "flattrn"
 
-#: View/Users/edit.ctp:306
+#: View/Users/edit.ctp:304
 msgid "flattr_uid"
 msgstr "Flattr ID"
 
-#: View/Users/edit.ctp:310
+#: View/Users/edit.ctp:308
 msgid "flattr_allow_user"
 msgstr "Flattrn"
 
-#: View/Users/edit.ctp:311
+#: View/Users/edit.ctp:309
 msgid "flattr_allow_user_exp"
 msgstr ""
 "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn "
 "allgemein für das Benutzerkonto."
 
-#: View/Users/edit.ctp:314
+#: View/Users/edit.ctp:312
 msgid "flattr_allow_posting"
 msgstr "Postings flattrn"
 
-#: View/Users/edit.ctp:315
+#: View/Users/edit.ctp:313
 msgid "flattr_allow_posting_exp"
 msgstr ""
 "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird "
 "automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
-#: View/Users/edit.ctp:321
+#: View/Users/edit.ctp:319
 msgid "button_save"
 msgstr "Speichern"
 
-#: View/Users/index.ctp:12
+#: View/Users/index.ctp:21
 msgid "userlist_online"
 msgstr "Online"
 
-#: View/Users/index.ctp:46
+#: View/Users/index.ctp:55
 #, php-format
 msgid "user_since %s"
 msgstr "Mitglied seit %s"
 
-#: View/Users/index.ctp:51
+#: View/Users/index.ctp:60
 msgid "Online"
 msgstr ""
 
-#: View/Users/index.ctp:54
+#: View/Users/index.ctp:63
 #, php-format
 msgid "%s banned"
 msgstr "%s gesperrt"
@@ -1135,40 +1140,35 @@ msgstr "Nutzungsbedingungen"
 msgid "register_tos_label"
 msgstr "Ich bin mit den %s einverstanden"
 
-#: View/Users/view.ctp:74
+#: View/Users/view.ctp:75
 msgid "user_since"
 msgstr "Mitglied seit"
 
-#: View/Users/view.ctp:75
+#: View/Users/view.ctp:76
 msgid "date_short"
 msgstr "%d.%m.%Y"
 
-#: View/Users/view.ctp:88
+#: View/Users/view.ctp:89
 msgid "user_postings"
 msgstr "Beiträge"
 
-#: View/Users/view.ctp:139
-#, fuzzy
-msgid "Profile"
-msgstr "Profil"
-
-#: View/Users/view.ctp:156
+#: View/Users/view.ctp:157
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
-#: View/Users/view.ctp:168
+#: View/Users/view.ctp:169
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: View/Users/view.ctp:168
+#: View/Users/view.ctp:169
 msgid "Lock"
 msgstr "Sperren"
 
-#: View/Users/view.ctp:218
+#: View/Users/view.ctp:219
 msgid "No entries created yet."
 msgstr "Noch keine Beiträge verfasst."
 
-#: View/Users/view.ctp:232
+#: View/Users/view.ctp:233
 msgid "Show all"
 msgstr "Alle anzeigen"
 
@@ -1390,7 +1390,7 @@ msgstr ""
 msgid "Smily was not deleted"
 msgstr ""
 
-#: Controller/ToolsController.php:21
+#: Controller/ToolsController.php:17
 msgid "Caches cleared."
 msgstr ""
 
@@ -1552,7 +1552,7 @@ msgstr "Keine Log-Datei vorhanden."
 msgid "Details"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:612
+#: View/Helper/BbcodeHelper.php:620
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 video. Please updgrade to a "
@@ -1562,7 +1562,7 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:633
+#: View/Helper/BbcodeHelper.php:641
 #, fuzzy
 msgid ""
 "Your browser does not support HTML5 audio. Please updgrade to a "
@@ -1572,22 +1572,22 @@ msgstr ""
 "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen modernen "
 "Browser."
 
-#: View/Helper/BbcodeHelper.php:797 View/Helper/BbcodeHelper.php:802
+#: View/Helper/BbcodeHelper.php:805 View/Helper/BbcodeHelper.php:810
 #: View/Helper/MarkitupEditorHelper.php:65
 msgid "Spoiler"
 msgstr ""
 
-#: View/Helper/BbcodeHelper.php:998
+#: View/Helper/BbcodeHelper.php:1006
 #, fuzzy
 msgid "[embed] tag not enabled."
 msgstr "Embed.ly aktivieren"
 
-#: View/Helper/BbcodeHelper.php:1087
+#: View/Helper/BbcodeHelper.php:1095
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: View/Helper/BbcodeHelper.php:1095
+#: View/Helper/BbcodeHelper.php:1103
 msgid "Video domain is not allowed."
 msgstr ""
 
@@ -1682,7 +1682,8 @@ msgstr "Wert"
 msgid "Explanation"
 msgstr "Beschreibung"
 
-#: View/Helper/TimeHHelper.php:121
+#: View/Helper/TimeHHelper.php:121 webroot/dist/main.min.js:1
+#: webroot/js/lib/saito/templateHelpers.js:41
 msgid "yesterday"
 msgstr "Gestern"
 
@@ -1690,11 +1691,11 @@ msgstr "Gestern"
 msgid "userranks_not_found"
 msgstr ""
 
-#: webroot/js/modules/usermap/templates/controls.html:7
+#: webroot/js/modules/usermap/templates/controls.html:9
 msgid "user.map.b.locate"
 msgstr "Orten"
 
-#: webroot/js/modules/usermap/templates/controls.html:9
+#: webroot/js/modules/usermap/templates/controls.html:11
 msgid "user.map.b.clear"
 msgstr "Entfernen"
 
@@ -1722,10 +1723,15 @@ msgstr "Neues Bild hier hineinwerfen"
 msgid "upload_info"
 msgstr "Max. :size; jpg, jpeg, png, gif"
 
-#: Plugin/M/webroot/dev/bower_components/underscore/test/utility.js:71
-#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/utility.js:51
-#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/test_underscore/utility.js:41
-msgid "champ"
+#: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.compat.js:6237
+#: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.compat.js:6241
+#: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.js:5887
+#: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.js:5891
+#: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.underscore.js:4275
+#: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.underscore.js:4279
+#: webroot/dev/bower_components/lodash/js/lodash.js:5887
+#: webroot/dev/bower_components/lodash/js/lodash.js:5891
+msgid "fred"
 msgstr ""
 
 #: Plugin/M/webroot/dev/node_modules/grunt/node_modules/findup-sync/node_modules/lodash/dist/lodash.compat.js:4491
@@ -2527,6 +2533,11 @@ msgstr ""
 msgid "true"
 msgstr ""
 
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/node_modules/underscore.string/test/test_underscore/utility.js:51
+#: Plugin/M/webroot/dev/node_modules/grunt/node_modules/underscore.string/test/test_underscore/utility.js:41
+msgid "champ"
+msgstr ""
+
 #: Plugin/M/webroot/dev/node_modules/grunt/node_modules/lodash/lodash.js:3608
 #: Plugin/M/webroot/dev/node_modules/grunt/node_modules/lodash/lodash.underscore.js:3116
 msgid "curly"
@@ -2541,28 +2552,28 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
-#: webroot/dist/main.min.js:2 webroot/js/modules/shoutbox/views/add.js:15
+#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/add.js:15
 msgid "Shout :shortcut"
 msgstr ""
 
-#: webroot/dist/main.min.js:2 webroot/js/modules/shoutbox/views/add.js:16
+#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/add.js:16
 msgid "Hit enter to mark as read"
 msgstr "Enter für gelesen markieren"
 
-#: webroot/dist/main.min.js:2 webroot/js/modules/shoutbox/views/control.js:25
+#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/control.js:25
 msgid "Notification"
 msgstr "Benachrichtigung"
 
-#: webroot/dist/main.min.js:2 webroot/js/views/postingActionBookmark.js:51
+#: webroot/dist/main.min.js:1 webroot/js/views/postingActionBookmark.js:51
 msgid "Entry is bookmarked"
 msgstr "Eintrag ist in den Lesezeichen"
 
-#: webroot/dist/main.min.js:2 webroot/js/views/postingActionBookmark.js:55
+#: webroot/dist/main.min.js:1 webroot/js/views/postingActionBookmark.js:55
 #, fuzzy
 msgid "Bookmark the entry"
 msgstr "Eintrag zu den Lesezeichen hinzufügen"
 
-#: webroot/dist/main.min.js:2 webroot/js/views/postingActionSolves.js:26
+#: webroot/dist/main.min.js:1 webroot/js/views/postingActionSolves.js:26
 msgid "Mark entry as helpful"
 msgstr "Beitrag als hilfreich markieren."
 
@@ -2611,13 +2622,18 @@ msgstr ""
 msgid "Multimedia"
 msgstr "Einbinden"
 
-#: webroot/dist/main.min.js:4 webroot/js/views/prerequisitesTester.js:14
+#: webroot/dist/main.min.js:3 webroot/js/views/prerequisitesTester.js:14
 msgid ""
 "This web-application depends on Cookies and localStorage. Please make those "
 "available in your browser."
 msgstr ""
 "Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren Sie "
 "diese im Browser."
+
+#: webroot/dist/main.min.js:3 webroot/js/modules/usermap/views/controls.js:81
+#, fuzzy
+msgid "user.map.b.search"
+msgstr "Suche \":string\""
 
 #: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
 msgid "tr:first"
@@ -2627,18 +2643,17 @@ msgstr ""
 msgid "tr"
 msgstr ""
 
-#: webroot/js/modules/usermap/views/controls.js:75
-#, fuzzy
-msgid "user.map.b.search"
-msgstr "Suche \":string\""
-
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:26
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:20
 msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
 msgstr ""
 
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:48
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:42
 msgid "token test"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Profile"
+#~ msgstr "Profil"
 
 #~ msgid "user_lock"
 #~ msgstr "Sperre"

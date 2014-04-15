@@ -32,7 +32,7 @@
 		?>
 		<a href="<?= $this->request->webroot; ?>users/view/<?= $CurrentUser['id'] ?>"
 			 id="btn_view_current_user" class="top-menu-item">
-			<?= $this->Layout->textWithIcon(__('user_profile'), 'user') ?>
+			<?= $this->Layout->textWithIcon(__('user.b.profile'), 'user') ?>
 		</a>
 		<?= $divider ?>
 		<a href="<?= $this->request->webroot; ?>bookmarks/" class="top-menu-item">
