@@ -53,8 +53,6 @@
 		}
 
 		public function register($id = null) {
-			Stopwatch::start('Entries->register()');
-
 			$this->set('register_success', false);
 
 			$this->Auth->logout();
@@ -86,21 +84,22 @@
 				$this->request->data['User']['activate_code'] = mt_rand(1000000, 9999999);
 				$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
 				if ($this->User->register($this->request->data)) {
-						$this->request->data['User']['id'] = $this->User->id;
+					$this->request->data['User']['id'] = $this->User->id;
 
-						$this->SaitoEmail->email(array(
-							'recipient' => $this->request->data,
-							'subject' => __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
-								'sender' => array(
-									'User' => array(
-										'user_email' => Configure::read('Saito.Settings.forum_email'),
-										'username' => Configure::read('Saito.Settings.forum_name')
-									),
-								),
-								'template' => 'user_register',
-								'viewVars' => array('user' => $this->request->data),
-						));
-						$this->set('register_success', 'email_send');
+					$this->SaitoEmail->email([
+						'recipient' => $this->request->data,
+						'subject' => __('register_email_subject',
+							Configure::read('Saito.Settings.forum_name')),
+						'sender' => [
+							'User' => [
+								'user_email' => Configure::read('Saito.Settings.forum_email'),
+								'username' => Configure::read('Saito.Settings.forum_name')
+							],
+						],
+						'template' => 'user_register',
+						'viewVars' => ['user' => $this->request->data],
+					]);
+					$this->set('register_success', 'email_send');
 				} else {
 					// 'unswitch' the passwordAuthSwitch to get the error message to the field
 					if (isset($this->User->validationErrors['password'])) {
@@ -109,7 +108,6 @@
 					$this->request->data['User']['tos_confirm'] = false;
 				}
 			}
-			Stopwatch::stop('Entries->register()');
 		}
 
 		public function admin_index() {
