@@ -115,11 +115,12 @@ define([
         },
 
         _map: function() {
-          var tilesLayer = MQ.mapLayer(),
-              maxZoom;
+          var tilesLayer = MQ.mapLayer();
           this.mapLayer = L.map(this.el, {
             closePopupOnClick: false,
-            maxZoom: this.model.get('maxZoom')
+            maxZoom: this.model.get('maxZoom'),
+            minZoom: this.model.get('minZoom'),
+            maxBounds: this.model.get('maxBounds')
           });
           this._setView();
 
