@@ -164,6 +164,8 @@
 				$this->Auth->allow('sql_explain');
 			}
 
+			$this->_l10nRenderFile();
+
 			Stopwatch::stop('App->beforeFilter()');
 		}
 
@@ -425,6 +427,19 @@
 
 			$this->set('HeaderCounter', $headCounter);
 			Stopwatch::stop('AppController->_setAppStats()');
+		}
+
+		/**
+		 * sets l10n .ctp file if available
+		 */
+		protected function _l10nRenderFile() {
+			$locale = Configure::read('Config.language');
+			$l10nViewPath = $this->viewPath . DS . $locale;
+			$l10nViewFile = $l10nViewPath . DS . $this->view . '.ctp';
+			if ($locale && file_exists(APP . 'View' . DS . $l10nViewFile)
+			) {
+				$this->viewPath = $l10nViewPath;
+			}
 		}
 
 	}

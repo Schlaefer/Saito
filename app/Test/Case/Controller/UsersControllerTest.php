@@ -26,37 +26,32 @@
 		const MAPQUEST = 'mapquestapi.com/sdk';
 
 		public function testAdminAdd() {
-			$data = array(
-				'User' => array(
+			$data = [
+				'User' => [
 					'username' => 'foo',
 					'user_email' => 'fo3@example.com',
 					'user_password' => 'test',
 					'password_confirm' => 'test',
-				)
-			);
-			$expected = array(
-				'User' => array(
+				]
+			];
+			$expected = [
+				'User' => [
 					'username' => 'foo',
 					'user_email' => 'fo3@example.com',
 					'password' => 'test',
 					'password_confirm' => 'test'
-				)
-			);
-			$Users = $this->generate('Users',
-				array(
-					'models' => array(
-						'User' => array('register')
-					)
-				));
+				]
+			];
+
+			$Users = $this->generate('Users', ['models' => ['User' => ['register']]]);
 			$this->_loginUser(1);
+
 			$Users->User->expects($this->once())
-					->method('register')
-					->with($expected);
+				->method('register')
+				->with($expected, true);
+
 			$this->testAction('/admin/users/add',
-				array(
-					'data' => $data,
-					'method' => 'post'
-				));
+				['data' => $data, 'method' => 'post']);
 		}
 
 		public function testAdminAddNoAccess() {
@@ -254,6 +249,16 @@
 			$this->assertContains('Email address is already used.', $result);
 			$this->assertContains('Passwords don&#039;t match.', $result);
 			$this->assertContains('Name is already used.', $result);
+		}
+
+		public function testRs() {
+			$Users = $this->generate('Users', ['models' => ['User' => ['activate']]]);
+			$Users->User->expects($this->once())
+				->method('activate')
+				->with(4, '1548')
+				->will($this->returnValue(['status' => 'activated', 'User' => []]));
+			$result = $this->testAction('/users/rs/4/?c=1548', ['return' => 'vars']);
+			$this->assertEquals('activated', $result['status']);
 		}
 
 		public function testSetcategoryNotLoggedIn() {

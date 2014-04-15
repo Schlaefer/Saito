@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 11:17+0100\n"
-"PO-Revision-Date: 2014-04-15 11:21+0100\n"
+"POT-Creation-Date: 2014-04-15 22:44+0100\n"
+"PO-Revision-Date: 2014-04-15 22:44+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -203,7 +203,8 @@ msgstr "Noch keine Lesezeichen angelegt."
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Layouts/admin.ctp:44
-#: webroot/dist/main.min.js:2 webroot/js/views/categoryChooser.js:25
+#: webroot/js/views/categoryChooser.js:25
+#: webroot/release-tmp/views/categoryChooser.js:25
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -418,8 +419,8 @@ msgstr "Angetrieben durch Saito v%s."
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
-#: View/Elements/layout/header_login.ctp:9 View/Users/register.ctp:2
-#: View/Users/register.ctp:71
+#: View/Elements/layout/header_login.ctp:9 View/Users/deu/rs.ctp:2
+#: View/Users/register.ctp:3 View/Users/register.ctp:56 View/Users/rs.ctp:2
 msgid "register_linkname"
 msgstr "Registrieren"
 
@@ -551,7 +552,7 @@ msgstr ""
 msgid "preview"
 msgstr "Vorschau"
 
-#: View/Entries/add.ctp:58 Controller/UsersController.php:520
+#: View/Entries/add.ctp:58 Controller/UsersController.php:526
 msgid "error_subject_empty"
 msgstr "Betreff darf nicht leer sein."
 
@@ -742,7 +743,7 @@ msgstr ""
 msgid "Uploads"
 msgstr "Hochladen"
 
-#: View/Settings/admin_index.ctp:99
+#: View/Settings/admin_index.ctp:99 View/Settings/admin_index.ctp:102
 msgid "admin.set.map"
 msgstr "Karten"
 
@@ -811,6 +812,7 @@ msgid "Admin Edit Smiley"
 msgstr "Admin Smiley bearbeiten"
 
 #: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
+#: webroot/release-tmp/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Hochladen"
 
@@ -1131,20 +1133,15 @@ msgstr "%s gesperrt"
 msgid "login_linkname"
 msgstr "log in"
 
-#: View/Users/register.ctp:13
-msgid "register_success_content"
-msgstr ""
-"Ihre Registrierung war erfolgreich. Sie können sich nun einloggen. Viel Spaß!"
-
-#: View/Users/register.ctp:16 Controller/EntriesController.php:320
+#: View/Users/register.ctp:12 Controller/EntriesController.php:320
 msgid "js-required"
 msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
-#: View/Users/register.ctp:51
+#: View/Users/register.ctp:41
 msgid "register_tos_linktext"
 msgstr "Nutzungsbedingungen"
 
-#: View/Users/register.ctp:50
+#: View/Users/register.ctp:40
 msgid "register_tos_label"
 msgstr "Ich bin mit den %s einverstanden"
 
@@ -1188,7 +1185,7 @@ msgstr "Neu"
 msgid "Cumulated"
 msgstr "Kumuliert"
 
-#: Controller/AppController.php:254
+#: Controller/AppController.php:256
 msgid "forum-title-template"
 msgstr ":page – :forum"
 
@@ -1406,7 +1403,7 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr "Maximale Anzahl an Uploads erreicht (%s)."
 
-#: Controller/UsersController.php:37 Controller/UsersController.php:371
+#: Controller/UsersController.php:37 Controller/UsersController.php:377
 #, php-format
 msgid "User %s is locked."
 msgstr "Benutzer %s wurde gesperrt."
@@ -1415,87 +1412,87 @@ msgstr "Benutzer %s wurde gesperrt."
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: Controller/UsersController.php:93
+#: Controller/UsersController.php:73
 msgid "register_email_subject"
 msgstr "Willkommen zu %s!"
 
-#: Controller/UsersController.php:158
+#: Controller/UsersController.php:164
 msgid "user.admin.add.success"
 msgstr "Nutzer wurde erfolgreich angelegt."
 
-#: Controller/UsersController.php:167
+#: Controller/UsersController.php:173
 #, fuzzy
 msgid "admin.feat.map"
 msgstr "Karten"
 
-#: Controller/UsersController.php:167
+#: Controller/UsersController.php:173
 msgid "admin.setting.disabled"
 msgstr "Funktion \"%s\" ist nicht aktiviert."
 
-#: Controller/UsersController.php:201 Controller/UsersController.php:223
+#: Controller/UsersController.php:207 Controller/UsersController.php:229
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: Controller/UsersController.php:309
+#: Controller/UsersController.php:315
 msgid "The user could not be saved. Please, try again."
 msgstr "Der Benutzer konnte nicht gespeichert werden."
 
-#: Controller/UsersController.php:329
+#: Controller/UsersController.php:335
 #, php-format
 msgid "Edit %s Profil"
 msgstr "%s Profil bearbeiten"
 
-#: Controller/UsersController.php:351 Controller/UsersController.php:390
+#: Controller/UsersController.php:357 Controller/UsersController.php:396
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: Controller/UsersController.php:360
+#: Controller/UsersController.php:366
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: Controller/UsersController.php:363
+#: Controller/UsersController.php:369
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: Controller/UsersController.php:374
+#: Controller/UsersController.php:380
 #, php-format
 msgid "User %s is unlocked."
 msgstr "Benutzer %s wurde freigegeben."
 
-#: Controller/UsersController.php:380
+#: Controller/UsersController.php:386
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:397
+#: Controller/UsersController.php:403
 msgid "You can't delete yourself."
 msgstr "Man kann sich nicht selbst löschen."
 
-#: Controller/UsersController.php:399
+#: Controller/UsersController.php:405
 msgid "You can't delete the installation account."
 msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
 
-#: Controller/UsersController.php:401
+#: Controller/UsersController.php:407
 #, php-format
 msgid "User %s deleted."
 msgstr "Nutzer %s gelöscht."
 
-#: Controller/UsersController.php:405
+#: Controller/UsersController.php:411
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:429
+#: Controller/UsersController.php:435
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
-#: Controller/UsersController.php:498
+#: Controller/UsersController.php:504
 msgid "error_email_not-valid"
 msgstr "Keine gültige Email-Adresse."
 
-#: Controller/UsersController.php:545
+#: Controller/UsersController.php:551
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: Controller/UsersController.php:550
+#: Controller/UsersController.php:556
 #, fuzzy
 msgid "Message couldn't be send! "
 msgstr "Fehler, Nachricht konnte nicht versandt werden."
@@ -1665,8 +1662,9 @@ msgstr "Hier den Verweistext eingeben."
 msgid "Media"
 msgstr "Einbinden"
 
-#: View/Helper/MarkitupEditorHelper.php:88 webroot/dist/main.min.js:2
-#: webroot/js/views/uploadNew.js:94 webroot/js/views/uploads.js:66
+#: View/Helper/MarkitupEditorHelper.php:88 webroot/js/views/uploadNew.js:94
+#: webroot/js/views/uploads.js:66 webroot/release-tmp/views/uploadNew.js:94
+#: webroot/release-tmp/views/uploads.js:66
 #, fuzzy
 msgid "Upload"
 msgstr "Hochladen"
@@ -1690,8 +1688,8 @@ msgstr "Wert"
 msgid "Explanation"
 msgstr "Beschreibung"
 
-#: View/Helper/TimeHHelper.php:121 webroot/dist/main.min.js:1
-#: webroot/js/lib/saito/templateHelpers.js:41
+#: View/Helper/TimeHHelper.php:121 webroot/js/lib/saito/templateHelpers.js:41
+#: webroot/release-tmp/lib/saito/templateHelpers.js:41
 msgid "yesterday"
 msgstr "Gestern"
 
@@ -1700,34 +1698,42 @@ msgid "userranks_not_found"
 msgstr ""
 
 #: webroot/js/modules/usermap/templates/controls.html:9
+#: webroot/release-tmp/modules/usermap/templates/controls.html:9
 msgid "user.map.b.locate"
 msgstr "Orten"
 
 #: webroot/js/modules/usermap/templates/controls.html:11
+#: webroot/release-tmp/modules/usermap/templates/controls.html:11
 msgid "user.map.b.clear"
 msgstr "Entfernen"
 
 #: webroot/js/templates/mediaInsert.html:5
+#: webroot/release-tmp/templates/mediaInsert.html:5
 msgid "Enter link to media or embedding code:"
 msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben:"
 
 #: webroot/js/templates/mediaInsert.html:10
+#: webroot/release-tmp/templates/mediaInsert.html:10
 msgid "Insert"
 msgstr "Einfügen"
 
 #: webroot/js/templates/mediaInsert.html:14
+#: webroot/release-tmp/templates/mediaInsert.html:14
 msgid "Nothing recognized."
 msgstr "Nichts erkannt."
 
 #: webroot/js/templates/upload.html:6
+#: webroot/release-tmp/templates/upload.html:6
 msgid "upload_btn_insert_into_posting"
 msgstr "Einfügen"
 
 #: webroot/js/templates/uploadNew.html:9
+#: webroot/release-tmp/templates/uploadNew.html:9
 msgid "upload_new_title"
 msgstr "Neues Bild hier hineinwerfen"
 
 #: webroot/js/templates/uploadNew.html:11
+#: webroot/release-tmp/templates/uploadNew.html:11
 msgid "upload_info"
 msgstr "Max. :size; jpg, jpeg, png, gif"
 
@@ -1739,6 +1745,8 @@ msgstr "Max. :size; jpg, jpeg, png, gif"
 #: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.underscore.js:4279
 #: webroot/dev/bower_components/lodash/js/lodash.js:5887
 #: webroot/dev/bower_components/lodash/js/lodash.js:5891
+#: webroot/release-tmp/underscore.js:5887
+#: webroot/release-tmp/underscore.js:5891
 msgid "fred"
 msgstr ""
 
@@ -2560,77 +2568,71 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
-#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/add.js:15
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
+#: webroot/release-tmp/lib/datatables/media/js/jquery.dataTables.js:4942
+msgid "tr:first"
+msgstr ""
+
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
+#: webroot/release-tmp/lib/datatables/media/js/jquery.dataTables.js:4954
+msgid "tr"
+msgstr ""
+
+#: webroot/js/modules/shoutbox/views/add.js:15
+#: webroot/release-tmp/modules/shoutbox/views/add.js:15
 msgid "Shout :shortcut"
 msgstr ""
 
-#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/add.js:16
+#: webroot/js/modules/shoutbox/views/add.js:16
+#: webroot/release-tmp/modules/shoutbox/views/add.js:16
 msgid "Hit enter to mark as read"
 msgstr "Enter für gelesen markieren"
 
-#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/control.js:25
+#: webroot/js/modules/shoutbox/views/control.js:25
+#: webroot/release-tmp/modules/shoutbox/views/control.js:25
 msgid "Notification"
 msgstr "Benachrichtigung"
 
-#: webroot/dist/main.min.js:1 webroot/js/views/postingActionBookmark.js:51
-msgid "Entry is bookmarked"
-msgstr "Eintrag ist in den Lesezeichen"
-
-#: webroot/dist/main.min.js:1 webroot/js/views/postingActionBookmark.js:55
+#: webroot/js/modules/usermap/views/controls.js:81
+#: webroot/release-tmp/modules/usermap/views/controls.js:81
 #, fuzzy
-msgid "Bookmark the entry"
-msgstr "Eintrag zu den Lesezeichen hinzufügen"
+msgid "user.map.b.search"
+msgstr "Suche \":string\""
 
-#: webroot/dist/main.min.js:1 webroot/js/views/postingActionSolves.js:26
-msgid "Mark entry as helpful"
-msgstr "Beitrag als hilfreich markieren."
-
-#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:64
-msgid "upload_fileTypeNotAllowed"
-msgstr "Dateityp nicht erlaubt."
-
-#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:68
-msgid "upload_fileToLarge"
-msgstr "Datei :name zu groß."
-
-#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:73
-msgid "upload_browserNotSupported"
-msgstr "Browser wird nicht unterstützt."
-
-#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:76
-msgid "upload_toManyFiles"
-msgstr "Zu viele Dateien."
-
-#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:174
-msgid "upload_genericError"
-msgstr "Beim Hochladen ist ein Fehler aufgetreten."
-
-#: webroot/dist/main.min.js:2
-msgid ""
-"Enter link to media or embedding code:') %>\n"
-"            </label>\n"
-"            <textarea name=\"data[media]\" id=\"markitup_media_txta\" rows="
-"\"6\"\n"
-"                      columns=\"20\"></textarea>\n"
-"            <input class=\"btn btn-submit\" id=\"markitup_media_btn\" type="
-"\"submit\"\n"
-"                   value=\"<%- $.i18n.__('Insert') %>\">\n"
-"\n"
-"            <div id=\"markitup_media_message\" class=\"flash error\"\n"
-"                 style=\"display: none;\">\n"
-"                <%- $.i18n.__('Nothing recognized.') %>\n"
-"            </div>\n"
-"        </form>\n"
-"    </div>\n"
-"</div>\n"
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:20
+#: webroot/release-tmp/tests/lib/jquery.i18n.extendSpec.js:20
+msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
 msgstr ""
 
-#: webroot/dist/main.min.js:2 webroot/js/views/mediaInsert.js:68
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:42
+#: webroot/release-tmp/tests/lib/jquery.i18n.extendSpec.js:42
+msgid "token test"
+msgstr ""
+
+#: webroot/js/views/mediaInsert.js:68
+#: webroot/release-tmp/views/mediaInsert.js:68
 #, fuzzy
 msgid "Multimedia"
 msgstr "Einbinden"
 
-#: webroot/dist/main.min.js:3 webroot/js/views/prerequisitesTester.js:14
+#: webroot/js/views/postingActionBookmark.js:51
+#: webroot/release-tmp/views/postingActionBookmark.js:51
+msgid "Entry is bookmarked"
+msgstr "Eintrag ist in den Lesezeichen"
+
+#: webroot/js/views/postingActionBookmark.js:55
+#: webroot/release-tmp/views/postingActionBookmark.js:55
+#, fuzzy
+msgid "Bookmark the entry"
+msgstr "Eintrag zu den Lesezeichen hinzufügen"
+
+#: webroot/js/views/postingActionSolves.js:26
+#: webroot/release-tmp/views/postingActionSolves.js:26
+msgid "Mark entry as helpful"
+msgstr "Beitrag als hilfreich markieren."
+
+#: webroot/js/views/prerequisitesTester.js:14
+#: webroot/release-tmp/views/prerequisitesTester.js:14
 msgid ""
 "This web-application depends on Cookies and localStorage. Please make those "
 "available in your browser."
@@ -2638,26 +2640,26 @@ msgstr ""
 "Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren Sie "
 "diese im Browser."
 
-#: webroot/dist/main.min.js:3 webroot/js/modules/usermap/views/controls.js:81
-#, fuzzy
-msgid "user.map.b.search"
-msgstr "Suche \":string\""
+#: webroot/js/views/uploadNew.js:64 webroot/release-tmp/views/uploadNew.js:64
+msgid "upload_fileTypeNotAllowed"
+msgstr "Dateityp nicht erlaubt."
 
-#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
-msgid "tr:first"
-msgstr ""
+#: webroot/js/views/uploadNew.js:68 webroot/release-tmp/views/uploadNew.js:68
+msgid "upload_fileToLarge"
+msgstr "Datei :name zu groß."
 
-#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
-msgid "tr"
-msgstr ""
+#: webroot/js/views/uploadNew.js:73 webroot/release-tmp/views/uploadNew.js:73
+msgid "upload_browserNotSupported"
+msgstr "Browser wird nicht unterstützt."
 
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:20
-msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
-msgstr ""
+#: webroot/js/views/uploadNew.js:76 webroot/release-tmp/views/uploadNew.js:76
+msgid "upload_toManyFiles"
+msgstr "Zu viele Dateien."
 
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:42
-msgid "token test"
-msgstr ""
+#: webroot/js/views/uploadNew.js:174
+#: webroot/release-tmp/views/uploadNew.js:174
+msgid "upload_genericError"
+msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 
 #, fuzzy
 #~ msgid "Profile"

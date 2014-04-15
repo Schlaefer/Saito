@@ -115,7 +115,7 @@
 				'personal_messages' => 0,
 				'user_category_custom' => '',
 				'registered' => '2009-01-01 00:00',
-				'activate_code' => 0,
+				'activate_code' => 1548,
 			),
 			array(
 				'id' => 5,

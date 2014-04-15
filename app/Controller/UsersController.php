@@ -52,62 +52,90 @@
 			$this->redirect('/');
 		}
 
-		public function register($id = null) {
-			$this->set('register_success', false);
+		public function register() {
+			$this->set('status', 'view');
 
 			$this->Auth->logout();
 
-			// user clicked link in confirm mail
-			// @td make name arg
-			if ($id && isset($this->passedArgs[1])) {
-				$this->User->contain('UserOnline');
-				$user = $this->User->read(null, $id);
-				if ($user["User"]['activate_code'] == $this->passedArgs[1]) {
-					$this->User->id = $id;
-					if ($this->User->activate()) :
-						$this->Auth->login($user);
-						$this->set('register_success', 'success');
-					endif;
-				} else {
-					$this->redirect(array('controller' => 'entries', 'action' => 'index'));
-					return;
-				}
-			};
+			$tosRequired = Configure::read('Saito.Settings.tos_enabled');
+			$this->set(compact('tosRequired'));
 
-			if (!empty($this->request->data) && !Configure::read('Saito.Settings.tos_enabled')) {
-				$this->request->data['User']['tos_confirm'] = true;
+			// display empty form
+			if (empty($this->request->data)) {
+				return;
 			}
 
-			if (!empty($this->request->data) && $this->request->data['User']['tos_confirm']) {
-				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
+			$data = $this->request->data;
 
-				$this->request->data['User']['activate_code'] = mt_rand(1000000, 9999999);
-				$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
-				if ($this->User->register($this->request->data)) {
-					$this->request->data['User']['id'] = $this->User->id;
-
-					$this->SaitoEmail->email([
-						'recipient' => $this->request->data,
-						'subject' => __('register_email_subject',
-							Configure::read('Saito.Settings.forum_name')),
-						'sender' => [
-							'User' => [
-								'user_email' => Configure::read('Saito.Settings.forum_email'),
-								'username' => Configure::read('Saito.Settings.forum_name')
-							],
-						],
-						'template' => 'user_register',
-						'viewVars' => ['user' => $this->request->data],
-					]);
-					$this->set('register_success', 'email_send');
-				} else {
-					// 'unswitch' the passwordAuthSwitch to get the error message to the field
-					if (isset($this->User->validationErrors['password'])) {
-						$this->User->validationErrors['user_password'] = $this->User->validationErrors['password'];
-					}
-					$this->request->data['User']['tos_confirm'] = false;
-				}
+			if (!$tosRequired) {
+				$data['User']['tos_confirm'] = true;
 			}
+
+			$tosConfirmed = $data['User']['tos_confirm'];
+			if (!$tosConfirmed) {
+				return;
+			}
+
+			$data = $this->_passwordAuthSwitch($data);
+			$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
+			$user = $this->User->register($data);
+
+			// registering failed, show form again
+			if (!$user) {
+				// undo the passwordAuthSwitch() to display error message for the field
+				if (isset($this->User->validationErrors['password'])) {
+					$this->User->validationErrors['user_password'] = $this->User->validationErrors['password'];
+				}
+				$data['User']['tos_confirm'] = false;
+				$this->request->data = $data;
+				return;
+			}
+
+			// registered successfully
+			try {
+				$forumName = Configure::read('Saito.Settings.forum_name');
+				$subject = __('register_email_subject', $forumName);
+				$this->SaitoEmail->email([
+					'recipient' => $data,
+					'subject' => $subject,
+					'sender' => ['User' => [
+						'user_email' => Configure::read('Saito.Settings.forum_email'),
+						'username' => Configure::read('Saito.Settings.forum_name')
+					]],
+					'template' => 'user_register',
+					'viewVars' => ['user' => $data]
+				]);
+			} catch (Exception $e) {
+				$this->set('status', 'fail: email');
+				return;
+			}
+
+			$this->set('status', 'success');
+		}
+
+		/**
+		 * register success (user clicked link in confirm mail)
+		 *
+		 * @param $id
+		 * @throws BadRequestException
+		 */
+		public function rs($id = null) {
+			if (!$id) {
+				throw new BadRequestException();
+			}
+
+			$code = $this->request->query('c');
+
+			try {
+				$activated = $this->User->activate((int)$id, $code);
+			} catch (Exception $e) {
+				$activated = false;
+			}
+
+			if (!$activated) {
+				$activated = ['status' => 'fail'];
+			}
+			$this->set('status', $activated['status']);
 		}
 
 		public function admin_index() {
@@ -152,7 +180,7 @@
 		public function admin_add() {
 			if (!empty($this->request->data)) :
 				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-				if ($this->User->register($this->request->data)) {
+				if ($this->User->register($this->request->data, true)) {
 					$this->Session->setFlash(__('user.admin.add.success'),
 							'flash/success');
 					$this->redirect(['action' => 'view', $this->User->id, 'admin' => false]);
@@ -626,7 +654,7 @@
 			Stopwatch::start('Users->beforeFilter()');
 			parent::beforeFilter();
 
-			$this->Auth->allow('register', 'login', 'contact');
+			$this->Auth->allow('contact', 'login', 'register', 'rs');
 			$this->set('modLocking',
 					$this->CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui')
 			);

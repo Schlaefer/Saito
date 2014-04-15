@@ -4,9 +4,9 @@
 			$this->Html->url(
 				[
 					'controller' => 'users',
-					'action' => 'register',
+					'action' => 'rs',
 					$user['User']['id'],
-					$user['User']['activate_code']
+					'?' => ['c' => $user['User']['activate_code']]
 				],
 				true)
 		]

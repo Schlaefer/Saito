@@ -321,18 +321,32 @@
  * @param array $data
  * @return bool true if user got registred false otherwise
  */
-		public function register($data) {
-			$defaults = array(
-				'registered' => date("Y-m-d H:i:s"),
-				'user_type' => 'user',
-				'activate_code' => 0,
-			);
-			$data = array_merge($defaults, $data[$this->alias]);
+		public function register($data, $activate = false) {
+			$defaults = [
+				'registered' => date('Y-m-d H:i:s'),
+				'user_type' => 'user'
+			];
+			$fields = ['registered', 'username',
+				'user_email', 'password', 'user_type'];
+
+			if ($activate !== true) {
+				$defaults['activate_code'] = mt_rand(1000000, 9999999);
+				$fields[] = 'activate_code';
+			}
+
+			$data = array_merge($data[$this->alias], $defaults);
+
+			if (!$this->requireFields($data, $fields) || !$this->unsetFields($data)) {
+				return false;
+			}
 
 			$this->create();
-			$out = $this->save($data);
-
-			return $out;
+			$user = $this->save($data, true, $fields);
+			if (empty($user)) {
+				return false;
+			}
+			$user['User']['id'] = $this->id;
+			return $user;
 		}
 
 /**
@@ -348,22 +362,45 @@
 					false);
 		}
 
-		public function activate() {
-			$success = $this->saveField('activate_code', 0);
+		/**
+		 * activates user
+		 *
+		 * @param $id user-ID
+		 * @param $code activation code
+		 * @return array|bool false if activation failed; array with status and user data on success
+		 * @throws InvalidArgumentException
+		 */
+		public function activate($id, $code) {
+			if (!is_int($id) || !is_string($code)) {
+				throw new InvalidArgumentException();
+			}
 
-			if ($success) :
-				$this->contain();
-				$user = $this->read();
-				$this->getEventManager()->dispatch(
-						new CakeEvent(
-								'Model.User.afterActivate',
-								$this,
-								array('User' => $user['User'])
-						)
-				);
-			endif;
+			$user = $this->find('first', [
+				'contain' => false,
+				'conditions' => ['id' => $id]
+			]);
+			if (empty($user)) {
+				throw new InvalidArgumentException();
+			}
 
-			return $success;
+			$user = $user[$this->alias];
+			$activateCode = strval($user['activate_code']);
+
+			if (empty($activateCode)) {
+				return ['status' => 'already', 'User' => $user];
+			} elseif ($activateCode !== $code) {
+				return false;
+			}
+
+			$success = $this->save(['id' => $id, 'activate_code' => 0]);
+			if (empty($success)) {
+				return false;
+			}
+			$user['activate_code'] = 0;
+
+			$this->_dispatchEvent('Model.User.afterActivate', ['User' => $user]);
+
+			return ['status' => 'activated', 'User' => $user];
 		}
 
 /**

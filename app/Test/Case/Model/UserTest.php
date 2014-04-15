@@ -333,6 +333,39 @@
 			$User->saveField('username', 'foo');
 		}
 
+		public function testActivateIdNotInt() {
+			$this->setExpectedException('InvalidArgumentException');
+			$this->User->activate('stro', '123');
+		}
+
+		public function testActivateCodeNotString() {
+			$this->setExpectedException('InvalidArgumentException');
+			$this->User->activate(123, 123);
+		}
+
+		public function testActivateUserNotFound() {
+			$this->setExpectedException('InvalidArgumentException');
+			$this->User->activate(123, '123');
+		}
+
+		public function testActivateUserAlreadyActivated() {
+			$result = $this->User->activate(1, '123');
+			$this->assertEquals('already', $result['status']);
+		}
+
+		public function testActivateUserWrongCode() {
+			$result = $this->User->activate(4, '123');
+			$this->assertFalse($result);
+		}
+
+		public function testActivateUserSuccess() {
+			$result = $this->User->activate(4, '1548');
+			$this->assertEquals('activated', $result['status']);
+			$user = $this->User->findById(4);
+			$this->assertEquals(0, $user['User']['activate_code']);
+			$this->assertEquals($user['User'], $result['User']);
+		}
+
 		public function testAfterFind() {
 			//* setting prefix for empty colors
 			$this->User->id = 3;
@@ -492,7 +525,8 @@
 			$this->assertEmpty($result);
 
 			$_userCountAfterAction = $this->User->find('count');
-			$this->assertEquals($_userCountBeforeAction, $_userCountAfterAction - 1);
+			// (reginald stays) + (fixture user-id 4 is gone) = 0
+			$this->assertEquals($_userCountBeforeAction, $_userCountAfterAction - 0);
 		}
 
 		public function testRegister() {
@@ -521,6 +555,40 @@
 			$result = $result['User'];
 			$result = array_intersect_key($result, $expected);
 			$this->assertEquals($result, $expected);
+		}
+
+		public function testRegisterUseDefaultValues() {
+			$pw = 'test';
+			$data = [
+				'User' => [
+					'username' => 'Reginald',
+					'password' => $pw,
+					'password_confirm' => $pw,
+					'user_email' => 'Reginald@example.com',
+					'user_type' => 'admin',
+					'activate_code' => '0'
+				],
+			];
+			$this->User->register($data);
+			$this->assertNotEmpty($this->User->field('activate_code'));
+			$this->assertEquals('user', $this->User->field('user_type'));
+		}
+
+		public function testRegisterAutoRegister() {
+			$pw = 'test';
+			$data = [
+				'User' => [
+					'username' => 'Reginald',
+					'password' => $pw,
+					'password_confirm' => $pw,
+					'user_email' => 'Reginald@example.com',
+					'user_type' => 'admin',
+					'activate_code' => '0'
+				],
+			];
+			$this->User->register($data, true);
+			$this->assertEmpty($this->User->field('activate_code'));
+			$this->assertEquals('user', $this->User->field('user_type'));
 		}
 
 		public function testRegisterValidation() {

@@ -1,8 +1,3 @@
-<?php
-	$this->start('headerSubnavLeft');
-	echo $this->Layout->navbarBack();
-	$this->end();
-?>
 <div class="panel">
 	<?=
 		$this->Layout->panelHeading(__('register_linkname'),
@@ -14,21 +9,20 @@
 			} elseif ($status === 'fail: email') {
 				?>
 				<h1>
-					Sending Confirmation Email Failed
+					Bestätigungs-Email konnte nicht versandt werden
 				</h1>
 				<p>
-					Please contact an administrator.
+					Bitte wenden Sie sich an einen Administrator.
 				</p>
 			<?php } elseif ($status === 'success') { ?>
 				<h1>
-					Thanks for Registering
+					Vielen Dank für Ihre Registrierung
 				</h1>
 				<p>
-					An email with a link was send to you. Please click that link within
-					the next 24 hours to confirm your registration.
+					Ihnen wurde eine Bestätigungs-Email zugesendet. Bitte klicken Sie innerhalb der nächsten 24 Stunden auf den Link in dieser Email.
 				</p>
 				<p>
-					You're not able to login until you have confirmed your registration!
+					Vorher ist eine Anmeldung im Forum nicht möglich!
 				</p>
 			<?php } ?>
 	</div>
