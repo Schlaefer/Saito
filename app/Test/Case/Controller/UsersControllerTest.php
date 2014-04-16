@@ -80,42 +80,62 @@
 		}
 
 		public function testLogin() {
-			//* user sees login form
-			$this->_logoutUser();
-			$result = $this->testAction('/users/login');
+			$data = [
+				'User' => [
+					'username' => 'Ulysses',
+					'password' => 'test'
+				]
+			];
+			$this->testAction('/users/login', ['data' => $data]);
+
+			$this->assertTrue($this->controller->CurrentUser->isLoggedIn());
+
+			//# successful login redirects
+			$this->assertRedirectedTo();
+
+			//# last login time should be set
+			$this->controller->User->id = 3;
+			$user = $this->controller->User->read();
+			$this->assertWithinMargin(time($user['User']['last_login']), time(), 1);
+		}
+
+		public function testLoginShowForm() {
+			//# show login form
+			$this->testAction('/users/login', ['method' => 'GET']);
 			$this->assertFalse(isset($this->headers['Location']));
 
-			return;
+			//# test logout on form show
+			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
+			$this->_loginUser(3);
+			$user = $this->controller->Session->read('Auth.User');
+			$this->controller->CurrentUser->set($user);
+			$this->assertTrue($this->controller->CurrentUser->isLoggedIn());
+			$this->testAction('/users/login', ['method' => 'GET']);
+			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
+		}
 
-			//* users logged in
-			$this->Users->Session->write('Auth.User',
-				array(
-					'id' => 3,
-					'username' => 'Ulysses',
-				));
+		public function testLoginUserLocked() {
+			$data = [
+				'User' => [
+					'username' => 'Change Password Test',
+					'password' => 'test'
+				]
+			];
+			$result = $this->testAction('/users/login',
+				['data' => $data, 'return' => 'contents']);
+			$this->assertContains('is not activated yet.', $result);
+		}
 
-			//registred user before login try
-			$registeredUsersBeforeLogin = $this->Users->User->find('count');
-
-			$this->_prepareAction('/users/login');
-			$timeOfLogin = date('Y-m-d H:i:s');
-			$this->Users->login();
-			$this->Users->User->id = 3;
-			$userAfterLogin = $this->Users->User->read();
-
-			// redirect
-			$this->assertEquals($this->Users->redirectUrl, $this->Users->referer());
-			// user has to be in useronline
-			$this->assertTrue($this->Users->User->UserOnline->findByUserId(3));
-
-			// time is stored as last login time
-			$this->assertEquals($timeOfLogin, $userAfterLogin['User']['last_login']);
-
-			// check that there was no false insertion of new users through relationships
-			// leave this test of the end of testLogin()
-			$registeredUsersAfterLogin = $this->Users->User->find('count');
-			$this->assertEquals($registeredUsersBeforeLogin,
-				$registeredUsersAfterLogin);
+		public function testLoginUserNotActivated() {
+			$data = [
+				'User' => [
+					'username' => 'Walt',
+					'password' => 'test'
+				]
+			];
+			$result = $this->testAction('/users/login',
+				['data' => $data, 'return' => 'contents']);
+			$this->assertContains('is locked.', $result);
 		}
 
 		/**

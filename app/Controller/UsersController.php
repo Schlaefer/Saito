@@ -16,39 +16,52 @@
 		];
 
 		public function login() {
-			if ($this->CurrentUser->login()):
-				if ($this->localReferer('action') === 'login'):
+			$this->CurrentUser->logOut();
+
+			//# just show form
+			if (empty($this->request->data['User']['username'])) {
+				return;
+			}
+
+			//# successful login with request data
+			if ($this->CurrentUser->login()) {
+				if ($this->localReferer('action') === 'login') {
 					$this->redirect($this->Auth->redirectUrl());
-				else:
+				} else {
 					$this->redirect($this->referer());
-				endif;
-			elseif (empty($this->request->data['User']['username']) === false):
-				$unknownError = true;
-				$this->User->contain();
-				$readUser = $this->User->findByUsername(
-					$this->request->data['User']['username']
-				);
-				if (empty($readUser) === false):
-					$user = new SaitoUser(new ComponentCollection);
-					$user->set($readUser['User']);
-					if ($user->isForbidden()) :
-						$unknownError = false;
-						$this->Session->setFlash(
-							__('User %s is locked.', $readUser['User']['username']),
-							'flash/warning'
-						);
-					endif;
-				endif;
-				if ($unknownError === true):
-					$this->Session->setFlash(__('auth_loginerror'), 'default', [], 'auth');
-				endif;
-			endif;
+				}
+				return;
+			}
+
+			//# error on login
+			$this->User->contain();
+			$username = $this->request->data['User']['username'];
+			$readUser = $this->User->findByUsername($username);
+
+			$status = null;
+
+			if (!empty($readUser)) {
+				$User = new SaitoUser(new ComponentCollection);
+				$User->set($readUser['User']);
+				$status = $User->isForbidden();
+			}
+
+			switch ($status) {
+				case 'locked':
+					$message = __('User %s is locked.', $readUser['User']['username']);
+					break;
+				case 'unactivated':
+					$message = __('User %s is not activated yet.', $readUser['User']['username']);
+					break;
+				default:
+					$message = __('auth_loginerror');
+			}
+
+			$this->Session->setFlash($message, 'default', [], 'auth');
 		}
 
 		public function logout() {
-			if ($this->Auth->user()) {
-				$this->CurrentUser->logout();
-			}
+			$this->CurrentUser->logout();
 			$this->redirect('/');
 		}
 

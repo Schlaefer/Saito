@@ -1,12 +1,24 @@
+<?php
+	$this->start('headerSubnavLeft');
+	echo $this->Layout->navbarBack();
+	$this->end();
+?>
 <div class="panel">
 	<?= $this->Layout->panelHeading(__('login_linkname'),
 			['pageHeading' => true]) ?>
 	<div class="panel-content panel-form">
-		<?php
-			echo $this->element('users/login_form');
-			// set cursor into field username
-			echo $this->Js->buffer('$("#tf-login-username").focus();');
-			?>
-
+		<?= $this->element('users/login_form') ?>
+		<script>
+			$(function() {
+				var focus = function() {
+					if ($("#content").css('visibility') === 'hidden') {
+						window.setTimeout(focus, 300);
+						return;
+					}
+					$("#tf-login-username").select();
+				};
+				focus();
+			});
+		</script>
 	</div>
 </div>

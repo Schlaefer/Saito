@@ -111,7 +111,13 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 	}
 
 	public function isForbidden() {
-		return empty($this->_settings['user_lock']) === false;
+		if (!empty($this->_settings['user_lock'])) {
+			return 'locked';
+		}
+		if (!empty($this->_settings['activate_code'])) {
+			return 'unactivated';
+		}
+		return false;
 	}
 
 	public function mockUserType($type) {

@@ -57,115 +57,88 @@
 			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 		);
 
+		protected $_common = [
+			'activate_code' => 0,
+			// `test`
+			'password' => '098f6bcd4621d373cade4e832627b4f6',
+			'personal_messages' => 0,
+			'registered' => '2009-01-01 00:00',
+			'slidetab_order' => null,
+			'user_automaticaly_mark_as_read' => 0,
+			'user_category_custom' => '',
+			'user_lock' => 0,
+			'user_type' => 'user'
+		];
+
 		public $records = array(
 			array(
 				'id' => 1,
 				'username' => 'Alice',
 				'user_type' => 'admin',
 				'user_email' => 'alice@example.com',
-				// `test`
-				'password' => '098f6bcd4621d373cade4e832627b4f6',
-				'slidetab_order' => null,
-				'user_automaticaly_mark_as_read' => 0,
-				'user_lock' => 0,
-				'personal_messages' => 0,
-				'user_category_custom' => '', // used in test-case, don't change
-				'registered' => '2009-01-01 00:00',
-				'activate_code' => 0,
 			),
 			array(
 				'id' => 2,
 				'username' => 'Mitch',
 				'user_type' => 'mod',
 				'user_email' => 'mitch@example.com',
-				'password' => '098f6bcd4621d373cade4e832627b4f6',
-				'slidetab_order' => null,
-				'user_automaticaly_mark_as_read' => 0,
-				'user_lock' => 0,
-				'personal_messages' => 0,
-				'user_category_custom' => '',
-				'registered' => '2009-01-01 00:00',
-				'activate_code' => 0,
 			),
 			array(
 				'id' => 3,
 				'username' => 'Ulysses',
-				'user_type' => 'user',
 				'user_email' => 'ulysses@example.com',
-				'password' => '098f6bcd4621d373cade4e832627b4f6',
-				'slidetab_order' => null,
-				'user_automaticaly_mark_as_read' => 0,
-				'user_lock' => 0,
 				'personal_messages' => 1,
-				'user_category_custom' => '',
-				'registered' => '2009-01-01 00:00',
-				'activate_code' => 0,
 				'user_place_lat' => 21.610,
 				'user_place_lng' => -158.096
 			),
 			array(
 				'id' => 4,
 				'username' => 'Change Password Test',
-				'user_type' => 'user',
 				'user_email' => 'cpw@example.com',
-				'password' => '098f6bcd4621d373cade4e832627b4f6',
-				'slidetab_order' => null,
 				'user_automaticaly_mark_as_read' => 1,
-				'user_lock' => 0,
-				'personal_messages' => 0,
-				'user_category_custom' => '',
-				'registered' => '2009-01-01 00:00',
 				'activate_code' => 1548,
 			),
 			array(
 				'id' => 5,
 				'username' => 'Uma',
-				'user_type' => 'user',
 				'user_email' => 'uma@example.com',
-				'password' => '098f6bcd4621d373cade4e832627b4f6',
-				'slidetab_order' => null,
 				'user_automaticaly_mark_as_read' => 1,
-				'user_lock' => 0,
-				'personal_messages' => 0,
-				'user_category_custom' => '',
-				'registered' => '2009-01-01 00:00',
-				'activate_code' => 0,
 			),
 			array(
 				'id' => 6,
 				'username' => 'Second Admin',
 				'user_type' => 'admin',
 				'user_email' => 'second admin@example.com',
-				'password' => '$2a$10$7d0000dd8a37f797acb53OY.oaPgJ2vV4PE3.VBpmsm9OM/zMlzNq',
 				//testtest
-				'slidetab_order' => null,
+				'password' => '$2a$10$7d0000dd8a37f797acb53OY.oaPgJ2vV4PE3.VBpmsm9OM/zMlzNq',
 				'user_automaticaly_mark_as_read' => 1,
-				'user_lock' => 0,
-				'personal_messages' => 0,
-				'user_category_custom' => '',
 				'registered' => '2010-09-01 11:12',
-				'activate_code' => 0,
 			),
 			[
-			'id' => 7,
+				'id' => 7,
 				'username' => '&<Username',
-				'user_type' => 'user',
 				'user_email' => 'xss@example.com',
 				'user_real_name' => '&<RealName',
 				'user_hp' => '&<Homepage',
 				'user_place' => '&<Place',
 				'profile' => '&<Profile',
 				'signature' => '&<Signature',
-				//testtest
-				'password' => '$2a$10$7d0000dd8a37f797acb53OY.oaPgJ2vV4PE3.VBpmsm9OM/zMlzNq',
-				'slidetab_order' => null,
 				'user_automaticaly_mark_as_read' => 1,
-				'user_lock' => 0,
-				'personal_messages' => 0,
-				'user_category_custom' => '',
 				'registered' => '2010-09-02 11:00',
-				'activate_code' => 0,
-			]
+			],
+			[
+				'id' => 8,
+				'username' => 'Walt',
+				'user_email' => 'walt@example.com',
+				'user_lock' => 1
+			],
 		);
+
+		public function init() {
+			foreach ($this->records as $k => $record) {
+				$this->records[$k] += $this->_common;
+			}
+			return parent::init();
+		}
 
 	}

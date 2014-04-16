@@ -38,7 +38,7 @@
 
 		public function testFindLatest() {
 			$result = $this->User->find('latest');
-			$this->assertEquals($result['User']['id'], 7);
+			$this->assertEquals($result['User']['id'], 8);
 		}
 
 		public function testSetCategoryAll() {

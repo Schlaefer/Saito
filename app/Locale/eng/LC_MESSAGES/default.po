@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-15 22:43+0100\n"
-"PO-Revision-Date: 2014-04-15 22:43+0100\n"
+"POT-Creation-Date: 2014-04-16 20:13+0100\n"
+"PO-Revision-Date: 2014-04-16 20:13+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -202,8 +202,7 @@ msgstr ""
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
 #: View/Categories/admin_index.ctp:3 View/Layouts/admin.ctp:44
-#: webroot/js/views/categoryChooser.js:25
-#: webroot/release-tmp/views/categoryChooser.js:25
+#: webroot/dist/main.min.js:2 webroot/js/views/categoryChooser.js:25
 msgid "Categories"
 msgstr ""
 
@@ -414,8 +413,9 @@ msgstr ""
 msgid "Generated in %s s."
 msgstr ""
 
-#: View/Elements/layout/header_login.ctp:9 View/Users/deu/rs.ctp:2
-#: View/Users/register.ctp:3 View/Users/register.ctp:56 View/Users/rs.ctp:2
+#: View/Elements/layout/header_login.ctp:9
+#: View/Elements/users/register-form.ctp:48 View/Users/deu/register.ctp:3
+#: View/Users/deu/rs.ctp:3 View/Users/register.ctp:3 View/Users/rs.ctp:3
 msgid "register_linkname"
 msgstr "Register"
 
@@ -475,60 +475,74 @@ msgstr "Administrator"
 msgid "search_nothing_found"
 msgstr "Nothing found."
 
-#: View/Elements/users/add_form_core.ctp:5
-msgid "model.user.validate.username.hasAllowedChars"
-msgstr "The name contains forbidden characters."
-
-#: View/Elements/users/add_form_core.ctp:6
-msgid "error_name_reserved"
-msgstr "Name is already used."
-
-#: View/Elements/users/add_form_core.ctp:7
-msgid "error_no_name"
-msgstr "Name is empty."
-
-#: View/Elements/users/add_form_core.ctp:9
-msgid "register_user_name"
-msgstr "Username"
-
-#: View/Elements/users/add_form_core.ctp:14
-msgid "error_email_reserved"
-msgstr "Email address is already used."
-
-#: View/Elements/users/add_form_core.ctp:15
-msgid "error_email_wrong"
-msgstr "Email doesn't seem like a valid address."
-
-#: View/Elements/users/add_form_core.ctp:17
-msgid "register_user_email"
-msgstr "Email Address"
-
-#: View/Elements/users/add_form_core.ctp:24 View/Users/changepassword.ctp:21
-#: View/Users/changepassword.ctp:29
-msgid "error_password_empty"
-msgstr "Password must not be empty."
-
-#: View/Elements/users/add_form_core.ctp:25 View/Users/changepassword.ctp:30
-msgid "error_password_confirm"
-msgstr "Passwords don't match."
-
-#: View/Elements/users/add_form_core.ctp:27
-#: View/Elements/users/login_form.ctp:18 View/Users/edit.ctp:46
-#: View/Users/edit.ctp:58 View/Users/edit.ctp:74
-msgid "user_pw"
-msgstr "Password"
-
-#: View/Elements/users/add_form_core.ctp:33
-msgid "user_pw_confirm"
-msgstr "Confirm Password"
-
 #: View/Elements/users/login_form.ctp:9 View/Searches/advanced.ctp:20
 msgid "user_name"
 msgstr "Username"
 
+#: View/Elements/users/login_form.ctp:18
+#: View/Elements/users/register-form-core.ctp:27 View/Users/edit.ctp:46
+#: View/Users/edit.ctp:58 View/Users/edit.ctp:74
+msgid "user_pw"
+msgstr "Password"
+
 #: View/Elements/users/login_form.ctp:27
 msgid "auto_login_marking"
 msgstr "Stay Logged In"
+
+#: View/Elements/users/register-form-core.ctp:5
+msgid "model.user.validate.username.hasAllowedChars"
+msgstr "The name contains forbidden characters."
+
+#: View/Elements/users/register-form-core.ctp:6
+msgid "error_name_reserved"
+msgstr "Name is already used."
+
+#: View/Elements/users/register-form-core.ctp:7
+msgid "error_no_name"
+msgstr "Name is empty."
+
+#: View/Elements/users/register-form-core.ctp:9
+msgid "register_user_name"
+msgstr "Username"
+
+#: View/Elements/users/register-form-core.ctp:14
+msgid "error_email_reserved"
+msgstr "Email address is already used."
+
+#: View/Elements/users/register-form-core.ctp:15
+msgid "error_email_wrong"
+msgstr "Email doesn't seem like a valid address."
+
+#: View/Elements/users/register-form-core.ctp:17
+msgid "register_user_email"
+msgstr "Email Address"
+
+#: View/Elements/users/register-form-core.ctp:24
+#: View/Users/changepassword.ctp:21 View/Users/changepassword.ctp:29
+msgid "error_password_empty"
+msgstr "Password must not be empty."
+
+#: View/Elements/users/register-form-core.ctp:25
+#: View/Users/changepassword.ctp:30
+msgid "error_password_confirm"
+msgstr "Passwords don't match."
+
+#: View/Elements/users/register-form-core.ctp:33
+msgid "user_pw_confirm"
+msgstr "Confirm Password"
+
+#: View/Elements/users/register-form.ctp:3
+#: Controller/EntriesController.php:320
+msgid "js-required"
+msgstr "To use this forum please enable JavaScript."
+
+#: View/Elements/users/register-form.ctp:33
+msgid "register_tos_linktext"
+msgstr "Terms of Service"
+
+#: View/Elements/users/register-form.ctp:32
+msgid "register_tos_label"
+msgstr "I agree to the %s"
 
 #: View/Emails/text/user_register.ctp:2
 msgid "register_email_content"
@@ -542,7 +556,7 @@ msgstr ""
 msgid "preview"
 msgstr "Preview"
 
-#: View/Entries/add.ctp:58 Controller/UsersController.php:526
+#: View/Entries/add.ctp:58 Controller/UsersController.php:555
 msgid "error_subject_empty"
 msgstr "Subject must not be empty."
 
@@ -796,7 +810,6 @@ msgid "Admin Edit Smiley"
 msgstr ""
 
 #: View/Uploads/add.ctp:10 webroot/js/templates/uploadNew.html:23
-#: webroot/release-tmp/templates/uploadNew.html:23
 msgid "upload_btn"
 msgstr "Upload"
 
@@ -1102,18 +1115,6 @@ msgstr ""
 msgid "login_linkname"
 msgstr "Login"
 
-#: View/Users/register.ctp:12 Controller/EntriesController.php:320
-msgid "js-required"
-msgstr "To use this forum please enable JavaScript."
-
-#: View/Users/register.ctp:41
-msgid "register_tos_linktext"
-msgstr "Terms of Service"
-
-#: View/Users/register.ctp:40
-msgid "register_tos_label"
-msgstr "I agree to the %s"
-
 #: View/Users/view.ctp:75
 msgid "user_since"
 msgstr "Joined"
@@ -1359,97 +1360,103 @@ msgstr ""
 msgid "upload_max_number_of_uploads_failed"
 msgstr "No more uploads possible (max: %s)."
 
-#: Controller/UsersController.php:37 Controller/UsersController.php:377
+#: Controller/UsersController.php:37 Controller/UsersController.php:46
+#: Controller/UsersController.php:406
 #, php-format
 msgid "User %s is locked."
 msgstr ""
 
-#: Controller/UsersController.php:43
+#: Controller/UsersController.php:40
+#, php-format
+msgid "User %s is not activated yet."
+msgstr ""
+
+#: Controller/UsersController.php:52
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
-#: Controller/UsersController.php:73
+#: Controller/UsersController.php:106
 msgid "register_email_subject"
 msgstr "Welcome to %s!"
 
-#: Controller/UsersController.php:164
+#: Controller/UsersController.php:193
 msgid "user.admin.add.success"
 msgstr "User was created successfully. "
 
-#: Controller/UsersController.php:173
+#: Controller/UsersController.php:202
 #, fuzzy
 msgid "admin.feat.map"
 msgstr "map"
 
-#: Controller/UsersController.php:173
+#: Controller/UsersController.php:202
 msgid "admin.setting.disabled"
 msgstr "Feature \"%s\" is disabled by admin."
 
-#: Controller/UsersController.php:207 Controller/UsersController.php:229
+#: Controller/UsersController.php:236 Controller/UsersController.php:258
 msgid "Invalid user"
 msgstr ""
 
-#: Controller/UsersController.php:315
+#: Controller/UsersController.php:344
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:335
+#: Controller/UsersController.php:364
 #, php-format
 msgid "Edit %s Profil"
 msgstr ""
 
-#: Controller/UsersController.php:357 Controller/UsersController.php:396
+#: Controller/UsersController.php:386 Controller/UsersController.php:425
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
 
-#: Controller/UsersController.php:366
+#: Controller/UsersController.php:395
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:369
+#: Controller/UsersController.php:398
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:380
+#: Controller/UsersController.php:409
 #, php-format
 msgid "User %s is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:386
+#: Controller/UsersController.php:415
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:403
+#: Controller/UsersController.php:432
 msgid "You can't delete yourself."
 msgstr ""
 
-#: Controller/UsersController.php:405
+#: Controller/UsersController.php:434
 msgid "You can't delete the installation account."
 msgstr ""
 
-#: Controller/UsersController.php:407
+#: Controller/UsersController.php:436
 #, php-format
 msgid "User %s deleted."
 msgstr ""
 
-#: Controller/UsersController.php:411
+#: Controller/UsersController.php:440
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/UsersController.php:435
+#: Controller/UsersController.php:464
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: Controller/UsersController.php:504
+#: Controller/UsersController.php:533
 msgid "error_email_not-valid"
 msgstr "No valid email address."
 
-#: Controller/UsersController.php:551
+#: Controller/UsersController.php:580
 msgid "Message was send."
 msgstr ""
 
-#: Controller/UsersController.php:556
+#: Controller/UsersController.php:585
 msgid "Message couldn't be send! "
 msgstr ""
 
@@ -1611,9 +1618,8 @@ msgstr "Enter link text here."
 msgid "Media"
 msgstr ""
 
-#: View/Helper/MarkitupEditorHelper.php:88 webroot/js/views/uploadNew.js:94
-#: webroot/js/views/uploads.js:66 webroot/release-tmp/views/uploadNew.js:94
-#: webroot/release-tmp/views/uploads.js:66
+#: View/Helper/MarkitupEditorHelper.php:88 webroot/dist/main.min.js:2
+#: webroot/js/views/uploadNew.js:94 webroot/js/views/uploads.js:66
 #, fuzzy
 msgid "Upload"
 msgstr "Upload"
@@ -1634,8 +1640,8 @@ msgstr ""
 msgid "Explanation"
 msgstr ""
 
-#: View/Helper/TimeHHelper.php:121 webroot/js/lib/saito/templateHelpers.js:41
-#: webroot/release-tmp/lib/saito/templateHelpers.js:41
+#: View/Helper/TimeHHelper.php:121 webroot/dist/main.min.js:1
+#: webroot/js/lib/saito/templateHelpers.js:41
 msgid "yesterday"
 msgstr ""
 
@@ -1644,42 +1650,34 @@ msgid "userranks_not_found"
 msgstr ""
 
 #: webroot/js/modules/usermap/templates/controls.html:9
-#: webroot/release-tmp/modules/usermap/templates/controls.html:9
 msgid "user.map.b.locate"
 msgstr "Locate"
 
 #: webroot/js/modules/usermap/templates/controls.html:11
-#: webroot/release-tmp/modules/usermap/templates/controls.html:11
 msgid "user.map.b.clear"
 msgstr "Clear"
 
 #: webroot/js/templates/mediaInsert.html:5
-#: webroot/release-tmp/templates/mediaInsert.html:5
 msgid "Enter link to media or embedding code:"
 msgstr ""
 
 #: webroot/js/templates/mediaInsert.html:10
-#: webroot/release-tmp/templates/mediaInsert.html:10
 msgid "Insert"
 msgstr ""
 
 #: webroot/js/templates/mediaInsert.html:14
-#: webroot/release-tmp/templates/mediaInsert.html:14
 msgid "Nothing recognized."
 msgstr ""
 
 #: webroot/js/templates/upload.html:6
-#: webroot/release-tmp/templates/upload.html:6
 msgid "upload_btn_insert_into_posting"
 msgstr "Insert"
 
 #: webroot/js/templates/uploadNew.html:9
-#: webroot/release-tmp/templates/uploadNew.html:9
 msgid "upload_new_title"
 msgstr "Drop Image Here"
 
 #: webroot/js/templates/uploadNew.html:11
-#: webroot/release-tmp/templates/uploadNew.html:11
 msgid "upload_info"
 msgstr "Max. size: :size; type: jpg, jpeg, png, gif"
 
@@ -1691,8 +1689,6 @@ msgstr "Max. size: :size; type: jpg, jpeg, png, gif"
 #: Plugin/M/webroot/dev/bower_components/lodash/dist/lodash.underscore.js:4279
 #: webroot/dev/bower_components/lodash/js/lodash.js:5887
 #: webroot/dev/bower_components/lodash/js/lodash.js:5891
-#: webroot/release-tmp/underscore.js:5887
-#: webroot/release-tmp/underscore.js:5891
 msgid "fred"
 msgstr ""
 
@@ -2514,93 +2510,99 @@ msgstr ""
 msgid "I know latin characters: á í ó ú ç ã õ ñ ü"
 msgstr ""
 
-#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
-#: webroot/release-tmp/lib/datatables/media/js/jquery.dataTables.js:4942
-msgid "tr:first"
-msgstr ""
-
-#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
-#: webroot/release-tmp/lib/datatables/media/js/jquery.dataTables.js:4954
-msgid "tr"
-msgstr ""
-
-#: webroot/js/modules/shoutbox/views/add.js:15
-#: webroot/release-tmp/modules/shoutbox/views/add.js:15
+#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/add.js:15
 msgid "Shout :shortcut"
 msgstr ""
 
-#: webroot/js/modules/shoutbox/views/add.js:16
-#: webroot/release-tmp/modules/shoutbox/views/add.js:16
+#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/add.js:16
 msgid "Hit enter to mark as read"
 msgstr ""
 
-#: webroot/js/modules/shoutbox/views/control.js:25
-#: webroot/release-tmp/modules/shoutbox/views/control.js:25
+#: webroot/dist/main.min.js:1 webroot/js/modules/shoutbox/views/control.js:25
 msgid "Notification"
 msgstr ""
 
-#: webroot/js/modules/usermap/views/controls.js:81
-#: webroot/release-tmp/modules/usermap/views/controls.js:81
-msgid "user.map.b.search"
-msgstr "Search \":string\""
-
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:20
-#: webroot/release-tmp/tests/lib/jquery.i18n.extendSpec.js:20
-msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
-msgstr ""
-
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:42
-#: webroot/release-tmp/tests/lib/jquery.i18n.extendSpec.js:42
-msgid "token test"
-msgstr ""
-
-#: webroot/js/views/mediaInsert.js:68
-#: webroot/release-tmp/views/mediaInsert.js:68
-msgid "Multimedia"
-msgstr ""
-
-#: webroot/js/views/postingActionBookmark.js:51
-#: webroot/release-tmp/views/postingActionBookmark.js:51
+#: webroot/dist/main.min.js:1 webroot/js/views/postingActionBookmark.js:51
 msgid "Entry is bookmarked"
 msgstr ""
 
-#: webroot/js/views/postingActionBookmark.js:55
-#: webroot/release-tmp/views/postingActionBookmark.js:55
+#: webroot/dist/main.min.js:1 webroot/js/views/postingActionBookmark.js:55
 msgid "Bookmark the entry"
 msgstr ""
 
-#: webroot/js/views/postingActionSolves.js:26
-#: webroot/release-tmp/views/postingActionSolves.js:26
+#: webroot/dist/main.min.js:1 webroot/js/views/postingActionSolves.js:26
 msgid "Mark entry as helpful"
 msgstr ""
 
-#: webroot/js/views/prerequisitesTester.js:14
-#: webroot/release-tmp/views/prerequisitesTester.js:14
+#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:64
+msgid "upload_fileTypeNotAllowed"
+msgstr "File type not allowed."
+
+#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:68
+msgid "upload_fileToLarge"
+msgstr "File :name to large."
+
+#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:73
+msgid "upload_browserNotSupported"
+msgstr "Browser not supported."
+
+#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:76
+msgid "upload_toManyFiles"
+msgstr "To many files."
+
+#: webroot/dist/main.min.js:2 webroot/js/views/uploadNew.js:174
+msgid "upload_genericError"
+msgstr "Error occurred on upload."
+
+#: webroot/dist/main.min.js:2
+msgid ""
+"Enter link to media or embedding code:') %>\n"
+"            </label>\n"
+"            <textarea name=\"data[media]\" id=\"markitup_media_txta\" rows="
+"\"6\"\n"
+"                      columns=\"20\"></textarea>\n"
+"            <input class=\"btn btn-submit\" id=\"markitup_media_btn\" type="
+"\"submit\"\n"
+"                   value=\"<%- $.i18n.__('Insert') %>\">\n"
+"\n"
+"            <div id=\"markitup_media_message\" class=\"flash error\"\n"
+"                 style=\"display: none;\">\n"
+"                <%- $.i18n.__('Nothing recognized.') %>\n"
+"            </div>\n"
+"        </form>\n"
+"    </div>\n"
+"</div>\n"
+msgstr ""
+
+#: webroot/dist/main.min.js:2 webroot/js/views/mediaInsert.js:68
+msgid "Multimedia"
+msgstr ""
+
+#: webroot/dist/main.min.js:3 webroot/js/views/prerequisitesTester.js:14
 msgid ""
 "This web-application depends on Cookies and localStorage. Please make those "
 "available in your browser."
 msgstr ""
 
-#: webroot/js/views/uploadNew.js:64 webroot/release-tmp/views/uploadNew.js:64
-msgid "upload_fileTypeNotAllowed"
-msgstr "File type not allowed."
+#: webroot/dist/main.min.js:3 webroot/js/modules/usermap/views/controls.js:81
+msgid "user.map.b.search"
+msgstr "Search \":string\""
 
-#: webroot/js/views/uploadNew.js:68 webroot/release-tmp/views/uploadNew.js:68
-msgid "upload_fileToLarge"
-msgstr "File :name to large."
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4942
+msgid "tr:first"
+msgstr ""
 
-#: webroot/js/views/uploadNew.js:73 webroot/release-tmp/views/uploadNew.js:73
-msgid "upload_browserNotSupported"
-msgstr "Browser not supported."
+#: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
+msgid "tr"
+msgstr ""
 
-#: webroot/js/views/uploadNew.js:76 webroot/release-tmp/views/uploadNew.js:76
-msgid "upload_toManyFiles"
-msgstr "To many files."
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:20
+msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
+msgstr ""
 
-#: webroot/js/views/uploadNew.js:174
-#: webroot/release-tmp/views/uploadNew.js:174
-msgid "upload_genericError"
-msgstr "Error occurred on upload."
+#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:42
+msgid "token test"
+msgstr ""
 
 #~ msgid "register_success_content"
 #~ msgstr ""
