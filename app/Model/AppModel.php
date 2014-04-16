@@ -37,6 +37,53 @@
 			return $value;
 		}
 
+		public function requireFields(&$data, array $required) {
+			return $this->_mapFields($data, $required, function(&$data, $model, $field) {
+				if (!isset($data[$model][$field])) {
+					return false;
+				}
+				return true;
+			});
+		}
+
+		public function unsetFields(&$data, array $unset = ['id']) {
+			return $this->_mapFields($data, $unset, function(&$data, $model, $field) {
+				if (isset($data[$model][$field])) {
+					unset($data[$model][$field]);
+				}
+				return true;
+			});
+		}
+
+		protected function _mapFields(&$data, $fields, callable $func) {
+			if (isset(reset($data)[$this->alias])) {
+				foreach ($data as &$d) {
+					if (!$this->_mapFields($d, $fields, $func)) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			if (!isset($data[$this->alias])) {
+				$data = [$this->alias => $data];
+			}
+			foreach ($fields as $field) {
+				if (strpos($field, '.') !== false) {
+					list($model, $field) = explode('.', $field, 2);
+				} else {
+					$model = $this->alias;
+				}
+				if ($model !== $this->alias) {
+					continue;
+				}
+				if (!$func($data, $model, $field)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
 		/**
 		 * @param $id model ID
 		 * @param $key

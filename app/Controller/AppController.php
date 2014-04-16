@@ -15,7 +15,7 @@
 		public $components = [
 			// 'DebugKit.Toolbar',
 
-			'Auth',
+			'Security', 'Auth',
 			'Bbcode',
 /**
  * You have to have Cookie before CurrentUser to have the salt initialized.
