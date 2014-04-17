@@ -96,7 +96,6 @@
 				'username' => 'Change Password Test',
 				'user_email' => 'cpw@example.com',
 				'user_automaticaly_mark_as_read' => 1,
-				'activate_code' => 1548,
 			),
 			array(
 				'id' => 5,
@@ -131,6 +130,12 @@
 				'username' => 'Walt',
 				'user_email' => 'walt@example.com',
 				'user_lock' => 1
+			],
+			[
+				'id' => 9,
+				'username' => 'Diane',
+				'user_email' => 'diane@example.com',
+				'activate_code' => 1548
 			],
 		);
 

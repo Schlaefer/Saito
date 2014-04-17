@@ -114,25 +114,15 @@
 			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
 		}
 
-		public function testLoginUserLocked() {
-			$data = [
-				'User' => [
-					'username' => 'Change Password Test',
-					'password' => 'test'
-				]
-			];
+		public function testLoginUserNotActivated() {
+			$data = ['User' => ['username' => 'Diane', 'password' => 'test']];
 			$result = $this->testAction('/users/login',
 				['data' => $data, 'return' => 'contents']);
 			$this->assertContains('is not activated yet.', $result);
 		}
 
-		public function testLoginUserNotActivated() {
-			$data = [
-				'User' => [
-					'username' => 'Walt',
-					'password' => 'test'
-				]
-			];
+		public function testLoginUserLocked() {
+			$data = ['User' => ['username' => 'Walt', 'password' => 'test']];
 			$result = $this->testAction('/users/login',
 				['data' => $data, 'return' => 'contents']);
 			$this->assertContains('is locked.', $result);
@@ -639,35 +629,56 @@
 			$this->assertRedirectedTo();
 		}
 
-		public function testChangePassword() {
-			// not logged in user can't change password
+		public function testChangePasswordNotLoggedIn() {
+			$this->setExpectedException('Saito\ForbiddenException');
 			$this->testAction('/users/changepassword/5');
 			$this->assertRedirectedTo();
+		}
 
-			// user (4) shouldn't see change password dialog of other users (5)
+		public function testChangePasswordWrongUser() {
+			$this->generate('Users');
 			$this->_loginUser(4);
-			$result = $this->testAction('/users/changepassword/5');
-			$this->assertRedirectedTo();
 
-			// user has access to his own changepassword dialog
-			$result = $this->testAction('/users/changepassword/4');
+			$this->setExpectedException('Saito\ForbiddenException');
+
+			$data = [
+				'User' => [
+					'password_old' => 'test',
+					'user_password' => 'test_new',
+					'password_confirm' => 'test_new',
+				]
+			];
+			$this->testAction('/users/changepassword/1',
+				['data' => $data, 'method' => 'post']);
+		}
+
+		public function testChangePasswordViewFormWrongUser() {
+			$this->generate('Users');
+			$this->setExpectedException('Saito\ForbiddenException');
+			$this->_loginUser(4);
+			$this->testAction('/users/changepassword/5');
+		}
+
+		public function testChangePasswordViewForm() {
+			$this->generate('Users');
+			$this->_loginUser(4);
+			$this->testAction('/users/changepassword/4');
 			$this->assertFalse(isset($this->headers['location']));
+		}
 
-			/*
-			 * test password confirmation failed
-			 */
+		public function testChangePasswordConfirmationFailed() {
+			$this->generate('Users');
 			$this->_loginUser(4);
-			$data = array(
-				'User' => array(
+
+			$data = [
+				'User' => [
 					'password_old' => 'test',
 					'user_password' => 'test_new_foo',
-					'password_confirm' => 'test_new_bar',
-				)
-			);
-			$this->testAction(
-				'/users/changepassword/4',
-				array('data' => $data, 'method' => 'post')
-			);
+					'password_confirm' => 'test_new_bar'
+				]
+			];
+			$this->testAction('/users/changepassword/4',
+				['data' => $data, 'method' => 'post']);
 			$this->assertFalse($this->controller->User->validates());
 
 			$expected = '098f6bcd4621d373cade4e832627b4f6';
@@ -676,21 +687,21 @@
 			$result = $this->controller->User->read();
 			$this->assertEquals($result['User']['password'], $expected);
 			$this->assertFalse(isset($this->headers['Location']));
+		}
 
-			/*
-			 * test old passwort not correct
-			 */
-			$data = array(
-				'User' => array(
+		public function testChangePasswordOldPasswordNotCorrect() {
+			$this->generate('Users');
+			$this->_loginUser(4);
+
+			$data = [
+				'User' => [
 					'password_old' => 'test_something',
 					'user_password' => 'test_new_foo',
 					'password_confirm' => 'test_new_foo',
-				)
-			);
-			$this->testAction(
-				'/users/changepassword/4',
-				array('data' => $data, 'method' => 'post')
-			);
+				]
+			];
+			$this->testAction('/users/changepassword/4',
+				['data' => $data, 'method' => 'post']);
 			$this->assertFalse($this->controller->User->validates());
 
 			$expected = '098f6bcd4621d373cade4e832627b4f6';
@@ -699,44 +710,21 @@
 			$result = $this->controller->User->read();
 			$this->assertEquals($result['User']['password'], $expected);
 			$this->assertFalse(isset($this->headers['Location']));
+		}
 
-			/*
-			 * test change password of other users not allowed
-			 */
-			$data = array(
-				'User' => array(
-					'password_old' => 'test',
-					'user_password' => 'test_new',
-					'password_confirm' => 'test_new',
-				)
-			);
-			$this->testAction(
-				'/users/changepassword/1',
-				array('data' => $data, 'method' => 'post')
-			);
+		public function testChangePassword() {
+			$this->generate('Users');
 
-			$expected = '098f6bcd4621d373cade4e832627b4f6';
-			$this->controller->User->id = 1;
-			$this->controller->User->contain();
-			$result = $this->controller->User->read();
-			$this->assertEquals($result['User']['password'], $expected);
-			$this->assertRedirectedTo();
-
-			/*
-			 * test changing password
-			 */
 			$this->_loginUser(5);
-			$data = array(
-				'User' => array(
+			$data = [
+				'User' => [
 					'password_old' => 'test',
 					'user_password' => 'test_new',
 					'password_confirm' => 'test_new',
-				)
-			);
-			$this->testAction(
-				'/users/changepassword/5',
-				array('data' => $data, 'method' => 'post')
-			);
+				]
+			];
+			$this->testAction('/users/changepassword/5',
+				['data' => $data, 'method' => 'post']);
 
 			$this->controller->User->contain();
 			$result = $this->controller->User->findById(5);

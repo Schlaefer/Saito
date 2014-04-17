@@ -354,14 +354,14 @@
 		}
 
 		public function testActivateUserWrongCode() {
-			$result = $this->User->activate(4, '123');
+			$result = $this->User->activate(9, '123');
 			$this->assertFalse($result);
 		}
 
 		public function testActivateUserSuccess() {
-			$result = $this->User->activate(4, '1548');
+			$result = $this->User->activate(9, '1548');
 			$this->assertEquals('activated', $result['status']);
-			$user = $this->User->findById(4);
+			$user = $this->User->findById(9);
 			$this->assertEquals(0, $user['User']['activate_code']);
 			$this->assertEquals($user['User'], $result['User']);
 		}
@@ -525,7 +525,7 @@
 			$this->assertEmpty($result);
 
 			$_userCountAfterAction = $this->User->find('count');
-			// (reginald stays) + (fixture user-id 4 is gone) = 0
+			// (reginald stays) + (fixture user-id 9 is gone) = 0
 			$this->assertEquals($_userCountBeforeAction, $_userCountAfterAction - 0);
 		}
 

@@ -449,42 +449,56 @@
 			$this->set('user', $readUser);
 		}
 
-	public function changepassword($id = null) {
-		if ($id == null ||
-				!$this->_isEditingAllowed($this->CurrentUser, $id)
-		) :
-			$this->redirect('/');
-			return;
-		endif;
+		/**
+		 * changes user password
+		 *
+		 * @param null $id
+		 * @throws Saito\ForbiddenException
+		 * @throws BadRequestException
+		 */
+		public function changepassword($id = null) {
+			if (!$id) {
+				throw new BadRequestException();
+			}
 
-		$this->User->id = $id;
-		$user = null;
+			$user = $this->User->findById($id);
+			$allowed = $this->_isEditingAllowed($this->CurrentUser, $id);
+			if (empty($user) || !$allowed) {
+				throw new \Saito\ForbiddenException("Attempt to change password for user $id.", [
+					'CurrentUser' => $this->CurrentUser, 'Request' => $this->request]);
+			}
+			$this->set('userId', $id);
 
-		if (!empty($this->request->data)) :
+			//# just show empty form
+			if (empty($this->request->data)) {
+				return;
+			}
+
+			//# process submitted form
 			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-			$this->User->id = $id;
-			$this->User->contain('UserOnline');
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('change_password_success'), 'flash/success');
+			$data = [
+				'id' => $id,
+				'password_old' => $this->request->data['User']['password_old'],
+				'password' => $this->request->data['User']['password'],
+				'password_confirm' => $this->request->data['User']['password_confirm']
+			];
+			$success = $this->User->save($data);
+
+			if ($success) {
+				$this->Session->setFlash(__('change_password_success'),
+					'flash/success');
 				$this->redirect(['controller' => 'users', 'action' => 'edit', $id]);
 				return;
-			} else {
-				$this->Session->setFlash(
-					__d(
-						'nondynamic',
-						current(array_pop($this->User->validationErrors))
-					),
-					'flash/error'
-				);
 			}
-		endif;
 
-		// we have to fill it for the form magic to work
-		$this->User->contain("UserOnline");
-		$user = $this->User->read();
-		$user['User']['password'] = '';
-		$this->request->data = $user;
-	}
+			$this->Session->setFlash(
+				__d('nondynamic', current(array_pop($this->User->validationErrors))),
+				'flash/error'
+			);
+
+			// unset all autofill form data
+			$this->request->data = [];
+		}
 
 		public function contact($id = null) {
 			if ($id === null) {
