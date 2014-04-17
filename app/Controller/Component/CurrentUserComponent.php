@@ -240,6 +240,9 @@
 		}
 
 		public function logout() {
+			if (!$this->isLoggedIn()) {
+				return;
+			}
 			$this->PersistentCookie->destroy();
 			$this->_User->id = $this->getId();
 			$this->_User->UserOnline->delete($this->getId(), false);
