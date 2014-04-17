@@ -225,7 +225,15 @@ EOF;
 			$options['class'] .= " {$options['position']} $class";
 			unset($class, $options['position']);
 
-			echo $this->Html->link($content, $url, $options);
+			return $this->Html->link($content, $url, $options);
+		}
+
+		public function navbarBack($url = null) {
+			if ($url === null) {
+				$url = '/';
+			}
+			return $this->navbarItem('<i class="fa fa-arrow-left"></i> ' . __('Back'),
+				$url, ['escape' => false]);
 		}
 
 	}
