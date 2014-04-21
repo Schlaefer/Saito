@@ -73,7 +73,7 @@
 				));
 			$Users->User->expects($this->never())
 					->method('register');
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/admin/users/add',
 				array(
 					'data' => $data,
@@ -437,7 +437,7 @@
 		}
 
 		public function testMapsNotLoggedIn() {
-			$this->expectException('MissingActionException');
+			$this->setExpectedException('MissingActionException');
 			$this->testAction('/users/maps');
 		}
 
@@ -449,21 +449,21 @@
 		}
 
 		public function testEditNotLoggedIn() {
-			$this->expectException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\ForbiddenException');
 			$this->testAction('/users/edit/3');
 		}
 
 		public function testEditNotUsersEntryGet() {
 			$this->generate('Users');
 			$this->_loginUser(2); // mod
-			$this->expectException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\ForbiddenException');
 			$this->testAction('/users/edit/3', ['method' => 'GET']);
 		}
 
 		public function testEditNotUsersEntryPost() {
 			$this->generate('Users');
 			$this->_loginUser(2); // mod
-			$this->expectException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\ForbiddenException');
 			$this->testAction('/users/edit/3', ['method' => 'POST']);
 		}
 

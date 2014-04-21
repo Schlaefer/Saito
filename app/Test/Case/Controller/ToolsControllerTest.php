@@ -33,14 +33,14 @@
 		 * @return void
 		 */
 		public function testAdminEmptyCachesNonAdmin() {
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('admin/tools/emptyCaches');
 		}
 
 		public function testAdminEmptyCachesUser() {
 			$Tools = $this->generate('Tools');
 			$this->_loginUser(3);
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('admin/tools/emptyCaches');
 		}
 

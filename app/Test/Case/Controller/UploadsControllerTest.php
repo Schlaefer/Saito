@@ -27,7 +27,7 @@
 		);
 
 		public function testAddUserMustBeLoggedIn() {
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/uploads/add', ['method' => 'GET']);
 			$this->assertTrue(isset($this->headers['Location']));
 		}
@@ -35,7 +35,7 @@
 		public function testAddMustBePost() {
 			$this->generate('Uploads');
 			$this->_loginUser(1);
-			$this->expectException('MethodNotAllowedException');
+			$this->setExpectedException('MethodNotAllowedException');
 			$this->testAction('/uploads/add', ['method' => 'GET']);
 		}
 
@@ -91,14 +91,14 @@
 		 * @return void
 		 */
 		public function testIndexUserMustBeLoggedIn() {
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/uploads/index', ['method' => 'GET']);
 		}
 
 		public function testIndexCallMustBeAjax() {
 			$this->generate('Uploads');
 			$this->_loginUser(1);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/uploads/index', array('method' => 'get'));
 		}
 
@@ -121,7 +121,7 @@
 		}
 
 		public function testDeleteUserMustBeLoggedIn() {
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/uploads/delete/1', ['method' => 'GET']);
 			$this->assertTrue(isset($this->headers['Location']));
 		}
@@ -129,7 +129,7 @@
 		public function testDeleteCallMustBeAjax() {
 			$this->generate('Uploads');
 			$this->_loginUser(1);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/uploads/delete/1', array('method' => 'get'));
 		}
 
@@ -137,7 +137,7 @@
 			$this->_setAjax();
 			$this->generate('Uploads');
 			$this->_loginUser(1);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/uploads/delete', array('method' => 'get'));
 		}
 
@@ -145,7 +145,7 @@
 			$this->_setAjax();
 			$this->generate('Uploads');
 			$this->_loginUser(1);
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/uploads/delete/1', array('method' => 'get'));
 		}
 
@@ -153,7 +153,7 @@
 			$this->_setAjax();
 			$this->generate('Uploads');
 			$this->_loginUser(1);
-			$this->expectException('ForbiddenException');
+			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/uploads/delete/9999', array('method' => 'get'));
 		}
 

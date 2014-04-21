@@ -28,7 +28,7 @@
 		);
 
 		public function testStatusMustBeAjax() {
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/status/status', ['method' => 'GET']);
 		}
 

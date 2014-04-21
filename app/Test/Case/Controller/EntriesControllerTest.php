@@ -45,7 +45,7 @@
 
 		public function testMixNotFound() {
 			$this->generate('Entries', array());
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$this->testAction('/entries/mix/9999');
 		}
 
@@ -465,7 +465,7 @@
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$result = $this->testAction('/entries/merge/',
 				array(
 					'data' => $data,
@@ -490,7 +490,7 @@
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$result = $this->testAction('/entries/merge/9999',
 				array(
 					'data' => $data,
@@ -537,7 +537,7 @@
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
-			$this->expectException('MethodNotAllowedException');
+			$this->setExpectedException('MethodNotAllowedException');
 			$result = $this->testAction('/entries/merge/4',
 				array(
 					'data' => $data,
@@ -578,7 +578,7 @@
 		public function testEditNoEntry() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$this->testAction('entries/edit/9999');
 		}
 
@@ -588,7 +588,7 @@
 		public function testEditNoEntryId() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('entries/edit/');
 		}
 
@@ -810,21 +810,21 @@
 		public function testSolveNoEntry() {
 			$this->generate('Entries');
 			$this->_loginUser(1);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/9999');
 		}
 
 		public function testSolveNotRootEntryUser() {
 			$this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/1');
 		}
 
 		public function testSolveIsRootEntry() {
 			$this->generate('Entries');
 			$this->_loginUser(3);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/1');
 		}
 
@@ -835,7 +835,7 @@
 				->method('toggleSolve')
 				->with('1')
 				->will($this->returnValue(false));
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/1');
 		}
 

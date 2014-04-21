@@ -695,12 +695,12 @@
 		}
 
 		public function testGetThreadIdNotFound() {
-			$this->expectException('UnexpectedValueException');
+			$this->setExpectedException('UnexpectedValueException');
 			$result = $this->Entry->getThreadId(999);
 		}
 
 		public function testUpdateNoId() {
-			$this->expectException('InvalidArgumentException');
+			$this->setExpectedException('InvalidArgumentException');
 			$this->Entry->update([]);
 		}
 
@@ -710,7 +710,7 @@
 		 * Don't accidentally `create`.
 		 */
 		public function testUpdateEntryDoesNotExist() {
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$this->Entry->update(['Entry' => ['id' => 999]]);
 		}
 

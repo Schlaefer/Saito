@@ -74,7 +74,7 @@
 		 * Set to a single category – Failure because category does not exists
 		 */
 		public function testSetCategorySingleNotExist() {
-			$this->expectException('InvalidArgumentException');
+			$this->setExpectedException('InvalidArgumentException');
 			$this->User->setCategory('fwefwe');
 		}
 
@@ -118,7 +118,7 @@
  * Set custom category set - Failure because no valid category is found
  */
 		public function testSetCategoryCustomNotExist() {
-			$this->expectException('InvalidArgumentException');
+			$this->setExpectedException('InvalidArgumentException');
 			$this->User->setCategory(array('foo'));
 		}
 
