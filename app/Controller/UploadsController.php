@@ -139,6 +139,7 @@
  * @throws ForbiddenException
  */
 		public function beforeFilter() {
+			$this->Security->unlockedActions = ['add'];
 			parent::beforeFilter();
 
 			if ($this->CurrentUser->isLoggedIn() === false) {

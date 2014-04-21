@@ -20,6 +20,7 @@
 			'plugin.api.category',
 			'plugin.api.user',
 			'plugin.api.user_online',
+			'plugin.api.user_read',
 			'plugin.api.bookmark',
 			'plugin.api.esnotification',
 			'plugin.api.esevent',

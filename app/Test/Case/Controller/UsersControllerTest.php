@@ -6,6 +6,8 @@
 
 	class UsersControllerTestCase extends SaitoControllerTestCase {
 
+		use SaitoSecurityMockTrait;
+
 		public $fixtures = array(
 			'app.bookmark',
 			'app.user',

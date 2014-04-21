@@ -18,6 +18,8 @@
 
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
 
+		use SaitoSecurityMockTrait;
+
 		public $fixtures = [
 			'app.bookmark',
 			'app.category',
@@ -42,7 +44,7 @@
 		}
 
 		public function testMixNotFound() {
-			$Entries = $this->generate('Entries', array());
+			$this->generate('Entries', array());
 			$this->expectException('NotFoundException');
 			$this->testAction('/entries/mix/9999');
 		}
@@ -118,8 +120,7 @@
 
 			// maxlength attribute is set for textfield
 			$result = $this->testAction('entries/add',
-					['method' => 'GET', 'return' => 'view']
-			);
+				['method' => 'GET', 'return' => 'view']);
 			$this->assertTextContains('maxlength="40"', $result);
 
 			// subject is one char to long
@@ -751,7 +752,8 @@
 			Cache::delete('header_counter', 'short');
 
 			// test with no user online
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'vars']);
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEquals($headerCounter['user_online'], 1);
@@ -764,7 +766,8 @@
 			// test with one user online
 			$this->_loginUser(2);
 
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'vars']);
 			$headerCounter = $result['HeaderCounter'];
 
 			/* without cache
@@ -781,7 +784,8 @@
 			// test with second user online
 			$this->_loginUser(3);
 
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'vars']);
 			$headerCounter = $result['HeaderCounter'];
 
 			// with cache
@@ -791,9 +795,8 @@
 		}
 
 		public function testFeedJson() {
-			$result = $this->testAction('/entries/feed/feed.json', array(
-					'return' => 'vars',
-			));
+			$result = $this->testAction('/entries/feed/feed.json',
+				['method' => 'GET', 'return' => 'vars']);
 			$this->assertEquals($result['entries'][0]['Entry']['subject'], 'First_Subject');
 			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
 		}
@@ -837,14 +840,16 @@
 		}
 
 		public function testSeo() {
-			$result = $this->testAction('/entries/index', ['return' => 'contents']);
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'contents']);
 			$this->assertTextNotContains('noindex', $result);
 			$expected = '<link rel="canonical" href="' . Router::url('/',
 							true) . '"/>';
 			$this->assertTextContains($expected, $result);
 
 			Configure::write('Saito.Settings.topics_per_page', 2);
-			$result = $this->testAction('/entries/index/page:2/', ['return' => 'contents']);
+			$result = $this->testAction('/entries/index/page:2/',
+				['method' => 'GET', 'return' => 'contents']);
 			$this->assertTextNotContains('rel="canonical"', $result);
 			$expected = '<meta name="robots" content="noindex, follow">';
 			$this->assertTextContains($expected, $result);

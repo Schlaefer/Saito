@@ -9,9 +9,7 @@
  */
 class BookmarksController extends AppController {
 
-	public $helpers = array(
-		'EntryH',
-	);
+	public $helpers = ['EntryH'];
 
 /**
  * @throws MethodNotAllowedException
@@ -20,17 +18,11 @@ class BookmarksController extends AppController {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
 		}
-		$bookmarks = $this->Bookmark->find('all', array(
-				'contain' => array(
-						'Entry' => array(
-								'Category', 'User'
-							)
-						),
-				'conditions' => array(
-						'Bookmark.user_id' => $this->CurrentUser->getId(),
-				),
-				'order' => 'Bookmark.id DESC',
-		));
+		$bookmarks = $this->Bookmark->find('all', [
+			'contain' => ['Entry' => ['Category', 'User']],
+			'conditions' => ['Bookmark.user_id' => $this->CurrentUser->getId()],
+			'order' => 'Bookmark.id DESC',
+		]);
 		$this->set('bookmarks', $bookmarks);
 	}
 
@@ -47,18 +39,20 @@ class BookmarksController extends AppController {
 			throw new MethodNotAllowedException;
 		}
 		$this->autoRender = false;
-		if ($this->request->is('post')) {
-			$data = array(
-					'user_id' => $this->CurrentUser->getId(),
-					'entry_id' => $this->request->data['id'],
-			);
-			$this->Bookmark->create();
-			if ($this->Bookmark->save($data)) {
-				return true;
-			} else {
-				return false;
-			}
+		if (!$this->request->is('post')) {
+			return false;
 		}
+
+		$data = [
+			'user_id' => $this->CurrentUser->getId(),
+			'entry_id' => $this->request->data['id'],
+		];
+		$this->Bookmark->create();
+		if ($this->Bookmark->save($data)) {
+			return true;
+		}
+
+		return false;
 	}
 
 /**
@@ -99,6 +93,11 @@ class BookmarksController extends AppController {
 			return true;
 		}
 		return false;
+	}
+
+	public function beforeFilter() {
+		$this->Security->unlockedActions = ['add'];
+		parent::beforeFilter();
 	}
 
 /**

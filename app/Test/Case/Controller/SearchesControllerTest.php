@@ -51,7 +51,7 @@
 			$this->_loginUser(1);
 
 			$result = $this->testAction('/searches/simple?q="Third+Thread+First_Subject"',
-					['return' => 'vars']);
+					['method' => 'GET', 'return' => 'vars']);
 			$this->assertNotEmpty($result['results']);
 		}
 
@@ -63,7 +63,7 @@
 			$this->_loginUser(3);
 
 			$result = $this->testAction('/searches/simple?q="Third+Thread+First_Subject"',
-					['return' => 'vars']);
+					['method' => 'GET', 'return' => 'vars']);
 			$this->assertEmpty($result['results']);
 		}
 
@@ -75,7 +75,7 @@
 			$this->_loginUser(1);
 
 			$result = $this->testAction('/searches/advanced?subject=Third+Thread+First_Subject',
-					['return' => 'vars']);
+					['method' => 'GET', 'return' => 'vars']);
 			$this->assertNotEmpty($result['results']);
 		}
 
@@ -87,7 +87,7 @@
 			$this->_loginUser(3);
 
 			$result = $this->testAction('/searches/advanced?subject=Third+Thread+First_Subject',
-					['return' => 'vars']);
+					['method' => 'GET', 'return' => 'vars']);
 			$this->assertEmpty($result['results']);
 		}
 
@@ -96,7 +96,8 @@
 			$this->_loginUser(3);
 
 			$this->setExpectedException('NotFoundException');
-			$this->testAction('/searches/advanced?subject=foo&category=1');
+			$this->testAction('/searches/advanced?subject=foo&category=1',
+				['method' => 'GET']);
 		}
 
 		public function testSearchStringSanitizer() {

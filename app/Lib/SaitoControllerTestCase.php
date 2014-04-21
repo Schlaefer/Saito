@@ -119,6 +119,44 @@
 			);
 		}
 
+		protected function _logoutUser() {
+			// if user is logged-in it should interfere with test runs
+			if (isset($_COOKIE['SaitoPersistent'])) :
+				unset($_COOKIE['SaitoPersistent']);
+			endif;
+			if (isset($_COOKIE['Saito'])) :
+				unset($_COOKIE['Saito']);
+			endif;
+			if (isset($this->controller->Session) && !empty($this->controller->Session)) :
+				$this->controller->Session->delete('Auth.User');
+			endif;
+		}
+
+		public function endTest($method) {
+			parent::endTest($method);
+			$this->_logoutUser();
+			$this->_unsetAjax();
+		}
+
+		public function setUp() {
+			parent::setUp();
+			$this->_logoutUser();
+			$this->_unsetAjax();
+			$this->_unsetJson();
+			Configure::write('Cache.disable', true);
+			Configure::write('Config.language', 'eng');
+		}
+
+		public function tearDown() {
+			Configure::write('Cache.disable', false);
+			$this->_logoutUser();
+			parent::tearDown();
+		}
+
+	}
+
+	trait SaitoSecurityMockTrait {
+
 		public function generate($controller, $mocks = []) {
 			$byPassSecurity = false;
 			if (!isset($mocks['components']['Security'])) {
@@ -146,37 +184,5 @@
 				->will($this->returnValue(true));
 		}
 
-		protected function _logoutUser() {
-			// if user is logged-in it should interfere with test runs
-			if (isset($_COOKIE['SaitoPersistent'])) :
-				unset($_COOKIE['SaitoPersistent']);
-			endif;
-			if (isset($_COOKIE['Saito'])) :
-				unset($_COOKIE['Saito']);
-			endif;
-			if (isset($this->controller->Session) && !empty($this->controller->Session)) :
-				$this->controller->Session->delete('Auth.User');
-			endif;
-		}
-
-		public function endTest($method) {
-			parent::endTest($method);
-			$this->_logoutUser();
-			$this->_unsetAjax();
-		}
-
-		public function setUp() {
-			parent::setUp();
-			$this->_logoutUser();
-			$this->_unsetJson();
-			Configure::write('Cache.disable', true);
-			Configure::write('Config.language', 'eng');
-		}
-
-		public function tearDown() {
-			Configure::write('Cache.disable', false);
-			$this->_logoutUser();
-			parent::tearDown();
-		}
-
 	}
+

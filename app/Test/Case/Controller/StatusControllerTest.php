@@ -29,25 +29,22 @@
 
 		public function testStatusMustBeAjax() {
 			$this->expectException('BadRequestException');
-			$this->testAction('/status/status');
+			$this->testAction('/status/status', ['method' => 'GET']);
 		}
 
 		public function testStatusIfNotLoggedIn() {
 			$this->_setJson();
 			$this->_setAjax();
-			$this->testAction('/status/status');
+			$this->testAction('/status/status', ['method' => 'GET']);
 			$this->assertFalse(isset($this->headers['Location']));
 		}
 
 		public function testStatusSuccess() {
 			$this->_setJson();
 			$this->_setAjax();
-			$expected = json_encode(
-				array(
-					'lastShoutId' => 4
-				)
-			);
-			$result = $this->testAction('/status/status', ['return' => 'contents']);
+			$expected = json_encode(['lastShoutId' => 4]);
+			$result = $this->testAction('/status/status',
+				['method' => 'GET', 'return' => 'contents']);
 			$this->assertEquals($result, $expected);
 		}
 

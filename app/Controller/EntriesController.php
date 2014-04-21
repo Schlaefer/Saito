@@ -708,6 +708,7 @@
 
 			$this->_automaticalyMarkAsRead();
 
+			$this->Security->unlockedActions = ['preview', 'solve', 'view'];
 			$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 			if ($this->request->action === 'index') {
