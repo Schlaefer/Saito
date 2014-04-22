@@ -55,7 +55,7 @@
 		public function testAddUserNotLoggedInGet() {
 			$this->generate('Entries', ['methods' => 'add']);
 			$this->testAction('/entries/add');
-			$this->assertRedirctedTo('login');
+			$this->assertRedirectedTo('login');
 		}
 
 		/**

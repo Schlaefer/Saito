@@ -249,8 +249,8 @@
 		public function add($id = null) {
 			$this->set('title_for_layout', __('Write a New Entry'));
 
-			// insert new entry
-			if (empty($this->request->data) === false) {
+			//# insert new entry
+			if (!empty($this->request->data)) {
 				$newPosting = $this->Entry->createPosting($this->request->data);
 
 				// inserting new posting was successful

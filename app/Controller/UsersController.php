@@ -310,46 +310,42 @@
 
 		// try to save entry
 		if (!empty($this->request->data)) {
+			$data = $this->request->data['User'];
 
-			$this->User->id = $id;
-
+			unset($data['id']);
+			//# make sure only admin can edit these fields
 			if ($this->CurrentUser['user_type'] !== 'admin') {
-				//* make shure only admin can edit these fields
-				# @td refactor this admin fields together with view: don't repeat code
-				unset($this->request->data['User']['username']);
-				unset($this->request->data['User']['user_email']);
-				unset($this->request->data['User']['user_type']);
+				// @todo DRY: refactor this admin fields together with view
+				unset($data['username'], $data['user_email'], $data['user_type']);
 			}
 
-			if ($this->User->save($this->request->data)) {
-				// save operation was successfull
-
+			$this->User->id = $id;
+			$success = $this->User->save($data);
+			if ($success) {
 				// if someone updates *his own* profile update settings for the session
-				if ( $this->User->id == $this->CurrentUser->getId() ):
+				if ($this->User->id == $this->CurrentUser->getId()) {
 					// because we replace Auth.User we read the whole record again
 					// for maybe empty fields such as username, user_email
-					// @td recheck, probably not necessary after last [ref] of CurrentUser
+					// @todo recheck, probably not necessary after last [ref] of CurrentUser
 					$this->User->contain();
 					$this->request->data = $this->User->read();
 					$this->CurrentUser->refresh();
-				endif;
-				$this->redirect(array('action' => 'view', $id));
+				}
+				$this->redirect(['action' => 'view', $id]);
+				return;
 			} else {
-				// save operation failed
-
-				# we possibly don't have username, user_type etc. in this->data on validation error
-				# so we read old entry and merge with new data send by user
+				// if empty fields are missing from send form read user again
 				$this->User->contain();
 				$user = $this->User->read();
-				$this->request->data['User'] = array_merge($user['User'], $this->request->data['User']);
+				$this->request->data['User'] = array_merge($user['User'],
+					$this->request->data['User']);
+
 				$this->User->set($this->request->data);
 				$this->User->validates();
+
 				$this->JsData->addAppJsMessage(
 					__('The user could not be saved. Please, try again.'),
-					array(
-						'type' => 'error'
-					)
-				);
+					['type' => 'error']);
 			}
 		}
 
@@ -362,6 +358,7 @@
 							$this->Themes->getAvailable()));
 			$this->request->data = $this->User->read();
 		}
+
 		$this->set('user', $this->request->data);
 		$this->set(
 				'title_for_layout',

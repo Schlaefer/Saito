@@ -1,7 +1,34 @@
 <?php
 	App::uses('AppModel', 'Model');
 
+	class AppModelMock extends AppModel {
+
+		public function setAllowedInputFields($in) {
+			$this->_allowedInputFields = $in;
+		}
+
+	}
+
 	class AppModelTest extends CakeTestCase {
+
+		public function testFilterFields() {
+			$data = ['AppModel' => ['a' => 1, 'b' => 2, 'c' => 3]];
+			$filter = ['a', 'b'];
+			$this->AppModel->filterFields($data, $filter);
+			$expected = ['AppModel' => ['a' => 1, 'b' => 2]];
+			$this->assertEquals($expected, $data);
+		}
+
+		public function testFilterFieldsClassPreset() {
+			$this->AppModel = ClassRegistry::init('AppModelMock');
+
+			$this->AppModel->setAllowedInputFields(['foo' => ['a', 'c']]);
+			$data = ['AppModelMock' => ['a' => 1, 'b' => 2, 'c' => 3]];
+			$this->AppModel->filterFields($data, 'foo');
+
+			$expected = ['AppModelMock' => ['a' => 1, 'c' => 3]];
+			$this->assertEquals($expected, $data);
+		}
 
 		public function testRequiredFields() {
 			$data = ['a' => 1, 'b' => 2, 'c' => 3];

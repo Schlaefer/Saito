@@ -15,6 +15,11 @@
 		 */
 		protected $_settings = [];
 
+		/**
+		 * @var array predefined fields for filterFields()
+		 */
+		protected $_allowedInputFields = [];
+
 		# Entry->User->UserOnline
 		public $recursive = 1;
 
@@ -35,6 +40,24 @@
 			$this->set($key, $value);
 			$this->save();
 			return $value;
+		}
+
+		/**
+		 * filters out all fields $fields in $data
+		 *
+		 * works only on current model, not associations
+		 *
+		 * @param $data
+		 * @param $fields
+		 */
+		public function filterFields(&$data, $fields) {
+			if (is_string($fields) && isset($this->_allowedInputFields[$fields])) {
+				$fields = $this->_allowedInputFields[$fields];
+			}
+			$fields = array_flip($fields);
+			$data = [
+				$this->alias => array_intersect_key($data[$this->alias], $fields)
+			];
 		}
 
 		public function requireFields(&$data, array $required) {

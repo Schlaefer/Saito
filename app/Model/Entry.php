@@ -323,10 +323,7 @@
 			}
 
 			try {
-				$this->prepare(
-					$data,
-					['preFilterFields' => 'create']
-				);
+				$this->prepare($data, ['preFilterFields' => 'create']);
 			} catch (Exception $e) {
 				return false;
 			}
@@ -1026,7 +1023,11 @@
 			];
 
 			if (isset($options['preFilterFields'])) {
-				$this->_preFilterFields($data, $options['preFilterFields']);
+				$org = $data;
+				$this->filterFields($data, $options['preFilterFields']);
+				if (isset($org['Event'])) {
+					$data['Event'] = $org['Event'];
+				}
 			}
 			unset($options['preFilterFields']);
 
@@ -1063,25 +1064,6 @@
 
 			// text preprocessing
 			$data = $this->prepareBbcode($data);
-		}
-
-/**
- * filter out not allowed fields
- *
- * @param $data
- * @param $fields
- */
-		protected function _preFilterFields(&$data, $fields) {
-			$org = $data;
-			$data = [
-				$this->alias => array_intersect_key(
-					$data[$this->alias],
-					array_flip($this->_allowedInputFields[$fields])
-				)
-			];
-			if (isset($org['Event'])) {
-				$data['Event'] = $org['Event'];
-			}
 		}
 
 		protected function _findEntry($state, $query, $results = []) {
