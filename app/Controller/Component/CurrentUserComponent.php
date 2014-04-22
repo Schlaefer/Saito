@@ -205,7 +205,6 @@
 				return false;
 			}
 
-			$this->refresh();
 			$this->_User->incrementLogins($this->getId());
 			$this->_User->UserOnline->setOffline(session_id());
 			//password update
