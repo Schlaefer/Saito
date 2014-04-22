@@ -4,7 +4,6 @@
 
 	/**
 	 * BookmarksController Test Case
-	 *
 	 */
 	class BookmarksControllerTest extends SaitoControllerTestCase {
 
@@ -54,13 +53,11 @@
 			$this->_setAjax();
 
 			$Bookmarks = $this->generate('Bookmarks', [
-				'models' => [
-					'Bookmark' => ['save']
-				]]);
+				'models' => ['Bookmark' => ['save']]]);
 			$data = ['user_id' => 3, 'entry_id' => 1];
 			$Bookmarks->Bookmark->expects($this->once())
-					->method('save')
-					->with($data);
+				->method('save')
+				->with($data);
 			$this->_loginUser(3);
 			$this->testAction('/bookmarks/add',
 				['return' => 'view', 'data' => ['id' => 1]]);
@@ -74,16 +71,19 @@
 		public function testEditNotUsersBookmark() {
 			$this->generate('Bookmarks');
 			$this->_loginUser(1);
-			$this->setExpectedException('MethodNotAllowedException');
+			$this->setExpectedException('Saito\ForbiddenException');
 			$this->testAction('/bookmarks/edit/1');
 		}
 
 		public function testEditRead() {
 			$Bookmarks = $this->generate('Bookmarks');
 			$this->_loginUser(3);
-			$result = $this->testAction('/bookmarks/edit/5', ['method' => 'GET', 'return' => 'view']);
+
+			$result = $this->testAction('/bookmarks/edit/5',
+				['method' => 'GET', 'return' => 'view']);
+
 			$this->assertEquals($Bookmarks->request->data['Bookmark']['comment'],
-					'<BookmarkComment');
+				'<BookmarkComment');
 
 			// special chars are escaped
 			$this->assertContains('&lt;BookmarkComment', $result);
@@ -95,74 +95,45 @@
 		}
 
 		public function testEditSave() {
-			$Bookmarks = $this->generate('Bookmarks',
-				array(
-					'models' => array(
-						'Bookmark' => array(
-							'save'
-						)
-					)
-				));
+			$this->generate('Bookmarks', ['models' => ['Bookmark' => ['save']]]);
 			$this->_loginUser(3);
 
-			$data = array(
-				'Bookmark' => array(
-					'comment' => 'test foo'
-				)
-			);
+			$data = ['Bookmark' => ['comment' => 'test foo']];
 
+			$expected = $data;
+			$expected['Bookmark']['id'] = 1;
 			$this->controller->Bookmark->expects($this->once())
-					->method('save')
-					->with($data);
+				->method('save')
+				->with($expected);
 
-			$result = $this->testAction('/bookmarks/edit/1',
-				array(
-					'method' => 'post',
-					'data' => $data
-				));
+			$this->testAction('/bookmarks/edit/1',
+				['method' => 'post', 'data' => $data]);
 		}
 
 		public function testDeleteNoAjax() {
 			$this->setExpectedException('BadRequestException');
-			$result = $this->testAction('/bookmarks/delete/1');
+			$this->testAction('/bookmarks/delete/1');
 		}
 
 		public function testDeleteNotUsersBookmark() {
-			$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-
-			$Bookmarks = $this->generate('Bookmarks');
+			$this->_setAjax();
+			$this->generate('Bookmarks');
 			$this->_loginUser(1);
-			$this->setExpectedException('MethodNotAllowedException');
-			$result = $this->testAction('/bookmarks/delete/1',
-				array(
-					'method' => 'post'
-				)
-			);
 
-			unset($_ENV['HTTP_X_REQUESTED_WITH']);
+			$this->setExpectedException('Saito\ForbiddenException');
+			$this->testAction('/bookmarks/delete/1', ['method' => 'POST']);
 		}
 
 		public function testDelete() {
-			$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-
-			$Bookmarks = $this->generate('Bookmarks',
-				array(
-					'models' => array(
-						'Bookmark' => array(
-							'delete'
-						)
-					)
-				));
-			$this->controller->Bookmark->expects($this->once())
-					->method('delete');
+			$this->_setAjax();
+			$this->generate('Bookmarks',
+				['models' => ['Bookmark' => ['delete']]]);
 			$this->_loginUser(3);
-			$result = $this->testAction('/bookmarks/delete/1',
-				array(
-					'method' => 'post',
-				)
-			);
 
-			unset($_ENV['HTTP_X_REQUESTED_WITH']);
+			$this->controller->Bookmark->expects($this->once())
+				->method('delete');
+
+			$this->testAction('/bookmarks/delete/1', ['method' => 'post']);
 		}
 
 	}
