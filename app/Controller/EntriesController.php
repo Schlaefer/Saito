@@ -47,9 +47,6 @@
 				}
 			}
 
-			// set cached threads for view
-			$this->set('cachedThreads', $cachedThreads);
-
 			// get threads not available in cache
 			$dbThreads = $this->Entry->treesForThreads($uncachedThreads, $order);
 

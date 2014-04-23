@@ -73,36 +73,37 @@
 		}
 
 		public function isCacheUpdatable(array $entry) {
-			if ( !$this->_allowUpdate ) {
+			if (!$this->_allowUpdate) {
 				return false;
 			}
 			return $this->_isEntryOldForUser($entry);
 		}
 
 		public function isCacheValid(array $entry) {
-			if ( !$this->_allowRead) {
+			if (!$this->_allowRead) {
 				return false;
 			}
 
-			$isCacheValid = false;
-
-			if ( isset($this->_validEntries[$entry['id']]) ):
-				return $this->_validEntries[$entry['id']];
-			endif;
-
-			if (isset($this->_cachedEntries[(int)$entry['id']]) &&
-					strtotime($entry['last_answer']) <= $this->_cachedEntries[(int)$entry['id']]['metadata']['content_last_updated']) {
-				if ($this->_isEntryOldForUser($entry)) {
-					$isCacheValid = true;
-				}
+			$id = (int)$entry['id'];
+			if (isset($this->_validEntries[$id])) {
+				return $this->_validEntries[$id];
 			}
-			$this->_validEntries[$entry['id']] = $isCacheValid;
-			return $isCacheValid;
+
+			$valid = false;
+
+			if (isset($this->_cachedEntries[$id]) &&
+				strtotime($entry['last_answer']) <= $this->_cachedEntries[$id]['metadata']['content_last_updated'] &&
+				$this->_isEntryOldForUser($entry)
+			) {
+				$valid = true;
+			}
+			$this->_validEntries[$id] = $valid;
+			return $valid;
 		}
 
 		protected function _isEntryOldForUser(array $entry) {
-			if (!$this->_CurrentUser->isLoggedIn()
-					|| strtotime($entry['last_answer']) < strtotime($this->_CurrentUser['last_refresh'])) {
+			if (!$this->_CurrentUser->isLoggedIn() ||
+				strtotime($entry['last_answer']) < strtotime($this->_CurrentUser['last_refresh'])) {
 				return true;
 			}
 			return false;
@@ -127,21 +128,21 @@
 				return $this->_cachedEntries;
 			}
 
-			if ( isset($this->_cachedEntries[(int)$id]) ) {
+			if (isset($this->_cachedEntries[(int)$id])) {
 				return $this->_cachedEntries[(int)$id]['content'];
 			}
 
 			return false;
 		}
 
-/**
- * Puts an entry into the cache
- *
- * @param $id
- * @param $content
- * @param null $timestamp
- * @return bool
- */
+		/**
+		 * Puts an entry into the cache
+		 *
+		 * @param $id
+		 * @param $content
+		 * @param null $timestamp
+		 * @return bool
+		 */
 		public function update($id, $content, $timestamp = null) {
 			$now = time();
 			if (!$timestamp) {
@@ -152,11 +153,11 @@
 			}
 			$this->_isUpdated = true;
 			$this->readCache();
-			$metadata = array(
+			$metadata = [
 				'created' => $now,
 				'content_last_updated' => $timestamp,
-			);
-			$data = array( 'metadata' => $metadata, 'content' => $content );
+			];
+			$data = ['metadata' => $metadata, 'content' => $content];
 			$this->_cachedEntries[(int)$id] = $data;
 		}
 

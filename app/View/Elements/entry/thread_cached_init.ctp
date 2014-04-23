@@ -24,18 +24,17 @@
 	}
 
 	foreach ($entries_sub as $entry_sub) :
-		$use_cached_entry = isset($cachedThreads[$entry_sub['Entry']['id']]);
-		if ($use_cached_entry) {
-			$out = $CacheTree->read($entry_sub['Entry']['id']);
-		} else {
-			$out = $this->EntryH->threadCached($entry_sub,
-				$CurrentUser,
-				0,
-				(isset($entry) ? $entry : array()));
-			if (!isset($this->request->named['page']) || (int)$this->request->named['page'] < 3) {
-				if ($CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
-					$CacheTree->update($entry_sub['Entry']['id'], $out);
-				}
+		$rendered = $CacheTree->read($entry_sub['Entry']['id']);
+
+		if (!$rendered) {
+			// the entry currently viewed (e.g. entries/view)
+			SDV($entry, []);
+			$rendered = $this->EntryH->threadCached($entry_sub, $CurrentUser, 0, $entry);
+
+			$onFirstPages = !isset($this->request->named['page']) ||
+				(int)$this->request->named['page'] < 3;
+			if ($onFirstPages && $CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
+				$CacheTree->update($entry_sub['Entry']['id'], $rendered);
 			}
 		}
 
@@ -97,7 +96,7 @@
 					<i class="fa fa-thread-open"></i>
 				</button>
 			<div class="threadBox-threadTree">
-				<?= $out; ?>
+				<?= $rendered; ?>
 			</div>
 		</div>
 	</div>

@@ -37,13 +37,13 @@
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
 		}
 
-/**
- * Decides if an $entry is new to/unseen by a $user
- *
- * @param type $entry
- * @param type $user
- * @return boolean
- */
+		/**
+		 * Decides if an $entry is new to/unseen by a $user
+		 *
+		 * @param $entry
+		 * @param $user
+		 * @return bool
+		 */
 		public function isNewEntry($entry, $user) {
 			if (!isset($user['last_refresh'])) {
 				return false;
@@ -233,7 +233,7 @@ EOF;
 		/**
 		 * Wraps li tags with ul tag
 		 *
-		 * @param $string li html list
+		 * @param string $string li html list
 		 * @param $level
 		 * @param $id
 		 * @return string
