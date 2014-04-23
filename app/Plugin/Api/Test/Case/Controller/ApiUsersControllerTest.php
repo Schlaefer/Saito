@@ -29,7 +29,7 @@
 		);
 
 		public function testLoginNoUsername() {
-			$this->expectException(
+			$this->setExpectedException(
 				'BadRequestException',
 				'Field `username` is missing.'
 			);
@@ -37,7 +37,7 @@
 		}
 
 		public function testLoginNoPassword() {
-			$this->expectException(
+			$this->setExpectedException(
 				'BadRequestException',
 				'Field `password` is missing.'
 			);
@@ -102,7 +102,7 @@
 			$ApiUsers->CurrentUser->expects($this->any())
 					->method('isLoggedIn')
 					->will($this->returnValue(false));
-			$this->expectException('UnauthorizedException');
+			$this->setExpectedException('UnauthorizedException');
 			$this->testAction(
 				$this->_apiRoot . 'login',
 				['method' => 'POST', 'data' => $data]
@@ -120,7 +120,7 @@
 			$this->generate('Api.ApiUsers');
 			$this->_loginUser(3);
 			$data = [ ];
-			$this->expectException('InvalidArgumentException', 'User id is missing.');
+			$this->setExpectedException('InvalidArgumentException', 'User id is missing.');
 			$this->testAction(
 				$this->_apiRoot . 'markasread',
 				['method' => 'POST', 'data' => $data]
@@ -133,7 +133,7 @@
 			$data = [
 				'id' => 1
 			];
-			$this->expectException('ForbiddenException', 'You are not authorized for user id `1`.');
+			$this->setExpectedException('ForbiddenException', 'You are not authorized for user id `1`.');
 			$this->testAction(
 				$this->_apiRoot . 'markasread',
 				['method' => 'POST', 'data' => $data]

@@ -84,7 +84,7 @@
 
 		public function testShoutsGetNotLoggedIn() {
 			$this->generate('Api.ApiShouts');
-			$this->expectException('Saito\Api\ApiAuthException');
+			$this->setExpectedException('Saito\Api\ApiAuthException');
 			$this->testAction($this->_apiRoot . 'shouts.json', ['method' => 'GET']);
 		}
 
@@ -125,13 +125,13 @@
 			$this->generate('Api.ApiShouts');
 			$this->_loginUser(3);
 
-			$this->expectException('BadRequestException', 'Missing text.');
+			$this->setExpectedException('BadRequestException', 'Missing text.');
 			$this->testAction($this->_apiRoot . 'shouts.json', ['method' => 'POST']);
 		}
 
 		public function testShoutsPostNotLoggedIn() {
 			$this->generate('Api.ApiShouts');
-			$this->expectException('Saito\Api\ApiAuthException');
+			$this->setExpectedException('Saito\Api\ApiAuthException');
 			$this->testAction($this->_apiRoot . 'shouts.json', ['method' => 'POST']);
 		}
 

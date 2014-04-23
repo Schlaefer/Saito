@@ -117,7 +117,7 @@
 		public function testEntriesItemPostEmptySubject() {
 			$this->generate('Api.ApiEntries');
 			$this->_loginUser(3);
-			$this->expectException('Saito\Api\ApiValidationError',
+			$this->setExpectedException('Saito\Api\ApiValidationError',
 				'Subject must not be empty.');
 			$this->testAction(
 				$this->_apiRoot . 'entries.json',
@@ -139,19 +139,19 @@
 		}
 
 		public function testEntriesItemEntryIdMustBeProvided() {
-			$this->expectException('BadRequestException', 'Missing entry id.');
+			$this->setExpectedException('BadRequestException', 'Missing entry id.');
 			$this->testAction($this->_apiRoot . 'entries/', ['method' => 'PUT']);
 		}
 
 		public function testEntriesItemPutEntryMustExist() {
-			$this->expectException('NotFoundException', 'Entry with id `999` not found.');
+			$this->setExpectedException('NotFoundException', 'Entry with id `999` not found.');
 			$this->testAction($this->_apiRoot . 'entries/999', ['method' => 'PUT']);
 		}
 
 		public function testEntriesItemPutForbiddenTime() {
 			$this->generate('Api.ApiEntries');
 			$this->_loginUser(3);
-			$this->expectException('ForbiddenException', 'The editing time ran out.');
+			$this->setExpectedException('ForbiddenException', 'The editing time ran out.');
 			$this->testAction(
 				$this->_apiRoot . 'entries/1',
 				[
@@ -167,7 +167,7 @@
 		public function testEntriesItemPutForbiddenUser() {
 			$ApiEntries = $this->generate('Api.ApiEntries');
 			$this->_loginUser(3);
-			$this->expectException('ForbiddenException', 'The user `Ulysses` is not allowed to edit.');
+			$this->setExpectedException('ForbiddenException', 'The user `Ulysses` is not allowed to edit.');
 			$id = 2;
 			$ApiEntries->Entry->save(['id' => $id, 'time' => date('c', time())]);
 			$this->testAction(
@@ -194,7 +194,7 @@
 					->method('get')
 					->will($this->returnValue(['rights' => ['isEditingForbidden' => true]]));
 			$this->_loginUser(3);
-			$this->expectException('ForbiddenException', 'Editing is forbidden for unknown reason.');
+			$this->setExpectedException('ForbiddenException', 'Editing is forbidden for unknown reason.');
 			$this->testAction(
 				$this->_apiRoot . 'entries/1',
 				[
@@ -257,7 +257,7 @@
 				['models' => ['Entry' => ['update']]]
 			);
 			$this->_loginUser(1);
-			$this->expectException('BadRequestException', 'Tried to save entry but failed for unknown reason.');
+			$this->setExpectedException('BadRequestException', 'Tried to save entry but failed for unknown reason.');
 			$id = 1;
 			$ApiEntries->Entry->save(['id' => $id, 'time' => date('c', time())]);
 			$ApiEntries->Entry->expects($this->once())
@@ -283,7 +283,7 @@
 		}
 
 		public function testThreadsItemGetThreadNotFound() {
-			$this->expectException('NotFoundException', 'Thread with id `2` not found.');
+			$this->setExpectedException('NotFoundException', 'Thread with id `2` not found.');
 			$this->testAction($this->_apiRoot . 'threads/2.json', ['method' => 'GET']);
 		}
 
@@ -338,7 +338,7 @@ EOF;
  * Tests that anon can't see user category
  */
 		public function testThreadsItemGetNotLoggedInCategory() {
-			$this->expectException('NotFoundException', 'Thread with id `4` not found.');
+			$this->setExpectedException('NotFoundException', 'Thread with id `4` not found.');
 			$this->testAction(
 				$this->_apiRoot . 'threads/4.json',
 				['method' => 'GET', 'return' => 'contents']
@@ -363,7 +363,7 @@ EOF;
  * Tests that anon can't see admin category
  */
 		public function testThreadsItemGetNotAdminAnonCategory() {
-			$this->expectException('NotFoundException', 'Thread with id `6` not found.');
+			$this->setExpectedException('NotFoundException', 'Thread with id `6` not found.');
 			$this->testAction(
 				$this->_apiRoot . 'threads/6.json',
 				['method' => 'GET', 'return' => 'contents']
@@ -377,7 +377,7 @@ EOF;
 			$this->generate('ApiEntries');
 			$this->_loginUser(3);
 
-			$this->expectException('NotFoundException', 'Thread with id `6` not found.');
+			$this->setExpectedException('NotFoundException', 'Thread with id `6` not found.');
 			$this->testAction(
 				$this->_apiRoot . 'threads/6.json',
 				['method' => 'GET', 'return' => 'contents']
