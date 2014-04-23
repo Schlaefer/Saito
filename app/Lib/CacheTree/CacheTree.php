@@ -67,7 +67,9 @@
 				$this->_allowRead = false;
 			endif;
 
-			$this->readCache();
+			if ($this->_allowRead || $this->_allowUpdate) {
+				$this->readCache();
+			}
 		}
 
 		public function isCacheUpdatable(array $entry) {
