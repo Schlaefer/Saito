@@ -19,7 +19,7 @@
  */
 class FarbtasticHelper extends Helper  {
 
-    var $helpers = array('Html');
+    public $helpers = ['Form', 'Html'];
 
 		protected $output_files =	true;
 
@@ -50,8 +50,13 @@ class FarbtasticHelper extends Helper  {
 
         $str = '';
         $str .= '<div class="input text colorpicker">';
-        $str .= '<label for="'.$model.Inflector::Camelize($fieldname).'">'.$label.'</label>';
-        $str .= '<input name="data['.$model.']['.$fieldname.']" type="text" maxlength="7" value="#'.$color_value.'" id="'.$model.Inflector::Camelize($fieldname).'" class="farbtastic-input" />';
+				$str .= $this->Form->input($fieldname, [
+					'id' => $model . Inflector::Camelize($fieldname),
+					'class' => 'farbtastic-input',
+					'maxlength' => 7,
+					'label' => $label,
+					'value' => "#$color_value"
+				]);
         $str .= '<img id="farbtastic-picker-icon-'.Inflector::Camelize($fieldname).'" src="'.$icon_file.'" alt="Color Picker" title="Color Picker" class="farbtastic-picker-icon">';
         $str .= '<div style="display:none;" class="farbtastic-picker" id="farbtastic-picker-'.Inflector::Camelize($fieldname).'"></div>';
         $str .= '</div>';

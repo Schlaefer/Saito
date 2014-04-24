@@ -109,10 +109,18 @@
 				'user_automaticaly_mark_as_read' => ['rule' => ['boolean']],
 				'user_sort_last_answer' => ['rule' => ['boolean']],
 				'user_show_own_signature' => ['rule' => ['boolean']],
-				'user_color_new_postings' => ['rule' => '/^#?[a-f0-9]{0,6}$/i'],
+				'user_color_new_postings' => [
+					'allowEmpty' => true,
+					'rule' => '/^#?[a-f0-9]{0,6}$/i'
+				],
 				'user_color_old_postings' => [
+						'allowEmpty' => true,
 						'rule' => '/^#?[a-f0-9]{0,6}$/i',
 						'message' => '*'
+				],
+				'user_color_actual_posting' => [
+					'allowEmpty' => true,
+					'rule' => '/^#?[a-f0-9]{0,6}$/i'
 				],
 				'user_place_lat' => [
 					'validLatitude' => ['rule' => ['inRange', -90, 90],
@@ -125,8 +133,7 @@
 				'user_place_zoom' => [
 					'numeric' => ['rule' => ['naturalNumber', 0], 'allowEmpty' => true],
 					'between' => ['rule' => ['inRange', 0, 25]]
-				],
-				'user_color_actual_posting' => ['rule' => '/^#?[a-f0-9]{0,6}$/i']
+				]
 		];
 
 		public $findMethods = [

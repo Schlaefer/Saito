@@ -84,16 +84,6 @@
 
 			<?php  endif ; ?>
 
-			<!-- currently not supported in Saito
-			<tr>
-				<td> <?php echo __('user_show_email'); ?></td>
-				<td>
-					<?php echo  $this->Form->checkbox('hide_email'); ?>
-					<p class="exp"> <?php echo __('user_show_email_exp') ?> </p>
-				</td>
-			</tr>
-			-->
-
 			<tr>
 				<td> <?php echo __('user_real_name'); ?></td>
 				<td> <?php echo  $this->Form->input('user_real_name', array( 'label' => false ));  ?>
