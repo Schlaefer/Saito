@@ -3,14 +3,14 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "edf04fe5e6c56c25c25fb234d0597110",
+    "hash": "2a76140f45d129fecf0d98abd7b18efb",
     "packages": [
         {
             "name": "pear-pear.cakephp.org/CakePHP",
-            "version": "2.4.7",
+            "version": "2.5.0RC1",
             "dist": {
                 "type": "file",
-                "url": "http://pear.cakephp.org/get/CakePHP-2.4.7.tgz",
+                "url": "http://pear.cakephp.org/get/CakePHP-2.5.0RC1.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -18,7 +18,7 @@
                 "php": ">=5.2.8.0"
             },
             "replace": {
-                "pear-cakephp/cakephp": "== 2.4.7.0"
+                "pear-cakephp/cakephp": "== 2.5.0.0-RC1"
             },
             "type": "pear-library",
             "autoload": {
@@ -279,16 +279,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.34",
+            "version": "3.7.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "248d6ce95e6ca7f0e3135252c0b984bbe1f52f19"
+                "reference": "83f9537e46346f75ed6925441ac259453213c7cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/248d6ce95e6ca7f0e3135252c0b984bbe1f52f19",
-                "reference": "248d6ce95e6ca7f0e3135252c0b984bbe1f52f19",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83f9537e46346f75ed6925441ac259453213c7cc",
+                "reference": "83f9537e46346f75ed6925441ac259453213c7cc",
                 "shasum": ""
             },
             "require": {
@@ -349,7 +349,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-03-28 11:04:36"
+            "time": "2014-04-21 06:25:54"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -454,9 +454,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "pear-cakephp/cakephp": 5
+    },
     "platform": {
         "php": ">=5.4.0",
         "ext-mcrypt": "*"

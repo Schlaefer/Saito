@@ -157,7 +157,7 @@
 				if ($this->_isBot()) {
 					return;
 				}
-				$_id = session_id();
+				$_id = $this->_Controller->Session->id();
 			}
 			$this->_User->UserOnline->setOnline($_id, $_isLoggedIn);
 			Stopwatch::stop('CurrentUser->_markOnline()');
