@@ -322,15 +322,6 @@
 			$this->User->id = $id;
 			$success = $this->User->save($data);
 			if ($success) {
-				// if someone updates *his own* profile update settings for the session
-				if ($this->User->id == $this->CurrentUser->getId()) {
-					// because we replace Auth.User we read the whole record again
-					// for maybe empty fields such as username, user_email
-					// @todo recheck, probably not necessary after last [ref] of CurrentUser
-					$this->User->contain();
-					$this->request->data = $this->User->read();
-					$this->CurrentUser->refresh();
-				}
 				$this->redirect(['action' => 'view', $id]);
 				return;
 			} else {
