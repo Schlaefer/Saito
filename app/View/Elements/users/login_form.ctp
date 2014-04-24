@@ -11,7 +11,6 @@
 	echo $this->Form->input('password', [
 		'type' => 'password',
 		'label' => __('user_pw'),
-		'value' => '',
 		'tabindex' => 2,
 	]);
 

@@ -1,6 +1,7 @@
 <?php
 
 	App::uses('AppController', 'Controller');
+	\App::uses('Saito\ForbiddenLogger', 'Lib');
 
 	class UsersController extends AppController {
 
@@ -56,6 +57,14 @@
 				default:
 					$message = __('auth_loginerror');
 			}
+
+			// unsets password for form and prevents 'near miss' passwords
+			// to be logged in ForbiddenLogger
+			unset($this->request->data['User']['password']);
+
+			$Logger = new \Saito\ForbiddenLogger();
+			$Logger->write("Unsuccessful login for user: $username",
+				['msgs' => [$message]]);
 
 			$this->Session->setFlash($message, 'default', [], 'auth');
 		}
@@ -303,8 +312,7 @@
 		}
 		if (!$this->_isEditingAllowed($this->CurrentUser, $id)) {
 			throw new \Saito\ForbiddenException("Attempt to edit user $id.", [
-				'CurrentUser' => $this->CurrentUser,
-				'Request' => $this->request
+				'CurrentUser' => $this->CurrentUser
 			]);
 		}
 
@@ -452,8 +460,8 @@
 			$user = $this->User->findById($id);
 			$allowed = $this->_isEditingAllowed($this->CurrentUser, $id);
 			if (empty($user) || !$allowed) {
-				throw new \Saito\ForbiddenException("Attempt to change password for user $id.", [
-					'CurrentUser' => $this->CurrentUser, 'Request' => $this->request]);
+				throw new \Saito\ForbiddenException("Attempt to change password for user $id.",
+					['CurrentUser' => $this->CurrentUser]);
 			}
 			$this->set('userId', $id);
 
