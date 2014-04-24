@@ -24,7 +24,7 @@
 
 			$this->_prepareSlidetabData();
 
-			// determine user sort order
+			//# determine user sort order
 			$sortKey = 'Entry.';
 			if ($this->CurrentUser['user_sort_last_answer'] == false) {
 				$sortKey .= 'time';
@@ -32,39 +32,26 @@
 				$sortKey .= 'last_answer';
 			}
 			$order = ['Entry.fixed' => 'DESC', $sortKey => 'DESC'];
+			$initials = $this->_getInitialThreads($this->CurrentUser, $order);
 
-			// get initial threads
-			$initialThreads = $this->_getInitialThreads($this->CurrentUser, $order);
+			//# match initial threads against cache
+			$threads = [];
+			$uncached = [];
+			foreach ($initials as $thread) {
+				// ensure string so that integer index won't reorder
+				$id = (string)$thread['id'];
+				$threads[$id]['Entry'] = $thread;
 
-			// match initial threads against cache
-			$cachedThreads = [];
-			$uncachedThreads = [];
-			foreach ($initialThreads as $thread) {
-				if ($this->CacheSupport->CacheTree->isCacheValid($thread)) {
-					$cachedThreads[$thread['id']] = $thread;
-				} else {
-					$uncachedThreads[$thread['id']] = $thread;
+				if (!$this->CacheSupport->CacheTree->isCacheValid($thread)) {
+					$uncached[$id] = $thread;
 				}
 			}
 
-			// get threads not available in cache
-			$dbThreads = $this->Entry->treesForThreads($uncachedThreads, $order);
-
-			$threads = [];
-			foreach ($initialThreads as $thread) {
-				$id = $thread['id'];
-				if (isset($cachedThreads[$id])) {
-					$threads[]['Entry'] = $cachedThreads[$id];
-					unset($cachedThreads[$id]);
-				} else {
-					foreach ($dbThreads as $k => $dbThread) {
-						if ($dbThread['Entry']['tid'] === $id) {
-							$threads[] = $dbThreads[$k];
-							unset($dbThreads[$k]);
-							break;
-						}
-					}
-				}
+			//# get threads not available in cache from DB
+			$dbThreads = $this->Entry->treesForThreads($uncached, $order);
+			foreach ($dbThreads as $thread) {
+				$id = (string)$thread['Entry']['tid'];
+				$threads[$id] = $thread;
 			}
 
 			$this->set('entries', $threads);
