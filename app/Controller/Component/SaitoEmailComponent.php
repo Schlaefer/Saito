@@ -48,11 +48,13 @@
 		public function email($options = array()) {
 			$this->_resetConfig();
 			$this->_config($options);
-			$this->_send($this->_config, $this->_viewVars);
+			$result = $this->_send($this->_config, $this->_viewVars);
 
 			if (isset($options['ccsender']) && $options['ccsender'] === true) :
 				$this->_sendCopyToOriginalSender($this->_config, $this->_viewVars);
 			endif;
+
+			return $result;
 		}
 
 		protected function _resetConfig() {
@@ -110,8 +112,10 @@
 				$this->_config['template'] = $template;
 			endif;
 
-			if (Configure::read('debug') > 2) {
+			if (Configure::read('debug') > 2 || Configure::read('Saito.Debug.email')) {
 				$this->_config['transport'] = 'Debug';
+			};
+			if (Configure::read('debug') > 2) {
 				$this->_config['log'] = true;
 			};
 
@@ -163,9 +167,11 @@
 			// workaround for http://cakephp.lighthouseapp.com/projects/42648/tickets/2855-cakeemail-transports-have-ambiguous-config-behaviors
 			$email->config(array_merge($this->_CakeEmail->config(), $config));
 			$email->viewVars($viewVars);
-			if (!env('TRAVIS')) {
-				$email->send();
+			// @todo remove
+			if (env('TRAVIS')) {
+				return;
 			}
+			return $email->send();
 		}
 
 	}

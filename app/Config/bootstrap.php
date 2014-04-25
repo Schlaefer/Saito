@@ -190,6 +190,11 @@ include 'version.php';
 Configure::write('Saito.Globals.logInfo', false);
 
 /**
+ * logs emails instead of sending them
+ */
+Configure::write('Saito.Debug.email', false);
+
+/**
  * Empiric number matching the average number of postings per thread
  */
 Configure::write('Saito.Globals.postingsPerThread', 10);
@@ -203,7 +208,7 @@ else :
 	Configure::write('Saito.installed', FALSE);
 endif;
 
-	/**
+/**
  * Activate Saito Cache:
  *
  * true: (default) use cache

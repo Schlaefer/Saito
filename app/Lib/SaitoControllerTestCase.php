@@ -74,6 +74,14 @@
 			$this->controller->Session->write('Auth.User', $users[$id - 1]);
 		}
 
+		protected function _debugEmail() {
+			Configure::write('Saito.Debug.email', true);
+		}
+
+		protected function _resetEmail() {
+			Configure::write('Saito.Debug.email', false);
+		}
+
 		public function assertRedirectedTo($url = '') {
 			$this->assertEqual(
 				Router::fullBaseUrl() . $this->controller->request->webroot . $url,
@@ -105,6 +113,7 @@
 			$this->_logoutUser();
 			$this->_unsetAjax();
 			$this->_unsetJson();
+			$this->_debugEmail();
 			Configure::write('Cache.disable', true);
 			Configure::write('Config.language', 'eng');
 		}
@@ -112,6 +121,7 @@
 		public function tearDown() {
 			Configure::write('Cache.disable', false);
 			$this->_unsetUserAgent();
+			$this->_resetEmail();
 			$this->_logoutUser();
 			parent::tearDown();
 		}

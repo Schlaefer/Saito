@@ -117,7 +117,7 @@
 			try {
 				$forumName = Configure::read('Saito.Settings.forum_name');
 				$subject = __('register_email_subject', $forumName);
-				$this->SaitoEmail->email([
+				$email = $this->SaitoEmail->email([
 					'recipient' => $data,
 					'subject' => $subject,
 					'sender' => ['User' => [
@@ -125,8 +125,10 @@
 						'username' => Configure::read('Saito.Settings.forum_name')
 					]],
 					'template' => 'user_register',
-					'viewVars' => ['user' => $data]
+					'viewVars' => ['user' => $user]
 				]);
+				// only used in test cases
+				$this->set('email', $email);
 			} catch (Exception $e) {
 				$this->set('status', 'fail: email');
 				return;

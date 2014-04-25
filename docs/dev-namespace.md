@@ -10,6 +10,7 @@ Cache           | Saito 		| Cache 		              | appSettings	    | array 	   
 Cache 	        | Saito     | Smilies 	              | smilies_all 	  | array 	    | Smilies from `smilies` table
 Configuration 	| Saito     | Cache 	                | Thread 	        | bool 	      | if true use thread cache
 Configuration 	| Saito     | Cachelets 	            |  	              | string      |
+Configuration 	| Saito     | Debug 	                |  	              | array       | debug config 
 Configuration 	| Saito 	  | useSaltForUserPasswords	| 	| bool 	| unsalted md5 mode for user passwords
 Configuration 	| Saito		  | markItUp	| nextCssId	| int 	| next CSS-ID for button in the markItUp-CSS
 Configuration		| Saito		  | markItUp 	| additionalButtons	| array 	| Additional buttons shown in the markItUpEditor

@@ -205,7 +205,7 @@
 		}
 
 		/**
-		 * Registration succeds if Terms of Serice checkbox is set in register form
+		 * Registration succeeds if Terms of Service checkbox is set in register form
 		 */
 		public function testRegisterTosSet() {
 			$data = array(
@@ -218,21 +218,24 @@
 				)
 			);
 
-			$Users = $this->generate('Users',
-					[
-							'components' => ['SaitoEmail' => ['email']],
-							'methods' => ['email'],
-							'models' => ['User' => ['register']]
-					]);
-			$Users->SaitoEmail->expects($this->once())
-					->method('email');
+			$Users = $this->generate('Users', ['models' => ['User' => ['register']]]);
+
+			$user = $data;
+			$user['User'] += [
+				'id' => 48,
+				'activate_code' => 151623
+			];
 			$Users->User->expects($this->once())
 					->method('register')
-					->will($this->returnValue(true));
+					->will($this->returnValue($user));
 
 			$result = $this->testAction('users/register',
-				array('data' => $data, 'method' => 'post')
+				['data' => $data, 'method' => 'post', 'return' => 'vars']
 			);
+
+			//# test registration email
+			$email = $result['email'];
+			$this->assertContains('/users/rs/48?c=151623', $email['message']);
 		}
 
 		/**
