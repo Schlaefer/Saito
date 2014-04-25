@@ -688,6 +688,60 @@
 			$this->assertRedirectedTo();
 		}
 
+		public function testViewIncreaseViewCounterNotLoggedIn() {
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+			$id = 1;
+			$Entries->Entry->expects($this->once())
+				->method('incrementViews')
+				->with($id);
+			$this->testAction('/entries/view/' . $id);
+		}
+
+		public function testViewIncreaseViewCounterLoggedIn() {
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+			$id = 1;
+			$Entries->Entry->expects($this->once())
+				->method('incrementViews')
+				->with($id);
+			$this->_loginUser(1);
+			$this->testAction('/entries/view/' . $id);
+		}
+
+		/**
+		 * don't increase view counter if user views its own posting
+		 */
+		public function testViewIncreaseViewCounterSameUser() {
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+			$id = 1;
+			$this->_loginUser(3);
+
+			$Entries->Entry->expects($this->never())
+				->method('incrementViews');
+			$this->testAction('/entries/view/' . $id);
+		}
+
+		/**
+		 * don't increase view counter on spiders/crawlers
+		 */
+		public function testViewIncreaseViewCounterCrawler() {
+			$this->_setUserAgent('A Crawler Agent');
+			$id = 1;
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+
+			$Entries->Entry->expects($this->never())
+				->method('incrementViews');
+
+			$this->testAction('/entries/view/' . $id);
+		}
+
 		public function testViewBoxFooter() {
 			$result = $this->testAction('entries/view/1',
 				array(

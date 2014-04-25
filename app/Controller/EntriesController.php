@@ -133,8 +133,7 @@
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 
-			$this->Entry->threadIncrementViews($root['Entry']['tid'],
-					$this->CurrentUser->getId());
+			$this->_incrementViews($root, 'thread');
 
 			$this->_marMixThread = $tid;
 		}
@@ -193,6 +192,8 @@
 				return;
 			}
 
+			$this->_incrementViews($entry);
+
 			// for /source/<id> view
 			if (!empty($this->request->params['requested'])) {
 				return $entry;
@@ -200,9 +201,6 @@
 
 			$this->set('entry', $entry);
 
-			if ($entry['Entry']['user_id'] != $this->CurrentUser->getId()) {
-				$this->Entry->incrementViews();
-			}
 			$this->_setRootEntry($entry);
 			$this->_showAnsweringPanel();
 
@@ -777,6 +775,19 @@
 				if (in_array('slidetab_shoutbox', $this->viewVars['slidetabs'])) {
 					$this->Shouts->setShoutsForView();
 				}
+			}
+		}
+
+		protected function _incrementViews($entry, $type = null) {
+			if ($this->CurrentUser->isBot()) {
+				return;
+			}
+			$cUserId = $this->CurrentUser->getId();
+
+			if ($type === 'thread') {
+				$this->Entry->threadIncrementViews($entry['Entry']['tid'], $cUserId);
+			} elseif ($entry['Entry']['user_id'] != $cUserId) {
+				$this->Entry->incrementViews($entry['Entry']['id']);
 			}
 		}
 

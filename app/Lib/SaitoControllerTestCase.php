@@ -13,6 +13,11 @@
 
 	class SaitoControllerTestCase extends ControllerTestCase {
 
+		/**
+		 * @var array cache environment variables
+		 */
+		protected $_env = [];
+
 /**
  * Preserves $GLOBALS vars through PHPUnit test runs
  *
@@ -43,6 +48,21 @@
 
 		protected function _unsetAjax() {
 			unset($_ENV['HTTP_X_REQUESTED_WITH']);
+		}
+
+		protected function _setUserAgent($agent) {
+			if (isset($this->_env['HTTP_USER_AGENT'])) {
+				$this->_env['HTTP_USER_AGENT'] = $_ENV['HTTP_USER_AGENT'];
+			}
+			$_ENV['HTTP_USER_AGENT'] = $agent;
+		}
+
+		protected function _unsetUserAgent() {
+			if (isset($this->_env['HTTP_USER_AGENT'])) {
+				$_ENV['HTTP_USER_AGENT'] = $this->_env('HTTP_USER_AGENT');
+			} else {
+				unset($_ENV['HTTP_USER_AGENT']);
+			}
 		}
 
 		protected function _loginUser($id) {
@@ -91,6 +111,7 @@
 
 		public function tearDown() {
 			Configure::write('Cache.disable', false);
+			$this->_unsetUserAgent();
 			$this->_logoutUser();
 			parent::tearDown();
 		}

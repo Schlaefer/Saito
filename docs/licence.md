@@ -1,8 +1,18 @@
+License
+=======
+
 This software is released under the MIT license unless noted otherwise.
+
+---
+
+Attributions
+============
 
 Some icons by [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/). All rights reserved. Licensed under a [Creative Commons Attribution 3.0 License](http://creativecommons.org/licenses/by/3.0/).
 
-[Font Awesome](http://fortawesome.github.com/Font-Awesome) licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/).
+[Font Awesome](http://fortawesome.github.com/Font-Awesome) licensed under [these conditions](http://fontawesome.io/license/).
+
+Some crawler user agent strings by [monperrus/crawler-user-agents](https://github.com/monperrus/crawler-user-agents) licensed under [CC-SA](http://creativecommons.org/licenses/by-sa/3.0/).
 
 ---
 

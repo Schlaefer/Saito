@@ -15,7 +15,10 @@
 		public $components = [
 			// 'DebugKit.Toolbar',
 
+			// Leave in front to catch all unauthorized access first
 			'Security', 'Auth',
+			// Leave in front to have it available in all Components
+			'Detectors.Detectors',
 			'Bbcode',
 /**
  * You have to have Cookie before CurrentUser to have the salt initialized.
@@ -32,7 +35,6 @@
 			// Enabling data view for rss/xml and json
 			'RequestHandler',
 			'Session',
-			'PreviewDetector.PreviewDetector',
 			'Themes'
 		];
 

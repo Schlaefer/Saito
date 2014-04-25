@@ -68,23 +68,6 @@
 		protected $_Controller = null;
 
 /**
- * User agent snippets for bots
- *
- * @var array
- */
-		protected $_botUserAgents = [
-			'archive',
-			'bot',
-			'baidu',
-			'crawl',
-			'googlebot',
-			'msnbot',
-			'spider',
-			'slurp',
-			'validator'
-		];
-
-/**
  *
  * @param type $controller
  */
@@ -154,7 +137,7 @@
 				$_id = $this->getId();
 			} else {
 				// don't count search bots as guests
-				if ($this->_isBot()) {
+				if ($this->isBot()) {
 					return;
 				}
 				$_id = $this->_Controller->Session->id();
@@ -163,16 +146,13 @@
 			Stopwatch::stop('CurrentUser->_markOnline()');
 		}
 
-/**
- * Detects if the current user is a bot
- *
- * @return boolean
- */
-		protected function _isBot() {
-			return preg_match(
-				'/' . implode('|', $this->_botUserAgents) . '/i',
-				env('HTTP_USER_AGENT')
-			) == true;
+		/**
+		 * Detects if the current user is a bot
+		 *
+		 * @return boolean
+		 */
+		public function isBot() {
+			return $this->_Controller->request->is('bot');
 		}
 
 		/**
