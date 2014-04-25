@@ -156,6 +156,38 @@
 			);
 		}
 
+		public function testRegisterEmailFailed() {
+			Configure::write('Saito.Settings.tos_enabled', false);
+			$data = array(
+				'User' => array(
+					'username' => 'NewUser1',
+					'user_email' => 'NewUser1@example.com',
+					'user_password' => 'NewUser1spassword',
+					'password_confirm' => 'NewUser1spassword',
+				)
+			);
+
+			$Users = $this->generate('Users',
+				[
+					'components' => ['SaitoEmail' => ['email']],
+					'methods' => ['email'],
+					'models' => ['User' => ['register']]
+				]);
+			$Users->User->expects($this->once())
+				->method('register')
+				->will($this->returnValue(true));
+			$Users->SaitoEmail->expects($this->once())
+				->method('email')
+				->will($this->throwException(new Exception));
+
+
+			$result = $this->testAction('users/register',
+				['data' => $data, 'method' => 'post', 'return' => 'view']
+			);
+
+			$this->assertContains('Sending Confirmation Email Failed', $result);
+		}
+
 		/**
 		 * No TOS flag is send, but it's also not necessary
 		 */
