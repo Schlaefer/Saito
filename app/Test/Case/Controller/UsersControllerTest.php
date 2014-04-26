@@ -180,7 +180,6 @@
 				->method('email')
 				->will($this->throwException(new Exception));
 
-
 			$result = $this->testAction('users/register',
 				['data' => $data, 'method' => 'post', 'return' => 'view']
 			);

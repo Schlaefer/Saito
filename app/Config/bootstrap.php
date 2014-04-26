@@ -166,19 +166,26 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+CakeLog::config('saito-error', array(
+	'engine' => 'FileLog',
+	'size' => '1MB',
+	'rotate' => '4',
+	'types' => ['saito.error'],
+	'file' => 'saito-error'
+));
 CakeLog::config('saito', array(
 		'engine' => 'FileLog',
 		'size' => '1MB',
 		'rotate' => '4',
 		'types' => ['saito.info'],
-		'file' => 'saito'
+		'file' => 'saito-info'
 ));
 CakeLog::config('auth', array(
 		'engine' => 'FileLog',
 		'size' => '1MB',
 		'rotate' => '4',
 		'types' => ['saito.forbidden'],
-		'file' => 'auth'
+		'file' => 'saito-auth'
 ));
 
 include APP . 'Lib' . DS . 'SaitoExceptions.php';

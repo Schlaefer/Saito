@@ -6,6 +6,9 @@
 	App::uses('CakeEmail', 'Network/Email');
 	App::import('Lib', 'Stopwatch.Stopwatch');
 
+	\App::uses('Saito\Logger\ForbiddenLogger', 'Lib');
+	\App::uses('Saito\Logger\ExceptionLogger', 'Lib');
+
 	if (Configure::read('debug') > 0) {
 		App::uses('FireCake', 'DebugKit.Lib');
 	}

@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('AppController', 'Controller');
-	\App::uses('Saito\ForbiddenLogger', 'Lib');
 
 	class UsersController extends AppController {
 
@@ -58,11 +57,10 @@
 					$message = __('auth_loginerror');
 			}
 
-			// unsets password for form and prevents 'near miss' passwords
-			// to be logged in ForbiddenLogger
+			// don't autofill password
 			unset($this->request->data['User']['password']);
 
-			$Logger = new \Saito\ForbiddenLogger();
+			$Logger = new \Saito\Logger\ForbiddenLogger();
 			$Logger->write("Unsuccessful login for user: $username",
 				['msgs' => [$message]]);
 
@@ -130,6 +128,8 @@
 				// only used in test cases
 				$this->set('email', $email);
 			} catch (Exception $e) {
+				$Logger = new Saito\Logger\ExceptionLogger();
+				$Logger->write('Registering email confirmation failed', ['e' => $e]);
 				$this->set('status', 'fail: email');
 				return;
 			}
