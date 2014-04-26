@@ -2,12 +2,14 @@
 	$this->start('headerSubnavLeft');
 	echo $this->Layout->navbarBack();
 	$this->end();
+
+	$css = ($status === 'view') ? 'panel-form' : '';
 ?>
 <div class="panel">
 	<?=
 		$this->Layout->panelHeading(__('register_linkname'),
 			['pageHeading' => true]) ?>
-	<div class="panel-content staticPage">
+	<div class="panel-content staticPage <?= $css ?>">
 		<?php
 			if ($status === 'view') {
 				echo $this->element('users/register-form');
