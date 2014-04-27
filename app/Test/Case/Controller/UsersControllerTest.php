@@ -57,28 +57,22 @@
 		}
 
 		public function testAdminAddNoAccess() {
-			$data = array(
-				'User' => array(
+			$data = [
+				'User' => [
 					'username' => 'foo',
 					'user_email' => 'fo3@example.com',
 					'user_password' => 'test',
 					'password_confirm' => 'test',
-				)
-			);
-			$Users = $this->generate('Users',
-				array(
-					'models' => array(
-						'User'
-					)
-				));
+				]
+			];
+			$Users = $this->generate('Users', ['models' => ['User' => ['register']]]);
+
 			$Users->User->expects($this->never())
-					->method('register');
+				->method('register');
 			$this->setExpectedException('ForbiddenException');
+
 			$this->testAction('/admin/users/add',
-				array(
-					'data' => $data,
-					'method' => 'post'
-				));
+				['data' => $data, 'method' => 'post']);
 		}
 
 		public function testLogin() {
