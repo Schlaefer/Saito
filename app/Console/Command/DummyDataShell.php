@@ -73,7 +73,7 @@
 
 		protected function _randomUser() {
 			if ($this->_Users === null) {
-				$this->_Users = $this->User->find('all', ['recursive' => 0]);
+				$this->_Users = $this->User->find('all', ['recursive' => 0, 'conditions' => ['activate_code' => 0]]);
 			}
 			$id = array_rand($this->_Users);
 			return $this->_Users[$id]['User'];
