@@ -3,14 +3,14 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2a76140f45d129fecf0d98abd7b18efb",
+    "hash": "1b90f43dc085337544e07ddca30bfedf",
     "packages": [
         {
             "name": "pear-pear.cakephp.org/CakePHP",
-            "version": "2.5.0RC1",
+            "version": "2.5.0RC2",
             "dist": {
                 "type": "file",
-                "url": "http://pear.cakephp.org/get/CakePHP-2.5.0RC1.tgz",
+                "url": "http://pear.cakephp.org/get/CakePHP-2.5.0RC2.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -18,7 +18,7 @@
                 "php": ">=5.2.8.0"
             },
             "replace": {
-                "pear-cakephp/cakephp": "== 2.5.0.0-RC1"
+                "pear-cakephp/cakephp": "== 2.5.0.0-RC2"
             },
             "type": "pear-library",
             "autoload": {
