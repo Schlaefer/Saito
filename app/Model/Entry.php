@@ -303,16 +303,14 @@
 			return $entry['Entry']['pid'];
 		}
 
-/**
- * creates a new root or child entry for a node
- *
- * Interface see model->save()
- *
- * @param      $data
- * @param null $CurrentUser
- *
- * @return array|bool
- */
+		/**
+		 * creates a new root or child entry for a node
+		 *
+		 * fields in $data are filtered
+		 *
+		 * @param $data
+		 * @return array|bool|mixed
+		 */
 		public function createPosting($data) {
 			if (!isset($data[$this->alias]['pid'])) {
 				$data[$this->alias]['pid'] = 0;
@@ -390,13 +388,17 @@
 			return $_newPosting;
 		}
 
-/**
- * @param $data
- * @param null $CurrentUser
- * @return array|mixed
- * @throws NotFoundException
- * @throws InvalidArgumentException
- */
+		/**
+		 * Updates a posting
+		 *
+		 * fields in $data are filtered except for $id!
+		 *
+		 * @param $data
+		 * @param null $CurrentUser
+		 * @return array|mixed
+		 * @throws NotFoundException
+		 * @throws InvalidArgumentException
+		 */
 		public function update($data, $CurrentUser = null) {
 			if ($CurrentUser !== null) {
 				$this->CurrentUser = $CurrentUser;
