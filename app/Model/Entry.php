@@ -476,12 +476,6 @@
  * @mb `views` into extra related table if performance becomes a problem
  */
 		public function incrementViews($id, $amount = 1) {
-			// Workaround for travis-ci error message
-			// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
-			// @todo remove
-			if (env('TRAVIS')) {
-				return;
-			}
 			$this->increment($id, 'views', $amount);
 		}
 
