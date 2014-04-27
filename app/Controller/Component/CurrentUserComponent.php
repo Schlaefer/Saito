@@ -226,7 +226,7 @@
 			$this->_User->id = $this->getId();
 			$this->_User->UserOnline->delete($this->getId(), false);
 			$this->set(null);
-			$this->_Controller->Session->destroy();
+			$this->_Controller->Auth->logout();
 		}
 
 		public function shutdown(Controller $Controller) {

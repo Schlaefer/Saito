@@ -75,7 +75,7 @@
 		public function register() {
 			$this->set('status', 'view');
 
-			$this->Auth->logout();
+			$this->CurrentUser->logout();
 
 			$tosRequired = Configure::read('Saito.Settings.tos_enabled');
 			$this->set(compact('tosRequired'));
