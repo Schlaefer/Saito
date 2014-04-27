@@ -9,6 +9,9 @@
  * @throws Saito\Api\ApiDisabledException
  */
 		public function beforeFilter() {
+			if ($this->Components->enabled('Security')) {
+				$this->Components->disable('Security');
+			}
 			parent::beforeFilter();
 
 			$_apiEnabled = Configure::read('Saito.Settings.api_enabled');
