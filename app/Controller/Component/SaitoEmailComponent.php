@@ -167,10 +167,6 @@
 			// workaround for http://cakephp.lighthouseapp.com/projects/42648/tickets/2855-cakeemail-transports-have-ambiguous-config-behaviors
 			$email->config(array_merge($this->_CakeEmail->config(), $config));
 			$email->viewVars($viewVars);
-			// @todo remove
-			if (env('TRAVIS')) {
-				return;
-			}
 			return $email->send();
 		}
 
