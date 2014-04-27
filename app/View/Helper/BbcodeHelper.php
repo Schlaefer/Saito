@@ -278,7 +278,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			$this->_Parser->addCode(
 				'autoLink', 'usecontent', [&$this, "_autoLinkPre"],
 				[], 'link',
-				['block'], []
+				['block', 'listitem'], []
 			);
 		}
 

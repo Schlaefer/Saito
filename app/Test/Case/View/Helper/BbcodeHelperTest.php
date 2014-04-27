@@ -438,6 +438,16 @@
 			// $this->assertEquals($expected, $result);
 			// @bogus weak test
 			$this->assertRegExp('/^text .*href=".* test$/sm', $result);
+
+			//# in list
+			$input = <<<EOF
+[list]
+[*] http://heise.de
+[/list]
+EOF;
+			$result = $this->Bbcode->parse($input);
+			$expected = "<a href='http://heise.de";
+			$this->assertTextContains($expected, $result);
 		}
 
 		public function testLinkAutoWithoutHttpPrefix() {
