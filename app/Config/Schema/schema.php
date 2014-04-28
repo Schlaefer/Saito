@@ -1,11 +1,19 @@
 <?php
+
+App::uses('SchemaCakeMysqlFixTrait', 'Lib');
+
 class AppSchema extends CakeSchema {
+
+	use SchemaCakeMysqlFixTrait;
 
 	public function before($event = array()) {
 		return true;
 	}
 
 	public function after($event = array()) {
+		if (isset($event['create']) && $event['create'] === 'ecaches') {
+			$this->cakeMysqlMediumBlobFix();
+		}
 	}
 
 	public $bookmarks = array(
