@@ -354,12 +354,11 @@
 			//* View Entry by id
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
-			$this->set('availableThemes',
-					array_combine($this->Themes->getAvailable(),
-							$this->Themes->getAvailable()));
 			$this->request->data = $this->User->read();
 		}
 
+		$themes = $this->Themes->getAvailable();
+		$this->set('availableThemes', array_combine($themes, $themes));
 		$this->set('user', $this->request->data);
 		$this->set(
 				'title_for_layout',
