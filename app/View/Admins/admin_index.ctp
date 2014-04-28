@@ -8,8 +8,8 @@
 			__('admin.sysInfo.server', $this->Admin->badge(Router::fullBaseUrl())),
 			__('admin.sysInfo.baseUrl', $this->Admin->badge($this->request->webroot)),
 			__('admin.sysInfo.sitemap', $this->Admin->badge($this->Sitemap->sitemapUrl())),
-			__('admin.sysInfo.cce', $this->Admin->badge(Cache::settings('_cake_core_')['engine'])),
-			__('admin.sysInfo.cse', $this->Admin->badge(Cache::settings('default')['engine']))
+			__('admin.sysInfo.cce', $this->Admin->badge(Cache::settings('_cake_core_')['engine'], '_cBadge')),
+			__('admin.sysInfo.cse', $this->Admin->badge(Cache::settings('default')['engine'], '_cBadge'))
 		];
 		echo $this->Html->nestedList($si)
 	?>
