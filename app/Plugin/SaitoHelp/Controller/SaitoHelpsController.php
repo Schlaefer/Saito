@@ -31,7 +31,7 @@
 			if ($help) {
 				$this->set('text', $help['SaitoHelp']['text']);
 			} else {
-				$this->Session->setFlash(__('Help file not found.'), 'flash/error');
+				$this->Session->setFlash(__('sh.nf'), 'flash/error');
 				$this->redirect('/');
 				return;
 			}
