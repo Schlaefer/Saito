@@ -32,7 +32,9 @@ CREATE TABLE `bookmarks` (
   `comment` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+ 	PRIMARY KEY (`id`),
+  KEY `entry_id-user_id` (`entry_id`,`user_id`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `bookmarks` WRITE;
@@ -59,24 +61,23 @@ DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_order` int(11) NOT NULL DEFAULT '0',
-  `category` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `accession` int(4) NOT NULL DEFAULT '0',
-  `standard_category` int(4) DEFAULT '1',
   `thread_count` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
 
-INSERT INTO `categories` (`id`, `category_order`, `category`, `description`, `accession`, `standard_category`, `thread_count`)
+INSERT INTO `categories` (`id`, `category_order`, `category`, `description`, `accession`, `thread_count`)
 VALUES
-	(1,1,'Admin','',2,1,1),
-	(2,3,'Ontopic','',0,1,4),
-	(3,2,'Another Ontopic','',0,1,0),
-	(4,4,'Offtopic','',1,1,1),
-	(5,4,'Trash','',1,0,0);
+	(1,1,'Admin','',2,1),
+	(2,3,'Ontopic','',0,4),
+	(3,2,'Another Ontopic','',0,0),
+	(4,4,'Offtopic','',1,1),
+	(5,4,'Trash','',1,0);
 
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -88,8 +89,8 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `ecaches`;
 
 CREATE TABLE `ecaches` (
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   `key` varchar(128) NOT NULL,
   `value` mediumblob NOT NULL,
   PRIMARY KEY (`key`)
@@ -113,50 +114,57 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `entries`;
 
 CREATE TABLE `entries` (
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0',
   `tid` int(11) NOT NULL DEFAULT '0',
-  `uniqid` varchar(255) DEFAULT NULL,
+  `uniqid` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_answer` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `edited` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `edited_by` varchar(255) DEFAULT NULL,
+  `edited_by` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` int(11) DEFAULT '0',
-  `name` varchar(255) DEFAULT NULL,
-  `subject` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `subject` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `category` int(11) NOT NULL DEFAULT '0',
-  `text` text,
+  `text` text COLLATE utf8_unicode_ci,
   `email_notify` int(4) DEFAULT '0',
   `locked` int(4) DEFAULT '0',
   `fixed` int(4) DEFAULT '0',
   `views` int(11) DEFAULT '0',
   `flattr` tinyint(1) DEFAULT NULL,
   `nsfw` tinyint(1) DEFAULT NULL,
-  `ip` varchar(255) DEFAULT NULL,
-  `reposts` int(4) NOT NULL DEFAULT '0',
+  `ip` varchar(39) COLLATE utf8_unicode_ci DEFAULT NULL,
   `solves` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `tid` (`tid`),
+  KEY `user_id` (`user_id`),
+  KEY `last_answer` (`last_answer`),
+  KEY `pft` (`pid`,`fixed`,`time`,`category`),
+  KEY `pfl` (`pid`,`fixed`,`last_answer`,`category`),
+  KEY `pid_category` (`pid`,`category`),
+  KEY `user_id-time` (`time`,`user_id`),
+  FULLTEXT KEY `fulltext_search` (`subject`,`name`,`text`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `entries` WRITE;
 /*!40000 ALTER TABLE `entries` DISABLE KEYS */;
 
-INSERT INTO `entries` (`created`, `modified`, `id`, `pid`, `tid`, `uniqid`, `time`, `last_answer`, `edited`, `edited_by`, `user_id`, `name`, `subject`, `category`, `text`, `email_notify`, `locked`, `fixed`, `views`, `flattr`, `nsfw`, `ip`, `reposts`, `solves`)
+INSERT INTO `entries` (`created`, `modified`, `id`, `pid`, `tid`, `uniqid`, `time`, `last_answer`, `edited`, `edited_by`, `user_id`, `name`, `subject`, `category`, `text`, `email_notify`, `locked`, `fixed`, `views`, `flattr`, `nsfw`, `ip`, `solves`)
 VALUES
-	(NULL,NULL,1,0,1,NULL,'2000-01-01 20:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,NULL,'First_Subject',2,'First_Text',0,0,0,0,NULL,NULL,NULL,0,0),
-	(NULL,NULL,2,1,1,NULL,'2000-01-01 20:01:00','2000-01-01 20:01:00','2014-03-11 12:45:48',NULL,2,NULL,'Second_Subject',2,'Second_Text',0,0,0,0,NULL,NULL,NULL,0,0),
-	(NULL,NULL,3,2,1,NULL,'2000-01-01 20:02:00','2000-01-01 20:02:00','2000-01-01 20:04:00','Ulysses',3,'Ulysses','Third_Subject',2,'< Third_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0,0),
-	(NULL,NULL,7,9,1,NULL,'2000-01-02 20:03:00','2000-01-02 20:03:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fouth_Subject',2,'Fourth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0,0),
-	(NULL,NULL,8,1,1,NULL,'2000-01-03 20:02:00','2000-01-03 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fifth_Subject',2,'Fifth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0,0),
-	(NULL,NULL,9,2,1,NULL,'2000-01-04 20:02:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Sixth_Subject',2,'Sixth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0,0),
-	(NULL,NULL,4,0,4,NULL,'2000-01-01 10:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,1,NULL,'Second Thread First_Subject',4,'',0,1,0,0,NULL,NULL,NULL,0,0),
-	(NULL,NULL,5,4,4,NULL,'2000-01-04 20:02:00','2000-01-04 20:02:00','0000-00-00 00:00:00',NULL,3,'Ulysses','Second Thread Second_Subject',4,'',0,1,0,0,NULL,NULL,'1.1.1.1',0,0),
-	(NULL,NULL,6,0,6,NULL,'2000-01-01 11:00:00','2000-01-01 11:00:00','0000-00-00 00:00:00',NULL,1,'Alice','Third Thread First_Subject',1,'',0,0,0,0,NULL,NULL,'1.1.1.3',0,0),
-	(NULL,NULL,10,0,10,NULL,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,3,NULL,'First_Subject',2,'<script>alert(\'foo\');<script>',0,1,0,0,NULL,NULL,NULL,0,0),
-	(NULL,NULL,11,0,11,NULL,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,7,NULL,'&<Subject',2,'&<Text',0,0,0,1,NULL,NULL,NULL,0,0),
-	('2014-02-24 09:01:15','2014-03-02 16:15:13',12,0,12,NULL,'2014-02-24 09:01:15','2014-02-24 09:01:15','0000-00-00 00:00:00',NULL,100,'test&nbsp;bar<script>alert(\'foo\');</script>','<script>alert(\'foo\');</script>',2,'<script>alert(\'foo\');</script>',0,0,0,32,NULL,0,'::1',0,0);
+	(NULL,NULL,1,0,1,NULL,'2000-01-01 20:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,NULL,'First_Subject',2,'First_Text',0,0,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,2,1,1,NULL,'2000-01-01 20:01:00','2000-01-01 20:01:00','2014-03-11 12:45:48',NULL,2,NULL,'Second_Subject',2,'Second_Text',0,0,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,3,2,1,NULL,'2000-01-01 20:02:00','2000-01-01 20:02:00','2000-01-01 20:04:00','Ulysses',3,'Ulysses','Third_Subject',2,'< Third_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,7,9,1,NULL,'2000-01-02 20:03:00','2000-01-02 20:03:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fouth_Subject',2,'Fourth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,8,1,1,NULL,'2000-01-03 20:02:00','2000-01-03 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fifth_Subject',2,'Fifth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,9,2,1,NULL,'2000-01-04 20:02:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Sixth_Subject',2,'Sixth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,4,0,4,NULL,'2000-01-01 10:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,1,NULL,'Second Thread First_Subject',4,'',0,1,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,5,4,4,NULL,'2000-01-04 20:02:00','2000-01-04 20:02:00','0000-00-00 00:00:00',NULL,3,'Ulysses','Second Thread Second_Subject',4,'',0,1,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,6,0,6,NULL,'2000-01-01 11:00:00','2000-01-01 11:00:00','0000-00-00 00:00:00',NULL,1,'Alice','Third Thread First_Subject',1,'',0,0,0,0,NULL,NULL,'1.1.1.3',0),
+	(NULL,NULL,10,0,10,NULL,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,3,NULL,'First_Subject',2,'<script>alert(\'foo\');<script>',0,1,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,11,0,11,NULL,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,7,NULL,'&<Subject',2,'&<Text',0,0,0,1,NULL,NULL,NULL,0),
+	('2014-02-24 09:01:15','2014-03-02 16:15:13',12,0,12,NULL,'2014-02-24 09:01:15','2014-02-24 09:01:15','0000-00-00 00:00:00',NULL,100,'test&nbsp;bar<script>alert(\'foo\');</script>','<script>alert(\'foo\');</script>',2,'<script>alert(\'foo\');</script>',0,0,0,32,NULL,0,'::1',0);
 
 /*!40000 ALTER TABLE `entries` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -171,8 +179,11 @@ CREATE TABLE `esevents` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subject` int(11) NOT NULL,
   `event` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `subject_event` (`subject`,`event`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `esevents` WRITE;
 /*!40000 ALTER TABLE `esevents` DISABLE KEYS */;
@@ -198,8 +209,12 @@ CREATE TABLE `esnotifications` (
   `user_id` int(11) NOT NULL,
   `esevent_id` int(11) NOT NULL,
   `esreceiver_id` int(11) NOT NULL,
-  `deactivate` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `deactivate` int(8) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userid_esreceiverid` (`user_id`,`esreceiver_id`),
+  KEY `eseventid_esreceiverid_userid` (`esevent_id`,`esreceiver_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `esnotifications` WRITE;
@@ -225,9 +240,10 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `settings`;
 
 CREATE TABLE `settings` (
-  `name` varchar(255) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `value` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
@@ -289,8 +305,8 @@ CREATE TABLE `shouts` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `text` varchar(255) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8;
 
@@ -315,7 +331,7 @@ DROP TABLE IF EXISTS `smiley_codes`;
 CREATE TABLE `smiley_codes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `smiley_id` int(11) NOT NULL DEFAULT '0',
-  `code` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `code` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -365,8 +381,8 @@ DROP TABLE IF EXISTS `uploads`;
 
 CREATE TABLE `uploads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `type` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `size` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
@@ -395,7 +411,11 @@ CREATE TABLE `user_read` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `entry_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `entry_id` (`entry_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -435,7 +455,7 @@ CREATE TABLE `users` (
   `user_place` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_place_lat` float DEFAULT NULL,
   `user_place_lng` float DEFAULT NULL,
-  `user_place_zoom` tinyint(4) DEFAULT NULL,
+  `user_place_zoom` int(4) DEFAULT NULL,
   `signature` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `profile` text CHARACTER SET utf8,
   `entry_count` int(11) NOT NULL DEFAULT '0',
@@ -456,6 +476,7 @@ CREATE TABLE `users` (
   `user_color_new_postings` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_color_actual_posting` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_color_old_postings` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_theme` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_show_own_signature` int(4) DEFAULT '0',
   `slidetab_order` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL,
   `show_userlist` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'stores if userlist is shown in front layout',
@@ -470,7 +491,6 @@ CREATE TABLE `users` (
   `user_category_override` tinyint(1) NOT NULL DEFAULT '0',
   `user_category_active` int(11) NOT NULL DEFAULT '0',
   `user_category_custom` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
-  `user_theme` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
