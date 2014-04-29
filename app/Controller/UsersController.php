@@ -118,10 +118,7 @@
 				$email = $this->SaitoEmail->email([
 					'recipient' => $data,
 					'subject' => $subject,
-					'sender' => ['User' => [
-						'user_email' => Configure::read('Saito.Settings.forum_email'),
-						'username' => Configure::read('Saito.Settings.forum_name')
-					]],
+					'sender' => 'register',
 					'template' => 'user_register',
 					'viewVars' => ['user' => $user]
 				]);
@@ -509,15 +506,9 @@
 				return;
 			}
 
-			// set recipient
 			if ((int)$id === 0) {
 				// recipient is forum owner
-				$recipient = [
-					'User' => [
-						'username' => Configure::read('Saito.Settings.forum_name'),
-						'user_email' => Configure::read('Saito.Settings.forum_email')
-					]
-				];
+				$recipient = $this->SaitoEmail->getPredefinedSender('contact');
 				$this->showDisclaimer = true;
 			} else {
 				// recipient is forum user
@@ -535,80 +526,83 @@
 				return;
 			endif;
 
-			if ($this->request->data):
-				// send email
+			//# show form
+			if (empty($this->request->data)) {
+				$this->request->data = $recipient;
+				return;
+			}
 
-				$validationError = false;
+			//# send email
+			$this->request->data = $this->request->data + $recipient;
 
-				// validate and set sender
-				if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
-					$senderContact = $this->request->data['Message']['sender_contact'];
-					App::uses('Validation', 'Utility');
-					if (!Validation::email($senderContact)) {
-						$this->JsData->addAppJsMessage(
-							__('error_email_not-valid'),
-							[
-								'type' => 'error',
-								'channel' => 'form',
-								'element' => '#MessageSenderContact'
-							]
-						);
-						$validationError = true;
-					} else {
-						$sender['User'] = [
-							'username' => '',
-							'user_email' => $senderContact
-						];
-					}
-				} else {
-					$sender = $this->CurrentUser->getId();
-				}
+			$validationError = false;
 
-				// validate and set subject
-				$subject = rtrim($this->request->data['Message']['subject']);
-				if (empty($subject)) {
+			// validate and set sender
+			if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
+				$senderContact = $this->request->data['Message']['sender_contact'];
+				App::uses('Validation', 'Utility');
+				if (!Validation::email($senderContact)) {
 					$this->JsData->addAppJsMessage(
-						__('error_subject_empty'),
+						__('error_email_not-valid'),
 						[
 							'type' => 'error',
 							'channel' => 'form',
-							'element' => '#MessageSubject'
+							'element' => '#MessageSenderContact'
 						]
 					);
 					$validationError = true;
+				} else {
+					$sender['User'] = [
+						'username' => '',
+						'user_email' => $senderContact
+					];
 				}
+			} else {
+				$sender = $this->CurrentUser->getId();
+			}
 
-				if ($validationError === false):
-					try {
-						$email = [
-							'recipient' => $recipient,
-							'sender' => $sender,
-							'subject' => $subject,
-							'message' => $this->request->data['Message']['text'],
-							'template' => 'user_contact'
-						];
+			// validate and set subject
+			$subject = rtrim($this->request->data['Message']['subject']);
+			if (empty($subject)) {
+				$this->JsData->addAppJsMessage(
+					__('error_subject_empty'),
+					[
+						'type' => 'error',
+						'channel' => 'form',
+						'element' => '#MessageSubject'
+					]
+				);
+				$validationError = true;
+			}
 
-						if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
-							$email['ccsender'] = true;
-						}
+			if ($validationError === false):
+				try {
+					$email = [
+						'recipient' => $recipient,
+						'sender' => $sender,
+						'subject' => $subject,
+						'message' => $this->request->data['Message']['text'],
+						'template' => 'user_contact'
+					];
 
-						$this->SaitoEmail->email($email);
-						$this->Session->setFlash(__('Message was send.'), 'flash/success');
-						$this->redirect('/');
-						return;
-					} catch (Exception $exc) {
-						$this->Session->setFlash(
-							__('Message couldn\'t be send! ' . $exc->getMessage()),
-							'flash/error'
-						);
-					} // end try
-				endif;
+					if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
+						$email['ccsender'] = true;
+					}
 
-				$this->request->data = $this->request->data + $recipient;
+					$email = $this->SaitoEmail->email($email);
+					$this->set('email', $email); // used in test cases
+					$this->Session->setFlash(__('Message was send.'), 'flash/success');
+					$this->redirect('/');
+					return;
+				} catch (Exception $e) {
+					$Logger = new Saito\Logger\ExceptionLogger();
+					$Logger->write('Contact email failed', ['e' => $e]);
 
-			else:
-				// show form
-				$this->request->data = $recipient;
+					$this->Session->setFlash(
+						__('Message couldn\'t be send! ' . $e->getMessage()),
+						'flash/error'
+					);
+				} // end try
 			endif;
 		}
 

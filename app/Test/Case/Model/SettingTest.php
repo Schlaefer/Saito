@@ -9,6 +9,9 @@
 		protected $_settingsCompact = array(
 			'forum_name' => 'macnemo',
 			'forum_email' => 'forum_email@example.com',
+			'email_contact' => 'forum_email@example.com',
+			'email_register' => 'forum_email@example.com',
+			'email_system' => 'forum_email@example.com',
 			'autolink' => '1',
 			'userranks_ranks' => array(
 				'10' => 'Castaway',

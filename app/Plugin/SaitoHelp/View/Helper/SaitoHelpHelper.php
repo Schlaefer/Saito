@@ -28,7 +28,7 @@
 			$ciconia->addExtension(new Gfm\TableExtension());
 			$ciconia->addExtension(new Gfm\UrlAutoLinkExtension());
 
-			$text = preg_replace_callback('/\[(?P<text>.*?)\]\[(?P<url>.*?)\]/',
+			$text = preg_replace_callback('/\[(?P<text>.*?)\]\((?P<url>.*?)\)/',
 				[$this, '_replaceUrl'], $text);
 
 			return $ciconia->render($text);

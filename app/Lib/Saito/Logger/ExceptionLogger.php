@@ -55,25 +55,27 @@
 			}
 
 			if (!empty($request->data)) {
-				$this->_add($this->_filterRequestData($request->data), 'Data');
+				$this->_add($this->_filterData($request->data), 'Data');
 			}
 
 			$this->_write();
 		}
 
 		/**
-		 * Filters request-data which should not be in server logs, esp. passwords
+		 * Filters request-data which should not be in server logs
+		 *
+		 * esp. cleartext passwords in $_POST data
 		 *
 		 * @param $data
 		 * @return array
 		 */
-		protected function _filterRequestData($data) {
+		protected function _filterData($data) {
 			if (!is_array($data)) {
 				return $data;
 			}
 			foreach ($data as $key => $datum) {
 				if (is_array($datum)) {
-					$data[$key] = $this->_filterRequestData($datum);
+					$data[$key] = $this->_filterData($datum);
 					continue;
 				}
 
@@ -100,7 +102,7 @@
 
 		protected function _add($val, $key = null, $prepend = false) {
 			if (is_array($val)) {
-				$val = print_r($val, true);
+				$val = print_r($this->_filterData($val), true);
 			}
 			if (is_string($key)) {
 				$val = "$key: $val";

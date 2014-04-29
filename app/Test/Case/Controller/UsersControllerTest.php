@@ -242,6 +242,7 @@
 					'tos_confirm' => '1'
 				)
 			);
+			Configure::write('Saito.Settings.email_register', 'register@example.com');
 
 			$Users = $this->generate('Users', ['models' => ['User' => ['register']]]);
 
@@ -260,6 +261,10 @@
 
 			//# test registration email
 			$email = $result['email'];
+			// test sender
+			$this->assertContains('From: macnemo <register@example.com>',
+				$email['headers']);
+			// test registration link
 			$this->assertContains('/users/rs/48?c=151623', $email['message']);
 		}
 
@@ -799,25 +804,56 @@
 		}
 
 		public function testContactAnon() {
-			$data = array(
-				'Message' => array(
+			Configure::write('Saito.Settings.email_contact', 'contact@macnemo.com');
+			Configure::write('Saito.Settings.email_system', 'system@macnemo.com');
+			$data = [
+				'Message' => [
 					'sender_contact' => 'fo3@example.com',
 					'subject' => 'subject',
 					'text' => 'text',
-				)
-			);
-			$Users = $this->generate('Users',
-				array(
-					'components' => array('SaitoEmail' => array('email'))
-				));
-			$Users->SaitoEmail->expects($this->once())
-					->method('email');
-			$this->testAction('/users/contact/0',
-				array(
-					'data' => $data,
-					'method' => 'post',
-				));
-			$this->assertContains($this->controller->request->webroot, $this->headers['Location']);
+				]
+			];
+
+			$result = $this->testAction('/users/contact/0', [
+				'data' => $data, 'method' => 'POST', 'return' => 'vars']);
+
+			// redirect after successful sending
+			$this->assertRedirectedTo();
+
+			//# test registration email
+			$email = $result['email'];
+			// empty space from Cake implementation and missing name
+			$this->assertContains('From:  <fo3@example.com>',
+				$email['headers']);
+			$this->assertContains('To: contact@macnemo.com',
+				$email['headers']);
+			$this->assertContains('Sender: macnemo <system@macnemo.com>',
+				$email['headers']);
+		}
+
+		public function testContactEmailCc() {
+			Configure::write('Saito.Settings.email_contact', 'contact@macnemo.com');
+			Configure::write('Saito.Settings.email_system', 'system@macnemo.com');
+			$data = [
+				'Message' => [
+					'sender_contact' => 'fo3@example.com',
+					'subject' => 'subject',
+					'text' => 'text',
+					'carbon_copy' => '1'
+				]
+			];
+
+			$result = $this->testAction('/users/contact/0', [
+				'data' => $data, 'method' => 'POST', 'return' => 'vars']);
+
+			//# test registration email
+			$email = $result['email'];
+			$this->assertContains('From: macnemo <system@macnemo.com>',
+				$email['headers']);
+			// empty space from Cake implementation and missing name
+			$this->assertContains('To:  <fo3@example.com>',
+				$email['headers']);
+			$this->assertNotContains('Sender:', $email['headers']);
 		}
 
 		public function testContactNoSubject() {

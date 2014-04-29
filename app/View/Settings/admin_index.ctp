@@ -17,8 +17,8 @@
 
 				echo $this->Setting->table(
 					__('Email'),
-					['forum_email'],
-					$Settings
+					['forum_email', 'email_contact', 'email_register', 'email_system'],
+					$Settings, ['sh' => 6]
 				);
 
 				echo $this->Setting->table(
