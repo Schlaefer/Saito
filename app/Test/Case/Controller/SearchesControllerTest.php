@@ -36,14 +36,6 @@
 		);
 
 		/**
-		 * testSimple method
-		 *
-		 * @return void
-		 */
-		public function testSimple() {
-		}
-
-		/**
 		 * Admin Category results should be in search results for admin
 		 */
 		public function testSimpleAccession() {

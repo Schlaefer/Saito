@@ -156,7 +156,7 @@
 		}
 
 		protected function _sanitize($string) {
-			return Sanitize::escape($string);
+			return Sanitize::escape($string, $this->Entry->useDbConfig);
 		}
 
 		protected function _filterQuery($params) {
