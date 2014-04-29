@@ -43,6 +43,10 @@
 					'username' => $View->viewVars['CurrentUser']['username'],
 					'user_show_inline' => $View->viewVars['CurrentUser']['inline_view_on_click'] || false,
 					'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
+				],
+				'callbacks' => [
+					'afterAppInit' => [],
+					'afterViewInit' => []
 				]
 			];
 			$out = 'var SaitoApp = ' . json_encode($js);

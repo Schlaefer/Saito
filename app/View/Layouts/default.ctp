@@ -119,10 +119,8 @@
 	<?php endif; ?>
 <?= $this->element('layout/html_footer'); ?>
 	<script>
-		require(['main'], function() {
-			require(['common'], function() {
-				require([SaitoApp.app.settings.webroot + 'theme/Paz/js/theme.js']);
-			});
+		SaitoApp.callbacks.afterAppInit.push(function() {
+			require([SaitoApp.app.settings.webroot + 'theme/Paz/js/theme.js']);
 		});
 	</script>
 </body>

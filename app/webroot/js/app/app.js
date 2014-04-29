@@ -20,6 +20,16 @@ define(['marionette', 'app/core', 'app/vent',
 
     var app = {
 
+      fireOnPageCallbacks: function(allCallbacks) {
+        var callbacks = allCallbacks.afterAppInit;
+        _.each(callbacks, function(fct) { fct(); });
+
+        EventBus.vent.on('isAppVisible', _.once(function(status){
+          var callbacks = allCallbacks.afterViewInit;
+          _.each(callbacks, function(fct) { fct(); });
+        }));
+      },
+
       bootstrapShoutbox: function() {
         whenReady(function() {
           require(['modules/shoutbox/shoutbox'], function(ShoutboxModule) {
@@ -79,6 +89,7 @@ define(['marionette', 'app/core', 'app/vent',
               if ('shouts' in AppInitData) {
                 app.bootstrapShoutbox();
               }
+              app.fireOnPageCallbacks(options.SaitoApp.callbacks);
               appView.initFromDom({
                 SaitoApp: options.SaitoApp,
                 contentTimer: options.contentTimer

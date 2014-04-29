@@ -9,15 +9,8 @@
 	<div class="panel-content panel-form">
 		<?= $this->element('users/login_form') ?>
 		<script>
-			$(function() {
-				var focus = function() {
-					if ($("#content").css('visibility') === 'hidden') {
-						window.setTimeout(focus, 300);
-						return;
-					}
-					$("#tf-login-username").select();
-				};
-				focus();
+			SaitoApp.callbacks.afterViewInit.push(function() {
+				$("#tf-login-username").select();
 			});
 		</script>
 	</div>
