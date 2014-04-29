@@ -29,9 +29,6 @@
     "backbone.babysitter": {
       "js": "lib/amd/*"
     },
-    "backbone.wreqr": {
-      "js": "lib/amd/*"
-    },
     "Backbone.localStorage": {
       "js": "backbone.localStorage.js"
     },

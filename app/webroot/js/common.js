@@ -37,7 +37,7 @@
       // marionette
       marionette: '../dev/bower_components/marionette/backbone.marionette',
       "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
-      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
+      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/backbone.wreqr',
       // moment
       moment: '../dev/bower_components/momentjs/js/moment',
       'moment-de': '../dev/bower_components/momentjs/lang/de'
