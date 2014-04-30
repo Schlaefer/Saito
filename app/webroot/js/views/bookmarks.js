@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'views/bookmark'
-], function($, _, Backbone, BookmarkView) {
+  'views/bookmark',
+  'text!templates/no-content-yet.html'
+], function($, _, Backbone, BookmarkView, NcyTemplate) {
 
   "use strict";
 
@@ -11,6 +12,15 @@ define([
 
     initialize: function() {
       this.initCollectionFromDom('.js-bookmark', this.collection, BookmarkView);
+      this._fillNoContentYet();
+
+      this.listenTo(this.collection, 'bookmark.removed', this._fillNoContentYet);
+    },
+
+    _fillNoContentYet: function() {
+      if (this.collection.isEmpty()) {
+        this.$el.html(_.template(NcyTemplate));
+      }
     }
 
   });

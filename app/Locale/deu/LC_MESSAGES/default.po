@@ -197,7 +197,7 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: View/Bookmarks/index.ctp:77
-msgid "No bookmarks created yet."
+msgid "ncy.bkm"
 msgstr "Noch keine Lesezeichen angelegt."
 
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1

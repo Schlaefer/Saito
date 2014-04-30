@@ -70,13 +70,7 @@
 								</div>
 							</div>
 						<?php } ?>
-					<?php else: ?>
-						<?php
-						echo $this->element('generic/no-content-yet',
-								array(
-								'message' => __('No bookmarks created yet.')));
-						?>
-				<?php endif; ?>
+					<?php endif; ?>
 			</div>
 		</div>
 	</div>

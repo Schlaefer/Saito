@@ -23,7 +23,11 @@ define([
     },
 
     removeBookmark: function() {
-      this.$el.hide("slide", null, 500, function() { $(this).remove();});
+      var collection = this.collection;
+      this.$el.hide("slide", null, 500, function() {
+        $(this).remove();
+        collection.trigger('bookmark.removed');
+      });
     }
 
   });
