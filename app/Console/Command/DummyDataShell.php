@@ -14,6 +14,10 @@
 
 		protected $_Threads = [];
 
+		public function main() {
+			$this->generate();
+		}
+
 		public function generate() {
 			$n = (int)$this->in('Number of postings to generate?', null, 100);
 			$ratio = (int)$this->in('Average answers per thread?', null, 10);
