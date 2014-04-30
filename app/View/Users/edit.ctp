@@ -122,6 +122,7 @@
 							foreach (['lat', 'lng', 'zoom'] as $name) {
 								$field = "user_place_$name";
 								echo $this->Form->hidden($field, ['label' => false]);
+								$this->Form->unlockField('User.' . $field);
 								if ($this->Form->isFieldError($field)) {
 									echo $this->Form->error($field);
 								}
