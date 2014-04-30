@@ -228,12 +228,22 @@ EOF;
 			return $this->Html->link($content, $url, $options);
 		}
 
-		public function navbarBack($url = null) {
+		public function navbarBack($url = null, $title = null, $options = []) {
+			if ($title === null) {
+				if ($url === null) {
+					$title = __('back_to_forum_linkname');
+				} else {
+					$title = __('Back');
+				}
+			}
+
 			if ($url === null) {
 				$url = '/';
 			}
-			return $this->navbarItem('<i class="fa fa-arrow-left"></i> ' . __('Back'),
-				$url, ['escape' => false]);
+			$options += ['escape' => false];
+			$content = '<i class="fa fa-arrow-left"></i> ' . $title;
+
+			return $this->navbarItem($content, $url, $options);
 		}
 
 	}
