@@ -18,7 +18,7 @@
     "php": ">=5.4.0",
     "ext-mcrypt": "*",
     "pear-cakephp/cakephp": "2.5.0-RC2",
-    "kzykhys/ciconia": "dev-master"
+    "kzykhys/ciconia": "~1.0.3"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*"
