@@ -28,7 +28,6 @@
 			$ciconia->addExtension(new Gfm\TableExtension());
 			$ciconia->addExtension(new Gfm\UrlAutoLinkExtension());
 
-
 			$text = preg_replace_callback('/\[(?P<text>.*?)\]\[(?P<url>.*?)\]/',
 				[$this, '_replaceUrl'], $text);
 
@@ -44,11 +43,11 @@
 					return $text;
 				}
 				$uid = $this->_CurrentUser->getId();
-				$url = str_replace(':uid', $uid , $url);
+				$url = str_replace(':uid', $uid, $url);
 			}
 
 			if (strpos($url, 'webroot:') === 0) {
-				$url = str_replace('webroot:', $this->_webroot , $url);
+				$url = str_replace('webroot:', $this->_webroot, $url);
 			}
 
 			return "[$text]($url)";
