@@ -546,11 +546,6 @@ msgstr "Passwords don't match."
 msgid "user_pw_confirm"
 msgstr "Confirm Password"
 
-#: View/Elements/users/register-form.ctp:3
-#: Controller/EntriesController.php:302
-msgid "js-required"
-msgstr "To use this forum please enable JavaScript."
-
 #: View/Elements/users/register-form.ctp:33
 msgid "register_tos_linktext"
 msgstr "Terms of Service"

@@ -1,10 +1,5 @@
 <?php
 
-	echo $this->Html->tag('p', __('js-required'),
-		['id' => 'register-js-required', 'class' => 'message',]);
-	echo $this->Html->scriptBlock('$("#register-js-required").hide();',
-		['inline' => true]);
-
 	echo $this->Form->create('User', ['action' => 'register']);
 	echo $this->element('users/register-form-core');
 	echo $this->SimpleCaptcha->input('User', [

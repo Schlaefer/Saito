@@ -556,10 +556,6 @@ msgstr "Password stimmt nicht mit Wiederholung überein."
 msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
-#: View/Elements/users/register-form.ctp:3
-#: Controller/EntriesController.php:302
-msgid "js-required"
-msgstr "Zum Nutzen des Forums bitte JavaScript aktivieren."
 
 #: View/Elements/users/register-form.ctp:33
 msgid "register_tos_linktext"

@@ -299,7 +299,6 @@
 
 				if ($isAnswer) {
 					if ($this->request->is('ajax') === false) {
-						$this->Session->setFlash(__('js-required'), 'flash/error');
 						$this->redirect($this->referer());
 						return;
 					}
