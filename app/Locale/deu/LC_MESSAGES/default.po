@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Macnemo_2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-28 07:51+0100\n"
-"PO-Revision-Date: 2014-04-28 07:51+0100\n"
+"POT-Creation-Date: 2014-05-01 11:22+0100\n"
+"PO-Revision-Date: 2014-05-01 11:22+0100\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
 "macnemo_2_github/app/\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.5\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Plugin/Install/View/Install/adminuser.ctp:2
@@ -157,7 +157,7 @@ msgid "admin.stats.detailed"
 msgstr "Detailierte Statistik"
 
 #: View/Bookmarks/edit.ctp:4 Controller/EntriesController.php:292
-#: Controller/EntriesController.php:350
+#: Controller/EntriesController.php:349
 msgid "back_to_overview_linkname"
 msgstr "Zurück zur Übersicht"
 
@@ -169,36 +169,27 @@ msgstr "Lesezeichen bearbeiten"
 msgid "Enter your comment here"
 msgstr "Hier Kommentar eingeben"
 
-#: View/Bookmarks/edit.ctp:32 View/Bookmarks/index.ctp:63
+#: View/Bookmarks/edit.ctp:32 View/Bookmarks/index.ctp:61
 msgid "btn-comment-title"
 msgstr "Kommentieren"
 
-#: View/Bookmarks/index.ctp:4 View/Entries/view.ctp:7 View/Users/index.ctp:4
-#: View/Users/view.ctp:4
-msgid "back_to_forum_linkname"
-msgstr "Zurück zum Forum"
-
-#: View/Bookmarks/index.ctp:9 View/Elements/layout/header_login.ctp:39
+#: View/Bookmarks/index.ctp:7 View/Elements/layout/header_login.ctp:39
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
-#: View/Bookmarks/index.ctp:18 View/Entries/add.ctp:62
+#: View/Bookmarks/index.ctp:16 View/Entries/add.ctp:62
 msgid "Subject"
 msgstr "Betreff"
 
-#: View/Bookmarks/index.ctp:23
+#: View/Bookmarks/index.ctp:21
 msgid "Comment"
 msgstr "Kommentar"
 
-#: View/Bookmarks/index.ctp:43 View/Categories/admin_index.ctp:39
+#: View/Bookmarks/index.ctp:41 View/Categories/admin_index.ctp:39
 #: View/SmileyCodes/admin_index.ctp:30 View/Smilies/admin_index.ctp:33
-#: View/Users/view.ctp:190
+#: View/Users/view.ctp:187
 msgid "Delete"
 msgstr "Löschen"
-
-#: View/Bookmarks/index.ctp:77
-msgid "ncy.bkm"
-msgstr "Noch keine Lesezeichen angelegt."
 
 #: View/Categories/admin_add.ctp:1 View/Categories/admin_delete.ctp:1
 #: View/Categories/admin_edit.ctp:1 View/Categories/admin_index.ctp:1
@@ -289,7 +280,7 @@ msgstr "Aktion"
 
 #: View/Categories/admin_index.ctp:34 View/Settings/admin_index.ctp:37
 #: View/SmileyCodes/admin_index.ctp:29 View/Smilies/admin_index.ctp:32
-#: View/Users/view.ctp:182
+#: View/Users/view.ctp:179
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -309,7 +300,7 @@ msgstr ""
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: View/Elements/entry/category-chooser.ctp:43 View/Searches/advanced.ctp:39
-#: Controller/EntriesController.php:887
+#: Controller/EntriesController.php:886
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
@@ -318,27 +309,22 @@ msgid "Apply"
 msgstr "Anwenden"
 
 #: View/Elements/entry/thread_cached_init.ctp:10
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:9
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
 #: View/Elements/entry/thread_cached_init.ctp:11
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:10
 msgid "btn-threadCollapse"
 msgstr "thread zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:12
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:11
 msgid "btn-showNewThreads"
 msgstr "neue"
 
 #: View/Elements/entry/thread_cached_init.ctp:13
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:12
 msgid "btn-closeThreads"
 msgstr "zu"
 
 #: View/Elements/entry/thread_cached_init.ctp:14
-#: View/Themed/Ixi/Elements/entry/thread_cached_init.ctp:13
 msgid "btn-openThreads"
 msgstr "auf"
 
@@ -359,7 +345,7 @@ msgstr "Antworten"
 
 #: View/Elements/entry/view_posting.ctp:89
 #: View/Elements/entry/view_posting.ctp:106
-#: Controller/EntriesController.php:462
+#: Controller/EntriesController.php:461
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
@@ -378,63 +364,52 @@ msgstr ""
 "werden!"
 
 #: View/Elements/layout/disclaimer.ctp:4
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:4
 msgid "Ressources"
 msgstr "Ressourcen"
 
-#: View/Elements/layout/disclaimer.ctp:7
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:13 View/Users/view.ctp:50
+#: View/Elements/layout/disclaimer.ctp:7 View/Users/view.ctp:47
 msgid "Contact"
 msgstr "Kontakt"
 
 #: View/Elements/layout/disclaimer.ctp:10
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:7
 msgid "Mobile"
 msgstr "Mobil"
 
 #: View/Elements/layout/disclaimer.ctp:13
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:22
 msgid "RSS"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:20
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:29
 msgid "Status"
 msgstr ""
 
 #: View/Elements/layout/disclaimer.ctp:28
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:37
-msgid ""
-":entries Entries in :threads Threads; :registered members, :loggedin logged "
-"in, :anon anonymous"
+msgid "discl.status"
 msgstr ""
-":entries Beiträge in :threads Threads; :registered Mitglieder, :loggedin "
+":entries Beiträge in :threads Themen; :registered Mitglieder, :loggedin "
 "angemeldet, :anon Gäste."
 
 #: View/Elements/layout/disclaimer.ctp:42
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:52
-msgid "disclaimer.newestMember"
+#, fuzzy
+msgid "discl.newestMember"
 msgstr "Neuestes Mitglied ist %s."
 
 #: View/Elements/layout/disclaimer.ctp:49
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:59
 msgid "About"
 msgstr "Über"
 
 #: View/Elements/layout/disclaimer.ctp:52
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:62
 #, php-format
 msgid "Powered by Saito v%s."
 msgstr "Angetrieben durch Saito v%s."
 
 #: View/Elements/layout/disclaimer.ctp:55
-#: View/Themed/Ixi/Elements/layout/disclaimer.ctp:65
 #, php-format
 msgid "Generated in %s s."
 msgstr "Generiert in %s s."
 
 #: View/Elements/layout/header_login.ctp:9
-#: View/Elements/users/register-form.ctp:48 View/Users/deu/register.ctp:10
+#: View/Elements/users/register-form.ctp:43 View/Users/deu/register.ctp:10
 #: View/Users/deu/rs.ctp:8 View/Users/register.ctp:10 View/Users/rs.ctp:8
 msgid "register_linkname"
 msgstr "Registrieren"
@@ -446,10 +421,10 @@ msgid "login_btn"
 msgstr "Einloggen"
 
 #: View/Elements/layout/header_login.ctp:23
-msgid "Forum Settings"
-msgstr "Forumseinstellungen"
+msgid "ial.aa"
+msgstr "Einstellungen"
 
-#: View/Elements/layout/header_login.ctp:35 View/Users/view.ctp:140
+#: View/Elements/layout/header_login.ctp:35 View/Users/view.ctp:137
 #, fuzzy
 msgid "user.b.profile"
 msgstr "Profil"
@@ -477,7 +452,7 @@ msgstr ""
 msgid "Recent entries"
 msgstr "Letzte Einträge"
 
-#: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:213
+#: View/Elements/layout/slidetab_recentposts.ctp:13 View/Users/view.ctp:210
 msgid "user_recentposts"
 msgstr "Letzte Beiträge"
 
@@ -556,12 +531,11 @@ msgstr "Password stimmt nicht mit Wiederholung überein."
 msgid "user_pw_confirm"
 msgstr "Passwort wiederholen"
 
-
-#: View/Elements/users/register-form.ctp:33
+#: View/Elements/users/register-form.ctp:28
 msgid "register_tos_linktext"
 msgstr "Nutzungsbedingungen"
 
-#: View/Elements/users/register-form.ctp:32
+#: View/Elements/users/register-form.ctp:27
 msgid "register_tos_label"
 msgstr "Ich bin mit den %s einverstanden"
 
@@ -623,9 +597,13 @@ msgid "Merge onto entry with ID:"
 msgstr "Anfügen an den Beitrag mit ID:"
 
 #: View/Entries/mix.ctp:6 View/Users/edit.ctp:4
-#: View/Helper/LayoutHelper.php:235
+#: View/Helper/LayoutHelper.php:236
 msgid "Back"
 msgstr "Zurück"
+
+#: View/Entries/view.ctp:8 View/Helper/LayoutHelper.php:234
+msgid "back_to_forum_linkname"
+msgstr "Zurück zum Forum"
 
 #: View/Layouts/admin.ctp:29
 msgid "Forum"
@@ -637,7 +615,7 @@ msgstr "Übersicht"
 
 #: View/Layouts/admin.ctp:38 View/Settings/admin_edit.ctp:2
 #: View/Settings/admin_index.ctp:2 View/Settings/admin_index.ctp:126
-#: View/Users/edit.ctp:160
+#: View/Users/edit.ctp:161
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -719,7 +697,7 @@ msgstr "Zeit"
 msgid "Rank"
 msgstr "Rang"
 
-#: View/Searches/simple.ctp:69 View/Users/index.ctp:36
+#: View/Searches/simple.ctp:69 View/Users/index.ctp:34
 #, php-format
 msgid "Sort by: %s"
 msgstr "Sortieren nach: %s"
@@ -864,12 +842,12 @@ msgid "New User"
 msgstr "Neuer Benutzer"
 
 #: View/Users/admin_index.ctp:10 View/Users/edit.ctp:19 View/Users/edit.ctp:64
-#: View/Users/index.ctp:17 View/Users/view.ctp:19
+#: View/Users/index.ctp:15 View/Users/view.ctp:16
 msgid "username_marking"
 msgstr "Benutzername"
 
 #: View/Users/admin_index.ctp:11 View/Users/edit.ctp:29
-#: View/Users/index.ctp:19
+#: View/Users/index.ctp:17
 msgid "user_type"
 msgstr "Typ"
 
@@ -877,12 +855,12 @@ msgstr "Typ"
 msgid "user_email"
 msgstr "Email"
 
-#: View/Users/admin_index.ctp:13 View/Users/index.ctp:26
+#: View/Users/admin_index.ctp:13 View/Users/index.ctp:24
 msgid "registered"
 msgstr "Registriert"
 
-#: View/Users/admin_index.ctp:16 View/Users/index.ctp:33
-#: View/Users/view.ctp:27
+#: View/Users/admin_index.ctp:16 View/Users/index.ctp:31
+#: View/Users/view.ctp:24
 #, fuzzy
 msgid "user.set.lock.t"
 msgstr "Sperre"
@@ -940,7 +918,7 @@ msgstr "E-Mail"
 msgid "user_pw_exp"
 msgstr "Aktuelles Passwort durch ein neues ersetzen."
 
-#: View/Users/edit.ctp:88 View/Users/view.ctp:34
+#: View/Users/edit.ctp:88 View/Users/view.ctp:31
 msgid "user_real_name"
 msgstr "Realer Name"
 
@@ -948,7 +926,7 @@ msgstr "Realer Name"
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:95 View/Users/view.ctp:55
+#: View/Users/edit.ctp:95 View/Users/view.ctp:52
 msgid "user_hp"
 msgstr "Homepage"
 
@@ -956,7 +934,7 @@ msgstr "Homepage"
 msgid "user_hp_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:102 View/Users/view.ctp:62
+#: View/Users/edit.ctp:102 View/Users/view.ctp:59
 msgid "user_place"
 msgstr "Ort"
 
@@ -964,180 +942,180 @@ msgstr "Ort"
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: View/Users/edit.ctp:135 View/Users/view.ctp:106
+#: View/Users/edit.ctp:136 View/Users/view.ctp:103
 msgid "user_profile"
 msgstr "Profil"
 
-#: View/Users/edit.ctp:140
+#: View/Users/edit.ctp:141
 msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
-#: View/Users/edit.ctp:146 View/Users/view.ctp:113
+#: View/Users/edit.ctp:147 View/Users/view.ctp:110
 msgid "user_signature"
 msgstr "Signatur"
 
-#: View/Users/edit.ctp:151
+#: View/Users/edit.ctp:152
 msgid "user_signature_exp"
 msgstr "Signatur, welche an eigene Postings angehängt wird."
 
-#: View/Users/edit.ctp:165
+#: View/Users/edit.ctp:166
 msgid "user_sort_last_answer"
 msgstr "Sortierreihenfolge"
 
-#: View/Users/edit.ctp:171
+#: View/Users/edit.ctp:172
 msgid "user_sort_last_answer_time"
 msgstr "Zeit"
 
-#: View/Users/edit.ctp:172
+#: View/Users/edit.ctp:173
 msgid "user_sort_last_answer_last_answer"
 msgstr "Letzte Antwort"
 
-#: View/Users/edit.ctp:180
+#: View/Users/edit.ctp:181
 msgid "user_sort_last_answer_exp"
 msgstr ""
 "Reihenfolge nach der die Threads auf der Startseite geordnet werden. Zeit: "
 "feste Reihenfolge nach Startzeitpunkt des Threads. Letzte Antwort: Threads "
 "mit neuen Antworten wandern nach oben."
 
-#: View/Users/edit.ctp:185
+#: View/Users/edit.ctp:186
 msgid "user_automaticaly_mark_as_read"
 msgstr "Intelligentes Gelesen-Markieren"
 
-#: View/Users/edit.ctp:190
+#: View/Users/edit.ctp:191
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr "Intelligentes Gelesen-Markieren (iMAR)"
 
-#: View/Users/edit.ctp:199
+#: View/Users/edit.ctp:200
 msgid "user_signatures_hide"
 msgstr "Signaturen ausblenden"
 
-#: View/Users/edit.ctp:201
+#: View/Users/edit.ctp:202
 msgid "user_signatures_hide_exp"
 msgstr "Signaturen der anderen Benutzer komplett ausblenden."
 
-#: View/Users/edit.ctp:203
+#: View/Users/edit.ctp:204
 msgid "user_signatures_images_hide_exp"
 msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
 
-#: View/Users/edit.ctp:208
+#: View/Users/edit.ctp:209
 msgid "user_forum_refresh_time"
 msgstr "Aktualisierungszeit"
 
-#: View/Users/edit.ctp:221
+#: View/Users/edit.ctp:222
 msgid "user_forum_refresh_time_exp"
 msgstr ""
 "Zeit in Minuten, nach der die Forumsübersicht automatisch neu geladen wird "
 "(optional)"
 
-#: View/Users/edit.ctp:228
+#: View/Users/edit.ctp:229
 msgid "user_theme"
 msgstr "Theme"
 
-#: View/Users/edit.ctp:235
+#: View/Users/edit.ctp:236
 msgid "user_theme_exp"
 msgstr "Anderes Aussehen auswählen. (optional)"
 
-#: View/Users/edit.ctp:241
+#: View/Users/edit.ctp:242
 msgid "user_colors"
 msgstr "Farben"
 
-#: View/Users/edit.ctp:243
+#: View/Users/edit.ctp:244
 msgid "user_color_new_postings_exp"
 msgstr "Neue Beiträge"
 
-#: View/Users/edit.ctp:245
+#: View/Users/edit.ctp:246
 msgid "user_color_old_postinings_exp"
 msgstr "Alte Beiträge"
 
-#: View/Users/edit.ctp:247
+#: View/Users/edit.ctp:248
 msgid "user_color_actual_posting_exp"
 msgstr "Aktueller Beitrag"
 
-#: View/Users/edit.ctp:252
+#: View/Users/edit.ctp:253
 msgid "inline_view_on_click"
 msgstr "Posting aufklappen"
 
-#: View/Users/edit.ctp:255
+#: View/Users/edit.ctp:256
 msgid "inline_view_on_click_exp"
 msgstr ""
 "Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen "
 "Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
 
-#: View/Users/edit.ctp:259
+#: View/Users/edit.ctp:260
 msgid "user_show_thread_collapsed"
 msgstr "Threads einklappen"
 
-#: View/Users/edit.ctp:262
+#: View/Users/edit.ctp:263
 msgid "user_show_thread_collapsed_exp"
 msgstr ""
 "Threads sind standardmässig eingeklappt und müssen manuell geöffnet werden."
 
-#: View/Users/edit.ctp:267
+#: View/Users/edit.ctp:268
 msgid "user_pers_msg"
 msgstr "Persönliche&nbsp;Nachrichten empfangen"
 
-#: View/Users/edit.ctp:268
+#: View/Users/edit.ctp:269
 msgid "user_pers_msg_exp"
 msgstr ""
 "Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen "
 "werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen "
 "werden)"
 
-#: View/Users/edit.ctp:275
+#: View/Users/edit.ctp:276
 msgid "user_category_override"
 msgstr "Kategorienfilter"
 
-#: View/Users/edit.ctp:280
+#: View/Users/edit.ctp:281
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
-#: View/Users/edit.ctp:290 View/Users/view.ctp:124
+#: View/Users/edit.ctp:291 View/Users/view.ctp:121
 msgid "flattr"
 msgstr "flattrn"
 
-#: View/Users/edit.ctp:294
+#: View/Users/edit.ctp:295
 msgid "flattr_uid"
 msgstr "Flattr ID"
 
-#: View/Users/edit.ctp:298
+#: View/Users/edit.ctp:299
 msgid "flattr_allow_user"
 msgstr "Flattrn"
 
-#: View/Users/edit.ctp:299
+#: View/Users/edit.ctp:300
 msgid "flattr_allow_user_exp"
 msgstr ""
 "Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn "
 "allgemein für das Benutzerkonto."
 
-#: View/Users/edit.ctp:302
+#: View/Users/edit.ctp:303
 msgid "flattr_allow_posting"
 msgstr "Postings flattrn"
 
-#: View/Users/edit.ctp:303
+#: View/Users/edit.ctp:304
 msgid "flattr_allow_posting_exp"
 msgstr ""
 "Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird "
 "automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
-#: View/Users/edit.ctp:309
+#: View/Users/edit.ctp:310
 msgid "button_save"
 msgstr "Speichern"
 
-#: View/Users/index.ctp:21
+#: View/Users/index.ctp:19
 msgid "userlist_online"
 msgstr "Online"
 
-#: View/Users/index.ctp:55
+#: View/Users/index.ctp:53
 #, php-format
 msgid "user_since %s"
 msgstr "Mitglied seit %s"
 
-#: View/Users/index.ctp:60
+#: View/Users/index.ctp:58
 msgid "Online"
 msgstr ""
 
-#: View/Users/index.ctp:63
+#: View/Users/index.ctp:61
 #, php-format
 msgid "%s banned"
 msgstr "%s gesperrt"
@@ -1146,35 +1124,35 @@ msgstr "%s gesperrt"
 msgid "login_linkname"
 msgstr "log in"
 
-#: View/Users/view.ctp:75
+#: View/Users/view.ctp:72
 msgid "user_since"
 msgstr "Mitglied seit"
 
-#: View/Users/view.ctp:76
+#: View/Users/view.ctp:73
 msgid "date_short"
 msgstr "%d.%m.%Y"
 
-#: View/Users/view.ctp:89
+#: View/Users/view.ctp:86
 msgid "user_postings"
 msgstr "Beiträge"
 
-#: View/Users/view.ctp:157
+#: View/Users/view.ctp:154
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
-#: View/Users/view.ctp:169
+#: View/Users/view.ctp:166
 msgid "Unlock"
 msgstr "Freigeben"
 
-#: View/Users/view.ctp:169
+#: View/Users/view.ctp:166
 msgid "Lock"
 msgstr "Sperren"
 
-#: View/Users/view.ctp:219
+#: View/Users/view.ctp:216
 msgid "No entries created yet."
 msgstr "Noch keine Beiträge verfasst."
 
-#: View/Users/view.ctp:233
+#: View/Users/view.ctp:230
 msgid "Show all"
 msgstr "Alle anzeigen"
 
@@ -1286,47 +1264,47 @@ msgstr "Posting konnte nicht gefunden werden."
 msgid "Write a New Entry"
 msgstr "Neuen Beitrag verfassen"
 
-#: Controller/EntriesController.php:287 Controller/EntriesController.php:415
+#: Controller/EntriesController.php:287 Controller/EntriesController.php:414
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:340 Controller/EntriesController.php:459
+#: Controller/EntriesController.php:339 Controller/EntriesController.php:458
 msgid "back_to_posting_from_linkname"
 msgstr "zurück zum Posting von %s"
 
-#: Controller/EntriesController.php:344
+#: Controller/EntriesController.php:343
 msgid "Write a Reply"
 msgstr "Antwort verfassen"
 
-#: Controller/EntriesController.php:421
+#: Controller/EntriesController.php:420
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#: Controller/EntriesController.php:496
+#: Controller/EntriesController.php:495
 msgid "delete_tree_success"
 msgstr "Thread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:499
+#: Controller/EntriesController.php:498
 msgid "delete_subtree_success"
 msgstr "Subthread erfolgreich entfernt."
 
-#: Controller/EntriesController.php:503
+#: Controller/EntriesController.php:502
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: Controller/EntriesController.php:642
+#: Controller/EntriesController.php:641
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:884
+#: Controller/EntriesController.php:883
 msgid "Custom"
 msgstr "Angepasst"
 
-#: Controller/EntriesController.php:944
+#: Controller/EntriesController.php:943
 msgid ":subject | :category"
 msgstr ""
 
-#: Controller/EntriesController.php:946
+#: Controller/EntriesController.php:945
 msgid ":subject (:type) | :category"
 msgstr ""
 
@@ -1555,11 +1533,11 @@ msgstr "Hilfe"
 msgid "Captcha"
 msgstr ""
 
-#: View/Helper/AdminHelper.php:57
+#: View/Helper/AdminHelper.php:78
 msgid "No log file found."
 msgstr "Keine Log-Datei vorhanden."
 
-#: View/Helper/AdminHelper.php:68
+#: View/Helper/AdminHelper.php:89
 msgid "Details"
 msgstr ""
 
@@ -1721,6 +1699,10 @@ msgstr "Einfügen"
 #: webroot/js/templates/mediaInsert.html:14
 msgid "Nothing recognized."
 msgstr "Nichts erkannt."
+
+#: webroot/js/templates/no-content-yet.html:2
+msgid "ncy.bkm"
+msgstr "Noch keine Lesezeichen angelegt."
 
 #: webroot/js/templates/upload.html:6
 msgid "upload_btn_insert_into_posting"
@@ -2661,6 +2643,16 @@ msgstr ""
 #: webroot/js/tests/lib/jquery.i18n.extendSpec.js:42
 msgid "token test"
 msgstr ""
+
+#~ msgid ""
+#~ ":entries Entries in :threads Threads; :registered members, :loggedin "
+#~ "logged in, :anon anonymous"
+#~ msgstr ""
+#~ ":entries Beiträge in :threads Threads; :registered Mitglieder, :loggedin "
+#~ "angemeldet, :anon Gäste."
+
+#~ msgid "Forum Settings"
+#~ msgstr "Einstellungen"
 
 #~ msgid "user_show_email"
 #~ msgstr "E-Mail-Link anzeigen"

@@ -402,8 +402,8 @@ msgstr "Aktivieren um Karten mit Hilfe von mapquest.com anzuzeigen."
 
 #
 msgid "map_api_key"
-msgstr "API Schlüssel"
+msgstr "API-Schlüssel"
 
 #
 msgid "map_api_key_exp"
-msgstr "Mapquest API Schlüssel."
+msgstr "MapQuest-API-Schlüssel."

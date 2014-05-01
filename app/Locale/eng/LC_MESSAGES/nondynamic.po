@@ -397,4 +397,4 @@ msgstr "API Key"
 
 #
 msgid "map_api_key_exp"
-msgstr "Mapquest API Key."
+msgstr "MapQuest-API-key."

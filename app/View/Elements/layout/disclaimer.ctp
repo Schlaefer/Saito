@@ -25,7 +25,7 @@
 						$loggedin = $this->Html->link($loggedin, '/users/index');
 					}
 					echo String::insert(
-							__(':entries Entries in :threads Threads; :registered members, :loggedin logged in, :anon anonymous'),
+							__('discl.status'),
 							[
 									'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
 									'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
@@ -39,7 +39,7 @@
 				<?php
 					$_user = $HeaderCounter['latestUser']['User'];
 					$_u = $this->Layout->linkToUserProfile($_user, $CurrentUser);
-					echo __('disclaimer.newestMember', $_u);
+					echo __('discl.newestMember', $_u);
 				?>
 			</p>
     </div>
