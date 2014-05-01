@@ -52,7 +52,8 @@
 					<?= __('Powered by Saito v%s.', Configure::read("Saito.v")) ?>
 				</a>
         <br/>
-        <?= __('Generated in %s s.', Stopwatch::getWallTime()) ?>
+
+        <?= __('Generated in %s s.', Stopwatch::getWallTime(Configure::read('Config.language'))) ?>
       </p>
     </div>
   </div>

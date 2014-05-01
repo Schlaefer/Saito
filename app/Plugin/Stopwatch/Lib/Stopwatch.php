@@ -234,11 +234,24 @@ class Stopwatch {
 		return self::$_stopwatchCalls . " calls with ca " . sprintf("%05.3f", self::$_stopwatchTime) . ' sec overhead.';
 	}
 
-	public static function getWallTime() {
+	public static function getWallTime($divider = null) {
+		$thousand = '';
+
+		if ($divider === 'eng') {
+			$divider = '.';
+		}
+
+		if (strlen($divider) < 2) {
+			$decimal = $divider;
+		} else {
+			$decimal = ',';
+		}
+
 		self::start('getWallTime()');
 		self::end('getWallTime()');
-		return sprintf("%05.3f",
-				self::$_events[count(self::$_events) - 1]['wtime'] + self::_timeToStopwatch());
+		$time = self::$_events[count(self::$_events) - 1]['wtime'] +
+			self::_timeToStopwatch();
+		return number_format( $time, 3, $decimal, $thousand);
 	}
 
 /**
