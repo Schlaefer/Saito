@@ -518,6 +518,7 @@
 						'user_email' => Configure::read('Saito.Settings.forum_email')
 					]
 				];
+				$this->showDisclaimer = true;
 			} else {
 				// recipient is forum user
 				$this->User->id = $id;
