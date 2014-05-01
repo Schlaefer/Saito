@@ -14,7 +14,8 @@
 			$Ecach = ClassRegistry::init('Ecach');
 			$DS = $Ecach->getDataSource();
 			if (stripos($DS->config['datasource'], 'MySQL') !== false) {
-				$DS->fetchAll('ALTER TABLE `' . $Ecach->table . '` CHANGE `value` `value` MEDIUMBLOB  NOT NULL;');
+				$table = $Ecach->tablePrefix . $Ecach->table;
+				$DS->fetchAll('ALTER TABLE `' . $table . '` CHANGE `value` `value` MEDIUMBLOB  NOT NULL;');
 			}
 		}
 
