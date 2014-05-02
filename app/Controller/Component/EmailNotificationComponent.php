@@ -46,12 +46,6 @@
 			$lang = Configure::read( 'Config.language');
 			$config = [
 					'subject' => __('New reply to "%s"', $subject['Entry']['subject']),
-					'sender' => [
-							'User' => [
-									'user_email' => Configure::read('Saito.Settings.forum_email'),
-									'username' => Configure::read('Saito.Settings.forum_name')
-							],
-					],
 					'template' => $lang . DS . 'notification-model-entry-afterReply',
 					'viewVars' => [
 							'parentEntry' => $subject,
@@ -80,12 +74,6 @@
 			$newUser = $event->data['User'];
 			$config = [
 				'subject' => __('Successfull registration'),
-				'sender' => array(
-					'User' => array(
-						'user_email' => Configure::read('Saito.Settings.forum_email'),
-						'username' => Configure::read('Saito.Settings.forum_name')
-					),
-				),
 				'template' => Configure::read(
 					'Config.language'
 				) . DS . 'notification-admin-user_activated',
@@ -110,16 +98,15 @@
 		}
 
 		protected function _email($config) {
+			$config['sender'] = 'system';
 			try {
 				$this->_Controller->SaitoEmail->email($config);
-			} catch (Exception $exc) {
-				$this->log(
-					sprintf(
-						"Error %s in EmailNotificationComponent::_email() with %s",
-						$exc,
-						print_r($config, true)
-					)
-				);
+			} catch (Exception $e) {
+				$Logger = new Saito\Logger\ExceptionLogger();
+				$Logger->write('Error in EmailNotificationComponent::_email()', [
+					'e' => $e,
+					'msgs' => ['config' => $config]
+				]);
 			}
 		}
 

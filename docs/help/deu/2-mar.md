@@ -4,6 +4,10 @@ Das Forum unterscheidet bei angemeldeten Nutzern zwischen gelesenen und ungelese
 
 Durch die zentrale Verwaltung wird eine konsistente Darstellung über verschiedene Geräte realisiert.
 
+## Gelesen Bei Angeklickt ##
+
+Das öffnen eines einzelnen Beitrages markiert dieses als gelesen. Das Öffnen einen Themas in der Mix-Ansicht markiert alle Beiträge dieses Themas als gelesen.
+
 ## Alle Beiträge gelesen markieren (mMAR)
 
 Alle zu dem Zeitpunkt existierenden Beiträge können durch den Doppelpfeil-Button auf der Homepage als gelesen markiert werden.

@@ -1,3 +1,17 @@
+<?php
+  $this->start('headerSubnavLeft');
+  if (isset($this->data['User']['id'])) {
+    echo $this->Layout->navbarBack([
+      'controller' => 'users',
+      'action' => 'view',
+      $this->data['User']['id']
+    ]);
+  } else  {
+    echo $this->Layout->navbarBack();
+  }
+  $this->end();
+?>
+
 <div class="user contact">
 	<div class="panel">
 		<?= $this->Layout->panelHeading(__('user_contact_title',

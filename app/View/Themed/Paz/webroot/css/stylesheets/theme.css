@@ -68,8 +68,9 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .navbar .pageHeading, .navbar .panel-heading h1, .panel-heading .navbar h1, .navbar .panel-heading h2, .panel-heading .navbar h2 { margin: 0; }
 
-.navbar-item.left { padding-right: 1em; }
-.navbar-item.right { padding-left: 1em; }
+.navbar-item { padding: 0 1em; }
+.navbar-item.left { padding-left: 0; }
+.navbar-item.right { padding-right: 0; }
 
 .heading-3 { height: 24px; position: relative; }
 .heading-3 h1, .heading-3 h2, .heading-3 h3 { margin: 0; padding: 0; }
@@ -161,7 +162,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 textarea, input[type=text], input[type=password], .markItUp textarea { outline-style: none; border-style: none; width: 100%; background: #fbfbfb; border-left: 2px solid #a5a5a5; -webkit-appearance: none; border-radius: 0; }
 
-.required label:after { color: #ee3322; content: "\20F0"; display: inline; padding-left: 0.25em; padding-right: 0.5em; }
+.required label:after { color: #ee3322; content: "\2217"; vertical-align: super; padding-right: 0.5em; }
 
 .btn-submit { padding: 0em 0.8em; border-radius: 3px; background-color: #d50606; color: white; }
 .btn-submit[disabled=disabled] { opacity: 0.5; cursor: not-allowed; }

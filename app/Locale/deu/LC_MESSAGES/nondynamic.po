@@ -130,11 +130,32 @@ msgstr "Zeitzone, indem sich das Forum befindet."
 
 #
 msgid "forum_email"
-msgstr "Email"
+msgstr "Hauptadresse"
 
 #
 msgid "forum_email_exp"
-msgstr "Emailadresse, welche als Absenderadresse für vom Forum versendet Emails (bspw. bei der Registrierung) verwendet wird. "
+msgstr "Hauptemailadresse."
+
+#
+msgid "email_contact"
+msgstr "Kontaktadresse"
+
+msgid "email_contact_exp"
+msgstr "Email-Adresse für das Kontaktformular. (optional, falls leer wird Hauptadresse verwendet)"
+
+#
+msgid "email_register"
+msgstr "Registrierungsadresse"
+
+msgid "email_register_exp"
+msgstr "Adresse verwendet in der Registrierungsmail. (optional, falls leer wird Hauptadresse verwendet)"
+
+#
+msgid "email_system"
+msgstr "Systemadresse"
+
+msgid "email_system_exp"
+msgstr "Adresse für vom System erzeugten Emails (bspw. Thread-Abonnements). (optional, falls leer wird Hauptadresse verwendet)"
 
 #
 msgid "block_user_ui"
@@ -402,8 +423,8 @@ msgstr "Aktivieren um Karten mit Hilfe von mapquest.com anzuzeigen."
 
 #
 msgid "map_api_key"
-msgstr "API Schlüssel"
+msgstr "API-Schlüssel"
 
 #
 msgid "map_api_key_exp"
-msgstr "Mapquest API Schlüssel."
+msgstr "MapQuest-API-Schlüssel."

@@ -109,12 +109,8 @@
 		<?php endif; ?>
 	</div>
 	<?php if (isset($showDisclaimer)) : ?>
-		<div class="disclaimer" style="overflow:hidden;">
-			<?php
-				Stopwatch::start('layout/disclaimer.ctp');
-				echo $this->element('layout/disclaimer');
-				Stopwatch::stop('layout/disclaimer.ctp');
-			?>
+		<div class="disclaimer">
+			<?= $this->element('layout/disclaimer') ?>
 		</div>
 	<?php endif; ?>
 <?= $this->element('layout/html_footer'); ?>

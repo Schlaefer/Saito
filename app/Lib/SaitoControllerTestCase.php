@@ -83,9 +83,9 @@
 		}
 
 		public function assertRedirectedTo($url = '') {
-			$this->assertEqual(
-				Router::fullBaseUrl() . $this->controller->request->webroot . $url,
-				$this->headers['Location']
+			$this->assertEquals(
+				$this->headers['Location'],
+				Router::fullBaseUrl() . $this->controller->request->webroot . $url
 			);
 		}
 

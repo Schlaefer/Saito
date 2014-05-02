@@ -1,10 +1,8 @@
 <?php
-	$this->start('headerSubnavLeft');
-	echo $this->Layout->navbarItem(
-		'<i class="fa fa-arrow-left"></i> ' . __('back_to_overview_linkname'),
-		'/bookmarks/index/#' . $this->request->data['Entry']['id'],
-		['escape' => false]);
-	$this->end();
+  $this->start('headerSubnavLeft');
+  echo $this->Layout->navbarBack('/bookmarks/index/#' .
+    $this->request->data['Entry']['id']);
+  $this->end();
 ?>
 <div class="panel">
 	<?= $this->Layout->panelHeading(__('Edit Bookmark'),

@@ -42,6 +42,13 @@ class Setting extends AppModel {
 		// edit_delay is normed to seconds
 		$settings['edit_delay'] = (int)$settings['edit_delay'] * 60;
 
+		// auto-fill empty email values from main address
+		foreach (['email_contact', 'email_register', 'email_system'] as $addr) {
+			if (empty($settings[$addr])) {
+				$settings[$addr] = $settings['forum_email'];
+			}
+		}
+
 		return $settings;
 	}
 

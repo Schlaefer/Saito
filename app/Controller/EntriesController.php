@@ -289,7 +289,6 @@
 							'flash/error'
 						);
 					}
-					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				endif;
 
 			// show add form
@@ -299,7 +298,6 @@
 
 				if ($isAnswer) {
 					if ($this->request->is('ajax') === false) {
-						$this->Session->setFlash(__('js-required'), 'flash/error');
 						$this->redirect($this->referer());
 						return;
 					}
@@ -340,23 +338,19 @@
 						'back_to_posting_from_linkname',
 						$this->request->data['User']['username']
 					);
+					$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
 
 					$this->set('title_for_layout', __('Write a Reply'));
 				} else {
 					// new posting which creates new thread
 					$this->request->data['Entry']['pid'] = 0;
 					$this->request->data['Entry']['tid'] = 0;
-
-					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				}
 			}
 
 			$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
 			$this->set('is_inline', (int)$this->request->data['Entry']['pid'] !== 0);
 			$this->set('form_id', $this->request->data['Entry']['pid']);
-			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
-			$this->set('headerSubnavLeftUrl', '/entries/index');
-
 			$this->_teardownAdd();
 		}
 
@@ -453,12 +447,11 @@
 			$this->set('form_id', $this->request->data['Entry']['pid']);
 
 			// set headers
-			$this->set('headerSubnavLeftUrl', '/entries/index');
 			$this->set(
 				'headerSubnavLeftTitle',
 				__('back_to_posting_from_linkname', $this->request->data['User']['username'])
 			);
-			$this->set('headerSubnavLeftUrl', array( 'action' => 'view', $id ));
+			$this->set('headerSubnavLeftUrl', ['action' => 'view', $id]);
 			$this->set('form_title', __('edit_linkname'));
 			$this->_teardownAdd();
 			$this->render('/Entries/add');

@@ -110,18 +110,19 @@
 		}
 
 		public function beforeFilter() {
+			Stopwatch::start('App->beforeFilter()');
+
 			parent::beforeFilter();
 
 			// must be called before CakeError early return
 			$this->Themes->theme(Configure::read('Saito.themes'));
+			$this->Setting->load(Configure::read('Saito.Settings'));
 
 			// CakeErrors run through this beforeFilter, which is usually not necessary
 			// for error messages
 			if ($this->name === 'CakeError') {
 					return;
 			}
-
-			Stopwatch::start('App->beforeFilter()');
 
 			$bbcodeSettings = BbcodeSettings::getInstance();
 			$bbcodeSettings->set(
@@ -132,9 +133,6 @@
 					'webroot' => $this->webroot
 				]
 			);
-
-			// Load forum settings
-			$this->Setting->load(Configure::read('Saito.Settings'));
 
 			// activate stopwatch in debug mode
 			$this->set('showStopwatchOutput', false);
@@ -175,13 +173,14 @@
 		}
 
 		public function beforeRender() {
-			parent::beforeRender();
-
 			Stopwatch::start('App->beforeRender()');
+
+			parent::beforeRender();
 
 			if ($this->showDisclaimer) {
 				$this->_showDisclaimer();
 			}
+
 			$this->set('lastAction', $this->localReferer('action'));
 			$this->set('lastController', $this->localReferer('controller'));
 			$this->set('isDebug', (int)Configure::read('debug') > 0);
@@ -282,6 +281,8 @@
 			} elseif (isset($this->viewVars['title_for_layout'])) {
 				// provides CakePHP backwards-compatibility
 				$_pageTitle = $this->viewVars['title_for_layout'];
+			} else if ($this->name === 'CakeError') {
+				$_pageTitle = '';
 			} else {
 				$_pageTitle = __d(
 					'page_titles',

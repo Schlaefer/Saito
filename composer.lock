@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "10c451ce42a5fc1a87fa08a1d2248746",
+    "hash": "a356cff503b91e4c8ab69d064c3289ff",
     "packages": [
         {
             "name": "kzykhys/ciconia",
-            "version": "dev-master",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kzykhys/Ciconia.git",
-                "reference": "94e9c7564d0fe00eafa6800176ff42147958f855"
+                "reference": "52d43ec35a656ef1bda07fdd8398081801f960ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kzykhys/Ciconia/zipball/94e9c7564d0fe00eafa6800176ff42147958f855",
-                "reference": "94e9c7564d0fe00eafa6800176ff42147958f855",
+                "url": "https://api.github.com/repos/kzykhys/Ciconia/zipball/52d43ec35a656ef1bda07fdd8398081801f960ae",
+                "reference": "52d43ec35a656ef1bda07fdd8398081801f960ae",
                 "shasum": ""
             },
             "require": {
@@ -25,12 +25,8 @@
                 "symfony/options-resolver": ">=2.3,<2.5-dev"
             },
             "require-dev": {
-                "kzykhys/pygments": ">=1.0",
                 "symfony/finder": ">=2.3,<2.5-dev",
                 "symfony/stopwatch": ">=2.3,<2.5-dev"
-            },
-            "suggest": {
-                "kzykhys/pygments": ">=1.0"
             },
             "bin": [
                 "bin/ciconia"
@@ -62,7 +58,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2014-02-15 06:00:18"
+            "time": "2014-01-23 08:14:37"
         },
         {
             "name": "pear-pear.cakephp.org/CakePHP",
@@ -447,16 +443,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.36",
+            "version": "3.7.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1735d588c9f35bd8686cae0208d8adde77b45365"
+                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1735d588c9f35bd8686cae0208d8adde77b45365",
-                "reference": "1735d588c9f35bd8686cae0208d8adde77b45365",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
+                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
                 "shasum": ""
             },
             "require": {
@@ -516,7 +512,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-04-29 07:24:10"
+            "time": "2014-04-30 12:24:19"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -622,8 +618,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pear-cakephp/cakephp": 5,
-        "kzykhys/ciconia": 20
+        "pear-cakephp/cakephp": 5
     },
     "platform": {
         "php": ">=5.4.0",

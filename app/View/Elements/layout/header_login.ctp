@@ -20,7 +20,7 @@
 	} else {
 		if ($CurrentUser['user_type'] == 'admin') {
 			echo $this->Html->link(
-						$this->Layout->textWithIcon(h(__('Forum Settings')), 'wrench'),
+						$this->Layout->textWithIcon(h(__('ial.aa')), 'wrench'),
 						[
 							'controller' => 'admins',
 							'action' => 'index',
