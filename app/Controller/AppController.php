@@ -281,7 +281,7 @@
 			} elseif (isset($this->viewVars['title_for_layout'])) {
 				// provides CakePHP backwards-compatibility
 				$_pageTitle = $this->viewVars['title_for_layout'];
-			} else if ($this->name === 'CakeError') {
+			} elseif ($this->name === 'CakeError') {
 				$_pageTitle = '';
 			} else {
 				$_pageTitle = __d(
