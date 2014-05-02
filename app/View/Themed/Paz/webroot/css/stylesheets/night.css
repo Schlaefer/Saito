@@ -161,7 +161,7 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 textarea, input[type=text], input[type=password], .markItUp textarea { outline-style: none; border-style: none; width: 100%; background: #303035; border-left: 2px solid #ffcc00; -webkit-appearance: none; border-radius: 0; }
 
-.required label:after { color: #ee3322; content: "\20F0"; display: inline; padding-left: 0.25em; padding-right: 0.5em; }
+.required label:after { color: #ee3322; content: "\2217"; vertical-align: super; padding-right: 0.5em; }
 
 .btn-submit { padding: 0em 0.8em; border-radius: 3px; background-color: #ffcc00; color: #28282b; }
 .btn-submit[disabled=disabled] { opacity: 0.5; cursor: not-allowed; }
