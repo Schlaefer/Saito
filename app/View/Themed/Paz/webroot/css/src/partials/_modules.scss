@@ -152,11 +152,12 @@ body.headerClosed {
 }
 
 .navbar-item {
+  padding: 0 1em;
   &.left {
-    padding-right: 1em;
+    padding-left: 0;
   }
   &.right {
-    padding-left: 1em;
+    padding-right: 0;
   }
 }
 

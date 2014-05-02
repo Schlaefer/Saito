@@ -28,18 +28,17 @@
 	$this->end();
 
 	$this->start('headerSubnavCenter');
-	if ($CurrentUser->isLoggedIn()) :
-		echo $this->Html->link(
-				'<i class="fa fa-refresh"></i>',
-				'#',
-				[
-						'id' => 'btn-manuallyMarkAsRead',
-						'escape' => false,
-						'class' => 'btn-hf-center shp',
-						'data-shpid' => 2
-				]
-		);
-	endif;
+    if ($CurrentUser->isLoggedIn()) {
+      echo $this->Layout->navbarItem($this->Layout->textWithIcon('', 'refresh'),
+        '#', [
+          'id' => 'btn-manuallyMarkAsRead',
+          'escape' => false,
+          'class' => 'btn-hf-center shp',
+          'position' => '',
+          'data-shpid' => 2
+        ]
+      );
+    }
 	$this->end();
 
 	$this->start('headerSubnavRightTop');

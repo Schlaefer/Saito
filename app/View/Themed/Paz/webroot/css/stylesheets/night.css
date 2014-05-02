@@ -68,8 +68,9 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .navbar .pageHeading, .navbar .panel-heading h1, .panel-heading .navbar h1, .navbar .panel-heading h2, .panel-heading .navbar h2 { margin: 0; }
 
-.navbar-item.left { padding-right: 1em; }
-.navbar-item.right { padding-left: 1em; }
+.navbar-item { padding: 0 1em; }
+.navbar-item.left { padding-left: 0; }
+.navbar-item.right { padding-right: 0; }
 
 .heading-3 { height: 24px; position: relative; }
 .heading-3 h1, .heading-3 h2, .heading-3 h3 { margin: 0; padding: 0; }
