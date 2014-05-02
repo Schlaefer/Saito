@@ -12,11 +12,9 @@
 
 	// header subnav
 	$this->start('headerSubnavLeft');
-	echo $this->Layout->navbarItem(
-		'<i class="fa fa-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle,
-		$headerSubnavLeftUrl,
-		['escape' => false]
-	);
+  SDV($headerSubnavLeftTitle, null);
+  SDV($headerSubnavLeftUrl, null);
+  echo $this->Layout->navbarBack($headerSubnavLeftUrl, $headerSubnavLeftTitle);
 	$this->end();
 ?>
 	<div class="entry <?= ($is_answer) ? 'reply' : 'add' ?> <?= ($is_inline) ? '' : 'add-not-inline' ?>">
