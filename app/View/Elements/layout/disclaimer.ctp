@@ -53,7 +53,7 @@
         <br/>
         <?php
           $time = Stopwatch::getWallTime(Configure::read('Config.language'));
-          __('Generated in %s s.', $time);
+          echo __('Generated in %s s.', $time);
         ?>
       </p>
     </div>
