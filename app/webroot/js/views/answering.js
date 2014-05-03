@@ -153,6 +153,7 @@ define([
         this.model.set(_entry, {silent: true});
         this._addCountdown();
       }
+      App.eventBus.trigger('change:DOM');
     },
 
     /**
@@ -246,6 +247,8 @@ define([
         _.defer(function(caller) {
           caller._postRendering();
         }, this);
+      } else {
+        App.eventBus.trigger('change:DOM');
       }
       return this;
     }
