@@ -17,7 +17,8 @@ define([
     // cache for DOM-elements
     _elements: null,
 
-    tpl: _.template('<a href="<%= webroot %>help/<%= id %>"><i class="fa fa-question-circle"></i></a>'),
+    // target="_blank": don't lose text in ajax answering form by jumping away
+    tpl: _.template('<a href="<%= webroot %>help/<%= id %>" target="_blank"><i class="fa fa-question-circle"></i></a>'),
 
     events: function() {
       var out = {};
