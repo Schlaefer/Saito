@@ -307,9 +307,9 @@
 					'contain' => false,
 					'scope' => [
 						// user has activated his account (e.g. email confirmation)
-						'User.activate_code' => false,
+						'User.activate_code' => 0,
 						// user is not banned by admin or mod
-						'User.user_lock' => false
+						'User.user_lock' => 0
 					]
 				],
 				// 'Mlf' and 'Mlf2' could be 'Form' with different passwordHasher, but
