@@ -103,7 +103,7 @@
 				[
 					'contain' => 'User',
 					'conditions' => ['UserOnline.logged_in' => true],
-					'fields' => 'User.id, User.username, User.user_type',
+					'fields' => ['User.id', 'User.username', 'User.user_type'],
 					'order' => 'User.username ASC'
 				]
 			);
