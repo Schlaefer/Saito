@@ -94,78 +94,78 @@
 				'name' => array()
 		];
 
-/**
- * Fields allowed in public output
- *
- * @var array
- */
-		protected $_allowedPublicOutputFields = '
-			Entry.id,
-			Entry.pid,
-			Entry.tid,
-			Entry.time,
-			Entry.last_answer,
-			Entry.edited,
-			Entry.edited_by,
-			Entry.user_id,
-			Entry.name,
-			Entry.subject,
-			Entry.category,
-			Entry.text,
-			Entry.locked,
-			Entry.fixed,
-			Entry.views,
-			Entry.nsfw,
-			User.username
-		';
+		/**
+		 * Fields allowed in public output
+		 *
+		 * @var array
+		 */
+		protected $_allowedPublicOutputFields = [
+			'Entry.id',
+			'Entry.pid',
+			'Entry.tid',
+			'Entry.time',
+			'Entry.last_answer',
+			'Entry.edited',
+			'Entry.edited_by',
+			'Entry.user_id',
+			'Entry.name',
+			'Entry.subject',
+			'Entry.category',
+			'Entry.text',
+			'Entry.locked',
+			'Entry.fixed',
+			'Entry.views',
+			'Entry.nsfw',
+			'User.username'
+		];
 
-/**
- * field list necessary for displaying a thread_line
- *
- * Entry.text determine if Entry is n/t
- *
- * @var string
- */
-		public $threadLineFieldList = '
-			Entry.id,
-			Entry.pid,
-			Entry.tid,
-			Entry.subject,
-			Entry.text,
-			Entry.time,
-			Entry.fixed,
-			Entry.last_answer,
-			Entry.views,
-			Entry.user_id,
-			Entry.locked,
-			Entry.flattr,
-			Entry.nsfw,
-			Entry.name,
-			Entry.solves,
+		/**
+		 * field list necessary for displaying a thread_line
+		 *
+		 * Entry.text determine if Entry is n/t
+		 *
+		 * @var string
+		 */
+		public $threadLineFieldList = [
+			'Entry.id',
+			'Entry.pid',
+			'Entry.tid',
+			'Entry.subject',
+			'Entry.text',
+			'Entry.time',
+			'Entry.fixed',
+			'Entry.last_answer',
+			'Entry.views',
+			'Entry.user_id',
+			'Entry.locked',
+			'Entry.flattr',
+			'Entry.nsfw',
+			'Entry.name',
+			'Entry.solves',
 
-			User.username,
+			'User.username',
 
-			Category.accession,
-			Category.category,
-			Category.description
-		';
+			'Category.accession',
+			'Category.category',
+			'Category.description'
+		];
 
-/**
- * fields additional to $threadLineFieldList to show complete entry
- *
- * @var string
- */
-		public $showEntryFieldListAdditional = '
-			Entry.edited,
-			Entry.edited_by,
-			Entry.ip,
-			Entry.category,
+		/**
+		 * fields additional to $threadLineFieldList to show complete entry
+		 *
+		 * @var string
+		 */
+		public $showEntryFieldListAdditional = [
+			'Entry.edited',
+			'Entry.edited_by',
+			'Entry.ip',
+			'Entry.category',
 
-			User.id,
-			User.flattr_uid,
-			User.signature,
-			User.user_place
-		';
+			'User.id',
+			'User.flattr_uid',
+			'User.signature',
+			'User.user_place'
+		];
 
 /**
  * Allowed external user input
@@ -505,7 +505,7 @@
 
 			$fields = null;
 			if ($options['complete']) {
-				$fields = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				$fields = array_merge($this->threadLineFieldList, $this->showEntryFieldListAdditional);
 			}
 
 			$tree = $this->treesForThreads([['id' => $tid]], null, $fields);
@@ -1067,7 +1067,7 @@
 		protected function _findEntry($state, $query, $results = []) {
 			if ($state === 'before') {
 				$query['contain'] = ['User', 'Category'];
-				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				$query['fields'] = array_merge($this->threadLineFieldList, $this->showEntryFieldListAdditional);
 				return $query;
 			}
 			if ($results) {
