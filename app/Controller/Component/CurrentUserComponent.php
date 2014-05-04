@@ -93,13 +93,18 @@
 			$this->ReadEntries = new SaitoCurrentUserReadEntries($this);
 
 			$this->_configureAuth();
-			if (!$this->_reLoginSession()) {
-				// don't auto-login on login related pages
-				if ($this->_Controller->params['action'] !== 'login' &&
-						$this->_Controller->params['action'] !== 'register' &&
-						$this->_Controller->referer() !== '/users/login'
-				) {
-					$this->_reLoginCookie();
+
+			// prevents session auto re-login from form's request->data: login is
+			// called explicitly by controller on /users/login
+			if ($this->_Controller->action !== 'login') {
+				if (!$this->_reLoginSession()) {
+					// don't auto-login on login related pages
+					if ($this->_Controller->params['action'] !== 'login' &&
+							$this->_Controller->params['action'] !== 'register' &&
+							$this->_Controller->referer() !== '/users/login'
+					) {
+						$this->_reLoginCookie();
+					}
 				}
 			}
 
@@ -181,12 +186,15 @@
 		}
 
 		public function login() {
+			// non-logged in session-id is lost after successful login
+			$sessionId = session_id();
+
 			if (!$this->_login()) {
 				return false;
 			}
 
 			$this->_User->incrementLogins($this->getId());
-			$this->_User->UserOnline->setOffline(session_id());
+			$this->_User->UserOnline->setOffline($sessionId);
 			//password update
 			if (empty($this->_Controller->request->data['User']['password']) === false) {
 				$this->_User->autoUpdatePassword(
@@ -224,7 +232,7 @@
 			}
 			$this->PersistentCookie->destroy();
 			$this->_User->id = $this->getId();
-			$this->_User->UserOnline->delete($this->getId(), false);
+			$this->_User->UserOnline->setOffline($this->getId());
 			$this->set(null);
 			$this->_Controller->Auth->logout();
 		}

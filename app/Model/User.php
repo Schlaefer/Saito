@@ -28,11 +28,10 @@
 		];
 
 		public $hasOne = array(
-			'UserOnline' => array(
+			'UserOnline' => [
 				'className' => 'UserOnline',
 				'foreignKey' => 'user_id',
-				'conditions' => ['UserOnline.logged_in' => true]
-			),
+			]
 		);
 
 		public $hasMany = array(

@@ -429,17 +429,18 @@ CREATE TABLE `user_read` (
 DROP TABLE IF EXISTS `useronline`;
 
 CREATE TABLE `useronline` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `user_id` int(11) DEFAULT NULL,
+  `logged_in` tinyint(1) NOT NULL,
+  `time` int(14) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `time` int(14) NOT NULL DEFAULT '0',
-  `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `logged_in` tinyint(1) NOT NULL,
-  PRIMARY KEY (`user_id`),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uuid` (`uuid`),
   KEY `user_id` (`user_id`),
   KEY `logged_in` (`logged_in`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
+) ENGINE=MEMORY AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 # Dump of table users
 # ------------------------------------------------------------

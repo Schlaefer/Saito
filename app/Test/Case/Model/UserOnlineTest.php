@@ -15,6 +15,7 @@
 
 		protected $_fields = array(
 			'fields' => array(
+				'uuid',
 				'user_id',
 				'time',
 				'logged_in'
@@ -26,7 +27,7 @@
 			$result = false;
 			try {
 				$this->UserOnline->setOnline('');
-			} catch ( Exception $exc ) {
+			} catch (Exception $exc) {
 				$result = true;
 			}
 			$this->assertTrue($result);
@@ -35,7 +36,7 @@
 			$result = false;
 			try {
 				$this->UserOnline->setOnline(5);
-			} catch ( Exception $exc ) {
+			} catch (Exception $exc) {
 				$result = true;
 			}
 			$this->assertTrue($result);
@@ -43,9 +44,10 @@
 			//* insert registered user
 			$_userId = 5;
 			$this->_startUsersOnline[0]['UserOnline'] = [
-					'user_id' => '5',
+					'uuid' => '5',
+					'user_id' => 5,
 					'time' => (string)time(),
-					'logged_in' => 1
+					'logged_in' => true
 			];
 			$this->UserOnline->setOnline($_userId, true);
 
@@ -62,7 +64,8 @@
 			session_id('sessionIdTest');
 			$_userId = session_id();
 			$this->_startUsersOnline[1]['UserOnline'] = [
-					'user_id' => substr(($_userId), 0, 32),
+					'uuid' => substr(($_userId), 0, 32),
+					'user_id' => null,
 					'time' => (string)time(),
 					'logged_in' => 0
 			];
@@ -108,10 +111,9 @@
 			$_userId = session_id();
 			$this->_startUsersOnline = [];
 			$this->_startUsersOnline[0]['UserOnline'] = [
-					'user_id' => substr(($_userId),
-							0,
-							32),
-					'logged_in' => 0
+				'uuid' => substr(($_userId), 0, 32),
+				'user_id' => null,
+				'logged_in' => false
 			];
 			$this->UserOnline->setOnline($_userId, false);
 
@@ -128,7 +130,8 @@
 			//* insert new user
 			$_userId = 5;
 			$this->_startUsersOnline[0]['UserOnline'] = [
-				'user_id' => '5',
+				'uuid' => '5',
+				'user_id' => 5,
 				'logged_in' => 1
 			];
 			$this->UserOnline->setOnline($_userId, true);
@@ -144,11 +147,11 @@
 
 			$this->assertEquals($result, $expected);
 
-			//* try to delte new user
+			//* try to delete new user
 			$this->UserOnline->setOffline($_userId);
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
-			$expected = array( );
+			$expected = [];
 			$this->assertEquals($result, $expected);
 		}
 
@@ -160,7 +163,12 @@
 			$this->UserOnline->setOnline($_userId, true);
 			sleep(2);
 			$_userId = 6;
-			$this->_startUsersOnline[]['UserOnline'] = array('user_id' => '6', 'time' => time(), 'logged_in' => 1 );
+			$this->_startUsersOnline[]['UserOnline'] = [
+				'uuid' => '6',
+				'user_id' => 6,
+				'time' => time(),
+				'logged_in' => true
+			];
 			$this->UserOnline->setOnline($_userId, true);
 
 			$this->UserOnline->contain();
