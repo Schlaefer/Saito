@@ -1146,26 +1146,19 @@
 		public function beforeSave($options = array()) {
 			$success = true;
 
-			// change category of thread if category of root entry changed
-			// @bogus @performance check for pid === 0 before loading old_entry
-			if (isset($this->data[$this->alias]['category'])) {
-				// get old entry to compare with new data
-				$oldEntry = $this->find(
-					'first',
-					array(
-						'contain' => false,
-						'conditions' => array(
-							'Entry.id' => $this->id,
-						),
-					)
-				);
+			//# change category of thread if category of root entry changed
+			$modified = !empty($this->id);
+			if (isset($this->data[$this->alias]['category']) && $modified) {
+				$oldEntry = $this->find('first',
+					['contain' => false, 'conditions' => ['Entry.id' => $this->id]]);
 
 				if ($oldEntry && (int)$oldEntry[$this->alias]['pid'] === 0) {
-					if ((int)$this->data[$this->alias]['category'] !== (int)$oldEntry[$this->alias]['category']) {
+					$categoryChanged = (int)$this->data[$this->alias]['category'] !== (int)$oldEntry[$this->alias]['category'];
+					if ($categoryChanged) {
 						$success = $success && $this->_threadChangeCategory(
-									$oldEntry[$this->alias]['tid'],
-									$this->data[$this->alias]['category']
-								);
+								$oldEntry[$this->alias]['tid'],
+								$this->data[$this->alias]['category']
+							);
 					}
 				}
 			}
