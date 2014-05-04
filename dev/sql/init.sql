@@ -33,7 +33,7 @@ CREATE TABLE `bookmarks` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
  	PRIMARY KEY (`id`),
-  KEY `entry_id-user_id` (`entry_id`,`user_id`),
+  KEY `entryId_userId` (`entry_id`,`user_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

@@ -25,7 +25,7 @@ class AppSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'entry_id-user_id' => array('column' => array('entry_id', 'user_id'), 'unique' => 0),
+			'entryId_userId' => array('column' => array('entry_id', 'user_id'), 'unique' => 0),
 			'user_id' => array('column' => 'user_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
