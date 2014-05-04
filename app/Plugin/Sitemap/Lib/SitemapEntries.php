@@ -75,8 +75,9 @@
 			}
 			foreach ($entries as $key => $entry) {
 				unset($entries[$key]);
-				$lastmod = strtotime($entry['Entry']['edited']);
-				if ($lastmod < 1) {
+				if (!empty($entry['Entry']['edited'])) {
+					$lastmod = strtotime($entry['Entry']['edited']);
+				} else {
 					$lastmod = strtotime($entry['Entry']['time']);
 				}
 				if ($now > ($lastmod + (3 * DAY))) { // old entries
