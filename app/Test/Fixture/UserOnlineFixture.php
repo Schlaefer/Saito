@@ -35,9 +35,9 @@
 				'default' => null),
 			'indexes' => array(
 				'PRIMARY' => array('column' => 'id', 'unique' => 1),
-				'uuid' => array('column' => 'uuid', 'unique' => 1),
-				'user_id' => array('column' => 'user_id', 'unique' => 0),
-				'logged_in' => array('column' => 'logged_in', 'unique' => 0)
+				'useronline_uuid' => array('column' => 'uuid', 'unique' => 1),
+				'useronline_userId' => array('column' => 'user_id', 'unique' => 0),
+				'useronline_loggedIn' => array('column' => 'logged_in', 'unique' => 0)
 			),
 			'tableParameters' => array('charset' => 'utf8',
 				'collate' => 'utf8_unicode_ci', 'engine' => 'MEMORY')

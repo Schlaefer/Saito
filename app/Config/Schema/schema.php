@@ -25,8 +25,8 @@ class AppSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'entryId_userId' => array('column' => array('entry_id', 'user_id'), 'unique' => 0),
-			'user_id' => array('column' => 'user_id', 'unique' => 0)
+			'bookmarks_entryId_userId' => array('column' => array('entry_id', 'user_id'), 'unique' => 0),
+			'bookmarks_userId' => array('column' => 'user_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
@@ -82,12 +82,12 @@ class AppSchema extends CakeSchema {
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'tid' => array('column' => 'tid', 'unique' => 0),
-			'user_id' => array('column' => 'user_id', 'unique' => 0),
+			'entries_userId' => array('column' => 'user_id', 'unique' => 0),
 			'last_answer' => array('column' => 'last_answer', 'unique' => 0),
 			'pft' => array('column' => array('pid', 'fixed', 'time', 'category'), 'unique' => 0),
 			'pfl' => array('column' => array('pid', 'fixed', 'last_answer', 'category'), 'unique' => 0),
 			'pid_category' => array('column' => array('pid', 'category'), 'unique' => 0),
-			'user_id-time' => array('column' => array('time', 'user_id'), 'unique' => 0),
+			'entries_userId_time' => array('column' => array('time', 'user_id'), 'unique' => 0),
 			'fulltext_search' => array('column' => array('subject', 'name', 'text'), 'type' => 'fulltext')
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
@@ -204,9 +204,9 @@ class AppSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'uuid' => array('column' => 'uuid', 'unique' => 1),
-			'user_id' => array('column' => 'user_id', 'unique' => 0),
-			'logged_in' => array('column' => 'logged_in', 'unique' => 0)
+			'useronline_uuid' => array('column' => 'uuid', 'unique' => 1),
+			'useronline_userId' => array('column' => 'user_id', 'unique' => 0),
+			'useronline_loggedIn' => array('column' => 'logged_in', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MEMORY')
 	);

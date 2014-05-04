@@ -33,8 +33,8 @@ CREATE TABLE `bookmarks` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
  	PRIMARY KEY (`id`),
-  KEY `entryId_userId` (`entry_id`,`user_id`),
-  KEY `user_id` (`user_id`)
+  KEY `bookmarks_entryId_userId` (`entry_id`,`user_id`),
+  KEY `bookmarks_userId` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `bookmarks` WRITE;
@@ -139,12 +139,12 @@ CREATE TABLE `entries` (
   `solves` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `tid` (`tid`),
-  KEY `user_id` (`user_id`),
+  KEY `entries_userId` (`user_id`),
   KEY `last_answer` (`last_answer`),
   KEY `pft` (`pid`,`fixed`,`time`,`category`),
   KEY `pfl` (`pid`,`fixed`,`last_answer`,`category`),
   KEY `pid_category` (`pid`,`category`),
-  KEY `user_id-time` (`time`,`user_id`),
+  KEY `entries_userId_time` (`time`,`user_id`),
   FULLTEXT KEY `fulltext_search` (`subject`,`name`,`text`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -437,9 +437,9 @@ CREATE TABLE `useronline` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uuid` (`uuid`),
-  KEY `user_id` (`user_id`),
-  KEY `logged_in` (`logged_in`)
+  UNIQUE KEY `useronline_uuid` (`uuid`),
+  KEY `useronline_userId` (`user_id`),
+  KEY `useronline_loggedIn` (`logged_in`)
 ) ENGINE=MEMORY AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 # Dump of table users
