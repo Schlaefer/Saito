@@ -31,9 +31,7 @@
 			'UserOnline' => array(
 				'className' => 'UserOnline',
 				'foreignKey' => 'user_id',
-				'conditions' => array(
-					'UserOnline.user_id REGEXP "^-?[0-9]+$"'
-				)
+				'conditions' => ['UserOnline.logged_in' => true]
 			),
 		);
 
@@ -363,7 +361,7 @@
  */
 		public function registerGc() {
 			$this->deleteAll([
-							'activate_code REGEXP "^[0-9][0-9]+$"',
+							'activate_code >' => 0,
 							'registered <' => date('Y-m-d H:i:s', time() - 86400)
 					],
 					false);
