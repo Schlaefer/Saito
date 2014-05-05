@@ -104,7 +104,7 @@
 					'contain' => 'User',
 					'conditions' => ['UserOnline.logged_in' => true],
 					'fields' => ['User.id', 'User.username', 'User.user_type'],
-					'order' => 'User.username ASC'
+					'order' => ['LOWER(User.username)' => 'ASC']
 				]
 			);
 			Stopwatch::stop('UserOnline->getLoggedIn()');
