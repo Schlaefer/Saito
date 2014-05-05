@@ -89,7 +89,6 @@
 						'isEmail' => ['rule' => ['email', true], 'last' => 'true']
 				],
 				'registered' => ['rule' => ['notEmpty']],
-				'hide_email' => ['rule' => ['boolean']],
 				'logins' => ['rule' => 'numeric'],
 				'personal_messages' => ['rule' => ['boolean']],
 				'user_lock' => ['rule' => ['boolean']],
@@ -106,7 +105,6 @@
 				],
 				'user_automaticaly_mark_as_read' => ['rule' => ['boolean']],
 				'user_sort_last_answer' => ['rule' => ['boolean']],
-				'user_show_own_signature' => ['rule' => ['boolean']],
 				'user_color_new_postings' => [
 					'allowEmpty' => true,
 					'rule' => '/^#?[a-f0-9]{0,6}$/i'
