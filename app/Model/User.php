@@ -59,7 +59,7 @@
 
 		public $validate = [
 				'username' => [
-						'isUnique' => ['rule' => 'isUnique'],
+						'isUnique' => ['rule' => 'isUniqueCiString'],
 						'notEmpty' => ['rule' => 'notEmpty'],
 						'hasAllowedChars' => ['rule' => ['validateHasAllowedChars']]
 				],

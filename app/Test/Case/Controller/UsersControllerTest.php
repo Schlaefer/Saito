@@ -278,7 +278,7 @@
 
 			$data = array(
 				'User' => array(
-					'username' => 'mitch',
+					'username' => "mITch",
 					'user_email' => 'alice@example.com',
 					'user_password' => 'NewUserspassword',
 					'password_confirm' => 'NewUser1spassword',

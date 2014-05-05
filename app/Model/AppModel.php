@@ -210,6 +210,18 @@
 			throw new UnexpectedValueException;
 		}
 
+		public function isUniqueCiString($fields) {
+			// lazy: only one field
+			if (!is_array($fields) || count($fields) > 1) {
+				throw InvalidArgumentException();
+			}
+			$key = key($fields);
+			$fields = [
+				"LOWER({$this->alias}.{$key})" => mb_strtolower(current($fields))
+			];
+			return $this->isUnique($fields);
+		}
+
 		/**
 		 * Inclusive Validation::range()
 		 *

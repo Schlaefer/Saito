@@ -594,7 +594,7 @@
 		public function testRegisterValidation() {
 			$data = array(
 				'User' => array(
-					'username' => 'mitch',
+					'username' => 'mITch',
 					'user_email' => 'alice@example.com',
 					'password' => 'NewUserspassword',
 					'password_confirm' => 'NewUser1spassword'
