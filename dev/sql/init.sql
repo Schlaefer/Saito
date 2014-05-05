@@ -469,7 +469,7 @@ CREATE TABLE `users` (
   `last_refresh_tmp` datetime DEFAULT NULL,
   `personal_messages` tinyint(1) NOT NULL DEFAULT '1',
   `user_lock` tinyint(1) NOT NULL DEFAULT '0',
-  `activate_code` int(7) NOT NULL,
+  `activate_code` int(7) NOT NULL DEFAULT '0',
   `user_signatures_hide` tinyint(1) NOT NULL DEFAULT '0',
   `user_signatures_images_hide` int(4) DEFAULT '0',
   `user_forum_refresh_time` int(11) DEFAULT '0',

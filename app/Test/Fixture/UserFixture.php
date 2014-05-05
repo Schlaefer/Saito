@@ -24,7 +24,7 @@
 			'last_refresh_tmp' => array('type' => 'datetime', 'null' => true, 'default' => null),
 			'personal_messages' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 			'user_lock' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-			'activate_code' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 7),
+			'activate_code' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 7),
 			'user_signatures_hide' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 			'user_signatures_images_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
 			'user_forum_refresh_time' => array('type' => 'integer', 'null' => true, 'default' => '0'),
