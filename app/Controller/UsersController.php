@@ -181,20 +181,14 @@
 		public function index() {
 			$this->paginate = [
 				'contain' => 'UserOnline',
-				'conditions' => [
-					'OR' => [
-						'LENGTH(  `UserOnline`.`user_id` ) <' => 11,
-						'ISNULL(  `UserOnline`.`user_id` )' => '1'
-					],
-				],
 				'limit' => 400,
 				'order' => [
-					'UserOnline.logged_in' => 'desc',
+					'UserOnline.logged_in' => 'asc',
 					'User.username' => 'asc'
 				]
 			];
 
-			$data = $this->paginate("User");
+			$data = $this->paginate('User');
 			$this->set('users', $data);
 		}
 

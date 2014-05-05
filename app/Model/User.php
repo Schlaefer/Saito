@@ -318,6 +318,23 @@
 			return true;
 		}
 
+		public function paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = array()) {
+			$username = $this->alias . '.' . 'username';
+			if (isset($order[$username])) {
+				$direction = $order[$username];
+				unset($order[$username]);
+			} else {
+				$direction = 'asc';
+			}
+			$order['LOWER(User.username)'] = $direction;
+
+			// merge $extras for 'contain' parameter
+			$params = array_merge(compact('conditions', 'fields', 'order', 'limit',
+				'page', 'recursive', 'group'), $extra);
+
+			return $this->find('all', $params);
+		}
+
 /**
  * Registers new user
  *
