@@ -103,6 +103,7 @@
 
 		protected function _isEntryOldForUser(array $entry) {
 			if (!$this->_CurrentUser->isLoggedIn() ||
+				empty($this->_CurrentUser['last_refresh']) ||
 				strtotime($entry['last_answer']) < strtotime($this->_CurrentUser['last_refresh'])) {
 				return true;
 			}

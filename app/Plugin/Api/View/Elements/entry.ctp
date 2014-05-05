@@ -19,9 +19,7 @@
 		'user_id'       => (int)$entry['Entry']['user_id'],
 		'user_name'     => $entry['User']['username'],
 		'edit_name'     => $entry['Entry']['edited_by'],
-		'edit_time'     => (empty($entry['Entry']['edited']))
-				? null
-				: $this->Api->mysqlTimestampToIso($entry['Entry']['edited']),
+		'edit_time'     => $this->Api->mysqlTimestampToIso($entry['Entry']['edited']),
 		'category_id'   => (int)$entry['Entry']['category'],
 		'category_name' => $entry['Category']['category']
 	];

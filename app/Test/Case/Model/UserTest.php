@@ -134,7 +134,7 @@
 			$_prevResult = $result;
 
 			$this->User->id = 1;
-			$expected = '0000-00-00 00:00:00';
+			$expected = null;
 			$this->User->setLastRefresh($expected);
 			$result = $this->User->field('last_refresh');
 			$this->assertEquals($expected, $result);

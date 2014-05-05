@@ -77,6 +77,9 @@
 			if ($entry['Entry']['pid'] != 0) {
 				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
 			}
+			if (!isset($user['last_refresh'])) {
+				return false;
+			}
 			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
 		}
 

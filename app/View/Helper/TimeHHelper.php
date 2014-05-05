@@ -128,6 +128,9 @@
 		}
 
 		public function mysqlTimestampToIso($date) {
+			if ($date === null) {
+				return null;
+			}
 			$unixTimeStamp = strtotime($date);
 			if ($unixTimeStamp < 0) {
 				$unixTimeStamp = 0;

@@ -88,6 +88,7 @@
 						'isUnique' => ['rule' => 'isUnique', 'last' => 'true'],
 						'isEmail' => ['rule' => ['email', true], 'last' => 'true']
 				],
+				'registered' => ['rule' => ['notEmpty']],
 				'hide_email' => ['rule' => ['boolean']],
 				'logins' => ['rule' => 'numeric'],
 				'personal_messages' => ['rule' => ['boolean']],
