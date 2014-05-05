@@ -249,7 +249,8 @@
 			$result = $this->Entry->find('all', [
 					'contain' => false,
 					'conditions' => ['Entry.tid' => $_tid],
-					'fields' => ['Entry.views']
+					'fields' => ['Entry.views'],
+					'order' => ['Entry.id']
 			]);
 			$expected = array(
 					0 => ['Entry' => ['views' => '1']],

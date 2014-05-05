@@ -89,71 +89,74 @@
 				$entryType);
 
 			$notifications1 = $this->Esevent->find('all',
-				array(
-					'conditions' => array(
-						'subject' => $newSubject,
-						'event' => 1,
-					)
-				));
+				[
+					'contain' => ['Esnotification'],
+					'conditions' => [
+						'Esevent.subject' => $newSubject,
+						'Esevent.event' => 1
+					]
+				]);
 			$notifications3 = $this->Esevent->find('all',
 				array(
+					'contain' => ['Esnotification'],
 					'conditions' => array(
 						'subject' => $newSubject,
 						'event' => 3,
 					)
 				));
 			$notificationsAfter = array(
-				1 => $notifications1[0]['Esnotification'],
-				3 => $notifications3[0]['Esnotification'],
+				// Hash::sort sort by id to match $expected
+				1 => Hash::sort($notifications1[0]['Esnotification'], '{n}.id', 'asc'),
+				3 => Hash::sort($notifications3[0]['Esnotification'], '{n}.id', 'asc'),
 			);
-			$expected = array(
-				(int)1 => array(
-					(int)0 => array(
+			$expected = [
+				1 => [
+					[
 						'id' => '1',
 						'user_id' => '1',
 						'esevent_id' => '3',
 						'esreceiver_id' => '1',
 						'deactivate' => 1234,
-					),
-					(int)1 => array(
+					],
+					[
 						'id' => '2',
 						'user_id' => '1',
 						'esevent_id' => '3',
 						'esreceiver_id' => '2',
 						'deactivate' => 2234,
-					),
-					(int)2 => array(
+					],
+					[
 						'id' => '3',
 						'user_id' => '3',
 						'esevent_id' => '3',
 						'esreceiver_id' => '1',
 						'deactivate' => 3234,
-					),
-					(int)3 => array(
+					],
+					[
 						'id' => '7',
 						'user_id' => '4',
 						'esevent_id' => '3',
 						'esreceiver_id' => '1',
 						'deactivate' => '7234'
-					)
-				),
-				(int)3 => array(
-					(int)0 => array(
+					]
+				],
+				3 => [
+					[
 						'id' => '4',
 						'user_id' => '3',
 						'esevent_id' => '5',
 						'esreceiver_id' => '1',
 						'deactivate' => 4234,
-					),
-					(int)1 => array(
+					],
+					[
 						'id' => '5',
 						'user_id' => '2',
 						'esevent_id' => '5',
 						'esreceiver_id' => '1',
 						'deactivate' => 5234,
-					),
-				)
-			);
+					],
+				]
+			];
 
 			$this->assertEquals($expected, $notificationsAfter);
 
