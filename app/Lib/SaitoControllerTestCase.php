@@ -102,6 +102,15 @@
 			endif;
 		}
 
+		protected function _breakOnDatasource($name) {
+			$mc = $this->controller->modelClass;
+			$Ds = $this->controller->{$mc}->getDataSource();
+			$this->_DsName = get_class($Ds);
+			if ($this->_DsName === $name) {
+				$this->markTestIncomplete("Datasource is $name.");
+			}
+		}
+
 		public function endTest($method) {
 			parent::endTest($method);
 			$this->_logoutUser();

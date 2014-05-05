@@ -217,13 +217,17 @@ class InstallController extends InstallAppController {
 						'ds' => 'default',
 					));
 					if (is_array($records) && count($records) > 0) {
+						$i = 1;
 						foreach($records as $record) {
+							if (!isset($record['id'])) {
+								$record['id'] = $i++;
+							}
 							$modelObject->create($record);
 							$modelObject->save();
 						}
 					}
 					if ($brokenSequence) {
-						$this->_fixSequence($modelObject);
+						// $this->_fixSequence($modelObject);
 					}
 				}
 

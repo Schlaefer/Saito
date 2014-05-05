@@ -29,6 +29,15 @@
 					'order' => 'time'
 			];
 			$this->set('order', $defaults['order']);
+
+			// @todo pgsql
+			$db = $this->Entry->getDataSource();
+			if (!($db instanceof Mysql)) {
+				$this->set('minWordLength', 0);
+				$this->set('results', []);
+				return;
+			}
+
 			$minWordLength = $this->Entry->query("SHOW VARIABLES LIKE 'ft_min_word_len'")[0]['VARIABLES']['Value'];
 			$this->set(compact('minWordLength'));
 

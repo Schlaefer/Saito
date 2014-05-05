@@ -40,6 +40,10 @@
 		 */
 		public function testSimpleAccession() {
 			$this->generate('Searches');
+
+			// @todo
+			$this->_breakOnDatasource('Postgres');
+
 			$this->_loginUser(1);
 
 			$result = $this->testAction('/searches/simple?q="Third+Thread+First_Subject"',
@@ -97,6 +101,10 @@
 			$expected = 'foo bar +baz -zoo \\\'';
 
 			$Searches = $this->generate('SearchesMock');
+
+			// @todo
+			$this->_breakOnDatasource('Postgres');
+
 			$result = $Searches->sanitize($data);
 			$this->assertEquals($expected, $result);
 		}
