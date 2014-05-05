@@ -6,6 +6,7 @@ php:
 
 env:
   - DB=mysql
+  - DB=pgsql
 
 before_script:
   - composer install
