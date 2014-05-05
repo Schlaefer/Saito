@@ -11,8 +11,7 @@ env:
 before_script:
   - composer install
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test2;'; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test3;'; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
   - chmod -R 777 ./app/tmp
   - echo "var net = require('net');
     var server = net.createServer();
@@ -27,6 +26,12 @@ before_script:
         'datasource' => 'Database/Mysql',
         'host' => '0.0.0.0',
         'login' => 'travis'
+      ),
+      'pgsql' => array(
+        'datasource' => 'Database/Postgres',
+        'host' => '127.0.0.1',
+        'login' => 'postgres',
+        'database' => 'cakephp_test',
       ),
     );
     public \$default = array(
@@ -45,28 +50,12 @@ before_script:
       'database' => 'cakephp_test',
       'prefix' => ''
     );
-    public \$test2 = array(
-      'persistent' => false,
-      'host' => '',
-      'login' => '',
-      'password' => '',
-      'database' => 'cakephp_test2',
-      'prefix' => ''
-    );
-    public \$test_database_three = array(
-      'persistent' => false,
-      'host' => '',
-      'login' => '',
-      'password' => '',
-      'database' => 'cakephp_test3',
-      'prefix' => ''
-    );
     public function __construct() {
       \$db = 'mysql';
       if (!empty(\$_SERVER['DB'])) {
         \$db = \$_SERVER['DB'];
       }
-      foreach (array('default', 'test', 'test2', 'test_database_three') as \$source) {
+      foreach (array('default', 'test') as \$source) {
         \$config = array_merge(\$this->{\$source}, \$this->identities[\$db]);
         if (is_array(\$config['database'])) {
           \$config['database'] = \$config['database'][\$source];
