@@ -41,8 +41,7 @@
 		public function testSimpleAccession() {
 			$this->generate('Searches');
 
-			// @todo
-			$this->_breakOnDatasource('Postgres');
+			$this->_notImplementedOnDatasource('Postgres');
 
 			$this->_loginUser(1);
 
@@ -102,8 +101,7 @@
 
 			$Searches = $this->generate('SearchesMock');
 
-			// @todo
-			$this->_breakOnDatasource('Postgres');
+			$this->_notImplementedOnDatasource('Postgres');
 
 			$result = $Searches->sanitize($data);
 			$this->assertEquals($expected, $result);

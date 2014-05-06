@@ -33,8 +33,7 @@
 			// @todo pgsql
 			$db = $this->Entry->getDataSource();
 			if (!($db instanceof Mysql)) {
-				$this->set('minWordLength', 0);
-				$this->set('results', []);
+				$this->redirect(['action' => 'advanced']);
 				return;
 			}
 

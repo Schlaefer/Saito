@@ -102,7 +102,7 @@
 			endif;
 		}
 
-		protected function _breakOnDatasource($name) {
+		protected function _notImplementedOnDatasource($name) {
 			$mc = $this->controller->modelClass;
 			$Ds = $this->controller->{$mc}->getDataSource();
 			$this->_DsName = get_class($Ds);
