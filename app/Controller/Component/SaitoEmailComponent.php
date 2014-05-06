@@ -38,6 +38,8 @@
 
 		protected $_headerSent;
 
+		protected $_predefined = ['contact', 'main', 'register', 'system'];
+
 		public function startup(Controller $Controller) {
 			$this->_webroot = $Controller->request->webroot;
 			$this->_User = $Controller->User;
@@ -45,6 +47,8 @@
 
 		/**
 		 * init only if mail is actually send during request
+		 *
+		 * @throws InvalidArgumentException
 		 */
 		protected function _init() {
 			if ($this->_addresses !== null) {
@@ -57,6 +61,12 @@
 				'register' => Configure::read('Saito.Settings.email_register'),
 				'system' => Configure::read('Saito.Settings.email_system')
 			];
+
+			foreach ($this->_addresses as $title => $address) {
+				if (empty($address)) {
+					throw new InvalidArgumentException("Email address not set: $title");
+				}
+			}
 
 			$this->_emailConfigExists = file_exists(APP . 'Config' . DS . 'email' . '.php');
 
@@ -207,7 +217,7 @@
 
 		protected function _getSender($sender) {
 			if (!is_string($sender) ||
-					!in_array($sender, ['contact', 'main', 'register', 'system'])
+					!in_array($sender, $this->_predefined)
 			) {
 				// sender-address does not belong to system: is external address
 				// and should be send 'in behalf off'
@@ -229,7 +239,7 @@
 
 			//# participant-address belongs to system
 			if (is_string($value) &&
-				in_array($value, ['contact', 'main', 'register', 'system'])
+				in_array($value, $this->_predefined)
 			) {
 				return $this->getPredefinedSender($value);
 			}
