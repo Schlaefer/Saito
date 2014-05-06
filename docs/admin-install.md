@@ -49,10 +49,8 @@ Follow the web-installer's instruction to the end.
 ## After the installation
 
 - ** Backup the app/Config directory! **
-- Change the admin-account password to a secure phrase
-- Set email addresses. [See config-email.md](config-email.md)
-	- Set the admin-account email address (user preferences)
-	- Set the forum email sender address (forum settings)
+- Change the admin-account password from "password" to an secure phrase
+- Set an email addresses in the forum settings.
 - You did make a backup of app/Config in step 1, right?
 
 # Nginx Configuration for CakePHP <a name="NginxConfigurationForCakePHP"/> #
