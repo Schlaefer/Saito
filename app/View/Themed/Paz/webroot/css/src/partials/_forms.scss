@@ -58,6 +58,7 @@ textarea, input[type=text], input[type=password], %textinput {
 // strip buttons
 // -------------------------------------
 .btn-strip {
+  cursor: pointer;
   height: 100%;
   position: absolute;
 }

@@ -171,7 +171,7 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .dropdown .dropdown-menu > li > a:hover { background-color: #ffcc00; color: #28282b; cursor: pointer; }
 
-.btn-strip { height: 100%; position: absolute; }
+.btn-strip { cursor: pointer; height: 100%; position: absolute; }
 
 .btn-strip-top { width: 25px; text-align: center; margin: 4px 0px 0px -1px; }
 
