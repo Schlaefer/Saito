@@ -61,7 +61,6 @@ class AppSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'pid' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
 		'tid' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'uniqid' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_bin', 'charset' => 'utf8'),
 		'time' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'key' => 'index'),
 		'last_answer' => array('type' => 'timestamp', 'null' => false, 'default' => null, 'key' => 'index'),
 		'edited' => array('type' => 'timestamp', 'null' => true, 'default' => null),

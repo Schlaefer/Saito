@@ -119,7 +119,6 @@ CREATE TABLE `entries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0',
   `tid` int(11) NOT NULL DEFAULT '0',
-  `uniqid` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_answer` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `edited` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',

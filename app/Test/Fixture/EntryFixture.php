@@ -48,14 +48,6 @@
 						'collate' => null,
 						'comment' => ''
 				],
-				'uniqid' => [
-						'type' => 'string',
-						'null' => true,
-						'default' => null,
-						'collate' => 'utf8_general_ci',
-						'comment' => '',
-						'charset' => 'utf8'
-				],
 				'time' => [
 						'type' => 'timestamp',
 						'null' => false,
