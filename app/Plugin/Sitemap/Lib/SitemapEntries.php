@@ -11,7 +11,7 @@
 			$entry = $this->_Controller->Entry->find('first',
 					[
 							'contain' => ['Category'],
-							'conditions' => ['Category.accession' => [0, 1]],
+							'conditions' => ['Category.accession' => 0],
 							'order' => ['Entry.id' => 'DESC']
 					]
 			);
@@ -62,7 +62,7 @@
 							'contain' => ['Category'],
 							'conditions' =>
 									[
-											'Category.accession' => [0, 1],
+											'Category.accession' => 0,
 											'Entry.id >=' => $params['start'],
 											'Entry.id <=' => $params['end'],
 									],
