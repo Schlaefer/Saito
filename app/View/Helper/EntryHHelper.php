@@ -44,15 +44,17 @@
 		 * @param $user
 		 * @return bool
 		 */
-		public function isNewEntry($entry, $user) {
-			if (!isset($user['last_refresh'])) {
+		public function isNewEntry($entry, SaitoUser $user) {
+			if (!$user->isLoggedIn()) {
 				return false;
 			}
-			$read = $user->ReadEntries->get();
-			$_isNew = strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']) &&
-					!isset($read[$entry['Entry']['id']]);
 
-			return $_isNew;
+			$readEntries = $user->ReadEntries->get();
+			if (isset($readEntries[$entry['Entry']['id']])) {
+				return false;
+			}
+
+			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
 		}
 
 		public function isRoot($entry) {
