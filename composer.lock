@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a356cff503b91e4c8ab69d064c3289ff",
+    "hash": "5b6a5ef9ec91d5f8112283c9aa9c8ff1",
     "packages": [
         {
             "name": "kzykhys/ciconia",
@@ -62,10 +62,10 @@
         },
         {
             "name": "pear-pear.cakephp.org/CakePHP",
-            "version": "2.5.0RC2",
+            "version": "2.5.0",
             "dist": {
                 "type": "file",
-                "url": "http://pear.cakephp.org/get/CakePHP-2.5.0RC2.tgz",
+                "url": "http://pear.cakephp.org/get/CakePHP-2.5.0.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -73,7 +73,7 @@
                 "php": ">=5.2.8.0"
             },
             "replace": {
-                "pear-cakephp/cakephp": "== 2.5.0.0-RC2"
+                "pear-cakephp/cakephp": "== 2.5.0.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -617,9 +617,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "pear-cakephp/cakephp": 5
-    },
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.4.0",
         "ext-mcrypt": "*"
