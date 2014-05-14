@@ -144,7 +144,7 @@ Notifications use the image `[Theme/]webroot/img/apple-touch-icon-precomposed.pn
 
 ### What's new ###
 
-- [new] mobile view
+- [new] mobile view "[Togusa](http://en.wikipedia.org/wiki/Togusa)"
 - [fix] iframe overflow on viewing entries
 
 ## 2013-09.07 ##
