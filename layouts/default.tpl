@@ -1,8 +1,9 @@
-<div id="footerHelper">
+{{github}}
+<div id="footerHelper staticPage">
   <div class="container">
     {{hero}}
     <div class="row">
-      <div class="span10 offset1">
+      <div class="col-sm-offset-3 col-sm-6">
         {{content}}
       </div>
     </div>

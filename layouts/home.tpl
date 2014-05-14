@@ -1,24 +1,24 @@
-  <div id="footerHelper">
+  <div id="footerHelper staticPage">
     <div class="container">
       {{hero}}
       <nav>
       <div id="boxes-row" class="row">
-        <div class="span2 offset1">
+        <div class="col-sm-3">
           <div class="boxes-info">
             {{download}}
           </div>
         </div>
-        <div class="span3">
+        <div class="col-sm-3">
           <div class="boxes-info">
             {{status}}
           </div>
         </div>
-        <div class="span3">
+        <div class="col-sm-3">
           <div class="boxes-info">
-            {{topbar}}
+            {{support}}
           </div>
         </div>
-        <div class="span3">
+        <div class="col-sm-3">
           <div class="boxes-info">
             {{contact}}
           </div>
@@ -26,7 +26,7 @@
       </div>
       </nav>
       <div class="row">
-        <div class="span10 offset1">
+        <div class="col-sm-offset-1 col-sm-10">
           {{content}}
         </div>
       </div>
