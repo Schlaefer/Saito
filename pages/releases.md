@@ -1329,7 +1329,7 @@ DB Changes:
 
 - 2010-07-08 – going public with 1.0b1
 - 2010-06-21 – eating dogfoot
-- 2010-06-17 – git init . for [Saito](http://en.wikipedia.org/wiki/Saito_(Ghost_in_the_Shell))
+- 2010-06-17 – git init . for "[Saito](http://en.wikipedia.org/wiki/Saito_(Ghost_in_the_Shell))"
 
 ## The Forgotten Founder
 
