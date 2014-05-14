@@ -26,8 +26,8 @@
         </div>
       </div>
       </nav>
-      <div class="row">
-        <div class="col-sm-offset-1 col-sm-10">
+      <div class="content">
+        <div class="col-sm-offset-3 col-sm-6">
           {{content}}
         </div>
       </div>

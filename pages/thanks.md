@@ -1,4 +1,4 @@
-/title: Thanks
+title: Thanks
 ---
 
 <div>
