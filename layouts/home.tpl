@@ -1,3 +1,4 @@
+{{github}}
   <div id="footerHelper staticPage">
     <div class="container">
       {{hero}}

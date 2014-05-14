@@ -1,4 +1,3 @@
-{{github}}
 <div class="jumbotron row">
   <div class="col-sm-2">
     <a href="http://saito.siezi.com/">
