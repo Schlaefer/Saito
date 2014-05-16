@@ -442,8 +442,7 @@
 				'id' => 1,
 				'user_type' => 'user',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
@@ -459,8 +458,7 @@
 				)
 			);
 			$user = null;
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertTrue($result);
@@ -477,8 +475,7 @@
 				'id' => null,
 				'user_type' => 'anon',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertTrue($result);
@@ -495,8 +492,7 @@
 				'id' => 2,
 				'user_type' => 'user',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'user');
@@ -518,8 +514,7 @@
 				'id' => 1,
 				'user_type' => 'user',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'time');
@@ -537,8 +532,7 @@
 				'id' => 1,
 				'user_type' => 'user',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'locked');
@@ -558,8 +552,7 @@
 				'id' => 1,
 				'user_type' => 'mod',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'time');
@@ -578,8 +571,7 @@
 				'id' => 1,
 				'user_type' => 'mod',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
@@ -598,8 +590,7 @@
 				'id' => 1,
 				'user_type' => 'admin',
 			);
-			$SaitoUser = new SaitoUser();
-			$SaitoUser->setSettings($user);
+			$SaitoUser = new SaitoUser($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);

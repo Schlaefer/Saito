@@ -14,8 +14,7 @@
 
 		public function setUser($userData) {
 			unset($this->_CurrentUser);
-			$this->_CurrentUser = new SaitoUser();
-			$this->_CurrentUser->setSettings($userData);
+			$this->_CurrentUser = new SaitoUser($userData);
 		}
 
 		public function setAllowRead($state) {

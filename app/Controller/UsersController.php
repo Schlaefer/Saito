@@ -41,8 +41,7 @@
 			$status = null;
 
 			if (!empty($readUser)) {
-				$User = new SaitoUser();
-				$User->setSettings($readUser['User']);
+				$User = new SaitoUser($readUser['User']);
 				$status = $User->isForbidden();
 			}
 
@@ -380,8 +379,7 @@
 				return;
 			}
 
-			$editedUser = new SaitoUser();
-			$editedUser->setSettings($readUser['User']);
+			$editedUser = new SaitoUser($readUser['User']);
 
 			if ($id == $this->CurrentUser->getId()) {
 				$this->Session->setFlash(__("You can't lock yourself."), 'flash/error');
