@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('Entry', 'Model');
-	App::uses('ComponentCollection', 'Controller');
 	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	// @codingStandardsIgnoreStart
@@ -55,8 +54,7 @@
 
 			$SaitoUser = $this->getMock(
 				'SaitoUser',
-				['getMaxAccession', 'getId', 'getBookmarks'],
-				[new ComponentCollection]
+				['getMaxAccession', 'getId', 'getBookmarks']
 			);
 			$SaitoUser->expects($this->any())
 					->method('getMaxAccession')
@@ -103,11 +101,7 @@
 		public function testCreateCategoryThreadCounterUpdate() {
 			App::uses('Category', 'Model');
 
-			$SaitoUser = $this->getMock(
-				'SaitoUser',
-				['getMaxAccession', 'getId'],
-				[new ComponentCollection]
-			);
+			$SaitoUser = $this->getMock('SaitoUser', ['getMaxAccession', 'getId']);
 			$SaitoUser->expects($this->any())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
@@ -260,11 +254,7 @@
 		}
 
 		public function testChangeThreadCategory() {
-			$SaitoUser = $this->getMock(
-				'SaitoUser',
-				['getMaxAccession'],
-				[new ComponentCollection]
-			);
+			$SaitoUser = $this->getMock('SaitoUser', ['getMaxAccession']);
 			$SaitoUser->expects($this->once())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
@@ -306,11 +296,7 @@
 		}
 
 		public function testChangeThreadCategoryNotAnExistingCategory() {
-			$SaitoUser = $this->getMock(
-				'SaitoUser',
-				['getMaxAccession'],
-				[new ComponentCollection]
-			);
+			$SaitoUser = $this->getMock('SaitoUser', ['getMaxAccession']);
 			$SaitoUser->expects($this->once())
 					->method('getMaxAccession')
 					->will($this->returnValue(2));
@@ -456,8 +442,8 @@
 				'id' => 1,
 				'user_type' => 'user',
 			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
@@ -473,8 +459,8 @@
 				)
 			);
 			$user = null;
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertTrue($result);
@@ -491,8 +477,8 @@
 				'id' => null,
 				'user_type' => 'anon',
 			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertTrue($result);
@@ -509,8 +495,8 @@
 				'id' => 2,
 				'user_type' => 'user',
 			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'user');
@@ -532,8 +518,8 @@
 				'id' => 1,
 				'user_type' => 'user',
 			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'time');
@@ -551,8 +537,8 @@
 				'id' => 1,
 				'user_type' => 'user',
 			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'locked');
@@ -572,8 +558,8 @@
 				'id' => 1,
 				'user_type' => 'mod',
 			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertEquals($result, 'time');
@@ -592,8 +578,8 @@
 				'id' => 1,
 				'user_type' => 'mod',
 			);
-			$SaitoUser = $this->getMock('SaitoUser', null, array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);
@@ -612,10 +598,8 @@
 				'id' => 1,
 				'user_type' => 'admin',
 			);
-			$SaitoUser = $this->getMock('SaitoUser',
-				null,
-				array(new ComponentCollection));
-			$SaitoUser->set($user);
+			$SaitoUser = new SaitoUser();
+			$SaitoUser->setSettings($user);
 			$user = $SaitoUser;
 			$result = $this->Entry->isEditingForbidden($entry, $user);
 			$this->assertFalse($result);

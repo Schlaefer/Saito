@@ -203,12 +203,12 @@
  */
 		protected $_isRoot = [];
 
-/**
- * @param array $options
- * @param SaitoUser $User
- * @return array|mixed
- */
-		public function getRecentEntries(SaitoUser $User, array $options = []) {
+		/**
+		 * @param ForumsUserInterface $User
+		 * @param array $options
+		 * @return array|mixed
+		 */
+		public function getRecentEntries(ForumsUserInterface $User, array $options = []) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
@@ -885,15 +885,16 @@
 			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
 		}
 
-/**
- * Check if someone is allowed to edit an entry
- * @param           $entry
- * @param SaitoUser $User
- *
- * @return bool|string
- * @throws Exception
- */
-		public function isEditingForbidden($entry, SaitoUser $User = null) {
+		/**
+		 * Checks if someone is allowed to edit an entry
+		 *
+		 * @param $entry
+		 * @param ForumsUserInterface $User
+		 *
+		 * @return bool|string
+		 * @throws Exception
+		 */
+		public function isEditingForbidden($entry, ForumsUserInterface $User = null) {
 			if ($User === null) {
 				$User = $this->CurrentUser;
 			}

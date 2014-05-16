@@ -22,11 +22,9 @@
 
 		public function testThreadMaxDepth() {
 			App::uses('SaitoUser', 'Lib/SaitoUser');
-			App::uses('ComponentCollection', 'Controller');
 			$SaitoUser = $this->getMock(
 					'SaitoUser',
-					['getMaxAccession', 'getId', 'getBookmarks'],
-					[new ComponentCollection]
+					['getMaxAccession', 'getId', 'getBookmarks']
 			);
 			$entry = [
 					'Entry' => [

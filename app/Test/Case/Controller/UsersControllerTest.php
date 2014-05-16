@@ -104,7 +104,7 @@
 			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
 			$this->_loginUser(3);
 			$user = $this->controller->Session->read('Auth.User');
-			$this->controller->CurrentUser->set($user);
+			$this->controller->CurrentUser->setSettings($user);
 			$this->assertTrue($this->controller->CurrentUser->isLoggedIn());
 			$this->testAction('/users/login', ['method' => 'GET']);
 			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());

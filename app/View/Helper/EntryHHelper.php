@@ -44,7 +44,7 @@
 		 * @param $user
 		 * @return bool
 		 */
-		public function isNewEntry($entry, SaitoUser $user) {
+		public function isNewEntry($entry, ForumsUserInterface $user) {
 			if (!$user->isLoggedIn()) {
 				return false;
 			}
@@ -191,7 +191,7 @@
 		 * Everything you do in here is in worst case done a few hundred times on
 		 * the frontpage. Think about (and benchmark) performance before you change it.
 		 */
-		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = []) {
+		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = []) {
 			//setup for current entry
 			$_isNew = $this->isNewEntry($entrySub, $CurrentUser);
 			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&

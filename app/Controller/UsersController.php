@@ -41,8 +41,8 @@
 			$status = null;
 
 			if (!empty($readUser)) {
-				$User = new SaitoUser(new ComponentCollection);
-				$User->set($readUser['User']);
+				$User = new SaitoUser();
+				$User->setSettings($readUser['User']);
 				$status = $User->isForbidden();
 			}
 
@@ -380,8 +380,8 @@
 				return;
 			}
 
-			$editedUser = new SaitoUser(new ComponentCollection());
-			$editedUser->set($readUser['User']);
+			$editedUser = new SaitoUser();
+			$editedUser->setSettings($readUser['User']);
 
 			if ($id == $this->CurrentUser->getId()) {
 				$this->Session->setFlash(__("You can't lock yourself."), 'flash/error');
@@ -682,7 +682,7 @@
 		 * @param int $userId
 		 * @return type
 		 */
-		protected function _isEditingAllowed(SaitoUser $CurrentUser, $userId) {
+		protected function _isEditingAllowed(ForumsUserInterface $CurrentUser, $userId) {
 			if ($CurrentUser->isAdmin()) {
 				return true;
 			}

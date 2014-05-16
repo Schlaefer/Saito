@@ -201,7 +201,7 @@ EOF;
 			return "<div class=\"{$options['class']} heading-3\">$out</div>";
 		}
 
-		public function linkToUserProfile($user, SaitoUser $CurrentUser) {
+		public function linkToUserProfile($user, ForumsUserInterface $CurrentUser) {
 			if ($CurrentUser->isLoggedIn()) {
 				return $this->Html->link($user['username'],
 						'/users/view/' . $user['id']);

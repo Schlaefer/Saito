@@ -1,9 +1,13 @@
 <?php
 
-	App::import('Lib/SaitoUser', 'SaitoUser');
+	App::uses('Component', 'Controller');
 	App::uses('SaitoCurrentUserReadEntries', 'Lib/SaitoUser');
+	App::uses('SaitoUserTrait', 'Lib/SaitoUser');
+	App::uses('ForumsUserInterface', 'Lib/SaitoUser');
 
-	class CurrentUserComponent extends SaitoUser {
+	class CurrentUserComponent extends Component implements ForumsUserInterface, ArrayAccess {
+
+		use SaitoUserTrait;
 
 /**
  * Component name
@@ -216,12 +220,12 @@
 		 */
 		public function refresh() {
 			// preliminary set user-data from Cake's Auth handler
-			parent::set($this->_Controller->Auth->user());
+			$this->setSettings($this->_Controller->Auth->user());
 			// set user-data from current DB data: ensures that *all sessions*
 			// use the same set of data (user got locked, user-type was demoted …)
 			if ($this->isLoggedIn()) {
 				$this->_User->id = $this->getId();
-				parent::set($this->_User->getProfile($this->getId()));
+				$this->setSettings($this->_User->getProfile($this->getId()));
 				$this->LastRefresh = new SaitoCurrentUserLastRefresh($this, $this->_User);
 			}
 		}
@@ -356,7 +360,7 @@
 			$this->_cookie->httpOnly = true;
 		}
 
-		public function initialize(SaitoUser $currentUser) {
+		public function initialize(CurrentUserComponent $currentUser) {
 			$this->_currentUser = $currentUser;
 			$this->_cookieName = $currentUser->getPersistentCookieName();
 		}
@@ -403,7 +407,7 @@
 
 		protected $_currentUser;
 
-		public function __construct(SaitoUser $currentUser, User $user) {
+		public function __construct(CurrentuserComponent $currentUser, User $user) {
 			$this->_currentUser = $currentUser;
 			$this->_user = $user;
 		}

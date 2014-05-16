@@ -1,8 +1,7 @@
 <?php
 
 	App::uses('CacheTree', 'Lib/CacheTree');
-	App::uses('CurrentUserComponent', 'Controller/Component');
-	App::uses('ComponentCollection', 'Controller');
+	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	class CacheTreeMock extends CacheTree {
 
@@ -15,9 +14,8 @@
 
 		public function setUser($userData) {
 			unset($this->_CurrentUser);
-			$Collection = new ComponentCollection();
-			$this->_CurrentUser = new CurrentUserComponent($Collection);
-			$this->_CurrentUser->set($userData);
+			$this->_CurrentUser = new SaitoUser();
+			$this->_CurrentUser->setSettings($userData);
 		}
 
 		public function setAllowRead($state) {

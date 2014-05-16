@@ -735,7 +735,7 @@
 					$this->request->isPreview() === false
 			) {
 				// a second session A shall not accidentally mark something as read that isn't read on session B
-				if ($this->Session->read('User.last_refresh_tmp') >  $this->CurrentUser['last_refresh_unix']) {
+				if ($this->Session->read('User.last_refresh_tmp') > $this->CurrentUser['last_refresh_unix']) {
 					$this->CurrentUser->LastRefresh->set();
 				}
 				$this->Session->write('User.last_refresh_tmp', time());
@@ -846,7 +846,7 @@
 			return $initialThreadsNew;
 		}
 
-		protected function _setupCategoryChooser(SaitoUser $User) {
+		protected function _setupCategoryChooser(ForumsUserInterface $User) {
 			$categories = $this->Entry->Category->getCategoriesForAccession(
 				$User->getMaxAccession()
 			);

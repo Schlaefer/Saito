@@ -22,6 +22,7 @@
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_userranks = Configure::read('Saito.Settings.userranks_ranks');
+			$this->_SaitoUser = new SaitoUser();
 		}
 
 		public function banned($isBanned) {
@@ -138,23 +139,13 @@
 		}
 
 		public function isMod($user) {
-			// @td fix this fubar
-			$this->_saitoUserFactory();
-			$this->_SaitoUser->set($user);
+			$this->_SaitoUser->setSettings($user);
 			return $this->_SaitoUser->isMod($user);
 		}
 
 		public function isAdmin($user) {
-			// @td fix this fubar
-			$this->_saitoUserFactory();
-			$this->_SaitoUser->set($user);
+			$this->_SaitoUser->setSettings($user);
 			return $this->_SaitoUser->isAdmin($user);
-		}
-
-		protected function _saitoUserFactory() {
-			if ($this->_SaitoUser === null) :
-				$this->_SaitoUser = new SaitoUser(new ComponentCollection());
-			endif;
 		}
 
 	}
