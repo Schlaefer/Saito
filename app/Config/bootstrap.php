@@ -215,10 +215,10 @@ else :
 endif;
 
 /**
- * Activate Saito Cache:
+ * Activates Saito's thread cache
  *
- * true: (default) use cache
- * false: don't use cache
+ * true: (default for debug 0 and 1) use cache
+ * false: (default for debug > 1) don't use cache
  */
 Configure::write('Saito.Cache.Thread', true);
 

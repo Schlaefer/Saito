@@ -24,9 +24,12 @@
   }
 
   foreach ($entries_sub as $entry_sub) :
-    $rendered = $CacheTree->read($entry_sub['Entry']['id']);
+    $rendered = null;
+    if ($CacheTree->isCacheValid($entry_sub['Entry'])) {
+      $rendered = $CacheTree->read($entry_sub['Entry']['id']);
+    }
 
-    if (!$rendered) {
+    if ($rendered === null) {
       // the entry currently viewed (e.g. entries/view)
       SDV($entry, []);
       $rendered = $this->EntryH->threadCached($entry_sub, $CurrentUser, 0,

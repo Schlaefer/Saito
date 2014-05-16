@@ -27,8 +27,16 @@
 
 		protected $_allowUpdate = false;
 
+		protected $_CacheEngine = null;
+
+		/**
+		 * @var bool
+		 */
 		protected $_allowRead = false;
 
+		/**
+		 * @var bool
+		 */
 		protected $_isUpdated = false;
 
 		public static function getInstance() {
@@ -48,28 +56,26 @@
 		public function initialize(Controller $Controller) {
 			$this->_CurrentUser = $Controller->CurrentUser;
 
-			$_cacheConfig = Cache::settings();
-			if ($_cacheConfig['engine'] === 'Apc') {
-				$this->_CacheEngine = new CacheTreeAppCacheEngine;
-			} else {
-				$this->_CacheEngine = new CacheTreeDbCacheEngine;
-			}
-
-			if (
-					$Controller->params['controller'] === 'entries' && $Controller->params['action'] === 'index'
+			if ($Controller->params['controller'] === 'entries' &&
+					$Controller->params['action'] === 'index'
 			) {
-				$this->_allowUpdate = true;
 				$this->_allowRead = true;
 			}
+		}
 
-			if (Configure::read('debug') > 1 || Configure::read('Saito.Cache.Thread') == false):
-				$this->_allowUpdate = false;
-				$this->_allowRead = false;
-			endif;
-
-			if ($this->_allowRead || $this->_allowUpdate) {
-				$this->readCache();
+		protected function _init() {
+			if (Configure::read('debug') > 1) {
+				Configure::write('Saito.Cache.Thread', false);
 			}
+
+			if (Configure::read('Saito.Cache.Thread') === false) {
+				return;
+			}
+
+			$this->_allowUpdate = true;
+			$this->_allowRead = true;
+
+			$this->_loadCache();
 		}
 
 		public function isCacheUpdatable(array $entry) {
@@ -89,30 +95,57 @@
 				return $this->_validEntries[$id];
 			}
 
-			$valid = false;
-
-			if (isset($this->_cachedEntries[$id]) &&
-				strtotime($entry['last_answer']) <= $this->_cachedEntries[$id]['metadata']['content_last_updated'] &&
-				$this->_isEntryOldForUser($entry)
-			) {
+			if (!$this->_inCache($entry)) {
+				$valid = false;
+			} elseif ($this->_isEntryOldForUser($entry)) {
 				$valid = true;
+			} else {
+				$valid = false;
 			}
+
 			$this->_validEntries[$id] = $valid;
 			return $valid;
 		}
 
 		protected function _isEntryOldForUser(array $entry) {
-			if (!$this->_CurrentUser->isLoggedIn() ||
-				empty($this->_CurrentUser['last_refresh']) ||
-				strtotime($entry['last_answer']) < strtotime($this->_CurrentUser['last_refresh'])) {
+			$noValidUser = !$this->_CurrentUser->isLoggedIn();
+			if ($noValidUser) {
 				return true;
 			}
+
+			$marUninitialized = $this->_CurrentUser['last_refresh'] === null;
+			if ($marUninitialized) {
+				return false;
+			}
+
+			$isNewToUser = strtotime($entry['last_answer']) < strtotime($this->_CurrentUser['last_refresh']);
+			if ($isNewToUser) {
+				return true;
+			}
+
 			return false;
+		}
+
+		protected function _inCache($entry) {
+			$id = $entry['id'];
+
+			$isInCache = isset($this->_cachedEntries[$id]);
+			if (!$isInCache) {
+				return false;
+			}
+
+			$hasNewerAnswers = strtotime($entry['last_answer']) > $this->_cachedEntries[$id]['metadata']['content_last_updated'];
+			if ($hasNewerAnswers) {
+				$this->delete($id);
+				return false;
+			}
+
+			return true;
 		}
 
 		public function delete($id) {
 			$this->_isUpdated = true;
-			$this->readCache();
+			$this->_loadCache();
 			unset($this->_cachedEntries[(int)$id]);
 		}
 
@@ -145,15 +178,15 @@
 		 * @return bool
 		 */
 		public function update($id, $content, $timestamp = null) {
+			if (!$this->_allowUpdate) {
+				return false;
+			}
 			$now = time();
 			if (!$timestamp) {
 				$timestamp = $now;
 			}
-			if (!$this->_allowUpdate) {
-				return false;
-			}
 			$this->_isUpdated = true;
-			$this->readCache();
+			$this->_loadCache();
 			$metadata = [
 				'created' => $now,
 				'content_last_updated' => $timestamp,
@@ -162,39 +195,54 @@
 			$this->_cachedEntries[(int)$id] = $data;
 		}
 
-		public function readCache() {
-			if ($this->_cachedEntries === null):
-				Stopwatch::start('SaitoCacheTree->readCache()');
-				$this->_cachedEntries = $this->_CacheEngine->read();
-
-				$depractionTime = time() - $this->_CacheEngine->getDeprecationSpan();
-
-				if (!empty($this->_cachedEntries)) {
-					foreach ($this->_cachedEntries as $id => $entry) {
-						if ($entry['metadata']['created'] < $depractionTime) {
-							unset($this->_cachedEntries[$id]);
-							$this->_isUpdated = true;
-						}
-					}
+		protected function _engine() {
+			if ($this->_CacheEngine === null) {
+				$_cacheConfig = Cache::settings();
+				if ($_cacheConfig['engine'] === 'Apc') {
+					$this->_CacheEngine = new CacheTreeAppCacheEngine;
+				} else {
+					$this->_CacheEngine = new CacheTreeDbCacheEngine;
 				}
-				Stopwatch::end('SaitoCacheTree->readCache()');
-			endif;
+			}
+
+			return $this->_CacheEngine;
 		}
 
-		public function saveCache() {
+		protected function _loadCache() {
+			if ($this->_cachedEntries !== null) {
+				return;
+			}
+			Stopwatch::start('SaitoCacheTree->readCache()');
+			$this->_cachedEntries = $this->_engine()->read();
+
+			if (empty($this->_cachedEntries)) {
+				return;
+			}
+
+			$deprecationSpan = time() - $this->_engine()->getDeprecationSpan();
+			foreach ($this->_cachedEntries as $id => $entry) {
+				if ($entry['metadata']['created'] < $deprecationSpan) {
+					unset($this->_cachedEntries[$id]);
+					$this->_isUpdated = true;
+				}
+			}
+			Stopwatch::end('SaitoCacheTree->readCache()');
+		}
+
+		public function save() {
 			if ($this->_isUpdated === false) {
 				return false;
 			}
 
 			$this->_gc();
-			$this->_CacheEngine->write((array)$this->_cachedEntries);
+			$this->_engine()->write((array)$this->_cachedEntries);
 		}
 
-/**
- * Garbage collection
- *
- * Remove old entries from the cache.
- */
+		/**
+		 * Garbage collection
+		 *
+		 * Remove old entries from the cache.
+		 */
 		protected function _gc() {
 			if (!$this->_cachedEntries) {
 				return false;

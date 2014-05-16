@@ -200,6 +200,34 @@
 			$this->assertFalse($result);
 		}
 
+		/**
+		 * Tests that a newly registered users sees everything as new
+		 */
+		public function testIsCacheValidNewUser() {
+			$this->CacheTree->setAllowRead(true);
+
+			//# setups newly registered user
+			$userData = ['id' => 1, 'last_refresh' => null];
+			$this->CacheTree->setUser($userData);
+
+			//# setups entry and its cache with same and non deprecated timestamp
+			$lastAnswer = time();
+			$cacheData = ['1' => [
+				'metadata' => ['content_last_updated' => $lastAnswer],
+				'content' => 'foo',
+			]];
+			$this->CacheTree->setCache($cacheData);
+
+			$entry = [
+				'id' => 1,
+				'last_answer' => date('Y-m-d H:i:s', $lastAnswer)
+			];
+
+			//# test
+			$result = $this->CacheTree->isCacheValid($entry);
+			$this->assertFalse($result);
+		}
+
 		public function testReset() {
 			// setup
 			$mockData = ['foo' => 'bar'];
