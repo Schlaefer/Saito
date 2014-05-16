@@ -71,15 +71,21 @@ class SaitoUser extends Component implements ForumsUser, ArrayAccess {
 			return false;
 		}
 
-		if ( !empty($user) && is_array($user) ) :
-			if (empty($user['id']) === false) {
-				$this->_id = (int)$user['id'];
-				$this->_isLoggedIn = true;
-			}
-			$this->_settings = $user;
-		else :
+		if (empty($user) || !is_array($user)) {
 			trigger_error("Can't find user.");
-		endif;
+		}
+
+		if (empty($user['id']) === false) {
+			$this->_id = (int)$user['id'];
+			$this->_isLoggedIn = true;
+		}
+
+		$this->_settings = $user;
+
+		// perf-cheat
+		if(array_key_exists('last_refresh', $this->_settings)) {
+			$this->_settings['last_refresh_unix'] = strtotime($this->_settings['last_refresh']);
+		}
 	}
 
 	public function getSettings() {

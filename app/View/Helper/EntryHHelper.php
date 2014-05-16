@@ -54,7 +54,7 @@
 				return false;
 			}
 
-			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']);
+			return $user['last_refresh_unix'] < strtotime($entry['Entry']['time']);
 		}
 
 		public function isRoot($entry) {
@@ -82,7 +82,7 @@
 			if (!isset($user['last_refresh'])) {
 				return false;
 			}
-			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
+			return $user['last_refresh_unix'] < strtotime($entry['Entry']['last_answer']);
 		}
 
 		public function generateEntryTypeCss($level, $new, $current, $viewed) {

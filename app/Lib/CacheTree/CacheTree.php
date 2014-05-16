@@ -118,7 +118,7 @@
 				return false;
 			}
 
-			$isNewToUser = strtotime($entry['last_answer']) < strtotime($this->_CurrentUser['last_refresh']);
+			$isNewToUser = strtotime($entry['last_answer']) < $this->_CurrentUser['last_refresh_unix'];
 			if ($isNewToUser) {
 				return true;
 			}
