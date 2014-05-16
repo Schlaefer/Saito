@@ -55,6 +55,9 @@
 		 */
 		public function testSimpleNoAccession() {
 			$this->generate('Searches');
+
+			$this->_notImplementedOnDatasource('Postgres');
+
 			$this->_loginUser(3);
 
 			$result = $this->testAction('/searches/simple?q="Third+Thread+First_Subject"',
