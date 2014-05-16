@@ -3,11 +3,6 @@
 	App::import('Lib/SaitoUser', 'SaitoUser');
 	App::uses('AppHelper', 'View/Helper');
 
-/**
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 	class UserHHelper extends AppHelper {
 
 		protected $_userranks;
@@ -33,12 +28,12 @@
 			return $out;
 		}
 
-/**
- * generates the JavaSript commands to format the views according to user prefs
- *
- * @param null $User
- * @return string
- */
+		/**
+		 * generates CSS from user-preferences
+		 *
+		 * @param array $User
+		 * @return string
+		 */
 		public function generateCss(array $User) {
 			$_styles = [];
 
