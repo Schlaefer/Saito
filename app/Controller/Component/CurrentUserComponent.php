@@ -237,7 +237,7 @@
 			$this->PersistentCookie->destroy();
 			$this->_User->id = $this->getId();
 			$this->_User->UserOnline->setOffline($this->getId());
-			$this->set(null);
+			$this->setSettings(null);
 			$this->_Controller->Auth->logout();
 		}
 

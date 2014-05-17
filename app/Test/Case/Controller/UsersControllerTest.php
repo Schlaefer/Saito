@@ -124,6 +124,13 @@
 			$this->assertContains('is locked.', $result);
 		}
 
+		public function testLogout() {
+			$this->generate('Users');
+			$this->_loginUser(3);
+			$this->testAction('/users/logout', ['method' => 'GET']);
+			$this->assertRedirectedTo();
+		}
+
 		/**
 		 * Registration fails if Terms of Serice checkbox is not set in register form
 		 */
