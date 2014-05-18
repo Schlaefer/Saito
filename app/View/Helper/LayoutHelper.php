@@ -241,7 +241,7 @@ EOF;
 				$url = '/';
 			}
 			$options += ['escape' => false];
-			$content = '<i class="fa fa-arrow-left"></i> ' . h($title);
+			$content = $this->textWithIcon(h($title), 'arrow-left');
 
 			return $this->navbarItem($content, $url, $options);
 		}
