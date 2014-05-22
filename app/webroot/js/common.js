@@ -36,7 +36,7 @@
       underscore: '../dev/bower_components/lodash/js/lodash',
       // marionette
       marionette: '../dev/bower_components/marionette/backbone.marionette',
-      "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
+      "backbone.babysitter": '../dev/bower_components/backbone.babysitter/backbone.babysitter',
       "backbone.wreqr": '../dev/bower_components/backbone.wreqr/backbone.wreqr',
       // moment
       moment: '../dev/bower_components/momentjs/js/moment',
