@@ -6,12 +6,14 @@
     'id' => 'tf-login-username',
     'label' => __('user_name'),
     'tabindex' => 1,
+    'autocomplete' => 'off'
   ]);
 
   echo $this->Form->input('password', [
     'type' => 'password',
     'label' => __('user_pw'),
     'tabindex' => 2,
+    'autocomplete' => 'off'
   ]);
 
   echo $this->Form->input('remember_me', [
