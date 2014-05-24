@@ -356,7 +356,7 @@
 
 		protected function _setup() {
 			$this->_cookie->name = $this->_cookieName;
-			$this->_cookie->type('rijndael');
+			$this->_cookie->type('aes');
 			$this->_cookie->httpOnly = true;
 		}
 
