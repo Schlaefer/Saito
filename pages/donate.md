@@ -22,7 +22,10 @@ title: Donate
 
 ## Bitcoin ##
 
-	15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR
+<div>
+<a href="bitcoin:15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR?label=Saito%20Donation">15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR</a>
+</div>
+<br>
 
 
 # Thanks
