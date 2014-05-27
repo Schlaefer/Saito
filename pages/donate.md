@@ -1,10 +1,31 @@
-title: Thanks
+title: Donate
 ---
 
 <div>
   <i class='icon-heart icon-schmuck'></i>
 </div>
-# Thanks!
+
+
+# Donate #
+
+## Paypal ##
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+	<input type="hidden" name="cmd" value="_s-xclick">
+	<input type="hidden" name="hosted_button_id" value="EKGLER5C5L4VU">
+	<button class="btn btn-default btn-xs" title='Donate via Paypal'>
+    Donate via Paypal
+  </button>
+	<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+	&nbsp;
+</form>
+
+## Bitcoin ##
+
+	15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR
+
+
+# Thanks
 
 Many thanks to all the folks contributing and helping to improve the software in their spare time. It's a tremendous help and greatly appreciated!
 
