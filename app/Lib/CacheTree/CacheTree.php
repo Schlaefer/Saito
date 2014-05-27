@@ -59,7 +59,7 @@
 			if ($Controller->params['controller'] === 'entries' &&
 					$Controller->params['action'] === 'index'
 			) {
-				$this->_allowRead = true;
+				$this->_init();
 			}
 		}
 
