@@ -26,9 +26,6 @@
     "backbone": {
       "js": "backbone.js"
     },
-    "backbone.babysitter": {
-      "js": "lib/amd/*"
-    },
     "Backbone.localStorage": {
       "js": "backbone.localStorage.js"
     },

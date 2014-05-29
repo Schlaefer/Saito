@@ -122,7 +122,7 @@
 
 			// performance: don't store entries covered by timestamp
 			foreach ($entries as $k => $entry) {
-				if (strtotime($this->_CU['last_refresh']) > strtotime($entry['Entry']['time'])) {
+				if ($this->_CU['last_refresh_unix'] > strtotime($entry['Entry']['time'])) {
 					unset($entries[$k]);
 				}
 			}

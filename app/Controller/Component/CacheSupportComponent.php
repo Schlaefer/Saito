@@ -45,11 +45,11 @@
 		}
 
 		public function beforeRedirect(Controller $Controller, $url, $status = null, $exit = true) {
-			$this->CacheTree->saveCache();
+			$this->CacheTree->save();
 		}
 
 		public function shutdown(Controller $Controller) {
-			$this->CacheTree->saveCache();
+			$this->CacheTree->save();
 		}
 
 		public function __call($method, $params) {

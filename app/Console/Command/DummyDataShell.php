@@ -1,6 +1,7 @@
 <?php
 
 	App::uses('BbcodeSettings', 'Lib/Bbcode');
+	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	class DummyDataShell extends AppShell {
 
@@ -44,13 +45,13 @@
 				'server' => Router::fullBaseUrl(),
 				'webroot' => Router::fullBaseUrl()
 			]);
-			$this->Entry->SharedObjects['CurrentUser'] = new SaitoUser();
+			$this->Entry->SharedObjects['CurrentUser'] = new SaitoUserDummy();
 
 			for ($i = 0; $i < $n; $i++) {
 				$newThread = $i < $seed;
 
 				$user = $this->_randomUser();
-				$this->Entry->CurrentUser->set($user);
+				$this->Entry->CurrentUser->setSettings($user);
 
 				$entry = [
 					'subject' => $i,
@@ -145,13 +146,7 @@
 
 	}
 
-	class SaitoUser implements ArrayAccess {
-
-		protected $_settings;
-
-		public function getId() {
-			return $this->_settings['id'];
-		}
+	class SaitoUserDummy extends SaitoUser {
 
 		public function getMaxAccession() {
 			return 2;
@@ -165,34 +160,9 @@
 			return true;
 		}
 
-		public function mockUserType($type) {
-			$MockedUser = clone $this;
-			$MockedUser['user_type'] = $type;
-			return $MockedUser;
-		}
-
 		public function getBookmarks() {
 			return [];
 		}
 
-		public function set($data) {
-			$this->_settings = $data;
-		}
-
-		public function offsetExists($offset) {
-			return isset($this->_settings[$offset]);
-		}
-
-		public function offsetGet($offset) {
-			return $this->_settings[$offset];
-		}
-
-		public function offsetSet($offset, $value) {
-			$this->_settings[$offset] = $value;
-		}
-
-		public function offsetUnset($offset) {
-			unset($this->_settings[$offset]);
-		}
 	}
 

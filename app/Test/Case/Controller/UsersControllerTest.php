@@ -97,14 +97,41 @@
 
 		public function testLoginShowForm() {
 			//# show login form
-			$this->testAction('/users/login', ['method' => 'GET']);
+			$results = $this->testAction('/users/login',
+				['method' => 'GET', 'return' => 'view']);
 			$this->assertFalse(isset($this->headers['Location']));
+
+			//## test username field
+			$username = [
+				'tag' => 'input',
+				'attributes' => [
+					'autocomplete' => 'off',
+					'name' => 'data[User][username]',
+					'required' => 'required',
+					'tabindex' => '1',
+					'type' => 'text'
+				]
+			];
+			$this->assertTag($username, $results);
+
+			//## test password field
+			$password = [
+				'tag' => 'input',
+				'attributes' => [
+					'autocomplete' => 'off',
+					'name' => 'data[User][password]',
+					'required' => 'required',
+					'tabindex' => '2',
+					'type' => 'password'
+				]
+			];
+			$this->assertTag($password, $results);
 
 			//# test logout on form show
 			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
 			$this->_loginUser(3);
 			$user = $this->controller->Session->read('Auth.User');
-			$this->controller->CurrentUser->set($user);
+			$this->controller->CurrentUser->setSettings($user);
 			$this->assertTrue($this->controller->CurrentUser->isLoggedIn());
 			$this->testAction('/users/login', ['method' => 'GET']);
 			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
@@ -122,6 +149,13 @@
 			$result = $this->testAction('/users/login',
 				['data' => $data, 'return' => 'contents']);
 			$this->assertContains('is locked.', $result);
+		}
+
+		public function testLogout() {
+			$this->generate('Users');
+			$this->_loginUser(3);
+			$this->testAction('/users/logout', ['method' => 'GET']);
+			$this->assertRedirectedTo();
 		}
 
 		/**
@@ -206,6 +240,56 @@
 			$result = $this->testAction('users/register',
 				array('data' => $data, 'method' => 'post')
 			);
+		}
+
+		public function testRegisterViewForm() {
+			$results = $this->testAction('/users/register',
+				['method' => 'GET', 'return' => 'view']);
+			$this->assertFalse(isset($this->headers['Location']));
+
+			$fields = [
+				'username' => [
+					'tag' => 'input',
+					'attributes' => [
+						'autocomplete' => 'off',
+						'name' => 'data[User][username]',
+						'required' => 'required',
+						'tabindex' => '1',
+						'type' => 'text'
+					]
+				],
+				'email' => [
+					'tag' => 'input',
+					'attributes' => [
+						'autocomplete' => 'off',
+						'name' => 'data[User][user_email]',
+						'required' => 'required',
+						'tabindex' => '2',
+						'type' => 'text'
+					]
+				],
+				'password' => [
+					'tag' => 'input',
+					'attributes' => [
+						'autocomplete' => 'off',
+						'name' => 'data[User][user_password]',
+						'tabindex' => '3',
+						'type' => 'password'
+					]
+				],
+				'password_confirm' => [
+					'tag' => 'input',
+					'attributes' => [
+						'autocomplete' => 'off',
+						'name' => 'data[User][password_confirm]',
+						'tabindex' => '4',
+						'type' => 'password'
+					]
+				]
+			];
+			foreach ($fields as $field) {
+				$this->assertTag($field, $results);
+			}
 		}
 
 		public function testRegisterCheckboxNotOnPage() {

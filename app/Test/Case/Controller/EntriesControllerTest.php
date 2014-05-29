@@ -200,7 +200,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
+			$User->setSettings([]);
 			$Entries->getInitialThreads($User);
 			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
 		}
@@ -239,7 +239,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
@@ -282,8 +282,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
@@ -342,8 +341,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
@@ -397,8 +395,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
