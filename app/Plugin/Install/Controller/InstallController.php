@@ -67,6 +67,7 @@ class InstallController extends InstallAppController {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
+		$this->_check();
 
 		$this->layout = 'install';
 		App::import('Component', 'Session');
@@ -201,6 +202,8 @@ class InstallController extends InstallAppController {
 						$this->redirect(array('action' => 'database'));
 					}
 				}
+				// @hack
+				$schema->after(['create' => 'ecaches']);
 
 				$path = App::pluginPath('Install') .DS. 'Config' .DS. 'Data' .DS;
 				$dataObjects = App::objects('class', $path);
