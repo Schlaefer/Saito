@@ -10,7 +10,15 @@
 
 	class AppModel extends Model {
 
+		/**
+		 * @var array model settings; can be overwritten by DB or config Settings
+		 */
 		protected $_settings = [];
+
+		/**
+		 * @var array predefined fields for filterFields()
+		 */
+		protected $_allowedInputFields = [];
 
 		# Entry->User->UserOnline
 		public $recursive = 1;
@@ -32,6 +40,71 @@
 			$this->set($key, $value);
 			$this->save();
 			return $value;
+		}
+
+		/**
+		 * filters out all fields $fields in $data
+		 *
+		 * works only on current model, not associations
+		 *
+		 * @param $data
+		 * @param $fields
+		 */
+		public function filterFields(&$data, $fields) {
+			if (is_string($fields) && isset($this->_allowedInputFields[$fields])) {
+				$fields = $this->_allowedInputFields[$fields];
+			}
+			$fields = array_flip($fields);
+			$data = [
+				$this->alias => array_intersect_key($data[$this->alias], $fields)
+			];
+		}
+
+		public function requireFields(&$data, array $required) {
+			return $this->_mapFields($data, $required, function(&$data, $model, $field) {
+				if (!isset($data[$model][$field])) {
+					return false;
+				}
+				return true;
+			});
+		}
+
+		public function unsetFields(&$data, array $unset = ['id']) {
+			return $this->_mapFields($data, $unset, function(&$data, $model, $field) {
+				if (isset($data[$model][$field])) {
+					unset($data[$model][$field]);
+				}
+				return true;
+			});
+		}
+
+		protected function _mapFields(&$data, $fields, callable $func) {
+			if (isset(reset($data)[$this->alias])) {
+				foreach ($data as &$d) {
+					if (!$this->_mapFields($d, $fields, $func)) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			if (!isset($data[$this->alias])) {
+				$data = [$this->alias => $data];
+			}
+			foreach ($fields as $field) {
+				if (strpos($field, '.') !== false) {
+					list($model, $field) = explode('.', $field, 2);
+				} else {
+					$model = $this->alias;
+				}
+				if ($model !== $this->alias) {
+					continue;
+				}
+				if (!$func($data, $model, $field)) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		/**
@@ -135,6 +208,18 @@
 				return $this->_settings[$name];
 			}
 			throw new UnexpectedValueException;
+		}
+
+		public function isUniqueCiString($fields) {
+			// lazy: only one field
+			if (!is_array($fields) || count($fields) > 1) {
+				throw InvalidArgumentException();
+			}
+			$key = key($fields);
+			$fields = [
+				"LOWER({$this->alias}.{$key})" => mb_strtolower(current($fields))
+			];
+			return $this->isUnique($fields);
 		}
 
 		/**

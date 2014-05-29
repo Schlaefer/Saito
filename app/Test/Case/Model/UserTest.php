@@ -38,7 +38,7 @@
 
 		public function testFindLatest() {
 			$result = $this->User->find('latest');
-			$this->assertEquals($result['User']['id'], 7);
+			$this->assertEquals($result['User']['id'], 8);
 		}
 
 		public function testSetCategoryAll() {
@@ -74,7 +74,7 @@
 		 * Set to a single category – Failure because category does not exists
 		 */
 		public function testSetCategorySingleNotExist() {
-			$this->expectException('InvalidArgumentException');
+			$this->setExpectedException('InvalidArgumentException');
 			$this->User->setCategory('fwefwe');
 		}
 
@@ -118,7 +118,7 @@
  * Set custom category set - Failure because no valid category is found
  */
 		public function testSetCategoryCustomNotExist() {
-			$this->expectException('InvalidArgumentException');
+			$this->setExpectedException('InvalidArgumentException');
 			$this->User->setCategory(array('foo'));
 		}
 
@@ -134,7 +134,7 @@
 			$_prevResult = $result;
 
 			$this->User->id = 1;
-			$expected = '0000-00-00 00:00:00';
+			$expected = null;
 			$this->User->setLastRefresh($expected);
 			$result = $this->User->field('last_refresh');
 			$this->assertEquals($expected, $result);
@@ -333,6 +333,39 @@
 			$User->saveField('username', 'foo');
 		}
 
+		public function testActivateIdNotInt() {
+			$this->setExpectedException('InvalidArgumentException');
+			$this->User->activate('stro', '123');
+		}
+
+		public function testActivateCodeNotString() {
+			$this->setExpectedException('InvalidArgumentException');
+			$this->User->activate(123, 123);
+		}
+
+		public function testActivateUserNotFound() {
+			$this->setExpectedException('InvalidArgumentException');
+			$this->User->activate(123, '123');
+		}
+
+		public function testActivateUserAlreadyActivated() {
+			$result = $this->User->activate(1, '123');
+			$this->assertEquals('already', $result['status']);
+		}
+
+		public function testActivateUserWrongCode() {
+			$result = $this->User->activate(9, '123');
+			$this->assertFalse($result);
+		}
+
+		public function testActivateUserSuccess() {
+			$result = $this->User->activate(9, '1548');
+			$this->assertEquals('activated', $result['status']);
+			$user = $this->User->findById(9);
+			$this->assertEquals(0, $user['User']['activate_code']);
+			$this->assertEquals($user['User'], $result['User']);
+		}
+
 		public function testAfterFind() {
 			//* setting prefix for empty colors
 			$this->User->id = 3;
@@ -492,7 +525,8 @@
 			$this->assertEmpty($result);
 
 			$_userCountAfterAction = $this->User->find('count');
-			$this->assertEquals($_userCountBeforeAction, $_userCountAfterAction - 1);
+			// (reginald stays) + (fixture user-id 9 is gone) = 0
+			$this->assertEquals($_userCountBeforeAction, $_userCountAfterAction - 0);
 		}
 
 		public function testRegister() {
@@ -523,10 +557,44 @@
 			$this->assertEquals($result, $expected);
 		}
 
+		public function testRegisterUseDefaultValues() {
+			$pw = 'test';
+			$data = [
+				'User' => [
+					'username' => 'Reginald',
+					'password' => $pw,
+					'password_confirm' => $pw,
+					'user_email' => 'Reginald@example.com',
+					'user_type' => 'admin',
+					'activate_code' => '0'
+				],
+			];
+			$this->User->register($data);
+			$this->assertNotEmpty($this->User->field('activate_code'));
+			$this->assertEquals('user', $this->User->field('user_type'));
+		}
+
+		public function testRegisterAutoRegister() {
+			$pw = 'test';
+			$data = [
+				'User' => [
+					'username' => 'Reginald',
+					'password' => $pw,
+					'password_confirm' => $pw,
+					'user_email' => 'Reginald@example.com',
+					'user_type' => 'admin',
+					'activate_code' => '0'
+				],
+			];
+			$this->User->register($data, true);
+			$this->assertEmpty($this->User->field('activate_code'));
+			$this->assertEquals('user', $this->User->field('user_type'));
+		}
+
 		public function testRegisterValidation() {
 			$data = array(
 				'User' => array(
-					'username' => 'mitch',
+					'username' => 'mITch',
 					'user_email' => 'alice@example.com',
 					'password' => 'NewUserspassword',
 					'password_confirm' => 'NewUser1spassword'
@@ -547,7 +615,22 @@
 					'isUnique'
 				)
 			);
+			$this->assertEquals($this->User->validationErrors, $expected);
+		}
 
+		public function testRegisterValidationUsernameDisallowedChars() {
+			$data = [
+				'User' => [
+					'username' => 'Eloise in the <I>-Post',
+					'user_email' => 'church@losangeles.com',
+					'password' => 'Daniel',
+					'password_confirm' => 'Daniel'
+				],
+			];
+			$result = $this->User->register($data);
+			$this->assertFalse($result);
+
+			$expected = ['username' => ['hasAllowedChars']];
 			$this->assertEquals($this->User->validationErrors, $expected);
 		}
 

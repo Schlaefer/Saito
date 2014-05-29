@@ -9,8 +9,6 @@
 
 		public $useTable = 'useronline';
 
-		public $primaryKey = 'user_id';
-
 		public $actsAs = ['Containable'];
 
 		public $belongsTo = [
@@ -21,7 +19,7 @@
 		];
 
 		public $validate = [
-			'user_id' => [
+			'uuid' => [
 				'rule' => 'isUnique',
 				'required' => true,
 				'allowEmpty' => false
@@ -57,16 +55,20 @@
 				throw new InvalidArgumentException('Invalid Argument $logged_in in setOnline()');
 			}
 
-			$this->id = $this->_getShortendedId($id);
+			$id = $this->_getShortendedId($id);
 			$data = [
 				'UserOnline' => [
-					'user_id' => $this->id,
+					'uuid' => $id,
 					'logged_in' => $loggedIn
 				]
 			];
 
-			$this->contain();
-			$user = $this->read();
+			if ($loggedIn) {
+				$data['UserOnline']['user_id'] = $id;
+			}
+
+			$user = $this->find('first', ['conditions' => ['uuid' => $id],
+				'recursive' => -1, 'callbacks' => false]);
 
 			if ($user) {
 				// only hit database if timestamp is outdated
@@ -82,16 +84,16 @@
 			$this->_deleteOutdated();
 		}
 
-/**
- * Removes user with `$id` from UserOnline
- *
- * @param $id
- *
- * @return bool
- */
+		/**
+		 * Removes user with uuid `$id` from UserOnline
+		 *
+		 * @param $id
+		 *
+		 * @return bool
+		 */
 		public function setOffline($id) {
-			$this->id = $this->_getShortendedId($id);
-			return $this->delete($id, false);
+			$id = $this->_getShortendedId($id);
+			return $this->deleteAll(['UserOnline.uuid' => $id], false);
 		}
 
 		public function getLoggedIn() {
@@ -100,9 +102,9 @@
 				'all',
 				[
 					'contain' => 'User',
-					'conditions' => ['UserOnline.logged_in =' => 1],
-					'fields' => 'User.id, User.username, User.user_type',
-					'order' => 'User.username ASC'
+					'conditions' => ['UserOnline.logged_in' => true],
+					'fields' => ['User.id', 'User.username', 'User.user_type'],
+					'order' => ['LOWER(User.username)' => 'ASC']
 				]
 			);
 			Stopwatch::stop('UserOnline->getLoggedIn()');

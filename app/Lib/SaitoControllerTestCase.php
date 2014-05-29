@@ -13,6 +13,11 @@
 
 	class SaitoControllerTestCase extends ControllerTestCase {
 
+		/**
+		 * @var array cache environment variables
+		 */
+		protected $_env = [];
+
 /**
  * Preserves $GLOBALS vars through PHPUnit test runs
  *
@@ -45,66 +50,23 @@
 			unset($_ENV['HTTP_X_REQUESTED_WITH']);
 		}
 
+		protected function _setUserAgent($agent) {
+			if (isset($this->_env['HTTP_USER_AGENT'])) {
+				$this->_env['HTTP_USER_AGENT'] = $_ENV['HTTP_USER_AGENT'];
+			}
+			$_ENV['HTTP_USER_AGENT'] = $agent;
+		}
+
+		protected function _unsetUserAgent() {
+			if (isset($this->_env['HTTP_USER_AGENT'])) {
+				$_ENV['HTTP_USER_AGENT'] = $this->_env('HTTP_USER_AGENT');
+			} else {
+				unset($_ENV['HTTP_USER_AGENT']);
+			}
+		}
+
 		protected function _loginUser($id) {
-			/*
-			$records = array(
-					array(
-							'id' => 1,
-							'username' => 'Alice',
-							'user_type' => 'admin',
-							'user_email' => 'alice@example.com',
-							// `test`
-							'password' => '098f6bcd4621d373cade4e832627b4f6',
-							'slidetab_order' => null,
-							'user_automaticaly_mark_as_read' => 0,
-							'user_lock' => 0,
-					),
-					array(
-							'id' => 2,
-							'username' => 'Mitch',
-							'user_type' => 'mod',
-							'user_email' => 'mitch@example.com',
-							'password' => '098f6bcd4621d373cade4e832627b4f6',
-							'slidetab_order' => null,
-							'user_automaticaly_mark_as_read' => 0,
-							'user_lock' => 0,
-					),
-					array(
-							'id' => 3,
-							'username' => 'Ulysses',
-							'user_type' => 'user',
-							'user_email' => 'ulysses@example.com',
-							'password' => '098f6bcd4621d373cade4e832627b4f6',
-							'slidetab_order' => null,
-							'user_automaticaly_mark_as_read' => 0,
-							'user_lock' => 0,
-					),
-					array(
-							'id' => 4,
-							'username' => 'Change Password Test',
-							'user_type' => 'user',
-							'user_email' => 'cpw@example.com',
-							'password' => '098f6bcd4621d373cade4e832627b4f6',
-							'slidetab_order' => null,
-							'user_automaticaly_mark_as_read' => 1,
-							'user_lock' => 0,
-							'personal_messages' => 0,
-					),
-					array(
-							'id' => 5,
-							'username' => 'Uma',
-							'user_type' => 'user',
-							'user_email' => 'uma@example.com',
-							'password' => '098f6bcd4621d373cade4e832627b4f6',
-							'slidetab_order' => null,
-							'user_automaticaly_mark_as_read' => 1,
-							'user_lock' => 0,
-					),
-			);
-			*/
-
-			// see http://stackoverflow.com/a/10411128/1372085
-
+			// see: http://stackoverflow.com/a/10411128/1372085
 			$this->_logoutUser();
 			$userFixture = new UserFixture();
 			$users = $userFixture->records;
@@ -112,10 +74,18 @@
 			$this->controller->Session->write('Auth.User', $users[$id - 1]);
 		}
 
+		protected function _debugEmail() {
+			Configure::write('Saito.Debug.email', true);
+		}
+
+		protected function _resetEmail() {
+			Configure::write('Saito.Debug.email', false);
+		}
+
 		public function assertRedirectedTo($url = '') {
-			$this->assertEqual(
-				Router::fullBaseUrl() . $this->controller->request->webroot . $url,
-				$this->headers['Location']
+			$this->assertEquals(
+				$this->headers['Location'],
+				Router::fullBaseUrl() . $this->controller->request->webroot . $url
 			);
 		}
 
@@ -132,6 +102,15 @@
 			endif;
 		}
 
+		protected function _notImplementedOnDatasource($name) {
+			$mc = $this->controller->modelClass;
+			$Ds = $this->controller->{$mc}->getDataSource();
+			$this->_DsName = get_class($Ds);
+			if ($this->_DsName === $name) {
+				$this->markTestIncomplete("Datasource is $name.");
+			}
+		}
+
 		public function endTest($method) {
 			parent::endTest($method);
 			$this->_logoutUser();
@@ -141,15 +120,51 @@
 		public function setUp() {
 			parent::setUp();
 			$this->_logoutUser();
+			$this->_unsetAjax();
 			$this->_unsetJson();
+			$this->_debugEmail();
 			Configure::write('Cache.disable', true);
 			Configure::write('Config.language', 'eng');
 		}
 
 		public function tearDown() {
 			Configure::write('Cache.disable', false);
+			$this->_unsetUserAgent();
+			$this->_resetEmail();
 			$this->_logoutUser();
 			parent::tearDown();
 		}
 
 	}
+
+	trait SaitoSecurityMockTrait {
+
+		public function generate($controller, $mocks = []) {
+			$byPassSecurity = false;
+			if (!isset($mocks['components']['Security'])) {
+				$byPassSecurity = true;
+				$mocks['components']['Security'] = ['_validateCsrf', '_validatePost'];
+			}
+			$Mock = parent::generate($controller, $mocks);
+			if ($byPassSecurity) {
+				$this->assertSecurityByPass($Mock);
+			}
+			return $Mock;
+		}
+
+		/**
+		 * Assume that SecurityComponent was called
+		 *
+		 * @param $Controller
+		 */
+		public function assertSecurityBypass($Controller) {
+			$Controller->Security->expects($this->any())
+				->method('_validatePost')
+				->will($this->returnValue(true));
+			$Controller->Security->expects($this->any())
+				->method('_validateCsrf')
+				->will($this->returnValue(true));
+		}
+
+	}
+

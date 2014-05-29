@@ -1,12 +1,17 @@
+<?php
+	$this->start('headerSubnavLeft');
+	echo $this->Layout->navbarBack();
+	$this->end();
+?>
 <div class="panel">
 	<?= $this->Layout->panelHeading(__('login_linkname'),
 			['pageHeading' => true]) ?>
 	<div class="panel-content panel-form">
-		<?php
-			echo $this->element('users/login_form');
-			// set cursor into field username
-			echo $this->Js->buffer('$("#tf-login-username").focus();');
-			?>
-
+		<?= $this->element('users/login_form') ?>
+		<script>
+			SaitoApp.callbacks.afterViewInit.push(function() {
+				$("#tf-login-username").select();
+			});
+		</script>
 	</div>
 </div>

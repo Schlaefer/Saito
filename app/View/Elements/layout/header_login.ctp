@@ -20,7 +20,7 @@
 	} else {
 		if ($CurrentUser['user_type'] == 'admin') {
 			echo $this->Html->link(
-						$this->Layout->textWithIcon(h(__('Forum Settings')), 'wrench'),
+						$this->Layout->textWithIcon(h(__('ial.aa')), 'wrench'),
 						[
 							'controller' => 'admins',
 							'action' => 'index',
@@ -32,7 +32,7 @@
 		?>
 		<a href="<?= $this->request->webroot; ?>users/view/<?= $CurrentUser['id'] ?>"
 			 id="btn_view_current_user" class="top-menu-item">
-			<?= $this->Layout->textWithIcon(__('user_profile'), 'user') ?>
+			<?= $this->Layout->textWithIcon(__('user.b.profile'), 'user') ?>
 		</a>
 		<?= $divider ?>
 		<a href="<?= $this->request->webroot; ?>bookmarks/" class="top-menu-item">

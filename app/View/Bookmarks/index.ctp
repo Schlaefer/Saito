@@ -1,8 +1,6 @@
 <?php
 	$this->start('headerSubnavLeft');
-	echo $this->Layout->navbarItem(
-		'<i class="fa fa-arrow-left"></i> ' . __('back_to_forum_linkname'), '/',
-		['escape' => false]);
+	echo $this->Layout->navbarBack();
 	$this->end();
 ?>
 <div class="panel">
@@ -70,13 +68,7 @@
 								</div>
 							</div>
 						<?php } ?>
-					<?php else: ?>
-						<?php
-						echo $this->element('generic/no-content-yet',
-								array(
-								'message' => __('No bookmarks created yet.')));
-						?>
-				<?php endif; ?>
+					<?php endif; ?>
 			</div>
 		</div>
 	</div>

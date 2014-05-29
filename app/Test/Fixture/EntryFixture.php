@@ -3,7 +3,7 @@
 	class EntryFixture extends CakeTestFixture {
 
 		protected $_common = [
-			'edited' => '0000-00-00 00:00:00',
+			'edited' => null,
 			'edited_by' => null,
 			'locked' => 0,
 			'solves' => 0
@@ -48,14 +48,6 @@
 						'collate' => null,
 						'comment' => ''
 				],
-				'uniqid' => [
-						'type' => 'string',
-						'null' => true,
-						'default' => null,
-						'collate' => 'utf8_general_ci',
-						'comment' => '',
-						'charset' => 'utf8'
-				],
 				'time' => [
 						'type' => 'timestamp',
 						'null' => false,
@@ -66,16 +58,15 @@
 				],
 				'last_answer' => [
 						'type' => 'timestamp',
-						'null' => false,
-						'default' => '0000-00-00 00:00:00',
+						'default' => null,
 						'key' => 'index',
 						'collate' => null,
 						'comment' => ''
 				],
 				'edited' => [
 						'type' => 'timestamp',
-						'null' => false,
-						'default' => '0000-00-00 00:00:00',
+						'null' => true,
+						'default' => null,
 						'collate' => null,
 						'comment' => ''
 				],

@@ -34,6 +34,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			'Geshi.Geshi',
       'Embedly.Embedly',
 			'Html',
+			'Text'
 	);
 
 	protected $_tagElCounter = 0;
@@ -277,7 +278,7 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 			$this->_Parser->addCode(
 				'autoLink', 'usecontent', [&$this, "_autoLinkPre"],
 				[], 'link',
-				['block'], []
+				['block', 'listitem'], []
 			);
 		}
 
@@ -503,35 +504,42 @@ class BbcodeHelper extends AppHelper implements MarkupParser {
 	}
 
 	/**
-	 * automaticaly generate links from raw http:// source without [URL]
+	 * automatically generate links from raw http:// source without [URL]
 	 *
 	 * @param string $string
 	 * @return string
 	 */
 	public function _autoLinkPreTaginize($string) {
 		// how to pass a element into tageize? url?
-		$that = $this;
-		$replace = function ($matches) use ($that) {
-			$matches += array('tag' => 'autoLink');
-			if(strpos($matches['element'], '://') === false) {
+		$replace = function ($matches) {
+			// exclude punctuation at end of sentence from URLs
+			$ignoredEndChars = implode('|', [',', '\?', ',', '\.', '\)', '!']);
+			preg_match('/(?P<element>.*?)(?P<suffix>' . $ignoredEndChars . ')?$/',
+				$matches['element'], $m);
+			// keep ['element'] and ['suffix'] and include ['prefix']
+			$matches = $m + $matches;
+
+			$matches += ['tag' => 'autoLink'];
+			if (strpos($matches['element'], '://') === false) {
 				$matches['element'] = 'http://' . $matches['element'];
 			}
-			$out = $that->_taginize($matches);
-			if (isset($matches['prefix'])) {
-				$out = $matches['prefix'] . $out;
-			}
-			return $out;
+			$out = $this->_taginize($matches);
+			$matches += [
+				'prefix' => '',
+				'suffix' => ''
+			];
+			return $matches['prefix'] . $out . $matches['suffix'];
 		};
 		//* autolink http://urls
 		$string = preg_replace_callback(
-			"#(?<=^|[\n ])(?P<element>[\w]+?://.*?[^ \"\n\r\t<]*)#is",
+			"#(?<=^|[\n (])(?P<element>[\w]+?://.*?[^ \"\n\r\t<]*)#is",
 			$replace,
 			$string
 		);
 
 		//* autolink without http://, i.e. www.foo.bar/baz
 		$string = preg_replace_callback(
-			"#(?P<prefix>^|[\n ])(?P<element>(www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
+			"#(?P<prefix>^|[\n (])(?P<element>(www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:/[^ \"\t\n\r<]*)?)#is",
 			$replace,
 			$string
 		);

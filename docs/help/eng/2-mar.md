@@ -4,6 +4,10 @@ The forum marks entries as read or unread for logged-in users. The state is indi
 
 Managing the state on the server offers a consistent view across multiple devices.
 
+## Read on Click ##
+
+Viewing a single entry marks the entry as read. Opening a thread in mix-view marks all entries in that thread as read.
+
 ## Manual Mark as Read (mMAR) ##
 
 The double-arrow button on the homepage marks all current entries as read.

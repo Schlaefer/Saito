@@ -12,7 +12,9 @@ define([
             PreviewModel, PreviewView) {
   'use strict';
 
-  return Backbone.View.extend({
+  var AnsweringView = Backbone.View.extend({
+
+    _requestUrl: null,
 
     rendered: false,
 
@@ -54,12 +56,22 @@ define([
         //* view came directly from server and is ready without rendering
         this._onFormReady();
       }
+      this._requestUrl = App.settings.get('webroot') +
+        'entries/add/' + this.model.get('id');
 
       // focus can only be set after element is visible in page
       this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
 
       // auto-open upload view for easy developing
       // this._upload();
+    },
+
+    _disable: function() {
+      this.$('.btn.btn-submit').attr('disabled', 'disabled');
+    },
+
+    _enable:  function() {
+      this.$('.btn.btn-submit').removeAttr('disabled');
     },
 
     _cite: function(event) {
@@ -130,7 +142,10 @@ define([
 
     _requestAnsweringForm: function() {
       $.ajax({
-        url: App.settings.get('webroot') + 'entries/add/' + this.model.get('id'),
+        // don't append timestamp to _requestUrl or Cake's
+        // SecurityComponent will blackhole the ajax call in _sendInline()
+        cache: true,
+        url: this._requestUrl,
         success: _.bind(function(data) {
           this.answeringForm = data;
           this.render();
@@ -153,6 +168,7 @@ define([
         this.model.set(_entry, {silent: true});
         this._addCountdown();
       }
+      App.eventBus.trigger('change:DOM');
     },
 
     /**
@@ -215,26 +231,35 @@ define([
 
     _sendInline: function(event) {
       event.preventDefault();
+      var data = this.$('#EntryAddForm').serialize();
+      var success = _.bind(function(data) {
+        this.model.set({isAnsweringFormShown: false});
+        if (this.parentThreadline !== null) {
+          this.parentThreadline.set('isInlineOpened', false);
+        }
+        App.eventBus.trigger('newEntry', {
+          tid: data.tid,
+          pid: this.model.get('id'),
+          id: data.id
+        });
+      }, this);
+      var fail = _.bind(function(jqXHR, text) {
+        this.sendInProgress = false;
+        this._enable();
+        App.eventBus.trigger('notification', {
+          title: text,
+          type: 'error',
+          message: jqXHR.responseText
+        });
+      }, this);
+      var disable = _.bind(this._disable, this);
+
       $.ajax({
-        url: App.settings.get('webroot') + "entries/add",
-        type: "POST",
+        url: this._requestUrl,
+        type: 'POST',
         dataType: 'json',
-        data: this.$("#EntryAddForm").serialize(),
-        beforeSend: _.bind(function() {
-          this.$('.btn.btn-submit').attr('disabled', 'disabled');
-        }, this),
-        success: _.bind(function(data) {
-          this.model.set({isAnsweringFormShown: false});
-          if (this.parentThreadline !== null) {
-            this.parentThreadline.set('isInlineOpened', false);
-          }
-          App.eventBus.trigger('newEntry', {
-            tid: data.tid,
-            pid: this.model.get('id'),
-            id: data.id
-          });
-        }, this)
-      });
+        data: data, beforeSend: disable
+      }).done(success).fail(fail);
     },
 
     render: function() {
@@ -246,10 +271,14 @@ define([
         _.defer(function(caller) {
           caller._postRendering();
         }, this);
+      } else {
+        App.eventBus.trigger('change:DOM');
       }
       return this;
     }
 
   });
+
+  return AnsweringView;
 
 });

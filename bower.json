@@ -2,7 +2,6 @@
   "name": "Saito",
   "dependencies": {
     "jquery": "2.1",
-    "underscore": "1.6.0",
     "backbone": "1.1.2",
     "marionette": "1.7.4",
     "Backbone.localStorage": "1.1.7",
@@ -12,7 +11,7 @@
     "requirejs-domready": "2.0.1",
     "requirejs-text": "2.0.10",
     "requirejs": "2.1.10",
-    "momentjs": "2.3.1",
+    "momentjs": "2.6.0",
     "font-awesome": "4.0.3",
     "jquery-tinytimer": "0.1.4",
     "jquery-dropdown": "1.0.4",
@@ -20,20 +19,12 @@
     "leaflet.markercluster": "~0.4.0",
     "jasmine": "~2.0.0",
     "jasmine-jquery": "~2.0.3",
-    "sinonjs": "~1.9.0"
+    "sinonjs": "~1.9.0",
+    "lodash": "~2.4.1"
   },
   "exportsOverride": {
-    "underscore": {
-      "js": "underscore.js"
-    },
     "backbone": {
       "js": "backbone.js"
-    },
-    "backbone.babysitter": {
-      "js": "lib/amd/*"
-    },
-    "backbone.wreqr": {
-      "js": "lib/amd/*"
     },
     "Backbone.localStorage": {
       "js": "backbone.localStorage.js"
@@ -46,6 +37,9 @@
     },
     "fastclick": {
       "js": "lib/fastclick.js"
+    },
+    "lodash": {
+      "js": "dist/lodash.js"
     },
     "requirejs": {
       "js": "require.js"

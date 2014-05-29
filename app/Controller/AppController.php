@@ -6,6 +6,9 @@
 	App::uses('CakeEmail', 'Network/Email');
 	App::import('Lib', 'Stopwatch.Stopwatch');
 
+	\App::uses('Saito\Logger\ForbiddenLogger', 'Lib');
+	\App::uses('Saito\Logger\ExceptionLogger', 'Lib');
+
 	if (Configure::read('debug') > 0) {
 		App::uses('FireCake', 'DebugKit.Lib');
 	}
@@ -15,7 +18,10 @@
 		public $components = [
 			// 'DebugKit.Toolbar',
 
-			'Auth',
+			// Leave in front to catch all unauthorized access first
+			'Security', 'Auth',
+			// Leave in front to have it available in all Components
+			'Detectors.Detectors',
 			'Bbcode',
 /**
  * You have to have Cookie before CurrentUser to have the salt initialized.
@@ -32,7 +38,6 @@
 			// Enabling data view for rss/xml and json
 			'RequestHandler',
 			'Session',
-			'PreviewDetector.PreviewDetector',
 			'Themes'
 		];
 
@@ -105,18 +110,19 @@
 		}
 
 		public function beforeFilter() {
+			Stopwatch::start('App->beforeFilter()');
+
 			parent::beforeFilter();
 
 			// must be called before CakeError early return
 			$this->Themes->theme(Configure::read('Saito.themes'));
+			$this->Setting->load(Configure::read('Saito.Settings'));
 
 			// CakeErrors run through this beforeFilter, which is usually not necessary
 			// for error messages
 			if ($this->name === 'CakeError') {
 					return;
 			}
-
-			Stopwatch::start('App->beforeFilter()');
 
 			$bbcodeSettings = BbcodeSettings::getInstance();
 			$bbcodeSettings->set(
@@ -127,9 +133,6 @@
 					'webroot' => $this->webroot
 				]
 			);
-
-			// Load forum settings
-			$this->Setting->load(Configure::read('Saito.Settings'));
 
 			// activate stopwatch in debug mode
 			$this->set('showStopwatchOutput', false);
@@ -164,17 +167,20 @@
 				$this->Auth->allow('sql_explain');
 			}
 
+			$this->_l10nRenderFile();
+
 			Stopwatch::stop('App->beforeFilter()');
 		}
 
 		public function beforeRender() {
-			parent::beforeRender();
-
 			Stopwatch::start('App->beforeRender()');
+
+			parent::beforeRender();
 
 			if ($this->showDisclaimer) {
 				$this->_showDisclaimer();
 			}
+
 			$this->set('lastAction', $this->localReferer('action'));
 			$this->set('lastController', $this->localReferer('controller'));
 			$this->set('isDebug', (int)Configure::read('debug') > 0);
@@ -275,6 +281,8 @@
 			} elseif (isset($this->viewVars['title_for_layout'])) {
 				// provides CakePHP backwards-compatibility
 				$_pageTitle = $this->viewVars['title_for_layout'];
+			} elseif ($this->name === 'CakeError') {
+				$_pageTitle = '';
 			} else {
 				$_pageTitle = __d(
 					'page_titles',
@@ -425,6 +433,19 @@
 
 			$this->set('HeaderCounter', $headCounter);
 			Stopwatch::stop('AppController->_setAppStats()');
+		}
+
+		/**
+		 * sets l10n .ctp file if available
+		 */
+		protected function _l10nRenderFile() {
+			$locale = Configure::read('Config.language');
+			$l10nViewPath = $this->viewPath . DS . $locale;
+			$l10nViewFile = $l10nViewPath . DS . $this->view . '.ctp';
+			if ($locale && file_exists(APP . 'View' . DS . $l10nViewFile)
+			) {
+				$this->viewPath = $l10nViewPath;
+			}
 		}
 
 	}

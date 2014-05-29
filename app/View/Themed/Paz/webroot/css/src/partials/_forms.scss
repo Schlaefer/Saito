@@ -19,9 +19,8 @@ textarea, input[type=text], input[type=password], %textinput {
 .required {
   label:after {
     color: #ee3322;
-    content: "\20F0";
-    display: inline;
-    padding-left: 0.25em;
+    content: "\2217";
+    vertical-align: super;
     padding-right: 0.5em;
   }
 }
@@ -59,6 +58,7 @@ textarea, input[type=text], input[type=password], %textinput {
 // strip buttons
 // -------------------------------------
 .btn-strip {
+  cursor: pointer;
   height: 100%;
   position: absolute;
 }

@@ -37,22 +37,24 @@
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
 		}
 
-/**
- * Decides if an $entry is new to/unseen by a $user
- *
- * @param type $entry
- * @param type $user
- * @return boolean
- */
-		public function isNewEntry($entry, $user) {
-			if (!isset($user['last_refresh'])) {
+		/**
+		 * Decides if an $entry is new to/unseen by a $user
+		 *
+		 * @param $entry
+		 * @param $user
+		 * @return bool
+		 */
+		public function isNewEntry($entry, ForumsUserInterface $user) {
+			if (!$user->isLoggedIn()) {
 				return false;
 			}
-			$read = $user->ReadEntries->get();
-			$_isNew = strtotime($user['last_refresh']) < strtotime($entry['Entry']['time']) &&
-					!isset($read[$entry['Entry']['id']]);
 
-			return $_isNew;
+			$readEntries = $user->ReadEntries->get();
+			if (isset($readEntries[$entry['Entry']['id']])) {
+				return false;
+			}
+
+			return $user['last_refresh_unix'] < strtotime($entry['Entry']['time']);
 		}
 
 		public function isRoot($entry) {
@@ -77,7 +79,10 @@
 			if ($entry['Entry']['pid'] != 0) {
 				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
 			}
-			return strtotime($user['last_refresh']) < strtotime($entry['Entry']['last_answer']);
+			if (!isset($user['last_refresh'])) {
+				return false;
+			}
+			return $user['last_refresh_unix'] < strtotime($entry['Entry']['last_answer']);
 		}
 
 		public function generateEntryTypeCss($level, $new, $current, $viewed) {
@@ -186,7 +191,7 @@
 		 * Everything you do in here is in worst case done a few hundred times on
 		 * the frontpage. Think about (and benchmark) performance before you change it.
 		 */
-		public function threadCached(array $entrySub, SaitoUser $CurrentUser, $level = 0, array $currentEntry = []) {
+		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = []) {
 			//setup for current entry
 			$_isNew = $this->isNewEntry($entrySub, $CurrentUser);
 			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
@@ -233,7 +238,7 @@ EOF;
 		/**
 		 * Wraps li tags with ul tag
 		 *
-		 * @param $string li html list
+		 * @param string $string li html list
 		 * @param $level
 		 * @param $id
 		 * @return string

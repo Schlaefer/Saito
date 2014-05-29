@@ -35,7 +35,7 @@
 		 */
 		public function testIndex() {
 			$result = $this->testAction('/sitemaps/index.xml',
-					['return' => 'contents']);
+					['method' => 'GET', 'return' => 'contents']);
 			$baseUrl = $this->controller->base;
 			$this->assertContains($baseUrl . '/sitemaps/file/sitemap-entries-1-20000.xml',
 					$result);
@@ -50,10 +50,16 @@
 		 */
 		public function testFile() {
 			$result = $this->testAction('/sitemaps/file/sitemap-entries-1-20000.xml',
-					['return' => 'contents']);
+					['method' => 'GET', 'return' => 'contents']);
 			$baseUrl = $this->controller->base;
 			$this->assertContains("{$baseUrl}/entries/view/1</loc>", $result);
+			$this->assertNotContains("{$baseUrl}/entries/view/4</loc>", $result);
 			$this->assertNotContains("{$baseUrl}/entries/view/6</loc>", $result);
+		}
+
+		public function setUp() {
+			Cache::clear(false, 'sitemap');
+			parent::setUp();
 		}
 
 	}

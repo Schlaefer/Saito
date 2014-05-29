@@ -17,10 +17,22 @@
 
 		public function read() {
 			$result = $this->_Db->findByKey('EntrySub');
-			if ($result) {
-				return unserialize($result['Ecach']['value']);
+			if (!$result) {
+				return [];
 			}
-			return array();
+
+			$result = @unserialize($result['Ecach']['value']);
+			// catches storage overflow
+			if ($result === false) {
+				$this->_reset();
+				return [];
+			}
+
+			return $result;
+		}
+
+		protected function _reset() {
+			$this->write([]);
 		}
 
 		public function write(array $data) {

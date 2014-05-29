@@ -94,78 +94,78 @@
 				'name' => array()
 		];
 
-/**
- * Fields allowed in public output
- *
- * @var array
- */
-		protected $_allowedPublicOutputFields = '
-			Entry.id,
-			Entry.pid,
-			Entry.tid,
-			Entry.time,
-			Entry.last_answer,
-			Entry.edited,
-			Entry.edited_by,
-			Entry.user_id,
-			Entry.name,
-			Entry.subject,
-			Entry.category,
-			Entry.text,
-			Entry.locked,
-			Entry.fixed,
-			Entry.views,
-			Entry.nsfw,
-			User.username
-		';
+		/**
+		 * Fields allowed in public output
+		 *
+		 * @var array
+		 */
+		protected $_allowedPublicOutputFields = [
+			'Entry.id',
+			'Entry.pid',
+			'Entry.tid',
+			'Entry.time',
+			'Entry.last_answer',
+			'Entry.edited',
+			'Entry.edited_by',
+			'Entry.user_id',
+			'Entry.name',
+			'Entry.subject',
+			'Entry.category',
+			'Entry.text',
+			'Entry.locked',
+			'Entry.fixed',
+			'Entry.views',
+			'Entry.nsfw',
+			'User.username'
+		];
 
-/**
- * field list necessary for displaying a thread_line
- *
- * Entry.text determine if Entry is n/t
- *
- * @var string
- */
-		public $threadLineFieldList = '
-			Entry.id,
-			Entry.pid,
-			Entry.tid,
-			Entry.subject,
-			Entry.text,
-			Entry.time,
-			Entry.fixed,
-			Entry.last_answer,
-			Entry.views,
-			Entry.user_id,
-			Entry.locked,
-			Entry.flattr,
-			Entry.nsfw,
-			Entry.name,
-			Entry.solves,
+		/**
+		 * field list necessary for displaying a thread_line
+		 *
+		 * Entry.text determine if Entry is n/t
+		 *
+		 * @var string
+		 */
+		public $threadLineFieldList = [
+			'Entry.id',
+			'Entry.pid',
+			'Entry.tid',
+			'Entry.subject',
+			'Entry.text',
+			'Entry.time',
+			'Entry.fixed',
+			'Entry.last_answer',
+			'Entry.views',
+			'Entry.user_id',
+			'Entry.locked',
+			'Entry.flattr',
+			'Entry.nsfw',
+			'Entry.name',
+			'Entry.solves',
 
-			User.username,
+			'User.username',
 
-			Category.accession,
-			Category.category,
-			Category.description
-		';
+			'Category.accession',
+			'Category.category',
+			'Category.description'
+		];
 
-/**
- * fields additional to $threadLineFieldList to show complete entry
- *
- * @var string
- */
-		public $showEntryFieldListAdditional = '
-			Entry.edited,
-			Entry.edited_by,
-			Entry.ip,
-			Entry.category,
+		/**
+		 * fields additional to $threadLineFieldList to show complete entry
+		 *
+		 * @var string
+		 */
+		public $showEntryFieldListAdditional = [
+			'Entry.edited',
+			'Entry.edited_by',
+			'Entry.ip',
+			'Entry.category',
 
-			User.id,
-			User.flattr_uid,
-			User.signature,
-			User.user_place
-		';
+			'User.id',
+			'User.flattr_uid',
+			'User.signature',
+			'User.user_place'
+		];
 
 /**
  * Allowed external user input
@@ -203,12 +203,12 @@
  */
 		protected $_isRoot = [];
 
-/**
- * @param array $options
- * @param SaitoUser $User
- * @return array|mixed
- */
-		public function getRecentEntries(SaitoUser $User, array $options = []) {
+		/**
+		 * @param ForumsUserInterface $User
+		 * @param array $options
+		 * @return array|mixed
+		 */
+		public function getRecentEntries(ForumsUserInterface $User, array $options = []) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
@@ -303,16 +303,14 @@
 			return $entry['Entry']['pid'];
 		}
 
-/**
- * creates a new root or child entry for a node
- *
- * Interface see model->save()
- *
- * @param      $data
- * @param null $CurrentUser
- *
- * @return array|bool
- */
+		/**
+		 * creates a new root or child entry for a node
+		 *
+		 * fields in $data are filtered
+		 *
+		 * @param $data
+		 * @return array|bool|mixed
+		 */
 		public function createPosting($data) {
 			if (!isset($data[$this->alias]['pid'])) {
 				$data[$this->alias]['pid'] = 0;
@@ -323,10 +321,7 @@
 			}
 
 			try {
-				$this->prepare(
-					$data,
-					['preFilterFields' => 'create']
-				);
+				$this->prepare($data, ['preFilterFields' => 'create']);
 			} catch (Exception $e) {
 				return false;
 			}
@@ -393,13 +388,17 @@
 			return $_newPosting;
 		}
 
-/**
- * @param $data
- * @param null $CurrentUser
- * @return array|mixed
- * @throws NotFoundException
- * @throws InvalidArgumentException
- */
+		/**
+		 * Updates a posting
+		 *
+		 * fields in $data are filtered except for $id!
+		 *
+		 * @param $data
+		 * @param null $CurrentUser
+		 * @return array|mixed
+		 * @throws NotFoundException
+		 * @throws InvalidArgumentException
+		 */
 		public function update($data, $CurrentUser = null) {
 			if ($CurrentUser !== null) {
 				$this->CurrentUser = $CurrentUser;
@@ -476,12 +475,8 @@
  *
  * @mb `views` into extra related table if performance becomes a problem
  */
-		public function incrementViews($amount = 1) {
-			// Workaround for travis-ci error message
-			// @see https://travis-ci.org/Schlaefer/Saito/builds/3196834
-			if (!env('TRAVIS')) {
-				$this->increment($this->id, 'views', $amount);
-			}
+		public function incrementViews($id, $amount = 1) {
+			$this->increment($id, 'views', $amount);
 		}
 
 /**
@@ -510,7 +505,7 @@
 
 			$fields = null;
 			if ($options['complete']) {
-				$fields = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				$fields = array_merge($this->threadLineFieldList, $this->showEntryFieldListAdditional);
 			}
 
 			$tree = $this->treesForThreads([['id' => $tid]], null, $fields);
@@ -890,15 +885,16 @@
 			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
 		}
 
-/**
- * Check if someone is allowed to edit an entry
- * @param           $entry
- * @param SaitoUser $User
- *
- * @return bool|string
- * @throws Exception
- */
-		public function isEditingForbidden($entry, SaitoUser $User = null) {
+		/**
+		 * Checks if someone is allowed to edit an entry
+		 *
+		 * @param $entry
+		 * @param ForumsUserInterface $User
+		 *
+		 * @return bool|string
+		 * @throws Exception
+		 */
+		public function isEditingForbidden($entry, ForumsUserInterface $User = null) {
 			if ($User === null) {
 				$User = $this->CurrentUser;
 			}
@@ -1026,7 +1022,11 @@
 			];
 
 			if (isset($options['preFilterFields'])) {
-				$this->_preFilterFields($data, $options['preFilterFields']);
+				$org = $data;
+				$this->filterFields($data, $options['preFilterFields']);
+				if (isset($org['Event'])) {
+					$data['Event'] = $org['Event'];
+				}
 			}
 			unset($options['preFilterFields']);
 
@@ -1065,29 +1065,10 @@
 			$data = $this->prepareBbcode($data);
 		}
 
-/**
- * filter out not allowed fields
- *
- * @param $data
- * @param $fields
- */
-		protected function _preFilterFields(&$data, $fields) {
-			$org = $data;
-			$data = [
-				$this->alias => array_intersect_key(
-					$data[$this->alias],
-					array_flip($this->_allowedInputFields[$fields])
-				)
-			];
-			if (isset($org['Event'])) {
-				$data['Event'] = $org['Event'];
-			}
-		}
-
 		protected function _findEntry($state, $query, $results = []) {
 			if ($state === 'before') {
 				$query['contain'] = ['User', 'Category'];
-				$query['fields'] = $this->threadLineFieldList . ',' . $this->showEntryFieldListAdditional;
+				$query['fields'] = array_merge($this->threadLineFieldList, $this->showEntryFieldListAdditional);
 				return $query;
 			}
 			if ($results) {
@@ -1166,26 +1147,19 @@
 		public function beforeSave($options = array()) {
 			$success = true;
 
-			// change category of thread if category of root entry changed
-			// @bogus @performance check for pid === 0 before loading old_entry
-			if (isset($this->data[$this->alias]['category'])) {
-				// get old entry to compare with new data
-				$oldEntry = $this->find(
-					'first',
-					array(
-						'contain' => false,
-						'conditions' => array(
-							'Entry.id' => $this->id,
-						),
-					)
-				);
+			//# change category of thread if category of root entry changed
+			$modified = !empty($this->id);
+			if (isset($this->data[$this->alias]['category']) && $modified) {
+				$oldEntry = $this->find('first',
+					['contain' => false, 'conditions' => ['Entry.id' => $this->id]]);
 
 				if ($oldEntry && (int)$oldEntry[$this->alias]['pid'] === 0) {
-					if ((int)$this->data[$this->alias]['category'] !== (int)$oldEntry[$this->alias]['category']) {
+					$categoryChanged = (int)$this->data[$this->alias]['category'] !== (int)$oldEntry[$this->alias]['category'];
+					if ($categoryChanged) {
 						$success = $success && $this->_threadChangeCategory(
-									$oldEntry[$this->alias]['tid'],
-									$this->data[$this->alias]['category']
-								);
+								$oldEntry[$this->alias]['tid'],
+								$this->data[$this->alias]['category']
+							);
 					}
 				}
 			}

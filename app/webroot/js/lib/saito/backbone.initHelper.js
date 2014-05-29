@@ -22,7 +22,8 @@
             });
             new view({
                 el: element,
-                model: collection.get(id)
+                model: collection.get(id),
+                collection: collection
             });
         };
 

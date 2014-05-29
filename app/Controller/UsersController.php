@@ -16,100 +16,146 @@
 		];
 
 		public function login() {
-			if ($this->CurrentUser->login()):
-				if ($this->localReferer('action') === 'login'):
+			$this->CurrentUser->logOut();
+
+			//# just show form
+			if (empty($this->request->data['User']['username'])) {
+				return;
+			}
+
+			//# successful login with request data
+			if ($this->CurrentUser->login()) {
+				if ($this->localReferer('action') === 'login') {
 					$this->redirect($this->Auth->redirectUrl());
-				else:
+				} else {
 					$this->redirect($this->referer());
-				endif;
-			elseif (empty($this->request->data['User']['username']) === false):
-				$unknownError = true;
-				$this->User->contain();
-				$readUser = $this->User->findByUsername(
-					$this->request->data['User']['username']
-				);
-				if (empty($readUser) === false):
-					$user = new SaitoUser(new ComponentCollection);
-					$user->set($readUser['User']);
-					if ($user->isForbidden()) :
-						$unknownError = false;
-						$this->Session->setFlash(
-							__('User %s is locked.', $readUser['User']['username']),
-							'flash/warning'
-						);
-					endif;
-				endif;
-				if ($unknownError === true):
-					$this->Session->setFlash(__('auth_loginerror'), 'default', [], 'auth');
-				endif;
-			endif;
+				}
+				return;
+			}
+
+			//# error on login
+			$this->User->contain();
+			$username = $this->request->data['User']['username'];
+			$readUser = $this->User->findByUsername($username);
+
+			$status = null;
+
+			if (!empty($readUser)) {
+				$User = new SaitoUser($readUser['User']);
+				$status = $User->isForbidden();
+			}
+
+			switch ($status) {
+				case 'locked':
+					$message = __('User %s is locked.', $readUser['User']['username']);
+					break;
+				case 'unactivated':
+					$message = __('User %s is not activated yet.', $readUser['User']['username']);
+					break;
+				default:
+					$message = __('auth_loginerror');
+			}
+
+			// don't autofill password
+			unset($this->request->data['User']['password']);
+
+			$Logger = new \Saito\Logger\ForbiddenLogger();
+			$Logger->write("Unsuccessful login for user: $username",
+				['msgs' => [$message]]);
+
+			$this->Session->setFlash($message, 'default', [], 'auth');
 		}
 
 		public function logout() {
-			if ($this->Auth->user()) {
-				$this->CurrentUser->logout();
-			}
+			$this->CurrentUser->logout();
 			$this->redirect('/');
 		}
 
-		public function register($id = null) {
-			Stopwatch::start('Entries->register()');
+		public function register() {
+			$this->set('status', 'view');
 
-			$this->set('register_success', false);
+			$this->CurrentUser->logout();
 
-			$this->Auth->logout();
+			$tosRequired = Configure::read('Saito.Settings.tos_enabled');
+			$this->set(compact('tosRequired'));
 
-			// user clicked link in confirm mail
-			// @td make name arg
-			if ($id && isset($this->passedArgs[1])) {
-				$this->User->contain('UserOnline');
-				$user = $this->User->read(null, $id);
-				if ($user["User"]['activate_code'] == $this->passedArgs[1]) {
-					$this->User->id = $id;
-					if ($this->User->activate()) :
-						$this->Auth->login($user);
-						$this->set('register_success', 'success');
-					endif;
-				} else {
-					$this->redirect(array('controller' => 'entries', 'action' => 'index'));
-					return;
-				}
-			};
-
-			if (!empty($this->request->data) && !Configure::read('Saito.Settings.tos_enabled')) {
-				$this->request->data['User']['tos_confirm'] = true;
+			// display empty form
+			if (empty($this->request->data)) {
+				return;
 			}
 
-			if (!empty($this->request->data) && $this->request->data['User']['tos_confirm']) {
-				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
+			$data = $this->request->data;
 
-				$this->request->data['User']['activate_code'] = mt_rand(1000000, 9999999);
-				$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
-				if ($this->User->register($this->request->data)) {
-						$this->request->data['User']['id'] = $this->User->id;
-
-						$this->SaitoEmail->email(array(
-							'recipient' => $this->request->data,
-							'subject' => __('register_email_subject', Configure::read('Saito.Settings.forum_name')),
-								'sender' => array(
-									'User' => array(
-										'user_email' => Configure::read('Saito.Settings.forum_email'),
-										'username' => Configure::read('Saito.Settings.forum_name')
-									),
-								),
-								'template' => 'user_register',
-								'viewVars' => array('user' => $this->request->data),
-						));
-						$this->set('register_success', 'email_send');
-				} else {
-					// 'unswitch' the passwordAuthSwitch to get the error message to the field
-					if (isset($this->User->validationErrors['password'])) {
-						$this->User->validationErrors['user_password'] = $this->User->validationErrors['password'];
-					}
-					$this->request->data['User']['tos_confirm'] = false;
-				}
+			if (!$tosRequired) {
+				$data['User']['tos_confirm'] = true;
 			}
-			Stopwatch::stop('Entries->register()');
+
+			$tosConfirmed = $data['User']['tos_confirm'];
+			if (!$tosConfirmed) {
+				return;
+			}
+
+			$data = $this->_passwordAuthSwitch($data);
+			$this->User->Behaviors->attach('SimpleCaptcha.SimpleCaptcha');
+			$user = $this->User->register($data);
+
+			// registering failed, show form again
+			if (!$user) {
+				// undo the passwordAuthSwitch() to display error message for the field
+				if (isset($this->User->validationErrors['password'])) {
+					$this->User->validationErrors['user_password'] = $this->User->validationErrors['password'];
+				}
+				$data['User']['tos_confirm'] = false;
+				$this->request->data = $data;
+				return;
+			}
+
+			// registered successfully
+			try {
+				$forumName = Configure::read('Saito.Settings.forum_name');
+				$subject = __('register_email_subject', $forumName);
+				$email = $this->SaitoEmail->email([
+					'recipient' => $data,
+					'subject' => $subject,
+					'sender' => 'register',
+					'template' => 'user_register',
+					'viewVars' => ['user' => $user]
+				]);
+				// only used in test cases
+				$this->set('email', $email);
+			} catch (Exception $e) {
+				$Logger = new Saito\Logger\ExceptionLogger();
+				$Logger->write('Registering email confirmation failed', ['e' => $e]);
+				$this->set('status', 'fail: email');
+				return;
+			}
+
+			$this->set('status', 'success');
+		}
+
+		/**
+		 * register success (user clicked link in confirm mail)
+		 *
+		 * @param $id
+		 * @throws BadRequestException
+		 */
+		public function rs($id = null) {
+			if (!$id) {
+				throw new BadRequestException();
+			}
+
+			$code = $this->request->query('c');
+
+			try {
+				$activated = $this->User->activate((int)$id, $code);
+			} catch (Exception $e) {
+				$activated = false;
+			}
+
+			if (!$activated) {
+				$activated = ['status' => 'fail'];
+			}
+			$this->set('status', $activated['status']);
 		}
 
 		public function admin_index() {
@@ -134,27 +180,21 @@
 		public function index() {
 			$this->paginate = [
 				'contain' => 'UserOnline',
-				'conditions' => [
-					'OR' => [
-						'LENGTH(  `UserOnline`.`user_id` ) <' => 11,
-						'ISNULL(  `UserOnline`.`user_id` )' => '1'
-					],
-				],
 				'limit' => 400,
 				'order' => [
-					'UserOnline.logged_in' => 'desc',
+					'UserOnline.logged_in' => 'asc',
 					'User.username' => 'asc'
 				]
 			];
 
-			$data = $this->paginate("User");
+			$data = $this->paginate('User');
 			$this->set('users', $data);
 		}
 
 		public function admin_add() {
 			if (!empty($this->request->data)) :
 				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-				if ($this->User->register($this->request->data)) {
+				if ($this->User->register($this->request->data, true)) {
 					$this->Session->setFlash(__('user.admin.add.success'),
 							'flash/success');
 					$this->redirect(['action' => 'view', $this->User->id, 'admin' => false]);
@@ -264,53 +304,39 @@
 		}
 		if (!$this->_isEditingAllowed($this->CurrentUser, $id)) {
 			throw new \Saito\ForbiddenException("Attempt to edit user $id.", [
-				'CurrentUser' => $this->CurrentUser,
-				'Request' => $this->request
+				'CurrentUser' => $this->CurrentUser
 			]);
 		}
 
 		// try to save entry
 		if (!empty($this->request->data)) {
+			$data = $this->request->data['User'];
 
-			$this->User->id = $id;
-
+			unset($data['id']);
+			//# make sure only admin can edit these fields
 			if ($this->CurrentUser['user_type'] !== 'admin') {
-				//* make shure only admin can edit these fields
-				# @td refactor this admin fields together with view: don't repeat code
-				unset($this->request->data['User']['username']);
-				unset($this->request->data['User']['user_email']);
-				unset($this->request->data['User']['user_type']);
+				// @todo DRY: refactor this admin fields together with view
+				unset($data['username'], $data['user_email'], $data['user_type']);
 			}
 
-			if ($this->User->save($this->request->data)) {
-				// save operation was successfull
-
-				// if someone updates *his own* profile update settings for the session
-				if ( $this->User->id == $this->CurrentUser->getId() ):
-					// because we replace Auth.User we read the whole record again
-					// for maybe empty fields such as username, user_email
-					// @td recheck, probably not necessary after last [ref] of CurrentUser
-					$this->User->contain();
-					$this->request->data = $this->User->read();
-					$this->CurrentUser->refresh();
-				endif;
-				$this->redirect(array('action' => 'view', $id));
+			$this->User->id = $id;
+			$success = $this->User->save($data);
+			if ($success) {
+				$this->redirect(['action' => 'view', $id]);
+				return;
 			} else {
-				// save operation failed
-
-				# we possibly don't have username, user_type etc. in this->data on validation error
-				# so we read old entry and merge with new data send by user
+				// if empty fields are missing from send form read user again
 				$this->User->contain();
 				$user = $this->User->read();
-				$this->request->data['User'] = array_merge($user['User'], $this->request->data['User']);
+				$this->request->data['User'] = array_merge($user['User'],
+					$this->request->data['User']);
+
 				$this->User->set($this->request->data);
 				$this->User->validates();
+
 				$this->JsData->addAppJsMessage(
 					__('The user could not be saved. Please, try again.'),
-					array(
-						'type' => 'error'
-					)
-				);
+					['type' => 'error']);
 			}
 		}
 
@@ -318,11 +344,11 @@
 			//* View Entry by id
 			$this->User->id = $id;
 			$this->User->contain('UserOnline');
-			$this->set('availableThemes',
-					array_combine($this->Themes->getAvailable(),
-							$this->Themes->getAvailable()));
 			$this->request->data = $this->User->read();
 		}
+
+		$themes = $this->Themes->getAvailable();
+		$this->set('availableThemes', array_combine($themes, $themes));
 		$this->set('user', $this->request->data);
 		$this->set(
 				'title_for_layout',
@@ -353,8 +379,7 @@
 				return;
 			}
 
-			$editedUser = new SaitoUser(new ComponentCollection());
-			$editedUser->set($readUser['User']);
+			$editedUser = new SaitoUser($readUser['User']);
 
 			if ($id == $this->CurrentUser->getId()) {
 				$this->Session->setFlash(__("You can't lock yourself."), 'flash/error');
@@ -410,42 +435,56 @@
 			$this->set('user', $readUser);
 		}
 
-	public function changepassword($id = null) {
-		if ($id == null ||
-				!$this->_isEditingAllowed($this->CurrentUser, $id)
-		) :
-			$this->redirect('/');
-			return;
-		endif;
+		/**
+		 * changes user password
+		 *
+		 * @param null $id
+		 * @throws Saito\ForbiddenException
+		 * @throws BadRequestException
+		 */
+		public function changepassword($id = null) {
+			if (!$id) {
+				throw new BadRequestException();
+			}
 
-		$this->User->id = $id;
-		$user = null;
+			$user = $this->User->findById($id);
+			$allowed = $this->_isEditingAllowed($this->CurrentUser, $id);
+			if (empty($user) || !$allowed) {
+				throw new \Saito\ForbiddenException("Attempt to change password for user $id.",
+					['CurrentUser' => $this->CurrentUser]);
+			}
+			$this->set('userId', $id);
 
-		if (!empty($this->request->data)) :
+			//# just show empty form
+			if (empty($this->request->data)) {
+				return;
+			}
+
+			//# process submitted form
 			$this->request->data = $this->_passwordAuthSwitch($this->request->data);
-			$this->User->id = $id;
-			$this->User->contain('UserOnline');
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('change_password_success'), 'flash/success');
+			$data = [
+				'id' => $id,
+				'password_old' => $this->request->data['User']['password_old'],
+				'password' => $this->request->data['User']['password'],
+				'password_confirm' => $this->request->data['User']['password_confirm']
+			];
+			$success = $this->User->save($data);
+
+			if ($success) {
+				$this->Session->setFlash(__('change_password_success'),
+					'flash/success');
 				$this->redirect(['controller' => 'users', 'action' => 'edit', $id]);
 				return;
-			} else {
-				$this->Session->setFlash(
-					__d(
-						'nondynamic',
-						current(array_pop($this->User->validationErrors))
-					),
-					'flash/error'
-				);
 			}
-		endif;
 
-		// we have to fill it for the form magic to work
-		$this->User->contain("UserOnline");
-		$user = $this->User->read();
-		$user['User']['password'] = '';
-		$this->request->data = $user;
-	}
+			$this->Session->setFlash(
+				__d('nondynamic', current(array_pop($this->User->validationErrors))),
+				'flash/error'
+			);
+
+			// unset all autofill form data
+			$this->request->data = [];
+		}
 
 		public function contact($id = null) {
 			if ($id === null) {
@@ -459,15 +498,10 @@
 				return;
 			}
 
-			// set recipient
 			if ((int)$id === 0) {
 				// recipient is forum owner
-				$recipient = [
-					'User' => [
-						'username' => Configure::read('Saito.Settings.forum_name'),
-						'user_email' => Configure::read('Saito.Settings.forum_email')
-					]
-				];
+				$recipient = $this->SaitoEmail->getPredefinedSender('contact');
+				$this->showDisclaimer = true;
 			} else {
 				// recipient is forum user
 				$this->User->id = $id;
@@ -484,80 +518,83 @@
 				return;
 			endif;
 
-			if ($this->request->data):
-				// send email
+			//# show form
+			if (empty($this->request->data)) {
+				$this->request->data = $recipient;
+				return;
+			}
 
-				$validationError = false;
+			//# send email
+			$this->request->data = $this->request->data + $recipient;
 
-				// validate and set sender
-				if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
-					$senderContact = $this->request->data['Message']['sender_contact'];
-					App::uses('Validation', 'Utility');
-					if (!Validation::email($senderContact)) {
-						$this->JsData->addAppJsMessage(
-							__('error_email_not-valid'),
-							[
-								'type' => 'error',
-								'channel' => 'form',
-								'element' => '#MessageSenderContact'
-							]
-						);
-						$validationError = true;
-					} else {
-						$sender['User'] = [
-							'username' => '',
-							'user_email' => $senderContact
-						];
-					}
-				} else {
-					$sender = $this->CurrentUser->getId();
-				}
+			$validationError = false;
 
-				// validate and set subject
-				$subject = rtrim($this->request->data['Message']['subject']);
-				if (empty($subject)) {
+			// validate and set sender
+			if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
+				$senderContact = $this->request->data['Message']['sender_contact'];
+				App::uses('Validation', 'Utility');
+				if (!Validation::email($senderContact)) {
 					$this->JsData->addAppJsMessage(
-						__('error_subject_empty'),
+						__('error_email_not-valid'),
 						[
 							'type' => 'error',
 							'channel' => 'form',
-							'element' => '#MessageSubject'
+							'element' => '#MessageSenderContact'
 						]
 					);
 					$validationError = true;
+				} else {
+					$sender['User'] = [
+						'username' => '',
+						'user_email' => $senderContact
+					];
 				}
+			} else {
+				$sender = $this->CurrentUser->getId();
+			}
 
-				if ($validationError === false):
-					try {
-						$email = [
-							'recipient' => $recipient,
-							'sender' => $sender,
-							'subject' => $subject,
-							'message' => $this->request->data['Message']['text'],
-							'template' => 'user_contact'
-						];
+			// validate and set subject
+			$subject = rtrim($this->request->data['Message']['subject']);
+			if (empty($subject)) {
+				$this->JsData->addAppJsMessage(
+					__('error_subject_empty'),
+					[
+						'type' => 'error',
+						'channel' => 'form',
+						'element' => '#MessageSubject'
+					]
+				);
+				$validationError = true;
+			}
 
-						if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
-							$email['ccsender'] = true;
-						}
+			if ($validationError === false):
+				try {
+					$email = [
+						'recipient' => $recipient,
+						'sender' => $sender,
+						'subject' => $subject,
+						'message' => $this->request->data['Message']['text'],
+						'template' => 'user_contact'
+					];
 
-						$this->SaitoEmail->email($email);
-						$this->Session->setFlash(__('Message was send.'), 'flash/success');
-						$this->redirect('/');
-						return;
-					} catch (Exception $exc) {
-						$this->Session->setFlash(
-							__('Message couldn\'t be send! ' . $exc->getMessage()),
-							'flash/error'
-						);
-					} // end try
-				endif;
+					if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
+						$email['ccsender'] = true;
+					}
 
-				$this->request->data = $this->request->data + $recipient;
+					$email = $this->SaitoEmail->email($email);
+					$this->set('email', $email); // used in test cases
+					$this->Session->setFlash(__('Message was send.'), 'flash/success');
+					$this->redirect('/');
+					return;
+				} catch (Exception $e) {
+					$Logger = new Saito\Logger\ExceptionLogger();
+					$Logger->write('Contact email failed', ['e' => $e]);
 
-			else:
-				// show form
-				$this->request->data = $recipient;
+					$this->Session->setFlash(
+						__('Message couldn\'t be send! ' . $e->getMessage()),
+						'flash/error'
+					);
+				} // end try
 			endif;
 		}
 
@@ -628,7 +665,7 @@
 			Stopwatch::start('Users->beforeFilter()');
 			parent::beforeFilter();
 
-			$this->Auth->allow('register', 'login', 'contact');
+			$this->Auth->allow('contact', 'login', 'register', 'rs');
 			$this->set('modLocking',
 					$this->CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui')
 			);
@@ -643,7 +680,7 @@
 		 * @param int $userId
 		 * @return type
 		 */
-		protected function _isEditingAllowed(SaitoUser $CurrentUser, $userId) {
+		protected function _isEditingAllowed(ForumsUserInterface $CurrentUser, $userId) {
 			if ($CurrentUser->isAdmin()) {
 				return true;
 			}

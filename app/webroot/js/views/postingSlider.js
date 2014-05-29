@@ -49,7 +49,9 @@ define(['jquery', 'marionette', 'models/app', 'views/answering',
         },
 
         _hideAnsweringForm: function() {
-          this.$el.slideUp('fast');
+          this.$el.slideUp('fast', function() {
+            App.eventBus.trigger('change:DOM');
+          });
           /*
           // @td @bogus
           var parent = this.$el.parent();

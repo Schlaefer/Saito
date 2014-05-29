@@ -4,12 +4,15 @@
 
 	class ApiHelper extends Helper {
 
+		public $helpers = [
+			'TimeH'
+		];
+
 		public function mysqlTimestampToIso($date) {
-			$unixTimeStamp = strtotime($date);
-			if ($unixTimeStamp < 0) {
-				$unixTimeStamp = 0;
+			if (empty($date)) {
+				$date = 0;
 			}
-			return date('c', $unixTimeStamp);
+			return $this->TimeH->mysqlTimestampToIso($date);
 		}
 
 	}

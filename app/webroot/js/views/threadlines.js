@@ -123,7 +123,7 @@ define([
     },
 
     _closeInlineView: function() {
-      // $('.js-thread_inline.' + id).slideUp('fast',
+      App.eventBus.trigger('change:DOM');
       this.$('.js-thread_inline').hide(0,
           _.bind(
               function() {

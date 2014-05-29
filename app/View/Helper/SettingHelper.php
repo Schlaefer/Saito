@@ -7,7 +7,8 @@
 		protected $_headers = [];
 
 		public $helpers = [
-			'Html'
+			'Html',
+			'SaitoHelp'
 		];
 
 		public function table($tableName, array $settingNames, $Settings, array $options = []) {
@@ -25,9 +26,17 @@
 			$key = $this->addHeader($options['nav-title']);
 			$out = '<table class="table table-striped table-bordered table-condensed">' .
 					$out . '</table>';
+
+			$sh = '';
+			if (!empty($options['sh'])) {
+				$sh = $this->SaitoHelp->icon($options['sh'],
+					['style' => 'float: right; margin: 1em']);
+			}
+
 			$out = '<div id="navHeaderAnchor' . $key . '"></div>' .
+					$sh .
 					$anchors .
-					'<h2>' . $tableName . '</h2>' .
+					'<h2 >' . $tableName . '</h2>' .
 					$out;
 			return $out;
 		}

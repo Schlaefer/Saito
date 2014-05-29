@@ -13,6 +13,7 @@
     "grunt-contrib-uglify": "*",
     "grunt-phpcs": "^0.2.2",
     "grunt-shell": "*",
-    "grunt-template-jasmine-requirejs": "*"
+    "grunt-template-jasmine-requirejs": "*",
+    "lodash": "^2.4.1"
   }
 }

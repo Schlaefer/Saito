@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'models/app',
   'drop'
-], function($, _, Backbone, Drop) {
+], function($, _, Backbone, App, Drop) {
 
   "use strict";
 
@@ -11,9 +12,13 @@ define([
 
     isHelpShown: false,
 
+    // cache for indicator-Views
     _popups: [],
+    // cache for DOM-elements
+    _elements: null,
 
-    tpl: _.template('<a href="<%= webroot %>help/<%= id %>"><i class="fa fa-question-circle"></i></a>'),
+    // target="_blank": don't lose text in ajax answering form by jumping away
+    tpl: _.template('<a href="<%= webroot %>help/<%= id %>" target="_blank"><i class="fa fa-question-circle"></i></a>'),
 
     events: function() {
       var out = {};
@@ -26,52 +31,80 @@ define([
       this.elementName = options.elementName;
       this.webroot = options.webroot;
 
+      // @todo should listen to initial 'app view ready' event, decouple from views/app.js
       this.activateHelpButton();
+      this.listenTo(App.eventBus, 'change:DOM', this._onDomChange);
     },
 
     activateHelpButton: function() {
-      if (this.isHelpOnPage()) {
-        $(this.indicatorName).addClass('is-active');
+      var $indicator = $(this.indicatorName);
+      if (!$indicator) {
+        return;
+      }
+      if (this._isHelpOnPage()) {
+        $indicator.addClass('is-active');
+      } else {
+        $indicator.removeClass('is-active');
       }
     },
 
-    isHelpOnPage: function() {
-      return this.$(this.elementName).length > 0;
+    _onDomChange: function() {
+      this.activateHelpButton();
+      this._reset();
+    },
+
+    _isHelpOnPage: function() {
+      return this._getElements().length > 0;
     },
 
     toggle: function(event) {
       event.preventDefault();
       if (this.isHelpShown) {
-        this.hide();
+        this._hide();
       } else {
-        this.show();
+        this._show();
       }
     },
 
-    show: function() {
+    _reset: function() {
+      this._hide();
+      this._elements = null;
+      this._popups = [];
+    },
+
+    _getElements: function() {
+      if (this._elements === null) {
+        this._elements = this.$(this.elementName).filter(':visible');
+      }
+      return this._elements;
+    },
+
+    _show: function() {
       this.isHelpShown = true;
-      if (this.isHelpOnPage()) {
-        if (this._popups.length === 0) {
-          var that = this;
-          $(this.elementName).each(function() {
-            var $element = $(this),
-                id = $element.data('shpid'),
-                $k = that.tpl({id: id, webroot: that.webroot});
-            that._popups.push(new Drop({
-              target: this,
-              content: $k,
-              classes: 'drop-theme-arrows',
-              position: 'top center'
-            }));
-          });
-        }
-        this._popups.forEach(function(element) {
-          element.open();
+      if (!this._isHelpOnPage()) {
+        return;
+      }
+
+      if (this._popups.length === 0) {
+        var that = this;
+        this._getElements().each(function() {
+          var $element = $(this),
+            id = $element.data('shpid'),
+            $k = that.tpl({id: id, webroot: that.webroot});
+          that._popups.push(new Drop({
+            target: this,
+            content: $k,
+            classes: 'drop-theme-arrows',
+            position: 'top center'
+          }));
         });
       }
+      this._popups.forEach(function(element) {
+        element.open();
+      });
     },
 
-    hide: function() {
+    _hide: function() {
       this.isHelpShown = false;
       this._popups.forEach(function(element) {
         element.close();

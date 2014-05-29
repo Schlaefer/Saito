@@ -121,11 +121,32 @@ msgstr "All time values displayed are offset to match this timezone."
 
 #
 msgid "forum_email"
-msgstr "Email"
+msgstr "Main Address"
 
 #
 msgid "forum_email_exp"
-msgstr "Email address used as sender address for emails send by the forum (e.g. when registering)."
+msgstr "Main address"
+
+#
+msgid "email_contact"
+msgstr "Contact Address"
+
+msgid "email_contact_exp"
+msgstr "Address used in main contact form. (optional, if empty main address is used)"
+
+#
+msgid "email_register"
+msgstr "Register Address"
+
+msgid "email_register_exp"
+msgstr "Reply address used in registration email. (optional, if empty main address is used)"
+
+#
+msgid "email_system"
+msgstr "System Address"
+
+msgid "email_system_exp"
+msgstr "Used as sender address for system generated messages (e.g. notifications). (optional, if empty main address is used)"
 
 #
 msgid "block_user_ui"
@@ -397,4 +418,4 @@ msgstr "API Key"
 
 #
 msgid "map_api_key_exp"
-msgstr "Mapquest API Key."
+msgstr "MapQuest-API-key."

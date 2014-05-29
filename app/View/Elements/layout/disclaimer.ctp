@@ -1,3 +1,4 @@
+<?php Stopwatch::start('layout/disclaimer.ctp'); ?>
 <div class="l-disclaimer bp-threeColumn">
   <div class="left">
     <div class="disclaimer-inside">
@@ -24,14 +25,12 @@
 					if ($CurrentUser->isLoggedIn()) {
 						$loggedin = $this->Html->link($loggedin, '/users/index');
 					}
-					echo String::insert(
-							__(':entries Entries in :threads Threads; :registered members, :loggedin logged in, :anon anonymous'),
-							[
-									'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
-									'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
-									'registered' => number_format($HeaderCounter['user'], null, null, '.'),
-									'loggedin' => $loggedin,
-									'anon' => $HeaderCounter['user_anonymous']
+					echo String::insert( __('discl.status'), [
+                'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
+                'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
+                'registered' => number_format($HeaderCounter['user'], null, null, '.'),
+                'loggedin' => $loggedin,
+                'anon' => $HeaderCounter['user_anonymous']
 							]);
 				?>
 			</p>
@@ -39,7 +38,7 @@
 				<?php
 					$_user = $HeaderCounter['latestUser']['User'];
 					$_u = $this->Layout->linkToUserProfile($_user, $CurrentUser);
-					echo __('disclaimer.newestMember', $_u);
+					echo __('discl.newestMember', $_u);
 				?>
 			</p>
     </div>
@@ -52,8 +51,12 @@
 					<?= __('Powered by Saito v%s.', Configure::read("Saito.v")) ?>
 				</a>
         <br/>
-        <?= __('Generated in %s s.', Stopwatch::getWallTime()) ?>
+        <?php
+          $time = Stopwatch::getWallTime(Configure::read('Config.language'));
+          echo __('Generated in %s s.', $time);
+        ?>
       </p>
     </div>
   </div>
 </div>
+<?php Stopwatch::stop('layout/disclaimer.ctp'); ?>

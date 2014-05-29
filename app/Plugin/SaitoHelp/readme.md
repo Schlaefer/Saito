@@ -1,0 +1,1 @@
+You need `"kzykhys/ciconia": "dev-master"` in (composer) autoload available.

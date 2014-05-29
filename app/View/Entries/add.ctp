@@ -12,11 +12,9 @@
 
 	// header subnav
 	$this->start('headerSubnavLeft');
-	echo $this->Layout->navbarItem(
-		'<i class="fa fa-arrow-left"></i>&nbsp; ' . $headerSubnavLeftTitle,
-		$headerSubnavLeftUrl,
-		['escape' => false]
-	);
+  SDV($headerSubnavLeftTitle, null);
+  SDV($headerSubnavLeftUrl, null);
+  echo $this->Layout->navbarBack($headerSubnavLeftUrl, $headerSubnavLeftTitle);
 	$this->end();
 ?>
 	<div class="entry <?= ($is_answer) ? 'reply' : 'add' ?> <?= ($is_inline) ? '' : 'add-not-inline' ?>">
@@ -43,45 +41,41 @@
 		</div>
 		<div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
-		<div class="panel-content panel-form">
-					<?php echo  $this->Form->create('Entry'); ?>
-				<?php
-					echo $this->EntryH->categorySelect($this->request->data, $categories);
-					echo $this->Form->input(
-						'subject',
-						[
-							'maxlength' => Configure::read('Saito.Settings.subject_maxlength'),
-							'label' => false,
-							'class' => 'js-subject subject',
-							'tabindex' => 2,
-							'error' => [
-								'notEmpty' => __('error_subject_empty'),
-								'maxLength' => __('error_subject_max_length')
-							],
-							'div' => ['class' => 'required'],
-							'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject'),
-							'required' => ($is_answer) ? false : "required"
-						]
-					);
-					echo $this->Form->hidden('pid');
-					echo $this->MarkitupEditor->getButtonSet(
-						'markItUp_' . $form_id
-					);
-					echo $this->MarkitupEditor->editor(
-						'text',
-						[
-							'class' => 'shp',
-							'data-shpid' => 3,
-							'parser' => false,
-							'set' => 'default',
-							'skin' => 'macnemo',
-							'label' => false,
-							'tabindex' => 3,
-							'settings' => 'markitupSettings'
-						]
-					);
-				?>
-				<?php if (empty($citeText) === false) : ?>
+    <div class="panel-content panel-form">
+      <?php
+        echo $this->Form->create('Entry');
+        echo $this->EntryH->categorySelect($this->request->data, $categories);
+        echo $this->Form->input('subject', [
+            'maxlength' => Configure::read('Saito.Settings.subject_maxlength'),
+            'label' => false,
+            'class' => 'js-subject subject',
+            'tabindex' => 2,
+            'error' => [
+              'notEmpty' => __('error_subject_empty'),
+              'maxLength' => __('error_subject_max_length')
+            ],
+            'div' => ['class' => 'required'],
+            'placeholder' => (!empty($citeSubject)) ? $citeSubject : __('Subject'),
+            'required' => ($is_answer) ? false : "required"
+          ]
+        );
+        echo $this->Form->hidden('pid');
+        echo $this->MarkitupEditor->getButtonSet('markItUp_' . $form_id);
+        echo $this->MarkitupEditor->editor(
+          'text',
+          [
+            'class' => 'shp',
+            'data-shpid' => 3,
+            'parser' => false,
+            'set' => 'default',
+            'skin' => 'macnemo',
+            'label' => false,
+            'tabindex' => 3,
+            'settings' => 'markitupSettings'
+          ]
+        );
+        if (empty($citeText) === false) :
+          ?>
 					<div class="cite-container">
 						<?=
 							$this->Html->link(

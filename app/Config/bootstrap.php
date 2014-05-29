@@ -148,7 +148,6 @@ CakePlugin::loadAll(
  */
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
-	'CacheDispatcher',
 	'Stopwatch.StopwatchFilter',
 ));
 
@@ -166,19 +165,26 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+CakeLog::config('saito-error', array(
+	'engine' => 'FileLog',
+	'size' => '1MB',
+	'rotate' => '4',
+	'types' => ['saito.error'],
+	'file' => 'saito-error'
+));
 CakeLog::config('saito', array(
 		'engine' => 'FileLog',
 		'size' => '1MB',
 		'rotate' => '4',
 		'types' => ['saito.info'],
-		'file' => 'saito'
+		'file' => 'saito-info'
 ));
 CakeLog::config('auth', array(
 		'engine' => 'FileLog',
 		'size' => '1MB',
 		'rotate' => '4',
 		'types' => ['saito.forbidden'],
-		'file' => 'auth'
+		'file' => 'saito-auth'
 ));
 
 include APP . 'Lib' . DS . 'SaitoExceptions.php';
@@ -188,6 +194,11 @@ include 'version.php';
  * Sets if additional app runtime information is logged
  */
 Configure::write('Saito.Globals.logInfo', false);
+
+/**
+ * logs emails instead of sending them
+ */
+Configure::write('Saito.Debug.email', false);
 
 /**
  * Empiric number matching the average number of postings per thread
@@ -203,11 +214,11 @@ else :
 	Configure::write('Saito.installed', FALSE);
 endif;
 
-	/**
- * Activate Saito Cache:
+/**
+ * Activates Saito's thread cache
  *
- * true: (default) use cache
- * false: don't use cache
+ * true: (default for debug 0 and 1) use cache
+ * false: (default for debug > 1) don't use cache
  */
 Configure::write('Saito.Cache.Thread', true);
 

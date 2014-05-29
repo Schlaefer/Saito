@@ -6,9 +6,7 @@ require.config({
     // Run `grunt dev-setup` to install bower components first.
     common: '../dist/common.min',
 
-    // moment
-    moment: '../dev/bower_components/momentjs/js/moment',
-    'moment-de': '../dev/bower_components/momentjs/lang/de'
+    templateHelpers: 'lib/saito/templateHelpers'
   }
 });
 

@@ -1,8 +1,7 @@
 <?php
 
 	App::uses('CacheTree', 'Lib/CacheTree');
-	App::uses('CurrentUserComponent', 'Controller/Component');
-	App::uses('ComponentCollection', 'Controller');
+	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	class CacheTreeMock extends CacheTree {
 
@@ -15,9 +14,7 @@
 
 		public function setUser($userData) {
 			unset($this->_CurrentUser);
-			$Collection = new ComponentCollection();
-			$this->_CurrentUser = new CurrentUserComponent($Collection);
-			$this->_CurrentUser->set($userData);
+			$this->_CurrentUser = new SaitoUser($userData);
 		}
 
 		public function setAllowRead($state) {
@@ -197,6 +194,34 @@
 					'last_answer' => date('Y-m-d H:i:s', time() - 1800),
 			);
 			$result = $this->CacheTree->isCacheValid($in);
+			$this->assertFalse($result);
+		}
+
+		/**
+		 * Tests that a newly registered users sees everything as new
+		 */
+		public function testIsCacheValidNewUser() {
+			$this->CacheTree->setAllowRead(true);
+
+			//# setups newly registered user
+			$userData = ['id' => 1, 'last_refresh' => null];
+			$this->CacheTree->setUser($userData);
+
+			//# setups entry and its cache with same and non deprecated timestamp
+			$lastAnswer = time();
+			$cacheData = ['1' => [
+				'metadata' => ['content_last_updated' => $lastAnswer],
+				'content' => 'foo',
+			]];
+			$this->CacheTree->setCache($cacheData);
+
+			$entry = [
+				'id' => 1,
+				'last_answer' => date('Y-m-d H:i:s', $lastAnswer)
+			];
+
+			//# test
+			$result = $this->CacheTree->isCacheValid($entry);
 			$this->assertFalse($result);
 		}
 

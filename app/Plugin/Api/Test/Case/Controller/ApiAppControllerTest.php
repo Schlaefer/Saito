@@ -31,13 +31,13 @@
 
 		public function testApiDisabled() {
 			Configure::write('Saito.Settings.api_enabled', '0');
-			$this->expectException('Saito\Api\ApiDisabledException');
+			$this->setExpectedException('Saito\Api\ApiDisabledException');
 			$this->testAction($this->_apiRoot . 'bootstrap.json');
 		}
 
 		public function testApiEnabled() {
 			Configure::write('Saito.Settings.api_enabled', '1');
-			$this->expectException('Saito\Api\UnknownRouteException');
+			$this->setExpectedException('Saito\Api\UnknownRouteException');
 			$this->testAction($this->_apiRoot . 'foobar');
 		}
 

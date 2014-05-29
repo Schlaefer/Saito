@@ -1,283 +1,71 @@
-//noinspection JSHint
-
+/*jshint node: true */
 module.exports = function(grunt) {
   'use strict';
 
-  var requireJsOptions = {
-    baseUrl: "./app/webroot/js",
-    dir: "./app/webroot/release-tmp",
-    optimize: "uglify2", // "none"
-    skipDirOptimize: true,
-    findNestedDependencies: true,
-    // just to many comments in bootstrap
-    preserveLicenseComments: false,
-    shim: {
-      drop: {
-        deps: ['tether'],
-        exports: 'Drop'
-      },
-      jqueryTinyTimer: {
-        deps: [/* 'jquery' */]
-      }
-    },
-    // paths used by r.js
-    paths: {
-      backbone: '../dev/bower_components/backbone/js/backbone',
-      backboneLocalStorage: '../dev/bower_components/Backbone.localStorage/js/backbone.localStorage',
-      cakeRest: 'lib/saito/backbone.cakeRest',
-      domReady: '../dev/bower_components/requirejs-domready/js/domReady',
-      drop: '../dev/bower_components/drop/drop',
-      fastclick: '../dev/bower_components/fastclick/js/fastclick',
-      humanize: '../dev/bower_components/humanize/js/humanize',
-      jquery: '../dev/bower_components/jquery/jquery',
-      jqueryAutosize: '../dev/bower_components/jquery-autosize/js/jquery.autosize',
-      jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
-      jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
-      jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
-      templateHelpers: 'lib/saito/templateHelpers',
-      tether: '../dev/bower_components/tether/tether',
-      text: '../dev/bower_components/requirejs-text/js/text',
-      underscore: '../dev/bower_components/underscore/js/underscore',
-      // marionette
-      marionette: '../dev/bower_components/marionette/backbone.marionette',
-      "backbone.wreqr": '../dev/bower_components/backbone.wreqr/js/backbone.wreqr',
-      "backbone.babysitter": '../dev/bower_components/backbone.babysitter/js/backbone.babysitter',
-      // moment
-      moment: '../dev/bower_components/momentjs/js/moment',
-      'moment-de': '../dev/bower_components/momentjs/lang/de'
-    },
-    modules: [
-      {
-        name: "common",
-        include: [
-          'backbone',
-          'backboneLocalStorage',
-          'backbone.babysitter',
-          'backbone.wreqr',
-          'cakeRest',
-          'domReady',
-          'drop',
-          'fastclick',
-          'marionette',
-          'humanize',
-          'jqueryAutosize',
-          'jqueryTinyTimer',
-          'jqueryUi',
-          'text',
-          'tether',
-          'templateHelpers',
-          'underscore'
-        ],
-        // jquery is loaded externally on html page
-        exclude: ['jquery']
-      },
-      {
-        name: "main",
-        exclude: ['common']
-      }
-    ]
-  };
 
-  grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        bower: {
-          devsetup: {
-            options: {
-              targetDir: './app/webroot/dev/bower_components',
-              cleanBowerDir: true,
-              cleanTargetDir: true,
-              layout: 'byComponent'
-            }
-          }
-        },
-        requirejs: {
-          // config used for r.js and in non-dev mode
-          release: {
-            options: requireJsOptions
-          }
-        },
-        uglify: {
-          release: {
-            files: {
-              './app/webroot/dist/jquery.min.js': ['./app/webroot/dev/bower_components/jquery/jquery.js'],
-              './app/webroot/dist/require.min.js': ['./app/webroot/dev/bower_components/requirejs/js/require.js']
-            }
-          }
-        },
-        copy: {
-          // non minified files needed for debug modus
-          nonmin: {
-            files: [
-              {
-                src: ['./app/webroot/dev/bower_components/jquery/jquery.js'],
-                dest: './app/webroot/dist/jquery.js'
-              },
-              {
-                src: ['./app/webroot/dev/bower_components/requirejs/js/require.js'],
-                dest: './app/webroot/dist/require.js'
-              },
-              // font-awesome fonts
-              {
-                expand: true,
-                cwd: './app/webroot/dev/bower_components/font-awesome/fonts/',
-                src: '*',
-                dest: './app/webroot/css/stylesheets/fonts/'
-              },
-              // font-awesome scss
-              {
-                expand: true,
-                cwd: './app/webroot/dev/bower_components/font-awesome/scss/',
-                src: '*',
-                dest: './app/webroot/css/src/partials/lib/font-awesome/'
-              },
-              // leaflet
-              {
-                expand: true,
-                cwd: './app/Vendor/leaflet/',
-                src: '**',
-                dest: './app/webroot/dist/leaflet/'
-              },
-              {
-                expand: true,
-                cwd: './app/webroot/dev/bower_components/leaflet.markercluster/dist/',
-                src: '*',
-                dest: './app/webroot/dist/leaflet/'
-              }
-            ]
-          },
-          release: {
-            files: [
-              {
-                src: ['./app/webroot/release-tmp/common.js'],
-                dest: './app/webroot/dist/common.min.js'
-              },
-              {
-                src: ['./app/webroot/release-tmp/main.js'],
-                dest: './app/webroot/dist/main.min.js'
-              },
-              {
-                expand: true,
-                cwd: './app/webroot/dev/vendors/farbtastic/',
-                src: '*',
-                dest: './app/webroot/js/farbtastic/'
-              }
-            ]
-          }
-        },
-        clean: {
-          devsetup: [
-            // font-awesome
-            './app/webroot/css/stylesheets/fonts/',
-            './app/webroot/css/src/partials/lib/font-awesome/'
-          ],
-          release: ['./app/webroot/dist'],
-          releasePost: ['./app/webroot/release-tmp']
-        },
-        phpcs: {
-          controllers: {dir: ['./app/Controller']},
-          models: {dir: ['./app/Model']},
-          lib: {dir: ['./app/Lib']},
-          tests: {
-            dir: ['./app/Test'],
-            options: {
-              ignore: 'Selenium'
-            }
-          },
-          view: {
-            dir: ['./app/View'],
-            options: {
-              ignore: 'Themed'
-            }
-          },
-          plugins: {
-            dir: ['./app/Plugin'],
-            options: {
-              ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
-            }
-          },
-          options: {
-            standard: 'app/Test/phpcs-ruleset.xml',
-            ignore: 'webroot',
-            // suppress warnings
-            warningSeverity: 8
-          }
-        },
-        jshint: {
-          all: ['Gruntfile.js', './app/webroot/js/**/*.js'],
-          options: {
-            ignores: [
-              './app/webroot/js/bootstrap/*.js',
-              './app/webroot/js/farbtastic/*.js',
-              './app/webroot/js/lib/**/*.js'
-            ]
-          }
-        },
-        shell: {
-          testCake: {
-            command: './app/Console/cake test app all --stderr',
-            options: {
-              stdout: true,
-              stderr: true,
-              failOnError: true
-            }
-          }
-        },
-        jasmine: {
-          test: {
-            // src: './app/webroot/js/main.js',
-            options: {
-              specs: './app/webroot/js/tests/**/*Spec.js',
-              vendor: [
-                './app/webroot/dev/bower_components/jquery/jquery.js',
-                './app/webroot/js/bootstrap/bootstrap.js',
-                './app/Plugin/JasmineJs/webroot/js/jasmine-jquery.js',
-                './app/Plugin/JasmineJs/webroot/js/sinon-1.6.0.js'
-              ],
-              helpers: [
-                './app/webroot/js/lib/bootstrapHelper.js',
-                './app/webroot/js/tests/jasmineBootstrapHelper.js',
-                './app/webroot/js/lib/postBootstrapHelper.js'
-              ],
-              keepRunner: false,
-              template: require('grunt-template-jasmine-requirejs'),
-              templateOptions: {
-                requireConfig: requireJsOptions
-              }
-            }
-          }
-        },
-        compass: {
-          watchCommon: {
-            options: {
-              basePath: './app/webroot/css/',
-              config: './app/webroot/css/config.rb',
-              watch: true,
-              poll: true
-            }
-          },
-          watchDefault: {
-            options: {
-              basePath: './app/View/Themed/Paz/webroot/css/',
-              config: './app/View/Themed/Paz/webroot/css/config.rb',
-              watch: true,
-              poll: true
-            }
-          },
-          compileExampleTheme: {
-            options: {
-              basePath: './app/View/Themed/Example/webroot/css/',
-              config: './app/View/Themed/Example/webroot/css/config.rb'
-            }
-          }
-        },
-        concurrent: {
-          compassWatch: ['compass:watchCommon', 'compass:watchDefault'],
-          options: {
-            logConcurrentOutput: true
-          }
+  var gruntConfig = {
+    pkg: grunt.file.readJSON('package.json'),
+    bower: {
+      devsetup: {
+        options: {
+          targetDir: './app/webroot/dev/bower_components',
+          cleanBowerDir: true,
+          cleanTargetDir: true,
+          layout: 'byComponent'
         }
       }
-  );
+    },
+    uglify: {
+      release: {
+        files: {
+          './app/webroot/dist/jquery.min.js': ['./app/webroot/dev/bower_components/jquery/jquery.js'],
+          './app/webroot/dist/require.min.js': ['./app/webroot/dev/bower_components/requirejs/js/require.js']
+        }
+      }
+    },
+    clean: {
+      devsetup: [
+        // font-awesome
+        './app/webroot/css/stylesheets/fonts/',
+        './app/webroot/css/src/partials/lib/font-awesome/'
+      ],
+      release: ['./app/webroot/dist'],
+      releasePost: ['./app/webroot/release-tmp']
+    },
+    jshint: {
+      all: ['Gruntfile.js', './app/webroot/js/**/*.js'],
+      options: {
+        ignores: [
+          './app/webroot/js/bootstrap/*.js',
+          './app/webroot/js/farbtastic/*.js',
+          './app/webroot/js/lib/**/*.js'
+        ]
+      }
+    },
+    shell: {
+      testCake: {
+        command: './app/Console/cake test app all --stderr',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
+      }
+    },
+    concurrent: {
+      compassWatch: ['compass:watchCommon', 'compass:watchDefault'],
+      options: {
+        logConcurrentOutput: true
+      }
+    }
+  };
+
+  var configs = ['compass', 'copy', 'jasmine', 'phpcs', 'requirejs'];
+  configs.map(function(config) {
+    gruntConfig[config] = require('./dev/grunt/config/' + config);
+  });
+
+  grunt.initConfig(gruntConfig);
 
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-copy');

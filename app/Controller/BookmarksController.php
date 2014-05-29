@@ -9,9 +9,7 @@
  */
 class BookmarksController extends AppController {
 
-	public $helpers = array(
-		'EntryH',
-	);
+	public $helpers = ['EntryH'];
 
 /**
  * @throws MethodNotAllowedException
@@ -20,17 +18,11 @@ class BookmarksController extends AppController {
 		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
 		}
-		$bookmarks = $this->Bookmark->find('all', array(
-				'contain' => array(
-						'Entry' => array(
-								'Category', 'User'
-							)
-						),
-				'conditions' => array(
-						'Bookmark.user_id' => $this->CurrentUser->getId(),
-				),
-				'order' => 'Bookmark.id DESC',
-		));
+		$bookmarks = $this->Bookmark->find('all', [
+			'contain' => ['Entry' => ['Category', 'User']],
+			'conditions' => ['Bookmark.user_id' => $this->CurrentUser->getId()],
+			'order' => 'Bookmark.id DESC',
+		]);
 		$this->set('bookmarks', $bookmarks);
 	}
 
@@ -47,39 +39,45 @@ class BookmarksController extends AppController {
 			throw new MethodNotAllowedException;
 		}
 		$this->autoRender = false;
-		if ($this->request->is('post')) {
-			$data = array(
-					'user_id' => $this->CurrentUser->getId(),
-					'entry_id' => $this->request->data['id'],
-			);
-			$this->Bookmark->create();
-			if ($this->Bookmark->save($data)) {
-				return true;
-			} else {
-				return false;
-			}
+		if (!$this->request->is('post')) {
+			return false;
 		}
+
+		$data = [
+			'user_id' => $this->CurrentUser->getId(),
+			'entry_id' => $this->request->data['id'],
+		];
+		$this->Bookmark->create();
+		return (bool)$this->Bookmark->save($data);
 	}
 
-/**
- * @param null $id
- * @throws MethodNotAllowedException
- */
+	/**
+	 * @param null $id
+	 * @throws NotFoundException
+	 * @throws MethodNotAllowedException
+	 * @throws Saito\ForbiddenException
+	 */
 	public function edit($id = null) {
-		if (!$this->CurrentUser->isLoggedIn()) {
-			throw new MethodNotAllowedException;
-		}
-		$bookmark = $this->_getBookmark($id, $this->CurrentUser->getId());
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Bookmark->save($this->request->data)) {
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The bookmark could not be saved. Please, try again.'));
-			}
-		} else {
+		$bookmark = $this->_getBookmark($id);
+
+		if (!$this->request->is('post') && !$this->request->is('put')) {
 			$this->initBbcode();
 			$this->request->data = $bookmark;
+			return;
 		}
+
+		$data['Bookmark'] = [
+			'id' => $id,
+			'comment' => $this->request->data['Bookmark']['comment']
+		];
+		$success = $this->Bookmark->save($data);
+		if (!$success) {
+			$this->Session->setFlash(
+				__('The bookmark could not be saved. Please, try again.'));
+			return;
+		}
+		$this->redirect(['action' => 'index',
+			'#' => $bookmark['Bookmark']['entry_id']]);
 	}
 
 /**
@@ -95,39 +93,37 @@ class BookmarksController extends AppController {
 		$this->_getBookmark($id, $this->CurrentUser->getId());
 		$this->autoRender = false;
 		$this->Bookmark->id = $id;
-		if ($this->Bookmark->delete()) {
-			return true;
-		}
-		return false;
+		return (bool)$this->Bookmark->delete();
 	}
 
-/**
- * Gets bookmark with Bookmark itself unsanitized
- *
- * @param $bookmarkId
- * @param $userId
- * @return mixed
- * @throws NotFoundException if bookmark does not exist
- * @throws MethodNotAllowedException if bookmark does not belong to current user
- */
-	protected function _getBookmark($bookmarkId, $userId) {
-		$this->Bookmark->id = $bookmarkId;
-		if (!$this->Bookmark->exists()) {
-			throw new NotFoundException(__('Invalid bookmark'));
-		}
-		$this->Bookmark->contain(array(
-					'Entry' => array(
-							'Category', 'User'
-					))
-			);
-		$bookmark = $this->Bookmark->findById($bookmarkId);
-		if ($userId != $bookmark['Bookmark']['user_id']) {
+	public function beforeFilter() {
+		parent::beforeFilter();
+
+		$this->Security->unlockedActions = ['add'];
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 * @throws NotFoundException
+	 * @throws MethodNotAllowedException
+	 * @throws Saito\ForbiddenException
+	 */
+	protected function _getBookmark($id) {
+		if (!$this->CurrentUser->isLoggedIn()) {
 			throw new MethodNotAllowedException;
 		}
 
-		$this->Bookmark->contain();
-		$bookmark['Bookmark'] = $this->Bookmark->findById($bookmarkId)['Bookmark'];
+		if (!$this->Bookmark->exists($id)) {
+			throw new NotFoundException(__('Invalid bookmark.'));
+		}
 
+		$this->Bookmark->contain(['Entry' => ['Category', 'User']]);
+		$bookmark = $this->Bookmark->findById($id);
+
+		if ($bookmark['Bookmark']['user_id'] != $this->CurrentUser->getId()) {
+			throw new Saito\ForbiddenException("Attempt to edit bookmark $id.");
+		}
 		return $bookmark;
 	}
 

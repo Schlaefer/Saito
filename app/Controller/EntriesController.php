@@ -24,7 +24,7 @@
 
 			$this->_prepareSlidetabData();
 
-			// determine user sort order
+			//# determine user sort order
 			$sortKey = 'Entry.';
 			if ($this->CurrentUser['user_sort_last_answer'] == false) {
 				$sortKey .= 'time';
@@ -32,42 +32,26 @@
 				$sortKey .= 'last_answer';
 			}
 			$order = ['Entry.fixed' => 'DESC', $sortKey => 'DESC'];
+			$initials = $this->_getInitialThreads($this->CurrentUser, $order);
 
-			// get initial threads
-			$initialThreads = $this->_getInitialThreads($this->CurrentUser, $order);
+			//# match initial threads against cache
+			$threads = [];
+			$uncached = [];
+			foreach ($initials as $thread) {
+				// ensure string so that integer index won't reorder
+				$id = (string)$thread['id'];
+				$threads[$id]['Entry'] = $thread;
 
-			// match initial threads against cache
-			$cachedThreads = [];
-			$uncachedThreads = [];
-			foreach ($initialThreads as $thread) {
-				if ($this->CacheSupport->CacheTree->isCacheValid($thread)) {
-					$cachedThreads[$thread['id']] = $thread;
-				} else {
-					$uncachedThreads[$thread['id']] = $thread;
+				if (!$this->CacheSupport->CacheTree->isCacheValid($thread)) {
+					$uncached[$id] = $thread;
 				}
 			}
 
-			// set cached threads for view
-			$this->set('cachedThreads', $cachedThreads);
-
-			// get threads not available in cache
-			$dbThreads = $this->Entry->treesForThreads($uncachedThreads, $order);
-
-			$threads = [];
-			foreach ($initialThreads as $thread) {
-				$id = $thread['id'];
-				if (isset($cachedThreads[$id])) {
-					$threads[]['Entry'] = $cachedThreads[$id];
-					unset($cachedThreads[$id]);
-				} else {
-					foreach ($dbThreads as $k => $dbThread) {
-						if ($dbThread['Entry']['tid'] === $id) {
-							$threads[] = $dbThreads[$k];
-							unset($dbThreads[$k]);
-							break;
-						}
-					}
-				}
+			//# get threads not available in cache from DB
+			$dbThreads = $this->Entry->treesForThreads($uncached, $order);
+			foreach ($dbThreads as $thread) {
+				$id = (string)$thread['Entry']['tid'];
+				$threads[$id] = $thread;
 			}
 
 			$this->set('entries', $threads);
@@ -149,8 +133,7 @@
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 
-			$this->Entry->threadIncrementViews($root['Entry']['tid'],
-					$this->CurrentUser->getId());
+			$this->_incrementViews($root, 'thread');
 
 			$this->_marMixThread = $tid;
 		}
@@ -209,6 +192,8 @@
 				return;
 			}
 
+			$this->_incrementViews($entry);
+
 			// for /source/<id> view
 			if (!empty($this->request->params['requested'])) {
 				return $entry;
@@ -216,9 +201,6 @@
 
 			$this->set('entry', $entry);
 
-			if ($entry['Entry']['user_id'] != $this->CurrentUser->getId()) {
-				$this->Entry->incrementViews();
-			}
 			$this->_setRootEntry($entry);
 			$this->_showAnsweringPanel();
 
@@ -249,8 +231,8 @@
 		public function add($id = null) {
 			$this->set('title_for_layout', __('Write a New Entry'));
 
-			// insert new entry
-			if (empty($this->request->data) === false) {
+			//# insert new entry
+			if (!empty($this->request->data)) {
 				$newPosting = $this->Entry->createPosting($this->request->data);
 
 				// inserting new posting was successful
@@ -307,7 +289,6 @@
 							'flash/error'
 						);
 					}
-					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				endif;
 
 			// show add form
@@ -317,7 +298,6 @@
 
 				if ($isAnswer) {
 					if ($this->request->is('ajax') === false) {
-						$this->Session->setFlash(__('js-required'), 'flash/error');
 						$this->redirect($this->referer());
 						return;
 					}
@@ -358,23 +338,19 @@
 						'back_to_posting_from_linkname',
 						$this->request->data['User']['username']
 					);
+					$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
 
 					$this->set('title_for_layout', __('Write a Reply'));
 				} else {
 					// new posting which creates new thread
 					$this->request->data['Entry']['pid'] = 0;
 					$this->request->data['Entry']['tid'] = 0;
-
-					$headerSubnavLeftTitle = __('back_to_overview_linkname');
 				}
 			}
 
 			$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
 			$this->set('is_inline', (int)$this->request->data['Entry']['pid'] !== 0);
 			$this->set('form_id', $this->request->data['Entry']['pid']);
-			$this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
-			$this->set('headerSubnavLeftUrl', '/entries/index');
-
 			$this->_teardownAdd();
 		}
 
@@ -471,12 +447,11 @@
 			$this->set('form_id', $this->request->data['Entry']['pid']);
 
 			// set headers
-			$this->set('headerSubnavLeftUrl', '/entries/index');
 			$this->set(
 				'headerSubnavLeftTitle',
 				__('back_to_posting_from_linkname', $this->request->data['User']['username'])
 			);
-			$this->set('headerSubnavLeftUrl', array( 'action' => 'view', $id ));
+			$this->set('headerSubnavLeftUrl', ['action' => 'view', $id]);
 			$this->set('form_title', __('edit_linkname'));
 			$this->_teardownAdd();
 			$this->render('/Entries/add');
@@ -708,6 +683,7 @@
 
 			$this->_automaticalyMarkAsRead();
 
+			$this->Security->unlockedActions = ['preview', 'solve', 'view'];
 			$this->Auth->allow('feed', 'index', 'view', 'mix');
 
 			if ($this->request->action === 'index') {
@@ -759,7 +735,7 @@
 					$this->request->isPreview() === false
 			) {
 				// a second session A shall not accidentally mark something as read that isn't read on session B
-				if ($this->Session->read('User.last_refresh_tmp') > strtotime( $this->CurrentUser['last_refresh'])) {
+				if ($this->Session->read('User.last_refresh_tmp') > $this->CurrentUser['last_refresh_unix']) {
 					$this->CurrentUser->LastRefresh->set();
 				}
 				$this->Session->write('User.last_refresh_tmp', time());
@@ -792,6 +768,19 @@
 				if (in_array('slidetab_shoutbox', $this->viewVars['slidetabs'])) {
 					$this->Shouts->setShoutsForView();
 				}
+			}
+		}
+
+		protected function _incrementViews($entry, $type = null) {
+			if ($this->CurrentUser->isBot()) {
+				return;
+			}
+			$cUserId = $this->CurrentUser->getId();
+
+			if ($type === 'thread') {
+				$this->Entry->threadIncrementViews($entry['Entry']['tid'], $cUserId);
+			} elseif ($entry['Entry']['user_id'] != $cUserId) {
+				$this->Entry->incrementViews($entry['Entry']['id']);
 			}
 		}
 
@@ -857,7 +846,7 @@
 			return $initialThreadsNew;
 		}
 
-		protected function _setupCategoryChooser(SaitoUser $User) {
+		protected function _setupCategoryChooser(ForumsUserInterface $User) {
 			$categories = $this->Entry->Category->getCategoriesForAccession(
 				$User->getMaxAccession()
 			);

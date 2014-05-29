@@ -3,11 +3,6 @@
 	App::import('Lib/SaitoUser', 'SaitoUser');
 	App::uses('AppHelper', 'View/Helper');
 
-/**
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 	class UserHHelper extends AppHelper {
 
 		protected $_userranks;
@@ -22,6 +17,7 @@
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_userranks = Configure::read('Saito.Settings.userranks_ranks');
+			$this->_SaitoUser = new SaitoUser();
 		}
 
 		public function banned($isBanned) {
@@ -32,12 +28,12 @@
 			return $out;
 		}
 
-/**
- * generates the JavaSript commands to format the views according to user prefs
- *
- * @param null $User
- * @return string
- */
+		/**
+		 * generates CSS from user-preferences
+		 *
+		 * @param array $User
+		 * @return string
+		 */
 		public function generateCss(array $User) {
 			$_styles = [];
 
@@ -138,23 +134,13 @@
 		}
 
 		public function isMod($user) {
-			// @td fix this fubar
-			$this->_saitoUserFactory();
-			$this->_SaitoUser->set($user);
+			$this->_SaitoUser->setSettings($user);
 			return $this->_SaitoUser->isMod($user);
 		}
 
 		public function isAdmin($user) {
-			// @td fix this fubar
-			$this->_saitoUserFactory();
-			$this->_SaitoUser->set($user);
+			$this->_SaitoUser->setSettings($user);
 			return $this->_SaitoUser->isAdmin($user);
-		}
-
-		protected function _saitoUserFactory() {
-			if ($this->_SaitoUser === null) :
-				$this->_SaitoUser = new SaitoUser(new ComponentCollection());
-			endif;
 		}
 
 	}

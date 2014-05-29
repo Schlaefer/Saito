@@ -46,8 +46,29 @@
 			return $this->SaitoHelp->icon($id, ['style' => 'float: right;']);
 		}
 
-		public function badge($text, $type = 'info') {
-			return $this->Html->tag('span', $text, ['class' => "label label-$type"]);
+		protected function _cBadge($engine) {
+			switch ($engine) {
+				case 'File':
+					$badge = 'warning';
+					break;
+				case 'Apc':
+					$badge = 'success';
+					break;
+				default:
+					$badge = 'info';
+			}
+			return $badge;
+		}
+
+		public function badge($text, $type = null) {
+			if (is_callable([$this, $type])) {
+				$badge = $this->$type($text);
+			} elseif (is_string(($type))) {
+				$badge = $type;
+			} else {
+				$badge = 'info';
+			}
+			return $this->Html->tag('span', $text, ['class' => "label label-$badge"]);
 		}
 
 		public function formatCakeLog($log) {

@@ -201,7 +201,7 @@ EOF;
 			return "<div class=\"{$options['class']} heading-3\">$out</div>";
 		}
 
-		public function linkToUserProfile($user, SaitoUser $CurrentUser) {
+		public function linkToUserProfile($user, ForumsUserInterface $CurrentUser) {
 			if ($CurrentUser->isLoggedIn()) {
 				return $this->Html->link($user['username'],
 						'/users/view/' . $user['id']);
@@ -225,7 +225,25 @@ EOF;
 			$options['class'] .= " {$options['position']} $class";
 			unset($class, $options['position']);
 
-			echo $this->Html->link($content, $url, $options);
+			return $this->Html->link($content, $url, $options);
+		}
+
+		public function navbarBack($url = null, $title = null, $options = []) {
+			if ($title === null) {
+				if ($url === null) {
+					$title = __('back_to_forum_linkname');
+				} else {
+					$title = __('Back');
+				}
+			}
+
+			if ($url === null) {
+				$url = '/';
+			}
+			$options += ['escape' => false];
+			$content = $this->textWithIcon(h($title), 'arrow-left');
+
+			return $this->navbarItem($content, $url, $options);
 		}
 
 	}

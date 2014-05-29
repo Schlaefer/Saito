@@ -14,6 +14,6 @@ tags
 /app/webroot/useruploads/*.*
 build/
 /dist/
-vendor/
+/vendor/
 Capfile
 deploy.rb

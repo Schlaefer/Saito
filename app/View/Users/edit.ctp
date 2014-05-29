@@ -1,11 +1,11 @@
 <?php
   $this->start('headerSubnavLeft');
-	echo $this->Layout->navbarItem(
-		'<i class="fa fa-arrow-left"></i> ' . __('Back'),
-		['controller' => 'users', 'action' => 'view',
-			$this->request->data['User']['id']],
-		['escape' => false]);
-	$this->end();
+  echo $this->Layout->navbarBack([
+    'controller' => 'users',
+    'action' => 'view',
+    $this->request->data['User']['id']
+  ]);
+  $this->end();
 ?>
 <div class="user edit">
   <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
@@ -84,16 +84,6 @@
 
 			<?php  endif ; ?>
 
-			<!-- currently not supported in Saito
-			<tr>
-				<td> <?php echo __('user_show_email'); ?></td>
-				<td>
-					<?php echo  $this->Form->checkbox('hide_email'); ?>
-					<p class="exp"> <?php echo __('user_show_email_exp') ?> </p>
-				</td>
-			</tr>
-			-->
-
 			<tr>
 				<td> <?php echo __('user_real_name'); ?></td>
 				<td> <?php echo  $this->Form->input('user_real_name', array( 'label' => false ));  ?>
@@ -132,6 +122,7 @@
 							foreach (['lat', 'lng', 'zoom'] as $name) {
 								$field = "user_place_$name";
 								echo $this->Form->hidden($field, ['label' => false]);
+								$this->Form->unlockField('User.' . $field);
 								if ($this->Form->isFieldError($field)) {
 									echo $this->Form->error($field);
 								}

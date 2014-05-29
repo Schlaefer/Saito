@@ -148,7 +148,7 @@ mysql:
             host: localhost
             user: user
             password: user
-            sql_file: /var/www/sql/init.sql
+            sql_file: /var/www/dev/sql/init.sql
         LyRNka9IT02m:
             grant:
                 - ALL

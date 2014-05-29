@@ -18,6 +18,8 @@
 
 	class EntriesControllerTestCase extends SaitoControllerTestCase {
 
+		use SaitoSecurityMockTrait;
+
 		public $fixtures = [
 			'app.bookmark',
 			'app.category',
@@ -42,8 +44,8 @@
 		}
 
 		public function testMixNotFound() {
-			$Entries = $this->generate('Entries', array());
-			$this->expectException('NotFoundException');
+			$this->generate('Entries', array());
+			$this->setExpectedException('NotFoundException');
 			$this->testAction('/entries/mix/9999');
 		}
 
@@ -118,8 +120,7 @@
 
 			// maxlength attribute is set for textfield
 			$result = $this->testAction('entries/add',
-					['method' => 'GET', 'return' => 'view']
-			);
+				['method' => 'GET', 'return' => 'view']);
 			$this->assertTextContains('maxlength="40"', $result);
 
 			// subject is one char to long
@@ -199,7 +200,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
+			$User->setSettings([]);
 			$Entries->getInitialThreads($User);
 			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
 		}
@@ -238,7 +239,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
@@ -281,8 +282,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
@@ -341,8 +341,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
@@ -396,8 +395,7 @@
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
-			$User->set(array());
-			$User->set(array(
+			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
 				'user_type' => 'admin',
@@ -464,7 +462,7 @@
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$result = $this->testAction('/entries/merge/',
 				array(
 					'data' => $data,
@@ -489,7 +487,7 @@
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$result = $this->testAction('/entries/merge/9999',
 				array(
 					'data' => $data,
@@ -536,7 +534,7 @@
 
 			$Entries->Entry->expects($this->never())
 					->method('merge');
-			$this->expectException('MethodNotAllowedException');
+			$this->setExpectedException('MethodNotAllowedException');
 			$result = $this->testAction('/entries/merge/4',
 				array(
 					'data' => $data,
@@ -577,7 +575,7 @@
 		public function testEditNoEntry() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('NotFoundException');
+			$this->setExpectedException('NotFoundException');
 			$this->testAction('entries/edit/9999');
 		}
 
@@ -587,7 +585,7 @@
 		public function testEditNoEntryId() {
 			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('entries/edit/');
 		}
 
@@ -687,6 +685,60 @@
 			$this->assertRedirectedTo();
 		}
 
+		public function testViewIncreaseViewCounterNotLoggedIn() {
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+			$id = 1;
+			$Entries->Entry->expects($this->once())
+				->method('incrementViews')
+				->with($id);
+			$this->testAction('/entries/view/' . $id);
+		}
+
+		public function testViewIncreaseViewCounterLoggedIn() {
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+			$id = 1;
+			$Entries->Entry->expects($this->once())
+				->method('incrementViews')
+				->with($id);
+			$this->_loginUser(1);
+			$this->testAction('/entries/view/' . $id);
+		}
+
+		/**
+		 * don't increase view counter if user views its own posting
+		 */
+		public function testViewIncreaseViewCounterSameUser() {
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+			$id = 1;
+			$this->_loginUser(3);
+
+			$Entries->Entry->expects($this->never())
+				->method('incrementViews');
+			$this->testAction('/entries/view/' . $id);
+		}
+
+		/**
+		 * don't increase view counter on spiders/crawlers
+		 */
+		public function testViewIncreaseViewCounterCrawler() {
+			$this->_setUserAgent('A Crawler Agent');
+			$id = 1;
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['incrementViews']]
+			]);
+
+			$Entries->Entry->expects($this->never())
+				->method('incrementViews');
+
+			$this->testAction('/entries/view/' . $id);
+		}
+
 		public function testViewBoxFooter() {
 			$result = $this->testAction('entries/view/1',
 				array(
@@ -751,11 +803,12 @@
 			Cache::delete('header_counter', 'short');
 
 			// test with no user online
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'vars']);
 			$headerCounter = $result['HeaderCounter'];
 
 			$this->assertEquals($headerCounter['user_online'], 1);
-			$this->assertEquals($headerCounter['user'], 7);
+			$this->assertEquals($headerCounter['user'], 9);
 			$this->assertEquals($headerCounter['entries'], 11);
 			$this->assertEquals($headerCounter['threads'], 5);
 			$this->assertEquals($headerCounter['user_registered'], 0);
@@ -764,7 +817,8 @@
 			// test with one user online
 			$this->_loginUser(2);
 
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'vars']);
 			$headerCounter = $result['HeaderCounter'];
 
 			/* without cache
@@ -781,7 +835,8 @@
 			// test with second user online
 			$this->_loginUser(3);
 
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'vars']);
 			$headerCounter = $result['HeaderCounter'];
 
 			// with cache
@@ -791,9 +846,8 @@
 		}
 
 		public function testFeedJson() {
-			$result = $this->testAction('/entries/feed/feed.json', array(
-					'return' => 'vars',
-			));
+			$result = $this->testAction('/entries/feed/feed.json',
+				['method' => 'GET', 'return' => 'vars']);
 			$this->assertEquals($result['entries'][0]['Entry']['subject'], 'First_Subject');
 			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
 		}
@@ -807,21 +861,21 @@
 		public function testSolveNoEntry() {
 			$this->generate('Entries');
 			$this->_loginUser(1);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/9999');
 		}
 
 		public function testSolveNotRootEntryUser() {
 			$this->generate('Entries');
 			$this->_loginUser(2);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/1');
 		}
 
 		public function testSolveIsRootEntry() {
 			$this->generate('Entries');
 			$this->_loginUser(3);
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/1');
 		}
 
@@ -832,19 +886,21 @@
 				->method('toggleSolve')
 				->with('1')
 				->will($this->returnValue(false));
-			$this->expectException('BadRequestException');
+			$this->setExpectedException('BadRequestException');
 			$this->testAction('/entries/solve/1');
 		}
 
 		public function testSeo() {
-			$result = $this->testAction('/entries/index', ['return' => 'contents']);
+			$result = $this->testAction('/entries/index',
+				['method' => 'GET', 'return' => 'contents']);
 			$this->assertTextNotContains('noindex', $result);
 			$expected = '<link rel="canonical" href="' . Router::url('/',
 							true) . '"/>';
 			$this->assertTextContains($expected, $result);
 
 			Configure::write('Saito.Settings.topics_per_page', 2);
-			$result = $this->testAction('/entries/index/page:2/', ['return' => 'contents']);
+			$result = $this->testAction('/entries/index/page:2/',
+				['method' => 'GET', 'return' => 'contents']);
 			$this->assertTextNotContains('rel="canonical"', $result);
 			$expected = '<meta name="robots" content="noindex, follow">';
 			$this->assertTextContains($expected, $result);

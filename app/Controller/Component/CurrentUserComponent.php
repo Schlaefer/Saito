@@ -1,9 +1,13 @@
 <?php
 
-	App::import('Lib/SaitoUser', 'SaitoUser');
+	App::uses('Component', 'Controller');
 	App::uses('SaitoCurrentUserReadEntries', 'Lib/SaitoUser');
+	App::uses('SaitoUserTrait', 'Lib/SaitoUser');
+	App::uses('ForumsUserInterface', 'Lib/SaitoUser');
 
-	class CurrentUserComponent extends SaitoUser {
+	class CurrentUserComponent extends Component implements ForumsUserInterface, ArrayAccess {
+
+		use SaitoUserTrait;
 
 /**
  * Component name
@@ -68,23 +72,6 @@
 		protected $_Controller = null;
 
 /**
- * User agent snippets for bots
- *
- * @var array
- */
-		protected $_botUserAgents = [
-			'archive',
-			'bot',
-			'baidu',
-			'crawl',
-			'googlebot',
-			'msnbot',
-			'spider',
-			'slurp',
-			'validator'
-		];
-
-/**
  *
  * @param type $controller
  */
@@ -110,13 +97,18 @@
 			$this->ReadEntries = new SaitoCurrentUserReadEntries($this);
 
 			$this->_configureAuth();
-			if (!$this->_reLoginSession()) {
-				// don't auto-login on login related pages
-				if ($this->_Controller->params['action'] !== 'login' &&
-						$this->_Controller->params['action'] !== 'register' &&
-						$this->_Controller->referer() !== '/users/login'
-				) {
-					$this->_reLoginCookie();
+
+			// prevents session auto re-login from form's request->data: login is
+			// called explicitly by controller on /users/login
+			if ($this->_Controller->action !== 'login') {
+				if (!$this->_reLoginSession()) {
+					// don't auto-login on login related pages
+					if ($this->_Controller->params['action'] !== 'login' &&
+							$this->_Controller->params['action'] !== 'register' &&
+							$this->_Controller->referer() !== '/users/login'
+					) {
+						$this->_reLoginCookie();
+					}
 				}
 			}
 
@@ -154,25 +146,22 @@
 				$_id = $this->getId();
 			} else {
 				// don't count search bots as guests
-				if ($this->_isBot()) {
+				if ($this->isBot()) {
 					return;
 				}
-				$_id = session_id();
+				$_id = $this->_Controller->Session->id();
 			}
 			$this->_User->UserOnline->setOnline($_id, $_isLoggedIn);
 			Stopwatch::stop('CurrentUser->_markOnline()');
 		}
 
-/**
- * Detects if the current user is a bot
- *
- * @return boolean
- */
-		protected function _isBot() {
-			return preg_match(
-				'/' . implode('|', $this->_botUserAgents) . '/i',
-				env('HTTP_USER_AGENT')
-			) == true;
+		/**
+		 * Detects if the current user is a bot
+		 *
+		 * @return boolean
+		 */
+		public function isBot() {
+			return $this->_Controller->request->is('bot');
 		}
 
 		/**
@@ -201,13 +190,15 @@
 		}
 
 		public function login() {
+			// non-logged in session-id is lost after successful login
+			$sessionId = session_id();
+
 			if (!$this->_login()) {
 				return false;
 			}
 
-			$this->refresh();
 			$this->_User->incrementLogins($this->getId());
-			$this->_User->UserOnline->setOffline(session_id());
+			$this->_User->UserOnline->setOffline($sessionId);
 			//password update
 			if (empty($this->_Controller->request->data['User']['password']) === false) {
 				$this->_User->autoUpdatePassword(
@@ -229,22 +220,25 @@
 		 */
 		public function refresh() {
 			// preliminary set user-data from Cake's Auth handler
-			parent::set($this->_Controller->Auth->user());
+			$this->setSettings($this->_Controller->Auth->user());
 			// set user-data from current DB data: ensures that *all sessions*
 			// use the same set of data (user got locked, user-type was demoted …)
 			if ($this->isLoggedIn()) {
 				$this->_User->id = $this->getId();
-				parent::set($this->_User->getProfile($this->getId()));
+				$this->setSettings($this->_User->getProfile($this->getId()));
 				$this->LastRefresh = new SaitoCurrentUserLastRefresh($this, $this->_User);
 			}
 		}
 
 		public function logout() {
+			if (!$this->isLoggedIn()) {
+				return;
+			}
 			$this->PersistentCookie->destroy();
 			$this->_User->id = $this->getId();
-			$this->_User->UserOnline->delete($this->getId(), false);
-			$this->set(null);
-			$this->_Controller->Session->destroy();
+			$this->_User->UserOnline->setOffline($this->getId());
+			$this->setSettings(null);
+			$this->_Controller->Auth->logout();
 		}
 
 		public function shutdown(Controller $Controller) {
@@ -317,9 +311,9 @@
 					'contain' => false,
 					'scope' => [
 						// user has activated his account (e.g. email confirmation)
-						'User.activate_code' => false,
+						'User.activate_code' => 0,
 						// user is not banned by admin or mod
-						'User.user_lock' => false
+						'User.user_lock' => 0
 					]
 				],
 				// 'Mlf' and 'Mlf2' could be 'Form' with different passwordHasher, but
@@ -362,11 +356,11 @@
 
 		protected function _setup() {
 			$this->_cookie->name = $this->_cookieName;
-			$this->_cookie->type('rijndael');
+			$this->_cookie->type('aes');
 			$this->_cookie->httpOnly = true;
 		}
 
-		public function initialize(SaitoUser $currentUser) {
+		public function initialize(CurrentUserComponent $currentUser) {
 			$this->_currentUser = $currentUser;
 			$this->_cookieName = $currentUser->getPersistentCookieName();
 		}
@@ -413,7 +407,7 @@
 
 		protected $_currentUser;
 
-		public function __construct(SaitoUser $currentUser, User $user) {
+		public function __construct(CurrentuserComponent $currentUser, User $user) {
 			$this->_currentUser = $currentUser;
 			$this->_user = $user;
 		}

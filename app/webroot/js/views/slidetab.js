@@ -12,8 +12,7 @@ define([
       "click .slidetab-tab": "clickSlidetab"
     },
 
-    initialize: function(options) {
-      this.collection = options.collection;
+    initialize: function() {
       this.model.set({isOpen: this.isOpen()}, {silent: true});
 
       this.listenTo(this.model, 'change', this.toggleSlidetab);

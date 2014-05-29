@@ -29,6 +29,14 @@
 					'order' => 'time'
 			];
 			$this->set('order', $defaults['order']);
+
+			// @todo pgsql
+			$db = $this->Entry->getDataSource();
+			if (!($db instanceof Mysql)) {
+				$this->redirect(['action' => 'advanced']);
+				return;
+			}
+
 			$minWordLength = $this->Entry->query("SHOW VARIABLES LIKE 'ft_min_word_len'")[0]['VARIABLES']['Value'];
 			$this->set(compact('minWordLength'));
 
@@ -156,7 +164,7 @@
 		}
 
 		protected function _sanitize($string) {
-			return Sanitize::escape($string);
+			return Sanitize::escape($string, $this->Entry->useDbConfig);
 		}
 
 		protected function _filterQuery($params) {

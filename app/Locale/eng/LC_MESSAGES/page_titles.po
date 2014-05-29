@@ -44,6 +44,10 @@ msgid "users/register"
 msgstr "Register"
 
 #
+msgid "users/rs"
+msgstr "Register"
+
+#
 msgid "users/view"
 msgstr "User"
 

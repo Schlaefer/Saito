@@ -28,13 +28,10 @@
 		];
 
 		public $hasOne = array(
-			'UserOnline' => array(
+			'UserOnline' => [
 				'className' => 'UserOnline',
 				'foreignKey' => 'user_id',
-				'conditions' => array(
-					'UserOnline.user_id REGEXP "^-?[0-9]+$"'
-				)
-			),
+			]
 		);
 
 		public $hasMany = array(
@@ -62,7 +59,7 @@
 
 		public $validate = [
 				'username' => [
-						'isUnique' => ['rule' => 'isUnique'],
+						'isUnique' => ['rule' => 'isUniqueCiString'],
 						'notEmpty' => ['rule' => 'notEmpty'],
 						'hasAllowedChars' => ['rule' => ['validateHasAllowedChars']]
 				],
@@ -91,7 +88,7 @@
 						'isUnique' => ['rule' => 'isUnique', 'last' => 'true'],
 						'isEmail' => ['rule' => ['email', true], 'last' => 'true']
 				],
-				'hide_email' => ['rule' => ['boolean']],
+				'registered' => ['rule' => ['notEmpty']],
 				'logins' => ['rule' => 'numeric'],
 				'personal_messages' => ['rule' => ['boolean']],
 				'user_lock' => ['rule' => ['boolean']],
@@ -108,11 +105,18 @@
 				],
 				'user_automaticaly_mark_as_read' => ['rule' => ['boolean']],
 				'user_sort_last_answer' => ['rule' => ['boolean']],
-				'user_show_own_signature' => ['rule' => ['boolean']],
-				'user_color_new_postings' => ['rule' => '/^#?[a-f0-9]{0,6}$/i'],
+				'user_color_new_postings' => [
+					'allowEmpty' => true,
+					'rule' => '/^#?[a-f0-9]{0,6}$/i'
+				],
 				'user_color_old_postings' => [
+						'allowEmpty' => true,
 						'rule' => '/^#?[a-f0-9]{0,6}$/i',
 						'message' => '*'
+				],
+				'user_color_actual_posting' => [
+					'allowEmpty' => true,
+					'rule' => '/^#?[a-f0-9]{0,6}$/i'
 				],
 				'user_place_lat' => [
 					'validLatitude' => ['rule' => ['inRange', -90, 90],
@@ -125,8 +129,7 @@
 				'user_place_zoom' => [
 					'numeric' => ['rule' => ['naturalNumber', 0], 'allowEmpty' => true],
 					'between' => ['rule' => ['inRange', 0, 25]]
-				],
-				'user_color_actual_posting' => ['rule' => '/^#?[a-f0-9]{0,6}$/i']
+				]
 		];
 
 		public $findMethods = [
@@ -139,10 +142,9 @@
 			'MlfPasswordHasher'
 		];
 
-		/**
-		 * @var array chars not allowed in username
-		 */
-		protected $_disallowedCharsInUsername = ['\'', ';', '&', '<', '>' ];
+		protected $_settings = [
+			'user_name_disallowed_chars' => ['\'', ';', '&', '<', '>']
+		];
 
 /**
  * @param null $lastRefresh
@@ -308,12 +310,29 @@
 		}
 
 		public function validateHasAllowedChars($data) {
-			foreach ($this->_disallowedCharsInUsername as $char) {
+			foreach ($this->_setting('user_name_disallowed_chars') as $char) {
 				if (mb_strpos($data['username'], $char) !== false) {
 					return false;
 				}
 			}
 			return true;
+		}
+
+		public function paginate($conditions, $fields, $order, $limit, $page = 1, $recursive = null, $extra = array()) {
+			$username = $this->alias . '.' . 'username';
+			if (isset($order[$username])) {
+				$direction = $order[$username];
+				unset($order[$username]);
+			} else {
+				$direction = 'asc';
+			}
+			$order['LOWER(User.username)'] = $direction;
+
+			// merge $extras for 'contain' parameter
+			$params = array_merge(compact('conditions', 'fields', 'order', 'limit',
+				'page', 'recursive', 'group'), $extra);
+
+			return $this->find('all', $params);
 		}
 
 /**
@@ -322,18 +341,32 @@
  * @param array $data
  * @return bool true if user got registred false otherwise
  */
-		public function register($data) {
-			$defaults = array(
-				'registered' => date("Y-m-d H:i:s"),
-				'user_type' => 'user',
-				'activate_code' => 0,
-			);
-			$data = array_merge($defaults, $data[$this->alias]);
+		public function register($data, $activate = false) {
+			$defaults = [
+				'registered' => date('Y-m-d H:i:s'),
+				'user_type' => 'user'
+			];
+			$fields = ['registered', 'username',
+				'user_email', 'password', 'user_type'];
+
+			if ($activate !== true) {
+				$defaults['activate_code'] = mt_rand(1000000, 9999999);
+				$fields[] = 'activate_code';
+			}
+
+			$data = array_merge($data[$this->alias], $defaults);
+
+			if (!$this->requireFields($data, $fields) || !$this->unsetFields($data)) {
+				return false;
+			}
 
 			$this->create();
-			$out = $this->save($data);
-
-			return $out;
+			$user = $this->save($data, true, $fields);
+			if (empty($user)) {
+				return false;
+			}
+			$user['User']['id'] = $this->id;
+			return $user;
 		}
 
 /**
@@ -343,28 +376,51 @@
  */
 		public function registerGc() {
 			$this->deleteAll([
-							'activate_code REGEXP "^[0-9][0-9]+$"',
+							'activate_code >' => 0,
 							'registered <' => date('Y-m-d H:i:s', time() - 86400)
 					],
 					false);
 		}
 
-		public function activate() {
-			$success = $this->saveField('activate_code', 0);
+		/**
+		 * activates user
+		 *
+		 * @param $id user-ID
+		 * @param $code activation code
+		 * @return array|bool false if activation failed; array with status and user data on success
+		 * @throws InvalidArgumentException
+		 */
+		public function activate($id, $code) {
+			if (!is_int($id) || !is_string($code)) {
+				throw new InvalidArgumentException();
+			}
 
-			if ($success) :
-				$this->contain();
-				$user = $this->read();
-				$this->getEventManager()->dispatch(
-						new CakeEvent(
-								'Model.User.afterActivate',
-								$this,
-								array('User' => $user['User'])
-						)
-				);
-			endif;
+			$user = $this->find('first', [
+				'contain' => false,
+				'conditions' => ['id' => $id]
+			]);
+			if (empty($user)) {
+				throw new InvalidArgumentException();
+			}
 
-			return $success;
+			$user = $user[$this->alias];
+			$activateCode = strval($user['activate_code']);
+
+			if (empty($activateCode)) {
+				return ['status' => 'already', 'User' => $user];
+			} elseif ($activateCode !== $code) {
+				return false;
+			}
+
+			$success = $this->save(['id' => $id, 'activate_code' => 0]);
+			if (empty($success)) {
+				return false;
+			}
+			$user['activate_code'] = 0;
+
+			$this->_dispatchEvent('Model.User.afterActivate', ['User' => $user]);
+
+			return ['status' => 'activated', 'User' => $user];
 		}
 
 /**
