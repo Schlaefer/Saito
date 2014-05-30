@@ -1,21 +1,28 @@
-define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
+define(['underscore', 'backbone', 'models/app', 'lib/saito/localStorageHelper'], function(_, Backbone, App) {
   'use strict';
 
   var ShoutboxControlModel = Backbone.Model.extend({
 
     defaults: {
+      // set an id to retrieve it again with Backbone.localStorage
+      id: 1,
       // last shout-id rendered during this request
       lastId: 0,
       mar: 0,
       notify: false
     },
 
+    localStorage: (function() {
+      var key = App.reqres.request('app:localStorage:key', 'shoutbox-control');
+      return new Backbone.LocalStorage(key);
+    })(),
+
     initialize: function() {
       this._restore(['notify', 'mar']);
 
       this.listenTo(this, 'change:notify', this._onChangeNotify);
 
-      App.commands.setHandler("shoutbox:mar", this._mar, this);
+      App.commands.setHandler('shoutbox:mar', this._mar, this);
     },
 
     _mar: function(options) {
@@ -47,13 +54,13 @@ define(['underscore', 'backbone', 'models/app'], function(_, Backbone, App) {
         _.each(key, function(e) { this._restore(e); }, this);
       }
       if (App.reqres.request('app:localStorage:available')) {
-        this.set(key, JSON.parse(localStorage.getItem('shoutbox-' + key)));
+        this.fetch();
       }
     },
 
     _save: function(key) {
       if (App.reqres.request('app:localStorage:available')) {
-        localStorage.setItem('shoutbox-' + key, JSON.stringify(this.get(key)));
+        this.save();
       }
     }
 

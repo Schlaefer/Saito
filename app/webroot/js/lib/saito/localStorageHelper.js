@@ -6,12 +6,17 @@ define(['underscore', 'app/vent'], function(_, EventBus) {
   _.extend(LocalStorageHelper.prototype, {
 
     _available: null,
+    _prefix: 'saito-',
 
     available: function() {
       if (this._available === null) {
         this._available = this._isAvailable();
       }
       return this._available;
+    },
+
+    _key: function(key) {
+      return this._prefix + key;
     },
 
     _isAvailable: function() {
@@ -35,5 +40,6 @@ define(['underscore', 'app/vent'], function(_, EventBus) {
   var lSH = new LocalStorageHelper();
 
   EventBus.reqres.setHandler('app:localStorage:available', lSH.available, lSH);
+  EventBus.reqres.setHandler('app:localStorage:key', lSH._key, lSH);
 
 });
