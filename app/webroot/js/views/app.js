@@ -27,7 +27,8 @@ define([
       '.js-entry-view-core': '_initPostings',
       '#slidetabs': '_initSlidetabs',
       '.threadBox': '_initThreadBoxes',
-      '.threadLeaf': '_initThreadLeafs'
+      '.threadLeaf': '_initThreadLeafs',
+      '.users.logout': '_initLogout'
     },
 
     events: {
@@ -106,6 +107,10 @@ define([
 
     _initCategoryChooser: function(element) {
       this.categoryChooser = new CategoryChooserView({ el: element });
+    },
+
+    _initLogout: function() {
+      App.commands.execute('app:localStorage:clear');
     },
 
     _initPostings: function(elements) {
