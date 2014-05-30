@@ -1,6 +1,16 @@
 /*jshint node: true */
 module.exports = function(requireJsOptions) {
   'use strict';
+
+  var _ = require('lodash');
+  _.extend(requireJsOptions.shim, {
+    sinon: { exports: 'sinon' }
+  });
+  _.extend(requireJsOptions.paths, {
+    sinon: '../dev/bower_components/sinonjs/sinon',
+    jsjq: '../dev/bower_components/jasmine-jquery/jasmine-jquery'
+  });
+
   return {
     test: {
       // src: './app/webroot/js/main.js',
