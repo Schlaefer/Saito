@@ -22,21 +22,6 @@
           <?php
             /* For performance reasons we generate the html manually */
             /*
-            echo $this->Form->checkbox('CatMeta.All',
-                array(
-                'id'		 => 'cb-category-chooser-all',
-                'style'  => 'visibility: hidden;',
-                'value'	 => 1));
-             */
-          ?>
-          <input type="hidden" name="data[CatMeta][All]"
-                 id="cb-category-chooser-all_" value="0">
-          <input type="checkbox" name="data[CatMeta][All]"
-                 id="cb-category-chooser-all" style="visibility: hidden;"
-                 value="1">
-          <?php
-            /* For performance reasons we generate the html manually */
-            /*
             echo $this->Html->link(__('All'), '/users/setcategory/all')
              */
           ?>
