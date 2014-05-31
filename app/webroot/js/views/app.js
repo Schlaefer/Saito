@@ -215,7 +215,8 @@ define([
           .html('');
     },
 
-    toggleCategoryChooser: function() {
+    toggleCategoryChooser: function(event) {
+      event.preventDefault();
       this.categoryChooser.toggle();
     },
 
