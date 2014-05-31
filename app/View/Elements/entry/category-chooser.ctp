@@ -1,7 +1,7 @@
 <?php Stopwatch::start('category-chooser.ctp'); ?>
 <div id="category-chooser" style="display: none; overflow: hidden;">
   <div class="panel">
-    <div class="panel-content panel-form">
+    <div class="panel-content panel-form clearfix">
       <?php
         echo $this->Form->create(null, [
           'url' => [

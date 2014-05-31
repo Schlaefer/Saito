@@ -158,6 +158,10 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .shp-show-btn { display: none; }
 .shp-show-btn.is-active { display: inline-block; }
 
+.category-chooser-ul { margin-bottom: 1em; }
+
+.category-chooser-li { margin: 0.5em; }
+
 .input { margin: 0 0 1em; }
 
 textarea, input[type=text], input[type=password], .markItUp textarea { outline-style: none; border-style: none; width: 100%; background: #303035; border-left: 2px solid #ffcc00; -webkit-appearance: none; border-radius: 0; }
