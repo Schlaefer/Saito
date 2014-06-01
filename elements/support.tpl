@@ -2,6 +2,6 @@
 <p>
   <a href="#/donate">
     <i class="icon icon-heart"></i>
-    Donate
+    Support & Donate
   </a>
 </p>

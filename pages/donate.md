@@ -1,20 +1,33 @@
-title: Donate
+title: Donate & Support
 ---
 
 <div>
   <i class='icon-heart icon-schmuck'></i>
 </div>
 
+# Donate & Support #
 
-# Donate #
+## Bountysource ##
 
-## Paypal ##
+Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](https://www.bountysource.com/teams/saito/issues)
+
+(accepts Bitcoin, PayPal, Google Wallet)
+
+## Gittip ##
+
+<script data-gittip-username="Schlaefer"
+        data-gittip-widget="button"
+        src="//gttp.co/v1.js"></script>
+
+(Recurrent tip; accepts credit cards)
+
+## PayPal ##
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 	<input type="hidden" name="cmd" value="_s-xclick">
 	<input type="hidden" name="hosted_button_id" value="EKGLER5C5L4VU">
 	<button class="btn btn-default btn-xs" title='Donate via Paypal'>
-    Donate via Paypal
+    Donate via PayPal
   </button>
 	<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
 	&nbsp;
