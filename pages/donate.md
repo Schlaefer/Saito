@@ -15,11 +15,9 @@ Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](
 
 ## Gittip ##
 
-<script data-gittip-username="Schlaefer"
-        data-gittip-widget="button"
-        src="//gttp.co/v1.js"></script>
+[Schlaefer on  Gittip](https://www.gittip.com/Schlaefer/)
 
-(Recurrent tip; accepts credit cards)
+(Recurrent tip; accepts credit cards, Bitcoin)
 
 ## PayPal ##
 
@@ -36,8 +34,6 @@ Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](
 ## Bitcoin ##
 
 <a href="bitcoin:15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR?label=Saito%20Donation">15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR</a>
-
-(Email me if you want to be known).
 
 
 # Thanks
