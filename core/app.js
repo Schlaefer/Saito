@@ -178,6 +178,13 @@
             return content;
         },
 
+        renderMarkdown: function(string) {
+          marked.setOptions({
+            tables: true
+          });
+          return marked(string);
+        },
+
         render: function() {
             var content,
                 pageData,
@@ -189,7 +196,7 @@
             if (_.isString(pageData.get('html')) === false) {
                 content = pageData.get('source');
                 content = this.extractMetaData(content);
-                content = Markdown(content);
+                content = this.renderMarkdown(content);
                 content = this.replaceElements(content);
 
                 layout = this.getLayout(pageData.get('layout'));

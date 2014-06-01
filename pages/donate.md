@@ -35,11 +35,8 @@ Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](
 
 ## Bitcoin ##
 
-<div>
 <a href="bitcoin:15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR?label=Saito%20Donation">15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR</a>
-</div>
 <br>
-
 
 # Thanks
 
