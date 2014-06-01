@@ -2,6 +2,7 @@
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <!-- styles -->
 <link href='http://fonts.googleapis.com/css?family=Cabin:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Arvo:700italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="assets/styles/bootstrap/css/bootstrap.min.css" >
 <link rel="stylesheet" href="assets/styles/font-awesome.css" >
 <link rel="stylesheet" href="assets/styles/theme.css">
