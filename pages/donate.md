@@ -7,6 +7,7 @@ title: Donate & Support
 
 # Donate & Support #
 
+<!--
 ## Bountysource ##
 
 Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](https://www.bountysource.com/teams/saito/issues)
@@ -18,6 +19,8 @@ Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](
 [Schlaefer on  Gittip](https://www.gittip.com/Schlaefer/)
 
 (Recurrent tip; accepts credit cards, Bitcoin)
+
+-->
 
 ## PayPal ##
 
