@@ -14,6 +14,6 @@ You don't have to enter your security token manually. The forum will provide a Q
 
 ## User Blocking ##
 
-Someone is really annoying at the moment? Block up to three users at once. After one month the users will be unblocked automatically again.
+Someone is really annoying at the moment? Block up to three users at the same time. After one month the users will be unblocked automatically again.
 
 Let somebody know when he lost it: every user profile will show how many people block that user at the moment.
