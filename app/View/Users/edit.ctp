@@ -3,7 +3,7 @@
   echo $this->Layout->navbarBack([
     'controller' => 'users',
     'action' => 'view',
-    $this->request->data['User']['id']
+    $userId
   ]);
   $this->end();
 ?>
@@ -14,7 +14,8 @@
 				['pageHeading' => true]) ?>
     <div class='panel-content panel-form'>
 			<table class="table th-left elegant">
-				<?php  if ( $CurrentUser->isAdmin() ) : ?>
+
+				<?php if ($CurrentUser->isAdmin()): ?>
 					<tr>
 						<td> <?php echo __('username_marking'); ?></td>
 						<td> <?php echo  $this->Form->input('username', array( 'label' => false ));  ?> </td>
@@ -40,26 +41,7 @@
 									?>
 						</td>
 					</tr>
-
-					<?php  if ( $CurrentUser->getId() == $this->request->data['User']['id'] ): ?>
-						<tr>
-							<td> <?php echo __('user_pw') ?> </td>
-							<td>
-									<?php echo $this->Html->link(
-												__("change_password_link"),
-												array ( 'action' => 'changepassword', $this->request->data['User']['id'] )
-											)
-											?>
-									<p class="exp"> <?php echo __('user_pw_exp') ?> </p>
-							</td>
-						</tr>
-					<?php  else: ?>
-						<tr>
-							<td> <?php echo __('user_pw') ?> </td>
-							<td> @td änderungsmöglichkeit für admin (?) </td>
-						</tr>
-					<?php  endif; ?>
-				<?php else: ?>
+      <?php else: ?>
 				<tr>
 					<td> <?php echo __('username_marking'); ?></td>
 					<td> <?= h($this->request->data['User']['username']) ?> </td>
@@ -69,20 +51,23 @@
 					<td> <?php echo __('userlist_email'); ?> </td>
 					<td> <?= h($this->request->data['User']['user_email']) ?> </td>
 				</tr>
+			<?php endif; ?>
 
-				<tr>
-					<td> <?php echo __('user_pw') ?> </td>
-					<td>
-							<?php echo $this->Html->link(
-										__("change_password_link"),
-										array ( 'action' => 'changepassword', $this->request->data['User']['id'] )
-									)
-									?>
-							<p class="exp"> <?php echo __('user_pw_exp') ?> </p>
-					</td>
-				</tr>
 
-			<?php  endif ; ?>
+      <?php
+        if ($CurrentUser->isSame($this->request->data)) { ?>
+        <tr>
+          <td> <?php echo __('user_pw') ?> </td>
+          <td>
+            <?=
+              $this->Html->link(__('change_password_link'), [
+                'action' => 'changepassword',
+                $userId
+              ])
+            ?>
+          </td>
+        </tr>
+      <?php } ?>
 
 			<tr>
 				<td> <?php echo __('user_real_name'); ?></td>
@@ -306,6 +291,7 @@
     </table>
   </div>
   </div>
+
 	<br	/>
 	<?php echo $this->Form->submit(__("button_save"), array ( 'id' => 'btn-submit', 'class' => 'btn btn-submit' )); ?>
 <?php echo $this->Form->end(); ?>

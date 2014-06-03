@@ -268,6 +268,31 @@
 			$this->assertTrue($result);
 		}
 
+		public function testIsSame() {
+			$current = ['id' => 2];
+			$this->SaitoUser->setSettings($current);
+
+			//# test
+			$tests = [
+				['in' => 1 , 'expected' => false],
+				['in' => 2 , 'expected' => true],
+				['in' => '1' , 'expected' => false],
+				['in' => '2' , 'expected' => true],
+				['in' => ['id' => 1] , 'expected' => false],
+				['in' => ['id' => 2] , 'expected' => true],
+				['in' => ['id' => '1'] , 'expected' => false],
+				['in' => ['id' => '2'] , 'expected' => true],
+				['in' => ['User' => ['id' => 1]] , 'expected' => false],
+				['in' => ['User' => ['id' => 2]] , 'expected' => true],
+				['in' => ['User' => ['id' => '1']] , 'expected' => false],
+				['in' => ['User' => ['id' => '2']] , 'expected' => true],
+			];
+			foreach ($tests as $test) {
+				$result = $this->SaitoUser->isSame($test['in']);
+				$this->assertEquals($test['expected'], $result);
+			}
+		}
+
 		public function testArrayAccessors() {
 			$user = array(
 					'id' => '2',

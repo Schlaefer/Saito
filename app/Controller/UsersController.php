@@ -307,6 +307,8 @@
 			]);
 		}
 
+		$this->set('userId', $id);
+
 		// try to save entry
 		if (!empty($this->request->data)) {
 			$data = $this->request->data['User'];

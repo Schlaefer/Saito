@@ -899,10 +899,6 @@ msgstr "Send copy to yourself."
 msgid "userlist_email"
 msgstr "Email"
 
-#: View/Users/edit.ctp:53 View/Users/edit.ctp:81
-msgid "user_pw_exp"
-msgstr "Change password"
-
 #: View/Users/edit.ctp:88 View/Users/view.ctp:31
 msgid "user_real_name"
 msgstr "Real Name"
