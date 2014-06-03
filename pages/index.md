@@ -15,11 +15,6 @@ We had the need for a classic threaded forum but with modern, maintainable and e
 
 It should be deployable on simple shared hosting accounts.
 
-# Funding the Next Version #
-
-{{funding}}
-
-[Read more …](#/funding)
 
 [CakePHP]: http://cakephp.org/
 [Marionette]: http://marionettejs.com/

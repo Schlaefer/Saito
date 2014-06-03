@@ -18,6 +18,9 @@
           <div class="boxes-info">
             <h4>Support Saito</h4>
             {{support}}
+            Funding the Next Version
+            {{funding}}
+            <a href="#/funding">Read more…</a>
           </div>
         </div>
         <div class="col-sm-3">
