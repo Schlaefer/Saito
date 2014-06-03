@@ -19,6 +19,7 @@
             <h4>Support Saito</h4>
             {{support}}
             Funding the Next Version
+            <br/>
             {{funding}}
             <a href="#/funding">Read more…</a>
           </div>
