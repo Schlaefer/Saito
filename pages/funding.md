@@ -18,4 +18,4 @@ You don't have to enter your security token manually. The forum will provide a Q
 
 <hr>
 
-Two-factor authentication is especially valuable for administrator and moderator accounts and/or if can't protect your login with https.
+Two-factor authentication is especially valuable for administrator and moderator accounts and/or if you can't protect your login with https.
