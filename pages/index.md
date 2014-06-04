@@ -13,7 +13,7 @@ Test the [demo install][testforum] (login: test/test; instance may need a few se
 
 We had the need for a classic threaded forum but with modern, maintainable and extendable source.
 
-It should be deployable on simple shared hosting accounts.
+It should be deployable and scale admirably on modest shared hosting accounts.
 
 
 [CakePHP]: http://cakephp.org/
