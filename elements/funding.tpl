@@ -1,5 +1,5 @@
-<span style="color: red;">0 €</span> of 400 €
+<span style="color: red;">0 €</span> of 200 €
 <div style="width: 100%; height: 20px; border: 1px solid silver; position: relative;">
-  <div style="width: 0.3%; height: 100%; background: green;">
+  <div style="width: 1%; height: 100%; background: red;">
   </div>
 </div>
