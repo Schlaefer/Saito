@@ -1,7 +1,9 @@
 (function(config) {
   if (typeof exports === 'object') {
+    // node.js/grunt
     module.exports = config();
   } else if (typeof define === 'function' && define.amd) {
+    // require.js
     require.config(config());
   }
 })(function() {
@@ -40,7 +42,10 @@
       "backbone.wreqr": '../dev/bower_components/backbone.wreqr/backbone.wreqr',
       // moment
       moment: '../dev/bower_components/momentjs/js/moment',
-      'moment-de': '../dev/bower_components/momentjs/lang/de'
+      'moment-de': '../dev/bower_components/momentjs/lang/de',
+      // coffeescript
+      cs: '../dev/bower_components/require-cs/cs',
+      'coffee-script': '../dev/bower_components/require-cs/coffee-script'
     }
   };
 

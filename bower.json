@@ -20,7 +20,8 @@
     "jasmine": "~2.0.0",
     "jasmine-jquery": "~2.0.3",
     "sinonjs": "~1.9.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "require-cs": "~0.4.4"
   },
   "exportsOverride": {
     "backbone": {
