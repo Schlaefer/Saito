@@ -5,10 +5,12 @@ var MQ = {};
 define([
   'jquery',
   'underscore',
+  'sinon',
   'modules/usermap/usermap',
   'text!tests/fixtures/mapViewEdit.html',
-  'lib/jquery.i18n/jquery.i18n.extend'
-], function($, _, Usermap, mapEditFixture) {
+  'lib/jquery.i18n/jquery.i18n.extend',
+  'jsjq'
+], function($, _, sinon, Usermap, mapEditFixture) {
 
   describe("Map", function() {
 
@@ -57,6 +59,7 @@ define([
         sinon.stub(Usermap.ControlView, '_geolocation', function() {
           return true;
         });
+        Usermap.ControlView.render();
         expect($('.saito-usermap')).toContainElement('button.js-btn-locate');
         Usermap.ControlView._geolocation.restore();
       });

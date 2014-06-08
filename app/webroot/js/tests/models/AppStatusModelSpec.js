@@ -1,4 +1,4 @@
-define([], function() {
+define(['sinon'], function(sinon) {
 
     "use strict";
 

@@ -16,9 +16,6 @@
 						'../dev/bower_components/jasmine/lib/jasmine-core/jasmine',
 						'../dev/bower_components/jasmine/lib/jasmine-core/jasmine-html',
 						'tests/boot.js',
-						// jasmin extensions
-						'../dev/bower_components/jasmine-jquery/jasmine-jquery.js',
-						'../dev/bower_components/sinonjs/sinon.js',
 
 						//
 						'lib/jquery-ui/jquery-ui.custom.min.js',

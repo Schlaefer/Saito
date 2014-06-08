@@ -1,11 +1,16 @@
 require.config({
   // paths for running jasmine in browser
+  shim: {
+    sinon: { exports: 'sinon' }
+  },
   paths: {
     // Comment to load all common.js files separately from
     // bower_components/ or vendors/.
     // Run `grunt dev-setup` to install bower components first.
     common: '../dist/common.min',
 
+    sinon: '../dev/bower_components/sinonjs/sinon',
+    jsjq: '../dev/bower_components/jasmine-jquery/jasmine-jquery',
     templateHelpers: 'lib/saito/templateHelpers'
   }
 });

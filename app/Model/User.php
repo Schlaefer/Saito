@@ -484,13 +484,12 @@
 				// set custom set
 				$availableCats = $this->Entry->Category->find('list');
 				$categories = array_intersect_key($category, $availableCats);
-				$newCats = array();
 				if (count($categories) === 0) {
 					throw new InvalidArgumentException();
-				} else {
-					foreach ($categories as $cat => $v) {
-						$newCats[$cat] = ($v === true || $v === 1 || $v === '1');
-					}
+				}
+				$newCats = [];
+				foreach ($categories as $cat => $v) {
+					$newCats[$cat] = ($v === true || $v === 1 || $v === '1');
 				}
 				$this->set('user_category_active', 0);
 				$this->set('user_category_custom', $newCats);

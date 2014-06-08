@@ -12,8 +12,7 @@ define([
   'views/answering',
   'jqueryUi'
 ], function($, _, Backbone, App, ThreadLineCollection, ThreadLineView, ThreadCollection, ThreadView, PostingCollection, PostingModel, PostingLayout, BookmarksCollection, BookmarksView, HelpsView, CategoryChooserView, SlidetabsCollection, SlidetabsView, AnsweringView) {
-
-  "use strict";
+  'use strict';
 
   var AppView = Backbone.View.extend({
 
@@ -21,12 +20,23 @@ define([
 
     autoPageReloadTimer: false,
 
+    _domInitializers: {
+      '.entry.add-not-inline': '_initAnsweringNotInlined',
+      '#bookmarks': '_initBookmarks',
+      '#category-chooser': '_initCategoryChooser',
+      '.js-entry-view-core': '_initPostings',
+      '#slidetabs': '_initSlidetabs',
+      '.threadBox': '_initThreadBoxes',
+      '.threadLeaf': '_initThreadLeafs',
+      '.users.logout': '_initLogout'
+    },
+
     events: {
       'click #showLoginForm': 'showLoginForm',
       'focus #header-searchField': 'widenSearchField',
       'click #btn-scrollToTop': 'scrollToTop',
       'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
-      "click #btn-category-chooser": "toggleCategoryChooser",
+      'click #btn-category-chooser': 'toggleCategoryChooser',
       'click #btn_header_logo': '_onEntriesIndexReload'
     },
 
@@ -45,78 +55,15 @@ define([
     },
 
     initFromDom: function(options) {
-      $('.threadBox').each(_.bind(function(index, element) {
-        var threadView,
-            threadId;
-
-        threadId = parseInt($(element).attr('data-id'), 10);
-        if (!this.threads.get(threadId)) {
-          this.threads.add([
-            {
-              id: threadId,
-              isThreadCollapsed: App.request.controller === 'entries' && App.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
-            }
-          ], {silent: true});
+      _.each(this._domInitializers, function(initializer, element) {
+        var $elements = $(element);
+        if ($elements.length > 0) {
+          this[initializer]($elements);
         }
-        threadView = new ThreadView({
-          el: $(element),
-          postings: this.postings,
-          model: this.threads.get(threadId)
-        });
-      }, this));
-
-      $('.js-entry-view-core').each(_.bind(function(a, element) {
-        var id,
-            postingLayout,
-            postingModel;
-
-        id = parseInt(element.getAttribute('data-id'), 10);
-        postingModel = new PostingModel({id: id});
-        this.postings.add(postingModel, {silent: true});
-        postingLayout = new PostingLayout({
-          el: $(element),
-          model: this.postings.get(id),
-          collection: this.postings
-        });
-      }, this));
-
-      $('.threadLeaf').each(_.bind(function(index, element) {
-        var threadLineView,
-            threadId,
-            threadLineId,
-            currentCollection;
-
-        threadId = parseInt(element.getAttribute('data-tid'), 10);
-
-        if (this.threads.get(threadId)) {
-          currentCollection = this.threads.get(threadId).threadlines;
-        } else {
-          currentCollection = this.threadLines;
-        }
-
-        threadLineId = parseInt(element.getAttribute('data-id'), 10);
-        threadLineView = new ThreadLineView({
-          el: $(element),
-          id: threadLineId,
-          postings: this.postings,
-          collection: currentCollection
-        });
-      }, this));
+      }, this);
 
       this.initAutoreload();
-      this.initBookmarks('#bookmarks');
       this.initHelp('.shp');
-      this.initSlidetabs('#slidetabs');
-      this.initCategoryChooser('#category-chooser');
-
-      if ($('.entry.add-not-inline').length > 0) {
-        // init the entries/add form where answering is not
-        // appended to a posting
-        this.answeringForm = new AnsweringView({
-          el: this.$('.entry.add-not-inline'),
-          model: new PostingModel({id: 'foo'})
-        });
-      }
 
       /*** All elements initialized, show page ***/
 
@@ -134,6 +81,110 @@ define([
             window.location.pathname.replace(/jump:\d+(\/)?/, '')
         );
       }
+    },
+
+    /**
+     * init the entries/add form where answering is not appended to a posting
+     *
+     * @param element
+     * @private
+     */
+    _initAnsweringNotInlined: function(element) {
+      this.answeringForm = new AnsweringView({
+        el: element,
+        model: new PostingModel({id: 'foo'})
+      });
+    },
+
+    _initBookmarks: function(element_n) {
+      var bookmarksView;
+      var bookmarks = new BookmarksCollection();
+      bookmarksView = new BookmarksView({
+        el: element_n,
+        collection: bookmarks
+      });
+    },
+
+    _initCategoryChooser: function(element) {
+      this.categoryChooser = new CategoryChooserView({ el: element });
+    },
+
+    _initLogout: function() {
+      App.commands.execute('app:localStorage:clear');
+    },
+
+    _initPostings: function(elements) {
+      _.each(elements, function(element) {
+        var id,
+          postingLayout,
+          postingModel;
+
+        id = parseInt(element.getAttribute('data-id'), 10);
+        postingModel = new PostingModel({id: id});
+        this.postings.add(postingModel, {silent: true});
+        postingLayout = new PostingLayout({
+          el: $(element),
+          model: this.postings.get(id),
+          collection: this.postings
+        });
+      }, this);
+    },
+
+    _initSlidetabs: function(element) {
+      var slidetabs,
+        slidetabsView;
+      slidetabs = new SlidetabsCollection();
+      slidetabsView = new SlidetabsView({
+        el: element,
+        collection: slidetabs
+      });
+    },
+
+    _initThreadBoxes: function(elements) {
+      _.each(elements, function(element) {
+        var threadView, threadId;
+
+        threadId = parseInt($(element).attr('data-id'), 10);
+        if (!this.threads.get(threadId)) {
+          this.threads.add([
+            {
+              id: threadId,
+              isThreadCollapsed: App.request.controller === 'entries' && App.request.action === 'index' && App.currentUser.get('user_show_thread_collapsed')
+            }
+          ], {silent: true});
+        }
+        threadView = new ThreadView({
+          el: $(element),
+          postings: this.postings,
+          model: this.threads.get(threadId)
+        });
+      }, this);
+
+    },
+
+    _initThreadLeafs: function(elements) {
+      _.each(elements, function(element) {
+        var threadLineView,
+          threadId,
+          threadLineId,
+          currentCollection;
+
+        threadId = parseInt(element.getAttribute('data-tid'), 10);
+
+        if (this.threads.get(threadId)) {
+          currentCollection = this.threads.get(threadId).threadlines;
+        } else {
+          currentCollection = this.threadLines;
+        }
+
+        threadLineId = parseInt(element.getAttribute('data-id'), 10);
+        threadLineView = new ThreadLineView({
+          el: $(element),
+          id: threadLineId,
+          postings: this.postings,
+          collection: currentCollection
+        });
+      }, this);
     },
 
     _showPage: function(startTime, timer) {
@@ -164,36 +215,8 @@ define([
           .html('');
     },
 
-    initBookmarks: function(element_n) {
-      var bookmarksView;
-      if ($(element_n).length) {
-        var bookmarks = new BookmarksCollection();
-        bookmarksView = new BookmarksView({
-          el: element_n,
-          collection: bookmarks
-        });
-      }
-    },
-
-    initSlidetabs: function(element_n) {
-      var slidetabs,
-          slidetabsView;
-      slidetabs = new SlidetabsCollection();
-      slidetabsView = new SlidetabsView({
-        el: element_n,
-        collection: slidetabs
-      });
-    },
-
-    initCategoryChooser: function(element_n) {
-      if ($(element_n).length > 0) {
-        this.categoryChooser = new CategoryChooserView({
-          el: element_n
-        });
-      }
-    },
-
-    toggleCategoryChooser: function() {
+    toggleCategoryChooser: function(event) {
+      event.preventDefault();
       this.categoryChooser.toggle();
     },
 
@@ -218,7 +241,6 @@ define([
               window.location = App.settings.get('webroot') + 'entries/';
             }, this), App.settings.get('autoPageReload') * 1000);
       }
-
     },
 
     breakAutoreload: function() {

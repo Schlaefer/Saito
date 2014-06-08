@@ -40,6 +40,10 @@ msgid "users/login"
 msgstr "Login"
 
 #
+msgid "users/logout"
+msgstr "Logout"
+
+#
 msgid "users/register"
 msgstr "Registrieren"
 

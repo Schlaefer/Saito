@@ -39,6 +39,9 @@
 			// becomes
 			// [4 => true, 7 => '0', 13 => '13']
 			// with 13 => '13' trueish
+			if (empty($this->_user['user_category_custom'])) {
+				$this->_user['user_category_custom'] = [];
+			}
 			$custom = $this->_user['user_category_custom'] + $this->_categories;
 
 			// then filter for zeros to get only the user categories

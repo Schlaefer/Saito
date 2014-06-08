@@ -68,7 +68,6 @@
 
 		public function logout() {
 			$this->CurrentUser->logout();
-			$this->redirect('/');
 		}
 
 		public function register() {
