@@ -154,8 +154,15 @@
 		public function testLogout() {
 			$this->generate('Users');
 			$this->_loginUser(3);
-			$this->testAction('/users/logout', ['method' => 'GET']);
-			$this->assertRedirectedTo();
+			$result = $this->testAction('/users/logout',
+				['method' => 'GET', 'return' => 'contents']);
+			$this->assertTag([
+				'tag' => 'meta',
+				'attributes' => [
+					'http-equiv' => 'refresh',
+					'content' => 'regexp:/1;\s/'
+				]
+			], $result);
 		}
 
 		/**
