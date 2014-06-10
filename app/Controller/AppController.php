@@ -112,8 +112,6 @@
 		public function beforeFilter() {
 			Stopwatch::start('App->beforeFilter()');
 
-			parent::beforeFilter();
-
 			// must be called before CakeError early return
 			$this->Themes->theme(Configure::read('Saito.themes'));
 			$this->Setting->load(Configure::read('Saito.Settings'));
@@ -123,6 +121,8 @@
 			if ($this->name === 'CakeError') {
 					return;
 			}
+
+			$this->Security->blackHoleCallback = 'blackhole';
 
 			$bbcodeSettings = BbcodeSettings::getInstance();
 			$bbcodeSettings->set(
@@ -291,6 +291,16 @@
 			}
 			$this->set('title_for_page', $_pageTitle);
 			return $_pageTitle;
+		}
+
+		/**
+		 *
+		 *
+		 * @param $type
+		 * @throws Saito\BlackHoledException
+		 */
+		public function blackhole($type) {
+			throw new Saito\BlackHoledException($type);
 		}
 
 		public function initBbcode() {

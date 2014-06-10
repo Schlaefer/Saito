@@ -108,7 +108,7 @@
 					'autocomplete' => 'off',
 					'name' => 'data[User][username]',
 					'required' => 'required',
-					'tabindex' => '1',
+					'tabindex' => '100',
 					'type' => 'text'
 				]
 			];
@@ -121,7 +121,7 @@
 					'autocomplete' => 'off',
 					'name' => 'data[User][password]',
 					'required' => 'required',
-					'tabindex' => '2',
+					'tabindex' => '101',
 					'type' => 'password'
 				]
 			];

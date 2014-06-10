@@ -6,7 +6,7 @@
 
 	class ForbiddenException extends \HttpException {
 
-		private $__Logger;
+		protected $__Logger;
 
 		/**
 		 * @throws \InvalidArgumentException
@@ -15,6 +15,17 @@
 			$this->__Logger = new \Saito\Logger\ForbiddenLogger();
 			$this->__Logger->write($message, $data);
 			parent::__construct($message, 403);
+		}
+
+	}
+
+	class BlackHoledException extends \BadRequestException {
+
+		public function __construct($type = null) {
+			$message = 'Request was blackholed. Type: ' . $type;
+			$this->__Logger = new \Saito\Logger\ExceptionLogger();
+			$this->__Logger->write($message);
+			parent::__construct($message, 400);
 		}
 
 	}
