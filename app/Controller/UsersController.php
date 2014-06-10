@@ -446,7 +446,7 @@
 				throw new BadRequestException();
 			}
 
-			$user = $this->User->findById($id);
+			$user = $this->User->getProfile($id);
 			$allowed = $this->_isEditingAllowed($this->CurrentUser, $id);
 			if (empty($user) || !$allowed) {
 				throw new \Saito\ForbiddenException("Attempt to change password for user $id.",
