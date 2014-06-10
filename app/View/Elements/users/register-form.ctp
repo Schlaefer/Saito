@@ -11,7 +11,8 @@
         'captchaResultTooFast' => __d('simple_captcha',
           'Captcha result too fast'),
       ],
-      'div' => ['class' => 'input required']
+      'div' => ['class' => 'input required'],
+      'tabindex' => 10
     ]
   );
 
@@ -26,7 +27,8 @@
       'div' => ['class' => 'input password required'],
       'label' => __('register_tos_label',
         $this->Html->link(__('register_tos_linktext'),
-          $tosUrl, ['target' => '_blank']))
+          $tosUrl, ['target' => '_blank'])),
+      'tabindex' => 11
     ]);
     echo $this->Js->get('#UserTosConfirm')->event('click',
       <<<EOF
@@ -44,5 +46,6 @@ EOF
     'id' => 'btn-register-submit',
     'class' => 'btn btn-submit',
     'disabled' => $tosRequired ? 'disabled' : '',
+    'tabindex' => 12
   ]);
   echo $this->Form->end();

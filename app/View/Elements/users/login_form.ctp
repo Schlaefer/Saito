@@ -5,14 +5,14 @@
   echo $this->Form->input('username', [
     'id' => 'tf-login-username',
     'label' => __('user_name'),
-    'tabindex' => 1,
+    'tabindex' => 100,
     'autocomplete' => 'off'
   ]);
 
   echo $this->Form->input('password', [
     'type' => 'password',
     'label' => __('user_pw'),
-    'tabindex' => 2,
+    'tabindex' => 101,
     'autocomplete' => 'off'
   ]);
 
@@ -22,12 +22,12 @@
       'style' => 'display: inline;',
     ],
     'type' => 'checkbox', 'style' => 'width: auto;',
-    'tabindex' => 3,
+    'tabindex' => 102,
   ]);
 
   echo $this->Form->submit(__('login_btn'), [
     'class' => 'btn btn-submit',
-    'tabindex' => 4,
+    'tabindex' => 103,
   ]);
 
   echo $this->Form->end();
