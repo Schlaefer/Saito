@@ -122,6 +122,8 @@
 					return;
 			}
 
+			$this->Security->blackHoleCallback = 'blackhole';
+
 			$bbcodeSettings = BbcodeSettings::getInstance();
 			$bbcodeSettings->set(
 				[
@@ -289,6 +291,16 @@
 			}
 			$this->set('title_for_page', $_pageTitle);
 			return $_pageTitle;
+		}
+
+		/**
+		 *
+		 *
+		 * @param $type
+		 * @throws Saito\BlackHoledException
+		 */
+		public function blackhole($type) {
+			throw new Saito\BlackHoledException($type);
 		}
 
 		public function initBbcode() {
