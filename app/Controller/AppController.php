@@ -112,8 +112,6 @@
 		public function beforeFilter() {
 			Stopwatch::start('App->beforeFilter()');
 
-			parent::beforeFilter();
-
 			// must be called before CakeError early return
 			$this->Themes->theme(Configure::read('Saito.themes'));
 			$this->Setting->load(Configure::read('Saito.Settings'));
