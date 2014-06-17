@@ -1,6 +1,7 @@
 <?php
 
 	App::uses('AppController', 'Controller');
+	App::uses('SimpleSearchString', 'Lib');
 
 	class SearchesController extends AppController {
 
@@ -51,18 +52,16 @@
 			$this->set(['q' => $qRaw, 'order' => $query['order']]);
 
 			// test query is valid
-			$regex = '/(?![+-])\b\S{1,' . ($minWordLength - 1) . '}\b/u';
-			$error = preg_match($regex, $qRaw, $matches);
+			$SearchString = new SimpleSearchString($qRaw, $minWordLength);
 
-			if ($error) {
+			if (!$SearchString->validateLength()) {
 				$this->Entry->validationErrors = ['q' => ['minWordLength']];
 				return;
 			}
+			$query['q'] = $SearchString->replaceOperators();
 
 			// sanitize search-term for manual SQL-query
 			$query['q'] = $this->_sanitize($query['q']);
-			// space should imply AND (not OR): it becomes '+' operator
-			$query['q'] = ltrim(preg_replace('/(^|\s)(?![-+"><])/i', ' +', $query['q']));
 
 			// build query
 			$q = $query['q'];
