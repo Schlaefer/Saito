@@ -1,0 +1,34 @@
+# Composer
+composer.lock
+composer.phar
+
+# Twig
+vendor/twig/twig/doc/*
+vendor/twig/twig/ext/*
+vendor/twig/twig/test/*
+
+# OS Generated
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+*.swp
+
+# User themes
+themes/*
+!themes/index.html
+!themes/default/*
+
+# PHPStorm settings
+.idea
+
+# temp folder
+temp/*
+!temp/index.html
+!temp/cache
+temp/cache/*
+!temp/cache/index.html
+
+# datastorage
+datastorage/*
+!datastorage/.htaccess
