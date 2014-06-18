@@ -42,6 +42,12 @@
 				]
 		];
 
+		/**
+		 * sets $entriesIds as read for user $userId
+		 *
+		 * @param array $entriesId [3, 4, 34]
+		 * @param int $userId
+		 */
 		public function setEntriesForUser($entriesId, $userId) {
 			// filter out duplicates
 			$userEntries = $this->getUser($userId);
@@ -59,20 +65,31 @@
 			$this->saveMany($data);
 		}
 
+		/**
+		 * gets all read postings of user with id $userId
+		 *
+		 * @param int $userId
+		 * @return array [1 => 1, 3 => 3]
+		 */
 		public function getUser($userId) {
 			if (isset($this->_userCache[$userId])) {
 				return $this->_userCache[$userId];
 			}
 
 			Stopwatch::start('UserRead::getUser()');
-			$data = $this->find('all',
+			$readPostings = $this->find('all',
 					[
 							'conditions' => ['user_id' => $userId],
 							'order' => $this->alias . '.entry_id',
 							'contain' => false
 					]);
-			$data = Hash::extract($data, '{n}.UserRead.entry_id');
-			$this->_userCache[$userId] = array_combine($data, $data);
+
+			$read = [];
+			foreach ($readPostings as $posting) {
+				$id = (int)$posting[$this->alias]['entry_id'];
+				$read[$id] = $id;
+			}
+			$this->_userCache[$userId] = $read;
 			Stopwatch::stop('UserRead::getUser()');
 
 			return $this->_userCache[$userId];
