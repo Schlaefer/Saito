@@ -24,7 +24,22 @@
 				'app.upload'
 		);
 
-		public function testFoo() {
+		/**
+		 * tests that only new entries are stored to the DB
+		 */
+		public function testSetEntriesForUserExistingEntry() {
+			$userId = 1;
+			$entryId = 2;
+
+			$User = $this->getMockForModel('UserRead', ['create', 'getUser']);
+
+			$User->expects($this->once())
+				->method('getUser')
+				->with($userId)
+				->will($this->returnValue([$entryId]));
+			$User->expects($this->never())->method('create');
+
+			$User->setEntriesForUser([$entryId], $userId);
 		}
 
 		/**

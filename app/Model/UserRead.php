@@ -53,6 +53,10 @@
 			$userEntries = $this->getUser($userId);
 			$entriesToSave = array_diff($entriesId, $userEntries);
 
+			if (empty($entriesToSave)) {
+				return;
+			}
+
 			$data = [];
 			foreach ($entriesToSave as $entryId) {
 				$this->_userCache[$userId][$entryId] = $entryId;
