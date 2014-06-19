@@ -21,7 +21,7 @@ You don't have to enter your security token manually. The forum will provide a Q
 
 <hr>
 
-<div style="text-align: center;">
+<div style="text-align: center;" markdown="1">
 ![TFA](http://dl.dropbox.com/u/33642/dump/Screen%20Shot%202014-06-04%20at%2014.43.22.png)
 </div>
 
