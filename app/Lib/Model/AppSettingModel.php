@@ -13,7 +13,7 @@
 		}
 
 		public function clearCache() {
-			$this->CacheSupport->clear('Saito');
+			$this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Saito']);
 		}
 
 	}

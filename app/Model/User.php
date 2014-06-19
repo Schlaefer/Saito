@@ -265,7 +265,7 @@
 
 		public function afterSave($created, $options = []) {
 			if ($created === false && isset($this->data[$this->alias]['username'])) {
-				$this->_dispatchEvent('Model.User.username.change');
+				$this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
 			}
 		}
 

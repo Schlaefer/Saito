@@ -752,7 +752,7 @@
 			);
 
 			if ($success) {
-				$this->_dispatchEvent('Model.Thread.reset');
+				$this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
 			}
 
 			return $success;

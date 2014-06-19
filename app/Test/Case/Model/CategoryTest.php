@@ -38,7 +38,7 @@
 			$Category = $this->getMockForModel('Category', ['_dispatchEvent']);
 			$Category->expects($this->once())
 					->method('_dispatchEvent')
-					->with('Model.Category.update');
+					->with('Cmd.Cache.clear', ['cache' => ['Saito', 'Thread']]);
 
 			$data = [
 				'Category' => [
@@ -67,7 +67,7 @@
 			$Category = $this->getMockForModel('Category', ['_dispatchEvent']);
 			$Category->expects($this->once())
 					->method('_dispatchEvent')
-					->with('Model.Category.delete');
+					->with('Cmd.Cache.clear', ['cache' => ['Saito', 'Thread']]);
 
 			$Category->id = 1;
 			$Category->delete();

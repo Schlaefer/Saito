@@ -34,7 +34,7 @@
 				return $this->_cache[$accession];
 			}
 			$this->_cache[$accession] = Cache::remember(
-				'Saito.Cache.CategoriesForAccession',
+				'Saito.Cache.CategoriesForAccession.' . $accession,
 				function () use ($accession) {
 					return $this->find('list', [
 						'conditions' => ['accession <=' => $accession],
@@ -109,7 +109,8 @@
 		}
 
 		public function clearCache() {
-			$this->CacheSupport->clear(['Saito', 'Thread']);
+			$this->_dispatchEvent('Cmd.Cache.clear',
+				['cache' => ['Saito', 'Thread']]);
 		}
 
 	}
