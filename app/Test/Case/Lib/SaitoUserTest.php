@@ -5,17 +5,17 @@
 	class SaitoUserTest extends CakeTestCase {
 
 		public function testGetSettings() {
-			//* initialize with real user
-			$user = array(
-					'id' => '1',
-					'username' => 'Bob',
-					'password' => 'foo',
-			);
+			//# initialize with real user
+			$user = [
+				'id' => '1',
+				'username' => 'Bob',
+				'password' => 'foo',
+			];
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getSettings();
 			$this->assertEquals($user, $result);
 
-			//* initialize with real user
+			//# initialize with real user
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getSettings();
@@ -23,15 +23,15 @@
 		}
 
 		public function testGetId() {
-			//* initialize with real user
-			$user = array(
-					'id' => '2',
-			);
+			//# initialize with real user
+			$user = [
+				'id' => '2',
+			];
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getId();
 			$this->assertEquals(2, $result);
 
-			//* initialize with empty
+			//# initialize with empty
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getId();
@@ -49,15 +49,15 @@
 		}
 
 		public function testIsLoggedIn() {
-			//* initialize with real user
-			$user = array(
-					'id' => '2',
-			);
+			//# initialize with real user
+			$user = [
+				'id' => '2',
+			];
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isLoggedIn();
 			$this->assertTrue($result);
 
-			//* initialize with empty
+			//# initialize with empty
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isLoggedIn();
@@ -94,34 +94,34 @@
 		}
 
 		public function testIsMod() {
-			//* anon
+			//# anon
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isMod();
 			$this->assertFalse($result);
 
-			//* user
+			//# user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'user',
+				'id' => '2',
+				'user_type' => 'user',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isMod();
 			$this->assertFalse($result);
 
-			//* initialize with real user
+			//# initialize with real user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'mod',
+				'id' => '2',
+				'user_type' => 'mod',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isMod();
 			$this->assertTrue($result);
 
-			//* admin
+			//# admin
 			$user = array(
-					'id' => '2',
-					'user_type' => 'admin',
+				'id' => '2',
+				'user_type' => 'admin',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isMod();
@@ -129,13 +129,13 @@
 		}
 
 		public function testIsModOnly() {
-			//* anon
+			//# anon
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isModOnly();
 			$this->assertFalse($result);
 
-			//* user
+			//# user
 			$user = array(
 				'id' => '2',
 				'user_type' => 'user',
@@ -144,7 +144,7 @@
 			$result = $this->SaitoUser->isModOnly();
 			$this->assertFalse($result);
 
-			//* initialize with real user
+			//# initialize with real user
 			$user = array(
 				'id' => '2',
 				'user_type' => 'mod',
@@ -153,7 +153,7 @@
 			$result = $this->SaitoUser->isModOnly();
 			$this->assertTrue($result);
 
-			//* admin
+			//# admin
 			$user = array(
 				'id' => '2',
 				'user_type' => 'admin',
@@ -164,34 +164,34 @@
 		}
 
 		public function testIsAdmin() {
-			//* anon
+			//# anon
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isAdmin();
 			$this->assertFalse($result);
 
-			//* user
+			//# user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'user',
+				'id' => '2',
+				'user_type' => 'user',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isAdmin();
 			$this->assertFalse($result);
 
-			//* initialize with real user
+			//# initialize with real user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'mod',
+				'id' => '2',
+				'user_type' => 'mod',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isAdmin();
 			$this->assertFalse($result);
 
-			//* admin
+			//# admin
 			$user = array(
-					'id' => '2',
-					'user_type' => 'admin',
+				'id' => '2',
+				'user_type' => 'admin',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isAdmin();
@@ -199,34 +199,34 @@
 		}
 
 		public function testGetMaxAccession() {
-			//* anon
+			//# anon
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getMaxAccession();
 			$this->assertEquals(0, $result);
 
-			//* user
+			//# user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'user',
+				'id' => '2',
+				'user_type' => 'user',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getMaxAccession();
 			$this->assertEquals(1, $result);
 
-			//* initialize with real user
+			//# initialize with real user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'mod',
+				'id' => '2',
+				'user_type' => 'mod',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getMaxAccession();
 			$this->assertEquals(2, $result);
 
-			//* admin
+			//# admin
 			$user = array(
-					'id' => '2',
-					'user_type' => 'admin',
+				'id' => '2',
+				'user_type' => 'admin',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->getMaxAccession();
@@ -234,22 +234,22 @@
 		}
 
 		public function testIsUser() {
-			//* anon
+			//# anon
 			$user = null;
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isUser();
 			$this->assertFalse($result);
 
-			//* user
+			//# user
 			$user = array(
-					'id' => '2',
-					'user_type' => 'user',
+				'id' => '2',
+				'user_type' => 'user',
 			);
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->isUser();
 			$this->assertTrue($result);
 
-			//* initialize with real user
+			//# initialize with real user
 			$user = array(
 				'id' => '2',
 				'user_type' => 'mod',
@@ -258,7 +258,7 @@
 			$result = $this->SaitoUser->isUser();
 			$this->assertTrue($result);
 
-			//* admin
+			//# admin
 			$user = array(
 				'id' => '2',
 				'user_type' => 'admin',
@@ -274,18 +274,18 @@
 
 			//# test
 			$tests = [
-				['in' => 1 , 'expected' => false],
-				['in' => 2 , 'expected' => true],
-				['in' => '1' , 'expected' => false],
-				['in' => '2' , 'expected' => true],
-				['in' => ['id' => 1] , 'expected' => false],
-				['in' => ['id' => 2] , 'expected' => true],
-				['in' => ['id' => '1'] , 'expected' => false],
-				['in' => ['id' => '2'] , 'expected' => true],
-				['in' => ['User' => ['id' => 1]] , 'expected' => false],
-				['in' => ['User' => ['id' => 2]] , 'expected' => true],
-				['in' => ['User' => ['id' => '1']] , 'expected' => false],
-				['in' => ['User' => ['id' => '2']] , 'expected' => true],
+				['in' => 1, 'expected' => false],
+				['in' => 2, 'expected' => true],
+				['in' => '1', 'expected' => false],
+				['in' => '2', 'expected' => true],
+				['in' => ['id' => 1], 'expected' => false],
+				['in' => ['id' => 2], 'expected' => true],
+				['in' => ['id' => '1'], 'expected' => false],
+				['in' => ['id' => '2'], 'expected' => true],
+				['in' => ['User' => ['id' => 1]], 'expected' => false],
+				['in' => ['User' => ['id' => 2]], 'expected' => true],
+				['in' => ['User' => ['id' => '1']], 'expected' => false],
+				['in' => ['User' => ['id' => '2']], 'expected' => true],
 			];
 			foreach ($tests as $test) {
 				$result = $this->SaitoUser->isSame($test['in']);
@@ -294,10 +294,10 @@
 		}
 
 		public function testArrayAccessors() {
-			$user = array(
-					'id' => '2',
-					'user_type' => 'user',
-			);
+			$user = [
+				'id' => '2',
+				'user_type' => 'user',
+			];
 			$this->SaitoUser->setSettings($user);
 
 			$this->SaitoUser['foo'] = 'bar';
@@ -309,14 +309,14 @@
 		}
 
 		public function testmockUserType() {
-			$user = array(
-					'id' => '2',
-					'user_type' => 'admin',
-			);
-			$expected = array(
-					'id' => '2',
-					'user_type' => 'user',
-			);
+			$user = [
+				'id' => '2',
+				'user_type' => 'admin',
+			];
+			$expected = [
+				'id' => '2',
+				'user_type' => 'user',
+			];
 			$this->SaitoUser->setSettings($user);
 			$result = $this->SaitoUser->mockUserType('user');
 			$this->SaitoUser->setSettings($expected);

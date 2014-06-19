@@ -70,7 +70,7 @@
 
 		public function isSame($user) {
 			$id = null;
-			if(is_int($user)) {
+			if (is_int($user)) {
 				$id = $user;
 			} elseif (is_string($user)) {
 				$id = (int)$user;
