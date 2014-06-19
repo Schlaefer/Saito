@@ -208,15 +208,13 @@
 		 * @param array $options
 		 * @return array|mixed
 		 */
-		public function getRecentEntries(ForumsUserInterface $User, array $options = []) {
+		public function getRecentEntries(CurrentUserComponent $User, array $options = []) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
 				'user_id' => null,
 				'limit' => 10,
-				'category' => $this->Category->getCategoriesForAccession(
-					$User->getMaxAccession()
-				),
+				'category' => $User->Categories->getAllowed()
 			];
 
 			$_cacheKey = 'Entry.recentEntries-' . md5(serialize($options));
@@ -1174,9 +1172,7 @@
  * @return bool
  */
 		public function validateCategoryIsAllowed($check) {
-			$availableCategories = $this->Category->getCategoriesForAccession(
-				$this->CurrentUser->getMaxAccession()
-			);
+			$availableCategories = $this->CurrentUser->Categories->getAllowed();
 			if (!isset($availableCategories[$check['category']])) {
 				return false;
 			}

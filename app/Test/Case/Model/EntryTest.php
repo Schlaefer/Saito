@@ -52,16 +52,17 @@
 		public function testCreateSuccess() {
 			App::uses('Category', 'Model');
 
-			$SaitoUser = $this->getMock(
-				'SaitoUser',
-				['getMaxAccession', 'getId', 'getBookmarks']
-			);
-			$SaitoUser->expects($this->any())
-					->method('getMaxAccession')
-					->will($this->returnValue(2));
+			$category = 1;
+
+			//# Setup CurrentUser
+			$SaitoUser = $this->getMock('SaitoUser', ['getId', 'getBookmarks']);
 			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
+			$SaitoUser->Categories = $this->getMock('Object', ['getAllowed']);
+			$SaitoUser->Categories->expects($this->once())
+				->method('getAllowed')
+				->will($this->returnValue([$category => $category]));
 			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			$data[$this->Entry->alias] = [
@@ -69,7 +70,7 @@
 				// +1 because str_pad calculates non ascii chars to a string length of 2
 				'subject' => str_pad('Sübject', $this->Entry->getSubjectMaxLength() + 1, '.'),
 				'text' => 'Täxt',
-				'category' => 1
+				'category' => $category
 			];
 
 			$lastEntry = $this->Entry->find(
@@ -101,13 +102,17 @@
 		public function testCreateCategoryThreadCounterUpdate() {
 			App::uses('Category', 'Model');
 
-			$SaitoUser = $this->getMock('SaitoUser', ['getMaxAccession', 'getId']);
-			$SaitoUser->expects($this->any())
-					->method('getMaxAccession')
-					->will($this->returnValue(2));
+			$category = 1;
+
+			//# Setup CurrentUser
+			$SaitoUser = $this->getMock('SaitoUser', ['getId']);
 			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
+			$SaitoUser->Categories = $this->getMock('Object', ['getAllowed']);
+			$SaitoUser->Categories->expects($this->once())
+				->method('getAllowed')
+				->will($this->returnValue([$category => $category]));
 			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			Configure::write('Saito.Settings.subject_maxlength', 75);
@@ -122,7 +127,7 @@
 			$data['Entry'] = [
 				'pid' => 0,
 				'subject' => 'Subject',
-				'category' => 1
+				'category' => $category
 			];
 			$this->Entry->createPosting($data);
 		}
@@ -254,10 +259,11 @@
 		}
 
 		public function testChangeThreadCategory() {
-			$SaitoUser = $this->getMock('SaitoUser', ['getMaxAccession']);
-			$SaitoUser->expects($this->once())
-					->method('getMaxAccession')
-					->will($this->returnValue(2));
+			$SaitoUser = $this->getMock('SaitoUser');
+			$SaitoUser->Categories = $this->getMock('Object', ['getAllowed']);
+			$SaitoUser->Categories->expects($this->once())
+				->method('getAllowed')
+				->will($this->returnValue([1 => 1, 2 => 2]));
 			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			$_oldCategory = 2;
@@ -296,10 +302,11 @@
 		}
 
 		public function testChangeThreadCategoryNotAnExistingCategory() {
-			$SaitoUser = $this->getMock('SaitoUser', ['getMaxAccession']);
-			$SaitoUser->expects($this->once())
-					->method('getMaxAccession')
-					->will($this->returnValue(2));
+			$SaitoUser = $this->getMock('SaitoUser');
+			$SaitoUser->Categories = $this->getMock('Object', ['getAllowed']);
+			$SaitoUser->Categories->expects($this->once())
+				->method('getAllowed')
+				->will($this->returnValue([1 => 1, 2 => 2]));
 			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
 
 			$_newCategory = 9999;

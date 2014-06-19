@@ -171,16 +171,7 @@
 		 * User is not logged in
 		 */
 		public function testCategoryChooserNotLoggedIn() {
-			$Entries = $this->generate('EntriesMock',
-				array(
-					'methods' => array(
-						'paginate',
-					),
-					'models' => array(
-						'Category' => array('getCategoriesForAccession'),
-						'User' => array('getMaxAccession'),
-					)
-				));
+			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
 
 			Configure::write('Saito.Settings.category_chooser_global', 1);
 
@@ -188,18 +179,21 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(1))
-					->method('getCategoriesForAccession')
-					->will($this->returnValue(array(
-							1 => '1',
-							2 => '2',
-							7 => '7'
-						)
-					));
-
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
+
+			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
+				[$User]);
+			$User->Categories->expects($this->any())
+				->method('getAllowed')
+				->will($this->returnValue([
+						1 => 'Admin',
+						2 => 'Ontopic',
+						7 => 'Foo'
+					]
+				));
+
 			$User->setSettings([]);
 			$Entries->getInitialThreads($User);
 			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
@@ -209,16 +203,7 @@
 		 * Admin completely deactivated category-chooser
 		 */
 		public function testCategoryChooserDeactivated() {
-			$Entries = $this->generate('EntriesMock',
-				array(
-					'methods' => array(
-						'paginate',
-					),
-					'models' => array(
-						'Category' => array('getCategoriesForAccession'),
-						'User' => array('getMaxAccession'),
-					)
-				));
+			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
 
 			Configure::write('Saito.Settings.category_chooser_global', 0);
 			Configure::write('Saito.Settings.category_chooser_user_override', 0);
@@ -227,18 +212,21 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(1))
-					->method('getCategoriesForAccession')
-					->will($this->returnValue(array(
-							1 => '1',
-							2 => '2',
-							7 => '7'
-						)
-					));
-
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
+
+			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
+				[$User]);
+			$User->Categories->expects($this->any())
+				->method('getAllowed')
+				->will($this->returnValue([
+						1 => 'Admin',
+						2 => 'Ontopic',
+						7 => 'Foo'
+					]
+				));
+
 			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
@@ -252,16 +240,7 @@
 		}
 
 		public function testCategoryChooserEmptyCustomSet() {
-			$Entries = $this->generate('EntriesMock',
-				array(
-					'methods' => array(
-						'paginate',
-					),
-					'models' => array(
-						'Category' => array('getCategoriesForAccession'),
-						'User' => array('getMaxAccession'),
-					)
-				));
+			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
 
 			Configure::write('Saito.Settings.category_chooser_global', 0);
 			Configure::write('Saito.Settings.category_chooser_user_override', 1);
@@ -270,18 +249,21 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(1))
-					->method('getCategoriesForAccession')
-					->will($this->returnValue(array(
-							1 => '1',
-							2 => '2',
-							7 => '7'
-						)
-					));
-
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
+
+			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
+				[$User]);
+			$User->Categories->expects($this->any())
+				->method('getAllowed')
+				->will($this->returnValue([
+						1 => 'Admin',
+						2 => 'Ontopic',
+						7 => 'Foo'
+					]
+				));
+
 			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
@@ -301,19 +283,7 @@
 		 * - new categories (8) are in the custom set
 		 */
 		public function testCategoryChooserCustomSet() {
-			$Entries = $this->generate('EntriesMock',
-				array(
-					'methods' => array(
-						'paginate',
-					),
-					'models' => array(
-						'Category' => array(
-							'getCategoriesForAccession',
-							'getCategoriesSelectForAccession'
-						),
-						'User' => array('getMaxAccession'),
-					)
-				));
+			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
 
 			Configure::write('Saito.Settings.category_chooser_global', 1);
 
@@ -321,26 +291,21 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->once())
-					->method('getCategoriesForAccession')
-					->will($this->returnValue(array(
-							2 => '2',
-							7 => '7',
-							8 => '8'
-						)
-					));
-			$Entries->Entry->Category->expects($this->once())
-					->method('getCategoriesSelectForAccession')
-					->will($this->returnValue(array(
-							2 => 'Ontopic',
-							7 => 'Foo',
-							8 => 'Bar'
-						)
-					));
-
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
+
+			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
+				[$User]);
+			$User->Categories->expects($this->any())
+				->method('getAllowed')
+				->will($this->returnValue([
+						2 => 'Ontopic',
+						7 => 'Foo',
+						8 => 'Bar'
+					]
+				));
+
 			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,
@@ -366,16 +331,7 @@
 		}
 
 		public function testCategoryChooserSingleCategory() {
-			$Entries = $this->generate('EntriesMock',
-				array(
-					'methods' => array(
-						'paginate',
-					),
-					'models' => array(
-						'Category' => array('getCategoriesForAccession'),
-						'User' => array('getMaxAccession'),
-					)
-				));
+			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
 
 			Configure::write('Saito.Settings.category_chooser_global', 1);
 
@@ -383,18 +339,21 @@
 					->method('paginate')
 					->will($this->returnValue(array()));
 
-			$Entries->Entry->Category->expects($this->exactly(1))
-					->method('getCategoriesForAccession')
-					->will($this->returnValue(array(
-							1 => '1',
-							2 => '2',
-							7 => '7'
-						)
-					));
-
 			App::uses('CurrentUserComponent', 'Controller/Component');
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
+
+			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
+				[$User]);
+			$User->Categories->expects($this->any())
+				->method('getAllowed')
+				->will($this->returnValue([
+						1 => 'Admin',
+						2 => 'Ontopic',
+						7 => 'Foo'
+					]
+				));
+
 			$User->setSettings(array(
 				'id' => 1,
 				'user_sort_last_answer' => 1,

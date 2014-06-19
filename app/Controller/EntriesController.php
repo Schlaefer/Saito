@@ -85,9 +85,7 @@
 				$order = 'last_answer DESC';
 			}
 
-			$conditions['category'] = $this->Entry->Category->getCategoriesForAccession(
-				$this->CurrentUser->getMaxAccession()
-			);
+			$conditions['category'] = $this->CurrentUser->Categories->getAllowed();
 
 			$entries = $this->Entry->find(
 				'feed',
@@ -122,7 +120,8 @@
 			}
 
 			// check if anonymous tries to access internal categories
-			if ($entries[0]['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
+			$accession = $entries[0]['Category']['accession'];
+			if (!$this->CurrentUser->Categories->isAccessionAuthorized($accession)) {
 				return $this->redirect('/');
 			}
 
@@ -187,7 +186,8 @@
 			}
 
 			// check if anonymous tries to access internal categories
-			if ($entry['Category']['accession'] > $this->CurrentUser->getMaxAccession()) {
+			$accession = $entry['Category']['accession'];
+			if (!$this->CurrentUser->Categories->isAccessionAuthorized($accession)) {
 				$this->redirect('/');
 				return;
 			}
@@ -847,9 +847,7 @@
 		}
 
 		protected function _setupCategoryChooser(ForumsUserInterface $User) {
-			$categories = $this->Entry->Category->getCategoriesForAccession(
-				$User->getMaxAccession()
-			);
+			$categories = $User->Categories->getAllowed();
 
 			$isUsed = $User->isLoggedIn() &&
 					(
@@ -880,19 +878,14 @@
 						$title = __('All Categories');
 				}
 				$this->set('categoryChooserTitleId', $title);
-				$this->set(
-					'categoryChooser',
-					$this->Entry->Category->getCategoriesSelectForAccession(
-						$User->getMaxAccession()
-					)
-				);
+				$this->set('categoryChooser', $User->Categories->getAllowed('list'));
 			}
 			return $categories;
 		}
 
 		protected function _teardownAdd() {
 			//* find categories for dropdown
-			$categories = $this->Entry->Category->getCategoriesSelectForAccession($this->CurrentUser->getMaxAccession());
+			$categories = $this->CurrentUser->Categories->getAllowed('list');
 			$this->set('categories', $categories);
 			$this->_loadSmilies();
 		}

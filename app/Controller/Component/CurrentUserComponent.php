@@ -4,10 +4,13 @@
 	App::uses('SaitoCurrentUserReadEntries', 'Lib/SaitoUser');
 	App::uses('SaitoUserTrait', 'Lib/SaitoUser');
 	App::uses('ForumsUserInterface', 'Lib/SaitoUser');
+	App::uses('CategoryAuth', 'Lib/SaitoUser');
 
 	class CurrentUserComponent extends Component implements ForumsUserInterface, ArrayAccess {
 
 		use SaitoUserTrait;
+
+		public $Categories;
 
 /**
  * Component name
@@ -83,6 +86,7 @@
 			if ($this->_Controller->modelClass) {
 				$this->_Controller->{$this->_Controller->modelClass}->SharedObjects['CurrentUser'] = $this;
 			}
+			$this->Categories = new CategoryAuth($this);
 
 			/*
 			 * We create a new User Model instance. Otherwise we would overwrite $this->request->data

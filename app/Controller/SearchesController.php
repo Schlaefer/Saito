@@ -77,7 +77,7 @@
 					'fields' => $fields,
 					'conditions' => [
 							"MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$q' IN BOOLEAN MODE)",
-							'Entry.category' => $this->Entry->Category->getCategoriesForAccession($this->CurrentUser->getMaxAccession())
+							'Entry.category' => $this->CurrentUser->Categories->getAllowed()
 					],
 					'order' => $order,
 					'paramType' => 'querystring'
@@ -148,8 +148,8 @@
 						throw new NotFoundException;
 					}
 				} else {
-					$settings['conditions']['Entry.category'] =
-							$this->Entry->Category->getCategoriesForAccession($maxAccession);
+					$settings['conditions']['Entry.category'] = $this->CurrentUser
+						->Categories->getAllowed();
 				}
 				$this->Paginator->settings = $settings;
 				$this->set('results', $this->Paginator->paginate());
