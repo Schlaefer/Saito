@@ -33,11 +33,15 @@
 			if (!empty($this->_cache[$accession])) {
 				return $this->_cache[$accession];
 			}
-			$this->_cache[$accession] = $this->find('list', [
-				'conditions' => ['accession <=' => $accession],
-				'fields' => ['Category.id', 'Category.category'],
-				'order' => 'category_order ASC'
-			]);
+			$this->_cache[$accession] = Cache::remember(
+				'Saito.Cache.CategoriesForAccession',
+				function () use ($accession) {
+					return $this->find('list', [
+						'conditions' => ['accession <=' => $accession],
+						'fields' => ['Category.id', 'Category.category'],
+						'order' => 'category_order ASC'
+					]);
+				});
 			return $this->_cache[$accession];
 		}
 
@@ -92,7 +96,7 @@
 		}
 
 		public function afterDelete() {
-			$this->_dispatchEvent('Model.Category.delete');
+			$this->clearCache();
 		}
 
 		public function afterSave($created, $options = array()) {
@@ -100,8 +104,12 @@
 			if (!isset($this->data[$this->alias]['thread_count']) &&
 					isset($this->data[$this->alias]['category'])
 			) {
-				$this->_dispatchEvent('Model.Category.update');
+				$this->clearCache();
 			}
+		}
+
+		public function clearCache() {
+			$this->CacheSupport->clear(['Saito', 'Thread']);
 		}
 
 	}

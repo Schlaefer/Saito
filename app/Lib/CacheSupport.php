@@ -32,6 +32,7 @@
 				foreach ($cache as $_c) {
 					$this->clear($_c, $id);
 				}
+				return;
 			}
 			if ($cache === null) {
 				foreach ($this->_Caches as $_Cache) {

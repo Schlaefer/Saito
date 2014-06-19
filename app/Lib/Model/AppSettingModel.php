@@ -13,7 +13,7 @@
 		}
 
 		public function clearCache() {
-			$this->SharedObjects['CacheSupport']->clear('Saito');
+			$this->CacheSupport->clear('Saito');
 		}
 
 	}

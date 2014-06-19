@@ -26,9 +26,8 @@
 		public $SharedObjects;
 
 		public function __get($name) {
-			switch ($name) {
-				case 'CurrentUser':
-					return $this->SharedObjects['CurrentUser'];
+			if (isset($this->SharedObjects[$name])) {
+				return $this->SharedObjects[$name];
 			}
 			return parent::__get($name);
 		}
