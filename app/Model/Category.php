@@ -1,5 +1,8 @@
 <?php
-	class Category extends AppModel {
+
+	App::uses('AppSettingModel', 'Lib/Model');
+
+	class Category extends AppSettingModel {
 
 		public $name = 'Category';
 
@@ -95,22 +98,14 @@
 			return $count;
 		}
 
-		public function afterDelete() {
-			$this->clearCache();
-		}
-
 		public function afterSave($created, $options = array()) {
 			// don't empty cache if it's only a thread count update
-			if (!isset($this->data[$this->alias]['thread_count']) &&
-					isset($this->data[$this->alias]['category'])
+			if (isset($this->data[$this->alias]['thread_count']) ||
+					!isset($this->data[$this->alias]['category'])
 			) {
-				$this->clearCache();
+				$options['clearCache'] = false;
 			}
-		}
-
-		public function clearCache() {
-			$this->_dispatchEvent('Cmd.Cache.clear',
-				['cache' => ['Saito', 'Thread']]);
+			parent::afterSave($created, $options);
 		}
 
 	}
