@@ -25,6 +25,11 @@
 				'limit' => 25
 		];
 
+		public function beforeFilter() {
+			parent::beforeFilter();
+			$this->Auth->allow('simple');
+		}
+
 		public function simple() {
 			$defaults = [
 					'order' => 'time'
@@ -53,7 +58,6 @@
 
 			// test query is valid
 			$SearchString = new SimpleSearchString($qRaw, $minWordLength);
-
 			if (!$SearchString->validateLength()) {
 				$this->Entry->validationErrors = ['q' => ['minWordLength']];
 				return;
@@ -103,9 +107,7 @@
 			$this->set('start_year', date('Y', $startDate));
 
 			// category drop-down
-			$maxAccession = $this->CurrentUser->getMaxAccession();
-			$categories = $this->Entry->Category->getCategoriesSelectForAccession(
-					$maxAccession);
+			$categories = $this->CurrentUser->Categories->getAllowed('list');
 			$this->set('categories', $categories);
 
 			// calculate current month and year
