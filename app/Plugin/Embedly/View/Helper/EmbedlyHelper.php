@@ -1,7 +1,7 @@
 <?php
 
   App::uses('AppHelper', 'View/Helper');
-  App::import('Embedly.Vendor', 'Embedly');
+  App::import('vendor', 'Embedly.Embedly');
 
   class EmbedlyHelper extends AppHelper {
 

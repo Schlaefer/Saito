@@ -12,13 +12,18 @@
     {
       "type": "pear",
       "url": "http://pear.cakephp.org"
+    },
+    {
+      "type": "vcs",
+      "url": "http://github.com/Schlaefer/jBBCode"
     }
   ],
   "require": {
     "php": ">=5.4.0",
     "ext-mcrypt": "*",
     "pear-cakephp/cakephp": "2.5.2",
-    "kzykhys/ciconia": "~1.0.3"
+    "kzykhys/ciconia": "~1.0.3",
+    "jbbcode/jbbcode": "dev-bugfix-options-replacement"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*"
