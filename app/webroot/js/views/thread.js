@@ -44,7 +44,7 @@ define([
       // only append to the id it belongs to
       if (options.tid !== this.model.get('id')) { return; }
       threadLine = new ThreadLineView({
-        id: options.id,
+        leafData: options,
         collection: this.model.threadlines,
         postings: this.postings
       });

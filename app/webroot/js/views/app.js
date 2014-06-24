@@ -164,25 +164,26 @@ define([
 
     _initThreadLeafs: function(elements) {
       _.each(elements, function(element) {
-        var threadLineView,
-          threadId,
-          threadLineId,
-          currentCollection;
+        var leafData = JSON.parse(element.getAttribute('data-leaf'));
+        // 'new' is 'isNewToUser' in leaf model; also 'new' is JS-keyword
+        leafData.isNewToUser = leafData['new'];
+        delete(leafData['new']);
 
-        threadId = parseInt(element.getAttribute('data-tid'), 10);
-
-        if (this.threads.get(threadId)) {
-          currentCollection = this.threads.get(threadId).threadlines;
+        var threadsCollection = this.threads.get(leafData.tid);
+        var threadlineCollection;
+        if (threadsCollection) {
+          // leafData belongs to complete thread on page
+          threadlineCollection = threadsCollection.threadlines;
         } else {
-          currentCollection = this.threadLines;
+          // leafData is not shown in its complete thread context (e.g. bookmark)
+          threadlineCollection = this.threadLines;
         }
 
-        threadLineId = parseInt(element.getAttribute('data-id'), 10);
-        threadLineView = new ThreadLineView({
+        var threadLineView = new ThreadLineView({
           el: $(element),
-          id: threadLineId,
+          leafData: leafData,
           postings: this.postings,
-          collection: currentCollection
+          collection: threadlineCollection
         });
       }, this);
     },

@@ -203,15 +203,24 @@
 
 			$_threadLineCached = $this->threadLineCached($entrySub, $level);
 
-			// generate current entry
+			$id = (int)$entrySub['Entry']['id'];
+			$leafData = json_encode([
+				'id' => $id,
+				'new' => (bool)$_isNew,
+				'tid' => (int)$entrySub['Entry']['tid']
+			]);
+
+			/*
+			 * - data-id still used to identify parent posting when inserting	an inline-answered entry
+			 */
 			$out = <<<EOF
-<li class="threadLeaf {$_spanPostType}" data-id="{$entrySub['Entry']['id']}" data-tid="{$entrySub['Entry']['tid']}" data-new="{$_isNew}">
+<li class="threadLeaf {$_spanPostType}" data-id="{$id}" data-leaf='{$leafData}'>
 	<div class="threadLine">
 		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
 			<i class="fa fa-thread"></i>
 		</button>
 		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
-			class='link_show_thread {$entrySub['Entry']['id']} et threadLine-content'>
+			class='link_show_thread {$id} et threadLine-content'>
 				{$_threadLineCached}
 		</a>
 	</div>
