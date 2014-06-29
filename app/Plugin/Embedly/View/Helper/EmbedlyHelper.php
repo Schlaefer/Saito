@@ -27,10 +27,13 @@
                   'key' => self::$_apiKey,
           ));
 
-      $request = array(
-          'urls' => array( $string ),
-      );
-      $obj = current($api->oembed($request));
+			$request = ['urls' => [$string]];
+
+			try {
+				$obj = current($api->oembed($request));
+			} catch (Exception $e) {
+				return 'Embedding failded: ' . $e->getMessage();
+			}
 
       if ( isset($obj->html) ):
         // use the html code from embedly if possible
