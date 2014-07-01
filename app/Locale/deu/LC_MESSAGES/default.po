@@ -1563,9 +1563,8 @@ msgid "Spoiler"
 msgstr ""
 
 #: View/Helper/BbcodeHelper.php:1006
-#, fuzzy
 msgid "[embed] tag not enabled."
-msgstr "Embed.ly aktivieren"
+msgstr ""
 
 #: View/Helper/BbcodeHelper.php:1095
 #, php-format
