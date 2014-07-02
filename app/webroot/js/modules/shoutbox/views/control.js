@@ -3,8 +3,7 @@ define([
   'modules/shoutbox/models/control',
   'text!modules/shoutbox/templates/control.html'
 ], function($, _, Backbone, Marionette, App, SCM, Tpl) {
-
-  "use strict";
+  'use strict';
 
   var ShoutboxView = Marionette.ItemView.extend({
     template: _.template(Tpl),
@@ -28,7 +27,9 @@ define([
 
     _putNotifyCheckbox: function() {
       var active = App.reqres.request('app:html5-notification:available');
-      if (active !== true) { return; }
+      if (active !== true) {
+        return;
+      }
       this.notify = this.$('#shoutbox-notify');
       if (this.model.get('notify')) {
         this.notify.attr('checked', 'checked');
