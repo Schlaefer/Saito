@@ -28,6 +28,11 @@
 			return ['Cmd.Cache.clear' => 'onClear'];
 		}
 
+		/**
+		 * Clears out cache by name in $event['cache'];
+		 *
+		 * @param $event
+		 */
 		public function onClear($event) {
 			$cache = $event->data['cache'];
 			$id = isset($event->data['id']) ? $event->data['id'] : null;
@@ -100,6 +105,7 @@
 
 		public function implementedEvents() {
 			return [
+				'Model.Thread.create' => 'onThreadChanged',
 				'Model.Thread.change' => 'onThreadChanged',
 				'Model.Entry.replyToEntry' => 'onEntryChanged',
 				'Model.Entry.update' => 'onEntryChanged'

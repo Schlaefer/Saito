@@ -354,6 +354,13 @@
 					$this->Category->id = $data[$this->alias]['category'];
 					$this->Category->updateThreadCounter();
 				}
+				$this->_dispatchEvent(
+					'Model.Thread.create',
+					[
+						'subject' => $_newPosting[$this->alias]['id'],
+						'data' => $_newPosting
+					]
+				);
 			} else {
 				// update last answer time of root entry
 				$this->clear();

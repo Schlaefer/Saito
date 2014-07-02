@@ -49,10 +49,19 @@
 			);
 		}
 
-		public function testCreateSuccess() {
+		public function testCreateSuccessNewThread() {
 			App::uses('Category', 'Model');
 
 			$category = 1;
+
+			$this->Entry = $this->getMockForModel(
+				'EntryMock',
+				['_dispatchEvent']
+			);
+
+			$this->Entry->expects($this->once())
+				->method('_dispatchEvent')
+				->with('Model.Thread.create', $this->anything());
 
 			//# Setup CurrentUser
 			$SaitoUser = $this->getMock('SaitoUser', ['getId', 'getBookmarks']);
