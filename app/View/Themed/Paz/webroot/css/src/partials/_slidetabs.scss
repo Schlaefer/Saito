@@ -61,6 +61,10 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
   cursor: pointer;
 }
 
+.slidetab-content {
+  word-break: break-word;
+}
+
 // slidetab userlist
 // -------------------------------------
 
