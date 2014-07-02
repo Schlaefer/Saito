@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "85d498a17aae979b44baea2426c3cd50",
+    "hash": "7de3d748958b9c6099e989f934573e16",
     "packages": [
         {
             "name": "jbbcode/jbbcode",
-            "version": "dev-bugfix-options-replacement",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Schlaefer/jBBCode.git",
-                "reference": "cd809f9cb86560dc3d4436b33ccab5e40192516e"
+                "url": "https://github.com/jbowens/jBBCode.git",
+                "reference": "ae932fe32a8ce50442f258999e416370994f7094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Schlaefer/jBBCode/zipball/cd809f9cb86560dc3d4436b33ccab5e40192516e",
-                "reference": "cd809f9cb86560dc3d4436b33ccab5e40192516e",
+                "url": "https://api.github.com/repos/jbowens/jBBCode/zipball/ae932fe32a8ce50442f258999e416370994f7094",
+                "reference": "ae932fe32a8ce50442f258999e416370994f7094",
                 "shasum": ""
             },
             "require": {
@@ -32,6 +32,7 @@
                     "JBBCode": "."
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -47,12 +48,9 @@
             "homepage": "http://jbbcode.com/",
             "keywords": [
                 "BB",
-                "BBCode"
+                "bbcode"
             ],
-            "support": {
-                "source": "https://github.com/Schlaefer/jBBCode/tree/bugfix-options-replacement"
-            },
-            "time": "2014-06-30 08:38:23"
+            "time": "2014-07-02 03:23:38"
         },
         {
             "name": "kzykhys/ciconia",
