@@ -49,7 +49,12 @@
 
 		public function beforeFilter() {
 			parent::beforeFilter();
-			$this->Auth->allow(['status']);
+			if ($this->Components->enabled('Auth')) {
+				$this->Components->disable('Auth');
+			}
+			if ($this->Components->enabled('Security')) {
+				$this->Components->disable('Security');
+			}
 		}
 
 	}
