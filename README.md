@@ -14,4 +14,4 @@ Status
 [![Build Status](https://secure.travis-ci.org/Schlaefer/Saito.png?branch=master)](http://travis-ci.org/Schlaefer/Saito)
 
 [1]: http://saito.gopagoda.com/
-[cake]: http://saito.gopagoda.com/
+[cake]: http://saito.siezi.com/forum/
