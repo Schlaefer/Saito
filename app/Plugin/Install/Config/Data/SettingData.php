@@ -49,7 +49,7 @@ class SettingData {
 			['name' => 'userranks_show', 'value' => '1'],
 			[
 					'name' => 'video_domains_allowed',
-					'value' => 'youtube | youtube-nocookie | vimeo'
+					'value' => 'youtube | youtube-nocookie | vimeo | vine'
 			]
 	];
 }

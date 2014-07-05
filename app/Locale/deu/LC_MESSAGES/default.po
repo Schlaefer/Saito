@@ -914,10 +914,6 @@ msgstr "Kopie an mich senden"
 msgid "userlist_email"
 msgstr "E-Mail"
 
-#: View/Users/edit.ctp:53 View/Users/edit.ctp:81
-msgid "user_pw_exp"
-msgstr "Aktuelles Passwort durch ein neues ersetzen."
-
 #: View/Users/edit.ctp:88 View/Users/view.ctp:31
 msgid "user_real_name"
 msgstr "Realer Name"
@@ -1567,9 +1563,8 @@ msgid "Spoiler"
 msgstr ""
 
 #: View/Helper/BbcodeHelper.php:1006
-#, fuzzy
 msgid "[embed] tag not enabled."
-msgstr "Embed.ly aktivieren"
+msgstr ""
 
 #: View/Helper/BbcodeHelper.php:1095
 #, php-format

@@ -899,10 +899,6 @@ msgstr "Send copy to yourself."
 msgid "userlist_email"
 msgstr "Email"
 
-#: View/Users/edit.ctp:53 View/Users/edit.ctp:81
-msgid "user_pw_exp"
-msgstr "Change password"
-
 #: View/Users/edit.ctp:88 View/Users/view.ctp:31
 msgid "user_real_name"
 msgstr "Real Name"
@@ -1521,9 +1517,8 @@ msgid "Spoiler"
 msgstr ""
 
 #: View/Helper/BbcodeHelper.php:1006
-#, fuzzy
 msgid "[embed] tag not enabled."
-msgstr "Enable Embedly"
+msgstr ""
 
 #: View/Helper/BbcodeHelper.php:1095
 #, php-format
@@ -1589,7 +1584,7 @@ msgstr ""
 
 #: View/Helper/MarkitupEditorHelper.php:76
 msgid "geshi_link_popup"
-msgstr ""
+msgstr "Please enter an URL for your link.:!:http://example.com/"
 
 #: View/Helper/MarkitupEditorHelper.php:78
 msgid "geshi_link_placeholder"

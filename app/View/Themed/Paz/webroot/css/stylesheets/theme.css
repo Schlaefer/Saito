@@ -205,6 +205,8 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .slidetab-tab-button { color: #d50606; cursor: pointer; }
 
+.slidetab-content { word-break: break-word; }
+
 .slidetab-userlist-icon { display: inline-block; width: 1.1em; padding-left: 1em; }
 
 #slidetabUserlist-counter { position: absolute; min-width: 6px; background: #111111; border: 1px solid white; padding: 0 1px; right: 0px; bottom: 0px; }

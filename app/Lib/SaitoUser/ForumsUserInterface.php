@@ -20,6 +20,14 @@
 
 		public function isForbidden();
 
+		/**
+		 * Checks if ForumsUser is the same user as $user
+		 *
+		 * @param mixed $user
+		 * @return bool
+		 */
+		public function isSame($user);
+
 		public function getMaxAccession();
 
 		public function mockUserType($type);

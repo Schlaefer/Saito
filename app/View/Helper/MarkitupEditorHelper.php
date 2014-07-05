@@ -49,7 +49,7 @@
 					'name' => "<i class='fa fa-s-code'></i>",
 					'title' => __('Code'),
 					'className' => 'btn-markItUp-Code',
-					'openWith' => '[code text]\n',
+					'openWith' => '[code=text]\n',
 					'closeWith' => '\n[/code]'
 				),
 				'Bulleted list' => array(

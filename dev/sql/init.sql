@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.17-1~dotdeb.1)
 # Database: default
-# Generation Time: 2014-04-15 09:49:05 +0000
+# Generation Time: 2014-07-02 06:48:33 +0000
 # ************************************************************
 
 
@@ -32,10 +32,10 @@ CREATE TABLE `bookmarks` (
   `comment` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
- 	PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`),
   KEY `bookmarks_entryId_userId` (`entry_id`,`user_id`),
   KEY `bookmarks_userId` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 LOCK TABLES `bookmarks` WRITE;
 /*!40000 ALTER TABLE `bookmarks` DISABLE KEYS */;
@@ -114,8 +114,8 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `entries`;
 
 CREATE TABLE `entries` (
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0',
   `tid` int(11) NOT NULL DEFAULT '0',
@@ -150,20 +150,20 @@ CREATE TABLE `entries` (
 LOCK TABLES `entries` WRITE;
 /*!40000 ALTER TABLE `entries` DISABLE KEYS */;
 
-INSERT INTO `entries` (`created`, `modified`, `id`, `pid`, `tid`, `uniqid`, `time`, `last_answer`, `edited`, `edited_by`, `user_id`, `name`, `subject`, `category`, `text`, `email_notify`, `locked`, `fixed`, `views`, `flattr`, `nsfw`, `ip`, `solves`)
+INSERT INTO `entries` (`created`, `modified`, `id`, `pid`, `tid`, `time`, `last_answer`, `edited`, `edited_by`, `user_id`, `name`, `subject`, `category`, `text`, `email_notify`, `locked`, `fixed`, `views`, `flattr`, `nsfw`, `ip`, `solves`)
 VALUES
-	(NULL,NULL,1,0,1,NULL,'2000-01-01 20:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,NULL,'First_Subject',2,'First_Text',0,0,0,0,NULL,NULL,NULL,0),
-	(NULL,NULL,2,1,1,NULL,'2000-01-01 20:01:00','2000-01-01 20:01:00','2014-03-11 12:45:48',NULL,2,NULL,'Second_Subject',2,'Second_Text',0,0,0,0,NULL,NULL,NULL,0),
-	(NULL,NULL,3,2,1,NULL,'2000-01-01 20:02:00','2000-01-01 20:02:00','2000-01-01 20:04:00','Ulysses',3,'Ulysses','Third_Subject',2,'< Third_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
-	(NULL,NULL,7,9,1,NULL,'2000-01-02 20:03:00','2000-01-02 20:03:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fouth_Subject',2,'Fourth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
-	(NULL,NULL,8,1,1,NULL,'2000-01-03 20:02:00','2000-01-03 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fifth_Subject',2,'Fifth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
-	(NULL,NULL,9,2,1,NULL,'2000-01-04 20:02:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Sixth_Subject',2,'Sixth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
-	(NULL,NULL,4,0,4,NULL,'2000-01-01 10:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,1,NULL,'Second Thread First_Subject',4,'',0,1,0,0,NULL,NULL,NULL,0),
-	(NULL,NULL,5,4,4,NULL,'2000-01-04 20:02:00','2000-01-04 20:02:00','0000-00-00 00:00:00',NULL,3,'Ulysses','Second Thread Second_Subject',4,'',0,1,0,0,NULL,NULL,'1.1.1.1',0),
-	(NULL,NULL,6,0,6,NULL,'2000-01-01 11:00:00','2000-01-01 11:00:00','0000-00-00 00:00:00',NULL,1,'Alice','Third Thread First_Subject',1,'',0,0,0,0,NULL,NULL,'1.1.1.3',0),
-	(NULL,NULL,10,0,10,NULL,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,3,NULL,'First_Subject',2,'<script>alert(\'foo\');<script>',0,1,0,0,NULL,NULL,NULL,0),
-	(NULL,NULL,11,0,11,NULL,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,7,NULL,'&<Subject',2,'&<Text',0,0,0,1,NULL,NULL,NULL,0),
-	('2014-02-24 09:01:15','2014-03-02 16:15:13',12,0,12,NULL,'2014-02-24 09:01:15','2014-02-24 09:01:15','0000-00-00 00:00:00',NULL,100,'test&nbsp;bar<script>alert(\'foo\');</script>','<script>alert(\'foo\');</script>',2,'<script>alert(\'foo\');</script>',0,0,0,32,NULL,0,'::1',0);
+	(NULL,NULL,1,0,1,'2000-01-01 20:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,NULL,'First_Subject',2,'First_Text',0,0,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,2,1,1,'2000-01-01 20:01:00','2000-01-01 20:01:00','2014-03-11 12:45:48',NULL,2,NULL,'Second_Subject',2,'Second_Text',0,0,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,3,2,1,'2000-01-01 20:02:00','2000-01-01 20:02:00','2000-01-01 20:04:00','Ulysses',3,'Ulysses','Third_Subject',2,'< Third_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,7,9,1,'2000-01-02 20:03:00','2000-01-02 20:03:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fouth_Subject',2,'Fourth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,8,1,1,'2000-01-03 20:02:00','2000-01-03 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Fifth_Subject',2,'Fifth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,9,2,1,'2000-01-04 20:02:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,'Ulysses','Sixth_Subject',2,'Sixth_Text',0,0,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,4,0,4,'2000-01-01 10:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,1,NULL,'Second Thread First_Subject',4,'',0,1,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,5,4,4,'2000-01-04 20:02:00','2000-01-04 20:02:00','0000-00-00 00:00:00',NULL,3,'Ulysses','Second Thread Second_Subject',4,'',0,1,0,0,NULL,NULL,'1.1.1.1',0),
+	(NULL,NULL,6,0,6,'2000-01-01 11:00:00','2000-01-01 11:00:00','0000-00-00 00:00:00',NULL,1,'Alice','Third Thread First_Subject',1,'',0,0,0,0,NULL,NULL,'1.1.1.3',0),
+	(NULL,NULL,10,0,10,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,3,NULL,'First_Subject',2,'<script>alert(\'foo\');<script>',0,1,0,0,NULL,NULL,NULL,0),
+	(NULL,NULL,11,0,11,'2000-01-01 10:59:00','2000-01-01 10:59:00','0000-00-00 00:00:00',NULL,7,NULL,'&<Subject',2,'&<Text',0,0,0,1,NULL,NULL,NULL,0),
+	('2014-02-24 09:01:15','2014-03-02 16:15:13',12,0,12,'2014-02-24 09:01:15','2014-02-24 09:01:15','0000-00-00 00:00:00',NULL,100,'test&nbsp;bar<script>alert(\'foo\');</script>','<script>alert(\'foo\');</script>',2,'<script>alert(\'foo\');</script>',0,0,0,32,NULL,0,'::1',0);
 
 /*!40000 ALTER TABLE `entries` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -187,12 +187,12 @@ CREATE TABLE `esevents` (
 LOCK TABLES `esevents` WRITE;
 /*!40000 ALTER TABLE `esevents` DISABLE KEYS */;
 
-INSERT INTO `esevents` (`id`, `subject`, `event`)
+INSERT INTO `esevents` (`id`, `subject`, `event`, `created`, `modified`)
 VALUES
-	(1,1,1),
-	(2,1,2),
-	(3,2,1),
-	(4,1,3);
+	(1,1,1,NULL,NULL),
+	(2,1,2,NULL,NULL),
+	(3,2,1,NULL,NULL),
+	(4,1,3,NULL,NULL);
 
 /*!40000 ALTER TABLE `esevents` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -219,15 +219,15 @@ CREATE TABLE `esnotifications` (
 LOCK TABLES `esnotifications` WRITE;
 /*!40000 ALTER TABLE `esnotifications` DISABLE KEYS */;
 
-INSERT INTO `esnotifications` (`id`, `user_id`, `esevent_id`, `esreceiver_id`, `deactivate`)
+INSERT INTO `esnotifications` (`id`, `user_id`, `esevent_id`, `esreceiver_id`, `deactivate`, `created`, `modified`)
 VALUES
-	(1,1,1,1,1234),
-	(2,1,1,2,2234),
-	(3,3,1,1,3234),
-	(4,3,4,1,4234),
-	(5,2,4,1,5234),
-	(6,2,2,1,6234),
-	(7,4,3,1,7234);
+	(1,1,1,1,1234,NULL,NULL),
+	(2,1,1,2,2234,NULL,NULL),
+	(3,3,1,1,3234,NULL,NULL),
+	(4,3,4,1,4234,NULL,NULL),
+	(5,2,4,1,5234,NULL,NULL),
+	(6,2,2,1,6234,NULL,NULL),
+	(7,4,3,1,7234,NULL,NULL);
 
 /*!40000 ALTER TABLE `esnotifications` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -260,9 +260,9 @@ VALUES
 	('edit_period','20'),
 	('embedly_enabled','0'),
 	('embedly_key',''),
-	('email_contact', ''),
-	('email_register', ''),
-	('email_system', ''),
+	('email_contact',''),
+	('email_register',''),
+	('email_system',''),
 	('flattr_category','text'),
 	('flattr_enabled','1'),
 	('flattr_language','de_DE'),
@@ -439,7 +439,9 @@ CREATE TABLE `useronline` (
   UNIQUE KEY `useronline_uuid` (`uuid`),
   KEY `useronline_userId` (`user_id`),
   KEY `useronline_loggedIn` (`logged_in`)
-) ENGINE=MEMORY AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 # Dump of table users
 # ------------------------------------------------------------
@@ -462,8 +464,8 @@ CREATE TABLE `users` (
   `profile` text CHARACTER SET utf8,
   `entry_count` int(11) NOT NULL DEFAULT '0',
   `logins` int(11) NOT NULL DEFAULT '0',
-  `last_login` timestamp DEFAULT NULL,
-  `registered` timestamp DEFAULT NULL,
+  `last_login` timestamp NULL DEFAULT NULL,
+  `registered` timestamp NULL DEFAULT NULL,
   `last_refresh` datetime DEFAULT NULL,
   `last_refresh_tmp` datetime DEFAULT NULL,
   `personal_messages` tinyint(1) NOT NULL DEFAULT '1',
@@ -498,19 +500,19 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
-INSERT INTO `users` (`id`, `user_type`, `username`, `user_real_name`, `password`, `user_email`, `hide_email`, `user_hp`, `user_place`, `user_place_lat`, `user_place_lng`, `user_place_zoom`, `signature`, `profile`, `entry_count`, `logins`, `last_login`, `last_logout`, `registered`, `last_refresh`, `last_refresh_tmp`, `personal_messages`, `user_lock`, `activate_code`, `user_signatures_hide`, `user_signatures_images_hide`, `user_forum_refresh_time`, `user_automaticaly_mark_as_read`, `user_sort_last_answer`, `user_color_new_postings`, `user_color_actual_posting`, `user_color_old_postings`, `user_show_own_signature`, `slidetab_order`, `show_userlist`, `show_recentposts`, `show_recententries`, `show_shoutbox`, `inline_view_on_click`, `user_show_thread_collapsed`, `flattr_uid`, `flattr_allow_user`, `flattr_allow_posting`, `user_category_override`, `user_category_active`, `user_category_custom`, `user_theme`)
+INSERT INTO `users` (`id`, `user_type`, `username`, `user_real_name`, `password`, `user_email`, `user_hp`, `user_place`, `user_place_lat`, `user_place_lng`, `user_place_zoom`, `signature`, `profile`, `entry_count`, `logins`, `last_login`, `registered`, `last_refresh`, `last_refresh_tmp`, `personal_messages`, `user_lock`, `activate_code`, `user_signatures_hide`, `user_signatures_images_hide`, `user_forum_refresh_time`, `user_automaticaly_mark_as_read`, `user_sort_last_answer`, `user_color_new_postings`, `user_color_actual_posting`, `user_color_old_postings`, `user_theme`, `slidetab_order`, `show_userlist`, `show_recentposts`, `show_recententries`, `show_shoutbox`, `inline_view_on_click`, `user_show_thread_collapsed`, `flattr_uid`, `flattr_allow_user`, `flattr_allow_posting`, `user_category_override`, `user_category_active`, `user_category_custom`)
 VALUES
-	(1, 'admin', 'Alice', NULL, '098f6bcd4621d373cade4e832627b4f6', 'alice@example.com', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2009-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(2, 'mod', 'Mitch', NULL, '098f6bcd4621d373cade4e832627b4f6', 'mitch@example.com', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2009-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(3, 'user', 'Ulysses', NULL, '098f6bcd4621d373cade4e832627b4f6', 'ulysses@example.com', 0, NULL, NULL, 21.61, -158.096, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2009-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(4, 'user', 'Change Password Test', NULL, '098f6bcd4621d373cade4e832627b4f6', 'cpw@example.com', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2009-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 1, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(5, 'user', 'Uma', NULL, '098f6bcd4621d373cade4e832627b4f6', 'uma@example.com', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2009-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 1, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(6, 'admin', 'Second Admin', NULL, '$2a$10$7d0000dd8a37f797acb53OY.oaPgJ2vV4PE3.VBpmsm9OM/zMlzNq', 'second admin@example.com', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2010-09-01 11:12:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 1, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(7, 'user', '&<Username', '&<RealName', '098f6bcd4621d373cade4e832627b4f6', 'xss@example.com', 0, '&<Homepage', '&<Place', NULL, NULL, NULL, '&<Signature', '&<Profile', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2010-09-02 11:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 0, 0, 0, 0, 1, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(8, 'user', 'Walt', NULL, '098f6bcd4621d373cade4e832627b4f6', 'walt@example.com', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2009-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 1, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(9, 'user', 'Diane', NULL, '098f6bcd4621d373cade4e832627b4f6', 'diane@example.com', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2009-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, 1548, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 0, '', NULL),
-	(100, 'user', '<script>alert(\'foo\');</script>', '<script>alert(\'foo\');</script>', '$2a$10$Z.nfw.s8uJkC1h3IhSgbM.QPGdXqpfhgVcOyc6suTbg8qtRd0kV16', 'alert@example.com', 0, '<script>alert(\'foo\');</script>', '<script>alert(\'foo\');</script>', NULL, NULL, NULL, '<script>alert(\'foo\');</script>', '<script>alert(\'foo\');</script>', 230, 7, '2014-03-02 17:13:11', '0000-00-00 00:00:00', '2014-02-24 08:21:28', '0000-00-00 00:00:00', '2014-03-02 17:17:57', 0, 0, 0, 0, 0, 0, 1, 0, '#', '#', '#', 0, NULL, 1, 1, 1, 1, 0, 0, '', 0, 0, 0, 0, '', NULL),
-	(101, 'user', 'test', '', '$2a$10$nBMsWfkWyXeZpBN8O0Gcb.x6ioj9cpbAkaULLXLLhI0E7opHJ4t3.', 'test@example.com', 0, '', '', NULL, NULL, NULL, '', '', 212, 405, '2014-04-27 07:58:42', '0000-00-00 00:00:00', '2012-09-11 05:01:46', '2014-03-04 15:04:57', '2014-04-27 08:05:58', 0, 0, 0, 0, 0, 0, 1, 0, '#', '#', '#', 0, 'a:4:{i:0;s:17:\"slidetab_userlist\";i:1;s:17:\"slidetab_shoutbox\";i:2;s:20:\"slidetab_recentposts\";i:3;s:22:\"slidetab_recententries\";}', 1, 0, 0, 1, 0, 0, '', 0, 0, 0, 0, '', 'Paz');
+	(1,'admin','Alice',NULL,'098f6bcd4621d373cade4e832627b4f6','alice@example.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2009-01-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,0,0,0,0,0,0,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(2,'mod','Mitch',NULL,'098f6bcd4621d373cade4e832627b4f6','mitch@example.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2009-01-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,0,0,0,0,0,0,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(3,'user','Ulysses',NULL,'098f6bcd4621d373cade4e832627b4f6','ulysses@example.com',NULL,NULL,21.61,-158.096,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2009-01-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',1,0,0,0,0,0,0,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(4,'user','Change Password Test',NULL,'098f6bcd4621d373cade4e832627b4f6','cpw@example.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2009-01-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,0,0,0,0,0,1,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(5,'user','Uma',NULL,'098f6bcd4621d373cade4e832627b4f6','uma@example.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2009-01-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,0,0,0,0,0,1,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(6,'admin','Second Admin',NULL,'$2a$10$7d0000dd8a37f797acb53OY.oaPgJ2vV4PE3.VBpmsm9OM/zMlzNq','second admin@example.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2010-09-01 11:12:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,0,0,0,0,0,1,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(7,'user','&<Username','&<RealName','098f6bcd4621d373cade4e832627b4f6','xss@example.com','&<Homepage','&<Place',NULL,NULL,NULL,'&<Signature','&<Profile',0,0,'0000-00-00 00:00:00','2010-09-02 11:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,0,0,0,0,0,1,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(8,'user','Walt',NULL,'098f6bcd4621d373cade4e832627b4f6','walt@example.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2009-01-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,1,0,0,0,0,0,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(9,'user','Diane',NULL,'098f6bcd4621d373cade4e832627b4f6','diane@example.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0,'0000-00-00 00:00:00','2009-01-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00',0,0,1548,0,0,0,0,0,NULL,NULL,NULL,NULL,NULL,0,0,0,0,0,0,NULL,NULL,NULL,0,0,''),
+	(100,'user','<script>alert(\'foo\');</script>','<script>alert(\'foo\');</script>','$2a$10$Z.nfw.s8uJkC1h3IhSgbM.QPGdXqpfhgVcOyc6suTbg8qtRd0kV16','alert@example.com','<script>alert(\'foo\');</script>','<script>alert(\'foo\');</script>',NULL,NULL,NULL,'<script>alert(\'foo\');</script>','<script>alert(\'foo\');</script>',230,7,'2014-03-02 17:13:11','2014-02-24 08:21:28','0000-00-00 00:00:00','2014-03-02 17:17:57',0,0,0,0,0,0,1,0,'#','#','#',NULL,NULL,1,1,1,1,0,0,'',0,0,0,0,''),
+	(101,'user','test','','$2a$10$nBMsWfkWyXeZpBN8O0Gcb.x6ioj9cpbAkaULLXLLhI0E7opHJ4t3.','test@example.com','','',NULL,NULL,NULL,'','',212,405,'2014-04-27 07:58:42','2012-09-11 05:01:46','2014-03-04 15:04:57','2014-04-27 08:05:58',0,0,0,0,0,0,1,0,'#','#','#','Paz','a:4:{i:0;s:17:\"slidetab_userlist\";i:1;s:17:\"slidetab_shoutbox\";i:2;s:20:\"slidetab_recentposts\";i:3;s:22:\"slidetab_recententries\";}',1,0,0,1,0,0,'',0,0,0,0,'');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;

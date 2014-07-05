@@ -1,10 +1,57 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "ab7445ba5e831b0056997d5130c2b01e",
+    "hash": "7de3d748958b9c6099e989f934573e16",
     "packages": [
+        {
+            "name": "jbbcode/jbbcode",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jbowens/jBBCode.git",
+                "reference": "ae932fe32a8ce50442f258999e416370994f7094"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jbowens/jBBCode/zipball/ae932fe32a8ce50442f258999e416370994f7094",
+                "reference": "ae932fe32a8ce50442f258999e416370994f7094",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JBBCode": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jackson Owens",
+                    "email": "jackson_owens@brown.edu",
+                    "homepage": "http://jbowens.org/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A lightweight but extensible BBCode parser written in PHP 5.3.",
+            "homepage": "http://jbbcode.com/",
+            "keywords": [
+                "BB",
+                "bbcode"
+            ],
+            "time": "2014-07-02 03:23:38"
+        },
         {
             "name": "kzykhys/ciconia",
             "version": "v1.0.3",
@@ -62,10 +109,10 @@
         },
         {
             "name": "pear-pear.cakephp.org/CakePHP",
-            "version": "2.5.1",
+            "version": "2.5.2",
             "dist": {
                 "type": "file",
-                "url": "http://pear.cakephp.org/get/CakePHP-2.5.1.tgz",
+                "url": "http://pear.cakephp.org/get/CakePHP-2.5.2.tgz",
                 "reference": null,
                 "shasum": null
             },
@@ -73,7 +120,7 @@
                 "php": ">=5.2.8.0"
             },
             "replace": {
-                "pear-cakephp/cakephp": "== 2.5.1.0"
+                "pear-cakephp/cakephp": "== 2.5.2.0"
             },
             "type": "pear-library",
             "autoload": {
@@ -617,9 +664,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "jbbcode/jbbcode": 20
+    },
     "platform": {
         "php": ">=5.4.0",
         "ext-mcrypt": "*"

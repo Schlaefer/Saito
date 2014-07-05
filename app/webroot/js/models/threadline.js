@@ -24,14 +24,6 @@ define([
             this.methodToCakePhpUrl.read = 'threadLine/';
 
             this.set('isAlwaysShownInline', App.currentUser.get('user_show_inline') || false);
-
-            this.listenTo(this, "change:html", this._setIsNewToUser);
-        },
-
-        _setIsNewToUser: function() {
-          if ($(this.get('html'))[0].getAttribute('data-new') === '1') {
-            this.set('isNewToUser', true);
-          }
         }
 
     });

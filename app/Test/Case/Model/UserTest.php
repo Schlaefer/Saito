@@ -329,7 +329,7 @@
 			$User->id = 1;
 			$User->expects($this->once())
 					->method('_dispatchEvent')
-					->with('Model.User.username.change');
+					->with('Cmd.Cache.clear', ['cache' => 'Thread']);
 			$User->saveField('username', 'foo');
 		}
 

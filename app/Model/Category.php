@@ -1,5 +1,8 @@
 <?php
-	class Category extends AppModel {
+
+	App::uses('AppSettingModel', 'Lib/Model');
+
+	class Category extends AppSettingModel {
 
 		public $name = 'Category';
 
@@ -29,38 +32,20 @@
 
 		protected $_cache = [];
 
-/**
- * @param int $accession
- * @return array (id1 => 'id1', id2 => 'id2')
- */
 		public function getCategoriesForAccession($accession) {
-			$categories = $this->_getCategoriesForAccession($accession);
-			$cIds = array_keys($categories);
-			$categories = array_combine($cIds, $cIds);
-			return $categories;
-		}
-
-		protected function _getCategoriesForAccession($accession) {
-			if (!isset($this->_cache[$accession])) {
-				if (empty($this->_cache[$accession])) {
-					$this->_cache[$accession] = $this->find(
-						'list',
-						array(
-							'conditions' => array(
-								'accession <=' => $accession,
-							),
-							'fields' => array('Category.id', 'Category.category'),
-							'order' => 'category_order ASC',
-						)
-					);
-				}
+			if (!empty($this->_cache[$accession])) {
+				return $this->_cache[$accession];
 			}
+			$this->_cache[$accession] = Cache::remember(
+				'Saito.Cache.CategoriesForAccession.' . $accession,
+				function () use ($accession) {
+					return $this->find('list', [
+						'conditions' => ['accession <=' => $accession],
+						'fields' => ['Category.id', 'Category.category'],
+						'order' => 'category_order ASC'
+					]);
+				});
 			return $this->_cache[$accession];
-		}
-
-		public function getCategoriesSelectForAccession($accession) {
-			$categories = $this->_getCategoriesForAccession($accession);
-			return $categories;
 		}
 
 		public function mergeIntoCategory($targetCategory) {
@@ -113,17 +98,14 @@
 			return $count;
 		}
 
-		public function afterDelete() {
-			$this->_dispatchEvent('Model.Category.delete');
-		}
-
 		public function afterSave($created, $options = array()) {
 			// don't empty cache if it's only a thread count update
-			if (!isset($this->data[$this->alias]['thread_count']) &&
-					isset($this->data[$this->alias]['category'])
+			if (isset($this->data[$this->alias]['thread_count']) ||
+					!isset($this->data[$this->alias]['category'])
 			) {
-				$this->_dispatchEvent('Model.Category.update');
+				$options['clearCache'] = false;
 			}
+			parent::afterSave($created, $options);
 		}
 
 	}

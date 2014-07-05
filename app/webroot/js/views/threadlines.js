@@ -41,7 +41,10 @@ define([
     initialize: function(options) {
       this.postings = options.postings;
 
-      this.model = new ThreadLineModel({id: options.id});
+      this.model = new ThreadLineModel({
+        id: options.leafData.id,
+        isNewToUser: options.leafData.isNewToUser
+      });
       if (options.el === undefined) {
         this.model.fetch();
       } else {

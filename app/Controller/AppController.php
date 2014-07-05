@@ -123,6 +123,7 @@
 			}
 
 			$this->Security->blackHoleCallback = 'blackhole';
+			$this->Security->csrfUseOnce = false;
 
 			$bbcodeSettings = BbcodeSettings::getInstance();
 			$bbcodeSettings->set(

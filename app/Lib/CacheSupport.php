@@ -1,6 +1,9 @@
 <?php
 
-	class CacheSupport extends Object {
+	App::uses('CakeEvent', 'Event');
+	App::uses('CakeEventListener', 'Event');
+
+	class CacheSupport extends Object implements CakeEventListener {
 
 		protected $_Caches = [];
 
@@ -18,6 +21,22 @@
 			foreach ($this->_buildInCaches as $_name) {
 				$this->add(new $_name);
 			}
+			CakeEventManager::instance()->attach($this);
+		}
+
+		public function implementedEvents() {
+			return ['Cmd.Cache.clear' => 'onClear'];
+		}
+
+		/**
+		 * Clears out cache by name in $event['cache'];
+		 *
+		 * @param $event
+		 */
+		public function onClear($event) {
+			$cache = $event->data['cache'];
+			$id = isset($event->data['id']) ? $event->data['id'] : null;
+			$this->clear($cache, $id);
 		}
 
 		/**
@@ -32,6 +51,7 @@
 				foreach ($cache as $_c) {
 					$this->clear($_c, $id);
 				}
+				return;
 			}
 			if ($cache === null) {
 				foreach ($this->_Caches as $_Cache) {
@@ -69,8 +89,6 @@
 
 	}
 
-	App::uses('CakeEvent', 'Event');
-	App::uses('CakeEventListener', 'Event');
 	App::uses('CacheTree', 'Lib/CacheTree');
 
 	class ThreadCacheSupportCachelet extends CacheSupportCachelet implements
@@ -87,13 +105,10 @@
 
 		public function implementedEvents() {
 			return [
-				'Model.Thread.reset' => 'onThreadsReset',
+				'Model.Thread.create' => 'onThreadChanged',
 				'Model.Thread.change' => 'onThreadChanged',
 				'Model.Entry.replyToEntry' => 'onEntryChanged',
-				'Model.Entry.update' => 'onEntryChanged',
-				'Model.Category.update' => 'onThreadsReset',
-				'Model.Category.delete' => 'onThreadsReset',
-				'Model.User.username.change' => 'onThreadsReset'
+				'Model.Entry.update' => 'onEntryChanged'
 			];
 		}
 

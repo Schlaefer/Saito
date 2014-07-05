@@ -17,8 +17,9 @@
   "require": {
     "php": ">=5.4.0",
     "ext-mcrypt": "*",
-    "pear-cakephp/cakephp": "2.5.1",
-    "kzykhys/ciconia": "~1.0.3"
+    "pear-cakephp/cakephp": "2.5.2",
+    "kzykhys/ciconia": "~1.0.3",
+    "jbbcode/jbbcode": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*"

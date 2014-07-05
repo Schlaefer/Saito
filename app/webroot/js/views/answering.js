@@ -240,7 +240,8 @@ define([
         App.eventBus.trigger('newEntry', {
           tid: data.tid,
           pid: this.model.get('id'),
-          id: data.id
+          id: data.id,
+          isNewToUser: true
         });
       }, this);
       var fail = _.bind(function(jqXHR, text) {

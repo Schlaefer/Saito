@@ -49,14 +49,13 @@
 			</div>
 			<div class="top-menu">
 				<div class="top-menu-body">
-					<?= $this->element('layout/header_login', ['divider' => '']); ?>
-					<?php if ($CurrentUser->isLoggedIn()): ?>
-						<?= $this->Html->link(
-							$this->Layout->textWithIcon(h(__('Search')), 'search'),
-							'/searches/simple',
-							['class' => 'top-menu-item', 'escape' => false]);
-						?>
-					<?php endif; ?>
+          <?= $this->element('layout/header_login', ['divider' => '']); ?>
+          <?=
+            $this->Html->link(
+              $this->Layout->textWithIcon(h(__('Search')), 'search'),
+              '/searches/simple',
+              ['class' => 'top-menu-item', 'escape' => false]);
+          ?>
 					<span class="top-menu-aside">
 						<button id="shp-show" class="btnLink shp-show-btn top-menu-item">
 							<i class="fa fa-question-circle"></i>

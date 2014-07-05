@@ -68,6 +68,24 @@
 			return $this->_isLoggedIn;
 		}
 
+		public function isSame($user) {
+			$id = null;
+			if (is_int($user)) {
+				$id = $user;
+			} elseif (is_string($user)) {
+				$id = (int)$user;
+			} elseif (is_array($user)) {
+				if (isset($user['User']['id'])) {
+					$id = (int)$user['User']['id'];
+				} elseif (isset($user['id'])) {
+					$id = (int)$user['id'];
+				}
+			} elseif ($user instanceof ForumsUserInterface) {
+				$id = $user->getId();
+			}
+			return $id === $this->getId();
+		}
+
 		public function isUser() {
 			return self::_isUserForRole($this->_settings['user_type']);
 		}

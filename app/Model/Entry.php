@@ -208,15 +208,13 @@
 		 * @param array $options
 		 * @return array|mixed
 		 */
-		public function getRecentEntries(ForumsUserInterface $User, array $options = []) {
+		public function getRecentEntries(CurrentUserComponent $User, array $options = []) {
 			Stopwatch::start('Model->User->getRecentEntries()');
 
 			$options += [
 				'user_id' => null,
 				'limit' => 10,
-				'category' => $this->Category->getCategoriesForAccession(
-					$User->getMaxAccession()
-				),
+				'category' => $User->Categories->getAllowed()
 			];
 
 			$_cacheKey = 'Entry.recentEntries-' . md5(serialize($options));
@@ -356,6 +354,13 @@
 					$this->Category->id = $data[$this->alias]['category'];
 					$this->Category->updateThreadCounter();
 				}
+				$this->_dispatchEvent(
+					'Model.Thread.create',
+					[
+						'subject' => $_newPosting[$this->alias]['id'],
+						'data' => $_newPosting
+					]
+				);
 			} else {
 				// update last answer time of root entry
 				$this->clear();
@@ -754,7 +759,7 @@
 			);
 
 			if ($success) {
-				$this->_dispatchEvent('Model.Thread.reset');
+				$this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
 			}
 
 			return $success;
@@ -1174,9 +1179,7 @@
  * @return bool
  */
 		public function validateCategoryIsAllowed($check) {
-			$availableCategories = $this->Category->getCategoriesForAccession(
-				$this->CurrentUser->getMaxAccession()
-			);
+			$availableCategories = $this->CurrentUser->Categories->getAllowed();
 			if (!isset($availableCategories[$check['category']])) {
 				return false;
 			}

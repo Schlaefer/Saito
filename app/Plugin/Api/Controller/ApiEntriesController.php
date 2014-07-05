@@ -36,9 +36,7 @@
 			}
 
 			$conditions = [
-				'Entry.category' => $this->Entry->Category->getCategoriesForAccession(
-					$this->CurrentUser->getMaxAccession()
-				),
+				'Entry.category' => $this->CurrentUser->Categories->getAllowed(),
 				'Entry.pid' => 0
 			];
 
@@ -107,9 +105,7 @@
 				[
 					'conditions' => [
 						'Entry.tid' => $id,
-						'Entry.category' => $this->Entry->Category->getCategoriesForAccession(
-							$this->CurrentUser->getMaxAccession()
-						),
+						'Entry.category' => $this->CurrentUser->Categories->getAllowed()
 					],
 					'order' => $order,
 					'contain' => ['Category', 'User']
