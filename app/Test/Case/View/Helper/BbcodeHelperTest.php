@@ -299,12 +299,14 @@
 		}
 
 		public function testEditMarker() {
-			$input = '[e]';
+			$input = 'pre [e] post';
 			$expected = [
-				'ins' => [
+				'pre ',
+				'span' => [
 					'class' => 'c-bbcode-edit'
 				],
-				'/ins'
+				'/span',
+				' post'
 			];
 			$result = $this->_Bbcode->parse($input);
 			$this->assertTags($result, $expected);

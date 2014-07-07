@@ -87,7 +87,7 @@
 				'e' => [
 					'type' => 'replacement',
 					'title' => 'e',
-					'replacement' => '<ins class="c-bbcode-edit">{param}</ins>'
+					'replacement' => '<span class="c-bbcode-edit"></span>{param}'
 				],
 				// float
 				'float' => [
