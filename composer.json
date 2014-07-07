@@ -19,7 +19,7 @@
     "ext-mcrypt": "*",
     "pear-cakephp/cakephp": "2.5.2",
     "kzykhys/ciconia": "~1.0.3",
-    "jbbcode/jbbcode": "dev-master"
+    "jbbcode/jbbcode": "~1.3"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*"

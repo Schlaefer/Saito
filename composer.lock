@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7de3d748958b9c6099e989f934573e16",
+    "hash": "270f18a58915f8a6835b091a5e873aa4",
     "packages": [
         {
             "name": "jbbcode/jbbcode",
-            "version": "dev-master",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jbowens/jBBCode.git",
-                "reference": "ae932fe32a8ce50442f258999e416370994f7094"
+                "reference": "645b6a1c0afa92b7d029d3417ebd8b60a5c578b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbowens/jBBCode/zipball/ae932fe32a8ce50442f258999e416370994f7094",
-                "reference": "ae932fe32a8ce50442f258999e416370994f7094",
+                "url": "https://api.github.com/repos/jbowens/jBBCode/zipball/645b6a1c0afa92b7d029d3417ebd8b60a5c578b3",
+                "reference": "645b6a1c0afa92b7d029d3417ebd8b60a5c578b3",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
             "authors": [
                 {
                     "name": "Jackson Owens",
-                    "email": "jackson_owens@brown.edu",
+                    "email": "jackson_owens@alumni.brown.edu",
                     "homepage": "http://jbowens.org/",
                     "role": "Developer"
                 }
@@ -50,7 +50,7 @@
                 "BB",
                 "bbcode"
             ],
-            "time": "2014-07-02 03:23:38"
+            "time": "2014-07-06 05:48:20"
         },
         {
             "name": "kzykhys/ciconia",
@@ -664,9 +664,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "jbbcode/jbbcode": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": ">=5.4.0",
         "ext-mcrypt": "*"
