@@ -4,48 +4,40 @@
 
 	class ShoutsComponent extends Component {
 
-		protected $_controller;
+		public $settings = ['maxNumberOfShouts' => 10];
 
-		protected $_maxNumberOfShouts;
+		protected $_Controller;
 
-		protected $_ShoutModel;
+		protected $_ShoutModel = null;
 
 		public function startup(Controller $controller) {
-			$this->_controller = $controller;
-			$this->_maxNumberOfShouts = (int)Configure::read(
-				'Saito.Settings.shoutbox_max_shouts'
-			);
+			$this->_Controller = $controller;
+			$this->settings['maxNumberOfShouts'] = (int)Configure::read(
+				'Saito.Settings.shoutbox_max_shouts');
 		}
 
 		public function setShoutsForView() {
 			// @performance only do if cache is not valid and html need to be rendered
-			$this->_controller->initBbcode();
-			$shouts = $this->get();
-			$this->_controller->set('shouts', $shouts);
-		}
-
-		public function push($data) {
-			if (!$this->_ShoutModel) {
-				$this->_load();
-			}
-			return $this->_ShoutModel->push($data);
+			$this->_Controller->initBbcode();
+			$this->_Controller->set('shouts', $this->get());
 		}
 
 		public function get() {
-			if (!$this->_ShoutsModel) {
-				$this->_load();
-			}
-			$shouts = $this->_ShoutModel->get();
-			return $shouts;
+			return $this->_model()->get();
 		}
 
-/**
- * Loads and initializes the model
- */
-		protected function _load() {
-			$this->_controller->loadModel('Shout');
-			$this->_ShoutModel = $this->_controller->Shout;
-			$this->_ShoutModel->maxNumberOfShouts = $this->_maxNumberOfShouts;
+		public function push($data) {
+			return $this->_model()->push($data);
+		}
+
+		protected function _model() {
+			if ($this->_ShoutModel !== null) {
+				return $this->_ShoutModel;
+			}
+			$this->_Controller->loadModel('Shout');
+			$this->_ShoutModel = $this->_Controller->Shout;
+			$this->_ShoutModel->maxNumberOfShouts = $this->settings['maxNumberOfShouts'];
+			return $this->_ShoutModel;
 		}
 
 	}
