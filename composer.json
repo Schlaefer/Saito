@@ -5,8 +5,11 @@
   "license": "MIT",
   "homepage": "http://saito.siezi.com/",
   "support": {
+    "issues": "https://github.com/Schlaefer/Saito/issues",
     "source": "https://github.com/Schlaefer/Saito",
-    "issues": "https://github.com/Schlaefer/Saito/issues"
+    "support": {
+      "forum": "http://saito.siezi.com/forum/"
+    }
   },
   "repositories": [
     {
