@@ -534,6 +534,13 @@ EOF;
 			$this->assertTags($result, $expected);
 		}
 
+		public function testReturnText() {
+			$in = 'test [b]test[b] test';
+			$expected = 'test test test';
+			$actual = $this->_Bbcode->parse($in, ['return' => 'text']);
+			$this->assertEquals($expected, $actual);
+		}
+
 		public function testShortenLink() {
 			$maxLength = 15;
 
