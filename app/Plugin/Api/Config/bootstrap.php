@@ -1,6 +1,6 @@
 <?php
 
-	include App::pluginPath('Api') . 'Lib' . DS . 'exceptions.php';
+	include CakePlugin::path('Api') . 'Lib' . DS . 'exceptions.php';
 
 	$getUri = function() {
 		if (!empty($_SERVER['PATH_INFO'])) {

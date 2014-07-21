@@ -5,7 +5,7 @@
 	class MCacheSupportCachelet extends CacheSupportCachelet {
 
 		public function clear($id = null) {
-			touch(App::pluginPath('M') . 'webroot/touch.txt');
+			touch(CakePlugin::path('M') . 'webroot/touch.txt');
 		}
 
 	}

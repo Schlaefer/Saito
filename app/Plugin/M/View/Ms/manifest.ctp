@@ -2,7 +2,7 @@ CACHE MANIFEST
 <?php
 	$_customCtpPath = 'Elements/custom_html_header.ctp';
 	// default place in plugin
-	$_ctpPath = App::pluginPath('M') . 'View' . DS . $_customCtpPath;
+	$_ctpPath = CakePlugin::path('M') . 'View' . DS . $_customCtpPath;
 	$_ctpPathTheme = App::themePath($this->theme) . 'Plugin' . DS . 'M' .
 			DS . $_customCtpPath;
 	if (file_exists($_ctpPathTheme)) {

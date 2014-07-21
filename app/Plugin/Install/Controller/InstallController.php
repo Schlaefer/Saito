@@ -205,7 +205,7 @@ class InstallController extends InstallAppController {
 				// @hack
 				$schema->after(['create' => 'ecaches']);
 
-				$path = App::pluginPath('Install') .DS. 'Config' .DS. 'Data' .DS;
+				$path = CakePlugin::path('Install') .DS. 'Config' .DS. 'Data' .DS;
 				$dataObjects = App::objects('class', $path);
 				foreach ($dataObjects as $data) {
 					include($path . $data . '.php');
