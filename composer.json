@@ -5,8 +5,11 @@
   "license": "MIT",
   "homepage": "http://saito.siezi.com/",
   "support": {
+    "issues": "https://github.com/Schlaefer/Saito/issues",
     "source": "https://github.com/Schlaefer/Saito",
-    "issues": "https://github.com/Schlaefer/Saito/issues"
+    "support": {
+      "forum": "http://saito.siezi.com/forum/"
+    }
   },
   "repositories": [
     {
@@ -17,9 +20,9 @@
   "require": {
     "php": ">=5.4.0",
     "ext-mcrypt": "*",
-    "pear-cakephp/cakephp": "2.5.2",
+    "pear-cakephp/cakephp": "2.5.3",
     "kzykhys/ciconia": "~1.0.3",
-    "jbbcode/jbbcode": "dev-master"
+    "jbbcode/jbbcode": "~1.3"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*"

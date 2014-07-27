@@ -87,7 +87,7 @@
 				'e' => [
 					'type' => 'replacement',
 					'title' => 'e',
-					'replacement' => '<ins class="c-bbcode-edit">{param}</ins>'
+					'replacement' => '<span class="c-bbcode-edit"></span>{param}'
 				],
 				// float
 				'float' => [
@@ -232,6 +232,13 @@
 		}
 
 		/**
+		 * Parses BBCode
+		 *
+		 * ### Options
+		 *
+		 * - `return` string "html"|"text" result type
+		 * - `multimedia` bool true|false parse or ignore multimedia content
+		 *
 		 * @param $string
 		 * @param array $options
 		 * @return mixed|string
@@ -240,6 +247,9 @@
 			if (empty($string) || $string === 'n/t') {
 				return $string;
 			}
+
+			$defaults = ['return' => 'html', 'multimedia' => true];
+			$options += $defaults;
 
 			$id = md5(serialize($options) . $string);
 			if (isset($this->_cache[$id])) {
@@ -261,7 +271,14 @@
 				$this->_Parser->accept(new JbbCodeSmileyVisitor($this, $options));
 			}
 
-			$html = $this->_Parser->getAsHtml();
+			switch ($options['return']) {
+				case 'text':
+					$html = $this->_Parser->getAsText();
+					break;
+				default:
+					$html = $this->_Parser->getAsHtml();
+			}
+
 			$html = $this->_Postprocessors->process($html);
 
 			$this->_cache[$id] = $html;
@@ -276,10 +293,9 @@
 		}
 
 		protected function _initParser(&$options) {
-			$defaults = ['multimedia' => true];
 			$this->_initSettings();
 
-			$options = array_merge($defaults, $this->_cSettings, $options);
+			$options = array_merge($this->_cSettings, $options);
 
 			// serializing complex objects kills PHP
 			$serializable = array_filter($this->_cSettings, function ($value) {
