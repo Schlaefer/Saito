@@ -1,0 +1,47 @@
+{% include 'elements/layout/head.twig' %}
+
+{% include 'elements/github.tpl' %}
+<div id="footerHelper staticPage">
+    <div class="container">
+        {% include 'elements/hero.tpl' %}
+        <nav>
+            <div id="boxes-row" class="row">
+                <div class="col-sm-3">
+                    <div class="boxes-info">
+                        {% include 'elements/download.tpl' %}
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="boxes-info">
+                        {% include 'elements/status.tpl' %}
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="boxes-info">
+                        <h4>Support Saito</h4>
+                        {% include 'elements/support.tpl' %}
+                        Funding the Next Version
+                        <br/>
+                        {% include 'elements/funding.tpl' %}
+                        <a href="funding">Read more…</a>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="boxes-info">
+                        {% include 'elements/contact.tpl' %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="col-sm-offset-3 col-sm-6">
+                {{content}}
+            </div>
+        </div>
+    </div>
+    <div id="footerPush"></div>
+</div>
+<footer>
+    {% include 'elements/footer.tpl' %}
+</footer>
+{% include 'elements/layout/foot.twig' %}

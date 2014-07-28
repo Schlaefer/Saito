@@ -17,8 +17,8 @@ Thumbs.db
 # User themes
 themes/*
 !themes/index.html
-!themes/default/*
-!themes/saito/*
+!themes/default/
+!themes/saito/
 
 # PHPStorm settings
 .idea

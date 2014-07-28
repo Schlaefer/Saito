@@ -1,0 +1,19 @@
+{% include 'elements/layout/head.twig' %}
+
+{% include 'elements/github.tpl' %}
+<div id="footerHelper staticPage">
+    <div class="container">
+        {% include 'elements/hero.tpl' %}
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-6">
+                {{content}}
+            </div>
+        </div>
+    </div>
+    <div id="footerPush"></div>
+</div>
+<footer>
+    {% include 'elements/footer.tpl' %}
+</footer>
+
+{% include 'elements/layout/foot.twig' %}
