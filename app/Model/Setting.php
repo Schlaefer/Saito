@@ -15,6 +15,10 @@ class Setting extends AppModel {
 		*/
 	);
 
+	protected $_optionalEmailFields = [
+		'email_contact', 'email_register', 'email_system'
+	];
+
 	/* @td getSettings vs Load why to functions? */
 
 /**
@@ -40,14 +44,8 @@ class Setting extends AppModel {
 		$settings['userranks_ranks'] = $ranks;
 
 		// edit_delay is normed to seconds
-		$settings['edit_delay'] = (int)$settings['edit_delay'] * 60;
-
-		// auto-fill empty email values from main address
-		foreach (['email_contact', 'email_register', 'email_system'] as $addr) {
-			if (empty($settings[$addr])) {
-				$settings[$addr] = $settings['forum_email'];
-			}
-		}
+		$this->_normToSeconds($settings, 'edit_delay');
+		$this->_fillOptionalEmailAddresses($settings);
 
 		return $settings;
 	}
@@ -116,6 +114,23 @@ class Setting extends AppModel {
 			$settings[$result[$this->alias]['name']] = $result[$this->alias]['value'];
 		}
 		return $settings;
+	}
+
+	protected function _normToSeconds(&$settings, $field) {
+		$settings[$field] = (int)$settings[$field] * 60;
+	}
+
+	/**
+	 * Defaults optional email addresses to main address
+	 *
+	 * @param $settings
+	 */
+	protected function _fillOptionalEmailAddresses(&$settings) {
+		foreach ($this->_optionalEmailFields as $field) {
+			if (empty($settings[$field])) {
+				$settings[$field] = $settings['forum_email'];
+			}
+		}
 	}
 
 }

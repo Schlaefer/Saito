@@ -9,9 +9,9 @@
 		protected $_settingsCompact = array(
 			'forum_name' => 'macnemo',
 			'forum_email' => 'forum_email@example.com',
-			'email_contact' => 'forum_email@example.com',
-			'email_register' => 'forum_email@example.com',
-			'email_system' => 'forum_email@example.com',
+			'email_contact' => 'contact@example.com',
+			'email_register' => 'register@example.com',
+			'email_system' => 'system@example.com',
 			'autolink' => '1',
 			'userranks_ranks' => array(
 				'10' => 'Castaway',
@@ -33,6 +33,27 @@
 			'shoutbox_enabled' => true,
 			'shoutbox_max_shouts' => 5
 		);
+
+		public function testFillOptionalMailAddresses() {
+			$this->Setting = $this->getMockForModel('Setting', ['_compactKeyValue']);
+
+			$returnValue = [
+				'edit_delay' => 0,
+				'forum_email' => 'foo@bar.com',
+				'userranks_ranks' => ''
+			];
+
+			$this->Setting->expects($this->once())
+				->method('_compactKeyValue')
+				->will($this->returnValue($returnValue));
+			$result = $this->Setting->getSettings();
+
+			$expected = 'foo@bar.com';
+			$this->assertEquals($expected, $result['forum_email']);
+			$this->assertEquals($expected, $result['email_contact']);
+			$this->assertEquals($expected, $result['email_register']);
+			$this->assertEquals($expected, $result['email_system']);
+		}
 
 		public function testAfterSave() {
 			$data = array(

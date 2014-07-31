@@ -76,19 +76,19 @@
 			endswitch;
 		}
 
-/**
- * Creates link to user contanct page with image
- *
- * @param $user
- * @return string
- */
+		/**
+		 * Creates link to user contact page with image
+		 *
+		 * @param $user
+		 * @return string
+		 */
 		public function contact($user) {
 			$out = '';
 			if ($user['personal_messages'] && is_string($user['user_email'])) {
 				$out = $this->Html->link(
 					'<i class="fa fa-envelope-o fa-lg"></i>',
-					array('controller' => 'users', 'action' => 'contact', $user['id']),
-					array('escape' => false));
+					['controller' => 'contacts', 'action' => 'user', $user['id']],
+					['escape' => false]);
 			}
 			return $out;
 		}
