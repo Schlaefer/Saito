@@ -2,7 +2,7 @@
 Title: Funding
 -->
 
-# Funding 4.1.x #
+# Funding a Feature Release #
 
 <span style="color: #CA870D;">50 €</span> of 300 €
 <div style="width: 100%; height: 20px; border: 1px solid silver; position: relative;">
@@ -11,7 +11,7 @@ Title: Funding
 </div>
 <br>
 
-All [donations](donate) made after 2014-06-01 will fund the next release. Features planed for the next release are:
+All [donations](donate) made after 2014-06-01 will this feature:
 
 ## Two-Factor Authentication ##
 
