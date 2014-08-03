@@ -684,7 +684,7 @@
 			$this->_automaticalyMarkAsRead();
 
 			$this->Security->unlockedActions = ['preview', 'solve', 'view'];
-			$this->Auth->allow('feed', 'index', 'view', 'mix');
+			$this->Auth->allow('feed', 'index', 'view', 'mix', 'update');
 
 			if ($this->request->action === 'index') {
 				if ($this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0) {

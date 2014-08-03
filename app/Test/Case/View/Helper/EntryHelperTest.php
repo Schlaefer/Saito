@@ -55,6 +55,9 @@
 					]
 			];
 
+			App::uses('ReadPostingsDummy', 'Lib/SaitoUser/ReadPostings');
+			$SaitoUser->ReadEntries = $this->getMock('ReadPostingsDummy');
+
 			// max depth should not apply
 			Configure::write('Saito.Settings.thread_depth_indent', 9999);
 			$this->EntryH->beforeRender(null);

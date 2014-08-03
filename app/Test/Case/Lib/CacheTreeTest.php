@@ -6,15 +6,11 @@
 	class CacheTreeMock extends CacheTree {
 
 		public function __construct() {
+			$this->_CurrentUser = new SaitoUser();
 		}
 
 		public function setCache($data) {
 			$this->_cachedEntries = $data;
-		}
-
-		public function setUser($userData) {
-			unset($this->_CurrentUser);
-			$this->_CurrentUser = new SaitoUser($userData);
 		}
 
 		public function setAllowRead($state) {
@@ -23,6 +19,12 @@
 
 		public function setAllowUpdate($state) {
 			$this->_allowUpdate = $state;
+		}
+
+		public function __get($name) {
+			if ($name === 'CurrentUser') {
+				return $this->_CurrentUser;
+			}
 		}
 
 	}
@@ -72,11 +74,12 @@
 		public function testIsCacheUpdatableDisabled() {
 			$this->CacheTree->setAllowUpdate(false);
 
-			$userData = array(
-					'id' => 1,
-					'last_refresh' => date('Y-m-d H:i:s', time() - 1800)
-			);
-			$this->CacheTree->setUser($userData);
+			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
+				'isRead'
+			]);
+			$this->CacheTree->CurrentUser->ReadEntries
+				->expects($this->never())
+				->method('isRead');
 
 			$in = array(
 					'id' => 1,
@@ -89,11 +92,13 @@
 		public function testIsCacheUpdatable() {
 			$this->CacheTree->setAllowUpdate(true);
 
-			$userData = array(
-					'id' => 1,
-					'last_refresh' => date('Y-m-d H:i:s', time() - 1800)
-			);
-			$this->CacheTree->setUser($userData);
+			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
+				'isRead'
+			]);
+			$this->CacheTree->CurrentUser->ReadEntries
+				->expects($this->once())
+				->method('isRead')
+				->will($this->returnValue(true));
 
 			$in = array(
 					'id' => 1,
@@ -104,13 +109,15 @@
 		}
 
 		public function testIsCacheUpdatableNewToUser() {
-			$this->CacheTree->setAllowUpdate(true);
+			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
+				'isRead'
+			]);
+			$this->CacheTree->CurrentUser->ReadEntries
+				->expects($this->once())
+				->method('isRead')
+				->will($this->returnValue(false));
 
-			$userData = array(
-					'id' => 1,
-					'last_refresh' => date('Y-m-d H:i:s', time() - 7200)
-			);
-			$this->CacheTree->setUser($userData);
+			$this->CacheTree->setAllowUpdate(true);
 
 			$in = array(
 					'id' => 1,
@@ -121,11 +128,13 @@
 		}
 
 		public function testIsCacheValidReadDisabled() {
-			$userData = array(
-					'id' => 1,
-					'last_refresh' => date('Y-m-d H:i:s', time() - 7200)
-			);
-			$this->CacheTree->setUser($userData);
+			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
+				'isRead'
+			]);
+			$this->CacheTree->CurrentUser->ReadEntries
+				->expects($this->never())
+				->method('isRead');
+
 			$this->CacheTree->setAllowRead(false);
 
 			$in = array(
@@ -137,24 +146,13 @@
 		}
 
 		public function testIsCacheValid() {
-			$userData = array(
-					'id' => 1,
-					'last_refresh' => date('Y-m-d H:i:s', time() - 5400)
-			);
-			$this->CacheTree->setUser($userData);
-
-			$this->CacheTree->setAllowRead(true);
-			$in = array(
-					'id' => 1,
-					'last_answer' => date('Y-m-d H:i:s', time() - 7200),
-			);
-			$result = $this->CacheTree->isCacheValid($in);
-			$this->assertTrue($result);
-		}
-
-		public function testIsCacheValidNotLoggedIn() {
-			$userData = array( );
-			$this->CacheTree->setUser($userData);
+			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
+				'isRead'
+			]);
+			$this->CacheTree->CurrentUser->ReadEntries
+				->expects($this->once())
+				->method('isRead')
+				->will($this->returnValue(true));
 
 			$this->CacheTree->setAllowRead(true);
 			$in = array(
@@ -166,11 +164,13 @@
 		}
 
 		public function testIsCacheValidNewAnswerForUser() {
-			$userData = array(
-					'id' => 1,
-					'last_refresh' => date('Y-m-d H:i:s', time() - 10000)
-			);
-			$this->CacheTree->setUser($userData);
+			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
+				'isRead'
+			]);
+			$this->CacheTree->CurrentUser->ReadEntries
+				->expects($this->once())
+				->method('isRead')
+				->will($this->returnValue(false));
 
 			$this->CacheTree->setAllowRead(true);
 			$in = array(
@@ -181,47 +181,17 @@
 			$this->assertFalse($result);
 		}
 
+		/**
+		 * tests that cache is invalid if thread has new answers
+		 */
 		public function testIsCacheValidNewAnswerInThread() {
-			$userData = array(
-					'id' => 1,
-					'last_refresh' => date('Y-m-d H:i:s', time() - 0)
-			);
-			$this->CacheTree->setUser($userData);
-
 			$this->CacheTree->setAllowRead(true);
+
 			$in = array(
 					'id' => 1,
 					'last_answer' => date('Y-m-d H:i:s', time() - 1800),
 			);
 			$result = $this->CacheTree->isCacheValid($in);
-			$this->assertFalse($result);
-		}
-
-		/**
-		 * Tests that a newly registered users sees everything as new
-		 */
-		public function testIsCacheValidNewUser() {
-			$this->CacheTree->setAllowRead(true);
-
-			//# setups newly registered user
-			$userData = ['id' => 1, 'last_refresh' => null];
-			$this->CacheTree->setUser($userData);
-
-			//# setups entry and its cache with same and non deprecated timestamp
-			$lastAnswer = time();
-			$cacheData = ['1' => [
-				'metadata' => ['content_last_updated' => $lastAnswer],
-				'content' => 'foo',
-			]];
-			$this->CacheTree->setCache($cacheData);
-
-			$entry = [
-				'id' => 1,
-				'last_answer' => date('Y-m-d H:i:s', $lastAnswer)
-			];
-
-			//# test
-			$result = $this->CacheTree->isCacheValid($entry);
 			$this->assertFalse($result);
 		}
 
