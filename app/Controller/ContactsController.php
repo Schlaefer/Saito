@@ -4,6 +4,8 @@
 
 	class ContactsController extends AppController {
 
+		public $uses = [];
+
 		public function beforeFilter() {
 			parent::beforeFilter();
 			$this->showDisclaimer = true;
