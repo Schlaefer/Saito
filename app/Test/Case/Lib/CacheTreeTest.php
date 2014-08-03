@@ -74,12 +74,12 @@
 		public function testIsCacheUpdatableDisabled() {
 			$this->CacheTree->setAllowUpdate(false);
 
-			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
-				'isRead'
+			$this->CacheTree->CurrentUser->LastRefresh = $this->getMock('Object', [
+				'isNewerThan'
 			]);
-			$this->CacheTree->CurrentUser->ReadEntries
+			$this->CacheTree->CurrentUser->LastRefresh
 				->expects($this->never())
-				->method('isRead');
+				->method('isNewerThan');
 
 			$in = array(
 					'id' => 1,
@@ -92,12 +92,12 @@
 		public function testIsCacheUpdatable() {
 			$this->CacheTree->setAllowUpdate(true);
 
-			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
-				'isRead'
+			$this->CacheTree->CurrentUser->LastRefresh = $this->getMock('Object', [
+				'isNewerThan'
 			]);
-			$this->CacheTree->CurrentUser->ReadEntries
+			$this->CacheTree->CurrentUser->LastRefresh
 				->expects($this->once())
-				->method('isRead')
+				->method('isNewerThan')
 				->will($this->returnValue(true));
 
 			$in = array(
@@ -109,12 +109,12 @@
 		}
 
 		public function testIsCacheUpdatableNewToUser() {
-			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
-				'isRead'
+			$this->CacheTree->CurrentUser->LastRefresh = $this->getMock('Object', [
+				'isNewerThan'
 			]);
-			$this->CacheTree->CurrentUser->ReadEntries
+			$this->CacheTree->CurrentUser->LastRefresh
 				->expects($this->once())
-				->method('isRead')
+				->method('isNewerThan')
 				->will($this->returnValue(false));
 
 			$this->CacheTree->setAllowUpdate(true);
@@ -128,12 +128,12 @@
 		}
 
 		public function testIsCacheValidReadDisabled() {
-			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
-				'isRead'
+			$this->CacheTree->CurrentUser->LastRefresh = $this->getMock('Object', [
+				'isNewerThan'
 			]);
-			$this->CacheTree->CurrentUser->ReadEntries
+			$this->CacheTree->CurrentUser->LastRefresh
 				->expects($this->never())
-				->method('isRead');
+				->method('isNewerThan');
 
 			$this->CacheTree->setAllowRead(false);
 
@@ -146,12 +146,12 @@
 		}
 
 		public function testIsCacheValid() {
-			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
-				'isRead'
+			$this->CacheTree->CurrentUser->LastRefresh = $this->getMock('Object', [
+				'isNewerThan'
 			]);
-			$this->CacheTree->CurrentUser->ReadEntries
+			$this->CacheTree->CurrentUser->LastRefresh
 				->expects($this->once())
-				->method('isRead')
+				->method('isNewerThan')
 				->will($this->returnValue(true));
 
 			$this->CacheTree->setAllowRead(true);
@@ -164,18 +164,39 @@
 		}
 
 		public function testIsCacheValidNewAnswerForUser() {
-			$this->CacheTree->CurrentUser->ReadEntries = $this->getMock('Object', [
-				'isRead'
+			$this->CacheTree->CurrentUser->LastRefresh = $this->getMock('Object', [
+				'isNewerThan'
 			]);
-			$this->CacheTree->CurrentUser->ReadEntries
+			$this->CacheTree->CurrentUser->LastRefresh
 				->expects($this->once())
-				->method('isRead')
+				->method('isNewerThan')
 				->will($this->returnValue(false));
 
 			$this->CacheTree->setAllowRead(true);
 			$in = array(
 					'id' => 1,
 					'last_answer' => date('Y-m-d H:i:s', time() - 7200),
+			);
+			$result = $this->CacheTree->isCacheValid($in);
+			$this->assertFalse($result);
+		}
+
+		/**
+		 * last refresh for user is undetermined
+		 */
+		public function testIsCacheValidNewUser() {
+			$this->CacheTree->CurrentUser->LastRefresh = $this->getMock('Object', [
+				'isNewerThan'
+			]);
+			$this->CacheTree->CurrentUser->LastRefresh
+				->expects($this->once())
+				->method('isNewerThan')
+				->will($this->returnValue(null));
+
+			$this->CacheTree->setAllowRead(true);
+			$in = array(
+				'id' => 1,
+				'last_answer' => date('Y-m-d H:i:s', time() - 7200),
 			);
 			$result = $this->CacheTree->isCacheValid($in);
 			$this->assertFalse($result);

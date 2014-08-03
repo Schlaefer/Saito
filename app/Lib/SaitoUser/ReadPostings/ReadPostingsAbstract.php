@@ -46,19 +46,14 @@
 		 * @return bool
 		 */
 		public function isRead($id, $timestamp = null) {
-			if ($this->_readPostings === null) {
-				$this->_get();
-			}
-
-			if (isset($this->_readPostings[$id])) {
+			if ($timestamp !== null && $this->_LastRefresh->isNewerThan($timestamp)) {
 				return true;
 			}
 
-			if ($timestamp === null) {
-				return false;
+			if ($this->_readPostings === null) {
+				$this->_get();
 			}
-
-			return $this->_LastRefresh->isNewerThan($timestamp);
+			return isset($this->_readPostings[$id]);
 		}
 
 		/**

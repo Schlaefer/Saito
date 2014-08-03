@@ -44,7 +44,7 @@
 /**
  * Manages the last refresh/mark entries as read for the current user
  *
- * @var LastRefresh
+ * @var LastRefreshAbstract
  */
 		public $LastRefresh = null;
 

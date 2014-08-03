@@ -61,22 +61,31 @@
 			$this->mock();
 			$this->ReadPostings->Cookie->expects($this->once())
 				->method('read')
-				->will($this->returnValue('2'));
+				->will($this->returnValue('1'));
 
 			$time = time();
 
 			$this->ReadPostings->LastRefresh->expects($this->at(0))
 				->method('isNewerThan')
 				->with($time)
-				->will($this->returnValue(true));
+				->will($this->returnValue(null));
 			$this->ReadPostings->LastRefresh->expects($this->at(1))
 				->method('isNewerThan')
 				->with($time + 1)
+				->will($this->returnValue(null));
+			$this->ReadPostings->LastRefresh->expects($this->at(2))
+				->method('isNewerThan')
+				->with($time + 2)
+				->will($this->returnValue(true));
+			$this->ReadPostings->LastRefresh->expects($this->at(3))
+				->method('isNewerThan')
+				->with($time + 3)
 				->will($this->returnValue(false));
 
 			$this->assertTrue($this->ReadPostings->isRead(1, $time));
-			$this->assertFalse($this->ReadPostings->isRead(6, $time + 1));
-			$this->assertTrue($this->ReadPostings->isRead(2, $time + 2));
+			$this->assertFalse($this->ReadPostings->isRead(2, $time + 1));
+			$this->assertTrue($this->ReadPostings->isRead(3, $time + 2));
+			$this->assertFalse($this->ReadPostings->isRead(4, $time + 3));
 		}
 
 		public function testGet() {

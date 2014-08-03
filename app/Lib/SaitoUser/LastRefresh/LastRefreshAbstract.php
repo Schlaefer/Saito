@@ -23,7 +23,7 @@
 		 * is last refresh newer than $timestamp
 		 *
 		 * @param mixed $timestamp int unix-timestamp or date as string
-		 * @return bool
+		 * @return mixed bool or null if not determinable
 		 */
 		public function isNewerThan($timestamp) {
 			if (is_string($timestamp)) {
@@ -32,7 +32,7 @@
 			$lastRefresh = $this->_get();
 			// timestamp is not set (or readable): everything is considered new
 			if ($lastRefresh === false) {
-				return false;
+				return null;
 			}
 			return $lastRefresh > $timestamp;
 		}

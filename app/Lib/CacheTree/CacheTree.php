@@ -23,6 +23,9 @@
  */
 		protected $_maxNumberOfEntries = 240;
 
+		/**
+		 * @var CurrentUserComponent
+		 */
 		protected $_CurrentUser;
 
 		protected $_allowUpdate = false;
@@ -107,8 +110,12 @@
 			return $valid;
 		}
 
+		/**
+		 * @param array $entry
+		 * @return bool
+		 */
 		protected function _isRead(array $entry) {
-			return $this->_CurrentUser->ReadEntries->isRead($entry['id'], $entry['last_answer']);
+			return $this->_CurrentUser->LastRefresh->isNewerThan($entry['last_answer']) === true;
 		}
 
 		protected function _inCache($entry) {
