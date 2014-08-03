@@ -19,6 +19,12 @@
 			$this->_CurrentUser = $CurrentUser;
 		}
 
+		/**
+		 * is last refresh newer than $timestamp
+		 *
+		 * @param mixed $timestamp int unix-timestamp or date as string
+		 * @return bool
+		 */
 		public function isNewerThan($timestamp) {
 			if (is_string($timestamp)) {
 				$timestamp = strtotime($timestamp);
@@ -26,7 +32,7 @@
 			$lastRefresh = $this->_get();
 			// timestamp is not set (or readable): everything is considered new
 			if ($lastRefresh === false) {
-				return true;
+				return false;
 			}
 			return $lastRefresh > $timestamp;
 		}

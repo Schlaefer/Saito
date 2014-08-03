@@ -24,8 +24,8 @@
 			$userData = ['id' => 1, 'last_refresh' => null];
 			$this->CurrentUser->setSettings($userData);
 
-			$this->assertTrue($this->LastRefresh->isNewerThan(time()));
-			$this->assertTrue($this->LastRefresh->isNewerThan(date('Y-m-d h:i:s', time())));
+			$this->assertFalse($this->LastRefresh->isNewerThan(time()));
+			$this->assertFalse($this->LastRefresh->isNewerThan(date('Y-m-d h:i:s', time())));
 		}
 
 		/**
