@@ -377,6 +377,16 @@
 			$this->layout = 'admin';
 		}
 
+		/**
+		 * manually require auth and redirect cycle
+		 */
+		protected function _requireAuth() {
+			$this->Session->setFlash(__('auth_autherror'), 'flash/warning');
+			$here = $this->request->here(false);
+			$this->Auth->redirectUrl($here);
+			$this->redirect(['controller' => 'users', 'action' => 'login']);
+		}
+
 /**
  * Shows the disclaimer in the layout
  */
