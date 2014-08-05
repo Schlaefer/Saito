@@ -14,7 +14,7 @@
 
 		public function get() {
 			if (empty($this->_userlist)) {
-				$this->_userlist = $this->_User->find('list', ['fields' => 'username']);
+				$this->_userlist = $this->_User->userlist();
 			}
 			return $this->_userlist;
 		}

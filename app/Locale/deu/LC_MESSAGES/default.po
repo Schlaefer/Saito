@@ -496,6 +496,9 @@ msgstr "Der Name enthält unerlaubte Sonderzeichen."
 msgid "error_name_reserved"
 msgstr "Der Name ist bereits vergeben."
 
+msgid "error.name.equalExists"
+msgstr "Ein ähnlicher Name ist bereits vergeben."
+
 #: View/Elements/users/register-form-core.ctp:7
 msgid "error_no_name"
 msgstr "Es wurde kein Name eingegeben."

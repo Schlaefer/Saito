@@ -61,7 +61,8 @@
 				'username' => [
 						'isUnique' => ['rule' => 'isUniqueCiString'],
 						'notEmpty' => ['rule' => 'notEmpty'],
-						'hasAllowedChars' => ['rule' => ['validateHasAllowedChars']]
+						'hasAllowedChars' => ['rule' => ['validateHasAllowedChars']],
+						'isUsernameEqual' => ['rule' => 'validateUsernameEqual']
 				],
 				'user_type' => [
 						'allowedChoice' => ['rule' => ['inList', ['user', 'admin', 'mod']]]
@@ -202,6 +203,13 @@
 			}
 		}
 
+		public function userlist() {
+			return $this->find('list', [
+				'contain' => false,
+				'fields' => 'username'
+			]);
+		}
+
 /**
  * Removes a user and all his data execpt for his entries
  *
@@ -315,6 +323,22 @@
 					return false;
 				}
 			}
+			return true;
+		}
+
+		/**
+		 * checks if equal username exists
+		 */
+		public function validateUsernameEqual($data) {
+			Stopwatch::start('validateUsernameEqual');
+			$users = $this->userlist();
+			foreach ($users as $name) {
+				$distance = levenshtein($data['username'], $name);
+				if ($distance < 2) {
+					return false;
+				}
+			}
+			Stopwatch::stop('validateUsernameEqual');
 			return true;
 		}
 

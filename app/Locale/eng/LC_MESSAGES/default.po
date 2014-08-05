@@ -489,6 +489,9 @@ msgstr "The name contains forbidden characters."
 msgid "error_name_reserved"
 msgstr "Name is already used."
 
+msgid "error.name.equalExists"
+msgstr "An equal name is already used."
+
 #: View/Elements/users/register-form-core.ctp:7
 msgid "error_no_name"
 msgstr "Name is empty."
