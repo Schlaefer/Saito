@@ -1,8 +1,8 @@
-## Mark as Read ##
+## Mark as Read (MAR) ##
 
-The forum marks entries as read or unread for logged-in users. The state is indicated by different color in the thread view.
+The forum differentiates postings as read or unread. The state is indicated by different color in the thread view.
 
-Managing the state on the server offers a consistent view across multiple devices.
+For non-logged-in users this is managed on per browser basis (Cookie). For logged-in users the state is saved on the server; this allows a consistent state across multiple devices.
 
 ## Read on Click ##
 
@@ -10,7 +10,7 @@ Viewing a single entry marks the entry as read. Opening a thread in mix-view mar
 
 ## Manual Mark as Read (mMAR) ##
 
-The double-arrow button on the homepage marks all current entries as read.
+The double-arrow button on top of the homepage marks all current entries as read.
 
 ## Intelligent Mark as Read (iMAR) ##
 

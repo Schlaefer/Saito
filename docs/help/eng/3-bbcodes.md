@@ -22,9 +22,13 @@ Outputs underlined text.
 
 ## Strike ##
 
+	[s]text[/s]
+
+or
+
 	[strike]text[/strike]
 
-Outputs struck through text. Also has shorthand `[s]text[/s]`.
+Outputs struck through text.
 
 ## List ##
 
@@ -87,11 +91,11 @@ Content is only shown if a masking spoiler-text is clicked.
 ## Code ##
 
 
-	[code <language>]<text>[/code]
+	[code=<language>]<source>[/code]
 
 Verbatim source code with.
 
-If `<language>` is not `text` (default) the text is highlighted in the particular language, e.g. `[code PHP]…`. For available languages refer the [GeSHI documentation](http://qbnz.com/highlighter/).
+If `<language>` is not `text` (default) the `<source>` is highlighted in the particular language, e.g. `[code PHP]…`. For available languages refer the [GeSHI documentation](http://qbnz.com/highlighter/).
 
 ## Citation ##
 
@@ -124,14 +128,18 @@ Float image left or right:
 
 	[audio]http://example.com/audio.ogg[/audio]
 
-Choose an [appropriate file-format](http://en.wikipedia.org/wiki/HTML5_Audio#Supported_browsers) for your audience.
+Choose an [appropriate file-format][Audio] for your audience.
+
+[Audio]: http://en.wikipedia.org/wiki/HTML5_Audio#Supported_browsers
 
 
 ### HTML5-Video ###
 
 	[video]http://example.com/audio.webm[/video]
 
-Choose an [appropriate file-format](http://en.wikipedia.org/wiki/HTML5_video#Browser_support) for your audience.
+Choose an [appropriate file-format][Video] for your audience.
+
+[Video]: http://en.wikipedia.org/wiki/HTML5_video#Browser_support
 
 
 ### Iframe &amp; Flash ###
