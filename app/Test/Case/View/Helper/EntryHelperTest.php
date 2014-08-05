@@ -3,6 +3,7 @@
 	App::uses('Controller', 'Controller');
 	App::uses('View', 'View');
 	App::uses('EntryHHelper', 'View/Helper');
+	App::uses('ItemCache', 'Lib/Cache');
 
 	class EntryHHelperTest extends CakeTestCase {
 
@@ -11,6 +12,7 @@
 
 			$Controller = new Controller();
 			$View = new View($Controller);
+			$View->set('LineCache', new ItemCache('test'));
 			$this->EntryH = new EntryHHelper($View);
 		}
 
@@ -33,6 +35,7 @@
 							'subject' => 'a',
 							'text' => 'b',
 							'time' => 0,
+							'last_answer' => 0,
 							'fixed' => false,
 							'nsfw' => false,
 							'solves' => ''

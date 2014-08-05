@@ -1,5 +1,7 @@
 <?php
 	App::uses('AppHelper', 'View/Helper');
+	App::uses('SaitoCacheEngineAppCache', 'Lib/Cache');
+	App::uses('SaitoCacheEngineDbCache', 'Lib/Cache');
 
 	# @td refactor helper name to 'EntryHelper'
 	/**
@@ -14,6 +16,11 @@
 				'Session',
 				'TimeH',
 		);
+
+		/**
+		 * @var ItemCache
+		 */
+		protected $_LineCache;
 
 /**
  *
@@ -43,6 +50,7 @@
 
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
+			$this->_LineCache = $this->_View->get('LineCache');
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
 		}
 
@@ -180,24 +188,39 @@
 		 * Everything you do in here is in worst case done a few hundred times on
 		 * the frontpage. Think about (and benchmark) performance before you change it.
 		 */
-		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = []) {
+		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = [], $lastAnswer = null) {
+			$id = (int)$entrySub['Entry']['id'];
+			if ($lastAnswer === null) {
+				$lastAnswer = $entrySub['Entry']['last_answer'];
+			}
+
+			$useLineCache = $level > 0;
+			if ($useLineCache) {
+				$_threadLineCached = $this->_LineCache->get($id);
+			}
+			if (empty($_threadLineCached)) {
+				$_threadLineCached = $this->threadLineCached($entrySub, $level);
+				if ($useLineCache) {
+					$this->_LineCache->set($id, $_threadLineCached, strtotime($lastAnswer));
+				}
+			}
+
+//			Stopwatch::start('threadCached');
 			//setup for current entry
-			$_isNew = !$CurrentUser->ReadEntries->isRead($entrySub['Entry']['id'], $entrySub['Entry']['time']);
+			$isNew = !$CurrentUser->ReadEntries->isRead($entrySub['Entry']['id'], $entrySub['Entry']['time']);
 			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
 					$this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null;
 			$_spanPostType = $this->generateEntryTypeCss($level,
-				$_isNew,
+				$isNew,
 				$entrySub['Entry']['id'],
 				$_currentlyViewed);
 
-			$_threadLineCached = $this->threadLineCached($entrySub, $level);
-
-			$id = (int)$entrySub['Entry']['id'];
-			$leafData = json_encode([
-				'id' => $id,
-				'new' => (bool)$_isNew,
-				'tid' => (int)$entrySub['Entry']['tid']
-			]);
+			//# simulate json_encode() for performance
+			$tid = (int)$entrySub['Entry']['tid'];
+			$isNew = $isNew ? 'true' : 'false';
+			$leafData = <<<EOF
+{"id":{$id},"new":{$isNew},"tid":{$tid}}
+EOF;
 
 			/*
 			 * - data-id still used to identify parent posting when inserting	an inline-answered entry
@@ -221,7 +244,7 @@ EOF;
 				$subLevel = $level + 1;
 				$sub = '';
 				foreach ($entrySub['_children'] as $child) {
-					$sub .= $this->threadCached($child, $CurrentUser, $subLevel, $currentEntry);
+					$sub .= $this->threadCached($child, $CurrentUser, $subLevel, $currentEntry, $lastAnswer);
 				}
 				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
 			}
@@ -230,6 +253,7 @@ EOF;
 			if ($level === 0) {
 				$out = $this->_wrapUl($out, $level, $entrySub['Entry']['id']);
 			}
+//			Stopwatch::stop('threadCached');
 			return $out;
 		}
 
@@ -262,6 +286,8 @@ EOF;
  * the frontpage. Think about (and benchmark) performance before you change it.
  */
 		public function threadLineCached(array $entrySub, $level) {
+			$timestamp = $entrySub['Entry']['time'];
+
 			$category = '';
 			if ($level === 0) {
 				if (!isset($this->_catL10n[$entrySub['Category']['accession']])) {
@@ -276,7 +302,7 @@ EOF;
 			}
 
 			// normal time output
-			$time = $this->TimeH->formatTime($entrySub['Entry']['time']);
+			$time = $this->TimeH->formatTime($timestamp);
 
 			$subject = $this->getSubject($entrySub);
 			$badges = $this->getBadges($entrySub);

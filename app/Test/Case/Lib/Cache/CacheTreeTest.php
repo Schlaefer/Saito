@@ -1,16 +1,21 @@
 <?php
 
-	App::uses('CacheTree', 'Lib/CacheTree');
+	App::uses('CacheTree', 'Lib/Cache');
 	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	class CacheTreeMock extends CacheTree {
 
 		public function __construct() {
 			$this->_CurrentUser = new SaitoUser();
+			$this->_Cache = new ItemCache('EntrySub', null, ['maxItems' => 240]);
 		}
 
 		public function setCache($data) {
 			$this->_cachedEntries = $data;
+		}
+
+		public function setItemCache($IC) {
+			$this->_Cache = $IC;
 		}
 
 		public function setAllowRead($state) {
@@ -35,6 +40,10 @@
 	 */
 	class CacheTreeTest extends CakeTestCase {
 
+		protected $_fixture;
+
+		protected $_time;
+
 		/**
 		 * setUp method
 		 *
@@ -44,15 +53,14 @@
 			parent::setUp();
 			$this->CacheTree = new CacheTreeMock();
 
-			$cacheData = array(
-					'1' => array(
-							'metadata' => array(
-									'content_last_updated' => time() - 3600,
-							),
-							'content' => 'foo',
-					),
-			);
-			$this->CacheTree->setCache($cacheData);
+			$this->_time = time();
+			$fixtureTime = $this->_time - 3600;
+			$fixtureContent = 'foo';
+			$fixtureKey = 1;
+
+			$this->CacheTree->setAllowUpdate(true);
+			$this->CacheTree->set($fixtureKey, $fixtureContent, $fixtureTime);
+			$this->CacheTree->setAllowUpdate(false);
 		}
 
 		/**
@@ -216,19 +224,4 @@
 			$this->assertFalse($result);
 		}
 
-		public function testReset() {
-			// setup
-			$mockData = ['foo' => 'bar'];
-			$this->CacheTree->setCache($mockData);
-			$this->CacheTree->setAllowRead(true);
-			$result = $this->CacheTree->read();
-			$this->assertEquals($result, $mockData);
-
-			// test
-			$this->CacheTree->reset();
-			$result = $this->CacheTree->read();
-			$this->assertEquals($result, []);
-		}
-
 	}
-

@@ -40,18 +40,29 @@
 			foreach ($initials as $thread) {
 				// ensure string so that integer index won't reorder
 				$id = (string)$thread['id'];
-				$threads[$id]['Entry'] = $thread;
-
-				if (!$this->CacheSupport->CacheTree->isCacheValid($thread)) {
+				if ($this->CacheSupport->CacheTree->isCacheValid($thread)) {
+					$threads[$id] = $this->CacheSupport->CacheTree->get($id);
+				} else {
+					$threads[$id] = $id;
 					$uncached[$id] = $thread;
 				}
 			}
 
 			//# get threads not available in cache from DB
 			$dbThreads = $this->Entry->treesForThreads($uncached, $order);
+
+			$page = 0;
+			if (isset($this->request->named['page'])) {
+				$page = $this->request->named['page'];
+			}
+
 			foreach ($dbThreads as $thread) {
 				$id = (string)$thread['Entry']['tid'];
 				$threads[$id] = $thread;
+
+				if ($page < 3 && $this->CacheSupport->CacheTree->isCacheUpdatable($thread['Entry'])) {
+					$this->CacheSupport->CacheTree->set($id, $thread);
+				}
 			}
 
 			$this->set('entries', $threads);

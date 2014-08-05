@@ -17,6 +17,8 @@
 				]
 		];
 
+		public $helpers = ['Form', 'Html', 'EntryH'];
+
 		public $uses = [
 				'Entry'
 		];
