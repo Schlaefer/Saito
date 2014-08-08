@@ -634,6 +634,35 @@
 			$this->assertEquals($this->User->validationErrors, $expected);
 		}
 
+		public function testRegisterValidationUsernameIsEqual() {
+			$data = [
+				'User' => [
+					'username' => 'Mitsch',
+					'user_email' => 'mib@island.com',
+					'password' => 'beforeandagain',
+					'password_confirm' => 'beforeandagain'
+				],
+			];
+			$result = $this->User->register($data);
+			$this->assertFalse($result);
+
+			$expected = ['username' => ['isUsernameEqual']];
+			$this->assertEquals($this->User->validationErrors, $expected);
+
+			$data = [
+				'User' => [
+					'username' => 'Mischa',
+					'user_email' => 'mib@island.com',
+					'password' => 'beforeandagain',
+					'password_confirm' => 'beforeandagain'
+				],
+			];
+			$result = $this->User->register($data);
+			$this->assertNotEmpty($result);
+
+			$this->assertEmpty($this->User->validationErrors);
+		}
+
 		public function setUp() {
 			Security::setHash('md5');
 

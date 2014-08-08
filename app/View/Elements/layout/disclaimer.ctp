@@ -5,7 +5,7 @@
       <h3><?= __('Ressources') ?></h3>
       <ul>
         <li>
-          <a href="<?= $this->request->webroot ?>users/contact/0"><?= __('Contact') ?></a>
+          <a href="<?= $this->request->webroot ?>contacts/owner"><?= __('Contact') ?></a>
         </li>
 				<li>
 					<a href="<?= $this->request->webroot ?>mobile/"><?= __('Mobile') ?></a>

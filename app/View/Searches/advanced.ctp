@@ -51,7 +51,8 @@
 							['value' => $year]);
 				?>
 			</div>
-			<div class="input">
+      <?= $this->SaitoHelp->icon(1) ?>
+			<div class="input" style="float: left; margin-right: 1em;">
 				<?=
 					$this->Form->submit(__('search_submit'),
 							['class' => 'btn btn-submit']) ?>

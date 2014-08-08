@@ -122,7 +122,8 @@
 			// check if anonymous tries to access internal categories
 			$accession = $entries[0]['Category']['accession'];
 			if (!$this->CurrentUser->Categories->isAccessionAuthorized($accession)) {
-				return $this->redirect('/');
+				$this->_requireAuth();
+				return;
 			}
 
 			$root = $entries[0];
@@ -188,7 +189,7 @@
 			// check if anonymous tries to access internal categories
 			$accession = $entry['Category']['accession'];
 			if (!$this->CurrentUser->Categories->isAccessionAuthorized($accession)) {
-				$this->redirect('/');
+				$this->_requireAuth();
 				return;
 			}
 
@@ -684,7 +685,7 @@
 			$this->_automaticalyMarkAsRead();
 
 			$this->Security->unlockedActions = ['preview', 'solve', 'view'];
-			$this->Auth->allow('feed', 'index', 'view', 'mix');
+			$this->Auth->allow('feed', 'index', 'view', 'mix', 'update');
 
 			if ($this->request->action === 'index') {
 				if ($this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0) {

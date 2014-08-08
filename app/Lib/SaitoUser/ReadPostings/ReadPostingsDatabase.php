@@ -1,20 +1,46 @@
 <?php
 
-	class SaitoCurrentUserReadEntries {
+	App::uses('ReadPostingsAbstract', 'Lib/SaitoUser/ReadPostings');
 
-		protected $_CU;
+	/**
+	 * Handles read postings by a server table. Used for logged-in users.
+	 */
+	class ReadPostingsDatabase extends ReadPostingsAbstract {
 
 		protected $_UserRead;
 
 		protected $_minPostingsToKeep;
 
 		public function __construct(CurrentUserComponent $CurrentUser) {
-			$this->_CU = $CurrentUser;
-			$this->_UserRead = $CurrentUser->getModel()->UserRead;
+			parent::__construct($CurrentUser);
+			$this->_UserRead = $this->_CurrentUser->getModel()->UserRead;
+			$this->_registerGc($this->_CurrentUser->Cron);
 		}
 
 		/**
-		 *
+		 * @throws InvalidArgumentException
+		 */
+		public function set($entries) {
+			Stopwatch::start('ReadPostingsDatabase::set()');
+			if (!$this->_CurrentUser->isLoggedIn()) {
+				return;
+			}
+
+			$entries = $this->_preparePostings($entries);
+			if (empty($entries)) {
+				return;
+			}
+
+			$this->_UserRead->setEntriesForUser($entries, $this->_id());
+			Stopwatch::stop('ReadPostingsDatabase::set()');
+		}
+
+		public function delete() {
+			$this->_UserRead->deleteAllFromUser($this->_id());
+		}
+
+		/**
+		 * calculates user quota of allowed entries in DB
 		 *
 		 * @return int
 		 * @throws UnexpectedValueException
@@ -33,11 +59,18 @@
 			return $this->_minPostingsToKeep;
 		}
 
+		protected function _registerGc(CronComponent $Cron) {
+			$Cron->addCronJob('ReadUser.' . $this->_id(), 'hourly', [$this, 'gcUser']);
+			$Cron->addCronJob('ReadUser.global', 'hourly', [$this, 'gcGlobal']);
+		}
+
 		/**
-		 * removes old-data from non-active users
+		 * removes old data from non-active users
+		 *
+		 * should prevent entries of non returning users to stay forever in DB
 		 */
 		public function gcGlobal() {
-			$lastEntry = $this->_CU->getModel()->Entry->find('first',
+			$lastEntry = $this->_CurrentUser->getModel()->Entry->find('first',
 					[
 							'contain' => false,
 							'fields' => ['Entry.id'],
@@ -54,14 +87,16 @@
 		}
 
 		/**
-		 * removes old-data from active users
+		 * removes old data from current users
+		 *
+		 * should prevent endless growing of DB if user never clicks the MAR-button
 		 */
 		public function gcUser() {
-			if (!$this->_CU->isLoggedIn()) {
+			if (!$this->_CurrentUser->isLoggedIn()) {
 				return;
 			}
 
-			$entries = $this->get();
+			$entries = $this->_get();
 			$numberOfEntries = count($entries);
 			if ($numberOfEntries === 0) {
 				return;
@@ -80,7 +115,7 @@
 
 			// all entries older than (and including) the deleted entries become
 			// old entries by updating the MAR-timestamp
-			$youngestDeletedEntry = $this->_CU->getModel()->Entry->find('first',
+			$youngestDeletedEntry = $this->_CurrentUser->getModel()->Entry->find('first',
 					[
 							'contain' => false,
 							'conditions' => ['Entry.id' => $oldestIdToKeep],
@@ -88,56 +123,20 @@
 					]);
 			// can't use  $this->_CU->LastRefresh->set() because this would also
 			// delete all of this user's UserRead entries
-			$this->_CU->getModel()
+			$this->_CurrentUser->getModel()
 					->setLastRefresh($youngestDeletedEntry['Entry']['time']);
 		}
 
-		public function get() {
-			return $this->_UserRead->getUser($this->_id());
-		}
-
-		public function delete() {
-			$this->_UserRead->deleteAllFromUser($this->_id());
-		}
-
-		/**
-		 * Sets single entry as read
-		 *
-		 * @param $entries array single ['Entry' => []] or multiple [0 => ['Entry' => …]
-		 * @throws InvalidArgumentException
-		 */
-		public function set($entries) {
-			Stopwatch::start('SaitoCurrentUserReadEntries::set()');
-			if (!$this->_CU->isLoggedIn()) {
-				return;
+		protected function _get() {
+			if ($this->_readPostings !== null) {
+				return $this->_readPostings;
 			}
-
-			if (isset($entries['Entry'])) {
-				$entries = [0 => $entries];
-			}
-
-			if (empty($entries)) {
-				throw new InvalidArgumentException;
-			}
-
-			// performance: don't store entries covered by timestamp
-			foreach ($entries as $k => $entry) {
-				if ($this->_CU['last_refresh_unix'] > strtotime($entry['Entry']['time'])) {
-					unset($entries[$k]);
-				}
-			}
-			if (empty($entries)) {
-				return;
-			}
-
-			$this->_UserRead->setEntriesForUser(
-					Hash::extract($entries, '{n}.Entry.id'),
-					$this->_id());
-			Stopwatch::stop('SaitoCurrentUserReadEntries::set()');
+			$this->_readPostings = $this->_UserRead->getUser($this->_id());
+			return $this->_readPostings;
 		}
 
 		protected function _id() {
-			return $this->_CU->getId();
+			return $this->_CurrentUser->getId();
 		}
 
 	}

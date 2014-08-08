@@ -1,7 +1,15 @@
 <?php
 
 	App::uses('Component', 'Controller');
-	App::uses('SaitoCurrentUserReadEntries', 'Lib/SaitoUser');
+
+	App::uses('ReadPostingsDatabase', 'Lib/SaitoUser/ReadPostings');
+	App::uses('ReadPostingsCookie', 'Lib/SaitoUser/ReadPostings');
+	App::uses('ReadPostingsDummy', 'Lib/SaitoUser/ReadPostings');
+	App::uses('LastRefreshCookie', 'Lib/SaitoUser/LastRefresh');
+	App::uses('LastRefreshDatabase', 'Lib/SaitoUser/LastRefresh');
+	App::uses('LastRefreshDummy', 'Lib/SaitoUser/LastRefresh');
+
+	App::uses('SaitoCurrentUserCookie', 'Lib/SaitoUser/Cookies');
 	App::uses('SaitoUserTrait', 'Lib/SaitoUser');
 	App::uses('ForumsUserInterface', 'Lib/SaitoUser');
 	App::uses('CategoryAuth', 'Lib/SaitoUser');
@@ -34,19 +42,15 @@
 		public $PersistentCookie = null;
 
 /**
- * Name for the persistent Cookie
- *
- * @var string
- */
-		protected $_persistentCookieName = 'SaitoPersistent';
-
-/**
  * Manages the last refresh/mark entries as read for the current user
  *
- * @var SaitoLastRefresh
+ * @var LastRefreshAbstract
  */
 		public $LastRefresh = null;
 
+	/**
+	 * @var ReadPostings
+	 */
 		public $ReadEntries;
 
 /**
@@ -96,9 +100,7 @@
 					['class' => 'User', 'alias' => 'currentUser']
 			);
 
-			$this->PersistentCookie = new SaitoCurrentUserCookie($this->_Controller->Cookie);
-			$this->PersistentCookie->initialize($this);
-			$this->ReadEntries = new SaitoCurrentUserReadEntries($this);
+			$this->PersistentCookie = new SaitoCurrentUserCookie($this->Cookie, 'AU');
 
 			$this->_configureAuth();
 
@@ -117,13 +119,12 @@
 			}
 
 			if ($this->isLoggedIn()) {
-				$this->Cron->addCronJob('ReadUser.' . $this->getId(),
-						'hourly',
-						[$this->ReadEntries, 'gcUser']);
+				$this->ReadEntries = new ReadPostingsDatabase($this);
+			} elseif ($this->isBot()) {
+				$this->ReadEntries = new ReadPostingsDummy($this);
+			} else {
+				$this->ReadEntries = new ReadPostingsCookie($this);
 			}
-			$this->Cron->addCronJob('ReadUser.global',
-					'hourly',
-					[$this->ReadEntries, 'gcGlobal']);
 
 			$this->_markOnline();
 		}
@@ -185,7 +186,7 @@
 		}
 
 		protected function _reLoginCookie() {
-			$cookie = $this->PersistentCookie->get();
+			$cookie = $this->PersistentCookie->read();
 			if ($cookie) {
 				$this->_login($cookie);
 				return $this->isLoggedIn();
@@ -213,7 +214,7 @@
 
 			// set cookie
 			if (empty($this->_Controller->request->data['User']['remember_me']) === false) {
-				$this->PersistentCookie->set();
+				$this->PersistentCookie->write($this);
 			};
 
 			return true;
@@ -230,7 +231,11 @@
 			if ($this->isLoggedIn()) {
 				$this->_User->id = $this->getId();
 				$this->setSettings($this->_User->getProfile($this->getId()));
-				$this->LastRefresh = new SaitoCurrentUserLastRefresh($this, $this->_User);
+				$this->LastRefresh = new LastRefreshDatabase($this);
+			} elseif ($this->isBot()) {
+				$this->LastRefresh = new LastRefreshDummy($this);
+			} else {
+				$this->LastRefresh = new LastRefreshCookie($this);
 			}
 		}
 
@@ -238,7 +243,7 @@
 			if (!$this->isLoggedIn()) {
 				return;
 			}
-			$this->PersistentCookie->destroy();
+			$this->PersistentCookie->delete();
 			$this->_User->id = $this->getId();
 			$this->_User->UserOnline->setOffline($this->getId());
 			$this->setSettings(null);
@@ -256,15 +261,6 @@
 		public function beforeRender(Controller $Controller) {
 			// write out the current user for access in the views
 			$Controller->set('CurrentUser', $this);
-		}
-
-/**
- * Returns the name of the persistent cookie
- *
- * @return string
- */
-		public function getPersistentCookieName() {
-			return $this->_persistentCookieName;
 		}
 
 		public function getModel() {
@@ -340,101 +336,3 @@
 
 	}
 
-/**
- * Handles the persistent cookie for cookie relogin
- */
-	class SaitoCurrentUserCookie {
-
-		protected $_cookie;
-
-		protected $_cookieName = 'SaitoPersistent';
-
-		protected $_cookiePrefix = 'AU';
-
-		protected $_currentUser;
-
-		public function __construct(CookieComponent $cookie) {
-			$this->_cookie = $cookie;
-			$this->_setup();
-		}
-
-		protected function _setup() {
-			$this->_cookie->name = $this->_cookieName;
-			$this->_cookie->type('aes');
-			$this->_cookie->httpOnly = true;
-		}
-
-		public function initialize(CurrentUserComponent $currentUser) {
-			$this->_currentUser = $currentUser;
-			$this->_cookieName = $currentUser->getPersistentCookieName();
-		}
-
-		public function set() {
-			$cookie = [
-				'id' => $this->_currentUser->getId(),
-				'username' => $this->_currentUser['username'],
-				'password' => $this->_currentUser['password']
-			];
-			$this->_cookie->name = $this->_cookieName;
-			$this->_cookie->write($this->_cookiePrefix, $cookie, true, '+4 weeks');
-		}
-
-		public function destroy() {
-			$this->_cookie->destroy();
-		}
-
-		/**
-		 * Gets cookie values
-		 *
-		 * @return bool|array cookie values if found, `false` otherwise
-		 */
-		public function get() {
-			$cookie = $this->_cookie->read($this->_cookiePrefix);
-			if (is_null($cookie) ||
-					// cookie couldn't be deciphered correctly and is a meaningless string
-					!is_array($cookie)
-			) {
-				$this->destroy();
-				return false;
-			}
-			return $cookie;
-		}
-
-	}
-
-/**
- * Mark-Entries-As-Read-User-Last-Refresh-Time-O-Mat
- */
-	class SaitoCurrentUserLastRefresh {
-
-		protected $_user;
-
-		protected $_currentUser;
-
-		public function __construct(CurrentuserComponent $currentUser, User $user) {
-			$this->_currentUser = $currentUser;
-			$this->_user = $user;
-		}
-
-/**
- * @param mixed $timestamp
- *
- * null|'now'|<`Y-m-d H:i:s` timestamp>
- */
-		public function set($timestamp = null) {
-			if ($timestamp === 'now') {
-				$timestamp = date('Y-m-d H:i:s');
-			} elseif ($timestamp === null) {
-				$timestamp = $this->_currentUser['last_refresh_tmp'];
-			}
-
-			$this->_user->setLastRefresh($timestamp);
-			$this->_currentUser['last_refresh'] = $timestamp;
-			$this->_currentUser->ReadEntries->delete();
-		}
-
-		public function setMarker() {
-			$this->_user->setLastRefresh();
-		}
-
-	}

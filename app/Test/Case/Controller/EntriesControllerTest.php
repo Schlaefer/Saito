@@ -43,6 +43,12 @@
 				$result['title_for_layout']);
 		}
 
+		public function testMixNoAuthorization() {
+			$this->testAction('/entries/mix/4', ['return' => 'view']);
+			$this->assertEquals($this->controller->Auth->redirectUrl(), '/entries/mix/4');
+			$this->assertRedirectedTo('login');
+		}
+
 		public function testMixNotFound() {
 			$this->generate('Entries', array());
 			$this->setExpectedException('NotFoundException');
@@ -615,32 +621,33 @@
 		*/
 
 		public function testView() {
-			//* not logged in user
+			//# not logged in user
 			$Entries = $this->generate('Entries');
 			$this->_logoutUser();
 
 			$result = $this->testAction('/entries/view/1', array('return' => 'vars'));
 			$this->assertEquals($result['entry']['Entry']['id'], 1);
 
-			$result = $this->testAction('/entries/view/2');
+			$this->testAction('/entries/view/2');
 			$this->assertFalse(isset($this->headers['Location']));
 
-			$result = $this->testAction('/entries/view/4', array('return' => 'view'));
-			$this->assertRedirectedTo();
+			$this->testAction('/entries/view/4', array('return' => 'view'));
+			$this->assertEquals($Entries->Auth->redirectUrl(), '/entries/view/4');
+			$this->assertRedirectedTo('login');
 
-			//* logged in user
+			//# logged in user
 			$this->_loginUser(3);
 			$result = $this->testAction('/entries/view/4', array('return' => 'vars'));
 			$this->assertEquals($result['entry']['Entry']['id'], 4);
 
-			$result = $this->testAction('/entries/view/2', array('return' => 'vars'));
+			$this->testAction('/entries/view/2', array('return' => 'vars'));
 			$this->assertFalse(isset($this->headers['Location']));
 
-			$result = $this->testAction('/entries/view/4', array('return' => 'vars'));
+			$this->testAction('/entries/view/4', array('return' => 'vars'));
 			$this->assertFalse(isset($this->headers['Location']));
 
 			//* redirect to index if entry does not exist
-			$result = $this->testAction('/entries/view/9999', array('return' => 'vars'));
+			$this->testAction('/entries/view/9999', array('return' => 'vars'));
 			$this->assertRedirectedTo();
 		}
 

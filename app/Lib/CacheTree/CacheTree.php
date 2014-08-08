@@ -23,6 +23,9 @@
  */
 		protected $_maxNumberOfEntries = 240;
 
+		/**
+		 * @var CurrentUserComponent
+		 */
 		protected $_CurrentUser;
 
 		protected $_allowUpdate = false;
@@ -82,7 +85,7 @@
 			if (!$this->_allowUpdate) {
 				return false;
 			}
-			return $this->_isEntryOldForUser($entry);
+			return $this->_isRead($entry);
 		}
 
 		public function isCacheValid(array $entry) {
@@ -97,7 +100,7 @@
 
 			if (!$this->_inCache($entry)) {
 				$valid = false;
-			} elseif ($this->_isEntryOldForUser($entry)) {
+			} elseif ($this->_isRead($entry)) {
 				$valid = true;
 			} else {
 				$valid = false;
@@ -107,23 +110,12 @@
 			return $valid;
 		}
 
-		protected function _isEntryOldForUser(array $entry) {
-			$noValidUser = !$this->_CurrentUser->isLoggedIn();
-			if ($noValidUser) {
-				return true;
-			}
-
-			$marUninitialized = $this->_CurrentUser['last_refresh'] === null;
-			if ($marUninitialized) {
-				return false;
-			}
-
-			$isNewToUser = strtotime($entry['last_answer']) < $this->_CurrentUser['last_refresh_unix'];
-			if ($isNewToUser) {
-				return true;
-			}
-
-			return false;
+		/**
+		 * @param array $entry
+		 * @return bool
+		 */
+		protected function _isRead(array $entry) {
+			return $this->_CurrentUser->LastRefresh->isNewerThan($entry['last_answer']) === true;
 		}
 
 		protected function _inCache($entry) {

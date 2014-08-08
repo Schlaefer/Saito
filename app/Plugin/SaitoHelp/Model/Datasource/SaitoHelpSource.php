@@ -60,10 +60,18 @@
 			if (!$files) {
 				return false;
 			}
-			$file = new File($folderPath . DS . $files[0], false, 0444);
+			$name = $files[0];
+			$file = new File($folderPath . DS . $name, false, 0444);
 			$text = $file->read();
 			$file->close();
-			$result = [$model->alias => ['id' => $id, 'text' => $text]];
+			$result = [
+				$model->alias => [
+					'file' => $name,
+					'id' => $id,
+					'lang' => $lang,
+					'text' => $text
+				]
+			];
 			if (!empty($queryData['limit'])) {
 				$result = [0 => $result];
 			}

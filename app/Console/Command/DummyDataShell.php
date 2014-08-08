@@ -148,6 +148,12 @@
 
 	class SaitoUserDummy extends SaitoUser {
 
+		public function __construct($settings = null) {
+			parent::__construct($settings);
+			App::uses('CategoryAuth', 'Lib/SaitoUser');
+			$this->Categories = new CategoryAuth($this);
+		}
+
 		public function getMaxAccession() {
 			return 2;
 		}

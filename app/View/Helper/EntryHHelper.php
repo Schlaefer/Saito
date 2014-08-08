@@ -32,29 +32,18 @@
  */
 		protected $_catL10n = [];
 
+		/**
+		 * read entries
+		 *
+		 * perf-cheat
+		 *
+		 * @var array
+		 */
+		protected $_readEntries = null;
+
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
 			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
-		}
-
-		/**
-		 * Decides if an $entry is new to/unseen by a $user
-		 *
-		 * @param $entry
-		 * @param $user
-		 * @return bool
-		 */
-		public function isNewEntry($entry, ForumsUserInterface $user) {
-			if (!$user->isLoggedIn()) {
-				return false;
-			}
-
-			$readEntries = $user->ReadEntries->get();
-			if (isset($readEntries[$entry['Entry']['id']])) {
-				return false;
-			}
-
-			return $user['last_refresh_unix'] < strtotime($entry['Entry']['time']);
 		}
 
 		public function isRoot($entry) {
@@ -193,7 +182,7 @@
 		 */
 		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = []) {
 			//setup for current entry
-			$_isNew = $this->isNewEntry($entrySub, $CurrentUser);
+			$_isNew = !$CurrentUser->ReadEntries->isRead($entrySub['Entry']['id'], $entrySub['Entry']['time']);
 			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
 					$this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null;
 			$_spanPostType = $this->generateEntryTypeCss($level,

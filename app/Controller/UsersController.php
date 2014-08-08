@@ -487,118 +487,6 @@
 			$this->request->data = [];
 		}
 
-		public function contact($id = null) {
-			if ($id === null) {
-				$this->redirect('/');
-				return;
-			}
-
-			// anonymous users only contact admin
-			if (!$this->CurrentUser->isLoggedIn() && (int)$id !== 0) {
-				$this->redirect('/');
-				return;
-			}
-
-			if ((int)$id === 0) {
-				// recipient is forum owner
-				$recipient = $this->SaitoEmail->getPredefinedSender('contact');
-				$this->showDisclaimer = true;
-			} else {
-				// recipient is forum user
-				$this->User->id = $id;
-				$this->User->contain();
-				$recipient = $this->User->read();
-			}
-
-			// if recipient was not found
-			if (!$recipient ||
-					// or user does not allow personal messages
-					((int)$id !== 0) && !$recipient['User']['personal_messages']
-			):
-				$this->redirect('/');
-				return;
-			endif;
-
-			//# show form
-			if (empty($this->request->data)) {
-				$this->request->data = $recipient;
-				return;
-			}
-
-			//# send email
-			$this->request->data = $this->request->data + $recipient;
-
-			$validationError = false;
-
-			// validate and set sender
-			if (!$this->CurrentUser->isLoggedIn() && (int)$id === 0) {
-				$senderContact = $this->request->data['Message']['sender_contact'];
-				App::uses('Validation', 'Utility');
-				if (!Validation::email($senderContact)) {
-					$this->JsData->addAppJsMessage(
-						__('error_email_not-valid'),
-						[
-							'type' => 'error',
-							'channel' => 'form',
-							'element' => '#MessageSenderContact'
-						]
-					);
-					$validationError = true;
-				} else {
-					$sender['User'] = [
-						'username' => '',
-						'user_email' => $senderContact
-					];
-				}
-			} else {
-				$sender = $this->CurrentUser->getId();
-			}
-
-			// validate and set subject
-			$subject = rtrim($this->request->data['Message']['subject']);
-			if (empty($subject)) {
-				$this->JsData->addAppJsMessage(
-					__('error_subject_empty'),
-					[
-						'type' => 'error',
-						'channel' => 'form',
-						'element' => '#MessageSubject'
-					]
-				);
-				$validationError = true;
-			}
-
-			if ($validationError === false):
-				try {
-					$email = [
-						'recipient' => $recipient,
-						'sender' => $sender,
-						'subject' => $subject,
-						'message' => $this->request->data['Message']['text'],
-						'template' => 'user_contact'
-					];
-
-					if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
-						$email['ccsender'] = true;
-					}
-
-					$email = $this->SaitoEmail->email($email);
-					$this->set('email', $email); // used in test cases
-					$this->Session->setFlash(__('Message was send.'), 'flash/success');
-					$this->redirect('/');
-					return;
-				} catch (Exception $e) {
-					$Logger = new Saito\Logger\ExceptionLogger();
-					$Logger->write('Contact email failed', ['e' => $e]);
-
-					$this->Session->setFlash(
-						__('Message couldn\'t be send! ' . $e->getMessage()),
-						'flash/error'
-					);
-				} // end try
-			endif;
-		}
-
 		/**
 		 * @throws BadRequestException
 		 */
@@ -666,7 +554,7 @@
 			Stopwatch::start('Users->beforeFilter()');
 			parent::beforeFilter();
 
-			$this->Auth->allow('contact', 'login', 'register', 'rs');
+			$this->Auth->allow('login', 'register', 'rs');
 			$this->set('modLocking',
 					$this->CurrentUser->isMod() && Configure::read('Saito.Settings.block_user_ui')
 			);

@@ -1,7 +1,7 @@
 <?php
 	$_et = $this->EntryH->generateEntryTypeCss(
 			$level,
-			$this->EntryH->isNewEntry($entry_sub, $CurrentUser),
+      !$CurrentUser->ReadEntries->isRead($entry_sub['Entry']['id'], $entry_sub['Entry']['time']),
 			$entry_sub['Entry']['id'],
 			($this->request->params['action'] === 'view') ? $entry_sub['Entry']['id'] : null
 	);
