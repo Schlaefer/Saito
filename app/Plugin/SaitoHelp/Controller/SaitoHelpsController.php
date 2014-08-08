@@ -29,7 +29,7 @@
 				$this->redirect("/help/eng/$id");
 			}
 			if ($help) {
-				$this->set('text', $help['SaitoHelp']['text']);
+				$this->set('help', $help['SaitoHelp']);
 			} else {
 				$this->Session->setFlash(__('sh.nf'), 'flash/error');
 				$this->redirect('/');
