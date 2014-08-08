@@ -32,8 +32,7 @@
 								[
 										'div' => false,
 										'id' => 'search_fulltext_textfield',
-										'class' => 'search_textfield shp',
-										'data-shpid' => 1,
+										'class' => 'search_textfield',
 										'placeholder' => __('search_term'),
 										'value' => $q,
 										'error' => [
@@ -68,6 +67,8 @@
 						$sortLink(__('Rank'), 'rank');
 				echo __('Sort by: %s', $sortBy);
 			?>
+        &nbsp;
+      <?= $this->SaitoHelp->icon(1) ?>
 		</div>
 	</div>
 
