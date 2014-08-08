@@ -1,15 +1,9 @@
 # Einfache Suche #
 
-## Suchoperatoren
+Die einfache Suche erlaubt die Eingabe eines oder mehrerer Suchbegriffe. Exakte Phrasen können in Anführungszeichen gesetzt werden.
 
-Kein Operator impliziert `ODER`. `apple banana` findet Datensätze, die mindestens eines der beiden Wörter enthalten.
+Zu kurze Suchbegriffe (für gewöhnlich 4 Zeichen) können nicht gefunden werden und führen zu einem entsprechenden Hinweis.
 
-`+` bedeutet `UND`. `+apple +juice` findet Datensätze, die beide Wörter enthalten.
+# Erweiterte Suche #
 
-`+apple macintosh` findet Datensätze, die das Wort „apple“ enthalten, stuft aber solche Datensätze höher ein, die auch „macintosh“ enthalten.
-
-`-` bedeutet `NICHT`. `+apple -macintosh` findet Datensätze, die das Wort „apple“, aber nicht das Wort „macintosh“ enthalten.
-
-`apple*` findet Datensätze, die Wörter wie „apple“, „apples“, „applesauce“ oder „applet“ enthalten. Dieser Operator funktioniert *nicht* am Anfang eines Wortes!
-
-`"some words"` findet Datensätze, die die exakte Phrase „some words“ enthalten. Dies wäre etwa „some words of wisdom“, nicht aber „some noise words“.
+Die erweiterte Suche ist erheblich langsamer, erlaubt dafür eine feinere Suche und unterliegt keiner Wortlängenbeschränkung. Alle Texteingaben werden als Phrase gesucht.
