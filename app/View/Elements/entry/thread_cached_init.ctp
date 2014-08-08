@@ -27,6 +27,9 @@
     // the entry currently viewed (e.g. entries/view)
     SDV($entry, []);
     $rendered = $this->EntryH->threadCached($entry_sub, $CurrentUser, 0, $entry);
+    if (empty($rendered)) {
+      continue;
+    }
 
     /*
      * for performance reasons we don't use $this->Html->link() in the .threadBox but hardcoded <a>

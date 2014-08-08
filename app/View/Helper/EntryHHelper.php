@@ -242,6 +242,9 @@ EOF;
 	</div>
 </li>
 EOF;
+			} elseif ($level == 0) {
+				// ignore whole thread if thread starter is ignored
+				return '';
 			}
 
 			// generate sub-entries of current entry
