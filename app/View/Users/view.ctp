@@ -97,6 +97,32 @@
     ];
   }
 
+  // ignoredBy
+  if ($user['User']['ignoredBy'] > 0) {
+    $table[] = [
+      __('user_ignored_by'),
+      $user['User']['ignoredBy'] . $this->SaitoHelp->icon(7)
+    ];
+  }
+
+  // ignores
+  if (!empty($user['User']['ignores'])) {
+    $o = [];
+    foreach ($user['User']['ignores'] as $ignoredUser) {
+      $ui = $this->Html->link(
+        $this->Layout->textWithIcon('', 'eye-slash'),
+        ['action' => 'unignore', $ignoredUser['User']['id']],
+        ['escape' => false]
+      );
+      $l = $this->Layout->linkToUserProfile($ignoredUser['User'], $CurrentUser);
+      $o[] = "$ui &nbsp; $l";
+    }
+    $table[] = [
+      __('user_ignores'),
+      $this->Html->nestedList($o)
+    ];
+  }
+
   // profile
   if (!empty($user['User']['profile'])) {
     $table[] = [
@@ -142,9 +168,10 @@
     </div>
 
     <?php
+      $isLoggedIn = $CurrentUser->isLoggedIn();
       $isUsersEntry = $CurrentUser->getId() == $user['User']['id'];
       $isMod = $CurrentUser->isMod();
-      if ($isUsersEntry || $isMod):
+      if ($isLoggedIn || $isUsersEntry || $isMod):
         ?>
         <div class="panel-footer panel-form">
           <?php
@@ -156,6 +183,30 @@
                 ['id' => 'btn_user_edit',
                   'class' => 'btn btn-submit panel-footer-form-btn']
               );
+            }
+
+            if ($isLoggedIn && !$isUsersEntry) {
+              if ($CurrentUser->ignores($user['User']['id'])) {
+                echo $this->Html->link(
+                  $this->Layout->textWithIcon(h(__('unignore_this_user')), 'eye-slash'),
+                  ['action' => 'unignore', $user['User']['id']],
+                  [
+                    'class' => 'btn panel-footer-form-btn shp',
+                    'data-shpid' => 7,
+                    'escape' => false
+                  ]
+                );
+              } else {
+                echo $this->Html->link(
+                  $this->Layout->textWithIcon(h(__('ignore_this_user')), 'eye-slash'),
+                  ['action' => 'ignore', $user['User']['id']],
+                  [
+                    'class' => 'btn panel-footer-form-btn shp',
+                    'data-shpid' => 7,
+                    'escape' => false
+                  ]
+                );
+              }
             }
 
             if ($isMod) {

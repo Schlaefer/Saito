@@ -449,6 +449,19 @@ msgstr ""
 msgid "user_recentposts"
 msgstr "Recent Posts"
 
+msgid "user_ignores"
+msgstr "Ingored Users"
+
+msgid "user_ignored_by"
+msgstr "Ignored By"
+
+msgid "ignore_this_user"
+msgstr "Ignore"
+
+msgid "unignore_this_user"
+msgstr "Un-Ignore"
+
+
 #: View/Elements/layout/slidetab_userlist.ctp:17
 msgid "user_area_linkname"
 msgstr "User"

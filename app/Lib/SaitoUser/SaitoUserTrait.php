@@ -98,6 +98,19 @@
 			return self::$__accessions[$this->_getRole()] === 2;
 		}
 
+		/**
+		 * checks if current user ignores user with ID $userId
+		 *
+		 * @param int $userId
+		 * @return bool
+		 */
+		public function ignores($userId) {
+			if (!$this->isLoggedIn()) {
+				return false;
+			}
+			return isset($this->_settings['ignores'][$userId]);
+		}
+
 		public function isAdmin() {
 			return self::_isAdminForRole($this->_settings['user_type']);
 		}

@@ -190,42 +190,46 @@
 		 */
 		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = [], $lastAnswer = null) {
 			$id = (int)$entrySub['Entry']['id'];
+			$out = '';
 			if ($lastAnswer === null) {
 				$lastAnswer = $entrySub['Entry']['last_answer'];
 			}
 
-			$useLineCache = $level > 0;
-			if ($useLineCache) {
-				$_threadLineCached = $this->_LineCache->get($id);
-			}
-			if (empty($_threadLineCached)) {
-				$_threadLineCached = $this->threadLineCached($entrySub, $level);
+			if (!$CurrentUser->ignores($entrySub['Entry']['user_id'])) {
+				$useLineCache = $level > 0;
 				if ($useLineCache) {
-					$this->_LineCache->set($id, $_threadLineCached, strtotime($lastAnswer));
+					$_threadLineCached = $this->_LineCache->get($id);
 				}
-			}
+				if (empty($_threadLineCached)) {
+					$_threadLineCached = $this->threadLineCached($entrySub, $level);
+					if ($useLineCache) {
+						$this->_LineCache->set($id, $_threadLineCached,
+							strtotime($lastAnswer));
+					}
+				}
 
 //			Stopwatch::start('threadCached');
-			//setup for current entry
-			$isNew = !$CurrentUser->ReadEntries->isRead($entrySub['Entry']['id'], $entrySub['Entry']['time']);
-			$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
+				//setup for current entry
+				$isNew = !$CurrentUser->ReadEntries->isRead($entrySub['Entry']['id'],
+					$entrySub['Entry']['time']);
+				$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
 					$this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null;
-			$_spanPostType = $this->generateEntryTypeCss($level,
-				$isNew,
-				$entrySub['Entry']['id'],
-				$_currentlyViewed);
+				$_spanPostType = $this->generateEntryTypeCss($level,
+					$isNew,
+					$entrySub['Entry']['id'],
+					$_currentlyViewed);
 
-			//# simulate json_encode() for performance
-			$tid = (int)$entrySub['Entry']['tid'];
-			$isNew = $isNew ? 'true' : 'false';
-			$leafData = <<<EOF
+				//# simulate json_encode() for performance
+				$tid = (int)$entrySub['Entry']['tid'];
+				$isNew = $isNew ? 'true' : 'false';
+				$leafData = <<<EOF
 {"id":{$id},"new":{$isNew},"tid":{$tid}}
 EOF;
 
-			/*
-			 * - data-id still used to identify parent posting when inserting	an inline-answered entry
-			 */
-			$out = <<<EOF
+				/*
+				 * - data-id still used to identify parent posting when inserting	an inline-answered entry
+				 */
+				$out = <<<EOF
 <li class="threadLeaf {$_spanPostType}" data-id="{$id}" data-leaf='{$leafData}'>
 	<div class="threadLine">
 		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
@@ -238,6 +242,7 @@ EOF;
 	</div>
 </li>
 EOF;
+			}
 
 			// generate sub-entries of current entry
 			if (isset($entrySub['_children'])) {
@@ -315,6 +320,49 @@ EOF;
 {$category}
 <span class="threadLine-post"> {$time} {$badges} </span>
 EOF;
+			return $out;
+		}
+
+		public function mix(array $entry, ForumsUserInterface $CurrentUser, $level = 0) {
+			$out = '';
+			$id = (int)$entry['Entry']['id'];
+			$_et = $this->generateEntryTypeCss(
+				$level,
+				!$CurrentUser->ReadEntries->isRead($id, $entry['Entry']['time']),
+				$id,
+				null
+			);
+
+			if (!$CurrentUser->ignores($entry['Entry']['user_id'])) {
+				$element = $this->_View->element('/entry/view_posting',
+					[
+						'entry' => $entry,
+						'level' => $level,
+					]);
+
+				$out = <<<EOF
+<li id="{$id}" class="{$_et}">
+	<div class="mixEntry panel">
+		{$element}
+	</div>
+</li>
+EOF;
+			}
+
+			if (isset($entry['_children'])) {
+				$sub = '';
+				foreach ($entry['_children'] as $child) {
+					$subLevel = $level + 1;
+					$sub .= $this->mix($child, $CurrentUser, $subLevel);
+				}
+				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
+			}
+
+			// wrap into root ul tag
+			if ($level === 0) {
+				$out = $this->_wrapUl($out, $level, $id);
+			}
+
 			return $out;
 		}
 

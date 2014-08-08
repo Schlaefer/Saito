@@ -23,10 +23,8 @@
 					]
 			);
 		?>
-		<div style="margin-left: 25px;">
-			<?=
-				$this->element('entry/mix',
-						['entry_sub' => $entries[0], 'level' => 0]); ?>
-		</div>
+    <div style="margin-left: 25px;">
+      <?= $this->EntryH->mix($entries[0], $CurrentUser, 0) ?>
+    </div>
 	</div>
 <?php Stopwatch::stop('entries/mix'); ?>

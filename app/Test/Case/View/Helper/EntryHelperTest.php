@@ -38,7 +38,8 @@
 							'last_answer' => 0,
 							'fixed' => false,
 							'nsfw' => false,
-							'solves' => ''
+							'solves' => '',
+							'user_id' => 1
 					],
 					'Category' => [
 							'accession' => 0,

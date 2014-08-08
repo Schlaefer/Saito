@@ -1,5 +1,16 @@
 <?php
 
+	/*
+	fixes early output in PHPUnit 3.7:
+
+		$this->printer->write(
+			PHPUnit_Runner_Version::getVersionString() . "\n\n"
+		);
+
+	that prevents session setting in HTML test-run
+	*/
+	ob_start();
+
 	// load fixture
 	App::uses('UserFixture', 'Fixture');
 	App::uses('SaitoControllerTestCase', 'Lib');
@@ -17,22 +28,6 @@
 		 * @var array cache environment variables
 		 */
 		protected $_env = [];
-
-/**
- * Preserves $GLOBALS vars through PHPUnit test runs
- *
- * @see http://www.phpunit.de/manual/3.6/en/fixtures.html#fixtures.global-state
- * @var array
- */
-		// @codingStandardsIgnoreStart
-		protected $backupGlobalsBlacklist = array(
-			/*
-			 * $GLOBALS['__STRINGPARSER_NODE_ID' is set in stringparser.class.php
-			 * and must not cleared out
-			 */
-			'__STRINGPARSER_NODE_ID'
-		);
-		// @codingStandardsIgnoreEnd
 
 		protected function _setJson() {
 			$_SERVER['HTTP_ACCEPT'] = 'application/json, text/javascript';
