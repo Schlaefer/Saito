@@ -45,7 +45,7 @@ It should be deployable and scale admirably on modest shared hosting accounts.
 - anti-spam measures
 - flattr
 - SEO
-	- structured data (schema.org)
+	- structured data ([schema.org](http://schema.org/))
 	- sitemap
 - RSS-feed
 
