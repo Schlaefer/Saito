@@ -1,8 +1,7 @@
 <div class="user contact">
   <div class="panel">
-    <?=
-      $this->Layout->panelHeading(__('user_contact_title',
-        $this->request->data['User']['username']), ['pageHeading' => true]) ?>
+    <?= $this->Layout->panelHeading($this->get('title_for_page'),
+      ['pageHeading' => true]) ?>
     <div class="panel-content panel-form">
       <?php
         echo $this->Form->create(false);

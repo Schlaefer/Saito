@@ -16,6 +16,9 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
+msgid "contacts/owner"
+msgstr "Contact Owner"
+
 #
 msgid "entries/index"
 msgstr "Forum"
@@ -30,10 +33,6 @@ msgstr "Search"
 
 msgid "users/index"
 msgstr "User Index"
-
-#
-msgid "users/contact"
-msgstr "Contact"
 
 #
 msgid "users/login"
