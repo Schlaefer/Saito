@@ -30,7 +30,9 @@ It should be deployable and scale admirably on modest shared hosting accounts.
 	- embed.ly support
 	- code highlighting
 	- image upload
-- mark entries read across devices
+- mark entries read
+	- server side managed for registered members
+	- client side (cookie based) for non-logged-in visitors
 - API
 - mobile web-app
 - email notifications on replies
