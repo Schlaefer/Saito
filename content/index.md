@@ -32,7 +32,7 @@ It should be deployable and scale admirably on modest shared hosting accounts.
 	- image upload
 - mark entries read
 	- server side managed for registered members
-	- client side (cookie based) for non-logged-in visitors
+	- client side (cookie based) for unregistred visitors
 - API
 - mobile web-app
 - email notifications on replies
