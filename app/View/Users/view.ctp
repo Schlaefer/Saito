@@ -98,11 +98,13 @@
   }
 
   // ignoredBy
+  $ignoreHelp = $this->SaitoHelp->icon(7);
   if ($user['User']['ignoredBy'] > 0) {
     $table[] = [
       __('user_ignored_by'),
-      $user['User']['ignoredBy'] . $this->SaitoHelp->icon(7)
+      $user['User']['ignoredBy'] . $ignoreHelp
     ];
+    $ignoreHelp = '';
   }
 
   // ignores
@@ -119,7 +121,7 @@
     }
     $table[] = [
       __('user_ignores'),
-      $this->Html->nestedList($o)
+      $this->Html->nestedList($o) . $ignoreHelp
     ];
   }
 
