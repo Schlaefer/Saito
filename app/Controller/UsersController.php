@@ -312,7 +312,6 @@
 			if ($this->CurrentUser->getId() == $id) {
 				$viewedUser['User']['ignores'] = $this->User->Ignore->ignoredBy($id);
 			}
-			$viewedUser['User']['ignoredBy'] = $this->User->Ignore->countIgnored($id);
 			$viewedUser['User']['solves_count'] = $this->User->countSolved($id);
 			$this->set('user', $viewedUser);
 			$this->set(
