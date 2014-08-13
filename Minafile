@@ -60,11 +60,20 @@ task :deploy => :environment do
     # invoke :'rails:db_migrate'
     # invoke :'rails:assets_precompile'
 
+    invoke :'composer'
+    invoke :'deploy:cleanup'
+
     # to :launch do
       # queue "touch #{deploy_to}/tmp/restart.txt"
     # end
   end
 end
+
+desc "Installs composer packages"
+task :composer do
+  queue 'composer install dumpautoload -o'
+end
+
 
 # For help in making your deploy script, see the Mina documentation:
 #

@@ -1,3 +1,7 @@
+# saito homepage
+vendor
+plugins/rssFeed
+
 # Composer
 composer.lock
 composer.phar
