@@ -1,6 +1,7 @@
 # saito homepage
 vendor
 plugins/phile/rssFeed
+plugins/phile/inlineImage
 
 # Composer
 composer.lock
