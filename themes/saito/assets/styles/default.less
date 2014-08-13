@@ -160,6 +160,10 @@ small {
   font-size:11px;
 }
 
+.meta {
+  font-size: 0.9em;
+}
+
 .icon-schmuck {
   position: absolute;
   font-size: 174px;
@@ -302,6 +306,21 @@ nav {
   right: 0;
   top: 0;
   z-index: 100;
+}
+
+.img {
+  margin: 1em 0;
+}
+
+@media (max-width: 767px) {
+  .img img {
+    max-width: 100%;
+  }
+}
+
+.img img {
+  border: 1px solid @border-color;
+  box-shadow: 0 1px 3px rgba(25, 25, 25, 0.2);
 }
 
 /*********************************************************
