@@ -27,7 +27,7 @@
 		'phile\\phpFastCache'              => array('active' => PRODUCTION), // the default cache engine
 		'phile\\simpleFileDataPersistence' => array('active' => PRODUCTION), // the default data storage engine
 		'phile\\rssFeed' 									 => array('active' => true),
-		'siezi\\img' => ['active' => true]
+		'phile\\inlineImage'							 => array('active' => true),
 	);
 
 return $config;

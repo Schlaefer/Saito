@@ -308,17 +308,19 @@ nav {
   z-index: 100;
 }
 
-.img {
-  margin: 1em 0;
-}
-
 @media (max-width: 767px) {
-  .img img {
+  .content-image img {
     max-width: 100%;
   }
 }
 
-.img img {
+.content-image {
+  text-align: center
+}
+
+.content-image img {
+  margin: 0 -100% 0 -100%;
+
   border: 1px solid @border-color;
   box-shadow: 0 1px 3px rgba(25, 25, 25, 0.2);
 }

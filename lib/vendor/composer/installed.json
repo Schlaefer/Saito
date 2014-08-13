@@ -162,48 +162,6 @@
         ]
     },
     {
-        "name": "phile/render",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PhileCMS/phileRender.git",
-            "reference": "4fb657295b03dca2eb98b8751016142137c949c6"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PhileCMS/phileRender/zipball/4fb657295b03dca2eb98b8751016142137c949c6",
-            "reference": "4fb657295b03dca2eb98b8751016142137c949c6",
-            "shasum": ""
-        },
-        "require": {
-            "phile-cms/phile": ">=1",
-            "phile-cms/plugin-installer-plugin": ">=1"
-        },
-        "time": "2014-06-19 13:28:27",
-        "type": "phile-plugin",
-        "installation-source": "source",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "James Doyle",
-                "email": "james2doyle@gmail.com",
-                "homepage": "http://ohdoylerules.com/",
-                "role": "Developer"
-            }
-        ],
-        "description": "Render the content of a page by passing it's URL.",
-        "homepage": "http://philecms.com",
-        "keywords": [
-            "cms",
-            "content",
-            "phile"
-        ]
-    },
-    {
         "name": "phile/rss-feed",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -238,6 +196,48 @@
             }
         ],
         "description": "Generate RSS feeds based on the posts in your Phile site.",
+        "homepage": "http://philecms.com",
+        "keywords": [
+            "cms",
+            "content",
+            "phile"
+        ]
+    },
+    {
+        "name": "phile/inline-image",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PhileCMS/phileInlineImage.git",
+            "reference": "9c2359b8895fa1190b37a2334185c7f656d05039"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PhileCMS/phileInlineImage/zipball/9c2359b8895fa1190b37a2334185c7f656d05039",
+            "reference": "9c2359b8895fa1190b37a2334185c7f656d05039",
+            "shasum": ""
+        },
+        "require": {
+            "phile-cms/phile": ">=1",
+            "phile-cms/plugin-installer-plugin": ">=1"
+        },
+        "time": "2014-06-19 13:28:44",
+        "type": "phile-plugin",
+        "installation-source": "source",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "James Doyle",
+                "email": "james2doyle@gmail.com",
+                "homepage": "http://ohdoylerules.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "A plugin take an image name and generate a wrapped image tag.",
         "homepage": "http://philecms.com",
         "keywords": [
             "cms",
