@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="boxes-info">
-                        {% include 'elements/status.tpl' %}
+                        {% include 'elements/status.twig' %}
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -35,23 +35,6 @@
         </nav>
         <div class="content">
             <div class="col-sm-offset-3 col-sm-6">
-
-                {% for page in pages %}
-                    {% if page.meta.date is not empty and done is not defined %}
-                        <h1>Latest News</h1>
-                        <p>
-                            <h2>
-                                {{ page.title }}
-                            </h2>
-                            <p>
-                                {{ page.content|striptags|slice(0, 100) }}…
-                                <a href="{{ page.url }}"> read more </a>
-                            </p>
-                        </p>
-                        {% set done = 1 %}
-                    {% endif %}
-                {% endfor %}
-
                 {{content}}
             </div>
         </div>

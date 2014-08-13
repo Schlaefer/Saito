@@ -71,7 +71,7 @@ end
 
 desc "Installs composer packages"
 task :composer do
-  queue 'composer install dumpautoload -o'
+  queue 'composer install -o'
 end
 
 
