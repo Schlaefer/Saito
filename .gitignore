@@ -1,6 +1,6 @@
 # saito homepage
 vendor
-plugins/rssFeed
+plugins/phile/rssFeed
 
 # Composer
 composer.lock
