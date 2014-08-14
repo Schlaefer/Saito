@@ -2,6 +2,7 @@
 vendor
 plugins/phile/rssFeed
 plugins/phile/inlineImage
+plugins/siezi
 
 # Composer
 composer.lock

@@ -28,6 +28,7 @@
 		'phile\\simpleFileDataPersistence' => array('active' => PRODUCTION), // the default data storage engine
 		'phile\\rssFeed' 									 => array('active' => true),
 		'phile\\inlineImage'							 => array('active' => true),
+		'siezi\\phileMarkdownEditor'			 => array('active' => true),
 	);
 
 return $config;
