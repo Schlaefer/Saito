@@ -310,7 +310,7 @@ EOF;
 			}
 
 			// normal time output
-			$time = $this->TimeH->formatTime($timestamp);
+			$time = $this->TimeH->formatTime($timestamp, 'normal', ['wrap' => false]);
 
 			$subject = $this->getSubject($entrySub);
 			$badges = $this->getBadges($entrySub);
