@@ -67,6 +67,10 @@
 				throw new InvalidArgumentException();
 			}
 
+			$this->set('title_for_page',
+				__('user_contact_title', $recipient['User']['username'])
+			);
+
 			//* show form
 			if (empty($this->request->data)) {
 				$this->request->data = $recipient;

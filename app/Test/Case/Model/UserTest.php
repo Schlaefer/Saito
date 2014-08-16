@@ -13,20 +13,21 @@
 
 	class UserTestCase extends CakeTestCase {
 
-		public $fixtures = array(
-				'app.bookmark',
-				'app.user',
-				'app.user_online',
-				'app.user_read',
-				'app.entry',
-				'app.category',
-				'app.smiley',
-				'app.smiley_code',
-				'app.setting',
-				'app.upload',
-				'app.esnotification',
-				'app.esevent',
-		);
+		public $fixtures = [
+			'app.bookmark',
+			'app.category',
+			'app.entry',
+			'app.esnotification',
+			'app.esevent',
+			'app.setting',
+			'app.smiley',
+			'app.smiley_code',
+			'app.upload',
+			'app.user',
+			'app.user_ignore',
+			'app.user_online',
+			'app.user_read',
+		];
 
 		public function testEmptyUserCategoryCustom() {
 			$this->User->contain();
@@ -219,13 +220,21 @@
 
 		public function testDeleteUser() {
 			// test that user's notifications are deleted
-			$this->User->Esnotification = $this->getMock('Esnotification',
+			$this->User->Esnotification = $this->getMockForModel('Esnotification',
 				array('deleteAllFromUser'),
 				array(false, 'esnotifications', 'test'));
 			$this->User->Esnotification->expects($this->once())
 					->method('deleteAllFromUser')
 					->with(3)
 					->will($this->returnValue(true));
+
+			$this->User->Ignore = $this->getMockForModel('UserIgnore',
+				['deleteUser'],
+				[false, 'user_ignore', 'test']);
+			$this->User->Ignore->expects($this->once())
+				->method('deleteUser')
+				->with(3)
+				->will($this->returnValue(true));
 
 			//
 			$result = $this->User->findById(3);

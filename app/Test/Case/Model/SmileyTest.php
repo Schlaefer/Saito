@@ -1,7 +1,7 @@
 <?php
 
 	App::uses('Smiley', 'Model');
-	App::uses('CacheSupport', 'Lib');
+	App::uses('CacheSupport', 'Lib/Cache');
 
 	class SmileyTest extends CakeTestCase {
 

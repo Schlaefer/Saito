@@ -14,14 +14,13 @@
 			// application caches
 			'CakeCacheSupportCachelet',
 			'SaitoCacheSupportCachelet',
-			'ThreadCacheSupportCachelet'
 		];
 
 		public function __construct() {
 			foreach ($this->_buildInCaches as $_name) {
 				$this->add(new $_name);
 			}
-			CakeEventManager::instance()->attach($this);
+			CakeEventManager::instance()->instance($this);
 		}
 
 		public function implementedEvents() {
@@ -85,61 +84,6 @@
 
 		public function getId() {
 			return str_replace('CacheSupportCachelet', '', get_class($this));
-		}
-
-	}
-
-	App::uses('CacheTree', 'Lib/CacheTree');
-
-	class ThreadCacheSupportCachelet extends CacheSupportCachelet implements
-		CakeEventListener {
-
-		protected $_title = 'Thread';
-
-		protected $_CacheTree;
-
-		public function __construct() {
-			$this->_CacheTree = CacheTree::getInstance();
-			CakeEventManager::instance()->attach($this);
-		}
-
-		public function implementedEvents() {
-			return [
-				'Model.Thread.create' => 'onThreadChanged',
-				'Model.Thread.change' => 'onThreadChanged',
-				'Model.Entry.replyToEntry' => 'onEntryChanged',
-				'Model.Entry.update' => 'onEntryChanged'
-			];
-		}
-
-		public function onThreadsReset($event) {
-			$this->clear();
-		}
-
-		public function onThreadChanged($event) {
-			$this->clear($event->data['subject']);
-		}
-
-/**
- * @param $event
- * @throws InvalidArgumentException
- */
-		public function onEntryChanged($event) {
-			$_modelAlias = $event->subject()->alias;
-			if (!isset($event->data['data'][$_modelAlias]['tid'])) {
-				throw new InvalidArgumentException('No thread-id in event data.');
-			}
-			$_threadId = $event->data['data'][$_modelAlias]['tid'];
-			$this->clear($_threadId);
-		}
-
-		public function clear($id = null) {
-			Cache::clear(false, 'entries');
-			if ($id === null) {
-				$this->_CacheTree->reset();
-			} else {
-				$this->_CacheTree->delete($id);
-			}
 		}
 
 	}

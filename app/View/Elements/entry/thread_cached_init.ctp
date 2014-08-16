@@ -24,22 +24,11 @@
   }
 
   foreach ($entries_sub as $entry_sub) :
-    $rendered = null;
-    if ($CacheTree->isCacheValid($entry_sub['Entry'])) {
-      $rendered = $CacheTree->read($entry_sub['Entry']['id']);
-    }
-
-    if ($rendered === null) {
-      // the entry currently viewed (e.g. entries/view)
-      SDV($entry, []);
-      $rendered = $this->EntryH->threadCached($entry_sub, $CurrentUser, 0,
-        $entry);
-
-      $onFirstPages = !isset($this->request->named['page']) ||
-        (int)$this->request->named['page'] < 3;
-      if ($onFirstPages && $CacheTree->isCacheUpdatable($entry_sub['Entry'])) {
-        $CacheTree->update($entry_sub['Entry']['id'], $rendered);
-      }
+    // the entry currently viewed (e.g. entries/view)
+    SDV($entry, []);
+    $rendered = $this->EntryH->threadCached($entry_sub, $CurrentUser, 0, $entry);
+    if (empty($rendered)) {
+      continue;
     }
 
     /*

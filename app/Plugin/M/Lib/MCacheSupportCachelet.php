@@ -1,6 +1,6 @@
 <?php
 
-	App::import('Lib', 'CacheSupport');
+	App::import('Lib/Cache', 'CacheSupport');
 
 	class MCacheSupportCachelet extends CacheSupportCachelet {
 

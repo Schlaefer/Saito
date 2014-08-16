@@ -12,7 +12,7 @@
 		public function icon($id, array $options = []) {
 			return $this->Html->link('<i class="fa fa-question-circle"></i>',
 					"/help/$id",
-					['escape' => false] + $options);
+					['class' => 'shp-icon', 'escape' => false] + $options);
 		}
 
 		public function parse($text, $CurrentUser) {

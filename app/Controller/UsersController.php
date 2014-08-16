@@ -190,6 +190,31 @@
 			$this->set('users', $data);
 		}
 
+		public function ignore($blockedId) {
+			$this->_ignore($blockedId, true);
+		}
+
+		public function unignore($blockedId) {
+			$this->_ignore($blockedId, false);
+		}
+
+		protected function _ignore($blockedId, $set) {
+			if (!$this->CurrentUser->isLoggedIn() || !is_numeric($blockedId)) {
+				throw new BadRequestException();
+			}
+			$userId = $this->CurrentUser->getId();
+			$this->User->id = $userId;
+			if (!$this->User->exists($userId) || $userId == $blockedId) {
+				throw new BadRequestException();
+			}
+			if ($set) {
+				$this->User->Ignore->ignore($userId, $blockedId);
+			} else {
+				$this->User->Ignore->unignore($userId, $blockedId);
+			}
+			$this->redirect($this->referer());
+		}
+
 		public function admin_add() {
 			if (!empty($this->request->data)) :
 				$this->request->data = $this->_passwordAuthSwitch($this->request->data);
@@ -284,7 +309,10 @@
 					($viewedUser['User']['number_of_entries'] - $entriesShownOnPage) > 0
 			);
 
-			$viewedUser['User']['solves_count'] = $this->User->countSolved($this->User->id);
+			if ($this->CurrentUser->getId() == $id) {
+				$viewedUser['User']['ignores'] = $this->User->Ignore->ignoredBy($id);
+			}
+			$viewedUser['User']['solves_count'] = $this->User->countSolved($id);
 			$this->set('user', $viewedUser);
 			$this->set(
 					'title_for_layout',

@@ -158,6 +158,8 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 .shp-show-btn { display: none; }
 .shp-show-btn.is-active { display: inline-block; }
 
+.shp-icon { margin: 0.5em; }
+
 .category-chooser-ul { margin-bottom: 1em; }
 
 .category-chooser-li { margin: 0.5em; }

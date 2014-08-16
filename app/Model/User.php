@@ -54,7 +54,11 @@
 			'Upload' => array(
 				'className' => 'Upload',
 				'foreignKey' => 'user_id'
-			)
+			),
+			'Ignore' => [
+				'className' => 'UserIgnore',
+				'foreignKey' => 'user_id'
+			]
 		);
 
 		public $validate = [
@@ -225,6 +229,7 @@
 			$success = $success && $this->Upload->deleteAllFromUser($id);
 			$success = $success && $this->Esnotification->deleteAllFromUser($id);
 			$success = $success && $this->Entry->anonymizeEntriesFromUser($id);
+			$success = $success && $this->Ignore->deleteUser($id);
 			$success = $success && $this->UserOnline->deleteAll(
 						['user_id' => $id],
 						false
@@ -453,12 +458,16 @@
  * @return bool|array false if not found, array otherwise
  */
 		public function getProfile($id) {
+			// @perf Ignore is currently retrieved via second query, consider moving
+			// it as cache into user-table
 			$user = $this->find(
 				'first',
-				['contain' => false, 'conditions' => ['id' => $id]]
+				['contain' => ['Ignore'], 'conditions' => ['id' => $id]]
 			);
 			if ($user) {
-				$user = $user[$this->alias];
+				$user = $user[$this->alias] + [
+						'ignores' => array_fill_keys(Hash::extract($user, 'Ignore.{n}.blocked_user_id'), 1)
+					];
 			}
 			return $user;
 		}
