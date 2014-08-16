@@ -99,10 +99,10 @@
 
   // ignoredBy
   $ignoreHelp = $this->SaitoHelp->icon(7);
-  if ($user['User']['ignoredBy'] > 0) {
+  if ($user['User']['ignore_count'] > 0) {
     $table[] = [
       __('user_ignored_by'),
-      $user['User']['ignoredBy'] . $ignoreHelp
+      $user['User']['ignore_count'] . $ignoreHelp
     ];
     $ignoreHelp = '';
   }

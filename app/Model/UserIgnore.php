@@ -17,6 +17,7 @@
 		public $belongsTo = [
 			'User' => [
 				'className' => 'User',
+				'counterCache' => true,
 				'fields' => ['id', 'username'],
 				'foreignKey' => 'blocked_user_id',
 				'order' => ['User.username' => 'asc']
