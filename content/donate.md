@@ -39,6 +39,7 @@ Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](
 
 <a href="bitcoin:15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR?label=Saito%20Donation">15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR</a>
 
+I'm not able to see who donates, so please send a quick email so I know whom to thank.
 
 # Thanks
 
@@ -62,7 +63,7 @@ And a shout-out to all the donors!
 
 <div class="text-muted">
 <small >
-	Someone's missing? Want your name linked? Please let us know! – Last updated 2014-08-06.
+	Someone's missing? Want your name linked? Please send a mail! – Last updated 2014-08-06.
 </small>
 </div>
 
