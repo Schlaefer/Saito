@@ -7,11 +7,12 @@
         <div class="row">
             <div class="col-sm-offset-3 col-sm-6">
 
+
                 {% if meta.role == "blogHomepage" %} <!-- Front page lists all blog posts -->
                     <h1>Latest News</h1>
 
                     <div id="posts">
-                        {% for page in pages %}
+                        {% for page in pages|reverse %}
                         {% if page.meta.date %} <!-- Note we check for Date field (posts) here -->
                         <div class="post">
                             <h2 style="display: inline">
@@ -28,17 +29,17 @@
 
                     {% for page in pages %}
                         {% if current_page.title == page.title %}
-                            {% if pages[loop.index0 + 1] is defined and pages[loop.index0 + 1].meta.date %}
+                            {% if page.previousPage is defined and page.previousPage.folder == "whats-new" and page.previousPage.meta.date %}
                                 {% set divider = 1 %}
-                                <a href="{{ pages[loop.index0 + 1].url }}" style="position: absolute;">
+                                <a href="{{ page.previousPage.url }}" style="position: absolute;">
                                     << Previous
                                 </a>
                             {% endif %}
 
-                            {% if pages[loop.index0 - 1] is defined and pages[loop.index0 - 1].meta.date %}
+                            {% if page.nextPage is defined and page.nextPage.folder == "whats-new" and page.nextPage.meta.date %}
                                 {% if divider %}
                                 {% endif %}
-                                <a href="{{ pages[loop.index0 - 1].url }}" style="position: absolute; right: 0;">
+                                <a href="{{ page.nextPage.url }}" style="position: absolute; right: 0;">
                                     Next >>
                                 </a>
                             {% endif %}

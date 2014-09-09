@@ -1,11 +1,21 @@
 PhileCMS
 ========
 
-A file-based CMS with a swappable parser, template engine, cache and storage services, error handler, and meta parser.
+A Markdown file-based CMS.
 
-[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documentation](https://github.com/PhileCMS/Phile/wiki/_pages).
+[Check out the starter video](http://www.youtube.com/watch?v=8GLMe371RuI), or [read the wiki for in-depth documenation](https://github.com/PhileCMS/Phile/wiki/_pages).
+
+## Build status
+
+[![Build Status](https://travis-ci.org/PhileCMS/Phile.svg?branch=master)](https://travis-ci.org/PhileCMS/Phile)
+
+## Gitter Developer & Support-System
+
+[![Gitter chat](https://badges.gitter.im/PhileCMS/Phile.png)](https://gitter.im/PhileCMS/Phile)
 
 ## Why use PhileCMS?
+
+The desire to fork the project from Pico, came when a few community members wanted to contribute more and increase the rate of development progress.
 
 Here is a small list of differences in design from typical flat-file CMSs:
 
@@ -27,21 +37,21 @@ Here is a small list of differences in design from typical flat-file CMSs:
 
 ##### Requirements
 
-* PHP `>=5.3`
+* PHP `>=5.4.0`
 * Apache with `mod_rewrite` enabled
 * [Composer](https://getcomposer.org/) (unless you use `git` and `zip` files for everything)
 
 [Install via composer](https://github.com/PhileCMS/Phile/wiki/%5BHOW-TO%5D-Installation#installation---method-two-the-nerd-way) or clone (download) this repo and extract into your server web root.
 
-Open the root of PhileCMS on you web server. If you are using MAMP, that would be [http://localhost:8888/Phile](http://localhost:8888/Phile). Using WAMP, [http://localhost/Phile](http://localhost/Phile). If you are using something else, you probably know how to run a typical PHP site.
+Open the root of PhileCMS on you web server. If you are using the default MAMP install, that would be [http://localhost:8888/Phile](http://localhost:8888/Phile). Using WAMP, [http://localhost/Phile](http://localhost/Phile). If you are using something else, you probably know how to run a typical PHP site.
 
-On first run you will hit a setup page. **Follow the instructions to complete the installation**.
+On first run you will hit a setup page. **Follow the instructions on the [setup page](https://github.com/PhileCMS/Phile/blob/master/content/setup.md) to complete the installation**.
 
 ## Plugins
 
 Phile can be extended with a wide variety of plugins. You can also overwrite the default plugins in order to add extra functionality, speed, or features.
 
-Once a plugin is installed, you then need to enable it. Check out the [default_config.php](https://github.com/PhileCMS/Phile/blob/release/1.0.0/default_config.php#L19) for some examples.
+Help make Phile better by checking out the GitHub repoistory and submitting pull requests.
 
 ##### With composer
 
@@ -65,7 +75,7 @@ You can clone or download the plugin into the `plugins/{namespace}/{pluginClassN
 
 ## Getting Help
 
-If you are looking for some general help, please check out the [Google Plus Community](https://plus.google.com/u/0/communities/105363272048954062353 "PhileCMS Community"). 
+You can [read the wiki](https://github.com/PhileCMS/Phile/wiki) if you are looking for examples and [read the intro-docs](http://philecms.com/docs.html) for more development information. If you are looking for some general help and have some questions, please post in the [Google Plus Community](https://plus.google.com/u/0/communities/105363272048954062353 "PhileCMS Community").
 
 If you *find a bug* please report it on the [issues page](https://github.com/PhileCMS/Phile/issues), but remember to include a bunch of details and also what someone can do to re-create the issue.
 
@@ -79,5 +89,5 @@ If you create a plugin please add it to the [Plugin Wiki](https://github.com/Phi
 
 ### The Authors of PhileCMS
 
-* [James Doyle](https://github.com/james2doyle) - great ideas, code a lot of plugins and worked on the core
+* [James Doyle](https://github.com/james2doyle) - great ideas, developed many plugins and worked on the core
 * [Frank Nägler](https://github.com/NeoBlack) - refactoring of the core and introducing OOP concepts

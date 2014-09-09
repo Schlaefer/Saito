@@ -1,14 +1,19 @@
 <?php
 
-	define('PRODUCTION', true);
+	define('PRODUCTION', false);
+
+	if (!PRODUCTION) {
+		error_reporting(E_ALL);
+	} else {
+		error_reporting(E_ERROR);
+	}
 
 // use this config file to overwrite the defaults from default_config.php
 // or to make local config changes.
 	$config = array();
 	$config['debug']       = !PRODUCTION;
 	$config['base_url']       = \Phile\Utility::getBaseUrl(); // use the Utility class to guess the base_url
-	$config['pages_order_by'] = 'meta:date'; // Order pages by "title" (alpha) or "date"
-	$config['pages_order']    = 'desc'; // Order pages "asc" or "desc"
+	$config['pages_order'] 	= 'page.folder:desc meta.date:asc meta.title:desc';
 	$config['date_format']    = 'jS M Y'; // Set the PHP date format
 	$config['encryptionKey'] = 'IdUFTSOnWZMnH2kddF[1wzKbDL1V[{m6MjedfTu4BqNdwTwz!SHSN8SOCcA9FP9v';
   $config['site_title'] = 'Saito - The Threaded Web Forum';

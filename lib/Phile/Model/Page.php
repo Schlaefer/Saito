@@ -192,27 +192,18 @@ class Page {
 		return $this->filePath;
 	}
 
+	public function getFolder() {
+		return basename(dirname($this->getFilePath()));
+	}
+
 	/**
 	 * get the previous page if one exist
 	 *
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getPreviousPage() {
-		if ($this->previousPage === null) {
-			$pageRepository = new \Phile\Repository\Page();
-			$allPages = $pageRepository->findAll();
-
-			foreach ($allPages as $page) {
-				/** @var \Phile\Model\Page $page */
-				if ($page->getFilePath() === $this->getFilePath()) {
-					return $this->previousPage;
-				}
-				$this->previousPage = $page;
-			}
-			// no previous page found...
-			$this->previousPage = null;
-		}
-		return $this->previousPage;
+		$pageRepository = new \Phile\Repository\Page();
+		return $pageRepository->getPageOffset($this, -1);
 	}
 
 	/**
@@ -221,22 +212,7 @@ class Page {
 	 * @return null|\Phile\Model\Page
 	 */
 	public function getNextPage() {
-		if ($this->nextPage === null) {
-			$pageRepository = new \Phile\Repository\Page();
-			$allPages = $pageRepository->findAll();
-			$currentPageFound = false;
-
-			foreach ($allPages as $page) {
-				/** @var \Phile\Model\Page $page */
-				if ($currentPageFound) {
-					$this->nextPage = $page;
-					return $this->nextPage;
-				}
-				if ($page->getFilePath() === $this->getFilePath()) {
-					$currentPageFound = true;
-				}
-			}
-		}
-		return $this->nextPage;
+		$pageRepository = new \Phile\Repository\Page();
+		return $pageRepository->getPageOffset($this, 1);
 	}
 }

@@ -18,8 +18,10 @@ use Phile\Utility;
  * @package Phile\Repository
  */
 class Page {
-	const ORDER_ASC  = 'asc';
-	const ORDER_DESC = 'desc';
+	/**
+	 * @var array the settings array
+	 */
+	protected $settings;
 
 	/**
 	 * @var array object storage for initialized objects, to prevent multiple loading of objects.
@@ -34,7 +36,11 @@ class Page {
 	/**
 	 * the constructor
 	 */
-	public function __construct() {
+	public function __construct($settings = null) {
+		if ($settings === null) {
+			$settings = \Phile\Registry::get('Phile_Settings');
+		}
+		$this->settings = $settings;
 		if (ServiceLocator::hasService('Phile_Cache')) {
 			$this->cache = ServiceLocator::getService('Phile_Cache');
 		}
@@ -50,21 +56,16 @@ class Page {
 	 */
 	public function findByPath($path, $folder = CONTENT_DIR) {
 		$path = str_replace(Utility::getInstallPath(), '', $path);
-		$file = null;
-		if (file_exists($folder . $path . CONTENT_EXT)) {
-			$file = $folder . $path . CONTENT_EXT;
-		}
-		if ($file == null) {
-			if (file_exists($folder . $path . '/index' . CONTENT_EXT)) {
-				$file = $folder . $path . '/index' . CONTENT_EXT;
-			}
+		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
+
+		$file = $fullPath . CONTENT_EXT;
+
+		// append '/index' to full path if file not found
+		if (!file_exists($file)) {
+			$file = $fullPath . '/index' . CONTENT_EXT;
 		}
 
-		if ($file !== null) {
-			return $this->getPage($file, $folder);
-		}
-
-		return null;
+		return (file_exists($file)) ? $this->getPage($file, $folder) : null;
 	}
 
 	/**
@@ -76,8 +77,10 @@ class Page {
 	 * @return array of \Phile\Model\Page objects
 	 * @throws \Phile\Exception
 	 */
-	public function findAll(array $options = null, $folder = CONTENT_DIR) {
-		$files = Utility::getFiles($folder, '/^.*\\' . CONTENT_EXT . '/');
+	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
+		$options += $this->settings;
+		// ignore files with a leading '.' in its filename
+		$files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
 		$pages = array();
 		foreach ($files as $file) {
 			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
@@ -87,68 +90,68 @@ class Page {
 			$pages[] = $this->getPage($file, $folder);
 		}
 
-		if ($options !== null && isset($options['pages_order_by'])) {
-			switch (strtolower($options['pages_order_by'])) {
-				case 'alpha':
-				case 'title':
-					if (strtolower($options['pages_order_by']) == 'alpha') {
-						error_log('the key alpha for sorting is deprecated, use title instead');
-					}
-					if (!isset($options['pages_order'])) {
-						$options['pages_order'] = self::ORDER_ASC;
-					}
-					if ($options['pages_order'] == self::ORDER_ASC) {
-						usort($pages, array($this, "compareByTitleAsc"));
-					}
-					if ($options['pages_order'] == self::ORDER_DESC) {
-						usort($pages, array($this, "compareByTitleDesc"));
-					}
-					break;
-				case 'date':
-				default:
-					if (strtolower($options['pages_order_by']) == 'date') {
-						error_log('the key date for sorting is deprecated use meta:date or any other meta tag');
-						$options['pages_order_by'] = 'meta:date';
-					}
-					if (strpos(strtolower($options['pages_order_by']), 'meta:') !== false) {
-						$metaKey      = str_replace('meta:', '', strtolower($options['pages_order_by']));
-						$sorted_pages = array();
-						foreach ($pages as $page) {
-							/** @var \Phile\Model\Page $page */
-							if ($page->getMeta()->get($metaKey) !== null) {
-								$key = '_' . $page->getMeta()->get($metaKey);
-								if (array_key_exists($key, $sorted_pages)) {
-									$counter = 1;
-									$tmp     = $key;
-									while (array_key_exists($tmp, $sorted_pages)) {
-										$tmp = $key . '_' . $counter++;
-									}
-									$key = $tmp;
-								}
-								$sorted_pages[$key] = $page;
-							} else {
-								$sorted_pages[] = $page;
-							}
-						}
-						if (!isset($options['pages_order'])) {
-							$options['pages_order'] = self::ORDER_ASC;
-						}
-						if ($options['pages_order'] == self::ORDER_ASC) {
-							ksort($sorted_pages);
-						}
-						if ($options['pages_order'] == self::ORDER_DESC) {
-							krsort($sorted_pages);
-						}
-						unset($pages);
-						$pages = array_values($sorted_pages);
-					} else {
-						throw new Exception\RepositoryException("unknown key '{$options['pages_order_by']}' for pages_order_by");
-					}
-					break;
-			}
+		if (empty($options['pages_order'])) {
+			return $pages;
 		}
 
+		// parse search criteria
+		$terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
+		foreach ($terms as $term) {
+			$term = explode('.', $term);
+			if (count($term) > 1) {
+				$type = array_shift($term);
+			} else {
+				$type = null;
+			}
+			$term = explode(':', $term[0]);
+			$sorting[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
+		}
+
+		// prepare search criteria for array_multisort
+		foreach ($sorting as $sort) {
+			$key = $sort['key'];
+			$column = array();
+			foreach ($pages as $page) {
+				/** @var \Phile\Model\Page $page */
+				$meta = $page->getMeta();
+				if ($sort['type'] === 'page') {
+					$method = 'get' . ucfirst($key);
+					$value = $page->$method();
+				} elseif ($sort['type'] === 'meta') {
+					$value = $meta->get($key);
+				} else {
+					continue 2; // ignore unhandled search term
+				}
+				$column[] = $value;
+			}
+			$sortHelper[] = $column;
+			$sortHelper[] = constant('SORT_' . strtoupper($sort['order']));
+		}
+		$sortHelper[] = &$pages;
+
+		call_user_func_array('array_multisort', $sortHelper);
+
 		return $pages;
+	}
+
+	/**
+	 * return page at offset from $page in applied search order
+	 *
+	 * @param \Phile\Model\Page $page
+	 * @param int $offset
+	 * @return null|\Phile\Model\Page
+	 */
+	public function getPageOffset(\Phile\Model\Page $page, $offset = 0) {
+		$pages = $this->findAll();
+		$order = array();
+		foreach ($pages as $p) {
+			$order[] = $p->getFilePath();
+		}
+		$key = array_search($page->getFilePath(), $order) + $offset;
+		if (!isset($order[$key])) {
+			return null;
+		}
+		return $this->getPage($order[$key]);
 	}
 
 	/**
@@ -180,39 +183,4 @@ class Page {
 		return $page;
 	}
 
-	/**
-	 * usort function for Titles Asc
-	 *
-	 * @param \Phile\Model\Page $a
-	 * @param \Phile\Model\Page $b
-	 *
-	 * @return int
-	 */
-	protected function compareByTitleAsc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
-		$al = strtolower($a->getMeta()->get('title'));
-		$bl = strtolower($b->getMeta()->get('title'));
-		if ($al == $bl) {
-			return 0;
-		}
-
-		return ($al > $bl) ? +1 : -1;
-	}
-
-	/**
-	 * usort function for Titles Desc
-	 *
-	 * @param \Phile\Model\Page $a
-	 * @param \Phile\Model\Page $b
-	 *
-	 * @return int
-	 */
-	protected function compareByTitleDesc(\Phile\Model\Page $a, \Phile\Model\Page $b) {
-		$al = strtolower($a->getMeta()->get('title'));
-		$bl = strtolower($b->getMeta()->get('title'));
-		if ($al == $bl) {
-			return 0;
-		}
-
-		return ($al < $bl) ? +1 : -1;
-	}
 }

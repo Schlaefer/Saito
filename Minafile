@@ -57,6 +57,7 @@ task :deploy => :environment do
     invoke :'git:clone'
 
     invoke :'composer'
+    invoke :'chownContent'
 
     invoke :'deploy:link_shared_paths'
     # invoke :'bundle:install'
@@ -76,6 +77,9 @@ task :composer do
   queue 'composer install -o'
 end
 
+task :chownContent do
+  queue "chgrp -R www-data content"
+end
 
 # For help in making your deploy script, see the Mina documentation:
 #

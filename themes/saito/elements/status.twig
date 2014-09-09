@@ -1,6 +1,6 @@
 <h4>Status</h4>
 <ul>
-    {% for page in pages %}
+    {% for page in pages|reverse %}
         {% if page.meta.date is not empty and done is not defined %}
             <li>
                 News: <a

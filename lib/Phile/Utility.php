@@ -20,6 +20,9 @@ class Utility {
 	 * @return string the current protocol
 	 */
 	public static function getProtocol() {
+		if (PHILE_CLI_MODE) {
+			return '';
+		}
 		$protocol = 'http';
 		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 			$protocol = 'https';
@@ -34,6 +37,9 @@ class Utility {
 	 * @return string
 	 */
 	public static function getBaseUrl() {
+		if (PHILE_CLI_MODE) {
+			return '';
+		}
 		if (Registry::isRegistered('Phile_Settings')) {
 			$config = Registry::get('Phile_Settings');
 			if (isset($config['base_url']) && $config['base_url']) {
@@ -75,11 +81,8 @@ class Utility {
 	 */
 	public static function resolveFilePath($path) {
 		// resolve MOD: prefix
-		if (strtoupper(substr($path, 0, 3)) == 'MOD') {
+		if (strtoupper(substr($path, 0, 3)) === 'MOD') {
 			$path = str_ireplace('mod:', PLUGINS_DIR, $path);
-			if (file_exists($path)) {
-				return $path;
-			}
 		}
 		// check if file exists
 		if (file_exists($path)) {
@@ -117,20 +120,17 @@ class Utility {
 	}
 
 	/**
-	 * method to get files from a directory
-	 *
-	 * @param string $directory
-	 * @param string $fileNamePattern
+	 * @param        $directory
+	 * @param string $filter
 	 *
 	 * @return array
 	 */
-	public static function getFiles($directory, $fileNamePattern = '/^.*/') {
-		$dir    = new \RecursiveDirectoryIterator($directory);
-		$ite    = new \RecursiveIteratorIterator($dir);
-		$files  = new \RegexIterator($ite, $fileNamePattern, \RegexIterator::GET_MATCH);
+	public static function getFiles($directory, $filter = '\Phile\FilterIterator\GeneralFileFilterIterator') {
+		$files  = new $filter(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory)));
 		$result = array();
 		foreach ($files as $file) {
-			$result[] = (string)$file[0];
+			/** @var \SplFileInfo $file */
+			$result[] = $file->getRealPath();
 		}
 
 		return $result;
