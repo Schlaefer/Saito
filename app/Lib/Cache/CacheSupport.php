@@ -20,7 +20,7 @@
 			foreach ($this->_buildInCaches as $_name) {
 				$this->add(new $_name);
 			}
-			CakeEventManager::instance()->instance($this);
+			CakeEventManager::instance()->attach($this);
 		}
 
 		public function implementedEvents() {
@@ -57,7 +57,9 @@
 					$_Cache->clear();
 				}
 			} else {
-				$this->_Caches[$cache]->clear($id);
+				if (isset($this->_Caches[$cache])) {
+					$this->_Caches[$cache]->clear($id);
+				}
 			}
 		}
 
@@ -83,14 +85,15 @@
 	abstract class CacheSupportCachelet implements CacheSupportCacheletInterface {
 
 		public function getId() {
+			if (!empty($this->_title)) {
+				return $this->_title;
+			}
 			return str_replace('CacheSupportCachelet', '', get_class($this));
 		}
 
 	}
 
 	class SaitoCacheSupportCachelet extends CacheSupportCachelet {
-
-		protected $_title = 'Saito';
 
 		public function clear($id = null) {
 			Cache::clear(false, 'default');
@@ -100,8 +103,6 @@
 	}
 
 	class ApcCacheSupportCachelet extends CacheSupportCachelet {
-
-		protected $_title = 'Apc';
 
 		public function clear($id = null) {
 			if (function_exists('apc_store')) {
@@ -114,8 +115,6 @@
 	}
 
 	class OpCacheSupportCachelet extends CacheSupportCachelet {
-
-		protected $_title = 'OpCache';
 
 		public function clear($id = null) {
 			if (function_exists('opcache_reset')) {

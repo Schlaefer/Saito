@@ -2,14 +2,18 @@
 
 	class AppSettingModel extends AppModel {
 
+		/**
+		 * afterSave callback
+		 *
+		 * @param bool $created
+		 * @param array $options
+		 * 	- 'clearCache' set to 'false' to prevent cache clearing
+		 */
 		public function afterSave($created, $options = []) {
 			parent::afterSave($created, $options);
-			if (isset($options['clearCache'])) {
-				if ($options['clearCache'] === false) {
-					return;
-				}
+			if (!isset($options['clearCache']) || $options['clearCache'] !== false) {
+				$this->clearCache();
 			}
-			$this->clearCache();
 		}
 
 		public function afterDelete() {
