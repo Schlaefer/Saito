@@ -819,35 +819,37 @@
 			}
 		}
 
-/**
- * Gets the thread ids of all threads which should be visisble on the an
- * entries/index/# page.
- *
- * @param CurrentUserComponent $User
- * @return array
- */
+		/**
+		 * Gets thread ids for paginated entries/index.
+		 *
+		 * @param CurrentUserComponent $User
+		 * @param array $order sort order
+		 * @return array thread ids
+		 */
 		protected function _getInitialThreads(CurrentUserComponent $User, $order) {
 			Stopwatch::start('Entries->_getInitialThreads() Paginate');
 
 			$categories = $this->_setupCategoryChooser($User);
 
-			$this->paginate = array(
-				/* Whenever you change the conditions here check if you have to adjust
-				 * the db index. Running this query without appropriate db index is a huge
-				 * performance bottleneck!
-				 */
-				'conditions' => array(
-						'pid' => 0,
-						'Entry.category' => $categories
-				),
+			//! Check DB performance after changing conditions/sorting!
+			$this->paginate = [
+				'conditions' => [
+					'pid' => 0,
+					'Entry.category' => $categories
+				],
 				'contain' => false,
 				'fields' => 'id, pid, tid, time, last_answer, fixed',
 				'limit' => Configure::read('Saito.Settings.topics_per_page'),
 				'order' => $order,
 				'getInitialThreads' => 1,
-			);
+			];
 
-			$initialThreads = $this->paginate();
+			// disallows overwriting pagination params from request
+			unset(
+				$this->request->params['named']['direction'],
+				$this->request->params['named']['sort']
+			);
+			$initialThreads = $this->paginate(null, null, array_keys($order));
 
 			$initialThreadsNew = [];
 			foreach ($initialThreads as $k => $v) {
