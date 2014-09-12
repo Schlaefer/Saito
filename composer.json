@@ -20,7 +20,7 @@
   "require": {
     "php": ">=5.4.0",
     "ext-mcrypt": "*",
-    "pear-cakephp/cakephp": "2.5.3",
+    "pear-cakephp/cakephp": "2.5.4",
     "kzykhys/ciconia": "~1.0.3",
     "jbbcode/jbbcode": "~1.3"
   },
