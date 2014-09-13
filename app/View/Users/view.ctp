@@ -273,7 +273,8 @@
         <ul class="threadCollection-node root">
           <?php foreach ($lastEntries as $entry): ?>
             <li>
-              <?= $this->EntryH->threadCached($entry, $CurrentUser); ?>
+              <?= $this->EntryH->threadCached($entry, $CurrentUser, 0, [], null,
+                ['ignore' => false]); ?>
             </li>
           <?php endforeach; ?>
         </ul>
