@@ -177,17 +177,25 @@
 		}
 
 		public function index() {
+			$menuItems = [
+				'username' => [__('username_marking'), []],
+				'user_type' => [__('user_type'), []],
+				'UserOnline.logged_in' => [__('userlist_online'), ['direction' => 'desc']],
+				'registered' => [__('registered'), ['direction' => 'desc']]
+			];
+			$showBlocked = Configure::read('Saito.Settings.block_user_ui');
+			if ($showBlocked) {
+				$menuItems['user_lock'] = [__('user.set.lock.t'), ['direction' => 'desc']];
+			}
+
 			$this->paginate = [
 				'contain' => 'UserOnline',
 				'limit' => 400,
-				'order' => [
-					'UserOnline.logged_in' => 'asc',
-					'User.username' => 'asc'
-				]
+				'order' => ['UserOnline.logged_in' => 'desc', 'User.username' => 'asc']
 			];
+			$users = $this->paginate('User', null, array_keys($menuItems));
 
-			$data = $this->paginate('User');
-			$this->set('users', $data);
+			$this->set(compact('menuItems', 'users'));
 		}
 
 		public function ignore($blockedId) {

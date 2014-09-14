@@ -111,7 +111,7 @@
 			endif; // move or delete category
 
 			/* get categories for target <select> */
-			$categories = $this->Category->getCategoriesSelectForAccession(0);
+			$categories = $this->CurrentUser->Categories->getAllowed('list');
 			unset($categories[$id]);
 			$this->set('targetCategory', $categories);
 

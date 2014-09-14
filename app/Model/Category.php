@@ -100,9 +100,7 @@
 
 		public function afterSave($created, $options = array()) {
 			// don't empty cache if it's only a thread count update
-			if (isset($this->data[$this->alias]['thread_count']) ||
-					!isset($this->data[$this->alias]['category'])
-			) {
+			if (!$created && !isset($this->data[$this->alias]['category'])) {
 				$options['clearCache'] = false;
 			}
 			parent::afterSave($created, $options);

@@ -188,14 +188,18 @@
 		 * Everything you do in here is in worst case done a few hundred times on
 		 * the frontpage. Think about (and benchmark) performance before you change it.
 		 */
-		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = [], $lastAnswer = null) {
+		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = [], $lastAnswer = null, $options = []) {
+			$options = $options + ['ignore' => null];
 			$id = (int)$entrySub['Entry']['id'];
 			$out = '';
 			if ($lastAnswer === null) {
 				$lastAnswer = $entrySub['Entry']['last_answer'];
 			}
 
-			if (!$CurrentUser->ignores($entrySub['Entry']['user_id'])) {
+			if ($options['ignore'] === null) {
+				$options['ignore'] = $CurrentUser->ignores($entrySub['Entry']['user_id']);
+			}
+			if (!$options['ignore']) {
 				$useLineCache = $level > 0;
 				if ($useLineCache) {
 					$_threadLineCached = $this->_LineCache->get($id);
@@ -251,8 +255,9 @@ EOF;
 			if (isset($entrySub['_children'])) {
 				$subLevel = $level + 1;
 				$sub = '';
+				unset($options['ignore']);
 				foreach ($entrySub['_children'] as $child) {
-					$sub .= $this->threadCached($child, $CurrentUser, $subLevel, $currentEntry, $lastAnswer);
+					$sub .= $this->threadCached($child, $CurrentUser, $subLevel, $currentEntry, $lastAnswer, $options);
 				}
 				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
 			}

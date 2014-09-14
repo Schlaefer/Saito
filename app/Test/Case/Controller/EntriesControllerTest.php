@@ -10,7 +10,7 @@
 		public $uses = array('Entry');
 		// @codingStandardsIgnoreEnd
 
-		public function getInitialThreads($User, $order = 'Entry.last_answer DESC') {
+		public function getInitialThreads($User, $order = ['Entry.last_answer' => 'DESC']) {
 			$this->_getInitialThreads($User, $order);
 		}
 

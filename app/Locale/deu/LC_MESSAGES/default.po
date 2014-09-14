@@ -1244,7 +1244,7 @@ msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 #: Controller/Component/EmailNotificationComponent.php:48
 #, php-format
 msgid "New reply to \"%s\""
-msgstr "Neu Antwort zu \"%s\""
+msgstr "Neue Antwort zu \"%s\""
 
 #: Controller/Component/EmailNotificationComponent.php:82
 msgid "Successfull registration"

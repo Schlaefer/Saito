@@ -12,26 +12,10 @@
 		<div class="panel-content">
 			<div class="table-menu sort-menu">
 				<?php
-					$_sortBy = $this->Paginator->sort('username', __('username_marking'));
-					$_sortBy .= ', ' . $this->Paginator->sort('User.user_type',
-									__('user_type'));
-					$_sortBy .= ', ' . $this->Paginator->sort('UserOnline.user_id',
-									__('userlist_online'),
-									[
-											'direction' => 'desc'
-									]);
-					$_sortBy .= ', ' . $this->Paginator->sort('registered',
-									__('registered'),
-									[
-											'direction' => 'desc'
-									]);
-					$_showBlocked = Configure::read('Saito.Settings.block_user_ui');
-					if ($_showBlocked) {
-						$_sortBy .= ', ' . $this->Paginator->sort('user_lock',
-										__('user.set.lock.t'),
-										['direction' => 'desc']);
-					}
-					echo __('Sort by: %s', $_sortBy);
+          foreach ($menuItems as $title => $mi) {
+            $menu[] = $this->Paginator->sort($title, $mi[0], $mi[1]);
+          }
+					echo __('Sort by: %s', implode(', ', $menu));
 				?>
 			</div>
 			<table class="table th-left row-sep">
@@ -57,7 +41,7 @@
 									if ($user['UserOnline']['logged_in']) {
 										$_u[] = __('Online');
 									}
-									if ($_showBlocked && $user['User']['user_lock']) {
+									if (!empty($user['User']['user_lock'])) {
 										$_u[] = __('%s banned',
 												$this->UserH->banned($user['User']['user_lock']));
 									}

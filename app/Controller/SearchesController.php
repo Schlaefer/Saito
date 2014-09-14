@@ -156,7 +156,12 @@
 						->Categories->getAllowed();
 				}
 				$this->Paginator->settings = $settings;
-				$this->set('results', $this->Paginator->paginate());
+				unset(
+					$this->request->query['direction'],
+					$this->request->query['sort']
+				);
+				$this->set('results',
+					$this->Paginator->paginate(null, null, ['Entry.time']));
 			}
 
 			if (!isset($query['category'])) {
