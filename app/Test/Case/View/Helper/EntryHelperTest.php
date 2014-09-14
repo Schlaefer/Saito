@@ -26,7 +26,7 @@
 			App::uses('SaitoUser', 'Lib/SaitoUser');
 			$SaitoUser = $this->getMock(
 					'SaitoUser',
-					['getMaxAccession', 'getId', 'getBookmarks']
+					['getMaxAccession', 'getId', 'hasBookmarks']
 			);
 			$entry = [
 					'Entry' => [

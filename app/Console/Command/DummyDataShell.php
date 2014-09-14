@@ -166,8 +166,8 @@
 			return true;
 		}
 
-		public function getBookmarks() {
-			return [];
+		public function hasBookmarked() {
+			return false;
 		}
 
 	}
