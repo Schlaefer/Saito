@@ -1,6 +1,6 @@
 <?php
   echo $this->Form->input('username', [
-    'autocomplete' => 'off',
+    'autocomplete' => 'username',
     'error' => [
       'hasAllowedChars' => __('model.user.validate.username.hasAllowedChars'),
       'isUnique' => __('error_name_reserved'),
@@ -11,7 +11,7 @@
     'tabindex' => 1
   ]);
   echo $this->Form->input('user_email', [
-    'autocomplete' => 'off',
+    'autocomplete' => 'email',
     'error' => [
       'isUnique' => __('error_email_reserved'),
       'isEmail' => __('error_email_wrong')
@@ -20,7 +20,7 @@
     'tabindex' => 2
   ]);
   echo $this->Form->input('user_password', [
-    'autocomplete' => 'off',
+    'autocomplete' => 'new-password',
     'type' => 'password',
     'div' => ['class' => 'input required'],
     'error' => [
@@ -31,7 +31,7 @@
     'tabindex' => 3
   ]);
   echo $this->Form->input('password_confirm', [
-    'autocomplete' => 'off',
+    'autocomplete' => 'new-password',
     'type' => 'password',
     'div' => ['class' => 'input password required'],
     'label' => __('user_pw_confirm'),

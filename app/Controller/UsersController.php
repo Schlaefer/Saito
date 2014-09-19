@@ -491,6 +491,7 @@
 					['CurrentUser' => $this->CurrentUser]);
 			}
 			$this->set('userId', $id);
+			$this->set('username', $user['username']);
 
 			//# just show empty form
 			if (empty($this->request->data)) {
