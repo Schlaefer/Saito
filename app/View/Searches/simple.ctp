@@ -1,8 +1,17 @@
 <?php
 	SDV($results, []);
 	SDV($q, []);
-?>
 
+  $this->start('headerSubnavRight');
+  echo $this->Layout->navbarItem(
+    $this->Layout->textWithIcon(
+      __('search_advanced'),
+      'search'
+    ),
+    ['controller' => 'searches', 'action' => 'advanced'],
+    ['position' => 'right', 'escape' => false]);
+  $this->end();
+?>
 <div class="search simple">
 	<div class='searchForm-wrapper'>
 		<div class='searchForm'>
@@ -44,14 +53,7 @@
 				</div>
 				<?= $this->Form->end(); ?>
 			</div>
-			<div style="width: 20%; text-align: center">
-				<?=
-					$this->Html->link(__('search_advanced'),
-							[
-									'controller' => 'searches',
-									'action' => 'advanced'
-							]) ?>
-			</div>
+			<div style="width: 20%; text-align: center"></div>
 		</div>
 		<div class="sort-menu" style="text-align: center;">
 			<?php

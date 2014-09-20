@@ -1,5 +1,16 @@
 <?php
 	SDV($results, []);
+
+  $this->start('headerSubnavRight');
+  echo $this->Layout->navbarItem(
+    $this->Layout->textWithIcon(
+      __('search_simple'),
+      'search'
+    ),
+    ['controller' => 'searches', 'action' => 'simple'],
+    ['position' => 'right', 'escape' => false]);
+  $this->end();
+
 ?>
 
 <div class="search advanced">
@@ -58,13 +69,6 @@
 							['class' => 'btn btn-submit']) ?>
 			</div>
 			&nbsp;
-
-			<?=
-				$this->Html->link(__('search_simple'),
-						[
-								'controller' => 'searches',
-								'action' => 'simple'
-						]) ?>
 			<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
