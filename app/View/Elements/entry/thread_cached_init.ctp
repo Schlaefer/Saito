@@ -25,18 +25,16 @@
 
   foreach ($entries_sub as $entry_sub) :
     // the entry currently viewed (e.g. entries/view)
-    SDV($entry, []);
-    $rendered = $this->EntryH->threadCached($entry_sub, $CurrentUser, 0, $entry);
-    if (empty($rendered)) {
-      continue;
+    $currentEntry = null;
+    if (isset($entry)) {
+      $currentEntry = $entry['Entry']['id'];
     }
-
-    /*
-     * for performance reasons we don't use $this->Html->link() in the .threadBox but hardcoded <a>
-     * this scrapes us up to 10 ms on a 40 threads index page
-     */
+    $tree = $this->EntryH->createTreeObject($entry_sub);
+    $rendered = $this->EntryH->renderThread($tree, $CurrentUser,
+      ['currentEntry' => $currentEntry]);
+    $css = ($tree->Thread->get('root')->isIgnored()) ? 'ignored' : '';
 ?>
-<div class="threadBox" data-id="<?= $entry_sub['Entry']['id'] ?>">
+<div class="threadBox <?= $css ?>" data-id="<?= $entry_sub['Entry']['id'] ?>">
 	<div class="threadBox-body panel">
 		<div class="threadBox-tools">
 			<?php if ($level === 0) : ?>

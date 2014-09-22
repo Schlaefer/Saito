@@ -24,7 +24,8 @@
 			);
 		?>
     <div style="margin-left: 25px;">
-      <?= $this->EntryH->mix($entries[0], $CurrentUser, 0) ?>
+      <?= $this->EntryH->renderThread($entries[0], $CurrentUser,
+        ['renderer' => 'mix']) ?>
     </div>
 	</div>
 <?php Stopwatch::stop('entries/mix'); ?>

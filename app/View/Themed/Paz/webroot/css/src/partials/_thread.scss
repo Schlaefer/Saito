@@ -1,3 +1,11 @@
+// Common
+// -------------------------------------
+ul, li {
+  &.ignored {
+    display: none;
+  }
+}
+
 // Tread Tree/Collection
 // -------------------------------------
 .threadTree-node {

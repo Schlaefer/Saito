@@ -9,7 +9,7 @@
 			} else {
 				$out = [];
 				foreach ($results as $result) {
-					$out[] = $this->EntryH->threadCached($result, $CurrentUser);
+          $out[] = $this->EntryH->renderThread($result, $CurrentUser);
 				}
 				echo $this->Html->nestedList($out);
 			}
