@@ -32,6 +32,11 @@
 	 */
 	 // Configure::write('Saito.themes.available.users', [1 => ['C']]);
 
+	/**
+	 * Sets the X-Frame-Options header send with each request
+	 */
+	Configure::write('Saito.X-Frame-Options', 'SAMEORIGIN');
+
   /**
    * Add additional buttons to editor
 	 *

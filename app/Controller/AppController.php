@@ -187,6 +187,8 @@
 			$this->set('isDebug', (int)Configure::read('debug') > 0);
 			$this->_setLayoutTitles();
 
+			$this->_setXFrameOptionsHeader();
+
 			Stopwatch::stop('App->beforeRender()');
 			Stopwatch::start('---------------------- Rendering ---------------------- ');
 		}
@@ -292,6 +294,14 @@
 			}
 			$this->set('title_for_page', $_pageTitle);
 			return $_pageTitle;
+		}
+
+		protected function _setXFrameOptionsHeader() {
+			$xFO = Configure::read('Saito.X-Frame-Options');
+			if (empty($xFO)) {
+				$xFO = 'SAMEORIGIN';
+			}
+			$this->response->header('X-Frame-Options', $xFO);
 		}
 
 		/**
