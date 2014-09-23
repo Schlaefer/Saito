@@ -52,9 +52,6 @@
 			if ($this->Components->enabled('Auth')) {
 				$this->Components->disable('Auth');
 			}
-			if ($this->Components->enabled('Security')) {
-				$this->Components->disable('Security');
-			}
 		}
 
 	}

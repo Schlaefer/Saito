@@ -124,6 +124,7 @@
 
 			$this->Security->blackHoleCallback = 'blackhole';
 			$this->Security->csrfUseOnce = false;
+			$this->Security->csrfExpires = '+3 hours';
 
 			$bbcodeSettings = BbcodeSettings::getInstance();
 			$bbcodeSettings->set(
