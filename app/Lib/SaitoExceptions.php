@@ -21,10 +21,10 @@
 
 	class BlackHoledException extends \BadRequestException {
 
-		public function __construct($type = null) {
+		public function __construct($type = null, $data = []) {
 			$message = 'Request was blackholed. Type: ' . $type;
 			$this->__Logger = new \Saito\Logger\ExceptionLogger();
-			$this->__Logger->write($message);
+			$this->__Logger->write($message, $data);
 			parent::__construct($message, 400);
 		}
 

@@ -312,7 +312,8 @@
 		 * @throws Saito\BlackHoledException
 		 */
 		public function blackhole($type) {
-			throw new Saito\BlackHoledException($type);
+			throw new Saito\BlackHoledException($type,
+				['CurrentUser' => $this->CurrentUser]);
 		}
 
 		public function initBbcode() {
