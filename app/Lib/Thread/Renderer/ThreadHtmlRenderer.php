@@ -47,11 +47,14 @@
 			$level = $node->getLevel();
 
 			$out = $this->_renderCore($data, $level, $node);
+			$subs = '';
 			foreach ($node->getChildren() as $child) {
-				$subLevel = $child->getLevel();
-				$sub = $this->_renderNode($child);
-				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
+				$subs .= $this->_renderNode($child);
 			}
+			if (!empty($subs)) {
+				$out .= '<li>' . $this->_wrapUl($subs, $level + 1) . '</li>';
+			}
+
 			if ($level === 0) {
 				$out = $this->_wrapUl($out, $this->_node->getLevel(), $this->_node->id);
 			}
