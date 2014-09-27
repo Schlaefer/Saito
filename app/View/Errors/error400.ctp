@@ -24,11 +24,17 @@
     __d('cake', 'The requested address %s was not found on this server.'),
     "<strong>'{$url}'</strong>"
   );
-    if (get_class($error) === 'Saito\BlackHoledException') {
-      echo $this->SaitoHelp->icon(8);
-    }
   ?>
 </p>
+<?php
+  $shpErrorPages = ['Saito\BlackHoledException' => 8];
+  $errorClass = get_class($error);
+  if (isset($shpErrorPages[$errorClass])) {
+    $help = $this->SaitoHelp->icon($shpErrorPages[$errorClass],
+      ['label' => true]);
+    echo $this->Html->para(null, $help);
+  }
+?>
 <?php
 if (Configure::read('debug') > 0):
 	echo $this->element('exception_stack_trace');

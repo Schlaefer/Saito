@@ -39,23 +39,30 @@
 		}
 
 		public function render() {
-			return $this->_renderNode($this->_node);
+			$html = $this->_renderNode($this->_node);
+			if ($this->_node->getLevel() === 0) {
+				$html = $this->_wrapUl($html, 0, $this->_node->id);
+			}
+			return $html;
 		}
 
 		protected function _renderNode($node) {
 			$data = $node->getRaw();
 			$level = $node->getLevel();
 
-			$out = $this->_renderCore($data, $level, $node);
+			$html = $this->_renderCore($data, $level, $node);
+
+			$children = $node->getChildren();
+			if (empty($children)) {
+				return $html;
+			}
+
+			$childrenHtml = '';
 			foreach ($node->getChildren() as $child) {
-				$subLevel = $child->getLevel();
-				$sub = $this->_renderNode($child);
-				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
+				$childrenHtml .= $this->_renderNode($child);
 			}
-			if ($level === 0) {
-				$out = $this->_wrapUl($out, $this->_node->getLevel(), $this->_node->id);
-			}
-			return $out;
+			$html .= '<li>' . $this->_wrapUl($childrenHtml, $level + 1) . '</li>';
+			return $html;
 		}
 
 		protected function _renderCore($data, $level, $node) {
@@ -92,11 +99,11 @@ EOF;
 			$out = <<<EOF
 <li class="threadLeaf {$css}" data-id="{$id}" data-leaf='{$leafData}'>
 	<div class="threadLine">
-		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
+		<button class="btnLink btn_show_thread threadLine-pre et">
 			<i class="fa fa-thread"></i>
 		</button>
-		<a href='{$this->_EntryHelper->webroot}entries/view/{$data['Entry']['id']}'
-			class='link_show_thread {$id} et threadLine-content'>
+		<a href="{$this->_EntryHelper->webroot}entries/view/{$id}"
+			class="link_show_thread et threadLine-content">
 				{$_threadLineCached}
 		</a>
 	</div>
