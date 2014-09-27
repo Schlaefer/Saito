@@ -99,7 +99,7 @@ EOF;
 			$out = <<<EOF
 <li class="threadLeaf {$css}" data-id="{$id}" data-leaf='{$leafData}'>
 	<div class="threadLine">
-		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
+		<button class="btnLink btn_show_thread threadLine-pre et">
 			<i class="fa fa-thread"></i>
 		</button>
 		<a href="{$this->_EntryHelper->webroot}entries/view/{$id}"
