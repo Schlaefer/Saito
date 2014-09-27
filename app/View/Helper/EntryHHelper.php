@@ -1,7 +1,6 @@
 <?php
 	App::uses('AppHelper', 'View/Helper');
-	App::uses('SaitoCacheEngineAppCache', 'Lib/Cache');
-	App::uses('SaitoCacheEngineDbCache', 'Lib/Cache');
+	App::uses('PostingViewTrait', 'Lib/Thread');
 
 	# @td refactor helper name to 'EntryHelper'
 	/**
@@ -10,49 +9,14 @@
 
 	class EntryHHelper extends AppHelper {
 
+		use PostingViewTrait;
+
 		public $helpers = array(
 				'Form',
 				'Html',
 				'Session',
 				'TimeH',
 		);
-
-		/**
-		 * @var ItemCache
-		 */
-		protected $_LineCache;
-
-/**
- *
- * Perf-cheat
- *
- * @var int
- */
-		protected $_maxThreadDepthIndent;
-
-/**
- * Category localization
- *
- * Perf-cheat
- *
- * @var array
- */
-		protected $_catL10n = [];
-
-		/**
-		 * read entries
-		 *
-		 * perf-cheat
-		 *
-		 * @var array
-		 */
-		protected $_readEntries = null;
-
-		public function beforeRender($viewFile) {
-			parent::beforeRender($viewFile);
-			$this->_LineCache = $this->_View->get('LineCache');
-			$this->_maxThreadDepthIndent = (int)Configure::read('Saito.Settings.thread_depth_indent');
-		}
 
 		public function isRoot($entry) {
 			return (int)$entry['Entry']['pid'] === 0;
@@ -80,21 +44,6 @@
 				return false;
 			}
 			return $user['last_refresh_unix'] < strtotime($entry['Entry']['last_answer']);
-		}
-
-		public function generateEntryTypeCss($level, $new, $current, $viewed) {
-			$entryType = ($level === 0) ? 'et-root' : 'et-reply';
-			if ($new) {
-				$entryType .= ' et-new';
-			} else {
-				$entryType .= ' et-old';
-			}
-			if (!empty($viewed)) {
-				if ($current === $viewed) {
-					$entryType .= ' et-current';
-				}
-			}
-			return $entryType;
 		}
 
 		public function getPaginatedIndexPageId($tid, $lastAction) {
@@ -126,42 +75,6 @@
 			return $out;
 		}
 
-		public function solvedBadge() {
-			return '<i class="fa fa-badge-solves solves-isSolved" title="' .
-					__('Helpful entry') . '"></i>';
-		}
-
-		/**
-		 *
-		 * This function may be called serveral hundred times on the front page.
-		 * Don't make ist slow, benchmark!
-		 *
-		 * @param $entry
-		 * @return string
-		 */
-		public function getSubject($entry) {
-			return h($entry['Entry']['subject']) . (empty($entry['Entry']['text']) ? ' n/t' : '');
-		}
-
-		public function getBadges($entry) {
-			$out = '';
-			if ($entry['Entry']['fixed']) {
-				$out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
-			}
-			if ($entry['Entry']['nsfw']) {
-				$out .= '<span class="posting-badge-nsfw" title="' .
-						__('entry_nsfw_title') . '">' . __('posting.badge.nsfw') .
-						'</span> ';
-			}
-			// anchor for inserting solve-icon via FE-JS
-			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
-			if ($entry['Entry']['solves']) {
-				$out .= $this->solvedBadge();
-			}
-			$out .= '</span>';
-			return $out;
-		}
-
 		public function categorySelect($entry, $categories) {
 			if ($entry['Entry']['pid'] == 0) {
 				$out = $this->Form->input(
@@ -183,195 +96,55 @@
 		}
 
 		/**
+		 * renders a posting tree as thread
 		 *
-		 *
-		 * Everything you do in here is in worst case done a few hundred times on
-		 * the frontpage. Think about (and benchmark) performance before you change it.
+		 * @param mixed $tree
+		 * @param $CurrentUser
+		 * @param $options
+		 * 	- 'renderer' [thread]|mix
+		 * @return string
 		 */
-		public function threadCached(array $entrySub, ForumsUserInterface $CurrentUser, $level = 0, array $currentEntry = [], $lastAnswer = null, $options = []) {
-			$options = $options + ['ignore' => null];
-			$id = (int)$entrySub['Entry']['id'];
-			$out = '';
-			if ($lastAnswer === null) {
-				$lastAnswer = $entrySub['Entry']['last_answer'];
+		public function renderThread($tree, ForumsUserInterface $CurrentUser, array $options = []) {
+			$options += [
+				'maxThreadDepthIndent' => (int)Configure::read('Saito.Settings.thread_depth_indent'),
+				'renderer' => 'thread'
+			];
+			$renderer = $options['renderer'];
+			unset($options['renderer']);
+
+			if (is_array($tree)) {
+				$tree = $this->createTreeObject($tree, $options);
 			}
 
-			if ($options['ignore'] === null) {
-				$options['ignore'] = $CurrentUser->ignores($entrySub['Entry']['user_id']);
+			App::uses('PostingCurrentUserDecorator', 'Lib/Thread');
+			$tree = $tree->addDecorator(function ($node) use ($CurrentUser) {
+				$node = new PostingCurrentUserDecorator($node);
+				$node->setCurrentUser($CurrentUser);
+				return $node;
+			});
+
+			switch ($renderer) {
+				case 'mix':
+					App::uses('MixHtmlRenderer', 'Lib/Thread/Renderer');
+					$renderer = new MixHtmlRenderer($tree, $this, $options);
+					break;
+				default:
+					App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
+					$renderer = new ThreadHtmlRenderer($tree, $this, $options);
 			}
-			if (!$options['ignore']) {
-				$useLineCache = $level > 0;
-				if ($useLineCache) {
-					$_threadLineCached = $this->_LineCache->get($id);
-				}
-				if (empty($_threadLineCached)) {
-					$_threadLineCached = $this->threadLineCached($entrySub, $level);
-					if ($useLineCache) {
-						$this->_LineCache->set($id, $_threadLineCached,
-							strtotime($lastAnswer));
-					}
-				}
-
-//			Stopwatch::start('threadCached');
-				//setup for current entry
-				$isNew = !$CurrentUser->ReadEntries->isRead($entrySub['Entry']['id'],
-					$entrySub['Entry']['time']);
-				$_currentlyViewed = (isset($currentEntry['Entry']['id']) &&
-					$this->request->params['action'] === 'view') ? $currentEntry['Entry']['id'] : null;
-				$_spanPostType = $this->generateEntryTypeCss($level,
-					$isNew,
-					$entrySub['Entry']['id'],
-					$_currentlyViewed);
-
-				//# simulate json_encode() for performance
-				$tid = (int)$entrySub['Entry']['tid'];
-				$isNew = $isNew ? 'true' : 'false';
-				$leafData = <<<EOF
-{"id":{$id},"new":{$isNew},"tid":{$tid}}
-EOF;
-
-				/*
-				 * - data-id still used to identify parent posting when inserting	an inline-answered entry
-				 */
-				$out = <<<EOF
-<li class="threadLeaf {$_spanPostType}" data-id="{$id}" data-leaf='{$leafData}'>
-	<div class="threadLine">
-		<button href="#" class="btnLink btn_show_thread threadLine-pre et">
-			<i class="fa fa-thread"></i>
-		</button>
-		<a href='{$this->request->webroot}entries/view/{$entrySub['Entry']['id']}'
-			class='link_show_thread {$id} et threadLine-content'>
-				{$_threadLineCached}
-		</a>
-	</div>
-</li>
-EOF;
-			} elseif ($level == 0) {
-				// ignore whole thread if thread starter is ignored
-				return '';
-			}
-
-			// generate sub-entries of current entry
-			if (isset($entrySub['_children'])) {
-				$subLevel = $level + 1;
-				$sub = '';
-				unset($options['ignore']);
-				foreach ($entrySub['_children'] as $child) {
-					$sub .= $this->threadCached($child, $CurrentUser, $subLevel, $currentEntry, $lastAnswer, $options);
-				}
-				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
-			}
-
-			// wrap into root ul tag
-			if ($level === 0) {
-				$out = $this->_wrapUl($out, $level, $entrySub['Entry']['id']);
-			}
-//			Stopwatch::stop('threadCached');
-			return $out;
+			return $renderer->render();
 		}
 
 		/**
-		 * Wraps li tags with ul tag
+		 * helper function for creating object thread tree
 		 *
-		 * @param string $string li html list
-		 * @param $level
-		 * @param $id
-		 * @return string
+		 * @param array $entrySub
+		 * @param array $options
+		 * @return Posting
 		 */
-		protected function _wrapUl($string, $level = null, $id = null) {
-			if ($level >= $this->_maxThreadDepthIndent) {
-				return $string;
-			}
-
-			$class = 'threadTree-node';
-			$data = '';
-			if ($level === 0) {
-				$class .= ' root';
-				$data = 'data-id="' . $id . '"';
-			}
-			return "<ul {$data} class=\"{$class}\">{$string}</ul>";
-		}
-
-/**
- *
- *
- * Everything you do in here is in worst case done a few hundred times on
- * the frontpage. Think about (and benchmark) performance before you change it.
- */
-		public function threadLineCached(array $entrySub, $level) {
-			$timestamp = $entrySub['Entry']['time'];
-
-			$category = '';
-			if ($level === 0) {
-				if (!isset($this->_catL10n[$entrySub['Category']['accession']])) {
-					$this->_catL10n[$entrySub['Category']['accession']] = __d('nondynamic',
-						'category_acs_' . $entrySub['Category']['accession'] . '_exp');
-				}
-				$categoryTitle = $this->_catL10n[$entrySub['Category']['accession']];
-				$category = '<span class="c-category acs-' . $entrySub['Category']['accession'] . '"
-            title="' . $entrySub['Category']['description'] . ' ' . ($categoryTitle) . '">
-        (' . $entrySub['Category']['category'] . ')
-      </span>';
-			}
-
-			// normal time output
-			$time = $this->TimeH->formatTime($timestamp);
-
-			$subject = $this->getSubject($entrySub);
-			$badges = $this->getBadges($entrySub);
-			$username = h($entrySub['User']['username']);
-
-			// wrap everything up
-			$out = <<<EOF
-{$subject}
-<span class="c-username"> – {$username}</span>
-{$category}
-<span class="threadLine-post"> {$time} {$badges} </span>
-EOF;
-			return $out;
-		}
-
-		public function mix(array $entry, ForumsUserInterface $CurrentUser, $level = 0) {
-			$out = '';
-			$id = (int)$entry['Entry']['id'];
-			$_et = $this->generateEntryTypeCss(
-				$level,
-				!$CurrentUser->ReadEntries->isRead($id, $entry['Entry']['time']),
-				$id,
-				null
-			);
-
-			if (!$CurrentUser->ignores($entry['Entry']['user_id'])) {
-				$element = $this->_View->element('/entry/view_posting',
-					[
-						'entry' => $entry,
-						'level' => $level,
-					]);
-
-				$out = <<<EOF
-<li id="{$id}" class="{$_et}">
-	<div class="mixEntry panel">
-		{$element}
-	</div>
-</li>
-EOF;
-			}
-
-			if (isset($entry['_children'])) {
-				$sub = '';
-				foreach ($entry['_children'] as $child) {
-					$subLevel = $level + 1;
-					$sub .= $this->mix($child, $CurrentUser, $subLevel);
-				}
-				$out .= '<li>' . $this->_wrapUl($sub, $subLevel) . '</li>';
-			}
-
-			// wrap into root ul tag
-			if ($level === 0) {
-				$out = $this->_wrapUl($out, $level, $id);
-			}
-
-			return $out;
+		public function createTreeObject(array $entrySub, array $options = []) {
+			App::uses('Posting', 'Lib/Thread');
+			return new Posting($entrySub, $options);
 		}
 
 	}

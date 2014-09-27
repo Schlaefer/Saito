@@ -106,7 +106,7 @@
 			$username = [
 				'tag' => 'input',
 				'attributes' => [
-					'autocomplete' => 'off',
+					'autocomplete' => 'username',
 					'name' => 'data[User][username]',
 					'required' => 'required',
 					'tabindex' => '100',
@@ -119,7 +119,7 @@
 			$password = [
 				'tag' => 'input',
 				'attributes' => [
-					'autocomplete' => 'off',
+					'autocomplete' => 'current-password',
 					'name' => 'data[User][password]',
 					'required' => 'required',
 					'tabindex' => '101',
@@ -259,7 +259,7 @@
 				'username' => [
 					'tag' => 'input',
 					'attributes' => [
-						'autocomplete' => 'off',
+						'autocomplete' => 'username',
 						'name' => 'data[User][username]',
 						'required' => 'required',
 						'tabindex' => '1',
@@ -269,7 +269,7 @@
 				'email' => [
 					'tag' => 'input',
 					'attributes' => [
-						'autocomplete' => 'off',
+						'autocomplete' => 'email',
 						'name' => 'data[User][user_email]',
 						'required' => 'required',
 						'tabindex' => '2',
@@ -279,7 +279,7 @@
 				'password' => [
 					'tag' => 'input',
 					'attributes' => [
-						'autocomplete' => 'off',
+						'autocomplete' => 'new-password',
 						'name' => 'data[User][user_password]',
 						'tabindex' => '3',
 						'type' => 'password'
@@ -288,7 +288,7 @@
 				'password_confirm' => [
 					'tag' => 'input',
 					'attributes' => [
-						'autocomplete' => 'off',
+						'autocomplete' => 'new-password',
 						'name' => 'data[User][password_confirm]',
 						'tabindex' => '4',
 						'type' => 'password'

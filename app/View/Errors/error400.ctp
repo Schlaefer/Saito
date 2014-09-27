@@ -19,12 +19,22 @@
 ?>
 <h2><?php echo $name; ?></h2>
 <p class="error">
-	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php printf(
-		__d('cake', 'The requested address %s was not found on this server.'),
-		"<strong>'{$url}'</strong>"
-	); ?>
+  <strong><?php echo __d('cake', 'Error'); ?>: </strong>
+  <?php printf(
+    __d('cake', 'The requested address %s was not found on this server.'),
+    "<strong>'{$url}'</strong>"
+  );
+  ?>
 </p>
+<?php
+  $shpErrorPages = ['Saito\BlackHoledException' => 8];
+  $errorClass = get_class($error);
+  if (isset($shpErrorPages[$errorClass])) {
+    $help = $this->SaitoHelp->icon($shpErrorPages[$errorClass],
+      ['label' => true]);
+    echo $this->Html->para(null, $help);
+  }
+?>
 <?php
 if (Configure::read('debug') > 0):
 	echo $this->element('exception_stack_trace');

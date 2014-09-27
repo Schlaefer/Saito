@@ -18,16 +18,6 @@
 				$message = 'Forbidden';
 			}
 
-			//# add current user data
-			if (isset($data['CurrentUser'])) {
-				$CurrentUser = $data['CurrentUser'];
-				if (!is_a($data['CurrentUser'], 'CurrentUserComponent')) {
-					throw new \InvalidArgumentException;
-				}
-				$username = $CurrentUser->isLoggedIn() ? $CurrentUser['username'] : 'anonymous';
-				$this->_add($username, 'Current User');
-			}
-
 			parent::write($message, $data);
 		}
 

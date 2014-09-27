@@ -1,3 +1,11 @@
+// Common
+// -------------------------------------
+.threadBox, .threadLeaf {
+  &.ignored {
+    display: none;
+  }
+}
+
 // Tread Tree/Collection
 // -------------------------------------
 .threadTree-node {

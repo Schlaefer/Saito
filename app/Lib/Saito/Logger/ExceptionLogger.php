@@ -54,11 +54,35 @@
 				$this->_add($url, 'Request URL');
 			}
 
+			$this->_addUser($data);
+
 			if (!empty($request->data)) {
 				$this->_add($this->_filterData($request->data), 'Data');
 			}
 
 			$this->_write();
+		}
+
+		/**
+		 * adds data about current user to log entry
+		 *
+		 * @param $data
+		 * @throws \InvalidArgumentException
+		 */
+		protected function _addUser($data) {
+			if (!isset($data['CurrentUser'])) {
+				return;
+			}
+			$CurrentUser = $data['CurrentUser'];
+			if (!is_a($data['CurrentUser'], 'CurrentUserComponent')) {
+				throw new \InvalidArgumentException;
+			}
+			if ($CurrentUser->isLoggedIn()) {
+				$username = "{$CurrentUser['username']} (id: {$CurrentUser['id']})";
+			} else {
+				$username = 'anonymous';
+			}
+			$this->_add($username, 'Current user');
 		}
 
 		/**

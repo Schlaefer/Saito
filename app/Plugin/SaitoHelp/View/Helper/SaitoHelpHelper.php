@@ -7,12 +7,23 @@
 
 	class SaitoHelpHelper extends AppHelper {
 
-		public $helpers = ['Html'];
+		public $helpers = ['Html', 'Layout'];
 
 		public function icon($id, array $options = []) {
-			return $this->Html->link('<i class="fa fa-question-circle"></i>',
-					"/help/$id",
-					['class' => 'shp-icon', 'escape' => false] + $options);
+			$options += ['label' => '', 'target' => '_blank'];
+			$options = ['class' => 'shp-icon', 'escape' => false] + $options;
+
+			if ($options['label'] === true) {
+				$options['label'] = __('Help');
+			}
+			if (!empty($options['label'])) {
+				$options['label'] = h($options['label']);
+			}
+
+			$title = $this->Layout->textWithIcon($options['label'], 'question-circle');
+			unset($options['label']);
+
+			return $this->Html->link($title, "/help/$id", $options);
 		}
 
 		public function parse($text, $CurrentUser) {

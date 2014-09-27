@@ -124,6 +124,7 @@
 
 			$this->Security->blackHoleCallback = 'blackhole';
 			$this->Security->csrfUseOnce = false;
+			$this->Security->csrfExpires = '+3 hours';
 
 			$bbcodeSettings = BbcodeSettings::getInstance();
 			$bbcodeSettings->set(
@@ -186,6 +187,8 @@
 			$this->set('lastController', $this->localReferer('controller'));
 			$this->set('isDebug', (int)Configure::read('debug') > 0);
 			$this->_setLayoutTitles();
+
+			$this->_setXFrameOptionsHeader();
 
 			Stopwatch::stop('App->beforeRender()');
 			Stopwatch::start('---------------------- Rendering ---------------------- ');
@@ -294,6 +297,14 @@
 			return $_pageTitle;
 		}
 
+		protected function _setXFrameOptionsHeader() {
+			$xFO = Configure::read('Saito.X-Frame-Options');
+			if (empty($xFO)) {
+				$xFO = 'SAMEORIGIN';
+			}
+			$this->response->header('X-Frame-Options', $xFO);
+		}
+
 		/**
 		 *
 		 *
@@ -301,7 +312,8 @@
 		 * @throws Saito\BlackHoledException
 		 */
 		public function blackhole($type) {
-			throw new Saito\BlackHoledException($type);
+			throw new Saito\BlackHoledException($type,
+				['CurrentUser' => $this->CurrentUser]);
 		}
 
 		public function initBbcode() {

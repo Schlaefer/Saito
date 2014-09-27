@@ -8,6 +8,7 @@
 	App::uses('LastRefreshCookie', 'Lib/SaitoUser/LastRefresh');
 	App::uses('LastRefreshDatabase', 'Lib/SaitoUser/LastRefresh');
 	App::uses('LastRefreshDummy', 'Lib/SaitoUser/LastRefresh');
+	App::uses('UserBookmarks', 'Lib');
 
 	App::uses('SaitoCurrentUserCookie', 'Lib/SaitoUser/Cookies');
 	App::uses('SaitoUserTrait', 'Lib/SaitoUser');
@@ -18,6 +19,9 @@
 
 		use SaitoUserTrait;
 
+		/**
+		 * @var CategoryAuth
+		 */
 		public $Categories;
 
 /**
@@ -53,23 +57,17 @@
 	 */
 		public $ReadEntries;
 
+		/**
+		 * @var UserBookmarks bookmarks of the current user
+		 */
+		protected $_Bookmarks;
+
 /**
  * Model User instance exclusive to the CurrentUserComponent
  *
  * @var User
  */
 		protected $_User = null;
-
-/**
- * array with ids of all user's bookmarks
- *
- * For performance we cache User->Bookmark->find() here.
- *
- * format: [entry_id => id, …]
- *
- * @var array
- */
-		protected $_bookmarks = null;
 
 /**
  * Reference to the controller
@@ -125,6 +123,8 @@
 			} else {
 				$this->ReadEntries = new ReadPostingsCookie($this);
 			}
+
+			$this->_Bookmarks = new UserBookmarks($this);
 
 			$this->_markOnline();
 		}
@@ -267,23 +267,8 @@
 			return $this->_User;
 		}
 
-		public function getBookmarks() {
-			if ($this->isLoggedIn() === false) {
-				return [];
-			}
-			if ($this->_bookmarks === null) {
-				$this->_bookmarks = [];
-				$bookmarks = $this->_User->Bookmark->findAllByUserId(
-					$this->getId(),
-					['contain' => false]
-				);
-				if (!empty($bookmarks)) {
-					foreach ($bookmarks as $bookmark) {
-						$this->_bookmarks[(int)$bookmark['Bookmark']['entry_id']] = (int)$bookmark['Bookmark']['id'];
-					}
-				}
-			}
-			return $this->_bookmarks;
+		public function hasBookmarked($entryId) {
+			return $this->_Bookmarks->isBookmarked($entryId);
 		}
 
 /**

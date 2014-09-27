@@ -6,20 +6,20 @@ define(['views/thread', 'models/thread', 'collections/postings',
 
       'use strict';
 
-      describe("Thread", function() {
+      describe('Thread', function() {
 
-        describe("inserts new threadline", function() {
-
-          beforeEach(function() {
-            this.postings = new PostingCollection();
-            this.model = new ThreadModel({ id: 100 });
-            setFixtures(tl1Fixture);
-            this.view = new ThreadView({
-              el: $('#jasmine-fixtures').find('.threadBox'),
-              postings: this.postings,
-              model: this.model
-            });
+        beforeEach(function() {
+          this.postings = new PostingCollection();
+          this.model = new ThreadModel({ id: 1 });
+          setFixtures(tl1Fixture);
+          this.view = new ThreadView({
+            el: $('#jasmine-fixtures').find('.threadBox'),
+            postings: this.postings,
+            model: this.model
           });
+        });
+
+        describe('inserts new threadline', function() {
 
           it("as answer to threadline 1 simple", function() {
             setFixtures(tl2Fixture);
@@ -72,6 +72,33 @@ define(['views/thread', 'models/thread', 'collections/postings',
             expect($('#jasmine-fixtures').find('li.append').length).toBe(1);
           });
         });
+
+        describe('collapse', function() {
+
+          beforeEach(function() {
+            $.fx.off = true;
+            spyOn(this.model, 'save');
+          });
+
+          afterEach(function() {
+            $.fx.off = false;
+          });
+
+          it('closes thread', function() {
+            expect($('li[data-id=8]')).toBeVisible();
+            $('.btn-threadCollapse').click();
+            expect($('li[data-id=8]')).not.toBeVisible();
+          });
+
+          it('opens thread', function() {
+            $('.btn-threadCollapse').click();
+            expect($('li[data-id=8]')).not.toBeVisible();
+            $('.btn-threadCollapse').click();
+            expect($('li[data-id=8]')).toBeVisible();
+          });
+
+        });
+
       });
 
     });

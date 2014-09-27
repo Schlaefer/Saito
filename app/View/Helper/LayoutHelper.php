@@ -210,6 +210,16 @@ EOF;
 			}
 		}
 
+		/**
+		 * creates a navigation link for the navigation bar
+		 *
+		 * @param $content link content
+		 * @param $url link url
+		 * @param array $options allows options as HtmlHelper::link
+		 * 	- 'class' a CSS class to apply to the navbar item
+		 * 	- 'position' [left]|center|right
+		 * @return string navigation link
+		 */
 		public function navbarItem($content, $url, array $options = []) {
 			$defaults = [
 				'class' => 'navbar-item',

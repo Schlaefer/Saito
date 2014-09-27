@@ -867,8 +867,8 @@
 			 * @param $entries
 			 */
 			$ldGetBookmarkForEntryAndUser = function (&$tree, &$element, $_this) {
-					$bookmarks = $this->CurrentUser->getBookmarks();
-					$element['isBookmarked'] = isset($bookmarks[$element['Entry']['id']]);
+				$element['isBookmarked'] = $this->CurrentUser
+					->hasBookmarked($element['Entry']['id']);
 			};
 			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
 

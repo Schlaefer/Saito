@@ -22,59 +22,6 @@
 			ClassRegistry::flush();
 		}
 
-		public function testThreadMaxDepth() {
-			App::uses('SaitoUser', 'Lib/SaitoUser');
-			$SaitoUser = $this->getMock(
-					'SaitoUser',
-					['getMaxAccession', 'getId', 'getBookmarks']
-			);
-			$entry = [
-					'Entry' => [
-							'id' => 1,
-							'tid' => 0,
-							'subject' => 'a',
-							'text' => 'b',
-							'time' => 0,
-							'last_answer' => 0,
-							'fixed' => false,
-							'nsfw' => false,
-							'solves' => '',
-							'user_id' => 1
-					],
-					'Category' => [
-							'accession' => 0,
-							'description' => 'd',
-							'category' => 'c'
-					],
-					'User' => ['username' => 'u']
-			];
-
-			// root + 2 sublevels
-			$entries = $entry;
-			$entries['_children'] = [
-					$entry + [
-							'_children' => [
-									$entry
-							]
-					]
-			];
-
-			App::uses('ReadPostingsDummy', 'Lib/SaitoUser/ReadPostings');
-			$SaitoUser->ReadEntries = $this->getMock('ReadPostingsDummy');
-
-			// max depth should not apply
-			Configure::write('Saito.Settings.thread_depth_indent', 9999);
-			$this->EntryH->beforeRender(null);
-			$result = $this->EntryH->threadCached($entries, $SaitoUser, 0);
-			$this->assertEquals(substr_count($result, '<ul'), 3);
-
-			// max depth should only allow 1 level
-			Configure::write('Saito.Settings.thread_depth_indent', 2);
-			$this->EntryH->beforeRender(null);
-			$result = $this->EntryH->threadCached($entries, $SaitoUser, 0);
-			$this->assertEquals(substr_count($result, '<ul'), 2);
-		}
-
 		public function testGetFastLink() {
 			$this->EntryH->webroot = 'localhost/';
 

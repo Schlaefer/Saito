@@ -64,7 +64,7 @@
 				->with('Model.Thread.create', $this->anything());
 
 			//# Setup CurrentUser
-			$SaitoUser = $this->getMock('SaitoUser', ['getId', 'getBookmarks']);
+			$SaitoUser = $this->getMock('SaitoUser', ['getId', 'hasBookmarks']);
 			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
