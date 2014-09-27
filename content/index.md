@@ -19,6 +19,10 @@ It should be deployable and scale admirably on modest shared hosting accounts.
 
 <a name='features'></a>
 
+## Licence ##
+
+- [MIT Licence](http://opensource.org/licenses/MIT)
+
 ## Features ##
 
 - different views: "threaded", "mix" and "inline"

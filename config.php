@@ -1,6 +1,6 @@
 <?php
 
-	define('PRODUCTION', true);
+	define('PRODUCTION', false);
 
 	if (!PRODUCTION) {
 		error_reporting(E_ALL);
