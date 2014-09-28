@@ -187,6 +187,12 @@ define([
     },
 
     _focusSubject: function() {
+      // focus is broken in Mobile Safari iOS 8
+      var iOS =  window.navigator.appVersion.match('iPad|iPhone');
+      if (iOS) {
+        return;
+      }
+
       this.$('.postingform input[type=text]:first').focus();
     },
 

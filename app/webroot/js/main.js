@@ -8,6 +8,8 @@ require.config({
 
     templateHelpers: 'lib/saito/templateHelpers'
   }
+  // force disable cache for require.js resources (esp. mobile spielzeugbrowser)
+  // urlArgs: 'token=' + (new Date()).getTime()
 });
 
 // fallback if dom does not get ready for some reason to show the content eventually
