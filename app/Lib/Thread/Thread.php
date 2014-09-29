@@ -27,4 +27,8 @@
 			return $this->_Postings[$id];
 		}
 
+		public function getLastAnswer() {
+			return strtotime($this->get('root')->last_answer);
+		}
+
 	}

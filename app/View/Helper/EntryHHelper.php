@@ -18,6 +18,11 @@
 				'TimeH',
 		);
 
+		/**
+		 * @var array perf-cheat for renderers
+		 */
+		protected $_renderers = [];
+
 		public function isRoot($entry) {
 			return (int)$entry['Entry']['pid'] === 0;
 		}
@@ -106,6 +111,7 @@
 		 */
 		public function renderThread($tree, ForumsUserInterface $CurrentUser, array $options = []) {
 			$options += [
+				'lineCache' => $this->_View->get('LineCache'),
 				'maxThreadDepthIndent' => (int)Configure::read('Saito.Settings.thread_depth_indent'),
 				'renderer' => 'thread'
 			];
@@ -123,16 +129,23 @@
 				return $node;
 			});
 
-			switch ($renderer) {
-				case 'mix':
-					App::uses('MixHtmlRenderer', 'Lib/Thread/Renderer');
-					$renderer = new MixHtmlRenderer($tree, $this, $options);
-					break;
-				default:
-					App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
-					$renderer = new ThreadHtmlRenderer($tree, $this, $options);
+			if (isset($this->_renderers[$renderer])) {
+				$renderer = $this->_renderers[$renderer];
+			} else {
+				$name = $renderer;
+				switch ($name) {
+					case 'mix':
+						App::uses('MixHtmlRenderer', 'Lib/Thread/Renderer');
+						$renderer = new MixHtmlRenderer($this);
+						break;
+					default:
+						App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
+						$renderer = new ThreadHtmlRenderer($this);
+				}
+				$this->_renderers[$name] = $renderer;
 			}
-			return $renderer->render();
+			$renderer->setOptions($options);
+			return $renderer->render($tree);
 		}
 
 		/**
