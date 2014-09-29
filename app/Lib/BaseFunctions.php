@@ -13,6 +13,19 @@
 	}
 
 	/**
+	 * returns date in SQL friendly format
+	 *
+	 * @param null $timestamp
+	 * @return string
+	 */
+	function bDate($timestamp = null) {
+		if ($timestamp === null) {
+			$timestamp = time();
+		}
+		return date('Y-m-d H:i:s', $timestamp);
+	}
+
+	/**
 	 * Remove and re-prepend CakePHP's autoloader as Composer thinks it is the
 	 * most important.
 	 *

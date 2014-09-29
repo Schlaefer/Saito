@@ -38,7 +38,7 @@
 			$this->save([
 				'user_id' => $userId,
 				'blocked_user_id' => $blockedId,
-				'timestamp' => date('Y-m-d H:i:s')
+				'timestamp' => bDate()
 			]);
 		}
 
@@ -91,7 +91,7 @@
 
 		public function removeOld() {
 			$this->deleteAll([
-					'timestamp <' => date('Y-m-d H:i:s', time() - $this->duration)
+					'timestamp <' => bDate(time() - $this->duration)
 				],
 				false);
 		}
