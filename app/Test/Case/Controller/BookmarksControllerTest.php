@@ -1,6 +1,6 @@
 <?php
 	App::uses('BookmarksController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	/**
 	 * BookmarksController Test Case

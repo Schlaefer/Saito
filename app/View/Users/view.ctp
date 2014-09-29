@@ -214,19 +214,6 @@
             if ($isMod) {
               $_menuItems = [];
 
-              // lock user
-              if ($CurrentUser->isAdmin() || $modLocking) {
-                $_menuItems[] = $this->Html->link(
-                  '<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
-                  array(
-                    'controller' => 'users',
-                    'action' => 'lock',
-                    $user['User']['id']
-                  ),
-                  array('escape' => false)
-                );
-              }
-
               if ($CurrentUser->isAdmin()) {
                 // edit user
                 $_menuItems[] = $this->Html->link(
@@ -289,4 +276,61 @@
       </div>
     <?php endif; ?>
   </div>
+
+  <?php
+    if ($CurrentUser->isAdmin() || $modLocking) { ?>
+      <div class="panel">
+        <?= $this->Layout->panelHeading(__('user.block.history')) ?>
+        <div class="panel-content">
+          <?= $this->element('users/block-report',
+            ['UserBlock' => $user['UserBlock']]); ?>
+        </div>
+        <?php if (empty($user['User']['user_lock'])) : ?>
+          <div class="panel-footer panel-form">
+            <?php
+              $defaultValue = 86400;
+              echo $this->Form->create(['action' => 'lock']);
+              echo $this->Form->submit(
+                __('Block User'),
+                ['div' => false, 'class' => 'btnLink']
+              );
+              echo "&nbsp;";
+              echo $this->Form->input('lockRange', [
+                'div' => ['style' => 'display: inline-block; margin: 0;'],
+                'style' => 'vertical-align: middle;',
+                'label' => false,
+                'type' => 'range', 'min' => 21600, 'max' => 432000, 'value' => $defaultValue, 'step' => 21600
+              ]);
+              echo $this->Form->hidden('lockPeriod', ['value' => $defaultValue]);
+              $this->Form->unlockField('User.lockPeriod');
+              echo $this->Form->hidden('lockUserId', ['value' => $user['User']['id']]);
+              echo $this->Html->tag('span',
+                String::insert(__(':hours hours'), ['hours' => $defaultValue / 3600]),
+                ['id' => 'lockTimeGauge', 'style' => 'padding: 0.5em']
+              );
+              echo $this->Form->end();
+            ?>
+            <script>
+              SaitoApp.callbacks.afterAppInit.push(function() {
+                require(['jquery', 'backbone'], function($, Backbone) {
+                  'use strict';
+                  var BlockTimeGaugeView = Backbone.View.extend({
+                    events: {'input #UserLockRange': '_onRangeChange'},
+                    _onRangeChange: function(event) {
+                      event.preventDefault();
+                      var value = event.target.value;
+                      var l10n = $.i18n.__(':hours hours', {hours: value/3600});
+                      if (value === event.target.max) {l10n = '∞'; value = 0;}
+                      this.$('#lockTimeGauge').html(l10n);
+                      this.$('#UserLockPeriod').attr('value', value);
+                    }
+                  });
+                  new BlockTimeGaugeView({el: '#UserLockForm'});
+                });
+              });
+            </script>
+          </div>
+        <?php endif; ?>
+      </div>
+    <?php } ?>
 </div>

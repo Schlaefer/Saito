@@ -13,7 +13,8 @@
 
 	// load fixture
 	App::uses('UserFixture', 'Fixture');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
+	App::uses('SaitoTestAssertTrait', 'Lib/Test');
 
 	// sets the FULL_BASE_URL for CLI tests
 	if (!defined('FULL_BASE_URL')) {
@@ -23,6 +24,8 @@
 
 
 	class SaitoControllerTestCase extends ControllerTestCase {
+
+		use SaitoTestAssertTrait;
 
 		/**
 		 * @var array cache environment variables

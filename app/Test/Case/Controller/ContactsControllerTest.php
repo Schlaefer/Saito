@@ -2,7 +2,7 @@
 
 	App::uses('Controller', 'Controller');
 	App::uses('UsersController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	class ContactsControllerTestCase extends SaitoControllerTestCase {
 
@@ -13,6 +13,7 @@
 			'app.entry',
 			'app.setting',
 			'app.user',
+			'app.user_block',
 			'app.user_online',
 			'app.user_read'
 		];

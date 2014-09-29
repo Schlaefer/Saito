@@ -180,6 +180,24 @@ class AppSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
+	public $user_blocks = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'primary'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'index'),
+		'reason' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'by' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => true),
+		'ends' => array('type' => 'datetime', 'null' => true, 'default' => null, 'key' => 'index'),
+		'ended' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'hash' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'ends' => array('column' => 'ends', 'unique' => 0),
+			'user_id' => array('column' => 'user_id', 'unique' => 0)
+		),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+
 	public $user_ignores = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'primary'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),

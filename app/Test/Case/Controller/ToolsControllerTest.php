@@ -1,7 +1,7 @@
 <?php
 
 	App::uses('ToolsController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	/**
 	 * ToolsController Test Case

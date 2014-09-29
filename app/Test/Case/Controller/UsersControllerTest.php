@@ -2,7 +2,7 @@
 
 	App::uses('Controller', 'Controller');
 	App::uses('UsersController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	class UsersControllerTestCase extends SaitoControllerTestCase {
 
@@ -11,6 +11,7 @@
 		public $fixtures = array(
 			'app.bookmark',
 			'app.user',
+			'app.user_block',
 			'app.user_ignore',
 			'app.user_online',
 			'app.user_read',
@@ -146,6 +147,14 @@
 		}
 
 		public function testLoginUserLocked() {
+			$Users = $this->generate('Users');
+			$UserBlock = $this->getMockForModel('UserBlock', ['getBlockEndsForUser']);
+			$UserBlock
+				->expects($this->once())
+				->method('getBlockEndsForUser')
+				->with('8')
+				->will($this->returnValue(false));
+			$Users->User->UserBlock = $UserBlock;
 			$data = ['User' => ['username' => 'Walt', 'password' => 'test']];
 			$result = $this->testAction('/users/login',
 				['data' => $data, 'return' => 'contents']);
@@ -607,47 +616,55 @@
 
 		public function testLock() {
 			/* not logged in should'nt be allowed */
-			$this->testAction('/users/lock/3');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 3]]]);
 			$this->assertRedirectedTo();
 
 			// user can't lock other users
 			$this->_loginUser(3);
-			$this->testAction('/users/lock/4');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 4]]]);
 			$this->controller->User->contain();
 			$result = $this->controller->User->read('user_lock', 4);
 			$this->assertTrue($result['User']['user_lock'] == false);
 
 			// mod locks user
 			$this->_loginUser(2);
-			$this->testAction('/users/lock/4');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 4]]]);
 			$this->controller->User->contain();
 			$result = $this->controller->User->read('user_lock', 4);
 			$this->assertTrue($result['User']['user_lock'] == true);
 
 			// mod unlocks user
-			$this->testAction('/users/lock/4');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 4]]]);
 			$this->controller->User->contain();
 			$result = $this->controller->User->read('user_lock', 4);
 			$this->assertTrue($result['User']['user_lock'] == false);
 
 			// you can't lock yourself out
-			$this->testAction('/users/lock/2');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 2]]]);
 			$this->controller->User->contain();
 			$result = $this->controller->User->read('user_lock', 2);
 			$this->assertTrue($result['User']['user_lock'] == false);
 
 			// mod can't lock admin
-			$this->testAction('/users/lock/1');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 1]]]);
 			$this->controller->User->contain();
 			$result = $this->controller->User->read('user_lock', 1);
 			$this->assertTrue($result['User']['user_lock'] == false);
 
 			// user does not exit
-			$this->testAction('/users/lock/9999');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 9999]]]);
 			$this->assertRedirectedTo();
 
 			// locked user are thrown out
-			$this->testAction('/users/lock/5');
+			$this->testAction('/users/lock',
+				['data' => ['User' => ['lockUserId' => 5]]]);
 			$this->controller->User->contain();
 			$result = $this->controller->User->read('user_lock', 5);
 			$this->assertTrue($result['User']['user_lock'] == true);
@@ -929,7 +946,7 @@
 			$result = $this->testAction('users/view/5', array(
 					'return' => 'view'
 			));
-			$this->assertTextContains('users/lock/5', $result);
+			$this->assertXPath($result, '//input[@value=5][@id="UserLockUserId"]');
 		}
 
 		public function testViewModButtonBlockUiFalse() {

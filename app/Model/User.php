@@ -18,13 +18,17 @@
 		public $name = 'User';
 
 		public $actsAs = [
-				'Containable',
-				'Cron.Cron' => [
-						'registerGc' => [
-								'id' => 'User.registerGc',
-								'due' => 'daily',
-						]
+			'Containable',
+			'Cron.Cron' => [
+				'registerGc' => [
+					'id' => 'User.registerGc',
+					'due' => 'daily',
+				],
+				'userBlockGc' => [
+					'id' => 'User.userBlockGc',
+					'due' => '+15 minutes',
 				]
+			]
 		];
 
 		public $hasOne = array(
@@ -35,6 +39,11 @@
 		);
 
 		public $hasMany = array(
+			'UserBlock' => [
+				'foreignKey' => 'user_id',
+				'dependent' => true,
+				'order' => ['UserBlock.ended IS NULL DESC', 'UserBlock.ended DESC', 'UserBlock.id DESC']
+			],
 			'Bookmark' => array(
 				'foreignKey' => 'user_id',
 				'dependent' => true
@@ -409,6 +418,16 @@
 							'registered <' => bDate(time() - 86400)
 					],
 					false);
+		}
+
+		/**
+		 * calls garbage collection for UserBlock
+		 *
+		 * UserBlock is lazy-loaded rarely and gc may not trigger often enough (at
+		 * least with manual blocking and ignore blocking only)
+		 */
+		public function userBlockGc() {
+			$this->UserBlock->gc();
 		}
 
 		/**

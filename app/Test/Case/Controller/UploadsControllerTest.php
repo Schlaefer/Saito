@@ -1,7 +1,7 @@
 <?php
 
 	App::uses('UploadsController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	/**
 	 * UploadsController Test Case
@@ -17,6 +17,7 @@
 		public $fixtures = array(
 			'app.upload',
 			'app.user',
+			'app.user_block',
 			'app.user_online',
 			'app.bookmark',
 			'app.entry',

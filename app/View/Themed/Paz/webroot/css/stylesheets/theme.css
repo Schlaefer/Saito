@@ -113,6 +113,10 @@ body.headerClosed #hero-home-link { padding-top: 0.5em; padding-bottom: 0.5em; }
 
 .sort-menu-item { padding: 0 0.5em; }
 
+.table-simple { width: 100%; text-align: center; }
+.table-simple th { background-color: #e7e7e7; }
+.table-simple tr td { border-bottom: 1px solid #e2e2e2; }
+
 .prev { margin-right: 0.5em; }
 
 .next { margin-left: 0.5em; }
