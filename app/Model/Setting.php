@@ -1,18 +1,23 @@
 <?php
 
-	class Setting extends AppModel {
+	App::uses('AppSettingModel', 'Lib/Model');
+
+	class Setting extends AppSettingModel {
 
 		public $name = 'Setting';
 
 		public $primaryKey = 'name';
 
-		public $validate = array(/*
-		'name' => array (
-				'rule' => 'VALID_NOT_EMPTY',
-				'message' => 'FATAL: No variable name specified'
-			),
-		*/
-		);
+		public $validate = [
+			'name' => [
+				'rule' => ['between', 1, 255],
+				'allowEmpty' => false
+			],
+			'value' => [
+				'rule' => ['between', 0, 255],
+				'allowEmpty' => true
+			]
+		];
 
 		protected $_optionalEmailFields = [
 			'email_contact', 'email_register', 'email_system'
@@ -52,50 +57,27 @@
 		/**
 		 * Loads settings from storage into Configuration `Saito.Settings`
 		 *
-		 * ### Options
-		 *
-		 * - `force` Force reread of from storage
-		 *
 		 * @param array $preset allows to overwrite loaded values
-		 * @param array
 		 * @return array Settings
 		 */
-		public function load($preset = [], $options = []) {
+		public function load($preset = []) {
 			Stopwatch::start('Settings->getSettings()');
 
-			$options += [
-				'force' => false
-			];
-
-			if ($options['force']) {
-				$settings = $this->_load();
-			} else {
-				$settings = Cache::read('Saito.appSettings');
-				if (empty($settings)) {
-					$settings = $this->_load();
-				}
+			$settings = Cache::read('Saito.appSettings');
+			if (empty($settings)) {
+				$settings = $this->getSettings();
+				Cache::write('Saito.appSettings', $settings);
 			}
-
 			if ($preset) {
-				$settings = array_merge($settings, $preset);
+				$settings = $preset + $settings;
 			}
-
 			Configure::write('Saito.Settings', $settings);
+
 			Stopwatch::end('Settings->getSettings()');
 		}
 
-		protected function _load() {
-			$settings = $this->getSettings();
-			Cache::write('Saito.appSettings', $settings);
-			return $settings;
-		}
-
-		public function afterSave($created, $options = array()) {
-			parent::afterSave($created, $options);
-			$this->load(null, ['force' => true]);
-		}
-
 		public function clearCache() {
+			parent::clearCache();
 			Cache::delete('Saito.appSettings');
 		}
 
