@@ -1,7 +1,7 @@
 {
   "name": "Saito",
   "dependencies": {
-    "jquery": "2.1",
+    "jquery": "2.1.1",
     "backbone": "1.1.2",
     "marionette": "1.7.4",
     "Backbone.localStorage": "1.1.7",
@@ -57,6 +57,6 @@
     }
   },
   "resolutions": {
-    "jquery": "2.1"
+    "jquery": "2.1.1"
   }
 }
