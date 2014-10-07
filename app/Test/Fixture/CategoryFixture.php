@@ -3,14 +3,16 @@
 	class CategoryFixture extends CakeTestFixture {
 
 		public $fields = array(
-				'id' => array( 'type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary' ),
-				'category_order' => array( 'type' => 'integer', 'null' => false, 'default' => '0' ),
-				'category' => array( 'type' => 'string', 'null' => true, 'default' => null ),
-				'description' => array( 'type' => 'string', 'null' => true, 'default' => null ),
-				'accession' => array( 'type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4 ),
-				'thread_count' => array( 'type' => 'integer', 'null' => false, 'default' => 0, 'length' => 11 ),
-				'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
-				'tableParameters' => array()
+			'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+			'category_order' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
+			'category' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+			'description' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
+			'accession' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'unsigned' => false),
+			'thread_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
+			'indexes' => array(
+				'PRIMARY' => array('column' => 'id', 'unique' => 1)
+			),
+			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 		);
 
 		public $records = array(

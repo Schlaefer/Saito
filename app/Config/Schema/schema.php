@@ -17,12 +17,12 @@ class AppSchema extends CakeSchema {
 	}
 
 	public $bookmarks = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-		'entry_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
+		'entry_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
 		'comment' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'bookmarks_entryId_userId' => array('column' => array('entry_id', 'user_id'), 'unique' => 0),
@@ -32,12 +32,12 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $categories = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'category_order' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'category_order' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'category' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'accession' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
-		'thread_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'accession' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'unsigned' => false),
+		'thread_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -56,28 +56,28 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $entries = array(
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'pid' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'tid' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'index'),
-		'time' => array('type' => 'timestamp', 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'key' => 'index'),
-		'last_answer' => array('type' => 'timestamp', 'null' => false, 'default' => null, 'key' => 'index'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'pid' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'key' => 'index'),
+		'tid' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false, 'key' => 'index'),
+		'time' => array('type' => 'timestamp', 'null' => true, 'default' => null, 'key' => 'index'),
+		'last_answer' => array('type' => 'timestamp', 'null' => true, 'default' => null, 'key' => 'index'),
 		'edited' => array('type' => 'timestamp', 'null' => true, 'default' => null),
 		'edited_by' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'integer', 'null' => true, 'default' => '0', 'key' => 'index'),
+		'user_id' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'key' => 'index'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'subject' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'category' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'category' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'text' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'email_notify' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
-		'locked' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
-		'fixed' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
-		'views' => array('type' => 'integer', 'null' => true, 'default' => '0'),
+		'email_notify' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
+		'locked' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
+		'fixed' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
+		'views' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false),
 		'flattr' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'nsfw' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'ip' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 39, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'solves' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'solves' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'tid' => array('column' => 'tid', 'unique' => 0),
@@ -93,9 +93,9 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $esevents = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'subject' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-		'event' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'subject' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
+		'event' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -106,11 +106,11 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $esnotifications = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-		'esevent_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-		'esreceiver_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'deactivate' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 8),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
+		'esevent_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
+		'esreceiver_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
+		'deactivate' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 8, 'unsigned' => false),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -132,11 +132,11 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $shouts = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'text' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
 		'time' => array('type' => 'timestamp', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
@@ -145,8 +145,8 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $smiley_codes = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'smiley_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'smiley_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'code' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
@@ -155,8 +155,8 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $smilies = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'order' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'order' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'unsigned' => false),
 		'icon' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'image' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'title' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -167,13 +167,13 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $uploads = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'type' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 200, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'size' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'size' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null),
+		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -214,9 +214,9 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $user_read = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
-		'entry_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'index'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
+		'entry_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
@@ -245,7 +245,7 @@ class AppSchema extends CakeSchema {
 	);
 
 	public $users = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'user_type' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'username' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'unique', 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_real_name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
@@ -253,23 +253,23 @@ class AppSchema extends CakeSchema {
 		'user_email' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_hp' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_place' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'user_place_lat' => array('type' => 'float', 'null' => true, 'default' => null),
-		'user_place_lng' => array('type' => 'float', 'null' => true, 'default' => null),
-		'user_place_zoom' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4),
+		'user_place_lat' => array('type' => 'float', 'null' => true, 'default' => null, 'unsigned' => false),
+		'user_place_lng' => array('type' => 'float', 'null' => true, 'default' => null, 'unsigned' => false),
+		'user_place_zoom' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 4, 'unsigned' => false),
 		'signature' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'profile' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'entry_count' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'logins' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'entry_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
+		'logins' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'last_login' => array('type' => 'timestamp', 'null' => true, 'default' => null),
-		'registered' => array('type' => 'timestamp', 'null' => false, 'default' => null),
+		'registered' => array('type' => 'timestamp', 'null' => true, 'default' => null),
 		'last_refresh' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'last_refresh_tmp' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'personal_messages' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'user_lock' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'activate_code' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 7),
+		'activate_code' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 7, 'unsigned' => false),
 		'user_signatures_hide' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'user_signatures_images_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4),
-		'user_forum_refresh_time' => array('type' => 'integer', 'null' => true, 'default' => '0'),
+		'user_signatures_images_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
+		'user_forum_refresh_time' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false),
 		'user_automaticaly_mark_as_read' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'user_sort_last_answer' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'user_color_new_postings' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
@@ -287,7 +287,7 @@ class AppSchema extends CakeSchema {
 		'flattr_allow_user' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'flattr_allow_posting' => array('type' => 'boolean', 'null' => true, 'default' => null),
 		'user_category_override' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'user_category_active' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'user_category_active' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'user_category_custom' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 512, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'ignore_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10, 'unsigned' => true),
 		'indexes' => array(
