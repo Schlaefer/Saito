@@ -223,6 +223,8 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 
 .threadLeaf.ignored { opacity: 0; }
 
+.mix .ignored .postingLayout { visibility: hidden; height: 1em; }
+
 .threadTree-node { padding-left: 30px; }
 
 .threadTree-node, .threadCollection-node { list-style: none; }

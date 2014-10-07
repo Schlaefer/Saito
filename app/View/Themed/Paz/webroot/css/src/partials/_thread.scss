@@ -8,6 +8,11 @@
   opacity: 0;
 }
 
+.mix .ignored .postingLayout {
+  visibility: hidden;
+  height: 1em;
+}
+
 // Tread Tree/Collection
 // -------------------------------------
 .threadTree-node {
