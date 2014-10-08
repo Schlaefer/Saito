@@ -7,7 +7,7 @@
 	 */
 	class JbbCodeSmileyVisitor extends JbbCodeTextVisitor {
 
-		protected function _processTextNode($string) {
+		protected function _processTextNode($string, $node) {
 			$s = $this->_getSmilies();
 			$string = str_replace($s['codes'], $s['replacements'], $string);
 			return $string;
