@@ -1,29 +1,24 @@
 <?php
 
-	App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
+	App::uses('HtmlRendererAbstract', 'Lib/Thread/Renderer');
 
-	class MixHtmlRenderer extends ThreadHtmlRenderer {
+	/**
+	 * Class MixHtmlRenderer renders postings into a mix tree
+	 */
+	class MixHtmlRenderer extends HtmlRendererAbstract {
 
-		protected function _renderCore($entry, $level, $node) {
-			$id = $node->id;
-			$css = $this->_generateEntryTypeCss($level, $node->isNew(), $id);
+		protected function _renderCore(PostingInterface $node) {
+			$css = $this->_css($node);
+			$html = $this->_EntryHelper->_View->element('/entry/view_posting',
+				['entry' => $node->getRaw(), 'level' => $node->getLevel()]);
 
-			if ($node->isIgnored()) {
-				$css .= ' ignored';
-			}
-
-			$element = $this->_EntryHelper->_View->element('/entry/view_posting',
-				['entry' => $entry, 'level' => $level]);
-
-			$out = <<<EOF
-<li id="{$id}" class="{$css}">
-	<div class="mixEntry panel">
-		{$element}
-	</div>
+			$html = <<<EOF
+<li id="{$node->id}" class="{$css}">
+	<div class="mixEntry panel">{$html}</div>
 </li>
 EOF;
 
-			return $out;
+			return $html;
 		}
 
 	}

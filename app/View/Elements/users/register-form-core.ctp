@@ -4,7 +4,6 @@
     'error' => [
       'hasAllowedChars' => __('model.user.validate.username.hasAllowedChars'),
       'isUnique' => __('error_name_reserved'),
-      'isUsernameEqual' => __('error.name.equalExists'),
       'notEmpty' => __('error_no_name')
     ],
     'label' => __('register_user_name'),

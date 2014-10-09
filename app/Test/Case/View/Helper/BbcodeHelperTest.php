@@ -432,6 +432,11 @@ EOF;
 			$result = $this->_Bbcode->parse($input);
 			$this->assertNotContains($result, $needle);
 
+			// no autolink in [url]
+			$input = '[url=http://a.com/]http://b.de/[/url]';
+			$result = $this->_Bbcode->parse($input);
+			$this->assertRegExp('#href=["\']http://a.com/["\'][^>]*?>http://b.de/#', $result);
+
 			// email autolink
 			$input = 'text mail@tosomeone.com test';
 			// $expected = "text <a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a> test";

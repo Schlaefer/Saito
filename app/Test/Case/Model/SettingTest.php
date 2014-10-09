@@ -4,6 +4,9 @@
 
 	class SettingTest extends CakeTestCase {
 
+		/** @var Setting */
+		public $Setting;
+
 		public $fixtures = array('app.setting');
 
 		protected $_settingsCompact = array(
@@ -20,18 +23,18 @@
 				'100' => 'Jacob'
 			),
 			'quote_symbol' => '>',
-			'smilies' => 1,
-			'topics_per_page' => 20,
+			'smilies' => '1',
+			'topics_per_page' => '20',
 			'timezone' => 'UTC',
-			'block_user_ui' => 1,
-			'subject_maxlength' => 40,
-			'tos_enabled' => 1,
+			'block_user_ui' => '1',
+			'subject_maxlength' => '40',
+			'tos_enabled' => '1',
 			'tos_url' => 'http://example.com/tos-url.html/',
 			'thread_depth_indent' => '25',
 			'edit_delay' => 180,
 			'edit_period' => '20',
-			'shoutbox_enabled' => true,
-			'shoutbox_max_shouts' => 5
+			'shoutbox_enabled' => '1',
+			'shoutbox_max_shouts' => '5'
 		);
 
 		public function testFillOptionalMailAddresses() {
@@ -56,16 +59,14 @@
 		}
 
 		public function testAfterSave() {
-			$data = array(
-					'value' => 'test',
-			);
+			$data = ['value' => 'test'];
 
 			$this->Setting->id = 'forum_name';
 			$this->Setting->save($data);
 
 			$result = $this->Setting->getSettings();
 			$expected = array_merge($this->_settingsCompact,
-					array( 'forum_name' => 'test', 'autolink' => 1 ));
+				['forum_name' => 'test']);
 			$this->assertEquals($result, $expected);
 		}
 

@@ -188,7 +188,7 @@ define([
 
     _focusSubject: function() {
       // focus is broken in Mobile Safari iOS 8
-      var iOS =  window.navigator.appVersion.match('iPad|iPhone');
+      var iOS =  window.navigator.userAgent.match('iPad|iPhone');
       if (iOS) {
         return;
       }

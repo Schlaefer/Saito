@@ -9,7 +9,12 @@
 
 		protected $_disallowedTags = ['code'];
 
-		protected function _processTextNode($string) {
+		protected function _processTextNode($string, $node) {
+			// don't auto-link in url tags; problem is that 'urlWithAttributes' definition
+			// reuses 'url' tag with ParseContent = true
+			if ($node->getParent()->getTagName() === 'url') {
+				return $string;
+			}
 			$string = $this->_hashLink($string);
 			$string = $this->_atUserLink($string);
 			return $this->_autolink($string);

@@ -327,8 +327,8 @@
 			$data[$this->alias]['user_id'] = $this->CurrentUser->getId();
 			$data[$this->alias]['name'] = $this->CurrentUser['username'];
 
-			$data[$this->alias]['time'] = date('Y-m-d H:i:s');
-			$data[$this->alias]['last_answer'] = date('Y-m-d H:i:s');
+			$data[$this->alias]['time'] = bDate();
+			$data[$this->alias]['last_answer'] = bDate();
 			$data[$this->alias]['ip'] = self::_getIp();
 
 			$this->create();
@@ -426,7 +426,7 @@
 				unset($data[$this->alias]['category']);
 			}
 
-			$data[$this->alias]['edited'] = date('Y-m-d H:i:s');
+			$data[$this->alias]['edited'] = bDate();
 			$data[$this->alias]['edited_by'] = $this->CurrentUser['username'];
 
 			$this->validator()->add(

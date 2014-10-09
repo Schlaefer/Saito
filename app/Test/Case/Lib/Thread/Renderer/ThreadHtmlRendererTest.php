@@ -8,10 +8,42 @@
 
 	class ThreadHtmlRendererTest extends PHPUnit_Framework_TestCase {
 
-		public function testNesting() {
-			$SaitoUser = $this->getMock('SaitoUser', ['getMaxAccession', 'getId', 'hasBookmarks']);
-			$SaitoUser->ReadEntries = $this->getMock('ReadPostingsDummy');
+		/**
+		 * tests that posting of ignored user is/not ignored
+		 */
+		public function testIgnore() {
+			$entry = [
+				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'nsfw' => false, 'solves' => '', 'user_id' => 1 ],
+				'Category' => [ 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
+				'User' => ['id' => 1, 'username' => 'u']
+			];
 
+			$entries = $this->EntryHelper->createTreeObject($entry);
+			$entries = $entries->addDecorator(function ($node) {
+				$node = $this->getMock('PostingCurrentUserDecorator', ['isIgnored'], [$node]);
+				$node->expects($this->once())->method('isIgnored')->will($this->returnValue(true));
+				$node->setCurrentUser($this->SaitoUser);
+				return $node;
+			});
+
+			$xPathQuery = '//ul[@data-id=1]/li[contains(@class,"ignored")]';
+
+			//= posting should be ignored
+			$options = ['maxThreadDepthIndent' => 25];
+			$renderer = new ThreadHtmlRenderer($this->EntryHelper, $options);
+			$result = $renderer->render($entries);
+			$xpath = $this->_getDOMXPath($result);
+			$this->assertEquals(1, $xpath->query($xPathQuery)->length);
+
+			//= posting should not ignored with 'ignore' => false flag set
+			$options['ignore'] = false;
+			$renderer->setOptions($options);
+			$result = $renderer->render($entries);
+			$xpath = $this->_getDOMXPath($result);
+			$this->assertEquals(0, $xpath->query($xPathQuery)->length);
+		}
+
+		public function testNesting() {
 			$entry = $entry1 = $entry2 = $entry3 = [
 				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'nsfw' => false, 'solves' => '', 'user_id' => 1 ],
 				'Category' => [ 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
@@ -27,19 +59,15 @@
 			$entries['_children'] = [$entry1 + ['_children' => [$entry2]], $entry3];
 
 			$entries = $this->EntryHelper->createTreeObject($entries);
-			$entries = $entries->addDecorator(function ($node) use ($SaitoUser) {
+			$entries = $entries->addDecorator(function ($node) {
 				$node = new PostingCurrentUserDecorator($node);
-				$node->setCurrentUser($SaitoUser);
+				$node->setCurrentUser($this->SaitoUser);
 				return $node;
 			});
-			$renderer = new ThreadHtmlRenderer($entries, $this->EntryHelper, ['maxThreadDepthIndent' => 9999]);
-			$result = $renderer->render();
+			$renderer = new ThreadHtmlRenderer($this->EntryHelper, ['maxThreadDepthIndent' => 9999]);
 
-			$document = new DOMDocument;
-			libxml_use_internal_errors(true);
-			$document->loadHTML('<!DOCTYPE html>' . $result);
-			$xpath = new DOMXPath($document);
-			libxml_clear_errors();
+			$result = $renderer->render($entries);
+			$xpath = $this->_getDOMXPath($result);
 
 			$this->assertEquals(2, $xpath->query('//ul[@data-id=1]/li')->length);
 			$this->assertEquals(3, $xpath->query('//ul[@data-id=1]/li/ul/li')->length);
@@ -92,22 +120,23 @@
 			});
 
 			// max depth should not apply
-			$renderer = new ThreadHtmlRenderer($entries, $this->EntryHelper, [
+			$renderer = new ThreadHtmlRenderer($this->EntryHelper, [
 				'maxThreadDepthIndent' => 9999
 			]);
-			$result = $renderer->render();
+			$result = $renderer->render($entries);
 			$this->assertEquals(substr_count($result, '<ul'), 3);
 
 			// max depth should only allow 1 level
-			$renderer = new ThreadHtmlRenderer($entries, $this->EntryHelper, [
-				'maxThreadDepthIndent' => 2
-			]);
-			$result = $renderer->render();
+			$renderer->setOptions(['maxThreadDepthIndent' => 2]);
+			$result = $renderer->render($entries);
 			$this->assertEquals(substr_count($result, '<ul'), 2);
 		}
 
 		public function setUp() {
 			$this->EntryHelper = $this->_setupEntryHelper();
+
+			$this->SaitoUser = new SaitoUser;
+			$this->SaitoUser->ReadEntries = new ReadPostingsDummy;
 		}
 
 		protected function _setupEntryHelper() {
@@ -116,12 +145,16 @@
 			App::uses('EntryHHelper', 'View/Helper');
 			$Controller = new Controller();
 			$View = new View($Controller);
-
-			$LineCache = $this->getMock('Object', ['get', 'set']);
-			$LineCache->expects($this->any())->method('get');
-			$View->set('LineCache', $LineCache);
-
 			return new EntryHHelper($View);
+		}
+
+		protected function _getDOMXPath($html) {
+			$document = new DOMDocument;
+			libxml_use_internal_errors(true);
+			$document->loadHTML('<!DOCTYPE html>' . $html);
+			$xpath = new DOMXPath($document);
+			libxml_clear_errors();
+			return $xpath;
 		}
 
 	}

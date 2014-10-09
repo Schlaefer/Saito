@@ -158,7 +158,7 @@
  */
 		public function setLastRefresh($lastRefresh = null) {
 			Stopwatch::start('Users->setLastRefresh()');
-			$data[$this->alias]['last_refresh_tmp'] = date("Y-m-d H:i:s");
+			$data[$this->alias]['last_refresh_tmp'] = bDate();
 
 			if ($lastRefresh) {
 				$data[$this->alias]['last_refresh'] = $lastRefresh;
@@ -199,7 +199,7 @@
 				$this->alias => [
 					'id' => $id,
 					'logins' => $this->field('logins') + $amount,
-					'last_login' => date('Y-m-d H:i:s')
+					'last_login' => bDate()
 				]
 			];
 			if ($this->save($data, true, ['logins', 'last_login']) == false) {
@@ -338,9 +338,12 @@
 			Stopwatch::start('validateUsernameEqual');
 			$users = $this->userlist();
 			foreach ($users as $name) {
+				if ($name === $data['username']) {
+					continue;
+				}
 				$distance = levenshtein($data['username'], $name);
 				if ($distance < 2) {
-					return false;
+					return __('error.name.equalExists', $name);
 				}
 			}
 			Stopwatch::stop('validateUsernameEqual');
@@ -372,7 +375,7 @@
  */
 		public function register($data, $activate = false) {
 			$defaults = [
-				'registered' => date('Y-m-d H:i:s'),
+				'registered' => bDate(),
 				'user_type' => 'user'
 			];
 			$fields = ['registered', 'username',
@@ -406,7 +409,7 @@
 		public function registerGc() {
 			$this->deleteAll([
 							'activate_code >' => 0,
-							'registered <' => date('Y-m-d H:i:s', time() - 86400)
+							'registered <' => bDate(time() - 86400)
 					],
 					false);
 		}
