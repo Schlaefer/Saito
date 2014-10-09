@@ -34,6 +34,29 @@
 
 			$threadLine = $this->_renderThreadLine($posting, $level);
 			$css = $this->_css($node);
+			$style = '';
+
+			$params = $this->_EntryHelper->_View->Layout->requestCallback(
+				'Request.Saito.ThreadLine.beforeRender',
+				$this->_EntryHelper->_View,
+				[
+					'node' => $node,
+					'css' => $css,
+					'style' => '',
+				],
+				true
+			);
+
+			if (empty($params)) {
+				$params = [];
+			}
+
+			$params += [
+				'append' => '',
+				'css' => $css,
+				'prepend' => '',
+				'style' => $style
+			];
 
 			//= manual json_encode() for performance
 			$tid = (int)$posting['Entry']['tid'];
@@ -44,14 +67,14 @@ EOF;
 
 			// data-id still used to identify parent when inserting	an inline-answered entry
 			$out = <<<EOF
-<li class="threadLeaf {$css}" data-id="{$id}" data-leaf='{$jsData}'>
+<li class="threadLeaf {$params['css']}" style="{$params['style']}" data-id="{$id}" data-leaf='{$jsData}'>
 	<div class="threadLine">
 		<button class="btnLink btn_show_thread threadLine-pre et">
 			<i class="fa fa-thread"></i>
 		</button>
 		<a href="{$this->_webroot}entries/view/{$id}"
 			class="link_show_thread et threadLine-content">
-				{$threadLine}
+				{$params['prepend']}{$threadLine}{$params['append']}
 		</a>
 	</div>
 </li>

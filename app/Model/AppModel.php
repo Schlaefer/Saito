@@ -25,6 +25,15 @@
 
 		public $SharedObjects;
 
+		public function __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+
+			$this->getEventManager()->dispatch(new CakeEvent(
+				'Event.Saito.Model.afterConstruct',
+				$this
+			));
+		}
+
 		public function __get($name) {
 			if (isset($this->SharedObjects[$name])) {
 				return $this->SharedObjects[$name];
@@ -107,17 +116,24 @@
 		}
 
 		/**
-		 * @param $id model ID
-		 * @param $key
-		 * @param int $amount positive or negative integer
+		 * Increments value of a field
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param int $amount
 		 * @throws InvalidArgumentException
 		 */
 		public function increment($id, $field, $amount = 1) {
 			if (!is_int($amount)) {
 				throw new InvalidArgumentException;
 			}
+			$operator = '+';
+			if ($amount < 0) {
+				$operator = '-';
+				$amount *= -1;
+			}
 			$field = $this->alias . '.' . $field;
-			$this->updateAll([$field => $field . ' + ' . $amount],
+			$this->updateAll([$field => "$field $operator $amount"],
 					[$this->alias . '.id' => $id]);
 		}
 
@@ -240,6 +256,20 @@
 			}
 			// fallback to 'parent'
 			return Validation::range($check, $lower, $upper);
+		}
+
+		/**
+		 * Logs current SQL log
+		 *
+		 * Set debug to 2 to enable SQL logging!
+		 */
+		public function logSql() {
+			if (Configure::read('debug') < 2) {
+				trigger_error('You must set debug level to at least 2 to enable SQL-logging', E_USER_NOTICE);
+			}
+			$dbo = $this->getDatasource();
+			$logs = $dbo->getLog();
+			$this->log($logs['log']);
 		}
 
 	}

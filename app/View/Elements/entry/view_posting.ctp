@@ -159,6 +159,12 @@
 					echo $this->Layout->dropdownMenuButton($_menuItems,
 							['class' => 'btnLink btn-icon panel-footer-form-btn']);
 				}
+
+        echo $this->Layout->requestCallback(
+          'Request.Saito.Posting.viewFooterItems',
+          $this,
+          ['posting' => $entry]
+        );
 			?>
 		</div>
 	<?php endif; ?>

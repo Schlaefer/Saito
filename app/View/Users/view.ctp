@@ -159,6 +159,16 @@
       )
     ];
   }
+
+  $items = $this->Layout->requestCallback(
+    'Request.Saito.User.View.beforeTable',
+    $this,
+    ['user' => $user],
+    true
+  );
+  foreach ($items as $item) {
+    $table[] = $item;
+  }
 ?>
 <div class="users view">
   <div class="panel">
