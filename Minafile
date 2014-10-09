@@ -74,7 +74,7 @@ end
 
 desc "Installs composer packages"
 task :composer do
-  queue 'composer install -o'
+  queue 'composer install -o --no-dev'
 end
 
 task :chownContent do
