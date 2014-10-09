@@ -1,9 +1,16 @@
 // Common
 // -------------------------------------
-.threadBox, .threadLeaf {
-  &.ignored {
-    display: none;
-  }
+.threadBox.ignored {
+  display: none;
+}
+
+.threadLeaf.ignored {
+  opacity: 0;
+}
+
+.mix .ignored .postingLayout {
+  visibility: hidden;
+  height: 1em;
 }
 
 // Tread Tree/Collection

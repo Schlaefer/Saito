@@ -1,7 +1,7 @@
 {
   "name": "Saito",
   "dependencies": {
-    "jquery": "2.1",
+    "jquery": "2.1.1",
     "backbone": "1.1.2",
     "marionette": "1.7.4",
     "Backbone.localStorage": "1.1.7",
@@ -9,8 +9,8 @@
     "jquery-autosize": "1.17.8",
     "fastclick": "latest",
     "requirejs-domready": "2.0.1",
-    "requirejs-text": "2.0.10",
-    "requirejs": "2.1.10",
+    "requirejs-text": "2.0.12",
+    "requirejs": "2.1.15",
     "momentjs": "2.6.0",
     "font-awesome": "4.0.3",
     "jquery-tinytimer": "0.1.4",
@@ -21,7 +21,7 @@
     "jasmine-jquery": "~2.0.3",
     "sinonjs": "~1.9.0",
     "lodash": "~2.4.1",
-    "require-cs": "~0.4.4"
+    "require-cs": "~0.5.0"
   },
   "exportsOverride": {
     "backbone": {
@@ -57,6 +57,6 @@
     }
   },
   "resolutions": {
-    "jquery": "2.1"
+    "jquery": "2.1.1"
   }
 }

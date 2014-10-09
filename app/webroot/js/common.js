@@ -45,7 +45,7 @@
       'moment-de': '../dev/bower_components/momentjs/lang/de',
       // coffeescript
       cs: '../dev/bower_components/require-cs/cs',
-      'coffee-script': '../dev/bower_components/require-cs/coffee-script'
+      'coffee-script': '../dev/bower_components/coffeescript/extras/coffee-script'
     }
   };
 

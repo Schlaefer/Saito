@@ -29,7 +29,7 @@
 		}
 
 		public function visitTextNode(\JBBCode\TextNode $textNode) {
-			$textNode->setValue($this->_processTextNode($textNode->getValue()));
+			$textNode->setValue($this->_processTextNode($textNode->getValue(), $textNode));
 		}
 
 		public function visitElementNode(\JBBCode\ElementNode $elementNode) {
@@ -51,6 +51,6 @@
 			}
 		}
 
-		protected abstract function _processTextNode($text);
+		protected abstract function _processTextNode($text, $textNode);
 
 	}

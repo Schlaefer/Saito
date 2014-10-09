@@ -219,7 +219,11 @@ textarea, input[type=text], input[type=password], .markItUp textarea { outline-s
 #shoutbox img { max-width: 100%; }
 #shoutbox .infoText, #shoutbox .postingBody-signature, #shoutbox .threadLine-post, #shoutbox .c-bbcode-link-dinfo, #shoutbox .c-bbcode-edit, #shoutbox .postingBody-info { text-align: center; }
 
-.threadBox.ignored, .threadLeaf.ignored { display: none; }
+.threadBox.ignored { display: none; }
+
+.threadLeaf.ignored { opacity: 0; }
+
+.mix .ignored .postingLayout { visibility: hidden; height: 1em; }
 
 .threadTree-node { padding-left: 30px; }
 

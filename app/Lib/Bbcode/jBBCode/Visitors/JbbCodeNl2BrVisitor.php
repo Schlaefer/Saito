@@ -4,7 +4,7 @@
 
 	class JbbCodeNl2BrVisitor extends JbbCodeTextVisitor {
 
-		protected function _processTextNode($text) {
+		protected function _processTextNode($text, $node) {
 			return nl2br($text);
 		}
 
