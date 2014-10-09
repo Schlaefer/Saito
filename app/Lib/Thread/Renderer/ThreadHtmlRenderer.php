@@ -75,8 +75,9 @@ EOF;
 			//= category HTML
 			$category = '';
 			if ($level === 0) {
-				$accession = $posting['Category']['accession'];
-				if (!isset(self::$_catL10n[$accession])) {
+				$categoryId = $posting['Category']['id'];
+				if (!isset(self::$_catL10n[$categoryId])) {
+					$accession = $posting['Category']['accession'];
 					$catAcs = h(__d('nondynamic', 'category_acs_' . $accession . '_exp'));
 					$catDesc = h($posting['Category']['description']);
 					$catTitle = h($posting['Category']['category']);
@@ -85,9 +86,9 @@ EOF;
 	($catTitle)
 </span>
 EOF;
-					self::$_catL10n[$accession] = $category;
+					self::$_catL10n[$categoryId] = $category;
 				}
-				$category = self::$_catL10n[$accession];
+				$category = self::$_catL10n[$categoryId];
 			}
 
 			$threadLine = <<<EOF
