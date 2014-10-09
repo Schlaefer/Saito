@@ -551,7 +551,7 @@ msgstr "Der Name ist bereits vergeben."
 
 #: View/Elements/users/register-form-core.ctp:7
 msgid "error.name.equalExists"
-msgstr "Ein ähnlicher Name ist bereits vergeben."
+msgstr "Ein ähnlicher Name ist bereits vergeben: %s"
 
 #: View/Elements/users/register-form-core.ctp:8
 msgid "error_no_name"

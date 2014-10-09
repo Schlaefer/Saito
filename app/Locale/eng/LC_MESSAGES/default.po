@@ -546,7 +546,7 @@ msgstr "Name is already used."
 
 #: View/Elements/users/register-form-core.ctp:7
 msgid "error.name.equalExists"
-msgstr "An equal name is already used."
+msgstr "An similar name is already in use: %s"
 
 #: View/Elements/users/register-form-core.ctp:8
 msgid "error_no_name"

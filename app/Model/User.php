@@ -347,9 +347,12 @@
 			Stopwatch::start('validateUsernameEqual');
 			$users = $this->userlist();
 			foreach ($users as $name) {
+				if ($name === $data['username']) {
+					continue;
+				}
 				$distance = levenshtein($data['username'], $name);
 				if ($distance < 2) {
-					return false;
+					return __('error.name.equalExists', $name);
 				}
 			}
 			Stopwatch::stop('validateUsernameEqual');
