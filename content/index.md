@@ -3,10 +3,6 @@ Title: Home
 Template: home
 -->
 
-<div style="color: white; background: red; padding: 1em; margin: 0 0 2em;">
-4.3.2 has a stupid little bug showing the wrong category name. Please wait 	for the next release before you update.
-</div>
-
 # What is it
 
 Saito is an open source threaded web forum written in PHP (see [features](#features) & [tech specs](#techspecs)).
