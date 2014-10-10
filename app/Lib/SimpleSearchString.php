@@ -29,14 +29,17 @@
 			if (empty($this->_string)) {
 				return false;
 			}
+			return strlen($this->getOmittedWords()) === 0;
+		}
+
+		public function getOmittedWords() {
+			$filter = function ($word) {
+				return mb_strlen($word) < $this->_length;
+			};
 			$string = preg_replace('/(".*")/', '', $this->_string);
 			$words = $this->_split($string);
-			foreach ($words as $word) {
-				if (mb_strlen($word) < $this->_length) {
-					return false;
-				}
-			}
-			return true;
+			$result = array_filter($words, $filter);
+			return implode(' ', $result);
 		}
 
 		protected function _split($string) {

@@ -458,6 +458,46 @@
 			);
 		}
 
+		public function testSlidetabOrderSet() {
+			$Controller = $this->generate('Users', ['models' => ['User' => ['saveField']]]);
+			$this->_loginUser(3);
+
+			$validData = ['slidetab_userlist', 'slidetab_shoutbox'];
+			$Controller->User->expects($this->once())->method('saveField')
+				->with('slidetab_order', serialize($validData));
+
+			$data = $validData;
+			$data[] = ['slidetab_foo'];
+			$this->_setAjax();
+			$this->testAction('/users/slidetab_order', ['method' => 'POST',
+				'data' => ['slidetabOrder' => $data]]);
+		}
+
+		public function testSlidetabToggleSuccess() {
+			$Controller = $this->generate('Users', ['models' => ['User' => ['toggle']]]);
+			$this->_loginUser(3);
+
+			$data = 'show_userlist';
+			$Controller->User->expects($this->once())->method('toggle')
+				->with($data);
+
+			$this->_setAjax();
+			$this->testAction('/users/slidetab_toggle', ['method' => 'POST',
+				'data' => ['slidetabKey' => $data]]);
+		}
+
+		public function testSlidetabToggleFailure() {
+			$this->generate('Users');
+			$this->_loginUser(3);
+
+			$data = 'show_foo';
+			$this->setExpectedException('BadRequestException', null, 1412949882);
+
+			$this->_setAjax();
+			$this->testAction('/users/slidetab_toggle', ['method' => 'POST',
+				'data' => ['slidetabKey' => $data]]);
+		}
+
 		public function testViewProfileRequestByUsername() {
 			$this->testAction('/users/view/Mitch');
 			$this->assertContains('/users/name/Mitch', $this->headers['Location']);

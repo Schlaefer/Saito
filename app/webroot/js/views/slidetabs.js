@@ -4,9 +4,9 @@ define([
   'backbone',
   'models/app',
   'views/slidetab'
-], function($, _, Backbone, App, SlidetabView, ShoutsView) {
+], function($, _, Backbone, App, SlidetabView) {
 
-  "use strict";
+  'use strict';
 
   var SlidetabsView = Backbone.View.extend({
 
@@ -30,25 +30,15 @@ define([
           this.$el.css('overflow', 'hidden');
         }, this),
         update: function(event, ui) {
-          var slidetabsOrder = $(this).sortable(
-              'toArray', {attribute: "data-id"}
-          );
+          var slidetabsOrder = $(this).sortable('toArray', {attribute: 'data-id'});
           slidetabsOrder = slidetabsOrder.map(function(name) {
             return 'slidetab_' + name;
           });
-          // @td make model
-          $.ajax({
-            type: 'POST',
-            url: webroot + 'users/ajax_set',
-            data: {
-              data: {
-                User: {
-                  slidetab_order: slidetabsOrder
-                }
-              }
-            },
-            dataType: 'json'
-          });
+          // @todo make model/collection
+          $.post(
+            webroot + 'users/slidetab_order',
+            { slidetabOrder: slidetabsOrder }
+          );
         }
       });
     }

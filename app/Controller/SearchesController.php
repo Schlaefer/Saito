@@ -60,11 +60,11 @@
 
 			// test query is valid
 			$SearchString = new SimpleSearchString($qRaw, $minWordLength);
-			if (!$SearchString->validateLength()) {
-				$this->Entry->validationErrors = ['q' => ['minWordLength']];
-				return;
-			}
+			$this->set('minChars', $minWordLength);
+
 			$query['q'] = $SearchString->replaceOperators();
+			$omitted = $SearchString->getOmittedWords();
+			$this->set('omittedWords', $omitted);
 
 			// sanitize search-term for manual SQL-query
 			$query['q'] = $this->_sanitize($query['q']);
