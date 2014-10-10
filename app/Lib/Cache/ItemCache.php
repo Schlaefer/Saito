@@ -159,7 +159,7 @@
 		}
 
 		protected function _write() {
-			if (empty($this->_cache) || $this->_CacheEngine === null || !$this->_updated) {
+			if ($this->_CacheEngine === null || !$this->_updated) {
 				return;
 			}
 			if ($this->_settings['maxItems']) {
