@@ -26,6 +26,7 @@
 				'app.entry',
 				'app.category',
 				'app.user',
+				'app.user_ignore',
 				'app.user_online',
 				'app.bookmark',
 				'app.esnotification',
