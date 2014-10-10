@@ -17,7 +17,9 @@
 		public $fixtures = array(
 			'app.upload',
 			'app.user',
+			'app.user_ignore',
 			'app.user_online',
+			'app.user_read',
 			'app.bookmark',
 			'app.entry',
 			'app.category',

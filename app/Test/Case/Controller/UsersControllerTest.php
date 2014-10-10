@@ -458,7 +458,6 @@
 			);
 		}
 
-
 		public function testSlidetabOrderSet() {
 			$Controller = $this->generate('Users', ['models' => ['User' => ['saveField']]]);
 			$this->_loginUser(3);

@@ -35,9 +35,18 @@
 		}
 
 		public function write($name, $content) {
-			return $this->_db()->save([
-				'Ecach' => ['key' => $name, 'value' => serialize($content)]
-			]);
+			// @todo @bogus
+			// Calling this write in ItemCache::__deconstruct fails in PHPUnit
+			// because the table is already cleaned up and does no longer exist
+			// to write the content.
+			// Shouldn't never be an issue on a real server.
+			try {
+				return $this->_db()->save([
+					'Ecach' => ['key' => $name, 'value' => serialize($content)]
+				]);
+			} catch (Exception $e) {
+				return false;
+			}
 		}
 
 	}
