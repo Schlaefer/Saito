@@ -675,6 +675,9 @@ msgstr ""
 msgid "search.nstrict"
 msgstr "Exact username"
 
+msgid "search.tooShort"
+msgstr "The following words are to short and were omitted: :omittedWords. Minimum number of characters is: :minChars."
+
 #: View/Searches/advanced.ctp:43
 msgid "search_since"
 msgstr "Since"

@@ -13,6 +13,7 @@
 			'app.entry',
 			'app.setting',
 			'app.user',
+			'app.user_ignore',
 			'app.user_online',
 			'app.user_read'
 		];
