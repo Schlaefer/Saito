@@ -534,37 +534,57 @@
 			$this->autoRender = false;
 		}
 
-		public function ajax_toggle($toggle) {
+		/**
+		 * toggles slidetabs open/close
+		 *
+		 * @return $this|mixed
+		 * @throws BadRequestException
+		 */
+		public function slidetab_toggle() {
 			$this->__ajaxBeforeFilter();
 
-			$allowedToggles = [
+			$toggle = $this->request->data('slidetabKey');
+			$allowed = [
 				'show_userlist',
 				'show_recentposts',
 				'show_recententries',
 				'show_shoutbox'
 			];
-			if (in_array($toggle, $allowedToggles)) {
-				$this->User->id = $this->CurrentUser->getId();
-				$newValue = $this->User->toggle($toggle);
-				$this->CurrentUser[$toggle] = $newValue;
+			if (!$toggle || !in_array($toggle, $allowed)) {
+				throw new BadRequestException(null, 1412949882);
 			}
+
+			$this->User->id = $this->CurrentUser->getId();
+			$newValue = $this->User->toggle($toggle);
+			$this->CurrentUser[$toggle] = $newValue;
 			return $toggle;
 		}
 
-		public function ajax_set() {
+		/**
+		 * sets slidetab-order
+		 *
+		 * @return bool
+		 * @throws BadRequestException
+		 */
+		public function slidetab_order() {
 			$this->__ajaxBeforeFilter();
 
-			if (isset($this->request->data['User']['slidetab_order'])) {
-				$out = $this->request->data['User']['slidetab_order'];
-				$out = array_filter($out, 'strlen');
-				$out = serialize($out);
-
-				$this->User->id = $this->CurrentUser->getId();
-				$this->User->saveField('slidetab_order', $out);
-				$this->CurrentUser['slidetab_order'] = $out;
+			$order = $this->request->data('slidetabOrder');
+			if (!$order) {
+				throw new BadRequestException;
 			}
 
-			return $this->request->data;
+			$allowed = $this->viewVars['slidetabs'];
+			$order = array_filter($order, function($item) use ($allowed) {
+				return in_array($item, $allowed);
+			});
+			$order = serialize($order);
+
+			$this->User->id = $this->CurrentUser->getId();
+			$this->User->saveField('slidetab_order', $order);
+			$this->CurrentUser['slidetab_order'] = $order;
+
+			return true;
 		}
 
 		/**
@@ -590,6 +610,10 @@
 		public function beforeFilter() {
 			Stopwatch::start('Users->beforeFilter()');
 			parent::beforeFilter();
+
+			// @todo CSRF protection
+			$this->Security->unlockedActions[] = 'slidetab_toggle';
+			$this->Security->unlockedActions[] = 'slidetab_order';
 
 			$this->Auth->allow('login', 'register', 'rs');
 			$this->set('modLocking',
