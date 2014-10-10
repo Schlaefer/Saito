@@ -1,3 +1,5 @@
+# PHP #
+
 ## Event.Saito.Model.afterConstruct ##
 
 When: after a model class is constructed
@@ -57,3 +59,46 @@ Returns:
 - css
 - prepend
 - style
+
+# JS #
+
+## Application Vent.Posting.View.afterRender ##
+
+When: after posting view is rendered and initialized
+
+## Init ##
+
+
+```
+SaitoApp.callbacks.beforeAppInit.push(function() {
+	…
+});
+
+
+SaitoApp.callbacks.afterAppInit.push(function() {
+	…
+});
+
+SaitoApp.callbacks.afterViewInit.push(function() {
+	…
+});
+```
+
+
+## Deprecated ##
+
+The following callbacks are available and may be set in `custom_html_header.ctp`:
+
+    <script>
+      window.Saito.callbacks = {
+        afterEntriesIndex: function() {
+          …
+        },
+        afterEntriesMix: function() {
+          …
+        },
+        afterAppmenu: function() {
+          …
+        }
+      }
+    </script>
