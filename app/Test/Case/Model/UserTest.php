@@ -656,8 +656,8 @@
 			$result = $this->User->register($data);
 			$this->assertFalse($result);
 
-			$expected = ['username' => ['An similar name is already in use: Mitch']];
-			$this->assertEquals($this->User->validationErrors, $expected);
+			$this->assertContains('Mitch',
+				$this->User->validationErrors['username'][0]);
 
 			$data = [
 				'User' => [

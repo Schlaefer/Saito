@@ -259,6 +259,9 @@ EOF;
 		public function requestCallback($callbackId, $that, $data, $raw = false) {
 			$event = new CakeEvent($callbackId, $that, $data);
 			CakeEventManager::instance()->dispatch($event);
+			if ($event->result === null) {
+				$event->result = [];
+			}
 			if (!$raw) {
 				$event->result = implode('', $event->result);
 			}

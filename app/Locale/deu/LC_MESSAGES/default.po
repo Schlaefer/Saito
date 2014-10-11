@@ -735,6 +735,10 @@ msgid "search.nstrict"
 msgstr "Exakter Name"
 
 #: View/Searches/advanced.ctp:54
+msgid "search.tooShort"
+msgstr "Die folgenden Wörter sind zu kurz und wurden ignoriert: :omittedWords. Die Mindestzeichenzahl pro Wort beträgt: :minChars."
+
+#: View/Searches/advanced.ctp:43
 msgid "search_since"
 msgstr "Seit"
 

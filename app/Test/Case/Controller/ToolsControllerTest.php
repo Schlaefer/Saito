@@ -15,16 +15,14 @@
 		 * @var array
 		 */
 		public $fixtures = array(
-				'app.ecach',
-				'app.setting',
-				'app.user',
-				'app.user_online',
-//		'app.bookmark',
-				'app.entry',
-//		'app.category',
-//		'app.esevent',
-//		'app.esnotification',
-//		'app.upload'
+			'app.category',
+			'app.ecach',
+			'app.entry',
+			'app.setting',
+			'app.user',
+			'app.user_ignore',
+			'app.user_online',
+			'app.user_read',
 		);
 
 		/**

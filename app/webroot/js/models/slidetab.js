@@ -1,11 +1,12 @@
 define([
+  'jquery',
   'underscore',
   'backbone',
   'app/vent',
   'models/app'
-], function(_, Backbone, EventBus, App) {
+], function($, _, Backbone, EventBus, App) {
 
-  "use strict";
+  'use strict';
 
   var SlidetabModel = Backbone.Model.extend({
 
@@ -20,16 +21,18 @@ define([
 
     onChangeIsOpen: function() {
       EventBus.vent.trigger('slidetab:open', {
-            slidetab: this.get('id'),
-            open: this.get('isOpen')
-          }
+          slidetab: this.get('id'),
+          open: this.get('isOpen')
+        }
       );
     },
 
     sync: function() {
-      $.ajax({
-        url: this.webroot + "users/ajax_toggle/show_" + this.get('id')
-      });
+      var key = 'show_' + this.get('id');
+      $.post(
+        this.webroot + 'users/slidetab_toggle',
+        { slidetabKey: key }
+      );
     }
 
   });

@@ -41,7 +41,7 @@
 		}
 
 		public function clear($id = null) {
-			Cache::clear(false, 'entries');
+			Cache::clearGroup('entries', 'entries');
 			if ($id === null) {
 				$this->_CacheTree->reset();
 			} else {
