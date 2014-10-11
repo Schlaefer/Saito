@@ -53,3 +53,4 @@ alias ..='cd ..'
 
 cd /var/www
 alias xdebugsetup='export PHP_IDE_CONFIG="serverName=saito.dev"; export XDEBUG_CONFIG="remote_host=192.168.1.2 idekey=PHPSTORM"'
+alias cake='app/Console/cake'
