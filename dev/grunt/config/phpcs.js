@@ -22,7 +22,7 @@ module.exports = {
     }
   },
   options: {
-    standard: 'app/Test/phpcs-ruleset.xml',
+    standard: 'app/Test/ruleset.xml',
     ignore: 'webroot',
     // suppress warnings
     warningSeverity: 8
