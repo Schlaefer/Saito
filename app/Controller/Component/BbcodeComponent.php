@@ -29,6 +29,7 @@
 				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
 				'hashBaseUrl' => $controller->webroot . $settings['hashBaseUrl'],
 				'atBaseUrl' => $controller->webroot . $settings['atBaseUrl'],
+				'smiliesData' => $controller->getSmilies(),
 				'UserList' => $userlist
 			];
 		}

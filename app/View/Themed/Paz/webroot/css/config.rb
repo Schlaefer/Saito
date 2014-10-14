@@ -10,8 +10,8 @@ relative_assets = true
 
 #debug_info = false
 line_comments = false
-output_style = :compact
-# output_style = :compressed
+# output_style = :compact
+output_style = :compressed
 
 # Eliminate query string on the end of image-url
 asset_cache_buster do |path, file|

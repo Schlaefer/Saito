@@ -29,6 +29,7 @@
 			// @todo these should be globally set as default in BbcodeSettings
 			'quote_symbol' => '»',
 			'smilies' => false,
+			'smiliesData' => [],
 			// computed values
 			'atBaseUrl' => '', // Base URL for @ tags.
 			'hashBaseUrl' => '', // Base URL for # tags.

@@ -428,3 +428,54 @@ msgstr "API-Schlüssel"
 #
 msgid "map_api_key_exp"
 msgstr "MapQuest-API-Schlüssel."
+
+msgid "smilies.t.angry"
+msgstr "Verärgert"
+
+msgid "smilies.t.blush"
+msgstr "Erröten"
+
+msgid "smilies.t.coffee"
+msgstr "Kaffee"
+
+msgid "smilies.t.cool"
+msgstr "Cool"
+
+msgid "smilies.t.cry"
+msgstr "Weinen"
+
+msgid "smilies.t.embarrassed"
+msgstr "Beschämt"
+
+msgid "smilies.t.evil"
+msgstr "Böse"
+
+msgid "smilies.t.gasp"
+msgstr "Keuch"
+
+msgid "smilies.t.grin"
+msgstr "Grinsen"
+
+msgid "smilies.t.kiss"
+msgstr "Zuneigung"
+
+msgid "smilies.t.saint"
+msgstr "Unschuldig"
+
+msgid "smilies.t.sleep"
+msgstr "Schlaf"
+
+msgid "smilies.t.smile"
+msgstr "Lächeln"
+
+msgid "smilies.t.thumbsup"
+msgstr "Daumen hoch"
+
+msgid "smilies.t.tongue"
+msgstr "Ätsch"
+
+msgid "smilies.t.unhappy"
+msgstr "Unhappy"
+
+msgid "smilies.t.wink"
+msgstr "Wink"

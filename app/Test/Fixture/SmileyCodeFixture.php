@@ -14,21 +14,26 @@ class SmileyCodeFixture extends CakeTestFixture {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
-	public $records = array(
-		array(
+	public $records = [
+		[
 			'id' => 1,
 			'smiley_id' => 1,
 			'code' => ':-)'
-		),
+		],
 		array(
 			'id' => 2,
-			'smiley_id' => 1,
+			'smiley_id' => 2,
 			'code' => ';-)'
 		),
-		array(
+		[
 			'id' => 3,
 			'smiley_id' => 2,
 			'code' => ';)'
-		)
-	);
+		],
+		[
+			'id' => 4,
+			'smiley_id' => 3,
+			'code' => '[_]P'
+		]
+	];
 }

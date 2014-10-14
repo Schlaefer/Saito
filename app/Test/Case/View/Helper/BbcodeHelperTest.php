@@ -788,39 +788,55 @@ EOF;
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
-		public function testSmilies() {
-			$input = ';)';
-			$expected = array(
-				'img' => array(
-					'src' => $this->_Bbcode->webroot(
-							'img/smilies/wink.png'
-						),
-					'alt' => ';)',
-					'title' => 'Wink'
-				)
-			);
-			$result = $this->_Bbcode->parse($input, array('cache' => false));
-			$this->assertTags($result, $expected);
-
-			// test html entities
+		public function testSmiliesHtmlEntities() {
 			$input = h('ü :-) ü');
 			$expected = [
 				'ü ',
 				'img' => [
-					'src' => $this->_Bbcode->webroot('img/smilies/smile_image.png'),
+					'src' => $this->_Bbcode->webroot('img/smilies/smile_image.svg'),
 					'alt' => ':-)',
-					'title' => 'Smile'
+					'title' => 'Smile',
+					'class' => 'saito-smiley-image',
 				],
 				' ü'
 			];
 			$result = $this->_Bbcode->parse($input, array('cache' => false));
 			$this->assertTags($result, $expected);
+		}
 
-			// test no smilies in code
+		public function testSmiliesNoSmiliesInCodeTag() {
 			$input = '[code text]:)[/code]';
 			$needle = '<img';
 			$result = $this->_Bbcode->parse($input, array('cache' => false));
 			$this->assertNotContains($needle, $result);
+		}
+
+		public function testSmiliesPixelImage() {
+			$input = ';)';
+			$expected = [
+				'img' => [
+					'src' => $this->_Bbcode->webroot(
+							'img/smilies/wink.png'
+						),
+					'alt' => ';)',
+					'class' => 'saito-smiley-image',
+					'title' => 'Wink'
+				]
+			];
+			$result = $this->_Bbcode->parse($input, ['cache' => false]);
+			$this->assertTags($result, $expected);
+		}
+
+		public function testSmiliesVectorFont() {
+			$input = '[_]P';
+			$expected = [
+				'i' => [
+					'class' => 'saito-smiley-font saito-smiley-coffee',
+					'title' => 'Coffee'
+				]
+			];
+			$result = $this->_Bbcode->parse($input, ['cache' => false]);
+			$this->assertTags($result, $expected);
 		}
 
 		public function testCodeNestedTags() {
@@ -1022,37 +1038,35 @@ EOF;
 
 			Configure::write('Asset.timestamp', false);
 
-			$smiliesFixture = array(
-					array(
-							'order' => 1,
-							'icon' => 'wink.png',
-							'image' => 'wink.png',
-							'title' => 'Wink',
-							'code' => ';)',
-					),
-					array(
-							'order' => 2,
-							'icon' => 'smile_icon.png',
-							'image' => 'smile_image.png',
-							'title' => 'Smile',
-							'code' => ':-)',
-					),
-					array(
-							'order' => 2,
-							'icon' => 'smile_icon.png',
-							'image' => 'smile_image.png',
-							'title' => 'Smile',
-							'code' => ';-)',
-					),
-			);
-
-			$this->smilies_all = Configure::read('Saito.Smilies.smilies_all');
-			Configure::write('Saito.Smilies.smilies_all', $smiliesFixture);
+			$smiliesFixture = [
+				[
+					'order' => 1,
+					'icon' => 'wink.png',
+					'image' => 'wink.png',
+					'title' => 'Wink',
+					'code' => ';)',
+					'type' => 'image'
+				],
+				[
+					'order' => 2,
+					'icon' => 'smile_icon.svg',
+					'image' => 'smile_image.svg',
+					'title' => 'Smile',
+					'code' => ':-)',
+					'type' => 'image'
+				],
+				[
+					'order' => 3,
+					'icon' => 'coffee',
+					'image' => 'coffee',
+					'title' => 'Coffee',
+					'code' => '[_]P',
+					'type' => 'font'
+				],
+			];
 
 			$this->smilies = Configure::read('Saito.Settings.smilies');
 			Configure::write('Saito.Settings.smilies', true);
-
-			Configure::write("Saito.Smilies.smilies_all_html", false);
 
 			if ( isset($_SERVER['SERVER_NAME']) ) {
 				$this->server_name = $_SERVER['SERVER_NAME'];
@@ -1086,9 +1100,9 @@ EOF;
 
 			$settings = [
 				'quote_symbol' => '»',
-				'use_smilies' => false,
 				'hashBaseUrl' => '/hash/',
 				'atBaseUrl' => '/at/',
+				'smiliesData' => $smiliesFixture,
 				'UserList' => $BbcodeUserlist
 			];
 
@@ -1115,7 +1129,6 @@ EOF;
 			Configure::write('Saito.Settings.autolink', $this->autolink);
 
 			Configure::write('Saito.Settings.smilies', $this->smilies);
-			Configure::write('Saito.Settings.smilies_all', $this->smilies_all);
 
 			Cache::clear();
 			ClassRegistry::flush();

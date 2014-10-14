@@ -9,32 +9,42 @@
 
 		public function testLoad() {
 			// test loading into Configure
-			$this->Smiley->load();
-			$result = Configure::read('Saito.Smilies.smilies_all');
-			$expected = array(
-				array(
+			$result = $this->Smiley->load();
+			$expected = [
+				[
 					'order' => 1,
-					'icon' => 'wink.png',
-					'image' => 'wink.png',
+					'icon' => 'wink.svg',
+					'image' => 'wink.svg',
+					'title' => 'Wink',
+					'code' => ';-)',
+					'type' => 'image'
+				],
+				[
+					'order' => 1,
+					'icon' => 'wink.svg',
+					'image' => 'wink.svg',
 					'title' => 'Wink',
 					'code' => ';)',
-				),
-				array(
+					'type' => 'image'
+				],
+				[
 					'order' => 2,
 					'icon' => 'smile_icon.png',
 					'image' => 'smile_image.png',
 					'title' => 'Smile',
 					'code' => ':-)',
-				),
-				array(
-					'order' => 2,
-					'icon' => 'smile_icon.png',
-					'image' => 'smile_image.png',
-					'title' => 'Smile',
-					'code' => ';-)',
-					),
-			);
-			$this->assertEquals($result, $expected);
+					'type' => 'image'
+				],
+				[
+					'order' => 3,
+					'icon' => 'coffee',
+					'image' => 'coffee',
+					'title' => 'Coffee',
+					'code' => '[_]P',
+					'type' => 'font'
+				]
+			];
+			$this->assertEquals($expected, $result);
 		}
 
 		public function testCacheClearAfterDelete() {

@@ -34,7 +34,6 @@
 
 			$threadLine = $this->_renderThreadLine($posting, $level);
 			$css = $this->_css($node);
-			$style = '';
 
 			$params = $this->_EntryHelper->_View->Layout->requestCallback(
 				'Request.Saito.ThreadLine.beforeRender',
@@ -53,9 +52,9 @@
 
 			$params += [
 				'append' => '',
-				'css' => $css,
+				'css' => '',
 				'prepend' => '',
-				'style' => $style
+				'style' => '',
 			];
 
 			//= manual json_encode() for performance
@@ -66,15 +65,16 @@
 EOF;
 
 			// data-id still used to identify parent when inserting	an inline-answered entry
+			// last </span> comes from _renderThreadLine and allows appending to threadLine-post
 			$out = <<<EOF
-<li class="threadLeaf {$params['css']}" style="{$params['style']}" data-id="{$id}" data-leaf='{$jsData}'>
-	<div class="threadLine">
+<li class="threadLeaf {$css}" data-id="{$id}" data-leaf='{$jsData}'>
+	<div class="threadLine" class="threadLeaf {$params['css']}" style="{$params['style']}">
 		<button class="btnLink btn_show_thread threadLine-pre et">
 			<i class="fa fa-thread"></i>
 		</button>
 		<a href="{$this->_webroot}entries/view/{$id}"
 			class="link_show_thread et threadLine-content">
-				{$params['prepend']}{$threadLine}{$params['append']}
+				{$params['prepend']} {$threadLine} {$params['append']} </span>
 		</a>
 	</div>
 </li>
@@ -114,11 +114,12 @@ EOF;
 				$category = self::$_catL10n[$categoryId];
 			}
 
+			// last </span> closes in parent
 			$threadLine = <<<EOF
 {$subject}
 <span class="c-username"> – {$username}</span>
 {$category}
-<span class="threadLine-post"> {$time} {$badges} </span>
+<span class="threadLine-post"> {$time} {$badges}
 EOF;
 
 			if ($useLineCache) {

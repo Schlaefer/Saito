@@ -21,46 +21,63 @@
 			]
 		];
 
-		public function afterSave($created, $options = array()) {
-			parent::afterSave($created, $options);
-		}
-
-		public function afterDelete() {
-			parent::afterDelete();
-		}
+		protected $_smilies;
 
 		public function load($force = false) {
-			Stopwatch::start('Smiley::load');
-
 			if ($force) {
+				$this->_smilies = null;
 				$this->clearCache();
-			} elseif (Configure::read('Saito.Smilies.smilies_all')) {
-					return;
 			}
 
-			$smilies = Cache::read('Saito.Smilies.smilies_all');
-			if (!$smilies) {
-				$smilies = [];
+			if ($this->_smilies !== null) {
+				return $this->_smilies;
+			}
+
+			Stopwatch::start('Smiley::load');
+			$this->_smilies = Cache::read('Saito.Smilies.data');
+			if (!$this->_smilies) {
+				$this->_smilies = [];
 				$smiliesRaw = $this->find('all', ['order' => 'Smiley.order ASC']);
 
 				foreach ($smiliesRaw as $smileyRaw) {
+					// 'image' defaults to 'icon'
 					if (empty($smileyRaw['Smiley']['image'])) {
 						$smileyRaw['Smiley']['image'] = $smileyRaw['Smiley']['icon'];
 					}
+					// @bogus: if title is unknown it should be a problem
 					if ($smileyRaw['Smiley']['title'] === null) {
 						$smileyRaw['Smiley']['title'] = '';
 					}
+					// set type
+					$smileyRaw['Smiley']['type'] = $this->_getType($smileyRaw['Smiley']);
+
+					// adds smiley-data to every smiley-code
 					foreach ($smileyRaw['SmileyCode'] as $smileyRawCode) {
 						unset($smileyRaw['Smiley']['id']);
 						$smileyRaw['Smiley']['code'] = $smileyRawCode['code'];
-						$smilies[] = $smileyRaw['Smiley'];
+						$this->_smilies[] = $smileyRaw['Smiley'];
 					}
 				}
-				Cache::write('Saito.Smilies.smilies_all', $smilies);
+
+				Cache::write('Saito.Smilies.data', $this->_smilies);
 			};
 
-			Configure::write('Saito.Smilies.smilies_all', $smilies);
 			Stopwatch::stop('Smiley::load');
+			return $this->_smilies;
+		}
+
+		/**
+		 * detects smiley type
+		 *
+		 * @param array $smiley
+		 * @return string image|font
+		 */
+		protected function _getType($smiley) {
+			if (preg_match('/^.*\.[\w]{3,4}$/i', $smiley['image'])) {
+				return 'image';
+			} else {
+				return 'font';
+			}
 		}
 
 	}

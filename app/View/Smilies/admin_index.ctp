@@ -11,7 +11,8 @@
 			<th><?php echo $this->Paginator->sort('order');?></th>
 			<th><?php echo $this->Paginator->sort('icon');?></th>
 			<th><?php echo $this->Paginator->sort('image');?></th>
-			<th><?php echo $this->Paginator->sort('title');?></th>
+      <th><?php echo $this->Paginator->sort('title');?></th>
+    <th><?= __('Translated Title') ?></th>
 			<th class="actions"><?php echo __('Actions');?></th>
 	</tr>
 	<?php
@@ -27,7 +28,8 @@
 		<td><?php echo $smiley['Smiley']['order']; ?>&nbsp;</td>
 		<td><?php echo $smiley['Smiley']['icon']; ?>&nbsp;</td>
 		<td><?php echo $smiley['Smiley']['image']; ?>&nbsp;</td>
-		<td><?php echo $smiley['Smiley']['title']; ?>&nbsp;</td>
+    <td><?= $smiley['Smiley']['title'] ?>&nbsp;</td>
+    <td><?php echo __d('nondynamic', $smiley['Smiley']['title']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $smiley['Smiley']['id']), array('class' => 'btn')); ?>
 			<?php echo $this->Html->link(__('Delete'), array('action' => 'delete', $smiley['Smiley']['id']), array('class' => 'btn'), sprintf(__('Are you sure you want to delete # %s?'), $smiley['Smiley']['id'])); ?>

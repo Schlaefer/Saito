@@ -321,21 +321,19 @@
 				return;
 			}
 			$this->_bbcodeInitialized = true;
-			$this->_loadSmilies();
 			$this->Bbcode->initHelper();
 		}
 
-/**
- *
- * @td make model function:
- * @td must be reloaded somewherewhen updated
- * @td user cakephp cachen?
- */
-		protected function _loadSmilies() {
-			if (Configure::read('Saito.Smilies.smilies_all') === null) {
-				$smilies = ClassRegistry::init('Smiley');
-				$smilies->load();
+		/**
+		 * gets smilies
+		 *
+		 * @return mixed
+		 */
+		public function getSmilies() {
+			if (!$this->Smiley) {
+				$this->loadModel('Smiley');
 			}
+			return $this->Smiley->load();
 		}
 
 /**
