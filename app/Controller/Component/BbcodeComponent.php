@@ -8,30 +8,38 @@
 
 		protected $_initHelper = false;
 
+		/** @var BbcodeSettings */
+		protected $_settings;
+
+		public function initialize(Controller $controller) {
+			$this->_settings = new BbcodeSettings([
+				'server' => Router::fullBaseUrl(),
+				'webroot' => $controller->webroot
+			]);
+		}
+
 		public function beforeRender(Controller $controller) {
 			if ($this->_initHelper === true) {
 				$this->_initHelper($controller);
 			}
 		}
 
-/**
- * Inits the Bbcode Helper for use in a View
- *
- * Call this instead of including in the controller's $helpers array.
- */
+		/**
+		 * Inits the Bbcode Helper for use in a View
+		 *
+		 * Call this instead of including in the controller's $helpers array.
+		 */
 		protected function _initHelper(Controller $controller) {
-			$settings = BbcodeSettings::getInstance();
-
 			$userlist = new BbcodeUserlistUserModel();
 			$userlist->set($controller->User);
 
-			$controller->helpers['Bbcode'] = [
-				'quoteSymbol' => Configure::read('Saito.Settings.quote_symbol'),
-				'hashBaseUrl' => $controller->webroot . $settings['hashBaseUrl'],
-				'atBaseUrl' => $controller->webroot . $settings['atBaseUrl'],
+			$this->_settings->add([
+				'quote_symbol' => Configure::read('Saito.Settings.quote_symbol'),
 				'smiliesData' => $controller->getSmilies(),
 				'UserList' => $userlist
-			];
+			]);
+
+			$controller->helpers['Bbcode'] = $this->_settings->get();
 		}
 
 		public function initHelper() {

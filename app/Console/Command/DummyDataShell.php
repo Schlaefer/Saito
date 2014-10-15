@@ -31,15 +31,14 @@
 		}
 
 		public function generate() {
-			$n = (int)$this->in('Number of postings to generate?', null, 100);
-			if ($n === 0) {
+			$nPostings = (int)$this->in('Number of postings to generate?', null, 100);
+			if ($nPostings === 0) {
 				return;
 			}
 			$ratio = (int)$this->in('Average answers per thread?', null, 10);
-			$seed = $n / $ratio;
+			$seed = $nPostings / $ratio;
 
-			$Bbs = BbcodeSettings::getInstance();
-			$Bbs->set([
+			new BbcodeSettings([
 				'hashBaseUrl' => 'entries/view/',
 				'atBaseUrl' => 'users/name/',
 				'server' => Router::fullBaseUrl(),
@@ -47,7 +46,7 @@
 			]);
 			$this->Entry->SharedObjects['CurrentUser'] = new SaitoUserDummy();
 
-			for ($i = 0; $i < $n; $i++) {
+			for ($i = 0; $i < $nPostings; $i++) {
 				$newThread = $i < $seed;
 
 				$user = $this->_randomUser();
@@ -68,7 +67,7 @@
 					throw new RuntimeException('Could not create entry: ' . $entry);
 				}
 
-				$this->_progress($i, $n);
+				$this->_progress($i, $nPostings);
 
 				$id = $entry['Entry']['id'];
 				$this->_Threads[$id] = $id;
@@ -105,7 +104,6 @@
 
 			$this->out();
 			$this->out("Generated $i users.");
-
 		}
 
 		protected function _progress($i, $off) {
@@ -114,7 +112,7 @@
 			}
 			$this->out('.', 0);
 			if ($i > 1 && !($i % 50)) {
-				$percent = (int)floor($i/$off * 100);
+				$percent = (int)floor($i / $off * 100);
 				$this->out(sprintf(' %3s%%', $percent), 1);
 			}
 		}

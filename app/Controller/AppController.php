@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('Properize', 'Lib');
-	App::uses('BbcodeSettings', 'Lib/Bbcode');
 	App::uses('Controller', 'Controller');
 	App::uses('CakeEmail', 'Network/Email');
 	App::import('Lib', 'Stopwatch.Stopwatch');
@@ -125,16 +124,6 @@
 			$this->Security->blackHoleCallback = 'blackhole';
 			$this->Security->csrfUseOnce = false;
 			$this->Security->csrfExpires = '+3 hours';
-
-			$bbcodeSettings = BbcodeSettings::getInstance();
-			$bbcodeSettings->set(
-				[
-					'hashBaseUrl' => 'entries/view/',
-					'atBaseUrl' => 'users/name/',
-					'server' => Router::fullBaseUrl(),
-					'webroot' => $this->webroot
-				]
-			);
 
 			// activate stopwatch in debug mode
 			$this->set('showStopwatchOutput', false);

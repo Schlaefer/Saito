@@ -15,26 +15,8 @@
 
 	/**
 	 * Class BbcodeHelper
-	 *
-	 * There are three parsing methods:
-	 *
-	 * 1. Native BBCode parsing provided by the BBCode parsing library
-	 * 2. Taginizer which wraps and unwraps non BBCode elements with BBCode
-	 * 3. Poor mans tag splitter used for (smilies, atLinks)
 	 */
 	class BbcodeHelper extends AppHelper implements MarkupParserInterface {
-
-		public $settings = array(
-			// default values for app settings
-			// @todo these should be globally set as default in BbcodeSettings
-			'quote_symbol' => '»',
-			'smilies' => false,
-			'smiliesData' => [],
-			// computed values
-			'atBaseUrl' => '', // Base URL for @ tags.
-			'hashBaseUrl' => '', // Base URL for # tags.
-			'UserList' => '' // userlist class for @ tags.
-		);
 
 		/**
 		 * @var array cache for rendered BBCode
@@ -289,6 +271,7 @@
 
 		protected function _initSettings() {
 			if ($this->_cSettings === null) {
+				// @bogus: why not passed into helper as one array?
 				$this->_cSettings = Configure::read('Saito.Settings') + $this->settings;
 			}
 		}

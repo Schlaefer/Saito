@@ -2,50 +2,43 @@
 
 	/**
 	 * Class BbcodeSettings
-	 *
-	 * Singleton to share global settings between bbcode modules
 	 */
-	class BbcodeSettings implements ArrayAccess {
+	class BbcodeSettings {
 
-		protected $_settings = [];
+		protected $_defaults = [
+			//= default values for app settings
+			'quote_symbol' => '>',
+			'smilies' => false,
+			//= computed values
+			'atBaseUrl' => 'users/name/', // base-URL for @ tags
+			'hashBaseUrl' => 'entries/view/', // base-URL for # tags
+		];
 
-		private static $__instance = null;
+		protected $_settings;
 
-		public static function getInstance() {
-			if (self::$__instance === null) {
-				self::$__instance = new BbcodeSettings();
+		public function __construct(array $settings) {
+			$this->set($settings + $this->_defaults);
+			Configure::write('Saito.Settings.Bbcode', $this);
+			return $this;
+		}
+
+		public function add($mixed, $value = null) {
+			if ($value === null) {
+				$this->_settings = $mixed + $this->_settings;
+			} else {
+				$this->_settings[$mixed] = $value;
 			}
-			return self::$__instance;
 		}
 
-		public function set($settings) {
-			$this->_settings = $settings + $this->_settings;
-		}
-
-		public function get() {
+		public function get($key = null) {
+			if (isset($this->_settings[$key])) {
+				return $this->_settings[$key];
+			}
 			return $this->_settings;
 		}
 
-		protected function __construct() {
-		}
-
-		private function __clone() {
-		}
-
-		public function offsetExists($offset) {
-			isset(self::$__instance->_settings[$offset]);
-		}
-
-		public function offsetGet($offset) {
-			return self::$__instance->_settings[$offset];
-		}
-
-		public function offsetSet($offset, $value) {
-			self::$__instance->_settings[$offset] = $value;
-		}
-
-		public function offsetUnset($offset) {
-			unset(self::$__instance->_settings[$offset]);
+		public function set($settings) {
+			$this->_settings = $settings;
 		}
 
 	}

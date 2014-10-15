@@ -1103,7 +1103,8 @@ EOF;
 				'hashBaseUrl' => '/hash/',
 				'atBaseUrl' => '/at/',
 				'smiliesData' => $smiliesFixture,
-				'UserList' => $BbcodeUserlist
+				'UserList' => $BbcodeUserlist,
+				'webroot' => ''
 			];
 
 			$this->_Bbcode = new BbcodeHelper($View);
