@@ -8,11 +8,12 @@
 
 		public $paginate = [
 			// limit high enough so that no paging should occur
-				'limit' => 1000
+			'limit' => 1000,
+			'order' => ['Smiley.order' => 'ASC']
 		];
 
 		public function admin_index() {
-			$this->Smiley->recursive = 0;
+			$this->Smiley->recursive = 1;
 			$this->set('smilies', $this->paginate());
 		}
 

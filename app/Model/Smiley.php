@@ -51,11 +51,13 @@
 					// set type
 					$smileyRaw['Smiley']['type'] = $this->_getType($smileyRaw['Smiley']);
 
-					// adds smiley-data to every smiley-code
-					foreach ($smileyRaw['SmileyCode'] as $smileyRawCode) {
-						unset($smileyRaw['Smiley']['id']);
-						$smileyRaw['Smiley']['code'] = $smileyRawCode['code'];
-						$this->_smilies[] = $smileyRaw['Smiley'];
+					//= adds smiley-data to every smiley-code
+					if (isset($smileyRaw['SmileyCode'])) {
+						foreach ($smileyRaw['SmileyCode'] as $smileyRawCode) {
+							unset($smileyRaw['Smiley']['id']);
+							$smileyRaw['Smiley']['code'] = $smileyRawCode['code'];
+							$this->_smilies[] = $smileyRaw['Smiley'];
+						}
 					}
 				}
 

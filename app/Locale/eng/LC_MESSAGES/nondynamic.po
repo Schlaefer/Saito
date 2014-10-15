@@ -420,6 +420,9 @@ msgstr "API Key"
 msgid "map_api_key_exp"
 msgstr "MapQuest-API-key."
 
+# Smilies
+# -------------------------------------
+
 msgid "smilies.t.angry"
 msgstr "Angry"
 

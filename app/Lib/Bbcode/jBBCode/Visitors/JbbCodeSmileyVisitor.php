@@ -19,9 +19,9 @@
 		}
 
 		protected function _processTextNode($string, $node) {
-			$s = $this->_getReplacements();
-			$string = str_replace($s['codes'], $s['replacements'], $string);
-			$string = $this->_debug($string, $s);
+			$replacements = $this->_getReplacements();
+			$string = str_replace($replacements['codes'], $replacements['html'], $string);
+			$string = $this->_debug($string, $replacements);
 			return $string;
 		}
 
@@ -30,15 +30,17 @@
 		 *
 		 * useful for debugging
 		 */
-		protected function _debug($string, $smilies) {
+		protected function _debug($string, $replacements) {
 			if (strpos($string, self::DEBUG_SMILIES_KEY) === false) {
 				return $string;
 			}
+			$smilies = $this->_sOptions['smiliesData'];
 			$out[] = '<table class="table table-simple">';
 			$out[] = '<tr><th>Icon</th><th>Code</th><th>Image</th><th>Title</th></tr>';
-			foreach ($smilies['replacements'] as $k => $smiley) {
+			foreach ($replacements['html'] as $k => $smiley) {
+				$title = $this->_l10n($smilies[$k]['title']);
 				$out[] = '<tr>';
-				$out[$smilies['images'][$k]] = "<td>{$smiley}</td><td>{$smilies['codes'][$k]}</td><td>{$smilies['images'][$k]}</td><td>{$smilies['titles'][$k]}</td>";
+				$out[] = "<td>{$smiley}</td><td>{$smilies[$k]['code']}</td><td>{$smilies[$k]['image']}</td><td>{$title}</td>";
 				$out[] = '</tr>';
 			}
 			$out[] = '</table>';
@@ -51,7 +53,7 @@
 			}
 
 			if (!$this->_replacements) {
-				$this->_replacements = ['codes' => [], 'replacements' => [], 'images' => '', 'titles' => []];
+				$this->_replacements = ['codes' => [], 'html' => []];
 				$this->_addSmilies($this->_replacements);
 				$this->_addAdditionalButtons($this->_replacements);
 
@@ -63,17 +65,15 @@
 			return $this->_replacements;
 		}
 
-		protected function _addSmilies(&$s) {
+		protected function _addSmilies(&$replacements) {
 			$smilies = $this->_sOptions['smiliesData'];
-			foreach ($smilies as $smiley) {
-				$title = __d('nondynamic', $smiley['title']);
-				$s['titles'][] = $title;
-				$s['codes'][] = $smiley['code'];
-				$s['images'][] = $smiley['image'];
+			foreach ($smilies as $k => $smiley) {
+				$replacements['codes'][] = $smiley['code'];
+				$title = $this->_l10n($smiley['title']);
 
 				//= vector font smileys
 				if ($smiley['type'] === 'font') {
-					$s['replacements'][] = $this->Html->tag(
+					$replacements['html'][$k] = $this->Html->tag(
 						'i',
 						'',
 						[
@@ -83,7 +83,7 @@
 					);
 				//= pixel image smileys
 				} else {
-					$s['replacements'][] = $this->Html->image(
+					$replacements['html'][$k] = $this->Html->image(
 						'smilies/' . $smiley['image'],
 						[
 							'alt' => $smiley['code'],
@@ -95,21 +95,25 @@
 			}
 		}
 
-		protected function _addAdditionalButtons(&$s) {
+		protected function _l10n($string) {
+			return __d('nondynamic', $string);
+		}
+
+		protected function _addAdditionalButtons(&$replacements) {
 			$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
 			if (empty($additionalButtons)) {
 				return;
 			}
 			foreach ($additionalButtons as $additionalButton) {
 				// $s['codes'][] = ':gacker:';
-				$s['codes'][] = $additionalButton['code'];
-				// $s['replacements'][] = $this->Html->image('smilies/gacker_large.png');
+				$replacements['codes'][] = $additionalButton['code'];
+				// $s['html'][] = $this->Html->image('smilies/gacker_large.png');
 				if ($additionalButton['type'] === 'image') {
 					$additionalButton['replacement'] = $this->Html->image(
 						'markitup' . DS . $additionalButton['replacement']
 					);
 				}
-				$s['replacements'][] = $additionalButton['replacement'];
+				$replacements['html'][] = $additionalButton['replacement'];
 			}
 		}
 

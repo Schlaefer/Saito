@@ -429,6 +429,9 @@ msgstr "API-Schlüssel"
 msgid "map_api_key_exp"
 msgstr "MapQuest-API-Schlüssel."
 
+# Smilies
+# -------------------------------------
+
 msgid "smilies.t.angry"
 msgstr "Verärgert"
 
@@ -475,7 +478,7 @@ msgid "smilies.t.tongue"
 msgstr "Ätsch"
 
 msgid "smilies.t.unhappy"
-msgstr "Unhappy"
+msgstr "Traurig"
 
 msgid "smilies.t.wink"
-msgstr "Wink"
+msgstr "Zwinker"

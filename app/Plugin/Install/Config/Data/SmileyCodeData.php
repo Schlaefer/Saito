@@ -1,145 +1,145 @@
 <?php
 
-/**
- * Install data for model SmileyCode
- */
-class SmileyCodeData {
+	/**
+	 * Install data for model SmileyCode
+	 */
+	class SmileyCodeData {
 
-	public $table = 'smiley_codes';
+		public $table = 'smiley_codes';
 
-	public $records = array(
+		public $records = array(
 			array(
-					'id'				=> 1,
-					'smiley_id'	=> 1,
-					'code'			=> ':-)',
+				'id' => 1,
+				'smiley_id' => 1,
+				'code' => ':-)',
 			),
 			array(
-					'id'				=> 2,
-					'smiley_id'	=> 1,
-					'code'			=> ':)',
+				'id' => 2,
+				'smiley_id' => 1,
+				'code' => ':)',
 			),
 			array(
-					'id'				=> 3,
-					'smiley_id'	=> 2,
-					'code'			=> ';-)',
+				'id' => 3,
+				'smiley_id' => 2,
+				'code' => ':-D',
 			),
 			array(
-					'id'				=> 4,
-					'smiley_id'	=> 2,
-					'code'			=> ';)',
+				'id' => 4,
+				'smiley_id' => 2,
+				'code' => ':D',
 			),
 			array(
-					'id'				=> 5,
-					'smiley_id'	=> 3,
-					'code'			=> ':-P',
+				'id' => 5,
+				'smiley_id' => 3,
+				'code' => ';-)',
 			),
 			array(
-					'id'				=> 6,
-					'smiley_id'	=> 3,
-					'code'			=> ':P',
+				'id' => 6,
+				'smiley_id' => 3,
+				'code' => ';)',
 			),
 			array(
-					'id'				=> 7,
-					'smiley_id'	=> 4,
-					'code'			=> ':-D',
+				'id' => 7,
+				'smiley_id' => 4,
+				'code' => 'O:]',
 			),
 			array(
-					'id'				=> 8,
-					'smiley_id'	=> 4,
-					'code'			=> ':D',
+				'id' => 8,
+				'smiley_id' => 5,
+				'code' => '(-.-)zzZ',
 			),
 			array(
-					'id'				=> 9,
-					'smiley_id'	=> 5,
-					'code'			=> ':blush:',
+				'id' => 9,
+				'smiley_id' => 6,
+				'code' => 'B-)',
 			),
 			array(
-					'id'				=> 10,
-					'smiley_id'	=> 6,
-					'code'			=> ':-O',
+				'id' => 10,
+				'smiley_id' => 7,
+				'code' => ':-*',
 			),
 			array(
-					'id'				=> 11,
-					'smiley_id'	=> 7,
-					'code'			=> ':-(',
+				'id' => 11,
+				'smiley_id' => 8,
+				'code' => ':grinw:',
 			),
 			array(
-					'id'				=> 12,
-					'smiley_id'	=> 7,
-					'code'			=> ':(',
+				'id' => 12,
+				'smiley_id' => 9,
+				'code' => '[_]P',
 			),
 			array(
-					'id'				=> 13,
-					'smiley_id'	=> 8,
-					'code'			=> ':cry:',
+				'id' => 13,
+				'smiley_id' => 9,
+				'code' => ':coffee:',
 			),
 			array(
-					'id'				=> 14,
-					'smiley_id'	=> 8,
-					'code'			=> ':\'(',
+				'id' => 14,
+				'smiley_id' => 10,
+				'code' => ':P',
 			),
 			array(
-					'id'				=> 15,
-					'smiley_id'	=> 9,
-					'code'			=> ':-$',
+				'id' => 15,
+				'smiley_id' => 10,
+				'code' => ':-P',
 			),
 			array(
-					'id'				=> 16,
-					'smiley_id'	=> 9,
-					'code'			=> ':$',
+				'id' => 16,
+				'smiley_id' => 11,
+				'code' => ':evil:',
 			),
 			array(
-					'id'				=> 17,
-					'smiley_id'	=> 10,
-					'code'			=> ':evil:',
+				'id' => 17,
+				'smiley_id' => 12,
+				'code' => ':blush:',
 			),
 			array(
-					'id'				=> 18,
-					'smiley_id'	=> 11,
-					'code'			=> ':-*',
+				'id' => 18,
+				'smiley_id' => 13,
+				'code' => ':-O',
 			),
 			array(
-					'id'				=> 19,
-					'smiley_id'	=> 12,
-					'code'			=> 'O:]',
+				'id' => 19,
+				'smiley_id' => 14,
+				'code' => ':emba:',
 			),
 			array(
-					'id'				=> 20,
-					'smiley_id'	=> 13,
-					'code'			=> ':oops:',
+				'id' => 20,
+				'smiley_id' => 14,
+				'code' => ':oops:',
 			),
 			array(
-					'id'				=> 21,
-					'smiley_id'	=> 14,
-					'code'			=> ':-x',
+				'id' => 21,
+				'smiley_id' => 15,
+				'code' => ':-(',
 			),
 			array(
-					'id'				=> 22,
-					'smiley_id'	=> 15,
-					'code'			=> '(-.-)zzZ',
+				'id' => 22,
+				'smiley_id' => 15,
+				'code' => ':(',
 			),
 			array(
-					'id'				=> 23,
-					'smiley_id'	=> 16,
-					'code'			=> 'B-)',
+				'id' => 23,
+				'smiley_id' => 16,
+				'code' => ':cry:',
 			),
 			array(
-					'id'				=> 24,
-					'smiley_id'	=> 17,
-					'code'			=> ':emba:',
+				'id' => 24,
+				'smiley_id' => 16,
+				'code' => ':\'(',
 			),
 			array(
-					'id'				=> 25,
-					'smiley_id'	=> 18,
-					'code'			=> ':grinw:',
+				'id' => 25,
+				'smiley_id' => 17,
+				'code' => ':angry:',
 			),
 			array(
-					'id'				=> 26,
-					'smiley_id'	=> 19,
-					'code'			=> ':shout:',
-			),
+				'id' => 26,
+				'smiley_id' => 17,
+				'code' => ':shout:',
+			)
+		);
 
-	);
+	}
 
-}
 ?>
