@@ -1,4 +1,4 @@
-define(['underscore', 'marionette', 'app/app',
+define(['underscore', 'marionette', 'app/core',
   'views/postingAction', 'views/postingContent', 'views/postingSlider',
   'text!templates/spinner.html'],
     function(_, Marionette, App, ActionView, ContentView, SliderView, spinnerTpl) {
