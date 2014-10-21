@@ -588,6 +588,50 @@
 			$this->assertPattern('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
 		}
 
+		/**
+		 * tests that the form renders without error if saving fails
+		 *
+		 * doesn't test for any specific validation error
+		 */
+		public function testEditNoInternalErrorOnValidationError() {
+			$Entries = $this->generate('Entries', [
+				'models' => ['Entry' => ['get', 'update']]
+			]);
+
+			$Entries->Entry->expects($this->at(0))
+				->method('get')
+				->with(2)
+				->will($this->returnValue([
+					'Entry' => [
+						'id' => 2,
+						'tid' => 1,
+						'pid' => 1,
+						'time' => time() - 1,
+						'user_id' => 2
+					],
+					'User' => [
+						'username' => 'Mitch'
+					],
+					'rights' => [
+						'isEditingAsUserForbidden' => false,
+						'isEditingForbidden' => false
+					]
+				]));
+			$Entries->Entry->expects($this->once())
+				->method('update')
+				->will($this->returnValue(false));
+
+			$this->_loginUser(2);
+			$this->testAction('entries/edit/2', [
+				'data' => [
+					'Entry' => [
+						'pid' => 1,
+					]
+				],
+				'method' => 'POST'
+			]);
+		}
+
 		public function testPreviewLoggedIn() {
 			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/entries/preview');

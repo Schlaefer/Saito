@@ -427,7 +427,7 @@
 				$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 			}
 
-			$this->request->data = am($oldEntry, $this->request->data);
+			$this->request->data = Hash::merge($oldEntry, $this->request->data);
 
 			// get text of parent entry for citation
 			$parentEntryId = $oldEntry['Entry']['pid'];
