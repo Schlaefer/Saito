@@ -3,25 +3,25 @@ Title: Home
 Template: home
 -->
 
-# What is it
+# What is it #
 
 Saito is an open source threaded web forum written in PHP (see [features](#features) & [tech specs](#techspecs)).
 
 Test the [demo install][testforum] (login: test/test) or see production sites like [macnemo.de] or [macfix.de].
 
-# Why
+# Why #
 
 We had the need for a classic threaded forum but with modern, maintainable and extendable source.
 
 It should be deployable and scale admirably on modest shared hosting accounts.
 
-# Nitty-Gritty ##
+# Pricing #
+
+There's no gorram price tag. It's released under the [MIT license](http://opensource.org/licenses/MIT).
+
+# Nitty-Gritty #
 
 <a name='features'></a>
-
-## Licence ##
-
-- [MIT Licence](http://opensource.org/licenses/MIT)
 
 ## Features ##
 
