@@ -75,13 +75,17 @@
   ];
 
   // number of postings
+  /*
   if (Configure::read('Saito.Settings.userranks_show')) {
     $_userRank = $this->Layout->infoText(' (' .
       $this->UserH->userRank($user['User']['number_of_entries']) .
       ')');;
   } else {
+  */
     $_userRank = '';
+  /*
   }
+  */
   $table[] = [
     __('user_postings'),
     $this->Html->link($user['User']['number_of_entries'],
@@ -160,14 +164,17 @@
     ];
   }
 
-  $items = $this->Layout->requestCallback(
-    'Request.Saito.User.View.beforeTable',
-    $this,
-    ['user' => $user],
-    true
+  $items = SaitoEventManager::getInstance()->dispatch(
+    'Request.Saito.View.User.beforeFullProfile',
+    [
+      'user' => $user,
+      'View' => $this
+    ]
   );
-  foreach ($items as $item) {
-    $table[] = $item;
+  if ($items) {
+    foreach ($items as $item) {
+      $table[] = [$item['title'], $item['content']];
+    }
   }
 ?>
 <div class="users view">

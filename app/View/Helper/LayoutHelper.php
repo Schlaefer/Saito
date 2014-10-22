@@ -256,16 +256,4 @@ EOF;
 			return $this->navbarItem($content, $url, $options);
 		}
 
-		public function requestCallback($callbackId, $that, $data, $raw = false) {
-			$event = new CakeEvent($callbackId, $that, $data);
-			CakeEventManager::instance()->dispatch($event);
-			if ($event->result === null) {
-				$event->result = [];
-			}
-			if (!$raw) {
-				$event->result = implode('', $event->result);
-			}
-			return $event->result;
-		}
-
 	}

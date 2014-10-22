@@ -1,9 +1,14 @@
 <?php
 
+	App::uses('SaitoEventManager', 'Lib/Saito/Event');
+
 	/**
 	 * Helper methods for rendering postings
 	 */
 	trait PostingViewTrait {
+
+		/** * @var SaitoEventManager */
+		protected $_SEM;
 
 		public function getBadges($entry) {
 			$out = '';
@@ -21,6 +26,18 @@
 				$out .= $this->solvedBadge();
 			}
 			$out .= '</span>';
+
+			if (!isset($this->_SEM)) {
+				$this->_SEM = SaitoEventManager::getInstance();
+			}
+			$additionalBadges = $this->_SEM->dispatch(
+				'Request.Saito.View.Posting.badges',
+				['posting' => $entry]
+			);
+			if ($additionalBadges) {
+				$out .= implode('', $additionalBadges);
+			}
+
 			return $out;
 		}
 

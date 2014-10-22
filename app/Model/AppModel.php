@@ -4,6 +4,7 @@
 	App::uses('Sanitize', 'Utility');
 	App::uses('SaitoUser', 'Lib/SaitoUser');
 	App::uses('CakeEvent', 'Event');
+	App::uses('SaitoEventManager', 'Lib/Saito/Event');
 
 	// import here so that `cake schema ...` cli works
 	App::import('Lib', 'Stopwatch.Stopwatch');
@@ -25,13 +26,12 @@
 
 		public $SharedObjects;
 
+		/** * @var SaitoEventManager */
+		protected $_SEM;
+
 		public function __construct($id = false, $table = null, $ds = null) {
 			parent::__construct($id, $table, $ds);
-
-			$this->getEventManager()->dispatch(new CakeEvent(
-				'Event.Saito.Model.afterConstruct',
-				$this
-			));
+			$this->_dispatchEvent('Event.Saito.Model.afterConstruct');
 		}
 
 		public function __get($name) {
@@ -187,6 +187,11 @@
  */
 		protected function _dispatchEvent($event, $data = []) {
 			$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
+			//= propagate event on Saito's event bus
+			if (!$this->_SEM) {
+				$this->_SEM = SaitoEventManager::getInstance();
+			}
+			$this->_SEM->dispatch($event, $data + ['Model' => $this]);
 		}
 
 /**

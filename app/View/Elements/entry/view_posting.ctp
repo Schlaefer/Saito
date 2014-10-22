@@ -160,11 +160,18 @@
 							['class' => 'btnLink btn-icon panel-footer-form-btn']);
 				}
 
-        echo $this->Layout->requestCallback(
-          'Request.Saito.Posting.viewFooterItems',
-          $this,
-          ['posting' => $entry]
-        );
+				$items = SaitoEventManager::getInstance()->dispatch(
+					'Request.Saito.View.Posting.footerItems',
+					[
+						'posting' => $entry,
+						'View' => $this
+					]
+				);
+				if ($items) {
+					foreach ($items as $item) {
+						echo $item;
+					}
+				}
 			?>
 		</div>
 	<?php endif; ?>

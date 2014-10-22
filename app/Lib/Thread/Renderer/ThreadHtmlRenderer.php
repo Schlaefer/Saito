@@ -34,28 +34,22 @@
 
 			$threadLine = $this->_renderThreadLine($posting, $level);
 			$css = $this->_css($node);
+			$badges = $this->getBadges($posting);
 
-			$params = $this->_EntryHelper->_View->Layout->requestCallback(
-				'Request.Saito.ThreadLine.beforeRender',
-				$this->_EntryHelper->_View,
-				[
-					'node' => $node,
-					'css' => $css,
-					'style' => '',
-				],
-				true
+			$requestedParams = $this->_SEM->dispatch(
+				'Request.Saito.View.ThreadLine.beforeRender',
+				['node' => $node, 'View' => $this->_EntryHelper->_View]
 			);
 
-			if (empty($params)) {
-				$params = [];
-			}
+			$params = ['css' => '', 'style' => ''];
 
-			$params += [
-				'append' => '',
-				'css' => '',
-				'prepend' => '',
-				'style' => '',
-			];
+			if (!empty($requestedParams) && !empty($requestedParams[0])) {
+				foreach ($requestedParams as $param) {
+					foreach ($param as $key => $value) {
+						$params[$key] .= $value;
+					}
+				}
+			}
 
 			//= manual json_encode() for performance
 			$tid = (int)$posting['Entry']['tid'];
@@ -74,7 +68,7 @@ EOF;
 		</button>
 		<a href="{$this->_webroot}entries/view/{$id}"
 			class="link_show_thread et threadLine-content">
-				{$params['prepend']} {$threadLine} {$params['append']} </span>
+				{$threadLine} {$badges} </span>
 		</a>
 	</div>
 </li>
@@ -91,7 +85,6 @@ EOF;
 			}
 
 			$subject = $this->getSubject($posting);
-			$badges = $this->getBadges($posting);
 			$username = h($posting['User']['username']);
 			$time = $this->_EntryHelper->TimeH->formatTime($posting['Entry']['time']);
 
@@ -119,7 +112,7 @@ EOF;
 {$subject}
 <span class="c-username"> – {$username}</span>
 {$category}
-<span class="threadLine-post"> {$time} {$badges}
+<span class="threadLine-post"> {$time}
 EOF;
 
 			if ($useLineCache) {

@@ -2,78 +2,87 @@
 
 ## Event.Saito.Model.afterConstruct ##
 
-When: after a model class is constructed
+When: after a Model class is constructed
 
-Subject: Model object
+Data:
+
+- Model
 
 ## Event.Saito.User.afterIgnore ##
 
-When: Fired when a user is ignored
-
-Subject: UserIgnore Model object
+When: after a user is ignored
 
 Data:
 
 - blockedUserId
 - userId
+- Model - UserIgnore 
 
-## Request.Saito.User.View.beforeTable ##
+## Request.Saito.View.Posting.badges ##
 
-When: before table is rendered in users/view
-
-Subject: View Object
+When: badge for posting
 
 Data:
 
-- user: user data as array
+- posting - posting data as array
 
-Returns: table items to be appended into users/view table
+Returns: badge
 
-## Request.Saito.Posting.viewFooterItems ##
+Be careful, this callback is performance sensitive when rendering thread-trees or long threads in mix-view.
+
+## Request.Saito.View.Posting.footerItems ##
 
 When: In panel footer of a posting view.
 
-Subject: View Object
-
 Data:
 
-- posting: entry data as array
+- posting - posting data as array
+- View
 
 Returns: items to be inserted in 
 
-## Request.Saito.ThreadLine.beforeRender ##
+Be careful, this callback may be performance sensitive when rendering long threads in mix-view.
+
+## Request.Saito.View.ThreadLine.beforeRender ##
 
 When: before threadline is rendered
 
-Subject: View object
+Data:
+
+- node - jBBCode node
+- View
+
+Returns: array with optional keys
+
+- css
+- style
+
+Be careful, this callback is performance sensitive when rendering thread-trees.
+
+## Request.Saito.View.User.beforeFullProfile ##
+
+When: before user profile is rendered (users/view)
 
 Data:
 
-- node
-- css
-- style
+- user - user data as array
+- View
 
-Returns:
+Returns: Additional user profile data  as array with mandatory keys:
 
-- append
-- css
-- prepend
-- style
+- 'title' 
+- 'content'
+
 
 # JS #
 
-## Application Vent.Posting.View.afterRender ##
 
-When: after posting view is rendered and initialized
-
-## Init ##
-
+## External Injection Hooks ##
 
 ```
 SaitoApp.callbacks.beforeAppInit.push(function() {
 	…
 });
-
 
 SaitoApp.callbacks.afterAppInit.push(function() {
 	…
@@ -84,8 +93,18 @@ SaitoApp.callbacks.afterViewInit.push(function() {
 });
 ```
 
+## Internal Events ##
 
-## Deprecated ##
+### Vent.Posting.View.afterRender ###
+
+When: after a single posting view is rendered and initialized
+
+
+
+<!-- Not official/deprecated
+
+
+## Mobile ##
 
 The following callbacks are available and may be set in `custom_html_header.ctp`:
 
@@ -102,3 +121,5 @@ The following callbacks are available and may be set in `custom_html_header.ctp`
         }
       }
     </script>
+
+-->
