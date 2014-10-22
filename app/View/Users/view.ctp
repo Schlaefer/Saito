@@ -74,23 +74,11 @@
       strtotime($user['User']['registered']))
   ];
 
-  // number of postings
-  /*
-  if (Configure::read('Saito.Settings.userranks_show')) {
-    $_userRank = $this->Layout->infoText(' (' .
-      $this->UserH->userRank($user['User']['number_of_entries']) .
-      ')');;
-  } else {
-  */
-    $_userRank = '';
-  /*
-  }
-  */
   $table[] = [
     __('user_postings'),
     $this->Html->link($user['User']['number_of_entries'],
       $urlToHistory,
-      ['escape' => false]) . $_userRank
+      ['escape' => false])
   ];
 
   // helpful postings

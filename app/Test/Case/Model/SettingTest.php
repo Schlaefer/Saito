@@ -16,12 +16,6 @@
 			'email_register' => 'register@example.com',
 			'email_system' => 'system@example.com',
 			'autolink' => '1',
-			'userranks_ranks' => array(
-				'10' => 'Castaway',
-				'20' => 'Other',
-				'30' => 'Dharma',
-				'100' => 'Jacob'
-			),
 			'quote_symbol' => '>',
 			'smilies' => '1',
 			'topics_per_page' => '20',
@@ -43,7 +37,6 @@
 			$returnValue = [
 				'edit_delay' => 0,
 				'forum_email' => 'foo@bar.com',
-				'userranks_ranks' => ''
 			];
 
 			$this->Setting->expects($this->once())

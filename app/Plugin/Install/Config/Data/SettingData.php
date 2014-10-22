@@ -45,8 +45,6 @@ class SettingData {
 			['name' => 'tos_url', 'value' => ''],
 			['name' => 'upload_max_img_size', 'value' => '300'],
 			['name' => 'upload_max_number_of_uploads', 'value' => '10'],
-			['name' => 'userranks_ranks', 'value' => '100=Rookie|101=Veteran'],
-			['name' => 'userranks_show', 'value' => '1'],
 			[
 					'name' => 'video_domains_allowed',
 					'value' => 'youtube | youtube-nocookie | vimeo | vine'

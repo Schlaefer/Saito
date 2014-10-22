@@ -269,22 +269,6 @@ msgid "text_word_maxlength_exp"
 msgstr "Max numbers of chars allowed in one word."
 
 #
-msgid "userranks_show"
-msgstr "Enable Ranks"
-
-#
-msgid "userranks_show_exp"
-msgstr "Show user ranks."
-
-#
-msgid "userranks_ranks"
-msgstr "Ranks"
-
-#
-msgid "userranks_ranks_exp"
-msgstr "User ranks based on number of postings."
-
-#
 msgid "video_domains_allowed"
 msgstr "Embeddable Video Sources"
 

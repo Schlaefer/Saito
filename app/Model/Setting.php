@@ -42,11 +42,6 @@
 			}
 			$settings = $this->_compactKeyValue($settings);
 
-			// extract ranks
-			$ranks = $this->_pipeSplitter($settings['userranks_ranks']);
-			ksort($ranks);
-			$settings['userranks_ranks'] = $ranks;
-
 			// edit_delay is normed to seconds
 			$this->_normToSeconds($settings, 'edit_delay');
 			$this->_fillOptionalEmailAddresses($settings);

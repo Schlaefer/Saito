@@ -3066,18 +3066,6 @@ msgstr ""
 #~ msgid "text_word_maxlength_exp"
 #~ msgstr "Maximale Zeichenanzahl pro Wort."
 
-#~ msgid "userranks_show"
-#~ msgstr "Ränge anzeigen"
-
-#~ msgid "userranks_show_exp"
-#~ msgstr "Benutzerränge anzeigen."
-
-#~ msgid "userranks_ranks"
-#~ msgstr "Ränge"
-
-#~ msgid "userranks_ranks_exp"
-#~ msgstr "Benutzerrang basierend auf Anzahl der gemachten Beiträge."
-
 #
 #~ msgid "video_domains_allowed"
 #~ msgstr "Einbettbare (Video-) Quellen"

@@ -50,8 +50,6 @@
 						'signature_separator',
 						'subject_maxlength',
 						'text_word_maxlength',
-						'userranks_show',
-						'userranks_ranks',
 						'video_domains_allowed'
 					],
 					$Settings
