@@ -636,10 +636,6 @@ msgstr "Thread abonnieren"
 msgid "posting.badge.nsfw.exp"
 msgstr "Nicht bürosicher (NBS)"
 
-#: View/Entries/add.ctp:161
-msgid "entry_flattr_this_posting"
-msgstr "Flattr-Knopf anzeigen"
-
 #: View/Entries/index.ctp:20
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
@@ -1110,34 +1106,6 @@ msgstr "Kategorienfilter"
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
-
-#: View/Users/edit.ctp:276 View/Users/view.ctp:149
-msgid "flattr"
-msgstr "flattrn"
-
-#: View/Users/edit.ctp:280
-msgid "flattr_uid"
-msgstr "Flattr ID"
-
-#: View/Users/edit.ctp:284
-msgid "flattr_allow_user"
-msgstr "Flattrn"
-
-#: View/Users/edit.ctp:285
-msgid "flattr_allow_user_exp"
-msgstr ""
-"Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn "
-"allgemein für das Benutzerkonto."
-
-#: View/Users/edit.ctp:288
-msgid "flattr_allow_posting"
-msgstr "Postings flattrn"
-
-#: View/Users/edit.ctp:289
-msgid "flattr_allow_posting_exp"
-msgstr ""
-"Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird "
-"automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
 
 #: View/Users/edit.ctp:296
 msgid "button_save"
@@ -3116,28 +3084,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Maximale Anzahl von Dateien, die ein einzelner Benutzer gleichzeitig auf "
 #~ "dem Server hochgeladen haben kann."
-
-#~ msgid "flattr_enabled"
-#~ msgstr "Flattr aktivieren"
-
-#~ msgid "flattr_enabled_exp"
-#~ msgstr "Ermöglicht es Benutzern flattr zu verwenden."
-
-#~ msgid "flattr_language"
-#~ msgstr "Flattr-Sprache"
-
-#~ msgid "flattr_language_exp"
-#~ msgstr ""
-#~ "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku "
-#~ "auf flattr.com für Kürzel."
-
-#~ msgid "flattr_category"
-#~ msgstr "Flattr-Kategorie"
-
-#~ msgid "flattr_category_exp"
-#~ msgstr ""
-#~ "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe "
-#~ "flattr.com für verfügbare Kategorien."
 
 #~ msgid "embedly_enabled"
 #~ msgstr "Embed.ly aktivieren"

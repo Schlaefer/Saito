@@ -325,30 +325,6 @@ msgid "upload_max_number_of_uploads_exp"
 msgstr "Max number of uploaded files for a single user."
 
 #
-msgid "flattr_enabled"
-msgstr "Flattr Enabled"
-
-#
-msgid "flattr_enabled_exp"
-msgstr "Allows users to add a flattr button to their profil and their postings."
-
-#
-msgid "flattr_language"
-msgstr "Flattr Language"
-
-#
-msgid "flattr_language_exp"
-msgstr "Flattr expects an language key for the content send. See flattr documentation for available language keys."
-
-#
-msgid "flattr_category"
-msgstr "Flattr Category"
-
-#
-msgid "flattr_category_exp"
-msgstr "See flattr documentation for available categories."
-
-#
 msgid "embedly_enabled"
 msgstr "Enable Embedly"
 

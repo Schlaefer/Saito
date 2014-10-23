@@ -8,7 +8,6 @@
 
 		public $helpers = [
 			'Farbtastic',
-			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',
 			'EntryH',
 			'Map',

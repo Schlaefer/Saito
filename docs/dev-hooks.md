@@ -1,5 +1,13 @@
 # PHP #
 
+## Event.Saito.Controller.initialize ##
+
+When: on CakePHP's 'Controller.initialize' event
+
+Data:
+
+- subject: Controller object
+
 ## Event.Saito.Model.afterConstruct ##
 
 When: after a Model class is constructed
@@ -30,9 +38,9 @@ Returns: badge
 
 Be careful, this callback is performance sensitive when rendering thread-trees or long threads in mix-view.
 
-## Request.Saito.View.Posting.footerItems ##
+## Request.Saito.View.Posting.footerActions ##
 
-When: In panel footer of a posting view.
+Add HTML content to the footer actions when viewing a posting.
 
 Data:
 
@@ -57,7 +65,7 @@ Returns: array with optional keys
 - css
 - style
 
-Be careful, this callback is performance sensitive when rendering thread-trees.
+Be **very** careful, this callback is performance sensitive when rendering thread-trees.
 
 ## Request.Saito.View.User.beforeFullProfile ##
 
@@ -73,6 +81,16 @@ Returns: Additional user profile data  as array with mandatory keys:
 - 'title' 
 - 'content'
 
+## Request.Saito.View.User.edit ##
+
+Inserts content into user edit page.
+
+Data:
+
+- user
+- View
+
+Returns: HTML
 
 # JS #
 

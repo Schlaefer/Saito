@@ -350,14 +350,6 @@ msgid "flattr_language_exp"
 msgstr "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf flattr.com für Kürzel."
 
 #
-msgid "flattr_category"
-msgstr "Flattr-Kategorie"
-
-#
-msgid "flattr_category_exp"
-msgstr "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe flattr.com für verfügbare Kategorien."
-
-#
 msgid "embedly_enabled"
 msgstr "Embed.ly aktivieren"
 

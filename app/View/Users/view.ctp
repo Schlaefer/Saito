@@ -132,26 +132,7 @@
     ];
   }
 
-  // flattr Button
-  if (Configure::read('Saito.Settings.flattr_enabled') == true &&
-    !empty($entry['User']['flattr_uid']) &&
-    $user['User']['flattr_allow_user'] == true
-  ) {
-    $table[] = [
-      __('flattr'),
-      $this->Flattr->button('',
-        array(
-          'uid' => $user['User']['flattr_uid'],
-          'language' => Configure::read('Saito.Settings.flattr_language'),
-          'title' => '[' . $_SERVER['HTTP_HOST'] . '] ' . $user['User']['username'],
-          'description' => '[' . $_SERVER['HTTP_HOST'] . '] ' . $user['User']['username'],
-          'cat' => Configure::read('Saito.Settings.flattr_category'),
-          'button' => 'compact',
-        )
-      )
-    ];
-  }
-
+	//= get additional profile info from plugins
   $items = SaitoEventManager::getInstance()->dispatch(
     'Request.Saito.View.User.beforeFullProfile',
     [

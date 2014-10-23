@@ -231,6 +231,10 @@ Configure::write('Saito.Cache.Thread', true);
  */
 Configure::write('Saito.markItUp.nextCssId', 10);
 
+//= attach Saito event manager to Cake event manager
+App::uses('SaitoEventManager', 'Lib/Saito/Event');
+CakeEventManager::instance()->attach(SaitoEventManager::getInstance());
+
 include 'saito_config.php';
 /*
 Configure::write('Markitup.vendors', array(

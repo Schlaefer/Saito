@@ -1,0 +1,25 @@
+msgid "flattr"
+msgstr "flattrn"
+
+msgid "flattr_uid"
+msgstr "Flattr ID"
+
+msgid "flattr_allow_user"
+msgstr "Flattrn"
+
+msgid "flattr_allow_user_exp"
+msgstr ""
+"Zeigt einen Flattr-Button auf der eigenen Profilseite. Erlaubt das Flattrn "
+"allgemein für das Benutzerkonto."
+
+msgid "flattr_allow_posting"
+msgstr "Postings flattrn"
+
+msgid "flattr_allow_posting_exp"
+msgstr ""
+"Beim Erstellen eines neuen Beitrages in den Ontopic-Kategorien wird "
+"automatisch das Flattr-Häkchen im Posting-Formular gesetzt."
+
+msgid "flattr_this_posting"
+msgstr "Flattr-Knopf anzeigen"
+

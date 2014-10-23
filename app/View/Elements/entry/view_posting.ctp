@@ -36,23 +36,17 @@
 		<div class="postingLayout-actions panel-footer panel-form">
 			<div style="float:right">
 				<?php
-					// flattr - Button
-					if (Configure::read('Saito.Settings.flattr_enabled') == true
-							// flattr is activated by admin
-							&& $entry['Entry']['flattr'] == true
-							&& !empty($entry['User']['flattr_uid'])
-					) :
-						echo $this->Flattr->button('',
-								array(
-										'uid' => $entry['User']['flattr_uid'],
-										'language' => Configure::read('Saito.Settings.flattr_language'),
-										'title' => $entry['Entry']['subject'],
-										'description' => $entry['Entry']['subject'],
-										'cat' => Configure::read('Saito.Settings.flattr_category'),
-										'button' => 'compact',
-								)
-						);
-					endif;
+					//= get additional actions from plugins
+					$items = SaitoEventManager::getInstance()->dispatch(
+						'Request.Saito.View.Posting.footerActions',
+						[
+							'entry' => $entry,
+							'View' => $this
+						]
+					);
+					foreach ($items as $item) {
+						echo $item;
+					}
 				?>
 			</div>
 

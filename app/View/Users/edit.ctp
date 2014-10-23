@@ -272,25 +272,21 @@
   </div> <!-- content -->
   </div>
 
-	<div class="panel">
-		<?= $this->Layout->panelHeading(__('flattr')) ?>
-		<div class='panel-content panel-form'>
-    <table class="table th-left elegant">
-      <tr>
-        <td><?php echo __('flattr_uid'); ?></td>
-        <td><?php echo $this->Form->input('flattr_uid', array( 'label' => false )); ?> </td>
-      </tr>
-      <tr>
-        <td><?php echo __('flattr_allow_user'); ?></td>
-        <td><?php echo $this->Form->checkbox('flattr_allow_user', array ( 'label' => false )); ?> <p class="exp"> <?php echo __('flattr_allow_user_exp') ?> </p> </td>
-      </tr>
-      <tr>
-        <td><?php echo __('flattr_allow_posting'); ?></td>
-        <td><?php echo $this->Form->checkbox('flattr_allow_posting', array ( 'label' => false )); ?> <p class="exp"> <?php echo __('flattr_allow_posting_exp') ?> </p> </td>
-      </tr>
-    </table>
-  </div>
-  </div>
+	<?php
+		//= get additional profile info from plugins
+		$items = SaitoEventManager::getInstance()->dispatch(
+			'Request.Saito.View.User.edit',
+			[
+				'user' => $user,
+				'View' => $this
+			]
+		);
+		if ($items) {
+			foreach ($items as $item) {
+				echo $item;
+			}
+		}
+	?>
 
 	<br	/>
 	<?php echo $this->Form->submit(__("button_save"), array ( 'id' => 'btn-submit', 'class' => 'btn btn-submit' )); ?>

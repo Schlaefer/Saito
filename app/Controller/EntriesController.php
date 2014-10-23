@@ -9,13 +9,11 @@
 		public $helpers = [
 			'EntryH',
 			'MarkitupEditor',
-			'Flattr.Flattr',
 			'Shouts',
 			'Text',
 		];
 
 		public $components = [
-			'Flattr',
 			'Shouts'
 		];
 

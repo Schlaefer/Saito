@@ -630,10 +630,6 @@ msgstr ""
 msgid "posting.badge.nsfw.exp"
 msgstr "Not safe for work (NSFW)"
 
-#: View/Entries/add.ctp:161
-msgid "entry_flattr_this_posting"
-msgstr "flattr-Button"
-
 #: View/Entries/index.ctp:20
 msgid "new_entry_linkname"
 msgstr "New Entry"
@@ -1090,30 +1086,6 @@ msgstr "Category-Chooser"
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
-
-#: View/Users/edit.ctp:276 View/Users/view.ctp:149
-msgid "flattr"
-msgstr ""
-
-#: View/Users/edit.ctp:280
-msgid "flattr_uid"
-msgstr "Flattr-ID"
-
-#: View/Users/edit.ctp:284
-msgid "flattr_allow_user"
-msgstr "Flattrn"
-
-#: View/Users/edit.ctp:285
-msgid "flattr_allow_user_exp"
-msgstr "Flattr button on profile page"
-
-#: View/Users/edit.ctp:288
-msgid "flattr_allow_posting"
-msgstr "Flattr Postings"
-
-#: View/Users/edit.ctp:289
-msgid "flattr_allow_posting_exp"
-msgstr "Ontopic postings have flatter button activated by default"
 
 #: View/Users/edit.ctp:296
 msgid "button_save"

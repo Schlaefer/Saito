@@ -7,21 +7,30 @@
 	 * few hundred times on the front-page and gives roughly 3x over
 	 * the CakeEventManager in Cake 2.
 	 */
-	class SaitoEventManager {
+	class SaitoEventManager implements CakeEventListener {
 
 		protected static $_Instance;
 
 		protected $_listeners = [];
-
-		public function implementedEvents() {
-			return [];
-		}
 
 		public static function getInstance() {
 			if (self::$_Instance === null) {
 				self::$_Instance = new SaitoEventManager();
 			}
 			return self::$_Instance;
+		}
+
+		public function implementedEvents() {
+			return [
+				'Controller.initialize' => 'cakeEventPassThrough'
+			];
+		}
+
+		public function cakeEventPassThrough($event) {
+			$data = ($event->data) ? : [];
+			$data += ['subject' => $event->subject];
+			$name = 'Event.Saito.' . $event->name();
+			$this->dispatch($name, $data);
 		}
 
 		/**
@@ -54,11 +63,15 @@
 		public function dispatch($key, $data = []) {
 //			Stopwatch::start("SaitoEventManager::dispatch $key");
 			if (!isset($this->_listeners[$key])) {
-				return null;
+				return [];
 			}
+			$results = [];
 			foreach ($this->_listeners[$key] as $func) {
 				// faster than call_user_func
-				$results[] = $func[0]->$func[1]($data);
+				$result = $func[0]->$func[1]($data);
+				if ($result !== null) {
+					$results[] = $result;
+				}
 			}
 //			Stopwatch::stop("SaitoEventManager::dispatch $key");
 			return $results;

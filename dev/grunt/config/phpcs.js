@@ -18,7 +18,7 @@ module.exports = {
   plugins: {
     dir: ['./app/Plugin'],
     options: {
-      ignore: 'Embedly,Geshi,FileUpload,Flattr,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
+      ignore: 'Embedly,Geshi,FileUpload,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
     }
   },
   options: {

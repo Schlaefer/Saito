@@ -19,7 +19,7 @@
 		/**
 		 * @var array predefined fields for filterFields()
 		 */
-		protected $_allowedInputFields = [];
+		public $allowedInputFields = [];
 
 		# Entry->User->UserOnline
 		public $recursive = 1;
@@ -59,8 +59,8 @@
 		 * @param $fields
 		 */
 		public function filterFields(&$data, $fields) {
-			if (is_string($fields) && isset($this->_allowedInputFields[$fields])) {
-				$fields = $this->_allowedInputFields[$fields];
+			if (is_string($fields) && isset($this->allowedInputFields[$fields])) {
+				$fields = $this->allowedInputFields[$fields];
 			}
 			$fields = array_flip($fields);
 			$data = [

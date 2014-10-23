@@ -80,13 +80,6 @@
 				);
 
 				echo $this->Setting->table(
-					$this->Html->link('Flattr', 'http://flattr.com/'),
-					['flattr_enabled', 'flattr_language', 'flattr_category'],
-					$Settings,
-					['nav-title' => 'Flattr']
-				);
-
-				echo $this->Setting->table(
 					$this->Html->link('Embed.ly', 'http://embed.ly/'),
 					['embedly_enabled', 'embedly_key'],
 					$Settings,
