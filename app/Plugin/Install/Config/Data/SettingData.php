@@ -25,7 +25,7 @@ class SettingData {
 			['name' => 'forum_name', 'value' => 'Saito Forum'],
 			['name' => 'map_enabled', 'value' => '0'],
 			['name' => 'map_api_key', 'value' => ''],
-			['name' => 'quote_symbol', 'value' => '»'],
+			['name' => 'quote_symbol', 'value' => '>'],
 			['name' => 'shoutbox_enabled', 'value' => '1'],
 			['name' => 'shoutbox_max_shouts', 'value' => '10'],
 			['name' => 'signature_separator', 'value' => '⁂'],
