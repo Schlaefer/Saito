@@ -29,7 +29,7 @@
 		$paginatorControl .= '&nbsp;';
 	}
 
-	echo $this->Paginator->counter(['format' => $options['format']]);
+	$paginatorControl .= $this->Paginator->counter(['format' => $options['format']]);
 
 	if ($this->Paginator->hasNext()) {
 		$paginatorControl .= '&nbsp;';
@@ -42,6 +42,6 @@
 	$paginatorControl .= '</span>';
 
 	// caches head-nav paginator for footer-nav
-	$paginatorControl = $this->assign('paginatorControl', $paginatorControl);
+	$this->assign('paginatorControl', $paginatorControl);
 
 	echo $paginatorControl;
