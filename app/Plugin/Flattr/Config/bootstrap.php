@@ -1,7 +1,7 @@
 <?php
 
-	Configure::load('Flattr.config');
-	$settings = Configure::read('Flattr');
-
+	App::uses('SaitoPlugin', 'Lib/Saito');
 	App::uses('FlattrRenderer', 'Flattr.Lib');
+
+	$settings = SaitoPlugin::loadConfig('Flattr');
 	SaitoEventManager::getInstance()->attach(new FlattrRenderer($settings));

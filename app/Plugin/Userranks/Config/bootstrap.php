@@ -1,8 +1,8 @@
 <?php
 
-	//= load plugin settings from Config/config.php
-	Configure::load('Userranks.config');
-	$settings = Configure::read('Userranks');
+	//= load plugin settings
+	App::uses('SaitoPlugin', 'Lib/Saito');
+	$settings = SaitoPlugin::loadConfig('Userranks');
 
 	//= create Userranks class
 	App::uses('Userranks', 'Userranks.Lib');

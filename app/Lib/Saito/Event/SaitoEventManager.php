@@ -64,6 +64,7 @@
 		public function dispatch($key, $data = []) {
 //			Stopwatch::start("SaitoEventManager::dispatch $key");
 			if (!isset($this->_listeners[$key])) {
+//				Stopwatch::stop("SaitoEventManager::dispatch $key");
 				return [];
 			}
 			$results = [];
