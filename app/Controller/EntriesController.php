@@ -321,8 +321,6 @@
 					// create new subentry
 					unset($this->request->data['Entry']['id']);
 					$this->request->data['Entry']['pid'] = $id;
-					// we assume that an answers to a nsfw posting isn't nsfw itself
-					unset($this->request->data['Entry']['nsfw']);
 					$this->set('citeSubject', $this->request->data['Entry']['subject']);
 					// subject is empty in answer-form
 					unset($this->request->data['Entry']['subject']);
@@ -566,7 +564,6 @@
 					'subject' => $data['subject'],
 					'text' => $data['text'],
 					'category' => $data['category'],
-					'nsfw' => $data['nsfw'],
 					'fixed' => false,
 					'solves' => 0,
 					'views' => 0,

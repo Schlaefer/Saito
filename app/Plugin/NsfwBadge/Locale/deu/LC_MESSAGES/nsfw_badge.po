@@ -1,0 +1,6 @@
+msgid "nsfw.exp"
+msgstr "Nicht bürosicher (NBS)"
+
+msgid "nsfw.title"
+msgstr "NBS"
+

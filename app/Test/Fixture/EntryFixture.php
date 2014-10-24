@@ -156,13 +156,6 @@
 						'collate' => null,
 						'comment' => ''
 				],
-				'nsfw' => [
-						'type' => 'boolean',
-						'null' => true,
-						'default' => null,
-						'collate' => null,
-						'comment' => ''
-				],
 				'ip' => [
 						'type' => 'string',
 						'null' => true,

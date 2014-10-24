@@ -2,15 +2,15 @@
 
 ## Event.Saito.Controller.initialize ##
 
-When: on CakePHP's 'Controller.initialize' event
+Trigger: on CakePHP's 'Controller.initialize' event
 
 Data:
 
 - subject: Controller object
 
-## Event.Saito.Model.afterConstruct ##
+## Event.Saito.Model.initialize ##
 
-When: after a Model class is constructed
+Trigger: after a Model is constructed
 
 Data:
 
@@ -18,7 +18,7 @@ Data:
 
 ## Event.Saito.User.afterIgnore ##
 
-When: after a user is ignored
+Trigger: after a user is ignored
 
 Data:
 
@@ -26,9 +26,18 @@ Data:
 - userId
 - Model - UserIgnore 
 
+## Event.Saito.View.beforeRender ##
+
+Trigger: on CakePHP's 'View.beforeRender' event
+
+Data:
+
+- subject: View object
+
+
 ## Request.Saito.View.Posting.badges ##
 
-When: badge for posting
+Trigger: badge for posting
 
 Data:
 
@@ -53,7 +62,7 @@ Be careful, this callback may be performance sensitive when rendering long threa
 
 ## Request.Saito.View.ThreadLine.beforeRender ##
 
-When: before threadline is rendered
+Trigger: before threadline is rendered
 
 Data:
 
@@ -69,7 +78,7 @@ Be **very** careful, this callback is performance sensitive when rendering threa
 
 ## Request.Saito.View.User.beforeFullProfile ##
 
-When: before user profile is rendered (users/view)
+Trigger: before user profile is rendered (users/view)
 
 Data:
 
@@ -115,8 +124,7 @@ SaitoApp.callbacks.afterViewInit.push(function() {
 
 ### Vent.Posting.View.afterRender ###
 
-When: after a single posting view is rendered and initialized
-
+Trigger: after a single posting view is rendered and initialized
 
 
 <!-- Not official/deprecated

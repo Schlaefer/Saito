@@ -115,7 +115,6 @@
 			'Entry.locked',
 			'Entry.fixed',
 			'Entry.views',
-			'Entry.nsfw',
 			'User.username'
 		];
 
@@ -138,7 +137,6 @@
 			'Entry.views',
 			'Entry.user_id',
 			'Entry.locked',
-			'Entry.nsfw',
 			'Entry.name',
 			'Entry.solves',
 
@@ -173,7 +171,6 @@
 		public $allowedInputFields = [
 			'create' => [
 				'category',
-				'nsfw',
 				'pid',
 				'subject',
 				'text'
@@ -181,7 +178,6 @@
 			'update' => [
 				'id',
 				'category',
-				'nsfw',
 				'subject',
 				'text'
 			]

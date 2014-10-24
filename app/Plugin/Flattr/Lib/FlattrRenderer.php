@@ -19,7 +19,7 @@
 		public function implementedSaitoEvents() {
 			return [
 				'Event.Saito.Controller.initialize' => 'initController',
-				'Event.Saito.Model.afterConstruct' => 'initModels',
+				'Event.Saito.Model.initialize' => 'initModels',
 				'Request.Saito.View.Posting.addForm' => 'postingAdd',
 				'Request.Saito.View.Posting.footerActions' => 'postingView',
 				'Request.Saito.View.User.beforeFullProfile' => 'userView',

@@ -143,12 +143,6 @@
 						</div>
 					</div>
 					<div class="right">
-						<div class="checkbox">
-							<?php
-								echo $this->Form->checkbox('nsfw');
-								echo $this->Form->label('nsfw', __('posting.badge.nsfw.exp'));
-							?>
-						</div>
 						<?php
 							//= get additional profile info from plugins
 							$items = SaitoEventManager::getInstance()->dispatch(

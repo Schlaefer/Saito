@@ -626,10 +626,6 @@ msgstr ""
 msgid "Notify on thread replies"
 msgstr ""
 
-#: View/Entries/add.ctp:149
-msgid "posting.badge.nsfw.exp"
-msgstr "Not safe for work (NSFW)"
-
 #: View/Entries/index.ctp:20
 msgid "new_entry_linkname"
 msgstr "New Entry"
@@ -1513,15 +1509,6 @@ msgstr ""
 #: Lib/Thread/PostingViewTrait.php:11
 msgid "fixed"
 msgstr ""
-
-#: Lib/Thread/PostingViewTrait.php:15
-#, fuzzy
-msgid "entry_nsfw_title"
-msgstr "New Entry"
-
-#: Lib/Thread/PostingViewTrait.php:15
-msgid "posting.badge.nsfw"
-msgstr "NSFW"
 
 #: Lib/Thread/PostingViewTrait.php:29
 msgid "Helpful entry"

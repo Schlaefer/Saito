@@ -22,7 +22,8 @@
 
 		public function implementedEvents() {
 			return [
-				'Controller.initialize' => 'cakeEventPassThrough'
+				'Controller.initialize' => 'cakeEventPassThrough',
+				'View.beforeRender' => 'cakeEventPassThrough'
 			];
 		}
 

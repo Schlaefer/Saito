@@ -15,11 +15,6 @@
 			if ($entry['Entry']['fixed']) {
 				$out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
 			}
-			if ($entry['Entry']['nsfw']) {
-				$out .= '<span class="posting-badge-nsfw" title="' .
-					__('entry_nsfw_title') . '">' . __('posting.badge.nsfw') .
-					'</span> ';
-			}
 			// anchor for inserting solve-icon via FE-JS
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
 			if ($entry['Entry']['solves']) {

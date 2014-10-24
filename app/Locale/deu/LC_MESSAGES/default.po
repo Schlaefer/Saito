@@ -632,10 +632,6 @@ msgstr "Beitrag abonnieren"
 msgid "Notify on thread replies"
 msgstr "Thread abonnieren"
 
-#: View/Entries/add.ctp:149
-msgid "posting.badge.nsfw.exp"
-msgstr "Nicht bürosicher (NBS)"
-
 #: View/Entries/index.ctp:20
 msgid "new_entry_linkname"
 msgstr "Neuer Eintrag"
@@ -1553,15 +1549,6 @@ msgstr ""
 #: Lib/Thread/PostingViewTrait.php:11
 msgid "fixed"
 msgstr "Thread fixiert"
-
-#: Lib/Thread/PostingViewTrait.php:15
-#, fuzzy
-msgid "entry_nsfw_title"
-msgstr "Neuen Eintrag verfassen"
-
-#: Lib/Thread/PostingViewTrait.php:15
-msgid "posting.badge.nsfw"
-msgstr "NBS"
 
 #: Lib/Thread/PostingViewTrait.php:29
 msgid "Helpful entry"
@@ -3368,9 +3355,6 @@ msgstr ""
 
 #~ msgid "back_to_posting_linkname"
 #~ msgstr "zurück zum Posting von"
-
-#~ msgid "[NSFW]"
-#~ msgstr "[NBS]"
 
 #~ msgid "search_formtitle"
 #~ msgstr "Forumssuche"
