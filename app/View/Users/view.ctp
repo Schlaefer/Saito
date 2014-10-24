@@ -103,10 +103,10 @@
   if (!empty($user['User']['ignores'])) {
     $o = [];
     foreach ($user['User']['ignores'] as $ignoredUser) {
-      $ui = $this->Html->link(
+      $ui = $this->Form->postLink(
         $this->Layout->textWithIcon('', 'eye-slash'),
-        ['action' => 'unignore', $ignoredUser['User']['id']],
-        ['escape' => false]
+        ['action' => 'unignore'],
+        ['data' => ['id' => $ignoredUser['User']['id']] , 'escape' => false]
       );
       $l = $this->Layout->linkToUserProfile($ignoredUser['User'], $CurrentUser);
       $o[] = "$ui &nbsp; $l";
@@ -175,21 +175,23 @@
 
             if ($isLoggedIn && !$isUsersEntry) {
               if ($CurrentUser->ignores($user['User']['id'])) {
-                echo $this->Html->link(
-                  $this->Layout->textWithIcon(h(__('unignore_this_user')), 'eye-slash'),
-                  ['action' => 'unignore', $user['User']['id']],
-                  [
-                    'class' => 'btn panel-footer-form-btn shp',
-                    'data-shpid' => 7,
-                    'escape' => false
-                  ]
-                );
+								echo $this->Form->postLink(
+									$this->Layout->textWithIcon(h(__('unignore_this_user')), 'eye-slash'),
+									['action' => 'unignore'],
+									[
+										'class' => 'btn panel-footer-form-btn shp',
+										'data' => ['id' => $user['User']['id']],
+										'data-shpid' => 7,
+										'escape' => false
+									]
+								);
               } else {
-                echo $this->Html->link(
+								echo $this->Form->postLink(
                   $this->Layout->textWithIcon(h(__('ignore_this_user')), 'eye-slash'),
-                  ['action' => 'ignore', $user['User']['id']],
+                  ['action' => 'ignore'],
                   [
                     'class' => 'btn panel-footer-form-btn shp',
+										'data' => ['id' => $user['User']['id']],
                     'data-shpid' => 7,
                     'escape' => false
                   ]

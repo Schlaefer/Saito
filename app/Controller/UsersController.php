@@ -204,11 +204,15 @@
 			$this->set(compact('menuItems', 'users'));
 		}
 
-		public function ignore($blockedId) {
+		public function ignore() {
+			$this->request->allowMethod('POST');
+			$blockedId = $this->request->data('id');
 			$this->_ignore($blockedId, true);
 		}
 
-		public function unignore($blockedId) {
+		public function unignore() {
+			$this->request->allowMethod('POST');
+			$blockedId = $this->request->data('id');
 			$this->_ignore($blockedId, false);
 		}
 
