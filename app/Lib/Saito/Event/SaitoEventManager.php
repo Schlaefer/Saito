@@ -51,7 +51,10 @@
 			if (empty($key)) {
 				throw new InvalidArgumentException;
 			}
-			$this->_listeners[$key][] = $callable;
+			$this->_listeners[$key][] = [
+				'func' => $callable,
+				'type' => gettype($callable) === 'array' ? 'object' : 'closure'
+			];
 		}
 
 		/**
@@ -68,9 +71,13 @@
 				return [];
 			}
 			$results = [];
-			foreach ($this->_listeners[$key] as $func) {
-				// faster than call_user_func
-				$result = $func[0]->$func[1]($data);
+			foreach ($this->_listeners[$key] as $listener) {
+				if ($listener['type'] === 'object') {
+					// faster than call_user_func
+					$result = $listener['func'][0]->$listener['func'][1]($data);
+				} else {
+					$result = $listener['func']($data);
+				}
 				if ($result !== null) {
 					$results[] = $result;
 				}

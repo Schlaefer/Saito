@@ -84,8 +84,8 @@
 		}
 
 		public function postingView($eventData) {
-			$entry = $eventData['entry']['Entry'];
-			$user = $eventData['entry']['User'];
+			$entry = $eventData['posting']['Entry'];
+			$user = $eventData['posting']['User'];
 			if (empty($user['flattr_uid']) || !$entry['flattr']) {
 				return;
 			}

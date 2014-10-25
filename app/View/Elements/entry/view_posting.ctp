@@ -40,7 +40,7 @@
 					$items = SaitoEventManager::getInstance()->dispatch(
 						'Request.Saito.View.Posting.footerActions',
 						[
-							'entry' => $entry,
+							'posting' => $entry,
 							'View' => $this
 						]
 					);
@@ -152,19 +152,6 @@
 
 					echo $this->Layout->dropdownMenuButton($_menuItems,
 							['class' => 'btnLink btn-icon panel-footer-form-btn']);
-				}
-
-				$items = SaitoEventManager::getInstance()->dispatch(
-					'Request.Saito.View.Posting.footerItems',
-					[
-						'posting' => $entry,
-						'View' => $this
-					]
-				);
-				if ($items) {
-					foreach ($items as $item) {
-						echo $item;
-					}
 				}
 			?>
 		</div>
