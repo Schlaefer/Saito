@@ -27,6 +27,9 @@
 		<div class="navbar-inner">
 			<div class="container" style="width: auto;">
 				<?= $this->Html->link(__('Forum'), '/', ['class' => 'brand']); ?>
+        <?php
+          $jqueryVsBootstrapFix = ['onclick' => "$('.dropdown').removeClass('dropdown');"];
+        ?>
 				<ul class="nav">
 					<li class="<?php  if (preg_match('/\/admin$/', $this->request->here)) { echo 'active'; }; ?>">
 						<?php
@@ -37,8 +40,23 @@
 					<li class="<?php  if (stristr($this->request->here, 'settings')) { echo 'active'; }; ?>">
 						<?php echo $this->Html->link(__('Settings'), '/admin/settings/index'); ?>
 					</li>
-					<li class="<?php  if (stristr($this->request->here, 'users')) { echo 'active'; }; ?>">
-						<?php echo $this->Html->link(__('Users'), '/admin/users/index'); ?>
+					<li class="dropdown <?php  if (stristr($this->request->here, 'users')) { echo 'active'; }; ?>">
+						<?php
+              echo $this->Html->link(
+                __('Users') . ' ▾',
+                '/admin/users/index',
+                ['class' => 'drowdown-toggle', 'data-toggle' => 'dropdown']
+              );
+              echo $this->Html->nestedList([
+                  $this->Html->link(__('Users'),
+                    '/admin/users/index',
+                    $jqueryVsBootstrapFix),
+                  $this->Html->link(__('user.block.history'),
+                    '/admin/users/block',
+                    $jqueryVsBootstrapFix)
+                ],
+                ['class' => 'dropdown-menu']);
+            ?>
 					</li>
 					<li class="<?php  if (stristr($this->request->here, 'categories')) { echo 'active'; }; ?>">
 						<?php echo $this->Html->link(__('Categories'), '/admin/categories/index'); ?>
@@ -47,9 +65,12 @@
 						<?php echo $this->Html->link(__('Smilies'), '/admin/smilies/index'); ?>
 					</li>
 					<li class="dropdown <?php  if (stristr($this->request->here, 'stats')) { echo 'active'; }; ?>">
-						<?php echo $this->Html->link(__('Stats') . ' ▾', '/admin/admins/stats', ['class' => 'drowdown-toggle', 'data-toggle' => 'dropdown']); ?>
 						<?php
-							$jqueryVsBootstrapFix = ['onclick' => "$('.dropdown').removeClass('dropdown');"];
+              echo $this->Html->link(
+                __('Stats') . ' ▾',
+                '/admin/admins/stats',
+                ['class' => 'drowdown-toggle', 'data-toggle' => 'dropdown']
+              );
 							echo $this->Html->nestedList([
 											$this->Html->link(__('admin.stats.yearly'),
 													'/admin/admins/stats',

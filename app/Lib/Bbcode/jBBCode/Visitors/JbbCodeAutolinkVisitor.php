@@ -54,9 +54,10 @@
 				}
 			}
 			krsort($names);
+			$baseUrl = $this->_sOptions['webroot'] . $this->_sOptions['atBaseUrl'];
 			foreach ($names as $name => $v) {
-				$title = urlencode(@$name);
-				$link = $this->_url($this->_sOptions['atBaseUrl'] . $title, "@$name",
+				$title = urlencode($name);
+				$link = $this->_url($baseUrl . $title, "@$name",
 					false);
 				$string = str_replace("@$name", $link, $string);
 			}
@@ -115,12 +116,12 @@
 		}
 
 		protected function _hashLink($string) {
-			$hashBaseUrl = $this->_sOptions['hashBaseUrl'];
+			$baseUrl = $this->_sOptions['webroot'] . $this->_sOptions['hashBaseUrl'];
 			$string = preg_replace_callback(
 				'/(?<=\s|^|])(?<tag>#)(?<element>\d+)(?!\w)/',
-				function ($m) use ($hashBaseUrl) {
+				function ($m) use ($baseUrl) {
 					$hash = $m['element'];
-					return $this->_url($hashBaseUrl . $hash, '#' . $hash);
+					return $this->_url($baseUrl . $hash, '#' . $hash);
 				},
 				$string
 			);

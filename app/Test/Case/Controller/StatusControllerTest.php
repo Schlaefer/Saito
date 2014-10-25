@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	/**
 	 * ShoutsController Test Case
@@ -16,6 +16,7 @@
 		public $fixtures = array(
 			'app.shout',
 			'app.user',
+			'app.user_block',
 			'app.user_online',
 			'app.user_read',
 			'app.bookmark',

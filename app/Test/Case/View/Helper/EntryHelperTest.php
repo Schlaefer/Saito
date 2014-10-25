@@ -29,8 +29,7 @@
 			$entry = array( 'Entry' => array(
 							'id' => 3,
 							'subject' => 'Subject',
-							'text' => 'Text',
-							'nsfw' => false,
+							'text' => 'Text'
 					)
 			);
 			$expected = "<a href='localhost/entries/view/3' class=''>Subject</a>";
@@ -41,8 +40,7 @@
 			$entry = array( 'Entry' => array(
 							'id' => 1,
 							'subject' => 'Subject',
-							'text' => '',
-							'nsfw' => false,
+							'text' => ''
 					)
 			);
 			$expected = "<a href='localhost/entries/view/1' class=''>Subject n/t</a>";
@@ -53,8 +51,7 @@
 			$entry = array( 'Entry' => array(
 							'id' => 3,
 							'subject' => 'Subject',
-							'text' => 'Text',
-							'nsfw' => false,
+							'text' => 'Text'
 					)
 			);
 			$class = 'my_test_class foo';

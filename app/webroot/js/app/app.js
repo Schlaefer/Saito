@@ -72,6 +72,9 @@ define(['marionette', 'app/core', 'app/vent',
             //noinspection JSHint
             new NotificationView();
 
+            var callbacks = options.SaitoApp.callbacks.beforeAppInit;
+            _.each(callbacks, function(fct) { fct(); });
+
             window.addEventListener('load', function() {
               //noinspection JSHint
               new FastClick(document.body);

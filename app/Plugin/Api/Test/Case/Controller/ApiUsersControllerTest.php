@@ -65,7 +65,7 @@
 						"id": 1,
 						"username": "Alice",
 						"last_refresh": "1970-01-01T00:00:00+00:00",
-						"threads_order": "time"
+						"threads_order": "answer"
 					}
 				}
 			');

@@ -278,22 +278,6 @@ msgid "text_word_maxlength_exp"
 msgstr "Maximale Zeichenanzahl pro Wort."
 
 #
-msgid "userranks_show"
-msgstr "Ränge anzeigen"
-
-#
-msgid "userranks_show_exp"
-msgstr "Benutzerränge anzeigen."
-
-#
-msgid "userranks_ranks"
-msgstr "Ränge"
-
-#
-msgid "userranks_ranks_exp"
-msgstr "Benutzerrang basierend auf Anzahl der gemachten Beiträge."
-
-#
 msgid "video_domains_allowed"
 msgstr "Einbettbare (Video-) Quellen"
 
@@ -366,14 +350,6 @@ msgid "flattr_language_exp"
 msgstr "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf flattr.com für Kürzel."
 
 #
-msgid "flattr_category"
-msgstr "Flattr-Kategorie"
-
-#
-msgid "flattr_category_exp"
-msgstr "Kategorie, die Flattr den hereinzeigenden Verweisen zuordnet. Siehe flattr.com für verfügbare Kategorien."
-
-#
 msgid "embedly_enabled"
 msgstr "Embed.ly aktivieren"
 
@@ -428,3 +404,57 @@ msgstr "API-Schlüssel"
 #
 msgid "map_api_key_exp"
 msgstr "MapQuest-API-Schlüssel."
+
+# Smilies
+# -------------------------------------
+
+msgid "smilies.t.angry"
+msgstr "Verärgert"
+
+msgid "smilies.t.blush"
+msgstr "Erröten"
+
+msgid "smilies.t.coffee"
+msgstr "Kaffee"
+
+msgid "smilies.t.cool"
+msgstr "Cool"
+
+msgid "smilies.t.cry"
+msgstr "Weinen"
+
+msgid "smilies.t.embarrassed"
+msgstr "Beschämt"
+
+msgid "smilies.t.evil"
+msgstr "Böse"
+
+msgid "smilies.t.gasp"
+msgstr "Keuch"
+
+msgid "smilies.t.grin"
+msgstr "Grinsen"
+
+msgid "smilies.t.kiss"
+msgstr "Zuneigung"
+
+msgid "smilies.t.saint"
+msgstr "Unschuldig"
+
+msgid "smilies.t.sleep"
+msgstr "Schlaf"
+
+msgid "smilies.t.smile"
+msgstr "Lächeln"
+
+msgid "smilies.t.thumbsup"
+msgstr "Daumen hoch"
+
+msgid "smilies.t.tongue"
+msgstr "Ätsch"
+
+msgid "smilies.t.unhappy"
+msgstr "Traurig"
+
+msgid "smilies.t.wink"
+msgstr "Zwinker"

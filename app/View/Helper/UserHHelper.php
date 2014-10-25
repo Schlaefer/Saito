@@ -5,8 +5,6 @@
 
 	class UserHHelper extends AppHelper {
 
-		protected $_userranks;
-
 		protected $_SaitoUser = null;
 
 		public $helpers = array(
@@ -16,7 +14,6 @@
 
 		public function beforeRender($viewFile) {
 			parent::beforeRender($viewFile);
-			$this->_userranks = Configure::read('Saito.Settings.userranks_ranks');
 			$this->_SaitoUser = new SaitoUser();
 		}
 
@@ -113,23 +110,6 @@
 					$out = h($url);
 				}
 			}
-			return $out;
-		}
-
-/**
- * calculates user rank depending on posting_count
- *
- * @param int $_numberOfPostings
- * @return mixed
- */
-		public function userRank($_numberOfPostings = 0) {
-			$out = __('userranks_not_found');
-			foreach ($this->_userranks as $treshold => $rank) :
-				$out = $rank;
-				if ($_numberOfPostings <= $treshold) :
-					break;
-				endif;
-			endforeach;
 			return $out;
 		}
 

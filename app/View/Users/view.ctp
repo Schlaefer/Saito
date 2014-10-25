@@ -74,19 +74,11 @@
       strtotime($user['User']['registered']))
   ];
 
-  // number of postings
-  if (Configure::read('Saito.Settings.userranks_show')) {
-    $_userRank = $this->Layout->infoText(' (' .
-      $this->UserH->userRank($user['User']['number_of_entries']) .
-      ')');;
-  } else {
-    $_userRank = '';
-  }
   $table[] = [
     __('user_postings'),
     $this->Html->link($user['User']['number_of_entries'],
       $urlToHistory,
-      ['escape' => false]) . $_userRank
+      ['escape' => false])
   ];
 
   // helpful postings
@@ -111,10 +103,10 @@
   if (!empty($user['User']['ignores'])) {
     $o = [];
     foreach ($user['User']['ignores'] as $ignoredUser) {
-      $ui = $this->Html->link(
+      $ui = $this->Form->postLink(
         $this->Layout->textWithIcon('', 'eye-slash'),
-        ['action' => 'unignore', $ignoredUser['User']['id']],
-        ['escape' => false]
+        ['action' => 'unignore'],
+        ['data' => ['id' => $ignoredUser['User']['id']] , 'escape' => false]
       );
       $l = $this->Layout->linkToUserProfile($ignoredUser['User'], $CurrentUser);
       $o[] = "$ui &nbsp; $l";
@@ -140,24 +132,18 @@
     ];
   }
 
-  // flattr Button
-  if (Configure::read('Saito.Settings.flattr_enabled') == true &&
-    !empty($entry['User']['flattr_uid']) &&
-    $user['User']['flattr_allow_user'] == true
-  ) {
-    $table[] = [
-      __('flattr'),
-      $this->Flattr->button('',
-        array(
-          'uid' => $user['User']['flattr_uid'],
-          'language' => Configure::read('Saito.Settings.flattr_language'),
-          'title' => '[' . $_SERVER['HTTP_HOST'] . '] ' . $user['User']['username'],
-          'description' => '[' . $_SERVER['HTTP_HOST'] . '] ' . $user['User']['username'],
-          'cat' => Configure::read('Saito.Settings.flattr_category'),
-          'button' => 'compact',
-        )
-      )
-    ];
+	//= get additional profile info from plugins
+  $items = SaitoEventManager::getInstance()->dispatch(
+    'Request.Saito.View.User.beforeFullProfile',
+    [
+      'user' => $user,
+      'View' => $this
+    ]
+  );
+  if ($items) {
+    foreach ($items as $item) {
+      $table[] = [$item['title'], $item['content']];
+    }
   }
 ?>
 <div class="users view">
@@ -189,21 +175,23 @@
 
             if ($isLoggedIn && !$isUsersEntry) {
               if ($CurrentUser->ignores($user['User']['id'])) {
-                echo $this->Html->link(
-                  $this->Layout->textWithIcon(h(__('unignore_this_user')), 'eye-slash'),
-                  ['action' => 'unignore', $user['User']['id']],
-                  [
-                    'class' => 'btn panel-footer-form-btn shp',
-                    'data-shpid' => 7,
-                    'escape' => false
-                  ]
-                );
+								echo $this->Form->postLink(
+									$this->Layout->textWithIcon(h(__('unignore_this_user')), 'eye-slash'),
+									['action' => 'unignore'],
+									[
+										'class' => 'btn panel-footer-form-btn shp',
+										'data' => ['id' => $user['User']['id']],
+										'data-shpid' => 7,
+										'escape' => false
+									]
+								);
               } else {
-                echo $this->Html->link(
+								echo $this->Form->postLink(
                   $this->Layout->textWithIcon(h(__('ignore_this_user')), 'eye-slash'),
-                  ['action' => 'ignore', $user['User']['id']],
+                  ['action' => 'ignore'],
                   [
                     'class' => 'btn panel-footer-form-btn shp',
+										'data' => ['id' => $user['User']['id']],
                     'data-shpid' => 7,
                     'escape' => false
                   ]
@@ -213,19 +201,6 @@
 
             if ($isMod) {
               $_menuItems = [];
-
-              // lock user
-              if ($CurrentUser->isAdmin() || $modLocking) {
-                $_menuItems[] = $this->Html->link(
-                  '<i class="fa fa-ban"></i> ' . (($user['User']['user_lock']) ? __('Unlock') : __('Lock')),
-                  array(
-                    'controller' => 'users',
-                    'action' => 'lock',
-                    $user['User']['id']
-                  ),
-                  array('escape' => false)
-                );
-              }
 
               if ($CurrentUser->isAdmin()) {
                 // edit user
@@ -289,4 +264,61 @@
       </div>
     <?php endif; ?>
   </div>
+
+  <?php
+    if ($CurrentUser->isAdmin() || $modLocking) { ?>
+      <div class="panel">
+        <?= $this->Layout->panelHeading(__('user.block.history')) ?>
+        <div class="panel-content">
+          <?= $this->element('users/block-report',
+            ['UserBlock' => $user['UserBlock']]); ?>
+        </div>
+        <?php if (empty($user['User']['user_lock'])) : ?>
+          <div class="panel-footer panel-form">
+            <?php
+              $defaultValue = 86400;
+              echo $this->Form->create(['action' => 'lock']);
+              echo $this->Form->submit(
+                __('Block User'),
+                ['div' => false, 'class' => 'btnLink']
+              );
+              echo "&nbsp;";
+              echo $this->Form->input('lockRange', [
+                'div' => ['style' => 'display: inline-block; margin: 0;'],
+                'style' => 'vertical-align: middle;',
+                'label' => false,
+                'type' => 'range', 'min' => 21600, 'max' => 432000, 'value' => $defaultValue, 'step' => 21600
+              ]);
+              echo $this->Form->hidden('lockPeriod', ['value' => $defaultValue]);
+              $this->Form->unlockField('User.lockPeriod');
+              echo $this->Form->hidden('lockUserId', ['value' => $user['User']['id']]);
+              echo $this->Html->tag('span',
+                String::insert(__(':hours hours'), ['hours' => $defaultValue / 3600]),
+                ['id' => 'lockTimeGauge', 'style' => 'padding: 0.5em']
+              );
+              echo $this->Form->end();
+            ?>
+            <script>
+              SaitoApp.callbacks.afterAppInit.push(function() {
+                require(['jquery', 'backbone'], function($, Backbone) {
+                  'use strict';
+                  var BlockTimeGaugeView = Backbone.View.extend({
+                    events: {'input #UserLockRange': '_onRangeChange'},
+                    _onRangeChange: function(event) {
+                      event.preventDefault();
+                      var value = event.target.value;
+                      var l10n = $.i18n.__(':hours hours', {hours: value/3600});
+                      if (value === event.target.max) {l10n = '∞'; value = 0;}
+                      this.$('#lockTimeGauge').html(l10n);
+                      this.$('#UserLockPeriod').attr('value', value);
+                    }
+                  });
+                  new BlockTimeGaugeView({el: '#UserLockForm'});
+                });
+              });
+            </script>
+          </div>
+        <?php endif; ?>
+      </div>
+    <?php } ?>
 </div>

@@ -115,7 +115,6 @@
 			'Entry.locked',
 			'Entry.fixed',
 			'Entry.views',
-			'Entry.nsfw',
 			'User.username'
 		];
 
@@ -138,8 +137,6 @@
 			'Entry.views',
 			'Entry.user_id',
 			'Entry.locked',
-			'Entry.flattr',
-			'Entry.nsfw',
 			'Entry.name',
 			'Entry.solves',
 
@@ -162,21 +159,18 @@
 			'Entry.category',
 
 			'User.id',
-			'User.flattr_uid',
 			'User.signature',
 			'User.user_place'
 		];
 
-/**
- * Allowed external user input
- *
- * @var array
- */
-		protected $_allowedInputFields = [
+		/**
+		 * Allowed external user input
+		 *
+		 * @var array
+		 */
+		public $allowedInputFields = [
 			'create' => [
 				'category',
-				'flattr',
-				'nsfw',
 				'pid',
 				'subject',
 				'text'
@@ -184,8 +178,6 @@
 			'update' => [
 				'id',
 				'category',
-				'flattr',
-				'nsfw',
 				'subject',
 				'text'
 			]

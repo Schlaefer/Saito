@@ -34,6 +34,22 @@
 
 			$threadLine = $this->_renderThreadLine($posting, $level);
 			$css = $this->_css($node);
+			$badges = $this->getBadges($posting);
+
+			$requestedParams = $this->_SEM->dispatch(
+				'Request.Saito.View.ThreadLine.beforeRender',
+				['node' => $node, 'View' => $this->_EntryHelper->_View]
+			);
+
+			$params = ['css' => '', 'style' => ''];
+
+			if (!empty($requestedParams) && !empty($requestedParams[0])) {
+				foreach ($requestedParams as $param) {
+					foreach ($param as $key => $value) {
+						$params[$key] .= $value;
+					}
+				}
+			}
 
 			//= manual json_encode() for performance
 			$tid = (int)$posting['Entry']['tid'];
@@ -43,15 +59,16 @@
 EOF;
 
 			// data-id still used to identify parent when inserting	an inline-answered entry
+			// last </span> comes from _renderThreadLine and allows appending to threadLine-post
 			$out = <<<EOF
 <li class="threadLeaf {$css}" data-id="{$id}" data-leaf='{$jsData}'>
-	<div class="threadLine">
+	<div class="threadLine" class="threadLeaf {$params['css']}" style="{$params['style']}">
 		<button class="btnLink btn_show_thread threadLine-pre et">
 			<i class="fa fa-thread"></i>
 		</button>
 		<a href="{$this->_webroot}entries/view/{$id}"
 			class="link_show_thread et threadLine-content">
-				{$threadLine}
+				{$threadLine} {$badges} </span>
 		</a>
 	</div>
 </li>
@@ -68,7 +85,6 @@ EOF;
 			}
 
 			$subject = $this->getSubject($posting);
-			$badges = $this->getBadges($posting);
 			$username = h($posting['User']['username']);
 			$time = $this->_EntryHelper->TimeH->formatTime($posting['Entry']['time']);
 
@@ -91,11 +107,12 @@ EOF;
 				$category = self::$_catL10n[$categoryId];
 			}
 
+			// last </span> closes in parent
 			$threadLine = <<<EOF
 {$subject}
 <span class="c-username"> – {$username}</span>
 {$category}
-<span class="threadLine-post"> {$time} {$badges} </span>
+<span class="threadLine-post"> {$time}
 EOF;
 
 			if ($useLineCache) {

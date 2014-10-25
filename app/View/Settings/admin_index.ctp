@@ -50,8 +50,6 @@
 						'signature_separator',
 						'subject_maxlength',
 						'text_word_maxlength',
-						'userranks_show',
-						'userranks_ranks',
 						'video_domains_allowed'
 					],
 					$Settings
@@ -79,13 +77,6 @@
 					__('Uploads'),
 					['upload_max_img_size', 'upload_max_number_of_uploads'],
 					$Settings
-				);
-
-				echo $this->Setting->table(
-					$this->Html->link('Flattr', 'http://flattr.com/'),
-					['flattr_enabled', 'flattr_language', 'flattr_category'],
-					$Settings,
-					['nav-title' => 'Flattr']
 				);
 
 				echo $this->Setting->table(

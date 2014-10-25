@@ -1,5 +1,7 @@
 <?php
+
 	App::uses('BbcodeBehavior', 'Model/Behavior');
+	App::uses('BbcodeSettings', 'Lib/Bbcode');
 
 	/**
 	 * BbcodeBehavior Test Case
@@ -15,11 +17,11 @@
 		public function setUp() {
 			parent::setUp();
 			$this->Bbcode = new BbcodeBehavior();
-			$this->Bbcode->settings = [
+			new BbcodeSettings([
 				'server' => 'http://example.com',
 				'webroot' => '/foo/',
 				'hashBaseUrl' => 'hash/base/'
-			];
+			]);
 		}
 
 		/**

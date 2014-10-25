@@ -33,10 +33,6 @@
 				['name' => 'topics_per_page', 'value' => '20'],
 				['name' => 'tos_enabled', 'value' => 1],
 				['name' => 'tos_url', 'value' => 'http://example.com/tos-url.html/'],
-				[
-						'name' => 'userranks_ranks',
-						'value' => '10=Castaway|20=Other|30=Dharma|100=Jacob'
-				],
 		);
 
 	}

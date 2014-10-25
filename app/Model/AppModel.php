@@ -4,6 +4,7 @@
 	App::uses('Sanitize', 'Utility');
 	App::uses('SaitoUser', 'Lib/SaitoUser');
 	App::uses('CakeEvent', 'Event');
+	App::uses('SaitoEventManager', 'Lib/Saito/Event');
 
 	// import here so that `cake schema ...` cli works
 	App::import('Lib', 'Stopwatch.Stopwatch');
@@ -18,12 +19,20 @@
 		/**
 		 * @var array predefined fields for filterFields()
 		 */
-		protected $_allowedInputFields = [];
+		public $allowedInputFields = [];
 
 		# Entry->User->UserOnline
 		public $recursive = 1;
 
 		public $SharedObjects;
+
+		/** * @var SaitoEventManager */
+		protected $_SEM;
+
+		public function __construct($id = false, $table = null, $ds = null) {
+			parent::__construct($id, $table, $ds);
+			$this->_dispatchEvent('Event.Saito.Model.initialize');
+		}
 
 		public function __get($name) {
 			if (isset($this->SharedObjects[$name])) {
@@ -50,8 +59,8 @@
 		 * @param $fields
 		 */
 		public function filterFields(&$data, $fields) {
-			if (is_string($fields) && isset($this->_allowedInputFields[$fields])) {
-				$fields = $this->_allowedInputFields[$fields];
+			if (is_string($fields) && isset($this->allowedInputFields[$fields])) {
+				$fields = $this->allowedInputFields[$fields];
 			}
 			$fields = array_flip($fields);
 			$data = [
@@ -107,17 +116,24 @@
 		}
 
 		/**
-		 * @param $id model ID
-		 * @param $key
-		 * @param int $amount positive or negative integer
+		 * Increments value of a field
+		 *
+		 * @param $id
+		 * @param $field
+		 * @param int $amount
 		 * @throws InvalidArgumentException
 		 */
 		public function increment($id, $field, $amount = 1) {
 			if (!is_int($amount)) {
 				throw new InvalidArgumentException;
 			}
+			$operator = '+';
+			if ($amount < 0) {
+				$operator = '-';
+				$amount *= -1;
+			}
 			$field = $this->alias . '.' . $field;
-			$this->updateAll([$field => $field . ' + ' . $amount],
+			$this->updateAll([$field => "$field $operator $amount"],
 					[$this->alias . '.id' => $id]);
 		}
 
@@ -171,6 +187,11 @@
  */
 		protected function _dispatchEvent($event, $data = []) {
 			$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
+			//= propagate event on Saito's event bus
+			if (!$this->_SEM) {
+				$this->_SEM = SaitoEventManager::getInstance();
+			}
+			$this->_SEM->dispatch($event, $data + ['Model' => $this]);
 		}
 
 /**
@@ -240,6 +261,20 @@
 			}
 			// fallback to 'parent'
 			return Validation::range($check, $lower, $upper);
+		}
+
+		/**
+		 * Logs current SQL log
+		 *
+		 * Set debug to 2 to enable SQL logging!
+		 */
+		public function logSql() {
+			if (Configure::read('debug') < 2) {
+				trigger_error('You must set debug level to at least 2 to enable SQL-logging', E_USER_NOTICE);
+			}
+			$dbo = $this->getDatasource();
+			$logs = $dbo->getLog();
+			$this->log($logs['log']);
 		}
 
 	}

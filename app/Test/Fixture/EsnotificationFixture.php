@@ -11,19 +11,17 @@ class EsnotificationFixture extends CakeTestFixture {
  * @var array
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'esevent_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'esreceiver_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'deactivate' => array('type' => 'integer', 'null' => false, 'default' => 0),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
+		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
+		'esevent_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
+		'esreceiver_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
+		'deactivate' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 8, 'unsigned' => false),
 		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
+			'PRIMARY' => array('column' => 'id', 'unique' => 1),
+			'userid_esreceiverid' => array('column' => array('user_id', 'esreceiver_id'), 'unique' => 0),
+			'eseventid_esreceiverid_userid' => array('column' => array('esevent_id', 'esreceiver_id', 'user_id'), 'unique' => 0)
 		),
-		'tableParameters' => [
-				'engine' => 'MyISAM',
-				'charset' => 'utf8',
-				'collate' => 'utf8_general_ci'
-		]
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
 /**
