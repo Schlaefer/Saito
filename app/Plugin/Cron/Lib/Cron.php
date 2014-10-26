@@ -20,10 +20,10 @@
 		 */
 		protected $_dues = [
 			// a little shorter than a Cake's default cache-config invalidation hour
-				'hourly' => 3300,
+			'hourly' => 3300,
 			// if no cron job was triggered in one hour then Cake's default cache file is
 			// invalidated and hourly is also triggered
-				'daily' => 86400
+			'daily' => 86400
 		];
 
 		protected function __construct() {
@@ -50,7 +50,12 @@
 			$jobsExecuted = 0;
 			foreach ($this->_jobs as $job) {
 				if (!empty($lastRuns[$job->due][$job->uid])) {
-					if ($this->_now < $lastRuns[$job->due][$job->uid] + $this->_dues[$job->due]) {
+					if (isset($this->_dues[$job->due])) {
+						$due = $lastRuns[$job->due][$job->uid] + $this->_dues[$job->due];
+					} else {
+						$due = strtotime($job->due, $lastRuns[$job->due][$job->uid]);
+					}
+					if ($this->_now < $due) {
 						continue;
 					}
 				}

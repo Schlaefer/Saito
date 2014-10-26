@@ -269,22 +269,6 @@ msgid "text_word_maxlength_exp"
 msgstr "Max numbers of chars allowed in one word."
 
 #
-msgid "userranks_show"
-msgstr "Enable Ranks"
-
-#
-msgid "userranks_show_exp"
-msgstr "Show user ranks."
-
-#
-msgid "userranks_ranks"
-msgstr "Ranks"
-
-#
-msgid "userranks_ranks_exp"
-msgstr "User ranks based on number of postings."
-
-#
 msgid "video_domains_allowed"
 msgstr "Embeddable Video Sources"
 
@@ -341,30 +325,6 @@ msgid "upload_max_number_of_uploads_exp"
 msgstr "Max number of uploaded files for a single user."
 
 #
-msgid "flattr_enabled"
-msgstr "Flattr Enabled"
-
-#
-msgid "flattr_enabled_exp"
-msgstr "Allows users to add a flattr button to their profil and their postings."
-
-#
-msgid "flattr_language"
-msgstr "Flattr Language"
-
-#
-msgid "flattr_language_exp"
-msgstr "Flattr expects an language key for the content send. See flattr documentation for available language keys."
-
-#
-msgid "flattr_category"
-msgstr "Flattr Category"
-
-#
-msgid "flattr_category_exp"
-msgstr "See flattr documentation for available categories."
-
-#
 msgid "embedly_enabled"
 msgstr "Enable Embedly"
 
@@ -419,3 +379,59 @@ msgstr "API Key"
 #
 msgid "map_api_key_exp"
 msgstr "MapQuest-API-key."
+
+# Smilies
+# -------------------------------------
+
+msgid "smilies.t.angry"
+msgstr "Angry"
+
+msgid "smilies.t.blush"
+msgstr "Blushing"
+
+msgid "smilies.t.coffee"
+msgstr "Coffee"
+
+msgid "smilies.t.cool"
+msgstr "Cool"
+
+msgid "smilies.t.cry"
+msgstr "Cry"
+
+msgid "smilies.t.embarrassed"
+msgstr "Embarassed"
+
+msgid "smilies.t.evil"
+msgstr "Evil"
+
+msgid "smilies.t.gasp"
+msgstr "Gasp"
+
+msgid "smilies.t.grin"
+msgstr "Grin"
+
+msgid "smilies.t.kiss"
+msgstr "Affection"
+
+msgid "smilies.t.saint"
+msgstr "Saint"
+
+msgid "smilies.t.sleep"
+msgstr "Sleep"
+
+msgid "smilies.t.smile"
+msgstr "Smile"
+
+msgid "smilies.t.thumbsup"
+msgstr "Thumbs-Up"
+
+msgid "smilies.t.tongue"
+msgstr "Tongue"
+
+msgid "smilies.t.unhappy"
+msgstr "Unhappy"
+
+msgid "smilies.t.wink"
+msgstr "Wink"
+
+

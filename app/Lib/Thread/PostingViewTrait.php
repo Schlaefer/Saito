@@ -1,19 +1,19 @@
 <?php
 
+	App::uses('SaitoEventManager', 'Lib/Saito/Event');
+
 	/**
 	 * Helper methods for rendering postings
 	 */
 	trait PostingViewTrait {
 
+		/** * @var SaitoEventManager */
+		protected $_SEM;
+
 		public function getBadges($entry) {
 			$out = '';
 			if ($entry['Entry']['fixed']) {
 				$out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
-			}
-			if ($entry['Entry']['nsfw']) {
-				$out .= '<span class="posting-badge-nsfw" title="' .
-					__('entry_nsfw_title') . '">' . __('posting.badge.nsfw') .
-					'</span> ';
 			}
 			// anchor for inserting solve-icon via FE-JS
 			$out .= '<span class="solves ' . $entry['Entry']['id'] . '">';
@@ -21,6 +21,18 @@
 				$out .= $this->solvedBadge();
 			}
 			$out .= '</span>';
+
+			if (!isset($this->_SEM)) {
+				$this->_SEM = SaitoEventManager::getInstance();
+			}
+			$additionalBadges = $this->_SEM->dispatch(
+				'Request.Saito.View.Posting.badges',
+				['posting' => $entry]
+			);
+			if ($additionalBadges) {
+				$out .= implode('', $additionalBadges);
+			}
+
 			return $out;
 		}
 

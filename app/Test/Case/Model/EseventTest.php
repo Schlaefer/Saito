@@ -437,7 +437,7 @@
 						'user_id' => '1',
 						'esevent_id' => '1',
 						'esreceiver_id' => '1',
-						'deactivate' => 1234,
+						'deactivate' => '1234',
 					),
 				)
 			);

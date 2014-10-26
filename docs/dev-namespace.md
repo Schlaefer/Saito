@@ -7,7 +7,7 @@ Cache           | Saito 		| Settings 	              | 						    | 	          | S
 Cache           | Saito 		| Cache 		              | registerGc 	    | timestamp 	| timestamp of last registerGc
 Cache           | Saito 		| Cache 		              | catForAccession	| array 	    | cache for categories for accession
 Cache           | Saito 		| Cache 		              | appSettings	    | array 	    | cache for app settings
-Cache 	        | Saito     | Smilies 	              | smilies_all 	  | array 	    | Smilies from `smilies` table
+Cache 	        | Saito     | Smilies 	              | data 	  | array 	    | Smilies from `smilies` table
 Configuration 	| Saito     | Cache 	                | Thread 	        | bool 	      | if true use thread cache
 Configuration 	| Saito     | Cachelets 	            |  	              | string      |
 Configuration 	| Saito     | Debug 	                |  	              | array       | debug config 

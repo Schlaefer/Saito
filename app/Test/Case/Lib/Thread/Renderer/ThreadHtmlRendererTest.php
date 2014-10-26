@@ -1,5 +1,7 @@
 <?php
 
+	App::uses('SaitoTestAssertTrait', 'Lib/Test');
+
 	App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
 
 	App::uses('SaitoUser', 'Lib/SaitoUser');
@@ -8,12 +10,14 @@
 
 	class ThreadHtmlRendererTest extends PHPUnit_Framework_TestCase {
 
+		use SaitoTestAssertTrait;
+
 		/**
 		 * tests that posting of ignored user is/not ignored
 		 */
 		public function testIgnore() {
 			$entry = [
-				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'nsfw' => false, 'solves' => '', 'user_id' => 1 ],
+				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
 				'Category' => ['id' => 1, 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
 				'User' => ['id' => 1, 'username' => 'u']
 			];
@@ -32,20 +36,18 @@
 			$options = ['maxThreadDepthIndent' => 25];
 			$renderer = new ThreadHtmlRenderer($this->EntryHelper, $options);
 			$result = $renderer->render($entries);
-			$xpath = $this->_getDOMXPath($result);
-			$this->assertEquals(1, $xpath->query($xPathQuery)->length);
+			$this->assertXPath($result, $xPathQuery);
 
 			//= posting should not ignored with 'ignore' => false flag set
 			$options['ignore'] = false;
 			$renderer->setOptions($options);
 			$result = $renderer->render($entries);
-			$xpath = $this->_getDOMXPath($result);
-			$this->assertEquals(0, $xpath->query($xPathQuery)->length);
+			$this->assertNotXPath($result, $xPathQuery);
 		}
 
 		public function testNesting() {
 			$entry = $entry1 = $entry2 = $entry3 = [
-				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'nsfw' => false, 'solves' => '', 'user_id' => 1 ],
+				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
 				'Category' => ['id' => 1, 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
 				'User' => ['username' => 'u']
 			];
@@ -67,11 +69,10 @@
 			$renderer = new ThreadHtmlRenderer($this->EntryHelper, ['maxThreadDepthIndent' => 9999]);
 
 			$result = $renderer->render($entries);
-			$xpath = $this->_getDOMXPath($result);
 
-			$this->assertEquals(2, $xpath->query('//ul[@data-id=1]/li')->length);
-			$this->assertEquals(3, $xpath->query('//ul[@data-id=1]/li/ul/li')->length);
-			$this->assertEquals(1, $xpath->query('//ul[@data-id=1]/li/ul/li/ul/li')->length);
+			$this->assertXPath($result, '//ul[@data-id=1]/li', 2);
+			$this->assertXPath($result, '//ul[@data-id=1]/li/ul/li', 3);
+			$this->assertXPath($result, '//ul[@data-id=1]/li/ul/li/ul/li');
 		}
 
 		public function testThreadMaxDepth() {
@@ -90,7 +91,6 @@
 					'time' => 0,
 					'last_answer' => 0,
 					'fixed' => false,
-					'nsfw' => false,
 					'solves' => '',
 					'user_id' => 1
 				],
@@ -147,15 +147,6 @@
 			$Controller = new Controller();
 			$View = new View($Controller);
 			return new EntryHHelper($View);
-		}
-
-		protected function _getDOMXPath($html) {
-			$document = new DOMDocument;
-			libxml_use_internal_errors(true);
-			$document->loadHTML('<!DOCTYPE html>' . $html);
-			$xpath = new DOMXPath($document);
-			libxml_clear_errors();
-			return $xpath;
 		}
 
 	}

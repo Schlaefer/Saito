@@ -29,16 +29,21 @@
 		 */
 		public $duration = 8035200;
 
-		public function ignore($userId, $blockedId) {
-			$exists = $this->_get($userId, $blockedId);
+		public function ignore($userId, $blockedUserId) {
+			$exists = $this->_get($userId, $blockedUserId);
 			if ($exists) {
 				return;
 			}
 			$this->create();
 			$this->save([
 				'user_id' => $userId,
-				'blocked_user_id' => $blockedId,
+				'blocked_user_id' => $blockedUserId,
 				'timestamp' => bDate()
+			]);
+
+			$this->_dispatchEvent('Event.Saito.User.afterIgnore', [
+				'blockedUserId' => $blockedUserId,
+				'userId' => $userId
 			]);
 		}
 
@@ -80,8 +85,12 @@
 		 * @return array
 		 */
 		public function countIgnored($id) {
+			return count($this->getIgnored($id));
+		}
+
+		public function getIgnored($id) {
 			return $this->find(
-				'count',
+				'all',
 				[
 					'contain' => false,
 					'conditions' => ['blocked_user_id' => $id]

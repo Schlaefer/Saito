@@ -1,7 +1,7 @@
 <?php
 
 	App::uses('EsnotificationsController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 /**
  * EsnotificationsController Test Case

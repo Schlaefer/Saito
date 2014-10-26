@@ -4,7 +4,7 @@
 	class AppModelMock extends AppModel {
 
 		public function setAllowedInputFields($in) {
-			$this->_allowedInputFields = $in;
+			$this->allowedInputFields = $in;
 		}
 
 	}

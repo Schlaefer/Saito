@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('Properize', 'Lib');
-	App::uses('BbcodeSettings', 'Lib/Bbcode');
 	App::uses('Controller', 'Controller');
 	App::uses('CakeEmail', 'Network/Email');
 	App::import('Lib', 'Stopwatch.Stopwatch');
@@ -125,16 +124,6 @@
 			$this->Security->blackHoleCallback = 'blackhole';
 			$this->Security->csrfUseOnce = false;
 			$this->Security->csrfExpires = '+3 hours';
-
-			$bbcodeSettings = BbcodeSettings::getInstance();
-			$bbcodeSettings->set(
-				[
-					'hashBaseUrl' => 'entries/view/',
-					'atBaseUrl' => 'users/name/',
-					'server' => Router::fullBaseUrl(),
-					'webroot' => $this->webroot
-				]
-			);
 
 			// activate stopwatch in debug mode
 			$this->set('showStopwatchOutput', false);
@@ -321,21 +310,19 @@
 				return;
 			}
 			$this->_bbcodeInitialized = true;
-			$this->_loadSmilies();
 			$this->Bbcode->initHelper();
 		}
 
-/**
- *
- * @td make model function:
- * @td must be reloaded somewherewhen updated
- * @td user cakephp cachen?
- */
-		protected function _loadSmilies() {
-			if (Configure::read('Saito.Smilies.smilies_all') === null) {
-				$smilies = ClassRegistry::init('Smiley');
-				$smilies->load();
+		/**
+		 * gets smilies
+		 *
+		 * @return mixed
+		 */
+		public function getSmilies() {
+			if (!$this->Smiley) {
+				$this->loadModel('Smiley');
 			}
+			return $this->Smiley->load();
 		}
 
 /**

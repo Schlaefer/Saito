@@ -8,7 +8,6 @@
 
 		public $helpers = [
 			'Farbtastic',
-			'Flattr.Flattr',
 			'SimpleCaptcha.SimpleCaptcha',
 			'EntryH',
 			'Map',
@@ -47,7 +46,14 @@
 
 			switch ($status) {
 				case 'locked':
-					$message = __('User %s is locked.', $readUser['User']['username']);
+					$ends = $this->User->UserBlock
+						->getBlockEndsForUser($readUser['User']['id']);
+					if ($ends) {
+						$message = __('user.block.pubExpEnds', [$username,
+							CakeTime::timeAgoInWords($ends, ['accuracy' => 'hour'])]);
+					} else {
+						$message = __('user.block.pubExp', $username);
+					}
 					break;
 				case 'unactivated':
 					$message = __('User %s is not activated yet.', $readUser['User']['username']);
@@ -198,11 +204,15 @@
 			$this->set(compact('menuItems', 'users'));
 		}
 
-		public function ignore($blockedId) {
+		public function ignore() {
+			$this->request->allowMethod('POST');
+			$blockedId = $this->request->data('id');
 			$this->_ignore($blockedId, true);
 		}
 
-		public function unignore($blockedId) {
+		public function unignore() {
+			$this->request->allowMethod('POST');
+			$blockedId = $this->request->data('id');
 			$this->_ignore($blockedId, false);
 		}
 
@@ -288,7 +298,7 @@
 			}
 
 			$this->User->id = $id;
-			$this->User->contain(['UserOnline']);
+			$this->User->contain(['UserBlock' => ['By'], 'UserOnline']);
 			$viewedUser = $this->User->read();
 
 			if ($id === null || empty($viewedUser)) {
@@ -394,18 +404,22 @@
 		);
 	}
 
+		public function admin_block() {
+			$this->set('UserBlock', $this->User->UserBlock->getAll());
+		}
+
 		/**
-		 * @param null $id
 		 * @throws BadRequestException
 		 */
-		public function lock($id = null) {
-			if (!$id) {
-				throw new BadRequestException;
-			}
-
+		public function lock() {
 			if (!($this->CurrentUser->isAdmin() || $this->viewVars['modLocking'])) {
 				$this->redirect('/');
 				return;
+			}
+
+			$id = (int)$this->request->data('User.lockUserId');
+			if (!$id) {
+				throw new BadRequestException;
 			}
 
 			$this->User->contain();
@@ -426,23 +440,35 @@
 					'flash/error'
 				);
 			} else {
-				$this->User->id = $id;
-				$status = $this->User->toggle('user_lock');
-				if ($status !== false) {
-					if ($status) {
-						$message = __('User %s is locked.', $readUser['User']['username']);
+				try {
+					App::uses('UserBlockerManual', 'Lib/SaitoUser/Blocking');
+					$duration = (int)$this->request->data('User.lockPeriod');
+					$status = $this->User->UserBlock->block(new UserBlockerManual, $id, [
+						'adminId' => $this->CurrentUser->getId(),
+						'duration' => $duration
+					]);
+					$username = $readUser['User']['username'];
+					if ($status === true) {
+						$message = __('User %s is locked.', $username);
 					} else {
-						$message = __(
-							'User %s is unlocked.',
-							$readUser['User']['username']
-						);
+						$message = __('User %s is unlocked.', $username);
 					}
 					$this->Session->setFlash($message, 'flash/success');
-				} else {
-					$this->Session->setFlash(__("Error while un/locking."), 'flash/error');
+				} catch (Exception $e) {
+					$this->Session->setFlash(__('Error while un/locking.'), 'flash/error');
 				}
 			}
-			$this->redirect(['action' => 'view', $id]);
+			$this->redirect($this->referer());
+		}
+
+		public function unlock($id) {
+			if (!$id || !($this->CurrentUser->isAdmin() || $this->viewVars['modLocking'])) {
+				throw new BadRequestException;
+			}
+			if (!$this->User->UserBlock->unblock($id)) {
+				$this->Session->setFlash(__('Error while unlocking.'), 'flash/error');
+			}
+			$this->redirect($this->referer());
 		}
 
 		public function admin_delete($id = null) {

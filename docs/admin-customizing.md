@@ -13,21 +13,3 @@ You should create a corresponding file in your theme directory and edit it there
 You may append additional content to the `<head>`-tag by adding it to `app/Plugin/M/View/Elements/custom_html_header.ctp`.
 
 You should create a corresponding file in your theme directory and edit it there: `<theme-dir>/Plugin/M/Elements/custom_html_header.ctp`.
-
-### Callbacks ###
-
-The following callbacks are available and may be set in `custom_html_header.ctp`:
-
-    <script>
-      window.Saito.callbacks = {
-        afterEntriesIndex: function() {
-          …
-        },
-        afterEntriesMix: function() {
-          …
-        },
-        afterAppmenu: function() {
-          …
-        }
-      }
-    </script>

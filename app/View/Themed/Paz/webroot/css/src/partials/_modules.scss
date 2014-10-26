@@ -266,6 +266,20 @@ body.headerClosed {
   padding: 0 0.5em;
 }
 
+.table-simple {
+  width: 100%;
+  text-align: center;
+
+  th {
+    background-color: $table-th-bg;
+  }
+
+  tr td {
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+
 // pagination
 // -------------------------------------
 

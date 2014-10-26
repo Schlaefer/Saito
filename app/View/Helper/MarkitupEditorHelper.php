@@ -7,9 +7,12 @@
 
 		protected $_nextCssId;
 
+		protected $_smileyData;
+
 		public function __construct(View $View, $settings = array()) {
 			parent::__construct($View, $settings);
 			$this->_nextCssId = Configure::read('Saito.markItUp.nextCssId');
+			$this->_smileyData = $View->get('smilies');
 		}
 
 /**
@@ -19,6 +22,8 @@
  * @return string
  */
 		public function getButtonSet($id) {
+			Stopwatch::start('MarkitupHelper::getButtonSet()');
+
 			$css = '';
 			$separator = ['separator' => '&nbsp;'];
 			$bbcode = array(
@@ -97,6 +102,8 @@
 			$script = "markitupSettings = { id: '$id', markupSet: [$markupSet]};";
 			$out = $this->Html->scriptBlock($script) .
 					"<style type='text/css'>{$css}</style>";
+
+			Stopwatch::stop('MarkitupHelper::getButtonSet()');
 			return $out;
 		}
 
@@ -137,7 +144,7 @@ EOF;
 		}
 
 		protected function _buildSmilies(array &$bbcode, &$css) {
-			$smilies = Configure::read('Saito.Smilies.smilies_all');
+			$smilies = $this->_smileyData;
 			$_smiliesPacked = [];
 
 			$i = 1;
@@ -147,18 +154,21 @@ EOF;
 				}
 				$_smiliesPacked[$smiley['icon']] =
 						array(
+							'className' => "saito-smiley-{$smiley['type']} saito-smiley-{$smiley['icon']}",
 							'name' => '' /* $smiley['title'] */,
 							// additional space to prevent smiley concatenation:
 							// `:cry:` and `(-.-)zzZ` becomes `:cry:(-.-)zzZ` which outputs
 							// smiley image for `:(`
 							'replaceWith' => ' ' . $smiley['code'],
 						);
-				$css .= <<<EOF
+
+				if ($smiley['type'] === 'image') {
+					$css .= <<<EOF
 .markItUp .markItUpButton{$this->_nextCssId}-{$i} a	{
 		background-image: url({$this->request->webroot}theme/{$this->theme}/img/smilies/{$smiley['icon']});
 }
 EOF;
-
+				}
 				$i++;
 			}
 			$this->_nextCssId++;

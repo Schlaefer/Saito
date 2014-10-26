@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	class ApiControllerTestCase extends SaitoControllerTestCase {
 

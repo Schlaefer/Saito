@@ -1,7 +1,7 @@
-define(['underscore', 'marionette',
+define(['underscore', 'marionette', 'app/core',
   'views/postingAction', 'views/postingContent', 'views/postingSlider',
   'text!templates/spinner.html'],
-    function(_, Marionette, ActionView, ContentView, SliderView, spinnerTpl) {
+    function(_, Marionette, App, ActionView, ContentView, SliderView, spinnerTpl) {
   'use strict';
 
   var postingLayout = Marionette.Layout.extend({
@@ -50,6 +50,8 @@ define(['underscore', 'marionette',
         collection: this.collection,
         parentThreadline: options.parentThreadline
       });
+
+      App.vent.trigger('Vent.Posting.View.afterRender', {$el: this.$el});
     }
 
   });

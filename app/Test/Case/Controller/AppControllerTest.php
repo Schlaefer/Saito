@@ -2,7 +2,7 @@
 
 	App::uses('Controller', 'Controller');
 	App::uses('AppController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib');
+	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	class AppControllerTest extends SaitoControllerTestCase {
 
@@ -19,6 +19,7 @@
 			'app.smiley_code',
 			'app.upload',
 			'app.user',
+			'app.user_block',
 			'app.user_ignore',
 			'app.user_online',
 			'app.user_read'

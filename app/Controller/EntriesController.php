@@ -9,13 +9,11 @@
 		public $helpers = [
 			'EntryH',
 			'MarkitupEditor',
-			'Flattr.Flattr',
 			'Shouts',
 			'Text',
 		];
 
 		public $components = [
-			'Flattr',
 			'Shouts'
 		];
 
@@ -323,8 +321,6 @@
 					// create new subentry
 					unset($this->request->data['Entry']['id']);
 					$this->request->data['Entry']['pid'] = $id;
-					// we assume that an answers to a nsfw posting isn't nsfw itself
-					unset($this->request->data['Entry']['nsfw']);
 					$this->set('citeSubject', $this->request->data['Entry']['subject']);
 					// subject is empty in answer-form
 					unset($this->request->data['Entry']['subject']);
@@ -363,7 +359,7 @@
 			$this->set('is_answer', (int)$this->request->data['Entry']['pid'] !== 0);
 			$this->set('is_inline', (int)$this->request->data['Entry']['pid'] !== 0);
 			$this->set('form_id', $this->request->data['Entry']['pid']);
-			$this->_teardownAdd();
+			$this->_setAddViewVars();
 		}
 
 		public function threadLine($id = null) {
@@ -465,7 +461,7 @@
 			);
 			$this->set('headerSubnavLeftUrl', ['action' => 'view', $id]);
 			$this->set('form_title', __('edit_linkname'));
-			$this->_teardownAdd();
+			$this->_setAddViewVars();
 			$this->render('/Entries/add');
 		}
 
@@ -568,7 +564,6 @@
 					'subject' => $data['subject'],
 					'text' => $data['text'],
 					'category' => $data['category'],
-					'nsfw' => $data['nsfw'],
 					'fixed' => false,
 					'solves' => 0,
 					'views' => 0,
@@ -699,10 +694,7 @@
 			$this->Auth->allow('feed', 'index', 'view', 'mix', 'update');
 
 			if ($this->request->action === 'index') {
-				if ($this->CurrentUser->getId() && $this->CurrentUser['user_forum_refresh_time'] > 0) {
-					$this->set('autoPageReload',
-							$this->CurrentUser['user_forum_refresh_time'] * 60);
-				}
+				$this->_setAutoRefreshTime();
 			}
 
 			Stopwatch::stop('Entries->beforeFilter()');
@@ -819,6 +811,18 @@
 			}
 		}
 
+		protected function _setAutoRefreshTime() {
+			if (!$this->CurrentUser->isLoggedIn()) {
+				return;
+			}
+			if ($this->CurrentUser['user_forum_refresh_time'] > 0) {
+				$this->set(
+					'autoPageReload',
+					$this->CurrentUser['user_forum_refresh_time'] * 60
+				);
+			}
+		}
+
 		/**
 		 * Gets thread ids for paginated entries/index.
 		 *
@@ -897,11 +901,11 @@
 			return $categories;
 		}
 
-		protected function _teardownAdd() {
-			//* find categories for dropdown
+		protected function _setAddViewVars() {
+			$this->set('smilies', $this->getSmilies());
+			//= categories for dropdown
 			$categories = $this->CurrentUser->Categories->getAllowed('list');
 			$this->set('categories', $categories);
-			$this->_loadSmilies();
 		}
 
 /**

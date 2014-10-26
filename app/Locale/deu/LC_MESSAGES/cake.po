@@ -100,3 +100,22 @@ msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] "%d Jahr"
 msgstr[1] "%d Jahren"
+
+msgid "in about a second"
+msgstr "circa 1 Sekunde"
+
+msgid "in about a minute"
+msgstr "circa 1 Minute"
+
+msgid "in about an hour"
+msgstr "circa 1 Stunde"
+
+msgid "in about a day"
+msgstr "circa 1 Tag"
+
+msgid "in about a week"
+msgstr "circa 1 Woche"
+
+msgid "in about a year"
+msgstr "circa 1 Jahr"
+

@@ -1,23 +1,23 @@
 <?php
 
-	App::uses('BbcodeSettings', 'Lib/Bbcode');
 	App::uses('ModelBehavior', 'Model');
 	App::uses('Router', 'Routing');
 
 	class BbcodeBehavior extends ModelBehavior {
 
-		public $settings;
+		/** @var BbcodeSettings */
+		protected $_settings;
 
-		public function setup(Model $Model, $settings = []) {
-			$this->settings = BbcodeSettings::getInstance();
-		}
-
-/**
- * @param Model $Model
- * @param $data string or array with [Alias]['text']
- * @return mixed
- */
+		/**
+		 * @param Model $Model
+		 * @param $data string or array with [Alias]['text']
+		 * @return mixed
+		 */
 		public function prepareBbcode(Model $Model, $data) {
+			if (!$this->_settings) {
+				$this->_settings = Configure::read('Saito.Settings.Bbcode');
+			}
+
 			if (empty($data[$Model->alias]['text']) === false) {
 				$data[$Model->alias]['text'] = $this->_prepareBbcode(
 					$data[$Model->alias]['text']
@@ -39,7 +39,7 @@
 			$string = preg_replace(
 				"%
 				(?<!=) # don't hash if part of [url=…
-				{$this->settings['server']}{$this->settings['webroot']}{$this->settings['hashBaseUrl']}
+				{$this->_settings->get('server')}{$this->_settings->get('webroot')}{$this->_settings->get('hashBaseUrl')}
 				(\d+)  # the id
 				%imx",
 				"#\\1",

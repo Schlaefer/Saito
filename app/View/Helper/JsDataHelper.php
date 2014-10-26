@@ -45,6 +45,7 @@
 					'user_show_thread_collapsed' => $View->viewVars['CurrentUser']['user_show_thread_collapsed'] || false
 				],
 				'callbacks' => [
+					'beforeAppInit' => [],
 					'afterAppInit' => [],
 					'afterViewInit' => []
 				]

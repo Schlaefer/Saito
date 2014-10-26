@@ -22,7 +22,7 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $smileyCode['SmileyCode']['id']; ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($smileyCode['Smiley']['icon'], array('controller' => 'smilies', 'action' => 'view', $smileyCode['Smiley']['id'])); ?>
+			<?php echo $this->Html->link($smileyCode['Smiley']['icon'], array('controller' => 'smilies', 'action' => 'edit', $smileyCode['Smiley']['id'])); ?>
 		</td>
 		<td><?php echo $smileyCode['SmileyCode']['code']; ?>&nbsp;</td>
 		<td class="actions">

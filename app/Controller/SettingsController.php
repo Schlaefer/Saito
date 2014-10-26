@@ -29,9 +29,6 @@
 				'email_contact' => 1,
 				'email_register' => 1,
 				'email_system' => 1,
-				'flattr_enabled' => 1,
-				'flattr_language' => 1,
-				'flattr_category' => 1,
 				'forum_disabled' => 1,
 				'forum_disabled_text' => 1,
 				'forum_email' => 1,
@@ -55,15 +52,12 @@
 				'tos_url' => 1,
 				'upload_max_img_size' => 1,
 				'upload_max_number_of_uploads' => 1,
-				'userranks_ranks' => 1,
-				'userranks_show' => 1,
 				'video_domains_allowed' => 1,
 		];
 
 		public function admin_index() {
 			$settings = $this->request->data = $this->Setting->getSettings();
 			$settings = array_intersect_key($settings, $this->_settingsShownInAdminIndex);
-			$settings['userranks_ranks'] = $this->Setting->pipeMerger($settings['userranks_ranks']);
 			$this->set('Settings', $settings);
 		}
 

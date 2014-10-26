@@ -1,0 +1,18 @@
+msgid "in about a second"
+msgstr "about a second"
+
+msgid "in about a minute"
+msgstr "about a minute"
+
+msgid "in about an hour"
+msgstr "about an hour"
+
+msgid "in about a day"
+msgstr "about a day"
+
+msgid "in about a week"
+msgstr "about a week"
+
+msgid "in about a year"
+msgstr "about a year"
+

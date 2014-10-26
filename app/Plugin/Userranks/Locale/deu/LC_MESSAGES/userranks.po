@@ -1,0 +1,2 @@
+msgid "rank"
+msgstr "Rang"
