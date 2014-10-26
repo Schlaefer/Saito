@@ -1,49 +1,45 @@
 <?php
 
 	App::uses('Component', 'Controller');
-	App::uses('BbcodeUserlistUserModel', 'Lib/Bbcode');
-	App::uses('BbcodeSettings', 'Lib/Bbcode');
+	App::uses('SaitoUserUserlistUserModel', 'Lib/SaitoUser/Userlist');
+	App::uses('SaitoMarkupSettings', 'Lib/Saito/Markup');
+	App::uses('SaitoSmileyCache', 'Lib/Saito');
 
-	class BbcodeComponent extends Component {
+	class ParserComponent extends Component {
 
-		protected $_initHelper = false;
-
-		/** @var BbcodeSettings */
+		/** @var SaitoMarkupSettings */
 		protected $_settings;
 
 		public function initialize(Controller $controller) {
-			$this->_settings = new BbcodeSettings([
+			// is needed in Markup Behavior
+			$this->_settings = new SaitoMarkupSettings([
 				'server' => Router::fullBaseUrl(),
 				'webroot' => $controller->webroot
 			]);
 		}
 
 		public function beforeRender(Controller $controller) {
-			if ($this->_initHelper === true) {
 				$this->_initHelper($controller);
-			}
 		}
 
 		/**
-		 * Inits the Bbcode Helper for use in a View
+		 * Inits the ParserHelper for use in a View
 		 *
 		 * Call this instead of including in the controller's $helpers array.
 		 */
 		protected function _initHelper(Controller $controller) {
-			$userlist = new BbcodeUserlistUserModel();
+			$userlist = new SaitoUserUserlistUserModel();
 			$userlist->set($controller->User);
+			$smilies = new SaitoSmileyCache($controller);
+			$controller->set('smilies', $smilies);
 
 			$this->_settings->add([
 				'quote_symbol' => Configure::read('Saito.Settings.quote_symbol'),
-				'smiliesData' => $controller->getSmilies(),
+				'smiliesData' => $smilies,
 				'UserList' => $userlist
 			]);
 
-			$controller->helpers['Bbcode'] = $this->_settings->get();
-		}
-
-		public function initHelper() {
-			$this->_initHelper = true;
+			$controller->helpers['Parser'] = $this->_settings->get();
 		}
 
 	}

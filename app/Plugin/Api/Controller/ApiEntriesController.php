@@ -70,7 +70,6 @@
 
 			$_newPosting = $this->Entry->createPosting($data);
 			if ($_newPosting) {
-				$this->initBbcode();
 				$this->set(
 					'entry',
 					$this->Entry->get($_newPosting['Entry']['id'])
@@ -116,7 +115,6 @@
 				throw new NotFoundException(sprintf('Thread with id `%s` not found.', $id));
 			}
 
-			$this->initBbcode();
 			$this->set('entries', $entries);
 		}
 
@@ -152,7 +150,6 @@
 			$data['Entry']['id'] = $id;
 			$entry = $this->Entry->update($data);
 			if ($entry) {
-				$this->initBbcode();
 				$this->set(
 					'entry',
 					$this->Entry->get($entry['Entry']['id'])

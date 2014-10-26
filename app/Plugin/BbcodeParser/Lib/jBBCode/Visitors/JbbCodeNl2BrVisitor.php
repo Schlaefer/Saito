@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('JbbCodeTextVisitor', 'Lib/Bbcode/jBBCode/Visitors');
+	App::uses('JbbCodeTextVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
 
 	class JbbCodeNl2BrVisitor extends JbbCodeTextVisitor {
 

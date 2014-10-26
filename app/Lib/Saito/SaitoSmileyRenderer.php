@@ -1,28 +1,28 @@
 <?php
 
-	App::uses('JbbCodeTextVisitor', 'Lib/Bbcode/jBBCode/Visitors');
-
-	/**
-	 * Class JbbCodeSmileyVisitor replaces ASCII smilies with images
-	 */
-	class JbbCodeSmileyVisitor extends JbbCodeTextVisitor {
+	class SaitoSmileyRenderer {
 
 		const DEBUG_SMILIES_KEY = ':smilies-debug:';
 
 		protected $_replacements;
 
+		protected $_smileyData;
+
 		protected $_useCache;
 
-		public function __construct(\Helper $Helper, array $_sOptions) {
-			parent::__construct($Helper, $_sOptions);
-			$this->_useCache = !Configure::read('debug');
+		public function __construct($smileyData) {
+			$this->_smileyData = $smileyData;
 		}
 
-		protected function _processTextNode($string, $node) {
+		public function replace($string) {
 			$replacements = $this->_getReplacements();
 			$string = str_replace($replacements['codes'], $replacements['html'], $string);
 			$string = $this->_debug($string, $replacements);
 			return $string;
+		}
+
+		public function setHelper(Helper $Helper) {
+			$this->_Helper = $Helper;
 		}
 
 		/**
@@ -34,7 +34,7 @@
 			if (strpos($string, self::DEBUG_SMILIES_KEY) === false) {
 				return $string;
 			}
-			$smilies = $this->_sOptions['smiliesData'];
+			$smilies = $this->_smileyData->get();
 			$out[] = '<table class="table table-simple">';
 			$out[] = '<tr><th>Icon</th><th>Code</th><th>Image</th><th>Title</th></tr>';
 			foreach ($replacements['html'] as $k => $smiley) {
@@ -66,14 +66,14 @@
 		}
 
 		protected function _addSmilies(&$replacements) {
-			$smilies = $this->_sOptions['smiliesData'];
+			$smilies = $this->_smileyData->get();
 			foreach ($smilies as $k => $smiley) {
 				$replacements['codes'][] = $smiley['code'];
 				$title = $this->_l10n($smiley['title']);
 
 				//= vector font smileys
 				if ($smiley['type'] === 'font') {
-					$replacements['html'][$k] = $this->Html->tag(
+					$replacements['html'][$k] = $this->_Helper->Html->tag(
 						'i',
 						'',
 						[
@@ -81,9 +81,9 @@
 							'title' => $title
 						]
 					);
-				//= pixel image smileys
+					//= pixel image smileys
 				} else {
-					$replacements['html'][$k] = $this->Html->image(
+					$replacements['html'][$k] = $this->_Helper->Html->image(
 						'smilies/' . $smiley['image'],
 						[
 							'alt' => $smiley['code'],
@@ -107,9 +107,9 @@
 			foreach ($additionalButtons as $additionalButton) {
 				// $s['codes'][] = ':gacker:';
 				$replacements['codes'][] = $additionalButton['code'];
-				// $s['html'][] = $this->Html->image('smilies/gacker_large.png');
+				// $s['html'][] = $this->_Helper->Html->image('smilies/gacker_large.png');
 				if ($additionalButton['type'] === 'image') {
-					$additionalButton['replacement'] = $this->Html->image(
+					$additionalButton['replacement'] = $this->_Helper->Html->image(
 						'markitup' . DS . $additionalButton['replacement']
 					);
 				}

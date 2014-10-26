@@ -17,7 +17,7 @@
 		public $displayField = 'text';
 
 		public $actsAs = [
-			'Bbcode',
+			'Markup',
 			'Containable'
 		];
 
@@ -114,7 +114,9 @@
 		}
 
 		public function beforeSave($options = []) {
-			$this->data = $this->prepareBbcode($this->data);
+			if (empty($this->data[$this->alias]['text']) === false) {
+				$this->data[$this->alias]['text'] = $this->prepareMarkup($this->data[$this->alias]['text']);
+			}
 			return true;
 		}
 

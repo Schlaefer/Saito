@@ -21,7 +21,6 @@
 			'Security', 'Auth',
 			// Leave in front to have it available in all Components
 			'Detectors.Detectors',
-			'Bbcode',
 /**
  * You have to have Cookie before CurrentUser to have the salt initialized.
  * Check by deleting Session cookie when persistent cookie is present.
@@ -32,6 +31,7 @@
 			'CacheSupport',
 			'Cron.Cron',
 			'JsData',
+			'Parser',
 			'SaitoEmail',
 			'EmailNotification',
 			// Enabling data view for rss/xml and json
@@ -303,26 +303,6 @@
 		public function blackhole($type) {
 			throw new Saito\BlackHoledException($type,
 				['CurrentUser' => $this->CurrentUser]);
-		}
-
-		public function initBbcode() {
-			if (isset($this->_bbcodeInitialized)) {
-				return;
-			}
-			$this->_bbcodeInitialized = true;
-			$this->Bbcode->initHelper();
-		}
-
-		/**
-		 * gets smilies
-		 *
-		 * @return mixed
-		 */
-		public function getSmilies() {
-			if (!$this->Smiley) {
-				$this->loadModel('Smiley');
-			}
-			return $this->Smiley->load();
 		}
 
 /**

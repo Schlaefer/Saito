@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('BbcodeUserlistInterface', 'Lib/Bbcode');
+	App::uses('SaitoUserUserlistInterface', 'Lib/SaitoUser/Userlist');
 
-	class BbcodeUserlistUserModel implements BbcodeUserlistInterface {
+	class SaitoUserUserlistUserModel implements SaitoUserUserlistInterface {
 
 		protected $_userlist = [];
 

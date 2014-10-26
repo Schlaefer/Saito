@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('BbcodeProcessor', 'Lib/Bbcode/Processors');
+	App::uses('BbcodeProcessor', 'BbcodeParser.Lib/Processors');
 
 	/**
 	 * Class BbcodeImageUploadLegacyPreprocessor

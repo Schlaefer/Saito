@@ -12,7 +12,7 @@
 			$entry['Entry']['last_answer']
 		),
 		'text'          => $entry['Entry']['text'],
-		'html'          => $this->Bbcode->parse(
+		'html'          => $this->Parser->parse(
 			$entry['Entry']['text'],
 			['multimedia' => true]
 		),

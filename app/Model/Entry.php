@@ -28,7 +28,7 @@
 		public $primaryKey = 'id';
 
 		public $actsAs = [
-			'Bbcode',
+			'Markup',
 			'Containable',
 			'Search.Searchable',
 			'Tree'
@@ -1058,8 +1058,10 @@
 				$data[$this->alias]['category'] = $parent[$this->alias]['category'];
 			}
 
-			// text preprocessing
-			$data = $this->prepareBbcode($data);
+			//= markup preprocessing
+			if (empty($data[$this->alias]['text']) === false) {
+				$data[$this->alias]['text'] = $this->prepareMarkup($data[$this->alias]['text']);
+			}
 		}
 
 		protected function _findEntry($state, $query, $results = []) {

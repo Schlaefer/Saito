@@ -103,7 +103,6 @@
 					'order' => $order
 				]
 			);
-			$this->initBbcode();
 			$this->set('entries', $entries);
 
 			// serialize for JSON
@@ -138,7 +137,6 @@
 			$root = $entries[0];
 			$this->_setRootEntry($root);
 			$this->_setTitleFromEntry($root, __('view.type.mix'));
-			$this->initBbcode();
 			$this->set('entries', $entries);
 			$this->_showAnsweringPanel();
 
@@ -157,7 +155,7 @@
 		}
 
 /**
- * Outputs raw BBcode of an posting $id
+ * Outputs raw markup of an posting $id
  *
  * @param int $id
  *
@@ -213,8 +211,6 @@
 
 			$this->_setRootEntry($entry);
 			$this->_showAnsweringPanel();
-
-			$this->initBbcode();
 
 			$this->CurrentUser->ReadEntries->set($entry);
 
@@ -592,7 +588,6 @@
 						)
 					)
 				);
-				$this->initBbcode();
 				$this->set('entry', $newEntry);
 			else :
 				// validation errors
@@ -902,7 +897,6 @@
 		}
 
 		protected function _setAddViewVars() {
-			$this->set('smilies', $this->getSmilies());
 			//= categories for dropdown
 			$categories = $this->CurrentUser->Categories->getAllowed('list');
 			$this->set('categories', $categories);

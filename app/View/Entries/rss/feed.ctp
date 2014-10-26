@@ -18,11 +18,11 @@
 					);
 
 			$bodyText = '';
-			$bodyText = $this->Bbcode->parse($entry['Entry']['text']);
-			/* 
+			$bodyText = $this->Parser->parse($entry['Entry']['text']);
+			/*
 			// You should import Sanitize
 			App::import('Sanitize');
-			// This is the part where we clean the body text for output as the description 
+			// This is the part where we clean the body text for output as the description
 			// of the rss item, this needs to have only text to make sure the feed validates
 			$bodyText = preg_replace('=\(.*?\)=is', '', $entry['Entry']['text']);
 			$bodyText = $this->Text->stripLinks($bodyText);
@@ -32,7 +32,7 @@
 					'exact'  => true,
 					'html'   => true,
 			));
-			 * 
+			 *
 			 */
 
 

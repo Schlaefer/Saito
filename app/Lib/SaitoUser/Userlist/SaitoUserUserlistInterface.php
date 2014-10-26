@@ -1,6 +1,6 @@
 <?php
 
-	interface BbcodeUserlistInterface {
+	interface SaitoUserUserlistInterface {
 
 /**
  * Returns array with list of usernames

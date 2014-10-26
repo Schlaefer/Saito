@@ -17,7 +17,7 @@
 		protected function _audio($content) {
 			$out = "<audio src='$content' controls='controls'>";
 			$out .= \BbcodeMessage::format(__(
-				'Your browser does not support HTML5 audio. Please updgrade to a modern' .
+				'Your browser does not support HTML5 audio. Please updgrade to a modern ' .
 				'browser. In order to watch this stream you need an HTML5 capable browser.',
 				true));
 			$out .= "</audio>";
@@ -34,7 +34,7 @@
 
 			$out = "<video src='$content' controls='controls' x-webkit-airplay='allow'>";
 			$out .= \BbcodeMessage::format(__(
-				'Your browser does not support HTML5 video. Please updgrade to a modern' .
+				'Your browser does not support HTML5 video. Please updgrade to a modern ' .
 				'browser. In order to watch this stream you need an HTML5 capable browser.',
 				true));
 			$out .= '</video>';

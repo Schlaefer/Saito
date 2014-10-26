@@ -6,7 +6,7 @@
 
 		public $helpers = [
 			'Api.Api',
-			'Bbcode'
+			'Parser'
 		];
 
 		protected $_cacheKey = 'Saito.Shouts.prepared';
@@ -27,7 +27,7 @@
 					'id' => (int)$shout['Shout']['id'],
 					'time' => $this->Api->mysqlTimestampToIso($shout['Shout']['time']),
 					'text' => $shout['Shout']['text'],
-					'html' => $this->Bbcode->parse(
+					'html' => $this->Parser->parse(
 						$shout['Shout']['text'],
 						['multimedia' => false]
 					),

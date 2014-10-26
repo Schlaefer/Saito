@@ -1,34 +1,18 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
-	App::uses('MarkupParserInterface', 'Lib/Bbcode');
-	include APPLIBS . 'Bbcode' . DS . 'jBBCode' . DS . 'Definitions' . DS . 'JbbCodeDefinitions.php';
+	App::uses('SaitoMarkupParser', 'Lib/Saito/Markup');
+	include CakePlugin::path('BbcodeParser') . DS . 'Lib' . DS . 'jBBCode' . DS . 'Definitions' . DS . 'JbbCodeDefinitions.php';
 
-	App::uses('JbbCodeNl2BrVisitor', 'Lib/Bbcode/jBBCode/Visitors');
-	App::uses('JbbCodeAutolinkVisitor', 'Lib/Bbcode/jBBCode/Visitors');
-	App::uses('JbbCodeSmileyVisitor', 'Lib/Bbcode/jBBCode/Visitors');
+	App::uses('JbbCodeNl2BrVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
+	App::uses('JbbCodeAutolinkVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
+	App::uses('JbbCodeSmileyVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
 
-	App::uses('BbcodeProcessorCollection', 'Lib/Bbcode/Processors');
-	App::uses('BbcodeImageUploadLegacyPreprocessor', 'Lib/Bbcode/Processors');
-	App::uses('BbcodePreparePreprocessor', 'Lib/Bbcode/Processors');
-	App::uses('BbcodeQuotePostprocessor', 'Lib/Bbcode/Processors');
+	App::uses('BbcodeProcessorCollection', 'BbcodeParser.Lib/Processors');
+	App::uses('BbcodeImageUploadLegacyPreprocessor', 'BbcodeParser.Lib/Processors');
+	App::uses('BbcodePreparePreprocessor', 'BbcodeParser.Lib/Processors');
+	App::uses('BbcodeQuotePostprocessor', 'BbcodeParser.Lib/Processors');
 
-	/**
-	 * Class BbcodeHelper
-	 */
-	class BbcodeHelper extends AppHelper implements MarkupParserInterface {
-
-		/**
-		 * @var array cache for rendered BBCode
-		 *
-		 * Esp. useful for repeating signatures in long mix view threads
-		 */
-		protected $_cache = [];
-
-		/**
-		 * @var array cache for app settings
-		 */
-		protected $_cSettings;
+	class BbcodeParser extends SaitoMarkupParser {
 
 		/**
 		 * @var \JBBCode\Parser
@@ -190,29 +174,11 @@
 		];
 
 		/**
-		 * @var array these Helpers are also used in the Parser
-		 */
-		public $helpers = [
-			'FileUpload.FileUpload',
-			'MailObfuscator.MailObfuscator',
-			'Geshi.Geshi',
-			'Embedly.Embedly',
-			'Html',
-			'Text'
-		];
-
-		/**
 		 * Initialized parsers
 		 *
 		 * @var array
 		 */
 		protected $_initializedParsers = array();
-
-		public function beforeRender($viewFile) {
-			if (isset($this->request) && $this->request->action === 'preview') {
-				$this->Geshi->showPlainTextButton = false;
-			}
-		}
 
 		/**
 		 * Parses BBCode
@@ -227,31 +193,18 @@
 		 * @return mixed|string
 		 */
 		public function parse($string, array $options = []) {
-			if (empty($string) || $string === 'n/t') {
-				return $string;
-			}
-
-			$defaults = ['return' => 'html', 'multimedia' => true];
-			$options += $defaults;
-
-			$id = md5(serialize($options) . $string);
-			if (isset($this->_cache[$id])) {
-				return $this->_cache[$id];
-			}
-
-			Stopwatch::start('Bbcode::parse');
 			$this->_initParser($options);
 
 			$string = $this->_Preprocessors->process($string);
 
 			$this->_Parser->parse($string);
 
-			$this->_Parser->accept(new JbbCodeNl2BrVisitor($this, $options));
+			$this->_Parser->accept(new JbbCodeNl2BrVisitor($this->_Helper, $options));
 			if ($this->_cSettings['autolink']) {
-				$this->_Parser->accept(new JbbCodeAutolinkVisitor($this, $options));
+				$this->_Parser->accept(new JbbCodeAutolinkVisitor($this->_Helper, $options));
 			}
 			if ($this->_cSettings['smilies']) {
-				$this->_Parser->accept(new JbbCodeSmileyVisitor($this, $options));
+				$this->_Parser->accept(new JbbCodeSmileyVisitor($this->_Helper, $options));
 			}
 
 			switch ($options['return']) {
@@ -263,22 +216,10 @@
 			}
 
 			$html = $this->_Postprocessors->process($html);
-
-			$this->_cache[$id] = $html;
-			Stopwatch::stop('Bbcode::parse');
-			return $this->_cache[$id];
-		}
-
-		protected function _initSettings() {
-			if ($this->_cSettings === null) {
-				// @bogus: why not passed into helper as one array?
-				$this->_cSettings = Configure::read('Saito.Settings') + $this->settings;
-			}
+			return $html;
 		}
 
 		protected function _initParser(&$options) {
-			$this->_initSettings();
-
 			$options = array_merge($this->_cSettings, $options);
 
 			// serializing complex objects kills PHP
@@ -324,7 +265,7 @@
 						break;
 					case 'class':
 						$class = '\Saito\Jbb\CodeDefinition\\' . ucfirst($title);
-						$this->_Parser->addCodeDefinition(new $class($this, $options));
+						$this->_Parser->addCodeDefinition(new $class($this->_Helper, $options));
 						break;
 					default:
 						throw new Exception();
@@ -339,54 +280,7 @@
 		 * @return string
 		 */
 		public function citeText($string) {
-			if (empty($string)) {
-				return '';
-			}
-			$this->_initSettings();
-			$out = '';
-			// split already quoted lines
-			$citeLines = preg_split("/(^{$this->_cSetttings['quote_symbol']}.*?$\n)/m",
-				$string,
-				null,
-				PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-			foreach ($citeLines as $citeLine):
-				if (mb_strpos($citeLine, $this->_cSettings['quote_symbol']) === 0) {
-					// already quoted lines need no further processing
-					$out .= $citeLine;
-					continue;
-				}
-				// split [bbcode]
-				$matches = preg_split('`(\[(.+?)=?.*?\].+?\[/\2\])`',
-					$citeLine,
-					null,
-					PREG_SPLIT_DELIM_CAPTURE);
-				$i = 0;
-				$line = '';
-				foreach ($matches as $match) {
-					// the [bbcode] preg_split uses a backreference \2 which is in the $matches
-					// but is not needed in the results
-					// @todo elegant solution
-					$i++;
-					if ($i % 3 == 0) {
-						continue;
-					}
-					// wrap long lines
-					if (mb_strpos($match, '[') !== 0) {
-						$line .= wordwrap($match);
-					} else {
-						$line .= $match;
-					}
-					// add newline to wrapped lines
-					if (mb_strlen($line) > 60) {
-						$out .= $line . "\n";
-						$line = '';
-					}
-				}
-				$out .= $line;
-			endforeach;
-			$out = preg_replace("/^/m", $this->_cSettings['quote_symbol'] . " ",
-				$out);
-			return $out;
+			return $string;
 		}
 
 	}

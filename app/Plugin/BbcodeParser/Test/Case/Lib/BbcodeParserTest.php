@@ -1,6 +1,5 @@
 <?php
 
-	/* Bbcode Test cases generated on: 2010-08-02 07:08:44 : 1280727824 */
 	App::import('Lib', 'Stopwatch.Stopwatch');
 	App::import('Helper',
 		array(
@@ -11,27 +10,28 @@
 
 	App::uses('Controller', 'Controller');
 	App::uses('View', 'View');
-	App::uses('BbcodeHelper', 'View/Helper');
+	App::uses('ParserHelper', 'View/Helper');
 	App::uses('HtmlHelper', 'View/Helper');
 	App::uses('CakeRequest', 'Network');
 
-	App::uses('BbcodeUserlistArray', 'Lib/Bbcode');
+	App::uses('SaitoSmileyCache', 'Lib/Saito');
+	App::uses('SaitoUserUserlistArray', 'Lib/SaitoUser/Userlist');
 
-	class BbcodeHelperTest extends CakeTestCase {
+	class BbcodeParserTest extends CakeTestCase {
 
-		protected $_Bbcode = null;
+		protected $_Parser = null;
 
 		public function testBold() {
 			$input = '[b]bold[/b]';
 			$expected = array('strong' => array(), 'bold', '/strong');
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
 		public function testEmphasis() {
 			$input = '[i]italic[/i]';
 			$expected = array('em' => array(), 'italic', '/em');
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
@@ -39,7 +39,7 @@
 			$input = '[u]text[/u]';
 			$expected = array('span' => array('class' => 'c-bbcode-underline'),
 				'text', '/span');
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
@@ -48,12 +48,12 @@
 
 			// [strike]
 			$input = '[strike]text[/strike]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// [s]
 			$input = '[s]text[/s]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
@@ -81,7 +81,7 @@
 				'/a',
 				'/div'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected, true);
 		}
 
@@ -99,7 +99,7 @@
 				'/li',
 				'/ul'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
@@ -114,14 +114,14 @@
 				'purge',
 				'/a'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
 		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			/**
@@ -137,7 +137,7 @@
 				'http://heise.de/foobar',
 				'/a'
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			$input = '[link]http://heise.de/foobar[/link]';
@@ -150,7 +150,7 @@
 				'http://heise.de/foobar',
 				'/a'
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// masked link
@@ -165,7 +165,7 @@
 				'/a',
 				'span' => array('class' => 'c-bbcode-link-dinfo'), '[heise.de]', '/span'
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// masked link with no label
@@ -179,7 +179,7 @@
 				'foobar',
 				'/a',
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			/**
@@ -187,7 +187,7 @@
 			 */
 			$input = '[url=http://macnemo.de/foobar]foobar[/url]';
 			$expected = "<a href='http://macnemo.de/foobar'>foobar</a>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			$input = '[url]/foobar[/url]';
@@ -198,19 +198,19 @@
 				'preg:/\/foobar/',
 				'/a',
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// test lokaler server with absolute url
 			$input = '[url=/foobar]foobar[/url]';
 			$expected = "<a href='/foobar'>foobar</a>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test 'http://' only
 			$input = '[url=http://]foobar[/url]';
 			$expected = "<a href='http://'>foobar</a>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test for co.uk
@@ -226,7 +226,7 @@
 				'span' => array('class' => 'c-bbcode-link-dinfo'), '[heise.co.uk]',
 				'/span'
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
@@ -242,7 +242,7 @@
 				'/a',
 				'/em'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// lists
@@ -258,19 +258,19 @@
 				'/li',
 				'/ul'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
 		public function testHashLinkFailure() {
 			// don't hash code
 			$input = '[code]#2234[/code]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertNotContains('>#2234</a>', $result);
 
 			// not a valid hash
 			$input = '#2234t';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals('#2234t', $result);
 		}
 
@@ -283,18 +283,18 @@
 				" @Bobby Tables " .
 				"<a href='/at/Dr.+No'>@Dr. No</a>";
 
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result, '@User string is not replaced with link to user profile.');
 
 			$input = '[code]@Alice[/code]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertNotContains('>@Alice</a>', $result);
 		}
 
 		public function testLinkEmptyUrl() {
 			$input = '[url=][/url]';
 			$expected = "<a href=''></a>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 		}
 
@@ -308,7 +308,7 @@
 				'/span',
 				' post'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
@@ -348,10 +348,10 @@
 			$MO->expects($this->once(4))
 				->method('link')
 				->with('mail@tosomeone.com', null);
-			$this->_Bbcode->MailObfuscator = $MO;
+			$this->_Helper->MailObfuscator = $MO;
 
 			$input = '[email]mailto:mail@tosomeone.com[/email]';
-			$this->_Bbcode->parse($input);
+			$this->_Parser->parse($input);
 		}
 
 		public function testEmailMailtoMask() {
@@ -359,10 +359,10 @@
 			$MO->expects($this->once(4))
 				->method('link')
 				->with('mail@tosomeone.com', 'Mail');
-			$this->_Bbcode->MailObfuscator = $MO;
+			$this->_Helper->MailObfuscator = $MO;
 
 			$input = '[email=mailto:mail@tosomeone.com]Mail[/email]';
-			$this->_Bbcode->parse($input);
+			$this->_Parser->parse($input);
 		}
 
 		public function testEmailNoMailto() {
@@ -370,10 +370,10 @@
 			$MO->expects($this->once(4))
 				->method('link')
 				->with('mail@tosomeone.com', null);
-			$this->_Bbcode->MailObfuscator = $MO;
+			$this->_Helper->MailObfuscator = $MO;
 
 			$input = '[email]mail@tosomeone.com[/email]';
-			$this->_Bbcode->parse($input);
+			$this->_Parser->parse($input);
 		}
 
 		public function testEmailNoMailtoMask() {
@@ -381,23 +381,20 @@
 			$MO->expects($this->once(4))
 				->method('link')
 				->with('mail@tosomeone.com', 'Mail');
-			$this->_Bbcode->MailObfuscator = $MO;
+			$this->_Helper->MailObfuscator = $MO;
 
 			$input = '[email=mail@tosomeone.com]Mail[/email]';
-			$this->_Bbcode->parse($input);
+			$this->_Parser->parse($input);
 		}
 
 		public function testFlash() {
-			Configure::write('Saito.Settings.bbcode_img', true);
-			Configure::write('Saito.Settings.video_domains_allowed', 'youtube');
-
 			$bbcode = '[flash_video]//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;hl=en_US|560|315[/flash_video]';
 			$expected = <<<EOF
 			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="560" height="315">
 									<param name="movie" value="//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;amp;hl=en_US"></param>
 									<embed src="//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;amp;hl=en_US" width="560" height="315" type="application/x-shockwave-flash" wmode="opaque" style="width:560px; height:315px;" id="VideoPlayback" flashvars=""> </embed> </object>
 EOF;
-			$actual = $this->_Bbcode->parse($bbcode);
+			$actual = $this->_Parser->parse($bbcode, ['video_domains_allowed' => 'youtube']);
 			$this->assertEquals(trim($expected), trim($actual));
 		}
 
@@ -410,37 +407,37 @@ EOF;
 			];
 
 			$input = '[float]text[/float]more';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
 		public function testLinkAuto() {
 			$input = 'http://heise.de/foobar';
 			$expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// autolink surrounded by text
 			$input = 'some http://heise.de/foobar text';
 			$expected = "some <a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a> text";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// no autolink in [code]
 			$input = '[code]http://heise.de/foobar[/code]';
 			$needle = 'heise.de/foobar</a>';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertNotContains($result, $needle);
 
 			// no autolink in [url]
 			$input = '[url=http://a.com/]http://b.de/[/url]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertRegExp('#href=["\']http://a.com/["\'][^>]*?>http://b.de/#', $result);
 
 			// email autolink
 			$input = 'text mail@tosomeone.com test';
 			// $expected = "text <a href='mailto:mail@tosomeone.com'>mail@tosomeone.com</a> test";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			// $this->assertEquals($expected, $result);
 			// @bogus weak test
 			$this->assertRegExp('/^text .*href=".* test$/sm', $result);
@@ -451,7 +448,7 @@ EOF;
 [*] http://heise.de
 [/list]
 EOF;
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = "<a href='http://heise.de";
 			$this->assertTextContains($expected, $result);
 		}
@@ -469,7 +466,7 @@ EOF;
 				'/a',
 				' text'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
@@ -486,13 +483,13 @@ EOF;
 				'/a',
 				') text'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
 		public function testLinkAutoSurroundingChars() {
 			$input = 'text http://example.com/?foo,,, text';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = [
 				'text ',
 				'a' => [
@@ -508,7 +505,7 @@ EOF;
 
 			// Question mark
 			$input = 'question http://example.com/? Text';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = [
 				'question ',
 				'a' => [
@@ -524,7 +521,7 @@ EOF;
 
 			// No Question mark but url
 			$input = 'no question http://example.com/?foo=bar text';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = [
 				'no question ',
 				'a' => [
@@ -542,38 +539,25 @@ EOF;
 		public function testReturnText() {
 			$in = 'test [b]test[b] test';
 			$expected = 'test test test';
-			$actual = $this->_Bbcode->parse($in, ['return' => 'text']);
+			$actual = $this->_Parser->parse($in, ['return' => 'text']);
 			$this->assertEquals($expected, $actual);
 		}
 
 		public function testShortenLink() {
 			$maxLength = 15;
 
-			$textWordMaxLength = Configure::read('Saito.Settings.text_word_maxlength');
-			Configure::write('Saito.Settings.text_word_maxlength', $maxLength);
-
 			$input = '[url]http://this/url/is/32/chars/long[/url]';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input, ['text_word_maxlength' => $maxLength]);
 			$this->assertEquals($expected, $result);
 
 			$input = 'http://this/url/is/32/chars/long';
 			$expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input, ['text_word_maxlength' => $maxLength]);
 			$this->assertEquals($expected, $result);
-
-			Configure::write('Saito.Settings.text_word_maxlength',
-				$textWordMaxLength);
 		}
 
 		public function testIframe() {
-			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-			Configure::write('Saito.Settings.bbcode_img', true);
-
-			$videoDomains = Configure::read('Saito.Settings.video_domains_allowed');
-			Configure::write('Saito.Settings.video_domains_allowed',
-				'youtube | vimeo');
-
 			//* test allowed domain
 			$input = '[iframe height=349 width=560 ' .
 				'src=http://www.youtube.com/embed/HdoW3t_WorU ' .
@@ -587,7 +571,7 @@ EOF;
 				],
 				'/iframe',
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input, ['video_domains_allowed' => 'youtube | vimeo']);
 			$this->assertTags($result, $expected);
 
 			//* test forbidden domains
@@ -595,31 +579,25 @@ EOF;
 				'src=http://www.youtubescam.com/embed/HdoW3t_WorU ' .
 				'frameborder=0][/iframe]';
 			$expected = '/src/i';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input, ['video_domains_allowed' => 'youtube | vimeo']);
 			$this->assertNoPattern($expected, $result);
 		}
 
 		public function testIframeAllDomainsAllowed() {
-			Configure::write('Saito.Settings.bbcode_img', true);
-			Configure::write('Saito.Settings.video_domains_allowed', '*');
-
 			$input = '[iframe height=349 width=560 ' .
 				'src=http://www.youtubescam.com/embed/HdoW3t_WorU ' .
 				'][/iframe]';
 			$expected = 'src="http://www.youtubescam.com/embed/HdoW3t_WorU';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input, ['video_domains_allowed' => '*']);
 			$this->assertContains($expected, $result);
 		}
 
 		public function testIframeNoDomainAllowed() {
-			Configure::write('Saito.Settings.bbcode_img', true);
-			Configure::write('Saito.Settings.video_domains_allowed', '');
-
 			$input = '[iframe height=349 width=560 ' .
 				'src=http://www.youtubescam.com/embed/HdoW3t_WorU ' .
 				'][/iframe]';
 			$expected = '/src/i';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input, ['video_domains_allowed' => '']);
 			$this->assertNotRegExp($expected, $result);
 		}
 
@@ -630,25 +608,25 @@ EOF;
 			// test for standard URIs
 			$input = '[img]http://localhost/img/macnemo.png[/img]';
 			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" alt="" />';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
-			$expected = '<img src="' . $this->_Bbcode->webroot . 'somewhere/macnemo.png" class="c-bbcode-external-image" alt="" />';
-			$result = $this->_Bbcode->parse($input);
+			$expected = '<img src="' . $this->_Helper->webroot . 'somewhere/macnemo.png" class="c-bbcode-external-image" alt="" />';
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
 			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" alt="" />';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test scaling with 2 parameters
 			$input = '[img=50x100]http://localhost/img/macnemo.png[/img]';
 			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" height="100" alt="" />';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// float left
@@ -661,7 +639,7 @@ EOF;
 					'alt' => "",
 				))
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// float right
@@ -674,7 +652,7 @@ EOF;
 					'alt' => "",
 				))
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
@@ -706,16 +684,13 @@ EOF;
 				],
 				'/a'
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
 		public function testInternalImage() {
-			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-			Configure::write('Saito.Settings.bbcode_img', true);
-
 			// Create a map of arguments to return values.
 			$map = [
 				['test.png', [], '<img src="test.png" />'],
@@ -734,7 +709,7 @@ EOF;
 			$FileUploader->expects($this->atLeastOnce())
 				->method('image')
 				->will($this->returnValueMap($map));
-			$this->_Bbcode->FileUpload = $FileUploader;
+			$this->_Helper->FileUpload = $FileUploader;
 
 			// internal image
 			$input = '[upload]test.png[/upload]';
@@ -743,7 +718,7 @@ EOF;
 				['img' => ['src' => 'test.png']],
 				'/div',
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// internal image with attributes
@@ -760,7 +735,7 @@ EOF;
 				],
 				'/div',
 			);
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// internal image legacy [img#] tag
@@ -776,16 +751,14 @@ EOF;
 				],
 				'/div',
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 
 			// nested image does not have [domain.info]
 			$input = '[url=http://heise.de][upload]test.png[/upload][/url]';
 			$expected = "/c-bbcode-link-dinfo/";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertNotRegExp($expected, $result);
-
-			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
 		public function testSmiliesHtmlEntities() {
@@ -793,21 +766,21 @@ EOF;
 			$expected = [
 				'ü ',
 				'img' => [
-					'src' => $this->_Bbcode->webroot('img/smilies/smile_image.svg'),
+					'src' => $this->_Helper->webroot('img/smilies/smile_image.svg'),
 					'alt' => ':-)',
 					'title' => 'Smile',
 					'class' => 'saito-smiley-image',
 				],
 				' ü'
 			];
-			$result = $this->_Bbcode->parse($input, array('cache' => false));
+			$result = $this->_Parser->parse($input, array('cache' => false));
 			$this->assertTags($result, $expected);
 		}
 
 		public function testSmiliesNoSmiliesInCodeTag() {
 			$input = '[code text]:)[/code]';
 			$needle = '<img';
-			$result = $this->_Bbcode->parse($input, array('cache' => false));
+			$result = $this->_Parser->parse($input, array('cache' => false));
 			$this->assertNotContains($needle, $result);
 		}
 
@@ -815,7 +788,7 @@ EOF;
 			$input = ';)';
 			$expected = [
 				'img' => [
-					'src' => $this->_Bbcode->webroot(
+					'src' => $this->_Helper->webroot(
 							'img/smilies/wink.png'
 						),
 					'alt' => ';)',
@@ -823,7 +796,7 @@ EOF;
 					'title' => 'Wink'
 				]
 			];
-			$result = $this->_Bbcode->parse($input, ['cache' => false]);
+			$result = $this->_Parser->parse($input, ['cache' => false]);
 			$this->assertTags($result, $expected);
 		}
 
@@ -835,7 +808,7 @@ EOF;
 					'title' => 'Coffee'
 				]
 			];
-			$result = $this->_Bbcode->parse($input, ['cache' => false]);
+			$result = $this->_Parser->parse($input, ['cache' => false]);
 			$this->assertTags($result, $expected);
 		}
 
@@ -847,27 +820,27 @@ EOF;
 				],
 				'preg:/.*?\[b\]text\[b\].*/',
 			];
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
 
 		public function testCodeWhitespace() {
 			$input = "[code]\ntest\n[/code]";
 			$expected = "/>test</";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertRegExp($expected, $result);
 		}
 
 		public function testCodeSimple() {
 			$input = '[code]text[/code]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = 'lang="text"';
 			$this->assertContains($expected, $result);
 		}
 
 		public function testCodeLangAttribute() {
 			$input = '[code=php]text[/code]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = 'lang="php"';
 			$this->assertContains($expected, $result);
 		}
@@ -878,23 +851,23 @@ EOF;
 		public function testCodeNoCitationMark() {
 			// [code]<citation mark>[/code] should not be cited
 			$input = h(
-				"[code]\n" . $this->_Bbcode->settings['quote_symbol'] . "\n[/code]"
+				"[code]\n" . $this->_Parser->settings['quote_symbol'] . "\n[/code]"
 			);
 			$expected = '`span class=.*?c-bbcode-citation`';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertNotRegExp($expected, $result);
 		}
 
 		public function testCodeDetaginize() {
 			$input = '[code bash]pre http://example.com post[/code]';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertNotContains('autoLink', $result);
 		}
 
 		public function testQuote() {
-			$_qs = h($this->_Bbcode->settings['quote_symbol']);
+			$_qs = h($this->_Parser->settings['quote_symbol']);
 			$input = $_qs . ' fo [b]test[/b] ba';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = [
 				'span' => ['class' => 'c-bbcode-citation'],
 				$_qs . ' fo ',
@@ -915,7 +888,7 @@ EOF;
 			//* @td write video tests
 			$url = 'http://example.com/audio.mp4';
 			$input = "[video]{$url}[/video]";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = array(
 				'video' => array('src' => $url, 'controls' => 'controls',
 					'x-webkit-airplay' => 'allow'),
@@ -927,7 +900,7 @@ EOF;
 			foreach ($html5AudioExtensions as $extension) {
 				$url = 'http://example.com/audio.' . $extension;
 				$input = "[video]{$url}[/video]";
-				$result = $this->_Bbcode->parse($input);
+				$result = $this->_Parser->parse($input);
 				$expected = array(
 					'audio' => array('src' => $url, 'controls' => 'controls'),
 				);
@@ -941,49 +914,27 @@ EOF;
 		public function testHr() {
 			$input = '[hr][hr]';
 			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($result, $expected);
 		}
 
 		public function testHrShort() {
 			$input = '[---][---]';
 			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$this->assertEquals($result, $expected);
 		}
 
 		public function testEmbedlyDisabled() {
-			//* setup
-			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-			Configure::write('Saito.Settings.bbcode_img', true);
-
-			$embedlyEnabled = Configure::read('Saito.Settings.embedly_enabled');
-			$embedlyKey = Configure::read('Saito.Settings.embedly_key');
-
 			$observer = $this->getMock('Embedly', array('setApiKey', 'embedly'));
 			$observer->expects($this->never())
 				->method('setApiKey');
-			$this->_Bbcode->Embedly = $observer;
+			$this->_Helper->Embedly = $observer;
 			$input = '[embed]foo[/embed]';
-			$this->_Bbcode->parse($input);
-
-			//* teardown
-			Configure::write('Saito.Settings.embedly_enabled', $embedlyEnabled);
-			Configure::write('Saito.Settings.embedly_key', $embedlyKey);
-			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
+			$this->_Parser->parse($input);
 		}
 
 		public function testEmbedlyEnabled() {
-			//* setup
-			$bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-			Configure::write('Saito.Settings.bbcode_img', true);
-
-			$embedlyEnabled = Configure::read('Saito.Settings.embedly_enabled');
-			$embedlyKey = Configure::read('Saito.Settings.embedly_key');
-
-			Configure::write('Saito.Settings.embedly_enabled', true);
-			Configure::write('Saito.Settings.embedly_key', 'abc123');
-
 			$observer = $this->getMock('Embedly', array('setApiKey', 'embedly'));
 			$observer->expects($this->once())
 				->method('setApiKey')
@@ -991,14 +942,13 @@ EOF;
 			$observer->expects($this->once())
 				->method('embedly')
 				->with($this->equalTo('foo'));
-			$this->_Bbcode->Embedly = $observer;
+			$this->_Helper->Embedly = $observer;
 			$input = '[embed]foo[/embed]';
-			$this->_Bbcode->parse($input);
 
-			//* teardown
-			Configure::write('Saito.Settings.embedly_enabled', $embedlyEnabled);
-			Configure::write('Saito.Settings.embedly_key', $embedlyKey);
-			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
+			$this->_Parser->parse($input, [
+				'embedly_enabled' => true,
+				'embedly_key' => 'abc123'
+			]);
 		}
 
 		public function testHtml5Audio() {
@@ -1009,7 +959,7 @@ EOF;
 			//* simple test
 			$url = 'http://example.com/audio3.m4a';
 			$input = "[audio]{$url}[/audio]";
-			$result = $this->_Bbcode->parse($input);
+			$result = $this->_Parser->parse($input);
 			$expected = array(
 					'audio' => array( 'src' => $url, 'controls' => 'controls' ),
 			);
@@ -1019,18 +969,6 @@ EOF;
 			Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
 		}
 
-		public function testCiteText() {
-			$input = "";
-			$result = $this->_Bbcode->citeText($input);
-			$expected = "";
-			$this->assertEquals($result, $expected);
-
-			$input = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789";
-			$result = $this->_Bbcode->citeText($input);
-			$expected = "» 123456789 123456789 123456789 123456789 123456789 123456789 123456789\n» 123456789\n";
-			$this->assertEquals($result, $expected);
-		}
-
 		/*		 * ******************** Setup ********************** */
 
 		public function setUp() {
@@ -1038,6 +976,36 @@ EOF;
 
 			Configure::write('Asset.timestamp', false);
 
+			if ( isset($_SERVER['SERVER_NAME']) ) {
+				$this->server_name = $_SERVER['SERVER_NAME'];
+			} else {
+				$this->server_name = false;
+			}
+
+			if ( isset($_SERVER['SERVER_PORT']) ) {
+				$this->server_port = $_SERVER['SERVER_PORT'];
+			} else {
+				$this->server_port = false;
+			}
+
+			$this->asset_timestamp = Configure::read('Asset.timestamp');
+
+			$this->text_word_maxlength = Configure::read('Saito.Settings.text_word_maxlength');
+			Configure::write('Saito.Settings.text_word_maxlength', 10000);
+
+			$this->autolink = Configure::read('Saito.Settings.autolink');
+			Configure::write('Saito.Settings.autolink', true);
+
+			$_SERVER['SERVER_NAME'] = 'macnemo.de';
+			$_SERVER['SERVER_PORT'] = '80';
+
+			parent::setUp();
+
+			$Request = new CakeRequest('/');
+			$Controller = new Controller($Request);
+			$View = new View($Controller);
+
+			//= smiley fixture
 			$smiliesFixture = [
 				[
 					'order' => 1,
@@ -1064,52 +1032,32 @@ EOF;
 					'type' => 'font'
 				],
 			];
+			Cache::write('Saito.Smilies.data', $smiliesFixture);
+			$SmileyCache = new SaitoSmileyCache($Controller);
 
-			$this->smilies = Configure::read('Saito.Settings.smilies');
-			Configure::write('Saito.Settings.smilies', true);
-
-			if ( isset($_SERVER['SERVER_NAME']) ) {
-				$this->server_name = $_SERVER['SERVER_NAME'];
-			} else {
-				$this->server_name = false;
-			}
-
-			if ( isset($_SERVER['SERVER_PORT']) ) {
-				$this->server_port = $_SERVER['SERVER_PORT'];
-			} else {
-				$this->server_port = false;
-			}
-
-			$this->asset_timestamp = Configure::read('Asset.timestamp');
-
-			$this->text_word_maxlength = Configure::read('Saito.Settings.text_word_maxlength');
-			Configure::write('Saito.Settings.text_word_maxlength', 10000);
-
-			$this->autolink = Configure::read('Saito.Settings.autolink');
-			Configure::write('Saito.Settings.autolink', true);
-
-			$_SERVER['SERVER_NAME'] = 'macnemo.de';
-			$_SERVER['SERVER_PORT'] = '80';
-
-			parent::setUp();
-			$Request = new CakeRequest('/');
-			$Controller = new Controller($Request);
-			$View = new View($Controller);
-			$BbcodeUserlist = new BbcodeUserlistArray();
-			$BbcodeUserlist->set(['Alice', 'Bobby Junior', 'Dr. No']);
+			//= userlist fixture
+			$Userlist = new SaitoUserUserlistArray();
+			$Userlist->set(['Alice', 'Bobby Junior', 'Dr. No']);
 
 			$settings = [
+				'autolink' => true,
+				'bbcode_img' => true,
+				'multimedia' => true,
 				'quote_symbol' => '»',
 				'hashBaseUrl' => '/hash/',
 				'atBaseUrl' => '/at/',
-				'smiliesData' => $smiliesFixture,
-				'UserList' => $BbcodeUserlist,
+				'return' => 'html',
+				'smilies' => true,
+				'smiliesData' => $SmileyCache,
+				'text_word_maxlength' => 120,
+				'UserList' => $Userlist,
 				'webroot' => ''
 			];
+			$this->_Helper = $ParserHelper = new ParserHelper($View, $settings);
+			$ParserHelper->beforeRender(null);
 
-			$this->_Bbcode = new BbcodeHelper($View);
-			$this->_Bbcode->settings = $settings;
-			$this->_Bbcode->beforeRender(null);
+			$this->_Parser = new BbcodeParser($ParserHelper, $settings);
+			$this->_Parser->settings = $settings;
 		}
 
 		public function tearDown() {
@@ -1129,11 +1077,9 @@ EOF;
 
 			Configure::write('Saito.Settings.autolink', $this->autolink);
 
-			Configure::write('Saito.Settings.smilies', $this->smilies);
-
 			Cache::clear();
 			ClassRegistry::flush();
-			unset($this->_Bbcode);
+			unset($this->_Parser);
 		}
 
 	}

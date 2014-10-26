@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('BbcodeProcessorInterface', 'Lib/Bbcode/Processors');
+	App::uses('BbcodeProcessor', 'BbcodeParser.Lib/Processors');
 
 	class BbcodeQuotePostprocessor extends BbcodeProcessor {
 

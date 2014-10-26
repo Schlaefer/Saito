@@ -1655,6 +1655,9 @@ msgstr "Verweis"
 msgid "geshi_link_popup"
 msgstr "Bitte URI zum Verweis eingeben.:!:http://beispiel.de/"
 
+msgid "geshi_image_popup"
+msgstr "Bitte URI zum Link eingeben.:!:http://beispiel.de/bild.png"
+
 #: View/Helper/MarkitupEditorHelper.php:78
 msgid "geshi_link_placeholder"
 msgstr "Hier den Verweistext eingeben."

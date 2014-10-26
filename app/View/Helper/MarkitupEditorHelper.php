@@ -2,12 +2,15 @@
 
 	App::uses('AppHelper', 'View/Helper');
 	App::uses('MarkitupHelper', 'Markitup.View/Helper');
+	App::uses('SaitoPlugin', 'Lib/Saito');
 
 	class MarkitupEditorHelper extends MarkitupHelper {
 
 		protected $_nextCssId;
 
 		protected $_smileyData;
+
+		protected $_MarkitupSet;
 
 		public function __construct(View $View, $settings = array()) {
 			parent::__construct($View, $settings);
@@ -26,79 +29,18 @@
 
 			$css = '';
 			$separator = ['separator' => '&nbsp;'];
-			$bbcode = array(
-				'Bold' => array(
-					'name' => "<i class='fa fa-bold'></i>",
-					'title' => __('Bold'),
-					'className' => 'btn-markItUp-Bold',
-					'key' => 'B',
-					'openWith' => '[b]',
-					'closeWith' => '[/b]'
-				),
-				'Italic' => array(
-					'name' => "<i class='fa fa-italic'></i>",
-					'title' => __('Italic'),
-					'className' => 'btn-markItUp-Italic',
-					'key' => 'I',
-					'openWith' => '[i]',
-					'closeWith' => '[/i]'
-				),
-				'Stroke' => array(
-					'name' => "<i class='fa fa-strikethrough'></i>",
-					'title' => __('Strike Through'),
-					'className' => 'btn-markItUp-Stroke',
-					'openWith' => '[strike]',
-					'closeWith' => '[/strike]'
-				),
-				'Code' => array(
-					'name' => "<i class='fa fa-s-code'></i>",
-					'title' => __('Code'),
-					'className' => 'btn-markItUp-Code',
-					'openWith' => '[code=text]\n',
-					'closeWith' => '\n[/code]'
-				),
-				'Bulleted list' => array(
-					'name' => "<i class='fa fa-list-ul'></i>",
-					'title' => __('Bullet List'),
-					'className' => 'btn-markItUp-List',
-					'openWith' => '[list]\n[*] ',
-					'closeWith' => '\n[*]\n[/list]'
-				),
-				'Spoiler' => [
-					'name' => "<i class='fa fa-stop'></i>",
-					'className' => 'btn-markItUp-Spoiler',
-					'title' => __('Spoiler'),
-					'openWith' => '[spoiler]',
-					'closeWith' => '[/spoiler]'
-				],
-				$separator,
-				'Link' => array(
-					'name' => "<i class='fa fa-link'></i>",
-					'title' => __('Link'),
-					'className' => 'btn-markItUp-Link',
-					'key' => 'L',
-					'openWith' =>
-					'[url=[![' . __('geshi_link_popup') . ']!]]',
-					'closeWith' => '[/url]',
-					'placeHolder' => __('geshi_link_placeholder'),
-				),
-				'Media' => array(
-					'name' => "<i class='fa fa-multimedia'></i>",
-					'className' => 'btn-markItUp-Media',
-					'title' => __('Media'),
-					'key' => 'P',
-				),
-				'Upload' => array(
-					'name' => '<i class=\'fa fa-upload\'></i>',
-					'title' => __('Upload'),
-					'className' => 'btn-markItUp-Upload'
-				),
-				$separator
-			);
 
-			$this->_buildSmilies($bbcode, $css);
-			$this->_buildAdditionalButtons($bbcode, $css);
-			$markupSet = $this->_convertToJsMarkupSet($bbcode);
+			$markitupSet = $this->_getParserSet();
+
+			foreach ($markitupSet as $key => $code) {
+				if ($code === 'separator') {
+					$markitupSet[$key] = $separator;
+				}
+			}
+
+			$this->_buildSmilies($markitupSet, $css);
+			$this->_buildAdditionalButtons($markitupSet, $css);
+			$markupSet = $this->_convertToJsMarkupSet($markitupSet);
 			$script = "markitupSettings = { id: '$id', markupSet: [$markupSet]};";
 			$out = $this->Html->scriptBlock($script) .
 					"<style type='text/css'>{$css}</style>";
@@ -144,7 +86,7 @@ EOF;
 		}
 
 		protected function _buildSmilies(array &$bbcode, &$css) {
-			$smilies = $this->_smileyData;
+			$smilies = $this->_smileyData->get();
 			$_smiliesPacked = [];
 
 			$i = 1;
@@ -215,6 +157,13 @@ EOF;
 			 */
 
 			return array('settings' => $settings, 'default' => $default);
+		}
+
+		protected function _getParserSet() {
+			if ($this->_MarkitupSet === null) {
+				$this->_MarkitupSet = SaitoPlugin::getParserClassInstance('MarkitupSet')->getSet();
+			}
+			return $this->_MarkitupSet;
 		}
 
 	}

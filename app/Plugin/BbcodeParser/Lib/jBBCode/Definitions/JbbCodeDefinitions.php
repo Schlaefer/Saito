@@ -2,8 +2,8 @@
 
 	namespace Saito\Jbb\CodeDefinition;
 
-	\App::uses('BbcodeMessage', 'Lib/Bbcode');
-	\App::uses('BbcodeUrlParserTrait', 'Lib/Bbcode');
+	\App::uses('BbcodeMessage', 'BbcodeParser.Lib');
+	\App::uses('BbcodeUrlParserTrait', 'BbcodeParser.Lib');
 
 	include 'CodeDefinition.php';
 	include 'JbbHtml5MediaCodeDefinition.php';

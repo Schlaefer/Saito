@@ -1,7 +1,7 @@
 <?php
 
-	App::uses('JbbCodeTextVisitor', 'Lib/Bbcode/jBBCode/Visitors');
-	App::uses('BbcodeUrlParserTrait', 'Lib/Bbcode');
+	App::uses('JbbCodeTextVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
+	App::uses('BbcodeUrlParserTrait', 'BbcodeParser.Lib');
 
 	class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor {
 

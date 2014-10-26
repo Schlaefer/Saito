@@ -1,13 +1,13 @@
 <?php
 
-	App::uses('BbcodeBehavior', 'Model/Behavior');
-	App::uses('BbcodeSettings', 'Lib/Bbcode');
+	App::uses('MarkupBehavior', 'Model/Behavior');
+	App::uses('SaitoMarkupSettings', 'Lib/Saito/Markup');
 
 	/**
 	 * BbcodeBehavior Test Case
 	 *
 	 */
-	class BbcodeBehaviorTest extends CakeTestCase {
+	class MarkupBehaviorTest extends CakeTestCase {
 
 		/**
 		 * setUp method
@@ -16,8 +16,8 @@
 		 */
 		public function setUp() {
 			parent::setUp();
-			$this->Bbcode = new BbcodeBehavior();
-			new BbcodeSettings([
+			$this->Markup = new MarkupBehavior();
+			new SaitoMarkupSettings([
 				'server' => 'http://example.com',
 				'webroot' => '/foo/',
 				'hashBaseUrl' => 'hash/base/'
@@ -30,7 +30,7 @@
 		 * @return void
 		 */
 		public function tearDown() {
-			unset($this->Bbcode);
+			unset($this->Markup);
 
 			parent::tearDown();
 		}
@@ -43,12 +43,12 @@
 		public function tes1PrepareInputHashString() {
 			$Model = $this->getMock('Model');
 			$input = 'http://example.com/foo/hash/base/345';
-			$result = $this->Bbcode->prepareBbcode($Model, $input);
+			$result = $this->Markup->prepareMarkup($Model, $input);
 			$expected = "#345";
 			$this->assertEquals($result, $expected);
 
 			$input = '[url=http://example.com/foo/hash/base/345]foo[/url]';
-			$result = $this->Bbcode->prepareBbcode($Model, $input);
+			$result = $this->Markup->prepareMarkup($Model, $input);
 			$expected = $input;
 			$this->assertEquals($result, $expected);
 		}
@@ -70,7 +70,7 @@
 					'text' => '#345'
 				]
 			];
-			$result = $this->Bbcode->prepareBbcode($Model, $input);
+			$result = $this->Markup->prepareMarkup($Model, $input);
 			$this->assertEquals($result, $expected);
 		}
 

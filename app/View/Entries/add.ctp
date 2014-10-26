@@ -83,7 +83,7 @@
 								. ' ' . __('Cite'),
 								'#',
 								[
-									'data-text' => $this->Bbcode->citeText($citeText),
+									'data-text' => $this->Parser->citeText($citeText),
 									'class' => 'btn-cite label'
 								]
 							);

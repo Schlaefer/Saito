@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('BbcodePreprocessorInterface', 'Lib/Bbcode/Processors');
+	App::uses('BbcodeProcessor', 'BbcodeParser.Lib/Processors');
 
 	class BbcodeProcessorCollection {
 

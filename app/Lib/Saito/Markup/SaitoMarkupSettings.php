@@ -1,9 +1,6 @@
 <?php
 
-	/**
-	 * Class BbcodeSettings
-	 */
-	class BbcodeSettings {
+	class SaitoMarkupSettings {
 
 		protected $_defaults = [
 			//= default values for app settings
@@ -18,7 +15,7 @@
 
 		public function __construct(array $settings) {
 			$this->set($settings + $this->_defaults);
-			Configure::write('Saito.Settings.Bbcode', $this);
+			Configure::write('Saito.Settings.Parser', $this);
 			return $this;
 		}
 

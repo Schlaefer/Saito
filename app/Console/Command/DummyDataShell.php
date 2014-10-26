@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('BbcodeSettings', 'Lib/Bbcode');
+	App::uses('SaitoMarkupSettings', 'Lib/Saito/Markup');
 	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	class DummyDataShell extends AppShell {
@@ -38,7 +38,7 @@
 			$ratio = (int)$this->in('Average answers per thread?', null, 10);
 			$seed = $nPostings / $ratio;
 
-			new BbcodeSettings([
+			new SaitoMarkupSettings([
 				'hashBaseUrl' => 'entries/view/',
 				'atBaseUrl' => 'users/name/',
 				'server' => Router::fullBaseUrl(),
