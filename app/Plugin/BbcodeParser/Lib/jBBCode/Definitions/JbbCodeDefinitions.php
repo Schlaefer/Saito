@@ -209,9 +209,8 @@
 		protected $_sParseContent = false;
 
 		protected function _parse($url, $attributes) {
-			$options = ['class' => 'c-bbcode-external-image'];
-
 			// process [img=(parameters)]
+			$options = [];
 			if (!empty($attributes['img'])) {
 				$default = trim($attributes['img']);
 				switch ($default) {
@@ -261,11 +260,11 @@
 			$listPieces = explode('[*]', $content);
 			unset($listPieces[0]);
 			$listPieceProcessor = function ($li) {
-				return '<li class="c-bbcode-li">' . $li . '</li>' . "\n";
+				return '<li>' . $li . '</li>' . "\n";
 			};
 			$listPieces = array_map($listPieceProcessor, $listPieces);
 
-			return '<ul class="c-bbcode-ul">' . implode('', $listPieces) . '</ul>';
+			return '<ul>' . implode('', $listPieces) . '</ul>';
 		}
 
 	}
@@ -292,11 +291,11 @@
 			$id = 'spoiler_' . rand(0, 9999999999999);
 
 			$out = <<<EOF
-<div class="c-bbcode-spoiler" style="display: inline;">
+<div class="richtext-spoiler" style="display: inline;">
 	<script>
 		window.$id = $json;
 	</script>
-	<a href="#" class="c-bbcode-spoiler-link"
+	<a href="#" class="richtext-spoiler-link"
 		onclick='this.parentNode.innerHTML = window.$id.string; delete window.$id; return false;'
 		>
 		$title
@@ -354,9 +353,7 @@ EOF;
 		protected function _parse($content, $attributes) {
 			$this->FileUpload->reset();
 			$params = $this->_getUploadParams($attributes);
-			$_out = "<div class='c-bbcode-upload'>" .
-				$this->FileUpload->image($content, $params) . "</div>";
-			return $_out;
+			return $this->FileUpload->image($content, $params);
 		}
 
 		protected function _getUploadParams($attributes) {

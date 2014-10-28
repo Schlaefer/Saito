@@ -17,6 +17,8 @@
 	App::uses('SaitoSmileyCache', 'Lib/Saito');
 	App::uses('SaitoUserUserlistArray', 'Lib/SaitoUser/Userlist');
 
+	App::uses('BbcodeParser', 'BbcodeParser.Lib');
+
 	class BbcodeParserTest extends CakeTestCase {
 
 		protected $_Parser = null;
@@ -31,14 +33,6 @@
 		public function testEmphasis() {
 			$input = '[i]italic[/i]';
 			$expected = array('em' => array(), 'italic', '/em');
-			$result = $this->_Parser->parse($input);
-			$this->assertTags($result, $expected);
-		}
-
-		public function testUnderline() {
-			$input = '[u]text[/u]';
-			$expected = array('span' => array('class' => 'c-bbcode-underline'),
-				'text', '/span');
 			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
 		}
@@ -63,7 +57,7 @@
 				'pre',
 				[
 					'div' => [
-						'class' => 'c-bbcode-spoiler',
+						'class' => 'richtext-spoiler',
 						'style' => 'display: inline;'
 					]
 				],
@@ -73,7 +67,7 @@
 				[
 					'a' => [
 						'href' => '#',
-						'class' => 'c-bbcode-spoiler-link',
+						'class' => 'richtext-spoiler-link',
 						'onclick'
 					]
 				],
@@ -88,12 +82,12 @@
 		public function testList() {
 			$input = "[list]\n[*]fooo\n[*]bar\n[/list]";
 			$expected = [
-				['ul' => ['class' => 'c-bbcode-ul']],
-				['li' => ['class' => 'c-bbcode-li']],
+				['ul' => []],
+				['li' => []],
 				'fooo',
 				['br' => []],
 				'/li',
-				['li' => ['class' => 'c-bbcode-li']],
+				['li' => []],
 				'bar',
 				['br' => []],
 				'/li',
@@ -120,7 +114,7 @@
 
 		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
-			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='c-bbcode-link-dinfo'>[ebay.de]</span>";
+			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='richtext-linkInfo'>[ebay.de]</span>";
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
@@ -163,7 +157,7 @@
 				),
 				'foobar',
 				'/a',
-				'span' => array('class' => 'c-bbcode-link-dinfo'), '[heise.de]', '/span'
+				'span' => array('class' => 'richtext-linkInfo'), '[heise.de]', '/span'
 			);
 			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
@@ -223,7 +217,7 @@
 				),
 				'foobar',
 				'/a',
-				'span' => array('class' => 'c-bbcode-link-dinfo'), '[heise.co.uk]',
+				'span' => array('class' => 'richtext-linkInfo'), '[heise.co.uk]',
 				'/span'
 			);
 			$result = $this->_Parser->parse($input);
@@ -248,8 +242,8 @@
 			// lists
 			$input = "[list][*]#2234[/list]";
 			$expected = [
-				'ul' => ['class'],
-				'li' => ['class'],
+				'ul' => true,
+				'li' => true,
 				'a' => [
 					'href' => '/hash/2234'
 				],
@@ -303,7 +297,7 @@
 			$expected = [
 				'pre ',
 				'span' => [
-					'class' => 'c-bbcode-edit'
+					'class' => 'richtext-editMark'
 				],
 				'/span',
 				' post'
@@ -400,7 +394,7 @@ EOF;
 
 		public function testFloat() {
 			$expected = [
-				'div' => ['class' => 'c-bbcode-float'],
+				'div' => ['class' => 'richtext-float'],
 				'text',
 				'/div',
 				'more'
@@ -607,25 +601,25 @@ EOF;
 
 			// test for standard URIs
 			$input = '[img]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" alt="" />';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
-			$expected = '<img src="' . $this->_Helper->webroot . 'somewhere/macnemo.png" class="c-bbcode-external-image" alt="" />';
+			$expected = '<img src="' . $this->_Helper->webroot . 'somewhere/macnemo.png" alt="" />';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" width="50" alt="" />';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test scaling with 2 parameters
 			$input = '[img=50x100]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" class="c-bbcode-external-image" width="50" height="100" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" width="50" height="100" alt="" />';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
@@ -634,7 +628,6 @@ EOF;
 			$expected = array(
 				array('img' => array(
 					'src' => 'http://localhost/img/macnemo.png',
-					'class' => "c-bbcode-external-image",
 					'style' => "float: left;",
 					'alt' => "",
 				))
@@ -647,7 +640,6 @@ EOF;
 			$expected = array(
 				array('img' => array(
 					'src' => 'http://localhost/img/macnemo.png',
-					'class' => "c-bbcode-external-image",
 					'style' => "float: right;",
 					'alt' => "",
 				))
@@ -678,7 +670,6 @@ EOF;
 				[
 					'img' => [
 						'src' => 'http://heise.de/img.png',
-						'class' => 'c-bbcode-external-image',
 						'alt' => '',
 					]
 				],
@@ -714,9 +705,7 @@ EOF;
 			// internal image
 			$input = '[upload]test.png[/upload]';
 			$expected = [
-				['div' => ['class' => 'c-bbcode-upload']],
 				['img' => ['src' => 'test.png']],
-				'/div',
 			];
 			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
@@ -724,16 +713,14 @@ EOF;
 			// internal image with attributes
 			$input = '[upload width=50 height=60]test.png[/upload]';
 			$expected = array(
-				['div' => ['class' => 'c-bbcode-upload']],
 				['img' =>
 					[
 						'src' => 'test.png',
 						'width' => '50',
 						'height' => '60',
-						'alt' => '',
+						'alt' => ''
 					]
-				],
-				'/div',
+				]
 			);
 			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
@@ -741,15 +728,11 @@ EOF;
 			// internal image legacy [img#] tag
 			$input = '[img#]test.png[/img]';
 			$expected = [
-				['div' => [
-					'class' => 'c-bbcode-upload'
-				]],
 				[
 					'img' => [
 						'src' => 'test.png',
 					]
-				],
-				'/div',
+				]
 			];
 			$result = $this->_Parser->parse($input);
 			$this->assertTags($result, $expected);
@@ -816,7 +799,7 @@ EOF;
 			$input = '[code][b]text[b][/code]';
 			$expected = [
 				[
-					'div' => ['class' => 'c-bbcode-code-wrapper']
+					'div' => ['class' => 'geshi-wrapper']
 				],
 				'preg:/.*?\[b\]text\[b\].*/',
 			];
@@ -851,9 +834,9 @@ EOF;
 		public function testCodeNoCitationMark() {
 			// [code]<citation mark>[/code] should not be cited
 			$input = h(
-				"[code]\n" . $this->_Parser->settings['quote_symbol'] . "\n[/code]"
+				"[code]\n" . $this->_Helper->settings['quote_symbol'] . "\n[/code]"
 			);
-			$expected = '`span class=.*?c-bbcode-citation`';
+			$expected = '`span class=.*?richtext-citation`';
 			$result = $this->_Parser->parse($input);
 			$this->assertNotRegExp($expected, $result);
 		}
@@ -865,11 +848,11 @@ EOF;
 		}
 
 		public function testQuote() {
-			$_qs = h($this->_Parser->settings['quote_symbol']);
+			$_qs = h($this->_Helper->settings['quote_symbol']);
 			$input = $_qs . ' fo [b]test[/b] ba';
 			$result = $this->_Parser->parse($input);
 			$expected = [
-				'span' => ['class' => 'c-bbcode-citation'],
+				'span' => ['class' => 'richtext-citation'],
 				$_qs . ' fo ',
 				'strong' => [],
 				'test',
@@ -913,14 +896,14 @@ EOF;
 
 		public function testHr() {
 			$input = '[hr][hr]';
-			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
+			$expected = '<hr><hr>';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($result, $expected);
 		}
 
 		public function testHrShort() {
 			$input = '[---][---]';
-			$expected = '<hr class="c-bbcode-hr"><hr class="c-bbcode-hr">';
+			$expected = '<hr><hr>';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($result, $expected);
 		}
@@ -1039,6 +1022,7 @@ EOF;
 			$Userlist = new SaitoUserUserlistArray();
 			$Userlist->set(['Alice', 'Bobby Junior', 'Dr. No']);
 
+			//= ParserHelper
 			$settings = [
 				'autolink' => true,
 				'bbcode_img' => true,
@@ -1056,8 +1040,13 @@ EOF;
 			$this->_Helper = $ParserHelper = new ParserHelper($View, $settings);
 			$ParserHelper->beforeRender(null);
 
+			//= Smiley Renderer
+			$SmileyRenderer = new SaitoSmileyRenderer($SmileyCache);
+			$SmileyRenderer->setHelper($this->_Helper);
+			$this->_Helper->SmileyRenderer = $SmileyRenderer;
+
+			//= Parser
 			$this->_Parser = new BbcodeParser($ParserHelper, $settings);
-			$this->_Parser->settings = $settings;
 		}
 
 		public function tearDown() {

@@ -4,6 +4,8 @@
 
 		public static function suite() {
 			$suite = new CakeTestSuite('All tests.');
+
+			//= core
 			$suite->addTestDirectoryRecursive(TESTS . 'Case' . DS . 'Controller' . DS . 'Component');
 			$suite->addTestDirectory(TESTS . 'Case' . DS . 'Controller');
 			$suite->addTestDirectoryRecursive(TESTS . 'Case' . DS . 'Lib');

@@ -54,13 +54,13 @@
 				'e' => [
 					'type' => 'replacement',
 					'title' => 'e',
-					'replacement' => '<span class="c-bbcode-edit"></span>{param}'
+					'replacement' => '<span class="richtext-editMark"></span>{param}'
 				],
 				// float
 				'float' => [
 					'type' => 'replacement',
 					'title' => 'float',
-					'replacement' => '<div class="c-bbcode-float">{param}</div>'
+					'replacement' => '<div class="richtext-float">{param}</div>'
 				],
 				// email
 				'email' => [
@@ -75,12 +75,12 @@
 				'hr' => [
 					'type' => 'replacement',
 					'title' => 'hr',
-					'replacement' => '<hr class="c-bbcode-hr">{param}'
+					'replacement' => '<hr>{param}'
 				],
 				'---' => [
 					'type' => 'replacement',
 					'title' => '---',
-					'replacement' => '<hr class="c-bbcode-hr">{param}'
+					'replacement' => '<hr>{param}'
 				],
 				// emphasis
 				'i' => [
@@ -108,12 +108,6 @@
 					'type' => 'replacement',
 					'title' => 'strike',
 					'replacement' => '<del>{param}</del>',
-				],
-				// underline
-				'u' => [
-					'type' => 'replacement',
-					'title' => 'u',
-					'replacement' => '<span class="c-bbcode-underline">{param}</span>'
 				],
 				// url
 				'link' => [
@@ -271,16 +265,6 @@
 						throw new Exception();
 				}
 			}
-		}
-
-		/**
-		 * Adds cite mark before text lines in textarea
-		 *
-		 * @param string $string
-		 * @return string
-		 */
-		public function citeText($string) {
-			return $string;
 		}
 
 	}

@@ -17,7 +17,7 @@
 		}
 
 		public static function format($message) {
-			return "<div class='c-bbcode-imessage'>$message</div>";
+			return "<div class='richtext-imessage'>$message</div>";
 		}
 
 	}

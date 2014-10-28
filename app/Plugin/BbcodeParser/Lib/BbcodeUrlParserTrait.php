@@ -34,7 +34,7 @@
 				if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
 					$host = DomainParser::domainAndTld($url);
 					if ($host !== false && $host !== env('SERVER_NAME')) {
-						$out .= ' <span class=\'c-bbcode-link-dinfo\'>[' . $host . ']</span>';
+						$out .= ' <span class=\'richtext-linkInfo\'>[' . $host . ']</span>';
 					}
 				}
 			}

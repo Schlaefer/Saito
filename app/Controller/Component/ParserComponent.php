@@ -31,7 +31,7 @@
 			$userlist = new SaitoUserUserlistUserModel();
 			$userlist->set($controller->User);
 			$smilies = new SaitoSmileyCache($controller);
-			$controller->set('smilies', $smilies);
+			$controller->set('smiliesData', $smilies);
 
 			$this->_settings->add([
 				'quote_symbol' => Configure::read('Saito.Settings.quote_symbol'),

@@ -29,7 +29,7 @@
 					'text' => $shout['Shout']['text'],
 					'html' => $this->Parser->parse(
 						$shout['Shout']['text'],
-						['multimedia' => false]
+						['multimedia' => false, 'wrap' => false]
 					),
 					'user_id' => (int)$shout['Shout']['user_id'],
 					'user_name' => $shout['Shout']['username']

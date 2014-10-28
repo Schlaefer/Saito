@@ -1,6 +1,6 @@
 <div class="panel">
   <?= $this->Layout->panelHeading($title_for_page, ['pageHeading' => true]) ?>
-  <div class="panel-content staticPage">
+  <div class="panel-content richtext">
     <?php
       echo $this->Html->css('SaitoHelp.saitohelp');
       echo $this->SaitoHelp->parse($help['text'], $CurrentUser);

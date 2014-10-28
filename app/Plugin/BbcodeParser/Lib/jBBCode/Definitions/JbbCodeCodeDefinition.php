@@ -18,7 +18,7 @@
 			// allow all languages
 			$this->Geshi->validLanguages = [true];
 
-			$string = '<div class="c-bbcode-code-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
+			$string = '<div class="geshi-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
 
 			$string = $this->Geshi->highlight($string);
 			return $string;

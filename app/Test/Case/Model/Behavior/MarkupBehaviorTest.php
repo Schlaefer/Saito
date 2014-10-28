@@ -40,7 +40,7 @@
 		 *
 		 * @return void
 		 */
-		public function tes1PrepareInputHashString() {
+		public function testPrepareInputHashString() {
 			$Model = $this->getMock('Model');
 			$input = 'http://example.com/foo/hash/base/345';
 			$result = $this->Markup->prepareMarkup($Model, $input);
@@ -50,27 +50,6 @@
 			$input = '[url=http://example.com/foo/hash/base/345]foo[/url]';
 			$result = $this->Markup->prepareMarkup($Model, $input);
 			$expected = $input;
-			$this->assertEquals($result, $expected);
-		}
-
-		/**
-		 * Test hashing of internal view links as array
-		 *
-		 * @return void
-		 */
-		public function testPrepareInputHashArray() {
-			$Model = $this->getMock('Model');
-			$input = [
-				$Model->alias => [
-					'text' => 'http://example.com/foo/hash/base/345'
-				]
-			];
-			$expected = [
-				$Model->alias => [
-					'text' => '#345'
-				]
-			];
-			$result = $this->Markup->prepareMarkup($Model, $input);
 			$this->assertEquals($result, $expected);
 		}
 

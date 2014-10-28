@@ -8,14 +8,11 @@
 
 		protected $_nextCssId;
 
-		protected $_smileyData;
-
 		protected $_MarkitupSet;
 
 		public function __construct(View $View, $settings = array()) {
 			parent::__construct($View, $settings);
 			$this->_nextCssId = Configure::read('Saito.markItUp.nextCssId');
-			$this->_smileyData = $View->get('smilies');
 		}
 
 /**
@@ -86,7 +83,7 @@ EOF;
 		}
 
 		protected function _buildSmilies(array &$bbcode, &$css) {
-			$smilies = $this->_smileyData->get();
+			$smilies = $this->_View->get('smiliesData')->get();
 			$_smiliesPacked = [];
 
 			$i = 1;

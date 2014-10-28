@@ -9,7 +9,7 @@
 	<?=
 		$this->Layout->panelHeading(__('register_linkname'),
 			['pageHeading' => true]) ?>
-	<div class="panel-content staticPage <?= $css ?>">
+	<div class="panel-content richtext <?= $css ?>">
 		<?php
 			if ($status === 'view') {
 				echo $this->element('users/register-form');

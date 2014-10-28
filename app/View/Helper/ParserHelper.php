@@ -42,18 +42,21 @@
 				return $string;
 			}
 
-			$defaults = ['return' => 'html', 'multimedia' => true];
+			$defaults = ['return' => 'html', 'multimedia' => true, 'wrap' => true];
 			$options += $defaults;
 
 			$cacheId = md5(serialize($options) . $string);
 			if (isset($this->_parserCache[$cacheId])) {
-				Stopwatch::stop('ParseHelper::parse()');
-				return $this->_parserCache[$cacheId];
+				$html = $this->_parserCache[$cacheId];
+			} else {
+				$html = $this->_getParser()->parse($string, $options);
+				$this->_parserCache[$cacheId] = $html;
 			}
-
-			$this->_parserCache[$cacheId] = $this->_getParser()->parse($string, $options);
+			if ($options['wrap']) {
+				$html = '<div class="richtext">' . $html . '</div>';
+			}
 			Stopwatch::stop('ParseHelper::parse()');
-			return $this->_parserCache[$cacheId];
+			return $html;
 		}
 
 		public function citeText($string) {

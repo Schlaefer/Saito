@@ -4,7 +4,7 @@
 ?>
 <div class="panel">
 	<?= $this->Layout->panelHeading($title, ['pageHeading' => true]) ?>
-	<div class="panel-content staticPage">
+	<div class="panel-content richtext">
 		<h1>Nutzungsbedingungen</h1>
 	</div>
 </div>

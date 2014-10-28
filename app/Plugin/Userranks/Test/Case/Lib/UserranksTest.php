@@ -21,8 +21,6 @@
 		}
 
 		public function testUserranksLogic() {
-			echo "\n\n loaded \n\n";
-
 			$expected = 'Castaway';
 			$result = $this->Userranks->userRank(0);
 			$this->assertEquals($expected, $result);
