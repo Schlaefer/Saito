@@ -20,7 +20,7 @@
 		/**
 		 * should render the markup to HTML
 		 *
-		 * @param $string unescaped markup
+		 * @param string $string unescaped markup
 		 * @param array $options
 		 * @return string !!Make sure to escape HTML special chars, or you'll have a bad day!!
 		 */
