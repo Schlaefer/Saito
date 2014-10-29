@@ -15,8 +15,13 @@
 			'Geshi.Geshi',
 			'Embedly.Embedly',
 			'Html',
-			'Text'
+			'Text',
+			//= usefull in Parsers
+			'Layout',
+			'SaitoHelp'
 		];
+
+		protected $_MarkupEditor;
 
 		/**
 		 * @var array parserCache for parsed markup
@@ -33,6 +38,18 @@
 			if (isset($this->request) && $this->request->action === 'preview') {
 				$this->Geshi->showPlainTextButton = false;
 			}
+		}
+
+		public function citeText($string) {
+			return $this->_getParser()->citeText($string);
+		}
+
+		public function editorHelp() {
+			return $this->_getMarkupEditor()->getEditorHelp();
+		}
+
+		public function getButtonSet() {
+			return $this->_getMarkupEditor()->getMarkupSet();
 		}
 
 		public function parse($string, array $options = []) {
@@ -59,8 +76,11 @@
 			return $html;
 		}
 
-		public function citeText($string) {
-			return $this->_getParser()->citeText($string);
+		protected function _getMarkupEditor() {
+			if ($this->_MarkupEditor === null) {
+				$this->_MarkupEditor = SaitoPlugin::getParserClassInstance('MarkupEditor', $this);
+			}
+			return $this->_MarkupEditor;
 		}
 
 		protected function _getParser() {

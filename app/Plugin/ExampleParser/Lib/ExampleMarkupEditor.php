@@ -1,8 +1,17 @@
 <?php
 
-	App::uses('MarkitupSetInterface', 'Lib');
+	App::uses('ParserMarkupEditor', 'Lib');
 
-	class ExampleMarkitupSet implements MarkitupSetInterface {
+	class ExampleMarkupEditor extends ParserMarkupEditor {
+
+		/**
+		 * Short info shown in editor about used markup
+		 *
+		 * @return string
+		 */
+		public function getEditorHelp() {
+			return '';
+		}
 
 		/**
 		 * create MarkItUp buttonset
@@ -10,7 +19,7 @@
 		 * @see http://markitup.jaysalvat.com/documentation/
 		 * @return array
 		 */
-		public function getSet() {
+		public function getMarkupSet() {
 			return [
 				/*
 				'Bold' => [

@@ -1,10 +1,16 @@
 <?php
 
-	App::uses('MarkitupSetInterface', 'Lib');
+	App::uses('ParserMarkupEditor', 'Lib');
 
-	class BbcodeMarkitupSet implements MarkitupSetInterface {
+	class BbcodeMarkupEditor extends ParserMarkupEditor {
 
-		public function getSet() {
+		public function getEditorHelp() {
+			return $this->_Helper->SaitoHelp->icon('BbcodeParser.1', [
+				'label' => __d('bbcode_parser', 'parsedAsBbcode')
+			]);
+		}
+
+		public function getMarkupSet() {
 			return array(
 				'Bold' => array(
 					'name' => "<i class='fa fa-bold'></i>",

@@ -6,9 +6,9 @@
 
 	class MarkitupEditorHelper extends MarkitupHelper {
 
-		protected $_nextCssId;
+		public $helpers = ['Form', 'Html', 'Parser'];
 
-		protected $_MarkitupSet;
+		protected $_nextCssId;
 
 		public function __construct(View $View, $settings = array()) {
 			parent::__construct($View, $settings);
@@ -27,7 +27,7 @@
 			$css = '';
 			$separator = ['separator' => '&nbsp;'];
 
-			$markitupSet = $this->_getParserSet();
+			$markitupSet = $this->Parser->getButtonSet();
 
 			foreach ($markitupSet as $key => $code) {
 				if ($code === 'separator') {
@@ -154,13 +154,6 @@ EOF;
 			 */
 
 			return array('settings' => $settings, 'default' => $default);
-		}
-
-		protected function _getParserSet() {
-			if ($this->_MarkitupSet === null) {
-				$this->_MarkitupSet = SaitoPlugin::getParserClassInstance('MarkitupSet')->getSet();
-			}
-			return $this->_MarkitupSet;
 		}
 
 	}
