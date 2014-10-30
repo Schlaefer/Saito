@@ -12,6 +12,7 @@
 }
 
 .postingform-eh {
+  @extend .infoText;
   float:right;
   font-size: $font-size-small;
   margin-top: -1em;
