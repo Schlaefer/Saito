@@ -1,5 +1,7 @@
 <?php
 
+	use Plugin\BbcodeParser\Lib;
+
 	App::import('Lib', 'Stopwatch.Stopwatch');
 	App::import('Helper',
 		array(
@@ -16,8 +18,6 @@
 
 	App::uses('SaitoSmileyCache', 'Lib/Saito');
 	App::uses('SaitoUserUserlistArray', 'Lib/SaitoUser/Userlist');
-
-	App::uses('BbcodeParser', 'BbcodeParser.Lib');
 
 	class BbcodeParserTest extends CakeTestCase {
 
@@ -1046,7 +1046,7 @@ EOF;
 			$this->_Helper->SmileyRenderer = $SmileyRenderer;
 
 			//= Parser
-			$this->_Parser = new BbcodeParser($ParserHelper, $settings);
+			$this->_Parser = new Lib\Parser($ParserHelper, $settings);
 		}
 
 		public function tearDown() {

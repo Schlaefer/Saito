@@ -1,5 +1,7 @@
 <?php
 
+	namespace Plugin\BbcodeParser\Lib\Processors;
+
 	abstract class BbcodeProcessor {
 
 		protected $_sOptions;

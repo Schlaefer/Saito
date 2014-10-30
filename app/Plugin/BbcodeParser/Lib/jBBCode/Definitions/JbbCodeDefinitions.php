@@ -1,9 +1,9 @@
 <?php
 
-	namespace Saito\Jbb\CodeDefinition;
+	namespace Plugin\BbcodeParser\Lib\jBBCode\Definitions;
 
-	\App::uses('BbcodeMessage', 'BbcodeParser.Lib');
-	\App::uses('BbcodeUrlParserTrait', 'BbcodeParser.Lib');
+	use Plugin\BbcodeParser\Lib\Helper\UrlParserTrait;
+	use Plugin\BbcodeParser\Lib\Helper\Message;
 
 	include 'CodeDefinition.php';
 	include 'JbbHtml5MediaCodeDefinition.php';
@@ -16,7 +16,7 @@
 	 */
 	class Email extends CodeDefinition {
 
-		use \BbcodeUrlParserTrait;
+		use UrlParserTrait;
 
 		protected $_sParseContent = false;
 
@@ -151,7 +151,7 @@
 				__('Domain <strong>%s</strong> not allowed for embedding video.'),
 				$host
 			);
-			return \BbcodeMessage::format($message);
+			return Message::format($message);
 		}
 
 	}
@@ -175,7 +175,7 @@
 				$content,
 				$matches);
 			if (!$match) {
-				return BbcodeMessage::format(__('No Flash detected.'));
+				return Message::format(__('No Flash detected.'));
 			}
 
 			$height = $matches['height'];
@@ -389,7 +389,7 @@ EOF;
 	 */
 	class Url extends CodeDefinition {
 
-		use \BbcodeUrlParserTrait;
+		use UrlParserTrait;
 
 		protected $_sParseContent = false;
 

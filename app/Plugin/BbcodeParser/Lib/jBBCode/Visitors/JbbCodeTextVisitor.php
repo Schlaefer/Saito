@@ -1,5 +1,7 @@
 <?php
 
+	namespace Plugin\BbcodeParser\Lib\jBBCode\Visitors;
+
 	abstract class JbbCodeTextVisitor implements \JBBcode\NodeVisitor {
 
 		protected $_disallowedTags = ['code'];

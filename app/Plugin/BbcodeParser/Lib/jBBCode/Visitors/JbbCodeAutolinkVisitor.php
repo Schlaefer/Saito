@@ -1,11 +1,12 @@
 <?php
 
-	App::uses('JbbCodeTextVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
-	App::uses('BbcodeUrlParserTrait', 'BbcodeParser.Lib');
+	namespace Plugin\BbcodeParser\Lib\jBBCode\Visitors;
+
+	use Plugin\BbcodeParser\Lib\Helper\UrlParserTrait;
 
 	class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor {
 
-		use BbcodeUrlParserTrait;
+		use UrlParserTrait;
 
 		protected $_disallowedTags = ['code'];
 

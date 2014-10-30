@@ -17,6 +17,12 @@
       "url": "http://pear.cakephp.org"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Plugin\\": "app/Plugin/",
+      "Saito\\": "app/Lib/Saito/"
+    }
+  },
   "require": {
     "php": ">=5.4.0",
     "ext-mcrypt": "*",

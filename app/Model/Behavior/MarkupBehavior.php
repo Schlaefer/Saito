@@ -6,7 +6,7 @@
 	class MarkupBehavior extends ModelBehavior {
 
 		/**
-		 * @var SaitoMarkupPreprocessor
+		 * @var Saito\Markup\Preprocessor
 		 */
 		protected $_Preprocessor;
 

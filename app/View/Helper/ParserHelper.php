@@ -78,7 +78,7 @@
 
 		protected function _getMarkupEditor() {
 			if ($this->_MarkupEditor === null) {
-				$this->_MarkupEditor = SaitoPlugin::getParserClassInstance('MarkupEditor', $this);
+				$this->_MarkupEditor = SaitoPlugin::getParserClassInstance('Editor', $this);
 			}
 			return $this->_MarkupEditor;
 		}

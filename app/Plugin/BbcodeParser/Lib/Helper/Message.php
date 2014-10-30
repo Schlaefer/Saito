@@ -1,6 +1,8 @@
 <?php
 
-	class BbcodeMessage {
+	namespace Plugin\BbcodeParser\Lib\Helper;
+
+	class Message {
 
 		protected $_message = '';
 

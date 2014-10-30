@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('BbcodeProcessor', 'BbcodeParser.Lib/Processors');
+	namespace Plugin\BbcodeParser\Lib\Processors;
 
 	class BbcodePreparePreprocessor extends BbcodeProcessor {
 

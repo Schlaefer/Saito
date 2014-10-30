@@ -1,6 +1,6 @@
 <?php
 
-	namespace Saito\Jbb\CodeDefinition;
+	namespace Plugin\BbcodeParser\Lib\jBBCode\Definitions;
 
 	class CodeWithoutAttributes extends CodeDefinition {
 

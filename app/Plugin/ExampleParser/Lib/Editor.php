@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('ParserMarkupEditor', 'Lib');
+	namespace Plugin\ExampleParser\Lib;
 
-	class ExampleMarkupEditor extends ParserMarkupEditor {
+	class Editor extends \Saito\Markup\Editor {
 
 		/**
 		 * Short info shown in editor about used markup

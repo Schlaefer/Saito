@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('SaitoMarkupParser', 'Lib/Saito/Markup');
+	namespace Plugin\ExampleParser\Lib;
 
-	class ExampleParser extends SaitoMarkupParser {
+	class Parser extends \Saito\Markup\Parser {
 
 		/**
 		 * Transform markup to HTML here

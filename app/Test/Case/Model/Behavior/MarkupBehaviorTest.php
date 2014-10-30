@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('MarkupBehavior', 'Model/Behavior');
-	App::uses('SaitoMarkupSettings', 'Lib/Saito/Markup');
 
 	/**
 	 * BbcodeBehavior Test Case
@@ -17,7 +16,7 @@
 		public function setUp() {
 			parent::setUp();
 			$this->Markup = new MarkupBehavior();
-			new SaitoMarkupSettings([
+			new Saito\Markup\Settings([
 				'server' => 'http://example.com',
 				'webroot' => '/foo/',
 				'hashBaseUrl' => 'hash/base/'

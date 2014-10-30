@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('ParserMarkupEditor', 'Lib');
+	namespace Plugin\BbcodeParser\Lib;
 
-	class BbcodeMarkupEditor extends ParserMarkupEditor {
+	class Editor extends \Saito\Markup\Editor {
 
 		public function getEditorHelp() {
 			return $this->_Helper->SaitoHelp->icon('BbcodeParser.1', [

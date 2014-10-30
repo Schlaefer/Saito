@@ -2,7 +2,6 @@
 
 	App::uses('Component', 'Controller');
 	App::uses('SaitoUserUserlistUserModel', 'Lib/SaitoUser/Userlist');
-	App::uses('SaitoMarkupSettings', 'Lib/Saito/Markup');
 	App::uses('SaitoSmileyCache', 'Lib/Saito');
 
 	class ParserComponent extends Component {
@@ -12,7 +11,7 @@
 
 		public function initialize(Controller $controller) {
 			// is needed in Markup Behavior
-			$this->_settings = new SaitoMarkupSettings([
+			$this->_settings = new Saito\Markup\Settings([
 				'server' => Router::fullBaseUrl(),
 				'webroot' => $controller->webroot
 			]);

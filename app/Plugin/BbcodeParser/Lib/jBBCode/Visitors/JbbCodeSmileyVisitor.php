@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('JbbCodeTextVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
+	namespace Plugin\BbcodeParser\Lib\jBBCode\Visitors;
 
 	/**
 	 * Class JbbCodeSmileyVisitor replaces ASCII smilies with images
@@ -9,7 +9,7 @@
 
 		public function __construct(\Helper $Helper, array $_sOptions) {
 			parent::__construct($Helper, $_sOptions);
-			$this->_useCache = !Configure::read('debug');
+			$this->_useCache = !\Configure::read('debug');
 		}
 
 		protected function _processTextNode($string, $node) {

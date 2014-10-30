@@ -1,8 +1,10 @@
 <?php
 
-	App::uses('DomainParser', 'Lib');
+	namespace Plugin\BbcodeParser\Lib\Helper;
 
-	trait BbcodeUrlParserTrait {
+	\App::uses('DomainParser', 'Lib');
+
+	trait UrlParserTrait {
 
 		protected function _email($url, $text = null) {
 			if (empty($text)) {
@@ -16,8 +18,8 @@
 			// add http:// to URLs without protocol
 			if (strpos($url, '://') === false) {
 				// use Cakes Validation class to detect valid URL
-				App::uses('Validation', 'Utility');
-				if (Validation::url($url)) {
+				\App::uses('Validation', 'Utility');
+				if (\Validation::url($url)) {
 					$url = 'http://' . $url;
 				}
 			}
@@ -32,7 +34,7 @@
 			// add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
 			if ($label !== false && $label !== 'none' && $label !== 'false') {
 				if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
-					$host = DomainParser::domainAndTld($url);
+					$host = \DomainParser::domainAndTld($url);
 					if ($host !== false && $host !== env('SERVER_NAME')) {
 						$out .= ' <span class=\'richtext-linkInfo\'>[' . $host . ']</span>';
 					}
@@ -48,12 +50,12 @@
 		 * @bogus what about [url=][img]...[/img][url]. Is the [img] url truncated too?
 		 *
 		 * @param type $string
-		 * @throws Exception
+		 * @throws \Exception
 		 * @return string
 		 */
 		protected function _truncate($string) {
 			if (!isset($this->_sOptions['text_word_maxlength'])) {
-				throw new Exception('Text word maxlength not set.');
+				throw new \Exception('Text word maxlength not set.');
 			}
 			$_textWordMaxLength = $this->_sOptions['text_word_maxlength'];
 

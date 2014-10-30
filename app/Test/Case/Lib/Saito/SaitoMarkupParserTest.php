@@ -1,8 +1,6 @@
 <?php
 
-	App::uses('SaitoMarkupParser', 'Lib/Saito/Markup');
-
-	class SaitoMarkupParserMock extends SaitoMarkupParser {
+	class ParserMock extends Saito\Markup\Parser {
 
 		public function parse($string, array $options = []) {
 		}
@@ -30,7 +28,7 @@
 			$Controller = new Controller($Request);
 			$View = new View($Controller);
 			$Helper = new Helper($View);
-			$this->Parser = new SaitoMarkupParserMock($Helper, ['quote_symbol' => '»']);
+			$this->Parser = new ParserMock($Helper, ['quote_symbol' => '»']);
 		}
 
 		public function tearDown() {

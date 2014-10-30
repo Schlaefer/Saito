@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('SaitoMarkupPreprocessor', 'Lib/Saito/Markup');
+	namespace Plugin\ExampleParser\Lib;
 
-	class ExamplePreprocessor extends SaitoMarkupPreprocessor {
+	class Preprocessor extends \Saito\Markup\Preprocessor {
 
 		/**
 		 * Transform markup before it is saved into database

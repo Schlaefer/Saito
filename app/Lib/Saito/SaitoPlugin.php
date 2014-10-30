@@ -38,8 +38,7 @@
 			$name = array_shift($args);
 
 			$parser = Configure::read('Saito.Settings.ParserPlugin');
-			$name = $parser . $name;
-			App::uses($name, $parser . 'Parser.Lib');
+			$name = "\\Plugin\\{$parser}Parser\\Lib\\$name";
 
 			$reflection = new ReflectionClass($name);
 			return $reflection->newInstanceArgs($args);

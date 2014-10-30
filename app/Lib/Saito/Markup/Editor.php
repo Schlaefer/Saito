@@ -1,10 +1,12 @@
 <?php
 
-	class ParserMarkupEditor {
+	namespace Saito\Markup;
+
+	class Editor {
 
 		protected $_Helper;
 
-		public function __construct(Helper $Helper) {
+		public function __construct(\Helper $Helper) {
 			$this->_Helper = $Helper;
 		}
 

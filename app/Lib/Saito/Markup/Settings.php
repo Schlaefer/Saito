@@ -1,6 +1,8 @@
 <?php
 
-	class SaitoMarkupSettings {
+	namespace Saito\Markup;
+
+	class Settings {
 
 		protected $_defaults = [
 			//= default values for app settings
@@ -15,7 +17,7 @@
 
 		public function __construct(array $settings) {
 			$this->set($settings + $this->_defaults);
-			Configure::write('Saito.Settings.Parser', $this);
+			\Configure::write('Saito.Settings.Parser', $this);
 			return $this;
 		}
 

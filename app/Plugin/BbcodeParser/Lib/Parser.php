@@ -1,18 +1,12 @@
 <?php
 
-	App::uses('SaitoMarkupParser', 'Lib/Saito/Markup');
-	include CakePlugin::path('BbcodeParser') . DS . 'Lib' . DS . 'jBBCode' . DS . 'Definitions' . DS . 'JbbCodeDefinitions.php';
+	namespace Plugin\BbcodeParser\Lib;
 
-	App::uses('JbbCodeNl2BrVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
-	App::uses('JbbCodeAutolinkVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
-	App::uses('JbbCodeSmileyVisitor', 'BbcodeParser.Lib/jBBCode/Visitors');
+	use Plugin\BbcodeParser\Lib\jBBCode\Definitions;
+	use Plugin\BbcodeParser\Lib\jBBCode\Visitors;
+	use Plugin\BbcodeParser\Lib\Processors;
 
-	App::uses('BbcodeProcessorCollection', 'BbcodeParser.Lib/Processors');
-	App::uses('BbcodeImageUploadLegacyPreprocessor', 'BbcodeParser.Lib/Processors');
-	App::uses('BbcodePreparePreprocessor', 'BbcodeParser.Lib/Processors');
-	App::uses('BbcodeQuotePostprocessor', 'BbcodeParser.Lib/Processors');
-
-	class BbcodeParser extends SaitoMarkupParser {
+	class Parser extends \Saito\Markup\Parser {
 
 		/**
 		 * @var \JBBCode\Parser
@@ -193,12 +187,12 @@
 
 			$this->_Parser->parse($string);
 
-			$this->_Parser->accept(new JbbCodeNl2BrVisitor($this->_Helper, $options));
+			$this->_Parser->accept(new Visitors\JbbCodeNl2BrVisitor($this->_Helper, $options));
 			if ($this->_cSettings['autolink']) {
-				$this->_Parser->accept(new JbbCodeAutolinkVisitor($this->_Helper, $options));
+				$this->_Parser->accept(new Visitors\JbbCodeAutolinkVisitor($this->_Helper, $options));
 			}
 			if ($this->_cSettings['smilies']) {
-				$this->_Parser->accept(new JbbCodeSmileyVisitor($this->_Helper, $options));
+				$this->_Parser->accept(new Visitors\JbbCodeSmileyVisitor($this->_Helper, $options));
 			}
 
 			switch ($options['return']) {
@@ -226,19 +220,19 @@
 				return;
 			}
 
-			$this->_Parser = new JBBCode\Parser();
+			$this->_Parser = new \JBBCode\Parser();
 			$this->_addDefinitionSet('basic', $options);
 
 			if (!empty($this->_cSettings['bbcode_img']) && $options['multimedia']) {
 				$this->_addDefinitionSet('multimedia', $options);
 			}
 
-			$this->_Preprocessors = new BbcodeProcessorCollection();
-			$this->_Preprocessors->add(new BbcodeImageUploadLegacyPreprocessor());
-			$this->_Preprocessors->add(new BbcodePreparePreprocessor());
+			$this->_Preprocessors = new Processors\BbcodeProcessorCollection();
+			$this->_Preprocessors->add(new Processors\BbcodeImageUploadLegacyPreprocessor());
+			$this->_Preprocessors->add(new Processors\BbcodePreparePreprocessor());
 
-			$this->_Postprocessors = new BbcodeProcessorCollection();
-			$this->_Postprocessors->add(new BbcodeQuotePostprocessor($options));
+			$this->_Postprocessors = new Processors\BbcodeProcessorCollection();
+			$this->_Postprocessors->add(new Processors\BbcodeQuotePostprocessor($options));
 
 			$this->_initializedParsers[$parserId] = $this->_Parser;
 		}
@@ -246,23 +240,24 @@
 		/**
 		 * @param $set
 		 * @param $options
-		 * @throws Exception
+		 * @throws \Exception
 		 */
 		protected function _addDefinitionSet($set, $options) {
 			foreach ($this->_tags[$set] as $definition) {
 				$title = $definition['title'];
 				switch ($definition['type']) {
 					case 'replacement':
-						$builder = new JBBCode\CodeDefinitionBuilder($title,
+						$builder = new \JBBCode\CodeDefinitionBuilder($title,
 							$definition['replacement']);
 						$this->_Parser->addCodeDefinition($builder->build());
 						break;
 					case 'class':
-						$class = '\Saito\Jbb\CodeDefinition\\' . ucfirst($title);
+						require_once (\CakePlugin::path('BbcodeParser') . DS . 'Lib' . DS . 'jBBCode' . DS . 'Definitions' . DS . 'JbbCodeDefinitions.php');
+						$class = '\Plugin\BbcodeParser\Lib\jBBCode\Definitions\\' . ucfirst($title);
 						$this->_Parser->addCodeDefinition(new $class($this->_Helper, $options));
 						break;
 					default:
-						throw new Exception();
+						throw new \Exception();
 				}
 			}
 		}

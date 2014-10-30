@@ -1,6 +1,8 @@
 <?php
 
-	abstract class SaitoMarkupParser {
+	namespace Saito\Markup;
+
+	abstract class Parser {
 
 		/**
 		 * @var array cache for app settings
@@ -12,7 +14,7 @@
 		 */
 		protected $_Helper;
 
-		public function __construct(Helper $Helper, array $settings = []) {
+		public function __construct(\Helper $Helper, array $settings = []) {
 			$this->_Helper = $Helper;
 			$this->_cSettings = $settings;
 		}

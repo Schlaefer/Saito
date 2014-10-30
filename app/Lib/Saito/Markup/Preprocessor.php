@@ -1,6 +1,8 @@
 <?php
 
-	abstract class SaitoMarkupPreprocessor {
+	namespace Saito\Markup;
+
+	abstract class Preprocessor {
 
 		protected $_settings;
 

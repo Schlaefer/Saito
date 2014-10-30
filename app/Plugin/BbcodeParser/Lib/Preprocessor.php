@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('SaitoMarkupPreprocessor', 'Lib/Saito/Markup');
+	namespace Plugin\BbcodeParser\Lib;
 
-	class BbcodePreprocessor extends SaitoMarkupPreprocessor {
+	class Preprocessor extends \Saito\Markup\Preprocessor {
 
 		public function process($string) {
 			return $this->_hashInternalEntryLinks($string);
