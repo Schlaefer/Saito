@@ -8,6 +8,9 @@
 
 		protected $_replacements;
 
+		/**
+		 * @var \Saito\Smiley\Cache
+		 */
 		protected $_smileyData;
 
 		protected $_useCache;
@@ -89,7 +92,7 @@
 						'smilies/' . $smiley['image'],
 						[
 							'alt' => $smiley['code'],
-							'class' => "saito-smiley-image",
+							'class' => 'saito-smiley-image',
 							'title' => $title
 						]
 					);
@@ -101,8 +104,13 @@
 			return __d('nondynamic', $string);
 		}
 
+		/**
+		 * Adds additional buttons from global config
+		 *
+		 * @param $replacements
+		 */
 		protected function _addAdditionalButtons(&$replacements) {
-			$additionalButtons = \Configure::read('Saito.markItUp.additionalButtons');
+			$additionalButtons = $this->_smileyData->getAdditionalSmilies();
 			if (empty($additionalButtons)) {
 				return;
 			}
@@ -112,7 +120,8 @@
 				// $s['html'][] = $this->_Helper->Html->image('smilies/gacker_large.png');
 				if ($additionalButton['type'] === 'image') {
 					$additionalButton['replacement'] = $this->_Helper->Html->image(
-						'markitup' . DS . $additionalButton['replacement']
+						'markitup' . DS . $additionalButton['replacement'],
+						['class' => 'saito-smiley-image']
 					);
 				}
 				$replacements['html'][] = $additionalButton['replacement'];

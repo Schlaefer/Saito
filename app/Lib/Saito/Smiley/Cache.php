@@ -33,5 +33,9 @@
 			return $this->_smilies;
 		}
 
+		public function getAdditionalSmilies() {
+			return \Configure::read('Saito.markItUp.additionalButtons');
+		}
+
 	}
 
