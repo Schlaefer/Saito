@@ -11,7 +11,7 @@
 				'/(^|\n\r\s?)' .
 				$quoteSymbolSanitized .
 				'\s(.*)(?!\<br)/m',
-				"\\1<span class=\"richtext-citation\">" . $quoteSymbolSanitized . " \\2</span><br>",
+				"\\1<span class=\"richtext-citation\">" . $quoteSymbolSanitized . " \\2</span>",
 				$string
 			);
 			return $string;

@@ -2,8 +2,8 @@
 
 	namespace Plugin\BbcodeParser\Lib\jBBCode\Definitions;
 
-	use Plugin\BbcodeParser\Lib\Helper\UrlParserTrait;
 	use Plugin\BbcodeParser\Lib\Helper\Message;
+	use Plugin\BbcodeParser\Lib\Helper\UrlParserTrait;
 
 	include 'CodeDefinition.php';
 	include 'JbbHtml5MediaCodeDefinition.php';

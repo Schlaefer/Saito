@@ -284,6 +284,18 @@
 			$this->assertNotContains('>@Alice</a>', $result);
 		}
 
+		public function testAtLinkKnownUsersLinebreak() {
+			$input = "@Alice\nfoo";
+			$result = $this->_Parser->parse($input);
+			$expected = [
+				'a' => ['href' => '/at/Alice'],
+				'@Alice',
+				'/a',
+				'br' => true
+			];
+			$this->assertTags($result, $expected);
+		}
+
 		public function testLinkEmptyUrl() {
 			$input = '[url=][/url]';
 			$expected = "<a href=''></a>";
