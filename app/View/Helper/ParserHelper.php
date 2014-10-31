@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('AppHelper', 'View/Helper');
-	App::uses('SaitoSmileyRenderer', 'Lib/Saito');
 	App::uses('SaitoPlugin', 'Lib/Saito');
 
 	class ParserHelper extends AppHelper {
@@ -87,7 +86,7 @@
 			if ($this->_Parser === null) {
 				$settings = Configure::read('Saito.Settings') + $this->settings;
 
-				$this->SmileyRenderer = new SaitoSmileyRenderer($settings['smiliesData']);
+				$this->SmileyRenderer = new \Saito\Smiley\Renderer($settings['smiliesData']);
 				$this->SmileyRenderer->setHelper($this);
 
 				$this->_Parser = SaitoPlugin::getParserClassInstance('Parser', $this, $settings);

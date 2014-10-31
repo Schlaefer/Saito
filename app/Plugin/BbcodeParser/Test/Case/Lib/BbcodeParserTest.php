@@ -16,7 +16,6 @@
 	App::uses('HtmlHelper', 'View/Helper');
 	App::uses('CakeRequest', 'Network');
 
-	App::uses('SaitoSmileyCache', 'Lib/Saito');
 	App::uses('SaitoUserUserlistArray', 'Lib/SaitoUser/Userlist');
 
 	class BbcodeParserTest extends CakeTestCase {
@@ -1016,7 +1015,7 @@ EOF;
 				],
 			];
 			Cache::write('Saito.Smilies.data', $smiliesFixture);
-			$SmileyCache = new SaitoSmileyCache($Controller);
+			$SmileyCache = new \Saito\Smiley\Cache($Controller);
 
 			//= userlist fixture
 			$Userlist = new SaitoUserUserlistArray();
@@ -1041,7 +1040,7 @@ EOF;
 			$ParserHelper->beforeRender(null);
 
 			//= Smiley Renderer
-			$SmileyRenderer = new SaitoSmileyRenderer($SmileyCache);
+			$SmileyRenderer = new \Saito\Smiley\Renderer($SmileyCache);
 			$SmileyRenderer->setHelper($this->_Helper);
 			$this->_Helper->SmileyRenderer = $SmileyRenderer;
 

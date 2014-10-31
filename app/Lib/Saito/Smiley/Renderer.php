@@ -1,6 +1,8 @@
 <?php
 
-	class SaitoSmileyRenderer {
+	namespace Saito\Smiley;
+
+	class Renderer {
 
 		const DEBUG_SMILIES_KEY = ':smilies-debug:';
 
@@ -21,7 +23,7 @@
 			return $string;
 		}
 
-		public function setHelper(Helper $Helper) {
+		public function setHelper(\Helper $Helper) {
 			$this->_Helper = $Helper;
 		}
 
@@ -100,7 +102,7 @@
 		}
 
 		protected function _addAdditionalButtons(&$replacements) {
-			$additionalButtons = Configure::read('Saito.markItUp.additionalButtons');
+			$additionalButtons = \Configure::read('Saito.markItUp.additionalButtons');
 			if (empty($additionalButtons)) {
 				return;
 			}
