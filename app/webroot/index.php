@@ -65,7 +65,7 @@ if (!defined('APP_DIR')) {
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	define(
 			'CAKE_CORE_INCLUDE_PATH',
-			ROOT . DS . 'vendor' . DS . 'pear-pear.cakephp.org' . DS. 'CakePHP'
+			ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'pear-pear.cakephp.org' . DS. 'CakePHP'
 	);
 }
 
