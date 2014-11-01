@@ -17,7 +17,6 @@
 			$suite->addTestDirectoryRecursive(CakePlugin::path('Api') . 'Test');
 			$suite->addTestDirectoryRecursive(CakePlugin::path('BbcodeParser') . 'Test');
 			$suite->addTestDirectoryRecursive(CakePlugin::path('Sitemap') . 'Test');
-			$suite->addTestDirectoryRecursive(CakePlugin::path('Userranks') . 'Test');
 
 			return $suite;
 		}
