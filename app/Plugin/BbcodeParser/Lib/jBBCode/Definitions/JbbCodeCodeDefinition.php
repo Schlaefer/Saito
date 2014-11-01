@@ -17,6 +17,8 @@
 			$this->Geshi->defaultLanguage = 'text';
 			// allow all languages
 			$this->Geshi->validLanguages = [true];
+			// load config from app/Config/geshi.php
+			$this->Geshi->features = false;
 
 			$string = '<div class="geshi-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
 

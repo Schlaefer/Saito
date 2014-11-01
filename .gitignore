@@ -17,10 +17,11 @@ build/
 Capfile
 deploy.rb
 
+# plugins via composer
+/app/Plugin/Geshi
+
 # vendor folder
 /app/Vendor/*
-!/app/Vendor/geshi/
-!/app/Vendor/geshi/*
 !/app/Vendor/leaflet/
 !/app/Vendor/leaflet/*
 !/app/Vendor/susy/
