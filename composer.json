@@ -26,7 +26,7 @@
   "require": {
     "php": ">=5.4.0",
     "ext-mcrypt": "*",
-    "pear-cakephp/cakephp": "2.5.5",
+    "pear-pear.cakephp.org/CakePHP": "2.5.5",
     "kzykhys/ciconia": "~1.0.3",
     "jbbcode/jbbcode": "~1.3"
   },
