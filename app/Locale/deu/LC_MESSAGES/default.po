@@ -1621,7 +1621,7 @@ msgstr "Kategorie"
 
 #: View/Helper/EntryHHelper.php:92
 msgid "error_category_empty"
-msgstr "Kategorie darf nicht leer sein."
+msgstr "Bitte Kategorie wählen."
 
 #: View/Helper/FlotHelper.php:37
 msgid "admin.stats.insfd"
