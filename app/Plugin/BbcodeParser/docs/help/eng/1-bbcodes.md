@@ -14,12 +14,6 @@ Outputs bold (important) text.
 
 Outputs italic (emphazised) text.
 
-## Underline ##
-
-	[u]text[/u]
-
-Outputs underlined text.
-
 ## Strike ##
 
 	[s]text[/s]
