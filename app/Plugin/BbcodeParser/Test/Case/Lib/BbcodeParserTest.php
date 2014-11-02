@@ -750,7 +750,7 @@ EOF;
 
 			// nested image does not have [domain.info]
 			$input = '[url=http://heise.de][upload]test.png[/upload][/url]';
-			$expected = "/c-bbcode-link-dinfo/";
+			$expected = "/richtext-linkInfo/";
 			$result = $this->_Parser->parse($input);
 			$this->assertNotRegExp($expected, $result);
 		}
