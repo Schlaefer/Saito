@@ -8,6 +8,12 @@
 
 		public function getLevel();
 
+		public function hasAnswers();
+
+		public function isNt();
+
+		public function isPinned();
+
 		public function getRaw();
 
 		public function isRoot();

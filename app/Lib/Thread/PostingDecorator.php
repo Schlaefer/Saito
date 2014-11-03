@@ -1,6 +1,6 @@
 <?php
 
-	abstract class PostingDecorator implements PostingInterface {
+	class PostingDecorator implements PostingInterface {
 
 		protected $_Posting;
 
@@ -23,6 +23,18 @@
 
 		public function getRaw() {
 			return $this->_Posting->getRaw();
+		}
+
+		public function hasAnswers() {
+			return $this->_Posting->hasAnswers();
+		}
+
+		public function isNt() {
+			return $this->_Posting->isNt();
+		}
+
+		public function isPinned() {
+			return $this->_Posting->isPinned();
 		}
 
 		public function isRoot() {

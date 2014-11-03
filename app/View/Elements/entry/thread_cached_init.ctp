@@ -2,6 +2,7 @@
   Stopwatch::start('entries/thread_cached_init');
 
   SDV($level, 0);
+	SDV($allowThreadCollapse, false);
   /*
    * Caching the localized threadbox title tags.
    * Depending on the number of threads on the page i10n can cost several ms.
@@ -39,24 +40,24 @@
 		<div class="threadBox-tools">
 			<?php if ($level === 0) : ?>
 					<a href="<?= $this->request->webroot; ?>entries/mix/<?= $entry_sub['Entry']['tid']; ?>" class="btn-threadBox-tools" rel="nofollow">
-						<?php echo $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
+						<?= $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
 						&nbsp;
 						&nbsp;
 						<?php if (isset($toolboxButtonsToDisplay['open'])) : ?>
 							<button class="btnLink btn-threadBox-tools js-btn-openAllThreadlines">
-								<?php echo $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
+								<?= $cacheThreadBoxTitlei18n['btn-openThreads']; ?>
 							</button>
 						<?php endif; ?>
 						<?php if (isset($toolboxButtonsToDisplay['close'])) : ?>
 							<button class="btnLink btn-threadBox-tools js-btn-closeAllThreadlines">
-								<?php echo $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
+								<?= $cacheThreadBoxTitlei18n['btn-closeThreads']; ?>
 							</button>
 						<?php endif; ?>
 						<?php
 							if (isset($toolboxButtonsToDisplay['new'])) :
-								if ($this->EntryH->hasNewEntries($entry_sub, $CurrentUser)) {
+								if ($tree->hasNewAnswers()) {
 									$tag = 'button';
 								} else {
 									$tag = 'span';
@@ -65,25 +66,20 @@
 							<<?= $tag; ?>  class="<?php if ($tag === 'button') echo 'btnLink'; ?> btn-threadBox-tools js-btn-showAllNewThreadlines <?php echo ($tag !== 'button') ? 'disabled' : ''; ?>">
 									<?= $cacheThreadBoxTitlei18n['btn-showNewThreads'] ?>
 							</<?= $tag ?>>
-						<?php
-							endif;
-						?>
-					<?php endif; ?>
-				<?php endif; ?>
+						<?php endif; // button 'new' ?>
+					<?php endif; // logged in ?>
+				<?php endif; // level = 0?>
 		</div>
 			<div style="position: relative;">
 				<?php
-					$_style = 'visibility: hidden;';
-					if ($this->EntryH->hasAnswers($entry_sub) &&
-							$this->request->params['controller'] === 'entries' &&
-							$this->request->params['action'] === 'index'
-					) {
-						$_style = '';
+					$style = '';
+					if (!$allowThreadCollapse || !$tree->hasAnswers()) {
+						$style = 'visibility: hidden;';
 					}
 				?>
 				<button class="btnLink btn-threadCollapse "
 								title="<?= $cacheThreadBoxTitlei18n['btn-threadCollapse'] ?>"
-								style="<?= $_style ?>">
+								style="<?= $style ?>">
 					<i class="fa fa-thread-open"></i>
 				</button>
 			<div class="threadBox-threadTree">

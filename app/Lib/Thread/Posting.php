@@ -60,6 +60,23 @@
 			return $this->_rawData;
 		}
 
+		public function hasAnswers() {
+			return count($this->_children) > 0;
+		}
+
+		/**
+		 * checks if entry is n/t
+		 *
+		 * @return bool
+		 */
+		public function isNt() {
+			return empty($this->text);
+		}
+
+		public function isPinned() {
+			return $this->fixed == true;
+		}
+
 		public function isRoot() {
 			return $this->pid === 0;
 		}
@@ -71,6 +88,7 @@
 				$this->_children[$key] = $newChild;
 			}
 			$new = $fct($this);
+			// replace decorated object in Thread collection
 			$this->Thread->add($new);
 			return $new;
 		}

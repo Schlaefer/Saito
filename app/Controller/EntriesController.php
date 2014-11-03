@@ -76,6 +76,7 @@
 			// @bogus
 			$this->Session->write('paginator.lastPage', $currentPage);
 			$this->showDisclaimer = true;
+			$this->set('allowThreadCollapse', true);
 
 			Stopwatch::stop('Entries->index()');
 		}

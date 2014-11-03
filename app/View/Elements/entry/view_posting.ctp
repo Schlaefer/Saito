@@ -4,6 +4,7 @@
 	SDV($last_action, null);
 	$editLinkIsShown = false;
 	$_showSignature = false;
+	$entryObject = $this->EntryH->createTreeObject($entry);
 
 	//data passed as json model
 	$_jsEntry = json_encode([
@@ -19,7 +20,7 @@
 		<?php
 			if (!$CurrentUser['user_signatures_hide'] &&
 					!empty($entry['User']['signature']) &&
-					!$this->EntryH->isNt($entry)
+					!$entryObject->isNt()
 			) {
 				$_showSignature = true;
 			}
@@ -104,7 +105,7 @@
 					}
 
 					// pin and lock thread
-					if ($entry['Entry']['pid'] == 0) {
+					if ($entryObject->isRoot()) {
 						if ($editLinkIsShown) {
 							$_menuItems[] = 'divider';
 						}

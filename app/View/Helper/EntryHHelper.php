@@ -23,34 +23,6 @@
 		 */
 		protected $_renderers = [];
 
-		public function isRoot($entry) {
-			return (int)$entry['Entry']['pid'] === 0;
-		}
-
-		public function hasAnswers($entry) {
-			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
-		}
-
-		public function isPinned($entry) {
-			return (bool)$entry['Entry']['fixed'];
-		}
-
-/**
- * @param $entry
- * @param $user
- * @return bool
- * @throws InvalidArgumentException
- */
-		public function hasNewEntries($entry, $user) {
-			if ($entry['Entry']['pid'] != 0) {
-				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
-			}
-			if (!isset($user['last_refresh'])) {
-				return false;
-			}
-			return $user['last_refresh_unix'] < strtotime($entry['Entry']['last_answer']);
-		}
-
 		public function getPaginatedIndexPageId($tid, $lastAction) {
 			$indexPage = '/entries/index';
 
@@ -62,16 +34,6 @@
 			$indexPage .= '/jump:' . $tid;
 
 			return $indexPage;
-		}
-
-		/**
-		 * evaluates if entry is n/t
-		 *
-		 * @param $entry
-		 * @return bool
-		 */
-		public function isNt($entry) {
-			return empty($entry['Entry']['text']);
 		}
 
 		public function getFastLink($entry, $params = array('class' => '')) {
@@ -103,13 +65,13 @@
 		/**
 		 * renders a posting tree as thread
 		 *
-		 * @param mixed $tree
+		 * @param mixed $tree passed as reference to share CU-decorator "up"
 		 * @param $CurrentUser
 		 * @param $options
 		 * 	- 'renderer' [thread]|mix
 		 * @return string
 		 */
-		public function renderThread($tree, ForumsUserInterface $CurrentUser, array $options = []) {
+		public function renderThread(&$tree, ForumsUserInterface $CurrentUser, array $options = []) {
 			$options += [
 				'lineCache' => $this->_View->get('LineCache'),
 				'maxThreadDepthIndent' => (int)Configure::read('Saito.Settings.thread_depth_indent'),
