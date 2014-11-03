@@ -29,7 +29,7 @@ if (function_exists('ini_set')) {
 	ini_set('include_path', $root . $ds . 'lib' . PATH_SEPARATOR . ini_get('include_path'));
 }
 
-require $root . $ds .  'vendor/autoload.php';
+require $root . $ds .  'app' . $ds . 'Vendor/autoload.php';
 
 if (!include($dispatcher)) {
 	trigger_error('Could not locate CakePHP core files.', E_USER_ERROR);

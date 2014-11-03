@@ -78,7 +78,7 @@
 		</aside>
 
 		<div itemprop="articleBody text" class='postingBody-text'>
-			<?= $this->Bbcode->parse($entry['Entry']['text']) ?>
+			<?= $this->Parser->parse($entry['Entry']['text']) ?>
 		</div>
 
 		<?php if ($signature): ?>
@@ -88,7 +88,7 @@
 				</div>
 				<?php
 					$multimedia = ($CurrentUser->isLoggedIn()) ? !$CurrentUser['user_signatures_images_hide'] : true;
-					echo $this->Bbcode->parse($entry['User']['signature'],
+					echo $this->Parser->parse($entry['User']['signature'],
 							array('multimedia' => $multimedia));
 				?>
 			</footer>

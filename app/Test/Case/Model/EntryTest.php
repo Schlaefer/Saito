@@ -10,7 +10,7 @@
 
 		public $_editPeriod;
 
-		public function prepareBbcode($string) {
+		public function prepareMarkup($string) {
 			return $string;
 		}
 

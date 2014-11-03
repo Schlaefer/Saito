@@ -19,9 +19,9 @@
 		);
 
 		public function testPush() {
-			$this->Shout = $this->getMockForModel('Shout', ['prepareBbcode']);
+			$this->Shout = $this->getMockForModel('Shout', ['prepareMarkup']);
 			$this->Shout->expects($this->once())
-					->method('prepareBbcode')
+					->method('prepareMarkup')
 					->will($this->returnArgument(0));
 
 			$_numberOfShouts = $this->Shout->find('count');
@@ -47,9 +47,9 @@
 		}
 
 		public function testNoRotate() {
-			$model = $this->getMockForModel('Shout', ['shift', 'prepareBbcode']);
+			$model = $this->getMockForModel('Shout', ['shift', 'prepareMarkup']);
 			$model->expects($this->once())
-					->method('prepareBbcode')
+					->method('prepareMarkup')
 					->will($this->returnArgument(0));
 
 			$data = array(
@@ -70,9 +70,9 @@
 		}
 
 		public function testRotate() {
-			$model = $this->getMockForModel('Shout', ['shift', 'prepareBbcode']);
+			$model = $this->getMockForModel('Shout', ['shift', 'prepareMarkup']);
 			$model->expects($this->once())
-					->method('prepareBbcode')
+					->method('prepareMarkup')
 					->will($this->returnArgument(0));
 
 			$data = array(

@@ -61,7 +61,6 @@ class BookmarksController extends AppController {
 		$bookmark = $this->_getBookmark($id);
 
 		if (!$this->request->is('post') && !$this->request->is('put')) {
-			$this->initBbcode();
 			$this->request->data = $bookmark;
 			return;
 		}

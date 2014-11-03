@@ -1614,6 +1614,9 @@ msgstr ""
 msgid "geshi_link_popup"
 msgstr "Please enter an URL for your link.:!:http://example.com/"
 
+msgid "geshi_img_popup"
+msgstr "Please enter an URL for your image.:!:http://example.com/image.png"
+
 #: View/Helper/MarkitupEditorHelper.php:78
 msgid "geshi_link_placeholder"
 msgstr "Enter link text here."

@@ -41,7 +41,7 @@
 		</div>
 		<div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
-    <div class="panel-content panel-form">
+    <div class="panel-content panel-form" style="position: relative;">
       <?php
         echo $this->Form->create('Entry');
         echo $this->EntryH->categorySelect($this->request->data, $categories);
@@ -64,8 +64,6 @@
         echo $this->MarkitupEditor->editor(
           'text',
           [
-            'class' => 'shp',
-            'data-shpid' => 3,
             'parser' => false,
             'set' => 'default',
             'skin' => 'macnemo',
@@ -74,6 +72,8 @@
             'settings' => 'markitupSettings'
           ]
         );
+				echo $this->Html->tag('div', $this->Parser->editorHelp(), [
+					'class' => 'postingform-eh']);
         if (empty($citeText) === false) :
           ?>
 					<div class="cite-container">
@@ -83,7 +83,7 @@
 								. ' ' . __('Cite'),
 								'#',
 								[
-									'data-text' => $this->Bbcode->citeText($citeText),
+									'data-text' => $this->Parser->citeText($citeText),
 									'class' => 'btn-cite label'
 								]
 							);

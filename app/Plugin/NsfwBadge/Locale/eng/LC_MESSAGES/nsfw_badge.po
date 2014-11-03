@@ -1,6 +1,0 @@
-msgid "nsfw.exp"
-msgstr "Not safe for work (NSFW)"
-
-msgid "nsfw.title"
-msgstr "NSFW"
-

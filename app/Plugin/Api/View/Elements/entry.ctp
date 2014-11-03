@@ -12,9 +12,9 @@
 			$entry['Entry']['last_answer']
 		),
 		'text'          => $entry['Entry']['text'],
-		'html'          => $this->Bbcode->parse(
+		'html'          => $this->Parser->parse(
 			$entry['Entry']['text'],
-			['multimedia' => true]
+			['multimedia' => true, 'wrap' => false]
 		),
 		'user_id'       => (int)$entry['Entry']['user_id'],
 		'user_name'     => $entry['User']['username'],

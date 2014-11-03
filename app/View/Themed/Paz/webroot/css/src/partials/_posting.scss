@@ -1,4 +1,4 @@
-@import "_posting-bbcode";
+@import "_posting-content";
 
 .postingLayout {
   margin: 0 auto;
@@ -55,15 +55,6 @@
   // break overlong words/links if overflow is hidden by .threadInline-slider
   word-wrap: break-word;
 
-  object, embed, video, iframe, img {
-    max-width: 100%;
-  }
-
-  object, embed, video, iframe, .c-bbcode-external-image, .c-bbcode-upload {
-    display: block;
-    margin: 0 auto;
-  }
-
   &:after {
     content: '';
     display: block;
@@ -73,10 +64,6 @@
 
 .postingBody-signature {
   margin-bottom: $padding;
-
-  .c-bbcode-upload, .c-bbcode-external-image {
-    margin: 0;
-  }
 }
 
 // posting badges

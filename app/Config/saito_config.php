@@ -12,6 +12,13 @@
    */
   Configure::write('Config.language', 'eng');
 
+	/**
+	 * Sets the markup parser
+	 *
+	 * Parser hould be placed in app/Plugin/<name>Parser
+	 */
+	Configure::write('Saito.Settings.ParserPlugin', 'Bbcode');
+
   /**
    * Sets the default theme
    */
