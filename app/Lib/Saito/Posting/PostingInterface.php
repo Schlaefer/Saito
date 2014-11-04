@@ -1,5 +1,7 @@
 <?php
 
+	namespace Saito\Posting;
+
 	interface PostingInterface {
 
 		public function __get($var);

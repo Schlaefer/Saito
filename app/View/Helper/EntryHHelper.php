@@ -1,6 +1,9 @@
 <?php
+
+	use Saito\Thread\Renderer;
+
 	App::uses('AppHelper', 'View/Helper');
-	App::uses('PostingViewTrait', 'Lib/Thread');
+
 
 	# @td refactor helper name to 'EntryHelper'
 	/**
@@ -9,7 +12,7 @@
 
 	class EntryHHelper extends AppHelper {
 
-		use PostingViewTrait;
+		use \Saito\Posting\Renderer\HelperTrait;
 
 		public $helpers = array(
 				'Form',
@@ -84,9 +87,8 @@
 				$tree = $this->createTreeObject($tree, $options);
 			}
 
-			App::uses('PostingCurrentUserDecorator', 'Lib/Thread');
 			$tree = $tree->addDecorator(function ($node) use ($CurrentUser) {
-				$node = new PostingCurrentUserDecorator($node);
+				$node = new \Saito\Posting\Decorator\CurrentUser($node);
 				$node->setCurrentUser($CurrentUser);
 				return $node;
 			});
@@ -97,12 +99,10 @@
 				$name = $renderer;
 				switch ($name) {
 					case 'mix':
-						App::uses('MixHtmlRenderer', 'Lib/Thread/Renderer');
-						$renderer = new MixHtmlRenderer($this);
+						$renderer = new Renderer\MixHtmlRenderer($this);
 						break;
 					default:
-						App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
-						$renderer = new ThreadHtmlRenderer($this);
+						$renderer = new Renderer\ThreadHtmlRenderer($this);
 				}
 				$this->_renderers[$name] = $renderer;
 			}
@@ -118,8 +118,7 @@
 		 * @return Posting
 		 */
 		public function createTreeObject(array $entrySub, array $options = []) {
-			App::uses('Posting', 'Lib/Thread');
-			return new Posting($entrySub, $options);
+			return new Saito\Posting\Posting($entrySub, $options);
 		}
 
 	}

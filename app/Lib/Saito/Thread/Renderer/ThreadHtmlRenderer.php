@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('HtmlRendererAbstract', 'Lib/Thread/Renderer');
+	namespace Saito\Thread\Renderer;
 
 	/**
 	 * Class ThreadHtmlRenderer renders postings into a tree
@@ -27,7 +27,7 @@
 			}
 		}
 
-		protected function _renderCore(PostingInterface $node) {
+		protected function _renderCore(\Saito\Posting\PostingInterface $node) {
 			$posting = $node->getRaw();
 			$level = $node->getLevel();
 			$id = (int)$posting['Entry']['id'];

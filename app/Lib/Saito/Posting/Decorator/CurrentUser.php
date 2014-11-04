@@ -1,8 +1,8 @@
 <?php
 
-	App::uses('PostingDecorator', 'Lib/Thread');
+	namespace Saito\Posting\Decorator;
 
-	class PostingCurrentUserDecorator extends PostingDecorator {
+	class CurrentUser extends DecoratorInterface {
 
 		protected $_CU;
 
@@ -25,11 +25,11 @@
 		 * currently only supported for root postings
 		 *
 		 * @return bool
-		 * @throws RuntimeException
+		 * @throws \RuntimeException
 		 */
 		public function hasNewAnswers() {
 			if (!$this->isRoot()) {
-				throw new RuntimeException('Posting with id ' . $this->id .' is no root posting.');
+				throw new \RuntimeException('Posting with id ' . $this->id . ' is no root posting.');
 			}
 			if (!isset($this->_CU['last_refresh'])) {
 				return false;

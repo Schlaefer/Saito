@@ -1,5 +1,7 @@
 <?php
 
+	namespace Saito\Thread;
+
 	/**
 	 * Class Thread collection of Postings
 	 */
@@ -9,7 +11,7 @@
 
 		protected $_rootId;
 
-		public function add(PostingInterface $posting) {
+		public function add(\Saito\Posting\PostingInterface $posting) {
 			$id = $posting->id;
 			$this->_Postings[$id] = $posting;
 

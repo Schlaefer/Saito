@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('PostingViewTrait', 'Lib/Thread');
+	namespace Saito\Thread\Renderer;
 
 	/**
 	 * renders posting into an ul-li HTML-list tree
@@ -9,7 +9,7 @@
 	 */
 	abstract class HtmlRendererAbstract {
 
-		use PostingViewTrait;
+		use \Saito\Posting\Renderer\HelperTrait;
 
 		protected $_EntryHelper;
 
@@ -19,12 +19,12 @@
 
 		protected $_lastAnswer;
 
-		public function __construct(EntryHHelper $EntryHelper, $options = []) {
+		public function __construct(\EntryHHelper $EntryHelper, $options = []) {
 			$this->_EntryHelper = $EntryHelper;
 			$this->setOptions($options);
 		}
 
-		public function render(PostingInterface $node) {
+		public function render(\Saito\Posting\PostingInterface $node) {
 			$this->_lastAnswer = $node->Thread->getLastAnswer();
 			$html = $this->_renderNode($node);
 			if ($node->getLevel() === 0) {
@@ -37,7 +37,7 @@
 			$this->_settings = $options + $this->_defaults;
 		}
 
-		protected function _renderNode(PostingInterface $node) {
+		protected function _renderNode(\Saito\Posting\PostingInterface $node) {
 			$html = $this->_renderCore($node);
 
 			$children = $node->getChildren();
@@ -54,7 +54,7 @@
 			return $html;
 		}
 
-		protected abstract function _renderCore(PostingInterface $node);
+		protected abstract function _renderCore(\Saito\Posting\PostingInterface $node);
 
 		/**
 		 * Wraps li tags with ul tag

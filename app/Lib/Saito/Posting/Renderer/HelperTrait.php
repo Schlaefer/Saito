@@ -1,11 +1,13 @@
 <?php
 
-	App::uses('SaitoEventManager', 'Lib/Saito/Event');
+	namespace Saito\Posting\Renderer;
+
+	\App::uses('SaitoEventManager', 'Lib/Saito/Event');
 
 	/**
 	 * Helper methods for rendering postings
 	 */
-	trait PostingViewTrait {
+	trait HelperTrait {
 
 		/** * @var SaitoEventManager */
 		protected $_SEM;
@@ -23,7 +25,7 @@
 			$out .= '</span>';
 
 			if (!isset($this->_SEM)) {
-				$this->_SEM = SaitoEventManager::getInstance();
+				$this->_SEM = \SaitoEventManager::getInstance();
 			}
 			$additionalBadges = $this->_SEM->dispatch(
 				'Request.Saito.View.Posting.badges',
@@ -50,7 +52,7 @@
 		 * @return string
 		 */
 		public function getSubject($entry) {
-			return h($entry['Entry']['subject']) . (empty($entry['Entry']['text']) ? ' n/t' : '');
+			return \h($entry['Entry']['subject']) . (empty($entry['Entry']['text']) ? ' n/t' : '');
 		}
 
 	}

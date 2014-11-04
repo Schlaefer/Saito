@@ -1,7 +1,6 @@
 <?php
 
-	App::uses('Thread', 'Lib/Thread');
-	App::uses('PostingInterface', 'Lib/Thread');
+	namespace Saito\Posting;
 
 	class Posting implements PostingInterface {
 
@@ -19,7 +18,7 @@
 			$this->_level = $options['level'];
 
 			if (!$tree) {
-				$tree = new Thread;
+				$tree = new \Saito\Thread\Thread;
 			}
 			$this->Thread = $tree;
 			$this->Thread->add($this);
@@ -33,7 +32,7 @@
 		 *
 		 * @param $var
 		 * @return int
-		 * @throws InvalidArgumentException
+		 * @throws \InvalidArgumentException
 		 */
 		public function __get($var) {
 			switch ($var) {
@@ -44,7 +43,7 @@
 				case (isset($this->_rawData['Entry'][$var])):
 					return $this->_rawData['Entry'][$var];
 				default:
-					throw new InvalidArgumentException("Attribute '$var' not found in class Posting.");
+					throw new \InvalidArgumentException("Attribute '$var' not found in class Posting.");
 			}
 		}
 
