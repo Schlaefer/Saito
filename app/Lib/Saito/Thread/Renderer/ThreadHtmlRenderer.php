@@ -30,11 +30,11 @@
 		protected function _renderCore(\Saito\Posting\PostingInterface $node) {
 			$posting = $node->getRaw();
 			$level = $node->getLevel();
-			$id = (int)$posting['Entry']['id'];
+			$id = $posting['Entry']['id'];
 
-			$threadLine = $this->_renderThreadLine($posting, $level);
+			$threadLine = $this->_renderThreadLine($node, $posting, $level);
 			$css = $this->_css($node);
-			$badges = $this->getBadges($posting);
+			$badges = $this->getBadges($node);
 
 			$requestedParams = $this->_SEM->dispatch(
 				'Request.Saito.View.ThreadLine.beforeRender',
@@ -52,7 +52,7 @@
 			}
 
 			//= manual json_encode() for performance
-			$tid = (int)$posting['Entry']['tid'];
+			$tid = $posting['Entry']['tid'];
 			$isNew = $node->isNew() ? 'true' : 'false';
 			$jsData = <<<EOF
 {"id":{$id},"new":{$isNew},"tid":{$tid}}
@@ -76,15 +76,15 @@ EOF;
 			return $out;
 		}
 
-		protected function _renderThreadLine(array $posting, $level) {
-			$id = (int)$posting['Entry']['id'];
+		protected function _renderThreadLine($node, array $posting, $level) {
+			$id = $posting['Entry']['id'];
 			$useLineCache = $level > 0 && $this->_LineCache;
 
 			if ($useLineCache && $threadLine = $this->_LineCache->get($id)) {
 				return $threadLine;
 			}
 
-			$subject = $this->getSubject($posting);
+			$subject = $this->getSubject($node);
 			$username = h($posting['User']['username']);
 			$time = $this->_EntryHelper->TimeH->formatTime($posting['Entry']['time']);
 

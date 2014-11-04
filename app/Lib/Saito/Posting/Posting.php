@@ -4,7 +4,7 @@
 
 	class Posting implements PostingInterface {
 
-		public $Thread;
+		const ALIAS = 'Entry';
 
 		protected $_children = [];
 
@@ -12,51 +12,60 @@
 
 		protected $_rawData;
 
+		protected $_Thread;
+
 		public function __construct($rawData, array $options = [], $tree = null) {
-			$options += ['level' => 0];
 			$this->_rawData = $rawData;
+			$this->_rawData[self::ALIAS]['id'] = (int)$this->_rawData[self::ALIAS]['id'];
+			$this->_rawData[self::ALIAS]['pid'] = (int)$this->_rawData[self::ALIAS]['pid'];
+			$this->_rawData[self::ALIAS]['tid'] = (int)$this->_rawData[self::ALIAS]['tid'];
+
+			$options += ['level' => 0];
 			$this->_level = $options['level'];
 
 			if (!$tree) {
 				$tree = new \Saito\Thread\Thread;
 			}
-			$this->Thread = $tree;
-			$this->Thread->add($this);
+			$this->_Thread = $tree;
+			$this->_Thread->add($this);
 
 			$this->_attachChildren();
 			return $this;
 		}
 
 		/**
-		 * magic get accessor
-		 *
 		 * @param $var
-		 * @return int
+		 * @return mixed
 		 * @throws \InvalidArgumentException
 		 */
-		public function __get($var) {
+		public function get($var) {
 			switch ($var) {
-				case 'id':
-					return (int)$this->_rawData['Entry']['id'];
-				case 'pid':
-					return (int)$this->_rawData['Entry']['pid'];
-				case (isset($this->_rawData['Entry'][$var])):
-					return $this->_rawData['Entry'][$var];
+				case (isset($this->_rawData[self::ALIAS][$var])):
+					return $this->_rawData[self::ALIAS][$var];
+				case (isset($this->_rawData[$var])):
+					return $this->_rawData[$var];
+				// if key is set but null
+				case (array_key_exists($var, $this->_rawData[self::ALIAS])):
+					return $this->_rawData[self::ALIAS][$var];
 				default:
 					throw new \InvalidArgumentException("Attribute '$var' not found in class Posting.");
 			}
-		}
-
-		public function getChildren() {
-			return $this->_children;
 		}
 
 		public function getLevel() {
 			return $this->_level;
 		}
 
+		public function getChildren() {
+			return $this->_children;
+		}
+
 		public function getRaw() {
 			return $this->_rawData;
+		}
+
+		public function getThread() {
+			return $this->_Thread;
 		}
 
 		public function hasAnswers() {
@@ -69,15 +78,15 @@
 		 * @return bool
 		 */
 		public function isNt() {
-			return empty($this->text);
+			return empty($this->_rawData[self::ALIAS]['text']);
 		}
 
 		public function isPinned() {
-			return $this->fixed == true;
+			return $this->_rawData[self::ALIAS]['fixed'] == true;
 		}
 
 		public function isRoot() {
-			return $this->pid === 0;
+			return $this->_rawData[self::ALIAS]['pid'] === 0;
 		}
 
 		public function addDecorator($fct) {
@@ -88,14 +97,14 @@
 			}
 			$new = $fct($this);
 			// replace decorated object in Thread collection
-			$this->Thread->add($new);
+			$this->_Thread->add($new);
 			return $new;
 		}
 
 		protected function _attachChildren() {
 			if (isset($this->_rawData['_children'])) {
 				foreach ($this->_rawData['_children'] as $child) {
-					$this->_children[] = new Posting($child, ['level' => $this->_level + 1], $this->Thread);
+					$this->_children[] = new Posting($child, ['level' => $this->_level + 1], $this->_Thread);
 				}
 			}
 			unset($this->_rawData['_children']);

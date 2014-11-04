@@ -41,7 +41,7 @@
 
 		public function getFastLink($entry, $params = array('class' => '')) {
 			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>" .
-					$this->getSubject($entry) . '</a>';
+					$this->getSubject(new \Saito\Posting\Posting($entry)) . '</a>';
 			return $out;
 		}
 
@@ -87,6 +87,12 @@
 				$tree = $this->createTreeObject($tree, $options);
 			}
 
+			/*
+			 * @performance if Posting would be e.g. a subclass of CurrentUserDecorator:
+			 * - no addDecorator()
+			 * - no passing get() through the decorator-layers
+			 * But at the moment we like this solution.
+			 */
 			$tree = $tree->addDecorator(function ($node) use ($CurrentUser) {
 				$node = new \Saito\Posting\Decorator\CurrentUser($node);
 				$node->setCurrentUser($CurrentUser);

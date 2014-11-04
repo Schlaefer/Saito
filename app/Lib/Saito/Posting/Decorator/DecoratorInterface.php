@@ -13,8 +13,8 @@
 			return $this;
 		}
 
-		public function __get($var) {
-			return $this->_Posting->{$var};
+		public function get($var) {
+			return $this->_Posting->get($var);
 		}
 
 		public function getChildren() {
@@ -27,6 +27,10 @@
 
 		public function getRaw() {
 			return $this->_Posting->getRaw();
+		}
+
+		public function getThread() {
+			return $this->_Posting->getThread();
 		}
 
 		public function hasAnswers() {

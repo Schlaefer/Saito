@@ -14,7 +14,7 @@
 		 */
 		public function testIgnore() {
 			$entry = [
-				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
+				'Entry' => [ 'id' => 1, 'tid' => 0, 'pid' => '0', 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
 				'Category' => ['id' => 1, 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
 				'User' => ['id' => 1, 'username' => 'u']
 			];
@@ -44,7 +44,7 @@
 
 		public function testNesting() {
 			$entry = $entry1 = $entry2 = $entry3 = [
-				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
+				'Entry' => [ 'id' => 1, 'tid' => 0, 'pid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
 				'Category' => ['id' => 1, 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
 				'User' => ['username' => 'u']
 			];
@@ -82,6 +82,7 @@
 			$entry = [
 				'Entry' => [
 					'id' => 1,
+					'pid' => 0,
 					'tid' => 0,
 					'subject' => 'a',
 					'text' => 'b',

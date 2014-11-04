@@ -12,7 +12,7 @@
 		protected $_rootId;
 
 		public function add(\Saito\Posting\PostingInterface $posting) {
-			$id = $posting->id;
+			$id = $posting->get('id');
 			$this->_Postings[$id] = $posting;
 
 			if ($this->_rootId === null) {
@@ -30,7 +30,7 @@
 		}
 
 		public function getLastAnswer() {
-			return strtotime($this->get('root')->last_answer);
+			return strtotime($this->get('root')->get('last_answer'));
 		}
 
 	}

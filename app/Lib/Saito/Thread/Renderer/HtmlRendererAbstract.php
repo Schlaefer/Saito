@@ -9,6 +9,7 @@
 	 */
 	abstract class HtmlRendererAbstract {
 
+		/** * @var SaitoEventManager */
 		use \Saito\Posting\Renderer\HelperTrait;
 
 		protected $_EntryHelper;
@@ -19,16 +20,19 @@
 
 		protected $_lastAnswer;
 
+		protected $_SEM;
+
 		public function __construct(\EntryHHelper $EntryHelper, $options = []) {
 			$this->_EntryHelper = $EntryHelper;
+			$this->_SEM = \SaitoEventManager::getInstance();
 			$this->setOptions($options);
 		}
 
 		public function render(\Saito\Posting\PostingInterface $node) {
-			$this->_lastAnswer = $node->Thread->getLastAnswer();
+			$this->_lastAnswer = $node->getThread()->getLastAnswer();
 			$html = $this->_renderNode($node);
-			if ($node->getLevel() === 0) {
-				$html = $this->_wrapUl($html, 0, $node->id);
+			if ($node->isRoot()) {
+				$html = $this->_wrapUl($html, 0, $node->get('id'));
 			}
 			return $html;
 		}
@@ -85,9 +89,9 @@
 		 * @return string
 		 */
 		protected function _css($node) {
-			$entryType = ($node->getLevel() === 0) ? 'et-root' : 'et-reply';
+			$entryType = ($node->isRoot()) ? 'et-root' : 'et-reply';
 			$entryType .= ($node->isNew()) ? ' et-new' : ' et-old';
-			if ($node->id === (int)$this->_settings['currentEntry']) {
+			if ($node->get('id') === (int)$this->_settings['currentEntry']) {
 				$entryType .= ' et-current';
 			}
 			$css = $entryType;

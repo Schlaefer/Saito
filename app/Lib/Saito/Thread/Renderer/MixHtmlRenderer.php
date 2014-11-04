@@ -10,10 +10,10 @@
 		protected function _renderCore(\Saito\Posting\PostingInterface $node) {
 			$css = $this->_css($node);
 			$html = $this->_EntryHelper->_View->element('/entry/view_posting',
-				['entry' => $node->getRaw(), 'level' => $node->getLevel()]);
+				['entry' => $node, 'level' => $node->getLevel()]);
 
 			$html = <<<EOF
-<li id="{$node->id}" class="{$css}">
+<li id="{$node->get('id')}" class="{$css}">
 	<div class="mixEntry panel">{$html}</div>
 </li>
 EOF;

@@ -4,6 +4,8 @@
 
 	class CurrentUser extends DecoratorInterface {
 
+		protected $_cache = [];
+
 		protected $_CU;
 
 		public function setCurrentUser($CU) {
@@ -11,12 +13,18 @@
 		}
 
 		public function isIgnored() {
-			return $this->_CU->ignores($this->getRaw()['Entry']['user_id']);
+			return $this->_CU->ignores($this->get('user_id'));
 		}
 
 		public function isNew() {
-			$data = $this->getRaw();
-			return !$this->_CU->ReadEntries->isRead($data['Entry']['id'], $data['Entry']['time']);
+			if (isset($this->_cache['isNew'])) {
+				$this->_cache['isNew'] = $this->_cache['isNew'];
+			} else {
+				$id = $this->get('id');
+				$time = $this->get('time');
+				$this->_cache['isNew'] = !$this->_CU->ReadEntries->isRead($id, $time);
+			}
+			return $this->_cache['isNew'];
 		}
 
 		/**
@@ -29,12 +37,12 @@
 		 */
 		public function hasNewAnswers() {
 			if (!$this->isRoot()) {
-				throw new \RuntimeException('Posting with id ' . $this->id . ' is no root posting.');
+				throw new \RuntimeException('Posting with id ' . $this->get('id') . ' is no root posting.');
 			}
 			if (!isset($this->_CU['last_refresh'])) {
 				return false;
 			}
-			return $this->_CU['last_refresh_unix'] < strtotime($this->last_answer);
+			return $this->_CU['last_refresh_unix'] < strtotime($this->get('last_answer'));
 		}
 
 	}
