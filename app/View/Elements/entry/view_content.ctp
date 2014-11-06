@@ -8,7 +8,7 @@
 			<h2 itemprop="headline name" class="postingBody-heading">
 				<?php
 					$subject = $this->EntryH->getSubject($entry);
-					$url = $this->Html->url('/entries/view/' . $entry['Entry']['id'], true);
+					$url = $this->Html->url('/entries/view/' . $entry->get('id'), true);
 					$schemaMeta['url'] = $url;
 					// only make subject a link if it is not in entries/view
 					if ($this->request->action !== 'preview' &&
@@ -23,51 +23,52 @@
 			</h2>
 		</header>
 		<aside class="postingBody-info">
-				<span class='c-category acs-<?= $entry['Category']['accession']; ?>'
-							title="<?php echo $entry['Category']['description']; ?> (<?= __d('nondynamic', 'category_acs_'.$entry['Category']['accession'].'_exp'); ?>)">
-				<?= $entry['Category']['category']; ?>
+				<span class='c-category acs-<?= $entry->get('Category')['accession']; ?>'
+							title="<?php echo $entry->get('Category')['description']; ?> (<?= __d('nondynamic', 'category_acs_'.$entry->get('Category')['accession'].'_exp'); ?>)">
+				<?= $entry->get('Category')['category']; ?>
 				</span>
 			–
 				<span itemscope itemprop="author" itemtype="http://schema.org/Person">
 					<span itemprop="name" class="c-username">
 						<?=
-							$this->Layout->linkToUserProfile($entry['User'], $CurrentUser);
+							$this->Layout->linkToUserProfile($entry->get('User'), $CurrentUser);
 						?></span>,
 				</span>
 
 				<span class="meta">
 					<?php
-						if (!empty($entry['User']['user_place'])) {
-							echo h($entry['User']['user_place']) . ', ';
+						if (!empty($entry->get('User')['user_place'])) {
+							echo h($entry->get('User')['user_place']) . ', ';
 						}
 
-						echo $this->TimeH->formatTime($entry['Entry']['time']);
+						echo $this->TimeH->formatTime($entry->get('time'));
 						$schemaMeta['datePublished'] = date('c',
-								strtotime($entry['Entry']['time']));
+								strtotime($entry->get('time')));
 
-						if (!empty($entry['Entry']['edited_by'])) {
-							$editDelay = strtotime($entry['Entry']['time']) +
+						$editedBy = $entry->get('edited_by');
+						if (!empty($editedBy)) {
+							$editDelay = strtotime($entry->get('time')) +
 									Configure::read('Saito.Settings.edit_delay');
-							if (strtotime($entry['Entry']['edited']) > $editDelay) {
+							if (strtotime($entry->get('edited')) > $editDelay) {
 								echo ' – ';
 								echo __('%s edited by %s',
 										[
-												$this->TimeH->formatTime($entry['Entry']['edited']),
-												$entry['Entry']['edited_by']
+												$this->TimeH->formatTime($entry->get('edited')),
+												$entry->get('edited_by')
 										]
 								);
 							}
-							$schemaMeta['dateModified'] = date('c', strtotime($entry['Entry']['edited']));
+							$schemaMeta['dateModified'] = date('c', strtotime($entry->get('edited')));
 						}
 
 						// SEO: removes keyword "views"
 						if ($CurrentUser->isLoggedIn()) {
-							echo ', ' . __('views_headline') . ': ' . $entry['Entry']['views'];
+							echo ', ' . __('views_headline') . ': ' . $entry->get('views');
 						}
-						$schemaMeta['interactionCount'] = "UserPageVisits:{$entry['Entry']['views']}";
+						$schemaMeta['interactionCount'] = "UserPageVisits:{$entry->get('views')}";
 
 						if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->isMod()) {
-							echo ', IP: ' . $entry['Entry']['ip'];
+							echo ', IP: ' . $entry->get('ip');
 						}
 
 						echo ' <span class="posting-badges">';
@@ -78,7 +79,7 @@
 		</aside>
 
 		<div itemprop="articleBody text" class='postingBody-text'>
-			<?= $this->Parser->parse($entry['Entry']['text']) ?>
+			<?= $this->Parser->parse($entry->get('text')) ?>
 		</div>
 
 		<?php if ($signature): ?>
@@ -88,7 +89,7 @@
 				</div>
 				<?php
 					$multimedia = ($CurrentUser->isLoggedIn()) ? !$CurrentUser['user_signatures_images_hide'] : true;
-					echo $this->Parser->parse($entry['User']['signature'],
+					echo $this->Parser->parse($entry->get('User')['signature'],
 							array('multimedia' => $multimedia));
 				?>
 			</footer>

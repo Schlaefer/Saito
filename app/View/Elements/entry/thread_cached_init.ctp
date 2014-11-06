@@ -33,7 +33,7 @@
     $tree = $this->EntryH->createTreeObject($entry_sub);
     $rendered = $this->EntryH->renderThread($tree, $CurrentUser,
       ['currentEntry' => $currentEntry]);
-    $css = ($tree->Thread->get('root')->isIgnored()) ? 'ignored' : '';
+    $css = ($tree->getThread()->get('root')->isIgnored()) ? 'ignored' : '';
 ?>
 <div class="threadBox <?= $css ?>" data-id="<?= $entry_sub['Entry']['id'] ?>">
 	<div class="threadBox-body panel">

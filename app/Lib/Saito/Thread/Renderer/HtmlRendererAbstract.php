@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('PostingViewTrait', 'Lib/Thread');
+	namespace Saito\Thread\Renderer;
 
 	/**
 	 * renders posting into an ul-li HTML-list tree
@@ -9,7 +9,8 @@
 	 */
 	abstract class HtmlRendererAbstract {
 
-		use PostingViewTrait;
+		/** * @var SaitoEventManager */
+		use \Saito\Posting\Renderer\HelperTrait;
 
 		protected $_EntryHelper;
 
@@ -19,16 +20,19 @@
 
 		protected $_lastAnswer;
 
-		public function __construct(EntryHHelper $EntryHelper, $options = []) {
+		protected $_SEM;
+
+		public function __construct(\EntryHHelper $EntryHelper, $options = []) {
 			$this->_EntryHelper = $EntryHelper;
+			$this->_SEM = \SaitoEventManager::getInstance();
 			$this->setOptions($options);
 		}
 
-		public function render(PostingInterface $node) {
-			$this->_lastAnswer = $node->Thread->getLastAnswer();
+		public function render(\Saito\Posting\PostingInterface $node) {
+			$this->_lastAnswer = $node->getThread()->getLastAnswer();
 			$html = $this->_renderNode($node);
-			if ($node->getLevel() === 0) {
-				$html = $this->_wrapUl($html, 0, $node->id);
+			if ($node->isRoot()) {
+				$html = $this->_wrapUl($html, 0, $node->get('id'));
 			}
 			return $html;
 		}
@@ -37,7 +41,7 @@
 			$this->_settings = $options + $this->_defaults;
 		}
 
-		protected function _renderNode(PostingInterface $node) {
+		protected function _renderNode(\Saito\Posting\PostingInterface $node) {
 			$html = $this->_renderCore($node);
 
 			$children = $node->getChildren();
@@ -54,7 +58,7 @@
 			return $html;
 		}
 
-		protected abstract function _renderCore(PostingInterface $node);
+		protected abstract function _renderCore(\Saito\Posting\PostingInterface $node);
 
 		/**
 		 * Wraps li tags with ul tag
@@ -85,9 +89,9 @@
 		 * @return string
 		 */
 		protected function _css($node) {
-			$entryType = ($node->getLevel() === 0) ? 'et-root' : 'et-reply';
+			$entryType = ($node->isRoot()) ? 'et-root' : 'et-reply';
 			$entryType .= ($node->isNew()) ? ' et-new' : ' et-old';
-			if ($node->id === (int)$this->_settings['currentEntry']) {
+			if ($node->get('id') === (int)$this->_settings['currentEntry']) {
 				$entryType .= ' et-current';
 			}
 			$css = $entryType;

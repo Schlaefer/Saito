@@ -8,14 +8,7 @@
 	<?= $this->Layout->panelHeading(__('Edit Bookmark'),
 		['pageHeading' => true]) ?>
 	<div class="panel-content">
-		<?php
-					$entry = array(
-							'Entry'		 => $this->request->data['Entry'],
-							'Category' => $this->request->data['Entry']['Category'],
-							'User'		 => $this->request->data['Entry']['User'],
-					);
-			echo $this->element('/entry/view_content', array(
-				'entry' => $entry)); ?>
+		<?= $this->element('/entry/view_content', ['entry' => $entry]); ?>
 	</div>
 	<div class="panel-footer panel-form">
 		<?php

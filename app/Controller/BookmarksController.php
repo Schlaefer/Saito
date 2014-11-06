@@ -61,6 +61,12 @@ class BookmarksController extends AppController {
 		$bookmark = $this->_getBookmark($id);
 
 		if (!$this->request->is('post') && !$this->request->is('put')) {
+			$posting = array(
+				'Entry' => $bookmark['Entry'],
+				'Category' => $bookmark['Entry']['Category'],
+				'User' => $bookmark['Entry']['User'],
+			);
+			$this->set('entry', new \Saito\Posting\Posting($posting));
 			$this->request->data = $bookmark;
 			return;
 		}

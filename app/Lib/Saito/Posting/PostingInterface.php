@@ -1,12 +1,16 @@
 <?php
 
+	namespace Saito\Posting;
+
 	interface PostingInterface {
 
-		public function __get($var);
+		public function get($var);
 
 		public function getChildren();
 
 		public function getLevel();
+
+		public function getThread();
 
 		public function hasAnswers();
 

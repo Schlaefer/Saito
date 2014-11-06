@@ -2,11 +2,8 @@
 
 	App::uses('SaitoTestAssertTrait', 'Lib/Test');
 
-	App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
-
 	App::uses('SaitoUser', 'Lib/SaitoUser');
 	App::uses('ReadPostingsDummy', 'Lib/SaitoUser/ReadPostings');
-	App::uses('PostingCurrentUserDecorator', 'Lib/Thread');
 
 	class ThreadHtmlRendererTest extends PHPUnit_Framework_TestCase {
 
@@ -17,14 +14,14 @@
 		 */
 		public function testIgnore() {
 			$entry = [
-				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
+				'Entry' => [ 'id' => 1, 'tid' => 0, 'pid' => '0', 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
 				'Category' => ['id' => 1, 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
 				'User' => ['id' => 1, 'username' => 'u']
 			];
 
 			$entries = $this->EntryHelper->createTreeObject($entry);
 			$entries = $entries->addDecorator(function ($node) {
-				$node = $this->getMock('PostingCurrentUserDecorator', ['isIgnored'], [$node]);
+				$node = $this->getMock('\Saito\Posting\Decorator\CurrentUser', ['isIgnored'], [$node]);
 				$node->expects($this->once())->method('isIgnored')->will($this->returnValue(true));
 				$node->setCurrentUser($this->SaitoUser);
 				return $node;
@@ -34,7 +31,7 @@
 
 			//= posting should be ignored
 			$options = ['maxThreadDepthIndent' => 25];
-			$renderer = new ThreadHtmlRenderer($this->EntryHelper, $options);
+			$renderer = new \Saito\Thread\Renderer\ThreadHtmlRenderer($this->EntryHelper, $options);
 			$result = $renderer->render($entries);
 			$this->assertXPath($result, $xPathQuery);
 
@@ -47,7 +44,7 @@
 
 		public function testNesting() {
 			$entry = $entry1 = $entry2 = $entry3 = [
-				'Entry' => [ 'id' => 1, 'tid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
+				'Entry' => [ 'id' => 1, 'tid' => 0, 'pid' => 0, 'subject' => 'a', 'text' => 'b', 'time' => 0, 'last_answer' => 0, 'fixed' => false, 'solves' => '', 'user_id' => 1 ],
 				'Category' => ['id' => 1, 'accession' => 0, 'description' => 'd', 'category' => 'c' ],
 				'User' => ['username' => 'u']
 			];
@@ -62,11 +59,11 @@
 
 			$entries = $this->EntryHelper->createTreeObject($entries);
 			$entries = $entries->addDecorator(function ($node) {
-				$node = new PostingCurrentUserDecorator($node);
+				$node = new \Saito\Posting\Decorator\CurrentUser($node);
 				$node->setCurrentUser($this->SaitoUser);
 				return $node;
 			});
-			$renderer = new ThreadHtmlRenderer($this->EntryHelper, ['maxThreadDepthIndent' => 9999]);
+			$renderer = new \Saito\Thread\Renderer\ThreadHtmlRenderer($this->EntryHelper, ['maxThreadDepthIndent' => 9999]);
 
 			$result = $renderer->render($entries);
 
@@ -85,6 +82,7 @@
 			$entry = [
 				'Entry' => [
 					'id' => 1,
+					'pid' => 0,
 					'tid' => 0,
 					'subject' => 'a',
 					'text' => 'b',
@@ -115,13 +113,13 @@
 
 			$entries = $this->EntryHelper->createTreeObject($entries);
 			$entries = $entries->addDecorator(function ($node) use ($SaitoUser) {
-				$node = new PostingCurrentUserDecorator($node);
+				$node = new \Saito\Posting\Decorator\CurrentUser($node);
 				$node->setCurrentUser($SaitoUser);
 				return $node;
 			});
 
 			// max depth should not apply
-			$renderer = new ThreadHtmlRenderer($this->EntryHelper, [
+			$renderer = new \Saito\Thread\Renderer\ThreadHtmlRenderer($this->EntryHelper, [
 				'maxThreadDepthIndent' => 9999
 			]);
 			$result = $renderer->render($entries);

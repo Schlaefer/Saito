@@ -1,16 +1,20 @@
 <?php
 
-	class PostingDecorator implements PostingInterface {
+	namespace Saito\Posting\Decorator;
+
+	use Saito\Posting;
+
+	class DecoratorInterface implements Posting\PostingInterface {
 
 		protected $_Posting;
 
-		public function __construct(Posting $Posting) {
+		public function __construct(\Saito\Posting\Posting $Posting) {
 			$this->_Posting = $Posting;
 			return $this;
 		}
 
-		public function __get($var) {
-			return $this->_Posting->{$var};
+		public function get($var) {
+			return $this->_Posting->get($var);
 		}
 
 		public function getChildren() {
@@ -23,6 +27,10 @@
 
 		public function getRaw() {
 			return $this->_Posting->getRaw();
+		}
+
+		public function getThread() {
+			return $this->_Posting->getThread();
 		}
 
 		public function hasAnswers() {

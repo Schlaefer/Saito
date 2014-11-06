@@ -1,6 +1,9 @@
 <?php
+
+	use Saito\Thread\Renderer;
+
 	App::uses('AppHelper', 'View/Helper');
-	App::uses('PostingViewTrait', 'Lib/Thread');
+
 
 	# @td refactor helper name to 'EntryHelper'
 	/**
@@ -9,7 +12,7 @@
 
 	class EntryHHelper extends AppHelper {
 
-		use PostingViewTrait;
+		use \Saito\Posting\Renderer\HelperTrait;
 
 		public $helpers = array(
 				'Form',
@@ -38,7 +41,7 @@
 
 		public function getFastLink($entry, $params = array('class' => '')) {
 			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>" .
-					$this->getSubject($entry) . '</a>';
+					$this->getSubject(new \Saito\Posting\Posting($entry)) . '</a>';
 			return $out;
 		}
 
@@ -84,9 +87,14 @@
 				$tree = $this->createTreeObject($tree, $options);
 			}
 
-			App::uses('PostingCurrentUserDecorator', 'Lib/Thread');
+			/*
+			 * @performance if Posting would be e.g. a subclass of CurrentUserDecorator:
+			 * - no addDecorator()
+			 * - no passing get() through the decorator-layers
+			 * But at the moment we like this solution.
+			 */
 			$tree = $tree->addDecorator(function ($node) use ($CurrentUser) {
-				$node = new PostingCurrentUserDecorator($node);
+				$node = new \Saito\Posting\Decorator\CurrentUser($node);
 				$node->setCurrentUser($CurrentUser);
 				return $node;
 			});
@@ -97,12 +105,10 @@
 				$name = $renderer;
 				switch ($name) {
 					case 'mix':
-						App::uses('MixHtmlRenderer', 'Lib/Thread/Renderer');
-						$renderer = new MixHtmlRenderer($this);
+						$renderer = new Renderer\MixHtmlRenderer($this);
 						break;
 					default:
-						App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
-						$renderer = new ThreadHtmlRenderer($this);
+						$renderer = new Renderer\ThreadHtmlRenderer($this);
 				}
 				$this->_renderers[$name] = $renderer;
 			}
@@ -118,8 +124,7 @@
 		 * @return Posting
 		 */
 		public function createTreeObject(array $entrySub, array $options = []) {
-			App::uses('Posting', 'Lib/Thread');
-			return new Posting($entrySub, $options);
+			return new Saito\Posting\Posting($entrySub, $options);
 		}
 
 	}

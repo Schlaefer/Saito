@@ -589,7 +589,7 @@
 						)
 					)
 				);
-				$this->set('entry', $newEntry);
+				$this->set('entry', new \Saito\Posting\Posting($newEntry));
 			else :
 				// validation errors
 				foreach ($errors as $field => $error) {
