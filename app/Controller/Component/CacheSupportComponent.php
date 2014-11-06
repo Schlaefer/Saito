@@ -42,7 +42,7 @@
 			if ($cacheConfig['engine'] === 'Apc') {
 				$CacheEngine = new SaitoCacheEngineAppCache;
 			} else {
-				$CacheEngine = new SaitoCacheEngineDbCache;
+				$CacheEngine = null;
 			}
 
 			$this->CacheTree = new CacheTree(

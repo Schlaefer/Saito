@@ -23,7 +23,6 @@
 		public $fixtures = [
 			'app.bookmark',
 			'app.category',
-			'app.ecach',
 			'app.entry',
 			'app.esevent',
 			'app.esnotification',

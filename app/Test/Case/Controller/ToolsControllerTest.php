@@ -16,7 +16,6 @@
 		 */
 		public $fixtures = array(
 			'app.category',
-			'app.ecach',
 			'app.entry',
 			'app.setting',
 			'app.user',

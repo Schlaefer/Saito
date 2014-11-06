@@ -53,7 +53,6 @@
 			'plugin.api.bookmark',
 			'plugin.api.esnotification',
 			'plugin.api.esevent',
-			'plugin.api.ecach',
 			'plugin.api.setting',
 			'plugin.api.smiley',
 			'plugin.api.smiley_code',

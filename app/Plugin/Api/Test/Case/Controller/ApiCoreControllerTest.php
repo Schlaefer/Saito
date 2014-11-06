@@ -23,7 +23,6 @@
 			'plugin.api.bookmark',
 			'plugin.api.esnotification',
 			'plugin.api.esevent',
-			'plugin.api.ecach',
 			'plugin.api.upload',
 			'plugin.api.setting'
 		);

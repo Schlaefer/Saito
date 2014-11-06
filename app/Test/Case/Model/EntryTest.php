@@ -25,7 +25,6 @@
 
 		public $fixtures = array(
 			'app.bookmark',
-			'app.ecach',
 			'app.user',
 			'app.user_online',
 			'app.user_read',

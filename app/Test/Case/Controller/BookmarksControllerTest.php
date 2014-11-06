@@ -15,7 +15,6 @@
 		public $fixtures = [
 			'app.bookmark',
 			'app.category',
-			'app.ecach',
 			'app.entry',
 			'app.setting',
 			'app.smiley',

@@ -16,7 +16,6 @@
 				'setting',
 				'user',
 				'user_online',
-				'ecach',
 				'bookmark',
 				'entry',
 				'category',

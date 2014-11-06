@@ -25,8 +25,7 @@
 			'plugin.api.esnotification',
 			'plugin.api.esevent',
 			'plugin.api.upload',
-			'plugin.api.setting',
-			'plugin.api.ecach'
+			'plugin.api.setting'
 		);
 
 		public function testLoginNoUsername() {

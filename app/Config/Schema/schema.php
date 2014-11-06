@@ -1,20 +1,8 @@
 <?php
 
-App::uses('SchemaCakeMysqlFixTrait', 'Lib');
-
 class AppSchema extends CakeSchema {
 
 	use SchemaCakeMysqlFixTrait;
-
-	public function before($event = array()) {
-		return true;
-	}
-
-	public function after($event = array()) {
-		if (isset($event['create']) && $event['create'] === 'ecaches') {
-			$this->cakeMysqlMediumBlobFix();
-		}
-	}
 
 	public $bookmarks = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
@@ -42,17 +30,6 @@ class AppSchema extends CakeSchema {
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
-	);
-
-	public $ecaches = array(
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'key' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 128, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'value' => array('type' => 'binary', 'null' => false, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'key', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MyISAM')
 	);
 
 	public $entries = array(

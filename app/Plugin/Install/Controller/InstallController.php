@@ -202,8 +202,6 @@ class InstallController extends InstallAppController {
 						$this->redirect(array('action' => 'database'));
 					}
 				}
-				// @hack
-				$schema->after(['create' => 'ecaches']);
 
 				$path = CakePlugin::path('Install') .DS. 'Config' .DS. 'Data' .DS;
 				$dataObjects = App::objects('class', $path);
