@@ -9,7 +9,7 @@ env:
   - DB=pgsql
 
 before_script:
-  - composer install
+  - if [ ! -f composer.phar ]; then curl -s http://getcomposer.org/installer | php; fi; php composer.phar  install -d app -o
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
   - chmod -R 777 ./app/tmp

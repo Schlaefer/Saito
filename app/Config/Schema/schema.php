@@ -205,7 +205,7 @@ class AppSchema extends CakeSchema {
 		'timestamp' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'user_id' => array('column' => 'user_id', 'unique' => 0),
+			'userignores_user_id' => array('column' => 'user_id', 'unique' => 0),
 			'blocked_user_id' => array('column' => 'blocked_user_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
@@ -219,8 +219,8 @@ class AppSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'user_id' => array('column' => 'user_id', 'unique' => 0),
-			'entry_id' => array('column' => 'entry_id', 'unique' => 0)
+			'userread_user_id' => array('column' => 'user_id', 'unique' => 0),
+			'userread_entry_id' => array('column' => 'entry_id', 'unique' => 0)
 		),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
