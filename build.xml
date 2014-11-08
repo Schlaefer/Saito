@@ -41,7 +41,7 @@
               dir="${build.dir}"/>
 
         <echo msg="Install composer packages"/>
-        <exec command="composer install --optimize-autoloader --no-dev" dir="${git.dir}"/>
+        <exec command="composer install --optimize-autoloader --no-dev -d app" dir="${git.dir}"/>
 
         <echo msg="Moving files to build directory"/>
         <move todir="${build.dir}">
