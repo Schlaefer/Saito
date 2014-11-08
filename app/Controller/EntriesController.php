@@ -561,6 +561,7 @@
 					'subject' => $data['subject'],
 					'text' => $data['text'],
 					'category' => $data['category'],
+					'edited_by' => null,
 					'fixed' => false,
 					'solves' => 0,
 					'views' => 0,
