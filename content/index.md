@@ -21,7 +21,7 @@ It should be deployable and scale admirably on modest shared hosting accounts.
 
 ## Features ##
 
-- extendable via [plugins](plugins)
+- extendable via [plugins](saito-plugins)
 - different views: "threaded", "mix" and "inline"
 - default markup is BBCode (use different markups via plugins)
 - embed rich content
