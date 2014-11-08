@@ -2,6 +2,12 @@
 
 	App::uses('Stopwatch', 'Stopwatch.Lib');
 
+	/**
+	 * Class ItemCache
+	 *
+	 * Caches items and saves them persistently. Offers max item age and size
+	 * constrains.
+	 */
 	class ItemCache {
 
 		protected $_cache = null;
@@ -15,12 +21,20 @@
 			'duration' => null,
 			'maxItems' => null,
 			// +/- percentage maxItems can deviate before gc is triggered
-			'maxItemsFuzzy' => 0.05
+			'maxItemsFuzzy' => 0.06
 		];
+
+		protected $_gcFuzzy;
+
+		protected $_gcMax;
+
+		protected $_gcMin;
 
 		protected $_name;
 
 		protected $_now;
+
+		protected $_oldestPersistent = 0;
 
 		protected $_updated = false;
 
@@ -29,6 +43,12 @@
 			$this->_now = time();
 			$this->_name = $name;
 			$this->_CacheEngine = $CacheEngine;
+
+			if ($this->_settings['maxItems']) {
+				$this->_gcFuzzy = $this->_settings['maxItemsFuzzy'];
+				$this->_gcMax = (int)($this->_settings['maxItems'] * (1 + $this->_gcFuzzy));
+				$this->_gcMin = (int)($this->_gcMax * (1 - $this->_gcFuzzy));
+			}
 		}
 
 		public function __destruct() {
@@ -81,11 +101,26 @@
 				$this->_read();
 			}
 
-			$this->_updated = true;
-
 			if (!$timestamp) {
 				$timestamp = $this->_now;
 			}
+
+			/*
+			 * Don't fill the cache with entries which are removed by the maxItemsGC.
+			 * Old entries may trigger a store to disk on each request without
+			 * adding new cache data.
+			 */
+			// there's no upper limit
+			if (!$this->_gcMax) {
+				$this->_updated = true;
+				// the new entry is not older than the oldest existing
+			} elseif ($timestamp > $this->_oldestPersistent) {
+				$this->_updated = true;
+				// there's still room in lower maxItemsGc limit
+			} elseif (count($this->_cache) < $this->_gcMin) {
+				$this->_updated = true;
+			}
+
 			$metadata = [
 				'created' => $this->_now,
 				'content_last_updated' => $timestamp,
@@ -93,6 +128,13 @@
 
 			$data = ['metadata' => $metadata, 'content' => $content];
 			$this->_cache[$key] = $data;
+		}
+
+		protected function _isCacheFull() {
+			if (!$this->_gcMax) {
+				return false;
+			}
+			return count($this->_cache) >= $this->_settings['maxItems'];
 		}
 
 		protected function _read() {
@@ -107,6 +149,10 @@
 			}
 			if ($this->_settings['duration']) {
 				$this->_gcOutdated();
+			}
+			if (count($this->_cache) > 0) {
+				$oldest = reset($this->_cache);
+				$this->_oldestPersistent = $oldest['metadata']['content_last_updated'];
 			}
 			Stopwatch::stop("ItemCache read: {$this->_name}");
 			return;
@@ -135,16 +181,16 @@
 		 * costly function for larger arrays, relieved by maxItemsFuzzy
 		 */
 		protected function _gcMaxItems() {
-			// Stopwatch::start("ItemCache _gxMaxItems: {$this->_name}");
-
-			$fuzzy = $this->_settings['maxItemsFuzzy'];
-			$max = (int)($this->_settings['maxItems'] * (1 + $fuzzy));
-
-			if (count($this->_cache) <= $max) {
-				Stopwatch::stop("ItemCache _gxMaxItems: {$this->_name}");
+			if (count($this->_cache) <= $this->_gcMax) {
 				return;
 			}
+			$this->_cache = array_slice($this->_cache, 0, $this->_gcMin, true);
+		}
 
+		/**
+		 * sorts for 'content_last_updated', oldest on top
+		 */
+		protected function _sort() {
 			// keep items which were last used/updated
 			uasort($this->_cache, function ($a, $b) {
 				if ($a['metadata']['content_last_updated'] === $b['metadata']['content_last_updated']) {
@@ -152,17 +198,14 @@
 				}
 				return ($a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated']) ? 1 : -1;
 			});
-
-			$min = (int)($this->_settings['maxItems'] * (1 - $fuzzy));
-			$this->_cache = array_slice($this->_cache, 0, $min, true);
-			// Stopwatch::stop("ItemCache _gxMaxItems: {$this->_name}");
 		}
 
 		protected function _write() {
 			if ($this->_CacheEngine === null || !$this->_updated) {
 				return;
 			}
-			if ($this->_settings['maxItems']) {
+			$this->_sort();
+			if ($this->_gcMax) {
 				$this->_gcMaxItems();
 			}
 			$this->_CacheEngine->write($this->_name, $this->_cache);

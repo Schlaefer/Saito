@@ -13,8 +13,10 @@
 
 		protected $_CacheSupport;
 
+		/** * @var CacheTree */
 		public $CacheTree;
 
+		/** * @var ItemCache */
 		public $LineCache;
 
 		public function initialize(Controller $Controller) {
@@ -32,7 +34,7 @@
 				'Saito.LineCache',
 				new SaitoCacheEngineAppCache,
 				// duration: update relative time values in HTML at least every hour
-				['duration' => 3600, 'maxItems' => 500]
+				['duration' => 3600, 'maxItems' => 600]
 			);
 			$this->_CacheSupport->add(new LineCacheSupportCachelet($this->LineCache));
 		}
