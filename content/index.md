@@ -15,18 +15,15 @@ We had the need for a classic threaded forum but with modern, maintainable and e
 
 It should be deployable and scale admirably on modest shared hosting accounts.
 
-# Pricing #
-
-There's no gorram price tag. It's released under the [MIT license](http://opensource.org/licenses/MIT).
-
 # Nitty-Gritty #
 
 <a name='features'></a>
 
 ## Features ##
 
+- extendable via [plugins](plugins)
 - different views: "threaded", "mix" and "inline"
-- BBCode
+- default markup is BBCode (use different markups via plugins)
 - embed rich content
 	- smilies
 	- html5 audio & video 
@@ -36,7 +33,7 @@ There's no gorram price tag. It's released under the [MIT license](http://openso
 	- image upload
 - mark entries read
 	- server side managed for registered members
-	- client side (cookie based) for unregistred visitors
+	- client side (cookie based) for unregistered visitors
 - API
 - mobile web-app
 - email notifications on replies
@@ -47,7 +44,6 @@ There's no gorram price tag. It's released under the [MIT license](http://openso
 - theming
 - localization via language files
 - anti-spam measures
-- flattr
 - SEO
 	- structured data ([schema.org](http://schema.org/))
 	- sitemap
@@ -59,11 +55,13 @@ There's no gorram price tag. It's released under the [MIT license](http://openso
 ## Tech Specs ##
 
 - requires PHP 5.4+ and a database (MySQL recommended)
-- PHP framework: CakePHP
+- PHP framework: [CakePHP]
 - Frontend: backbone.js/marionette.js
-- BBCode parser: jBBCode
+- BBCode parser: [jBBCode]
+
 
 [CakePHP]: http://cakephp.org/
+[jBBCode]: http://bbcode.com
 [Marionette]: http://marionettejs.com/
 [macnemo.de]: http://macnemo.de/
 [macfix.de]: http://www.macfix.de/
