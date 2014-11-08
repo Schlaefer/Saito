@@ -33,36 +33,30 @@
 				return $this->_smilies;
 			}
 
-			Stopwatch::start('Smiley::load');
-			$this->_smilies = Cache::read('Saito.Smilies.data');
-			if (!$this->_smilies) {
-				$this->_smilies = [];
-				$smiliesRaw = $this->find('all', ['order' => 'Smiley.order ASC']);
+			$this->_smilies = [];
+			$smiliesRaw = $this->find('all', ['order' => 'Smiley.order ASC']);
 
-				foreach ($smiliesRaw as $smileyRaw) {
-					// 'image' defaults to 'icon'
-					if (empty($smileyRaw['Smiley']['image'])) {
-						$smileyRaw['Smiley']['image'] = $smileyRaw['Smiley']['icon'];
-					}
-					// @bogus: if title is unknown it should be a problem
-					if ($smileyRaw['Smiley']['title'] === null) {
-						$smileyRaw['Smiley']['title'] = '';
-					}
-					// set type
-					$smileyRaw['Smiley']['type'] = $this->_getType($smileyRaw['Smiley']);
+			foreach ($smiliesRaw as $smileyRaw) {
+				// 'image' defaults to 'icon'
+				if (empty($smileyRaw['Smiley']['image'])) {
+					$smileyRaw['Smiley']['image'] = $smileyRaw['Smiley']['icon'];
+				}
+				// @bogus: if title is unknown it should be a problem
+				if ($smileyRaw['Smiley']['title'] === null) {
+					$smileyRaw['Smiley']['title'] = '';
+				}
+				// set type
+				$smileyRaw['Smiley']['type'] = $this->_getType($smileyRaw['Smiley']);
 
-					//= adds smiley-data to every smiley-code
-					if (isset($smileyRaw['SmileyCode'])) {
-						foreach ($smileyRaw['SmileyCode'] as $smileyRawCode) {
-							unset($smileyRaw['Smiley']['id']);
-							$smileyRaw['Smiley']['code'] = $smileyRawCode['code'];
-							$this->_smilies[] = $smileyRaw['Smiley'];
-						}
+				//= adds smiley-data to every smiley-code
+				if (isset($smileyRaw['SmileyCode'])) {
+					foreach ($smileyRaw['SmileyCode'] as $smileyRawCode) {
+						unset($smileyRaw['Smiley']['id']);
+						$smileyRaw['Smiley']['code'] = $smileyRawCode['code'];
+						$this->_smilies[] = $smileyRaw['Smiley'];
 					}
 				}
-
-				Cache::write('Saito.Smilies.data', $this->_smilies);
-			};
+			}
 
 			Stopwatch::stop('Smiley::load');
 			return $this->_smilies;

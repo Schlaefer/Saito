@@ -1,0 +1,2 @@
+msgid "parsedAsBbcode"
+msgstr "Geparst als BBCode"

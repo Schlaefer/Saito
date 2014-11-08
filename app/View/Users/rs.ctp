@@ -7,7 +7,7 @@
 	<?=
 		$this->Layout->panelHeading(__('register_linkname'),
 			['pageHeading' => true]) ?>
-	<div class="panel-content staticPage">
+	<div class="panel-content richtext">
 		<?php if ($status === 'activated'): ?>
 			<h2>Success</h2>
 			<p>

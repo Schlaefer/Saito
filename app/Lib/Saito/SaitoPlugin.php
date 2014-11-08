@@ -21,4 +21,27 @@
 			return $settings;
 		}
 
+		/**
+		 * returns a convention class instance for a parser-plugin
+		 *
+		 * First parameter should be the name. All other arguments are passed
+		 * to class constructor.
+		 *
+		 * The 3 convention classes required for a Parser plugin are:
+		 *
+		 * - <name>MarkitupSet
+		 * - <name>Parser
+		 * - <name>Preprocessor
+		 */
+		public static function getParserClassInstance() {
+			$args = func_get_args();
+			$name = array_shift($args);
+
+			$parser = Configure::read('Saito.Settings.ParserPlugin');
+			$name = "\\Plugin\\{$parser}Parser\\Lib\\$name";
+
+			$reflection = new ReflectionClass($name);
+			return $reflection->newInstanceArgs($args);
+		}
+
 	}

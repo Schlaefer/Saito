@@ -1621,7 +1621,7 @@ msgstr "Kategorie"
 
 #: View/Helper/EntryHHelper.php:92
 msgid "error_category_empty"
-msgstr "Kategorie darf nicht leer sein."
+msgstr "Bitte Kategorie wählen."
 
 #: View/Helper/FlotHelper.php:37
 msgid "admin.stats.insfd"
@@ -1654,6 +1654,9 @@ msgstr "Verweis"
 #: View/Helper/MarkitupEditorHelper.php:76
 msgid "geshi_link_popup"
 msgstr "Bitte URI zum Verweis eingeben.:!:http://beispiel.de/"
+
+msgid "geshi_img_popup"
+msgstr "Bitte URI zum Link eingeben.:!:http://beispiel.de/bild.png"
 
 #: View/Helper/MarkitupEditorHelper.php:78
 msgid "geshi_link_placeholder"

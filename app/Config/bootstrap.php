@@ -3,7 +3,7 @@
 include App::path('Lib')[0] . 'BaseFunctions.php';
 
 // Load Composer autoload.
-require ROOT . DS .  'vendor/autoload.php';
+require ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'autoload.php';
 Cake2ComposerAutoloadFix();
 
 /**

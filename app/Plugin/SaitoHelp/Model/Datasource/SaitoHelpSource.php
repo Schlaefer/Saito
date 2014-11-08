@@ -53,8 +53,17 @@
 			];
 
 			$id = $queryData['conditions'][$this->resolveKey($model, 'id')];
+			list($plugin, $id) = pluginSplit($id);
+
 			$lang = $queryData['conditions'][$this->resolveKey($model, 'language')];
-			$folderPath = ROOT . DS . 'docs' . DS . 'help' . DS . $lang;
+
+			if ($plugin) {
+				$folderPath = CakePlugin::path($plugin);
+			} else {
+				$folderPath = ROOT . DS;
+			}
+			$folderPath .= 'docs' . DS . 'help' . DS . $lang;
+
 			$folder = new Folder($folderPath);
 			$files = $folder->find("$id(-.*?)?\.md");
 			if (!$files) {

@@ -121,14 +121,14 @@
   if (!empty($user['User']['profile'])) {
     $table[] = [
       __('user_profile'),
-      $this->Bbcode->parse($user['User']['profile'])
+      $this->Parser->parse($user['User']['profile'])
     ];
   }
 
   if (!empty($user['User']['signature'])) {
     $table[] = [
       __('user_signature'),
-      $this->Bbcode->parse($user['User']['signature'])
+      $this->Parser->parse($user['User']['signature'])
     ];
   }
 

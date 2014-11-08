@@ -39,7 +39,7 @@ define('WWW_ROOT', ROOT . DS . APP_DIR . DS . WEBROOT_DIR . DS);
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	define(
 	'CAKE_CORE_INCLUDE_PATH',
-			ROOT . DS . 'vendor/pear-pear.cakephp.org/CakePHP'
+		ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'pear-pear.cakephp.org' . DS . 'CakePHP'
 	);
 }
 

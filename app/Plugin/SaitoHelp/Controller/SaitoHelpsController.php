@@ -35,6 +35,10 @@
 				$this->redirect('/');
 				return;
 			}
+
+			$isCore = !strpos($id, '.');
+			$this->set(compact('isCore'));
+
 			$this->set('title_for_page', __('Help'));
 		}
 

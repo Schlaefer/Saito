@@ -52,6 +52,14 @@ module.exports = function(grunt) {
           stderr: true,
           failOnError: true
         }
+      },
+      testCakeStopOn: {
+        command: './app/Console/cake test app all --stderr --stop-on-error --stop-on-failure',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
       }
     },
     concurrent: {
@@ -90,6 +98,7 @@ module.exports = function(grunt) {
   // test
   grunt.registerTask('test:js', ['jasmine', 'jshint']);
   grunt.registerTask('test:cake', ['shell:testCake']);
+  grunt.registerTask('test:cakeStopOn', ['shell:testCakeStopOn']);
   grunt.registerTask('test:phpcs', ['phpcs']); // alias for `grunt phpcs`
   grunt.registerTask('test:php', ['test:cake', 'phpcs']);
   grunt.registerTask('test', ['test:js', 'test:php']);

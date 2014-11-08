@@ -307,7 +307,6 @@
 				return;
 			}
 
-			$this->initBbcode();
 			$viewedUser['User']['number_of_entries'] = $this->User->numberOfEntries();
 
 			$entriesShownOnPage = 20;

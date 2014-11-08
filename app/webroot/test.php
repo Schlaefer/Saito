@@ -79,7 +79,7 @@ require ROOT . DS .  'vendor/autoload.php';
 
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	if (function_exists('ini_set')) {
-		ini_set('include_path', ROOT . DS . 'vendor' . DS . 'pear-pear.cakephp.org' . DS . 'CakePHP' . PATH_SEPARATOR . ini_get('include_path'));
+		ini_set('include_path', ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'pear-pear.cakephp.org' . DS . 'CakePHP' . PATH_SEPARATOR . ini_get('include_path'));
 	}
 	if (!include 'Cake' . DS . 'bootstrap.php') {
 		$failed = true;

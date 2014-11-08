@@ -187,7 +187,11 @@
  */
 		protected function _dispatchEvent($event, $data = []) {
 			$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
-			//= propagate event on Saito's event bus
+			// propagate event on Saito's event bus
+			$this->dispatchSaitoEvent($event, $data);
+		}
+
+		public function dispatchSaitoEvent($event, $data) {
 			if (!$this->_SEM) {
 				$this->_SEM = SaitoEventManager::getInstance();
 			}
