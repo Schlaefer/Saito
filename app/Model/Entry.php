@@ -521,8 +521,8 @@
 /**
  * trees for multiple tids
  */
-		public function treesForThreads($searchArray, $order = null, $fieldlist = null) {
-			if (empty($searchArray)) {
+		public function treesForThreads($ids, $order = null) {
+			if (empty($ids)) {
 				return [];
 			}
 
@@ -532,28 +532,17 @@
 				$order = 'last_answer ASC';
 			}
 
-			$where = [];
-			foreach ($searchArray as $_searchItem) {
-				$where[] = $_searchItem['id'];
-			}
-
-			if ($fieldlist === null) {
-				$fieldlist = $this->threadLineFieldList;
-			}
-
-			$threads = $this->_getThreadEntries(
-				$where,
-				[
-					'order' => $order,
-					'fields' => $fieldlist
-				]
-			);
+			$threads = $this->_getThreadEntries($ids, ['order' => $order]);
 			Stopwatch::stop('Model->Entries->treeForThreads() DB');
 
 			$out = false;
 			if ($threads) {
 				Stopwatch::start('Model->Entries->treeForThreads() CPU');
 				$out = $this->treeBuild($threads);
+				foreach($threads as $thread) {
+					$id = (int)$thread['Entry']['tid'];
+					$threads[$id] = $thread;
+				}
 				Stopwatch::stop('Model->Entries->treeForThreads() CPU');
 			}
 

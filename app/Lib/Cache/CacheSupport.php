@@ -2,6 +2,7 @@
 
 	App::uses('CakeEvent', 'Event');
 	App::uses('CakeEventListener', 'Event');
+	App::uses('EntriesCacheSupportCachelet', 'Lib/Cache');
 
 	class CacheSupport extends Object implements CakeEventListener {
 
@@ -12,6 +13,7 @@
 			'ApcCacheSupportCachelet',
 			'OpCacheSupportCachelet',
 			// application caches
+			'EntriesCacheSupportCachelet',
 			'CakeCacheSupportCachelet',
 			'SaitoCacheSupportCachelet',
 		];
