@@ -1,5 +1,7 @@
 <?php
 
+	use Saito\User\Categories;
+
 	App::uses('AppController', 'Controller');
 
 	class EntriesController extends AppController {
@@ -34,6 +36,9 @@
 			//= get threads
 			$initials = $this->_getInitialThreads($this->CurrentUser, $order);
 			$threads = $this->Entry->treesForThreads($initials, $order);
+			foreach ($threads as $tid => $thread) {
+				$threads[$tid] = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $thread]);
+			}
 			$this->set('entries', $threads);
 
 			$currentPage = 1;
@@ -100,16 +105,19 @@
 			}
 
 			// check if anonymous tries to access internal categories
-			$accession = $entries[0]['Category']['accession'];
+			$root = reset($entries);
+			$accession = $root['Category']['accession'];
 			if (!$this->CurrentUser->Categories->isAccessionAuthorized($accession)) {
 				$this->_requireAuth();
 				return;
 			}
 
-			$root = $entries[0];
 			$this->_setRootEntry($root);
 			$this->_setTitleFromEntry($root, __('view.type.mix'));
+
+			$entries = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $root]);
 			$this->set('entries', $entries);
+
 			$this->_showAnsweringPanel();
 
 			$this->_incrementViews($root, 'thread');
@@ -281,8 +289,10 @@
 					}
 
 					$this->request->data = $this->Entry->get($id);
+					$posting = $this->dic->newInstance('\Saito\Posting\Posting',
+						['rawData' => $this->request->data]);
 
-					if ($this->Entry->isAnsweringForbidden($this->request->data)) {
+					if ($posting->isAnsweringForbidden()) {
 						throw new ForbiddenException;
 					}
 
@@ -352,7 +362,10 @@
 				throw new NotFoundException();
 			}
 
-			switch ($oldEntry['rights']['isEditingForbidden']) {
+			/** * @var \Saito\Posting\Posting */
+			$posting = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $oldEntry]);
+
+			switch ($posting->isEditingAsCurrentUserForbidden()) {
 				case 'time':
 					$this->Session->setFlash(
 						'Stand by your word bro\', it\'s too late. @lo',
@@ -387,7 +400,7 @@
 			}
 
 			// show editing form
-			if ($oldEntry['rights']['isEditingAsUserForbidden']) {
+			if ($posting->isEditingWithRoleUserForbidden()) {
 				$this->Session->setFlash(__('notice_you_are_editing_as_mod'), 'flash/warning');
 			}
 
@@ -561,7 +574,8 @@
 						)
 					)
 				);
-				$this->set('entry', new \Saito\Posting\Posting($newEntry));
+				$entry = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $newEntry]);
+				$this->set('entry', $entry);
 			else :
 				// validation errors
 				foreach ($errors as $field => $error) {
@@ -832,7 +846,7 @@
 			return $initialThreadsNew;
 		}
 
-		protected function _setupCategoryChooser(ForumsUserInterface $User) {
+		protected function _setupCategoryChooser(\Saito\User\ForumsUserInterface $User) {
 			$categories = $User->Categories->getAllowed();
 
 			$isUsed = $User->isLoggedIn() &&
@@ -847,8 +861,7 @@
 
 			if ($isUsed) {
 				// @todo find right place for this; also: User::getCategories();
-				App::uses('UserCategories', 'Lib');
-				$UserCategories = new UserCategories($User->getSettings(), $categories);
+				$UserCategories = new Categories($User->getSettings(), $categories);
 				list($categories, $type, $custom) = $UserCategories->get();
 
 				$this->set('categoryChooserChecked', $custom);

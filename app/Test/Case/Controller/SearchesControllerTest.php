@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('SearchesController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	class SearchesMockController extends SearchesController {
 
@@ -15,7 +14,7 @@
 	 * SearchesController Test Case
 	 *
 	 */
-	class SearchesControllerTest extends SaitoControllerTestCase {
+	class SearchesControllerTest extends \Saito\Test\ControllerTestCase {
 
 		/**
 		 * Fixtures

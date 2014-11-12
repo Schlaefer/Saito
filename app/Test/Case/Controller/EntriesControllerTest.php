@@ -16,9 +16,9 @@
 
 	}
 
-	class EntriesControllerTestCase extends SaitoControllerTestCase {
+	class EntriesControllerTestCase extends \Saito\Test\ControllerTestCase {
 
-		use SaitoSecurityMockTrait;
+		use \Saito\Test\SecurityMockTrait;
 
 		public $fixtures = [
 			'app.bookmark',
@@ -190,7 +190,7 @@
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 
-			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
+			$User->Categories = $this->getMock('Saito\User\Auth\CategoryAuthorization', ['getAllowed'],
 				[$User]);
 			$User->Categories->expects($this->any())
 				->method('getAllowed')
@@ -223,8 +223,11 @@
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 
-			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
-				[$User]);
+			$User->Categories = $this->getMock(
+				'Saito\User\Auth\CategoryAuthorization',
+				['getAllowed'],
+				[$User]
+			);
 			$User->Categories->expects($this->any())
 				->method('getAllowed')
 				->will($this->returnValue([
@@ -260,8 +263,11 @@
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 
-			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
-				[$User]);
+			$User->Categories = $this->getMock(
+				'Saito\User\Auth\CategoryAuthorization',
+				['getAllowed'],
+				[$User]
+			);
 			$User->Categories->expects($this->any())
 				->method('getAllowed')
 				->will($this->returnValue([
@@ -302,8 +308,11 @@
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 
-			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
-				[$User]);
+			$User->Categories = $this->getMock(
+				'Saito\User\Auth\CategoryAuthorization',
+				['getAllowed'],
+				[$User]
+			);
 			$User->Categories->expects($this->any())
 				->method('getAllowed')
 				->will($this->returnValue([
@@ -350,8 +359,11 @@
 			App::uses('ComponentCollection', 'Controller');
 			$User = new CurrentUserComponent(new ComponentCollection());
 
-			$User->Categories = $this->getMock('CategoryAuth', ['getAllowed'],
-				[$User]);
+			$User->Categories = $this->getMock(
+				'Saito\User\Auth\CategoryAuthorization',
+				['getAllowed'],
+				[$User]
+			);
 			$User->Categories->expects($this->any())
 				->method('getAllowed')
 				->will($this->returnValue([
@@ -568,7 +580,7 @@
 					)
 				));
 
-			$this->_loginUser(2);
+			$this->_loginUser(1);
 
 			$Entries->Entry->expects($this->any())
 					->method('isEditingForbidden')
@@ -584,8 +596,8 @@
 			// test that text is quoted
 			$this->assertContains('Second_Text</textarea>', $result);
 			// notification are un/checked
-			$this->assertNoPattern('/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/', $result);
-			$this->assertPattern('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
+			$this->assertNotRegExp('/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/', $result);
+			$this->assertRegExp('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
 		}
 
 		/**
@@ -607,7 +619,8 @@
 						'tid' => 1,
 						'pid' => 1,
 						'time' => time() - 1,
-						'user_id' => 2
+						'user_id' => 2,
+						'fixed' => false
 					],
 					'User' => [
 						'username' => 'Mitch'
@@ -621,7 +634,7 @@
 				->method('update')
 				->will($this->returnValue(false));
 
-			$this->_loginUser(2);
+			$this->_loginUser(1);
 			$this->testAction('entries/edit/2', [
 				'data' => [
 					'Entry' => [

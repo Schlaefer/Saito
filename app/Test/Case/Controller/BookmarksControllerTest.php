@@ -1,11 +1,10 @@
 <?php
 	App::uses('BookmarksController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	/**
 	 * BookmarksController Test Case
 	 */
-	class BookmarksControllerTest extends SaitoControllerTestCase {
+	class BookmarksControllerTest extends \Saito\Test\ControllerTestCase {
 
 		/**
 		 * Fixtures
@@ -71,7 +70,7 @@
 		public function testEditNotUsersBookmark() {
 			$this->generate('Bookmarks');
 			$this->_loginUser(1);
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 			$this->testAction('/bookmarks/edit/1');
 		}
 
@@ -120,7 +119,7 @@
 			$this->generate('Bookmarks');
 			$this->_loginUser(1);
 
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 			$this->testAction('/bookmarks/delete/1', ['method' => 'POST']);
 		}
 

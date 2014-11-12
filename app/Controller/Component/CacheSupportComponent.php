@@ -1,11 +1,11 @@
 <?php
 
+	use Saito\Cache\CacheSupport;
+	use Saito\Cache\ItemCache;
+	use Saito\Cache\LineCacheSupportCachelet;
+	use Saito\Cache\SaitoCacheEngineAppCache;
+
 	App::uses('Component', 'Controller');
-	App::import('Lib/Cache', 'CacheSupport');
-	App::uses('SaitoCacheEngineDbCache', 'Lib/Cache');
-	App::uses('SaitoCacheEngineAppCache', 'Lib/Cache');
-	App::uses('ItemCache', 'Lib/Cache');
-	App::uses('LineCacheSupportCachelet', 'Lib/Cache');
 
 	class CacheSupportComponent extends Component {
 

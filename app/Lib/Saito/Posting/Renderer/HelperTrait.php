@@ -48,7 +48,7 @@
 		 * @param $posting
 		 * @return string
 		 */
-		public function getSubject(\Saito\Posting\PostingInterface $posting) {
+		public function getSubject(\Saito\Posting\Posting $posting) {
 			return \h($posting->get('subject')) . ($posting->isNt() ? ' n/t' : '');
 		}
 

@@ -1,7 +1,8 @@
 <?php
 
+	use \Saito\User\Userlist;
+
 	App::uses('Component', 'Controller');
-	App::uses('SaitoUserUserlistUserModel', 'Lib/SaitoUser/Userlist');
 
 	class ParserComponent extends Component {
 
@@ -26,7 +27,7 @@
 		 * Call this instead of including in the controller's $helpers array.
 		 */
 		protected function _initHelper(Controller $controller) {
-			$userlist = new SaitoUserUserlistUserModel();
+			$userlist = new Userlist\UserlistModel();
 			$userlist->set($controller->User);
 			$smilies = new \Saito\Smiley\Cache($controller);
 			$controller->set('smiliesData', $smilies);

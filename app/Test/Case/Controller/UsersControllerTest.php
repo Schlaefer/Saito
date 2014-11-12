@@ -2,11 +2,10 @@
 
 	App::uses('Controller', 'Controller');
 	App::uses('UsersController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
-	class UsersControllerTestCase extends SaitoControllerTestCase {
+	class UsersControllerTestCase extends \Saito\Test\ControllerTestCase {
 
-		use SaitoSecurityMockTrait;
+		use \Saito\Test\SecurityMockTrait;
 
 		public $fixtures = array(
 			'app.bookmark',
@@ -622,21 +621,21 @@
 		}
 
 		public function testEditNotLoggedIn() {
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('\Saito\Exception\SaitoForbiddenException');
 			$this->testAction('/users/edit/3');
 		}
 
 		public function testEditNotUsersEntryGet() {
 			$this->generate('Users');
 			$this->_loginUser(2); // mod
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 			$this->testAction('/users/edit/3', ['method' => 'GET']);
 		}
 
 		public function testEditNotUsersEntryPost() {
 			$this->generate('Users');
 			$this->_loginUser(2); // mod
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 			$this->testAction('/users/edit/3', ['method' => 'POST']);
 		}
 
@@ -813,7 +812,7 @@
 		}
 
 		public function testChangePasswordNotLoggedIn() {
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 			$this->testAction('/users/changepassword/5');
 			$this->assertRedirectedTo();
 		}
@@ -822,7 +821,7 @@
 			$this->generate('Users');
 			$this->_loginUser(4);
 
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 
 			$data = [
 				'User' => [
@@ -837,7 +836,7 @@
 
 		public function testChangePasswordViewFormWrongUser() {
 			$this->generate('Users');
-			$this->setExpectedException('Saito\ForbiddenException');
+			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 			$this->_loginUser(4);
 			$this->testAction('/users/changepassword/5');
 		}

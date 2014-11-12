@@ -4,6 +4,8 @@
 
 	class Posting implements PostingInterface {
 
+		use Decorator\UserPostingTrait;
+
 		const ALIAS = 'Entry';
 
 		protected $_children = [];
@@ -14,11 +16,17 @@
 
 		protected $_Thread;
 
-		public function __construct($rawData, array $options = [], $tree = null) {
+		public function __construct(\Saito\User\ForumsUserInterface $CurrentUser, $rawData, array $options = [], $tree = null) {
 			$this->_rawData = $rawData;
 			$this->_rawData[self::ALIAS]['id'] = (int)$this->_rawData[self::ALIAS]['id'];
-			$this->_rawData[self::ALIAS]['pid'] = (int)$this->_rawData[self::ALIAS]['pid'];
-			$this->_rawData[self::ALIAS]['tid'] = (int)$this->_rawData[self::ALIAS]['tid'];
+			if (isset($this->_rawData[self::ALIAS]['pid'])) {
+				$this->_rawData[self::ALIAS]['pid'] = (int)$this->_rawData[self::ALIAS]['pid'];
+			}
+			if (isset($this->_rawData[self::ALIAS]['tid'])) {
+				$this->_rawData[self::ALIAS]['tid'] = (int)$this->_rawData[self::ALIAS]['tid'];
+			}
+
+			$this->setCurrentUser($CurrentUser);
 
 			$options += ['level' => 0];
 			$this->_level = $options['level'];
@@ -72,6 +80,10 @@
 			return count($this->_children) > 0;
 		}
 
+		public function isLocked() {
+				return $this->get('locked') != false;
+		}
+
 		/**
 		 * checks if entry is n/t
 		 *
@@ -104,7 +116,7 @@
 		protected function _attachChildren() {
 			if (isset($this->_rawData['_children'])) {
 				foreach ($this->_rawData['_children'] as $child) {
-					$this->_children[] = new Posting($child, ['level' => $this->_level + 1], $this->_Thread);
+					$this->_children[] = new Posting($this->getCurrentUser(), $child, ['level' => $this->_level + 1], $this->_Thread);
 				}
 			}
 			unset($this->_rawData['_children']);

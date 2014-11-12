@@ -13,7 +13,7 @@
 	//data passed as json model
 	$_jsEntry = json_encode([
 		'pid' => $entry->get('pid'),
-		'isBookmarked' => $entry->get('isBookmarked'),
+		'isBookmarked' => $entry->isBookmarked(),
 		'isSolves' => (bool)$entry->get('solves'),
 		'rootEntryUserId' => (int)$rootEntry['Entry']['user_id'],
 		'time' => $this->TimeH->mysqlTimestampToIso($entry->get('time'))
@@ -56,8 +56,7 @@
 			</div>
 
 			<?php
-				# @td MCV
-				$answering_forbidden = $entry->get('rights')['isAnsweringForbidden'];
+				$answering_forbidden = $entry->isAnsweringForbidden();
 				if ($answering_forbidden === 'locked') {
 
 					echo $this->Html->tag(
@@ -79,9 +78,7 @@
 					);
 				};
 			?>
-			<?php if (isset($entry->get('rights')['isEditingAsUserForbidden']) &&
-					!$entry->get('rights')['isEditingAsUserForbidden']
-			) : ?>
+			<?php if (!$entry->isEditingWithRoleUserForbidden()) : ?>
 				<span class="small">
 					<?=
 						$this->Html->link(
@@ -97,9 +94,7 @@
 				// mod menu
 				if ($CurrentUser->isMod()) {
 					// edit entry
-					if (isset($entry->get('rights')['isEditingForbidden']) &&
-							($entry->get('rights')['isEditingForbidden'] == false)
-					) {
+					if (!$entry->isEditingAsCurrentUserForbidden()) {
 						$editLinkIsShown = true;
 						$_menuItems[] = $this->Html->link(
 								'<i class="fa fa-pencil"></i> ' . __('edit_linkname'),

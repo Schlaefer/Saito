@@ -1,9 +1,10 @@
 <?php
 
+	use Saito\Cache\ItemCache;
+
 	App::uses('Controller', 'Controller');
 	App::uses('View', 'View');
 	App::uses('EntryHHelper', 'View/Helper');
-	App::uses('ItemCache', 'Lib/Cache');
 
 	class EntryHHelperTest extends CakeTestCase {
 
@@ -14,6 +15,8 @@
 			$View = new View($Controller);
 			$View->set('LineCache', new ItemCache('test'));
 			$this->EntryH = new EntryHHelper($View);
+
+			$this->EntryH->dic = \Saito\Test\DicSetup::getNewDic();
 		}
 
 		public function tearDown() {

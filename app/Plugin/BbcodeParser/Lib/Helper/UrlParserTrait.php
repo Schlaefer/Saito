@@ -2,7 +2,7 @@
 
 	namespace Plugin\BbcodeParser\Lib\Helper;
 
-	\App::uses('DomainParser', 'Lib');
+	use Saito\DomainParser;
 
 	trait UrlParserTrait {
 
@@ -34,7 +34,7 @@
 			// add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
 			if ($label !== false && $label !== 'none' && $label !== 'false') {
 				if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
-					$host = \DomainParser::domainAndTld($url);
+					$host = DomainParser::domainAndTld($url);
 					if ($host !== false && $host !== env('SERVER_NAME')) {
 						$out .= ' <span class=\'richtext-linkInfo\'>[' . $host . ']</span>';
 					}

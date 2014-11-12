@@ -134,7 +134,9 @@
 				throw new NotFoundException(sprintf('Entry with id `%s` not found.', $id));
 			}
 
-			$isEditingForbidden = $oldEntry['rights']['isEditingForbidden'];
+			$posting = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $oldEntry]);
+
+			$isEditingForbidden = $posting->isEditingAsCurrentUserForbidden();
 			if ($isEditingForbidden === 'time') {
 				throw new ForbiddenException('The editing time ran out.');
 			} elseif ($isEditingForbidden === 'user') {

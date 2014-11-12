@@ -14,12 +14,7 @@
 
 		use \Saito\Posting\Renderer\HelperTrait;
 
-		public $helpers = array(
-				'Form',
-				'Html',
-				'Session',
-				'TimeH',
-		);
+		public $helpers = ['Form', 'Html', 'Session', 'TimeH'];
 
 		/**
 		 * @var array perf-cheat for renderers
@@ -40,8 +35,9 @@
 		}
 
 		public function getFastLink($entry, $params = array('class' => '')) {
+			// @todo @performance
 			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>" .
-					$this->getSubject(new \Saito\Posting\Posting($entry)) . '</a>';
+					$this->getSubject($this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $entry])) . '</a>';
 			return $out;
 		}
 
@@ -74,7 +70,7 @@
 		 * 	- 'renderer' [thread]|mix
 		 * @return string
 		 */
-		public function renderThread(&$tree, ForumsUserInterface $CurrentUser, array $options = []) {
+		public function renderThread(&$tree, array $options = []) {
 			$options += [
 				'lineCache' => $this->_View->get('LineCache'),
 				'maxThreadDepthIndent' => (int)Configure::read('Saito.Settings.thread_depth_indent'),
@@ -86,18 +82,6 @@
 			if (is_array($tree)) {
 				$tree = $this->createTreeObject($tree, $options);
 			}
-
-			/*
-			 * @performance if Posting would be e.g. a subclass of CurrentUserDecorator:
-			 * - no addDecorator()
-			 * - no passing get() through the decorator-layers
-			 * But at the moment we like this solution.
-			 */
-			$tree = $tree->addDecorator(function ($node) use ($CurrentUser) {
-				$node = new \Saito\Posting\Decorator\CurrentUser($node);
-				$node->setCurrentUser($CurrentUser);
-				return $node;
-			});
 
 			if (isset($this->_renderers[$renderer])) {
 				$renderer = $this->_renderers[$renderer];
@@ -124,7 +108,11 @@
 		 * @return Posting
 		 */
 		public function createTreeObject(array $entrySub, array $options = []) {
-			return new Saito\Posting\Posting($entrySub, $options);
+			$tree = $this->dic->newInstance(
+				'\Saito\Posting\Posting',
+				['rawData' => $entrySub, 'options' => $options]
+			);
+			return $tree;
 		}
 
 	}

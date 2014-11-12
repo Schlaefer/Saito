@@ -1,5 +1,10 @@
 <?php
 
+	use Saito\Exception\Logger\ExceptionLogger;
+	use Saito\Exception\Logger\ForbiddenLogger;
+	use Saito\Exception\SaitoForbiddenException;
+	use Saito\User\SaitoUser;
+
 	App::uses('AppController', 'Controller');
 
 	class UsersController extends AppController {
@@ -65,7 +70,7 @@
 			// don't autofill password
 			unset($this->request->data['User']['password']);
 
-			$Logger = new \Saito\Logger\ForbiddenLogger();
+			$Logger = new ForbiddenLogger;
 			$Logger->write("Unsuccessful login for user: $username",
 				['msgs' => [$message]]);
 
@@ -129,7 +134,7 @@
 				// only used in test cases
 				$this->set('email', $email);
 			} catch (Exception $e) {
-				$Logger = new Saito\Logger\ExceptionLogger();
+				$Logger = new ExceptionLogger();
 				$Logger->write('Registering email confirmation failed', ['e' => $e]);
 				$this->set('status', 'fail: email');
 				return;
@@ -337,17 +342,17 @@
 			);
 		}
 
-	/**
-	 * @param null $id
-	 * @throws Saito\ForbiddenException
-	 * @throws BadRequestException
-	 */
+		/**
+		 * @param null $id
+		 * @throws Saito\Exception\SaitoForbiddenException
+		 * @throws BadRequestException
+		 */
 	public function edit($id = null) {
 		if (!$id) {
 			throw new BadRequestException;
 		}
 		if (!$this->_isEditingAllowed($this->CurrentUser, $id)) {
-			throw new \Saito\ForbiddenException("Attempt to edit user $id.", [
+			throw new \Saito\Exception\SaitoForbiddenException("Attempt to edit user $id.", [
 				'CurrentUser' => $this->CurrentUser
 			]);
 		}
@@ -399,7 +404,7 @@
 		$this->set(
 				'title_for_layout',
 				__('Edit %s Profil',
-						Properize::prop($this->request->data['User']['username']))
+						Saito\String\Properize::prop($this->request->data['User']['username']))
 		);
 	}
 
@@ -440,12 +445,15 @@
 				);
 			} else {
 				try {
-					App::uses('UserBlockerManual', 'Lib/SaitoUser/Blocking');
 					$duration = (int)$this->request->data('User.lockPeriod');
-					$status = $this->User->UserBlock->block(new UserBlockerManual, $id, [
-						'adminId' => $this->CurrentUser->getId(),
-						'duration' => $duration
-					]);
+					$status = $this->User->UserBlock->block(
+						new \Saito\User\Blocker\ManualBlocker,
+						$id,
+						[
+							'adminId' => $this->CurrentUser->getId(),
+							'duration' => $duration
+						]
+					);
 					$username = $readUser['User']['username'];
 					if ($status === true) {
 						$message = __('User %s is locked.', $username);
@@ -501,7 +509,7 @@
 		 * changes user password
 		 *
 		 * @param null $id
-		 * @throws Saito\ForbiddenException
+		 * @throws \Saito\Exception\SaitoForbiddenException
 		 * @throws BadRequestException
 		 */
 		public function changepassword($id = null) {
@@ -512,7 +520,7 @@
 			$user = $this->User->getProfile($id);
 			$allowed = $this->_isEditingAllowed($this->CurrentUser, $id);
 			if (empty($user) || !$allowed) {
-				throw new \Saito\ForbiddenException("Attempt to change password for user $id.",
+				throw new SaitoForbiddenException("Attempt to change password for user $id.",
 					['CurrentUser' => $this->CurrentUser]);
 			}
 			$this->set('userId', $id);
@@ -655,7 +663,7 @@
 		 * @param int $userId
 		 * @return type
 		 */
-		protected function _isEditingAllowed(ForumsUserInterface $CurrentUser, $userId) {
+		protected function _isEditingAllowed(\Saito\User\ForumsUserInterface $CurrentUser, $userId) {
 			if ($CurrentUser->isAdmin()) {
 				return true;
 			}

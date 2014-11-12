@@ -55,7 +55,6 @@ class BookmarksController extends AppController {
 	 * @param null $id
 	 * @throws NotFoundException
 	 * @throws MethodNotAllowedException
-	 * @throws Saito\ForbiddenException
 	 */
 	public function edit($id = null) {
 		$bookmark = $this->_getBookmark($id);
@@ -66,7 +65,8 @@ class BookmarksController extends AppController {
 				'Category' => $bookmark['Entry']['Category'],
 				'User' => $bookmark['Entry']['User'],
 			);
-			$this->set('entry', new \Saito\Posting\Posting($posting));
+			$this->set('entry', $this->dic->newInstance('\Saito\Posting\Posting',
+				['rawData' => $posting]));
 			$this->request->data = $bookmark;
 			return;
 		}
@@ -109,10 +109,10 @@ class BookmarksController extends AppController {
 
 	/**
 	 * @param $id
-	 * @return mixed
 	 * @throws NotFoundException
 	 * @throws MethodNotAllowedException
-	 * @throws Saito\ForbiddenException
+	 * @throws Saito\Exception\SaitoForbiddenException
+	 * @return mixed
 	 */
 	protected function _getBookmark($id) {
 		if (!$this->CurrentUser->isLoggedIn()) {
@@ -127,7 +127,7 @@ class BookmarksController extends AppController {
 		$bookmark = $this->Bookmark->findById($id);
 
 		if ($bookmark['Bookmark']['user_id'] != $this->CurrentUser->getId()) {
-			throw new Saito\ForbiddenException("Attempt to edit bookmark $id.");
+			throw new Saito\Exception\SaitoForbiddenException("Attempt to edit bookmark $id.");
 		}
 		return $bookmark;
 	}

@@ -30,16 +30,15 @@
     if (isset($entry)) {
       $currentEntry = $entry['Entry']['id'];
     }
-    $tree = $this->EntryH->createTreeObject($entry_sub);
-    $rendered = $this->EntryH->renderThread($tree, $CurrentUser,
-      ['currentEntry' => $currentEntry]);
-    $css = ($tree->getThread()->get('root')->isIgnored()) ? 'ignored' : '';
+		$rendered = $this->EntryH->renderThread($entry_sub,
+			['currentEntry' => $currentEntry]);
+    $css = ($entry_sub->getThread()->get('root')->isIgnored()) ? 'ignored' : '';
 ?>
-<div class="threadBox <?= $css ?>" data-id="<?= $entry_sub['Entry']['id'] ?>">
+<div class="threadBox <?= $css ?>" data-id="<?= $entry_sub->get('id') ?>">
 	<div class="threadBox-body panel">
 		<div class="threadBox-tools">
 			<?php if ($level === 0) : ?>
-					<a href="<?= $this->request->webroot; ?>entries/mix/<?= $entry_sub['Entry']['tid']; ?>" class="btn-threadBox-tools" rel="nofollow">
+					<a href="<?= $this->request->webroot; ?>entries/mix/<?= $entry_sub->get('tid'); ?>" class="btn-threadBox-tools" rel="nofollow">
 						<?= $cacheThreadBoxTitlei18n['btn-showThreadInMixView']; ?>
 					</a>
 					<?php if ($CurrentUser->isLoggedIn()): ?>
@@ -57,7 +56,7 @@
 						<?php endif; ?>
 						<?php
 							if (isset($toolboxButtonsToDisplay['new'])) :
-								if ($tree->hasNewAnswers()) {
+								if ($entry_sub->hasNewAnswers()) {
 									$tag = 'button';
 								} else {
 									$tag = 'span';
@@ -73,7 +72,7 @@
 			<div style="position: relative;">
 				<?php
 					$style = '';
-					if (!$allowThreadCollapse || !$tree->hasAnswers()) {
+					if (!$allowThreadCollapse || !$entry_sub->hasAnswers()) {
 						$style = 'visibility: hidden;';
 					}
 				?>
