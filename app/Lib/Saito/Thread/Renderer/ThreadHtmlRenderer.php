@@ -62,7 +62,7 @@ EOF;
 			// last </span> comes from _renderThreadLine and allows appending to threadLine-post
 			$out = <<<EOF
 <li class="threadLeaf {$css}" data-id="{$id}" data-leaf='{$jsData}'>
-	<div class="threadLine" class="threadLeaf {$params['css']}" style="{$params['style']}">
+	<div class="threadLine {$params['css']}" style="{$params['style']}">
 		<button class="btnLink btn_show_thread threadLine-pre et">
 			<i class="fa fa-thread"></i>
 		</button>
