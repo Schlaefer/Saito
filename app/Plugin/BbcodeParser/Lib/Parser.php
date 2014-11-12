@@ -187,10 +187,10 @@
 
 			$this->_Parser->parse($string);
 
+			$this->_Parser->accept(new Visitors\JbbCodeNl2BrVisitor($this->_Helper, $options));
 			if ($this->_cSettings['autolink']) {
 				$this->_Parser->accept(new Visitors\JbbCodeAutolinkVisitor($this->_Helper, $options));
 			}
-			$this->_Parser->accept(new Visitors\JbbCodeNl2BrVisitor($this->_Helper, $options));
 			if ($this->_cSettings['smilies']) {
 				$this->_Parser->accept(new Visitors\JbbCodeSmileyVisitor($this->_Helper, $options));
 			}
