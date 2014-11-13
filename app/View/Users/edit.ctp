@@ -193,19 +193,18 @@
 		<tr>
 			<td> <?php echo __('user_forum_refresh_time') ?> </td>
 			<td>
-				<?php echo $this->Form->input(
+				<?php
+					echo $this->Form->input(
 						'user_forum_refresh_time',
-						array(
+						[
 								'maxLength' => 3,
 								'label' => false,
-								'style' => 'width: 3em;',
 								'min' => 0,
 								'max' => 999,
-								)
-						); ?>
-				<p class="exp">
-					<?php echo __('user_forum_refresh_time_exp') ?>
-				</p>
+								]
+						);
+					echo $this->Html->para('exp', __('user_forum_refresh_time_exp'))
+				?>
 			</td>
 		</tr>
 
