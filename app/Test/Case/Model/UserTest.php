@@ -40,7 +40,7 @@
 
 		public function testFindLatest() {
 			$result = $this->User->find('latest');
-			$this->assertEquals($result['User']['id'], 8);
+			$this->assertEquals($result['User']['id'], 9);
 		}
 
 		public function testSetCategoryAll() {
@@ -364,14 +364,14 @@
 		}
 
 		public function testActivateUserWrongCode() {
-			$result = $this->User->activate(9, '123');
+			$result = $this->User->activate(10, '123');
 			$this->assertFalse($result);
 		}
 
 		public function testActivateUserSuccess() {
-			$result = $this->User->activate(9, '1548');
+			$result = $this->User->activate(10, '1548');
 			$this->assertEquals('activated', $result['status']);
-			$user = $this->User->findById(9);
+			$user = $this->User->findById(10);
 			$this->assertEquals(0, $user['User']['activate_code']);
 			$this->assertEquals($user['User'], $result['User']);
 		}
@@ -644,7 +644,7 @@
 			$this->assertEquals($this->User->validationErrors, $expected);
 		}
 
-		public function testRegisterValidationUsernameIsEqual() {
+		public function testRegisterValidationUsernameIsEqualDisallowed() {
 			$data = [
 				'User' => [
 					'username' => 'Mitsch',
@@ -670,6 +670,23 @@
 			$result = $this->User->register($data);
 			$this->assertNotEmpty($result);
 
+			$this->assertEmpty($this->User->validationErrors);
+		}
+
+		/**
+		 * the validation should not trigger if two coliding but existing users
+		 * with same name get values updated, but not the username
+		 */
+		public function testRegisterValidationUsernameIsEqualAllowed() {
+			$data = [
+				'User' => [
+					'id' => 9,
+					'username' => 'Liane',
+					'user_email' => 'new@example.com'
+				]
+			];
+			$result = $this->User->save($data);
+			$this->assertEquals($data, $result);
 			$this->assertEmpty($this->User->validationErrors);
 		}
 
