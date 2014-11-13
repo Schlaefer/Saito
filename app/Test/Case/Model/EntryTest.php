@@ -223,6 +223,46 @@
 			$this->assertEquals($appendedEntry, 1);
 		}
 
+		/**
+		 * test that a unpinned source thread is pinned after merge if target is pinned
+		 */
+		public function testThreadMergePin() {
+
+			//= unlock source the fixture thread
+			$this->Entry->id = 4;
+			$this->Entry->toggle('locked');
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == false);
+
+			//= lock the target fixture thread
+			$this->Entry->id = 2;
+			$this->Entry->toggle('locked');
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == false);
+
+			//= merge
+			$this->Entry->id = 4;
+			$this->Entry->threadMerge(2);
+
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == true);
+
+		}
+
+		/**
+		 * test that a pinned source thread is unpinned before merge
+		 */
+		public function testThreadMergeUnpin() {
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == true);
+
+			$this->Entry->id = 4;
+			$this->Entry->threadMerge(2);
+
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == false);
+		}
+
 		public function testIdsForNode() {
 			$expected = array(2, 3, 7, 9);
 			$result = $this->Entry->getIdsForNode(2);

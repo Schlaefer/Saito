@@ -817,6 +817,7 @@
 			}
 
 			// set target entry as new parent entry
+			$this->data = [];
 			$this->set('pid', $targetEntry[$this->alias]['id']);
 			if ($this->save()) {
 				// associate all entries in source thread to target thread
@@ -837,6 +838,13 @@
 					$this->id = $targetEntry[$this->alias]['tid'];
 					$this->set('last_answer', $sourceLastAnswer);
 					$this->save();
+				}
+
+				// propagate pinned property from target to source
+				$isTargetPinned = (bool)$targetEntry[$this->alias]['locked'];
+				if ($sourceEntry[$this->alias]['locked'] !== $isTargetPinned) {
+					$this->id = $targetEntry[$this->alias]['tid'];
+					$this->_threadLock($isTargetPinned);
 				}
 
 				$this->Esevent->transferSubjectForEventType(
@@ -993,6 +1001,8 @@
 		protected function _threadLock($value) {
 			$tid = $this->field('tid');
 			$this->contain();
+			// @bogus throws error on $value = false
+			$value = $value ? 1 : 0;
 			$this->updateAll(['locked' => $value], ['tid' => $tid]);
 		}
 
