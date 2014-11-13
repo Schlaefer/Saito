@@ -12,7 +12,10 @@
 				$matches);
 			$this->_time = $matches[1];
 			$this->_type = $matches[2];
-			$this->_message = $matches[3];
+			$this->_message = trim($matches[3]);
+			if (empty($this->_message)) {
+				$this->_message = array_shift($lines);
+			}
 			$this->_detail = implode($lines, '<br>');
 		}
 
