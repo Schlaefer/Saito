@@ -31,7 +31,7 @@
 			$this->_appJs[$key] = $value;
 		}
 
-		public function addAppJsMessage($message, $options = null) {
+		public function addAppJsMessage($message, $options = []) {
 			$defaults = array(
 				'type' => 'notice',
 				'channel' => 'notification'

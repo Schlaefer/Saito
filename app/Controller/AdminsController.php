@@ -29,6 +29,9 @@
 			$this->set('logs', $_logs);
 		}
 
+		public function admin_plugins() {
+		}
+
 		public function admin_stats() {
 			$postingsPA = $this->_getYearStats('Entry', 'time');
 			$registrationsPA = $this->_getYearStats('User', 'registered');

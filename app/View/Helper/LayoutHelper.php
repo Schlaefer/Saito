@@ -1,5 +1,7 @@
 <?php
 
+	use Saito\User\ForumsUserInterface;
+
 	App::uses('AppHelper', 'View/Helper');
 
 	class LayoutHelper extends AppHelper {
@@ -201,7 +203,7 @@ EOF;
 			return "<div class=\"{$options['class']} heading-3\">$out</div>";
 		}
 
-		public function linkToUserProfile($user, \Saito\User\ForumsUserInterface $CurrentUser) {
+		public function linkToUserProfile($user, ForumsUserInterface $CurrentUser) {
 			if ($CurrentUser->isLoggedIn()) {
 				return $this->Html->link($user['username'],
 						'/users/view/' . $user['id']);

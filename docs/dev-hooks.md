@@ -34,6 +34,13 @@ Data:
 
 - subject: View object
 
+## Request.Saito.View.Admin.plugins ##
+
+Trigger: plugins for admin area
+
+Returns: array
+- 'title' title
+- 'url' URL to plugin page, should be under '/admin/plugin'
 
 ## Request.Saito.View.Posting.badges ##
 
