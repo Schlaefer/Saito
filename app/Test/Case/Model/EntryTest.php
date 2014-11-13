@@ -227,7 +227,6 @@
 		 * test that a unpinned source thread is pinned after merge if target is pinned
 		 */
 		public function testThreadMergePin() {
-
 			//= unlock source the fixture thread
 			$this->Entry->id = 4;
 			$this->Entry->toggle('locked');
@@ -246,7 +245,6 @@
 
 			$entry = $this->Entry->get(4);
 			$this->assertTrue($entry['Entry']['locked'] == true);
-
 		}
 
 		/**
