@@ -1,28 +1,23 @@
-# cake 2.x
-# /app/Config
-/lib/Cake/Console/Templates/skel/tmp/
-/plugins
-/vendors
 .DS_Store
-tags
 
 # Saito
 /app/Config/email.php
 /app/Config/database.php
 /app/Config/database.php.dev
 /app/Config/installed.txt
-/app/webroot/useruploads/*.*
+/webroot/useruploads/*.*
 build/
 /dist/
 Capfile
 deploy.rb
 
 # plugins via composer
-/app/Plugin/Geshi
+/plugins/Geshi
 
 # vendor folder
-/app/Vendor/*
-!/app/Vendor/leaflet/
-!/app/Vendor/leaflet/*
-!/app/Vendor/susy/
-!/app/Vendor/susy/*
+/vendor
+/vendor/*
+!/vendor/leaflet/
+!/vendor/leaflet/*
+!/vendor/susy/
+!/vendor/susy/*
