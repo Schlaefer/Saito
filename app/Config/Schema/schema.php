@@ -2,8 +2,6 @@
 
 class AppSchema extends CakeSchema {
 
-	use SchemaCakeMysqlFixTrait;
-
 	public $bookmarks = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
