@@ -4,23 +4,27 @@
 	SDV($last_action, null);
 	$editLinkIsShown = false;
 	$_showSignature = false;
-	$entryObject = $this->EntryH->createTreeObject($entry);
+
+	// @todo remove
+	if (is_array($entry)) {
+		$entry = $this->EntryH->createTreeObject($entry);
+	}
 
 	//data passed as json model
 	$_jsEntry = json_encode([
-		'pid' => (int)$entry['Entry']['pid'],
-		'isBookmarked' => $entry['isBookmarked'],
-		'isSolves' => (bool)$entry['Entry']['solves'],
+		'pid' => $entry->get('pid'),
+		'isBookmarked' => $entry->isBookmarked(),
+		'isSolves' => (bool)$entry->get('solves'),
 		'rootEntryUserId' => (int)$rootEntry['Entry']['user_id'],
-		'time' => $this->TimeH->mysqlTimestampToIso($entry['Entry']['time'])
+		'time' => $this->TimeH->mysqlTimestampToIso($entry->get('time'))
 	]);
 ?>
-<div class="postingLayout js-entry-view-core" data-id="<?php echo $entry['Entry']['id'] ?>">
+<div class="postingLayout js-entry-view-core" data-id="<?php echo $entry->get('id') ?>">
 	<div class="postingLayout-body panel-content">
 		<?php
 			if (!$CurrentUser['user_signatures_hide'] &&
-					!empty($entry['User']['signature']) &&
-					!$entryObject->isNt()
+					!empty($entry->get('User')['signature']) &&
+					!$entry->isNt()
 			) {
 				$_showSignature = true;
 			}
@@ -41,7 +45,7 @@
 					$items = SaitoEventManager::getInstance()->dispatch(
 						'Request.Saito.View.Posting.footerActions',
 						[
-							'posting' => $entry,
+							'posting' => $entry->getRaw(),
 							'View' => $this
 						]
 					);
@@ -52,8 +56,7 @@
 			</div>
 
 			<?php
-				# @td MCV
-				$answering_forbidden = $entry['rights']['isAnsweringForbidden'];
+				$answering_forbidden = $entry->isAnsweringForbidden();
 				if ($answering_forbidden === 'locked') {
 
 					echo $this->Html->tag(
@@ -75,14 +78,12 @@
 					);
 				};
 			?>
-			<?php if (isset($entry['rights']['isEditingAsUserForbidden']) &&
-					!$entry['rights']['isEditingAsUserForbidden']
-			) : ?>
+			<?php if (!$entry->isEditingWithRoleUserForbidden()) : ?>
 				<span class="small">
 					<?=
 						$this->Html->link(
 								__('edit_linkname'),
-								'/entries/edit/' . $entry['Entry']['id'],
+								'/entries/edit/' . $entry->get('id'),
 								['class' => 'btn btn-edit js-btn-edit panel-footer-form-btn', 'accesskey' => 'e']
 						);
 					?>
@@ -93,19 +94,17 @@
 				// mod menu
 				if ($CurrentUser->isMod()) {
 					// edit entry
-					if (isset($entry['rights']['isEditingForbidden']) &&
-							($entry['rights']['isEditingForbidden'] == false)
-					) {
+					if (!$entry->isEditingAsCurrentUserForbidden()) {
 						$editLinkIsShown = true;
 						$_menuItems[] = $this->Html->link(
 								'<i class="fa fa-pencil"></i> ' . __('edit_linkname'),
-								'/entries/edit/' . $entry['Entry']['id'],
+								'/entries/edit/' . $entry->get('id'),
 								['escape' => false]
 						);
 					}
 
 					// pin and lock thread
-					if ($entryObject->isRoot()) {
+					if ($entry->isRoot()) {
 						if ($editLinkIsShown) {
 							$_menuItems[] = 'divider';
 						}
@@ -116,15 +115,15 @@
 						foreach ($_ajaxToggleOptions as $key => $icon) {
 							$_menuItems[] = $this->Js->link(
 									'<i class="' . $icon . '"></i>&nbsp;'
-									. '<span id="title-entry_' . $key . '-' . $entry['Entry']['id'] . '">'
-									. (($entry['Entry'][$key] == 0) ? __d('nondynamic',
+									. '<span id="title-entry_' . $key . '-' . $entry->get('id') . '">'
+									. (($entry->get($key) == 0) ? __d('nondynamic',
 											$key . '_set_entry_link') : __d('nondynamic',
 											$key . '_unset_entry_link'))
 									. '</span>',
-									'/entries/ajax_toggle/' . $entry['Entry']['id'] . '/' . $key,
+									'/entries/ajax_toggle/' . $entry->get('id') . '/' . $key,
 									array(
-											'id' => 'btn-entry_' . $key . '-' . $entry['Entry']['id'],
-											'success' => "$('#title-entry_{$key}-{$entry['Entry']['id']}').html(data);",
+											'id' => 'btn-entry_' . $key . '-' . $entry->get('id'),
+											'success' => "$('#title-entry_{$key}-{$entry->get('id')}').html(data);",
 											'buffer' => false,
 											'escape' => false,
 									)
@@ -137,7 +136,7 @@
 						// merge thread
 						$_menuItems[] = $this->Html->link(
 								'<i class="fa fa-compress"></i>&nbsp;' . __('merge_tree_link'),
-								'/entries/merge/' . $entry['Entry']['id'],
+								'/entries/merge/' . $entry->get('id'),
 								array('escape' => false));
 
 					}
@@ -146,7 +145,7 @@
 					$_menuItems[] = 'divider';
 					$_menuItems[] = $this->Html->link(
 							'<i class="fa fa-trash-o"></i>&nbsp;' . __('delete_tree_link'),
-							'/entries/delete/' . $entry['Entry']['id'],
+							'/entries/delete/' . $entry->get('id'),
 							array('escape' => false),
 							__('delete_tree_link_confirm_message')
 					);

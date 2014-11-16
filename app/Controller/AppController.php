@@ -1,12 +1,10 @@
 <?php
 
-	App::uses('Properize', 'Lib');
+	use Saito\Exception\SaitoBlackholeException;
+
 	App::uses('Controller', 'Controller');
 	App::uses('CakeEmail', 'Network/Email');
 	App::import('Lib', 'Stopwatch.Stopwatch');
-
-	\App::uses('Saito\Logger\ForbiddenLogger', 'Lib');
-	\App::uses('Saito\Logger\ExceptionLogger', 'Lib');
 
 	if (Configure::read('debug') > 0) {
 		App::uses('FireCake', 'DebugKit.Lib');
@@ -105,7 +103,18 @@
 			Stopwatch::start(
 				'---------------------- Controller ----------------------'
 			);
+
+			ClassRegistry::addObject('dic', \Saito\DicSetup::getNewDic());
 			parent::__construct($request, $response);
+		}
+
+		public function __get($name) {
+			switch ($name) {
+				case 'dic':
+					return ClassRegistry::getObject('dic');
+				default:
+					return parent::__get($name);
+			}
 		}
 
 		public function beforeFilter() {
@@ -151,7 +160,7 @@
 			$this->_setConfigurationFromGetParams();
 
 			// must be set after all language chooser
-			Properize::setLanguage(Configure::read('Config.language'));
+			\Saito\String\Properize::setLanguage(Configure::read('Config.language'));
 
 			// allow sql explain for DebugKit toolbar
 			if ($this->request->plugin === 'debug_kit') {
@@ -298,10 +307,10 @@
 		 *
 		 *
 		 * @param $type
-		 * @throws Saito\BlackHoledException
+		 * @throws Saito\Exception\SaitoBlackholeException
 		 */
 		public function blackhole($type) {
-			throw new Saito\BlackHoledException($type,
+			throw new SaitoBlackholeException($type,
 				['CurrentUser' => $this->CurrentUser]);
 		}
 

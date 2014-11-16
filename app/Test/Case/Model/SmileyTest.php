@@ -1,7 +1,8 @@
 <?php
 
+	use Saito\Cache\CacheSupport;
+
 	App::uses('Smiley', 'Model');
-	App::uses('CacheSupport', 'Lib/Cache');
 
 	class SmileyTest extends CakeTestCase {
 

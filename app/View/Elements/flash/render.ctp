@@ -1,11 +1,7 @@
 <?php
 	$messages = $this->JsData->getAppJsMessages();
-	foreach($messages['msg'] as $message) :
-	?>
-  <div class="flash flash-<?php echo $message['type'] ?>">
-			<div class="alert">
-				<?php echo $message['message']; ?>
-			</div>
-  </div>
-	<?php
-	endforeach;
+	foreach ($messages['msg'] as $message) {
+		$inner = $this->Html->tag('div', $message['message'], ['class' => 'alert']);
+		$class = 'flash flash-' . $message['type'];
+		echo $this->Html->tag('div', $inner, ['class' => $class]);
+	}

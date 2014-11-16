@@ -1,26 +1,22 @@
 <?php
 
+	use Saito\User\Auth\CategoryAuthorization;
+	use Saito\User\Bookmarks;
+	use Saito\User\ForumsUserInterface;
+	use Saito\User\LastRefresh;
+	use Saito\User\ReadPostings;
+	use Saito\User\SaitoUserTrait;
+
 	App::uses('Component', 'Controller');
 
-	App::uses('ReadPostingsDatabase', 'Lib/SaitoUser/ReadPostings');
-	App::uses('ReadPostingsCookie', 'Lib/SaitoUser/ReadPostings');
-	App::uses('ReadPostingsDummy', 'Lib/SaitoUser/ReadPostings');
-	App::uses('LastRefreshCookie', 'Lib/SaitoUser/LastRefresh');
-	App::uses('LastRefreshDatabase', 'Lib/SaitoUser/LastRefresh');
-	App::uses('LastRefreshDummy', 'Lib/SaitoUser/LastRefresh');
-	App::uses('UserBookmarks', 'Lib');
-
-	App::uses('SaitoCurrentUserCookie', 'Lib/SaitoUser/Cookies');
-	App::uses('SaitoUserTrait', 'Lib/SaitoUser');
-	App::uses('ForumsUserInterface', 'Lib/SaitoUser');
-	App::uses('CategoryAuth', 'Lib/SaitoUser');
-
-	class CurrentUserComponent extends Component implements ForumsUserInterface, ArrayAccess {
+	class CurrentUserComponent extends Component implements
+		ArrayAccess,
+		ForumsUserInterface {
 
 		use SaitoUserTrait;
 
 		/**
-		 * @var CategoryAuth
+		 * @var Saito\User\Auth\CategoryAuthorization
 		 */
 		public $Categories;
 
@@ -41,14 +37,14 @@
 /**
  * Manages the persistent login cookie
  *
- * @var SaitoCurrentUserCookie
+ * @var \Saito\User\Cookie\CurrentUserCookie
  */
 		public $PersistentCookie = null;
 
 /**
  * Manages the last refresh/mark entries as read for the current user
  *
- * @var LastRefreshAbstract
+ * @var \Saito\User\LastRefresh\LastRefreshAbstract
  */
 		public $LastRefresh = null;
 
@@ -58,7 +54,7 @@
 		public $ReadEntries;
 
 		/**
-		 * @var UserBookmarks bookmarks of the current user
+		 * @var Bookmarks bookmarks of the current user
 		 */
 		protected $_Bookmarks;
 
@@ -76,19 +72,18 @@
  */
 		protected $_Controller = null;
 
-/**
- *
- * @param type $controller
- */
 		public function initialize(Controller $Controller) {
 			if ($Controller->name === 'CakeError') {
 				return;
 			}
+
 			$this->_Controller = $Controller;
 			if ($this->_Controller->modelClass) {
 				$this->_Controller->{$this->_Controller->modelClass}->SharedObjects['CurrentUser'] = $this;
 			}
-			$this->Categories = new CategoryAuth($this);
+			$this->Categories = new CategoryAuthorization($this);
+
+			$this->_Controller->dic->set('CU', $this);
 
 			/*
 			 * We create a new User Model instance. Otherwise we would overwrite $this->request->data
@@ -98,7 +93,7 @@
 					['class' => 'User', 'alias' => 'currentUser']
 			);
 
-			$this->PersistentCookie = new SaitoCurrentUserCookie($this->Cookie, 'AU');
+			$this->PersistentCookie = new \Saito\User\Cookie\CurrentUserCookie($this->Cookie, 'AU');
 
 			$this->_configureAuth();
 
@@ -117,14 +112,14 @@
 			}
 
 			if ($this->isLoggedIn()) {
-				$this->ReadEntries = new ReadPostingsDatabase($this);
+				$this->ReadEntries = new ReadPostings\ReadPostingsDatabase($this);
 			} elseif ($this->isBot()) {
-				$this->ReadEntries = new ReadPostingsDummy($this);
+				$this->ReadEntries = new ReadPostings\ReadPostingsDummy($this);
 			} else {
-				$this->ReadEntries = new ReadPostingsCookie($this);
+				$this->ReadEntries = new ReadPostings\ReadPostingsCookie($this);
 			}
 
-			$this->_Bookmarks = new UserBookmarks($this);
+			$this->_Bookmarks = new Bookmarks($this);
 
 			$this->_markOnline();
 		}
@@ -231,11 +226,11 @@
 			if ($this->isLoggedIn()) {
 				$this->_User->id = $this->getId();
 				$this->setSettings($this->_User->getProfile($this->getId()));
-				$this->LastRefresh = new LastRefreshDatabase($this);
+				$this->LastRefresh = new LastRefresh\LastRefreshDatabase($this);
 			} elseif ($this->isBot()) {
-				$this->LastRefresh = new LastRefreshDummy($this);
+				$this->LastRefresh = new LastRefresh\LastRefreshDummy($this);
 			} else {
-				$this->LastRefresh = new LastRefreshCookie($this);
+				$this->LastRefresh = new LastRefresh\LastRefreshCookie($this);
 			}
 		}
 

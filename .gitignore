@@ -6,6 +6,11 @@
 .DS_Store
 tags
 
+### CakePHP 3 ###
+/logs
+/tmp
+/vendor
+
 # Saito
 /app/Config/email.php
 /app/Config/database.php

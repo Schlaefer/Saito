@@ -1,7 +1,11 @@
 <?php
   if (empty($UserBlock)) {
-    return;
-  }
+		echo $this->element(
+			'generic/no-content-yet',
+			['message' => __('ncy.aub')]
+		);
+		return;
+	}
   SDV($mode, 'profile');
   $format = ($mode === 'full') ? 'eng' : 'normal' ;
 ?>

@@ -1,20 +1,17 @@
 <?php
 
+	use Saito\Cache\CacheSupport;
+	use Saito\Cache\ItemCache;
+	use Saito\Cache\LineCacheSupportCachelet;
+	use Saito\Cache\SaitoCacheEngineAppCache;
+
 	App::uses('Component', 'Controller');
-	App::import('Lib/Cache', 'CacheSupport');
-	App::uses('CacheTree', 'Lib/Cache');
-	App::uses('CacheTreeCacheSupportCachelet', 'Lib/Cache');
-	App::uses('SaitoCacheEngineDbCache', 'Lib/Cache');
-	App::uses('SaitoCacheEngineAppCache', 'Lib/Cache');
-	App::uses('ItemCache', 'Lib/Cache');
-	App::uses('LineCacheSupportCachelet', 'Lib/Cache');
 
 	class CacheSupportComponent extends Component {
 
 		protected $_CacheSupport;
 
-		public $CacheTree;
-
+		/** * @var ItemCache */
 		public $LineCache;
 
 		public function initialize(Controller $Controller) {
@@ -23,7 +20,6 @@
 				$Controller->{$Controller->modelClass}->SharedObjects['CacheSupport'] = $this->_CacheSupport;
 			}
 			$this->_addConfigureCachelets();
-			$this->_initCacheTree($Controller);
 			$this->_initLineCache($Controller);
 		}
 
@@ -32,27 +28,9 @@
 				'Saito.LineCache',
 				new SaitoCacheEngineAppCache,
 				// duration: update relative time values in HTML at least every hour
-				['duration' => 3600, 'maxItems' => 500]
+				['duration' => 3600, 'maxItems' => 600]
 			);
 			$this->_CacheSupport->add(new LineCacheSupportCachelet($this->LineCache));
-		}
-
-		protected function _initCacheTree($Controller) {
-			$cacheConfig = Cache::settings();
-			if ($cacheConfig['engine'] === 'Apc') {
-				$CacheEngine = new SaitoCacheEngineAppCache;
-			} else {
-				$CacheEngine = new SaitoCacheEngineDbCache;
-			}
-
-			$this->CacheTree = new CacheTree(
-				'EntrySub',
-				$CacheEngine,
-				['maxItems' => 240]
-			);
-
-			$this->CacheTree->initialize($Controller->CurrentUser);
-			$this->_CacheSupport->add(new CacheTreeCacheSupportCachelet($this->CacheTree));
 		}
 
 		/**

@@ -1,7 +1,8 @@
 <?php
 
+	use Saito\SimpleSearchString;
+
 	App::uses('AppController', 'Controller');
-	App::uses('SimpleSearchString', 'Lib');
 
 	class SearchesController extends AppController {
 

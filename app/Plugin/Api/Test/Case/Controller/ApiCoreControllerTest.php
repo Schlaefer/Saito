@@ -19,16 +19,19 @@
 			'plugin.api.entry',
 			'plugin.api.category',
 			'plugin.api.user',
+			'plugin.api.user_block',
+			'plugin.api.user_ignore',
 			'plugin.api.user_online',
 			'plugin.api.bookmark',
 			'plugin.api.esnotification',
 			'plugin.api.esevent',
-			'plugin.api.ecach',
 			'plugin.api.upload',
 			'plugin.api.setting'
 		);
 
 		public function testBootstrap() {
+			Configure::write('Saito.Settings.edit_period', 20);
+
 			$_json = <<<EOF
 {
   "categories": [

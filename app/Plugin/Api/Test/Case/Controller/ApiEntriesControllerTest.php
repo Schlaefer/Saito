@@ -19,12 +19,13 @@
 			'plugin.api.entry',
 			'plugin.api.category',
 			'plugin.api.user',
+			'plugin.api.user_block',
+			'plugin.api.user_ignore',
 			'plugin.api.user_online',
 			'plugin.api.user_read',
 			'plugin.api.bookmark',
 			'plugin.api.esnotification',
 			'plugin.api.esevent',
-			'plugin.api.ecach',
 			'plugin.api.upload',
 			'plugin.api.setting',
 			'plugin.api.smiley',
@@ -182,17 +183,24 @@
 			);
 		}
 
-		public function testEntriesItemPutForbidden() {
+		public function testEntriesItemPutForbiddenJustTrue() {
 			$ApiEntries = $this->generate(
 				'Api.ApiEntries',
-				[
-					'models' => ['Entry' => ['get']]
-				]
+				['models' => ['Entry' => ['get']]]
 			);
+
+			$entry = [
+				'Entry' => [
+					'id' => 1,
+					'locked' => true,
+					'time' => bDate(time() + 9999),
+					'user_id' => 3
+				]
+			];
 
 			$ApiEntries->Entry->expects($this->once())
 					->method('get')
-					->will($this->returnValue(['rights' => ['isEditingForbidden' => true]]));
+					->will($this->returnValue($entry));
 			$this->_loginUser(3);
 			$this->setExpectedException('ForbiddenException', 'Editing is forbidden for unknown reason.');
 			$this->testAction(

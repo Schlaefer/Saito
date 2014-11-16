@@ -128,6 +128,11 @@
 			],
 			[
 				'id' => 9,
+				'username' => 'Liane',
+				'user_email' => 'liane@example.com'
+			],
+			[
+				'id' => 10,
 				'username' => 'Diane',
 				'user_email' => 'diane@example.com',
 				'activate_code' => 1548

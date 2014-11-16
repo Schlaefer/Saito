@@ -1,6 +1,7 @@
 <?php
 
-	App::import('Lib/SaitoUser', 'SaitoUser');
+	use Saito\User\SaitoUser;
+
 	App::uses('AppHelper', 'View/Helper');
 
 	class UserHHelper extends AppHelper {

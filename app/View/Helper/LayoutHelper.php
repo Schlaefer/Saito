@@ -1,5 +1,7 @@
 <?php
 
+	use Saito\User\ForumsUserInterface;
+
 	App::uses('AppHelper', 'View/Helper');
 
 	class LayoutHelper extends AppHelper {

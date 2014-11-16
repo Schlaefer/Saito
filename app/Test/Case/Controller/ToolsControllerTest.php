@@ -1,13 +1,12 @@
 <?php
 
 	App::uses('ToolsController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	/**
 	 * ToolsController Test Case
 	 *
 	 */
-	class ToolsControllerTest extends SaitoControllerTestCase {
+	class ToolsControllerTest extends \Saito\Test\ControllerTestCase {
 
 		/**
 		 * Fixtures
@@ -16,7 +15,6 @@
 		 */
 		public $fixtures = array(
 			'app.category',
-			'app.ecach',
 			'app.entry',
 			'app.setting',
 			'app.user',

@@ -99,9 +99,7 @@
 		public function getAll() {
 			$blocklist = $this->find('all', [
 				'contain' => ['By', 'User'],
-				'order' => [
-					'UserBlock.id' => 'DESC'
-				]
+				'order' => ['UserBlock.id' => 'DESC']
 			]);
 			$o = [];
 			foreach ($blocklist as $k => $b) {
@@ -110,6 +108,15 @@
 				$o[$k]['User'] = $b['User'];
 			}
 			return $o;
+		}
+
+		public function getAllActive() {
+			$blocklist = $this->find('all', [
+				'contain' => false,
+				'conditions' => ['ended' => null],
+				'order' => ['UserBlock.id' => 'DESC']
+			]);
+			return $blocklist;
 		}
 
 		protected function _updateIsBlocked($userId) {
