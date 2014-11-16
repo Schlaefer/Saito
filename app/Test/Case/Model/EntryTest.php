@@ -236,8 +236,8 @@
 			//= lock the target fixture thread
 			$this->Entry->id = 2;
 			$this->Entry->toggle('locked');
-			$entry = $this->Entry->get(4);
-			$this->assertTrue($entry['Entry']['locked'] == false);
+			$entry = $this->Entry->get(2);
+			$this->assertTrue($entry['Entry']['locked'] == true);
 
 			//= merge
 			$this->Entry->id = 4;
