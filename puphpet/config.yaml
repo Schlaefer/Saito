@@ -117,7 +117,7 @@ php:
     ini:
         display_errors: On
         error_reporting: '-1'
-        memory_limit: 256M
+        memory_limit: 320M
         max_execution_time: '180'
         session.save_path: /var/lib/php/session
     timezone: Europe/Berlin
