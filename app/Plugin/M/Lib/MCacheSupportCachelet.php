@@ -1,6 +1,6 @@
 <?php
 
-	App::import('Lib/Cache', 'CacheSupport');
+	use Saito\Cache\CacheSupportCachelet;
 
 	class MCacheSupportCachelet extends CacheSupportCachelet {
 

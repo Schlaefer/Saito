@@ -1,6 +1,7 @@
 <?php
 
-	App::uses('SaitoUser', 'Lib/SaitoUser');
+	use Saito\User\Auth;
+	use Saito\User\SaitoUser;
 
 	class DummyDataShell extends AppShell {
 
@@ -147,8 +148,7 @@
 
 		public function __construct($settings = null) {
 			parent::__construct($settings);
-			App::uses('CategoryAuth', 'Lib/SaitoUser');
-			$this->Categories = new CategoryAuth($this);
+			$this->Categories = new Auth\CategoryAuthorization($this);
 		}
 
 		public function getMaxAccession() {

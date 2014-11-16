@@ -15,18 +15,24 @@
 			// order here is output order in frontend
 			$_logsToRead = ['error', 'debug'];
 
+			$_logsToRead = glob(LOGS . '*.log');
+			if (!$_logsToRead) {
+				return;
+			}
+
 			// will contain ['error' => '<string>', 'debug' => '<string>']
 			$_logs = [];
-			foreach ($_logsToRead as $_log) {
-				$_path = LOGS . $_log . '.log';
+			foreach ($_logsToRead as $_path) {
 				$_content = '';
-				if (file_exists($_path)) {
-					$_size = filesize($_path);
-					$_content = file_get_contents($_path, false, null, $_size - 65536);
-				}
-				$_logs[$_log] = $_content;
+				$_size = filesize($_path);
+				$_content = file_get_contents($_path, false, null, $_size - 65536);
+				$name = basename($_path);
+				$_logs[$name] = $_content;
 			}
 			$this->set('logs', $_logs);
+		}
+
+		public function admin_plugins() {
 		}
 
 		public function admin_stats() {

@@ -75,7 +75,10 @@
 						'isUnique' => ['rule' => 'isUniqueCiString'],
 						'notEmpty' => ['rule' => 'notEmpty'],
 						'hasAllowedChars' => ['rule' => ['validateHasAllowedChars']],
-						'isUsernameEqual' => ['rule' => 'validateUsernameEqual']
+						'isUsernameEqual' => [
+							'on' => 'create',
+							'rule' => 'validateUsernameEqual'
+						]
 				],
 				'user_type' => [
 						'allowedChoice' => ['rule' => ['inList', ['user', 'admin', 'mod']]]

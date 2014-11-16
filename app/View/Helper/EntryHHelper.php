@@ -1,6 +1,9 @@
 <?php
+
+	use Saito\Thread\Renderer;
+
 	App::uses('AppHelper', 'View/Helper');
-	App::uses('PostingViewTrait', 'Lib/Thread');
+
 
 	# @td refactor helper name to 'EntryHelper'
 	/**
@@ -9,47 +12,14 @@
 
 	class EntryHHelper extends AppHelper {
 
-		use PostingViewTrait;
+		use \Saito\Posting\Renderer\HelperTrait;
 
-		public $helpers = array(
-				'Form',
-				'Html',
-				'Session',
-				'TimeH',
-		);
+		public $helpers = ['Form', 'Html', 'Session', 'TimeH'];
 
 		/**
 		 * @var array perf-cheat for renderers
 		 */
 		protected $_renderers = [];
-
-		public function isRoot($entry) {
-			return (int)$entry['Entry']['pid'] === 0;
-		}
-
-		public function hasAnswers($entry) {
-			return strtotime($entry['Entry']['last_answer']) > strtotime($entry['Entry']['time']);
-		}
-
-		public function isPinned($entry) {
-			return (bool)$entry['Entry']['fixed'];
-		}
-
-/**
- * @param $entry
- * @param $user
- * @return bool
- * @throws InvalidArgumentException
- */
-		public function hasNewEntries($entry, $user) {
-			if ($entry['Entry']['pid'] != 0) {
-				throw new InvalidArgumentException('Entry is no thread-root, pid != 0');
-			}
-			if (!isset($user['last_refresh'])) {
-				return false;
-			}
-			return $user['last_refresh_unix'] < strtotime($entry['Entry']['last_answer']);
-		}
 
 		public function getPaginatedIndexPageId($tid, $lastAction) {
 			$indexPage = '/entries/index';
@@ -64,19 +34,10 @@
 			return $indexPage;
 		}
 
-		/**
-		 * evaluates if entry is n/t
-		 *
-		 * @param $entry
-		 * @return bool
-		 */
-		public function isNt($entry) {
-			return empty($entry['Entry']['text']);
-		}
-
 		public function getFastLink($entry, $params = array('class' => '')) {
+			// @todo @performance
 			$out = "<a href='{$this->request->webroot}entries/view/{$entry['Entry']['id']}' class='{$params['class']}'>" .
-					$this->getSubject($entry) . '</a>';
+					$this->getSubject($this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $entry])) . '</a>';
 			return $out;
 		}
 
@@ -103,13 +64,13 @@
 		/**
 		 * renders a posting tree as thread
 		 *
-		 * @param mixed $tree
+		 * @param mixed $tree passed as reference to share CU-decorator "up"
 		 * @param $CurrentUser
 		 * @param $options
 		 * 	- 'renderer' [thread]|mix
 		 * @return string
 		 */
-		public function renderThread($tree, ForumsUserInterface $CurrentUser, array $options = []) {
+		public function renderThread(&$tree, array $options = []) {
 			$options += [
 				'lineCache' => $this->_View->get('LineCache'),
 				'maxThreadDepthIndent' => (int)Configure::read('Saito.Settings.thread_depth_indent'),
@@ -122,25 +83,16 @@
 				$tree = $this->createTreeObject($tree, $options);
 			}
 
-			App::uses('PostingCurrentUserDecorator', 'Lib/Thread');
-			$tree = $tree->addDecorator(function ($node) use ($CurrentUser) {
-				$node = new PostingCurrentUserDecorator($node);
-				$node->setCurrentUser($CurrentUser);
-				return $node;
-			});
-
 			if (isset($this->_renderers[$renderer])) {
 				$renderer = $this->_renderers[$renderer];
 			} else {
 				$name = $renderer;
 				switch ($name) {
 					case 'mix':
-						App::uses('MixHtmlRenderer', 'Lib/Thread/Renderer');
-						$renderer = new MixHtmlRenderer($this);
+						$renderer = new Renderer\MixHtmlRenderer($this);
 						break;
 					default:
-						App::uses('ThreadHtmlRenderer', 'Lib/Thread/Renderer');
-						$renderer = new ThreadHtmlRenderer($this);
+						$renderer = new Renderer\ThreadHtmlRenderer($this);
 				}
 				$this->_renderers[$name] = $renderer;
 			}
@@ -156,8 +108,11 @@
 		 * @return Posting
 		 */
 		public function createTreeObject(array $entrySub, array $options = []) {
-			App::uses('Posting', 'Lib/Thread');
-			return new Posting($entrySub, $options);
+			$tree = $this->dic->newInstance(
+				'\Saito\Posting\Posting',
+				['rawData' => $entrySub, 'options' => $options]
+			);
+			return $tree;
 		}
 
 	}

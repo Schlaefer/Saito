@@ -1,13 +1,12 @@
 <?php
 
 	App::uses('UploadsController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
 	/**
 	 * UploadsController Test Case
 	 *
 	 */
-	class UploadsControllerTest extends SaitoControllerTestCase {
+	class UploadsControllerTest extends \Saito\Test\ControllerTestCase {
 
 		/**
 		 * Fixtures

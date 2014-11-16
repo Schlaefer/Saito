@@ -4,6 +4,7 @@
 
 	use Plugin\BbcodeParser\Lib\Helper\Message;
 	use Plugin\BbcodeParser\Lib\Helper\UrlParserTrait;
+	use Saito\DomainParser;
 
 	include 'CodeDefinition.php';
 	include 'JbbHtml5MediaCodeDefinition.php';
@@ -65,8 +66,6 @@
 		}
 
 	}
-
-	\App::uses('DomainParser', 'Lib');
 
 	class Iframe extends CodeDefinition {
 
@@ -142,7 +141,7 @@
 				return true;
 			}
 
-			$host = \DomainParser::domain($url);
+			$host = DomainParser::domain($url);
 			if ($host && isset($allowedDomains[$host])) {
 				return true;
 			}
@@ -188,7 +187,7 @@
 			}
 
 			if (env('HTTPS')) {
-				$host = \DomainParser::domain($url);
+				$host = DomainParser::domain($url);
 				if (isset(self::$_flashVideoDomainsWithHttps[$host])) {
 					$url = str_ireplace('http://', 'https://', $url);
 				}

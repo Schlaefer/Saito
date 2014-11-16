@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('AppHelper', 'View/Helper');
-	App::uses('SaitoPlugin', 'Lib/Saito');
 
 	class ParserHelper extends AppHelper {
 
@@ -77,7 +76,7 @@
 
 		protected function _getMarkupEditor() {
 			if ($this->_MarkupEditor === null) {
-				$this->_MarkupEditor = SaitoPlugin::getParserClassInstance('Editor', $this);
+				$this->_MarkupEditor = \Saito\Plugin::getParserClassInstance('Editor', $this);
 			}
 			return $this->_MarkupEditor;
 		}
@@ -89,7 +88,7 @@
 				$this->SmileyRenderer = new \Saito\Smiley\Renderer($settings['smiliesData']);
 				$this->SmileyRenderer->setHelper($this);
 
-				$this->_Parser = SaitoPlugin::getParserClassInstance('Parser', $this, $settings);
+				$this->_Parser = \Saito\Plugin::getParserClassInstance('Parser', $this, $settings);
 			}
 			return $this->_Parser;
 		}

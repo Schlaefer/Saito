@@ -4,9 +4,9 @@
 	App::uses('UsersController', 'Controller');
 	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
-	class ContactsControllerTestCase extends SaitoControllerTestCase {
+	class ContactsControllerTestCase extends \Saito\Test\ControllerTestCase {
 
-		use SaitoSecurityMockTrait;
+		use \Saito\Test\SecurityMockTrait;
 
 		public $fixtures = [
 			'app.category',

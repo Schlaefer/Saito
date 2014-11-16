@@ -2,14 +2,12 @@
 
 	App::uses('Controller', 'Controller');
 	App::uses('AppController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
 
-	class AppControllerTest extends SaitoControllerTestCase {
+	class AppControllerTest extends \Saito\Test\ControllerTestCase {
 
 		public $fixtures = [
 			'app.bookmark',
 			'app.category',
-			'app.ecach',
 			'app.entry',
 			'app.esevent',
 			'app.esnotification',

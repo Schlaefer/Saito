@@ -56,6 +56,10 @@
 	 */
 	Router::connect('/admin',
 			['controller' => 'admins', 'action' => 'index', 'admin' => true]);
+	Router::connect(
+		'/admin/plugins',
+		['controller' => 'admins', 'action' => 'plugins', 'admin' => true]
+	);
 
 	/**
 	 * Default search action

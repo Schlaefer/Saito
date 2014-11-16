@@ -27,7 +27,7 @@
   ?>
 </p>
 <?php
-  $shpErrorPages = ['Saito\BlackHoledException' => 8];
+  $shpErrorPages = ['Saito\Exception\SaitoBlackholeException' => 8];
   $errorClass = get_class($error);
   if (isset($shpErrorPages[$errorClass])) {
     $help = $this->SaitoHelp->icon($shpErrorPages[$errorClass],

@@ -1,8 +1,6 @@
 <?php
 
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
-
-	class ApiControllerTestCase extends SaitoControllerTestCase {
+	class ApiControllerTestCase extends \Saito\Test\ControllerTestCase {
 
 		public function setUp() {
 			Configure::write('Saito.Settings.api_enabled', '1');

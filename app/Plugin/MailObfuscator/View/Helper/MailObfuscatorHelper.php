@@ -17,7 +17,7 @@
 			list($ttl, $dom) = explode('@', $addr);
 
 			// missing  style='unicode-bidi:bidi-override;direction:rtl;'
-			$mailto = '<a id="' . $rand . '" href="#" data-ttl="' . $ttl . '", data-dom="' . $dom . '">' . $title . '</a>';
+			$mailto = '<a id="' . $rand . '" href="#" data-ttl="' . $ttl . '" data-dom="' . $dom . '">' . $title . '</a>';
 			$mailto .= '<noscript><p>[You need to have Javascript enabled to see this mail address.]</p></noscript>';
 			$mailto .= $this->Html->scriptBlock(
 				"$(function(){

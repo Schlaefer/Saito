@@ -58,11 +58,11 @@ Usually the top-level domain is appended to a `[url]` link. This can be controll
 
 ### Email Link ###
 
-	[email]mailto:mail@tosomeone.com[/email]
+	[email]mail@tosomeone.com[/email]
 
 or
 
-	[email=mailto:mail@tosomeone.com]Mail[/email]
+	[email=mail@tosomeone.com]Mail[/email]
 
 
 ### Internal Shortlinks ###

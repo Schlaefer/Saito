@@ -1,6 +1,7 @@
 <?php
 
 	use Plugin\BbcodeParser\Lib;
+	use Saito\User\Userlist;
 
 	App::import('Lib', 'Stopwatch.Stopwatch');
 	App::import('Helper',
@@ -15,8 +16,6 @@
 	App::uses('ParserHelper', 'View/Helper');
 	App::uses('HtmlHelper', 'View/Helper');
 	App::uses('CakeRequest', 'Network');
-
-	App::uses('SaitoUserUserlistArray', 'Lib/SaitoUser/Userlist');
 
 	class BbcodeParserTest extends CakeTestCase {
 
@@ -1030,7 +1029,7 @@ EOF;
 			$SmileyCache = new \Saito\Smiley\Cache($Controller);
 
 			//= userlist fixture
-			$Userlist = new SaitoUserUserlistArray();
+			$Userlist = new Userlist\UserlistArray();
 			$Userlist->set(['Alice', 'Bobby Junior', 'Dr. No']);
 
 			//= ParserHelper

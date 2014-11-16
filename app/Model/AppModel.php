@@ -2,7 +2,6 @@
 
 	App::uses('Model', 'Model');
 	App::uses('Sanitize', 'Utility');
-	App::uses('SaitoUser', 'Lib/SaitoUser');
 	App::uses('CakeEvent', 'Event');
 	App::uses('SaitoEventManager', 'Lib/Saito/Event');
 
@@ -35,8 +34,13 @@
 		}
 
 		public function __get($name) {
-			if (isset($this->SharedObjects[$name])) {
-				return $this->SharedObjects[$name];
+			switch ($name) {
+				case 'dic':
+					return ClassRegistry::getObject('dic');
+				default:
+					if (isset($this->SharedObjects[$name])) {
+						return $this->SharedObjects[$name];
+					}
 			}
 			return parent::__get($name);
 		}
@@ -69,21 +73,23 @@
 		}
 
 		public function requireFields(&$data, array $required) {
-			return $this->_mapFields($data, $required, function(&$data, $model, $field) {
-				if (!isset($data[$model][$field])) {
-					return false;
-				}
-				return true;
-			});
+			return $this->_mapFields($data, $required,
+				function (&$data, $model, $field) {
+					if (!isset($data[$model][$field])) {
+						return false;
+					}
+					return true;
+				});
 		}
 
 		public function unsetFields(&$data, array $unset = ['id']) {
-			return $this->_mapFields($data, $unset, function(&$data, $model, $field) {
-				if (isset($data[$model][$field])) {
-					unset($data[$model][$field]);
-				}
-				return true;
-			});
+			return $this->_mapFields($data, $unset,
+				function (&$data, $model, $field) {
+					if (isset($data[$model][$field])) {
+						unset($data[$model][$field]);
+					}
+					return true;
+				});
 		}
 
 		protected function _mapFields(&$data, $fields, callable $func) {
@@ -134,7 +140,7 @@
 			}
 			$field = $this->alias . '.' . $field;
 			$this->updateAll([$field => "$field $operator $amount"],
-					[$this->alias . '.id' => $id]);
+				[$this->alias . '.id' => $id]);
 		}
 
 		public function pipeMerger(array $data) {
@@ -145,12 +151,12 @@
 			return implode(' | ', $out);
 		}
 
-/**
- * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
- *
- * @param string $pipeString
- * @return array
- */
+		/**
+		 * Splits String 'a=b|c=d|e=f' into an array('a'=>'b', 'c'=>'d', 'e'=>'f')
+		 *
+		 * @param string $pipeString
+		 * @return array
+		 */
 		protected function _pipeSplitter($pipeString) {
 			$unpipedArray = array();
 			$ranks = explode('|', $pipeString);
@@ -166,25 +172,25 @@
 
 		protected static function _getIp() {
 			$ip = null;
-			if ( Configure::read('Saito.Settings.store_ip') ):
+			if (Configure::read('Saito.Settings.store_ip')):
 				$ip = env('REMOTE_ADDR');
-				if ( Configure::read('Saito.Settings.store_ip_anonymized' ) ):
+				if (Configure::read('Saito.Settings.store_ip_anonymized')):
 					$ip = self::_anonymizeIp($ip);
 				endif;
 			endif;
 			return $ip;
 		}
 
-/**
- * Dispatches an event
- *
- * - Always passes the issuing model class as subject
- * - Wrapper for CakeEvent boilerplate code
- * - Easier to test
- *
- * @param string $event event identifier `Model.<modelname>.<event>`
- * @param array $data additional event data
- */
+		/**
+		 * Dispatches an event
+		 *
+		 * - Always passes the issuing model class as subject
+		 * - Wrapper for CakeEvent boilerplate code
+		 * - Easier to test
+		 *
+		 * @param string $event event identifier `Model.<modelname>.<event>`
+		 * @param array $data additional event data
+		 */
 		protected function _dispatchEvent($event, $data = []) {
 			$this->getEventManager()->dispatch(new CakeEvent($event, $this, $data));
 			// propagate event on Saito's event bus
@@ -198,12 +204,12 @@
 			$this->_SEM->dispatch($event, $data + ['Model' => $this]);
 		}
 
-/**
- * Rough and tough ip anonymizer
- *
- * @param string $ip
- * @return string
- */
+		/**
+		 * Rough and tough ip anonymizer
+		 *
+		 * @param string $ip
+		 * @return string
+		 */
 		protected static function _anonymizeIp($ip) {
 			$strlen = strlen($ip);
 			if ($strlen > 6) :
@@ -274,7 +280,8 @@
 		 */
 		public function logSql() {
 			if (Configure::read('debug') < 2) {
-				trigger_error('You must set debug level to at least 2 to enable SQL-logging', E_USER_NOTICE);
+				trigger_error('You must set debug level to at least 2 to enable SQL-logging',
+					E_USER_NOTICE);
 			}
 			$dbo = $this->getDatasource();
 			$logs = $dbo->getLog();

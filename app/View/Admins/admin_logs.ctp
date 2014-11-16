@@ -2,7 +2,11 @@
 <p>
 	<?= __('Latest log entries. See full logs at "%s".', ['app/tmp/logs']) ?>
 </p>
-<?php foreach($logs as $title => $content) : ?>
-	<h3><?= $title . '.log' ?></h3>
-	<?= $this->Admin->formatCakeLog($content) ?>
-<?php endforeach; ?>
+<?php
+	if (empty($logs)) {
+		return;
+	}
+	foreach($logs as $title => $content) {
+		echo $this->Html->tag('h3', $title);
+		echo $this->Admin->formatCakeLog($content) ;
+	}

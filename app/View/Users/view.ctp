@@ -248,8 +248,7 @@
         <ul class="threadCollection-node root">
           <?php foreach ($lastEntries as $entry): ?>
             <li>
-              <?= $this->EntryH->renderThread($entry, $CurrentUser,
-                ['ignore' => false]) ?>
+              <?= $this->EntryH->renderThread($entry, ['ignore' => false]) ?>
             </li>
           <?php endforeach; ?>
         </ul>

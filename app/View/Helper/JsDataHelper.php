@@ -1,7 +1,8 @@
 <?php
 
+	use Saito\JsData;
+
 	App::uses('AppHelper', 'View/Helper');
-	App::uses('JsData', 'Lib');
 
 	class JsDataHelper extends AppHelper {
 

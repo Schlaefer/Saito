@@ -24,7 +24,12 @@
 		protected function _atUserLink($string) {
 			$tags = array();
 
-			if (!preg_match_all('/(\s|^)@([^\s\pP]+)/m', $string, $tags)) {
+			/*
+			 * - '\pP' all unicode punctuation marks
+			 * - '<' if nl2br has taken place whatchout for <br /> linebreaks
+			 */
+			$hasTags = preg_match_all('/(\s|^)@([^\s\pP<]+)/m', $string, $tags);
+			if (!$hasTags) {
 				return $string;
 			}
 

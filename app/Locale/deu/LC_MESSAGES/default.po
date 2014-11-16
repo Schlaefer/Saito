@@ -1724,6 +1724,9 @@ msgstr "Nichts erkannt."
 msgid "ncy.bkm"
 msgstr "Noch keine Lesezeichen angelegt."
 
+msgid "ncy.aub"
+msgstr "Noch keine Benutzer gesperrt."
+
 #: webroot/js/templates/upload.html:6
 msgid "upload_btn_insert_into_posting"
 msgstr "Einfügen"

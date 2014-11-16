@@ -1,5 +1,7 @@
 <?php
 
+	use Saito\User\ForumsUserInterface;
+
 	App::uses('AppModel', 'Model');
 
 /**
@@ -481,7 +483,6 @@
  *
  * $options = array(
  *    'root' => true // performance improvements if it's a known thread-root
- *    'complete' => true // include all fields necessary to render the complete entries
  * );
  *
  * @param int $id
@@ -505,24 +506,25 @@
 				$fields = array_merge($this->threadLineFieldList, $this->showEntryFieldListAdditional);
 			}
 
-			$tree = $this->treesForThreads([['id' => $tid]], null, $fields);
+			$tree = $this->treesForThreads([$tid], null, $fields);
 
 			if ((int)$tid !== (int)$id) {
 				$tree = $this->treeGetSubtree($tree, $id);
 			}
 
-			if ($options['complete'] && $tree) {
-				$this->_addAdditionalFields($tree);
-			}
-
 			return $tree;
 		}
 
-/**
- * trees for multiple tids
- */
-		public function treesForThreads($searchArray, $order = null, $fieldlist = null) {
-			if (empty($searchArray)) {
+		/**
+		 * trees for multiple tids
+		 *
+		 * @param $ids
+		 * @param null $order
+		 * @param null $fieldlist
+		 * @return array|bool false if no threads or array with Posting
+		 */
+		public function treesForThreads($ids, $order = null, $fieldlist = null) {
+			if (empty($ids)) {
 				return [];
 			}
 
@@ -532,32 +534,31 @@
 				$order = 'last_answer ASC';
 			}
 
-			$where = [];
-			foreach ($searchArray as $_searchItem) {
-				$where[] = $_searchItem['id'];
-			}
-
 			if ($fieldlist === null) {
 				$fieldlist = $this->threadLineFieldList;
 			}
 
-			$threads = $this->_getThreadEntries(
-				$where,
-				[
-					'order' => $order,
-					'fields' => $fieldlist
-				]
+			$entries = $this->_getThreadEntries(
+				$ids,
+				['order' => $order, 'fields' => $fieldlist]
 			);
-			Stopwatch::stop('Model->Entries->treeForThreads() DB');
 
-			$out = false;
-			if ($threads) {
-				Stopwatch::start('Model->Entries->treeForThreads() CPU');
-				$out = $this->treeBuild($threads);
-				Stopwatch::stop('Model->Entries->treeForThreads() CPU');
+			Stopwatch::stop('Model->Entries->treeForThreads() DB');
+			Stopwatch::start('Model->Entries->treeForThreads() CPU');
+
+			$threads = false;
+			if ($entries) {
+				$threads = [];
+				$entries = $this->treeBuild($entries);
+				foreach ($entries as $thread) {
+					$id = (int)$thread['Entry']['tid'];
+					$threads[$id] = $thread;
+				}
 			}
 
-			return $out;
+			Stopwatch::stop('Model->Entries->treeForThreads() CPU');
+
+			return $threads;
 		}
 
 /**
@@ -816,6 +817,7 @@
 			}
 
 			// set target entry as new parent entry
+			$this->data = [];
 			$this->set('pid', $targetEntry[$this->alias]['id']);
 			if ($this->save()) {
 				// associate all entries in source thread to target thread
@@ -838,6 +840,13 @@
 					$this->save();
 				}
 
+				// propagate pinned property from target to source
+				$isTargetPinned = (bool)$targetEntry[$this->alias]['locked'];
+				if ($sourceEntry[$this->alias]['locked'] !== $isTargetPinned) {
+					$this->id = $targetEntry[$this->alias]['tid'];
+					$this->_threadLock($isTargetPinned);
+				}
+
 				$this->Esevent->transferSubjectForEventType(
 					$threadIdSource,
 					$targetEntry[$this->alias]['tid'],
@@ -850,110 +859,6 @@
 				return true;
 			}
 			return false;
-		}
-
-		protected function _addAdditionalFields(&$entries) {
-			/*
-			 * Function for checking if entry is bookmarked by current user
-			 *
-			 * @param $entries
-			 */
-			$ldGetBookmarkForEntryAndUser = function (&$tree, &$element, $_this) {
-				$element['isBookmarked'] = $this->CurrentUser
-					->hasBookmarked($element['Entry']['id']);
-			};
-			Entry::mapTreeElements($entries, $ldGetBookmarkForEntryAndUser, $this);
-
-			/*
-			 * Function for checking user rights on an entry
-			 *
-			 * @param $tree
-			 * @param $element
-			 * @param $_this
-			 */
-			$ldGetRightsForEntryAndUser = function (&$tree, &$element, $_this) {
-				$rights = [
-					'isEditingForbidden' => $_this->isEditingForbidden($element, $_this->CurrentUser),
-					'isEditingAsUserForbidden' => $_this->isEditingForbidden($element, $_this->CurrentUser->mockUserType('user')),
-					'isAnsweringForbidden' => $_this->isAnsweringForbidden($element)
-				];
-				$element['rights'] = $rights;
-			};
-			Entry::mapTreeElements($entries, $ldGetRightsForEntryAndUser, $this);
-		}
-
-		/**
-		 * Checks if someone is allowed to edit an entry
-		 *
-		 * @param $entry
-		 * @param ForumsUserInterface $User
-		 *
-		 * @return bool|string
-		 * @throws Exception
-		 */
-		public function isEditingForbidden($entry, ForumsUserInterface $User = null) {
-			if ($User === null) {
-				$User = $this->CurrentUser;
-			}
-
-			// Anon
-			if ($User->isLoggedIn() !== true) {
-				return true;
-			}
-
-			// Admins
-			if ($User->isAdmin()) {
-				return false;
-			}
-
-			$verboten = true;
-
-			if (!isset($entry['Entry'])) {
-				$entry = $this->get($entry);
-			}
-
-			if (empty($entry)) {
-				throw new Exception(sprintf('Entry %s not found.', $entry));
-			}
-
-			$expired = ($this->_setting('edit_period') * 60) +
-					strtotime($entry['Entry']['time']);
-			$isOverEditLimit = time() > $expired;
-
-			$isUsersPosting = (int)$User->getId() === (int)$entry['Entry']['user_id'];
-
-			if ($User->isMod()) {
-				// Mods
-				// @todo mods don't edit admin posts
-				if ($isUsersPosting && $isOverEditLimit &&
-						/* Mods should be able to edit their own posts if they are pinned
-						 *
-						 * @todo this opens a 'mod can pin and then edit root entries'-loophole,
-						 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
-						 * for mods pinning root-posts.
-						 */
-						($entry['Entry']['fixed'] == false)
-				) {
-					// mods don't mod themselves
-					$verboten = 'time';
-				} else {
-					$verboten = false;
-				};
-
-			} else {
-				// Users
-				if ($isUsersPosting === false) {
-					$verboten = 'user';
-				} elseif ($isOverEditLimit) {
-					$verboten = 'time';
-				} elseif ($this->_isLocked($entry)) {
-					$verboten = 'locked';
-				} else {
-					$verboten = false;
-				}
-			}
-
-			return $verboten;
 		}
 
 /**
@@ -997,13 +902,6 @@
 			return $this->_isRoot[$md5];
 		}
 
-		protected function _isLocked($entry) {
-			if (!isset($entry[$this->alias]['locked'])) {
-				throw new InvalidArgumentException;
-			}
-			return $entry[$this->alias]['locked'] != false;
-		}
-
 /**
  * Preprocesses entry data before saving it
  *
@@ -1045,7 +943,9 @@
 					throw new InvalidArgumentException;
 				}
 
-				if ($this->isAnsweringForbidden($parent)) {
+				// @todo highly @bogus should be a validator?
+				$parentPosting = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $parent]);
+				if ($parentPosting->isAnsweringForbidden()) {
 					throw new ForbiddenException;
 				}
 
@@ -1071,7 +971,6 @@
 				return $query;
 			}
 			if ($results) {
-				$this->_addAdditionalFields($results);
 				return $results[0];
 			}
 			return $results;
@@ -1102,24 +1001,9 @@
 		protected function _threadLock($value) {
 			$tid = $this->field('tid');
 			$this->contain();
+			// @bogus throws error on $value = false
+			$value = $value ? 1 : 0;
 			$this->updateAll(['locked' => $value], ['tid' => $tid]);
-		}
-
-/**
- * Checks if answering an entry is allowed
- *
- * @param array $entry
- * @return boolean
- */
-		public function isAnsweringForbidden($entry) {
-			$isAnsweringForbidden = true;
-			if ($this->_isLocked($entry)) {
-				$isAnsweringForbidden = 'locked';
-			} else {
-				$isAnsweringForbidden = false;
-			}
-
-			return $isAnsweringForbidden;
 		}
 
 		public function paginateCount($conditions, $recursive, $extra) {
@@ -1180,8 +1064,21 @@
 			return true;
 		}
 
+		/**
+		 * @param $check
+		 * @return bool
+		 * @throws Exception
+		 */
 		public function validateEditingAllowed($check) {
-			$forbidden = $this->isEditingForbidden($this->data['Entry']['id']);
+			$id = $this->data[$this->alias]['id'];
+			$entry = $this->get($id);
+			if (empty($entry)) {
+				throw new Exception(sprintf('Entry %s not found.', $entry));
+			}
+
+			$posting = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $entry]);
+			$forbidden = $posting->isEditingAsCurrentUserForbidden();
+
 			if (is_bool($forbidden)) {
 				return !$forbidden;
 			} else {

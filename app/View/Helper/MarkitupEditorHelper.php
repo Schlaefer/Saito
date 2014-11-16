@@ -2,7 +2,6 @@
 
 	App::uses('AppHelper', 'View/Helper');
 	App::uses('MarkitupHelper', 'Markitup.View/Helper');
-	App::uses('SaitoPlugin', 'Lib/Saito');
 
 	class MarkitupEditorHelper extends MarkitupHelper {
 

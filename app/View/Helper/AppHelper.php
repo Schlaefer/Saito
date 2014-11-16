@@ -34,6 +34,15 @@
 
 		protected static $_tagId = 0;
 
+		public function __get($name) {
+			switch ($name) {
+				case 'dic':
+					return ClassRegistry::getObject('dic');
+				default:
+					return parent::__get($name);
+			}
+		}
+
 		public static function tagId() {
 			return 'id' . static::$_tagId++;
 		}

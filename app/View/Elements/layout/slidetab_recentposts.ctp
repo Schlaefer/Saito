@@ -9,7 +9,7 @@
 					<span title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
 						<?=
 							// @lo
-							Properize::prop(h($CurrentUser['username'])) . ' '
+							Saito\String\Properize::prop(h($CurrentUser['username'])) . ' '
 							. __('user_recentposts');
 						?>
 					</span>

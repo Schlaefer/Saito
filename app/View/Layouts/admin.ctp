@@ -32,10 +32,7 @@
         ?>
 				<ul class="nav">
 					<li class="<?php  if (preg_match('/\/admin$/', $this->request->here)) { echo 'active'; }; ?>">
-						<?php
-							echo $this->Html->link(__('Overview'),
-									array( 'controller' => 'admins', 'action' => 'index', 'admin' => true ));
-						?>
+						<?= $this->Html->link(__('Overview'), '/admin/') ?>
 					</li>
 					<li class="<?php  if (stristr($this->request->here, 'settings')) { echo 'active'; }; ?>">
 						<?php echo $this->Html->link(__('Settings'), '/admin/settings/index'); ?>
@@ -85,6 +82,34 @@
 					<li class="<?php  if (stristr($this->request->here, 'logs')) { echo 'active'; }; ?>">
 						<?php echo $this->Html->link(__('Logs'), '/admin/admins/logs'); ?>
 					</li>
+
+					<?php
+						//= plugins
+						$items = SaitoEventManager::getInstance()->dispatch(
+							'Request.Saito.View.Admin.plugins'
+						);
+						if ($items) { ?>
+					<li class="dropdown <?php  if (stristr($this->request->here, 'plugin')) { echo 'active'; }; ?>">
+						<?php
+								echo $this->Html->link(
+									__('Plugins') . ' ▾',
+									'/admin/plugins',
+									['class' => 'drowdown-toggle', 'data-toggle' => 'dropdown']
+								);
+								foreach ($items as $item) {
+									$plugins[] = $this->Html->link(
+										$item['title'],
+										$item['url'],
+										$jqueryVsBootstrapFix
+									);
+								}
+								echo $this->Html->nestedList(
+									$plugins,
+									['class' => 'dropdown-menu']
+								);
+							}
+						?>
+
 				</ul>
 				<ul class="nav pull-right">
 					<li class="divider-vertical"></li>
@@ -100,8 +125,11 @@
 	<div class="row">
 		<div class="span1">&nbsp;</div>
 		<div class="span10">
-			<?php echo $this->Html->getCrumbs(' > '); ?>
-			<?php echo $this->fetch('content'); ?>
+			<?php
+				echo $this->element('flash/render');
+				echo $this->Html->getCrumbs(' > ');
+				echo $this->fetch('content');
+			?>
 		</div>
 		<div class="span1">&nbsp;</div>
 	</div>

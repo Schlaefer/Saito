@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('Entry', 'Model');
-	App::uses('SaitoUser', 'Lib/SaitoUser');
 
 	// @codingStandardsIgnoreStart
 	class EntryMock extends Entry {
@@ -25,7 +24,6 @@
 
 		public $fixtures = array(
 			'app.bookmark',
-			'app.ecach',
 			'app.user',
 			'app.user_online',
 			'app.user_read',
@@ -64,7 +62,7 @@
 				->with('Model.Thread.create', $this->anything());
 
 			//# Setup CurrentUser
-			$SaitoUser = $this->getMock('SaitoUser', ['getId', 'hasBookmarks']);
+			$SaitoUser = $this->getMock('Saito\User\SaitoUser', ['getId', 'hasBookmarks']);
 			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
@@ -114,7 +112,7 @@
 			$category = 1;
 
 			//# Setup CurrentUser
-			$SaitoUser = $this->getMock('SaitoUser', ['getId']);
+			$SaitoUser = $this->getMock('\Saito\User\SaitoUser', ['getId']);
 			$SaitoUser->expects($this->any())
 					->method('getId')
 					->will($this->returnValue(1));
@@ -225,6 +223,44 @@
 			$this->assertEquals($appendedEntry, 1);
 		}
 
+		/**
+		 * test that a unpinned source thread is pinned after merge if target is pinned
+		 */
+		public function testThreadMergePin() {
+			//= unlock source the fixture thread
+			$this->Entry->id = 4;
+			$this->Entry->toggle('locked');
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == false);
+
+			//= lock the target fixture thread
+			$this->Entry->id = 2;
+			$this->Entry->toggle('locked');
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == false);
+
+			//= merge
+			$this->Entry->id = 4;
+			$this->Entry->threadMerge(2);
+
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == true);
+		}
+
+		/**
+		 * test that a pinned source thread is unpinned before merge
+		 */
+		public function testThreadMergeUnpin() {
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == true);
+
+			$this->Entry->id = 4;
+			$this->Entry->threadMerge(2);
+
+			$entry = $this->Entry->get(4);
+			$this->assertTrue($entry['Entry']['locked'] == false);
+		}
+
 		public function testIdsForNode() {
 			$expected = array(2, 3, 7, 9);
 			$result = $this->Entry->getIdsForNode(2);
@@ -268,7 +304,7 @@
 		}
 
 		public function testChangeThreadCategory() {
-			$SaitoUser = $this->getMock('SaitoUser');
+			$SaitoUser = $this->getMock('\Saito\User\SaitoUser');
 			$SaitoUser->Categories = $this->getMock('Object', ['getAllowed']);
 			$SaitoUser->Categories->expects($this->once())
 				->method('getAllowed')
@@ -311,7 +347,7 @@
 		}
 
 		public function testChangeThreadCategoryNotAnExistingCategory() {
-			$SaitoUser = $this->getMock('SaitoUser');
+			$SaitoUser = $this->getMock('\Saito\User\SaitoUser');
 			$SaitoUser->Categories = $this->getMock('Object', ['getAllowed']);
 			$SaitoUser->Categories->expects($this->once())
 				->method('getAllowed')
@@ -429,189 +465,6 @@
 			$this->assertEquals($result, $expected);
 		}
 
-		public function testIsAnsweringForbidden() {
-			$entry = array('Entry' => array('locked' => 0));
-			$result = $this->Entry->isAnsweringForbidden($entry);
-			$expected = false;
-			$this->assertSame($result, $expected);
-			$entry = array('Entry' => array('locked' => '0'));
-			$result = $this->Entry->isAnsweringForbidden($entry);
-			$expected = false;
-			$this->assertSame($result, $expected);
-			$entry = array('Entry' => array('locked' => false));
-			$result = $this->Entry->isAnsweringForbidden($entry);
-			$expected = false;
-			$this->assertSame($result, $expected);
-		}
-
-		public function testIsEditingForbiddenSuccess() {
-			$this->Entry->_editPeriod = 1200;
-			$entry = array(
-				'Entry' => array(
-					'user_id' => 1,
-					'time' => strftime("%c",
-							time() - $this->Entry->_editPeriod + 1),
-					'locked' => 0,
-				)
-			);
-			$user = array(
-				'id' => 1,
-				'user_type' => 'user',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertFalse($result);
-		}
-
-		public function testIsEditingForbiddenEmptyUser() {
-			$entry = array(
-				'Entry' => array(
-					'user_id' => 1,
-					'time' => strftime("%c",
-							time() - (Configure::read('Saito.Settings.edit_period') * 60) + 1),
-					'locked' => 0,
-				)
-			);
-			$user = null;
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertTrue($result);
-		}
-
-		public function testIsEditingForbiddenAnon() {
-			$entry = array(
-				'Entry' => array(
-					'user_id' => 1,
-					'time' => strftime("%c", time()),
-				)
-			);
-			$user = array(
-				'id' => null,
-				'user_type' => 'anon',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertTrue($result);
-		}
-
-		public function testIsEditingForbiddenWrongUser() {
-			$entry = array(
-				'Entry' => array(
-					'user_id' => 1,
-					'time' => strftime("%c", time()),
-				)
-			);
-			$user = array(
-				'id' => 2,
-				'user_type' => 'user',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEquals($result, 'user');
-		}
-
-		public function testIsEditingForbiddenToLate() {
-			$this->Entry->_editPeriod = 1200;
-			$entry = [
-				'Entry' => [
-					'user_id' => 1,
-					'locked' => false,
-					'time' => strftime(
-						"%c",
-							time() - $this->Entry->_editPeriod - 1
-					)
-				]
-			];
-			$user = array(
-				'id' => 1,
-				'user_type' => 'user',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEquals($result, 'time');
-		}
-
-		public function testIsEditingForbiddenLocked() {
-			$entry = array(
-					'Entry' => array(
-						'user_id' => 1,
-						'time' => strftime("%c", time()),
-						'locked' => 1,
-					)
-			);
-			$user = array(
-				'id' => 1,
-				'user_type' => 'user',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEquals($result, 'locked');
-		}
-
-		public function testIsEditingForbiddenModToLateNotFixed() {
-			Configure::write('Saito.Settings.edit_period', 20);
-			$entry = array(
-				'Entry' => array(
-					'user_id' => 1,
-					'time' => strftime("%c",
-							time() - (Configure::read('Saito.Settings.edit_period') * 60) - 1),
-					'fixed' => false,
-				)
-			);
-			$user = array(
-				'id' => 1,
-				'user_type' => 'mod',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertEquals($result, 'time');
-		}
-
-		public function testIsEditingForbiddenModToLateFixed() {
-			$entry = array(
-				'Entry' => array(
-					'user_id' => 1,
-					'time' => strftime("%c",
-							time() - (Configure::read('Saito.Settings.edit_period') * 60) - 1),
-					'fixed' => true,
-				)
-			);
-			$user = array(
-				'id' => 1,
-				'user_type' => 'mod',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertFalse($result);
-		}
-
-		public function testIsEditingForbiddenAdminToLateNotFixed() {
-			$entry = array(
-				'Entry' => array(
-					'user_id' => 1,
-					'time' => strftime("%c",
-							time() - (Configure::read('Saito.Settings.edit_period') * 60) - 1),
-					'fixed' => false,
-				)
-			);
-			$user = array(
-				'id' => 1,
-				'user_type' => 'admin',
-			);
-			$SaitoUser = new SaitoUser($user);
-			$user = $SaitoUser;
-			$result = $this->Entry->isEditingForbidden($entry, $user);
-			$this->assertFalse($result);
-		}
-
 		public function testIsRoot() {
 			$this->Entry->id = 8;
 			$result = $this->Entry->isRoot();
@@ -638,8 +491,10 @@
 		}
 
 		public function testTreeForNode() {
-			$this->Entry = $this->getMock('Entry', array('getThreadId', 'treesForThreads'),
-					array(false, 'entries', 'test')
+			$this->Entry = $this->getMock(
+				'Entry',
+				['getThreadId', 'treesForThreads'],
+				[false, 'entries', 'test']
 			);
 
 			$this->Entry->expects($this->once())
@@ -647,28 +502,22 @@
 					->with(2)
 					->will($this->returnValue(1));
 
-			$ar = array(
-				0 => array(
-					'Entry' => array(
-						'id' => 1,
-					),
-					'_children' => array(
+			$ar = [
+				0 => [
+					'Entry' => ['id' => 1],
+					'_children' => [
 						0 =>
-								array(
-									'Entry' => array(
-										'id' => 2,
-									),
-									'User'
-								),
-						'Entry' => array(
-							'id' => 3,
-						),
-					)
-				)
-			);
+							[
+								'Entry' => ['id' => 2],
+								'User'
+							],
+						'Entry' => ['id' => 3],
+					]
+				]
+			];
 			$this->Entry->expects($this->once())
 					->method('treesForThreads')
-					->with(array(array('id' => 1)))
+					->with([1])
 					->will($this->returnValue($ar));
 
 			$result = $this->Entry->treeForNode(2);

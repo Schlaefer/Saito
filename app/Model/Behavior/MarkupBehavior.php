@@ -1,7 +1,6 @@
 <?php
 
 	App::uses('ModelBehavior', 'Model');
-	App::uses('SaitoPlugin', 'Lib/Saito');
 
 	class MarkupBehavior extends ModelBehavior {
 
@@ -25,7 +24,7 @@
 		protected function _getPreprocessor() {
 			if ($this->_Preprocessor === null) {
 				$settings = Configure::read('Saito.Settings.Parser');
-				$this->_Preprocessor = SaitoPlugin::getParserClassInstance(
+				$this->_Preprocessor = \Saito\Plugin::getParserClassInstance(
 					'Preprocessor',
 					$settings
 				);

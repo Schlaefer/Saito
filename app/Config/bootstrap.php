@@ -190,7 +190,6 @@ CakeLog::config('auth', array(
 		'file' => 'saito-auth'
 ));
 
-include APP . 'Lib' . DS . 'SaitoExceptions.php';
 include 'version.php';
 
 /**

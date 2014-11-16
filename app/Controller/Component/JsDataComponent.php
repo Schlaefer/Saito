@@ -1,7 +1,8 @@
 <?php
 
+	use Saito\JsData;
+
 	App::uses('Component', 'Controller');
-	App::uses('JsData', 'Lib');
 
 	class JsDataComponent extends Component {
 
