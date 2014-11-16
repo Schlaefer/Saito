@@ -20,7 +20,7 @@
 		 * Output current language strings as json
 		 */
 		public function langJs() {
-			// dummy translation to load po files
+			//= dummy translation to load po files
 			__d('nondynamic', 'foo');
 			__d('default', 'foo');
 			$domains = I18n::domains();
