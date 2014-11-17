@@ -40,8 +40,8 @@ define([
      */
     __: function(string, tokens) {
       var out = string;
-      if (typeof this.dict[string] === 'string' && this.dict[string] !== '') {
-        out = this.dict[string];
+      if (typeof this.dict[string] === 'object' && this.dict[string][''] !== '') {
+        out = this.dict[string][''];
       }
       if (typeof tokens === 'object') {
         out = this._insert(out, tokens);
@@ -50,8 +50,8 @@ define([
     },
 
     _insert: function(string, tokens) {
-      return string.replace(/:([-\w]+)/g, function(token, match, number, text) {
-        if (typeof tokens[match] !== "undefined") {
+      return string.replace(/:([-\w]+)/g, function(token, match) {
+        if (typeof tokens[match] !== 'undefined') {
           return tokens[match];
         }
         return token;
