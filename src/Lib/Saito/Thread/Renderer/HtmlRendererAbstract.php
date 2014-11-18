@@ -2,19 +2,28 @@
 
 	namespace Saito\Thread\Renderer;
 
-	/**
+	use App\View\Helper\PostingHelper;
+	use Saito\Event\SaitoEventManager;
+    use Saito\Posting\PostingInterface;
+
+    /**
 	 * renders posting into an ul-li HTML-list tree
 	 *
 	 * Check and benchmark on front-page if you perform changes here!
 	 */
 	abstract class HtmlRendererAbstract {
 
-		/** * @var SaitoEventManager */
 		use \Saito\Posting\Renderer\HelperTrait;
 
-		protected $_EntryHelper;
+		protected $_Helper;
 
-		protected $_defaults = ['ignore' => true, 'currentEntry' => null];
+		protected $_View;
+
+		protected $_defaults = [
+			'currentEntry' => null,
+			'ignore' => true,
+			'rootWrap' => false
+		];
 
 		protected $_settings;
 
@@ -22,16 +31,17 @@
 
 		protected $_SEM;
 
-		public function __construct(\EntryHHelper $EntryHelper, $options = []) {
-			$this->_EntryHelper = $EntryHelper;
-			$this->_SEM = \SaitoEventManager::getInstance();
+		public function __construct(PostingHelper $PostingHelper, $options = []) {
+			$this->_Helper = $PostingHelper;
+			$this->_View = $this->_Helper->View;
+			$this->_SEM = SaitoEventManager::getInstance();
 			$this->setOptions($options);
 		}
 
-		public function render(\Saito\Posting\PostingInterface $node) {
+		public function render(PostingInterface $node) {
 			$this->_lastAnswer = $node->getThread()->getLastAnswer();
 			$html = $this->_renderNode($node);
-			if ($node->isRoot()) {
+			if ($node->isRoot() || $this->_settings['rootWrap']) {
 				$html = $this->_wrapUl($html, 0, $node->get('id'));
 			}
 			return $html;
@@ -41,7 +51,7 @@
 			$this->_settings = $options + $this->_defaults;
 		}
 
-		protected function _renderNode(\Saito\Posting\PostingInterface $node) {
+		protected function _renderNode(PostingInterface $node) {
 			$html = $this->_renderCore($node);
 
 			$children = $node->getChildren();
@@ -58,7 +68,7 @@
 			return $html;
 		}
 
-		protected abstract function _renderCore(\Saito\Posting\PostingInterface $node);
+		protected abstract function _renderCore(PostingInterface $node);
 
 		/**
 		 * Wraps li tags with ul tag
@@ -90,7 +100,7 @@
 		 */
 		protected function _css($node) {
 			$entryType = ($node->isRoot()) ? 'et-root' : 'et-reply';
-			$entryType .= ($node->isNew()) ? ' et-new' : ' et-old';
+			$entryType .= ($node->isUnread()) ? ' et-new' : ' et-old';
 			if ($node->get('id') === (int)$this->_settings['currentEntry']) {
 				$entryType .= ' et-current';
 			}

@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
 
 	class CakeLogEntry {
 
@@ -49,13 +49,16 @@
 			return $this->SaitoHelp->icon($id, ['style' => 'float: right;']);
 		}
 
-		protected function _cBadge($engine) {
+		protected function _cacheBadge($engine) {
 			switch ($engine) {
 				case 'File':
 					$badge = 'warning';
 					break;
 				case 'Apc':
 					$badge = 'success';
+					break;
+				case 'Debug':
+					$badge = 'important';
 					break;
 				default:
 					$badge = 'info';
@@ -134,5 +137,20 @@ EOF;
 
 			$this->Html->scriptBlock($script, ['inline' => false]);
 		}
+
+        public function accessionToRoles($accession)
+        {
+            switch ($accession) {
+                case (0):
+                    return __('user.type.anon');
+                case (1):
+                    return __('user.type.user');
+                case (2):
+                    return __('user.type.mod');
+                case (3):
+                    return __('user.type.admin');
+            }
+
+        }
 
 	}

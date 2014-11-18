@@ -2,6 +2,8 @@
 
 	namespace Plugin\BbcodeParser\Lib\jBBCode\Visitors;
 
+	use Cake\View\Helper;
+
 	abstract class JbbCodeTextVisitor implements \JBBcode\NodeVisitor {
 
 		protected $_disallowedTags = ['code'];
@@ -13,7 +15,7 @@
 
 		protected $_sOptions = [];
 
-		public function __construct(\Helper $Helper, array $_sOptions) {
+		public function __construct(Helper $Helper, array $_sOptions) {
 			$this->_sOptions = $_sOptions;
 			$this->_sHelper = $Helper;
 		}

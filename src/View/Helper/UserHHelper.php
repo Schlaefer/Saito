@@ -1,23 +1,36 @@
 <?php
 
-	use Saito\User\SaitoUser;
+	namespace App\View\Helper;
 
-	App::uses('AppHelper', 'View/Helper');
+	use Cake\Event\Event;
+	use Cake\ORM\Entity;
+    use Saito\User\ForumsUserInterface;
+    use Saito\User\SaitoUser;
+    use Stopwatch\Lib\Stopwatch;
 
+    /**
+	 * Class UserHHelper
+	 *
+	 * @package App\View\Helper
+	 *
+	 * @todo 3.0 rename
+	 */
 	class UserHHelper extends AppHelper {
 
 		protected $_SaitoUser = null;
 
-		public $helpers = array(
-			'Html',
-			'Session',
-		);
+        public $helpers = ['Html', 'Url'];
 
-		public function beforeRender($viewFile) {
-			parent::beforeRender($viewFile);
+        protected $cache = [];
+
+		public function beforeRender(Event $event, $viewFile) {
 			$this->_SaitoUser = new SaitoUser();
 		}
 
+        /**
+         * @param bool $isBanned
+         * @return string
+         */
 		public function banned($isBanned) {
 			$out = '';
 			if ($isBanned) :
@@ -56,12 +69,12 @@
 			return '<style type="text/css">' . implode(" ", $_styles) . '</style>';
 		}
 
-/**
- * Translates user types
- *
- * @param $type
- * @return mixed
- */
+        /**
+         * Translates user types
+         *
+         * @param $type
+         * @return mixed
+         */
 		public function type($type) {
 			// write out all __() strings for l10n
 			switch ($type):
@@ -77,25 +90,27 @@
 		/**
 		 * Creates link to user contact page with image
 		 *
-		 * @param $user
+		 * @param Entity $user
 		 * @return string
 		 */
-		public function contact($user) {
+		public function contact(Entity $user) {
 			$out = '';
-			if ($user['personal_messages'] && is_string($user['user_email'])) {
+			if ($user->get('personal_messages') && $user->get('user_email')) {
 				$out = $this->Html->link(
 					'<i class="fa fa-envelope-o fa-lg"></i>',
 					['controller' => 'contacts', 'action' => 'user', $user['id']],
-					['escape' => false]);
+					['escape' => false]
+				);
 			}
 			return $out;
 		}
 
-/**
- * Creates Homepage Links with Image from Url
- * @param <type> $url
- * @return <type>
- */
+        /**
+         * Creates Homepage Links with Image from Url
+         *
+         * @param string $url
+         * @return string
+         */
 		public function homepage($url) {
 			$out = $url;
 			if (is_string($url)) {
@@ -114,14 +129,85 @@
 			return $out;
 		}
 
-		public function isMod($user) {
-			$this->_SaitoUser->setSettings($user);
-			return $this->_SaitoUser->isMod($user);
-		}
+        public function linkToUserProfile($user, $link = true, array $options = []) {
+            $options += [
+                'title' => $user['username'],
+                'escape' => true
+            ];
+            $id = $user['id'];
 
-		public function isAdmin($user) {
-			$this->_SaitoUser->setSettings($user);
-			return $this->_SaitoUser->isAdmin($user);
-		}
+            $name = $options['title'];
+            unset($options['title']);
+
+            if (empty($id)) {
+                // removed user
+                $html = $name;
+            } elseif ($link || ($link instanceof ForumsUserInterface && $link->isLoggedIn())) {
+                return $this->Html->link($name, '/users/view/' . $id, $options);
+            } else {
+                $html = $name;
+            }
+            if ($options['escape']) {
+                $html = h($html);
+            }
+            return $html;
+        }
+
+        /**
+         * Get image avatar for user
+         *
+         * @param array|\ArrayAccess $user
+         * @param array $options
+         * @return string HTML
+         */
+        public function getAvatar($user, array $options = []) {
+            $name = $user['username'];
+            $hash = 'avatar.' . md5($name . serialize($options));
+            if (isset($this->cache[$hash])) {
+                return $this->cache[$hash];
+            }
+            $defaults = [
+                'class' => 'avatar-image',
+                'link' => [
+                    'class' => 'avatar-link',
+                    'escape' => false
+                ],
+                'size' => 50,
+                'style' => '',
+                'tag' => 'span'
+            ];
+            $options = array_replace_recursive($defaults, $options);
+            $size = $options['size'];
+
+            $avatar = $user->get('avatar');
+            if ($avatar) {
+                $avatar = $user['avatar'];
+                $userId = $user['id'];
+                $url = "useruploads/users/avatar/{$userId}/square_{$avatar}";
+                $imgUri = $this->Url->assetUrl($url);
+            } else {
+                // @todo @performance
+                $imgUri = (new \Identicon\Identicon)->getImageDataUri($name, $size);
+            }
+
+            $style = "background-image: url({$imgUri});" . $options['style'];
+
+            $html = $this->Html->tag(
+                $options['tag'],
+                '',
+                [
+                    'class' => $options['class'],
+                    'style' => "width: {$size}px; height: {$size}px; {$style}"
+                ]
+            );
+
+            if ($options['link'] !== false) {
+                $options['link']['title'] = $html;
+                 $html = $this->linkToUserProfile($user, true, $options['link']);
+            }
+
+            $this->cache[$hash] = $html;
+            return $html;
+        }
 
 	}

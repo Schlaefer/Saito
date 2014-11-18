@@ -1,0 +1,55 @@
+<?php
+
+	namespace App\Test\TestCase\Model\Table;
+
+	use Cake\Core\Configure;
+	use Saito\Test\Model\Table\SaitoTableTestCase;
+
+	class CategoriesTableTest extends SaitoTableTestCase {
+
+		public $tableClass = 'Categories';
+
+		public $fixtures = [
+			'app.category',
+			'app.entry',
+			'app.user',
+			'app.user_online'
+		];
+
+		public function testUpdateThreadCounter() {
+			$this->Table = $this->getMockForModel(
+				'Categories', ['_dispatchEvent'], ['table' => 'categories']
+			);
+			$this->Table->expects($this->never())
+				->method('_dispatchEvent');
+			$this->Table->updateThreadCounter(2);
+		}
+
+		public function testUpdateEvent() {
+			$this->Table = $this->getMockForModel(
+				'Categories', ['_dispatchEvent'], ['table' => 'categories']
+			);
+			$this->Table->expects($this->once())
+				->method('_dispatchEvent')
+				->with('Cmd.Cache.clear', ['cache' => ['Saito', 'Thread']]);
+
+			$data = ['category' => 'foo'];
+
+			$category = $this->Table->get(1);
+			$this->Table->patchEntity($category, $data);
+			$this->Table->save($category);
+		}
+
+		public function testDeleteEvent() {
+			$this->Table = $this->getMockForModel(
+				'Categories', ['_dispatchEvent'], ['table' => 'categories']
+			);
+			$this->Table->expects($this->once())
+				->method('_dispatchEvent')
+				->with('Cmd.Cache.clear', ['cache' => ['Saito', 'Thread']]);
+
+			$category = $this->Table->get(1);
+			$this->Table->delete($category);
+		}
+
+	}

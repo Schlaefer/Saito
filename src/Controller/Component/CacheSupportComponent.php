@@ -1,67 +1,77 @@
 <?php
 
-	use Saito\Cache\CacheSupport;
-	use Saito\Cache\ItemCache;
-	use Saito\Cache\LineCacheSupportCachelet;
-	use Saito\Cache\SaitoCacheEngineAppCache;
+namespace App\Controller\Component;
 
-	App::uses('Component', 'Controller');
+use Cake\Core\Configure;
+use Cake\Controller\Component;
 
-	class CacheSupportComponent extends Component {
+use Cake\Event\Event;
+use Saito\Cache\CacheSupport;
+use Saito\Cache\ItemCache;
+use Saito\Cache\LineCacheSupportCachelet;
+use Saito\Cache\SaitoCacheEngineAppCache;
 
-		protected $_CacheSupport;
+class CacheSupportComponent extends Component
+{
 
-		/** * @var ItemCache */
-		public $LineCache;
+    protected $_CacheSupport;
 
-		public function initialize(Controller $Controller) {
-			$this->_CacheSupport = new CacheSupport();
-			if ($Controller->modelClass) {
-				$Controller->{$Controller->modelClass}->SharedObjects['CacheSupport'] = $this->_CacheSupport;
-			}
-			$this->_addConfigureCachelets();
-			$this->_initLineCache($Controller);
-		}
+    /** * @var ItemCache */
+    public $LineCache;
 
-		protected function _initLineCache() {
-			$this->LineCache = new ItemCache(
-				'Saito.LineCache',
-				new SaitoCacheEngineAppCache,
-				// duration: update relative time values in HTML at least every hour
-				['duration' => 3600, 'maxItems' => 600]
-			);
-			$this->_CacheSupport->add(new LineCacheSupportCachelet($this->LineCache));
-		}
+    public function initialize(array $config)
+    {
+        $this->_CacheSupport = new CacheSupport();
+        $this->_addConfigureCachelets();
+        $this->_initLineCache($this->_registry->getController());
+    }
 
-		/**
-		 * Adds additional cachelets from Configure `Saito.Cachelets`
-		 *
-		 * E.g. use in `Plugin/<foo>/Config/bootstrap.php`:
-		 *
-		 * <code>
-		 * Configure::write('Saito.Cachelets.M', ['location' => 'M.Lib', 'name' => 'MCacheSupportCachelet']);
-		 * </code>
-		 */
-		protected function _addConfigureCachelets() {
-			$_additionalCachelets = Configure::read('Saito.Cachelets');
-			if (!$_additionalCachelets) {
-				return;
-			}
-			foreach ($_additionalCachelets as $_c) {
-				App::uses($_c['name'], $_c['location']);
-				$this->_CacheSupport->add(new $_c['name']);
-			}
-		}
+    protected function _initLineCache()
+    {
+        $this->LineCache = new ItemCache(
+            'Saito.LineCache',
+            new SaitoCacheEngineAppCache,
+            // duration: update relative time values in HTML at least every hour
+            ['duration' => 3600, 'maxItems' => 600]
+        );
+        $this->_CacheSupport->add(
+            new LineCacheSupportCachelet($this->LineCache)
+        );
+    }
 
-		public function beforeRender(Controller $Controller) {
-			$Controller->set('LineCache', $this->LineCache);
-		}
+    /**
+     * Adds additional cachelets from Configure `Saito.Cachelets`
+     *
+     * E.g. use in `Plugin/<foo>/Config/bootstrap.php`:
+     *
+     * <code>
+     * Configure::write('Saito.Cachelets.M', ['location' => 'M.Lib', 'name' =>
+     * 'MCacheSupportCachelet']);
+     * </code>
+     */
+    protected function _addConfigureCachelets()
+    {
+        $_additionalCachelets = Configure::read('Saito.Cachelets');
+        if (!$_additionalCachelets) {
+            return;
+        }
+        foreach ($_additionalCachelets as $_c) {
+            App::uses($_c['name'], $_c['location']);
+            $this->_CacheSupport->add(new $_c['name']);
+        }
+    }
 
-		public function __call($method, $params) {
-			$proxy = [$this->_CacheSupport, $method];
-			if (is_callable($proxy)) {
-				return call_user_func_array($proxy, $params);
-			}
-		}
+    public function beforeRender(Event $event)
+    {
+        $event->subject->set('LineCache', $this->LineCache);
+    }
 
-	}
+    public function __call($method, $params)
+    {
+        $proxy = [$this->_CacheSupport, $method];
+        if (is_callable($proxy)) {
+            return call_user_func_array($proxy, $params);
+        }
+    }
+
+}

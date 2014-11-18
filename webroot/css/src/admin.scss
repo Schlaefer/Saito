@@ -39,3 +39,12 @@ table.table thead .sorting_desc_disabled { background: url('../../js/lib/datatab
 	width: 100%;
 	height: 300px;
 	}
+
+// Cake Form Errors
+// -------------------------------------
+form .error-message {
+  padding: 0.5em;
+  color: white;
+  background: red;
+  margin-bottom: 1em;
+}

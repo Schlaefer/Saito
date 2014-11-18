@@ -1,60 +1,50 @@
 <?php
 
-	/**
-	 * UserBlockFixture
-	 *
-	 */
-	class UserBlockFixture extends CakeTestFixture {
+	namespace App\Test\Fixture;
 
-		/**
-		 * Fields
-		 *
-		 * @var array
-		 */
-		public $fields = array(
-			'id' => array('type' => 'integer', 'null' => false, 'default' => null,
-				'unsigned' => true, 'key' => 'primary'),
-			'created' => array('type' => 'datetime', 'null' => true,
-				'default' => null),
-			'modified' => array('type' => 'datetime', 'null' => true,
-				'default' => null),
-			'user_id' => array('type' => 'integer', 'null' => false,
-				'default' => null, 'unsigned' => true, 'key' => 'index'),
-			'reason' => array('type' => 'string', 'null' => true, 'default' => null,
-				'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-			'by' => array('type' => 'integer', 'null' => true, 'default' => null,
-				'unsigned' => true),
-			'ends' => array('type' => 'datetime', 'null' => true, 'default' => null,
-				'key' => 'index'),
-			'ended' => array('type' => 'datetime', 'null' => true, 'default' => null),
-			'hash' => array('type' => 'string', 'null' => true, 'default' => null,
-				'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-			'indexes' => array(
-				'PRIMARY' => array('column' => 'id', 'unique' => 1),
-				'ends' => array('column' => 'ends', 'unique' => 0),
-				'user_id' => array('column' => 'user_id', 'unique' => 0)
-			),
-			'tableParameters' => array('charset' => 'utf8',
-				'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-		);
+	use Cake\TestSuite\Fixture\TestFixture;
 
-		/**
-		 * Records
-		 *
-		 * @var array
-		 */
-		/*
-		public $records = array(
-			array(
+	class UserBlockFixture extends TestFixture {
+
+		public $fields = [
+			'id' => ['type' => 'integer', 'null' => false, 'default' => null,
+				'unsigned' => true],
+			'user_id' => ['type' => 'integer', 'null' => false, 'default' => null,
+				'unsigned' => true],
+			'reason' => ['type' => 'string', 'null' => true, 'default' => null,
+				'collate' => 'utf8_general_ci', 'charset' => 'utf8'],
+			'by' => ['type' => 'integer', 'null' => true, 'default' => null,
+				'unsigned' => true],
+			'ends' => ['type' => 'datetime', 'null' => true, 'default' => null],
+			'ended' => ['type' => 'datetime', 'null' => true, 'default' => null],
+			'hash' => [
+				'type' => 'string', 'null' => true, 'default' => null,
+				'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'
+			],
+			'_constraints' => [
+				'primary' => ['type' => 'primary', 'columns' => ['id']]
+			],
+			'_options' => [
+				'charset' => 'utf8',
+				'collate' => 'utf8_general_ci'
+			]
+		];
+
+		public $records = [
+			[
 				'id' => 1,
-				'created' => '2014-08-11 08:59:43',
-				'modified' => '2014-08-11 08:59:43',
 				'user_id' => 1,
-				'reason' => 1,
+				'by' => 1,
 				'ends' => '2014-08-11 08:59:43',
-				'by' => 1
-			),
-		);
+				'ended' => null
+			],
+			[
+				'id' => 2,
+				'user_id' => 2,
+				'by' => 1,
+				'ends' => null,
+				'ended' => null
+			],
+		];
 
-		*/
 	}

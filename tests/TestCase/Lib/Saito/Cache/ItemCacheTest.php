@@ -1,126 +1,155 @@
 <?php
 
-	use Saito\Cache\ItemCache;
+namespace Saito\Test\Cache;
 
-	class ItemCacheMock extends ItemCache {
+use Saito\Cache\ItemCache;
+use Saito\Test\SaitoTestCase;
 
-		public function setCacheEngine($CacheEngine) {
-			$this->_CacheEngine = $CacheEngine;
-		}
+class ItemCacheMock extends ItemCache
+{
 
-		public function setRaw($data) {
-			$this->_cache = $data;
-		}
+    public function setCacheEngine($CacheEngine)
+    {
+        $this->_CacheEngine = $CacheEngine;
+    }
 
-		public function write() {
-			$this->_write();
-		}
+    public function setRaw($data)
+    {
+        $this->_cache = $data;
+    }
 
-	}
+    public function write()
+    {
+        $this->_write();
+    }
 
-	class ItemCacheTest extends CakeTestCase {
+}
 
-		public function setUp() {
-			parent::setUp();
-			$this->_setupItemCache();
+class ItemCacheTest extends SaitoTestCase
+{
 
-			$this->time = time();
-		}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->_setupItemCache();
 
-		protected function _setFixture() {
-			$this->ItemCache->set(1, 'foo', $this->time - 3600);
+        $this->time = time();
+    }
 
-			$this->fixture = [
-				1 => [
-					'metadata' => [
-						'created' => $this->time,
-						'content_last_updated' => $this->time - 3600
-					],
-					'content' => 'foo',
-				]
-			];
-		}
+    public function tearDown()
+    {
+        parent::tearDown();
+        $this->_cleanUp();
+    }
 
-		protected function _setupItemCache($methods = null, array $options = []) {
-			$this->_cleanUp();
-			$this->ItemCache = $this->getMock('ItemCacheMock', $methods,
-				['test', null, $options]);
-			$this->CacheEngine = $this->getMock('Object', ['read', 'write']);
-			$this->ItemCache->setCacheEngine($this->CacheEngine);
-		}
+    protected function _setFixture()
+    {
+        $this->ItemCache->set(1, 'foo', $this->time - 3600);
 
-		public function tearDown() {
-			parent::tearDown();
-			$this->_cleanUp();
-		}
+        $this->fixture = [
+            1 => [
+                'metadata' => [
+                    'created' => $this->time,
+                    'content_last_updated' => $this->time - 3600
+                ],
+                'content' => 'foo',
+            ]
+        ];
+    }
 
-		protected function _cleanUp() {
-			unset($this->ItemCache);
-			unset($this->CacheEngine);
-		}
+    protected function _setupItemCache($methods = null, array $options = [])
+    {
+        $this->_cleanUp();
+        $this->ItemCache = $this->getMock(
+            '\Saito\Test\Cache\ItemCacheMock',
+            $methods,
+            ['test', null, $options]
+        );
+        $this->CacheEngine = $this->getMock('Object', ['read', 'write']);
+        $this->ItemCache->setCacheEngine($this->CacheEngine);
+    }
 
-		public function testGcMaxItems() {
-			$this->_setupItemCache(null, ['maxItems' => 2, 'maxItemsFuzzy' => 0]);
+    protected function _cleanUp()
+    {
+        unset($this->ItemCache);
+        unset($this->CacheEngine);
+    }
 
-			$this->ItemCache->reset();
-			$this->ItemCache->set('2', 'foo', 2);
-			$this->ItemCache->set('4', 'bar', 4);
-			$this->ItemCache->set('1', 'baz', 1);
-			$this->ItemCache->set('3', 'baz', 3);
+    public function testGcMaxItems()
+    {
+        $this->_setupItemCache(null,
+            ['maxItems' => 2, 'maxItemsFuzzy' => 0]);
 
-			$this->ItemCache->write();
+        $this->ItemCache->reset();
+        $this->ItemCache->set('2', 'foo', 2);
+        $this->ItemCache->set('4', 'bar', 4);
+        $this->ItemCache->set('1', 'baz', 1);
+        $this->ItemCache->set('3', 'baz', 3);
 
-			$cache = $this->ItemCache->get();
-			$this->assertCount(2, $cache);
-			$this->assertArrayHasKey('3', $cache);
-			$this->assertArrayHasKey('4', $cache);
-		}
+        $this->ItemCache->write();
 
-		public function testGcOutdated() {
-			$duration = 3600;
-			$this->_setupItemCache(null, ['duration' => $duration]);
+        $cache = $this->ItemCache->get();
+        $this->assertCount(2, $cache);
+        $this->assertArrayHasKey('3', $cache);
+        $this->assertArrayHasKey('4', $cache);
+    }
 
-			$data = [
-				0 => [
-					'metadata' => ['created' => $this->time - $duration - 2,
-						'content_last_updated' => $this->time],
-					'content' => 'foo',
-				],
-				1 => [
-					'metadata' => ['created' => $this->time - $duration - 1,
-						'content_last_updated' => $this->time],
-					'content' => 'foo',
-				],
-				2 => [
-					'metadata' => ['created' => $this->time - $duration,
-						'content_last_updated' => $this->time],
-					'content' => 'foo',
-				],
-				3 => [
-					'metadata' => ['created' => $this->time - $duration + 1,
-						'content_last_updated' => $this->time],
-					'content' => 'foo',
-				]
-			];
+    public function testGcOutdated()
+    {
+        $duration = 3600;
+        $this->_setupItemCache(null, ['duration' => $duration]);
 
-			$this->CacheEngine->expects($this->once())->method('read')
-				->will($this->returnValue($data));
+        $data = [
+            0 => [
+                'metadata' => [
+                    'created' => $this->time - $duration - 2,
+                    'content_last_updated' => $this->time
+                ],
+                'content' => 'foo',
+            ],
+            1 => [
+                'metadata' => [
+                    'created' => $this->time - $duration - 1,
+                    'content_last_updated' => $this->time
+                ],
+                'content' => 'foo',
+            ],
+            2 => [
+                'metadata' => [
+                    'created' => $this->time - $duration,
+                    'content_last_updated' => $this->time
+                ],
+                'content' => 'foo',
+            ],
+            3 => [
+                'metadata' => [
+                    'created' => $this->time - $duration + 1,
+                    'content_last_updated' => $this->time
+                ],
+                'content' => 'foo',
+            ]
+        ];
 
-			$cache = $this->ItemCache->get();
-			$this->assertArrayNotHasKey(0, $cache);
-			$this->assertArrayNotHasKey(1, $cache);
-			$this->assertArrayHasKey(2, $cache);
-			$this->assertArrayHasKey(3, $cache);
-		}
+        $this->CacheEngine->expects($this->once())->method('read')
+            ->will($this->returnValue($data));
 
-		public function testGetRaw() {
-			$this->_setFixture();
-			$this->assertEquals($this->fixture, $this->ItemCache->get());
-		}
+        $cache = $this->ItemCache->get();
+        $this->assertArrayNotHasKey(0, $cache);
+        $this->assertArrayNotHasKey(1, $cache);
+        $this->assertArrayHasKey(2, $cache);
+        $this->assertArrayHasKey(3, $cache);
+    }
 
-		public function testReset() {
-			$this->ItemCache->reset();
-			$this->assertEquals([], $this->ItemCache->get());
-		}
+    public function testGetRaw()
+    {
+        $this->_setFixture();
+        $this->assertEquals($this->fixture, $this->ItemCache->get());
+    }
 
-	}
+    public function testReset()
+    {
+        $this->ItemCache->reset();
+        $this->assertEquals([], $this->ItemCache->get());
+    }
+
+}

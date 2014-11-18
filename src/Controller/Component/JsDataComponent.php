@@ -1,14 +1,16 @@
 <?php
 
-	use Saito\JsData;
+	namespace App\Controller\Component;
 
-	App::uses('Component', 'Controller');
+	use Cake\Controller\Component;
+	use Cake\Event\Event;
+	use Saito\JsData;
 
 	class JsDataComponent extends Component {
 
 		protected $_JsData;
 
-		public function startup(Controller $Controller) {
+		public function startup(Event $event) {
 			$this->_JsData = JsData::getInstance();
 		}
 

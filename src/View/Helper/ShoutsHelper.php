@@ -1,21 +1,25 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
+
+	use Cake\Cache\Cache;
 
 	class ShoutsHelper extends AppHelper {
 
-		public $helpers = [
-			'Api.Api',
-			'Parser'
-		];
+		public $helpers = ['Api.Api', 'Parser'];
 
 		protected $_cacheKey = 'Saito.Shouts.prepared';
 
 		public function prepare($shouts) {
-			if (empty($shouts)) {
+			if ($shouts->count() === 0) {
 				return [];
 			}
-			$lastId = (int)$shouts[0]['Shout']['id'];
+
+			foreach ($shouts as $shout) {
+				$lastId = $shout->get('id');
+				break;
+			}
+
 			$cache = $this->_readCache($lastId);
 			if ($cache) {
 				return $cache;
@@ -24,15 +28,15 @@
 			$prepared = [];
 			foreach ($shouts as $shout) {
 				$prepared[] = [
-					'id' => (int)$shout['Shout']['id'],
-					'time' => $this->Api->mysqlTimestampToIso($shout['Shout']['time']),
-					'text' => $shout['Shout']['text'],
+					'id' => $shout->get('id'),
+					'time' => $shout->get('time')->toIso8601String(),
+					'text' => $shout->get('text'),
 					'html' => $this->Parser->parse(
-						$shout['Shout']['text'],
+						$shout->get('text'),
 						['multimedia' => false, 'wrap' => false]
 					),
-					'user_id' => (int)$shout['Shout']['user_id'],
-					'user_name' => $shout['Shout']['username']
+					'user_id' => $shout->get('user_id'),
+					'user_name' => $shout->get('user')->get('username')
 				];
 			}
 

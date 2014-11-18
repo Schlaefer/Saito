@@ -16,12 +16,14 @@
     "jquery-tinytimer": "0.1.4",
     "jquery-dropdown": "1.0.4",
     "drop": "0.4.0",
+    "leaflet": "~0.7.3",
     "leaflet.markercluster": "~0.4.0",
     "jasmine": "~2.0.0",
     "jasmine-jquery": "~2.0.3",
     "sinonjs": "~1.9.0",
-    "lodash": "~2.4.1",
-    "require-cs": "~0.5.0"
+    "lodash": "~3.5",
+    "require-cs": "~0.5.0",
+    "susy": "1.0.*"
   },
   "exportsOverride": {
     "backbone": {
@@ -39,9 +41,6 @@
     "fastclick": {
       "js": "lib/fastclick.js"
     },
-    "lodash": {
-      "js": "dist/lodash.js"
-    },
     "requirejs": {
       "js": "require.js"
     },
@@ -54,6 +53,10 @@
     "momentjs": {
       "js": "moment.js",
       "lang": "lang/*.js"
+    },
+    "leaflet": {
+      "/": ["dist/leaflet.js", "dist/leaflet.css"],
+      "images": "dist/images/*"
     }
   },
   "resolutions": {

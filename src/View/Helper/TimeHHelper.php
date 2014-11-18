@@ -1,6 +1,12 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
+
+	use Cake\Core\Configure;
+	use Cake\Event\Event;
+	use DateTime;
+    use Carbon\Carbon;
+	use DateTimeZone;
 
 	class TimeHHelper extends AppHelper {
 
@@ -28,8 +34,7 @@
 
 		protected $_timeDiffToUtc = 0;
 
-		public function beforeRender($viewFile) {
-			parent::beforeRender($viewFile);
+		public function beforeRender(Event $event, $viewFile) {
 			$this->_now = time();
 			$this->_today = mktime(0, 0, 0);
 
@@ -81,7 +86,14 @@
 				'wrap' => true
 			];
 
-			$timestamp = strtotime($timestamp) - $this->_timeDiffToUtc;
+			// @todo 3.0 set interface
+			if (is_object($timestamp)) {
+				$timestamp = $timestamp->toUnixString();
+			} else {
+				$timestamp = strtotime($timestamp);
+			}
+
+			$timestamp = $timestamp - $this->_timeDiffToUtc;
 
 			if ($format === 'normal' || empty($format)) {
 				$_timeString = $this->_normal($timestamp);
@@ -131,7 +143,12 @@
 			if ($date === null) {
 				return null;
 			}
-			$unixTimeStamp = strtotime($date);
+            if ($date instanceof Carbon) {
+                $unixTimeStamp = $date->timestamp;
+            } else {
+                $unixTimeStamp = strtotime($date);
+            }
+
 			if ($unixTimeStamp < 0) {
 				$unixTimeStamp = 0;
 			}

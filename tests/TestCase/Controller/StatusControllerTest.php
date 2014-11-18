@@ -1,51 +1,42 @@
 <?php
 
+	namespace App\Test\TestCase\Controller;
 
-	/**
-	 * ShoutsController Test Case
-	 *
-	 */
-	class StatusControllerTest extends \Saito\Test\ControllerTestCase {
+	use Cake\TestSuite\IntegrationTestCase;
 
-		/**
-		 * Fixtures
-		 *
-		 * @var array
-		 */
-		public $fixtures = array(
+	class StatusControllerTest extends \Saito\Test\IntegrationTestCase {
+
+		public $fixtures = [
+			'app.category',
+			'app.entry',
+			'app.esevent',
+			'app.esnotification',
+			'app.setting',
 			'app.shout',
+			'app.upload',
 			'app.user',
 			'app.user_block',
 			'app.user_online',
 			'app.user_read',
-			'app.bookmark',
-			'app.entry',
-			'app.category',
-			'app.esevent',
-			'app.esnotification',
-			'app.upload',
-			'app.setting'
-		);
+			'plugin.bookmarks.bookmark'
+		];
 
 		public function testStatusMustBeAjax() {
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/status/status', ['method' => 'GET']);
-		}
-
-		public function testStatusIfNotLoggedIn() {
-			$this->_setJson();
-			$this->_setAjax();
-			$this->testAction('/status/status', ['method' => 'GET']);
-			$this->assertFalse(isset($this->headers['Location']));
+            $this->setExpectedException('Cake\Network\Exception\BadRequestException');
+			$this->get('/status/status');
 		}
 
 		public function testStatusSuccess() {
-			$this->_setJson();
 			$this->_setAjax();
+			$this->_setJson();
+
+			$this->get('/status/status');
+
+			$this->assertResponseOk();
+			$this->assertNoRedirect();
+
 			$expected = json_encode(['lastShoutId' => 4]);
-			$result = $this->testAction('/status/status',
-				['method' => 'GET', 'return' => 'contents']);
-			$this->assertEquals($result, $expected);
+			$this->assertResponseContains($expected);
 		}
 
 	}

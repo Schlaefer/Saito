@@ -1,62 +1,90 @@
 <?php
 
-	App::uses('CurrentUserComponent', 'Controller/Component');
+namespace Saito\Test\User\LastRefresh;
 
-	class LastRefreshDatabaseTest extends CakeTestCase {
+use App\Controller\Component\CurrentUserComponent;
+use Cake\Controller\ComponentRegistry;
+use Cake\Controller\Controller;
+use Cake\Network\Request;
+use Cake\Network\Response;
+use Saito\Test\SaitoTestCase;
+use Saito\User\LastRefresh\LastRefreshDatabase;
 
-		/**
-		 * @var CurrentUserComponent;
-		 */
-		public $CurrentUser;
+class LastRefreshDatabaseTest extends SaitoTestCase
+{
 
-		public function setUp() {
-			parent::setUp();
-			$Collection = new ComponentCollection();
-			$this->CurrentUser = new CurrentUserComponent($Collection);
-			$this->LastRefresh = new \Saito\User\LastRefresh\LastRefreshDatabase($this->CurrentUser);
-		}
+    /**
+     * @var CurrentUserComponent;
+     */
+    public $CurrentUser;
 
-		/**
-		 * Tests that a newly registered users sees everything as new
-		 */
-		public function testIsNewerThanForNewUsers() {
-			$userData = ['id' => 1, 'last_refresh' => null];
-			$this->CurrentUser->setSettings($userData);
+    public function setUp()
+    {
+        parent::setUp();
 
-			$this->assertNull($this->LastRefresh->isNewerThan(time()));
-			$this->assertNull($this->LastRefresh->isNewerThan(date('Y-m-d h:i:s', time())));
-		}
+        $request = new Request();
+        $request->session()->start();
+        $request->session()->id('test');
+        $response = new Response();
+        $controller = new Controller($request, $response);
+        $controller->loadComponent('Auth');
+        $registry = new ComponentRegistry($controller);
+        $this->CurrentUser = $this->getMock(
+            'App\Controller\Component\CurrentUserComponent',
+            ['_markOnline'],
+            [$registry]
+        );
+        $this->LastRefresh = new LastRefreshDatabase($this->CurrentUser);
+    }
 
-		/**
-		 * tests entry is newer than last refresh
-		 */
-		public function testIsNewerThanTrue() {
-			$time = time();
-			$lastRefresh = date('Y-m-d H:i:s', $time + 10);
-			$userData = ['id' => 1, 'last_refresh' => $lastRefresh];
-			$this->CurrentUser->setSettings($userData);
+    public function tearDown()
+    {
+        unset($this->CurrentUser);
+        unset($this->LastRefresh);
+        parent::tearDown();
+    }
 
-			$this->assertTrue($this->LastRefresh->isNewerThan($time));
-			$this->assertTrue($this->LastRefresh->isNewerThan(date('Y-m-d H:i:s', $time)));
-		}
+    /**
+     * Tests that a newly registered users sees everything as new
+     */
+    public function testIsNewerThanForNewUsers()
+    {
+        $userData = ['id' => 1, 'last_refresh' => null];
+        $this->CurrentUser->setSettings($userData);
 
-		/**
-		 * tests entry is older than last refresh
-		 */
-		public function testIsNewerThanFalse() {
-			$time = time();
-			$lastRefresh = date('Y-m-d H:i:s', $time - 10);
-			$userData = ['id' => 1, 'last_refresh' => $lastRefresh];
-			$this->CurrentUser->setSettings($userData);
+        $this->assertNull($this->LastRefresh->isNewerThan(time()));
+        $this->assertNull($this->LastRefresh->isNewerThan(date('Y-m-d h:i:s',
+            time())));
+    }
 
-			$this->assertFalse($this->LastRefresh->isNewerThan($time));
-			$this->assertFalse($this->LastRefresh->isNewerThan(date('Y-m-d H:i:s', $time)));
-		}
+    /**
+     * tests entry is newer than last refresh
+     */
+    public function testIsNewerThanTrue()
+    {
+        $time = time();
+        $lastRefresh = date('Y-m-d H:i:s', $time + 10);
+        $userData = ['id' => 1, 'last_refresh' => $lastRefresh];
+        $this->CurrentUser->setSettings($userData);
 
-		public function tearDown() {
-			unset($this->CurrentUser);
-			unset($this->LastRefresh);
-			parent::tearDown();
-		}
+        $this->assertTrue($this->LastRefresh->isNewerThan($time));
+        $this->assertTrue($this->LastRefresh->isNewerThan(date('Y-m-d H:i:s',
+            $time)));
+    }
 
-	}
+    /**
+     * tests entry is older than last refresh
+     */
+    public function testIsNewerThanFalse()
+    {
+        $time = time();
+        $lastRefresh = date('Y-m-d H:i:s', $time - 10);
+        $userData = ['id' => 1, 'last_refresh' => $lastRefresh];
+        $this->CurrentUser->setSettings($userData);
+
+        $this->assertFalse($this->LastRefresh->isNewerThan($time));
+        $this->assertFalse($this->LastRefresh->isNewerThan(date('Y-m-d H:i:s',
+            $time)));
+    }
+
+}

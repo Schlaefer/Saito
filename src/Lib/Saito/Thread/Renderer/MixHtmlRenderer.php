@@ -9,7 +9,7 @@
 
 		protected function _renderCore(\Saito\Posting\PostingInterface $node) {
 			$css = $this->_css($node);
-			$html = $this->_EntryHelper->_View->element('/entry/view_posting',
+			$html = $this->_View->element('/entry/view_posting',
 				['entry' => $node, 'level' => $node->getLevel()]);
 
 			$html = <<<EOF

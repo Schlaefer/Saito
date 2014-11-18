@@ -1,19 +1,23 @@
 <?php
 
-	class CategoryFixture extends CakeTestFixture {
+	namespace App\Test\Fixture;
+
+	use Cake\TestSuite\Fixture\TestFixture;
+
+	class CategoryFixture extends TestFixture {
 
 		public $fields = array(
-			'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-			'category_order' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
-			'category' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-			'description' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-			'accession' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'unsigned' => false),
-			'thread_count' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
-			'indexes' => array(
-				'PRIMARY' => array('column' => 'id', 'unique' => 1)
-			),
-			'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
-		);
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'category_order' => ['type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false],
+		'category' => ['type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'description' => ['type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'accession' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'unsigned' => false],
+        'accession_new_thread' => ['type' => 'integer', 'null' => false, 'default' => 1, 'length' => 4, 'unsigned' => false],
+        'accession_new_posting' => ['type' => 'integer', 'null' => false, 'default' => 1, 'length' => 4, 'unsigned' => false],
+		'thread_count' => ['type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false],
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
+		'_options' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM']
+	);
 
 		public $records = array(
 			array(
@@ -22,6 +26,8 @@
 				'category' => 'Admin',
 				'description' => '',
 				'accession' => 2,
+                'accession_new_thread' => 2,
+                'accession_new_posting' => 2,
 				'thread_count' => 1,
 			),
 			array(
@@ -30,6 +36,8 @@
 				'category' => 'Ontopic',
 				'description' => '',
 				'accession' => 0,
+                'accession_new_thread' => 1,
+                'accession_new_posting' => 1,
 				'thread_count' => 4,
 			),
 			array(
@@ -38,6 +46,8 @@
 				'category' => 'Another Ontopic',
 				'description' => '',
 				'accession' => 0,
+                'accession_new_thread' => 1,
+                'accession_new_posting' => 1,
 				'thread_count' => 0,
 			),
 			array(
@@ -46,6 +56,8 @@
 				'category' => 'Offtopic',
 				'description' => '',
 				'accession' => 1,
+                'accession_new_thread' => 2,
+                'accession_new_posting' => 1,
 				'thread_count' => 1,
 			),
 			array(
@@ -54,6 +66,8 @@
 				'category' => 'Trash',
 				'description' => '',
 				'accession' => 1,
+                'accession_new_thread' => 1,
+                'accession_new_posting' => 1,
 				'thread_count' => 0,
 			),
 		);

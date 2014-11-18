@@ -1,10 +1,10 @@
 <?php
 
-	/**
-	 * UseronlineFixture
-	 *
-	 */
-	class UseronlineFixture extends CakeTestFixture {
+	namespace App\Test\Fixture;
+
+	use Cake\TestSuite\Fixture\TestFixture;
+
+	class UseronlineFixture extends TestFixture {
 
 		/**
 		 * Table name
@@ -19,29 +19,16 @@
 		 * @var array
 		 */
 		public $fields = array(
-			'id' => array('type' => 'integer', 'null' => false, 'default' => null,
-				'unsigned' => true, 'key' => 'primary'),
-			'uuid' => array('type' => 'string', 'null' => false, 'length' => 32,
-				'key' => 'unique', 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-			'user_id' => array('type' => 'integer', 'null' => true, 'default' => null,
-				'unsigned' => false, 'key' => 'index'),
-			'logged_in' => array('type' => 'boolean', 'null' => false,
-				'default' => null, 'key' => 'index'),
-			'time' => array('type' => 'integer', 'null' => false, 'default' => '0',
-				'length' => 14, 'unsigned' => false),
-			'created' => array('type' => 'datetime', 'null' => true,
-				'default' => null),
-			'modified' => array('type' => 'datetime', 'null' => true,
-				'default' => null),
-			'indexes' => array(
-				'PRIMARY' => array('column' => 'id', 'unique' => 1),
-				'useronline_uuid' => array('column' => 'uuid', 'unique' => 1),
-				'useronline_userId' => array('column' => 'user_id', 'unique' => 0),
-				'useronline_loggedIn' => array('column' => 'logged_in', 'unique' => 0)
-			),
-			'tableParameters' => array('charset' => 'utf8',
-				'collate' => 'utf8_unicode_ci', 'engine' => 'MEMORY')
-		);
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true],
+		'uuid' => ['type' => 'string', 'null' => false, 'length' => 32, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'],
+		'user_id' => ['type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false],
+		'logged_in' => ['type' => 'boolean', 'null' => false, 'default' => null],
+		'time' => ['type' => 'integer', 'null' => false, 'default' => '0', 'length' => 14, 'unsigned' => false],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']], 'useronline_uuid' => ['type' => 'unique', 'columns' => 'uuid']],
+		'_options' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MEMORY']
+	);
 
 		/**
 		 * Records

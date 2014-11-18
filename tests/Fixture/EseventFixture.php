@@ -1,9 +1,10 @@
 <?php
-/**
- * EseventFixture
- *
- */
-class EseventFixture extends CakeTestFixture {
+
+	namespace App\Test\Fixture;
+
+	use Cake\TestSuite\Fixture\TestFixture;
+
+class EseventFixture extends TestFixture {
 
 /**
  * Fields
@@ -11,14 +12,11 @@ class EseventFixture extends CakeTestFixture {
  * @var array
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-		'subject' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
-		'event' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'subject_event' => array('column' => array('subject', 'event'), 'unique' => 0)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'subject' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'event' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
+		'_options' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM']
 	);
 
 /**

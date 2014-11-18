@@ -8,7 +8,9 @@
 			if (!empty($this->_title)) {
 				return $this->_title;
 			}
-			return str_replace('CacheSupportCachelet', '', get_class($this));
+			return preg_replace(
+				'/Saito\\\Cache\\\(.*)CacheSupportCachelet/', '\\1', get_class($this)
+			);
 		}
 
 	}

@@ -2,6 +2,7 @@
 
 	namespace Saito\User\LastRefresh;
 
+	use App\Controller\Component\CurrentUserComponent;
 	use Saito\User\Cookie;
 
 	/**
@@ -13,7 +14,7 @@
 
 		protected $_Cookie;
 
-		public function __construct(\CurrentuserComponent $CurrentUser) {
+		public function __construct(CurrentuserComponent $CurrentUser) {
 			$this->_CurrentUser = $CurrentUser;
 			$this->_Cookie = new Cookie\Storage(
 				$this->_CurrentUser->Cookie,

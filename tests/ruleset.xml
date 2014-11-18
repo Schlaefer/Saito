@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Saito">
     <!-- include all CakePHP rules -->
-    <rule ref="CakePHP">
-        <!-- excludes "docblocks must have 0 indent"-rule -->
-        <exclude name="CakePHP.WhiteSpace.ScopeIndent"/>
-    </rule>
-    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+    <rule ref="CakePHP"/>
+    <rule ref="PSR2"/>
 </ruleset>

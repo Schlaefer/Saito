@@ -1,1002 +1,962 @@
 <?php
 
-	App::uses('Controller', 'Controller');
-	App::uses('UsersController', 'Controller');
+	namespace App\Test\TestCase\Controller;
 
-	class UsersControllerTestCase extends \Saito\Test\ControllerTestCase {
+	use Cake\Auth\DefaultPasswordHasher;
+    use Cake\Core\Configure;
+    use Cake\Event\Event;
+    use Cake\Event\EventManager;
+    use Cake\Network\Email\Email;
+    use Cake\ORM\TableRegistry;
+    use Saito\Test\IntegrationTestCase;
 
-		use \Saito\Test\SecurityMockTrait;
+    class UsersControllerTestCase extends IntegrationTestCase {
 
-		public $fixtures = array(
-			'app.bookmark',
+		public $fixtures = [
+			'app.category',
+			'app.entry',
+			'app.esevent',
+			'app.esnotification',
+			'app.setting',
+			'app.shout',
+			'app.smiley',
+			'app.smiley_code',
+			'app.upload',
 			'app.user',
 			'app.user_block',
 			'app.user_ignore',
 			'app.user_online',
 			'app.user_read',
-			'app.entry',
-			'app.category',
-			'app.smiley',
-			'app.smiley_code',
-			'app.shout',
-			'app.setting',
-			'app.upload',
-			'app.esnotification',
-			'app.esevent',
-		);
+			'plugin.bookmarks.bookmark'
+		];
 
 		const MAPQUEST = 'mapquestapi.com/sdk';
 
-		public function testAdminAdd() {
-			$data = [
-				'User' => [
-					'username' => 'foo',
-					'user_email' => 'fo3@example.com',
-					'user_password' => 'test',
-					'password_confirm' => 'test',
-				]
-			];
-			$expected = [
-				'User' => [
-					'username' => 'foo',
-					'user_email' => 'fo3@example.com',
-					'password' => 'test',
-					'password_confirm' => 'test'
-				]
-			];
+		public function testAdminAddSuccess() {
+            $this->mockSecurity();
+            $data = [
+                'username' => 'foo',
+                'user_email' => 'fo3@example.com',
+                'user_password' => 'test',
+                'password_confirm' => 'test',
+            ];
+            $expected = [
+                'username' => 'foo',
+                'user_email' => 'fo3@example.com',
+            ];
 
-			$Users = $this->generate('Users', ['models' => ['User' => ['register']]]);
-			$this->_loginUser(1);
+            $Users =TableRegistry::get('Users');
+            $before = $Users->find()->count();
 
-			$Users->User->expects($this->once())
-				->method('register')
-				->with($expected, true);
+            $this->_loginUser(1);
+			$this->post('/admin/users/add', $data);
 
-			$this->testAction('/admin/users/add',
-				['data' => $data, 'method' => 'post']);
+            $this->assertEquals($before + 1, $Users->find()->count());
+
+            $user = $Users->find()->order(['id' => 'DESC'])->first();
+            foreach (array_keys($expected) as $field) {
+                $this->assertEquals($expected[$field], $user->get($field));
+            }
+
+            $auth = new DefaultPasswordHasher();
+            $this->assertTrue($auth->check('test', $user->get('password')));
+
+            $this->assertRedirect('/users/view/' . $user->get('id'));
 		}
 
 		public function testAdminAddNoAccess() {
-			$data = [
-				'User' => [
-					'username' => 'foo',
-					'user_email' => 'fo3@example.com',
-					'user_password' => 'test',
-					'password_confirm' => 'test',
-				]
-			];
-			$Users = $this->generate('Users', ['models' => ['User' => ['register']]]);
-
-			$Users->User->expects($this->never())
-				->method('register');
-			$this->setExpectedException('ForbiddenException');
-
-			$this->testAction('/admin/users/add',
-				['data' => $data, 'method' => 'post']);
+			$this->post('/admin/users/add');
+            $this->assertRedirect('/login');
 		}
 
 		public function testLogin() {
-			$data = [
-				'User' => [
-					'username' => 'Ulysses',
-					'password' => 'test'
-				]
-			];
-			$this->testAction('/users/login', ['data' => $data]);
+            $this->mockSecurity();
+            $data = ['username' => 'Ulysses', 'password' => 'test'];
 
-			$this->assertTrue($this->controller->CurrentUser->isLoggedIn());
+            $this->get('/');
+            $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
+            $this->assertNull($this->_controller->request->Session()->read('Auth.User'));
+
+			$this->post('/users/login', $data);
+            $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
+            $this->assertNotNull($this->_controller->request->Session()->read('Auth.User'));
 
 			//# successful login redirects
-			$this->assertRedirectedTo();
+			$this->assertRedirect('/');
 
 			//# last login time should be set
-			$this->controller->User->id = 3;
-			$user = $this->controller->User->read();
-			$this->assertWithinMargin(time($user['User']['last_login']), time(), 1);
+            $Users = TableRegistry::get('Users');
+            $user = $Users->get(3, ['fields' => 'last_login']);
+			$this->assertWithinRange(time($user->get('last_login')), time(), 1);
 		}
 
 		public function testLoginShowForm() {
 			//# show login form
-			$results = $this->testAction('/users/login',
-				['method' => 'GET', 'return' => 'view']);
-			$this->assertFalse(isset($this->headers['Location']));
+			$this->get('/users/login');
+            $this->assertResponseSuccess();
+            $this->assertNoRedirect();
 
 			//## test username field
-			$username = [
-				'tag' => 'input',
-				'attributes' => [
-					'autocomplete' => 'username',
-					'name' => 'data[User][username]',
-					'required' => 'required',
-					'tabindex' => '100',
-					'type' => 'text'
-				]
-			];
-			$this->assertTag($username, $results);
-
-			//## test password field
-			$password = [
-				'tag' => 'input',
-				'attributes' => [
-					'autocomplete' => 'current-password',
-					'name' => 'data[User][password]',
-					'required' => 'required',
-					'tabindex' => '101',
-					'type' => 'password'
-				]
-			];
-			$this->assertTag($password, $results);
+            $username = [
+                'input#tf-login-username' => [
+                    'attributes' => [
+                        'autocomplete' => 'username',
+                        'name' => 'username',
+                        'required' => 'required',
+                        'tabindex' => '100',
+                        'type' => 'text'
+                    ]
+                ],
+                'input#password' => [
+                    'attributes' => [
+                        'autocomplete' => 'current-password',
+                        'name' => 'password',
+                        'required' => 'required',
+                        'tabindex' => '101',
+                        'type' => 'password'
+                    ]
+                ]
+            ];
+			$this->assertContainsTag($username, $this->_response->body());
 
 			//# test logout on form show
-			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
-			$this->_loginUser(3);
-			$user = $this->controller->Session->read('Auth.User');
-			$this->controller->CurrentUser->setSettings($user);
-			$this->assertTrue($this->controller->CurrentUser->isLoggedIn());
-			$this->testAction('/users/login', ['method' => 'GET']);
-			$this->assertFalse($this->controller->CurrentUser->isLoggedIn());
+			$this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
+			$user = $this->_loginUser(3);
+			$this->_controller->CurrentUser->setSettings($user);
+			$this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
+
+			$this->get('/users/login');
+			$this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
 		}
 
 		public function testLoginUserNotActivated() {
-			$data = ['User' => ['username' => 'Diane', 'password' => 'test']];
-			$result = $this->testAction('/users/login',
-				['data' => $data, 'return' => 'contents']);
-			$this->assertContains('is not activated yet.', $result);
+            $this->mockSecurity();
+			$data = ['username' => 'Diane', 'password' => 'test'];
+			$result = $this->post('/users/login', $data);
+			$this->assertResponseContains('is not activated yet.', $result);
 		}
 
 		public function testLoginUserLocked() {
-			$Users = $this->generate('Users');
-			$UserBlock = $this->getMockForModel('UserBlock', ['getBlockEndsForUser']);
-			$UserBlock
+            $this->mockSecurity();
+            $Users = TableRegistry::get('Users');
+            $UserBlocks = $this->getMockForTable('UserBlocks', ['getBlockEndsForUser']);
+			$UserBlocks
 				->expects($this->once())
 				->method('getBlockEndsForUser')
 				->with('8')
 				->will($this->returnValue(false));
-			$Users->User->UserBlock = $UserBlock;
-			$data = ['User' => ['username' => 'Walt', 'password' => 'test']];
-			$result = $this->testAction('/users/login',
-				['data' => $data, 'return' => 'contents']);
-			$this->assertContains('is locked.', $result);
+			$Users->UserBlocks = $UserBlocks;
+			$data = ['username' => 'Walt', 'password' => 'test'];
+			$this->post('/users/login', $data);
+			$this->assertResponseContains('is locked.');
 		}
 
 		public function testLogout() {
-			$this->generate('Users');
 			$this->_loginUser(3);
-			$result = $this->testAction('/users/logout',
-				['method' => 'GET', 'return' => 'contents']);
-			$this->assertTag([
-				'tag' => 'meta',
-				'attributes' => [
-					'http-equiv' => 'refresh',
-					'content' => 'regexp:/1;\s/'
-				]
-			], $result);
-		}
-
-		/**
-		 * Registration fails if Terms of Serice checkbox is not set in register form
-		 */
-		public function testRegisterTosNotSet() {
-			$data = array(
-				'User' => array(
-					'username' => 'NewUser1',
-					'user_email' => 'NewUser1@example.com',
-					'user_password' => 'NewUser1spassword',
-					'password_confirm' => 'NewUser1spassword',
-					'tos_confirm' => '0'
-				)
-			);
-
-			$Users = $this->generate('Users',
-				array(
-					'models' => array('User' => array('register'))
-				));
-			$Users->User->expects($this->never())
-					->method('register');
-
-			$result = $this->testAction('users/register',
-				array('data' => $data, 'method' => 'post')
-			);
+			$this->get('/users/logout');
+            $tags = [
+                'meta[http-equiv="refresh"]' => [
+                    'attributes' => [
+                        'http-equiv' => 'refresh',
+                        'content' => '1; '
+                    ]
+                ]
+            ];
+            $this->assertResponseContainsTags($tags);
 		}
 
 		public function testRegisterEmailFailed() {
-			Configure::write('Saito.Settings.tos_enabled', false);
-			$data = array(
-				'User' => array(
-					'username' => 'NewUser1',
-					'user_email' => 'NewUser1@example.com',
-					'user_password' => 'NewUser1spassword',
-					'password_confirm' => 'NewUser1spassword',
-				)
-			);
+            $this->mockSecurity();
 
-			$Users = $this->generate('Users',
-				[
-					'components' => ['SaitoEmail' => ['email']],
-					'methods' => ['email'],
-					'models' => ['User' => ['register']]
-				]);
+            $transporter = $this->mockMailTransporter();
+            $transporter
+                ->expects($this->once())
+                ->method('send')
+                ->will($this->throwException(new \Exception));
+
+			Configure::write('Saito.Settings.tos_enabled', false);
+            $data = array(
+                'username' => 'NewUser1',
+                'user_email' => 'NewUser1@example.com',
+                'user_password' => 'NewUser1spassword',
+                'password_confirm' => 'NewUser1spassword',
+            );
+
+            /*
 			$Users->User->expects($this->once())
 				->method('register')
 				->will($this->returnValue(true));
 			$Users->SaitoEmail->expects($this->once())
 				->method('email')
 				->will($this->throwException(new Exception));
+            */
 
-			$result = $this->testAction('users/register',
-				['data' => $data, 'method' => 'post', 'return' => 'view']
-			);
+			$this->post('users/register', $data);
+			$this->assertResponseContains('Sending Confirmation Email Failed');
 
-			$this->assertContains('Sending Confirmation Email Failed', $result);
-		}
-
-		/**
-		 * No TOS flag is send, but it's also not necessary
-		 */
-		public function testRegisterTosNotNecessary() {
-			Configure::write('Saito.Settings.tos_enabled', false);
-
-			$data = array(
-				'User' => array(
-					'username' => 'NewUser1',
-					'user_email' => 'NewUser1@example.com',
-					'user_password' => 'NewUser1spassword',
-					'password_confirm' => 'NewUser1spassword',
-				)
-			);
-
-			$Users = $this->generate('Users',
-				array(
-					'models' => array('User' => array('register'))
-				));
-			$Users->User->expects($this->once())
-					->method('register');
-
-			$result = $this->testAction('users/register',
-				array('data' => $data, 'method' => 'post')
-			);
+            $Users = TableRegistry::get('Users');
+            $exists = $Users->exists([
+                'username' => 'NewUser1',
+                'activate_code >' => 0
+            ]);
+            $this->assertTrue($exists);
 		}
 
 		public function testRegisterViewForm() {
-			$results = $this->testAction('/users/register',
-				['method' => 'GET', 'return' => 'view']);
-			$this->assertFalse(isset($this->headers['Location']));
+			$this->get('/users/register');
 
-			$fields = [
-				'username' => [
-					'tag' => 'input',
-					'attributes' => [
-						'autocomplete' => 'username',
-						'name' => 'data[User][username]',
-						'required' => 'required',
-						'tabindex' => '1',
-						'type' => 'text'
-					]
-				],
-				'email' => [
-					'tag' => 'input',
-					'attributes' => [
-						'autocomplete' => 'email',
-						'name' => 'data[User][user_email]',
-						'required' => 'required',
-						'tabindex' => '2',
-						'type' => 'text'
-					]
-				],
-				'password' => [
-					'tag' => 'input',
-					'attributes' => [
-						'autocomplete' => 'new-password',
-						'name' => 'data[User][user_password]',
-						'tabindex' => '3',
-						'type' => 'password'
-					]
-				],
-				'password_confirm' => [
-					'tag' => 'input',
-					'attributes' => [
-						'autocomplete' => 'new-password',
-						'name' => 'data[User][password_confirm]',
-						'tabindex' => '4',
-						'type' => 'password'
-					]
-				]
-			];
-			foreach ($fields as $field) {
-				$this->assertTag($field, $results);
-			}
+            $this->assertResponseOk();
+
+			$expected = [
+                'input#username' => [
+                    'attributes' => [
+                        'autocomplete' => 'username',
+                        'name' => 'username',
+                        'required' => 'required',
+                        'tabindex' => '1',
+                        'type' => 'text'
+                    ]
+                ],
+                'input#user-email' => [
+                    'attributes' => [
+                        'autocomplete' => 'email',
+                        'name' => 'user_email',
+                        'required' => 'required',
+                        'tabindex' => '2',
+                        'type' => 'text'
+                    ]
+                ],
+                'input#user-password' => [
+                    'attributes' => [
+                        'autocomplete' => 'new-password',
+                        'name' => 'user_password',
+                        'tabindex' => '3',
+                        'type' => 'password'
+                    ]
+                ],
+                'input#password-confirm' => [
+                    'attributes' => [
+                        'autocomplete' => 'new-password',
+                        'name' => 'password_confirm',
+                        'tabindex' => '4',
+                        'type' => 'password'
+                    ]
+                ]
+            ];
+            $this->assertContainsTag($expected, $this->_response->body());
 		}
 
 		public function testRegisterCheckboxNotOnPage() {
 			Configure::write('Saito.Settings.tos_enabled', false);
-			$result = $this->testAction('users/register', array('return' => 'view'));
-			$this->assertNotContains('data[User][tos_confirm]', $result);
-			$this->assertNotContains('http://example.com/tos-url.html/', $result);
-			$this->assertNotContains('disabled', $result);
+			$this->get('users/register');
+
+            $this->assertResponseOk();
+			$this->assertResponseNotContains('tos_confirm');
+			$this->assertResponseNotContains('http://example.com/tos-url.html/');
+			$this->assertResponseNotContains('disabled');
 		}
 
 		public function testRegisterCheckboxOnPage() {
-			$result = $this->testAction('users/register', array('return' => 'view'));
-			$this->assertContains('data[User][tos_confirm]', $result);
-			$this->assertContains('http://example.com/tos-url.html/', $result);
-			$this->assertContains('disabled="disabled"', $result);
+            $this->get('users/register');
+            $this->assertResponseContains('tos_confirm');
+            $this->assertResponseContains('http://example.com/tos-url.html/');
+            $this->assertResponseContains('disabled');
 		}
 
 		public function testRegisterCheckboxOnPageCustomTosUrl() {
 			Configure::write('Saito.Settings.tos_url', '');
-			$result = $this->testAction('users/register', array('return' => 'view'));
-			$this->assertContains($this->controller->request->webroot . 'pages/eng/tos', $result);
+			$this->get('users/register');
+			$this->assertResponseContains($this->_controller->request->webroot . 'pages/en/tos');
 		}
 
-		/**
-		 * Registration succeeds if Terms of Service checkbox is set in register form
+        /**
+         * test TOS checkbox
 		 */
-		public function testRegisterTosSet() {
-			$data = array(
-				'User' => array(
-					'username' => 'NewUser1',
-					'user_email' => 'NewUser1@example.com',
-					'user_password' => 'NewUser1spassword',
-					'password_confirm' => 'NewUser1spassword',
-					'tos_confirm' => '1'
-				)
-			);
-			Configure::write('Saito.Settings.email_register', 'register@example.com');
+		public function testRegisterTosActive() {
+            $this->mockSecurity();
+            $Users = TableRegistry::get('Users');
 
-			$Users = $this->generate('Users', ['models' => ['User' => ['register']]]);
+            /**
+             * TOS not checked
+             */
+            $data = [
+                'username' => 'NewUser1',
+                'user_email' => 'NewUser1@example.com',
+                'user_password' => 'NewUser1spassword',
+                'password_confirm' => 'NewUser1spassword',
+                'tos_confirm' => '0'
+            ];
 
-			$user = $data;
-			$user['User'] += [
-				'id' => 48,
-				'activate_code' => 151623
-			];
-			$Users->User->expects($this->once())
-					->method('register')
-					->will($this->returnValue($user));
+            $exists = $Users->exists(['username' => 'NewUser1']);
+            $this->assertFalse($exists);
 
-			$result = $this->testAction('users/register',
-				['data' => $data, 'method' => 'post', 'return' => 'vars']
-			);
+            $this->post('users/register', $data);
 
-			//# test registration email
-			$email = $result['email'];
-			// test sender
-			$this->assertContains('From: macnemo <register@example.com>',
-				$email['headers']);
-			// test registration link
-			$this->assertContains('/users/rs/48?c=151623', $email['message']);
+            /**
+             * TOS checked
+             */
+            $transporter = $this->mockMailTransporter();
+            $transporter
+                ->expects($this->at(0))
+                ->method('send')
+                ->with($this->callback(function (Email $email) use ($Users) {
+                    $this->assertEquals($email->from(),
+                        ['register@example.com' => 'macnemo']);
+                    $this->assertEquals($email->to(),
+                        ['NewUser1@example.com' => 'NewUser1']);
+
+                    $user = $Users->find()
+                        ->where(['username' => 'NewUser1'])
+                        ->first();
+                    $id = $user->get('id');
+                    $activate = $user->get('activate_code');
+                    $this->assertContains("/users/rs/$id?c=$activate", implode(' ', $email->message()));
+
+                    return true;
+                }));
+
+
+			$data['tos_confirm'] = '1';
+            $this->post('users/register', $data);
+
+            $exists = $Users->exists([
+                'username' => 'NewUser1',
+                'activate_code >' => 0
+            ]);
+            $this->assertTrue($exists);
 		}
 
-		/**
-		 * There's already an test for validation errors in UserTest, but registration
-		 * is seldom used and so we make sure with this test that validation error
-		 * message are really shown.
-		 */
+        /**
+         * No TOS flag isn't send, but it's also not necessary
+         */
+        public function testRegisterTosNotActive() {
+            $this->mockSecurity();
+            $Users = TableRegistry::get('Users');
+            Configure::write('Saito.Settings.tos_enabled', false);
+
+            $data = [
+                'username' => 'NewUser1',
+                'user_email' => 'NewUser1@example.com',
+                'user_password' => 'NewUser1spassword',
+                'password_confirm' => 'NewUser1spassword',
+            ];
+            $this->post('users/register', $data);
+
+            $exists = $Users->exists([
+                'username' => 'NewUser1',
+                'activate_code >' => 0
+            ]);
+            $this->assertTrue($exists);
+        }
+
+
+        /**
+         * Test all failing register validations
+         */
 		public function testRegisterValidation() {
+            $this->mockSecurity();
 			Configure::write('Saito.Settings.tos_enabled', false);
 
-			$data = array(
-				'User' => array(
-					'username' => "mITch",
-					'user_email' => 'alice@example.com',
-					'user_password' => 'NewUserspassword',
-					'password_confirm' => 'NewUser1spassword',
-				)
-			);
+            $data = array(
+                'username' => "mITch",
+                'user_email' => 'alice@example.com',
+                'user_password' => 'NewUserspassword',
+                'password_confirm' => 'NewUser1spassword',
+            );
 
-			$Users = $this->generate('Users');
-			$result = $this->testAction('users/register',
-				array('data' => $data, 'method' => 'post', 'return' => 'view')
-			);
+			$Users = TableRegistry::get('Users');
+            $before = $Users->find()->count();
+            $this->assertGreaterThan(0, $before);
+
+			$this->post('users/register', $data);
+
+            $after = $Users->find()->count();
+            $this->assertEquals($after, $before);
+
+            $this->assertResponseOk();
 
 			// Test that error strings are shown
-			$this->assertContains('Email address is already used.', $result);
-			$this->assertContains('Passwords don&#039;t match.', $result);
-			$this->assertContains('Name is already used.', $result);
+			$this->assertResponseContains('Email address is already used.');
+			$this->assertResponseContains('Passwords don&#039;t match.');
+			$this->assertResponseContains('Name is already used.');
 		}
 
-		public function testRs() {
-			$Users = $this->generate('Users', ['models' => ['User' => ['activate']]]);
-			$Users->User->expects($this->once())
-				->method('activate')
-				->with(4, '1548')
-				->will($this->returnValue(['status' => 'activated', 'User' => []]));
-			$result = $this->testAction('/users/rs/4/?c=1548', ['return' => 'vars']);
-			$this->assertEquals('activated', $result['status']);
+		public function testRsSuccess() {
+            $Users = TableRegistry::get('Users');
+            $user = $Users->get(10);
+
+            $this->assertEquals(1548, $user->get('activate_code'));
+			$this->get('/users/rs/10/?c=1548');
+
+            $user = $Users->get(10);
+            $this->assertEquals(0, $user->get('activate_code'));
 		}
+
+        public function testRsFailureWrongCode() {
+            $Users = TableRegistry::get('Users');
+            $user = $Users->get(10);
+
+            $this->assertEquals(1548, $user->get('activate_code'));
+            $this->get('/users/rs/10/?c=1549');
+
+            $user = $Users->get(10);
+            $this->assertEquals(1548, $user->get('activate_code'));
+        }
 
 		public function testSetcategoryNotLoggedIn() {
-			$this->setExpectedException('ForbiddenException');
-			$this->testAction('/users/setcategory/all');
+			$this->get('/users/setcategory/all');
+            $this->assertRedirect('/login');
 		}
 
 		public function testSetcategoryAll() {
-			$Users = $this->generate(
-				'Users',
-				array('models' => array('User' => array('setCategory')))
-			);
+            $userId = 3;
+            $category = 'all';
+            $this->_loginUser($userId);
 
-			$this->_loginUser(3);
+            EventManager::instance()->on('Controller.startup',
+                function (Event $event) use ($userId, $category) {
+                    $Users = $this->getMockForTable('Users', ['setCategory']);
+                    $Users->expects($this->once())
+                        ->method('setCategory')
+                        ->with($userId, $category);
 
-			$Users->User->expects($this->once())
-					->method('setCategory')
-					->with('all');
+                    $controller = $event->subject();
+                    $controller->Users = $Users;
+                });
 
-			$this->testAction('/users/setcategory/all');
+            $this->get('/users/setcategory/' . $category);
 		}
 
 		public function testSetcategoryCategory() {
-			$Users = $this->generate(
-				'Users',
-				array('models' => array('User' => array('setCategory')))
-			);
-			$this->_loginUser(3);
-			$Users->User->expects($this->once())
-					->method('setCategory')
-					->with(5);
-			$this->testAction('/users/setcategory/5');
+            $userId = 3;
+            $category = 5;
+            $this->_loginUser($userId);
+
+            EventManager::instance()->on('Controller.startup',
+                function (Event $event) use ($userId, $category) {
+                    $Users = $this->getMockForTable('Users', ['setCategory']);
+                    $Users->expects($this->once())
+                        ->method('setCategory')
+                        ->with($userId, $category);
+
+                    $controller = $event->subject();
+                    $controller->Users = $Users;
+                });
+
+            $this->get('/users/setcategory/' . $category);
 		}
 
 		public function testSetcategoryCategories() {
-			$Users = $this->generate(
-				'Users',
-				array('models' => array('User' => array('setCategory')))
-			);
-
-			$this->_loginUser(3);
-
-			$data = array(
-				'CatChooser' => array(
+            $userId = 3;
+			$data = [
+				'CatChooser' => [
 					'4' => '0',
 					'7' => '1',
 					'9' => '0',
-				),
-				'CatMeta' => array(
+                ],
+				'CatMeta' => [
 					'All' => '1',
-				)
-			);
+                ]
+            ];
 
-			$Users->User->expects($this->once())
-					->method('setCategory')
-					->with($data['CatChooser']);
-			$this->testAction(
-				'/users/setcategory/',
-				array('data' => $data, 'method' => 'post')
-			);
+            $this->mockSecurity();
+            $this->_loginUser($userId);
+            EventManager::instance()->on('Controller.startup',
+                function (Event $event) use ($userId, $data) {
+                    $Users = $this->getMockForTable('Users', ['setCategory']);
+                    $Users->expects($this->once())
+                        ->method('setCategory')
+                        ->with($userId, $data['CatChooser']);
+
+                    $controller = $event->subject();
+                    $controller->Users = $Users;
+                });
+
+            $this->post('/users/setcategory/', $data);
 		}
 
 		public function testSlidetabOrderSet() {
-			$Controller = $this->generate('Users', ['models' => ['User' => ['saveField']]]);
 			$this->_loginUser(3);
 
+            $Users = TableRegistry::get('Users');
+            $user = $Users->get(3);
+
 			$validData = ['slidetab_userlist', 'slidetab_shoutbox'];
-			$Controller->User->expects($this->once())->method('saveField')
-				->with('slidetab_order', serialize($validData));
+            $expected = serialize($validData);
+
+            $this->assertNotEquals($expected, $user->get('slidetab_order'));
 
 			$data = $validData;
 			$data[] = ['slidetab_foo'];
 			$this->_setAjax();
-			$this->testAction('/users/slidetab_order', ['method' => 'POST',
-				'data' => ['slidetabOrder' => $data]]);
+            $this->post('/users/slidetab_order', ['slidetabOrder' => $data]);
+
+            $user = $Users->get(3);
+            $this->assertEquals($expected, $user->get('slidetab_order'));
 		}
 
 		public function testSlidetabToggleSuccess() {
-			$Controller = $this->generate('Users', ['models' => ['User' => ['toggle']]]);
 			$this->_loginUser(3);
+            $data = ['slidetabKey' => 'show_userlist'];
 
-			$data = 'show_userlist';
-			$Controller->User->expects($this->once())->method('toggle')
-				->with($data);
+            $Users = TableRegistry::get('Users');
+            $user = $Users->get(3);
+            $this->assertFalse($user->get('show_userlist'));
 
-			$this->_setAjax();
-			$this->testAction('/users/slidetab_toggle', ['method' => 'POST',
-				'data' => ['slidetabKey' => $data]]);
+            $this->_setAjax();
+			$this->post('/users/slidetab_toggle', $data);
+
+            $user = $Users->get(3);
+            $this->assertTrue($user->get('show_userlist'));
 		}
 
 		public function testSlidetabToggleFailure() {
-			$this->generate('Users');
 			$this->_loginUser(3);
-
-			$data = 'show_foo';
-			$this->setExpectedException('BadRequestException', null, 1412949882);
-
+			$data = ['slidetabKey' => 'show_foo'];
+			$this->setExpectedException('\Cake\Network\Exception\BadRequestException');
 			$this->_setAjax();
-			$this->testAction('/users/slidetab_toggle', ['method' => 'POST',
-				'data' => ['slidetabKey' => $data]]);
+			$this->post('/users/slidetab_toggle', [$data]);
 		}
 
 		public function testViewProfileRequestByUsername() {
-			$this->testAction('/users/view/Mitch');
-			$this->assertContains('/users/name/Mitch', $this->headers['Location']);
+			$this->_loginUser(3);
+			$this->get('/users/view/Mitch');
+			$this->assertRedirect('/users/name/Mitch');
 		}
 
 		public function testViewProfileForbiddenForAnon() {
-			$this->testAction('/users/view/1');
-			$this->assertContains('/login', $this->headers['Location']);
+			$this->get('/users/view/1');
+			$this->assertRedirect('/login');
 		}
 
 		public function testViewProfileDoesNotExist() {
-			$this->generate('Users');
 			$this->_loginUser(3);
-			$this->testAction('/users/view/9999');
-			$this->assertRedirectedTo();
+			$this->get('/users/view/9999');
+			$this->assertRedirect('/');
 		}
 
-		public function testView() {
+		public function testViewProfile() {
 			$userId = 3;
-			$C = $this->generate('Users', ['models' => ['User' => ['countSolved']]]);
-			$C->User->expects($this->once())
+			$UsersTable = $this->getMockForTable('Users', ['countSolved']);
+			$UsersTable->expects($this->once())
 					->method('countSolved')
 					->with($userId)
-					->will($this->returnValue(16));
+					->will($this->returnValue(2013531));
 			$this->_loginUser(1);
 
-			$result = $this->testAction("/users/view/$userId", ['return' => 'vars']);
-			$this->assertFalse(isset($this->headers['Location']));
-			$this->assertEquals($result['user']['User']['id'], 3);
-			$this->assertEquals($result['user']['User']['username'], 'Ulysses');
-			$this->assertEquals($result['user']['User']['solves_count'], '16');
+			$this->get("/users/view/$userId");
+			$this->assertResponseCode(200);
+			$this->assertNoRedirect();
+			$this->assertResponseContains('Ulysses');
+			// solves count
+			$this->assertResponseContains('2013531');
 		}
 
 		public function testViewSanitation() {
-			$this->generate('Users');
 			$this->_loginUser(3);
-			$result = $this->testAction('/users/view/7', ['return' => 'view']);
+			$this->get('/users/view/7');
 
-			$this->assertTextContains('&amp;&lt;Username', $result);
-			$this->assertTextContains('&amp;&lt;RealName', $result);
-			$this->assertTextContains('&amp;&lt;Homepage', $result);
-			$this->assertTextContains('&amp;&lt;Place', $result);
-			$this->assertTextContains('&amp;&lt;Profile', $result);
-			$this->assertTextContains('&amp;&lt;Signature', $result);
-			$this->assertTextNotContains('<&Username', $result);
+			$this->assertResponseContains('&amp;&lt;Username');
+            $this->assertResponseNotContains('<&Username');
+			$this->assertResponseContains('&amp;&lt;RealName');
+			$this->assertResponseContains('&amp;&lt;Homepage');
+			$this->assertResponseContains('&amp;&lt;Place');
+			$this->assertResponseContains('&amp;&lt;Profile');
+			$this->assertResponseContains('&amp;&lt;Signature');
 		}
 
 		public function testMapLinkInMenu() {
-			$this->generate('Users');
 			$this->_loginUser(3);
 
 			// not enabled, no link
-			$result = $this->testAction('/users/view/2', ['return' => 'contents']);
-			$this->assertTextNotContains('/users/map', $result);
-			$result = $this->testAction('/users/index', ['return' => 'contents']);
-			$this->assertTextNotContains('/users/map', $result);
+            Configure::write('Saito.Settings.map_enabled', 0);
+			$this->get('/users/view/2');
+			$this->assertResponseNotContains('/users/map');
+			$this->get('/users/index');
+            $this->assertResponseNotContains('/users/map');
 
-			// not enabled, link
+			// enabled, link
 			Configure::write('Saito.Settings.map_enabled', 1);
-			$result = $this->testAction('/users/view/2', ['return' => 'contents']);
-			$this->assertTextContains('/users/map', $result);
-			$result = $this->testAction('/users/index', ['return' => 'contents']);
-			$this->assertTextContains('/users/map', $result);
+            $this->get('/users/view/2');
+            $this->assertResponseContains('/users/map');
+            $this->get('/users/index');
+            $this->assertResponseContains('/users/map');
 		}
 
 		public function testMapDisabled() {
-			$this->generate('Users');
 			$this->_loginUser(3);
-			$result = $this->testAction('/users/edit/3', ['return' => 'contents']);
-			$this->assertTextNotContains('class="saito-usermap"', $result);
-			$this->assertTextNotContains(static::MAPQUEST, $result);
+			$this->get('/users/edit/3');
+			$this->assertResponseNotContains('class="saito-usermap"');
+			$this->assertResponseNotContains(static::MAPQUEST);
 
-			$result = $this->testAction('/users/view/3', ['return' => 'contents']);
-			$this->assertTextNotContains('class="saito-usermap"', $result);
-			$this->assertTextNotContains(static::MAPQUEST, $result);
+			$this->get('/users/view/3');
+            $this->assertResponseNotContains('class="saito-usermap"');
+            $this->assertResponseNotContains(static::MAPQUEST);
 
-			$result = $this->testAction('/users/map', ['return' => 'view']);
-			$this->assertTextNotContains('class="saito-usermap"', $result);
-			$this->assertRedirectedTo();
+			$this->get('/users/map');
+            $this->assertResponseNotContains('class="saito-usermap"');
+            $this->assertRedirect('/');
 		}
 
 		public function testMapActivated() {
 			Configure::write('Saito.Settings.map_enabled', 1);
 
-			$this->generate('Users');
 			$this->_loginUser(3);
-			$result = $this->testAction('/users/edit/3', ['return' => 'contents']);
-			$this->assertTextContains('class="saito-usermap"', $result);
-			$this->assertTextContains(static::MAPQUEST, $result);
+            $this->get('/users/edit/3');
+			$this->assertResponseContains('class="saito-usermap"');
+            $this->assertResponseContains(static::MAPQUEST);
 
-			$result = $this->testAction('/users/view/2', ['return' => 'view']);
-			$this->assertTextNotContains('class="saito-usermap"', $result);
-			$result = $this->testAction('/users/view/3', ['return' => 'view']);
-			$this->assertTextContains('class="saito-usermap"', $result);
+			$this->get('/users/view/2');
+			$this->assertResponseNotContains('class="saito-usermap"');
+			$this->get('/users/view/3');
+			$this->assertResponseContains('class="saito-usermap"');
 
-			$result = $this->testAction('/users/map', ['return' => 'view']);
-			$this->assertTextContains('class="saito-usermap"', $result);
+			$this->get('/users/map');
+			$this->assertResponseContains('class="saito-usermap"');
 
 			// Map CSS and JS should only be included on page if necessary
-			$result = $this->testAction('/users/index', ['return' => 'contents']);
-			$this->assertTextNotContains(static::MAPQUEST, $result);
+			$this->get('/users/index');
+			$this->assertResponseNotContains(static::MAPQUEST);
 		}
 
 		public function testMapsNotLoggedIn() {
-			$this->setExpectedException('MissingActionException');
-			$this->testAction('/users/maps');
+			$this->get('/users/map');
+            $this->assertRedirect('/login');
 		}
 
 		public function testName() {
-			$this->generate('Users');
 			$this->_loginUser(3);
-			$this->testAction('/users/name/Mitch');
-			$this->assertContains('/users/view/2', $this->headers['Location']);
+			$this->get('/users/name/Mitch');
+			$this->assertRedirect('/users/view/2');
 		}
 
 		public function testEditNotLoggedIn() {
-			$this->setExpectedException('\Saito\Exception\SaitoForbiddenException');
-			$this->testAction('/users/edit/3');
+			$this->get('/users/edit/3');
+            $this->assertRedirect('/login');
 		}
 
 		public function testEditNotUsersEntryGet() {
-			$this->generate('Users');
-			$this->_loginUser(2); // mod
-			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
-			$this->testAction('/users/edit/3', ['method' => 'GET']);
+			$this->_loginUser(3);
+            $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+			$this->get('/users/edit/2');
 		}
 
-		public function testEditNotUsersEntryPost() {
-			$this->generate('Users');
-			$this->_loginUser(2); // mod
-			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
-			$this->testAction('/users/edit/3', ['method' => 'POST']);
+        public function testEditNotUsersEntryPost() {
+            $this->_loginUser(3);
+            $this->mockSecurity();
+            $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+            $this->post('/users/edit/2', ['username' => 'foo']);
+        }
+
+		public function testEditNotModEntryGet() {
+			$this->_loginUser(2);
+            $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+            $this->get('/users/edit/3');
 		}
+
+        public function testEditNotModEntryPost() {
+            $this->_loginUser(2);
+            $this->mockSecurity();
+            $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+            $this->post('/users/edit/3', ['username' => 'foo']);
+        }
 
 		public function testEditNotUsersEntryButAdmin() {
-			$this->generate('Users');
-			$this->_loginUser(1); // mod
-			$this->testAction('/users/edit/3', ['method' => 'POST']);
+            $this->_loginUser(1);
+            $this->get('/users/edit/3');
+            $this->assertResponseOk();
+
+            $this->mockSecurity();
+			$this->post('/users/edit/3', ['username' => 'foo']);
+            $this->assertRedirect('/users/view/3');
 		}
 
 		public function testIndex() {
-			$this->generate('Users');
+            $this->get('/users/index');
+            $this->assertRedirect('/login');
+
 			$this->_loginUser(1);
-			// basic test: creating view should not throw error
-			$this->testAction('/users/index', ['return' => 'view']);
+			$this->get('/users/index');
+            $this->assertResponseOk();
 		}
 
 		public function testLock() {
+            /* setup */
+            $this->mockSecurity();
+            $Users = TableRegistry::get('Users');
+
 			/* not logged in should'nt be allowed */
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 3]]]);
-			$this->assertRedirectedTo();
+            $this->post('/users/lock', ['User' => ['lockUserId' => 3]]);
+            $this->assertRedirect('/login');
 
 			// user can't lock other users
 			$this->_loginUser(3);
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 4]]]);
-			$this->controller->User->contain();
-			$result = $this->controller->User->read('user_lock', 4);
-			$this->assertTrue($result['User']['user_lock'] == false);
+            $this->post('/users/lock', ['User' => ['lockUserId' => 4]]);
+            $user = $Users->findById(4)->first();
+			$this->assertTrue($user->get('user_lock') == false);
 
 			// mod locks user
 			$this->_loginUser(2);
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 4]]]);
-			$this->controller->User->contain();
-			$result = $this->controller->User->read('user_lock', 4);
-			$this->assertTrue($result['User']['user_lock'] == true);
+            $this->post('/users/lock', ['User' => ['lockUserId' => 4]]);
+            $user = $Users->findById(4)->first();
+			$this->assertTrue($user->get('user_lock') == true);
 
 			// mod unlocks user
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 4]]]);
-			$this->controller->User->contain();
-			$result = $this->controller->User->read('user_lock', 4);
-			$this->assertTrue($result['User']['user_lock'] == false);
+			$this->post('/users/lock', ['User' => ['lockUserId' => 4]]);
+            $user = $Users->findById(4)->first();
+            $this->assertTrue($user->get('user_lock') == false);
 
 			// you can't lock yourself out
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 2]]]);
-			$this->controller->User->contain();
-			$result = $this->controller->User->read('user_lock', 2);
-			$this->assertTrue($result['User']['user_lock'] == false);
+			$this->post('/users/lock', ['User' => ['lockUserId' => 2]]);
+            $user = $Users->findById(2)->first();
+            $this->assertTrue($user->get('user_lock') == false);
 
 			// mod can't lock admin
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 1]]]);
-			$this->controller->User->contain();
-			$result = $this->controller->User->read('user_lock', 1);
-			$this->assertTrue($result['User']['user_lock'] == false);
+			$this->post('/users/lock', ['User' => ['lockUserId' => 1]]);
+            $user = $Users->findById(1)->first();
+            $this->assertTrue($user->get('user_lock') == false);
 
 			// user does not exit
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 9999]]]);
-			$this->assertRedirectedTo();
+			$this->post('/users/lock', ['User' => ['lockUserId' => 9999]]);
+			$this->assertRedirect('/');
 
 			// locked user are thrown out
-			$this->testAction('/users/lock',
-				['data' => ['User' => ['lockUserId' => 5]]]);
-			$this->controller->User->contain();
-			$result = $this->controller->User->read('user_lock', 5);
-			$this->assertTrue($result['User']['user_lock'] == true);
+			$this->post('/users/lock', ['User' => ['lockUserId' => 5]]);
+            $user = $Users->findById(5)->first();
+            $this->assertTrue($user->get('user_lock') == true);
 			$this->_logoutUser();
 
 			$this->_loginUser(5);
-			$this->testAction('/entries/index');
-			$this->assertContains('users/logout', $this->headers['Location']);
+			$this->get('/entries/index');
+            $this->assertRedirect('users/logout');
 
 			// locked user can't relogin
-			$this->_logoutUser();
-			$data = array(
-				'User' => array(
-					'username' => 'Uma',
-					'password' => 'test',
-				)
-			);
-			$this->testAction(
+            $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
+            $this->assertNotNull($this->_controller->request->Session()->read('Auth.User'));
+
+            $this->_logoutUser();
+			$this->post(
 				'/users/login',
-				array('data' => $data, 'method' => 'post')
+                ['username' => 'Uma', 'password' => 'test']
 			);
-			$this->assertNull($this->controller->Session->read('Auth.User'));
-		}
 
-		public function testDelete() {
-			/*
-       *  not logged in can't delete
-       */
-			try {
-				$this->testAction('/admin/users/delete/3');
-			} catch (ForbiddenException $exc) {
-				$this->controller->User->contain();
-				$result = $this->controller->User->findById(3);
-				$this->assertTrue($result != false);
-			}
+            $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
+            $this->assertNull($this->_controller->request->Session()->read('Auth.User'));
+        }
 
-			/*
-			 * user can't delete admin/users
-			 */
+        public function testDelete() {
+            $this->mockSecurity();
+
+            /*
+             *  not logged in can't delete
+             */
+            $this->get('/admin/users/delete/3');
+            $this->assertRedirect('login');
+            $this->assertTrue($this->_controller->Users->exists(3));
+
+            /*
+             * user can't delete admin/users
+             */
 			$this->_loginUser(3);
-			try {
-				$this->testAction('/admin/users/delete/4');
-			} catch (ForbiddenException $exc) {
-				$this->controller->User->contain();
-				$result = $this->controller->User->findById(4);
-				$this->assertTrue($result != false);
-			}
+            $this->get('/admin/users/delete/4');
+            $this->assertTrue($this->_controller->Users->exists(4));
+            $this->assertRedirect('login');
 
 			/*
-			 *  mods can't delete admin/users
+			 *  mod can access delete ui
 			 */
 			$this->_loginUser(2);
-			try {
-				$this->testAction('/admin/users/delete/4');
-			} catch (ForbiddenException $exc) {
-				$this->controller->User->contain();
-				$result = $this->controller->User->findById(4);
-				$this->assertTrue($result != false);
-			}
+            $this->get('/admin/users/delete/4');
+            $this->assertNoRedirect();
 
-			/*
-			 *  admin can access delete ui
-			 */
-			$this->_loginUser(6);
-			$this->testAction('/admin/users/delete/4');
-			$this->assertFalse(isset($this->headers['location']));
+            /*
+             *  admin can access delete ui
+             */
+            $this->_loginUser(6);
+            $this->get('/admin/users/delete/4');
+            $this->assertNoRedirect();
 
 			/*
 			 * you can't delete non existing users
 			 */
-			$countBeforeDelete = $this->controller->User->find('count');
-			$data = array('User' => array('modeDelete' => 1));
+			$countBeforeDelete = $this->_controller->Users->find('all')->count();
+			$data = ['modeDelete' => 1];
 			$this->_loginUser(6);
-			$this->testAction('/admin/users/delete/9999', array('data' => $data));
-			$countAfterDelete = $this->controller->User->find('count');
+			$this->post('/admin/users/delete/9999', $data);
+			$countAfterDelete = $this->_controller->Users->find('all')->count();
 			$this->assertEquals($countBeforeDelete, $countAfterDelete);
-			$this->assertRedirectedTo();
+			$this->assertRedirect('/');
 
 			/*
 			 * you can't delete yourself
 			 */
-			$data = array('User' => array('modeDelete' => 1));
+			$data = ['modeDelete' => 1];
 			$this->_loginUser(6);
-			$this->testAction('/admin/users/delete/6', array('data' => $data));
-			$this->controller->User->contain();
-			$result = $this->controller->User->findById(6);
-			$this->assertTrue($result != false);
+			$this->post('/admin/users/delete/6', $data);
+            $this->assertTrue($this->_controller->Users->exists(6));
 
 			/*
 			 * you can't delete the root user
 			 */
 			$this->_loginUser(6);
-			$this->testAction('/admin/users/delete/1', array('data' => $data));
-			$this->controller->User->contain();
-			$result = $this->controller->User->findById(1);
-			$this->assertTrue($result != false);
+            $this->post('/admin/users/delete/1', $data);
+            $this->assertTrue($this->_controller->Users->exists(1));
+
+            /*
+             *  mods can't delete admin
+             */
+            $this->_loginUser(2);
+            $this->post('/admin/users/delete/6', $data);
+            $this->assertTrue($this->_controller->Users->exists(6));
 
 			/*
 			 * admin deletes user
 			 */
 			$this->_loginUser(6);
-			$this->testAction('/admin/users/delete/5', array('data' => $data));
-			$this->controller->User->contain();
-			$result = $this->controller->User->findById(5);
-			$this->assertEmpty($result);
-			$this->assertRedirectedTo();
+			$this->post('/admin/users/delete/5', $data);
+            $this->assertFalse($this->_controller->Users->exists(5));
+            $this->assertRedirect('/');
 		}
 
 		public function testChangePasswordNotLoggedIn() {
-			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
-			$this->testAction('/users/changepassword/5');
-			$this->assertRedirectedTo();
+			$this->get('/users/changepassword/5');
+            $this->assertRedirect('login');
 		}
 
 		public function testChangePasswordWrongUser() {
-			$this->generate('Users');
 			$this->_loginUser(4);
-
-			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
-
-			$data = [
-				'User' => [
-					'password_old' => 'test',
-					'user_password' => 'test_new',
-					'password_confirm' => 'test_new',
-				]
-			];
-			$this->testAction('/users/changepassword/1',
-				['data' => $data, 'method' => 'post']);
+            $data = [
+                'password_old' => 'test',
+                'user_password' => 'test_new',
+                'password_confirm' => 'test_new',
+            ];
+            $this->setExpectedException('Cake\Network\Exception\BadRequestException');
+			$this->post('/users/changepassword/1', $data);
 		}
 
 		public function testChangePasswordViewFormWrongUser() {
-			$this->generate('Users');
-			$this->setExpectedException('Saito\Exception\SaitoForbiddenException');
 			$this->_loginUser(4);
-			$this->testAction('/users/changepassword/5');
+            $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+			$this->get('/users/changepassword/5');
 		}
 
 		public function testChangePasswordViewForm() {
-			$this->generate('Users');
 			$this->_loginUser(4);
-			$this->testAction('/users/changepassword/4');
-			$this->assertFalse(isset($this->headers['location']));
+			$this->get('/users/changepassword/4');
+            $this->assertNoRedirect();
 		}
 
 		public function testChangePasswordConfirmationFailed() {
-			$this->generate('Users');
 			$this->_loginUser(4);
+            $this->mockSecurity();
 
-			$data = [
-				'User' => [
-					'password_old' => 'test',
-					'user_password' => 'test_new_foo',
-					'password_confirm' => 'test_new_bar'
-				]
-			];
-			$this->testAction('/users/changepassword/4',
-				['data' => $data, 'method' => 'post']);
-			$this->assertFalse($this->controller->User->validates());
+            $data = [
+                'password_old' => 'test',
+                'user_password' => 'test_new_foo',
+                'password_confirm' => 'test_new_bar'
+            ];
+			$this->post('/users/changepassword/4', $data);
 
-			$expected = '098f6bcd4621d373cade4e832627b4f6';
-			$this->controller->User->id = 4;
-			$this->controller->User->contain();
-			$result = $this->controller->User->read();
-			$this->assertEquals($result['User']['password'], $expected);
-			$this->assertFalse(isset($this->headers['Location']));
+            $expected = '098f6bcd4621d373cade4e832627b4f6';
+            $user = TableRegistry::get('Users');
+            $result = $user->get(5, ['fields' => 'password']);
+            $this->assertEquals($result->get('password'), $expected);
+
+            $this->assertNoRedirect();
 		}
 
 		public function testChangePasswordOldPasswordNotCorrect() {
-			$this->generate('Users');
+            $this->mockSecurity();
 			$this->_loginUser(4);
 
-			$data = [
-				'User' => [
-					'password_old' => 'test_something',
-					'user_password' => 'test_new_foo',
-					'password_confirm' => 'test_new_foo',
-				]
-			];
-			$this->testAction('/users/changepassword/4',
-				['data' => $data, 'method' => 'post']);
-			$this->assertFalse($this->controller->User->validates());
+            $data = [
+                'password_old' => 'test_something',
+                'user_password' => 'test_new_foo',
+                'password_confirm' => 'test_new_foo',
+            ];
+			$this->post('/users/changepassword/4', $data);
 
 			$expected = '098f6bcd4621d373cade4e832627b4f6';
-			$this->controller->User->id = 4;
-			$this->controller->User->contain();
-			$result = $this->controller->User->read();
-			$this->assertEquals($result['User']['password'], $expected);
-			$this->assertFalse(isset($this->headers['Location']));
+            $user = TableRegistry::get('Users');
+            $result = $user->get(5, ['fields' => 'password']);
+			$this->assertEquals($result->get('password'), $expected);
+
+            $this->assertNoRedirect();
 		}
 
-		public function testChangePassword() {
-			$this->generate('Users');
-
+		public function testChangePasswordSuccess() {
 			$this->_loginUser(5);
-			$data = [
-				'User' => [
-					'password_old' => 'test',
-					'user_password' => 'test_new',
-					'password_confirm' => 'test_new',
-				]
-			];
-			$this->testAction('/users/changepassword/5',
-				['data' => $data, 'method' => 'post']);
+            $this->mockSecurity();
+            $data = [
+                'password_old' => 'test',
+                'user_password' => 'test_new',
+                'password_confirm' => 'test_new',
+            ];
+			$this->post('/users/changepassword/5', $data);
 
-			$this->controller->User->contain();
-			$result = $this->controller->User->findById(5);
+            $user = TableRegistry::get('Users');
+            $result = $user->get(5, ['fields' => 'password']);
+            $pwH = new DefaultPasswordHasher();
+			$this->assertTrue($pwH->check('test_new', $result->get('password')));
 
-			App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
-			$pwH = new BlowfishPasswordHasher();
-
-			$this->assertTrue($pwH->check('test_new', $result['User']['password']));
-			$this->assertContains('users/edit', $this->headers['Location']);
+            $this->assertRedirect('users/edit/5');
 		}
 
 		/**
 		 * Checks that the mod-button is in-/visible
 		 */
 		public function testViewModButton() {
-			$Users = $this->generate('Users');
-
 			/**
 			 * Mod Button is not visible for anon users
 			 */
-			$result = $this->testAction('users/view/5', array(
-					'return' => 'view'
-			));
-			$this->assertTextNotContains('dropdown', $result);
+			$this->get('users/view/5');
+			$this->assertResponseNotContains('dropdown');
 
 			/**
 			 * Mod Button is not visible for normal users
 			 */
 			$this->_loginUser(3);
-			$result = $this->testAction('users/view/5', array(
-					'return' => 'view'
-			));
-			$this->assertTextNotContains('dropdown', $result);
+			$this->get('users/view/5');
+			$this->assertResponseNotContains('dropdown');
 
 			/**
 			 * Mod Button is visible for admin
 			 */
 			$this->_loginUser(1);
-			$result = $this->testAction('users/view/5', array(
-					'return' => 'view'
-			));
-			$this->assertTextContains('dropdown', $result);
+            $this->get('users/view/5');
+            $this->assertResponseContains('dropdown');
 
 			/**
 			 * Mod Button is currently visible for mod
 			 */
 			$this->_loginUser(1);
-			$result = $this->testAction('users/view/5', array(
-					'return' => 'view'
-			));
-			$this->assertTextContains('dropdown', $result);
+            $this->get('users/view/5');
+            $this->assertResponseContains('dropdown');
 		}
 
+        /**
+         * Mod menu is currently empty for mod
+         */
 		public function testViewModButtonEmpty() {
-			/**
-			 * Mod menu is currently empty for mod
-			 */
 			Configure::write('Saito.Settings.block_user_ui', false);
-
-			$Users = $this->generate('Users');
-
 			$this->_loginUser(2);
-			$result = $this->testAction('users/view/5', array(
-					'return' => 'view'
-			));
-			$this->assertTextNotContains('dropdown', $result);
+			$this->get('users/view/5');
+			$this->assertResponseNotContains('dropdown');
 		}
 
 		public function testViewModButtonBlockUiTrue() {
 			Configure::write('Saito.Settings.block_user_ui', true);
-
-			$Users = $this->generate('Users');
-
 			$this->_loginUser(2);
-			$result = $this->testAction('users/view/5', array(
-					'return' => 'view'
-			));
-			$this->assertXPath($result, '//input[@value=5][@id="UserLockUserId"]');
+            $this->get('users/view/5');
+            $result = $this->_response->body();
+			$this->assertXPath($result, '//input[@value=5][@name="lockUserId"]');
 		}
 
 		public function testViewModButtonBlockUiFalse() {
 			Configure::write('Saito.Settings.block_user_ui', false);
-
-			$Users = $this->generate('Users');
-
 			$this->_loginUser(2);
-			$result = $this->testAction('users/view/5', array(
-					'return' => 'view'
-			));
-			$this->assertTextNotContains('users/lock/5', $result);
+            $this->get('users/view/5');
+			$this->assertResponseNotContains('users/lock/5');
 		}
 
 	}

@@ -1,36 +1,54 @@
 <?php
 
-	App::uses('Controller', 'Controller');
+namespace App\Controller;
 
-	/**
-	 * Class DynamicAssets
-	 *
-	 * Serve dynamic assets bypassing app logic
-	 *
-	 * If performance becomes an issue consider writing out as static assets
-	 * into webroot
-	 */
-	class DynamicAssetsController extends Controller {
+use Cake\Cache\Cache;
+use Cake\Controller\Controller;
+use Cake\Core\Configure;
+use Cake\I18n\I18n;
+use Cake\I18n\MessagesFileLoader;
 
-		public $components = [];
+/**
+ * Class DynamicAssets
+ *
+ * Serve dynamic assets bypassing app logic
+ *
+ * If performance becomes an issue consider writing out as static assets
+ * into webroot
+ */
+class DynamicAssetsController extends Controller
+{
 
-		public $autoRender = false;
+    public $components = [];
 
-		/**
-		 * Output current language strings as json
-		 */
-		public function langJs() {
-			//= dummy translation to load po files
-			__d('nondynamic', 'foo');
-			__d('default', 'foo');
-			$domains = I18n::domains();
-			$translations = $domains['nondynamic'][Configure::read('Config.language')]['LC_MESSAGES'];
-			$translations += $domains['default'][Configure::read('Config.language')]['LC_MESSAGES'];
-			unset($translations['%po-header']);
-			$this->response->type('json');
-			$this->response->cache('-1 minute', '+1 hour');
-			$this->response->compress();
-			return json_encode($translations);
-		}
+    public $autoRender = false;
 
-	}
+    /**
+     * Output current language strings as json
+     */
+    public function langJs()
+    {
+        $lang = Configure::read('Saito.language');
+        $msgs = Cache::remember(
+            'Saito.langJs.' . $lang,
+            function () use ($lang) {
+                $msgs = [];
+                $names = ['default', 'nondynamic'];
+                foreach ($names as $name) {
+                    $Loader = new MessagesFileLoader($name, $lang, 'po');
+                    $msgs += $Loader()->getMessages();
+                }
+
+                return json_encode($msgs);
+            }
+        );
+
+        $this->response->type('json');
+        $this->response->cache('-1 minute', '+1 hour');
+        $this->response->compress();
+        $this->response->body($msgs);
+
+        return $this->response;
+    }
+
+}

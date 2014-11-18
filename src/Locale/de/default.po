@@ -1,0 +1,2496 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Saito\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-27 20:28+0100\n"
+"PO-Revision-Date: 2015-03-27 20:29+0100\n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop;_\n"
+"X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
+"macnemo_2_github/src/\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Template/Admin/Admins/admin_logs.ctp:1 Template/Layout/admin.ctp:83
+msgid "Logs"
+msgstr ""
+
+#: Template/Admin/Admins/admin_logs.ctp:3
+#, php-format
+msgid "Latest log entries. See full logs at \"%s\"."
+msgstr "Letzte Log-Einträge. Vollständige Logs befinden sich in \"%s\"."
+
+#: Template/Admin/Admins/admin_stats.ctp:4 Template/Layout/admin.ctp:72
+msgid "admin.stats.yearly"
+msgstr "Jährliche Statistik"
+
+#: Template/Admin/Admins/admin_stats.ctp:6
+#: Template/Admin/Admins/admin_stats_details.ctp:6
+msgid "admin.stats.epa"
+msgstr "Beiträge"
+
+#: Template/Admin/Admins/admin_stats.ctp:7
+msgid "admin.stats.epac"
+msgstr "Beiträge pro Kategorie"
+
+#: Template/Admin/Admins/admin_stats.ctp:9
+msgid "admin.stats.au"
+msgstr "Aktive Nutzer"
+
+#: Template/Admin/Admins/admin_stats.ctp:10
+#: Template/Admin/Admins/admin_stats.ctp:13
+msgid "admin.stats.audisc"
+msgstr "Nutzer mit mindestens einem Posting oder mehr."
+
+#: Template/Admin/Admins/admin_stats.ctp:12
+msgid "admin.stats.apu"
+msgstr "Durchschnittliche Postings pro Nutzer"
+
+#: Template/Admin/Admins/admin_stats.ctp:15
+#: Template/Admin/Admins/admin_stats_details.ctp:7
+msgid "admin.stats.ur"
+msgstr "Registrierungen"
+
+#: Template/Admin/Admins/admin_stats_details.ctp:4
+#: Template/Layout/admin.ctp:75
+msgid "admin.stats.detailed"
+msgstr "Detailierte Statistik"
+
+#: Template/Admin/Admins/index.ctp:8
+#, fuzzy
+msgid "admin.sysInfo.h"
+msgstr "Systeminfo"
+
+#: Template/Admin/Admins/index.ctp:17
+msgid "admin.sysInfo.version"
+msgstr "Saito-Version: {0}"
+
+#: Template/Admin/Admins/index.ctp:18
+msgid "admin.sysInfo.server"
+msgstr "Server: {0}"
+
+#: Template/Admin/Admins/index.ctp:19
+msgid "admin.sysInfo.baseUrl"
+msgstr "Basis-URL: {0}"
+
+#: Template/Admin/Admins/index.ctp:20
+msgid "admin.sysInfo.cce"
+msgstr "Cache-Methode Kern: {0}"
+
+#: Template/Admin/Admins/index.ctp:21
+msgid "admin.sysInfo.cse"
+msgstr "Cache-Methode Saito: {0}"
+
+#: Template/Admin/Admins/index.ctp:28
+msgid "Empty Caches"
+msgstr "Cache leeren"
+
+#: Template/Admin/Admins/plugins.ctp:5 Template/Admin/Admins/plugins.ctp:7
+#: Template/Layout/admin.ctp:95
+msgid "Plugins"
+msgstr ""
+
+#: Template/Admin/Settings/edit.ctp:2 Template/Admin/Settings/index.ctp:2
+#: Template/Admin/Settings/index.ctp:117 Template/Layout/admin.ctp:38
+#: Template/Users/edit.ctp:132
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: Template/Admin/Settings/edit.ctp:20
+#: Template/Element/contacts/contacts-core.ctp:29
+#: Template/Entries/merge.ctp:12 View/Categories/admin_edit.ctp:26
+#: View/SmileyCodes/admin_add.ctp:8 View/SmileyCodes/admin_edit.ctp:16
+#: View/Smilies/admin_add.ctp:12 View/Smilies/admin_edit.ctp:13
+msgid "Submit"
+msgstr "Absenden"
+
+#: Template/Admin/Settings/index.ctp:7
+msgid "Deactivate Forum"
+msgstr "Forum deaktivieren"
+
+#: Template/Admin/Settings/index.ctp:13
+msgid "Base Preferences"
+msgstr "Grundeinstellungen"
+
+#: Template/Admin/Settings/index.ctp:19
+#, fuzzy
+msgid "Email"
+msgstr "E-Mail"
+
+#: Template/Admin/Settings/index.ctp:25
+msgid "Moderation"
+msgstr "Moderation"
+
+#: Template/Admin/Settings/index.ctp:31
+#, fuzzy
+msgid "Registration"
+msgstr "Registrierung"
+
+#: Template/Admin/Settings/index.ctp:37 Template/Users/view.ctp:212
+#: View/Categories/admin_index.ctp:34 View/SmileyCodes/admin_index.ctp:29
+#: View/Smilies/admin_index.ctp:42
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: Template/Admin/Settings/index.ctp:43
+msgid "View"
+msgstr "Anzeigen"
+
+#: Template/Admin/Settings/index.ctp:59
+#, fuzzy
+msgid "Category Chooser"
+msgstr "Kategorienfilter"
+
+#: Template/Admin/Settings/index.ctp:65
+msgid "API"
+msgstr ""
+
+#: Template/Admin/Settings/index.ctp:71
+msgid "Shoutbox"
+msgstr ""
+
+#: Template/Admin/Settings/index.ctp:77
+#, fuzzy
+msgid "Uploads"
+msgstr "Hochladen"
+
+#: Template/Admin/Settings/index.ctp:90 Template/Admin/Settings/index.ctp:93
+msgid "admin.set.map"
+msgstr "Karten"
+
+#: Template/Admin/Settings/index.ctp:97
+msgid "Debug"
+msgstr ""
+
+#: Template/Admin/Settings/timezone.ctp:28
+msgid "_exp"
+msgstr ""
+
+#: Template/Admin/Users/delete.ctp:1
+#, fuzzy
+msgid "Delete User"
+msgstr "Löschen"
+
+#: Template/Admin/Users/delete.ctp:22
+msgid "Delete User {0}"
+msgstr "Entferne Benutzer {0}"
+
+#: Template/Admin/Users/delete.ctp:46 View/Categories/admin_delete.ctp:69
+msgid "Make It So"
+msgstr ""
+
+#: Template/Admin/Users/delete.ctp:51 View/Categories/admin_delete.ctp:77
+msgid "Abort"
+msgstr "Abbrechen"
+
+#: Template/Bookmarks/edit.ctp:8
+msgid "Edit Bookmark"
+msgstr "Lesezeichen bearbeiten"
+
+#: Template/Bookmarks/edit.ctp:25
+msgid "Enter your comment here"
+msgstr "Hier Kommentar eingeben"
+
+#: Template/Bookmarks/edit.ctp:30 Template/Bookmarks/index.ctp:56
+msgid "btn-comment-title"
+msgstr "Kommentieren"
+
+#: Template/Bookmarks/index.ctp:7
+msgid "Bookmarks"
+msgstr "Lesezeichen"
+
+#: Template/Bookmarks/index.ctp:16 Template/Entries/add.ctp:51
+msgid "Subject"
+msgstr "Betreff"
+
+#: Template/Bookmarks/index.ctp:21
+msgid "Comment"
+msgstr "Kommentar"
+
+#: Template/Bookmarks/index.ctp:34 Template/Users/view.ctp:220
+#: View/Categories/admin_index.ctp:39 View/SmileyCodes/admin_index.ctp:30
+#: View/Smilies/admin_index.ctp:43
+msgid "Delete"
+msgstr "Löschen"
+
+#: Template/Cell/AppStatus/display.ctp:10
+msgid "discl.status"
+msgstr ""
+":entries Beiträge in :threads Themen; :registered Mitglieder, :loggedin "
+"angemeldet, :anon Gäste."
+
+#: Template/Cell/AppStatus/display.ctp:25
+#, fuzzy
+msgid "discl.newestMember"
+msgstr "Neuestes Mitglied ist {0}."
+
+#: Template/Cell/SlidetabUserlist/display.ctp:18
+msgid "user_area_linkname"
+msgstr "Benutzer"
+
+#: Template/Cell/SlidetabUserlist/display.ctp:16
+msgid "{0} online ({1})"
+msgstr ""
+
+#: Template/Cell/SlidetabUserlist/display.ctp:36 Template/Users/edit.ctp:35
+#: View/Helper/UserHHelper.php:86
+msgid "user.type.admin"
+msgstr "Administrator"
+
+#: Template/Cell/SlidetabUserlist/display.ctp:39 Template/Users/edit.ctp:34
+#: View/Categories/admin_add.ctp:18 View/Categories/admin_edit.ctp:19
+#: View/Helper/UserHHelper.php:84
+msgid "user.type.mod"
+msgstr "Moderator"
+
+#: Template/Cell/SlidetabUserlist/display.ctp:42 Template/Users/edit.ctp:33
+#: View/Categories/admin_add.ctp:17 View/Categories/admin_edit.ctp:18
+#: View/Helper/UserHHelper.php:82
+msgid "user.type.user"
+msgstr "Benutzer"
+
+msgid "user.type.anon"
+msgstr "Anonym"
+
+#: Template/Element/contacts/contacts-core.ctp:7
+msgid "user_contact_subject"
+msgstr "Betreff"
+
+#: Template/Element/contacts/contacts-core.ctp:12
+msgid "user_contact_message"
+msgstr "Nachricht"
+
+#: Template/Element/contacts/contacts-core.ctp:24
+msgid "user_contact_send_carbon_copy"
+msgstr "Kopie an mich senden"
+
+#: Template/Element/email/text/footer.ctp:4
+msgid "email_footer"
+msgstr "Diese E-Mail wurde über das Forum {0} ({1}) gesendet."
+
+#: Template/Element/entry/category-chooser.ctp:18
+#, fuzzy
+msgid "category_chooser_context_exp"
+msgstr ""
+"Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine "
+"einzelne Kategorie ohne Auswahländerung aktivieren."
+
+#: Template/Element/entry/category-chooser.ctp:32
+#: View/Searches/advanced.ctp:51 Controller/EntriesController.php:873
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: Template/Element/entry/category-chooser.ctp:61
+msgid "Apply"
+msgstr "Anwenden"
+
+#: Template/Element/entry/thread_cached_init.ctp:12
+msgid "btn-showThreadInMixView"
+msgstr "mix"
+
+#: Template/Element/entry/thread_cached_init.ctp:13
+msgid "btn-threadCollapse"
+msgstr "thread zu"
+
+#: Template/Element/entry/view_content.ctp:57
+msgid "{0} edited by {1}"
+msgstr "{0} bearbeitet durch {1}"
+
+# msgstr "Aufrufe"
+#: Template/Element/entry/view_content.ctp:69
+msgid "views_headline"
+msgstr "Aufrufe"
+
+#: Template/Element/entry/view_posting.ctp:69
+#: Template/Element/entry/view_posting.ctp:77
+msgid "forum_answer_linkname"
+msgstr "Antworten"
+
+#: Template/Element/entry/view_posting.ctp:90
+#: Template/Element/entry/view_posting.ctp:105
+#: Controller/EntriesController.php:454
+msgid "edit_linkname"
+msgstr "Bearbeiten"
+
+#: Template/Element/entry/view_posting.ctp:141
+msgid "merge_tree_link"
+msgstr "Zusammenlegen"
+
+#: Template/Element/entry/view_posting.ctp:150
+msgid "delete_tree_link"
+msgstr "Löschen"
+
+#: Template/Element/entry/view_posting.ctp:153
+msgid "delete_tree_link_confirm_message"
+msgstr ""
+"(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
+"werden!"
+
+#: Template/Element/layout/disclaimer.ctp:11
+msgid "Ressources"
+msgstr "Ressourcen"
+
+#: Template/Element/layout/disclaimer.ctp:14 Template/Users/view.ctp:49
+msgid "Contact"
+msgstr "Kontakt"
+
+#: Template/Element/layout/disclaimer.ctp:17
+msgid "Mobile"
+msgstr "Mobil"
+
+#: Template/Element/layout/disclaimer.ctp:20
+msgid "RSS"
+msgstr ""
+
+#: Template/Element/layout/disclaimer.ctp:27
+msgid "Status"
+msgstr ""
+
+#: Template/Element/layout/disclaimer.ctp:33
+msgid "About"
+msgstr "Über"
+
+#: Template/Element/layout/disclaimer.ctp:36
+msgid "Powered by Saito v{0}."
+msgstr "Angetrieben durch Saito v{0}."
+
+#: Template/Element/layout/disclaimer.ctp:41
+msgid "Generated in {0} s."
+msgstr "Generiert in {0} s."
+
+#: Template/Element/layout/header_login.ctp:9
+#: Template/Element/users/register-form.ctp:56
+#: Template/Users/deu/register.ctp:10 Template/Users/deu/rs.ctp:8
+#: Template/Users/register.ctp:10 Template/Users/rs.ctp:8
+msgid "register_linkname"
+msgstr "Registrieren"
+
+#: Template/Element/layout/header_login.ctp:14
+#: Template/Element/layout/header_login.ctp:16
+#: Template/Element/users/login_form.ctp:28
+msgid "login_btn"
+msgstr "Einloggen"
+
+#: Template/Element/layout/header_login.ctp:23
+msgid "ial.aa"
+msgstr "Einstellungen"
+
+#: Template/Element/layout/header_login.ctp:31 Template/Users/view.ctp:155
+#, fuzzy
+msgid "user.b.profile"
+msgstr "Profil"
+
+#: Template/Element/layout/header_login.ctp:51
+msgid "logout_linkname"
+msgstr "Ausloggen"
+
+#: Template/Element/layout/header_search.ctp:29 View/Searches/advanced.ctp:69
+#: View/Searches/simple.ctp:29
+msgid "search_submit"
+msgstr "Suchen"
+
+#: Template/Element/layout/html_footer.ctp:6
+#, fuzzy
+msgid ""
+"This web-application depends on JavaScript. Please activate JavaScript in "
+"your browser."
+msgstr ""
+"Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
+"Browser."
+
+#: Template/Element/layout/slidetab_recententries.ctp:9
+#, fuzzy
+msgid "Recent entries"
+msgstr "Letzte Einträge"
+
+#: Template/Element/layout/slidetab_recentposts.ctp:13
+#: Template/Users/view.ctp:243
+msgid "user_recentposts"
+msgstr "Letzte Beiträge"
+
+#: Template/Element/searches/search_results.ctp:7
+msgid "search_nothing_found"
+msgstr "Keine Einträge."
+
+#: Template/Element/users/block-report.ctp:5
+msgid "ncy.aub"
+msgstr "Noch keine Sperrungen."
+
+#: Template/Element/users/block-report.ctp:15
+msgid "user.block.active"
+msgstr "Gesperrt"
+
+#: Template/Element/users/block-report.ctp:16
+msgid "user.block.reason"
+msgstr "Grund"
+
+#: Template/Element/users/block-report.ctp:17
+msgid "user.block.start"
+msgstr "Start"
+
+#: Template/Element/users/block-report.ctp:18
+msgid "user.block.ended"
+msgstr "Beendet"
+
+#: Template/Element/users/block-report.ctp:19
+msgid "user.block.ends"
+msgstr "Geplantes Ende"
+
+#: Template/Element/users/block-report.ctp:22
+#: Template/Element/users/login_form.ctp:7
+#: Template/Users/changepassword.ctp:18 View/Searches/advanced.ctp:32
+msgid "user_name"
+msgstr "Benutzername"
+
+#: Template/Element/users/block-report.ctp:24
+#: Template/Element/users/block-report.ctp:56
+msgid "user.block.unblock"
+msgstr "Aufheben"
+
+#: Template/Element/users/block-report.ctp:39
+msgid "user.block.reason.1"
+msgstr "Gesperrt durch Moderator %s."
+
+#: Template/Element/users/login_form.ctp:14
+#: Template/Element/users/register-form-core.ctp:32 Template/Users/edit.ctp:51
+msgid "user_pw"
+msgstr "Passwort"
+
+#: Template/Element/users/login_form.ctp:21
+msgid "auto_login_marking"
+msgstr "an diesem Computer automatisch einloggen"
+
+#: Template/Element/users/register-form-core.ctp:6
+msgid "model.user.validate.username.hasAllowedChars"
+msgstr "Der Name enthält unerlaubte Sonderzeichen."
+
+#: Template/Element/users/register-form-core.ctp:7
+msgid "error_name_reserved"
+msgstr "Der Name ist bereits vergeben."
+
+#: Template/Element/users/register-form-core.ctp:8
+msgid "error_no_name"
+msgstr "Es wurde kein Name eingegeben."
+
+#: Template/Element/users/register-form-core.ctp:10
+msgid "register_user_name"
+msgstr "Benutzername"
+
+#: Template/Element/users/register-form-core.ctp:17
+msgid "error_email_reserved"
+msgstr ""
+"Es ist bereits ein Benutzer mit der angegebenen E-Mail-Adresse vorhanden."
+
+#: Template/Element/users/register-form-core.ctp:18
+msgid "error_email_wrong"
+msgstr "Die eingegebene E-Mail-Adresse sieht nicht richtig aus."
+
+#: Template/Element/users/register-form-core.ctp:20
+msgid "register_user_email"
+msgstr "E-Mail Adresse"
+
+#: Template/Element/users/register-form-core.ctp:29
+#: Template/Users/changepassword.ctp:29 Template/Users/changepassword.ctp:39
+msgid "error_password_empty"
+msgstr "Passwort darf nicht leer sein."
+
+#: Template/Element/users/register-form-core.ctp:30
+#: Template/Users/changepassword.ctp:40
+msgid "error_password_confirm"
+msgstr "Password stimmt nicht mit Wiederholung überein."
+
+#: Template/Element/users/register-form-core.ctp:39
+msgid "user_pw_confirm"
+msgstr "Passwort wiederholen"
+
+#: Template/Element/users/register-form.ctp:30
+msgid "register_tos_linktext"
+msgstr "Nutzungsbedingungen"
+
+#: Template/Element/users/register-form.ctp:28
+msgid "register_tos_label"
+msgstr "Ich bin mit den {0} einverstanden"
+
+#: Template/Entries/add.ctp:28 Template/Entries/add.ctp:122
+msgid "preview"
+msgstr "Vorschau"
+
+#: Template/Entries/add.ctp:94
+msgid "Cite"
+msgstr "Zitieren"
+
+#: Template/Entries/add.ctp:110
+msgid "submit_button"
+msgstr "Eintragen"
+
+#: Template/Entries/index.ctp:24
+msgid "new_entry_linkname"
+msgstr "Neuer Eintrag"
+
+#: Template/Entries/merge.ctp:5
+msgid "Merge thread {0}"
+msgstr "Thread {0} anfügen"
+
+#: Template/Entries/merge.ctp:10
+msgid "Merge onto posting with ID:"
+msgstr ""
+
+#: Template/Entries/mix.ctp:8 View/Helper/LayoutHelper.php:249
+msgid "Back"
+msgstr "Zurück"
+
+#: Template/Entries/view.ctp:9 View/Helper/LayoutHelper.php:247
+msgid "back_to_forum_linkname"
+msgstr "Zurück zum Forum"
+
+#: Template/Layout/admin.ctp:29
+msgid "Forum"
+msgstr ""
+
+#: Template/Layout/admin.ctp:35
+msgid "Overview"
+msgstr "Übersicht"
+
+#: Template/Layout/admin.ctp:43 Template/Layout/admin.ctp:48
+#: Template/Users/admin_add.ctp:2 Template/Users/admin_block.ctp:2
+#: Template/Users/admin_index.ctp:1 Template/Users/admin_index.ctp:3
+#, fuzzy
+msgid "Users"
+msgstr "Benutzer"
+
+#: Template/Layout/admin.ctp:51 Template/Users/admin_block.ctp:3
+#: Template/Users/admin_block.ctp:4 Template/Users/view.ctp:274
+msgid "user.block.history"
+msgstr "Sperren"
+
+#: Template/Layout/admin.ctp:59 View/Categories/admin_add.ctp:1
+#: View/Categories/admin_delete.ctp:1 View/Categories/admin_edit.ctp:1
+#: View/Categories/admin_index.ctp:1 View/Categories/admin_index.ctp:3
+msgid "Categories"
+msgstr "Kategorien"
+
+#: Template/Layout/admin.ctp:62 View/SmileyCodes/admin_edit.ctp:1
+#: View/SmileyCodes/admin_index.ctp:1 View/Smilies/admin_add.ctp:2
+#: View/Smilies/admin_edit.ctp:1 View/Smilies/admin_index.ctp:1
+#: View/Smilies/admin_index.ctp:4 View/Helper/MarkitupEditorHelper.php:120
+msgid "Smilies"
+msgstr ""
+
+#: Template/Layout/admin.ctp:67
+msgid "Stats"
+msgstr "Statistik"
+
+#: Template/Layout/default.ctp:48
+msgid "Search"
+msgstr "Suche"
+
+#: Template/Pages/rss_feeds.ctp:2
+msgid "RSS Feeds"
+msgstr ""
+
+#: Template/Pages/rss_feeds.ctp:5 Template/Pages/rss_feeds.ctp:6
+msgid "RSS Feed"
+msgstr "RSS Feed"
+
+#: Template/Pages/rss_feeds.ctp:5 Controller/EntriesController.php:86
+msgid "Last entries"
+msgstr "Letzte Einträge"
+
+#: Template/Pages/rss_feeds.ctp:6 Controller/EntriesController.php:82
+msgid "Last started threads"
+msgstr "Letzte Threads"
+
+#: Template/Users/admin_add.ctp:3 Template/Users/admin_add.ctp:5
+#: Template/Users/admin_add.ctp:9
+msgid "Add User"
+msgstr "Benutzer hinzufügen"
+
+#: Template/Users/admin_index.ctp:4
+msgid "New User"
+msgstr "Neuer Benutzer"
+
+#: Template/Users/admin_index.ctp:10 Template/Users/edit.ctp:21
+#: Template/Users/edit.ctp:43 Template/Users/view.ctp:19
+#: Controller/UsersController.php:206
+msgid "username_marking"
+msgstr "Benutzername"
+
+#: Template/Users/admin_index.ctp:11 Template/Users/edit.ctp:29
+#: Controller/UsersController.php:207
+msgid "user_type"
+msgstr "Typ"
+
+#: Template/Users/admin_index.ctp:12
+msgid "user_email"
+msgstr "Email"
+
+#: Template/Users/admin_index.ctp:13 Controller/UsersController.php:209
+msgid "registered"
+msgstr "Registriert"
+
+#: Template/Users/admin_index.ctp:16 Template/Users/view.ctp:31
+#: Controller/UsersController.php:213
+#, fuzzy
+msgid "user.set.lock.t"
+msgstr "Sperre"
+
+#: Template/Users/changepassword.ctp:9 Template/Users/edit.ctp:53
+msgid "change_password_link"
+msgstr "Passwort ändern"
+
+#: Template/Users/changepassword.ctp:25
+msgid "change_password_old_password"
+msgstr "Altes Passwort"
+
+#: Template/Users/changepassword.ctp:30
+msgid "error_password_check_old"
+msgstr "Das alte Passwort ist nicht korrekt."
+
+#: Template/Users/changepassword.ctp:35
+msgid "change_password_new_password"
+msgstr "Neues Passwort"
+
+#: Template/Users/changepassword.ctp:46
+msgid "change_password_new_password_confirm"
+msgstr "Neues Passwort wiederholen"
+
+#: Template/Users/changepassword.ctp:48
+msgid "change_password_btn_submit"
+msgstr "Passwort ändern"
+
+#: Template/Users/edit.ctp:25 Template/Users/edit.ctp:44
+msgid "userlist_email"
+msgstr "E-Mail"
+
+#: Template/Users/edit.ctp:63 Template/Users/view.ctp:38
+msgid "user_real_name"
+msgstr "Realer Name"
+
+#: Template/Users/edit.ctp:65
+msgid "user_real_name_exp"
+msgstr "(optional)"
+
+#: Template/Users/edit.ctp:69 Template/Users/view.ctp:54
+msgid "user_hp"
+msgstr "Homepage"
+
+#: Template/Users/edit.ctp:71
+msgid "user_hp_exp"
+msgstr "(optional)"
+
+#: Template/Users/edit.ctp:76
+msgid "user_place_exp"
+msgstr "(optional)"
+
+#: Template/Users/edit.ctp:107 Template/Users/view.ctp:61
+msgid "user_place"
+msgstr "Ort"
+
+#: Template/Users/edit.ctp:111 Template/Users/view.ctp:127
+msgid "user_profile"
+msgstr "Profil"
+
+#: Template/Users/edit.ctp:113
+msgid "user_profile_exp"
+msgstr "wird in der Benutzerinfo angezeigt (optional)"
+
+#: Template/Users/edit.ctp:117 Template/Users/view.ctp:134
+msgid "user_signature"
+msgstr "Signatur"
+
+#: Template/Users/edit.ctp:119
+msgid "user_signature_exp"
+msgstr "Signatur, welche an eigene Postings angehängt wird."
+
+#: Template/Users/edit.ctp:137
+msgid "user_sort_last_answer"
+msgstr "Sortierreihenfolge"
+
+#: Template/Users/edit.ctp:143
+msgid "user_sort_last_answer_time"
+msgstr "Zeit"
+
+#: Template/Users/edit.ctp:144
+msgid "user_sort_last_answer_last_answer"
+msgstr "Letzte Antwort"
+
+#: Template/Users/edit.ctp:152
+msgid "user_sort_last_answer_exp"
+msgstr ""
+"Reihenfolge nach der die Threads auf der Startseite geordnet werden. Zeit: "
+"feste Reihenfolge nach Startzeitpunkt des Threads. Letzte Antwort: Threads "
+"mit neuen Antworten wandern nach oben."
+
+#: Template/Users/edit.ctp:157
+msgid "user_automaticaly_mark_as_read"
+msgstr "Intelligentes Gelesen-Markieren"
+
+#: Template/Users/edit.ctp:162
+msgid "user_automaticaly_mark_as_read_exp"
+msgstr "Intelligentes Gelesen-Markieren (iMAR)"
+
+#: Template/Users/edit.ctp:171
+msgid "user_signatures_hide"
+msgstr "Signaturen ausblenden"
+
+#: Template/Users/edit.ctp:173
+msgid "user_signatures_hide_exp"
+msgstr "Signaturen der anderen Benutzer komplett ausblenden."
+
+#: Template/Users/edit.ctp:175
+msgid "user_signatures_images_hide_exp"
+msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
+
+#: Template/Users/edit.ctp:180
+msgid "user_forum_refresh_time"
+msgstr "Aktualisierungszeit"
+
+#: Template/Users/edit.ctp:192
+msgid "user_forum_refresh_time_exp"
+msgstr ""
+"Zeit in Minuten, nach der die Forumsübersicht automatisch neu geladen wird "
+"(optional)"
+
+#: Template/Users/edit.ctp:199
+msgid "user_theme"
+msgstr "Theme"
+
+#: Template/Users/edit.ctp:206
+msgid "user_theme_exp"
+msgstr "Anderes Aussehen auswählen. (optional)"
+
+#: Template/Users/edit.ctp:212
+msgid "user_colors"
+msgstr "Farben"
+
+#: Template/Users/edit.ctp:225
+msgid "inline_view_on_click"
+msgstr "Posting aufklappen"
+
+#: Template/Users/edit.ctp:228
+msgid "inline_view_on_click_exp"
+msgstr ""
+"Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen "
+"Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
+
+#: Template/Users/edit.ctp:232
+msgid "user_show_thread_collapsed"
+msgstr "Threads einklappen"
+
+#: Template/Users/edit.ctp:235
+msgid "user_show_thread_collapsed_exp"
+msgstr ""
+"Threads sind standardmässig eingeklappt und müssen manuell geöffnet werden."
+
+#: Template/Users/edit.ctp:240
+msgid "user_pers_msg"
+msgstr "Persönliche&nbsp;Nachrichten empfangen"
+
+#: Template/Users/edit.ctp:241
+msgid "user_pers_msg_exp"
+msgstr ""
+"Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen "
+"werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen "
+"werden)"
+
+#: Template/Users/edit.ctp:248
+msgid "user_category_override"
+msgstr "Kategorienfilter"
+
+#: Template/Users/edit.ctp:253
+#, fuzzy
+msgid "user_category_override_exp"
+msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
+
+#: Template/Users/edit.ctp:280 Template/Users/edit.ctp:297
+msgid "gn.btn.save.t"
+msgstr "Speichern"
+
+#: Template/Users/edit.ctp:287 Template/Users/view.ctp:24
+msgid "user.set.avatar.t"
+msgstr "Avatar"
+
+#: Template/Users/edit.ctp:303
+msgid "gn.btn.delete.t"
+msgstr "Speichern"
+
+#: Template/Users/index.ctp:18
+msgid "Sort by: {0}"
+msgstr "Sortieren nach: {0}"
+
+#: Template/Users/index.ctp:39
+msgid "user_since {0}"
+msgstr ""
+
+#: Template/Users/index.ctp:47
+msgid "Online"
+msgstr ""
+
+#: Template/Users/index.ctp:54
+msgid "{0} banned"
+msgstr ""
+
+#: Template/Users/login.ctp:7
+msgid "login_linkname"
+msgstr "log in"
+
+#: Template/Users/view.ctp:74
+msgid "user_since"
+msgstr "Mitglied seit"
+
+#: Template/Users/view.ctp:75
+msgid "date_short"
+msgstr "%d.%m.%Y"
+
+#: Template/Users/view.ctp:80
+msgid "user_postings"
+msgstr "Beiträge"
+
+#: Template/Users/view.ctp:100
+msgid "user_ignored_by"
+msgstr "Ignoriert von"
+
+#: Template/Users/view.ctp:119
+msgid "user_ignores"
+msgstr "Ignorierte Mitglieder"
+
+#: Template/Users/view.ctp:173
+msgid "edit_userdata"
+msgstr "Bearbeiten"
+
+#: Template/Users/view.ctp:183
+msgid "unignore_this_user"
+msgstr "Ignorierung aufheben"
+
+#: Template/Users/view.ctp:194
+msgid "ignore_this_user"
+msgstr "Ignorieren"
+
+#: Template/Users/view.ctp:249
+msgid "No entries created yet."
+msgstr "Noch keine Beiträge verfasst."
+
+#: Template/Users/view.ctp:264
+msgid "Show all"
+msgstr "Alle anzeigen"
+
+#: Template/Users/view.ctp:285
+msgid "Block User"
+msgstr "Nutzer sperren"
+
+#: Template/Users/view.ctp:299
+msgid ":hours hours"
+msgstr ":hours Stunden"
+
+#: View/Categories/admin_add.ctp:2 View/Categories/admin_add.ctp:4
+msgid "Add Category"
+msgstr "Kategorie hinzufügen"
+
+#: View/Categories/admin_add.ctp:9
+msgid "Title"
+msgstr "Titel"
+
+#: View/Categories/admin_add.ctp:13 View/Categories/admin_edit.ctp:14
+#: View/Categories/admin_index.ctp:15 View/Categories/admin_index.ctp:51
+msgid "Accession"
+msgstr "Zugriff"
+
+#: View/Categories/admin_add.ctp:16 View/Categories/admin_edit.ctp:17
+msgid "Anonymous"
+msgstr ""
+
+#: View/Categories/admin_add.ctp:24
+msgid "category.create"
+msgstr "Kategorie anlegen"
+
+#: View/Categories/admin_delete.ctp:2
+#, fuzzy
+msgid "Delete Category"
+msgstr "Flattr-Kategorie"
+
+#: View/Categories/admin_delete.ctp:29
+msgid "Move entries and delete category"
+msgstr ""
+
+#: View/Categories/admin_delete.ctp:43
+msgid "Delete entries and delete category"
+msgstr ""
+
+#: View/Categories/admin_edit.ctp:2 View/Categories/admin_edit.ctp:4
+msgid "Edit Category"
+msgstr "Kategorie bearbeiten"
+
+#: View/Categories/admin_edit.ctp:9 View/Categories/admin_index.ctp:12
+#: View/Smilies/admin_add.ctp:8 View/Smilies/admin_edit.ctp:9
+msgid "sort.order"
+msgstr "Sortierung"
+
+#: View/Categories/admin_index.ctp:5
+msgid "New Category"
+msgstr "Neue Kategorie"
+
+#: View/Categories/admin_index.ctp:16 View/SmileyCodes/admin_add.ctp:14
+#: View/SmileyCodes/admin_index.ctp:12 View/Smilies/admin_add.ctp:18
+#: View/Smilies/admin_index.ctp:17 View/Helper/SettingHelper.php:77
+msgid "Actions"
+msgstr "Aktion"
+
+msgid "accession.new_thread"
+msgstr "Thema verfassen"
+
+msgid "accession.new_posting"
+msgstr "Antwort verfassen"
+
+msgid "accession.read"
+msgstr "Lesen"
+
+#: View/Contacts/owner.ctp:9
+#, fuzzy
+msgid "owner_contact_title"
+msgstr "Kontaktiere %s"
+
+#: View/Contacts/owner.ctp:19
+msgid "user_contact_sender-contact"
+msgstr "Ihre Kontaktadresse"
+
+#: View/Emails/text/user_register.ctp:2
+msgid "register_email_content"
+msgstr ""
+"Hallo, willkommen bei {0}!\n"
+"\n"
+"Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
+"innerhalb der nächsten 24 Stunden: {1}"
+
+#: View/Searches/advanced.ctp:7
+msgid "search_simple"
+msgstr "Einfache Suche"
+
+#: View/Searches/advanced.ctp:27
+msgid "subject"
+msgstr "Betreff"
+
+#: View/Searches/advanced.ctp:29
+msgid "Text"
+msgstr "Text"
+
+#: View/Searches/advanced.ctp:40
+msgid "search.nstrict"
+msgstr "Exakter Name"
+
+#: View/Searches/advanced.ctp:55
+msgid "search_since"
+msgstr "Seit"
+
+#: View/Searches/simple.ctp:8
+msgid "search_advanced"
+msgstr "Erweiterte Suche"
+
+#: View/Searches/simple.ctp:40
+msgid "search_term"
+msgstr "Suchbegriff"
+
+#: View/Searches/simple.ctp:43
+msgid "search.q.minLength"
+msgstr "Suchbegriffe müssen mindestens %s Buchstaben enthalten."
+
+#: View/Searches/simple.ctp:61
+#, fuzzy
+msgid "Time"
+msgstr "Zeit"
+
+#: View/Searches/simple.ctp:62
+msgid "Rank"
+msgstr "Rang"
+
+#: View/Searches/simple.ctp:63
+#, php-format
+msgid "Sort by: %s"
+msgstr "Sortieren nach: %s"
+
+#: View/Searches/simple.ctp:70
+msgid "search.tooShort"
+msgstr ""
+"Die folgenden Wörter sind zu kurz und wurden ignoriert: :omittedWords. Die "
+"Mindestzeichenzahl pro Wort beträgt: :minChars."
+
+#: View/SmileyCodes/admin_add.ctp:4
+#, fuzzy
+msgid "Add Smiley Code"
+msgstr "Smilies"
+
+#: View/SmileyCodes/admin_add.ctp:17 View/Smilies/admin_add.ctp:22
+#: View/Smilies/admin_index.ctp:6
+msgid "List Smiley Codes"
+msgstr "Smiley Liste"
+
+#: View/SmileyCodes/admin_add.ctp:18 View/Smilies/admin_add.ctp:21
+msgid "List Smilies"
+msgstr "Smilies auflisten"
+
+#: View/SmileyCodes/admin_add.ctp:19 View/Smilies/admin_index.ctp:5
+msgid "New Smiley"
+msgstr "Neuer Smiley"
+
+#: View/SmileyCodes/admin_edit.ctp:2 View/SmileyCodes/admin_index.ctp:2
+#: View/SmileyCodes/admin_index.ctp:4
+msgid "Smiley Codes"
+msgstr "Smiley-Codes"
+
+#: View/SmileyCodes/admin_edit.ctp:3 View/SmileyCodes/admin_edit.ctp:4
+msgid "Edit Smiley Code"
+msgstr "Smiley-Code bearbeiten"
+
+#: View/SmileyCodes/admin_index.ctp:5 View/Smilies/admin_add.ctp:23
+msgid "New Smiley Code"
+msgstr "Neuer Smiley Code"
+
+#: View/SmileyCodes/admin_index.ctp:30 View/Smilies/admin_index.ctp:43
+#, php-format
+msgid "Are you sure you want to delete # %s?"
+msgstr "# %s wirklich löschen?"
+
+#: View/Smilies/admin_add.ctp:3 View/Smilies/admin_add.ctp:4
+msgid "Add Smiley"
+msgstr "Smiley hinzufügen"
+
+#: View/Smilies/admin_add.ctp:9
+msgid "Icon"
+msgstr "Ikon"
+
+#: View/Smilies/admin_add.ctp:10
+msgid "Image"
+msgstr "Bild"
+
+#: View/Smilies/admin_edit.ctp:2
+msgid "Edit Smiley"
+msgstr "Smiley bearbeiten"
+
+#: View/Smilies/admin_edit.ctp:4
+msgid "Admin Edit Smiley"
+msgstr "Admin Smiley bearbeiten"
+
+#: View/Smilies/admin_index.ctp:11
+msgid "Code"
+msgstr "Quellcode"
+
+#: View/Smilies/admin_index.ctp:16
+msgid "Translated Title"
+msgstr ""
+
+#: View/Uploads/add.ctp:10
+msgid "upload_btn"
+msgstr "Hochladen"
+
+#: View/Uploads/json/index.ctp:10 View/Uploads/json/index.ctp:14
+msgid "upload_btn_delete_upload"
+msgstr "Datei löschen"
+
+#: Controller/Admin/AdminsController.php:20
+msgid "Caches cleared."
+msgstr ""
+
+#: Controller/Admin/AdminsController.php:173
+msgid "New"
+msgstr "Neu"
+
+#: Controller/Admin/AdminsController.php:175
+msgid "Cumulated"
+msgstr "Kumuliert"
+
+#: Controller/Admin/UsersController.php:17 Controller/UsersController.php:427
+msgid "User not found."
+msgstr "Benutzer nicht gefunden."
+
+#: Controller/Admin/UsersController.php:26
+msgid "You can't delete yourself."
+msgstr "Man kann sich nicht selbst löschen."
+
+#: Controller/Admin/UsersController.php:31
+msgid "You can't delete the installation account."
+msgstr "Der Installationsbenutzer kann nicht gelöscht werden."
+
+#: Controller/Admin/UsersController.php:36
+msgid "You can't delete a user above your rank."
+msgstr ""
+
+#: Controller/Admin/UsersController.php:41
+msgid "User {0} deleted."
+msgstr "Nutzer {0} gelöscht."
+
+#: Controller/Admin/UsersController.php:48
+msgid "Couldn't delete user."
+msgstr ""
+
+#: Controller/AppController.php:269
+msgid "forum-title-template"
+msgstr ":page – :forum"
+
+#: Controller/AppController.php:370
+#: Controller/Component/CurrentUserComponent.php:346
+msgid "auth_autherror"
+msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
+
+#: Controller/CategoriesController.php:26
+#: Controller/CategoriesController.php:41
+msgid "The category has been saved"
+msgstr ""
+
+#: Controller/CategoriesController.php:29
+#: Controller/CategoriesController.php:44
+msgid "The category could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/CategoriesController.php:36
+#, fuzzy
+msgid "Invalid category"
+msgstr "Ungültiger Benutzer"
+
+#: Controller/CategoriesController.php:55
+#, fuzzy
+msgid "Invalid id for category"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: Controller/CategoriesController.php:64
+msgid "Category not found."
+msgstr ""
+
+#: Controller/CategoriesController.php:81
+msgid "Target category not found."
+msgstr ""
+
+#: Controller/CategoriesController.php:89
+msgid "Error moving category."
+msgstr ""
+
+#: Controller/CategoriesController.php:93
+#, fuzzy
+msgid "Category moved."
+msgstr "Kategorie"
+
+#: Controller/CategoriesController.php:99
+#, fuzzy
+msgid "Error deleting category."
+msgstr "Flattr-Kategorie"
+
+#: Controller/CategoriesController.php:103
+#, fuzzy
+msgid "Category deleted."
+msgstr "Kategorie"
+
+#: Controller/Component/EmailNotificationComponent.php:51
+#, php-format
+msgid "New reply to \"%s\""
+msgstr "Neue Antwort zu \"%s\""
+
+#: Controller/Component/EmailNotificationComponent.php:79
+msgid "Successfull registration"
+msgstr ""
+
+#: Controller/Component/SaitoEmailComponent.php:278
+msgid "Copy of your message: \":subject\" to \":recipient-name\""
+msgstr "Kopie Ihrer Nachricht: \":subject\" an \":recipient-name\""
+
+#: Controller/Component/SaitoEmailComponent.php:280
+#, fuzzy
+msgid "Copy of your message: \":subject\""
+msgstr "Kopie Ihrer Nachricht: :subject"
+
+#: Controller/Component/TitleComponent.php:18
+msgid ":subject | :category"
+msgstr ""
+
+#: Controller/Component/TitleComponent.php:20
+msgid ":subject (:type) | :category"
+msgstr ""
+
+#: Controller/ContactsController.php:33
+msgid "error_email_not-valid"
+msgstr "Keine gültige Email-Adresse."
+
+#: Controller/ContactsController.php:71
+msgid "user_contact_title"
+msgstr "Kontaktiere {0}"
+
+#: Controller/ContactsController.php:92
+msgid "error_subject_empty"
+msgstr "Fehler: Betreff ist leer."
+
+#: Controller/ContactsController.php:123
+msgid "Message was send."
+msgstr "Nachricht wurde versandt."
+
+#: Controller/ContactsController.php:131
+#, fuzzy
+msgid "Message couldn't be send! "
+msgstr "Fehler, Nachricht konnte nicht versandt werden."
+
+#: Controller/EntriesController.php:60
+msgid "page"
+msgstr "Seite"
+
+#: Controller/EntriesController.php:143
+msgid "view.type.mix"
+msgstr "Mix"
+
+#: Controller/EntriesController.php:179 Controller/EntriesController.php:187
+msgid "Invalid post"
+msgstr "Posting konnte nicht gefunden werden."
+
+#: Controller/EntriesController.php:229
+msgid "Write a New Entry"
+msgstr "Neuen Beitrag verfassen"
+
+#: Controller/EntriesController.php:272 Controller/EntriesController.php:397
+msgid "Something clogged the tubes. Could not save entry. Try again."
+msgstr ""
+
+#: Controller/EntriesController.php:318 Controller/EntriesController.php:449
+msgid "back_to_posting_from_linkname"
+msgstr "zurück zum Posting von %s"
+
+#: Controller/EntriesController.php:322
+msgid "Write a Reply"
+msgstr "Antwort verfassen"
+
+#: Controller/EntriesController.php:406
+msgid "notice_you_are_editing_as_mod"
+msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
+
+#: Controller/EntriesController.php:482
+msgid "delete_tree_success"
+msgstr "Thread erfolgreich entfernt."
+
+#: Controller/EntriesController.php:485
+msgid "delete_subtree_success"
+msgstr "Subthread erfolgreich entfernt."
+
+#: Controller/EntriesController.php:490
+msgid "delete_tree_error"
+msgstr "Thread konnte nicht gelöscht werden."
+
+#: Controller/EntriesController.php:612
+msgid "Error"
+msgstr ""
+
+#: Controller/EntriesController.php:870
+msgid "Custom"
+msgstr "Angepasst"
+
+#: Controller/SmileyCodesController.php:23
+#: Controller/SmileyCodesController.php:41
+msgid "The smiley code has been saved"
+msgstr ""
+
+#: Controller/SmileyCodesController.php:26
+#: Controller/SmileyCodesController.php:44
+msgid "The smiley code could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/SmileyCodesController.php:36
+#, fuzzy
+msgid "Invalid smiley code"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: Controller/SmileyCodesController.php:57
+#, fuzzy
+msgid "Invalid id for smiley code"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: Controller/SmileyCodesController.php:61
+msgid "Smiley code deleted"
+msgstr ""
+
+#: Controller/SmileyCodesController.php:64
+msgid "Smiley code was not deleted"
+msgstr ""
+
+#: Controller/SmiliesController.php:24 Controller/SmiliesController.php:39
+msgid "The smily has been saved"
+msgstr ""
+
+#: Controller/SmiliesController.php:27 Controller/SmiliesController.php:42
+msgid "The smily could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/SmiliesController.php:34
+#, fuzzy
+msgid "Invalid smily"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: Controller/SmiliesController.php:52
+#, fuzzy
+msgid "Invalid id for smily"
+msgstr "Passwort stimmt nicht mit Wiederholung überein."
+
+#: Controller/SmiliesController.php:56
+msgid "Smily deleted"
+msgstr ""
+
+#: Controller/SmiliesController.php:59
+msgid "Smily was not deleted"
+msgstr ""
+
+#: Controller/UploadsController.php:40
+msgid "upload_max_number_of_uploads_failed"
+msgstr "Maximale Anzahl an Uploads erreicht (%s)."
+
+#: Controller/UsersController.php:64
+msgid "user.block.pubExpEnds"
+msgstr "Mitglied %s wurde gesperrt. Versuchen Sie es in %s erneut."
+
+#: Controller/UsersController.php:67
+msgid "user.block.pubExp"
+msgstr "Mitglied %s wurde gesperrt."
+
+#: Controller/UsersController.php:71
+#, php-format
+msgid "User %s is not activated yet."
+msgstr "Nutzer %s wurde noch nicht aktiviert."
+
+#: Controller/UsersController.php:74
+msgid "auth_loginerror"
+msgstr "Fehler beim Login!"
+
+#: Controller/UsersController.php:140
+msgid "register_email_subject"
+msgstr "Willkommen zu {0}!"
+
+#: Controller/UsersController.php:208
+msgid "userlist_online"
+msgstr "Online"
+
+#: Controller/UsersController.php:262
+msgid "user.admin.add.success"
+msgstr "Nutzer wurde erfolgreich angelegt."
+
+#: Controller/UsersController.php:262
+msgid "user.admin.add.error"
+msgstr "Fehler beim Anlegen des Benutzers."
+
+#: Controller/UsersController.php:271
+#, fuzzy
+msgid "admin.feat.map"
+msgstr "Karten"
+
+#: Controller/UsersController.php:271
+msgid "admin.setting.disabled"
+msgstr "Funktion \"%s\" ist nicht aktiviert."
+
+#: Controller/UsersController.php:302 Controller/UsersController.php:321
+msgid "Invalid user"
+msgstr "Ungültiger Benutzer"
+
+#: Controller/UsersController.php:390
+msgid "The user could not be saved. Please, try again."
+msgstr "Der Benutzer konnte nicht gespeichert werden."
+
+#: Controller/UsersController.php:398
+#, php-format
+msgid "Edit %s Profil"
+msgstr "%s Profil bearbeiten"
+
+#: Controller/UsersController.php:435
+msgid "You can't lock yourself."
+msgstr "Man kann sich nicht selbst sperren."
+
+#: Controller/UsersController.php:438
+msgid "You can't lock administrators."
+msgstr "Administratoren können nicht gesperrt werden."
+
+#: Controller/UsersController.php:454
+#, php-format
+msgid "User %s is locked."
+msgstr ""
+
+#: Controller/UsersController.php:456
+#, php-format
+msgid "User %s is unlocked."
+msgstr "Benutzer %s wurde freigegeben."
+
+#: Controller/UsersController.php:460
+msgid "Error while un/locking."
+msgstr ""
+
+#: Controller/UsersController.php:471
+msgid "Error while unlocking."
+msgstr ""
+
+#: Controller/UsersController.php:515
+msgid "change_password_success"
+msgstr "Passwort erfolgreich geändert."
+
+#: Lib/Saito/Posting/Renderer/HelperTrait.php:15
+msgid "fixed"
+msgstr "Thread fixiert"
+
+#: Lib/Saito/Posting/Renderer/HelperTrait.php:40
+msgid "Helpful entry"
+msgstr "Hilfreicher Beitrag"
+
+#: Lib/Saito/User/RemovedSaitoUser.php:10
+msgid "user.removed.placeholder"
+msgstr "<gelöscht>"
+
+#: View/Helper/AdminHelper.php:84
+msgid "No log file found."
+msgstr "Keine Log-Datei vorhanden."
+
+#: View/Helper/AdminHelper.php:95
+msgid "Details"
+msgstr ""
+
+#: View/Helper/FlotHelper.php:37
+msgid "admin.stats.insfd"
+msgstr "Nicht genügend Daten vorhanden."
+
+#: View/Helper/PostingHelper.php:57
+#, fuzzy
+msgid "Category"
+msgstr "Kategorie"
+
+#: View/Helper/PostingHelper.php:59
+msgid "error_category_empty"
+msgstr "Bitte Kategorie wählen."
+
+#: View/Helper/SettingHelper.php:63
+msgid "edit"
+msgstr "Bearbeiten"
+
+# View/Settings/admin_index.ctp:
+#: View/Helper/SettingHelper.php:74
+msgid "Key"
+msgstr "Schlüssel"
+
+# View/Settings/admin_index.ctp:
+#: View/Helper/SettingHelper.php:75
+msgid "Value"
+msgstr "Wert"
+
+# View/Settings/admin_index.ctp:
+#: View/Helper/SettingHelper.php:76
+msgid "Explanation"
+msgstr "Beschreibung"
+
+#: View/Helper/TimeHHelper.php:132
+msgid "yesterday"
+msgstr "Gestern"
+
+#~ msgid "button_save"
+#~ msgstr "Speichern"
+
+#~ msgid "user_since %s"
+#~ msgstr "Mitglied seit %s"
+
+#~ msgid "%s banned"
+#~ msgstr "%s gesperrt"
+
+#~ msgid "Step 3: Create Admin User"
+#~ msgstr "Schritt 3: Administrator anlegen"
+
+#~ msgid "New Password"
+#~ msgstr "Neues Password"
+
+#~ msgid "Verify Password"
+#~ msgstr "Passwort überprüfen"
+
+#~ msgid "Save"
+#~ msgstr "Speichern"
+
+#~ msgid "Cancel"
+#~ msgstr "Abbrechen"
+
+#~ msgid "Click here to build your database"
+#~ msgstr "Datenbank anlegen"
+
+#~ msgid "Click here to delete installation files"
+#~ msgstr "Installationsdateien löschen"
+
+#~ msgid "Your tmp directory is writable."
+#~ msgstr "Das tmp Verzeichnis hat nicht die erforderlichen Schreibrechte"
+
+#~ msgid "Your tmp directory is NOT writable."
+#~ msgstr "Das tmp Verzeichnis hat NICHT die erforderlichen Schreibrechte"
+
+#~ msgid "Your config directory is writable."
+#~ msgstr "Das config Verzeichnis hat nicht die erforderlichen Schreibrechte"
+
+#~ msgid "Your config directory is NOT writable."
+#~ msgstr "Das config Verzeichnis hat NICHT die erforderlichen Schreibrechte"
+
+#~ msgid "Installation cannot continue as minimum requirements are not met."
+#~ msgstr ""
+#~ "Installation kann nicht fortgesetzt werden, da die Mindestanforderungen "
+#~ "nicht erfüllt werden."
+
+#~ msgid "Install"
+#~ msgstr "Installieren"
+
+#~ msgid "admin.sysInfo.sitemap"
+#~ msgstr "Sitemap-URL: {0}"
+
+#~ msgid "{0} online {1}"
+#~ msgstr "{0} anwesend ({1})"
+
+msgid "error.name.equalExists"
+msgstr "Ein ähnlicher Name ist bereits vergeben: {0}"
+
+#~ msgid "Notify on reply"
+#~ msgstr "Beitrag abonnieren"
+
+#~ msgid "Notify on thread replies"
+#~ msgstr "Thread abonnieren"
+
+#~ msgid "Merge onto entry with ID:"
+#~ msgstr "Anfügen an den Beitrag mit ID:"
+
+#~ msgid "user_color_new_postings_exp"
+#~ msgstr "Neue Beiträge"
+
+#~ msgid "user_color_old_postinings_exp"
+#~ msgstr "Alte Beiträge"
+
+#~ msgid "user_color_actual_posting_exp"
+#~ msgstr "Aktueller Beitrag"
+
+#~ msgid "Lock"
+#~ msgstr "Sperren"
+
+#~ msgid "The bookmark could not be saved. Please, try again."
+#~ msgstr ""
+#~ "Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
+#~ "erneut."
+
+#, fuzzy
+#~ msgid "Invalid bookmark."
+#~ msgstr "Lesezeichen konnte nicht gefunden werden."
+
+#, fuzzy
+#~ msgid "Invalid esnotification"
+#~ msgstr "Ungültiger Benutzer"
+
+#~ msgid "Succesfully unsubscribed."
+#~ msgstr "Erfolgreich abbestellt."
+
+#~ msgid "Error. Could not unsubscribe."
+#~ msgstr "Fehler beim Abbestellen."
+
+#~ msgid "Domain <strong>%s</strong> not allowed for embedding video."
+#~ msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your browser does not support HTML5 audio. Please updgrade to a "
+#~ "modernbrowser. In order to watch this stream you need an HTML5 capable "
+#~ "browser."
+#~ msgstr ""
+#~ "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen "
+#~ "modernen Browser."
+
+#, fuzzy
+#~ msgid ""
+#~ "Your browser does not support HTML5 video. Please updgrade to a "
+#~ "modernbrowser. In order to watch this stream you need an HTML5 capable "
+#~ "browser."
+#~ msgstr ""
+#~ "Ihr Browser unterstützt kein HTML5-Video. Bitte verwenden Sie einen "
+#~ "modernen Browser."
+
+#~ msgid "Step 1: Database"
+#~ msgstr "Schritt 1: Datenbank"
+
+#~ msgid "Could not connect to database: %s"
+#~ msgstr "Konnte keine Verbindung zur Datenbank %s aufbauen"
+
+#~ msgid "Could not connect to database."
+#~ msgstr "Keine Verbindung zur Datenbank möglich"
+
+#~ msgid "Could not write database.php file."
+#~ msgstr "Die Datei database.php konnte nicht geschrieben werden."
+
+#~ msgid "Step 2: Build database"
+#~ msgstr "Schritt 2: Datenbank anlegen"
+
+#~ msgid "Could not create table: %s"
+#~ msgstr "Konnte Tabelle %s nicht anlegen"
+
+#~ msgid "Installation completed successfully"
+#~ msgstr "Installation erfolgreich abgeschlossen"
+
+#~ msgid "sh.nf"
+#~ msgstr "Hilfe-Datei nicht gefunden."
+
+#~ msgid "Help"
+#~ msgstr "Hilfe"
+
+#~ msgid "Bold"
+#~ msgstr "Fett"
+
+#~ msgid "Italic"
+#~ msgstr "Kursiv"
+
+#~ msgid "Strike Through"
+#~ msgstr "Durchgestrichen"
+
+#~ msgid "Bullet List"
+#~ msgstr "Liste"
+
+#~ msgid "Link"
+#~ msgstr "Verweis"
+
+#~ msgid "geshi_link_popup"
+#~ msgstr "Bitte URI zum Verweis eingeben.:!:http://beispiel.de/"
+
+#~ msgid "geshi_img_popup"
+#~ msgstr "Bitte URI zum Link eingeben.:!:http://beispiel.de/bild.png"
+
+#~ msgid "geshi_link_placeholder"
+#~ msgstr "Hier den Verweistext eingeben."
+
+#~ msgid "Media"
+#~ msgstr "Einbinden"
+
+#, fuzzy
+#~ msgid "Upload"
+#~ msgstr "Hochladen"
+
+#~ msgid "user.map.b.locate"
+#~ msgstr "Orten"
+
+#~ msgid "user.map.b.clear"
+#~ msgstr "Entfernen"
+
+#~ msgid "Enter link to media or embedding code:"
+#~ msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben:"
+
+#~ msgid "Insert"
+#~ msgstr "Einfügen"
+
+#~ msgid "Nothing recognized."
+#~ msgstr "Nichts erkannt."
+
+#~ msgid "ncy.bkm"
+#~ msgstr "Noch keine Lesezeichen angelegt."
+
+#~ msgid "upload_btn_insert_into_posting"
+#~ msgstr "Einfügen"
+
+#~ msgid "upload_new_title"
+#~ msgstr "Neues Bild hier hineinwerfen"
+
+#~ msgid "upload_info"
+#~ msgstr "Max. :size; jpg, jpeg, png, gif"
+
+#, fuzzy
+#~ msgid "separator"
+#~ msgstr "Moderation"
+
+#, fuzzy
+#~ msgid "some_class_name"
+#~ msgstr "Realer Name"
+
+#~ msgid "Hit enter to mark as read"
+#~ msgstr "Enter für gelesen markieren"
+
+#~ msgid "Notification"
+#~ msgstr "Benachrichtigung"
+
+#~ msgid "Entry is bookmarked"
+#~ msgstr "Eintrag ist in den Lesezeichen"
+
+#, fuzzy
+#~ msgid "Bookmark the entry"
+#~ msgstr "Eintrag zu den Lesezeichen hinzufügen"
+
+#~ msgid "Mark entry as helpful"
+#~ msgstr "Beitrag als hilfreich markieren."
+
+#~ msgid "upload_fileTypeNotAllowed"
+#~ msgstr "Dateityp nicht erlaubt."
+
+#~ msgid "upload_fileToLarge"
+#~ msgstr "Datei :name zu groß."
+
+#~ msgid "upload_browserNotSupported"
+#~ msgstr "Browser wird nicht unterstützt."
+
+#~ msgid "upload_toManyFiles"
+#~ msgstr "Zu viele Dateien."
+
+#~ msgid "upload_genericError"
+#~ msgstr "Beim Hochladen ist ein Fehler aufgetreten."
+
+#, fuzzy
+#~ msgid "Multimedia"
+#~ msgstr "Einbinden"
+
+#~ msgid ""
+#~ "This web-application depends on Cookies and localStorage. Please make "
+#~ "those available in your browser."
+#~ msgstr ""
+#~ "Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren "
+#~ "Sie diese im Browser."
+
+#, fuzzy
+#~ msgid "user.map.b.search"
+#~ msgstr "Suche \":string\""
+
+#~ msgid "user.block.reason.2"
+#~ msgstr "Ignoriert durch zu viele Nutzer."
+
+#~ msgid "back_to_overview_linkname"
+#~ msgstr "Zurück zur Übersicht"
+
+#~ msgid "Unlock"
+#~ msgstr "Freigeben"
+
+#~ msgid ""
+#~ ":entries Entries in :threads Threads; :registered members, :loggedin "
+#~ "logged in, :anon anonymous"
+#~ msgstr ""
+#~ ":entries Beiträge in :threads Threads; :registered Mitglieder, :loggedin "
+#~ "angemeldet, :anon Gäste."
+
+#~ msgid "Forum Settings"
+#~ msgstr "Einstellungen"
+
+#~ msgid "user_show_email"
+#~ msgstr "E-Mail-Link anzeigen"
+
+#~ msgid "user_show_email_exp"
+#~ msgstr ""
+#~ "Soll in Postings ein Link angezeigt werden, um E-Mails per Formular an "
+#~ "die E-Mail-Adresse zu senden? Die E-Mail-Adresse kann dabei nicht "
+#~ "eingesehen werden."
+
+#, fuzzy
+#~ msgid "Help file not found."
+#~ msgstr "Benutzer nicht gefunden."
+
+#, fuzzy
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "user_lock"
+#~ msgstr "Sperre"
+
+#, fuzzy
+#~ msgid "user_block"
+#~ msgstr "Sperre"
+
+#~ msgid "User"
+#~ msgstr "Benutzer"
+
+#~ msgid "ud_user"
+#~ msgstr "Benutzer"
+
+#~ msgid "Moderator"
+#~ msgstr "Moderator"
+
+#~ msgid "Mod"
+#~ msgstr "Moderator"
+
+#~ msgid "ud_admin"
+#~ msgstr "Administrator"
+
+#~ msgid "ud_mod"
+#~ msgstr "Moderator"
+
+#~ msgid "Entries"
+#~ msgstr "Einträge"
+
+#~ msgid "User Registrations"
+#~ msgstr "Benutzerregistrierungen"
+
+#~ msgid "List Categories"
+#~ msgstr "Kategorien anzeigen"
+
+#, fuzzy
+#~ msgid "List Entries"
+#~ msgstr "Letzte Einträge"
+
+#~ msgid "New Entry"
+#~ msgstr "Neuer Beitrag"
+
+#~ msgid "previous"
+#~ msgstr "vorherige"
+
+#~ msgid "next"
+#~ msgstr "nächste"
+
+#~ msgid "Category Order"
+#~ msgstr "Kategorienreihenfolge"
+
+#~ msgid "Description"
+#~ msgstr "Beschreibung"
+
+#, fuzzy
+#~ msgid "Standard Category"
+#~ msgstr "Standardkategorien"
+
+#, fuzzy
+#~ msgid "Related Entries"
+#~ msgstr "Letzte Einträge"
+
+#, fuzzy
+#~ msgid "Modified"
+#~ msgstr "Thread fixiert"
+
+#, fuzzy
+#~ msgid "Last Answer"
+#~ msgstr "Sortierreihenfolge"
+
+#, fuzzy
+#~ msgid "Edited"
+#~ msgstr "Zitieren"
+
+#, fuzzy
+#~ msgid "User Id"
+#~ msgstr "Benutzer"
+
+#~ msgid "Name"
+#~ msgstr "Benutzername"
+
+#~ msgid "Email Notify"
+#~ msgstr "E-Mail Benachrichtigung"
+
+#~ msgid "Locked"
+#~ msgstr "Gesperrt"
+
+#, fuzzy
+#~ msgid "Fixed"
+#~ msgstr "Thread fixiert"
+
+#, fuzzy
+#~ msgid "No Text"
+#~ msgstr "Text"
+
+#, fuzzy
+#~ msgid "Flattr"
+#~ msgstr "flattrn"
+
+#~ msgid "No help for this page available."
+#~ msgstr "Keine Hilfe für diese Seite verfügbar."
+
+#~ msgid "btn_manualy_mark_as_read_shp"
+#~ msgstr "Alle Einträge als gelesen markieren."
+
+#~ msgid "search_fulltext_textfield_shp"
+#~ msgstr ""
+#~ "+ bedeutet UND<br/>- bedeutet NICHT<br/>[kein Operator] impliziert "
+#~ "ODER<br/><br/>'apple banana' Findet Datensätze, die mindestens eines der "
+#~ "beiden Wörter enthalten.<br/><br/>'+apple +juice' Findet Datensätze, die "
+#~ "beide Wörter enthalten.<br/><br/>'+apple macintosh' Findet Datensätze, "
+#~ "die das Wort „apple“ enthalten, stuft aber solche Datensätze höher ein, "
+#~ "die auch „macintosh“ enthalten.<br/><br/>'+apple -macintosh' Findet "
+#~ "Datensätze, die das Wort „apple“, aber nicht das Wort „macintosh“ "
+#~ "enthalten.<br/><br/>'apple*' Findet Datensätze, die Wörter wie „apple“, "
+#~ "„apples“, „applesauce“ oder „applet“ enthalten.<br/><br/>'\"some words\"' "
+#~ "Findet Datensätze, die die exakte Phrase „some words“ enthalten. Dies "
+#~ "wäre etwa „some words of wisdom“, nicht aber „some noise words“."
+
+#~ msgid "button_mod_panel_shp"
+#~ msgstr ""
+#~ "Das Moderator-Menü. – Alle Befehle für den Moderator, um den Beitrag oder "
+#~ "Thread zu bearbeiten."
+
+#~ msgid "Newest member is: %s."
+#~ msgstr "Neuestes Mitglied ist: %s."
+
+#~ msgid "Create"
+#~ msgstr "Anlegen"
+
+#~ msgid "answering_forbidden_locked_shp"
+#~ msgstr "Antworten gesperrt durch Moderator."
+
+#~ msgid "Profil"
+#~ msgstr "Profil"
+
+#~ msgid "cateogry"
+#~ msgstr "Kategorie"
+
+#~ msgid "user_show_entries"
+#~ msgstr "Beiträge anzeigen"
+
+#~ msgid "User %s"
+#~ msgstr "Benutzer %s"
+
+#~ msgid "User :name"
+#~ msgstr "Benutzer :name"
+
+#~ msgid "Joined %s"
+#~ msgstr "Beigetreten am %s"
+
+#~ msgid "answer_marking"
+#~ msgstr "Antwort verfassen"
+
+#~ msgid ""
+#~ "This web-application needs JavaScript to run. Please activate JavaScript "
+#~ "in your browser."
+#~ msgstr ""
+#~ "Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript "
+#~ "im Browser."
+
+#~ msgid "Hit ⌃s to focus"
+#~ msgstr "⌃s für Fokus"
+
+#~ msgid "Caches have been emptied."
+#~ msgstr "Caches wurden geleert."
+
+#~ msgid "Picture"
+#~ msgstr "Bild"
+
+#~ msgid "geshi_picture_popup"
+#~ msgstr ""
+#~ "Bitte URI zum Bild (.jpg, .png oder .gif) eingeben.:!:http://beispiel.de/"
+#~ "bild.png"
+
+#~ msgid "forum_disabled"
+#~ msgstr "Forum deaktivieren"
+
+#~ msgid "forum_disabled_exp"
+#~ msgstr "Forum deaktivieren."
+
+#~ msgid "forum_disabled_text"
+#~ msgstr "Forum deaktivieren Infotext"
+
+#~ msgid "forum_disabled_text_exp"
+#~ msgstr "Infotext, welcher auf der Hinweisseite mit ausgegeben wird."
+
+#~ msgid "forum_name"
+#~ msgstr "Forumtitel"
+
+#~ msgid "forum_name_exp"
+#~ msgstr "Der Name dieses Forums."
+
+#~ msgid "timezone"
+#~ msgstr "Zeitzone"
+
+#~ msgid "timezone_exp"
+#~ msgstr "Zeitzone, indem sich das Forum befindet."
+
+#, fuzzy
+#~ msgid "forum_email"
+#~ msgstr "Email"
+
+#, fuzzy
+#~ msgid "forum_email_exp"
+#~ msgstr ""
+#~ "Emailadresse, welche als Absenderadresse für vom Forum versendet Emails "
+#~ "(bspw. bei der Registrierung) verwendet wird. "
+
+#~ msgid "email_admin_config_exp"
+#~ msgstr ""
+#~ "Erweiterte Email-Einstellungen sind durch das Anlegen einer <code>$saito</"
+#~ "code>-Konfiguration in <code>app/config/email.php</code> möglich. Als "
+#~ "Vorlage sollte <code>app/config/email.php.default</code> verwendet "
+#~ "werden. <a href=\"http://book.cakephp.org/2.0/en/core-utility-libraries/"
+#~ "email.html#configuration\">Siehe auch.</a>"
+
+#
+#~ msgid "block_user_ui"
+#~ msgstr "Nutzer sperren"
+
+#
+#~ msgid "block_user_ui_exp"
+#~ msgstr "Moderatoren dürfen Benutzer sperren."
+
+#~ msgid "store_ip"
+#~ msgstr "IP speichern"
+
+#~ msgid "store_ip_exp"
+#~ msgstr ""
+#~ "Beim Einträgen ins Forum werden die IP-Adresse des Eintragenden "
+#~ "gespeichert. Moderatoren wird die Adresse im Eintrag angezeigt."
+
+#~ msgid "store_ip_anonymized"
+#~ msgstr "IP anonymisieren"
+
+#~ msgid "store_ip_anonymized_exp"
+#~ msgstr "Anonymisieren der gespeicherten IP-Adresse."
+
+#, fuzzy
+#~ msgid "tos_enabled"
+#~ msgstr "Nutzungsbedingungen aktivieren"
+
+#, fuzzy
+#~ msgid "tos_enabled_exp"
+#~ msgstr ""
+#~ "Setzt einen Verweis und eine zu bestätigende Checkbox für die "
+#~ "Nutzungsbedingungen auf die Registrierungsseite."
+
+#~ msgid "tos_url"
+#~ msgstr "Nutzungsbedingungen-URL"
+
+#, fuzzy
+#~ msgid "tos_url_exp"
+#~ msgstr ""
+#~ "URL zu den Nutzungsbedingen. Falls leer, werden die eingebauten "
+#~ "Standardseiten verwendet."
+
+#
+#~ msgid "edit_period"
+#~ msgstr "Nachbearbeitungszeit"
+
+#
+#~ msgid "edit_period_exp"
+#~ msgstr ""
+#~ "Minuten, die ein neuer Eintrag nach dem Anlegen nachbearbeitet werden "
+#~ "kann."
+
+#
+#~ msgid "edit_delay"
+#~ msgstr "Nachbearbeiten anzeigen"
+
+#
+#~ msgid "edit_delay_exp"
+#~ msgstr ""
+#~ "Minuten, die ein Eintrag nach dem Anlegen ohne Bearbeitungshinweis "
+#~ "nachbearbeitet werden kann."
+
+#~ msgid "topics_per_page"
+#~ msgstr "Threads pro Seite"
+
+#~ msgid "topics_per_page_exp"
+#~ msgstr "Anzahl der Threads, die auf der Startseite angezeigt werden."
+
+#~ msgid "thread_depth_indent"
+#~ msgstr "Einrücktiefe Threads"
+
+#~ msgid "thread_depth_indent_exp"
+#~ msgstr ""
+#~ "Ab dieser Tiefe werden werden Einträge in der Thread-Ansicht nicht weiter "
+#~ "nach rechts eingerückt dargestellt."
+
+#~ msgid "autolink"
+#~ msgstr "Autolink"
+
+#~ msgid "autolink_exp"
+#~ msgstr "Verweise im Text automatisch erkennen und verlinken."
+
+#~ msgid "bbcode_img"
+#~ msgstr "Bilder"
+
+#~ msgid "bbcode_img_exp"
+#~ msgstr "Einbinden von Bildern erlauben."
+
+#~ msgid "quote_symbol"
+#~ msgstr "Zitatzeichen"
+
+#~ msgid "quote_symbol_exp"
+#~ msgstr "Zitatzeichen"
+
+#~ msgid "signature_separator"
+#~ msgstr "Signaturtrenner"
+
+#~ msgid "signature_separator_exp"
+#~ msgstr "Signaturtrenner"
+
+#~ msgid "subject_maxlength_exp"
+#~ msgstr "Maximale Zeichenanzahl in Betreff."
+
+#~ msgid "text_word_maxlength"
+#~ msgstr "Wordlänge"
+
+#~ msgid "text_word_maxlength_exp"
+#~ msgstr "Maximale Zeichenanzahl pro Wort."
+
+#
+#~ msgid "video_domains_allowed"
+#~ msgstr "Einbettbare (Video-) Quellen"
+
+#
+#~ msgid "video_domains_allowed_exp"
+#~ msgstr ""
+#~ "Domainnamen einbindbar für Video und iFrame. Ein Asterisk * bedeuted "
+#~ "freies Einbinden (Vorsicht, dies kann ebenfalls zum Einbinden von "
+#~ "Schadsoftware genutzt werden!)."
+
+#~ msgid "category_chooser_global"
+#~ msgstr "Standard"
+
+#~ msgid "category_chooser_global_exp"
+#~ msgstr "Kategorienfilter auf der Frontseite immer anzeigen."
+
+#~ msgid "category_chooser_user_override"
+#~ msgstr "Benutzereinstellung"
+
+#~ msgid "category_chooser_user_override_exp"
+#~ msgstr ""
+#~ "Erlaubt einem Benutzern den Kategorienfilter in seinen Einstellungen zu "
+#~ "aktivieren, selbst wenn der Filter standardmässig deaktiviert ist."
+
+#~ msgid "shoutbox_enabled"
+#~ msgstr "Aktivieren"
+
+#~ msgid "shoutbox_enabled_exp"
+#~ msgstr "Shoutbox aktivieren"
+
+#~ msgid "shoutbox_max_shouts"
+#~ msgstr "Anzahl"
+
+#~ msgid "shoutbox_max_shouts_exp"
+#~ msgstr "Anzahl der angezeigten Shoutboxeinträge"
+
+#~ msgid "upload_max_img_size"
+#~ msgstr "Uploadgröße maximal"
+
+#~ msgid "upload_max_img_size_exp"
+#~ msgstr "Maximale Größe, die ein Upload besitzen darf in kB."
+
+#~ msgid "upload_max_number_of_uploads"
+#~ msgstr "Anzahl an Uploads pro Benutzer"
+
+#~ msgid "upload_max_number_of_uploads_exp"
+#~ msgstr ""
+#~ "Maximale Anzahl von Dateien, die ein einzelner Benutzer gleichzeitig auf "
+#~ "dem Server hochgeladen haben kann."
+
+#~ msgid "embedly_enabled"
+#~ msgstr "Embed.ly aktivieren"
+
+#~ msgid "embedly_enabled_exp"
+#~ msgstr ""
+#~ "Aktiviert den [embed]-BBcode, welcher seinen Inhalt durch Embed.ly "
+#~ "darstellt."
+
+#~ msgid "embedly_key"
+#~ msgstr "Embed.ly Key"
+
+#
+#~ msgid "embedly_key_exp"
+#~ msgstr "API-Key, den man nach der Registrierung bei Embed.ly erhält."
+
+#~ msgid "stopwatch_get"
+#~ msgstr "Stopuhr"
+
+#~ msgid "stopwatch_get_exp"
+#~ msgstr ""
+#~ "Ausgabe der Stopuhrzeiten durch Anfügen von <code>/stopwatch:true/</code> "
+#~ "an URL in Production-Modus für eingeloggte Nutzer."
+
+#~ msgid "logged_in_users_only"
+#~ msgstr "Nur für eingeloggte Benutzer."
+
+#~ msgid ":users Users online"
+#~ msgstr ":users anwesend"
+
+#~ msgid ":users+:guests online"
+#~ msgstr ":users+:guests anwesend"
+
+#~ msgid "whole_thread_marking"
+#~ msgstr "gesamter Thread"
+
+#~ msgid "register_email_send_content"
+#~ msgstr ""
+#~ "Vielen Dank für Ihre Registrierung. Ihnen wurde eine Email mit weiteren "
+#~ "Daten zugesendet. Bitte klicken Sie auf den Link in dieser Email. Vorher "
+#~ "ist ein Einlochen ins Forum nicht möglich!"
+
+#~ msgid "Edit Smiley Codes"
+#~ msgstr "Smiley-Code bearbeiten"
+
+#~ msgid "Admin Add Smiley Code"
+#~ msgstr "Smiley Code hinzufügen"
+
+#~ msgid "Smiley Codes Edit"
+#~ msgstr "Smiley-Codes bearbeiten"
+
+#~ msgid "Admin Edit Smiley Code"
+#~ msgstr "Admin Smiley Code bearbeiten"
+
+#~ msgid "Admin Add Smiley"
+#~ msgstr "Admini Smiley hinzufügen"
+
+#, fuzzy
+#~ msgid "_set_entry_link"
+#~ msgstr "Neuer Eintrag"
+
+#, fuzzy
+#~ msgid "_unset_entry_link"
+#~ msgstr "Neuer Eintrag"
+
+#~ msgid "All"
+#~ msgstr "Alles"
+
+#~ msgid "fixed_set_entry_link"
+#~ msgstr "Anpinnen"
+
+#~ msgid "fixed_unset_entry_link"
+#~ msgstr "Abpinnen"
+
+#~ msgid "locked_set_entry_link"
+#~ msgstr "Sperren"
+
+#~ msgid "locked_unset_entry_link"
+#~ msgstr "Entsperren"
+
+#~ msgid "Bookmark was not deleted"
+#~ msgstr "Das Lesezeichen wurde nicht gelöscht."
+
+#~ msgid "board_edited_marking"
+#~ msgstr "editiert von"
+
+#, fuzzy
+#~ msgid "Admin User Add"
+#~ msgstr "Benutzer hinzufügen"
+
+#~ msgid "Add Smily"
+#~ msgstr "Smiley hinzufügen"
+
+#~ msgid "Edit Smily"
+#~ msgstr "Smiley bearbeiten"
+
+#~ msgid "New Smily"
+#~ msgstr "Neuer Smiley"
+
+#~ msgid "user_standard_categories"
+#~ msgstr "Standardkategorien"
+
+#~ msgid "user_standard_categories_exp"
+#~ msgstr "Persönlicher Kategoriensatz und Standardansicht"
+
+#~ msgid "register_tos_text"
+#~ msgstr "Ich bin mit den Nutzungsbedingungen einverstanden"
+
+#, fuzzy
+#~ msgid "edit_usersettings"
+#~ msgstr "Bearbeiten"
+
+#
+#, fuzzy
+#~ msgid "edit_userinfo"
+#~ msgstr "Nachbearbeitungszeit"
+
+#~ msgid "user_area_title"
+#~ msgstr "Profil"
+
+#~ msgid "Adminbereich @lo"
+#~ msgstr "Adminbereich"
+
+#, fuzzy
+#~ msgid "List Users"
+#~ msgstr "Letzte Einträge"
+
+#~ msgid "Groups"
+#~ msgstr "Gruppen"
+
+#~ msgid "New Group"
+#~ msgstr "Neue Gruppe"
+
+#~ msgid "Group"
+#~ msgstr "Gruppe"
+
+#~ msgid "Edit Group"
+#~ msgstr "Gruppe bearbeiten"
+
+#~ msgid "Delete Group"
+#~ msgstr "Gruppe löschen"
+
+#, fuzzy
+#~ msgid "User Type"
+#~ msgstr "Typ"
+
+#, fuzzy
+#~ msgid "User Real Name"
+#~ msgstr "realer Name"
+
+#~ msgid "Password"
+#~ msgstr "Passwort"
+
+#~ msgid "Hide Email"
+#~ msgstr "E-Mail verbergen"
+
+#, fuzzy
+#~ msgid "User Hp"
+#~ msgstr "Homepage"
+
+#, fuzzy
+#~ msgid "User Place"
+#~ msgstr "Ort"
+
+#, fuzzy
+#~ msgid "Signature"
+#~ msgstr "Signatur"
+
+#~ msgid "Entry Count"
+#~ msgstr "Beitragszähler"
+
+#~ msgid "Last Login"
+#~ msgstr "Letzter Login"
+
+#~ msgid "Last Logout"
+#~ msgstr "Letzter Logout"
+
+#, fuzzy
+#~ msgid "Registered"
+#~ msgstr "Registriert"
+
+#, fuzzy
+#~ msgid "Last Refresh"
+#~ msgstr "Letzte Einträge"
+
+#, fuzzy
+#~ msgid "Last Refresh Tmp"
+#~ msgstr "Letzte Einträge"
+
+#, fuzzy
+#~ msgid "User View"
+#~ msgstr "Benutzer"
+
+#, fuzzy
+#~ msgid "New Posting Notify"
+#~ msgstr "wenn sich ein neuer Benutzer angemeldet hat"
+
+#~ msgid "Personal Messages"
+#~ msgstr "Persönliche Nachrichten"
+
+#~ msgid "Time Difference"
+#~ msgstr "Zeitverschiebung"
+
+#, fuzzy
+#~ msgid "User Lock"
+#~ msgstr "Benutzer sperren"
+
+#~ msgid "Activate Code"
+#~ msgstr "Aktivierungscode"
+
+#, fuzzy
+#~ msgid "User Font Size"
+#~ msgstr "Schriftgröße"
+
+#, fuzzy
+#~ msgid "User Signatures Hide"
+#~ msgstr "Signaturen ausblenden"
+
+#, fuzzy
+#~ msgid "User Signatures Images Hide"
+#~ msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
+
+#~ msgid "User Categories"
+#~ msgstr "Standardkategorien"
+
+#, fuzzy
+#~ msgid "User Forum Refresh Time"
+#~ msgstr "Aktualisierungszeit"
+
+#, fuzzy
+#~ msgid "User Forum Hr Ruler"
+#~ msgstr "Trennstrich"
+
+#, fuzzy
+#~ msgid "User Automaticaly Mark As Read"
+#~ msgstr "Hervorhebung aktueller Beiträge zurücksetzen"
+
+#, fuzzy
+#~ msgid "User Sort Last Answer"
+#~ msgstr "Sortierreihenfolge"
+
+#, fuzzy
+#~ msgid "User Color New Postings"
+#~ msgstr "Neue Beiträge"
+
+#, fuzzy
+#~ msgid "User Color Actual Posting"
+#~ msgstr "Aktueller Beitrag"
+
+#, fuzzy
+#~ msgid "User Color Old Postings"
+#~ msgstr "Alte Beiträge"
+
+#, fuzzy
+#~ msgid "Show Recentposts"
+#~ msgstr "Neueste Beiträge"
+
+#, fuzzy
+#~ msgid "Inline View On Click"
+#~ msgstr "Posting aufklappen"
+
+#, fuzzy
+#~ msgid "Flattr Uid"
+#~ msgstr "Flattr ID"
+
+#, fuzzy
+#~ msgid "Flattr Allow User"
+#~ msgstr "Flattrn"
+
+#, fuzzy
+#~ msgid "Flattr Allow Posting"
+#~ msgstr "Postings flattrn"
+
+#~ msgid "Generated in %s ms."
+#~ msgstr "Generiert in %s ms."
+
+#~ msgid "register_ip"
+#~ msgstr "Registrierungs-IP"
+
+#~ msgid "homepage_alt"
+#~ msgstr "Homepage"
+
+#~ msgid "back_to_posting_linkname"
+#~ msgstr "zurück zum Posting von"
+
+#~ msgid "search_formtitle"
+#~ msgstr "Forumssuche"
+
+#~ msgid "geshi_video_popup"
+#~ msgstr ""
+#~ "Bitte URI zum Video (h.264 oder WebM) eingeben.:!:http://beispiel.de/"
+#~ "video.mp4"
+
+#~ msgid "captcha_result_too_fast"
+#~ msgstr "Sie waren zu schnell mit der Eingabe."
+
+#~ msgid "user_info_hl"
+#~ msgstr "Benutzerinfo"
+
+#~ msgid "btn_inline_view_answer"
+#~ msgstr "Antworten"
+
+#~ msgid "btn_show_all_postings"
+#~ msgstr "Alle Postings"
+
+#~ msgid "change_password_failure"
+#~ msgstr "Passwort konnte aus unbekannten Gründen nicht aktualisiert werden."
+
+#~ msgid "btn_hide_thread"
+#~ msgstr "Einklappen"
+
+#~ msgid "edit_marking"
+#~ msgstr "Posting editieren"
+
+#~ msgid "previous_page_linktitle"
+#~ msgstr "vorige Seite"
+
+#~ msgid "next_page_linktitle"
+#~ msgstr "nächste Seite"
+
+#~ msgid "notice_editing_not_your_entry"
+#~ msgstr "Achtung: Fremdeintrag!"
+
+#~ msgid "button_reset"
+#~ msgstr "Zurücksetzen"
+
+#~ msgid "user_sort_time"
+#~ msgstr "Zeit"
+
+#, fuzzy
+#~ msgid "userlist_email_exp"
+#~ msgstr "E-Mail"
+
+#~ msgid "optional"
+#~ msgstr "(optional)"
+
+#~ msgid "test"
+#~ msgstr "registrieren"
+
+#~ msgid "entries/add"
+#~ msgstr "neuer Eintrag"
+
+#~ msgid "lock_linkname"
+#~ msgstr "sperren"

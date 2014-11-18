@@ -4,11 +4,12 @@
 
 	class Editor extends \Saito\Markup\Editor {
 
-		public function getEditorHelp() {
-			return $this->_Helper->SaitoHelp->icon('BbcodeParser.1', [
-				'label' => __d('bbcode_parser', 'parsedAsBbcode')
-			]);
-		}
+        public function getEditorHelp() {
+            return $this->_Helper->SaitoHelp->icon(
+                'BbcodeParser.1',
+                ['label' => __d('bbcode_parser', 'parsedAsBbcode')]
+            );
+        }
 
 		public function getMarkupSet() {
 			return array(

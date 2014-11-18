@@ -2,18 +2,19 @@
 
 	namespace Saito\Cache;
 
-	\App::uses('CakeEvent', 'Event');
-	\App::uses('CakeEventListener', 'Event');
+	use Cake\Event\Event;
+	use Cake\Event\EventListenerInterface;
+	use Cake\Event\EventManager;
 
 	class LineCacheSupportCachelet extends CacheSupportCachelet implements
-		\CakeEventListener {
+		EventListenerInterface {
 
 		protected $_title = 'LineCache';
 
 		protected $_LineCache;
 
 		public function __construct(ItemCache $LineCache) {
-			\CakeEventManager::instance()->attach($this);
+			EventManager::instance()->attach($this);
 			$this->_LineCache = $LineCache;
 		}
 
@@ -27,12 +28,13 @@
 		 * @param $event
 		 * @throws InvalidArgumentException
 		 */
-		public function onEntryChanged($event) {
-			$_modelAlias = $event->subject()->alias;
-			if (!isset($event->data['data'][$_modelAlias]['tid'])) {
+		public function onEntryChanged(Event $event) {
+			$posting = $event->data()['data'];
+			$tid = $posting->get('tid');
+			if (!$tid) {
 				throw new \InvalidArgumentException('No thread-id in event data.');
 			}
-			$id = $event->data['data'][$_modelAlias]['id'];
+			$id = $posting->get('id');
 			$this->clear($id);
 		}
 

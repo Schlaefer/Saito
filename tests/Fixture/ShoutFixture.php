@@ -1,52 +1,41 @@
 <?php
-/**
- * ShoutFixture
- *
- */
-class ShoutFixture extends CakeTestFixture {
 
-/**
- * Fields
- *
- * @var array
- */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'text' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
-		'time' => array('type' => 'timestamp', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MEMORY')
-	);
+	namespace App\Test\Fixture;
 
-/**
- * Records
- *
- * @var array
- */
-	public $records = array(
-		array(
-			'id' => 2,
-			'time' => '2013-02-08 11:49:31',
-			'text' => 'Lorem ipsum dolor sit amet',
-			'user_id' => 1
-		),
-		array(
-			'id' => 3,
-			'time' => '2013-02-08 11:49:31',
-			'text' => 'Lorem ipsum dolor sit amet',
-			'user_id' => 1
-		),
-		array(
-			'id' => 4,
-			'time' => '2013-02-08 11:49:31',
-			'text' => "<script></script>[i]italic[/i]",
-			'user_id' => 1
-		),
-	);
+	use Cake\TestSuite\Fixture\TestFixture;
 
-}
+	class ShoutFixture extends TestFixture {
+
+		public $fields = array(
+			'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+			'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+			'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+			'text' => ['type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'],
+			'user_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+			'time' => ['type' => 'timestamp', 'null' => true, 'default' => null],
+			'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
+			'_options' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MEMORY']
+		);
+
+		public $records = [
+			[
+				'id' => 2,
+				'time' => '2013-02-08 11:49:31',
+				'text' => 'Lorem ipsum dolor sit amet',
+				'user_id' => 1
+			],
+			[
+				'id' => 3,
+				'time' => '2013-02-08 11:49:31',
+				'text' => 'Lorem ipsum dolor sit amet',
+				'user_id' => 1
+			],
+			[
+				'id' => 4,
+				'time' => '2013-02-08 11:49:31',
+				'text' => "<script></script>[i]italic[/i]",
+				'user_id' => 1
+			],
+		];
+
+	}

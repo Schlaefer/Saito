@@ -2,33 +2,43 @@
 
 	namespace Saito\Test;
 
+	use Cake\Controller\Controller;
+	use Cake\Event\Event;
+	use Cake\Event\EventManager;
+
 	trait SecurityMockTrait {
 
-		public function generate($controller, $mocks = []) {
-			$byPassSecurity = false;
-			if (!isset($mocks['components']['Security'])) {
-				$byPassSecurity = true;
-				$mocks['components']['Security'] = ['_validateCsrf', '_validatePost'];
-			}
-			$Mock = parent::generate($controller, $mocks);
-			if ($byPassSecurity) {
-				$this->assertSecurityByPass($Mock);
-			}
-			return $Mock;
+		public function mockSecurity() {
+            // @todo 3.0 swtich to on()
+			EventManager::instance()->attach(
+				[$this, 'securityByPass'],
+				'Controller.initialize'
+			);
 		}
 
 		/**
 		 * Assume that SecurityComponent was called
 		 *
-		 * @param $Controller
+		 * @param Event $event
 		 */
-		public function assertSecurityBypass($Controller) {
-			$Controller->Security->expects($this->any())
+		public function securityBypass(Event $event) {
+			/** @var Controller $Controller */
+			$Controller = $event->subject();
+
+			$Security = $this->getMock(
+				'\Cake\Controller\Component\SecurityComponent',
+				['_validatePost'],
+				[$Controller->components()]
+			);
+
+			$Security
+                // @todo 3.0 @bogus throws error
+//                ->expects($this->atLeastOnce())
+                ->expects($this->any())
 				->method('_validatePost')
 				->will($this->returnValue(true));
-			$Controller->Security->expects($this->any())
-				->method('_validateCsrf')
-				->will($this->returnValue(true));
+
+			$Controller->components()->set('Security', $Security);
 		}
 
 	}

@@ -2,9 +2,10 @@
 
 	namespace Saito\Exception;
 
+	use Cake\Network\Exception\BadRequestException;
 	use Saito\Exception\Logger\ExceptionLogger;
 
-	class SaitoBlackholeException extends \BadRequestException {
+	class SaitoBlackholeException extends BadRequestException {
 
 		public function __construct($type = null, $data = []) {
 			$message = 'Request was blackholed. Type: ' . $type;

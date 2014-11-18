@@ -1,24 +1,26 @@
 <?php
 
-	namespace Saito\User\Blocker;
+namespace Saito\User\Blocker;
 
-	abstract class BlockerAbstract {
+abstract class BlockerAbstract
+{
 
-		protected $_Model;
+    protected $Table;
 
-		public abstract function block($userId, array $options = []);
+    public abstract function block($userId, array $options = []);
 
-		/**
-		 * id for reason why user is blocked
-		 *
-		 * in plugin use <domain>.<id>
-		 *
-		 * @return string
-		 */
-		public abstract function getReason();
+    /**
+     * id for reason why user is blocked
+     *
+     * in plugin use <domain>.<id>
+     *
+     * @return string
+     */
+    public abstract function getReason();
 
-		public function setUserBlockModel($Model) {
-			$this->_Model = $Model;
-		}
+    public function setUserBlockTable($Table)
+    {
+        $this->Table = $Table;
+    }
 
-	}
+}

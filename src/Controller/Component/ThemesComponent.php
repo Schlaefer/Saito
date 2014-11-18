@@ -1,8 +1,9 @@
 <?php
 
-	App::uses('App', 'Core');
-	App::uses('Folder', 'Utility');
-	App::uses('Component', 'Controller');
+	namespace App\Controller\Component;
+
+	use Cake\Controller\Component;
+	use Cake\Core\Configure;
 
 	class ThemesComponent extends Component {
 
@@ -14,19 +15,21 @@
 
 		protected $_Controller = null;
 
-		public function initialize(Controller $controller) {
-			$this->_Controller = $controller;
+		public function initialize(array $config) {
+			$this->_Controller = $this->_registry->getController();
 		}
 
 		/**
 		 * Sets and/or gets current theme
 		 *
 		 * @param mixed $params name string or config array
+		 * @throws \InvalidArgumentException
+		 * @throws \UnexpectedValueException
 		 * @return string current theme
-		 * @throws InvalidArgumentException
-		 * @throws UnexpectedValueException
 		 */
 		public function theme($params = null) {
+			// @todo 3.0
+			return 'Paz';
 			if (is_array($params)) {
 				$this->_config = $params;
 				$this->_setTheme($this->_getApplied());
@@ -35,10 +38,10 @@
 			}
 			if (empty($this->_applied)) {
 				if ($params === null) {
-					throw new UnexpectedValueException('Theme could not be determined: ',
+					throw new \UnexpectedValueException('Theme could not be determined: ',
 							print_r($params, true));
 				} else {
-					throw new InvalidArgumentException('Theme is not set yet.');
+					throw new \InvalidArgumentException('Theme is not set yet.');
 				}
 			}
 			return $this->_applied;
@@ -78,6 +81,8 @@
 		 * @return array
 		 */
 		public function getAvailable() {
+			// @todo 3.0
+			return [];
 			if (!$this->_available) {
 				$this->_setAvailable();
 			}

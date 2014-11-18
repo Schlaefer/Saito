@@ -2,7 +2,7 @@
 
 	namespace Saito\Cache;
 
-	\App::uses('Stopwatch', 'Stopwatch.Lib');
+	use \Stopwatch\Lib\Stopwatch;
 
 	/**
 	 * Class ItemCache
@@ -144,7 +144,7 @@
 				$this->_cache = [];
 				return;
 			}
-			\Stopwatch::start("ItemCache read: {$this->_name}");
+			Stopwatch::start("ItemCache read: {$this->_name}");
 			$this->_cache = $this->_CacheEngine->read($this->_name);
 			if (empty($this->_cache)) {
 				$this->_cache = [];
@@ -156,7 +156,7 @@
 				$oldest = reset($this->_cache);
 				$this->_oldestPersistent = $oldest['metadata']['content_last_updated'];
 			}
-			\Stopwatch::stop("ItemCache read: {$this->_name}");
+			Stopwatch::stop("ItemCache read: {$this->_name}");
 		}
 
 		public function reset() {
@@ -165,7 +165,7 @@
 		}
 
 		protected function _gcOutdated() {
-			\Stopwatch::start("ItemCache _gcOutdated: {$this->_name}");
+			Stopwatch::start("ItemCache _gcOutdated: {$this->_name}");
 			$expired = time() - $this->_settings['duration'];
 			foreach ($this->_cache as $key => $item) {
 				if ($item['metadata']['created'] < $expired) {
@@ -173,7 +173,7 @@
 					$this->_updated = true;
 				}
 			}
-			\Stopwatch::stop("ItemCache _gcOutdated: {$this->_name}");
+			Stopwatch::stop("ItemCache _gcOutdated: {$this->_name}");
 		}
 
 		/**

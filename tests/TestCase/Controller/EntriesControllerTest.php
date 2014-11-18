@@ -1,13 +1,20 @@
 <?php
 
-	App::uses('Controller', 'Controller');
-	App::uses('EntriesController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
+	namespace App\Test\TestCase\Controller;
+
+	use App\Controller\EntriesController;
+	use Cake\Core\Configure;
+    use Cake\Database\Schema\Table;
+    use Cake\Event\Event;
+	use Cake\Event\EventManager;
+	use Cake\ORM\TableRegistry;
+    use Cake\Routing\Router;
+    use Saito\Test\IntegrationTestCase;
 
 	class EntriesMockController extends EntriesController {
 
 		// @codingStandardsIgnoreStart
-		public $uses = array('Entry');
+		public $uses = ['Entries'];
 		// @codingStandardsIgnoreEnd
 
 		public function getInitialThreads($User, $order = ['Entry.last_answer' => 'DESC']) {
@@ -16,12 +23,17 @@
 
 	}
 
-	class EntriesControllerTestCase extends \Saito\Test\ControllerTestCase {
+	// @todo 3.0 migrate content of ControllerTestCase
+//	class EntriesControllerTestCase extends \Saito\Test\ControllerTestCase {
+	class EntriesControllerTestCase extends IntegrationTestCase {
 
-		use \Saito\Test\SecurityMockTrait;
+		/**
+		 * @var table for the controller
+		 */
+		public $Table;
 
 		public $fixtures = [
-			'app.bookmark',
+			'plugin.bookmarks.bookmark',
 			'app.category',
 			'app.entry',
 			'app.esevent',
@@ -38,58 +50,63 @@
 			'app.user_read'
 		];
 
-		public function testMix() {
-			$result = $this->testAction('/entries/mix/1', array('return' => 'vars'));
-			$this->assertStringStartsWith('First_Subject',
-				$result['title_for_layout']);
+		public function testMixSuccess() {
+			$this->get('/entries/mix/1');
+			$this->assertResponseOk();
+
+			$result = $this->viewVariable('title_for_layout');
+			$this->assertStringStartsWith('First_Subject', $result);
 		}
 
 		public function testMixNoAuthorization() {
-			$this->testAction('/entries/mix/4', ['return' => 'view']);
-			$this->assertEquals($this->controller->Auth->redirectUrl(), '/entries/mix/4');
-			$this->assertRedirectedTo('login');
+			$this->get('/entries/mix/4');
+			$this->assertResponseCode(302);
+			$this->assertEquals($this->_controller->Auth->redirectUrl(), '/entries/mix/4');
+			$this->assertRedirect('/login');
 		}
 
 		public function testMixNotFound() {
-			$this->generate('Entries', array());
-			$this->setExpectedException('NotFoundException');
-			$this->testAction('/entries/mix/9999');
+            $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+			$this->get('/entries/mix/9999');
 		}
+
+        public function testMixRedirect() {
+            $this->get('/entries/mix/7');
+            $this->assertRedirect('/entries/mix/1#7');
+        }
 
 		/**
 		 * only logged in users should be able to answer
 		 */
 		public function testAddUserNotLoggedInGet() {
-			$this->generate('Entries', ['methods' => 'add']);
-			$this->testAction('/entries/add');
-			$this->assertRedirectedTo('login');
+			$this->get('/entries/add');
+			$this->assertRedirect('/login');
 		}
 
 		/**
 		 * successfull add request
 		 */
 		public function testAddSuccess() {
-			//* setup mock and data
+			/*
 			$C = $this->generate(
 				'Entries',
 				['models' => ['Esevent' => ['notifyUserOnEvents']]]
 			);
+			*/
 			$this->_loginUser(1);
 			$data = [
-				'Entry' => [
-					'subject' => 'subject',
-					'text' => 'text',
-					'category' => 1,
-				],
+				'subject' => 'subject',
+				'text' => 'text',
+				'category' => 1,
 				'Event' => [
 					1 => ['event_type_id' => 0],
 					2 => ['event_type_id' => 1]
 				]
 			];
 
-			$latestEntry = $C->Entry->find('first',
-					['contain' => false, 'order' => ['Entry.id' => 'desc']]);
-			$expectedId = $latestEntry['Entry']['id'] + 1;
+			$EntriesTable = TableRegistry::get('Entries');
+			$latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
+			$expectedId = $latestEntry->get('id') + 1;
 
 			//* setup notification test
 			$expected = [
@@ -106,312 +123,235 @@
 					'set' => 1,
 				]
 			];
+
+			/*
+			 * @todo 3.0 Events
+			$EventsTable = TableRegistry::get('Events');
 			$C->Entry->Esevent->expects($this->once())
 					->method('notifyUserOnEvents')
 					->with(1, $expected);
+			*/
 
-			//* test
-			$this->testAction(
-				'entries/add',
-				[
-					'data' => $data,
-					'method' => 'POST',
-					'return' => 'vars'
-				]
-			);
+			//= test
+			$this->mockSecurity();
+			$this->post('/entries/add', $data);
+
+			$this->assertResponseCode(302);
+			$this->assertRedirect('/entries/view/' . $expectedId);
+
+			$latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
+			$this->assertEquals($expectedId, $latestEntry->get('id'));
 		}
 
 		public function testAddSubjectToLong() {
-			$Entries = $this->generate( 'Entries');
 			$this->_loginUser(1);
 
-			// maxlength attribute is set for textfield
-			$result = $this->testAction('entries/add',
-				['method' => 'GET', 'return' => 'view']);
-			$this->assertTextContains('maxlength="40"', $result);
+			//= tests that the subject has a maxlength attribute
+			$this->get('entries/add');
+			$this->assertResponseContains('maxlength="40"');
 
-			// subject is one char to long
+			//= subject is one char to long
 			$data = [
-					'Entry' => [
-						// 41 chars
-							'subject' => 'Vorher wie ich in der mobilen Version ka…',
-							'category' => 1,
-							'pid' => 0
-					],
-					'Event' => [
-							1 => ['event_type_id' => 0],
-							2 => ['event_type_id' => 1]
-					]
+				// 41 chars
+				'subject' => 'Vorher wie ich in der mobilen Version ka…',
+				'category_id' => 1,
+				'pid' => 0,
+				/* @todo 3.0 Events
+				'Event' => [
+					1 => ['event_type_id' => 0],
+					2 => ['event_type_id' => 1]
+				]
+				 * */
 			];
 
-			$result = $this->testAction(
-					'entries/add',
-					['data' => $data, 'method' => 'POST', 'return' => 'view']
-			);
-			$this->assertTextContains('Subject is to long.', $result);
-			$id = $Entries->Entry->find('count') + 1;
+			$this->mockSecurity();
+			$this->post('entries/add', $data);
+			$this->assertResponseContains('Subject is to long.');
 
-			// subject has max length
-			$data['Entry']['subject'] = mb_substr($data['Entry']['subject'], 1);
-			$this->testAction(
-					'entries/add',
-					['data' => $data, 'method' => 'POST']
-			);
+			$nextId = $this->Table->find()->count() + 1;
 
-			$this->assertRedirectedTo('entries/view/' . $id);
+			//= subject has max length
+			$data['subject'] = mb_substr($data['subject'], 1);
+			$this->post('entries/add', $data);
+
+			$this->assertRedirect('entries/view/' . $nextId);
 		}
 
 		public function testNoDirectCallOfAnsweringFormWithId() {
-			$Entries = $this->generate('Entries',
-				array(
-					'methods' => array('referer')
-				));
 			$this->_loginUser(1);
-			$Entries->expects($this->once())
-					->method('referer')
-					->will($this->returnValue('/foo'));
-			$this->testAction('/entries/add/1');
-			$this->assertRedirectedTo('foo');
+			$this->get('/entries/add/1');
+			$this->assertRedirect('/');
 		}
 
-		/**
-		 * User is not logged in
-		 */
-		public function testCategoryChooserNotLoggedIn() {
-			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
+        public function testCategoryChooserVisible() {
+            $this->_loginUser(1);
+            $Users = TableRegistry::get('Users');
+            $user = $Users->get(1);
+            $element = 'btn-category-chooser';
 
-			Configure::write('Saito.Settings.category_chooser_global', 1);
+            $user->set('user_category_override', false);
+            $Users->save($user);
 
-			$Entries->expects($this->once())
-					->method('paginate')
-					->will($this->returnValue(array()));
+            // no global, no user allowed, no user
+            Configure::write('Saito.Settings.category_chooser_global', 0);
+            Configure::write('Saito.Settings.category_chooser_user_override', 0);
+            $this->get('entries/index');
+            $this->assertResponseNotContains($element);
 
-			App::uses('CurrentUserComponent', 'Controller/Component');
-			App::uses('ComponentCollection', 'Controller');
-			$User = new CurrentUserComponent(new ComponentCollection());
 
-			$User->Categories = $this->getMock('Saito\User\Auth\CategoryAuthorization', ['getAllowed'],
-				[$User]);
-			$User->Categories->expects($this->any())
-				->method('getAllowed')
-				->will($this->returnValue([
-						1 => 'Admin',
-						2 => 'Ontopic',
-						7 => 'Foo'
-					]
-				));
+            // global, no user allowed, no user
+            Configure::write('Saito.Settings.category_chooser_global', 1);
+            Configure::write('Saito.Settings.category_chooser_user_override', 0);
+            $this->get('entries/index');
+            $this->assertResponseContains($element);
 
-			$User->setSettings([]);
-			$Entries->getInitialThreads($User);
-			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
+            // no global, user allowed, no user
+            Configure::write('Saito.Settings.category_chooser_global', 0);
+            Configure::write('Saito.Settings.category_chooser_user_override', 1);
+            $this->get('entries/index');
+            $this->assertResponseNotContains($element);
+
+            // no global, user allowed, user
+            Configure::write('Saito.Settings.category_chooser_global', 0);
+            Configure::write('Saito.Settings.category_chooser_user_override', 1);
+            $user->set('user_category_override', true);
+            $Users->save($user);
+            $this->get('entries/index');
+            $this->assertResponseContains($element);
+
+            // global, not logged-in
+            $this->_logoutUser();
+            Configure::write('Saito.Settings.category_chooser_global', 1);
+            $this->get('entries/index');
+            $this->assertResponseNotContains($element);
+        }
+
+        public function testCategoryChooserSingle() {
+            // = setup =
+            $Users = TableRegistry::get('Users');
+            Configure::write('Saito.Settings.category_chooser_global', 1);
+
+            $this->_loginUser(1);
+            $user = $Users->get(1);
+            $user->set([
+                'user_sort_last_answer' => 1,
+                'user_type' => 'admin',
+                'user_category_active' => 4,
+                'user_category_custom' => array(1 => 1, 2 => 1, 4 => 0, 9999 => 1),
+            ]);
+            $Users->save($user);
+
+            // = test =
+            $this->get('entries/index');
+
+			$this->assertEquals(4, $this->viewVariable('categoryChooserTitleId'));
+            $this->assertEquals(
+                [
+                    '1' => '1',
+                    '2' => '2',
+                    '3' => '3',
+                    '5' => '5',
+                ],
+                $this->viewVariable('categoryChooserChecked'));
+
+            $entries = $this->viewVariable('entries');
+            $filtered = array_filter($entries, function($entry) {
+                return $entry->get('category')['id'] !== 4;
+            });
+            $this->assertEmpty($filtered);
+        }
+
+        public function testCategoryChooserCustom() {
+            // = setup =
+            $Users = TableRegistry::get('Users');
+            Configure::write('Saito.Settings.category_chooser_global', 1);
+
+            $this->_loginUser(3);
+            $user = $Users->get(3);
+            $user->set([
+                'user_sort_last_answer' => 1,
+                'user_category_active' => 0,
+                'user_category_custom' => [1 => 1, 2 => 1, 4 => 0, 9999 => 1],
+            ]);
+            $Users->save($user);
+
+            // = test =
+            $this->get('entries/index');
+
+            $this->assertEquals('Custom', $this->viewVariable('categoryChooserTitleId'));
+            // user should not see admin categories
+            $this->assertEquals(
+                [
+                    '2' => '2',
+                    '3' => '3',
+                    '5' => '5',
+                ],
+                $this->viewVariable('categoryChooserChecked'));
+            $this->assertSame($this->viewVariable('categoryChooser'), [
+                3 => 'Another Ontopic',
+                2 => 'Ontopic',
+                4 => 'Offtopic',
+                5 => 'Trash'
+            ]);
+            $entries = $this->viewVariable('entries');
+            $filtered = array_filter($entries, function($entry) {
+                return !in_array($entry->get('category')['id'], [2, 3, 4, 5]);
+            });
+            $this->assertEmpty($filtered);
+        }
+
+		public function testDeleteNotLoggedIn() {
+			$this->get('/entries/delete/1');
+			$this->assertRedirect('/login');
 		}
 
-		/**
-		 * Admin completely deactivated category-chooser
-		 */
-		public function testCategoryChooserDeactivated() {
-			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
-
-			Configure::write('Saito.Settings.category_chooser_global', 0);
-			Configure::write('Saito.Settings.category_chooser_user_override', 0);
-
-			$Entries->expects($this->once())
-					->method('paginate')
-					->will($this->returnValue(array()));
-
-			App::uses('CurrentUserComponent', 'Controller/Component');
-			App::uses('ComponentCollection', 'Controller');
-			$User = new CurrentUserComponent(new ComponentCollection());
-
-			$User->Categories = $this->getMock(
-				'Saito\User\Auth\CategoryAuthorization',
-				['getAllowed'],
-				[$User]
-			);
-			$User->Categories->expects($this->any())
-				->method('getAllowed')
-				->will($this->returnValue([
-						1 => 'Admin',
-						2 => 'Ontopic',
-						7 => 'Foo'
-					]
-				));
-
-			$User->setSettings(array(
-				'id' => 1,
-				'user_sort_last_answer' => 1,
-				'user_type' => 'admin',
-				'user_category_active' => 0,
-				'user_category_custom' => '',
-				'user_category_override' => 1,
-			));
-			$Entries->getInitialThreads($User);
-			$this->assertFalse(isset($Entries->viewVars['categoryChooser']));
+		public function testDeleteWrongMethod() {
+            $this->mockSecurity();
+			$this->_loginUser(1);
+            $this->setExpectedException('Cake\Network\Exception\MethodNotAllowedException');
+			$this->get('/entries/delete/1');
 		}
 
-		public function testCategoryChooserEmptyCustomSet() {
-			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
-
-			Configure::write('Saito.Settings.category_chooser_global', 0);
-			Configure::write('Saito.Settings.category_chooser_user_override', 1);
-
-			$Entries->expects($this->once())
-					->method('paginate')
-					->will($this->returnValue(array()));
-
-			App::uses('CurrentUserComponent', 'Controller/Component');
-			App::uses('ComponentCollection', 'Controller');
-			$User = new CurrentUserComponent(new ComponentCollection());
-
-			$User->Categories = $this->getMock(
-				'Saito\User\Auth\CategoryAuthorization',
-				['getAllowed'],
-				[$User]
-			);
-			$User->Categories->expects($this->any())
-				->method('getAllowed')
-				->will($this->returnValue([
-						1 => 'Admin',
-						2 => 'Ontopic',
-						7 => 'Foo'
-					]
-				));
-
-			$User->setSettings(array(
-				'id' => 1,
-				'user_sort_last_answer' => 1,
-				'user_type' => 'admin',
-				'user_category_active' => 0,
-				'user_category_custom' => array(),
-				'user_category_override' => 1,
-			));
-			$Entries->getInitialThreads($User);
-			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
-			$this->assertEquals($Entries->viewVars['categoryChooserTitleId'], 'All Categories');
+		public function testDeleteNoId() {
+			$this->_loginUser(1);
+            $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+			$this->post('/entries/delete');
 		}
 
-		/**
-		 * Test custom set
-		 *
-		 * - new categories (8) are in the custom set
-		 */
-		public function testCategoryChooserCustomSet() {
-			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
-
-			Configure::write('Saito.Settings.category_chooser_global', 1);
-
-			$Entries->expects($this->once())
-					->method('paginate')
-					->will($this->returnValue(array()));
-
-			App::uses('CurrentUserComponent', 'Controller/Component');
-			App::uses('ComponentCollection', 'Controller');
-			$User = new CurrentUserComponent(new ComponentCollection());
-
-			$User->Categories = $this->getMock(
-				'Saito\User\Auth\CategoryAuthorization',
-				['getAllowed'],
-				[$User]
-			);
-			$User->Categories->expects($this->any())
-				->method('getAllowed')
-				->will($this->returnValue([
-						2 => 'Ontopic',
-						7 => 'Foo',
-						8 => 'Bar'
-					]
-				));
-
-			$User->setSettings(array(
-				'id' => 1,
-				'user_sort_last_answer' => 1,
-				'user_type' => 'admin',
-				'user_category_active' => 0,
-				'user_category_custom' => array(1 => 1, 2 => 1, 7 => 0),
-			));
-			$Entries->getInitialThreads($User);
-			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
-			$this->assertEquals($Entries->viewVars['categoryChooserChecked'],
-				array(
-					'2' => '2',
-					'8' => '8',
-				));
-			$this->assertEquals($Entries->viewVars['categoryChooser'],
-				array(
-					'2' => 'Ontopic',
-					'7' => 'Foo',
-					'8' => 'Bar',
-				));
-			$this->assertEquals($Entries->viewVars['categoryChooserTitleId'],
-				'Custom');
+		public function testDeleteNoAuthorization() {
+			$this->_loginUser(3);
+			$this->post('/entries/delete/1');
+			$this->assertRedirect('/login');
 		}
 
-		public function testCategoryChooserSingleCategory() {
-			$Entries = $this->generate('EntriesMock', ['methods' => ['paginate']]);
-
-			Configure::write('Saito.Settings.category_chooser_global', 1);
-
-			$Entries->expects($this->once())
-					->method('paginate')
-					->will($this->returnValue(array()));
-
-			App::uses('CurrentUserComponent', 'Controller/Component');
-			App::uses('ComponentCollection', 'Controller');
-			$User = new CurrentUserComponent(new ComponentCollection());
-
-			$User->Categories = $this->getMock(
-				'Saito\User\Auth\CategoryAuthorization',
-				['getAllowed'],
-				[$User]
-			);
-			$User->Categories->expects($this->any())
-				->method('getAllowed')
-				->will($this->returnValue([
-						1 => 'Admin',
-						2 => 'Ontopic',
-						7 => 'Foo'
-					]
-				));
-
-			$User->setSettings(array(
-				'id' => 1,
-				'user_sort_last_answer' => 1,
-				'user_type' => 'admin',
-				'user_category_active' => 7,
-				'user_category_custom' => array(1 => 1, 2 => 1, 7 => 0),
-			));
-			$Entries->getInitialThreads($User);
-			$this->assertTrue(isset($Entries->viewVars['categoryChooser']));
-			$this->assertEquals($Entries->viewVars['categoryChooserTitleId'], 7);
-			$this->assertEquals($Entries->viewVars['categoryChooserChecked'],
-				array(
-					'1' => '1',
-					'2' => '2',
-				));
+		public function testDeletePostingDoesntExist() {
+			$this->_loginUser(1);
+            $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+			$this->post('/entries/delete/9999');
 		}
 
-		public function testIndex() {
-			$this->generate('Entries');
-			$this->_logoutUser();
-
+		public function testIndexSuccess() {
 			//* not logged in user
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
-			$entries = $result['entries'];
-			$this->assertEquals(count($entries), 3);
+			$this->get('/entries/index');
+			$postings = $this->viewVariable('entries');
+			$this->assertEquals(count($postings), 2);
+            $this->assertResponseOk();
 
 			//* logged in user
 			$this->_loginUser(3);
-			$result = $this->testAction('/entries/index', array('return' => 'vars'));
-			$entries = $result['entries'];
-			$this->assertEquals(count($entries), 4);
+            $this->get('/entries/index');
+            $postings = $this->viewVariable('entries');
+            $this->assertEquals(count($postings), 4);
+            $this->assertResponseOk();
 		}
 
 		public function testIndexSanitation() {
-			$this->generate('Entries');
 			$this->_loginUser(7);
 
 			// uses contents to check in slidetabs
-			$result = $this->testAction('/entries/index', ['return' => 'contents']);
+            $this->get('/entries/index');
+            $this->assertResponseOk();
+            $result = $this->_response->body();
 			// uses <body>-HTML only: exclude <head> which may contain unescaped JS-data
 			preg_match('/<body(.*)<\/body>/sm', $result, $matches);
 			$result = $matches[0];
@@ -424,180 +364,139 @@
 		}
 
 		public function testMergeNoSourceId() {
-			$Entries = $this->generate('Entries',
-				array(
-					'models' => array(
-						'Entry' => array('merge')
-					)
-				));
+			$mergeMethod = 'threadMerge';
+			$this->assertTrue(method_exists($this->Table, $mergeMethod));
+			$Entries = $this->getMockForTable('Entries', [$mergeMethod]);
+			$Entries->expects($this->never())->method('threadMerge');
+
 			$this->_loginUser(2);
-
-			$data = array(
-				'Entry' => array(
-					'targetId' => 2,
-				)
-			);
-
-			$Entries->Entry->expects($this->never())
-					->method('merge');
-			$this->setExpectedException('NotFoundException');
-			$result = $this->testAction('/entries/merge/',
-				array(
-					'data' => $data,
-					'method' => 'post'
-				));
+            $this->mockSecurity();
+            $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+			$this->post('/entries/merge/', ['targetId' => 2]);
 		}
 
 		public function testMergeSourceIdNotFound() {
-			$Entries = $this->generate('Entries',
-				array(
-					'models' => array(
-						'Entry' => array('merge')
-					)
-				));
+			$mergeMethod = 'threadMerge';
+			$this->assertTrue(method_exists($this->Table, $mergeMethod));
+			$Entries = $this->getMockForTable('Entries', [$mergeMethod]);
+			$Entries->expects($this->never())->method('threadMerge');
+
 			$this->_loginUser(2);
-
-			$data = array(
-				'Entry' => array(
-					'targetId' => 2,
-				)
-			);
-
-			$Entries->Entry->expects($this->never())
-					->method('merge');
-			$this->setExpectedException('NotFoundException');
-			$result = $this->testAction('/entries/merge/9999',
-				array(
-					'data' => $data,
-					'method' => 'post'
-				));
+            $this->mockSecurity();
+            $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+			$this->post('/entries/merge/9999', ['targetId' => 2]);
 		}
 
 		public function testMergeShowForm() {
-			$Entries = $this->generate('Entries',
-				array(
-					'models' => array(
-						'Entry' => array('merge')
-					)
-				));
-			$this->_loginUser(2);
+			$mergeMethod = 'threadMerge';
+			$this->assertTrue(method_exists($this->Table, $mergeMethod));
+			$Entries = $this->getMockForTable('Entries', [$mergeMethod]);
+			$Entries->expects($this->never())->method('threadMerge');
 
-			$data = array(
-				'Entry' => array()
-			);
-			$Entries->Entry->expects($this->never())
-					->method('merge');
-			$result = $this->testAction('/entries/merge/4',
-				array(
-					'data' => $data,
-					'method' => 'post'
-				));
-			$this->assertFalse(isset($this->headers['Location']));
+			$this->_loginUser(2);
+			$this->post('/entries/merge/4', []);
+			$this->assertNoRedirect();
 		}
 
 		public function testMergeIsNotAuthorized() {
-			$Entries = $this->generate('Entries',
-				array(
-					'models' => array(
-						'Entry' => array('merge')
-					)
-				));
+			$mergeMethod = 'threadMerge';
+			$this->assertTrue(method_exists($this->Table, $mergeMethod));
+			$Entries = $this->getMockForTable('Entries', [$mergeMethod]);
+			$Entries->expects($this->never())->method('threadMerge');
+
 			$this->_loginUser(3);
+			$this->post('/entries/merge/4', ['targetId' => 2]);
 
-			$data = array(
-				'Entry' => array(
-					'targetId' => 2,
-				)
-			);
-
-			$Entries->Entry->expects($this->never())
-					->method('merge');
-			$this->setExpectedException('MethodNotAllowedException');
-			$result = $this->testAction('/entries/merge/4',
-				array(
-					'data' => $data,
-					'method' => 'post'
-				));
+			$this->assertRedirect('/login');
 		}
 
-		public function testMerge() {
-			$Entries = $this->generate('Entries',
-				array(
-					'models' => array(
-						'Entry' => array('threadMerge')
-					)
-				));
+		public function testMergeSuccess() {
+			$mergeMethod = 'threadMerge';
+			$this->assertTrue(method_exists($this->Table, $mergeMethod));
+			$Entries = $this->getMockForTable('Entries', [$mergeMethod]);
+
+			$Entries->expects($this->exactly(1))
+				->method('threadMerge')
+				->with(4, 2)
+				->will($this->returnValue(true));
+
+
 			$this->_loginUser(2);
-
-			$data = array(
-				'Entry' => array(
-					'targetId' => 2,
-				)
-			);
-
-			$Entries->Entry->expects($this->exactly(1))
-					->method('threadMerge')
-					->with('2')
-					->will($this->returnValue(true));
-
-			$result = $this->testAction('/entries/merge/4',
-				array(
-					'data' => $data,
-					'method' => 'post'
-				));
+			$this->mockSecurity();
+			$this->post('/entries/merge/4', [ 'targetId' => 2]);
 		}
 
 		/**
 		 * Entry does not exist
 		 */
 		public function testEditNoEntry() {
-			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->setExpectedException('NotFoundException');
-			$this->testAction('entries/edit/9999');
+            $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+			$this->get('entries/edit/9999');
 		}
 
 		/**
 		 * Entry does not exist
 		 */
 		public function testEditNoEntryId() {
-			$Entries = $this->generate('Entries');
 			$this->_loginUser(2);
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('entries/edit/');
+            $this->setExpectedException('Cake\Network\Exception\BadRequestException');
+			$this->get('entries/edit/');
 		}
 
 		/**
 		 * Show editing form
 		 */
 		public function testEditShowForm() {
-			$Entries = $this->generate('Entries',
-				array(
-					'models' => array(
-						'Entry' => array(
-							'isEditingForbidden',
-						)
-					)
-				));
-
+			$postingId = 2;
 			$this->_loginUser(1);
+			$Table = TableRegistry::get('Entries');
+			$Table->query()
+				->update()
+				->set(['time' => bDate()])
+				->where(['id' => $postingId])
+				->execute();
 
-			$Entries->Entry->expects($this->any())
-					->method('isEditingForbidden')
-					->will($this->returnValue(false));
-
-			$result = $this->testAction('entries/edit/2',
-				array(
-					'return' => 'view'
-				));
+			$this->get("entries/edit/$postingId");
 
 			// test that subject is quoted
-			$this->assertContains('value="Second_Subject"', $result);
+			$this->assertResponseContains('value="Second_Subject"');
 			// test that text is quoted
-			$this->assertContains('Second_Text</textarea>', $result);
+			$this->assertResponseContains('Second_Text</textarea>');
+
+			/* @todo 3.0 Esevent
 			// notification are un/checked
-			$this->assertNotRegExp('/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/', $result);
-			$this->assertRegExp('/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/', $result);
+			$this->assertNotRegExp(
+				'/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/',
+				$this->_response->body()
+			);
+			$this->assertRegExp(
+				'/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/',
+				$this->_response->body()
+			);
+			 * */
+		}
+
+		public function testEditSuccess() {
+			$postingId = 2;
+			$this->_loginUser(1);
+			$Table = TableRegistry::get('Entries');
+			$Table->query()
+				->update()
+				->set(['time' => bDate()])
+				->where(['id' => $postingId])
+				->execute();
+
+			$this->_loginUser(1);
+			$this->mockSecurity();
+			$this->post('entries/edit/2', ['subject' => 'hot', 'text' => 'fuzz']);
+			$this->assertResponseCode(302);
+			$this->assertRedirect('/entries/view/2');
+
+			$Entries = TableRegistry::get('Entries');
+			$posting = $Entries->get($postingId);
+			$this->assertEquals('hot', $posting->get('subject'));
+			$this->assertEquals('fuzz', $posting->get('text'));
 		}
 
 		/**
@@ -606,145 +505,153 @@
 		 * doesn't test for any specific validation error
 		 */
 		public function testEditNoInternalErrorOnValidationError() {
-			$Entries = $this->generate('Entries', [
-				'models' => ['Entry' => ['get', 'update']]
-			]);
+			$Table = TableRegistry::get('Entries');
+			$Table->query()
+				->update()
+				->set(['time' => bDate()])
+				->where(['id' => 2])
+				->execute();
 
-			$Entries->Entry->expects($this->at(0))
-				->method('get')
-				->with(2)
-				->will($this->returnValue([
-					'Entry' => [
-						'id' => 2,
-						'tid' => 1,
-						'pid' => 1,
-						'time' => time() - 1,
-						'user_id' => 2,
-						'fixed' => false
-					],
-					'User' => [
-						'username' => 'Mitch'
-					],
-					'rights' => [
-						'isEditingAsUserForbidden' => false,
-						'isEditingForbidden' => false
-					]
-				]));
-			$Entries->Entry->expects($this->once())
+			$Entries = $this->getMockForTable('Entries', ['update']);
+			$Entries->expects($this->once())
 				->method('update')
 				->will($this->returnValue(false));
 
 			$this->_loginUser(1);
-			$this->testAction('entries/edit/2', [
-				'data' => [
-					'Entry' => [
-						'pid' => 1,
-					]
-				],
-				'method' => 'POST'
-			]);
+			$this->mockSecurity();
+			$this->post('entries/edit/2', ['pid' => 1]);
+			$this->assertNoRedirect();
 		}
 
-		public function testPreviewLoggedIn() {
-			$this->setExpectedException('ForbiddenException');
-			$this->testAction('/entries/preview');
+		public function testPreviewNotLoggedIn() {
+			$this->get('/entries/preview');
+            $this->assertRedirect('/login');
 		}
 
 		public function testPreviewIsAjax() {
-			$this->generate('Entries');
 			$this->_loginUser(1);
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/entries/preview');
+            $this->setExpectedException(
+                '\Cake\Network\Exception\BadRequestException',
+                1434128359
+            );
+			$this->get('/entries/preview');
 		}
 
 		public function testPreviewIsPut() {
-			$this->generate('Entries');
 			$this->_setAjax();
 			$this->_loginUser(1);
-			$this->setExpectedException('MethodNotAllowedException');
-			$this->testAction('/entries/preview', array('method' => 'GET'));
+            $this->setExpectedException(
+                '\Cake\Network\Exception\BadRequestException',
+                1434128359
+            );
+			$this->get('/entries/preview');
+		}
+
+		public function testPreviewSuccess() {
+            $this->_setJson();
+			$this->_setAjax();
+			$this->_loginUser(1);
+			$data = [
+				'pid' => 1,
+				'category_id' => 2,
+				'subject' => 'hot',
+				'text' => 'fuzz'
+			];
+			$this->post('/entries/preview', $data);
+			$this->assertResponseOk();
+			$this->assertNoRedirect();
+		}
+
+		/**
+		 * anon user views posting available for him
+		 */
+		public function testViewNotLoggedInSuccess() {
+			$this->_viewOk(1);
 		}
 
 		/*
-		public function testPreview() {
-			$this->generate('Entries');
-			$this->_setAjax();
-			$this->_loginUser(1);
-
-			$this->testAction(
-				'/entries/preview',
-				array('method' => 'PUT')
+		 * anon users view posting not available to him
+		 */
+		public function testViewNotLoggedInAuthFailure() {
+			$this->get('/entries/view/4');
+			$this->assertRedirect('/login');
+			$this->assertEquals(
+				$this->_controller->Auth->redirectUrl(), '/entries/view/4'
 			);
 		}
-		*/
 
-		public function testView() {
-			//# not logged in user
-			$Entries = $this->generate('Entries');
-			$this->_logoutUser();
-
-			$result = $this->testAction('/entries/view/1', array('return' => 'vars'));
-			$this->assertEquals($result['entry']['Entry']['id'], 1);
-
-			$this->testAction('/entries/view/2');
-			$this->assertFalse(isset($this->headers['Location']));
-
-			$this->testAction('/entries/view/4', array('return' => 'view'));
-			$this->assertEquals($Entries->Auth->redirectUrl(), '/entries/view/4');
-			$this->assertRedirectedTo('login');
-
-			//# logged in user
+		/**
+		 * logged-in user sees posting only available to logged-in users
+		 */
+		public function testViewLoggedInAuthSuccess() {
 			$this->_loginUser(3);
-			$result = $this->testAction('/entries/view/4', array('return' => 'vars'));
-			$this->assertEquals($result['entry']['Entry']['id'], 4);
+			$this->_viewOk(4);
+		}
 
-			$this->testAction('/entries/view/2', array('return' => 'vars'));
-			$this->assertFalse(isset($this->headers['Location']));
+		public function testViewPostingDoesNotExistRedirect() {
+			$this->get('/entries/view/9999');
+			$this->assertRedirect('/');
+		}
 
-			$this->testAction('/entries/view/4', array('return' => 'vars'));
-			$this->assertFalse(isset($this->headers['Location']));
-
-			//* redirect to index if entry does not exist
-			$this->testAction('/entries/view/9999', array('return' => 'vars'));
-			$this->assertRedirectedTo();
+		/**
+		 * @param int $postingId
+		 */
+		protected function _viewOk($postingId) {
+			$this->get('/entries/view/' . $postingId);
+			$this->assertResponseOk();
+			$this->assertNoRedirect();
+			$resultId = $this->viewVariable('entry')->get('id');
+			$this->assertEquals($resultId, $postingId);
 		}
 
 		public function testViewIncreaseViewCounterNotLoggedIn() {
-			$Entries = $this->generate('Entries', [
-				'models' => ['Entry' => ['incrementViews']]
-			]);
-			$id = 1;
-			$Entries->Entry->expects($this->once())
-				->method('incrementViews')
-				->with($id);
-			$this->testAction('/entries/view/' . $id);
+			$postingId = 1;
+
+			$EntriesTable = TableRegistry::get('Entries');
+			$posting = $EntriesTable->get($postingId);
+			$viewsExpected = $posting->get('views') + 1;
+
+			$this->get('/entries/view/' . $postingId);
+
+			$posting = $EntriesTable->get($postingId);
+			$viewsResult = $posting->get('views');
+
+			$this->assertEquals($viewsExpected, $viewsResult, 'Posting view counter was not increased.');
 		}
 
 		public function testViewIncreaseViewCounterLoggedIn() {
-			$Entries = $this->generate('Entries', [
-				'models' => ['Entry' => ['incrementViews']]
-			]);
-			$id = 1;
-			$Entries->Entry->expects($this->once())
-				->method('incrementViews')
-				->with($id);
+			$postingId = 1;
+
+			$EntriesTable = TableRegistry::get('Entries');
+			$posting = $EntriesTable->get($postingId);
+			$viewsExpected = $posting->get('views') + 1;
+
 			$this->_loginUser(1);
-			$this->testAction('/entries/view/' . $id);
+			$this->get('/entries/view/' . $postingId);
+
+			$posting = $EntriesTable->get($postingId);
+			$viewsResult = $posting->get('views');
+
+			$this->assertEquals($viewsExpected, $viewsResult, 'Posting view counter was not increased.');
 		}
 
 		/**
 		 * don't increase view counter if user views its own posting
 		 */
 		public function testViewIncreaseViewCounterSameUser() {
-			$Entries = $this->generate('Entries', [
-				'models' => ['Entry' => ['incrementViews']]
-			]);
-			$id = 1;
-			$this->_loginUser(3);
+			$postingId = 1;
 
-			$Entries->Entry->expects($this->never())
-				->method('incrementViews');
-			$this->testAction('/entries/view/' . $id);
+			$EntriesTable = TableRegistry::get('Entries');
+			$posting = $EntriesTable->get($postingId);
+			$viewsExpected = $posting->get('views');
+
+			$this->_loginUser(3);
+			$this->get('/entries/view/' . $postingId);
+
+			$posting = $EntriesTable->get($postingId);
+			$viewsResult = $posting->get('views');
+
+			$this->assertEquals($viewsExpected, $viewsResult);
 		}
 
 		/**
@@ -752,30 +659,28 @@
 		 */
 		public function testViewIncreaseViewCounterCrawler() {
 			$this->_setUserAgent('A Crawler Agent');
-			$id = 1;
-			$Entries = $this->generate('Entries', [
-				'models' => ['Entry' => ['incrementViews']]
-			]);
+			$postingId = 1;
 
-			$Entries->Entry->expects($this->never())
-				->method('incrementViews');
+			$EntriesTable = TableRegistry::get('Entries');
+			$posting = $EntriesTable->get($postingId);
+			$viewsExpected = $posting->get('views');
 
-			$this->testAction('/entries/view/' . $id);
+			$this->_loginUser(3);
+			$this->get('/entries/view/' . $postingId);
+
+			$posting = $EntriesTable->get($postingId);
+			$viewsResult = $posting->get('views');
+
+			$this->assertEquals($viewsExpected, $viewsResult);
 		}
 
 		public function testViewBoxFooter() {
-			$result = $this->testAction('entries/view/1',
-				array(
-					'return' => 'view'
-				));
-			$this->assertTextNotContains('panel-footer panel-form', $result);
+			$this->get('entries/view/1');
+			$this->assertResponseNotContains('panel-footer panel-form');
 
 			$this->_loginUser(3);
-			$result = $this->testAction('entries/view/1',
-				array(
-					'return' => 'view'
-				));
-			$this->assertTextContains('panel-footer panel-form', $result);
+			$this->get('entries/view/1');
+			$this->assertResponseContains('panel-footer panel-form');
 		}
 
 		/**
@@ -785,174 +690,129 @@
 			/**
 			 * Mod Button is not visible for anon users
 			 */
-			$result = $this->testAction('entries/view/1',
-				array(
-					'return' => 'view'
-				));
-			$this->assertTextNotContains('dropdown', $result);
+			$this->get('entries/view/1');
+			$this->assertResponseNotContains('dropdown');
 
 			/**
 			 * Mod Button is not visible for normal users
 			 */
 			$this->_loginUser(3);
-			$result = $this->testAction('entries/view/1',
-				array(
-					'return' => 'view'
-				));
-			$this->assertTextNotContains('dropdown', $result);
+            $this->get('entries/view/1');
+            $this->assertResponseNotContains('dropdown');
 
 			/**
 			 * Mod Button is visible for mods
 			 */
 			$this->_loginUser(2);
-			$result = $this->testAction('entries/view/1',
-				array(
-					'return' => 'view'
-				));
-			$this->assertTextContains('dropdown', $result);
+            $this->get('entries/view/1');
+            $this->assertResponseContains('dropdown');
 		}
 
 		public function testViewSanitation() {
-			$result = $this->testAction('/entries/view/11', ['return' => 'view']);
-			$this->assertTextNotContains('&<Subject', $result);
-			$this->assertTextContains('&amp;&lt;Subject', $result);
-			$this->assertTextNotContains('&<Text', $result);
-			$this->assertTextContains('&amp;&lt;Text', $result);
-			$this->assertTextNotContains('&<Username', $result);
-			$this->assertTextContains('&amp;&lt;Username', $result);
+            $this->_loginUser(1);
+			$this->get('/entries/view/11');
+			$this->assertResponseNotContains('&<Subject');
+			$this->assertResponseContains('&amp;&lt;Subject');
+			$this->assertResponseNotContains('&<Text');
+			$this->assertResponseContains('&amp;&lt;Text');
+			$this->assertResponseNotContains('&<Username');
+			$this->assertResponseContains('&amp;&lt;Username');
 		}
 
-		public function testAppStats() {
-			Configure::write('Cache.disable', false);
-			Cache::delete('header_counter', 'short');
+		public function testFeeds() {
+			$this->get('/feed/postings.rss');
+            $result = $this->viewVariable('entries');
+            $first = $result->first();
+			$this->assertEquals($first->get('subject'), 'First_Subject');
+			$this->assertNull($first->get('ip'));
 
-			// test with no user online
-			$result = $this->testAction('/entries/index',
-				['method' => 'GET', 'return' => 'vars']);
-			$headerCounter = $result['HeaderCounter'];
-
-			$this->assertEquals($headerCounter['user_online'], 1);
-			$this->assertEquals($headerCounter['user'], 10);
-			$this->assertEquals($headerCounter['entries'], 11);
-			$this->assertEquals($headerCounter['threads'], 5);
-			$this->assertEquals($headerCounter['user_registered'], 0);
-			$this->assertEquals($headerCounter['user_anonymous'], 1);
-
-			// test with one user online
-			$this->_loginUser(2);
-
-			$result = $this->testAction('/entries/index',
-				['method' => 'GET', 'return' => 'vars']);
-			$headerCounter = $result['HeaderCounter'];
-
-			/* without cache
-			$this->assertEquals($headerCounter['user_online'], 2);
-			$this->assertEquals($headerCounter['user_registered'], 1);
-			$this->assertEquals($headerCounter['user_anonymous'], 1);
-			 */
-
-			// with cache
-			$this->assertEquals($headerCounter['user_online'], 1);
-			$this->assertEquals($headerCounter['user_registered'], 1);
-			$this->assertEquals($headerCounter['user_anonymous'], 0);
-
-			// test with second user online
-			$this->_loginUser(3);
-
-			$result = $this->testAction('/entries/index',
-				['method' => 'GET', 'return' => 'vars']);
-			$headerCounter = $result['HeaderCounter'];
-
-			// with cache
-			$this->assertEquals($headerCounter['user_online'], 1);
-			$this->assertEquals($headerCounter['user_registered'], 2);
-			$this->assertEquals($headerCounter['user_anonymous'], 0);
-		}
-
-		public function testFeedJson() {
-			$result = $this->testAction('/entries/feed/feed.json',
-				['method' => 'GET', 'return' => 'vars']);
-			$this->assertEquals($result['entries'][0]['Entry']['subject'], 'First_Subject');
-			$this->assertFalse(isset($result['entries'][0]['Entry']['ip']));
+            $this->get('/feed/threads.rss');
+            $result = $this->viewVariable('entries');
+            $first = $result->first();
+            $this->assertEquals($first->get('subject'), 'First_Subject');
+            $this->assertNull($first->get('ip'));
 		}
 
 		public function testSolveNotLoggedIn() {
-			$this->generate('Entries', ['methods' => 'solve']);
-			$this->testAction('/entries/solve/1');
-			$this->assertRedirectedTo('login');
+			$this->get('/entries/solve/1');
+			$this->assertRedirect('/login');
 		}
 
 		public function testSolveNoEntry() {
-			$this->generate('Entries');
 			$this->_loginUser(1);
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/entries/solve/9999');
+            $this->setExpectedException('Cake\Network\Exception\BadRequestException');
+			$this->get('/entries/solve/9999');
 		}
 
 		public function testSolveNotRootEntryUser() {
-			$this->generate('Entries');
 			$this->_loginUser(2);
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/entries/solve/1');
+            $this->setExpectedException('Cake\Network\Exception\BadRequestException');
+			$this->get('/entries/solve/1');
 		}
 
 		public function testSolveIsRootEntry() {
-			$this->generate('Entries');
 			$this->_loginUser(3);
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/entries/solve/1');
+            $this->setExpectedException('Cake\Network\Exception\BadRequestException');
+			$this->get('/entries/solve/1');
 		}
 
 		public function testSolveSaveError() {
-			$Entries = $this->generate('Entries', ['models' => ['Entry' => ['toggleSolve']]]);
+			$Entries = $this->getMockForTable('Entries', ['toggleSolve']);
 			$this->_loginUser(3);
-			$Entries->Entry->expects($this->once())
+			$Entries->expects($this->once())
 				->method('toggleSolve')
 				->with('1')
 				->will($this->returnValue(false));
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/entries/solve/1');
-		}
-
-		public function testSeo() {
-			$result = $this->testAction('/entries/index',
-				['method' => 'GET', 'return' => 'contents']);
-			$this->assertTextNotContains('noindex', $result);
-			$expected = '<link rel="canonical" href="' . Router::url('/',
-							true) . '"/>';
-			$this->assertTextContains($expected, $result);
-
-			Configure::write('Saito.Settings.topics_per_page', 2);
-			$result = $this->testAction('/entries/index/page:2/',
-				['method' => 'GET', 'return' => 'contents']);
-			$this->assertTextNotContains('rel="canonical"', $result);
-			$expected = '<meta name="robots" content="noindex, follow">';
-			$this->assertTextContains($expected, $result);
+            $this->setExpectedException('Cake\Network\Exception\BadRequestException');
+			$this->get('/entries/solve/1');
 		}
 
 		public function testSolve() {
-			$Entries = $this->generate('Entries', ['models' => ['Entry' => ['toggleSolve']]]);
+			$Entries = $this->getMockForTable('Entries', ['toggleSolve']);
 			$this->_loginUser(3);
-			$Entries->Entry->expects($this->once())
-					->method('toggleSolve')
-					->with('1')
-					->will($this->returnValue(true));
-			$result = $this->testAction('/entries/solve/1');
-			$this->assertTextEquals($result, '');
+			$Entries->expects($this->once())
+				->method('toggleSolve')
+				->with('1')
+				->will($this->returnValue(true));
+			$this->get('/entries/solve/1');
+			$this->assertResponseEquals('');
+		}
+
+		public function testSeo() {
+			$this->get('/entries/index');
+			$this->assertResponseNotContains('noindex');
+			$expected = '<link rel="canonical" href="' . Router::url('/',
+							true) . '"/>';
+			$this->assertResponseContains($expected);
+
+			Configure::write('Saito.Settings.topics_per_page', 1);
+			$this->get('/entries/index/?page=2');
+			$this->assertResponseNotContains('rel="canonical"');
+			$expected = '<meta name="robots" content="noindex, follow">';
+			$this->assertResponseContains($expected);
+		}
+
+		public function testSourceNotLoggedIn() {
+			$this->get('/entries/source/1');
+			$this->assertRedirect('/login');
+		}
+
+		public function testSourceSuccess() {
+			$this->_loginUser(3);
+			$this->get('/entries/source/1');
+			$this->assertResponseContains("First_Subject\n\nFirst_Text");
 		}
 
 		//-----------------------------------------------
 
 		public function setUp() {
 			parent::setUp();
-			$this->_saitoSettingsTopicsPerPage = Configure::read('Saito.Settings.topics_per_page');
-			Configure::write('Saito.Settings.topics_per_page', 20);
+			$this->Table = TableRegistry::get('Entries');
 		}
 
 		public function tearDown() {
 			parent::tearDown();
-			Configure::write('Saito.Settings.topics_per_page',
-				$this->_saitoSettingsTopicsPerPage);
+			unset($this->Table);
 		}
 
 	}

@@ -1,21 +1,27 @@
 <?php
 
-	use Saito\DomainParser;
+namespace Saito\Test;
 
-	class DomainParserTest extends PHPUnit_Framework_TestCase {
+use PHPUnit_Framework_TestCase;
+use Saito\DomainParser;
 
-		public function testDomainAndTld() {
-			$in = 'http://www.youtube.com/foo';
-			$expected = 'youtube.com';
-			$actual = DomainParser::domainAndTld($in);
-			$this->assertEquals($expected, $actual);
-		}
+class DomainParserTest extends PHPUnit_Framework_TestCase
+{
 
-		public function testDomain() {
-			$in = 'http://www.youtube.com/foo';
-			$expected = 'youtube';
-			$actual = DomainParser::domain($in);
-			$this->assertEquals($expected, $actual);
-		}
+    public function testDomainAndTld()
+    {
+        $input = 'http://www.youtube.com/foo';
+        $expected = 'youtube.com';
+        $actual = DomainParser::domainAndTld($input);
+        $this->assertEquals($expected, $actual);
+    }
 
-	}
+    public function testDomain()
+    {
+        $input = 'http://www.youtube.com/foo';
+        $expected = 'youtube';
+        $actual = DomainParser::domain($input);
+        $this->assertEquals($expected, $actual);
+    }
+
+}

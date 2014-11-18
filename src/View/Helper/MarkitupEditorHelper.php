@@ -1,7 +1,11 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
-	App::uses('MarkitupHelper', 'Markitup.View/Helper');
+	namespace App\View\Helper;
+
+	use Cake\Core\Configure;
+	use Markitup\View\Helper\MarkitupHelper;
+	use Cake\View\View;
+	use Stopwatch\Lib\Stopwatch;
 
 	class MarkitupEditorHelper extends MarkitupHelper {
 
@@ -9,8 +13,8 @@
 
 		protected $_nextCssId;
 
-		public function __construct(View $View, $settings = array()) {
-			parent::__construct($View, $settings);
+		public function __construct(View $view, $config = []) {
+			parent::__construct($view, $config);
 			$this->_nextCssId = Configure::read('Saito.markItUp.nextCssId');
 		}
 

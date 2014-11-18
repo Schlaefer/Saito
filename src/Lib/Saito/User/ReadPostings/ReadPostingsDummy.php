@@ -1,31 +1,37 @@
 <?php
 
-	namespace Saito\User\ReadPostings;
+namespace Saito\User\ReadPostings;
 
-	/**
-	 * Nothing can be set read
-	 *
-	 * used as dummy for bots and test cases
-	 */
-	class ReadPostingsDummy extends ReadPostingsAbstract {
+/**
+ * Nothing can be set read
+ *
+ * used as dummy for bots and test cases
+ */
+class ReadPostingsDummy extends ReadPostingsAbstract
+{
 
-		public function __construct() {
-		}
+    public function __construct()
+    {
+    }
 
-		public function set($entries) {
-			return;
-		}
+    public function set($entries)
+    {
+        return;
+    }
 
-		public function delete() {
-			return;
-		}
+    public function delete()
+    {
+        return;
+    }
 
-		public function isRead($posting, $key = 'time') {
-			return true;
-		}
+    public function isRead($posting, $key = 'time')
+    {
+        return true;
+    }
 
-		protected function _get() {
-			return [];
-		}
+    protected function get()
+    {
+        return [];
+    }
 
-	}
+}

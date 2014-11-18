@@ -1,12 +1,15 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
+
+	use Cake\Core\Configure;
 
 	class RequireJsHelper extends AppHelper {
 
 		public $helpers = array(
 			'Html',
-			'Js'
+			'Js',
+			'Url'
 		);
 
 /**
@@ -56,12 +59,12 @@
 			$_tmpAssetTimestampCache = Configure::read('Asset.timestamp');
 			Configure::write('Asset.timestamp', false);
 			$out .= $this->Html->script(
-				$this->Html->assetUrl(
+				$this->Url->assetUrl(
 					$options['requireUrl'],
 					['ext' => '.js', 'fullBase' => true]
 				),
 				[
-					'data-main' => $this->Html->assetUrl($dataMain,
+					'data-main' => $this->Url->assetUrl($dataMain,
 								[
 									'pathPrefix' => $options['jsUrl'],
 									'ext' => '.js'
@@ -76,9 +79,9 @@
 		protected function _jsRoot() {
 			$debug = Configure::read('debug') > 0;
 			if ($debug) {
-				return JS_URL;
+				return Configure::read('App.jsBaseUrl');
 			} else {
-				return JS_URL . '/../dist/';
+				return Configure::read('App.jsBaseUrl') . '/../dist/';
 			}
 		}
 

@@ -1,6 +1,9 @@
 <?php
 
-	App::uses('NotificationComponent', 'Lib/Controller/Component');
+	namespace App\Controller\Component;
+
+	use Cake\Controller\Component;
+	use App\Lib\Controller\Component\NotificationComponent;
 
 	class EmailNotificationComponent extends NotificationComponent {
 
@@ -43,7 +46,7 @@
 							'conditions' => ['Entry.id' => $event->data['data']['Entry'][$idKey]]
 					]);
 
-			$lang = Configure::read( 'Config.language');
+			$lang = Configure::read('Saito.language');
 			$config = [
 					'subject' => __('New reply to "%s"', $subject['Entry']['subject']),
 					'template' => $lang . DS . 'notification-model-entry-afterReply',
@@ -75,7 +78,7 @@
 			$config = [
 				'subject' => __('Successfull registration'),
 				'template' => Configure::read(
-					'Config.language'
+					'Saito.language'
 				) . DS . 'notification-admin-user_activated',
 				'viewVars' => array('user' => $newUser, 'ip' => env('REMOTE_ADDR')),
 

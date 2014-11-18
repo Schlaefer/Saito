@@ -2,6 +2,8 @@
 
 	namespace Saito\User\LastRefresh;
 
+	use App\Controller\Component\CurrentUserComponent;
+
 	/**
 	 * handles last refresh time for the current user
 	 */
@@ -17,7 +19,7 @@
 		 */
 		protected $_timestamp = null;
 
-		public function __construct(\CurrentuserComponent $CurrentUser) {
+		public function __construct(CurrentuserComponent $CurrentUser) {
 			$this->_CurrentUser = $CurrentUser;
 		}
 
@@ -28,13 +30,16 @@
 		 * @return mixed bool or null if not determinable
 		 */
 		public function isNewerThan($timestamp) {
-			if (is_string($timestamp)) {
-				$timestamp = strtotime($timestamp);
-			}
 			$lastRefresh = $this->_get();
 			// timestamp is not set (or readable): everything is considered new
 			if ($lastRefresh === false) {
 				return null;
+			}
+
+			if (is_string($timestamp)) {
+				$timestamp = strtotime($timestamp);
+			} elseif (is_object($timestamp)) {
+				$timestamp = $timestamp->toUnixString($timestamp);
 			}
 			return $lastRefresh > $timestamp;
 		}

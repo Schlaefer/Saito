@@ -48,7 +48,10 @@ Cache::config(
 
 /**
  * Long term cache for performance cheating
+ *
+ * migrated to 3.0 2014-12-04
  */
+	/*
 Cache::config(
 	'entries',
 	[
@@ -58,10 +61,14 @@ Cache::config(
 		'duration' => 3600
 	]
 );
+	*/
 
 /**
  * Short term cache for performance cheating
+ *
+ * migrated to 3.0 2014-11-19
  */
+/*
 Cache::config(
 	'short',
 	[
@@ -71,6 +78,7 @@ Cache::config(
 		'duration' => 180
 	]
 );
+*/
 
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
@@ -108,7 +116,7 @@ Cache::config(
  */
 
 	/**
-	 * Cake doesn't handle Smiley <-> Smilies
+	 * cake doesn't handle smiley <-> smilies
 	 */
 Inflector::rules('plural', array(
 								'/^(smil)ey$/i' => '\1ies'));
@@ -199,13 +207,17 @@ Configure::write('Saito.Globals.logInfo', false);
 
 /**
  * logs emails instead of sending them
+ *
+ * migrated to 3.0
  */
-Configure::write('Saito.Debug.email', false);
+//Configure::write('Saito.debug.email', false);
 
 /**
  * Empiric number matching the average number of postings per thread
+ *
+ * migrated to 3.0
  */
-Configure::write('Saito.Globals.postingsPerThread', 10);
+//Configure::write('Saito.Globals.postingsPerThread', 10);
 
 	/**
  * Check if the forum is installed

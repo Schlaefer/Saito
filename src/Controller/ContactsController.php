@@ -1,137 +1,122 @@
 <?php
 
-	App::uses('AppController', 'Controller');
+namespace App\Controller;
 
-	class ContactsController extends AppController {
+use App\Form\ContactForm;
+use App\Form\ContactFormOwner;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Event\Event;
+use Cake\Form\Form;
+use Cake\Network\Exception\BadRequestException;
+use Cake\ORM\TableRegistry;
+use Saito\Exception\Logger\ExceptionLogger;
 
-		public $uses = [];
+class ContactsController extends AppController
+{
 
-		public function beforeFilter() {
-			parent::beforeFilter();
-			$this->showDisclaimer = true;
-			$this->Auth->allow('owner');
-		}
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->showDisclaimer = true;
+        $this->Auth->allow('owner');
+    }
 
-		/**
-		 * Contacts forum's owner via contact address
-		 */
-		public function owner() {
-			//* show form
-			if (empty($this->request->data)) {
-				return;
-			}
+    /**
+     * Contacts forum's owner via contact address
+     */
+    public function owner()
+    {
+        $recipient = 'contact';
+        if ($this->CurrentUser->isLoggedIn()) {
+            $user = $this->CurrentUser;
+            $sender = $user->getId();
+            $this->request->data('sender_contact', $user['user_email']);
+        } else {
+            $senderContact = $this->request->data('sender_contact');
+            $sender = [$senderContact => $senderContact];
+        }
 
-			$recipient = $this->SaitoEmail->getPredefinedSender('contact');
+        $this->_contact(new ContactFormOwner(), $recipient, $sender);
+    }
 
-			if ($this->CurrentUser->isLoggedIn()) {
-				$sender = $this->CurrentUser->getId();
-			} else {
-				$senderContact = $this->request->data['Message']['sender_contact'];
+    /**
+     * Contacts individual user
+     *
+     * @param null $id
+     * @throws \InvalidArgumentException
+     * @throws BadRequestException
+     */
+    public function user($id = null)
+    {
+        if (empty($id) || !$this->CurrentUser->isLoggedIn()) {
+            throw new BadRequestException();
+        }
 
-				App::uses('Validation', 'Utility');
-				if (!Validation::email($senderContact)) {
-					$this->JsData->addAppJsMessage(__('error_email_not-valid'), [
-						'type' => 'error',
-						'channel' => 'form',
-						'element' => '#MessageSenderContact'
-					]);
-					return;
-				}
+        $Users = TableRegistry::get('Users');
+        try {
+            $recipient = $Users->get($id);
+        } catch (RecordNotFoundException $e) {
+            throw new BadRequestException();
+        }
+        $this->set('user', $recipient);
 
-				$sender['User'] = [
-					'username' => '',
-					'user_email' => $senderContact
-				];
-			}
+        if (!$recipient->get('personal_messages')) {
+            throw new BadRequestException();
+        }
 
-			$this->_contact($recipient, $sender);
-		}
+        $this->set(
+            'title_for_page',
+            __('user_contact_title', $recipient->get('username'))
+        );
 
-		/**
-		 * Contacts individual user
-		 *
-		 * @param null $id
-		 * @throws InvalidArgumentException
-		 * @throws BadRequestException
-		 */
-		public function user($id = null) {
-			if (empty($id) || !$this->CurrentUser->isLoggedIn()) {
-				throw new BadRequestException();
-			}
+        $sender = $this->CurrentUser->getId();
+        $this->_contact(new ContactForm(), $recipient, $sender);
+    }
 
-			$this->User->id = $id;
-			$this->User->contain();
-			$recipient = $this->User->read();
+    /**
+     *  contact form validating and email sending
+     *
+     * @param Form $contact
+     * @param $recipient
+     * @param $sender
+     * @return \Cake\Network\Response|void
+     */
+    protected function _contact(Form $contact, $recipient, $sender)
+    {
+        if ($this->request->is('get')) {
+            if ($this->request->data('cc') === null) {
+                $this->request->data('cc', true);
+            }
+        }
 
-			if (empty($recipient) || !$recipient['User']['personal_messages']) {
-				throw new InvalidArgumentException();
-			}
+        if ($this->request->is('post')) {
+            $isValid = $contact->validate($this->request->data);
+            if ($isValid) {
+                try {
+                    $email = [
+                        'recipient' => $recipient,
+                        'sender' => $sender,
+                        'subject' => $this->request->data('subject'),
+                        'message' => $this->request->data('text'),
+                        'template' => 'user_contact',
+                        'ccsender' => (bool)$this->request->data('cc'),
+                    ];
+                    $this->SaitoEmail->email($email);
+                    $message = __('Message was send.');
+                    $this->Flash->set($message, ['element' => 'success']);
 
-			$this->set('title_for_page',
-				__('user_contact_title', $recipient['User']['username'])
-			);
+                    return $this->redirect('/');
+                } catch (\Exception $e) {
+                    $Logger = new ExceptionLogger();
+                    $Logger->write('Contact email failed', ['e' => $e]);
+                    $message = $e->getMessage();
+                    $message = __('Message couldn\'t be send: {0}', $message);
+                    $this->Flash->set($message, ['element' => 'error']);
+                }
+            }
+        }
 
-			//* show form
-			if (empty($this->request->data)) {
-				$this->request->data = $recipient;
-				return;
-			}
+        $this->set(compact('contact'));
+    }
 
-			$sender = $this->CurrentUser->getId();
-
-			$this->_contact($recipient, $sender);
-		}
-
-		protected function _contact($recipient, $sender) {
-			$validationError = false;
-
-			// validate and set subject
-			$subject = rtrim($this->request->data['Message']['subject']);
-			if (empty($subject)) {
-				$this->JsData->addAppJsMessage(
-					__('error_subject_empty'),
-					[
-						'type' => 'error',
-						'channel' => 'form',
-						'element' => '#MessageSubject'
-					]
-				);
-				$validationError = true;
-			}
-
-			$this->request->data = $this->request->data + $recipient;
-
-			if ($validationError) {
-				return;
-			}
-
-			try {
-				$email = [
-					'recipient' => $recipient,
-					'sender' => $sender,
-					'subject' => $subject,
-					'message' => $this->request->data['Message']['text'],
-					'template' => 'user_contact'
-				];
-
-				if (isset($this->request->data['Message']['carbon_copy']) && $this->request->data['Message']['carbon_copy']) {
-					$email['ccsender'] = true;
-				}
-
-				$mail = $this->SaitoEmail->email($email);
-				$this->set('email', $mail); // for evaluating send mail in test cases
-				$this->Session->setFlash(__('Message was send.'), 'flash/success');
-				$this->redirect('/');
-				return;
-			} catch (Exception $e) {
-				$Logger = new Saito\Logger\ExceptionLogger();
-				$Logger->write('Contact email failed', ['e' => $e]);
-
-				$this->Session->setFlash(
-					__('Message couldn\'t be send! ' . $e->getMessage()),
-					'flash/error'
-				);
-			}
-		}
-
-	}
+}

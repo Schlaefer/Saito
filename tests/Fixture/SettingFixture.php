@@ -1,17 +1,16 @@
 <?php
 
-	class SettingFixture extends CakeTestFixture {
+	namespace App\Test\Fixture;
+
+	use Cake\TestSuite\Fixture\TestFixture;
+
+	class SettingFixture extends TestFixture {
 
 		public $fields = array(
-				'name' => array('type' => 'string', 'null' => true, 'default' => null),
-				'value' => array('type' => 'string', 'null' => true, 'default' => null),
-				'indexes' => array(),
-				'tableParameters' => [
-						'charset' => 'utf8',
-						'collate' => 'utf8_unicode_ci',
-						'engine' => 'MyISAM'
-				]
-		);
+		'name' => ['type' => 'string', 'null' => true, 'default' => null],
+		'value' => ['type' => 'string', 'null' => true, 'default' => null],
+		'_options' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM']
+	);
 
 		public $records = array(
 				['name' => 'autolink', 'value' => '1'],
@@ -23,6 +22,7 @@
 				['name' => 'email_register', 'value' => 'register@example.com'],
 				['name' => 'email_system', 'value' => 'system@example.com'],
 				['name' => 'forum_name', 'value' => 'macnemo'],
+				['name' => 'map_enabled', 'value' => '0'],
 				['name' => 'quote_symbol', 'value' => '>'],
 				['name' => 'shoutbox_enabled', 'value' => '1'],
 				['name' => 'shoutbox_max_shouts', 'value' => '5'],

@@ -16,7 +16,22 @@
 		<testsuite name="App Test Suite">
 			<directory>./tests/TestCase</directory>
 		</testsuite>
-		<!-- Add plugin test suites here. -->
+
+        <testsuite name="Api plugin">
+            <directory>./plugins/Api/tests/TestCase</directory>
+        </testsuite>
+
+        <testsuite name="BbcodeParser plugin">
+            <directory>./plugins/BbcodeParser/tests/TestCase</directory>
+        </testsuite>
+
+		<testsuite name="Bookmark plugin">
+			<directory>./plugins/Bookmarks/tests/TestCase</directory>
+		</testsuite>
+
+		<testsuite name="Sitemap plugin">
+			<directory>./plugins/Sitemap/tests/TestCase</directory>
+		</testsuite>
 	</testsuites>
 
 	<!-- Setup a listener for fixtures -->

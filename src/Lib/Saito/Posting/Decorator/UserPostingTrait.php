@@ -2,6 +2,8 @@
 
 	namespace Saito\Posting\Decorator;
 
+	use Cake\Core\Configure;
+
 	trait UserPostingTrait {
 
 		protected $_cache = [];
@@ -19,16 +21,15 @@
 		/**
 		 * Checks if answering an entry is allowed
 		 *
-		 * @param array $entry
 		 * @return boolean
 		 */
 		public function isAnsweringForbidden() {
 			if ($this->isLocked()) {
-				$isAnsweringForbidden = 'locked';
-			} else {
-				$isAnsweringForbidden = false;
+				return 'locked';
 			}
-			return $isAnsweringForbidden;
+            $resource = 'saito.core.category.' .$this->get('category')['id'] . '.answer';
+            $permission = $this->_CU->permission($resource);
+            return !$permission;
 		}
 
 		/**
@@ -47,70 +48,48 @@
 		}
 
 		protected function _isEditingForbidden(\Saito\Posting\Posting $posting, $User) {
-			// Anon
 			if ($User->isLoggedIn() !== true) {
 				return true;
-			}
-
-			// Admins
-			if ($User->isAdmin()) {
+			} elseif ($User->permission('saito.core.posting.edit.unrestricted')) {
 				return false;
 			}
 
-			$verboten = true;
+            $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
+            $timeLimit = $editPeriod + strtotime($posting->get('time'));
+			$isOverTime = time() > $timeLimit;
 
-			$timeLimit = (\Configure::read('Saito.Settings.edit_period') * 60) + strtotime($posting->get('time'));
-			$isOverTimeLimit = time() > $timeLimit;
+            $isOwn = (int)$User->getId() === (int)$posting->get('user_id');
 
-			$isUsersPosting = (int)$User->getId() === (int)$posting->get('user_id');
+            if ($User->permission('saito.core.posting.edit.restricted')) {
+                if($isOwn && $isOverTime && !$posting->isPinned()) {
+                    return 'time';
+                } else {
+                    return false;
+                }
+            }
 
-			if ($User->isMod()) {
-				// Mods
-				// @todo mods don't edit admin posts
-				if ($isUsersPosting && $isOverTimeLimit &&
-					/* Mods should be able to edit their own posts if they are pinned
-					 *
-					 * @todo this opens a 'mod can pin and then edit root entries'-loophole,
-					 * as long as no one checks pinning for Configure::read('Saito.Settings.edit_period') * 60
-					 * for mods pinning root-posts.
-					 */
-					(!$posting->isPinned())
-				) {
-					// mods don't mod themselves
-					$verboten = 'time';
-				} else {
-					$verboten = false;
-				};
+            if (!$isOwn) {
+                return 'user';
+            } elseif ($isOverTime) {
+                return 'time';
+            } elseif ($this->isLocked()) {
+                return 'locked';
+            }
 
-			} else {
-				// Users
-				if ($isUsersPosting === false) {
-					$verboten = 'user';
-				} elseif ($isOverTimeLimit) {
-					$verboten = 'time';
-				} elseif ($this->isLocked()) {
-					$verboten = 'locked';
-				} else {
-					$verboten = false;
-				}
-			}
-
-			return $verboten;
+            return false;
 		}
 
 		public function isIgnored() {
 			return $this->_CU->ignores($this->get('user_id'));
 		}
 
-		public function isNew() {
-			if (isset($this->_cache['isNew'])) {
-				$this->_cache['isNew'] = $this->_cache['isNew'];
-			} else {
+		public function isUnread() {
+			if (!isset($this->_cache['isUnread'])) {
 				$id = $this->get('id');
 				$time = $this->get('time');
-				$this->_cache['isNew'] = !$this->_CU->ReadEntries->isRead($id, $time);
+				$this->_cache['isUnread'] = !$this->_CU->ReadEntries->isRead($id, $time);
 			}
-			return $this->_cache['isNew'];
+			return $this->_cache['isUnread'];
 		}
 
 		/**

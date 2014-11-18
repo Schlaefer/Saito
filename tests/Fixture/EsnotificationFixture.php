@@ -1,9 +1,10 @@
 <?php
-/**
- * EsnotificationFixture
- *
- */
-class EsnotificationFixture extends CakeTestFixture {
+
+	namespace App\Test\Fixture;
+
+	use Cake\TestSuite\Fixture\TestFixture;
+
+class EsnotificationFixture extends TestFixture {
 
 /**
  * Fields
@@ -11,17 +12,13 @@ class EsnotificationFixture extends CakeTestFixture {
  * @var array
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
-		'esevent_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
-		'esreceiver_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
-		'deactivate' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 8, 'unsigned' => false),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1),
-			'userid_esreceiverid' => array('column' => array('user_id', 'esreceiver_id'), 'unique' => 0),
-			'eseventid_esreceiverid_userid' => array('column' => array('esevent_id', 'esreceiver_id', 'user_id'), 'unique' => 0)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'user_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'esevent_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'esreceiver_id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false],
+		'deactivate' => ['type' => 'integer', 'null' => false, 'default' => null, 'length' => 8, 'unsigned' => false],
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
+		'_options' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM']
 	);
 
 /**

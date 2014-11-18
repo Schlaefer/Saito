@@ -1,219 +1,228 @@
 <?php
 
-	App::uses('Controller', 'Controller');
-	App::uses('UsersController', 'Controller');
-	App::uses('SaitoControllerTestCase', 'Lib/Test');
+namespace App\Test\TestCase\Controller;
 
-	class ContactsControllerTestCase extends \Saito\Test\ControllerTestCase {
+use Cake\Network\Email\Email;
+use Saito\Test\IntegrationTestCase;
 
-		use \Saito\Test\SecurityMockTrait;
+class ContactsControllerTestCase extends IntegrationTestCase
+{
 
-		public $fixtures = [
-			'app.category',
-			'app.entry',
-			'app.setting',
-			'app.user',
-			'app.user_block',
-			'app.user_ignore',
-			'app.user_online',
-			'app.user_read'
-		];
+    public $fixtures = [
+        'app.category',
+        'app.entry',
+        'app.user',
+        'app.user_block',
+        'app.user_online',
+        'app.user_read',
+        'app.setting'
+    ];
 
-		public function testContactEmailCc() {
-			$data = [
-				'Message' => [
-					'sender_contact' => 'fo3@example.com',
-					'subject' => 'subject',
-					'text' => 'text',
-					'carbon_copy' => '1'
-				]
-			];
+    public function testContactEmailSuccessWithCc()
+    {
+        $this->mockSecurity();
+        $data = [
+            'sender_contact' => 'fo3@example.com',
+            'subject' => 'subject',
+            'text' => 'text',
+            'cc' => '1'
+        ];
 
-			$result = $this->testAction('/contacts/owner', [
-				'data' => $data, 'method' => 'POST', 'return' => 'vars']);
+        $transproter = $this->mockMailTransporter();
+        $transproter->expects($this->exactly(2))->method('send');
+        // cc mail
+        $transproter
+            ->expects($this->at(0))
+            ->method('send')
+            ->with($this->callback(function (Email $email) {
+                $this->assertEquals($email->from(),
+                    ['system@example.com' => 'macnemo']);
+                $this->assertEquals($email->to(),
+                    ['fo3@example.com' => 'fo3@example.com']);
+                $this->assertEmpty($email->sender());
 
-			//# test cc email
-			$headers = $result['email']['headers'];
-			$this->assertContains('From: macnemo <system@example.com>', $headers);
-			// empty space from Cake implementation and missing name
-			$this->assertContains('To:  <fo3@example.com>', $headers);
-			$this->assertNotContains('Sender:', $headers);
-		}
+                return true;
+            }));
+        // main mail
+        $transproter
+            ->expects($this->at(1))
+            ->method('send')
+            ->with($this->callback(function (Email $email) {
+                $this->assertEquals($email->from(),
+                    ['fo3@example.com' => 'fo3@example.com']);
+                $this->assertEquals($email->to(),
+                    ['contact@example.com' => 'macnemo']);
+                $this->assertEquals($email->sender(),
+                    ['system@example.com' => 'macnemo']);
 
-		/**
-		 * tests anonymous users views contact form to owner
-		 */
-		public function testContactOwnerByAnonShowForm() {
-			$result = $this->testAction(
-				'/contacts/owner',
-				['method' => 'GET', 'return' => 'view']
-			);
+                return true;
+            }));
+        $this->post('/contacts/owner', $data);
+    }
 
-			//# anon users must enter his email address
-			// keep matcher in sync with testContactOwnerByUserShowForm
-			$matcher = [
-				'tag' => 'input',
-				'id' => 'MessageSenderContact'
-			];
-			$this->assertTag($matcher, $result);
-		}
+    /**
+     * tests anonymous users views contact form to owner
+     */
+    public function testContactOwnerByAnonShowForm()
+    {
+        $this->get('/contacts/owner');
 
-		/**
-		 * tests anonymous sends contact form to owner with invalid email-address
-		 */
-		public function testContactOwnerByAnonSendInvalidEmail() {
-			$data = [
-				'Message' => [
-					'sender_contact' => '',
-					'subject' => 'Subject',
-					'text' => 'text',
-				]
-			];
-			$Users = $this->generate(
-				'Contacts',
-				['components' => ['SaitoEmail' => ['email']]]
-			);
+        //# anon users must enter his email address
+        // keep matcher in sync with testContactOwnerByUserShowForm
+        $tags = [
+            'input#sender-contact' => [
+                'attributes' => [
+                    'type' => 'email'
+                ]
+            ]
+        ];
+        $this->assertResponseContainsTags($tags);
+    }
 
-			$Users->SaitoEmail->expects($this->never())->method('email');
+    /**
+     * tests registered users views contact form to owner
+     */
+    public function testContactOwnerByUserShowForm()
+    {
+        $this->_loginUser(3);
+        $this->get('/contacts/owner');
 
-			$result = $this->testAction(
-				'/contacts/owner',
-				['data' => $data, 'method' => 'POST', 'return' => 'contents']
-			);
+        // keep matcher in sync with testContactOwnerByAnonShowForm
+        $this->assertResponseNotContains('sender-contact');
+    }
 
-			$this->assertContains(
-				'"type":"error","channel":"form","element":"#MessageSenderContact"',
-				$result
-			);
-		}
+    /**
+     * tests anonymous sends contact form to owner with invalid email-address
+     */
+    public function testContactOwnerByAnonSendInvalidEmail()
+    {
+        $this->mockSecurity();
+        $data = [
+            'sender_contact' => 'foo',
+            'subject' => 'Subject',
+            'text' => 'text',
+        ];
+        $transproter = $this->mockMailTransporter();
+        $transproter->expects($this->never())->method('send');
 
-		/**
-		 * tests anonymous user successfully sends contact form to owner
-		 */
-		public function testContactOwnerByAnonSendSuccess() {
-			$data = [
-				'Message' => [
-					'sender_contact' => 'fo3@example.com',
-					'subject' => 'subject',
-					'text' => 'text',
-				]
-			];
+        $this->post('/contacts/owner', $data);
 
-			$result = $this->testAction(
-				'/contacts/owner',
-				['data' => $data, 'method' => 'POST', 'return' => 'vars']
-			);
+        $expected = 'No valid email address.';
+        $this->assertResponseContains($expected);
+    }
 
-			// redirect after successful sending
-			$this->assertRedirectedTo();
+    /**
+     * tests anonymous user successfully sends contact form to owner
+     */
+    public function testContactOwnerByAnonSendSuccess()
+    {
+        $this->mockSecurity();
+        $transproter = $this->mockMailTransporter();
 
-			//# test registration email
-			$headers = $result['email']['headers'];
-			// empty space from Cake implementation and missing name
-			$this->assertContains('From:  <fo3@example.com>', $headers);
-			$this->assertContains('To: contact@example.com', $headers);
-			$this->assertContains('Sender: macnemo <system@example.com>', $headers);
-		}
+        $transproter->expects($this->once())->method('send');
+        $transproter
+            ->expects($this->at(0))
+            ->method('send')
+            ->with($this->callback(function (Email $email) {
+                $this->assertEquals($email->from(),
+                    ['fo3@example.com' => 'fo3@example.com']);
+                $this->assertEquals($email->to(),
+                    ['contact@example.com' => 'macnemo']);
+                $this->assertEquals($email->sender(),
+                    ['system@example.com' => 'macnemo']);
+                $this->assertContains('message-text', $email->message('text'));
+                $this->assertEquals($email->subject(), 'subject');
 
-		/**
-		 * tests registered users views contact form to owner
-		 */
-		public function testContactOwnerByUserShowForm() {
-			$this->generate('Contacts');
-			$this->_loginUser(3);
-			$result = $this->testAction(
-				'/contacts/owner',
-				['method' => 'GET', 'return' => 'view']
-			);
+                return true;
+            }));
 
-			//# registered user doesn't provide a email address
-			// keep matcher in sync with testContactOwnerByUserShowForm
-			$matcher = [
-				'tag' => 'input',
-				'id' => 'MessageSenderContact'
-			];
-			$this->assertNotTag($matcher, $result);
-		}
+        $data = [
+            'sender_contact' => 'fo3@example.com',
+            'subject' => 'subject',
+            'text' => 'message-text',
+        ];
+        $this->post('/contacts/owner', $data);
 
-		/**
-		 * tests registered user sends contact form to owner
-		 */
-		public function testContactOwnerByUserSend() {
-			$this->generate('Contacts');
-			$this->_loginUser(3);
-			$data = [
-				'Message' => [
-					// should be ignored
-					'sender_contact' => 'fo3@example.com',
-					'subject' => 'subject',
-					'text' => 'text',
-				]
-			];
+        $this->assertRedirect('/');
+    }
 
-			$result = $this->testAction(
-				'/contacts/owner',
-				['data' => $data, 'method' => 'POST', 'return' => 'vars']
-			);
+    /**
+     * tests registered user sends contact form to owner
+     */
+    public function testContactOwnerByUserSend()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(3);
 
-			// redirect after successful sending
-			$this->assertRedirectedTo();
+        $transproter = $this->mockMailTransporter();
+        $transproter->expects($this->once())->method('send');
+        $transproter
+            ->expects($this->at(0))
+            ->method('send')
+            ->with($this->callback(function (Email $email) {
+                $this->assertEquals($email->from(),
+                    ['ulysses@example.com' => 'Ulysses']);
+                $this->assertEquals($email->to(),
+                    ['contact@example.com' => 'macnemo']);
+                $this->assertEquals($email->sender(),
+                    ['system@example.com' => 'macnemo']);
 
-			//# test registration email
-			$headers = $result['email']['headers'];
-			// empty space from Cake implementation and missing name
-			$this->assertContains('From: Ulysses <ulysses@example.com>', $headers);
-			$this->assertContains('To: contact@example.com', $headers);
-			$this->assertContains('Sender: macnemo <system@example.com>', $headers);
-		}
+                return true;
+            }));
 
-		public function testContactUserByAnon() {
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/contacts/user/3');
-		}
+        $data = [
+            // should be ignored
+            'sender_contact' => 'fo3@example.com',
+            'subject' => 'subject',
+            'text' => 'text',
+        ];
+        $this->post('/contacts/owner', $data);
 
-		public function testContactUserByUserNoId() {
-			$this->generate('Contacts');
-			$this->_loginUser(3);
-			$this->setExpectedException('BadRequestException');
-			$this->testAction('/contacts/user/');
-		}
+        $this->assertRedirect('/');
+    }
 
-		public function testContactNoSubject() {
-			$data = array(
-				'Message' => [
-					'sender_contact' => 'fo3@example.com',
-					'subject' => '',
-					'text' => 'text',
-				]
-			);
-			$Users = $this->generate('Contacts',
-				['components' => ['SaitoEmail' => ['email']]]);
-			$Users->SaitoEmail->expects($this->never())->method('email');
-			$result = $this->testAction('/contact/owner/',
-				['data' => $data, 'method' => 'post', 'return' => 'contents']);
-			$this->assertContains(
-				'"type":"error","channel":"form","element":"#MessageSubject"',
-				$result
-			);
-		}
+    public function testContactUserByAnon()
+    {
+        $this->get('/contacts/user/3');
+        $this->assertRedirect('/login');
+    }
 
-		/**
-		 * tests contacting user with contacting disabled fails
-		 */
-		public function testContactUserContactDisabled() {
-			$this->generate('Contacts');
-			$this->_loginUser(2);
+    public function testContactUserByUserNoId()
+    {
+        $this->_loginUser(3);
+        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->get('/contacts/user/');
+    }
 
-			$this->setExpectedException('InvalidArgumentException');
-			$this->testAction('/contacts/user/5');
-		}
+    public function testContactNoSubject()
+    {
+        $this->mockSecurity();
+        $transporter = $this->mockMailTransporter();
+        $transporter->expects($this->never())->method('email');
+        $data = [
+            'sender_contact' => 'fo3@example.com',
+            'subject' => '',
+            'text' => 'text',
+        ];
+        $this->post('/contacts/owner/', $data);
+        $this->assertResponseContains('Error: Subject is empty.');
+    }
 
-		public function testContactUserWhoDoesNotExist() {
-			$this->generate('Contacts');
-			$this->_loginUser(2);
+    /**
+     * tests contacting user with contacting disabled fails
+     */
+    public function testContactUserContactDisabled()
+    {
+        $this->_loginUser(2);
+        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->get('/contacts/user/5');
+    }
 
-			$this->setExpectedException('InvalidArgumentException');
-			$this->testAction('/contacts/user/9999');
-		}
+    public function testContactUserWhoDoesNotExist()
+    {
+        $this->_loginUser(2);
+        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->get('/contacts/user/9999');
+    }
 
-	}
+}

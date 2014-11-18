@@ -1,0 +1,54 @@
+.panel {
+  padding: $padding;
+}
+
+.panel-heading {
+  margin: 0 0 $padding;
+
+  &.pageTitle {
+    // theme shows heading layout navbar
+    display: none;
+  }
+
+  h1, h2 {
+    @extend .pageHeading;
+  }
+}
+
+.panel-content {
+}
+
+.panel-footer {
+  padding: $padding 0;
+
+  &.panel-form {
+    margin-top: 2*$padding;
+    padding: 0.3*$padding $padding;
+  }
+}
+
+.panel-form {
+  background: $form-background-color;
+  padding: $padding $padding;
+}
+
+.panel-footer-form-btn {
+  margin-right: 1em;
+}
+
+.panel-info {
+  @extend .panel-form;
+  font-size: $font-size-small;
+  padding: $padding;
+  background: $form-background-color;
+}
+
+.panel-inf {
+
+  button, a {
+    padding: 0.2em 0.5em;
+    display: block;
+    white-space: nowrap;
+  }
+}
+

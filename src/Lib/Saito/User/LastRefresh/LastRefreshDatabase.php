@@ -31,12 +31,14 @@
 		}
 
 		protected function _set() {
-			$this->_CurrentUser->_User->setLastRefresh($this->_timestamp);
+			$userId = $this->_CurrentUser->getId();
+			$this->_CurrentUser->_User->setLastRefresh($userId, $this->_timestamp);
 			$this->_CurrentUser['last_refresh'] = $this->_timestamp;
 		}
 
 		public function setMarker() {
-			$this->_CurrentUser->_User->setLastRefresh();
+			$userId = $this->_CurrentUser->getId();
+			$this->_CurrentUser->_User->setLastRefresh($userId);
 		}
 
 		protected function _parseTimestamp($timestamp) {

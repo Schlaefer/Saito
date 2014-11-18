@@ -1,76 +1,81 @@
 <?php
 
-	use Saito\SimpleSearchString;
+namespace Saito\Test;
 
-	class SimpleSearchStringTest extends CakeTestCase {
+use Saito\SimpleSearchString;
 
-		public function testReplaceOperators() {
-			$length = 4;
-			$in = 'zap -foo-bar baz';
-			$S = new SimpleSearchString($in, $length);
+class SimpleSearchStringTest extends SaitoTestCase
+{
 
-			$result = $S->replaceOperators();
-			$expected = '+zap -"foo-bar" +baz';
-			$this->assertEquals($expected, $result);
+    public function testReplaceOperators()
+    {
+        $length = 4;
+        $in = 'zap -foo-bar baz';
+        $S = new SimpleSearchString($in, $length);
 
-			$in = 'zap "foo-bar" baz';
-			$S->setString($in);
-			$result = $S->replaceOperators();
-			$expected = '+zap +"foo-bar" +baz';
-			$this->assertEquals($expected, $result);
-		}
+        $result = $S->replaceOperators();
+        $expected = '+zap -"foo-bar" +baz';
+        $this->assertEquals($expected, $result);
 
-		public function testValidateMinWordLength() {
-			$length = 4;
-			$in = '+test -fooo';
-			$S = new SimpleSearchString($in, $length);
-			$result = $S->validateLength();
-			$this->assertTrue($result);
+        $in = 'zap "foo-bar" baz';
+        $S->setString($in);
+        $result = $S->replaceOperators();
+        $expected = '+zap +"foo-bar" +baz';
+        $this->assertEquals($expected, $result);
+    }
 
-			$in = '+tes -foo';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertFalse($result);
+    public function testValidateMinWordLength()
+    {
+        $length = 4;
+        $in = '+test -fooo';
+        $S = new SimpleSearchString($in, $length);
+        $result = $S->validateLength();
+        $this->assertTrue($result);
 
-			$in = 'test +foo';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertFalse($result);
+        $in = '+tes -foo';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertFalse($result);
 
-			$in = 'wm-foo';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertTrue($result);
+        $in = 'test +foo';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertFalse($result);
 
-			$in = 'w-m';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertFalse($result);
+        $in = 'wm-foo';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertTrue($result);
 
-			$in = 'wmf';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertFalse($result);
+        $in = 'w-m';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertFalse($result);
 
-			$in = '';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertFalse($result);
+        $in = 'wmf';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertFalse($result);
 
-			$in = 'wm foo';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertFalse($result);
+        $in = '';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertFalse($result);
 
-			$in = '"wm foo';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertFalse($result);
+        $in = 'wm foo';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertFalse($result);
 
-			$in = '"wm foo"';
-			$S->setString($in);
-			$result = $S->validateLength();
-			$this->assertTrue($result);
-		}
+        $in = '"wm foo';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertFalse($result);
 
-	}
+        $in = '"wm foo"';
+        $S->setString($in);
+        $result = $S->validateLength();
+        $this->assertTrue($result);
+    }
+
+}

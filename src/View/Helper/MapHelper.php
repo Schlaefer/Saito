@@ -1,6 +1,9 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
+
+	use App\Model\Entity\User;
+	use Cake\Core\Configure;
 
 	class MapHelper extends AppHelper {
 
@@ -32,18 +35,18 @@
 							'../dist/leaflet/leaflet.css',
 							'../dist/leaflet/MarkerCluster.Default.css'
 					],
-					['inline' => false]);
+					['block' => true]);
 			$this->Html->script([
 							'../dist/leaflet/leaflet.js',
 							'../dist/leaflet/leaflet.markercluster.js',
-							'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key=' . $this->_apiKey,
-							'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-geocoding.js?key=' . $this->_apiKey
+							'//open.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key=' . $this->_apiKey,
+							'//open.mapquestapi.com/sdk/leaflet/v1.0/mq-geocoding.js?key=' . $this->_apiKey
 					],
-					['inline' => false, 'block' => 'script-head']);
+					['block' => 'script-head']);
 			$this->_assetsIncluded = true;
 		}
 
-		public function map(array $users = [], array $options = []) {
+		public function map($users, array $options = []) {
 			$this->_includeAssets();
 			// generate options
 			$defaults = [
@@ -56,7 +59,7 @@
 			foreach ($defaults as $key => $default) {
 				if (isset($options[$key])) {
 					if (is_array($options[$key])) {
-						$options[$key] = am($default, $options[$key]);
+						$options[$key] = array_merge($default, $options[$key]);
 					}
 				} else {
 					$options[$key] = $default;
@@ -64,7 +67,7 @@
 			}
 
 			// show single user
-			if (isset($users['User'])) {
+			if ($users instanceof User) {
 				if ($options['type'] === 'world') {
 					$options['type'] = 'single';
 				}
@@ -72,29 +75,30 @@
 			}
 			$edit = $options['type'] === 'edit';
 
+			$usersForMap = [];
 			foreach ($users as $key => $user) {
 				// @performance
 				// filter out every field except the place fields
-				$users[$key] = [
-						'id' => (int)$user['User']['id'],
-						'name' => $user['User']['username'],
-						'lat' => (float)$user['User']['user_place_lat'],
-						'lng' => (float)$user['User']['user_place_lng']
+				$usersForMap[$key] = [
+					'id' => (int)$user->get('id'),
+					'name' => $user->get('username'),
+					'lat' => (float)$user->get('user_place_lat'),
+					'lng' => (float)$user->get('user_place_lng')
 				];
 				if ($edit) {
-					$users[$key]['zoom'] = (int)$user['User']['user_place_zoom'];
+					$usersForMap[$key]['zoom'] = (int)$user->get('user_place_zoom');
 				} else {
 					// add simple jitter
 					$rand = 0; //  rand(-9,9) / pow(10, $this->_precision + 1);
-					$users[$key]['lat'] = round($users[$key]['lat'],
+					$usersForMap[$key]['lat'] = round($usersForMap[$key]['lat'],
 									$this->_precision) + $rand;
-					$users[$key]['lng'] = round($users[$key]['lng'],
+					$usersForMap[$key]['lng'] = round($usersForMap[$key]['lng'],
 									$this->_precision) + $rand;
 				}
 			}
 
 			$options['div'] += [
-					'data-users' => json_encode($users),
+					'data-users' => json_encode($usersForMap),
 					'data-params' => json_encode([
 							'type' => $options['type'],
 							'fields' => $options['fields']

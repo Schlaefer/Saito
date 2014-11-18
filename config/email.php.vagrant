@@ -1,12 +1,20 @@
 <?php
+return [
+    'Email' => [
+        'saito' => [
+            'transport' => 'saito',
+        ],
+    ],
 
-	class EmailConfig {
+    'EmailTransport' => [
+        'saito' => [
+            // Smpt MailCatcher
+            'className' => 'Smtp',
+            'host' => 'saito.dev',
+            // 'host' => '127.0.0.1',
+            'port' => 1025,
+        ],
+    ],
 
-    // MailCatcher config
-		public $saito = array(
-				'transport' => 'smtp',
-				'host' => '127.0.0.1',
-				'port' => '1025'
-		);
+];
 
-	}

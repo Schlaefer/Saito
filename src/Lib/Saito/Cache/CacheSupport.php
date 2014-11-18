@@ -2,10 +2,13 @@
 
 	namespace Saito\Cache;
 
-	\App::uses('CakeEvent', 'Event');
-	\App::uses('CakeEventListener', 'Event');
+	use Cake\Cache\Cache;
+	use Cake\Event\EventListenerInterface;
+	use Cake\Event\EventManager;
+	use Saito\Event\SaitoEventListener;
+	use Saito\Event\SaitoEventManager;
 
-	class CacheSupport extends \Object implements \CakeEventListener {
+	class CacheSupport implements EventListenerInterface {
 
 		protected $_Caches = [];
 
@@ -19,12 +22,16 @@
 			'SaitoCacheSupportCachelet',
 		];
 
+        protected $metaKeys = [
+            'Thread' => ['EntriesCache', 'LineCache']
+        ];
+
 		public function __construct() {
 			foreach ($this->_buildInCaches as $_name) {
 				$name = 'Saito\Cache\\' . $_name;
 				$this->add(new $name);
 			}
-			\CakeEventManager::instance()->attach($this);
+			EventManager::instance()->attach($this);
 		}
 
 		public function implementedEvents() {
@@ -50,6 +57,9 @@
 		 * @param null $id
 		 */
 		public function clear($cache = null, $id = null) {
+            if (is_string($cache) && isset($this->metaKeys[$cache])) {
+                $cache = $this->metaKeys[$cache];
+            }
 			if (is_array($cache)) {
 				foreach ($cache as $_c) {
 					$this->clear($_c, $id);
@@ -89,8 +99,8 @@
 	class SaitoCacheSupportCachelet extends CacheSupportCachelet {
 
 		public function clear($id = null) {
-			\Cache::clear(false, 'default');
-			\Cache::clear(false, 'short');
+			Cache::clear(false, 'default');
+			Cache::clear(false, 'short');
 		}
 
 	}
@@ -122,21 +132,25 @@
 		protected $_title = 'Cake';
 
 		public function clear($id = null) {
-			\Cache::clearGroup('persistent');
-			\Cache::clearGroup('models');
-			\Cache::clearGroup('views');
+			Cache::clearGroup('persistent');
+			Cache::clearGroup('models');
+			Cache::clearGroup('views');
 		}
 
 	}
 
-	class EntriesCacheSupportCachelet extends CacheSupportCachelet implements \CakeEventListener {
+	class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
+		EventListenerInterface,
+		SaitoEventListener {
 
+        // only rename if you rename event cmds triggering this cache
 		protected $_title = 'EntriesCache';
 
 		protected $_CacheTree;
 
 		public function __construct() {
-			\CakeEventManager::instance()->attach($this);
+			EventManager::instance()->attach($this);
+			SaitoEventManager::getInstance()->attach($this);
 		}
 
 		public function implementedEvents() {
@@ -145,6 +159,16 @@
 				'Model.Entry.replyToEntry' => 'onEntryChanged',
 				'Model.Entry.update' => 'onEntryChanged'
 			];
+		}
+
+		public function implementedSaitoEvents() {
+			return [
+				'Model.Saito.Posting.delete' => 'onDelete'
+			];
+		}
+
+		public function onDelete($event) {
+			$this->clear();
 		}
 
 		public function onThreadChanged($event) {
@@ -160,7 +184,7 @@
 		}
 
 		public function clear($id = null) {
-			\Cache::clearGroup('entries', 'entries');
+			Cache::clearGroup('entries', 'entries');
 		}
 
 	}

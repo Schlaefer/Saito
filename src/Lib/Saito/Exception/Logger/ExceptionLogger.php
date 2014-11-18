@@ -1,143 +1,158 @@
 <?php
 
-	namespace Saito\Exception\Logger;
+namespace Saito\Exception\Logger;
 
-	\App::uses('CakeLog', 'Log');
+use App\Controller\Component\CurrentUserComponent;
+use Cake\Log\Log;
+use Cake\Routing\Router;
 
-	class ExceptionLogger {
+class ExceptionLogger
+{
 
-		private $__lines = [];
+    private $__lines = [];
 
-		/**
-		 * @param null $message
-		 * @param null $data
-		 * - `msgs` array with additional message-lines
-		 * @throws \InvalidArgumentException
-		 */
-		public function write($message, $data = null) {
-			//# process message(s)
-			$msgs = [$message];
-			if (isset($data['msgs'])) {
-				$msgs = array_merge($msgs, $data['msgs']);
-			}
-			// prepend main message in front of metadata added by subclasses
-			foreach (array_reverse($msgs) as $key => $msg) {
-				$this->_add($msg, $key, true);
-			}
+    /**
+     * @param null $message
+     * @param null $data
+     * - `msgs` array with additional message-lines
+     * @throws \InvalidArgumentException
+     */
+    public function write($message, $data = null)
+    {
+        //# process message(s)
+        $msgs = [$message];
+        if (isset($data['msgs'])) {
+            $msgs = array_merge($msgs, $data['msgs']);
+        }
+        // prepend main message in front of metadata added by subclasses
+        foreach (array_reverse($msgs) as $key => $msg) {
+            $this->_add($msg, $key, true);
+        }
 
-			//# add exception data
-			if (isset($data['e'])) {
-				/** @var $Exception \Exception */
-				$Exception = $data['e'];
-				unset($data['e']);
-				$message = $Exception->getMessage();
-				if (!empty($message)) {
-					$this->_add($message);
-				}
-			}
+        //# add exception data
+        if (isset($data['e'])) {
+            /** @var $Exception \Exception */
+            $Exception = $data['e'];
+            unset($data['e']);
+            $message = $Exception->getMessage();
+            if (!empty($message)) {
+                $this->_add($message);
+            }
+        }
 
-			//# add request data
-			$request = (php_sapi_name() !== 'cli') ? \Router::getRequest() : false;
+        //# add request data
+        $request = (php_sapi_name() !== 'cli') ? Router::getRequest() : false;
 
-			$url = false;
-			if (isset($data['URL'])) {
-				$url = $data['URL'];
-			} elseif ($request) {
-				$url = $request->here();
-			}
+        $url = false;
+        if (isset($data['URL'])) {
+            $url = $data['URL'];
+        } elseif ($request) {
+            $url = $request->here();
+        }
 
-			$requestMethod = $request ? $request->method() : false;
-			if ($url && $requestMethod) {
-				$url .= ' ' . $requestMethod;
-			}
-			if ($url) {
-				$this->_add($url, 'Request URL');
-			}
+        $requestMethod = $request ? $request->method() : false;
+        if ($url && $requestMethod) {
+            $url .= ' ' . $requestMethod;
+        }
+        if ($url) {
+            $this->_add($url, 'Request URL');
+        }
 
-			$this->_addUser($data);
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $this->_add($_SERVER['HTTP_USER_AGENT'], 'User-Agent');
+        }
 
-			if (!empty($request->data)) {
-				$this->_add($this->_filterData($request->data), 'Data');
-			}
+        $this->_addUser($data);
 
-			$this->_write();
-		}
+        if (!empty($request->data)) {
+            $this->_add($this->_filterData($request->data), 'Data');
+        }
 
-		/**
-		 * adds data about current user to log entry
-		 *
-		 * @param $data
-		 * @throws \InvalidArgumentException
-		 */
-		protected function _addUser($data) {
-			if (!isset($data['CurrentUser'])) {
-				return;
-			}
-			$CurrentUser = $data['CurrentUser'];
-			if (!is_a($data['CurrentUser'], 'CurrentUserComponent')) {
-				throw new \InvalidArgumentException;
-			}
-			if ($CurrentUser->isLoggedIn()) {
-				$username = "{$CurrentUser['username']} (id: {$CurrentUser['id']})";
-			} else {
-				$username = 'anonymous';
-			}
-			$this->_add($username, 'Current user');
-		}
+        $this->_write();
+    }
 
-		/**
-		 * Filters request-data which should not be in server logs
-		 *
-		 * esp. cleartext passwords in $_POST data
-		 *
-		 * @param $data
-		 * @return array
-		 */
-		protected function _filterData($data) {
-			if (!is_array($data)) {
-				return $data;
-			}
-			foreach ($data as $key => $datum) {
-				if (is_array($datum)) {
-					$data[$key] = $this->_filterData($datum);
-					continue;
-				}
+    /**
+     * adds data about current user to log entry
+     *
+     * @param $data
+     * @throws \InvalidArgumentException
+     */
+    protected function _addUser($data)
+    {
+        if (!isset($data['CurrentUser'])) {
+            return;
+        }
+        if (!($data['CurrentUser'] instanceof CurrentUserComponent)) {
+            throw new \InvalidArgumentException;
+        }
+        $CurrentUser = $data['CurrentUser'];
+        if ($CurrentUser->isLoggedIn()) {
+            $username = "{$CurrentUser['username']} (id: {$CurrentUser['id']})";
+        } else {
+            $username = 'anonymous';
+        }
+        $this->_add($username, 'Current user');
+    }
 
-				if (stripos($key, 'password') !== false) {
-					$data[$key] = '***********';
-				}
-			}
-			return $data;
-		}
+    /**
+     * Filters request-data which should not be in server logs
+     *
+     * esp. cleartext passwords in $_POST data
+     *
+     * @param $data
+     * @return array
+     */
+    protected function _filterData($data)
+    {
+        if (!is_array($data)) {
+            return $data;
+        }
+        foreach ($data as $key => $datum) {
+            if (is_array($datum)) {
+                $data[$key] = $this->_filterData($datum);
+                continue;
+            }
 
-		protected function _write() {
-			\CakeLog::write('saito.error', $this->_message());
-		}
+            if (stripos($key, 'password') !== false) {
+                $data[$key] = '***********';
+            }
+        }
 
-		protected function _message() {
-			$message = [];
-			$i = 1;
-			foreach ($this->__lines as $line) {
-				$message[] = sprintf("  #%d %s", $i, $line);
-				$i++;
-			}
-			return "\n" . implode("\n", $message);
-		}
+        return $data;
+    }
 
-		protected function _add($val, $key = null, $prepend = false) {
-			if (is_array($val)) {
-				$val = print_r($this->_filterData($val), true);
-			}
-			if (is_string($key)) {
-				$val = "$key: $val";
-			}
+    protected function _write()
+    {
+        Log::write('error', $this->_message(), ['scope' => ['saito.error']]);
+    }
 
-			if ($prepend) {
-				array_unshift($this->__lines, $val);
-			} else {
-				$this->__lines[] = $val;
-			}
-		}
+    protected function _message()
+    {
+        $message = [];
+        $i = 1;
+        foreach ($this->__lines as $line) {
+            $message[] = sprintf("  #%d %s", $i, $line);
+            $i++;
+        }
 
-	}
+        return "\n" . implode("\n", $message);
+    }
+
+    protected function _add($val, $key = null, $prepend = false)
+    {
+        if (is_array($val)) {
+            $val = print_r($this->_filterData($val), true);
+        }
+        if (is_string($key)) {
+            $val = "$key: $val";
+        }
+
+        if ($prepend) {
+            array_unshift($this->__lines, $val);
+        } else {
+            $this->__lines[] = $val;
+        }
+    }
+
+}
 

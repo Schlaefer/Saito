@@ -1,10 +1,11 @@
 <?php
 
-	App::uses('Component', 'Controller');
-	App::uses('CakeEvent', 'Event');
-	App::uses('CakeEventListener', 'Event');
+	namespace App\Lib\Controller\Component;
 
-	abstract class NotificationComponent extends Component implements CakeEventListener {
+	use Cake\Controller\Component;
+	use Cake\Event\EventListenerInterface;
+
+	abstract class NotificationComponent extends Component implements EventListenerInterface {
 
 		protected $_Controller;
 

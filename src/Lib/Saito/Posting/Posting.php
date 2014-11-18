@@ -2,9 +2,15 @@
 
 	namespace Saito\Posting;
 
-	class Posting implements PostingInterface {
+	use Saito\Posting\Decorator\PostingTrait;
+	use Saito\Posting\Decorator\UserPostingTrait;
+    use Saito\User\RemovedSaitoUser;
+    use Saito\User\SaitoUser;
 
-		use Decorator\UserPostingTrait;
+    class Posting implements PostingInterface {
+
+		use UserPostingTrait;
+		use PostingTrait;
 
 		const ALIAS = 'Entry';
 
@@ -17,14 +23,23 @@
 		protected $_Thread;
 
 		public function __construct(\Saito\User\ForumsUserInterface $CurrentUser, $rawData, array $options = [], $tree = null) {
-			$this->_rawData = $rawData;
-			$this->_rawData[self::ALIAS]['id'] = (int)$this->_rawData[self::ALIAS]['id'];
-			if (isset($this->_rawData[self::ALIAS]['pid'])) {
-				$this->_rawData[self::ALIAS]['pid'] = (int)$this->_rawData[self::ALIAS]['pid'];
+			// @todo 3.0 remove array layer
+			$this->_rawData[self::ALIAS] = $rawData;
+			if (isset($rawData['_children'])) {
+				$this->_rawData['_children'] = $rawData['_children'];
 			}
-			if (isset($this->_rawData[self::ALIAS]['tid'])) {
-				$this->_rawData[self::ALIAS]['tid'] = (int)$this->_rawData[self::ALIAS]['tid'];
+			// @todo 3.0 remove array layer
+			if (isset($rawData['category'])) {
+				$this->_rawData['Category'] = $rawData['category'];
+				$this->_rawData['User'] = $rawData['user'];
 			}
+
+            // @todo change after remove array layer above
+            if (empty($this->_rawData['User'])) {
+                $this->_rawData['User'] = new RemovedSaitoUser();
+            } else {
+                $this->_rawData['User'] = new SaitoUser($this->_rawData['User']);
+            }
 
 			$this->setCurrentUser($CurrentUser);
 
@@ -68,6 +83,17 @@
 			return $this->_children;
 		}
 
+		public function getAllChildren() {
+			$postings = [];
+			$this->map(
+				function ($node) use (&$postings) {
+					$postings[$node->get('id')] = $node;
+				},
+				false
+			);
+			return $postings;
+		}
+
 		public function getRaw() {
 			return $this->_rawData;
 		}
@@ -78,10 +104,6 @@
 
 		public function hasAnswers() {
 			return count($this->_children) > 0;
-		}
-
-		public function isLocked() {
-				return $this->get('locked') != false;
 		}
 
 		/**
@@ -97,8 +119,16 @@
 			return $this->_rawData[self::ALIAS]['fixed'] == true;
 		}
 
-		public function isRoot() {
-			return $this->_rawData[self::ALIAS]['pid'] === 0;
+		public function map(callable $callback, $mapSelf = true, $node = null) {
+			if ($node === null) {
+				$node = $this;
+			}
+			if ($mapSelf) {
+				$callback($node);
+			}
+			foreach ($node->getChildren() as $child) {
+				$this->map($callback, true, $child);
+			}
 		}
 
 		public function addDecorator($fct) {

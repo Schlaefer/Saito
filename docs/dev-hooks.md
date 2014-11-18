@@ -34,6 +34,15 @@ Data:
 
 - subject: View object
 
+## Model.Saito.Posting.delete ##
+
+Trigger: after a posting was deleted
+
+Data:
+
+- subject: Posting
+- table: Table
+
 ## Request.Saito.View.Admin.plugins ##
 
 Trigger: plugins for admin area
@@ -41,6 +50,17 @@ Trigger: plugins for admin area
 Returns: array
 - 'title' title
 - 'url' URL to plugin page, should be under '/admin/plugin'
+
+## Request.Saito.View.MainMenu.navItem ##
+
+Trigger: additional main navigation items
+
+Data:
+- 'View'
+
+Returns: array
+- 'title': URL-title special chars encoded
+- 'url'
 
 ## Request.Saito.View.Posting.badges ##
 

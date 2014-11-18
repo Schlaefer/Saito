@@ -17,7 +17,7 @@
  *    @version    2010-07-18
  * 		@td make plugin, fork from http://bakery.cakephp.org/articles/view/helper-for-farbtastic-jquery-color-picker to githup
  */
-class FarbtasticHelper extends Helper  {
+class FarbtasticHelper extends AppHelper  {
 
     public $helpers = ['Form', 'Html'];
 

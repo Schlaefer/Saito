@@ -13,10 +13,7 @@ define([
     className: 'threadBox',
 
     events: {
-      "click .btn-threadCollapse": "collapseThread",
-      "click .js-btn-openAllThreadlines": "openAllThreadlines",
-      "click .js-btn-closeAllThreadlines": "closeAllThreadlines",
-      "click .js-btn-showAllNewThreadlines": "showAllNewThreadlines"
+      'click .btn-threadCollapse': 'collapseThread'
     },
 
     initialize: function(options) {
@@ -61,57 +58,6 @@ define([
       } else {
         existingSubthread.append($el);
       }
-    },
-
-    /**
-     * Opens all threadlines
-     */
-    openAllThreadlines: function(event) {
-      event.preventDefault();
-      _.each(
-          this.model.threadlines.where({
-            isInlineOpened: false
-          }), function(model) {
-            model.set({
-              isInlineOpened: true,
-              shouldScrollOnInlineOpen: false
-            });
-          }, this);
-
-    },
-
-    /**
-     * Closes all threadlines
-     */
-    closeAllThreadlines: function(event) {
-      if (event) {
-        event.preventDefault();
-      }
-      _.each(
-          this.model.threadlines.where({
-            isInlineOpened: true
-          }), function(model) {
-            model.set({
-              isInlineOpened: false
-            });
-          }, this);
-    },
-
-    /**
-     * Toggles all threads marked as unread/new in a thread tree
-     */
-    showAllNewThreadlines: function(event) {
-      event.preventDefault();
-      _.each(
-          this.model.threadlines.where({
-            isInlineOpened: false,
-            isNewToUser: true
-          }), function(model) {
-            model.set({
-              isInlineOpened: true,
-              shouldScrollOnInlineOpen: false
-            });
-          }, this);
     },
 
     _hideCollapseButton: function() {

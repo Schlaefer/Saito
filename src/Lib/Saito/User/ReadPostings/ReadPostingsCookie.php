@@ -1,81 +1,93 @@
 <?php
 
-	namespace Saito\User\ReadPostings;
+namespace Saito\User\ReadPostings;
 
-	/**
-	 * Handles read posting by a client side cookie. Used for non logged-in users.
-	 */
-	class ReadPostingsCookie extends ReadPostingsAbstract {
+use App\Controller\Component\CurrentUserComponent;
+use Saito\User\Cookie\Storage;
 
-		/**
-		 * Max number of postings in cookie
-		 */
-		protected $_maxPostings = 240;
+/**
+ * Handles read posting by a client side cookie. Used for non logged-in
+ * users.
+ */
+class ReadPostingsCookie extends ReadPostingsAbstract
+{
 
-		protected $_Cookie;
+    protected $cookieConfig = ['encryption' => false];
 
-		public function __construct(\CurrentUserComponent $CurrentUser) {
-			parent::__construct($CurrentUser);
-			$this->_Cookie = new \Saito\User\Cookie\Storage(
-				$this->_CurrentUser->Cookie,
-				'Read'
-			);
-		}
+    /**
+     * Max number of postings in cookie
+     */
+    protected $maxPostings = 240;
 
-		public function set($entries) {
-			$entries = $this->_preparePostings($entries);
-			if (empty($entries)) {
-				return;
-			}
+    protected $Cookie;
 
-			$entries = array_fill_keys($entries, 1);
-			$new = $this->_get() + $entries;
-			if (empty($new)) {
-				return;
-			}
-			$this->_readPostings = $new;
+    public function __construct(
+        CurrentUserComponent $CurrentUser,
+        Storage $storage
+    ) {
+        parent::__construct($CurrentUser);
+        $this->Cookie = $storage;
+        $this->Cookie->setConfig($this->cookieConfig);
+    }
 
-			$this->_gc();
+    public function set($entries)
+    {
+        $entries = $this->prepareForSave($entries);
+        if (empty($entries)) {
+            return;
+        }
 
-			// make simple string and don't encrypt it to keep cookie small enough
-			// to fit $this->_maxPostings into 4 kB
-			$data = implode('.', array_keys($this->_readPostings));
-			$this->_Cookie->encrypt = false;
-			$this->_Cookie->write($data);
-		}
+        $entries = array_fill_keys($entries, 1);
+        $new = $this->get() + $entries;
+        if (empty($new)) {
+            return;
+        }
+        $this->readPostings = $new;
 
-		public function delete() {
-			$this->_Cookie->delete();
-		}
+        $this->_gc();
 
-		/**
-		 * limits the number of postings saved in cookie
-		 *
-		 * cookie size should not exceed 4 kB
-		 */
-		protected function _gc() {
-			$overhead = count($this->_readPostings) - $this->_maxPostings;
-			if ($overhead < 0) {
-				return;
-			}
-			ksort($this->_readPostings);
-			$this->_readPostings = array_slice($this->_readPostings, $overhead, null, true);
-		}
+        // make simple string and don't encrypt it to keep cookie small enough
+        // to fit $this->_maxPostings into 4 kB
+        $data = implode('.', array_keys($this->readPostings));
+        $this->Cookie->write($data);
+    }
 
-		protected function _get() {
-			if ($this->_readPostings !== null) {
-				return $this->_readPostings;
-			}
-			$this->_readPostings = $this->_Cookie->read();
-			if (empty($this->_readPostings)
-					|| !preg_match('/^[0-9\.]*$/', $this->_readPostings)
-			) {
-				$this->_readPostings = [];
-			} else {
-				$this->_readPostings = explode('.', $this->_readPostings);
-				$this->_readPostings = array_fill_keys($this->_readPostings, 1);
-			}
-			return $this->_readPostings;
-		}
+    public function delete()
+    {
+        $this->Cookie->delete();
+    }
 
-	}
+    /**
+     * limits the number of postings saved in cookie
+     *
+     * cookie size should not exceed 4 kB
+     */
+    protected function _gc()
+    {
+        $overhead = count($this->readPostings) - $this->maxPostings;
+        if ($overhead < 0) {
+            return;
+        }
+        ksort($this->readPostings);
+        $this->readPostings = array_slice($this->readPostings, $overhead,
+            null, true);
+    }
+
+    protected function get()
+    {
+        if ($this->readPostings !== null) {
+            return $this->readPostings;
+        }
+        $this->readPostings = $this->Cookie->read();
+        if (empty($this->readPostings)
+            || !preg_match('/^[0-9\.]*$/', $this->readPostings)
+        ) {
+            $this->readPostings = [];
+        } else {
+            $this->readPostings = explode('.', $this->readPostings);
+            $this->readPostings = array_fill_keys($this->readPostings, 1);
+        }
+        return $this->readPostings;
+    }
+
+}

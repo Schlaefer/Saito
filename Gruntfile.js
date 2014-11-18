@@ -10,7 +10,7 @@ module.exports = function(grunt) {
     bower: {
       devsetup: {
         options: {
-          targetDir: './app/webroot/dev/bower_components',
+          targetDir: './webroot/dev/bower_components',
           cleanBowerDir: true,
           cleanTargetDir: true,
           layout: 'byComponent'
@@ -20,33 +20,33 @@ module.exports = function(grunt) {
     uglify: {
       release: {
         files: {
-          './app/webroot/dist/jquery.min.js': ['./app/webroot/dev/bower_components/jquery/jquery.js'],
-          './app/webroot/dist/require.min.js': ['./app/webroot/dev/bower_components/requirejs/js/require.js']
+          './webroot/dist/jquery.min.js': ['./webroot/dev/bower_components/jquery/jquery.js'],
+          './webroot/dist/require.min.js': ['./webroot/dev/bower_components/requirejs/js/require.js']
         }
       }
     },
     clean: {
       devsetup: [
         // font-awesome
-        './app/webroot/css/stylesheets/fonts/',
-        './app/webroot/css/src/partials/lib/font-awesome/'
+        './webroot/css/stylesheets/fonts/',
+        './webroot/css/src/partials/lib/font-awesome/'
       ],
-      release: ['./app/webroot/dist'],
-      releasePost: ['./app/webroot/release-tmp']
+      release: ['./webroot/dist'],
+      releasePost: ['./webroot/release-tmp']
     },
     jshint: {
-      all: ['Gruntfile.js', './app/webroot/js/**/*.js'],
+      all: ['Gruntfile.js', './webroot/js/**/*.js'],
       options: {
         ignores: [
-          './app/webroot/js/bootstrap/*.js',
-          './app/webroot/js/farbtastic/*.js',
-          './app/webroot/js/lib/**/*.js'
+          './webroot/js/bootstrap/*.js',
+          './webroot/js/farbtastic/*.js',
+          './webroot/js/lib/**/*.js'
         ]
       }
     },
     shell: {
       testCake: {
-        command: './app/Console/cake test app all --stderr',
+        command: './vendor/bin/phpunit --colors',
         options: {
           stdout: true,
           stderr: true,
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         }
       },
       testCakeStopOn: {
-        command: './app/Console/cake test app all --stderr --stop-on-error --stop-on-failure',
+        command: './vendor/bin/phpunit --colors --stop-on-error --stop-on-failure',
         options: {
           stdout: true,
           stderr: true,

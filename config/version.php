@@ -1,4 +1,8 @@
 <?php
-	Configure::write('Saito.v', '4.6.0');
-
-	Configure::write('Saito.saitoHomepage', 'http://saito.siezi.com');
+	$config = [
+		'Saito' =>
+			[
+				'v' => '5.0.0',
+				'saitoHomepage' => 'http://saito.siezi.com'
+			]
+	];

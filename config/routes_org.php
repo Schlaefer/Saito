@@ -42,9 +42,10 @@
 
 	/**
 	 * /users/login -> /login
+	 *
+	 * migrated to 3.0
 	 */
-	Router::connect('/login', ['controller' => 'users', 'action' => 'login']);
-
+//	Router::connect('/login', ['controller' => 'users', 'action' => 'login']);
 
 	/**
 	 * ...and connect the rest of 'Pages' controller's urls.
@@ -53,13 +54,17 @@
 
 	/**
 	 * Admin Route
+	 *
+	 * migrated to 3.0
 	 */
+	/*
 	Router::connect('/admin',
 			['controller' => 'admins', 'action' => 'index', 'admin' => true]);
 	Router::connect(
 		'/admin/plugins',
 		['controller' => 'admins', 'action' => 'plugins', 'admin' => true]
 	);
+	*/
 
 	/**
 	 * Default search action
@@ -70,13 +75,18 @@
 	/**
 	 * Dynamic Assets
 	 */
-	Router::connect('/da/:action/*', ['controller' => 'DynamicAssets']);
+	// migrated to 3.0
+	// Router::connect('/da/:action/*', ['controller' => 'DynamicAssets']);
 
 	/**
 	 * Sitemaps
+	 *
+	 * migrated to 3.0
 	 */
+	/*
 	Router::connect('/sitemap', ['plugin' => 'sitemap', 'controller' => 'sitemaps']);
 	Router::connect('/sitemaps/:action/*', ['plugin' => 'sitemap', 'controller' => 'sitemaps']);
+	*/
 
 	/**
 	 * Pagination for entries/index

@@ -1,6 +1,6 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
 
 	class FlotHelper extends AppHelper {
 

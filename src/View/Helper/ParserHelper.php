@@ -1,6 +1,9 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
+
+	use Cake\Core\Configure;
+	use Stopwatch\Lib\Stopwatch;
 
 	class ParserHelper extends AppHelper {
 
@@ -67,7 +70,7 @@
 				$html = $this->_getParser()->parse($string, $options);
 				$this->_parserCache[$cacheId] = $html;
 			}
-			if ($options['wrap']) {
+			if ($options['return'] === 'html' && $options['wrap']) {
 				$html = '<div class="richtext">' . $html . '</div>';
 			}
 			Stopwatch::stop('ParseHelper::parse()');
@@ -83,7 +86,7 @@
 
 		protected function _getParser() {
 			if ($this->_Parser === null) {
-				$settings = Configure::read('Saito.Settings') + $this->settings;
+				$settings = Configure::read('Saito.Settings') + $this->_config;
 
 				$this->SmileyRenderer = new \Saito\Smiley\Renderer($settings['smiliesData']);
 				$this->SmileyRenderer->setHelper($this);

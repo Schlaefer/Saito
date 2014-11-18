@@ -1,6 +1,6 @@
 define(['backbone'], function(Backbone) {
 
-  "use strict";
+  'use strict';
 
   var MapModel = Backbone.Model.extend({
 

@@ -2,6 +2,8 @@
 
 	namespace Saito\Markup;
 
+	use Cake\View\Helper;
+
 	abstract class Parser {
 
 		/**
@@ -14,7 +16,7 @@
 		 */
 		protected $_Helper;
 
-		public function __construct(\Helper $Helper, array $settings = []) {
+		public function __construct(Helper $Helper, array $settings = []) {
 			$this->_Helper = $Helper;
 			$this->_cSettings = $settings;
 		}

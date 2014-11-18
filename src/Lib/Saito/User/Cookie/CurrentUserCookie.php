@@ -12,8 +12,7 @@
 		public function write($CurrentUser) {
 			$cookie = [
 				'id' => $CurrentUser->getId(),
-				'username' => $CurrentUser['username'],
-				'password' => $CurrentUser['password']
+				'username' => $CurrentUser['username']
 			];
 			parent::write($cookie);
 		}

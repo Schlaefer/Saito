@@ -6,7 +6,7 @@ define([
   'text!modules/shoutbox/templates/shout.html'
 ], function($, _, Backbone, Marionette, App, SbCM, TemplateHelpers, Tpl) {
 
-  "use strict";
+  'use strict';
 
   var ShoutboxView = Marionette.ItemView.extend({
 
@@ -40,7 +40,7 @@ define([
     },
 
     template: function(data) {
-      return _.template(Tpl, data);
+      return _.template(Tpl)(data);
     }
 
   });

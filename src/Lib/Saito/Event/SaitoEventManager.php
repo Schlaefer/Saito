@@ -1,5 +1,9 @@
 <?php
 
+	namespace Saito\Event;
+
+	use Cake\Event\EventListenerInterface;
+
 	/**
 	 * Event-manager for Saito
 	 *
@@ -7,7 +11,7 @@
 	 * few hundred times on the front-page and gives roughly 3x over
 	 * the CakeEventManager in Cake 2.
 	 */
-	class SaitoEventManager implements CakeEventListener {
+	class SaitoEventManager implements EventListenerInterface {
 
 		protected static $_Instance;
 
@@ -23,6 +27,7 @@
 		public function implementedEvents() {
 			return [
 				'Controller.initialize' => 'cakeEventPassThrough',
+				'Model.initialize' => 'cakeEventPassThrough',
 				'View.beforeRender' => 'cakeEventPassThrough'
 			];
 		}

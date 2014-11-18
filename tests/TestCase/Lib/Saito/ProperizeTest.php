@@ -1,59 +1,64 @@
 <?php
 
-	use Saito\String\Properize;
+namespace Saito\Test;
 
-	class ProperizeTest extends CakeTestCase {
+use Saito\String\Properize;
 
-		public function testProperizeEng() {
-			Properize::setLanguage('eng');
+class ProperizeTest extends SaitoTestCase
+{
 
-			$input = 'Jack';
-			$expected = 'Jack’s';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
+    public function testProperizeEng()
+    {
+        Properize::setLanguage('en_US');
 
-			$input = 'James';
-			$expected = 'James’';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
+        $input = 'Jack';
+        $expected = 'Jack’s';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
 
-			$input = 'James™';
-			$expected = 'James™’s';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
+        $input = 'James';
+        $expected = 'James’';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
 
-			$input = 'JAMES';
-			$expected = 'JAMES’';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
-		}
+        $input = 'James™';
+        $expected = 'James™’s';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
 
-		public function testProperizeDeu() {
-			Properize::setLanguage('deu');
+        $input = 'JAMES';
+        $expected = 'JAMES’';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
+    }
 
-			$input = 'Jack';
-			$expected = 'Jacks';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
+    public function testProperizeDeu()
+    {
+        Properize::setLanguage('de_DE');
 
-			$input = 'James';
-			$expected = 'James’';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
+        $input = 'Jack';
+        $expected = 'Jacks';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
 
-			$input = 'James™';
-			$expected = 'James™s';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
+        $input = 'James';
+        $expected = 'James’';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
 
-			$input = 'JAMES';
-			$expected = 'JAMES’';
-			$result = Properize::prop($input);
-			$this->assertEquals($expected, $result);
+        $input = 'James™';
+        $expected = 'James™s';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
 
-			$this->assertEquals(Properize::prop('Bruce'), 'Bruce’');
-			$this->assertEquals(Properize::prop('Weiß'), 'Weiß’');
-			$this->assertEquals(Properize::prop('Merz'), 'Merz’');
-		}
+        $input = 'JAMES';
+        $expected = 'JAMES’';
+        $result = Properize::prop($input);
+        $this->assertEquals($expected, $result);
 
-	}
+        $this->assertEquals(Properize::prop('Bruce'), 'Bruce’');
+        $this->assertEquals(Properize::prop('Weiß'), 'Weiß’');
+        $this->assertEquals(Properize::prop('Merz'), 'Merz’');
+    }
+
+}

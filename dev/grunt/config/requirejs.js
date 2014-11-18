@@ -4,7 +4,7 @@
 
   var _ = require('lodash'),
       root = './../../../',
-      requireCommon = require(root + 'app/webroot/js/common.js'),
+      requireCommon = require(root + 'webroot/js/common.js'),
       requireConfig = {
         shim: requireCommon.shim,
         paths: _.extend(requireCommon.paths, {
@@ -13,9 +13,9 @@
       };
 
   var requireJsOptions = {
-    baseUrl: "./app/webroot/js",
-    dir: "./app/webroot/release-tmp",
-    optimize: "uglify2", // "none"
+    baseUrl: './webroot/js',
+    dir: './webroot/release-tmp',
+    optimize: 'uglify2', // "none"
     skipDirOptimize: true,
     findNestedDependencies: true,
     preserveLicenseComments: false, // just to many comments in bootstrap
@@ -23,7 +23,7 @@
     paths: requireConfig.paths, // paths used by r.js
     modules: [
       {
-        name: "common",
+        name: 'common',
         include: [
           'backbone',
           'backboneLocalStorage',
@@ -54,7 +54,7 @@
         stubModules: ['cs']
       },
       {
-        name: "main",
+        name: 'main',
         exclude: ['common']
       }
     ]

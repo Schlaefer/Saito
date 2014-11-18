@@ -1,70 +1,67 @@
 <?php
-	App::uses('View', 'View');
-	App::uses('Helper', 'View');
-	App::uses('MapHelper', 'View/Helper');
 
-	/**
-	 * MapHelper Test Case
-	 *
-	 */
-	class MapHelperTest extends CakeTestCase {
+	namespace App\Test\TestCase\View\Helper;
 
-		protected $_users = [
-			0 => [
-				'User' => [
-					'id' => '1',
-					'username' => 'Juliet',
-					'user_place_lat' => '33.9425',
-					'user_place_lng' => '118.408056',
-					'user_place_zoom' => 8,
-					'password' => 'Downtown'
-				]
-			],
-			1 => [
-				'User' => [
-					'id' => '2',
-					'username' => 'James',
-					'user_place_lat' => '33.8423',
-					'user_place_lng' => '87.2772',
-					'user_place_zoom' => 15,
-					'password' => 'OfMiceAndMen'
-				]
-			]
-		];
+	use App\View\Helper\MapHelper;
+	use App\Model\Entity\User as Entity;
+	use Cake\View\View;
+	use Saito\Test\SaitoTestCase;
 
-		/**
-		 * setUp method
-		 *
-		 * @return void
-		 */
+	class MapHelperTest extends SaitoTestCase {
+
+		public $Helper;
+
+		protected $_users;
+
 		public function setUp() {
 			parent::setUp();
 			$View = new View();
-			$this->Map = new MapHelper($View);
+			$this->Helper = new MapHelper($View);
+
+			$this->_users =
+				[
+					new Entity(
+						[
+							'id' => '1',
+							'username' => 'Juliet',
+							'user_place_lat' => '33.9425',
+							'user_place_lng' => '118.408056',
+							'user_place_zoom' => 8,
+							'password' => 'Downtown'
+						]
+					),
+					new Entity(
+						[
+							'id' => '2',
+							'username' => 'James',
+							'user_place_lat' => '33.8423',
+							'user_place_lng' => '87.2772',
+							'user_place_zoom' => 15,
+							'password' => 'OfMiceAndMen'
+						]
+					),
+				];
 		}
 
-		/**
-		 * tearDown method
-		 *
-		 * @return void
-		 */
 		public function tearDown() {
-			unset($this->Map);
-
+			unset($this->Helper);
 			parent::tearDown();
 		}
 
 		public function testMapViewMultiple() {
 			$user = $this->_users;
-			$results = $this->Map->map($user);
-			$this->assertTags($results, [
-				'div' => [
-					'class' => 'saito-usermap',
-					'data-users' => 'preg:/.*/',
-					'data-params' => 'preg:/.*/',
+			$results = $this->Helper->map($user);
+			$this->assertHtml(
+				[
+					'div' => [
+						'class' => 'saito-usermap',
+						'data-users' => 'preg:/.*/',
+						'data-params' => 'preg:/.*/',
+					],
+					'/div'
 				],
-				'/div'
-			]);
+				$results
+			);
 
 			$results = $this->_parseResults($results);
 			$expected = [
@@ -92,7 +89,7 @@
 
 		public function testMapViewSingle() {
 			$user = $this->_users[0];
-			$results = $this->Map->map($user);
+			$results = $this->Helper->map($user);
 			$results = $this->_parseResults($results);
 			$expected = [
 				'users' => [
@@ -113,7 +110,7 @@
 
 		public function testMapEdit() {
 			$user = $this->_users[0];
-			$results = $this->Map->map($user, ['type' => 'edit',
+			$results = $this->Helper->map($user, ['type' => 'edit',
 				'fields' => [
 					'edit' => '#UserUserPlace',
 					'update' => [

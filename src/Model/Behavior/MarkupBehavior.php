@@ -1,8 +1,11 @@
 <?php
 
-	App::uses('ModelBehavior', 'Model');
+	namespace App\Model\Behavior;
 
-	class MarkupBehavior extends ModelBehavior {
+	use Cake\Core\Configure;
+	use Cake\ORM\Behavior;
+
+	class MarkupBehavior extends Behavior {
 
 		/**
 		 * @var Saito\Markup\Preprocessor
@@ -14,13 +17,16 @@
 		 * @param $string
 		 * @return string
 		 */
-		public function prepareMarkup(Model $Model, $string) {
+		public function prepareMarkup($string) {
 			if (empty($string)) {
 				return $string;
 			}
 			return $this->_getPreprocessor()->process($string);
 		}
 
+		/**
+		 * @return Saito\Markup\Preprocessor
+		 */
 		protected function _getPreprocessor() {
 			if ($this->_Preprocessor === null) {
 				$settings = Configure::read('Saito.Settings.Parser');

@@ -2,7 +2,8 @@
 
 	namespace Plugin\BbcodeParser\Lib\Helper;
 
-	use Saito\DomainParser;
+	use Cake\Validation\Validator;
+    use Saito\DomainParser;
 
 	trait UrlParserTrait {
 
@@ -17,9 +18,11 @@
 		protected function _url($url, $text, $label = false, $truncate = false) {
 			// add http:// to URLs without protocol
 			if (strpos($url, '://') === false) {
-				// use Cakes Validation class to detect valid URL
-				\App::uses('Validation', 'Utility');
-				if (\Validation::url($url)) {
+                // use Cakes Validation class to detect valid URL
+                $validator = new Validator();
+                $validator->add('url', ['url' => ['rule' => 'url']]);
+                $errors = $validator->errors(['url' => $url]);
+				if (empty($errors)) {
 					$url = 'http://' . $url;
 				}
 			}

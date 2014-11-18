@@ -2,13 +2,41 @@
 
 	namespace Saito\Test;
 
+    use Symfony\Component\DomCrawler\Crawler;
+
 	trait AssertTrait {
+
+        public function assertResponseContainsTags($expected)
+        {
+            $this->assertContainsTag($expected,
+                $this->_controller->response->body());
+        }
+
+        /**
+         * @param array $expected
+         * @param string $result
+         */
+        public function assertContainsTag($expected, $result) {
+            do {
+                $crawler = new Crawler;
+                $crawler->addHtmlContent($result);
+                $selector = key($expected);
+                $node = $crawler->filter($selector);
+                $this->assertEquals(1, $node->count(), "Selector '$selector' not found.");
+
+                if (isset($expected[$selector]['attributes'])) {
+                    foreach ($expected[$selector]['attributes'] as $attribute => $value)  {
+                        $this->assertEquals($value, $node->attr($attribute));
+                    }
+                }
+            } while (next($expected));
+        }
 
 		/**
 		 * tests if XPath exists in HTML Source
 		 *
-		 * @param $html HTML
-		 * @param $path XPath
+		 * @param string $html HTML
+		 * @param string $path XPath
 		 * @param int $count how many times should XPath exist in HTML
 		 * @return mixed
 		 */

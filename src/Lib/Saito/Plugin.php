@@ -2,6 +2,8 @@
 
 	namespace Saito;
 
+	use Cake\Core\Configure;
+
 	class Plugin {
 
 		/**
@@ -13,13 +15,13 @@
 		 * @return array|mixed
 		 */
 		public static function loadConfig($plugin) {
-			$global = \Configure::read($plugin);
-			\Configure::load("$plugin.config", 'default', false);
-			$settings = \Configure::read($plugin);
+			$global = Configure::read($plugin);
+			Configure::load("$plugin.config", 'default', false);
+			$settings = Configure::read($plugin);
 			if (is_array($global)) {
 				$settings = $global + $settings;
 			}
-			\Configure::write($plugin, $settings);
+			Configure::write($plugin, $settings);
 			return $settings;
 		}
 
@@ -39,7 +41,8 @@
 			$args = func_get_args();
 			$name = array_shift($args);
 
-			$parser = \Configure::read('Saito.Settings.ParserPlugin');
+            // @todo 3.0
+			$parser = Configure::read('Saito.Settings.ParserPlugin');
 			$name = "\\Plugin\\{$parser}Parser\\Lib\\$name";
 
 			$reflection = new \ReflectionClass($name);

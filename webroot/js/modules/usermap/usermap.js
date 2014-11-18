@@ -1,22 +1,23 @@
 define([
-  'app/core',
-  'marionette',
-  'modules/usermap/views/controls',
-  'modules/usermap/views/map',
-  'modules/usermap/models/map',
-  'modules/usermap/collections/users',
-  'text!modules/usermap/templates/layout.html'
-],
-    function(Application, Marionette, MapController, MapView, MapModel, UsersCollection, LayoutTpl) {
+    'jquery',
+    'app/core',
+    'marionette',
+    'modules/usermap/views/controls',
+    'modules/usermap/views/map',
+    'modules/usermap/models/map',
+    'modules/usermap/collections/users',
+    'text!modules/usermap/templates/layout.html'
+  ],
+    function($, Application, Marionette, MapController, MapView, MapModel, UsersCollection, LayoutTpl) {
 
-      "use strict";
+      'use strict';
 
       var UserMap = Application.module('usermap', {
         startWithParent: false
       });
 
       UserMap.addInitializer(function() {
-        var $usermap = $(".saito-usermap");
+        var $usermap = $('.saito-usermap');
 
         if (!$usermap.length) {
           return;

@@ -1,6 +1,8 @@
 <?php
 
-	App::uses('AppHelper', 'View/Helper');
+	namespace App\View\Helper;
+
+	use App\View\Helper\AppHelper;
 
 	class SettingHelper extends AppHelper {
 

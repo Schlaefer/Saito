@@ -1,0 +1,289 @@
+body, .btnLink, textarea, input[type=text], input[type=password], input[type=email] {
+  font-family: Cabin;
+  color: $font-color;
+  font-weight: 400;
+  background-color: $background-color;
+}
+
+body {
+  font-size: 1.4em;
+  margin: auto $padding;
+}
+
+#site {
+  background: $page-color;
+}
+
+%schmuckfont {
+  font-family: 'Fenix', Serif;
+  text-rendering: optimizeLegibility;
+}
+
+.l-body { }
+
+input, textarea {
+  font-size: 1em;
+  padding: 0.5em;
+  @include box-sizing(border-box);
+  outline-color: $outline-color;
+}
+
+body, h1, h2, h3, h4 {
+  line-height: $line-height;
+}
+
+h1, h2, h3, h4, #hero-home-link {
+  font-size: $font-size-large;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+.btnLink {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: inherit;
+  font-size: 1em;
+  -webkit-appearance: none;
+}
+
+// remove outline on click
+.ui-dialog-titlebar-close, .btnLink {
+  &:active, &:focus {
+    outline: none;
+  }
+}
+
+a, .btnLink {
+  @include unstyled-link;
+  @include link-colors($link-color);
+  cursor: pointer;
+}
+
+u {
+  text-decoration: underline;
+}
+
+hr {
+  border-width: 0;
+  border-bottom: 1px solid $border-color;
+}
+
+#site-header {
+  text-align: center;
+}
+
+body.headerClosed {
+  $_height: 40px;
+
+  .top-menu {
+    display: none;
+  }
+
+  header {
+    margin-left: -2*$padding;
+    margin-right: -2*$padding;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 100;
+    @include background(linear-gradient(to top, rgba($background-color, 0.85), $background-color 90%));
+  }
+
+  #js-top-menu-open {
+    display: block;
+    line-height: $_height;
+    padding: 0 2* $padding;
+  }
+
+  #hero-home-link {
+    padding-top: 0.5 * $padding;
+    padding-bottom: 0.5 * $padding;
+  }
+}
+
+#hero {
+  position: relative;
+  border-bottom: 1px solid $border-color;
+}
+
+#hero-home-link {
+  font-weight: bold;
+  padding: $padding;
+}
+
+#js-top-menu-open {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+}
+
+.top-menu {
+  border-bottom: 1px solid $border-color;
+  @include responsiveIconText;
+  // anchors .top-menu-aside
+  position: relative;
+}
+
+.top-menu-item {
+  padding: 0.5*$padding;
+  @include at-breakpoint($susy-tablet) {
+    padding: $padding;
+  }
+
+  display: inline-block;
+}
+
+.top-menu-aside {
+  position: absolute;
+  right: 0
+}
+
+.navbar {
+  @include responsiveIconText;
+  margin: $padding 0;
+}
+
+.navbar .pageHeading {
+  margin: 0;
+}
+
+.navbar-item {
+  padding: 0 1em;
+  &.left {
+    padding-left: 0;
+  }
+  &.right {
+    padding-right: 0;
+  }
+}
+
+.heading-3 {
+  @include c_t_h_3_abs;
+}
+
+.pageHeading, .ui-dialog-title {
+  font-size: 1em;
+  display: inline-block;
+  font-weight: normal;
+  margin: 0 auto;
+
+  &:after {
+    content: "";
+    position: relative;
+    border-bottom: 2px solid $border-color;
+    height: 1px;
+    display: block;
+  }
+}
+
+#footer-pinned {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 2*$padding;
+}
+
+.disclaimer {
+  border-top: 1px solid $border-color;
+  font-size: $font-size-small;
+  padding-bottom: $padding;
+  background: $page-color;
+}
+
+#debugFooter {
+  font-size: 12px;
+}
+
+.infoText, .disabled {
+  color: $info-color;
+}
+
+.c-category {
+  color: $font-color;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.c-username {
+  color: $font-color;
+}
+
+.postingBody-signature {
+  @extend .infoText;
+  font-size: $font-size-small;
+  text-align: center;
+  .richtext img {
+    display: inline;
+  }
+}
+
+.postingBody-signature-divider {
+  padding-bottom: 1em;
+}
+
+.solves-isSolved {
+  color: #008000;
+}
+
+%highlight-hover {
+  background: $highlight-hover-color;
+}
+
+.no-content-yet {
+  font-weight: bold;
+  text-align: center;
+  font-size: 3*$font-size;
+  color: $info-color-bold;
+  letter-spacing: 0.1em;
+  word-spacing: 0.1em;
+  padding: 1em 0;
+}
+
+%dialog-hover {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.sort-menu {
+  .asc, .desc {
+    font-weight: bold;
+  }
+
+  .asc:after {
+    content: "\002005\002193\002005";
+  }
+
+  .desc:after {
+    content: "\002005\002191\002005";
+  }
+}
+
+.sort-menu-item {
+  padding: 0 0.5em;
+}
+
+.table-simple {
+  width: 100%;
+  text-align: center;
+
+  th {
+    background-color: $table-th-bg;
+  }
+
+  tr td {
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+
+
+@import "modules-panels";
+@import "modules-jqueryui";
+@import "modules-spinner";
+@import "modules-shp";
+

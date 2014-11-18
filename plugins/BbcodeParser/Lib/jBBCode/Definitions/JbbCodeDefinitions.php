@@ -350,6 +350,10 @@ EOF;
 		protected $_sParseContent = false;
 
 		protected function _parse($content, $attributes) {
+			// @todo 3.0
+			$webroot = $this->_sHelper->request->webroot;
+			return "<img src='{$webroot}useruploads/$content'>";
+
 			$this->FileUpload->reset();
 			$params = $this->_getUploadParams($attributes);
 			return $this->FileUpload->image($content, $params);

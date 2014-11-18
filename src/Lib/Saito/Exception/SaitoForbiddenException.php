@@ -2,9 +2,10 @@
 
 	namespace Saito\Exception;
 
-	use Saito\Exception\Logger\ForbiddenLogger;
+	use Cake\Network\Exception\HttpException;
+    use Saito\Exception\Logger\ForbiddenLogger;
 
-	class SaitoForbiddenException extends \HttpException {
+	class SaitoForbiddenException extends HttpException {
 
 		protected $__Logger;
 

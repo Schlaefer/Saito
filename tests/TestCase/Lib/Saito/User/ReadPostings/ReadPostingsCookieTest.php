@@ -1,204 +1,245 @@
 <?php
 
-	use Saito\User\ReadPostings;
+    namespace Saito\Test\User\ReadPostings;
 
-	App::uses('CurrentUserComponent', 'Controller/Component');
+    use App\Model\Entity\Entry;
+    use Cake\Controller\ComponentRegistry;
+    use Cake\Controller\Controller;
+    use Cake\Network\Request;
+    use Cake\Network\Response;
+    use Saito\User\Cookie\Storage;
+    use Saito\User\ReadPostings\ReadPostingsCookie;
 
-	class ReadPostingsCookieMock extends ReadPostings\ReadPostingsCookie {
+    class ReadPostingsCookieMock extends ReadPostingsCookie
+    {
 
-		/**
-		 * @param mixed $maxPostings
-		 */
-		public function setMaxPostings($maxPostings) {
-			$this->_maxPostings = $maxPostings;
-		}
+        /**
+         * @param mixed $maxPostings
+         */
+        public function setMaxPostings($maxPostings)
+        {
+            $this->maxPostings = $maxPostings;
+        }
 
-		public function setCookie($Cookie) {
-			$this->_Cookie = $Cookie;
-		}
+        public function setCookie($Cookie)
+        {
+            $this->Cookie = $Cookie;
+        }
 
-		public function setLastRefresh($LR) {
-			$this->_LastRefresh = $LR;
-		}
+        public function setLastRefresh($LR)
+        {
+            $this->LastRefresh = $LR;
+        }
 
-		public function __get($name) {
-			$property = '_' . $name;
-			if (property_exists($this, $property)) {
-				return $this->{$property};
-			}
-		}
+        public function __get($property)
+        {
+            if (property_exists($this, $property)) {
+                return $this->{$property};
+            }
+        }
 
-		public function __call($name, $arguments) {
-			$method = '_' . $name;
-			if (is_callable([$this, $method])) {
-				return call_user_func_array([$this, $method], $arguments);
-			}
-		}
+        public function __call($method, $arguments)
+        {
+            if (is_callable([$this, $method])) {
+                return call_user_func_array([$this, $method], $arguments);
+            }
+        }
+    }
 
-	}
+    class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
+    {
 
-	class ReadPostingsCookieTest extends CakeTestCase {
+        public function testAbstractIsReadNoTimestamp()
+        {
+            $this->mock();
+            $this->ReadPostings->Cookie->expects($this->once())
+                ->method('read')
+                ->will($this->returnValue('1.6'));
 
-		/**
-		 * @var CurrentUserComponent;
-		 */
-		public $CurrentUser;
+            $this->ReadPostings->LastRefresh->expects($this->never())
+                ->method('isNewerThan');
 
-		public function testAbstractIsReadNoTimestamp() {
-			$this->mock();
-			$this->ReadPostings->Cookie->expects($this->once())
-				->method('read')
-				->will($this->returnValue('1.6'));
+            $this->assertTrue($this->ReadPostings->isRead(1));
+            $this->assertTrue($this->ReadPostings->isRead(6));
+            $this->assertFalse($this->ReadPostings->isRead(2));
+        }
 
-			$this->ReadPostings->LastRefresh->expects($this->never())
-				->method('isNewerThan');
+        public function testAbstractIsReadWithTimestamp()
+        {
+            $this->mock();
+            $this->ReadPostings->Cookie->expects($this->once())
+                ->method('read')
+                ->will($this->returnValue('1'));
 
-			$this->assertTrue($this->ReadPostings->isRead(1));
-			$this->assertTrue($this->ReadPostings->isRead(6));
-			$this->assertFalse($this->ReadPostings->isRead(2));
-		}
+            $time = time();
 
-		public function testAbstractIsReadWithTimestamp() {
-			$this->mock();
-			$this->ReadPostings->Cookie->expects($this->once())
-				->method('read')
-				->will($this->returnValue('1'));
+            $this->ReadPostings->LastRefresh->expects($this->at(0))
+                ->method('isNewerThan')
+                ->with($time)
+                ->will($this->returnValue(null));
+            $this->ReadPostings->LastRefresh->expects($this->at(1))
+                ->method('isNewerThan')
+                ->with($time + 1)
+                ->will($this->returnValue(null));
+            $this->ReadPostings->LastRefresh->expects($this->at(2))
+                ->method('isNewerThan')
+                ->with($time + 2)
+                ->will($this->returnValue(true));
+            $this->ReadPostings->LastRefresh->expects($this->at(3))
+                ->method('isNewerThan')
+                ->with($time + 3)
+                ->will($this->returnValue(false));
 
-			$time = time();
+            $this->assertTrue($this->ReadPostings->isRead(1, $time));
+            $this->assertFalse($this->ReadPostings->isRead(2, $time + 1));
+            $this->assertTrue($this->ReadPostings->isRead(3, $time + 2));
+            $this->assertFalse($this->ReadPostings->isRead(4, $time + 3));
+        }
 
-			$this->ReadPostings->LastRefresh->expects($this->at(0))
-				->method('isNewerThan')
-				->with($time)
-				->will($this->returnValue(null));
-			$this->ReadPostings->LastRefresh->expects($this->at(1))
-				->method('isNewerThan')
-				->with($time + 1)
-				->will($this->returnValue(null));
-			$this->ReadPostings->LastRefresh->expects($this->at(2))
-				->method('isNewerThan')
-				->with($time + 2)
-				->will($this->returnValue(true));
-			$this->ReadPostings->LastRefresh->expects($this->at(3))
-				->method('isNewerThan')
-				->with($time + 3)
-				->will($this->returnValue(false));
+        public function testDelete()
+        {
+            $this->mock();
+            $this->ReadPostings->delete();
+        }
 
-			$this->assertTrue($this->ReadPostings->isRead(1, $time));
-			$this->assertFalse($this->ReadPostings->isRead(2, $time + 1));
-			$this->assertTrue($this->ReadPostings->isRead(3, $time + 2));
-			$this->assertFalse($this->ReadPostings->isRead(4, $time + 3));
-		}
+        public function testGet()
+        {
+            $this->mock();
+            $this->ReadPostings->Cookie->expects($this->once())
+                ->method('read')
+                ->will($this->returnValue('1.6'));
 
-		public function testGet() {
-			$this->mock();
-			$this->ReadPostings->Cookie->expects($this->once())
-				->method('read')
-				->will($this->returnValue('1.6'));
+            $this->ReadPostings->isRead(1);
 
-			$this->ReadPostings->isRead(1);
+            //# test class cache is set
+            $expected = [1 => 1, 6 => 1];
+            $actual = $this->ReadPostings->readPostings;
+            $this->assertEquals($expected, $actual);
 
-			//# test class cache is set
-			$expected = [1 => 1, 6 => 1];
-			$actual = $this->ReadPostings->readPostings;
-			$this->assertEquals($expected, $actual);
+            // test caching: should not read cookie a second time
+            $this->ReadPostings->isRead(6);
+        }
 
-			// test caching: should not read cookie a second time
-			$this->ReadPostings->isRead(6);
-		}
+        public function testSet()
+        {
+            $this->mock(['_gc', 'get']);
+            $this->ReadPostings->expects($this->once())
+                ->method('_gc');
+            $this->ReadPostings->expects($this->once())
+                ->method('get')
+                ->will($this->returnValue([1 => 1, 2 => 1]));
 
-		public function testSet() {
-			$this->mock(['_gc', '_get']);
-			$this->ReadPostings->expects($this->once())
-				->method('_gc');
-			$this->ReadPostings->expects($this->once())
-				->method('_get')
-				->will($this->returnValue([1 => 1, 2 => 1]));
+            $time = time();
+            $this->ReadPostings->LastRefresh->expects($this->at(0))
+                ->method('isNewerThan')
+                ->with($time)
+                ->will($this->returnValue(false));
+            $this->ReadPostings->LastRefresh->expects($this->at(1))
+                ->method('isNewerThan')
+                ->with($time + 1)
+                ->will($this->returnValue(true));
+            $this->ReadPostings->LastRefresh->expects($this->at(2))
+                ->method('isNewerThan')
+                ->with($time + 2)
+                ->will($this->returnValue(false));
 
-			$time = time();
-			$this->ReadPostings->LastRefresh->expects($this->at(0))
-				->method('isNewerThan')
-				->with($time)
-				->will($this->returnValue(false));
-			$this->ReadPostings->LastRefresh->expects($this->at(1))
-				->method('isNewerThan')
-				->with($time + 1)
-				->will($this->returnValue(true));
-			$this->ReadPostings->LastRefresh->expects($this->at(2))
-				->method('isNewerThan')
-				->with($time + 2)
-				->will($this->returnValue(false));
+            /*
+             * 1: already stored, will be stored again but not twice
+             * 2: already stored, will be stored again
+             * 3: not stored, older than last refresh
+             * 4: newly stored
+             */
+            $this->ReadPostings->Cookie->expects($this->once())
+                ->method('write')
+                ->with('1.2.4');
+            $this->ReadPostings->set([
+                    new Entry(['id' => 1, 'time' => $time]),
+                    new Entry(['id' => 3, 'time' => $time + 1]),
+                    new Entry(['id' => 4, 'time' => $time + 2])
+                ]
+            );
 
-			/*
-			 * 1: already stored, will be stored again but not twice
-			 * 2: already stored, will be stored again
-			 * 3: not stored, older than last refresh
-			 * 4: newly stored
-			 */
-			$this->ReadPostings->Cookie->expects($this->once())
-				->method('write')
-				->with('1.2.4');
-			$this->ReadPostings->set([
-					['Entry' => ['id' => 1, 'time' => $time]],
-					['Entry' => ['id' => 3, 'time' => $time + 1]],
-					['Entry' => ['id' => 4, 'time' => $time + 2]]
-				]
-			);
+            // test that class cache is updated
+            $expected = [1 => 1, 2 => 1, 4 => 1];
+            $actual = $this->ReadPostings->readPostings;
+            $this->assertEquals($expected, $actual);
+        }
 
-			// test that cookie is unencrypted
-			$this->assertFalse($this->ReadPostings->Cookie->encrypt);
+        public function testSetSingle()
+        {
+            $this->mock();
 
-			// test that class cache is updated
-			$expected = [1 => 1, 2 => 1, 4 => 1];
-			$actual = $this->ReadPostings->readPostings;
-			$this->assertEquals($expected, $actual);
-		}
+            $this->ReadPostings->LastRefresh->expects($this->at(0))
+                ->method('isNewerThan')
+                ->will($this->returnValue(false));
+            $this->ReadPostings->Cookie->expects($this->once())
+                ->method('write')
+                ->with('4');
 
-		public function testSetSingle() {
-			$this->mock();
+            $this->ReadPostings->set([
+                new Entry(['id' => 4, 'time' => 0])
+            ]);
+        }
 
-			$this->ReadPostings->LastRefresh->expects($this->at(0))
-				->method('isNewerThan')
-				->will($this->returnValue(false));
-			$this->ReadPostings->Cookie->expects($this->once())
-				->method('write')
-				->with('4');
+        public function testGc()
+        {
+            $this->mock();
+            $this->ReadPostings->Cookie->expects($this->once())
+                ->method('write')
+                ->with('5.6');
 
-			$this->ReadPostings->set(['Entry' => ['id' => 4, 'time' => 0]]);
-		}
+            $this->ReadPostings->setMaxPostings(2);
+            $this->ReadPostings->set([
+                new Entry(['id' => 1, 'time' => 0]),
+                new Entry(['id' => 5, 'time' => 1]),
+                new Entry(['id' => 6, 'time' => 2])
+            ]);
+        }
 
-		public function testGc() {
-			$this->mock();
-			$this->ReadPostings->Cookie->expects($this->once())
-				->method('write')
-				->with('5.6');
+        public function mock($methods = null)
+        {
+            $request = new Request();
+            $request->session()->start();
+            $request->session()->id('test');
+            $response = new Response();
 
-			$this->ReadPostings->setMaxPostings(2);
-			$this->ReadPostings->set([
-					['Entry' => ['id' => 1, 'time' => 0]],
-					['Entry' => ['id' => 5, 'time' => 1]],
-					['Entry' => ['id' => 6, 'time' => 2]]
-				]
-			);
-		}
+            $controller = new Controller($request, $response);
+            $controller->loadComponent('Auth');
+            $controller->loadComponent('Cookie');
 
-		public function mock($methods = null) {
-			$Collection = new ComponentCollection();
-			$this->CurrentUser = new CurrentUserComponent($Collection);
-			$this->ReadPostings = $this->getMock(
-				'ReadPostingsCookieMock',
-				$methods,
-				[$this->CurrentUser]
-			);
+            $registry = new ComponentRegistry($controller);
+            $currentUser = $this->getMock(
+                'App\Controller\Component\CurrentUserComponent',
+                ['_markOnline'],
+                [$registry]
+            );
 
-			$this->ReadPostings->setCookie($this->getMock('Object', ['read', 'write', 'delete']));
-			$this->ReadPostings->setLastRefresh($this->getMock('Object', ['isNewerThan']));
-		}
+            $cookie = $this->getMock(
+                'Saito\User\Cookie\Storage',
+                ['setConfig', 'read', 'write', 'delete'],
+                [$controller->Cookie, 'Saito-Read']
+            );
 
-		public function tearDown() {
-			$this->ReadPostings->Cookie->delete();
-			unset($this->ReadPostings);
-			unset($this->CurrentUser);
-			parent::tearDown();
-		}
+            // test that cookie is unencrypted
+            $cookie->expects($this->once())
+                ->method('setConfig')
+                ->with(['encryption' => false]);
 
-	}
+            $this->ReadPostings = $this->getMock(
+                'Saito\Test\User\ReadPostings\ReadPostingsCookieMock',
+                $methods,
+                [$currentUser, $cookie]
+            );
+            $this->ReadPostings->setLastRefresh($this->getMock('Object',
+                ['isNewerThan']));
+        }
+
+        public function tearDown()
+        {
+            $this->ReadPostings->Cookie->delete();
+            unset($this->ReadPostings);
+            unset($this->CurrentUser);
+            parent::tearDown();
+        }
+
+    }

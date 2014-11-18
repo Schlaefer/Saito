@@ -1,13 +1,5 @@
 #!/bin/bash
 
-### install PHP Code Sniffer
-# limit to 1.5.1 because of http://pear.php.net/bugs/bug.php?id=20196
-sudo pear install PHP_CodeSniffer-1.5.1;
-
-### install CakePHP's Code Sniffer flavor
-sudo pear channel-discover pear.cakephp.org;
-sudo pear install cakephp/CakePHP_CodeSniffer;
-
 ### Phing
 sudo pear channel-discover pear.phing.info;
 sudo pear install --alldeps phing/phing;
@@ -43,6 +35,8 @@ npm install;
 
 ### install local composer packages
 composer install;
+# lets phpcs know where to find CakePHP's sniffs
+vendor/bin/phpcs --config-set installed_paths vendor/cakephp/cakephp-codesniffer
 
 ### install siege for Cake siege console task
 sudo apt-get -y install siege;

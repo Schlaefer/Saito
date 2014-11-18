@@ -2,7 +2,7 @@
 
 	namespace Saito\Posting\Renderer;
 
-	\App::uses('SaitoEventManager', 'Lib/Saito/Event');
+	use Saito\Event\SaitoEventManager;
 
 	/**
 	 * Helper methods for rendering postings
@@ -22,7 +22,7 @@
 			$out .= '</span>';
 
 			if (!isset($this->_SEM)) {
-				$this->_SEM = \SaitoEventManager::getInstance();
+				$this->_SEM = SaitoEventManager::getInstance();
 			}
 			$additionalBadges = $this->_SEM->dispatch(
 				'Request.Saito.View.Posting.badges',

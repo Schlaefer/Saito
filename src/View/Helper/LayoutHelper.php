@@ -1,28 +1,31 @@
 <?php
 
-	use Saito\User\ForumsUserInterface;
+	namespace App\View\Helper;
 
-	App::uses('AppHelper', 'View/Helper');
+	// @todo 3.0 refactor
+    use Cake\Core\Configure;
+	use Cake\View\Helper;
+	use Saito\User\ForumsUserInterface;
 
 	class LayoutHelper extends AppHelper {
 
-		public $helpers = [
-				'Html'
-		];
+		public $helpers = ['Html', 'Url'];
 
 		protected $_themeImgUrl = null;
 
+        // @todo 3.0
 		public function beforeRender($viewFile) {
 			$this->_themeImgUrl = $this->request->webroot . 'theme' . DS . $this->theme .
 					DS . Configure::read('App.imageBaseUrl');
 		}
 
+        // @todo 3.0
 		public function beforeLayout($layoutFile) {
 			if (Configure::read('debug')) {
 				$stylesheets[] = 'stylesheets/cake.css';
 			}
 			if (!empty($stylesheets)) {
-				$this->Html->css($stylesheets, null, ['inline' => false]);
+				$this->Html->css($stylesheets, ['inline' => false]);
 			}
 		}
 
@@ -32,7 +35,7 @@
 			if ((int)Configure::read('debug') === 0) {
 				$name = $name . '.min';
 			}
-			return $this->Html->script($this->Html->assetUrl($url . $name,
+			return $this->Html->script($this->Url->assetUrl($url . $name,
 					['ext' => '.js', 'fullBase' => true]));
 		}
 
@@ -141,9 +144,16 @@ EOF;
 				}
 			}
 			$_id = AppHelper::tagId();
+            if (!isset($options['title'])) {
+                $options['title'] = '<i class="fa fa-wrench"></i>&nbsp;<i class="fa fa-caret-down"></i>';
+            }
+
+            $title = $options['title'];
+            unset($options['title']);
+
 			$_button = $this->Html->tag(
 					'button',
-					'<i class="fa fa-wrench"></i>&nbsp;<i class="fa fa-caret-down"></i>',
+                    $title,
 					$options + [
 							'escape' => false,
 							'onclick' => "$(this).dropdown('attach', '#d$_id');"
@@ -201,15 +211,6 @@ EOF;
 				$out .= '</div>';
 			}
 			return "<div class=\"{$options['class']} heading-3\">$out</div>";
-		}
-
-		public function linkToUserProfile($user, ForumsUserInterface $CurrentUser) {
-			if ($CurrentUser->isLoggedIn()) {
-				return $this->Html->link($user['username'],
-						'/users/view/' . $user['id']);
-			} else {
-				return h($user['username']);
-			}
 		}
 
 		/**

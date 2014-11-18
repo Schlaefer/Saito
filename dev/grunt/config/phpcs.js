@@ -1,28 +1,32 @@
 /*jshint node: true */
 module.exports = {
-  controllers: {dir: ['./app/Controller']},
-  models: {dir: ['./app/Model']},
-  lib: {dir: ['./app/Lib']},
+  src: {dir: ['./src']},
+  /*
+  controllers: {dir: ['./src/Controller']},
+  models: {dir: ['./src/Model']},
+  lib: {dir: ['./src/Lib']},
   tests: {
-    dir: ['./app/Test'],
+    dir: ['./src/Test'],
     options: {
       ignore: 'Selenium'
     }
   },
   view: {
-    dir: ['./app/View'],
+    dir: ['./src/View'],
     options: {
       ignore: 'Themed'
     }
   },
+  */
   plugins: {
-    dir: ['./app/Plugin'],
+    dir: ['./src/Plugin'],
     options: {
       ignore: 'Embedly,Geshi,FileUpload,Install,Markitup,SaitoHelp/Vendor,Search,SimpleCaptcha,webroot'
     }
   },
   options: {
-    standard: 'app/Test/ruleset.xml',
+    bin: 'vendor/bin/phpcs',
+    standard: 'tests/ruleset.xml',
     ignore: 'webroot',
     // suppress warnings
     warningSeverity: 8

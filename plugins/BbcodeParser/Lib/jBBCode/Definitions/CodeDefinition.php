@@ -2,6 +2,8 @@
 
 	namespace Plugin\BbcodeParser\Lib\jBBCode\Definitions;
 
+	use Cake\View\Helper;
+
 	abstract class CodeDefinition extends \JBBCode\CodeDefinition {
 
 		/**
@@ -23,7 +25,7 @@
 		 */
 		protected $_sOptions;
 
-		public function __construct(\Helper $Helper, array $options = []) {
+		public function __construct(Helper $Helper, array $options = []) {
 			$this->_sOptions = $options;
 			$this->_sHelper = $Helper;
 			parent::__construct();

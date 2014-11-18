@@ -13,18 +13,32 @@
   },
   "require": {
     "php": ">=5.4.16",
-    "cakephp/cakephp": "3.0.*-dev",
+    "cakephp/cakephp": "3.0.*",
     "mobiledetect/mobiledetectlib": "2.*",
-    "cakephp/debug_kit": "3.0.*-dev",
-    "markstory/geshi": "3.0.*-dev",
-    "kzykhys/ciconia": "~1.0.3",
+    "cakephp/migrations": "~1.0",
+    "cakephp/plugin-installer": "*",
+
+
+    "aura/di": "~2.1",
+    "davidyell/proffer": "dev-master",
+    "embedly/embedly-php": "0.5.4",
     "jbbcode/jbbcode": "~1.3",
-    "aura/di": "~2.1"
+    "fluxbb/commonmark": "dev-master",
+    "markstory/geshi": "^3.0.0",
+    "siezi/cakephp-simple-captcha": "^0.4.2",
+    "yzalis/identicon": "*"
   },
   "require-dev": {
-    "d11wtq/boris": "1.0.*",
+    "psy/psysh": "@stable",
+    "cakephp/debug_kit": "~3.0",
+    "cakephp/bake": "~1.0",
     "phpmd/phpmd": "@stable",
-    "phpunit/phpunit": "*"
+    "phpunit/phpunit": "*",
+    "squizlabs/php_codesniffer": "*",
+    "cakephp/cakephp-codesniffer": "2.*",
+
+    "symfony/dom-crawler": "*",
+    "symfony/css-selector": "*"
   },
   "suggest": {
     "cakephp/cakephp-codesniffer": "Allows to check the code against the coding standards used in CakePHP."
@@ -32,8 +46,26 @@
   "autoload": {
     "psr-4": {
       "App\\": "src",
+      "App\\Lib\\": "src/Lib",
+      "Saito\\": "src/Lib/Saito/",
+      "Saito\\Test\\": "tests/TestCase/Lib/Saito",
+
       "Plugin\\": "plugins/",
-      "Saito\\": "src/Lib/Saito/"
+      "Api\\": "./plugins/Api/src",
+      "Api\\Test\\": "./plugins/Api/tests",
+      "BbcodeParser\\Test\\": "./plugins/BbcodeParser/tests",
+      "Bookmarks\\": "./plugins/Bookmarks/src",
+      "Bookmarks\\Test\\": "./plugins/Bookmarks/tests",
+      "Detectors\\": "./plugins/Detectors/src",
+      "Cron\\": "./plugins/Cron/src",
+      "Embedly\\": "./plugins/Embedly/src",
+      "Paz\\": "./plugins/Paz/src",
+      "MailObfuscator\\": "./plugins/MailObfuscator/src",
+      "Markitup\\": "./plugins/Markitup/src",
+      "SaitoHelp\\": "./plugins/SaitoHelp/src",
+      "Sitemap\\": "./plugins/Sitemap/src",
+      "Sitemap\\Test\\": "./plugins/Sitemap/tests",
+      "Stopwatch\\": "./plugins/Stopwatch/src"
     }
   },
   "autoload-dev": {
@@ -43,7 +75,8 @@
     }
   },
   "scripts": {
-    "post-install-cmd": "App\\Console\\Installer::postInstall"
+    "post-install-cmd": "App\\Console\\Installer::postInstall",
+    "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump"
   },
   "minimum-stability" : "dev",
   "prefer-stable": true

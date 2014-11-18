@@ -2,14 +2,19 @@
 
 	namespace Saito\User;
 
-	trait SaitoUserTrait {
+	use App\Model\Entity\User;
+    use Carbon\Carbon;
+    use Saito\App\Registry;
 
+    trait SaitoUserTrait {
+
+        // @todo remove for permission system
 		static private $__accessions = array (
-			'anon'	=> 0,
-			'user'	=> 1,
-			'mod'		=> 2,
-			'admin'	=> 3,
-		);
+            'anon' => 0,
+            'user' => 1,
+            'mod' => 2,
+            'admin' => 3,
+        );
 
 		/**
 		 * User ID
@@ -41,6 +46,12 @@
 				return false;
 			}
 
+			// @todo 3.0 make nice
+			// is UsersTable object
+			if (is_object($user)) {
+				$user = $user->toArray();
+			}
+
 			if (empty($user) || !is_array($user)) {
 				trigger_error("Can't find user.");
 			}
@@ -54,9 +65,21 @@
 
 			// perf-cheat
 			if (array_key_exists('last_refresh', $this->_settings)) {
-				$this->_settings['last_refresh_unix'] = strtotime($this->_settings['last_refresh']);
+                if ($this->_settings['last_refresh'] instanceof Carbon) {
+                    $timestamp = $this->_settings['last_refresh']->timestamp;
+                } else {
+                    $timestamp = strtotime($this->_settings['last_refresh']);
+                }
+				$this->_settings['last_refresh_unix'] = $timestamp;
 			}
 		}
+
+        public function get($key) {
+            if (!isset($this->_settings[$key])) {
+                return null;
+            }
+            return $this->_settings[$key];
+        }
 
 		public function getSettings() {
 			return $this->_settings;
@@ -82,22 +105,10 @@
 				} elseif (isset($user['id'])) {
 					$id = (int)$user['id'];
 				}
-			} elseif ($user instanceof ForumsUserInterface) {
-				$id = $user->getId();
+			} elseif ($user instanceof ForumsUserInterface || $user instanceof User) {
+				$id = $user->get('id');
 			}
 			return $id === $this->getId();
-		}
-
-		public function isUser() {
-			return self::_isUserForRole($this->_settings['user_type']);
-		}
-
-		public function isMod() {
-			return self::_isModForRole($this->_settings['user_type']);
-		}
-
-		public function isModOnly() {
-			return self::$__accessions[$this->_getRole()] === 2;
 		}
 
 		/**
@@ -111,10 +122,6 @@
 				return false;
 			}
 			return isset($this->_settings['ignores'][$userId]);
-		}
-
-		public function isAdmin() {
-			return self::_isAdminForRole($this->_settings['user_type']);
 		}
 
 		public function isForbidden() {
@@ -133,27 +140,12 @@
 			return $MockedUser;
 		}
 
-		protected function _getRole() {
+		public function getRole() {
 			if ($this->_id === null) {
 				return 'anon';
 			} else {
 				return $this->_settings['user_type'];
 			}
-		}
-
-		protected static function _isUserForRole($userType) {
-			$accession = self::_maxAccessionForUserType($userType);
-			return ($accession >= 1) ? true : false;
-		}
-
-		protected static function _isModForRole($userType) {
-			$accession = self::_maxAccessionForUserType($userType);
-			return ($accession >= 2) ? true : false;
-		}
-
-		protected static function _isAdminForRole($userType) {
-			$accession = self::_maxAccessionForUserType($userType);
-			return ($accession === 3) ? true : false;
 		}
 
 		/**
@@ -163,14 +155,23 @@
 		 *
 		 * @mlf some day we will have user->type->accession->categories tables and relations,
 		 * that will be an happy day
+         *
+         * @todo remove for permission system
 		 *
 		 * @return int
 		 */
 		public function getMaxAccession() {
-			$userType = $this->_getRole();
+			$userType = $this->getRole();
 			return self::_maxAccessionForUserType($userType);
 		}
 
+        public function permission($resource)
+        {
+            $permission = Registry::get('Permission');
+            return $permission->check($this->getRole(), $resource);
+        }
+
+        // @todo remove for permission system
 		protected static function _maxAccessionForUserType($userType) {
 			if (isset(self::$__accessions[$userType])) :
 				return self::$__accessions[$userType];

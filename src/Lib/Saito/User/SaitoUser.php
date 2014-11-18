@@ -1,15 +1,22 @@
 <?php
 
-	namespace Saito\User;
+namespace Saito\User;
 
-	class SaitoUser implements ForumsUserInterface, \ArrayAccess {
 
-		use SaitoUserTrait;
+class SaitoUser implements ForumsUserInterface, \ArrayAccess
+{
 
-		public function __construct($settings = null) {
-			if ($settings !== null) {
-				$this->setSettings($settings);
-			}
-		}
+    use SaitoUserTrait;
 
-	}
+    public $Categories;
+
+    public function __construct($settings = null)
+    {
+
+        if ($settings !== null) {
+            $this->setSettings($settings);
+			$this->Categories = new Categories($this);
+        }
+    }
+
+}

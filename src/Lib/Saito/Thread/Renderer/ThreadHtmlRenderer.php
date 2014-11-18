@@ -21,7 +21,7 @@
 
 		public function setOptions($options) {
 			parent::setOptions($options);
-			$this->_webroot = $this->_EntryHelper->webroot;
+			$this->_webroot = $this->_Helper->request->webroot;
 			if (isset($options['lineCache'])) {
 				$this->_LineCache = $options['lineCache'];
 			}
@@ -38,7 +38,7 @@
 
 			$requestedParams = $this->_SEM->dispatch(
 				'Request.Saito.View.ThreadLine.beforeRender',
-				['node' => $node, 'View' => $this->_EntryHelper->_View]
+				['node' => $node, 'View' => $this->_View]
 			);
 
 			$params = ['css' => '', 'style' => ''];
@@ -53,7 +53,7 @@
 
 			//= manual json_encode() for performance
 			$tid = $posting['Entry']['tid'];
-			$isNew = $node->isNew() ? 'true' : 'false';
+			$isNew = $node->isUnread() ? 'true' : 'false';
 			$jsData = <<<EOF
 {"id":{$id},"new":{$isNew},"tid":{$tid}}
 EOF;
@@ -86,7 +86,7 @@ EOF;
 
 			$subject = $this->getSubject($node);
 			$username = h($posting['User']['username']);
-			$time = $this->_EntryHelper->TimeH->formatTime($posting['Entry']['time']);
+			$time = $this->_Helper->TimeH->formatTime($posting['Entry']['time']);
 
 			//= category HTML
 			$category = '';

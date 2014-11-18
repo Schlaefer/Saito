@@ -12,11 +12,11 @@ define([
       return Marionette.ItemView.extend({
 
         collectionEvents: {
-          "add": "_createMarker",
-          "change": "_repinMarker"
+          'add': '_createMarker',
+          'change': '_repinMarker'
         },
         modelEvents: {
-          "change:lat": "_setView"
+          'change:lat': '_setView'
         },
         template: {},
         templateHelpers: TemplateHelpers,

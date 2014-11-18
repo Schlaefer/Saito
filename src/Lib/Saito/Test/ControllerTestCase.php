@@ -1,5 +1,7 @@
 <?php
 
+    // @todo 3.0 remove
+
 	namespace Saito\Test;
 
 	/*
@@ -32,46 +34,6 @@
 		 */
 		protected $_env = [];
 
-		protected function _setJson() {
-			$_SERVER['HTTP_ACCEPT'] = 'application/json, text/javascript';
-		}
-
-		protected function _unsetJson() {
-			$_SERVER['HTTP_ACCEPT'] = "text/html,application/xhtml+xml,application/xml";
-		}
-
-		protected function _setAjax() {
-			$_ENV['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
-		}
-
-		protected function _unsetAjax() {
-			unset($_ENV['HTTP_X_REQUESTED_WITH']);
-		}
-
-		protected function _setUserAgent($agent) {
-			if (isset($this->_env['HTTP_USER_AGENT'])) {
-				$this->_env['HTTP_USER_AGENT'] = $_ENV['HTTP_USER_AGENT'];
-			}
-			$_ENV['HTTP_USER_AGENT'] = $agent;
-		}
-
-		protected function _unsetUserAgent() {
-			if (isset($this->_env['HTTP_USER_AGENT'])) {
-				$_ENV['HTTP_USER_AGENT'] = $this->_env('HTTP_USER_AGENT');
-			} else {
-				unset($_ENV['HTTP_USER_AGENT']);
-			}
-		}
-
-		protected function _loginUser($id) {
-			// see: http://stackoverflow.com/a/10411128/1372085
-			$this->_logoutUser();
-			$userFixture = new \UserFixture();
-			$users = $userFixture->records;
-
-			$this->controller->Session->write('Auth.User', $users[$id - 1]);
-		}
-
 		protected function _debugEmail() {
 			\Configure::write('Saito.Debug.email', true);
 		}
@@ -85,19 +47,6 @@
 				$this->headers['Location'],
 				\Router::fullBaseUrl() . $this->controller->request->webroot . $url
 			);
-		}
-
-		protected function _logoutUser() {
-			// if user is logged-in it should interfere with test runs
-			if (isset($_COOKIE['SaitoPersistent'])) :
-				unset($_COOKIE['SaitoPersistent']);
-			endif;
-			if (isset($_COOKIE['Saito'])) :
-				unset($_COOKIE['Saito']);
-			endif;
-			if (isset($this->controller->Session) && !empty($this->controller->Session)) :
-				$this->controller->Session->delete('Auth.User');
-			endif;
 		}
 
 		protected function _notImplementedOnDatasource($name) {
@@ -122,12 +71,11 @@
 			$this->_unsetJson();
 			$this->_debugEmail();
 			\Configure::write('Cache.disable', true);
-			\Configure::write('Config.language', 'eng');
+			\Configure::write('Saito.language', 'eng');
 		}
 
 		public function tearDown() {
 			\Configure::write('Cache.disable', false);
-			$this->_unsetUserAgent();
 			$this->_resetEmail();
 			$this->_logoutUser();
 			parent::tearDown();

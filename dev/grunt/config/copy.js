@@ -4,57 +4,57 @@ module.exports = {
   nonmin: {
     files: [
       {
-        src: ['./app/webroot/dev/bower_components/jquery/jquery.js'],
-        dest: './app/webroot/dist/jquery.js'
+        src: ['./webroot/dev/bower_components/jquery/jquery.js'],
+        dest: './webroot/dist/jquery.js'
       },
       {
-        src: ['./app/webroot/dev/bower_components/requirejs/js/require.js'],
-        dest: './app/webroot/dist/require.js'
+        src: ['./webroot/dev/bower_components/requirejs/js/require.js'],
+        dest: './webroot/dist/require.js'
       },
       // font-awesome fonts
       {
         expand: true,
-        cwd: './app/webroot/dev/bower_components/font-awesome/fonts/',
+        cwd: './webroot/dev/bower_components/font-awesome/fonts/',
         src: '*',
-        dest: './app/webroot/css/stylesheets/fonts/'
+        dest: './webroot/css/stylesheets/fonts/'
       },
       // font-awesome scss
       {
         expand: true,
-        cwd: './app/webroot/dev/bower_components/font-awesome/scss/',
+        cwd: './webroot/dev/bower_components/font-awesome/scss/',
         src: '*',
-        dest: './app/webroot/css/src/partials/lib/font-awesome/'
+        dest: './webroot/css/src/partials/lib/font-awesome/'
       },
       // leaflet
       {
         expand: true,
-        cwd: './app/Vendor/leaflet/',
+        cwd: './webroot/dev/bower_components/leaflet/',
         src: '**',
-        dest: './app/webroot/dist/leaflet/'
+        dest: './webroot/dist/leaflet/'
       },
       {
         expand: true,
-        cwd: './app/webroot/dev/bower_components/leaflet.markercluster/dist/',
+        cwd: './webroot/dev/bower_components/leaflet.markercluster/dist/',
         src: '*',
-        dest: './app/webroot/dist/leaflet/'
+        dest: './webroot/dist/leaflet/'
       }
     ]
   },
   release: {
     files: [
       {
-        src: ['./app/webroot/release-tmp/common.js'],
-        dest: './app/webroot/dist/common.min.js'
+        src: ['./webroot/release-tmp/common.js'],
+        dest: './webroot/dist/common.min.js'
       },
       {
-        src: ['./app/webroot/release-tmp/main.js'],
-        dest: './app/webroot/dist/main.min.js'
+        src: ['./webroot/release-tmp/main.js'],
+        dest: './webroot/dist/main.min.js'
       },
       {
         expand: true,
-        cwd: './app/webroot/dev/vendors/farbtastic/',
+        cwd: './webroot/dev/vendors/farbtastic/',
         src: '*',
-        dest: './app/webroot/js/farbtastic/'
+        dest: './webroot/js/farbtastic/'
       }
     ]
   }

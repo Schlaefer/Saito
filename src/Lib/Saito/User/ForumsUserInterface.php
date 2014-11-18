@@ -10,13 +10,7 @@
 
 		public function getId();
 
-		public function isUser();
-
-		public function isMod();
-
-		public function isModOnly();
-
-		public function isAdmin();
+		public function getRole();
 
 		public function isLoggedIn();
 

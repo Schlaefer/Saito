@@ -1,32 +1,35 @@
 <?php
 
-	class TreeBehavior extends ModelBehavior {
+	namespace App\Model\Behavior;
 
-		public function treeGetSubtree(Model $Model, $tree, $_nodeId) {
-			$func = function (&$tree, &$entry, $_nodeId) {
-				if ((int)$entry['Entry']['id'] === (int)$_nodeId) {
-					$tree = array($entry);
-					return 'break';
-				}
-			};
-			Entry::mapTreeElements($tree, $func, $_nodeId);
-			return $tree;
-		}
+	use Cake\ORM\Behavior;
 
-		public function treeBuild(Model $Model, $threads) {
-			$tree = array();
-			foreach ($threads as $thread) {
-				$id = $thread[$Model->alias]['id'];
-				$pid = $thread[$Model->alias]['pid'];
-				$tree[$id] = isset($tree[$id]) ? $tree[$id] + $thread : $thread;
+	class TreeBehavior extends Behavior {
+
+		public function treeBuild($postings) {
+			$tree = [];
+			foreach ($postings as $posting) {
+				$id = $posting['id'];
+				$pid = $posting['pid'];
+				$tree[$id] = isset($tree[$id]) ? $tree[$id] + $posting : $posting;
 				$tree[$pid]['_children'][] = &$tree[$id];
+			}
+
+			// both boil down to 'first entry in $tree array', but let's be clear what
+			// is expected in $tree
+			if (isset($tree[0])) {
+				// $postings had root entry/-ies with $pid = 0
+				$tree = $tree[0]['_children'];
+			} else {
+				// $postings are subtree: assume lowest $id is root for subtree
+				$tree = [reset($tree)];
 			}
 
 			// It's possible to do uasort before tree build and  get the same results,
 			// without _sortTreesAfterTime
 			// but then *all* entries have to be sorted whereas now only subthreads with childs
 			// are sorted. So using _sortTreesAfterTime is actually faster in praxis.
-			$_sortedTrees = $this->_sortTreesAfterTime($tree[0]['_children']);
+			$_sortedTrees = $this->_sortTreesAfterTime($tree);
 
 			return $_sortedTrees;
 		}
@@ -52,10 +55,10 @@
 		}
 
 		protected function _sort($a, $b) {
-			if ($a['Entry']['time'] === $b['Entry']['time']) {
-				return ($a['Entry']['id'] > $b['Entry']['id']) ? 1 : -1;
+			if ($a['time'] === $b['time']) {
+				return ($a['id'] > $b['id']) ? 1 : -1;
 			} else {
-				return ($a['Entry']['time'] > $b['Entry']['time']) ? 1 : -1;
+				return ($a['time'] > $b['time']) ? 1 : -1;
 			}
 		}
 

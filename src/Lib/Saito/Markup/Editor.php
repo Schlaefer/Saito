@@ -2,11 +2,13 @@
 
 	namespace Saito\Markup;
 
+	use Cake\View\Helper;
+
 	class Editor {
 
 		protected $_Helper;
 
-		public function __construct(\Helper $Helper) {
+		public function __construct(Helper $Helper) {
 			$this->_Helper = $Helper;
 		}
 

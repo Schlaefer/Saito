@@ -2,6 +2,8 @@
 
 	namespace Saito\Markup;
 
+	use Cake\Core\Configure;
+
 	class Settings {
 
 		protected $_defaults = [
@@ -17,7 +19,7 @@
 
 		public function __construct(array $settings) {
 			$this->set($settings + $this->_defaults);
-			\Configure::write('Saito.Settings.Parser', $this);
+			Configure::write('Saito.Settings.Parser', $this);
 			return $this;
 		}
 

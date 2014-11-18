@@ -1,9 +1,10 @@
 <?php
-/**
- * UserIgnoreFixture
- *
- */
-class UserIgnoreFixture extends CakeTestFixture {
+
+	namespace App\Test\Fixture;
+
+	use Cake\TestSuite\Fixture\TestFixture;
+
+class UserIgnoreFixture extends TestFixture {
 
 /**
  * Fields
@@ -11,16 +12,14 @@ class UserIgnoreFixture extends CakeTestFixture {
  * @var array
  */
 	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'primary'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
-		'blocked_user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false),
-		'timestamp' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+		'id' => ['type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true],
+		'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
+		'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
+		'user_id' => ['type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false],
+		'blocked_user_id' => ['type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => false],
+		'timestamp' => ['type' => 'datetime', 'null' => true, 'default' => null],
+		'_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
+		'_options' => ['charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB']
 	);
 
 /**
