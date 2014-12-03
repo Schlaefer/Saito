@@ -7,6 +7,9 @@ Template: home
 
 At the moment the upgrade to CakePHP 3.0 is underway. This is a considerable amount of work and may take several months. Every help is appreciated, please contact to get involved.
 
+<div class="text-muted"><small >2014-12-03</small></div>
+
+
 # What is it #
 
 Saito is an open source threaded web forum written in PHP (see [features](#features) & [tech specs](#techspecs)).
