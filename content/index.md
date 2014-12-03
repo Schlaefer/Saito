@@ -5,10 +5,9 @@ Template: home
 
 # +++ Newsflash +++ #
 
-At the moment the upgrade to CakePHP 3.0 is underway. This is a considerable amount of work and may take several months. Every help is appreciated, please contact to get involved.
-
 <div class="text-muted"><small >2014-12-03</small></div>
 
+At the moment the upgrade to CakePHP 3.0 is underway. This is a considerable amount of work and may take several months. Every help is appreciated, please contact to get involved.
 
 # What is it #
 
