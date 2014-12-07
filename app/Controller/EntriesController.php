@@ -26,10 +26,10 @@
 
 			//= determine user sort order
 			$sortKey = 'Entry.';
-			if ($this->CurrentUser['user_sort_last_answer'] == false) {
-				$sortKey .= 'time';
-			} else {
+			if (!$this->CurrentUser->isLoggedIn() || $this->CurrentUser['user_sort_last_answer']) {
 				$sortKey .= 'last_answer';
+			} else {
+				$sortKey .= 'time';
 			}
 			$order = ['Entry.fixed' => 'DESC', $sortKey => 'DESC'];
 
