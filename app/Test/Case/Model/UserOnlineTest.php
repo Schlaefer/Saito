@@ -173,7 +173,14 @@
 
 			$this->UserOnline->contain();
 			$result = $this->UserOnline->find('all', $this->_fields);
+
+			$this->_assertTimeIsNow($result[0]);
+
 			$expected = $this->_startUsersOnline;
+			unset(
+				$expected[0]['UserOnline']['time'],
+				$result[0]['UserOnline']['time']
+			);
 			$this->assertEquals($result, $expected);
 		}
 
