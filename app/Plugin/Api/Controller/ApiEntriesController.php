@@ -36,7 +36,7 @@
 			}
 
 			$conditions = [
-				'Entry.category' => $this->CurrentUser->Categories->getAllowed(),
+				'Entry.category_id' => $this->CurrentUser->Categories->getAllowed(),
 				'Entry.pid' => 0
 			];
 
@@ -104,7 +104,7 @@
 				[
 					'conditions' => [
 						'Entry.tid' => $id,
-						'Entry.category' => $this->CurrentUser->Categories->getAllowed()
+						'Entry.category_id' => $this->CurrentUser->Categories->getAllowed()
 					],
 					'order' => $order,
 					'contain' => ['Category', 'User']

@@ -71,7 +71,7 @@
 				$order = 'last_answer DESC';
 			}
 
-			$conditions['category'] = $this->CurrentUser->Categories->getAllowed();
+			$conditions['category_id'] = $this->CurrentUser->Categories->getAllowed();
 
 			$entries = $this->Entry->find(
 				'feed',
@@ -544,7 +544,7 @@
 					'pid' => $data['pid'],
 					'subject' => $data['subject'],
 					'text' => $data['text'],
-					'category' => $data['category'],
+					'category_id' => $data['category_id'],
 					'edited_by' => null,
 					'fixed' => false,
 					'solves' => 0,
@@ -556,7 +556,7 @@
 			$this->Entry->prepare($newEntry);
 			$this->Entry->set($newEntry);
 
-			$this->Entry->validates(['fieldList' => ['subject', 'text', 'category']]);
+			$this->Entry->validates(['fieldList' => ['subject', 'text', 'category_id']]);
 			$errors = $this->Entry->validationErrors;
 
 			if (count($errors) === 0) :
@@ -568,7 +568,7 @@
 						'first',
 						array(
 							'conditions' => array(
-								'id' => $newEntry['Entry']['category']
+								'id' => $newEntry['Entry']['category_id']
 							),
 							'contain' => false,
 						)
@@ -821,7 +821,7 @@
 			$this->paginate = [
 				'conditions' => [
 					'pid' => 0,
-					'Entry.category' => $categories
+					'Entry.category_id' => $categories
 				],
 				'contain' => false,
 				'fields' => 'id, pid, tid, time, last_answer, fixed',

@@ -50,13 +50,13 @@
 				'subject' => ['type' => 'like'],
 				'text' => ['type' => 'like'],
 				'name' => ['type' => 'like'],
-				'category' => ['type' => 'value'],
+				'category_id' => ['type' => 'value'],
 		];
 
 		public $belongsTo = array(
 			'Category' => array(
 				'className' => 'Category',
-				'foreignKey' => 'category',
+				'foreignKey' => 'category_id',
 			),
 			'User' => array(
 				'className' => 'User',
@@ -85,7 +85,7 @@
 						'notEmpty' => ['rule' => 'notEmpty'],
 						'maxLength' => ['rule' => 'validateSubjectMaxLength']
 				],
-				'category' => [
+				'category_id' => [
 						'notEmpty' => ['rule' => 'notEmpty'],
 						'numeric' => ['rule' => 'numeric'],
 						'isAllowed' => ['rule' => 'validateCategoryIsAllowed']
@@ -112,7 +112,7 @@
 			'Entry.user_id',
 			'Entry.name',
 			'Entry.subject',
-			'Entry.category',
+			'Entry.category_id',
 			'Entry.text',
 			'Entry.locked',
 			'Entry.fixed',
@@ -158,7 +158,7 @@
 			'Entry.edited',
 			'Entry.edited_by',
 			'Entry.ip',
-			'Entry.category',
+			'Entry.category_id',
 
 			'User.id',
 			'User.signature',
@@ -172,14 +172,14 @@
 		 */
 		public $allowedInputFields = [
 			'create' => [
-				'category',
+				'category_id',
 				'pid',
 				'subject',
 				'text'
 			],
 			'update' => [
 				'id',
-				'category',
+				'category_id',
 				'subject',
 				'text'
 			]
@@ -208,7 +208,7 @@
 			$options += [
 				'user_id' => null,
 				'limit' => 10,
-				'category' => $User->Categories->getAllowed()
+				'category_id' => $User->Categories->getAllowed()
 			];
 
 			$_cacheKey = 'Entry.recentEntries-' . md5(serialize($options));
@@ -222,8 +222,8 @@
 			if ($options['user_id'] !== null) {
 				$conditions[]['Entry.user_id'] = $options['user_id'];
 			}
-			if ($options['category'] !== null):
-				$conditions[]['Entry.category'] = $options['category'];
+			if ($options['category_id'] !== null):
+				$conditions[]['Entry.category_id'] = $options['category_id'];
 			endif;
 
 			$result = $this->find(
@@ -345,7 +345,7 @@
 					return false;
 				} else {
 					$_newPosting[$this->alias]['tid'] = $_newPostingId;
-					$this->Category->id = $data[$this->alias]['category'];
+					$this->Category->id = $data[$this->alias]['category_id'];
 					$this->Category->updateThreadCounter();
 				}
 				$this->_dispatchEvent(
@@ -417,7 +417,7 @@
 			// prevents normal user of changing category of complete thread when answering
 			// @todo this should be refactored together with the change category handling in beforeSave()
 			if ($this->isRoot($data) === false) {
-				unset($data[$this->alias]['category']);
+				unset($data[$this->alias]['category_id']);
 			}
 
 			$data[$this->alias]['edited'] = bDate();
@@ -698,7 +698,7 @@
 
 			if ($success):
 				if ($this->isRoot($entry)) {
-					$this->Category->id = $entry['Entry']['category'];
+					$this->Category->id = $entry['Entry']['category_id'];
 					$this->Category->updateThreadCounter();
 					$this->Esevent->deleteSubject($id, 'thread');
 				}
@@ -829,7 +829,7 @@
 				// appended source entries get category of target thread
 				$this->_threadChangeCategory(
 					$targetEntry[$this->alias]['tid'],
-					$targetEntry[$this->alias]['category']
+					$targetEntry[$this->alias]['category_id']
 				);
 
 				// update target thread last answer if source is newer
@@ -955,7 +955,7 @@
 				}
 
 				$data[$this->alias]['tid'] = $parent[$this->alias]['tid'];
-				$data[$this->alias]['category'] = $parent[$this->alias]['category'];
+				$data[$this->alias]['category_id'] = $parent[$this->alias]['category_id'];
 			}
 
 			//= markup preprocessing
@@ -1012,7 +1012,7 @@
 				$categories = $this->Category->find(
 					'all',
 					[
-						'conditions' => array('id' => $conditions['Entry.category']),
+						'conditions' => array('id' => $conditions['Entry.category_id']),
 						'fields' => array('thread_count')
 					]
 				);
@@ -1032,16 +1032,16 @@
 
 			//# change category of thread if category of root entry changed
 			$modified = !empty($this->id);
-			if (isset($this->data[$this->alias]['category']) && $modified) {
+			if (isset($this->data[$this->alias]['category_id']) && $modified) {
 				$oldEntry = $this->find('first',
 					['contain' => false, 'conditions' => ['Entry.id' => $this->id]]);
 
 				if ($oldEntry && (int)$oldEntry[$this->alias]['pid'] === 0) {
-					$categoryChanged = (int)$this->data[$this->alias]['category'] !== (int)$oldEntry[$this->alias]['category'];
+					$categoryChanged = (int)$this->data[$this->alias]['category_id'] !== (int)$oldEntry[$this->alias]['category_id'];
 					if ($categoryChanged) {
 						$success = $success && $this->_threadChangeCategory(
 								$oldEntry[$this->alias]['tid'],
-								$this->data[$this->alias]['category']
+								$this->data[$this->alias]['category_id']
 							);
 					}
 				}
@@ -1058,7 +1058,7 @@
  */
 		public function validateCategoryIsAllowed($check) {
 			$availableCategories = $this->CurrentUser->Categories->getAllowed();
-			if (!isset($availableCategories[$check['category']])) {
+			if (!isset($availableCategories[$check['category_id']])) {
 				return false;
 			}
 			return true;
@@ -1123,7 +1123,7 @@
 				throw new NotFoundException;
 			}
 			$out = $this->updateAll(
-				['Entry.category' => $newCategoryId],
+				['Entry.category_id' => $newCategoryId],
 				['Entry.tid' => $tid]
 			);
 			return $out;

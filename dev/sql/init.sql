@@ -126,7 +126,7 @@ CREATE TABLE `entries` (
   `user_id` int(11) DEFAULT '0',
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `subject` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `category` int(11) NOT NULL DEFAULT '0',
+  `category_id` int(11) NOT NULL DEFAULT '0',
   `text` text COLLATE utf8_unicode_ci,
   `email_notify` int(4) DEFAULT '0',
   `locked` int(4) DEFAULT '0',
@@ -150,7 +150,7 @@ CREATE TABLE `entries` (
 LOCK TABLES `entries` WRITE;
 /*!40000 ALTER TABLE `entries` DISABLE KEYS */;
 
-INSERT INTO `entries` (`created`, `modified`, `id`, `pid`, `tid`, `time`, `last_answer`, `edited`, `edited_by`, `user_id`, `name`, `subject`, `category`, `text`, `email_notify`, `locked`, `fixed`, `views`, `flattr`, `nsfw`, `ip`, `solves`)
+INSERT INTO `entries` (`created`, `modified`, `id`, `pid`, `tid`, `time`, `last_answer`, `edited`, `edited_by`, `user_id`, `name`, `subject`, `category_id`, `text`, `email_notify`, `locked`, `fixed`, `views`, `flattr`, `nsfw`, `ip`, `solves`)
 VALUES
 	(NULL,NULL,1,0,1,'2000-01-01 20:00:00','2000-01-04 20:02:00','2014-03-11 12:45:48',NULL,3,NULL,'First_Subject',2,'First_Text',0,0,0,0,NULL,NULL,NULL,0),
 	(NULL,NULL,2,1,1,'2000-01-01 20:01:00','2000-01-01 20:01:00','2014-03-11 12:45:48',NULL,2,NULL,'Second_Subject',2,'Second_Text',0,0,0,0,NULL,NULL,NULL,0),

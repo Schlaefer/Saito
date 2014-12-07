@@ -44,10 +44,10 @@
       <div class="input">
         <?=
           $this->Form->select(
-            'category',
+            'category_id',
             $categories,
             [
-              'value' => $this->request->data['Entry']['category'],
+              'value' => $this->request->data['Entry']['category_id'],
               'empty' => __('All Categories'),
               'required' => false
             ]
