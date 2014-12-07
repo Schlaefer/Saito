@@ -357,7 +357,7 @@ DROP TABLE IF EXISTS `smilies`;
 
 CREATE TABLE `smilies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order` int(4) NOT NULL DEFAULT '0',
+  `sort` int(4) NOT NULL DEFAULT '0',
   `icon` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
   `image` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
@@ -367,7 +367,7 @@ CREATE TABLE `smilies` (
 LOCK TABLES `smilies` WRITE;
 /*!40000 ALTER TABLE `smilies` DISABLE KEYS */;
 
-INSERT INTO `smilies` (`id`, `order`, `icon`, `image`, `title`)
+INSERT INTO `smilies` (`id`, `sort`, `icon`, `image`, `title`)
 VALUES
 	(1,2,'smile_icon.png','smile_image.png','Smile'),
 	(2,1,'wink.png','','Wink');

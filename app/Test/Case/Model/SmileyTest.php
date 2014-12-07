@@ -13,7 +13,7 @@
 			$result = $this->Smiley->load();
 			$expected = [
 				[
-					'order' => 1,
+					'sort' => 1,
 					'icon' => 'wink.svg',
 					'image' => 'wink.svg',
 					'title' => 'Wink',
@@ -21,7 +21,7 @@
 					'type' => 'image'
 				],
 				[
-					'order' => 1,
+					'sort' => 1,
 					'icon' => 'wink.svg',
 					'image' => 'wink.svg',
 					'title' => 'Wink',
@@ -29,7 +29,7 @@
 					'type' => 'image'
 				],
 				[
-					'order' => 2,
+					'sort' => 2,
 					'icon' => 'smile_icon.png',
 					'image' => 'smile_image.png',
 					'title' => 'Smile',
@@ -37,7 +37,7 @@
 					'type' => 'image'
 				],
 				[
-					'order' => 3,
+					'sort' => 3,
 					'icon' => 'coffee',
 					'image' => 'coffee',
 					'title' => 'Coffee',
