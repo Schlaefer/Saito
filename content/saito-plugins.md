@@ -22,6 +22,6 @@ Available plugins:
 
 <div class="text-muted">
 <small >
-<a href="https://github.com/Schlaefer/Saito/blob/gh-pages/content/plugins.md">Add your plugins via pull request.</a>
+<a href="https://github.com/Schlaefer/Saito/blob/gh-pages/content/saito-plugins.md">Add your plugins via pull request.</a>
 </small>
 </div>
