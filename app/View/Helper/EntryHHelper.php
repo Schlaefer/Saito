@@ -74,7 +74,8 @@
 			$options += [
 				'lineCache' => $this->_View->get('LineCache'),
 				'maxThreadDepthIndent' => (int)Configure::read('Saito.Settings.thread_depth_indent'),
-				'renderer' => 'thread'
+				'renderer' => 'thread',
+				'rootWrap' => false
 			];
 			$renderer = $options['renderer'];
 			unset($options['renderer']);
