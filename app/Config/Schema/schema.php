@@ -56,9 +56,9 @@ class AppSchema extends CakeSchema {
 			'tid' => array('column' => 'tid', 'unique' => 0),
 			'entries_userId' => array('column' => 'user_id', 'unique' => 0),
 			'last_answer' => array('column' => 'last_answer', 'unique' => 0),
-			'pft' => array('column' => array('pid', 'fixed', 'time', 'category'), 'unique' => 0),
-			'pfl' => array('column' => array('pid', 'fixed', 'last_answer', 'category'), 'unique' => 0),
-			'pid_category' => array('column' => array('pid', 'category'), 'unique' => 0),
+			'pft' => array('column' => array('pid', 'fixed', 'time', 'category_id'), 'unique' => 0),
+			'pfl' => array('column' => array('pid', 'fixed', 'last_answer', 'category_id'), 'unique' => 0),
+			'pid_category' => array('column' => array('pid', 'category_id'), 'unique' => 0),
 			'entries_userId_time' => array('column' => array('time', 'user_id'), 'unique' => 0),
 			'fulltext_search' => array('column' => array('subject', 'name', 'text'), 'type' => 'fulltext')
 		),
