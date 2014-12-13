@@ -84,7 +84,7 @@
 					'fields' => $fields,
 					'conditions' => [
 							"MATCH (Entry.subject, Entry.text, Entry.name) AGAINST ('$q' IN BOOLEAN MODE)",
-							'Entry.category' => $this->CurrentUser->Categories->getAllowed()
+							'Entry.category_id' => $this->CurrentUser->Categories->getAllowed()
 					],
 					'order' => $order,
 					'paramType' => 'querystring'
@@ -148,12 +148,12 @@
 						'Y-m-d H:i:s',
 						mktime(0, 0, 0, $month, 1, $year));
 
-				if (isset($query['category']) && (int)$query['category'] !== 0) {
-					if (!isset($categories[(int)$query['category']])) {
+				if (isset($query['category_id']) && (int)$query['category_id'] !== 0) {
+					if (!isset($categories[(int)$query['category_id']])) {
 						throw new NotFoundException;
 					}
 				} else {
-					$settings['conditions']['Entry.category'] = $this->CurrentUser
+					$settings['conditions']['Entry.category_id'] = $this->CurrentUser
 						->Categories->getAllowed();
 				}
 				$this->Paginator->settings = $settings;
@@ -165,8 +165,8 @@
 					$this->Paginator->paginate(null, null, ['Entry.time']));
 			}
 
-			if (!isset($query['category'])) {
-				$this->request->data['Entry']['category'] = 0;
+			if (!isset($query['category_id'])) {
+				$this->request->data['Entry']['category_id'] = 0;
 			}
 
 			$this->set(compact('month', 'year'));

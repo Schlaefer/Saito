@@ -7,11 +7,9 @@
 								'message' => __('search_nothing_found')
 						]);
 			} else {
-				$out = [];
 				foreach ($results as $result) {
-          $out[] = $this->EntryH->renderThread($result);
+          echo $this->EntryH->renderThread($result, ['rootWrap' => true]);
 				}
-				echo $this->Html->nestedList($out);
 			}
 		?>
 	</div>

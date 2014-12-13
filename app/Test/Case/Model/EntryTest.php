@@ -77,7 +77,7 @@
 				// +1 because str_pad calculates non ascii chars to a string length of 2
 				'subject' => str_pad('Sübject', $this->Entry->getSubjectMaxLength() + 1, '.'),
 				'text' => 'Täxt',
-				'category' => $category
+				'category_id' => $category
 			];
 
 			$lastEntry = $this->Entry->find(
@@ -134,7 +134,7 @@
 			$data['Entry'] = [
 				'pid' => 0,
 				'subject' => 'Subject',
-				'category' => $category
+				'category_id' => $category
 			];
 			$this->Entry->createPosting($data);
 		}
@@ -207,9 +207,10 @@
 			$this->assertEquals($targetEntryCountAfterMerge, $sourceEntryCount + $targetEntryCount);
 
 			//appended entries have category of target thread
-			$targetCategoryCount = $this->Entry->find('count', array(
-					'conditions' => array ('Entry.tid' => 1, 'Entry.category' => 2)
-					));
+			$targetCategoryCount = $this->Entry->find(
+				'count',
+				['conditions' => ['Entry.tid' => 1, 'Entry.category_id' => 2]]
+			);
 			$this->assertEquals($targetCategoryCount, $targetEntryCount + $sourceEntryCount);
 
 			// source thread is gone
@@ -236,8 +237,8 @@
 			//= lock the target fixture thread
 			$this->Entry->id = 2;
 			$this->Entry->toggle('locked');
-			$entry = $this->Entry->get(4);
-			$this->assertTrue($entry['Entry']['locked'] == false);
+			$entry = $this->Entry->get(2);
+			$this->assertTrue($entry['Entry']['locked'] == true);
 
 			//= merge
 			$this->Entry->id = 4;
@@ -314,24 +315,24 @@
 			$_oldCategory = 2;
 			$_newCategory = 1;
 
-			$_nBeforeChange = $this->Entry->find('count', array(
-				'contain' => false,
-				'conditions' => array(
-					'tid' => 1,
-					'category' => $_oldCategory,
-				)
-			));
+			$_nBeforeChange = $this->Entry->find(
+				'count',
+				[
+					'contain' => false,
+					'conditions' => ['tid' => 1, 'category_id' => $_oldCategory]
+				]
+			);
 			$this->assertGreaterThan(1, $_nBeforeChange);
 
 			$this->Entry->id = 1;
 			$this->Entry->SharedObjects['CurrentUser'] = $SaitoUser;
-			$this->Entry->save(['Entry' => ['category' => $_newCategory]]);
+			$this->Entry->save(['Entry' => ['category_id' => $_newCategory]]);
 
 			$_nAfterChange = $this->Entry->find('count', array(
 				'contain' => false,
 				'conditions' => array(
 					'tid' => 1,
-					'category' => $_newCategory,
+					'category_id' => $_newCategory,
 				)
 			));
 			$this->assertEquals($_nBeforeChange, $_nAfterChange);
@@ -340,7 +341,7 @@
 				'contain' => false,
 				'conditions' => array(
 					'tid' => 1,
-					'category' => $_oldCategory
+					'category_id' => $_oldCategory
 				)
 			));
 			$this->assertEquals(0, $_nAfterChangeOld);
@@ -358,7 +359,7 @@
 
 			$this->Entry->id = 1;
 			$this->Entry->_CurrentUser = $SaitoUser;
-			$result = $this->Entry->save(['Entry' => ['category' => $_newCategory]]);
+			$result = $this->Entry->save(['Entry' => ['category_id' => $_newCategory]]);
 			$this->assertFalse($result);
 		}
 

@@ -71,6 +71,9 @@
         top: 18px;
         left: 0px;
         background: $background-color;
+
+        border: 1px solid $border-color;
+        @extend %dialog-hover;
       }
 
       > ul > li {

@@ -79,7 +79,7 @@
 				'Entry' => [
 					'subject' => 'subject',
 					'text' => 'text',
-					'category' => 1,
+					'category_id' => 1,
 				],
 				'Event' => [
 					1 => ['event_type_id' => 0],
@@ -135,7 +135,7 @@
 					'Entry' => [
 						// 41 chars
 							'subject' => 'Vorher wie ich in der mobilen Version ka…',
-							'category' => 1,
+							'category_id' => 1,
 							'pid' => 0
 					],
 					'Event' => [

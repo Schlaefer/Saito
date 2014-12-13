@@ -103,7 +103,7 @@
 						'comment' => '',
 						'charset' => 'utf8'
 				],
-				'category' => [
+				'category_id' => [
 						'type' => 'integer',
 						'null' => false,
 						'default' => '0',
@@ -212,7 +212,7 @@
 				'tid' => 1,
 				'time' => '2000-01-01 20:00:00',
 				'last_answer' => '2000-01-04 20:02:00',
-				'category' => 2, // accession = 0
+				'category_id' => 2, // accession = 0
 				'user_id' => 3
 			],
 			[
@@ -223,7 +223,7 @@
 				'tid' => 1,
 				'time' => '2000-01-01 20:01:00',
 				'last_answer' => '2000-01-01 20:01:00',
-				'category' => 2,
+				'category_id' => 2,
 				'user_id' => 2
 			],
 			[
@@ -234,7 +234,7 @@
 				'tid' => 1,
 				'time' => '2000-01-01 20:02:00',
 				'last_answer' => '2000-01-01 20:02:00',
-				'category' => 2,
+				'category_id' => 2,
 				'user_id' => 3,
 				'name' => 'Ulysses',
 				'edited' => '2000-01-01 20:04:00',
@@ -250,7 +250,7 @@
 				'tid' => 1,
 				'time' => '2000-01-02 20:03:00',
 				'last_answer' => '2000-01-02 20:03:00',
-				'category' => 2,
+				'category_id' => 2,
 				'user_id' => 3,
 				'name' => 'Ulysses',
 				'ip' => '1.1.1.1',
@@ -264,7 +264,7 @@
 				'tid' => 1,
 				'time' => '2000-01-03 20:02:00',
 				'last_answer' => '2000-01-03 20:02:00',
-				'category' => 2,
+				'category_id' => 2,
 				'user_id' => 3,
 				'name' => 'Ulysses',
 				'ip' => '1.1.1.1'
@@ -277,7 +277,7 @@
 				'tid' => 1,
 				'time' => '2000-01-04 20:02:00',
 				'last_answer' => '2000-01-04 20:02:00',
-				'category' => 2,
+				'category_id' => 2,
 				'user_id' => 3,
 				'name' => 'Ulysses',
 				'ip' => '1.1.1.1'
@@ -292,7 +292,7 @@
 				'tid' => 4,
 				'time' => '2000-01-01 10:00:00',
 				'last_answer' => '2000-01-04 20:02:00',
-				'category' => 4, // accession = 1
+				'category_id' => 4, // accession = 1
 				'user_id' => 1,
 				'locked' => 1
 			],
@@ -304,7 +304,7 @@
 				'tid' => 4,
 				'time' => '2000-01-04 20:02:00',
 				'last_answer' => '2000-01-04 20:02:00',
-				'category' => 4,
+				'category_id' => 4,
 				'user_id' => 3,
 				'name' => 'Ulysses',
 				'ip' => '1.1.1.1',
@@ -321,7 +321,7 @@
 				'tid' => 6,
 				'time' => '2000-01-01 11:00:00',
 				'last_answer' => '2000-01-01 11:00:00',
-				'category' => 1, // accession = 2
+				'category_id' => 1, // accession = 2
 				'user_id' => 1,
 				'name' => 'Alice',
 				'ip' => '1.1.1.3'
@@ -336,7 +336,7 @@
 				'tid' => 10,
 				'time' => '2000-01-01 10:59:00',
 				'last_answer' => '2000-01-01 10:59:00',
-				'category' => 2, // accession = 0
+				'category_id' => 2, // accession = 0
 				'user_id' => 3,
 				'locked' => 1
 			],
@@ -350,7 +350,7 @@
 				'tid' => 11,
 				'time' => '2000-01-01 10:59:00',
 				'last_answer' => '2000-01-01 10:59:00',
-				'category' => 2, // accession = 0
+				'category_id' => 2, // accession = 0
 				'user_id' => 7
 			]
 		);

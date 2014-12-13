@@ -94,7 +94,7 @@
 			$this->_loginUser(3);
 
 			$this->setExpectedException('NotFoundException');
-			$this->testAction('/searches/advanced?subject=foo&category=1',
+			$this->testAction('/searches/advanced?subject=foo&category_id=1',
 				['method' => 'GET']);
 		}
 

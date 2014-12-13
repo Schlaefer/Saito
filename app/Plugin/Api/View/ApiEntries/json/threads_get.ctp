@@ -16,7 +16,7 @@
 			),
 			'user_id'       => (int)$entry['Entry']['user_id'],
 			'user_name'     => $entry['User']['username'],
-			'category_id'   => (int)$entry['Entry']['category'],
+			'category_id'   => (int)$entry['Entry']['category_id'],
 			'category_name' => $entry['Category']['category']
 		];
 	}

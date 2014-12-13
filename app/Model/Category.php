@@ -13,7 +13,7 @@
 		public $hasMany = [
 			'Entry' => [
 				'className' => 'Entry',
-				'foreignKey' => 'category'
+				'foreignKey' => 'category_id'
 			]
 		];
 
@@ -90,7 +90,7 @@
 					'contain' => false,
 					'conditions' => [
 						'pid' => 0,
-						'Entry.category' => $this->id
+						'Entry.category_id' => $this->id
 					]
 				]
 			);

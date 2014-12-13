@@ -7,7 +7,7 @@
 		public $name = 'Smiley';
 
 		public $validate = [
-			'order' => [
+			'sort' => [
 				'numeric' => [
 					'rule' => ['numeric']
 				]
@@ -34,7 +34,7 @@
 			}
 
 			$this->_smilies = [];
-			$smiliesRaw = $this->find('all', ['order' => 'Smiley.order ASC']);
+			$smiliesRaw = $this->find('all', ['order' => 'Smiley.sort ASC']);
 
 			foreach ($smiliesRaw as $smileyRaw) {
 				// 'image' defaults to 'icon'

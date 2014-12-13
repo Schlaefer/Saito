@@ -7,6 +7,7 @@
 tags
 
 ### CakePHP 3 ###
+/bin
 /logs
 /tmp
 /vendor

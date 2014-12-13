@@ -44,7 +44,7 @@
 		public function categorySelect($entry, $categories) {
 			if ($entry['Entry']['pid'] == 0) {
 				$out = $this->Form->input(
-						'category',
+						'category_id',
 						[
 								'options' => [$categories],
 								'empty' => true,
@@ -56,7 +56,7 @@
 			} else {
 				// Send category for easy access in entries/preview when answering
 				// (not used when saved).
-				$out = $this->Form->hidden('category');
+				$out = $this->Form->hidden('category_id');
 			}
 			return $out;
 		}
@@ -74,7 +74,8 @@
 			$options += [
 				'lineCache' => $this->_View->get('LineCache'),
 				'maxThreadDepthIndent' => (int)Configure::read('Saito.Settings.thread_depth_indent'),
-				'renderer' => 'thread'
+				'renderer' => 'thread',
+				'rootWrap' => false
 			];
 			$renderer = $options['renderer'];
 			unset($options['renderer']);

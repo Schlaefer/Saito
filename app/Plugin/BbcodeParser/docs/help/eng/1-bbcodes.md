@@ -93,7 +93,7 @@ If `<language>` is not `text` (default) the `<source>` is highlighted in the par
 
 ## Citation ##
 
-	» You guys got any milk?
+	> You guys got any milk?
 
 A special citation character (depending on forum-settings) at the beginning of the line followed by a space marks the following text in that line as a citation from the parent posting.
 

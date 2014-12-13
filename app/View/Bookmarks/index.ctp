@@ -45,7 +45,9 @@
 								</div>
 								<div id="<?= $bookmark['Entry']['id'] ?>"
 										 class="l-bookmarks-cell bookmarks-cell" style="width: 60%">
-									<?= $this->EntryH->renderThread($entry_sub) ?>
+									<?= $this->EntryH->renderThread(
+										$entry_sub, ['rootWrap' => true]
+									) ?>
 								</div>
 								<div class="l-bookmarks-cell bookmarks-cell" style="width: 4%; padding-left: 0">
 									<?php

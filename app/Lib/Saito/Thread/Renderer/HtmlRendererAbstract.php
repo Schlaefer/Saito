@@ -14,7 +14,11 @@
 
 		protected $_EntryHelper;
 
-		protected $_defaults = ['ignore' => true, 'currentEntry' => null];
+		protected $_defaults = [
+			'currentEntry' => null,
+			'ignore' => true,
+			'rootWrap' => false
+		];
 
 		protected $_settings;
 
@@ -31,7 +35,7 @@
 		public function render(\Saito\Posting\PostingInterface $node) {
 			$this->_lastAnswer = $node->getThread()->getLastAnswer();
 			$html = $this->_renderNode($node);
-			if ($node->isRoot()) {
+			if ($node->isRoot() || $this->_settings['rootWrap']) {
 				$html = $this->_wrapUl($html, 0, $node->get('id'));
 			}
 			return $html;

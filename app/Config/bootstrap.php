@@ -217,14 +217,6 @@ else :
 endif;
 
 /**
- * Activates Saito's thread cache
- *
- * true: (default for debug 0 and 1) use cache
- * false: (default for debug > 1) don't use cache
- */
-Configure::write('Saito.Cache.Thread', true);
-
-/**
  * Add additional buttons to editor
  * @td document in namespace
  */

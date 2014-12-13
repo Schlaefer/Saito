@@ -43,7 +43,7 @@ class AppSchema extends CakeSchema {
 		'user_id' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false, 'key' => 'index'),
 		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'subject' => array('type' => 'string', 'null' => true, 'default' => null, 'key' => 'index', 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'category' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
+		'category_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
 		'text' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'email_notify' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
 		'locked' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
@@ -56,9 +56,9 @@ class AppSchema extends CakeSchema {
 			'tid' => array('column' => 'tid', 'unique' => 0),
 			'entries_userId' => array('column' => 'user_id', 'unique' => 0),
 			'last_answer' => array('column' => 'last_answer', 'unique' => 0),
-			'pft' => array('column' => array('pid', 'fixed', 'time', 'category'), 'unique' => 0),
-			'pfl' => array('column' => array('pid', 'fixed', 'last_answer', 'category'), 'unique' => 0),
-			'pid_category' => array('column' => array('pid', 'category'), 'unique' => 0),
+			'pft' => array('column' => array('pid', 'fixed', 'time', 'category_id'), 'unique' => 0),
+			'pfl' => array('column' => array('pid', 'fixed', 'last_answer', 'category_id'), 'unique' => 0),
+			'pid_category' => array('column' => array('pid', 'category_id'), 'unique' => 0),
 			'entries_userId_time' => array('column' => array('time', 'user_id'), 'unique' => 0),
 			'fulltext_search' => array('column' => array('subject', 'name', 'text'), 'type' => 'fulltext')
 		),
@@ -129,7 +129,7 @@ class AppSchema extends CakeSchema {
 
 	public $smilies = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-		'order' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'unsigned' => false),
+		'sort' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 4, 'unsigned' => false),
 		'icon' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'image' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 100, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'title' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
