@@ -1,5 +1,5 @@
 {{github}}
-<div id="footerHelper staticPage">
+<div id="footerHelper" class="staticPage">
   <div class="container">
     {{hero}}
     <div class="row">
