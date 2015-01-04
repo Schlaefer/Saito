@@ -50,8 +50,8 @@ And a shout-out to all the donors!
 
  Donors <span><small class="text-muted">(sorted by amount)</small></span> | Last Seen
  ------| -----
- [macfix.de]                | 2014
- [macnemo.de] (Panxatony)   | 2014
+ [macfix.de]                | 2015
+ [macnemo.de] (Panxatony)   | 2015
  fwskxgrd                   | 2014
  CocoaBärchi &amp; dakapo   | 2014
  redcurry                   | 2012
@@ -63,7 +63,7 @@ And a shout-out to all the donors!
 
 <div class="text-muted">
 <small >
-	Someone's missing? Want your name linked? Please send a mail! – Last updated 2014-08-06.
+	Someone's missing? Want your name linked? Please send a mail! – Last updated 2015-01-04.
 </small>
 </div>
 
