@@ -12,11 +12,24 @@
 		 *
 		 * @var array
 		 */
-		public $fixtures = array(
+		public $fixtures = [
+			'app.user',
 			'app.user_block'
-		);
+		];
 
-		public function testSomething() {
+		public function testFindToGc() {
+			$result = $this->UserBlock->find('toGc');
+			$this->assertCount(1, $result);
+		}
+
+		public function testGc() {
+			$before = $this->UserBlock->find('toGc');
+			$this->assertCount(1, $before);
+
+			$this->UserBlock->gc();
+
+			$after = $this->UserBlock->find('toGc');
+			$this->assertCount(0, $after);
 		}
 
 		/**

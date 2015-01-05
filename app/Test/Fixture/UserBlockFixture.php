@@ -43,7 +43,6 @@
 		 *
 		 * @var array
 		 */
-		/*
 		public $records = array(
 			array(
 				'id' => 1,
@@ -52,9 +51,19 @@
 				'user_id' => 1,
 				'reason' => 1,
 				'ends' => '2014-08-11 08:59:43',
-				'by' => 1
+				'by' => 1,
+				'ended' => null
+			),
+			array(
+				'id' => 2,
+				'created' => '2014-08-11 08:59:43',
+				'modified' => '2014-08-11 08:59:43',
+				'user_id' => 2,
+				'reason' => 1,
+				'ends' => null,
+				'by' => 1,
+				'ended' => null
 			),
 		);
 
-		*/
 	}
