@@ -19,9 +19,23 @@
 			$this->_smileyData = $smileyData;
 		}
 
+		/**
+		 * Replaces all smiley-codes in a string with appropriate HTML-tags
+		 *
+		 * @param $string
+		 * @return string
+		 * @throws \RuntimeException
+		 */
 		public function replace($string) {
 			$replacements = $this->_getReplacements();
-			$string = str_replace($replacements['codes'], $replacements['html'], $string);
+			$string = preg_replace(
+				$replacements['codes'],
+				$replacements['html'],
+				$string
+			);
+			if ($string === null) {
+				throw new \RuntimeException("Can't replace smilies. 1420630983");
+			}
 			$string = $this->_debug($string, $replacements);
 			return $string;
 		}
@@ -61,6 +75,7 @@
 				$this->_replacements = ['codes' => [], 'html' => []];
 				$this->_addSmilies($this->_replacements);
 				$this->_addAdditionalButtons($this->_replacements);
+				$this->_pregQuote($this->_replacements['codes']);
 
 				if ($this->_useCache) {
 					Cache::write('Saito.Smilies.html', $this->_replacements);
@@ -68,6 +83,23 @@
 			}
 
 			return $this->_replacements;
+		}
+
+		/**
+		 * prepares an array with smiliey-codes to be used in a preg_replace
+		 *
+		 * @param array $codes
+		 */
+		protected function _pregQuote(array &$codes) {
+			$delimiter = '/';
+			foreach ($codes as $key => $code) {
+				$codes[$key] = $delimiter .
+					// a smiley can't be concatenated to a string and requires a
+					// whitespace in front
+					'(^|(?<=(\s)))' .
+					preg_quote($code, $delimiter) .
+					$delimiter;
+			}
 		}
 
 		protected function _addSmilies(&$replacements) {
