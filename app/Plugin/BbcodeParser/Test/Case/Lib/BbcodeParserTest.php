@@ -754,55 +754,11 @@ EOF;
 			$this->assertNotRegExp($expected, $result);
 		}
 
-		public function testSmiliesHtmlEntities() {
-			$input = h('ü :-) ü');
-			$expected = [
-				'ü ',
-				'img' => [
-					'src' => $this->_Helper->webroot('img/smilies/smile_image.svg'),
-					'alt' => ':-)',
-					'title' => 'Smile',
-					'class' => 'saito-smiley-image',
-				],
-				' ü'
-			];
-			$result = $this->_Parser->parse($input, array('cache' => false));
-			$this->assertTags($result, $expected);
-		}
-
 		public function testSmiliesNoSmiliesInCodeTag() {
 			$input = '[code text]:)[/code]';
 			$needle = '<img';
 			$result = $this->_Parser->parse($input, array('cache' => false));
 			$this->assertNotContains($needle, $result);
-		}
-
-		public function testSmiliesPixelImage() {
-			$input = ';)';
-			$expected = [
-				'img' => [
-					'src' => $this->_Helper->webroot(
-							'img/smilies/wink.png'
-						),
-					'alt' => ';)',
-					'class' => 'saito-smiley-image',
-					'title' => 'Wink'
-				]
-			];
-			$result = $this->_Parser->parse($input, ['cache' => false]);
-			$this->assertTags($result, $expected);
-		}
-
-		public function testSmiliesVectorFont() {
-			$input = '[_]P';
-			$expected = [
-				'i' => [
-					'class' => 'saito-smiley-font saito-smiley-coffee',
-					'title' => 'Coffee'
-				]
-			];
-			$result = $this->_Parser->parse($input, ['cache' => false]);
-			$this->assertTags($result, $expected);
 		}
 
 		public function testCodeNestedTags() {

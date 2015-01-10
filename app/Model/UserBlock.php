@@ -27,6 +27,10 @@
 			]
 		];
 
+		public $findMethods = [
+			'toGc' => true
+		];
+
 		public $validate = [
 			'ends' => [
 				'rule' => ['datetime'],
@@ -64,7 +68,10 @@
 				'conditions' => ['id' => $id, 'ended' => null]
 			]);
 			if (empty($block)) {
-				throw new InvalidArgumentException;
+				throw new InvalidArgumentException(
+					"No active block with id $id found.",
+					1420485052
+				);
 			}
 			$success = (bool)$this->save([
 				'id' => $id,
@@ -84,13 +91,7 @@
 		 * called hourly from User model
 		 */
 		public function gc() {
-			$expired = $this->find('all', [
-				'contain' => false,
-				'conditions' => [
-					'ends <' => bDate(),
-					'ends !=' => null
-				]
-			]);
+			$expired = $this->find('toGc');
 			foreach ($expired as $block) {
 				$this->unblock($block[$this->alias]['id']);
 			}
@@ -117,6 +118,19 @@
 				'order' => ['UserBlock.id' => 'DESC']
 			]);
 			return $blocklist;
+		}
+
+		protected function _findToGc($state, $query, $results = array()) {
+			if ($state === 'before') {
+				$query['contain'] = false;
+				$query['conditions'] = [
+					'ends !=' => null,
+					'ends <' => bDate(),
+					'ended' => null
+				];
+				return $query;
+			}
+			return $results;
 		}
 
 		protected function _updateIsBlocked($userId) {
