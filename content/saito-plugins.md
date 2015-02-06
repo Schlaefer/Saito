@@ -25,3 +25,7 @@ Available plugins:
 <a href="https://github.com/Schlaefer/Saito/blob/gh-pages/content/saito-plugins.md">Add your plugins via pull request.</a>
 </small>
 </div>
+
+# Other Code #
+
+- [Helper to migrate other forums to Saito](https://github.com/Schlaefer/saito-import)
