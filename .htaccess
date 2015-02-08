@@ -24,6 +24,7 @@
 
     # Change this path, if you have installed PhileCMS in a subdirectory of the website root.
     # RewriteBase /
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-l

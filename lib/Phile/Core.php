@@ -3,6 +3,7 @@
  * the core of Phile
  */
 namespace Phile;
+use Phile\Core\Response;
 use Phile\Exception\PluginException;
 
 /**
@@ -15,7 +16,7 @@ use Phile\Exception\PluginException;
  */
 class Core {
 	/**
-	 * @var Bootstrap
+	 * @var Bootstrap the bootstrap class
 	 */
 	protected $bootstrap;
 
@@ -45,6 +46,11 @@ class Core {
 	protected $output;
 
 	/**
+	 * @var \Phile\Core\Response
+	 */
+	protected $response;
+
+	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
 	 *
@@ -56,6 +62,7 @@ class Core {
 		$this->settings = \Phile\Registry::get('Phile_Settings');
 
 		$this->pageRepository = new \Phile\Repository\Page();
+		$this->response = (new Response)->setCharset($this->settings['charset']);
 
 		// Setup Check
 		$this->checkSetup();
@@ -76,7 +83,7 @@ class Core {
 	 * @return string
 	 */
 	public function render() {
-		return $this->output;
+		return $this->response->send();
 	}
 
 	/**
@@ -85,7 +92,16 @@ class Core {
 	protected function initializeCurrentPage() {
 		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
 		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
-		$uri = trim($uri, '/');
+		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
+
+		// strip '/index' if it exists (as per https://github.com/PhileCMS/Phile/pull/170)
+		if ($uri=="index" || preg_match("#/index$#", $uri)>0) {
+			// we can't just check if 'index' are the last 5 letters, because then URLs
+			// like 'example.com/blog/global-economic-index' would also be stripped...
+			$uri = rtrim(Utility::getBaseUrl() . '/' . substr($uri, 0, -5), '/');
+			Utility::redirect($uri, 301);
+		}
+
 		/**
 		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
 		 *
@@ -98,74 +114,9 @@ class Core {
 		if ($page instanceof \Phile\Model\Page) {
 			$this->page = $page;
 		} else {
-			header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+			$this->response->setStatusCode(404);
 			$this->page = $this->pageRepository->findByPath('404');
 		}
-	}
-
-	/**
-	 * initialize plugins
-	 *
-	 * @throws Exception
-	 */
-	protected function initializePlugins() {
-		$loadingErrors = array();
-		// check to see if there are plugins to be loaded
-		if (isset($this->settings['plugins']) && is_array($this->settings['plugins'])) {
-			foreach ($this->settings['plugins'] as $pluginKey => $pluginConfig) {
-				list($vendor, $pluginName) = explode('\\', $pluginKey);
-
-				if (isset($pluginConfig['active']) && $pluginConfig['active'] === true) {
-					// load plugin configuration...
-					$pluginConfiguration = null;
-					// load the config file for the plugin
-					$configFile = \Phile\Utility::resolveFilePath("MOD:" . $vendor . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "config.php");
-					if ($configFile !== null) {
-						$pluginConfiguration = \Phile\Utility::load($configFile);
-						$globalConfiguration = \Phile\Registry::get('Phile_Settings');
-						if ($pluginConfiguration !== null && is_array($pluginConfiguration)) {
-							$globalConfiguration['plugins'][$pluginKey]['settings'] = array_replace_recursive($pluginConfiguration, $globalConfiguration['plugins'][$pluginKey]);
-						} else {
-							$globalConfiguration['plugins'][$pluginKey]['settings'] = array();
-						}
-						\Phile\Registry::set('Phile_Settings', $globalConfiguration);
-						$this->settings = $globalConfiguration;
-					}
-					// uppercase first letter convention
-					$pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
-					if (!class_exists($pluginClassName)) {
-						$loadingErrors[] = array("the plugin '{$pluginKey}' could not be loaded!", 1398536479);
-						continue;
-					}
-
-					/** @var \Phile\Plugin\AbstractPlugin $plugin */
-					$plugin = new $pluginClassName;
-					$plugin->injectSettings($globalConfiguration['plugins'][$pluginKey]['settings']);
-
-					if ($plugin instanceof \Phile\Plugin\AbstractPlugin) {
-						// register plugin
-						$this->plugins[$pluginKey] = $plugin;
-					} else {
-						$loadingErrors[] = array("the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin", 1398536526);
-						continue;
-					}
-				}
-			}
-		}
-		/**
-		 * @triggerEvent plugins_loaded this event is triggered after the plugins loaded
-		 * This is also where we load the parser, since it is a plugin also. We use the Markdown parser as default. See it in the plugins folder and lib/Phile/Parser/Markdown.php
-		 */
-		Event::triggerEvent('plugins_loaded');
-
-		if (count($loadingErrors) > 0) {
-			throw new PluginException($loadingErrors[0][0], $loadingErrors[0][1]);
-		}
-
-		/**
-		 * @triggerEvent config_loaded this event is triggered after the configuration is fully loaded
-		 */
-		Event::triggerEvent('config_loaded');
 	}
 
 	/**
@@ -254,6 +205,6 @@ class Core {
 		 * @param                                         string the generated ouput
 		 */
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
-		$this->output = $output;
+		$this->response->setBody($output);
 	}
 }

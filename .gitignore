@@ -1,18 +1,8 @@
-# saito homepage
-vendor
-plugins/phile/rssFeed
-plugins/phile/inlineImage
-plugins/siezi
-lib/cache
-
 # Composer
-composer.lock
 composer.phar
 
 # Twig
-vendor/twig/twig/doc/*
-vendor/twig/twig/ext/*
-vendor/twig/twig/test/*
+lib/vendor/*
 
 # OS Generated
 .DS_Store*
@@ -21,11 +11,15 @@ Icon?
 Thumbs.db
 *.swp
 
+# distribution build directory
+dist/*
+# phpDocs
+docs/*
+
 # User themes
 themes/*
 !themes/index.html
-!themes/default/
-!themes/saito/
+!themes/default/*
 
 # PHPStorm settings
 .idea

@@ -30,6 +30,6 @@
         "phile-cms/plugin-installer-plugin": "dev-master",
         "phile/rss-feed": "dev-master",
         "phile/inline-image": "dev-master",
-        "siezi/phile-markdown-editor": "*"
+        "siezi/phile-markdown-editor": "dev-master"
     }
 }
