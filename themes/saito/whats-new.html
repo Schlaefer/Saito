@@ -17,7 +17,13 @@
                             <h2 style="display: inline">
                                 <a href="{{ page.url }}">{{ page.title }}</a>
                             </h2>
-                            <span class="meta">- {{ page.meta.date }}</span>
+                            <span class="meta">
+                                <p>
+                                    <i class="icon-calendar"></i> {{ page.meta.date }}
+                                    &nbsp;
+                                    <i class="icon-user"></i> {{ page.meta.author }}
+                                </p>
+                            </span>
                             <p class="excerpt">{{ page.excerpt }}</p>
                         </div>
                         {% endif %}
@@ -54,7 +60,11 @@
 
                     <article class="post">
                         {% if meta.title %}<h1>{{ meta.title }}</h1>{% endif %}
-                        <p class="meta">{{ meta.date }}</p>
+                        <p class="meta">
+                            <i class="icon-calendar"></i> {{ meta.date }}
+                            &nbsp;
+                            <i class="icon-user"></i> {{ meta.author }}
+                        </p>
                         {{ content }}
                     </article>
 
