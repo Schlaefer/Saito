@@ -1681,7 +1681,7 @@ msgid "ncy.bkm"
 msgstr "No bookmarks created yet."
 
 msgid "ncy.aub"
-msgstr "No users blocked yet."
+msgstr "No blockings yet."
 
 #: webroot/js/templates/upload.html:6
 msgid "upload_btn_insert_into_posting"

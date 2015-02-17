@@ -44,7 +44,7 @@
         $reason,
         $this->TimeH->formatTime($block['created'], $format),
         empty($block['ended']) ? '' : $this->TimeH->formatTime($block['ended'], $format),
-        empty($block['ends']) ? '' : __d('cake', 'in %s', $this->Time->timeAgoInWords($block['ends'], ['accuracy' => 'hour'])),
+        empty($block['ends']) ? '' : $this->Time->timeAgoInWords($block['ends'], ['accuracy' => 'hour', 'relativeStringFuture' => __d('cake', 'in %s')]),
       ];
 
       if ($mode === 'full') {
