@@ -42,11 +42,13 @@
 			$this->set('entries', $threads);
 
 			$currentPage = 1;
-			if (isset($this->request->named['page']) && $this->request->named['page'] != 1):
+			if (isset($this->request->named['page']) && $this->request->named['page'] != 1) {
 				$currentPage = (int)$this->request->named['page'];
 				$this->set('title_for_layout', __('page') . ' ' . $currentPage);
-			endif;
-			if ($currentPage === 1 && $this->CurrentUser->isLoggedIn()) {
+			}
+			if ($currentPage === 1 && $this->CurrentUser->isLoggedIn()
+				&& $this->CurrentUser['user_automaticaly_mark_as_read']
+			) {
 				$this->set('markAsRead', true);
 			}
 			// @bogus

@@ -33,15 +33,10 @@
 		<header id="site-header">
 			<div id="hero">
 				<?php
-					$_title = '<div id="hero-home-link">' . h($forum_name) . '</div>';
-					echo $this->Html->link(
-						$_title,
-							'/' . (isset($markAsRead) ? '?mar' : ''),
-						$options = [
-							'id' => 'btn_header_logo',
-							'escape' => false,
-						]
-					);
+					$homeLink = '<div id="hero-home-link">' . h($forum_name) . '</div>';
+					$options = ['id' => 'btn_header_logo'];
+					// note: don't change the next line or you may break Mark-As-Read
+					echo $this->Html->link($homeLink, '/' . (isset($markAsRead) ? '?mar' : ''), $options + ['escape' => false]);
 				?>
 				<button id="js-top-menu-open" class="btnLink top-menu-item">
 					<i class="fa fa-plus-square-o"></i>
