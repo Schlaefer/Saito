@@ -36,8 +36,8 @@
 			$this->Html->script([
 							'../dist/leaflet/leaflet.js',
 							'../dist/leaflet/leaflet.markercluster.js',
-							'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key=' . $this->_apiKey,
-							'//www.mapquestapi.com/sdk/leaflet/v1.0/mq-geocoding.js?key=' . $this->_apiKey
+							'//open.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key=' . $this->_apiKey,
+							'//open.mapquestapi.com/sdk/leaflet/v1.0/mq-geocoding.js?key=' . $this->_apiKey
 					],
 					['inline' => false, 'block' => 'script-head']);
 			$this->_assetsIncluded = true;
