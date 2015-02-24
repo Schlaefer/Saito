@@ -585,7 +585,9 @@
 					$this->JsData->addAppJsMessage($message, array(
 							'type' => 'error',
 							'channel' => 'form',
-							'element' => '#Entry' . ucfirst($field)
+							'element' => '#Entry' . array_reduce(explode('_', $field), function($carry, $item) {
+                  return $carry . ucfirst($item);
+                }, '')
 						));
 				}
 				$this->autoRender = false;
