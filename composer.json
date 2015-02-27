@@ -27,9 +27,9 @@
         "php": ">=5.3.0",
         "twig/twig": "1.15.*",
         "michelf/php-markdown": "1.4",
-        "phile-cms/plugin-installer-plugin": "dev-master",
+        "phile-cms/plugin-installer-plugin": ">=1.0",
         "phile/rss-feed": "dev-master",
         "phile/inline-image": "dev-master",
-        "siezi/phile-markdown-editor": "dev-master"
+        "siezi/phile-markdown-editor": ">=1.1"
     }
 }

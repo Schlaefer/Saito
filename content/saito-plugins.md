@@ -20,11 +20,9 @@ Available plugins:
 
 [plugin-ibu]: https://github.com/Schlaefer/saito-importblockedusers
 
-<div class="text-muted">
-<small >
+<small class="text-muted">
 <a href="https://github.com/Schlaefer/Saito/blob/gh-pages/content/saito-plugins.md">Add your plugins via pull request.</a>
 </small>
-</div>
 
 # Other Code #
 
