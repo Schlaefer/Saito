@@ -62,26 +62,26 @@
 		}
 
 		public function admin_edit($id = null) {
-			if ( !$id ) {
+			if (!$id) {
 				$this->redirect(array( 'action ' => 'index' ));
 			}
 
 			$this->Setting->id = $id;
 
-			if ( empty($this->request->data) ) {
+			if (empty($this->request->data)) {
 				$this->request->data = $this->Setting->read();
-				if ( empty($this->request->data) ) {
+				if (empty($this->request->data)) {
 					$this->Session->setFlash("Couldn't find parameter: {$id}", 'flash/error');
 					$this->redirect(array(
 							'controller' => 'settings', 'action' => 'index', 'admin' => true )
 					);
 				}
-				if ( $id === 'timezone' ) :
+				if ($id === 'timezone') :
 					$this->render('admin_timezone');
 				endif;
 			} else {
 				$this->Setting->id = $id;
-				if ( $this->Setting->save($this->request->data) ) {
+				if ($this->Setting->save($this->request->data)) {
 					$this->Session->setFlash('Saved. @lo', 'flash/notice');
 					$this->redirect(['action' => 'index', '#' => $id]);
 					return;

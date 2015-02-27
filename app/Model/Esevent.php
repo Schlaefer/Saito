@@ -295,7 +295,7 @@
 				)
 			);
 			if ($results) {
-				$recipients = Hash::map($results, '{n}.Esnotification.{n}', function($values){
+				$recipients = Hash::map($results, '{n}.Esnotification.{n}', function ($values) {
 					$out = $values['User'];
 					unset($values['User']);
 					$out['Esnotification'] = $values;

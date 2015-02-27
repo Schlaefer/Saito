@@ -581,14 +581,21 @@
 			else :
 				// validation errors
 				foreach ($errors as $field => $error) {
-					$message = __d('nondynamic', $field) . ": " . __d('nondynamic', $error[0]);
-					$this->JsData->addAppJsMessage($message, array(
+					$message = __d('nondynamic', $field) . ": " . __d( 'nondynamic', $error[0]);
+					$this->JsData->addAppJsMessage(
+						$message,
+						[
 							'type' => 'error',
 							'channel' => 'form',
-							'element' => '#Entry' . array_reduce(explode('_', $field), function($carry, $item) {
-                  return $carry . ucfirst($item);
-                }, '')
-						));
+							'element' => '#Entry' . array_reduce(
+									explode('_', $field),
+									function ($carry, $item) {
+										return $carry . ucfirst($item);
+									},
+									''
+								)
+						]
+					);
 				}
 				$this->autoRender = false;
 				return json_encode($this->JsData->getAppJsMessages());
@@ -657,7 +664,7 @@
 
 				// check is user is allowed to perform operation
 				// luckily we only mod options in the allowed toggles
-			} elseif ( $this->CurrentUser->isMod() === false ) {
+			} elseif ($this->CurrentUser->isMod() === false) {
 				$this->request->data = false;
 			} else {
 				//* let's toggle
@@ -900,7 +907,7 @@
 
 			if ($this->CurrentUser->isLoggedIn()) {
 				// Only logged in users see the answering buttons if they …
-				if ( // … directly on entries/view but not inline
+				if (// … directly on entries/view but not inline
 						($this->request->action === 'view' && !$this->request->is('ajax'))
 						// … directly in entries/mix
 						|| $this->request->action === 'mix'

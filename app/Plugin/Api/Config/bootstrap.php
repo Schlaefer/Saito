@@ -2,7 +2,7 @@
 
 	include CakePlugin::path('Api') . 'Lib' . DS . 'exceptions.php';
 
-	$getUri = function() {
+	$getUri = function () {
 		if (!empty($_SERVER['PATH_INFO'])) {
 			$uri = $_SERVER['PATH_INFO'];
 		} elseif (isset($_SERVER['REQUEST_URI'])) {

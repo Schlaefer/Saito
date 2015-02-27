@@ -12,7 +12,7 @@
 			'Smiley' => [
 				'className' => 'Smiley',
 				'foreignKey' => 'smiley_id'
-      ]
-    ];
+			]
+		];
 
 	}
