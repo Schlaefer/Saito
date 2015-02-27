@@ -22,6 +22,7 @@ module.exports = {
     }
   },
   options: {
+    bin: 'app/Vendor/bin/phpcs',
     standard: 'app/Test/ruleset.xml',
     ignore: 'webroot',
     // suppress warnings
