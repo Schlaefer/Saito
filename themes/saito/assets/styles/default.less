@@ -137,18 +137,18 @@ ul {
   list-style: square;
 }
 
-ul ul {
+.staticPage ul ul {
+  margin-top: 0;
   margin-left: 1em;
   list-style-type: none;
 
   @ti: -1em;
   li:before {
     content:"–";
-    position:relative;
-    left:-5px;
+    left: -1em;
     }
    li {
-     text-indendt: -5px;
+     text-indent: 0;
      }
 }
 
