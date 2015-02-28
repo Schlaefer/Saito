@@ -34,4 +34,7 @@ datastorage/*
 !datastorage/.htaccess
 
 # plugins
+plugins/phile/inlineImage
+plugins/phile/rssFeed
 plugins/siezi
+
