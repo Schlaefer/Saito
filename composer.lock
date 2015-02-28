@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8d431153db380dcc243350aa03adb553",
+    "hash": "835142f971552aed8cfbcf0d0cd2d703",
     "packages": [
         {
             "name": "michelf/php-markdown",
@@ -59,7 +59,7 @@
         },
         {
             "name": "phile-cms/plugin-installer-plugin",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhileCMS/ComposerPluginInstaller.git",
@@ -187,20 +187,20 @@
         },
         {
             "name": "siezi/phile-markdown-editor",
-            "version": "1.0.3",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Schlaefer/phileMarkdownEditor.git",
-                "reference": "f52352cd25024f2eb6a64895784051d160e4a75f"
+                "reference": "2f35343cabdbfbeccdac93de28ca4fa229406267"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Schlaefer/phileMarkdownEditor/zipball/f52352cd25024f2eb6a64895784051d160e4a75f",
-                "reference": "f52352cd25024f2eb6a64895784051d160e4a75f",
+                "url": "https://api.github.com/repos/Schlaefer/phileMarkdownEditor/zipball/2f35343cabdbfbeccdac93de28ca4fa229406267",
+                "reference": "2f35343cabdbfbeccdac93de28ca4fa229406267",
                 "shasum": ""
             },
             "require": {
-                "phile-cms/phile": ">=1",
+                "phile-cms/phile": ">=1.4",
                 "phile-cms/plugin-installer-plugin": ">=1"
             },
             "type": "phile-plugin",
@@ -211,23 +211,23 @@
             "description": "Online Markdown editor for Phile",
             "homepage": "https://github.com/Schlaefer/phileMarkdownEditor",
             "keywords": [
-                "cms",
-                "content",
+                "editor",
+                "markdown",
                 "phile"
             ],
-            "time": "2014-08-15 08:58:35"
+            "time": "2015-02-27 12:03:48"
         },
         {
             "name": "twig/twig",
             "version": "v1.15.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig.git",
+                "url": "https://github.com/twigphp/Twig.git",
                 "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/1fb5784662f438d7d96a541e305e28b812e2eeed",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/1fb5784662f438d7d96a541e305e28b812e2eeed",
                 "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed",
                 "shasum": ""
             },
@@ -279,7 +279,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phile-cms/plugin-installer-plugin": 20,
         "phile/rss-feed": 20,
         "phile/inline-image": 20
     },

@@ -62,6 +62,7 @@ class Bootstrap {
 		$this->initializeDefinitions();
 		$this->initializeAutoloader();
 		$this->initializeConfiguration();
+		$this->initializeFilesAndFolders();
 		$this->initializePlugins();
 		return $this;
 	}
@@ -73,7 +74,7 @@ class Bootstrap {
 		// for php unit testings, we need to check if constant is defined
 		// before setting them, because there is a bug in PHPUnit which
 		// init our bootstrap multiple times.
-		defined('PHILE_VERSION') 	or define('PHILE_VERSION',   '1.3.0');
+		defined('PHILE_VERSION') 	or define('PHILE_VERSION',   '1.4.0');
 		defined('PHILE_CLI_MODE') 	or define('PHILE_CLI_MODE',  (php_sapi_name() == "cli") ? true : false);
 		defined('ROOT_DIR') 		or define('ROOT_DIR',        realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
 		defined('CONTENT_DIR') 		or define('CONTENT_DIR',     ROOT_DIR . 'content' . DIRECTORY_SEPARATOR);
@@ -82,6 +83,7 @@ class Bootstrap {
 		defined('PLUGINS_DIR') 		or define('PLUGINS_DIR',     ROOT_DIR . 'plugins' . DIRECTORY_SEPARATOR);
 		defined('THEMES_DIR') 		or define('THEMES_DIR',      ROOT_DIR . 'themes' . DIRECTORY_SEPARATOR);
 		defined('CACHE_DIR') 		or define('CACHE_DIR',       LIB_DIR . 'cache' . DIRECTORY_SEPARATOR);
+		defined('STORAGE_DIR') or define('STORAGE_DIR', LIB_DIR . 'datastorage' . DIRECTORY_SEPARATOR);
 	}
 
 	/**
@@ -116,8 +118,8 @@ class Bootstrap {
 	 * initialize configuration
 	 */
 	protected function initializeConfiguration() {
-		$defaults      = Utility::load(ROOT_DIR . '/default_config.php');
-		$localSettings = Utility::load(ROOT_DIR . '/config.php');
+		$defaults      = Utility::load(ROOT_DIR . 'default_config.php');
+		$localSettings = Utility::load(ROOT_DIR . 'config.php');
 		if (is_array($localSettings)) {
 			$this->settings = array_replace_recursive($defaults, $localSettings);
 		} else {
@@ -126,6 +128,35 @@ class Bootstrap {
 
 		\Phile\Registry::set('Phile_Settings', $this->settings);
 		date_default_timezone_set($this->settings['timezone']);
+	}
+
+	/**
+	 * auto-setup of files and folders
+	 */
+	protected function initializeFilesAndFolders() {
+		$dirs = [
+			['path' => CACHE_DIR],
+			['path' => STORAGE_DIR]
+		];
+		$defaults = ['protected' => true];
+
+		foreach ($dirs as $dir) {
+			$dir += $defaults;
+			$path = $dir['path'];
+			if (empty($path) || strpos($path, ROOT_DIR) !== 0) {
+				continue;
+			}
+			if (!file_exists($path)) {
+				mkdir($path, 0775, true);
+			}
+			if ($dir['protected']) {
+				$file = "$path.htaccess";
+				if (!file_exists($file)) {
+					$content = "order deny,allow\ndeny from all\nallow from 127.0.0.1";
+					file_put_contents($file, $content);
+				}
+			}
+		}
 	}
 
 	/**
