@@ -86,7 +86,7 @@
 			}
 			$cache = Cache::read('Plugin.Cron.lastRuns');
 
-			if ( // cache file is not created yet
+			if (// cache file is not created yet
 					!isset($cache['meta']['lastDailyReset']) ||
 					// cache is outdated
 					$cache['meta']['lastDailyReset'] + $this->_dues['daily'] < $this->_now

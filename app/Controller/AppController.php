@@ -141,7 +141,7 @@
 			};
 
 			// setup for admin area
-			if ( isset($this->params['admin']) ):
+			if (isset($this->params['admin'])):
 				$this->_beforeFilterAdminArea();
 			endif;
 

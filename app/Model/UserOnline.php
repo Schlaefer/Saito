@@ -33,13 +33,6 @@
  */
 		public $timeUntilOffline = 1200;
 
-		public function beforeValidate($options = []) {
-			parent::beforeValidate($options);
-
-			// @mlf use created/modified
-			$this->data['UserOnline']['time'] = time();
-		}
-
 /**
  * Sets user with `$id` online
  *
@@ -55,11 +48,14 @@
 				throw new InvalidArgumentException('Invalid Argument $logged_in in setOnline()');
 			}
 
+			$now = time();
+
 			$id = $this->_getShortendedId($id);
 			$data = [
 				'UserOnline' => [
 					'uuid' => $id,
-					'logged_in' => $loggedIn
+					'logged_in' => $loggedIn,
+					'time' => $now
 				]
 			];
 
@@ -72,7 +68,8 @@
 
 			if ($user) {
 				// only hit database if timestamp is outdated
-				if ($user['UserOnline']['time'] < (time() - $this->timeUntilOffline)) {
+				if ($user['UserOnline']['time'] < ($now - $this->timeUntilOffline)) {
+					$this->id = $user['UserOnline']['id'];
 					$this->save($data);
 				}
 			} else {

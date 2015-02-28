@@ -54,6 +54,10 @@
 				$this->_add($url, 'Request URL');
 			}
 
+			if (isset($_SERVER['HTTP_USER_AGENT'])) {
+				$this->_add($_SERVER['HTTP_USER_AGENT'], 'User-Agent');
+			}
+
 			$this->_addUser($data);
 
 			if (!empty($request->data)) {

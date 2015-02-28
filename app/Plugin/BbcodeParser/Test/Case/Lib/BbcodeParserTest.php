@@ -925,13 +925,13 @@ EOF;
 
 			Configure::write('Asset.timestamp', false);
 
-			if ( isset($_SERVER['SERVER_NAME']) ) {
+			if (isset($_SERVER['SERVER_NAME'])) {
 				$this->server_name = $_SERVER['SERVER_NAME'];
 			} else {
 				$this->server_name = false;
 			}
 
-			if ( isset($_SERVER['SERVER_PORT']) ) {
+			if (isset($_SERVER['SERVER_PORT'])) {
 				$this->server_port = $_SERVER['SERVER_PORT'];
 			} else {
 				$this->server_port = false;
@@ -1017,7 +1017,7 @@ EOF;
 
 		public function tearDown() {
 			parent::tearDown();
-			if ( $this->server_name ) {
+			if ($this->server_name) {
 				$_SERVER['SERVER_NAME'] = $this->server_name;
 			}
 

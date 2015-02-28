@@ -68,7 +68,7 @@
 			$words = $this->_split($string);
 			foreach ($words as $word) {
 				$first = mb_substr($word, 0, 1);
-				if ($first === '"' ) {
+				if ($first === '"') {
 					continue;
 				}
 				if (mb_strpos($word, '-') === false) {

@@ -1725,11 +1725,17 @@ msgid "ncy.bkm"
 msgstr "Noch keine Lesezeichen angelegt."
 
 msgid "ncy.aub"
-msgstr "Noch keine Benutzer gesperrt."
+msgstr "Noch keine Sperrungen."
 
 #: webroot/js/templates/upload.html:6
 msgid "upload_btn_insert_into_posting"
 msgstr "Einfügen"
+
+msgid "Block User"
+msgstr "Nutzer sperren"
+
+msgid ":hours hours"
+msgstr ":hours Stunden"
 
 #: webroot/js/templates/uploadNew.html:9
 msgid "upload_new_title"

@@ -8,19 +8,11 @@
 
 		public $displayField = 'code';
 
-		public $belongsTo = array(
-			'Smiley' => array(
+		public $belongsTo = [
+			'Smiley' => [
 				'className' => 'Smiley',
 				'foreignKey' => 'smiley_id'
-			)
-		);
-
-		public function afterSave($created, $options = []) {
-			parent::afterSave($created, $options);
-		}
-
-		public function afterDelete() {
-			parent::afterDelete();
-		}
+			]
+		];
 
 	}

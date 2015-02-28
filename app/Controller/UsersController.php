@@ -608,7 +608,7 @@
 			}
 
 			$allowed = $this->viewVars['slidetabs'];
-			$order = array_filter($order, function($item) use ($allowed) {
+			$order = array_filter( $order, function ($item) use ($allowed) {
 				return in_array($item, $allowed);
 			});
 			$order = serialize($order);
