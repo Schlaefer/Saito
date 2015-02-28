@@ -24,13 +24,14 @@ themes/*
 # PHPStorm settings
 .idea
 
-# temp folder
-temp/*
-!temp/index.html
-!temp/cache
-temp/cache/*
-!temp/cache/index.html
+# cache folder
+!lib/cache
+lib/cache/*
+!lib/cache/index.html
 
 # datastorage
 datastorage/*
 !datastorage/.htaccess
+
+# plugins
+plugins/siezi
