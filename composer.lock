@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "835142f971552aed8cfbcf0d0cd2d703",
+    "hash": "be6ceec7b56bd6c345881b82460e6fc9",
     "packages": [
         {
             "name": "michelf/php-markdown",
@@ -216,6 +216,37 @@
                 "phile"
             ],
             "time": "2015-02-27 12:03:48"
+        },
+        {
+            "name": "siezi/phile-total-cache",
+            "version": "0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Schlaefer/phileTotalCache.git",
+                "reference": "8e2110c1d64bdae8a33bee70cb7280e00d1ec343"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Schlaefer/phileTotalCache/zipball/8e2110c1d64bdae8a33bee70cb7280e00d1ec343",
+                "reference": "8e2110c1d64bdae8a33bee70cb7280e00d1ec343",
+                "shasum": ""
+            },
+            "require": {
+                "phile-cms/phile": ">=1.4",
+                "phile-cms/plugin-installer-plugin": ">=1"
+            },
+            "type": "phile-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Cache Plugin for PhileCMS",
+            "homepage": "https://github.com/Schlaefer/phileMarkdownEditor",
+            "keywords": [
+                "cache",
+                "phile"
+            ],
+            "time": "2015-03-03 06:25:30"
         },
         {
             "name": "twig/twig",
