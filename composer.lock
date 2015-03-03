@@ -219,16 +219,16 @@
         },
         {
             "name": "siezi/phile-total-cache",
-            "version": "0.1",
+            "version": "0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Schlaefer/phileTotalCache.git",
-                "reference": "8e2110c1d64bdae8a33bee70cb7280e00d1ec343"
+                "reference": "caf1d46668cb3bc5025831f45902b950c2b64cbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Schlaefer/phileTotalCache/zipball/8e2110c1d64bdae8a33bee70cb7280e00d1ec343",
-                "reference": "8e2110c1d64bdae8a33bee70cb7280e00d1ec343",
+                "url": "https://api.github.com/repos/Schlaefer/phileTotalCache/zipball/caf1d46668cb3bc5025831f45902b950c2b64cbc",
+                "reference": "caf1d46668cb3bc5025831f45902b950c2b64cbc",
                 "shasum": ""
             },
             "require": {
@@ -246,7 +246,7 @@
                 "cache",
                 "phile"
             ],
-            "time": "2015-03-03 06:25:30"
+            "time": "2015-03-03 06:42:24"
         },
         {
             "name": "twig/twig",
