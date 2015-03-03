@@ -27,7 +27,7 @@ $config['plugins'] = array(
 	'phile\\rssFeed' => array('active' => true),
 	'phile\\inlineImage' => array('active' => true),
 	'siezi\\phileMarkdownEditor' => array('active' => true),
-	'siezi\\totalCache' => array('active' => PRODUCTION)
+	'siezi\\phileTotalCache' => array('active' => PRODUCTION)
 );
 
 return $config;
