@@ -20,6 +20,8 @@ docs/*
 themes/*
 !themes/index.html
 !themes/default/*
+!themes/saito
+!themes/saito/*
 
 # PHPStorm settings
 .idea

@@ -1,0 +1,275 @@
+/*
+@base-dark: #607D86;
+@base-veryLight: #F5F8F9;
+@link-color: #005580;
+*/
+em {
+  font-style: normal;
+  font-weight: bold;
+}
+#footerHelper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -40px;
+}
+footer,
+#footerPush {
+  height: 40px;
+}
+footer {
+  margin: 0 auto;
+  line-height: 38px;
+  text-align: center;
+}
+a,
+.jumbotron,
+a:hover,
+.jumbotron:hover,
+a:visited,
+.jumbotron:visited,
+a:active,
+.jumbotron:active,
+a:focus,
+.jumbotron:focus {
+  text-decoration: none;
+  color: #d50606;
+}
+.container .jumbotron {
+  letter-spacing: 1px;
+  background: none;
+  border-bottom: 1px solid #e2e2e2;
+  position: relative;
+  padding: 0;
+  margin-top: 1em;
+  padding-bottom: 1em;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  font-weight: 700;
+  font-family: 'Arvo', 'sans-serif';
+  font-style: italic;
+}
+.container .jumbotron a {
+  color: inherit;
+  text-decoration: none;
+}
+.container .jumbotron p {
+  font-size: 1em;
+  font-weight: 700;
+}
+.container .jumbotron h1 {
+  font-size: 63px;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+html,
+body {
+  height: 100%;
+}
+p {
+  font-family: inherit;
+  line-height: inherit;
+  font-size: inherit;
+}
+.content-container {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container {
+  background-color: white;
+  border-width: 0 1px;
+  padding-bottom: 20px;
+  overflow: hidden;
+  z-index: 5;
+  position: relative;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+  color: #222;
+  margin: 0 0 20px;
+  text-rendering: optimizeLegibility;
+}
+h2 {
+  font-size: 1.1em;
+  margin: 20px 0;
+  font-weight: 700;
+}
+p,
+ul,
+ol,
+table,
+pre,
+dl {
+  margin: 0 0 20px;
+}
+ul {
+  list-style: square;
+}
+.staticPage ul ul {
+  margin-top: 0;
+  margin-left: 1em;
+  list-style-type: none;
+}
+.staticPage ul ul li:before {
+  content: "–";
+  left: -1em;
+}
+.staticPage ul ul li {
+  text-indent: 0;
+}
+hr {
+  margin: 25px 0;
+}
+small {
+  font-size: 11px;
+}
+.meta {
+  font-size: 0.9em;
+}
+.icon-schmuck {
+  position: absolute;
+  font-size: 174px;
+  line-height: 174px;
+  right: -42px;
+  top: -10px;
+  z-index: -5;
+  color: #e6edf0;
+}
+blockquote {
+  font-style: italic;
+  border-color: #e2e2e2;
+  border-left: none;
+  margin-bottom: 20px;
+}
+blockquote strong {
+  font-weight: 600;
+}
+blockquote[cite]:after {
+  display: block;
+  text-align: left;
+  content: "\2014\ " attr(cite);
+  font-style: normal;
+  font-size: 1em;
+  margin-top: 1em;
+  margin-left: 16em;
+  margin-bottom: 0;
+}
+.row,
+.span10 {
+  position: relative;
+}
+.span5 {
+  padding-right: 20px;
+  width: 360px;
+}
+#boxes-row {
+  border-bottom: 1px solid #e2e2e2;
+  margin-bottom: 30px;
+}
+#boxes-row > div {
+  padding-bottom: 15px;
+}
+@media (max-width: 767px) {
+  #boxes-row > div {
+    margin-top: 15px;
+    border-bottom: 1px solid #e2e2e2;
+  }
+  #boxes-row > div:last-child {
+    border-bottom: none;
+  }
+}
+.boxes-info h1 a {
+  color: inherit;
+}
+.boxes-info h3,
+.boxes-info h4,
+.boxes-info h5 {
+  margin-top: 1em;
+}
+.boxes-info h3:first-child,
+.boxes-info h4:first-child,
+.boxes-info h5:first-child {
+  margin-top: 0em;
+}
+.boxes-info ul {
+  list-style-type: none;
+}
+.boxes-info li {
+  line-height: 20px;
+  padding-bottom: 10px;
+}
+#sidebar {
+  padding-left: 30px;
+}
+section {
+  padding: 0 2em;
+}
+nav a {
+  text-decoration: none;
+}
+.nav-tabs {
+  border: none;
+}
+.nav-tabs li a {
+  color: inherit;
+}
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover {
+  color: inherit;
+  border-bottom-color: #DDD;
+}
+.nav-tabs > li > a {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+.btn,
+.label {
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+.label-success {
+  background-color: #00bb00;
+}
+.s-contentBox {
+  background: white;
+  padding: 0em 2em;
+}
+.github {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 100;
+}
+@media (max-width: 767px) {
+  .content-image img {
+    max-width: 100%;
+  }
+}
+.content-image {
+  text-align: center;
+}
+.content-image img {
+  margin: 0 -100% 0 -100%;
+  border: 1px solid #e2e2e2;
+  box-shadow: 0 1px 3px rgba(25, 25, 25, 0.2);
+}
+/*********************************************************
+ * Sortable table
+ ********************************************************/
+table.tablesorter thead tr .header {
+  cursor: pointer;
+}
+table.tablesorter thead tr .header i {
+  color: #ccc;
+}
