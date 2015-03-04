@@ -20,6 +20,6 @@ Protect your account with [two factor authentication](http://en.wikipedia.org/wi
 
 You don't have to enter your security token manually. The forum will provide a QR-Code you will be able to scan with your mobile device:
 
-funding.png
+![](funding.png)
 
 Two-factor authentication is especially valuable for administrator and moderator accounts and/or if you can't protect your login with https.

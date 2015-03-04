@@ -25,9 +25,9 @@ $config['plugins'] = array(
 	'phile\\phpFastCache' => array('active' => PRODUCTION),
 	// the default data storage engine
 	'phile\\rssFeed' => array('active' => true),
-	'phile\\inlineImage' => array('active' => true),
 	'siezi\\phileMarkdownEditor' => array('active' => true),
-	'siezi\\phileTotalCache' => array('active' => PRODUCTION)
+	'siezi\\phileTotalCache' => array('active' => PRODUCTION),
+	'siezi\\phileServeContentFiles' => ['active' => true]
 );
 
 return $config;

@@ -29,8 +29,8 @@
         "michelf/php-markdown": "1.4",
         "phile-cms/plugin-installer-plugin": ">=1.0",
         "phile/rss-feed": "dev-master",
-        "phile/inline-image": "dev-master",
         "siezi/phile-markdown-editor": ">=1.1",
-        "siezi/phile-total-cache": "*"
+        "siezi/phile-total-cache": "*",
+        "siezi/phile-serve-content-files": "*"
     }
 }

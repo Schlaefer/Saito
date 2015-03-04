@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "be6ceec7b56bd6c345881b82460e6fc9",
+    "hash": "ad65eb4062546bcbb1a00dc66da72e38",
     "packages": [
         {
             "name": "michelf/php-markdown",
@@ -106,46 +106,6 @@
             "time": "2014-04-24 22:03:20"
         },
         {
-            "name": "phile/inline-image",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PhileCMS/phileInlineImage.git",
-                "reference": "9c2359b8895fa1190b37a2334185c7f656d05039"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PhileCMS/phileInlineImage/zipball/9c2359b8895fa1190b37a2334185c7f656d05039",
-                "reference": "9c2359b8895fa1190b37a2334185c7f656d05039",
-                "shasum": ""
-            },
-            "require": {
-                "phile-cms/phile": ">=1",
-                "phile-cms/plugin-installer-plugin": ">=1"
-            },
-            "type": "phile-plugin",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "James Doyle",
-                    "email": "james2doyle@gmail.com",
-                    "homepage": "http://ohdoylerules.com/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A plugin take an image name and generate a wrapped image tag.",
-            "homepage": "http://philecms.com",
-            "keywords": [
-                "cms",
-                "content",
-                "phile"
-            ],
-            "time": "2014-06-19 13:28:44"
-        },
-        {
             "name": "phile/rss-feed",
             "version": "dev-master",
             "source": {
@@ -218,17 +178,51 @@
             "time": "2015-02-27 12:03:48"
         },
         {
-            "name": "siezi/phile-total-cache",
-            "version": "0.3",
+            "name": "siezi/phile-serve-content-files",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Schlaefer/phileTotalCache.git",
-                "reference": "caf1d46668cb3bc5025831f45902b950c2b64cbc"
+                "url": "https://github.com/Schlaefer/phileServeContentFiles.git",
+                "reference": "c8476fa0e87b2fa18d0961d8abf5c6f5564cb88f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Schlaefer/phileTotalCache/zipball/caf1d46668cb3bc5025831f45902b950c2b64cbc",
-                "reference": "caf1d46668cb3bc5025831f45902b950c2b64cbc",
+                "url": "https://api.github.com/repos/Schlaefer/phileServeContentFiles/zipball/c8476fa0e87b2fa18d0961d8abf5c6f5564cb88f",
+                "reference": "c8476fa0e87b2fa18d0961d8abf5c6f5564cb88f",
+                "shasum": ""
+            },
+            "require": {
+                "phile-cms/phile": ">=1.4",
+                "phile-cms/plugin-installer-plugin": ">=1"
+            },
+            "suggest": {
+                "siezi/phile-total-cache": "caching for improved performance"
+            },
+            "type": "phile-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Plugin for PhileCMS to serve files from the content/ directory",
+            "homepage": "https://github.com/Schlaefer/phileServeContentFiles",
+            "keywords": [
+                "content",
+                "phile"
+            ],
+            "time": "2015-03-04 21:46:31"
+        },
+        {
+            "name": "siezi/phile-total-cache",
+            "version": "0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Schlaefer/phileTotalCache.git",
+                "reference": "1307831a621a578a78c31a26eea9461664bae385"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Schlaefer/phileTotalCache/zipball/1307831a621a578a78c31a26eea9461664bae385",
+                "reference": "1307831a621a578a78c31a26eea9461664bae385",
                 "shasum": ""
             },
             "require": {
@@ -241,12 +235,12 @@
                 "MIT"
             ],
             "description": "Cache Plugin for PhileCMS",
-            "homepage": "https://github.com/Schlaefer/phileMarkdownEditor",
+            "homepage": "https://github.com/Schlaefer/phileTotalCache",
             "keywords": [
                 "cache",
                 "phile"
             ],
-            "time": "2015-03-03 06:42:24"
+            "time": "2015-03-04 15:56:25"
         },
         {
             "name": "twig/twig",
@@ -310,8 +304,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phile/rss-feed": 20,
-        "phile/inline-image": 20
+        "phile/rss-feed": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
