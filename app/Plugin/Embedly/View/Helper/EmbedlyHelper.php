@@ -34,7 +34,7 @@ class EmbedlyHelper extends AppHelper {
 			return 'Embedding failded: ' . $e->getMessage();
 		}
 
-		if (isset($obj->html)) {
+		if (isset($obj->html) && $obj->type !== 'link') {
 			// use the html code from embedly if possible
 			$out = $obj->html;
 		} elseif (isset($obj->title) && isset($obj->url)) {
