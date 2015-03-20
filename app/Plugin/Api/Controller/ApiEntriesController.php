@@ -59,10 +59,6 @@
  */
 	public function entriesItemPost() {
 			$data['Entry'] = $this->request->data;
-			if (isset($data['Entry']['category_id'])) {
-				$data['Entry']['category'] = $data['Entry']['category_id'];
-				unset($data['Entry']['category_id']);
-			}
 			if (isset($data['Entry']['parent_id'])) {
 				$data['Entry']['pid'] = $data['Entry']['parent_id'];
 				unset($data['Entry']['parent_id']);
