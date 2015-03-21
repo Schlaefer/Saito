@@ -133,6 +133,25 @@
 			);
 		}
 
+		public function testEntriesItemPostSuccess() {
+			$this->generate('Api.ApiEntries');
+			$this->_loginUser(3);
+			$result = $this->testAction(
+				$this->_apiRoot . 'entries.json',
+				[
+					'return' => 'view',
+					'method' => 'POST',
+					'data' => [
+						'subject' => 'subject',
+						'parent_id' => 0,
+						'category_id' => 2
+					]
+				]
+			);
+			$statusCode = $this->controller->response->statusCode();
+			$this->assertEquals(200, $statusCode);
+		}
+
 		public function testEntriesItemPutOnlyAuthenticatedUsers() {
 			$this->generate('ApiEntries', ['methods' => 'entriesItemPut']);
 			$this->testAction($this->_apiRoot . 'entries/1', ['method' => 'PUT']);
