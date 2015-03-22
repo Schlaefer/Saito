@@ -19,6 +19,10 @@
 			'SaitoCacheSupportCachelet',
 		];
 
+		protected $_metaKeys = [
+			'Thread' => ['EntriesCache', 'LineCache']
+		];
+
 		public function __construct() {
 			foreach ($this->_buildInCaches as $_name) {
 				$name = 'Saito\Cache\\' . $_name;
@@ -50,6 +54,9 @@
 		 * @param null $id
 		 */
 		public function clear($cache = null, $id = null) {
+			if (is_string($cache) && isset($this->_metaKeys[$cache])) {
+				$cache = $this->_metaKeys[$cache];
+			}
 			if (is_array($cache)) {
 				foreach ($cache as $_c) {
 					$this->clear($_c, $id);
@@ -131,6 +138,7 @@
 
 	class EntriesCacheSupportCachelet extends CacheSupportCachelet implements \CakeEventListener {
 
+		// only rename if you rename event cmds triggering this cache
 		protected $_title = 'EntriesCache';
 
 		protected $_CacheTree;
