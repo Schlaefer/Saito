@@ -110,6 +110,14 @@
 			$this->assertTags($result, $expected);
 		}
 
+		public function testParserEngineCaching() {
+			$input = '[img=]foo.png[/img]';
+			$result = $this->_Parser->parse($input, ['multimedia' => true]);
+			$this->assertContains('<img src', $result);
+			$result = $this->_Parser->parse($input, ['multimedia' => false]);
+			$this->assertNotContains('<img src', $result);
+		}
+
 		public function testLink() {
 			$input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
 			$expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='richtext-linkInfo'>[ebay.de]</span>";
