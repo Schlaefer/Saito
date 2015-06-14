@@ -1,29 +1,41 @@
 <?php
 
-	namespace Saito\Markup;
+namespace Saito\Markup;
 
-	use Cake\View\Helper;
+use Cake\View\Helper;
 
-	class Editor {
+class Editor
+{
 
-		protected $_Helper;
+    protected $_Helper;
 
-		public function __construct(Helper $Helper) {
-			$this->_Helper = $Helper;
-		}
+    /**
+     * Constructor
+     *
+     * @param Helper $Helper helper
+     */
+    public function __construct(Helper $Helper)
+    {
+        $this->_Helper = $Helper;
+    }
 
-		/**
-		 * @return string HTML-escaped content
-		 */
-		public function getEditorHelp() {
-			return '';
-		}
+    /**
+     * Get editor help.
+     *
+     * @return string HTML-escaped content
+     */
+    public function getEditorHelp()
+    {
+        return '';
+    }
 
-		/**
-		 * @return array
-		 */
-		public function getMarkupSet() {
-			return [];
-		}
-
-	}
+    /**
+     * Get markup set.
+     *
+     * @return array
+     */
+    public function getMarkupSet()
+    {
+        return [];
+    }
+}

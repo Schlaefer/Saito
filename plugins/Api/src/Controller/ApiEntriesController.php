@@ -1,165 +1,195 @@
 <?php
 
-	App::uses('ApiAppController', 'Api.Controller');
+namespace Api\Controller;
 
-	class ApiEntriesController extends ApiAppController {
+use Api\Error\Exception\ApiValidationException;
+use Cake\Event\Event;
+use Cake\Network\Exception\BadRequestException;
+use Cake\Network\Exception\ForbiddenException;
+use Cake\Network\Exception\NotFoundException;
 
-		public $uses = [
-			'Entry'
-		];
+class ApiEntriesController extends ApiAppController
+{
 
-		public $helpers = [
-			'Api.Api'
-		];
+    public $helpers = ['Api.Api'];
 
-		public function threadsGet() {
-			$order = 'time';
-			if (isset($this->request->query['order']) && $this->request->query['order'] === 'answer') {
-				$order = 'last_answer';
-			}
-			$order = [
-				'Entry.fixed' => 'DESC',
-				'Entry.' . $order => 'DESC'
-			];
+    /**
+     * Get all threads
+     *
+     * @return void
+     */
+    public function threadsGet()
+    {
+        $order = 'time';
+        if ($this->request->query('order') === 'answer') {
+            $order = 'last_answer';
+        }
+        $order = [
+            'Entries.fixed' => 'DESC',
+            'Entries.' . $order => 'DESC'
+        ];
 
-			$limit = 10;
-			if (isset($this->request->query['limit'])) {
-				$limitQuery = (int)$this->request->query['limit'];
-				if ($limitQuery > 0 && $limitQuery < 100) {
-					$limit = $limitQuery;
-				}
-			}
+        $limit = (int)$this->request->query('limit');
+        if ($limit <= 0 || $limit > 100) {
+            $limit = 10;
+        }
 
-			$offset = 0;
-			if (isset($this->request->query['offset'])) {
-				$offset = (int)$this->request->query['offset'];
-			}
+        $offset = (int)$this->request->query('offset');
+        if ($offset < 0) {
+            $offset = 0;
+        }
 
-			$conditions = [
-				'Entry.category' => $this->CurrentUser->Categories->getAllowed(),
-				'Entry.pid' => 0
-			];
+        $categories = $this->CurrentUser->Categories->getAll('read');
+        $conditions = [
+            'Entries.category_id IN' => $categories,
+            'Entries.pid' => 0
+        ];
 
-			$entries = $this->Entry->find(
-				'all',
-				[
-					'conditions' => $conditions,
-					'order' => $order,
-					'limit' => $limit,
-					'offset' => $offset,
-					'contain' => ['Category', 'User']
-				]
-			);
-			$this->set('entries', $entries);
-		}
+        $entries = $this->Entries->find(
+            'all',
+            [
+                'conditions' => $conditions,
+                'order' => $order,
+                'limit' => $limit,
+                'offset' => $offset,
+                'contain' => ['Categories', 'Users']
+            ]
+        );
+        $this->set('entries', $entries);
+    }
 
-/**
- * @throws Saito\Api\ApiValidationError
- * @throws BadRequestException
- */
-	public function entriesItemPost() {
-			$data['Entry'] = $this->request->data;
-			if (isset($data['Entry']['parent_id'])) {
-				$data['Entry']['pid'] = $data['Entry']['parent_id'];
-				unset($data['Entry']['parent_id']);
-			}
+    /**
+     * Create new posting
+     *
+     * @throws ApiValidationException
+     * @throws BadRequestException
+     * @return void
+     */
+    public function entriesItemPost()
+    {
+        $data = $this->request->data();
+        if (isset($data['parent_id'])) {
+            $data['pid'] = $data['parent_id'];
+            unset($data['parent_id']);
+        }
 
-			$_newPosting = $this->Entry->createPosting($data);
-			if ($_newPosting) {
-				$this->set(
-					'entry',
-					$this->Entry->get($_newPosting['Entry']['id'])
-				);
-			} else {
-				$errors = $this->Entry->invalidFields();
-				if (!empty($errors)) {
-					$_firstField = key($errors);
-					throw new \Saito\Api\ApiValidationError($_firstField, current(
-						$errors[$_firstField]
-					));
-				}
-				throw new BadRequestException('Entry could not be created.');
-			}
-	}
+        $new = $this->Entries->createPosting($data);
+        if (!$new || ($errors = $new->errors() && !empty($errors))) {
+            throw new BadRequestException(
+                'Entry could not be created.',
+                1434352683
+            );
+        } else {
+            $errors = $new->errors();
+            if (!empty($errors)) {
+                $field = key($errors);
+                throw new ApiValidationException($field, current($errors[$field]));
+            }
+        }
 
-/**
- * @param $id
- * @throws NotFoundException
- * @throws BadRequestException
- */
-		public function threadsItemGet($id) {
-			if (empty($id)) {
-				throw new BadRequestException('Missing entry id.');
-			}
+        $this->set('entry', $new);
+    }
 
-			$this->autoLayout = false;
+    /**
+     * Get a posting
+     *
+     * @param string $id posting-ID
+     * @return void
+     * @throws NotFoundException
+     * @throws BadRequestException
+     */
+    public function threadsItemGet($id)
+    {
+        if (empty($id)) {
+            throw new BadRequestException('Missing entry id.');
+        }
 
-			$order = 'Entry.id asc';
-			$entries = $this->Entry->find(
-				'all',
-				[
-					'conditions' => [
-						'Entry.tid' => $id,
-						'Entry.category' => $this->CurrentUser->Categories->getAllowed()
-					],
-					'order' => $order,
-					'contain' => ['Category', 'User']
-				]
-			);
+        $this->autoLayout = false;
 
-			if (!$entries) {
-				throw new NotFoundException(sprintf('Thread with id `%s` not found.', $id));
-			}
+        $order = ['Entries.id' => 'ASC'];
+        $categories = $this->CurrentUser->Categories->getAll('read');
+        // @performace use unhydrated resultset
+        $entries = $this->Entries->find(
+            'all',
+            [
+                'conditions' => [
+                    'Entries.tid' => $id,
+                    'Entries.category_id IN' => $categories
+                ],
+                'order' => $order,
+                'contain' => ['Categories', 'Users']
+            ]
+        )->hydrate(false);
 
-			$this->set('entries', $entries);
-		}
+        if ($entries->count() === 0) {
+            throw new NotFoundException(
+                sprintf('Thread with id `%s` not found.', $id)
+            );
+        }
 
-/**
- * @param null $id
- * @throws NotFoundException
- * @throws BadRequestException
- * @throws ForbiddenException
- */
-		public function entriesItemPut($id = null) {
-			if (empty($id)) {
-				throw new BadRequestException('Missing entry id.');
-			}
+        $this->set('entries', $entries);
+    }
 
-			$oldEntry = $this->Entry->get($id);
-			if (!$oldEntry) {
-				throw new NotFoundException(sprintf('Entry with id `%s` not found.', $id));
-			}
+    /**
+     * Update a posting.
+     *
+     * @param null $id posting-ID
+     * @return void
+     * @throws NotFoundException
+     * @throws BadRequestException
+     * @throws ForbiddenException
+     */
+    public function entriesItemPut($id = null)
+    {
+        if (empty($id)) {
+            throw new BadRequestException('Missing entry id.');
+        }
 
-			$posting = $this->dic->newInstance('\Saito\Posting\Posting', ['rawData' => $oldEntry]);
+        $posting = $this->Entries->get($id, ['return' => 'Entity']);
+        if (empty($posting)) {
+            throw new NotFoundException(
+                sprintf('Entry with id `%s` not found.', $id)
+            );
+        }
 
-			$isEditingForbidden = $posting->isEditingAsCurrentUserForbidden();
-			if ($isEditingForbidden === 'time') {
-				throw new ForbiddenException('The editing time ran out.');
-			} elseif ($isEditingForbidden === 'user') {
-				throw new ForbiddenException(sprintf(
-					'The user `%s` is not allowed to edit.',
-					$this->CurrentUser['username']
-				));
-			} elseif ($isEditingForbidden == true) {
-				throw new ForbiddenException('Editing is forbidden for unknown reason.');
-			}
+        $isEditingForbidden = $posting->toPosting()
+            ->isEditingAsCurrentUserForbidden();
+        if ($isEditingForbidden === 'time') {
+            throw new ForbiddenException('The editing time ran out.');
+        } elseif ($isEditingForbidden === 'user') {
+            throw new ForbiddenException(
+                sprintf(
+                    'The user `%s` is not allowed to edit.',
+                    $this->CurrentUser->get('username')
+                )
+            );
+        } elseif ($isEditingForbidden) {
+            throw new ForbiddenException(
+                'Editing is forbidden for unknown reason.'
+            );
+        }
 
-			$data['Entry'] = $this->request->data;
-			$data['Entry']['id'] = $id;
-			$entry = $this->Entry->update($data);
-			if ($entry) {
-				$this->set(
-					'entry',
-					$this->Entry->get($entry['Entry']['id'])
-				);
-			} else {
-				throw new BadRequestException('Tried to save entry but failed for unknown reason.');
-			}
-		}
+        $data = $this->request->data();
+        $data['id'] = (int)$id;
+        $posting = $this->Entries->update($posting, $data);
+        if (count($posting->errors())) {
+            throw new BadRequestException(
+                'Tried to save entry but failed for unknown reason.'
+            );
+        }
+        $this->set('entry', $posting);
+    }
 
-		public function beforeFilter() {
-			parent::beforeFilter();
-			$this->Auth->allow('threadsGet', 'threadsItemGet');
-		}
-
-	}
+    /**
+     * {@inheritdoc}
+     *
+     * @param Event $event An Event instance
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->loadModel('Entries');
+        $this->Auth->allow(['threadsGet', 'threadsItemGet']);
+    }
+}

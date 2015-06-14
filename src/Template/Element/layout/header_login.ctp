@@ -10,7 +10,7 @@
 		</a>
 		<?php if ($this->request->params['action'] != 'login') { ?>
 			<?= $divider ?>
-			<a href="<?php echo $this->request->webroot; ?>users/login/"
+			<a href="<?php echo $this->request->webroot; ?>login/"
 				 id="showLoginForm" title="<?= __('login_btn') ?>"
 				 class='top-menu-item' rel="nofollow">
 				<?= $this->Layout->textWithIcon(__('login_btn'), 'sign-in') ?>
@@ -26,7 +26,7 @@
 					) . $divider;
 		}
 		?>
-		<a href="<?= $this->request->webroot; ?>users/view/<?= $CurrentUser['id'] ?>"
+		<a href="<?= $this->request->webroot; ?>users/view/<?= $CurrentUser->getId() ?>"
 			 id="btn_view_current_user" class="top-menu-item">
 			<?= $this->Layout->textWithIcon(__('user.b.profile'), 'user') ?>
 		</a>

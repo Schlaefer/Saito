@@ -9,7 +9,8 @@ use Cake\Core\Configure;
  * ApiUsersController Test Case
  *
  */
-class ApiCoreControllerTest extends ApiIntegrationTestCase {
+class ApiCoreControllerTest extends ApiIntegrationTestCase
+{
 
     protected $_apiRoot = 'api/v1/';
 
@@ -33,7 +34,8 @@ class ApiCoreControllerTest extends ApiIntegrationTestCase {
         'plugin.bookmarks.bookmark'
     );
 
-    public function testBootstrap() {
+    public function testBootstrap()
+    {
         Configure::write('Saito.Settings.edit_period', 20);
 
         $_json = <<<EOF
@@ -83,8 +85,9 @@ EOF;
         $this->assertEquals($expected, $result);
     }
 
-		public function testBootstrapCategoriesLoggedIn() {
-			$_json = <<<EOF
+    public function testBootstrapCategoriesLoggedIn()
+    {
+        $_json = <<<EOF
  [
     {
       "id": 2,
@@ -116,12 +119,11 @@ EOF;
     }
 ]
 EOF;
-			$expected = json_decode($_json, true);
-			$this->_loginUser(3);
-            $this->get($this->_apiRoot . 'bootstrap.json');
-            $result = $this->_response->body();
-			$result = json_decode($result, true)['categories'];
-			$this->assertEquals($expected, $result);
-		}
-
-	}
+        $expected = json_decode($_json, true);
+        $this->_loginUser(3);
+        $this->get($this->_apiRoot . 'bootstrap.json');
+        $result = $this->_response->body();
+        $result = json_decode($result, true)['categories'];
+        $this->assertEquals($expected, $result);
+    }
+}

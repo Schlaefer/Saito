@@ -12,26 +12,34 @@ class AppSettingTable extends AppTable
     /**
      * afterSave callback
      *
-     * @param Event $event
-     * @param Entity $entity
-     * @param array|\ArrayObject $options
+     * @param Event $event event
+     * @param Entity $entity entity
+     * @param array|\ArrayObject $options options
      *  - 'clearCache' set to 'false' to prevent cache clearing
+     * @return void
      */
-    public function afterSave(
-        Event $event,
-        Entity $entity,
-        \ArrayObject $options
-    ) {
+    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
+    {
         if (!isset($options['clearCache']) || $options['clearCache'] !== false) {
             $this->clearCache();
         }
     }
 
+    /**
+     * After delete
+     *
+     * @return void
+     */
     public function afterDelete()
     {
         $this->clearCache();
     }
 
+    /**
+     * Clear cache
+     *
+     * @return void
+     */
     public function clearCache()
     {
         $this->_dispatchEvent(
@@ -39,5 +47,4 @@ class AppSettingTable extends AppTable
             ['cache' => ['Saito', 'Thread']]
         );
     }
-
 }

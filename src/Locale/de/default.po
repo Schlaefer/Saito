@@ -239,19 +239,19 @@ msgid "{0} online ({1})"
 msgstr ""
 
 #: Template/Cell/SlidetabUserlist/display.ctp:36 Template/Users/edit.ctp:35
-#: View/Helper/UserHHelper.php:86
+#: View/Helper/UserHelper.php:86
 msgid "user.type.admin"
 msgstr "Administrator"
 
 #: Template/Cell/SlidetabUserlist/display.ctp:39 Template/Users/edit.ctp:34
 #: View/Categories/admin_add.ctp:18 View/Categories/admin_edit.ctp:19
-#: View/Helper/UserHHelper.php:84
+#: View/Helper/UserHelper.php:84
 msgid "user.type.mod"
 msgstr "Moderator"
 
 #: Template/Cell/SlidetabUserlist/display.ctp:42 Template/Users/edit.ctp:33
 #: View/Categories/admin_add.ctp:17 View/Categories/admin_edit.ctp:18
-#: View/Helper/UserHHelper.php:82
+#: View/Helper/UserHelper.php:82
 msgid "user.type.user"
 msgstr "Benutzer"
 
@@ -455,7 +455,7 @@ msgstr "Aufheben"
 
 #: Template/Element/users/block-report.ctp:39
 msgid "user.block.reason.1"
-msgstr "Gesperrt durch Moderator %s."
+msgstr "Gesperrt durch Moderator {0}."
 
 #: Template/Element/users/login_form.ctp:14
 #: Template/Element/users/register-form-core.ctp:32 Template/Users/edit.ctp:51
@@ -1350,8 +1350,8 @@ msgstr "Mitglied %s wurde gesperrt."
 
 #: Controller/UsersController.php:71
 #, php-format
-msgid "User %s is not activated yet."
-msgstr "Nutzer %s wurde noch nicht aktiviert."
+msgid "User {0} is not activated yet."
+msgstr "Nutzer {0} wurde noch nicht aktiviert."
 
 #: Controller/UsersController.php:74
 msgid "auth_loginerror"
@@ -1392,8 +1392,8 @@ msgstr "Der Benutzer konnte nicht gespeichert werden."
 
 #: Controller/UsersController.php:398
 #, php-format
-msgid "Edit %s Profil"
-msgstr "%s Profil bearbeiten"
+msgid "Edit {0} Profil"
+msgstr "{0} Profil bearbeiten"
 
 #: Controller/UsersController.php:435
 msgid "You can't lock yourself."
@@ -1405,13 +1405,13 @@ msgstr "Administratoren können nicht gesperrt werden."
 
 #: Controller/UsersController.php:454
 #, php-format
-msgid "User %s is locked."
+msgid "User {0} is locked."
 msgstr ""
 
 #: Controller/UsersController.php:456
 #, php-format
-msgid "User %s is unlocked."
-msgstr "Benutzer %s wurde freigegeben."
+msgid "User {0} is unlocked."
+msgstr "Benutzer {0} wurde freigegeben."
 
 #: Controller/UsersController.php:460
 msgid "Error while un/locking."
@@ -1549,14 +1549,14 @@ msgstr "Ein ähnlicher Name ist bereits vergeben: {0}"
 #~ msgid "Merge onto entry with ID:"
 #~ msgstr "Anfügen an den Beitrag mit ID:"
 
-#~ msgid "user_color_new_postings_exp"
-#~ msgstr "Neue Beiträge"
+msgid "user_color_new_postings_exp"
+msgstr "Neue Beiträge"
 
-#~ msgid "user_color_old_postinings_exp"
-#~ msgstr "Alte Beiträge"
+msgid "user_color_old_postinings_exp"
+msgstr "Alte Beiträge"
 
-#~ msgid "user_color_actual_posting_exp"
-#~ msgstr "Aktueller Beitrag"
+msgid "user_color_actual_posting_exp"
+msgstr "Aktueller Beitrag"
 
 #~ msgid "Lock"
 #~ msgstr "Sperren"
@@ -1674,8 +1674,8 @@ msgstr "Ein ähnlicher Name ist bereits vergeben: {0}"
 #~ msgid "Nothing recognized."
 #~ msgstr "Nichts erkannt."
 
-#~ msgid "ncy.bkm"
-#~ msgstr "Noch keine Lesezeichen angelegt."
+msgid "ncy.bkm"
+msgstr "Noch keine Lesezeichen angelegt."
 
 #~ msgid "upload_btn_insert_into_posting"
 #~ msgstr "Einfügen"

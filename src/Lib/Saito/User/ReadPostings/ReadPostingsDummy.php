@@ -10,28 +10,40 @@ namespace Saito\User\ReadPostings;
 class ReadPostingsDummy extends ReadPostingsAbstract
 {
 
+    /**
+     * {@inheritDoc}
+     */
     public function __construct()
     {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function set($entries)
     {
-        return;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
-        return;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function isRead($posting, $key = 'time')
     {
         return true;
     }
 
-    protected function get()
+    /**
+     * {@inheritDoc}
+     */
+    protected function _get()
     {
         return [];
     }
-
 }

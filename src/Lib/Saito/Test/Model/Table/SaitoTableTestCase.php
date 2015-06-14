@@ -8,7 +8,8 @@ use Saito\App\Registry;
 use Saito\Test\SaitoTestCase;
 use Saito\User\SaitoUser;
 
-abstract class SaitoTableTestCase extends SaitoTestCase {
+abstract class SaitoTableTestCase extends SaitoTestCase
+{
 
     /**
      * @var string
@@ -20,6 +21,9 @@ abstract class SaitoTableTestCase extends SaitoTestCase {
      */
     public $Table;
 
+    /**
+     * {@inheritDoc}
+     */
     public function setUp()
     {
         parent::setUp();
@@ -28,10 +32,12 @@ abstract class SaitoTableTestCase extends SaitoTestCase {
         $this->Table = TableRegistry::get($this->tableClass);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function tearDown()
     {
         unset($this->Table);
         parent::tearDown();
     }
-
 }

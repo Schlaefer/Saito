@@ -1,140 +1,182 @@
 <?php
 
-	namespace Bookmarks\Controller;
+namespace Bookmarks\Controller;
 
-	use App\Controller\AppController;
-	use Cake\Event\Event;
-	use Cake\Network\Exception\BadRequestException;
-	use Cake\Network\Exception\MethodNotAllowedException;
-	use Cake\Network\Exception\NotFoundException;
-	use Cake\ORM\TableRegistry;
-	use Saito\App\Registry;
+use App\Controller\AppController;
+use Cake\Event\Event;
+use Cake\Network\Exception\BadRequestException;
+use Cake\Network\Exception\MethodNotAllowedException;
+use Cake\Network\Exception\NotFoundException;
+use Cake\ORM\Query;
+use Saito\App\Registry;
+use Saito\Exception\SaitoForbiddenException;
 
-	class BookmarksController extends AppController {
+class BookmarksController extends AppController
+{
 
-	/**
-	 * @throws MethodNotAllowedException
-	 */
-		public function index() {
-			if (!$this->CurrentUser->isLoggedIn()) {
-				throw new MethodNotAllowedException;
-			}
-			$this->loadModel('Bookmarks.Bookmarks');
-			$bookmarks = $this->Bookmarks->find('all', [
-				'contain' => ['Entries' => ['Categories', 'Users']],
-				'conditions' => ['Bookmarks.user_id' => $this->CurrentUser->getId()],
-				'order' => 'Bookmarks.id DESC',
-			]);
-			$this->set('bookmarks', $bookmarks);
-		}
+    /**
+     * Show all bookmarks.
+     *
+     * @throws MethodNotAllowedException
+     * @return void
+     */
+    public function index()
+    {
+        if (!$this->CurrentUser->isLoggedIn()) {
+            throw new MethodNotAllowedException;
+        }
+        $this->loadModel('Bookmarks.Bookmarks');
+        $categories = $this->CurrentUser->Categories->getAll('read');
+        $bookmarks = $this->Bookmarks->find(
+            'all',
+            [
+                'contain' => ['Entries' => ['Categories', 'Users']],
+                'conditions' => [
+                    'Bookmarks.user_id' => $this->CurrentUser->getId(),
+                    'Entries.category_id IN' => $categories
+                ],
+                'order' => 'Bookmarks.id DESC',
+            ]
+        );
+        $this->set('bookmarks', $bookmarks);
+    }
 
-	/**
-	 * @return bool
-	 * @throws MethodNotAllowedException
-	 * @throws BadRequestException
-	 */
-		public function add() {
-			if (!$this->request->is('ajax')) {
-				throw new BadRequestException;
-			}
-			if (!$this->CurrentUser->isLoggedIn()) {
-				throw new MethodNotAllowedException;
-			}
-			$this->autoRender = false;
-			if (!$this->request->is('post')) {
-				return false;
-			}
+    /**
+     * Add a new bookmark.
+     *
+     * @return \Cake\Network\Response
+     * @throws MethodNotAllowedException
+     * @throws BadRequestException
+     */
+    public function add()
+    {
+        if (!$this->request->is('ajax') || !$this->request->is('post')) {
+            throw new BadRequestException;
+        }
+        if (!$this->CurrentUser->isLoggedIn()) {
+            throw new MethodNotAllowedException;
+        }
+        $this->autoRender = false;
 
-			$data = [
-				'user_id' => $this->CurrentUser->getId(),
-				'entry_id' => $this->request->data['id'],
-			];
-			$this->Bookmark->create();
-			return (bool)$this->Bookmark->save($data);
-		}
+        $data = [
+            'user_id' => $this->CurrentUser->getId(),
+            'entry_id' => $this->request->data('id'),
+        ];
+        $bookmark = $this->Bookmarks->createBookmark($data);
 
-		/**
-		 * @param null $id
-		 * @throws MethodNotAllowedException
-		 */
-		public function edit($id = null) {
-			$bookmark = $this->_getBookmark($id);
+        $body = !empty($bookmark) && !count($bookmark->errors());
+        $this->response->body($body);
+        $this->response->type('json');
 
-			if (!$this->request->is('post') && !$this->request->is('put')) {
-				$posting = $bookmark->get('entry');
-				$posting = Registry::newInstance(
-					'\Saito\Posting\Posting',
-					['rawData' => $posting->toArray()]
-				);
-				$this->set(compact('bookmark', 'posting'));
-				return;
-			}
+        return $this->response;
+    }
 
-			$bookmark->set('id', $id);
-			$this->Bookmarks->patchEntity(
-				$bookmark,
-				$this->request->data(),
-				['fieldList' => ['comment']]
-			);
+    /**
+     * Edit a bookmark.
+     *
+     * @param null $id bookmark-ID
+     * @throws MethodNotAllowedException
+     * @return void
+     */
+    public function edit($id = null)
+    {
+        $bookmark = $this->_getBookmark($id);
 
-			$success = $this->Bookmarks->save($bookmark);
-			if (!$success) {
-				$this->Flash->set(
-					__('The bookmark could not be saved. Please, try again.')
-				);
-				return;
-			}
-			$this->redirect(['action' => 'index', '#' => $bookmark->get('entry_id')]);
-		}
+        if (!$this->request->is('post') && !$this->request->is('put')) {
+            $posting = $bookmark->get('entry');
+            $posting = Registry::newInstance(
+                '\Saito\Posting\Posting',
+                ['rawData' => $posting->toArray()]
+            );
+            $this->set(compact('bookmark', 'posting'));
 
-	/**
-	 * @param null $id
-	 * @return bool
-	 * @throws BadRequestException
-	 */
-		public function delete($id = null) {
-			if (!$this->request->is('ajax')) {
-				throw new BadRequestException;
-			}
-			$this->autoRender = false;
+            return;
+        }
 
-			$bookmark = $this->_getBookmark($id);
-			$success = (bool)$this->Bookmarks->delete($bookmark);
-			$this->response->body($success);
-			$this->response->type('json');
-			return $this->response;
-		}
+        $bookmark->set('id', $id);
+        $this->Bookmarks->patchEntity(
+            $bookmark,
+            $this->request->data(),
+            ['fieldList' => ['comment']]
+        );
 
-		public function beforeFilter(Event $event) {
-			parent::beforeFilter($event);
-			$this->Security->config('unlockedActions', ['add']);
-		}
+        $success = $this->Bookmarks->save($bookmark);
+        if (!$success) {
+            $this->Flash->set(
+                __('The bookmark could not be saved. Please, try again.')
+            );
 
-		/**
-		 * @param $id
-		 * @throws NotFoundException
-		 * @throws MethodNotAllowedException
-		 * @throws Saito\Exception\SaitoForbiddenException
-		 * @return mixed
-		 */
-		protected function _getBookmark($id) {
-			if (!$this->CurrentUser->isLoggedIn()) {
-				throw new MethodNotAllowedException;
-			}
+            return;
+        }
+        $this->redirect(
+            ['action' => 'index', '#' => $bookmark->get('entry_id')]
+        );
+    }
 
-			if (!$this->Bookmarks->exists($id)) {
-				throw new NotFoundException(__('Invalid bookmark.'));
-			}
+    /**
+     * Delete a single bookmark.
+     *
+     * @param null $bookmarkId bookmark-ID
+     * @return \Cake\Network\Response
+     * @throws BadRequestException
+     */
+    public function delete($bookmarkId = null)
+    {
+        if (!$this->request->is('ajax') || !$this->request->is('delete')) {
+            throw new BadRequestException;
+        }
+        $this->autoRender = false;
 
-			$bookmark = $this->Bookmarks->find()
-				->contain(['Entries' => ['Categories', 'Users']])
-				->where(['Bookmarks.id' => $id])
-				->first();
+        $bookmark = $this->_getBookmark($bookmarkId);
+        $success = (bool)$this->Bookmarks->delete($bookmark);
+        $this->response->body($success);
+        $this->response->type('json');
 
-			if ($bookmark->get('user_id') !== $this->CurrentUser->getId()) {
-				throw new Saito\Exception\SaitoForbiddenException("Attempt to edit bookmark $id.");
-			}
-			return $bookmark;
-		}
+        return $this->response;
+    }
 
-	}
+    /**
+     * {@inheritdoc}
+     *
+     * @param Event $event An Event instance
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Security->config('unlockedActions', ['add']);
+    }
+
+    /**
+     * Get a single bookmark
+     *
+     * @param int $bookmarkId bookmark-ID
+     * @throws NotFoundException
+     * @throws MethodNotAllowedException
+     * @throws SaitoForbiddenException
+     * @return Entity
+     */
+    protected function _getBookmark($bookmarkId)
+    {
+        if (!$this->CurrentUser->isLoggedIn()) {
+            throw new MethodNotAllowedException;
+        }
+
+        if (!$this->Bookmarks->exists($bookmarkId)) {
+            throw new NotFoundException(__('Invalid bookmark.'));
+        }
+
+        $bookmark = $this->Bookmarks->find()
+            ->contain(['Entries' => ['Categories', 'Users']])
+            ->where(['Bookmarks.id' => $bookmarkId])
+            ->first();
+
+        if ($bookmark->get('user_id') !== $this->CurrentUser->getId()) {
+            throw new SaitoForbiddenException(
+                "Attempt to access bookmark $bookmarkId."
+            );
+        }
+
+        return $bookmark;
+    }
+}

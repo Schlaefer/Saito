@@ -21,6 +21,9 @@ class ReadPostingsCookie extends ReadPostingsAbstract
 
     protected $Cookie;
 
+    /**
+     * {@inheritDoc}
+     */
     public function __construct(
         CurrentUserComponent $CurrentUser,
         Storage $storage
@@ -30,15 +33,18 @@ class ReadPostingsCookie extends ReadPostingsAbstract
         $this->Cookie->setConfig($this->cookieConfig);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function set($entries)
     {
-        $entries = $this->prepareForSave($entries);
+        $entries = $this->_prepareForSave($entries);
         if (empty($entries)) {
             return;
         }
 
         $entries = array_fill_keys($entries, 1);
-        $new = $this->get() + $entries;
+        $new = $this->_get() + $entries;
         if (empty($new)) {
             return;
         }
@@ -52,6 +58,9 @@ class ReadPostingsCookie extends ReadPostingsAbstract
         $this->Cookie->write($data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
         $this->Cookie->delete();
@@ -61,6 +70,8 @@ class ReadPostingsCookie extends ReadPostingsAbstract
      * limits the number of postings saved in cookie
      *
      * cookie size should not exceed 4 kB
+     *
+     * @return void
      */
     protected function _gc()
     {
@@ -69,11 +80,18 @@ class ReadPostingsCookie extends ReadPostingsAbstract
             return;
         }
         ksort($this->readPostings);
-        $this->readPostings = array_slice($this->readPostings, $overhead,
-            null, true);
+        $this->readPostings = array_slice(
+            $this->readPostings,
+            $overhead,
+            null,
+            true
+        );
     }
 
-    protected function get()
+    /**
+     * {@inheritDoc}
+     */
+    protected function _get()
     {
         if ($this->readPostings !== null) {
             return $this->readPostings;
@@ -89,5 +107,4 @@ class ReadPostingsCookie extends ReadPostingsAbstract
         }
         return $this->readPostings;
     }
-
 }

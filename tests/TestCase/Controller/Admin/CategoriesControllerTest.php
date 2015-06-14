@@ -20,6 +20,7 @@ class CategoriesControllerTest extends IntegrationTestCase
         'app.setting',
         'app.user',
         'app.user_block',
+        'app.user_ignore',
         'app.user_read',
         'app.useronline'
     ];
@@ -70,7 +71,8 @@ class CategoriesControllerTest extends IntegrationTestCase
     /**
      * delete category and merge postings into other category
      */
-    public function testDeleteMerge() {
+    public function testDeleteMerge()
+    {
         $this->mockSecurity();
         $this->_loginUser(1);
         $source = 2;
@@ -114,5 +116,4 @@ class CategoriesControllerTest extends IntegrationTestCase
 
         $this->assertRedirect('/admin/categories');
     }
-
 }

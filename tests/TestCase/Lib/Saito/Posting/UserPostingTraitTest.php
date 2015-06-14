@@ -3,6 +3,7 @@
 namespace Saito\Test\Posting;
 
 use Cake\Core\Configure;
+use Cake\I18n\Time;
 use Saito\Test\SaitoTestCase;
 use Saito\User\SaitoUser;
 
@@ -13,15 +14,14 @@ class UserPostingTraitClassMock extends \Saito\Posting\Posting
     {
     }
 
-    public function set($key, $val)
+    public function set($key, $val = null)
     {
-        if ($key === lcfirst($key)) {
-            $this->_rawData['Entry'][$key] = $val;
-        } else {
-            $this->_rawData[$key] = $val;
+        if ($val === null) {
+            $this->_rawData = $key;
+            return;
         }
+        $this->_rawData[$key] = $val;
     }
-
 }
 
 class UserPostingTraitTest extends SaitoTestCase
@@ -43,8 +43,10 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         parent::tearDown();
         unset($this->Mock);
-        Configure::write('Saito.Settings.edit_period',
-            $this->editPeriodGlob);
+        Configure::write(
+            'Saito.Settings.edit_period',
+            $this->editPeriodGlob
+        );
     }
 
     public function testIsAnsweringForbiddenLock()
@@ -74,10 +76,10 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c", time() - ($this->editPeriod * 60) + 1),
+            'time' => new Time(time() - ($this->editPeriod * 60) + 1),
             'locked' => 0
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
 
         $user = ['id' => 1, 'user_type' => 'user'];
         $this->Mock->setCurrentUser(new SaitoUser($user));
@@ -90,11 +92,10 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c",
-                time() - ($this->editPeriod * 60) + 1),
+            'time' => new Time(time() - ($this->editPeriod * 60) + 1),
             'locked' => 0,
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $this->Mock->setCurrentUser(new SaitoUser);
         $result = $this->Mock->isEditingAsCurrentUserForbidden();
         $this->assertTrue($result);
@@ -104,9 +105,9 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c", time()),
+            'time' => new Time(),
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $user = [
             'id' => null,
             'user_type' => 'anon',
@@ -120,9 +121,9 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c", time()),
+            'time' => new Time(),
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $user = [
             'id' => 2,
             'user_type' => 'user',
@@ -139,9 +140,9 @@ class UserPostingTraitTest extends SaitoTestCase
         $entry = [
             'user_id' => 1,
             'locked' => false,
-            'time' => strftime("%c", time() - ($this->editPeriod * 60) - 1)
+            'time' => new Time(time() - ($this->editPeriod * 60) - 1)
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $user = [
             'id' => 1,
             'user_type' => 'user',
@@ -155,15 +156,15 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c", time()),
+            'time' => new Time(),
             'locked' => 1,
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $user = [
             'id' => 1,
             'user_type' => 'user',
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $this->Mock->setCurrentUser(new SaitoUser($user));
         $result = $this->Mock->isEditingAsCurrentUserForbidden();
         $this->assertEquals($result, 'locked');
@@ -173,15 +174,14 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c",
-                time() - ($this->editPeriod * 60) - 1),
+            'time' => new Time(time() - ($this->editPeriod * 60) - 1),
             'fixed' => false,
         ];
         $user = [
             'id' => 1,
             'user_type' => 'mod',
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $this->Mock->setCurrentUser(new SaitoUser($user));
         $result = $this->Mock->isEditingAsCurrentUserForbidden();
         $this->assertEquals($result, 'time');
@@ -189,17 +189,17 @@ class UserPostingTraitTest extends SaitoTestCase
 
     public function testIsEditingForbiddenModToLateFixed()
     {
+        $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c",
-                time() - (Configure::read('Saito.Settings.edit_period') * 60) - 1),
+            'time' => new Time(time() - $editPeriod - 1),
             'fixed' => true,
         ];
         $user = [
             'id' => 1,
             'user_type' => 'mod',
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $this->Mock->setCurrentUser(new SaitoUser($user));
         $result = $this->Mock->isEditingAsCurrentUserForbidden();
         $this->assertFalse($result);
@@ -209,18 +209,16 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $entry = [
             'user_id' => 1,
-            'time' => strftime("%c",
-                time() - ($this->editPeriod * 60) - 1),
+            'time' => new Time(time() - ($this->editPeriod * 60) - 1),
             'fixed' => false,
         ];
         $user = [
             'id' => 1,
             'user_type' => 'admin',
         ];
-        $this->Mock->set('Entry', $entry);
+        $this->Mock->set($entry);
         $this->Mock->setCurrentUser(new SaitoUser($user));
         $result = $this->Mock->isEditingAsCurrentUserForbidden();
         $this->assertFalse($result);
     }
-
 }

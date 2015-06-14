@@ -1,44 +1,58 @@
 <?php
 
-    namespace Api\Controller;
+namespace Api\Controller;
 
-	use Api\Controller\ApiAppController;
-    use Cake\Event\Event;
-    use Cake\Network\Exception\NotFoundException;
-    use Cake\ORM\TableRegistry;
-    use Saito\Api\UnknownRouteException;
+use Api\Error\Exception\UnknownRouteException;
+use Cake\Event\Event;
+use Cake\Network\Exception\NotFoundException;
+use Cake\ORM\TableRegistry;
 
-    class ApiCoreController extends ApiAppController {
+class ApiCoreController extends ApiAppController
+{
 
-/**
- * Returns basic info
- *
- * @throws NotFoundException
- */
-		public function bootstrap() {
-			if (!$this->request->is('GET') || !$this->request->is('json')) {
-				throw new NotFoundException;
-			}
-
-			// available categories
-			$this->layout = 'mobile';
-            $this->Categories = TableRegistry::get('Categories');
-			$categories = $this->Categories->find('all')
-                ->select(['id', 'category_order', 'category', 'description', 'accession'])
-                ->where(['accession <=' => $this->CurrentUser->getMaxAccession()]);
-            $this->set('categories', $categories);
-		}
-
-        /**
-         * @throws UnknownRouteException
-         */
-        public function unknownRoute() {
-            throw new UnknownRouteException;
+    /**
+     * Returns basic info
+     *
+     * @throws NotFoundException
+     * @return void
+     */
+    public function bootstrap()
+    {
+        if (!$this->request->is('GET') || !$this->request->is('json')) {
+            throw new NotFoundException;
         }
 
-		public function beforeFilter(Event $event) {
-			parent::beforeFilter($event);
-			$this->Auth->allow('bootstrap', 'unknownRoute');
-		}
+        // available categories
+        $this->layout = 'mobile';
+        $this->Categories = TableRegistry::get('Categories');
+        $categories = $this->CurrentUser->Categories->getAll('read');
+        $categories = $this->Categories->find('all')
+            ->select(['id', 'category_order', 'category', 'description', 'accession'])
+            ->where(['id IN' => $categories]);
+        $this->set('categories', $categories);
+    }
 
-	}
+    /**
+     * Handles unknown routes
+     *
+     * @return void
+     * @throws UnknownRouteException
+     */
+    public function unknownRoute()
+    {
+        throw new UnknownRouteException;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param Event $event An Event instance
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['bootstrap', 'unknownRoute']);
+    }
+}

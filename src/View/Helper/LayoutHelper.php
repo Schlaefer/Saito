@@ -1,164 +1,215 @@
 <?php
 
-	namespace App\View\Helper;
+namespace App\View\Helper;
 
-	// @todo 3.0 refactor
-    use Cake\Core\Configure;
-	use Cake\View\Helper;
-	use Saito\User\ForumsUserInterface;
+use Cake\Core\Configure;
+use Cake\View\Helper;
 
-	class LayoutHelper extends AppHelper {
+class LayoutHelper extends AppHelper
+{
 
-		public $helpers = ['Html', 'Url'];
+    public $helpers = ['Html', 'Url'];
 
-		protected $_themeImgUrl = null;
+    /**
+     * {@inheritDoc}
+     */
+    public function beforeLayout($layoutFile)
+    {
+        $this->_includeCakeDebugAssets();
+    }
 
-        // @todo 3.0
-		public function beforeRender($viewFile) {
-			$this->_themeImgUrl = $this->request->webroot . 'theme' . DS . $this->theme .
-					DS . Configure::read('App.imageBaseUrl');
-		}
+    /**
+     * jquery tag
+     *
+     * @return string
+     */
+    public function jQueryTag()
+    {
+        $url = 'dist/';
+        $name = 'jquery';
+        if ((int)Configure::read('debug') === 0) {
+            $name = $name . '.min';
+        }
+        return $this->Html->script(
+            $this->Url->assetUrl(
+                $url . $name,
+                ['ext' => '.js', 'fullBase' => true]
+            )
+        );
+    }
 
-        // @todo 3.0
-		public function beforeLayout($layoutFile) {
-			if (Configure::read('debug')) {
-				$stylesheets[] = 'stylesheets/cake.css';
-			}
-			if (!empty($stylesheets)) {
-				$this->Html->css($stylesheets, ['inline' => false]);
-			}
-		}
+    /**
+     * Include CakePHP assets required for debugging
+     *
+     * @return void
+     */
+    protected function _includeCakeDebugAssets()
+    {
+        if (!Configure::read('debug')) {
+            return;
+        }
+        $stylesheets = ['stylesheets/cake.css'];
+        $this->Html->css($stylesheets, ['block' => 'css']);
+    }
 
-		public function jQueryTag() {
-			$url = 'dist/';
-			$name = 'jquery';
-			if ((int)Configure::read('debug') === 0) {
-				$name = $name . '.min';
-			}
-			return $this->Html->script($this->Url->assetUrl($url . $name,
-					['ext' => '.js', 'fullBase' => true]));
-		}
+    /**
+     * Output link to Android touch icon
+     *
+     * @param mixed $size size
+     * @param array $options options
+     * @return string
+     */
+    public function androidTouchIcon($size, array $options = [])
+    {
+        return $this->_touchIcon(
+            $size,
+            $options + ['rel' => 'shortcut icon']
+        );
+    }
 
-		/**
-		 * Output link to Android touch icon
-		 */
-		public function androidTouchIcon($size, array $options = []) {
-			return $this->_touchIcon($size,
-					$options + ['rel' => 'shortcut icon']);
-		}
+    /**
+     * Output link to iOS touch icon
+     *
+     * @param mixed $size size
+     * @param array $options options
+     * @return string
+     */
+    public function appleTouchIcon($size, array $options = [])
+    {
+        return $this->_touchIcon($size, $options);
+    }
 
-		/**
-		 * Output link to iOS touch icon
-		 */
-		public function appleTouchIcon($size, array $options = []) {
-			return $this->_touchIcon($size, $options);
-		}
+    /**
+     * Output link to touch icon
+     *
+     * Files must be placed in <theme>/webroot/img/<baseName>-<size>x<size>.png
+     *
+     * @param mixed $size integer or array with integer
+     * @param array $options options
+     *  `baseName` (default: 'app-icon')
+     *  `precomposed` adds '-precomposed' to baseName (default: false)
+     *  `rel` (default: 'apple-touch-icon')
+     *  `size` outputs "size"-attribute (default: true)
+     * @return string
+     */
+    protected function _touchIcon($size, array $options = [])
+    {
+        if (is_array($size)) {
+            $_out = '';
+            foreach ($size as $s) {
+                $_out .= $this->appleTouchIcon($s, $options);
+            }
+            return $_out;
+        }
 
-		/**
-		 * Output link to touch icon
-		 *
-		 * Files must be placed in <theme>/webroot/img/<baseName>-<size>x<size>.png
-		 *
-		 * @param mixed $size integer or array with integer
-		 * @param array $options
-		 *  `baseName` (default: 'app-icon')
-		 *  `precomposed` adds '-precomposed' to baseName (default: false)
-		 *  `rel` (default: 'apple-touch-icon')
-		 *  `size` outputs "size"-attribute (default: true)
-		 * @return string
-		 */
-		protected function _touchIcon($size, array $options = []) {
-			if (is_array($size)) {
-				$_out = '';
-				foreach ($size as $s) {
-					$_out .= $this->appleTouchIcon($s, $options);
-				}
-				return $_out;
-			}
+        $_defaults = [
+            'baseName' => 'app-icon',
+            'precomposed' => false,
+            'rel' => 'apple-touch-icon',
+            'size' => true
+        ];
+        $options += $_defaults;
 
-			$_defaults = [
-					'baseName' => 'app-icon',
-					'precomposed' => false,
-					'rel' => 'apple-touch-icon',
-					'size' => true
-			];
-			$options += $_defaults;
+        $_xSize = "{$size}x{$size}";
 
-			$_xSize = "{$size}x{$size}";
+        $_basename = $options['baseName'];
+        if ($options['precomposed']) {
+            $_basename .= '-precomposed';
+        }
+        $_filename = "{$_basename}-{$_xSize}.png";
 
-			$_basename = $options['baseName'];
-			if ($options['precomposed']) {
-				$_basename .= '-precomposed';
-			}
-			$_filename = "{$_basename}-{$_xSize}.png";
+        $url = $this->Url->assetUrl(
+            $this->theme . '.' . Configure::read('App.imageBaseUrl'),
+            ['fullBase' => true]
+        );
+        $url = "{$url}{$_filename}";
 
-			$url = "{$this->_themeImgUrl}{$_filename}";
+        $_out = "<link rel=\"{$options['rel']}\" ";
+        if ($options['size']) {
+            $_out .= "size=\"{$_xSize}\" ";
+        }
+        $_out .= "href=\"{$url}\">";
+        return $_out;
+    }
 
-			$_out = "<link rel=\"{$options['rel']}\" ";
-			if ($options['size']) {
-				$_out .= "size=\"{$_xSize}\" ";
-			}
-			$_out .= "href=\"{$url}\">";
-			return $_out;
-		}
+    /**
+     * Generates page heading html
+     *
+     * @param string $heading heading
+     * @param string $tag tag
+     * @return string
+     */
+    public function pageHeading($heading, $tag = 'h1')
+    {
+        return $this->Html->tag(
+            $tag,
+            $heading,
+            ['class' => 'pageHeading', 'escape' => true]
+        );
+    }
 
-		/**
-		 * Generates page heading html
-		 *
-		 * @param string $heading
-		 * @param string $tag
-		 * @return string
-		 */
-		public function pageHeading($heading, $tag = 'h1') {
-			return $this->Html->tag($tag,
-					$heading,
-					['class' => 'pageHeading', 'escape' => true]);
-		}
+    /**
+     * Generates intoText tag
+     *
+     * @param string $content content
+     * @return string
+     */
+    public function infoText($content)
+    {
+        return $this->Html->tag('span', $content, ['class' => 'infoText']);
+    }
 
-		/**
-		 * Generates intoText tag
-		 *
-		 * @param string $content
-		 * @return string
-		 */
-		public function infoText($content) {
-			return $this->Html->tag('span', $content, ['class' => 'infoText']);
-		}
-
-		public function textWithIcon($text, $icon) {
-			return <<<EOF
+    /**
+     * text with icon
+     *
+     * @param string $text text
+     * @param string $icon icon
+     * @return string
+     */
+    public function textWithIcon($text, $icon)
+    {
+        return <<<EOF
 				<i class="saito-icon fa fa-$icon"></i>
 				<span class="saito-icon-text">$text</span>
 EOF;
-		}
+    }
 
-		public function dropdownMenuButton(array $menuItems, array $options = []) {
-			$options += ['class' => ''];
-			$_divider = '<li class="dropdown-divider"></li>';
-			$_menu = '';
-			foreach ($menuItems as $_menuItem) {
-				if ($_menuItem === 'divider') {
-					$_menu .= $_divider;
-				} else {
-					$_menu .= "<li>$_menuItem</li>";
-				}
-			}
-			$_id = AppHelper::tagId();
-            if (!isset($options['title'])) {
-                $options['title'] = '<i class="fa fa-wrench"></i>&nbsp;<i class="fa fa-caret-down"></i>';
+    /**
+     * dropt down menu
+     *
+     * @param array $menuItems items
+     * @param array $options options
+     * @return string
+     */
+    public function dropdownMenuButton(array $menuItems, array $options = [])
+    {
+        $options += ['class' => ''];
+        $_divider = '<li class="dropdown-divider"></li>';
+        $_menu = '';
+        foreach ($menuItems as $_menuItem) {
+            if ($_menuItem === 'divider') {
+                $_menu .= $_divider;
+            } else {
+                $_menu .= "<li>$_menuItem</li>";
             }
+        }
+        $_id = AppHelper::tagId();
+        if (!isset($options['title'])) {
+            $options['title'] = '<i class="fa fa-wrench"></i>&nbsp;<i class="fa fa-caret-down"></i>';
+        }
 
-            $title = $options['title'];
-            unset($options['title']);
+        $title = $options['title'];
+        unset($options['title']);
 
-			$_button = $this->Html->tag(
-					'button',
-                    $title,
-					$options + [
-							'escape' => false,
-							'onclick' => "$(this).dropdown('attach', '#d$_id');"
-					]);
-			$_out = <<<EOF
+        $_button = $this->Html->tag(
+            'button',
+            $title,
+            $options + [
+                'escape' => false,
+                'onclick' => "$(this).dropdown('attach', '#d$_id');"
+            ]
+        );
+        $_out = <<<EOF
 				$_button
 				<div id="d$_id" class="dropdown-relative dropdown dropdown-tip">
 					<ul class="dropdown-menu">
@@ -166,97 +217,122 @@ EOF;
 					</ul>
 				</div>
 EOF;
-			return $_out;
-		}
+        return $_out;
+    }
 
-		public function panelHeading($content, array $options = []) {
-			$options += [
-					'class' => 'panel-heading',
-					'escape' => true,
-					'pageHeading' => false,
-					'tag' => 'h2'
-			];
-			if ($options['pageHeading']) {
-				$options['class'] .= ' pageTitle';
-				$options['tag'] = 'h1';
-			}
-			if (is_string($content)) {
-				$content = ['middle' => $content];
-			}
+    /**
+     * panel heading
+     *
+     * @param mixed $content content
+     * @param array $options options
+     * @return string
+     */
+    public function panelHeading($content, array $options = [])
+    {
+        $options += [
+            'class' => 'panel-heading',
+            'escape' => true,
+            'pageHeading' => false,
+            'tag' => 'h2'
+        ];
+        if ($options['pageHeading']) {
+            $options['class'] .= ' pageTitle';
+            $options['tag'] = 'h1';
+        }
+        if (is_string($content)) {
+            $content = ['middle' => $content];
+        }
 
-			if ($options['escape']) {
-				foreach ($content as $k => $v) {
-					$content[$k] = h($v);
-				}
-			}
+        if ($options['escape']) {
+            foreach ($content as $k => $v) {
+                $content[$k] = h($v);
+            }
+        }
 
-			$content['middle'] = "<{$options['tag']}>{$content['middle']}</{$options['tag']}>";
+        $content['middle'] = "<{$options['tag']}>{$content['middle']}</{$options['tag']}>";
 
-			$options['escape'] = false;
-			return $this->heading($content, $options);
-		}
+        $options['escape'] = false;
+        return $this->heading($content, $options);
+    }
 
-		public function heading($content, array $options = []) {
-			$options += ['class' => '', 'escape' => true];
-			if (is_string($content)) {
-				$_content = ['middle' => $content];
-			} else {
-				$_content = $content;
-			}
-			$_content += ['first' => '', 'middle' => '', 'last' => ''];
-			$out = '';
-			foreach (['first', 'middle', 'last'] as $key) {
-				$out .= '<div class="heading-3-' . $key . '">';
-				$out .= $options['escape'] ? h($_content[$key]) : $_content[$key];
-				$out .= '</div>';
-			}
-			return "<div class=\"{$options['class']} heading-3\">$out</div>";
-		}
+    /**
+     * heading
+     *
+     * @param mixed $content content
+     * @param array $options options
+     * @return string
+     */
+    public function heading($content, array $options = [])
+    {
+        $options += ['class' => '', 'escape' => true];
+        if (is_string($content)) {
+            $_content = ['middle' => $content];
+        } else {
+            $_content = $content;
+        }
+        $_content += ['first' => '', 'middle' => '', 'last' => ''];
+        $out = '';
+        foreach (['first', 'middle', 'last'] as $key) {
+            $out .= '<div class="heading-3-' . $key . '">';
+            $out .= $options['escape'] ? h($_content[$key]) : $_content[$key];
+            $out .= '</div>';
+        }
+        return "<div class=\"{$options['class']} heading-3\">$out</div>";
+    }
 
-		/**
-		 * creates a navigation link for the navigation bar
-		 *
-		 * @param $content link content
-		 * @param $url link url
-		 * @param array $options allows options as HtmlHelper::link
-		 * 	- 'class' a CSS class to apply to the navbar item
-		 * 	- 'position' [left]|center|right
-		 * @return string navigation link
-		 */
-		public function navbarItem($content, $url, array $options = []) {
-			$defaults = [
-				'class' => 'navbar-item',
-				'position' => 'left'
-			];
-			$class = '';
-			if (isset($options['class'])) {
-				$class = $options['class'];
-				unset($options['class']);
-			}
-			$options += $defaults;
+    /**
+     * creates a navigation link for the navigation bar
+     *
+     * @param string $content link content
+     * @param string $url link url
+     * @param array $options allows options as HtmlHelper::link
+     *    - 'class' a CSS class to apply to the navbar item
+     *    - 'position' [left]|center|right
+     * @return string navigation link
+     */
+    public function navbarItem($content, $url, array $options = [])
+    {
+        $defaults = [
+            'class' => 'navbar-item',
+            'position' => 'left'
+        ];
+        $class = '';
+        if (isset($options['class'])) {
+            $class = $options['class'];
+            unset($options['class']);
+        }
+        $options += $defaults;
 
-			$options['class'] .= " {$options['position']} $class";
-			unset($class, $options['position']);
+        $options['class'] .= " {$options['position']} $class";
+        unset($class, $options['position']);
 
-			return $this->Html->link($content, $url, $options);
-		}
+        return $this->Html->link($content, $url, $options);
+    }
 
-		public function navbarBack($url = null, $title = null, $options = []) {
-			if ($title === null) {
-				if ($url === null) {
-					$title = __('back_to_forum_linkname');
-				} else {
-					$title = __('Back');
-				}
-			}
+    /**
+     * navbar back
+     *
+     * @param string $url url
+     * @param string $title title
+     * @param array $options options
+     * @return string
+     */
+    public function navbarBack($url = null, $title = null, $options = [])
+    {
+        if ($title === null) {
+            if ($url === null) {
+                $title = __('back_to_forum_linkname');
+            } else {
+                $title = __('Back');
+            }
+        }
 
-			if ($url === null) {
-				$url = '/';
-			}
-			$options += ['escape' => false];
-			$content = $this->textWithIcon(h($title), 'arrow-left');
+        if ($url === null) {
+            $url = '/';
+        }
+        $options += ['escape' => false];
+        $content = $this->textWithIcon(h($title), 'arrow-left');
 
-			return $this->navbarItem($content, $url, $options);
-		}
-
-	}
+        return $this->navbarItem($content, $url, $options);
+    }
+}

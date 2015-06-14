@@ -7,7 +7,6 @@ use App\Lib\Controller\AuthSwitchTrait;
 
 class UsersController extends AppController
 {
-
     use AuthSwitchTrait;
 
     public $actionAuthConfig = [
@@ -15,26 +14,25 @@ class UsersController extends AppController
     ];
 
     /**
-     * index user
+     * List all users.
      *
      * @return void
      */
     public function index()
     {
-        $data = $this->Users->find(
-            'all',
-            [
-                'fields' => [
+        $data = $this->Users->find()
+            ->select(
+                [
                     'id',
                     'username',
                     'user_type',
                     'user_email',
                     'registered',
                     'user_lock'
-                ],
-                'order' => ['username' => 'asc']
-            ]
-        )->all();
+                ]
+            )
+            ->order(['username' => 'asc'])
+            ->all();
         $this->set('users', $data);
     }
 
@@ -126,5 +124,15 @@ class UsersController extends AppController
             );
         }
         $this->set('user', $readUser);
+    }
+
+    /**
+     * List all blocked users.
+     *
+     * @return void
+     */
+    public function block()
+    {
+        $this->set('UserBlock', $this->Users->UserBlocks->getAll());
     }
 }

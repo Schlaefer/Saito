@@ -6,13 +6,8 @@ use Cake\Log\Log;
 
 class ForbiddenLogger extends ExceptionLogger
 {
-
     /**
-     * @param null $message
-     * @param null|array $data
-     * - `CurrentUser`
-     * - `msgs` array with additional message-lines
-     * @throws \InvalidArgumentException
+     * {@inheritDoc}
      */
     public function write($message = null, $data = null)
     {
@@ -23,10 +18,15 @@ class ForbiddenLogger extends ExceptionLogger
         parent::write($message, $data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function _write()
     {
-        Log::write('error', $this->_message(), ['scope' => ['saito.forbidden']]);
+        Log::write(
+            'error',
+            $this->_message(),
+            ['scope' => ['saito.forbidden']]
+        );
     }
-
 }
-

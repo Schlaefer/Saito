@@ -20,6 +20,11 @@ class SaitoEmailContact implements ContactInterface
         'system' => 'Saito.Settings.email_system'
     ];
 
+    /**
+     * Constructor.
+     *
+     * @param string|int|array $contact contact
+     */
     public function __construct($contact)
     {
         /* resovle build in addresses */
@@ -58,6 +63,11 @@ class SaitoEmailContact implements ContactInterface
         return $this;
     }
 
+    /**
+     * Get name
+     *
+     * @return string
+     */
     public function getName()
     {
         if (!$this->name) {
@@ -67,6 +77,11 @@ class SaitoEmailContact implements ContactInterface
         return $this->name;
     }
 
+    /**
+     * Get address
+     *
+     * @return string
+     */
     public function getAddress()
     {
         if (!$this->address) {
@@ -85,5 +100,4 @@ class SaitoEmailContact implements ContactInterface
     {
         return [$this->getAddress() => $this->getName()];
     }
-
 }

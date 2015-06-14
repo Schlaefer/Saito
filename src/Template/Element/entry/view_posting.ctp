@@ -18,13 +18,13 @@
     <div class="l-table">
         <div class="l-table-row">
             <div class="l-table-cell panel-info center">
-                <?= $this->UserH->getAvatar($entry->get('User')) ?>
-                <?= $this->UserH->linkToUserProfile($entry->get('User'), $CurrentUser) ?>
+                <?= $this->User->getAvatar($entry->get('user')) ?>
+                <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
             </div>
             <div class="postingLayout-body panel-content l-table-cell-main">
                 <?php
-                if (!$CurrentUser['user_signatures_hide'] &&
-                    !empty($entry->get('User')['signature']) &&
+                if (!$CurrentUser->get('user_signatures_hide') &&
+                    $entry->get('user')->get('signature') &&
                     !$entry->isNt()
                 ) {
                     $showSignature = true;
@@ -50,7 +50,7 @@
 					$items = $SaitoEventManager->dispatch(
 						'Request.Saito.View.Posting.footerActions',
 						[
-							'posting' => $entry->getRaw(),
+							'posting' => $entry->toArray(),
 							'View' => $this
 						]
 					);
@@ -70,21 +70,20 @@
                     'disabled' => 'disabled'
                 ]);
             } elseif (!$isAnsweringForbidden) {
-                echo $this->Html->link(__('forum_answer_linkname'), '#', [
-                    'class' => 'btn btn-submit js-btn-setAnsweringForm panel-footer-form-btn',
-                    'accesskey' => "a",
-                ]);
+                echo $this->Html->link(
+                    __('forum_answer_linkname'),
+                    '#',
+                    ['class' => 'btn btn-submit js-btn-setAnsweringForm panel-footer-form-btn']
+                );
             };
             ?>
 			<?php if (!$entry->isEditingWithRoleUserForbidden()) : ?>
 				<span class="small">
-					<?=
-						$this->Html->link(
-								__('edit_linkname'),
-								'/entries/edit/' . $entry->get('id'),
-								['class' => 'btn btn-edit js-btn-edit panel-footer-form-btn', 'accesskey' => 'e']
-						);
-					?>
+					<?= $this->Html->link(
+                        __('edit_linkname'),
+                        '/entries/edit/' . $entry->get('id'),
+                        ['class' => 'btn btn-edit js-btn-edit panel-footer-form-btn']
+                    ); ?>
 				</span>
 			<?php endif; ?>
 

@@ -12,6 +12,9 @@ class ManualBlocker extends BlockerAbstract
         'duration' => null
     ];
 
+    /**
+     * {@inheritDoc}
+     */
     public function getReason()
     {
         return 1;
@@ -20,8 +23,8 @@ class ManualBlocker extends BlockerAbstract
     /**
      * block user manually
      *
-     * @param $userId
-     * @param array $options
+     * @param int $userId user-ID
+     * @param array $options options
      * @throws \InvalidArgumentException
      * @throws \Exception
      * @return bool
@@ -46,7 +49,7 @@ class ManualBlocker extends BlockerAbstract
         }
         if ($state) {
             if ($options['adminId']) {
-                $conditions['by'] = $options['adminId'];
+                $conditions['blocked_by_user_id'] = $options['adminId'];
             }
             if ($options['duration']) {
                 $conditions['ends'] = bDate(time() + $options['duration']);
@@ -62,5 +65,4 @@ class ManualBlocker extends BlockerAbstract
 
         return $state;
     }
-
 }

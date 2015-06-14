@@ -2,12 +2,21 @@
 
 namespace Saito\User\Blocker;
 
+use Cake\ORM\Table;
+
 abstract class BlockerAbstract
 {
 
     protected $Table;
 
-    public abstract function block($userId, array $options = []);
+    /**
+     * block user
+     *
+     * @param int $userId user-ID
+     * @param array $options options
+     * @return bool
+     */
+    abstract public function block($userId, array $options = []);
 
     /**
      * id for reason why user is blocked
@@ -16,11 +25,16 @@ abstract class BlockerAbstract
      *
      * @return string
      */
-    public abstract function getReason();
+    abstract public function getReason();
 
+    /**
+     * Set user block table
+     *
+     * @param Table $Table table
+     * @return void
+     */
     public function setUserBlockTable($Table)
     {
         $this->Table = $Table;
     }
-
 }

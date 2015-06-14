@@ -10,11 +10,18 @@ use Cake\Utility\Security;
  */
 class MlfPasswordHasher extends AbstractPasswordHasher
 {
+
+    /**
+     * {@inheritDoc}
+     */
     public function hash($password)
     {
         return Security::hash($password, 'md5', false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function check($password, $hash)
     {
         return $hash === self::hash($password);

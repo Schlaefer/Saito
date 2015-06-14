@@ -25,22 +25,22 @@
 			</h2>
 		</header>
 		<aside class="postingBody-info">
-				<span class='c-category acs-<?= $entry->get('Category')['accession']; ?>'
-							title="<?php echo $entry->get('Category')['description']; ?> (<?= __d('nondynamic', 'category_acs_'.$entry->get('Category')['accession'].'_exp'); ?>)">
-				<?= $entry->get('Category')['category']; ?>
+				<span class='c-category acs-<?= $entry->get('category')['accession']; ?>'
+							title="<?php echo $entry->get('category')['description']; ?> (<?= __d('nondynamic', 'category_acs_'.$entry->get('category')['accession'].'_exp'); ?>)">
+				<?= $entry->get('category')['category']; ?>
 				</span>
 			–
 				<span itemscope itemprop="author" itemtype="http://schema.org/Person">
 					<span itemprop="name" class="c-username">
 						<?=
-							$this->UserH->linkToUserProfile($entry->get('User'), $CurrentUser);
+							$this->User->linkToUserProfile($entry->get('user'), $CurrentUser);
 						?></span>,
 				</span>
 
 				<span class="meta">
 					<?php
-						if (!empty($entry->get('User')['user_place'])) {
-							echo h($entry->get('User')['user_place']) . ', ';
+						if ($entry->get('user')->get('user_place')) {
+							echo h($entry->get('user')->get('user_place')) . ', ';
 						}
 
 						echo $this->TimeH->formatTime($entry->get('time'));
@@ -91,9 +91,9 @@
 					<?= Configure::read('Saito.Settings.signature_separator') ?>
 				</div>
 				<?php
-					$multimedia = ($CurrentUser->isLoggedIn()) ? !$CurrentUser['user_signatures_images_hide'] : true;
+					$multimedia = ($CurrentUser->isLoggedIn()) ? !$CurrentUser->get('user_signatures_images_hide') : true;
                 echo $this->Parser->parse(
-                    $entry->get('User')['signature'],
+                    $entry->get('user')->get('signature'),
                     ['multimedia' => $multimedia]
                 );
 				?>

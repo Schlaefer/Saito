@@ -87,13 +87,10 @@ define([
     },
 
     _insertContent: function() {
-      var id,
+      var id = this.model.get('id'),
           postingLayout;
-      id = this.model.get('id');
 
-      this.postingModel = new PostingModel({
-        id: id
-      });
+      this.postingModel = new PostingModel({id: id});
       this.postings.add(this.postingModel);
 
       postingLayout = new PostingLayout({

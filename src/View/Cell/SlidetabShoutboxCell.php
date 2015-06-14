@@ -1,20 +1,28 @@
 <?php
 
-	namespace App\View\Cell;
+namespace App\View\Cell;
 
-	use Saito\Shouts\ShoutsDataTrait;
-	use Saito\View\Cell\SlidetabCell;
+use Saito\Shouts\ShoutsDataTrait;
+use Saito\View\Cell\SlidetabCell;
 
-	class SlidetabShoutboxCell extends SlidetabCell {
+class SlidetabShoutboxCell extends SlidetabCell
+{
 
-		use ShoutsDataTrait;
+    use ShoutsDataTrait;
 
-		public function display() {
-			$this->set('shouts', $this->get());
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function display()
+    {
+        $this->set('shouts', $this->getShouts());
+    }
 
-		protected function _getSlidetabId() {
-			return 'shoutbox';
-		}
-
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected function _getSlidetabId()
+    {
+        return 'shoutbox';
+    }
+}

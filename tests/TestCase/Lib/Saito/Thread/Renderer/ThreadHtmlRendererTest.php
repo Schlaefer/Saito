@@ -3,12 +3,13 @@
 namespace Saito\Test\Thread\Renderer;
 
 use App\View\Helper\PostingHelper;
+use Cake\I18n\Time;
+use Cake\View\View;
 use Saito\Posting\Posting;
 use Saito\Test\SaitoTestCase;
-use Cake\View\View;
 use Saito\Thread\Renderer\ThreadHtmlRenderer;
+use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\ReadPostings;
-use Saito\User\SaitoUser;
 
 class ThreadHtmlRendererTest extends SaitoTestCase
 {
@@ -24,7 +25,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             'pid' => 0,
             'subject' => 'a',
             'text' => 'b',
-            'time' => 0,
+            'time' => new Time(),
             'last_answer' => 0,
             'fixed' => false,
             'solves' => '',
@@ -70,7 +71,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             'pid' => 0,
             'subject' => 'a',
             'text' => 'b',
-            'time' => 0,
+            'time' => new Time(),
             'last_answer' => 0,
             'fixed' => false,
             'solves' => '',
@@ -109,9 +110,11 @@ class ThreadHtmlRendererTest extends SaitoTestCase
     {
         $SaitoUser = $this->getMock(
             'SaitoUser',
-            ['getMaxAccession', 'getId', 'hasBookmarks']
+            ['getId', 'hasBookmarks']
         );
-        $SaitoUser->ReadEntries = $this->getMock('ReadPostings\ReadPostingsDummy');
+        $SaitoUser->ReadEntries = $this->getMock(
+            'ReadPostings\ReadPostingsDummy'
+        );
 
         $entry = [
             'id' => 1,
@@ -119,7 +122,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             'tid' => 0,
             'subject' => 'a',
             'text' => 'b',
-            'time' => 0,
+            'time' => new Time(),
             'last_answer' => 0,
             'fixed' => false,
             'solves' => '',
@@ -146,9 +149,10 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         $entries = new Posting($this->SaitoUser, $entries);
 
         // max depth should not apply
-        $renderer = new ThreadHtmlRenderer($this->PostingHelper, [
-            'maxThreadDepthIndent' => 9999
-        ]);
+        $renderer = new ThreadHtmlRenderer(
+            $this->PostingHelper,
+            ['maxThreadDepthIndent' => 9999]
+        );
         $result = $renderer->render($entries);
         $this->assertEquals(substr_count($result, '<ul'), 3);
 
@@ -161,16 +165,16 @@ class ThreadHtmlRendererTest extends SaitoTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->PostingHelper = $this->setupPostingHelper();
+        $this->PostingHelper = $this->_setupPostingHelper();
 
-        $this->SaitoUser = new SaitoUser;
+        $this->SaitoUser = new CurrentUser();
         $this->SaitoUser->ReadEntries = new ReadPostings\ReadPostingsDummy;
     }
 
-    protected function setupPostingHelper()
+    protected function _setupPostingHelper()
     {
         $View = new View();
+
         return new PostingHelper($View);
     }
-
 }

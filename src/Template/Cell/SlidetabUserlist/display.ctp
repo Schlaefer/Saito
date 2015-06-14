@@ -54,4 +54,4 @@
 		</ul>
 	</div>
 <?php $this->end('slidetab-content'); ?>
-<?= $this->element('layout/slidetabs'); ?>
+<?= $this->element('Cell/slidetabs'); ?>

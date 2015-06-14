@@ -12,11 +12,13 @@ use Saito\Test\SaitoTestCase;
  * @package Saito\Test\Contact
  * @group Saito\Test\Contact
  */
-class SaitoEmailContactTest extends SaitoTestCase {
+class SaitoEmailContactTest extends SaitoTestCase
+{
 
     public $fixtures = ['app.user'];
 
-    public function testCakeFormat() {
+    public function testCakeFormat()
+    {
         $input = ['foo' => 'bar'];
         $contact = new SaitoEmailContact($input);
         $this->assertEquals('bar', $contact->getName());
@@ -24,7 +26,8 @@ class SaitoEmailContactTest extends SaitoTestCase {
         $this->assertEquals($input, $contact->toCake());
     }
 
-    public function testBuildIn() {
+    public function testBuildIn()
+    {
         Configure::write('Saito.Settings.forum_name', 'bar');
         Configure::write('Saito.Settings.forum_email', 'foo');
         $input = 'main';
@@ -33,11 +36,11 @@ class SaitoEmailContactTest extends SaitoTestCase {
         $this->assertEquals('foo', $contact->getAddress());
     }
 
-    public function testUser() {
+    public function testUser()
+    {
         $input = 1;
         $contact = new SaitoEmailContact($input);
         $this->assertEquals('Alice', $contact->getName());
         $this->assertEquals('alice@example.com', $contact->getAddress());
     }
-
 }

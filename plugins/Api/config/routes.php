@@ -1,130 +1,133 @@
 <?php
 
-	use Cake\Routing\Router;
+use Cake\Routing\Router;
 
-	// threads collection
-	// -------------------------------------
+// threads collection
+// -------------------------------------
 
-Router::scope('/api/v1/', ['plugin' => 'Api'], function ($routes) {
+Router::scope(
+    '/api/v1/',
+    ['plugin' => 'Api'],
+    function ($routes) {
 
-    // must be first in scope to apply to following routes
-    $routes->extensions(['json']);
+        // must be first in scope to apply to following routes
+        $routes->extensions(['json']);
 
 
-    // Shouts
-    // -------------------------------------
-    $routes->connect(
-        'shouts',
-        [
-            'controller' => 'ApiShouts',
-            'action' => 'shoutsGet',
-            '_method' => 'GET'
-        ]
-    );
+        // Shouts
+        // -------------------------------------
+        $routes->connect(
+            'shouts',
+            [
+                'controller' => 'ApiShouts',
+                'action' => 'shoutsGet',
+                '_method' => 'GET'
+            ]
+        );
 
-    $routes->connect(
-        'shouts',
-        [
-            'controller' => 'ApiShouts',
-            'action' => 'shoutsPost',
-            '_method' => 'POST'
-        ]
-    );
+        $routes->connect(
+            'shouts',
+            [
+                'controller' => 'ApiShouts',
+                'action' => 'shoutsPost',
+                '_method' => 'POST'
+            ]
+        );
 
-    // Read
-    $routes->connect(
-        'threads',
-        [
-            'controller' => 'ApiEntries',
-            'action' => 'threadsGet',
-            '_method' => 'GET'
-        ]
-    );
+        // Read
+        $routes->connect(
+            'threads',
+            [
+                'controller' => 'ApiEntries',
+                'action' => 'threadsGet',
+                '_method' => 'GET'
+            ]
+        );
 
-    // Read entries of thread
-    $routes->connect(
-        'threads/*',
-        [
-            'controller' => 'ApiEntries',
-            'action' => 'threadsItemGet',
-            '_method' => 'GET'
-        ]
-    );
+        // Read entries of thread
+        $routes->connect(
+            'threads/*',
+            [
+                'controller' => 'ApiEntries',
+                'action' => 'threadsItemGet',
+                '_method' => 'GET'
+            ]
+        );
 
-    // entries
-    // -------------------------------------
+        // entries
+        // -------------------------------------
 
-    // Create
-    $routes->connect(
-        'entries',
-        [
-            'controller' => 'ApiEntries',
-            'action' => 'entriesItemPost',
-            '_method' => 'POST'
-        ]
-    );
+        // Create
+        $routes->connect(
+            'entries',
+            [
+                'controller' => 'ApiEntries',
+                'action' => 'entriesItemPost',
+                '_method' => 'POST'
+            ]
+        );
 
-    // Update
-    $routes->connect(
-        'entries/*',
-        [
-            'controller' => 'ApiEntries',
-            'action' => 'entriesItemPut',
-            '_method' => 'PUT'
-        ]
-    );
+        // Update
+        $routes->connect(
+            'entries/*',
+            [
+                'controller' => 'ApiEntries',
+                'action' => 'entriesItemPut',
+                '_method' => 'PUT'
+            ]
+        );
 
-    // User
-    // -------------------------------------
+        // User
+        // -------------------------------------
 
-    // Login
-    $routes->connect(
-        'login',
-        [
-            'controller' => 'ApiUsers',
-            'action' => 'login',
-            '_method' => 'POST'
-        ]
-    );
+        // Login
+        $routes->connect(
+            'login',
+            [
+                'controller' => 'ApiUsers',
+                'action' => 'login',
+                '_method' => 'POST'
+            ]
+        );
 
-    // Logout
-    $routes->connect(
-        'logout',
-        [
-            'controller' => 'ApiUsers',
-            'action' => 'logout',
-            '_method' => 'POST'
-        ]
-    );
+        // Logout
+        $routes->connect(
+            'logout',
+            [
+                'controller' => 'ApiUsers',
+                'action' => 'logout',
+                '_method' => 'POST'
+            ]
+        );
 
-    // Misc
-    // -------------------------------------
+        // Misc
+        // -------------------------------------
 
-    // Bootstrap - Read
-    $routes->connect(
-        'bootstrap',
-        [
-            'controller' => 'ApiCore',
-            'action' => 'bootstrap',
-            '_method' => 'GET'
-        ]
-    );
+        // Bootstrap - Read
+        $routes->connect(
+            'bootstrap',
+            [
+                'controller' => 'ApiCore',
+                'action' => 'bootstrap',
+                '_method' => 'GET'
+            ]
+        );
 
-    // Mark as Read - Update
-    $routes->connect(
-        'markasread',
-        [
-            'controller' => 'ApiUsers',
-            'action' => 'markasread',
-            '_method' => 'POST'
-        ]
-    );
+        // Mark as Read - Update
+        $routes->connect(
+            'markasread',
+            [
+                'controller' => 'ApiUsers',
+                'action' => 'markasread',
+                '_method' => 'POST'
+            ]
+        );
 
-    // catchall for unknown route
-    $routes->connect(
-        '*',
-        ['controller' => 'ApiCore', 'action' => 'unknownRoute']
-    );
+        // catchall for unknown route
+        $routes->connect(
+            '*',
+            ['controller' => 'ApiCore', 'action' => 'unknownRoute']
+        );
 
-});
-
+    }
+);

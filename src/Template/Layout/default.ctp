@@ -83,23 +83,23 @@
 					],
 					['class' => 'navbar', 'escape' => false]);
 
-			if ($this->get('showSlidetabs')) {
-				if (!empty($slidetabs)) {
-					\Stopwatch\Lib\Stopwatch::start('Slidetabs');
-					// @todo 3.0 remove migration array
-					$migrationHelper = [
-						'slidetab_userlist' => 'SlidetabUserlist',
-						'slidetab_shoutbox' => 'SlidetabShoutbox'
-					];
-					echo '<aside id="slidetabs">';
-					foreach ($slidetabs as $slidetab) {
-						echo $this->cell($migrationHelper[$slidetab]);
-					}
-					echo '</aside>';
-					\Stopwatch\Lib\Stopwatch::end('Slidetabs');
-				}
-			}
-		?>
+            if (!empty($slidetabs)) {
+                \Stopwatch\Lib\Stopwatch::start('Slidetabs');
+                // @todo 3.0 remove migration array
+                $migrationHelper = [
+                    'slidetab_userlist' => 'SlidetabUserlist',
+                    'slidetab_shoutbox' => 'SlidetabShoutbox',
+                    'slidetab_recentposts' => 'SlidetabUserposts',
+                    'slidetab_recententries' => 'SlidetabRecentposts',
+                ];
+                echo '<aside id="slidetabs">';
+                foreach ($slidetabs as $slidetab) {
+                    echo $this->cell($migrationHelper[$slidetab]);
+                }
+                echo '</aside>';
+                \Stopwatch\Lib\Stopwatch::end('Slidetabs');
+            }
+            ?>
 
 		<div id="content">
 			<script type="text/javascript">
@@ -122,7 +122,7 @@
 			</div>
 		<?php endif; ?>
 	</div>
-	<?php if (isset($showDisclaimer)) : ?>
+	<?php if (!empty($showDisclaimer)) : ?>
 		<div class="disclaimer">
 			<?= $this->element('layout/disclaimer') ?>
 		</div>

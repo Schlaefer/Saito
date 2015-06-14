@@ -37,5 +37,4 @@ class StatsTest extends SaitoTestCase
         $this->assertEquals(1, $Stats->getNumberOfRegisteredUsersOnline());
         $this->assertEquals(1, $Stats->getNumberOfAnonUsersOnline());
     }
-
 }

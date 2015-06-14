@@ -1,44 +1,47 @@
 <?php
 
-	namespace Saito\Test;
+namespace Saito\Test;
 
-	use Cake\Controller\Controller;
-	use Cake\Event\Event;
-	use Cake\Event\EventManager;
+use Cake\Controller\Controller;
+use Cake\Event\Event;
+use Cake\Event\EventManager;
 
-	trait SecurityMockTrait {
+trait SecurityMockTrait
+{
 
-		public function mockSecurity() {
-            // @todo 3.0 swtich to on()
-			EventManager::instance()->attach(
-				[$this, 'securityByPass'],
-				'Controller.initialize'
-			);
-		}
-
-		/**
-		 * Assume that SecurityComponent was called
-		 *
-		 * @param Event $event
-		 */
-		public function securityBypass(Event $event) {
-			/** @var Controller $Controller */
-			$Controller = $event->subject();
-
-			$Security = $this->getMock(
-				'\Cake\Controller\Component\SecurityComponent',
-				['_validatePost'],
-				[$Controller->components()]
-			);
-
-			$Security
-                // @todo 3.0 @bogus throws error
-//                ->expects($this->atLeastOnce())
+    /**
+     * Mock security component.
+     *
+     * @return void
+     */
+    public function mockSecurity()
+    {
+        $this->disableCsrf();
+        EventManager::instance()->on('Controller.initialize', function (Event $event) {
+            $Controller = $event->subject();
+            $Security = $this->getMock(
+                '\Cake\Controller\Component\SecurityComponent',
+                ['_validatePost'],
+                [$Controller->components()]
+            );
+            $Security
                 ->expects($this->any())
-				->method('_validatePost')
-				->will($this->returnValue(true));
+                ->method('_validatePost')
+                ->will($this->returnValue(true));
+            $Controller->components()->set('Security', $Security);
+        });
+    }
 
-			$Controller->components()->set('Security', $Security);
-		}
-
-	}
+    /**
+     * Disable CSRF protection.
+     *
+     * @return void
+     */
+    public function disableCsrf()
+    {
+        EventManager::instance()->on('Controller.initialize', function (Event $event) {
+            $Controller = $event->subject();
+            $Controller->components()->unload('Csrf');
+        });
+    }
+}

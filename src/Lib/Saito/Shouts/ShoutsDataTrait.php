@@ -1,35 +1,51 @@
 <?php
 
-	namespace Saito\Shouts;
+namespace Saito\Shouts;
 
-	use App\Model\Table\ShoutsTable;
-	use Cake\Core\Configure;
-	use Cake\ORM\TableRegistry;
+use App\Model\Table\ShoutsTable;
+use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
+use Saito\RememberTrait;
 
-	trait ShoutsDataTrait {
+trait ShoutsDataTrait
+{
 
-		/**
-		 * @var ShoutsTable
-		 */
-		protected $_ShoutModel = null;
+    use RememberTrait;
 
-		public function get() {
-			return $this->_model()->get();
-		}
+    /**
+     * Get
+     *
+     * @return array|\Cake\Datasource\EntityInterface|mixed
+     */
+    public function getShouts()
+    {
+        return $this->_table()->get();
+    }
 
-		public function push($data) {
-			return $this->_model()->push($data);
-		}
+    /**
+     * Push
+     *
+     * @param array $data data
+     * @return bool|\Cake\Datasource\EntityInterface|mixed
+     */
+    public function pushShout($data)
+    {
+        return $this->_table()->push($data);
+    }
 
-		protected function _model() {
-			if ($this->_ShoutModel !== null) {
-				return $this->_ShoutModel;
-			}
-			$this->_ShoutModel = TableRegistry::get('Shouts');
-			$this->_ShoutModel->maxNumberOfShouts = (int)Configure::read(
-				'Saito.Settings.shoutbox_max_shouts'
-			);
-			return $this->_ShoutModel;
-		}
-
-	}
+    /**
+     * get model
+     *
+     * @return ShoutsTable|\Cake\ORM\Table
+     */
+    protected function _table()
+    {
+        return $this->remember('model', function () {
+            $Table = TableRegistry::get('Shouts');
+            $Table->maxNumberOfShouts = (int)Configure::read(
+                'Saito.Settings.shoutbox_max_shouts'
+            );
+            return $Table;
+        });
+    }
+}

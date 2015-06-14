@@ -22,7 +22,6 @@ class ItemCacheMock extends ItemCache
     {
         $this->_write();
     }
-
 }
 
 class ItemCacheTest extends SaitoTestCase
@@ -77,8 +76,10 @@ class ItemCacheTest extends SaitoTestCase
 
     public function testGcMaxItems()
     {
-        $this->_setupItemCache(null,
-            ['maxItems' => 2, 'maxItemsFuzzy' => 0]);
+        $this->_setupItemCache(
+            null,
+            ['maxItems' => 2, 'maxItemsFuzzy' => 0]
+        );
 
         $this->ItemCache->reset();
         $this->ItemCache->set('2', 'foo', 2);
@@ -151,5 +152,4 @@ class ItemCacheTest extends SaitoTestCase
         $this->ItemCache->reset();
         $this->assertEquals([], $this->ItemCache->get());
     }
-
 }

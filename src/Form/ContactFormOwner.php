@@ -8,6 +8,12 @@ use Cake\Validation\Validator;
 class ContactFormOwner extends ContactForm
 {
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param \Cake\Form\Schema $schema The schema to customize.
+     * @return \Cake\Form\Schema The schema to use.
+     */
     protected function _buildSchema(Schema $schema)
     {
         $schema = parent::_buildSchema($schema);
@@ -16,6 +22,12 @@ class ContactFormOwner extends ContactForm
         return $schema;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param \Cake\Validation\Validator $validator The validator to customize.
+     * @return \Cake\Validation\Validator The validator to use.
+     */
     protected function _buildValidator(Validator $validator)
     {
         $validator = parent::_buildValidator($validator);
@@ -30,5 +42,4 @@ class ContactFormOwner extends ContactForm
 
         return $validator;
     }
-
 }

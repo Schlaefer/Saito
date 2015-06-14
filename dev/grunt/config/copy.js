@@ -49,12 +49,6 @@ module.exports = {
       {
         src: ['./webroot/release-tmp/main.js'],
         dest: './webroot/dist/main.min.js'
-      },
-      {
-        expand: true,
-        cwd: './webroot/dev/vendors/farbtastic/',
-        src: '*',
-        dest: './webroot/js/farbtastic/'
       }
     ]
   }

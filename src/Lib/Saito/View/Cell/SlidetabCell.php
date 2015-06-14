@@ -1,34 +1,43 @@
 <?php
 
-	namespace Saito\View\Cell;
+namespace Saito\View\Cell;
 
-	use Cake\View\Cell;
-	use Saito\App\Registry;
+use Cake\View\Cell;
+use Saito\App\Registry;
 
-	abstract class SlidetabCell extends Cell {
+abstract class SlidetabCell extends Cell
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString()
+    {
+        $this->_prepareRendering();
+        $string = parent::__toString();
 
-		public function __toString() {
-			$this->_prepareRendering();
-			$string = parent::__toString();
-			return $string;
-		}
+        return $string;
+    }
 
-		/**
-		 * @return string
-		 */
-		abstract protected function _getSlidetabId();
+    /**
+     * {@inheritDoc}
+     */
+    abstract public function display();
 
-		protected function _prepareRendering() {
-			$CurrentUser = Registry::get('CU');
-			$slidetabId = $this->_getSlidetabId();
+    /**
+     * {@inheritDoc}
+     */
+    abstract protected function _getSlidetabId();
 
-			if ($CurrentUser['show_' . $slidetabId] == 1) {
-				$isOpen = true;
-			} else {
-				$isOpen = false;
-			}
-
-			$this->set(compact('CurrentUser', 'isOpen', 'slidetabId'));
-		}
-
-	}
+    /**
+     * Prepare rendering.
+     *
+     * @return void
+     */
+    protected function _prepareRendering()
+    {
+        $CurrentUser = Registry::get('CU');
+        $slidetabId = $this->_getSlidetabId();
+        $isOpen = (bool)$CurrentUser->get('show_' . $slidetabId);
+        $this->set(compact('CurrentUser', 'isOpen', 'slidetabId'));
+    }
+}

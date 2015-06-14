@@ -1,69 +1,112 @@
 <?php
 
-	namespace Saito;
+namespace Saito;
 
-	class JsData {
+class JsData
+{
 
-		private static $__instance = null;
+    private static $__instance = null;
 
-		protected $_appJs = array(
-			'msg' => array()
-		);
+    protected $_appJs = [
+        'msg' => []
+    ];
 
-		protected function __construct() {
-		}
+    /**
+     * constructor
+     */
+    protected function __construct()
+    {
+    }
 
-		protected function __clone() {
-		}
+    /**
+     * {@inheritDoc}
+     */
+    protected function __clone()
+    {
+    }
 
-		public static function getInstance() {
-			if (self::$__instance === null) {
-				self::$__instance = new JsData();
-			}
-			return self::$__instance;
-		}
+    /**
+     * get instance
+     *
+     * @return null|JsData
+     */
+    public static function getInstance()
+    {
+        if (self::$__instance === null) {
+            self::$__instance = new JsData();
+        }
 
-		public function getJs() {
-			return $this->_appJs;
-		}
+        return self::$__instance;
+    }
 
-		public function set($key, $value) {
-			$this->_appJs[$key] = $value;
-		}
+    /**
+     * get js
+     *
+     * @return array
+     */
+    public function getJs()
+    {
+        return $this->_appJs;
+    }
 
-		public function addAppJsMessage($message, $options = []) {
-			$defaults = array(
-				'type' => 'notice',
-				'channel' => 'notification'
-			);
-			if (is_string($options)) {
-				$defaults['type'] = $options;
-				$options = array();
-			}
-			$options = array_merge($defaults, $options);
+    /**
+     * Setter
+     *
+     * @param string $key string
+     * @param mixed $value value
+     * @return void
+     */
+    public function set($key, $value)
+    {
+        $this->_appJs[$key] = $value;
+    }
 
-			if (!is_array($message)) {
-				$message = array($message);
-			}
+    /**
+     * Add message
+     *
+     * @param string $message message
+     * @param array $options options
+     * @return void
+     */
+    public function addAppJsMessage($message, $options = [])
+    {
+        $defaults = [
+            'type' => 'notice',
+            'channel' => 'notification'
+        ];
+        if (is_string($options)) {
+            $defaults['type'] = $options;
+            $options = [];
+        }
+        $options = array_merge($defaults, $options);
 
-			foreach ($message as $m) {
-				$nm = array(
-					'message' => $m,
-					'type' => $options['type'],
-					'channel' => $options['channel']
-				);
-				if (isset($options['title'])) {
-					$nm['title'] = $options['title'];
-				}
-				if (isset($options['element'])) {
-					$nm['element'] = $options['element'];
-				}
-				$this->_appJs['msg'][] = $nm;
-			}
-		}
+        if (!is_array($message)) {
+            $message = [$message];
+        }
 
-		public function getAppJsMessages() {
-			return array('msg' => $this->_appJs['msg']);
-		}
+        foreach ($message as $m) {
+            $nm = [
+                'message' => $m,
+                'type' => $options['type'],
+                'channel' => $options['channel']
+            ];
+            if (isset($options['title'])) {
+                $nm['title'] = $options['title'];
+            }
+            if (isset($options['element'])) {
+                $nm['element'] = $options['element'];
+            }
+            $this->_appJs['msg'][] = $nm;
+        }
+    }
 
-	}
+    /**
+     * get messages
+     *
+     * @return array
+     */
+    public function getAppJsMessages()
+    {
+        return ['msg' => $this->_appJs['msg']];
+    }
+}

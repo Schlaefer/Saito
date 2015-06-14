@@ -2,6 +2,7 @@
 
 namespace App\Test\TestCase\Model\Table;
 
+use App\Model\Table\UserIgnoresTable;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 
 /**
@@ -10,9 +11,14 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
 class UserIgnoreTest extends SaitoTableTestCase
 {
 
+    /**
+     * @var UserIgnoresTable
+     */
+    public $Table;
+
     public $tableClass = 'UserIgnores';
 
-    public $fixtures = ['app.user', 'app.user_ignore'];
+    public $fixtures = ['app.category', 'app.user', 'app.user_ignore'];
 
     public function testUserIgnoreCountIngored()
     {
@@ -30,8 +36,8 @@ class UserIgnoreTest extends SaitoTableTestCase
 
         $this->Table->deleteUser(2);
 
-        $results = $this->Table->find('allIgnoredBy', ['userId' => 3]);
-        $this->assertEquals($results->first()->get('user')->get('id'), 1);
+        $results = $this->Table->getAllIgnoredBy(3);
+        $this->assertEquals($results->first()->get('id'), 1);
     }
 
     public function testUserIgnoreIgnore()
@@ -45,7 +51,11 @@ class UserIgnoreTest extends SaitoTableTestCase
         $this->assertEquals($result->get('id'), '1');
         $this->assertEquals($result->get('user_id'), '2');
         $this->assertEquals($result->get('blocked_user_id'), '3');
-        $this->assertWithinRange($result->get('timestamp')->toUnixString(), time(), 3);
+        $this->assertWithinRange(
+            $result->get('timestamp')->toUnixString(),
+            time(),
+            3
+        );
 
         $this->Table->ignore(2, 3);
         $results = $this->Table->find('all');
@@ -58,13 +68,13 @@ class UserIgnoreTest extends SaitoTableTestCase
 
     public function testUserIgnoreIgnoredBy()
     {
-        $result = $this->Table->find('allIgnoredBy', ['userId' => 3]);
+        $result = $this->Table->getAllIgnoredBy(3);
         $this->assertTrue($result->isEmpty());
         $this->Table->ignore(3, 5);
         $this->Table->ignore(3, 1);
 
-        $result = $this->Table->find('allIgnoredBy', ['userId' => 3]);
-        $userIds = $result->extract('user.id')->toArray();
+        $result = $this->Table->getAllIgnoredBy(3);
+        $userIds = $result->extract('id')->toArray();
         $this->assertEquals($userIds, [1, 5]);
     }
 
@@ -88,9 +98,19 @@ class UserIgnoreTest extends SaitoTableTestCase
             $this->Table->save($entity);
         }
         $this->Table->removeOld();
-        $results = $this->Table->find('allIgnoredBy', ['userId' => 1]);
-        $this->assertCount(1, $results);
-        $this->assertEquals($results->first()->get('user')->get('id'), '3');
+        $result = $this->Table->getAllIgnoredBy(1);
+        $this->assertEquals(1, $result->count());
+        $this->assertEquals($result->first()->get('id'), '3');
+    }
+
+    public function testCounterCache() {
+        $user = $this->Table->Users->find()->where(['id' => 3])->first();
+        $this->assertEquals(0, $user->get('ignore_count'));
+
+        $this->Table->ignore(2, 3);
+
+        $user = $this->Table->Users->find()->where(['id' => 3])->first();
+        $this->assertEquals(1, $user->get('ignore_count'));
     }
 
 }

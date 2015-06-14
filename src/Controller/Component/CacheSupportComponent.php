@@ -2,9 +2,8 @@
 
 namespace App\Controller\Component;
 
-use Cake\Core\Configure;
 use Cake\Controller\Component;
-
+use Cake\Core\Configure;
 use Cake\Event\Event;
 use Saito\Cache\CacheSupport;
 use Saito\Cache\ItemCache;
@@ -16,9 +15,14 @@ class CacheSupportComponent extends Component
 
     protected $_CacheSupport;
 
-    /** * @var ItemCache */
+    /**
+     * @var ItemCache
+     */
     public $LineCache;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(array $config)
     {
         $this->_CacheSupport = new CacheSupport();
@@ -26,6 +30,11 @@ class CacheSupportComponent extends Component
         $this->_initLineCache($this->_registry->getController());
     }
 
+    /**
+     * Initialize line-cache.
+     *
+     * @return void
+     */
     protected function _initLineCache()
     {
         $this->LineCache = new ItemCache(
@@ -48,6 +57,8 @@ class CacheSupportComponent extends Component
      * Configure::write('Saito.Cachelets.M', ['location' => 'M.Lib', 'name' =>
      * 'MCacheSupportCachelet']);
      * </code>
+     *
+     * @return void
      */
     protected function _addConfigureCachelets()
     {
@@ -61,11 +72,17 @@ class CacheSupportComponent extends Component
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function beforeRender(Event $event)
     {
         $event->subject->set('LineCache', $this->LineCache);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function __call($method, $params)
     {
         $proxy = [$this->_CacheSupport, $method];
@@ -73,5 +90,4 @@ class CacheSupportComponent extends Component
             return call_user_func_array($proxy, $params);
         }
     }
-
 }

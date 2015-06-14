@@ -1,22 +1,22 @@
 <?php
 
-	namespace Saito\Exception;
+namespace Saito\Exception;
 
-	use Cake\Network\Exception\HttpException;
-    use Saito\Exception\Logger\ForbiddenLogger;
+use Cake\Network\Exception\HttpException;
+use Saito\Exception\Logger\ForbiddenLogger;
 
-	class SaitoForbiddenException extends HttpException {
+class SaitoForbiddenException extends HttpException
+{
 
-		protected $__Logger;
+    protected $__Logger;
 
-		/**
-		 * @throws \InvalidArgumentException
-		 */
-		public function __construct($message = null, $data = []) {
-			$this->__Logger = new ForbiddenLogger;
-			$this->__Logger->write($message, $data);
-			parent::__construct($message, 403);
-		}
-
-	}
-
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct($message = null, $data = [])
+    {
+        $this->__Logger = new ForbiddenLogger;
+        $this->__Logger->write($message, $data);
+        parent::__construct($message, 403);
+    }
+}

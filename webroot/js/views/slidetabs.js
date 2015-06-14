@@ -36,7 +36,7 @@ define([
           });
           // @todo make model/collection
           $.post(
-            webroot + 'users/slidetab_order',
+            webroot + 'users/slidetabOrder',
             { slidetabOrder: slidetabsOrder }
           );
         }

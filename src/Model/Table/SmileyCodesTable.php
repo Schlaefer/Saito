@@ -14,9 +14,11 @@ class SmileyCodesTable extends AppSettingTable
 
     public $displayField = 'code';
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(array $config)
     {
         $this->belongsTo('Smilies', ['foreignKey' => 'smiley_id']);
     }
-
 }

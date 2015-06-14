@@ -12,9 +12,12 @@ class ExceptionLogger
     private $__lines = [];
 
     /**
-     * @param null $message
-     * @param null $data
+     * Write
+     *
+     * @param string $message message
+     * @param array $data data
      * - `msgs` array with additional message-lines
+     * @return void
      * @throws \InvalidArgumentException
      */
     public function write($message, $data = null)
@@ -31,7 +34,7 @@ class ExceptionLogger
 
         //# add exception data
         if (isset($data['e'])) {
-            /** @var $Exception \Exception */
+            /* @var $Exception \Exception */
             $Exception = $data['e'];
             unset($data['e']);
             $message = $Exception->getMessage();
@@ -74,7 +77,9 @@ class ExceptionLogger
     /**
      * adds data about current user to log entry
      *
-     * @param $data
+     * @param mixed $data data
+     * @return void
+     *
      * @throws \InvalidArgumentException
      */
     protected function _addUser($data)
@@ -87,7 +92,9 @@ class ExceptionLogger
         }
         $CurrentUser = $data['CurrentUser'];
         if ($CurrentUser->isLoggedIn()) {
-            $username = "{$CurrentUser['username']} (id: {$CurrentUser['id']})";
+            $username = $CurrentUser->get('username');
+            $userId = $CurrentUser->getId();
+            $username = "{$username} (id: {$userId})";
         } else {
             $username = 'anonymous';
         }
@@ -99,7 +106,7 @@ class ExceptionLogger
      *
      * esp. cleartext passwords in $_POST data
      *
-     * @param $data
+     * @param mixed $data data
      * @return array
      */
     protected function _filterData($data)
@@ -121,11 +128,21 @@ class ExceptionLogger
         return $data;
     }
 
+    /**
+     * Write
+     *
+     * @return void
+     */
     protected function _write()
     {
         Log::write('error', $this->_message(), ['scope' => ['saito.error']]);
     }
 
+    /**
+     * Message
+     *
+     * @return string
+     */
     protected function _message()
     {
         $message = [];
@@ -138,6 +155,14 @@ class ExceptionLogger
         return "\n" . implode("\n", $message);
     }
 
+    /**
+     * Add
+     *
+     * @param mixed $val value
+     * @param mixed $key key
+     * @param bool $prepend prepend
+     * @return void
+     */
     protected function _add($val, $key = null, $prepend = false)
     {
         if (is_array($val)) {
@@ -153,6 +178,4 @@ class ExceptionLogger
             $this->__lines[] = $val;
         }
     }
-
 }
-

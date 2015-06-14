@@ -12,18 +12,27 @@ class Stats
 
     use RememberTrait;
 
+    /**
+     * Get registred users online
+     *
+     * @return array of UserOnline entities
+     */
     public function getRegistredUsersOnline()
     {
         return $this->remember(
             'UsersOnline',
             function () {
                 $UserOnline = TableRegistry::get('UserOnline');
-
                 return $UserOnline->getLoggedIn();
             }
         );
     }
 
+    /**
+     * Get number of registred users online
+     *
+     * @return int
+     */
     public function getNumberOfRegisteredUsersOnline()
     {
         return $this->remember(
@@ -34,14 +43,24 @@ class Stats
         );
     }
 
+    /**
+     * Get number of registered users
+     *
+     * @return int
+     */
     public function getNumberOfRegisteredUsers()
     {
-        return $this->get('numberOfRegistredUsers');
+        return $this->_getCached('numberOfRegistredUsers');
     }
 
+    /**
+     * Get number of users online
+     *
+     * @return int
+     */
     public function getNumberOfAnonUsersOnline()
     {
-        $online = $this->get('numberOfUsersOnline');
+        $online = $this->_getCached('numberOfUsersOnline');
         $registred = $this->getNumberOfRegisteredUsersOnline();
         $anon = $online - $registred;
         // compensate for cached online
@@ -50,26 +69,53 @@ class Stats
         return $anon;
     }
 
+    /**
+     * Get number of postings
+     *
+     * @return int
+     */
     public function getNumberOfPostings()
     {
-        return $this->get('numberOfPostings');
+        return $this->_getCached('numberOfPostings');
     }
 
+    /**
+     * Get number of threads
+     *
+     * @return int
+     */
     public function getNumberOfThreads()
     {
-        return $this->get('numberOfThreads');
+        return $this->_getCached('numberOfThreads');
     }
 
+    /**
+     * Get latest registered user
+     *
+     * @return User entity
+     */
     public function getLatestUser()
     {
-        return $this->get('latestUser');
+        return $this->_getCached('latestUser');
     }
 
-    public function getNumberOfUsersOnline() {
-        return $this->get('numberOfUsersOnline');
+    /**
+     * Get number of users online
+     *
+     * @return int
+     */
+    public function getNumberOfUsersOnline()
+    {
+        return $this->_getCached('numberOfUsersOnline');
     }
 
-    protected function get($key)
+    /**
+     * Get properties that can be cached
+     *
+     * @param string $key key
+     * @return mixed
+     */
+    protected function _getCached($key)
     {
         $stats = $this->remember(
             'init',
@@ -111,5 +157,4 @@ class Stats
 
         return $stats[$key];
     }
-
 }

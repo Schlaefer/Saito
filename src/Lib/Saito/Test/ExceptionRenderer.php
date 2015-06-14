@@ -1,14 +1,17 @@
 <?php
 
-    namespace Saito\Test;
+namespace Saito\Test;
 
-    use Cake\Error\ExceptionRenderer as CakeExceptionRenderer;
+use Cake\Error\ExceptionRenderer as CakeExceptionRenderer;
 
-    class ExceptionRenderer extends CakeExceptionRenderer {
+class ExceptionRenderer extends CakeExceptionRenderer
+{
 
-        public function __construct(\Exception $exception)
-        {
-            throw $exception;
-        }
-
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct(\Exception $exception)
+    {
+        throw $exception;
     }
+}

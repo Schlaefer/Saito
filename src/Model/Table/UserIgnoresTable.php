@@ -14,21 +14,73 @@ class UserIgnoresTable extends AppTable
      */
     public $duration = 8035200;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(array $config)
     {
-        $this->addBehavior('Cron.Cron', [
-            'removeOld' => [
-                'id' => 'UserIgnore.removeOld',
-                'due' => 'daily',
+        $this->addBehavior(
+            'Cron.Cron',
+            [
+                'removeOld' => [
+                    'id' => 'UserIgnore.removeOld',
+                    'due' => 'daily',
+                ]
             ]
-        ]);
-        $this->belongsTo('Users', [
-            // @todo 3.0
-            'counterCache' => true,
-            'foreignKey' => 'blocked_user_id'
-        ]);
+        );
+        // cache by how many other a user is ignored
+        $this->addBehavior('CounterCache', ['Users' => ['ignore_count']]);
+        $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Users', ['foreignKey' => 'blocked_user_id']);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator->provider(
+            'saito',
+            'Saito\Validation\SaitoValidationProvider'
+        );
+
+        $validator->notEmpty('user_id')
+            ->add(
+                'user_id',
+                [
+                    'assoc' => [
+                        'rule' => ['validateAssoc', 'Users'],
+                        'last' => true,
+                        'provider' => 'saito'
+                    ]
+                ]
+            );
+
+        $validator->notEmpty('blocked_user_id')
+            ->add(
+                'blocked_user_id',
+                [
+                    'assoc' => [
+                        'rule' => ['validateAssoc', 'Users'],
+                        'last' => true,
+                        'provider' => 'saito'
+                    ]
+                ]
+            );
+
+        $validator->notEmpty('timestamp');
+
+        return $validator;
+    }
+
+    /**
+     * User $userId starts to block user $blockedUserId.
+     *
+     * @param int $userId user-ID
+     * @param int $blockedUserId user-ID
+     * @return void
+     */
     public function ignore($userId, $blockedUserId)
     {
         $exists = $this->_get($userId, $blockedUserId);
@@ -43,62 +95,91 @@ class UserIgnoresTable extends AppTable
         $entity = $this->newEntity($data);
         $this->save($entity);
 
-        $this->_dispatchEvent('Event.Saito.User.afterIgnore', [
-            'blockedUserId' => $blockedUserId,
-            'userId' => $userId
-        ]);
-    }
-
-    public function unignore($userId, $blockedId)
-    {
-        $entry = $this->_get($userId, $blockedId);
-        if (empty($entry)) {
-            return;
-        }
-        $this->delete($entry['Ignore']['id']);
-    }
-
-    protected function _get($userId, $blockedId)
-    {
-        return $this->find('all', [
-            'conditions' => [
-                'user_id' => $userId,
-                'blocked_user_id' => $blockedId
+        $this->_dispatchEvent(
+            'Event.Saito.User.afterIgnore',
+            [
+                'blockedUserId' => $blockedUserId,
+                'userId' => $userId
             ]
-        ])->first();
+        );
     }
 
     /**
-     * finder: return all users ignored by $userId
+     * unignore
+     *
+     * @param int $userId user-ID
+     * @param int $blockedId user-ID
+     * @return void
      */
-    public function findAllIgnoredBy(Query $query, array $options)
+    public function unignore($userId, $blockedId)
     {
-        $query
-            ->contain([
-                'Users' => function (Query $query) {
-                    $query->select(['Users.id', 'Users.username']);
-
-                    return $query;
-                }
-            ])
-            ->where(['user_id' => $options['userId']])
-            ->order(['Users.username' => 'ASC']);
-
-        return $query;
+        $entity = $this->_get($userId, $blockedId);
+        if (empty($entity)) {
+            return;
+        }
+        $this->delete($entity);
     }
 
+    /**
+     * Get a single record
+     *
+     * @param int $userId user-ID
+     * @param int $blockedId user-ID
+     * @return mixed
+     */
+    protected function _get($userId, $blockedId)
+    {
+        return $this->find(
+            'all',
+            [
+                'conditions' => [
+                    'user_id' => $userId,
+                    'blocked_user_id' => $blockedId
+                ]
+            ]
+        )->first();
+    }
+
+    /**
+     * get all users ignored by $userId
+     *
+     * @param string $userId user-ID
+     * @return mixed
+     */
+    public function getAllIgnoredBy($userId)
+    {
+        $results = $this->find()
+            ->contain(
+                [
+                    'Users' => function (Query $query) {
+                        $query->select(['Users.id', 'Users.username']);
+                        return $query;
+                    }
+                ]
+            )
+            ->where(['user_id' => $userId])
+            ->order(['Users.username' => 'ASC'])
+            ->all();
+        return $results->extract('user');
+    }
+
+    /**
+     * Delete all records affectiong a particular user
+     *
+     * @param int $userId user-ID
+     * @return bool
+     */
     public function deleteUser($userId)
     {
         $this->deleteAll(['user_id' => $userId]);
         $this->deleteAll(['blocked_user_id' => $userId]);
-
         return true;
     }
 
     /**
      * counts how many users ignore the user with ID $id
      *
-     * @param $id
+     * @param int $id user-ID
      * @return array
      */
     public function countIgnored($id)
@@ -106,19 +187,31 @@ class UserIgnoresTable extends AppTable
         return count($this->getIgnored($id));
     }
 
+    /**
+     * get ignored
+     *
+     * @param int $id user-ID
+     * @return array
+     */
     public function getIgnored($id)
     {
-        return $this->find('all', [
+        return $this->find(
+            'all',
+            [
                 'conditions' => ['blocked_user_id' => $id]
             ]
         )->toArray();
     }
 
+    /**
+     * remove old
+     *
+     * @return void
+     */
     public function removeOld()
     {
-        $q = $this->deleteAll([
-            'timestamp <' => bDate(time() - $this->duration)
-        ]);
+        $this->deleteAll(
+            ['timestamp <' => bDate(time() - $this->duration)]
+        );
     }
-
 }

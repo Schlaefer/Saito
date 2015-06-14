@@ -49,5 +49,4 @@ class SmileyCodeTest extends SaitoTableTestCase
         $this->Table->clearCache();
         parent::tearDown();
     }
-
 }

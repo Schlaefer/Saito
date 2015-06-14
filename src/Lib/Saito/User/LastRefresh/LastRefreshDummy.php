@@ -1,27 +1,41 @@
 <?php
 
-	namespace Saito\User\LastRefresh;
+namespace Saito\User\LastRefresh;
 
-	/**
-	 * everything is always read
-	 *
-	 * used as dummy for bots and test cases
-	 */
-	class LastRefreshDummy extends LastRefreshAbstract {
+/**
+ * everything is always read
+ *
+ * used as dummy for bots and test cases
+ */
+class LastRefreshDummy extends LastRefreshAbstract
+{
 
-		public function __construct() {
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct()
+    {
+    }
 
-		protected function _get() {
-			return strtotime('+1 week');
-		}
+    /**
+     * {@inheritDoc}
+     */
+    protected function _get()
+    {
+        return strtotime('+1 week');
+    }
 
-		public function set($timestamp = null) {
-			return;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function set($timestamp = null)
+    {
+    }
 
-		protected function _set() {
-			return;
-		}
-
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected function _set()
+    {
+    }
+}

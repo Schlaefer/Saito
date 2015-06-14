@@ -14,6 +14,9 @@ use Saito\Exception\Logger\ExceptionLogger;
 class ContactsController extends AppController
 {
 
+    /**
+     * {@inheritDoc}
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -23,6 +26,8 @@ class ContactsController extends AppController
 
     /**
      * Contacts forum's owner via contact address
+     *
+     * @return void
      */
     public function owner()
     {
@@ -30,7 +35,7 @@ class ContactsController extends AppController
         if ($this->CurrentUser->isLoggedIn()) {
             $user = $this->CurrentUser;
             $sender = $user->getId();
-            $this->request->data('sender_contact', $user['user_email']);
+            $this->request->data('sender_contact', $user->get('user_email'));
         } else {
             $senderContact = $this->request->data('sender_contact');
             $sender = [$senderContact => $senderContact];
@@ -42,7 +47,8 @@ class ContactsController extends AppController
     /**
      * Contacts individual user
      *
-     * @param null $id
+     * @param string $id user-ID
+     * @return void
      * @throws \InvalidArgumentException
      * @throws BadRequestException
      */
@@ -76,9 +82,9 @@ class ContactsController extends AppController
     /**
      *  contact form validating and email sending
      *
-     * @param Form $contact
-     * @param $recipient
-     * @param $sender
+     * @param Form $contact contact-form
+     * @param mixed $recipient recipient
+     * @param mixed $sender sender
      * @return \Cake\Network\Response|void
      */
     protected function _contact(Form $contact, $recipient, $sender)
@@ -118,5 +124,4 @@ class ContactsController extends AppController
 
         $this->set(compact('contact'));
     }
-
 }

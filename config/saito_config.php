@@ -22,27 +22,29 @@
 				'ParserPlugin' => 'Bbcode'
 			],
 
-			/**
-			 * Sets the default theme
-			 */
+            /**
+             * Themes are plugins located in the plugins/ folder
+             *
+             * @see http://book.cakephp.org/3.0/en/views/themes.html
+             */
 			'themes' => [
+                /**
+                 * Sets the default theme
+                 */
 				'default' => 'Paz',
-			],
 
-			/**
-			 * Sets additional themes available for all users
-			 *
-			 * `*` - all installed themes (in Themed folder)
-			 * `['A', 'B']` - only themes 'A' and 'B' (Themed folder names)
-			 */
-			// 'Saito.themes.available.all' => '*',
+                /**
+                 * Array with additional themes available for all users
+                 */
+                 //'available' => ['MyTheme'],
 
-			/**
-			 * Sets additional themes available for specific users only
-			 *
-			 * [<user-id> => '<theme name>', …]
-			 */
-			// 'Saito.themes.available.users' => [1 => ['C']],
+                /**
+                 * Sets additional themes available for specific users only
+                 *
+                 * [<user-ID> => ['<theme name>', …], …]
+                 */
+                // 'users' => [1 => ['TestTheme']]
+            ],
 
 			/**
 			 * Sets the X-Frame-Options header send with each request

@@ -46,45 +46,37 @@
 
     <div class="panel-content panel-form" style="position: relative;">
       <?php
-				echo $this->Form->create($posting);
-				echo $this->Posting->categorySelect($posting, $categories);
-				$subject = (!empty($citeSubject)) ? $citeSubject : __('Subject');
-				echo $this->Form->input(
-					'subject',
-					[
-						'maxlength' => $SaitoSettings['subject_maxlength'],
-						'label' => false,
-						'class' => 'js-subject subject',
-						'tabindex' => 2,
-                        // @todo 3.0
-						'error' => [
-							'entries.subject.notEmpty' => __d(
-								'validation', 'entries.subject.notEmpty'
-							),
-							'entries.subject.maxlength' => __d(
-								'validation', 'entries.subject.maxlength'
-							)
-						],
-						'div' => ['class' => 'required'],
-						'placeholder' => h($subject),
-						'required' => ($isAnswer) ? false : 'required'
-					]
-				);
-        echo $this->Form->hidden('pid');
+      echo $this->Form->create($posting);
+      echo $this->Posting->categorySelect($posting, $categories);
+      $subject = (!empty($citeSubject)) ? $citeSubject : __('Subject');
+      echo $this->Form->input(
+          'subject',
+          [
+              'maxlength' => $SaitoSettings['subject_maxlength'],
+              'label' => false,
+              'class' => 'js-subject subject',
+              'tabindex' => 2,
+              'div' => ['class' => 'required'],
+              'placeholder' => h($subject),
+              'required' => ($isAnswer) ? false : 'required'
+          ]
+      );
+      echo $this->Html->div('postingform-subject-count', '');
+
+      echo $this->Form->hidden('pid');
         echo $this->MarkitupEditor->getButtonSet('markItUp_' . $formId);
-				echo $this->MarkitupEditor->editor(
-					'text',
-					[
-						'parser' => false,
-						'set' => 'default',
-						'skin' => 'macnemo',
-						'label' => false,
-						'tabindex' => 3,
-						'settings' => 'markitupSettings'
-					]
-				);
-				echo $this->Html->tag('div', $this->Parser->editorHelp(), [
-					'class' => 'postingform-eh']);
+        echo $this->MarkitupEditor->editor(
+            'text',
+            [
+                'parser' => false,
+                'set' => 'default',
+                'skin' => 'macnemo',
+                'label' => false,
+                'tabindex' => 3,
+                'settings' => 'markitupSettings'
+            ]
+        );
+        echo $this->Html->div('postingform-eh', $this->Parser->editorHelp());
         if (empty($citeText) === false) :
           ?>
 					<div class="cite-container">

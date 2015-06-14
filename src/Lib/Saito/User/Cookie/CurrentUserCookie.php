@@ -1,37 +1,45 @@
 <?php
 
-	namespace Saito\User\Cookie;
+namespace Saito\User\Cookie;
 
-	/**
-	 * Handles the persistent cookie for cookie relogin
-	 */
-	class CurrentUserCookie extends Storage {
+/**
+ * Handles the persistent cookie for cookie relogin
+ */
+class CurrentUserCookie extends Storage
+{
 
-		protected $_Cookie;
+    protected $_Cookie;
 
-		public function write($CurrentUser) {
-			$cookie = [
-				'id' => $CurrentUser->getId(),
-				'username' => $CurrentUser['username']
-			];
-			parent::write($cookie);
-		}
 
-		/**
-		 * Gets cookie values
-		 *
-		 * @return bool|array cookie values if found, `false` otherwise
-		 */
-		public function read() {
-			$cookie = parent::read();
-			if (is_null($cookie) ||
-				// cookie couldn't be deciphered correctly and is a meaningless string
-				!is_array($cookie)
-			) {
-				parent::delete();
-				return false;
-			}
-			return $cookie;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function write($CurrentUser)
+    {
+        $cookie = [
+            'id' => $CurrentUser->getId(),
+            'username' => $CurrentUser->get('username')
+        ];
+        parent::write($cookie);
+    }
 
-	}
+    /**
+     * Gets cookie values
+     *
+     * @return bool|array cookie values if found, `false` otherwise
+     */
+    public function read()
+    {
+        $cookie = parent::read();
+        if (is_null($cookie) ||
+            // cookie couldn't be deciphered correctly and is a meaningless string
+            !is_array($cookie)
+        ) {
+            parent::delete();
+
+            return false;
+        }
+
+        return $cookie;
+    }
+}

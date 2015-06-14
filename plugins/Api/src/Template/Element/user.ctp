@@ -7,11 +7,11 @@
 	if ($CurrentUser->isLoggedIn()) {
 		$out += [
 			'id'            => (int)$CurrentUser->getId(),
-			'username'      => $CurrentUser['username'],
+			'username'      => $CurrentUser->get('username'),
 			'last_refresh'  => $this->Api->mysqlTimestampToIso(
-				$CurrentUser['last_refresh']
+				$CurrentUser->get('last_refresh')
 			),
-			'threads_order' => $CurrentUser['user_sort_last_answer'] ? 'answer' : 'time'
+			'threads_order' => $CurrentUser->get('user_sort_last_answer') ? 'answer' : 'time'
 		];
 	}
 

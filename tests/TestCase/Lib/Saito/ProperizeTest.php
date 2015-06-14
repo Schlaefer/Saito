@@ -60,5 +60,4 @@ class ProperizeTest extends SaitoTestCase
         $this->assertEquals(Properize::prop('Weiß'), 'Weiß’');
         $this->assertEquals(Properize::prop('Merz'), 'Merz’');
     }
-
 }

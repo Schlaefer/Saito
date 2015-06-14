@@ -12,7 +12,6 @@ class ParserMock extends Parser
     public function parse($string, array $options = [])
     {
     }
-
 }
 
 class SaitoMarkupParserTest extends SaitoTestCase
@@ -45,5 +44,4 @@ class SaitoMarkupParserTest extends SaitoTestCase
     {
         unset($this->Parser);
     }
-
 }

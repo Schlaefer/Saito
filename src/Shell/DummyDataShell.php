@@ -1,5 +1,6 @@
 <?php
 
+//@codingStandardsIgnoreStart
 namespace App\Shell;
 
 use Cake\Console\Shell;
@@ -101,20 +102,25 @@ class DummyDataShell extends Shell
 
     public function generatePostings()
     {
-        $nPostings = (int)$this->in('Number of postings to generate?', null,
-            100);
+        $nPostings = (int)$this->in(
+            'Number of postings to generate?',
+            null,
+            100
+        );
         if ($nPostings === 0) {
             return;
         }
         $ratio = (int)$this->in('Average answers per thread?', null, 10);
         $seed = $nPostings / $ratio;
 
-        new Settings([
-            'hashBaseUrl' => 'entries/view/',
-            'atBaseUrl' => 'users/name/',
-            'server' => Router::fullBaseUrl(),
-            'webroot' => Router::fullBaseUrl()
-        ]);
+        new Settings(
+            [
+                'hashBaseUrl' => 'entries/view/',
+                'atBaseUrl' => 'users/name/',
+                'server' => Router::fullBaseUrl(),
+                'webroot' => Router::fullBaseUrl()
+            ]
+        );
 
 
         Registry::set('CU', new SaitoUserDummy);
@@ -136,7 +142,9 @@ class DummyDataShell extends Shell
             }
             $posting = $this->Entries->createPosting($posting);
             if (empty($posting)) {
-                throw new \RuntimeException('Could not create entry: ' . $posting);
+                throw new \RuntimeException(
+                    'Could not create entry: ' . $posting
+                );
             }
 
             $this->_progress($i, $nPostings);
@@ -152,8 +160,11 @@ class DummyDataShell extends Shell
     public function generateUsers()
     {
         $max = count($this->_users);
-        $n = (int)$this->in("Number of users to generate (max: $max)?", null,
-            0);
+        $n = (int)$this->in(
+            "Number of users to generate (max: $max)?",
+            null,
+            0
+        );
         if ($n === 0) {
             return;
         }
@@ -219,21 +230,17 @@ class DummyDataShell extends Shell
     protected function _randomText()
     {
         if (empty($this->_text)) {
-            $this->_text = file_get_contents('http://loripsum.net/api/short/plaintext');
+            $this->_text = file_get_contents(
+                'http://loripsum.net/api/short/plaintext'
+            );
         }
 
         return $this->_text;
     }
-
 }
 
 class SaitoUserDummy extends SaitoUser
 {
-
-    public function getMaxAccession()
-    {
-        return 2;
-    }
 
     public function isLoggedIn()
     {
@@ -251,4 +258,4 @@ class SaitoUserDummy extends SaitoUser
     }
 
 }
-
+//@codingStandardsIgnoreStart

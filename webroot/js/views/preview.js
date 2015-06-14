@@ -5,12 +5,12 @@ define([
   'text!templates/spinner.html'
 ], function($, _, Marionette, spinnerTpl) {
 
-  "use strict";
+  'use strict';
 
   var PreviewView = Marionette.ItemView.extend({
 
     templates: {
-      content: _.template("<%= rendered %>"),
+      content: _.template('<%= rendered %>'),
       spinner: _.template(spinnerTpl)
     },
 

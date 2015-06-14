@@ -40,7 +40,7 @@ use Cake\Utility\String;
 <p>
     <?php
     $user = $Stats->getLatestUser();
-    $user = $this->UserH->linkToUserProfile($user, $CurrentUser);
+    $user = $this->User->linkToUserProfile($user, $CurrentUser);
     echo __('discl.newestMember', $user);
     ?>
 </p>

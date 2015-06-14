@@ -80,5 +80,4 @@ class SmiliesTest extends SaitoTableTestCase
         $this->Table->clearCache();
         parent::tearDown();
     }
-
 }

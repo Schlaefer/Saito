@@ -9,6 +9,13 @@ trait RememberTrait
 
     private static $__rememberStatic = [];
 
+    /**
+     * Remember static
+     *
+     * @param string $key string
+     * @param mixed $value value
+     * @return mixed
+     */
     protected static function rememberStatic($key, $value = null)
     {
         if ($value === null && is_array($key)) {
@@ -26,6 +33,13 @@ trait RememberTrait
         return self::$__rememberStatic[$key];
     }
 
+    /**
+     * Remember static
+     *
+     * @param string $key string
+     * @param mixed $value value
+     * @return mixed
+     */
     protected function remember($key, $value)
     {
         if (isset($this->__remember[$key])) {
@@ -39,5 +53,4 @@ trait RememberTrait
 
         return $this->__remember[$key];
     }
-
 }

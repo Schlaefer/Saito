@@ -10,6 +10,9 @@ use Cake\Controller\ComponentRegistry;
  */
 class MlfAuthenticate extends FormAuthenticate
 {
+    /**
+     * {@inheritDoc}
+     */
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         $config['passwordHasher'] = 'Mlf';

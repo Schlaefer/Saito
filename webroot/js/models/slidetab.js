@@ -30,7 +30,7 @@ define([
     sync: function() {
       var key = 'show_' + this.get('id');
       $.post(
-        this.webroot + 'users/slidetab_toggle',
+        this.webroot + 'users/slidetabToggle',
         { slidetabKey: key }
       );
     }

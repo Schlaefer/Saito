@@ -194,6 +194,10 @@ body.headerClosed {
   font-size: $font-size-small;
   padding-bottom: $padding;
   background: $page-color;
+
+  .disclaimer-inside {
+    text-align: center;
+  }
 }
 
 #debugFooter {

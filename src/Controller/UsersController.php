@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\BlockForm;
 use App\Lib\Controller\AuthSwitchTrait;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
@@ -13,10 +14,10 @@ use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\String\Properize;
 use Saito\User\Blocker\ManualBlocker;
+use Saito\User\ForumsUserInterface;
 use Saito\User\SaitoUser;
 use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
 use \Stopwatch\Lib\Stopwatch;
-
 
 class UsersController extends AppController
 {
@@ -26,14 +27,18 @@ class UsersController extends AppController
     public $name = 'Users';
 
     public $helpers = [
-        // @todo
-//			'Farbtastic',
+        'SpectrumColorpicker.SpectrumColorpicker',
         'Map',
         'Posting',
         'Siezi/SimpleCaptcha.SimpleCaptcha',
         'Text'
     ];
 
+    /**
+     * Login user.
+     *
+     * @return void|\Cake\Network\Response
+     */
     public function login()
     {
         $this->CurrentUser->logOut();
@@ -46,12 +51,10 @@ class UsersController extends AppController
         //= successful login with request data
         if ($this->CurrentUser->login()) {
             if ($this->localReferer('action') === 'login') {
-                $this->redirect($this->Auth->redirectUrl());
+                return $this->redirect($this->Auth->redirectUrl());
             } else {
-                $this->redirect($this->referer());
+                return $this->redirect($this->referer());
             }
-
-            return;
         }
 
         //= error on login
@@ -82,8 +85,8 @@ class UsersController extends AppController
                 break;
             case 'unactivated':
                 $message = __(
-                    'User %s is not activated yet.',
-                    $readUser['User']['username']
+                    'User {0} is not activated yet.',
+                    [$readUser->get('username')]
                 );
                 break;
             default:
@@ -102,11 +105,21 @@ class UsersController extends AppController
         $this->Flash->set($message, ['key' => 'auth']);
     }
 
+    /**
+     * Logout user.
+     *
+     * @return void
+     */
     public function logout()
     {
         $this->CurrentUser->logout();
     }
 
+    /**
+     * Register new user.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->set('status', 'view');
@@ -186,7 +199,8 @@ class UsersController extends AppController
     /**
      * register success (user clicked link in confirm mail)
      *
-     * @param $id
+     * @param string $id user-ID
+     * @return void
      * @throws BadRequestException
      */
     public function rs($id = null)
@@ -206,6 +220,11 @@ class UsersController extends AppController
         $this->set('status', $activated['status']);
     }
 
+    /**
+     * Show list of all users.
+     *
+     * @return void
+     */
     public function index()
     {
         $menuItems = [
@@ -239,38 +258,56 @@ class UsersController extends AppController
         $this->set(compact('menuItems', 'users'));
     }
 
+    /**
+     * Ignore user.
+     *
+     * @return void
+     */
     public function ignore()
     {
         $this->request->allowMethod('POST');
-        $blockedId = $this->request->data('id');
+        $blockedId = (int)$this->request->data('id');
         $this->_ignore($blockedId, true);
     }
 
+    /**
+     * Unignore user.
+     *
+     * @return void
+     */
     public function unignore()
     {
         $this->request->allowMethod('POST');
-        $blockedId = $this->request->data('id');
+        $blockedId = (int)$this->request->data('id');
         $this->_ignore($blockedId, false);
     }
 
+    /**
+     * Mark user as un-/ignored
+     *
+     * @param int $blockedId user to ignore
+     * @param bool $set block or unblock
+     * @return \Cake\Network\Response
+     */
     protected function _ignore($blockedId, $set)
     {
-        if (!$this->CurrentUser->isLoggedIn() || !is_numeric($blockedId)) {
-            throw new BadRequestException();
-        }
         $userId = $this->CurrentUser->getId();
-        $this->User->id = $userId;
-        if (!$this->User->exists($userId) || $userId == $blockedId) {
+        if ((int)$userId === (int)$blockedId) {
             throw new BadRequestException();
         }
         if ($set) {
-            $this->User->Ignore->ignore($userId, $blockedId);
+            $this->Users->UserIgnores->ignore($userId, $blockedId);
         } else {
-            $this->User->Ignore->unignore($userId, $blockedId);
+            $this->Users->UserIgnores->unignore($userId, $blockedId);
         }
-        $this->redirect($this->referer());
+        return $this->redirect($this->referer());
     }
 
+    /**
+     * View user-map.
+     *
+     * @return void
+     */
     public function map()
     {
         if (!Configure::read('Saito.Settings.map_enabled')) {
@@ -297,13 +334,19 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
+    /**
+     * Show user with profile $name
+     *
+     * @param string $name username
+     * @return void
+     */
     public function name($name = null)
     {
         if (!empty($name)) {
             $viewedUser = $this->Users->find()
-                                      ->select(['id'])
-                                      ->where(['username' => $name])
-                                      ->first();
+                ->select(['id'])
+                ->where(['username' => $name])
+                ->first();
             if (!empty($viewedUser)) {
                 $this->redirect(
                     [
@@ -320,6 +363,12 @@ class UsersController extends AppController
         $this->redirect('/');
     }
 
+    /**
+     * View user profile.
+     *
+     * @param null $id user-ID
+     * @return \Cake\Network\Response|void
+     */
     public function view($id = null)
     {
         // redirect view/<username> to name/<username>
@@ -331,18 +380,22 @@ class UsersController extends AppController
             return;
         }
 
-        $viewedUser = $this->Users->find()
-                                  ->contain(
-                                      ['UserBlocks' => ['By'], 'UserOnline']
-                                  )
-                                  ->where(['Users.id' => $id])
-                                  ->first();
+        $user = $this->Users->find()
+            ->contain(
+                [
+                    'UserBlocks' => function ($q) {
+                        return $q->find('assocUsers');
+                    },
+                    'UserOnline'
+                ]
+            )
+            ->where(['Users.id' => $id])
+            ->first();
 
-        if ($id === null || empty($viewedUser)) {
+        if ($id === null || empty($user)) {
             $this->Flash->set(__('Invalid user'), ['element' => 'error']);
-            $this->redirect('/');
 
-            return;
+            return $this->redirect('/');
         }
 
         $entriesShownOnPage = 20;
@@ -356,25 +409,26 @@ class UsersController extends AppController
 
         $this->set(
             'hasMoreEntriesThanShownOnPage',
-            ($viewedUser->numberOfPostings() - $entriesShownOnPage) > 0
+            ($user->numberOfPostings() - $entriesShownOnPage) > 0
         );
 
-        if ($this->CurrentUser->getId() == $id) {
-            // @todo 3.0
-//				$viewedUser['User']['ignores'] = $this->User->Ignore->ignoredBy($id);
+        if ($this->CurrentUser->isUser($id)) {
+            $ignores = $this->Users->UserIgnores->getAllIgnoredBy($id);
+            $user->set('ignores', $ignores);
         }
-        // @todo 3.0
-        $viewedUser->set('solves_count', $this->Users->countSolved($id));
-        $this->set('user', $viewedUser);
-        $this->set(
-            'title_for_layout',
-            $viewedUser['User']['username']
-        );
+
+        $blockForm = new BlockForm();
+        $solved = $this->Users->countSolved($id);
+        $this->set(compact('blockForm', 'solved', 'user'));
+        $this->set('title_for_layout', $user->get('username'));
     }
 
     /**
-     * @param null $id
-     * @throws Saito\Exception\SaitoForbiddenException
+     * Edit user.
+     *
+     * @param null $id user-ID
+     * @return void
+     * @throws SaitoForbiddenException
      * @throws BadRequestException
      */
     public function edit($id = null)
@@ -384,9 +438,8 @@ class UsersController extends AppController
         }
         if (!$this->_isEditingAllowed($this->CurrentUser, $id)) {
             throw new \Saito\Exception\SaitoForbiddenException(
-                "Attempt to edit user $id.", [
-                'CurrentUser' => $this->CurrentUser
-            ]
+                "Attempt to edit user $id.",
+                ['CurrentUser' => $this->CurrentUser]
             );
         }
 
@@ -398,7 +451,7 @@ class UsersController extends AppController
             unset($data['id']);
             //= make sure only admin can edit these fields
             if (!$this->CurrentUser->permission('saito.core.user.edit')) {
-                // @todo DRY: refactor this admin fields together with view
+                // @td DRY: refactor this admin fields together with view
                 unset($data['username'], $data['user_email'], $data['user_type']);
             }
             if (!empty($data['avatarDelete'])) {
@@ -423,57 +476,47 @@ class UsersController extends AppController
         $this->set(
             'title_for_layout',
             __(
-                'Edit %s Profil',
-                Properize::prop($user->get('username'))
+                'Edit {0} Profil',
+                [Properize::prop($user->get('username'))]
             )
         );
 
-        $themes = $this->Themes->getAvailable();
-        $this->set('availableThemes', array_combine($themes, $themes));
-    }
-
-    public function admin_block()
-    {
-        $this->set('UserBlock', $this->User->UserBlock->getAll());
+        $availableThemes = $this->Themes->getAvailable($this->CurrentUser);
+        $availableThemes = array_combine($availableThemes, $availableThemes);
+        $currentTheme = $this->Themes->getThemeForUser($this->CurrentUser);
+        $this->set(compact('availableThemes', 'currentTheme'));
     }
 
     /**
+     * Lock user.
+     *
+     * @return \Cake\Network\Response|void
      * @throws BadRequestException
      */
     public function lock()
     {
-        if (!($this->modLocking)) {
-            $this->redirect('/');
-
-            return;
-        }
-
-        $id = (int)$this->request->data('User.lockUserId');
-        if (!$id) {
+        $form = new BlockForm();
+        if (!$this->modLocking || !$form->validate($this->request->data)) {
             throw new BadRequestException;
         }
 
-        try {
-            $readUser = $this->Users->get($id);
-        } catch (RecordNotFoundException $e) {
+        $id = (int)$this->request->data('lockUserId');
+        if (!$this->Users->exists($id)) {
             $message = __('User not found.');
             $this->Flash->set($message, ['element' => 'error']);
-            $this->redirect('/');
-
-            return;
+            return $this->redirect('/');
         }
-
-        $editedUser = new SaitoUser($readUser);
+        $readUser = $this->Users->get($id);
 
         if ($id === $this->CurrentUser->getId()) {
             $message = __('You can\'t lock yourself.');
             $this->Flash->set($message, ['element' => 'error']);
-        } elseif ($editedUser->getRole() === 'admin') {
+        } elseif ($readUser->getRole() === 'admin') {
             $message = __('You can\'t lock administrators.');
             $this->Flash->set($message, ['element' => 'error']);
         } else {
             try {
-                $duration = (int)$this->request->data('User.lockPeriod');
+                $duration = (int)$this->request->data('lockPeriod');
                 $status = $this->Users->UserBlocks->block(
                     new ManualBlocker,
                     $id,
@@ -484,9 +527,9 @@ class UsersController extends AppController
                 );
                 $username = $readUser['User']['username'];
                 if ($status === true) {
-                    $message = __('User %s is locked.', $username);
+                    $message = __('User {0} is locked.', [$username]);
                 } else {
-                    $message = __('User %s is unlocked.', $username);
+                    $message = __('User {0} is unlocked.', [$username]);
                 }
                 $this->Flash->set($message, ['element' => 'success']);
             } catch (Exception $e) {
@@ -497,16 +540,21 @@ class UsersController extends AppController
         $this->redirect($this->referer());
     }
 
+    /**
+     * Unblock user.
+     *
+     * @param string $id user-ID
+     * @return void
+     */
     public function unlock($id)
     {
         if (!$id || !$this->modLocking) {
             throw new BadRequestException;
         }
-        // @todo 3.0
-        if (!$this->User->UserBlock->unblock($id)) {
-            $this->Session->setFlash(
+        if (!$this->Users->UserBlocks->unblock($id)) {
+            $this->Flash->set(
                 __('Error while unlocking.'),
-                'flash/error'
+                ['element' => 'error']
             );
         }
         $this->redirect($this->referer());
@@ -515,7 +563,8 @@ class UsersController extends AppController
     /**
      * changes user password
      *
-     * @param null $id
+     * @param null $id user-ID
+     * @return void
      * @throws \Saito\Exception\SaitoForbiddenException
      * @throws BadRequestException
      */
@@ -574,25 +623,16 @@ class UsersController extends AppController
     }
 
     /**
-     * @throws BadRequestException
-     */
-    private function __ajaxBeforeFilter()
-    {
-        if (!$this->request->is('ajax')) {
-            throw new BadRequestException;
-        }
-        $this->autoRender = false;
-    }
-
-    /**
      * toggles slidetabs open/close
      *
      * @return $this|mixed
      * @throws BadRequestException
      */
-    public function slidetab_toggle()
+    public function slidetabToggle()
     {
-        $this->__ajaxBeforeFilter();
+        if (!$this->request->is('ajax')) {
+            throw new BadRequestException;
+        }
 
         $toggle = $this->request->data('slidetabKey');
         $allowed = [
@@ -607,28 +647,30 @@ class UsersController extends AppController
 
         $userId = $this->CurrentUser->getId();
         $newValue = $this->Users->toggle($userId, $toggle);
-        $this->CurrentUser[$toggle] = $newValue;
+        $this->CurrentUser->set($toggle, $newValue);
         $this->response->body($newValue);
 
         return $this->response;
     }
 
     /**
-     * sets slidetab-order
+     * Set slidetab-order.
      *
-     * @return bool
+     * @return \Cake\Network\Response
      * @throws BadRequestException
      */
-    public function slidetab_order()
+    public function slidetabOrder()
     {
-        $this->__ajaxBeforeFilter();
+        if (!$this->request->is('ajax')) {
+            throw new BadRequestException;
+        }
 
         $order = $this->request->data('slidetabOrder');
         if (!$order) {
             throw new BadRequestException;
         }
 
-        $allowed = $this->viewVars['slidetabs'];
+        $allowed = $this->Slidetabs->getAvailable();
         $order = array_filter(
             $order,
             function ($item) use ($allowed) {
@@ -642,7 +684,7 @@ class UsersController extends AppController
         $this->Users->patchEntity($user, ['slidetab_order' => $order]);
         $this->Users->save($user);
 
-        $this->CurrentUser['slidetab_order'] = $order;
+        $this->CurrentUser->set('slidetab_order', $order);
 
         $this->response->body(true);
 
@@ -650,15 +692,14 @@ class UsersController extends AppController
     }
 
     /**
-     * @param null $id
+     * Set category for user.
      *
+     * @param null $id category-ID
+     * @return \Cake\Network\Response
      * @throws ForbiddenException
      */
     public function setcategory($id = null)
     {
-        if (!$this->CurrentUser->isLoggedIn()) {
-            throw new ForbiddenException();
-        }
         $userId = $this->CurrentUser->getId();
         if ($id === 'all') {
             $this->Users->setCategory($userId, 'all');
@@ -668,24 +709,27 @@ class UsersController extends AppController
         } else {
             $this->Users->setCategory($userId, $id);
         }
-        $this->redirect($this->referer());
+
+        return $this->redirect($this->referer());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param Event $event An Event instance
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         Stopwatch::start('Users->beforeFilter()');
 
-        // @todo 3.0 CSRF protection
-        $this->Security->config(
-            'unlockedActions',
-            ['slidetab_toggle', 'slidetab_order']
-        );
+        $unlocked = ['slidetabToggle', 'slidetabOrder'];
+        $this->Security->config('unlockedActions', $unlocked);
 
         $this->Auth->allow(['login', 'register', 'rs']);
-        $this->modLocking = $this->CurrentUser->permission(
-            'saito.core.user.block'
-        );
+        $this->modLocking = $this->CurrentUser
+            ->permission('saito.core.user.block');
         $this->set('modLocking', $this->modLocking);
 
         Stopwatch::stop('Users->beforeFilter()');
@@ -694,19 +738,18 @@ class UsersController extends AppController
     /**
      * Checks if the current user is allowed to edit user $userId
      *
-     * @param SaitoUser $CurrentUser
-     * @param int $userId
-     * @return type
+     * @param ForumsUserInterface $CurrentUser user
+     * @param int $userId user-ID
+     * @return bool
      */
     protected function _isEditingAllowed(
-        \Saito\User\ForumsUserInterface $CurrentUser,
+        ForumsUserInterface $CurrentUser,
         $userId
     ) {
         if ($CurrentUser->permission('saito.core.user.edit')) {
             return true;
         }
 
-        return $CurrentUser->getId() === (int)$userId;
+        return $CurrentUser->isUser($userId);
     }
-
 }

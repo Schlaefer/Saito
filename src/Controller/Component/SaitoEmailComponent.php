@@ -19,13 +19,14 @@ class SaitoEmailComponent extends Component
     /**
      * send email
      *
-     * @param array $params
+     * @param array $params params
      * - 'recipient' userId, predefined or User entity
      * - 'sender' userId, predefined or User entity
      * - 'ccsender' bool send carbon-copy to sender
      * - 'template' string
      * - 'message' string
      * - 'viewVars' array
+     * @return void
      */
     public function email($params = array())
     {
@@ -54,17 +55,18 @@ class SaitoEmailComponent extends Component
         $email->viewVars($params['viewVars'] + $defaults['viewVars']);
 
         if ($params['ccsender']) {
-            $this->sendCopyToOriginalSender($email);
+            $this->_sendCopyToOriginalSender($email);
         }
-        $this->send($email);
+        $this->_send($email);
     }
 
     /**
      * Sends a copy of a completely configured email to the author
      *
-     * @param Email $email
+     * @param Email $email email
+     * @return void
      */
-    protected function sendCopyToOriginalSender(Email $email)
+    protected function _sendCopyToOriginalSender(Email $email)
     {
         /* set new subject */
         $email = clone $email;
@@ -79,15 +81,16 @@ class SaitoEmailComponent extends Component
         $from = new SaitoEmailContact('system');
         $email->from($from->toCake());
 
-        $this->send($email);
+        $this->_send($email);
     }
 
     /**
      * Sends the completely configured email
      *
-     * @param $email
+     * @param Email $email email
+     * @return void
      */
-    protected function send(Email $email)
+    protected function _send(Email $email)
     {
         $debug = Configure::read('Saito.debug.email');
         if ($debug) {
@@ -105,5 +108,4 @@ class SaitoEmailComponent extends Component
             $this->log($result, 'debug');
         }
     }
-
 }

@@ -22,17 +22,20 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
 
     protected $minPostingsToKeep;
 
+    /**
+     * {@inheritDoc}
+     */
     public function __construct(
         CurrentUserComponent $CurrentUser,
         UserReadsTable $storage
     ) {
         parent::__construct($CurrentUser);
         $this->userReadsTable = $storage;
-        $this->registerGc();
+        $this->_registerGc();
     }
 
     /**
-     * @param array $entries
+     * {@inheritDoc}
      */
     public function set($entries)
     {
@@ -41,18 +44,21 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
             return;
         }
 
-        $entries = $this->prepareForSave($entries);
+        $entries = $this->_prepareForSave($entries);
         if (empty($entries)) {
             return;
         }
 
-        $this->userReadsTable->setEntriesForUser($entries, $this->getId());
+        $this->userReadsTable->setEntriesForUser($entries, $this->_getId());
         Stopwatch::stop('ReadPostingsDatabase::set()');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete()
     {
-        $this->userReadsTable->deleteAllFromUser($this->getId());
+        $this->userReadsTable->deleteAllFromUser($this->_getId());
     }
 
     /**
@@ -61,7 +67,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      * @return int
      * @throws \UnexpectedValueException
      */
-    protected function minNPostingsToKeep()
+    protected function _minNPostingsToKeep()
     {
         if ($this->minPostingsToKeep) {
             return $this->minPostingsToKeep;
@@ -69,17 +75,25 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         $threadsOnPage = Configure::read('Saito.Settings.topics_per_page');
         $postingsPerThread = Configure::read('Saito.Globals.postingsPerThread');
         $pagesToCache = 1.5;
-        $this->minPostingsToKeep = intval($postingsPerThread * $threadsOnPage * $pagesToCache);
+        $this->minPostingsToKeep = intval(
+            $postingsPerThread * $threadsOnPage * $pagesToCache
+        );
         if (empty($this->minPostingsToKeep)) {
             throw new \UnexpectedValueException();
         }
+
         return $this->minPostingsToKeep;
     }
 
-    protected function registerGc()
+    /**
+     * Garbage collection
+     *
+     * @return void
+     */
+    protected function _registerGc()
     {
         $Cron = Registry::get('Cron');
-        $userId = $this->getId();
+        $userId = $this->_getId();
         $Cron->addCronJob("ReadUser.$userId", 'hourly', [$this, 'gcUser']);
         $Cron->addCronJob('ReadUser.global', 'hourly', [$this, 'gcGlobal']);
     }
@@ -88,21 +102,25 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      * removes old data from non-active users
      *
      * should prevent entries of non returning users to stay forever in DB
+     *
+     * @return void
      */
     public function gcGlobal()
     {
-        $Entries = $this->getTable('Entries');
-        $lastEntry = $Entries->find('all',
+        $Entries = $this->_getTable('Entries');
+        $lastEntry = $Entries->find(
+            'all',
             [
                 'fields' => ['Entries.id'],
                 'order' => ['Entries.id' => 'DESC']
-            ])->first();
+            ]
+        )->first();
         if (!$lastEntry) {
             return;
         }
         $Categories = $Entries->Categories;
         $nCategories = $Categories->find()->count();
-        $entriesToKeep = $nCategories * $this->minNPostingsToKeep();
+        $entriesToKeep = $nCategories * $this->_minNPostingsToKeep();
         $lastEntryId = $lastEntry->get('id') - $entriesToKeep;
         $this->userReadsTable->deleteEntriesBefore($lastEntryId);
     }
@@ -112,6 +130,8 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      *
      * should prevent endless growing of DB if user never clicks the
      * MAR-button
+     *
+     * @return void
      */
     public function gcUser()
     {
@@ -119,13 +139,13 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
             return;
         }
 
-        $entries = $this->get();
+        $entries = $this->_get();
         $numberOfEntries = count($entries);
         if ($numberOfEntries === 0) {
             return;
         }
 
-        $maxEntriesToKeep = $this->minNPostingsToKeep();
+        $maxEntriesToKeep = $this->_minNPostingsToKeep();
         if ($numberOfEntries <= $maxEntriesToKeep) {
             return;
         }
@@ -135,41 +155,61 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         $dummy = array_slice($entries, $entriesToDelete, 1);
         $oldestIdToKeep = array_shift($dummy);
         $this->userReadsTable->deleteUserEntriesBefore(
-            $this->getId(),
+            $this->_getId(),
             $oldestIdToKeep
         );
 
         // all entries older than (and including) the deleted entries become
         // old entries by updating the MAR-timestamp
-        $Entries = $this->getTable('Entries');
+        $Entries = $this->_getTable('Entries');
         $youngestDeletedEntry = $Entries->find(
             'all',
             [
                 'conditions' => ['Entries.id' => $oldestIdToKeep],
                 'fields' => ['Entries.time']
-            ])
+            ]
+        )
             ->first();
         // can't use  $this->_CU->LastRefresh->set() because this would also
         // delete all of this user's UserRead entries
         $this->userReadsTable->Users
-            ->setLastRefresh($this->getId(), $youngestDeletedEntry->get('time'));
+            ->setLastRefresh(
+                $this->_getId(),
+                $youngestDeletedEntry->get('time')
+            );
     }
 
-    protected function get()
+    /**
+     * {@inheritDoc}
+     */
+    protected function _get()
     {
         if ($this->readPostings !== null) {
             return $this->readPostings;
         }
-        $this->readPostings = $this->userReadsTable->getUser($this->getId());
+        $this->readPostings = $this->userReadsTable->getUser($this->_getId());
+
         return $this->readPostings;
     }
 
-    protected function getId()
+    /**
+     * Get current-user-id
+     *
+     * @return int
+     */
+    protected function _getId()
     {
         return $this->CurrentUser->getId();
     }
 
-    protected function getTable($key) {
+    /**
+     * Get table
+     *
+     * @param string $key table
+     * @return \Cake\ORM\Table
+     */
+    protected function _getTable($key)
+    {
         return TableRegistry::get($key);
     }
 }

@@ -142,7 +142,14 @@ if (!Configure::read('App.fullBaseUrl')) {
     unset($httpHost, $s);
 }
 
+
 Cache::config(Configure::consume('Cache'));
+
+/**
+ * Disable i18n fallback
+ */
+Cake\I18n\I18n::useFallback(false);
+
 ConnectionManager::config(Configure::consume('Datasources'));
 Email::configTransport(Configure::consume('EmailTransport'));
 Email::config(Configure::consume('Email'));
@@ -202,6 +209,7 @@ Plugin::loadAll(
 			// @todo 3.0
 		'Api' => ['bootstrap' => true, 'routes' => true],
 		'Bookmarks' => ['bootstrap' => true, 'routes' => true],
+            // @todo 3.0
 			// 'M' => ['bootstrap' => true, 'routes' => true],
         'Proffer' => ['bootstrap' => true],
 		'SaitoHelp' => ['routes' => true],
@@ -211,7 +219,7 @@ Plugin::loadAll(
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system
 if (Configure::read('debug')) {
-//    Plugin::load('DebugKit', ['bootstrap' => true]);
+    Plugin::load('DebugKit', ['bootstrap' => true]);
 }
 
 /**
@@ -222,6 +230,7 @@ DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
 
 DispatcherFactory::add('Stopwatch.Stopwatch');
+DispatcherFactory::add('SaitoResponse');
 
 /**
  * Add custom Database-types

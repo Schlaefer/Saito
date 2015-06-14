@@ -9,7 +9,7 @@
 			echo $this->fetch('css');
 
 			if (isset($CurrentUser) && $CurrentUser->isLoggedIn()):
-				echo $this->UserH->generateCss($CurrentUser->getSettings());
+				echo $this->User->generateCss($CurrentUser->getSettings());
 			endif;
 
 			echo $this->element('layout/script_tags');

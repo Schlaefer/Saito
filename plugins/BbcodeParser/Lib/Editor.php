@@ -57,6 +57,13 @@
 					'openWith' => '[spoiler]',
 					'closeWith' => '[/spoiler]'
 				],
+                'Quote' => [
+                    'name' => "<i class='fa fa-quote-left'></i>",
+                    'className' => 'btn-markItUp-Quote',
+                    'title' => __('Cite'),
+                    'openWith' => '[quote]',
+                    'closeWith' => '[/quote]'
+                ],
 				'separator',
 				'Link' => array(
 					'name' => "<i class='fa fa-link'></i>",

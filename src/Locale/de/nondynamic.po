@@ -21,7 +21,7 @@ msgid "subject"
 msgstr "Betreff"
 
 #
-msgid "category"
+msgid "category_id"
 msgstr "Kategorie"
 
 #

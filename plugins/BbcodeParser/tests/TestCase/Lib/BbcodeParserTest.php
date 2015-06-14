@@ -28,7 +28,14 @@
 			$this->assertHtml($expected, $result);;
 		}
 
-		public function testStrike() {
+        public function testQuoteblock() {
+            $input = '[quote]foo bar[/quote]';
+            $expected = array('blockquote' => array(), 'foo bar', '/blockquote');
+            $result = $this->_Parser->parse($input);
+            $this->assertHtml($expected, $result);
+        }
+
+        public function testStrike() {
 			$expected = ['del' => [], 'text', '/del'];
 
 			// [strike]
@@ -405,7 +412,9 @@ EOF;
 
 		public function testFloat() {
 			$expected = [
-				'div' => ['class' => 'richtext-float'],
+                ['div' => ['class' => 'clearfix']],
+                '/div',
+				['div' => ['class' => 'richtext-float']],
 				'text',
 				'/div',
 				'more'

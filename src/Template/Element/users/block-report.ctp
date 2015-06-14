@@ -1,5 +1,7 @@
 <?php
-  if (empty($UserBlock)) {
+use Cake\Utility\Inflector;
+
+if (empty($UserBlock)) {
 		echo $this->element(
 			'generic/no-content-yet',
 			['message' => __('ncy.aub')]
@@ -27,7 +29,7 @@
     $cells = [];
     foreach ($UserBlock as $block) {
       $domain = null;
-      $reason = $block['reason'];
+      $reason = $block->get('reason');
       if (strpos($reason, '.') !== false) {
         list($domain, $reason) = explode('.', $reason);
         $domain = Inflector::underscore($domain);
@@ -35,20 +37,20 @@
       if ($domain) {
         $reason = __d($domain, "user.block.reason.{$reason}");
       } else {
-        $by = $this->UserH->linkToUserProfile($block['By'], $CurrentUser);
+        $by = $this->User->linkToUserProfile($block->get('by'), $CurrentUser);
         $reason = __('user.block.reason.1', $by);
       }
 
       $cell = [
         empty($block['ended']) ? '✓' : '–',
         $reason,
-        $this->TimeH->formatTime($block['created'], $format),
-        empty($block['ended']) ? '' : $this->TimeH->formatTime($block['ended'], $format),
-        empty($block['ends']) ? '' : $this->Time->timeAgoInWords($block['ends'], ['accuracy' => 'hour', 'relativeStringFuture' => __d('cake', 'in %s')]),
+        $this->TimeH->formatTime($block->get('created'), $format),
+        empty($block['ended']) ? '' : $this->TimeH->formatTime($block->get('ended'), $format),
+        empty($block['ends']) ? '' : $this->Time->timeAgoInWords($block->get('ends'), ['accuracy' => 'hour', 'relativeStringFuture' => __d('cake', 'in %s')]),
       ];
 
       if ($mode === 'full') {
-        array_unshift($cell, $this->UserH->linkToUserProfile($block['User'], $this->get('CurrentUser')));
+        array_unshift($cell, $this->User->linkToUserProfile($block->get('user'), $this->get('CurrentUser')));
       }
 
       $unblock = '';

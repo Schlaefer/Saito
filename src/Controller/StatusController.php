@@ -34,6 +34,12 @@ class StatusController extends AppController
         return $this->response;
     }
 
+    /**
+     * Get status as event-stream
+     *
+     * @param string $data json-encoded data
+     * @return string
+     */
     protected function _statusAsEventStream($data)
     {
         // time in ms to next request
@@ -49,7 +55,9 @@ class StatusController extends AppController
     }
 
     /**
-     * @param $data
+     * Get status as JSON response
+     *
+     * @param string $data json-encoded data
      * @return mixed
      */
     protected function _statusAsJson($data)
@@ -62,10 +70,15 @@ class StatusController extends AppController
         return $data;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @param Event $event An Event instance
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->components()->unload('Auth');
     }
-
 }

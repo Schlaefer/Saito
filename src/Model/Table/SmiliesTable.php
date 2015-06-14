@@ -4,6 +4,7 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppSettingTable;
 use Cake\Core\Configure;
+use Cake\Validation\Validator;
 use \Stopwatch\Lib\Stopwatch;
 
 class SmiliesTable extends AppSettingTable
@@ -11,22 +12,36 @@ class SmiliesTable extends AppSettingTable
 
     public $name = 'Smiley';
 
-    // @todo 3.0
-    public $validate = [
-        'order' => [
-            'numeric' => [
-                'rule' => ['numeric']
-            ]
-        ]
-    ];
-
     protected $_smilies;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(array $config)
     {
         $this->hasMany('SmileyCodes', ['foreignKey' => 'smiley_id']);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->allowEmpty('order')
+            ->add(
+                'order',
+                ['isNumeric' => ['rule' => 'numeric']]
+            );
+        return $validator;
+    }
+
+    /**
+     * load
+     *
+     * @param bool $force force
+     * @return array|null
+     */
     public function load($force = false)
     {
         if ($force) {
@@ -73,13 +88,14 @@ class SmiliesTable extends AppSettingTable
         }
 
         Stopwatch::stop('Smiley::load');
+
         return $this->_smilies;
     }
 
     /**
      * detects smiley type
      *
-     * @param array $smiley
+     * @param array $smiley smiley
      * @return string image|font
      */
     protected function _getType($smiley)
@@ -90,5 +106,4 @@ class SmiliesTable extends AppSettingTable
             return 'font';
         }
     }
-
 }

@@ -1,17 +1,25 @@
 <?php
 
-	namespace Saito\Cache;
+namespace Saito\Cache;
 
-	use Cake\Cache\Cache;
+use Cake\Cache\Cache;
 
-	class SaitoCacheEngineAppCache implements SaitoCacheEngineInterface {
+class SaitoCacheEngineAppCache implements SaitoCacheEngineInterface
+{
 
-		public function read($key) {
-			return Cache::read($key);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function read($key)
+    {
+        return Cache::read($key);
+    }
 
-		public function write($key, $data) {
-			return Cache::write($key, $data);
-		}
-
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function write($key, $data)
+    {
+        return Cache::write($key, $data);
+    }
+}

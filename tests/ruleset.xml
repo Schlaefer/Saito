@@ -2,5 +2,4 @@
 <ruleset name="Saito">
     <!-- include all CakePHP rules -->
     <rule ref="CakePHP"/>
-    <rule ref="PSR2"/>
 </ruleset>

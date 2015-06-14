@@ -1,70 +1,126 @@
 <?php
 
-	namespace Bookmarks\Model\Table;
+namespace Bookmarks\Model\Table;
 
-	use Cake\ORM\Table;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
 
-	class BookmarksTable extends Table {
+class BookmarksTable extends Table
+{
 
-		// @todo 3.0
-		/*
-		public $validate = array(
-			'user_id' => array(
-				'numeric' => array(
-					'rule' => array('validateUniqueBookmark'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					'required' => false,
-					//'last' => false, // Stop validation after this rule
-					'on' => 'create',
-					// Limit validation to 'create' or 'update' operations
-				),
-			),
-			'entry_id' => array(
-				'numeric' => array(
-					'rule' => array('validateUniqueBookmark'),
-					//'message' => 'Your custom message here',
-					//'allowEmpty' => false,
-					'required' => false,
-					//'last' => false, // Stop validation after this rule
-					'on' => 'create',
-					// Limit validation to 'create' or 'update' operations
-				),
-			),
-		);
-		*/
+    /**
+     * {@inheritdoc}
+     *
+     * @param array $config config
+     * @return void
+     */
+    public function initialize(array $config)
+    {
+        $this->addBehavior('Timestamp');
 
-		public function initialize(array $config) {
-			$this->belongsTo('Entries', ['foreignKey' => 'entry_id'])	;
-			$this->belongsTo('Users', ['foreignKey' => 'user_id'])	;
-		}
+        $this->belongsTo('Entries', ['foreignKey' => 'entry_id']);
+        $this->belongsTo('Users', ['foreignKey' => 'user_id']);
+    }
 
-		public function validateUniqueBookmark() {
-			$fields = array(
-				$this->alias . '.user_id' => $this->data['Bookmark']['user_id'],
-				$this->alias . '.entry_id' => $this->data['Bookmark']['entry_id'],
-			);
-			return $this->isUnique($fields, false);
-		}
+    /**
+     * {@inheritdoc}
+     *
+     * @param \Cake\Validation\Validator $validator validator
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->requirePresence('entry_id', 'create')
+            ->add(
+                'entry_id',
+                [
+                    'exists' => [
+                        'rule' => [$this, 'validatePostingExists'],
+                        'last' => true,
+                    ],
+                    'numeric' => ['rule' => 'numeric', 'last' => true],
+                    'unique' => [
+                        'rule' => [$this, 'validateUniqueBookmark'],
+                        'last' => true,
+                        'on' => 'create'
+                    ]
+                ]
+            )
+            ->requirePresence('user_id', 'create')
+            ->add(
+                'user_id',
+                [
+                    'exists' => [
+                        'rule' => [$this, 'validateUserExists'],
+                        'last' => true,
+                    ],
+                    'numeric' => ['rule' => 'numeric', 'last' => true],
+                ]
+            );
 
-/**
- *
- * @param int $entry_id
- * @param int $user_id
- * @return bool
- */
-		public function isBookmarked($entryId, $userId) {
-			$result = $this->find(
-				'first',
-				array(
-					'contain' => false,
-					'conditions' => array(
-						$this->alias . '.entry_id' => $entryId,
-						$this->alias . '.user_id' => $userId,
-					)
-				)
-			);
-			return $result == true;
-		}
+        return $validator;
+    }
 
-	}
+    /**
+     * Check if user exists.
+     *
+     * @param int $value user-ID
+     * @return bool valid
+     */
+    public function validateUserExists($value)
+    {
+        return $this->Users->exists(['id' => $value]);
+    }
+
+    /**
+     * Check if posting exists.
+     *
+     * @param int $value posting-ID
+     * @return bool valid
+     */
+    public function validatePostingExists($value)
+    {
+        return $this->Entries->exists(['id' => $value]);
+    }
+
+    /**
+     * Validate that combination of entry_id and user_id is unique.
+     *
+     * @param int $value value
+     * @param array $context context
+     * @return bool
+     */
+    public function validateUniqueBookmark($value, $context)
+    {
+        $data = $context['data'];
+        if (empty($data['user_id'])) {
+            return true;
+        }
+        $conditions = [
+            'entry_id' => $data['entry_id'],
+            'user_id' => $data['user_id']
+        ];
+
+        return !$this->exists($conditions);
+    }
+
+    /**
+     * Create and save new bookmark.
+     *
+     * @param array $data bookmark data
+     * @return bool|\Cake\Datasource\EntityInterface
+     */
+    public function createBookmark(array $data)
+    {
+        $bookmark = $this->newEntity(
+            $data,
+            ['fieldList' => ['entry_id', 'user_id']]
+        );
+        if ($bookmark->errors()) {
+            return $bookmark;
+        }
+
+        return $this->save($bookmark);
+    }
+}

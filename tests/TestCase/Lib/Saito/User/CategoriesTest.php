@@ -17,56 +17,56 @@ class CategoriesTest extends SaitoTestCase
     public function testGetAllForAnon()
     {
         $User = new SaitoUser(['id' => 1, 'user_type' => 'anon']);
-        $this->Lib = new Categories($User);
+        $Lib = new Categories($User);
 
         /**
          * test read
          */
-        $result = $this->Lib->getAll('read', 'select');
-        $expected = array(
+        $result = $Lib->getAll('read', 'select');
+        $expected = [
             3 => 'Another Ontopic',
             2 => 'Ontopic'
-        );
+        ];
         $this->assertEquals($result, $expected);
 
-        $result = $this->Lib->getAll('read');
-        $expected = array(
+        $result = $Lib->getAll('read');
+        $expected = [
             3 => 3,
             2 => 2
-        );
+        ];
         $this->assertEquals($result, $expected);
 
         /**
          * test new
          */
-        $result = $this->Lib->getAll('thread');
+        $result = $Lib->getAll('thread');
         $this->assertEquals([], $result);
 
         /**
          * test answer
          */
-        $result = $this->Lib->getAll('answer');
+        $result = $Lib->getAll('answer');
         $this->assertEquals([], $result);
     }
 
     public function testGetAllForUser()
     {
         $User = new SaitoUser(['id' => 1, 'user_type' => 'user']);
-        $this->Lib = new Categories($User);
+        $Lib = new Categories($User);
 
-        $result = $this->Lib->getAll('read', 'select');
-        $expected = array(
+        $result = $Lib->getAll('read', 'select');
+        $expected = [
             3 => 'Another Ontopic',
             2 => 'Ontopic',
             4 => 'Offtopic',
             5 => 'Trash'
-        );
+        ];
         $this->assertEquals($result, $expected);
 
         /**
          * test new
          */
-        $result = $this->Lib->getAll('thread', 'select');
+        $result = $Lib->getAll('thread', 'select');
         $expected = [
             3 => 'Another Ontopic',
             2 => 'Ontopic',
@@ -77,7 +77,7 @@ class CategoriesTest extends SaitoTestCase
         /**
          * test answer
          */
-        $result = $this->Lib->getAll('answer', 'select');
+        $result = $Lib->getAll('answer', 'select');
         $expected = [
             3 => 'Another Ontopic',
             2 => 'Ontopic',
@@ -90,7 +90,7 @@ class CategoriesTest extends SaitoTestCase
     public function testGetAllForMod()
     {
         $User = new SaitoUser(['id' => 1, 'user_type' => 'mod']);
-        $this->Lib = new Categories($User);
+        $Lib = new Categories($User);
 
         $expected = [
             1 => 'Admin',
@@ -99,20 +99,30 @@ class CategoriesTest extends SaitoTestCase
             4 => 'Offtopic',
             5 => 'Trash'
         ];
-        $result = $this->Lib->getAll('read', 'select');
+        $result = $Lib->getAll('read', 'select');
         $this->assertEquals($result, $expected);
 
         /**
          * test new
          */
-        $result = $this->Lib->getAll('thread', 'select');
+        $result = $Lib->getAll('thread', 'select');
         $this->assertEquals($expected, $result);
 
         /**
          * test answer
          */
-        $result = $this->Lib->getAll('answer', 'select');
+        $result = $Lib->getAll('answer', 'select');
         $this->assertEquals($expected, $result);
     }
 
+    public function testGetCustomNotSet()
+    {
+
+        $User = new SaitoUser(['id' => 3, 'user_type' => 'user']);
+        $Lib = new Categories($User);
+
+        $expected = [2, 3, 4, 5];
+        $expected = array_combine($expected, $expected);
+        $this->assertEquals($expected, $Lib->getCustom('read'));
+    }
 }

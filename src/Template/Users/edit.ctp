@@ -46,7 +46,7 @@
 					}
 
 
-					if ($CurrentUser->isSame($user)) {
+					if ($CurrentUser->isUser($user)) {
 						$cells[] = [
 							__('user_pw'),
 							$this->Html->link(
@@ -198,11 +198,14 @@
 			<tr>
 				<td> <?= __('user_theme') ?> </td>
 				<td> <?=
-						$this->Form->input('user_theme',
-								[
-										'options' => $availableThemes,
-										'label' => false,
-								]) ?>
+                    $this->Form->input(
+                        'user_theme',
+                        [
+                            'options' => $availableThemes,
+                            'label' => false,
+                            'val' => $currentTheme
+                        ]
+                    ) ?>
 					<p class="exp"> <?= __('user_theme_exp') ?> </p>
 				</td>
 			</tr>
@@ -211,14 +214,38 @@
 		<tr>
 			<td> <?php echo __('user_colors') ?> </td>
 			<td>
-				<?php /* @todo 3.0
-				<?php  echo $this->Farbtastic->input('User.user_color_new_postings', __('user_color_new_postings_exp')); ?>
+                <style>
+                    .SpectrumColorpicker-theme-default.SpectrumColorpicker {
+                        display: block;
+                    }
+                </style>
+                <?= $this->SpectrumColorpicker->input(
+                    'user_color_new_postings',
+                    [
+                        'label' => false,
+                        'style' => 'height: auto; display: block; width: 100%'
+                    ]
+                ) ?>
+                <p class="exp"> <?php echo __('user_color_new_postings_exp') ?> </p>
 				<br/>
-				<?php  echo $this->Farbtastic->input('User.user_color_old_postings', __('user_color_old_postinings_exp')); ?>
+                <?= $this->SpectrumColorpicker->input(
+                    'user_color_old_postings',
+                    [
+                        'label' => false,
+                        'style' => 'height: auto; display: block; width: 100%'
+                    ]
+                ) ?>
+                <p class="exp"> <?php echo __('user_color_old_postinings_exp') ?> </p>
 				<br/>
-				<?php  echo $this->Farbtastic->input('User.user_color_actual_posting', __('user_color_actual_posting_exp')); ?>
+                <?= $this->SpectrumColorpicker->input(
+                    'user_color_actual_posting',
+                    [
+                        'label' => false,
+                        'style' => 'height: auto; display: block; width: 100%'
+                    ]
+                ) ?>
+                <p class="exp"> <?php echo __('user_color_actual_posting_exp') ?> </p>
 			</td>
- 			*/ ?>
 		</tr>
 
 		<tr>
@@ -287,7 +314,7 @@
         <?= $this->Layout->panelHeading(__('user.set.avatar.t')) ?>
         <div class='panel-content panel-form'>
             <?php
-            echo $this->UserH->getAvatar($user);
+            echo $this->User->getAvatar($user);
             echo $this->Form->create($user, ['type' => 'file']);
             echo $this->Form->input(
                 'avatar',

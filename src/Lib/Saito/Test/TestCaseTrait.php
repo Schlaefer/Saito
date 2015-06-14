@@ -2,13 +2,13 @@
 
 namespace Saito\Test;
 
-use Aura\Di\Config;
-use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Event\EventManager;
 use Cake\Network\Email\Email;
 use Cake\Utility\Inflector;
 use Cron\Lib\Cron;
 use Saito\App\Registry;
+use Saito\Cache\CacheSupport;
 use Saito\User\ForumsUserInterface;
 use Saito\User\SaitoUser;
 
@@ -22,30 +22,48 @@ trait TestCaseTrait
 
     protected $saitoSettings;
 
+    /**
+     * set-up saito
+     *
+     * @return void
+     */
     protected function setUpSaito()
     {
         $this->initDic();
-        $this->storeSettings();
+        $this->_storeSettings();
         $this->mockMailTransporter();
-        $this->clearCaches();
+        $this->_clearCaches();
     }
 
+    /**
+     * tear down saito
+     *
+     * @return void
+     */
     protected function tearDownSaito()
     {
-        $this->restoreSettings();
-        $this->clearCaches();
+        $this->_restoreSettings();
+        $this->_clearCaches();
     }
 
-    protected function clearCaches()
+    /**
+     * clear caches
+     *
+     * @return void
+     */
+    protected function _clearCaches()
     {
-        Cache::clear();
-        Cache::clear(false, 'short');
+        $CacheSupport = new CacheSupport();
+        $CacheSupport->clear();
+        EventManager::instance()->off($CacheSupport);
+        unset($CacheSupport);
     }
 
     /**
      * Setup for dependency injection container
      *
-     * @return \Aura\Di\Container
+     * @param ForumsUserInterface $User user
+     * @return void
      */
     public function initDic(ForumsUserInterface $User = null)
     {
@@ -58,21 +76,38 @@ trait TestCaseTrait
         $this->dic->set('Cron', new Cron());
     }
 
-    protected function storeSettings()
+    /**
+     * store global settings
+     *
+     * @return void
+     */
+    protected function _storeSettings()
     {
         $this->saitoSettings = Configure::read('Saito.Settings');
         Configure::write('Saito.language', 'en');
         Configure::write('Saito.Settings.ParserPlugin', 'Bbcode');
     }
 
-    protected function restoreSettings()
+    /**
+     * restore global settings
+     *
+     * @return void
+     */
+    protected function _restoreSettings()
     {
         if ($this->saitoSettings !== null) {
             Configure::write('Saito.Settings', $this->saitoSettings);
         }
     }
 
-    protected function getMockForTable($table, array $methods = [])
+    /**
+     * Mock table
+     *
+     * @param string $table table
+     * @param array $methods methods to mock
+     * @return mixed
+     */
+    public function getMockForTable($table, array $methods = [])
     {
         $tableName = Inflector::underscore($table);
         $Mock = $this->getMockForModel(
@@ -84,6 +119,11 @@ trait TestCaseTrait
         return $Mock;
     }
 
+    /**
+     * Mock mailtransporter
+     *
+     * @return mixed
+     */
     protected function mockMailTransporter()
     {
         $mock = $this->getMock('Cake\Network\Email\DebugTransport');
@@ -92,5 +132,4 @@ trait TestCaseTrait
 
         return $mock;
     }
-
 }

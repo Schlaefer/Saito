@@ -17,6 +17,11 @@
   }
 }
 
+.postingform-subject-count {
+  @extend .infoText;
+  float: right;
+}
+
 .postingform-eh {
   @extend .infoText;
   float:right;

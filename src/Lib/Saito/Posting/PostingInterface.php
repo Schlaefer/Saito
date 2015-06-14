@@ -1,28 +1,70 @@
 <?php
 
-	namespace Saito\Posting;
+namespace Saito\Posting;
 
-	interface PostingInterface {
+use Saito\Thread\Thread;
 
-		public function get($var);
+interface PostingInterface
+{
+    /**
+     * Get sub-postings one level below this posting (direct answers)
+     *
+     * @return array of postings
+     */
+    public function getChildren();
 
-		public function getChildren();
+    /**
+     * Get all sub-postings on all level below this postings
+     *
+     * @return array of postings
+     */
+    public function getAllChildren();
 
-		public function getLevel();
+    /**
+     * Get level of posting in thread
+     *
+     * @return mixed
+     */
+    public function getLevel();
 
-		public function getThread();
+    /**
+     * Get thread for posting.
+     *
+     * @return Thread
+     */
+    public function getThread();
 
-		public function hasAnswers();
+    /**
+     * Check if posting has answers.
+     *
+     * @return bool
+     */
+    public function hasAnswers();
 
-		public function isNt();
+    /**
+     * Map posting and all children to callback
+     *
+     * @param callable $callback callback
+     * @param bool $mapSelf map this posting
+     * @param PostingInterface $node root posting for callbacks to apply
+     * @return void
+     */
+    public function map(callable $callback, $mapSelf = true, $node = null);
 
-		public function isPinned();
+    /**
+     * Get raw posting data
+     *
+     * @td @sm @perf Benchmark and remove if O.K.
+     *
+     * @return array
+     */
+    public function toArray();
 
-		public function getRaw();
-
-		public function isRoot();
-
-		public function addDecorator($fct);
-
-	}
-
+    /**
+     * Attach decorators to posting.
+     *
+     * @param callable $fct callback
+     * @return PostingInterface new posting
+     */
+    public function addDecorator(callable $fct);
+}

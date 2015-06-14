@@ -1,9 +1,14 @@
 <?php
 
-	namespace Saito\Event;
+namespace Saito\Event;
 
-	interface SaitoEventListener {
+interface SaitoEventListener
+{
 
-		public function implementedSaitoEvents();
-
-	}
+    /**
+     * Get implemented Saito-events.
+     *
+     * @return array events
+     */
+    public function implementedSaitoEvents();
+}

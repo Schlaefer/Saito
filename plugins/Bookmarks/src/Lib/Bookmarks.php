@@ -1,52 +1,65 @@
 <?php
 
-	namespace Saito\User;
+namespace Bookmarks\Lib;
 
-	use App\Controller\Component\CurrentUserComponent;
+use App\Controller\Component\CurrentUserComponent;
+use Cake\ORM\TableRegistry;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
-	/**
-	 * Class Bookmarks handles bookmarks for a CurrentUser
-	 */
-	class Bookmarks {
+/**
+ * Class Bookmarks handles bookmarks for a CurrentUser
+ */
+class Bookmarks
+{
+    /**
+     * @var bookmarks format: [entry_id => id, …]
+     */
+    protected $_bookmarks;
 
-		/**
-		 * @var bookmarks format: [entry_id => id, …]
-		 */
-		protected $_bookmarks;
+    /**
+     * @var CurrentUserInterface
+     */
+    protected $_CurrentUser;
 
-		protected $_CurrentUser;
+    /**
+     * Constructor.
+     *
+     * @param CurrentUserInterface $CurrentUser CurrentUser
+     */
+    public function __construct(CurrentUserInterface $CurrentUser)
+    {
+        $this->_CurrentUser = $CurrentUser;
+    }
 
-		public function __construct(CurrentUserComponent $CurrentUser) {
-			$this->_CurrentUser = $CurrentUser;
-		}
+    /**
+     * Check if posting is bookmarked by the CurrentUser
+     *
+     * @param int $postingId posting-ID
+     * @return bool
+     */
+    public function isBookmarked($postingId)
+    {
+        if ($this->_bookmarks === null) {
+            $this->_load();
+        }
+        return isset($this->_bookmarks[$postingId]);
+    }
 
-		public function isBookmarked($entryId) {
-			if (!$this->_CurrentUser->isLoggedIn()) {
-				return false;
-			}
-			if ($this->_bookmarks === null) {
-				$this->_get();
-			}
-			return isset($this->_bookmarks[$entryId]);
-		}
-
-		protected function _get() {
-			if ($this->_bookmarks !== null) {
-				return $this->_bookmarks;
-			}
-			$this->_bookmarks = [];
-			if (!$this->_CurrentUser->isLoggedIn() === false) {
-				$bookmarks = $this->_CurrentUser->_User->Bookmark->findAllByUserId(
-					$this->_CurrentUser->getId(),
-					['contain' => false]
-				);
-				if (!empty($bookmarks)) {
-					foreach ($bookmarks as $bookmark) {
-						$this->_bookmarks[(int)$bookmark['Bookmark']['entry_id']] = (int)$bookmark['Bookmark']['id'];
-					}
-				}
-			}
-			return $this->_bookmarks;
-		}
-
-	}
+    /**
+     * Get all bookmarks for the CurrentUser.
+     *
+     * @return void
+     */
+    protected function _load()
+    {
+        $this->_bookmarks = [];
+        if (!$this->_CurrentUser->isLoggedIn()) {
+            $this->_bookmarks = [];
+            return;
+        }
+        $this->_bookmarks = TableRegistry::get('Bookmarks')
+            ->find('list', ['keyField' => 'entry_id', 'valueField' => 'id'])
+            ->where(['user_id' => $this->_CurrentUser->getId()])
+            ->toArray();
+    }
+}

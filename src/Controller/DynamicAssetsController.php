@@ -25,6 +25,8 @@ class DynamicAssetsController extends Controller
 
     /**
      * Output current language strings as json
+     *
+     * @return string
      */
     public function langJs()
     {
@@ -50,5 +52,4 @@ class DynamicAssetsController extends Controller
 
         return $this->response;
     }
-
 }

@@ -12,14 +12,21 @@ abstract class SaitoTestCase extends TestCase
     use AssertTrait;
     use TestCaseTrait;
 
+    /**
+     * {@inheritDoc}
+     */
     public function setUp()
     {
+        parent::setUp();
         $this->setUpSaito();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function tearDown()
     {
         $this->tearDownSaito();
+        parent::tearDown();
     }
-
 }

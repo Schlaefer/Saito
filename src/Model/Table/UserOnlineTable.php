@@ -20,10 +20,15 @@ class UserOnlineTable extends Table
      */
     public $timeUntilOffline = 1200;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(array $config)
     {
         $this->table('useronline');
+
         $this->addBehavior('Timestamp');
+
         $this->belongsTo(
             'Users',
             [
@@ -32,6 +37,9 @@ class UserOnlineTable extends Table
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -55,7 +63,8 @@ class UserOnlineTable extends Table
      * Sets user with `$id` online
      *
      * @param string $id identifier
-     * @param boolean $loggedIn user is logged-in
+     * @param bool $loggedIn user is logged-in
+     * @return void
      * @throws \InvalidArgumentException
      */
     public function setOnline($id, $loggedIn)
@@ -104,7 +113,7 @@ class UserOnlineTable extends Table
     /**
      * Removes user with uuid `$id` from UserOnline
      *
-     * @param $id
+     * @param string $id id
      * @return bool
      */
     public function setOffline($id)
@@ -114,6 +123,15 @@ class UserOnlineTable extends Table
         return $this->deleteAll(['UserOnline.uuid' => $id], false);
     }
 
+    /**
+     * Get all logged-in users
+     *
+     * Don't use directly but use \Saito\App\Stats
+     *
+     * @td @sm make finder
+     *
+     * @return Query
+     */
     public function getLoggedIn()
     {
         Stopwatch::start('UserOnline->getLoggedIn()');
@@ -141,6 +159,7 @@ class UserOnlineTable extends Table
      * Gone users are user who are not seen for $time_diff minutes.
      *
      * @param string $timeDiff in minutes
+     * @return void
      */
     protected function _deleteOutdated($timeDiff = null)
     {
@@ -150,6 +169,12 @@ class UserOnlineTable extends Table
         $this->deleteAll(['time <' => time() - ($timeDiff)], false);
     }
 
+    /**
+     * shorten string
+     *
+     * @param string $id string
+     * @return string
+     */
     protected function _getShortendedId($id)
     {
         return substr($id, 0, 32);

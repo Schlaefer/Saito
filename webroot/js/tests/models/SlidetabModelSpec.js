@@ -25,14 +25,14 @@ define([], function() {
       this.server.restore();
     });
 
-    it('to toggle show at users/ajax_toggle/…', function() {
+    it('to toggle show at users/ajaxToggle/…', function() {
       this.model.save();
       expect(this.server.requests.length)
         .toEqual(1);
       expect(this.server.requests[0].method)
         .toEqual('POST');
       expect(this.server.requests[0].url)
-        .toEqual(this.webroot + 'users/slidetab_toggle');
+        .toEqual(this.webroot + 'users/slidetabToggle');
     });
 
   });

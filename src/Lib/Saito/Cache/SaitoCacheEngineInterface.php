@@ -1,11 +1,24 @@
 <?php
 
-	namespace Saito\Cache;
+namespace Saito\Cache;
 
-	interface SaitoCacheEngineInterface {
+interface SaitoCacheEngineInterface
+{
 
-		public function read($name);
+    /**
+     * read
+     *
+     * @param string $name name
+     * @return mixed
+     */
+    public function read($name);
 
-		public function write($name, $content);
-
-	}
+    /**
+     * Write
+     *
+     * @param string $name name
+     * @param mixed $content content
+     * @return void
+     */
+    public function write($name, $content);
+}

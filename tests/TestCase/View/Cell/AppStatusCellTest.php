@@ -32,7 +32,6 @@ class AppStatusCellTest extends SaitoTestCase
         $this->response = $this->getMock('Cake\Network\Response');
 
         $this->AppStatus = new AppStatusCell($this->request, $this->response);
-
     }
 
     /**

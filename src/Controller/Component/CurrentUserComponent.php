@@ -2,30 +2,28 @@
 
 namespace App\Controller\Component;
 
-use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Component;
+use Cake\Controller\Component\AuthComponent;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
+use Saito\App\Registry;
 use Saito\User\Categories;
+use Saito\User\Cookie\CurrentUserCookie;
 use Saito\User\Cookie\Storage;
+use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\User\CurrentUser\CurrentUserTrait;
+use Saito\User\LastRefresh;
+use Saito\User\ReadPostings;
 use Saito\User\ReadPostings\ReadPostingsCookie;
 use Saito\User\ReadPostings\ReadPostingsDatabase;
 use Saito\User\ReadPostings\ReadPostingsDummy;
-use \Stopwatch\Lib\Stopwatch;
-use Saito\App\Registry;
-use Saito\User\Bookmarks;
-use Saito\User\Cookie\CurrentUserCookie;
-use Saito\User\ForumsUserInterface;
-use Saito\User\LastRefresh;
-use Saito\User\ReadPostings;
 use Saito\User\SaitoUserTrait;
+use \Stopwatch\Lib\Stopwatch;
 
-class CurrentUserComponent extends Component implements
-    \ArrayAccess,
-    ForumsUserInterface
+class CurrentUserComponent extends Component implements CurrentUserInterface
 {
-
+    use CurrentUserTrait;
     use SaitoUserTrait;
 
     /**
@@ -67,11 +65,6 @@ class CurrentUserComponent extends Component implements
     public $ReadEntries;
 
     /**
-     * @var Bookmarks bookmarks of the current user
-     */
-    protected $_Bookmarks;
-
-    /**
      * Model User instance exclusive to the CurrentUserComponent
      *
      * @var User
@@ -85,6 +78,9 @@ class CurrentUserComponent extends Component implements
      */
     protected $_Controller = null;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize(array $config)
     {
         $Controller = $this->_registry->getController();
@@ -96,16 +92,6 @@ class CurrentUserComponent extends Component implements
         }
 
         $this->Categories = new Categories($this);
-
-        /*
-         * We create a new User Model instance. Otherwise we would overwrite $this->request->data
-         * when reading in refresh(), causing error e.g. saving the user prefs.
-         *
-         * was CakePHP 2:
-        $this->_User = $ClassRegistry::init(
-                ['class' => 'User', 'alias' => 'currentUser']
-        );
-         */
         $this->_User = TableRegistry::get('Users');
 
         $cookieTitle = Configure::read('Session.cookie') . '-AU';
@@ -114,51 +100,36 @@ class CurrentUserComponent extends Component implements
             $cookieTitle
         );
 
-        $this->_configureAuth();
+        $this->_setupAuth();
 
-        // prevents session auto re-login from form's request->data: login is
-        // called explicitly by controller on /users/login
-        if ($this->_Controller->action !== 'login') {
+        // don't auto-login on login related pages
+        $excluded = ['login', 'register'];
+        if (!in_array($this->_Controller->params['action'], $excluded)) {
             if (!$this->_reLoginSession()) {
-                // don't auto-login on login related pages
-                if ($this->_Controller->params['action'] !== 'login' &&
-                    $this->_Controller->params['action'] !== 'register' &&
-                    $this->_Controller->referer() !== '/login'
-                ) {
-                    $this->_reLoginCookie();
-                }
+                $this->_reLoginCookie();
             }
         }
 
         if ($this->isLoggedIn()) {
+            $this->LastRefresh = new LastRefresh\LastRefreshDatabase($this);
             $storage = TableRegistry::get('UserReads');
             $this->ReadEntries = new ReadPostingsDatabase($this, $storage);
         } elseif ($this->isBot()) {
+            $this->LastRefresh = new LastRefresh\LastRefreshDummy($this);
             $this->ReadEntries = new ReadPostingsDummy($this);
         } else {
+            $this->LastRefresh = new LastRefresh\LastRefreshCookie($this);
             $storage = new Storage($this->Cookie, 'Saito-Read');
             $this->ReadEntries = new ReadPostingsCookie($this, $storage);
         }
 
-        // @todo 3.0 bookmarks
-//			$this->_Bookmarks = new Bookmarks($this);
-
         $this->_markOnline();
-    }
-
-    public function startup(Event $event)
-    {
-        if ($this->_Controller->action !== 'logout' && $this->isLoggedIn()) :
-            if ($this->isForbidden()) :
-                $this->_Controller->redirect(
-                    ['controller' => 'users', 'action' => 'logout']
-                );
-            endif;
-        endif;
     }
 
     /**
      * Marks users as online
+     *
+     * @return void
      */
     protected function _markOnline()
     {
@@ -180,7 +151,7 @@ class CurrentUserComponent extends Component implements
     /**
      * Detects if the current user is a bot
      *
-     * @return boolean
+     * @return bool
      */
     public function isBot()
     {
@@ -188,51 +159,20 @@ class CurrentUserComponent extends Component implements
     }
 
     /**
-     * Logs-in registered users
+     * Try to login login user from sended request login-form-data.
      *
-     * @param null|array $user user-data, if null request-data is used
-     * @return bool true if user is logged in false otherwise
+     * @return bool success
      */
-    protected function _login($user = null)
-    {
-        if ($user === null) {
-            $user = $this->_Controller->Auth->identify($user);
-        }
-        if ($user) {
-            // @todo 3.0 do an actual validation if $user is method argument
-            $this->_Controller->Auth->setUser($user);
-        }
-        $this->refresh();
-
-        return $this->isLoggedIn();
-    }
-
-    protected function _reLoginSession()
-    {
-        return $this->_login();
-    }
-
-    protected function _reLoginCookie()
-    {
-        $cookie = $this->PersistentCookie->read();
-        if ($cookie) {
-            $this->_login($cookie);
-
-            return $this->isLoggedIn();
-        }
-
-        return false;
-    }
-
     public function login()
     {
         // non-logged in session-id is lost after successful login
         $sessionId = session_id();
 
-        if (!$this->_login()) {
+        $user = $this->_Controller->Auth->identify();
+        if (!$user || !$this->_login($user)) {
             return false;
         }
-
+        $this->_Controller->Auth->setUser($user);
         $user = $this->_User->get($this->getId());
         $this->_User->incrementLogins($user);
         $this->_User->UserOnline->setOffline($sessionId);
@@ -253,46 +193,72 @@ class CurrentUserComponent extends Component implements
     }
 
     /**
-     * Sets user-data
+     * Try to login the provided users as current user.
+     *
+     * Use the provided session/cookie/form user to retrieve user-info from
+     * the DB. Provided one up-do-date truth for all sessions (user got
+     * locked, user-type was changend, …)
+     *
+     * @param array $user user-data
+     * @return bool true if user is logged in false otherwise
      */
-    public function refresh()
+    protected function _login($user)
     {
-        // preliminary set user-data from Cake's Auth handler
-        $this->setSettings($this->_Controller->Auth->user());
-        // set user-data from current DB data: ensures that *all sessions*
-        // use the same set of data (user got locked, user-type was demoted …)
+        $this->setSettings($user);
         if ($this->isLoggedIn()) {
-            $this->setSettings($this->_User->get($this->getId()));
-            $this->LastRefresh = new LastRefresh\LastRefreshDatabase($this);
-        } elseif ($this->isBot()) {
-            $this->LastRefresh = new LastRefresh\LastRefreshDummy($this);
-        } else {
-            $this->LastRefresh = new LastRefresh\LastRefreshCookie($this);
+            $user = $this->_User->getProfile($this->getId());
+            $this->setSettings($user);
         }
+        return $this->isLoggedIn();
     }
 
+    /**
+     * Login user with session.
+     *
+     * @return bool success
+     */
+    protected function _reLoginSession()
+    {
+        $user = $this->_Controller->Auth->user();
+        return $this->_login($user);
+    }
+
+    /**
+     * Login user with cookie.
+     *
+     * @return bool success
+     */
+    protected function _reLoginCookie()
+    {
+        $user = $this->PersistentCookie->read();
+        if (!$user) {
+            return false;
+        }
+        if ($this->_login($user)) {
+            $this->_Controller->Auth->setUser($user);
+        }
+        return $this->isLoggedIn();
+    }
+
+    /**
+     * Logout user.
+     *
+     * @return void
+     */
     public function logout()
     {
         if (!$this->isLoggedIn()) {
             return;
         }
         $this->PersistentCookie->delete();
-        $this->_User->id = $this->getId();
         $this->_User->UserOnline->setOffline($this->getId());
         $this->setSettings(null);
         $this->_Controller->Auth->logout();
     }
 
-    public function shutdown(Event $event)
-    {
-        $this->_writeSession($event->subject());
-    }
-
-    public function beforeRedirect(Event $event)
-    {
-        $this->_writeSession();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function beforeRender(Event $event)
     {
         // write out the current user for access in the views
@@ -300,6 +266,8 @@ class CurrentUserComponent extends Component implements
     }
 
     /**
+     * Get user-model
+     *
      * @return UsersTable
      */
     public function getModel()
@@ -307,74 +275,55 @@ class CurrentUserComponent extends Component implements
         return $this->_User;
     }
 
-    public function hasBookmarked($entryId)
-    {
-        // @todo 3.0
-        return false;
-
-        return $this->_Bookmarks->isBookmarked($entryId);
-    }
-
-    /**
-     * write the settings to the session, so that they are available on next
-     * request
-     */
-    protected function _writeSession()
-    {
-        $controller = $this->_Controller;
-        // @todo 3.0 bogus
-        if ($controller->action !== 'logout' && $controller->Auth->user()):
-            $controller->request->session()->write(
-                'Auth.User',
-                $this->getSettings()
-            );
-        endif;
-    }
-
     /**
      * Configures the auth component
+     *
+     * @return void
      */
-    protected function _configureAuth()
+    protected function _setupAuth()
     {
-        $this->_Controller->Auth->config(
-            'authenticate',
-            [
-                AuthComponent::ALL => [
-                    'useModel' => 'Users',
-                    'contain' => false,
-                    'scope' => [
-                        // user has activated his account (e.g. email confirmation)
-                        'Users.activate_code' => 0,
-                        // user is not banned by admin or mod
-                        'Users.user_lock' => 0
-                    ]
-                ],
-                // 'Mlf' and 'Mlf2' could be 'Form' with different passwordHasher, but
-                // see: https://cakephp.lighthouseapp.com/projects/42648/tickets/3907-allow-multiple-passwordhasher-with-same-authenticate-class-in-auth-config#ticket-3907-1
-                'Mlf',
-                // mylittleforum 1 auth
-                'Mlf2',
-                // mylittleforum 2 auth
-                'Form' => ['passwordHasher' => 'Default']
-                // blowfish saito standard
-            ]
-        );
+        $all = [
+            'useModel' => 'Users',
+            'scope' => ['Users.activate_code' => 0, 'Users.user_lock' => 0]
+        ];
+        $auths = [AuthComponent::ALL => $all, 'Mlf', 'Mlf2', 'Form'];
+        $this->_Controller->Auth->config('authenticate', $auths);
         $this->_Controller->Auth->config('authorize', ['Controller']);
         $this->_Controller->Auth->config('loginAction', '/login');
         $this->_Controller->Auth->config('unauthorizedRedirect', '/login');
 
-        if ($this->isLoggedIn()):
+        if ($this->isLoggedIn()) {
             $this->_Controller->Auth->allow();
-        else:
+        } else {
             $this->_Controller->Auth->deny();
-        endif;
-
-        $this->_Controller->Auth->autoRedirect = false; // don't redirect after Auth->login()
-        $this->_Controller->Auth->allow(
-            'display'
-        ); // access to static pages in views/pages is allowed
-        $this->_Controller->Auth->authError = __('auth_autherror'); // l10n
+        }
+        $this->_Controller->Auth->config('authError', __('auth_autherror'));
     }
 
-}
+    /**
+     * {@inheritDoc}
+     */
+    public function startup()
+    {
+        $this->_validateUser();
+    }
 
+    /**
+     * Check if user is valid and handle logout if not.
+     *
+     * @return void
+     */
+    protected function _validateUser()
+    {
+        if (!$this->isLoggedIn()) {
+            return;
+        }
+        $valid = true;
+        $valid = $valid && !$this->isForbidden();
+        if (!$valid && $this->_Controller->action !== 'logout') {
+            $this->_Controller->redirect(
+                ['controller' => 'users', 'action' => 'logout']
+            );
+        }
+    }
+}

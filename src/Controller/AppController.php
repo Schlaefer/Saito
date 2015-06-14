@@ -2,51 +2,25 @@
 
 namespace App\Controller;
 
+use App\Controller\Component\CurrentUserComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-
 use Cake\I18n\I18n;
-use Cake\Network\Exception\ForbiddenException;
 use Cake\Routing\Router;
-use Cake\Utility\String;
+use Saito\App\Registry;
 use Saito\App\Settings;
 use Saito\Event\SaitoEventManager;
 use Saito\String\Properize;
-use Saito\User\Permission;
-use Saito\User\SaitoUser;
+use Saito\User\CurrentUser\CurrentUser;
 use \Stopwatch\Lib\Stopwatch;
-use Saito\App\Registry;
-use Saito\Exception\SaitoBlackholeException;
 
 class AppController extends Controller
 {
-
-    public $components = [
-//			 'DebugKit.Toolbar',
-
-        // Leave in front to catch all unauthorized access first
-        'Security',
-        // 'Auth',
-        // Leave in front to have it available in all Components
-        //'Detectors.Detectors',
-        /**
-         * You have to have Cookie before CurrentUser to have the salt initialized.
-         * Check by deleting Session cookie when persistent cookie is present.
-         *
-         * @td maybe bug in Cake, because Cookies should be initialized in CurrentUser's $components
-         */
-        'Cookie',
-        // CurrentUser
-        // 'CacheSupport',
-//			'Parser',
-//			'SaitoEmail',
-//			'EmailNotification',
-        // Enabling data view for rss/xml and json
-//			'RequestHandler',
-//			'Session',
-//			'Themes'
-    ];
+    /**
+     * @var CurrentUserComponent
+     */
+    public $CurrentUser;
 
     public $helpers = [
         'JsData',
@@ -56,7 +30,7 @@ class AppController extends Controller
         'SaitoHelp.SaitoHelp',
         'Stopwatch.Stopwatch',
         'TimeH',
-        'UserH',
+        'User',
         'Form',
         'Html',
         'Url'
@@ -70,30 +44,16 @@ class AppController extends Controller
     public $theme = 'Paz';
 
     /**
-     * S(l)idetabs used by the application
-     *
-     * @var array
-     */
-    public $installedSlidetabs = [
-        /*
-         * @todo 3.0
-        'slidetab_recentposts',
-        'slidetab_recententries',
-        */
-        'slidetab_userlist',
-        'slidetab_shoutbox'
-    ];
-
-    /**
      * @var bool show disclaimer in page footer
      */
     public $showDisclaimer = false;
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize()
     {
-        Stopwatch::start(
-            '---------------------- Controller ----------------------'
-        );
+        Stopwatch::start('------------------- Controller -------------------');
         Registry::initialize();
 
         if (!$this->request->is('requested')) {
@@ -105,41 +65,38 @@ class AppController extends Controller
 
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');
+        $this->loadComponent('Cookie');
         $this->loadComponent('Auth');
         $this->loadComponent('ActionAuthorization');
+        $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
+        // @todo 3.0 CSRF
+        //$this->loadComponent('Csrf', ['expiry' => time() + 10800]);
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
         $this->loadComponent('CurrentUser');
-        $this->loadComponent('Shouts');
         $this->loadComponent('JsData');
         $this->loadComponent('Parser');
         $this->loadComponent('SaitoEmail');
-        $this->loadComponent('EmailNotification');
+        $this->loadComponent('Slidetabs');
+        // @todo 3.0 Notif
+        //$this->loadComponent('EmailNotification');
         $this->loadComponent('Themes');
         $this->loadComponent('Flash');
         $this->loadComponent('Title');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function beforeFilter(Event $event)
     {
         Stopwatch::start('App->beforeFilter()');
 
         // must be called before CakeError early return
-        $this->Themes->theme(Configure::read('Saito.themes'));
+        $this->Themes->theme(Configure::read('Saito.themes'), $this->CurrentUser);
         $this->loadModel('Settings');
         $this->Settings->load(Configure::read('Saito.Settings'));
-
-        // CakeErrors run through this beforeFilter, which is usually not necessary
-        // for error messages
-        // @todo 3.0
-        if ($this->name === 'CakeError') {
-            return;
-        }
-
-        $this->Security->blackHoleCallback = 'blackhole';
-        $this->Security->csrfUseOnce = false;
-        $this->Security->csrfExpires = '+3 hours';
 
         // activate stopwatch in debug mode
         $this->set('showStopwatchOutput', false);
@@ -158,12 +115,9 @@ class AppController extends Controller
             !$this->CurrentUser->permission('saito.core.admin.backend')
         ) {
             $this->Themes->setDefault();
-
-            return $this->render('/Pages/forum_disabled', 'barebone');
+            $this->render('/Pages/forum_disabled', 'barebone');
             exit;
         }
-
-        $this->_setupSlideTabs();
 
         $this->_setConfigurationFromGetParams();
 
@@ -180,31 +134,25 @@ class AppController extends Controller
         Stopwatch::stop('App->beforeFilter()');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function beforeRender(Event $event)
     {
         Stopwatch::start('App->beforeRender()');
-
-        if ($this->showDisclaimer) {
-            $this->_showDisclaimer();
-        }
-
         $this->set(
             'SaitoSettings',
             new Settings(Configure::read('Saito.Settings'))
         );
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
 
+        $this->set('showDisclaimer', $this->showDisclaimer);
         $this->set('lastAction', $this->localReferer('action'));
         $this->set('lastController', $this->localReferer('controller'));
         $this->set('isDebug', (int)Configure::read('debug') > 0);
-        $this->_setLayoutTitles();
-
-        $this->_setXFrameOptionsHeader();
 
         Stopwatch::stop('App->beforeRender()');
-        Stopwatch::start(
-            '---------------------- Rendering ---------------------- '
-        );
+        Stopwatch::start('------------------- Rendering --------------------');
     }
 
     /**
@@ -213,6 +161,8 @@ class AppController extends Controller
      * - theme=<foo>
      * - stopwatch:true
      * - lang:<lang_id>
+     *
+     * @return void
      */
     protected function _setConfigurationFromGetParams()
     {
@@ -226,9 +176,8 @@ class AppController extends Controller
         }
 
         //= activate stopwatch
-        if (isset($this->request->query['stopwatch']) && Configure::read(
-                'Saito.Settings.stopwatch_get'
-            )
+        if (isset($this->request->query['stopwatch'])
+            && Configure::read('Saito.Settings.stopwatch_get')
         ) {
             $this->set('showStopwatchOutput', true);
         };
@@ -241,99 +190,10 @@ class AppController extends Controller
     }
 
     /**
-     * sets layout/title/page vars
+     * Handle request-blackhole.
      *
-     * @td helper?
-     */
-    protected function _setLayoutTitles()
-    {
-        $_pageTitle = $this->_setPageTitle();
-        $_forumName = $this->_setForumName();
-        $this->_setForumTitle($_pageTitle, $_forumName);
-    }
-
-    /**
-     * Sets forum name according to forum settings if not already set
-     *
-     * @return string
-     */
-    protected function _setForumName()
-    {
-        if (isset($this->viewVars['forum_name'])) {
-            return $this->viewVars['forum_name'];
-        }
-        $_forumName = Configure::read('Saito.Settings.forum_name');
-        $this->set('forum_name', $_forumName);
-
-        return $_forumName;
-    }
-
-    /**
-     * Sets forum title `<page> - <forum>`
-     *
-     * @param string $pageTitle
-     * @param string $forumName
-     * @return string
-     */
-    protected function _setForumTitle($pageTitle, $forumName)
-    {
-        $_forumTitle = $pageTitle;
-        if (!empty($forumName)) {
-            $_forumTitle = String::insert(
-                __('forum-title-template'),
-                ['page' => $pageTitle, 'forum' => $forumName]
-            );
-        }
-        $this->set('title_for_layout', $_forumTitle);
-
-        return $_forumTitle;
-    }
-
-    /**
-     * Sets page title
-     *
-     * Looks in this order for:
-     * 1. title_for_page
-     * 2. title_for_layout
-     * 3. `page_titles.po` language file with 'controller/view' title,
-     *        use plural for for controller title: 'entries/index' (not
-     * 'entry/index')!
-     *
-     * @return string
-     */
-    protected function _setPageTitle()
-    {
-        if (isset($this->viewVars['title_for_page'])) {
-            $_pageTitle = $this->viewVars['title_for_page'];
-        } elseif (isset($this->viewVars['title_for_layout'])) {
-            // provides CakePHP backwards-compatibility
-            $_pageTitle = $this->viewVars['title_for_layout'];
-        } elseif ($this->name === 'CakeError') {
-            $_pageTitle = '';
-        } else {
-            $_pageTitle = __d(
-                'page_titles',
-                $this->params['controller'] . '/' . $this->params['action']
-            );
-        }
-        $this->set('title_for_page', $_pageTitle);
-
-        return $_pageTitle;
-    }
-
-    protected function _setXFrameOptionsHeader()
-    {
-        $xFO = Configure::read('Saito.X-Frame-Options');
-        if (empty($xFO)) {
-            $xFO = 'SAMEORIGIN';
-        }
-        $this->response->header('X-Frame-Options', $xFO);
-    }
-
-    /**
-     *
-     *
-     * @param $type
+     * @param string $type type
+     * @return void
      * @throws \Saito\Exception\SaitoBlackholeException
      */
     public function blackhole($type)
@@ -363,68 +223,26 @@ class AppController extends Controller
                 return 'entries';
             }
         }
-
         return $referer;
     }
 
     /**
-     * Setup which slidetabs are available and user sorting
-     *
-     * @throws ForbiddenException
-     */
-    protected function _setupSlideTabs()
-    {
-        $slidetabs = $this->installedSlidetabs;
-
-        if (!empty($this->CurrentUser['slidetab_order'])) {
-            $slidetabsUser = unserialize($this->CurrentUser['slidetab_order']);
-            // disabled tabs still set in user-prefs are unset
-            $slidetabsUser = array_intersect(
-                $slidetabsUser,
-                $this->installedSlidetabs
-            );
-            // new tabs not set in user-prefs are added
-            $slidetabs = array_unique(
-                array_merge($slidetabsUser, $this->installedSlidetabs)
-            );
-        }
-        if (Configure::read('Saito.Settings.shoutbox_enabled') == false) {
-            unset($slidetabs[array_search('slidetab_shoutbox', $slidetabs)]);
-        }
-        $this->set('slidetabs', $slidetabs);
-    }
-
-    /**
      * manually require auth and redirect cycle
+     *
+     * @return void
      */
     protected function _requireAuth()
     {
         $this->Flash->set(__('auth_autherror'), ['element' => 'warning']);
         $here = $this->request->here(false);
         $this->Auth->redirectUrl($here);
-        $this->redirect(['controller' => 'Users', 'action' => 'login']);
-    }
-
-    /**
-     * Shows the disclaimer in the layout
-     */
-    protected function _showDisclaimer()
-    {
-        $this->set('showDisclaimer', true);
-    }
-
-    /**
-     * show Slidetabs in layout
-     */
-    protected function _showSlidetabs()
-    {
-        if ($this->CurrentUser->isLoggedIn()) {
-            $this->set('showSlidetabs', true);
-        }
+        $this->redirect(['controller' => 'Users', 'action' => 'login', 'plugin' => false]);
     }
 
     /**
      * sets l10n .ctp file if available
+     *
+     * @return void
      */
     protected function _l10nRenderFile()
     {
@@ -432,22 +250,22 @@ class AppController extends Controller
         I18n::locale($locale);
         $l10nViewPath = $this->viewPath . DS . $locale;
         $l10nViewFile = $l10nViewPath . DS . $this->view . '.ctp';
-        if ($locale && file_exists(APP . 'Template' . DS . $l10nViewFile)
-        ) {
+        if ($locale && file_exists(APP . 'Template' . DS . $l10nViewFile)) {
             $this->viewPath = $l10nViewPath;
         }
     }
 
     /**
-     * @param $user
+     * Check if user is authorized.
+     *
+     * @param array $user Session.Auth
      * @return bool
      */
-    public function isAuthorized($user)
+    public function isAuthorized(array $user)
     {
-        $user = new SaitoUser($user);
+        $user = new CurrentUser($user);
         $action = $this->request->action;
 
         return $this->ActionAuthorization->isAuthorized($user, $action);
     }
-
 }

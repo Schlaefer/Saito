@@ -31,7 +31,7 @@ $this->Html->addCrumb(__('Users'), '/admin/users');
 						. $this->Html->link($user->get('username'),
 								"/users/view/{$user->get('id')}")
 						. '</strong>',
-						$this->UserH->type($user->get('user_type')),
+						$this->User->type($user->get('user_type')),
 						$this->Html->link(
 								$user->get('user_email'),
 								'mailto:' . $user->get('user_email')
@@ -43,7 +43,7 @@ $this->Html->addCrumb(__('Users'), '/admin/users');
 				];
 				if ($blockUi) {
 					// without the &nbsp; the JS-sorting with the datatables plugin doesn't work
-					$tableCells[] = $this->UserH->banned($user->get('user_lock')) . '&nbsp;';
+					$tableCells[] = $this->User->banned($user->get('user_lock')) . '&nbsp;';
 				}
 				echo $this->Html->tableCells(
 						[$tableCells],

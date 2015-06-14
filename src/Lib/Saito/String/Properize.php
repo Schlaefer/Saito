@@ -7,14 +7,22 @@ class Properize
 
     static protected $lang;
 
+    /**
+     * Set language
+     *
+     * @param string $language language
+     * @return void
+     */
     public static function setLanguage($language)
     {
         static::$lang = $language;
     }
 
     /**
-     * @param $string word to properize
-     * @param string $language
+     * Properize
+     *
+     * @param string $string word to properize
+     * @param string $language language
      * @throws \InvalidArgumentException
      * @return mixed $string
      */
@@ -24,24 +32,40 @@ class Properize
             $language = static::$lang;
         }
         $language = explode('_', $language);
-        $_method = 'properize' . ucfirst(reset($language));
+        $_method = '_properize' . ucfirst(reset($language));
         if (!method_exists(get_class(), $_method)) {
-            throw new \InvalidArgumentException("Properize: unknown language '$language'");
+            throw new \InvalidArgumentException(
+                "Properize: unknown language '$language'"
+            );
         }
+
         return static::$_method($string);
     }
 
-    protected static function properizeEn($string)
+    /**
+     * Properize english
+     *
+     * @param string $string string
+     * @return string
+     */
+    protected static function _properizeEn($string)
     {
         $suffix = '’s';
         $apo = ['S' => 1, 's' => 1];
         if (isset($apo[mb_substr($string, -1)])) {
             $suffix = '’';
         }
+
         return $string . $suffix;
     }
 
-    protected static function properizeDe($string)
+    /**
+     * Properize german
+     *
+     * @param string $string string
+     * @return string
+     */
+    protected static function _properizeDe($string)
     {
         $suffix = 's';
         $apo = ['S' => 1, 's' => 1, 'ß' => 1, 'x' => 1, 'z' => 1];
@@ -56,5 +80,4 @@ class Properize
 
         return $string . $suffix;
     }
-
 }

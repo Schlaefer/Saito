@@ -77,5 +77,4 @@ class SimpleSearchStringTest extends SaitoTestCase
         $result = $S->validateLength();
         $this->assertTrue($result);
     }
-
 }

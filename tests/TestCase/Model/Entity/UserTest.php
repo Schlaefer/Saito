@@ -1,29 +1,31 @@
 <?php
 
-	namespace App\Test\TestCase\Entity;
+namespace App\Test\TestCase\Entity;
 
-	use App\Model\Entity\User;
-	use Cake\ORM\TableRegistry;
-	use Cake\TestSuite\TestCase;
+use App\Model\Entity\User;
+use Cake\ORM\TableRegistry;
+use Saito\Test\SaitoTestCase;
 
-	class UserTest extends TestCase {
+class UserTest extends SaitoTestCase
+{
 
-		public $fixtures = ['app.entry', 'app.user'];
+    public $fixtures = ['app.category', 'app.user'];
 
-		public function testNumberOfPostings() {
-			$Users = TableRegistry::get('Users');
+    public function testNumberOfPostings()
+    {
+        $Users = TableRegistry::get('Users');
 
-			//= zero entries
-			$user = $Users->get(4);
-			$expected = 0;
-			$result = $user->numberOfPostings();
-			$this->assertEquals($expected, $result);
+        //= zero entries
+        $user = $Users->get(4);
+        $expected = 0;
+        $result = $user->numberOfPostings();
+        $this->assertEquals($expected, $result);
 
-			//= multiple entries
-			$user = $Users->get(3);
-			$expected = 7;
-			$result = $user->numberOfPostings();
-			$this->assertEquals($expected, $result);
-		}
-
-	}
+        //= multiple entries
+        $Users->updateAll(['entry_count' => 101], ['id' => 3]);
+        $user = $Users->get(3);
+        $expected = 101;
+        $result = $user->numberOfPostings();
+        $this->assertEquals($expected, $result);
+    }
+}

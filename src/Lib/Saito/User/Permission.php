@@ -55,14 +55,15 @@ class Permission
      */
     public function __construct()
     {
-        $this->bootstrap();
+        $this->_bootstrap();
     }
 
     /**
      * allow resource
      *
-     * @param $role
-     * @param $resource
+     * @param string $role role
+     * @param string $resource resource
+     * @return void
      */
     public function allow($role, $resource)
     {
@@ -72,8 +73,9 @@ class Permission
     /**
      * disallow resource
      *
-     * @param $role
-     * @param $resource
+     * @param string $role role
+     * @param string $resource resource
+     * @return void
      */
     public function disallow($role, $resource)
     {
@@ -81,69 +83,73 @@ class Permission
     }
 
     /**
-     * check if access to resource is allowed
+     * Check if access to resource is allowed.
      *
-     * @param $role
-     * @param $resource
+     * @param string $role role
+     * @param string $resource resource
      * @return bool
      */
     public function check($role, $resource)
     {
-        Stopwatch::start('Permission::check()');
-        $check = false;
-        $roles = $this->getRoles($role);
-
+        $roles = $this->_getRoles($role);
         if (!empty($roles)) {
             foreach ($roles as $role) {
                 if (isset($this->resources[$resource][$role])) {
-                    $check = true;
-                    break;
+                    return true;
                 }
             }
         }
-        Stopwatch::stop('Permission::check()');
-
-        return $check;
+        return false;
     }
 
     /**
      * resolves role and add groups
      *
-     * @param $role
+     * @param string $role role
      * @return mixed
      */
-    protected function getRoles($role)
+    protected function _getRoles($role)
     {
         $key = 'saito.core.permission.' . $role;
 
-        return $this->rememberStatic($key, function () use ($role) {
-            if ($this->groups[$role] === true) {
-                return [$role];
-            } elseif (is_array($this->groups[$role])) {
-                $roles = [$role];
-                foreach ($this->groups[$role] as $role) {
-                    $roles = array_merge($roles, $this->getRoles($role));
+        return $this->rememberStatic(
+            $key,
+            function () use ($role) {
+                if (!isset($this->groups[$role])) {
+                    return false;
+                }
+                if ($this->groups[$role] === true) {
+                    return [$role];
+                } elseif (is_array($this->groups[$role])) {
+                    $roles = [$role];
+                    foreach ($this->groups[$role] as $role) {
+                        $roles = array_merge($roles, $this->_getRoles($role));
+                    }
+
+                    return $roles;
                 }
 
-                return $roles;
+                return false;
             }
-
-            return false;
-        });
+        );
     }
 
     /**
      * bootstrap resources
+     *
+     * @return void
      */
-    protected function bootstrap()
+    protected function _bootstrap()
     {
         Stopwatch::start('Permission::__construct()');
-        $this->resources = Cache::remember('saito.core.permission.resources',
+        $this->resources = Cache::remember(
+            'saito.core.permission.resources',
             function () {
-                $this->bootstrapCategories();
+                $this->_bootstrapCategories();
 
                 return $this->resources;
-            });
+            }
+        );
         Stopwatch::stop('Permission::__construct()');
     }
 
@@ -151,8 +157,10 @@ class Permission
      * convert category-accessions and insert them as resources
      *
      * `saito.core.category.<category-ID>.<action>`
+     *
+     * @return void
      */
-    protected function bootstrapCategories()
+    protected function _bootstrapCategories()
     {
         $Categories = TableRegistry::get('Categories');
         $categories = $Categories->getAllCategories();
@@ -165,11 +173,10 @@ class Permission
         foreach ($categories as $category) {
             foreach ($actions as $action => $field) {
                 $role = $accessions[$category->get($field)];
-                $resource = 'saito.core.category.' . $category->get('id') . '.' . $action;
+                $categoryId = $category->get('id');
+                $resource = "saito.core.category.{$categoryId}.{$action}";
                 $this->allow($role, $resource);
             }
         }
     }
-
-
 }

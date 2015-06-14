@@ -34,29 +34,47 @@ class ContactsControllerTestCase extends IntegrationTestCase
         $transproter
             ->expects($this->at(0))
             ->method('send')
-            ->with($this->callback(function (Email $email) {
-                $this->assertEquals($email->from(),
-                    ['system@example.com' => 'macnemo']);
-                $this->assertEquals($email->to(),
-                    ['fo3@example.com' => 'fo3@example.com']);
-                $this->assertEmpty($email->sender());
+            ->with(
+                $this->callback(
+                    function (Email $email) {
+                        $this->assertEquals(
+                            $email->from(),
+                            ['system@example.com' => 'macnemo']
+                        );
+                        $this->assertEquals(
+                            $email->to(),
+                            ['fo3@example.com' => 'fo3@example.com']
+                        );
+                        $this->assertEmpty($email->sender());
 
-                return true;
-            }));
+                        return true;
+                    }
+                )
+            );
         // main mail
         $transproter
             ->expects($this->at(1))
             ->method('send')
-            ->with($this->callback(function (Email $email) {
-                $this->assertEquals($email->from(),
-                    ['fo3@example.com' => 'fo3@example.com']);
-                $this->assertEquals($email->to(),
-                    ['contact@example.com' => 'macnemo']);
-                $this->assertEquals($email->sender(),
-                    ['system@example.com' => 'macnemo']);
+            ->with(
+                $this->callback(
+                    function (Email $email) {
+                        $this->assertEquals(
+                            $email->from(),
+                            ['fo3@example.com' => 'fo3@example.com']
+                        );
+                        $this->assertEquals(
+                            $email->to(),
+                            ['contact@example.com' => 'macnemo']
+                        );
+                        $this->assertEquals(
+                            $email->sender(),
+                            ['system@example.com' => 'macnemo']
+                        );
 
-                return true;
-            }));
+                        return true;
+                    }
+                )
+            );
         $this->post('/contacts/owner', $data);
     }
 
@@ -123,18 +141,31 @@ class ContactsControllerTestCase extends IntegrationTestCase
         $transproter
             ->expects($this->at(0))
             ->method('send')
-            ->with($this->callback(function (Email $email) {
-                $this->assertEquals($email->from(),
-                    ['fo3@example.com' => 'fo3@example.com']);
-                $this->assertEquals($email->to(),
-                    ['contact@example.com' => 'macnemo']);
-                $this->assertEquals($email->sender(),
-                    ['system@example.com' => 'macnemo']);
-                $this->assertContains('message-text', $email->message('text'));
-                $this->assertEquals($email->subject(), 'subject');
+            ->with(
+                $this->callback(
+                    function (Email $email) {
+                        $this->assertEquals(
+                            $email->from(),
+                            ['fo3@example.com' => 'fo3@example.com']
+                        );
+                        $this->assertEquals(
+                            $email->to(),
+                            ['contact@example.com' => 'macnemo']
+                        );
+                        $this->assertEquals(
+                            $email->sender(),
+                            ['system@example.com' => 'macnemo']
+                        );
+                        $this->assertContains(
+                            'message-text',
+                            $email->message('text')
+                        );
+                        $this->assertEquals($email->subject(), 'subject');
 
-                return true;
-            }));
+                        return true;
+                    }
+                )
+            );
 
         $data = [
             'sender_contact' => 'fo3@example.com',
@@ -159,16 +190,26 @@ class ContactsControllerTestCase extends IntegrationTestCase
         $transproter
             ->expects($this->at(0))
             ->method('send')
-            ->with($this->callback(function (Email $email) {
-                $this->assertEquals($email->from(),
-                    ['ulysses@example.com' => 'Ulysses']);
-                $this->assertEquals($email->to(),
-                    ['contact@example.com' => 'macnemo']);
-                $this->assertEquals($email->sender(),
-                    ['system@example.com' => 'macnemo']);
+            ->with(
+                $this->callback(
+                    function (Email $email) {
+                        $this->assertEquals(
+                            $email->from(),
+                            ['ulysses@example.com' => 'Ulysses']
+                        );
+                        $this->assertEquals(
+                            $email->to(),
+                            ['contact@example.com' => 'macnemo']
+                        );
+                        $this->assertEquals(
+                            $email->sender(),
+                            ['system@example.com' => 'macnemo']
+                        );
 
-                return true;
-            }));
+                        return true;
+                    }
+                )
+            );
 
         $data = [
             // should be ignored
@@ -190,7 +231,9 @@ class ContactsControllerTestCase extends IntegrationTestCase
     public function testContactUserByUserNoId()
     {
         $this->_loginUser(3);
-        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->setExpectedException(
+            '\Cake\Network\Exception\BadRequestException'
+        );
         $this->get('/contacts/user/');
     }
 
@@ -214,15 +257,18 @@ class ContactsControllerTestCase extends IntegrationTestCase
     public function testContactUserContactDisabled()
     {
         $this->_loginUser(2);
-        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->setExpectedException(
+            '\Cake\Network\Exception\BadRequestException'
+        );
         $this->get('/contacts/user/5');
     }
 
     public function testContactUserWhoDoesNotExist()
     {
         $this->_loginUser(2);
-        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->setExpectedException(
+            '\Cake\Network\Exception\BadRequestException'
+        );
         $this->get('/contacts/user/9999');
     }
-
 }

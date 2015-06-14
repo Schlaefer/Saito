@@ -138,98 +138,34 @@ class SaitoUserTest extends SaitoTestCase
         $this->assertEquals('admin', $result);
     }
 
-    public function testGetMaxAccession()
-    {
-        //# anon
-        $user = null;
-        $this->SaitoUser->setSettings($user);
-        $result = $this->SaitoUser->getMaxAccession();
-        $this->assertEquals(0, $result);
-
-        //# user
-        $user = array(
-            'id' => '2',
-            'user_type' => 'user',
-        );
-        $this->SaitoUser->setSettings($user);
-        $result = $this->SaitoUser->getMaxAccession();
-        $this->assertEquals(1, $result);
-
-        //# initialize with real user
-        $user = array(
-            'id' => '2',
-            'user_type' => 'mod',
-        );
-        $this->SaitoUser->setSettings($user);
-        $result = $this->SaitoUser->getMaxAccession();
-        $this->assertEquals(2, $result);
-
-        //# admin
-        $user = array(
-            'id' => '2',
-            'user_type' => 'admin',
-        );
-        $this->SaitoUser->setSettings($user);
-        $result = $this->SaitoUser->getMaxAccession();
-        $this->assertEquals(3, $result);
-    }
-
-    public function testIsSame()
+    public function testIsUser()
     {
         $current = ['id' => 2];
         $this->SaitoUser->setSettings($current);
 
         //# test
+        $false = new SaitoUser(['id' => 1]);
+        $true = new SaitoUser(['id' => 2]);
         $tests = [
             ['in' => 1, 'expected' => false],
             ['in' => 2, 'expected' => true],
             ['in' => '1', 'expected' => false],
             ['in' => '2', 'expected' => true],
-            ['in' => ['id' => 1], 'expected' => false],
-            ['in' => ['id' => 2], 'expected' => true],
-            ['in' => ['id' => '1'], 'expected' => false],
-            ['in' => ['id' => '2'], 'expected' => true],
-            ['in' => ['User' => ['id' => 1]], 'expected' => false],
-            ['in' => ['User' => ['id' => 2]], 'expected' => true],
-            ['in' => ['User' => ['id' => '1']], 'expected' => false],
-            ['in' => ['User' => ['id' => '2']], 'expected' => true],
+            ['in' => $false, 'expected' => false],
+            ['in' => $true, 'expected' => true],
         ];
         foreach ($tests as $test) {
-            $result = $this->SaitoUser->isSame($test['in']);
+            $result = $this->SaitoUser->isUser($test['in']);
             $this->assertEquals($test['expected'], $result);
         }
     }
 
-    public function testArrayAccessors()
+    public function testSetter()
     {
-        $user = [
-            'id' => '2',
-            'user_type' => 'user',
-        ];
+        $user = ['id' => '2', 'user_type' => 'user'];
         $this->SaitoUser->setSettings($user);
-
-        $this->SaitoUser['foo'] = 'bar';
-        $this->assertEquals($this->SaitoUser['foo'], 'bar');
-
-        $this->assertTrue(isset($this->SaitoUser['foo']));
-        unset($this->SaitoUser['foo']);
-        $this->assertFalse(isset($this->SaitoUser['foo']));
-    }
-
-    public function testmockUserType()
-    {
-        $user = [
-            'id' => '2',
-            'user_type' => 'admin',
-        ];
-        $expected = [
-            'id' => '2',
-            'user_type' => 'user',
-        ];
-        $this->SaitoUser->setSettings($user);
-        $result = $this->SaitoUser->mockUserType('user');
-        $this->SaitoUser->setSettings($expected);
-        $this->assertEquals($this->SaitoUser, $result);
+        $this->SaitoUser->set('foo', 'bar');
+        $this->assertEquals($this->SaitoUser->get('foo'), 'bar');
     }
 
     public function setUp()
@@ -243,5 +179,4 @@ class SaitoUserTest extends SaitoTestCase
         parent::tearDown();
         unset($this->SaitoUser);
     }
-
 }

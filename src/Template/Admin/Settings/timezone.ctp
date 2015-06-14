@@ -8,13 +8,11 @@
 						'class' => 'well'
 					]
 				);
-				echo $this->Form->select(
-						'value',
-						$this->TimeH->timezoneOptions(),
-						[
-							'label' => __($setting->get('name')),
-						]
-				);
+                echo $this->Form->select(
+                    'value',
+                    $this->TimeH->getTimezoneSelectOptions(),
+                    ['label' => __($setting->get('name'))]
+                );
 				echo $this->Form->submit(
 						null,
 						[

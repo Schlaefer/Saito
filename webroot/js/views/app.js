@@ -92,7 +92,8 @@ define([
     _initAnsweringNotInlined: function(element) {
       this.answeringForm = new AnsweringView({
         el: element,
-        model: new PostingModel({id: 'foo'})
+        model: new PostingModel({id: 'foo'}),
+        ajax: false
       });
     },
 

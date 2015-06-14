@@ -41,6 +41,14 @@ use Cake\Routing\Router;
  */
 Router::defaultRouteClass('Route');
 
+Router::scope('/entries', function ($routes) {
+    $routes->extensions(['json']);
+    $routes->connect(
+        '/threadLine/*',
+        ['controller' => 'Entries', 'action' => 'threadLine']
+    );
+});
+
 Router::scope('/', function ($routes) {
     /**
  * Here, we are connecting '/' (base path) to a controller called 'Pages',

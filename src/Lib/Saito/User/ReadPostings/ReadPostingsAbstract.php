@@ -29,6 +29,12 @@ abstract class ReadPostingsAbstract
      */
     protected $readPostings = null;
 
+    /**
+     * Constructor.
+     *
+     * @param CurrentUserComponent $CurrentUser current-user
+     * @param mixed $storage $storage
+     */
     public function __construct(
         CurrentuserComponent $CurrentUser,
         $storage = null
@@ -40,8 +46,9 @@ abstract class ReadPostingsAbstract
     /**
      * sets entry/entries as read for the current user
      *
-     * @param $postings array single ['Entry' => []] or multiple [0 =>
+     * @param array $postings single ['Entry' => []] or multiple [0 =>
      *     ['Entry' => …]
+     * @return void
      */
     abstract public function set($postings);
 
@@ -51,34 +58,40 @@ abstract class ReadPostingsAbstract
      * if timestamp is provided it is checked against user's last refresh
      * time
      *
-     * @param int $id
+     * @param int $id posting-ID
      * @param mixed $timestamp unix timestamp or timestamp string
      * @return bool
      */
     public function isRead($id, $timestamp = null)
     {
-        if ($timestamp !== null && $this->LastRefresh->isNewerThan($timestamp)) {
+        if ($timestamp !== null
+            && $this->LastRefresh->isNewerThan($timestamp)
+        ) {
             return true;
         }
 
         if ($this->readPostings === null) {
-            $this->get();
+            $this->_get();
         }
+
         return isset($this->readPostings[$id]);
     }
 
     /**
      * delete all read entries for the current user
+     *
+     * @return void
      */
     abstract public function delete();
 
     /**
+     * Prepare postings for save.
      *
-     * @param $postings
+     * @param Posting|array $postings postings
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function prepareForSave($postings)
+    protected function _prepareForSave($postings)
     {
         // wrap single posting
         if ($postings instanceof Posting) {
@@ -106,6 +119,5 @@ abstract class ReadPostingsAbstract
      *
      * @return array
      */
-    abstract protected function get();
-
+    abstract protected function _get();
 }

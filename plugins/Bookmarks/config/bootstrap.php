@@ -1,6 +1,6 @@
 <?php
 
-	use Saito\Event\SaitoEventManager;
-	use Bookmarks\Lib\MenuRenderer;
+use Bookmarks\Lib\MenuRenderer;
+use Saito\Event\SaitoEventManager;
 
-	SaitoEventManager::getInstance()->attach(new MenuRenderer());
+SaitoEventManager::getInstance()->attach(new MenuRenderer());

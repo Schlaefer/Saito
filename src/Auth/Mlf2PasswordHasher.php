@@ -11,6 +11,9 @@ use Cake\Utility\Text;
  */
 class Mlf2PasswordHasher extends AbstractPasswordHasher
 {
+    /**
+     * {@inheritDoc}
+     */
     public function hash($password)
     {
         // compare to includes/functions.inc.php generate_pw_hash() mlf 2.3
@@ -21,6 +24,12 @@ class Mlf2PasswordHasher extends AbstractPasswordHasher
         return $hashWithSalt;
     }
 
+    /**
+     * Generate random string
+     *
+     * @param int $maxLength maximum length
+     * @return string
+     */
     protected static function _generateRandomString($maxLength = null)
     {
         $string = Security::hash(Text::uuid());
@@ -31,6 +40,9 @@ class Mlf2PasswordHasher extends AbstractPasswordHasher
         return $string;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function check($password, $hash)
     {
         $out = false;

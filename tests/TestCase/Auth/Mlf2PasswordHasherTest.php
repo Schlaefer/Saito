@@ -32,5 +32,4 @@ class Mlf2PasswordHasherTest extends SaitoTestCase
 
         $this->assertFalse($this->Hasher->check(mt_rand(1, 99999), $hash));
     }
-
 }

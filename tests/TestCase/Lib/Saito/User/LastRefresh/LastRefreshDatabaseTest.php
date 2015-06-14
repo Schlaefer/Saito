@@ -53,8 +53,14 @@ class LastRefreshDatabaseTest extends SaitoTestCase
         $this->CurrentUser->setSettings($userData);
 
         $this->assertNull($this->LastRefresh->isNewerThan(time()));
-        $this->assertNull($this->LastRefresh->isNewerThan(date('Y-m-d h:i:s',
-            time())));
+        $this->assertNull(
+            $this->LastRefresh->isNewerThan(
+                date(
+                    'Y-m-d h:i:s',
+                    time()
+                )
+            )
+        );
     }
 
     /**
@@ -68,8 +74,14 @@ class LastRefreshDatabaseTest extends SaitoTestCase
         $this->CurrentUser->setSettings($userData);
 
         $this->assertTrue($this->LastRefresh->isNewerThan($time));
-        $this->assertTrue($this->LastRefresh->isNewerThan(date('Y-m-d H:i:s',
-            $time)));
+        $this->assertTrue(
+            $this->LastRefresh->isNewerThan(
+                date(
+                    'Y-m-d H:i:s',
+                    $time
+                )
+            )
+        );
     }
 
     /**
@@ -83,8 +95,13 @@ class LastRefreshDatabaseTest extends SaitoTestCase
         $this->CurrentUser->setSettings($userData);
 
         $this->assertFalse($this->LastRefresh->isNewerThan($time));
-        $this->assertFalse($this->LastRefresh->isNewerThan(date('Y-m-d H:i:s',
-            $time)));
+        $this->assertFalse(
+            $this->LastRefresh->isNewerThan(
+                date(
+                    'Y-m-d H:i:s',
+                    $time
+                )
+            )
+        );
     }
-
 }

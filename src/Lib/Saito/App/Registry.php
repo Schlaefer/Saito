@@ -1,37 +1,78 @@
 <?php
 
-	namespace Saito\App;
+namespace Saito\App;
 
-	use Cron\Lib\Cron;
-    use Saito\User\Permission;
+use Aura\Di\Container;
+use Cron\Lib\Cron;
+use Saito\User\Permission;
 
-    class Registry {
+/**
+ * Global registry for Saito app.
+ *
+ * @package Saito\App
+ */
+class Registry
+{
 
-		/**
-		 * @var \Aura\Di\Container;
-		 */
-		static protected $_DIC;
+    /**
+     * @var Container;
+     */
+    static protected $_DIC;
 
-		public static function initialize() {
-			$dic = new \Aura\Di\Container(new \Aura\Di\Factory);
-            $dic->set('Cron', new Cron());
-            $dic->set('Permission', new Permission());
-            $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
-			$dic->params['\Saito\Posting\Posting']['CurrentUser'] = $dic->lazyGet('CU');
-			self::$_DIC = $dic;
-			return $dic;
-		}
+    /**
+     * Initialize
+     *
+     * @return Container
+     */
+    public static function initialize()
+    {
+        $dic = new Container(new \Aura\Di\Factory);
+        $dic->set('Cron', new Cron());
+        $dic->set('Permission', new Permission());
+        $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
+        $dic->params['\Saito\Posting\Posting']['CurrentUser'] = $dic->lazyGet(
+            'CU'
+        );
+        self::$_DIC = $dic;
+        return $dic;
+    }
 
-		public static function set($key, $object) {
-			self::$_DIC->set($key, $object);
-		}
+    /**
+     * Set object
+     *
+     * @param string $key $key
+     * @param object $object object
+     * @return void
+     */
+    public static function set($key, $object)
+    {
+        self::$_DIC->set($key, $object);
+    }
 
-		public static function get($key) {
-			return self::$_DIC->get($key);
-		}
+    /**
+     * Get object
+     *
+     * @param string $key key
+     * @return object
+     */
+    public static function get($key)
+    {
+        return self::$_DIC->get($key);
+    }
 
-		public static function newInstance($key, array $params = [], array $setter = []) {
-			return self::$_DIC->newInstance($key, $params, $setter);
-		}
-
-	}
+    /**
+     * Get new instance
+     *
+     * @param string $key $key
+     * @param array $params params
+     * @param array $setter setter
+     * @return object
+     */
+    public static function newInstance(
+        $key,
+        array $params = [],
+        array $setter = []
+    ) {
+        return self::$_DIC->newInstance($key, $params, $setter);
+    }
+}

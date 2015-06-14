@@ -1,17 +1,28 @@
 <?php
 
-	namespace Saito\User\Userlist;
+namespace Saito\User\Userlist;
 
-	class UserlistArray implements UserlistInterface {
+class UserlistArray implements UserlistInterface
+{
 
-		protected $_userlist = [];
+    protected $_userlist = [];
 
-		public function set($userlist) {
-			$this->_userlist = $userlist;
-		}
+    /**
+     * Set userlist
+     *
+     * @param array $userlist user-list
+     * @return void
+     */
+    public function set($userlist)
+    {
+        $this->_userlist = $userlist;
+    }
 
-		public function get() {
-			return $this->_userlist;
-		}
-
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function get()
+    {
+        return $this->_userlist;
+    }
+}

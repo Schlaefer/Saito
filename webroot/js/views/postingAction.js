@@ -65,7 +65,7 @@ define([
     _sendToggle: function(key) {
       var id = this.model.get('id');
       var $title = this.$(this.ui['title' + _.startCase(key)]);
-      var url = App.settings.get('webroot') + '/entries/ajax_toggle/' + id + '/' + key;
+      var url = App.settings.get('webroot') + '/entries/ajaxToggle/' + id + '/' + key;
       $.ajax({url: url, buffer: false})
         .done(function(data) {
           $title.html(data.html);

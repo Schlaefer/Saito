@@ -5,28 +5,41 @@ namespace App\Controller;
 use App\Controller\Component\CurrentUserComponent;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\I18n\Time;
 use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\RequestActionTrait;
+use Cake\View\Helper\IdGeneratorTrait;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\User\ForumsUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
+/**
+ * Class EntriesController
+ *
+ * @package App\Controller
+ */
 class EntriesController extends AppController
 {
 
+    use IdGeneratorTrait;
     use RequestActionTrait;
 
     public $helpers = ['MarkitupEditor', 'Posting', 'Shouts', 'Text'];
 
     public $actionAuthConfig = [
-        'ajax_toggle' => 'mod',
+        'ajaxToggle' => 'mod',
         'merge' => 'mod',
         'delete' => 'mod'
     ];
+
+    /**
+     * @var array of postings that are read after this request
+     */
+    protected $_marPostings;
 
     /**
      * posting index
@@ -37,27 +50,25 @@ class EntriesController extends AppController
     {
         Stopwatch::start('Entries->index()');
 
-        $this->_prepareSlidetabData();
-
         //= determine user sort order
         $sortKey = 'last_answer';
-        if (!$this->CurrentUser['user_sort_last_answer']) {
+        if (!$this->CurrentUser->get('user_sort_last_answer')) {
             $sortKey = 'time';
         }
         $order = ['fixed' => 'DESC', $sortKey => 'DESC'];
 
         //= get threads
-        $initials = $this->_getInitialThreads($this->CurrentUser, $order);
-        $threads = $this->Entries->treesForThreads($initials, $order);
+        $this->loadComponent('Threads');
+        $threads = $this->Threads->paginate($order);
         $this->set('entries', $threads);
 
-        $currentPage = (int)$this->request->query('page') || 1;
-        if ($currentPage) {
+        $currentPage = (int)$this->request->query('page');
+        if ((int)$currentPage > 1) {
             $this->set('title_for_layout', __('page') . ' ' . $currentPage);
         }
         if ($currentPage === 1
             && $this->CurrentUser->isLoggedIn()
-            && $this->CurrentUser['user_automaticaly_mark_as_read']
+            && $this->CurrentUser->get('user_automaticaly_mark_as_read')
         ) {
             $this->set('markAsRead', true);
         }
@@ -65,7 +76,7 @@ class EntriesController extends AppController
         $this->request->session()->write('paginator.lastPage', $currentPage);
         $this->showDisclaimer = true;
         $this->set('allowThreadCollapse', true);
-        $this->_showSlidetabs();
+        $this->Slidetabs->show();
 
         $this->_setupCategoryChooser($this->CurrentUser);
 
@@ -73,46 +84,11 @@ class EntriesController extends AppController
     }
 
     /**
-     * Gets thread ids for paginated entries/index.
+     * RSS-feed for postings.
      *
-     * @param CurrentUserComponent $User
-     * @param array $order sort order
-     * @return array thread ids
+     * @param string $type feed-content
+     * @return void
      */
-    protected function _getInitialThreads(CurrentUserComponent $User, $order)
-    {
-        Stopwatch::start('Entries->_getInitialThreads() Paginate');
-
-        $categories = $User->Categories->getCurrent('read');
-
-        //! Check DB performance after changing conditions/sorting!
-        $customFinderOptions = [
-            'conditions' => [
-                'Entries.category_id IN' => $categories
-            ],
-            'limit' => Configure::read('Saito.Settings.topics_per_page'),
-            'order' => $order
-        ];
-        $this->paginate = [
-            'finder' => ['indexPaginator' => $customFinderOptions],
-        ];
-
-        /* disallow sorting or ordering via request */
-        $this->loadComponent('Paginator');
-        // this is the only way to set the whitelist
-        // loadComponent() or paginate() do not work
-        $this->Paginator->config('whitelist', ['page'], false);
-        $initialThreads = $this->paginate($this->Entries);
-
-        $initialThreadsNew = [];
-        foreach ($initialThreads as $k => $v) {
-            $initialThreadsNew[$k] = $v['id'];
-        }
-        Stopwatch::stop('Entries->_getInitialThreads() Paginate');
-
-        return $initialThreadsNew;
-    }
-
     public function feed($type)
     {
         if (!$this->RequestHandler->isRss()) {
@@ -121,12 +97,12 @@ class EntriesController extends AppController
         switch ($type) {
             case 'threads':
                 $title = __('Last started threads');
-                $order = 'time DESC';
+                $order = ['time' => 'DESC'];
                 $conditions['pid'] = 0;
                 break;
             default:
                 $title = __('Last entries');
-                $order = 'last_answer DESC';
+                $order = ['last_answer' => 'DESC'];
         }
         $title = Configure::read('Saito.Settings.forum_name') . ' – ' . $title;
         $language = Configure::read('Saito.language');
@@ -153,7 +129,8 @@ class EntriesController extends AppController
     /**
      * Mix view
      *
-     * @param $tid
+     * @param string $tid thread-ID
+     * @return void
      * @throws NotFoundException
      */
     public function mix($tid)
@@ -183,12 +160,8 @@ class EntriesController extends AppController
 
         // check if anonymous tries to access internal categories
         $root = $postings;
-        $resource = 'saito.core.category.' . $root->get(
-                'category'
-            )['id'] . '.read';
-        if (!$this->CurrentUser->permission($resource)) {
+        if (!$this->CurrentUser->Categories->permission('read', $root->get('category'))) {
             $this->_requireAuth();
-
             return;
         }
 
@@ -201,11 +174,20 @@ class EntriesController extends AppController
 
         $this->_incrementViews($root, 'thread');
 
-        $this->_marMixThread = $tid;
+        $flat = [];
+        $postings->map(
+            function ($node) use (&$flat) {
+                $flat[$node->get('id')] = $node;
+            },
+            true
+        );
+        $this->_marPostings = $flat;
     }
 
     /**
      * load front page force all entries mark-as-read
+     *
+     * @return void
      */
     public function update()
     {
@@ -217,7 +199,8 @@ class EntriesController extends AppController
     /**
      * Outputs raw markup of an posting $id
      *
-     * @param int $id
+     * @param string $id posting-ID
+     * @return void
      */
     public function source($id = null)
     {
@@ -225,6 +208,12 @@ class EntriesController extends AppController
         $this->view($id);
     }
 
+    /**
+     * View posting.
+     *
+     * @param string $id posting-ID
+     * @return \Cake\Network\Response|void
+     */
     public function view($id = null)
     {
         Stopwatch::start('Entries->view()');
@@ -246,13 +235,8 @@ class EntriesController extends AppController
             return;
         }
 
-        // check if anonymous tries to access internal categories
-        $resource = 'saito.core.category.' . $entry->get(
-                'category'
-            )['id'] . '.read';
-        if (!$this->CurrentUser->permission($resource)) {
+        if (!$this->CurrentUser->Categories->permission('read', $entry->get('category'))) {
             $this->_requireAuth();
-
             return;
         }
 
@@ -281,9 +265,10 @@ class EntriesController extends AppController
     }
 
     /**
-     * @param null $id
+     * Add new posting.
      *
-     * @return string
+     * @param null|string $id parent-ID if is answer
+     * @return void|\Cake\Network\Response
      * @throws ForbiddenException
      */
     public function add($id = null)
@@ -295,8 +280,8 @@ class EntriesController extends AppController
             $posting = $this->Entries->createPosting($this->request->data());
 
             // inserting new posting was successful
-            if ($posting !== false) {
-                // @todo 3.0
+            if ($posting !== false && !count($posting->errors())) {
+                // @todo 3.0 Notif
 //					$this->_setNotifications($newPosting + $this->request->data);
 
                 $id = $posting->get('id');
@@ -370,7 +355,7 @@ class EntriesController extends AppController
                 );
 
                 /*
-                 * @todo 3.0
+                 * @todo 3.0 Esevent
                 // get notifications
                 $notis = $this->Entry->Esevent->checkEventsForUser(
                     $this->CurrentUser->getId(),
@@ -388,7 +373,7 @@ class EntriesController extends AppController
                 // set Subnav
                 $headerSubnavLeftTitle = __(
                     'back_to_posting_from_linkname',
-                    $parent->get('User')['username']
+                    $parent->get('user')->get('username')
                 );
                 $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
                 $title = __('Write a Reply');
@@ -407,19 +392,33 @@ class EntriesController extends AppController
         $this->set(
             compact('isAnswer', 'isInline', 'formId', 'posting', 'title')
         );
-        $this->setAddViewVars($isAnswer);
+        $this->_setAddViewVars($isAnswer);
     }
 
+    /**
+     * Get thread-line to insert after an inline-answer
+     *
+     * @param string $id posting-ID
+     * @return void|\Cake\Network\Response
+     */
     public function threadLine($id = null)
     {
-        $this->set('entry_sub', $this->Entry->read(null, $id));
+        $posting = $this->Entries->get($id);
+        if (!$this->CurrentUser->Categories->permission('read', $posting->get('category'))) {
+            return $this->_requireAuth();
+        }
+
+        $this->set('entry_sub', $posting);
         // ajax requests so far are always answers
+        $this->response->type('json');
         $this->set('level', '1');
     }
 
     /**
-     * @param null $id
+     * Edit posting
      *
+     * @param string $id posting-ID
+     * @return void|\Cake\Network\Response
      * @throws NotFoundException
      * @throws BadRequestException
      */
@@ -440,24 +439,19 @@ class EntriesController extends AppController
                     'Stand by your word bro\', it\'s too late. @lo',
                     ['element' => 'error']
                 );
-                $this->redirect(['action' => 'view', $id]);
-
-                return;
+                return $this->redirect(['action' => 'view', $id]);
             case 'user':
                 $this->Flash->set(
                     'Not your horse, Hoss! @lo',
                     ['element' => 'error']
                 );
-                $this->redirect(['action' => 'view', $id]);
-
-                return;
+                return $this->redirect(['action' => 'view', $id]);
             case true:
                 $this->Flash->set(
                     'Something went terribly wrong. Alert the authorities now! @lo',
                     ['element' => 'error']
                 );
-
-                return;
+                return $this->redirect(['action' => 'view', $id]);
         }
 
         // try to save edit
@@ -466,7 +460,7 @@ class EntriesController extends AppController
             $data['id'] = $posting->get('id');
             $newEntry = $this->Entries->update($posting, $data);
             if ($newEntry) {
-                /* @todo 3.0 Esevent
+                /* @todo 3.0 Notif
                  * $this->_setNotifications(am($this->request['data'], $posting));
                  */
                 $this->redirect(['action' => 'view', $id]);
@@ -500,7 +494,7 @@ class EntriesController extends AppController
         }
 
         // get notifications
-        /* @todo 3.0 Esevent
+        /* @todo 3.0 Notif
          * $notis = $this->Entry->Esevent->checkEventsForUser(
          * $posting['Entry']['user_id'],
          * array(
@@ -535,14 +529,15 @@ class EntriesController extends AppController
         );
         $this->set('headerSubnavLeftUrl', ['action' => 'view', $id]);
         $this->set('form_title', __('edit_linkname'));
-        $this->setAddViewVars($isAnswer);
+        $this->_setAddViewVars($isAnswer);
         $this->render('/Entries/add');
     }
 
     /**
      * Delete posting
      *
-     * @param null $id
+     * @param string $id posting-ID
+     * @return void
      * @throws NotFoundException
      * @throws MethodNotAllowedException
      */
@@ -580,6 +575,8 @@ class EntriesController extends AppController
 
     /**
      * Empty function for benchmarking
+     *
+     * @return void
      */
     public function e()
     {
@@ -590,7 +587,8 @@ class EntriesController extends AppController
     /**
      * Marks sub-entry $id as solution to its current root-entry
      *
-     * @param $id
+     * @param string $id posting-ID
+     * @return void
      * @throws BadRequestException
      */
     public function solve($id)
@@ -607,7 +605,9 @@ class EntriesController extends AppController
     }
 
     /**
-     * @return string
+     * Generate posting preview for JSON frontend.
+     *
+     * @return \Cake\Network\Response|void
      * @throws BadRequestException
      * @throws ForbiddenException
      */
@@ -629,7 +629,7 @@ class EntriesController extends AppController
             'solves' => 0,
             'views' => 0,
             'ip' => '',
-            'time' => bDate()
+            'time' => new Time()
         ];
         $this->Entries->prepare($newEntry);
 
@@ -650,28 +650,32 @@ class EntriesController extends AppController
         } else {
             // validation errors
             foreach ($errors as $field => $error) {
-                $message = __d('nondynamic', $field) . ": " . __d( 'nondynamic', $error[0]);
+                $message = __d('nondynamic', $field) . ": " . __d('nondynamic', current($error));
                 $this->JsData->addAppJsMessage(
                     $message,
                     [
                         'type' => 'error',
                         'channel' => 'form',
-                        'element' => '#Entry' . ucfirst($field)
+                        'element' => '#' . $this->_domId($field)
                     ]
                 );
             }
             $this->autoRender = false;
 
             $this->response->type('json');
-//            return json_encode($this->JsData->getAppJsMessages());
+            $body = json_encode($this->JsData->getAppJsMessages());
+            $this->response->body($body);
+            return $this->response;
         }
     }
 
     /**
-     * @param null $sourceId
+     * Merge threads.
      *
+     * @param string $sourceId posting-ID of thread to be merged
+     * @return void
      * @throws NotFoundException
-     * // @todo put into admin entries controller
+     * @td put into admin entries controller
      */
     public function merge($sourceId = null)
     {
@@ -702,14 +706,14 @@ class EntriesController extends AppController
     }
 
     /**
+     * Toggle posting property via ajax request.
      *
-     *
-     * @param null $id
-     * @param null $toggle
+     * @param string $id posting-ID
+     * @param string $toggle property
      *
      * @return \Cake\Network\Response
      */
-    public function ajax_toggle($id = null, $toggle = null)
+    public function ajaxToggle($id = null, $toggle = null)
     {
         $allowed = ['fixed', 'locked'];
         if (!$id
@@ -733,6 +737,9 @@ class EntriesController extends AppController
         return $this->response;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -747,25 +754,20 @@ class EntriesController extends AppController
         $this->Auth->allow(['feed', 'index', 'view', 'mix', 'update']);
 
         if ($this->request->action === 'index') {
-            $this->setAutoRefreshTime();
+            $this->_setAutoRefreshTime();
         }
 
         Stopwatch::stop('Entries->beforeFilter()');
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function afterFilter(Event $event)
     {
         parent::afterFilter($event);
-        // @todo @performance extract all ids from Posting object in action,
-        // pass them to here, remove find() call her
-        if (isset($this->_marMixThread)) {
-            $entries = $this->Entries->find()
-                ->select(['id', 'time'])
-                ->where(['tid' => $this->_marMixThread]);
-            $this->CurrentUser->ReadEntries->set($entries);
+        if (isset($this->_marPostings)) {
+            $this->CurrentUser->ReadEntries->set($this->_marPostings);
         }
     }
 
@@ -777,7 +779,7 @@ class EntriesController extends AppController
     protected function _automaticalyMarkAsRead()
     {
         if (!$this->CurrentUser->isLoggedIn() ||
-            !$this->CurrentUser['user_automaticaly_mark_as_read']
+            !$this->CurrentUser->get('user_automaticaly_mark_as_read')
         ) {
             return;
         }
@@ -804,7 +806,7 @@ class EntriesController extends AppController
             // a second session A shall not accidentally mark something as read that isn't read on session B
             $lastRefreshTemp = $this->request->session()
                 ->read('User.last_refresh_tmp');
-            if ($lastRefreshTemp > $this->CurrentUser['last_refresh_unix']) {
+            if ($lastRefreshTemp > $this->CurrentUser->get('last_refresh_unix')) {
                 $this->CurrentUser->LastRefresh->set();
             }
             $this->request->session()->write('User.last_refresh_tmp', time());
@@ -816,32 +818,14 @@ class EntriesController extends AppController
         }
     }
 
-    protected function _prepareSlidetabData()
-    {
-        if ($this->CurrentUser->isLoggedIn()) {
-            // @todo 3.0
-            /*
-            // get current user's recent entries for slidetab
-            $this->set(
-                'recentPosts',
-                $this->Entry->getRecentEntries(
-                    $this->CurrentUser,
-                    [
-                        'user_id' => $this->CurrentUser->getId(),
-                        'limit' => 5
-                    ]
-                )
-            );
-            // get last 10 recent entries for slidetab
-            $this->set(
-                'recentEntries',
-                $this->Entry->getRecentEntries($this->CurrentUser)
-            );
-            */
-        }
-    }
-
-    protected function _incrementViews($entry, $type = null)
+    /**
+     * Increment views for posting.
+     *
+     * @param Posting $entry posting
+     * @param string $type 'thread' to update a whole thread
+     * @return void
+     */
+    protected function _incrementViews(Posting $entry, $type = null)
     {
         if ($this->CurrentUser->isBot()) {
             return;
@@ -855,6 +839,12 @@ class EntriesController extends AppController
         }
     }
 
+    /**
+     * Set notifications from new posting.
+     *
+     * @param Entity $newEntry posting
+     * @return void
+     */
     protected function _setNotifications($newEntry)
     {
         if (isset($newEntry['Event'])) {
@@ -884,16 +874,14 @@ class EntriesController extends AppController
      *
      * @return void
      */
-    protected function setAutoRefreshTime()
+    protected function _setAutoRefreshTime()
     {
         if (!$this->CurrentUser->isLoggedIn()) {
             return;
         }
-        if ($this->CurrentUser['user_forum_refresh_time'] > 0) {
-            $this->set(
-                'autoPageReload',
-                $this->CurrentUser['user_forum_refresh_time'] * 60
-            );
+        $time = $this->CurrentUser->get('user_forum_refresh_time');
+        if ($time > 0) {
+            $this->set('autoPageReload', $time * 60);
         }
     }
 
@@ -929,7 +917,7 @@ class EntriesController extends AppController
         );
         switch ($User->Categories->getType()) {
             case 'single':
-                $title = $User['user_category_active'];
+                $title = $User->get('user_category_active');
                 break;
             case 'custom':
                 $title = __('Custom');
@@ -950,7 +938,7 @@ class EntriesController extends AppController
      * @param bool $isAnswer is new posting answer or root
      * @return void
      */
-    protected function setAddViewVars($isAnswer)
+    protected function _setAddViewVars($isAnswer)
     {
         //= categories for dropdown
         $action = $isAnswer ? 'answer' : 'thread';

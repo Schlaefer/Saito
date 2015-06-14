@@ -1,29 +1,55 @@
 <?php
 
-	namespace Saito\Validation;
+namespace Saito\Validation;
 
-	class SaitoValidationProvider {
+use Cake\ORM\TableRegistry;
+use Saito\RememberTrait;
 
-		/**
-		 * validator checking if value is unique case insensitive
-		 *
-		 * simplified version Cake\ORM\Table\validateUnique and ORM\Rule\isUnique
-		 *
-		 * @param $value
-		 * @param array $context
-		 * @return bool
-		 */
-		public static function validateIsUniqueCiString($value, array $context) {
-			$field = $context['field'];
-			$Table = $context['providers']['table'];
-			$primaryKey = $Table->primaryKey();
+class SaitoValidationProvider
+{
+    use RememberTrait;
 
-			$conditions = ["LOWER($field)" => mb_strtolower($value)];
-			if ($context['newRecord'] === false) {
-				$conditions['NOT'] = [$primaryKey => $context['data'][$primaryKey]];
-			}
+    /**
+     * validator checking if associated value exists
+     *
+     * @param string $value value
+     * @param string $table table name
+     * @param array $context context
+     * @return bool
+     */
+    public static function validateAssoc($value, $table, array $context)
+    {
+        if (!is_int($value)) {
+            return false;
+        }
 
-			return !$Table->exists($conditions);
-		}
+        $key = $table . $value;
+        return static::rememberStatic($key, function () use ($value, $table) {
+            $Table = TableRegistry::get($table);
+            return $Table->exists(['id' => $value]);
+        });
+    }
 
-	}
+    /**
+     * validator checking if value is unique case insensitive
+     *
+     * simplified version Cake\ORM\Table\validateUnique and ORM\Rule\isUnique
+     *
+     * @param string $value value
+     * @param array $context context
+     * @return bool
+     */
+    public static function validateIsUniqueCiString($value, array $context)
+    {
+        $field = $context['field'];
+        $Table = $context['providers']['table'];
+        $primaryKey = $Table->primaryKey();
+
+        $conditions = ["LOWER($field)" => mb_strtolower($value)];
+        if ($context['newRecord'] === false) {
+            $conditions['NOT'] = [$primaryKey => $context['data'][$primaryKey]];
+        }
+
+        return !$Table->exists($conditions);
+    }
+}

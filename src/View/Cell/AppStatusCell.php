@@ -20,14 +20,11 @@ class AppStatusCell extends Cell
     protected $_validCellOptions = [];
 
     /**
-     * Default display method.
-     *
-     * @return void
+     * {@inheritDoc}
      */
     public function display()
     {
         $this->set('CurrentUser', Registry::get('CU'));
         $this->set('Stats', Registry::get('AppStats'));
     }
-
 }

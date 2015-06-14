@@ -4,14 +4,16 @@ namespace Saito\User\Upload;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
-use Cake\ORM\TableRegistry;
+use Cake\ORM\Entity;
 use Cake\Utility\Text;
 use Proffer\Lib\ProfferPath;
 
 class AvatarFilenameListener implements EventListenerInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function implementedEvents()
     {
         return [
@@ -23,7 +25,7 @@ class AvatarFilenameListener implements EventListenerInterface
      * Rename a file and change it's upload folder before it's processed
      *
      * @param Event $event The event class with a subject of the entity
-     * @param ProfferPath $path
+     * @param ProfferPath $path path
      * @return ProfferPath $path
      */
     public function change(Event $event, ProfferPath $path)
@@ -64,14 +66,22 @@ class AvatarFilenameListener implements EventListenerInterface
         return $path;
     }
 
-    public function deleteExisting($user) {
+    /**
+     * Delete existing avatar.
+     *
+     * @param Entity $user user
+     * @return void
+     */
+    public function deleteExisting($user)
+    {
         if ($user->dirty('avatar')) {
             $dir = $user->get('avatar_dir');
             if (!empty($dir)) {
-                $folder = new Folder(WWW_ROOT . 'useruploads/users/avatar/' . $dir);
+                $folder = new Folder(
+                    WWW_ROOT . 'useruploads/users/avatar/' . $dir
+                );
                 $folder->delete();
             }
         }
     }
-
 }

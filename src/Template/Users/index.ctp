@@ -35,7 +35,7 @@ $this->element('users/menu');
                         <td>
                             <?php
                             $_u = [
-                                $this->UserH->type($user->get('user_type')),
+                                $this->User->type($user->get('user_type')),
                                 __(
                                     'user_since {0}',
                                     $this->TimeH->formatTime(
@@ -53,7 +53,7 @@ $this->element('users/menu');
                             if ($user->isLocked()) {
                                 $_u[] = __(
                                     '{0} banned',
-                                    $this->UserH->banned(true)
+                                    $this->User->banned(true)
                                 );
                             }
                             echo $this->Html->nestedList($_u);

@@ -236,19 +236,19 @@ msgid "{0} online ({1})"
 msgstr ""
 
 #: Template/Cell/SlidetabUserlist/display.ctp:36 Template/Users/edit.ctp:35
-#: View/Helper/UserHHelper.php:86
+#: View/Helper/UserHelper.php:86
 msgid "user.type.admin"
 msgstr "Administrator"
 
 #: Template/Cell/SlidetabUserlist/display.ctp:39 Template/Users/edit.ctp:34
 #: View/Categories/admin_add.ctp:18 View/Categories/admin_edit.ctp:19
-#: View/Helper/UserHHelper.php:84
+#: View/Helper/UserHelper.php:84
 msgid "user.type.mod"
 msgstr "Moderator"
 
 #: Template/Cell/SlidetabUserlist/display.ctp:42 Template/Users/edit.ctp:33
 #: View/Categories/admin_add.ctp:17 View/Categories/admin_edit.ctp:18
-#: View/Helper/UserHHelper.php:82
+#: View/Helper/UserHelper.php:82
 msgid "user.type.user"
 msgstr "User"
 
@@ -447,7 +447,7 @@ msgstr "Unblock"
 
 #: Template/Element/users/block-report.ctp:39
 msgid "user.block.reason.1"
-msgstr "Blocked by moderator %s."
+msgstr "Blocked by moderator {0}."
 
 #: Template/Element/users/login_form.ctp:14
 #: Template/Element/users/register-form-core.ctp:32 Template/Users/edit.ctp:51
@@ -1312,15 +1312,15 @@ msgstr "No more uploads possible (max: %s)."
 
 #: Controller/UsersController.php:64
 msgid "user.block.pubExpEnds"
-msgstr "User %s is locked. Try again in %s."
+msgstr "User {0} is locked. Try again in %s."
 
 #: Controller/UsersController.php:67
 msgid "user.block.pubExp"
-msgstr "User %s is locked."
+msgstr "User {0} is locked."
 
 #: Controller/UsersController.php:71
 #, php-format
-msgid "User %s is not activated yet."
+msgid "User {0} is not activated yet."
 msgstr ""
 
 #: Controller/UsersController.php:74
@@ -1362,7 +1362,7 @@ msgstr ""
 
 #: Controller/UsersController.php:398
 #, php-format
-msgid "Edit %s Profil"
+msgid "Edit {0} Profil"
 msgstr ""
 
 #: Controller/UsersController.php:435
@@ -1375,12 +1375,12 @@ msgstr ""
 
 #: Controller/UsersController.php:454
 #, php-format
-msgid "User %s is locked."
+msgid "User {0} is locked."
 msgstr ""
 
 #: Controller/UsersController.php:456
 #, php-format
-msgid "User %s is unlocked."
+msgid "User {0} is unlocked."
 msgstr ""
 
 #: Controller/UsersController.php:460
@@ -1459,14 +1459,14 @@ msgstr ""
 msgid "error.name.equalExists"
 msgstr "An similar name is already in use: {0}"
 
-#~ msgid "user_color_new_postings_exp"
-#~ msgstr "New postings"
+msgid "user_color_new_postings_exp"
+msgstr "New postings"
 
-#~ msgid "user_color_old_postinings_exp"
-#~ msgstr "Old postings"
+msgid "user_color_old_postinings_exp"
+msgstr "Old postings"
 
-#~ msgid "user_color_actual_posting_exp"
-#~ msgstr "Currently viewed posting"
+msgid "user_color_actual_posting_exp"
+msgstr "Currently viewed posting"
 
 #~ msgid "button_save"
 #~ msgstr "Save"
@@ -1493,8 +1493,8 @@ msgstr "An similar name is already in use: {0}"
 #~ msgid "user.map.b.clear"
 #~ msgstr "Clear"
 
-#~ msgid "ncy.bkm"
-#~ msgstr "No bookmarks created yet."
+msgid "ncy.bkm"
+msgstr "No bookmarks created yet."
 
 #~ msgid "upload_btn_insert_into_posting"
 #~ msgstr "Insert"

@@ -25,5 +25,4 @@ interface ContactInterface
      * @return array
      */
     public function toCake();
-
 }

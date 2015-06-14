@@ -1,32 +1,77 @@
 <?php
 
-	namespace Saito\User;
+namespace Saito\User;
 
-	interface ForumsUserInterface {
+use App\Model\Entity\User;
 
-		public function setSettings($user);
+interface ForumsUserInterface
+{
 
-		public function getSettings();
+    /**
+     * Get a user setting.
+     *
+     * @param string $setting Setting to get.
+     * @return void
+     */
+    public function get($setting);
 
-		public function getId();
+    /**
+     * Set a user setting.
+     *
+     * @param string $setting key
+     * @param mixed $value value
+     * @return void
+     */
+    public function set($setting, $value);
 
-		public function getRole();
+    /**
+     * Set all settings
+     *
+     * @param array|User $settings Settings
+     * @return void
+     */
+    public function setSettings($settings);
 
-		public function isLoggedIn();
+    /**
+     * Get all settings
+     *
+     * @return array
+     */
+    public function getSettings();
 
-		public function isForbidden();
+    /**
+     * Get user's id.
+     *
+     * @return int
+     */
+    public function getId();
 
-		/**
-		 * Checks if ForumsUser is the same user as $user
-		 *
-		 * @param mixed $user
-		 * @return bool
-		 */
-		public function isSame($user);
+    /**
+     * Get user's role.
+     *
+     * @return string
+     */
+    public function getRole();
 
-		public function getMaxAccession();
+    /**
+     * Checks if the user is logged in.
+     *
+     * @return bool
+     */
+    public function isLoggedIn();
 
-		public function mockUserType($type);
+    /**
+     * Checks if the user is forbidden.
+     *
+     * @return bool
+     */
+    public function isForbidden();
 
-	}
-
+    /**
+     * Checks if the user is the same user as $user
+     *
+     * @param mixed $user User to check against.
+     * @return bool
+     */
+    public function isUser($user);
+}

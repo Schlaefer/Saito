@@ -10,7 +10,6 @@
     <table cellpadding="0" cellspacing="0"
            class="table table-striped table-bordered table-condensed">
         <tr>
-            <th><?= $this->Paginator->sort('id'); ?></th>
             <th><?= $this->Paginator->sort('category_order',
                     __('sort.order')); ?></th>
             <th><?= $this->Paginator->sort('category'); ?></th>
@@ -29,7 +28,6 @@
             }
             ?>
             <tr<?= $class; ?>>
-                <td><?= $category->get('id'); ?>&nbsp;</td>
                 <td><?= $category->get('category_order'); ?>
                     &nbsp;</td>
                 <td><?= $category->get('category'); ?>&nbsp;</td>

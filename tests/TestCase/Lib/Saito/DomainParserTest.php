@@ -23,5 +23,4 @@ class DomainParserTest extends PHPUnit_Framework_TestCase
         $actual = DomainParser::domain($input);
         $this->assertEquals($expected, $actual);
     }
-
 }

@@ -61,6 +61,7 @@
 					<li class="<?php  if (stristr($this->request->here, 'smilies')) { echo 'active'; }; ?>">
 						<?php echo $this->Html->link(__('Smilies'), '/admin/smilies/index'); ?>
 					</li>
+                    <!-- @todo 3.0
 					<li class="dropdown <?php  if (stristr($this->request->here, 'stats')) { echo 'active'; }; ?>">
 						<?php
               echo $this->Html->link(
@@ -82,6 +83,7 @@
 					<li class="<?php  if (stristr($this->request->here, 'logs')) { echo 'active'; }; ?>">
 						<?php echo $this->Html->link(__('Logs'), '/admin/admins/logs'); ?>
 					</li>
+					-->
 
 					<?php
 						//= plugins

@@ -1,137 +1,188 @@
 <?php
 
-	namespace App\Model\Table;
+namespace App\Model\Table;
 
-	use Cake\ORM\Query;
-	use Cake\ORM\Table;
-	use Cake\Validation\Validator;
+use Cake\ORM\Query;
+use Cake\ORM\Table;
+use Cake\Validation\Validator;
 
-	class UserBlocksTable extends Table {
+class UserBlocksTable extends Table
+{
 
-		public function initialize(array $config) {
-			$this->belongsTo(
-				'Users',
-				[
-					// @todo 3.0 fields is no longer supported
-//					'fields' => ['id', 'username'],
-					'foreignKey' => 'user_id'
-				]
-			);
-			$this->belongsTo(
-				'By',
-				[
-					'className' => 'Users',
-					// @todo 3.0
-//					'fields' => ['id', 'username'],
-					'foreignKey' => 'by'
-				]
-			);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function initialize(array $config)
+    {
+        $this->addBehavior('Timestamp');
 
-		public function validationDefault(Validator $validator) {
-			$validator
-				->allowEmpty('ends')
-				->add('ends', 'datetime', ['rule' => ['datetime']]);
-			return $validator;
-		}
+        // Blocked user.
+        $this->belongsTo('Users', ['foreignKey' => 'user_id']);
+        // User responsible for the blocking.
+        $this->belongsTo(
+            'By',
+            ['className' => 'Users', 'foreignKey' => 'blocked_by_user_id']
+        );
+    }
 
-		public function block($Blocker, $userId, $options) {
-			$Blocker->setUserBlockTable($this);
-			$success = $Blocker->block($userId, $options);
-			if ($success) {
-				$this->_updateIsBlocked($userId);
-			}
-			return $success;
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->allowEmpty('ends')
+            ->add('ends', 'datetime', ['rule' => ['datetime']]);
+        $validator->notEmpty('user_id');
+        $validator->notEmpty('reason');
+        return $validator;
+    }
 
-		public function getBlockEndsForUser($userId) {
-			$block = $this->find('all', [
-				'conditions' => ['user_id' => $userId, 'ended IS' => null],
-				'sort' => ['ends' => 'asc']
-			])->first();
-			return $block->get('ends');
-		}
+    /**
+     * block user
+     *
+     * @param BlockerAbstract $Blocker blocker
+     * @param int $userId user-ID
+     * @param array $options options
+     * @return mixed
+     */
+    public function block($Blocker, $userId, $options)
+    {
+        $Blocker->setUserBlockTable($this);
+        $success = $Blocker->block($userId, $options);
+        if ($success) {
+            $this->_updateIsBlocked($userId);
+        }
+        return $success;
+    }
 
-		/**
-		 * @param $id
-		 * @throws \RuntimeException
-		 * @throws \InvalidArgumentException
-		 */
-		public function unblock($id) {
-			$block = $this->find()->where(['id' => $id, 'ended IS' => null])->first();
-			if (!$block) {
-				throw new \InvalidArgumentException;
-			}
-			$this->patchEntity(
-				$block,
-                ['ended' => bDate(), 'ends' => null]
-			);
+    /**
+     * get block ending for user
+     *
+     * @param int $userId user-ID
+     * @return mixed
+     */
+    public function getBlockEndsForUser($userId)
+    {
+        $block = $this->find(
+            'all',
+            [
+                'conditions' => ['user_id' => $userId, 'ended IS' => null],
+                'sort' => ['ends' => 'asc']
+            ]
+        )->first();
+        return $block->get('ends');
+    }
 
-			if (!$this->save($block)) {
-				throw new \RuntimeException(
-					"Couldn't unblock block with id $id.",
-					1420540471
-				);
-			}
-			$this->_updateIsBlocked($block->get('user_id'));
-		}
+    /**
+     * unblock
+     *
+     * @param int $id id
+     * @return mixed
+     */
+    public function unblock($id)
+    {
+        $block = $this->find()->where(['id' => $id, 'ended IS' => null])->first(
+        );
+        if (!$block) {
+            throw new \InvalidArgumentException;
+        }
+        $this->patchEntity(
+            $block,
+            ['ended' => bDate(), 'ends' => null]
+        );
 
-		/**
-		 * Garbage collection
-		 *
-		 * called hourly from User model
-		 */
-		public function gc() {
-			$expired = $this->find('toGc')->all();
-			foreach ($expired as $block) {
-				$this->unblock($block->get('id'));
-			}
-		}
+        if (!$this->save($block)) {
+            throw new \RuntimeException(
+                "Couldn't unblock block with id $id.",
+                1420540471
+            );
+        }
+        return $this->_updateIsBlocked($block->get('user_id'));
+    }
 
-		public function getAll() {
-			$blocklist = $this->find('all', [
-				'contain' => ['By', 'User'],
-				'order' => ['UserBlock.id' => 'DESC']
-			]);
-			$o = [];
-			foreach ($blocklist as $k => $b) {
-				$o[$k] = $b['UserBlock'];
-				$o[$k]['By'] = $b['By'];
-				$o[$k]['User'] = $b['User'];
-			}
-			return $o;
-		}
+    /**
+     * Garbage collection
+     *
+     * called hourly from User model
+     *
+     * @return void
+     */
+    public function gc()
+    {
+        $expired = $this->find('toGc')->all();
+        foreach ($expired as $block) {
+            $this->unblock($block->get('id'));
+        }
+    }
 
-		public function getAllActive() {
-			$blocklist = $this->find('all', [
-				'contain' => false,
-				'conditions' => ['ended' => null],
-				'order' => ['UserBlock.id' => 'DESC']
-			]);
-			return $blocklist;
-		}
+    /**
+     * get all
+     *
+     * @return Query
+     */
+    public function getAll()
+    {
+        $blocklist = $this->find('assocUsers')
+            ->order(['UserBlocks.id' => 'DESC']);
+        return $blocklist;
+    }
 
-		public function findToGc(Query $query, array $options) {
-			$query->where(
-					[
-						'ends IS NOT' => null,
-						'ends <' => bDate(),
-						'ended IS' => null
-					]
-				);
-			return $query;
-		}
+    /**
+     * gc finder
+     *
+     * @param Query $query query
+     * @param array $options options
+     * @return Query
+     */
+    public function findToGc(Query $query, array $options)
+    {
+        $query->where(
+            [
+                'ends IS NOT' => null,
+                'ends <' => bDate(),
+                'ended IS' => null
+            ]
+        );
+        return $query;
+    }
 
-		protected function _updateIsBlocked($userId) {
-			$blocks = $this->find('all', [
-				'conditions' => [
-					'ended IS' => null,
-					'user_id' => $userId
-				]
-			])->first();
-            $user = $this->Users->get($userId, ['fields' => ['id', 'user_lock']]);
-            $user->set('user_lock', !empty($blocks));
-            $this->Users->save($user);
-		}
+    /**
+     * Select required fields from associated Users.
+     *
+     * Don't hydrate full user entities.
+     *
+     * @param Query $query query
+     * @return Query
+     */
+    public function findAssocUsers(Query $query)
+    {
+        $callback = function (Query $query) {
+            return $query->select(['id', 'username']);
+        };
+        $query->contain(['By' => $callback, 'Users' => $callback]);
+        return $query;
+    }
 
-	}
+    /**
+     * update is blocked
+     *
+     * @param int $userId user-ID
+     * @return mixed
+     */
+    protected function _updateIsBlocked($userId)
+    {
+        $blocks = $this->find(
+            'all',
+            [
+                'conditions' => [
+                    'ended IS' => null,
+                    'user_id' => $userId
+                ]
+            ]
+        )->first();
+        $user = $this->Users->get($userId, ['fields' => ['id', 'user_lock']]);
+        $user->set('user_lock', !empty($blocks));
+        return $this->Users->save($user);
+    }
+}
