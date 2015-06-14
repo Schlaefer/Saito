@@ -52,8 +52,8 @@ And a shout-out to all the donors!
  ------| -----
  [macfix.de]                | 2015
  [macnemo.de] (Panxatony)   | 2015
+ CocoaBärchi &amp; dakapo   | 2015
  fwskxgrd                   | 2015
- CocoaBärchi &amp; dakapo   | 2014
  Jake                       | 2013
  redcurry                   | 2012
  iXimus                     | 2012
@@ -63,7 +63,7 @@ And a shout-out to all the donors!
 
 <div class="text-muted">
 <small >
-	Someone's missing? Want your name linked? Please send a mail! – Last updated 2015-02-13.
+	Someone's missing? Want your name linked? Please send a mail! – Last updated 2015-06-14.
 </small>
 </div>
 
