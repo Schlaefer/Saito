@@ -123,7 +123,7 @@ class CurrentUserComponent extends Component implements
                 // don't auto-login on login related pages
                 if ($this->_Controller->params['action'] !== 'login' &&
                     $this->_Controller->params['action'] !== 'register' &&
-                    $this->_Controller->referer() !== '/users/login'
+                    $this->_Controller->referer() !== '/login'
                 ) {
                     $this->_reLoginCookie();
                 }

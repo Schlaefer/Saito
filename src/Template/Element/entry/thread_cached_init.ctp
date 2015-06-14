@@ -56,7 +56,9 @@ $toolboxButtonsToDisplay = [
                             </button>
 EOF;
                     //          }
-                    echo $this->Layout->dropdownMenuButton(
+                    // @todo 3.0
+                    /*
+                    $this->Layout->dropdownMenuButton(
                         [$button1],
                         [
 
@@ -64,6 +66,7 @@ EOF;
                             'class' => 'btnLink panel-footer-form-btn nbsp'
                         ]
                     );
+                    */
                     ?>
                     </div>
                 <?php endif; ?>

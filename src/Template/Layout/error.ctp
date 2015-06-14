@@ -3,7 +3,6 @@
 <head>
     <?= $this->Html->charset() ?>
     <title>
-        <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>

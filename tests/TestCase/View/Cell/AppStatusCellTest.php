@@ -54,19 +54,5 @@ class AppStatusCellTest extends SaitoTestCase
      */
     public function testDisplay()
     {
-        $UserOnline = TableRegistry::get('UserOnline');
-        $UserOnline->setOnline(1, false);
-        $UserOnline->setOnline(2, true);
-
-        $this->AppStatus->display();
-        $headerCounter = $this->AppStatus->viewVars['HeaderCounter'];
-
-        $this->assertEquals($headerCounter['user_online'], 2);
-        $this->assertEquals($headerCounter['user'], 10);
-        $this->assertEquals($headerCounter['entries'], 12);
-        $this->assertEquals($headerCounter['threads'], 5);
-        $this->assertEquals($headerCounter['user_registered'], 1);
-        $this->assertEquals($headerCounter['user_anonymous'], 1);
     }
-
 }

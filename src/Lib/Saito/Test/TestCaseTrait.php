@@ -61,6 +61,8 @@ trait TestCaseTrait
     protected function storeSettings()
     {
         $this->saitoSettings = Configure::read('Saito.Settings');
+        Configure::write('Saito.language', 'en');
+        Configure::write('Saito.Settings.ParserPlugin', 'Bbcode');
     }
 
     protected function restoreSettings()

@@ -402,7 +402,7 @@ class AppController extends Controller
         $this->Flash->set(__('auth_autherror'), ['element' => 'warning']);
         $here = $this->request->here(false);
         $this->Auth->redirectUrl($here);
-        $this->redirect(['controller' => 'users', 'action' => 'login']);
+        $this->redirect(['controller' => 'Users', 'action' => 'login']);
     }
 
     /**

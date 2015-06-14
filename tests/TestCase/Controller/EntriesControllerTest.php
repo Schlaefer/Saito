@@ -478,8 +478,8 @@
 		}
 
 		public function testEditSuccess() {
-			$postingId = 2;
-			$this->_loginUser(1);
+			$postingId = 1;
+			$this->_loginUser(3);
 			$Table = TableRegistry::get('Entries');
 			$Table->query()
 				->update()
@@ -487,11 +487,13 @@
 				->where(['id' => $postingId])
 				->execute();
 
-			$this->_loginUser(1);
 			$this->mockSecurity();
-			$this->post('entries/edit/2', ['subject' => 'hot', 'text' => 'fuzz']);
+            $this->post(
+                'entries/edit/' . $postingId,
+                ['subject' => 'hot', 'text' => 'fuzz']
+            );
 			$this->assertResponseCode(302);
-			$this->assertRedirect('/entries/view/2');
+			$this->assertRedirect('/entries/view/' . $postingId);
 
 			$Entries = TableRegistry::get('Entries');
 			$posting = $Entries->get($postingId);

@@ -5,11 +5,11 @@ namespace Api\Lib;
 use Cake\Core\Configure;
 use Saito\Test\IntegrationTestCase;
 
-class ApiIntegrationTestCase extends IntegrationTestCase {
+abstract class ApiIntegrationTestCase extends IntegrationTestCase {
 
     public function setUp() {
-        Configure::write('Saito.Settings.api_enabled', '1');
         parent::setUp();
+        Configure::write('Saito.Settings.api_enabled', '1');
     }
 
     protected function _checkDisallowedRequestType($types, $url) {

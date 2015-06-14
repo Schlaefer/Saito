@@ -126,7 +126,7 @@
 		<div class="span1">&nbsp;</div>
 		<div class="span10">
 			<?php
-				echo $this->element('flash/render');
+				echo $this->element('Flash/render');
 				echo $this->Html->getCrumbs(' > ');
 				echo $this->fetch('content');
 			?>

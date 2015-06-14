@@ -431,6 +431,10 @@
 			$data['edited'] = bDate();
 			$data['edited_by'] = $CurrentUser['username'];
 
+            // add editing validator
+            $data['time'] = $posting->get('time');
+            $data['user_id'] = $posting->get('user_id');
+            $data['locked'] = $posting->get('locked');
 			$this->validator()->add(
 				'edited_by',
 				'isEditingAllowed',
@@ -440,21 +444,17 @@
 			$this->patchEntity($posting, $data);
 			$result = $this->save($posting);
 
-			/* @todo 3.0
-			if ($result) {
-				$this->contain();
-				$result = $this->read() + $data;
-				$this->_dispatchEvent(
-					'Model.Entry.update',
-					[
-						'subject' => $result[$this->alias]['id'],
-						'data' => $result
-					]
-				);
-			}
-			 */
+            if ($result) {
+                $this->_dispatchEvent(
+                    'Model.Entry.update',
+                    [
+                        'subject' => $posting->get('id'),
+                        'data' => $posting
+                    ]
+                );
+            }
 
-			return $result;
+            return $result;
 		}
 
 		/**

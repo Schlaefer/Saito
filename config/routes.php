@@ -63,7 +63,7 @@ Router::scope('/', function ($routes) {
 		/**
 		 * /users/login -> /login
 		 */
-		$routes->connect('/login', ['controller' => 'users', 'action' => 'login']);
+		$routes->connect('/login', ['controller' => 'Users', 'action' => 'login']);
 
 
 
