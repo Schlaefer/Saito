@@ -822,6 +822,26 @@
 			$this->assertTextContains('&amp;&lt;Username', $result);
 		}
 
+		public function testThreadLineAnon() {
+			$this->testAction('/entries/threadLine/1.json');
+			$this->assertRedirectedTo('login');
+		}
+
+		public function testThreadLineForbidden() {
+			$this->generate('Entries');
+			$this->_loginUser(3);
+			$this->testAction('/entries/threadLine/6.json');
+			$this->assertRedirectedTo('login');
+		}
+
+		public function testThreadLineSucces() {
+			$this->generate('Entries');
+			$this->_loginUser(1);
+			$result = $this->testAction('/entries/threadLine/6.json', ['return' => 'view']);
+			$expected = 'Third Thread First_Subject';
+			$this->assertContains($expected, $result);
+		}
+
 		public function testAppStats() {
 			Configure::write('Cache.disable', false);
 			Cache::delete('header_counter', 'short');
