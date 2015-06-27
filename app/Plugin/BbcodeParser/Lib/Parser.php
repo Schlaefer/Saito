@@ -211,7 +211,7 @@
 			$options = array_merge($this->_cSettings, $options);
 
 			// serializing complex objects kills PHP
-			$serializable = array_filter($this->_cSettings, function ($value) {
+			$serializable = array_filter($options, function ($value) {
 				return !is_object($value);
 			});
 			$parserId = md5(serialize($serializable));

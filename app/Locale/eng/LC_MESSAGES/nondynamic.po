@@ -21,7 +21,7 @@ msgid "subject"
 msgstr "Subject"
 
 #
-msgid "category"
+msgid "category_id"
 msgstr "Category"
 
 #
