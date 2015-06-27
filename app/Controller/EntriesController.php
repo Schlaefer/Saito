@@ -342,8 +342,14 @@
 			$this->_setAddViewVars();
 		}
 
-		public function threadLine($id = null) {
-			$this->set('entry_sub', $this->Entry->read(null, $id));
+		public function threadLine($id) {
+			$entry = $this->Entry->get($id);
+			$accession = $entry['Category']['accession'];
+			if (!$this->CurrentUser->Categories->isAccessionAuthorized($accession)) {
+				$this->_requireAuth();
+				return;
+			}
+			$this->set('entry_sub', $entry);
 			// ajax requests so far are always answers
 			$this->set('level', '1');
 		}
