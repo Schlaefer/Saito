@@ -28,7 +28,7 @@
 			$this->assertTags($result, $expected);
 		}
 
-		public function testQuote() {
+		public function testQuoteblock() {
 			$input = '[quote]foo bar[/quote]';
 			$expected = array('blockquote' => array(), 'foo bar', '/blockquote');
 			$result = $this->_Parser->parse($input);
