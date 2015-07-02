@@ -28,6 +28,13 @@
 			$this->assertTags($result, $expected);
 		}
 
+		public function testQuote() {
+			$input = '[quote]foo bar[/quote]';
+			$expected = array('blockquote' => array(), 'foo bar', '/blockquote');
+			$result = $this->_Parser->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
 		public function testEmphasis() {
 			$input = '[i]italic[/i]';
 			$expected = array('em' => array(), 'italic', '/em');

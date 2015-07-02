@@ -120,6 +120,12 @@
 					'type' => 'class',
 					'title' => 'urlWithAttributes'
 				],
+				// quotes
+				'quote' => [
+					'type' => 'replacement',
+					'title' => 'quote',
+					'replacement' => '<blockquote>{param}</blockquote>'
+				]
 			],
 			'multimedia' => [
 				'embed' => [
