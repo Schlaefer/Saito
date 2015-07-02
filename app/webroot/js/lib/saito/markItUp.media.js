@@ -77,8 +77,8 @@ define(['jquery', 'underscore'], function ($, _) {
           var defaults, attributes, reducer;
 
           defaults = {
-            width: 425,
-            height: 349,
+            width: 560,
+            height: 315,
             frameborder: 0,
             allowfullscreen: 'allowfullscreen'
           };

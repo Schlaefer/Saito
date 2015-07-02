@@ -44,25 +44,26 @@ define([ 'lib/saito/markItUp.media' ], function(MarkitUpMedia) {
             });
 
             it("outputs an [iframe] tag for <iframe> tags", function() {
-                input = '<iframe src="http://www.youtube.com/embed/qa-4E8ZDj9s" width="425" ' +
-                    'height="349" frameborder="0" allowfullscreen></iframe>';
+                input = '<iframe src="http://www.youtube.com/embed/qa-4E8ZDj9s" width="560" ' +
+                    'height="315" frameborder="0" allowfullscreen></iframe>';
                 result = markItUp.multimedia(input);
-                expected = '[iframe src=http://www.youtube.com/embed/qa-4E8ZDj9s width=425 ' +
-                    'height=349 frameborder=0 allowfullscreen][/iframe]';
+                expected = '[iframe src=http://www.youtube.com/embed/qa-4E8ZDj9s width=560 ' +
+                    'height=315 frameborder=0 allowfullscreen][/iframe]';
                 expect(result).toEqual(expected);
             });
 
             it("outputs an [flash_video] tag for <object> tags", function() {
-                input = '<object … src="http://www.youtube.com/v/qa-4E8ZDj9s?version=3&amp;hl=en_US" … width="425" height="349" …';
+                input = '<object … src="http://www.youtube.com/v/qa-4E8ZDj9s?version=3&amp;hl=en_US" … width="560" height="315" …';
                 result = markItUp.multimedia(input);
-                expected = '[flash_video]http://www.youtube.com/v/qa-4E8ZDj9s?version=3&amp;hl=en_US|425|349[/flash_video]';
+                expected = '[flash_video]http://www.youtube.com/v/qa-4E8ZDj9s?version=3&amp;hl=en_US|560|315[/flash_video]';
+                expect(result).toEqual(expected);
             });
 
             it("outputs an [iframe] tag for a raw youtube url", function() {
                 input = 'http://www.youtube.com/watch?v=qa-4E8ZDj9s';
                 result = markItUp.multimedia(input);
                 expected = '[iframe src=//www.youtube.com/embed/qa-4E8ZDj9s' +
-                    ' width=425 height=349 frameborder=0 allowfullscreen][/iframe]';
+                    ' width=560 height=315 frameborder=0 allowfullscreen=allowfullscreen][/iframe]';
                 expect(result).toEqual(expected);
             });
 
@@ -70,7 +71,7 @@ define([ 'lib/saito/markItUp.media' ], function(MarkitUpMedia) {
                 input = 'www.youtube.com/watch?v=0u8KUgUqprw';
                 result = markItUp.multimedia(input);
                 expected = '[iframe src=//www.youtube.com/embed/0u8KUgUqprw' +
-                    ' width=425 height=349 frameborder=0 allowfullscreen][/iframe]';
+                    ' width=560 height=315 frameborder=0 allowfullscreen=allowfullscreen][/iframe]';
                 expect(result).toEqual(expected);
             });
 
@@ -78,7 +79,7 @@ define([ 'lib/saito/markItUp.media' ], function(MarkitUpMedia) {
                 input = 'http://youtu.be/qa-4E8ZDj9s';
                 result = markItUp.multimedia(input);
                 expected = '[iframe src=//www.youtube.com/embed/qa-4E8ZDj9s' +
-                    ' width=425 height=349 frameborder=0 allowfullscreen][/iframe]';
+                    ' width=560 height=315 frameborder=0 allowfullscreen=allowfullscreen][/iframe]';
                 expect(result).toEqual(expected);
             });
 
