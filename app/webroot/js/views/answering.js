@@ -45,7 +45,8 @@ define([
       "click .btn-markItUp-Media": "_media",
       "click .btn-submit": "_send",
       "click .btn-cite": "_cite",
-      "keypress .js-subject": "_onKeyPressSubject"
+      "keypress .js-subject": "_onKeyPressSubject",
+      'input .js-subject': '_updateSubjectCharCount'
     },
 
     initialize: function(options) {
@@ -91,6 +92,24 @@ define([
       if (event.keyCode === 13) {
         this._send(event);
       }
+    },
+
+    /**
+     * Update char counter for remaining subject length
+     *
+     * @private
+     */
+    _updateSubjectCharCount: function() {
+      var count, $count, max, subject;
+      $count = this.$('.postingform-subject-count');
+      max = App.settings.get('subject_maxlength');
+      subject = this.$('.js-subject').val();
+      // Should be _.chars(subject) for counting multibyte chars as one char only, but
+      // <input> maxlength attribute also counts all bytes in multibyte char.
+      // This shortends the allowed subject by one byte-char per multibyte char,
+      // but we can life with that.
+      count = max - subject.length;
+      $count.html(count);
     },
 
     _upload: function(event) {
@@ -161,6 +180,7 @@ define([
 
     _onFormReady: function() {
       this._setupTextArea();
+      this._updateSubjectCharCount();
 
       var _$data = this.$('.js-data');
       if (_$data.length > 0 && _$data.data('meta').action === 'edit') {

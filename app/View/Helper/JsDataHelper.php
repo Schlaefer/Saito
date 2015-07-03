@@ -28,6 +28,7 @@
 										'pathPrefix' => Configure::read('App.imageBaseUrl'),
 										'fullBase' => true
 									]),
+						'subject_maxlength' => (int)Configure::read('Saito.Settings.subject_maxlength'),
 						'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
 						'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
 						'webroot' => $View->request->webroot
