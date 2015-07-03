@@ -11,6 +11,11 @@
 			__('admin.sysInfo.cce', $this->Admin->badge(Cache::settings('_cake_core_')['engine'], '_cBadge')),
 			__('admin.sysInfo.cse', $this->Admin->badge(Cache::settings('default')['engine'], '_cBadge'))
 		];
+		$si[] = $this->Html->link(
+			__('PHP Info'),
+			['controller' => 'admins', 'action' => 'phpinfo', 'prefix' => 'admin']
+		);
+
 		echo $this->Html->nestedList($si)
 	?>
 </div>
