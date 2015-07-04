@@ -39,13 +39,13 @@ define([
     model: null,
 
     events: {
-      "click .btn-previewClose": "_closePreview",
-      "click .btn-preview": "_showPreview",
-      "click .btn-markItUp-Upload": "_upload",
-      "click .btn-markItUp-Media": "_media",
-      "click .btn-submit": "_send",
-      "click .btn-cite": "_cite",
-      "keypress .js-subject": "_onKeyPressSubject",
+      'click .btn-previewClose': '_closePreview',
+      'click .btn-preview': '_showPreview',
+      'click .btn-markItUp-Upload': '_upload',
+      'click .btn-markItUp-Media': '_media',
+      'click .btn-submit': '_send',
+      'click .btn-cite': '_cite',
+      'keypress .js-subject': '_onKeyPressSubject',
       'input .js-subject': '_updateSubjectCharCount'
     },
 
@@ -58,10 +58,10 @@ define([
         this._onFormReady();
       }
       this._requestUrl = App.settings.get('webroot') +
-        'entries/add/' + this.model.get('id');
+      'entries/add/' + this.model.get('id');
 
       // focus can only be set after element is visible in page
-      this.listenTo(App.eventBus, "isAppVisible", this._focusSubject);
+      this.listenTo(App.eventBus, 'isAppVisible', this._focusSubject);
 
       // auto-open upload view for easy developing
       // this._upload();
@@ -71,17 +71,17 @@ define([
       this.$('.btn.btn-submit').attr('disabled', 'disabled');
     },
 
-    _enable:  function() {
+    _enable: function() {
       this.$('.btn.btn-submit').removeAttr('disabled');
     },
 
     _cite: function(event) {
-      event.preventDefault();
       var citeContainer = this.$('.cite-container'),
-          citeText = this.$('.btn-cite').data('text'),
-          currentText = this.$textarea.val();
+        citeText = this.$('.btn-cite').data('text'),
+        currentText = this.$textarea.val();
+      event.preventDefault();
 
-      this.$textarea.val(citeText + "\n\n" + currentText);
+      this.$textarea.val(citeText + '\n\n' + currentText);
       citeContainer.slideToggle();
       this.$textarea.trigger('autosize.resize');
       this.$textarea.focus();
@@ -179,12 +179,13 @@ define([
     },
 
     _onFormReady: function() {
+      var _$data, _entry;
       this._setupTextArea();
       this._updateSubjectCharCount();
 
-      var _$data = this.$('.js-data');
+      _$data = this.$('.js-data');
       if (_$data.length > 0 && _$data.data('meta').action === 'edit') {
-        var _entry = this.$('.js-data').data('entry');
+        _entry = this.$('.js-data').data('entry');
         this.model.set(_entry, {silent: true});
         this._addCountdown();
       }
@@ -208,7 +209,7 @@ define([
 
     _focusSubject: function() {
       // focus is broken in Mobile Safari iOS 8
-      var iOS =  window.navigator.userAgent.match('iPad|iPhone');
+      var iOS = window.navigator.userAgent.match('iPad|iPhone');
       if (iOS) {
         return;
       }
@@ -230,13 +231,14 @@ define([
     },
 
     _sendRedirect: function(event) {
+      var submit;
       var button = this.$('.btn-submit')[0];
       event.preventDefault();
       if (typeof button.validity === 'object' &&
-          button.form.checkValidity() === false) {
+        button.form.checkValidity() === false) {
         // we can't trigger JS validation messages via form.submit()
         // so we create and click this hidden dummy submit button
-        var submit = _.bind(function() {
+        submit = _.bind(function() {
           if (!this.checkValidityDummy) {
             this.checkValidityDummy = $('<button></button>', {
               type: 'submit',
@@ -256,9 +258,10 @@ define([
     },
 
     _sendInline: function(event) {
+      var data, disable, fail, success;
       event.preventDefault();
-      var data = this.$('#EntryAddForm').serialize();
-      var success = _.bind(function(data) {
+      data = this.$('#EntryAddForm').serialize();
+      success = _.bind(function(data) {
         this.model.set({isAnsweringFormShown: false});
         if (this.parentThreadline !== null) {
           this.parentThreadline.set('isInlineOpened', false);
@@ -270,7 +273,7 @@ define([
           isNewToUser: true
         });
       }, this);
-      var fail = _.bind(function(jqXHR, text) {
+      fail = _.bind(function(jqXHR, text) {
         this.sendInProgress = false;
         this._enable();
         App.eventBus.trigger('notification', {
@@ -279,7 +282,7 @@ define([
           message: jqXHR.responseText
         });
       }, this);
-      var disable = _.bind(this._disable, this);
+      disable = _.bind(this._disable, this);
 
       $.ajax({
         url: this._requestUrl,
