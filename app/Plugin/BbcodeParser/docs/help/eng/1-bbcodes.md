@@ -152,6 +152,8 @@ If activated `[embed]<URL>[/embed]` tries to embed the URL via [embed.ly](http:/
 
 ### Float ###
 
-	[float]content[/float]
+	[float]float this to the side[/float] main content
+	…
+	[float]another float[/float] main content
 
 Floats the content to the side.

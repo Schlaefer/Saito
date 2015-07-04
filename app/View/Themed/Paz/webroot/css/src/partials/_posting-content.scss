@@ -2,6 +2,8 @@
 // -------------------------------------
 
 .richtext {
+  @extend %clearfix;
+
   ul {
     @extend %ul;
   }

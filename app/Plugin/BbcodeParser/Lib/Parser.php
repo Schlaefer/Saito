@@ -54,7 +54,7 @@
 				'float' => [
 					'type' => 'replacement',
 					'title' => 'float',
-					'replacement' => '<div class="richtext-float">{param}</div>'
+					'replacement' => '<div class="clearfix"></div><div class="richtext-float">{param}</div>'
 				],
 				// email
 				'email' => [
