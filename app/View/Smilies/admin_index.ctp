@@ -9,7 +9,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id');?></th>
       <th><?php echo __('Code'); ?></th>
-			<th><?php echo $this->Paginator->sort('order');?></th>
+			<th><?php echo $this->Paginator->sort('sort');?></th>
 			<th><?php echo $this->Paginator->sort('icon');?></th>
 			<th><?php echo $this->Paginator->sort('image');?></th>
       <th><?php echo $this->Paginator->sort('title');?></th>
@@ -33,7 +33,7 @@
 	<tr<?php echo $class;?>>
 		<td><?php echo $smiley['Smiley']['id']; ?>&nbsp;</td>
     <td><code style="font-size: 0.85em;"><?= $codes ?></code></td>
-		<td><?php echo $smiley['Smiley']['order']; ?>&nbsp;</td>
+		<td><?php echo $smiley['Smiley']['sort']; ?>&nbsp;</td>
 		<td><?php echo $smiley['Smiley']['icon']; ?>&nbsp;</td>
 		<td><?php echo $smiley['Smiley']['image']; ?>&nbsp;</td>
     <td><?= $smiley['Smiley']['title'] ?>&nbsp;</td>
