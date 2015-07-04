@@ -419,7 +419,9 @@ EOF;
 
 		public function testFloat() {
 			$expected = [
-				'div' => ['class' => 'richtext-float'],
+				['div' => ['class' => 'clearfix']],
+				'/div',
+				['div' => ['class' => 'richtext-float']],
 				'text',
 				'/div',
 				'more'
