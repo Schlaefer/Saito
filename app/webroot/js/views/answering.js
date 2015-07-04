@@ -50,11 +50,17 @@ define([
     },
 
     initialize: function(options) {
-      this.parentThreadline = options.parentThreadline || null;
+      _.defaults(options, {
+        // answering form was loaded via ajax request
+        ajax: true,
+        // answering form is in posting which is inline-opened
+        parentThreadline: false
+      });
+      this.options = options;
 
-      this._setupTextArea();
-      if (!this.parentThreadline) {
-        //* view came directly from server and is ready without rendering
+      if (this.options.ajax === false) {
+        // view came directly from server and is ready without rendering
+        this._setupTextArea();
         this._onFormReady();
       }
       this._requestUrl = App.settings.get('webroot') +
