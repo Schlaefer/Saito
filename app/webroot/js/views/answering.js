@@ -54,7 +54,7 @@ define([
         // answering form was loaded via ajax request
         ajax: true,
         // answering form is in posting which is inline-opened
-        parentThreadline: false
+        parentThreadline: null
       });
       this.options = options;
 
@@ -269,8 +269,8 @@ define([
       data = this.$('#EntryAddForm').serialize();
       success = _.bind(function(data) {
         this.model.set({isAnsweringFormShown: false});
-        if (this.parentThreadline !== null) {
-          this.parentThreadline.set('isInlineOpened', false);
+        if (this.options.parentThreadline !== null) {
+          this.options.parentThreadline.set('isInlineOpened', false);
         }
         App.eventBus.trigger('newEntry', {
           tid: data.tid,
