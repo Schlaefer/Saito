@@ -9,11 +9,17 @@ use Saito\App\Registry;
 class CronComponent extends Component
 {
 
+    /**
+     * {@inheritDoc}
+     */
     public function shutdown(Event $event)
     {
         $this->execute();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function __call($method, $params)
     {
         $Cron = Registry::get('Cron');
@@ -22,5 +28,4 @@ class CronComponent extends Component
             return call_user_func_array($proxy, $params);
         }
     }
-
 }

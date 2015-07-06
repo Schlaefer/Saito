@@ -41,7 +41,7 @@ class EntriesTable extends AppTable
     use RememberTrait;
 
     public $actsAs = [
-        // @todo Search
+        // @td 3.0 Search
         //'Search.Searchable'
     ];
 
@@ -177,10 +177,10 @@ class EntriesTable extends AppTable
             'Bookmarks',
             ['foreignKey' => 'entry_id', 'dependent' => true]
         );
-        // @todo 3.0 Notif
+        // @td 3.0 Notif
         // Is this condition working implicetly?
         //	'conditions' => array('Esevent.subject' => 'Entry.id'),
-        $this->hasMany('Esevents', ['foreignKey' => 'subject']);
+        //$this->hasMany('Esevents', ['foreignKey' => 'subject']);
     }
 
     /**
@@ -188,6 +188,10 @@ class EntriesTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
+        $validator->provider(
+            'saito',
+            'Saito\Validation\SaitoValidationProvider'
+        );
         $validator
             //= category_id
             ->notEmpty('category_id')
@@ -195,12 +199,14 @@ class EntriesTable extends AppTable
                 'category_id',
                 [
                     'isAllowed' => [
-                        'rule' => [
-                            $this,
-                            'validateCategoryIsAllowed'
-                        ]
+                        'rule' => [$this, 'validateCategoryIsAllowed']
                     ],
-                    'numeric' => ['rule' => 'numeric']
+                    'numeric' => ['rule' => 'numeric'],
+                    'assoc' => [
+                        'rule' => ['validateAssoc', 'Categories'],
+                        'last' => true,
+                        'provider' => 'saito'
+                    ]
                 ]
             )
             //= subject
@@ -378,6 +384,8 @@ class EntriesTable extends AppTable
         $data['time'] = bDate();
         $data['last_answer'] = bDate();
 
+        $this->validator()->requirePresence('category_id', 'create');
+
         $posting = $this->newEntity($data);
         $errors = $posting->errors();
         if (!empty($errors)) {
@@ -401,6 +409,13 @@ class EntriesTable extends AppTable
             if (!$this->save($newPosting)) {
                 return false;
             }
+            $this->_dispatchEvent(
+                'Model.Thread.create',
+                [
+                    'subject' => $newPostingId,
+                    'data' => $newPosting
+                ]
+            );
         } else {
             // update last answer time of root entry
             // @td rise error and/or roll back on failure
@@ -450,7 +465,7 @@ class EntriesTable extends AppTable
         $this->prepare($data, ['preFilterFields' => 'update']);
 
         // prevents normal user of changing category of complete thread when answering
-        // @todo this should be refactored together with the change category handling in beforeSave()
+        // @td this should be refactored together with the change category handling in beforeSave()
         if (!$posting->isRoot()) {
             unset($data['category_id']);
         }
@@ -487,37 +502,6 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * Update view counter on all postings in a thread
-     *
-     * @param int $tid thread-ID
-     * @param int $uid entries with this user-id are not updated
-     * @return void
-     */
-    public function threadIncrementViews($tid, $uid = null)
-    {
-        Stopwatch::start('EntriesTable::threadIncrementViews()');
-        $where = ['tid' => $tid];
-        if ($uid && is_int($uid)) {
-            $where['user_id !='] = $uid;
-        }
-        $this->increment($where, 'views');
-        Stopwatch::stop('EntriesTable::threadIncrementViews()');
-    }
-
-    /**
-     * Update view counter on a single posting
-     *
-     * @param int $id id
-     * @param int $amount amount
-     * @return void
-     * @throws \App\Lib\Model\Table\InvalidArgumentException
-     */
-    public function incrementViews($id, $amount = 1)
-    {
-        $this->increment($id, 'views', $amount);
-    }
-
-    /**
      * tree of a single node and its subentries
      *
      * $options = array(
@@ -526,7 +510,7 @@ class EntriesTable extends AppTable
      *
      * @param int $id id
      * @param array $options options
-     * @return array tree
+     * @return Posting tree
      */
     public function treeForNode($id, $options = [])
     {
@@ -695,19 +679,14 @@ class EntriesTable extends AppTable
             $this->_threadLock($id, $result);
         }
 
-        /* @todo 3.0
-         * $this->contain();
-         * $entry = $this->read();
-         *
-         * $this->_dispatchEvent(
-         * 'Model.Entry.update',
-         * [
-         * 'subject' => $entry[$this->alias]['id'],
-         * 'data' => $entry
-         * ]
-         * );
-         */
-
+        $entry = $this->get($id);
+        $this->_dispatchEvent(
+            'Model.Entry.update',
+            [
+                'subject' => $entry->get('id'),
+                'data' => $entry
+            ]
+        );
         return $result;
     }
 
@@ -757,7 +736,7 @@ class EntriesTable extends AppTable
         }
 
         /*
-        // @todo 3.0 Esevent
+        // @td 3.0 Notif
         if ($root->isRoot()) {
             $this->Esevents->deleteSubject($id, 'thread');
         }
@@ -799,46 +778,6 @@ class EntriesTable extends AppTable
         }
 
         return $success;
-    }
-
-    /**
-     * Maps all elements in $tree to function $func
-     *
-     * @param array $leafs leafs
-     * @param callable $func func
-     * @param null $context context
-     * @param null $tree tree
-     *
-     * @return string
-     *
-     * @todo 3.0 remove
-     */
-    public static function mapTreeElements(
-        &$leafs,
-        callable $func,
-        $context = null,
-        &$tree = null
-    ) {
-        if ($tree === null) {
-            $tree = &$leafs;
-        }
-        foreach ($leafs as &$leaf) {
-            $result = $func($tree, $leaf, $context);
-            if ($result === 'break') {
-                return 'break';
-            }
-            if (isset($leaf['_children'])) {
-                $result = self::mapTreeElements(
-                    $leaf['_children'],
-                    $func,
-                    $context,
-                    $tree
-                );
-                if ($result === 'break') {
-                    return 'break';
-                }
-            }
-        }
     }
 
     /**
@@ -911,17 +850,18 @@ class EntriesTable extends AppTable
                 $this->_threadLock($targetPosting->get('tid'), $isTargetPinned);
             }
 
-            /* @todo 3.0 Esevent
-             * $this->Esevent->transferSubjectForEventType(
-             * $sourceId,
-             * $targetPosting[$this->alias]['tid'],
-             * 'thread'
-             * );
-             * $this->_dispatchEvent(
-             * 'Model.Thread.change',
-             * ['subject' => $targetPosting[$this->alias]['tid']]
-             * );
-             */
+            /* @td 3.0 Notif
+              $this->Esevent->transferSubjectForEventType(
+              $sourceId,
+              $targetPosting[$this->alias]['tid'],
+              'thread'
+              );
+            */
+            $this->_dispatchEvent(
+                'Model.Thread.change',
+                ['subject' => $targetPosting->get('tid')]
+            );
+
             return true;
         }
         return false;

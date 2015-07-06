@@ -1,19 +1,30 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\View\Helper;
 
+use App\Model\Entity\Entry;
 use Cake\Core\Configure;
-use Cake\ORM\Entity;
-use Saito\App\Registry;
 use Saito\Posting\Basic\BasicPostingInterface;
-use Saito\Posting\Posting;
 use Saito\Posting\PostingInterface;
+use Saito\Posting\Renderer\HelperTrait;
 use Saito\Thread\Renderer;
 
+/**
+ * Class PostingHelper
+ *
+ * @package App\View\Helper
+ */
 class PostingHelper extends AppHelper
 {
 
-    use \Saito\Posting\Renderer\HelperTrait;
+    use HelperTrait;
 
     public $helpers = ['Form', 'Html', 'TimeH'];
 
@@ -55,18 +66,20 @@ class PostingHelper extends AppHelper
     {
         $options += ['class' => ''];
         $id = $posting->get('id');
-        $out = "<a href='{$this->request->webroot}entries/view/{$id}' class='{$options['class']}'>" . $this->getSubject($posting->toPosting()) . '</a>';
-        return $out;
+        $url = "{$this->request->webroot}entries/view/{$id}";
+        $link = "<a href=\"{$url}\" class=\"{$options['class']}\">" . $this->getSubject($posting) . '</a>';
+        return $link;
     }
 
     /**
      * category select
      *
-     * @param Entity $posting posting
+     * @param Entry $posting posting
      * @param array $categories categories
+     *
      * @return string
      */
-    public function categorySelect(Entity $posting, array $categories)
+    public function categorySelect(Entry $posting, array $categories)
     {
         if ($posting->isRoot()) {
             $html = $this->Form->input(
@@ -85,6 +98,18 @@ class PostingHelper extends AppHelper
             $html = $this->Form->hidden('category_id');
         }
         return $html;
+    }
+
+    /**
+     * Render view counter
+     *
+     * @param BasicPostingInterface $posting posting
+     *
+     * @return string
+     */
+    public function views(BasicPostingInterface $posting)
+    {
+        return __('views_headline') . ': ' . $posting->get('views');
     }
 
     /**
@@ -116,6 +141,12 @@ class PostingHelper extends AppHelper
             switch ($name) {
                 case 'mix':
                     $renderer = new Renderer\MixHtmlRenderer($this);
+                    break;
+                case 'thread':
+                    $renderer = new Renderer\ThreadHtmlRenderer($this);
+                    break;
+                case (is_string($renderer)):
+                    $renderer = new $renderer($this);
                     break;
                 default:
                     $renderer = new Renderer\ThreadHtmlRenderer($this);

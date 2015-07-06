@@ -1,69 +1,85 @@
 <?php
 
-	namespace SaitoHelp\View\Helper;
+namespace SaitoHelp\View\Helper;
 
-	use Cake\View\Helper;
-	use Ciconia\Ciconia;
-	use Ciconia\Extension\Gfm;
+use Cake\View\Helper;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
-	class SaitoHelpHelper extends Helper {
+class SaitoHelpHelper extends Helper
+{
+    public $helpers = ['Commonmark.Commonmark', 'Html', 'Layout', 'Url'];
 
-		public $helpers = ['Html', 'Layout'];
+    /**
+     * Create a help icon linking to a help page
+     *
+     * @param string $id help page id
+     * @param array $options options
+     * @return mixed
+     */
+    public function icon($id, array $options = [])
+    {
+        $options += ['label' => '', 'target' => '_blank'];
+        $options = ['class' => 'shp-icon', 'escape' => false] + $options;
 
-		public function icon($id, array $options = []) {
-			$options += ['label' => '', 'target' => '_blank'];
-			$options = ['class' => 'shp-icon', 'escape' => false] + $options;
+        if ($options['label'] === true) {
+            $options['label'] = __('Help');
+        }
+        if (!empty($options['label'])) {
+            $options['label'] = h($options['label']);
+        }
 
-			if ($options['label'] === true) {
-				$options['label'] = __('Help');
-			}
-			if (!empty($options['label'])) {
-				$options['label'] = h($options['label']);
-			}
+        $title = $this->Layout->textWithIcon(
+            $options['label'],
+            'question-circle'
+        );
+        unset($options['label']);
 
-			$title = $this->Layout->textWithIcon($options['label'], 'question-circle');
-			unset($options['label']);
+        return $this->Html->link($title, "/help/$id", $options);
+    }
 
-			return $this->Html->link($title, "/help/$id", $options);
-		}
+    /**
+     * Parse text
+     *
+     * @param string $text text to parse
+     * @param CurrentUserInterface $CurrentUser current user
+     * @return string
+     */
+    public function parse($text, CurrentUserInterface $CurrentUser)
+    {
+        $this->_CurrentUser = $CurrentUser;
+        $this->_webroot = $this->Url->build('/', true);
 
-		public function parse($text, $CurrentUser) {
-			$this->_CurrentUser = $CurrentUser;
-			$this->_webroot = $this->Html->url('/', true);
+        $text = preg_replace_callback(
+            '/\[(?P<text>.*?)\]\((?P<url>.*?)\)/',
+            [$this, '_replaceUrl'],
+            $text
+        );
+        return $this->Commonmark->parse($text);
+    }
 
-            // @todo 3.0 use https://github.com/fluxbb/commonmark already in composer
-			$ciconia = new Ciconia();
+    /**
+     * Allow linking within the Saito app
+     *
+     * @param array $matches matches
+     * @return string
+     */
+    protected function _replaceUrl(array $matches)
+    {
+        $text = $matches['text'];
+        $url = $matches['url'];
 
-			$ciconia->addExtension(new Gfm\FencedCodeBlockExtension());
-			$ciconia->addExtension(new Gfm\TaskListExtension());
-			$ciconia->addExtension(new Gfm\InlineStyleExtension());
-			$ciconia->addExtension(new Gfm\WhiteSpaceExtension());
-			$ciconia->addExtension(new Gfm\TableExtension());
-			$ciconia->addExtension(new Gfm\UrlAutoLinkExtension());
+        if (strpos($matches['url'], ':uid')) {
+            if (!$this->_CurrentUser->isLoggedIn()) {
+                return $text;
+            }
+            $uid = $this->_CurrentUser->getId();
+            $url = str_replace(':uid', $uid, $url);
+        }
 
-			$text = preg_replace_callback('/\[(?P<text>.*?)\]\((?P<url>.*?)\)/',
-				[$this, '_replaceUrl'], $text);
+        if (strpos($url, 'webroot:') === 0) {
+            $url = str_replace('webroot:', $this->_webroot, $url);
+        }
 
-			return $ciconia->render($text);
-		}
-
-		protected function _replaceUrl($matches) {
-			$text = $matches['text'];
-			$url = $matches['url'];
-
-			if (strpos($matches['url'], ':uid')) {
-				if (!$this->_CurrentUser->isLoggedIn()) {
-					return $text;
-				}
-				$uid = $this->_CurrentUser->getId();
-				$url = str_replace(':uid', $uid, $url);
-			}
-
-			if (strpos($url, 'webroot:') === 0) {
-				$url = str_replace('webroot:', $this->_webroot, $url);
-			}
-
-			return "[$text]($url)";
-		}
-
-	}
+        return "[$text]($url)";
+    }
+}

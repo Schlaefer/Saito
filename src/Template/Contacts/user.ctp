@@ -9,8 +9,7 @@ $this->end();
 ?>
 <div class="user contact">
     <div class="panel">
-        <?= $this->Layout->panelHeading($this->get('title_for_page'),
-            ['pageHeading' => true]) ?>
+        <?= $this->Layout->panelHeading($this->get('titleForPage'), ['pageHeading' => true]) ?>
         <div class="panel-content panel-form">
             <?php
             echo $this->Form->create($contact);

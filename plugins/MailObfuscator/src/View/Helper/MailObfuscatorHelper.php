@@ -4,11 +4,21 @@ namespace MailObfuscator\View\Helper;
 
 use Cake\View\Helper;
 
-class MailObfuscatorHelper extends Helper {
+class MailObfuscatorHelper extends Helper
+{
 
     public $helpers = ['Html'];
 
-    public function link($addr, $title = '') {
+    /**
+     * Generate mail lLink
+     *
+     * @param string $addr mail address
+     * @param string $title link title
+     *
+     * @return string
+     */
+    public function link($addr, $title = '')
+    {
         $hasTitle = 0;
         if (empty($title) === false) {
             $hasTitle = 1;
@@ -31,6 +41,4 @@ class MailObfuscatorHelper extends Helper {
 
         return $mailto;
     }
-
 }
-

@@ -99,16 +99,6 @@ class AppTable extends Table
                         return false;
                     }
                 }
-
-                /*
-                 * @todo 3.0 dead code?
-            else {
-                    if (!isset($data[$model][$field])) {
-                        return false;
-                    }
-                }
-                */
-
                 return true;
             }
         );
@@ -132,16 +122,6 @@ class AppTable extends Table
                         unset($data[$field]);
                     }
                 }
-
-                /*
-                 * @todo 3.0 dead code?
-                else {
-                    if (!isset($data[$model][$field])) {
-                        unset($data[$model][$field]);
-                    }
-                }
-                */
-
                 return true;
             }
         );
@@ -150,7 +130,6 @@ class AppTable extends Table
     /**
      * Filter fields
      *
-     * @todo 3.0 remove?
      * @param array $data to map
      * @param array $fields fields
      * @param callable $func The callback.
@@ -165,27 +144,10 @@ class AppTable extends Table
                     return false;
                 }
             }
-
             return true;
         }
 
-        /*
-         * @todo 3.0 should be dead code, remove after transition
-        if (!isset($data[$this->alias()])) {
-            $data = [$this->alias() => $data];
-        }
-        */
         foreach ($fields as $field) {
-            /*
-            if (strpos($field, '.') !== false) {
-                list($model, $field) = explode('.', $field, 2);
-            } else {
-                $model = $this->alias();
-            }
-            if ($model !== $this->alias()) {
-                continue;
-            }
-            */
             if (!$func($data, $field)) {
                 return false;
             }
@@ -273,52 +235,5 @@ class AppTable extends Table
             return $this->_settings[$name];
         }
         throw new \UnexpectedValueException;
-    }
-
-    /**
-     * Inclusive Validation::range()
-     *
-     * @todo 3.0 used?
-     *
-     * @param array $check check
-     * @param float $lower lower
-     * @param float $upper upper
-     * @return bool
-     * @see https://github.com/cakephp/cakephp/issues/3304
-     */
-    public function inRange($check, $lower = null, $upper = null)
-    {
-        $check = reset($check);
-        if (!is_numeric($check)) {
-            return false;
-        }
-        if (isset($lower) && isset($upper)) {
-            return ($check >= $lower && $check <= $upper);
-        }
-
-        // fallback to 'parent'
-        return Validation::range($check, $lower, $upper);
-    }
-
-    /**
-     * Logs current SQL log
-     *
-     * @todo 3.0 is working?
-     *
-     * Set debug to 2 to enable SQL logging!
-     *
-     * @return void
-     */
-    public function logSql()
-    {
-        if (Configure::read('debug') < 2) {
-            trigger_error(
-                'You must set debug level to at least 2 to enable SQL-logging',
-                E_USER_NOTICE
-            );
-        }
-        $dbo = $this->getDatasource();
-        $logs = $dbo->getLog();
-        $this->log($logs['log']);
     }
 }

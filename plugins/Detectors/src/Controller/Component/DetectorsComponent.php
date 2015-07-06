@@ -136,6 +136,8 @@ class DetectorsComponent extends Component
      *
      * Cake 3 uses mobiledetect/mobiledetectlib as external library which is
      * certainly thourough but godawful slow. This is good enough for us.
+     *
+     * @return bool
      */
     public function isMobile()
     {

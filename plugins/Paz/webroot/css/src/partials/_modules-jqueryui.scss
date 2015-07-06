@@ -1,6 +1,6 @@
 .ui-dialog {
   @extend %dialog-hover;
-  background: $background-color;
+  background: $page-color;
   border-color: $border-color;
 
   .ui-dialog-titlebar-close {

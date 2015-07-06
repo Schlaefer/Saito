@@ -24,7 +24,6 @@ abstract class LastRefreshAbstract
      * Constructor
      *
      * @param CurrentUserComponent $CurrentUser current-user
-     * @return void
      */
     public function __construct(CurrentuserComponent $CurrentUser)
     {

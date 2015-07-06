@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -12,5 +13,5 @@
  * @since         0.10.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-?>
-<?= $this->fetch('content') ?>
+
+echo $this->fetch('content');

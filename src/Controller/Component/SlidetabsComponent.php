@@ -11,13 +11,13 @@ class SlidetabsComponent extends Component
     /**
      * S(l)idetabs used by the application
      *
-     * @var array
+     * @var array ['title' => '<cell class>']
      */
     private $_available = [
-        'slidetab_recentposts',
-        'slidetab_recententries',
-        'slidetab_userlist',
-        'slidetab_shoutbox'
+        'slidetab_recententries' => 'SlidetabRecentposts',
+        'slidetab_recentposts' => 'SlidetabUserposts',
+        'slidetab_shoutbox' => 'SlidetabShoutbox',
+        'slidetab_userlist' => 'SlidetabUserlist'
     ];
 
     /**
@@ -27,7 +27,7 @@ class SlidetabsComponent extends Component
      */
     public function getAvailable()
     {
-        return $this->_available;
+        return array_keys($this->_available);
     }
 
     /**
@@ -43,12 +43,18 @@ class SlidetabsComponent extends Component
         $Controller = $this->_registry->getController();
         $user = $Controller->CurrentUser;
         if (!$user->isLoggedIn()) {
-            $tabs = false;
+            $tabs = [];
         } elseif ($slidetabs === 'all') {
             $tabs = $this->_getForUser($user);
         } else {
             $tabs = $slidetabs;
         }
+        $tabs = array_map(
+            function ($v) {
+                return $this->_available[$v];
+            },
+            $tabs
+        );
         $Controller->set('slidetabs', $tabs);
     }
 

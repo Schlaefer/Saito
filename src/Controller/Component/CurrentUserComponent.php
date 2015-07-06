@@ -1,11 +1,20 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Controller\Component;
 
+use App\Model\Table\UserReadsTable;
+use App\Model\Table\UsersTable;
 use Cake\Controller\Component;
 use Cake\Controller\Component\AuthComponent;
+use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Saito\App\Registry;
 use Saito\User\Categories;
@@ -21,13 +30,18 @@ use Saito\User\ReadPostings\ReadPostingsDummy;
 use Saito\User\SaitoUserTrait;
 use \Stopwatch\Lib\Stopwatch;
 
+/**
+ * Class CurrentUserComponent
+ *
+ * @package App\Controller\Component
+ */
 class CurrentUserComponent extends Component implements CurrentUserInterface
 {
     use CurrentUserTrait;
     use SaitoUserTrait;
 
     /**
-     * @var \Saito\User\Category
+     * @var \Saito\User\Categories
      */
     public $Categories;
 
@@ -60,14 +74,14 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     public $LastRefresh = null;
 
     /**
-     * @var ReadPostings
+     * @var ReadPostingsDatabase
      */
     public $ReadEntries;
 
     /**
      * Model User instance exclusive to the CurrentUserComponent
      *
-     * @var User
+     * @var UsersTable
      */
     protected $_User = null;
 
@@ -112,6 +126,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
 
         if ($this->isLoggedIn()) {
             $this->LastRefresh = new LastRefresh\LastRefreshDatabase($this);
+            /* @var UserReadsTable $storage */
             $storage = TableRegistry::get('UserReads');
             $this->ReadEntries = new ReadPostingsDatabase($this, $storage);
         } elseif ($this->isBot()) {
@@ -259,7 +274,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(Event $event)
+    public function beforeRender()
     {
         // write out the current user for access in the views
         $this->_Controller->set('CurrentUser', $this);

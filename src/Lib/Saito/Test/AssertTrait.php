@@ -17,7 +17,7 @@ trait AssertTrait
     public function assertRouteForRole($route, $role, $method = 'get')
     {
         $method = strtolower($method);
-        $types = ['admin' => 3 , 'mod' => 2, 'user' => 1, 'anon' => 0];
+        $types = ['admin' => 3, 'mod' => 2, 'user' => 1, 'anon' => 0];
 
         foreach ($types as $title => $type) {
             switch ($title) {

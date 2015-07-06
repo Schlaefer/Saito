@@ -291,10 +291,6 @@ msgstr ""
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
-#: Template/Element/entry/thread_cached_init.ctp:13
-msgid "btn-threadCollapse"
-msgstr "hide"
-
 #: Template/Element/entry/view_content.ctp:57
 msgid "{0} edited by {1}"
 msgstr ""
@@ -791,13 +787,22 @@ msgstr "Category-Chooser"
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
 
+msgid "gn.btn.more.t"
+msgstr "more"
+
+msgid "gn.btn.collapse.t"
+msgstr "Collapse"
+
 #: Template/Users/edit.ctp:280 Template/Users/edit.ctp:297
 msgid "gn.btn.save.t"
 msgstr "Save"
 
 #: Template/Users/edit.ctp:287 Template/Users/view.ctp:24
-msgid "user.set.avatar.t"
+msgid "user.avatar.t"
 msgstr "Avatar"
+
+msgid "user.set.avatar.t"
+msgstr "Set Avatar"
 
 #: Template/Users/edit.ctp:303
 msgid "gn.btn.delete.t"
@@ -1365,6 +1370,9 @@ msgstr ""
 msgid "Edit {0} Profil"
 msgstr ""
 
+msgid "Edit {0} Avatar"
+msgstr ""
+
 #: Controller/UsersController.php:435
 msgid "You can't lock yourself."
 msgstr ""
@@ -1487,11 +1495,11 @@ msgstr "Currently viewed posting"
 #~ msgid "Upload"
 #~ msgstr "Upload"
 
-#~ msgid "user.map.b.locate"
-#~ msgstr "Locate"
+msgid "user.map.b.locate"
+msgstr "Locate"
 
-#~ msgid "user.map.b.clear"
-#~ msgstr "Clear"
+msgid "user.map.b.clear"
+msgstr "Clear"
 
 msgid "ncy.bkm"
 msgstr "No bookmarks created yet."
@@ -1528,8 +1536,8 @@ msgstr "No bookmarks created yet."
 #~ msgid "upload_genericError"
 #~ msgstr "Error occurred on upload."
 
-#~ msgid "user.map.b.search"
-#~ msgstr "Search \":string\""
+msgid "user.map.b.search"
+msgstr "Search \":string\""
 
 #~ msgid "user.block.reason.2"
 #~ msgstr "Ignored by to many users."

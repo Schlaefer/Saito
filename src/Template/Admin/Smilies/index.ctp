@@ -7,19 +7,23 @@ $this->Html->addCrumb(__('Smilies'), '/admin/smilies');
 <?= $this->Admin->help(4) ?>
 <div class="smilies index">
     <h1><?php echo __('Smilies'); ?></h1>
-    <?php echo $this->Html->link(
+    <?php
+    echo $this->Html->link(
         __('New Smiley'),
-        array('action' => 'add'),
-        array('class' => 'btn')
-    ); ?> &nbsp; | &nbsp;
-    <?php echo $this->Html->link(
+        ['action' => 'add'],
+        ['class' => 'btn']
+    );
+    ?> &nbsp; | &nbsp;
+    <?php
+    echo $this->Html->link(
         __('List Smiley Codes'),
-        array(
+        [
             'controller' => 'smiley_codes',
             'action' => 'index'
-        ),
-        array('class' => 'btn')
-    ); ?>
+        ],
+        ['class' => 'btn']
+    );
+    ?>
     <hr/>
     <table cellpadding="0" cellspacing="0"
            class="table table-striped table-bordered table-condensed">
@@ -35,7 +39,7 @@ $this->Html->addCrumb(__('Smilies'), '/admin/smilies');
         </tr>
         <?php
         $i = 0;
-        foreach ($smilies as $smiley):
+        foreach ($smilies as $smiley) :
             $class = null;
             if ($i++ % 2 == 0) {
                 $class = ' class="altrow"';
@@ -62,28 +66,32 @@ $this->Html->addCrumb(__('Smilies'), '/admin/smilies');
                 <td><?php echo __d('nondynamic', $smiley->get('title')); ?>
                     &nbsp;</td>
                 <td class="actions">
-                    <?php echo $this->Html->link(
+                    <?php
+                    echo $this->Html->link(
                         __('Edit'),
-                        array(
+                        [
                             'action' => 'edit',
                             $smiley->get('id')
-                        ),
-                        array('class' => 'btn')
-                    ); ?>
-                    <?php echo $this->Html->link(
+                        ],
+                        ['class' => 'btn']
+                    );
+                    ?>
+                    <?php
+                    echo $this->Html->link(
                         __('Delete'),
-                        array(
+                        [
                             'action' => 'delete',
                             $smiley->get('id')
-                        ),
-                        array('class' => 'btn'),
+                        ],
+                        ['class' => 'btn'],
                         sprintf(
                             __(
                                 'Are you sure you want to delete # %s?'
                             ),
                             $smiley->get('id')
                         )
-                    ); ?>
+                    );
+                    ?>
                 </td>
             </tr>
         <?php endforeach; ?>

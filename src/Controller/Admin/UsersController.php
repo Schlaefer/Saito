@@ -3,12 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
-use App\Lib\Controller\AuthSwitchTrait;
 
 class UsersController extends AppController
 {
-    use AuthSwitchTrait;
-
     public $actionAuthConfig = [
         'delete' => 'mod'
     ];
@@ -46,26 +43,14 @@ class UsersController extends AppController
         if (!$this->request->is('post') && empty($this->request->data)) {
             $user = $this->Users->newEntity();
         } else {
-            $this->request->data = $this->passwordAuthSwitch($this->request->data);
             $user = $this->Users->register($this->request->data, true);
-            $errors = $user->errors();
-            if (empty($errors)) {
+            if ($user && empty($errors)) {
                 $this->Flash->set(__('user.admin.add.success'), ['element' => 'success']);
-                return $this->redirect([
-                    'prefix' => false,
-                    'action' => 'view',
-                    $user->get('id')
-                ]);
+                return $this->redirect(['prefix' => false, 'action' => 'view', $user->get('id')]);
             } else {
                 $this->Flash->set(__('user.admin.add.error'), ['element' => 'error']);
             }
-            // undo the passwordAuthSwitch() to display error message for the field
-            if (!empty($errors['password'])) {
-                $pwError['user_password'] = $errors['password'];
-                $user->errors($pwError);
-            }
         }
-
         $this->set('user', $user);
     }
 

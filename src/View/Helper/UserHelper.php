@@ -206,7 +206,8 @@ class UserHelper extends AppHelper
                 $imgUri = $this->Url->assetUrl($url);
             } else {
                 $name = $user->get('username');
-                $imgUri = (new Identicon)->getImageDataUri($name, $size);
+                $hdpi = 2 * $size;
+                $imgUri = (new Identicon)->getImageDataUri($name, $hdpi);
             }
 
             $style = "background-image: url({$imgUri});" . $options['style'];

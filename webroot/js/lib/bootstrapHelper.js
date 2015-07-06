@@ -23,9 +23,6 @@
     document.location.replace(destination);
   };
 
-  // prevent caching of ajax results
-  $.ajaxSetup({cache: false});
-
   define('jquery', function() {
     'use strict';
     return jQuery;

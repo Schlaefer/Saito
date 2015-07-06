@@ -13,7 +13,13 @@ class ApiShoutsController extends ApiAppController
 
     public $helpers = ['Shouts'];
 
-    public function shoutsGet() {
+    /**
+     * Get shouts
+     *
+     * @return void
+     */
+    public function shoutsGet()
+    {
         $this->set('shouts', $this->getShouts());
     }
 

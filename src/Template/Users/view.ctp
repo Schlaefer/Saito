@@ -21,14 +21,19 @@ $table = [
             $user->get('username')
         ) . " <span class='infoText'>({$this->User->type($user->get('user_type'))})</span>",
         # @td user_type for mod and admin
-    ],
-    [
-        __('user.set.avatar.t'),
-        $this->User->getAvatar($user, ['link' => false]),
     ]
 ];
 
-if ($user->isLocked()) {
+$avatar = $this->User->getAvatar($user, ['link' => false]);
+$avatar = $this->Html->tag(null, $avatar);
+if ($isEditingAllowed) {
+    $edit = $this->Html->link(__('user.set.avatar.t'), '/users/avatar/' . $user->get('id'));
+    $edit = $this->Html->para(null, $edit);
+    $avatar .= $edit;
+}
+$table[] = [__('user.avatar.t'), $avatar];
+
+if ($user->isForbidden()) {
     $table[] = [
         __('user.set.lock.t'),
         $this->User->banned($user->get('user_lock')),
@@ -43,14 +48,12 @@ if ($user->get('user_real_name')) {
 }
 
 if ($user->get('user_email') && $user->get('personal_messages')) {
-    $_contact = $this->User->contact($user);
+    $concat = $this->User->contact($user);
     if ($CurrentUser->permission('saito.core.user.view.contact')) {
-        $text = '(' . $this->Text->autoLinkEmails(
-                $user->get('user_email')
-            ) . ')';
-        $_contact .= ' ' . $this->Layout->infoText($text);
+        $text = '(' . $this->Text->autoLinkEmails($user->get('user_email')) . ')';
+        $concat .= ' ' . $this->Layout->infoText($text);
     }
-    $table[] = [__('Contact'), $_contact];
+    $table[] = [__('Contact'), $concat];
 }
 
 if ($user->get('user_hp')) {
@@ -167,7 +170,7 @@ if ($items) {
 
         <?php
         $isLoggedIn = $CurrentUser->isLoggedIn();
-        $isUsersEntry = $CurrentUser->getId() == $user->get('id');
+        $isUsersEntry = $CurrentUser->isUser($user);
 
         $panel = '';
         if ($isUsersEntry) {
@@ -211,19 +214,19 @@ if ($items) {
                 );
             }
 
-            $_menuItems = [];
+            $menuItems = [];
 
             if ($CurrentUser->permission('saito.core.user.edit')) {
                 // edit user
-                $_menuItems[] = $this->Html->link(
+                $menuItems[] = $this->Html->link(
                     '<i class="fa fa-pencil"></i> ' . __('Edit'),
                     ['action' => 'edit', $user->get('id')],
                     ['escape' => false]
                 );
-                $_menuItems[] = 'divider';
+                $menuItems[] = 'divider';
 
                 // delete user
-                $_menuItems[] = $this->Html->link(
+                $menuItems[] = $this->Html->link(
                     '<i class="fa fa-trash-o"></i> ' . h(__('Delete')),
                     [
                         'prefix' => 'admin',
@@ -234,51 +237,56 @@ if ($items) {
                     ['escape' => false]
                 );
             }
-            if ($_menuItems) {
+            if ($menuItems) {
                 $panel .= $this->Layout->dropdownMenuButton(
-                    $_menuItems,
+                    $menuItems,
                     [
                         'class' => 'btnLink btn-icon panel-footer-form-btn',
                     ]
                 );
             }
         }
-        if ($panel): ?>
+        if ($panel) { ?>
             <div class="panel-footer panel-form"><?= $panel ?></div>
-        <?php endif; ?>
+        <?php
+        }
+        ?>
     </div>
     <div class="panel">
         <?= $this->Layout->panelHeading(__('user_recentposts')) ?>
         <div class="panel-content">
-            <?php if (empty($lastEntries)): ?>
-                <?=
+            <?php
+            if (empty($lastEntries)) {
                 $this->element(
                     'generic/no-content-yet',
                     ['message' => __('No entries created yet.')]
-                ); ?>
-            <?php else: ?>
-                <ul class="threadCollection-node root">
-                    <?php foreach ($lastEntries as $entry): ?>
-                        <li>
-                            <?= $this->Posting->renderThread(
-                                $entry->toPosting(),
-                                ['ignore' => false]
-                            ) ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+                );
+            } else {
+                $threads = [];
+                foreach ($lastEntries as $entry) {
+                    $threads[] = $this->Posting->renderThread(
+                        $entry->toPosting(),
+                        ['ignore' => false]
+                    );
+                }
+                echo $this->Html->nestedList(
+                    $threads,
+                    ['class' => 'threadCollection-node root']
+                );
+            }
+            ?>
         </div>
-        <?php if ($hasMoreEntriesThanShownOnPage) : ?>
-            <div class="panel-footer panel-form">
-                <?=
-                $this->Html->link(
-                    __('Show all'),
-                    $urlToHistory,
-                    ['class' => 'panel-footer-form-bnt']
-                ) ?>
-            </div>
-        <?php endif; ?>
+        <?php
+        if ($hasMoreEntriesThanShownOnPage) {
+            $panel = $this->Html->link(
+                __('Show all'),
+                $urlToHistory,
+                ['class' => 'panel-footer-form-bnt']
+            );
+
+            echo $this->Html->div('panel-footer panel-form', $panel);
+        }
+        ?>
     </div>
 
     <?php
@@ -286,60 +294,63 @@ if ($items) {
         <div class="panel">
             <?= $this->Layout->panelHeading(__('user.block.history')) ?>
             <div class="panel-content">
-                <?= $this->element(
+                <?=
+                $this->element(
                     'users/block-report',
                     ['UserBlock' => $user->get('user_blocks')]
-                ); ?>
+                );
+                ?>
             </div>
-            <?php if (!$user->get('user_lock')) : ?>
+            <?php
+            if (!$user->get('user_lock')) {
+                $defaultValue = 86400;
+                $lock[] = $this->Form
+                    ->create(
+                        $blockForm,
+                        ['action' => 'lock', 'id' => 'blockForm']
+                    );
+                $lock[] = $this->Form->button(
+                    __('Block User'),
+                    [
+                        'class' => 'btnLink',
+                        'type' => 'submit'
+                    ]
+                );
+                $lock[] = "&nbsp;";
+                $lock[] = $this->Form->input(
+                    'lockRange',
+                    [
+                        'templates' => ['inputContainer' => '{{content}}'],
+                        'label' => false,
+                        'max' => 432000,
+                        'min' => 21600,
+                        'step' => 21600,
+                        'style' => 'vertical-align: middle;',
+                        'type' => 'range',
+                        'value' => $defaultValue
+                    ]
+                );
+                $lock[] = $this->Form->hidden(
+                    'lockPeriod',
+                    ['id' => 'lockPeriod', 'value' => $defaultValue]
+                );
+                $lock[] = $this->Form->unlockField('lockPeriod');
+                $lock[] = $this->Form->hidden(
+                    'lockUserId',
+                    ['value' => $user->get('id')]
+                );
+                $lock[] = $this->Html->tag(
+                    'span',
+                    Text::insert(
+                        __(':hours hours'),
+                        ['hours' => $defaultValue / 3600]
+                    ),
+                    ['id' => 'lockTimeGauge', 'style' => 'padding: 0.5em']
+                );
+                $lock[] = $this->Form->end();
+                ?>
                 <div class="panel-footer panel-form">
-                    <?php
-                    $defaultValue = 86400;
-                    echo $this->Form
-                        ->create(
-                            $blockForm,
-                            ['action' => 'lock', 'id' => 'blockForm']
-                        );
-                    echo $this->Form->button(
-                        __('Block User'),
-                        [
-                            'class' => 'btnLink',
-                            'type' => 'submit'
-                        ]
-                    );
-                    echo "&nbsp;";
-                    echo $this->Form->input(
-                        'lockRange',
-                        [
-                            'templates' => ['inputContainer' => '{{content}}'],
-                            'label' => false,
-                            'max' => 432000,
-                            'min' => 21600,
-                            'step' => 21600,
-                            'style' => 'vertical-align: middle;',
-                            'type' => 'range',
-                            'value' => $defaultValue
-                        ]
-                    );
-                    echo $this->Form->hidden(
-                        'lockPeriod',
-                        ['id' => 'lockPeriod', 'value' => $defaultValue]
-                    );
-                    $this->Form->unlockField('lockPeriod');
-                    echo $this->Form->hidden(
-                        'lockUserId',
-                        ['value' => $user->get('id')]
-                    );
-                    echo $this->Html->tag(
-                        'span',
-                        Text::insert(
-                            __(':hours hours'),
-                            ['hours' => $defaultValue / 3600]
-                        ),
-                        ['id' => 'lockTimeGauge', 'style' => 'padding: 0.5em']
-                    );
-                    echo $this->Form->end();
-                    ?>
+                    <?= implode('', $lock) ?>
                     <script>
                         SaitoApp.callbacks.afterAppInit.push(function () {
                             require(['jquery', 'backbone'], function ($, Backbone) {
@@ -347,9 +358,9 @@ if ($items) {
                                 var BlockTimeGaugeView = Backbone.View.extend({
                                     events: {'input #lockrange': '_onRangeChange'},
                                     _onRangeChange: function (event) {
-                                        event.preventDefault();
                                         var value = event.target.value;
                                         var l10n = $.i18n.__(':hours hours', {hours: value / 3600});
+                                        event.preventDefault();
                                         if (value === event.target.max) {
                                             l10n = '∞';
                                             value = 0;
@@ -363,7 +374,11 @@ if ($items) {
                         });
                     </script>
                 </div>
-            <?php endif; ?>
+            <?php
+            }
+            ?>
         </div>
-    <?php } ?>
+    <?php
+    }
+    ?>
 </div>

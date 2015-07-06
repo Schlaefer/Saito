@@ -160,7 +160,7 @@ define([
         },
 
         _setupTextArea: function() {
-            this.$textarea = this.$('textarea#EntryText');
+            this.$textarea = this.$('textarea');
             this.$textarea.autosize();
         },
 

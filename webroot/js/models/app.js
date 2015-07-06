@@ -7,7 +7,7 @@ define([
     'models/currentUser'
 ], function (_, Backbone, Vent, AppSettingModel, AppStatusModel,
              CurrentUserModel) {
-    "use strict";
+    'use strict';
 
     var AppModel = Backbone.Model.extend({
 
@@ -37,12 +37,12 @@ define([
         request: null,
 
         initialize: function () {
-          this.eventBus = Vent.vent;
-          this.commands = Vent.commands;
-          this.reqres = Vent.reqres;
-          this.settings = new AppSettingModel();
-          this.status = new AppStatusModel({}, {settings: this.settings});
-          this.currentUser = new CurrentUserModel();
+            this.eventBus = Vent.vent;
+            this.commands = Vent.commands;
+            this.reqres = Vent.reqres;
+            this.settings = new AppSettingModel();
+            this.status = new AppStatusModel({}, {settings: this.settings});
+            this.currentUser = new CurrentUserModel();
         }
 
     });

@@ -1,4 +1,6 @@
+/*
 $background-color: #28282B;
+$page-color: $background-color;
 
 $font-color: #f7e7d2;
 $font-color-current: #6FFA13;
@@ -13,5 +15,15 @@ $input-background-color: #303035;
 $input-border-color: $link-color;
 
 $highlight-hover-color: $border-color;
+*/
 
 @import "theme";
+body {
+  -webkit-filter: invert(100%) contrast(80%) brightness(90%) sepia(50%);
+  filter: invert(100%) contrast(80%) brightness(90%) sepia(50%);
+}
+
+img, .avatar-image, iframe, video {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}

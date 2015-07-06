@@ -4,7 +4,7 @@
     "jquery": "2.1.1",
     "backbone": "1.1.2",
     "marionette": "1.7.4",
-    "Backbone.localStorage": "1.1.7",
+    "Backbone.localStorage": "1.1.16",
     "humanize": "0.0.9",
     "jquery-autosize": "1.17.8",
     "fastclick": "latest",
@@ -23,7 +23,8 @@
     "sinonjs": "~1.9.0",
     "lodash": "~3.5",
     "require-cs": "~0.5.0",
-    "susy": "1.0.*"
+    "susy": "1.0.*",
+    "bootstrap": "2.3.2"
   },
   "exportsOverride": {
     "backbone": {
@@ -55,7 +56,10 @@
       "lang": "lang/*.js"
     },
     "leaflet": {
-      "/": ["dist/leaflet.js", "dist/leaflet.css"],
+      "/": [
+        "dist/leaflet.js",
+        "dist/leaflet.css"
+      ],
       "images": "dist/images/*"
     }
   },

@@ -103,7 +103,8 @@ class UserIgnoreTest extends SaitoTableTestCase
         $this->assertEquals($result->first()->get('id'), '3');
     }
 
-    public function testCounterCache() {
+    public function testCounterCache()
+    {
         $user = $this->Table->Users->find()->where(['id' => 3])->first();
         $this->assertEquals(0, $user->get('ignore_count'));
 
@@ -112,5 +113,4 @@ class UserIgnoreTest extends SaitoTableTestCase
         $user = $this->Table->Users->find()->where(['id' => 3])->first();
         $this->assertEquals(1, $user->get('ignore_count'));
     }
-
 }

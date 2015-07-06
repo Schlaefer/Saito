@@ -30,9 +30,6 @@ class EntriesMockController extends EntriesController
 /**
  * Class EntriesControllerTestCase
  *
- * @todo 3.0: migrate content of ControllerTestCase
- * class EntriesControllerTestCase extends \Saito\Test\ControllerTestCase {
- *
  * @package App\Test\TestCase\Controller
  */
 class EntriesControllerTestCase extends IntegrationTestCase
@@ -78,7 +75,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->get('/entries/mix/1');
         $this->assertResponseOk();
 
-        $result = $this->viewVariable('title_for_layout');
+        $result = $this->viewVariable('titleForLayout');
         $this->assertStringStartsWith('First_Subject', $result);
     }
 
@@ -129,7 +126,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $data = [
             'subject' => 'subject',
             'text' => 'text',
-            'category' => 1,
+            'category_id' => 1,
             'Event' => [
                 1 => ['event_type_id' => 0],
                 2 => ['event_type_id' => 1]
@@ -140,6 +137,8 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
         $expectedId = $latestEntry->get('id') + 1;
 
+        /*
+         * @td 3.0 Notif
         //* setup notification test
         $expected = [
             [
@@ -156,8 +155,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
             ]
         ];
 
-        /*
-         * @todo 3.0 Notif
         $EventsTable = TableRegistry::get('Events');
         $C->Entry->Esevent->expects($this->once())
                 ->method('notifyUserOnEvents')
@@ -189,7 +186,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
             'subject' => 'Vorher wie ich in der mobilen Version ka…',
             'category_id' => 1,
             'pid' => 0,
-            /* @todo 3.0 Events
+            /* @td 3.0 Notif
              * 'Event' => [
              * 1 => ['event_type_id' => 0],
              * 2 => ['event_type_id' => 1]
@@ -366,6 +363,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertRedirect('/login');
     }
 
+    /*
     public function testDeleteWrongMethod()
     {
         $this->_loginUser(1);
@@ -374,6 +372,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         );
         $this->get('/entries/delete/1');
     }
+    */
 
     public function testDeleteNoId()
     {
@@ -381,6 +380,20 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->setExpectedException('Cake\Network\Exception\NotFoundException');
         $this->disableCsrf();
         $this->post('/entries/delete');
+    }
+
+    public function testDeleteSuccess()
+    {
+        $this->_loginUser(1);
+        $Postings = TableRegistry::get('Entries');
+        $count = count($Postings->treeForNode(1)->getAllChildren());
+        $this->assertEquals(5, $count);
+
+        $this->disableCsrf();
+        $this->post('/entries/delete/9');
+
+        $count = count($Postings->treeForNode(1)->getAllChildren());
+        $this->assertEquals(3, $count);
     }
 
     public function testDeleteNoAuthorization()
@@ -545,7 +558,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         // test that text is quoted
         $this->assertResponseContains('Second_Text</textarea>');
 
-        /* @todo 3.0 Esevent
+        /* @td 3.0 Notif
          * // notification are un/checked
          * $this->assertNotRegExp(
          * '/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/',

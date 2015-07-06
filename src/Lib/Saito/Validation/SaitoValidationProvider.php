@@ -12,16 +12,17 @@ class SaitoValidationProvider
     /**
      * validator checking if associated value exists
      *
-     * @param string $value value
-     * @param string $table table name
-     * @param array $context context
+     * @param int $value - ID in assocciated table.
+     * @param string $table - Name of associated table e.g. 'Comments'.
+     * @param array $context - Context.
      * @return bool
      */
     public static function validateAssoc($value, $table, array $context)
     {
-        if (!is_int($value)) {
+        if (!is_numeric($value)) {
             return false;
         }
+        $value = (int)$value;
 
         $key = $table . $value;
         return static::rememberStatic($key, function () use ($value, $table) {

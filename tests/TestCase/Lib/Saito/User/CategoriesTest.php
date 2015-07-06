@@ -11,7 +11,6 @@ use Saito\User\SaitoUser;
  */
 class CategoriesTest extends SaitoTestCase
 {
-
     public $fixtures = ['app.category'];
 
     public function testGetAllForAnon()
@@ -117,7 +116,6 @@ class CategoriesTest extends SaitoTestCase
 
     public function testGetCustomNotSet()
     {
-
         $User = new SaitoUser(['id' => 3, 'user_type' => 'user']);
         $Lib = new Categories($User);
 

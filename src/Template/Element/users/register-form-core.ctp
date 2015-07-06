@@ -9,7 +9,7 @@ echo $this->Form->input('user_email', [
     'label' => __('register_user_email'),
     'tabindex' => 2
 ]);
-echo $this->Form->input('user_password', [
+echo $this->Form->input('password', [
     'autocomplete' => 'new-password',
     'type' => 'password',
     'div' => ['class' => 'input required'],

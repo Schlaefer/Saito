@@ -1,20 +1,23 @@
 <?php
-	// setup
-	SDV($level, 0);
-	SDV($last_action, null);
-	$editLinkIsShown = false;
-	$showSignature = false;
+// setup
+SDV($level, 0);
+SDV($lastAction, null);
+$editLinkIsShown = false;
+$showSignature = false;
 
-	//data passed as json model
-	$_jsEntry = json_encode([
-		'pid' => $entry->get('pid'),
-		'isBookmarked' => $entry->isBookmarked(),
-		'isSolves' => (bool)$entry->get('solves'),
-		'rootEntryUserId' => (int)$rootEntry->get('user_id'),
-		'time' => $this->TimeH->mysqlTimestampToIso($entry->get('time'))
-	]);
+//data passed as json model
+$jsEntry = json_encode(
+    [
+        'pid' => $entry->get('pid'),
+        'isBookmarked' => $entry->isBookmarked(),
+        'isSolves' => (bool)$entry->get('solves'),
+        'rootEntryUserId' => (int)$rootEntry->get('user_id'),
+        'time' => $this->TimeH->mysqlTimestampToIso($entry->get('time'))
+    ]
+);
 ?>
-<div class="postingLayout js-entry-view-core" data-id="<?php echo $entry->get('id') ?>">
+<div class="postingLayout js-entry-view-core"
+     data-id="<?php echo $entry->get('id') ?>">
     <div class="l-table">
         <div class="l-table-row">
             <div class="l-table-cell panel-info center">
@@ -42,33 +45,39 @@
         </div>
     </div>
 
-	<?php if (!empty($showAnsweringPanel)): ?>
-		<div class="postingLayout-actions panel-footer panel-form">
-			<div style="float:right">
-				<?php
-					//= get additional actions from plugins
-					$items = $SaitoEventManager->dispatch(
-						'Request.Saito.View.Posting.footerActions',
-						[
-							'posting' => $entry->toArray(),
-							'View' => $this
-						]
-					);
-					foreach ($items as $item) {
-						echo $item;
-					}
-				?>
-			</div>
+    <?php if (!empty($showAnsweringPanel)) : ?>
+        <div class="postingLayout-actions panel-footer panel-form">
+            <div style="float:right">
+                <?php
+                //= get additional actions from plugins
+                $items = $SaitoEventManager->dispatch(
+                    'Request.Saito.View.Posting.footerActions',
+                    [
+                        'posting' => $entry->toArray(),
+                        'View' => $this
+                    ]
+                );
+                foreach ($items as $item) {
+                    echo $item;
+                }
+                ?>
+            </div>
 
             <?php
             $isAnsweringForbidden = $entry->isAnsweringForbidden();
             if ($isAnsweringForbidden === 'locked') {
-                $title = $this->Layout->textWithIcon(__('forum_answer_linkname'),
-                    'lock');
-                echo $this->Html->tag('span', $title, [
-                    'class' => 'btn btn-submit panel-footer-form-btn',
-                    'disabled' => 'disabled'
-                ]);
+                $title = $this->Layout->textWithIcon(
+                    __('forum_answer_linkname'),
+                    'lock'
+                );
+                echo $this->Html->tag(
+                    'span',
+                    $title,
+                    [
+                        'class' => 'btn btn-submit panel-footer-form-btn',
+                        'disabled' => 'disabled'
+                    ]
+                );
             } elseif (!$isAnsweringForbidden) {
                 echo $this->Html->link(
                     __('forum_answer_linkname'),
@@ -77,32 +86,37 @@
                 );
             };
             ?>
-			<?php if (!$entry->isEditingWithRoleUserForbidden()) : ?>
-				<span class="small">
-					<?= $this->Html->link(
+            <?php if (!$entry->isEditingWithRoleUserForbidden()) : ?>
+                <span class="small">
+					<?=
+                    $this->Html->link(
                         __('edit_linkname'),
                         '/entries/edit/' . $entry->get('id'),
                         ['class' => 'btn btn-edit js-btn-edit panel-footer-form-btn']
-                    ); ?>
+                    );
+                    ?>
 				</span>
-			<?php endif; ?>
+            <?php endif; ?>
 
             <?php
             // edit entry
             if (!$entry->isEditingAsCurrentUserForbidden()) {
                 $editLinkIsShown = true;
-                $_menuItems[] = $this->Html->link(
+                $menuItems[] = $this->Html->link(
                     '<i class="fa fa-pencil"></i> ' . __('edit_linkname'),
                     '/entries/edit/' . $entry->get('id'),
                     ['escape' => false]
                 );
             }
 
-            if ($CurrentUser->permission('saito.core.posting.edit.restricted')) {
+            if ($CurrentUser->permission(
+                'saito.core.posting.edit.restricted'
+            )
+            ) {
                 // pin and lock thread
                 if ($entry->isRoot()) {
                     if ($editLinkIsShown) {
-                        $_menuItems[] = 'divider';
+                        $menuItems[] = 'divider';
                     }
                     $ajaxToggleOptions = [
                         'fixed' => 'fa fa-thumb-tack',
@@ -122,37 +136,44 @@
                             'class' => 'btn-toggle-' . $key,
                             'escape' => false
                         ];
-                        $_menuItems[] = $this->Html->link($title, '#',
-                            $options);
+                        $menuItems[] = $this->Html->link(
+                            $title,
+                            '#',
+                            $options
+                        );
                     }
 
-                    $_menuItems[] = 'divider';
+                    $menuItems[] = 'divider';
 
                     // merge thread
-                    $_menuItems[] = $this->Html->link(
-                        '<i class="fa fa-compress"></i>&nbsp;' . __('merge_tree_link'),
+                    $menuItems[] = $this->Html->link(
+                        '<i class="fa fa-compress"></i>&nbsp;' . __(
+                            'merge_tree_link'
+                        ),
                         '/entries/merge/' . $entry->get('id'),
-                        ['escape' => false]);
+                        ['escape' => false]
+                    );
                 }
 
                 // delete
-                $_menuItems[] = 'divider';
-                $_menuItems[] = $this->Html->link(
+                $menuItems[] = 'divider';
+                $menuItems[] = $this->Html->link(
                     '<i class="fa fa-trash-o"></i>&nbsp;' . __('delete_tree_link'),
-                    '/entries/delete/' . $entry->get('id'),
-                    array('escape' => false),
-                    __('delete_tree_link_confirm_message')
+                    '#',
+                    ['class' => 'js-delete', 'escape' => false]
                 );
             }
 
-            if (!empty($_menuItems)) {
-                echo $this->Layout->dropdownMenuButton($_menuItems,
-                    ['class' => 'btnLink btn-icon panel-footer-form-btn']);
+            if (!empty($menuItems)) {
+                echo $this->Layout->dropdownMenuButton(
+                    $menuItems,
+                    ['class' => 'btnLink btn-icon panel-footer-form-btn']
+                );
             }
             ?>
-		</div>
-	<?php endif; ?>
+        </div>
+    <?php endif; ?>
 
-	<div class="postingLayout-slider"></div>
-	<div class='js-data' data-entry='<?= $_jsEntry ?>'></div>
+    <div class="postingLayout-slider"></div>
+    <div class='js-data' data-entry='<?= $jsEntry ?>'></div>
 </div>

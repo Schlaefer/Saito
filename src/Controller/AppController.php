@@ -7,6 +7,7 @@ use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\I18n\I18n;
+use Cake\Network\Http\Response;
 use Cake\Routing\Router;
 use Saito\App\Registry;
 use Saito\App\Settings;
@@ -15,13 +16,14 @@ use Saito\String\Properize;
 use Saito\User\CurrentUser\CurrentUser;
 use \Stopwatch\Lib\Stopwatch;
 
+/**
+ * Class AppController
+ *
+ * @property CurrentUserComponent $CurrentUser
+ * @package App\Controller
+ */
 class AppController extends Controller
 {
-    /**
-     * @var CurrentUserComponent
-     */
-    public $CurrentUser;
-
     public $helpers = [
         'JsData',
         'Markitup.Markitup',
@@ -69,8 +71,7 @@ class AppController extends Controller
         $this->loadComponent('Auth');
         $this->loadComponent('ActionAuthorization');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
-        // @todo 3.0 CSRF
-        //$this->loadComponent('Csrf', ['expiry' => time() + 10800]);
+        $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
@@ -79,7 +80,7 @@ class AppController extends Controller
         $this->loadComponent('Parser');
         $this->loadComponent('SaitoEmail');
         $this->loadComponent('Slidetabs');
-        // @todo 3.0 Notif
+        // @td 3.0 Notif
         //$this->loadComponent('EmailNotification');
         $this->loadComponent('Themes');
         $this->loadComponent('Flash');
@@ -229,14 +230,14 @@ class AppController extends Controller
     /**
      * manually require auth and redirect cycle
      *
-     * @return void
+     * @return Response
      */
     protected function _requireAuth()
     {
         $this->Flash->set(__('auth_autherror'), ['element' => 'warning']);
         $here = $this->request->here(false);
         $this->Auth->redirectUrl($here);
-        $this->redirect(['controller' => 'Users', 'action' => 'login', 'plugin' => false]);
+        return $this->redirect(['controller' => 'Users', 'action' => 'login', 'plugin' => false]);
     }
 
     /**
@@ -248,10 +249,31 @@ class AppController extends Controller
     {
         $locale = Configure::read('Saito.language');
         I18n::locale($locale);
-        $l10nViewPath = $this->viewPath . DS . $locale;
-        $l10nViewFile = $l10nViewPath . DS . $this->view . '.ctp';
-        if ($locale && file_exists(APP . 'Template' . DS . $l10nViewFile)) {
-            $this->viewPath = $l10nViewPath;
+        if (!$locale) {
+            return;
+        }
+
+        $check = function ($locale) {
+            $l10nViewPath = $this->viewPath . DS . $locale;
+            $l10nViewFile = $l10nViewPath . DS . $this->view . '.ctp';
+            if (!file_exists(APP . 'Template' . DS . $l10nViewFile)) {
+                return false;
+            }
+            return $l10nViewPath;
+        };
+
+        $path = $check($locale);
+        if ($path) {
+            $this->viewPath = $path;
+            return;
+        }
+
+        if (strpos($locale, '_')) {
+            list($locale) = explode('_', $locale);
+            $path = $check($locale);
+            if ($path) {
+                $this->viewPath = $path;
+            }
         }
     }
 

@@ -29,17 +29,17 @@ class TitleComponent extends Component
     /**
      * sets layout/title/page vars
      *
-     * - title_for_page: title for the page, maybe used on page for headers
-     * - forum_name: forum name
-     * - title_for_layout: title + forum name for HTML header tag
+     * - titleForPage: title for the page, maybe used on page for headers
+     * - forumName: forum name
+     * - titleForLayout: title + forum name for HTML header tag
      *
      * @return void
      */
     protected function _setLayoutTitles()
     {
         //= page
-        if (isset($this->_Controller->viewVars['title_for_page'])) {
-            $page = $this->_Controller->viewVars['title_for_page'];
+        if (isset($this->_Controller->viewVars['titleForPage'])) {
+            $page = $this->_Controller->viewVars['titleForPage'];
         } else {
             $controller = $this->_Controller->request->controller;
             $action = $this->_Controller->request->action;
@@ -49,15 +49,15 @@ class TitleComponent extends Component
                 $page = null;
             }
         }
-        $this->_Controller->set('title_for_page', $page);
+        $this->_Controller->set('titleForPage', $page);
 
         //= forum
         $forum = Configure::read('Saito.Settings.forum_name');
-        $this->_Controller->set('forum_name', $forum);
+        $this->_Controller->set('forumName', $forum);
 
         //= layout
-        if (isset($this->_Controller->viewVars['title_for_layout'])) {
-            $layout = $this->_Controller->viewVars['title_for_layout'];
+        if (isset($this->_Controller->viewVars['titleForLayout'])) {
+            $layout = $this->_Controller->viewVars['titleForLayout'];
         } else {
             $layout = $page;
         }
@@ -69,7 +69,7 @@ class TitleComponent extends Component
         } else {
             $layout = $forum;
         }
-        $this->_Controller->set('title_for_layout', $layout);
+        $this->_Controller->set('titleForLayout', $layout);
     }
 
     /**
@@ -87,7 +87,7 @@ class TitleComponent extends Component
             $template = __(':subject (:type) | :category');
         }
         $this->_Controller->set(
-            'title_for_layout',
+            'titleForLayout',
             Text::insert(
                 $template,
                 [

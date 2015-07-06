@@ -12,7 +12,7 @@ trim_trailing_whitespace = true
 charset = utf-8
 
 [*.{js,json}]
-indent_size = 4
+indent_size = 2
 
 [*.bat]
 end_of_line = crlf

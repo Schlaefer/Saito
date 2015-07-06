@@ -41,6 +41,12 @@ use Cake\Routing\Router;
  */
 Router::defaultRouteClass('Route');
 
+/**
+ * Load all plugin routes.  See the Plugin documentation on
+ * how to customize the loading of plugin routes.
+ */
+Plugin::routes();
+
 Router::scope('/entries', function ($routes) {
     $routes->extensions(['json']);
     $routes->connect(
@@ -56,7 +62,6 @@ Router::scope('/', function ($routes) {
  * to use (in this case, src/Template/Pages/home.ctp)...
  */
     $routes->connect('/', ['controller' => 'Entries', 'action' => 'index']);
-
 
     /**
  * ...and connect the rest of 'Pages' controller's URLs.
@@ -121,8 +126,3 @@ Router::prefix('admin', function ($routes) {
 	$routes->fallbacks('InflectedRoute');
 });
 
-/**
- * Load all plugin routes.  See the Plugin documentation on
- * how to customize the loading of plugin routes.
- */
-Plugin::routes();

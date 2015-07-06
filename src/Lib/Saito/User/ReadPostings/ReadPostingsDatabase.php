@@ -25,10 +25,8 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
     /**
      * {@inheritDoc}
      */
-    public function __construct(
-        CurrentUserComponent $CurrentUser,
-        UserReadsTable $storage
-    ) {
+    public function __construct(CurrentUserComponent $CurrentUser, UserReadsTable $storage)
+    {
         parent::__construct($CurrentUser);
         $this->userReadsTable = $storage;
         $this->_registerGc();

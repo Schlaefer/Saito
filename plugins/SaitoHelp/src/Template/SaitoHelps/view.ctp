@@ -1,21 +1,21 @@
 <div class="panel">
-	<?= $this->Layout->panelHeading($title_for_page, ['pageHeading' => true]) ?>
+	<?= $this->Layout->panelHeading($titleForPage, ['pageHeading' => true]) ?>
 	<div class="panel-content richtext">
 		<?php
 			echo $this->Html->css('SaitoHelp.saitohelp');
-			echo $this->SaitoHelp->parse($help['text'], $CurrentUser);
+			echo $this->SaitoHelp->parse($help->get('text'), $CurrentUser);
 
 			if ($isCore) {
 				echo '<hr>';
 				// @todo i10n
-				switch ($help['lang']) {
+				switch ($help->get('lang')) {
 					case 'deu':
 						$title = 'Diese Hilfeseite verbessern.';
 						break;
 					default:
 						$title = 'Improve this help-page.';
 				}
-				$url = "https://github.com/Schlaefer/Saito/tree/develop/docs/help/{$help['lang']}/{$help['file']}";
+				$url = "https://github.com/Schlaefer/Saito/tree/develop/docs/help/{$help->get('lang')}/{$help->get('file')}";
 				echo $this->Html->link($title, $url);
 			}
 		?>

@@ -2,9 +2,15 @@
 
 namespace Saito\Posting;
 
+use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Thread\Thread;
 
-interface PostingInterface
+/**
+ * Interface PostingInterface
+ *
+ * @package Saito\Posting
+ */
+interface PostingInterface extends BasicPostingInterface
 {
     /**
      * Get sub-postings one level below this posting (direct answers)

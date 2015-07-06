@@ -1,17 +1,23 @@
 <?php
 
-	namespace Stopwatch\Routing\Filter;
+namespace Stopwatch\Routing\Filter;
 
-	use Cake\Event\Event;
-	use Cake\Routing\DispatcherFilter;
-	use \Stopwatch\Lib\Stopwatch;
+use Cake\Event\Event;
+use Cake\Routing\DispatcherFilter;
+use \Stopwatch\Lib\Stopwatch;
 
-	class StopwatchFilter extends DispatcherFilter {
+class StopwatchFilter extends DispatcherFilter
+{
 
-		public function beforeDispatch(Event $event) {
-			Stopwatch::init();
-			Stopwatch::enable();
-			Stopwatch::start('----------------------- Dispatch -----------------------');
-		}
-
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function beforeDispatch(Event $event)
+    {
+        Stopwatch::init();
+        Stopwatch::enable();
+        Stopwatch::start(
+            '----------------------- Dispatch -----------------------'
+        );
+    }
+}

@@ -42,7 +42,7 @@ define([
 
     initialize: function() {
       this.threads = new ThreadCollection();
-      if (App.request.controller === 'entries' && App.request.action === 'index') {
+      if (App.request.controller === 'Entries' && App.request.action === 'index') {
         this.threads.fetch();
       }
       this.postings = new PostingCollection();
@@ -235,60 +235,76 @@ define([
       $('.threadBox[data-id=' + tid + ']')[0].scrollIntoView('top');
     },
 
-    initAutoreload: function() {
-      this.breakAutoreload();
-      if (App.settings.get('autoPageReload')) {
-        this.autoPageReloadTimer = setTimeout(
-            _.bind(function() {
-              window.location = App.settings.get('webroot') + 'entries/';
-            }, this), App.settings.get('autoPageReload') * 1000);
-      }
-    },
+      /**
+       * initialize page autoreload
+       */
+      initAutoreload: function () {
+          var period, reload, url;
 
-    breakAutoreload: function() {
-      if (this.autoPageReloadTimer !== false) {
-        clearTimeout(this.autoPageReloadTimer);
-        this.autoPageReloadTimer = false;
-      }
-    },
+          url = window.location.pathname;
+          reload = (function() {
+              window.location = url;
+          });
 
-    /**
-     * Widen search field
-     */
-    widenSearchField: function(event) {
-      var width = 350;
-      event.preventDefault();
-      if ($(event.currentTarget).width() < width) {
-        $(event.currentTarget).animate({
-              width: width + 'px'
-            },
-            "fast"
-        );
-      }
-    },
+          if (!App.settings.get('autoPageReload')) {
+              return;
+          }
+          this.breakAutoreload();
+          period = App.settings.get('autoPageReload') * 1000;
+          this.autoPageReloadTimer = setTimeout(reload, period);
+      },
 
-    showLoginForm: function(event) {
-      var modalLoginDialog;
+      /**
+       * break autoreload by clearing timer
+       */
+      breakAutoreload: function () {
+          if (this.autoPageReloadTimer === false) {
+              return;
+          }
+          clearTimeout(this.autoPageReloadTimer);
+          this.autoPageReloadTimer = false;
+      },
 
-      if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-        return;
-      }
+      /**
+       * Widen search field
+       */
+      widenSearchField: function (event) {
+          var width = 350;
+          event.preventDefault();
+          if ($(event.currentTarget).width() < width) {
+              $(event.currentTarget).animate({
+                      width: width + 'px'
+                  },
+                  "fast"
+              );
+          }
+      },
 
-      modalLoginDialog = $('#modalLoginDialog');
+      showLoginForm: function (event) {
+          var title, modalLoginDialog;
 
-      event.preventDefault();
-      modalLoginDialog.height('auto');
-      var title = event.currentTarget.title;
-      modalLoginDialog.dialog({
-        modal: true,
-        title: title,
-        width: 420,
-        show: 'fade',
-        hide: 'fade',
-        position: ['center', 120],
-        resizable: false
-      });
-    },
+          if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+              return;
+          }
+
+          modalLoginDialog = $('#modalLoginDialog');
+          if (modalLoginDialog.length !== 1) {
+              return;
+          }
+
+          event.preventDefault();
+          modalLoginDialog.height('auto');
+          title = event.currentTarget.title;
+          modalLoginDialog.dialog({
+              hide: 'fade',
+              modal: true,
+              position: ['center', 120],
+              resizable: false,
+              show: 'fade',
+              title: title,
+              width: 420
+          });
+      },
 
     scrollToTop: function(event) {
       event.preventDefault();

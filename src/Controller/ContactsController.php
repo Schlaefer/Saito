@@ -71,7 +71,7 @@ class ContactsController extends AppController
         }
 
         $this->set(
-            'title_for_page',
+            'titleForPage',
             __('user_contact_title', $recipient->get('username'))
         );
 

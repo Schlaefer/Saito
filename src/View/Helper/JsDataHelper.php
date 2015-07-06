@@ -67,7 +67,8 @@ class JsDataHelper extends AppHelper
                 'action' => $View->request->action,
                 'controller' => $View->request->controller,
                 'isMobile' => $View->request->isMobile(),
-                'isPreview' => $View->request->isPreview()
+                'isPreview' => $View->request->isPreview(),
+                'csrf' => $this->_getCsrf($View)
             ],
             'currentUser' => [
                 'id' => (int)$CurrentUser->get('id'),
@@ -84,6 +85,25 @@ class JsDataHelper extends AppHelper
         $out = 'var SaitoApp = ' . json_encode($js);
         $out .= '; SaitoApp.timeAppStart = new Date().getTime();';
         return $out;
+    }
+
+    /**
+     * Get CSRF-config
+     *
+     * @param View $View View
+     * @return array
+     * - 'header' HTTP header for CSRF-token
+     * - 'token' CSRF-token
+     */
+    protected function _getCsrf(View $View)
+    {
+        $key = 'csrfToken';
+        $token = $View->request->cookie($key);
+        if (empty($token)) {
+            $token = $View->response->cookie($key)['value'];
+        }
+        $header = 'X-CSRF-Token';
+        return compact('header', 'token');
     }
 
     /**

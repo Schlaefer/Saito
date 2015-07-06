@@ -23,7 +23,8 @@
             echo $this->Form->hidden('mode', ['value' => 'move']);
             echo $this->Form->submit(
                 __('Move entries and delete category'),
-                array('class' => 'btn btn-primary'));
+                ['class' => 'btn btn-primary']
+            );
             echo $this->Form->end();
             ?>
         </div>
@@ -37,12 +38,13 @@
                 Deletes the category and all threads in it.
             </p>
             <?php
-            echo $this->Html->link(__("Delete entries and delete category"),
+            echo $this->Html->link(
+                __("Delete entries and delete category"),
                 '#deleteModal',
-                array(
+                [
                     'class' => 'btn btn-danger',
                     'data-toggle' => 'modal',
-                )
+                ]
             );
             ?>
         </div>
@@ -69,7 +71,8 @@
             __('Abort'),
             ['class' => 'btn', 'data-dismiss' => 'modal']
         );
-        echo $this->Form->button(__('Make It So'),
+        echo $this->Form->button(
+            __('Make It So'),
             ['type' => 'submit', 'class' => 'btn btn-danger']
         );
         echo $this->Form->end();

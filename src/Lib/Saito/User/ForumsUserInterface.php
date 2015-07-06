@@ -11,7 +11,7 @@ interface ForumsUserInterface
      * Get a user setting.
      *
      * @param string $setting Setting to get.
-     * @return void
+     * @return mixed
      */
     public function get($setting);
 
@@ -70,7 +70,7 @@ interface ForumsUserInterface
     /**
      * Checks if the user is the same user as $user
      *
-     * @param mixed $user User to check against.
+     * @param int|ForumsUserInterface $user - User-ID or user to check against.
      * @return bool
      */
     public function isUser($user);

@@ -40,7 +40,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $data = [
             'username' => 'foo',
             'user_email' => 'fo3@example.com',
-            'user_password' => 'test',
+            'password' => 'test',
             'password_confirm' => 'test',
         ];
         $expected = [
@@ -195,7 +195,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $data = array(
             'username' => 'NewUser1',
             'user_email' => 'NewUser1@example.com',
-            'user_password' => 'NewUser1spassword',
+            'password' => 'NewUser1spassword',
             'password_confirm' => 'NewUser1spassword',
         );
 
@@ -246,10 +246,10 @@ class UsersControllerTestCase extends IntegrationTestCase
                     'type' => 'text'
                 ]
             ],
-            'input#user-password' => [
+            'input#password' => [
                 'attributes' => [
                     'autocomplete' => 'new-password',
-                    'name' => 'user_password',
+                    'name' => 'password',
                     'tabindex' => '3',
                     'type' => 'password'
                 ]
@@ -274,7 +274,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->assertResponseOk();
         $this->assertResponseNotContains('tos_confirm');
         $this->assertResponseNotContains('http://example.com/tos-url.html/');
-        $this->assertResponseNotContains('disabled');
+        $this->assertResponseNotContains('id="tosConfirm"');
     }
 
     public function testRegisterCheckboxOnPage()
@@ -282,7 +282,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->get('users/register');
         $this->assertResponseContains('tos_confirm');
         $this->assertResponseContains('http://example.com/tos-url.html/');
-        $this->assertResponseContains('disabled');
+        $this->assertResponseContains('id="tosConfirm"');
     }
 
     public function testRegisterCheckboxOnPageCustomTosUrl()
@@ -308,7 +308,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $data = [
             'username' => 'NewUser1',
             'user_email' => 'NewUser1@example.com',
-            'user_password' => 'NewUser1spassword',
+            'password' => 'NewUser1spassword',
             'password_confirm' => 'NewUser1spassword',
             'tos_confirm' => '0'
         ];
@@ -377,7 +377,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $data = [
             'username' => 'NewUser1',
             'user_email' => 'NewUser1@example.com',
-            'user_password' => 'NewUser1spassword',
+            'password' => 'NewUser1spassword',
             'password_confirm' => 'NewUser1spassword',
         ];
         $this->post('users/register', $data);
@@ -403,7 +403,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $data = array(
             'username' => "mITch",
             'user_email' => 'alice@example.com',
-            'user_password' => 'NewUserspassword',
+            'password' => 'NewUserspassword',
             'password_confirm' => 'NewUser1spassword',
         );
 
@@ -865,7 +865,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->_loginUser(4);
         $data = [
             'password_old' => 'test',
-            'user_password' => 'test_new',
+            'password' => 'test_new',
             'password_confirm' => 'test_new',
         ];
         $this->setExpectedException(
@@ -895,7 +895,7 @@ class UsersControllerTestCase extends IntegrationTestCase
 
         $data = [
             'password_old' => 'test',
-            'user_password' => 'test_new_foo',
+            'password' => 'test_new_foo',
             'password_confirm' => 'test_new_bar'
         ];
         $this->post('/users/changepassword/4', $data);
@@ -915,7 +915,7 @@ class UsersControllerTestCase extends IntegrationTestCase
 
         $data = [
             'password_old' => 'test_something',
-            'user_password' => 'test_new_foo',
+            'password' => 'test_new_foo',
             'password_confirm' => 'test_new_foo',
         ];
         $this->post('/users/changepassword/4', $data);
@@ -934,7 +934,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->mockSecurity();
         $data = [
             'password_old' => 'test',
-            'user_password' => 'test_new',
+            'password' => 'test_new',
             'password_confirm' => 'test_new',
         ];
         $this->post('/users/changepassword/5', $data);

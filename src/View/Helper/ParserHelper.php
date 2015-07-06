@@ -3,6 +3,7 @@
 namespace App\View\Helper;
 
 use Cake\Core\Configure;
+use Saito\Smiley\SmileyRenderer;
 use Stopwatch\Lib\Stopwatch;
 
 class ParserHelper extends AppHelper
@@ -135,9 +136,7 @@ class ParserHelper extends AppHelper
         if ($this->_Parser === null) {
             $settings = Configure::read('Saito.Settings') + $this->_config;
 
-            $this->SmileyRenderer = new \Saito\Smiley\Renderer(
-                $settings['smiliesData']
-            );
+            $this->SmileyRenderer = new SmileyRenderer($settings['smiliesData']);
             $this->SmileyRenderer->setHelper($this);
 
             $this->_Parser = \Saito\Plugin::getParserClassInstance(

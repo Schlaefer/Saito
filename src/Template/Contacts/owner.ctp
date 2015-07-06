@@ -5,9 +5,7 @@ $this->end();
 ?>
 <div class="user contact">
     <div class="panel">
-        <?=
-        $this->Layout->panelHeading(__('owner_contact_title'),
-            ['pageHeading' => true]) ?>
+        <?= $this->Layout->panelHeading(__('owner_contact_title'), ['pageHeading' => true]) ?>
         <div class="panel-content panel-form">
             <?php
             echo $this->Form->create($contact);

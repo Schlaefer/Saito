@@ -2,7 +2,10 @@
 
 use Cake\Core\Configure;
 
-echo $this->Form->create($user, ['action' => 'register']);
+echo $this->Form->create(
+    $user,
+    ['action' => 'register', 'id' => 'registerForm']
+);
 echo $this->element('users/register-form-core');
 echo $this->SimpleCaptcha->input(
     [
@@ -12,51 +15,67 @@ echo $this->SimpleCaptcha->input(
     ]
 );
 
-  if (Configure::read('Saito.Settings.tos_enabled')) {
+if (Configure::read('Saito.Settings.tos_enabled')) {
     $tosUrl = Configure::read('Saito.Settings.tos_url');
     if (empty($tosUrl)) {
-      $tosUrl = '/pages/' . Configure::read('Saito.language') . '/tos';
+        $tosUrl = '/pages/' . Configure::read('Saito.language') . '/tos';
     };
 
-      echo $this->Form->input(
-          'tos_confirm',
-          [
-              'type' => 'checkbox',
-              'div' => ['class' => 'input password required'],
-              'label' => [
-                  'text' => __(
-                      'register_tos_label',
-                      $this->Html->link(
-                          __('register_tos_linktext'),
-                          $tosUrl, ['target' => '_blank']
-                      )
-                  ),
-                  'escape' => false
-              ],
-              'tabindex' => 11
-          ]
-      );
-      // @todo 3.0
-    ?>
-      <!---
-    echo $this->Js->get('#UserTosConfirm')->event('click',
-      <<<EOF
-	if (this.checked) {
-	$('#btn-register-submit').removeAttr("disabled");
-} else {
-	$('#btn-register-submit').attr("disabled", true);
-}
-return true;
-EOF
+    echo $this->Form->input(
+        'tos_confirm',
+        [
+            'type' => 'checkbox',
+            'div' => ['class' => 'input password required'],
+            'label' => [
+                'text' => __(
+                    'register_tos_label',
+                    $this->Html->link(
+                        __('register_tos_linktext'),
+                        $tosUrl,
+                        ['target' => '_blank']
+                    )
+                ),
+                'escape' => false
+            ],
+            'id' => 'tosConfirm',
+            'tabindex' => 11
+        ]
     );
-    -->
-    <?php
-  }
+}
 
-  echo $this->Form->submit(__('register_linkname'), [
-    'id' => 'btn-register-submit',
-    'class' => 'btn btn-submit',
-    'disabled' => $tosRequired ? 'disabled' : '',
-    'tabindex' => 12
-  ]);
-  echo $this->Form->end();
+echo $this->Form->submit(
+    __('register_linkname'),
+    [
+        'id' => 'btn-register-submit',
+        'class' => 'btn btn-submit',
+        'disabled' => $tosRequired ? 'disabled' : '',
+        'tabindex' => 12
+    ]
+);
+echo $this->Form->end();
+?>
+
+<script>
+    (function (SaitoApp) {
+        SaitoApp.callbacks.afterViewInit.push(function () {
+            require(['jquery', 'backbone'], function ($, Backbone) {
+                'use strict';
+                var RegisterView = Backbone.View.extend({
+                    events: {
+                        'click #tosConfirm': '_onTosConfirm'
+                    },
+                    _onTosConfirm: function (event) {
+                        var checked = event.currentTarget.checked;
+                        var submit = this.$('input[type=submit]');
+                        if (checked) {
+                            submit.removeAttr("disabled");
+                        } else {
+                            submit.attr("disabled", true);
+                        }
+                    }
+                });
+                var registerForm = new RegisterView({el: '#registerForm'});
+            });
+        });
+    })(SaitoApp);
+</script>

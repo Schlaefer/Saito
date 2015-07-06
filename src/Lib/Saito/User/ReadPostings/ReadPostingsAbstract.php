@@ -87,9 +87,8 @@ abstract class ReadPostingsAbstract
     /**
      * Prepare postings for save.
      *
-     * @param Posting|array $postings postings
-     * @return array
-     * @throws \InvalidArgumentException
+     * @param Posting|array $postings - Postings which are read
+     * @return array posting-IDs
      */
     protected function _prepareForSave($postings)
     {
@@ -109,7 +108,6 @@ abstract class ReadPostingsAbstract
                 $postingIds[] = $posting->get('id');
             }
         }
-
         return $postingIds;
     }
 

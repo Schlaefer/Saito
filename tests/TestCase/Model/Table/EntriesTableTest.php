@@ -51,11 +51,9 @@ class EntriesTest extends SaitoTableTestCase
             ['className' => 'Saito\Test\Model\Table\EntriesTableMock']
         );
 
-        /* @todo 3.0
-         * $this->Table->expects($this->once())
-         * ->method('_dispatchEvent')
-         * ->with('Model.Thread.create', $this->anything());
-         */
+        $this->Table->expects($this->once())
+            ->method('_dispatchEvent')
+            ->with('Model.Thread.create', $this->anything());
 
         //= Setup CurrentUser
         $SaitoUser = new SaitoUser(
@@ -193,32 +191,6 @@ class EntriesTest extends SaitoTableTestCase
         $this->assertFalse($posting->isLocked());
     }
 
-    public function testThreadIncrementView()
-    {
-        $tid = 4;
-        $this->Table->threadIncrementViews($tid);
-        $result = $this->Table->find()
-            ->select('views')
-            ->where(['tid' => $tid])
-            ->toArray();
-        $this->assertEquals(1, array_shift($result)->get('views'));
-        $this->assertEquals(1, array_shift($result)->get('views'));
-    }
-
-    public function testThreadIncrementViewOmitUser()
-    {
-        $tid = 4;
-        $userId = 3;
-        $this->Table->threadIncrementViews($tid, $userId);
-        $result = $this->Table->find()
-            ->select('views')
-            ->where(['tid' => $tid])
-            ->order('id')
-            ->toArray();
-        $this->assertEquals(1, array_shift($result)->get('views'));
-        $this->assertEquals(0, array_shift($result)->get('views'));
-    }
-
     /**
      * Test merge
      *
@@ -231,7 +203,7 @@ class EntriesTest extends SaitoTableTestCase
         Registry::set('CU', $SaitoUser);
 
         // notifications must be merged
-        /* @todo 3.0
+        /* @td 3.0 Notif
          * $this->Table->Esevent = $this->getMock(
          * 'Esevent', array('transferSubjectForEventType'), array(null, 'esevents', 'test'));
          * $this->Table->Esevent->expects($this->once())
@@ -400,7 +372,7 @@ class EntriesTest extends SaitoTableTestCase
         $this->assertEquals($countBeforeDelete, $expected);
 
         // test that event and notifications are deleted
-        // @todo 3.0 notifications
+        // @td 3.0 Notif
         /*
         $this->Table->Esevents = $this->getMockForModel(
             'Esevents', ['deleteSubject']

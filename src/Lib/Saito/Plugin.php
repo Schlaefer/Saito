@@ -47,9 +47,8 @@ class Plugin
         $args = func_get_args();
         $name = array_shift($args);
 
-        // @todo 3.0
         $parser = Configure::read('Saito.Settings.ParserPlugin');
-        $name = "\\Plugin\\{$parser}Parser\\Lib\\$name";
+        $name = "\\Plugin\\{$parser}Parser\\src\\Lib\\$name";
 
         $reflection = new \ReflectionClass($name);
 

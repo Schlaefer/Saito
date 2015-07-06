@@ -19,13 +19,13 @@ class UsersTable extends AppTable
 {
 
     public $hasMany = [
-        // @todo 3.0 Notif
+        // @td 3.0 Notif
         /*
         'Esnotification' => [
             'foreignKey' => 'user_id'
         ],
         */
-        // @todo 3.0 Upload
+        // @td 3.0 Upload
         /*
         'Upload' => [
             'className' => 'Upload',
@@ -346,7 +346,7 @@ class UsersTable extends AppTable
                 ]
             );
         $validator
-            ->allowEmpty('user_color_new_postings')
+            ->allowEmpty('user_color_old_postings')
             ->add(
                 'user_color_old_postings',
                 [
@@ -356,7 +356,7 @@ class UsersTable extends AppTable
                 ]
             );
         $validator
-            ->allowEmpty('user_color_new_postings')
+            ->allowEmpty('user_color_actual_posting')
             ->add(
                 'user_color_actual_posting',
                 [
@@ -454,9 +454,9 @@ class UsersTable extends AppTable
         }
 
         try {
-            // @todo 3.0 Upload
+            // @td 3.0 Upload
             //$this->Uploads->deleteAllFromUser($userId);
-            // @todo 3.0 Notif
+            // @td 3.0 Notif
             // $success = $success && $this->Esnotification->deleteAllFromUser($userId);
             $this->Entries->anonymizeEntriesFromUser($userId);
             $this->UserIgnores->deleteUser($userId);

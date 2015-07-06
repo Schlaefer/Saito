@@ -34,24 +34,24 @@ class PostingHelperTest extends SaitoTestCase
         $this->Helper->request->webroot = 'localhost/';
 
         //= simple test
-        $posting = [
+        $data = [
             'id' => 3,
             'tid' => 1,
             'pid' => 1,
             'subject' => 'Subject',
             'text' => 'Text'
         ];
-        return Registry::newInstance(
+        $posting = Registry::newInstance(
             '\Saito\Posting\Posting',
-            ['rawData' => $posting]
+            ['rawData' => $data]
         );
-        $expected = "<a href='localhost/entries/view/3' class=''>Subject</a>";
+        $expected = '<a href="localhost/entries/view/3" class="">Subject</a>';
         $result = $this->Helper->getFastLink($posting);
         $this->assertEquals($expected, $result);
 
         //=  test 'class' input
         $class = 'my_test_class foo';
-        $expected = "<a href='localhost/entries/view/3' class='my_test_class foo'>Subject</a>";
+        $expected = '<a href="localhost/entries/view/3" class="my_test_class foo">Subject</a>';
         $result = $this->Helper->getFastLink(
             $posting,
             ['class' => $class]
@@ -59,8 +59,12 @@ class PostingHelperTest extends SaitoTestCase
         $this->assertEquals($expected, $result);
 
         //* test n/t posting
-        $posting['text'] = '';
-        $expected = "<a href='localhost/entries/view/3' class=''>Subject n/t</a>";
+        $data['text'] = '';
+        $posting = Registry::newInstance(
+            '\Saito\Posting\Posting',
+            ['rawData' => $data]
+        );
+        $expected = '<a href="localhost/entries/view/3" class="">Subject n/t</a>';
         $result = $this->Helper->getFastLink($posting);
         $this->assertEquals($expected, $result);
     }

@@ -54,7 +54,8 @@ class AdminControllerTest extends IntegrationTestCase
         $this->assertEmpty(Cache::read('foo'));
     }
 
-    public function testPhpInfoUserAllowence() {
+    public function testPhpInfoUserAllowence()
+    {
         $this->assertRouteForRole('/admin/admins/phpinfo', 'admin');
     }
 }

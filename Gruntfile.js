@@ -20,6 +20,7 @@ module.exports = function(grunt) {
     uglify: {
       release: {
         files: {
+          './webroot/dist/bootstrap.min.js': ['./webroot/dev/bower_components/bootstrap/bootstrap.js'],
           './webroot/dist/jquery.min.js': ['./webroot/dev/bower_components/jquery/jquery.js'],
           './webroot/dist/require.min.js': ['./webroot/dev/bower_components/requirejs/js/require.js']
         }
@@ -100,8 +101,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test:cakeStopOn', ['shell:testCakeStopOn']);
   grunt.registerTask('test:phpcs', ['phpcs']); // alias for `grunt phpcs`
   grunt.registerTask('test:php', ['test:cake', 'phpcs']);
-  // @todo 3.0 make json tests working
-  grunt.registerTask('test', [ /* 'test:js', */ 'test:php']);
+  grunt.registerTask('test', ['test:js', 'test:php']);
 
   // compass
   grunt.registerTask('compass:watch', 'concurrent:compassWatch');

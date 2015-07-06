@@ -1,6 +1,11 @@
 ### OS and editor ###
 .DS_Store
 
+### Package Manager & Build System###
+.sass-cache
+/node_modules
+/webroot/dev/bower_components
+
 ### CakePHP 3 ###
 /bin
 /logs

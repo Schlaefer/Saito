@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Form\BlockForm;
-use App\Lib\Controller\AuthSwitchTrait;
+use App\Model\Entity\User;
 use Cake\Core\Configure;
-use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\I18n\Time;
 use Cake\Network\Exception\BadRequestException;
+use Cake\Network\Response;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
@@ -21,11 +21,6 @@ use \Stopwatch\Lib\Stopwatch;
 
 class UsersController extends AppController
 {
-
-    use AuthSwitchTrait;
-
-    public $name = 'Users';
-
     public $helpers = [
         'SpectrumColorpicker.SpectrumColorpicker',
         'Map',
@@ -146,8 +141,6 @@ class UsersController extends AppController
             return;
         }
 
-        $data = $this->passwordAuthSwitch($data);
-
         $validator = new SimpleCaptchaValidator();
         $errors = $validator->errors($this->request->data);
 
@@ -158,14 +151,10 @@ class UsersController extends AppController
         if (!empty($errors)) {
             // registering failed, show form again
             if (isset($errors['password'])) {
-                // undo the passwordAuthSwitch() to display error message for the field
-                // duplicate in admin controller user add
-                $pwError['user_password'] = $errors['password'];
-                $user->errors($pwError);
+                $user->errors($errors);
             }
             $user->set('tos_confirm', false);
             $this->set('user', $user);
-
             return;
         }
 
@@ -417,53 +406,105 @@ class UsersController extends AppController
             $user->set('ignores', $ignores);
         }
 
+        $isEditingAllowed = $this->_isEditingAllowed($this->CurrentUser, $id);
+
         $blockForm = new BlockForm();
         $solved = $this->Users->countSolved($id);
-        $this->set(compact('blockForm', 'solved', 'user'));
-        $this->set('title_for_layout', $user->get('username'));
+        $this->set(compact('blockForm', 'isEditingAllowed', 'solved', 'user'));
+        $this->set('titleForLayout', $user->get('username'));
+    }
+
+    /**
+     * Set user avatar.
+     *
+     * @param string $userId user-ID
+     * @return void|\Cake\Network\Response
+     */
+    public function avatar($userId = null)
+    {
+        $data = [];
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $data = [
+                'avatar' => $this->request->data('avatar'),
+                'avatarDelete' => $this->request->data('avatarDelete')
+            ];
+            if (!empty($data['avatarDelete'])) {
+                $data['avatar'] = null;
+            }
+        }
+        $user = $this->_edit($userId, $data);
+        if ($user instanceof Response) {
+            return $user;
+        }
+
+        $this->set(
+            'titleForPage',
+            __('Edit {0} Avatar', [Properize::prop($user->get('username'))])
+        );
     }
 
     /**
      * Edit user.
      *
      * @param null $id user-ID
-     * @return void
-     * @throws SaitoForbiddenException
-     * @throws BadRequestException
+     *
+     * @return \Cake\Network\Response|void
      */
     public function edit($id = null)
     {
-        if (!$id) {
-            throw new BadRequestException;
-        }
-        if (!$this->_isEditingAllowed($this->CurrentUser, $id)) {
-            throw new \Saito\Exception\SaitoForbiddenException(
-                "Attempt to edit user $id.",
-                ['CurrentUser' => $this->CurrentUser]
-            );
-        }
-
-        $user = $this->Users->get($id);
-
+        $data = [];
         if ($this->request->is('post') || $this->request->is('put')) {
             $data = $this->request->data;
-
             unset($data['id']);
             //= make sure only admin can edit these fields
             if (!$this->CurrentUser->permission('saito.core.user.edit')) {
                 // @td DRY: refactor this admin fields together with view
                 unset($data['username'], $data['user_email'], $data['user_type']);
             }
-            if (!empty($data['avatarDelete'])) {
-                $data['avatar'] = null;
-            }
+        }
+        $user = $this->_edit($id, $data);
+        if ($user instanceof Response) {
+            return $user;
+        }
 
+        $this->set('user', $user);
+        $this->set(
+            'titleForLayout',
+            __('Edit {0} Profil', [Properize::prop($user->get('username'))])
+        );
+
+        $availableThemes = $this->Themes->getAvailable($this->CurrentUser);
+        $availableThemes = array_combine($availableThemes, $availableThemes);
+        $currentTheme = $this->Themes->getThemeForUser($this->CurrentUser);
+        $this->set(compact('availableThemes', 'currentTheme'));
+    }
+
+    /**
+     * Handle user edit core. Retrieve user or patch if data is passed.
+     *
+     * @param string $userId user-ID
+     * @param array|null $data datat to update the user
+     *
+     * @return \Cake\Network\Response|User
+     */
+    protected function _edit($userId, array $data = null)
+    {
+        if (!$this->_isEditingAllowed($this->CurrentUser, $userId)) {
+            throw new \Saito\Exception\SaitoForbiddenException(
+                "Attempt to edit user $userId.",
+                ['CurrentUser' => $this->CurrentUser]
+            );
+        }
+        if (!$this->Users->exists($userId)) {
+            throw new BadRequestException;
+        }
+        $user = $this->Users->get($userId);
+
+        if ($data) {
             $user = $this->Users->patchEntity($user, $data);
             $errors = $user->errors();
             if (empty($errors) && $this->Users->save($user)) {
-                $this->redirect(['action' => 'view', $id]);
-
-                return;
+                return $this->redirect(['action' => 'view', $userId]);
             } else {
                 $this->JsData->addAppJsMessage(
                     __('The user could not be saved. Please, try again.'),
@@ -471,20 +512,8 @@ class UsersController extends AppController
                 );
             }
         }
-
         $this->set('user', $user);
-        $this->set(
-            'title_for_layout',
-            __(
-                'Edit {0} Profil',
-                [Properize::prop($user->get('username'))]
-            )
-        );
-
-        $availableThemes = $this->Themes->getAvailable($this->CurrentUser);
-        $availableThemes = array_combine($availableThemes, $availableThemes);
-        $currentTheme = $this->Themes->getThemeForUser($this->CurrentUser);
-        $this->set(compact('availableThemes', 'currentTheme'));
+        return $user;
     }
 
     /**
@@ -591,7 +620,6 @@ class UsersController extends AppController
         }
 
         //= process submitted form
-        $this->request->data = $this->passwordAuthSwitch($this->request->data);
         $data = [
             'password_old' => $this->request->data['password_old'],
             'password' => $this->request->data['password'],
@@ -742,14 +770,11 @@ class UsersController extends AppController
      * @param int $userId user-ID
      * @return bool
      */
-    protected function _isEditingAllowed(
-        ForumsUserInterface $CurrentUser,
-        $userId
-    ) {
+    protected function _isEditingAllowed(ForumsUserInterface $CurrentUser, $userId)
+    {
         if ($CurrentUser->permission('saito.core.user.edit')) {
             return true;
         }
-
         return $CurrentUser->isUser($userId);
     }
 }

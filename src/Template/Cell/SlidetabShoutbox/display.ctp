@@ -1,6 +1,6 @@
 <?php
-	echo $this->Html->scriptBlock('SaitoApp.shouts = ' . json_encode($this->Shouts->prepare($shouts)));
-	?>
+echo $this->Html->scriptBlock('SaitoApp.shouts = ' . json_encode($this->Shouts->prepare($shouts)));
+?>
 <?php $this->start('slidetab-tab-button'); ?>
 <div class="btn-slidetabShoutbox">
 	<i class="fa fa-comments-o fa-lg"></i>

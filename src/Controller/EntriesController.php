@@ -1,8 +1,17 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Controller;
 
 use App\Controller\Component\CurrentUserComponent;
+use App\Model\Entity\Entry;
+use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\I18n\Time;
@@ -10,6 +19,7 @@ use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Network\Http\Response;
 use Cake\Routing\RequestActionTrait;
 use Cake\View\Helper\IdGeneratorTrait;
 use Saito\App\Registry;
@@ -20,11 +30,11 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Class EntriesController
  *
+ * @property EntriesTable $Entries
  * @package App\Controller
  */
 class EntriesController extends AppController
 {
-
     use IdGeneratorTrait;
     use RequestActionTrait;
 
@@ -37,14 +47,19 @@ class EntriesController extends AppController
     ];
 
     /**
-     * @var array of postings that are read after this request
+     * {@inheritDoc}
      */
-    protected $_marPostings;
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('MarkAsRead');
+        $this->loadComponent('Threads');
+    }
 
     /**
      * posting index
      *
-     * @return void
+     * @return void|\Cake\Network\Response
      */
     public function index()
     {
@@ -58,20 +73,20 @@ class EntriesController extends AppController
         $order = ['fixed' => 'DESC', $sortKey => 'DESC'];
 
         //= get threads
-        $this->loadComponent('Threads');
         $threads = $this->Threads->paginate($order);
         $this->set('entries', $threads);
 
-        $currentPage = (int)$this->request->query('page');
+        $currentPage = (int)$this->request->query('page') ?: 1;
         if ((int)$currentPage > 1) {
-            $this->set('title_for_layout', __('page') . ' ' . $currentPage);
+            $this->set('titleForLayout', __('page') . ' ' . $currentPage);
         }
-        if ($currentPage === 1
-            && $this->CurrentUser->isLoggedIn()
-            && $this->CurrentUser->get('user_automaticaly_mark_as_read')
-        ) {
-            $this->set('markAsRead', true);
+        if ($currentPage === 1) {
+            if ($this->MarkAsRead->refresh()) {
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->MarkAsRead->next();
         }
+
         // @bogus
         $this->request->session()->write('paginator.lastPage', $currentPage);
         $this->showDisclaimer = true;
@@ -79,6 +94,9 @@ class EntriesController extends AppController
         $this->Slidetabs->show();
 
         $this->_setupCategoryChooser($this->CurrentUser);
+
+        $this->loadComponent('AutoReload');
+        $this->AutoReload->after($this->CurrentUser);
 
         Stopwatch::stop('Entries->index()');
     }
@@ -121,7 +139,6 @@ class EntriesController extends AppController
         );
         $this->set('entries', $entries);
 
-
         // serialize for JSON
         $this->set('_serialize', 'entries');
     }
@@ -130,15 +147,13 @@ class EntriesController extends AppController
      * Mix view
      *
      * @param string $tid thread-ID
-     * @return void
+     * @return void|Response
      * @throws NotFoundException
      */
     public function mix($tid)
     {
         if (!$tid) {
-            $this->redirect('/');
-
-            return;
+            return $this->redirect('/');
         }
         $postings = $this->Entries->treeForNode(
             $tid,
@@ -146,14 +161,13 @@ class EntriesController extends AppController
         );
 
         if (empty($postings)) {
+            /* @var $post Entry */
             $post = $this->Entries->find()
-                                  ->select(['tid'])
-                                  ->where(['id' => $tid])
-                                  ->first();
+                ->select(['tid'])
+                ->where(['id' => $tid])
+                ->first();
             if (!empty($post)) {
-                $this->redirect([$post->get('tid'), '#' => $tid], 301);
-
-                return;
+                return $this->redirect([$post->get('tid'), '#' => $tid], 301);
             }
             throw new NotFoundException;
         }
@@ -161,8 +175,7 @@ class EntriesController extends AppController
         // check if anonymous tries to access internal categories
         $root = $postings;
         if (!$this->CurrentUser->Categories->permission('read', $root->get('category'))) {
-            $this->_requireAuth();
-            return;
+            return $this->_requireAuth();
         }
 
         $this->_setRootEntry($root);
@@ -172,16 +185,8 @@ class EntriesController extends AppController
 
         $this->_showAnsweringPanel();
 
-        $this->_incrementViews($root, 'thread');
-
-        $flat = [];
-        $postings->map(
-            function ($node) use (&$flat) {
-                $flat[$node->get('id')] = $node;
-            },
-            true
-        );
-        $this->_marPostings = $flat;
+        $this->Threads->incrementViews($root, 'thread');
+        $this->MarkAsRead->thread($postings);
     }
 
     /**
@@ -230,18 +235,15 @@ class EntriesController extends AppController
         // redirect if posting doesn't exists
         if ($entry == false) {
             $this->Flash->set(__('Invalid post'));
-            $this->redirect('/');
-
-            return;
+            return $this->redirect('/');
         }
 
         if (!$this->CurrentUser->Categories->permission('read', $entry->get('category'))) {
-            $this->_requireAuth();
-            return;
+            return $this->_requireAuth();
         }
 
         $this->set('entry', $entry);
-        $this->_incrementViews($entry);
+        $this->Threads->incrementViews($entry);
         $this->_setRootEntry($entry);
         $this->_showAnsweringPanel();
 
@@ -249,9 +251,7 @@ class EntriesController extends AppController
 
         // inline open
         if ($this->request->is('ajax')) {
-            $this->render('/Element/entry/view_posting');
-
-            return;
+            return $this->render('/Element/entry/view_posting');
         }
 
         // full page request
@@ -281,8 +281,8 @@ class EntriesController extends AppController
 
             // inserting new posting was successful
             if ($posting !== false && !count($posting->errors())) {
-                // @todo 3.0 Notif
-//					$this->_setNotifications($newPosting + $this->request->data);
+                // @td 3.0 Notif
+                //$this->_setNotifications($newPosting + $this->request->data);
 
                 $id = $posting->get('id');
                 $pid = $posting->get('pid');
@@ -309,9 +309,7 @@ class EntriesController extends AppController
                         //= normal posting from entries/add or entries/view
                         $url += ['action' => 'view', $posting->get('id')];
                     }
-                    $this->redirect($url);
-
-                    return;
+                    return $this->redirect($url);
                 }
             } else {
                 //= Error while trying to save a post
@@ -335,9 +333,7 @@ class EntriesController extends AppController
             if ($isAnswer) {
                 //= answer to existing posting
                 if ($this->request->is('ajax') === false) {
-                    $this->redirect($this->referer());
-
-                    return;
+                    return $this->redirect($this->referer());
                 }
 
                 $parent = $this->Entries->get($id);
@@ -355,7 +351,7 @@ class EntriesController extends AppController
                 );
 
                 /*
-                 * @todo 3.0 Esevent
+                 * @td 3.0 Notif
                 // get notifications
                 $notis = $this->Entry->Esevent->checkEventsForUser(
                     $this->CurrentUser->getId(),
@@ -408,7 +404,7 @@ class EntriesController extends AppController
             return $this->_requireAuth();
         }
 
-        $this->set('entry_sub', $posting);
+        $this->set('entrySub', $posting);
         // ajax requests so far are always answers
         $this->response->type('json');
         $this->set('level', '1');
@@ -460,12 +456,10 @@ class EntriesController extends AppController
             $data['id'] = $posting->get('id');
             $newEntry = $this->Entries->update($posting, $data);
             if ($newEntry) {
-                /* @todo 3.0 Notif
+                /* @td 3.0 Notif
                  * $this->_setNotifications(am($this->request['data'], $posting));
                  */
-                $this->redirect(['action' => 'view', $id]);
-
-                return;
+                return $this->redirect(['action' => 'view', $id]);
             } else {
                 $this->Flash->set(
                     __(
@@ -494,7 +488,7 @@ class EntriesController extends AppController
         }
 
         // get notifications
-        /* @todo 3.0 Notif
+        /* @td 3.0 Notif
          * $notis = $this->Entry->Esevent->checkEventsForUser(
          * $posting['Entry']['user_id'],
          * array(
@@ -543,11 +537,11 @@ class EntriesController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-
+        //$this->request->allowMethod(['post', 'delete']);
         if (!$id) {
             throw new NotFoundException;
         }
+        /* @var Entry $posting */
         $posting = $this->Entries->get($id);
         if (!$posting) {
             throw new NotFoundException;
@@ -683,6 +677,7 @@ class EntriesController extends AppController
             throw new NotFoundException();
         }
 
+        /* @var Entry */
         $posting = $this->Entries->findById($sourceId)->first();
 
         if (!$posting || !$posting->isRoot()) {
@@ -745,98 +740,13 @@ class EntriesController extends AppController
         parent::beforeFilter($event);
         Stopwatch::start('Entries->beforeFilter()');
 
-        $this->_automaticalyMarkAsRead();
-
         $this->Security->config(
             'unlockedActions',
             ['preview', 'solve', 'view']
         );
         $this->Auth->allow(['feed', 'index', 'view', 'mix', 'update']);
 
-        if ($this->request->action === 'index') {
-            $this->_setAutoRefreshTime();
-        }
-
         Stopwatch::stop('Entries->beforeFilter()');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function afterFilter(Event $event)
-    {
-        parent::afterFilter($event);
-        if (isset($this->_marPostings)) {
-            $this->CurrentUser->ReadEntries->set($this->_marPostings);
-        }
-    }
-
-    /**
-     * automatic mark-as-read
-     *
-     * @return void
-     */
-    protected function _automaticalyMarkAsRead()
-    {
-        if (!$this->CurrentUser->isLoggedIn() ||
-            !$this->CurrentUser->get('user_automaticaly_mark_as_read')
-        ) {
-            return;
-        }
-
-        if ($this->request->action === 'index' &&
-            !$this->request->session()->read('User.last_refresh_tmp')
-        ) {
-            // initiate sessions last_refresh_tmp for new sessions
-            $this->request->session()->write('User.last_refresh_tmp', time());
-        }
-
-        /* // old
-        $isMarkAsReadRequest = $this->localReferer('controller') === 'entries' &&
-                $this->localReferer('action') === 'index' &&
-                $this->request->action === "index";
-        */
-
-        $isMarkAsReadRequest = isset($this->request->query['mar']) &&
-            $this->request->query['mar'] === '';
-
-        if ($isMarkAsReadRequest &&
-            $this->request->isPreview() === false
-        ) {
-            // a second session A shall not accidentally mark something as read that isn't read on session B
-            $lastRefreshTemp = $this->request->session()
-                ->read('User.last_refresh_tmp');
-            if ($lastRefreshTemp > $this->CurrentUser->get('last_refresh_unix')) {
-                $this->CurrentUser->LastRefresh->set();
-            }
-            $this->request->session()->write('User.last_refresh_tmp', time());
-            $this->redirect('/');
-
-            return;
-        } elseif ($this->request->action === "index") {
-            $this->CurrentUser->LastRefresh->setMarker();
-        }
-    }
-
-    /**
-     * Increment views for posting.
-     *
-     * @param Posting $entry posting
-     * @param string $type 'thread' to update a whole thread
-     * @return void
-     */
-    protected function _incrementViews(Posting $entry, $type = null)
-    {
-        if ($this->CurrentUser->isBot()) {
-            return;
-        }
-        $cUserId = $this->CurrentUser->getId();
-
-        if ($type === 'thread') {
-            $this->Entries->threadIncrementViews($entry->get('tid'), $cUserId);
-        } elseif ($entry->get('user_id') !== $cUserId) {
-            $this->Entries->incrementViews($entry->get('id'));
-        }
     }
 
     /**
@@ -866,22 +776,6 @@ class EntriesController extends AppController
                 $newEntry['Entry']['user_id'],
                 $notis
             );
-        }
-    }
-
-    /**
-     * set auto refresh time
-     *
-     * @return void
-     */
-    protected function _setAutoRefreshTime()
-    {
-        if (!$this->CurrentUser->isLoggedIn()) {
-            return;
-        }
-        $time = $this->CurrentUser->get('user_forum_refresh_time');
-        if ($time > 0) {
-            $this->set('autoPageReload', $time * 60);
         }
     }
 

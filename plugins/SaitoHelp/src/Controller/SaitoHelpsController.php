@@ -1,50 +1,69 @@
 <?php
 
-	App::uses('SaitoHelpAppController', 'SaitoHelp.Controller');
+namespace SaitoHelp\Controller;
 
-	class SaitoHelpsController extends SaitoHelpAppController {
+use App\Controller\AppController;
+use Cake\Core\Configure;
+use Cake\Event\Event;
 
-		/**
-		 * redirects help/<id> to help/<current language>/id
-		 *
-		 * @param $id help page ID
-		 */
-		public function languageRedirect($id) {
-			$this->autoRender = false;
-			$_language = Configure::read('Config.language');
-			$this->redirect("/help/$_language/$id");
-			return;
-		}
+class SaitoHelpsController extends AppController
+{
+    /**
+     * redirects help/<id> to help/<current language>/id
+     *
+     * @param string $id help page ID
+     * @return void
+     */
+    public function languageRedirect($id)
+    {
+        $this->autoRender = false;
+        $language = Configure::read('Saito.language');
+        $this->redirect("/help/$language/$id");
+    }
 
-		public function view($lang, $id) {
-			$help = $this->SaitoHelp->find('first',
-					[
-							'conditions' => [
-									'id' => $id,
-									'language' => $lang
-							]
-					]);
-			// try fallback to english default language
-			if (!$help && $lang !== 'eng') {
-				$this->redirect("/help/eng/$id");
-			}
-			if ($help) {
-				$this->set('help', $help['SaitoHelp']);
-			} else {
-				$this->Session->setFlash(__('sh.nf'), 'flash/error');
-				$this->redirect('/');
-				return;
-			}
+    /**
+     * View a help page.
+     *
+     * @param string $lang language
+     * @param string $id help page ID
+     * @return void
+     */
+    public function view($lang, $id)
+    {
+        $this->loadModel('SaitoHelp.SaitoHelp');
+        $help = $this->SaitoHelp->find(
+            'first',
+            [
+                'conditions' => [
+                    'id' => $id,
+                    'language' => $lang
+                ]
+            ]
+        );
+        // try fallback to english default language
+        if (!$help && $lang !== 'en') {
+            $this->redirect("/help/en/$id");
+        }
+        if ($help) {
+            $this->set('help', $help);
+        } else {
+            $this->Flash->set(__('sh.nf'), ['element' => 'error']);
+            $this->redirect('/');
+            return;
+        }
 
-			$isCore = !strpos($id, '.');
-			$this->set(compact('isCore'));
+        $isCore = !strpos($id, '.');
+        $this->set(compact('isCore'));
 
-			$this->set('title_for_page', __('Help'));
-		}
+        $this->set('titleForPage', __('Help'));
+    }
 
-		public function beforeFilter() {
-			parent::beforeFilter();
-			$this->Auth->allow();
-		}
-
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow();
+    }
+}

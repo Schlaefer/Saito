@@ -1,28 +1,26 @@
 <?php
 
-    namespace Cron\Model\Behavior;
+namespace Cron\Model\Behavior;
 
-	use Cake\ORM\Behavior;
-    use Saito\App\Registry;
+use Cake\ORM\Behavior;
+use Saito\App\Registry;
 
-    class CronBehavior extends Behavior {
-
-        protected $_defaultConfig = [
-           'implementedMethods' => [
-               // @todo 3.0 not used?
-               'clearHistoryCron' => 'clearHistoryCron'
-           ]
-        ];
-
-        public function initialize(array $config) {
-            $cron = Registry::get('Cron');
-            foreach ($config as $func => $options) {
-                $cron->addCronJob(
-                    $options['id'],
-                    $options['due'],
-                    [$this->_table, $func]
-                );
-            }
+class CronBehavior extends Behavior
+{
+    /**
+     * {@inheritDoc}
+     *
+     * Register table cron-jobs as behavior config.
+     */
+    public function initialize(array $config)
+    {
+        $cron = Registry::get('Cron');
+        foreach ($config as $func => $options) {
+            $cron->addCronJob(
+                $options['id'],
+                $options['due'],
+                [$this->_table, $func]
+            );
         }
-
-	}
+    }
+}

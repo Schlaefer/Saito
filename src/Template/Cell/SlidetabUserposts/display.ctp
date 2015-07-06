@@ -6,16 +6,13 @@
 <?php $this->start('slidetab-content'); ?>
 <div class="slidetab-header">
     <h4>
-					<span
-                        title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
-						<?=
-                        // @lo
-                        Saito\String\Properize::prop(
-                            h($CurrentUser->get('username'))
-                        ) . ' '
-                        . __('user_recentposts');
-                        ?>
-					</span>
+    <span
+        title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
+        <?=
+        // @lo
+        Saito\String\Properize::prop(h($CurrentUser->get('username'))) . ' ' . __('user_recentposts');
+        ?>
+    </span>
     </h4>
 </div>
 <div class="slidetab-content">
@@ -26,11 +23,9 @@
                     <i class="fa fa-thread"></i>
                     <?= $this->Posting->getFastLink($entry) ?>
                     <br/>
-									<span class='c_info_text'>
-										<?php echo $this->TimeH->formatTime(
-                                            $entry->get('time')
-                                        ); ?>
-									</span>
+                    <span class='c_info_text'>
+                        <?php echo $this->TimeH->formatTime($entry->get('time')); ?>
+                    </span>
                 </li>
             <?php endforeach; ?>
         </ul>

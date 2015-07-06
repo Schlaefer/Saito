@@ -8,7 +8,7 @@ $this->element('users/menu');
 
 <div class="user index">
     <div class="panel">
-        <?= $this->Layout->panelHeading($title_for_page, ['pageHeading' => true]) ?>
+        <?= $this->Layout->panelHeading($titleForPage, ['pageHeading' => true]) ?>
         <div class="panel-content">
             <div class="table-menu sort-menu">
                 <?php
@@ -22,7 +22,7 @@ $this->element('users/menu');
             <table class="table th-left row-sep">
                 <tbody>
                 <?php
-                foreach ($users as $user): ?>
+                foreach ($users as $user) : ?>
                     <tr>
                         <td>
                             <?=
@@ -34,7 +34,7 @@ $this->element('users/menu');
                         </td>
                         <td>
                             <?php
-                            $_u = [
+                            $u = [
                                 $this->User->type($user->get('user_type')),
                                 __(
                                     'user_since {0}',
@@ -45,18 +45,18 @@ $this->element('users/menu');
                                 ),
                             ];
                             if ($user->get('user_online') && $user->get('user_online')['logged_in']) {
-                                $_u[] = __('Online');
+                                $u[] = __('Online');
                             }
                             if ($user->get('username') === 'Frogurt') {
                                 $a = 1;
                             }
-                            if ($user->isLocked()) {
-                                $_u[] = __(
+                            if ($user->isForbidden()) {
+                                $u[] = __(
                                     '{0} banned',
                                     $this->User->banned(true)
                                 );
                             }
-                            echo $this->Html->nestedList($_u);
+                            echo $this->Html->nestedList($u);
                             ?>
                         </td>
                     </tr>

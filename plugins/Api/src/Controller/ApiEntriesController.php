@@ -74,17 +74,20 @@ class ApiEntriesController extends ApiAppController
         }
 
         $new = $this->Entries->createPosting($data);
-        if (!$new || ($errors = $new->errors() && !empty($errors))) {
+        if (($errors = $new->errors()) && !empty($errors)) {
+            $errors = $new->errors();
+            if (!empty($errors)) {
+                $field = key($errors);
+                throw new ApiValidationException(
+                    $field,
+                    current($errors[$field])
+                );
+            }
+        } elseif (!$new) {
             throw new BadRequestException(
                 'Entry could not be created.',
                 1434352683
             );
-        } else {
-            $errors = $new->errors();
-            if (!empty($errors)) {
-                $field = key($errors);
-                throw new ApiValidationException($field, current($errors[$field]));
-            }
         }
 
         $this->set('entry', $new);

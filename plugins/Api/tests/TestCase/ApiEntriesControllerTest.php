@@ -126,7 +126,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
         );
         $this->post(
             $this->_apiRoot . 'entries.json',
-            ['subject' => '', 'parent_id' => 0]
+            ['subject' => '', 'parent_id' => 0, 'category_id' => 3]
         );
     }
 
@@ -145,6 +145,32 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
             ['subject' => 'subject', 'parent_id' => 0, 'category_id' => 1]
         );
         $this->assertResponseCode(200);
+    }
+
+    public function testEntriesItemPostNoCategoryProvided()
+    {
+        $this->_loginUser(3);
+        $this->setExpectedException(
+            '\Api\Error\Exception\ApiValidationException',
+            'category_id'
+        );
+        $this->post(
+            $this->_apiRoot . 'entries.json',
+            ['subject' => 'subject', 'parent_id' => 0]
+        );
+    }
+
+    public function testEntriesItemPostCategoryValid()
+    {
+        $this->_loginUser(3);
+        $this->setExpectedException(
+            '\Api\Error\Exception\ApiValidationException',
+            'category_id'
+        );
+        $this->post(
+            $this->_apiRoot . 'entries.json',
+            ['subject' => 'subject', 'parent_id' => 0, 'category_id' => 9999]
+        );
     }
 
     public function testEntriesItemPostSuccess()

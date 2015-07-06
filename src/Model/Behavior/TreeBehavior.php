@@ -6,7 +6,6 @@ use Cake\ORM\Behavior;
 
 class TreeBehavior extends Behavior
 {
-
     /**
      * build tree
      *

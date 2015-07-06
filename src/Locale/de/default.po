@@ -294,10 +294,6 @@ msgstr "Anwenden"
 msgid "btn-showThreadInMixView"
 msgstr "mix"
 
-#: Template/Element/entry/thread_cached_init.ctp:13
-msgid "btn-threadCollapse"
-msgstr "thread zu"
-
 #: Template/Element/entry/view_content.ctp:57
 msgid "{0} edited by {1}"
 msgstr "{0} bearbeitet durch {1}"
@@ -808,17 +804,27 @@ msgstr "Kategorienfilter"
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
+msgid "gn.btn.more.t"
+msgstr "mehr"
+
+msgid "gn.btn.collapse.t"
+msgstr "Einklappen"
+
 #: Template/Users/edit.ctp:280 Template/Users/edit.ctp:297
 msgid "gn.btn.save.t"
 msgstr "Speichern"
 
 #: Template/Users/edit.ctp:287 Template/Users/view.ctp:24
-msgid "user.set.avatar.t"
+msgid "user.avatar.t"
 msgstr "Avatar"
+
+#: Template/Users/edit.ctp:287 Template/Users/view.ctp:24
+msgid "user.set.avatar.t"
+msgstr "Avatar ändern"
 
 #: Template/Users/edit.ctp:303
 msgid "gn.btn.delete.t"
-msgstr "Speichern"
+msgstr "Löschen"
 
 #: Template/Users/index.ctp:18
 msgid "Sort by: {0}"
@@ -1395,6 +1401,9 @@ msgstr "Der Benutzer konnte nicht gespeichert werden."
 msgid "Edit {0} Profil"
 msgstr "{0} Profil bearbeiten"
 
+msgid "Edit {0} Avatar"
+msgstr "{0} Avatar bearbeiten"
+
 #: Controller/UsersController.php:435
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
@@ -1659,11 +1668,11 @@ msgstr "Aktueller Beitrag"
 #~ msgid "Upload"
 #~ msgstr "Hochladen"
 
-#~ msgid "user.map.b.locate"
-#~ msgstr "Orten"
+msgid "user.map.b.locate"
+msgstr "Orten"
 
-#~ msgid "user.map.b.clear"
-#~ msgstr "Entfernen"
+msgid "user.map.b.clear"
+msgstr "Entfernen"
 
 #~ msgid "Enter link to media or embedding code:"
 #~ msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben:"
@@ -1737,8 +1746,8 @@ msgstr "Noch keine Lesezeichen angelegt."
 #~ "Sie diese im Browser."
 
 #, fuzzy
-#~ msgid "user.map.b.search"
-#~ msgstr "Suche \":string\""
+msgid "user.map.b.search"
+msgstr "Suche \":string\""
 
 #~ msgid "user.block.reason.2"
 #~ msgstr "Ignoriert durch zu viele Nutzer."

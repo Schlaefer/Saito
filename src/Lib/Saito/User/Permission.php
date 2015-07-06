@@ -10,6 +10,7 @@
 namespace Saito\User;
 
 use Cake\Cache\Cache;
+use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Saito\RememberTrait;
 use Stopwatch\Lib\Stopwatch;
@@ -43,7 +44,7 @@ class Permission
         'saito.core.user.view.contact' => ['admin' => true],
         'saito.core.view.ip' => ['mod' => true],
         // = controller actions =
-        // @todo make action specific instead of generic group names
+        // @td @sm make action specific instead of generic group names
         'anon' => ['anon' => true],
         'user' => ['user' => true],
         'mod' => ['mod' => true],
@@ -162,6 +163,10 @@ class Permission
      */
     protected function _bootstrapCategories()
     {
+        if (Configure::read('Saito.Settings.block_user_ui')) {
+            $this->allow('mod', 'saito.core.user.block');
+        }
+
         $Categories = TableRegistry::get('Categories');
         $categories = $Categories->getAllCategories();
         $accessions = [0 => 'anon', 1 => 'user', 2 => 'mod', 3 => 'admin'];

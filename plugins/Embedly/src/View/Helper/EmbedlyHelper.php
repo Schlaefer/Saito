@@ -5,17 +5,33 @@ namespace Embedly\View\Helper;
 use Cake\View\Helper;
 use Embedly\Embedly;
 
-class EmbedlyHelper extends Helper {
+class EmbedlyHelper extends Helper
+{
 
     public $helpers = ['Html'];
 
     protected $apiKey = null;
 
-    public function setApiKey($apiKey) {
+    /**
+     * Set API-key
+     *
+     * @param string $apiKey API-key
+     * @return void
+     */
+    public function setApiKey($apiKey)
+    {
         $this->apiKey = $apiKey;
     }
 
-    public function embedly($string) {
+    /**
+     * Process through embedly
+     *
+     * @param string $string string to process
+     *
+     * @return bool|mixed|string
+     */
+    public function embedly($string)
+    {
         if (empty($this->apiKey)) {
             return __('Embed.ly API-key not set.');
         }
@@ -57,5 +73,4 @@ class EmbedlyHelper extends Helper {
 
         return $out;
     }
-
 }

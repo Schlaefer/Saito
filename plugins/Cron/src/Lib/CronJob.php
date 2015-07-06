@@ -1,23 +1,46 @@
 <?php
 
-	namespace Cron\Lib;
+namespace Cron\Lib;
 
-	class CronJob {
+class CronJob
+{
 
-		public $uid;
+    /**
+     * @var string
+     */
+    public $uid;
 
-		public $due;
+    /**
+     * @var mixed
+     */
+    public $due;
 
-		protected $_garbage;
+    /**
+     * @var callable
+     */
+    protected $_garbage;
 
-		public function __construct($uid, $due, callable $func) {
-			$this->uid = $uid;
-			$this->due = $due;
-			$this->_garbage = $func;
-		}
+    /**
+     * Constructor
+     *
+     * @param string $uid unique ID for cron job
+     * @param mixed $due due intervall
+     * @param callable $func cron job
+     */
+    public function __construct($uid, $due, callable $func)
+    {
+        $this->uid = $uid;
+        $this->due = $due;
+        $this->_garbage = $func;
+    }
 
-		public function execute() {
-			call_user_func($this->_garbage);
-		}
-
-	}
+    /**
+     * Execute cron job
+     *
+     * @return void
+     */
+    public function execute()
+    {
+        call_user_func($this->_garbage);
+    }
+}

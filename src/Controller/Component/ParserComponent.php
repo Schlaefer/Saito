@@ -53,7 +53,7 @@ class ParserComponent extends Component
     {
         $userlist = new Userlist\UserlistModel();
         $userlist->set(TableRegistry::get('Users'));
-        $smilies = new \Saito\Smiley\Cache();
+        $smilies = new \Saito\Smiley\SmileyLoader();
         $controller->set('smiliesData', $smilies);
 
         $this->_settings->add(

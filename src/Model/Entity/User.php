@@ -7,8 +7,30 @@ use Saito\User\SaitoUser;
 
 class User extends Entity
 {
+    /**
+     * {@inheritDoc}
+     *
+     * Make ForumsUserInterface available.
+     */
+    public function __call($method, $arguments)
+    {
+        $suser = $this->toSaitoUser();
+        if (is_callable([$suser, $method])) {
+            return call_user_func_array([$suser, $method], $arguments);
+        }
+        $class = get_class($this);
+        throw new \Exception("Invalid method {$class}::{$method}()");
+    }
 
-    protected $cache = [];
+    /**
+     * Return user as SaitoUser
+     *
+     * @return SaitoUser
+     */
+    public function toSaitoUser()
+    {
+        return new SaitoUser($this);
+    }
 
     /**
      * Get number of postings
@@ -18,31 +40,5 @@ class User extends Entity
     public function numberOfPostings()
     {
         return $this->get('entry_count');
-    }
-
-    /**
-     * get user rolse
-     *
-     * @return string
-     */
-    public function getRole()
-    {
-        // @todo 3.0 better implementation
-        $user = new SaitoUser($this);
-
-        return $user->getRole();
-    }
-
-    /**
-     * Check if user is locked
-     *
-     * @return bool
-     */
-    public function isLocked()
-    {
-        // @todo 3.0 better implementation
-        $user = new SaitoUser($this);
-
-        return $user->isForbidden();
     }
 }

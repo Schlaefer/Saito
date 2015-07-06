@@ -1,67 +1,74 @@
 <?php
-  use Stopwatch\Lib\Stopwatch;
-  Stopwatch::start('category-chooser.ctp'); ?>
+use Stopwatch\Lib\Stopwatch;
+
+Stopwatch::start('category-chooser.ctp'); ?>
 <div id="category-chooser" style="display: none; overflow: hidden;">
-  <div class="panel">
-    <div class="panel-content panel-form clearfix">
-      <?php
-        echo $this->Form->create(null, [
-          'url' => [
-            'controller' => 'users',
-            'action' => 'setcategory'
-          ],
-          'style' => 'clear: none;',
-        ]);
-      ?>
-      <div style="float:right; width: 150px; margin-left: 2em;">
-        <p>
-          <?php echo __('category_chooser_context_exp'); ?>
-        </p>
-      </div>
-
-      <ul class="category-chooser-ul">
-        <li class="category-chooser-li">
-          <?php
-            /* For performance reasons we generate the html manually */
-            /*
-            echo $this->Html->link(__('All'), '/users/setcategory/all')
-             */
-          ?>
-          <a
-            href="<?= $this->request->webroot ?>users/setcategory/all">
-            <?= __('All Categories') ?>
-          </a>
-
-        </li>
-        <?php foreach ($categoryChooser as $key => $title): ?>
-          <li class="category-chooser-li">
+    <div class="panel">
+        <div class="panel-content panel-form clearfix">
             <?php
-            echo $this->Form->checkbox('CatChooser.' . $key,
-                array(
-                'onclick'			 => "$('#cb-category-chooser-all').removeAttr('checked')",
-                'checked'			 => isset($categoryChooserChecked[$key]),
-                'value'				 => 1));
+            echo $this->Form->create(
+                null,
+                [
+                    'url' => [
+                        'controller' => 'users',
+                        'action' => 'setcategory'
+                    ],
+                    'style' => 'clear: none;',
+                ]
+            );
             ?>
-            <?php
-              /* For performance reasons we generate the html manually */
-              /*
-              echo $this->Html->link($title, '/users/setcategory/' . $key)
-               *
-               */
-            ?>
-            <a
-              href="<?= $this->request->webroot ?>users/setcategory/<?= $key; ?>">
-              <?php echo $title; ?>
-            </a>
+            <div style="float:right; width: 150px; margin-left: 2em;">
+                <p>
+                    <?php echo __('category_chooser_context_exp'); ?>
+                </p>
+            </div>
 
-          </li>
-        <?php endforeach; ?>
-      </ul>
-      <?php
-        echo $this->Form->submit(__('Apply'), ['class' => 'btn btn-submit']);
-        echo $this->Form->end();
-      ?>
+            <ul class="category-chooser-ul">
+                <li class="category-chooser-li">
+                    <?php
+                    /* For performance reasons we generate the html manually */
+                    /*
+                    echo $this->Html->link(__('All'), '/users/setcategory/all')
+                     */
+                    ?>
+                    <a href="<?= $this->request->webroot ?>users/setcategory/all">
+                        <?= __('All Categories') ?>
+                    </a>
+
+                </li>
+                <?php foreach ($categoryChooser as $key => $title) : ?>
+                    <li class="category-chooser-li">
+                        <?php
+                        echo $this->Form->checkbox(
+                            'CatChooser.' . $key,
+                            [
+                                'onclick' => "$('#cb-category-chooser-all').removeAttr('checked')",
+                                'checked' => isset($categoryChooserChecked[$key]),
+                                'value' => 1
+                            ]
+                        );
+
+                        /* For performance reasons we generate the html manually */
+                        /*
+                        echo $this->Html->link($title, '/users/setcategory/' . $key)
+                         *
+                         */
+                        ?>
+                        <a href="<?= $this->request->webroot ?>users/setcategory/<?= $key; ?>">
+                            <?php echo $title; ?>
+                        </a>
+
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php
+            echo $this->Form->submit(
+                __('Apply'),
+                ['class' => 'btn btn-submit']
+            );
+            echo $this->Form->end();
+            ?>
+        </div>
     </div>
-  </div>
 </div>
 <?php Stopwatch::end('category-chooser.ctp'); ?>

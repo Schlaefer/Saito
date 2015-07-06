@@ -4,7 +4,6 @@ namespace Saito\App;
 
 use Aura\Di\Container;
 use Cron\Lib\Cron;
-use Saito\User\Permission;
 
 /**
  * Global registry for Saito app.
@@ -28,7 +27,7 @@ class Registry
     {
         $dic = new Container(new \Aura\Di\Factory);
         $dic->set('Cron', new Cron());
-        $dic->set('Permission', new Permission());
+        $dic->set('Permission', $dic->lazyNew('Saito\User\Permission'));
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
         $dic->params['\Saito\Posting\Posting']['CurrentUser'] = $dic->lazyGet(
             'CU'

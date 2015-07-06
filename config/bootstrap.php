@@ -204,6 +204,8 @@ Request::addDetector('tablet', function ($request) {
 
 include Cake\Core\App::path('Lib')[0] . 'BaseFunctions.php';
 
+\Cake\Event\EventManager::instance()->on(\Saito\Event\SaitoEventManager::getInstance());
+
 Plugin::loadAll(
 	[
 			// @todo 3.0
@@ -219,8 +221,14 @@ Plugin::loadAll(
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system
 if (Configure::read('debug')) {
-    Plugin::load('DebugKit', ['bootstrap' => true]);
+    //Plugin::load('DebugKit', ['bootstrap' => true]);
 }
+
+/**
+ * Add additional buttons to editor
+ * @td document in namespace
+ */
+Configure::write('Saito.markItUp.nextCssId', 10);
 
 /**
  * Connect middleware/dispatcher filters.

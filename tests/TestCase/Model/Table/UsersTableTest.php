@@ -206,7 +206,7 @@ class UsersTableTest extends SaitoTableTestCase
     {
         // test that user's notifications are deleted
         /*
-        // @todo 3.0 notifications
+        // @td 3.0 notifications
         $this->User->Esnotification = $this->getMockForModel('Esnotification',
             array('deleteAllFromUser'),
             array(false, 'esnotifications', 'test'));
@@ -214,15 +214,17 @@ class UsersTableTest extends SaitoTableTestCase
                 ->method('deleteAllFromUser')
                 ->with(3)
                 ->will($this->returnValue(true));
+        */
 
-        $this->User->Ignore = $this->getMockForModel('UserIgnore',
+        $this->Table->UserIgnores = $this->getMockForModel(
+            'UserIgnores',
             ['deleteUser'],
-            [false, 'user_ignore', 'test']);
-        $this->User->Ignore->expects($this->once())
+            [false, 'user_ignore', 'test']
+        );
+        $this->Table->UserIgnores->expects($this->once())
             ->method('deleteUser')
             ->with(3)
             ->will($this->returnValue(true));
-        */
 
         //
         $result = $this->Table->exists(3);

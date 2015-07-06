@@ -86,14 +86,9 @@ class SettingsTable extends AppSettingTable
         if ($preset) {
             $settings = $preset + $settings;
         }
-        // @todo better place?
-        if (!empty($settings['block_user_ui'])) {
-            $permission = Registry::get('Permission');
-            $permission->allow('mod', 'saito.core.user.block');
-        }
         Configure::write('Saito.Settings', $settings);
-
         Stopwatch::end('Settings->getSettings()');
+        return $settings;
     }
 
     /**
