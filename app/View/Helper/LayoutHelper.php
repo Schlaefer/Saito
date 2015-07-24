@@ -52,6 +52,35 @@
 		}
 
 		/**
+		 * Output tile info for Windows 8.
+		 *
+		 * @param array $size unused
+		 * @param array $options
+		 * - 'basename' (default: app-icon)
+		 * - 'color' Background color for tile.
+		 * - 'title' Title displayed on tile.
+		 *
+		 * @return string
+		 */
+		public function msTouchIcon(array $size = [], array $options = []) {
+			$options += [
+				'baseName' => 'app-icon',
+				'color' => null,
+				'title' => Configure::read('Saito.Settings.forum_name')
+			];
+			$html = [];
+			$html[] = '<meta name="application-name" content="' . h($options['title']) . '"/>';
+			if (isset($options['color'])) {
+				$html[] = '<meta name="msapplication-TileColor" content="' . $options['color'] . '"/>';
+			}
+
+			$_basename = $options['baseName'];
+			$url = "{$this->_themeImgUrl}{$_basename}.png";
+			$html[] = '<meta name="msapplication-TileImage" content="' . $url . '"/>';
+			return implode("\n", $html);
+		}
+
+		/**
 		 * Output link to touch icon
 		 *
 		 * Files must be placed in <theme>/webroot/img/<baseName>-<size>x<size>.png
