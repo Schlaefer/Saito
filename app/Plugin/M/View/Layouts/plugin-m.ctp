@@ -21,18 +21,10 @@
 		};
 	</script>
 	<?= $this->element('custom_html_header') ?>
-	<?php
-		if ($isDebug) {
-			// $requireJsScript = 'main-prod';
-			$requireJsScript = 'main';
-			echo $this->RequireJs->scriptTag($requireJsScript, ['jsUrl' => 'm/dev/js/']);
-			?>
-			<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
-			<meta HTTP-EQUIV="Expires" CONTENT="-1">
-		<?php
-		} else {
-			echo $this->Html->script('M.../dist/js.js');
-		} ?>
+  <?php if ($isDebug) { ?>
+    <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Expires" CONTENT="-1">
+  <?php } ?>
 </head>
 <body>
 <div id="main">
@@ -43,5 +35,14 @@
 	</div>
 </div>
 <div id="card-bottom"></div>
+<?php
+if ($isDebug) {
+  // $requireJsScript = 'main-prod';
+  $requireJsScript = 'main';
+  echo $this->RequireJs->scriptTag($requireJsScript, ['jsUrl' => 'm/dev/js/']);
+} else {
+  echo $this->Html->script('M.../dist/js.js');
+}
+?>
 </body>
 </html>
