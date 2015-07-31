@@ -9,9 +9,7 @@ if (!PRODUCTION) {
 
 $config = array();
 $config['debug'] = !PRODUCTION;
-$config['base_url'] = \Phile\Utility::getBaseUrl();
 $config['pages_order'] = 'page.folder:desc meta.date:asc meta.title:desc';
-$config['date_format'] = 'jS M Y'; // Set the PHP date format
 $config['encryptionKey'] = 'IdUFTSOnWZMnH2kddF[1wzKbDL1V[{m6MjedfTu4BqNdwTwz!SHSN8SOCcA9FP9v';
 $config['site_title'] = 'Saito - The Threaded Web Internet Forum for PHP';
 $config['theme'] = 'saito';
@@ -25,7 +23,6 @@ $config['plugins'] = array(
 	'phile\\phpFastCache' => array('active' => PRODUCTION),
 	// the default data storage engine
 	'phile\\rssFeed' => array('active' => true),
-	'siezi\\phileMarkdownEditor' => array('active' => true),
 	'siezi\\phileTotalCache' => array('active' => PRODUCTION),
 	'siezi\\phileServeContentFiles' => ['active' => true]
 );

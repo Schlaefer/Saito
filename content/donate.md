@@ -63,7 +63,7 @@ And a shout-out to all the donors!
 
 <div class="text-muted">
 <small >
-	Someone's missing? Want your name linked? Please send a mail! – Last updated 2015-06-14.
+	Someone's missing? Want your name linked (or gone)? Please send a mail! – Last updated 2015-06-29.
 </small>
 </div>
 

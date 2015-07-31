@@ -4,7 +4,6 @@
  */
 namespace Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence;
 
-use Phile\Exception;
 use Phile\ServiceLocator\PersistenceInterface;
 
 /**
@@ -23,10 +22,7 @@ class SimpleFileDataPersistence implements PersistenceInterface {
 	 * the constructor
 	 */
 	public function __construct() {
-		$this->dataDirectory = LIB_DIR . 'datastorage/';
-		if (!is_dir($this->dataDirectory)) {
-			mkdir($this->dataDirectory, 0755);
-		}
+		$this->dataDirectory = STORAGE_DIR;
 	}
 
 	/**
@@ -46,11 +42,11 @@ class SimpleFileDataPersistence implements PersistenceInterface {
 	 * @param $key
 	 *
 	 * @return mixed
-	 * @throws \Phile\Exception
+	 * @throws \Phile\Exception\AbstractException
 	 */
 	public function get($key) {
 		if (!$this->has($key)) {
-			throw new Exception("no data storage for key '{$key}' exists!");
+			throw new \Phile\Exception\AbstractException("no data storage for key '{$key}' exists!");
 		}
 
 		return unserialize(file_get_contents($this->getStorageFile($key)));
@@ -75,11 +71,11 @@ class SimpleFileDataPersistence implements PersistenceInterface {
 	 * @param array  $options
 	 *
 	 * @return mixed|void
-	 * @throws \Phile\Exception
+	 * @throws \Phile\Exception\AbstractException
 	 */
 	public function delete($key, array $options = array()) {
 		if (!$this->has($key)) {
-			throw new Exception("no data storage for key '{$key}' exists!");
+			throw new \Phile\Exception\AbstractException("no data storage for key '{$key}' exists!");
 		}
 		unlink($this->getStorageFile($key));
 	}

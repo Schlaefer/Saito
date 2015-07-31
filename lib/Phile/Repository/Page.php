@@ -4,10 +4,9 @@
  */
 namespace Phile\Repository;
 
-use Phile\Exception;
-use Phile\ServiceLocator;
-use Phile\Utility;
-
+use Phile\Core\Registry;
+use Phile\Core\ServiceLocator;
+use Phile\Core\Utility;
 
 /**
  * the Repository class for pages
@@ -38,7 +37,7 @@ class Page {
 	 */
 	public function __construct($settings = null) {
 		if ($settings === null) {
-			$settings = \Phile\Registry::get('Phile_Settings');
+			$settings = Registry::get('Phile_Settings');
 		}
 		$this->settings = $settings;
 		if (ServiceLocator::hasService('Phile_Cache')) {
@@ -49,23 +48,34 @@ class Page {
 	/**
 	 * find a page by path
 	 *
-	 * @param string $path
+	 * @param string $pageId
 	 * @param string $folder
 	 *
 	 * @return null|\Phile\Model\Page
 	 */
-	public function findByPath($path, $folder = CONTENT_DIR) {
-		$path = str_replace(Utility::getInstallPath(), '', $path);
-		$fullPath =  str_replace(array("\\", "//", "\\/", "/\\"), DIRECTORY_SEPARATOR, $folder.$path);
-
-		$file = $fullPath . CONTENT_EXT;
-
-		// append '/index' to full path if file not found
-		if (!file_exists($file)) {
-			$file = $fullPath . '/index' . CONTENT_EXT;
+	public function findByPath($pageId, $folder = CONTENT_DIR) {
+		// be merciful to lazy third-party-usage and accept a leading slash
+		$pageId = ltrim($pageId, '/');
+		// 'sub/' should serve page 'sub/index'
+		if ($pageId === '' || substr($pageId, -1) === '/') {
+			$pageId .= 'index';
 		}
 
-		return (file_exists($file)) ? $this->getPage($file, $folder) : null;
+		$file = $folder . $pageId . CONTENT_EXT;
+		if (!file_exists($file)) {
+			if (substr($pageId, -6) === '/index') {
+				// try to resolve sub-directory 'sub/' to page 'sub'
+				$pageId = substr($pageId, 0, strlen($pageId) - 6);
+			} else {
+				// try to resolve page 'sub' to sub-directory 'sub/'
+				$pageId .= '/index';
+			}
+			$file = $folder . $pageId . CONTENT_EXT;
+		}
+		if (!file_exists($file)) {
+			return null;
+		}
+		return $this->getPage($file, $folder);
 	}
 
 	/**
@@ -74,64 +84,65 @@ class Page {
 	 * @param array  $options
 	 * @param string $folder
 	 *
-	 * @return array of \Phile\Model\Page objects
-	 * @throws \Phile\Exception
+	 * @return PageCollection of \Phile\Model\Page objects
 	 */
 	public function findAll(array $options = array(), $folder = CONTENT_DIR) {
-		$options += $this->settings;
-		// ignore files with a leading '.' in its filename
-		$files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
-		$pages = array();
-		foreach ($files as $file) {
-			if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
-				// jump to next page if file is the 404 page
-				continue;
-			}
-			$pages[] = $this->getPage($file, $folder);
-		}
-
-		if (empty($options['pages_order'])) {
-			return $pages;
-		}
-
-		// parse search criteria
-		$terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
-		foreach ($terms as $term) {
-			$term = explode('.', $term);
-			if (count($term) > 1) {
-				$type = array_shift($term);
-			} else {
-				$type = null;
-			}
-			$term = explode(':', $term[0]);
-			$sorting[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
-		}
-
-		// prepare search criteria for array_multisort
-		foreach ($sorting as $sort) {
-			$key = $sort['key'];
-			$column = array();
-			foreach ($pages as $page) {
-				/** @var \Phile\Model\Page $page */
-				$meta = $page->getMeta();
-				if ($sort['type'] === 'page') {
-					$method = 'get' . ucfirst($key);
-					$value = $page->$method();
-				} elseif ($sort['type'] === 'meta') {
-					$value = $meta->get($key);
-				} else {
-					continue 2; // ignore unhandled search term
+		return new PageCollection(function() use ($options, $folder){
+			$options += $this->settings;
+			// ignore files with a leading '.' in its filename
+			$files = Utility::getFiles($folder, '\Phile\FilterIterator\ContentFileFilterIterator');
+			$pages = array();
+			foreach ($files as $file) {
+				if (str_replace($folder, '', $file) == '404' . CONTENT_EXT) {
+					// jump to next page if file is the 404 page
+					continue;
 				}
-				$column[] = $value;
+				$pages[] = $this->getPage($file, $folder);
 			}
-			$sortHelper[] = $column;
-			$sortHelper[] = constant('SORT_' . strtoupper($sort['order']));
-		}
-		$sortHelper[] = &$pages;
 
-		call_user_func_array('array_multisort', $sortHelper);
+			if (empty($options['pages_order'])) {
+				return $pages;
+			}
 
-		return $pages;
+			// parse search	criteria
+			$terms = preg_split('/\s+/', $options['pages_order'], -1, PREG_SPLIT_NO_EMPTY);
+			foreach ($terms as $term) {
+				$term = explode('.', $term);
+				if (count($term) > 1) {
+					$type = array_shift($term);
+				} else {
+					$type = null;
+				}
+				$term = explode(':', $term[0]);
+				$sorting[] = array('type' => $type, 'key' => $term[0], 'order' => $term[1]);
+			}
+
+			// prepare search criteria for array_multisort
+			foreach ($sorting as $sort) {
+				$key = $sort['key'];
+				$column = array();
+				foreach ($pages as $page) {
+					/** @var \Phile\Model\Page $page */
+					$meta = $page->getMeta();
+					if ($sort['type'] === 'page') {
+						$method = 'get' . ucfirst($key);
+						$value = $page->$method();
+					} elseif ($sort['type'] === 'meta') {
+						$value = $meta->get($key);
+					} else {
+						continue 2; // ignore unhandled search term
+					}
+					$column[] = $value;
+				}
+				$sortHelper[] = $column;
+				$sortHelper[] = constant('SORT_' . strtoupper($sort['order']));
+			}
+			$sortHelper[] = &$pages;
+
+			call_user_func_array('array_multisort', $sortHelper);
+
+			return $pages;
+		});
 	}
 
 	/**

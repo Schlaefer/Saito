@@ -3,23 +3,21 @@
  * the core of Phile
  */
 namespace Phile;
+
 use Phile\Core\Response;
-use Phile\Exception\PluginException;
+use Phile\Core\Router;
+use Phile\Model\Page;
+use Phile\Repository\Page as Repository;
 
 /**
- * Phile
+ * Phile Core class
  *
- * @author  PhileCMS Community, Gilbert Pellegrom(Pico 0.8)
+ * @author  PhileCMS
  * @link    https://philecms.com
  * @license http://opensource.org/licenses/MIT
  * @package Phile
  */
 class Core {
-	/**
-	 * @var Bootstrap the bootstrap class
-	 */
-	protected $bootstrap;
-
 	/**
 	 * @var array the settings array
 	 */
@@ -46,34 +44,28 @@ class Core {
 	protected $output;
 
 	/**
-	 * @var \Phile\Core\Response
+	 * @var \Phile\Core\Response the response the core send
 	 */
 	protected $response;
+
+	/**
+	 * @var Router
+	 */
+	protected $router;
 
 	/**
 	 * The constructor carries out all the processing in Phile.
 	 * Does URL routing, Markdown processing and Twig processing.
 	 *
-	 * @param Bootstrap $bootstrap
+	 * @param Router $router
+	 * @param Response $response
+	 * @throws \Exception
 	 */
-	public function __construct(Bootstrap $bootstrap) {
-		$this->bootstrap = $bootstrap;
-
-		$this->settings = \Phile\Registry::get('Phile_Settings');
-
-		$this->pageRepository = new \Phile\Repository\Page();
-		$this->response = (new Response)->setCharset($this->settings['charset']);
-
-		// Setup Check
-		$this->checkSetup();
-
-		// init error handler
+	public function __construct(Router $router, Response $response) {
 		$this->initializeErrorHandling();
-
-		// init current page
+		$this->initialize($router, $response);
+		$this->checkSetup();
 		$this->initializeCurrentPage();
-
-		// init template
 		$this->initializeTemplate();
 	}
 
@@ -83,56 +75,44 @@ class Core {
 	 * @return string
 	 */
 	public function render() {
-		return $this->response->send();
+		$this->response->send();
+	}
+
+	protected function initialize(Router $router, Response $response) {
+		$this->settings = Registry::get('Phile_Settings');
+		$this->pageRepository = new Repository();
+		$this->router = $router;
+		$this->response = $response;
+		$this->response->setCharset($this->settings['charset']);
+
+		Event::triggerEvent('after_init_core', ['response' => $this->response]);
 	}
 
 	/**
 	 * initialize the current page
 	 */
 	protected function initializeCurrentPage() {
-		$uri = (strpos($_SERVER['REQUEST_URI'], '?') !== false) ? substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?')) : $_SERVER['REQUEST_URI'];
-		$uri = str_replace('/' . \Phile\Utility::getInstallPath() . '/', '', $uri);
-		$uri = (strpos($uri, '/') === 0) ? substr($uri, 1) : $uri;
+		$pageId = $this->router->getCurrentUrl();
 
-		// strip '/index' if it exists (as per https://github.com/PhileCMS/Phile/pull/170)
-		if ($uri=="index" || preg_match("#/index$#", $uri)>0) {
-			// we can't just check if 'index' are the last 5 letters, because then URLs
-			// like 'example.com/blog/global-economic-index' would also be stripped...
-			$uri = rtrim(Utility::getBaseUrl() . '/' . substr($uri, 0, -5), '/');
-			Utility::redirect($uri, 301);
+		Event::triggerEvent('request_uri', ['uri' => $pageId]);
+
+		$page = $this->pageRepository->findByPath($pageId);
+		$found = $page instanceof Page;
+
+		if ($found && $pageId !== $page->getPageId()) {
+			$url = $this->router->urlForPage($page->getPageId());
+			$this->response->redirect($url, 301);
 		}
 
-		/**
-		 * @triggerEvent request_uri this event is triggered after the request uri is detected.
-		 *
-		 * @param uri the uri
-		 */
-		Event::triggerEvent('request_uri', array('uri' => $uri));
-
-		// use the current url to find the page
-		$page = $this->pageRepository->findByPath($uri);
-		if ($page instanceof \Phile\Model\Page) {
-			$this->page = $page;
-		} else {
+		if (!$found) {
 			$this->response->setStatusCode(404);
-			$this->page = $this->pageRepository->findByPath('404');
-		}
-	}
-
-	/**
-	 * initialize configuration
-	 */
-	protected function initializeConfiguration() {
-		$defaults      = Utility::load(ROOT_DIR . '/default_config.php');
-		$localSettings = Utility::load(ROOT_DIR . '/config.php');
-		if (is_array($localSettings)) {
-			$this->settings = array_replace_recursive($defaults, $localSettings);
-		} else {
-			$this->settings = $defaults;
+			$page = $this->pageRepository->findByPath('404');
+			Event::triggerEvent('after_404');
 		}
 
-		\Phile\Registry::set('Phile_Settings', $this->settings);
-		date_default_timezone_set($this->settings['timezone']);
+		Event::triggerEvent('after_resolve_page', ['pageId' => $pageId, 'page' => &$page]);
+
+		$this->page = $page;
 	}
 
 	/**
@@ -141,7 +121,9 @@ class Core {
 	protected function initializeErrorHandling() {
 		if (ServiceLocator::hasService('Phile_ErrorHandler')) {
 			$errorHandler = ServiceLocator::getService('Phile_ErrorHandler');
-			set_error_handler(array($errorHandler, 'handleError'));
+			set_error_handler([$errorHandler, 'handleError']);
+			register_shutdown_function([$errorHandler, 'handleShutdown']);
+			ini_set('display_errors', $this->settings['display_errors']);
 		}
 	}
 
@@ -154,22 +136,11 @@ class Core {
 		 */
 		Event::triggerEvent('before_setup_check');
 
-		if (!isset($this->settings['encryptionKey']) || strlen($this->settings['encryptionKey']) == 0) {
-			if (strpos($_SERVER['REQUEST_URI'], '/setup') === false) {
-				Utility::redirect($this->settings['base_url'] . '/setup');
-			}
-		} else {
-			if (is_file(CONTENT_DIR . 'setup.md')) {
-				unlink(CONTENT_DIR . 'setup.md');
-			}
+		if (!Registry::isRegistered('templateVars')) {
+			Registry::set('templateVars', []);
 		}
-		if (Registry::isRegistered('templateVars')) {
-			$templateVars = Registry::get('templateVars');
-		} else {
-			$templateVars = array();
-		}
-		$templateVars['setup_enrcyptionKey'] = Utility::generateSecureToken(64);
-		Registry::set('templateVars', $templateVars);
+
+		Event::triggerEvent('setup_check');
 
 		/**
 		 * @triggerEvent after_setup_check this event is triggered after the setup check
@@ -207,4 +178,5 @@ class Core {
 		Event::triggerEvent('after_render_template', array('templateEngine' => &$templateEngine, 'output' => &$output));
 		$this->response->setBody($output);
 	}
+
 }
