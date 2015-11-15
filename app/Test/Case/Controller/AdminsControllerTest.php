@@ -3,7 +3,10 @@
 	class AdminsControllerTest extends \Saito\Test\ControllerTestCase {
 
 		public $fixtures = [
+			'app.bookmark',
 			'app.category',
+			'app.esevent',
+			'app.esnotification',
 			'app.entry',
 			'app.setting',
 			'app.user',
@@ -11,6 +14,7 @@
 			'app.user_ignore',
 			'app.user_online',
 			'app.user_read',
+			'app.upload',
 		];
 
 		public function testPhpInfoNotAllowedAnon() {
