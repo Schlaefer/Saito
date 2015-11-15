@@ -13,7 +13,6 @@
 			'app.user_read',
 		];
 
-
 		public function testPhpInfoNotAllowedAnon() {
 			$this->setExpectedException('ForbiddenException');
 			$this->testAction('/admin/admins/phpinfo');

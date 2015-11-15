@@ -23,11 +23,11 @@
 			parent::beforeFilter();
 			$this->Auth->allow('index', 'manifest');
 
-      if ($this->request->action === 'clientLog') {
-        if ($this->Components->enabled('Security')) {
-          $this->Components->disable('Security');
-        }
-      }
+			if ($this->request->action === 'clientLog') {
+				if ($this->Components->enabled('Security')) {
+					$this->Components->disable('Security');
+				}
+			}
 
 			Configure::write('Asset.timestamp', 'force');
 		}
@@ -43,7 +43,7 @@
 			$this->autoRender = false;
 			if (isset($this->request->data['message'])) {
 				$message = $this->request->data['message'];
-        $message = substr($message, 0, 500);
+				$message = substr($message, 0, 500);
 				echo CakeLog::error($message, 'mobile-client') ? 0 : 1;
 			} else {
 				echo 1;
