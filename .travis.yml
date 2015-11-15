@@ -1,5 +1,9 @@
 sudo: false
 
+cache:
+  directories:
+        - $HOME/.composer/cache
+
 language: php
 
 php:
@@ -12,7 +16,8 @@ env:
   - DB=pgsql
 
 before_script:
-  - composer install -d app -o
+  - composer self-update
+  - composer install -d app --prefer-dist -o
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
   - chmod -R 777 ./app/tmp
