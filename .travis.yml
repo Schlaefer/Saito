@@ -1,23 +1,38 @@
 sudo: false
 
-cache:
-  directories:
-        - $HOME/.composer/cache
+notifications:
+  email: false
 
 language: php
+
+cache:
+  directories:
+   - $HOME/.composer/cache
 
 php:
   - 5.4
   - 5.5
-  - 5.6
 
 env:
-  - DB=mysql
-  - DB=pgsql
+  matrix:
+    - DB=mysql
+    - DB=pgsql
+  global:
+    - PHPCS=0
+
+matrix:
+  fast_finish: true
+
+  include:
+    - php: 5.6
+      env: PHPCS=1 DB=mysql
+    - php: 5.6
+      env: DB=pgsql
 
 before_script:
   - composer self-update
   - composer install -d app --prefer-dist -o
+  - sh -c "if [ '$PHPCS' = '1' ]; then app/Vendor/bin/phpcs --config-set installed_paths app/Vendor/cakephp/cakephp-codesniffer; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
   - chmod -R 777 ./app/tmp
@@ -78,6 +93,4 @@ before_script:
 
 script:
   - ./app/Console/cake testsuite app All --stderr
-
-notifications:
-  email: false
+  - sh -c "if [ '$PHPCS' = '1' ]; then app/Vendor/bin/phpcs --standard=app/Test/ruleset.xml --warning-severity=8 -p app/Controller app/Model app/Lib app/Test app/View app/Plugin; fi"

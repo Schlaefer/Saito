@@ -1,9 +1,21 @@
 <?xml version="1.0"?>
 <ruleset name="Saito">
-    <!-- include all CakePHP rules -->
-    <rule ref="CakePHP">
-        <!-- excludes "docblocks must have 0 indent"-rule -->
-        <exclude name="CakePHP.WhiteSpace.ScopeIndent"/>
-    </rule>
-    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+  <exclude-pattern>app/Test/Selenium</exclude-pattern>
+  <exclude-pattern>app/View/Themed</exclude-pattern>
+  <exclude-pattern>app/Plugin/Embedly</exclude-pattern>
+  <exclude-pattern>app/Plugin/Geshi</exclude-pattern>
+  <exclude-pattern>app/Plugin/FileUpload</exclude-pattern>
+  <exclude-pattern>app/Plugin/Install</exclude-pattern>
+  <exclude-pattern>app/Plugin/Markitup</exclude-pattern>
+  <exclude-pattern>app/Plugin/SaitoHelp/Vendor</exclude-pattern>
+  <exclude-pattern>app/Plugin/Search</exclude-pattern>
+  <exclude-pattern>app/Plugin/SimpleCaptcha</exclude-pattern>
+  <exclude-pattern>*/webroot/*</exclude-pattern>
+
+  <!-- include all CakePHP rules -->
+  <rule ref="CakePHP">
+    <!-- excludes "docblocks must have 0 indent"-rule -->
+    <exclude name="CakePHP.WhiteSpace.ScopeIndent"/>
+  </rule>
+  <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
 </ruleset>
