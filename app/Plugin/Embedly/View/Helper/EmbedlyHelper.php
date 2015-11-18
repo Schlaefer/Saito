@@ -56,7 +56,7 @@ class EmbedlyHelper extends AppHelper {
 			$title = __d(
 				'embedly',
 				'plugin.embedly.contentLink',
-				[h($obj->provider_name)]
+				[$obj->provider_name]
 			);
 			$out = $this->Html->link($title, $obj->url);
 		}

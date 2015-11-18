@@ -41,7 +41,10 @@
 
 			// @todo pgsql
 			$db = $this->Entry->getDataSource();
+			// @codingStandardsIgnoreStart
+			// on 5.5 phpcs assumes this is the deprecated PHP MySQL extension
 			if (!($db instanceof Mysql)) {
+				// @codingStandardsIgnoreEnd
 				$this->redirect(['action' => 'advanced']);
 				return;
 			}
