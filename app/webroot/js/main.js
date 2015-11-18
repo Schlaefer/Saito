@@ -43,5 +43,7 @@ require.config({
 
 require(['lib/bootstrapHelper', 'common'], function() {
   "use strict";
+
+  require(['lib/saito/underscore.extend']);
   require(['app/app']);
 });

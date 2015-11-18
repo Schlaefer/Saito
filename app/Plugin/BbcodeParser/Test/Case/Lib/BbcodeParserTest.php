@@ -28,6 +28,13 @@
 			$this->assertTags($result, $expected);
 		}
 
+		public function testQuoteblock() {
+			$input = '[quote]foo bar[/quote]';
+			$expected = array('blockquote' => array(), 'foo bar', '/blockquote');
+			$result = $this->_Parser->parse($input);
+			$this->assertTags($result, $expected);
+		}
+
 		public function testEmphasis() {
 			$input = '[i]italic[/i]';
 			$expected = array('em' => array(), 'italic', '/em');
@@ -412,7 +419,9 @@ EOF;
 
 		public function testFloat() {
 			$expected = [
-				'div' => ['class' => 'richtext-float'],
+				['div' => ['class' => 'clearfix']],
+				'/div',
+				['div' => ['class' => 'richtext-float']],
 				'text',
 				'/div',
 				'more'
@@ -619,25 +628,25 @@ EOF;
 
 			// test for standard URIs
 			$input = '[img]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" alt=""/>';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test for URIs without protocol
 			$input = '[img]/somewhere/macnemo.png[/img]';
-			$expected = '<img src="' . $this->_Helper->webroot . 'somewhere/macnemo.png" alt="" />';
+			$expected = '<img src="' . $this->_Helper->webroot . 'somewhere/macnemo.png" alt=""/>';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test scaling with 1 parameter
 			$input = '[img=50]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" width="50" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" width="50" alt=""/>';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 
 			// test scaling with 2 parameters
 			$input = '[img=50x100]http://localhost/img/macnemo.png[/img]';
-			$expected = '<img src="http://localhost/img/macnemo.png" width="50" height="100" alt="" />';
+			$expected = '<img src="http://localhost/img/macnemo.png" width="50" height="100" alt=""/>';
 			$result = $this->_Parser->parse($input);
 			$this->assertEquals($expected, $result);
 

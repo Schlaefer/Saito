@@ -692,8 +692,15 @@
 			$this->Security->unlockedActions = ['preview', 'solve', 'view'];
 			$this->Auth->allow('feed', 'index', 'view', 'mix', 'update');
 
-			if ($this->request->action === 'index') {
-				$this->_setAutoRefreshTime();
+			switch ($this->request->action) {
+				case 'index':
+					$this->_setAutoRefreshTime();
+					break;
+				case 'add':
+				case 'edit':
+					if ($this->Components->enabled('Security')) {
+						$this->Components->disable('Security');
+					}
 			}
 
 			Stopwatch::stop('Entries->beforeFilter()');

@@ -59,6 +59,8 @@
             'required' => ($is_answer) ? false : "required"
           ]
         );
+        echo $this->Html->div('postingform-subject-count', '');
+
         echo $this->Form->hidden('pid');
         echo $this->MarkitupEditor->getButtonSet('markItUp_' . $form_id);
         echo $this->MarkitupEditor->editor(

@@ -36,6 +36,7 @@ require(['lib/bootstrapHelper', 'common', 'tests/jasmineBootstrapHelper'], funct
               'lib/MarkItUpSpec.js',
               'lib/jquery.i18n.extendSpec.js',
               'lib/TemplateHelpersSpec.js',
+              'lib/underscore.extend.Spec.js',
               'views/AppViewSpec.js',
               'views/MapViewSpec.js',
               'views/PrerequisitesTesterSpec.js',

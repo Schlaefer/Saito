@@ -2,6 +2,8 @@
 // -------------------------------------
 
 .richtext {
+  @extend %clearfix;
+
   ul {
     @extend %ul;
   }
@@ -27,11 +29,10 @@
     display: inline-block;
   }
 
-}
-
-.richtext-citation {
-  font-style: italic;
-  color: $info-color;
+  blockquote, .richtext-citation {
+    font-style: italic;
+    color: $info-color;
+  }
 }
 
 .richtext-float {

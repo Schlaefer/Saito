@@ -220,7 +220,7 @@ endif;
  * Add additional buttons to editor
  * @td document in namespace
  */
-Configure::write('Saito.markItUp.nextCssId', 10);
+Configure::write('Saito.markItUp.nextCssId', 11);
 
 //= attach Saito event manager to Cake event manager
 App::uses('SaitoEventManager', 'Lib/Saito/Event');

@@ -1,0 +1,2 @@
+msgid "plugin.embedly.contentLink"
+msgstr "Inhalt auf %s anschauen."

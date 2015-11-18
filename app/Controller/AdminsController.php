@@ -11,6 +11,14 @@
 		public function admin_index() {
 		}
 
+		/**
+		 * Show PHP-info
+		 *
+		 * @return void
+		 */
+		public function admin_phpinfo() {
+		}
+
 		public function admin_logs() {
 			// order here is output order in frontend
 			$_logsToRead = ['error', 'debug'];
