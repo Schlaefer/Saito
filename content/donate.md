@@ -1,3 +1,4 @@
+
 <!--
 Title: Donate & Support
 -->
@@ -50,20 +51,20 @@ And a shout-out to all the donors!
 
  Donors <span><small class="text-muted">(sorted by amount)</small></span> | Last Seen
  ------| -----
+ iXimus                     | 2016
  [macfix.de]                | 2015
  [macnemo.de] (Panxatony)   | 2015
  CocoaBärchi &amp; dakapo   | 2015
  fwskxgrd                   | 2015
  Jake                       | 2013
  redcurry                   | 2012
- iXimus                     | 2012
  kt007                      | 2012
  truth		                  | 2012
  1984                       | 2010
 
 <div class="text-muted">
 <small >
-	Someone's missing? Want your name linked (or gone)? Please send a mail! – Last updated 2015-06-29.
+	Someone's missing? Want your name linked (or gone)? Please send a mail! – Last updated 2016-04-24.
 </small>
 </div>
 
