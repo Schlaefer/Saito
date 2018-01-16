@@ -12,7 +12,7 @@ CACHE MANIFEST
 		Configure::read('debug') .
 		// static location in plugin path
 		filemtime(App::pluginPath('M') . 'webroot/touch.txt') .
-		filemtime(App::pluginPath('M') . 'webroot/dist/js.js') .
+		filemtime(App::pluginPath('M') . 'webroot/dist/app.min.js') .
 		filemtime(App::pluginPath('M') . 'webroot/dist/common.css') .
 		// dynamic location in plugin or theme path
 		filemtime($_ctpPath) .
@@ -27,9 +27,10 @@ CACHE:
 /favicon.ico
 <?php
 	$assets = [
+		'M.dist/app.min.css',
 		'M.dist/common.css',
 		'M.dist/theme.css',
-		'M.dist/js.js',
+		'M.dist/app.min.js',
 		'M.dist/font/fontawesome-webfont.woff'
 	];
 	foreach ($assets as $asset) {

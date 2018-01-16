@@ -256,6 +256,7 @@
 				"thread_id": 1,
 				"subject": "foo",
 				"is_nt": false,
+				"is_pinned": false,
 				"is_locked": false,
 				"time": "2000-01-01T20:00:00+00:00",
 				"last_answer": "2000-01-04T20:02:00+00:00",
@@ -339,7 +340,8 @@
 						"edit_time": "2000-01-01T20:04:00+00:00",
 						"category_id": 2,
 						"category_name": "Ontopic",
-						"is_locked": false
+						"is_locked": false,
+						"is_pinned": false
 				}
 			]
 EOF;
