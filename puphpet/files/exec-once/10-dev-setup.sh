@@ -17,7 +17,7 @@ sudo apt-get -y install nodejs-legacy;
 
 ### install npm
 # `clean=no` see: http://stackoverflow.com/questions/20174399/cannot-install-npm-on-vagrant-during-provision
-curl https://www.npmjs.org/install.sh | sudo clean=yes sh;
+curl https://www.npmjs.com/install.sh | sudo clean=yes sh;
 
 ### install grunt
 sudo npm install -g grunt-cli;
