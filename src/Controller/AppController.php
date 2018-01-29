@@ -39,13 +39,6 @@ class AppController extends Controller
     ];
 
     /**
-     * name of the theme used
-     *
-     * @var string
-     */
-    public $theme = 'Paz';
-
-    /**
      * @var bool show disclaimer in page footer
      */
     public $showDisclaimer = false;
@@ -82,7 +75,7 @@ class AppController extends Controller
         $this->loadComponent('Slidetabs');
         // @td 3.0 Notif
         //$this->loadComponent('EmailNotification');
-        $this->loadComponent('Themes');
+        $this->loadComponent('Themes', Configure::read('Saito.themes'));
         $this->loadComponent('Flash');
         $this->loadComponent('Title');
     }
@@ -95,7 +88,7 @@ class AppController extends Controller
         Stopwatch::start('App->beforeFilter()');
 
         // must be called before CakeError early return
-        $this->Themes->theme(Configure::read('Saito.themes'), $this->CurrentUser);
+        $this->Themes->set();
         $this->loadModel('Settings');
         $this->Settings->load(Configure::read('Saito.Settings'));
 
@@ -107,7 +100,7 @@ class AppController extends Controller
 
         // setup for admin area
         if ($this->request->param('prefix') === 'admin') {
-            $this->layout = 'admin';
+            $this->viewBuilder()->layout('admin');
         }
 
         // disable forum with admin pref
@@ -173,7 +166,7 @@ class AppController extends Controller
 
         //= change theme on the fly with ?theme=<name>
         if (isset($this->request->query['theme'])) {
-            $this->theme = $this->request->query['theme'];
+            $this->Themes->set($this->request->query['theme']);
         }
 
         //= activate stopwatch
@@ -254,8 +247,8 @@ class AppController extends Controller
         }
 
         $check = function ($locale) {
-            $l10nViewPath = $this->viewPath . DS . $locale;
-            $l10nViewFile = $l10nViewPath . DS . $this->view . '.ctp';
+            $l10nViewPath = $this->viewBuilder()->templatePath() . DS . $locale;
+            $l10nViewFile = $l10nViewPath . DS . $this->viewBuilder()->name() . '.ctp';
             if (!file_exists(APP . 'Template' . DS . $l10nViewFile)) {
                 return false;
             }
@@ -264,7 +257,7 @@ class AppController extends Controller
 
         $path = $check($locale);
         if ($path) {
-            $this->viewPath = $path;
+            $this->viewBuilder()->templatePath($path);
             return;
         }
 
@@ -272,7 +265,7 @@ class AppController extends Controller
             list($locale) = explode('_', $locale);
             $path = $check($locale);
             if ($path) {
-                $this->viewPath = $path;
+                $this->viewBuilder()->templatePath($path);
             }
         }
     }

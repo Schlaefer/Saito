@@ -1,6 +1,5 @@
 <?php
 use Cake\Core\Configure;
-use Cake\Utility\String;
 use \Stopwatch\Lib\Stopwatch;
 
 Stopwatch::start('layout/disclaimer.ctp');

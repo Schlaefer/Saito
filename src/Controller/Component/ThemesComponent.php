@@ -12,30 +12,28 @@ class ThemesComponent extends Component
 {
     use SettingsTrait;
 
-    protected $_Controller = null;
-
     /**
      * {@inheritDoc}
      */
     public function initialize(array $config)
     {
-        $this->_Controller = $this->_registry->getController();
+        $this->settings($config);
     }
 
     /**
-     * Sets and/or gets current theme
-     *
-     * @param array $settings name string or config array
-     * @param ForumsUserInterface $CU current user
-     * @return void
-     * @throws \InvalidArgumentException
+     * Sets theme
+     * 
+     * @param string $theme
      */
-    public function theme(array $settings, ForumsUserInterface $CU)
+    public function set($theme = null)
     {
-        $this->settings($settings);
-        $theme = $this->getThemeForUser($CU);
-        if (empty($theme)) {
-            throw new \InvalidArgumentException('Can\'t set Theme.');
+        $controller = $this->_registry->getController();
+        $user = $controller->CurrentUser;
+
+        if ($theme === null) {
+            $theme = $this->getThemeForUser($user);
+        } else {
+            $theme = $this->_resolveTheme($theme, $this->getAvailable($user));
         }
         $this->_setTheme($theme);
     }
@@ -58,11 +56,11 @@ class ThemesComponent extends Component
      */
     protected function _setTheme($theme)
     {
-        $this->_Controller->theme = $theme;
+        $this->_registry->getController()->viewBuilder()->theme($theme);
     }
 
     /**
-     * Get themes for specific user.
+     * Get theme for specific user.
      *
      * @param ForumsUserInterface $user current user
      * @return array
@@ -71,7 +69,7 @@ class ThemesComponent extends Component
     {
         $theme = $user->get('user_theme');
         $available = $this->getAvailable($user);
-        return in_array($theme, $available) ? $theme : $this->_getDefault();
+        return $this->_resolveTheme($theme, $available);
     }
 
     /**
@@ -104,4 +102,17 @@ class ThemesComponent extends Component
     {
         return $this->settings('default');
     }
+
+    /**
+     * Resolves  
+     * 
+     * @param string $theme
+     * @param array $available
+     * @return string 
+     */
+    protected function _resolveTheme($theme, array $available)
+    {
+        return in_array($theme, $available) ? $theme : $this->_getDefault();
+    }
+
 }
