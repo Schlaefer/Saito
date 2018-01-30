@@ -1,6 +1,6 @@
 <?php
 echo $this->fetch('headerSubnavRightTop');
-echo $this->assign('headerSubnavRightTop', '');
+$this->assign('headerSubnavRightTop', '');
 echo $this->fetch('headerSubnavRight');
 
 // if a page has a global paginator we assume it's always shown top right
