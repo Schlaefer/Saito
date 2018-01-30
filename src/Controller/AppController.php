@@ -229,8 +229,11 @@ class AppController extends Controller
     {
         $this->Flash->set(__('auth_autherror'), ['element' => 'warning']);
         $here = $this->request->here(false);
-        $this->Auth->redirectUrl($here);
-        return $this->redirect(['controller' => 'Users', 'action' => 'login', 'plugin' => false]);
+        return $this->redirect([
+            '_name' => 'login',
+            '?' => ['redirect' => $here],
+            'plugin' => false
+        ]);
     }
 
     /**

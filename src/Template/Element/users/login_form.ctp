@@ -1,8 +1,5 @@
 <?php
-echo $this->Form->create(
-    'User',
-    ['url' => '/users/login', 'id' => 'login_form']
-);
+echo $this->Form->create(null, ['id' => 'login_form']);
 
 echo $this->Form->input(
     'username',
