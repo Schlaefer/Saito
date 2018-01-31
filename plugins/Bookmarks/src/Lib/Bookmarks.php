@@ -42,6 +42,7 @@ class Bookmarks
         if ($this->_bookmarks === null) {
             $this->_load();
         }
+
         return isset($this->_bookmarks[$postingId]);
     }
 
@@ -55,6 +56,7 @@ class Bookmarks
         $this->_bookmarks = [];
         if (!$this->_CurrentUser->isLoggedIn()) {
             $this->_bookmarks = [];
+
             return;
         }
         $this->_bookmarks = TableRegistry::get('Bookmarks')

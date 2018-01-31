@@ -29,6 +29,7 @@ class SmiliesTable extends AppSettingTable
                 'order',
                 ['isNumeric' => ['rule' => 'numeric']]
             );
+
         return $validator;
     }
 }

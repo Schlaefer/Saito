@@ -11,7 +11,7 @@ class UserIgnoreFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -48,7 +48,7 @@ class UserIgnoreFixture extends TestFixture
             'collate' => 'utf8_general_ci',
             'engine' => 'InnoDB'
         ]
-    );
+    ];
 
     /**
      * Records

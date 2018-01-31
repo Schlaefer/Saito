@@ -49,6 +49,7 @@ class ShoutsHelper extends AppHelper
         }
 
         $this->_writeCache($prepared);
+
         return $prepared;
     }
 
@@ -64,6 +65,7 @@ class ShoutsHelper extends AppHelper
         if ($cache && $cache['lastId'] === $lastId) {
             return $cache['data'];
         }
+
         return false;
     }
 

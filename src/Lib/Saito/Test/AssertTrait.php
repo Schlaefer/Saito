@@ -9,9 +9,9 @@ trait AssertTrait
 {
 
     /**
-     * Check that an redirect to the login is performed 
-     * 
-     * @param string $redirect
+     * Check that an redirect to the login is performed
+     *
+     * @param string $redirectUrl redirect URL '/where/I/come/from'
      * @return void
      */
     public function assertRedirectLogin($redirectUrl = null)

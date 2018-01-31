@@ -6,6 +6,7 @@ $paginatorControl = $this->fetch('paginatorControl');
 // ignore this paginator if a custom one is set
 if (!empty($paginatorControl)) {
     echo $paginatorControl;
+
     return;
 }
 

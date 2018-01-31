@@ -111,28 +111,28 @@ class SaitoUserTest extends SaitoTestCase
         $this->assertEquals('anon', $result);
 
         //# user
-        $user = array(
+        $user = [
             'id' => '2',
             'user_type' => 'user',
-        );
+        ];
         $this->SaitoUser->setSettings($user);
         $result = $this->SaitoUser->getRole();
         $this->assertEquals('user', $result);
 
         //# initialize with real user
-        $user = array(
+        $user = [
             'id' => '2',
             'user_type' => 'mod',
-        );
+        ];
         $this->SaitoUser->setSettings($user);
         $result = $this->SaitoUser->getRole();
         $this->assertEquals('mod', $result);
 
         //# admin
-        $user = array(
+        $user = [
             'id' => '2',
             'user_type' => 'admin',
-        );
+        ];
         $this->SaitoUser->setSettings($user);
         $result = $this->SaitoUser->getRole();
         $this->assertEquals('admin', $result);

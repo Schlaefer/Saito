@@ -9,7 +9,7 @@ class SmileyCodeFixture extends TestFixture
 
     public $name = 'SmileyCode';
 
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -41,7 +41,7 @@ class SmileyCodeFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'engine' => 'MyISAM'
         ]
-    );
+    ];
 
     public $records = [
         [
@@ -49,11 +49,11 @@ class SmileyCodeFixture extends TestFixture
             'smiley_id' => 1,
             'code' => ':-)'
         ],
-        array(
+        [
             'id' => 2,
             'smiley_id' => 2,
             'code' => ';-)'
-        ),
+        ],
         [
             'id' => 3,
             'smiley_id' => 2,

@@ -30,6 +30,7 @@ class LayoutHelper extends AppHelper
         if ((int)Configure::read('debug') === 0) {
             $name = $name . '.min';
         }
+
         return $this->Html->script(
             $this->Url->assetUrl(
                 $url . $name,
@@ -99,6 +100,7 @@ class LayoutHelper extends AppHelper
             foreach ($size as $s) {
                 $_out .= $this->appleTouchIcon($s, $options);
             }
+
             return $_out;
         }
 
@@ -129,6 +131,7 @@ class LayoutHelper extends AppHelper
             $_out .= "size=\"{$_xSize}\" ";
         }
         $_out .= "href=\"{$url}\">";
+
         return $_out;
     }
 
@@ -217,6 +220,7 @@ EOF;
 					</ul>
 				</div>
 EOF;
+
         return $_out;
     }
 
@@ -252,6 +256,7 @@ EOF;
         $content['middle'] = "<{$options['tag']}>{$content['middle']}</{$options['tag']}>";
 
         $options['escape'] = false;
+
         return $this->heading($content, $options);
     }
 
@@ -277,6 +282,7 @@ EOF;
             $out .= $options['escape'] ? h($_content[$key]) : $_content[$key];
             $out .= '</div>';
         }
+
         return "<div class=\"{$options['class']} heading-3\">$out</div>";
     }
 

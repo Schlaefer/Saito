@@ -22,6 +22,7 @@ trait CurrentUserTrait
         if ($this->_Bookmarks === null) {
             $this->_Bookmarks = new Bookmarks($this);
         }
+
         return $this->_Bookmarks->isBookmarked($postingId);
     }
 
@@ -33,6 +34,7 @@ trait CurrentUserTrait
         if (!$this->isLoggedIn()) {
             return false;
         }
+
         return isset($this->_settings['ignores'][$userId]);
     }
 }

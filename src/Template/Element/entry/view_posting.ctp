@@ -88,14 +88,14 @@ $jsEntry = json_encode(
             ?>
             <?php if (!$entry->isEditingWithRoleUserForbidden()) : ?>
                 <span class="small">
-					<?=
+                    <?=
                     $this->Html->link(
                         __('edit_linkname'),
                         '/entries/edit/' . $entry->get('id'),
                         ['class' => 'btn btn-edit js-btn-edit panel-footer-form-btn']
                     );
                     ?>
-				</span>
+                </span>
             <?php endif; ?>
 
             <?php

@@ -12,7 +12,7 @@ class BookmarksTableTest extends SaitoTableTestCase
 
     public $tableClass = 'Bookmarks.Bookmarks';
 
-    public $fixtures = array(
+    public $fixtures = [
         'app.category',
         'app.entry',
         'app.esevent',
@@ -21,7 +21,7 @@ class BookmarksTableTest extends SaitoTableTestCase
         'app.user',
         'app.user_online',
         'plugin.bookmarks.bookmark'
-    );
+       ];
 
     /**
      * Test Bookmark table validation.

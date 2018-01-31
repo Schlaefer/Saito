@@ -27,6 +27,7 @@ class CodeWithoutAttributes extends CodeDefinition
         $string = '<div class="geshi-wrapper"><pre lang="' . $type . '">' . $content . '</pre></div>';
 
         $string = $this->Geshi->highlight($string);
+
         return $string;
     }
 }

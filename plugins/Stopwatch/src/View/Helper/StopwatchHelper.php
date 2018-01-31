@@ -63,6 +63,7 @@ class StopwatchHelper extends Helper
     });
 EOF
         );
+
         return $out;
     }
 

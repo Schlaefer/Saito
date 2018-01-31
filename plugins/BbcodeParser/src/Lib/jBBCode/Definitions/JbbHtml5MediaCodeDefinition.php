@@ -34,6 +34,7 @@ abstract class Html5Media extends CodeDefinition
             )
         );
         $out .= "</audio>";
+
         return $out;
     }
 
@@ -60,6 +61,7 @@ abstract class Html5Media extends CodeDefinition
             )
         );
         $out .= '</video>';
+
         return $out;
     }
 }

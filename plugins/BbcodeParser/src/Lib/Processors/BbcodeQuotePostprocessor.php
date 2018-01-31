@@ -19,6 +19,7 @@ class BbcodeQuotePostprocessor extends BbcodeProcessor
             "\\1<span class=\"richtext-citation\">" . $quoteSymbolSanitized . " \\2</span>",
             $string
         );
+
         return $string;
     }
 }

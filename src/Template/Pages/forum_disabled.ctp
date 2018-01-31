@@ -89,18 +89,18 @@
 	<div class="inner">
 		<h1 class="header">
 			<?php echo Configure::read('Saito.Settings.forum_name'); ?>
-		</h1>
-		<div class="rotate">
-			<div class="sticky">
-				<p>
-					<?php echo Configure::read('Saito.Settings.forum_disabled_text'); ?>
-				</p>
-			</div>
-		</div>
-		<div style="margin-top: 50px;">
-			<p >
-				<!-- Footer -->
-			</p>
-		</div>
-	</div>
+        </h1>
+        <div class="rotate">
+            <div class="sticky">
+                <p>
+                    <?php echo Configure::read('Saito.Settings.forum_disabled_text'); ?>
+                </p>
+            </div>
+        </div>
+        <div style="margin-top: 50px;">
+            <p >
+                <!-- Footer -->
+            </p>
+        </div>
+    </div>
 </div>

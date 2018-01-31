@@ -171,6 +171,7 @@ class Categories
             $category = $category['id'];
         }
         $resource = 'saito.core.category.' . $category . '.' . $action;
+
         return $this->_User->permission($resource);
     }
 
@@ -221,6 +222,7 @@ class Categories
                 unset($categories[$categoryId]);
             }
         }
+
         return $categories;
     }
 }

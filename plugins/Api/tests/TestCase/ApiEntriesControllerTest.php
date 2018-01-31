@@ -19,7 +19,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = array(
+    public $fixtures = [
         'app.category',
         'app.entry',
         'app.esevent',
@@ -34,7 +34,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
         'app.user_online',
         'app.user_read',
         'plugin.bookmarks.bookmark'
-    );
+    ];
 
     /**
      * testThreads method
@@ -297,7 +297,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
 
         $editTime = $result['edit_time'];
         unset($result['edit_time']);
-        // 60 ticks seems unusually high, but the DB-result checkes out 
+        // 60 ticks seems unusually high, but the DB-result checkes out
         $this->assertWithinRange(time(), strtotime($editTime), 60);
 
         $this->assertEquals($expected, $result);

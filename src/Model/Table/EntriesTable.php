@@ -230,6 +230,7 @@ class EntriesTable extends AppTable
                 'views',
                 ['comparison' => ['rule' => ['comparison', '>=', 0]]]
             );
+
         return $validator;
     }
 
@@ -274,6 +275,7 @@ class EntriesTable extends AppTable
                     ]
                 )
                 ->all();
+
             return $result;
         };
 
@@ -281,6 +283,7 @@ class EntriesTable extends AppTable
         $result = Cache::remember($key, $read, 'entries');
 
         Stopwatch::stop('Model->User->getRecentEntries()');
+
         return $result;
     }
 
@@ -302,6 +305,7 @@ class EntriesTable extends AppTable
                 'Posting not found. Posting-Id: ' . $id
             );
         }
+
         return $entry->get('tid');
     }
 
@@ -350,6 +354,7 @@ class EntriesTable extends AppTable
                 'Posting not found. Posting-Id: ' . $id
             );
         }
+
         return $entry->get('pid');
     }
 
@@ -577,7 +582,6 @@ class EntriesTable extends AppTable
             ['order' => $order, 'fields' => $fieldlist]
         );
 
-
         $threads = false;
         if ($postings->count()) {
             $threads = [];
@@ -666,6 +670,7 @@ class EntriesTable extends AppTable
             'Model.Entry.update',
             ['subject' => $id, 'data' => $posting]
         );
+
         return $success;
     }
 
@@ -687,6 +692,7 @@ class EntriesTable extends AppTable
                 'data' => $entry
             ]
         );
+
         return $result;
     }
 
@@ -864,6 +870,7 @@ class EntriesTable extends AppTable
 
             return true;
         }
+
         return false;
     }
 
@@ -886,6 +893,7 @@ class EntriesTable extends AppTable
             $entry = $this->find()->where(['id' => $id])->first();
             $pid = $entry->get('pid');
         }
+
         return empty($pid);
     }
 
@@ -948,6 +956,7 @@ class EntriesTable extends AppTable
             $this->showEntryFieldListAdditional
         );
         $query->select($fields)->contain(['Users', 'Categories']);
+
         return $query;
     }
 
@@ -962,6 +971,7 @@ class EntriesTable extends AppTable
         $query
             ->select(['id', 'pid', 'tid', 'time', 'last_answer', 'fixed'])
             ->where(['Entries.pid' => 0]);
+
         return $query;
     }
 
@@ -1039,6 +1049,7 @@ class EntriesTable extends AppTable
             $action = 'answer';
         }
         $CurrentUser = Registry::get('CU');
+
         return $CurrentUser->Categories->permission($action, $categoryId);
     }
 
@@ -1057,6 +1068,7 @@ class EntriesTable extends AppTable
             ['rawData' => $context['data']]
         );
         $forbidden = $Posting->isEditingAsCurrentUserForbidden();
+
         return $forbidden === false;
     }
 
@@ -1095,6 +1107,7 @@ class EntriesTable extends AppTable
             ['category_id' => $newCategoryId],
             ['tid' => $tid]
         );
+
         return $success;
     }
 }

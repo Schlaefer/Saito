@@ -12,7 +12,7 @@ class EseventFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -42,33 +42,33 @@ class EseventFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'engine' => 'MyISAM'
         ]
-    );
+    ];
 
     /**
      * Records
      *
      * @var array
      */
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'subject' => 1,
             'event' => 1
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'subject' => 1,
             'event' => 2
-        ),
-        array(
+        ],
+        [
             'id' => 3,
             'subject' => 2,
             'event' => 1
-        ),
-        array(
+        ],
+        [
             'id' => 4,
             'subject' => 1,
             'event' => 3
-        ),
-    );
+        ],
+    ];
 }

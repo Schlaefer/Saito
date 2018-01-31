@@ -11,11 +11,11 @@ $this->end();
 ?>
 
 <div class="user edit">
-	<?= $this->Form->create($user); ?>
-	<div class="panel">
+    <?= $this->Form->create($user); ?>
+    <div class="panel">
     <?= $this->Layout->panelHeading($titleForPage, ['pageHeading' => true]) ?>
     <div class='panel-content panel-form'>
-				<?php
+                <?php
                 if ($CurrentUser->permission('saito.core.user.edit')) {
                     $cells = [
                         [
@@ -45,7 +45,6 @@ $this->end();
                         [__('userlist_email'), h($user->get('user_email'))]
                     ];
                 }
-
 
                 if ($CurrentUser->isUser($user)) {
                     $cells[] = [
@@ -138,17 +137,17 @@ $this->end();
                     ['class' => 'table th-left elegant']
                 );
                 ?>
-		</div>
-	</div>
+        </div>
+    </div>
 
-	<div class="panel">
-	<?= $this->Layout->panelHeading(__('Settings')) ?>
-	<div class='panel-content panel-form'>
-	<table class="table th-left elegant">
+    <div class="panel">
+    <?= $this->Layout->panelHeading(__('Settings')) ?>
+    <div class='panel-content panel-form'>
+    <table class="table th-left elegant">
 
-		<tr>
-			<td> <?php echo __('user_sort_last_answer') ?> </td>
-			<td>
+        <tr>
+            <td> <?php echo __('user_sort_last_answer') ?> </td>
+            <td>
                 <?php
                 echo $this->Form->radio(
                     'user_sort_last_answer',
@@ -162,36 +161,36 @@ $this->end();
                     ]
                 );
                 ?>
-				<p class="exp"> <?php echo __('user_sort_last_answer_exp') ?> </p>
-			</td>
-		</tr>
+                <p class="exp"> <?php echo __('user_sort_last_answer_exp') ?> </p>
+            </td>
+        </tr>
 
-		<tr>
-			<td> <?php echo __('user_automaticaly_mark_as_read') ?> </td>
-			<td>
-				<?= $this->Form->checkbox('user_automaticaly_mark_as_read', ['label' => false ]); ?>
-				<p class="exp">
+        <tr>
+            <td> <?php echo __('user_automaticaly_mark_as_read') ?> </td>
+            <td>
+                <?= $this->Form->checkbox('user_automaticaly_mark_as_read', ['label' => false ]); ?>
+                <p class="exp">
                     <?php
                     echo __('user_automaticaly_mark_as_read_exp');
                     echo '&nbsp;';
                     echo $this->SaitoHelp->icon(2);
                     ?>
-				</p>
-			</td>
-		</tr>
+                </p>
+            </td>
+        </tr>
 
-		<tr>
-			<td> <?php echo __('user_signatures_hide') ?> </td>
-			<td>
-				<?php echo $this->Form->checkbox('user_signatures_hide'); ?> <p class="exp"> <?php echo __('user_signatures_hide_exp') ?> </p>
-				<br/>
-				<?php echo $this->Form->checkbox('user_signatures_images_hide'); ?> <p class="exp"> <?php echo __('user_signatures_images_hide_exp') ?> </p>
-			</td>
-		</tr>
+        <tr>
+            <td> <?php echo __('user_signatures_hide') ?> </td>
+            <td>
+                <?php echo $this->Form->checkbox('user_signatures_hide'); ?> <p class="exp"> <?php echo __('user_signatures_hide_exp') ?> </p>
+                <br/>
+                <?php echo $this->Form->checkbox('user_signatures_images_hide'); ?> <p class="exp"> <?php echo __('user_signatures_images_hide_exp') ?> </p>
+            </td>
+        </tr>
 
-		<tr>
-			<td> <?php echo __('user_forum_refresh_time') ?> </td>
-			<td>
+        <tr>
+            <td> <?php echo __('user_forum_refresh_time') ?> </td>
+            <td>
                 <?php
                 echo $this->Form->input(
                     'user_forum_refresh_time',
@@ -204,29 +203,29 @@ $this->end();
                 );
                 echo $this->Html->para('exp', __('user_forum_refresh_time_exp'))
                 ?>
-			</td>
-		</tr>
+            </td>
+        </tr>
 
-		<?php if (count($availableThemes) > 1) : ?>
-			<tr>
-				<td> <?= __('user_theme') ?> </td>
-				<td> <?=
-                    $this->Form->input(
-                        'user_theme',
-                        [
-                            'options' => $availableThemes,
-                            'label' => false,
-                            'val' => $currentTheme
-                        ]
-                    ) ?>
-					<p class="exp"> <?= __('user_theme_exp') ?> </p>
-				</td>
-			</tr>
-		<?php endif; ?>
+        <?php if (count($availableThemes) > 1) : ?>
+            <tr>
+                <td> <?= __('user_theme') ?> </td>
+                <td> <?=
+                        $this->Form->input(
+                            'user_theme',
+                            [
+                                'options' => $availableThemes,
+                                'label' => false,
+                                'val' => $currentTheme
+                            ]
+                        ) ?>
+                    <p class="exp"> <?= __('user_theme_exp') ?> </p>
+                </td>
+            </tr>
+        <?php endif; ?>
 
-		<tr>
-			<td> <?php echo __('user_colors') ?> </td>
-			<td>
+        <tr>
+            <td> <?php echo __('user_colors') ?> </td>
+            <td>
                 <style>
                     .SpectrumColorpicker-theme-default.SpectrumColorpicker {
                         display: block;
@@ -242,7 +241,7 @@ $this->end();
                 )
                 ?>
                 <p class="exp"> <?php echo __('user_color_new_postings_exp') ?> </p>
-				<br/>
+                <br/>
                 <?=
                 $this->SpectrumColorpicker->input(
                     'user_color_old_postings',
@@ -253,7 +252,7 @@ $this->end();
                 )
                 ?>
                 <p class="exp"> <?php echo __('user_color_old_postinings_exp') ?> </p>
-				<br/>
+                <br/>
                 <?=
                 $this->SpectrumColorpicker->input(
                     'user_color_actual_posting',
@@ -264,45 +263,45 @@ $this->end();
                 )
                 ?>
                 <p class="exp"> <?php echo __('user_color_actual_posting_exp') ?> </p>
-			</td>
-		</tr>
+            </td>
+        </tr>
 
-		<tr>
-			<td> <?php echo __('inline_view_on_click') ?> </td>
+        <tr>
+            <td> <?php echo __('inline_view_on_click') ?> </td>
             <td>
                 <?php echo $this->Form->checkbox('inline_view_on_click'); ?>
                 <p class="exp"> <?= __('inline_view_on_click_exp') ?> </p>
             </td>
-		</tr>
-		<tr>
-			<td> <?php echo __('user_show_thread_collapsed') ?> </td>
-			<td>
-					<?php echo $this->Form->checkbox('user_show_thread_collapsed'); ?>
-					<p class="exp"> <?php echo __('user_show_thread_collapsed_exp') ?> </p>
-			</td>
-		</tr>
+        </tr>
+        <tr>
+            <td> <?php echo __('user_show_thread_collapsed') ?> </td>
+            <td>
+                    <?php echo $this->Form->checkbox('user_show_thread_collapsed'); ?>
+                    <p class="exp"> <?php echo __('user_show_thread_collapsed_exp') ?> </p>
+            </td>
+        </tr>
 
-			<tr>
-				<td> <?php echo __('user_pers_msg') ?> </td>
-				<td> <?php echo $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
-			</tr>
+            <tr>
+                <td> <?php echo __('user_pers_msg') ?> </td>
+                <td> <?php echo $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
+            </tr>
 
             <?php if (!$SaitoSettings['category_chooser_global']
                 && $SaitoSettings['category_chooser_user_override']
             ) : ?>
-			<tr>
-				<td>
-					<?php echo __('user_category_override') ?>
-				</td>
-				<td>
-					<?php echo $this->Form->checkbox('user_category_override'); ?>
-					<p class="exp">
-						<?php echo __('user_category_override_exp') ?>
-					</p>
-				</td>
-			</tr>
-			<?php endif; ?>
-	</table>
+            <tr>
+                <td>
+                    <?php echo __('user_category_override') ?>
+                </td>
+                <td>
+                    <?php echo $this->Form->checkbox('user_category_override'); ?>
+                    <p class="exp">
+                        <?php echo __('user_category_override_exp') ?>
+                    </p>
+                </td>
+            </tr>
+            <?php endif; ?>
+    </table>
   </div> <!-- content -->
   </div>
 

@@ -7,7 +7,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 class UserFixture extends TestFixture
 {
 
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -290,7 +290,7 @@ class UserFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'engine' => 'InnoDB'
         ]
-    );
+    ];
 
     protected $_common = [
         'activate_code' => 0,
@@ -305,40 +305,40 @@ class UserFixture extends TestFixture
         'user_type' => 'user'
     ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'username' => 'Alice',
             'user_type' => 'admin',
             'user_email' => 'alice@example.com',
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'username' => 'Mitch',
             'user_type' => 'mod',
             'user_email' => 'mitch@example.com',
-        ),
-        array(
+        ],
+        [
             'id' => 3,
             'username' => 'Ulysses',
             'user_email' => 'ulysses@example.com',
             'personal_messages' => 1,
             'user_place_lat' => 21.610,
             'user_place_lng' => -158.096
-        ),
-        array(
+        ],
+        [
             'id' => 4,
             'username' => 'Change Password Test',
             'user_email' => 'cpw@example.com',
             'user_automaticaly_mark_as_read' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 5,
             'username' => 'Uma',
             'user_email' => 'uma@example.com',
             'user_automaticaly_mark_as_read' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 6,
             'username' => 'Second Admin',
             'user_type' => 'admin',
@@ -347,7 +347,7 @@ class UserFixture extends TestFixture
             'password' => '$2y$10$LxV1Ff181IBFQfHWNMfmCee9cu2YY.kPKc30Jftb05nBCsjw5T9pi',
             'user_automaticaly_mark_as_read' => 1,
             'registered' => '2010-09-01 11:12',
-        ),
+        ],
         [
             'id' => 7,
             'username' => '&<Username',
@@ -377,7 +377,7 @@ class UserFixture extends TestFixture
             'user_email' => 'diane@example.com',
             'activate_code' => 1548
         ],
-    );
+    ];
 
     public function init()
     {

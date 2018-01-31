@@ -47,7 +47,7 @@
                     }
                     ?>
                     <span class="slidetab-userlist-icon" title="<?= $title ?>">
-						<i class="fa <?= $icon ?>"></i>
+                        <i class="fa <?= $icon ?>"></i>
                     </span>
                     <?= h($user->get('username')) ?>
                 </a>

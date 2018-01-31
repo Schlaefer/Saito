@@ -155,6 +155,7 @@ class UsersController extends AppController
             }
             $user->set('tos_confirm', false);
             $this->set('user', $user);
+
             return;
         }
 
@@ -289,6 +290,7 @@ class UsersController extends AppController
         } else {
             $this->Users->UserIgnores->unignore($userId, $blockedId);
         }
+
         return $this->redirect($this->referer());
     }
 
@@ -513,6 +515,7 @@ class UsersController extends AppController
             }
         }
         $this->set('user', $user);
+
         return $user;
     }
 
@@ -533,6 +536,7 @@ class UsersController extends AppController
         if (!$this->Users->exists($id)) {
             $message = __('User not found.');
             $this->Flash->set($message, ['element' => 'error']);
+
             return $this->redirect('/');
         }
         $readUser = $this->Users->get($id);
@@ -775,6 +779,7 @@ class UsersController extends AppController
         if ($CurrentUser->permission('saito.core.user.edit')) {
             return true;
         }
+
         return $CurrentUser->isUser($userId);
     }
 }

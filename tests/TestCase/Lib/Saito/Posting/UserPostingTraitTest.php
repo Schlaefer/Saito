@@ -18,6 +18,7 @@ class UserPostingTraitClassMock extends \Saito\Posting\Posting
     {
         if ($val === null) {
             $this->_rawData = $key;
+
             return;
         }
         $this->_rawData[$key] = $val;

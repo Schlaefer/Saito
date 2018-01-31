@@ -40,7 +40,6 @@ class AdminsController extends AppController
         $this->redirect($this->referer());
     }
 
-
     /**
      * List all plugins
      *

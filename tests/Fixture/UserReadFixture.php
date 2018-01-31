@@ -11,7 +11,7 @@ class UserReadFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -43,18 +43,18 @@ class UserReadFixture extends TestFixture
             'collate' => 'utf8_general_ci',
             'engine' => 'InnoDB'
         ]
-    );
+    ];
 
     /**
      * Records
      *
      * @var array
      */
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'user_id' => 9999,
             'entry_id' => 9999
-        ),
-    );
+        ],
+    ];
 }

@@ -10,7 +10,6 @@ class CurrentUserCookie extends Storage
 
     protected $_Cookie;
 
-
     /**
      * {@inheritDoc}
      */

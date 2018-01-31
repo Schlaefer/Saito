@@ -49,7 +49,6 @@ class AvatarFilenameListener implements EventListenerInterface
 
         $newFilename = Text::uuid() . $ext;
 
-
         // $path->setTable('avatars');
 
         // If a seed is set in the data already, we'll use that rather than make a new one each time we upload

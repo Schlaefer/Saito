@@ -224,6 +224,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             $user = $this->_User->getProfile($this->getId());
             $this->setSettings($user);
         }
+
         return $this->isLoggedIn();
     }
 
@@ -235,6 +236,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     protected function _reLoginSession()
     {
         $user = $this->_Controller->Auth->user();
+
         return $this->_login($user);
     }
 
@@ -252,6 +254,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         if ($this->_login($user)) {
             $this->_Controller->Auth->setUser($user);
         }
+
         return $this->isLoggedIn();
     }
 

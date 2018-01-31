@@ -13,6 +13,7 @@ use Cake\Routing\Router;
     $cacheEngine = function ($name) {
         $class = get_class(Cache::engine($name));
         $class = explode('\\', $class);
+
         return str_replace('Engine', '', end($class));
     };
     $si = [

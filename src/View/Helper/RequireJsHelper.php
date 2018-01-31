@@ -77,6 +77,7 @@ class RequireJsHelper extends AppHelper
             ]
         );
         Configure::write('Asset.timestamp', $_tmpAssetTimestampCache);
+
         return $out;
     }
 

@@ -235,6 +235,7 @@ class EntriesController extends AppController
         // redirect if posting doesn't exists
         if ($entry == false) {
             $this->Flash->set(__('Invalid post'));
+
             return $this->redirect('/');
         }
 
@@ -309,6 +310,7 @@ class EntriesController extends AppController
                         //= normal posting from entries/add or entries/view
                         $url += ['action' => 'view', $posting->get('id')];
                     }
+
                     return $this->redirect($url);
                 }
             } else {
@@ -435,18 +437,21 @@ class EntriesController extends AppController
                     'Stand by your word bro\', it\'s too late. @lo',
                     ['element' => 'error']
                 );
+
                 return $this->redirect(['action' => 'view', $id]);
             case 'user':
                 $this->Flash->set(
                     'Not your horse, Hoss! @lo',
                     ['element' => 'error']
                 );
+
                 return $this->redirect(['action' => 'view', $id]);
             case true:
                 $this->Flash->set(
                     'Something went terribly wrong. Alert the authorities now! @lo',
                     ['element' => 'error']
                 );
+
                 return $this->redirect(['action' => 'view', $id]);
         }
 
@@ -659,6 +664,7 @@ class EntriesController extends AppController
             $this->response->type('json');
             $body = json_encode($this->JsData->getAppJsMessages());
             $this->response->body($body);
+
             return $this->response;
         }
     }

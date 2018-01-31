@@ -19,7 +19,7 @@ class ApiCoreControllerTest extends ApiIntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = array(
+    public $fixtures = [
         'app.category',
         'app.entry',
         'app.esevent',
@@ -32,7 +32,7 @@ class ApiCoreControllerTest extends ApiIntegrationTestCase
         'app.user_online',
         'app.user_read',
         'plugin.bookmarks.bookmark'
-    );
+    ];
 
     public function testBootstrap()
     {

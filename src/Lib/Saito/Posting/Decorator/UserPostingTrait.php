@@ -46,6 +46,7 @@ trait UserPostingTrait
             return 'locked';
         }
         $permission = $this->_CurrentUser->Categories->permission('answer', $this->get('category'));
+
         return !$permission;
     }
 
@@ -78,6 +79,7 @@ trait UserPostingTrait
     {
         $MockedUser = clone $this->_CurrentUser;
         $MockedUser->set('user_type', 'user');
+
         return $this->_isEditingForbidden($this, $MockedUser);
     }
 
@@ -144,6 +146,7 @@ trait UserPostingTrait
             $this->_cache['isUnread'] = !$this->getCurrentUser()
                 ->ReadEntries->isRead($id, $time);
         }
+
         return $this->_cache['isUnread'];
     }
 

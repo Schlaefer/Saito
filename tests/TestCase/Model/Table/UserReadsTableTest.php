@@ -15,7 +15,7 @@ class UserReadsTableTest extends SaitoTableTestCase
      *
      * @var array
      */
-    public $fixtures = array(
+    public $fixtures = [
         'app.user_read',
         'app.user',
         'app.user_online',
@@ -25,7 +25,7 @@ class UserReadsTableTest extends SaitoTableTestCase
         'app.esnotification',
         'app.upload',
         'plugin.bookmarks.bookmark'
-    );
+    ];
 
     /**
      * tests that only new entries are stored to the DB

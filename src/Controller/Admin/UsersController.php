@@ -46,6 +46,7 @@ class UsersController extends AppController
             $user = $this->Users->register($this->request->data, true);
             if ($user && empty($errors)) {
                 $this->Flash->set(__('user.admin.add.success'), ['element' => 'success']);
+
                 return $this->redirect(['prefix' => false, 'action' => 'view', $user->get('id')]);
             } else {
                 $this->Flash->set(__('user.admin.add.error'), ['element' => 'error']);
@@ -92,6 +93,7 @@ class UsersController extends AppController
                     __('User {0} deleted.', $readUser->get('username')),
                     ['element' => 'success']
                 );
+
                 return $this->redirect('/');
             } else {
                 $this->Flash->set(
@@ -99,6 +101,7 @@ class UsersController extends AppController
                     ['element' => 'error']
                 );
             }
+
             return $this->redirect(
                 [
                     'prefix' => false,

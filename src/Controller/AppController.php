@@ -214,6 +214,7 @@ class AppController extends Controller
                 return 'entries';
             }
         }
+
         return $referer;
     }
 
@@ -226,6 +227,7 @@ class AppController extends Controller
     {
         $this->Flash->set(__('auth_autherror'), ['element' => 'warning']);
         $here = $this->request->here(false);
+
         return $this->redirect([
             '_name' => 'login',
             '?' => ['redirect' => $here],
@@ -252,12 +254,14 @@ class AppController extends Controller
             if (!file_exists(APP . 'Template' . DS . $l10nViewFile)) {
                 return false;
             }
+
             return $l10nViewPath;
         };
 
         $path = $check($locale);
         if ($path) {
             $this->viewBuilder()->templatePath($path);
+
             return;
         }
 

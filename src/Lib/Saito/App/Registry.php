@@ -33,6 +33,7 @@ class Registry
             'CU'
         );
         self::$_DIC = $dic;
+
         return $dic;
     }
 

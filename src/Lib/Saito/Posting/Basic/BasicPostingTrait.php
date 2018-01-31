@@ -21,6 +21,7 @@ trait BasicPostingTrait
     public function isNt()
     {
         $text = $this->get('text');
+
         return empty($text);
     }
 

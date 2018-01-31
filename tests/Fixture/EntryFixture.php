@@ -202,7 +202,7 @@ class EntryFixture extends TestFixture
      *
      * @var type array
      */
-    public $records = array(
+    public $records = [
         // thread 1
         // -------------------------------------
         [
@@ -367,7 +367,7 @@ class EntryFixture extends TestFixture
             'category_id' => 4, // accession = 0
             'user_id' => 7
         ]
-    );
+    ];
 
     public function init()
     {

@@ -32,6 +32,7 @@ class CommonmarkHelper extends Helper
             return $this->_converter;
         }
         $this->_converter = new CommonMarkConverter();
+
         return $this->_converter;
     }
 }

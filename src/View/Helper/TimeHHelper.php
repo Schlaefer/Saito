@@ -82,6 +82,7 @@ class TimeHHelper extends AppHelper
                 $options[$groupTitle][$timeZoneTitle] = $tz;
             }
         }
+
         return $options;
     }
 
@@ -120,6 +121,7 @@ class TimeHHelper extends AppHelper
         }
 
         // Stopwatch::stop('formatTime');
+
         return $string;
     }
 
@@ -141,6 +143,7 @@ class TimeHHelper extends AppHelper
             // yesterday and 18 hours and older
             $time = strftime("%d.%m.%Y", $timestamp);
         }
+
         return $time;
     }
 
@@ -166,6 +169,7 @@ class TimeHHelper extends AppHelper
         }
         $attributes = implode(' ', $attributes);
         $timestamp = "<time $attributes>$content</time>";
+
         return $timestamp;
     }
 
@@ -189,6 +193,7 @@ class TimeHHelper extends AppHelper
         if ($unixTimeStamp < 0) {
             $unixTimeStamp = 0;
         }
+
         return date('c', $unixTimeStamp);
     }
 }

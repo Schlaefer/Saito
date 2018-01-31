@@ -28,7 +28,6 @@ trait SaitoUserTrait
      */
     protected $_isLoggedIn = false;
 
-
     /**
      * User settings
      *
@@ -45,6 +44,7 @@ trait SaitoUserTrait
             $this->_id = null;
             $this->_settings = null;
             $this->_isLoggedIn = false;
+
             return;
         } elseif ($settings instanceof User) {
             $settings = $settings->toArray();
@@ -83,6 +83,7 @@ trait SaitoUserTrait
         if (!isset($this->_settings[$setting])) {
             return null;
         }
+
         return $this->_settings[$setting];
     }
 
@@ -134,6 +135,7 @@ trait SaitoUserTrait
         } else {
             throw new \InvalidArgumentException("Can't compare users.", 1434704215);
         }
+
         return $id === $this->getId();
     }
 
@@ -177,6 +179,7 @@ trait SaitoUserTrait
     public function permission($resource)
     {
         $permission = Registry::get('Permission');
+
         return $permission->check($this->getRole(), $resource);
     }
 }

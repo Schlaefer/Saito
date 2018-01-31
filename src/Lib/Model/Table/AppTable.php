@@ -25,7 +25,9 @@ class AppTable extends Table
 
     public $SharedObjects;
 
-    /** * @var SaitoEventManager */
+    /**
+     * @var SaitoEventManager
+     */
     protected $_SEM;
 
     /**
@@ -99,6 +101,7 @@ class AppTable extends Table
                         return false;
                     }
                 }
+
                 return true;
             }
         );
@@ -122,6 +125,7 @@ class AppTable extends Table
                         unset($data[$field]);
                     }
                 }
+
                 return true;
             }
         );
@@ -144,6 +148,7 @@ class AppTable extends Table
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -152,6 +157,7 @@ class AppTable extends Table
                 return false;
             }
         }
+
         return true;
     }
 

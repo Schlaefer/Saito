@@ -111,6 +111,7 @@ class SmileyRenderer
                 CakeCache::write('Saito.Smilies.html', $this->_replacements);
             }
         }
+
         return $this->_replacements;
     }
 

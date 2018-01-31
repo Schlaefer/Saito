@@ -33,6 +33,7 @@ class Preprocessor extends \Saito\Markup\Preprocessor
             "#\\1",
             $string
         );
+
         return $string;
     }
 }

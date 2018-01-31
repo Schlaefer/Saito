@@ -17,8 +17,8 @@
                     <i class="fa fa-thread"></i>
                     <?= $this->Posting->getFastLink($entry); ?>
                     <br/>
-								<span class='c_info_text'>
-									<?= h($entry->get('user')->get('username')) ?>,
+                                <span class='c_info_text'>
+                                    <?= h($entry->get('user')->get('username')) ?>,
                                     <?=
                                     $this->Time->timeAgoInWords(
                                         $entry->get('time'),
@@ -26,7 +26,7 @@
                                             'accuracy' => ['hour' => 'hour']
                                         ]
                                     ); ?>
-								</span>
+                                </span>
                 </li>
             <?php endforeach; ?>
         </ul>

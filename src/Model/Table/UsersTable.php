@@ -85,7 +85,6 @@ class UsersTable extends AppTable
         );
         $this->eventManager()->on(new AvatarFilenameListener());
 
-
         $this->hasOne('UserOnline', ['foreignKey' => 'user_id']);
 
         $this->hasMany(
@@ -128,7 +127,6 @@ class UsersTable extends AppTable
             'saito',
             'Saito\Validation\SaitoValidationProvider'
         );
-
 
         $validator
             ->provider(
@@ -376,6 +374,7 @@ class UsersTable extends AppTable
     {
         $table->columnType('avatar', 'proffer.file');
         $table->columnType('user_category_custom', 'serialize');
+
         return $table;
     }
 
@@ -466,6 +465,7 @@ class UsersTable extends AppTable
             return false;
         }
         $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
+
         return true;
     }
 
@@ -544,6 +544,7 @@ class UsersTable extends AppTable
         $userId = $context['data']['id'];
         $oldPassword = $this->get($userId, ['fields' => ['password']])
             ->get('password');
+
         return $this->checkPassword($value, $oldPassword);
     }
 
@@ -559,6 +560,7 @@ class UsersTable extends AppTable
         if ($value === $context['data']['password_confirm']) {
             return true;
         }
+
         return false;
     }
 
@@ -576,6 +578,7 @@ class UsersTable extends AppTable
                 return false;
             }
         }
+
         return true;
     }
 
@@ -602,6 +605,7 @@ class UsersTable extends AppTable
             }
         }
         Stopwatch::stop('validateUsernameEqual');
+
         return true;
     }
 
@@ -643,6 +647,7 @@ class UsersTable extends AppTable
             return $user;
         }
         $this->save($user);
+
         return $user;
     }
 
@@ -749,6 +754,7 @@ class UsersTable extends AppTable
                     )
                 ];
         }
+
         return $user;
     }
 
@@ -787,6 +793,7 @@ class UsersTable extends AppTable
                     ]
                 ]
             );
+
         return $count->count();
     }
 
@@ -809,7 +816,8 @@ class UsersTable extends AppTable
         $User = $this->find()->select(['id' => $userId])->first();
         if (!$User) {
             throw new \InvalidArgumentException(
-                "Can't find user with id $userId.", 1420807691
+                "Can't find user with id $userId.",
+                1420807691
             );
         }
 
@@ -851,7 +859,7 @@ class UsersTable extends AppTable
      *
      * @param string $password password
      * @param string $hash hash
-     * @return boolean TRUE if password match FALSE otherwise
+     * @return bool TRUE if password match FALSE otherwise
      */
     public function checkPassword($password, $hash)
     {
@@ -861,6 +869,7 @@ class UsersTable extends AppTable
                 return true;
             }
         }
+
         return false;
     }
 
@@ -873,6 +882,7 @@ class UsersTable extends AppTable
     protected function _hashPassword($password)
     {
         $auth = new DefaultPasswordHasher();
+
         return $auth->hash($password);
     }
 
@@ -888,6 +898,7 @@ class UsersTable extends AppTable
         $query
             ->contain(['UserOnline'])
             ->order(['Users.username' => 'ASC']);
+
         return $query;
     }
 
@@ -903,6 +914,7 @@ class UsersTable extends AppTable
         $query->where(['activate_code' => 0])
             ->order(['id' => 'DESC'])
             ->limit(1);
+
         return $query;
     }
 }

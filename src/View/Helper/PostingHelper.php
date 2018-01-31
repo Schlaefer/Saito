@@ -68,6 +68,7 @@ class PostingHelper extends AppHelper
         $id = $posting->get('id');
         $url = "{$this->request->webroot}entries/view/{$id}";
         $link = "<a href=\"{$url}\" class=\"{$options['class']}\">" . $this->getSubject($posting) . '</a>';
+
         return $link;
     }
 
@@ -97,6 +98,7 @@ class PostingHelper extends AppHelper
             // (not used when saved).
             $html = $this->Form->hidden('category_id');
         }
+
         return $html;
     }
 
@@ -154,6 +156,7 @@ class PostingHelper extends AppHelper
             $this->_renderers[$name] = $renderer;
         }
         $renderer->setOptions($options);
+
         return $renderer->render($tree);
     }
 }

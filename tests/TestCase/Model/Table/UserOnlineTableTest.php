@@ -200,7 +200,6 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         $this->_assertTimeIsNow($result[0]);
 
-
         $expected = $this->_startUsersOnline;
         unset(
             $expected[0]['time'],

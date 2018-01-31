@@ -9,7 +9,7 @@ class UploadFixture extends TestFixture
 
     public $name = 'Upload';
 
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -57,22 +57,22 @@ class UploadFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'engine' => 'MyISAM'
         ]
-    );
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'name' => '3_upload_test.png',
             'type' => 'png',
             'size' => '10000',
             'user_id' => '3',
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'name' => '1_upload_test.png',
             'type' => 'jpg',
             'size' => '20000',
             'user_id' => '1',
-        )
-    );
+        ]
+    ];
 }

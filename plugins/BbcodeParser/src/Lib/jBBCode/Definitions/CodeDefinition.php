@@ -62,6 +62,7 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
         if ($parsedString === false) {
             return $el->getAsBBCode();
         }
+
         return $parsedString;
     }
 

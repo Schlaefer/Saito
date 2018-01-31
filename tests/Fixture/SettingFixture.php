@@ -7,7 +7,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 class SettingFixture extends TestFixture
 {
 
-    public $fields = array(
+    public $fields = [
         'name' => ['type' => 'string', 'null' => true, 'default' => null],
         'value' => ['type' => 'string', 'null' => true, 'default' => null],
         '_options' => [
@@ -15,9 +15,9 @@ class SettingFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'engine' => 'MyISAM'
         ]
-    );
+    ];
 
-    public $records = array(
+    public $records = [
         ['name' => 'autolink', 'value' => '1'],
         ['name' => 'block_user_ui', 'value' => '1'],
         ['name' => 'edit_delay', 'value' => '3'],
@@ -38,5 +38,5 @@ class SettingFixture extends TestFixture
         ['name' => 'topics_per_page', 'value' => '20'],
         ['name' => 'tos_enabled', 'value' => 1],
         ['name' => 'tos_url', 'value' => 'http://example.com/tos-url.html/'],
-    );
+    ];
 }

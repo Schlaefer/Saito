@@ -88,6 +88,7 @@ class SettingsTable extends AppSettingTable
         }
         Configure::write('Saito.Settings', $settings);
         Stopwatch::end('Settings->getSettings()');
+
         return $settings;
     }
 
@@ -117,6 +118,7 @@ class SettingsTable extends AppSettingTable
         foreach ($results as $result) {
             $settings[$result->get('name')] = $result->get('value');
         }
+
         return $settings;
     }
 

@@ -46,7 +46,7 @@ module.exports = function(grunt) {
     },
     shell: {
       testCake: {
-        command: './vendor/bin/phpunit --colors',
+        command: './vendor/bin/phpunit --colors --stderr',
         options: {
           stdout: true,
           stderr: true,
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         }
       },
       testCakeStopOn: {
-        command: './vendor/bin/phpunit --colors --stop-on-error --stop-on-failure',
+        command: './vendor/bin/phpunit --colors --stderr --stop-on-error --stop-on-failure',
         options: {
           stdout: true,
           stderr: true,

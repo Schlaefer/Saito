@@ -192,12 +192,12 @@ class UsersControllerTestCase extends IntegrationTestCase
             ->will($this->throwException(new \Exception));
 
         Configure::write('Saito.Settings.tos_enabled', false);
-        $data = array(
+        $data = [
             'username' => 'NewUser1',
             'user_email' => 'NewUser1@example.com',
             'password' => 'NewUser1spassword',
             'password_confirm' => 'NewUser1spassword',
-        );
+        ];
 
         /*
         $Users->User->expects($this->once())
@@ -352,7 +352,6 @@ class UsersControllerTestCase extends IntegrationTestCase
                 )
             );
 
-
         $data['tos_confirm'] = '1';
         $this->post('users/register', $data);
 
@@ -391,7 +390,6 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->assertTrue($exists);
     }
 
-
     /**
      * Test all failing register validations
      */
@@ -400,12 +398,12 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->mockSecurity();
         Configure::write('Saito.Settings.tos_enabled', false);
 
-        $data = array(
+        $data = [
             'username' => "mITch",
             'user_email' => 'alice@example.com',
             'password' => 'NewUserspassword',
             'password_confirm' => 'NewUser1spassword',
-        );
+        ];
 
         $Users = TableRegistry::get('Users');
         $before = $Users->find()->count();

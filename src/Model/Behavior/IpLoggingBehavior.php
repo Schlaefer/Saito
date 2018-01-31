@@ -38,6 +38,7 @@ class IpLoggingBehavior extends Behavior
             $divider = (int)floor($strlen / 4) + 1;
             $ip = substr_replace($ip, '…', $divider, $strlen - (2 * $divider));
         }
+
         return $ip;
     }
 }

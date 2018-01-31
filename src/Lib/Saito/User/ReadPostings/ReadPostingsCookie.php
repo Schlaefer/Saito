@@ -105,6 +105,7 @@ class ReadPostingsCookie extends ReadPostingsAbstract
             $this->readPostings = explode('.', $this->readPostings);
             $this->readPostings = array_fill_keys($this->readPostings, 1);
         }
+
         return $this->readPostings;
     }
 }

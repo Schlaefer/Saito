@@ -26,6 +26,7 @@ class JsDataHelper extends AppHelper
         if (!$this->_JsData) {
             $this->_JsData = JsData::getInstance();
         }
+
         return $this->_JsData;
     }
 
@@ -84,6 +85,7 @@ class JsDataHelper extends AppHelper
         ];
         $out = 'var SaitoApp = ' . json_encode($js);
         $out .= '; SaitoApp.timeAppStart = new Date().getTime();';
+
         return $out;
     }
 
@@ -103,6 +105,7 @@ class JsDataHelper extends AppHelper
             $token = $View->response->cookie($key)['value'];
         }
         $header = 'X-CSRF-Token';
+
         return compact('header', 'token');
     }
 

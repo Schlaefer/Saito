@@ -15,6 +15,7 @@ abstract class CacheSupportCachelet implements CacheSupportCacheletInterface
         if (!empty($this->_title)) {
             return $this->_title;
         }
+
         return preg_replace(
             '/Saito\\\Cache\\\(.*)CacheSupportCachelet/',
             '\\1',

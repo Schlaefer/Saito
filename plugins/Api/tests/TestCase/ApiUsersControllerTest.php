@@ -21,7 +21,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = array(
+    public $fixtures = [
         'app.category',
         'app.entry',
         'app.esevent',
@@ -37,7 +37,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
         'app.user_read',
         'app.user_online',
         'plugin.bookmarks.bookmark'
-    );
+    ];
 
     public function testLoginNoUsername()
     {
@@ -164,7 +164,6 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
         $result = $this->_response->body();
         $result = json_decode($result, true);
         $this->assertTrue(isset($result['last_refresh']));
-
 
         $Users = TableRegistry::get('Users');
         $result = $Users->get($userId)->get('last_refresh')->toDateTimeString();

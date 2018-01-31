@@ -2,7 +2,6 @@
 <ruleset name="Saito">
 
     <rule ref="CakePHP">
-        <exclude name="CakePHP.WhiteSpace.ScopeClosingBrace"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace"/>
         <exclude name="PEAR.WhiteSpace.ScopeClosingBrace"/>
     </rule>

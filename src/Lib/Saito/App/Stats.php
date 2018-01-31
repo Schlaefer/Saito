@@ -23,6 +23,7 @@ class Stats
             'UsersOnline',
             function () {
                 $UserOnline = TableRegistry::get('UserOnline');
+
                 return $UserOnline->getLoggedIn();
             }
         );

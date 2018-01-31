@@ -18,7 +18,7 @@ class UseronlineFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -64,7 +64,7 @@ class UseronlineFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'engine' => 'MEMORY'
         ]
-    );
+    ];
 
     /**
      * Records

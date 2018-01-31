@@ -6,6 +6,7 @@ if (empty($UserBlock)) {
         'generic/no-content-yet',
         ['message' => __('ncy.aub')]
     );
+
     return;
 }
 SDV($mode, 'profile');

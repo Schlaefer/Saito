@@ -35,6 +35,7 @@ class UserBlocksTable extends Table
             ->add('ends', 'datetime', ['rule' => ['datetime']]);
         $validator->notEmpty('user_id');
         $validator->notEmpty('reason');
+
         return $validator;
     }
 
@@ -53,6 +54,7 @@ class UserBlocksTable extends Table
         if ($success) {
             $this->_updateIsBlocked($userId);
         }
+
         return $success;
     }
 
@@ -71,6 +73,7 @@ class UserBlocksTable extends Table
                 'sort' => ['ends' => 'asc']
             ]
         )->first();
+
         return $block->get('ends');
     }
 
@@ -98,6 +101,7 @@ class UserBlocksTable extends Table
                 1420540471
             );
         }
+
         return $this->_updateIsBlocked($block->get('user_id'));
     }
 
@@ -125,6 +129,7 @@ class UserBlocksTable extends Table
     {
         $blocklist = $this->find('assocUsers')
             ->order(['UserBlocks.id' => 'DESC']);
+
         return $blocklist;
     }
 
@@ -144,6 +149,7 @@ class UserBlocksTable extends Table
                 'ended IS' => null
             ]
         );
+
         return $query;
     }
 
@@ -161,6 +167,7 @@ class UserBlocksTable extends Table
             return $query->select(['id', 'username']);
         };
         $query->contain(['By' => $callback, 'Users' => $callback]);
+
         return $query;
     }
 
@@ -183,6 +190,7 @@ class UserBlocksTable extends Table
         )->first();
         $user = $this->Users->get($userId, ['fields' => ['id', 'user_lock']]);
         $user->set('user_lock', !empty($blocks));
+
         return $this->Users->save($user);
     }
 }

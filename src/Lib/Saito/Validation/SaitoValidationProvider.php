@@ -25,8 +25,10 @@ class SaitoValidationProvider
         $value = (int)$value;
 
         $key = $table . $value;
+
         return static::rememberStatic($key, function () use ($value, $table) {
             $Table = TableRegistry::get($table);
+
             return $Table->exists(['id' => $value]);
         });
     }

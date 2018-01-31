@@ -90,6 +90,7 @@ class ParserHelper extends AppHelper
         Stopwatch::start('ParseHelper::parse()');
         if (empty($string) || $string === 'n/t') {
             Stopwatch::stop('ParseHelper::parse()');
+
             return $string;
         }
 
@@ -107,6 +108,7 @@ class ParserHelper extends AppHelper
             $html = '<div class="richtext">' . $html . '</div>';
         }
         Stopwatch::stop('ParseHelper::parse()');
+
         return $html;
     }
 
@@ -123,6 +125,7 @@ class ParserHelper extends AppHelper
                 $this
             );
         }
+
         return $this->_MarkupEditor;
     }
 
@@ -145,6 +148,7 @@ class ParserHelper extends AppHelper
                 $settings
             );
         }
+
         return $this->_Parser;
     }
 }

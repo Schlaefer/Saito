@@ -63,6 +63,7 @@ class ShoutsTable extends Table
         if ($lastShout) {
             $last = $lastShout['id'];
         }
+
         return $last;
     }
 
@@ -85,6 +86,7 @@ class ShoutsTable extends Table
             )
             ->order(['Shouts.id' => 'DESC'])
             ->all();
+
         return $shouts;
     }
 
@@ -105,6 +107,7 @@ class ShoutsTable extends Table
             $success = $this->shift();
             $count -= 1;
         }
+
         return $success;
     }
 
@@ -119,6 +122,7 @@ class ShoutsTable extends Table
             ->select(['id'])
             ->order(['id' => 'ASC'])
             ->first();
+
         return $this->delete($currentIds);
     }
 

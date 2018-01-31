@@ -43,6 +43,7 @@ class UserHelper extends AppHelper
         if ($isBanned) {
             $out = '<i class="fa fa-ban fa-lg"></i>';
         }
+
         return $out;
     }
 
@@ -112,6 +113,7 @@ class UserHelper extends AppHelper
                 ['escape' => false]
             );
         }
+
         return $out;
     }
 
@@ -138,6 +140,7 @@ class UserHelper extends AppHelper
                 $out = h($url);
             }
         }
+
         return $out;
     }
 
@@ -172,6 +175,7 @@ class UserHelper extends AppHelper
         if ($options['escape']) {
             $html = h($html);
         }
+
         return $html;
     }
 
@@ -226,11 +230,13 @@ class UserHelper extends AppHelper
                 $html = $this->linkToUserProfile($user, true, $options['link']);
             }
             Stopwatch::end('UserHelper::getAvatar()');
+
             return $html;
         };
 
         $name = $user->get('username');
         $hash = 'avatar.' . md5($name . serialize($options));
+
         return $this->remember($hash, $getAvatar);
     }
 }

@@ -91,10 +91,12 @@ class MarkAsReadComponent extends Component
                 $CU->LastRefresh->set();
             }
             $session->write('User.last_refresh_tmp', time());
+
             return true;
         } else {
             $CU->LastRefresh->setMarker();
         }
+
         return false;
     }
 

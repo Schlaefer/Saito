@@ -54,6 +54,7 @@ class SaitoHelpHelper extends Helper
             [$this, '_replaceUrl'],
             $text
         );
+
         return $this->Commonmark->parse($text);
     }
 

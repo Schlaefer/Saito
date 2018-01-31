@@ -39,6 +39,7 @@ class Stopwatch
         if (self::$_instance === null) {
             self::$_instance = new Stopwatch();
         }
+
         return self::$_instance;
     }
 
@@ -271,6 +272,7 @@ class Stopwatch
             ];
         }
         $out = json_encode($data);
+
         return $out;
     }
 
@@ -367,6 +369,7 @@ class Stopwatch
         self::end('getWallTime()');
         $time = self::$_events[count(self::$_events) - 1]['wtime'] +
             self::_timeToStopwatch();
+
         return number_format($time, 3, $decimal, $thousand);
     }
 

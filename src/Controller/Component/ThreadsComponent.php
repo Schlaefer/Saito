@@ -39,6 +39,7 @@ class ThreadsComponent extends Component
         $CurrentUser = $this->_getCurrentUser();
         $initials = $this->_getInitialThreads($CurrentUser, $order);
         $threads = $this->Entries->treesForThreads($initials, $order);
+
         return $threads;
     }
 
@@ -59,6 +60,7 @@ class ThreadsComponent extends Component
             'conditions' => [
                 'Entries.category_id IN' => $categories
             ],
+            // @td sanitize input?
             'limit' => Configure::read('Saito.Settings.topics_per_page'),
             'order' => $order
         ];

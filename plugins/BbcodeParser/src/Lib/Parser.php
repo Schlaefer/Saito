@@ -217,6 +217,7 @@ class Parser extends \Saito\Markup\Parser
         }
 
         $html = $this->_Postprocessors->process($html);
+
         return $html;
     }
 
@@ -242,6 +243,7 @@ class Parser extends \Saito\Markup\Parser
         $parserId = md5(serialize($serializable));
         if (isset($this->_initializedParsers[$parserId])) {
             $this->_Parser = $this->_initializedParsers[$parserId];
+
             return;
         }
 

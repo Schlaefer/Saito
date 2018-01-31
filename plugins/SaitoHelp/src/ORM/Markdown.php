@@ -48,6 +48,7 @@ class Markdown implements RepositoryInterface
 
             $folder = new Folder($folderPath);
             $files = $folder->find("$id(-.*?)?\.md");
+
             return [$files, $folderPath];
         };
 
@@ -72,6 +73,7 @@ class Markdown implements RepositoryInterface
             'text' => $text
         ];
         $result = new Entity($data);
+
         return $result;
     }
 

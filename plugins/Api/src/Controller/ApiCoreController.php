@@ -43,7 +43,6 @@ class ApiCoreController extends ApiAppController
         throw new UnknownRouteException;
     }
 
-
     /**
      * {@inheritdoc}
      *

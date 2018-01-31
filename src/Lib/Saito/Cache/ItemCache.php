@@ -110,6 +110,7 @@ class ItemCache
         if (!isset($this->_cache[$key])) {
             return null;
         }
+
         return $this->_cache[$key]['content'];
     }
 
@@ -127,6 +128,7 @@ class ItemCache
         if (!isset($this->_cache[$key])) {
             throw new \InvalidArgumentException;
         }
+
         return $comp(
             $this->_cache[$key]['metadata']['content_last_updated'],
             $timestamp
@@ -186,6 +188,7 @@ class ItemCache
         if (!$this->_gcMax) {
             return false;
         }
+
         return count($this->_cache) >= $this->_settings['maxItems'];
     }
 
@@ -198,6 +201,7 @@ class ItemCache
     {
         if ($this->_CacheEngine === null) {
             $this->_cache = [];
+
             return;
         }
         Stopwatch::start("ItemCache read: {$this->_name}");
@@ -273,6 +277,7 @@ class ItemCache
                 if ($a['metadata']['content_last_updated'] === $b['metadata']['content_last_updated']) {
                     return 0;
                 }
+
                 return ($a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated']) ? 1 : -1;
             }
         );

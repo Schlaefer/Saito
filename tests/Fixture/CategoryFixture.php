@@ -7,7 +7,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 class CategoryFixture extends TestFixture
 {
 
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -66,10 +66,10 @@ class CategoryFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'engine' => 'MyISAM'
         ]
-    );
+    ];
 
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'category_order' => 1,
             'category' => 'Admin',
@@ -77,8 +77,8 @@ class CategoryFixture extends TestFixture
             'accession' => 2,
             'accession_new_thread' => 2,
             'accession_new_posting' => 2,
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'category_order' => 3,
             'category' => 'Ontopic',
@@ -86,8 +86,8 @@ class CategoryFixture extends TestFixture
             'accession' => 0,
             'accession_new_thread' => 1,
             'accession_new_posting' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 3,
             'category_order' => 2,
             'category' => 'Another Ontopic',
@@ -95,8 +95,8 @@ class CategoryFixture extends TestFixture
             'accession' => 0,
             'accession_new_thread' => 1,
             'accession_new_posting' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 4,
             'category_order' => 4,
             'category' => 'Offtopic',
@@ -104,8 +104,8 @@ class CategoryFixture extends TestFixture
             'accession' => 1,
             'accession_new_thread' => 2,
             'accession_new_posting' => 1,
-        ),
-        array(
+        ],
+        [
             'id' => 5,
             'category_order' => 4,
             'category' => 'Trash',
@@ -113,6 +113,6 @@ class CategoryFixture extends TestFixture
             'accession' => 1,
             'accession_new_thread' => 1,
             'accession_new_posting' => 1,
-        ),
-    );
+        ],
+    ];
 }

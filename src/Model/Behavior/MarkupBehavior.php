@@ -25,6 +25,7 @@ class MarkupBehavior extends Behavior
         if (empty($string)) {
             return $string;
         }
+
         return $this->_getPreprocessor()->process($string);
     }
 
@@ -42,6 +43,7 @@ class MarkupBehavior extends Behavior
                 $settings
             );
         }
+
         return $this->_Preprocessor;
     }
 }

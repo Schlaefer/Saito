@@ -49,6 +49,7 @@ class SaitoHelpsController extends AppController
         } else {
             $this->Flash->set(__('sh.nf'), ['element' => 'error']);
             $this->redirect('/');
+
             return;
         }
 

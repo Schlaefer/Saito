@@ -48,7 +48,7 @@ class AdminControllerTest extends IntegrationTestCase
         $this->get($url);
         $this->assertRedirectLogin($url);
     }
-     * 
+     *
      */
 
     public function testAdminEmptyCaches()

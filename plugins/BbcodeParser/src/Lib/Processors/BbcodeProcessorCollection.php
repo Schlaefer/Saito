@@ -35,6 +35,7 @@ class BbcodeProcessorCollection
                 $string = $Preprocessor->process($string, $options);
             }
         }
+
         return $string;
     }
 }

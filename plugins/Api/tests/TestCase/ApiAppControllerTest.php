@@ -13,7 +13,7 @@ class ApiAppControllerTest extends ApiIntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = array(
+    public $fixtures = [
         'app.category',
         'app.entry',
         'app.esevent',
@@ -26,7 +26,7 @@ class ApiAppControllerTest extends ApiIntegrationTestCase
         'app.user_online',
         'app.user_read',
         'plugin.bookmarks.bookmark'
-    );
+    ];
 
     public function testApiDisabled()
     {

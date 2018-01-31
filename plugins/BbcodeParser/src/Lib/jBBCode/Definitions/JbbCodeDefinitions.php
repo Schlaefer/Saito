@@ -176,6 +176,7 @@ class Iframe extends CodeDefinition
             __('Domain <strong>%s</strong> not allowed for embedding video.'),
             $host
         );
+
         return Message::format($message);
     }
 }
@@ -228,6 +229,7 @@ class Flash extends Iframe
         $out = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="' . $width . '" height="' . $height . '">
 									<param name="movie" value="' . $url . '"></param>
 									<embed src="' . $url . '" width="' . $width . '" height="' . $height . '" type="application/x-shockwave-flash" wmode="opaque" style="width:' . $width . 'px; height:' . $height . 'px;" id="VideoPlayback" flashvars=""> </embed> </object>';
+
         return $out;
     }
 }
@@ -274,6 +276,7 @@ class Image extends CodeDefinition
                     }
             }
         }
+
         return $this->Html->image($url, $options);
     }
 }
@@ -352,6 +355,7 @@ class Spoiler extends CodeDefinition
 	</a>
 </div>
 EOF;
+
         return $out;
     }
 
@@ -401,6 +405,7 @@ EOF;
                 }
             }
         }
+
         return $result;
     }
 }
@@ -420,8 +425,8 @@ class Upload extends CodeDefinition
     {
         // @td 3.0 Upload
         $webroot = $this->_sHelper->request->webroot;
-        return "<img src='{$webroot}useruploads/$content'>";
 
+        return "<img src='{$webroot}useruploads/$content'>";
         /*
         $this->FileUpload->reset();
         $params = $this->_getUploadParams($attributes);
@@ -459,6 +464,7 @@ class UploadWithAttributes extends Upload
                 'autoResize' => false,
                 'resizeThumbOnly' => false,
             ] + $_allowedAttributes;
+
         return $params;
     }
 }
@@ -489,6 +495,7 @@ class Url extends CodeDefinition
             $attributes = [];
         }
         $attributes = $attributes + $defaults;
+
         return $this->_getUrl($url, $attributes);
     }
 
@@ -498,6 +505,7 @@ class Url extends CodeDefinition
     protected function _getUrl($content, $attributes)
     {
         $shortTag = true;
+
         return $this->_url($content, $content, $attributes['label'], $shortTag);
     }
 }
@@ -534,6 +542,7 @@ class UrlWithAttributes extends Url
     {
         $shortTag = false;
         $url = $attributes[$this->_sTagName];
+
         return $this->_url($url, $content, $attributes['label'], $shortTag);
     }
 }

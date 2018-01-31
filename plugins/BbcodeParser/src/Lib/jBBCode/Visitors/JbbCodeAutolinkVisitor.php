@@ -22,6 +22,7 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
         }
         $string = $this->_hashLink($string);
         $string = $this->_atUserLink($string);
+
         return $this->_autolink($string);
     }
 
@@ -116,6 +117,7 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
                 false,
                 true
             );
+
             return $matches['prefix'] . $url . $matches['suffix'];
         };
 
@@ -159,10 +161,12 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
             '/(?<=\s|^|])(?<tag>#)(?<element>\d+)(?!\w)/',
             function ($m) use ($baseUrl) {
                 $hash = $m['element'];
+
                 return $this->_url($baseUrl . $hash, '#' . $hash);
             },
             $string
         );
+
         return $string;
     }
 }

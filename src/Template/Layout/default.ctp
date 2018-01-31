@@ -33,9 +33,9 @@
         echo $this->element('users/login_modal');
     }
     ?>
-	<div id="site">
-		<header id="site-header">
-			<div id="hero">
+    <div id="site">
+        <header id="site-header">
+            <div id="hero">
                 <?php
                 $homeLink = '<div id="hero-home-link">' . h($forumName) . '</div>';
                 $options = ['id' => 'btn_header_logo'];
@@ -46,11 +46,11 @@
                     $options + ['escape' => false]
                 );
                 ?>
-				<button id="js-top-menu-open" class="btnLink top-menu-item">
-					<i class="fa fa-plus-square-o"></i>
-				</button>
-			</div>
-			<div class="top-menu">
+                <button id="js-top-menu-open" class="btnLink top-menu-item">
+                    <i class="fa fa-plus-square-o"></i>
+                </button>
+            </div>
+            <div class="top-menu">
                 <div class="top-menu-body">
                     <?= $this->element('layout/header_login', ['divider' => '']) ?>
                     <?php
@@ -63,17 +63,17 @@
                     */
                     ?>
                     <span class="top-menu-aside">
-						<button id="shp-show" class="btnLink shp-show-btn top-menu-item">
-							<i class="fa fa-question-circle"></i>
-						</button>
-						<button id="js-themeSwitcher" class="btnLink top-menu-item"></button>
-						<button id="js-top-menu-close" class="btnLink top-menu-item">
-							<i class="fa fa-minus-square-o"></i>
-						</button>
-					</span>
-				</div>
-			</div>
-		</header>
+                        <button id="shp-show" class="btnLink shp-show-btn top-menu-item">
+                            <i class="fa fa-question-circle"></i>
+                        </button>
+                        <button id="js-themeSwitcher" class="btnLink top-menu-item"></button>
+                        <button id="js-top-menu-close" class="btnLink top-menu-item">
+                            <i class="fa fa-minus-square-o"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </header>
         <?php
         $navCenter = '';
         if ($this->request->controller !== 'entries' ||
@@ -106,15 +106,15 @@
         ?>
 
         <div id="content">
-			<script type="text/javascript">
-				if (!SaitoApp.request.isPreview) { $('#content').css('visibility', 'hidden'); }
-			</script>
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<?php if ($this->request->controller === 'entries' && $this->request->action === 'index') : ?>
-			<div id="footer-pinned">
-				<div id="bottomnav" class="navbar">
-					<?=
+            <script type="text/javascript">
+                if (!SaitoApp.request.isPreview) { $('#content').css('visibility', 'hidden'); }
+            </script>
+            <?php echo $this->fetch('content'); ?>
+        </div>
+        <?php if ($this->request->controller === 'entries' && $this->request->action === 'index') : ?>
+            <div id="footer-pinned">
+                <div id="bottomnav" class="navbar">
+                    <?=
                     $this->Layout->heading(
                         [
                             'first' => $this->fetch('headerSubnavLeft'),
@@ -126,20 +126,20 @@
                         ['class' => 'navbar-content', 'escape' => false]
                     )
                     ?>
-				</div>
-			</div>
-		<?php endif; ?>
-	</div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
     <?php if (!empty($showDisclaimer)) : ?>
         <div class="disclaimer">
             <?= $this->element('layout/disclaimer') ?>
         </div>
     <?php endif; ?>
     <?= $this->element('layout/html_footer'); ?>
-	<script>
-		SaitoApp.callbacks.afterAppInit.push(function() {
-			require([SaitoApp.app.settings.webroot + 'Paz/js/theme.js']);
-		});
-	</script>
+    <script>
+        SaitoApp.callbacks.afterAppInit.push(function() {
+            require([SaitoApp.app.settings.webroot + 'Paz/js/theme.js']);
+        });
+    </script>
 </body>
 </html>

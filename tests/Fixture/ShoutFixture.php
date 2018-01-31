@@ -7,7 +7,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 class ShoutFixture extends TestFixture
 {
 
-    public $fields = array(
+    public $fields = [
         'id' => [
             'type' => 'integer',
             'null' => false,
@@ -41,7 +41,7 @@ class ShoutFixture extends TestFixture
             'collate' => 'utf8_general_ci',
             'engine' => 'MEMORY'
         ]
-    );
+    ];
 
     public $records = [
         [

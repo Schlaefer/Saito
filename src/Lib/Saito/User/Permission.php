@@ -100,6 +100,7 @@ class Permission
                 }
             }
         }
+
         return false;
     }
 

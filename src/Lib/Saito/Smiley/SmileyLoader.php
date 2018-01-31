@@ -54,8 +54,10 @@ class SmileyLoader
                     }
                 }
             }
+
             return $smilies;
         });
+
         return $this->_smilies;
     }
 

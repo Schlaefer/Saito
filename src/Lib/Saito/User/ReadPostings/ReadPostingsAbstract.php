@@ -108,6 +108,7 @@ abstract class ReadPostingsAbstract
                 $postingIds[] = $posting->get('id');
             }
         }
+
         return $postingIds;
     }
 

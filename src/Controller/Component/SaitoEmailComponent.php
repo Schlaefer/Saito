@@ -28,7 +28,7 @@ class SaitoEmailComponent extends Component
      * - 'viewVars' array
      * @return void
      */
-    public function email($params = array())
+    public function email($params = [])
     {
         $defaults = [
             'ccsender' => false,

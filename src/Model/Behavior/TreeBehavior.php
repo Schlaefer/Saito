@@ -62,6 +62,7 @@ class TreeBehavior extends Behavior
                 );
             }
         }
+
         return $in;
     }
 

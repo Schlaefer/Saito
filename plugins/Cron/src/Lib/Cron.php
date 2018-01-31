@@ -128,6 +128,7 @@ class Cron
             Cache::write('Plugin.Cron.lastRuns', $cache);
         }
         $this->_lastRuns = $cache;
+
         return $this->_lastRuns;
     }
 

@@ -82,6 +82,7 @@ class Thread
                 $unread++;
             }
         }
+
         return $unread;
     }
 }

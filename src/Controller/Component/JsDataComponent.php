@@ -24,7 +24,7 @@ class JsDataComponent extends Component
      */
     public function __call($method, $params)
     {
-        $proxy = array($this->_JsData, $method);
+        $proxy = [$this->_JsData, $method];
         if (is_callable($proxy)) {
             return call_user_func_array($proxy, $params);
         } else {

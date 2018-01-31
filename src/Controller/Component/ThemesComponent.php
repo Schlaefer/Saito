@@ -22,8 +22,9 @@ class ThemesComponent extends Component
 
     /**
      * Sets theme
-     * 
-     * @param string $theme
+     *
+     * @param string $theme theme to set
+     * @return void
      */
     public function set($theme = null)
     {
@@ -69,6 +70,7 @@ class ThemesComponent extends Component
     {
         $theme = $user->get('user_theme');
         $available = $this->getAvailable($user);
+
         return $this->_resolveTheme($theme, $available);
     }
 
@@ -104,15 +106,14 @@ class ThemesComponent extends Component
     }
 
     /**
-     * Resolves  
-     * 
-     * @param string $theme
-     * @param array $available
-     * @return string 
+     * Resolves theme
+     *
+     * @param string $theme theme to resolve
+     * @param array $available available themes
+     * @return string
      */
     protected function _resolveTheme($theme, array $available)
     {
         return in_array($theme, $available) ? $theme : $this->_getDefault();
     }
-
 }

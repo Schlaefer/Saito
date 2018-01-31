@@ -35,7 +35,7 @@ class SmiliesController extends AdminsController
                     __('The smily has been saved'),
                     ['element' => 'success']
                 );
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
 
                 return;
             } else {
@@ -58,7 +58,7 @@ class SmiliesController extends AdminsController
     {
         if (!$id && empty($this->request->data)) {
             $this->Flash->set(__('Invalid smiley.'), ['element' => 'error']);
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
 
             return;
         }
@@ -71,7 +71,7 @@ class SmiliesController extends AdminsController
                     __('The smily has been saved'),
                     ['element' => 'success']
                 );
-                $this->redirect(array('action' => 'index'));
+                $this->redirect(['action' => 'index']);
 
                 return;
             } else {
@@ -94,14 +94,14 @@ class SmiliesController extends AdminsController
     {
         if (!$id || !$this->Smilies->exists(['id' => $id])) {
             $this->Flash->set(__('Invalid smiley.'), ['element' => 'error']);
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
 
             return;
         }
         $smiley = $this->Smilies->get($id);
         if ($this->Smilies->delete($smiley)) {
             $this->Flash->set(__('Smiley deleted.'), ['element' => 'success']);
-            $this->redirect(array('action' => 'index'));
+            $this->redirect(['action' => 'index']);
 
             return;
         }

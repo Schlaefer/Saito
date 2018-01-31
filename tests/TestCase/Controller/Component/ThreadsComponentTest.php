@@ -52,7 +52,6 @@ class ThreadsComponentTest extends SaitoTestCase
         parent::tearDown();
     }
 
-
     public function testThreadIncrementView()
     {
         $tid = 4;

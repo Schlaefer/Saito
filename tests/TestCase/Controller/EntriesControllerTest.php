@@ -227,7 +227,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->get('entries/index');
         $this->assertResponseNotContains($element);
 
-
         // global, no user allowed, no user
         Configure::write('Saito.Settings.category_chooser_global', 1);
         Configure::write('Saito.Settings.category_chooser_user_override', 0);
@@ -268,12 +267,12 @@ class EntriesControllerTestCase extends IntegrationTestCase
                 'user_sort_last_answer' => 1,
                 'user_type' => 'admin',
                 'user_category_active' => 4,
-                'user_category_custom' => array(
+                'user_category_custom' => [
                     1 => 1,
                     2 => 1,
                     4 => 0,
                     9999 => 1
-                ),
+                ],
             ]
         );
         $Users->save($user);
@@ -506,7 +505,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
             ->method('threadMerge')
             ->with(4, 2)
             ->will($this->returnValue(true));
-
 
         $this->_loginUser(2);
         $this->mockSecurity();

@@ -129,6 +129,7 @@ class MapHelper extends AppHelper
                 ]
             )
         ];
+
         return $this->Html->div(null, '', $options['div']);
     }
 }

@@ -59,6 +59,7 @@ class CategoriesTable extends AppSettingTable
                     'range' => ['rule' => ['range', 1, 3]]
                 ]
             );
+
         return $validator;
     }
 
@@ -70,6 +71,7 @@ class CategoriesTable extends AppSettingTable
     public function getAllCategories()
     {
         $key = 'Saito.Cache.Categories';
+
         return $this->rememberStatic(
             $key,
             function () use ($key) {
@@ -95,7 +97,6 @@ class CategoriesTable extends AppSettingTable
     {
         $source = $this->get($sourceId);
         $target = $this->get($targetId);
-
 
         if ($source->get('id') === $target->get('id')) {
             throw new \RuntimeException(

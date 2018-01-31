@@ -104,6 +104,7 @@ class SmileyCodesController extends AppController
                 ['element' => 'error']
             );
             $this->redirect(['action' => 'index']);
+
             return;
         }
         $smiley = $this->SmileyCodes->get($id);
@@ -113,6 +114,7 @@ class SmileyCodesController extends AppController
                 ['element' => 'error']
             );
             $this->redirect(['action' => 'index']);
+
             return;
         }
         $this->Flash->set(

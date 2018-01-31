@@ -153,6 +153,7 @@ class UserIgnoresTable extends AppTable
                 [
                     'Users' => function (Query $query) {
                         $query->select(['Users.id', 'Users.username']);
+
                         return $query;
                     }
                 ]
@@ -160,6 +161,7 @@ class UserIgnoresTable extends AppTable
             ->where(['user_id' => $userId])
             ->order(['Users.username' => 'ASC'])
             ->all();
+
         return $results->extract('user');
     }
 
@@ -173,6 +175,7 @@ class UserIgnoresTable extends AppTable
     {
         $this->deleteAll(['user_id' => $userId]);
         $this->deleteAll(['blocked_user_id' => $userId]);
+
         return true;
     }
 

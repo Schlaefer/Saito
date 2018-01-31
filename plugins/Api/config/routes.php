@@ -13,7 +13,6 @@ Router::scope(
         // must be first in scope to apply to following routes
         $routes->extensions(['json']);
 
-
         // Shouts
         // -------------------------------------
         $routes->connect(
@@ -128,6 +127,5 @@ Router::scope(
             '*',
             ['controller' => 'ApiCore', 'action' => 'unknownRoute']
         );
-
     }
 );

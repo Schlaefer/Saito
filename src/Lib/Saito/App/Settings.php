@@ -33,6 +33,7 @@ class Settings implements \ArrayAccess
         if (!isset($this->settings[$offset])) {
             return null;
         }
+
         return $this->settings[$offset];
     }
 

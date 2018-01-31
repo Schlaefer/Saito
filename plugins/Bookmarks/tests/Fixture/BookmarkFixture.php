@@ -57,39 +57,39 @@ class BookmarkFixture extends TestFixture
      *
      * @var array
      */
-    public $records = array(
-        array(
+    public $records = [
+        [
             'id' => 1,
             'user_id' => 3,
             'entry_id' => 1,
             'comment' => '',
             'created' => '2012-08-07 09:51:45',
             'modified' => '2012-08-07 09:51:45'
-        ),
-        array(
+        ],
+        [
             'id' => 2,
             'user_id' => 3,
             'entry_id' => 11,
             'comment' => '< Comment 2',
             'created' => '2012-08-07 19:51:45',
             'modified' => '2012-08-07 19:51:45'
-        ),
-        array(
+        ],
+        [
             'id' => 3,
             'user_id' => 1,
             'entry_id' => 1,
             'comment' => 'Comment 3',
             'created' => '2012-08-07 09:51:45',
             'modified' => '2012-08-07 09:51:45'
-        ),
-        array(
+        ],
+        [
             'id' => 4,
             'user_id' => 2,
             'entry_id' => 4,
             'comment' => 'Comment 4',
             'created' => '2012-08-07 09:51:45',
             'modified' => '2012-08-07 09:51:45'
-        ),
+        ],
         [
             'id' => 5,
             'user_id' => 3,
@@ -98,5 +98,5 @@ class BookmarkFixture extends TestFixture
             'created' => '2012-08-07 09:51:45',
             'modified' => '2012-08-07 09:51:45'
         ]
-    );
+    ];
 }

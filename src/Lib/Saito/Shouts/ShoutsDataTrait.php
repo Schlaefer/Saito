@@ -45,6 +45,7 @@ trait ShoutsDataTrait
             $Table->maxNumberOfShouts = (int)Configure::read(
                 'Saito.Settings.shoutbox_max_shouts'
             );
+
             return $Table;
         });
     }

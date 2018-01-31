@@ -22,6 +22,7 @@ trait UrlParserTrait
             $text = null;
         }
         $url = str_replace('mailto:', '', $url);
+
         return $this->MailObfuscator->link($url, $text);
     }
 
@@ -65,6 +66,7 @@ trait UrlParserTrait
                 }
             }
         }
+
         return $out;
     }
 
@@ -98,6 +100,7 @@ trait UrlParserTrait
 
         $string = mb_substr($string, 0, $leftMargin) . $_placeholder .
             mb_substr($string, $rightMargin);
+
         return $string;
     }
 
@@ -125,6 +128,7 @@ trait UrlParserTrait
                     $out = " rel='external' target='_blank'";
                 }
             }
+
             return $matches[0] . $out;
         };
 

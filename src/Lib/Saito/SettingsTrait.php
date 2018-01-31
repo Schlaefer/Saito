@@ -24,6 +24,7 @@ trait SettingsTrait
                 } else {
                     $this->_settings = $key;
                 }
+
                 return $this->_settings;
             } elseif (isset($this->_settings[$key])) {
                 return $this->_settings[$key];

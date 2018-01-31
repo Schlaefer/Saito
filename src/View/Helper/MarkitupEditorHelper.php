@@ -52,6 +52,7 @@ class MarkitupEditorHelper extends MarkitupHelper
             "<style type='text/css'>{$css}</style>";
 
         Stopwatch::stop('MarkitupHelper::getButtonSet()');
+
         return $out;
     }
 

@@ -10,7 +10,6 @@ class SlidetabUserlistCell extends SlidetabCell
 
     protected $_validCellOptions = [];
 
-
     /**
      * {@inheritDoc}
      */

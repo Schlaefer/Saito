@@ -57,6 +57,7 @@ class SettingHelper extends AppHelper
             $anchors .
             '<h2 >' . $tableName . '</h2>' .
             $out;
+
         return $out;
     }
 
@@ -70,6 +71,7 @@ class SettingHelper extends AppHelper
     {
         $id = count($this->_headers) + 1;
         $this->_headers[$id] = $header;
+
         return $id;
     }
 

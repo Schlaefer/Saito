@@ -14,30 +14,30 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
     protected $_apiRoot = 'api/v1/';
 
     protected $_fixtureResult = [
-        0 => array(
+        0 => [
             'id' => 4,
             'time' => '2013-02-08T11:49:31+00:00',
             'text' => '<script></script>[i]italic[/i]',
             'html' => '&lt;script&gt;&lt;/script&gt;<em>italic</em>',
             'user_id' => 1,
             'user_name' => 'Alice',
-        ),
-        1 => array(
+        ],
+        1 => [
             'id' => 3,
             'time' => '2013-02-08T11:49:31+00:00',
             'text' => 'Lorem ipsum dolor sit amet',
             'html' => 'Lorem ipsum dolor sit amet',
             'user_id' => 1,
             'user_name' => 'Alice',
-        ),
-        2 => array(
+        ],
+        2 => [
             'id' => 2,
             'time' => '2013-02-08T11:49:31+00:00',
             'text' => 'Lorem ipsum dolor sit amet',
             'html' => 'Lorem ipsum dolor sit amet',
             'user_id' => 1,
             'user_name' => 'Alice',
-        ),
+        ],
     ];
 
     /**
@@ -45,7 +45,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = array(
+    public $fixtures = [
         'app.category',
         'app.entry',
         'app.esevent',
@@ -61,7 +61,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
         'app.user_read',
         'app.user_online',
         'plugin.bookmarks.bookmark'
-    );
+    ];
 
     public function testShoutsDisallowedRequestTypes()
     {
