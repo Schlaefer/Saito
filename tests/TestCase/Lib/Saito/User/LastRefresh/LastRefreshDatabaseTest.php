@@ -29,11 +29,10 @@ class LastRefreshDatabaseTest extends SaitoTestCase
         $controller = new Controller($request, $response);
         $controller->loadComponent('Auth');
         $registry = new ComponentRegistry($controller);
-        $this->CurrentUser = $this->getMock(
-            'App\Controller\Component\CurrentUserComponent',
-            ['_markOnline'],
-            [$registry]
-        );
+        $this->CurrentUser = $this->getMockBuilder('App\Controller\Component\CurrentUserComponent')
+            ->setConstructorArgs([$registry])
+            ->setMethods(['_markOnline'])
+            ->getMock();
         $this->LastRefresh = new LastRefreshDatabase($this->CurrentUser);
     }
 

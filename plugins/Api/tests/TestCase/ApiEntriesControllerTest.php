@@ -136,10 +136,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemPostNotAllowed()
     {
         $this->_loginUser(3);
-        $this->setExpectedException(
-            '\Cake\Network\Exception\BadRequestException',
-            1434352683
-        );
+        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
         $this->post(
             $this->_apiRoot . 'entries.json',
             ['subject' => 'subject', 'parent_id' => 0, 'category_id' => 1]
@@ -300,7 +297,8 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
 
         $editTime = $result['edit_time'];
         unset($result['edit_time']);
-        $this->assertWithinRange(time(), strtotime($editTime), 5);
+        // 60 ticks seems unusually high, but the DB-result checkes out 
+        $this->assertWithinRange(time(), strtotime($editTime), 60);
 
         $this->assertEquals($expected, $result);
     }

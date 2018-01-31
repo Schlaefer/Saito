@@ -381,7 +381,9 @@ class BbcodeParserTest extends SaitoTestCase
 
     public function testEmailMailto()
     {
-        $MO = $this->getMock('MailObfuscator', ['link']);
+        $MO = $this->getMockBuilder('MailObfuscator')
+            ->setMethods(['link'])
+            ->getMock();
         $MO->expects($this->once(4))
             ->method('link')
             ->with('mail@tosomeone.com', null);
@@ -393,7 +395,9 @@ class BbcodeParserTest extends SaitoTestCase
 
     public function testEmailMailtoMask()
     {
-        $MO = $this->getMock('MailObfuscator', ['link']);
+        $MO = $this->getMockBuilder('MailObfuscator')
+            ->setMethods(['link'])
+            ->getMock();
         $MO->expects($this->once(4))
             ->method('link')
             ->with('mail@tosomeone.com', 'Mail');
@@ -405,7 +409,9 @@ class BbcodeParserTest extends SaitoTestCase
 
     public function testEmailNoMailto()
     {
-        $MO = $this->getMock('MailObfuscator', ['link']);
+        $MO = $this->getMockBuilder('MailObfuscator')
+            ->setMethods(['link'])
+            ->getMock();
         $MO->expects($this->once(4))
             ->method('link')
             ->with('mail@tosomeone.com', null);
@@ -417,7 +423,9 @@ class BbcodeParserTest extends SaitoTestCase
 
     public function testEmailNoMailtoMask()
     {
-        $MO = $this->getMock('MailObfuscator', ['link']);
+        $MO = $this->getMockBuilder('MailObfuscator')
+            ->setMethods(['link'])
+            ->getMock();
         $MO->expects($this->once(4))
             ->method('link')
             ->with('mail@tosomeone.com', 'Mail');
@@ -779,7 +787,7 @@ EOF;
 
     public function testInternalImage()
     {
-        $this->markTestIncomplete();
+        $this->markTestSkipped('Image uploader not implemented.');
         // Create a map of arguments to return values.
         $map = [
             ['test.png', [], '<img src="test.png" />'],
@@ -794,10 +802,9 @@ EOF;
                 '<img src="test.png" width="50" height="60" alt="">'
             ]
         ];
-        $FileUploader = $this->getMock(
-            'FileUploaderHelper',
-            ['image', 'reset']
-        );
+        $FileUploader = $this->getMockBuilder('FileUploaderHelper')
+            ->setMethods(['image', 'reset'])
+            ->getMock();
         $FileUploader->expects($this->atLeastOnce())
             ->method('image')
             ->will($this->returnValueMap($map));
@@ -970,7 +977,9 @@ EOF;
 
     public function testEmbedlyDisabled()
     {
-        $observer = $this->getMock('Embedly', ['setApiKey', 'embedly']);
+        $observer = $this->getMockBuilder('Embedly')
+            ->setMethods(['setApiKey', 'embedly'])
+            ->getMock();
         $observer->expects($this->never())
             ->method('setApiKey');
         $this->_Helper->Embedly = $observer;
@@ -980,7 +989,9 @@ EOF;
 
     public function testEmbedlyEnabled()
     {
-        $observer = $this->getMock('Embedly', ['setApiKey', 'embedly']);
+        $observer = $this->getMockBuilder('Embedly')
+            ->setMethods(['setApiKey', 'embedly'])
+            ->getMock();
         $observer->expects($this->once())
             ->method('setApiKey')
             ->with($this->equalTo('abc123'));

@@ -4,7 +4,7 @@ use Cake\Core\Configure;
 
 echo $this->Form->create(
     $user,
-    ['action' => 'register', 'id' => 'registerForm']
+    ['url' => ['action' => 'register'], 'id' => 'registerForm']
 );
 echo $this->element('users/register-form-core');
 echo $this->SimpleCaptcha->input(

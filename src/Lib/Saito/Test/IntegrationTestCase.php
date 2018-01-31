@@ -92,7 +92,9 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
      */
     protected function _setJson()
     {
-        $_SERVER['HTTP_ACCEPT'] = 'application/json, text/javascript';
+        $this->configRequest([
+            'headers' => ['Accept' => 'application/json']
+        ]);
     }
 
     /**
@@ -102,7 +104,9 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
      */
     protected function _unsetJson()
     {
-        $_SERVER['HTTP_ACCEPT'] = "text/html,application/xhtml+xml,application/xml";
+        $this->configRequest([
+            'headers' => ['Accept' => 'text/html,application/xhtml+xml,application/xml']
+        ]);
     }
 
     /**

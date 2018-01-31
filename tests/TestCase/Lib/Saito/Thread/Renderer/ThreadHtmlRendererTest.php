@@ -39,11 +39,10 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             'user' => ['id' => 1, 'username' => 'u']
         ];
 
-        $entries = $this->getMock(
-            '\Saito\Posting\Posting',
-            ['isIgnored'],
-            [$this->SaitoUser, $entry]
-        );
+        $entries = $this->getMockBuilder('\Saito\Posting\Posting')
+            ->setConstructorArgs([$this->SaitoUser, $entry])
+            ->setMethods(['isIgnored'])
+            ->getMock();
         $entries->expects($this->once())
             ->method('isIgnored')
             ->will($this->returnValue(true));
@@ -108,12 +107,11 @@ class ThreadHtmlRendererTest extends SaitoTestCase
 
     public function testThreadMaxDepth()
     {
-        $SaitoUser = $this->getMock(
-            'SaitoUser',
-            ['getId', 'hasBookmarks']
-        );
-        $SaitoUser->ReadEntries = $this->getMock(
-            'ReadPostings\ReadPostingsDummy'
+        $SaitoUser = $this->getMockBuilder('SaitoUser')
+            ->setMethods(['getId', 'hasBookmarks'])
+            ->getMock();
+        $SaitoUser->ReadEntries = $this->createMock(
+            '\Saito\User\ReadPostings\ReadPostingsDummy'
         );
 
         $entry = [

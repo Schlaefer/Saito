@@ -59,12 +59,13 @@ class ItemCacheTest extends SaitoTestCase
     protected function _setupItemCache($methods = null, array $options = [])
     {
         $this->_cleanUp();
-        $this->ItemCache = $this->getMock(
-            '\Saito\Test\Cache\ItemCacheMock',
-            $methods,
-            ['test', null, $options]
-        );
-        $this->CacheEngine = $this->getMock('Object', ['read', 'write']);
+        $this->ItemCache = $this->getMockBuilder('\Saito\Test\Cache\ItemCacheMock')
+            ->setConstructorArgs(['test', null, $options])
+            ->setMethods($methods)
+            ->getMock();
+        $this->CacheEngine = $this->getMockBuilder('Object')
+            ->setMethods(['read', 'write'])
+            ->getMock();
         $this->ItemCache->setCacheEngine($this->CacheEngine);
     }
 

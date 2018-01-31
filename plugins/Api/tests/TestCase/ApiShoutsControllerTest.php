@@ -16,7 +16,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
     protected $_fixtureResult = [
         0 => array(
             'id' => 4,
-            'time' => '2013-02-08T11:49:31+0000',
+            'time' => '2013-02-08T11:49:31+00:00',
             'text' => '<script></script>[i]italic[/i]',
             'html' => '&lt;script&gt;&lt;/script&gt;<em>italic</em>',
             'user_id' => 1,
@@ -24,7 +24,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
         ),
         1 => array(
             'id' => 3,
-            'time' => '2013-02-08T11:49:31+0000',
+            'time' => '2013-02-08T11:49:31+00:00',
             'text' => 'Lorem ipsum dolor sit amet',
             'html' => 'Lorem ipsum dolor sit amet',
             'user_id' => 1,
@@ -32,7 +32,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
         ),
         2 => array(
             'id' => 2,
-            'time' => '2013-02-08T11:49:31+0000',
+            'time' => '2013-02-08T11:49:31+00:00',
             'text' => 'Lorem ipsum dolor sit amet',
             'html' => 'Lorem ipsum dolor sit amet',
             'user_id' => 1,

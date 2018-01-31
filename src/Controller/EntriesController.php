@@ -209,7 +209,7 @@ class EntriesController extends AppController
      */
     public function source($id = null)
     {
-        $this->autoLayout = false;
+        $this->viewBuilder()->enableAutoLayout(false);
         $this->view($id);
     }
 
@@ -696,7 +696,7 @@ class EntriesController extends AppController
             }
         }
 
-        $this->viewBuilder->layout('admin');
+        $this->viewBuilder()->layout('admin');
         $this->set(compact('posting'));
     }
 

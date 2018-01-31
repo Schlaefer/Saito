@@ -1,5 +1,9 @@
 <?php
-echo $this->Form->create(null, ['id' => 'login_form']);
+$redirect = $this->request->getQuery('redirect', null);
+echo $this->Form->create(null, [
+    'url' => ['_name' => 'login', '?' => ['redirect' => $redirect]],
+    'id' => 'login_form'
+]);
 
 echo $this->Form->input(
     'username',

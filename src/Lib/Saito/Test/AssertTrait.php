@@ -2,10 +2,30 @@
 
 namespace Saito\Test;
 
+use Cake\Routing\Router;
 use Symfony\Component\DomCrawler\Crawler;
 
 trait AssertTrait
 {
+
+    /**
+     * Check that an redirect to the login is performed 
+     * 
+     * @param string $redirect
+     * @return void
+     */
+    public function assertRedirectLogin($redirectUrl = null)
+    {
+        $response = $this->_controller->response;
+        $expected = Router::url([
+            '_name' => 'login',
+            'plugin' => false,
+            '?' => ['redirect' => $redirectUrl]
+        ], true);
+        $redirectHeader = $response->header()['Location'];
+        $this->assertEquals($expected, $redirectHeader);
+    }
+
     /**
      * Check if only specific roles is allowed on action
      *

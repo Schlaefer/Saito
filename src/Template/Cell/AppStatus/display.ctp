@@ -1,6 +1,6 @@
 <?php
 
-use Cake\Utility\String;
+use Cake\Utility\Text;
 
 ?>
 <p>
@@ -9,7 +9,7 @@ use Cake\Utility\String;
     if ($CurrentUser->isLoggedIn()) {
         $loggedin = $this->Html->link($loggedin, '/users/index');
     }
-    echo String::insert(
+    echo Text::insert(
         __('discl.status'),
         [
             'entries' => number_format(

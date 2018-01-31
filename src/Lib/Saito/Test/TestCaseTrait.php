@@ -126,7 +126,7 @@ trait TestCaseTrait
      */
     protected function mockMailTransporter()
     {
-        $mock = $this->getMock('Cake\Network\Email\DebugTransport');
+        $mock = $this->createMock('Cake\Network\Email\DebugTransport');
         Email::dropTransport('saito');
         Email::configTransport('saito', $mock);
 

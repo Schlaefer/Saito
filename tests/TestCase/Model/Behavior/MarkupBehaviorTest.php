@@ -12,7 +12,7 @@ class MarkupBehaviorTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $table = $this->getMock('Cake\ORM\Table');
+        $table = $this->createMock('Cake\ORM\Table');
         $this->Markup = new MarkupBehavior($table);
         new Settings(
             [

@@ -113,7 +113,7 @@ if ($user->get('ignore_count') > 0) {
 }
 
 // ignores
-if ($user->get('ignores') && $user->get('ignores')->count()) {
+if ($user->get('ignores') && count($user->get('ignores')->toArray())) {
     $o = [];
     foreach ($user->get('ignores') as $ignoredUser) {
         $ui = $this->Form->postLink(
@@ -307,7 +307,7 @@ if ($items) {
                 $lock[] = $this->Form
                     ->create(
                         $blockForm,
-                        ['action' => 'lock', 'id' => 'blockForm']
+                        ['url' => ['action' => 'lock'], 'id' => 'blockForm']
                     );
                 $lock[] = $this->Form->button(
                     __('Block User'),

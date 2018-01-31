@@ -13,17 +13,17 @@
   },
   "require": {
     "php": ">=5.6",
-    "cakephp/cakephp": "3.1.*",
+    "cakephp/cakephp": "3.5.*",
     "mobiledetect/mobiledetectlib": "2.*",
     "cakephp/migrations": "@stable",
     "cakephp/plugin-installer": "*",
 
 
     "aura/di": "~2.1",
-    "davidyell/proffer": "dev-master",
+    "davidyell/proffer": "^0.8",
     "embedly/embedly-php": "0.5.4",
     "jbbcode/jbbcode": "~1.3",
-    "markstory/geshi": "dev-master",
+    "markstory/geshi": "^3",
     "siezi/cakephp-simple-captcha": "^0.4.2",
     "yzalis/identicon": "*",
     "league/commonmark": "^0.9.0@dev"
@@ -33,7 +33,7 @@
     "cakephp/debug_kit": "~3",
     "cakephp/bake": "~1.0",
     "phpmd/phpmd": "@stable",
-    "phpunit/phpunit": "*",
+    "phpunit/phpunit": "~5",
     "squizlabs/php_codesniffer": "*",
     "cakephp/cakephp-codesniffer": "2.*",
 
@@ -78,7 +78,15 @@
   },
   "scripts": {
     "post-install-cmd": "App\\Console\\Installer::postInstall",
-    "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump"
+    "post-create-project-cmd": "App\\Console\\Installer::postInstall",
+    "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
+    "check": [
+        "@test",
+        "@cs-check"
+    ],
+    "cs-check": "phpcs --colors -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
+    "cs-fix": "phpcbf --colors --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
+    "test": "phpunit --colors=always"
   },
   "minimum-stability" : "dev",
   "prefer-stable": true

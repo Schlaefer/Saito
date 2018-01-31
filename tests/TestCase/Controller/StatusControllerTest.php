@@ -34,6 +34,7 @@ class StatusControllerTest extends IntegrationTestCase
     {
         $this->_setAjax();
         $this->_setJson();
+        $this->mockSecurity();
 
         $this->get('/status/status');
 

@@ -5,7 +5,6 @@ namespace App\View\Helper;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\I18n\Time;
-use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 
@@ -181,7 +180,7 @@ class TimeHHelper extends AppHelper
         if ($date === null) {
             return null;
         }
-        if ($date instanceof Carbon) {
+        if ($date instanceof Time) {
             $unixTimeStamp = $date->timestamp;
         } else {
             $unixTimeStamp = strtotime($date);

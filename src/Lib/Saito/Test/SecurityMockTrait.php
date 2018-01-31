@@ -2,7 +2,6 @@
 
 namespace Saito\Test;
 
-use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 
@@ -17,19 +16,7 @@ trait SecurityMockTrait
     public function mockSecurity()
     {
         $this->disableCsrf();
-        EventManager::instance()->on('Controller.initialize', function (Event $event) {
-            $Controller = $event->subject();
-            $Security = $this->getMock(
-                '\Cake\Controller\Component\SecurityComponent',
-                ['_validatePost'],
-                [$Controller->components()]
-            );
-            $Security
-                ->expects($this->any())
-                ->method('_validatePost')
-                ->will($this->returnValue(true));
-            $Controller->components()->set('Security', $Security);
-        });
+        $this->enableSecurityToken();
     }
 
     /**
@@ -39,9 +26,6 @@ trait SecurityMockTrait
      */
     public function disableCsrf()
     {
-        EventManager::instance()->on('Controller.initialize', function (Event $event) {
-            $Controller = $event->subject();
-            $Controller->components()->unload('Csrf');
-        });
+        $this->enableCsrfToken();
     }
 }

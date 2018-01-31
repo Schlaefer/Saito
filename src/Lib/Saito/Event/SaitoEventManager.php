@@ -102,7 +102,7 @@ class SaitoEventManager implements EventListenerInterface
         foreach ($this->_listeners[$key] as $listener) {
             if ($listener['type'] === 'object') {
                 // faster than call_user_func
-                $result = $listener['func'][0]->$listener['func'][1]($data);
+                $result = $listener['func'][0]->{$listener['func'][1]}($data);
             } else {
                 $result = $listener['func']($data);
             }

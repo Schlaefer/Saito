@@ -48,33 +48,42 @@ class ThemesComponentTest extends SaitoTestCase
     public function testApplyDefaultTheme()
     {
         $config = ['default' => 'foo'];
-        $user = new SaitoUser();
+        $this->component->settings($config);
 
-        $this->assertNotEquals('foo', $this->controller->theme);
-        $this->component->theme($config, $user);
-        $this->assertEquals('foo', $this->controller->theme);
+        $user = new SaitoUser();
+        $this->controller->CurrentUser = $user;
+
+        $this->assertNotEquals('foo', $this->controller->viewBuilder()->getTheme());
+        $this->component->set();
+        $this->assertEquals('foo', $this->controller->viewBuilder()->getTheme());
     }
 
     public function testSetCustomThemeAndDefaultSet()
     {
         $config = ['default' => 'foo', 'available' => ['bar']];
+        $this->component->settings($config);
+
         $user = new SaitoUser(['user_theme' => 'bar']);
+        $this->controller->CurrentUser = $user;
 
         // test custom theme applied
-        $this->component->theme($config, $user);
-        $this->assertEquals('bar', $this->controller->theme);
+        $this->component->set();
+        $this->assertEquals('bar', $this->controller->viewBuilder()->getTheme());
 
         // test default set
         $this->component->setDefault();
-        $this->assertEquals('foo', $this->controller->theme);
+        $this->assertEquals('foo', $this->controller->viewBuilder()->getTheme());
     }
 
     public function testCustomThemeNotAvailable()
     {
         $config = ['default' => 'foo'];
-        $user = new SaitoUser(['user_theme' => 'bar']);
+        $this->component->settings($config);
 
-        $this->component->theme($config, $user);
-        $this->assertEquals('foo', $this->controller->theme);
+        $user = new SaitoUser(['user_theme' => 'bar']);
+        $this->controller->CurrentUser = $user;
+
+        $this->component->set();
+        $this->assertEquals('foo', $this->controller->viewBuilder()->getTheme());
     }
 }

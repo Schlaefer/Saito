@@ -107,7 +107,7 @@ class ApiEntriesController extends ApiAppController
             throw new BadRequestException('Missing entry id.');
         }
 
-        $this->autoLayout = false;
+        $this->viewBuilder()->enableAutoLayout(false);
 
         $order = ['Entries.id' => 'ASC'];
         $categories = $this->CurrentUser->Categories->getAll('read');

@@ -213,33 +213,29 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
         $controller->loadComponent('Cookie');
 
         $registry = new ComponentRegistry($controller);
-        $currentUser = $this->getMock(
-            'App\Controller\Component\CurrentUserComponent',
-            ['_markOnline'],
-            [$registry]
-        );
+        $currentUser = $this->getMockBuilder('App\Controller\Component\CurrentUserComponent')
+            ->setConstructorArgs([$registry])
+            ->setMethods(['_markOnline'])
+            ->getMock();
 
-        $cookie = $this->getMock(
-            'Saito\User\Cookie\Storage',
-            ['setConfig', 'read', 'write', 'delete'],
-            [$controller->Cookie, 'Saito-Read']
-        );
+        $cookie = $this->getMockBuilder('Saito\User\Cookie\Storage')
+            ->setConstructorArgs([$controller->Cookie, 'Saito-Read'])
+            ->setMethods(['setConfig', 'read', 'write', 'delete'])
+            ->getMock();
 
         // test that cookie is unencrypted
         $cookie->expects($this->once())
             ->method('setConfig')
             ->with(['encryption' => false]);
 
-        $this->ReadPostings = $this->getMock(
-            'Saito\Test\User\ReadPostings\ReadPostingsCookieMock',
-            $methods,
-            [$currentUser, $cookie]
-        );
+        $this->ReadPostings = $this->getMockBuilder('Saito\Test\User\ReadPostings\ReadPostingsCookieMock')
+            ->setConstructorArgs([$currentUser, $cookie])
+            ->setMethods($methods)
+            ->getMock();
         $this->ReadPostings->setLastRefresh(
-            $this->getMock(
-                'Object',
-                ['isNewerThan']
-            )
+            $this->getMockBuilder('Object')
+                ->setMethods(['isNewerThan'])
+                ->getMock()
         );
     }
 

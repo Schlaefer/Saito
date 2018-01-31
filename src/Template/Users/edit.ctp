@@ -11,7 +11,7 @@ $this->end();
 ?>
 
 <div class="user edit">
-	<?= $this->Form->create($user, ['action' => 'edit']); ?>
+	<?= $this->Form->create($user); ?>
 	<div class="panel">
     <?= $this->Layout->panelHeading($titleForPage, ['pageHeading' => true]) ?>
     <div class='panel-content panel-form'>

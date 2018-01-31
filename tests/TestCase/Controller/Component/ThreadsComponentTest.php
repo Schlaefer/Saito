@@ -57,7 +57,9 @@ class ThreadsComponentTest extends SaitoTestCase
     {
         $tid = 4;
 
-        $CU = $this->getMock('\Saito\User\SaitoUser', ['isBot']);
+        $CU = $this->getMockBuilder('\Saito\User\SaitoUser')
+            ->setMethods(['isBot'])
+            ->getMock();
         $CU->expects($this->once())->method('isBot')->will(
             $this->returnValue(false)
         );
@@ -80,7 +82,9 @@ class ThreadsComponentTest extends SaitoTestCase
     public function testThreadIncrementViewOmitUser()
     {
         $tid = 4;
-        $CU = $this->getMock('\Saito\User\SaitoUser', ['isBot']);
+        $CU = $this->getMockBuilder('\Saito\User\SaitoUser')
+            ->setMethods(['isBot'])
+            ->getMock();
         $CU->setSettings(['id' => 3]);
 
         $CU->expects($this->once())->method('isBot')->will(

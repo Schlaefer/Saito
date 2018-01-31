@@ -35,8 +35,9 @@ class BookmarksControllerTest extends IntegrationTestCase
 
     public function testIndexNotAllowed()
     {
-        $this->get('/bookmarks/index');
-        $this->assertRedirect('/login');
+        $url = '/bookmarks/index';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testIndex()
@@ -98,8 +99,9 @@ class BookmarksControllerTest extends IntegrationTestCase
 
     public function testEditNotLoggedIn()
     {
-        $this->get('/bookmarks/edit/1');
-        $this->assertRedirect('/login');
+        $url = '/bookmarks/edit/1';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testEditNotUsersBookmark()
@@ -154,6 +156,7 @@ class BookmarksControllerTest extends IntegrationTestCase
     {
         $this->_setAjax();
         $this->_loginUser(1);
+        $this->mockSecurity();
 
         $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
         $this->delete('/bookmarks/delete/1');
@@ -165,6 +168,7 @@ class BookmarksControllerTest extends IntegrationTestCase
 
         $this->_loginUser(3);
         $this->_setAjax();
+        $this->mockSecurity();
         $this->delete('/bookmarks/delete/1');
 
         $this->assertFalse($this->Bookmarks->exists(['id' => 1]));

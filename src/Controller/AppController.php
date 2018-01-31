@@ -54,9 +54,6 @@ class AppController extends Controller
         if (!$this->request->is('requested')) {
             $this->request->session()->start();
         }
-        if (php_sapi_name() === 'cli') {
-            $this->request->session()->id('test');
-        }
 
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');

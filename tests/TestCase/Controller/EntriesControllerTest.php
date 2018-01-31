@@ -81,13 +81,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testMixNoAuthorization()
     {
-        $this->get('/entries/mix/4');
-        $this->assertResponseCode(302);
-        $this->assertEquals(
-            $this->_controller->Auth->redirectUrl(),
-            '/entries/mix/4'
-        );
-        $this->assertRedirect('/login');
+        $url = '/entries/mix/4';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testMixNotFound()
@@ -107,8 +103,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
      */
     public function testAddUserNotLoggedInGet()
     {
-        $this->get('/entries/add');
-        $this->assertRedirect('/login');
+        $url = '/entries/add';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     /**
@@ -359,8 +356,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testDeleteNotLoggedIn()
     {
-        $this->get('/entries/delete/1');
-        $this->assertRedirect('/login');
+        $url = '/entries/delete/1';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     /*
@@ -378,7 +376,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(1);
         $this->setExpectedException('Cake\Network\Exception\NotFoundException');
-        $this->disableCsrf();
+        $this->mockSecurity();
         $this->post('/entries/delete');
     }
 
@@ -389,7 +387,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $count = count($Postings->treeForNode(1)->getAllChildren());
         $this->assertEquals(5, $count);
 
-        $this->disableCsrf();
+        $this->mockSecurity();
         $this->post('/entries/delete/9');
 
         $count = count($Postings->treeForNode(1)->getAllChildren());
@@ -400,14 +398,14 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(3);
         $this->post('/entries/delete/1');
-        $this->assertRedirect('/login');
+        $this->assertRedirectContains('/login');
     }
 
     public function testDeletePostingDoesntExist()
     {
         $this->_loginUser(1);
         $this->setExpectedException('Cake\Network\Exception\NotFoundException');
-        $this->disableCsrf();
+        $this->mockSecurity();
         $this->post('/entries/delete/9999');
     }
 
@@ -480,7 +478,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $Entries->expects($this->never())->method('threadMerge');
 
         $this->_loginUser(2);
-        $this->disableCsrf();
+        $this->mockSecurity();
         $this->post('/entries/merge/4', []);
         $this->assertNoRedirect();
     }
@@ -495,7 +493,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->_loginUser(3);
         $this->post('/entries/merge/4', ['targetId' => 2]);
 
-        $this->assertRedirect('/login');
+        $this->assertRedirectContains('/login');
     }
 
     public function testMergeSuccess()
@@ -623,8 +621,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testPreviewNotLoggedIn()
     {
-        $this->get('/entries/preview');
-        $this->assertRedirect('/login');
+        $url = '/entries/preview';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testPreviewIsAjax()
@@ -632,6 +631,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->_loginUser(1);
         $this->setExpectedException(
             '\Cake\Network\Exception\BadRequestException',
+            null,
             1434128359
         );
         $this->get('/entries/preview');
@@ -643,6 +643,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->_loginUser(1);
         $this->setExpectedException(
             '\Cake\Network\Exception\BadRequestException',
+            null,
             1434128359
         );
         $this->get('/entries/preview');
@@ -659,10 +660,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
             'subject' => 'hot',
             'text' => 'fuzz'
         ];
-        $this->disableCsrf();
+        $this->mockSecurity();
         $this->post('/entries/preview', $data);
         $this->assertResponseOk();
         $this->assertNoRedirect();
+        $this->assertResponseContains('fuzz');
     }
 
     /**
@@ -678,12 +680,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
      */
     public function testViewNotLoggedInAuthFailure()
     {
-        $this->get('/entries/view/4');
-        $this->assertRedirect('/login');
-        $this->assertEquals(
-            $this->_controller->Auth->redirectUrl(),
-            '/entries/view/4'
-        );
+        $url = '/entries/view/4';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     /**
@@ -860,8 +859,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testSolveNotLoggedIn()
     {
-        $this->get('/entries/solve/1');
-        $this->assertRedirect('/login');
+        $url = '/entries/solve/1';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testSolveNoEntry()
@@ -935,7 +935,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testSourceNotLoggedIn()
     {
         $this->get('/entries/source/1');
-        $this->assertRedirect('/login');
+        $this->assertRedirectContains('/login');
     }
 
     public function testSourceSuccess()
@@ -948,14 +948,14 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testThreadLineAnon()
     {
         $this->get('/entries/threadLine/6.json');
-        $this->assertRedirect('/login');
+        $this->assertRedirectContains('/login');
     }
 
     public function testThreadLineForbidden()
     {
         $this->_loginUser(3);
         $this->get('/entries/threadLine/6.json');
-        $this->assertRedirect('/login');
+        $this->assertRedirectContains('/login');
     }
 
     public function testThreadLineSucces()

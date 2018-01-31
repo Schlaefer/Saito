@@ -90,7 +90,7 @@ class UserIgnoreTest extends SaitoTableTestCase
             [
                 'user_id' => 1,
                 'blocked_user_id' => 3,
-                'timestamp' => bDate(time() - $duration)
+                'timestamp' => bDate(time() - $duration + 1)
             ],
         ];
         $entities = $this->Table->newEntities($data);
@@ -99,7 +99,7 @@ class UserIgnoreTest extends SaitoTableTestCase
         }
         $this->Table->removeOld();
         $result = $this->Table->getAllIgnoredBy(1);
-        $this->assertEquals(1, $result->count());
+        $this->assertEquals(1, count($result->toArray()));
         $this->assertEquals($result->first()->get('id'), '3');
     }
 

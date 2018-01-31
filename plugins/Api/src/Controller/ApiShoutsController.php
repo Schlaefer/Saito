@@ -31,7 +31,7 @@ class ApiShoutsController extends ApiAppController
      */
     public function shoutsPost()
     {
-        $this->autoLayout = false;
+        $this->viewBuilder()->enableAutoLayout(false);
         if (!isset($this->request->data['text'])) {
             throw new BadRequestException('Missing text.');
         }
@@ -41,7 +41,7 @@ class ApiShoutsController extends ApiAppController
         ];
         if ($this->pushShout($data)) {
             $this->set('shouts', $this->getShouts());
-            $this->view = 'Api.shouts_get';
+            $this->viewBuilder()->setTemplate('Api.shouts_get');
         } else {
             throw new BadRequestException(
                 'Tried to save entry but failed for unknown reason.'

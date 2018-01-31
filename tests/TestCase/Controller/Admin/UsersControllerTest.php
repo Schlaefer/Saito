@@ -50,8 +50,9 @@ class UsersControllerTest extends IntegrationTestCase
         /*
          *  not logged in can't delete
          */
-        $this->get('/admin/users/delete/3');
-        $this->assertRedirect('login');
+        $url = '/admin/users/delete/3';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
         $this->assertTrue($this->_controller->Users->exists(3));
 
         /*

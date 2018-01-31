@@ -450,8 +450,9 @@ class UsersControllerTestCase extends IntegrationTestCase
 
     public function testSetcategoryNotLoggedIn()
     {
-        $this->get('/users/setcategory/all');
-        $this->assertRedirect('/login');
+        $url = '/users/setcategory/all';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testSetcategoryAll()
@@ -590,8 +591,9 @@ class UsersControllerTestCase extends IntegrationTestCase
 
     public function testViewProfileForbiddenForAnon()
     {
-        $this->get('/users/view/1');
-        $this->assertRedirect('/login');
+        $url = '/users/view/1';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testViewProfileDoesNotExist()
@@ -692,8 +694,9 @@ class UsersControllerTestCase extends IntegrationTestCase
 
     public function testMapsNotLoggedIn()
     {
-        $this->get('/users/map');
-        $this->assertRedirect('/login');
+        $url = '/users/map';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testName()
@@ -705,8 +708,9 @@ class UsersControllerTestCase extends IntegrationTestCase
 
     public function testEditNotLoggedIn()
     {
-        $this->get('/users/edit/3');
-        $this->assertRedirect('/login');
+        $url = '/users/edit/3';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testEditNotUsersEntryGet()
@@ -752,8 +756,9 @@ class UsersControllerTestCase extends IntegrationTestCase
 
     public function testIndex()
     {
-        $this->get('/users/index');
-        $this->assertRedirect('/login');
+        $url = '/users/index';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
 
         $this->_loginUser(1);
         $this->get('/users/index');
@@ -790,7 +795,7 @@ class UsersControllerTestCase extends IntegrationTestCase
 
         /* not logged in should'nt be allowed */
         $this->post('/users/lock', ['lockUserId' => 3]);
-        $this->assertRedirect('/login');
+        $this->assertRedirectContains('/login');
 
         // user can't lock other users
         $this->_loginUser(3);
@@ -857,7 +862,7 @@ class UsersControllerTestCase extends IntegrationTestCase
     public function testChangePasswordNotLoggedIn()
     {
         $this->get('/users/changepassword/5');
-        $this->assertRedirect('login');
+        $this->assertRedirectContains('/login');
     }
 
     public function testChangePasswordWrongUser()

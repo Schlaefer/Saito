@@ -23,7 +23,7 @@ class ApiCoreController extends ApiAppController
         }
 
         // available categories
-        $this->layout = 'mobile';
+        $this->viewBuilder()->setLayout('mobile');
         $this->Categories = TableRegistry::get('Categories');
         $categories = $this->CurrentUser->Categories->getAll('read');
         $categories = $this->Categories->find('all')

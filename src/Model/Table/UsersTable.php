@@ -809,7 +809,7 @@ class UsersTable extends AppTable
         $User = $this->find()->select(['id' => $userId])->first();
         if (!$User) {
             throw new \InvalidArgumentException(
-                "Can't find user with id $userId. 1420807691"
+                "Can't find user with id $userId.", 1420807691
             );
         }
 

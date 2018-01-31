@@ -213,7 +213,7 @@ Plugin::loadAll(
 		'Bookmarks' => ['bootstrap' => true, 'routes' => true],
             // @todo 3.0
 			// 'M' => ['bootstrap' => true, 'routes' => true],
-        'Proffer' => ['bootstrap' => true],
+        'Proffer',
 		'SaitoHelp' => ['routes' => true],
 		'Sitemap' => ['bootstrap' => true, 'routes' => true]
 	]

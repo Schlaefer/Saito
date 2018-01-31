@@ -113,9 +113,8 @@ class ApiUsersController extends ApiAppController
                     )
                 );
             }
-            $isServerTimestampNewer =
-                $this->CurrentUser->get('last_refresh_unix') > $timestamp;
-            if ($isServerTimestampNewer === false) {
+            $isNewer = $this->CurrentUser->LastRefresh->isNewerThan($timestamp);
+            if (!$isNewer) {
                 $this->CurrentUser->LastRefresh->set(
                     date("Y-m-d H:i:s", $timestamp)
                 );

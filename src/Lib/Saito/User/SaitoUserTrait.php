@@ -4,7 +4,7 @@ namespace Saito\User;
 
 use App\Model\Entity\User;
 use Cake\Core\Exception\Exception;
-use Carbon\Carbon;
+use Cake\I18n\Time;
 use Saito\App\Registry;
 
 /**
@@ -63,7 +63,7 @@ trait SaitoUserTrait
 
         // perf-cheat
         if (array_key_exists('last_refresh', $this->_settings)) {
-            if ($this->_settings['last_refresh'] instanceof Carbon) {
+            if ($this->_settings['last_refresh'] instanceof Time) {
                 $timestamp = $this->_settings['last_refresh']->timestamp;
             } else {
                 $timestamp = strtotime($this->_settings['last_refresh']);

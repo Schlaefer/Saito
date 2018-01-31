@@ -20,7 +20,7 @@ class ToolsController extends AppController
      */
     public function testJs()
     {
-        $this->autoLayout = false;
+        $this->viewBuilder()->enableAutoLayout(false);
     }
 
     /**
