@@ -67,7 +67,7 @@
       <?php if (!empty($omittedWords)): ?>
         <p class="infoText">
           <?=
-            h(String::insert(__('search.tooShort'),
+            h(CakeText::insert(__('search.tooShort'),
               [
                 'omittedWords' => $omittedWords,
                 'minChars' => $minChars

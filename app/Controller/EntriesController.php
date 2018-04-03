@@ -954,7 +954,7 @@
 				$template =	__(':subject (:type) | :category');
 			}
 			$this->set('title_for_layout',
-					String::insert($template,
+					CakeText::insert($template,
 							[
 									'category' => $entry['Category']['category'],
 									'subject' => $entry['Entry']['subject'],

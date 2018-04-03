@@ -23,24 +23,6 @@
 		);
 
 		public function testSetOnline() {
-			//* argument id test
-			$result = false;
-			try {
-				$this->UserOnline->setOnline('');
-			} catch (Exception $exc) {
-				$result = true;
-			}
-			$this->assertTrue($result);
-
-			//* argument loggedIn test
-			$result = false;
-			try {
-				$this->UserOnline->setOnline(5);
-			} catch (Exception $exc) {
-				$result = true;
-			}
-			$this->assertTrue($result);
-
 			//* insert registered user
 			$_userId = 5;
 			$this->_startUsersOnline[0]['UserOnline'] = [

@@ -259,7 +259,7 @@
 		protected function _setForumTitle($pageTitle, $forumName) {
 			$_forumTitle = $pageTitle;
 			if (!empty($forumName)) {
-				$_forumTitle = String::insert(__('forum-title-template'),
+				$_forumTitle = CakeText::insert(__('forum-title-template'),
 						['page' => $pageTitle, 'forum' => $forumName]);
 			}
 			$this->set('title_for_layout', $_forumTitle);

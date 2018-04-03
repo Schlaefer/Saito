@@ -823,8 +823,13 @@
 		}
 
 		public function testThreadLineAnon() {
-			$this->testAction('/entries/threadLine/1.json');
-			$this->assertRedirectedTo('login');
+			$Entries = $this->generate(
+				'Entries',
+				['components' => ['Auth' => ['_stop']]]
+			);
+			$Entries->Auth->expects($this->once())->method('_stop');
+			$result = $this->testAction('/entries/threadLine/1.json');
+			// $this->assertRedirectedTo('login');
 		}
 
 		public function testThreadLineForbidden() {
@@ -935,6 +940,10 @@
 		}
 
 		public function testSeo() {
+			$config = Configure::read('App');
+			$config['baseUrl'] = '/';
+			Configure::write('App', $config);
+
 			$result = $this->testAction('/entries/index',
 				['method' => 'GET', 'return' => 'contents']);
 			$this->assertTextNotContains('noindex', $result);

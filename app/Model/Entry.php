@@ -82,11 +82,11 @@
 
 		public $validate = [
 				'subject' => [
-						'notEmpty' => ['rule' => 'notEmpty'],
+						'notEmpty' => ['rule' => 'notBlank'],
 						'maxLength' => ['rule' => 'validateSubjectMaxLength']
 				],
 				'category_id' => [
-						'notEmpty' => ['rule' => 'notEmpty'],
+						'notEmpty' => ['rule' => 'notBlank'],
 						'numeric' => ['rule' => 'numeric'],
 						'isAllowed' => ['rule' => 'validateCategoryIsAllowed']
 				],
@@ -772,7 +772,7 @@
 			if ($tree === null) {
 				$tree = & $leafs;
 			}
-			foreach ($leafs as &$leaf):
+			foreach ($leafs as $leaf):
 				$result = $func($tree, $leaf, $context);
 				if ($result === 'break') {
 					return 'break';
