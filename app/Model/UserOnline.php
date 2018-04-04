@@ -40,9 +40,12 @@
  * @param boolean $loggedIn user is logged-in
  * @throws InvalidArgumentException
  */
-		public function setOnline($id, bool $loggedIn) {
+		public function setOnline($id, $loggedIn) {
 			if (empty($id)) {
 				throw new InvalidArgumentException('Invalid Argument $id in setOnline()');
+			}
+			if (!is_bool($loggedIn)) {
+				throw new InvalidArgumentException('Invalid Argument $logged_in in setOnline()');
 			}
 			$now = time();
 

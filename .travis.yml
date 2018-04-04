@@ -10,8 +10,7 @@ cache:
    - $HOME/.composer/cache
 
 php:
-  - 7.1
-  - 7.2
+  - 5.6 
 
 env:
   matrix:
