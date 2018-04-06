@@ -21,7 +21,7 @@
     "vendor-dir": "Vendor/"
   },
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=5.6.0",
     "ext-mcrypt": "*",
     "markstory/geshi": "0.3.*",
     "cakephp/cakephp": "2.10.x",
