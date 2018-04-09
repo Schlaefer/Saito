@@ -23,7 +23,7 @@
 			'By' => [
 				'className' => 'User',
 				'fields' => ['id', 'username'],
-				'foreignKey' => 'by'
+				'foreignKey' => 'blocked_by_user_id'
 			]
 		];
 

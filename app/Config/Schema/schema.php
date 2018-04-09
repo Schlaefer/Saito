@@ -159,7 +159,7 @@ class AppSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'index'),
 		'reason' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'by' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => true),
+		'blocked_by_user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => true),
 		'ends' => array('type' => 'datetime', 'null' => true, 'default' => null, 'key' => 'index'),
 		'ended' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'hash' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
