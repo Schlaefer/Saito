@@ -452,19 +452,21 @@ class EntriesTest extends SaitoTableTestCase
 
     public function testIsRoot()
     {
-        $this->markTestIncomplete();
-        $result = $this->Table->isRoot(8);
+        $isRoot = new \ReflectionMethod($this->Table, '_isRoot');
+        $isRoot->setAccessible(true);
+
+        $result = $isRoot->invoke($this->Table, ['id' => 8]);
         $this->assertFalse($result);
 
-        $result = $this->Table->isRoot(4);
+        $result = $isRoot->invoke($this->Table, ['id' => 4]);
         $this->assertTrue($result);
 
         $posting = ['pid' => 0];
-        $result = $this->Table->isRoot($posting);
+        $result = $isRoot->invoke($this->Table, $posting);
         $this->assertTrue($result);
 
-        $entry = ['pid' => 1];
-        $result = $this->Table->isRoot($entry);
+        $posting = ['pid' => 1];
+        $result = $isRoot->invoke($this->Table, $posting);
         $this->assertFalse($result);
     }
 
