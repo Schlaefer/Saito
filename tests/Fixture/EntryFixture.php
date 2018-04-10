@@ -59,6 +59,7 @@ class EntryFixture extends TestFixture
         ],
         'last_answer' => [
             'type' => 'timestamp',
+            'null' => true,
             'default' => null,
             'collate' => null,
             'comment' => ''
