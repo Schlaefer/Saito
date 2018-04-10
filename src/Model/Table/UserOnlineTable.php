@@ -71,7 +71,7 @@ class UserOnlineTable extends Table
     {
         if (empty($id)) {
             throw new \InvalidArgumentException(
-                sprintf('Invalid Argument $id in setOnline(): %s', $id) 
+                sprintf('Invalid Argument $id in setOnline(): %s', $id)
             );
         }
         if (!is_bool($loggedIn)) {

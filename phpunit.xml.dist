@@ -34,15 +34,24 @@
 		</testsuite>
 	</testsuites>
 
-	<!-- Setup a listener for fixtures -->
-	<listeners>
-		<listener
-		class="\Cake\TestSuite\Fixture\FixtureInjector"
-		file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
-			<arguments>
-				<object class="\Cake\TestSuite\Fixture\FixtureManager" />
-			</arguments>
-		</listener>
-	</listeners>
+
+    <!-- Setup a listener for fixtures -->
+    <listeners>
+        <listener
+        class="\Cake\TestSuite\Fixture\FixtureInjector"
+        file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
+            <arguments>
+                <object class="\Cake\TestSuite\Fixture\FixtureManager" />
+            </arguments>
+        </listener>
+    </listeners>
+
+    <!-- Ignore vendor tests in code coverage reports -->
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src/</directory>
+            <directory suffix=".php">./plugins/*/src/</directory>
+        </whitelist>
+    </filter>
 
 </phpunit>

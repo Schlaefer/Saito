@@ -62,6 +62,7 @@ class AppControllerTest extends IntegrationTestCase
 
     public function testLocalReferer()
     {
+        $this->markTestIncomplete('@td 3');
         $this->get('/entries/index');
 
         $baseUrl = 'http://cakephp.org/';

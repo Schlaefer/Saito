@@ -75,11 +75,10 @@ class CategoriesTable extends AppSettingTable
         return $this->rememberStatic(
             $key,
             function () use ($key) {
-                $categories = $this->find('all')
+                return $this->find('all')
                     ->cache($key)
                     ->order(['category_order' => 'ASC'])
                     ->all();
-                return $categories;
             }
         );
     }
