@@ -6,13 +6,6 @@
 class UserReadFixture extends CakeTestFixture {
 
 /**
- * Table name
- *
- * @var string
- */
-	public $table = 'user_read';
-
-/**
  * Fields
  *
  * @var array
