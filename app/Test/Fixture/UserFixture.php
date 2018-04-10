@@ -26,7 +26,7 @@
 			'user_lock' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 			'activate_code' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 7, 'unsigned' => false),
 			'user_signatures_hide' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-			'user_signatures_images_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
+			'user_signatures_images_hide' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 			'user_forum_refresh_time' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false),
 			'user_automaticaly_mark_as_read' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 			'user_sort_last_answer' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
