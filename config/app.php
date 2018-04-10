@@ -368,8 +368,4 @@ $config['Cache'] = [
     ]
 ];
 
-if (php_sapi_name() !== 'cli') {
-    $config['Datasources']['default']['port'] = 4444;
-}
-
 return $config;
