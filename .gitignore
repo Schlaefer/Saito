@@ -7,7 +7,6 @@
 /webroot/dev/bower_components
 
 ### CakePHP 3 ###
-/bin
 /logs
 /tmp
 /vendor
