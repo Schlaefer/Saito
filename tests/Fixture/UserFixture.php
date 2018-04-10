@@ -147,11 +147,9 @@ class UserFixture extends TestFixture
             'default' => '0'
         ],
         'user_signatures_images_hide' => [
-            'type' => 'integer',
-            'null' => true,
-            'default' => '0',
-            'length' => 4,
-            'unsigned' => false
+            'type' => 'boolean',
+            'null' => false,
+            'default' => '0'
         ],
         'user_forum_refresh_time' => [
             'type' => 'integer',
