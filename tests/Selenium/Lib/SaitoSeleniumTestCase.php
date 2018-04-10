@@ -38,10 +38,10 @@ class CakeTestCaseDummy extends CakeTestCase
 class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 
-    public static $browsers = array(
+    public static $browsers = [
 //			array( 'name' 		=> 'Firefox', 'browser'	=> '*firefox'),
-        array('name' => 'Google Chrome', 'browser' => '*googlechrome'),
-    );
+        ['name' => 'Google Chrome', 'browser' => '*googlechrome'],
+    ];
 
     public static $setBrowserUrl = "http://localhost/private/personal_projects/macnemo_2_github/";
 
@@ -61,7 +61,7 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * @var array CakePHP fixtures
      */
-    public $fixtures = array(
+    public $fixtures = [
         'app.bookmark',
         'app.user',
         'app.user_online',
@@ -74,7 +74,7 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
         'app.upload',
         'app.esevent',
         'app.esnotification'
-    );
+    ];
 
     public function setUp()
     {
@@ -97,43 +97,43 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->_fixtureManager->shutDown();
     }
 
-    protected function login($test_case = null)
+    protected function login($testCase = null)
     {
-        if ($test_case === null) {
-            $test_case = $this;
+        if ($testCase === null) {
+            $testCase = $this;
         }
-        $test_case->open();
-        $test_case->waitForPageToLoad();
-        $test_case->assertEquals(
+        $testCase->open();
+        $testCase->waitForPageToLoad();
+        $testCase->assertEquals(
             "0",
-            $test_case->getElementHeight("modalLoginDialog")
+            $testCase->getElementHeight("modalLoginDialog")
         );
-        $test_case->click("showLoginForm");
-        $test_case->waitForPageToLoad("");
-        $test_case->assertNotEquals(
+        $testCase->click("showLoginForm");
+        $testCase->waitForPageToLoad("");
+        $testCase->assertNotEquals(
             "0",
-            $test_case->getElementHeight("modalLoginDialog")
+            $testCase->getElementHeight("modalLoginDialog")
         );
-        $test_case->type("tf-login-username", self::$userName);
-        $test_case->type("UserPassword", self::$userPassword);
-        $test_case->click("//input[@value='Login']");
-        $test_case->waitForPageToLoad();
-        $test_case->assertNotEquals(
+        $testCase->type("tf-login-username", self::$userName);
+        $testCase->type("UserPassword", self::$userPassword);
+        $testCase->click("//input[@value='Login']");
+        $testCase->waitForPageToLoad();
+        $testCase->assertNotEquals(
             "SaitoPersistent[AU]",
-            $test_case->getCookie()
+            $testCase->getCookie()
         );
     }
 
-    protected function logout($test_case = null)
+    protected function logout($testCase = null)
     {
-        if ($test_case === null) {
-            $test_case = $this;
+        if ($testCase === null) {
+            $testCase = $this;
         }
 
-        $test_case->assertTrue($test_case->isElementPresent("btn_logout"));
-        $test_case->click("btn_logout");
-        $test_case->waitForPageToLoad();
-        $test_case->assertFalse($test_case->isElementPresent("btn_logout"));
+        $testCase->assertTrue($testCase->isElementPresent("btn_logout"));
+        $testCase->click("btn_logout");
+        $testCase->waitForPageToLoad();
+        $testCase->assertFalse($testCase->isElementPresent("btn_logout"));
     }
 
     public function waitForPageToLoad($arg = "30000")
@@ -159,7 +159,6 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         sleep(2);
     }
-
 }
 
 class SaitoTestThread
@@ -214,10 +213,9 @@ class SaitoTestThread
             $this->_testCase->getTitle()
         );
     }
-
 }
 
-Class SaitoTestPosting
+class SaitoTestPosting
 {
     protected $_id = null;
     protected $_parent = null;
@@ -280,7 +278,7 @@ Class SaitoTestPosting
         // try to answer to posting
         $this->_testCase->click("forum_answer_" . $this->_id);
         // waitForElementPresent ajax call
-        for ($second = 0; ; $second++) {
+        for ($second = 0;; $second++) {
             if ($second >= 60) {
                 $this->_testCase->fail("timeout");
             }

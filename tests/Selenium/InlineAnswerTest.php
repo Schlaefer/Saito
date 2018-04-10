@@ -41,7 +41,7 @@ class InlineAnswerTest extends SaitoSeleniumTestCase
         // click answering close button
         $this->click("css=.threadLeaf[data-id={$id}] .btn-answeringClose");
         // wait for answering form to be closed
-        for ($second = 0; ; $second++) {
+        for ($second = 0;; $second++) {
             if ($second >= 60) {
                 $this->fail("timeout");
             }
@@ -72,7 +72,6 @@ class InlineAnswerTest extends SaitoSeleniumTestCase
 
     protected function _createNewInlineAnswer($parentId)
     {
-
         $this->_openThreadline($parentId);
 
         // footer in posting is visible
@@ -86,7 +85,7 @@ class InlineAnswerTest extends SaitoSeleniumTestCase
         $this->_openAnswerForm($parentId);
 
         // wait for answering form to be shown
-        for ($second = 0; ; $second++) {
+        for ($second = 0;; $second++) {
             if ($second >= 60) {
                 $this->fail("timeout");
             }

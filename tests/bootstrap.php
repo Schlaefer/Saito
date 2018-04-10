@@ -13,4 +13,5 @@ $_SERVER['PHP_SELF'] = '/';
 
 // otherwise Security mock fails with debug info
 use Cake\Core\Configure;
+
 Configure::write('debug', true);
