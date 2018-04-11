@@ -37,22 +37,21 @@ class PostingHelper extends AppHelper
      * get paginated index
      *
      * @param int $tid tid
-     * @param string $lastAction last action
+     * @param null|string $lastAction last action
      * @return string
      */
-    public function getPaginatedIndexPageId($tid, $lastAction)
+    public function getPaginatedIndexPageId(int $tid, ?string $lastAction = null): string
     {
-        $indexPage = '/entries/index';
-
+        $params = [];
         if ($lastAction !== 'add') {
             $session = $this->request->session();
             if ($session->read('paginator.lastPage')) {
-                $indexPage .= '/page:' . $session->read('paginator.lastPage');
+                $params[] = 'page=' . $session->read('paginator.lastPage');
             }
         }
-        $indexPage .= '/jump:' . $tid;
+        $params[] = 'jump=' . $tid;
 
-        return $indexPage;
+        return '/?' . implode('&', $params);
     }
 
     /**

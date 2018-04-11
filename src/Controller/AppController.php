@@ -51,6 +51,8 @@ class AppController extends Controller
         Stopwatch::start('------------------- Controller -------------------');
         Registry::initialize();
 
+        parent::initialize();
+
         if (!$this->request->is('requested')) {
             $this->request->session()->start();
         }
@@ -138,8 +140,6 @@ class AppController extends Controller
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
 
         $this->set('showDisclaimer', $this->showDisclaimer);
-        $this->set('lastAction', $this->localReferer('action'));
-        $this->set('lastController', $this->localReferer('controller'));
         $this->set('isDebug', (int)Configure::read('debug') > 0);
 
         Stopwatch::stop('App->beforeRender()');
@@ -193,29 +193,6 @@ class AppController extends Controller
             $type,
             ['CurrentUser' => $this->CurrentUser]
         );
-    }
-
-    /**
-     * Custom referer which can return only referer's action or controller
-     *
-     * @param string $type 'controller' or 'action'
-     * @return string
-     */
-    public function localReferer($type = null)
-    {
-        $referer = parent::referer(null, true);
-        $parsed = Router::parse($referer);
-        if (isset($parsed[$type])) {
-            return $parsed[$type];
-        } else {
-            if ($type === 'action') {
-                return 'index';
-            } elseif ($type === 'controller') {
-                return 'entries';
-            }
-        }
-
-        return $referer;
     }
 
     /**

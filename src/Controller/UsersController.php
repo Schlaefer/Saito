@@ -30,6 +30,15 @@ class UsersController extends AppController
     ];
 
     /**
+     * {@inheritDoc}
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Referer');
+    }
+
+    /**
      * Login user.
      *
      * @return void|\Cake\Network\Response
@@ -45,7 +54,7 @@ class UsersController extends AppController
 
         //= successful login with request data
         if ($this->CurrentUser->login()) {
-            if ($this->localReferer('action') === 'login') {
+            if ($this->Referer->wasAction('login')) {
                 return $this->redirect($this->Auth->redirectUrl());
             } else {
                 return $this->redirect($this->referer());

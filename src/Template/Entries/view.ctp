@@ -6,7 +6,10 @@ Stopwatch::start('view.ctp');
 // subnav left
 $this->start('headerSubnavLeft');
 echo $this->Layout->navbarBack(
-    $this->Posting->getPaginatedIndexPageId($entry->get('tid'), $lastAction),
+    $this->Posting->getPaginatedIndexPageId(
+        $entry->get('tid'),
+        $referer['action'] ?? null
+    ),
     __('back_to_forum_linkname'),
     ['rel' => 'nofollow']
 );

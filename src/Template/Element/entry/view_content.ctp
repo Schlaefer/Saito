@@ -1,7 +1,6 @@
 <?php
 use Cake\Core\Configure;
 
-SDV($lastAction, null);
 SDV($signature, false);
 $schemaMeta = [];
 ?>

@@ -52,6 +52,7 @@ class EntriesController extends AppController
     public function initialize()
     {
         parent::initialize();
+        $this->loadComponent('Referer');
         $this->loadComponent('MarkAsRead');
         $this->loadComponent('Threads');
     }
@@ -77,7 +78,7 @@ class EntriesController extends AppController
         $this->set('entries', $threads);
 
         $currentPage = (int)$this->request->query('page') ?: 1;
-        if ((int)$currentPage > 1) {
+        if ($currentPage > 1) {
             $this->set('titleForLayout', __('page') . ' ' . $currentPage);
         }
         if ($currentPage === 1) {
@@ -290,7 +291,7 @@ class EntriesController extends AppController
                 $tid = $posting->get('tid');
 
                 if ($this->request->is('ajax')) {
-                    if ($this->localReferer('action') === 'index') {
+                    if ($this->Referer->wasAction('index')) {
                         //= inline answer
                         $json = json_encode(
                             ['id' => $id, 'pid' => $pid, 'tid' => $id]
@@ -303,7 +304,7 @@ class EntriesController extends AppController
                 } else {
                     //= answering through POST request
                     $url = ['controller' => 'entries'];
-                    if ($this->localReferer('action') === 'mix') {
+                    if ($this->Referer->wasAction('mix')) {
                         //= answer came from mix-view
                         $url += ['action' => 'mix', $tid, '#' => $id];
                     } else {
@@ -862,8 +863,8 @@ class EntriesController extends AppController
                 // … directly in entries/mix
                 || $this->request->action === 'mix'
                 // … inline viewing … on entries/index.
-                || ($this->localReferer('controller') === 'entries'
-                    && $this->localReferer('action') === 'index')
+                || ($this->Referer->wasController('entries')
+                    && $this->Referer->wasAction('index'))
             ) {
                 $showAnsweringPanel = true;
             }

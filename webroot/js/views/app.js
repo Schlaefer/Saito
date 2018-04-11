@@ -71,15 +71,21 @@ define([
       this._showPage(options.SaitoApp.timeAppStart, options.contentTimer);
       App.eventBus.trigger('notification', options.SaitoApp);
 
-      // scroll to thread
-      if (window.location.href.indexOf('/jump:') > -1) {
-        var results = /jump:(\d+)/.exec(window.location.href);
-        this.scrollToThread(results[1]);
-        window.history.replaceState(
-            'object or string',
-            'Title',
-            window.location.pathname.replace(/jump:\d+(\/)?/, '')
-        );
+      /**
+       * Scroll to thread on entries/index if indicated by URL jump parameter
+       */
+      if (window.location.href.indexOf('jump=') > -1) {
+        var url = window.location.href;
+        var jumpTarget = /[\?\&]jump=(\d+)/.exec(url);
+        try {
+          this.scrollToThread(jumpTarget[1]);
+        }
+        catch (error) {
+        }
+        finally {
+          var newLocation = url.replace(/[\?\&]jump=\d+/, '');
+          window.history.replaceState(null, null, newLocation);
+        }
       }
     },
 

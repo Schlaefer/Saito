@@ -48,7 +48,7 @@ class ThreadsComponentTest extends SaitoTestCase
 
     public function tearDown()
     {
-        unset($this->component);
+        unset($this->component, $this->controller);
         parent::tearDown();
     }
 

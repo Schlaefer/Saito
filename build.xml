@@ -61,14 +61,20 @@
 
     <target name="tests">
         <echo msg="Running tests…"/>
-        <echo msg="Running phpcs on PHP files…"/>
-        <exec command="vendor/bin/phpcs -p --ignore=webroot --warning-severity=5 --standard=tests/ruleset-templates.xml --report=full src/ tests/
-" passthru="true" logoutput="true"/>
-        <echo msg="Running phpcs on template files…"/>
-        <exec command="vendor/bin/phpcs -p --extensions=ctp --ignore=webroot --warning-severity=5 --standard=tests/ruleset-templates.xml --report=full ./src/
-" passthru="true" logoutput="true"/>
+        <phingcall target="phpunit"/>
+        <phingcall target="phpcs"/>
+    </target>
+    <target name="phpunit">
         <echo msg="Running phpunit…"/>
         <exec command="vendor/bin/phpunit --stderr" passthru="true" logoutput="true"/>
+    </target>
+    <target name="phpcs">
+        <echo msg="Running phpcs on PHP files…"/>
+        <exec command="vendor/bin/phpcs --colors -p --ignore=webroot --warning-severity=5 --standard=tests/ruleset-templates.xml --report=full ./src/ ./tests 
+" passthru="true" logoutput="true"/>
+        <echo msg="Running phpcs on template files…"/>
+        <exec command="vendor/bin/phpcs --colors -p --extensions=ctp --ignore=webroot --warning-severity=5 --standard=tests/ruleset-templates.xml --report=full ./src/
+" passthru="true" logoutput="true"/>
     </target>
 
 </project>
