@@ -1,19 +1,30 @@
 <?php
 
-	namespace Sitemap\View\Helper;
+namespace Sitemap\View\Helper;
 
-	use Cake\View\Helper;
+use Cake\View\Helper;
 
-	class SitemapHelper extends Helper {
+class SitemapHelper extends Helper
+{
+    public $helpers = ['Url'];
 
-		public $helpers = ['Url'];
+    /**
+     * Get sitemap-URL
+     *
+     * @return string
+     */
+    public function sitemapUrl()
+    {
+        return $this->baseUrl() . 'sitemap.xml';
+    }
 
-		public function sitemapUrl() {
-			return $this->baseUrl() . 'sitemap.xml';
-		}
-
-		public function baseUrl() {
-			return $this->Url->build('/', true);
-		}
-
-	}
+    /**
+     * Get base-URL
+     *
+     * @return string
+     */
+    public function baseUrl()
+    {
+        return $this->Url->build('/', true);
+    }
+}

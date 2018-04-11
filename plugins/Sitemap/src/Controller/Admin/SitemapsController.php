@@ -1,13 +1,17 @@
 <?php
-	namespace Sitemap\Controller\Admin;
 
-	use App\Controller\AppController;
+namespace Sitemap\Controller\Admin;
 
-	class SitemapsController extends AppController
-	{
+use App\Controller\AppController;
 
-		public function index() {
-
-		}
-
-	}
+class SitemapsController extends AppController
+{
+    /**
+     * Sitemap Admin Index
+     *
+     * @return void
+     */
+    public function index()
+    {
+    }
+}
