@@ -84,7 +84,7 @@ body.headerClosed {
     display: none;
   }
 
-  header {
+  header#site-header {
     margin-left: -2*$padding;
     margin-right: -2*$padding;
     position: -webkit-sticky;

@@ -9,7 +9,7 @@ define(['jquery', 'underscore', 'marionette', 'app/core'],
       var HeaderView = Marionette.ItemView.extend({
         events: {
           'click #js-top-menu-open': '_topMenuOpen',
-          'click #js-top-menu-close': '_topMenuOpen'
+          'click #js-top-menu-close': '_topMenuClose'
         },
 
         _topMenuClose: function(event) {
