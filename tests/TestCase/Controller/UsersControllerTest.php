@@ -166,22 +166,6 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->assertResponseContains('is locked.');
     }
 
-    public function testLogout()
-    {
-        $this->markTestIncomplete();
-        $this->_loginUser(3);
-        $this->get('/users/logout');
-        $tags = [
-            'meta[http-equiv="refresh"]' => [
-                'attributes' => [
-                    'http-equiv' => 'refresh',
-                    'content' => '1; '
-                ]
-            ]
-        ];
-        $this->assertResponseContainsTags($tags);
-    }
-
     public function testRegisterEmailFailed()
     {
         $this->mockSecurity();

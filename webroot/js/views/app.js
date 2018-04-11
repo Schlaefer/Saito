@@ -118,6 +118,9 @@ define([
 
     _initLogout: function() {
       App.commands.execute('app:localStorage:clear');
+      _.defer(function() {
+        window.redirect(App.settings.get('webroot'));
+      });
     },
 
     _initPostings: function(elements) {
