@@ -8,8 +8,10 @@
     <!-- <arg name="severity" value="8"/> -->
 
     <file>./plugins</file>
-    <!-- <file>./src</file> -->
-    <!-- <file>./tests</file> -->
+    <exclude-pattern>./plugins/FileUpload/*</exclude-pattern>
+    <file>./src</file>
+    <file>./tests</file>
+
 
     <rule ref="vendor/cakephp/cakephp-codesniffer/CakePHP">
     </rule>

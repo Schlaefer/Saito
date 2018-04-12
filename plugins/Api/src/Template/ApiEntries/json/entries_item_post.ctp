@@ -1,2 +1,2 @@
 <?php
-	echo $this->element('Api.entry', ['entry' => $entry]);
+    echo $this->element('Api.entry', ['entry' => $entry]);
