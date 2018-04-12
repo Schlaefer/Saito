@@ -1668,3 +1668,15 @@ msgstr "Search \":string\""
 
 #~ msgid "block_user_ui"
 #~ msgstr "Lock Users"
+
+msgid "user.avatar.error.dimension"
+msgstr "Avatar image is to big or to small. Use an image between {0} and {1}."
+
+msgid "user.avatar.error.mime"
+msgstr "Not the correct mime type."
+
+msgid "user.avatar.error.extension"
+msgstr "Invalid file extension. Use: {0}."
+
+msgid "user.avatar.error.size"
+msgstr "File is to big. Max file size is: {0}."

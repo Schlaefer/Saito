@@ -72,9 +72,9 @@ class UsersTable extends AppTable
         $this->addBehavior(
             'Proffer.Proffer',
             [
-                'avatar' => [ // The name of your upload field
+                'avatar' => [ // The name of your upload field (filename)
                     'root' => WWW_ROOT . 'useruploads',
-                    'dir' => 'avatar_dir',
+                    'dir' => 'avatar_dir', // field for upload directory
                     'thumbnailSizes' => [
                         'square' => ['w' => 100, 'h' => 100],
                     ],
@@ -137,30 +137,31 @@ class UsersTable extends AppTable
             ->allowEmpty('avatar')
             ->add(
                 'avatar',
-                'proffer',
-                ['rule' => ['filesize', 300000], 'provider' => 'proffer']
-            )
-            ->add(
-                'avatar',
-                'proffer',
+                'avatar-extension',
                 [
                     'rule' => ['extension', ['jpg', 'jpeg', 'png']],
-                    'message' => 'Invalid extension',
-                    'provider' => 'proffer'
+                    'message' => __('user.avatar.error.extension', ['jpg, jpeg, png'])
                 ]
             )
             ->add(
                 'avatar',
-                'proffer',
+                'avatar-size',
+                [
+                    'rule' => ['fileSize', 'isless', '3MB'],
+                    'message' => __('user.avatar.error.size', ['3'])
+                ]
+            )
+            ->add(
+                'avatar',
+                'avatar-mime',
                 [
                     'rule' => ['mimetype', ['image/jpeg', 'image/png']],
-                    'message' => 'Not the correct mime type',
-                    'provider' => 'proffer'
+                    'message' => __('user.avatar.error.mime')
                 ]
             )
             ->add(
                 'avatar',
-                'proffer',
+                'avatar-dimension',
                 [
                     'rule' => [
                         'dimensions',
@@ -169,7 +170,10 @@ class UsersTable extends AppTable
                             'max' => ['w' => 1500, 'h' => 1500]
                         ]
                     ],
-                    'message' => 'Image doesn\'t have the right dimensions. (100x100 - 1500-1500)',
+                    'message' => __(
+                        'user.avatar.error.dimension',
+                        ['100x100', '1500x1500']
+                    ),
                     'provider' => 'proffer'
                 ]
             );
