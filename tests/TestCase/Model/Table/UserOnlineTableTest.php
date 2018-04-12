@@ -27,13 +27,13 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
     public function testSetOnlineArgumentOneInvalid()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->Table->setOnline('', false);
     }
 
     public function testSetOnlineArgumentTwoInvalid()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->Table->setOnline(1, 'a');
     }
 

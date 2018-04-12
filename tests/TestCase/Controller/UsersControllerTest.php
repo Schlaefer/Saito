@@ -558,7 +558,7 @@ class UsersControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(3);
         $data = ['slidetabKey' => 'show_foo'];
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException'
         );
         $this->_setAjax();
@@ -699,7 +699,7 @@ class UsersControllerTestCase extends IntegrationTestCase
     public function testEditNotUsersEntryGet()
     {
         $this->_loginUser(3);
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->get('/users/edit/2');
     }
 
@@ -707,14 +707,14 @@ class UsersControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(3);
         $this->mockSecurity();
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->post('/users/edit/2', ['username' => 'foo']);
     }
 
     public function testEditNotModEntryGet()
     {
         $this->_loginUser(2);
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->get('/users/edit/3');
     }
 
@@ -722,7 +722,7 @@ class UsersControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(2);
         $this->mockSecurity();
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->post('/users/edit/3', ['username' => 'foo']);
     }
 
@@ -856,7 +856,7 @@ class UsersControllerTestCase extends IntegrationTestCase
             'password' => 'test_new',
             'password_confirm' => 'test_new',
         ];
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->post('/users/changepassword/1', $data);
@@ -865,7 +865,7 @@ class UsersControllerTestCase extends IntegrationTestCase
     public function testChangePasswordViewFormWrongUser()
     {
         $this->_loginUser(4);
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->get('/users/changepassword/5');
     }
 

@@ -31,7 +31,7 @@ class ApiAppControllerTest extends ApiIntegrationTestCase
     public function testApiDisabled()
     {
         Configure::write('Saito.Settings.api_enabled', '0');
-        $this->setExpectedException('Api\Error\Exception\ApiDisabledException');
+        $this->expectException('Api\Error\Exception\ApiDisabledException');
         $this->get($this->_apiRoot . 'bootstrap.json');
     }
 

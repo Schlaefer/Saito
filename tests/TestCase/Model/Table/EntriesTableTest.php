@@ -30,17 +30,6 @@ class EntriesTest extends SaitoTableTestCase
         'plugin.bookmarks.bookmark'
     ];
 
-    public function testBeforeValidate()
-    {
-        //* save entry with text
-        $entry['Entry'] = [
-            'user_id' => 3,
-            'subject' => 'Test Subject',
-            'Text' => 'Text Text',
-            'pid' => '2',
-        ];
-    }
-
     public function testCreateSuccessNewThread()
     {
         $category = 1;
@@ -493,7 +482,7 @@ class EntriesTest extends SaitoTableTestCase
 
     public function testGetThreadIdNotFound()
     {
-        $this->setExpectedException('\UnexpectedValueException');
+        $this->expectException('\UnexpectedValueException');
         $this->Table->getThreadId(999);
     }
 }

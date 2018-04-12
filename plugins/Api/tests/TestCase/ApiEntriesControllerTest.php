@@ -120,7 +120,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemPostEmptySubject()
     {
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             '\Api\Error\Exception\ApiValidationException',
             'Subject must not be empty.'
         );
@@ -136,7 +136,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemPostNotAllowed()
     {
         $this->_loginUser(3);
-        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->expectException('\Cake\Network\Exception\BadRequestException');
         $this->post(
             $this->_apiRoot . 'entries.json',
             ['subject' => 'subject', 'parent_id' => 0, 'category_id' => 1]
@@ -147,7 +147,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemPostNoCategoryProvided()
     {
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             '\Api\Error\Exception\ApiValidationException',
             'category_id'
         );
@@ -160,7 +160,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemPostCategoryValid()
     {
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             '\Api\Error\Exception\ApiValidationException',
             'category_id'
         );
@@ -189,7 +189,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemEntryIdMustBeProvided()
     {
         $this->_loginUser(1);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException',
             'Missing entry id.'
         );
@@ -199,7 +199,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemPutEntryMustExist()
     {
         $this->_loginUser(1);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\NotFoundException',
             'Entry with id `999` not found.'
         );
@@ -209,7 +209,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     public function testEntriesItemPutForbiddenTime()
     {
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\ForbiddenException',
             'The editing time ran out.'
         );
@@ -229,7 +229,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
         );
 
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\ForbiddenException',
             'The user `Ulysses` is not allowed to edit.'
         );
@@ -250,7 +250,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
         );
 
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\ForbiddenException',
             'Editing is forbidden for unknown reason.'
         );
@@ -315,7 +315,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
         $Postings->updateAll(['time' => bDate()], ['id' => $postingId]);
 
         $this->_loginUser(1);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException',
             'Tried to save entry but failed for unknown reason.'
         );
@@ -335,7 +335,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
 
     public function testThreadsItemGetThreadNotFound()
     {
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\NotFoundException',
             'Thread with id `2` not found.'
         );
@@ -389,7 +389,7 @@ EOF;
      */
     public function testThreadsItemGetNotLoggedInCategory()
     {
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\NotFoundException',
             'Thread with id `4` not found.'
         );
@@ -412,7 +412,7 @@ EOF;
      */
     public function testThreadsItemGetNotAdminAnonCategory()
     {
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\NotFoundException',
             'Thread with id `6` not found.'
         );
@@ -426,7 +426,7 @@ EOF;
     {
         $this->_loginUser(3);
 
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\NotFoundException',
             'Thread with id `6` not found.'
         );

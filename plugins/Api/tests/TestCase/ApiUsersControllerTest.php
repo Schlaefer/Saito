@@ -41,7 +41,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
 
     public function testLoginNoUsername()
     {
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException',
             null,
             1433238401
@@ -51,7 +51,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
 
     public function testLoginNoPassword()
     {
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException',
             null,
             1433238501
@@ -94,7 +94,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
             'remember_me' => '1'
         ];
 
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->post($this->_apiRoot . 'login', $data);
     }
 
@@ -118,7 +118,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
     {
         $this->_loginUser(3);
         $data = [];
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException',
             'User id is missing.'
         );
@@ -129,7 +129,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
     {
         $this->_loginUser(3);
         $data = ['id' => 1];
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->post($this->_apiRoot . 'markasread', $data);
     }
 

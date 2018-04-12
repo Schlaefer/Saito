@@ -74,7 +74,7 @@ class UsersTableTest extends SaitoTableTestCase
      */
     public function testSetCategorySingleNotExist()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->Table->setCategory(1, 'fwefwe');
     }
 
@@ -116,7 +116,7 @@ class UsersTableTest extends SaitoTableTestCase
      */
     public function testSetCategoryCustomNotExist()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $this->Table->setCategory(1, ['foo']);
     }
 
@@ -342,19 +342,19 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testActivateIdNotInt()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $this->Table->activate('stro', '123');
     }
 
     public function testActivateCodeNotString()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $this->Table->activate(123, 123);
     }
 
     public function testActivateUserNotFound()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $this->Table->activate(123, '123');
     }
 

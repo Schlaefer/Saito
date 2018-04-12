@@ -2,10 +2,10 @@
 
 namespace Saito\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Saito\DomainParser;
 
-class DomainParserTest extends PHPUnit_Framework_TestCase
+class DomainParserTest extends TestCase
 {
 
     public function testDomainAndTld()

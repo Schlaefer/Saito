@@ -235,7 +235,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
     public function testContactUserByUserNoId()
     {
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException'
         );
         $this->get('/contacts/user/');
@@ -268,7 +268,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
             '@td 3.0'
         );
         $this->_loginUser(2);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException'
         );
         $this->get('/contacts/user/5');
@@ -277,7 +277,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
     public function testContactUserWhoDoesNotExist()
     {
         $this->_loginUser(2);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException'
         );
         $this->get('/contacts/user/9999');

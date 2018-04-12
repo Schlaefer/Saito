@@ -65,7 +65,7 @@ class BookmarksControllerTest extends IntegrationTestCase
     public function testAddNoAjax()
     {
         $this->_loginUser(5);
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->disableCsrf();
@@ -76,7 +76,7 @@ class BookmarksControllerTest extends IntegrationTestCase
     {
         $this->_loginUser(5);
         $this->_setAjax();
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->get('/bookmarks/add');
@@ -107,7 +107,7 @@ class BookmarksControllerTest extends IntegrationTestCase
     public function testEditNotUsersBookmark()
     {
         $this->_loginUser(1);
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->get('/bookmarks/edit/1');
     }
 
@@ -147,7 +147,7 @@ class BookmarksControllerTest extends IntegrationTestCase
     public function testDeleteNoAjax()
     {
         $this->_loginUser(3);
-        $this->setExpectedException('\Cake\Network\Exception\BadRequestException');
+        $this->expectException('\Cake\Network\Exception\BadRequestException');
         $this->disableCsrf();
         $this->delete('/bookmarks/delete/1');
     }
@@ -158,7 +158,7 @@ class BookmarksControllerTest extends IntegrationTestCase
         $this->_loginUser(1);
         $this->mockSecurity();
 
-        $this->setExpectedException('Saito\Exception\SaitoForbiddenException');
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
         $this->delete('/bookmarks/delete/1');
     }
 

@@ -85,7 +85,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
 
     public function testShoutsGetNotLoggedIn()
     {
-        $this->setExpectedException('\Api\Error\Exception\ApiAuthException');
+        $this->expectException('\Api\Error\Exception\ApiAuthException');
         $this->get($this->_apiRoot . 'shouts.json');
     }
 
@@ -125,7 +125,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
     {
         $this->_loginUser(3);
 
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->post($this->_apiRoot . 'shouts.json');
@@ -133,7 +133,7 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
 
     public function testShoutsPostNotLoggedIn()
     {
-        $this->setExpectedException('\Api\Error\Exception\ApiAuthException');
+        $this->expectException('\Api\Error\Exception\ApiAuthException');
         $this->post($this->_apiRoot . 'shouts.json', ['text' => 'foo']);
     }
 }

@@ -88,7 +88,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testMixNotFound()
     {
-        $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Network\Exception\NotFoundException');
         $this->get('/entries/mix/9999');
     }
 
@@ -364,7 +364,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeleteWrongMethod()
     {
         $this->_loginUser(1);
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\MethodNotAllowedException'
         );
         $this->get('/entries/delete/1');
@@ -374,7 +374,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeleteNoId()
     {
         $this->_loginUser(1);
-        $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Network\Exception\NotFoundException');
         $this->mockSecurity();
         $this->post('/entries/delete');
     }
@@ -403,7 +403,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeletePostingDoesntExist()
     {
         $this->_loginUser(1);
-        $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Network\Exception\NotFoundException');
         $this->mockSecurity();
         $this->post('/entries/delete/9999');
     }
@@ -452,7 +452,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
         $this->_loginUser(2);
         $this->mockSecurity();
-        $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Network\Exception\NotFoundException');
         $this->post('/entries/merge/', ['targetId' => 2]);
     }
 
@@ -465,7 +465,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
         $this->_loginUser(2);
         $this->mockSecurity();
-        $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Network\Exception\NotFoundException');
         $this->post('/entries/merge/9999', ['targetId' => 2]);
     }
 
@@ -517,7 +517,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testEditNoEntry()
     {
         $this->_loginUser(2);
-        $this->setExpectedException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Network\Exception\NotFoundException');
         $this->get('entries/edit/9999');
     }
 
@@ -527,7 +527,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testEditNoEntryId()
     {
         $this->_loginUser(2);
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->get('entries/edit/');
@@ -627,7 +627,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testPreviewIsAjax()
     {
         $this->_loginUser(1);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException',
             null,
             1434128359
@@ -639,7 +639,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_setAjax();
         $this->_loginUser(1);
-        $this->setExpectedException(
+        $this->expectException(
             '\Cake\Network\Exception\BadRequestException',
             null,
             1434128359
@@ -865,7 +865,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testSolveNoEntry()
     {
         $this->_loginUser(1);
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->get('/entries/solve/9999');
@@ -874,7 +874,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testSolveNotRootEntryUser()
     {
         $this->_loginUser(2);
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->get('/entries/solve/1');
@@ -883,7 +883,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testSolveIsRootEntry()
     {
         $this->_loginUser(3);
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->get('/entries/solve/1');
@@ -897,7 +897,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
             ->method('toggleSolve')
             ->with('1')
             ->will($this->returnValue(false));
-        $this->setExpectedException(
+        $this->expectException(
             'Cake\Network\Exception\BadRequestException'
         );
         $this->get('/entries/solve/1');
