@@ -14,6 +14,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
         'app.user',
         'app.user_block',
         'app.user_online',
+        'app.user_ignore',
         'app.user_read',
         'app.setting'
     ];
@@ -224,9 +225,6 @@ class ContactsControllerTestCase extends IntegrationTestCase
 
     public function testContactUserByAnon()
     {
-        $this->markTestIncomplete(
-            '@td 3.0'
-        );
         $url = '/contacts/user/3';
         $this->get($url);
         $this->assertRedirectLogin($url);
@@ -241,15 +239,17 @@ class ContactsControllerTestCase extends IntegrationTestCase
         $this->get('/contacts/user/');
     }
 
+    /**
+     * Test that subject must be provided for sending an email.
+     *
+     * @return void
+     */
     public function testContactNoSubject()
     {
-        $this->markTestIncomplete(
-            '@td 3.0'
-        );
         $url = '/contacts/user/3';
         $this->mockSecurity();
         $transporter = $this->mockMailTransporter();
-        $transporter->expects($this->never())->method('email');
+        $transporter->expects($this->never())->method('send');
         $data = [
             'sender_contact' => 'fo3@example.com',
             'subject' => '',
@@ -260,13 +260,12 @@ class ContactsControllerTestCase extends IntegrationTestCase
     }
 
     /**
-     * tests contacting user with contacting disabled fails
+     * Tests contacting user with contacting disabled fails.
+     *
+     * @return void
      */
     public function testContactUserContactDisabled()
     {
-        $this->markTestIncomplete(
-            '@td 3.0'
-        );
         $this->_loginUser(2);
         $this->expectException(
             '\Cake\Network\Exception\BadRequestException'
@@ -274,6 +273,11 @@ class ContactsControllerTestCase extends IntegrationTestCase
         $this->get('/contacts/user/5');
     }
 
+    /**
+     * Tests contacting a non-existing user fails.
+     *
+     * @return void
+     */
     public function testContactUserWhoDoesNotExist()
     {
         $this->_loginUser(2);
