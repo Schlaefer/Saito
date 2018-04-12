@@ -3,7 +3,7 @@
 
     <property file="build.properties"/>
 
-    <exec command="cat app/Config/version.php | grep 'Saito.v' | grep -Po '([0-9]{1,}\..*)(?='\'')'"
+    <exec command="cat config/version.php | grep 'Saito.v' | grep -Po '([0-9]{1,}\..*)(?='\'')'"
           outputProperty="saito.version"/>
 
     <fileset id="release-fileset" dir="${git.dir}">
@@ -66,7 +66,7 @@
     </target>
     <target name="phpunit">
         <echo msg="Running phpunit…"/>
-        <exec command="vendor/bin/phpunit --stderr" passthru="true" logoutput="true"/>
+        <exec command="vendor/bin/phpunit --colors" passthru="true" logoutput="true"/>
     </target>
     <target name="phpcs">
         <echo msg="Running phpcs on PHP files…"/>
