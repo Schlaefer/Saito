@@ -77,7 +77,7 @@ $this->end();
                         </div>
                     </div>
                 <?php } ?>
-                <?php endif; ?>
+            <?php endif; ?>
             </div>
         </div>
     </div>
