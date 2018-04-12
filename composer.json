@@ -33,14 +33,12 @@
     "cakephp/cakephp-codesniffer": "^3.0",
     "cakephp/debug_kit": "~3",
     "psy/psysh": "@stable",
-
-    "phpmd/phpmd": "@stable",
     "phpunit/phpunit": "~6",
     "squizlabs/php_codesniffer": "*",
 
-    "symfony/dom-crawler": "*",
+    "phing/phing": "^2.16",
     "symfony/css-selector": "*",
-    "phing/phing": "^2.16"
+    "symfony/dom-crawler": "*"
   },
   "suggest": {
     "cakephp/cakephp-codesniffer": "Allows to check the code against the coding standards used in CakePHP."
