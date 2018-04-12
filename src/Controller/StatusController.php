@@ -43,15 +43,15 @@ class StatusController extends AppController
     protected function _statusAsEventStream($data)
     {
         // time in ms to next request
-        $_retry = '10000';
+        $retry = '10000';
         $this->response->type(['eventstream' => 'text/event-stream']);
         $this->response->type('eventstream');
         $this->response->disableCache();
-        $_out = '';
-        $_out .= "retry: $_retry\n";
-        $_out .= 'data: ' . $data . "\n\n";
+        $out = '';
+        $out .= "retry: $retry\n";
+        $out .= 'data: ' . $data . "\n\n";
 
-        return $_out;
+        return $out;
     }
 
     /**

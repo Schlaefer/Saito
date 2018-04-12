@@ -20,10 +20,10 @@
             </ul>
             <?=
             $this->Html->link(
-                    __("Delete User {0}", $user->get('username')),
-                    '#deleteModal',
-                    ['class' => 'btn btn-danger', 'data-toggle' => 'modal']
-                );
+                __("Delete User {0}", $user->get('username')),
+                '#deleteModal',
+                ['class' => 'btn btn-danger', 'data-toggle' => 'modal']
+            );
             ?>
         </div>
     </div>

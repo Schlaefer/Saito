@@ -39,7 +39,7 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 
     public static $browsers = [
-//			array( 'name' 		=> 'Firefox', 'browser'	=> '*firefox'),
+    // array( 'name' => 'Firefox', 'browser' => '*firefox'),
         ['name' => 'Google Chrome', 'browser' => '*googlechrome'],
     ];
 

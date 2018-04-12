@@ -35,7 +35,7 @@
     "phpmd/phpmd": "@stable",
     "phpunit/phpunit": "~6",
     "squizlabs/php_codesniffer": "*",
-    "cakephp/cakephp-codesniffer": "2.*",
+    "cakephp/cakephp-codesniffer": "3.*",
 
     "symfony/dom-crawler": "*",
     "symfony/css-selector": "*",

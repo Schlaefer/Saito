@@ -96,43 +96,43 @@ class LayoutHelper extends AppHelper
     protected function _touchIcon($size, array $options = [])
     {
         if (is_array($size)) {
-            $_out = '';
+            $out = '';
             foreach ($size as $s) {
-                $_out .= $this->appleTouchIcon($s, $options);
+                $out .= $this->appleTouchIcon($s, $options);
             }
 
-            return $_out;
+            return $out;
         }
 
-        $_defaults = [
+        $defaults = [
             'baseName' => 'app-icon',
             'precomposed' => false,
             'rel' => 'apple-touch-icon',
             'size' => true
         ];
-        $options += $_defaults;
+        $options += $defaults;
 
-        $_xSize = "{$size}x{$size}";
+        $xSize = "{$size}x{$size}";
 
-        $_basename = $options['baseName'];
+        $basename = $options['baseName'];
         if ($options['precomposed']) {
-            $_basename .= '-precomposed';
+            $basename .= '-precomposed';
         }
-        $_filename = "{$_basename}-{$_xSize}.png";
+        $filename = "{$basename}-{$xSize}.png";
 
         $url = $this->Url->assetUrl(
             $this->theme . '.' . Configure::read('App.imageBaseUrl'),
             ['fullBase' => true]
         );
-        $url = "{$url}{$_filename}";
+        $url = "{$url}{$filename}";
 
-        $_out = "<link rel=\"{$options['rel']}\" ";
+        $out = "<link rel=\"{$options['rel']}\" ";
         if ($options['size']) {
-            $_out .= "size=\"{$_xSize}\" ";
+            $out .= "size=\"{$xSize}\" ";
         }
-        $_out .= "href=\"{$url}\">";
+        $out .= "href=\"{$url}\">";
 
-        return $_out;
+        return $out;
     }
 
     /**
@@ -187,16 +187,16 @@ EOF;
     public function dropdownMenuButton(array $menuItems, array $options = [])
     {
         $options += ['class' => ''];
-        $_divider = '<li class="dropdown-divider"></li>';
-        $_menu = '';
-        foreach ($menuItems as $_menuItem) {
-            if ($_menuItem === 'divider') {
-                $_menu .= $_divider;
+        $divider = '<li class="dropdown-divider"></li>';
+        $menu = '';
+        foreach ($menuItems as $menuItem) {
+            if ($menuItem === 'divider') {
+                $menu .= $divider;
             } else {
-                $_menu .= "<li>$_menuItem</li>";
+                $menu .= "<li>$menuItem</li>";
             }
         }
-        $_id = AppHelper::tagId();
+        $id = AppHelper::tagId();
         if (!isset($options['title'])) {
             $options['title'] = '<i class="fa fa-wrench"></i>&nbsp;<i class="fa fa-caret-down"></i>';
         }
@@ -204,24 +204,24 @@ EOF;
         $title = $options['title'];
         unset($options['title']);
 
-        $_button = $this->Html->tag(
+        $button = $this->Html->tag(
             'button',
             $title,
             $options + [
                 'escape' => false,
-                'onclick' => "$(this).dropdown('attach', '#d$_id');"
+                'onclick' => "$(this).dropdown('attach', '#d$id');"
             ]
         );
-        $_out = <<<EOF
-				$_button
-				<div id="d$_id" class="dropdown-relative dropdown dropdown-tip">
+        $out = <<<EOF
+				$button
+				<div id="d$id" class="dropdown-relative dropdown dropdown-tip">
 					<ul class="dropdown-menu">
-							$_menu
+							$menu
 					</ul>
 				</div>
 EOF;
 
-        return $_out;
+        return $out;
     }
 
     /**
@@ -271,15 +271,15 @@ EOF;
     {
         $options += ['class' => '', 'escape' => true];
         if (is_string($content)) {
-            $_content = ['middle' => $content];
+            $contentArray = ['middle' => $content];
         } else {
-            $_content = $content;
+            $contentArray = $content;
         }
-        $_content += ['first' => '', 'middle' => '', 'last' => ''];
+        $contentArray += ['first' => '', 'middle' => '', 'last' => ''];
         $out = '';
         foreach (['first', 'middle', 'last'] as $key) {
             $out .= '<div class="heading-3-' . $key . '">';
-            $out .= $options['escape'] ? h($_content[$key]) : $_content[$key];
+            $out .= $options['escape'] ? h($contentArray[$key]) : $contentArray[$key];
             $out .= '</div>';
         }
 

@@ -179,7 +179,7 @@ class EntriesTable extends AppTable
         );
         // @td 3.0 Notif
         // Is this condition working implicetly?
-        //	'conditions' => array('Esevent.subject' => 'Entry.id'),
+        // 'conditions' => array('Esevent.subject' => 'Entry.id'),
         //$this->hasMany('Esevents', ['foreignKey' => 'subject']);
     }
 

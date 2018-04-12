@@ -69,7 +69,7 @@ class ThreadHtmlRenderer extends HtmlRendererAbstract
 {"id":{$id},"new":{$isNew},"tid":{$tid}}
 EOF;
 
-        // data-id still used to identify parent when inserting	an inline-answered entry
+        // data-id still used to identify parent when inserting an inline-answered entry
         // last </span> comes from _renderThreadLine and allows appending to threadLine-post
         $out = <<<EOF
 <li class="threadLeaf {$css}" data-id="{$id}" data-leaf='{$jsData}'>

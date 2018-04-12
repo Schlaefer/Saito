@@ -21,13 +21,13 @@
     </noscript>
 </head>
 <body class="l-body">
-	<script>
-		var _headerClosed = localStorage.headerClosed;
-		if (_headerClosed === 'true') {
-			$('body').addClass('headerClosed');
-		}
-	</script>
-	<?php
+    <script>
+        var _headerClosed = localStorage.headerClosed;
+        if (_headerClosed === 'true') {
+            $('body').addClass('headerClosed');
+        }
+    </script>
+    <?php
     $action = $this->request->params['action'];
     if (!$CurrentUser->isLoggedIn() && ($action !== 'login' && $action !== 'register')) {
         echo $this->element('users/login_modal');

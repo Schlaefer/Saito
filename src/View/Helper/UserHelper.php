@@ -55,27 +55,27 @@ class UserHelper extends AppHelper
      */
     public function generateCss(array $User)
     {
-        $_styles = [];
+        $styles = [];
 
         // colors
-        $_cNew = $User['user_color_new_postings'];
-        $_cOld = $User['user_color_old_postings'];
-        $_cAct = $User['user_color_actual_posting'];
+        $cNew = $User['user_color_new_postings'];
+        $cOld = $User['user_color_old_postings'];
+        $cAct = $User['user_color_actual_posting'];
 
-        $_aMetatags = ['', ':link', ':visited', ':hover', ':active'];
-        foreach ($_aMetatags as $_aMetatag) {
-            if (!empty($_cOld) && $_cOld !== '#') {
-                $_styles[] = ".et-root .et$_aMetatag, .et-reply .et$_aMetatag	{ color: $_cOld; }";
+        $aMetatags = ['', ':link', ':visited', ':hover', ':active'];
+        foreach ($aMetatags as $aMetatag) {
+            if (!empty($cOld) && $cOld !== '#') {
+                $styles[] = ".et-root .et$aMetatag, .et-reply .et$aMetatag	{ color: $cOld; }";
             }
-            if (!empty($_cNew) && $_cNew !== '#') {
-                $_styles[] = ".et-new .et$_aMetatag { color: $_cNew; }";
+            if (!empty($cNew) && $cNew !== '#') {
+                $styles[] = ".et-new .et$aMetatag { color: $cNew; }";
             }
-            if (!empty($_cAct) && $_cAct !== '#') {
-                $_styles[] = ".et-current .et$_aMetatag { color: $_cAct; }";
+            if (!empty($cAct) && $cAct !== '#') {
+                $styles[] = ".et-current .et$aMetatag { color: $cAct; }";
             }
         }
 
-        return '<style type="text/css">' . implode(" ", $_styles) . '</style>';
+        return '<style type="text/css">' . implode(" ", $styles) . '</style>';
     }
 
     /**

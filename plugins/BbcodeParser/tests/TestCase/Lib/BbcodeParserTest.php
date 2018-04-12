@@ -1029,7 +1029,7 @@ EOF;
         Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
     }
 
-    /*		 * ******************** Setup ********************** */
+    /* ******************** Setup ********************** */
 
     public function setUp()
     {

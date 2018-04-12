@@ -7,10 +7,6 @@ use App\Model\Table\EntriesTable;
 class EntriesTableMock extends EntriesTable
 {
 
-    public $_CurrentUser;
-
-    public $_editPeriod;
-
     protected $_table = 'entries';
 
     /**

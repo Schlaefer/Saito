@@ -459,7 +459,7 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testRegisterGc()
     {
-//			Configure::write('Saito.Settings.topics_per_page', 20);
+        // Configure::write('Saito.Settings.topics_per_page', 20);
 
         $_userCountBeforeAction = $this->Table->find()->count();
 

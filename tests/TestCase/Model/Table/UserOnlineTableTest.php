@@ -82,7 +82,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $expected = Hash::remove($this->_startUsersOnline, '{n}.time');
         $this->assertEquals($result, $expected);
 
-        //=	 *** Second 1 ***
+        //= *** Second 1 ***
         sleep(1);
 
         //= update registered user before time
@@ -112,7 +112,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $expected = Hash::remove($this->_startUsersOnline, '{n}.time');
         $this->assertEquals($result, $expected);
 
-        //=	 *** Second 2 ***
+        //= *** Second 2 ***
         sleep(1);
 
         //= update anonymous user after time

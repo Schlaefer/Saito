@@ -93,9 +93,9 @@ class SaitoEventManager implements EventListenerInterface
      */
     public function dispatch($key, $data = [])
     {
-//			Stopwatch::start("SaitoEventManager::dispatch $key");
+        // Stopwatch::start("SaitoEventManager::dispatch $key");
         if (!isset($this->_listeners[$key])) {
-//				Stopwatch::stop("SaitoEventManager::dispatch $key");
+        // Stopwatch::stop("SaitoEventManager::dispatch $key");
             return [];
         }
         $results = [];
@@ -111,7 +111,7 @@ class SaitoEventManager implements EventListenerInterface
             }
         }
 
-//			Stopwatch::stop("SaitoEventManager::dispatch $key");
+        // Stopwatch::stop("SaitoEventManager::dispatch $key");
         return $results;
     }
 }
