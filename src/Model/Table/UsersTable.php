@@ -169,7 +169,7 @@ class UsersTable extends AppTable
                             'max' => ['w' => 1500, 'h' => 1500]
                         ]
                     ],
-                    'message' => 'Image is not correct dimensions.',
+                    'message' => 'Image doesn\'t have the right dimensions. (100x100 - 1500-1500)',
                     'provider' => 'proffer'
                 ]
             );
