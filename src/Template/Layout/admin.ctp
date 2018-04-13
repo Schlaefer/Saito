@@ -1,7 +1,7 @@
 <?= $this->Html->docType('html5'); ?>
 <html>
 <head>
-    <title><?php echo $titleForLayout ?></title>
+    <title><?= h($titleForLayout) ?></title>
     <?php
     echo $this->Html->charset();
     echo $this->element('layout/script_tags', ['require' => false]);

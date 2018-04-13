@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?= $titleForLayout ?></title>
+	<title><?= h($titleForLayout) ?></title>
 </head>
 <body>
 	<?= $this->fetch('content'); ?>
