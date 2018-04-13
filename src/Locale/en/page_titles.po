@@ -55,10 +55,6 @@ msgid "users/view"
 msgstr "User"
 
 #
-msgid "users/edit"
-msgstr "Edit User"
-
-#
 msgid "users/map"
 msgstr "Map"
 

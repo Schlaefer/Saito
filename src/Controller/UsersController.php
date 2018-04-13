@@ -12,7 +12,6 @@ use Cake\Network\Response;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
-use Saito\String\Properize;
 use Saito\User\Blocker\ManualBlocker;
 use Saito\User\ForumsUserInterface;
 use Saito\User\SaitoUser;
@@ -450,7 +449,7 @@ class UsersController extends AppController
 
         $this->set(
             'titleForPage',
-            __('Edit {0} Avatar', [Properize::prop($user->get('username'))])
+            __('user.avatar.edit.t', [$user->get('username')])
         );
     }
 
@@ -480,8 +479,8 @@ class UsersController extends AppController
 
         $this->set('user', $user);
         $this->set(
-            'titleForLayout',
-            __('Edit {0} Profil', [Properize::prop($user->get('username'))])
+            'titleForPage',
+            __('user.edit.t', [$user->get('username')])
         );
 
         $availableThemes = $this->Themes->getAvailable($this->CurrentUser);

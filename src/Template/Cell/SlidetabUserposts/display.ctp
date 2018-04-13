@@ -8,10 +8,7 @@
     <h4>
     <span
         title='The sea was angry that day my friends, like an old man trying to send back soup in a deli …'>
-        <?=
-        // @lo
-        Saito\String\Properize::prop(h($CurrentUser->get('username'))) . ' ' . __('user_recentposts');
-        ?>
+        <?= h(__('user.recentposts.t', [$CurrentUser->get('username')])); ?>
     </span>
     </h4>
 </div>

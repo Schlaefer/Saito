@@ -12,7 +12,6 @@ use Cake\Routing\Router;
 use Saito\App\Registry;
 use Saito\App\Settings;
 use Saito\Event\SaitoEventManager;
-use Saito\String\Properize;
 use Saito\User\CurrentUser\CurrentUser;
 use \Stopwatch\Lib\Stopwatch;
 
@@ -113,9 +112,6 @@ class AppController extends Controller
         }
 
         $this->_setConfigurationFromGetParams();
-
-        // must be set after all language chooser
-        Properize::setLanguage(Configure::read('Saito.language'));
 
         // allow sql explain for DebugKit toolbar
         if ($this->request->plugin === 'debug_kit') {

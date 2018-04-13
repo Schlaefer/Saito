@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-13 10:17+0200\n"
-"PO-Revision-Date: 2018-04-13 11:11+0200\n"
+"POT-Creation-Date: 2018-04-13 12:01+0200\n"
+"PO-Revision-Date: 2018-04-13 12:01+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -108,7 +108,7 @@ msgstr "User was created successfully."
 msgid "user.admin.add.error"
 msgstr "Error while creating user."
 
-#: Controller/Admin/UsersController.php:69 Controller/UsersController.php:546
+#: Controller/Admin/UsersController.php:69 Controller/UsersController.php:545
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
@@ -133,7 +133,7 @@ msgstr ""
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/AppController.php:205
+#: Controller/AppController.php:201
 #: Controller/Component/CurrentUserComponent.php:318
 msgid "auth_autherror"
 msgstr "Access to this function is restricted!"
@@ -142,15 +142,15 @@ msgstr "Access to this function is restricted!"
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
 msgstr ""
 
-#: Controller/Component/TitleComponent.php:66
+#: Controller/Component/TitleComponent.php:84
 msgid "forum-title-template"
 msgstr ":page – :forum"
 
-#: Controller/Component/TitleComponent.php:85
+#: Controller/Component/TitleComponent.php:103
 msgid ":subject | :category"
 msgstr ""
 
-#: Controller/Component/TitleComponent.php:87
+#: Controller/Component/TitleComponent.php:105
 msgid ":subject (:type) | :category"
 msgstr ""
 
@@ -237,101 +237,101 @@ msgstr ""
 msgid "All Categories"
 msgstr ""
 
-#: Controller/UsersController.php:85
+#: Controller/UsersController.php:84
 msgid "user.block.pubExpEnds"
 msgstr "User {0} is locked. Try again in %s."
 
-#: Controller/UsersController.php:87
+#: Controller/UsersController.php:86
 msgid "user.block.pubExp"
 msgstr "User {0} is locked."
 
-#: Controller/UsersController.php:92
+#: Controller/UsersController.php:91
 msgid "User {0} is not activated yet."
 msgstr ""
 
-#: Controller/UsersController.php:97
+#: Controller/UsersController.php:96
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
-#: Controller/UsersController.php:174
+#: Controller/UsersController.php:173
 msgid "register_email_subject"
 msgstr "Welcome to {0}!"
 
-#: Controller/UsersController.php:230 Template/Admin/Users/index.ctp:20
+#: Controller/UsersController.php:229 Template/Admin/Users/index.ctp:20
 #: Template/Users/edit.ctp:22 Template/Users/edit.ctp:44
 #: Template/Users/view.ctp:19
 msgid "username_marking"
 msgstr "Name"
 
-#: Controller/UsersController.php:231 Template/Admin/Users/index.ctp:21
+#: Controller/UsersController.php:230 Template/Admin/Users/index.ctp:21
 #: Template/Users/edit.ctp:30
 msgid "user_type"
 msgstr "Type"
 
-#: Controller/UsersController.php:233
+#: Controller/UsersController.php:232
 msgid "userlist_online"
 msgstr "Online"
 
-#: Controller/UsersController.php:236 Template/Admin/Users/index.ctp:23
+#: Controller/UsersController.php:235 Template/Admin/Users/index.ctp:23
 msgid "registered"
 msgstr "Registered"
 
-#: Controller/UsersController.php:241 Template/Admin/Users/index.ctp:26
+#: Controller/UsersController.php:240 Template/Admin/Users/index.ctp:26
 #: Template/Users/view.ctp:41
 #, fuzzy
 msgid "user.set.lock.t"
 msgstr "Banned"
 
-#: Controller/UsersController.php:315
+#: Controller/UsersController.php:314
 #, fuzzy
 msgid "admin.feat.map"
 msgstr "map"
 
-#: Controller/UsersController.php:315
+#: Controller/UsersController.php:314
 msgid "admin.setting.disabled"
 msgstr "Feature \"%s\" is disabled by admin."
 
-#: Controller/UsersController.php:362 Controller/UsersController.php:396
+#: Controller/UsersController.php:361 Controller/UsersController.php:395
 msgid "Invalid user"
 msgstr ""
 
-#: Controller/UsersController.php:453
-msgid "Edit {0} Avatar"
-msgstr ""
+#: Controller/UsersController.php:452
+msgid "user.avatar.edit.t"
+msgstr "Edit User Avatar {0}"
 
-#: Controller/UsersController.php:484
+#: Controller/UsersController.php:483
 msgid "user.edit.t"
 msgstr "Edit User {0}"
 
-#: Controller/UsersController.php:521
+#: Controller/UsersController.php:520
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:554
+#: Controller/UsersController.php:553
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:557
+#: Controller/UsersController.php:556
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:572
+#: Controller/UsersController.php:571
 msgid "User {0} is locked."
 msgstr ""
 
-#: Controller/UsersController.php:574
+#: Controller/UsersController.php:573
 msgid "User {0} is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:578
+#: Controller/UsersController.php:577
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:598
+#: Controller/UsersController.php:597
 msgid "Error while unlocking."
 msgstr ""
 
-#: Controller/UsersController.php:646
+#: Controller/UsersController.php:645
 msgid "change_password_success"
 msgstr "Password was changed."
 
@@ -752,8 +752,8 @@ msgid "user.type.user"
 msgstr "User"
 
 #: Template/Cell/SlidetabUserposts/display.ctp:13 Template/Users/view.ctp:259
-msgid "user_recentposts"
-msgstr "Recent Posts"
+msgid "user.recentposts.t"
+msgstr "Recent Posts {0}"
 
 #: Template/Contacts/owner.ctp:8
 #, fuzzy
@@ -996,11 +996,11 @@ msgstr ""
 msgid "Merge onto posting with ID:"
 msgstr ""
 
-#: Template/Entries/mix.ctp:14 View/Helper/LayoutHelper.php:332
+#: Template/Entries/mix.ctp:14 View/Helper/LayoutHelper.php:336
 msgid "Back"
 msgstr ""
 
-#: Template/Entries/view.ctp:13 View/Helper/LayoutHelper.php:330
+#: Template/Entries/view.ctp:13 View/Helper/LayoutHelper.php:334
 msgid "back_to_forum_linkname"
 msgstr "Go Back to the Forum"
 

@@ -225,10 +225,14 @@ EOF;
     }
 
     /**
-     * panel heading
+     * Creates panel heading HTML-element
      *
      * @param mixed $content content
      * @param array $options options
+     *  - `class` string [panel-heading] CSS class for element
+     *  - `escape` bool [true] escape output
+     *  - `pageHeading` bool [false]
+     *  - `tag` string [h2]
      * @return string
      */
     public function panelHeading($content, array $options = [])

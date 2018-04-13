@@ -26,7 +26,8 @@ class SitemapsController extends AppController
      */
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['index', 'file', 'foo']);
+        parent::beforeFilter($event);
+        $this->Auth->allow(['index', 'file']);
         $this->response->disableCache();
         $this->_Generators = new SitemapCollection($this->generators, $this);
     }

@@ -256,7 +256,7 @@ if ($items) {
         ?>
     </div>
     <div class="panel">
-        <?= $this->Layout->panelHeading(__('user_recentposts')) ?>
+        <?= $this->Layout->panelHeading(__('user.recentposts.t', $user->get('username'))) ?>
         <div class="panel-content">
             <?php
             if (empty($lastEntries)) {
