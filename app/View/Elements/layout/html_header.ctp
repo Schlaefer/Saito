@@ -2,7 +2,6 @@
 <html>
 	<head>
     <title><?= $title_for_layout ?></title>
-		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 		<?php
 			echo $this->Html->charset();
 			echo $this->fetch('meta');
