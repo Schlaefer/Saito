@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Utility\Text;
@@ -13,51 +16,67 @@ class TitleComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function startup(Event $event)
+    public function beforeRender(Event $event)
     {
-        $this->_Controller = $event->subject();
+        $controller = $event->getSubject();
+        $page = $this->getPageTitle($controller);
+        $forum = $this->getForumName($controller);
+        $title = $this->getTitleForLayout($controller, $page, $forum);
+        $controller->set([
+            'titleForPage' => $page,
+            'forumName' => $forum,
+            'titleForLayout' => $title
+        ]);
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function beforeRender()
-    {
-        $this->_setLayoutTitles();
-    }
-
-    /**
-     * sets layout/title/page vars
+     * Get title for page shown on header on page
      *
-     * - titleForPage: title for the page, maybe used on page for headers
-     * - forumName: forum name
-     * - titleForLayout: title + forum name for HTML header tag
-     *
-     * @return void
+     * @param Controller $controller The controller
+     * @return string
      */
-    protected function _setLayoutTitles()
+    protected function getPageTitle(Controller $controller): string
     {
-        //= page
-        if (isset($this->_Controller->viewVars['titleForPage'])) {
-            $page = $this->_Controller->viewVars['titleForPage'];
-        } else {
-            $controller = $this->_Controller->request->controller;
-            $action = $this->_Controller->request->action;
-            $key = lcfirst($controller) . '/' . $action;
-            $page = __d('page_titles', $key);
-            if ($key === $page) {
-                $page = null;
-            }
+        $controller = $this->getController();
+        //= title for page, shown in default.ctp in header on page
+        if (isset($controller->viewVars['titleForPage'])) {
+            return $controller->viewVars['titleForPage'];
         }
-        $this->_Controller->set('titleForPage', $page);
 
-        //= forum
-        $forum = Configure::read('Saito.Settings.forum_name');
-        $this->_Controller->set('forumName', $forum);
+        $ctrler = $controller->request->controller;
+        $action = $controller->request->action;
+        $key = lcfirst($ctrler) . '/' . $action;
+        $page = __d('page_titles', $key);
+        if ($key === $page) {
+            $page = '';
+        }
 
-        //= layout
-        if (isset($this->_Controller->viewVars['titleForLayout'])) {
-            $layout = $this->_Controller->viewVars['titleForLayout'];
+        return $page;
+    }
+
+    /**
+     * Gets forum name
+     *
+     * @param Controller $controller The controller
+     * @return string
+     */
+    public function getForumName(Controller $controller): string
+    {
+        return Configure::read('Saito.Settings.forum_name');
+    }
+
+    /**
+     * title + forum name for layout, shown in HTML-<title>-tag
+     *
+     * @param Controller $controller The controller
+     * @param string $page Title of the current page.
+     * @param string $forum Title of the forum.
+     * @return string
+     */
+    protected function getTitleForLayout(Controller $controller, string $page, string $forum): string
+    {
+        if (isset($controller->viewVars['titleForLayout'])) {
+            $layout = $controller->viewVars['titleForLayout'];
         } else {
             $layout = $page;
         }
@@ -69,7 +88,8 @@ class TitleComponent extends Component
         } else {
             $layout = $forum;
         }
-        $this->_Controller->set('titleForLayout', $layout);
+
+        return $layout;
     }
 
     /**
@@ -86,7 +106,7 @@ class TitleComponent extends Component
         } else {
             $template = __(':subject (:type) | :category');
         }
-        $this->_Controller->set(
+        $this->getController()->set(
             'titleForLayout',
             Text::insert(
                 $template,
