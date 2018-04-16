@@ -8,12 +8,13 @@ use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\RememberTrait;
 use Saito\User\ForumsUserInterface;
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
 /**
  *
@@ -167,8 +168,36 @@ class EntriesTable extends AppTable
         $this->addBehavior('Timestamp');
         $this->addBehavior('Tree');
 
-        // cache how many postings a user has
-        $this->addBehavior('CounterCache', ['Users' => ['entry_count']]);
+        $this->addBehavior(
+            'CounterCache',
+            [
+                // cache how many postings a user has
+                'Users' => ['entry_count'],
+                // cache how many threads a category has
+                'Categories' => [
+                    'thread_count' => function ($event, Entity $entity, $table, $original) {
+                        if (!$entity->isRoot()) {
+                            return false;
+                        }
+                        // posting is moved to new category…
+                        if ($original) {
+                            // update old category (should decrement counter)
+                            $categoryId = $entity->getOriginal('category_id');
+                        } else {
+                            // update new category (increment counter)
+                            $categoryId = $entity->get('category_id');
+                        }
+
+                        $query = $table->find('all', ['conditions' => [
+                            'pid' => 0, 'category_id' => $categoryId
+                        ]]);
+                        $count = $query->count();
+
+                        return $count;
+                    }
+                ]
+            ]
+        );
 
         $this->belongsTo('Categories', ['foreignKey' => 'category_id']);
         $this->belongsTo('Users', ['foreignKey' => 'user_id']);
@@ -964,13 +993,18 @@ class EntriesTable extends AppTable
      * Implements the custom find type 'index paginator'
      *
      * @param Query $query query
+     * @param array $options finder options
      * @return Query
      */
-    public function findIndexPaginator(Query $query)
+    public function findIndexPaginator(Query $query, array $options)
     {
         $query
             ->select(['id', 'pid', 'tid', 'time', 'last_answer', 'fixed'])
             ->where(['Entries.pid' => 0]);
+
+        if (!empty($options['counter'])) {
+            $query->counter($options['counter']);
+        }
 
         return $query;
     }

@@ -55,6 +55,12 @@ class CategoryFixture extends TestFixture
             'length' => 4,
             'unsigned' => false
         ],
+        'thread_count' => [
+            'type' => 'integer',
+            'null' => false,
+            'default' => '0',
+            'unsigned' => false
+        ],
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
@@ -77,15 +83,17 @@ class CategoryFixture extends TestFixture
             'accession' => 2,
             'accession_new_thread' => 2,
             'accession_new_posting' => 2,
+            'thread_count' => 1
         ],
         [
             'id' => 2,
             'category_order' => 3,
             'category' => 'Ontopic',
             'description' => '',
-            'accession' => 0,
+            'accession' => 0, // !important
             'accession_new_thread' => 1,
             'accession_new_posting' => 1,
+            'thread_count' => 3
         ],
         [
             'id' => 3,
@@ -104,6 +112,7 @@ class CategoryFixture extends TestFixture
             'accession' => 1,
             'accession_new_thread' => 2,
             'accession_new_posting' => 1,
+            'thread_count' => 2
         ],
         [
             'id' => 5,

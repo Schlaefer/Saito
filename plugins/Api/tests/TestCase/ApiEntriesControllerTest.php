@@ -89,7 +89,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
     {
         $this->get($this->_apiRoot . 'threads.json?limit=3');
         $result = json_decode($this->_response->body(), true);
-        $this->assertEquals(2, count($result));
+        $this->assertEquals(3, count($result));
         $this->assertEquals(1, $result[0]['id']);
         $this->assertEquals(10, $result[1]['id']);
     }

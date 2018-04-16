@@ -413,14 +413,14 @@ class EntriesControllerTestCase extends IntegrationTestCase
         //* not logged in user
         $this->get('/entries/index');
         $postings = $this->viewVariable('entries');
-        $this->assertEquals(count($postings), 2);
+        $this->assertCount(3, $postings);
         $this->assertResponseOk();
 
         //* logged in user
         $this->_loginUser(3);
         $this->get('/entries/index');
         $postings = $this->viewVariable('entries');
-        $this->assertEquals(count($postings), 4);
+        $this->assertCount(5, $postings);
         $this->assertResponseOk();
     }
 

@@ -12,7 +12,9 @@ namespace App\Controller\Component;
 use App\Model\Table\EntriesTable;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
+use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Stopwatch\Lib\Stopwatch;
@@ -62,7 +64,24 @@ class ThreadsComponent extends Component
             ],
             // @td sanitize input?
             'limit' => Configure::read('Saito.Settings.topics_per_page'),
-            'order' => $order
+            'order' => $order,
+            // Performance: Custom counter from categories counter-cache;
+            // avoids a costly COUNT(*) DB call counting all pages for pagination.
+            'counter' => function ($query) use ($categories) {
+                $results = $this->Entries->Categories->find('all')
+                ->select(['thread_count'])
+                ->where(['id IN' => $categories])
+                ->all();
+                $count = array_reduce(
+                    $results->toArray(),
+                    function ($carry, Entity $entity) {
+                        return $carry + $entity->get('thread_count');
+                    },
+                    0
+                );
+
+                return $count;
+            }
         ];
         $settings = [
             'finder' => ['indexPaginator' => $customFinderOptions],

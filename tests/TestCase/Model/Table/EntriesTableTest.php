@@ -308,32 +308,78 @@ class EntriesTest extends SaitoTableTestCase
         $this->assertFalse($result);
     }
 
+    /**
+     * Test changing the category of a thread
+     *
+     * - Should change category-ID of every posting
+     * - Should update the counter-cache for threads in category
+     */
     public function testChangeThreadCategory()
     {
         $SaitoUser = new SaitoUser(['id' => 1, 'user_type' => 'admin']);
         Registry::set('CU', $SaitoUser);
 
-        $_oldCategory = 2;
-        $_newCategory = 1;
+        $tid = 1;
+        $oldCategory = 2;
+        $newCategory = 1;
 
-        $_nBeforeChange = $this->Table->find()
-            ->where(['tid' => 1, 'category_id' => $_oldCategory])
+        $nPostingsBefore = $this->Table->find()
+            ->where(['tid' => $tid, 'category_id' => $oldCategory])
             ->count();
-        $this->assertGreaterThan(1, $_nBeforeChange);
+        // there should be postings in that thread we move
+        $this->assertGreaterThan(1, $nPostingsBefore);
+
+        $nThreadsOldCategoryBefore = $this->Table->find()
+            ->where(['pid' => 0, 'category_id' => $oldCategory])
+            ->count();
+        $categoryOld = $this->Table->Categories->find()
+            ->where(['id' => $oldCategory])
+            ->first();
+        // check that thread counter cache is in order for old category
+        $this->assertEquals($categoryOld->get('thread_count'), $nThreadsOldCategoryBefore);
+
+        $nThreadsNewCategoryBefore = $this->Table->find()
+            ->where(['pid' => 0, 'category_id' => $newCategory])
+            ->count();
+        $categoryNew = $this->Table->Categories->find()
+            ->where(['id' => $newCategory])
+            ->first();
+        // check that thread counter cache is in order for new category
+        $this->assertEquals($categoryNew->get('thread_count'), $nThreadsNewCategoryBefore);
 
         $posting = $this->Table->get(1, ['return' => 'Entity']);
-        $this->Table->patchEntity($posting, ['category_id' => $_newCategory]);
+        $this->Table->patchEntity($posting, ['category_id' => $newCategory]);
         $this->Table->save($posting);
 
-        $_nAfterChange = $this->Table->find()
-            ->where(['tid' => 1, 'category_id' => $_newCategory])
+        $nThreadsOldCategoryAfter = $this->Table->find()
+            ->where(['pid' => 0, 'category_id' => $oldCategory])
             ->count();
-        $this->assertEquals($_nBeforeChange, $_nAfterChange);
+        // thread should be removed from old category
+        $this->assertEquals(--$nThreadsOldCategoryBefore, $nThreadsOldCategoryAfter);
 
-        $_nAfterChangeOld = $this->Table->find()
-            ->where(['tid' => 1, 'category_id' => $_oldCategory])
+        $categoryOld = $this->Table->Categories->find()
+            ->where(['id' => $oldCategory])
+            ->first();
+        // check that thread counter cache is in order for old category
+        $this->assertEquals($categoryOld->get('thread_count'), $nThreadsOldCategoryAfter);
+
+        $nThreadsNewCategoryAfter = $this->Table->find()
+            ->where(['pid' => 0, 'category_id' => $newCategory])
             ->count();
-        $this->assertEquals(0, $_nAfterChangeOld);
+        // thread should be added to new category
+        $this->assertEquals(++$nThreadsNewCategoryBefore, $nThreadsNewCategoryAfter);
+
+        $categoryNew = $this->Table->Categories->find()
+            ->where(['id' => $newCategory])
+            ->first();
+        // check that thread counter cache is in order for old category
+        $this->assertEquals($categoryNew->get('thread_count'), $nThreadsNewCategoryAfter);
+
+        $nPostingsAfter = $this->Table->find()
+            ->where(['tid' => $tid, 'category_id' => $newCategory])
+            ->count();
+        // check category was changed on all postings
+        $this->assertEquals($nPostingsBefore, $nPostingsAfter);
     }
 
     public function testChangeThreadCategoryNotAnExistingCategory()
@@ -341,10 +387,10 @@ class EntriesTest extends SaitoTableTestCase
         $SaitoUser = new SaitoUser(['id' => 1, 'user_type' => 'admin']);
         Registry::set('CU', $SaitoUser);
 
-        $_newCategory = 9999;
+        $newCategory = 9999;
 
         $posting = $this->Table->get(1, ['return' => 'Entity']);
-        $this->Table->patchEntity($posting, ['category_id' => $_newCategory]);
+        $this->Table->patchEntity($posting, ['category_id' => $newCategory]);
         $result = $this->Table->save($posting);
         $this->assertFalse($result);
     }
