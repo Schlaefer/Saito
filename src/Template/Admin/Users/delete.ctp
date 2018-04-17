@@ -1,4 +1,4 @@
-<?php $this->Html->addCrumb(__('Delete User'), '#'); ?>
+<?php $this->Breadcrumbs->add(__('Delete User'), '#'); ?>
 <h1>Delete User <em><?= h($user->get('username')) ?></em></h1>
 
 <div class='row'>
@@ -46,7 +46,7 @@
         echo $this->Form->create();
         echo $this->Form->hidden('modeDelete', ['value' => 1]);
 
-        $this->Form->templates(['submitContainer' => '{{content}}']);
+        $this->Form->setTemplates(['submitContainer' => '{{content}}']);
         echo $this->Form->submit(
             __('Make It So'),
             ['class' => 'btn btn-danger']

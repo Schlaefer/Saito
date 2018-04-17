@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 
 class CategoriesController extends AppController
 {
@@ -113,9 +113,9 @@ class CategoriesController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        switch ($this->request->data('mode')) {
+        switch ($this->request->getData('mode')) {
             case ('move'):
-                $targetId = (int)$this->request->data('targetCategory');
+                $targetId = (int)$this->request->getData('targetCategory');
                 try {
                     $this->Categories->merge($category->get('id'), $targetId);
                     $this->Flash->set(

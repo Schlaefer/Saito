@@ -1,9 +1,9 @@
 <?php
 
 $form = $this->Form->create($category);
-$form .= $this->Form->input('category', ['label' => __('Title')]);
-$form .= $this->Form->input('description');
-$form .= $this->Form->input('accession', [
+$form .= $this->Form->control('category', ['label' => __('Title')]);
+$form .= $this->Form->control('description');
+$form .= $this->Form->control('accession', [
     'label' => __('accession.read'),
     'options' => [
         0 => __('Anonymous'),
@@ -12,7 +12,7 @@ $form .= $this->Form->input('accession', [
         3 => __('user.type.admin')
     ]
 ]);
-$form .= $this->Form->input('accession_new_thread', [
+$form .= $this->Form->control('accession_new_thread', [
     'label' => __('accession.new_thread'),
     'options' => [
         1 => __('user.type.user'),
@@ -20,7 +20,7 @@ $form .= $this->Form->input('accession_new_thread', [
         3 => __('user.type.admin')
     ]
 ]);
-$form .= $this->Form->input('accession_new_posting', [
+$form .= $this->Form->control('accession_new_posting', [
     'label' => __('accession.new_posting'),
     'options' => [
         1 => __('user.type.user'),
@@ -28,7 +28,7 @@ $form .= $this->Form->input('accession_new_posting', [
         3 => __('user.type.admin')
     ]
 ]);
-$form .= $this->Form->input('category_order');
+$form .= $this->Form->control('category_order');
 $form .= $this->Form->submit(__('Submit'), ['class' => 'btn btn-primary']);
 $form .= $this->Form->end();
 

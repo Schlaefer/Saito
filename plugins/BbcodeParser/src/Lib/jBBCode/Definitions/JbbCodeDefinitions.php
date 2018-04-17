@@ -424,7 +424,7 @@ class Upload extends CodeDefinition
     protected function _parse($content, $attributes)
     {
         // @td 3.0 Upload
-        $webroot = $this->_sHelper->request->webroot;
+        $webroot = $this->_sHelper->request->getAttribute('webroot');
 
         return "<img src='{$webroot}useruploads/$content'>";
         /*

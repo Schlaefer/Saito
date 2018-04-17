@@ -1,5 +1,5 @@
-<?php $this->Html->addCrumb(__('Smilies'), '/admin/smilies'); ?>
-<?php $this->Html->addCrumb(__('Smiley Codes'), '/admin/smiley_codes'); ?>
+<?php $this->Breadcrumbs->add(__('Smilies'), '/admin/smilies'); ?>
+<?php $this->Breadcrumbs->add(__('Smiley Codes'), '/admin/smiley_codes'); ?>
 <div class="smileyCodes index">
     <h1><?php echo __('Smiley Codes'); ?></h1>
     <?php

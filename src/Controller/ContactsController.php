@@ -7,7 +7,7 @@ use App\Form\ContactFormOwner;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Form\Form;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
 use Saito\Exception\Logger\ExceptionLogger;
 
@@ -35,9 +35,9 @@ class ContactsController extends AppController
         if ($this->CurrentUser->isLoggedIn()) {
             $user = $this->CurrentUser;
             $sender = $user->getId();
-            $this->request->data('sender_contact', $user->get('user_email'));
+            $this->request = $this->request->withData('sender_contact', $user->get('user_email'));
         } else {
-            $senderContact = $this->request->data('sender_contact');
+            $senderContact = $this->request->getData('sender_contact');
             $sender = [$senderContact => $senderContact];
         }
 
@@ -90,22 +90,22 @@ class ContactsController extends AppController
     protected function _contact(Form $contact, $recipient, $sender)
     {
         if ($this->request->is('get')) {
-            if ($this->request->data('cc') === null) {
-                $this->request->data('cc', true);
+            if ($this->request->getData('cc') === null) {
+                $this->request = $this->request->withData('cc', true);
             }
         }
 
         if ($this->request->is('post')) {
-            $isValid = $contact->validate($this->request->data);
+            $isValid = $contact->validate($this->request->getData());
             if ($isValid) {
                 try {
                     $email = [
                         'recipient' => $recipient,
                         'sender' => $sender,
-                        'subject' => $this->request->data('subject'),
-                        'message' => $this->request->data('text'),
+                        'subject' => $this->request->getData('subject'),
+                        'message' => $this->request->getData('text'),
                         'template' => 'user_contact',
-                        'ccsender' => (bool)$this->request->data('cc'),
+                        'ccsender' => (bool)$this->request->getData('cc'),
                     ];
                     $this->SaitoEmail->email($email);
                     $message = __('Message was send.');

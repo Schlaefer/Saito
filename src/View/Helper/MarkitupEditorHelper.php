@@ -100,7 +100,7 @@ class MarkitupEditorHelper extends MarkitupHelper
                 if (isset($button['icon'])) {
                     $css .= <<<EOF
 .markItUp .markItUpButton{$this->_nextCssId} a {
-		background-image: url({$this->request->webroot}theme/{$this->theme}/img/markitup/{$button['icon']});
+		background-image: url({$this->request->getAttribute('webroot')}theme/{$this->theme}/img/markitup/{$button['icon']});
 		text-indent: -10000px;
 		background-size: 100% 100%;
 }
@@ -141,7 +141,7 @@ EOF;
             if ($smiley['type'] === 'image') {
                 $css .= <<<EOF
 .markItUp .markItUpButton{$this->_nextCssId}-{$i} a	{
-		background-image: url({$this->request->webroot}theme/{$this->theme}/img/smilies/{$smiley['icon']});
+		background-image: url({$this->request->getAttribute('webroot')}theme/{$this->theme}/img/smilies/{$smiley['icon']});
 }
 EOF;
             }

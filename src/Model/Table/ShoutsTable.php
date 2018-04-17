@@ -58,7 +58,7 @@ class ShoutsTable extends Table
         $lastShout = $this->find()
             ->select(['id'])
             ->order(['id' => 'DESC'])
-            ->hydrate(false)
+            ->enableHydration(false)
             ->first();
         if ($lastShout) {
             $last = $lastShout['id'];
@@ -134,7 +134,7 @@ class ShoutsTable extends Table
         Entity $entity,
         \ArrayObject $options
     ) {
-        if ($entity->dirty('text')) {
+        if ($entity->isDirty('text')) {
             $entity->set('text', $this->prepareMarkup($entity->get('text')));
         }
     }

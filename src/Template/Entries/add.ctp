@@ -5,11 +5,11 @@ use Cake\Core\Configure;
 //data passed as json model
 $jsMeta = json_encode(
     [
-        'action' => $this->request->action
+        'action' => $this->request->getParam('action')
     ]
 );
 $jsEntry = '{}';
-if ($this->request->action === 'edit') {
+if ($this->request->getParam('action') === 'edit') {
     $jsEntry = json_encode(
         [
             'time' => $this->TimeH->mysqlTimestampToIso($posting->get('time'))
@@ -59,7 +59,7 @@ $this->end();
             echo $this->Form->create($posting);
             echo $this->Posting->categorySelect($posting, $categories);
             $subject = (!empty($citeSubject)) ? $citeSubject : __('Subject');
-            echo $this->Form->input(
+            echo $this->Form->control(
                 'subject',
                 [
                     'maxlength' => $SaitoSettings['subject_maxlength'],

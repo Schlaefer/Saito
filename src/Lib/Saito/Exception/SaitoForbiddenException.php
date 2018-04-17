@@ -2,7 +2,7 @@
 
 namespace Saito\Exception;
 
-use Cake\Network\Exception\HttpException;
+use Cake\Http\Exception\HttpException;
 use Saito\Exception\Logger\ForbiddenLogger;
 
 class SaitoForbiddenException extends HttpException

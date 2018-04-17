@@ -6,8 +6,8 @@ use App\Form\BlockForm;
 use App\Model\Entity\User;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Exception\BadRequestException;
 use Cake\I18n\Time;
-use Cake\Network\Exception\BadRequestException;
 use Cake\Network\Response;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
@@ -46,8 +46,9 @@ class UsersController extends AppController
     {
         $this->CurrentUser->logOut();
 
+        $data = $this->request->getData();
         //= just show form
-        if (!$this->request->data('username')) {
+        if (empty($data['username'])) {
             return;
         }
 
@@ -61,7 +62,7 @@ class UsersController extends AppController
         }
 
         //= error on login
-        $username = $this->request->data('username');
+        $username = $this->request->getData('username');
         $readUser = $this->Users->findByUsername($username)->first();
 
         $status = null;
@@ -97,7 +98,7 @@ class UsersController extends AppController
         }
 
         // don't autofill password
-        unset($this->request->data['User']['password']);
+        $this->setRequest($this->getRequest()->withData('password', ''));
 
         $Logger = new ForbiddenLogger;
         $Logger->write(
@@ -139,7 +140,7 @@ class UsersController extends AppController
             return;
         }
 
-        $data = $this->request->data;
+        $data = $this->request->getData();
 
         if (!$tosRequired) {
             $data['tos_confirm'] = true;
@@ -150,16 +151,16 @@ class UsersController extends AppController
         }
 
         $validator = new SimpleCaptchaValidator();
-        $errors = $validator->errors($this->request->data);
+        $errors = $validator->errors($this->request->getData());
 
         $user = $this->Users->register($data);
-        $user->errors($errors);
+        $user->setErrors($errors);
 
-        $errors = $user->errors();
+        $errors = $user->getErrors();
         if (!empty($errors)) {
             // registering failed, show form again
             if (isset($errors['password'])) {
-                $user->errors($errors);
+                $user->setErrors($errors);
             }
             $user->set('tos_confirm', false);
             $this->set('user', $user);
@@ -206,7 +207,7 @@ class UsersController extends AppController
         if (!$id) {
             throw new BadRequestException();
         }
-        $code = $this->request->query('c');
+        $code = $this->request->getQuery('c');
         try {
             $activated = $this->Users->activate((int)$id, $code);
         } catch (\Exception $e) {
@@ -264,7 +265,7 @@ class UsersController extends AppController
     public function ignore()
     {
         $this->request->allowMethod('POST');
-        $blockedId = (int)$this->request->data('id');
+        $blockedId = (int)$this->request->getData('id');
         $this->_ignore($blockedId, true);
     }
 
@@ -276,7 +277,7 @@ class UsersController extends AppController
     public function unignore()
     {
         $this->request->allowMethod('POST');
-        $blockedId = (int)$this->request->data('id');
+        $blockedId = (int)$this->request->getData('id');
         $this->_ignore($blockedId, false);
     }
 
@@ -435,8 +436,8 @@ class UsersController extends AppController
         $data = [];
         if ($this->request->is('post') || $this->request->is('put')) {
             $data = [
-                'avatar' => $this->request->data('avatar'),
-                'avatarDelete' => $this->request->data('avatarDelete')
+                'avatar' => $this->request->getData('avatar'),
+                'avatarDelete' => $this->request->getData('avatarDelete')
             ];
             if (!empty($data['avatarDelete'])) {
                 $data['avatar'] = null;
@@ -464,7 +465,7 @@ class UsersController extends AppController
     {
         $data = [];
         if ($this->request->is('post') || $this->request->is('put')) {
-            $data = $this->request->data;
+            $data = $this->request->getData();
             unset($data['id']);
             //= make sure only admin can edit these fields
             if (!$this->CurrentUser->permission('saito.core.user.edit')) {
@@ -512,7 +513,7 @@ class UsersController extends AppController
 
         if ($data) {
             $user = $this->Users->patchEntity($user, $data);
-            $errors = $user->errors();
+            $errors = $user->getErrors();
             if (empty($errors) && $this->Users->save($user)) {
                 return $this->redirect(['action' => 'view', $userId]);
             } else {
@@ -536,11 +537,11 @@ class UsersController extends AppController
     public function lock()
     {
         $form = new BlockForm();
-        if (!$this->modLocking || !$form->validate($this->request->data)) {
+        if (!$this->modLocking || !$form->validate($this->request->getData())) {
             throw new BadRequestException;
         }
 
-        $id = (int)$this->request->data('lockUserId');
+        $id = (int)$this->request->getData('lockUserId');
         if (!$this->Users->exists($id)) {
             $message = __('User not found.');
             $this->Flash->set($message, ['element' => 'error']);
@@ -557,7 +558,7 @@ class UsersController extends AppController
             $this->Flash->set($message, ['element' => 'error']);
         } else {
             try {
-                $duration = (int)$this->request->data('lockPeriod');
+                $duration = (int)$this->request->getData('lockPeriod');
                 $status = $this->Users->UserBlocks->block(
                     new ManualBlocker,
                     $id,
@@ -627,16 +628,17 @@ class UsersController extends AppController
         $this->set('username', $user->get('username'));
 
         //= just show empty form
-        if (empty($this->request->data)) {
+        if (empty($this->request->getData())) {
             return;
         }
 
+        $formFields = ['password', 'password_old', 'password_confirm'];
+
         //= process submitted form
-        $data = [
-            'password_old' => $this->request->data['password_old'],
-            'password' => $this->request->data['password'],
-            'password_confirm' => $this->request->data['password_confirm']
-        ];
+        $data = [];
+        foreach ($formFields as $field) {
+            $data[$field] = $this->request->getData($field);
+        }
         $this->Users->patchEntity($user, $data);
         $success = $this->Users->save($user);
 
@@ -650,7 +652,7 @@ class UsersController extends AppController
             return;
         }
 
-        $errors = $user->errors();
+        $errors = $user->getErrors();
         if (!empty($errors)) {
             $this->Flash->set(
                 __d('nondynamic', current(array_pop($errors))),
@@ -658,8 +660,10 @@ class UsersController extends AppController
             );
         }
 
-        // unset all autofill form data
-        $this->request->data = [];
+        //= unset all autofill form data
+        foreach ($formFields as $field) {
+            $this->request = $this->request->withoutData($field);
+        }
     }
 
     /**
@@ -674,7 +678,7 @@ class UsersController extends AppController
             throw new BadRequestException;
         }
 
-        $toggle = $this->request->data('slidetabKey');
+        $toggle = $this->request->getData('slidetabKey');
         $allowed = [
             'show_userlist',
             'show_recentposts',
@@ -688,7 +692,7 @@ class UsersController extends AppController
         $userId = $this->CurrentUser->getId();
         $newValue = $this->Users->toggle($userId, $toggle);
         $this->CurrentUser->set($toggle, $newValue);
-        $this->response->body($newValue);
+        $this->response = $this->response->withStringBody($newValue);
 
         return $this->response;
     }
@@ -705,7 +709,7 @@ class UsersController extends AppController
             throw new BadRequestException;
         }
 
-        $order = $this->request->data('slidetabOrder');
+        $order = $this->request->getData('slidetabOrder');
         if (!$order) {
             throw new BadRequestException;
         }
@@ -726,7 +730,7 @@ class UsersController extends AppController
 
         $this->CurrentUser->set('slidetab_order', $order);
 
-        $this->response->body(true);
+        $this->response = $this->response->withStringBody(true);
 
         return $this->response;
     }
@@ -743,8 +747,8 @@ class UsersController extends AppController
         $userId = $this->CurrentUser->getId();
         if ($id === 'all') {
             $this->Users->setCategory($userId, 'all');
-        } elseif (!$id && $this->request->data) {
-            $data = $this->request->data('CatChooser');
+        } elseif (!$id && $this->request->getData()) {
+            $data = $this->request->getData('CatChooser');
             $this->Users->setCategory($userId, $data);
         } else {
             $this->Users->setCategory($userId, $id);
@@ -765,7 +769,7 @@ class UsersController extends AppController
         Stopwatch::start('Users->beforeFilter()');
 
         $unlocked = ['slidetabToggle', 'slidetabOrder'];
-        $this->Security->config('unlockedActions', $unlocked);
+        $this->Security->setConfig('unlockedActions', $unlocked);
 
         $this->Auth->allow(['login', 'register', 'rs']);
         $this->modLocking = $this->CurrentUser

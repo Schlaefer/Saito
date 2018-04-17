@@ -1,15 +1,15 @@
 <?php
-echo $this->Form->input('username', [
+echo $this->Form->control('username', [
     'autocomplete' => 'username',
     'label' => __('register_user_name'),
     'tabindex' => 1
 ]);
-echo $this->Form->input('user_email', [
+echo $this->Form->control('user_email', [
     'autocomplete' => 'email',
     'label' => __('register_user_email'),
     'tabindex' => 2
 ]);
-echo $this->Form->input('password', [
+echo $this->Form->control('password', [
     'autocomplete' => 'new-password',
     'type' => 'password',
     'div' => ['class' => 'input required'],
@@ -17,7 +17,7 @@ echo $this->Form->input('password', [
     'tabindex' => 3,
     'value' => ''
 ]);
-echo $this->Form->input('password_confirm', [
+echo $this->Form->control('password_confirm', [
     'autocomplete' => 'new-password',
     'type' => 'password',
     'div' => ['class' => 'input password required'],

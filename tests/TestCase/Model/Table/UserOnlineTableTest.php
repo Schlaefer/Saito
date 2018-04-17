@@ -51,7 +51,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
 
@@ -74,7 +74,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
         $this->_assertTimeIsNow($result[1]);
@@ -91,7 +91,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
         $result = Hash::remove($result, '{n}.time');
@@ -105,7 +105,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
         $result = Hash::remove($result, '{n}.time');
@@ -129,7 +129,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
 
@@ -153,7 +153,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         //* test if user is inserted
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
         $expected = $this->_startUsersOnline;
@@ -168,7 +168,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $this->Table->setOffline($_userId);
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
         $expected = [];
@@ -194,7 +194,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         $result = $this->Table->find()
             ->select($this->_fields)
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all()
             ->toArray();
 
@@ -229,7 +229,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $this->Table->setOnline($_userId, false);
 
         $result = $this->Table->getLoggedIn()
-            ->hydrate(false)
+            ->enableHydration(false)
             ->toArray();
         $expected[] = [
             'id' => 1,

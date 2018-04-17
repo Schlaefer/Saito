@@ -2,6 +2,7 @@
 
 namespace Saito\Test;
 
+use Cake\Http\Response;
 use Cake\Routing\Router;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -16,13 +17,14 @@ trait AssertTrait
      */
     public function assertRedirectLogin($redirectUrl = null)
     {
+        /** @var Response $response */
         $response = $this->_controller->response;
         $expected = Router::url([
             '_name' => 'login',
             'plugin' => false,
             '?' => ['redirect' => $redirectUrl]
         ], true);
-        $redirectHeader = $response->header()['Location'];
+        $redirectHeader = $response->getHeader('Location')[0];
         $this->assertEquals($expected, $redirectHeader);
     }
 
@@ -75,7 +77,7 @@ trait AssertTrait
     {
         $this->assertContainsTag(
             $expected,
-            $this->_controller->response->body()
+            (string)$this->_controller->response->getBody()
         );
     }
 

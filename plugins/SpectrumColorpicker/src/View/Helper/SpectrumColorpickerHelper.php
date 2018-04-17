@@ -42,7 +42,7 @@ class SpectrumColorpickerHelper extends Helper
             $options[$key] += $defaults[$key];
         }
 
-        $html = $this->Form->input($field, $options['text']);
+        $html = $this->Form->control($field, $options['text']);
         $this->_generateJs($field, $options['color-picker']);
 
         return $html;

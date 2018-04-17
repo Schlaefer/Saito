@@ -31,7 +31,7 @@ class PostingHelperTest extends SaitoTestCase
 
     public function testGetFastLink()
     {
-        $this->Helper->request->webroot = 'localhost/';
+        $this->Helper->request = $this->Helper->request->withAttribute('webroot', 'localhost/');
 
         //= simple test
         $data = [

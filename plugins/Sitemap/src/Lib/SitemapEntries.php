@@ -81,7 +81,7 @@ class SitemapEntries extends SitemapGenerator
                                 'Entries.id >=' => $params['start'],
                                 'Entries.id <=' => $params['end'],
                             ])
-            ->hydrate(false)
+            ->enableHydration(false)
             ->all();
 
         $urls = [];

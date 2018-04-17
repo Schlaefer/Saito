@@ -2,7 +2,7 @@
 
 namespace Api\Error\Exception;
 
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 
 class GenericApiException extends BadRequestException
 {

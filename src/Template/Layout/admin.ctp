@@ -36,13 +36,13 @@
                 $jqueryVsBootstrapFix = ['onclick' => "$('.dropdown').removeClass('dropdown');"];
                 ?>
                 <ul class="nav">
-                    <li class="<?= preg_match('/\/admin$/', $this->request->here) ? 'active' : '' ?>">
+                    <li class="<?= preg_match('/\/admin$/', $this->request->getRequestTarget()) ? 'active' : '' ?>">
                         <?= $this->Html->link(__('Overview'), '/admin/') ?>
                     </li>
-                    <li class="<?= stristr($this->request->here, 'settings') ? 'active' : '' ?>">
+                    <li class="<?= stristr($this->request->getRequestTarget(), 'settings') ? 'active' : '' ?>">
                         <?php echo $this->Html->link(__('Settings'), '/admin/settings/index'); ?>
                     </li>
-                    <li class="dropdown <?= stristr($this->request->here, 'users') ? 'active' : '' ?>">
+                    <li class="dropdown <?= stristr($this->request->getRequestTarget(), 'users') ? 'active' : '' ?>">
                         <?php
                         echo $this->Html->link(
                             __('Users') . ' ▾',
@@ -69,10 +69,10 @@
                         );
                         ?>
                     </li>
-                    <li class="<?= stristr($this->request->here, 'categories') ? 'active' : '' ?>">
+                    <li class="<?= stristr($this->request->getRequestTarget(), 'categories') ? 'active' : '' ?>">
                         <?php echo $this->Html->link(__('Categories'), '/admin/categories/index'); ?>
                     </li>
-                    <li class="<?= stristr($this->request->here, 'smilies') ? 'active' : '' ?>">
+                    <li class="<?= stristr($this->request->getRequestTarget(), 'smilies') ? 'active' : '' ?>">
                         <?= $this->Html->link(__('Smilies'), '/admin/smilies/index') ?>
                     </li>
                     <?php
@@ -96,7 +96,7 @@
                         }
                         $dropdown .= $this->Html->nestedList($plugins, ['class' => 'dropdown-menu']);
 
-                        $active = stristr($this->request->here, 'plugin') ? ' active' : '';
+                        $active = stristr($this->request->getRequestTarget(), 'plugin') ? ' active' : '';
                         $dropdown = $this->Html->tag('li', $dropdown, ['class' => 'dropdown' . $active]);
                         echo $dropdown;
                     }
@@ -118,7 +118,14 @@
         <div class="span10">
             <?php
             echo $this->element('Flash/render');
-            echo $this->Html->getCrumbs(' > ');
+            echo $this->Breadcrumbs
+                ->setTemplates([
+                    'wrapper' => '<div{{attrs}}>{{content}}</div>',
+                    'item' => '<span{{attrs}}><a href="{{url}}"{{innerAttrs}}>{{title}}</a></span>{{separator}}',
+                    'itemWithoutLink' => '<span{{attrs}}><span{{innerAttrs}}>{{title}}</span></span>{{separator}}',
+                    'separator' => '<span{{attrs}}><span{{innerAttrs}}>{{separator}}</span></span>'
+                ])
+                ->render(['class' => 'breadcrumbs-trail'], ['separator' => ' &gt; ']);
             echo $this->fetch('content');
             ?>
         </div>

@@ -893,7 +893,7 @@ EOF;
     {
         // [code]<citation mark>[/code] should not be cited
         $input = h(
-            "[code]\n" . $this->_Helper->config('quote_symbol') . "\n[/code]"
+            "[code]\n" . $this->_Helper->getConfig('quote_symbol') . "\n[/code]"
         );
         $expected = '`span class=.*?richtext-citation`';
         $result = $this->_Parser->parse($input);
@@ -909,7 +909,7 @@ EOF;
 
     public function testQuote()
     {
-        $_qs = h($this->_Helper->config('quote_symbol'));
+        $_qs = h($this->_Helper->getConfig('quote_symbol'));
         $input = $_qs . ' fo [b]test[/b] ba';
         $result = $this->_Parser->parse($input);
         $expected = [

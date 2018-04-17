@@ -42,7 +42,7 @@ class ParserHelper extends AppHelper
      */
     public function beforeRender($viewFile)
     {
-        if (isset($this->request) && $this->request->action === 'preview') {
+        if (isset($this->request) && $this->request->getParam('action') === 'preview') {
             $this->Geshi->showPlainTextButton = false;
         }
     }

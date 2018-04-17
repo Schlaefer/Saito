@@ -40,7 +40,7 @@ class BookmarksTableTest extends SaitoTableTestCase
          */
         $data = ['entry_id' => 1, 'user_id' => 1];
         $bookmark = $this->Table->createBookmark($data);
-        $errors = $bookmark->errors();
+        $errors = $bookmark->getErrors();
         $this->assertTrue(isset($errors['entry_id']['unique']));
 
         /*
@@ -48,7 +48,7 @@ class BookmarksTableTest extends SaitoTableTestCase
          */
         $data = ['user_id' => 1];
         $bookmark = $this->Table->createBookmark($data);
-        $errors = $bookmark->errors();
+        $errors = $bookmark->getErrors();
         $this->assertTrue(isset($errors['entry_id']));
 
         /*
@@ -56,7 +56,7 @@ class BookmarksTableTest extends SaitoTableTestCase
          */
         $data = ['entry_id' => 1];
         $bookmark = $this->Table->createBookmark($data);
-        $errors = $bookmark->errors();
+        $errors = $bookmark->getErrors();
         $this->assertTrue(isset($errors['user_id']));
 
         /*
@@ -64,7 +64,7 @@ class BookmarksTableTest extends SaitoTableTestCase
          */
         $data = ['entry_id' => 9999, 'user_id' => 1];
         $bookmark = $this->Table->createBookmark($data);
-        $errors = $bookmark->errors();
+        $errors = $bookmark->getErrors();
         $this->assertTrue(isset($errors['entry_id']['exists']));
 
         /*
@@ -72,7 +72,7 @@ class BookmarksTableTest extends SaitoTableTestCase
          */
         $data = ['entry_id' => 1, 'user_id' => 9999];
         $bookmark = $this->Table->createBookmark($data);
-        $errors = $bookmark->errors();
+        $errors = $bookmark->getErrors();
         $this->assertTrue(isset($errors['user_id']['exists']));
 
         /*

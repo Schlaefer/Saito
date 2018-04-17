@@ -29,7 +29,7 @@ class ApiAppController extends AppController
 
         $allowOrigin = Configure::read('Saito.Settings.api_crossdomain');
         if (!empty($allowOrigin)) {
-            $this->response->header(
+            $this->response = $this->response->withAddedHeader(
                 'Access-Control-Allow-Origin',
                 $allowOrigin
             );
@@ -46,7 +46,7 @@ class ApiAppController extends AppController
     {
         $this->Auth->unauthorizedRedirect = false;
         if ($this->CurrentUser->isLoggedIn() === false &&
-            !in_array($this->request->action, $this->Auth->allowedActions)
+            !in_array($this->request->getParam('action'), $this->Auth->allowedActions)
         ) {
             throw new ApiAuthException();
         }

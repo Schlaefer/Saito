@@ -2,7 +2,7 @@
 use Cake\Collection\Collection;
 use Cake\Utility\Hash;
 
-$this->Html->addCrumb(__('Smilies'), '/admin/smilies');
+$this->Breadcrumbs->add(__('Smilies'), '/admin/smilies');
 ?>
 <?= $this->Admin->help(4) ?>
 <div class="smilies index">

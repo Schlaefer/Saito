@@ -1,5 +1,5 @@
 <?php
-$this->Html->addCrumb(__('Settings'), '/admin/settings');
+$this->Breadcrumbs->add(__('Settings'), '/admin/settings');
 $tableHeadersHtml = $this->Setting->tableHeaders();
 
 $this->start('settings');

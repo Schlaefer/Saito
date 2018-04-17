@@ -91,7 +91,7 @@ class ThreadsComponent extends Component
         //$this->loadComponent('Paginator');
         // this is the only way to set the whitelist
         // loadComponent() or paginate() do not work
-        $this->Paginator->config('whitelist', ['page'], false);
+        $this->Paginator->setConfig('whitelist', ['page'], false);
         $initialThreads = $this->Paginator->paginate($this->Entries, $settings);
 
         $initialThreadsNew = [];

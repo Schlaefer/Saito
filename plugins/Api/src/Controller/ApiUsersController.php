@@ -3,7 +3,7 @@
 namespace Api\Controller;
 
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Saito\Exception\SaitoForbiddenException;
 
 class ApiUsersController extends ApiAppController
@@ -24,25 +24,28 @@ class ApiUsersController extends ApiAppController
     {
         $this->CurrentUser->logout();
 
-        if (!$this->request->data('username')) {
+        if (!$this->request->getData('username')) {
             throw new BadRequestException(
                 'Field `username` is missing.',
                 1433238401
             );
         }
 
-        if (!$this->request->data('password')) {
+        if (!$this->request->getData('password')) {
             throw new BadRequestException(
                 'Field `password` is missing.',
                 1433238501
             );
         }
 
+        /*
+        @todo what was this fuck about?
         $this->request->data = [
-            'username' => $this->request->data('username'),
-            'password' => $this->request->data('password'),
-            'remember_me' => !empty($this->request->data['remember_me'])
+            'username' => $this->request->getData('username'),
+            'password' => $this->request->getData('password'),
+            'remember_me' => !empty($this->request->getData('remember_me'))
         ];
+        */
 
         $this->CurrentUser->login();
 
@@ -65,15 +68,15 @@ class ApiUsersController extends ApiAppController
         if (!$this->CurrentUser->isLoggedIn()) {
             throw new SaitoForbiddenException('You are not logged in.');
         }
-        if (!isset($this->request->data['id'])) {
+        $userId = $this->request->getData('id');
+        if (!$userId) {
             throw new BadRequestException('User id is missing.');
         }
-        $_userId = $this->request->data['id'];
-        if ((int)$_userId !== $this->CurrentUser->getId()) {
+        if ((int)$userId !== $this->CurrentUser->getId()) {
             throw new ForbiddenException(
                 sprintf(
                     'Not allowed to logout user with id `%s`.',
-                    $_userId
+                    $userId
                 )
             );
         }
@@ -88,7 +91,7 @@ class ApiUsersController extends ApiAppController
      */
     public function markasread()
     {
-        $data = $this->request->data();
+        $data = $this->request->getData();
         if (empty($data['id'])) {
             throw new BadRequestException('User id is missing.');
         }

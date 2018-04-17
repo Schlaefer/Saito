@@ -16,3 +16,5 @@
 /webroot/useruploads/**/*.*
 /build/
 /dist/
+# Saito 4/Cake 2 checkout
+/app 

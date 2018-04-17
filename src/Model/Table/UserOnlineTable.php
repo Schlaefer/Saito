@@ -25,7 +25,7 @@ class UserOnlineTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('useronline');
+        $this->setTable('useronline');
 
         $this->addBehavior('Timestamp');
 

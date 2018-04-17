@@ -2,7 +2,7 @@
 
 namespace Saito\Exception;
 
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Saito\Exception\Logger\ExceptionLogger;
 
 class SaitoBlackholeException extends BadRequestException

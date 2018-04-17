@@ -40,10 +40,10 @@ class UsersController extends AppController
      */
     public function add()
     {
-        if (!$this->request->is('post') && empty($this->request->data)) {
+        if (!$this->request->is('post') && empty($this->request->getData())) {
             $user = $this->Users->newEntity();
         } else {
-            $user = $this->Users->register($this->request->data, true);
+            $user = $this->Users->register($this->request->getData(), true);
             if ($user && empty($errors)) {
                 $this->Flash->set(__('user.admin.add.success'), ['element' => 'success']);
 
@@ -72,7 +72,7 @@ class UsersController extends AppController
         }
         $readUser = $this->Users->get($id);
 
-        if ($this->request->is('post') && isset($this->request->data['modeDelete'])) {
+        if ($this->request->is('post') && $this->request->getData('modeDelete')) {
             if ($id === $this->CurrentUser->getId()) {
                 $this->Flash->set(
                     __("You can't delete yourself."),

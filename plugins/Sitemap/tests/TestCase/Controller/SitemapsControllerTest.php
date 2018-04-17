@@ -51,7 +51,7 @@ class SitemapsControllerTest extends IntegrationTestCase
 
     public function setUp()
     {
-        if (Cache::config('sitemap')) {
+        if (Cache::getConfig('sitemap')) {
             Cache::clear(false, 'sitemap');
         }
         parent::setUp();

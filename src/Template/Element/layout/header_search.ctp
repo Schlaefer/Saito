@@ -21,7 +21,7 @@
         ]
     );
     echo '<div>';
-    echo $this->Form->input(
+    echo $this->Form->control(
         'q',
         [
             'id' => 'header-searchField',

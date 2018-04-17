@@ -61,12 +61,12 @@ class JsDataHelper extends AppHelper
                     'subject_maxlength' => (int)Configure::read('Saito.Settings.subject_maxlength'),
                     'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
                     'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
-                    'webroot' => $View->request->webroot
+                    'webroot' => $View->request->getAttribute('webroot')
                 ]
             ],
             'request' => [
-                'action' => $View->request->action,
-                'controller' => $View->request->controller,
+                'action' => $View->request->getParam('action'),
+                'controller' => $View->request->getParam('controller'),
                 'isMobile' => $View->request->isMobile(),
                 'isPreview' => $View->request->isPreview(),
                 'csrf' => $this->_getCsrf($View)
@@ -100,9 +100,9 @@ class JsDataHelper extends AppHelper
     protected function _getCsrf(View $View)
     {
         $key = 'csrfToken';
-        $token = $View->request->cookie($key);
+        $token = $View->request->getCookie($key);
         if (empty($token)) {
-            $token = $View->response->cookie($key)['value'];
+            $token = $View->response->getCookie($key)['value'];
         }
         $header = 'X-CSRF-Token';
 

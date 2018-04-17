@@ -7,7 +7,7 @@ echo $this->Form->create(
     ['url' => ['action' => 'register'], 'id' => 'registerForm']
 );
 echo $this->element('users/register-form-core');
-echo $this->SimpleCaptcha->input(
+echo $this->SimpleCaptcha->control(
     [
         'required' => true,
         'div' => ['class' => 'input required'],
@@ -21,7 +21,7 @@ if (Configure::read('Saito.Settings.tos_enabled')) {
         $tosUrl = '/pages/' . Configure::read('Saito.language') . '/tos';
     };
 
-    echo $this->Form->input(
+    echo $this->Form->control(
         'tos_confirm',
         [
             'type' => 'checkbox',

@@ -1,7 +1,7 @@
 <?php
 
-$this->Html->addCrumb(__('Users'), '/admin/users');
-$this->Html->addCrumb(__('Add User'), '/admin/users/add');
+$this->Breadcrumbs->add(__('Users'), '/admin/users');
+$this->Breadcrumbs->add(__('Add User'), '/admin/users/add');
 
 echo $this->Html->tag('h1', __('Add User'));
 

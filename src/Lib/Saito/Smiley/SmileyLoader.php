@@ -26,7 +26,7 @@ class SmileyLoader
             $smiliesRaw = $Smilies->find()
                 ->contain(['SmileyCodes'])
                 ->order(['sort' => 'ASC'])
-                ->hydrate(false)
+                ->enableHydration(false)
                 ->all()
                 ->toArray();
 

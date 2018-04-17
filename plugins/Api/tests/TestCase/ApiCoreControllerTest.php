@@ -69,7 +69,7 @@ EOF;
         $expected = json_decode($_json, true);
 
         $this->get($this->_apiRoot . 'bootstrap.json');
-        $result = json_decode($this->_response->body(), true);
+        $result = json_decode((string)$this->_response->getBody(), true);
 
         // test server_time
         $this->assertNotEmpty($result['server']['time']);
@@ -122,7 +122,7 @@ EOF;
         $expected = json_decode($_json, true);
         $this->_loginUser(3);
         $this->get($this->_apiRoot . 'bootstrap.json');
-        $result = $this->_response->body();
+        $result = (string)$this->_response->getBody();
         $result = json_decode($result, true)['categories'];
         $this->assertEquals($expected, $result);
     }

@@ -43,8 +43,8 @@ class TitleComponent extends Component
             return $controller->viewVars['titleForPage'];
         }
 
-        $ctrler = $controller->request->controller;
-        $action = $controller->request->action;
+        $ctrler = $controller->request->getParam('controller');
+        $action = $controller->request->getParam('action');
         $key = lcfirst($ctrler) . '/' . $action;
         $page = __d('page_titles', $key);
         if ($key === $page) {

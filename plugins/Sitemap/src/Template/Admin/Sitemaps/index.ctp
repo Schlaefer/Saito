@@ -1,6 +1,6 @@
 <?php
-    $this->Html->addCrumb(__('Plugins'), '/admin/plugins');
-    $this->Html->addCrumb('Sitemap', '/admin/plugins/sitemap');
+    $this->Breadcrumbs->add(__('Plugins'), '/admin/plugins');
+    $this->Breadcrumbs->add('Sitemap', '/admin/plugins/sitemap');
     echo $this->Html->tag('h1', 'Sitemap');
 
 ?>

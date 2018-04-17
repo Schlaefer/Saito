@@ -4,7 +4,7 @@ namespace Saito\Test;
 
 use Cake\Core\Configure;
 use Cake\Event\EventManager;
-use Cake\Network\Email\Email;
+use Cake\Mailer\Email;
 use Cake\Utility\Inflector;
 use Cron\Lib\Cron;
 use Saito\App\Registry;
@@ -128,7 +128,7 @@ trait TestCaseTrait
     {
         $mock = $this->createMock('Cake\Mailer\Transport\DebugTransport');
         Email::dropTransport('saito');
-        Email::configTransport('saito', $mock);
+        Email::setConfigTransport('saito', $mock);
 
         return $mock;
     }

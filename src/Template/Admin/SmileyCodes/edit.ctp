@@ -1,6 +1,6 @@
-<?php $this->Html->addCrumb(__('Smilies'), '/admin/smilies'); ?>
-<?php $this->Html->addCrumb(__('Smiley Codes'), '/admin/smiley_codes'); ?>
-<?php $this->Html->addCrumb(
+<?php $this->Breadcrumbs->add(__('Smilies'), '/admin/smilies'); ?>
+<?php $this->Breadcrumbs->add(__('Smiley Codes'), '/admin/smiley_codes'); ?>
+<?php $this->Breadcrumbs->add(
     __('Edit Smiley Code'),
     '/admin/smiley_codes/edit/' . $smiley->get('id')
 ); ?>
@@ -9,8 +9,8 @@
     <?php echo $this->Form->create($smiley); ?>
     <fieldset>
         <?php
-        echo $this->Form->input('smiley_id');
-        echo $this->Form->input('code');
+        echo $this->Form->control('smiley_id');
+        echo $this->Form->control('code');
         ?>
     </fieldset>
     <?php

@@ -1,6 +1,6 @@
 <?php
 
-$this->Html->addCrumb(__('Plugins'), '/admin/plugins');
+$this->Breadcrumbs->add(__('Plugins'), '/admin/plugins');
 
 echo $this->Html->tag('h1', __('Plugins'));
 

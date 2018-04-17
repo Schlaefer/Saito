@@ -115,9 +115,9 @@ class BookmarksTable extends Table
     {
         $bookmark = $this->newEntity(
             $data,
-            ['fieldList' => ['entry_id', 'user_id']]
+            ['fields' => ['entry_id', 'user_id']]
         );
-        if ($bookmark->errors()) {
+        if ($bookmark->getErrors()) {
             return $bookmark;
         }
 

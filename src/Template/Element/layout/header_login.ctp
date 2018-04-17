@@ -3,16 +3,16 @@ if (!isset($divider)) {
     $divider = '';
 }
 if (!$CurrentUser->isLoggedIn()) {
-    $register = $this->request->webroot . 'users/register/';
+    $register = $this->request->getAttribute('webroot') . 'users/register/';
     echo '<a href="' . $register . '" class="top-menu-item" rel="nofollow">';
     echo __('register_linkname');
     echo '</a>';
 
-    $action = $this->request->params['action'];
+    $action = $this->request->getParam('action');
     if ($action !== 'login') {
         echo $divider;
         ?>
-        <a href="<?php echo $this->request->webroot; ?>login/"
+        <a href="<?php echo $this->request->getAttribute('webroot'); ?>login/"
            id="showLoginForm" title="<?= __('login_btn') ?>"
            class='top-menu-item' rel="nofollow">
             <?= $this->Layout->textWithIcon(__('login_btn'), 'sign-in') ?>
@@ -29,7 +29,7 @@ if (!$CurrentUser->isLoggedIn()) {
         echo $divider;
     }
     ?>
-    <a href="<?= $this->request->webroot; ?>users/view/<?= $CurrentUser->getId() ?>"
+    <a href="<?= $this->request->getAttribute('webroot'); ?>users/view/<?= $CurrentUser->getId() ?>"
        id="btn_view_current_user" class="top-menu-item">
         <?= $this->Layout->textWithIcon(__('user.b.profile'), 'user') ?>
     </a>
@@ -42,7 +42,7 @@ if (!$CurrentUser->isLoggedIn()) {
     if ($items) {
         foreach ($items as $item) {
             echo $divider;
-            $link = $this->request->webroot . $item['url'];
+            $link = $this->request->getAttribute('webroot') . $item['url'];
             echo "<a href=\"{$link}\" class=\"top-menu-item\">{$item['title']}";
             echo '</a>';
         }

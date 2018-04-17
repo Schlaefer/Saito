@@ -40,7 +40,7 @@ class ApiAppControllerTest extends ApiIntegrationTestCase
         $expected = rand();
         Configure::write('Saito.Settings.api_crossdomain', $expected);
         $this->get($this->_apiRoot . 'bootstrap.json');
-        $header = $this->_response->header()['Access-Control-Allow-Origin'];
+        $header = $this->_response->getHeaderLine('Access-Control-Allow-Origin');
         $this->assertEquals($expected, $header);
     }
 
@@ -48,7 +48,7 @@ class ApiAppControllerTest extends ApiIntegrationTestCase
     {
         Configure::write('Saito.Settings.api_crossdomain', '');
         $this->get($this->_apiRoot . 'bootstrap.json');
-        $headers = $this->_response->header();
+        $headers = $this->_response->getHeaders();
         $this->assertFalse(isset($headers['Access-Control-Allow-Origin']));
     }
 }

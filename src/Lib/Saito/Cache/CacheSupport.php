@@ -3,6 +3,7 @@
 namespace Saito\Cache;
 
 use Cake\Cache\Cache;
+use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Event\EventManager;
 use Saito\Event\SaitoEventListener;
@@ -36,7 +37,7 @@ class CacheSupport implements EventListenerInterface
             $name = 'Saito\Cache\\' . $_name;
             $this->add(new $name);
         }
-        EventManager::instance()->attach($this);
+        EventManager::instance()->on($this);
     }
 
     /**
@@ -53,10 +54,10 @@ class CacheSupport implements EventListenerInterface
      * @param Event $event event
      * @return void
      */
-    public function onClear($event)
+    public function onClear(Event $event)
     {
-        $cache = $event->data['cache'];
-        $id = isset($event->data['id']) ? $event->data['id'] : null;
+        $cache = $event->getData('cache');
+        $id = $event->getData('id');
         $this->clear($cache, $id);
     }
 
@@ -217,7 +218,7 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
      */
     public function __construct()
     {
-        EventManager::instance()->attach($this);
+        EventManager::instance()->on($this);
         SaitoEventManager::getInstance()->attach($this);
     }
 

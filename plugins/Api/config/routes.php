@@ -11,7 +11,7 @@ Router::scope(
     function ($routes) {
 
         // must be first in scope to apply to following routes
-        $routes->extensions(['json']);
+        $routes->setExtensions(['json']);
 
         // Shouts
         // -------------------------------------

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
 
 class StatusController extends AppController
@@ -29,7 +29,7 @@ class StatusController extends AppController
         } else {
             $body = $this->_statusAsJson($data);
         }
-        $this->response->body($body);
+        $this->response = $this->response->withStringBody($body);
 
         return $this->response;
     }
@@ -44,8 +44,8 @@ class StatusController extends AppController
     {
         // time in ms to next request
         $retry = '10000';
-        $this->response->type(['eventstream' => 'text/event-stream']);
-        $this->response->type('eventstream');
+        $this->response = $this->response->withType(['eventstream' => 'text/event-stream']);
+        $this->response = $this->response->withType('eventstream');
         $this->response->disableCache();
         $out = '';
         $out .= "retry: $retry\n";
@@ -65,7 +65,7 @@ class StatusController extends AppController
         if ($this->request->is('ajax') === false) {
             throw new BadRequestException();
         }
-        $this->response->type('json');
+        $this->response = $this->response->withType('json');
 
         return $data;
     }

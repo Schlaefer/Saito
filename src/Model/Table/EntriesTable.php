@@ -5,7 +5,7 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\AppTable;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
-use Cake\Network\Exception\ForbiddenException;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
@@ -217,7 +217,7 @@ class EntriesTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->provider(
+        $validator->setProvider(
             'saito',
             'Saito\Validation\SaitoValidationProvider'
         );
@@ -352,7 +352,7 @@ class EntriesTable extends AppTable
         unset($options['return']);
 
         $result = $this->find('entry')
-            ->where([$this->alias() . '.id' => $primaryKey])
+            ->where([$this->getAlias() . '.id' => $primaryKey])
             ->first();
 
         if (!$result) {
@@ -418,10 +418,10 @@ class EntriesTable extends AppTable
         $data['time'] = bDate();
         $data['last_answer'] = bDate();
 
-        $this->validator()->requirePresence('category_id', 'create');
+        $this->getValidator()->requirePresence('category_id', 'create');
 
         $posting = $this->newEntity($data);
-        $errors = $posting->errors();
+        $errors = $posting->getErrors();
         if (!empty($errors)) {
             return $posting;
         }
@@ -513,7 +513,7 @@ class EntriesTable extends AppTable
         $data['time'] = $posting->get('time');
         $data['user_id'] = $posting->get('user_id');
         $data['locked'] = $posting->get('locked');
-        $this->validator()->add(
+        $this->getValidator()->add(
             'edited_by',
             'isEditingAllowed',
             ['rule' => [$this, 'validateEditingAllowed']]
@@ -657,7 +657,7 @@ class EntriesTable extends AppTable
                 ]
             )
             // hydrating kills performance
-            ->hydrate(false);
+            ->enableHydration(false);
 
         return $threads;
     }
@@ -735,7 +735,7 @@ class EntriesTable extends AppTable
         Validator $validator
     ) {
         //= in n/t posting delete unnecessary body text
-        if ($entity->dirty('text')) {
+        if ($entity->isDirty('text')) {
             $entity->set('text', rtrim($entity->get('text')));
         }
     }
@@ -1044,7 +1044,7 @@ class EntriesTable extends AppTable
         $success = true;
 
         //= change category of thread if category of root entry changed
-        if ($entity->dirty('category_id')) {
+        if ($entity->isDirty('category_id')) {
             $oldEntry = $this->find()
                 ->select(['pid', 'tid', 'category_id'])
                 ->where(['id' => $entity->get('id')])

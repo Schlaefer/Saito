@@ -1,11 +1,14 @@
 <?php
 $redirect = $this->request->getQuery('redirect', null);
-echo $this->Form->create(null, [
-    'url' => ['_name' => 'login', '?' => ['redirect' => $redirect]],
-    'id' => 'login_form'
-]);
+echo $this->Form->create(
+    null,
+    [
+        'url' => ['_name' => 'login', '?' => ['redirect' => $redirect]],
+        'id' => 'login_form'
+    ]
+);
 
-echo $this->Form->input(
+echo $this->Form->control(
     'username',
     [
         'id' => 'tf-login-username',
@@ -16,7 +19,7 @@ echo $this->Form->input(
     ]
 );
 
-echo $this->Form->input(
+echo $this->Form->control(
     'password',
     [
         'type' => 'password',
@@ -27,7 +30,7 @@ echo $this->Form->input(
     ]
 );
 
-echo $this->Form->input(
+echo $this->Form->control(
     'remember_me',
     [
         'label' => [

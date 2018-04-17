@@ -4,9 +4,9 @@ namespace Api\Controller;
 
 use Api\Error\Exception\ApiValidationException;
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\ForbiddenException;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\NotFoundException;
 
 class ApiEntriesController extends ApiAppController
 {
@@ -21,7 +21,7 @@ class ApiEntriesController extends ApiAppController
     public function threadsGet()
     {
         $order = 'time';
-        if ($this->request->query('order') === 'answer') {
+        if ($this->request->getQuery('order') === 'answer') {
             $order = 'last_answer';
         }
         $order = [
@@ -29,12 +29,12 @@ class ApiEntriesController extends ApiAppController
             'Entries.' . $order => 'DESC'
         ];
 
-        $limit = (int)$this->request->query('limit');
+        $limit = (int)$this->request->getQueryParams('limit');
         if ($limit <= 0 || $limit > 100) {
             $limit = 10;
         }
 
-        $offset = (int)$this->request->query('offset');
+        $offset = (int)$this->request->getQueryParams('offset');
         if ($offset < 0) {
             $offset = 0;
         }
@@ -67,15 +67,15 @@ class ApiEntriesController extends ApiAppController
      */
     public function entriesItemPost()
     {
-        $data = $this->request->data();
+        $data = $this->request->getData();
         if (isset($data['parent_id'])) {
             $data['pid'] = $data['parent_id'];
             unset($data['parent_id']);
         }
 
         $new = $this->Entries->createPosting($data);
-        if (($errors = $new->errors()) && !empty($errors)) {
-            $errors = $new->errors();
+        if (($errors = $new->getErrors()) && !empty($errors)) {
+            $errors = $new->getErrors();
             if (!empty($errors)) {
                 $field = key($errors);
                 throw new ApiValidationException(
@@ -122,7 +122,7 @@ class ApiEntriesController extends ApiAppController
                 'order' => $order,
                 'contain' => ['Categories', 'Users']
             ]
-        )->hydrate(false);
+        )->enableHydration(false);
 
         if ($entries->count() === 0) {
             throw new NotFoundException(
@@ -172,10 +172,10 @@ class ApiEntriesController extends ApiAppController
             );
         }
 
-        $data = $this->request->data();
+        $data = $this->request->getData();
         $data['id'] = (int)$id;
         $posting = $this->Entries->update($posting, $data);
-        if (count($posting->errors())) {
+        if (count($posting->getErrors())) {
             throw new BadRequestException(
                 'Tried to save entry but failed for unknown reason.'
             );

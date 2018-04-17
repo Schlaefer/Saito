@@ -53,7 +53,7 @@ class AppController extends Controller
         parent::initialize();
 
         if (!$this->request->is('requested')) {
-            $this->request->session()->start();
+            $this->request->getSession()->start();
         }
 
         // Leave in front to have it available in all Components
@@ -63,7 +63,7 @@ class AppController extends Controller
         $this->loadComponent('ActionAuthorization');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
         $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
-        $this->loadComponent('RequestHandler');
+        $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
         $this->loadComponent('CurrentUser');
@@ -97,7 +97,7 @@ class AppController extends Controller
         };
 
         // setup for admin area
-        if ($this->request->param('prefix') === 'admin') {
+        if ($this->request->getParam('prefix') === 'admin') {
             $this->viewBuilder()->layout('admin');
         }
 
@@ -114,7 +114,7 @@ class AppController extends Controller
         $this->_setConfigurationFromGetParams();
 
         // allow sql explain for DebugKit toolbar
-        if ($this->request->plugin === 'debug_kit') {
+        if ($this->request->getParam('plugin') === 'debug_kit') {
             $this->Auth->allow('sql_explain');
         }
 
@@ -158,19 +158,20 @@ class AppController extends Controller
         }
 
         //= change theme on the fly with ?theme=<name>
-        if (isset($this->request->query['theme'])) {
-            $this->Themes->set($this->request->query['theme']);
+        $theme = $this->request->getQuery('theme');
+        if ($theme) {
+            $this->Themes->set($theme);
         }
 
         //= activate stopwatch
-        if (isset($this->request->query['stopwatch'])
-            && Configure::read('Saito.Settings.stopwatch_get')
+        $stopwatch = $this->request->getQuery('stopwatch');
+        if ($stopwatch && Configure::read('Saito.Settings.stopwatch_get')
         ) {
             $this->set('showStopwatchOutput', true);
         };
 
         //= change language
-        $lang = $this->request->query('lang');
+        $lang = $this->request->getQuery('lang');
         if (!empty($lang)) {
             Configure::write('Saito.language', $lang);
         };
@@ -199,7 +200,7 @@ class AppController extends Controller
     protected function _requireAuth()
     {
         $this->Flash->set(__('auth_autherror'), ['element' => 'warning']);
-        $here = $this->request->here(false);
+        $here = $this->request->getRequestTarget();
 
         return $this->redirect([
             '_name' => 'login',
@@ -216,7 +217,7 @@ class AppController extends Controller
     protected function _l10nRenderFile()
     {
         $locale = Configure::read('Saito.language');
-        I18n::locale($locale);
+        I18n::setLocale($locale);
         if (!$locale) {
             return;
         }
@@ -256,7 +257,7 @@ class AppController extends Controller
     public function isAuthorized(array $user)
     {
         $user = new CurrentUser($user);
-        $action = $this->request->action;
+        $action = $this->request->getParam('action');
 
         return $this->ActionAuthorization->isAuthorized($user, $action);
     }

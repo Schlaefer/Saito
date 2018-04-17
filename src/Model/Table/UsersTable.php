@@ -5,12 +5,13 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\AppTable;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Auth\PasswordHasherFactory;
-use Cake\Database\Schema\Table as Schema;
+use Cake\Database\Schema\TableSchema;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Utility\Hash;
+use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use Saito\User\Upload\AvatarFilenameListener;
 use Stopwatch\Lib\Stopwatch;
@@ -83,7 +84,7 @@ class UsersTable extends AppTable
                 ]
             ]
         );
-        $this->eventManager()->on(new AvatarFilenameListener());
+        $this->getEventManager()->on(new AvatarFilenameListener());
 
         $this->hasOne('UserOnline', ['foreignKey' => 'user_id']);
 
@@ -123,13 +124,13 @@ class UsersTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->provider(
+        $validator->setProvider(
             'saito',
             'Saito\Validation\SaitoValidationProvider'
         );
 
         $validator
-            ->provider(
+            ->setProvider(
                 'proffer',
                 'Proffer\Model\Validation\ProfferRules'
             )
@@ -147,7 +148,7 @@ class UsersTable extends AppTable
                 'avatar',
                 'avatar-size',
                 [
-                    'rule' => ['fileSize', 'isless', '3MB'],
+                    'rule' => ['fileSize', Validation::COMPARE_LESS, '3MB'],
                     'message' => __('user.avatar.error.size', ['3'])
                 ]
             )
@@ -374,10 +375,10 @@ class UsersTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    protected function _initializeSchema(Schema $table)
+    protected function _initializeSchema(TableSchema $table)
     {
-        $table->columnType('avatar', 'proffer.file');
-        $table->columnType('user_category_custom', 'serialize');
+        $table->setColumnType('avatar', 'proffer.file');
+        $table->setColumnType('user_category_custom', 'serialize');
 
         return $table;
     }
@@ -513,7 +514,7 @@ class UsersTable extends AppTable
         Entity $entity,
         \ArrayObject $options
     ) {
-        if ($entity->dirty('password')) {
+        if ($entity->isDirty('password')) {
             $hashedPassword = $this->_hashPassword($entity->get('password'));
             $entity->set('password', $hashedPassword);
         }
@@ -528,7 +529,7 @@ class UsersTable extends AppTable
         \ArrayObject $options,
         Validator $validator
     ) {
-        if ($entity->dirty('user_forum_refresh_time')) {
+        if ($entity->isDirty('user_forum_refresh_time')) {
             $time = $entity->get('user_forum_refresh_time');
             if (empty($time)) {
                 $entity->set('user_forum_refresh_time', 0);
@@ -645,8 +646,8 @@ class UsersTable extends AppTable
             return false;
         }
 
-        $user = $this->newEntity($data, ['fieldList' => $fields]);
-        $errors = $user->errors();
+        $user = $this->newEntity($data, ['fields' => $fields]);
+        $errors = $user->getErrors();
         if (!empty($errors)) {
             return $user;
         }
@@ -735,11 +736,11 @@ class UsersTable extends AppTable
         // @td @perf Ignore is currently retrieved via second query, consider moving
         // it as cache into user-table
         $user = $this->find()
-            ->hydrate(false)
+            ->enableHydration(false)
             ->contain(
                 [
                     'UserIgnores' => function ($query) {
-                        return $query->hydrate(false)->select(
+                        return $query->enableHydration(false)->select(
                             ['blocked_user_id', 'user_id']
                         );
                     }
@@ -777,7 +778,7 @@ class UsersTable extends AppTable
             ->join(
                 [
                     'Entries' => [
-                        'table' => $this->Entries->table(),
+                        'table' => $this->Entries->getTable(),
                         'type' => 'INNER',
                         'conditions' => [
                             [
@@ -787,7 +788,7 @@ class UsersTable extends AppTable
                         ],
                     ],
                     'Root' => [
-                        'table' => $this->Entries->table(),
+                        'table' => $this->Entries->getTable(),
                         'type' => 'INNER',
                         // Don't answers to own question.
                         'conditions' => [
@@ -888,6 +889,21 @@ class UsersTable extends AppTable
         $auth = new DefaultPasswordHasher();
 
         return $auth->hash($password);
+    }
+
+    /**
+     * Find all users allowed to login
+     *
+     * @param Query $query query
+     * @param array $options options
+     * @return Query
+     */
+    public function findAllowedToLogin(Query $query, array $options): Query
+    {
+        $query
+            ->where(['activate_code' => 0, 'user_lock' => false]);
+
+        return $query;
     }
 
     /**

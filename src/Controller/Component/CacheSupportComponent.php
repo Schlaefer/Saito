@@ -77,7 +77,7 @@ class CacheSupportComponent extends Component
      */
     public function beforeRender(Event $event)
     {
-        $event->subject->set('LineCache', $this->LineCache);
+        $event->getSubject()->set('LineCache', $this->LineCache);
     }
 
     /**

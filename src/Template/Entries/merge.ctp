@@ -6,7 +6,7 @@ echo $this->Html->tag(
 );
 
 $form[] = $this->Form->create($posting);
-$form[] = $this->Form->input(
+$form[] = $this->Form->control(
     'targetId',
     ['label' => __('Merge onto posting with ID:')]
 );

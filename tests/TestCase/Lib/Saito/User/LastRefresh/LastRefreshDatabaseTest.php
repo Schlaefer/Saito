@@ -23,8 +23,8 @@ class LastRefreshDatabaseTest extends SaitoTestCase
         parent::setUp();
 
         $request = new Request();
-        $request->session()->start();
-        $request->session()->id('test');
+        $request->getSession()->start();
+        $request->getSession()->id('test');
         $response = new Response();
         $controller = new Controller($request, $response);
         $controller->loadComponent('Auth');

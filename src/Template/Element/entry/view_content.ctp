@@ -15,8 +15,8 @@ $schemaMeta = [];
             );
             $schemaMeta['url'] = $url;
             // only make subject a link if it is not in entries/view
-            if ($this->request->action !== 'preview' &&
-                ($this->request->is('ajax') || $this->request->action === 'mix')
+            if ($this->request->getParam('action') !== 'preview' &&
+                ($this->request->is('ajax') || $this->request->getParam('action') === 'mix')
             ) {
                 $subject = $this->Html->link(
                     $subject,

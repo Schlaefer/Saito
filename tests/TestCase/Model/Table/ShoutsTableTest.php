@@ -23,7 +23,7 @@ class ShoutsTableTest extends SaitoTableTestCase
         $this->Table->expects($this->once())
             ->method('prepareMarkup')
             ->will($this->returnArgument(0));
-        $this->Table->table('shouts');
+        $this->Table->setTable('shouts');
 
         $_numberOfShouts = $this->Table->find()->count();
 
@@ -54,7 +54,7 @@ class ShoutsTableTest extends SaitoTableTestCase
         $this->Table->expects($this->once())
             ->method('prepareMarkup')
             ->will($this->returnArgument(0));
-        $this->Table->table('shouts');
+        $this->Table->setTable('shouts');
 
         $data = ['text' => 'The text', 'user_id' => 3];
 
@@ -77,7 +77,7 @@ class ShoutsTableTest extends SaitoTableTestCase
         $this->Table->expects($this->once())
             ->method('prepareMarkup')
             ->will($this->returnArgument(0));
-        $this->Table->table('shouts');
+        $this->Table->setTable('shouts');
 
         $data = ['text' => 'The text', 'user_id' => 3];
 

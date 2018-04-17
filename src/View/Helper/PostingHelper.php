@@ -44,7 +44,7 @@ class PostingHelper extends AppHelper
     {
         $params = [];
         if ($lastAction !== 'add') {
-            $session = $this->request->session();
+            $session = $this->request->getSession();
             if ($session->read('paginator.lastPage')) {
                 $params[] = 'page=' . $session->read('paginator.lastPage');
             }
@@ -65,7 +65,8 @@ class PostingHelper extends AppHelper
     {
         $options += ['class' => ''];
         $id = $posting->get('id');
-        $url = "{$this->request->webroot}entries/view/{$id}";
+        $webroot = $this->request->getAttribute('webroot');
+        $url = "{$webroot}entries/view/{$id}";
         $link = "<a href=\"{$url}\" class=\"{$options['class']}\">" . $this->getSubject($posting) . '</a>';
 
         return $link;
@@ -82,7 +83,7 @@ class PostingHelper extends AppHelper
     public function categorySelect(Entry $posting, array $categories)
     {
         if ($posting->isRoot()) {
-            $html = $this->Form->input(
+            $html = $this->Form->control(
                 'category_id',
                 [
                     'options' => $categories,

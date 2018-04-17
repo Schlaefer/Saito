@@ -50,10 +50,10 @@ class ExceptionLogger
         if (isset($data['URL'])) {
             $url = $data['URL'];
         } elseif ($request) {
-            $url = $request->here();
+            $url = $request->getRequestTarget();
         }
 
-        $requestMethod = $request ? $request->method() : false;
+        $requestMethod = $request ? $request->getMethod() : false;
         if ($url && $requestMethod) {
             $url .= ' ' . $requestMethod;
         }
@@ -67,8 +67,11 @@ class ExceptionLogger
 
         $this->_addUser($data);
 
-        if (!empty($request->data)) {
-            $this->_add($this->_filterData($request->data), 'Data');
+        if ($request) {
+            $data = $request->getData();
+            if ($request && !empty($data)) {
+                $this->_add($this->_filterData($data), 'Data');
+            }
         }
 
         $this->_write();

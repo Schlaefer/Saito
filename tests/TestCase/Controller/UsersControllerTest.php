@@ -6,8 +6,8 @@ use Cake\Auth\DefaultPasswordHasher;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\Network\Email\Email;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use Saito\Test\IntegrationTestCase;
 
@@ -80,14 +80,14 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->get('/');
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNull(
-            $this->_controller->request->Session()->read('Auth.User')
+            $this->_controller->request->getSession()->read('Auth.User')
         );
 
         $this->mockSecurity();
         $this->post('/users/login', $data);
         $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNotNull(
-            $this->_controller->request->Session()->read('Auth.User')
+            $this->_controller->request->getSession()->read('Auth.User')
         );
 
         //# successful login redirects
@@ -127,7 +127,7 @@ class UsersControllerTestCase extends IntegrationTestCase
                 ]
             ]
         ];
-        $this->assertContainsTag($username, $this->_response->body());
+        $this->assertContainsTag($username, (string)$this->_response->getBody());
 
         //# test logout on form show
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
@@ -248,7 +248,7 @@ class UsersControllerTestCase extends IntegrationTestCase
                 ]
             ]
         ];
-        $this->assertContainsTag($expected, $this->_response->body());
+        $this->assertContainsTag($expected, (string)$this->_response->getBody());
     }
 
     public function testRegisterCheckboxNotOnPage()
@@ -275,7 +275,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         Configure::write('Saito.Settings.tos_url', '');
         $this->get('users/register');
         $this->assertResponseContains(
-            $this->_controller->request->webroot . 'pages/en/tos'
+            $this->_controller->request->getAttribute('webroot') . 'pages/en/tos'
         );
     }
 
@@ -314,11 +314,11 @@ class UsersControllerTestCase extends IntegrationTestCase
                 $this->callback(
                     function (Email $email) use ($Users) {
                         $this->assertEquals(
-                            $email->from(),
+                            $email->getFrom(),
                             ['register@example.com' => 'macnemo']
                         );
                         $this->assertEquals(
-                            $email->to(),
+                            $email->getTo(),
                             ['NewUser1@example.com' => 'NewUser1']
                         );
 
@@ -452,7 +452,7 @@ class UsersControllerTestCase extends IntegrationTestCase
                     ->method('setCategory')
                     ->with($userId, $category);
 
-                $controller = $event->subject();
+                $controller = $event->getSubject();
                 $controller->Users = $Users;
             }
         );
@@ -474,7 +474,7 @@ class UsersControllerTestCase extends IntegrationTestCase
                     ->method('setCategory')
                     ->with($userId, $category);
 
-                $controller = $event->subject();
+                $controller = $event->getSubject();
                 $controller->Users = $Users;
             }
         );
@@ -506,7 +506,7 @@ class UsersControllerTestCase extends IntegrationTestCase
                     ->method('setCategory')
                     ->with($userId, $data['CatChooser']);
 
-                $controller = $event->subject();
+                $controller = $event->getSubject();
                 $controller->Users = $Users;
             }
         );
@@ -559,7 +559,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->_loginUser(3);
         $data = ['slidetabKey' => 'show_foo'];
         $this->expectException(
-            '\Cake\Network\Exception\BadRequestException'
+            '\Cake\Http\Exception\BadRequestException'
         );
         $this->_setAjax();
         $this->post('/users/slidetabToggle', [$data]);
@@ -827,7 +827,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         // locked user can't relogin
         $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNotNull(
-            $this->_controller->request->Session()->read('Auth.User')
+            $this->_controller->request->getSession()->read('Auth.User')
         );
 
         $this->_logoutUser();
@@ -838,7 +838,7 @@ class UsersControllerTestCase extends IntegrationTestCase
 
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNull(
-            $this->_controller->request->Session()->read('Auth.User')
+            $this->_controller->request->getSession()->read('Auth.User')
         );
     }
 
@@ -857,7 +857,7 @@ class UsersControllerTestCase extends IntegrationTestCase
             'password_confirm' => 'test_new',
         ];
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->post('/users/changepassword/1', $data);
     }
@@ -984,7 +984,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         Configure::write('Saito.Settings.block_user_ui', true);
         $this->_loginUser(2);
         $this->get('users/view/5');
-        $result = $this->_response->body();
+        $result = (string)$this->_response->getBody();
         $this->assertXPath($result, '//input[@value=5][@name="lockUserId"]');
     }
 

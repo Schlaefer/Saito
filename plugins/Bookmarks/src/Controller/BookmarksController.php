@@ -4,9 +4,9 @@ namespace Bookmarks\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Network\Exception\MethodNotAllowedException;
-use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Query;
 use Saito\App\Registry;
 use Saito\Exception\SaitoForbiddenException;
@@ -60,13 +60,13 @@ class BookmarksController extends AppController
 
         $data = [
             'user_id' => $this->CurrentUser->getId(),
-            'entry_id' => $this->request->data('id'),
+            'entry_id' => $this->request->getData('id'),
         ];
         $bookmark = $this->Bookmarks->createBookmark($data);
 
-        $body = !empty($bookmark) && !count($bookmark->errors());
-        $this->response->body($body);
-        $this->response->type('json');
+        $body = !empty($bookmark) && !count($bookmark->getErrors());
+        $this->response = $this->response->withStringBody($body);
+        $this->response = $this->response->withType('json');
 
         return $this->response;
     }
@@ -96,8 +96,8 @@ class BookmarksController extends AppController
         $bookmark->set('id', $id);
         $this->Bookmarks->patchEntity(
             $bookmark,
-            $this->request->data(),
-            ['fieldList' => ['comment']]
+            $this->request->getData(),
+            ['fields' => ['comment']]
         );
 
         $success = $this->Bookmarks->save($bookmark);
@@ -129,8 +129,8 @@ class BookmarksController extends AppController
 
         $bookmark = $this->_getBookmark($bookmarkId);
         $success = (bool)$this->Bookmarks->delete($bookmark);
-        $this->response->body($success);
-        $this->response->type('json');
+        $this->response = $this->response->withStringBody($success);
+        $this->response = $this->response->withType('json');
 
         return $this->response;
     }
@@ -144,7 +144,7 @@ class BookmarksController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Security->config('unlockedActions', ['add']);
+        $this->Security->setConfig('unlockedActions', ['add']);
     }
 
     /**

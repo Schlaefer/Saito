@@ -38,7 +38,7 @@ class SmileyCodesController extends AppController
      */
     public function edit($id)
     {
-        if (!$id && empty($this->request->data)) {
+        if (!$id && empty($this->request->getData())) {
             $this->Flash->set(
                 __('Invalid smiley code'),
                 ['element' => 'error']
@@ -59,7 +59,7 @@ class SmileyCodesController extends AppController
      */
     protected function _addEditCommon(Entity $smiley)
     {
-        if (!empty($this->request->data)) {
+        if (!empty($this->request->getData())) {
             $smiley = $this->SmileyCodes->patchEntity(
                 $smiley,
                 $this->request->data

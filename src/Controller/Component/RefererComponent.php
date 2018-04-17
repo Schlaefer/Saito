@@ -28,7 +28,8 @@ class RefererComponent extends Component
 
             return;
         }
-        $parsed = Router::parse($event->getSubject()->referer(null, true));
+        $referer = $event->getSubject()->referer(null, true);
+        $parsed = Router::getRouteCollection()->parse($referer);
         foreach (['action', 'controller'] as $type) {
             if (isset($parsed[$type])) {
                 $this->last[$type] = strtolower($parsed[$type]);

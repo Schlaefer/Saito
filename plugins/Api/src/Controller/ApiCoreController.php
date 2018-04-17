@@ -4,7 +4,7 @@ namespace Api\Controller;
 
 use Api\Error\Exception\UnknownRouteException;
 use Cake\Event\Event;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 
 class ApiCoreController extends ApiAppController

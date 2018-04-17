@@ -24,7 +24,7 @@
     );
     ?>
     <script>
-        window.webroot = "<?= $this->request->webroot; ?>"
+        window.webroot = "<?= $this->request->getAttribute('webroot'); ?>"
     </script>
     <!-- include require.js -->
     <?php

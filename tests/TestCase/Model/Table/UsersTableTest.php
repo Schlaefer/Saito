@@ -404,7 +404,7 @@ class UsersTableTest extends SaitoTableTestCase
             'password_confirm' => 'new_pw_wrong'
         ];
         $this->Table->patchEntity($Entity, $data);
-        $this->assertTrue(array_key_exists('password', $Entity->errors()));
+        $this->assertTrue(array_key_exists('password', $Entity->getErrors()));
 
         $Entity = $this->Table->get(3);
         $data = [
@@ -412,7 +412,7 @@ class UsersTableTest extends SaitoTableTestCase
             'password_confirm' => 'new_pw'
         ];
         $this->Table->patchEntity($Entity, $data);
-        $this->assertEmpty($Entity->errors());
+        $this->assertEmpty($Entity->getErrors());
     }
 
     public function testValidateCheckOldPassword()
@@ -424,7 +424,7 @@ class UsersTableTest extends SaitoTableTestCase
             'password_confirm' => 'new_pw_2',
         ];
         $this->Table->patchEntity($Entity, $data);
-        $this->assertTrue(array_key_exists('password_old', $Entity->errors()));
+        $this->assertTrue(array_key_exists('password_old', $Entity->getErrors()));
 
         $data = [
             'password_old' => 'test',
@@ -432,7 +432,7 @@ class UsersTableTest extends SaitoTableTestCase
             'password_confirm' => 'new_pw_2'
         ];
         $this->Table->patchEntity($Entity, $data);
-        $this->assertFalse(array_key_exists('password_old', $Entity->errors()));
+        $this->assertFalse(array_key_exists('password_old', $Entity->getErrors()));
     }
 
     public function testAutoUpdatePassword()
@@ -517,7 +517,7 @@ class UsersTableTest extends SaitoTableTestCase
         $now = time();
         $user = $this->Table->register($data);
 
-        $this->assertEmpty($user->errors());
+        $this->assertEmpty($user->getErrors());
 
         $result = $this->Table->checkPassword($pw, $user->get('password'));
         $this->assertTrue($result);
@@ -584,7 +584,7 @@ class UsersTableTest extends SaitoTableTestCase
             'username' => ['isUnique' => 'Name is already used.'],
             'user_email' => ['isUnique' => 'Email address is already used.'],
         ];
-        $this->assertEquals($expected, $user->errors());
+        $this->assertEquals($expected, $user->getErrors());
     }
 
     public function testRegisterValidationUsernameDisallowedChars()
@@ -597,7 +597,7 @@ class UsersTableTest extends SaitoTableTestCase
         ];
         $user = $this->Table->register($data);
 
-        $this->assertArrayHasKey('username', $user->errors());
+        $this->assertArrayHasKey('username', $user->getErrors());
     }
 
     public function testRegisterValidationUsernameIsEqualDisallowed()
@@ -610,7 +610,7 @@ class UsersTableTest extends SaitoTableTestCase
         ];
 
         $result = $this->Table->register($data);
-        $this->assertArrayHasKey('username', $result->errors());
+        $this->assertArrayHasKey('username', $result->getErrors());
 
         $data = [
             'username' => 'Mischa',
@@ -619,7 +619,7 @@ class UsersTableTest extends SaitoTableTestCase
             'password_confirm' => 'beforeandagain'
         ];
         $entity = $this->Table->register($data);
-        $this->assertEmpty($entity->errors());
+        $this->assertEmpty($entity->getErrors());
     }
 
     /**
@@ -634,7 +634,7 @@ class UsersTableTest extends SaitoTableTestCase
         ];
         $entity = $this->Table->get(9);
         $entity = $this->Table->patchEntity($entity, $data);
-        $this->assertEmpty($entity->errors());
+        $this->assertEmpty($entity->getErrors());
         $this->assertNotFalse($this->Table->save($entity));
     }
 }

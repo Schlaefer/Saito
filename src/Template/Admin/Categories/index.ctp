@@ -1,4 +1,4 @@
-<?php $this->Html->addCrumb(__('Categories'), '/admin/categories'); ?>
+<?php $this->Breadcrumbs->add(__('Categories'), '/admin/categories'); ?>
 <div class="categories index">
     <h1><?= __('Categories') ?></h1>
     <p>

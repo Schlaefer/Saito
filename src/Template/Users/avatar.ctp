@@ -15,7 +15,7 @@ $this->end();
         <?php
         echo $this->User->getAvatar($user);
         echo $this->Form->create($user, ['type' => 'file']);
-        echo $this->Form->input(
+        echo $this->Form->control(
             'avatar',
             ['type' => 'file', 'required' => false]
         );

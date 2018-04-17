@@ -64,7 +64,7 @@ class SmileyRenderTest extends SaitoTestCase
         $input = ';)';
         $expected = [
             'img' => [
-                'src' => $this->Helper->request->webroot . 'img/smilies/wink.png',
+                'src' => $this->Helper->request->getAttribute('webroot') . 'img/smilies/wink.png',
                 'alt' => ';)',
                 'class' => 'saito-smiley-image',
                 'title' => 'Wink'
@@ -96,7 +96,7 @@ class SmileyRenderTest extends SaitoTestCase
         $input = ';)';
         $expected = [
             'img' => [
-                'src' => $this->Helper->request->webroot . 'img/smilies/wink.png',
+                'src' => $this->Helper->request->getAttribute('webroot') . 'img/smilies/wink.png',
                 'alt' => ';)',
                 'class' => 'saito-smiley-image',
                 'title' => 'Wink'

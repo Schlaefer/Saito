@@ -1,7 +1,7 @@
 <?php
 use Cake\Core\Configure;
 
-$this->Html->addCrumb(__('Users'), '/admin/users');
+$this->Breadcrumbs->add(__('Users'), '/admin/users');
 ?>
 <div class="users index">
     <h1><?= __('Users') ?></h1>

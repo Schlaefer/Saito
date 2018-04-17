@@ -75,7 +75,7 @@ class MarkitupHelper extends Helper
         $out[] = '  );';
         $out[] = '});';
 
-        return $this->Form->input($name, $textarea) . $this->Html->scriptBlock(join("\n", $out));
+        return $this->Form->control($name, $textarea) . $this->Html->scriptBlock(join("\n", $out));
     }
 
     /**

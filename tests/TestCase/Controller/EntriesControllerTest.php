@@ -88,7 +88,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testMixNotFound()
     {
-        $this->expectException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->get('/entries/mix/9999');
     }
 
@@ -374,7 +374,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeleteNoId()
     {
         $this->_loginUser(1);
-        $this->expectException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->mockSecurity();
         $this->post('/entries/delete');
     }
@@ -403,7 +403,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeletePostingDoesntExist()
     {
         $this->_loginUser(1);
-        $this->expectException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->mockSecurity();
         $this->post('/entries/delete/9999');
     }
@@ -431,7 +431,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         // uses contents to check in slidetabs
         $this->get('/entries/index');
         $this->assertResponseOk();
-        $result = $this->_response->body();
+        $result = $this->_response->getBody();
         // uses <body>-HTML only: exclude <head> which may contain unescaped JS-data
         preg_match('/<body(.*)<\/body>/sm', $result, $matches);
         $result = $matches[0];
@@ -452,7 +452,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
         $this->_loginUser(2);
         $this->mockSecurity();
-        $this->expectException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->post('/entries/merge/', ['targetId' => 2]);
     }
 
@@ -465,7 +465,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
         $this->_loginUser(2);
         $this->mockSecurity();
-        $this->expectException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->post('/entries/merge/9999', ['targetId' => 2]);
     }
 
@@ -517,7 +517,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testEditNoEntry()
     {
         $this->_loginUser(2);
-        $this->expectException('Cake\Network\Exception\NotFoundException');
+        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->get('entries/edit/9999');
     }
 
@@ -528,7 +528,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(2);
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->get('entries/edit/');
     }
@@ -558,11 +558,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
          * // notification are un/checked
          * $this->assertNotRegExp(
          * '/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/',
-         * $this->_response->body()
+         * (string)$this->_response->getBody()
          * );
          * $this->assertRegExp(
          * '/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/',
-         * $this->_response->body()
+         * (string)$this->_response->getBody()
          * );
          * */
     }
@@ -628,7 +628,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(1);
         $this->expectException(
-            '\Cake\Network\Exception\BadRequestException',
+            '\Cake\Http\Exception\BadRequestException',
             null,
             1434128359
         );
@@ -640,7 +640,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->_setAjax();
         $this->_loginUser(1);
         $this->expectException(
-            '\Cake\Network\Exception\BadRequestException',
+            '\Cake\Http\Exception\BadRequestException',
             null,
             1434128359
         );
@@ -866,7 +866,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(1);
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->get('/entries/solve/9999');
     }
@@ -875,7 +875,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(2);
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->get('/entries/solve/1');
     }
@@ -884,7 +884,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(3);
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->get('/entries/solve/1');
     }
@@ -898,7 +898,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
             ->with('1')
             ->will($this->returnValue(false));
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->get('/entries/solve/1');
     }

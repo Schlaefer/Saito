@@ -52,10 +52,10 @@ class RefererComponentTest extends SaitoTestCase
         Configure::write('App.fullBaseUrl', $baseUrl);
 
         $request = new ServerRequest('/users/view/5');
-        $webroot = $this->component->request->webroot;
+        $webroot = $this->component->request->getAttribute('webroot');
         $this->component->request = $request;
 
-        $request->env('HTTP_REFERER', $baseUrl . $webroot . '/');
+        $this->component->request = $request->withEnv('HTTP_REFERER', $baseUrl . $webroot . '/');
         $event = new Event('Controller.beforeFilter', $this->controller);
         $this->component->beforeFilter($event);
         $event = new Event('Controller.beforeRender', $this->controller);
@@ -67,7 +67,7 @@ class RefererComponentTest extends SaitoTestCase
         $this->assertTrue($this->component->wasAction('index'));
         $this->assertFalse($this->component->wasAction('view'));
 
-        $request->env('HTTP_REFERER', $baseUrl . $webroot . '/entries/view');
+        $this->component->request = $request->withEnv('HTTP_REFERER', $baseUrl . $webroot . '/entries/view');
         $event = new Event('Controller.beforeFilter', $this->controller);
         $this->component->beforeFilter($event);
         $event = new Event('Controller.beforeRender', $this->controller);
@@ -79,7 +79,7 @@ class RefererComponentTest extends SaitoTestCase
         $this->assertTrue($this->component->wasAction('view'));
         $this->assertFalse($this->component->wasAction('index'));
 
-        $request->env('HTTP_REFERER', $baseUrl . $webroot . '/some/');
+        $this->component->request = $request->withEnv('HTTP_REFERER', $baseUrl . $webroot . '/some/');
         $event = new Event('Controller.beforeFilter', $this->controller);
         $this->component->beforeFilter($event);
         $event = new Event('Controller.beforeRender', $this->controller);
@@ -91,7 +91,7 @@ class RefererComponentTest extends SaitoTestCase
         $this->assertTrue($this->component->wasAction('index'));
 
         //* external referer
-        $request->env('HTTP_REFERER', 'http://heise.de/foobar/baz.html');
+        $this->component->request = $request->withEnv('HTTP_REFERER', 'http://heise.de/foobar/baz.html');
         $event = new Event('Controller.beforeFilter', $this->controller);
         $this->component->beforeFilter($event);
         $event = new Event('Controller.beforeRender', $this->controller);

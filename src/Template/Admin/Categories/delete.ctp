@@ -1,5 +1,5 @@
-<?php $this->Html->addCrumb(__('Categories'), '/admin/categories'); ?>
-<?php $this->Html->addCrumb(__('Delete Category'), '#'); ?>
+<?php $this->Breadcrumbs->add(__('Categories'), '/admin/categories'); ?>
+<?php $this->Breadcrumbs->add(__('Delete Category'), '#'); ?>
 <h1>Delete Category <em><?= $category->get('category') ?></em></h1>
 <p>
     You're going to delete the category

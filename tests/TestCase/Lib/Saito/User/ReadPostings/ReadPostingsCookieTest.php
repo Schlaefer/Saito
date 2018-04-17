@@ -204,8 +204,8 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
     public function mock($methods = null)
     {
         $request = new Request();
-        $request->session()->start();
-        $request->session()->id('test');
+        $request->getSession()->start();
+        $request->getSession()->id('test');
         $response = new Response();
 
         $controller = new Controller($request, $response);

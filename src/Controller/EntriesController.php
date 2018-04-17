@@ -14,11 +14,11 @@ use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\I18n\Time;
-use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Exception\ForbiddenException;
 use Cake\Network\Exception\MethodNotAllowedException;
-use Cake\Network\Exception\NotFoundException;
 use Cake\Network\Http\Response;
 use Cake\Routing\RequestActionTrait;
 use Cake\View\Helper\IdGeneratorTrait;
@@ -77,7 +77,7 @@ class EntriesController extends AppController
         $threads = $this->Threads->paginate($order);
         $this->set('entries', $threads);
 
-        $currentPage = (int)$this->request->query('page') ?: 1;
+        $currentPage = (int)$this->request->getQuery('page') ?: 1;
         if ($currentPage > 1) {
             $this->set('titleForLayout', __('page') . ' ' . $currentPage);
         }
@@ -89,7 +89,7 @@ class EntriesController extends AppController
         }
 
         // @bogus
-        $this->request->session()->write('paginator.lastPage', $currentPage);
+        $this->request->getSession()->write('paginator.lastPage', $currentPage);
         $this->showDisclaimer = true;
         $this->set('allowThreadCollapse', true);
         $this->Slidetabs->show();
@@ -277,14 +277,14 @@ class EntriesController extends AppController
     {
         $title = __('Write a New Entry');
 
-        if (!empty($this->request->data)) {
+        if (!empty($this->request->getData())) {
             //= insert new posting
-            $posting = $this->Entries->createPosting($this->request->data());
+            $posting = $this->Entries->createPosting($this->request->getData());
 
             // inserting new posting was successful
-            if ($posting !== false && !count($posting->errors())) {
+            if ($posting !== false && !count($posting->getErrors())) {
                 // @td 3.0 Notif
-                //$this->_setNotifications($newPosting + $this->request->data);
+                //$this->_setNotifications($newPosting + $this->request->getData());
 
                 $id = $posting->get('id');
                 $pid = $posting->get('pid');
@@ -296,8 +296,8 @@ class EntriesController extends AppController
                         $json = json_encode(
                             ['id' => $id, 'pid' => $pid, 'tid' => $id]
                         );
-                        $this->response->type('json');
-                        $this->response->body($json);
+                        $this->response = $this->response->withType('json');
+                        $this->response = $this->response->withStringBody($json);
                     }
 
                     return $this->response;
@@ -316,9 +316,9 @@ class EntriesController extends AppController
                 }
             } else {
                 //= Error while trying to save a post
-                $posting = $this->Entries->newEntity($this->request->data());
+                $posting = $this->Entries->newEntity($this->request->getData());
 
-                if (count($posting->errors()) === 0) {
+                if (count($posting->getErrors()) === 0) {
                     //= Error isn't displayed as form validation error.
                     $this->Flash->set(
                         __(
@@ -409,7 +409,7 @@ class EntriesController extends AppController
 
         $this->set('entrySub', $posting);
         // ajax requests so far are always answers
-        $this->response->type('json');
+        $this->response = $this->response->withType('json');
         $this->set('level', '1');
     }
 
@@ -457,7 +457,7 @@ class EntriesController extends AppController
         }
 
         // try to save edit
-        $data = $this->request->data();
+        $data = $this->request->getData();
         if (!empty($data)) {
             $data['id'] = $posting->get('id');
             $newEntry = $this->Entries->update($posting, $data);
@@ -484,7 +484,7 @@ class EntriesController extends AppController
             );
         }
 
-        $this->Entries->patchEntity($posting, $this->request->data());
+        $this->Entries->patchEntity($posting, $this->request->getData());
 
         // get text of parent entry for citation
         $parentEntryId = $posting->get('pid');
@@ -617,7 +617,7 @@ class EntriesController extends AppController
             throw new BadRequestException(null, 1434128359);
         }
 
-        $data = $this->request->data();
+        $data = $this->request->getData();
         $newEntry = [
             'id' => 'preview',
             'pid' => $data['pid'],
@@ -633,7 +633,7 @@ class EntriesController extends AppController
         ];
         $this->Entries->prepare($newEntry);
 
-        $validator = $this->Entries->validator();
+        $validator = $this->Entries->getValidator();
         $errors = $validator->errors($newEntry);
 
         if (empty($errors)) {
@@ -662,9 +662,9 @@ class EntriesController extends AppController
             }
             $this->autoRender = false;
 
-            $this->response->type('json');
+            $this->response = $this->response->withType('json');
             $body = json_encode($this->JsData->getAppJsMessages());
-            $this->response->body($body);
+            $this->response = $this->response->withStringBody($body);
 
             return $this->response;
         }
@@ -692,7 +692,7 @@ class EntriesController extends AppController
         }
 
         // perform move operation
-        $targetId = $this->request->data('targetId');
+        $targetId = $this->request->getData('targetId');
         if (!empty($targetId)) {
             if ($this->Entries->threadMerge($sourceId, $targetId)) {
                 $this->redirect('/entries/view/' . $sourceId);
@@ -733,8 +733,8 @@ class EntriesController extends AppController
             $out['html'] = __d('nondynamic', $toggle . '_set_entry_link');
         }
 
-        $this->response->type('json');
-        $this->response->body(json_encode($out));
+        $this->response = $this->response->withType('json');
+        $this->response = $this->response->withStringBody(json_encode($out));
 
         return $this->response;
     }
@@ -747,7 +747,7 @@ class EntriesController extends AppController
         parent::beforeFilter($event);
         Stopwatch::start('Entries->beforeFilter()');
 
-        $this->Security->config(
+        $this->Security->setConfig(
             'unlockedActions',
             ['preview', 'solve', 'view']
         );
@@ -859,9 +859,9 @@ class EntriesController extends AppController
         if ($this->CurrentUser->isLoggedIn()) {
             // Only logged in users see the answering buttons if they …
             if (// … directly on entries/view but not inline
-                ($this->request->action === 'view' && !$this->request->is('ajax'))
+                ($this->request->getParam('action') === 'view' && !$this->request->is('ajax'))
                 // … directly in entries/mix
-                || $this->request->action === 'mix'
+                || $this->request->getParam('action') === 'mix'
                 // … inline viewing … on entries/index.
                 || ($this->Referer->wasController('entries')
                     && $this->Referer->wasAction('index'))

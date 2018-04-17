@@ -93,27 +93,27 @@ class EntriesTest extends SaitoTableTestCase
          */
         $SaitoUser->setSettings($user);
         $new = $this->Table->createPosting($thread);
-        $this->assertNotEmpty($new->errors());
+        $this->assertNotEmpty($new->getErrors());
 
         /*
          * admin thread allowed
          */
         $SaitoUser->setSettings($admin);
         $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->errors());
+        $this->assertEmpty($new->getErrors());
 
         /*
          * user answer allowed
          */
         $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->errors());
+        $this->assertEmpty($new->getErrors());
 
         /*
          * admin answer allowed
          */
         $SaitoUser->setSettings($admin);
         $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->errors());
+        $this->assertEmpty($new->getErrors());
     }
 
     public function testCreateAllowanceThread()
@@ -135,28 +135,28 @@ class EntriesTest extends SaitoTableTestCase
          */
         $SaitoUser->setSettings($user);
         $new = $this->Table->createPosting($thread);
-        $this->assertNotEmpty($new->errors());
+        $this->assertNotEmpty($new->getErrors());
 
         /*
          * admin thread allowed
          */
         $SaitoUser->setSettings($admin);
         $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->errors());
+        $this->assertEmpty($new->getErrors());
 
         /*
          * user answer denied
          */
         $SaitoUser->setSettings($user);
         $new = $this->Table->createPosting($answer);
-        $this->assertNotEmpty($new->errors());
+        $this->assertNotEmpty($new->getErrors());
 
         /*
          * admin answer allowed
          */
         $SaitoUser->setSettings($admin);
         $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->errors());
+        $this->assertEmpty($new->getErrors());
     }
 
     public function testToggle()

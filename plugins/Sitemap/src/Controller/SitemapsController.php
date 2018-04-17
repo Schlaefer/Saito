@@ -4,7 +4,7 @@ namespace Sitemap\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Sitemap\Lib\SitemapCollection;
 
 class SitemapsController extends AppController
@@ -28,7 +28,7 @@ class SitemapsController extends AppController
     {
         parent::beforeFilter($event);
         $this->Auth->allow(['index', 'file']);
-        $this->response->disableCache();
+        $this->response = $this->response->withDisabledCache();
         $this->_Generators = new SitemapCollection($this->generators, $this);
     }
 

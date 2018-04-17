@@ -26,7 +26,7 @@ class ActionAuthorizationComponent extends Component
                 ->check($user->getRole(), $requiredRole);
         }
 
-        $isAdminRoute = $this->request->param('prefix') === 'admin';
+        $isAdminRoute = $this->request->getParam('prefix') === 'admin';
         if ($isAdminRoute) {
             return $user->permission('saito.core.admin.backend');
         }

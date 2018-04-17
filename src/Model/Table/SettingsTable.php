@@ -34,8 +34,8 @@ class SettingsTable extends AppSettingTable
      */
     public function initialize(array $config)
     {
-        $this->primaryKey('name');
-        $this->table('settings');
+        $this->setPrimaryKey('name');
+        $this->setTable('settings');
     }
 
     /* @td getSettings vs Load why to functions? */

@@ -320,7 +320,7 @@ if ($items) {
                     ]
                 );
                 $lock[] = "&nbsp;";
-                $lock[] = $this->Form->input(
+                $lock[] = $this->Form->control(
                     'lockRange',
                     [
                         'templates' => ['inputContainer' => '{{content}}'],

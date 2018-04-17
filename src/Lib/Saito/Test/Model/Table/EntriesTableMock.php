@@ -14,7 +14,7 @@ class EntriesTableMock extends EntriesTable
      */
     public function initialize(array $config)
     {
-        $this->entityClass('Entry');
+        $this->setEntityClass('Entry');
         parent::initialize($config);
     }
 

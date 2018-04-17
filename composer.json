@@ -13,18 +13,18 @@
   },
   "require": {
     "php": ">=7.1",
-    "cakephp/cakephp": "3.5.*",
+    "cakephp/cakephp": "3.6.*",
     "cakephp/migrations": "@stable",
     "cakephp/plugin-installer": "*",
     "josegonzalez/dotenv": "*",
     "mobiledetect/mobiledetectlib": "2.*",
 
     "aura/di": "~2.1",
-    "davidyell/proffer": "^0.8",
+    "davidyell/proffer": "^1.0",
     "embedly/embedly-php": "0.5.4",
     "jbbcode/jbbcode": "~1.3",
     "markstory/geshi": "^3",
-    "siezi/cakephp-simple-captcha": "^0.4.2",
+    "siezi/cakephp-simple-captcha": "*",
     "yzalis/identicon": "*",
     "league/commonmark": "^0.17.5"
   },

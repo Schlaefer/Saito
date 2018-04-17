@@ -25,7 +25,7 @@ class StatusControllerTest extends IntegrationTestCase
     public function testStatusMustBeAjax()
     {
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->get('/status/status');
     }

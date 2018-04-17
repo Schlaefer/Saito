@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Http\Exception\NotFoundException;
 
 class SettingsController extends AppController
 {
@@ -66,7 +66,10 @@ class SettingsController extends AppController
      */
     public function index()
     {
-        $settings = $this->request->data = $this->Settings->getSettings();
+        $settings = $this->Settings->getSettings();
+        foreach ($settings as $key => $value) {
+            $this->request = $this->request->withData($key, $value);
+        }
         $settings = array_intersect_key($settings, $this->settingsShownInAdminIndex);
         $this->set('Settings', $settings);
     }
@@ -92,8 +95,8 @@ class SettingsController extends AppController
         if ($this->request->is(['post', 'put'])) {
             $this->Settings->patchEntity(
                 $setting,
-                $this->request->data,
-                ['fieldlist' => 'value']
+                $this->request->getData(),
+                ['fields' => 'value']
             );
             if ($this->Settings->save($setting)) {
                 $this->Flash->set('Saved. @lo', ['element' => 'notice']);

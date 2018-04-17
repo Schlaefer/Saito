@@ -1,6 +1,6 @@
 <?php
-$this->Html->addCrumb(__('Categories'), '/admin/categories');
-$this->Html->addCrumb(__('Add Category'), '/admin/categories/add');
+$this->Breadcrumbs->add(__('Categories'), '/admin/categories');
+$this->Breadcrumbs->add(__('Add Category'), '/admin/categories/add');
 
 $html = $this->Html->tag('h1', __('Add Category'));
 $form = $this->element('Admin/Categories/edit', ['category' => $category]);

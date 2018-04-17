@@ -28,7 +28,7 @@
         }
     </script>
     <?php
-    $action = $this->request->params['action'];
+    $action = $this->request->getParam('action');
     if (!$CurrentUser->isLoggedIn() && ($action !== 'login' && $action !== 'register')) {
         echo $this->element('users/login_modal');
     }
@@ -76,8 +76,8 @@
         </header>
         <?php
         $navCenter = '';
-        if ($this->request->controller !== 'entries' ||
-            !in_array($this->request->action, ['mix', 'view'])
+        if ($this->request->getParam('controller') !== 'entries' ||
+            !in_array($this->request->getParam('action'), ['mix', 'view'])
         ) {
             $navCenter = $this->fetch('headerSubnavCenter');
             if (empty($navCenter)) {
@@ -111,7 +111,7 @@
             </script>
             <?php echo $this->fetch('content'); ?>
         </div>
-        <?php if ($this->request->controller === 'entries' && $this->request->action === 'index') : ?>
+        <?php if ($this->request->getParam('controller') === 'entries' && $this->request->getParam('action') === 'index') : ?>
             <div id="footer-pinned">
                 <div id="bottomnav" class="navbar">
                     <?=

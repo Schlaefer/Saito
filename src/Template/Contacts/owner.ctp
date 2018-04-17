@@ -10,7 +10,7 @@ $this->end();
             <?php
             echo $this->Form->create($contact);
             if (!$CurrentUser->isLoggedIn()) {
-                echo $this->Form->input(
+                echo $this->Form->control(
                     'sender_contact',
                     [
                         'div' => ['class' => 'input required'],

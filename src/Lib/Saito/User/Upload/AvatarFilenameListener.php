@@ -30,12 +30,12 @@ class AvatarFilenameListener implements EventListenerInterface
      */
     public function change(Event $event, ProfferPath $path)
     {
-        $user = $event->subject();
+        $user = $event->getSubject();
 
         $this->deleteExisting($user);
 
         // Detect and select the right file extension
-        switch ($event->subject()->get('avatar')['type']) {
+        switch ($user->get('avatar')['type']) {
             default:
             case "image/jpeg":
                 $ext = '.jpg';
@@ -73,7 +73,7 @@ class AvatarFilenameListener implements EventListenerInterface
      */
     public function deleteExisting($user)
     {
-        if ($user->dirty('avatar')) {
+        if ($user->isDirty('avatar')) {
             $dir = $user->get('avatar_dir');
             if (!empty($dir)) {
                 $folder = new Folder(

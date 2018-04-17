@@ -20,11 +20,11 @@ $this->end();
                     $cells = [
                         [
                             __('username_marking'),
-                            $this->Form->input('username', ['label' => false])
+                            $this->Form->control('username', ['label' => false])
                         ],
                         [
                             __('userlist_email'),
-                            $this->Form->input('user_email', ['label' => false])
+                            $this->Form->control('user_email', ['label' => false])
                         ],
                         [
                             __('user_type'),
@@ -61,18 +61,18 @@ $this->end();
 
                 $cells[] = [
                     __('user_real_name'),
-                    $this->Form->input('user_real_name', ['label' => false]) .
+                    $this->Form->control('user_real_name', ['label' => false]) .
                     $this->Html->para('exp', __('user_real_name_exp'))
                 ];
 
                 $cells[] = [
                     __('user_hp'),
-                    $this->Form->input('user_hp', ['label' => false]) .
+                    $this->Form->control('user_hp', ['label' => false]) .
                     $this->Html->para('exp', __('user_hp_exp'))
                 ];
 
                 //= place and maps
-                $cellContent = $this->Form->input(
+                $cellContent = $this->Form->control(
                     'user_place',
                     ['label' => false]
                 );
@@ -115,7 +115,7 @@ $this->end();
                 //= user profile
                 $cells[] = [
                     __('user_profile'),
-                    $this->Form->input(
+                    $this->Form->control(
                         'profile',
                         ['rows' => '5', 'label' => false]
                     ) .
@@ -124,7 +124,7 @@ $this->end();
 
                 $cells[] = [
                     __('user_signature'),
-                    $this->Form->input(
+                    $this->Form->control(
                         'signature',
                         ['rows' => '5', 'label' => false]
                     ) .
@@ -192,7 +192,7 @@ $this->end();
             <td> <?php echo __('user_forum_refresh_time') ?> </td>
             <td>
                 <?php
-                echo $this->Form->input(
+                echo $this->Form->control(
                     'user_forum_refresh_time',
                     [
                         'maxLength' => 3,
@@ -210,7 +210,7 @@ $this->end();
             <tr>
                 <td> <?= __('user_theme') ?> </td>
                 <td> <?=
-                        $this->Form->input(
+                        $this->Form->control(
                             'user_theme',
                             [
                                 'options' => $availableThemes,

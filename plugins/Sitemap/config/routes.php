@@ -9,7 +9,7 @@ Router::scope(
     '/sitemap',
     ['plugin' => 'Sitemap'],
     function ($routes) {
-        $routes->extensions(['xml']);
+        $routes->setExtensions(['xml']);
         $routes->connect('/', ['controller' => 'Sitemaps']);
         $routes->connect('/:action/*', ['controller' => 'Sitemaps']);
     }

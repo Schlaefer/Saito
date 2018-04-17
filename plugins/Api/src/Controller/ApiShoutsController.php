@@ -4,7 +4,7 @@ namespace Api\Controller;
 
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 use Saito\Shouts\ShoutsDataTrait;
 
 class ApiShoutsController extends ApiAppController
@@ -32,11 +32,12 @@ class ApiShoutsController extends ApiAppController
     public function shoutsPost()
     {
         $this->viewBuilder()->enableAutoLayout(false);
-        if (!isset($this->request->data['text'])) {
+        $text = $this->request->getData('text');
+        if (!$text) {
             throw new BadRequestException('Missing text.');
         }
         $data = [
-            'text' => $this->request->data['text'],
+            'text' => $this->request->getData('text'),
             'user_id' => $this->CurrentUser->getId()
         ];
         if ($this->pushShout($data)) {

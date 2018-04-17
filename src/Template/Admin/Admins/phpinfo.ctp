@@ -1,7 +1,7 @@
 <?php
 
-$this->Html->addCrumb(__('admin.sysInfo.h'), '/admin');
-$this->Html->addCrumb(__('PHP Info'), '/admin/admins/phpinfo');
+$this->Breadcrumbs->add(__('admin.sysInfo.h'), '/admin');
+$this->Breadcrumbs->add(__('PHP Info'), '/admin/admins/phpinfo');
 
 echo $this->Html->tag('h1', __('PHP Info'));
 

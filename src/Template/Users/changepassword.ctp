@@ -16,7 +16,7 @@ $this->end();
         <?php
         echo $this->Form->create(null);
         // helper field for browser's password manager to identify the account
-        echo $this->Form->input(
+        echo $this->Form->control(
             'username',
             [
                 'autocomplete' => 'username',
@@ -26,7 +26,7 @@ $this->end();
                 'value' => $username
             ]
         );
-        echo $this->Form->input(
+        echo $this->Form->control(
             'password_old',
             [
                 'autocomplete' => 'current-password',
@@ -35,7 +35,7 @@ $this->end();
                 'div' => ['class' => 'input password required'],
             ]
         );
-        echo $this->Form->input(
+        echo $this->Form->control(
             'password',
             [
                 'autocomplete' => 'new-password',
@@ -44,7 +44,7 @@ $this->end();
                 'div' => ['class' => 'input required'],
             ]
         );
-        echo $this->Form->input(
+        echo $this->Form->control(
             'password_confirm',
             [
                 'autocomplete' => 'new-password',

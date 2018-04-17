@@ -16,7 +16,7 @@ if ($SaitoSettings['map_enabled']) {
     ];
 }
 foreach ($userMenu as $m) {
-    if (strpos($this->request->here(), $m['url']) !== false) {
+    if (strpos($this->request->getRequestTarget(), $m['url']) !== false) {
         continue;
     }
     $menu[] = $this->Layout->navbarItem(

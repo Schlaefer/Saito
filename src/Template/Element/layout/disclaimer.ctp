@@ -10,16 +10,16 @@ Stopwatch::start('layout/disclaimer.ctp');
             <h3><?= __('Ressources') ?></h3>
             <ul>
                 <li>
-                    <a href="<?= $this->request->webroot ?>contacts/owner"><?= __('Contact') ?></a> </li>
+                    <a href="<?= $this->request->getAttribute('webroot') ?>contacts/owner"><?= __('Contact') ?></a> </li>
                 <?php /*  @td 3.0 mobile ?>
                  * <li>
-                 * <a href="<?= $this->request->webroot ?>mobile/"><?=
+                 * <a href="<?= $this->request->getAttribute('webroot') ?>mobile/"><?=
                  * __('Mobile')
                  * ?></a>
                  * </li>
                  */ ?>
                 <li>
-                    <a href="<?= $this->request->webroot ?>pages/rss_feeds">
+                    <a href="<?= $this->request->getAttribute('webroot') ?>pages/rss_feeds">
                         <?= __('RSS') ?>
                     </a>
                 </li>

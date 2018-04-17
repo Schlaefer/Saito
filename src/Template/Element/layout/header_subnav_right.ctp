@@ -4,9 +4,10 @@ $this->assign('headerSubnavRightTop', '');
 echo $this->fetch('headerSubnavRight');
 
 // if a page has a global paginator we assume it's always shown top right
-if (isset($this->request->params['paging'])) {
+$paging = $this->request->getParam('paging');
+if ($paging) {
     $options = [];
-    if ($this->request->params['action'] === 'index') {
+    if ($this->request->getParam('action') === 'index') {
         $this->Paginator->options(
             ['url' => ['direction' => null, 'sort' => null]]
         );

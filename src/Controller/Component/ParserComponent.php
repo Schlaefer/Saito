@@ -28,7 +28,7 @@ class ParserComponent extends Component
         $this->_settings = new Settings(
             [
                 'server' => Router::fullBaseUrl(),
-                'webroot' => $this->_registry->getController()->request->webroot
+                'webroot' => $this->_registry->getController()->request->getAttribute('webroot')
             ]
         );
     }
@@ -38,7 +38,7 @@ class ParserComponent extends Component
      */
     public function beforeRender(Event $event)
     {
-        $this->_initHelper($event->subject());
+        $this->_initHelper($event->getSubject());
     }
 
     /**

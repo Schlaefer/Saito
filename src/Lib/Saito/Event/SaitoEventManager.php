@@ -52,9 +52,9 @@ class SaitoEventManager implements EventListenerInterface
      */
     public function cakeEventPassThrough($event)
     {
-        $data = ($event->data) ?: [];
-        $data += ['subject' => $event->subject];
-        $name = 'Event.Saito.' . $event->name();
+        $data = ($event->getData()) ?: [];
+        $data += ['subject' => $event->getSubject()];
+        $name = 'Event.Saito.' . $event->getName();
         $this->dispatch($name, $data);
     }
 

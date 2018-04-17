@@ -5,8 +5,8 @@ namespace App\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Log\LogTrait;
+use Cake\Mailer\Email;
 use Cake\Network\Email\DebugTransport;
-use Cake\Network\Email\Email;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
 use Saito\Contact\SaitoEmailContact;
@@ -44,15 +44,15 @@ class SaitoEmailComponent extends Component
         $from = new SaitoEmailContact($params['sender']);
         $to = new SaitoEmailContact($params['recipient']);
 
-        $email = new Email('saito');
-        $email->emailFormat('text')
-            ->template($params['template'])
+        $email = (new Email('saito'))
+            ->setEmailFormat('text')
+            ->setTemplate($params['template'])
             ->from($from->toCake())
-            ->to($to->toCake())
-            ->subject($params['subject']);
+            ->setTo($to->toCake())
+            ->setSubject($params['subject']);
 
         $params['viewVars']['message'] = $params['message'];
-        $email->viewVars($params['viewVars'] + $defaults['viewVars']);
+        $email->setViewVars($params['viewVars'] + $defaults['viewVars']);
 
         if ($params['ccsender']) {
             $this->_sendCopyToOriginalSender($email);
@@ -70,14 +70,14 @@ class SaitoEmailComponent extends Component
     {
         /* set new subject */
         $email = clone $email;
-        $to = new SaitoEmailContact($email->to());
-        $subject = $email->subject();
+        $to = new SaitoEmailContact($email->getTo());
+        $subject = $email->getSubject();
         $data = ['subject' => $subject, 'recipient-name' => $to->getName()];
         $subject = __('Copy of your message: ":subject" to ":recipient-name"');
         $subject = Text::insert($subject, $data);
-        $email->subject($subject);
+        $email->setSubject($subject);
 
-        $email->to($email->from());
+        $email->setTo($email->getFrom());
         $from = new SaitoEmailContact('system');
         $email->from($from->toCake());
 
@@ -99,8 +99,8 @@ class SaitoEmailComponent extends Component
         };
 
         $sender = (new SaitoEmailContact('system'))->toCake();
-        if ($email->from() !== $sender) {
-            $email->sender($sender);
+        if ($email->getFrom() !== $sender) {
+            $email->setSender($sender);
         }
         $result = $email->send();
 

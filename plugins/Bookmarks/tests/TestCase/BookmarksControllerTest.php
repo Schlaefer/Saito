@@ -66,7 +66,7 @@ class BookmarksControllerTest extends IntegrationTestCase
     {
         $this->_loginUser(5);
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->disableCsrf();
         $this->post('/bookmarks/add', ['id' => 1]);
@@ -77,7 +77,7 @@ class BookmarksControllerTest extends IntegrationTestCase
         $this->_loginUser(5);
         $this->_setAjax();
         $this->expectException(
-            'Cake\Network\Exception\BadRequestException'
+            'Cake\Http\Exception\BadRequestException'
         );
         $this->get('/bookmarks/add');
     }
@@ -147,7 +147,7 @@ class BookmarksControllerTest extends IntegrationTestCase
     public function testDeleteNoAjax()
     {
         $this->_loginUser(3);
-        $this->expectException('\Cake\Network\Exception\BadRequestException');
+        $this->expectException('\Cake\Http\Exception\BadRequestException');
         $this->disableCsrf();
         $this->delete('/bookmarks/delete/1');
     }

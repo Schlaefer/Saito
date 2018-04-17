@@ -1,6 +1,6 @@
 <?php
-$this->Html->addCrumb(__('Settings'), '/admin/settings');
-$this->Html->addCrumb(__d('nondynamic', $setting->get('name')), '#');
+$this->Breadcrumbs->add(__('Settings'), '/admin/settings');
+$this->Breadcrumbs->add(__d('nondynamic', $setting->get('name')), '#');
 ?>
 <h1><?php echo __d('nondynamic', $setting->get('name')); ?></h1>
 <div class="row">
@@ -10,7 +10,7 @@ $this->Html->addCrumb(__d('nondynamic', $setting->get('name')), '#');
             $setting,
             ['inputDefaults' => [], 'class' => 'well']
         );
-        echo $this->Form->input(
+        echo $this->Form->control(
             'value',
             [
                 'label' => __d('nondynamic', $setting->get('name')),

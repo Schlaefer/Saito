@@ -80,6 +80,7 @@ class AdminHelper extends AppHelper
                 $badge = 'warning';
                 break;
             case 'Apc':
+            case 'Apcu':
                 $badge = 'success';
                 break;
             case 'Debug':

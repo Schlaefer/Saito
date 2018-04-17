@@ -29,7 +29,7 @@ class SmiliesController extends AdminsController
     {
         $smiley = $this->Smilies->newEntity();
         if ($this->request->is('post')) {
-            $this->Smilies->patchEntity($smiley, $this->request->data);
+            $this->Smilies->patchEntity($smiley, $this->request->getData());
             if ($this->Smilies->save($smiley)) {
                 $this->Flash->set(
                     __('The smily has been saved'),
@@ -56,7 +56,7 @@ class SmiliesController extends AdminsController
      */
     public function edit($id = null)
     {
-        if (!$id && empty($this->request->data)) {
+        if (!$id && empty($this->request->getData())) {
             $this->Flash->set(__('Invalid smiley.'), ['element' => 'error']);
             $this->redirect(['action' => 'index']);
 
@@ -64,8 +64,8 @@ class SmiliesController extends AdminsController
         }
 
         $smiley = $this->Smilies->get($id);
-        if (!empty($this->request->data)) {
-            $this->Smilies->patchEntity($smiley, $this->request->data);
+        if (!empty($this->request->getData())) {
+            $this->Smilies->patchEntity($smiley, $this->request->getData());
             if ($this->Smilies->save($smiley)) {
                 $this->Flash->set(
                     __('The smily has been saved'),

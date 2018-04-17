@@ -46,7 +46,7 @@ class SaitoValidationProvider
     {
         $field = $context['field'];
         $Table = $context['providers']['table'];
-        $primaryKey = $Table->primaryKey();
+        $primaryKey = $Table->getPrimaryKey();
 
         $conditions = ["LOWER($field)" => mb_strtolower($value)];
         if ($context['newRecord'] === false) {

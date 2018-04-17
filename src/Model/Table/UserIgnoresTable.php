@@ -40,7 +40,7 @@ class UserIgnoresTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->provider(
+        $validator->setProvider(
             'saito',
             'Saito\Validation\SaitoValidationProvider'
         );

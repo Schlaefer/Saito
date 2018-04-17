@@ -14,6 +14,7 @@
  */
 namespace App;
 
+use App\Middleware\SaitoResponseMiddleware;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
@@ -45,7 +46,15 @@ class Application extends BaseApplication
             ->add(AssetMiddleware::class)
 
             // Add routing middleware.
-            ->add(new RoutingMiddleware($this));
+            // Routes collection cache enabled by default, to disable route caching
+            // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
+            // you might want to disable this cache in case your routing is extremely simple
+            ->add(new RoutingMiddleware($this, '_cake_routes_'));
+
+        $config = [
+            'xFrameOrigin' => Configure::read('Saito.X-Frame-Options')
+        ];
+        $middlewareQueue->add(new SaitoResponseMiddleware($config));
 
         return $middlewareQueue;
     }

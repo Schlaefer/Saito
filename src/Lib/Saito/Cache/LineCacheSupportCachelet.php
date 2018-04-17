@@ -21,7 +21,7 @@ class LineCacheSupportCachelet extends CacheSupportCachelet implements
      */
     public function __construct(ItemCache $LineCache)
     {
-        EventManager::instance()->attach($this);
+        EventManager::instance()->on($this);
         $this->_LineCache = $LineCache;
     }
 

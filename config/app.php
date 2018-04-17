@@ -320,6 +320,7 @@ $config['Cache'] = [
     'default' => [
         'className' => $cache['engine'],
         'path' => CACHE,
+        'url' => env('CACHE_DEFAULT_URL', null),
         'prefix' => $cache['prefix']
     ],
     /**
@@ -332,7 +333,8 @@ $config['Cache'] = [
         'prefix' => $cache['prefix'] . 'cake_core_',
         'path' => CACHE . 'persistent/',
         'serialize' => true,
-        'duration' => '+2 minutes',
+        'duration' => '+1 years',
+        'url' => env('CACHE_CAKECORE_URL', null),
     ],
     /**
      * Configure the cache for model and datasource caches. This cache
@@ -344,7 +346,21 @@ $config['Cache'] = [
         'prefix' => $cache['prefix'] . 'cake_model_',
         'path' => CACHE . 'models/',
         'serialize' => true,
-        'duration' => '+2 minutes',
+        'duration' => '+1 years',
+        'url' => env('CACHE_CAKEMODEL_URL', null),
+    ],
+    /**
+     * Configure the cache for routes. The cached routes collection is built the
+     * first time the routes are processed via `config/routes.php`.
+     * Duration will be set to '+2 seconds' in bootstrap.php when debug = true
+     */
+    '_cake_routes_' => [
+        'className' => $cache['engine'],
+        'prefix' => $cache['prefix'] . 'cake_model_',
+        'path' => CACHE,
+        'serialize' => true,
+        'duration' => '+1 years',
+        'url' => env('CACHE_CAKEROUTES_URL', null),
     ],
     /**
      * Long term cache for performance cheating

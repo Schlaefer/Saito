@@ -55,7 +55,7 @@ class UserReadsTable extends Table
 
         $entities = $this->newEntities($data);
         // @performance is one transaction but multiple inserts
-        $this->connection()->transactional(
+        $this->getConnection()->transactional(
             function () use ($entities) {
                 foreach ($entities as $entity) {
                     $this->save($entity, ['atomic' => false]);

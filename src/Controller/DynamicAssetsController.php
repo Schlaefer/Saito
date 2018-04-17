@@ -45,10 +45,10 @@ class DynamicAssetsController extends Controller
             }
         );
 
-        $this->response->type('json');
+        $this->response = $this->response->withType('json');
         $this->response->cache('-1 minute', '+1 hour');
         $this->response->compress();
-        $this->response->body($msgs);
+        $this->response = $this->response->withStringBody($msgs);
 
         return $this->response;
     }

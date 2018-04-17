@@ -151,7 +151,7 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
         EventManager::instance()->on(
             'Controller.initialize',
             function (Event $event) use ($table, $Mock) {
-                $Controller = $event->subject();
+                $Controller = $event->getSubject();
                 $Controller->{$table} = $Mock;
             }
         );

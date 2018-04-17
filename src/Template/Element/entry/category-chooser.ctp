@@ -31,7 +31,7 @@ Stopwatch::start('category-chooser.ctp'); ?>
                     echo $this->Html->link(__('All'), '/users/setcategory/all')
                      */
                     ?>
-                    <a href="<?= $this->request->webroot ?>users/setcategory/all">
+                    <a href="<?= $this->request->getAttribute('webroot') ?>users/setcategory/all">
                         <?= __('All Categories') ?>
                     </a>
 
@@ -54,7 +54,7 @@ Stopwatch::start('category-chooser.ctp'); ?>
                          *
                          */
                         ?>
-                        <a href="<?= $this->request->webroot ?>users/setcategory/<?= $key; ?>">
+                        <a href="<?= $this->request->getAttribute('webroot') ?>users/setcategory/<?= $key; ?>">
                             <?php echo $title; ?>
                         </a>
 

@@ -31,7 +31,7 @@
             <li>
                 <?php // for performance reasons we don't use $this->Html->link() here
                 ?>
-                <a href="<?= $this->request->webroot; ?>users/view/<?= $user->get('id') ?>"
+                <a href="<?= $this->request->getAttribute('webroot'); ?>users/view/<?= $user->get('id') ?>"
                    class="<?= ($user->get('id') == $CurrentUser->getId()) ? 'slidetab-actUser' : '' ?>">
                     <?php
                     $role = $user->getRole();

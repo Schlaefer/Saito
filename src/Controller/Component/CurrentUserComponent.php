@@ -101,7 +101,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->_Controller = $Controller;
         Registry::set('CU', $this);
 
-        if ($Controller->name === 'CakeError') {
+        if ($Controller->getName() === 'CakeError') {
             return;
         }
 
@@ -114,7 +114,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             $cookieTitle
         );
 
-        $this->_setupAuth();
+        $this->configureAuthentication($Controller->Auth);
 
         // don't auto-login on login related pages
         $excluded = ['login', 'register'];
@@ -157,7 +157,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             if ($this->isBot()) {
                 return;
             }
-            $userId = $this->_Controller->request->session()->id();
+            $userId = $this->_Controller->request->getSession()->id();
         }
         $this->_User->UserOnline->setOnline($userId, $isLoggedIn);
         Stopwatch::stop('CurrentUser->_markOnline()');
@@ -193,13 +193,13 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->_User->UserOnline->setOffline($sessionId);
 
         //= password update
-        $password = $this->_Controller->request->data('password');
+        $password = $this->_Controller->request->getData('password');
         if ($password) {
             $this->_User->autoUpdatePassword($this->getId(), $password);
         }
 
         //= set persistent Cookie
-        $setCookie = (bool)$this->_Controller->request->data('remember_me');
+        $setCookie = (bool)$this->_Controller->request->getData('remember_me');
         if ($setCookie) {
             $this->PersistentCookie->write($this);
         };
@@ -296,26 +296,26 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     /**
      * Configures the auth component
      *
+     * @param AuthComponent $auth auth-component to configure
      * @return void
      */
-    protected function _setupAuth()
+    protected function configureAuthentication(AuthComponent $auth): void
     {
-        $all = [
-            'useModel' => 'Users',
-            'scope' => ['Users.activate_code' => 0, 'Users.user_lock' => 0]
-        ];
-        $auths = [AuthComponent::ALL => $all, 'Mlf', 'Mlf2', 'Form'];
-        $this->_Controller->Auth->config('authenticate', $auths);
-        $this->_Controller->Auth->config('authorize', ['Controller']);
-        $this->_Controller->Auth->config('loginAction', '/login');
-        $this->_Controller->Auth->config('unauthorizedRedirect', '/login');
+        $auth->setConfig(
+            'authenticate',
+            [AuthComponent::ALL => ['finder' => 'allowedToLogin'], 'Mlf', 'Mlf2', 'Form']
+        );
+
+        $auth->setConfig('authorize', ['Controller']);
+        $auth->setConfig('loginAction', '/login');
+        $auth->setConfig('unauthorizedRedirect', '/login');
 
         if ($this->isLoggedIn()) {
-            $this->_Controller->Auth->allow();
+            $auth->allow();
         } else {
-            $this->_Controller->Auth->deny();
+            $auth->deny();
         }
-        $this->_Controller->Auth->config('authError', __('auth_autherror'));
+        $auth->setConfig('authError', __('auth_autherror'));
     }
 
     /**

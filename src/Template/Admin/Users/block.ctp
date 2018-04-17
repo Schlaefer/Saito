@@ -1,6 +1,6 @@
 <?php
-$this->Html->addCrumb(__('Users'), '/admin/users');
-$this->Html->addCrumb(__('user.block.history'), '/admin/users/block');
+$this->Breadcrumbs->add(__('Users'), '/admin/users');
+$this->Breadcrumbs->add(__('user.block.history'), '/admin/users/block');
 echo $this->Html->tag('h1', __('user.block.history'));
 
 echo $this->element(

@@ -17,8 +17,8 @@ class SitemapCollection
      */
     public function __construct(array $generators, Controller $Controller)
     {
-        if (!Cache::config('sitemap')) {
-            Cache::config(
+        if (!Cache::getConfig('sitemap')) {
+            Cache::setConfig(
                 'sitemap',
                 [
                     'prefix' => 'saito_',
