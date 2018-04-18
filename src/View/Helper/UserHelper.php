@@ -120,8 +120,8 @@ class UserHelper extends AppHelper
     /**
      * Creates Homepage Links with Image from Url
      *
-     * @param string $url url
-     * @return string
+     * @param string $url user provided URL-string
+     * @return string link or escaped string
      */
     public function homepage($url)
     {
