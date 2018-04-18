@@ -26,7 +26,8 @@
     "markstory/geshi": "^3",
     "siezi/cakephp-simple-captcha": "*",
     "yzalis/identicon": "*",
-    "league/commonmark": "^0.17.5"
+    "league/commonmark": "^0.17.5",
+    "suin/php-rss-writer": "^1.6"
   },
   "require-dev": {
     "cakephp/bake": "~1.0",
@@ -63,6 +64,8 @@
       "Paz\\": "./plugins/Paz/src",
       "MailObfuscator\\": "./plugins/MailObfuscator/src",
       "Markitup\\": "./plugins/Markitup/src",
+      "Feeds\\": "./plugins/Feeds/src",
+      "Feeds\\Test\\": "./plugins/Feeds/tests",
       "SaitoHelp\\": "./plugins/SaitoHelp/src",
       "Sitemap\\": "./plugins/Sitemap/src",
       "Sitemap\\Test\\": "./plugins/Sitemap/tests",

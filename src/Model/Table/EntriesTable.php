@@ -1010,21 +1010,6 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * Implements the custom find type 'feed'
-     *
-     * Add parameters for generating a rss/json-feed with find('feed', …)
-     *
-     * @param Query $query query
-     * @return Query
-     */
-    public function findFeed(Query $query)
-    {
-        return $query->contain('Users')
-            ->select($this->_allowedPublicOutputFields)
-            ->limit(10);
-    }
-
-    /**
      * Un-/Locks thread: sets posting in thread $tid to $locked
      *
      * @param int $tid thread-ID

@@ -8,10 +8,11 @@ $this->set('titleForPage', $title);
 ?>
 <div class="panel">
     <?= $this->Layout->panelHeading($title, ['pageHeading' => true]) ?>
+    <h2><?= $title ?></h2>
     <div class="panel-content richtext">
         <?= $this->Html->nestedList([
-            $this->Html->link(__('RSS Feed') . ' – ' . __('Last entries'), '/feed/postings.rss'),
-            $this->Html->link(__('RSS Feed') . ' – ' . __('Last started threads'), '/feed/threads.rss')
+            $this->Html->link(__d('feeds', 'postings.new.t'), '/feeds/postings/new.rss'),
+            $this->Html->link(__d('feeds', 'threads.new.t'), '/feeds/postings/threads.rss')
         ]); ?>
     </div>
 </div>

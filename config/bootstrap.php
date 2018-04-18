@@ -243,6 +243,7 @@ Plugin::loadAll([
         // @todo 3.0
         // 'M' => ['bootstrap' => true, 'routes' => true],
     'Proffer',
+    'Feeds' => ['bootstrap' => true, 'routes' => true],
     'SaitoHelp' => ['routes' => true],
     'Sitemap' => ['bootstrap' => true, 'routes' => true]
 ]);

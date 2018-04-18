@@ -94,18 +94,13 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->fallbacks(DashedRoute::class);
 });
 
-Router::scope('/feed', function ($routes) {
-    $routes->extensions(['rss']);
+Router::scope('/entries', function ($routes) {
+    $routes->setExtensions(['json']);
     $routes->connect(
-        '/postings',
-        ['controller' => 'Entries', 'action' => 'feed', 'postings']
-    );
-    $routes->connect(
-        '/threads',
-        ['controller' => 'Entries', 'action' => 'feed', 'threads']
+        '/threadLine/*',
+        ['controller' => 'Entries', 'action' => 'threadLine']
     );
 });
-
 
 /**
  * Routes for Admin-Area 
@@ -121,7 +116,6 @@ Router::prefix('admin', function ($routes) {
 	);
 	$routes->fallbacks('InflectedRoute');
 });
-
 
 /**
  * Load all plugin routes. See the Plugin documentation on

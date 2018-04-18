@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-13 12:01+0200\n"
-"PO-Revision-Date: 2018-04-13 12:01+0200\n"
+"POT-Creation-Date: 2018-04-18 17:25+0200\n"
+"PO-Revision-Date: 2018-04-18 17:25+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -11,11 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: __;gettext;gettext_noop;_\n"
-"X-Poedit-Basepath: /Users/siezi/Sites/private/personal_projects/"
-"macnemo_2_github/src\n"
+"X-Poedit-Basepath: ../..\n"
 "'auth_autherror', true;X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Controller/Admin/AdminsController.php:39
@@ -108,7 +107,7 @@ msgstr "User was created successfully."
 msgid "user.admin.add.error"
 msgstr "Error while creating user."
 
-#: Controller/Admin/UsersController.php:69 Controller/UsersController.php:545
+#: Controller/Admin/UsersController.php:69 Controller/UsersController.php:546
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
@@ -133,7 +132,7 @@ msgstr ""
 msgid "Couldn't delete user."
 msgstr ""
 
-#: Controller/AppController.php:201
+#: Controller/AppController.php:202
 #: Controller/Component/CurrentUserComponent.php:318
 msgid "auth_autherror"
 msgstr "Access to this function is restricted!"
@@ -142,15 +141,15 @@ msgstr "Access to this function is restricted!"
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
 msgstr ""
 
-#: Controller/Component/TitleComponent.php:84
+#: Controller/Component/TitleComponent.php:85
 msgid "forum-title-template"
 msgstr ":page – :forum"
 
-#: Controller/Component/TitleComponent.php:103
+#: Controller/Component/TitleComponent.php:105
 msgid ":subject | :category"
 msgstr ""
 
-#: Controller/Component/TitleComponent.php:105
+#: Controller/Component/TitleComponent.php:107
 msgid ":subject (:type) | :category"
 msgstr ""
 
@@ -170,168 +169,160 @@ msgstr ""
 msgid "page"
 msgstr ""
 
-#: Controller/EntriesController.php:118 Template/Pages/rss_feeds.ctp:14
-msgid "Last started threads"
-msgstr ""
-
-#: Controller/EntriesController.php:123 Template/Pages/rss_feeds.ctp:13
-msgid "Last entries"
-msgstr ""
-
-#: Controller/EntriesController.php:183
+#: Controller/EntriesController.php:141
 msgid "view.type.mix"
 msgstr "Mix"
 
-#: Controller/EntriesController.php:229 Controller/EntriesController.php:238
+#: Controller/EntriesController.php:187 Controller/EntriesController.php:196
 msgid "Invalid post"
 msgstr ""
 
-#: Controller/EntriesController.php:278
+#: Controller/EntriesController.php:236
 msgid "Write a New Entry"
 msgstr ""
 
-#: Controller/EntriesController.php:325 Controller/EntriesController.php:472
+#: Controller/EntriesController.php:283 Controller/EntriesController.php:430
 msgid "Something clogged the tubes. Could not save entry. Try again."
 msgstr ""
 
-#: Controller/EntriesController.php:374 Controller/EntriesController.php:526
+#: Controller/EntriesController.php:332 Controller/EntriesController.php:484
 msgid "back_to_posting_from_linkname"
 msgstr "Zurück zum Eintrag von %s"
 
-#: Controller/EntriesController.php:378
+#: Controller/EntriesController.php:336
 msgid "Write a Reply"
 msgstr ""
 
-#: Controller/EntriesController.php:482
+#: Controller/EntriesController.php:440
 msgid "notice_you_are_editing_as_mod"
 msgstr "You're now editing as moderator!"
 
-#: Controller/EntriesController.php:531
+#: Controller/EntriesController.php:489
 #: Template/Element/entry/view_posting.ctp:92
 #: Template/Element/entry/view_posting.ctp:105
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: Controller/EntriesController.php:561
+#: Controller/EntriesController.php:519
 msgid "delete_tree_success"
 msgstr "Thread successfully removed."
 
-#: Controller/EntriesController.php:564
+#: Controller/EntriesController.php:522
 msgid "delete_subtree_success"
 msgstr "Subthread successfully removed."
 
-#: Controller/EntriesController.php:569
+#: Controller/EntriesController.php:527
 msgid "delete_tree_error"
 msgstr ""
 
-#: Controller/EntriesController.php:702
+#: Controller/EntriesController.php:660
 msgid "Error"
 msgstr ""
 
-#: Controller/EntriesController.php:824
+#: Controller/EntriesController.php:782
 msgid "Custom"
 msgstr ""
 
-#: Controller/EntriesController.php:827
+#: Controller/EntriesController.php:785
 #: Template/Element/entry/category-chooser.ctp:35
 msgid "All Categories"
 msgstr ""
 
-#: Controller/UsersController.php:84
+#: Controller/UsersController.php:85
 msgid "user.block.pubExpEnds"
 msgstr "User {0} is locked. Try again in %s."
 
-#: Controller/UsersController.php:86
+#: Controller/UsersController.php:87
 msgid "user.block.pubExp"
 msgstr "User {0} is locked."
 
-#: Controller/UsersController.php:91
+#: Controller/UsersController.php:92
 msgid "User {0} is not activated yet."
 msgstr ""
 
-#: Controller/UsersController.php:96
+#: Controller/UsersController.php:97
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
-#: Controller/UsersController.php:173
+#: Controller/UsersController.php:174
 msgid "register_email_subject"
 msgstr "Welcome to {0}!"
 
-#: Controller/UsersController.php:229 Template/Admin/Users/index.ctp:20
+#: Controller/UsersController.php:230 Template/Admin/Users/index.ctp:20
 #: Template/Users/edit.ctp:22 Template/Users/edit.ctp:44
 #: Template/Users/view.ctp:19
 msgid "username_marking"
 msgstr "Name"
 
-#: Controller/UsersController.php:230 Template/Admin/Users/index.ctp:21
+#: Controller/UsersController.php:231 Template/Admin/Users/index.ctp:21
 #: Template/Users/edit.ctp:30
 msgid "user_type"
 msgstr "Type"
 
-#: Controller/UsersController.php:232
+#: Controller/UsersController.php:233
 msgid "userlist_online"
 msgstr "Online"
 
-#: Controller/UsersController.php:235 Template/Admin/Users/index.ctp:23
+#: Controller/UsersController.php:236 Template/Admin/Users/index.ctp:23
 msgid "registered"
 msgstr "Registered"
 
-#: Controller/UsersController.php:240 Template/Admin/Users/index.ctp:26
+#: Controller/UsersController.php:241 Template/Admin/Users/index.ctp:26
 #: Template/Users/view.ctp:41
 #, fuzzy
 msgid "user.set.lock.t"
 msgstr "Banned"
 
-#: Controller/UsersController.php:314
+#: Controller/UsersController.php:315
 #, fuzzy
 msgid "admin.feat.map"
 msgstr "map"
 
-#: Controller/UsersController.php:314
+#: Controller/UsersController.php:315
 msgid "admin.setting.disabled"
 msgstr "Feature \"%s\" is disabled by admin."
 
-#: Controller/UsersController.php:361 Controller/UsersController.php:395
+#: Controller/UsersController.php:362 Controller/UsersController.php:396
 msgid "Invalid user"
 msgstr ""
 
-#: Controller/UsersController.php:452
+#: Controller/UsersController.php:453
 msgid "user.avatar.edit.t"
 msgstr "Edit User Avatar {0}"
 
-#: Controller/UsersController.php:483
+#: Controller/UsersController.php:484
 msgid "user.edit.t"
 msgstr "Edit User {0}"
 
-#: Controller/UsersController.php:520
+#: Controller/UsersController.php:521
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:553
+#: Controller/UsersController.php:554
 msgid "You can't lock yourself."
 msgstr ""
 
-#: Controller/UsersController.php:556
+#: Controller/UsersController.php:557
 msgid "You can't lock administrators."
 msgstr ""
 
-#: Controller/UsersController.php:571
+#: Controller/UsersController.php:572
 msgid "User {0} is locked."
 msgstr ""
 
-#: Controller/UsersController.php:573
+#: Controller/UsersController.php:574
 msgid "User {0} is unlocked."
 msgstr ""
 
-#: Controller/UsersController.php:577
+#: Controller/UsersController.php:578
 msgid "Error while un/locking."
 msgstr ""
 
-#: Controller/UsersController.php:597
+#: Controller/UsersController.php:598
 msgid "Error while unlocking."
 msgstr ""
 
-#: Controller/UsersController.php:645
+#: Controller/UsersController.php:647
 msgid "change_password_success"
 msgstr "Password was changed."
 
@@ -355,47 +346,47 @@ msgstr ""
 msgid "user.removed.placeholder"
 msgstr "<deleted>"
 
-#: Model/Table/UsersTable.php:143
+#: Model/Table/UsersTable.php:144
 msgid "user.avatar.error.extension"
 msgstr "Invalid file extension. Use: {0}."
 
-#: Model/Table/UsersTable.php:151
+#: Model/Table/UsersTable.php:152
 msgid "user.avatar.error.size"
 msgstr "File is to big. Max file size is: {0}."
 
-#: Model/Table/UsersTable.php:159
+#: Model/Table/UsersTable.php:160
 msgid "user.avatar.error.mime"
 msgstr "Not the correct mime type."
 
-#: Model/Table/UsersTable.php:174
+#: Model/Table/UsersTable.php:175
 msgid "user.avatar.error.dimension"
 msgstr "Avatar image is to big or to small. Use an image between {0} and {1}."
 
-#: Model/Table/UsersTable.php:189
+#: Model/Table/UsersTable.php:190
 msgid "error_password_confirm"
 msgstr "Passwords don't match."
 
-#: Model/Table/UsersTable.php:208
+#: Model/Table/UsersTable.php:209
 msgid "error_no_name"
 msgstr "Name is empty."
 
-#: Model/Table/UsersTable.php:216
+#: Model/Table/UsersTable.php:217
 msgid "error_name_reserved"
 msgstr "Name is already used."
 
-#: Model/Table/UsersTable.php:226
+#: Model/Table/UsersTable.php:227
 msgid "model.user.validate.username.hasAllowedChars"
 msgstr "The name contains forbidden characters."
 
-#: Model/Table/UsersTable.php:241
+#: Model/Table/UsersTable.php:242
 msgid "error_email_reserved"
 msgstr "Email address is already used."
 
-#: Model/Table/UsersTable.php:246
+#: Model/Table/UsersTable.php:247
 msgid "error_email_wrong"
 msgstr "Email doesn't seem like a valid address."
 
-#: Model/Table/UsersTable.php:608
+#: Model/Table/UsersTable.php:609
 msgid "error.name.equalExists"
 msgstr "An similar name is already in use: {0}"
 
@@ -731,7 +722,7 @@ msgstr ""
 #: Template/Element/Admin/Categories/edit.ctp:12
 #: Template/Element/Admin/Categories/edit.ctp:20
 #: Template/Element/Admin/Categories/edit.ctp:28 Template/Users/edit.ctp:36
-#: View/Helper/AdminHelper.php:215 View/Helper/UserHelper.php:96
+#: View/Helper/AdminHelper.php:216 View/Helper/UserHelper.php:96
 msgid "user.type.admin"
 msgstr "Administrator"
 
@@ -739,7 +730,7 @@ msgstr "Administrator"
 #: Template/Element/Admin/Categories/edit.ctp:11
 #: Template/Element/Admin/Categories/edit.ctp:19
 #: Template/Element/Admin/Categories/edit.ctp:27 Template/Users/edit.ctp:35
-#: View/Helper/AdminHelper.php:213 View/Helper/UserHelper.php:94
+#: View/Helper/AdminHelper.php:214 View/Helper/UserHelper.php:94
 msgid "user.type.mod"
 msgstr "Moderator"
 
@@ -747,11 +738,11 @@ msgstr "Moderator"
 #: Template/Element/Admin/Categories/edit.ctp:10
 #: Template/Element/Admin/Categories/edit.ctp:18
 #: Template/Element/Admin/Categories/edit.ctp:26 Template/Users/edit.ctp:34
-#: View/Helper/AdminHelper.php:211 View/Helper/UserHelper.php:92
+#: View/Helper/AdminHelper.php:212 View/Helper/UserHelper.php:92
 msgid "user.type.user"
 msgstr "User"
 
-#: Template/Cell/SlidetabUserposts/display.ctp:13 Template/Users/view.ctp:259
+#: Template/Cell/SlidetabUserposts/display.ctp:11 Template/Users/view.ctp:259
 msgid "user.recentposts.t"
 msgstr "Recent Posts {0}"
 
@@ -865,7 +856,7 @@ msgstr "Register"
 
 #: Template/Element/layout/header_login.ctp:16
 #: Template/Element/layout/header_login.ctp:18
-#: Template/Element/users/login_form.ctp:44
+#: Template/Element/users/login_form.ctp:47
 msgid "login_btn"
 msgstr "Login"
 
@@ -921,7 +912,7 @@ msgid "user.block.ends"
 msgstr "Scheduled End"
 
 #: Template/Element/users/block-report.ctp:26
-#: Template/Element/users/login_form.ctp:12
+#: Template/Element/users/login_form.ctp:15
 #: Template/Users/changepassword.ctp:24
 msgid "user_name"
 msgstr "Username"
@@ -935,12 +926,12 @@ msgstr "Unblock"
 msgid "user.block.reason.1"
 msgstr "Blocked by moderator {0}."
 
-#: Template/Element/users/login_form.ctp:23
+#: Template/Element/users/login_form.ctp:26
 #: Template/Element/users/register-form-core.ctp:16 Template/Users/edit.ctp:51
 msgid "user_pw"
 msgstr "Password"
 
-#: Template/Element/users/login_form.ctp:34
+#: Template/Element/users/login_form.ctp:37
 msgid "auto_login_marking"
 msgstr "Stay Logged In"
 
@@ -1014,10 +1005,6 @@ msgstr ""
 
 #: Template/Pages/rss_feeds.ctp:6
 msgid "RSS Feeds"
-msgstr ""
-
-#: Template/Pages/rss_feeds.ctp:13 Template/Pages/rss_feeds.ctp:14
-msgid "RSS Feed"
 msgstr ""
 
 #: Template/Users/avatar.ctp:26 Template/Users/edit.ctp:326
@@ -1273,27 +1260,27 @@ msgstr ""
 msgid ":hours hours"
 msgstr ""
 
-#: View/Helper/AdminHelper.php:133
+#: View/Helper/AdminHelper.php:134
 msgid "No log file found."
 msgstr ""
 
-#: View/Helper/AdminHelper.php:145
+#: View/Helper/AdminHelper.php:146
 msgid "Details"
 msgstr ""
 
-#: View/Helper/AdminHelper.php:209
+#: View/Helper/AdminHelper.php:210
 msgid "user.type.anon"
 msgstr "Anonymous"
 
-#: View/Helper/PostingHelper.php:90
+#: View/Helper/PostingHelper.php:91
 msgid "Category"
 msgstr ""
 
-#: View/Helper/PostingHelper.php:92
+#: View/Helper/PostingHelper.php:93
 msgid "error_category_empty"
 msgstr "Category must not be empty."
 
-#: View/Helper/PostingHelper.php:113
+#: View/Helper/PostingHelper.php:114
 msgid "views_headline"
 msgstr "views"
 

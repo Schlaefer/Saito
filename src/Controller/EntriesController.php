@@ -103,48 +103,6 @@ class EntriesController extends AppController
     }
 
     /**
-     * RSS-feed for postings.
-     *
-     * @param string $type feed-content
-     * @return void
-     */
-    public function feed($type)
-    {
-        if (!$this->RequestHandler->isRss()) {
-            throw new BadRequestException();
-        }
-        switch ($type) {
-            case 'threads':
-                $title = __('Last started threads');
-                $order = ['time' => 'DESC'];
-                $conditions['pid'] = 0;
-                break;
-            default:
-                $title = __('Last entries');
-                $order = ['last_answer' => 'DESC'];
-        }
-        $title = Configure::read('Saito.Settings.forum_name') . ' – ' . $title;
-        $language = Configure::read('Saito.language');
-        $this->set(compact('title', 'language'));
-
-        $conditions['category_id IN'] = $this->CurrentUser->Categories->getAll(
-            'read'
-        );
-
-        $entries = $this->Entries->find(
-            'feed',
-            [
-                'conditions' => $conditions,
-                'order' => $order
-            ]
-        );
-        $this->set('entries', $entries);
-
-        // serialize for JSON
-        $this->set('_serialize', 'entries');
-    }
-
-    /**
      * Mix view
      *
      * @param string $tid thread-ID
@@ -751,7 +709,7 @@ class EntriesController extends AppController
             'unlockedActions',
             ['preview', 'solve', 'view']
         );
-        $this->Auth->allow(['feed', 'index', 'view', 'mix', 'update']);
+        $this->Auth->allow(['index', 'view', 'mix', 'update']);
 
         Stopwatch::stop('Entries->beforeFilter()');
     }

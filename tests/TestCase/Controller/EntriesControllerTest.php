@@ -840,21 +840,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertResponseContains('&amp;&lt;Username');
     }
 
-    public function testFeeds()
-    {
-        $this->get('/feed/postings.rss');
-        $result = $this->viewVariable('entries');
-        $first = $result->first();
-        $this->assertEquals($first->get('subject'), 'First_Subject');
-        $this->assertNull($first->get('ip'));
-
-        $this->get('/feed/threads.rss');
-        $result = $this->viewVariable('entries');
-        $first = $result->first();
-        $this->assertEquals($first->get('subject'), 'First_Subject');
-        $this->assertNull($first->get('ip'));
-    }
-
     public function testSolveNotLoggedIn()
     {
         $url = '/entries/solve/1';
