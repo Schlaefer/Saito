@@ -43,7 +43,6 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
      */
     public function testThreads()
     {
-        $this->markTestIncomplete();
         $this->_loginUser(1);
 
         $data = ['limit' => 2, 'offset' => 1, 'order' => 'answer'];
@@ -65,16 +64,16 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
 					"category_name": "Offtopic"
 				},
 				{
-					"id": 6,
-					"subject": "Third Thread First_Subject",
-					"is_nt": true,
+					"id": 13,
+					"subject": "Subject 13",
+					"is_nt": false,
 					"is_pinned": false,
-					"time": "2000-01-01T11:00:00+00:00",
-					"last_answer": "2000-01-01T11:00:00+00:00",
+					"time": "2000-01-01T12:00:00+00:00",
+					"last_answer": "2000-01-01T12:00:00+00:00",
 					"user_id": 1,
 					"user_name": "Alice",
-					"category_id": 1,
-					"category_name": "Admin"
+					"category_id": 2,
+					"category_name": "Ontopic"
 				}
 			]',
             true
@@ -88,12 +87,11 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
      */
     public function testThreadsNoAdminAnon()
     {
-        $this->markTestIncomplete();
         $this->get($this->_apiRoot . 'threads.json?limit=3');
         $result = json_decode((string)$this->_response->getBody(), true);
         $this->assertEquals(3, count($result));
         $this->assertEquals(1, $result[0]['id']);
-        $this->assertEquals(10, $result[1]['id']);
+        $this->assertEquals(13, $result[1]['id']);
     }
 
     /**
@@ -101,7 +99,6 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
      */
     public function testThreadsNoAdminUser()
     {
-        $this->markTestIncomplete();
         $this->_loginUser(3);
         $data = ['limit' => 2, 'offset' => 1, 'order' => 'answer'];
         $this->get(
@@ -109,7 +106,7 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
         );
         $result = json_decode((string)$this->_response->getBody(), true);
         $this->assertEquals(4, $result[0]['id']);
-        $this->assertEquals(10, $result[1]['id']);
+        $this->assertEquals(13, $result[1]['id']);
     }
 
     public function testThreadsDisallowedRequestTypes()
@@ -265,7 +262,6 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
 
     public function testEntriesItemPutSuccess()
     {
-        $this->markTestIncomplete();
         $this->_loginUser(1);
         $id = 1;
         $this->put(
@@ -348,7 +344,6 @@ class ApiEntriesControllerTest extends ApiIntegrationTestCase
 
     public function testThreadsItemGet()
     {
-        $this->markTestIncomplete();
         $this->_loginUser(3);
         $this->get($this->_apiRoot . 'threads/1.json');
         $json = <<< EOF

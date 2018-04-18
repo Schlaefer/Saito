@@ -73,7 +73,6 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
 
     public function testShoutsGet()
     {
-        $this->markTestIncomplete();
         $this->_loginUser(3);
 
         $this->get($this->_apiRoot . 'shouts.json');
@@ -92,7 +91,6 @@ class ApiShoutsControllerTest extends ApiIntegrationTestCase
 
     public function testShoutsPost()
     {
-        $this->markTestIncomplete();
         $this->_loginUser(3);
 
         $data = [

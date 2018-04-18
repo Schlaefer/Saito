@@ -373,10 +373,10 @@ class EntryFixture extends TestFixture
             'text' => "Text 13",
             'pid' => 0,
             'tid' => 13,
-            'time' => '2000-01-01 10:59:00',
+            'time' => '2000-01-01 12:00:00',
             'last_answer' => '2000-01-01 12:00:00',
             'category_id' => 2, // !important accession = 0
-            'user_id' => 7
+            'user_id' => 1
         ]
     ];
 

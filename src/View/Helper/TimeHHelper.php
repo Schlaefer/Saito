@@ -89,18 +89,18 @@ class TimeHHelper extends AppHelper
     /**
      * Format timestamp to readable string
      *
-     * @param Time $timestamp timestamp
+     * @param DateTime $timestamp timestamp
      * @param string $format format
      * @param array $options options
      * @return string
      */
-    public function formatTime(Time $timestamp, $format = 'normal', array $options = [])
+    public function formatTime(\DateTimeInterface $timestamp, $format = 'normal', array $options = []): string
     {
         // Stopwatch::start('formatTime');
         $options += ['wrap' => []];
 
-        $timestamp = $timestamp->toUnixString();
-        $timestamp = $timestamp - $this->_timeDiffToUtc;
+        $unixTimestamp = $timestamp->format('U');
+        $timestamp = $unixTimestamp - $this->_timeDiffToUtc;
 
         switch ($format) {
             case 'normal':
@@ -184,8 +184,8 @@ class TimeHHelper extends AppHelper
         if ($date === null) {
             return null;
         }
-        if ($date instanceof Time) {
-            $unixTimeStamp = $date->timestamp;
+        if ($date instanceof \DateTimeInterface) {
+            $unixTimeStamp = $date->getTimestamp();
         } else {
             $unixTimeStamp = strtotime($date);
         }

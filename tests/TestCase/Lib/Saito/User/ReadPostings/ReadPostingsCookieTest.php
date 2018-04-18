@@ -5,8 +5,8 @@ namespace Saito\Test\User\ReadPostings;
 use App\Model\Entity\Entry;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
+use Cake\Http\Response;
 use Cake\Network\Request;
-use Cake\Network\Response;
 use Saito\User\Cookie\Storage;
 use Saito\User\ReadPostings\ReadPostingsCookie;
 

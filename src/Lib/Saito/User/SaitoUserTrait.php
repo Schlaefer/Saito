@@ -63,8 +63,8 @@ trait SaitoUserTrait
 
         // perf-cheat
         if (array_key_exists('last_refresh', $this->_settings)) {
-            if ($this->_settings['last_refresh'] instanceof Time) {
-                $timestamp = $this->_settings['last_refresh']->timestamp;
+            if ($this->_settings['last_refresh'] instanceof \DateTimeInterface) {
+                $timestamp = $this->_settings['last_refresh']->getTimestamp();
             } else {
                 $timestamp = strtotime($this->_settings['last_refresh']);
             }

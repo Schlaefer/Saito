@@ -6,8 +6,8 @@ use App\Controller\Component\ThemesComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
+use Cake\Http\Response;
 use Cake\Network\Request;
-use Cake\Network\Response;
 use Saito\Test\SaitoTestCase;
 use Saito\User\SaitoUser;
 

@@ -62,7 +62,6 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
 
     public function testLoginSuccess()
     {
-        $this->markTestIncomplete();
         $data = [
             'username' => 'Alice',
             'password' => 'test',
@@ -154,7 +153,6 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
 
     public function testMarkAsReadSuccessTimestamp()
     {
-        $this->markTestIncomplete();
         $userId = 3;
         $this->_loginUser($userId);
         $data = [
@@ -179,17 +177,17 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
      */
     public function testMarkAsReadNoPastValues()
     {
-        $this->markTestIncomplete();
-        $_userId = 3;
-        $this->_loginUser($_userId);
+        $userId = 3;
 
         $Users = TableRegistry::get('Users');
-        $user = $Users->get($_userId);
+        $user = $Users->get($userId);
         $user->set('last_refresh', '2013-07-04 19:53:14');
         $Users->save($user);
 
+        $this->_loginUser($userId);
+
         $data = [
-            'id' => $_userId,
+            'id' => $userId,
             'last_refresh' => '2013-07-04T19:53:13+00:00'
         ];
 

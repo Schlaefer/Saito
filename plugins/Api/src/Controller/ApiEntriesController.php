@@ -29,12 +29,12 @@ class ApiEntriesController extends ApiAppController
             'Entries.' . $order => 'DESC'
         ];
 
-        $limit = (int)$this->request->getQueryParams('limit');
+        $limit = (int)$this->request->getQuery('limit');
         if ($limit <= 0 || $limit > 100) {
             $limit = 10;
         }
 
-        $offset = (int)$this->request->getQueryParams('offset');
+        $offset = (int)$this->request->getQuery('offset');
         if ($offset < 0) {
             $offset = 0;
         }

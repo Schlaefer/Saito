@@ -5,8 +5,8 @@ namespace Saito\Test\User\LastRefresh;
 use App\Controller\Component\CurrentUserComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
+use Cake\Http\Response;
 use Cake\Network\Request;
-use Cake\Network\Response;
 use Saito\Test\SaitoTestCase;
 use Saito\User\LastRefresh\LastRefreshDatabase;
 

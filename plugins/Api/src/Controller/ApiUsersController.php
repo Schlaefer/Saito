@@ -39,7 +39,7 @@ class ApiUsersController extends ApiAppController
         }
 
         /*
-        @todo what was this fuck about?
+        @td what was this fuck about?
         $this->request->data = [
             'username' => $this->request->getData('username'),
             'password' => $this->request->getData('password'),

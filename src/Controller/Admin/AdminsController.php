@@ -8,7 +8,7 @@ use Saito\Event\SaitoEventManager;
 class AdminsController extends AppController
 {
 
-    public $helpers = ['Admin', 'BreadCrumbs', 'Sitemap.Sitemap'];
+    public $helpers = ['Admin', 'Breadcrumbs', 'Sitemap.Sitemap'];
 
     /**
      * Amdin area homepage.
