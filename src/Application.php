@@ -18,6 +18,7 @@ use App\Middleware\SaitoResponseMiddleware;
 use Cake\Core\Configure;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 
@@ -51,10 +52,9 @@ class Application extends BaseApplication
             // you might want to disable this cache in case your routing is extremely simple
             ->add(new RoutingMiddleware($this, '_cake_routes_'));
 
-        $config = [
-            'xFrameOrigin' => Configure::read('Saito.X-Frame-Options')
-        ];
-        $middlewareQueue->add(new SaitoResponseMiddleware($config));
+        $security = (new SecurityHeadersMiddleware())
+            ->setXFrameOptions(strtolower(Configure::read('Saito.X-Frame-Options')));
+        $middlewareQueue->add($security);
 
         return $middlewareQueue;
     }
