@@ -10,7 +10,7 @@ if (!empty($paginatorControl)) {
     return;
 }
 
-SDV($options, []);
+$options = $options ?? [];
 $defaults = [
     'format' => '{{page}}/{{pages}}'
 ];

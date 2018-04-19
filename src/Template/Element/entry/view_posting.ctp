@@ -1,6 +1,6 @@
 <?php
 // setup
-SDV($level, 0);
+$level = $level ?? 0;
 $editLinkIsShown = false;
 $showSignature = false;
 

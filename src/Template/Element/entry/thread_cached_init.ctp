@@ -3,7 +3,8 @@ use \Stopwatch\Lib\Stopwatch;
 
 Stopwatch::start('entries/thread_cached_init');
 
-SDV($allowThreadCollapse, false);
+$allowThreadCollapse = $allowThreadCollapse ?? false;
+
 /*
  * Caching the localized threadbox title tags.
  * Depending on the number of threads on the page i10n can cost several ms.

@@ -19,8 +19,8 @@ if ($this->request->getParam('action') === 'edit') {
 
 // header subnav
 $this->start('headerSubnavLeft');
-SDV($headerSubnavLeftTitle, null);
-SDV($headerSubnavLeftUrl, null);
+$headerSubnavLeftTitle = $headerSubnavLeftTitle ?? null;
+$headerSubnavLeftUrl = $headerSubnavLeftUrl ?? null;
 echo $this->Layout->navbarBack($headerSubnavLeftUrl, $headerSubnavLeftTitle);
 $this->end();
 ?>

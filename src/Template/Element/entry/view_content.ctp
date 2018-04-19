@@ -1,7 +1,7 @@
 <?php
 use Cake\Core\Configure;
 
-SDV($signature, false);
+$signature = $signature ?? false;
 $schemaMeta = [];
 ?>
 <article itemscope itemtype="http://schema.org/Article" class="postingBody">

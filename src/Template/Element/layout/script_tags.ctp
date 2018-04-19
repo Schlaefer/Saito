@@ -2,7 +2,7 @@
 
 use Cake\Core\Configure;
 
-SDV($require, true);
+$require = $require ?? true;
 echo $this->Layout->jQueryTag();
 
 $this->Flash->render();
