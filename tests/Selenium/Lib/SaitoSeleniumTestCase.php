@@ -71,9 +71,6 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
         'app.shout',
         'app.smiley_code',
         'app.setting',
-        'app.upload',
-        'app.esevent',
-        'app.esnotification'
     ];
 
     public function setUp()

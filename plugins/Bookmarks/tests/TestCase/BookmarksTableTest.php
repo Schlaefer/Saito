@@ -15,9 +15,6 @@ class BookmarksTableTest extends SaitoTableTestCase
     public $fixtures = [
         'app.category',
         'app.entry',
-        'app.esevent',
-        'app.esnotification',
-        'app.upload',
         'app.user',
         'app.user_online',
         'plugin.bookmarks.bookmark'

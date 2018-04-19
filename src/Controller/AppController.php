@@ -71,8 +71,6 @@ class AppController extends Controller
         $this->loadComponent('Parser');
         $this->loadComponent('SaitoEmail');
         $this->loadComponent('Slidetabs');
-        // @td 3.0 Notif
-        //$this->loadComponent('EmailNotification');
         $this->loadComponent('Themes', Configure::read('Saito.themes'));
         $this->loadComponent('Flash');
         $this->loadComponent('Title');

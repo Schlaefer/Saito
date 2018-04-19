@@ -16,8 +16,6 @@ class UsersTableTest extends SaitoTableTestCase
     public $fixtures = [
         'app.category',
         'app.entry',
-        'app.esevent',
-        'app.esnotification',
         'app.setting',
         'app.smiley',
         'app.smiley_code',
@@ -204,18 +202,6 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testDeleteUser()
     {
-        // test that user's notifications are deleted
-        /*
-        // @td 3.0 notifications
-        $this->User->Esnotification = $this->getMockForModel('Esnotification',
-            array('deleteAllFromUser'),
-            array(false, 'esnotifications', 'test'));
-        $this->User->Esnotification->expects($this->once())
-                ->method('deleteAllFromUser')
-                ->with(3)
-                ->will($this->returnValue(true));
-        */
-
         $this->Table->UserIgnores = $this->getMockForModel(
             'UserIgnores',
             ['deleteUser'],

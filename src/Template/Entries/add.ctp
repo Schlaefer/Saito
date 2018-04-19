@@ -129,36 +129,6 @@ $this->end();
                     ?>
                 </div>
                 <div class="center">
-                    <div class="checkbox">
-                        <?php
-                        /* @td 3.0 Notif
-                         * echo $this->Form->checkbox(
-                         * 'Event.1.event_type_id',
-                         * ['checked' => isset($notis[0]) && $notis[0]]
-                         * );
-                         * echo $this->Form->label(
-                         * 'Event.1.event_type_id',
-                         * __('Notify on reply')
-                         * );
-                         */
-                        ?>
-                    </div>
-                    <div class="checkbox">
-                        <?php
-                        /* @td 3.0 Notif
-                         * echo $this->Form->checkbox(
-                         * 'Event.2.event_type_id',
-                         * [
-                         * 'checked' => isset($notis[1]) && $notis[1],
-                         * ]
-                         * );
-                         * echo $this->Form->label(
-                         * 'Event.2.event_type_id',
-                         * __('Notify on thread replies')
-                         * );
-                         */
-                        ?>
-                    </div>
                 </div>
                 <div class="right">
                     <?php

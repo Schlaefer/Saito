@@ -10,8 +10,6 @@ class StatusControllerTest extends IntegrationTestCase
     public $fixtures = [
         'app.category',
         'app.entry',
-        'app.esevent',
-        'app.esnotification',
         'app.setting',
         'app.shout',
         'app.upload',

@@ -241,9 +241,6 @@ class EntriesController extends AppController
 
             // inserting new posting was successful
             if ($posting !== false && !count($posting->getErrors())) {
-                // @td 3.0 Notif
-                //$this->_setNotifications($newPosting + $this->request->getData());
-
                 $id = $posting->get('id');
                 $pid = $posting->get('pid');
                 $tid = $posting->get('tid');
@@ -310,22 +307,6 @@ class EntriesController extends AppController
                     $posting,
                     ['pid' => $id]
                 );
-
-                /*
-                 * @td 3.0 Notif
-                // get notifications
-                $notis = $this->Entry->Esevent->checkEventsForUser(
-                    $this->CurrentUser->getId(),
-                    array(
-                        1 => array(
-                            'subject' => $this->request->data['Entry']['tid'],
-                            'event' => 'Model.Entry.replyToThread',
-                            'receiver' => 'EmailNotification',
-                        ),
-                    )
-                );
-                $this->set('notis', $notis);
-                 */
 
                 // set Subnav
                 $headerSubnavLeftTitle = __(
@@ -420,9 +401,6 @@ class EntriesController extends AppController
             $data['id'] = $posting->get('id');
             $newEntry = $this->Entries->update($posting, $data);
             if ($newEntry) {
-                /* @td 3.0 Notif
-                 * $this->_setNotifications(am($this->request['data'], $posting));
-                 */
                 return $this->redirect(['action' => 'view', $id]);
             } else {
                 $this->Flash->set(
@@ -450,26 +428,6 @@ class EntriesController extends AppController
             $parentEntry = $this->Entries->get($parentEntryId);
             $this->set('citeText', $parentEntry->get('text'));
         }
-
-        // get notifications
-        /* @td 3.0 Notif
-         * $notis = $this->Entry->Esevent->checkEventsForUser(
-         * $posting['Entry']['user_id'],
-         * array(
-         * array(
-         * 'subject' => $posting['Entry']['id'],
-         * 'event' => 'Model.Entry.replyToEntry',
-         * 'receiver' => 'EmailNotification',
-         * ),
-         * array(
-         * 'subject' => $posting['Entry']['tid'],
-         * 'event' => 'Model.Entry.replyToThread',
-         * 'receiver' => 'EmailNotification',
-         * ),
-         * )
-         * );
-         * $this->set('notis', $notis);
-         * */
 
         $isAnswer = !$posting;
         $isInline = false;
@@ -712,36 +670,6 @@ class EntriesController extends AppController
         $this->Auth->allow(['index', 'view', 'mix', 'update']);
 
         Stopwatch::stop('Entries->beforeFilter()');
-    }
-
-    /**
-     * Set notifications from new posting.
-     *
-     * @param Entity $newEntry posting
-     * @return void
-     */
-    protected function _setNotifications($newEntry)
-    {
-        if (isset($newEntry['Event'])) {
-            $notis = [
-                [
-                    'subject' => $newEntry['Entry']['id'],
-                    'event' => 'Model.Entry.replyToEntry',
-                    'receiver' => 'EmailNotification',
-                    'set' => $newEntry['Event'][1]['event_type_id'],
-                ],
-                [
-                    'subject' => $newEntry['Entry']['tid'],
-                    'event' => 'Model.Entry.replyToThread',
-                    'receiver' => 'EmailNotification',
-                    'set' => $newEntry['Event'][2]['event_type_id'],
-                ]
-            ];
-            $this->Entry->Esevent->notifyUserOnEvents(
-                $newEntry['Entry']['user_id'],
-                $notis
-            );
-        }
     }
 
     /**

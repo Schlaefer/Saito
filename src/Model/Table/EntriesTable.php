@@ -206,10 +206,6 @@ class EntriesTable extends AppTable
             'Bookmarks',
             ['foreignKey' => 'entry_id', 'dependent' => true]
         );
-        // @td 3.0 Notif
-        // Is this condition working implicetly?
-        // 'conditions' => array('Esevent.subject' => 'Entry.id'),
-        //$this->hasMany('Esevents', ['foreignKey' => 'subject']);
     }
 
     /**
@@ -770,15 +766,6 @@ class EntriesTable extends AppTable
             return false;
         }
 
-        /*
-        // @td 3.0 Notif
-        if ($root->isRoot()) {
-            $this->Esevents->deleteSubject($id, 'thread');
-        }
-        foreach ($idsToDelete as $postingId) {
-            $this->Esevents->deleteSubject($postingId, 'entry');
-        }
-        */
         $this->Bookmarks->deleteAll(['entry_id IN' => $idsToDelete]);
 
         $this->dispatchSaitoEvent(
@@ -885,13 +872,6 @@ class EntriesTable extends AppTable
                 $this->_threadLock($targetPosting->get('tid'), $isTargetPinned);
             }
 
-            /* @td 3.0 Notif
-              $this->Esevent->transferSubjectForEventType(
-              $sourceId,
-              $targetPosting[$this->alias]['tid'],
-              'thread'
-              );
-            */
             $this->_dispatchEvent(
                 'Model.Thread.change',
                 ['subject' => $targetPosting->get('tid')]
@@ -939,9 +919,6 @@ class EntriesTable extends AppTable
         if (isset($options['preFilterFields'])) {
             $org = $data;
             $this->filterFields($data, $options['preFilterFields']);
-            if (isset($org['Event'])) {
-                $data['Event'] = $org['Event'];
-            }
         }
         unset($options['preFilterFields']);
 

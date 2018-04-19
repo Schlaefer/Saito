@@ -44,8 +44,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         'plugin.bookmarks.bookmark',
         'app.category',
         'app.entry',
-        'app.esevent',
-        'app.esnotification',
         'app.setting',
         'app.shout',
         'app.smiley',
@@ -113,12 +111,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
      */
     public function testAddSuccess()
     {
-        /*
-        $C = $this->generate(
-            'Entries',
-            ['models' => ['Esevent' => ['notifyUserOnEvents']]]
-        );
-        */
         $this->_loginUser(1);
         $data = [
             'subject' => 'subject',
@@ -133,30 +125,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $EntriesTable = TableRegistry::get('Entries');
         $latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
         $expectedId = $latestEntry->get('id') + 1;
-
-        /*
-         * @td 3.0 Notif
-        //* setup notification test
-        $expected = [
-            [
-                'subject' => $expectedId,
-                'event' => 'Model.Entry.replyToEntry',
-                'receiver' => 'EmailNotification',
-                'set' => 0,
-            ],
-            [
-                'subject' => $expectedId,
-                'event' => 'Model.Entry.replyToThread',
-                'receiver' => 'EmailNotification',
-                'set' => 1,
-            ]
-        ];
-
-        $EventsTable = TableRegistry::get('Events');
-        $C->Entry->Esevent->expects($this->once())
-                ->method('notifyUserOnEvents')
-                ->with(1, $expected);
-        */
 
         //= test
         $this->mockSecurity();
@@ -183,12 +151,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
             'subject' => 'Vorher wie ich in der mobilen Version ka…',
             'category_id' => 1,
             'pid' => 0,
-            /* @td 3.0 Notif
-             * 'Event' => [
-             * 1 => ['event_type_id' => 0],
-             * 2 => ['event_type_id' => 1]
-             * ]
-             * */
         ];
 
         $this->mockSecurity();
@@ -553,18 +515,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertResponseContains('value="Second_Subject"');
         // test that text is quoted
         $this->assertResponseContains('Second_Text</textarea>');
-
-        /* @td 3.0 Notif
-         * // notification are un/checked
-         * $this->assertNotRegExp(
-         * '/data\[Event\]\[1\]\[event_type_id\]"\s+?checked="checked"/',
-         * (string)$this->_response->getBody()
-         * );
-         * $this->assertRegExp(
-         * '/data\[Event\]\[2\]\[event_type_id\]"\s+?checked="checked"/',
-         * (string)$this->_response->getBody()
-         * );
-         * */
     }
 
     public function testEditSuccess()

@@ -24,9 +24,6 @@ class EntriesTest extends SaitoTableTestCase
         'app.smiley',
         'app.smiley_code',
         'app.setting',
-        'app.upload',
-        'app.esevent',
-        'app.esnotification',
         'plugin.bookmarks.bookmark'
     ];
 
@@ -190,15 +187,6 @@ class EntriesTest extends SaitoTableTestCase
         //= CurrentUser setup
         $SaitoUser = new SaitoUser();
         Registry::set('CU', $SaitoUser);
-
-        // notifications must be merged
-        /* @td 3.0 Notif
-         * $this->Table->Esevent = $this->getMock(
-         * 'Esevent', array('transferSubjectForEventType'), array(null, 'esevents', 'test'));
-         * $this->Table->Esevent->expects($this->once())
-         * ->method('transferSubjectForEventType')
-         * ->with(4, 1, 'thread');
-         */
 
         // entry is not appended yet
         $appendedEntry = $this->Table->find()
@@ -405,27 +393,6 @@ class EntriesTest extends SaitoTableTestCase
             ->count();
         $expected = 6;
         $this->assertEquals($countBeforeDelete, $expected);
-
-        // test that event and notifications are deleted
-        // @td 3.0 Notif
-        /*
-        $this->Table->Esevents = $this->getMockForModel(
-            'Esevents', ['deleteSubject']
-        );
-
-        // delete thread
-        $this->Table->Esevents->expects($this->at(0))
-                ->method('deleteSubject')
-                ->with($tid, 'thread');
-        // delete first entry
-        $this->Table->Esevents->expects($this->at(1))
-                ->method('deleteSubject')
-                ->with($tid, 'entry');
-        // delete sum: 1 thread + all entries in thread
-        $_deletedSubjects = 1 + $this->Table->findAllByTid($tid)->count();
-        $this->Table->Esevents->expects($this->exactly($_deletedSubjects))
-                ->method('deleteSubject');
-        */
 
         $allBookmarksBeforeDelete = $this->Table->Bookmarks->find()->count();
 

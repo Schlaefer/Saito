@@ -21,12 +21,6 @@ class UsersTable extends AppTable
 {
 
     public $hasMany = [
-        // @td 3.0 Notif
-        /*
-        'Esnotification' => [
-            'foreignKey' => 'user_id'
-        ],
-        */
         // @td 3.0 Upload
         /*
         'Upload' => [
@@ -462,8 +456,6 @@ class UsersTable extends AppTable
         try {
             // @td 3.0 Upload
             //$this->Uploads->deleteAllFromUser($userId);
-            // @td 3.0 Notif
-            // $success = $success && $this->Esnotification->deleteAllFromUser($userId);
             $this->Entries->anonymizeEntriesFromUser($userId);
             $this->UserIgnores->deleteUser($userId);
             $this->UserOnline->deleteAll(['user_id' => $userId]);
