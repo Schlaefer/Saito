@@ -11,7 +11,7 @@ $jsEntry = json_encode(
         'isBookmarked' => $entry->isBookmarked(),
         'isSolves' => (bool)$entry->get('solves'),
         'rootEntryUserId' => (int)$rootEntry->get('user_id'),
-        'time' => $this->TimeH->mysqlTimestampToIso($entry->get('time'))
+        'time' => $this->TimeH->dateToIso($entry->get('time'))
     ]
 );
 ?>

@@ -62,13 +62,8 @@ trait SaitoUserTrait
         $this->_settings = $settings;
 
         // perf-cheat
-        if (array_key_exists('last_refresh', $this->_settings)) {
-            if ($this->_settings['last_refresh'] instanceof \DateTimeInterface) {
-                $timestamp = $this->_settings['last_refresh']->getTimestamp();
-            } else {
-                $timestamp = strtotime($this->_settings['last_refresh']);
-            }
-            $this->_settings['last_refresh_unix'] = $timestamp;
+        if (!empty($this->_settings['last_refresh'])) {
+            $this->_settings['last_refresh_unix'] = dateToUnix($this->_settings['last_refresh']);
         }
     }
 

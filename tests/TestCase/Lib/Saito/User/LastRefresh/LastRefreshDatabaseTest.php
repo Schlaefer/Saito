@@ -68,19 +68,12 @@ class LastRefreshDatabaseTest extends SaitoTestCase
     public function testIsNewerThanTrue()
     {
         $time = time();
-        $lastRefresh = date('Y-m-d H:i:s', $time + 10);
+        $lastRefresh = bDate($time + 10);
         $userData = ['id' => 1, 'last_refresh' => $lastRefresh];
         $this->CurrentUser->setSettings($userData);
 
         $this->assertTrue($this->LastRefresh->isNewerThan($time));
-        $this->assertTrue(
-            $this->LastRefresh->isNewerThan(
-                date(
-                    'Y-m-d H:i:s',
-                    $time
-                )
-            )
-        );
+        $this->assertTrue($this->LastRefresh->isNewerThan(bDate($time)));
     }
 
     /**
@@ -89,18 +82,11 @@ class LastRefreshDatabaseTest extends SaitoTestCase
     public function testIsNewerThanFalse()
     {
         $time = time();
-        $lastRefresh = date('Y-m-d H:i:s', $time - 10);
+        $lastRefresh = bDate($time - 10);
         $userData = ['id' => 1, 'last_refresh' => $lastRefresh];
         $this->CurrentUser->setSettings($userData);
 
         $this->assertFalse($this->LastRefresh->isNewerThan($time));
-        $this->assertFalse(
-            $this->LastRefresh->isNewerThan(
-                date(
-                    'Y-m-d H:i:s',
-                    $time
-                )
-            )
-        );
+        $this->assertFalse($this->LastRefresh->isNewerThan(bDAte($time)));
     }
 }

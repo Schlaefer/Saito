@@ -75,7 +75,7 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
 						"isLoggedIn": true,
 						"id": 1,
 						"username": "Alice",
-						"last_refresh": "1970-01-01T00:00:00+00:00",
+						"last_refresh": null,
 						"threads_order": "answer"
 					}
 				}

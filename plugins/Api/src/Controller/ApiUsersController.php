@@ -9,7 +9,7 @@ use Saito\Exception\SaitoForbiddenException;
 class ApiUsersController extends ApiAppController
 {
 
-    public $helpers = ['Api.Api'];
+    public $helpers = ['TimeH'];
 
     public $saveKeysToOutput = [];
 

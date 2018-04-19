@@ -31,9 +31,12 @@ abstract class LastRefreshAbstract
     }
 
     /**
-     * is last refresh newer than $timestamp
+     * Checks if last refresh newer than $timestamp.
      *
-     * @param mixed $timestamp int unix-timestamp or date as string
+     * Performance sensitive: every posting on /entries/index may be
+     * tested if new for user.
+     *
+     * @param string|\DateTimeInterface $timestamp int unix-timestamp or date as string
      * @return mixed bool or null if not determinable
      */
     public function isNewerThan($timestamp)
@@ -44,13 +47,7 @@ abstract class LastRefreshAbstract
             return null;
         }
 
-        if (is_string($timestamp)) {
-            $timestamp = strtotime($timestamp);
-        } elseif (is_object($timestamp)) {
-            $timestamp = $timestamp->toUnixString($timestamp);
-        }
-
-        return $lastRefresh > $timestamp;
+        return $lastRefresh > dateToUnix($timestamp);
     }
 
     /**

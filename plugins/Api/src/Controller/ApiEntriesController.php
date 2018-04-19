@@ -11,7 +11,7 @@ use Cake\Http\Exception\NotFoundException;
 class ApiEntriesController extends ApiAppController
 {
 
-    public $helpers = ['Api.Api'];
+    public $helpers = ['TimeH'];
 
     /**
      * Get all threads

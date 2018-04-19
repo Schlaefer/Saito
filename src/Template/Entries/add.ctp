@@ -12,7 +12,7 @@ $jsEntry = '{}';
 if ($this->request->getParam('action') === 'edit') {
     $jsEntry = json_encode(
         [
-            'time' => $this->TimeH->mysqlTimestampToIso($posting->get('time'))
+            'time' => $this->TimeH->dateToIso($posting->get('time'))
         ]
     );
 }

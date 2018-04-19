@@ -1,6 +1,6 @@
 <?php
     $out = [
         'id' => $id,
-        'last_refresh' => $this->Api->mysqlTimestampToIso($last_refresh)
+        'last_refresh' => $this->TimeH->dateToIso($last_refresh)
     ];
     echo json_encode($out);

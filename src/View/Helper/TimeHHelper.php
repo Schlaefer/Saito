@@ -174,26 +174,17 @@ class TimeHHelper extends AppHelper
     }
 
     /**
-     * timestamp to iso
+     * Converts time value to ISO time string
      *
      * @param mixed $date date
      * @return bool|null|string
      */
-    public function mysqlTimestampToIso($date)
+    public function dateToIso($date)
     {
         if ($date === null) {
             return null;
         }
-        if ($date instanceof \DateTimeInterface) {
-            $unixTimeStamp = $date->getTimestamp();
-        } else {
-            $unixTimeStamp = strtotime($date);
-        }
 
-        if ($unixTimeStamp < 0) {
-            $unixTimeStamp = 0;
-        }
-
-        return date('c', $unixTimeStamp);
+        return dateToIso($date);
     }
 }

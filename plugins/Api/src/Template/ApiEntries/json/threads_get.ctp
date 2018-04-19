@@ -8,10 +8,10 @@ foreach ($entries as $entry) {
         'subject' => $entry['subject'],
         'is_nt' => empty($entry['text']),
         'is_pinned' => (bool)$entry['fixed'],
-        'time' => $this->Api->mysqlTimestampToIso(
+        'time' => $this->TimeH->dateToIso(
             $entry['time']
         ),
-        'last_answer' => $this->Api->mysqlTimestampToIso(
+        'last_answer' => $this->TimeH->dateToIso(
             $entry['last_answer']
         ),
         'user_id' => (int)$entry['user_id'],
