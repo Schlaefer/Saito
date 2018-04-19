@@ -6,6 +6,7 @@ use Cake\Auth\DefaultPasswordHasher;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Filesystem\Folder;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
@@ -994,5 +995,210 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->_loginUser(2);
         $this->get('users/view/5');
         $this->assertResponseNotContains('users/lock/5');
+    }
+
+    public function testAvatarGetNotLoggedInFailure()
+    {
+        $url = '/users/avatar/3';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
+    }
+
+    public function testAvatarGetSuccess()
+    {
+        $this->_loginUser(3);
+        $this->get('/users/avatar/3');
+        $this->assertResponseOk();
+    }
+
+    public function testAvatarPostNotLoggedInFailure()
+    {
+        $this->post('/users/avatar/3');
+        $this->assertRedirectLogin();
+    }
+
+    public function testAvatarPostNotOwnUserFailure()
+    {
+        $this->_loginUser(3);
+        $this->mockSecurity();
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
+        $this->post('/users/avatar/9');
+    }
+
+    public function testAvatarPostNewPicture()
+    {
+        $userId = 3;
+        $root = Configure::read('Saito.Settings.uploadDirectory');
+        $directory = new Folder("{$root}/users/avatar/{$userId}/");
+        $directory->delete();
+        $this->_loginUser($userId);
+        $this->mockSecurity();
+
+        $im = imagecreate(100, 100);
+        imagecolorallocate($im, 255, 0, 0);
+        ob_start();
+        imagepng($im);
+        $imageData = ob_get_contents();
+        ob_end_clean();
+        imagedestroy($im);
+
+        $testFiles = ['test1.png', 'test2.png'];
+        // run twice to test avatar deletion on second try
+        foreach ($testFiles as $testFile) {
+            $testFile = TMP . $testFile;
+
+            file_put_contents($testFile, $imageData);
+
+            $data = [
+                'avatar' => [
+                    'tmp_name' => $testFile,
+                    'error' => 0,
+                    'name' => 'test.png',
+                    'type' => 'image/png',
+                ],
+                'avatarDelete' => null
+            ];
+
+            $this->post('/users/avatar/3', $data);
+
+            if (file_exists($testFile)) {
+                unlink($testFile);
+            }
+
+            $user = $this->_controller->Users->get($userId);
+
+            $dir = $user->get('avatar_dir');
+            $this->assertEquals($userId, $dir);
+
+            $filename = $user->get('avatar');
+            $this->assertNotEmpty($filename);
+
+            $fullDir = "{$root}/users/avatar/{$dir}/";
+            $this->assertFileExists($fullDir . $filename);
+            $this->assertFileExists($fullDir . "square_{$filename}");
+
+            $d = new Folder($fullDir);
+            $dc = $d->find('[^.].*');
+            $this->assertCount(2, $dc);
+        }
+
+        $data = [
+            'avatar' => [],
+            'avatarDelete' => 1
+        ];
+        $this->post('/users/avatar/3', $data);
+
+        $dc = $d->find('[^.].*');
+        $this->assertCount(0, $dc);
+
+        $directory->delete();
+    }
+
+    public function testAvatarPostPictureToLargeFailure()
+    {
+        $userId = 3;
+        $root = Configure::read('Saito.Settings.uploadDirectory');
+        $directory = new Folder("{$root}/users/avatar/{$userId}/");
+        $directory->delete();
+        $this->_loginUser($userId);
+        $this->mockSecurity();
+
+        $im = imagecreate(100, 1501);
+        imagecolorallocate($im, 255, 0, 0);
+        ob_start();
+        imagepng($im);
+        $imageData = ob_get_contents();
+        ob_end_clean();
+        imagedestroy($im);
+
+        $testFile = TMP . 'test.png';
+        file_put_contents($testFile, $imageData);
+
+        $data = [
+            'avatar' => [
+                'tmp_name' => $testFile,
+                'error' => 0,
+                'name' => 'test.png',
+                'type' => 'image/png'
+            ],
+            'avatarDelete' => null
+        ];
+
+        $this->post('/users/avatar/3', $data);
+        $errors = $this->viewVariable('user')->getErrors();
+        $this->assertArrayHasKey('avatar-dimension', $errors['avatar']);
+        $this->assertResponseOk();
+    }
+
+    public function testAvatarPostPictureToSmall()
+    {
+        $userId = 3;
+        $root = Configure::read('Saito.Settings.uploadDirectory');
+        $directory = new Folder("{$root}/users/avatar/{$userId}/");
+        $directory->delete();
+        $this->_loginUser($userId);
+        $this->mockSecurity();
+
+        $im = imagecreate(99, 100);
+        imagecolorallocate($im, 255, 0, 0);
+        ob_start();
+        imagepng($im);
+        $imageData = ob_get_contents();
+        ob_end_clean();
+        imagedestroy($im);
+
+        $testFile = TMP . 'test.png';
+        file_put_contents($testFile, $imageData);
+
+        $data = [
+            'avatar' => [
+                'tmp_name' => $testFile,
+                'error' => 0,
+                'name' => 'test.png',
+                'type' => 'image/png'
+            ],
+            'avatarDelete' => null
+        ];
+
+        $this->post('/users/avatar/3', $data);
+        $errors = $this->viewVariable('user')->getErrors();
+        $this->assertArrayHasKey('avatar-dimension', $errors['avatar']);
+        $this->assertResponseOk();
+    }
+
+    public function testAvatarPostPictureWrongExt()
+    {
+        $userId = 3;
+        $root = Configure::read('Saito.Settings.uploadDirectory');
+        $directory = new Folder("{$root}/users/avatar/{$userId}/");
+        $directory->delete();
+        $this->_loginUser($userId);
+        $this->mockSecurity();
+
+        $im = imagecreate(800, 800);
+        imagecolorallocate($im, 255, 0, 0);
+        ob_start();
+        imagepng($im);
+        $imageData = ob_get_contents();
+        ob_end_clean();
+        imagedestroy($im);
+
+        $testFile = TMP . 'test.jpg';
+        file_put_contents($testFile, $imageData);
+
+        $data = [
+            'avatar' => [
+                'tmp_name' => $testFile,
+                'error' => 0,
+                'name' => 'test.mp4',
+                'type' => 'image/png'
+            ],
+            'avatarDelete' => null
+        ];
+
+        $this->post('/users/avatar/3', $data);
+        $errors = $this->viewVariable('user')->getErrors();
+        $this->assertArrayHasKey('avatar-extension', $errors['avatar']);
+        $this->assertResponseOk();
     }
 }

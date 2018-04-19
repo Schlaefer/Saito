@@ -24,17 +24,10 @@ $table = [
     ]
 ];
 
-$avatar = $this->User->getAvatar($user, ['link' => false]);
-$avatar = $this->Html->tag(null, $avatar);
-if ($isEditingAllowed) {
-    $edit = $this->Html->link(
-        __('user.set.avatar.t'),
-        '/users/avatar/' . $user->get('id')
-    );
-    $edit = $this->Html->para(null, $edit);
-    $avatar .= $edit;
-}
-$table[] = [__('user.avatar.t'), $avatar];
+$table[] = [
+    __('user.avatar.t'),
+    $this->User->getAvatar($user, ['link' => false])
+];
 
 if ($user->isForbidden()) {
     $table[] = [

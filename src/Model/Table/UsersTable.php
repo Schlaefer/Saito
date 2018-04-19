@@ -5,6 +5,7 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\AppTable;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Auth\PasswordHasherFactory;
+use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
@@ -70,11 +71,12 @@ class UsersTable extends AppTable
             ]
         );
 
+        $avatarRootDir = Configure::read('Saito.Settings.uploadDirectory');
         $this->addBehavior(
             'Proffer.Proffer',
             [
                 'avatar' => [ // The name of your upload field (filename)
-                    'root' => WWW_ROOT . 'useruploads',
+                    'root' => $avatarRootDir,
                     'dir' => 'avatar_dir', // field for upload directory
                     'thumbnailSizes' => [
                         'square' => ['w' => 100, 'h' => 100],
@@ -84,7 +86,7 @@ class UsersTable extends AppTable
                 ]
             ]
         );
-        $this->getEventManager()->on(new AvatarFilenameListener());
+        $this->getEventManager()->on(new AvatarFilenameListener($avatarRootDir));
 
         $this->hasOne('UserOnline', ['foreignKey' => 'user_id']);
 

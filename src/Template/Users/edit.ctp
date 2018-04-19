@@ -59,6 +59,17 @@ $this->end();
                     ];
                 }
 
+                $avatar = $this->User->getAvatar($user, ['link' => false]);
+                $avatarEditLink = $this->Html->link(
+                    __('user.set.avatar.t'),
+                    '/users/avatar/' . $user->get('id')
+                );
+                $avatarEdit = $this->Html->para(null, $avatarEditLink);
+                $cells[] = [
+                    __('user.avatar.t'),
+                    $avatar . $avatarEdit
+                ];
+
                 $cells[] = [
                     __('user_real_name'),
                     $this->Form->control('user_real_name', ['label' => false]) .

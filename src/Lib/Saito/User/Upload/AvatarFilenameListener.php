@@ -2,6 +2,8 @@
 
 namespace Saito\User\Upload;
 
+use App\Model\Entity\User;
+use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Filesystem\Folder;
@@ -9,8 +11,28 @@ use Cake\ORM\Entity;
 use Cake\Utility\Text;
 use Proffer\Lib\ProfferPath;
 
+/**
+ * Handles files for Avatars-Images
+ */
 class AvatarFilenameListener implements EventListenerInterface
 {
+    /**
+     * Upload root directory
+     *
+     * @var string
+     */
+    private $rootDirectory;
+
+    /**
+     * Constructor
+     *
+     * @param string $rootDirectory the upload root
+     */
+    public function __construct(string $rootDirectory)
+    {
+        $this->rootDirectory = $rootDirectory;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -18,6 +40,7 @@ class AvatarFilenameListener implements EventListenerInterface
     {
         return [
             'Proffer.afterPath' => 'change',
+            'Model.afterSaveCommit' => 'onModelAfterSaveCommit'
         ];
     }
 
@@ -30,9 +53,12 @@ class AvatarFilenameListener implements EventListenerInterface
      */
     public function change(Event $event, ProfferPath $path)
     {
+        /** @var User $user */
         $user = $event->getSubject();
 
-        $this->deleteExisting($user);
+        if ($user->isDirty('avatar')) {
+            $this->deleteExistingFilesForUser($user);
+        }
 
         // Detect and select the right file extension
         switch ($user->get('avatar')['type']) {
@@ -51,11 +77,8 @@ class AvatarFilenameListener implements EventListenerInterface
 
         // $path->setTable('avatars');
 
-        // If a seed is set in the data already, we'll use that rather than make a new one each time we upload
-        $imgDir = $user->get('image_dir');
-        if (empty($imgDir)) {
-            $path->setSeed($user->get('id'));
-        }
+        $imgDir = $user->get('avatar_dir') ?: $user->get('id');
+        $path->setSeed($imgDir);
 
         // Change the filename in both the path to be saved, and in the entity data for saving to the db
         $path->setFilename($newFilename);
@@ -66,21 +89,39 @@ class AvatarFilenameListener implements EventListenerInterface
     }
 
     /**
-     * Delete existing avatar.
+     * Handle delete files if avatar is unset in DB
      *
-     * @param Entity $user user
+     * Proffer only handles deleting an image when DB row is deleting, but
+     * we don't delete the user, only set the avatar image null.
+     *
+     * @param Event $event event
      * @return void
      */
-    public function deleteExisting($user)
+    public function onModelAfterSaveCommit(Event $event): void
     {
-        if ($user->isDirty('avatar')) {
-            $dir = $user->get('avatar_dir');
-            if (!empty($dir)) {
-                $folder = new Folder(
-                    WWW_ROOT . 'useruploads/users/avatar/' . $dir
-                );
-                $folder->delete();
-            }
+        /** @var User $user */
+        $user = $event->getData('entity');
+        $avatar = $user->get('avatar');
+        if (!$user->isDirty('avatar') || !empty($avatar)) {
+            return;
+        }
+        $this->deleteExistingFilesForUser($user);
+    }
+
+    /**
+     * Delete existing avatar images for a user
+     *
+     * @param User $user user
+     * @return void
+     */
+    private function deleteExistingFilesForUser(User $user): void
+    {
+        $dir = $user->get('id');
+        if (!empty($dir)) {
+            $folder = new Folder(
+                $this->rootDirectory . '/users/avatar/' . $dir
+            );
+            $folder->delete();
         }
     }
 }

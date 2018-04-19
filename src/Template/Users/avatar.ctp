@@ -1,12 +1,6 @@
 <?php
 $this->start('headerSubnavLeft');
-echo $this->Layout->navbarBack(
-    [
-        'controller' => 'users',
-        'action' => 'view',
-        $user->get('id')
-    ]
-);
+echo $this->Layout->navbarBack(['controller' => 'users', 'action' => 'edit', $user->get('id')]);
 $this->end();
 ?>
 <div class="panel">

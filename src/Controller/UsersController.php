@@ -431,7 +431,7 @@ class UsersController extends AppController
      * @param string $userId user-ID
      * @return void|\Cake\Network\Response
      */
-    public function avatar($userId = null)
+    public function avatar(int $userId)
     {
         $data = [];
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -440,12 +440,15 @@ class UsersController extends AppController
                 'avatarDelete' => $this->request->getData('avatarDelete')
             ];
             if (!empty($data['avatarDelete'])) {
-                $data['avatar'] = null;
+                $data = [
+                    'avatar' => null,
+                    'avatar_dir' => null
+                ];
             }
         }
         $user = $this->_edit($userId, $data);
-        if ($user instanceof Response) {
-            return $user;
+        if ($user === true) {
+            return $this->redirect(['action' => 'edit', $userId]);
         }
 
         $this->set(
@@ -474,8 +477,8 @@ class UsersController extends AppController
             }
         }
         $user = $this->_edit($id, $data);
-        if ($user instanceof Response) {
-            return $user;
+        if ($user === true) {
+            return $this->redirect(['action' => 'view', $id]);
         }
 
         $this->set('user', $user);
@@ -496,7 +499,7 @@ class UsersController extends AppController
      * @param string $userId user-ID
      * @param array|null $data datat to update the user
      *
-     * @return \Cake\Network\Response|User
+     * @return true|User true on successful save, patched user otherwise
      */
     protected function _edit($userId, array $data = null)
     {
@@ -515,7 +518,7 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $data);
             $errors = $user->getErrors();
             if (empty($errors) && $this->Users->save($user)) {
-                return $this->redirect(['action' => 'view', $userId]);
+                return true;
             } else {
                 $this->JsData->addAppJsMessage(
                     __('The user could not be saved. Please, try again.'),
@@ -759,9 +762,6 @@ class UsersController extends AppController
 
     /**
      * {@inheritdoc}
-     *
-     * @param Event $event An Event instance
-     * @return void
      */
     public function beforeFilter(Event $event)
     {

@@ -319,6 +319,7 @@ class UserFixture extends TestFixture
         [
             'id' => 3,
             'username' => 'Ulysses',
+            'user_type' => 'user',
             'user_email' => 'ulysses@example.com',
             'personal_messages' => 1,
             'user_place_lat' => 21.610,
@@ -367,6 +368,7 @@ class UserFixture extends TestFixture
         [
             'id' => 9,
             'username' => 'Liane',
+            'user_type' => 'user',
             'user_email' => 'liane@example.com'
         ],
         [

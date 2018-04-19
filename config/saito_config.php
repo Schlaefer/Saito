@@ -19,7 +19,11 @@ $config = [
              *
              * Parser hould be placed in app/Plugin/<name>Parser
              */
-            'ParserPlugin' => 'Bbcode'
+            'ParserPlugin' => 'Bbcode',
+            /**
+             * Upload directory root
+             */
+            'uploadDirectory' => WWW_ROOT . 'useruploads' . DIRECTORY_SEPARATOR
         ],
 
         /**

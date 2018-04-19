@@ -19,3 +19,6 @@ Configure::write('debug', true);
 // Cake Session isn't isolated and clashes with PHPUnit
 // @see https://github.com/sebastianbergmann/phpunit/issues/1416
 session_id('cli');
+
+// test userupload in tmp directory
+Configure::write('Saito.Settings.uploadDirectory', TMP . 'tests' . DS);
