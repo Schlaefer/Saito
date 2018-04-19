@@ -33,7 +33,7 @@ class AdminsController extends AppController
      *
      * @return void
      */
-    public function emptyCaches()
+    public function emptyCaches(): void
     {
         $this->CacheSupport->clear();
         $this->Flash->set(__('Caches cleared.'), ['element' => 'success']);

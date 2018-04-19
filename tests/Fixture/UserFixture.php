@@ -307,19 +307,19 @@ class UserFixture extends TestFixture
         [
             'id' => 1,
             'username' => 'Alice',
-            'user_type' => 'admin',
+            'user_type' => 'admin', // !important
             'user_email' => 'alice@example.com',
         ],
         [
             'id' => 2,
             'username' => 'Mitch',
-            'user_type' => 'mod',
+            'user_type' => 'mod', // !important
             'user_email' => 'mitch@example.com',
         ],
         [
             'id' => 3,
             'username' => 'Ulysses',
-            'user_type' => 'user',
+            'user_type' => 'user', //!important
             'user_email' => 'ulysses@example.com',
             'personal_messages' => 1,
             'user_place_lat' => 21.610,

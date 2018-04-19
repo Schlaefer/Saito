@@ -13,9 +13,10 @@ trait AssertTrait
      * Check that an redirect to the login is performed
      *
      * @param string $redirectUrl redirect URL '/where/I/come/from'
+     * @param string $msg Message
      * @return void
      */
-    public function assertRedirectLogin($redirectUrl = null)
+    public function assertRedirectLogin($redirectUrl = null, string $msg = '')
     {
         /** @var Response $response */
         $response = $this->_controller->response;
@@ -25,7 +26,7 @@ trait AssertTrait
             '?' => ['redirect' => $redirectUrl]
         ], true);
         $redirectHeader = $response->getHeader('Location')[0];
-        $this->assertEquals($expected, $redirectHeader);
+        $this->assertEquals($expected, $redirectHeader, $msg);
     }
 
     /**
@@ -33,11 +34,15 @@ trait AssertTrait
      *
      * @param string $route URL
      * @param string $role role
+     * @param true|string|null $referer true: same as $url, null: none, string: URL
      * @param string $method HTTP-method
      * @return void
      */
-    public function assertRouteForRole($route, $role, $method = 'get')
+    public function assertRouteForRole($route, $role, $referer = true, $method = 'GET')
     {
+        if ($referer === true) {
+            $referer = $route;
+        }
         $method = strtolower($method);
         $types = ['admin' => 3, 'mod' => 2, 'user' => 1, 'anon' => 0];
 
@@ -59,10 +64,11 @@ trait AssertTrait
             if ($type < $types[$role]) {
                 $this->{$method}($route);
                 $method = strtoupper($method);
-                $this->assertRedirect('/login', "No login redirect for $role on $method $route");
+                $this->assertRedirectLogin($referer, "No login redirect for $role on $method $route");
             } else {
                 $this->{$method}($route);
-                $this->assertNoRedirect();
+                $method = strtoupper($method);
+                $this->assertNoRedirect("Redirect wasn't expected for user-role '$role' on $method $route");
             }
         }
     }

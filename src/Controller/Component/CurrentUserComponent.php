@@ -16,6 +16,7 @@ use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use Saito\App\Registry;
 use Saito\User\Categories;
 use Saito\User\Cookie\CurrentUserCookie;
@@ -308,7 +309,9 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
 
         $auth->setConfig('authorize', ['Controller']);
         $auth->setConfig('loginAction', '/login');
-        $auth->setConfig('unauthorizedRedirect', '/login');
+
+        $here = urlencode($this->getController()->getRequest()->getRequestTarget());
+        $auth->setConfig('unauthorizedRedirect', '/login?redirect=' . $here);
 
         if ($this->isLoggedIn()) {
             $auth->allow();

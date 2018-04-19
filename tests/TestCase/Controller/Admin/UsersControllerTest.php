@@ -58,10 +58,11 @@ class UsersControllerTest extends IntegrationTestCase
         /*
          * user can't delete admin/users
          */
+        $url = '/admin/users/delete/4';
         $this->_loginUser(3);
-        $this->get('/admin/users/delete/4');
+        $this->get($url);
         $this->assertTrue($this->_controller->Users->exists(4));
-        $this->assertRedirect('login');
+        $this->assertRedirectLogin($url);
 
         /*
          *  mod can access delete ui
