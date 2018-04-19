@@ -13,6 +13,7 @@
 
 ### Saito ###
 /_attic
+/config/.env
 /webroot/useruploads/**/*.*
 /build/
 /dist/
