@@ -55,7 +55,7 @@ if ($user->get('user_email') && $user->get('personal_messages')) {
 if ($user->get('user_hp')) {
     $table[] = [
         __('user_hp'),
-        $this->User->homepage($user->get('user_hp'))
+        $this->User->linkExternalHomepage($user->get('user_hp'))
     ];
 }
 

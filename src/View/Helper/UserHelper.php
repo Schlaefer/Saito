@@ -108,30 +108,25 @@ class UserHelper extends AppHelper
     }
 
     /**
-     * Creates Homepage Links with Image from Url
+     * Creates link to user's external (non-Saito) homepage
      *
      * @param string $url user provided URL-string
      * @return string link or escaped string
      */
-    public function homepage($url)
+    public function linkExternalHomepage(string $url): string
     {
-        $out = $url;
-        if (is_string($url)) {
-            if (substr($url, 0, 4) == 'www.') {
-                $url = 'http://' . $url;
-            }
-            if (substr($url, 0, 4) == 'http') {
-                $out = $this->Html->link(
-                    '<i class="fa fa-home fa-lg"></i>',
-                    $url,
-                    ['escape' => false]
-                );
-            } else {
-                $out = h($url);
-            }
+        $link = $url;
+
+        if (substr($link, 0, 4) == 'www.') {
+            $link = 'http://' . $link;
+        }
+        if (substr($link, 0, 4) == 'http') {
+            $text = '<i class="fa fa-home fa-lg"></i>';
+
+            return $this->Html->link($text, $link, ['escape' => false]);
         }
 
-        return $out;
+        return h($url);
     }
 
     /**
