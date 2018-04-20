@@ -4,20 +4,27 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Core\Configure;
+use Cake\Core\InstanceConfigTrait;
 use Saito\RememberTrait;
-use Saito\SettingsTrait;
 use Saito\User\ForumsUserInterface;
 
 class ThemesComponent extends Component
 {
-    use SettingsTrait;
+    use InstanceConfigTrait;
+
+    /**
+     * Default configuration for InstanceConfigTrait
+     *
+     * @var array
+     */
+    protected $_defaultConfig = [];
 
     /**
      * {@inheritDoc}
      */
     public function initialize(array $config)
     {
-        $this->settings($config);
+        $this->setConfig($config);
     }
 
     /**
@@ -26,7 +33,7 @@ class ThemesComponent extends Component
      * @param string $theme theme to set
      * @return void
      */
-    public function set($theme = null)
+    public function set($theme = null): void
     {
         $controller = $this->_registry->getController();
         $user = $controller->CurrentUser;
@@ -44,9 +51,9 @@ class ThemesComponent extends Component
      *
      * @return void
      */
-    public function setDefault()
+    public function setDefault(): void
     {
-        $this->_setTheme($this->_getDefault());
+        $this->_setTheme($this->getDefaultTheme());
     }
 
     /**
@@ -55,7 +62,7 @@ class ThemesComponent extends Component
      * @param string $theme theme name
      * @return void
      */
-    protected function _setTheme($theme)
+    protected function _setTheme($theme): void
     {
         $this->_registry->getController()->viewBuilder()->theme($theme);
     }
@@ -64,9 +71,9 @@ class ThemesComponent extends Component
      * Get theme for specific user.
      *
      * @param ForumsUserInterface $user current user
-     * @return array
+     * @return string current theme for user
      */
-    public function getThemeForUser(ForumsUserInterface $user)
+    public function getThemeForUser(ForumsUserInterface $user): string
     {
         $theme = $user->get('user_theme');
         $available = $this->getAvailable($user);
@@ -80,16 +87,16 @@ class ThemesComponent extends Component
      * @param ForumsUserInterface $user current user
      * @return array
      */
-    public function getAvailable(ForumsUserInterface $user)
+    public function getAvailable(ForumsUserInterface $user): array
     {
-        $global = $this->settings('available') ?: [];
+        $global = $this->getConfig('available', []);
 
-        $users = $this->settings('users') ?: [];
+        $users = $this->getConfig('users', []);
         $userId = $user->getId();
         $users = isset($users[$userId]) ? $users[$userId] : [];
         $available = array_merge($global, $users);
 
-        $available[] = $this->_getDefault();
+        $available[] = $this->getDefaultTheme();
         $available = array_unique($available);
 
         return $available;
@@ -98,11 +105,11 @@ class ThemesComponent extends Component
     /**
      * Get default theme.
      *
-     * @return string
+     * @return string default theme
      */
-    protected function _getDefault()
+    protected function getDefaultTheme(): string
     {
-        return $this->settings('default');
+        return $this->getConfig('default');
     }
 
     /**
@@ -112,8 +119,8 @@ class ThemesComponent extends Component
      * @param array $available available themes
      * @return string
      */
-    protected function _resolveTheme($theme, array $available)
+    protected function _resolveTheme($theme, array $available): string
     {
-        return in_array($theme, $available) ? $theme : $this->_getDefault();
+        return in_array($theme, $available) ? $theme : $this->getDefaultTheme();
     }
 }

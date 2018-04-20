@@ -48,7 +48,7 @@ class ThemesComponentTest extends SaitoTestCase
     public function testApplyDefaultTheme()
     {
         $config = ['default' => 'foo'];
-        $this->component->settings($config);
+        $this->component->setConfig($config);
 
         $user = new SaitoUser();
         $this->controller->CurrentUser = $user;
@@ -61,7 +61,7 @@ class ThemesComponentTest extends SaitoTestCase
     public function testSetCustomThemeAndDefaultSet()
     {
         $config = ['default' => 'foo', 'available' => ['bar']];
-        $this->component->settings($config);
+        $this->component->setConfig($config);
 
         $user = new SaitoUser(['user_theme' => 'bar']);
         $this->controller->CurrentUser = $user;
@@ -78,7 +78,7 @@ class ThemesComponentTest extends SaitoTestCase
     public function testCustomThemeNotAvailable()
     {
         $config = ['default' => 'foo'];
-        $this->component->settings($config);
+        $this->component->setConfig($config);
 
         $user = new SaitoUser(['user_theme' => 'bar']);
         $this->controller->CurrentUser = $user;
