@@ -8,7 +8,7 @@ $userMenu = [
         'icon' => 'users'
     ]
 ];
-if ($SaitoSettings['map_enabled']) {
+if ($SaitoSettings->get('map_enabled')) {
     $userMenu['map'] = [
         'url' => '/users/map',
         'title' => __d('page_titles', 'users/map'),

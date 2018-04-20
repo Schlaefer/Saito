@@ -89,7 +89,7 @@ $this->end();
                 );
                 $cellContent .= $this->Html->para('exp', __('user_place_exp'));
 
-                if ($SaitoSettings['map_enabled']) {
+                if ($SaitoSettings->get('map_enabled')) {
                     $cellContent .= $this->Map->map(
                         $user,
                         [
@@ -297,8 +297,8 @@ $this->end();
                 <td> <?php echo $this->Form->checkbox('personal_messages'); ?> <p class="exp"> <?php echo __('user_pers_msg_exp') ?> </p></td>
             </tr>
 
-            <?php if (!$SaitoSettings['category_chooser_global']
-                && $SaitoSettings['category_chooser_user_override']
+            <?php if (!$SaitoSettings->get('category_chooser_global')
+                && $SaitoSettings->get('category_chooser_user_override')
             ) : ?>
             <tr>
                 <td>

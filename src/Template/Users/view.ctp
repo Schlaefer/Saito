@@ -66,7 +66,7 @@ if ($user->get('user_place')) {
     ];
 }
 
-if ($SaitoSettings['map_enabled'] && $user->get('user_place_lat')) {
+if ($SaitoSettings->get('map_enabled') && $user->get('user_place_lat')) {
     $table[] = [
         '',
         $this->Map->map($user)

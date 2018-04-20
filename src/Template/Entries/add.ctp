@@ -62,7 +62,7 @@ $this->end();
             echo $this->Form->control(
                 'subject',
                 [
-                    'maxlength' => $SaitoSettings['subject_maxlength'],
+                    'maxlength' => $SaitoSettings->get('subject_maxlength'),
                     'label' => false,
                     'class' => 'js-subject subject',
                     'tabindex' => 2,

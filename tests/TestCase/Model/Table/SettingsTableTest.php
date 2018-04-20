@@ -33,6 +33,8 @@ class SettingsTableTest extends SaitoTableTestCase
         'topics_per_page' => '20',
         'tos_enabled' => '1',
         'tos_url' => 'http://example.com/tos-url.html/',
+        'category_chooser_global' => '0',
+        'category_chooser_user_override' => '1',
     ];
 
     public function testFillOptionalMailAddresses()

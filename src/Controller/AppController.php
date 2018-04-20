@@ -10,7 +10,7 @@ use Cake\I18n\I18n;
 use Cake\Network\Http\Response;
 use Cake\Routing\Router;
 use Saito\App\Registry;
-use Saito\App\Settings;
+use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
 use Saito\User\CurrentUser\CurrentUser;
 use \Stopwatch\Lib\Stopwatch;
@@ -127,10 +127,7 @@ class AppController extends Controller
     public function beforeRender(Event $event)
     {
         Stopwatch::start('App->beforeRender()');
-        $this->set(
-            'SaitoSettings',
-            new Settings(Configure::read('Saito.Settings'))
-        );
+        $this->set('SaitoSettings', new SettingsImmutable(Configure::read('Saito.Settings')));
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
 
         $this->set('showDisclaimer', $this->showDisclaimer);
