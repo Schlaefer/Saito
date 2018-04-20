@@ -86,11 +86,6 @@ class SettingsTable extends AppSettingTable
         if ($preset) {
             $settings = $preset + $settings;
         }
-        // @td 5.1 move facility from DB to config file
-        Configure::write(
-            'App.defaultTimezone',
-            Configure::read('Saito.Settings.timezone')
-        );
         Configure::write('Saito.Settings', $settings);
         Stopwatch::end('Settings->getSettings()');
 
