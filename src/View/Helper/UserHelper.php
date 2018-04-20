@@ -19,17 +19,7 @@ class UserHelper extends AppHelper
 {
     use RememberTrait;
 
-    protected $_SaitoUser = null;
-
     public $helpers = ['Html', 'Url'];
-
-    /**
-     * {@inheritDoc}
-     */
-    public function beforeRender()
-    {
-        $this->_SaitoUser = new SaitoUser();
-    }
 
     /**
      * banned
