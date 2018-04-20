@@ -9,8 +9,9 @@ use Saito\App\Registry;
 use Saito\Markup\Settings;
 use Saito\User\Auth;
 use Saito\User\SaitoUser;
+use Saito\User\Categories;
 
-class DummyDataShell extends Shell
+class SaitoDummyDataShell extends Shell
 {
 
     public $uses = ['Entry', 'User'];
@@ -122,9 +123,9 @@ class DummyDataShell extends Shell
             ]
         );
 
-
-        Registry::set('CU', new SaitoUserDummy);
-        $CurrentUser = Registry::get('CU');
+        $CurrentUser = new SaitoUserDummy();
+        $CurrentUser->Categories = new Categories($CurrentUser);
+        Registry::set('CU', $CurrentUser);
 
         for ($i = 0; $i < $nPostings; $i++) {
             $newThread = $i < $seed;
