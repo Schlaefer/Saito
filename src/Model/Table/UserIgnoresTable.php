@@ -8,11 +8,10 @@ use Cake\Validation\Validator;
 
 class UserIgnoresTable extends AppTable
 {
-
     /**
      * @var int 3 months
      */
-    public $duration = 8035200;
+    public const DURATION = 8035200;
 
     /**
      * {@inheritDoc}
@@ -214,7 +213,7 @@ class UserIgnoresTable extends AppTable
     public function removeOld()
     {
         $this->deleteAll(
-            ['timestamp <' => bDate(time() - $this->duration)]
+            ['timestamp <' => bDate(time() - self::DURATION)]
         );
     }
 }

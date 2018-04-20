@@ -80,7 +80,7 @@ class UserIgnoreTest extends SaitoTableTestCase
 
     public function testUserIgnoreRemoveOld()
     {
-        $duration = $this->Table->duration;
+        $duration = UserIgnoresTable::DURATION;
         $data = [
             [
                 'user_id' => 1,
