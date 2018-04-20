@@ -62,6 +62,7 @@
     <target name="tests">
         <echo msg="Running tests…"/>
         <phingcall target="phpunit"/>
+        <phingcall target="phpcbf"/>
         <phingcall target="phpcs"/>
     </target>
     <target name="phpunit">
