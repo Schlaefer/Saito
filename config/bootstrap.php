@@ -242,17 +242,6 @@ include Cake\Core\App::path('Lib')[0] . 'BaseFunctions.php';
 
 \Cake\Event\EventManager::instance()->on(\Saito\Event\SaitoEventManager::getInstance());
 
-Plugin::loadAll([
-        // @todo 3.0
-    'Api' => ['bootstrap' => true, 'routes' => true],
-    'Bookmarks' => ['bootstrap' => true, 'routes' => true],
-        // @todo 3.0
-        // 'M' => ['bootstrap' => true, 'routes' => true],
-    'Proffer',
-    'Feeds' => ['bootstrap' => true, 'routes' => true],
-    'SaitoHelp' => ['routes' => true],
-    'Sitemap' => ['bootstrap' => true, 'routes' => true]
-]);
 /*
  * Only try to load DebugKit in development mode
  * Debug Kit should not be installed on a production system

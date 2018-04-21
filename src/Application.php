@@ -14,8 +14,8 @@
  */
 namespace App;
 
-use App\Middleware\SaitoResponseMiddleware;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
@@ -30,6 +30,39 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  */
 class Application extends BaseApplication
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function bootstrap()
+    {
+        Stopwatch::start('Application::bootstrap');
+
+        parent::bootstrap();
+
+        // @td 3.0
+        $this->addPlugin(\Api\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        $this->addPlugin(\Bookmarks\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        $this->addPlugin(\Feeds\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        // @td 3.0
+        // $this->addPlugin('M')->enable('bootstrap')->enable('routes');
+        $this->addPlugin(\SaitoHelp\Plugin::class, ['bootstrap' => true]);
+        $this->addPlugin(\Sitemap\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+
+        Plugin::load('Cron');
+        Plugin::load('BbcodeParser');
+        Plugin::load('Commonmark');
+        Plugin::load('Cron');
+        Plugin::load('Detectors');
+        Plugin::load('Embedly');
+        Plugin::load('MailObfuscator');
+        Plugin::load('Markitup');
+        Plugin::load('Paz');
+        Plugin::load('SpectrumColorpicker');
+        Plugin::load('Stopwatch');
+
+        Plugin::load('Proffer');
+    }
+
     /**
      * Setup the middleware queue your application will use.
      *
