@@ -13,14 +13,6 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-use Stopwatch\Lib\Stopwatch;
-
-Stopwatch::init();
-Stopwatch::enable();
-Stopwatch::start(
-    '---------------- bootstrap start ----------------'
-);
-
 /*
  * Configure paths required to find CakePHP + general filepath constants
  */

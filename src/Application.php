@@ -21,6 +21,7 @@ use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Stopwatch\Lib\Stopwatch;
 
 /**
  * Application setup class.
@@ -30,6 +31,18 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  */
 class Application extends BaseApplication
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function __construct($configDir, EventManagerInterface $eventManager = null)
+    {
+        Stopwatch::init();
+        Stopwatch::enable();
+        Stopwatch::start('Application::__construct');
+        parent::__construct($configDir, $eventManager);
+        Stopwatch::stop('Application::__construct');
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -61,6 +74,8 @@ class Application extends BaseApplication
         Plugin::load('Stopwatch');
 
         Plugin::load('Proffer');
+
+        Stopwatch::stop('Application::bootstrap');
     }
 
     /**
