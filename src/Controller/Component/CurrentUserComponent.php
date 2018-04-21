@@ -347,6 +347,6 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         if ($controller->getRequest()->getParam('action') === 'logout') {
             return;
         }
-        $this->_Controller->redirect(['controller' => 'users', 'action' => 'logout']);
+        $this->_Controller->redirect(['_name' => 'logout']);
     }
 }

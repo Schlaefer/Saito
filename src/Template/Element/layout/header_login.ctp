@@ -52,7 +52,7 @@ if (!$CurrentUser->isLoggedIn()) {
     <?php
     echo $this->Html->link(
         $this->Layout->textWithIcon(h(__('logout_linkname')), 'sign-out'),
-        '/users/logout',
+        '/logout',
         ['id' => 'btn_logout', 'class' => 'top-menu-item', 'escape' => false]
     );
 }

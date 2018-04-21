@@ -7,6 +7,7 @@ use App\Model\Entity\User;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
 use Saito\Exception\Logger\ExceptionLogger;
@@ -546,10 +547,7 @@ class UsersController extends AppController
 
         $id = (int)$this->request->getData('lockUserId');
         if (!$this->Users->exists($id)) {
-            $message = __('User not found.');
-            $this->Flash->set($message, ['element' => 'error']);
-
-            return $this->redirect('/');
+            throw new NotFoundException('User does not exist.', 1524298280);
         }
         $readUser = $this->Users->get($id);
 

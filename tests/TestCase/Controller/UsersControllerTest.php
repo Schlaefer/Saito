@@ -8,6 +8,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use Saito\Test\IntegrationTestCase;
@@ -769,7 +770,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->assertEquals(0, $Ignores->find()->count());
     }
 
-    public function testLock()
+    public function testLockSet()
     {
         /* setup */
         $this->mockSecurity();
@@ -810,8 +811,23 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->assertTrue($user->get('user_lock') == false);
 
         // user does not exit
+    }
+
+    public function testLockSetUserDoesNotExistFailure()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(2);
+
+        $this->expectException(NotFoundException::class, 1524298280);
+
         $this->post('/users/lock', ['lockUserId' => 9999]);
-        $this->assertRedirect('/');
+    }
+
+    public function testLockResult()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(2);
+        $Users = TableRegistry::get('Users');
 
         // locked user are thrown out
         $this->post('/users/lock', ['lockUserId' => 5]);
@@ -821,7 +837,7 @@ class UsersControllerTestCase extends IntegrationTestCase
 
         $this->_loginUser(5);
         $this->get('/entries/index');
-        $this->assertRedirect('users/logout');
+        $this->assertRedirect('/logout');
 
         // locked user can't relogin
         $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
