@@ -15,6 +15,7 @@ use Cake\Controller\Component;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Saito\App\Registry;
@@ -324,27 +325,28 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     /**
      * {@inheritDoc}
      */
-    public function startup()
+    public function startup(Event $event)
     {
-        $this->_validateUser();
+        $this->validateUser($event->getSubject());
     }
 
     /**
-     * Check if user is valid and handle logout if not.
+     * Checks if user is valid and logs him out if not
      *
+     * @param Controller $controller The controller
      * @return void
      */
-    protected function _validateUser()
+    protected function validateUser(Controller $controller): void
     {
         if (!$this->isLoggedIn()) {
             return;
         }
-        $valid = true;
-        $valid = $valid && !$this->isForbidden();
-        if (!$valid && $this->_Controller->action !== 'logout') {
-            $this->_Controller->redirect(
-                ['controller' => 'users', 'action' => 'logout']
-            );
+        if (!$this->isForbidden()) {
+            return;
         }
+        if ($controller->getRequest()->getParam('action') === 'logout') {
+            return;
+        }
+        $this->_Controller->redirect(['controller' => 'users', 'action' => 'logout']);
     }
 }
