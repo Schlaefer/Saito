@@ -1,0 +1,11 @@
+{
+  "name": "SaitoSearch",
+  "devDependencies": {
+    "uglify-js": "^3.3.22",
+    "node-sass": "^4.8.3"
+  },
+  "scripts": {
+    "sass": "node_modules/.bin/node-sass --watch ./webroot/css/src/ -o ./webroot/css/ --output-style compressed",
+    "js": "node_modules/.bin/uglifyjs webroot/js/src/saito-search.js > webroot/js/saito-search.min.js"
+  }
+}

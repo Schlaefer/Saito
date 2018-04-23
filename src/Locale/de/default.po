@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-21 13:44+0200\n"
-"PO-Revision-Date: 2018-04-21 13:44+0200\n"
+"POT-Creation-Date: 2018-04-21 13:46+0200\n"
+"PO-Revision-Date: 2018-04-21 13:46+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -128,6 +128,46 @@ msgstr "Hilfe-Datei nicht gefunden."
 #: plugins/SaitoHelp/src/View/Helper/SaitoHelpHelper.php:25
 msgid "Help"
 msgstr "Hilfe"
+
+#: plugins/SaitoSearch/src/Template/Element/search_results.ctp:8
+msgid "search_nothing_found"
+msgstr "Keine Einträge."
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:5
+msgid "search_advanced"
+msgstr "Erweiterte Suche"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:33
+#: src/Template/Element/layout/header_search.ctp:29
+msgid "search_submit"
+msgstr "Suchen"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:44
+msgid "search_term"
+msgstr "Suchbegriff"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:47
+msgid "search.q.minLength"
+msgstr "Suchbegriffe müssen mindestens %s Buchstaben enthalten."
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:66
+#, fuzzy
+msgid "Time"
+msgstr "Zeit"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:67
+msgid "Rank"
+msgstr "Rang"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:68
+#: src/Template/Users/index.ctp:19
+msgid "Sort by: {0}"
+msgstr "Sortieren nach: {0}"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:76
+msgid "search.tooShort"
+msgstr "Die folgenden Wörter sind zu kurz und wurden ignoriert: {0}. Die "
+"Mindestzeichenzahl pro Wort beträgt: {1}."
 
 #: plugins/Sitemap/src/Template/Admin/Sitemaps/index.ctp:2
 #: src/Template/Admin/Admins/plugins.ctp:3
@@ -1026,10 +1066,6 @@ msgstr "Profil"
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
-#: src/Template/Element/layout/header_search.ctp:29
-msgid "search_submit"
-msgstr "Suchen"
-
 #: src/Template/Element/layout/html_footer.ctp:8
 #, fuzzy
 msgid ""
@@ -1038,10 +1074,6 @@ msgid ""
 msgstr ""
 "Diese Web-Anwendung benötigt JavaScript. Bitte aktivieren Sie JavaScript im "
 "Browser."
-
-#: src/Template/Element/searches/search_results.ctp:8
-msgid "search_nothing_found"
-msgstr "Keine Einträge."
 
 #: src/Template/Element/users/block-report.ctp:7
 msgid "ncy.aub"
@@ -1155,6 +1187,10 @@ msgstr ""
 #: src/Template/Layout/admin.ctp:40
 msgid "Overview"
 msgstr "Übersicht"
+
+#: src/Template/Layout/default.ctp:57
+msgid "Search"
+msgstr "Suche"
 
 #: src/Template/Pages/rss_feeds.ctp:6
 msgid "RSS Feeds"
@@ -1351,10 +1387,6 @@ msgstr "Kategorienfilter"
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
-
-#: src/Template/Users/index.ctp:19
-msgid "Sort by: {0}"
-msgstr "Sortieren nach: {0}"
 
 #: src/Template/Users/index.ctp:40
 msgid "user_since {0}"
@@ -1631,9 +1663,6 @@ msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 #~ msgid "Stats"
 #~ msgstr "Statistik"
 
-#~ msgid "Search"
-#~ msgstr "Suche"
-
 #~ msgid "error_password_check_old"
 #~ msgstr "Das alte Passwort ist nicht korrekt."
 
@@ -1658,29 +1687,8 @@ msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 #~ msgid "search_since"
 #~ msgstr "Seit"
 
-#~ msgid "search_advanced"
-#~ msgstr "Erweiterte Suche"
-
-#~ msgid "search_term"
-#~ msgstr "Suchbegriff"
-
-#~ msgid "search.q.minLength"
-#~ msgstr "Suchbegriffe müssen mindestens %s Buchstaben enthalten."
-
-#, fuzzy
-#~ msgid "Time"
-#~ msgstr "Zeit"
-
-#~ msgid "Rank"
-#~ msgstr "Rang"
-
 #~ msgid "Sort by: %s"
 #~ msgstr "Sortieren nach: %s"
-
-#~ msgid "search.tooShort"
-#~ msgstr ""
-#~ "Die folgenden Wörter sind zu kurz und wurden ignoriert: :omittedWords. "
-#~ "Die Mindestzeichenzahl pro Wort beträgt: :minChars."
 
 #~ msgid "List Smilies"
 #~ msgstr "Smilies auflisten"

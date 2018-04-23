@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-21 13:43+0200\n"
-"PO-Revision-Date: 2018-04-21 13:43+0200\n"
+"POT-Creation-Date: 2018-04-21 13:46+0200\n"
+"PO-Revision-Date: 2018-04-21 13:46+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -125,6 +125,45 @@ msgstr "Help file not found."
 #: plugins/SaitoHelp/src/View/Helper/SaitoHelpHelper.php:25
 msgid "Help"
 msgstr ""
+
+#: plugins/SaitoSearch/src/Template/Element/search_results.ctp:8
+msgid "search_nothing_found"
+msgstr "Nothing found."
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:5
+msgid "search_advanced"
+msgstr "Advanced Search"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:33
+#: src/Template/Element/layout/header_search.ctp:29
+msgid "search_submit"
+msgstr "Search"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:44
+msgid "search_term"
+msgstr "Search"
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:47
+msgid "search.q.minLength"
+msgstr "Search terms must be at least %s characters long."
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:66
+msgid "Time"
+msgstr ""
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:67
+msgid "Rank"
+msgstr ""
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:68
+#: src/Template/Users/index.ctp:19
+msgid "Sort by: {0}"
+msgstr ""
+
+#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:76
+msgid "search.tooShort"
+msgstr "The following words are to short and were omitted: {0}. Minimum number of "
+"characters is: {1}."
 
 #: plugins/Sitemap/src/Template/Admin/Sitemaps/index.ctp:2
 #: src/Template/Admin/Admins/plugins.ctp:3
@@ -1009,19 +1048,11 @@ msgstr "Profile"
 msgid "logout_linkname"
 msgstr "Logout"
 
-#: src/Template/Element/layout/header_search.ctp:29
-msgid "search_submit"
-msgstr "Search"
-
 #: src/Template/Element/layout/html_footer.ctp:8
 msgid ""
 "This web-application depends on JavaScript. Please activate JavaScript in "
 "your browser."
 msgstr ""
-
-#: src/Template/Element/searches/search_results.ctp:8
-msgid "search_nothing_found"
-msgstr "Nothing found."
 
 #: src/Template/Element/users/block-report.ctp:7
 msgid "ncy.aub"
@@ -1134,6 +1165,10 @@ msgstr ""
 
 #: src/Template/Layout/admin.ctp:40
 msgid "Overview"
+msgstr ""
+
+#: src/Template/Layout/default.ctp:57
+msgid "Search"
 msgstr ""
 
 #: src/Template/Pages/rss_feeds.ctp:6
@@ -1324,10 +1359,6 @@ msgstr "Category-Chooser"
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
-
-#: src/Template/Users/index.ctp:19
-msgid "Sort by: {0}"
-msgstr ""
 
 #: src/Template/Users/index.ctp:40
 msgid "user_since {0}"
@@ -1602,20 +1633,6 @@ msgstr "Error occurred on upload."
 
 #~ msgid "search_since"
 #~ msgstr "Since"
-
-#~ msgid "search_advanced"
-#~ msgstr "Advanced Search"
-
-#~ msgid "search_term"
-#~ msgstr "Search"
-
-#~ msgid "search.q.minLength"
-#~ msgstr "Search terms must be at least %s characters long."
-
-#~ msgid "search.tooShort"
-#~ msgstr ""
-#~ "The following words are to short and were omitted: :omittedWords. Minimum "
-#~ "number of characters is: :minChars."
 
 #~ msgid "upload_btn_delete_upload"
 #~ msgstr "Delete Upload"

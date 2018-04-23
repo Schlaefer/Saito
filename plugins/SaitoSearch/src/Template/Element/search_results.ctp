@@ -1,7 +1,7 @@
 <div class="search_results panel">
     <div class="panel-content">
         <?php
-        if (empty($results)) {
+        if (empty($results) || ($results->count() === 0)) {
             echo $this->element(
                 'generic/no-content-yet',
                 [
@@ -10,7 +10,7 @@
             );
         } else {
             foreach ($results as $result) {
-                echo $this->EntryH->renderThread($result, ['rootWrap' => true]);
+                echo $this->Posting->renderThread($result->toPosting(), ['rootWrap' => true]);
             }
         }
         ?>

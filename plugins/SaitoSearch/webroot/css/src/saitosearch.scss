@@ -1,0 +1,53 @@
+// simple search
+// -------------------------------------
+
+.searchForm-wrapper {
+  margin-bottom: 20px;
+  margin: 0 20%;
+  width: 60%;
+}
+
+.searchForm {
+  $simple-search-height: 38px;
+
+  width: 100%;
+  vertical-align: middle;
+
+  .search_main {
+    display: flex;
+
+    :first-child {
+      flex: auto;
+    }
+  }
+
+  #search_fulltext_textfield {
+    height: $simple-search-height;
+  }
+
+  .sort-menu {
+    text-align: center;
+
+    label {
+      // space out sort-by radio buttons
+      margin: 0 0.5em;
+    }
+  }
+
+  .btn_search_submit {
+    // puts button next to search field
+    float: right;
+
+    white-space: nowrap;
+    margin-left: 1em;
+    height: $simple-search-height;
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .searchForm-wrapper {
+      margin: 0;
+      width: auto;
+  }
+}

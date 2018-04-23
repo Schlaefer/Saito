@@ -59,6 +59,7 @@ class Application extends BaseApplication
         // @td 3.0
         // $this->addPlugin('M')->enable('bootstrap')->enable('routes');
         $this->addPlugin(\SaitoHelp\Plugin::class, ['bootstrap' => true]);
+        $this->addPlugin(\SaitoSearch\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Sitemap\Plugin::class, ['bootstrap' => true, 'routes' => true]);
 
         Plugin::load('Cron');

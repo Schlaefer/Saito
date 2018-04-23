@@ -27,7 +27,8 @@
     "siezi/cakephp-simple-captcha": "*",
     "yzalis/identicon": "*",
     "league/commonmark": "^0.17.5",
-    "suin/php-rss-writer": "^1.6"
+    "suin/php-rss-writer": "^1.6",
+    "friendsofcake/search": "^4.4"
   },
   "require-dev": {
     "cakephp/bake": "~1.0",
@@ -67,6 +68,7 @@
       "Feeds\\": "./plugins/Feeds/src",
       "Feeds\\Test\\": "./plugins/Feeds/tests",
       "SaitoHelp\\": "./plugins/SaitoHelp/src",
+      "SaitoSearch\\": "./plugins/SaitoSearch/src",
       "Sitemap\\": "./plugins/Sitemap/src",
       "Sitemap\\Test\\": "./plugins/Sitemap/tests",
       "SpectrumColorpicker\\": "./plugins/SpectrumColorpicker/src",

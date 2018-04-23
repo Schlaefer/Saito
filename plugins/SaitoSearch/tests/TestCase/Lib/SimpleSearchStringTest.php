@@ -1,8 +1,9 @@
 <?php
 
-namespace Saito\Test;
+namespace SaitoSearch\Test;
 
-use Saito\SimpleSearchString;
+use SaitoSearch\Lib\SimpleSearchString;
+use Saito\Test\SaitoTestCase;
 
 class SimpleSearchStringTest extends SaitoTestCase
 {
@@ -18,7 +19,7 @@ class SimpleSearchStringTest extends SaitoTestCase
         $this->assertEquals($expected, $result);
 
         $in = 'zap "foo-bar" baz';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->replaceOperators();
         $expected = '+zap +"foo-bar" +baz';
         $this->assertEquals($expected, $result);
@@ -33,47 +34,47 @@ class SimpleSearchStringTest extends SaitoTestCase
         $this->assertTrue($result);
 
         $in = '+tes -foo';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertFalse($result);
 
         $in = 'test +foo';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertFalse($result);
 
         $in = 'wm-foo';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertTrue($result);
 
         $in = 'w-m';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertFalse($result);
 
         $in = 'wmf';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertFalse($result);
 
         $in = '';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertFalse($result);
 
         $in = 'wm foo';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertFalse($result);
 
         $in = '"wm foo';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertFalse($result);
 
         $in = '"wm foo"';
-        $S->setString($in);
+        $S = new SimpleSearchString($in, $length);
         $result = $S->validateLength();
         $this->assertTrue($result);
     }

@@ -41,11 +41,6 @@ class EntriesTable extends AppTable
 
     use RememberTrait;
 
-    public $actsAs = [
-        // @td 3.0 Search
-        //'Search.Searchable'
-    ];
-
     /**
      * Fields for search plugin
      *

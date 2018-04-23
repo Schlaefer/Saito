@@ -1,37 +1,37 @@
 <?php
 
-namespace Saito;
+namespace SaitoSearch\Lib;
 
 class SimpleSearchString
 {
 
+    /**
+     * Minimum search word length
+     *
+     * @var integer
+     */
     protected $_length = 4;
 
+    /**
+     * Operators for simple search
+     *
+     * @var string
+     */
     protected $_operators = '+-';
 
+    /**
+     * Search string
+     *
+     * @var [type]
+     */
     protected $_string;
 
     /**
      * Constructor.
      *
      * @param string $string string
-     * @param int $length length
      */
-    public function __construct($string, $length = null)
-    {
-        $this->_string = $string;
-        if ($length) {
-            $this->_length = $length;
-        }
-    }
-
-    /**
-     * String setter
-     *
-     * @param mixed $string string
-     * @return void
-     */
-    public function setString($string)
+    public function __construct($string)
     {
         $this->_string = $string;
     }
@@ -48,6 +48,29 @@ class SimpleSearchString
         }
 
         return strlen($this->getOmittedWords()) === 0;
+    }
+
+    /**
+     * Sets minimum search-word-length.
+     *
+     * @param int $minLength minimum search word length
+     * @return self
+     */
+    public function setMinWordLength(int $minLength): self
+    {
+        $this->_length = $minLength;
+
+        return $this;
+    }
+
+    /**
+     * Gets minimum search-word-length
+     *
+     * @return int
+     */
+    public function getMinWordLength(): int
+    {
+        return $this->_length;
     }
 
     /**

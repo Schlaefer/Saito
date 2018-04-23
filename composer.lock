@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da093b7343522300da2648150fecb7d0",
+    "content-hash": "001318bc5b6a719d3ce7e187de107295",
     "packages": [
         {
             "name": "aura/di",
@@ -434,6 +434,62 @@
                 "embedly"
             ],
             "time": "2014-03-17T17:30:47+00:00"
+        },
+        {
+            "name": "friendsofcake/search",
+            "version": "4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfCake/search.git",
+                "reference": "f928b2b594697fb65c8e9c1404f7cd89a31e7a88"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/f928b2b594697fb65c8e9c1404f7cd89a31e7a88",
+                "reference": "f928b2b594697fb65c8e9c1404f7cd89a31e7a88",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.5"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^3.0",
+                "cakephp/chronos": "^1.1",
+                "friendsofcake/cakephp-test-utilities": "^1.0",
+                "muffin/webservice": "^1.3",
+                "phpunit/phpunit": "^5.7.14|^6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Search\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Winther",
+                    "homepage": "http://cakephp.nu/",
+                    "role": "Author"
+                },
+                {
+                    "name": "ADmad",
+                    "homepage": "https://github.com/admad",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "CakePHP Search plugin using PRG pattern",
+            "homepage": "https://github.com/FriendsOfCake/search",
+            "keywords": [
+                "cake3",
+                "cakephp",
+                "cakephp3",
+                "search"
+            ],
+            "time": "2018-04-16T21:29:06+00:00"
         },
         {
             "name": "geshi/geshi",
@@ -1823,16 +1879,16 @@
         },
         {
             "name": "cakephp/bake",
-            "version": "1.7.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/bake.git",
-                "reference": "43ecf4cc8ffab49d8a5211e019a74b018b52e773"
+                "reference": "c6b566ea94f1c0eb7ae8a828a37e1106419a8630"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/bake/zipball/43ecf4cc8ffab49d8a5211e019a74b018b52e773",
-                "reference": "43ecf4cc8ffab49d8a5211e019a74b018b52e773",
+                "url": "https://api.github.com/repos/cakephp/bake/zipball/c6b566ea94f1c0eb7ae8a828a37e1106419a8630",
+                "reference": "c6b566ea94f1c0eb7ae8a828a37e1106419a8630",
                 "shasum": ""
             },
             "require": {
@@ -1867,7 +1923,7 @@
                 "bake",
                 "cakephp"
             ],
-            "time": "2018-04-15T01:24:00+00:00"
+            "time": "2018-04-20T23:46:51+00:00"
         },
         {
             "name": "cakephp/cakephp-codesniffer",
