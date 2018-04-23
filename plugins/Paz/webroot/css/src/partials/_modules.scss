@@ -5,10 +5,7 @@ body, .btnLink, textarea, input[type=text], input[type=password], input[type=ema
   background-color: $background-color;
 }
 
-body {
-  font-size: 1.4em;
-  margin: auto $padding;
-}
+body { }
 
 #site {
   background: $page-color;
@@ -19,7 +16,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.l-body { }
+.l-body {
+  font-size: 1.4em;
+  margin: auto $padding;
+}
 
 input, textarea {
   font-size: 1em;

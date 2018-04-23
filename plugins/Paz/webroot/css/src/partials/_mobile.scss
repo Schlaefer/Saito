@@ -7,7 +7,6 @@
     margin-left: -$padding;
     margin-right: -$padding;
   }
-
 }
 
 @media only screen and (orientation: landscape) and (max-width: 568px) {
@@ -19,6 +18,15 @@
 @media only screen and (max-width: 568px) {
   body {
     -webkit-text-size-adjust: 100%;
+  }
+
+  #site {
+    padding-left: 0;
+    padding-right: 0;    
+  }
+
+  .l-body {
+    margin: auto 0;
   }
 
   #slidetabs {
