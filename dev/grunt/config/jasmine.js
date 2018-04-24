@@ -19,7 +19,7 @@ module.exports = function(requireJsOptions) {
         display: 'full',
         specs: './webroot/js/tests/**/*Spec.js',
         vendor: [
-          './webroot/dev/bower_components/jquery/dist/jquery.js',
+          './webroot/dev/node_modules/jquery/dist/jquery.js',
           './webroot/js/bootstrap/bootstrap.js',
           './app/Plugin/JasmineJs/webroot/js/jasmine-jquery.js',
           './app/Plugin/JasmineJs/webroot/js/sinon-1.6.0.js'

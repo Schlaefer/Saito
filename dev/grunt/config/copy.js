@@ -29,7 +29,7 @@ module.exports = {
       {
         expand: true,
         cwd: './bower_components/leaflet/dist/',
-        src: ['leaflet.js', '*.css'],
+        src: ['images/*', 'leaflet.js', '*.css'],
         dest: './webroot/dist/leaflet/'
       },
       {
@@ -44,7 +44,7 @@ module.exports = {
     files: [
       // copy minified JS-files from packages which are used vanilla
       {
-        src: ['./bower_components/bootstrap/docs/assets/js/bootstrap.min.js'],
+        src: ['./node_modules/bootstrap/docs/assets/js/bootstrap.min.js'],
         dest: './webroot/dist/bootstrap.min.js'
       },
       {

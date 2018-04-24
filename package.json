@@ -17,7 +17,6 @@
     "lodash": "^2.4.1"
   },
   "dependencies": {
-    "@bower_components/bootstrap": "twbs/bootstrap#2.3.2",
     "@bower_components/coffeescript": "jashkenas/coffeescript#~1.7.1",
     "@bower_components/drop": "HubSpot/drop#0.4.0",
     "@bower_components/fastclick": "ftlabs/fastclick#*",
@@ -44,6 +43,7 @@
     "backbone.localstorage": "^1.1.16",
     "backbone.marionette": "1.8.8",
     "backbone.wreqr": "^1.0.0",
+    "bootstrap": "twbs/bootstrap#^2.3.2",
     "jQuery-tinyTimer": "odyniec/jQuery-tinyTimer",
     "jquery": "^3.3",
     "jquery-filedrop": "weixiyen/jquery-filedrop",

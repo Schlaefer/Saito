@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"@bower_components/bootstrap@twbs/bootstrap#2.3.2":
-  version "2.3.2"
-  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/b4c4072679943773a7582daa63f545ba818fa627"
-
 "@bower_components/coffeescript@jashkenas/coffeescript#~1.7.1":
   version "1.7.1"
   resolved "https://codeload.github.com/jashkenas/coffeescript/tar.gz/4ab8503e5afc567f784d0e69c75a75a6e2bbab38"
@@ -248,6 +244,10 @@ boom@5.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
   dependencies:
     hoek "4.x.x"
+
+bootstrap@twbs/bootstrap#^2.3.2:
+  version "2.3.2"
+  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/b4c4072679943773a7582daa63f545ba818fa627"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
