@@ -9,17 +9,17 @@
 
     echo $this->Html->css(
         // jasmin core
-        ['../dev/bower_components/jasmine/lib/jasmine-core/jasmine']
+        ['../dev/node_modules/jasmine-core/lib/jasmine-core/jasmine']
     );
     echo $this->Html->script(
         [
             // jasmin core
-            '../dev/bower_components/jasmine/lib/jasmine-core/jasmine',
-            '../dev/bower_components/jasmine/lib/jasmine-core/jasmine-html',
+            '../dev/node_modules/jasmine-core/lib/jasmine-core/jasmine',
+            '../dev/node_modules/jasmine-core/lib/jasmine-core/jasmine-html',
             'tests/boot.js',
             //
             'lib/jquery-ui/jquery-ui.custom.min.js',
-            'bootstrap/bootstrap.js'
+            '../dev/bower_components/bootstrap/docs/assets/js/bootstrap.js'
         ]
     );
     ?>

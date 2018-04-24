@@ -21,6 +21,8 @@
     preserveLicenseComments: false, // just to many comments in bootstrap
     shim: requireConfig.shim,
     paths: requireConfig.paths, // paths used by r.js
+    // for old marionette version not finding backbone
+    wrapShim: true,
     modules: [
       {
         name: 'common',

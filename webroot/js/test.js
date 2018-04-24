@@ -10,7 +10,7 @@ require.config({
         common: '../dist/common.min',
 
         sinon: '../dev/bower_components/sinonjs/sinon',
-        jsjq: '../dev/bower_components/jasmine-jquery/jasmine-jquery',
+        jsjq: '../dev/bower_components/jasmine-jquery/lib/jasmine-jquery',
         templateHelpers: 'lib/saito/templateHelpers'
     }
 });

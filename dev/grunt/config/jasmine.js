@@ -8,8 +8,8 @@ module.exports = function(requireJsOptions) {
     jsjq: { deps: ['jquery'] }
   });
   _.extend(requireJsOptions.paths, {
-    sinon: '../dev/bower_components/sinonjs/sinon',
-    jsjq: '../dev/bower_components/jasmine-jquery/jasmine-jquery'
+    sinon: '../../bower_components/sinonjs/sinon',
+    jsjq: '../../bower_components/jasmine-jquery/lib/jasmine-jquery'
   });
 
   return {
@@ -19,7 +19,7 @@ module.exports = function(requireJsOptions) {
         display: 'full',
         specs: './webroot/js/tests/**/*Spec.js',
         vendor: [
-          './webroot/dev/bower_components/jquery/jquery.js',
+          './webroot/dev/bower_components/jquery/dist/jquery.js',
           './webroot/js/bootstrap/bootstrap.js',
           './app/Plugin/JasmineJs/webroot/js/jasmine-jquery.js',
           './app/Plugin/JasmineJs/webroot/js/sinon-1.6.0.js'

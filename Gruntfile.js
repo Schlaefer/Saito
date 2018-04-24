@@ -7,22 +7,10 @@ module.exports = function(grunt) {
 
   var gruntConfig = {
     pkg: grunt.file.readJSON('package.json'),
-    bower: {
-      devsetup: {
-        options: {
-          targetDir: './webroot/dev/bower_components',
-          cleanBowerDir: true,
-          cleanTargetDir: true,
-          layout: 'byComponent'
-        }
-      }
-    },
     uglify: {
       release: {
         files: {
-          './webroot/dist/bootstrap.min.js': ['./webroot/dev/bower_components/bootstrap/bootstrap.js'],
-          './webroot/dist/jquery.min.js': ['./webroot/dev/bower_components/jquery/jquery.js'],
-          './webroot/dist/require.min.js': ['./webroot/dev/bower_components/requirejs/js/require.js']
+          './webroot/dist/require.min.js': ['./bower_components/requirejs/require.js']
         }
       }
     },
@@ -45,6 +33,32 @@ module.exports = function(grunt) {
       }
     },
     shell: {
+      yarn: {
+        command: 'yarn',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
+      },
+      // access too JS-libraries for development in webroot through browser
+      symlinkNode: {
+        command: 'ln -s $PWD/node_modules/ webroot/dev/node_modules',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
+      },
+      // @todo remove
+      symlinkBower: {
+        command: 'ln -s $PWD/bower_components/ webroot/dev/bower_components',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
+      },
       testCake: {
         command: './vendor/bin/phpunit --colors --stderr',
         options: {
@@ -78,7 +92,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig(gruntConfig);
 
-  grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -92,7 +105,7 @@ module.exports = function(grunt) {
 
   // dev-setup
   grunt.registerTask('dev-setup', [
-    'clean:devsetup', 'bower:devsetup', 'copy:nonmin'
+    'clean:devsetup', 'shell:yarn', 'shell:symlinkNode', 'shell:symlinkBower', 'copy:nonmin' 
   ]);
 
   // test

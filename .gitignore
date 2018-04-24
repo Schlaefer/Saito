@@ -5,6 +5,7 @@
 .sass-cache
 /node_modules
 /webroot/dev/bower_components
+/webroot/dev/node_modules
 
 ### CakePHP 3 ###
 /logs
