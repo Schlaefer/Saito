@@ -3,8 +3,8 @@ define([
     'underscore',
     'backbone',
     'models/app',
-    '../../dev/vendors/pnotify/jquery.pnotify'
-], function ($, _, Backbone, App) {
+    'pnotify'
+], function ($, _, Backbone, App, PNotify) {
 
     'use strict';
 
@@ -102,19 +102,21 @@ define([
         _showNotification: function (options) {
             var delay = 5000,
                 logOptions = {
-                    title: options.title,
+                    title: options.title || false,
                     text: options.message,
                     icon: false,
                     history: false,
                     addclass: 'flash',
                     delay: delay
                 };
+            var type = options.type;
 
-            switch (options.type) {
+            switch (type) {
                 case 'success':
                     logOptions.addclass += ' flash-success';
                     break;
                 case 'warning':
+                    type = 'notice'; // changed from pnotify 1.x to 4.x
                     logOptions.addclass += ' flash-warning';
                     break;
                 case 'error':
@@ -123,11 +125,12 @@ define([
                     // logOptions.hide = false;
                     break;
                 default:
+                    type = 'info';
                     logOptions.addclass += ' flash-notice';
                     break;
             }
 
-            $.pnotify(logOptions);
+            PNotify[type](logOptions);
         }
     });
 

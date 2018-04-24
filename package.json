@@ -47,6 +47,7 @@
     "jQuery-tinyTimer": "odyniec/jQuery-tinyTimer",
     "jquery": "^3.3",
     "jquery-filedrop": "weixiyen/jquery-filedrop",
+    "pnotify": "^4.0.0-alpha.2",
     "yarn": "^1.6.0"
   },
   "engines": {

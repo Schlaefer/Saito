@@ -22,7 +22,10 @@
       },
       jqueryTinyTimer: {
         deps: ['jquery']
-      }
+      },
+      pnotify: {
+        exports: 'PNotify'
+      },
     },
     paths: {
       backbone: '../dev/node_modules/backbone/backbone',
@@ -37,6 +40,7 @@
       jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
       jqueryTinyTimer: '../dev/node_modules/jQuery-tinyTimer/jquery.tinytimer',
       jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
+      pnotify: '../dev/node_modules/pnotify/lib/iife/Pnotify',
       tether: '../dev/bower_components/tether/tether',
       text: '../dev/bower_components/requirejs-text/text',
       underscore: '../dev/bower_components/lodash/lodash',
