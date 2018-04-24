@@ -21,7 +21,7 @@
         exports: 'Drop'
       },
       jqueryTinyTimer: {
-        deps: [/* 'jquery' */]
+        deps: ['jquery']
       }
     },
     paths: {
@@ -35,7 +35,7 @@
       jquery: 'lib/jquery',
       jqueryAutosize: '../dev/bower_components/jquery-autosize/jquery.autosize',
       jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
-      jqueryTinyTimer: '../dev/bower_components/jquery-tinytimer/jquery.tinytimer',
+      jqueryTinyTimer: '../dev/node_modules/jQuery-tinyTimer/jquery.tinytimer',
       jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
       tether: '../dev/bower_components/tether/tether',
       text: '../dev/bower_components/requirejs-text/text',

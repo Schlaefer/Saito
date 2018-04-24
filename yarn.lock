@@ -46,10 +46,6 @@
   version "0.0.0"
   resolved "https://codeload.github.com/claviska/jquery-dropdown/tar.gz/199eb9a8e1ad468b3dc84410077c2b1e3b1c8f39"
 
-"@bower_components/jquery-tinytimer@odyniec/jQuery-tinyTimer#0.1.4":
-  version "0.0.0"
-  resolved "https://codeload.github.com/odyniec/jQuery-tinyTimer/tar.gz/57edd0d53de32460f3c2d0285cccd87aca5ab5ef"
-
 "@bower_components/leaflet.markercluster@Leaflet/Leaflet.markercluster#~0.4.0":
   version "0.4.0"
   resolved "https://codeload.github.com/Leaflet/Leaflet.markercluster/tar.gz/20cf8edd0dfc51ace1db1eee0cf34cf0533a2fb9"
@@ -950,6 +946,10 @@ isexe@^2.0.0:
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
+
+jQuery-tinyTimer@odyniec/jQuery-tinyTimer:
+  version "0.0.0"
+  resolved "https://codeload.github.com/odyniec/jQuery-tinyTimer/tar.gz/eb1a4704eb682975cac6d3e25c1bb29ebec27372"
 
 jasmine-core@~2.4.0:
   version "2.4.1"
