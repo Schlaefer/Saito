@@ -4,7 +4,7 @@ module.exports = {
   nonmin: {
     files: [
       {
-        src: ['./bower_components/jquery/dist/jquery.js'],
+        src: ['./node_modules/jquery/dist/jquery.js'],
         dest: './webroot/dist/jquery.js'
       },
       {
@@ -48,7 +48,7 @@ module.exports = {
         dest: './webroot/dist/bootstrap.min.js'
       },
       {
-        src: ['./bower_components/jquery/dist/jquery.min.js'],
+        src: ['./node_modules/jquery/dist/jquery.min.js'],
         dest: './webroot/dist/jquery.min.js'
       },
       // copy minified JS-files from saito-build
