@@ -955,6 +955,10 @@ jasmine-core@~2.4.0:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.4.1.tgz#6f83ab3a0f16951722ce07d206c773d57cc838be"
 
+jquery-filedrop@weixiyen/jquery-filedrop:
+  version "0.1.0"
+  resolved "https://codeload.github.com/weixiyen/jquery-filedrop/tar.gz/972740b25e1c6f1afd2bf81c429cbbaef43a7c45"
+
 jquery@^3.3:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
