@@ -5,7 +5,7 @@ define(
     /**
      * Dialog for deleteing a posting.
      */
-    return Marionette.ItemView.extend({
+    return Marionette.View.extend({
       ui: {
         abort: '.js-abort',
         submit: '.js-delete'

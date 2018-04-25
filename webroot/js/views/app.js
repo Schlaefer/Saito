@@ -117,7 +117,7 @@ define([
     },
 
     _initLogout: function() {
-      App.commands.execute('app:localStorage:clear');
+      App.vent.trigger('app:localStorage:clear');
       _.defer(function() {
         window.redirect(App.settings.get('webroot'));
       });
@@ -308,11 +308,11 @@ define([
           modalLoginDialog.dialog({
               hide: 'fade',
               modal: true,
-              position: {my: 'top', at: 'center top+120'},
+              position: {my: 'top', at: 'top'},
               resizable: false,
-              show: 'fade',
               title: title,
-              width: 420
+              width: '100%',
+              draggable: false
           });
       },
 
@@ -335,7 +335,7 @@ define([
       if (_controller !== 'entries' || _action !== 'index') {
         return;
       }
-      App.commands.execute('shoutbox:mar', {silent: true});
+      App.vent.trigger('shoutbox:mar', {silent: true});
     }
   });
 

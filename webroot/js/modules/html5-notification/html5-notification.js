@@ -6,6 +6,8 @@ define([
     function(Application, Marionette, Notification) {
       "use strict";
 
+      // @todo
+      return;
       var Html5Notification = Application.module("html5-notification");
 
       Html5Notification.addInitializer(function(options) {

@@ -4,7 +4,7 @@ define(['jquery', 'marionette', 'models/app', 'views/answering',
 
       'use strict';
 
-      return Marionette.ItemView.extend({
+      return Marionette.View.extend({
 
         answeringForm: false,
 

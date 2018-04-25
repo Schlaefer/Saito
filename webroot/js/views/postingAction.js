@@ -10,7 +10,7 @@ define([
 ], function ($, _, Marionette, App, BmBtn, DelModal, SolvesBtn, EditCountdown) {
   'use strict';
 
-  var PostingAction = Marionette.ItemView.extend({
+  var PostingAction = Marionette.View.extend({
 
     ui: {
       'btnDelete': '.js-delete',

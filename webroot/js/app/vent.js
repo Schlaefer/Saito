@@ -1,19 +1,13 @@
-define(['marionette'], function() {
+define(['marionette', 'backbone.radio'], function(Marionette, Radio) {
     //noinspection JSHint
 
-    var eventBus = function() {
-        this.vent = new Backbone.Wreqr.EventAggregator();
-        this.commands = new Backbone.Wreqr.Commands();
-        this.reqres = new Backbone.Wreqr.RequestResponse();
-
-        // Request/response, facilitated by Backbone.Wreqr.RequestResponse
-        // from marionette
+    const eventBus = function() {
+        this.vent = Radio.channel('app');
         this.request = function(){
             var args = Array.prototype.slice.apply(arguments);
-            return this.reqres.request.apply(this.reqres, args);
+            return this.vent.request.apply(this.reqres, args);
         };
     };
 
     return new eventBus();
-
 });

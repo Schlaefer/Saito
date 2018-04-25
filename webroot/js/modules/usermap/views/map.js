@@ -9,7 +9,7 @@ define([
       'use strict';
 
       // MapView
-      return Marionette.ItemView.extend({
+      return Marionette.View.extend({
 
         collectionEvents: {
           'add': '_createMarker',

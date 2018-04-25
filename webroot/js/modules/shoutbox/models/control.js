@@ -13,7 +13,7 @@ define(['underscore', 'backbone', 'models/app', 'lib/saito/localStorageHelper'],
     },
 
     localStorage: (function() {
-      var key = App.reqres.request('app:localStorage:key', 'shoutbox-control');
+      var key = App.eventBus.request('app:localStorage:key', 'shoutbox-control');
       return new Backbone.LocalStorage(key);
     })(),
 
@@ -22,7 +22,7 @@ define(['underscore', 'backbone', 'models/app', 'lib/saito/localStorageHelper'],
 
       this.listenTo(this, 'change:notify', this._onChangeNotify);
 
-      App.commands.setHandler('shoutbox:mar', this._mar, this);
+      App.eventBus.on('shoutbox:mar', this._mar, this);
     },
 
     _mar: function(options) {
@@ -53,13 +53,13 @@ define(['underscore', 'backbone', 'models/app', 'lib/saito/localStorageHelper'],
       if (_.isArray(key)) {
         _.each(key, function(e) { this._restore(e); }, this);
       }
-      if (App.reqres.request('app:localStorage:available')) {
+      if (App.eventBus.request('app:localStorage:available')) {
         this.fetch();
       }
     },
 
     _save: function(key) {
-      if (App.reqres.request('app:localStorage:available')) {
+      if (App.eventBus.request('app:localStorage:available')) {
         this.save();
       }
     }

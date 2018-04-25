@@ -8,7 +8,7 @@ define([
 
   'use strict';
 
-  var ShoutboxView = Marionette.ItemView.extend({
+  var ShoutboxView = Marionette.View.extend({
 
     className: 'shout',
 

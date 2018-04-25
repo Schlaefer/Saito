@@ -17,11 +17,6 @@ Stopwatch::start('category-chooser.ctp'); ?>
                 ]
             );
             ?>
-            <div style="float:right; width: 150px; margin-left: 2em;">
-                <p>
-                    <?php echo __('category_chooser_context_exp'); ?>
-                </p>
-            </div>
 
             <ul class="category-chooser-ul">
                 <li class="category-chooser-li">
@@ -61,6 +56,9 @@ Stopwatch::start('category-chooser.ctp'); ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
+            <p>
+                <?php echo __('category_chooser_context_exp'); ?>
+            </p>
             <?php
             echo $this->Form->submit(
                 __('Apply'),

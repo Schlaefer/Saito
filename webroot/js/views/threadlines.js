@@ -11,7 +11,7 @@ define([
 
   "use strict";
 
-  var ThreadLineView = Marionette.ItemView.extend({
+  var ThreadLineView = Marionette.View.extend({
 
     className: 'threadLeaf',
 

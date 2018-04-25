@@ -7,111 +7,117 @@ define(['jquery', 'app/app', 'models/app', 'marionette',
 
       "use strict";
 
-      var ShoutboxModule = Application.module("Shoutbox");
+      // @todo
+      return;
+
+      if ($("#shoutbox").length) {
+        return;
+      }
+
+      var ShoutboxApp = new Marionette.Application();
+
+      var ShoutboxView = new Application.module("Shoutbox");
+
 
       ShoutboxModule.addInitializer(function(options) {
         var shouts = options.SaitoApp.shouts;
-        var webroot = App.reqres.request('webroot');
-        var apiroot = App.reqres.request('apiroot');
+        var webroot = App.eventBus.request('webroot');
+        var apiroot = App.eventBus.request('apiroot');
 
-        if ($("#shoutbox").length) {
-          var Shoutbox = {
+        var Shoutbox = {
+          // main layout
+          layout: null,
 
-            // main layout
-            layout: null,
+          // all viewed shouts
+          shoutsCollection: null,
 
-            // all viewed shouts
-            shoutsCollection: null,
+          initialize: function() {
+            this.initLayout();
+            this.initShoutsCollection();
+            this.initAdd();
+            this.initShouts();
+            this.initControl();
+          },
 
-            initialize: function() {
-              this.initLayout();
-              this.initShoutsCollection();
-              this.initAdd();
-              this.initShouts();
-              this.initControl();
-            },
+          initShoutsCollection: function() {
+            this.shoutsCollection = new ShoutsCollection(shouts, {
+              apiroot: apiroot
+            });
 
-            initShoutsCollection: function() {
-              this.shoutsCollection = new ShoutsCollection(shouts, {
-                apiroot: apiroot
-              });
+            var update = _.bind(function() {
+              var prevent = !App.eventBus.request('slidetab:open', 'shoutbox');
+              if (prevent) {
+                return;
+              }
+              this.shoutsCollection.fetch();
+            }, this);
 
-              var update = _.bind(function() {
-                var prevent = !App.reqres.request('slidetab:open', 'shoutbox');
-                if (prevent) {
-                  return;
-                }
-                this.shoutsCollection.fetch();
-              }, this);
-
-              // always update when slidetab is opened
-              App.eventBus.on('slidetab:open', _.bind(function(data) {
-                if (data.slidetab === 'shoutbox') {
-                  update();
-                }
-              }, this));
-
-              // connect external app trigger to issue a reload
-              App.commands.setHandler("shoutbox:update", _.bind(function(id) {
-                var currentShoutId = 0;
-                if (this.shoutsCollection.size() > 0) {
-                  currentShoutId = this.shoutsCollection.at(0).get('id');
-                }
-                if (id === currentShoutId) {
-                  return;
-                }
+            // always update when slidetab is opened
+            App.eventBus.on('slidetab:open', _.bind(function(data) {
+              if (data.slidetab === 'shoutbox') {
                 update();
-              }, this));
-            },
+              }
+            }, this));
 
-            initLayout: function() {
-              var ShoutboxLayout = Marionette.Layout.extend({
-                el: '#shoutbox',
-                template: LayoutTpl,
+            // connect external app trigger to issue a reload
+            App.commands.setHandler("shoutbox:update", _.bind(function(id) {
+              var currentShoutId = 0;
+              if (this.shoutsCollection.size() > 0) {
+                currentShoutId = this.shoutsCollection.at(0).get('id');
+              }
+              if (id === currentShoutId) {
+                return;
+              }
+              update();
+            }, this));
+          },
 
-                regions: {
-                  add: '#shoutbox-add',
-                  shouts: '#shoutbox-shouts',
-                  control: '#shoutbox-control'
-                }
-              });
+          initLayout: function() {
+            var ShoutboxLayout = Marionette.View.extend({
+              el: '#shoutbox',
+              template: LayoutTpl,
 
-              this.layout = new ShoutboxLayout();
-              this.layout.render();
+              regions: {
+                add: '#shoutbox-add',
+                shouts: '#shoutbox-shouts',
+                control: '#shoutbox-control'
+              }
+            });
 
-              this.layout.$('#shoutbox-add').addClass('slidetab-header');
-              this.layout.$('#shoutbox-shouts').addClass('slidetab-content');
-              this.layout.$('#shoutbox-control').addClass('slidetab-footer');
-            },
+            this.layout = new ShoutboxLayout();
+            this.layout.render();
 
-            initShouts: function() {
-              var shoutsCollectionView = new ShoutsCollectionView({
-                collection: this.shoutsCollection,
-                webroot: webroot
-              });
-              this.layout.shouts.show(shoutsCollectionView);
-            },
+            this.layout.$('#shoutbox-add').addClass('slidetab-header');
+            this.layout.$('#shoutbox-shouts').addClass('slidetab-content');
+            this.layout.$('#shoutbox-control').addClass('slidetab-footer');
+          },
 
-            initControl: function() {
-              var shoutsControlView = new ShoutboxControlView();
-              this.layout.control.show(shoutsControlView);
-            },
+          initShouts: function() {
+            var shoutsCollectionView = new ShoutsCollectionView({
+              collection: this.shoutsCollection,
+              webroot: webroot
+            });
+            this.layout.shouts.show(shoutsCollectionView);
+          },
 
-            initAdd: function() {
-              var addModel = new ShoutModel({}, {
-                urlRoot: apiroot + 'shouts/'
-              });
-              this.layout.add.show(new ShoutboxAddView({
-                model: addModel,
-                collection: this.shoutsCollection
-              }));
-            }
+          initControl: function() {
+            var shoutsControlView = new ShoutboxControlView();
+            this.layout.control.show(shoutsControlView);
+          },
 
-          };
+          initAdd: function() {
+            var addModel = new ShoutModel({}, {
+              urlRoot: apiroot + 'shouts/'
+            });
+            this.layout.add.show(new ShoutboxAddView({
+              model: addModel,
+              collection: this.shoutsCollection
+            }));
+          }
+
+        };
 
           Shoutbox.initialize();
-        }
-
       });
 
       return ShoutboxModule;

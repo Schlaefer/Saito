@@ -46,8 +46,8 @@
       underscore: '../dev/bower_components/lodash/lodash',
       // marionette
       marionette: '../dev/node_modules/backbone.marionette/lib/backbone.marionette',
+      'backbone.radio': '../dev/node_modules/backbone.radio/build/backbone.radio',
       'backbone.babysitter': '../dev/node_modules/backbone.babysitter/lib/backbone.babysitter',
-      'backbone.wreqr': '../dev/node_modules/backbone.wreqr/lib/backbone.wreqr',
       // moment
       moment: '../dev/bower_components/momentjs/moment',
       'moment-de': '../dev/bower_components/momentjs/lang/de',

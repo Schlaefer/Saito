@@ -56,8 +56,8 @@ define(['underscore', 'app/vent'], function(_, EventBus) {
 
   var lSH = new LocalStorageHelper();
 
-  EventBus.reqres.setHandler('app:localStorage:available', lSH.available, lSH);
-  EventBus.reqres.setHandler('app:localStorage:key', lSH._key, lSH);
-  EventBus.commands.setHandler('app:localStorage:clear', lSH._clear, lSH);
+  EventBus.vent.reply('app:localStorage:available', lSH.available, lSH);
+  EventBus.vent.reply('app:localStorage:key', lSH._key, lSH);
+  EventBus.vent.on('app:localStorage:clear', lSH._clear, lSH);
 
 });

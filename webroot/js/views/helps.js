@@ -107,7 +107,7 @@ define([
     _hide: function() {
       this.isHelpShown = false;
       this._popups.forEach(function(element) {
-        element.close();
+        element.destroy();
       });
     }
   });

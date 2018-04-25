@@ -975,7 +975,7 @@ msgstr "Diese E-Mail wurde über das Forum {0} ({1}) gesendet."
 #, fuzzy
 msgid "category_chooser_context_exp"
 msgstr ""
-"Kategorien auswählen und bestätigen.<br/><br/>Mit Klick auf den Namen eine "
+"Kategorien auswählen und bestätigen. Mit Klick auf den Namen eine "
 "einzelne Kategorie ohne Auswahländerung aktivieren."
 
 #: src/Template/Element/entry/category-chooser.ctp:66

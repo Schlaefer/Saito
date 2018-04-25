@@ -8,7 +8,7 @@ define([
   'use strict';
 
   // MapControlsView
-  return Marionette.ItemView.extend({
+  return Marionette.View.extend({
 
     template: _.template(Tpl),
 

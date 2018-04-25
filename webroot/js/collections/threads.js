@@ -13,12 +13,12 @@ define([
         model: ThreadModel,
 
         localStorage: (function () {
-            var key = App.reqres.request('app:localStorage:key', 'Threads');
+            var key = App.eventBus.request('app:localStorage:key', 'Threads');
             return new Backbone.LocalStorage(key);
         })(),
 
         fetch: function (options) {
-            if (App.reqres.request('app:localStorage:available')) {
+            if (App.eventBus.request('app:localStorage:available')) {
                 return Backbone.Model.prototype.fetch.call(this, options);
             }
         }

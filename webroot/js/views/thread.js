@@ -29,7 +29,7 @@ define([
                 this.show();
             }
 
-            if (!App.reqres.request('app:localStorage:available')) {
+            if (!App.eventBus.request('app:localStorage:available')) {
                 this._hideCollapseButton();
             }
 

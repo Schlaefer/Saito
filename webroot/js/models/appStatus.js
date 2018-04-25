@@ -32,7 +32,7 @@ define([
 
     _onNewShout: function(model) {
       var id = model.get('lastShoutId');
-      EventBus.commands.execute('shoutbox:update', id);
+      EventBus.vent.trigger('shoutbox:update', id);
     },
 
     _setWebroot: function(webroot) {

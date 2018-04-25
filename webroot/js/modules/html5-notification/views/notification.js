@@ -15,11 +15,11 @@ define(['underscore', 'backbone', 'models/app'],
       this._iconUrl = options.iconUrl;
       this.listenTo(App.eventBus, 'html5-notification', this.notification);
       App.commands.setHandler('app:html5-notification:activate', this._activate, this);
-      App.reqres.setHandler('app:html5-notification:available', this._isEnabled, this);
+      App.vent.on('app:html5-notification:available', this._isEnabled, this);
     },
 
     notification: function(data) {
-      var _isAppHidden = !App.reqres.request('isAppVisible');
+      var _isAppHidden = !App.eventBus.request('isAppVisible');
       data = _.defaults(data, {
         icon: this._iconUrl,
         always: false

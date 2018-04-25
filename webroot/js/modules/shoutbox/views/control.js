@@ -5,7 +5,7 @@ define([
 ], function($, _, Backbone, Marionette, App, SCM, Tpl) {
   'use strict';
 
-  var ShoutboxView = Marionette.ItemView.extend({
+  var ShoutboxView = Marionette.View.extend({
     template: _.template(Tpl),
     events: {
       'click #shoutbox-notify': 'onChangeNotify'
@@ -26,7 +26,7 @@ define([
     },
 
     _putNotifyCheckbox: function() {
-      var active = App.reqres.request('app:html5-notification:available');
+      var active = App.eventBus.request('app:html5-notification:available');
       if (active !== true) {
         return;
       }
@@ -43,7 +43,7 @@ define([
       var isChecked = this.notify.is(':checked');
       this.model.set('notify', isChecked);
       if (isChecked) {
-        App.commands.execute('app:html5-notification:activate');
+        App.vent.trigger('app:html5-notification:activate');
       }
     }
 

@@ -957,7 +957,7 @@ msgstr "This email was send by {0} ({1})."
 #, fuzzy
 msgid "category_chooser_context_exp"
 msgstr ""
-"Choose your custom categories.<br/><br/>Click on a name to quickly show this "
+"Choose your custom categories. Click on a name to quickly show this "
 "category without changing your preferences."
 
 #: src/Template/Element/entry/category-chooser.ctp:66

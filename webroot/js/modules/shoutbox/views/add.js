@@ -7,7 +7,7 @@ define([
 
   "use strict";
 
-  var ShoutboxAdd = Marionette.ItemView.extend({
+  var ShoutboxAdd = Marionette.View.extend({
 
     template: _.template(Tpl),
 
@@ -29,7 +29,7 @@ define([
           {
             success: _.bind(function(model, response) {
               // assumes all local shouts are read if user sends a new shout
-              App.commands.execute('shoutbox:mar', {silent: true});
+              App.vent.trigger('shoutbox:mar', {silent: true});
               // update view with latest data coming as answer from the add
               this.collection.reset(response);
             }, this)
@@ -81,7 +81,7 @@ define([
           this.submit();
           this.clearForm();
         } else {
-          App.commands.execute('shoutbox:mar');
+          App.vent.trigger('shoutbox:mar');
         }
       }
     },

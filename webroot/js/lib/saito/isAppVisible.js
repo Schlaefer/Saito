@@ -10,7 +10,7 @@ define(['jquery', 'underscore', 'models/app'], function($, _, App) {
     _isVisibleOldSchool: true,
 
     initialize: function() {
-      App.reqres.setHandler('isAppVisible', this.isVisible, this);
+      App.on('isAppVisible', this.isVisible, this);
       // if the page is on autoreload and it's not visible we can catch that here
       // @todo but alas not if it's visible and on autoreload
       this._isVisibleOldSchool = this._isAppVisibleHtml5();

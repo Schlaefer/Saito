@@ -7,7 +7,7 @@ define([
 
   'use strict';
 
-  var PreviewView = Marionette.ItemView.extend({
+  var PreviewView = Marionette.View.extend({
 
     templates: {
       content: _.template('<%= rendered %>'),

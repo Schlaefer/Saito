@@ -30,7 +30,7 @@
           'backbone',
           'backboneLocalStorage',
           'backbone.babysitter',
-          'backbone.wreqr',
+          'backbone.radio',
           'cakeRest',
           'domReady',
           'drop',

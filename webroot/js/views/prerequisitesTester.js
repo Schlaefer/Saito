@@ -1,7 +1,7 @@
 define(['jquery', 'marionette', 'models/app'], function($, Marionette, App) {
   'use strict';
 
-  var PrerequisitesTesterView = Marionette.ItemView.extend({
+  var PrerequisitesTesterView = Marionette.View.extend({
 
     _warningTpl: _.template('<div class="app-prerequisites-warning"> <%- warning %> </div>'),
 
@@ -10,7 +10,7 @@ define(['jquery', 'marionette', 'models/app'], function($, Marionette, App) {
     },
 
     _testLocalStorage: function() {
-      if (!App.reqres.request('app:localStorage:available')) {
+      if (!App.eventBus.request('app:localStorage:available')) {
        this._addWarning($.i18n.__('This web-application depends on Cookies and localStorage. Please make those available in your browser.'));
       }
     },

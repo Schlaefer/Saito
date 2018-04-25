@@ -2,7 +2,7 @@ define(['jquery', 'underscore', 'marionette', 'moment', 'jqueryTinyTimer'],
     function($, _, Marionette, moment) {
   'use strict';
 
-  return Marionette.ItemView.extend({
+  return Marionette.View.extend({
 
     /**
      * time in seconds how long the timer should count down

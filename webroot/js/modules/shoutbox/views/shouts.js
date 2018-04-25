@@ -8,8 +8,8 @@ define([
   "use strict";
 
   var ShoutboxCollectionView = Marionette.CollectionView.extend({
-    itemView: ShoutView,
-    itemViewOptions: {},
+    childView: ShoutView,
+    childViewOptions: {},
 
     /**
      * Sends notification and stores it in ShoutboxControlModel
@@ -56,15 +56,15 @@ define([
       _previousItemTime: null,
       tpl: _.template('<div class="infoText"><%= time %></div>'),
 
-      append: function(itemView) {
-        var itemTime = TemplateHelpers.Time.moment(itemView.model.get('time'));
+      append: function(childView) {
+        var itemTime = TemplateHelpers.Time.moment(childView.model.get('time'));
         // first entry
         if (this._previousItemTime === null) {
           this._previousItemTime = itemTime;
           return;
         }
         this._itemTime = itemTime;
-        this.$el = itemView.$el;
+        this.$el = childView.$el;
         if ((this._previousItemTime.unix() - itemTime.unix()) > this._conversationCoolOff) {
           this._prepend(this._previousItemTime);
         } else {
@@ -100,7 +100,7 @@ define([
     },
 
     initialize: function(options) {
-      this.itemViewOptions.webroot = options.webroot;
+      this.childViewOptions.webroot = options.webroot;
       // setup Notifications
       this.setupNotifications();
       this.listenTo(SbCM, 'change:notify', this.setupNotifications);
@@ -122,9 +122,9 @@ define([
       this.$el.html('');
     },
 
-    onAfterItemAdded: function(itemView) {
-      this._Delimiter.append(itemView);
-      this._Notifications.add(itemView.model);
+    onAfterItemAdded: function(childView) {
+      this._Delimiter.append(childView);
+      this._Notifications.add(childView.model);
     },
 
     onRender: function() {

@@ -19,7 +19,6 @@ define(['marionette', 'app/core', 'app/vent',
         };
 
         var app = {
-
             fireOnPageCallbacks: function (allCallbacks) {
                 var callbacks = allCallbacks.afterAppInit;
                 _.each(callbacks, function (fct) {
@@ -37,7 +36,8 @@ define(['marionette', 'app/core', 'app/vent',
             bootstrapShoutbox: function () {
                 whenReady(function () {
                     require(['modules/shoutbox/shoutbox'], function (ShoutboxModule) {
-                        ShoutboxModule.start();
+                        // @todo
+                        // ShoutboxModule.start();
                     });
                 });
             },
@@ -53,7 +53,7 @@ define(['marionette', 'app/core', 'app/vent',
                 });
             },
 
-            bootstrapApp: function (options) {
+            bootstrapApp: function (event, options) {
                 require([
                         'domReady', 'views/app', 'backbone', 'jquery', 'models/app',
                         'views/notification',
@@ -85,8 +85,10 @@ define(['marionette', 'app/core', 'app/vent',
 
                         app.configureAjax($, App.request.csrf);
 
-                        Html5NotificationModule.start();
-                        UsermapModule.start();
+                        // @todo
+                        // Html5NotificationModule.start();
+                        // @todo
+                        // UsermapModule.start();
 
                         //noinspection JSHint
                         new NotificationView();
@@ -128,16 +130,16 @@ define(['marionette', 'app/core', 'app/vent',
 
         var Application = Core;
 
-        Application.addInitializer(app.bootstrapApp);
+        Application.on('start', app.bootstrapApp);
         Application.start({
             contentTimer: contentTimer,
             SaitoApp: AppInitData
         });
 
-        EventBus.reqres.setHandler('webroot', function () {
+        EventBus.vent.reply('webroot', function () {
             return AppInitData.app.settings.webroot;
         });
-        EventBus.reqres.setHandler('apiroot', function () {
+        EventBus.vent.reply('apiroot', function () {
             return AppInitData.app.settings.webroot + 'api/v1/';
         });
 

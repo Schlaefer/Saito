@@ -1,4 +1,7 @@
 define(['marionette'], function(Marionette) {
   'use strict';
-  return new Marionette.Application();
+
+  return new Marionette.Application({
+    channelName: 'app'
+  });
 });

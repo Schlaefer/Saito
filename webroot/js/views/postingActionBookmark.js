@@ -2,7 +2,7 @@ define(['jquery', 'underscore', 'marionette', 'models/app'],
     function($, _, Marionette, App) {
   'use strict';
 
-  return Marionette.ItemView.extend({
+  return Marionette.View.extend({
 
     tagName: 'a',
 

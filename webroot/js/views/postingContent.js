@@ -3,7 +3,7 @@ define(['jquery', 'underscore', 'marionette', 'collections/geshis',
     function($, _, Marionette, GeshisCollection, GeshiView) {
       'use strict';
 
-      return Marionette.ItemView.extend({
+      return Marionette.View.extend({
 
         initialize: function() {
           this.listenTo(this.model, 'change:isAnsweringFormShown', this._toggleAnsweringForm);

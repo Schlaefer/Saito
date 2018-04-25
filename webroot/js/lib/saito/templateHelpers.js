@@ -4,7 +4,7 @@ define(['jquery', 'underscore', 'app/vent', 'moment'],
       'use strict';
 
       var TemplateHelper = function() {
-        this.webroot = Vent.reqres.request('webroot');
+        this.webroot = Vent.vent.request('webroot');
       };
 
       return {

@@ -12,6 +12,9 @@ define([
 
       'use strict';
 
+      // @todo
+      return;
+
       var UserMap = Application.module('usermap', {
         startWithParent: false
       });
@@ -26,7 +29,7 @@ define([
         var initUserData = $usermap.data('users'),
             users = new UsersCollection(),
             params = $usermap.data('params'),
-            Layout = Marionette.Layout.extend({
+            Layout = Marionette.View.extend({
               el: $usermap,
               template: LayoutTpl,
               regions: {

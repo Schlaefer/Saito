@@ -12,7 +12,7 @@ define([
     model: SlidetabModel,
 
     initialize: function() {
-      App.reqres.setHandler('slidetab:open', _.bind(this.isOpen, this));
+      App.eventBus.on('slidetab:open', _.bind(this.isOpen, this));
     },
 
     // returns if particular slidetab is open or not
