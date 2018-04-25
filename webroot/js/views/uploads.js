@@ -67,7 +67,7 @@ define([
         modal: true,
         draggable: false,
         resizable: false,
-        position: [40, 40],
+        // position: [40, 40],
         hide: 'fade'
       });
 

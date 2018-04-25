@@ -1,9 +1,7 @@
 # jQuery-UI components #
 
 - UI Core
-  - Core
   - Widget
-  - Mouse
   - Position
 - Interactions
   - Draggable (popups)
@@ -14,6 +12,6 @@
   - Core
   - Fade (dialog popups)
   - Highlight
-  - Scale (dialog popups)
-  - Shake (was popup wrong data, currently unused)
+  - Scale (was for popus, unused at the moment)
+  - Shake (was popup wrong data)
   - Slide (bookmarks/index -> delete)

@@ -221,8 +221,9 @@ define([
     },
 
     fixJqueryUiDialog: function(event, ui) {
-      $('.ui-icon-closethick')
-          .attr('class', 'jqueryUi-closethick-fix')
+      $('.ui-dialog-titlebar-close')
+          .removeClass('ui-icon ui-button-icon-only')
+          .addClass('jqueryUi-closethick-fix')
           .html('');
     },
 
@@ -307,7 +308,7 @@ define([
           modalLoginDialog.dialog({
               hide: 'fade',
               modal: true,
-              position: ['center', 120],
+              position: {my: 'top', at: 'center top+120'},
               resizable: false,
               show: 'fade',
               title: title,
