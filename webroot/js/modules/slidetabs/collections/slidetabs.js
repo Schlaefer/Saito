@@ -2,7 +2,7 @@ define([
   'underscore',
   'backbone',
   'models/app',
-  'models/slidetab'
+  'modules/slidetabs/models/slidetab'
 ], function(_, Backbone, App, SlidetabModel) {
 
   'use strict';
@@ -12,7 +12,7 @@ define([
     model: SlidetabModel,
 
     initialize: function() {
-      App.eventBus.on('slidetab:open', _.bind(this.isOpen, this));
+      App.eventBus.reply('slidetab:open', this.isOpen, this);
     },
 
     // returns if particular slidetab is open or not

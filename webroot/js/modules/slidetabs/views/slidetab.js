@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone'
-], function($, _, Backbone, ShoutModel, ShoutsView) {
+], function($, _, Backbone) {
 
   "use strict";
 

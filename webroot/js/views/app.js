@@ -1,22 +1,25 @@
 define([
   'jquery',
   'underscore',
-  'backbone',
+  'marionette',
   'models/app',
   'collections/threadlines', 'views/threadlines',
   'collections/threads', 'views/thread',
   'collections/postings', 'models/posting', 'views/postingLayout',
   'collections/bookmarks', 'views/bookmarks',
   'views/helps', 'views/categoryChooser',
-  'collections/slidetabs', 'views/slidetabs',
+  'modules/slidetabs/slidetabs',
   'views/answering',
   'jqueryUi'
-], function($, _, Backbone, App, ThreadLineCollection, ThreadLineView, ThreadCollection, ThreadView, PostingCollection, PostingModel, PostingLayout, BookmarksCollection, BookmarksView, HelpsView, CategoryChooserView, SlidetabsCollection, SlidetabsView, AnsweringView) {
+], function($, _, Marionette, App, ThreadLineCollection, ThreadLineView, ThreadCollection, ThreadView, PostingCollection, PostingModel, PostingLayout, BookmarksCollection, BookmarksView, HelpsView, CategoryChooserView, SlidetabsView, AnsweringView) {
   'use strict';
 
-  var AppView = Backbone.View.extend({
-
+  var AppView = Marionette.View.extend({
     el: $('body'),
+
+    regions: {
+      slidetabs: '#slidetabs'
+    },
 
     autoPageReloadTimer: false,
 
@@ -24,8 +27,10 @@ define([
       '.entry.add-not-inline': '_initAnsweringNotInlined',
       '#bookmarks': '_initBookmarks',
       '#category-chooser': '_initCategoryChooser',
+      '#slidetabs': function () {
+        this.showChildView('slidetabs', new SlidetabsView());
+      },
       '.js-entry-view-core': '_initPostings',
-      '#slidetabs': '_initSlidetabs',
       '.threadBox': '_initThreadBoxes',
       '.threadLeaf': '_initThreadLeafs',
       '.users.logout': '_initLogout'
@@ -55,9 +60,13 @@ define([
     },
 
     initFromDom: function(options) {
-      _.each(this._domInitializers, function(initializer, element) {
-        var $elements = $(element);
+      _.each(this._domInitializers, function (initializer, element) {
+        const $elements = $(element);
         if ($elements.length > 0) {
+          if (typeof initializer === 'function') {
+            _.bind(initializer, this, $elements)();
+            return;
+          } 
           this[initializer]($elements);
         }
       }, this);
@@ -117,7 +126,7 @@ define([
     },
 
     _initLogout: function() {
-      App.vent.trigger('app:localStorage:clear');
+      App.eventBus.trigger('app:localStorage:clear');
       _.defer(function() {
         window.redirect(App.settings.get('webroot'));
       });
@@ -138,16 +147,6 @@ define([
           collection: this.postings
         });
       }, this);
-    },
-
-    _initSlidetabs: function(element) {
-      var slidetabs,
-        slidetabsView;
-      slidetabs = new SlidetabsCollection();
-      slidetabsView = new SlidetabsView({
-        el: element,
-        collection: slidetabs
-      });
     },
 
     _initThreadBoxes: function(elements) {
@@ -335,7 +334,7 @@ define([
       if (_controller !== 'entries' || _action !== 'index') {
         return;
       }
-      App.vent.trigger('shoutbox:mar', {silent: true});
+      App.eventBus.trigger('shoutbox:mar', {silent: true});
     }
   });
 

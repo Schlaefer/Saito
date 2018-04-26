@@ -1,4 +1,4 @@
-$slidetab-width: 280px;
+$slidetab-width: 260px;
 $slidetab-tab-width: 28px;
 $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
 
@@ -6,8 +6,6 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
   float: right;
   position: relative;
   z-index: 5;
-  margin-right: - 2 * $padding;
-  margin-left: $padding;
 
   background: $page-color;
 }
@@ -43,7 +41,7 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
   // tab-button space
   margin-left: $slidetab-tab-width;
 
-  padding: $padding 2*$padding;
+  padding: $padding 0 $padding 2*$padding;
   border-left: 1px solid $border-color;
 }
 

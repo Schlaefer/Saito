@@ -19,7 +19,7 @@
             'tests/boot.js',
             //
             'lib/jquery-ui/jquery-ui.custom.min.js',
-            '../dev/node_modules/bootstrap/docs/assets/js/bootstrap.js'
+            '../dist/bootstrap.min'
         ]
     );
     ?>

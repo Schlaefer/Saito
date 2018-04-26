@@ -11,7 +11,7 @@ define([], function() {
 
       this.server = sinon.fakeServer.create();
 
-      require(['models/slidetab', 'models/app'], _.bind(function(Model, App) {
+      require(['modules/slidetabs/models/slidetab', 'models/app'], _.bind(function(Model, App) {
         App.settings.set('webroot', this.webroot);
         that.model = new Model({
           id: "testSlider"
