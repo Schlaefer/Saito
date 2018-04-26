@@ -40,8 +40,6 @@ class SettingsController extends AppController
         'map_enabled' => 1,
         'map_api_key' => 1,
         'quote_symbol' => 1,
-        'shoutbox_enabled' => 1,
-        'shoutbox_max_shouts' => 1,
         'smilies' => 1,
         'signature_separator' => 1,
         'stopwatch_get' => 1,

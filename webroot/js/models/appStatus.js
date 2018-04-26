@@ -14,8 +14,6 @@ define([
       this.settings = options.settings;
       this.methodToCakePhpUrl = _.clone(this.methodToCakePhpUrl);
       this.methodToCakePhpUrl.read = 'status/';
-
-      this.listenTo(this, 'change:lastShoutId', this._onNewShout);
     },
 
     start: function() {
@@ -27,12 +25,8 @@ define([
         return;
       }
       */
-      this._poll();
-    },
-
-    _onNewShout: function(model) {
-      var id = model.get('lastShoutId');
-      EventBus.vent.trigger('shoutbox:update', id);
+      // disabled: nothing to poll at the moment without shoutbox
+      // this._poll();
     },
 
     _setWebroot: function(webroot) {

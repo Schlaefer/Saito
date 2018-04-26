@@ -219,11 +219,6 @@ class UserFixture extends TestFixture
             'null' => false,
             'default' => '0'
         ],
-        'show_shoutbox' => [
-            'type' => 'boolean',
-            'null' => false,
-            'default' => '0'
-        ],
         'inline_view_on_click' => [
             'type' => 'boolean',
             'null' => false,

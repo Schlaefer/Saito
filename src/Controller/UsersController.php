@@ -684,7 +684,6 @@ class UsersController extends AppController
             'show_userlist',
             'show_recentposts',
             'show_recententries',
-            'show_shoutbox'
         ];
         if (!$toggle || !in_array($toggle, $allowed)) {
             throw new BadRequestException();

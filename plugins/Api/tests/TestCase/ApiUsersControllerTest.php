@@ -27,7 +27,6 @@ class ApiUsersControllerTest extends ApiIntegrationTestCase
         'app.esevent',
         'app.esnotification',
         'app.setting',
-        'app.shout',
         'app.smiley',
         'app.smiley_code',
         'app.upload',

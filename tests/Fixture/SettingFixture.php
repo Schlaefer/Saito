@@ -29,8 +29,6 @@ class SettingFixture extends TestFixture
         ['name' => 'forum_name', 'value' => 'macnemo'],
         ['name' => 'map_enabled', 'value' => '0'],
         ['name' => 'quote_symbol', 'value' => '>'],
-        ['name' => 'shoutbox_enabled', 'value' => '1'],
-        ['name' => 'shoutbox_max_shouts', 'value' => '5'],
         ['name' => 'smilies', 'value' => 1],
         ['name' => 'subject_maxlength', 'value' => 40],
         ['name' => 'thread_depth_indent', 'value' => 25],

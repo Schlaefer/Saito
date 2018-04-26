@@ -22,7 +22,6 @@
     "settings": <?= json_encode(
         [
             'edit_period' => (int)Configure::read('Saito.Settings.edit_period'),
-            'shoutbox_enabled' => (bool)Configure::read('Saito.Settings.shoutbox_enabled'),
             'subject_maxlength' => (int)Configure::read('Saito.Settings.subject_maxlength')
         ]
     ) ?>,

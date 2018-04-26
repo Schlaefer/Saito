@@ -24,8 +24,6 @@ class SettingsTableTest extends SaitoTableTestCase
         'forum_name' => 'macnemo',
         'map_enabled' => '0',
         'quote_symbol' => '>',
-        'shoutbox_enabled' => '1',
-        'shoutbox_max_shouts' => '5',
         'smilies' => '1',
         'subject_maxlength' => '40',
         'thread_depth_indent' => '25',

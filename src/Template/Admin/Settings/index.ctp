@@ -69,12 +69,6 @@ echo $this->Setting->table(
 );
 
 echo $this->Setting->table(
-    __('Shoutbox'),
-    ['shoutbox_enabled', 'shoutbox_max_shouts'],
-    $Settings
-);
-
-echo $this->Setting->table(
     __('Uploads'),
     ['upload_max_img_size', 'upload_max_number_of_uploads'],
     $Settings

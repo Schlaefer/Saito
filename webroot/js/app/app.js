@@ -33,15 +33,6 @@ define(['marionette', 'app/core', 'app/vent',
                 }));
             },
 
-            bootstrapShoutbox: function () {
-                whenReady(function () {
-                    require(['modules/shoutbox/shoutbox'], function (ShoutboxModule) {
-                        // @todo
-                        // ShoutboxModule.start();
-                    });
-                });
-            },
-
             configureAjax: function ($, csrfConfig) {
                 // prevent caching of ajax results
                 $.ajaxSetup({cache: false});
@@ -110,11 +101,6 @@ define(['marionette', 'app/core', 'app/vent',
                         appView = new AppView();
 
                         appReady = function () {
-                            // we need the App object initialized
-                            // @todo decouple
-                            if ('shouts' in AppInitData) {
-                                app.bootstrapShoutbox();
-                            }
                             app.fireOnPageCallbacks(options.SaitoApp.callbacks);
                             appView.initFromDom({
                                 SaitoApp: options.SaitoApp,

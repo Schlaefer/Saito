@@ -38,7 +38,7 @@ class EntriesController extends AppController
     use IdGeneratorTrait;
     use RequestActionTrait;
 
-    public $helpers = ['MarkitupEditor', 'Posting', 'Shouts', 'Text'];
+    public $helpers = ['MarkitupEditor', 'Posting', 'Text'];
 
     public $actionAuthConfig = [
         'ajaxToggle' => 'mod',

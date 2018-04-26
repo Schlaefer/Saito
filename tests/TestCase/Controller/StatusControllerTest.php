@@ -11,7 +11,6 @@ class StatusControllerTest extends IntegrationTestCase
         'app.category',
         'app.entry',
         'app.setting',
-        'app.shout',
         'app.upload',
         'app.user',
         'app.user_block',
@@ -39,7 +38,7 @@ class StatusControllerTest extends IntegrationTestCase
         $this->assertResponseOk();
         $this->assertNoRedirect();
 
-        $expected = json_encode(['lastShoutId' => 4]);
+        $expected = json_encode([]);
         $this->assertResponseContains($expected);
     }
 }

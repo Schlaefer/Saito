@@ -722,10 +722,6 @@ msgstr ""
 msgid "API"
 msgstr ""
 
-#: src/Template/Admin/Settings/index.ctp:72
-msgid "Shoutbox"
-msgstr ""
-
 #: src/Template/Admin/Settings/index.ctp:78
 #, fuzzy
 msgid "Uploads"
@@ -1521,18 +1517,6 @@ msgstr ""
 
 #: webroot/js/lib/datatables/media/js/jquery.dataTables.js:4954
 msgid "tr"
-msgstr ""
-
-#: webroot/js/modules/shoutbox/views/add.js:15
-msgid "Shout :shortcut"
-msgstr ""
-
-#: webroot/js/modules/shoutbox/views/add.js:16
-msgid "Hit enter to mark as read"
-msgstr ""
-
-#: webroot/js/modules/shoutbox/views/control.js:24
-msgid "Notification"
 msgstr ""
 
 #: webroot/js/modules/usermap/views/controls.js:81

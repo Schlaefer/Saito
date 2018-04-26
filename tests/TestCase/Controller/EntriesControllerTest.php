@@ -45,7 +45,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         'app.category',
         'app.entry',
         'app.setting',
-        'app.shout',
         'app.smiley',
         'app.smiley_code',
         'app.upload',

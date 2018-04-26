@@ -19,10 +19,7 @@ class StatusController extends AppController
      */
     public function status()
     {
-        $Shouts = TableRegistry::get('Shouts');
-        $data = [
-            'lastShoutId' => $Shouts->findLastId()
-        ];
+        $data = [];
         $data = json_encode($data);
         if ($this->request->accepts('text/event-streams')) {
             $body = $this->_statusAsEventStream($data);

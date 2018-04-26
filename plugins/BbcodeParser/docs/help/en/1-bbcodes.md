@@ -1,6 +1,6 @@
 # Saito flavored BBCode #
 
-BBCodes available in front-end. The availability of some BBCode-tags depends on forum-configuration (e.g. multimedia-settings) or place (e.g. no multimedia tags in Shoutbox).
+BBCodes available in front-end. The availability of some BBCode-tags depends on forum-configuration (e.g. multimedia-settings) or place.
 
 ## Bold ##
 

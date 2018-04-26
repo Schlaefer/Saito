@@ -334,7 +334,6 @@ define([
       if (_controller !== 'entries' || _action !== 'index') {
         return;
       }
-      App.eventBus.trigger('shoutbox:mar', {silent: true});
     }
   });
 

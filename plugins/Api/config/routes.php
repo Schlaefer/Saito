@@ -13,25 +13,8 @@ Router::scope(
         // must be first in scope to apply to following routes
         $routes->setExtensions(['json']);
 
-        // Shouts
+        // entries
         // -------------------------------------
-        $routes->connect(
-            'shouts',
-            [
-                'controller' => 'ApiShouts',
-                'action' => 'shoutsGet',
-                '_method' => 'GET'
-            ]
-        );
-
-        $routes->connect(
-            'shouts',
-            [
-                'controller' => 'ApiShouts',
-                'action' => 'shoutsPost',
-                '_method' => 'POST'
-            ]
-        );
 
         // Read
         $routes->connect(
@@ -52,9 +35,6 @@ Router::scope(
                 '_method' => 'GET'
             ]
         );
-
-        // entries
-        // -------------------------------------
 
         // Create
         $routes->connect(

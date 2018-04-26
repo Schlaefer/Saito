@@ -58,7 +58,6 @@ class ApiCoreControllerTest extends ApiIntegrationTestCase
   ],
   "settings": {
     "edit_period": 20,
-    "shoutbox_enabled": true,
     "subject_maxlength": 40
   },
   "user": {

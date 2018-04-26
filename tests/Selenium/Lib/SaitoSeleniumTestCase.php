@@ -68,7 +68,6 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
         'app.entry',
         'app.category',
         'app.smiley',
-        'app.shout',
         'app.smiley_code',
         'app.setting',
     ];

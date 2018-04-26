@@ -736,10 +736,6 @@ msgstr "Kategorienfilter"
 msgid "API"
 msgstr ""
 
-#: src/Template/Admin/Settings/index.ctp:72
-msgid "Shoutbox"
-msgstr ""
-
 #: src/Template/Admin/Settings/index.ctp:78
 #, fuzzy
 msgid "Uploads"
@@ -1556,18 +1552,6 @@ msgstr ""
 msgid "tr"
 msgstr ""
 
-#: webroot/js/modules/shoutbox/views/add.js:15
-msgid "Shout :shortcut"
-msgstr ""
-
-#: webroot/js/modules/shoutbox/views/add.js:16
-msgid "Hit enter to mark as read"
-msgstr "Enter für gelesen markieren"
-
-#: webroot/js/modules/shoutbox/views/control.js:24
-msgid "Notification"
-msgstr "Benachrichtigung"
-
 #: webroot/js/modules/usermap/views/controls.js:81
 #, fuzzy
 msgid "user.map.b.search"
@@ -2246,18 +2230,6 @@ msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 #~ msgstr ""
 #~ "Erlaubt einem Benutzern den Kategorienfilter in seinen Einstellungen zu "
 #~ "aktivieren, selbst wenn der Filter standardmässig deaktiviert ist."
-
-#~ msgid "shoutbox_enabled"
-#~ msgstr "Aktivieren"
-
-#~ msgid "shoutbox_enabled_exp"
-#~ msgstr "Shoutbox aktivieren"
-
-#~ msgid "shoutbox_max_shouts"
-#~ msgstr "Anzahl"
-
-#~ msgid "shoutbox_max_shouts_exp"
-#~ msgstr "Anzahl der angezeigten Shoutboxeinträge"
 
 #~ msgid "upload_max_img_size"
 #~ msgstr "Uploadgröße maximal"

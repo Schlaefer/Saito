@@ -36,7 +36,7 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
 
 .slidetab-outer {
   display: none;
-  // prevents tab-button hanging in "mid air" on uninitialized shoutbox
+  // prevents tab-button hanging in "mid air" if filled by JS after page loaded 
   min-height: 40px;
   // tab-button space
   margin-left: $slidetab-tab-width;
@@ -87,19 +87,4 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
   color: white;
   line-height: 12px;
   font-size: 8px;
-}
-
-// shoutbox
-// -------------------------------------
-
-#shoutbox {
-  word-wrap: break-word;
-
-  img {
-    max-width: 100%;
-  }
-
-  .infoText {
-    text-align: center;
-  }
 }

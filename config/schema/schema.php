@@ -104,19 +104,6 @@ class AppSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'MyISAM')
 	);
 
-	public $shouts = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'text' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false),
-		'time' => array('type' => 'timestamp', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'MEMORY')
-	);
-
 	public $smiley_codes = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'smiley_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'unsigned' => false),
@@ -253,7 +240,6 @@ class AppSchema extends CakeSchema {
 		'show_userlist' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'stores if userlist is shown in front layout'),
 		'show_recentposts' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'show_recententries' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'show_shoutbox' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'inline_view_on_click' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'user_show_thread_collapsed' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'user_category_override' => array('type' => 'boolean', 'null' => false, 'default' => '0'),

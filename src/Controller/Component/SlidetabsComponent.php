@@ -16,7 +16,6 @@ class SlidetabsComponent extends Component
     private $_available = [
         'slidetab_recententries' => 'SlidetabRecentposts',
         'slidetab_recentposts' => 'SlidetabUserposts',
-        'slidetab_shoutbox' => 'SlidetabShoutbox',
         'slidetab_userlist' => 'SlidetabUserlist'
     ];
 
@@ -76,10 +75,6 @@ class SlidetabsComponent extends Component
             // add new tabs not set in user-prefs
             $slidetabs = array_merge($slidetabsUser, $available);
             $slidetabs = array_unique($slidetabs);
-        }
-
-        if (!Configure::read('Saito.Settings.shoutbox_enabled')) {
-            unset($slidetabs[array_search('slidetab_shoutbox', $slidetabs)]);
         }
 
         return $slidetabs;

@@ -20,7 +20,6 @@ class UsersControllerTestCase extends IntegrationTestCase
         'app.category',
         'app.entry',
         'app.setting',
-        'app.shout',
         'app.smiley',
         'app.smiley_code',
         'app.upload',
@@ -521,7 +520,7 @@ class UsersControllerTestCase extends IntegrationTestCase
         $Users = TableRegistry::get('Users');
         $user = $Users->get(3);
 
-        $validData = ['slidetab_userlist', 'slidetab_shoutbox'];
+        $validData = ['slidetab_userlist'];
         $expected = serialize($validData);
 
         $this->assertNotEquals($expected, $user->get('slidetabOrder'));
