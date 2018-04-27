@@ -14,8 +14,8 @@ define([
 
     ui: {
       'btnDelete': '.js-delete',
-      'btnFixed': '.btn-toggle-fixed',
-      'btnLocked': '.btn-toggle-locked',
+      'btnFixed': '.js-btn-toggle-fixed',
+      'btnLocked': '.js-btn-toggle-locked',
       'titleFixed': '.title-toggle-fixed',
       'titleLocked': '.title-toggle-locked'
     },

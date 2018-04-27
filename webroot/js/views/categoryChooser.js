@@ -1,37 +1,48 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
-], function($, _, Backbone) {
-  'use strict';
+  'marionette',
+  'modules/modalDialog/modalDialog',
+], function (
+  $,
+  _,
+  Marionette,
+  ModalDialog
+) {
+    'use strict';
 
-  return Backbone.View.extend({
+    return Marionette.View.extend({
+      template: '#tpl-categoryChooser',
 
-    initialize: function() {
-      this._initDialog();
-    },
+      /**
+       * Marionette model events
+       */
+      modelEvents: {
+        'change:isOpen': '_handleStateIsOpen',
+      },
 
-    _initDialog: function() {
-      this.$el.dialog({
-        autoOpen: false,
-        show: {effect: 'fade', duration: 200},
-        hide: {effect: 'fade', duration: 200},
-        title: $.i18n.__('Categories'),
-        resizable: false,
-        modal: true,
-        position: {my: 'top', at: 'top'},
-        width: '100%',
-        draggable: false
-      });
-    },
+      /**
+       * Backbone initializer
+       */
+      initialize: function () {
+        this.model = new Backbone.Model({ defaults: { isOpen: false } });
+      },
 
-    toggle: function() {
-      if (this.$el.dialog('isOpen')) {
-        this.$el.dialog('close');
-      } else {
-        this.$el.dialog('open');
-      }
-    }
-
+      /**
+       * Handle state of isOpen
+       *
+       * @param {Backbone.Model} model this model
+       * @param {bool} value is open
+       */
+      _handleStateIsOpen: function (model, value) {
+        if (!value) {
+          return;
+        }
+        // show dialog
+        ModalDialog.show(this, { title: $.i18n.__('Categories') });
+        ModalDialog.on('close', () => {
+          this.model.set('isOpen', false);
+        });
+      },
+    });
   });
-});

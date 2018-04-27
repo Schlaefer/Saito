@@ -1,5 +1,15 @@
-@import "../../dev/node_modules/bootstrap/scss/bootstrap-reboot";
-@import "../../dev/bower_components/jquery-dropdown/jquery.dropdown";
+@import "../../dev/node_modules/bootstrap/scss/bootstrap";
+
+// bootstrap size fixes for Paz not beeing rem based
+.btn, .dropdown-menu {
+    font-size: 1em;
+}
+
+.btn {
+    padding: 0em 0.8em
+}
+
+// @import "../../dev/bower_components/jquery-dropdown/jquery.dropdown";
 
 @import "partials/lib/_jquery-ui.custom";
 

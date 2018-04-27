@@ -10,15 +10,21 @@ define([
   'views/helps', 'views/categoryChooser',
   'modules/slidetabs/slidetabs',
   'views/answering',
+  'views/loginView',
+  'modules/modalDialog/modalDialog',
   'jqueryUi'
-], function($, _, Marionette, App, ThreadLineCollection, ThreadLineView, ThreadCollection, ThreadView, PostingCollection, PostingModel, PostingLayout, BookmarksCollection, BookmarksView, HelpsView, CategoryChooserView, SlidetabsView, AnsweringView) {
+], function($, _, Marionette, App, ThreadLineCollection, ThreadLineView, ThreadCollection, ThreadView, PostingCollection, PostingModel, PostingLayout, BookmarksCollection, BookmarksView, HelpsView, CategoryChooserView, SlidetabsView, AnsweringView,
+  LoginView,
+  ModalDialog
+) {
   'use strict';
 
   var AppView = Marionette.View.extend({
     el: $('body'),
 
     regions: {
-      slidetabs: '#slidetabs'
+      modalDialog: '#saito-modal-dialog',
+      slidetabs: '#slidetabs',
     },
 
     autoPageReloadTimer: false,
@@ -26,7 +32,6 @@ define([
     _domInitializers: {
       '.entry.add-not-inline': '_initAnsweringNotInlined',
       '#bookmarks': '_initBookmarks',
-      '#category-chooser': '_initCategoryChooser',
       '#slidetabs': function () {
         this.showChildView('slidetabs', new SlidetabsView());
       },
@@ -36,12 +41,16 @@ define([
       '.users.logout': '_initLogout'
     },
 
+    ui: {
+      'categoryChooserBtn': '#btn-category-chooser'
+    },
+
     events: {
       'click #showLoginForm': 'showLoginForm',
       'focus #header-searchField': 'widenSearchField',
       'click #btn-scrollToTop': 'scrollToTop',
       'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
-      'click #btn-category-chooser': 'toggleCategoryChooser',
+      'click @ui.categoryChooserBtn': 'toggleCategoryChooser',
       'click #btn_header_logo': '_onEntriesIndexReload'
     },
 
@@ -56,10 +65,11 @@ define([
 
       this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
       this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
-      this.$el.on('dialogopen', this.fixJqueryUiDialog);
     },
 
     initFromDom: function(options) {
+      this.showChildView('modalDialog', ModalDialog);
+
       _.each(this._domInitializers, function (initializer, element) {
         const $elements = $(element);
         if ($elements.length > 0) {
@@ -119,10 +129,6 @@ define([
         el: element_n,
         collection: bookmarks
       });
-    },
-
-    _initCategoryChooser: function(element) {
-      this.categoryChooser = new CategoryChooserView({ el: element });
     },
 
     _initLogout: function() {
@@ -219,16 +225,9 @@ define([
       timer.cancel();
     },
 
-    fixJqueryUiDialog: function(event, ui) {
-      $('.ui-dialog-titlebar-close')
-          .removeClass('ui-icon ui-button-icon-only')
-          .addClass('jqueryUi-closethick-fix')
-          .html('');
-    },
-
-    toggleCategoryChooser: function(event) {
-      event.preventDefault();
-      this.categoryChooser.toggle();
+    toggleCategoryChooser: function(event, ui) {
+      const categoryChooser = new CategoryChooserView();
+      categoryChooser.model.set('isOpen', !categoryChooser.model.get('isOpen'));
     },
 
     initHelp: function(element_n) {
@@ -290,29 +289,9 @@ define([
       },
 
       showLoginForm: function (event) {
-          var title, modalLoginDialog;
-
-          if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-              return;
-          }
-
-          modalLoginDialog = $('#modalLoginDialog');
-          if (modalLoginDialog.length !== 1) {
-              return;
-          }
-
           event.preventDefault();
-          modalLoginDialog.height('auto');
-          title = event.currentTarget.title;
-          modalLoginDialog.dialog({
-              hide: 'fade',
-              modal: true,
-              position: {my: 'top', at: 'top'},
-              resizable: false,
-              title: title,
-              width: '100%',
-              draggable: false
-          });
+          const title = event.currentTarget.title;
+          ModalDialog.show(new LoginView(), {title: title});
       },
 
     scrollToTop: function(event) {

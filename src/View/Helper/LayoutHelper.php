@@ -4,11 +4,20 @@ namespace App\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\View\Helper;
+use Cake\View\StringTemplateTrait;
 
 class LayoutHelper extends AppHelper
 {
+    use StringTemplateTrait;
 
     public $helpers = ['Html', 'Url'];
+
+    protected $_defaultConfig = [
+        'templates' => [
+            'dropdownMenuDivider' => '<div class="dropdown-divider"></div>',
+            'dropdownMenu' => '<div class="dropdown" style="display: inline;">{{button}}<div id="{{id}}" class="dropdown-menu">{{menu}}</div></div>',
+        ]
+    ];
 
     /**
      * {@inheritDoc}
@@ -186,19 +195,19 @@ EOF;
      */
     public function dropdownMenuButton(array $menuItems, array $options = [])
     {
-        $options += ['class' => ''];
-        $divider = '<li class="dropdown-divider"></li>';
-        $menu = '';
+        $options += ['class' => 'btn btn-primary'];
+        $options['class'] = $options['class'] . ' dropdown-toggle';
+        $menu = [];
         foreach ($menuItems as $menuItem) {
             if ($menuItem === 'divider') {
-                $menu .= $divider;
+                $menu[] = $this->formatTemplate('dropdownMenuDivider', []);
             } else {
-                $menu .= "<li>$menuItem</li>";
+                $menu[] = $menuItem;
             }
         }
         $id = AppHelper::tagId();
         if (!isset($options['title'])) {
-            $options['title'] = '<i class="fa fa-wrench"></i>&nbsp;<i class="fa fa-caret-down"></i>';
+            $options['title'] = '<i class="fa fa-wrench"></i>';
         }
 
         $title = $options['title'];
@@ -209,19 +218,17 @@ EOF;
             $title,
             $options + [
                 'escape' => false,
-                'onclick' => "$(this).dropdown('attach', '#d$id');"
+                'data-toggle' => 'dropdown',
             ]
         );
-        $out = <<<EOF
-				$button
-				<div id="d$id" class="dropdown-relative dropdown dropdown-tip">
-					<ul class="dropdown-menu">
-							$menu
-					</ul>
-				</div>
-EOF;
 
-        return $out;
+        $menu = implode("\n", $menu);
+
+        return $this->formatTemplate('dropdownMenu', [
+            'button' => $button,
+            'id' => "d$id",
+            'menu' => $menu,
+        ]);
     }
 
     /**

@@ -66,18 +66,6 @@
   @extend .fa-smile-o;
 }
 
-/*
- * 1: fixes vertical positioning
- */
-.jqueryUi-closethick-fix {
-  @extend .fa;
-  @extend .fa-close-widget;
-  @extend .fa-lg;
-  font-family: Fontawesome !important;
-
-  // vertical-align: baseline; /* 1 */
-}
-
 .fa-thread-open {
   @extend .fa-angle-down;
 }

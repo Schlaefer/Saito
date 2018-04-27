@@ -2,7 +2,8 @@
 use Stopwatch\Lib\Stopwatch;
 
 Stopwatch::start('category-chooser.ctp'); ?>
-<div id="category-chooser" style="display: none; overflow: hidden;">
+<script type="x-template/underscore" id="tpl-categoryChooser">
+<div id="category-chooser">
     <div class="panel">
         <div class="panel-content panel-form clearfix">
             <?php
@@ -69,4 +70,5 @@ Stopwatch::start('category-chooser.ctp'); ?>
         </div>
     </div>
 </div>
+</script>
 <?php Stopwatch::end('category-chooser.ctp'); ?>

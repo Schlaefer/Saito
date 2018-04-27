@@ -104,7 +104,7 @@ $jsEntry = json_encode(
                 $menuItems[] = $this->Html->link(
                     '<i class="fa fa-pencil"></i> ' . __('edit_linkname'),
                     '/entries/edit/' . $entry->get('id'),
-                    ['escape' => false]
+                    ['class' => 'dropdown-item', 'escape' => false]
                 );
             }
 
@@ -132,7 +132,7 @@ $jsEntry = json_encode(
                         $title = "<i class=\"$icon\"></i>&nbsp;<span class=\"$titleClass\">$title</span>";
 
                         $options = [
-                            'class' => 'btn-toggle-' . $key,
+                            'class' => 'dropdown-item btn-toggle-' . $key,
                             'escape' => false
                         ];
                         $menuItems[] = $this->Html->link(
@@ -150,7 +150,7 @@ $jsEntry = json_encode(
                             'merge_tree_link'
                         ),
                         '/entries/merge/' . $entry->get('id'),
-                        ['escape' => false]
+                        ['class' => 'dropdown-item', 'escape' => false]
                     );
                 }
 
@@ -159,14 +159,14 @@ $jsEntry = json_encode(
                 $menuItems[] = $this->Html->link(
                     '<i class="fa fa-trash-o"></i>&nbsp;' . __('delete_tree_link'),
                     '#',
-                    ['class' => 'js-delete', 'escape' => false]
+                    ['class' => 'dropdown-item js-delete', 'escape' => false]
                 );
             }
 
             if (!empty($menuItems)) {
                 echo $this->Layout->dropdownMenuButton(
                     $menuItems,
-                    ['class' => 'btnLink btn-icon panel-footer-form-btn']
+                    ['class' => 'btn btn-outline-secondary']
                 );
             }
             ?>

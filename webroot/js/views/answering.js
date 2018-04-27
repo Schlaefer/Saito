@@ -22,8 +22,6 @@ define([
 
         preview: false,
 
-        mediaView: false,
-
         sendInProgress: false,
 
         /**
@@ -131,12 +129,9 @@ define([
         _media: function(event) {
             event.preventDefault();
 
-            if (this.mediaView === false) {
-                this.mediaView = new MediaInsertView({
-                    el: '#markitup_media',
-                    model: this.model
-                });
-            }
+            this.mediaView = new MediaInsertView({
+                model: this.model
+            });
             this.mediaView.render();
         },
 

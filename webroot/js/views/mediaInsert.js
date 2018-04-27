@@ -1,88 +1,71 @@
 define([
   'jquery',
   'underscore',
-  'backbone',
+  'marionette',
   'models/app',
   'lib/saito/markItUp.media',
-  'text!templates/mediaInsert.html'
-], function($, _, Backbone, App, MarkItUpMedia, mediaInsertTpl) {
+  'modules/modalDialog/modalDialog',
+  'text!templates/mediaInsert.html',
+], function ($, _, Marionette, App, MarkItUpMedia, ModalDialog, mediaInsertTpl) {
 
   "use strict";
 
-  return Backbone.View.extend({
+  return Marionette.View.extend({
+
+    ui: {
+      message: '#markitup_media_message',
+      submit: '#markitup_media_btn',
+      textarea: '#markitup_media_txta',
+    },
 
     template: _.template(mediaInsertTpl),
 
     events: {
-      "click #markitup_media_btn": "_insert"
+      "click @ui.submit": "_insert"
     },
 
-    initialize: function() {
+    initialize: function () {
       if (this.model !== undefined && this.model !== null) {
         this.listenTo(this.model, 'change:isAnsweringFormShown', this.remove);
       }
     },
 
-    _insert: function(event) {
-      var out,
-          markItUpMedia;
-
+    _insert: function (event) {
       event.preventDefault();
 
-      markItUpMedia = MarkItUpMedia;
-      out = markItUpMedia.multimedia(
-          this.$('#markitup_media_txta').val(),
-          {embedlyEnabled: App.settings.get('embedly_enabled') === true}
+      const markItUpMedia = MarkItUpMedia;
+      const out = markItUpMedia.multimedia(
+        this.getUI('textarea').val(),
+        { embedlyEnabled: App.settings.get('embedly_enabled') === true }
       );
 
       if (out === '') {
         this._invalidInput();
       } else {
-        $.markItUp({replaceWith: out});
+        $.markItUp({ replaceWith: out });
         this._closeDialog();
       }
     },
 
-    _hideErrorMessages: function() {
-      this.$('#markitup_media_message').hide();
+    _invalidInput: function () {
+      this.getUI('message').show();
+      ModalDialog.$el.effect('shake', { times: 2 }, 250);
     },
 
-    _invalidInput: function() {
-      this.$('#markitup_media_message').show();
-      this.$el
-          .dialog()
-          .parent()
-          .effect("shake", {times: 2}, 250);
+    _closeDialog: function () {
+      ModalDialog.closeDialog();
     },
 
-    _closeDialog: function() {
-      this.$el.dialog('close');
-      this._hideErrorMessages();
-      this.$('#markitup_media_txta').val('');
+    _showDialog: function () {
+      ModalDialog.show(this, { title: $.i18n.__('Multimedia') });
+      ModalDialog.on('hidden.bs.modal', function (e) {
+        setTimeout(function () { $('#markitup_media_txta').focus(); }, 210);
+      })
     },
 
-    _showDialog: function() {
-      this.$el.dialog({
-        hide: {effect: 'fade', duration: 200},
-        title: $.i18n.__("Multimedia"),
-        minWidth: 346,
-        position: {at: 'left+50% top+40%'},
-        resizable: false,
-        open: function() {
-          setTimeout(function() {$('#markitup_media_txta').focus();}, 210);
-        },
-        close: _.bind(function() {
-          this._hideErrorMessages();
-        }, this)
-      });
-    },
-
-    render: function() {
-      this.$el.html(this.template);
+    onRender: function () {
       this._showDialog();
-      return this;
     }
-
   });
 
 });

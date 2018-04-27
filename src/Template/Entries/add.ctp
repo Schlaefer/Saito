@@ -52,7 +52,6 @@ $this->end();
         <div id="markitup_upload">
             <div class="body"></div>
         </div>
-        <div id='markitup_media' style="display: none; overflow: hidden;"></div>
 
         <div class="panel-content panel-form" style="position: relative;">
             <?php

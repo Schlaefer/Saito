@@ -1,18 +1,20 @@
-<div class="panel">
-    <div class="panel-content panel-form">
-        <form action="#" style="width: 100%;">
-            <label for="markitup_media_txta">
-                <%- $.i18n.__('Enter link to media or embedding code:') %>
-            </label>
-            <textarea name="data[media]" id="markitup_media_txta" rows="6"
-                      columns="20"></textarea>
-            <input class="btn btn-submit" id="markitup_media_btn" type="submit"
-                   value="<%- $.i18n.__('Insert') %>">
+<div id='markitup_media' style="overflow: hidden;">
+    <div class="panel">
+        <div class="panel-content panel-form">
+            <form action="#" style="width: 100%;">
+                <label for="markitup_media_txta">
+                    <%- $.i18n.__('Enter link to media or embedding code:') %>
+                </label>
+                <textarea name="data[media]" id="markitup_media_txta" rows="6"
+                        columns="20"></textarea>
+                <input class="btn btn-submit" id="markitup_media_btn" type="submit"
+                    value="<%- $.i18n.__('Insert') %>">
 
-            <div id="markitup_media_message" class="flash error"
-                 style="display: none;">
-                <%- $.i18n.__('Nothing recognized.') %>
-            </div>
-        </form>
+                <div id="markitup_media_message" class="flash error"
+                    style="display: none;">
+                    <%- $.i18n.__('Nothing recognized.') %>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

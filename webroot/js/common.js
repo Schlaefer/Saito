@@ -30,6 +30,7 @@
     paths: {
       backbone: '../dev/node_modules/backbone/backbone',
       backboneLocalStorage: '../dev/node_modules/Backbone.localStorage/backbone.localStorage',
+      bootstrap: '../dev/node_modules/bootstrap/dist/js/bootstrap.bundle',
       cakeRest: 'lib/saito/backbone.cakeRest',
       domReady: '../dev/bower_components/requirejs-domready/domReady',
       drop: '../dev/bower_components/drop/drop',
