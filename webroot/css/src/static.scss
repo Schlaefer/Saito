@@ -1,4 +1,5 @@
-@import "CSS:../../dev/bower_components/jquery-dropdown/jquery.dropdown";
+@import "../../dev/node_modules/bootstrap/docs/assets/css/bootstrap";
+@import "../../dev/bower_components/jquery-dropdown/jquery.dropdown";
 
 @import "partials/lib/_jquery-ui.custom";
 
@@ -13,6 +14,6 @@ $fa-font-path: "../stylesheets/font";
 @import "partials/_messages";
 @import "partials/_maps";
 
-@import "CSS:../../dev/bower_components/drop/css/drop-theme-arrows";
+@import "../../dev/bower_components/drop/css/drop-theme-arrows";
 @import "partials/drop";
 

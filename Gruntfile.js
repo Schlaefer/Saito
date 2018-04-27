@@ -78,12 +78,19 @@ module.exports = function(grunt) {
         }
       }
     },
-    concurrent: {
-      compassWatch: ['compass:watchCommon', 'compass:watchDefault'],
+    sass: {
       options: {
-        logConcurrentOutput: true
+        sourceMap: false,
+        outputStyle: 'compressed',
+      },
+      release: {
+        files: {
+          'webroot/css/stylesheets/static.css': 'webroot/css/src/static.scss',
+          'webroot/css/stylesheets/admin.css': 'webroot/css/src/admin.scss',
+          'webroot/css/stylesheets/cake.css': 'webroot/css/src/cake.scss',
+        }
       }
-    }
+    },
   };
 
   var configs = ['compass', 'copy', 'jasmine', 'phpcs', 'requirejs'];
@@ -102,8 +109,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-sass');
 
   // dev-setup
   grunt.registerTask('dev-setup', [
@@ -118,14 +124,10 @@ module.exports = function(grunt) {
   grunt.registerTask('test:php', ['test:cake', 'phpcs']);
   grunt.registerTask('test', ['test:js', 'test:php']);
 
-  // compass
-  grunt.registerTask('compass:watch', 'concurrent:compassWatch');
-  grunt.registerTask('compass:compile', ['compass:compileExampleTheme']);
-
   // release
   grunt.registerTask('release', [
     'clean:release',
-    // 'compass:compile',
+    'sass:release',
     'requirejs:release',
     'copy:release',
     'copy:nonmin',
