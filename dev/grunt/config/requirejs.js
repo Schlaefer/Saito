@@ -15,7 +15,10 @@
   var requireJsOptions = {
     baseUrl: './webroot/js',
     dir: './webroot/release-tmp',
-    optimize: 'uglify2', // "none"
+    // optimizer not working with ES2015+ JS features
+    // see https://github.com/requirejs/r.js/issues/959
+    // so use non-require.js uglifier later
+    optimize: 'none', // 'uglify2'|'none'
     skipDirOptimize: true,
     findNestedDependencies: true,
     preserveLicenseComments: false, // just to many comments in bootstrap

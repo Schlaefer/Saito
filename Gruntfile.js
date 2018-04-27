@@ -10,7 +10,9 @@ module.exports = function(grunt) {
     uglify: {
       release: {
         files: {
-          './webroot/dist/require.min.js': ['./bower_components/requirejs/require.js']
+          './webroot/dist/require.min.js': ['./bower_components/requirejs/require.js'],
+          './webroot/dist/common.min.js': ['./webroot/dist/common.min.js'],
+          './webroot/dist/main.min.js': ['./webroot/dist/main.min.js']
         }
       }
     },
@@ -94,7 +96,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify-es');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-phpcs');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -125,9 +127,9 @@ module.exports = function(grunt) {
     'clean:release',
     // 'compass:compile',
     'requirejs:release',
-    'uglify:release',
     'copy:release',
     'copy:nonmin',
+    'uglify:release',
     'clean:releasePost'
   ]);
 };

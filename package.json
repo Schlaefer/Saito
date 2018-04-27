@@ -10,7 +10,7 @@
     "grunt-contrib-jasmine": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-requirejs": "^1.0.0",
-    "grunt-contrib-uglify": "*",
+    "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-phpcs": "^0.2.2",
     "grunt-shell": "*",
     "grunt-template-jasmine-requirejs": "*",
