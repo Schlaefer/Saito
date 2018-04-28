@@ -225,7 +225,7 @@ if ($items) {
                 $menuItems[] = $this->Html->link(
                     '<i class="fa fa-trash-o"></i> ' . h(__('Delete')),
                     [
-                        'prefix' => 'admin',
+                        'plugin' => 'admin',
                         'controller' => 'Users',
                         'action' => 'delete',
                         $user->get('id'),

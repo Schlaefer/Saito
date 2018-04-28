@@ -28,6 +28,7 @@
     "yzalis/identicon": "*",
     "league/commonmark": "^0.17.5",
     "suin/php-rss-writer": "^1.6",
+    "friendsofcake/bootstrap-ui": "dev-develop",
     "friendsofcake/search": "^4.4"
   },
   "require-dev": {
@@ -53,6 +54,8 @@
       "Saito\\Test\\": "tests/TestCase/Lib/Saito",
 
       "Plugin\\": "plugins/",
+      "Admin\\": "plugins/Admin/src",
+      "Admin\\Test\\": "./plugins/Admin/tests",
       "Api\\": "./plugins/Api/src",
       "Api\\Test\\": "./plugins/Api/tests",
       "BbcodeParser\\Test\\": "./plugins/BbcodeParser/tests",

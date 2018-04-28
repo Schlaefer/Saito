@@ -4,12 +4,31 @@ module.exports = {
   nonmin: {
     files: [
       {
-        src: ['./node_modules/jquery/dist/jquery.js'],
-        dest: './webroot/dist/jquery.js'
+        expand: true,
+        flatten: true,
+        src: [
+          './bower_components/requirejs/require.js',
+          './node_modules/jquery/dist/jquery.js',
+        ],
+        dest: './webroot/dist/',
       },
+      // jQuery Datatables
       {
-        src: ['./bower_components/requirejs/require.js'],
-        dest: './webroot/dist/require.js'
+        expand: true,
+        src: [
+          './node_modules/datatables.net/js/jquery.dataTables.js',
+          './node_modules/datatables.net-bs4/**/*{.js,.css}',
+        ],
+        dest: './webroot/dist/',
+      },
+      // CSS 
+      {
+        expand: true,
+        flatten: true,
+        src: [
+          './node_modules/bootstrap/dist/css/bootstrap.min.css',
+        ],
+        dest: './webroot/css/stylesheets/',
       },
       // font-awesome fonts
       {
@@ -44,12 +63,16 @@ module.exports = {
     files: [
       // copy minified JS-files from packages which are used vanilla
       {
-        src: ['./node_modules/bootstrap/docs/assets/js/bootstrap.min.js'],
+        src: ['./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'],
         dest: './webroot/dist/bootstrap.min.js'
       },
       {
-        src: ['./node_modules/jquery/dist/jquery.min.js'],
-        dest: './webroot/dist/jquery.min.js'
+        expand: true,
+        flatten: true,
+        src: [
+          './node_modules/jquery/dist/jquery.min.js'
+        ],
+        dest: './webroot/dist/'
       },
       // copy minified JS-files from saito-build
       {

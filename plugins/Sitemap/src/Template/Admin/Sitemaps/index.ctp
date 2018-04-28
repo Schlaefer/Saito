@@ -1,6 +1,6 @@
 <?php
     $this->Breadcrumbs->add(__('Plugins'), '/admin/plugins');
-    $this->Breadcrumbs->add('Sitemap', '/admin/plugins/sitemap');
+    $this->Breadcrumbs->add('Sitemap', false);
     echo $this->Html->tag('h1', 'Sitemap');
 
 ?>

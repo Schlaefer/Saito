@@ -94,11 +94,6 @@ class AppController extends Controller
             $this->set('showStopwatchOutput', true);
         };
 
-        // setup for admin area
-        if ($this->request->getParam('prefix') === 'admin') {
-            $this->viewBuilder()->layout('admin');
-        }
-
         // disable forum with admin pref
         if (Configure::read('Saito.Settings.forum_disabled') &&
             $this->request['action'] !== 'login' &&

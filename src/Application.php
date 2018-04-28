@@ -53,6 +53,7 @@ class Application extends BaseApplication
         parent::bootstrap();
 
         // @td 3.0
+        $this->addPlugin(\Admin\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Api\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Bookmarks\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Feeds\Plugin::class, ['bootstrap' => true, 'routes' => true]);

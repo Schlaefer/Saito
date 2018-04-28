@@ -2,9 +2,9 @@
 
 namespace Sitemap\Controller\Admin;
 
-use App\Controller\AppController;
+use Admin\Controller\AdminAppController;
 
-class SitemapsController extends AppController
+class SitemapsController extends AdminAppController
 {
     /**
      * Sitemap Admin Index

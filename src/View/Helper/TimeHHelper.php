@@ -74,7 +74,7 @@ class TimeHHelper extends AppHelper
                     $timeDiffToUtc = '+' . $timeDiffToUtc;
                 }
 
-                $tz = $timeZoneTitle . ' – ' . $timeInTimezone->format('H:m');
+                $tz = $timeZoneTitle . ' – ' . $timeInTimezone->format('H:i');
                 if ($timeDiffToUtc !== 0) {
                     $tz .= ' (' . $timeDiffToUtc . ')';
                 }

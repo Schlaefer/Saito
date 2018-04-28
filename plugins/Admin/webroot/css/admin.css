@@ -1,0 +1,25 @@
+/* Datatables
+// ----------------------------------- */
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
+		cursor: pointer;
+}
+
+/* flot graphs
+// ----------------------------------- */
+.admin-stats-plot {
+	width: 100%;
+	height: 300px;
+	}
+
+/* Cake Form Errors
+-------------------------------------*/
+form .error-message {
+  padding: 0.5em;
+  color: white;
+  background: red;
+  margin-bottom: 1em;
+}

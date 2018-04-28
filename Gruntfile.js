@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       },
       // access too JS-libraries for development in webroot through browser
       symlinkNode: {
-        command: 'ln -s $PWD/node_modules/ webroot/dev/node_modules',
+        command: 'ln -sF $PWD/node_modules/ webroot/dev/node_modules',
         options: {
           stdout: true,
           stderr: true,
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
       },
       // @todo remove
       symlinkBower: {
-        command: 'ln -s $PWD/bower_components/ webroot/dev/bower_components',
+        command: 'ln -sF $PWD/bower_components/ webroot/dev/bower_components',
         options: {
           stdout: true,
           stderr: true,
@@ -91,6 +91,12 @@ module.exports = function(grunt) {
         }
       }
     },
+    watch: {
+      sass: {
+        files: ['webroot/css/src/**/*.scss'],
+        tasks: ['sass:release'],
+      }
+    }
   };
 
   var configs = ['compass', 'copy', 'jasmine', 'phpcs', 'requirejs'];
@@ -108,6 +114,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-phpcs');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-sass');
 
