@@ -64,7 +64,7 @@ class ThemesComponent extends Component
      */
     protected function _setTheme($theme): void
     {
-        $this->_registry->getController()->viewBuilder()->theme($theme);
+        $this->_registry->getController()->viewBuilder()->setTheme($theme);
     }
 
     /**

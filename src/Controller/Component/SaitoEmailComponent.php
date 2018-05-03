@@ -47,7 +47,7 @@ class SaitoEmailComponent extends Component
         $email = (new Email('saito'))
             ->setEmailFormat('text')
             ->setTemplate($params['template'])
-            ->from($from->toCake())
+            ->setFrom($from->toCake())
             ->setTo($to->toCake())
             ->setSubject($params['subject']);
 
@@ -79,7 +79,7 @@ class SaitoEmailComponent extends Component
 
         $email->setTo($email->getFrom());
         $from = new SaitoEmailContact('system');
-        $email->from($from->toCake());
+        $email->setFrom($from->toCake());
 
         $this->_send($email);
     }

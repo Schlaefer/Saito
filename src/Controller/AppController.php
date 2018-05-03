@@ -213,8 +213,8 @@ class AppController extends Controller
         }
 
         $check = function ($locale) {
-            $l10nViewPath = $this->viewBuilder()->templatePath() . DS . $locale;
-            $l10nViewFile = $l10nViewPath . DS . $this->viewBuilder()->name() . '.ctp';
+            $l10nViewPath = $this->viewBuilder()->getTemplatePath() . DS . $locale;
+            $l10nViewFile = $l10nViewPath . DS . $this->viewBuilder()->getName() . '.ctp';
             if (!file_exists(APP . 'Template' . DS . $l10nViewFile)) {
                 return false;
             }

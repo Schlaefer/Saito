@@ -3,6 +3,7 @@
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\EntriesController;
+use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
 use Cake\Event\Event;
@@ -369,15 +370,22 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->post('/entries/delete/9999');
     }
 
-    public function testIndexSuccess()
+    public function testIndexSuccessAnonoymous()
     {
-        //* not logged in user
+        /*
+         * fix for sudden and unclear "Call to a member function flock() on null
+         * vendor/cakephp/cakephp/src/Cache/Engine/FileEngine.php on 157" error
+         */
+        Cache::clearAll();
+
         $this->get('/entries/index');
         $postings = $this->viewVariable('entries');
         $this->assertCount(3, $postings);
         $this->assertResponseOk();
+    }
 
-        //* logged in user
+    public function testIndexSuccessLoggedInUser()
+    {
         $this->_loginUser(3);
         $this->get('/entries/index');
         $postings = $this->viewVariable('entries');

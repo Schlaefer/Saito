@@ -56,7 +56,7 @@ class UsersController extends AdminAppController
             if ($user && empty($errors)) {
                 $this->Flash->set(__('user.admin.add.success'), ['element' => 'success']);
 
-                return $this->redirect(['prefix' => false, 'action' => 'view', $user->get('id')]);
+                return $this->redirect(['plugin' => false, 'action' => 'view', $user->get('id')]);
             } else {
                 $this->Flash->set(__('user.admin.add.error'), ['element' => 'error']);
             }

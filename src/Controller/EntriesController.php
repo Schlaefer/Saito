@@ -619,7 +619,7 @@ class EntriesController extends AppController
             }
         }
 
-        $this->viewBuilder()->layout('admin');
+        $this->viewBuilder()->setLayout('Admin.admin');
         $this->set(compact('posting'));
     }
 
