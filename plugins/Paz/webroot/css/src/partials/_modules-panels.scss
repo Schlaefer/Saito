@@ -1,3 +1,11 @@
+.modal-body {
+  padding: 0;
+
+  .panel {
+    padding: 0;
+  }
+}
+
 .panel {
   padding: $padding;
 }

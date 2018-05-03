@@ -178,12 +178,14 @@ class LayoutHelper extends AppHelper
      * @param string $icon icon
      * @return string
      */
-    public function textWithIcon($text, $icon)
+    public function textWithIcon($text, $icon): string
     {
-        return <<<EOF
-				<i class="saito-icon fa fa-$icon"></i>
-				<span class="saito-icon-text">$text</span>
-EOF;
+        $html = "<i class=\"saito-icon fa fa-{$icon}\"></i>";
+        if (!empty($text)) {
+                $html .= '&nbsp;<span class="saito-icon-text">' . $text . '</span>';
+        }
+
+        return $html;
     }
 
     /**
@@ -289,12 +291,12 @@ EOF;
         $contentArray += ['first' => '', 'middle' => '', 'last' => ''];
         $out = '';
         foreach (['first', 'middle', 'last'] as $key) {
-            $out .= '<div class="heading-3-' . $key . '">';
+            $out .= '<div class="' . $key . '">';
             $out .= $options['escape'] ? h($contentArray[$key]) : $contentArray[$key];
             $out .= '</div>';
         }
 
-        return "<div class=\"{$options['class']} heading-3\">$out</div>";
+        return "<div class=\"{$options['class']}\">$out</div>";
     }
 
     /**

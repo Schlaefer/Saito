@@ -48,7 +48,7 @@ define([
     events: {
       'click #showLoginForm': 'showLoginForm',
       'focus #header-searchField': 'widenSearchField',
-      'click #btn-scrollToTop': 'scrollToTop',
+      'click .js-scrollToTop': 'scrollToTop',
       'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
       'click @ui.categoryChooserBtn': 'toggleCategoryChooser',
       'click #btn_header_logo': '_onEntriesIndexReload'

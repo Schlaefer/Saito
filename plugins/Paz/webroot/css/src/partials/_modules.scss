@@ -5,8 +5,6 @@ body, .btnLink, textarea, input[type=text], input[type=password], input[type=ema
   background-color: $background-color;
 }
 
-body { }
-
 #site {
   background: $page-color;
 }
@@ -58,7 +56,7 @@ h4 {
   }
 }
 
-a, .btnLink {
+a, a:hover, .btnLink {
   @include unstyled-link;
   @include link-colors($link-color);
   cursor: pointer;
@@ -108,6 +106,7 @@ body.headerClosed {
 #hero {
   position: relative;
   border-bottom: 1px solid $border-color;
+  background: $page-color;
 }
 
 #hero-home-link {
@@ -144,14 +143,14 @@ body.headerClosed {
 }
 
 .navbar {
+  @extend .flexBar;
   @include responsiveIconText;
-  margin: $padding 0;
+  padding: 0;
+  margin: 0 $padding;
 
-  >:first-child {
-    margin-left: $padding;
-  }
-  >:last-child {
-    margin-right: $padding;
+  h1, h2, h3 {
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -160,17 +159,14 @@ body.headerClosed {
 }
 
 .navbar-item {
-  padding: 0 1em;
+  // top & bottom better on item instead of whole navbar: if item is link/button big click-target
+  padding: $padding;
   &.left {
     padding-left: 0;
   }
   &.right {
     padding-right: 0;
   }
-}
-
-.heading-3 {
-  @include c_t_h_3_abs;
 }
 
 .pageHeading, .ui-dialog-title {
@@ -188,6 +184,7 @@ body.headerClosed {
   }
 }
 
+// pin footer to windows bottom on short content pages
 #footer-pinned {
   position: absolute;
   bottom: 0;
@@ -203,6 +200,7 @@ body.headerClosed {
   background: $page-color;
 
   .disclaimer-inside {
+    padding-top: $padding;
     text-align: center;
   }
 }

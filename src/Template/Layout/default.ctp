@@ -71,10 +71,15 @@
             </div>
         </header>
         <?php
+        /*
+         * Navbar
+         */
+        $navLeft = $this->fetch('headerSubnavLeft');
+        $navRight = $this->element('layout/header_subnav_right');
+
         $navCenter = '';
-        if ($this->request->getParam('controller') !== 'entries' ||
-            !in_array($this->request->getParam('action'), ['mix', 'view'])
-        ) {
+        if ($this->request->getParam('controller') !== 'Entries'
+            || !in_array($this->request->getParam('action'), ['mix', 'view'])) {
             $navCenter = $this->fetch('headerSubnavCenter');
             if (empty($navCenter)) {
                 $navCenter = $this->Layout->pageHeading($titleForPage);
@@ -82,14 +87,13 @@
         }
 
         echo $this->Layout->heading(
-            [
-                'first' => $this->fetch('headerSubnavLeft'),
-                'middle' => $navCenter,
-                'last' => $this->element('layout/header_subnav_right')
-            ],
-            ['class' => 'navbar', 'escape' => false]
+            ['first' => $navLeft, 'middle' => $navCenter, 'last' => $navRight],
+            ['id' => 'topnav', 'class' => 'navbar', 'escape' => false]
         );
 
+        /*
+         * Slidetabs
+         */
         if (!empty($slidetabs)) {
             \Stopwatch\Lib\Stopwatch::start('Slidetabs');
             echo '<aside id="slidetabs">';
@@ -107,24 +111,24 @@
             </script>
             <?php echo $this->fetch('content'); ?>
         </div>
-        <?php if ($showBottomNavigation ?? false) : ?>
-            <div id="footer-pinned">
-                <div id="bottomnav" class="navbar">
-                    <?=
-                    $this->Layout->heading(
-                        [
-                            'first' => $this->fetch('headerSubnavLeft'),
-                            'middle' => '<a href="#" id="btn-scrollToTop" class="btn-hf-center"><i class="fa fa-arrow-up"></i></a>',
-                            'last' => $this->element(
-                                'layout/header_subnav_right'
-                            )
-                        ],
-                        ['class' => 'navbar-content', 'escape' => false]
-                    )
-                    ?>
-                </div>
-            </div>
-        <?php endif; ?>
+        <?php
+        /*
+         * Navbar bottom
+         */
+        if ($showBottomNavigation ?? false) {
+            echo '<div id="footer-pinned">';
+
+            $navCenter = '<a href="#" class="js-scrollToTop btn-hf-center">' .
+                $this->Layout->textWithIcon('', 'arrow-up') .
+                '</a>';
+            echo $this->Layout->heading(
+                ['first' => $navLeft, 'middle' => $navCenter, 'last' => $navRight],
+                ['id' => 'bottomnav', 'class' => 'navbar', 'escape' => false]
+            );
+
+            echo '</div>';
+        }
+        ?>
     </div>
     <?php if ($showDisclaimer ?? false) : ?>
         <div class="disclaimer">
