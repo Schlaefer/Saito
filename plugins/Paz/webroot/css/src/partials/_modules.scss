@@ -130,7 +130,7 @@ body.headerClosed {
 
 .top-menu-item {
   padding: 0.5*$padding;
-  @include at-breakpoint($susy-tablet) {
+  @media (min-width: map-get($grid-breakpoints, md)) {
     padding: $padding;
   }
 
@@ -143,14 +143,29 @@ body.headerClosed {
 }
 
 .navbar {
-  @extend .flexBar;
   @include responsiveIconText;
   padding: 0;
   margin: 0 $padding;
+  white-space: nowrap;
 
   h1, h2, h3 {
     margin: 0;
     padding: 0;
+  }
+
+  @extend .flexBar;
+  & > div {
+    // keep the middle element more centered 
+    flex: 2;
+    text-align: center;
+  }
+  & > div:first-child {
+    flex: 1;
+    text-align: left;
+  }
+  & > div:last-child {
+    flex: 1;
+    text-align: right;
   }
 }
 

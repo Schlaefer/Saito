@@ -28,7 +28,7 @@
 
     li {
       margin: 0;
-      @include at-breakpoint($susy-tablet) {
+      @media (min-width: map-get($grid-breakpoints, md)) {
         margin: 3px;
       }
       min-width: $markItUp-buttonWidth;
@@ -44,7 +44,7 @@
       height: $markItUp-buttonHeight;
       background-repeat:no-repeat;
 
-      @include at-breakpoint($susy-tablet) {
+      @media (min-width: map-get($grid-breakpoints, md)) {
         font-size: 18px;
       }
 

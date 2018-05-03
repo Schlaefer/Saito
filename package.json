@@ -37,7 +37,6 @@
     "@bower_components/requirejs-domready": "requirejs/domReady#2.0.1",
     "@bower_components/requirejs-text": "requirejs/text#2.0.12",
     "@bower_components/sinonjs": "blittle/sinon.js#~1.9.0",
-    "@bower_components/susy": "ericam/susy#1.0.*",
     "@bower_components/tether": "HubSpot/tether#~0.5.2",
     "@bower_components/underscore": "jashkenas/underscore#1.4.4 - 1.6.0",
     "backbone": "^1.3.3",

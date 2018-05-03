@@ -105,7 +105,7 @@ $this->end();
                 </div>
             <?php endif; ?>
 
-            <div class="bp-threeColumn">
+            <div class="postingform-buttons">
                 <div class="left">
                     <?=
                     $this->Form->button(

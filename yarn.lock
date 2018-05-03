@@ -82,10 +82,6 @@
   version "0.0.0"
   resolved "https://codeload.github.com/blittle/sinon.js/tar.gz/2c86cf62cf8197e66a86432134c0d0f2dac8f0a6"
 
-"@bower_components/susy@ericam/susy#1.0.*":
-  version "0.0.0"
-  resolved "https://codeload.github.com/ericam/susy/tar.gz/11c2aabaac596ff9b8fe7a3e7d9b025b11516326"
-
 "@bower_components/tether@HubSpot/tether#~0.5.2":
   version "0.5.2"
   resolved "https://codeload.github.com/HubSpot/tether/tar.gz/5e0865fd651d610d932c13b4422a3484813c3136"

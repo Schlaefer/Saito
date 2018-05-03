@@ -19,34 +19,26 @@
   }
 }
 
-.flexBar {
+@mixin flexBar() {
   position: relative;
   align-items: center;
   display: flex;
   justify-content: space-between;
-  white-space: nowrap;
 
   & > div {
-    flex: 2;
-    text-align: center;
-  }
-
-  & > div:first-child {
     flex: 1;
-    text-align: left;
   }
+}
 
-  & > div:last-child {
-    flex: 1;
-    text-align: right;
-  }
+.flexBar {
+  @include flexBar();
 }
 
 @mixin responsiveIconText() {
   .saito-icon-text {
     display: none;
 
-    @include at-breakpoint($susy-tablet) {
+    @media (min-width: map-get($grid-breakpoints, sm)) {
       display: inline;
     }
   }

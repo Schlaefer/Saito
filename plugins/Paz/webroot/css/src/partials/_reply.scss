@@ -17,6 +17,19 @@
   }
 }
 
+.postingform-buttons {
+  @extend .flexBar;
+  flex-direction: row;
+  @media (max-width: map-get($grid-breakpoints, md)) {
+    flex-direction: column;
+
+    & > div {
+      margin: 0 auto $padding 0;
+      text-align: left;
+    }
+  }
+}
+
 .postingform-subject-count {
   @extend .infoText;
   float: right;
