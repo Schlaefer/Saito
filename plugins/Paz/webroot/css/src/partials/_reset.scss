@@ -8,3 +8,11 @@ body, ul {
 ul {
   list-style: none;
 }
+
+table, .table {
+  td, tr {
+    // BS theme reset
+    border-top: none;
+  }
+}
+

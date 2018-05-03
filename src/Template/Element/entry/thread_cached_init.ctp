@@ -38,7 +38,7 @@ foreach ($entriesSub as $entrySub) :
             <div class="l-table-row">
                 <?php if ($toolboxButtons['panel-info']) : ?>
                     <div class="threadBox-tools l-table-cell panel-info">
-                        <a href="<?= $this->request->getAttribute('webroot') ?>entries/mix/<?= $entrySub->get('tid') ?>" class="btn-threadBox-tools" rel="nofollow">
+                        <a href="<?= $this->request->getAttribute('webroot') ?>entries/mix/<?= $entrySub->get('tid') ?>" class="btn-threadBox-tools l-table-cell-item" rel="nofollow">
                             <?= $l10nCache['mix']; ?>
                         </a>
                         <?php
@@ -46,7 +46,7 @@ foreach ($entriesSub as $entrySub) :
                          * More menu
                          */
                         $button1 = <<<EOF
-<a href="#" class="btn-threadCollapse">
+<a href="#" class="dropdown-item btn-threadCollapse">
      <i class="fa fa-thread-open"></i> &nbsp; {$l10nCache['collapse']}
 </a>
 EOF;
@@ -57,8 +57,8 @@ EOF;
                         echo $this->Layout->dropdownMenuButton(
                             [$button1],
                             [
-                                'title' => $l10nCache['more'] . '&nbsp;<i class="fa fa-caret-down"></i>',
-                                'class' => 'btnLink panel-footer-form-btn nbsp',
+                                'title' => $l10nCache['more'],
+                                'class' => 'btnLink panel-footer-form-btn nbsp l-table-cell-item',
                                 'style' => $style
                             ]
                         );

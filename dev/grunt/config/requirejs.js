@@ -43,7 +43,6 @@
           'moment', 'moment-de',
           'humanize',
           'jqueryAutosize',
-          'jqueryDropdown',
           'jqueryTinyTimer',
           'jqueryUi',
           'text',

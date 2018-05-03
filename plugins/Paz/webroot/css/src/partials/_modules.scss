@@ -145,7 +145,7 @@ body.headerClosed {
 .navbar {
   @include responsiveIconText;
   padding: 0;
-  margin: 0 $padding;
+  margin: $padding;
   white-space: nowrap;
 
   h1, h2, h3 {
@@ -174,7 +174,7 @@ body.headerClosed {
 }
 
 .navbar-item {
-  // top & bottom better on item instead of whole navbar: if item is link/button big click-target
+  // provide a nice click target if link/button
   padding: $padding;
   &.left {
     padding-left: 0;

@@ -2,11 +2,6 @@
   body {
     -webkit-text-size-adjust: 110%;
   }
-
-  .panel-footer {
-    margin-left: -$padding;
-    margin-right: -$padding;
-  }
 }
 
 @media only screen and (orientation: landscape) and (max-width: 568px) {
@@ -15,7 +10,7 @@
   }
 }
 
-@media only screen and (max-width: 568px) {
+@media only screen and (max-width: map-get($grid-breakpoints, md)) {
   body {
     -webkit-text-size-adjust: 100%;
   }
@@ -42,6 +37,19 @@
     width: 100%;
   }
 
+  .l-table {
+    .l-table-row {
+      flex-direction: column;
+    }
+    .l-table-cell {
+      align-items: center;
+      flex-direction: row;
+    }
+    .l-table-cell-item {
+      margin-right: 1em;
+    }
+  }
+
   .threadBox {
     max-width: 100%;
     overflow-x: scroll;
@@ -50,7 +58,7 @@
 
   .threadBox-body {
     width: 100%;
-    padding: 0;
+    padding: inherit 0;
   }
 
   .threadTree-node {
@@ -61,6 +69,10 @@
     // border-right: 1px solid $border-color;
   }
 
+  .panel {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 // iPad

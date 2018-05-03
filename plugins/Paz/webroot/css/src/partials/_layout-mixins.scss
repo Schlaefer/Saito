@@ -2,20 +2,20 @@
  *
  */
 .l-table {
-  display: table;
-
   .l-table-row {
-    display: table-row;
+    display: flex;
+    flex-direction: row;
   }
 
   .l-table-cell {
-    display: table-cell;
-    vertical-align: top;
+    flex: 0;
+
+    display: flex;
+    flex-direction: column;
   }
 
   .l-table-cell-main {
-    @extend .l-table-cell;
-    width: 100%;
+    flex: auto;
   }
 }
 

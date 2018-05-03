@@ -20,8 +20,12 @@ $jsEntry = json_encode(
     <div class="l-table">
         <div class="l-table-row">
             <div class="l-table-cell panel-info center">
-                <?= $this->User->getAvatar($entry->get('user')) ?>
-                <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
+                <div class="l-table-cell-item">
+                    <?= $this->User->getAvatar($entry->get('user')) ?>
+                </div>
+                <div class="l-table-cell-item">
+                    <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
+                </div>
             </div>
             <div class="postingLayout-body panel-content l-table-cell-main">
                 <?php
