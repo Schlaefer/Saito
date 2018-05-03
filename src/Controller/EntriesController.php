@@ -90,7 +90,7 @@ class EntriesController extends AppController
 
         // @bogus
         $this->request->getSession()->write('paginator.lastPage', $currentPage);
-        $this->showDisclaimer = true;
+        $this->set('showDisclaimer', true);
         $this->set('allowThreadCollapse', true);
         $this->Slidetabs->show();
 

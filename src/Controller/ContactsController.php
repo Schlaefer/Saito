@@ -20,7 +20,7 @@ class ContactsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->showDisclaimer = true;
+        $this->set('showDisclaimer', true);
         $this->Auth->allow('owner');
     }
 

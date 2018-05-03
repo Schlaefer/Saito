@@ -126,7 +126,7 @@
             </div>
         <?php endif; ?>
     </div>
-    <?php if (!empty($showDisclaimer)) : ?>
+    <?php if ($showDisclaimer ?? false) : ?>
         <div class="disclaimer">
             <?= $this->element('layout/disclaimer') ?>
         </div>

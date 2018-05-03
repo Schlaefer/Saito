@@ -38,11 +38,6 @@ class AppController extends Controller
     ];
 
     /**
-     * @var bool show disclaimer in page footer
-     */
-    public $showDisclaimer = false;
-
-    /**
      * {@inheritDoc}
      */
     public function initialize()
@@ -125,7 +120,6 @@ class AppController extends Controller
         $this->set('SaitoSettings', new SettingsImmutable(Configure::read('Saito.Settings')));
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
 
-        $this->set('showDisclaimer', $this->showDisclaimer);
         $this->set('isDebug', (int)Configure::read('debug') > 0);
 
         Stopwatch::stop('App->beforeRender()');

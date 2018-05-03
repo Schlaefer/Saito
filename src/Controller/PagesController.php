@@ -29,14 +29,13 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
-    public $showDisclaimer = true;
-
     /**
      * {@inheritDoc}
      */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
+        $this->set('showDisclaimer', true);
         $this->Auth->allow(['display']);
     }
 
