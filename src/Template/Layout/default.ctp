@@ -107,7 +107,7 @@
             </script>
             <?php echo $this->fetch('content'); ?>
         </div>
-        <?php if ($this->request->getParam('controller') === 'entries' && $this->request->getParam('action') === 'index') : ?>
+        <?php if ($showBottomNavigation ?? false) : ?>
             <div id="footer-pinned">
                 <div id="bottomnav" class="navbar">
                     <?=

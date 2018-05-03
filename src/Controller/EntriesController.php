@@ -91,6 +91,7 @@ class EntriesController extends AppController
         // @bogus
         $this->request->getSession()->write('paginator.lastPage', $currentPage);
         $this->set('showDisclaimer', true);
+        $this->set('showBottomNavigation', true);
         $this->set('allowThreadCollapse', true);
         $this->Slidetabs->show();
 
@@ -140,6 +141,7 @@ class EntriesController extends AppController
         $this->_setRootEntry($root);
         $this->Title->setFromPosting($root, __('view.type.mix'));
 
+        $this->set('showBottomNavigation', true);
         $this->set('entries', $postings);
 
         $this->_showAnsweringPanel();
