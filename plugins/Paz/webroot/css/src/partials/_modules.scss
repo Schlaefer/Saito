@@ -1,3 +1,6 @@
+@import "modules-panels";
+@import "modules-shp";
+
 body, .btnLink, textarea, input[type=text], input[type=password], input[type=email] {
   font-family: Cabin;
   color: $font-color;
@@ -304,6 +307,15 @@ body.headerClosed {
   }
 }
 
-@import "modules-panels";
-@import "modules-spinner";
-@import "modules-shp";
+// Spinner
+// -------------------------------------
+
+.spinner {
+  padding: 1em;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.progress-bar-striped {
+  background-color: rgba($font-color-current, 0.5);
+}
