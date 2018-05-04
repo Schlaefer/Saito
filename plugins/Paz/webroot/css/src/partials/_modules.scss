@@ -22,7 +22,7 @@ body, .btnLink, textarea, input[type=text], input[type=password], input[type=ema
 input, textarea {
   font-size: 1em;
   padding: 0.5em;
-  @include box-sizing(border-box);
+  box-sizing: border-box;
   outline-color: $outline-color;
 }
 
@@ -37,6 +37,13 @@ h1, h2, h3, h4, #hero-home-link {
 h4 {
   font-size: 1em;
 }
+
+%unstyledLink {
+  color: inherit;
+  text-decoration: inherit;
+  cursor: inherit;
+}
+
 
 .btnLink {
   border: none;
@@ -57,8 +64,8 @@ h4 {
 }
 
 a, a:hover, .btnLink {
-  @include unstyled-link;
-  @include link-colors($link-color);
+  @extend %unstyledLink;
+  color: $link-color;
   cursor: pointer;
 }
 
@@ -85,10 +92,9 @@ body.headerClosed {
   header#site-header {
     margin-left: -2*$padding;
     margin-right: -2*$padding;
-    position: -webkit-sticky;
+    position: sticky;
     top: 0;
     z-index: 100;
-    @include background(linear-gradient(to top, rgba($background-color, 0.85), $background-color 90%));
   }
 
   #js-top-menu-open {

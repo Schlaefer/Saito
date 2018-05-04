@@ -1,18 +1,6 @@
-@media only screen and (max-width: 768px) {
-  body {
-    -webkit-text-size-adjust: 110%;
-  }
-}
-
-@media only screen and (orientation: landscape) and (max-width: 568px) {
-  body {
-    width: 568px;
-  }
-}
-
 @media only screen and (max-width: map-get($grid-breakpoints, md)) {
   body {
-    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 110%;
   }
 
   #site {
@@ -74,15 +62,3 @@
     padding-right: 0;
   }
 }
-
-// iPad
-// -------------------------------------
-
-@media only screen and (device-width: 768px) {
-
-  body {
-    text-size-adjust: 110%;
-  }
-
-}
-

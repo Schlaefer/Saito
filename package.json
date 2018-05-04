@@ -16,7 +16,8 @@
     "grunt-shell": "*",
     "grunt-template-jasmine-requirejs": "*",
     "load-grunt-tasks": "^3.5.2",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "stylelint-config-standard": "^18.2.0"
   },
   "dependencies": {
     "@bower_components/coffeescript": "jashkenas/coffeescript#~1.7.1",

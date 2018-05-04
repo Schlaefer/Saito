@@ -131,7 +131,7 @@ module.exports = function(grunt) {
     },
   };
 
-  var configs = ['compass', 'copy', 'jasmine', 'phpcs', 'requirejs'];
+  var configs = ['copy', 'jasmine', 'phpcs', 'requirejs'];
   configs.map(function(config) {
     gruntConfig[config] = require('./dev/grunt/config/' + config);
   });
@@ -170,6 +170,7 @@ module.exports = function(grunt) {
     'clean:release',
     // CSS
     'sass:static',
+    'sass:theme',
     'postcss:release',
     // JS
     'requirejs:release',

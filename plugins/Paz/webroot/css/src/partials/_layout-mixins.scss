@@ -9,7 +9,6 @@
 
   .l-table-cell {
     flex: 0;
-
     display: flex;
     flex-direction: column;
   }
@@ -41,5 +40,12 @@
     @media (min-width: map-get($grid-breakpoints, sm)) {
       display: inline;
     }
+  }
+}
+
+// Sets the style to pseudo selectors AND base default anchor
+@mixin setLinkStyleAll {
+  &, &:hover, &:link, &:active, &:visited {
+    @content;
   }
 }

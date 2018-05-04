@@ -29,15 +29,17 @@ textarea, input[type=text], input[type=password], input[type=email], %textinput 
 // -------------------------------------
 
 .btn-submit {
-  @extend .btnLink;
-  padding: 0em 0.8em;
-  border-radius: $border-radius;
-  background-color: $link-color;
-  color: $page-color;
+  @include setLinkStyleAll {
+    @extend .btnLink;
+    padding: 0em 0.8em;
+    border-radius: $border-radius;
+    background-color: $link-color;
+    color: $page-color;
 
-  &[disabled=disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
+    &[disabled=disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 }
 

@@ -14,7 +14,7 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
   width: $slidetab-tab-width;
 
   margin-bottom: 2 * $padding;
-  @include box-sizing(border-box);
+  box-sizing: border-box;
   font-size: $font-size-small;
 
   // hides closed slidetab

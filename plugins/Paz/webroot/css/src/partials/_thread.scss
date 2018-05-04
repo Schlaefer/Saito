@@ -49,15 +49,15 @@
 // don't forget to apply changes here to the user custom color CSS
 // -------------------------------------
 .et-root .et, .et-reply .et {
-  @include link-colors($link-color);
+  color: $link-color;
 }
 .et-new .et {}
 
 .et-old .et {
-  @include link-colors($font-color-read);
+  color: $font-color-read;
 }
 .et-current .et {
-  @include link-colors($font-color-current);
+  color: $font-color-current;
 }
 
 // threadLine

@@ -1,6 +1,6 @@
 #site {
   min-width: $layout_min_width;
-  @include box-sizing(border-box);
+  box-sizing: border-box;
   min-height: 100%;
   position: relative;
 
