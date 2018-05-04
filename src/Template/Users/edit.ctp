@@ -335,7 +335,7 @@ $this->end();
     <?php
     echo $this->Form->submit(
         __('gn.btn.save.t'),
-        ['id' => 'btn-submit', 'class' => 'btn btn-submit']
+        ['id' => 'btn-primary', 'class' => 'btn btn-primary']
     );
     echo $this->Form->end();
     ?>

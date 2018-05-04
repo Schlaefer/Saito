@@ -16,7 +16,11 @@
     width: 10em;
   }
 
-  object, embed, video, iframe, img {
+  object,
+  embed,
+  video,
+  iframe,
+  img {
     display: block;
     margin: 0 auto;
     max-width: 100%;
@@ -27,7 +31,8 @@
     display: inline-block;
   }
 
-  blockquote, .richtext-citation {
+  blockquote,
+  .richtext-citation {
     font-style: italic;
     color: $info-color;
   }
@@ -41,6 +46,7 @@
 }
 
 .richtext-imessage {
+  //
 }
 
 .geshi-wrapper {
@@ -48,7 +54,7 @@
 
   ol {
     color: #333;
-    background: #F0FCEF;
+    background: #f0fcef;
 
     li {
       padding-left: 0.5em;
@@ -58,6 +64,7 @@
 
 .richtext-linkInfo {
   @extend .infoText;
+
   font-size: $font-size-small;
 }
 
@@ -77,5 +84,6 @@
 .richtext-editMark {
   // also an pencil icon is assigned via static.css
   @extend .infoText;
+
   padding: 0 0.3em;
 }

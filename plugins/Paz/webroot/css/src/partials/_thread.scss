@@ -19,14 +19,14 @@
   padding-left: 30px;
 }
 
-.threadTree-node, .threadCollection-node {
+.threadTree-node,
+.threadCollection-node {
   list-style: none;
 
   &.root {
     margin: 0;
     padding: 0;
   }
-
 }
 
 .threadCollection-node .threadTree-node {
@@ -44,18 +44,33 @@
   border: none;
 }
 
+.threadBox-tools {
+  align-items: flex-start;
+
+  .btn-link {
+    /*** left align buttons in vertical column ***/
+    padding-left: 0;
+    text-align: left;
+  }
+}
+
 // thread and reply types
 //
 // don't forget to apply changes here to the user custom color CSS
 // -------------------------------------
-.et-root .et, .et-reply .et {
+.et-root .et,
+.et-reply .et {
   color: $link-color;
 }
-.et-new .et {}
+
+.et-new .et {
+  // no extra color set
+}
 
 .et-old .et {
   color: $font-color-read;
 }
+
 .et-current .et {
   color: $font-color-current;
 }
@@ -91,33 +106,35 @@ $threadLine-pre-padding: 2em;
 
 .threadLine-post {
   @extend .infoText;
+
   font-size: $font-size-small;
   font-weight: normal;
 }
 
-
 // Thread Inline
 // -------------------------------------
-
 $btn-strip-top-width: 25px;
 
 .threadInline-slider {
   // prevents wide inline content to drop below slidetabs
   overflow: hidden;
-
   margin-left: $btn-strip-top-width;
 }
 
+.thread_inline {
+  // limits height of btn-strip
+  position: relative;
+}
 
 // page specific
 // -------------------------------------
-
 .entry.view {
+  max-width: 65em;
+  margin: 0 auto;
+
   .threadBox {
     border-top: 1px solid $border-color;
   }
-  max-width: 65em;
-  margin: 0 auto;
 }
 
 .mixEntry {

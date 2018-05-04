@@ -18,13 +18,19 @@ $highlight-hover-color: $border-color;
 */
 
 @import "theme";
+
+// invert normal white theme
 body {
   -webkit-filter: invert(100%) contrast(80%) brightness(90%) sepia(50%);
   filter: invert(100%) contrast(80%) brightness(90%) sepia(50%);
   background-color: black;
 }
 
-img, .avatar-image, iframe, video {
+// invert back image content to normal
+img,
+.avatar-image,
+iframe,
+video {
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }

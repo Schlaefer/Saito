@@ -175,7 +175,7 @@ if ($items) {
                 ['action' => 'edit', $user->get('id')],
                 [
                     'id' => 'btn_user_edit',
-                    'class' => 'btn btn-submit panel-footer-form-btn'
+                    'class' => 'btn btn-primary'
                 ]
             );
         }
@@ -188,7 +188,7 @@ if ($items) {
                     ),
                     ['action' => 'unignore'],
                     [
-                        'class' => 'btn panel-footer-form-btn shp',
+                        'class' => 'btn shp',
                         'data' => ['id' => $user->get('id')],
                         'data-shpid' => 7,
                         'escape' => false
@@ -202,7 +202,7 @@ if ($items) {
                     ),
                     ['action' => 'ignore'],
                     [
-                        'class' => 'btn panel-footer-form-btn shp',
+                        'class' => 'btn shp',
                         'data' => ['id' => $user->get('id')],
                         'data-shpid' => 7,
                         'escape' => false
@@ -217,7 +217,7 @@ if ($items) {
                 $menuItems[] = $this->Html->link(
                     '<i class="fa fa-pencil"></i> ' . __('Edit'),
                     ['action' => 'edit', $user->get('id')],
-                    ['escape' => false]
+                    ['class' => 'dropdown-item', 'escape' => false]
                 );
                 $menuItems[] = 'divider';
 
@@ -230,14 +230,14 @@ if ($items) {
                         'action' => 'delete',
                         $user->get('id'),
                     ],
-                    ['escape' => false]
+                    ['class' => 'dropdown-item', 'escape' => false]
                 );
             }
             if ($menuItems) {
                 $panel .= $this->Layout->dropdownMenuButton(
                     $menuItems,
                     [
-                        'class' => 'btnLink btn-icon panel-footer-form-btn',
+                        'class' => 'btn btn-link',
                     ]
                 );
             }
@@ -308,7 +308,7 @@ if ($items) {
                 $lock[] = $this->Form->button(
                     __('Block User'),
                     [
-                        'class' => 'btnLink',
+                        'class' => 'btn btn-link',
                         'type' => 'submit'
                     ]
                 );

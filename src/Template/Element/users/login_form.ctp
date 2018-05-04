@@ -46,7 +46,7 @@ echo $this->Form->control(
 echo $this->Form->submit(
     __('login_btn'),
     [
-        'class' => 'btn btn-submit',
+        'class' => 'btn btn-primary',
         'tabindex' => 103,
     ]
 );

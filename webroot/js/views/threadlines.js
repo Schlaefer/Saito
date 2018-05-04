@@ -26,16 +26,14 @@ define([
 
     ui: {
       btnShowThread: '.btn_show_thread',
-      linkShowThread: '.link_show_thread'
+      btnClose: '.js-btn-strip',
+      linkShowThread: '.link_show_thread',
     },
 
     events: {
       'click @ui.btnShowThread': 'toggleInlineOpen',
-      'click @ui.linkShowThread': 'toggleInlineOpenFromLink'
-
-      // is bound manually after dom insert in _toggleInlineOpened
-      // to highlight the correct click target in iOS
-      // 'click .btn-strip-top': 'toggleInlineOpen'
+      'click @ui.linkShowThread': 'toggleInlineOpenFromLink',
+      'click @ui.btnClose': 'toggleInlineOpen',
     },
 
     initialize: function(options) {
@@ -78,8 +76,6 @@ define([
       }
       if (!this.model.get('isContentLoaded')) {
         this.$('.threadLine').after(this.spinnerTpl);
-        // @bogus, why no listenTo?
-        this.$('.js-btn-strip').on('click', _.bind(this.toggleInlineOpen, this));
         this._insertContent();
         this.model.set('isContentLoaded', true);
       }

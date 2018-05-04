@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -6,7 +7,9 @@ html {
   font-size: 62.5%;
 }
 
-code, pre, tt {
+code,
+pre,
+tt {
   line-height: inherit;
   font-family: courier-new, courier, monospace;
 }
@@ -16,7 +19,7 @@ ins {
 }
 
 %ul {
-  margin-top: 1em;
+  margin-bottom: 1em;
   padding-left: 0;
   list-style-type: none;
   position: relative;

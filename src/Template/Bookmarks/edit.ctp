@@ -30,7 +30,7 @@ $this->end();
         );
         echo $this->Form->submit(
             __('btn-comment-title'),
-            ['class' => 'btn btn-submit']
+            ['class' => 'btn btn-primary']
         );
         echo $this->Form->end();
         ?>

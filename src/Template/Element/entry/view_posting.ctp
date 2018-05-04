@@ -77,7 +77,7 @@ $jsEntry = json_encode(
                     'span',
                     $title,
                     [
-                        'class' => 'btn btn-submit panel-footer-form-btn',
+                        'class' => 'btn btn-primary',
                         'disabled' => 'disabled'
                     ]
                 );
@@ -85,23 +85,18 @@ $jsEntry = json_encode(
                 echo $this->Html->link(
                     __('forum_answer_linkname'),
                     '#',
-                    ['class' => 'btn btn-submit js-btn-setAnsweringForm panel-footer-form-btn']
+                    ['class' => 'btn btn-primary js-btn-setAnsweringForm']
                 );
             };
-            ?>
-            <?php if (!$entry->isEditingWithRoleUserForbidden()) : ?>
-                <span class="small">
-                    <?=
-                    $this->Html->link(
-                        __('edit_linkname'),
-                        '/entries/edit/' . $entry->get('id'),
-                        ['class' => 'btn btn-edit js-btn-edit panel-footer-form-btn']
-                    );
-                    ?>
-                </span>
-            <?php endif; ?>
 
-            <?php
+            if (!$entry->isEditingWithRoleUserForbidden()) {
+                echo $this->Html->link(
+                    __('edit_linkname'),
+                    '/entries/edit/' . $entry->get('id'),
+                    ['class' => 'btn btn-secondary js-btn-edit']
+                );
+            }
+
             // edit entry
             if (!$entry->isEditingAsCurrentUserForbidden()) {
                 $editLinkIsShown = true;
@@ -170,7 +165,7 @@ $jsEntry = json_encode(
             if (!empty($menuItems)) {
                 echo $this->Layout->dropdownMenuButton(
                     $menuItems,
-                    ['class' => 'btn btn-outline-secondary']
+                    ['class' => 'btn btn-link']
                 );
             }
             ?>

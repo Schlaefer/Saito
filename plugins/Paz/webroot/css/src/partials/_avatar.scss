@@ -1,3 +1,7 @@
+/**
+ * Formatting of avatar-images
+ */
+
 %avatar-image-effect {
   position: absolute;
   content: ' ';
@@ -13,13 +17,15 @@
   position: relative;
 
   $avatar-radius: 5px;
+
+  border-radius: $avatar-radius;
   background-color: white;
   background-repeat: no-repeat;
-  border-radius: $avatar-radius;
   background-size: contain;
 
   &:after {
     @extend %avatar-image-effect;
+
     border-radius: $avatar-radius;
   }
 }

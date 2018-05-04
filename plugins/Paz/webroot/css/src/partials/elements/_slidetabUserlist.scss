@@ -1,0 +1,26 @@
+
+// slidetab userlist
+// -------------------------------------
+
+.slidetab-userlist-icon {
+  display: inline-block;
+  width: 2.1em;
+  padding-left: $padding;
+}
+
+#slidetabUserlist-counter {
+  position: absolute;
+  min-width: 6px;
+  background: #111;
+  border: 1px solid white;
+  padding: 0 1px;
+  right: 0;
+  bottom: 0;
+}
+
+.slidetabUserlist-counter-inner {
+  text-align: center;
+  color: white;
+  line-height: 12px;
+  font-size: 8px;
+}

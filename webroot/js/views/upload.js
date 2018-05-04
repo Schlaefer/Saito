@@ -15,7 +15,7 @@ define([
 
     events: {
       "click .upload_box_delete": "_removeUpload",
-      "click .btn-submit": "_insert"
+      "click .btn-primary": "_insert"
     },
 
     initialize: function(options) {

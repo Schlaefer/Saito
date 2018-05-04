@@ -6,13 +6,11 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
   float: right;
   position: relative;
   z-index: 5;
-
   background: $page-color;
 }
 
 .slidetab {
   width: $slidetab-tab-width;
-
   margin-bottom: 2 * $padding;
   box-sizing: border-box;
   font-size: $font-size-small;
@@ -26,23 +24,22 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
   }
 }
 
-.slidetab.is-open {
-  width: $slidetab-width;
-
-  .slidetab-outer {
-    display: block;
-  }
-}
-
 .slidetab-outer {
   display: none;
   // prevents tab-button hanging in "mid air" if filled by JS after page loaded 
   min-height: 40px;
   // tab-button space
   margin-left: $slidetab-tab-width;
-
   padding: $padding 0 $padding 2*$padding;
   border-left: 1px solid $border-color;
+}
+
+.slidetab.is-open {
+  width: $slidetab-width;
+
+  .slidetab-outer {
+    display: block;
+  }
 }
 
 .slidetab-tab {
@@ -61,30 +58,4 @@ $slidetab-content-width: $slidetab-width - $slidetab-tab-width;
 
 .slidetab-content {
   word-break: break-word;
-}
-
-// slidetab userlist
-// -------------------------------------
-
-.slidetab-userlist-icon {
-  display: inline-block;
-  width: 2.1em;
-  padding-left: $padding;
-}
-
-#slidetabUserlist-counter {
-  position: absolute;
-  min-width: 6px;
-  background: #111111;
-  border: 1px solid white;
-  padding: 0 1px;
-  right: 0px;
-  bottom: 0px;
-}
-
-.slidetabUserlist-counter-inner {
-  text-align: center;
-  color: white;
-  line-height: 12px;
-  font-size: 8px;
 }

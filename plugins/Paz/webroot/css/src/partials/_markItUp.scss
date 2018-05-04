@@ -9,7 +9,6 @@
   }
 
   .markItUpHeader > ul {
-
     .markItUpSeparator {
       min-width: 1px;
       width: 1px;
@@ -20,7 +19,8 @@
     }
 
     // all levels
-    &, li {
+    &,
+    li {
       padding: 0;
       margin: 0;
       list-style: none;
@@ -28,9 +28,11 @@
 
     li {
       margin: 0;
+
       @media (min-width: map-get($grid-breakpoints, md)) {
         margin: 3px;
       }
+
       min-width: $markItUp-buttonWidth;
       height: $markItUp-buttonHeight;
       position: relative;
@@ -42,7 +44,7 @@
       line-height: $markItUp-buttonHeight;
       min-width: $markItUp-buttonWidth;
       height: $markItUp-buttonHeight;
-      background-repeat:no-repeat;
+      background-repeat: no-repeat;
 
       @media (min-width: map-get($grid-breakpoints, md)) {
         font-size: 18px;

@@ -24,31 +24,38 @@ $headerSubnavLeftUrl = $headerSubnavLeftUrl ?? null;
 echo $this->Layout->navbarBack($headerSubnavLeftUrl, $headerSubnavLeftTitle);
 $this->end();
 ?>
-<div
-    class="entry <?= ($isAnswer) ? 'reply' : 'add' ?> <?= ($isInline) ? '' : 'add-not-inline' ?>">
-    <div class="preview panel">
-        <?=
-        $this->Layout->panelHeading(
-            [
-                'first' => "<i class='fa fa-close-widget pointer btn-previewClose'> &nbsp;</i>",
-                'middle' => __('preview')
-            ],
-            ['escape' => false]
-        ) ?>
-        <div class="panel-content"></div>
-    </div>
+<div class="entry <?= ($isAnswer) ? 'reply' : 'add' ?> <?= ($isInline) ? '' : 'add-not-inline' ?>">
+    <?php
+    $closeButton = $this->Form->button(
+        $this->Layout->textWithIcon('', 'close-widget'),
+        ['class' => 'js-btnPreviewClose close float-left', 'type' => 'button']
+    );
+    $heading = $this->Layout->panelHeading(
+        ['first' => $closeButton, 'middle' => __('preview')],
+        ['escape' => false]
+    );
+
+    $content = $this->Html->div('panel-content', '');
+
+    echo $this->Html->div('preview panel', $heading . $content);
+    ?>
     <!-- preview -->
 
     <div class="postingform panel">
         <?php
-        $first = ($isInline) ? "<i class='fa fa-close-widget pointer btn-answeringClose'> &nbsp; </i>" : '';
+        // close form button
+        if ($isInline) {
+            $closeButton = $this->Form->button(
+                $this->Layout->textWithIcon('', 'close-widget'),
+                ['class' => 'js-btnAnsweringClose close float-left', 'type' => 'button']
+            );
+        }
+
         echo $this->Layout->panelHeading(
-            [
-                'first' => $first,
-                'middle' => $titleForPage,
-            ],
+            ['first' => $closeButton ?? '', 'middle' => $titleForPage],
             ['pageHeading' => !$isInline, 'escape' => false]
-        ); ?>
+        );
+        ?>
         <div id="markitup_upload">
             <div class="body"></div>
         </div>
@@ -85,66 +92,66 @@ $this->end();
                     'settings' => 'markitupSettings'
                 ]
             );
-            echo $this->Html->div(
-                'postingform-eh',
-                $this->Parser->editorHelp()
-            );
-            if (empty($citeText) === false) : ?>
-                <div class="cite-container">
-                    <?=
-                    $this->Html->link(
+
+            ?>
+            <div class="postingform-buttons">
+                <?php
+                // first
+                $submitButton = $this->Form->button(
+                    __('submit_button'),
+                    [
+                        'id' => 'btn-primary',
+                        'class' => 'btn btn-primary js-btn-primary',
+                        'tabindex' => 4,
+                        'type' => 'button'
+                    ]
+                );
+                $previewButtton = $this->Html->link(
+                    __('preview'),
+                    '#',
+                    ['class' => 'btn btn-preview', 'tabindex' => 5]
+                );
+
+                $first = $submitButton . $previewButtton;
+                echo $this->Html->div('first', $first);
+
+                // middle
+                $middle = '';
+                // citation button
+                if (empty($citeText) === false) {
+                    $citeLink = $this->Html->link(
                         Configure::read('Saito.Settings.quote_symbol') . ' ' . __('Cite'),
                         '#',
                         [
                             'data-text' => $this->Parser->citeText($citeText),
-                            'class' => 'btn-cite label'
+                            'class' => 'btn js-btnCite label'
                         ]
                     );
-                    ?>
-                    <br/><br/>
-                </div>
-            <?php endif; ?>
+                    $middle .= $citeLink;
+                }
 
-            <div class="postingform-buttons">
-                <div class="left">
-                    <?=
-                    $this->Form->button(
-                        __('submit_button'),
-                        [
-                            'id' => 'btn-submit',
-                            'class' => 'btn btn-submit js-btn-submit',
-                            'tabindex' => 4,
-                            'type' => 'button'
-                        ]
-                    );
-                    ?>
-                    &nbsp;
-                    <?=
-                    $this->Html->link(
-                        __('preview'),
-                        '#',
-                        ['class' => 'btn btn-preview', 'tabindex' => 5]
-                    );
-                    ?>
-                </div>
-                <div class="center">
-                </div>
-                <div class="right">
-                    <?php
-                    //= get additional profile info from plugins
-                    $items = $SaitoEventManager->dispatch(
-                        'Request.Saito.View.Posting.addForm',
-                        [
-                            'View' => $this
-                        ]
-                    );
+                echo $this->Html->div('middle', $middle);
+
+                // last
+                $last = '';
+                // get additional profile info from plugins
+                $items = $SaitoEventManager->dispatch(
+                    'Request.Saito.View.Posting.addForm',
+                    ['View' => $this]
+                );
+                if (!empty($items)) {
                     foreach ($items as $item) {
-                        echo $item;
+                        $last .= $item;
                     }
-                    ?>
-                </div>
+                }
+
+                echo $this->Html->div('last', $last);
+                ?>
             </div>
-            <?php echo $this->Form->end(); ?>
+            <?php
+            echo $this->Html->div('postingform-info', $this->Parser->editorHelp());
+            echo $this->Form->end();
+            ?>
         </div>
         <!-- content -->
     </div>

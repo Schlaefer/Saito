@@ -3,18 +3,6 @@
   box-sizing: border-box;
   min-height: 100%;
   position: relative;
-
   padding: 0 2*$padding 3*$padding;
   margin: 0 auto;
-}
-
-@media (min-width: map-get($grid-breakpoints, md)) {
-  .l-disclaimer {
-    @include flexBar();
-    align-items: flex-start;
-
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }

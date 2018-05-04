@@ -80,6 +80,7 @@ module.exports = function(grunt) {
     },
     sass: {
       options: {
+        sourceComments: true,
         sourceMap: false,
         // compression is done by "postcss"-task
         // outputStyle: 'compressed',

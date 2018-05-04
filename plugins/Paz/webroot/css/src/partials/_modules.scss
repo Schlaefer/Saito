@@ -1,8 +1,13 @@
-@import "modules-panels";
-@import "modules-shp";
+@import "modules/panels";
+@import "modules/saitoHelpPopup";
+@import "modules/slidetab";
 
-body, .btnLink, textarea, input[type=text], input[type=password], input[type=email] {
-  font-family: Cabin;
+body,
+textarea,
+input[type=text],
+input[type=password],
+input[type=email] {
+  font-family: Cabin, Arial, Helvetica, sans-serif;
   color: $font-color;
   font-weight: 400;
   background-color: $background-color;
@@ -22,18 +27,27 @@ body, .btnLink, textarea, input[type=text], input[type=password], input[type=ema
   margin: auto $padding;
 }
 
-input, textarea {
+input,
+textarea {
   font-size: 1em;
   padding: 0.5em;
   box-sizing: border-box;
   outline-color: $outline-color;
 }
 
-body, h1, h2, h3, h4 {
+body,
+h1,
+h2,
+h3,
+h4 {
   line-height: $line-height;
 }
 
-h1, h2, h3, h4, #hero-home-link {
+h1,
+h2,
+h3,
+h4,
+#hero-home-link {
   font-size: $font-size-large;
 }
 
@@ -43,33 +57,35 @@ h4 {
 
 %unstyledLink {
   color: inherit;
-  text-decoration: inherit;
-  cursor: inherit;
-}
-
-
-.btnLink {
-  border: none;
-  background: none;
-  margin: 0;
-  padding: 0;
   cursor: pointer;
-  line-height: inherit;
-  font-size: 1em;
-  -webkit-appearance: none;
-}
+  text-decoration: inherit;
 
-// remove outline on click
-.ui-dialog-titlebar-close, .btnLink {
-  &:active, &:focus {
+  // remove outline on click
+  &:active,
+  &:focus {
     outline: none;
   }
 }
 
-a, a:hover, .btnLink {
+a,
+.btn-link {
   @extend %unstyledLink;
-  color: $link-color;
-  cursor: pointer;
+
+  @include setLinkStyleAll {
+    color: $link-color;
+    text-decoration: none;
+  }
+}
+
+a {
+  &.btn-primary,
+  &.btn-secondary,
+  &.btn-success,
+  &.btn-danger,
+  &.btn-info,
+  &.btn-dark {
+    color: $page-color;
+  }
 }
 
 u {
@@ -79,112 +95,6 @@ u {
 hr {
   border-width: 0;
   border-bottom: 1px solid $border-color;
-}
-
-#site-header {
-  text-align: center;
-}
-
-body.headerClosed {
-  $_height: 40px;
-
-  .top-menu {
-    display: none;
-  }
-
-  header#site-header {
-    margin-left: -2*$padding;
-    margin-right: -2*$padding;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  #js-top-menu-open {
-    display: block;
-    line-height: $_height;
-    padding: 0 2* $padding;
-  }
-
-  #hero-home-link {
-    padding-top: 0.5 * $padding;
-    padding-bottom: 0.5 * $padding;
-  }
-}
-
-#hero {
-  position: relative;
-  border-bottom: 1px solid $border-color;
-  background: $page-color;
-}
-
-#hero-home-link {
-  font-weight: bold;
-  padding: $padding;
-}
-
-#js-top-menu-open {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  display: none;
-}
-
-.top-menu {
-  border-bottom: 1px solid $border-color;
-  @include responsiveIconText;
-  // anchors .top-menu-aside
-  position: relative;
-}
-
-.top-menu-item {
-  padding: 0.5*$padding;
-  @media (min-width: map-get($grid-breakpoints, md)) {
-    padding: $padding;
-  }
-
-  display: inline-block;
-}
-
-.top-menu-aside {
-  position: absolute;
-  right: 0;
-}
-
-.navbar {
-  @include responsiveIconText;
-
-  padding: 0;
-  margin: 0 $padding;
-  white-space: nowrap;
-
-  h1,
-  h2,
-  h3 {
-    margin: 0;
-    padding: 0;
-  }
-
-  @extend .flexHeader;
-}
-
-.navbar .pageHeading {
-  margin: 0;
-}
-
-.navbar-item {
-  // provide a nice click target if link/button
-  padding: $padding;
-  // make padding stick on inline elements
-  display: inline-block;
-
-  &.left {
-    padding-left: 0;
-  }
-
-  &.right {
-    padding-right: 0;
-  }
 }
 
 .pageHeading {
@@ -211,23 +121,12 @@ body.headerClosed {
   padding: 0 2*$padding;
 }
 
-.disclaimer {
-  border-top: 1px solid $border-color;
-  font-size: $font-size-small;
-  padding-bottom: $padding;
-  background: $page-color;
-
-  .disclaimer-inside {
-    padding-top: $padding;
-    text-align: center;
-  }
-}
-
 #debugFooter {
   font-size: 12px;
 }
 
-.infoText, .disabled {
+.infoText,
+.disabled {
   color: $info-color;
 }
 
@@ -243,8 +142,10 @@ body.headerClosed {
 
 .postingBody-signature {
   @extend .infoText;
+
   font-size: $font-size-small;
   text-align: center;
+
   .richtext img {
     display: inline;
   }
@@ -273,11 +174,12 @@ body.headerClosed {
 }
 
 %dialog-hover {
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .sort-menu {
-  .asc, .desc {
+  .asc,
+  .desc {
     font-weight: bold;
   }
 
@@ -307,10 +209,19 @@ body.headerClosed {
   }
 }
 
-// Spinner
-// -------------------------------------
+/* Disclaimer
+ * ------------------------------------- */
+.disclaimer {
+  background: $page-color;
+  border-top: 1px solid $border-color;
+  font-size: $font-size-small;
+  text-align: center;
+}
 
+/* Spinner (from BS)
+ * ------------------------------------- */
 .spinner {
+  /*** Center Small Spinner ***/
   padding: 1em;
   margin: 0 auto;
   max-width: 300px;

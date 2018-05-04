@@ -1,0 +1,41 @@
+
+.navbar {
+  @extend .responsiveIconText;
+
+  padding: 0 $padding;
+  white-space: nowrap;
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  @extend .flexHeader;
+
+  ul.paginator {
+    display: inline-block;
+
+    > li {
+        display: inline-block;
+        margin-right: 0.5em;
+
+        &:last-child {
+          margin-right: 0;
+      }
+    }
+  }
+}
+
+.navbar .pageHeading {
+  margin: 0;
+}
+
+.navbar-item {
+  // provide a nice click target if link/button
+  padding-top: $padding;
+  padding-bottom: $padding;
+  // make padding stick on inline elements
+  display: inline-block;
+}

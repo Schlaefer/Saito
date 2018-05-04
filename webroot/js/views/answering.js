@@ -37,12 +37,12 @@ define([
         model: null,
 
         events: {
-            'click .btn-previewClose': '_closePreview',
+            'click .js-btnCite': '_cite',
+            'click .js-btnPreviewClose': '_closePreview',
             'click .btn-preview': '_showPreview',
             'click .btn-markItUp-Upload': '_upload',
             'click .btn-markItUp-Media': '_media',
-            'click .btn-submit': '_send',
-            'click .btn-cite': '_cite',
+            'click .btn-primary': '_send',
             'keypress .js-subject': '_onKeyPressSubject',
             'input .js-subject': '_updateSubjectCharCount'
         },
@@ -71,21 +71,19 @@ define([
         },
 
         _disable: function() {
-            this.$('.btn.btn-submit').attr('disabled', 'disabled');
+            this.$('.btn.btn-primary').attr('disabled', 'disabled');
         },
 
         _enable: function() {
-            this.$('.btn.btn-submit').removeAttr('disabled');
+            this.$('.btn.btn-primary').removeAttr('disabled');
         },
 
         _cite: function(event) {
-            var citeContainer = this.$('.cite-container'),
-                citeText = this.$('.btn-cite').data('text'),
-                currentText = this.$textarea.val();
+            const citeText = this.$('.js-btnCite').data('text');
+            const currentText = this.$textarea.val();
             event.preventDefault();
 
             this.$textarea.val(citeText + '\n\n' + currentText);
-            citeContainer.slideToggle();
             this.$textarea.trigger('autosize.resize');
             this.$textarea.focus();
         },
@@ -198,7 +196,7 @@ define([
          * @private
          */
         _addCountdown: function() {
-            var _$submitButton = this.$('.js-btn-submit');
+            var _$submitButton = this.$('.js-btn-primary');
             var editCountdown = new EditCountdown({
                 el: _$submitButton,
                 model: this.model,
@@ -232,7 +230,7 @@ define([
 
         _sendRedirect: function(event) {
             var submit;
-            var button = this.$('.btn-submit')[0];
+            var button = this.$('.btn-primary')[0];
             event.preventDefault();
             if (typeof button.validity === 'object' &&
                 button.form.checkValidity() === false) {

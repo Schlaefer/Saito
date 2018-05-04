@@ -24,6 +24,17 @@
     width: 100%;
   }
 
+  .navbar,
+  .top-menu {
+    padding: 0;
+  }
+
+  .navbar-item,
+  .top-menu {
+    padding-top: 0.5*$padding;
+    padding-bottom: 0.5*$padding;
+  }
+
   .l-table {
     .l-table-row {
       flex-direction: column;
@@ -45,6 +56,12 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  .threadBox-tools {
+    .btn-link {
+      padding-left: inherit;
+    }
+  }
+
   .threadBox-body {
     width: 100%;
     padding: inherit 0;
@@ -61,5 +78,9 @@
   .panel {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .postingLayout-body {
+    margin-top: 1em;
   }
 }

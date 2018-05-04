@@ -23,6 +23,7 @@
   align-items: center;
   display: flex;
   justify-content: space-between;
+  align-content: flex-start;
 
   & > div {
     flex: 1;
@@ -38,7 +39,7 @@
 
   & > div {
     // keep the middle element more centered 
-    flex: 2;
+    flex: 1;
     text-align: center;
   }
 
@@ -53,19 +54,23 @@
   }
 }
 
-@mixin responsiveIconText() {
+.responsiveIconText {
   .saito-icon-text {
-    display: none;
+    display: inline;
 
-    @media (min-width: map-get($grid-breakpoints, sm)) {
-      display: inline;
+    @media (max-width: map-get($grid-breakpoints, md)) {
+      display: none;
     }
   }
 }
 
 // Sets the style to pseudo selectors AND base default anchor
 @mixin setLinkStyleAll {
-  &, &:hover, &:link, &:active, &:visited {
+  &,
+  &:hover,
+  &:link,
+  &:active,
+  &:visited {
     @content;
   }
 }

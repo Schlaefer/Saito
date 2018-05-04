@@ -2,13 +2,15 @@
   margin: 0 0 $padding;
 }
 
-textarea, input[type=text], input[type=password], input[type=email], %textinput {
+textarea,
+input[type=text],
+input[type=password],
+input[type=email],
+%textinput {
   outline-style: none;
   border-style: none;
   width: 100%;
-
   background: $input-background-color;
-  // border-left: 2px solid darken($border-color, 10);
   border-left: 2px solid $input-border-color;
   // resets inner shadow from Mobile Safari iOS
   -webkit-appearance: none;
@@ -18,7 +20,7 @@ textarea, input[type=text], input[type=password], input[type=email], %textinput 
 
 .required {
   label:after {
-    color: #ee3322;
+    color: #e32;
     content: "\2217";
     vertical-align: super;
     padding-right: 0.5em;
@@ -27,14 +29,14 @@ textarea, input[type=text], input[type=password], input[type=email], %textinput 
 
 // buttons
 // -------------------------------------
+.btn {
+  line-height: inherit; // BS reset
+}
 
-.btn-submit {
+.btn-primary {
   @include setLinkStyleAll {
-    @extend .btnLink;
-    padding: 0em 0.8em;
-    border-radius: $border-radius;
     background-color: $link-color;
-    color: $page-color;
+    border-color: $link-color;
 
     &[disabled=disabled] {
       opacity: 0.5;
@@ -43,54 +45,30 @@ textarea, input[type=text], input[type=password], input[type=email], %textinput 
   }
 }
 
-// buttons with icon only
-.btn-icon {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
+// dropdown button
+.dropdown-item {
+  // overwrite BS
+  color: $link-color;
 
-.dropdown .dropdown-menu {
-  > li > a:hover {
+  i {
+    // cosmetic: space between item-icon and item-text
+    margin-right: 0.5em;
+  }
+
+  &:hover {
     background-color: $link-color;
-    color: $background-color;
+    color: $page-color;
     cursor: pointer;
   }
 }
 
 // strip buttons
 // -------------------------------------
-.btn-strip {
+.btn-strip-top {
   cursor: pointer;
   height: 100%;
   position: absolute;
-}
-
-// inline-open close
-.btn-strip-top {
   width: 25px;
   text-align: center;
-  margin: 4px 0px 0px -1px;
+  margin: 4px 0 0 -1px;
 }
-
-// mix back
-.btn-strip-back {
-  $btn-strip-width: 15px;
-  width: $btn-strip-width;
-  background-color: $form-background-color;
-  background-repeat: repeat-y;
-  &:active {
-    background-color: $form-background-color;
-  }
-
-  &:before {
-    font-family: 'FontAwesome';
-    content: '\f060';
-    font-size: 12px;
-    width: $btn-strip-width;
-    text-align: center;
-    display: block;
-    position: absolute;
-    top: 50%;
-  }
-}
-

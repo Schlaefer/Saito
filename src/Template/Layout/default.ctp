@@ -46,27 +46,42 @@
                     $options + ['escape' => false]
                 );
                 ?>
-                <button id="js-top-menu-open" class="btnLink top-menu-item">
+                <button id="js-top-menu-open" class="btn btn-link">
                     <i class="fa fa-plus-square-o"></i>
                 </button>
             </div>
             <div class="top-menu">
-                <div class="top-menu-body">
-                    <?= $this->element('layout/header_login', ['divider' => '']) ?>
-                    <?= $this->Html->link(
+                <div class="first">
+                    <?= $this->element('layout/header_login') ?>
+                </div>
+                <div class="middle">
+                    <?php
+                    // link to search
+                    echo $this->Html->link(
                         $this->Layout->textWithIcon(h(__('Search')), 'search'),
                         '/searches/simple',
-                        ['class' => 'top-menu-item', 'escape' => false]
-                    ); ?>
-                    <span class="top-menu-aside">
-                        <button id="shp-show" class="btnLink shp-show-btn top-menu-item">
-                            <i class="fa fa-question-circle"></i>
-                        </button>
-                        <button id="js-themeSwitcher" class="btnLink top-menu-item"></button>
-                        <button id="js-top-menu-close" class="btnLink top-menu-item">
-                            <i class="fa fa-minus-square-o"></i>
-                        </button>
-                    </span>
+                        ['class' => 'btn btn-link', 'escape' => false]
+                    );
+
+                    // link to admin-backend
+                    if ($CurrentUser->permission('saito.core.admin.backend')) {
+                        echo $this->Html->link(
+                            $this->Layout->textWithIcon(h(__('ial.aa')), 'wrench'),
+                            '/admin',
+                            ['class' => 'btn btn-link', 'escape' => false]
+                        );
+                    }
+                    ?>
+                </div>
+                <div class="last">
+                    <button id="shp-show" class="btn btn-link shp-show-btn">
+                        <i class="fa fa-question-circle"></i>
+                    </button>
+                    <button id="js-themeSwitcher" class="btn btn-link" style="min-width: 3.1em">
+                    </button>
+                    <button id="js-top-menu-close" class="btn btn-link">
+                        <i class="fa fa-minus-square-o"></i>
+                    </button>
                 </div>
             </div>
         </header>
@@ -130,11 +145,11 @@
         }
         ?>
     </div>
-    <?php if ($showDisclaimer ?? false) : ?>
-        <div class="disclaimer">
-            <?= $this->element('layout/disclaimer') ?>
-        </div>
-    <?php endif; ?>
+    <?php
+    if ($showDisclaimer ?? false) {
+        echo $this->element('layout/disclaimer');
+    }
+    ?>
     <div id="saito-modal-dialog" class="modal fade"  tabindex="-1" role="dialog" aria-hidden="true"></div>
     <?= $this->element('layout/html_footer'); ?>
     <script>

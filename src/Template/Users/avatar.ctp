@@ -18,14 +18,14 @@ $this->end();
             <?php
             echo $this->Form->button(
                 __('gn.btn.save.t'),
-                ['class' => 'btn btn-submit panel-footer-form-btn']
+                ['class' => 'btn btn-primary']
             );
             $avatar = $user->get('avatar');
             if (!empty($avatar)) {
                 echo $this->Form->button(
                     __('gn.btn.delete.t'),
                     [
-                        'class' => 'btnLink',
+                        'class' => 'btn btn-link',
                         'name' => 'avatarDelete',
                         'value' => '1'
                     ]

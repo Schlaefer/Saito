@@ -11,7 +11,7 @@ define([
   var UploadsView = Backbone.View.extend({
 
     events: {
-      "click .current .btn-submit": "_closeDialog"
+      "click .current .btn-primary": "_closeDialog"
     },
 
     initialize: function(options) {

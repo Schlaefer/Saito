@@ -19,19 +19,7 @@ $this->end();
 ?>
 
 <div class="entry mix" style="position:relative;">
-    <?php
-    echo $this->Html->link(
-        '<div class="btn-strip btn-strip-back">&nbsp;</div>',
-        $paginatedIndexId,
-        [
-            'escape' => false,
-            'rel' => 'nofollow',
-        ]
-    );
-    ?>
-    <div style="margin-left: 25px;">
-        <?= $this->Posting->renderThread($entries, ['renderer' => 'mix']) ?>
-    </div>
+    <?= $this->Posting->renderThread($entries, ['renderer' => 'mix']) ?>
 </div>
 
 <?php Stopwatch::stop('entries/mix'); ?>

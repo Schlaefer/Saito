@@ -14,5 +14,5 @@ echo $this->Form->control('cc', [
     ]
 ]);
 echo $this->Form->submit(__('Submit'), [
-    'class' => 'btn btn-submit'
+    'class' => 'btn btn-primary'
 ]);

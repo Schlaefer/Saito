@@ -1,5 +1,4 @@
 .postingform {
-
   .panel-form {
     max-width: 52em;
     margin: 0 auto;
@@ -7,40 +6,28 @@
 
   .subject {
     @extend %schmuckfont;
+
     font-size: 1.2 * $font-size;
   }
 
   // make different font em padding in subject and text visually more harmonic
-  textarea, input[type=text] {
+  textarea,
+  input[type=text] {
     padding-left: 10px;
     padding-right: 10px;
   }
 }
 
-.postingform-buttons {
-  @extend .flexBar;
-  flex-direction: row;
-  @media (max-width: map-get($grid-breakpoints, md)) {
-    flex-direction: column;
-
-    & > div {
-      margin: 0 auto $padding 0;
-      text-align: left;
-    }
-  }
-}
-
 .postingform-subject-count {
   @extend .infoText;
+
   float: right;
 }
 
-.postingform-eh {
+.postingform-info {
   @extend .infoText;
-  float:right;
+
   font-size: $font-size-small;
-  margin-top: -1em;
-  line-height: 1em;
 }
 
 .preview {
@@ -50,3 +37,34 @@
   border-bottom: 1px solid $border-color;
 }
 
+/* Buttons below posting form
+// ------------------------------------- */
+.postingform-buttons {
+  @extend .flexBar;
+
+  align-items: flex-start;
+  flex-direction: row;
+
+  & > .first,
+  & > .middle,
+  & > .last {
+    margin-bottom: $padding;
+  }
+
+  @media (max-width: map-get($grid-breakpoints, md)) {
+    flex-direction: column;
+
+    & > .first,
+    & > .middle,
+    & > .last {
+      /// left align elements
+      margin-right: auto;
+      text-align: left;
+
+      // hide if no content (eleminates margins and paddings)
+      &:empty {
+        display: none;
+      }
+    }
+  }
+}

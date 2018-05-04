@@ -8,8 +8,12 @@ define(['jquery', 'marionette', 'models/app', 'views/answering',
 
         answeringForm: false,
 
+        ui: {
+          btnClose: '.js-btnAnsweringClose',
+        },
+
         events: {
-          "click .btn-answeringClose": "onBtnClose"
+          'click @ui.btnClose': 'onBtnClose'
         },
 
         initialize: function(options) {

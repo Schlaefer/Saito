@@ -1,4 +1,5 @@
-body, ul {
+body,
+ul {
   margin: 0;
   padding: 0;
 }
@@ -7,10 +8,11 @@ ul {
   list-style: none;
 }
 
-table, .table {
-  td, tr {
+table,
+.table {
+  td,
+  tr {
     // BS theme reset
     border-top: none;
   }
 }
-

@@ -1,6 +1,3 @@
-
-////////////////////////////////////////////////////
-
 #markitup_upload {
 
   // smooth/single finger scrolling in mobile WebKit in subview
@@ -8,8 +5,8 @@
 }
 
 #upload_index {
-
-  form, input[type=file] {
+  form,
+  input[type=file] {
     width: auto;
     margin: 0;
     padding: 0;
@@ -53,7 +50,6 @@
   .upload_box_image {
     max-width: 140px;
     max-height: 110px;
-
     border: 1px solid $border-color;
     padding: 4px;
     background: white;
@@ -75,7 +71,8 @@
     padding: $local-padding !important;
   }
 
-  .upload-drag-indicator, .upload-layer {
+  .upload-drag-indicator,
+  .upload-layer {
     top: 0;
     left: 0;
     position: absolute;
@@ -89,7 +86,7 @@
   }
 
   .upload-drag-indicator {
-    background: #ffffff;
+    background: #fff;
     opacity: 0.9;
     font-size: $topHeight/2;
     line-height: $topHeight;

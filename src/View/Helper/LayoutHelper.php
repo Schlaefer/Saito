@@ -312,7 +312,7 @@ class LayoutHelper extends AppHelper
     public function navbarItem($content, $url, array $options = [])
     {
         $defaults = [
-            'class' => 'navbar-item',
+            'class' => 'btn btn-link navbar-item',
             'position' => 'left'
         ];
         $class = '';

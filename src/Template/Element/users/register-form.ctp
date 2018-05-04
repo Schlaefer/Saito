@@ -47,7 +47,7 @@ echo $this->Form->submit(
     __('register_linkname'),
     [
         'id' => 'btn-register-submit',
-        'class' => 'btn btn-submit',
+        'class' => 'btn btn-primary',
         'disabled' => $tosRequired ? 'disabled' : '',
         'tabindex' => 12
     ]

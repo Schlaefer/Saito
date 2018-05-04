@@ -55,7 +55,7 @@ $this->end();
         );
         echo $this->Form->submit(
             __('change_password_btn_submit'),
-            ['class' => 'btn btn-submit']
+            ['class' => 'btn btn-primary']
         );
         echo $this->Form->end();
         ?>

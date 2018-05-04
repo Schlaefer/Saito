@@ -51,7 +51,7 @@ if (isset($categoryChooser)) :
         '#',
         [
             'id' => 'btn-category-chooser',
-            'class' => 'navbar-item right',
+            'class' => 'btn btn-link navbar-item right',
             'escape' => false
         ]
     );

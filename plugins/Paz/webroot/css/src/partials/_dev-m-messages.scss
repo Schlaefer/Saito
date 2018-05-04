@@ -2,7 +2,7 @@
 // -------------------------------------
 $color-flashNoticeBg: #e6efff;
 $color-flashSuccessBg: #c6ff6e;
-$color-flashWarningBg: #FFF25E;
+$color-flashWarningBg: #fff25e;
 $color-flashErrorBg: #ff2120;
 $border_width: 1px;
 
@@ -13,7 +13,7 @@ $border_width: 1px;
 
   border: $border_width ($color / 1.5) solid;
   color: darken($color, 70%);
-  text-shadow: lighten($color, 50%) 0px 1px;
+  text-shadow: lighten($color, 50%) 0 1px;
   background-color: $color;
   // box-shadow: 0px 2px 10px 1px rgba(darken($color, 75%), 0.4) !important;
 }
@@ -29,9 +29,10 @@ $border_width: 1px;
   }
 }
 
-.flash > .alert, .message {
+.flash > .alert,
+.message {
   clear: both;
-  margin: 0px 0px 1em;
+  margin: 0 0 1em;
   padding: $padding;
   color: #333;
   // text-shadow: hsla(0, 0%, 0%, 0.3) 0px -1px 1px;
@@ -41,6 +42,7 @@ $border_width: 1px;
 
 .flash-error > .alert {
   @include flash-colors($color-flashErrorBg, $border_width);
+
   text-shadow: none;
   color: white;
 }
@@ -60,7 +62,8 @@ $border_width: 1px;
 
 // Validation messages
 // -------------------------------------
-.error-message, .message {
+.error-message,
+.message {
   padding: 5px;
 
   /* einziehen Zunge Fehlermeldungen */

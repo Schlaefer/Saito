@@ -63,7 +63,7 @@ Stopwatch::start('category-chooser.ctp'); ?>
             <?php
             echo $this->Form->submit(
                 __('Apply'),
-                ['class' => 'btn btn-submit']
+                ['class' => 'btn btn-primary']
             );
             echo $this->Form->end();
             ?>
