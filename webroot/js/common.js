@@ -38,7 +38,6 @@
       humanize: '../dev/bower_components/humanize/humanize',
       jquery: 'lib/jquery',
       jqueryAutosize: '../dev/bower_components/jquery-autosize/jquery.autosize',
-      jqueryDropdown: '../dev/bower_components/jquery-dropdown/jquery.dropdown',
       jqueryTinyTimer: '../dev/node_modules/jQuery-tinyTimer/jquery.tinytimer',
       jqueryUi: 'lib/jquery-ui/jquery-ui.custom.min',
       pnotify: '../dev/node_modules/pnotify/lib/iife/Pnotify',

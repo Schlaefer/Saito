@@ -27,7 +27,6 @@
     "@bower_components/jasmine": "pivotal/jasmine#~2.0.0",
     "@bower_components/jasmine-jquery": "velesin/jasmine-jquery#~2.0.3",
     "@bower_components/jquery-autosize": "jackmoore/autosize#1.17.8",
-    "@bower_components/jquery-dropdown": "claviska/jquery-dropdown#1.0.4",
     "@bower_components/leaflet": "Leaflet/Leaflet#~0.7.3",
     "@bower_components/leaflet.markercluster": "Leaflet/Leaflet.markercluster#~0.4.0",
     "@bower_components/lodash": "lodash/lodash#~3.5",
