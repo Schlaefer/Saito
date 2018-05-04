@@ -81,22 +81,54 @@ module.exports = function(grunt) {
     sass: {
       options: {
         sourceMap: false,
-        outputStyle: 'compressed',
+        // compression is done by "postcss"-task
+        // outputStyle: 'compressed',
       },
-      release: {
+      static: {
         files: {
           'webroot/css/stylesheets/static.css': 'webroot/css/src/static.scss',
           'webroot/css/stylesheets/admin.css': 'webroot/css/src/admin.scss',
           'webroot/css/stylesheets/cake.css': 'webroot/css/src/cake.scss',
         }
+      },
+      theme: {
+        files: {
+          'plugins/Paz/webroot/css/stylesheets/theme.css': 'plugins/Paz/webroot/css/src/theme.scss',
+          'plugins/Paz/webroot/css/stylesheets/night.css': 'plugins/Paz/webroot/css/src/night.scss',
+        }
       }
     },
     watch: {
-      sass: {
+      sassStatic: {
         files: ['webroot/css/src/**/*.scss'],
-        tasks: ['sass:release'],
+        tasks: ['sass:static'],
+      },
+      sassTheme: {
+        files: ['plugins/Paz/webroot/css/src/**/*.scss'],
+        tasks: ['sass:theme'],
       }
-    }
+    },
+    postcss: {
+      options: {
+        map: false,
+        /*
+        map: {
+            inline: false, // save all sourcemaps as separate files...
+            annotation: 'webroot/css/stylesheets/maps/' // ...to the specified directory
+        },
+        */
+        processors: [
+          require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
+          require('cssnano')() // minify the result
+        ]
+      },
+      release: {
+        src: [
+          'webroot/css/stylesheets/*.css',
+          'plugins/Paz/webroot/css/stylesheets/*.css'
+        ]
+      },
+    },
   };
 
   var configs = ['compass', 'copy', 'jasmine', 'phpcs', 'requirejs'];
@@ -117,6 +149,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-postcss');
 
   // dev-setup
   grunt.registerTask('dev-setup', [
@@ -133,12 +166,17 @@ module.exports = function(grunt) {
 
   // release
   grunt.registerTask('release', [
+    // cleanup
     'clean:release',
-    'sass:release',
+    // CSS
+    'sass:static',
+    'postcss:release',
+    // JS
     'requirejs:release',
     'copy:release',
     'copy:nonmin',
     'uglify:release',
+    // cleanup
     'clean:releasePost'
   ]);
 };
