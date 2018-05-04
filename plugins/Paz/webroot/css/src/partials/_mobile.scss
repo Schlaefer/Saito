@@ -1,11 +1,10 @@
-@media only screen and (max-width: map-get($grid-breakpoints, md)) {
-  body {
-    text-size-adjust: 110%;
-  }
-
+/******************************************************************************
+ * Adjustment Tablet Portrait or smaller
+ ******************************************************************************/
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
   #site {
     padding-left: 0;
-    padding-right: 0;    
+    padding-right: 0;
   }
 
   .l-body {
@@ -29,10 +28,12 @@
     .l-table-row {
       flex-direction: column;
     }
+
     .l-table-cell {
       align-items: center;
       flex-direction: row;
     }
+
     .l-table-cell-item {
       margin-right: 1em;
     }

@@ -1,3 +1,7 @@
+.panel {
+  padding: $padding;
+}
+
 .modal-body {
   padding: 0;
 
@@ -6,11 +10,9 @@
   }
 }
 
-.panel {
-  padding: $padding;
-}
-
 .panel-heading {
+  @extend .flexHeader;
+
   margin: 0 0 $padding;
 
   &.pageTitle {
@@ -18,13 +20,16 @@
     display: none;
   }
 
-  h1, h2 {
+  h1,
+  h2 {
     @extend .pageHeading;
   }
 }
 
+/*
 .panel-content {
 }
+*/
 
 .panel-footer {
   padding: $padding 0;
@@ -46,14 +51,15 @@
 
 .panel-info {
   @extend .panel-form;
+
   font-size: $font-size-small;
   padding: $padding;
   background: $form-background-color;
 }
 
 .panel-inf {
-
-  button, a {
+  a,
+  button {
     padding: 0.2em 0.5em;
     display: block;
     white-space: nowrap;
