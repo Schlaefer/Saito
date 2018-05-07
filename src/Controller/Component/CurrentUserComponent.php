@@ -103,10 +103,6 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->_Controller = $Controller;
         Registry::set('CU', $this);
 
-        if ($Controller->getName() === 'CakeError') {
-            return;
-        }
-
         $this->Categories = new Categories($this);
         $this->_User = TableRegistry::get('Users');
 

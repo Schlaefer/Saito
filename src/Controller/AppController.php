@@ -78,7 +78,6 @@ class AppController extends Controller
     {
         Stopwatch::start('App->beforeFilter()');
 
-        // must be called before CakeError early return
         $this->Themes->set();
         $this->loadModel('Settings');
         $this->Settings->load(Configure::read('Saito.Settings'));
