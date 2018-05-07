@@ -21,11 +21,6 @@ class ReadPostingsCookieMock extends ReadPostingsCookie
         $this->maxPostings = $maxPostings;
     }
 
-    public function setCookie($Cookie)
-    {
-        $this->Cookie = $Cookie;
-    }
-
     public function setLastRefresh($LR)
     {
         $this->LastRefresh = $LR;
@@ -48,6 +43,9 @@ class ReadPostingsCookieMock extends ReadPostingsCookie
 
 class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 {
+    public $fixtures = [
+        'app.user',
+    ];
 
     public function testAbstractIsReadNoTimestamp()
     {
@@ -99,6 +97,10 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
     public function testDelete()
     {
         $this->mock();
+        $cookie = $this->ReadPostings->Cookie
+            ->expects($this->once())
+            ->method('delete');
+
         $this->ReadPostings->delete();
     }
 
@@ -210,7 +212,6 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 
         $controller = new Controller($request, $response);
         $controller->loadComponent('Auth');
-        $controller->loadComponent('Cookie');
 
         $registry = new ComponentRegistry($controller);
         $currentUser = $this->getMockBuilder('App\Controller\Component\CurrentUserComponent')
@@ -218,15 +219,10 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
             ->setMethods(['_markOnline'])
             ->getMock();
 
-        $cookie = $this->getMockBuilder('Saito\User\Cookie\Storage')
-            ->setConstructorArgs([$controller->Cookie, 'Saito-Read'])
-            ->setMethods(['setConfig', 'read', 'write', 'delete'])
+        $cookie = $this->getMockBuilder(Storage::class)
+            ->setConstructorArgs([$controller, 'Saito-Read'])
+            ->setMethods(['read', 'write', 'delete'])
             ->getMock();
-
-        // test that cookie is unencrypted
-        $cookie->expects($this->once())
-            ->method('setConfig')
-            ->with(['encryption' => false]);
 
         $this->ReadPostings = $this->getMockBuilder('Saito\Test\User\ReadPostings\ReadPostingsCookieMock')
             ->setConstructorArgs([$currentUser, $cookie])
@@ -241,7 +237,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 
     public function tearDown()
     {
-        $this->ReadPostings->Cookie->delete();
+        $this->ReadPostings->delete();
         unset($this->ReadPostings);
         unset($this->CurrentUser);
         parent::tearDown();

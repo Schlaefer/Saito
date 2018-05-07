@@ -2,7 +2,10 @@
 
 namespace Saito\User\Cookie;
 
-use Cake\Controller\Component\CookieComponent;
+use Cake\Chronos\Chronos;
+use Cake\Controller\Controller;
+use Cake\Http\Cookie\Cookie;
+use Cake\Routing\Router;
 
 /**
  * Class Storage
@@ -13,29 +16,35 @@ use Cake\Controller\Component\CookieComponent;
  */
 class Storage
 {
+    /**
+     * Cookie is HTTP only
+     */
+    private const HTTP = true;
 
-    protected $_Cookie;
+    /**
+     * Expire time for cookies
+     */
+    private const EXPIRE = '+1 month';
 
-    protected $_defaults = [
-        'encryption' => 'aes',
-        'expires' => '+1 month',
-        'httpOnly' => true
-    ];
+    /**
+     * Controller
+     *
+     * @var Controller
+     */
+    protected $_Controller;
 
     protected $_key;
 
     /**
      * Constructor
      *
-     * @param CookieComponent $Cookie component
+     * @param Controller $controller Controller
      * @param string $key cookie-key
      */
-    public function __construct(CookieComponent $Cookie, $key)
+    public function __construct(Controller $controller, $key)
     {
-        $this->_Cookie = $Cookie;
+        $this->_Controller = $controller;
         $this->_key = $key;
-
-        return $this;
     }
 
     /**
@@ -45,7 +54,17 @@ class Storage
      */
     public function read()
     {
-        return $this->_Cookie->read($this->_key);
+        // raw string value of cookie
+        $raw = $this->_Controller->request->getCookie($this->_key);
+        if ($raw === null) {
+            return null;
+        }
+        // Cake 3 encodes complex cookie-data (json), this decodes again
+        $value = (new Cookie('dummy'))
+            ->withValue($raw)
+            ->read();
+
+        return $value;
     }
 
     /**
@@ -56,7 +75,9 @@ class Storage
      */
     public function write($data)
     {
-        $this->_Cookie->write($this->_key, $data);
+        $cookie = $this->createCookie()
+            ->withValue($data);
+        $this->_Controller->response = $this->_Controller->response->withCookie($cookie);
     }
 
     /**
@@ -66,19 +87,22 @@ class Storage
      */
     public function delete()
     {
-        $this->_Cookie->delete($this->_key);
+        $cookie = $this->createCookie();
+        $this->_Controller->response = $this->_Controller->response->withExpiredCookie($cookie);
     }
 
     /**
-     * Set config.
+     * Creates a new CakePHP cookie instance with default values set
      *
-     * @param array $options options
-     * @return $this
+     * @return Cookie
      */
-    public function setConfig($options)
+    private function createCookie(): Cookie
     {
-        $this->_Cookie->configKey($this->_key, $options + $this->_defaults);
+        $cookie = (new Cookie($this->_key))
+            ->withPath(Router::url('/', false))
+            ->withHttpOnly(self::HTTP)
+            ->withExpiry(new Chronos(self::EXPIRE));
 
-        return $this;
+        return $cookie;
     }
 }

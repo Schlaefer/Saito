@@ -69,9 +69,13 @@ return [
      * - salt - A random string used in security hashing methods.
      *   The salt value is also used as the encryption key.
      *   You should treat it as extremely sensitive data.
+     * - cookieSalt - Same as salt exclusively used for cookie encryption
+     * - cookieAuthName - name of the encrypted authentication cookie
      */
     'Security' => [
         'salt' => env('SECURITY_SALT', '__SALT__'),
+        'cookieSalt' => env('SECURITY_COOKIE_SALT', '__SALT__'),
+        'cookieAuthName' => 'Saito-AU',
     ],
 
     /**

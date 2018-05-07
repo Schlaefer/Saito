@@ -1,4 +1,11 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace Saito\User\Cookie;
 
@@ -15,26 +22,24 @@ class CurrentUserCookie extends Storage
      */
     public function write($CurrentUser)
     {
-        $cookie = [
-            'id' => $CurrentUser->getId(),
-            'username' => $CurrentUser->get('username')
-        ];
-        parent::write($cookie);
+        $data = ['id' => $CurrentUser->getId()];
+        parent::write($data);
     }
 
     /**
      * Gets cookie values
      *
-     * @return bool|array cookie values if found, `false` otherwise
+     * @return false|array cookie values if found, `false` otherwise
      */
     public function read()
     {
         $cookie = parent::read();
-        if (is_null($cookie) ||
-            // cookie couldn't be deciphered correctly and is a meaningless string
-            !is_array($cookie)
-        ) {
-            parent::delete();
+
+        if (!is_array($cookie)) {
+            if (!is_null($cookie)) {
+                // cookie couldn't be deciphered correctly and is a meaningless string
+                parent::delete();
+            }
 
             return false;
         }

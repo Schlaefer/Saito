@@ -11,9 +11,6 @@ use Saito\User\Cookie\Storage;
  */
 class ReadPostingsCookie extends ReadPostingsAbstract
 {
-
-    protected $cookieConfig = ['encryption' => false];
-
     /**
      * Max number of postings in cookie
      */
@@ -30,7 +27,6 @@ class ReadPostingsCookie extends ReadPostingsAbstract
     ) {
         parent::__construct($CurrentUser);
         $this->Cookie = $storage;
-        $this->Cookie->setConfig($this->cookieConfig);
     }
 
     /**

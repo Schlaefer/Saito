@@ -18,6 +18,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
@@ -101,6 +102,13 @@ class Application extends BaseApplication
             // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
             // you might want to disable this cache in case your routing is extremely simple
             ->add(new RoutingMiddleware($this, '_cake_routes_'));
+
+        $cookies = new EncryptedCookieMiddleware(
+            // Names of cookies to protect
+            [Configure::read('Security.cookieAuthName')],
+            Configure::read('Security.cookieSalt')
+        );
+        $middlewareQueue->add($cookies);
 
         $security = (new SecurityHeadersMiddleware())
             ->setXFrameOptions(strtolower(Configure::read('Saito.X-Frame-Options')));

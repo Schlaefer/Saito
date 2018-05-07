@@ -59,7 +59,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      *
      * @var array
      */
-    public $components = ['Cookie', 'Cron.Cron'];
+    public $components = ['Cron.Cron'];
 
     /**
      * Manages the persistent login cookie
@@ -97,10 +97,9 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->Categories = new Categories($this);
         $this->_User = TableRegistry::get('Users');
 
-        $cookieTitle = Configure::read('Session.cookie') . '-AU';
         $this->PersistentCookie = new CurrentUserCookie(
-            $this->Cookie,
-            $cookieTitle
+            $this->getController(),
+            Configure::read('Security.cookieAuthName')
         );
 
         $this->configureAuthentication($this->getController()->Auth);
@@ -123,7 +122,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             $this->ReadEntries = new ReadPostingsDummy($this);
         } else {
             $this->LastRefresh = new LastRefresh\LastRefreshCookie($this);
-            $storage = new Storage($this->Cookie, 'Saito-Read');
+            $storage = new Storage($this->getController(), 'Saito-Read');
             $this->ReadEntries = new ReadPostingsCookie($this, $storage);
         }
 
@@ -248,11 +247,11 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     }
 
     /**
-     * Logout user.
+     * Logs-out user: clears session data and cookies.
      *
      * @return void
      */
-    public function logout()
+    public function logout(): void
     {
         if (!$this->isLoggedIn()) {
             return;

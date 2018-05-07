@@ -22,7 +22,7 @@ class LastRefreshCookie extends LastRefreshAbstract
     {
         $this->_CurrentUser = $CurrentUser;
         $this->_Cookie = new Cookie\Storage(
-            $this->_CurrentUser->Cookie,
+            $this->_CurrentUser->getController(),
             'lastRefresh'
         );
     }
