@@ -88,19 +88,10 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     protected $_User = null;
 
     /**
-     * Reference to the controller
-     *
-     * @var Controller
-     */
-    protected $_Controller = null;
-
-    /**
      * {@inheritDoc}
      */
     public function initialize(array $config)
     {
-        $Controller = $this->_registry->getController();
-        $this->_Controller = $Controller;
         Registry::set('CU', $this);
 
         $this->Categories = new Categories($this);
@@ -112,11 +103,11 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             $cookieTitle
         );
 
-        $this->configureAuthentication($Controller->Auth);
+        $this->configureAuthentication($this->getController()->Auth);
 
         // don't auto-login on login related pages
         $excluded = ['login', 'register'];
-        if (!in_array($this->_Controller->params['action'], $excluded)) {
+        if (!in_array($this->request->getParam('action'), $excluded)) {
             if (!$this->_reLoginSession()) {
                 $this->_reLoginCookie();
             }
@@ -155,7 +146,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             if ($this->isBot()) {
                 return;
             }
-            $userId = $this->_Controller->request->getSession()->id();
+            $userId = $this->request->getSession()->id();
         }
         $this->_User->UserOnline->setOnline($userId, $isLoggedIn);
         Stopwatch::stop('CurrentUser->_markOnline()');
@@ -168,7 +159,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      */
     public function isBot()
     {
-        return $this->_Controller->request->is('bot');
+        return $this->request->is('bot');
     }
 
     /**
@@ -181,23 +172,23 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         // non-logged in session-id is lost after successful login
         $sessionId = session_id();
 
-        $user = $this->_Controller->Auth->identify();
+        $user = $this->getController()->Auth->identify();
         if (!$user || !$this->_login($user)) {
             return false;
         }
-        $this->_Controller->Auth->setUser($user);
+        $this->getController()->Auth->setUser($user);
         $user = $this->_User->get($this->getId());
         $this->_User->incrementLogins($user);
         $this->_User->UserOnline->setOffline($sessionId);
 
         //= password update
-        $password = $this->_Controller->request->getData('password');
+        $password = $this->request->getData('password');
         if ($password) {
             $this->_User->autoUpdatePassword($this->getId(), $password);
         }
 
         //= set persistent Cookie
-        $setCookie = (bool)$this->_Controller->request->getData('remember_me');
+        $setCookie = (bool)$this->request->getData('remember_me');
         if ($setCookie) {
             $this->PersistentCookie->write($this);
         };
@@ -233,7 +224,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      */
     protected function _reLoginSession()
     {
-        $user = $this->_Controller->Auth->user();
+        $user = $this->getController()->Auth->user();
 
         return $this->_login($user);
     }
@@ -250,7 +241,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             return false;
         }
         if ($this->_login($user)) {
-            $this->_Controller->Auth->setUser($user);
+            $this->getController()->Auth->setUser($user);
         }
 
         return $this->isLoggedIn();
@@ -269,7 +260,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->PersistentCookie->delete();
         $this->_User->UserOnline->setOffline($this->getId());
         $this->setSettings(null);
-        $this->_Controller->Auth->logout();
+        $this->getController()->Auth->logout();
     }
 
     /**
@@ -278,7 +269,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     public function beforeRender()
     {
         // write out the current user for access in the views
-        $this->_Controller->set('CurrentUser', $this);
+        $this->getController()->set('CurrentUser', $this);
     }
 
     /**
@@ -343,6 +334,6 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         if ($controller->getRequest()->getParam('action') === 'logout') {
             return;
         }
-        $this->_Controller->redirect(['_name' => 'logout']);
+        $this->getController()->redirect(['_name' => 'logout']);
     }
 }
