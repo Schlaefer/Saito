@@ -4,6 +4,7 @@ namespace Saito\User\Cookie;
 
 use Cake\Chronos\Chronos;
 use Cake\Controller\Controller;
+use Cake\Core\InstanceConfigTrait;
 use Cake\Http\Cookie\Cookie;
 use Cake\Routing\Router;
 
@@ -16,15 +17,17 @@ use Cake\Routing\Router;
  */
 class Storage
 {
-    /**
-     * Cookie is HTTP only
-     */
-    private const HTTP = true;
+    use InstanceConfigTrait;
 
     /**
-     * Expire time for cookies
+     * default configuration
+     *
+     * @var array
      */
-    private const EXPIRE = '+1 month';
+    private $_defaultConfig = [
+        'expire' => '+1 month',
+        'http' => true,
+    ];
 
     /**
      * Controller
@@ -40,6 +43,7 @@ class Storage
      *
      * @param Controller $controller Controller
      * @param string $key cookie-key
+     * @param array $config additional options
      */
     public function __construct(Controller $controller, ?string $key = null, array $config = [])
     {
@@ -48,12 +52,13 @@ class Storage
         }
         $this->_Controller = $controller;
         $this->_key = $key;
+        $this->setConfig($config);
     }
 
     /**
      * Read cookie.
      *
-     * @return string
+     * @return null|mixed null if cookie not set, otherwise it's contents
      */
     public function read()
     {
@@ -103,8 +108,8 @@ class Storage
     {
         $cookie = (new Cookie($this->_key))
             ->withPath(Router::url('/', false))
-            ->withHttpOnly(self::HTTP)
-            ->withExpiry(new Chronos(self::EXPIRE));
+            ->withHttpOnly($this->getConfig('http'))
+            ->withExpiry(new Chronos($this->getConfig('expire')));
 
         return $cookie;
     }

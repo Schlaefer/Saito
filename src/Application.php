@@ -76,6 +76,7 @@ class Application extends BaseApplication
         Plugin::load('SpectrumColorpicker');
         Plugin::load('Stopwatch');
 
+        Plugin::load('ADmad/JwtAuth');
         Plugin::load('Proffer');
 
         Stopwatch::stop('Application::bootstrap');

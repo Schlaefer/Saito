@@ -18,6 +18,8 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
+use Cake\Utility\Security;
+use Firebase\JWT\JWT;
 use Saito\App\Registry;
 use Saito\User\Categories;
 use Saito\User\Cookie\CurrentUserCookie;
@@ -310,6 +312,14 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function shutdown(Event $event)
+    {
+        $this->setJwtCookie($event->getSubject());
+    }
+
+    /**
      * Checks if user is valid and logs him out if not
      *
      * @param Controller $controller The controller
@@ -327,5 +337,46 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             return;
         }
         $this->getController()->redirect(['_name' => 'logout']);
+    }
+
+    /**
+     * Sets (or deletes) the JS-Web-Token in Cookie for access in front-end
+     *
+     * @param Controller $controller The controller
+     * @return void
+     */
+    private function setJwtCookie(Controller $controller): void
+    {
+        $cookieKey = Configure::read('Session.cookie') . '-jwt';
+        $cookie = (new Storage($controller, $cookieKey, ['http' => false, 'expire' => '+1 week']));
+
+        $existingToken = $cookie->read();
+
+        // user not logged-in: no JWT-cookie for you
+        if (!$this->isLoggedIn()) {
+            if ($existingToken) {
+                $cookie->delete();
+            }
+
+            return;
+        }
+
+        if ($existingToken) {
+            //// check that token belongs to current-user
+            $parts = explode('.', $existingToken);
+            // [performance] Done every logged-in request. Don't decrypt whole token with signature.
+            // We only make sure it exists, the auth happens elsewhere.
+            $payload = Jwt::jsonDecode(Jwt::urlsafeB64Decode($parts[1]));
+            if ($payload->sub === $this->getId() && $payload->exp > time()) {
+                return;
+            }
+        }
+
+        // use easy to change cookieSalt to allow emergency invalidation of all existing tokens
+        $jwtKey = Configure::read('Security.cookieSalt');
+        // cookie expires before JWT (7 days < 14 days): JWT exp should always be valid
+        $jwtPayload = ['sub' => $this->getId(), 'exp' => time() + (86400 * 14)];
+        $jwtToken = \Firebase\JWT\JWT::encode($jwtPayload, $jwtKey);
+        $cookie->write($jwtToken);
     }
 }
