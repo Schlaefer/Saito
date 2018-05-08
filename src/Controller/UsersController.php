@@ -45,8 +45,6 @@ class UsersController extends AppController
      */
     public function login()
     {
-        $this->CurrentUser->logOut();
-
         $data = $this->request->getData();
         //= just show form
         if (empty($data['username'])) {

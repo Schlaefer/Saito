@@ -13,7 +13,7 @@ use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use Saito\Test\IntegrationTestCase;
 
-class UsersControllerTestCase extends IntegrationTestCase
+class UsersControllerTest extends IntegrationTestCase
 {
 
     public $fixtures = [
@@ -839,10 +839,8 @@ class UsersControllerTestCase extends IntegrationTestCase
         $this->assertRedirect('/logout');
 
         // locked user can't relogin
-        $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
-        $this->assertNotNull(
-            $this->_controller->request->getSession()->read('Auth.User')
-        );
+        $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
+        $this->assertNull($this->_controller->request->getSession()->read('Auth.User'));
 
         $this->_logoutUser();
         $this->post(

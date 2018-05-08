@@ -5,6 +5,7 @@ namespace Saito\User;
 use App\Model\Entity\User;
 use Cake\Core\Exception\Exception;
 use Cake\I18n\Time;
+use Cake\Utility\Hash;
 use Saito\App\Registry;
 
 /**
@@ -64,6 +65,20 @@ trait SaitoUserTrait
         // perf-cheat
         if (!empty($this->_settings['last_refresh'])) {
             $this->_settings['last_refresh_unix'] = dateToUnix($this->_settings['last_refresh']);
+        }
+
+        //// performance cheat
+        // adds a property 'ignores' which in a array holds all users ignored by this users as keys:
+        // ['<key is user-id of ignored user> => <trueish>, …]
+        if (!empty($this->_settings['user_ignores'])) {
+            $this->_settings['ignores'] = array_fill_keys(
+                Hash::extract(
+                    $this->_settings,
+                    'user_ignores.{n}.blocked_user_id'
+                ),
+                1
+            );
+            unset($this->_settings['user_ignores']);
         }
     }
 

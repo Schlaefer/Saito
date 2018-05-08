@@ -33,7 +33,7 @@ class ManualBlocker extends BlockerAbstract
     {
         $options += $this->defaults;
 
-        $user = $this->Table->Users->getProfile($userId);
+        $user = $this->Table->Users->get($userId);
         if (empty($user)) {
             throw new \InvalidArgumentException;
         }

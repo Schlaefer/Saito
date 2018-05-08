@@ -9,7 +9,6 @@
 
 namespace App\Controller\Component;
 
-use App\Model\Table\UserReadsTable;
 use App\Model\Table\UsersTable;
 use Cake\Controller\Component;
 use Cake\Controller\Component\AuthComponent;
@@ -32,12 +31,13 @@ use Saito\User\ReadPostings\ReadPostingsCookie;
 use Saito\User\ReadPostings\ReadPostingsDatabase;
 use Saito\User\ReadPostings\ReadPostingsDummy;
 use Saito\User\SaitoUserTrait;
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class CurrentUserComponent
  *
  * @package App\Controller\Component
+ * @property AuthComponent $Auth
  */
 class CurrentUserComponent extends Component implements CurrentUserInterface
 {
@@ -61,7 +61,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      *
      * @var array
      */
-    public $components = ['Cron.Cron'];
+    public $components = ['Auth', 'Cron.Cron'];
 
     /**
      * Manages the last refresh/mark entries as read for the current user
@@ -92,24 +92,21 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->Categories = new Categories($this);
         $this->_User = TableRegistry::get('Users');
 
-        $this->configureAuthentication($this->getController()->Auth);
+        $this->configureAuthentication($this->Auth);
 
         // don't auto-login on login related pages
         $excluded = ['login', 'register'];
         if (!in_array($this->request->getParam('action'), $excluded)) {
-            if (!$this->_reLoginSession()) {
-                $this->_reLoginStateless();
-            }
+            $this->_login();
         }
 
         if ($this->isLoggedIn()) {
             $this->LastRefresh = new LastRefresh\LastRefreshDatabase($this);
-            /* @var UserReadsTable $storage */
             $storage = TableRegistry::get('UserReads');
             $this->ReadEntries = new ReadPostingsDatabase($this, $storage);
         } elseif ($this->isBot()) {
-            $this->LastRefresh = new LastRefresh\LastRefreshDummy($this);
-            $this->ReadEntries = new ReadPostingsDummy($this);
+            $this->LastRefresh = new LastRefresh\LastRefreshDummy();
+            $this->ReadEntries = new ReadPostingsDummy();
         } else {
             $this->LastRefresh = new LastRefresh\LastRefreshCookie($this);
             $storage = new Storage($this->getController(), 'Saito-Read');
@@ -152,23 +149,27 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     }
 
     /**
-     * Try to login login user from sended request login-form-data.
+     * Tries to authenticate a user provided by credentials in request (usually form-data)
      *
-     * @return bool success
+     * @return bool Was login successfull
      */
-    public function login()
+    public function login(): bool
     {
-        // non-logged in session-id is lost after successful login
-        $sessionId = session_id();
+        // destroy any existing session or auth-data
+        $this->logout();
 
-        $user = $this->getController()->Auth->identify();
-        if (!$user || !$this->_login($user)) {
+        // non-logged in session-id is lost after Auth::setUser()
+        $originalSessionId = session_id();
+
+        $user = $this->_login();
+
+        if (empty($user)) {
             return false;
         }
-        $this->getController()->Auth->setUser($user);
+
         $user = $this->_User->get($this->getId());
         $this->_User->incrementLogins($user);
-        $this->_User->UserOnline->setOffline($sessionId);
+        $this->_User->UserOnline->setOffline($originalSessionId);
 
         //= password update
         $password = $this->request->getData('password');
@@ -186,50 +187,53 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     }
 
     /**
-     * Try to login the provided users as current user.
+     * Tries to login the user.
      *
-     * Use the provided session/cookie/form user to retrieve user-info from
-     * the DB. Provided one up-do-date truth for all sessions (user got
-     * locked, user-type was changend, …)
-     *
-     * @param array $user user-data
-     * @return bool true if user is logged in false otherwise
+     * @return null|array if user is logged-in null otherwise
      */
-    protected function _login($user)
+    protected function _login(): ?array
     {
-        $this->setSettings($user);
-        if ($this->isLoggedIn()) {
-            $user = $this->_User->getProfile($this->getId());
-            $this->setSettings($user);
-            $this->getController()->Auth->setUser($user);
+        // check if AuthComponent knows user from session-storage (usually session)
+        // Notice: will hit session storage (usually files)
+        $user = $this->Auth->user();
+
+        if ($user) {
+            // Session-data may be outdated. Make sure that user-data is up-to-date:
+            // user not locked/user-type wasn't changend/… since session-storage was written.
+            // Notice: is going to hit DB
+            $user = $this->_User->findAllowedToLoginById($user['id'])
+                ->first();
+
+            if (empty($user)) {
+                //// no user allowed to login found
+                // destroy the invalid session storage information
+                $this->logout();
+                // send to logout form for formal logout procedure
+                $this->getController()->redirect(['_name' => 'logout']);
+
+                return null;
+            }
+
+            $user = $user->toArray();
+        } else {
+            // Check if user is authable via one of the Authenticators (cookie, token, …).
+            // Notice: Authenticators may hit DB to find user
+            $user = $this->Auth->identify();
+
+            if (!empty($user)) {
+                // set user in session-storage to be available in subsequent requests
+                // Notice: on write Cake 3 will start a new session (new session-id)
+                $this->Auth->setUser($user);
+            }
         }
 
-        return $this->isLoggedIn();
-    }
+        if (empty($user)) {
+            return null;
+        }
 
-    /**
-     * Login user with session.
-     *
-     * @return bool success
-     */
-    protected function _reLoginSession()
-    {
-        $user = $this->getController()->Auth->user();
+        $this->setSettings($user);
 
-        return $this->_login($user);
-    }
-
-    /**
-     * Login user with data provided by current request Auth (stateless)
-     *
-     * @return bool success
-     */
-    protected function _reLoginStateless(): bool
-    {
-        $user = $this->getController()->Auth->identify();
-        $this->_login($user);
-
-        return $this->isLoggedIn();
+        return $user;
     }
 
     /**
@@ -239,12 +243,11 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      */
     public function logout(): void
     {
-        if (!$this->isLoggedIn()) {
-            return;
+        if ($this->isLoggedIn()) {
+            $this->_User->UserOnline->setOffline($this->getId());
         }
-        $this->_User->UserOnline->setOffline($this->getId());
         $this->setSettings(null);
-        $this->getController()->Auth->logout();
+        $this->Auth->logout();
     }
 
     /**

@@ -11,7 +11,6 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Cake\Utility\Hash;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use Saito\User\Upload\AvatarFilenameListener;
@@ -721,43 +720,6 @@ class UsersTable extends AppTable
     }
 
     /**
-     *
-     * @param int $id user-id
-     * @return bool|array false if not found, array otherwise
-     */
-    public function getProfile($id)
-    {
-        // @td @perf Ignore is currently retrieved via second query, consider moving
-        // it as cache into user-table
-        $user = $this->find()
-            ->enableHydration(false)
-            ->contain(
-                [
-                    'UserIgnores' => function ($query) {
-                        return $query->enableHydration(false)->select(
-                            ['blocked_user_id', 'user_id']
-                        );
-                    }
-                ]
-            )
-            ->where(['id' => $id])
-            ->first();
-        if ($user) {
-            $user = $user + [
-                    'ignores' => array_fill_keys(
-                        Hash::extract(
-                            $user,
-                            'user_ignores.{n}.blocked_user_id'
-                        ),
-                        1
-                    )
-                ];
-        }
-
-        return $user;
-    }
-
-    /**
      * Count solved posting for a user.
      *
      *
@@ -886,6 +848,30 @@ class UsersTable extends AppTable
     }
 
     /**
+     * Finds a user with additional profil informations from associated tables
+     *
+     * @param Query $query query
+     * @param array $options options
+     * @return Query
+     */
+    public function findProfile(Query $query, array $options): Query
+    {
+        $query
+            // ->enableHydration(false)
+            ->contain(
+                [
+                    'UserIgnores' => function ($query) {
+                        return $query->enableHydration(false)->select(
+                            ['blocked_user_id', 'user_id']
+                        );
+                    }
+                ]
+            );
+
+        return $query;
+    }
+
+    /**
      * Find all users allowed to login
      *
      * @param Query $query query
@@ -895,6 +881,7 @@ class UsersTable extends AppTable
     public function findAllowedToLogin(Query $query, array $options): Query
     {
         $query
+            ->find('profile')
             ->where(['activate_code' => 0, 'user_lock' => false]);
 
         return $query;
