@@ -62,13 +62,6 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     public $components = ['Cron.Cron'];
 
     /**
-     * Manages the persistent login cookie
-     *
-     * @var \Saito\User\Cookie\CurrentUserCookie
-     */
-    public $PersistentCookie = null;
-
-    /**
      * Manages the last refresh/mark entries as read for the current user
      *
      * @var \Saito\User\LastRefresh\LastRefreshAbstract
@@ -97,18 +90,13 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->Categories = new Categories($this);
         $this->_User = TableRegistry::get('Users');
 
-        $this->PersistentCookie = new CurrentUserCookie(
-            $this->getController(),
-            Configure::read('Security.cookieAuthName')
-        );
-
         $this->configureAuthentication($this->getController()->Auth);
 
         // don't auto-login on login related pages
         $excluded = ['login', 'register'];
         if (!in_array($this->request->getParam('action'), $excluded)) {
             if (!$this->_reLoginSession()) {
-                $this->_reLoginCookie();
+                $this->_reLoginStateless();
             }
         }
 
@@ -189,7 +177,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         //= set persistent Cookie
         $setCookie = (bool)$this->request->getData('remember_me');
         if ($setCookie) {
-            $this->PersistentCookie->write($this);
+            (new CurrentUserCookie($this->getController()))->write($this->getId());
         };
 
         return true;
@@ -211,6 +199,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         if ($this->isLoggedIn()) {
             $user = $this->_User->getProfile($this->getId());
             $this->setSettings($user);
+            $this->getController()->Auth->setUser($user);
         }
 
         return $this->isLoggedIn();
@@ -229,19 +218,14 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     }
 
     /**
-     * Login user with cookie.
+     * Login user with data provided by current request Auth (stateless)
      *
      * @return bool success
      */
-    protected function _reLoginCookie()
+    protected function _reLoginStateless(): bool
     {
-        $user = $this->PersistentCookie->read();
-        if (!$user) {
-            return false;
-        }
-        if ($this->_login($user)) {
-            $this->getController()->Auth->setUser($user);
-        }
+        $user = $this->getController()->Auth->identify();
+        $this->_login($user);
 
         return $this->isLoggedIn();
     }
@@ -256,7 +240,6 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         if (!$this->isLoggedIn()) {
             return;
         }
-        $this->PersistentCookie->delete();
         $this->_User->UserOnline->setOffline($this->getId());
         $this->setSettings(null);
         $this->getController()->Auth->logout();
@@ -289,9 +272,19 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      */
     protected function configureAuthentication(AuthComponent $auth): void
     {
+        if ($auth->getConfig('authenticate')) {
+            // different auth configuration already in place (e.g. API)
+            return;
+        };
         $auth->setConfig(
             'authenticate',
-            [AuthComponent::ALL => ['finder' => 'allowedToLogin'], 'Mlf', 'Mlf2', 'Form']
+            [
+                AuthComponent::ALL => ['finder' => 'allowedToLogin'],
+                'Cookie',
+                'Mlf',
+                'Mlf2',
+                'Form'
+            ]
         );
 
         $auth->setConfig('authorize', ['Controller']);

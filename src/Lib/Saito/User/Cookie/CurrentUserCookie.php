@@ -9,6 +9,9 @@
 
 namespace Saito\User\Cookie;
 
+use Cake\Controller\Controller;
+use Cake\Core\Configure;
+
 /**
  * Handles the persistent cookie for cookie relogin
  */
@@ -20,9 +23,18 @@ class CurrentUserCookie extends Storage
     /**
      * {@inheritDoc}
      */
-    public function write($CurrentUser)
+    public function __construct(Controller $controller, ?string $key = null, array $config = [])
     {
-        $data = ['id' => $CurrentUser->getId()];
+        $key = Configure::read('Security.cookieAuthName');
+        parent::__construct($controller, $key, $config);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function write($id)
+    {
+        $data = ['id' => $id];
         parent::write($data);
     }
 

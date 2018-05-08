@@ -41,8 +41,11 @@ class Storage
      * @param Controller $controller Controller
      * @param string $key cookie-key
      */
-    public function __construct(Controller $controller, $key)
+    public function __construct(Controller $controller, ?string $key = null, array $config = [])
     {
+        if (empty($key)) {
+            throw new \LogicException('Cookie must not be empty.', 1525764689);
+        }
         $this->_Controller = $controller;
         $this->_key = $key;
     }
