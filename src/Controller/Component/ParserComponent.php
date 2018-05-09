@@ -51,8 +51,7 @@ class ParserComponent extends Component
      */
     protected function _initHelper(Controller $controller)
     {
-        $userlist = new Userlist\UserlistModel();
-        $userlist->set(TableRegistry::get('Users'));
+        $userlist = new Userlist\UserlistModel(TableRegistry::get('Users'));
         $smilies = new \Saito\Smiley\SmileyLoader();
         $controller->set('smiliesData', $smilies);
 

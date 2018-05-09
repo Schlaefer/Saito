@@ -3,34 +3,33 @@
 namespace Saito\User\Userlist;
 
 use App\Model\Table\UsersTable;
+use Saito\RememberTrait;
 
-class UserlistModel implements UserlistInterface
+class UserlistModel
 {
-
-    protected $_userlist = [];
+    use RememberTrait;
 
     protected $_User;
 
     /**
-     * Setter for user-table.
+     * Constructor
      *
      * @param UsersTable $User user-table
-     * @return void
      */
-    public function set(UsersTable $User)
+    public function __construct(UsersTable $User)
     {
         $this->_User = $User;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns array with list of usernames
+     *
+     * @return array usernames
      */
-    public function get()
+    public function get(): array
     {
-        if (empty($this->_userlist)) {
-            $this->_userlist = $this->_User->userlist();
-        }
-
-        return $this->_userlist;
+        return $this->remember('userlist', function () {
+            return $this->_User->userlist();
+        });
     }
 }

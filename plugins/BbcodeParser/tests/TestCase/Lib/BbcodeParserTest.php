@@ -10,6 +10,7 @@ use Plugin\BbcodeParser\Lib;
 use Plugin\BbcodeParser\src\Lib\Parser;
 use Saito\Test\SaitoTestCase;
 use Saito\User\Userlist;
+use Saito\User\Userlist\UserlistModel;
 
 class BbcodeParserTest extends SaitoTestCase
 {
@@ -1093,8 +1094,11 @@ EOF;
         $SmileyLoader = new \Saito\Smiley\SmileyLoader();
 
         //= userlist fixture
-        $Userlist = new Userlist\UserlistArray();
-        $Userlist->set(['Alice', 'Bobby Junior', 'Dr. No']);
+        $Userlist = $this->getMockBuilder(UserlistModel::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['get'])
+            ->getMock();
+        $Userlist->method('get')->willReturn(['Alice', 'Bobby Junior', 'Dr. No']);
 
         //= ParserHelper
         $settings = [
