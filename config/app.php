@@ -87,8 +87,7 @@ return [
      * enable timestamping regardless of debug value.
      */
     'Asset' => [
-        // @todo 3.0
-        //'timestamp' => true,
+        'timestamp' => 'force',
     ],
 
     /**
