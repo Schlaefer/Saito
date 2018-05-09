@@ -132,20 +132,4 @@ trait TestCaseTrait
 
         return $mock;
     }
-
-    /**
-     * Mark test not implemented on data source
-     *
-     * @param string $name datasource
-     * @return void
-     */
-    protected function _notImplementedOnDatasource($name)
-    {
-        $mc = $this->controller->modelClass;
-        $Ds = $this->controller->{$mc}->getDataSource();
-        $this->_DsName = get_class($Ds);
-        if ($this->_DsName === $name) {
-            $this->markTestIncomplete("Datasource is $name.");
-        }
-    }
 }
