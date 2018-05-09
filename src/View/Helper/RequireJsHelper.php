@@ -28,7 +28,7 @@ class RequireJsHelper extends AppHelper
      *
      * ### Options
      *
-     * - `jsUrl` Base url to javascript. 'app/webroot/js' by default.
+     * - `jsUrl` Base url to javascript. 'webroot/js' by default.
      * - `requireUrl Url to require.js. Without '.js' extension.
      *
      * @param string $dataMain data-main tag start script without .js extension
@@ -42,26 +42,11 @@ class RequireJsHelper extends AppHelper
             'jsUrl' => $this->_jsRoot(),
             'requireUrl' => $this->_requireUrl()
         ];
-        $out = '';
-        // add version as timestamp to require requests
-        $isTimestampShown = Configure::read('Asset.timestamp');
-        if ($isTimestampShown === 'force'
-            || ($isTimestampShown === true && Configure::read('debug') > 0)
-        ) {
-            $out .= $this->Html->scriptBlock(
-                "var require = {urlArgs:" .
-                $this->Js->value(
-                    $this->Html->getAssetTimestamp(
-                        $options['jsUrl'] . $dataMain . '.js'
-                    )
-                ) . " }"
-            );
-        }
         // require.js borks out when used with Cakes timestamp.
         // also we need the relative path for the main-script
         $_tmpAssetTimestampCache = Configure::read('Asset.timestamp');
         Configure::write('Asset.timestamp', false);
-        $out .= $this->Html->script(
+        $out = $this->Html->script(
             $this->Url->assetUrl(
                 $options['requireUrl'],
                 ['ext' => '.js', 'fullBase' => true]

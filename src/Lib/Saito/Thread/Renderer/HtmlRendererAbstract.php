@@ -41,7 +41,7 @@ abstract class HtmlRendererAbstract
     public function __construct(PostingHelper $PostingHelper, $options = [])
     {
         $this->_Helper = $PostingHelper;
-        $this->_View = $this->_Helper->View;
+        $this->_View = $this->_Helper->getView();
         $this->_SEM = SaitoEventManager::getInstance();
         $this->setOptions($options);
     }
