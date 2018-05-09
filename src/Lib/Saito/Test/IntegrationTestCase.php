@@ -28,7 +28,7 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->_allowExceptions();
+        $this->disableErrorHandlerMiddleware();
         $this->setUpSaito();
         $this->_clearCaches();
     }
@@ -43,24 +43,6 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
         $this->_unsetJson();
         parent::tearDown();
         $this->_clearCaches();
-    }
-
-    /**
-     * throw Exceptions from integration tests
-     *
-     * @param bool $allow toggle exception throwing
-     * @return void
-     */
-    protected function _allowExceptions($allow = true)
-    {
-        if ($allow) {
-            Configure::write(
-                'Error.exceptionRenderer',
-                '\Saito\Test\ExceptionRenderer'
-            );
-        } else {
-            Configure::delete('Error.exceptionRenderer');
-        }
     }
 
     /**
