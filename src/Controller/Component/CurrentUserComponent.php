@@ -309,37 +309,9 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     /**
      * {@inheritDoc}
      */
-    public function startup(Event $event)
-    {
-        $this->validateUser($event->getSubject());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function shutdown(Event $event)
     {
         $this->setJwtCookie($event->getSubject());
-    }
-
-    /**
-     * Checks if user is valid and logs him out if not
-     *
-     * @param Controller $controller The controller
-     * @return void
-     */
-    protected function validateUser(Controller $controller): void
-    {
-        if (!$this->isLoggedIn()) {
-            return;
-        }
-        if (!$this->isForbidden()) {
-            return;
-        }
-        if ($controller->getRequest()->getParam('action') === 'logout') {
-            return;
-        }
-        $this->getController()->redirect(['_name' => 'logout']);
     }
 
     /**

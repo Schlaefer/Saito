@@ -52,8 +52,8 @@ class CurrentUserComponentTest extends IntegrationTestCase
         $this->controller->loadComponent('Auth');
         $registry = new ComponentRegistry($this->controller);
         $this->component = new CurrentUserComponent($registry);
-        $event = new Event('Controller.startup', $this->controller);
-        $this->component->startup($event);
+        // $event = new Event('Controller.startup', $this->controller);
+        // $this->component->startup($event);
     }
 
     public function tearDown()
