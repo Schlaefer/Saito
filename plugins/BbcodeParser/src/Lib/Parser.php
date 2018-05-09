@@ -20,6 +20,11 @@ class Parser extends \Saito\Markup\Parser
     protected $_Postprocessors;
 
     /**
+     * @var boolean
+     */
+    private $areCombinedClassFilesLoaded = false;
+
+    /**
      * @var array
      *
      * [
@@ -273,6 +278,8 @@ class Parser extends \Saito\Markup\Parser
      */
     protected function _addDefinitionSet($set, $options)
     {
+        $this->loadCombinedClassFiles();
+
         foreach ($this->_tags[$set] as $definition) {
             $title = $definition['title'];
             switch ($definition['type']) {
@@ -284,10 +291,6 @@ class Parser extends \Saito\Markup\Parser
                     $this->_Parser->addCodeDefinition($builder->build());
                     break;
                 case 'class':
-                    $folder = Plugin::path('BbcodeParser') . DS . 'src' . DS . 'Lib' . DS . 'jBBCode' . DS . 'Definitions' . DS;
-                    require_once $folder . 'JbbCodeDefinitions.php';
-                    require_once $folder . 'JbbHtml5MediaCodeDefinition.php';
-                    require_once $folder . 'JbbCodeCodeDefinition.php';
                     $class = '\Plugin\BbcodeParser\src\Lib\jBBCode\Definitions\\' . ucfirst($title);
                     $this->_Parser->addCodeDefinition(new $class($this->_Helper, $options));
                     break;
@@ -295,5 +298,24 @@ class Parser extends \Saito\Markup\Parser
                     throw new \Exception();
             }
         }
+    }
+
+    /**
+     * Class combined definition class files before first usage
+     *
+     * @return void
+     */
+    protected function loadCombinedClassFiles()
+    {
+        if ($this->areCombinedClassFilesLoaded) {
+            return;
+        }
+
+        $folder = __DIR__ . '/jBBCode/Definitions/';
+        require_once $folder . 'JbbCodeDefinitions.php';
+        require_once $folder . 'JbbHtml5MediaCodeDefinition.php';
+        require_once $folder . 'JbbCodeCodeDefinition.php';
+
+        $this->areCombinedClassFilesLoaded = true;
     }
 }
