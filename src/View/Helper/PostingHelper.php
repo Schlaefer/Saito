@@ -11,9 +11,10 @@ namespace App\View\Helper;
 
 use App\Model\Entity\Entry;
 use Cake\Core\Configure;
+use Cake\Event\Event;
+use Saito\Event\SaitoEventManager;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\PostingInterface;
-use Saito\Posting\Renderer\HelperTrait;
 use Saito\Thread\Renderer;
 
 /**
@@ -23,15 +24,17 @@ use Saito\Thread\Renderer;
  */
 class PostingHelper extends AppHelper
 {
-
-    use HelperTrait;
-
     public $helpers = ['Form', 'Html', 'TimeH'];
 
     /**
      * @var array perf-cheat for renderers
      */
     protected $_renderers = [];
+
+    /**
+     * @var SaitoEventManager
+     */
+    protected $_SEM;
 
     /**
      * get paginated index
@@ -158,5 +161,72 @@ class PostingHelper extends AppHelper
         $renderer->setOptions($options);
 
         return $renderer->render($tree);
+    }
+
+    /**
+     * Get badges
+     *
+     * @param PostingInterface $entry posting
+     * @return string
+     */
+    public function getBadges(PostingInterface $entry)
+    {
+        $out = '';
+        if ($entry->isPinned()) {
+            $out .= '<i class="fa fa-thumb-tack" title="' . __('fixed') . '"></i> ';
+        }
+        // anchor for inserting solve-icon via FE-JS
+        $out .= '<span class="solves ' . $entry->get('id') . '">';
+        if ($entry->get('solves')) {
+            $out .= $this->solvedBadge();
+        }
+        $out .= '</span>';
+
+        $additionalBadges = $this->getSaitoEventManager()->dispatch(
+            'Request.Saito.View.Posting.badges',
+            ['posting' => $entry->toArray()]
+        );
+        if ($additionalBadges) {
+            $out .= implode('', $additionalBadges);
+        }
+
+        return $out;
+    }
+
+    /**
+     * Get solved badge
+     *
+     * @return string
+     */
+    public function solvedBadge()
+    {
+        return '<i class="fa fa-badge-solves solves-isSolved" title="' .
+        __('Helpful entry') . '"></i>';
+    }
+
+    /**
+     * This function may be called serveral hundred times on the front page.
+     * Don't make ist slow, benchmark!
+     *
+     * @param BasicPostingInterface $posting posting
+     * @return string
+     */
+    public function getSubject(BasicPostingInterface $posting)
+    {
+        return \h($posting->get('subject')) . ($posting->isNt() ? ' n/t' : '');
+    }
+
+    /**
+     * Gets SaitoEventManager
+     *
+     * @return SaitoEventManager
+     */
+    private function getSaitoEventManager(): SaitoEventManager
+    {
+        if ($this->_SEM === null) {
+            $this->_SEM = SaitoEventManager::getInstance();
+        }
+
+        return $this->_SEM;
     }
 }

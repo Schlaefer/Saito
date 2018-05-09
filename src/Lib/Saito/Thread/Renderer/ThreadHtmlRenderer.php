@@ -46,7 +46,7 @@ class ThreadHtmlRenderer extends HtmlRendererAbstract
 
         $threadLine = $this->_renderThreadLine($node, $posting, $level);
         $css = $this->_css($node);
-        $badges = $this->getBadges($node);
+        $badges = $this->_Helper->getBadges($node);
 
         $requestedParams = $this->_SEM->dispatch(
             'Request.Saito.View.ThreadLine.beforeRender',
@@ -106,7 +106,7 @@ EOF;
             return $threadLine;
         }
 
-        $subject = $this->getSubject($node);
+        $subject = $this->_Helper->getSubject($node);
         $username = h($posting['user']->get('username'));
         $time = $this->_Helper->TimeH->formatTime($posting['time']);
 

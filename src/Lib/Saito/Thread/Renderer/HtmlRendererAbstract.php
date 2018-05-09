@@ -13,9 +13,6 @@ use Saito\Posting\PostingInterface;
  */
 abstract class HtmlRendererAbstract
 {
-
-    use \Saito\Posting\Renderer\HelperTrait;
-
     protected $_Helper;
 
     protected $_View;
