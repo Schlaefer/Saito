@@ -15,7 +15,7 @@ class ParserComponent extends Component
 {
 
     /**
-     * @var SaitoMarkupSettings
+     * @var Settings
      */
     protected $_settings;
 

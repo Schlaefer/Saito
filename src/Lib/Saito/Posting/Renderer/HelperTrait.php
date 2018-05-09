@@ -12,6 +12,10 @@ use Saito\Posting\PostingInterface;
  */
 trait HelperTrait
 {
+    /**
+     * @var SaitoEventManager
+     */
+    protected $_SEM;
 
     /**
      * Get badges

@@ -1,11 +1,25 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Model\Table;
 
+use App\Model\Table\UsersTable;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Saito\User\Blocker\BlockerAbstract;
 
+/**
+ * UserBlock table
+ *
+ * @property UsersTable $Users
+ */
 class UserBlocksTable extends Table
 {
 
@@ -45,9 +59,9 @@ class UserBlocksTable extends Table
      * @param BlockerAbstract $Blocker blocker
      * @param int $userId user-ID
      * @param array $options options
-     * @return mixed
+     * @return bool
      */
-    public function block($Blocker, $userId, $options)
+    public function block(BlockerAbstract $Blocker, int $userId, array $options): bool
     {
         $Blocker->setUserBlockTable($this);
         $success = $Blocker->block($userId, $options);

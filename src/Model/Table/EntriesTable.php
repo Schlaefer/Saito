@@ -1,11 +1,20 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
+use App\Model\Table\CategoriesTable;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
@@ -35,6 +44,8 @@ use Stopwatch\Lib\Stopwatch;
  * @td After mlf is gone `edited_by` should conatin a User.id, not the username
  *     string.
  *
+ * @property BookmarksTable $Bookmarks
+ * @property CategoriesTable $Categories
  */
 class EntriesTable extends AppTable
 {
@@ -398,7 +409,7 @@ class EntriesTable extends AppTable
 
         try {
             $this->prepare($data, ['preFilterFields' => 'create']);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
@@ -735,7 +746,7 @@ class EntriesTable extends AppTable
      * Deletes posting incl. all its subposting and associated data
      *
      * @param int $id id
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @throws \Exception
      * @return bool
      */
@@ -1092,7 +1103,7 @@ class EntriesTable extends AppTable
         }
         $exists = $this->Categories->exists($newCategoryId);
         if (!$exists) {
-            throw new \NotFoundException;
+            throw new NotFoundException();
         }
         $success = $this->updateAll(
             ['category_id' => $newCategoryId],

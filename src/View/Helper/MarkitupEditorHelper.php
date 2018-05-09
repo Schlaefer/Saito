@@ -1,12 +1,27 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\View\Helper;
 
+use App\View\Helper\ParserHelper;
 use Cake\Core\Configure;
+use Cake\View\Helper\HtmlHelper;
 use Cake\View\View;
 use Markitup\View\Helper\MarkitupHelper;
 use Stopwatch\Lib\Stopwatch;
 
+/**
+ * Markitup Editor Helper
+ *
+ * @property HtmlHelper $Html
+ * @property ParserHelper $Parser
+ */
 class MarkitupEditorHelper extends MarkitupHelper
 {
 

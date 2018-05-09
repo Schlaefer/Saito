@@ -3,7 +3,13 @@
 namespace MailObfuscator\View\Helper;
 
 use Cake\View\Helper;
+use Cake\View\Helper\HtmlHelper;
 
+/**
+ * Mail Obfuscator Helper
+ *
+ * @property HtmlHelper $Html
+ */
 class MailObfuscatorHelper extends Helper
 {
 

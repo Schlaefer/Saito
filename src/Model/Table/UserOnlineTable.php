@@ -1,4 +1,11 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Model\Table;
 
@@ -120,7 +127,7 @@ class UserOnlineTable extends Table
     {
         $id = $this->_getShortendedId($id);
 
-        return $this->deleteAll(['UserOnline.uuid' => $id], false);
+        return $this->deleteAll(['UserOnline.uuid' => $id]);
     }
 
     /**
@@ -166,7 +173,7 @@ class UserOnlineTable extends Table
         if ($timeDiff === null) {
             $timeDiff = $this->timeUntilOffline;
         }
-        $this->deleteAll(['time <' => time() - ($timeDiff)], false);
+        $this->deleteAll(['time <' => time() - ($timeDiff)]);
     }
 
     /**

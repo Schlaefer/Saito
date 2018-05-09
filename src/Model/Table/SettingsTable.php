@@ -1,4 +1,11 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Model\Table;
 
@@ -54,7 +61,7 @@ class SettingsTable extends AppSettingTable
     {
         $settings = $this->find();
         if (empty($settings)) {
-            throw new UnexpectedValueException(
+            throw new \RuntimeException(
                 'No settings found in settings table.'
             );
         }

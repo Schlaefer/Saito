@@ -1,0 +1,22 @@
+parameters:
+    level: 1
+    paths:
+        - plugins/BbcodeParser
+        - plugins/Bookmarks
+        - plugins/Commonmark
+        - plugins/Cron
+        - plugins/Detectors
+        - plugins/Feeds
+        - plugins/MailObfuscator
+        - plugins/Paz
+        - plugins/SaitoHelp
+        - plugins/SaitoSearch
+        - plugins/Sitemap
+        - plugins/Stopwatch
+        - src/
+    excludes_analyse:
+        - **/*.ctp
+    autoload_files:
+        - tests/bootstrap.php
+    ignoreErrors:
+        - '#Access to an undefined property object::\$sub#'

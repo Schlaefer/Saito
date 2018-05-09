@@ -5,7 +5,7 @@ namespace Feeds\Test\TestCase\Controller;
 use Cake\ORM\TableRegistry;
 use Saito\Test\IntegrationTestCase;
 
-class ArticlesControllerTest extends IntegrationTestCase
+class PostingsControllerTest extends IntegrationTestCase
 {
     public $fixtures = [
         'app.category',

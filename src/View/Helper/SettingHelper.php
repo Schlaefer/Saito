@@ -1,9 +1,22 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\View\Helper;
 
 use App\View\Helper\AppHelper;
+use SaitoHelp\View\Helper\SaitoHelpHelper;
 
+/**
+ * Setting Helper
+ *
+ * @property SaitoHelpHelper $SaitoHelp
+ */
 class SettingHelper extends AppHelper
 {
 

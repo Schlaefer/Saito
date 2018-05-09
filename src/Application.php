@@ -17,6 +17,7 @@ namespace App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
+use Cake\Event\EventManagerInterface;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;

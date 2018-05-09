@@ -3,11 +3,17 @@
 namespace Feeds\Controller;
 
 use App\Controller\AppController;
+use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Feeds\Model\Behavior\FeedsPostingBehavior;
 
+/**
+ * Feed Posting Controller
+ *
+ * @property EntriesTable $Entries
+ */
 class PostingsController extends AppController
 {
     public $helpers = ['Feeds.Feeds'];

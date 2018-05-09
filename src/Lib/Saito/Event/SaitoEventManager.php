@@ -2,6 +2,7 @@
 
 namespace Saito\Event;
 
+use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 
 /**
@@ -50,7 +51,7 @@ class SaitoEventManager implements EventListenerInterface
      * @param Event $event event
      * @return void
      */
-    public function cakeEventPassThrough($event)
+    public function cakeEventPassThrough(Event $event)
     {
         $data = ($event->getData()) ?: [];
         $data += ['subject' => $event->getSubject()];
@@ -76,7 +77,7 @@ class SaitoEventManager implements EventListenerInterface
             return;
         }
         if (empty($key)) {
-            throw new InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
         $this->_listeners[$key][] = [
             'func' => $callable,

@@ -31,6 +31,9 @@ use Stopwatch\Lib\Stopwatch;
  * Class EntriesController
  *
  * @property EntriesTable $Entries
+ * @property MarkAsReadComponent $MarkAsRead
+ * @property RefererComponent $Referer
+ * @property ThreadsComponent $Threads
  * @package App\Controller
  */
 class EntriesController extends AppController
@@ -97,8 +100,8 @@ class EntriesController extends AppController
 
         $this->_setupCategoryChooser($this->CurrentUser);
 
-        $this->loadComponent('AutoReload');
-        $this->AutoReload->after($this->CurrentUser);
+        $autoReload = $this->loadComponent('AutoReload');
+        $autoReload->after($this->CurrentUser);
 
         Stopwatch::stop('Entries->index()');
     }

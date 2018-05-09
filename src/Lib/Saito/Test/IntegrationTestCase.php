@@ -109,7 +109,7 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
      *
      * @param string $table table-name
      * @param array $methods methods to mock
-     * @return \Cake\TestSuite\Model
+     * @return mixed
      */
     public function getMockForTable($table, array $methods = [])
     {

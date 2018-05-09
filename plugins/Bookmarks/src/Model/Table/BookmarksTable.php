@@ -2,9 +2,17 @@
 
 namespace Bookmarks\Model\Table;
 
+use App\Model\Table\EntriesTable;
+use App\Model\Table\UsersTable;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+/**
+ * Bookmarks Table
+ *
+ * @property EntriesTable $Entries
+ * @property UsersTable $Users
+ */
 class BookmarksTable extends Table
 {
 

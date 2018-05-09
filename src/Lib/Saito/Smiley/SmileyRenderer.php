@@ -4,6 +4,7 @@ namespace Saito\Smiley;
 
 use Cake\Cache\Cache as CakeCache;
 use Cake\View\Helper;
+use Saito\Smiley\SmileyLoader;
 
 class SmileyRenderer
 {
@@ -13,18 +14,23 @@ class SmileyRenderer
     protected $_replacements;
 
     /**
-     * @var \Saito\Smiley\Cache
+     * @var SmileyLoader
      */
     protected $_smileyData;
 
     protected $_useCache;
 
     /**
+     * @var Helper
+     */
+    protected $_Helper;
+
+    /**
      * Constructor
      *
      * @param array $smileyData data
      */
-    public function __construct($smileyData)
+    public function __construct(SmileyLoader $smileyData)
     {
         $this->_smileyData = $smileyData;
     }

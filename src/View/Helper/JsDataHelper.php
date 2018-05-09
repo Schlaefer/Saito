@@ -1,4 +1,11 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\View\Helper;
 
@@ -9,6 +16,9 @@ use Cake\View\View;
 use Saito\JsData;
 use Saito\User\ForumsUserInterface;
 
+/**
+ * Javascript Data Helper
+ */
 class JsDataHelper extends AppHelper
 {
 

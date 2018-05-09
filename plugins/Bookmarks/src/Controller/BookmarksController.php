@@ -3,14 +3,21 @@
 namespace Bookmarks\Controller;
 
 use App\Controller\AppController;
+use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Network\Exception\MethodNotAllowedException;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Saito\App\Registry;
 use Saito\Exception\SaitoForbiddenException;
 
+/**
+ * Bookmarks Controller
+ *
+ * @property BookmarksTable $Bookmarks
+ */
 class BookmarksController extends AppController
 {
 
@@ -156,7 +163,7 @@ class BookmarksController extends AppController
      * @throws SaitoForbiddenException
      * @return Entity
      */
-    protected function _getBookmark($bookmarkId)
+    protected function _getBookmark($bookmarkId): Entity
     {
         if (!$this->CurrentUser->isLoggedIn()) {
             throw new MethodNotAllowedException;

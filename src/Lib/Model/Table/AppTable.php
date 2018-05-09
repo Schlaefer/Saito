@@ -168,12 +168,12 @@ class AppTable extends Table
      * @param string $field fielt to increment
      * @param int $amount Increment size.
      * @return void
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function increment($where, $field, $amount = 1)
     {
         if (!is_int($amount)) {
-            throw new InvalidArgumentException;
+            throw new \InvalidArgumentException;
         }
 
         if (is_numeric($where)) {

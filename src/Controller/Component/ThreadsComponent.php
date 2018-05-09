@@ -11,6 +11,7 @@ namespace App\Controller\Component;
 
 use App\Model\Table\EntriesTable;
 use Cake\Controller\Component;
+use Cake\Controller\Component\PaginatorComponent;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -22,12 +23,20 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Class ThreadsComponent
  *
+ * @property PaginatorComponent $Paginator
  * @package App\Controller\Component
  */
 class ThreadsComponent extends Component
 {
 
     public $components = ['Paginator'];
+
+    /**
+     * Entries table
+     *
+     * @var EntriesTable
+     */
+    private $Entries;
 
     /**
      * Load paginated threads
@@ -121,6 +130,7 @@ class ThreadsComponent extends Component
         }
 
         /* @var $Entries EntriesTable */
+        // @todo bogus why not use $this->Entries?
         $Entries = TableRegistry::get('Entries');
         $cUserId = $CurrentUser->getId();
 

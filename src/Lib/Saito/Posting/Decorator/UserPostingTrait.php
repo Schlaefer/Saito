@@ -4,20 +4,25 @@ namespace Saito\Posting\Decorator;
 
 use Cake\Core\Configure;
 use Saito\Posting\PostingInterface;
-use Saito\User\CurrentUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\ForumsUserInterface;
 
 trait UserPostingTrait
 {
-
+    /**
+     * @var array
+     */
     protected $_cache = [];
 
+    /**
+     * @var CurrentUserInterface
+     */
     protected $_CurrentUser;
 
     /**
      * Get current-user.
      *
-     * @return CurrentUser
+     * @return CurrentUserInterface
      */
     public function getCurrentUser()
     {
@@ -27,12 +32,12 @@ trait UserPostingTrait
     /**
      * Set current user.
      *
-     * @param CurrentUserInterface $CU  current user
+     * @param CurrentUserInterface $CurrentUser  current user
      * @return void
      */
-    public function setCurrentUser($CU)
+    public function setCurrentUser($CurrentUser)
     {
-        $this->_CurrentUser = $CU;
+        $this->_CurrentUser = $CurrentUser;
     }
 
     /**

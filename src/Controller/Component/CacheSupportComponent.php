@@ -3,6 +3,7 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Saito\Cache\CacheSupport;
@@ -27,7 +28,7 @@ class CacheSupportComponent extends Component
     {
         $this->_CacheSupport = new CacheSupport();
         $this->_addConfigureCachelets();
-        $this->_initLineCache($this->_registry->getController());
+        $this->_initLineCache();
     }
 
     /**

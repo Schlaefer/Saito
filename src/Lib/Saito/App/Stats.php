@@ -2,6 +2,7 @@
 
 namespace Saito\App;
 
+use App\Model\Entity\User;
 use Cake\Cache\Cache;
 use Cake\ORM\TableRegistry;
 use Saito\RememberTrait;

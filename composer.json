@@ -39,6 +39,7 @@
     "psy/psysh": "@stable",
     "phpunit/phpunit": "~6",
     "squizlabs/php_codesniffer": "*",
+    "phpstan/phpstan": "dev-master",
 
     "phing/phing": "^2.16",
     "symfony/css-selector": "*",
@@ -95,7 +96,9 @@
     ],
     "cs-check": "phpcs --colors -p --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
     "cs-fix": "phpcbf --colors --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests",
-    "test": "phpunit --colors=always"
+    "test": "phpunit --colors=always",
+
+    "phpstan": "vendor/bin/phpstan analyse --ansi"
   },
   "minimum-stability" : "dev",
   "prefer-stable": true

@@ -2,6 +2,9 @@
 
 namespace Saito;
 
+/**
+ * @todo remove this abomination
+ */
 class JsData
 {
 

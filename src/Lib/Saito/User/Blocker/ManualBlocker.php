@@ -29,7 +29,7 @@ class ManualBlocker extends BlockerAbstract
      * @throws \Exception
      * @return bool
      */
-    public function block($userId, array $options = [])
+    public function block($userId, array $options = []): bool
     {
         $options += $this->defaults;
 

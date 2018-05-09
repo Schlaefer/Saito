@@ -3,14 +3,22 @@
 //@codingStandardsIgnoreStart
 namespace App\Shell;
 
+use App\Model\Table\EntriesTable;
+use App\Model\Table\UsersTable;
 use Cake\Console\Shell;
 use Cake\Routing\Router;
 use Saito\App\Registry;
 use Saito\Markup\Settings;
 use Saito\User\Auth;
-use Saito\User\SaitoUser;
 use Saito\User\Categories;
+use Saito\User\SaitoUser;
 
+/**
+ * Creates dummy data for development
+ *
+ * @property EntriesTable $Entries
+ * @property UsersTable $Users
+ */
 class SaitoDummyDataShell extends Shell
 {
 
@@ -139,7 +147,7 @@ class SaitoDummyDataShell extends Shell
             if ($newThread) {
                 $posting['category_id'] = $this->_randomCategory();
             } else {
-                $posting['pid'] = array_rand($this->_Threads);
+                $posting['pid'] = array_rand($this->_Threads, 1);
             }
             $posting = $this->Entries->createPosting($posting);
             if (empty($posting)) {
@@ -210,7 +218,7 @@ class SaitoDummyDataShell extends Shell
                 ['fields' => ['id']]
             )->toArray();
         }
-        $id = array_rand($this->_Categories);
+        $id = array_rand($this->_Categories, 1);
 
         return $this->_Categories[$id]->get('id');
     }
@@ -223,7 +231,7 @@ class SaitoDummyDataShell extends Shell
                 ['conditions' => ['activate_code' => 0]]
             )->toArray();
         }
-        $id = array_rand($this->_Users);
+        $id = array_rand($this->_Users, 1);
 
         return $this->_Users[$id];
     }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\Component\CurrentUserComponent;
+use App\Model\Table\SettingsTable;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
@@ -13,28 +14,35 @@ use Saito\App\Registry;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
 use Saito\User\CurrentUser\CurrentUser;
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class AppController
  *
+ * @property ActionAuthorizationComponent $ActionAuthorization
  * @property CurrentUserComponent $CurrentUser
+ * @property JsDataComponent $JsData
+ * @property SaitoEmailComponent $SaitoEmail
+ * @property SlidetabsComponent $Slidetabs
+ * @property SettingsTable $Settings
+ * @property ThemesComponent $Themes
+ * @property TitleComponent $Title
  * @package App\Controller
  */
 class AppController extends Controller
 {
     public $helpers = [
+        'Form',
+        'Html',
         'JsData',
-        'Markitup.Markitup',
         'Layout',
+        'Markitup.Markitup',
         'RequireJs',
         'SaitoHelp.SaitoHelp',
         'Stopwatch.Stopwatch',
         'TimeH',
+        'Url',
         'User',
-        'Form',
-        'Html',
-        'Url'
     ];
 
     /**

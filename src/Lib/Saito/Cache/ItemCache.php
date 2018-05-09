@@ -16,7 +16,7 @@ class ItemCache
     protected $_cache = null;
 
     /**
-     * @var null|SaitoCacheEngine if null cache is only active for this request
+     * @var null|SaitoCacheEngineInterface if null cache is only active for this request
      */
     protected $_CacheEngine = null;
 

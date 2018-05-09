@@ -1,8 +1,19 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
+use App\Model\Entity\User;
+use App\Model\Table\EntriesTable;
+use App\Model\Table\UserBlocksTable;
+use App\Model\Table\UserIgnoresTable;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
@@ -16,6 +27,14 @@ use Cake\Validation\Validator;
 use Saito\User\Upload\AvatarFilenameListener;
 use Stopwatch\Lib\Stopwatch;
 
+/**
+ * Users table
+ *
+ * @property EntriesTable $Entries
+ * @property UserBlocksTable $UserBlocks
+ * @property UserIgnoresTable $UserIgnores
+ * @property UserOnlineTable $UserOnline
+ */
 class UsersTable extends AppTable
 {
 
@@ -612,9 +631,9 @@ class UsersTable extends AppTable
      *
      * @param array $data data
      * @param bool $activate activate
-     * @return new user entity
+     * @return null|User
      */
-    public function register($data, $activate = false)
+    public function register($data, $activate = false): ?User
     {
         $defaults = [
             'registered' => bDate(),

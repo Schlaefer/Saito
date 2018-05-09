@@ -2,6 +2,7 @@
 
 namespace Saito\Thread\Renderer;
 
+use Saito\Cache\ItemCache;
 use Saito\Posting\PostingInterface;
 
 /**

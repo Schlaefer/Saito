@@ -1,9 +1,19 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace App\Controller;
 
+use App\Controller\Component\RefererComponent;
+use App\Controller\Component\ThemesComponent;
 use App\Form\BlockForm;
 use App\Model\Entity\User;
+use App\Model\Table\UsersTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
@@ -17,8 +27,14 @@ use Saito\User\Blocker\ManualBlocker;
 use Saito\User\ForumsUserInterface;
 use Saito\User\SaitoUser;
 use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
+/**
+ * User controller
+ *
+ * @property RefererComponent $Referer
+ * @property UsersTable $Users
+ */
 class UsersController extends AppController
 {
     public $helpers = [
@@ -573,7 +589,7 @@ class UsersController extends AppController
                     $message = __('User {0} is unlocked.', [$username]);
                 }
                 $this->Flash->set($message, ['element' => 'success']);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $message = __('Error while un/locking.');
                 $this->Flash->set($message, ['element' => 'error']);
             }
