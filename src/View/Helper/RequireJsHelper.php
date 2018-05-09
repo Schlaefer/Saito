@@ -23,85 +23,35 @@ class RequireJsHelper extends AppHelper
     ];
 
     /**
-     * url to require.js relative app/webroot/js
-     *
-     * @var array
-     */
-    protected $_requireUrl = [
-        'debug' => 'dist/require',
-        'prod' => 'dist/require.min'
-    ];
-
-    /**
      * Inserts <script> tag for including require.js
      *
-     * ### Options
-     *
-     * - `jsUrl` Base url to javascript. 'webroot/js' by default.
-     * - `requireUrl Url to require.js. Without '.js' extension.
-     *
      * @param string $dataMain data-main tag start script without .js extension
-     * @param array $options additional options
-     * @return string
+     * @return string the script-tag
      */
-    public function scriptTag($dataMain, $options = [])
+    public function scriptTag(string $dataMain): string
     {
-        // require.js should already be included in production js
-        $options += [
-            'jsUrl' => $this->_jsRoot(),
-            'requireUrl' => $this->_requireUrl()
-        ];
-        // require.js borks out when used with Cakes timestamp.
+        $jsRoot = Configure::read('App.jsBaseUrl');
+        $requireUrl = 'dist/require';
+
+        if (!Configure::read('debug')) {
+                $jsRoot = $jsRoot . '/../dist/';
+                $requireUrl = $requireUrl . '.min';
+        }
+
+        $assetUrlFull = $this->Url->assetUrl($requireUrl, ['ext' => '.js', 'fullBase' => true]);
         // also we need the relative path for the main-script
-        $_tmpAssetTimestampCache = Configure::read('Asset.timestamp');
-        Configure::write('Asset.timestamp', false);
-        $out = $this->Html->script(
-            $this->Url->assetUrl(
-                $options['requireUrl'],
-                ['ext' => '.js', 'fullBase' => true]
-            ),
+        $assetUrlRelative = $this->Url->assetUrl(
+            $dataMain,
             [
-                'data-main' => $this->Url->assetUrl(
-                    $dataMain,
-                    [
-                        'pathPrefix' => $options['jsUrl'],
-                        'ext' => '.js'
-                    ]
-                )
+                'pathPrefix' => $jsRoot,
+                'ext' => '.js',
+                // require.js borks out when used with Cakes timestamp.
+                'timestamp' => false,
             ]
         );
-        Configure::write('Asset.timestamp', $_tmpAssetTimestampCache);
 
-        return $out;
-    }
+        $scriptTag = $this->Html->script($assetUrlFull, ['data-main' => $assetUrlRelative]);
 
-    /**
-     * js root
-     *
-     * @return mixed|string
-     */
-    protected function _jsRoot()
-    {
-        $debug = Configure::read('debug') > 0;
-        if ($debug) {
-            return Configure::read('App.jsBaseUrl');
-        } else {
-            return Configure::read('App.jsBaseUrl') . '/../dist/';
-        }
-    }
-
-    /**
-     * require url
-     *
-     * @return mixed
-     */
-    protected function _requireUrl()
-    {
-        $debug = Configure::read('debug') > 0;
-        if ($debug) {
-            return $this->_requireUrl['debug'];
-        } else {
-            return $this->_requireUrl['prod'];
-        }
+        return $scriptTag;
     }
 }
