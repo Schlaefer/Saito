@@ -260,16 +260,6 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     }
 
     /**
-     * Get user-model
-     *
-     * @return UsersTable
-     */
-    public function getModel()
-    {
-        return $this->_User;
-    }
-
-    /**
      * Configures the auth component
      *
      * @param AuthComponent $auth auth-component to configure
