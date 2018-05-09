@@ -41,7 +41,6 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
         $this->tearDownSaito();
         $this->_unsetAjax();
         $this->_unsetJson();
-        $this->_unsetUserAgent();
         parent::tearDown();
         $this->_clearCaches();
     }
@@ -121,21 +120,6 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
             $this->_env['HTTP_USER_AGENT'] = $_ENV['HTTP_USER_AGENT'];
         }
         $_ENV['HTTP_USER_AGENT'] = $agent;
-    }
-
-    /**
-     * unset user agent
-     *
-     * @return void
-     */
-    protected function _unsetUserAgent()
-    {
-        if (isset($this->_env['HTTP_USER_AGENT'])) {
-            $_ENV['HTTP_USER_AGENT'] = $this->_env('HTTP_USER_AGENT');
-            unset($this->_env['HTTP_USER_AGENT']);
-        } else {
-            unset($_ENV['HTTP_USER_AGENT']);
-        }
     }
 
     /**
