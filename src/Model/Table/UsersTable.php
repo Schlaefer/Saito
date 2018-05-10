@@ -654,7 +654,7 @@ class UsersTable extends AppTable
 
         $data = array_merge($data, $defaults);
 
-        if (!$this->requireFields($data, $fields) || !$this->unsetFields($data)) {
+        if (!$this->requireFields($data, $fields)) {
             return false;
         }
 

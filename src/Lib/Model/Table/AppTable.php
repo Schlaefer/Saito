@@ -108,30 +108,6 @@ class AppTable extends Table
     }
 
     /**
-     * removes all keys $unset from array $data
-     *
-     * @param array $data data
-     * @param array $unset unset
-     * @return bool
-     */
-    public function unsetFields(&$data, array $unset = ['id'])
-    {
-        return $this->_mapFields(
-            $data,
-            $unset,
-            function (&$data, $field, $model = null) {
-                if ($model === null) {
-                    if (isset($data[$field])) {
-                        unset($data[$field]);
-                    }
-                }
-
-                return true;
-            }
-        );
-    }
-
-    /**
      * Filter fields
      *
      * @param array $data to map

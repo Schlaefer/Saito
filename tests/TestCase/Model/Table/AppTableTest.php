@@ -42,33 +42,4 @@ class AppTableTest extends SaitoTableTestCase
         $result = $this->Table->requireFields($data, $required);
         $this->assertFalse($result);
     }
-
-    public function testUnsetFields()
-    {
-        $data = ['id' => 1, 'b' => 2, 'c' => 3];
-        $this->Table->unsetFields($data);
-        $expected = ['b' => 2, 'c' => 3];
-        $this->assertEquals($expected, $data);
-
-        $data = ['id' => 1, 'b' => 2, 'c' => 3];
-        $unset = ['id', 'b'];
-        $this->Table->unsetFields($data, $unset);
-        $expected = ['c' => 3];
-        $this->assertEquals($expected, $data);
-    }
-
-    public function testUnsetFieldsArray()
-    {
-        $data = [
-            ['id' => 1, 'b' => 2, 'c' => 3],
-            ['id' => 2, 'b' => 3, 'c' => 4]
-        ];
-        $unset = ['id', 'b'];
-        $this->Table->unsetFields($data, $unset);
-        $expected = [
-            ['c' => 3],
-            ['c' => 4]
-        ];
-        $this->assertEquals($expected, $data);
-    }
 }
