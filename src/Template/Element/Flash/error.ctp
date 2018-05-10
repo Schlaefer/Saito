@@ -1,2 +1,2 @@
 <?php
-$this->JsData->addAppJsMessage($message, 'error');
+$this->JsData->addMessage($message, 'error');

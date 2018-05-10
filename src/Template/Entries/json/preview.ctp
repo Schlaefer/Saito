@@ -5,5 +5,5 @@ $out = [
         ['entry' => $posting, 'level' => 0]
     )
 ];
-$out += $this->JsData->getAppJsMessages();
+$out += $this->JsData->getMessages();
 echo json_encode($out);

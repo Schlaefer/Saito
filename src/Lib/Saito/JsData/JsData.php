@@ -1,46 +1,12 @@
 <?php
 
-namespace Saito;
+namespace Saito\JsData;
 
-/**
- * @todo remove this abomination
- */
 class JsData
 {
-
-    private static $__instance = null;
-
     protected $_appJs = [
         'msg' => []
     ];
-
-    /**
-     * constructor
-     */
-    protected function __construct()
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function __clone()
-    {
-    }
-
-    /**
-     * get instance
-     *
-     * @return null|JsData
-     */
-    public static function getInstance()
-    {
-        if (self::$__instance === null) {
-            self::$__instance = new JsData();
-        }
-
-        return self::$__instance;
-    }
 
     /**
      * get js
@@ -71,7 +37,7 @@ class JsData
      * @param array $options options
      * @return void
      */
-    public function addAppJsMessage($message, $options = [])
+    public function addMessage($message, $options = [])
     {
         $defaults = [
             'type' => 'notice',
@@ -108,7 +74,7 @@ class JsData
      *
      * @return array
      */
-    public function getAppJsMessages()
+    public function getMessages()
     {
         return ['msg' => $this->_appJs['msg']];
     }

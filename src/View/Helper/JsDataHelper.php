@@ -11,6 +11,7 @@ namespace App\View\Helper;
 
 use App\Controller\Component\CurrentUserComponent;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 use Cake\View\Helper;
 use Cake\View\View;
 use Saito\JsData;
@@ -27,17 +28,16 @@ class JsDataHelper extends AppHelper
     protected $_JsData;
 
     /**
-     * get instance
+     * CakePHP beforeRender event-handler
      *
-     * @return null|JsData
+     * @param Event $event event
+     * @param mixed $viewFile view file
+     * @return void
      */
-    protected function _getJsDataInstance()
+    public function beforeRender(Event $event, $viewFile): void
     {
-        if (!$this->_JsData) {
-            $this->_JsData = JsData::getInstance();
-        }
-
-        return $this->_JsData;
+        $View = $event->getSubject();
+        $this->_JsData = $View->get('jsData');
     }
 
     /**
@@ -49,7 +49,7 @@ class JsDataHelper extends AppHelper
      */
     public function getAppJs(View $View, ForumsUserInterface $CurrentUser)
     {
-        $js = $this->_getJsDataInstance()->getJs();
+        $js = $this->_JsData->getJs();
         $js += [
             'app' => [
                 'version' => Configure::read('Saito.v'),
@@ -120,15 +120,17 @@ class JsDataHelper extends AppHelper
     }
 
     /**
+     * Passes method calls on to JsData
+     *
      * {@inheritDoc}
      */
     public function __call($method, $params)
     {
-        $proxy = [$this->_getJsDataInstance(), $method];
+        $proxy = [$this->_JsData, $method];
         if (is_callable($proxy)) {
             return call_user_func_array($proxy, $params);
-        } else {
-            return parent::__call($method, $params);
         }
+
+        parent::__call($method, $params);
     }
 }

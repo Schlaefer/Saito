@@ -572,7 +572,7 @@ class EntriesController extends AppController
             // validation errors
             foreach ($errors as $field => $error) {
                 $message = __d('nondynamic', $field) . ": " . __d('nondynamic', current($error));
-                $this->JsData->addAppJsMessage(
+                $this->JsData->addMessage(
                     $message,
                     [
                         'type' => 'error',
@@ -584,7 +584,7 @@ class EntriesController extends AppController
             $this->autoRender = false;
 
             $this->response = $this->response->withType('json');
-            $body = json_encode($this->JsData->getAppJsMessages());
+            $body = json_encode($this->JsData->getMessages());
             $this->response = $this->response->withStringBody($body);
 
             return $this->response;
