@@ -73,7 +73,7 @@ $this->end();
                     'class' => 'js-subject subject',
                     'tabindex' => 2,
                     'div' => ['class' => 'required'],
-                    'placeholder' => h($subject),
+                    'placeholder' => $subject,
                     'required' => ($isAnswer) ? false : 'required'
                 ]
             );
