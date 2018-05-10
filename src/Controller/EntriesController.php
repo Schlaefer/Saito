@@ -533,7 +533,8 @@ class EntriesController extends AppController
      */
     public function preview()
     {
-        if (!$this->request->is('post') || !$this->request->is('ajax')) {
+        if (!$this->request->is(['post', 'put']) // @bogus PUT: preview in edit form becomes PUT
+            || !$this->request->is('ajax')) {
             throw new BadRequestException(null, 1434128359);
         }
 
@@ -551,7 +552,8 @@ class EntriesController extends AppController
             'ip' => '',
             'time' => new Time()
         ];
-        $this->Entries->prepare($newEntry);
+        $newEntry = $this->Entries->prepareChildPosting($newEntry);
+        $newEntry = $this->Entries->newEntity($newEntry)->toArray();
 
         $validator = $this->Entries->getValidator();
         $errors = $validator->errors($newEntry);

@@ -150,7 +150,6 @@ class EntriesTable extends AppTable
     public function initialize(array $config)
     {
         $this->addBehavior('IpLogging');
-        $this->addBehavior('Markup');
         $this->addBehavior('Timestamp');
         $this->addBehavior('Tree');
 
@@ -395,7 +394,7 @@ class EntriesTable extends AppTable
                 'text'
             ];
             $this->filterFields($data, $fields);
-            $this->prepare($data);
+            $data = $this->prepareChildPosting($data);
         } catch (\Exception $e) {
             return false;
         }
@@ -486,10 +485,10 @@ class EntriesTable extends AppTable
         ];
         $this->filterFields($data, $fields);
         $data['id'] = $posting->get('id');
-        $this->prepare($data);
+        $data = $this->prepareChildPosting($data);
 
         // prevents normal user of changing category of complete thread when answering
-        // @td this should be refactored together with the change category handling in beforeSave()
+        // @todo this should be refactored together with the change category handling in beforeSave()
         if (!$posting->isRoot()) {
             unset($data['category_id']);
         }
@@ -893,47 +892,45 @@ class EntriesTable extends AppTable
             } elseif (empty($id)) {
                 throw new \InvalidArgumentException();
             }
-            $entry = $this->find()->where(['id' => $id])->first();
-            $pid = $entry->get('pid');
+            $pid = $this->getParentId($id);
         }
 
         return empty($pid);
     }
 
     /**
-     * Preprocesses posting data before saving it
+     * Populates child posting data from parent
      *
      * @param array $data data
-     * @return void
+     * @return array
      * @throws \InvalidArgumentException
      */
-    public function prepare(&$data)
+    public function prepareChildPosting(array $data): array
     {
+        if ($this->_isRoot($data)) {
+            return $data;
+        }
+
         // adds info from parent entry to an answer
-        if (!$this->_isRoot($data)) {
-            if (!isset($data['pid'])) {
-                $pid = $this->getParentId($data['id']);
-            } else {
-                $pid = $data['pid'];
-            }
-            $parent = $this->get($pid);
-            if (!$parent) {
-                throw new \InvalidArgumentException;
-            }
-
-            // if new subject is empty use the parent's subject
-            if (empty($data['subject'])) {
-                $data['subject'] = $parent->get('subject');
-            }
-
-            $data['tid'] = $parent->get('tid');
-            $data['category_id'] = $parent->get('category_id');
+        if (!isset($data['pid'])) {
+            $pid = $this->getParentId($data['id']);
+        } else {
+            $pid = $data['pid'];
+        }
+        $parent = $this->get($pid);
+        if (!$parent) {
+            throw new \InvalidArgumentException;
         }
 
-        //= markup preprocessing
-        if (empty($data['text']) === false) {
-            $data['text'] = $this->prepareMarkup($data['text']);
+        // if new subject is empty use the parent's subject
+        if (empty($data['subject'])) {
+            $data['subject'] = $parent->get('subject');
         }
+
+        $data['tid'] = $parent->get('tid');
+        $data['category_id'] = $parent->get('category_id');
+
+        return $data;
     }
 
     /**

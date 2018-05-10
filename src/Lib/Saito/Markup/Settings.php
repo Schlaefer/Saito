@@ -27,8 +27,6 @@ class Settings
     {
         $this->set($settings + $this->_defaults);
         Configure::write('Saito.Settings.Parser', $this);
-
-        return $this;
     }
 
     /**
