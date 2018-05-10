@@ -535,7 +535,7 @@ class EntriesTable extends AppTable
      * @param array $options options
      * @return Posting tree
      */
-    public function treeForNode($id, $options = [])
+    public function treeForNode(int $id, array $options = [])
     {
         $options += [
             'root' => false,

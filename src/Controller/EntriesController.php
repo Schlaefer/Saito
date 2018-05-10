@@ -115,16 +115,18 @@ class EntriesController extends AppController
      */
     public function mix($tid)
     {
-        if (!$tid) {
-            return $this->redirect('/');
+        $tid = (int)$tid;
+        if ($tid <= 0) {
+            throw new BadRequestException();
         }
+
         $postings = $this->Entries->treeForNode(
             $tid,
             ['root' => true, 'complete' => true]
         );
 
+        //// redirect sub-posting to mix view of thread
         if (empty($postings)) {
-            /* @var $post Entry */
             $post = $this->Entries->find()
                 ->select(['tid'])
                 ->where(['id' => $tid])
