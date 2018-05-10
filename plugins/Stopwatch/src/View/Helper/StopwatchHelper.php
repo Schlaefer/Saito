@@ -1,21 +1,64 @@
 <?php
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
 
 namespace Stopwatch\View\Helper;
 
 use Cake\View\Helper;
-use \Stopwatch\Lib\Stopwatch;
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\Helper\NumberHelper;
+use Stopwatch\Lib\Stopwatch;
 
+/**
+ * Stopwatch Helper
+ *
+ * @property HtmlHelper $Html
+ * @property NumberHelper $Number
+ */
 class StopwatchHelper extends Helper
 {
+    public $helpers = [
+        'Html',
+        'Number'
+    ];
 
-    public $helpers = ['Html'];
+    /**
+     * Renders Stopwatch Html results
+     *
+     * @return void
+     */
+    public function html()
+    {
+        $memory = 'Peak memory usage: ' . $this->Number->toReadableSize(memory_get_peak_usage());
+        $html = $this->Html->para('', $memory);
+
+        $html .= $this->Html->tag(
+            'div',
+            $this->getResult(),
+            ['style' => 'float: left;']
+        );
+        $html .= $this->Html->tag(
+            'div',
+            $this->plot(),
+            ['style' => 'float: left; margin-left: 2em;']
+        );
+
+        return $this->Html->div('stopwatch-debug', $html);
+    }
 
     /**
      * Get plot
      *
      * @return string
      */
-    public function plot()
+    private function plot()
     {
         $stopwatchData = Stopwatch::getJs();
         $out = $this->Html->script(
@@ -72,7 +115,7 @@ EOF
      *
      * @return string
      */
-    public function getResult()
+    private function getResult()
     {
         return "<pre>" . Stopwatch::getString() . "</pre>";
     }

@@ -13,6 +13,11 @@
         </div>
     <?php endif ?>
     <?php echo $this->fetch('script'); ?>
+
     <div class='clearfix'></div>
-    <?= $this->element('layout/debug_footer') ?>
+    <?php
+    if ($this->get('showStopwatch')) :
+        echo $this->Stopwatch->html();
+    endif;
+    ?>
 </div>

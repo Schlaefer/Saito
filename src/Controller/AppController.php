@@ -6,6 +6,7 @@ use App\Controller\Component\CurrentUserComponent;
 use App\Model\Table\SettingsTable;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
+use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
 use Cake\I18n\I18n;
 use Cake\Network\Http\Response;
@@ -31,6 +32,8 @@ use Stopwatch\Lib\Stopwatch;
  */
 class AppController extends Controller
 {
+    use InstanceConfigTrait;
+
     public $helpers = [
         'Form',
         'Html',
@@ -46,6 +49,15 @@ class AppController extends Controller
     ];
 
     /**
+     * Default config used by InstanceConfigTrait
+     *
+     * @var array default configuration
+     */
+    protected $_defaultConfig = [
+        'showStopwatch' => false
+    ];
+
+    /**
      * {@inheritDoc}
      */
     public function initialize()
@@ -54,6 +66,8 @@ class AppController extends Controller
         Registry::initialize();
 
         parent::initialize();
+
+        $this->setConfig('showStopwatch', Configure::read('debug'));
 
         if (!$this->request->is('requested')) {
             $this->request->getSession()->start();
@@ -90,12 +104,6 @@ class AppController extends Controller
         $this->loadModel('Settings');
         $this->Settings->load(Configure::read('Saito.Settings'));
 
-        // activate stopwatch in debug mode
-        $this->set('showStopwatchOutput', false);
-        if ((int)Configure::read('debug') > 0) {
-            $this->set('showStopwatchOutput', true);
-        };
-
         // disable forum with admin pref
         if (Configure::read('Saito.Settings.forum_disabled') &&
             $this->request['action'] !== 'login' &&
@@ -127,7 +135,7 @@ class AppController extends Controller
         $this->set('SaitoSettings', new SettingsImmutable(Configure::read('Saito.Settings')));
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
 
-        $this->set('isDebug', (int)Configure::read('debug') > 0);
+        $this->set('showStopwatch', $this->getConfig('showStopwatch'));
 
         Stopwatch::stop('App->beforeRender()');
         Stopwatch::start('------------------- Rendering --------------------');
@@ -158,7 +166,7 @@ class AppController extends Controller
         $stopwatch = $this->request->getQuery('stopwatch');
         if ($stopwatch && Configure::read('Saito.Settings.stopwatch_get')
         ) {
-            $this->set('showStopwatchOutput', true);
+            $this->setConfig('showStopwatch', true);
         };
 
         //= change language

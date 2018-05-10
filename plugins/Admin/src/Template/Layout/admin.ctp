@@ -32,7 +32,6 @@ echo $this->fetch('script');
 echo $this->Html->script(
     ['lib/datatables-bootstrap/datatables-bootstrap.js']
 );
-echo $this->element('layout/debug_footer');
 ?>
 </body>
 </html>
