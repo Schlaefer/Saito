@@ -139,26 +139,6 @@ class EntriesTable extends AppTable
         'Users.user_place'
     ];
 
-    /**
-     * Allowed external user input
-     *
-     * @var array
-     */
-    public $allowedInputFields = [
-        'create' => [
-            'category_id',
-            'pid',
-            'subject',
-            'text'
-        ],
-        'update' => [
-            'id',
-            'category_id',
-            'subject',
-            'text'
-        ]
-    ];
-
     protected $_settings = [
         'edit_period' => 20,
         'subject_maxlength' => 100
@@ -408,7 +388,14 @@ class EntriesTable extends AppTable
         }
 
         try {
-            $this->prepare($data, ['preFilterFields' => 'create']);
+            $fields = [
+                'category_id',
+                'pid',
+                'subject',
+                'text'
+            ];
+            $this->filterFields($data, $fields);
+            $this->prepare($data);
         } catch (\Exception $e) {
             return false;
         }
@@ -492,13 +479,14 @@ class EntriesTable extends AppTable
      */
     public function update(Entity $posting, $data)
     {
-        if (empty($data['id'])) {
-            throw new \InvalidArgumentException(
-                'Missing entry id in arguments.'
-            );
-        }
-
-        $this->prepare($data, ['preFilterFields' => 'update']);
+        $fields = [
+            'category_id',
+            'subject',
+            'text',
+        ];
+        $this->filterFields($data, $fields);
+        $data['id'] = $posting->get('id');
+        $this->prepare($data);
 
         // prevents normal user of changing category of complete thread when answering
         // @td this should be refactored together with the change category handling in beforeSave()
@@ -916,18 +904,11 @@ class EntriesTable extends AppTable
      * Preprocesses posting data before saving it
      *
      * @param array $data data
-     * @param array $options options
      * @return void
      * @throws \InvalidArgumentException
      */
-    public function prepare(&$data, array $options = [])
+    public function prepare(&$data)
     {
-        if (isset($options['preFilterFields'])) {
-            $org = $data;
-            $this->filterFields($data, $options['preFilterFields']);
-        }
-        unset($options['preFilterFields']);
-
         // adds info from parent entry to an answer
         if (!$this->_isRoot($data)) {
             if (!isset($data['pid'])) {

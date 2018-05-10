@@ -403,7 +403,6 @@ class EntriesController extends AppController
         // try to save edit
         $data = $this->request->getData();
         if (!empty($data)) {
-            $data['id'] = $posting->get('id');
             $newEntry = $this->Entries->update($posting, $data);
             if ($newEntry) {
                 return $this->redirect(['action' => 'view', $id]);

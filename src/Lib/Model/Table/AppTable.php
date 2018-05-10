@@ -18,11 +18,6 @@ class AppTable extends Table
      */
     protected $_settings = [];
 
-    /**
-     * @var array predefined fields for filterFields()
-     */
-    public $allowedInputFields = [];
-
     public $SharedObjects;
 
     /**
@@ -71,14 +66,11 @@ class AppTable extends Table
      * works only on current model, not associations
      *
      * @param array $data data
-     * @param string|array $fields fields
+     * @param array $fields fields
      * @return void
      */
     public function filterFields(&$data, $fields)
     {
-        if (is_string($fields) && isset($this->allowedInputFields[$fields])) {
-            $fields = $this->allowedInputFields[$fields];
-        }
         $fields = array_flip($fields);
         $data = array_intersect_key($data, $fields);
     }

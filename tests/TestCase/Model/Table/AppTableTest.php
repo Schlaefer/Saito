@@ -2,12 +2,13 @@
 
 namespace App\Test\TestCase\Model\Table;
 
+use App\Lib\Model\Table\AppTable;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class AppTableTest extends SaitoTableTestCase
 {
 
-    public $tableClass = 'Saito\Test\Model\Table\AppTableMock';
+    public $tableClass = AppTable::class;
 
     public $fixtures = ['app.category', 'app.entry', 'app.user'];
 
@@ -22,9 +23,8 @@ class AppTableTest extends SaitoTableTestCase
 
     public function testFilterFieldsClassPreset()
     {
-        $this->Table->setAllowedInputFields(['foo' => ['a', 'c']]);
         $data = ['a' => 1, 'b' => 2, 'c' => 3];
-        $this->Table->filterFields($data, 'foo');
+        $this->Table->filterFields($data, ['a', 'c']);
 
         $expected = ['a' => 1, 'c' => 3];
         $this->assertEquals($expected, $data);
