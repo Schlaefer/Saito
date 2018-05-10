@@ -34,14 +34,30 @@ define(['marionette', 'app/core', 'app/vent',
             },
 
             configureAjax: function ($, csrfConfig) {
-                // prevent caching of ajax results
-                $.ajaxSetup({cache: false});
-                // set CSRF-token
-                $.ajaxPrefilter(function (options, _, xhr) {
-                    if (!xhr.crossDomain) {
-                        xhr.setRequestHeader(csrfConfig.header, csrfConfig.token);
-                    }
-                });
+              // prevent caching of ajax results
+              $.ajaxSetup({cache: false});
+
+              //// set CSRF-token
+              $.ajaxPrefilter(function (options, _, xhr) {
+                  if (xhr.crossDomain) {
+                    return;
+                  }
+                  xhr.setRequestHeader(csrfConfig.header, csrfConfig.token);
+              });
+
+              //// set JWT-token
+              $.ajaxPrefilter(function (options, _, xhr) {
+                  if (xhr.crossDomain) {
+                    return;
+                  }
+                  // @todo get cookie name from app settings
+                  const jwtCookie = document.cookie.match(/Saito-jwt=([^\s;]*)/)
+                  if (!jwtCookie) {
+                    return;
+                  }
+                  const token = jwtCookie[1];
+                  xhr.setRequestHeader('Authorization', 'bearer ' + token);
+              });
             },
 
             bootstrapApp: function (event, options) {
