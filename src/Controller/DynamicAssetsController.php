@@ -38,7 +38,25 @@ class DynamicAssetsController extends Controller
                 $names = ['default', 'nondynamic'];
                 foreach ($names as $name) {
                     $Loader = new MessagesFileLoader($name, $lang, 'po');
-                    $msgs += $Loader()->getMessages();
+                    $messages = $Loader()->getMessages();
+                    /**
+                     * usual message format CakePHP 3
+                     *
+                     * [
+                     *      '<string>' => [
+                     *          '_context' => [
+                     *              '' => '<translation>'
+                     *          ]
+                     *      ],
+                     *      …
+                     *]
+                     */
+                    foreach ($messages as $string => $translation) {
+                        if (empty($translation['_context'][''])) {
+                            continue;
+                        }
+                        $msgs[$string] = $translation['_context'][''];
+                    }
                 }
 
                 return json_encode($msgs);
