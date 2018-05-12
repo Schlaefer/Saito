@@ -7,6 +7,7 @@ use App\Test\Fixture\UserFixture;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
 abstract class IntegrationTestCase extends CakeIntegrationTestCase
@@ -126,6 +127,26 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
     }
 
     /**
+     * Configure next request as user authenticated with JWT-Token
+     *
+     * @param int $userId user
+     * @return void
+     */
+    protected function loginJwt(int $userId)
+    {
+        $jwtKey = Configure::read('Security.cookieSalt');
+        $jwtPayload = ['sub' => $userId];
+        $jwtToken = \Firebase\JWT\JWT::encode($jwtPayload, $jwtKey);
+
+        $this->configRequest([
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'bearer ' . $jwtToken,
+            ]
+        ]);
+    }
+
+    /**
      * Login user
      *
      * @param int $id user-ID
@@ -158,5 +179,16 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
             unset($_COOKIE['Saito']);
         endif;
         unset($this->_session['Auth.User']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _sendRequest($url, $method, $data = [])
+    {
+        // Workaround for Cake 3.6 Router on test bug with named routes in plugins
+        // "A route named "<foo>" has already been connected to "<bar>".
+        Router::reload();
+        parent::_sendRequest($url, $method, $data);
     }
 }

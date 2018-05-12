@@ -2,14 +2,24 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'marionette',
     'models/app',
-    'views/uploads', 'views/mediaInsert',
+    'modules/modalDialog/modalDialog',
+    'modules/uploader/uploader',
+    'views/mediaInsert',
     'views/editCountdown',
     'models/preview', 'views/preview',
     'lib/saito/jquery.scrollIntoView',
-    'jqueryAutosize'
-], function($, _, Backbone, App, UploadsView, MediaInsertView, EditCountdown,
-            PreviewModel, PreviewView) {
+    'jqueryAutosize',
+    'lib/saito/jquery.insertAtCaret',
+], function($, _, Backbone,
+      Marionette,
+      App,
+      ModalDialog,
+      UploaderView,
+      MediaInsertView, EditCountdown,
+      PreviewModel, PreviewView)
+    {
     'use strict';
 
     var AnsweringView = Backbone.View.extend({
@@ -114,14 +124,42 @@ define([
         },
 
         _upload: function(event) {
-            var uploadsView;
             if (event) {
                 event.preventDefault();
             }
-            uploadsView = new UploadsView({
-                el: '#markitup_upload',
-                textarea: this.$textarea[0]
+
+            const answering = this;
+            const InsertVw = Marionette.View.extend({
+                template: _.template('<button class="btn btn-primary"><%- title %></button>'),
+                events: {
+                    'click button': 'handleInsert',
+                },
+                templateContext: () => {
+                  return {
+                    title: $.i18n.__('upload_btn_insert_into_posting'),
+                  }
+                },
+                handleInsert: function(event) {
+                  event.preventDefault();
+                  answering._insert("[upload]" + this.model.get('name') + "[/upload]");
+                  ModalDialog.hide();
+                },
             });
+
+
+            const uploadsView = new UploaderView({
+                el: '#markitup_upload',
+                className: 'imageUploader',
+                textarea: this.$textarea[0],
+                InsertVw: InsertVw,
+            });
+
+            ModalDialog.show(uploadsView, {title: $.i18n.__('Upload'), width: 'max'});
+            uploadsView.render();
+        },
+
+        _insert: function(text) {
+          this.$('textarea').insertAtCaret(text);
         },
 
         _media: function(event) {

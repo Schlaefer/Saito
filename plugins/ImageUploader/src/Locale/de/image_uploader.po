@@ -1,0 +1,14 @@
+msgid "delete.failure"
+msgstr "Fehler: Löschen fehlgeschlagen."
+
+msgid "validation.error.fileExists"
+msgstr "Fehler: Datei mit gleichen Namen wurde bereits hochgeladen."
+
+msgid "validation.error.fileSize"
+msgstr "Fehler: Datei überschreitet maximale Größe von {0} kB."
+
+msgid "validation.error.maxNumberOfItems"
+msgstr "Fehler: Maximale Anzahl an Uploads {0} erreicht."
+
+msgid "validation.error.mimeType"
+msgstr "Fehler: Datei ist nicht vom Typ {0}."

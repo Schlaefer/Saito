@@ -37,17 +37,6 @@ use Stopwatch\Lib\Stopwatch;
  */
 class UsersTable extends AppTable
 {
-
-    public $hasMany = [
-        // @td 3.0 Upload
-        /*
-        'Upload' => [
-            'className' => 'Upload',
-            'foreignKey' => 'user_id'
-        ]
-        */
-    ];
-
     /**
      * @var array password hasher
      */
@@ -114,6 +103,7 @@ class UsersTable extends AppTable
                 'conditions' => ['Entries.user_id' => 'Users.id'],
             ]
         );
+        $this->hasMany('ImageUploader.Uploads', ['foreignKey' => 'user_id', 'dependend' => true]);
         $this->hasMany(
             'UserReads',
             ['foreignKey' => 'user_id', 'dependent' => true]
@@ -130,7 +120,7 @@ class UsersTable extends AppTable
                 ]
             ]
         );
-        $this->hasMany('Uploads', ['foreign_key' => 'user_id']);
+        $this->hasMany('Uploads', ['foreign_key' => 'user_id', 'dependent' => true]);
     }
 
     /**
@@ -472,8 +462,6 @@ class UsersTable extends AppTable
         }
 
         try {
-            // @td 3.0 Upload
-            //$this->Uploads->deleteAllFromUser($userId);
             $this->Entries->anonymizeEntriesFromUser($userId);
             $this->UserIgnores->deleteUser($userId);
             $this->UserOnline->deleteAll(['user_id' => $userId]);

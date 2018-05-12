@@ -1,13 +1,16 @@
 <?php
 
 $this->start('headerSubnavRight');
-$userMenu = [
-    'index' => [
-        'url' => '/users/index',
-        'title' => __d('page_titles', 'users/index'),
-        'icon' => 'users'
-    ]
+
+//// define menu
+$userMenu = [];
+
+$userMenu['index'] = [
+    'url' => '/users/index',
+    'title' => __d('page_titles', 'users/index'),
+    'icon' => 'users'
 ];
+
 if ($SaitoSettings->get('map_enabled')) {
     $userMenu['map'] = [
         'url' => '/users/map',
@@ -15,6 +18,8 @@ if ($SaitoSettings->get('map_enabled')) {
         'icon' => 'map-marker'
     ];
 }
+
+//// render menu
 foreach ($userMenu as $m) {
     if (strpos($this->request->getRequestTarget(), $m['url']) !== false) {
         continue;
@@ -28,4 +33,5 @@ foreach ($userMenu as $m) {
 if (!empty($menu)) {
     echo implode($menu);
 }
+
 $this->end();

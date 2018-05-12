@@ -1,7 +1,19 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
+use Api\Error\JsonApiExceptionRenderer;
 use Cake\Core\Configure;
 
+// @bogus
 $getUri = function () {
     if (!empty($_SERVER['PATH_INFO'])) {
         $uri = $_SERVER['PATH_INFO'];
@@ -18,10 +30,6 @@ $getUri = function () {
     return $uri;
 };
 
-if (strstr($getUri(), 'api/v1')) {
-    (
-    new \Cake\Error\ErrorHandler(
-        ['exceptionRenderer' => 'Api\Error\ApiExceptionRenderer']
-    )
-    )->register();
+if (strstr($getUri(), 'api/')) {
+    Configure::write('Error.exceptionRenderer', JsonApiExceptionRenderer::class);
 }

@@ -1,0 +1,14 @@
+msgid "delete.failure"
+msgstr "Error: Deletion failed."
+
+msgid "validation.error.fileExists"
+msgstr "Error: File with same name already uploaded."
+
+msgid "validation.error.maxNumberOfItems"
+msgstr "Error: No more uploads possible (max: {0})."
+
+msgid "validation.error.fileSize"
+msgstr "Error: File size is over allowed limit of {0} kB."
+
+msgid "validation.error.mimeType"
+msgstr "Error: File must be of type {0}."

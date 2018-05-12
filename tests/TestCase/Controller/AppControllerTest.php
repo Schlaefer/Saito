@@ -14,7 +14,6 @@ class AppControllerTest extends IntegrationTestCase
         'app.setting',
         'app.smiley',
         'app.smiley_code',
-        'app.upload',
         'app.user',
         'app.user_block',
         'app.user_ignore',

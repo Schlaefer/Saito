@@ -230,6 +230,8 @@ Inflector::rules('singular', ['/^(smil)ies$/i' => '\1ey']);
  *
  */
 
+Plugin::load('ImageUploader', ['bootstrap' => true, 'routes' => true]);
+
 include Cake\Core\App::path('Lib')[0] . 'BaseFunctions.php';
 
 \Cake\Event\EventManager::instance()->on(\Saito\Event\SaitoEventManager::getInstance());

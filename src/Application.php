@@ -54,16 +54,16 @@ class Application extends BaseApplication
 
         parent::bootstrap();
 
-        // @td 3.0
         $this->addPlugin(\Admin\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Api\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Bookmarks\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Feeds\Plugin::class, ['bootstrap' => true, 'routes' => true]);
-        // @td 3.0
-        // $this->addPlugin('M')->enable('bootstrap')->enable('routes');
         $this->addPlugin(\SaitoHelp\Plugin::class, ['bootstrap' => true]);
         $this->addPlugin(\SaitoSearch\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Sitemap\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        // Cake 3.6 Plugin fubar: bootstrap is not loaded in test cases: moved plugin loading to
+        // older but working loading in config/bootstrap.php
+        // $this->addPlugin(\ImageUploader\Plugin::class, ['bootstrap' => true, 'routes' => true]);
 
         Plugin::load('Cron');
         Plugin::load('BbcodeParser');

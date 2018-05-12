@@ -11,7 +11,6 @@ class StatusControllerTest extends IntegrationTestCase
         'app.category',
         'app.entry',
         'app.setting',
-        'app.upload',
         'app.user',
         'app.user_block',
         'app.user_online',

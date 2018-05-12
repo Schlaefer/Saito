@@ -750,6 +750,15 @@ class UsersController extends AppController
     }
 
     /**
+     * Shows user's uploads
+     *
+     * @return void
+     */
+    public function uploads()
+    {
+    }
+
+    /**
      * Set category for user.
      *
      * @param null $id category-ID

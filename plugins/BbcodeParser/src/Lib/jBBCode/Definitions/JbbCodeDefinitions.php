@@ -2,6 +2,7 @@
 
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
+use Cake\Core\Configure;
 use Plugin\BbcodeParser\src\Lib\Helper\Message;
 use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
 use Saito\DomainParser;
@@ -410,6 +411,9 @@ EOF;
     }
 }
 
+/**
+ * Hanldes [upload]<image>[/upload]
+ */
 //@codingStandardsIgnoreStart
 class Upload extends CodeDefinition
 //@codingStandardsIgnoreEnd
@@ -423,15 +427,11 @@ class Upload extends CodeDefinition
      */
     protected function _parse($content, $attributes)
     {
-        // @td 3.0 Upload
-        $webroot = $this->_sHelper->request->getAttribute('webroot');
-
-        return "<img src='{$webroot}useruploads/$content'>";
-        /*
-        $this->FileUpload->reset();
+        $root = Configure::read('Saito.Settings.uploadDirectory');
         $params = $this->_getUploadParams($attributes);
-        return $this->FileUpload->image($content, $params);
-        */
+        $params['alt'] = false;
+
+        return $this->_sHelper->Html->image('/useruploads/' . $content, $params);
     }
 
     /**
@@ -443,6 +443,9 @@ class Upload extends CodeDefinition
     }
 }
 
+/**
+ * Hanldes [upload width=<width> height=<height>]<image>[/upload]
+ */
 //@codingStandardsIgnoreStart
 class UploadWithAttributes extends Upload
 //@codingStandardsIgnoreEnd
@@ -458,14 +461,9 @@ class UploadWithAttributes extends Upload
             return [];
         }
 
-        $_allowedKeys = array_fill_keys(['width', 'height'], false);
-        $_allowedAttributes = array_intersect_key($attributes, $_allowedKeys);
-        $params = [
-                'autoResize' => false,
-                'resizeThumbOnly' => false,
-            ] + $_allowedAttributes;
+        $allowed = array_fill_keys(['width', 'height'], false);
 
-        return $params;
+        return array_intersect_key($attributes, $allowed);
     }
 }
 

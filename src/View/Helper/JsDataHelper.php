@@ -71,6 +71,7 @@ class JsDataHelper extends AppHelper
                     'subject_maxlength' => (int)Configure::read('Saito.Settings.subject_maxlength'),
                     'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
                     'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
+                    'apiroot' => $View->request->getAttribute('webroot') . 'api/v2/',
                     'webroot' => $View->request->getAttribute('webroot')
                 ]
             ],

@@ -33,7 +33,7 @@ define(['marionette', 'app/core', 'app/vent',
                 }));
             },
 
-            configureAjax: function ($, csrfConfig) {
+            configureAjax: function ($, App) {
               // prevent caching of ajax results
               $.ajaxSetup({cache: false});
 
@@ -42,21 +42,21 @@ define(['marionette', 'app/core', 'app/vent',
                   if (xhr.crossDomain) {
                     return;
                   }
-                  xhr.setRequestHeader(csrfConfig.header, csrfConfig.token);
+                  xhr.setRequestHeader(App.request.csrf.header, App.request.csrf.token);
               });
 
               //// set JWT-token
+              const jwtCookie = document.cookie.match(/Saito-jwt=([^\s;]*)/)
+              if (!jwtCookie) {
+                return;
+              }
+              App.settings.set('jwt', jwtCookie[1]);
+
               $.ajaxPrefilter(function (options, _, xhr) {
                   if (xhr.crossDomain) {
                     return;
                   }
-                  // @todo get cookie name from app settings
-                  const jwtCookie = document.cookie.match(/Saito-jwt=([^\s;]*)/)
-                  if (!jwtCookie) {
-                    return;
-                  }
-                  const token = jwtCookie[1];
-                  xhr.setRequestHeader('Authorization', 'bearer ' + token);
+                  xhr.setRequestHeader('Authorization', 'bearer ' + App.settings.get('jwt'));
               });
             },
 
@@ -90,7 +90,7 @@ define(['marionette', 'app/core', 'app/vent',
                         App.currentUser.set(options.SaitoApp.currentUser);
                         App.request = options.SaitoApp.request;
 
-                        app.configureAjax($, App.request.csrf);
+                        app.configureAjax($, App);
 
                         Html5NotificationModule.start();
                         // @todo

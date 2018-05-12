@@ -44,6 +44,7 @@
     "backbone.babysitter": "^0.1.0",
     "backbone.localstorage": "^1.1.16",
     "backbone.marionette": "^3.0.0",
+    "blazy": "^1.8.2",
     "bootstrap": "^4.1.0",
     "cssnano": "^3.10.0",
     "datatables.net": "^1.10.16",
@@ -51,7 +52,6 @@
     "grunt-postcss": "^0.9.0",
     "jQuery-tinyTimer": "odyniec/jQuery-tinyTimer",
     "jquery": "^3.3",
-    "jquery-filedrop": "weixiyen/jquery-filedrop",
     "pnotify": "^4.0.0-alpha.2",
     "yarn": "^1.6.0"
   },

@@ -34,6 +34,7 @@
           'backboneLocalStorage',
           'backbone.babysitter',
           'backbone.radio',
+          'blazy',
           'bootstrap',
           'cakeRest',
           'domReady',

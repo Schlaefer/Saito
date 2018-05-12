@@ -14,14 +14,14 @@ define(
         const ModalDialogView = Marionette.View.extend({
             el: '#saito-modal-dialog',
 
+            defaults: {
+              width: 'normal',
+            },
+
             template: _.template(Tpl),
 
             regions: {
                 content: '#saito-modal-dialog-content',
-            },
-
-            events: {
-                'click #saito-modal-dialog-close': 'closeDialog'
             },
 
             initialize: function () {
@@ -29,47 +29,38 @@ define(
             },
 
             /**
-             * Closes the dialog
-             */
-            closeDialog: function (event) {
-                if (event) event.preventDefault();
-                $(document).unbind('keyup', this.escapeFct);
-                // closes BS dialog
-                this.$el.modal('hide');
-                this.getRegion('content').empty();
-                this.triggerMethod('close');
-            },
-
-            /**
              * Shows modal dialog with content
-             * 
+             *
              * @param {Marionette.View} content
-             * @param {Object} 
+             * @param {Object}
              */
             show: function (content, options) {
-                this.model.set('title', options['title'] || '');
-                this.render();
-                this.escapeFct = _.bind(
-                    function (event) {
-                        if (event.keyCode !== 27) {
-                            return;
-                        }
-                        this._closeClicked(event);
-                    },
-                    this
-                );
-                $(document).keyup(this.escapeFct);
+              options = _.defaults(options, this.defaults);
+              this.model.set('title', options['title'] || '');
+              this.render();
 
-                // puts content into dialog
-                this.showChildView('content', content);
-                // shows BS dialog
-                this.$el.modal('show');
+              // puts content into dialog
+              this.showChildView('content', content);
+
+              this.setWidth(options.width);
+
+              // shows BS dialog
+              this.$el.modal('show');
             },
 
-            /*
-            onClose: function () {
-            }
-            */
+            hide: function() {
+              this.$el.modal('hide');
+            },
+
+            setWidth: function (width) {
+                switch (width) {
+                  case 'max':
+                    this.$('.modal-dialog').css('max-width', '95%');
+                    break;
+                  default:
+                    this.$('.modal-dialog').css('max-width',  '');
+                }
+            },
         });
 
         return new ModalDialogView();

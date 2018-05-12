@@ -7,6 +7,7 @@ parameters:
         - plugins/Cron
         - plugins/Detectors
         - plugins/Feeds
+        - plugins/ImageUplaoder
         - plugins/MailObfuscator
         - plugins/Paz
         - plugins/SaitoHelp
@@ -20,3 +21,4 @@ parameters:
         - tests/bootstrap.php
     ignoreErrors:
         - '#Access to an undefined property object::\$sub#'
+        - '#Call to an undefined method.*Table::findBy.*\(\)#'

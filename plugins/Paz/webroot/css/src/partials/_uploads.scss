@@ -1,96 +1,80 @@
-#markitup_upload {
-
-  // smooth/single finger scrolling in mobile WebKit in subview
-  -webkit-overflow-scrolling: touch;
+.imageUploader {
+  .card {
+    margin: $padding;
+    text-align: center;
+  }
 }
 
-#upload_index {
-  form,
-  input[type=file] {
-    width: auto;
-    margin: 0;
-    padding: 0;
-  }
-
-  .content {
-    text-align: center;
-  }
-
-  h2 {
-    margin-bottom: 2px;
-    font-size: 110%;
-  }
-
-  $width: 170px;
-  $topHeight: 140px;
-  $bottomHeight: 40px;
-  $local-padding: 5px;
-
-  .upload_box {
-    border: 1px solid $border-color;
-    margin: 12px;
-    width: $width;
-    height: $topHeight + $bottomHeight;
+.imageUploader-add {
+  .card-body {
+    // anchors dropLayer and dropIndicator absolute
     position: relative;
-    display: inline-block;
-    // background: $saito_body_background;
-    padding: 0;
+  }
+}
+
+.imageUploader-add-dropLayer,
+.imageUploader-add-dropIndicator {
+  //// fills the whole container and ingores padding on container
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.imageUploader-add-dropLayer {
+  z-index: 2;
+  opacity: 0;
+}
+
+.imageUploader-add-dropIndicator {
+  @extend .animation;
+
+  z-index: 1;
+  background: #fff;
+  opacity: 0;
+  font-size: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageUploader-add-veil {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.imageUploader-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > .card {
+    > .card-footer {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
-  .upload_box_header {
-    height: $topHeight - (2 * $local-padding);
-    width: $width - (2 * $local-padding);
-    position: relative;
-    padding: $local-padding;
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-  }
-
-  .upload_box_image {
-    max-width: 140px;
-    max-height: 110px;
-    border: 1px solid $border-color;
-    padding: 4px;
+  .card-img-container {
     background: white;
+    height: 14rem;
+    margin: 0 auto;
+    padding: 4px;
+    width: 18rem;
+    display: flex;
+    align-content: center;
   }
 
-  .upload_box_delete {
-    position: absolute;
-    z-index: 10;
-    bottom: 8px;
-    right: 5px;
-    font-size: 16px;
-  }
-
-  .upload_box_footer {
-    margin: 0;
-    text-align: center;
-    line-height: $bottomHeight - (2 * $local-padding) - 5px;
-    height: $bottomHeight - (2 * $local-padding);
-    padding: $local-padding !important;
-  }
-
-  .upload-drag-indicator,
-  .upload-layer {
-    top: 0;
-    left: 0;
-    position: absolute;
-    width: $width;
-    height: $topHeight;
-  }
-
-  .upload-layer {
-    z-index: 100;
-    opacity: 0;
-  }
-
-  .upload-drag-indicator {
-    background: #fff;
-    opacity: 0.9;
-    font-size: $topHeight/2;
-    line-height: $topHeight;
-    display: none;
+  .card-img-top {
+    //// scale down images and keep aspect-ratio
+    object-fit: scale-down;
+    overflow: hidden;
   }
 }
-

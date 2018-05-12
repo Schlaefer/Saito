@@ -33,6 +33,8 @@ class SettingsTableTest extends SaitoTableTestCase
         'tos_url' => 'http://example.com/tos-url.html/',
         'category_chooser_global' => '0',
         'category_chooser_user_override' => '1',
+        'upload_max_img_size' => '1500',
+        'upload_max_number_of_uploads' => '10',
     ];
 
     public function testFillOptionalMailAddresses()

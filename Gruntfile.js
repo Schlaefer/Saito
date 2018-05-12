@@ -120,7 +120,18 @@ module.exports = function(grunt) {
         */
         processors: [
           require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
-          require('cssnano')() // minify the result
+          //// minify the result
+          require('cssnano')({
+            //// prevents shortening and namespace collision on keyframes names
+            // @see https://github.com/ben-eb/gulp-cssnano/issues/33
+            // @see https://github.com/ben-eb/cssnano/issues/247
+            reduceIdents: {
+              keyframes: false
+            },
+            discardUnused: {
+                keyframes: false
+            },
+          }),
         ]
       },
       release: {
@@ -154,7 +165,7 @@ module.exports = function(grunt) {
 
   // dev-setup
   grunt.registerTask('dev-setup', [
-    'clean:devsetup', 'shell:yarn', 'shell:symlinkNode', 'shell:symlinkBower', 'copy:nonmin' 
+    'clean:devsetup', 'shell:yarn', 'shell:symlinkNode', 'shell:symlinkBower', 'copy:nonmin'
   ]);
 
   // test

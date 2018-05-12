@@ -19,13 +19,13 @@ class UsersTableTest extends SaitoTableTestCase
         'app.setting',
         'app.smiley',
         'app.smiley_code',
-        'app.upload',
         'app.user',
         'app.user_block',
         'app.user_ignore',
         'app.user_online',
         'app.user_read',
-        'plugin.bookmarks.bookmark'
+        'plugin.bookmarks.bookmark',
+        'plugin.image_uploader.uploads',
     ];
 
     public function testEmptyUserCategoryCustom()
@@ -230,6 +230,8 @@ class UsersTableTest extends SaitoTableTestCase
             $userBookmarksBeforeDelete,
             $allBookmarksBeforeDelete
         );
+        // test uploads are deleted
+        $this->assertGreaterThan(0, $this->Table->Uploads->findByUserId(3)->count());
 
         $this->Table->deleteAllExceptEntries(3);
 
@@ -252,6 +254,12 @@ class UsersTableTest extends SaitoTableTestCase
             $allBookmarksBeforeDelete - $userBookmarksBeforeDelete,
             $allBookmarksAfterDelete
         );
+
+        //// delete uploads
+        // user uploads gone
+        $this->assertEquals(0, $this->Table->Uploads->findByUserId(3)->count());
+        // don't delete everything
+        $this->assertGreaterThan(0, $this->Table->Uploads->find('all')->count());
     }
 
     public function testSetPassword()

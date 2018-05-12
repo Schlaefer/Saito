@@ -21,7 +21,7 @@ $config = [
              */
             'ParserPlugin' => 'Bbcode',
             /**
-             * Upload directory root
+             * Upload directory root with trailing slash
              */
             'uploadDirectory' => WWW_ROOT . 'useruploads' . DIRECTORY_SEPARATOR
         ],

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9eaa117447eed2a65d14c988e24edd0b",
+    "content-hash": "b79b6a970b176fad621f038de875f3e8",
     "packages": [
         {
             "name": "admad/cakephp-jwt-auth",
@@ -152,16 +152,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.6.2",
+            "version": "3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "9739f275edd4f97c2a50dc028d870ce51e7aa058"
+                "reference": "1cfebf6c6719a2a743d9a3e59ee091a726f18844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/9739f275edd4f97c2a50dc028d870ce51e7aa058",
-                "reference": "9739f275edd4f97c2a50dc028d870ce51e7aa058",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/1cfebf6c6719a2a743d9a3e59ee091a726f18844",
+                "reference": "1cfebf6c6719a2a743d9a3e59ee091a726f18844",
                 "shasum": ""
             },
             "require": {
@@ -234,7 +234,7 @@
                 "rapid-development",
                 "validation"
             ],
-            "time": "2018-04-28T02:02:20+00:00"
+            "time": "2018-05-13T23:20:49+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -386,6 +386,45 @@
             ],
             "description": "A composer installer for CakePHP 3.0+ plugins.",
             "time": "2017-12-24T21:09:29+00:00"
+        },
+        {
+            "name": "claviska/simpleimage",
+            "version": "3.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/claviska/SimpleImage.git",
+                "reference": "31ba5b8358e1663a2813e2ada7242fa8d97a96dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/claviska/SimpleImage/zipball/31ba5b8358e1663a2813e2ada7242fa8d97a96dc",
+                "reference": "31ba5b8358e1663a2813e2ada7242fa8d97a96dc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "league/color-extractor": "0.3.*",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "claviska": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cory LaViska",
+                    "homepage": "http://www.abeautifulsite.net/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP class that makes working with images as simple as possible.",
+            "time": "2017-09-12T09:03:56+00:00"
         },
         {
             "name": "davidyell/proffer",
@@ -909,6 +948,60 @@
                 "php"
             ],
             "time": "2017-09-19T15:49:58+00:00"
+        },
+        {
+            "name": "league/color-extractor",
+            "version": "0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/color-extractor.git",
+                "reference": "837086ec60f50c84c611c613963e4ad2e2aec806"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/color-extractor/zipball/837086ec60f50c84c611c613963e4ad2e2aec806",
+                "reference": "837086ec60f50c84c611c613963e4ad2e2aec806",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "matthecat/colorextractor": "*"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2",
+                "phpunit/phpunit": "~5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mathieu Lechat",
+                    "email": "math.lechat@gmail.com",
+                    "homepage": "http://matthecat.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Extract colors from an image as a human would do.",
+            "homepage": "https://github.com/thephpleague/color-extractor",
+            "keywords": [
+                "color",
+                "extract",
+                "human",
+                "image",
+                "palette"
+            ],
+            "time": "2016-12-15T09:30:02+00:00"
         },
         {
             "name": "league/commonmark",
@@ -3904,12 +3997,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "aa22c2f6888d1b293e79ee954823adc96f8af4e1"
+                "reference": "850b167f075a39c302e09fdbbf64a0cd1bf1dd8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/aa22c2f6888d1b293e79ee954823adc96f8af4e1",
-                "reference": "aa22c2f6888d1b293e79ee954823adc96f8af4e1",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/850b167f075a39c302e09fdbbf64a0cd1bf1dd8d",
+                "reference": "850b167f075a39c302e09fdbbf64a0cd1bf1dd8d",
                 "shasum": ""
             },
             "require": {
@@ -3942,7 +4035,7 @@
                 "MIT"
             ],
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "time": "2018-04-30T10:38:30+00:00"
+            "time": "2018-05-10T09:23:09+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -3950,12 +4043,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b29af42b9d55ef889305ea000c55139a7a0b90ef"
+                "reference": "3112b7f05b796ad3d38189e7cb00951a0e8a9e51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b29af42b9d55ef889305ea000c55139a7a0b90ef",
-                "reference": "b29af42b9d55ef889305ea000c55139a7a0b90ef",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3112b7f05b796ad3d38189e7cb00951a0e8a9e51",
+                "reference": "3112b7f05b796ad3d38189e7cb00951a0e8a9e51",
                 "shasum": ""
             },
             "require": {
@@ -4007,7 +4100,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2018-05-07T14:24:34+00:00"
+            "time": "2018-05-15T07:26:53+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

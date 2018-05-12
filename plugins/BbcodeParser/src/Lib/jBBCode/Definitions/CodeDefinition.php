@@ -8,7 +8,7 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
 {
 
     /**
-     * @var \Helper calling CakePHP helper
+     * @var Helper calling CakePHP helper
      */
     protected $_sHelper;
 

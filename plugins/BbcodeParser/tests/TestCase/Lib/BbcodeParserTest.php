@@ -788,47 +788,23 @@ EOF;
 
     public function testInternalImage()
     {
-        $this->markTestSkipped('Image uploader not implemented.');
-        // Create a map of arguments to return values.
-        $map = [
-            ['test.png', [], '<img src="test.png" />'],
-            [
-                'test.png',
-                [
-                    'autoResize' => false,
-                    'resizeThumbOnly' => false,
-                    'width' => '50',
-                    'height' => '60',
-                ],
-                '<img src="test.png" width="50" height="60" alt="">'
-            ]
-        ];
-        $FileUploader = $this->getMockBuilder('FileUploaderHelper')
-            ->setMethods(['image', 'reset'])
-            ->getMock();
-        $FileUploader->expects($this->atLeastOnce())
-            ->method('image')
-            ->will($this->returnValueMap($map));
-        $this->_Helper->FileUpload = $FileUploader;
-
-        // internal image
+        //// internal image
         $input = '[upload]test.png[/upload]';
         $expected = [
-            ['img' => ['src' => 'test.png']],
+            ['img' => ['src' => '/useruploads/test.png']],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
 
-        // internal image with attributes
+        //// internal image with attributes
         $input = '[upload width=50 height=60]test.png[/upload]';
         $expected = [
             [
                 'img' =>
                     [
-                        'src' => 'test.png',
+                        'src' => '/useruploads/test.png',
                         'width' => '50',
                         'height' => '60',
-                        'alt' => ''
                     ]
             ]
         ];

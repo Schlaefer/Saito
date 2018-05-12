@@ -38,5 +38,8 @@ class SettingFixture extends TestFixture
         ['name' => 'tos_url', 'value' => 'http://example.com/tos-url.html/'],
         ['name' => 'category_chooser_global', 'value' => '0'],
         ['name' => 'category_chooser_user_override', 'value' => '1'],
+        ['name' => 'category_chooser_user_override', 'value' => '1'],
+        ['name' => 'upload_max_img_size', 'value' => '1500'],
+        ['name' => 'upload_max_number_of_uploads', 'value' => '10'],
     ];
 }

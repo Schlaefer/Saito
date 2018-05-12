@@ -16,6 +16,15 @@
 		<testsuite name="App Test Suite">
 			<directory>./tests/TestCase</directory>
 		</testsuite>
+        <testsuite name="Plugins Test Suites">
+            <directory>./plugins/*/tests/TestCase</directory>
+        </testsuite>
+	</testsuites>
+    <!--
+	<testsuites>
+		<testsuite name="App Test Suite">
+			<directory>./tests/TestCase</directory>
+		</testsuite>
 
         <testsuite name="Api plugin">
             <directory>./plugins/Api/tests/TestCase</directory>
@@ -29,10 +38,15 @@
 			<directory>./plugins/Bookmarks/tests/TestCase</directory>
 		</testsuite>
 
+		<testsuite name="ImageUploader plugin">
+			<directory>./plugins/ImageUploader/tests/TestCase</directory>
+		</testsuite>
+
 		<testsuite name="Sitemap plugin">
 			<directory>./plugins/Sitemap/tests/TestCase</directory>
 		</testsuite>
 	</testsuites>
+    -->
 
 
     <!-- Setup a listener for fixtures -->

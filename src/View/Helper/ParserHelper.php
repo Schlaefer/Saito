@@ -26,12 +26,12 @@ class ParserHelper extends AppHelper
      * @var array these Helpers are also used in the Parser
      */
     public $helpers = [
-        'FileUpload.FileUpload',
         'MailObfuscator.MailObfuscator',
         'Geshi.Geshi',
         'Embedly.Embedly',
         'Html',
         'Text',
+        'Url',
         //= usefull in Parsers
         'Layout',
         'SaitoHelp'
