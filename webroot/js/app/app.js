@@ -92,8 +92,7 @@ define(['marionette', 'app/core', 'app/vent',
 
                         app.configureAjax($, App.request.csrf);
 
-                        // @todo
-                        // Html5NotificationModule.start();
+                        Html5NotificationModule.start();
                         // @todo
                         // UsermapModule.start();
 
