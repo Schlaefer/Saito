@@ -157,11 +157,10 @@ class ApcCacheSupportCachelet extends CacheSupportCachelet
      */
     public function clear($id = null)
     {
-        if (function_exists('apc_store')) {
-            apc_clear_cache();
-            apc_clear_cache('user');
-            apc_clear_cache('opcode');
+        if (!function_exists('apcu_store')) {
+            return;
         }
+        apcu_clear_cache();
     }
 }
 
@@ -175,9 +174,10 @@ class OpCacheSupportCachelet extends CacheSupportCachelet
      */
     public function clear($id = null)
     {
-        if (function_exists('opcache_reset')) {
-            opcache_reset();
+        if (!function_exists('opcache_reset')) {
+            return;
         }
+        opcache_reset();
     }
 }
 
