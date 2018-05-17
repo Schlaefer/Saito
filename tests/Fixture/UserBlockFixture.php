@@ -55,8 +55,9 @@ class UserBlockFixture extends TestFixture
         ],
         '_options' => [
             'charset' => 'utf8',
-            'collate' => 'utf8_general_ci'
-        ]
+            'collate' => 'utf8_general_ci',
+            'engine' => 'InnoDB'
+        ],
     ];
 
     public $records = [

@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-05-17 17:34+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-KeywordsList: __d:2\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Template/Install/start.ctp:3
+msgid "reload"
+msgstr "Änderungen testen"
+
+#: Template/Install/start.ctp:9 Template/Layout/default.ctp:11
+msgid "title"
+msgstr "Saito Installation"
+
+#: Template/Install/start.ctp:13
+msgid "language"
+msgstr "Set a language in <code>config/saito_config.php</code>."
+
+#: Template/Install/start.ctp:18
+msgid "connection.title"
+msgstr "Datenbank-Verbindung"
+
+#: Template/Install/start.ctp:23
+msgid "connection.failure"
+msgstr "❌ Keine Verbindung zur Datenbank."
+
+#: Template/Install/start.ctp:26
+msgid "connection.explanation"
+msgstr ""
+"Eine Datenbank wird benötigt. Normalerweise ist dies entweder MySQL oder "
+"MariaDB. Die Datenbank-Verbindung wird als <code>Datasource => default</"
+"code> in <code>config/app.php</code> konfiguriert."
+
+#: Template/Install/start.ctp:29
+msgid "connection.see"
+msgstr ""
+"Für weitere Informationen siehe die <a href=\"https://book.cakephp.org/3.0/"
+"en/orm/database-basics.html#configuration\" target=\"_blank\">CakePHP-"
+"Dokumentation</a> (CakePHP ist das unterliegende PHP-Framework)."
+
+#: Template/Install/start.ctp:33
+msgid "connection.success"
+msgstr "👍 Verbindung zur Datenbank hergestellt."
+
+#: Template/Install/start.ctp:48
+msgid "populate.title"
+msgstr "Datenbank vorbereiten"
+
+#: Template/Install/start.ctp:53
+msgid "populate.failure"
+msgstr "❌ Datenbank ist nicht vorbereitet."
+
+#: Template/Install/start.ctp:56
+msgid "populate.explanation"
+msgstr ""
+"Dieser Schritt befüllt die Datenbank mit Tabellen und Daten. Bitte geben Sie "
+"einen Nutzernamen und Passwort für das Anlegen einen Administrator-Kontos an:"
+
+#: Template/Install/start.ctp:61
+msgid "populate.form.username"
+msgstr "Name"
+
+#: Template/Install/start.ctp:62
+msgid "populate.form.password"
+msgstr "Passwort"
+
+#: Template/Install/start.ctp:63
+msgid "populate.form.submit"
+msgstr "Anlegen"
+
+#: Template/Install/start.ctp:68
+msgid "populate.success"
+msgstr "👍  Datenbank ist eingerichtet."
+
+#: Template/Install/start.ctp:88
+msgid "salt.title"
+msgstr "Sicherheits-Salt setzen"
+
+#: Template/Install/start.ctp:93
+msgid "salt.failure"
+msgstr "❌ Sicherheits-Salt nicht gesetzt."
+
+#: Template/Install/start.ctp:96
+msgid "salt.explanation"
+msgstr ""
+"Ein Sichereits-Salt muss als <code>Security => salt</code> und "
+"<code>Security => cookieSalt</code> in <code>config/app.php</code> gesetzt "
+"werden.\n"
+"\n"
+"Ein Salt ist eine lange, zufällige Zeichenkette, die das Absichern von "
+"Passwörtern und Zugangsdaten unterstützt. Hier sind zwei bereit für die "
+"Nutzung:"
+
+#: Template/Install/start.ctp:105
+msgid "salt.warning"
+msgstr ""
+"⚠️ Die verwendeten Salts aufschreiben und sicher verwahren! Das Forum kann "
+"ohne diese nicht erneut mit Bestandsdaten aufgesetzt werden!"
+
+#: Template/Install/start.ctp:109
+msgid "salt.success"
+msgstr "👍  Sicherheits-Salt konfiguriert."
+
+#: Template/Install/start.ctp:123
+msgid "finished.title"
+msgstr "Installer deaktivieren"
+
+#: Template/Install/start.ctp:127
+msgid "finished.explanation"
+msgstr ""
+"Um den Installer zu beenden und das Forum aufzurufen löschen Sie die Datei. "
+"<code>config/installer</code>. 🏁 🙂"
+
+#: Template/Install/start.ctp:130
+msgid "finished.debug"
+msgstr ""
+"Bei Problemen hilft ein Blick in die Log-Dateien (insbesondere <code>logs/"
+"error.log</code>) oder ein Aktivieren des Debug-Modus in <code>config/app."
+"php</code> (<code>'debug' => true;</code>)."

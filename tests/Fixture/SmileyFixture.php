@@ -50,7 +50,11 @@ class SmileyFixture extends TestFixture
                 'columns' => ['id']
             ]
         ],
-        '_options' => ['charset' => 'utf8', 'collate' => 'utf8_unicode_ci']
+        '_options' => [
+            'charset' => 'utf8',
+            'collate' => 'utf8_general_ci',
+            'engine' => 'InnoDB'
+        ],
     ];
 
     public $records = [

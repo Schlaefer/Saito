@@ -70,7 +70,7 @@ class CategoryFixture extends TestFixture
         '_options' => [
             'charset' => 'utf8',
             'collate' => 'utf8_unicode_ci',
-            'engine' => 'MyISAM'
+            'engine' => 'InnoDB'
         ]
     ];
 

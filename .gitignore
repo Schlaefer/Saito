@@ -8,6 +8,7 @@
 /webroot/dev/node_modules
 
 ### CakePHP 3 ###
+schema-dump-default.lock
 /logs
 /tmp
 /vendor

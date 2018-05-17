@@ -8,8 +8,13 @@ $config = [
         /**
          * Setting default language (mandatory)
          *
-         * Compatibel to PHP's Locale: http://php.net/manual/en/intro.intl.php
-         * So e.g. german would be: de
+         * Compatibel to PHP's Locale. Implemented localizations:
+         *
+         * - de German
+         * - en English
+         *
+         * @see http://php.net/manual/en/intro.intl.php
+         * @see https://r12a.github.io/app-subtags/
          */
         'language' => 'en',
 
