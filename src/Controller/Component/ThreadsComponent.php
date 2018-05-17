@@ -65,8 +65,12 @@ class ThreadsComponent extends Component
     {
         Stopwatch::start('Entries->_getInitialThreads() Paginate');
         $categories = $User->Categories->getCurrent('read');
+        if (empty($categories)) {
+            // no readable categories for user (e.g. no public categories
+            return [];
+        }
 
-        //! Check DB performance after changing conditions/sorting!
+        ////! Check DB performance after changing conditions/sorting!
         $customFinderOptions = [
             'conditions' => [
                 'Entries.category_id IN' => $categories
@@ -92,6 +96,7 @@ class ThreadsComponent extends Component
                 return $count;
             }
         ];
+
         $settings = [
             'finder' => ['indexPaginator' => $customFinderOptions],
         ];
