@@ -4,12 +4,17 @@
     <title><?= h($titleForLayout) ?></title>
     <?php
     echo $this->Html->charset();
-    echo $this->element('layout/script_tags', ['require' => false]);
+
+    $this->Flash->render();
+    echo $this->Html->script([
+        '../dist/vendor.bundle.js',
+        '../dist/exports.bundle.js',
+    ]);
+
     echo $this->Html->css([
         'stylesheets/bootstrap.min',
         'Admin.admin.css'
     ]);
-    echo $this->Html->script('../dist/bootstrap.min');
     ?>
 </head>
 <body>
@@ -29,9 +34,6 @@
 </div>
 <?php
 echo $this->fetch('script');
-echo $this->Html->script(
-    ['lib/datatables-bootstrap/datatables-bootstrap.js']
-);
 ?>
 </body>
 </html>

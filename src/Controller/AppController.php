@@ -40,7 +40,6 @@ class AppController extends Controller
         'JsData',
         'Layout',
         'Markitup.Markitup',
-        'RequireJs',
         'SaitoHelp.SaitoHelp',
         'Stopwatch.Stopwatch',
         'TimeH',

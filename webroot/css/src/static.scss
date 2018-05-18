@@ -22,6 +22,6 @@ $fa-font-path: "../stylesheets/font";
 @import "partials/_messages";
 @import "partials/_maps";
 
-@import "../../dev/bower_components/drop/css/drop-theme-arrows";
+@import "../../dev/node_modules/tether-drop/dist/css/drop-theme-arrows";
 @import "partials/drop";
 

@@ -10,9 +10,7 @@ module.exports = function(grunt) {
     uglify: {
       release: {
         files: {
-          './webroot/dist/require.min.js': ['./bower_components/requirejs/require.js'],
-          './webroot/dist/common.min.js': ['./webroot/dist/common.min.js'],
-          './webroot/dist/main.min.js': ['./webroot/dist/main.min.js']
+          // './webroot/dist/main.min.js': ['./webroot/dist/main.min.js']
         }
       }
     },
@@ -29,7 +27,6 @@ module.exports = function(grunt) {
       all: ['Gruntfile.js', './webroot/js/**/*.js'],
       options: {
         ignores: [
-          './webroot/js/bootstrap/*.js',
           './webroot/js/lib/**/*.js'
         ]
       }
@@ -143,16 +140,15 @@ module.exports = function(grunt) {
     },
   };
 
-  var configs = ['copy', 'jasmine', 'phpcs', 'requirejs'];
+  var configs = ['copy', 'jasmine', 'phpcs'];
   configs.map(function(config) {
     gruntConfig[config] = require('./dev/grunt/config/' + config);
   });
-  gruntConfig.jasmine = require('./dev/grunt/config/jasmine')(gruntConfig.requirejs.release.options);
+  // gruntConfig.jasmine = require('./dev/grunt/config/jasmine')(gruntConfig.requirejs.release.options);
 
   grunt.initConfig(gruntConfig);
 
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify-es');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-phpcs');
@@ -185,8 +181,6 @@ module.exports = function(grunt) {
     'sass:theme',
     'postcss:release',
     // JS
-    'requirejs:release',
-    'copy:release',
     'copy:nonmin',
     'uglify:release',
     // cleanup

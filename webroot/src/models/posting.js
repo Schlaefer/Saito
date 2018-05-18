@@ -1,0 +1,59 @@
+import _ from 'underscore';
+import Marionette from 'backbone.marionette';
+import App from 'models/app';
+import 'lib/saito/backbone.modelHelper';
+
+export default Backbone.Model.extend({
+  defaults: {
+    isBookmarked: false,
+    isSolves: false,
+    isAnsweringFormShown: false,
+    html: ''
+  },
+
+  initialize: function () {
+    this.listenTo(this, 'change:isSolves', this.syncSolved);
+    this.listenTo(this, 'change:isBookmarked', this.syncBookmarked);
+  },
+
+  isRoot: function () {
+    var _pid = this.get('pid');
+    if (!_.isNumber(_pid)) {
+      throw 'pid is not a number.';
+    }
+    return _pid === 0;
+  },
+
+  syncBookmarked: function () {
+    if (!this.get('isBookmarked')) {
+      return;
+    }
+    $.ajax({
+      url: App.settings.get('webroot') + "bookmarks/add",
+      type: 'POST',
+      dataType: 'json',
+      data: 'id=' + this.get('id')
+    });
+  },
+
+  syncSolved: function () {
+    $.ajax({
+      url: App.settings.get('webroot') + 'entries/solve/' + this.get('id'),
+      type: 'POST',
+      dateType: 'json'
+    });
+  },
+
+  fetchHtml: function (options) {
+    $.ajax({
+      success: _.bind(function (data) {
+        this.set('html', data);
+        if (options && options.success) { options.success(); }
+      }, this),
+      type: 'POST',
+      dateType: "html",
+      url: App.settings.get('webroot') + 'entries/view/' + this.get('id')
+    });
+  }
+
+});

@@ -349,24 +349,21 @@ if ($items) {
                     <?= implode('', $lock) ?>
                     <script>
                         SaitoApp.callbacks.afterAppInit.push(function () {
-                            require(['jquery', 'backbone'], function ($, Backbone) {
-                                'use strict';
-                                var BlockTimeGaugeView = Backbone.View.extend({
-                                    events: {'input #lockrange': '_onRangeChange'},
-                                    _onRangeChange: function (event) {
-                                        var value = event.target.value;
-                                        var l10n = $.i18n.__(':hours hours', {hours: value / 3600});
-                                        event.preventDefault();
-                                        if (value === event.target.max) {
-                                            l10n = '∞';
-                                            value = 0;
-                                        }
-                                        this.$('#lockTimeGauge').html(l10n);
-                                        this.$('#lockPeriod').attr('value', value);
+                            var BlockTimeGaugeView = Marionette.View.extend({
+                                events: {'input #lockrange': '_onRangeChange'},
+                                _onRangeChange: function (event) {
+                                    var value = event.target.value;
+                                    var l10n = $.i18n.__(':hours hours', {hours: value / 3600});
+                                    event.preventDefault();
+                                    if (value === event.target.max) {
+                                        l10n = '∞';
+                                        value = 0;
                                     }
-                                });
-                                new BlockTimeGaugeView({el: '#blockForm'});
+                                    this.$('#lockTimeGauge').html(l10n);
+                                    this.$('#lockPeriod').attr('value', value);
+                                }
                             });
+                            new BlockTimeGaugeView({el: '#blockForm'});
                         });
                     </script>
                 </div>

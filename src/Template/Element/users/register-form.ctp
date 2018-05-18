@@ -58,24 +58,22 @@ echo $this->Form->end();
 <script>
     (function (SaitoApp) {
         SaitoApp.callbacks.afterViewInit.push(function () {
-            require(['jquery', 'backbone'], function ($, Backbone) {
-                'use strict';
-                var RegisterView = Backbone.View.extend({
-                    events: {
-                        'click #tosConfirm': '_onTosConfirm'
-                    },
-                    _onTosConfirm: function (event) {
-                        var checked = event.currentTarget.checked;
-                        var submit = this.$('input[type=submit]');
-                        if (checked) {
-                            submit.removeAttr("disabled");
-                        } else {
-                            submit.attr("disabled", true);
-                        }
+            'use strict';
+            var RegisterView = Marionette.View.extend({
+                events: {
+                    'click #tosConfirm': '_onTosConfirm'
+                },
+                _onTosConfirm: function (event) {
+                    var checked = event.currentTarget.checked;
+                    var submit = this.$('input[type=submit]');
+                    if (checked) {
+                        submit.removeAttr("disabled");
+                    } else {
+                        submit.attr("disabled", true);
                     }
-                });
-                var registerForm = new RegisterView({el: '#registerForm'});
+                }
             });
+            var registerForm = new RegisterView({el: '#registerForm'});
         });
     })(SaitoApp);
 </script>

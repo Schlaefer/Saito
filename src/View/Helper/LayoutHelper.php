@@ -35,27 +35,6 @@ class LayoutHelper extends AppHelper
     }
 
     /**
-     * jquery tag
-     *
-     * @return string
-     */
-    public function jQueryTag()
-    {
-        $url = 'dist/';
-        $name = 'jquery';
-        if ((int)Configure::read('debug') === 0) {
-            $name = $name . '.min';
-        }
-
-        return $this->Html->script(
-            $this->Url->assetUrl(
-                $url . $name,
-                ['ext' => '.js', 'fullBase' => true]
-            )
-        );
-    }
-
-    /**
      * Include CakePHP assets required for debugging
      *
      * @return void

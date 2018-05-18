@@ -152,10 +152,6 @@
     ?>
     <div id="saito-modal-dialog" class="modal fade"  tabindex="-1" role="dialog" aria-hidden="true"></div>
     <?= $this->element('layout/html_footer'); ?>
-    <script>
-        SaitoApp.callbacks.afterAppInit.push(function() {
-            require([SaitoApp.app.settings.webroot + 'Paz/js/theme.js']);
-        });
-    </script>
+    <?= $this->Html->script('Paz.theme.js') ?>
 </body>
 </html>
