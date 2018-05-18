@@ -35,7 +35,6 @@
       cakeRest: 'lib/saito/backbone.cakeRest',
       domReady: '../dev/bower_components/requirejs-domready/domReady',
       drop: '../dev/bower_components/drop/drop',
-      fastclick: '../dev/bower_components/fastclick/lib/fastclick',
       humanize: '../dev/bower_components/humanize/humanize',
       jquery: 'lib/jquery',
       jqueryAutosize: '../dev/bower_components/jquery-autosize/jquery.autosize',

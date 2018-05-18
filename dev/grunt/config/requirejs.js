@@ -39,7 +39,6 @@
           'cakeRest',
           'domReady',
           'drop',
-          'fastclick',
           'marionette',
           'moment', 'moment-de',
           'humanize',

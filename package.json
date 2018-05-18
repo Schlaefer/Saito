@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@bower_components/drop": "HubSpot/drop#0.4.0",
-    "@bower_components/fastclick": "ftlabs/fastclick#*",
     "@bower_components/font-awesome": "FortAwesome/Font-Awesome#4.0.3",
     "@bower_components/humanize": "taijinlee/humanize#0.0.9",
     "@bower_components/jasmine": "pivotal/jasmine#~2.0.0",

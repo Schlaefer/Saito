@@ -6,10 +6,6 @@
   version "0.4.0"
   resolved "https://codeload.github.com/HubSpot/drop/tar.gz/3bf71cf3545fbc3b3174bec3a226bac31097fa74"
 
-"@bower_components/fastclick@ftlabs/fastclick#*":
-  version "1.0.6"
-  resolved "https://codeload.github.com/ftlabs/fastclick/tar.gz/9977a916739360ad4ffd7aa19b0016bf375e934b"
-
 "@bower_components/font-awesome@FortAwesome/Font-Awesome#4.0.3":
   version "4.0.3"
   resolved "https://codeload.github.com/FortAwesome/Font-Awesome/tar.gz/0373b63c16d7aa31b6715c3f81a98a2ffb9f40a6"

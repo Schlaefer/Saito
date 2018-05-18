@@ -67,16 +67,15 @@ define(['marionette', 'app/core', 'app/vent',
                         'views/prerequisitesTester',
                         'modules/html5-notification/html5-notification',
                         'modules/usermap/usermap',
-                        'fastclick',
 
                         'app/time', 'lib/saito/isAppVisible',
 
                         'bootstrap',
                         'lib/jquery.i18n/jquery.i18n.extend',
                         'lib/saito/backbone.initHelper',
-                        'lib/saito/backbone.modelHelper', 'fastclick'
+                        'lib/saito/backbone.modelHelper',
                     ],
-                    function (domReady, AppView, Backbone, $, App, NotificationView, PrerequisitesTesterView, Html5NotificationModule, UsermapModule, FastClick) {
+                    function (domReady, AppView, Backbone, $, App, NotificationView, PrerequisitesTesterView, Html5NotificationModule, UsermapModule) {
                         var appView,
                             appReady,
                             prerequisitesTesterView;
@@ -104,10 +103,6 @@ define(['marionette', 'app/core', 'app/vent',
                         _.each(callbacks, function (fct) {
                             fct();
                         });
-
-                        window.addEventListener('load', function () {
-                            FastClick.attach(document.body);
-                        }, false);
 
                         prerequisitesTesterView = new PrerequisitesTesterView({
                             el: $('.app-prerequisites-warnings')
