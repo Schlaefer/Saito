@@ -20,7 +20,6 @@
     "stylelint-config-standard": "^18.2.0"
   },
   "dependencies": {
-    "@bower_components/coffeescript": "jashkenas/coffeescript#~1.7.1",
     "@bower_components/drop": "HubSpot/drop#0.4.0",
     "@bower_components/fastclick": "ftlabs/fastclick#*",
     "@bower_components/font-awesome": "FortAwesome/Font-Awesome#4.0.3",
@@ -32,7 +31,6 @@
     "@bower_components/leaflet.markercluster": "Leaflet/Leaflet.markercluster#~0.4.0",
     "@bower_components/lodash": "lodash/lodash#~3.5",
     "@bower_components/momentjs": "moment/moment#2.6.0",
-    "@bower_components/require-cs": "jrburke/require-cs#~0.5.0",
     "@bower_components/requirejs": "requirejs/requirejs-bower#2.3.5",
     "@bower_components/requirejs-domready": "requirejs/domReady#2.0.1",
     "@bower_components/requirejs-text": "requirejs/text#2.0.12",

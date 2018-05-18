@@ -52,9 +52,6 @@
       // moment
       moment: '../dev/bower_components/momentjs/moment',
       'moment-de': '../dev/bower_components/momentjs/lang/de',
-      // coffeescript
-      cs: '../dev/bower_components/require-cs/cs',
-      'coffee-script': '../dev/bower_components/coffeescript/extras/coffee-script'
     }
   };
 

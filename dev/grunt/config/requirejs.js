@@ -52,12 +52,7 @@
         ],
 
         // jquery: is loaded externally on html page
-        // CoffeeScript: is not needed in compiled build file
-        exclude: ['coffee-script', 'jquery'],
-
-        //Stub out the cs coffee-script module after a build since
-        //it will not be needed.
-        stubModules: ['cs']
+        exclude: ['jquery'],
       },
       {
         name: 'main',

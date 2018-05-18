@@ -2,12 +2,6 @@
 # yarn lockfile v1
 
 
-"@bower_components/coffeescript@jashkenas/coffeescript#~1.7.1":
-  version "1.7.1"
-  resolved "https://codeload.github.com/jashkenas/coffeescript/tar.gz/4ab8503e5afc567f784d0e69c75a75a6e2bbab38"
-  dependencies:
-    mkdirp "~0.3.5"
-
 "@bower_components/drop@HubSpot/drop#0.4.0":
   version "0.4.0"
   resolved "https://codeload.github.com/HubSpot/drop/tar.gz/3bf71cf3545fbc3b3174bec3a226bac31097fa74"
@@ -55,12 +49,6 @@
 "@bower_components/momentjs@moment/moment#2.6.0":
   version "2.6.0"
   resolved "https://codeload.github.com/moment/moment/tar.gz/37808f3f9dec14e37ad2b5cff45c70f63b021d17"
-
-"@bower_components/require-cs@jrburke/require-cs#~0.5.0":
-  version "0.5.0"
-  resolved "https://codeload.github.com/jrburke/require-cs/tar.gz/58cf927cf7f37cecf83942c748a06b1c594aa011"
-  dependencies:
-    coffee-script ">=1.2.0"
 
 "@bower_components/requirejs-domready@requirejs/domReady#2.0.1":
   version "2.0.1"
@@ -463,10 +451,6 @@ coa@~1.0.1:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
-
-coffee-script@>=1.2.0:
-  version "1.12.7"
-  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.12.7.tgz#c05dae0cb79591d05b3070a8433a98c9a89ccc53"
 
 coffeescript@~1.10.0:
   version "1.10.0"
@@ -1714,7 +1698,7 @@ mkdirp@0.5.0:
   dependencies:
     minimist "0.0.8"
 
-mkdirp@~0.3.4, mkdirp@~0.3.5:
+mkdirp@~0.3.4:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.3.5.tgz#de3e5f8961c88c787ee1368df849ac4413eca8d7"
 
