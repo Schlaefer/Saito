@@ -43,7 +43,7 @@
       pnotify: '../dev/node_modules/pnotify/lib/iife/Pnotify',
       tether: '../dev/bower_components/tether/tether',
       text: '../dev/bower_components/requirejs-text/text',
-      underscore: '../dev/bower_components/lodash/lodash',
+      underscore: '../dev/node_modules/lodash/lodash',
       // marionette
       marionette: '../dev/node_modules/backbone.marionette/lib/backbone.marionette',
       'backbone.radio': '../dev/node_modules/backbone.radio/build/backbone.radio',
