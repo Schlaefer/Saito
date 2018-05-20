@@ -137,7 +137,6 @@ export default Backbone.View.extend({
       },
     });
 
-
     const uploadsView = new UploaderView({
       el: '#markitup_upload',
       className: 'imageUploader',

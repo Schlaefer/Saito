@@ -124,19 +124,19 @@ export default {
     });
 
     if (patternImage.test(textv)) {
-      out = markItUp._image(textv);
+      out = this._image(textv);
     } else if (patternHtml.test(textv)) {
-      out = markItUp._videoHtml5(textv);
+      out = this._videoHtml5(textv);
     } else if (patternAudio.test(textv)) {
-      out = markItUp._audioHtml5(textv);
+      out = this._audioHtml5(textv);
     } else if (patternIframe.test(textv)) {
-      out = markItUp._videoIframe(textv);
+      out = this._videoIframe(textv);
     } else if (patternFlash.test(textv)) {
-      out = markItUp._videoFlash(textv);
+      out = this._videoFlash(textv);
     }
 
     if (options.embedlyEnabled === true && out === '') {
-      out = markItUp._embedly(textv);
+      out = this._embedly(textv);
     }
     return out;
   },

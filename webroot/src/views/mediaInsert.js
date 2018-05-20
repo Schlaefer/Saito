@@ -48,7 +48,7 @@ export default Marionette.View.extend({
   },
 
   _closeDialog: function () {
-    ModalDialog.closeDialog();
+    ModalDialog.hide();
   },
 
   _showDialog: function () {
