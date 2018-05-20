@@ -5,6 +5,12 @@ $this->start('headerSubnavRight');
 //// define menu
 $userMenu = [];
 
+//= show additional nav-buttons
+$userMenu += $SaitoEventManager->dispatch(
+    'Request.Saito.View.UserMenu.navItem',
+    ['View' => $this]
+);
+
 $userMenu['index'] = [
     'url' => '/users/index',
     'title' => __d('page_titles', 'users/index'),

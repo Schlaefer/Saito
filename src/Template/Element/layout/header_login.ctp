@@ -22,18 +22,6 @@ if (!$CurrentUser->isLoggedIn()) {
         <?= $this->Layout->textWithIcon(__('user.b.profile'), 'user') ?>
     </a>
     <?php
-    //= show additional nav-buttons
-    $items = $SaitoEventManager->dispatch(
-        'Request.Saito.View.MainMenu.navItem',
-        ['View' => $this]
-    );
-    if ($items) {
-        foreach ($items as $item) {
-            $link = $this->request->getAttribute('webroot') . $item['url'];
-            echo "<a href=\"{$link}\" class=\"btn btn-link\">{$item['title']}";
-            echo '</a>';
-        }
-    }
     echo $this->Html->link(
         $this->Layout->textWithIcon(h(__('logout_linkname')), 'sign-out'),
         '/logout',

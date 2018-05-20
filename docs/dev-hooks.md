@@ -24,7 +24,7 @@ Data:
 
 - blockedUserId
 - userId
-- Model - UserIgnore 
+- Model - UserIgnore
 
 ## Event.Saito.View.beforeRender ##
 
@@ -51,9 +51,9 @@ Returns: array
 - 'title' title
 - 'url' URL to plugin page, should be under '/admin/plugin'
 
-## Request.Saito.View.MainMenu.navItem ##
+## Request.Saito.View.UserMenu.navItem ##
 
-Trigger: additional main navigation items
+Trigger: additional user navigation items
 
 Data:
 - 'View'
@@ -83,7 +83,7 @@ Data:
 - posting - posting data as array
 - View
 
-Returns: items to be inserted in 
+Returns: items to be inserted in
 
 Be careful, this callback may be performance sensitive when rendering long threads in mix-view.
 
@@ -114,7 +114,7 @@ Data:
 
 Returns: Additional user profile data  as array with mandatory keys:
 
-- 'title' 
+- 'title'
 - 'content'
 
 ## Request.Saito.View.User.edit ##

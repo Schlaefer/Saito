@@ -25,7 +25,7 @@ class MenuRenderer implements SaitoEventListener
     public function implementedSaitoEvents()
     {
         return [
-            'Request.Saito.View.MainMenu.navItem' => 'onRender'
+            'Request.Saito.View.UserMenu.navItem' => 'onRender'
         ];
     }
 
@@ -37,9 +37,6 @@ class MenuRenderer implements SaitoEventListener
      */
     public function onRender(array $eventData)
     {
-        $View = $eventData['View'];
-        $title = $View->Layout->textWithIcon(h(__('Upload')), 'upload');
-
-        return ['title' => $title, 'url' => '/users/uploads'];
+        return ['title' => __('Upload'), 'url' => '/users/uploads', 'icon' => 'upload'];
     }
 }
