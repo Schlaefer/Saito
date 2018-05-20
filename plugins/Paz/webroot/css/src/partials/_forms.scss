@@ -39,8 +39,10 @@ input[type=email],
     border-color: $link-color;
 
     &[disabled=disabled] {
-      opacity: 0.5;
+      background-color: $link-color;
+      border-color: $link-color;
       cursor: not-allowed;
+      opacity: 0.5;
     }
   }
 }
