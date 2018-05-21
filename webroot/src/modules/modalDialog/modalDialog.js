@@ -38,6 +38,7 @@ const dialog = Marionette.View.extend({
 
     // shows BS dialog
     this.$el.parent().modal('show');
+    this.$el.parent().on('shown.bs.modal', () => { this.triggerMethod('shown'); });
   },
 
   hide: function () {

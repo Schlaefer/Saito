@@ -49,13 +49,12 @@ export default Marionette.View.extend({
 
   _closeDialog: function () {
     ModalDialog.hide();
+    this.destroy();
   },
 
   _showDialog: function () {
+    ModalDialog.on('shown', () => { this.$('textarea').focus(); })
     ModalDialog.show(this, { title: $.i18n.__('Multimedia') });
-    ModalDialog.on('hidden.bs.modal', function (e) {
-      setTimeout(function () { $('#markitup_media_txta').focus(); }, 210);
-    })
   },
 
   onRender: function () {

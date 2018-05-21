@@ -165,9 +165,7 @@ export default Backbone.View.extend({
   _media: function (event) {
     event.preventDefault();
 
-    this.mediaView = new MediaInsertView({
-      model: this.model
-    });
+    this.mediaView = new MediaInsertView({ model: this.model });
     this.mediaView.render();
   },
 
