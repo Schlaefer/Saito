@@ -38,7 +38,7 @@ export default Backbone.View.extend({
   model: null,
 
   events: {
-    'click .js-btnCite': '_cite',
+    'click .js-btnCite': '_handleCite',
     'click .js-btnPreviewClose': '_closePreview',
     'click .btn-preview': '_showPreview',
     'click .btn-markItUp-Upload': '_upload',
@@ -79,14 +79,15 @@ export default Backbone.View.extend({
     this.$('.btn.btn-primary').removeAttr('disabled');
   },
 
-  _cite: function (event) {
-    const citeText = this.$('.js-btnCite').data('text');
-    const currentText = this.$textarea.val();
+  /**
+   * Quote parent posting
+   *
+   * @private
+   */
+  _handleCite: function (event) {
     event.preventDefault();
-
-    this.$textarea.val(citeText + '\n\n' + currentText);
-    this.$textarea.trigger('autosize.resize');
-    this.$textarea.focus();
+    const parentText = this.$('.js-btnCite').data('text');
+    this._insert(parentText);
   },
 
   _onKeyPressSubject: function (event) {
@@ -148,8 +149,17 @@ export default Backbone.View.extend({
     uploadsView.render();
   },
 
+  /**
+   * Inserts text at current cursor position in textfield.
+   *
+   * @param {string} text text to insert
+   * @private
+   */
   _insert: function (text) {
-    this.$('textarea').insertAtCaret(text);
+    const textarea = this.$('textarea');
+    textarea.insertAtCaret(text);
+    autosize.update(textarea);
+    textarea.focus();
   },
 
   _media: function (event) {
