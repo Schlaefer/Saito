@@ -47,6 +47,22 @@ input[type=email],
   }
 }
 
+/** Button looking like regular text */
+.btn-text {
+  @include setLinkStyleAll {
+    background: none;
+    border-color: none;
+    color: $font-color;
+
+    &[disabled=disabled] {
+      background-color: $link-color;
+      border-color: $link-color;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+}
+
 // dropdown button
 .dropdown-item {
   // overwrite BS

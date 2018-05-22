@@ -48,6 +48,7 @@ class MarkitupEditorHelper extends MarkitupHelper
     {
         Stopwatch::start('MarkitupHelper::getButtonSet()');
 
+        $out = '';
         $css = '';
         $separator = ['separator' => '&nbsp;'];
 
@@ -59,11 +60,16 @@ class MarkitupEditorHelper extends MarkitupHelper
             }
         }
 
-        $this->_buildSmilies($markitupSet, $css);
+        $smiliesData = $this->_buildSmilies($markitupSet);
+        if ($smiliesData) {
+            $script = 'smiliesData = ' . json_encode($smiliesData) . ';';
+            $out .= $this->Html->scriptBlock($script);
+        }
+
         $this->_buildAdditionalButtons($markitupSet, $css);
         $markupSet = $this->_convertToJsMarkupSet($markitupSet);
         $script = "markitupSettings = { id: '$id', markupSet: [$markupSet]};";
-        $out = $this->Html->scriptBlock($script) .
+        $out .= $this->Html->scriptBlock($script) .
             "<style type='text/css'>{$css}</style>";
 
         Stopwatch::stop('MarkitupHelper::getButtonSet()');
@@ -127,49 +133,26 @@ EOF;
     }
 
     /**
-     * build smilies
+     * Build smilies into an array
      *
      * @param array $bbcode bbcode
-     * @param string $css CSS
-     * @return void
+     * @return null|array smilies data
      */
-    protected function _buildSmilies(array &$bbcode, &$css)
+    protected function _buildSmilies(array &$bbcode): ?array
     {
         $smilies = $this->_View->get('smiliesData')->get();
-        $_smiliesPacked = [];
 
-        $i = 1;
-        foreach ($smilies as $smiley) {
-            if (isset($_smiliesPacked[$smiley['icon']])) {
-                continue;
-            }
-            $_smiliesPacked[$smiley['icon']] = [
-                'className' => "saito-smiley-{$smiley['type']} saito-smiley-{$smiley['icon']}",
-                'name' => ''
-                /* $smiley['title'] */,
-                // additional space to prevent smiley concatenation:
-                // `:cry:` and `(-.-)zzZ` becomes `:cry:(-.-)zzZ` which outputs
-                // smiley image for `:(`
-                'replaceWith' => ' ' . $smiley['code'],
-            ];
-
-            if ($smiley['type'] === 'image') {
-                $css .= <<<EOF
-.markItUp .markItUpButton{$this->_nextCssId}-{$i} a	{
-		background-image: url({$this->request->getAttribute('webroot')}theme/{$this->theme}/img/smilies/{$smiley['icon']});
-}
-EOF;
-            }
-            $i++;
+        if (empty($smilies)) {
+            return null;
         }
-        $this->_nextCssId++;
 
         $bbcode['Smilies'] = [
             'name' => "<i class='fa fa-s-smile-o'></i>",
             'title' => __('Smilies'),
             'className' => 'btn-markItUp-Smilies',
-            'dropMenu' => $_smiliesPacked
         ];
+
+        return $smilies;
     }
 
     /**

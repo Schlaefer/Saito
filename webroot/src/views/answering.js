@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import _ from 'underscore';
-import Backbone from 'backbone';
-import Marionette from 'backbone.marionette';
+import Bb from 'backbone';
+import Mn from 'backbone.marionette';
 import App from 'models/app';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderView from 'modules/uploader/uploader';
@@ -9,11 +9,18 @@ import MediaInsertView from 'views/mediaInsert';
 import EditCountdown from 'views/editCountdown';
 import PreviewModel from 'models/preview';
 import PreviewView from 'views/preview';
+import SmiliesCl from '../collections/smiliesCl';
+import SmiliesVw from 'views/answeringSmiliesVw';
 import autosize from 'autosize';
 import 'lib/saito/jquery.scrollIntoView';
 import 'lib/saito/jquery.insertAtCaret';
 
-export default Backbone.View.extend({
+export default Mn.View.extend({
+  regions: {
+    smilies: '.js-rgSmilies',
+  },
+
+  template: _.noop,
 
   _requestUrl: null,
 
@@ -44,8 +51,16 @@ export default Backbone.View.extend({
     'click .btn-markItUp-Upload': '_upload',
     'click .btn-markItUp-Media': '_media',
     'click .btn-primary': '_send',
+    'click .btn-markItUp-Smilies': '_handleSmilies',
     'keypress .js-subject': '_onKeyPressSubject',
     'input .js-subject': '_updateSubjectCharCount'
+  },
+
+  /**
+   * Mn child region event listener
+   */
+  childViewEvents: {
+    'answering:insert': '_insert',
   },
 
   initialize: function (options) {
@@ -97,21 +112,33 @@ export default Backbone.View.extend({
     }
   },
 
+  _handleSmilies: function (event) {
+    event.preventDefault;
+
+    const region = this.getRegion('smilies');
+    if (!region.hasView()) {
+      const smilies = new SmiliesCl();
+      const view = new SmiliesVw({ collection: smilies });
+      this.showChildView('smilies', view);
+      smilies.add(window.smiliesData);
+    }
+    region.$el.collapse('toggle');
+  },
+
   /**
    * Update char counter for remaining subject length
    *
    * @private
    */
   _updateSubjectCharCount: function () {
-    var count, $count, max, subject;
-    $count = this.$('.postingform-subject-count');
-    max = App.settings.get('subject_maxlength');
-    subject = this.$('.js-subject').val();
+    const $count = this.$('.postingform-subject-count');
+    const max = App.settings.get('subject_maxlength');
+    const subject = this.$('.js-subject').val();
     // Should be _.chars(subject) for counting multibyte chars as one char only, but
     // <input> maxlength attribute also counts all bytes in multibyte char.
     // This shortends the allowed subject by one byte-char per multibyte char,
     // but we can life with that.
-    count = max - subject.length;
+    const count = max - subject.length;
     $count.html(count);
   },
 
@@ -133,7 +160,8 @@ export default Backbone.View.extend({
       },
       handleInsert: function (event) {
         event.preventDefault();
-        answering._insert("[upload]" + this.model.get('name') + "[/upload]");
+        const text = "[upload]" + this.model.get('name') + "[/upload]";
+        answering._insert(text, { focus: false });
         ModalDialog.hide();
       },
     });
@@ -141,7 +169,6 @@ export default Backbone.View.extend({
     const uploadsView = new UploaderView({
       el: '#markitup_upload',
       className: 'imageUploader',
-      textarea: this.$textarea[0],
       InsertVw: InsertVw,
     });
 
@@ -153,13 +180,18 @@ export default Backbone.View.extend({
    * Inserts text at current cursor position in textfield.
    *
    * @param {string} text text to insert
+   * @param {object} options addiontal options
+   * - {bool} focus focus textfield after insertion
    * @private
    */
-  _insert: function (text) {
+  _insert: function (text, options) {
+    options = _.defaults(options, { focus: true });
+    console.log(options);
     const textarea = this.$('textarea');
     textarea.insertAtCaret(text);
     autosize.update(textarea);
-    textarea.focus();
+
+    options.focus ? textarea.focus() : textarea.blur();
   },
 
   _media: function (event) {
@@ -326,8 +358,11 @@ export default Backbone.View.extend({
     }).done(success).fail(fail);
   },
 
-  render: function () {
-    if (this.answeringForm === false) {
+  onRender: function () {
+    // create new thread on /entries/add
+    if (this.options.ajax === false) {
+      return;
+    } else if (this.answeringForm === false) {
       this._requestAnsweringForm();
     } else if (this.rendered === false) {
       this.rendered = true;

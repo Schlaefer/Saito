@@ -14,7 +14,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\View\Helper;
 use Cake\View\View;
-use Saito\JsData;
+use Saito\JsData\JsData;
 use Saito\User\ForumsUserInterface;
 
 /**
@@ -25,6 +25,11 @@ class JsDataHelper extends AppHelper
 
     public $helpers = ['Url'];
 
+    /**
+     * JsData
+     *
+     * @var JsData
+     */
     protected $_JsData;
 
     /**
@@ -71,6 +76,7 @@ class JsDataHelper extends AppHelper
                     'subject_maxlength' => (int)Configure::read('Saito.Settings.subject_maxlength'),
                     'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
                     'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
+                    'theme' => $View->getTheme(),
                     'apiroot' => $View->request->getAttribute('webroot') . 'api/v2/',
                     'webroot' => $View->request->getAttribute('webroot')
                 ]

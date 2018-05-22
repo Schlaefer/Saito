@@ -125,7 +125,7 @@ export default Marionette.View.extend({
       el: element,
       model: new PostingModel({ id: 'foo' }),
       ajax: false
-    });
+    }).render();
   },
 
   _initBookmarks: function (element_n) {

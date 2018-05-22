@@ -64,8 +64,9 @@ $this->end();
             <?php
             echo $this->Form->create($posting);
             echo $this->Posting->categorySelect($posting, $categories);
+
             $subject = (!empty($citeSubject)) ? $citeSubject : __('Subject');
-            echo $this->Form->control(
+            $subjectInput = $this->Form->control(
                 'subject',
                 [
                     'maxlength' => $SaitoSettings->get('subject_maxlength'),
@@ -77,7 +78,10 @@ $this->end();
                     'required' => ($isAnswer) ? false : 'required'
                 ]
             );
-            echo $this->Html->div('postingform-subject-count', '');
+            $subjectInput .= $this->Html->div('postingform-subject-count', '');
+            echo $this->Html->div('subject-wrapper', $subjectInput);
+
+            echo $this->html->div('js-rgSmilies', '');
 
             echo $this->Form->hidden('pid');
             echo $this->MarkitupEditor->getButtonSet('markItUp_' . $formId);

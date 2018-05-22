@@ -4,7 +4,7 @@
 .panel {
   padding: $padding;
 
-  // heading 
+  // heading
   .panel-heading {
     @extend .flexHeader;
 
@@ -41,6 +41,11 @@
   }
 }
 
+.panel-input {
+  background: $input-background-color;
+  padding: $padding $padding;
+}
+
 /**
  * Panel-area is form
  */
@@ -59,7 +64,7 @@
 }
 
 /**
- * Panel-area is info 
+ * Panel-area is info
  */
 .panel-info {
   background: $form-background-color;
