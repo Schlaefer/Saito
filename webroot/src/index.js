@@ -1,5 +1,4 @@
 import App from 'app/app';
-import bootstrap from 'bootstrap';
 import 'lib/saito/underscore.extend';
 import 'exports';
 
