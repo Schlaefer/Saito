@@ -4,6 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   mode: 'development',
   // mode: 'production',
+  devtool: 'eval-source-map',
   entry: {
     app: './webroot/src/index.js',
     exports: './webroot/src/exports.js',
@@ -19,6 +20,14 @@ module.exports = {
         loader: 'underscore-template-loader',
         query: {
           engine: 'underscore',
+        },
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+            presets: ['env']
         },
       },
     ]

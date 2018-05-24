@@ -15,6 +15,45 @@ import 'lib/jquery.i18n/jquery.i18n.extend';
 import 'lib/saito/backbone.initHelper';
 import 'lib/saito/backbone.modelHelper';
 
+/**
+ * Redirect helper
+ *
+ * @param {string} destination
+ */
+window.redirect = function (destination) {
+  document.location.replace(destination);
+};
+
+/**
+ * Global content timer
+ */
+var contentTimer = {
+  show: function () {
+    $('#content').css('visibility', 'visible');
+    console.warn('DOM ready timed out: show content fallback used.');
+    delete this.timeoutID;
+  },
+
+  setup: function () {
+    this.cancel();
+    var self = this;
+    this.timeoutID = window.setTimeout(function () {
+      self.show();
+    }, 5000);
+  },
+
+  cancel: function () {
+    if (typeof this.timeoutID === "number") {
+      window.clearTimeout(this.timeoutID);
+      delete this.timeoutID;
+    }
+  }
+};
+
+contentTimer.setup();
+
+
+
 var whenReady = function (callback) {
   if ($.isReady) {
     callback();
@@ -70,7 +109,6 @@ var app = {
       appReady,
       prerequisitesTesterView;
 
-
     // do this always first
     App.settings.set(options.SaitoApp.app.settings);
     // init i18n, do this always second
@@ -94,16 +132,16 @@ var app = {
       fct();
     });
 
-    prerequisitesTesterView = new PrerequisitesTesterView({
-      el: $('.app-prerequisites-warnings')
-    });
-
     appReady = function () {
+      prerequisitesTesterView = new PrerequisitesTesterView({
+        el: $('.app-prerequisites-warnings')
+      });
+
       app.fireOnPageCallbacks(options.SaitoApp.callbacks);
-      appView = new AppView({el: 'body'});
+      appView = new AppView({ el: 'body' });
       appView.initFromDom({
         SaitoApp: options.SaitoApp,
-        contentTimer: options.contentTimer
+        contentTimer: contentTimer
       });
     };
 

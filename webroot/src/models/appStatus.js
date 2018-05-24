@@ -22,8 +22,7 @@ const AppStatusModel = Backbone.Model.extend({
       return;
     }
     */
-    // disabled: nothing to poll at the moment without shoutbox
-    // this._poll();
+    this._poll();
   },
 
   _setWebroot: function(webroot) {

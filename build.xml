@@ -64,6 +64,7 @@
         <phingcall target="phpunit"/>
         <phingcall target="phpcbf"/>
         <phingcall target="phpcs"/>
+        <phingcall target="js"/>
     </target>
     <target name="phpunit">
         <echo msg="Running phpunit…"/>
@@ -76,6 +77,11 @@
     <target name="phpcbf">
         <echo msg="Running phpcbf…"/>
         <exec command="vendor/bin/phpcbf" passthru="true" logoutput="true"/>
+    </target>
+
+    <target name="js">
+        <echo msg="Running JS tests…"/>
+        <exec command="npx karma start --single-run --browsers ChromeHeadless" passthru="true" logoutput="true"/>
     </target>
 
 </project>
