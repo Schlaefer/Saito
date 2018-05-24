@@ -17,8 +17,8 @@ import ThreadCollection from 'collections/threads';
 import ThreadLineCollection from 'collections/threadlines';
 import ThreadLineView from 'views/threadlines';
 import ThreadView from 'views/thread';
+import UserVw from 'modules/user/userVw';
 import 'lib/jquery-ui/jquery-ui.custom.min'
-import UploaderView from 'modules/uploader/uploader';
 
 export default Marionette.View.extend({
   regions: {
@@ -38,7 +38,7 @@ export default Marionette.View.extend({
     '.threadBox': '_initThreadBoxes',
     '.threadLeaf': '_initThreadLeafs',
     '.users.logout': '_initLogout',
-    '#js-imageUploader-standalone': '_initImageUploader',
+    '.js-rgUser': '_initUser',
   },
 
   ui: {
@@ -105,9 +105,9 @@ export default Marionette.View.extend({
     }
   },
 
-  _initImageUploader: function(element) {
-      const Uploader = new UploaderView({el: element});
-      Uploader.render();
+  _initUser: function(element) {
+    const User = new UserVw({ el: element });
+    User.render();
   },
 
   _initSlideTabs: function (element) {

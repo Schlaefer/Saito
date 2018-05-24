@@ -375,3 +375,5 @@ if ($items) {
     }
     ?>
 </div>
+
+<div class="js-rgUser"></div>

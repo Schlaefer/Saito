@@ -1,7 +1,6 @@
 <?php
 
 use Cake\Cache\Cache;
-use ImageUploader\Lib\MenuRenderer;
 use Saito\Event\SaitoEventManager;
 
 Cache::setConfig(
@@ -14,5 +13,3 @@ Cache::setConfig(
         'duration' => '+1 year'
     ]
 );
-
-SaitoEventManager::getInstance()->attach(new MenuRenderer());
