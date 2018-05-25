@@ -2,7 +2,7 @@ import Bb from 'backbone';
 import App from 'models/app';
 import UploadModel from '../models/upload';
 
-export default Bb.Collection.extend({
+export default Bb.JsonApiCollection.extend({
   /** Bb collection model */
   model: UploadModel,
 
@@ -19,12 +19,5 @@ export default Bb.Collection.extend({
   comparator: function (model) {
     // sort by latest firest (negate ID for DESC)
     return -1 * model.get('id');
-  },
-
-  /**
-   * Bb response parser
-   */
-  parse: function (response, options) {
-    return response.data;
   },
 });

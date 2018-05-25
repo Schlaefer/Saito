@@ -39,7 +39,7 @@ export default {
       }
 
       if (diff < 64800) {
-        return $.i18n.__('yesterday') + ' ' +
+        return $.i18n.__('time.relative.yesterday') + ' ' +
           timestamp.format(this._timeFormats.time);
       }
 

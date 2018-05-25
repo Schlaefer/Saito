@@ -1,0 +1,17 @@
+<div class="d-flex">
+    <button class="btn btn-link js-delete" title="<%- $.i18n.__('bkm.delete.title') %>">
+        <i class="fa fa-trash-o fa-lg"></i>
+    </button>
+    <button class="btn btn-link js-edit" title="<%- $.i18n.__('bkm.edit.title') %>">
+        <i class="fa fa-edit fa-lg"></i>
+    </button>
+    <button class="btn btn-link js-save" style="display: none;" title="<%- $.i18n.__('bkm.save.btn') %>">
+        <i class="fa fa-floppy-o fa-lg"></i>
+    </button>
+    <div class="d-flex flex-column flex-grow-1">
+        <%= threadline_html %>
+        <div class="js-comment text-muted ml-4">
+            <%- comment %>
+        </div>
+    </div>
+</div>

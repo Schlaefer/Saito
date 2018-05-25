@@ -155,7 +155,7 @@ export default Mn.View.extend({
       },
       templateContext: () => {
         return {
-          title: $.i18n.__('upload_btn_insert_into_posting'),
+          title: $.i18n.__('upl.btn.insert'),
         }
       },
       handleInsert: function (event) {
@@ -172,7 +172,7 @@ export default Mn.View.extend({
       InsertVw: InsertVw,
     });
 
-    ModalDialog.show(uploadsView, { title: $.i18n.__('Upload'), width: 'max' });
+    ModalDialog.show(uploadsView, { title: $.i18n.__('upl.title'), width: 'max' });
     uploadsView.render();
   },
 

@@ -1,0 +1,140 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-05-27 08:40+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: ;__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Flags-xgettext: --language=JavaScript --force-po -o %o %C %K %F\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *i18n*\n"
+
+#: modules/bookmarks/templates/bookmarkItemTpl.html:2
+msgid "bkm.delete.title"
+msgstr "Lesezeichen löschen"
+
+#: modules/bookmarks/templates/bookmarkItemTpl.html:5
+msgid "bkm.edit.title"
+msgstr "Kommentieren"
+
+#: modules/bookmarks/templates/bookmarkItemTpl.html:8
+msgid "bkm.save.btn"
+msgstr "Lesezeichen speichern"
+
+#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:175
+msgid "upl.title"
+msgstr "Hochladen"
+
+#: modules/uploader/templates/uploaderAddTpl.html:11
+msgid "upl.new.info"
+msgstr "Max. :size; jpg, jpeg, png"
+
+#: modules/uploader/templates/uploaderAddTpl.html:24
+msgid "upl.btn.title"
+msgstr "Hochladen"
+
+#: templates/mediaInsert.html:6
+msgid "medins.exp"
+msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
+
+#: templates/mediaInsert.html:11
+msgid "medins.insert.btn"
+msgstr "Einbinden"
+
+#: templates/mediaInsert.html:15
+msgid "medins.notRecognized"
+msgstr "Nicht erkannt."
+
+#: templates/postingActionDelete.html:4
+msgid "tree.delete.confirm"
+msgstr ""
+"(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
+"werden!"
+
+#: templates/postingActionDelete.html:8
+msgid "posting.delete.abort.btn"
+msgstr "Abbrechen"
+
+#: templates/postingActionDelete.html:10 views/postingActionDelete.js:46
+msgid "posting.delete.title"
+msgstr "Löschen"
+
+#: lib/saito/templateHelpers.js:42
+msgid "time.relative.yesterday"
+msgstr "Gestern"
+
+#: modules/bookmarks/bookmarksModule.js:34
+#: modules/bookmarks/views/bookmarksVw.js:10 views/bookmarks.js:19
+msgid "bkm.ncy"
+msgstr "Noch keine Lesezeichen angelegt."
+
+#: modules/bookmarks/bookmarksModule.js:46
+msgid "bkm.failure.loading"
+msgstr "Fehler: Lesezeichen konnten nicht geladen werden."
+
+#: modules/bookmarks/views/bookmarkItemVw.js:85
+msgid "bkm.save.failure"
+msgstr "Fehler: Lesezeichen konnte nicht gespeichert werden."
+
+#: modules/bookmarks/views/bookmarkItemVw.js:101
+msgid "bkm.delete.failure"
+msgstr "Fehler: Lesezeichen konnte nicht gelöscht werden."
+
+#: modules/uploader/views/uploaderAddVw.js:68
+msgid "upl.failure"
+msgstr "Beim Hochladen ist ein Fehler aufgetreten."
+
+#: modules/uploader/views/uploaderAddVw.js:104
+msgid "upl.new.title"
+msgstr "Neues Bild hier hineinwerfen"
+
+#: modules/uploader/views/uploaderCollectionVw.js:21
+msgid "upl.ncy"
+msgstr "Noch nichts hochgeladen."
+
+#: modules/user/userVw.js:11
+msgid "bkm.title.pl"
+msgstr "Lesezeichen"
+
+#: modules/user/userVw.js:14
+msgid "upl.title.pl"
+msgstr "Uploads"
+
+#: views/answering.js:158
+msgid "upl.btn.insert"
+msgstr "Einfügen"
+
+#: views/categoryChooser.js:34
+msgid "category.title.pl"
+msgstr "Kategorien"
+
+#: views/mediaInsert.js:57
+msgid "medins.title"
+msgstr "Inhalte einbinden"
+
+#: views/postingActionBookmark.js:61
+msgid "bmk.isBookmarked"
+msgstr "Eintrag ist in den Lesezeichen"
+
+#: views/postingActionBookmark.js:65
+msgid "bmk.doBookmark"
+msgstr "Eintrag zu den Lesezeichen hinzufügen"
+
+#: views/postingActionSolves.js:28
+msgid "posting.helpful"
+msgstr "Beitrag als hilfreich markieren."
+
+#: views/prerequisitesTester.js:16
+msgid "prq.storage.warning"
+msgstr ""
+"Diese Web-Anwendung benötigt Cookies und localStorage. Bitte stellen Sie "
+"sicher, dass beides gegeben ist."

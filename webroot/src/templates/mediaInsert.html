@@ -3,16 +3,16 @@
         <div class="panel-content panel-form">
             <form action="#" style="width: 100%;">
                 <label for="markitup_media_txta">
-                    <%- $.i18n.__('Enter link to media or embedding code:') %>
+                    <%- $.i18n.__('medins.exp') %>
                 </label>
                 <textarea name="data[media]" id="markitup_media_txta" rows="6"
                         columns="20"></textarea>
                 <input class="btn btn-primary" id="markitup_media_btn" type="submit"
-                    value="<%- $.i18n.__('Insert') %>">
+                    value="<%- $.i18n.__('medins.insert.btn') %>">
 
                 <div id="markitup_media_message" class="flash error"
                     style="display: none;">
-                    <%- $.i18n.__('Nothing recognized.') %>
+                    <%- $.i18n.__('medins.notRecognized') %>
                 </div>
             </form>
         </div>

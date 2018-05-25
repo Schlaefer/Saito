@@ -31,7 +31,7 @@ export default Marionette.View.extend({
       return;
     }
     // show dialog
-    ModalDialog.show(this, { title: $.i18n.__('Categories') });
+    ModalDialog.show(this, { title: $.i18n.__('category.title.pl') });
     ModalDialog.on('close', () => {
       this.model.set('isOpen', false);
     });

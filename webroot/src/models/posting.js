@@ -13,7 +13,6 @@ export default Backbone.Model.extend({
 
   initialize: function () {
     this.listenTo(this, 'change:isSolves', this.syncSolved);
-    this.listenTo(this, 'change:isBookmarked', this.syncBookmarked);
   },
 
   isRoot: function () {
@@ -22,18 +21,6 @@ export default Backbone.Model.extend({
       throw 'pid is not a number.';
     }
     return _pid === 0;
-  },
-
-  syncBookmarked: function () {
-    if (!this.get('isBookmarked')) {
-      return;
-    }
-    $.ajax({
-      url: App.settings.get('webroot') + "bookmarks/add",
-      type: 'POST',
-      dataType: 'json',
-      data: 'id=' + this.get('id')
-    });
   },
 
   syncSolved: function () {

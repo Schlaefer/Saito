@@ -12,7 +12,9 @@ describe('Prerequisite Tester', function () {
 
   it('warns if localStorage is not available', function () {
     var l10n = Date.now();
-    spyOn(App.eventBus, 'reply').and.returnValue(false);
+    spyOn(App.eventBus, 'request')
+      .withArgs('app:localStorage:available')
+      .and.returnValue(false);
     spyOn($.i18n, '__').and.returnValue(l10n);
     var view = new PrerequisitesTesterView({
       el: $('#sandbox')
@@ -22,7 +24,9 @@ describe('Prerequisite Tester', function () {
   });
 
   it('doesn\'t warn if localStorage is available', function () {
-    spyOn(App.eventBus, 'request').and.returnValue(true);
+    spyOn(App.eventBus, 'request')
+      .withArgs('app:localStorage:available')
+      .and.returnValue(true);
     var view = new PrerequisitesTesterView({
       el: $('#sandbox')
     });

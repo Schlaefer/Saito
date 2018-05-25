@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import ThreadView from 'views/thread';
 import ThreadModel from 'models/thread';
 import PostingCollection from 'collections/postings';

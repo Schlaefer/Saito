@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-13 17:36+0200\n"
-"PO-Revision-Date: 2018-05-13 17:36+0200\n"
+"POT-Creation-Date: 2018-05-26 16:15+0200\n"
+"PO-Revision-Date: 2018-05-26 16:15+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -15,8 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 2.0.7\n"
 "X-Poedit-SearchPath-0: src\n"
-"X-Poedit-SearchPath-1: webroot/js\n"
-"X-Poedit-SearchPath-2: plugins\n"
+"X-Poedit-SearchPath-1: plugins\n"
 
 #: plugins/Admin/src/Controller/AdminsController.php:38
 msgid "Caches cleared."
@@ -189,7 +188,6 @@ msgstr ""
 #: plugins/Admin/src/Template/Categories/index.ctp:1
 #: plugins/Admin/src/Template/Categories/index.ctp:3
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:42
-#: webroot/js/views/categoryChooser.js:42
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -213,7 +211,6 @@ msgstr ""
 
 #: plugins/Admin/src/Template/Categories/delete.ctp:80
 #: plugins/Admin/src/Template/Users/delete.ctp:61
-#: webroot/js/templates/postingActionDelete.html:8
 msgid "Abort"
 msgstr "Abbrechen"
 
@@ -270,9 +267,7 @@ msgstr "Bearbeiten"
 #: plugins/Admin/src/Template/Categories/index.ctp:51
 #: plugins/Admin/src/Template/SmileyCodes/index.ctp:56
 #: plugins/Admin/src/Template/Smilies/index.ctp:81
-#: src/Template/Bookmarks/index.ctp:39 src/Template/Users/view.ctp:226
-#: webroot/js/templates/postingActionDelete.html:10
-#: webroot/js/views/postingActionDelete.js:44
+#: src/Template/Users/view.ctp:226
 msgid "Delete"
 msgstr "Löschen"
 
@@ -364,7 +359,7 @@ msgstr "Sperren"
 #: plugins/Admin/src/Template/Smilies/edit.ctp:1
 #: plugins/Admin/src/Template/Smilies/index.ctp:5
 #: plugins/Admin/src/Template/Smilies/index.ctp:9
-#: src/View/Helper/MarkitupEditorHelper.php:169
+#: src/View/Helper/MarkitupEditorHelper.php:151
 msgid "Smilies"
 msgstr ""
 
@@ -557,12 +552,12 @@ msgid "Bullet List"
 msgstr "Liste"
 
 #: plugins/BbcodeParser/src/Lib/Editor.php:64
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:331
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:337
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:332
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:338
 msgid "Spoiler"
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/Editor.php:71 src/Template/Entries/add.ctp:123
+#: plugins/BbcodeParser/src/Lib/Editor.php:71 src/Template/Entries/add.ctp:127
 msgid "Cite"
 msgstr "Zitieren"
 
@@ -583,26 +578,24 @@ msgid "Media"
 msgstr "Einbinden"
 
 #: plugins/BbcodeParser/src/Lib/Editor.php:94
-#: src/Template/Element/users/menu.ctp:11
-#: webroot/js/modules/uploader/templates/uploaderAddTpl.html:8
 #, fuzzy
 msgid "Upload"
 msgstr "Hochladen"
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:65
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:66
 msgid "[embed] tag not enabled."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:74
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:75
 msgid "Embedding failed."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:176
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:177
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr "Domain <strong>%s</strong> bei Videos nicht erlaubt."
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:210
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:211
 msgid "No Flash detected."
 msgstr ""
 
@@ -618,21 +611,10 @@ msgid ""
 "browser. In order to watch this stream you need an HTML5 capable browser."
 msgstr ""
 
-#: plugins/Bookmarks/src/Controller/BookmarksController.php:113
-msgid "The bookmark could not be saved. Please, try again."
-msgstr ""
-"Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
-"erneut."
-
-#: plugins/Bookmarks/src/Controller/BookmarksController.php:173
+#: plugins/Bookmarks/src/Controller/BookmarksController.php:148
 #, fuzzy
 msgid "Invalid bookmark."
 msgstr "Lesezeichen konnte nicht gefunden werden."
-
-#: plugins/Bookmarks/src/Lib/MenuRenderer.php:31
-#: src/Template/Bookmarks/index.ctp:7
-msgid "Bookmarks"
-msgstr "Lesezeichen"
 
 #: plugins/Embedly/src/View/Helper/EmbedlyHelper.php:36
 msgid "Embed.ly API-key not set."
@@ -684,7 +666,7 @@ msgstr ""
 "Die folgenden Wörter sind zu kurz und wurden ignoriert: {0}. Die "
 "Mindestzeichenzahl pro Wort beträgt: {1}."
 
-#: src/Controller/AppController.php:201
+#: src/Controller/AppController.php:200
 #: src/Controller/Component/CurrentUserComponent.php:296
 msgid "auth_autherror"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
@@ -873,70 +855,50 @@ msgstr "Keine gültige Email-Adresse."
 msgid "user.removed.placeholder"
 msgstr "<gelöscht>"
 
-#: src/Model/Table/UsersTable.php:159
+#: src/Model/Table/UsersTable.php:148
 msgid "user.avatar.error.extension"
 msgstr ""
 
-#: src/Model/Table/UsersTable.php:167
+#: src/Model/Table/UsersTable.php:156
 msgid "user.avatar.error.size"
 msgstr ""
 
-#: src/Model/Table/UsersTable.php:175
+#: src/Model/Table/UsersTable.php:164
 msgid "user.avatar.error.mime"
 msgstr ""
 
-#: src/Model/Table/UsersTable.php:190
+#: src/Model/Table/UsersTable.php:179
 msgid "user.avatar.error.dimension"
 msgstr ""
 
-#: src/Model/Table/UsersTable.php:205
+#: src/Model/Table/UsersTable.php:194
 msgid "error_password_confirm"
 msgstr "Password stimmt nicht mit Wiederholung überein."
 
-#: src/Model/Table/UsersTable.php:224
+#: src/Model/Table/UsersTable.php:213
 msgid "error_no_name"
 msgstr "Es wurde kein Name eingegeben."
 
-#: src/Model/Table/UsersTable.php:232
+#: src/Model/Table/UsersTable.php:221
 msgid "error_name_reserved"
 msgstr "Der Name ist bereits vergeben."
 
-#: src/Model/Table/UsersTable.php:242
+#: src/Model/Table/UsersTable.php:231
 msgid "model.user.validate.username.hasAllowedChars"
 msgstr "Der Name enthält unerlaubte Sonderzeichen."
 
-#: src/Model/Table/UsersTable.php:257
+#: src/Model/Table/UsersTable.php:246
 msgid "error_email_reserved"
 msgstr ""
 "Es ist bereits ein Benutzer mit der angegebenen E-Mail-Adresse vorhanden."
 
-#: src/Model/Table/UsersTable.php:262
+#: src/Model/Table/UsersTable.php:251
 msgid "error_email_wrong"
 msgstr "Die eingegebene E-Mail-Adresse sieht nicht richtig aus."
 
-#: src/Model/Table/UsersTable.php:622
+#: src/Model/Table/UsersTable.php:609
 msgid "error.name.equalExists"
 msgstr "Ein ähnlicher Name ist bereits vergeben: {0}"
-
-#: src/Template/Bookmarks/edit.ctp:9
-msgid "Edit Bookmark"
-msgstr "Lesezeichen bearbeiten"
-
-#: src/Template/Bookmarks/edit.ctp:27
-msgid "Enter your comment here"
-msgstr "Hier Kommentar eingeben"
-
-#: src/Template/Bookmarks/edit.ctp:32 src/Template/Bookmarks/index.ctp:69
-msgid "btn-comment-title"
-msgstr "Kommentieren"
-
-#: src/Template/Bookmarks/index.ctp:18 src/Template/Entries/add.ctp:67
-msgid "Subject"
-msgstr "Betreff"
-
-#: src/Template/Bookmarks/index.ctp:25
-msgid "Comment"
-msgstr "Kommentar"
 
 #: src/Template/Cell/AppStatus/display.ctp:13
 msgid "discl.status"
@@ -1079,7 +1041,7 @@ msgstr "Einloggen"
 msgid "user.b.profile"
 msgstr "Profil"
 
-#: src/Template/Element/layout/header_login.ctp:38
+#: src/Template/Element/layout/header_login.ctp:26
 msgid "logout_linkname"
 msgstr "Ausloggen"
 
@@ -1169,11 +1131,15 @@ msgstr ""
 "Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
 "innerhalb der nächsten 24 Stunden: {1}"
 
-#: src/Template/Entries/add.ctp:34 src/Template/Entries/add.ctp:110
+#: src/Template/Entries/add.ctp:34 src/Template/Entries/add.ctp:114
 msgid "preview"
 msgstr "Vorschau"
 
-#: src/Template/Entries/add.ctp:101
+#: src/Template/Entries/add.ctp:68
+msgid "Subject"
+msgstr "Betreff"
+
+#: src/Template/Entries/add.ctp:105
 msgid "submit_button"
 msgstr "Eintragen"
 
@@ -1189,11 +1155,11 @@ msgstr "Thread {0} anfügen"
 msgid "Merge onto posting with ID:"
 msgstr ""
 
-#: src/Template/Entries/mix.ctp:14 src/View/Helper/LayoutHelper.php:352
+#: src/Template/Entries/mix.ctp:14 src/View/Helper/LayoutHelper.php:331
 msgid "Back"
 msgstr "Zurück"
 
-#: src/Template/Entries/view.ctp:13 src/View/Helper/LayoutHelper.php:350
+#: src/Template/Entries/view.ctp:13 src/View/Helper/LayoutHelper.php:329
 msgid "back_to_forum_linkname"
 msgstr "Zurück zum Forum"
 
@@ -1507,102 +1473,45 @@ msgid "Explanation"
 msgstr "Beschreibung"
 
 #: src/View/Helper/TimeHHelper.php:148
-#: webroot/js/lib/saito/templateHelpers.js:41
 msgid "yesterday"
 msgstr "Gestern"
 
-#: webroot/js/modules/uploader/templates/uploadItemTpl.html:8
-msgid "upload_btn_insert_into_posting"
-msgstr "Einfügen"
+#~ msgid "The bookmark could not be saved. Please, try again."
+#~ msgstr ""
+#~ "Das Lesezeichen konnte nicht gespeichert werden. Bitte versuchen Sie es "
+#~ "erneut."
 
-#: webroot/js/modules/uploader/templates/uploaderAddTpl.html:11
-msgid "upload_info"
-msgstr "Max. :size; jpg, jpeg, png"
+#~ msgid "Bookmarks"
+#~ msgstr "Lesezeichen"
 
-#: webroot/js/modules/uploader/templates/uploaderAddTpl.html:24
-msgid "upload_btn"
-msgstr "Hochladen"
+#~ msgid "Edit Bookmark"
+#~ msgstr "Lesezeichen bearbeiten"
 
-#: webroot/js/modules/usermap/templates/controls.html:9
-msgid "user.map.b.locate"
-msgstr "Orten"
+#~ msgid "Enter your comment here"
+#~ msgstr "Hier Kommentar eingeben"
 
-#: webroot/js/modules/usermap/templates/controls.html:11
-msgid "user.map.b.clear"
-msgstr "Entfernen"
+#~ msgid "Comment"
+#~ msgstr "Kommentar"
 
-#: webroot/js/templates/mediaInsert.html:6
-msgid "Enter link to media or embedding code:"
-msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben:"
+#~ msgid "user.map.b.locate"
+#~ msgstr "Orten"
 
-#: webroot/js/templates/mediaInsert.html:11
-msgid "Insert"
-msgstr "Einfügen"
+#~ msgid "user.map.b.clear"
+#~ msgstr "Entfernen"
 
-#: webroot/js/templates/mediaInsert.html:15
-msgid "Nothing recognized."
-msgstr "Nichts erkannt."
+#~ msgid "Insert"
+#~ msgstr "Einfügen"
 
-#: webroot/js/templates/postingActionDelete.html:4
-msgid "delete_tree_link_confirm_message"
-msgstr ""
-"(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
-"werden!"
-
-#: webroot/js/modules/uploader/views/uploaderAddView.js:76
-msgid "upload_genericError"
-msgstr "Beim Hochladen ist ein Fehler aufgetreten."
-
-#: webroot/js/modules/uploader/views/uploaderAddView.js:112
-msgid "upload_new_title"
-msgstr "Neues Bild hier hineinwerfen"
-
-#: webroot/js/modules/uploader/views/uploaderCollectionView.js:27
-msgid "imageUploader.ncy"
-msgstr "Noch nichts hochgeladen."
-
-#: webroot/js/modules/usermap/views/controls.js:81
 #, fuzzy
-msgid "user.map.b.search"
-msgstr "Suche \":string\""
+#~ msgid "user.map.b.search"
+#~ msgstr "Suche \":string\""
 
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:24
-msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
-msgstr ""
-
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:44
-msgid "token test"
-msgstr ""
-
-#: webroot/js/views/bookmarks.js:23
-msgid "ncy.bkm"
-msgstr "Noch keine Lesezeichen angelegt."
-
-#: webroot/js/views/mediaInsert.js:60
-#, fuzzy
-msgid "Multimedia"
-msgstr "Einbinden"
-
-#: webroot/js/views/postingActionBookmark.js:51
-msgid "Entry is bookmarked"
-msgstr "Eintrag ist in den Lesezeichen"
-
-#: webroot/js/views/postingActionBookmark.js:55
-#, fuzzy
-msgid "Bookmark the entry"
-msgstr "Eintrag zu den Lesezeichen hinzufügen"
-
-#: webroot/js/views/postingActionSolves.js:26
-msgid "Mark entry as helpful"
-msgstr "Beitrag als hilfreich markieren."
-
-#: webroot/js/views/prerequisitesTester.js:14
-msgid ""
-"This web-application depends on Cookies and localStorage. Please make those "
-"available in your browser."
-msgstr ""
-"Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren Sie "
-"diese im Browser."
+#~ msgid ""
+#~ "This web-application depends on Cookies and localStorage. Please make "
+#~ "those available in your browser."
+#~ msgstr ""
+#~ "Diese Web-Anwendung benötigt Cookies und localStorage. Bitte aktivieren "
+#~ "Sie diese im Browser."
 
 #~ msgid "search.q.minLength"
 #~ msgstr "Suchbegriffe müssen mindestens %s Buchstaben enthalten."

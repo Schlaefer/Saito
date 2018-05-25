@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-13 17:36+0200\n"
-"PO-Revision-Date: 2018-05-13 17:37+0200\n"
+"POT-Creation-Date: 2018-05-26 16:15+0200\n"
+"PO-Revision-Date: 2018-05-26 16:15+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -15,8 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Poedit 2.0.7\n"
 "X-Poedit-SearchPath-0: src\n"
-"X-Poedit-SearchPath-1: webroot/js\n"
-"X-Poedit-SearchPath-2: plugins\n"
+"X-Poedit-SearchPath-1: plugins\n"
 
 #: plugins/Admin/src/Controller/AdminsController.php:38
 msgid "Caches cleared."
@@ -184,7 +183,6 @@ msgstr ""
 #: plugins/Admin/src/Template/Categories/index.ctp:1
 #: plugins/Admin/src/Template/Categories/index.ctp:3
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:42
-#: webroot/js/views/categoryChooser.js:42
 msgid "Categories"
 msgstr ""
 
@@ -207,7 +205,6 @@ msgstr ""
 
 #: plugins/Admin/src/Template/Categories/delete.ctp:80
 #: plugins/Admin/src/Template/Users/delete.ctp:61
-#: webroot/js/templates/postingActionDelete.html:8
 msgid "Abort"
 msgstr ""
 
@@ -264,9 +261,7 @@ msgstr ""
 #: plugins/Admin/src/Template/Categories/index.ctp:51
 #: plugins/Admin/src/Template/SmileyCodes/index.ctp:56
 #: plugins/Admin/src/Template/Smilies/index.ctp:81
-#: src/Template/Bookmarks/index.ctp:39 src/Template/Users/view.ctp:226
-#: webroot/js/templates/postingActionDelete.html:10
-#: webroot/js/views/postingActionDelete.js:44
+#: src/Template/Users/view.ctp:226
 msgid "Delete"
 msgstr ""
 
@@ -357,7 +352,7 @@ msgstr "Blocking"
 #: plugins/Admin/src/Template/Smilies/edit.ctp:1
 #: plugins/Admin/src/Template/Smilies/index.ctp:5
 #: plugins/Admin/src/Template/Smilies/index.ctp:9
-#: src/View/Helper/MarkitupEditorHelper.php:169
+#: src/View/Helper/MarkitupEditorHelper.php:151
 msgid "Smilies"
 msgstr ""
 
@@ -545,12 +540,12 @@ msgid "Bullet List"
 msgstr ""
 
 #: plugins/BbcodeParser/src/Lib/Editor.php:64
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:331
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:337
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:332
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:338
 msgid "Spoiler"
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/Editor.php:71 src/Template/Entries/add.ctp:123
+#: plugins/BbcodeParser/src/Lib/Editor.php:71 src/Template/Entries/add.ctp:127
 msgid "Cite"
 msgstr ""
 
@@ -571,26 +566,24 @@ msgid "Media"
 msgstr ""
 
 #: plugins/BbcodeParser/src/Lib/Editor.php:94
-#: src/Template/Element/users/menu.ctp:11
-#: webroot/js/modules/uploader/templates/uploaderAddTpl.html:8
 #, fuzzy
 msgid "Upload"
 msgstr "Upload"
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:65
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:66
 msgid "[embed] tag not enabled."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:74
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:75
 msgid "Embedding failed."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:176
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:177
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:210
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:211
 msgid "No Flash detected."
 msgstr ""
 
@@ -606,17 +599,8 @@ msgid ""
 "browser. In order to watch this stream you need an HTML5 capable browser."
 msgstr ""
 
-#: plugins/Bookmarks/src/Controller/BookmarksController.php:113
-msgid "The bookmark could not be saved. Please, try again."
-msgstr ""
-
-#: plugins/Bookmarks/src/Controller/BookmarksController.php:173
+#: plugins/Bookmarks/src/Controller/BookmarksController.php:148
 msgid "Invalid bookmark."
-msgstr ""
-
-#: plugins/Bookmarks/src/Lib/MenuRenderer.php:31
-#: src/Template/Bookmarks/index.ctp:7
-msgid "Bookmarks"
 msgstr ""
 
 #: plugins/Embedly/src/View/Helper/EmbedlyHelper.php:36
@@ -668,7 +652,7 @@ msgstr ""
 "The following words are to short and were omitted: {0}. Minimum number of "
 "characters is: {1}."
 
-#: src/Controller/AppController.php:201
+#: src/Controller/AppController.php:200
 #: src/Controller/Component/CurrentUserComponent.php:296
 msgid "auth_autherror"
 msgstr "Access to this function is restricted!"
@@ -857,69 +841,49 @@ msgstr "No valid email address."
 msgid "user.removed.placeholder"
 msgstr "<deleted>"
 
-#: src/Model/Table/UsersTable.php:159
+#: src/Model/Table/UsersTable.php:148
 msgid "user.avatar.error.extension"
 msgstr "Invalid file extension. Use: {0}."
 
-#: src/Model/Table/UsersTable.php:167
+#: src/Model/Table/UsersTable.php:156
 msgid "user.avatar.error.size"
 msgstr "File is to big. Max file size is: {0}."
 
-#: src/Model/Table/UsersTable.php:175
+#: src/Model/Table/UsersTable.php:164
 msgid "user.avatar.error.mime"
 msgstr "Not the correct mime type."
 
-#: src/Model/Table/UsersTable.php:190
+#: src/Model/Table/UsersTable.php:179
 msgid "user.avatar.error.dimension"
 msgstr "Avatar image is to big or to small. Use an image between {0} and {1}."
 
-#: src/Model/Table/UsersTable.php:205
+#: src/Model/Table/UsersTable.php:194
 msgid "error_password_confirm"
 msgstr "Passwords don't match."
 
-#: src/Model/Table/UsersTable.php:224
+#: src/Model/Table/UsersTable.php:213
 msgid "error_no_name"
 msgstr "Name is empty."
 
-#: src/Model/Table/UsersTable.php:232
+#: src/Model/Table/UsersTable.php:221
 msgid "error_name_reserved"
 msgstr "Name is already used."
 
-#: src/Model/Table/UsersTable.php:242
+#: src/Model/Table/UsersTable.php:231
 msgid "model.user.validate.username.hasAllowedChars"
 msgstr "The name contains forbidden characters."
 
-#: src/Model/Table/UsersTable.php:257
+#: src/Model/Table/UsersTable.php:246
 msgid "error_email_reserved"
 msgstr "Email address is already used."
 
-#: src/Model/Table/UsersTable.php:262
+#: src/Model/Table/UsersTable.php:251
 msgid "error_email_wrong"
 msgstr "Email doesn't seem like a valid address."
 
-#: src/Model/Table/UsersTable.php:622
+#: src/Model/Table/UsersTable.php:609
 msgid "error.name.equalExists"
 msgstr "An similar name is already in use: {0}"
-
-#: src/Template/Bookmarks/edit.ctp:9
-msgid "Edit Bookmark"
-msgstr ""
-
-#: src/Template/Bookmarks/edit.ctp:27
-msgid "Enter your comment here"
-msgstr ""
-
-#: src/Template/Bookmarks/edit.ctp:32 src/Template/Bookmarks/index.ctp:69
-msgid "btn-comment-title"
-msgstr "Comment"
-
-#: src/Template/Bookmarks/index.ctp:18 src/Template/Entries/add.ctp:67
-msgid "Subject"
-msgstr ""
-
-#: src/Template/Bookmarks/index.ctp:25
-msgid "Comment"
-msgstr ""
 
 #: src/Template/Cell/AppStatus/display.ctp:13
 msgid "discl.status"
@@ -1061,7 +1025,7 @@ msgstr "Login"
 msgid "user.b.profile"
 msgstr "Profile"
 
-#: src/Template/Element/layout/header_login.ctp:38
+#: src/Template/Element/layout/header_login.ctp:26
 msgid "logout_linkname"
 msgstr "Logout"
 
@@ -1148,11 +1112,15 @@ msgstr ""
 "To activate your account please click the following link: {1} within the "
 "next 24 hours."
 
-#: src/Template/Entries/add.ctp:34 src/Template/Entries/add.ctp:110
+#: src/Template/Entries/add.ctp:34 src/Template/Entries/add.ctp:114
 msgid "preview"
 msgstr "Preview"
 
-#: src/Template/Entries/add.ctp:101
+#: src/Template/Entries/add.ctp:68
+msgid "Subject"
+msgstr ""
+
+#: src/Template/Entries/add.ctp:105
 msgid "submit_button"
 msgstr "Submit"
 
@@ -1168,11 +1136,11 @@ msgstr ""
 msgid "Merge onto posting with ID:"
 msgstr ""
 
-#: src/Template/Entries/mix.ctp:14 src/View/Helper/LayoutHelper.php:352
+#: src/Template/Entries/mix.ctp:14 src/View/Helper/LayoutHelper.php:331
 msgid "Back"
 msgstr ""
 
-#: src/Template/Entries/view.ctp:13 src/View/Helper/LayoutHelper.php:350
+#: src/Template/Entries/view.ctp:13 src/View/Helper/LayoutHelper.php:329
 msgid "back_to_forum_linkname"
 msgstr "Go Back to the Forum"
 
@@ -1474,97 +1442,17 @@ msgid "Explanation"
 msgstr ""
 
 #: src/View/Helper/TimeHHelper.php:148
-#: webroot/js/lib/saito/templateHelpers.js:41
 msgid "yesterday"
 msgstr ""
 
-#: webroot/js/modules/uploader/templates/uploadItemTpl.html:8
-msgid "upload_btn_insert_into_posting"
-msgstr "Insert"
+#~ msgid "user.map.b.locate"
+#~ msgstr "Locate"
 
-#: webroot/js/modules/uploader/templates/uploaderAddTpl.html:11
-msgid "upload_info"
-msgstr "Max. size: :size; type: jpg, jpeg, png"
+#~ msgid "user.map.b.clear"
+#~ msgstr "Clear"
 
-#: webroot/js/modules/uploader/templates/uploaderAddTpl.html:24
-msgid "upload_btn"
-msgstr "Upload"
-
-#: webroot/js/modules/usermap/templates/controls.html:9
-msgid "user.map.b.locate"
-msgstr "Locate"
-
-#: webroot/js/modules/usermap/templates/controls.html:11
-msgid "user.map.b.clear"
-msgstr "Clear"
-
-#: webroot/js/templates/mediaInsert.html:6
-msgid "Enter link to media or embedding code:"
-msgstr ""
-
-#: webroot/js/templates/mediaInsert.html:11
-msgid "Insert"
-msgstr ""
-
-#: webroot/js/templates/mediaInsert.html:15
-msgid "Nothing recognized."
-msgstr ""
-
-#: webroot/js/templates/postingActionDelete.html:4
-msgid "delete_tree_link_confirm_message"
-msgstr ""
-"Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
-"thread?"
-
-#: webroot/js/modules/uploader/views/uploaderAddView.js:76
-msgid "upload_genericError"
-msgstr "Error occurred on upload."
-
-#: webroot/js/modules/uploader/views/uploaderAddView.js:112
-msgid "upload_new_title"
-msgstr "Drop Image Here"
-
-#: webroot/js/modules/uploader/views/uploaderCollectionView.js:27
-msgid "imageUploader.ncy"
-msgstr "No uploads yet."
-
-#: webroot/js/modules/usermap/views/controls.js:81
-msgid "user.map.b.search"
-msgstr "Search \":string\""
-
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:24
-msgid ":tokenA; is :token_b than fu :tokenNo :token-c"
-msgstr ""
-
-#: webroot/js/tests/lib/jquery.i18n.extendSpec.js:44
-msgid "token test"
-msgstr ""
-
-#: webroot/js/views/bookmarks.js:23
-msgid "ncy.bkm"
-msgstr "No bookmarks created yet."
-
-#: webroot/js/views/mediaInsert.js:60
-msgid "Multimedia"
-msgstr ""
-
-#: webroot/js/views/postingActionBookmark.js:51
-msgid "Entry is bookmarked"
-msgstr ""
-
-#: webroot/js/views/postingActionBookmark.js:55
-msgid "Bookmark the entry"
-msgstr ""
-
-#: webroot/js/views/postingActionSolves.js:26
-msgid "Mark entry as helpful"
-msgstr ""
-
-#: webroot/js/views/prerequisitesTester.js:14
-msgid ""
-"This web-application depends on Cookies and localStorage. Please make those "
-"available in your browser."
-msgstr ""
+#~ msgid "user.map.b.search"
+#~ msgstr "Search \":string\""
 
 #~ msgid "search.q.minLength"
 #~ msgstr "Search terms must be at least %s characters long."

@@ -25,7 +25,7 @@ export default Marionette.View.extend({
     }
     this.$el.attr({
       href: '#',
-      title: $.i18n.__('Mark entry as helpful')
+      title: $.i18n.__('posting.helpful')
     });
     this.render();
   },

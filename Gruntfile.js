@@ -32,6 +32,21 @@ module.exports = function(grunt) {
       }
     },
     shell: {
+      locale: {
+        command: `
+        targetDir="./webroot/dist/locale/"
+        mkdir -p "$targetDir";
+        for line in $(find './webroot/src/locale' -type f -name '*.po'); do
+          v=$(basename "$line" .po);
+          npx po2json --format=mf  webroot/src/locale/$v.po "$targetDir$v".json
+        done
+        `,
+        options: { stdout: true, stderr: true, failOnError: true, }
+      },
+      webpack: {
+        command: 'npx webpack --mode=production --devtool=none',
+        options: { stdout: true, stderr: true, failOnError: true, },
+      },
       yarn: {
         command: 'yarn',
         options: {
@@ -180,9 +195,13 @@ module.exports = function(grunt) {
     'sass:static',
     'sass:theme',
     'postcss:release',
+    // webpack
+    'shell:webpack',
     // JS
     'copy:nonmin',
     'uglify:release',
+    // l10n
+    'shell:locale',
     // cleanup
     'clean:releasePost'
   ]);

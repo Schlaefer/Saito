@@ -1,8 +1,20 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Bookmarks\Test\TestCase\Controller;
 
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Saito\Test\IntegrationTestCase;
 
 class BookmarksControllerTest extends IntegrationTestCase
@@ -33,159 +45,183 @@ class BookmarksControllerTest extends IntegrationTestCase
         parent::setUp();
     }
 
-    public function testIndexNotAllowed()
+    public function testIndexNoAuthorization()
     {
-        $url = '/bookmarks/index';
-        $this->get($url);
-        $this->assertRedirectLogin($url);
+        $this->expectException(UnauthorizedException::class);
+
+        $this->get('api/v2/bookmarks');
     }
 
-    public function testIndex()
+    public function testIndexSuccess()
     {
-        $this->_loginUser(3);
-        $this->get('/bookmarks/index');
+        $userId = 3;
+        $this->loginJwt($userId);
 
-        $bookmarks = $this->Bookmarks->find();
-        // 5 belongs to user but is disallowed category
-        $allowed = [1, 2];
-        foreach ($bookmarks as $bookmark) {
-            $id = $bookmark->get('id');
-            $edit = 'bookmarks/edit/' . $id;
-            if (in_array($id, $allowed)) {
-                $this->assertResponseContains($edit);
-            } else {
-                $this->assertResponseNotContains($edit);
-            }
-        }
+        $this->get('api/v2/bookmarks');
 
-        // check that output is sanitized
-        $this->assertResponseContains('&lt; Comment 2');
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertNotEmpty($response['data'][0]['attributes']['threadline_html']);
+        $response = Hash::remove($response, 'data.{n}.attributes.threadline_html');
+
+        $this->assertResponseCode(200);
+
+        $expected = [
+            'data' => [
+                [
+                    'id' => 2,
+                    'type' => 'bookmarks',
+                    'attributes' => [
+                        'id' => 2,
+                        'entry_id' => 11,
+                        'user_id' => 3,
+                        'comment' => '< Comment 2',
+                    ],
+                ],
+                [
+                    'id' => 1,
+                    'type' => 'bookmarks',
+                    'attributes' => [
+                        'id' => 1,
+                        'entry_id' => 1,
+                        'user_id' => 3,
+                        'comment' => '',
+                    ],
+                ],
+            ],
+        ];
+
+        $this->assertEquals($expected, $response);
+        //// User has lost read access to one category with a bookmarked posting
+        $count = count($expected['data']);
+        $this->assertEquals(++$count, $this->Bookmarks->findByUserId($userId)->count());
     }
 
-    public function testAddNoAjax()
+    public function testEditFailureNotLoggedIn()
     {
-        $this->_loginUser(5);
-        $this->expectException(
-            'Cake\Http\Exception\BadRequestException'
-        );
-        $this->disableCsrf();
-        $this->post('/bookmarks/add', ['id' => 1]);
+        $this->expectException(UnauthorizedException::class);
+
+        $this->put('api/v2/bookmarks/1');
     }
 
-    public function testAddNoPost()
+    public function testEditFailureNotUsersBookmark()
     {
-        $this->_loginUser(5);
-        $this->_setAjax();
-        $this->expectException(
-            'Cake\Http\Exception\BadRequestException'
-        );
-        $this->get('/bookmarks/add');
+        $userId = 3;
+        $this->loginJwt($userId);
+
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
+
+        $data = [
+            'id' => 1,
+            'user_id' => 1,
+            'entry_id' => 1,
+            'comment' => 'foo',
+        ];
+
+        $this->put('api/v2/bookmarks/3', $data);
+    }
+
+    public function testEditSuccess()
+    {
+        $userId = 3;
+        $this->loginJwt($userId);
+
+        $data = [
+            'id' => 3,
+            'user_id' => 1,
+            'entry_id' => 3,
+            'comment' => 'new < & comment',
+        ];
+
+        $this->put('api/v2/bookmarks/1', $data);
+
+        $entity = $this->Bookmarks->get(1);
+        $this->assertEquals(1, $entity->get('id'));
+        $this->assertEquals(3, $entity->get('user_id'));
+        $this->assertEquals(1, $entity->get('entry_id'));
+        $this->assertEquals('new < & comment', $entity->get('comment'));
+
+        $this->assertResponseCode(204);
+    }
+
+    public function testDeleteFailureNotLoggedIn()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->delete('api/v2/bookmarks/1');
+    }
+
+    public function testDeleteFailureNotUsersBookmark()
+    {
+        $userId = 3;
+        $this->loginJwt($userId);
+
+        $this->expectException('Saito\Exception\SaitoForbiddenException');
+
+        $this->delete('api/v2/bookmarks/3');
+    }
+
+    public function testDeleteSuccess()
+    {
+        $userId = 3;
+        $this->loginJwt($userId);
+        $this->assertTrue($this->Bookmarks->exists(['id' => 1]));
+
+        $this->delete('api/v2/bookmarks/1');
+
+        $this->assertResponseCode(204);
+        $this->assertFalse($this->Bookmarks->exists(['id' => 1]));
+    }
+
+    public function testAddFailureNotLoggedIn()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->post('api/v2/bookmarks/');
+    }
+
+    public function testAddFailureBookmarkExists()
+    {
+        $entryId = 11;
+        $userId = 3;
+        $this->loginJwt($userId);
+
+        $before = $this->Bookmarks->find()->count();
+        $this->assertTrue($this->Bookmarks->exists(['entry_id' => $entryId]));
+
+        $this->post('api/v2/bookmarks/', ['entry_id' => $entryId, 'user_id' => '1']);
+
+        $this->assertEquals($before, $this->Bookmarks->find()->count());
+        $this->assertTrue($this->Bookmarks->exists(['entry_id' => $entryId]));
     }
 
     public function testAddSuccess()
     {
-        $this->_loginUser(5);
-        $this->_setAjax();
+        $userId = 3;
+        $this->loginJwt($userId);
 
         $before = $this->Bookmarks->find()->count();
-        $this->post('/bookmarks/add', ['id' => 1]);
+        $this->assertFalse($this->Bookmarks->exists(['entry_id' => 4, 'user_id' => 3]));
 
-        $after = $this->Bookmarks->find()->count();
-        $this->assertEquals($before + 1, $after);
-        $this->assertTrue(
-            $this->Bookmarks->exists(['entry_id' => 1, 'user_id' => 5])
-        );
-    }
+        $this->post('api/v2/bookmarks/', ['entry_id' => '4', 'user_id' => '1']);
 
-    public function testEditNotLoggedIn()
-    {
-        $url = '/bookmarks/edit/1';
-        $this->get($url);
-        $this->assertRedirectLogin($url);
-    }
+        $this->assertEquals($before + 1, $this->Bookmarks->find()->count());
+        $this->assertTrue($this->Bookmarks->exists(['entry_id' => 4, 'user_id' => 3]));
 
-    public function testEditNotUsersBookmark()
-    {
-        $this->_loginUser(1);
-        $this->expectException('Saito\Exception\SaitoForbiddenException');
-        $this->get('/bookmarks/edit/1');
-    }
-
-    public function testEditRead()
-    {
-        $this->_loginUser(3);
-        $this->get('/bookmarks/edit/2');
-
-        $this->assertEquals(
-            $this->viewVariable('bookmark')->get('comment'),
-            '< Comment 2'
-        );
-
-        // special chars are escaped
-        $this->assertResponseContains('&lt; Comment 2');
-        $this->assertResponseNotContains('< Comment 2');
-        $this->assertResponseContains('&lt;Subject');
-        $this->assertResponseNotContains('<Subject');
-        $this->assertResponseContains('&lt;Text');
-        $this->assertResponseNotContains('<Text');
-    }
-
-    public function testEditSave()
-    {
-        $this->mockSecurity();
-        $this->_loginUser(3);
-        $comment = date('c');
-
-        $data = ['comment' => $comment];
-        $this->post('/bookmarks/edit/1', $data);
-        $bookmark = $this->Bookmarks->get(1);
-
-        $this->assertSame($comment, $bookmark->get('comment'));
-        $this->assertRedirect('/bookmarks#1');
-    }
-
-    public function testDeleteNoAjax()
-    {
-        $this->_loginUser(3);
-        $this->expectException('\Cake\Http\Exception\BadRequestException');
-        $this->disableCsrf();
-        $this->delete('/bookmarks/delete/1');
-    }
-
-    public function testDeleteNotUsersBookmark()
-    {
-        $this->_setAjax();
-        $this->_loginUser(1);
-        $this->mockSecurity();
-
-        $this->expectException('Saito\Exception\SaitoForbiddenException');
-        $this->delete('/bookmarks/delete/1');
-    }
-
-    public function testDelete()
-    {
-        $this->assertTrue($this->Bookmarks->exists(['id' => 1]));
-
-        $this->_loginUser(3);
-        $this->_setAjax();
-        $this->mockSecurity();
-        $this->delete('/bookmarks/delete/1');
-
-        $this->assertFalse($this->Bookmarks->exists(['id' => 1]));
-    }
-
-    public function testViewIsBookmarked()
-    {
-        $this->_loginUser(3);
-        $this->get('/entries/view/1');
-        $this->assertResponseContains('isBookmarked":true');
-    }
-
-    public function testViewIsNotBookmarked()
-    {
-        $this->_loginUser(3);
-        $this->get('/entries/view/2');
-        $this->assertResponseOk();
-        $this->assertResponseContains('isBookmarked":false');
+        $this->assertResponseCode(200);
+        $response = json_decode((string)$this->_response->getBody(), true);
+        $expected = [
+            'data' => [
+                'id' => 6,
+                'type' => 'bookmarks',
+                'attributes' => [
+                    'id' => 6,
+                    'entry_id' => 4,
+                    'user_id' => 3,
+                    'comment' => null,
+                ],
+            ],
+        ];
+        $this->assertEquals($expected, $response);
     }
 }

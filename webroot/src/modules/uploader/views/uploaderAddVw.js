@@ -65,7 +65,7 @@ export default Marionette.View.extend({
     const onError = (msg) => {
       App.eventBus.trigger('notification', {
         type: 'error',
-        message: msg || $.i18n.__('upload_genericError'),
+        message: msg || $.i18n.__('upl.failure'),
       });
     };
 
@@ -101,7 +101,7 @@ export default Marionette.View.extend({
       return;
     }
 
-    this.getUI('heading').html($.i18n.__('upload_new_title'));
+    this.getUI('heading').html($.i18n.__('upl.new.title'));
   },
 
   _handleDrop: function (event) {

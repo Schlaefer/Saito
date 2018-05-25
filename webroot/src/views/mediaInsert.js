@@ -54,7 +54,7 @@ export default Marionette.View.extend({
 
   _showDialog: function () {
     ModalDialog.on('shown', () => { this.$('textarea').focus(); })
-    ModalDialog.show(this, { title: $.i18n.__('Multimedia') });
+    ModalDialog.show(this, { title: $.i18n.__('medins.title') });
   },
 
   onRender: function () {

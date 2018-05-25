@@ -1,4 +1,5 @@
-var webpackConfig = require('./webpack.config.js');
+const path = require('path');
+const webpackConfig = require('./webpack.config.js');
 
 // Karma configuration
 // Generated on Thu May 24 2018 09:05:27 GMT+0200 (CEST)
@@ -12,18 +13,19 @@ module.exports = function (config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine-jquery', 'jasmine-ajax', 'jasmine'],
+    frameworks: ['jasmine-jquery', 'jasmine-ajax', 'jasmine', 'jasmine-matchers'],
 
 
     // list of files / patterns to load in the browser
     files: [
       // 'test/**/*.js',
-      'dist/vendor.bundle.js',
+      // 'dist/vendor.bundle.js',
       // 'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
       // 'src/**/*.js',
-      'dist/app.bundle.js',
-      'test/jasmineBootstrapHelper.js',
-      'test/**/*Spec.js',
+      // 'dist/app.bundle.js',
+      // 'test/jasmineBootstrapHelper.js',
+      // 'test/**/*Spec.js',
+      'test/runner.js',
     ],
 
 
@@ -36,7 +38,7 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/*js': ['webpack'],
+      // 'src/**/*js': ['webpack'],
       'test/**/*js': ['webpack'],
       // 'test/**/*Spec.jsx': ['webpack']
     },
@@ -78,6 +80,24 @@ module.exports = function (config) {
     // how many browser should be started simultaneous
     concurrency: Infinity,
 
-    webpack: webpackConfig,
+    // webpack: webpackConfig,
+    webpack: {
+      mode: 'development',
+      devtool: 'eval-source-map',
+      resolve: {
+        modules: [path.join(__dirname, 'webroot/src'), 'node_modules'],
+      },
+      module: {
+        rules: [
+          {
+            test: /\.html$/,
+            loader: 'underscore-template-loader',
+            query: {
+              engine: 'underscore',
+            },
+          },
+        ],
+      },
+    },
   })
 }

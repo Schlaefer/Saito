@@ -168,8 +168,9 @@ hr {
   font-weight: bold;
   text-align: center;
   font-size: 3*$font-size;
+  line-height: 1.2em;
   color: $info-color-bold;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   word-spacing: 0.1em;
   padding: 1em 0;
 }

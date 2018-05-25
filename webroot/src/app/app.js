@@ -112,7 +112,8 @@ var app = {
     // do this always first
     App.settings.set(options.SaitoApp.app.settings);
     // init i18n, do this always second
-    $.i18n.setUrl(App.settings.get('webroot') + 'da/langJs');
+    const language = App.settings.get('language');
+    $.i18n.setUrl(App.settings.get('webroot') + 'dist/locale/' + language +  '.json');
 
     App.currentUser.set(options.SaitoApp.currentUser);
     App.request = options.SaitoApp.request;

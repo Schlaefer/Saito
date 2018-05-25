@@ -1,10 +1,9 @@
 import $ from 'jquery';
 import _ from 'underscore';
+import Bb from 'backbone';
 import Marionette from 'backbone.marionette';
 import AnsweringView from 'views/answering';
 import App from 'models/app';
-import BookmarksCollection from 'collections/bookmarks';
-import BookmarksView from 'views/bookmarks';
 import CategoryChooserView from 'views/categoryChooser';
 import HelpsView from 'views/helps';
 import LoginView from 'views/loginView';
@@ -32,7 +31,6 @@ export default Marionette.View.extend({
 
   _domInitializers: {
     '.entry.add-not-inline': '_initAnsweringNotInlined',
-    '#bookmarks': '_initBookmarks',
     '#slidetabs': '_initSlideTabs',
     '.js-entry-view-core': '_initPostings',
     '.threadBox': '_initThreadBoxes',
@@ -51,7 +49,6 @@ export default Marionette.View.extend({
     'click .js-scrollToTop': 'scrollToTop',
     'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
     'click @ui.categoryChooserBtn': 'toggleCategoryChooser',
-    'click #btn_header_logo': '_onEntriesIndexReload'
   },
 
   initialize: function () {
@@ -105,7 +102,12 @@ export default Marionette.View.extend({
     }
   },
 
-  _initUser: function(element) {
+  _initUser: function (element) {
+    const id = Number.parseInt(element.data('id'));
+    if (App.currentUser.get('id') !== id) {
+      // show only on users own profile page
+      return;
+    }
     const User = new UserVw({ el: element });
     User.render();
   },
@@ -126,15 +128,6 @@ export default Marionette.View.extend({
       model: new PostingModel({ id: 'foo' }),
       ajax: false
     }).render();
-  },
-
-  _initBookmarks: function (element_n) {
-    var bookmarksView;
-    var bookmarks = new BookmarksCollection();
-    bookmarksView = new BookmarksView({
-      el: element_n,
-      collection: bookmarks
-    });
   },
 
   _initLogout: function () {
@@ -311,15 +304,6 @@ export default Marionette.View.extend({
     if (event) {
       event.preventDefault();
     }
-    this._onEntriesIndexReload();
     window.redirect(App.settings.get('webroot') + 'entries/update');
-  },
-
-  _onEntriesIndexReload: function () {
-    var _controller = App.request.controller,
-      _action = App.request.action;
-    if (_controller !== 'entries' || _action !== 'index') {
-      return;
-    }
   },
 });

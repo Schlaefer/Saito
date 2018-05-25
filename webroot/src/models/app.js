@@ -30,7 +30,10 @@ const AppModel = Backbone.Model.extend({
   /**
    * Request info from CakePHP
    */
-  request: null,
+  request: {
+    action: null,
+    controller: null,
+  },
 
   initialize: function () {
     this.eventBus = Vent.vent;

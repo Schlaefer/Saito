@@ -43,7 +43,7 @@ export default Marionette.View.extend({
       modal: true,
       position: ['center', 120],
       resizable: false,
-      title: $.i18n.__('Delete')
+      title: $.i18n.__('posting.delete.title')
     });
   }
 });

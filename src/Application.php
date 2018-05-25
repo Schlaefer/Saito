@@ -56,7 +56,7 @@ class Application extends BaseApplication
 
         $this->addPlugin(\Admin\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Api\Plugin::class, ['bootstrap' => true, 'routes' => true]);
-        $this->addPlugin(\Bookmarks\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        $this->addPlugin(\Bookmarks\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Feeds\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Installer\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\SaitoHelp\Plugin::class, ['bootstrap' => true]);

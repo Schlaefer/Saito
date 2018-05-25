@@ -1,0 +1,140 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-05-27 08:41+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: ;__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Flags-xgettext: --language=JavaScript --force-po -o %o %C %K %F\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *i18n*\n"
+
+#: modules/bookmarks/templates/bookmarkItemTpl.html:2
+msgid "bkm.delete.title"
+msgstr "Delete bookmark"
+
+#: modules/bookmarks/templates/bookmarkItemTpl.html:5
+msgid "bkm.edit.title"
+msgstr "Comment"
+
+#: modules/bookmarks/templates/bookmarkItemTpl.html:8
+msgid "bkm.save.btn"
+msgstr "Save bookmark."
+
+#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:175
+msgid "upl.title"
+msgstr "Uploads"
+
+#: modules/uploader/templates/uploaderAddTpl.html:11
+msgid "upl.new.info"
+msgstr "Max. size: :size; type: jpg, jpeg, png"
+
+#: modules/uploader/templates/uploaderAddTpl.html:24
+msgid "upl.btn.title"
+msgstr "Upload"
+
+#: templates/mediaInsert.html:6
+msgid "medins.exp"
+msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
+
+#: templates/mediaInsert.html:11
+msgid "medins.insert.btn"
+msgstr "Insert"
+
+#: templates/mediaInsert.html:15
+msgid "medins.notRecognized"
+msgstr "Nothing recognized."
+
+#: templates/postingActionDelete.html:4
+msgid "tree.delete.confirm"
+msgstr ""
+"Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
+"thread?"
+
+#: templates/postingActionDelete.html:8
+msgid "posting.delete.abort.btn"
+msgstr "Abort"
+
+#: templates/postingActionDelete.html:10 views/postingActionDelete.js:46
+msgid "posting.delete.title"
+msgstr "Löschen"
+
+#: lib/saito/templateHelpers.js:42
+msgid "time.relative.yesterday"
+msgstr "yesterday"
+
+#: modules/bookmarks/bookmarksModule.js:34
+#: modules/bookmarks/views/bookmarksVw.js:10 views/bookmarks.js:19
+msgid "bkm.ncy"
+msgstr "No bookmarks created yet."
+
+#: modules/bookmarks/bookmarksModule.js:46
+msgid "bkm.failure.loading"
+msgstr "Error: Bookmarks could not be loaded."
+
+#: modules/bookmarks/views/bookmarkItemVw.js:85
+msgid "bkm.save.failure"
+msgstr "Error: Bookmark could not be saved."
+
+#: modules/bookmarks/views/bookmarkItemVw.js:101
+msgid "bkm.delete.failure"
+msgstr "Error: Bookmark could not be deleted."
+
+#: modules/uploader/views/uploaderAddVw.js:68
+msgid "upl.failure"
+msgstr "Error occurred on upload."
+
+#: modules/uploader/views/uploaderAddVw.js:104
+msgid "upl.new.title"
+msgstr "Drop Image Here"
+
+#: modules/uploader/views/uploaderCollectionVw.js:21
+msgid "upl.ncy"
+msgstr "No uploads yet."
+
+#: modules/user/userVw.js:11
+msgid "bkm.title.pl"
+msgstr "Bookmarks"
+
+#: modules/user/userVw.js:14
+msgid "upl.title.pl"
+msgstr "Uploads"
+
+#: views/answering.js:158
+msgid "upl.btn.insert"
+msgstr "Insert"
+
+#: views/categoryChooser.js:34
+msgid "category.title.pl"
+msgstr "Categories"
+
+#: views/mediaInsert.js:57
+msgid "medins.title"
+msgstr "Embed Content"
+
+#: views/postingActionBookmark.js:61
+msgid "bmk.isBookmarked"
+msgstr "Entry is bookmarked"
+
+#: views/postingActionBookmark.js:65
+msgid "bmk.doBookmark"
+msgstr "Bookmark the entry"
+
+#: views/postingActionSolves.js:28
+msgid "posting.helpful"
+msgstr "Mark entry as helpful."
+
+#: views/prerequisitesTester.js:16
+msgid "prq.storage.warning"
+msgstr ""
+"This web-application depends on Cookies and localStorage. Please make those "
+"available in your browser."

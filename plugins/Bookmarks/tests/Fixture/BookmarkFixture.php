@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Bookmarks\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -59,10 +69,10 @@ class BookmarkFixture extends TestFixture
      */
     public $records = [
         [
-            'id' => 1,
-            'user_id' => 3,
-            'entry_id' => 1,
-            'comment' => '',
+            'id' => 1, // !important
+            'user_id' => 3, // !important
+            'entry_id' => 1, // !important
+            'comment' => '', // !important
             'created' => '2012-08-07 09:51:45',
             'modified' => '2012-08-07 09:51:45'
         ],

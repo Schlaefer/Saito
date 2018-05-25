@@ -1,8 +1,19 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Bookmarks\Controller;
 
-use App\Controller\AppController;
+use Api\Controller\ApiAppController;
+use Api\Error\Exception\GenericApiException;
 use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
@@ -18,21 +29,15 @@ use Saito\Exception\SaitoForbiddenException;
  *
  * @property BookmarksTable $Bookmarks
  */
-class BookmarksController extends AppController
+class BookmarksController extends ApiAppController
 {
-
     /**
-     * Show all bookmarks.
+     * Gets all bookmarks for a logged in user
      *
-     * @throws MethodNotAllowedException
      * @return void
      */
     public function index()
     {
-        if (!$this->CurrentUser->isLoggedIn()) {
-            throw new MethodNotAllowedException;
-        }
-        $this->loadModel('Bookmarks.Bookmarks');
         $categories = $this->CurrentUser->Categories->getAll('read');
         $bookmarks = $this->Bookmarks->find(
             'all',
@@ -57,89 +62,60 @@ class BookmarksController extends AppController
      */
     public function add()
     {
-        if (!$this->request->is('ajax') || !$this->request->is('post')) {
-            throw new BadRequestException;
-        }
-        if (!$this->CurrentUser->isLoggedIn()) {
-            throw new MethodNotAllowedException;
-        }
-        $this->autoRender = false;
-
         $data = [
             'user_id' => $this->CurrentUser->getId(),
-            'entry_id' => $this->request->getData('id'),
+            'entry_id' => $this->request->getData('entry_id'),
         ];
+
         $bookmark = $this->Bookmarks->createBookmark($data);
+        if (!$bookmark) {
+            throw new GenericApiException('The bookmark could not be created.');
+        }
 
-        $body = !empty($bookmark) && !count($bookmark->getErrors());
-        $this->response = $this->response->withStringBody($body);
-        $this->response = $this->response->withType('json');
-
-        return $this->response;
+        $this->set('bookmark', $bookmark);
     }
 
     /**
      * Edit a bookmark.
      *
-     * @param null $id bookmark-ID
+     * @param int $id bookmark-ID
      * @throws MethodNotAllowedException
      * @return void
      */
-    public function edit($id = null)
+    public function edit($id)
     {
-        $bookmark = $this->_getBookmark($id);
+        $id = (int)$id;
+        $bookmark = $this->getBookmark($id);
 
-        if (!$this->request->is('post') && !$this->request->is('put')) {
-            $posting = $bookmark->get('entry');
-            $posting = Registry::newInstance(
-                '\Saito\Posting\Posting',
-                ['rawData' => $posting->toArray()]
-            );
-            $this->set(compact('bookmark', 'posting'));
-
-            return;
-        }
-
-        $bookmark->set('id', $id);
         $this->Bookmarks->patchEntity(
             $bookmark,
             $this->request->getData(),
             ['fields' => ['comment']]
         );
 
-        $success = $this->Bookmarks->save($bookmark);
-        if (!$success) {
-            $this->Flash->set(
-                __('The bookmark could not be saved. Please, try again.')
-            );
-
-            return;
+        if (!$this->Bookmarks->save($bookmark)) {
+            throw new GenericApiException('The bookmark could not be saved.');
         }
-        $this->redirect(
-            ['action' => 'index', '#' => $bookmark->get('entry_id')]
-        );
+
+        $this->autoRender = false;
+        $this->response = $this->response->withStatus(204);
     }
 
     /**
      * Delete a single bookmark.
      *
-     * @param null $bookmarkId bookmark-ID
-     * @return \Cake\Network\Response
-     * @throws BadRequestException
+     * @param int $id bookmark-ID
      */
-    public function delete($bookmarkId = null)
+    public function delete($id)
     {
-        if (!$this->request->is('ajax') || !$this->request->is('delete')) {
-            throw new BadRequestException;
+        $id = (int)$id;
+        $bookmark = $this->getBookmark($id);
+        if (!$this->Bookmarks->delete($bookmark)) {
+            throw new GenericApiException('The bookmark could not be deleted.');
         }
+
         $this->autoRender = false;
-
-        $bookmark = $this->_getBookmark($bookmarkId);
-        $success = (bool)$this->Bookmarks->delete($bookmark);
-        $this->response = $this->response->withStringBody($success);
-        $this->response = $this->response->withType('json');
-
-        return $this->response;
+        $this->response = $this->response->withStatus(204);
     }
 
     /**
@@ -159,24 +135,18 @@ class BookmarksController extends AppController
      *
      * @param int $bookmarkId bookmark-ID
      * @throws NotFoundException
-     * @throws MethodNotAllowedException
      * @throws SaitoForbiddenException
      * @return Entity
      */
-    protected function _getBookmark($bookmarkId): Entity
+    private function getBookmark(int $bookmarkId): Entity
     {
-        if (!$this->CurrentUser->isLoggedIn()) {
-            throw new MethodNotAllowedException;
-        }
+        $bookmark = $this->Bookmarks->find()
+            ->where(['id' => $bookmarkId])
+            ->first();
 
-        if (!$this->Bookmarks->exists($bookmarkId)) {
+        if (!$bookmark) {
             throw new NotFoundException(__('Invalid bookmark.'));
         }
-
-        $bookmark = $this->Bookmarks->find()
-            ->contain(['Entries' => ['Categories', 'Users']])
-            ->where(['Bookmarks.id' => $bookmarkId])
-            ->first();
 
         if ($bookmark->get('user_id') !== $this->CurrentUser->getId()) {
             throw new SaitoForbiddenException(

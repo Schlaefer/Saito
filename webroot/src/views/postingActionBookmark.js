@@ -2,17 +2,18 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
+import BookmarkModel from 'modules/bookmarks/models/bookmark';
 
 export default Marionette.View.extend({
 
-  tagName: 'a',
+  tagName: 'btn',
 
-  className: 'btn btn-link btn-bookmark-add',
+  className: 'btn btn-link',
 
   template: _.template('<i class="fa fa-lg"></i>'),
 
   events: {
-    'click': '_onClick'
+    'click': 'handleClick',
   },
 
   modelEvents: {
@@ -34,14 +35,22 @@ export default Marionette.View.extend({
     return true;
   },
 
-  _onClick: function (event) {
-    event.preventDefault();
-    if (this.model.get('isBookmarked')) {
-      window.location = App.settings.get('webroot') + 'bookmarks/index/#' +
-        this.model.get('id');
-    } else {
-      this.model.set('isBookmarked', true);
-    }
+  handleClick: function () {
+    const success = (bookmarks) => {
+      if (this.model.get('isBookmarked')) {
+        const model = bookmarks.findWhere({ 'entry_id': this.model.get('id') });
+        model.destroy();
+        this.model.set('isBookmarked', false);
+      } else {
+        bookmarks.create({
+          'entry_id': this.model.get('id'),
+          'user_id': App.currentUser.get('id'),
+        })
+        this.model.set('isBookmarked', true);
+      }
+
+    };
+    App.currentUser.getBookmarks({ success: success });
   },
 
   _toggle: function () {
@@ -49,11 +58,11 @@ export default Marionette.View.extend({
     if (this.model.get('isBookmarked')) {
       _$icon.removeClass('fa-bookmark-o');
       _$icon.addClass('fa-bookmark');
-      this.$el.attr('title', $.i18n.__('Entry is bookmarked'));
+      this.$el.attr('title', $.i18n.__('bmk.isBookmarked'));
     } else {
       _$icon.removeClass('fa-bookmark');
       _$icon.addClass('fa-bookmark-o');
-      this.$el.attr('title', $.i18n.__('Bookmark the entry'));
+      this.$el.attr('title', $.i18n.__('bmk.doBookmark'));
     }
   },
 

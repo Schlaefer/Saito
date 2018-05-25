@@ -14,4 +14,6 @@ echo $this->Html->script([
     '../dist/app.bundle.js',
 ]);
 
+echo $this->Html->scriptBlock('window.Application.start({ SaitoApp: SaitoApp });');
+
 echo $this->fetch('script-head');

@@ -51,17 +51,6 @@ Returns: array
 - 'title' title
 - 'url' URL to plugin page, should be under '/admin/plugin'
 
-## Request.Saito.View.UserMenu.navItem ##
-
-Trigger: additional user navigation items
-
-Data:
-- 'View'
-
-Returns: array
-- 'title': URL-title special chars encoded
-- 'url'
-
 ## Request.Saito.View.Posting.badges ##
 
 Trigger: badge for posting

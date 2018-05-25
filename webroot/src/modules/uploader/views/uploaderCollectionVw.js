@@ -18,7 +18,7 @@ export default Marionette.CollectionView.extend({
 
   emptyViewOptions: () => {
     return {
-      model: new Backbone.Model({ content: $.i18n.__('imageUploader.ncy') })
+      model: new Backbone.Model({ content: $.i18n.__('upl.ncy') })
     }
   },
 

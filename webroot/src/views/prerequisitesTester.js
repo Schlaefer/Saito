@@ -13,7 +13,7 @@ export default Marionette.View.extend({
 
   _testLocalStorage: function() {
     if (!App.eventBus.request('app:localStorage:available')) {
-      this._addWarning($.i18n.__('This web-application depends on Cookies and localStorage. Please make those available in your browser.'));
+      this._addWarning($.i18n.__('prq.storage.warning'));
     }
   },
 

@@ -376,4 +376,4 @@ if ($items) {
     ?>
 </div>
 
-<div class="js-rgUser"></div>
+<div class="js-rgUser" data-id="<?= $user->get('id') ?>"></div>

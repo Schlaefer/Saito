@@ -66,6 +66,7 @@ class JsDataHelper extends AppHelper
                     'editPeriod' => (int)Configure::read(
                         'Saito.Settings.edit_period'
                     ),
+                    'language' => Configure::read('Saito.language'),
                     'notificationIcon' => $this->Url->assetUrl(
                         'html5-notification-icon.png',
                         [

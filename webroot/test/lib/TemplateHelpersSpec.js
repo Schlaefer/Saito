@@ -67,7 +67,7 @@ describe('Template Helpers', function () {
 
         spyOn(this.Time, 'now').and.returnValue(moment([2004, 8, 16, 15, 23]));
         result = this.Time.format(date);
-        expect($(result)).toHaveHtml('yesterday 23:48');
+        expect($(result)).toHaveHtml('time.relative.yesterday 23:48');
       });
 
       it('format "normal" should show date', function () {
