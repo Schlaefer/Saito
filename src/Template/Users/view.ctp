@@ -248,43 +248,6 @@ if ($items) {
         }
         ?>
     </div>
-    <div class="panel">
-        <?= $this->Layout->panelHeading(__('user.recentposts.t', $user->get('username'))) ?>
-        <div class="panel-content">
-            <?php
-            if (empty($lastEntries)) {
-                $this->element(
-                    'generic/no-content-yet',
-                    ['message' => __('No entries created yet.')]
-                );
-            } else {
-                $threads = [];
-                foreach ($lastEntries as $entry) {
-                    $threads[] = $this->Posting->renderThread(
-                        $entry->toPosting(),
-                        ['ignore' => false]
-                    );
-                }
-                echo $this->Html->nestedList(
-                    $threads,
-                    ['class' => 'threadCollection-node root']
-                );
-            }
-            ?>
-        </div>
-        <?php
-        if ($hasMoreEntriesThanShownOnPage) {
-            $panel = $this->Html->link(
-                __('Show all'),
-                $urlToHistory,
-                ['class' => 'panel-footer-form-bnt']
-            );
-
-            echo $this->Html->div('panel-footer panel-form', $panel);
-        }
-        ?>
-    </div>
-
     <?php
     if ($modLocking) { ?>
         <div class="panel">
@@ -375,5 +338,43 @@ if ($items) {
     }
     ?>
 </div>
+
+<script type="text/template" id="tpl-recentposts">
+    <div class="panel">
+        <div class="panel-content">
+            <?php
+            if (empty($lastEntries)) {
+                $this->element(
+                    'generic/no-content-yet',
+                    ['message' => __('No entries created yet.')]
+                );
+            } else {
+                $threads = [];
+                foreach ($lastEntries as $entry) {
+                    $threads[] = $this->Posting->renderThread(
+                        $entry->toPosting(),
+                        ['ignore' => false]
+                    );
+                }
+                echo $this->Html->nestedList(
+                    $threads,
+                    ['class' => 'threadCollection-node root']
+                );
+            }
+            ?>
+        </div>
+        <?php
+        if ($hasMoreEntriesThanShownOnPage) {
+            $panel = $this->Html->link(
+                __('Show all'),
+                $urlToHistory,
+                ['class' => 'panel-footer-form-bnt']
+            );
+
+            echo $this->Html->div('panel-footer panel-form', $panel);
+        }
+        ?>
+    </div>
+</script>
 
 <div class="js-rgUser" data-id="<?= $user->get('id') ?>"></div>

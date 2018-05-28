@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-05-27 08:41+0200\n"
+"POT-Creation-Date: 2018-05-28 08:15+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -72,22 +72,21 @@ msgstr "Löschen"
 msgid "time.relative.yesterday"
 msgstr "yesterday"
 
-#: modules/bookmarks/bookmarksModule.js:34
-#: modules/bookmarks/views/bookmarksVw.js:10 views/bookmarks.js:19
-msgid "bkm.ncy"
-msgstr "No bookmarks created yet."
-
-#: modules/bookmarks/bookmarksModule.js:46
+#: modules/bookmarks/bookmarksModule.js:38
 msgid "bkm.failure.loading"
 msgstr "Error: Bookmarks could not be loaded."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:85
+#: modules/bookmarks/views/bookmarkItemVw.js:86
 msgid "bkm.save.failure"
 msgstr "Error: Bookmark could not be saved."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:101
+#: modules/bookmarks/views/bookmarkItemVw.js:104
 msgid "bkm.delete.failure"
 msgstr "Error: Bookmark could not be deleted."
+
+#: modules/bookmarks/views/bookmarksVw.js:10
+msgid "bkm.ncy"
+msgstr "No bookmarks created yet."
 
 #: modules/uploader/views/uploaderAddVw.js:68
 msgid "upl.failure"
@@ -102,10 +101,14 @@ msgid "upl.ncy"
 msgstr "No uploads yet."
 
 #: modules/user/userVw.js:11
+msgid "user.recentposts.t"
+msgstr "Recent Postings"
+
+#: modules/user/userVw.js:14
 msgid "bkm.title.pl"
 msgstr "Bookmarks"
 
-#: modules/user/userVw.js:14
+#: modules/user/userVw.js:17
 msgid "upl.title.pl"
 msgstr "Uploads"
 

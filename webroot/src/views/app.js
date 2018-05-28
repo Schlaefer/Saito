@@ -103,11 +103,8 @@ export default Marionette.View.extend({
 
   _initUser: function (element) {
     const id = Number.parseInt(element.data('id'));
-    if (App.currentUser.get('id') !== id) {
-      // show only on users own profile page
-      return;
-    }
-    const User = new UserVw({ el: element });
+    const model = new Bb.Model({ id: id });
+    const User = new UserVw({ el: element, model: model, });
     User.render();
   },
 

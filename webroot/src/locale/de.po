@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-05-27 08:40+0200\n"
+"POT-Creation-Date: 2018-05-28 08:14+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -72,22 +72,21 @@ msgstr "Löschen"
 msgid "time.relative.yesterday"
 msgstr "Gestern"
 
-#: modules/bookmarks/bookmarksModule.js:34
-#: modules/bookmarks/views/bookmarksVw.js:10 views/bookmarks.js:19
-msgid "bkm.ncy"
-msgstr "Noch keine Lesezeichen angelegt."
-
-#: modules/bookmarks/bookmarksModule.js:46
+#: modules/bookmarks/bookmarksModule.js:38
 msgid "bkm.failure.loading"
 msgstr "Fehler: Lesezeichen konnten nicht geladen werden."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:85
+#: modules/bookmarks/views/bookmarkItemVw.js:86
 msgid "bkm.save.failure"
 msgstr "Fehler: Lesezeichen konnte nicht gespeichert werden."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:101
+#: modules/bookmarks/views/bookmarkItemVw.js:104
 msgid "bkm.delete.failure"
 msgstr "Fehler: Lesezeichen konnte nicht gelöscht werden."
+
+#: modules/bookmarks/views/bookmarksVw.js:10
+msgid "bkm.ncy"
+msgstr "Noch keine Lesezeichen angelegt."
 
 #: modules/uploader/views/uploaderAddVw.js:68
 msgid "upl.failure"
@@ -102,10 +101,14 @@ msgid "upl.ncy"
 msgstr "Noch nichts hochgeladen."
 
 #: modules/user/userVw.js:11
+msgid "user.recentposts.t"
+msgstr "Letzte Beiträge"
+
+#: modules/user/userVw.js:14
 msgid "bkm.title.pl"
 msgstr "Lesezeichen"
 
-#: modules/user/userVw.js:14
+#: modules/user/userVw.js:17
 msgid "upl.title.pl"
 msgstr "Uploads"
 
