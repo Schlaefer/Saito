@@ -95,10 +95,8 @@ $jsEntry = json_encode(
                     '/entries/edit/' . $entry->get('id'),
                     ['class' => 'btn btn-secondary js-btn-edit']
                 );
-            }
-
+            } elseif (!$entry->isEditingAsCurrentUserForbidden()) {
             // edit entry
-            if (!$entry->isEditingAsCurrentUserForbidden()) {
                 $editLinkIsShown = true;
                 $menuItems[] = $this->Html->link(
                     '<i class="fa fa-pencil"></i> ' . __('edit_linkname'),
@@ -107,10 +105,7 @@ $jsEntry = json_encode(
                 );
             }
 
-            if ($CurrentUser->permission(
-                'saito.core.posting.edit.restricted'
-            )
-            ) {
+            if ($CurrentUser->permission('saito.core.posting.edit.restricted')) {
                 // pin and lock thread
                 if ($entry->isRoot()) {
                     if ($editLinkIsShown) {
