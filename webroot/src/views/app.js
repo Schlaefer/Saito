@@ -45,7 +45,6 @@ export default Marionette.View.extend({
 
   events: {
     'click #showLoginForm': 'showLoginForm',
-    'focus #header-searchField': 'widenSearchField',
     'click .js-scrollToTop': 'scrollToTop',
     'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
     'click @ui.categoryChooserBtn': 'toggleCategoryChooser',
@@ -272,21 +271,6 @@ export default Marionette.View.extend({
     }
     clearTimeout(this.autoPageReloadTimer);
     this.autoPageReloadTimer = false;
-  },
-
-  /**
-   * Widen search field
-   */
-  widenSearchField: function (event) {
-    var width = 350;
-    event.preventDefault();
-    if ($(event.currentTarget).width() < width) {
-      $(event.currentTarget).animate({
-        width: width + 'px'
-      },
-        "fast"
-      );
-    }
   },
 
   showLoginForm: function (event) {
