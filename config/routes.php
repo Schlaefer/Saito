@@ -60,11 +60,6 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
         /**
-         * Dynamic Assets
-         */
-        $routes->connect('/da/:action/*', ['controller' => 'DynamicAssets']);
-
-        /**
          * /users/login -> /login
          */
         $routes->connect(
