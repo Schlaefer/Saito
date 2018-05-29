@@ -54,12 +54,6 @@ msgstr "Einbinden"
 msgid "medins.notRecognized"
 msgstr "Nicht erkannt."
 
-#: templates/postingActionDelete.html:4
-msgid "tree.delete.confirm"
-msgstr ""
-"(Sub)Thread wirklich löschen? – Diese Aktion kann nicht rückgängig gemacht "
-"werden!"
-
 #: templates/postingActionDelete.html:8
 msgid "posting.delete.abort.btn"
 msgstr "Abbrechen"

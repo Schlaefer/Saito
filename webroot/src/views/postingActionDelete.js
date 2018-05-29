@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
-import template from 'templates/postingActionDelete.html';
+import ModalDialog from 'modules/modalDialog/modalDialog';
 
 /**
  * Dialog for deleteing a posting.
@@ -18,7 +18,21 @@ export default Marionette.View.extend({
     'click @ui.submit': '_onSubmit'
   },
 
-  template: template,
+  template: _.template(`
+<div class="panel">
+  <div class="panel-content">
+      <p>
+          <%- $.i18n.__('tree.delete.confirm') %>
+      </p>
+  </div>
+  <div class="panel-footer panel-form">
+      <button class="btn btn-primary js-abort"><%- $.i18n.__('posting.delete.abort.btn') %></button>
+      &nbsp;
+      <button class="btn btn-link js-delete"><%- $.i18n.__('posting.delete.title') %></button>
+  </div>
+</div>
+
+  `),
 
   _onAbort: function (event) {
     event.preventDefault();
@@ -39,11 +53,6 @@ export default Marionette.View.extend({
   },
 
   onRender: function () {
-    this.$el.dialog({
-      modal: true,
-      position: ['center', 120],
-      resizable: false,
-      title: $.i18n.__('posting.delete.title')
-    });
+    ModalDialog.show(this, { title: $.i18n.__('posting.delete.title') });
   }
 });

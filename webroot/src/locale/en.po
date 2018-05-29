@@ -54,12 +54,6 @@ msgstr "Insert"
 msgid "medins.notRecognized"
 msgstr "Nothing recognized."
 
-#: templates/postingActionDelete.html:4
-msgid "tree.delete.confirm"
-msgstr ""
-"Deleting a (sub)thread can't be undone! Are you sure you want to delete the "
-"thread?"
-
 #: templates/postingActionDelete.html:8
 msgid "posting.delete.abort.btn"
 msgstr "Abort"
