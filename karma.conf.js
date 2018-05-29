@@ -85,6 +85,7 @@ module.exports = function (config) {
       mode: 'development',
       devtool: 'eval-source-map',
       resolve: {
+        extensions: ['.js', '.ts'],
         modules: [path.join(__dirname, 'webroot/src'), 'node_modules'],
       },
       module: {
@@ -95,6 +96,11 @@ module.exports = function (config) {
             query: {
               engine: 'underscore',
             },
+          },
+          {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/
           },
         ],
       },

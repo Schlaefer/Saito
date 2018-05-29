@@ -33,6 +33,9 @@
   },
   "devDependencies": {
     "@types/backbone.marionette": "^3.3.3",
+    "@types/jquery": "^3.3.2",
+    "@types/jqueryui": "^1.12.2",
+    "@types/underscore": "^1.8.8",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
@@ -63,6 +66,8 @@
     "load-grunt-tasks": "^3.5.2",
     "po2json": "^0.4.5",
     "stylelint-config-standard": "^18.2.0",
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.8.3",
     "underscore-template-loader": "^1.0.0"
   },
   "engines": {

@@ -186,7 +186,6 @@ export default Mn.View.extend({
    */
   _insert: function (text, options) {
     options = _.defaults(options, { focus: true });
-    console.log(options);
     const textarea = this.$('textarea');
     textarea.insertAtCaret(text);
     autosize.update(textarea);

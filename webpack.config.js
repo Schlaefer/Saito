@@ -30,6 +30,11 @@ module.exports = {
             presets: ['env']
         },
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      },
     ]
   },
   optimization: {
@@ -50,6 +55,7 @@ module.exports = {
       "underscore": "lodash",
     },
     */
+    extensions: ['.js', '.ts'],
     modules: [path.join(__dirname, 'webroot/src'), 'node_modules'],
   },
   plugins: [

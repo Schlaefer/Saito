@@ -1,8 +1,8 @@
 import _ from 'underscore';
 import Mn from 'backbone.marionette';
 import App from 'models/app';
-import BookmarksVw from 'modules/bookmarks/bookmarksModule';
-import RecentPostsVw from './userRecentPostsVw';
+import BookmarksVw from 'modules/bookmarks/bookmarksModule.ts';
+import RecentPostsVw from './userRecentPostsVw.ts';
 import UploaderVw from 'modules/uploader/uploader';
 
 export default Mn.View.extend({

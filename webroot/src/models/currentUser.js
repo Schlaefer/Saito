@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import Bb from 'backbone';
-import Bookmarks from 'modules/bookmarks/collections/bookmarksCl';
+import Bookmarks from 'modules/bookmarks/collections/bookmarksCl.ts';
 
 export default Bb.Model.extend({
   bookmarks: null,

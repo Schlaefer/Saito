@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "baseUrl": "webroot/src"
+  },
+  "include": [
+    "webroot/src/**/*",
+    "webroot/node_modules/**/*",
+  ],
+  "typeRoots": [
+    "./webroot/src/@types", "./node_modules/@types"
+  ]
+}
