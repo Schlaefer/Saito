@@ -153,10 +153,10 @@ var app = {
 Application.on('start', app.bootstrapApp);
 
 EventBus.vent.reply('webroot', function () {
-  return AppInitData.app.settings.webroot;
+  return App.settings.get('webroot');
 });
 EventBus.vent.reply('apiroot', function () {
-  return AppInitData.app.settings.webroot + 'api/v1/';
+  return App.settings.get('apiroot');
 });
 
 export default Application;

@@ -4,7 +4,6 @@ import AppSettingModel from 'models/appSetting';
 import AppStatusModel from 'models/appStatus';
 import CurrentUserModel from 'models/currentUser';
 
-
 const AppModel = Backbone.Model.extend({
 
   /**
@@ -41,7 +40,8 @@ const AppModel = Backbone.Model.extend({
     this.status = new AppStatusModel({}, { settings: this.settings });
     this.currentUser = new CurrentUserModel();
   }
-
 });
 
-export default new AppModel()
+const instance = new AppModel();
+
+export default instance;
