@@ -13,8 +13,6 @@ export default Marionette.View.extend({
     'btnDelete': '.js-delete',
     'btnFixed': '.js-btn-toggle-fixed',
     'btnLocked': '.js-btn-toggle-locked',
-    'titleFixed': '.title-toggle-fixed',
-    'titleLocked': '.title-toggle-locked'
   },
 
   events: {
@@ -70,12 +68,13 @@ export default Marionette.View.extend({
 
   // @todo move into model
   _sendToggle: function (key) {
-    var id = this.model.get('id');
-    var $title = this.$(this.ui['title' + _.startCase(key)]);
-    var url = App.settings.get('webroot') + '/entries/ajaxToggle/' + id + '/' + key;
+    const id = this.model.get('id');
+    const webroot = App.settings.get('webroot');
+    const url = webroot +  '/entries/ajaxToggle/' + id + '/' + key;
+
     $.ajax({ url: url, buffer: false })
       .done(function (data) {
-        $title.html(data.html);
+        window.location.reload(true);
       });
   },
 

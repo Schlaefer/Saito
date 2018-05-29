@@ -116,17 +116,16 @@ $jsEntry = json_encode(
                         'locked' => 'fa fa-lock'
                     ];
                     foreach ($ajaxToggleOptions as $key => $icon) {
-                        $titleClass = 'title-toggle-' . $key;
                         if (($entry->get($key) == 0)) {
                             $i10n = '_set_entry_link';
                         } else {
                             $i10n = '_unset_entry_link';
                         }
                         $title = __d('nondynamic', $key . $i10n);
-                        $title = "<i class=\"$icon\"></i>&nbsp;<span class=\"$titleClass\">$title</span>";
+                        $title = "<i class=\"$icon\"></i>&nbsp;$title";
 
                         $options = [
-                            'class' => 'dropdown-item btn-toggle-' . $key,
+                            'class' => 'dropdown-item js-btn-toggle-' . $key,
                             'escape' => false
                         ];
                         $menuItems[] = $this->Html->link(
