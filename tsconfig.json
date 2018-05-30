@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "baseUrl": "webroot/src"
+    "baseUrl": "webroot/src",
   },
   "include": [
     "webroot/src/**/*",

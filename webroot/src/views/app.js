@@ -81,7 +81,7 @@ export default Marionette.View.extend({
 
     App.status.start();
     this._showPage(options.SaitoApp.timeAppStart, options.contentTimer);
-    App.eventBus.trigger('notification', options.SaitoApp);
+    App.eventBus.trigger('notification', options.SaitoApp.msg);
 
     /**
      * Scroll to thread on entries/index if indicated by URL jump parameter

@@ -6,9 +6,9 @@ import EventBus from 'app/vent';
 
 import Application from 'app/core';
 import AppView from 'views/app';
-import NotificationView from 'views/notification';
+import NotificationView from 'modules/notification/notification.ts';
 import PrerequisitesTesterView from 'views/prerequisitesTester';
-import Html5NotificationModule from 'modules/html5-notification/html5-notification';
+import Html5NotificationModule from 'modules/notification/html5-notification';
 // import UsermapModule from 'modules/usermap/usermap';
 
 import 'lib/jquery.i18n/jquery.i18n.extend';
@@ -126,7 +126,7 @@ var app = {
     // UsermapModule.start();
 
     //noinspection JSHint
-    new NotificationView();
+    new NotificationView(EventBus.vent);
 
     var callbacks = options.SaitoApp.callbacks.beforeAppInit;
     _.each(callbacks, function (fct) {
