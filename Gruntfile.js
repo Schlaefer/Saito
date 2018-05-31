@@ -76,24 +76,6 @@ module.exports = function (grunt) {
           failOnError: true
         }
       },
-      // access too JS-libraries for development in webroot through browser
-      symlinkNode: {
-        command: 'ln -sF $PWD/node_modules/ webroot/dev/node_modules',
-        options: {
-          stdout: true,
-          stderr: true,
-          failOnError: true
-        }
-      },
-      // @todo remove
-      symlinkBower: {
-        command: 'ln -sF $PWD/bower_components/ webroot/dev/bower_components',
-        options: {
-          stdout: true,
-          stderr: true,
-          failOnError: true
-        }
-      },
     },
     sass: {
       options: {
@@ -173,7 +155,7 @@ module.exports = function (grunt) {
   // dev-setup
   grunt.registerTask(
     'dev-setup',
-    ['clean:devsetup', 'shell:yarn', 'shell:symlinkNode', 'shell:symlinkBower', 'copy:nonmin']
+    ['clean:devsetup', 'shell:yarn', 'copy:nonmin']
   );
 
   // release
