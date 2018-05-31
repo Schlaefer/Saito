@@ -58,35 +58,4 @@
         <echo msg="Cleanup build dir"/>
         <phingcall target="clean-build-dir"/>
     </target>
-
-    <target name="tests">
-        <echo msg="Running tests…"/>
-        <phingcall target="phpunit"/>
-        <phingcall target="phpcbf"/>
-        <phingcall target="phpcs"/>
-        <phingcall target="js"/>
-        <phingcall target="tslint"/>
-    </target>
-    <target name="phpunit">
-        <echo msg="Running phpunit…"/>
-        <exec command="vendor/bin/phpunit --colors" passthru="true" logoutput="true"/>
-    </target>
-    <target name="phpcs">
-        <echo msg="Running phpcs…"/>
-        <exec command="vendor/bin/phpcs" passthru="true" logoutput="true"/>
-    </target>
-    <target name="phpcbf">
-        <echo msg="Running phpcbf…"/>
-        <exec command="vendor/bin/phpcbf" passthru="true" logoutput="true"/>
-    </target>
-
-    <target name="js">
-        <echo msg="Running JS tests…"/>
-        <exec command="npx karma start --single-run --browsers ChromeHeadless" passthru="true" logoutput="true"/>
-    </target>
-
-    <target name="tslint">
-        <echo msg="Running tslint…"/>
-        <exec command="npx tslint --fix -c tslint.json webroot/src/**/*.ts" passthru="true" logoutput="true"/>
-    </target>
 </project>

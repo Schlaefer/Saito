@@ -1,12 +1,62 @@
 /*jshint node: true */
 process.env.TZ = 'Europe/Berlin';
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   'use strict';
-
 
   var gruntConfig = {
     pkg: grunt.file.readJSON('package.json'),
+    copy: {
+      nonmin: { // non minified files needed for debug modus
+        files: [
+          // jQuery Datatables
+          {
+            expand: true,
+            src: [
+              './node_modules/datatables.net/js/jquery.dataTables.js',
+              './node_modules/datatables.net-bs4/**/*{.js,.css}',
+            ],
+            dest: './webroot/dist/',
+          },
+          // CSS
+          {
+            expand: true,
+            flatten: true,
+            src: [
+              './node_modules/bootstrap/dist/css/bootstrap.min.css',
+            ],
+            dest: './webroot/css/stylesheets/',
+          },
+          // font-awesome fonts
+          {
+            expand: true,
+            cwd: './bower_components/font-awesome/fonts/',
+            src: '*',
+            dest: './webroot/css/stylesheets/fonts/'
+          },
+          // font-awesome scss
+          {
+            expand: true,
+            cwd: './bower_components/font-awesome/scss/',
+            src: '*',
+            dest: './webroot/css/src/partials/lib/font-awesome/'
+          },
+          // leaflet
+          {
+            expand: true,
+            cwd: './bower_components/leaflet/dist/',
+            src: ['images/*', 'leaflet.js', '*.css'],
+            dest: './webroot/dist/leaflet/'
+          },
+          {
+            expand: true,
+            cwd: './bower_components/leaflet.markercluster/dist/',
+            src: '*',
+            dest: './webroot/dist/leaflet/'
+          }
+        ]
+      },
+    },
     uglify: {
       release: {
         files: {
@@ -22,14 +72,6 @@ module.exports = function(grunt) {
       ],
       release: ['./webroot/dist'],
       releasePost: ['./webroot/release-tmp']
-    },
-    jshint: {
-      all: ['Gruntfile.js', './webroot/js/**/*.js'],
-      options: {
-        ignores: [
-          './webroot/js/lib/**/*.js'
-        ]
-      }
     },
     shell: {
       locale: {
@@ -73,22 +115,6 @@ module.exports = function(grunt) {
           failOnError: true
         }
       },
-      testCake: {
-        command: './vendor/bin/phpunit --colors --stderr',
-        options: {
-          stdout: true,
-          stderr: true,
-          failOnError: true
-        }
-      },
-      testCakeStopOn: {
-        command: './vendor/bin/phpunit --colors --stderr --stop-on-error --stop-on-failure',
-        options: {
-          stdout: true,
-          stderr: true,
-          failOnError: true
-        }
-      }
     },
     sass: {
       options: {
@@ -131,7 +157,7 @@ module.exports = function(grunt) {
         },
         */
         processors: [
-          require('autoprefixer')({browsers: 'last 2 versions'}), // add vendor prefixes
+          require('autoprefixer')({ browsers: 'last 2 versions' }), // add vendor prefixes
           //// minify the result
           require('cssnano')({
             //// prevents shortening and namespace collision on keyframes names
@@ -141,7 +167,7 @@ module.exports = function(grunt) {
               keyframes: false
             },
             discardUnused: {
-                keyframes: false
+              keyframes: false
             },
           }),
         ]
@@ -155,37 +181,21 @@ module.exports = function(grunt) {
     },
   };
 
-  var configs = ['copy', 'jasmine', 'phpcs'];
-  configs.map(function(config) {
-    gruntConfig[config] = require('./dev/grunt/config/' + config);
-  });
-  // gruntConfig.jasmine = require('./dev/grunt/config/jasmine')(gruntConfig.requirejs.release.options);
-
   grunt.initConfig(gruntConfig);
 
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify-es');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-phpcs');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-postcss');
 
   // dev-setup
-  grunt.registerTask('dev-setup', [
-    'clean:devsetup', 'shell:yarn', 'shell:symlinkNode', 'shell:symlinkBower', 'copy:nonmin'
-  ]);
-
-  // test
-  grunt.registerTask('test:js', ['jasmine', 'jshint']);
-  grunt.registerTask('test:cake', ['shell:testCake']);
-  grunt.registerTask('test:cakeStopOn', ['shell:testCakeStopOn']);
-  grunt.registerTask('test:phpcs', ['phpcs']); // alias for `grunt phpcs`
-  grunt.registerTask('test:php', ['test:cake', 'phpcs']);
-  grunt.registerTask('test', ['test:js', 'test:php']);
+  grunt.registerTask(
+    'dev-setup',
+    ['clean:devsetup', 'shell:yarn', 'shell:symlinkNode', 'shell:symlinkBower', 'copy:nonmin']
+  );
 
   // release
   grunt.registerTask('release', [
