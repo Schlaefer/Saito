@@ -2,7 +2,7 @@ import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 import AddView from './views/uploaderAddVw';
 import CollectionView from './views/uploaderCollectionVw';
-import UploadsCollection from './collections/uploads';
+import UploadsCollection from './collections/uploads.ts';
 import SpinnerVw from 'views/spinnerVw';
 import Tpl from './templates/uploaderTpl.html';
 

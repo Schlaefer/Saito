@@ -1,11 +1,11 @@
-import * as _ from 'underscore';
-import * as $ from 'jquery';
 import * as Bb from 'backbone';
 import * as Mn from 'backbone.marionette';
+import * as $ from 'jquery';
 import App from 'models/app';
-import BookmarksView from './views/bookmarksVw';
+import * as _ from 'underscore';
 import EmptyView from 'views/noContentYetVw';
 import SpinnerVw from 'views/spinnerVw';
+import BookmarksView from './views/bookmarksVw';
 
 export default class extends Mn.View<any> {
     constructor(options: any = {}) {
@@ -27,24 +27,24 @@ export default class extends Mn.View<any> {
             },
         };
         super(options);
-    };
+    }
 
     public onRender() {
         this.showChildView('rgBookmarks', new SpinnerVw());
         App.currentUser.getBookmarks({
-            success: collection => {
-                const clV = new BookmarksView({ collection: collection });
-                this.showChildView('rgBookmarks', clV);
-            },
             error: () => {
                 this.removeRegion('rgBookmarks');
                 const notification = {
-                    message: $.i18n.__('bkm.failure.loading'),
                     code: 1527230914,
+                    message: $.i18n.__('bkm.failure.loading'),
                     type: 'error',
                 };
                 App.eventBus.trigger('notification', notification);
-            }
-        })
-    };
-};
+            },
+            success: (collection) => {
+                const clV = new BookmarksView({ collection });
+                this.showChildView('rgBookmarks', clV);
+            },
+        });
+    }
+}

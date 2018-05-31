@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import 'lib/backbone/backbone.jsonApi';
 import 'lib/jquery.i18n/jquery.i18n.extend.js';
 import 'lib/saito/underscore.extend';
 

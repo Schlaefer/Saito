@@ -1,9 +1,9 @@
-import * as $ from 'jquery';
-import * as _ from 'underscore';
-import * as Radio from 'backbone.radio';
 import * as Mn from 'backbone.marionette';
-import * as PNotify from './../../../../node_modules/pnotify/lib/umd/PNotify.js';
+import * as Radio from 'backbone.radio';
+import * as $ from 'jquery';
 import App from 'models/app';
+import * as _ from 'underscore';
+import * as PNotify from './../../../../node_modules/pnotify/lib/umd/PNotify.js';
 
 enum NotificationType {
     error = 'error',
@@ -12,11 +12,11 @@ enum NotificationType {
     warning = 'warning',
 }
 
-interface Notification {
-    message: string,
-    title?: string,
-    channel?: string,
-    type?: NotificationType,
+interface INotification {
+    message: string;
+    title?: string;
+    channel?: string;
+    type?: NotificationType;
 }
 
 class NotificationRenderer extends Mn.Object {
@@ -24,7 +24,7 @@ class NotificationRenderer extends Mn.Object {
         super(...arguments);
         this.listenTo(eventBus, 'notification', this._showMessages);
         this.listenTo(eventBus, 'notificationUnset', this._unset);
-    };
+    }
 
     /**
      * Handles message rendering
@@ -45,16 +45,16 @@ class NotificationRenderer extends Mn.Object {
      *
      * @param options
      */
-    private _showMessages(message: Notification|Notification[]) {
+    private _showMessages(message: INotification | INotification[]) {
         if (Array.isArray(message)) {
-            _.each(message, function (msg) {
+            _.each(message, function(msg) {
                 this._showMessages(msg);
             }, this);
 
             return;
         }
         this._showMessage(message);
-    };
+    }
 
     /**
      * Renders a single message
@@ -62,7 +62,7 @@ class NotificationRenderer extends Mn.Object {
      * @param msg single message
      * @private
      */
-    private _showMessage(msg: Notification) {
+    private _showMessage(msg: INotification) {
         msg.channel = msg.channel || 'notification';
         // msg.title = msg.title || $.i18n.__(msg.type);
         msg.message = $.i18n.__(msg.message.trim());
@@ -78,33 +78,33 @@ class NotificationRenderer extends Mn.Object {
                 this._showNotification(msg);
                 break;
         }
-    };
+    }
 
     private _unset(msg) {
         if (msg === 'all') {
             $('.error-message').remove();
         }
-    };
+    }
 
     /**
      * Render notification as form field error.
      */
     private _form(msg) {
-        var tpl;
+        let tpl;
         tpl = _.template('<div class="error-message"><%= message %></div>');
         $(msg.element).after(tpl({ message: msg.message }));
-    };
+    }
 
-    private _showNotification(options: Notification) {
-        const delay: number = 5000,
-            logOptions = {
-                title: options.title || false,
-                text: options.message,
-                icon: false,
-                history: false,
-                addclass: 'flash',
-                delay: delay
-            };
+    private _showNotification(options: INotification) {
+        const delay: number = 5000;
+        const logOptions = {
+            addclass: 'flash',
+            delay,
+            history: false,
+            icon: false,
+            text: options.message,
+            title: options.title || false,
+        };
         let type: string = options.type;
 
         switch (type) {
@@ -127,9 +127,9 @@ class NotificationRenderer extends Mn.Object {
         }
 
         PNotify[type](logOptions);
-    };
-};
+    }
+}
 
 export default NotificationRenderer;
 
-export { Notification };
+export { INotification };

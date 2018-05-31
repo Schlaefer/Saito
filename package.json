@@ -67,6 +67,7 @@
     "po2json": "^0.4.5",
     "stylelint-config-standard": "^18.2.0",
     "ts-loader": "^4.3.0",
+    "tslint": "^5.10.0",
     "typescript": "^2.8.3",
     "underscore-template-loader": "^1.0.0"
   },

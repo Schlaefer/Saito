@@ -1,4 +1,3 @@
-import 'lib/backbone/backbone.jsonApi';
 import 'lib/saito/underscore.extend';
 import 'exports';
 

@@ -1,0 +1,17 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+      "max-classes-per-file": [true, 3, "exclude-class-expressions"],
+      "quotemark": [true, "single"]
+    },
+    "rulesDirectory": [],
+    "linterOptions": {
+      "exclude": [
+          "**/*.d.ts"
+      ]
+  }
+}

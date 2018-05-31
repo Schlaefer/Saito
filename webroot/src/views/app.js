@@ -16,7 +16,7 @@ import ThreadCollection from 'collections/threads';
 import ThreadLineCollection from 'collections/threadlines';
 import ThreadLineView from 'views/threadlines';
 import ThreadView from 'views/thread';
-import UserVw from 'modules/user/userVw';
+import UserVw from 'modules/user/userVw.ts';
 import 'lib/jquery-ui/jquery-ui.custom.min'
 
 export default Marionette.View.extend({

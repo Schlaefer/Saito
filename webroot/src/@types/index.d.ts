@@ -2,7 +2,7 @@ interface JQueryStatic {
     i18n: any;
 }
 
-declare module "*.html" {
+declare module '*.html' {
     const content: string;
     export default content;
 }

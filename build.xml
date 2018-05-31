@@ -65,6 +65,7 @@
         <phingcall target="phpcbf"/>
         <phingcall target="phpcs"/>
         <phingcall target="js"/>
+        <phingcall target="tslint"/>
     </target>
     <target name="phpunit">
         <echo msg="Running phpunit…"/>
@@ -84,4 +85,8 @@
         <exec command="npx karma start --single-run --browsers ChromeHeadless" passthru="true" logoutput="true"/>
     </target>
 
+    <target name="tslint">
+        <echo msg="Running tslint…"/>
+        <exec command="npx tslint --fix -c tslint.json webroot/src/**/*.ts" passthru="true" logoutput="true"/>
+    </target>
 </project>
