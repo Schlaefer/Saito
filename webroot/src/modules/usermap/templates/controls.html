@@ -1,0 +1,13 @@
+<div class="input">
+    <% if (lat) { %>
+        <div class="saito-usermap-info infoText">
+            <%= lat %>, <%= lng %>, <%= zoom %>
+        </div>
+    <% } %>
+    <button class="btn js-btn-search">–</button>
+    <% if (geolocation) { %>
+        <button class="btn js-btn-locate"><%- $.i18n.__('user.map.b.locate') %></button>
+    <% } %>
+    <button class="btn js-btn-clear"><%- $.i18n.__('user.map.b.clear') %></button>
+    <i class="saito-usermap-spinner fa fa-cog fa-spin" style="display: none;"></i>
+</div>
