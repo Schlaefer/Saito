@@ -88,7 +88,6 @@ module.exports = function (grunt) {
         files: {
           'webroot/css/stylesheets/static.css': 'webroot/css/src/static.scss',
           'webroot/css/stylesheets/admin.css': 'webroot/css/src/admin.scss',
-          'webroot/css/stylesheets/cake.css': 'webroot/css/src/cake.scss',
         }
       },
       theme: {

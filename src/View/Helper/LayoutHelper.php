@@ -27,28 +27,6 @@ class LayoutHelper extends AppHelper
     ];
 
     /**
-     * {@inheritDoc}
-     */
-    public function beforeLayout($layoutFile)
-    {
-        $this->_includeCakeDebugAssets();
-    }
-
-    /**
-     * Include CakePHP assets required for debugging
-     *
-     * @return void
-     */
-    protected function _includeCakeDebugAssets()
-    {
-        if (!Configure::read('debug')) {
-            return;
-        }
-        $stylesheets = ['stylesheets/cake.css'];
-        $this->Html->css($stylesheets, ['block' => 'css']);
-    }
-
-    /**
      * Output link to Android touch icon
      *
      * @param mixed $size size
