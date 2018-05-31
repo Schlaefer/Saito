@@ -30,16 +30,9 @@ module.exports = function (grunt) {
           // font-awesome fonts
           {
             expand: true,
-            cwd: './bower_components/font-awesome/fonts/',
+            cwd: './node_modules/font-awesome/fonts/',
             src: '*',
             dest: './webroot/css/stylesheets/fonts/'
-          },
-          // font-awesome scss
-          {
-            expand: true,
-            cwd: './bower_components/font-awesome/scss/',
-            src: '*',
-            dest: './webroot/css/src/partials/lib/font-awesome/'
           },
           // leaflet
           {
@@ -68,7 +61,6 @@ module.exports = function (grunt) {
       devsetup: [
         // font-awesome
         './webroot/css/stylesheets/fonts/',
-        './webroot/css/src/partials/lib/font-awesome/'
       ],
       release: ['./webroot/dist'],
       releasePost: ['./webroot/release-tmp']

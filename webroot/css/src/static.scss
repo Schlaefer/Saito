@@ -11,8 +11,8 @@
 
 @import "partials/lib/_jquery-ui.custom";
 
-$fa-font-path: "../stylesheets/font";
-@import "partials/lib/font-awesome/font-awesome";
+$fa-font-path: "../stylesheets/fonts";
+@import "../../../node_modules/font-awesome/scss/font-awesome";
 
 @import "partials/lib/_pnotify";
 
@@ -22,6 +22,6 @@ $fa-font-path: "../stylesheets/font";
 @import "partials/_messages";
 @import "partials/_maps";
 
-@import "../../dev/node_modules/tether-drop/dist/css/drop-theme-arrows";
+@import "../../../node_modules/tether-drop/dist/css/drop-theme-arrows";
 @import "partials/drop";
 
