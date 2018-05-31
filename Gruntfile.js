@@ -34,19 +34,6 @@ module.exports = function (grunt) {
             src: '*',
             dest: './webroot/css/stylesheets/fonts/'
           },
-          // leaflet
-          {
-            expand: true,
-            cwd: './bower_components/leaflet/dist/',
-            src: ['images/*', 'leaflet.js', '*.css'],
-            dest: './webroot/dist/leaflet/'
-          },
-          {
-            expand: true,
-            cwd: './bower_components/leaflet.markercluster/dist/',
-            src: '*',
-            dest: './webroot/dist/leaflet/'
-          }
         ]
       },
     },

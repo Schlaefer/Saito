@@ -11,14 +11,6 @@ $userMenu['index'] = [
     'icon' => 'users'
 ];
 
-if ($SaitoSettings->get('map_enabled')) {
-    $userMenu['map'] = [
-        'url' => '/users/map',
-        'title' => __d('page_titles', 'users/map'),
-        'icon' => 'map-marker'
-    ];
-}
-
 //// render menu
 foreach ($userMenu as $m) {
     if (strpos($this->request->getRequestTarget(), $m['url']) !== false) {

@@ -253,30 +253,6 @@ class UsersTable extends AppTable
                 ]
             );
 
-        $validator
-            ->allowEmpty('user_place_lat')
-            ->add(
-                'user_place_lat',
-                ['validLatitude' => ['rule' => ['range', -90, 90]]]
-            );
-
-        $validator
-            ->allowEmpty('user_place_lng')
-            ->add(
-                'user_place_lng',
-                ['validLongitude' => ['rule' => ['range', -180, 180]]]
-            );
-
-        $validator
-            ->allowEmpty('user_place_zoom')
-            ->add(
-                'user_place_zoom',
-                [
-                    'between' => ['rule' => ['range', 0, 25]],
-                    'numeric' => ['rule' => ['naturalNumber']]
-                ]
-            );
-
         $validator->add(
             'user_forum_refresh_time',
             [

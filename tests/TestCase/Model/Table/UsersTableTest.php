@@ -275,54 +275,6 @@ class UsersTableTest extends SaitoTableTestCase
         $this->assertTrue($result);
     }
 
-    public function testSetPlace()
-    {
-        $data = [
-            'user_place' => 'Island',
-            'user_place_lat' => -90.0000,
-            'user_place_lng' => -180.0000,
-            'user_place_zoom' => 1
-        ];
-        $Entity = $this->Table->get(3);
-        $this->Table->patchEntity($Entity, $data);
-        $success = $this->Table->save($Entity);
-        $this->assertNotEmpty($success);
-
-        $data = [
-            'user_place' => 'Island',
-            'user_place_lat' => 90.0000,
-            'user_place_lng' => 180.0000
-        ];
-        $this->Table->patchEntity($Entity, $data);
-        $success = $this->Table->save($Entity);
-        $this->assertNotEmpty($success);
-
-        $data = [
-            'user_place' => 'Island',
-            'user_place_lat' => 90.0001,
-            'user_place_log' => 180.0001
-        ];
-        $this->Table->patchEntity($Entity, $data);
-        $success = $this->Table->save($Entity);
-        $this->assertFalse($success);
-
-        $this->Table->patchEntity($Entity, ['user_place_lat' => -90.0001]);
-        $success = $this->Table->save($Entity);
-        $this->assertFalse($success);
-
-        $this->Table->patchEntity($Entity, ['user_place_lng' => -180.0001]);
-        $success = $this->Table->save($Entity);
-        $this->assertFalse($success);
-
-        $this->Table->patchEntity($Entity, ['user_place_zoom' => -1]);
-        $success = $this->Table->save($Entity);
-        $this->assertFalse($success);
-
-        $this->Table->patchEntity($Entity, ['user_place_zoom' => 26]);
-        $success = $this->Table->save($Entity);
-        $this->assertFalse($success);
-    }
-
     public function testSetUsername()
     {
         $Users = $this->getMockForTable('Users', ['_dispatchEvent']);

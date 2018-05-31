@@ -63,25 +63,6 @@ class UserFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'charset' => 'utf8'
         ],
-        'user_place_lat' => [
-            'type' => 'float',
-            'null' => true,
-            'default' => null,
-            'unsigned' => false
-        ],
-        'user_place_lng' => [
-            'type' => 'float',
-            'null' => true,
-            'default' => null,
-            'unsigned' => false
-        ],
-        'user_place_zoom' => [
-            'type' => 'integer',
-            'null' => true,
-            'default' => null,
-            'length' => 4,
-            'unsigned' => false
-        ],
         'signature' => [
             'type' => 'string',
             'null' => true,
@@ -317,8 +298,6 @@ class UserFixture extends TestFixture
             'user_type' => 'user', //!important
             'user_email' => 'ulysses@example.com',
             'personal_messages' => 1,
-            'user_place_lat' => 21.610,
-            'user_place_lng' => -158.096
         ],
         [
             'id' => 4,

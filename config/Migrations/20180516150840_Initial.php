@@ -635,21 +635,6 @@ class Initial extends AbstractMigration
                 'limit' => 255,
                 'null' => true,
             ])
-            ->addColumn('user_place_lat', 'float', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('user_place_lng', 'float', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('user_place_zoom', 'integer', [
-                'default' => null,
-                'limit' => 4,
-                'null' => true,
-            ])
             ->addColumn('signature', 'string', [
                 'default' => null,
                 'limit' => 255,

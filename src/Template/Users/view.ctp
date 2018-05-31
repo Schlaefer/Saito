@@ -66,13 +66,6 @@ if ($user->get('user_place')) {
     ];
 }
 
-if ($SaitoSettings->get('map_enabled') && $user->get('user_place_lat')) {
-    $table[] = [
-        '',
-        $this->Map->map($user)
-    ];
-}
-
 $table[] = [
     __('user_since'),
     strftime(

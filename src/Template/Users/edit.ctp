@@ -89,38 +89,6 @@ $this->end();
                 );
                 $cellContent .= $this->Html->para('exp', __('user_place_exp'));
 
-                if ($SaitoSettings->get('map_enabled')) {
-                    $cellContent .= $this->Map->map(
-                        $user,
-                        [
-                            'type' => 'edit',
-                            'fields' => [
-                                'edit' => '#user-place',
-                                'update' => [
-                                    'lat' => ['#UserUserPlaceLat'],
-                                    'lng' => ['#UserUserPlaceLng'],
-                                    'zoom' => ['#UserUserPlaceZoom']
-                                ]
-                            ],
-                        ]
-                    );
-                    $cellContent .= $this->SaitoHelp->icon(5);
-                    foreach (['lat', 'lng', 'zoom'] as $name) {
-                        $field = "user_place_$name";
-                        $cellContent .= $this->Form->hidden(
-                            $field,
-                            [
-                                'id' => 'UserUserPlace' . ucfirst($name),
-                                'label' => false
-                            ]
-                        );
-                        $this->Form->unlockField($field);
-                        if ($this->Form->isFieldError($field)) {
-                            $cellContent .= $this->Form->error($field);
-                        }
-                    }
-                }
-
                 $cells[] = [__('user_place'), $cellContent];
 
                 //= user profile

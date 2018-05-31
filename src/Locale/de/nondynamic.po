@@ -369,21 +369,6 @@ msgid "api_crossdomain_exp"
 msgstr "Wert für den Access-Control-Allow-Origin Header (Standard ist leer)."
 
 #
-msgid "map_enabled"
-msgstr "Kartennutzung aktivieren"
-
-#
-msgid "map_enabled_exp"
-msgstr "Aktivieren um Karten mit Hilfe von mapquest.com anzuzeigen."
-
-#
-msgid "map_api_key"
-msgstr "API-Schlüssel"
-
-#
-msgid "map_api_key_exp"
-msgstr "MapQuest-API-Schlüssel."
-
 # Smilies
 # -------------------------------------
 

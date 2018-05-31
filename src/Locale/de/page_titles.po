@@ -55,10 +55,6 @@ msgid "users/view"
 msgstr "Benutzer"
 
 #
-msgid "users/map"
-msgstr "Karte"
-
-#
 msgid "bookmarks/index"
 msgstr "Lesezeichen"
 

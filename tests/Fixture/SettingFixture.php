@@ -27,7 +27,6 @@ class SettingFixture extends TestFixture
         ['name' => 'email_register', 'value' => 'register@example.com'],
         ['name' => 'email_system', 'value' => 'system@example.com'],
         ['name' => 'forum_name', 'value' => 'macnemo'],
-        ['name' => 'map_enabled', 'value' => '0'],
         ['name' => 'quote_symbol', 'value' => '>'],
         ['name' => 'smilies', 'value' => 1],
         ['name' => 'subject_maxlength', 'value' => 40],

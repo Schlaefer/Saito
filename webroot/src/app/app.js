@@ -9,7 +9,6 @@ import AppView from 'views/app';
 import NotificationView from 'modules/notification/notification.ts';
 import PrerequisitesTesterView from 'views/prerequisitesTester';
 import Html5NotificationModule from 'modules/notification/html5-notification';
-// import UsermapModule from 'modules/usermap/usermap';
 
 import 'lib/jquery.i18n/jquery.i18n.extend';
 import 'lib/saito/backbone.initHelper';
@@ -121,9 +120,6 @@ var app = {
     app.configureAjax($, App);
 
     Html5NotificationModule.start();
-    // @todo convert and import as module
-    // @todo convert to marionette 3.x
-    // UsermapModule.start();
 
     //noinspection JSHint
     new NotificationView(EventBus.vent);

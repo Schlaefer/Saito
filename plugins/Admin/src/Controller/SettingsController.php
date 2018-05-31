@@ -36,8 +36,6 @@ class SettingsController extends AdminAppController
         'forum_disabled_text' => 1,
         'forum_email' => 1,
         'forum_name' => 1,
-        'map_enabled' => 1,
-        'map_api_key' => 1,
         'quote_symbol' => 1,
         'smilies' => 1,
         'signature_separator' => 1,

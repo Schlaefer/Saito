@@ -22,7 +22,6 @@ class SettingsTableTest extends SaitoTableTestCase
         'email_system' => 'system@example.com',
         'forum_email' => 'forum_email@example.com',
         'forum_name' => 'macnemo',
-        'map_enabled' => '0',
         'quote_symbol' => '>',
         'smilies' => '1',
         'subject_maxlength' => '40',

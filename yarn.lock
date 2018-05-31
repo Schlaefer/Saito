@@ -2,16 +2,6 @@
 # yarn lockfile v1
 
 
-"@bower_components/leaflet.markercluster@Leaflet/Leaflet.markercluster#~0.4.0":
-  version "0.4.0"
-  resolved "https://codeload.github.com/Leaflet/Leaflet.markercluster/tar.gz/20cf8edd0dfc51ace1db1eee0cf34cf0533a2fb9"
-  dependencies:
-    leaflet "~0.7.1"
-
-"@bower_components/leaflet@Leaflet/Leaflet#~0.7.3":
-  version "0.7.7"
-  resolved "https://codeload.github.com/Leaflet/Leaflet/tar.gz/197f9d43b7bbc73c0492bf62cd666a5a98038098"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -4745,10 +4735,6 @@ lcid@^1.0.0:
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"
   dependencies:
     invert-kv "^1.0.0"
-
-leaflet@~0.7.1:
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-0.7.7.tgz#1e352ba54e63d076451fa363c900890cb2cf75ee"
 
 leb@^0.3.0:
   version "0.3.0"

@@ -54,10 +54,6 @@ msgid "users/view"
 msgstr "User"
 
 #
-msgid "users/map"
-msgstr "Map"
-
-#
 msgid "bookmarks/index"
 msgstr "Bookmarks"
 

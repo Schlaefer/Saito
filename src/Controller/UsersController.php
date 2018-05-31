@@ -39,7 +39,6 @@ class UsersController extends AppController
 {
     public $helpers = [
         'SpectrumColorpicker.SpectrumColorpicker',
-        'Map',
         'Posting',
         'Siezi/SimpleCaptcha.SimpleCaptcha',
         'Text'
@@ -323,37 +322,6 @@ class UsersController extends AppController
         }
 
         return $this->redirect($this->referer());
-    }
-
-    /**
-     * View user-map.
-     *
-     * @return void
-     */
-    public function map()
-    {
-        if (!Configure::read('Saito.Settings.map_enabled')) {
-            $this->Flash->set(
-                __('admin.setting.disabled', __('admin.feat.map')),
-                ['template' => 'error']
-            );
-            $this->redirect('/');
-
-            return;
-        }
-        $users = $this->Users->find(
-            'all',
-            [
-                'conditions' => ['user_place_lat IS NOT' => null],
-                'fields' => [
-                    'id',
-                    'username',
-                    'user_place_lat',
-                    'user_place_lng'
-                ]
-            ]
-        );
-        $this->set(compact('users'));
     }
 
     /**

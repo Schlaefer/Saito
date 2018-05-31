@@ -30,8 +30,6 @@ class UsersControllerTest extends IntegrationTestCase
         'plugin.bookmarks.bookmark'
     ];
 
-    const MAPQUEST = 'mapquestapi.com/sdk';
-
     public function testAdminAddSuccess()
     {
         $this->mockSecurity();
@@ -614,70 +612,6 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertResponseContains('&amp;&lt;Place');
         $this->assertResponseContains('&amp;&lt;Profile');
         $this->assertResponseContains('&amp;&lt;Signature');
-    }
-
-    public function testMapLinkInMenu()
-    {
-        $this->_loginUser(3);
-
-        // not enabled, no link
-        Configure::write('Saito.Settings.map_enabled', 0);
-        $this->get('/users/view/2');
-        $this->assertResponseNotContains('/users/map');
-        $this->get('/users/index');
-        $this->assertResponseNotContains('/users/map');
-
-        // enabled, link
-        Configure::write('Saito.Settings.map_enabled', 1);
-        $this->get('/users/view/2');
-        $this->assertResponseContains('/users/map');
-        $this->get('/users/index');
-        $this->assertResponseContains('/users/map');
-    }
-
-    public function testMapDisabled()
-    {
-        $this->_loginUser(3);
-        $this->get('/users/edit/3');
-        $this->assertResponseNotContains('class="saito-usermap"');
-        $this->assertResponseNotContains(static::MAPQUEST);
-
-        $this->get('/users/view/3');
-        $this->assertResponseNotContains('class="saito-usermap"');
-        $this->assertResponseNotContains(static::MAPQUEST);
-
-        $this->get('/users/map');
-        $this->assertResponseNotContains('class="saito-usermap"');
-        $this->assertRedirect('/');
-    }
-
-    public function testMapActivated()
-    {
-        Configure::write('Saito.Settings.map_enabled', 1);
-
-        $this->_loginUser(3);
-        $this->get('/users/edit/3');
-        $this->assertResponseContains('class="saito-usermap"');
-        $this->assertResponseContains(static::MAPQUEST);
-
-        $this->get('/users/view/2');
-        $this->assertResponseNotContains('class="saito-usermap"');
-        $this->get('/users/view/3');
-        $this->assertResponseContains('class="saito-usermap"');
-
-        $this->get('/users/map');
-        $this->assertResponseContains('class="saito-usermap"');
-
-        // Map CSS and JS should only be included on page if necessary
-        $this->get('/users/index');
-        $this->assertResponseNotContains(static::MAPQUEST);
-    }
-
-    public function testMapsNotLoggedIn()
-    {
-        $url = '/users/map';
-        $this->get($url);
-        $this->assertRedirectLogin($url);
     }
 
     public function testName()
