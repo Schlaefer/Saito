@@ -25,6 +25,6 @@ if (!$CurrentUser->isLoggedIn()) {
     echo $this->Html->link(
         $this->Layout->textWithIcon(h(__('logout_linkname')), 'sign-out'),
         '/logout',
-        ['id' => 'btn_logout', 'class' => 'btn btn-link', 'escape' => false]
+        ['id' => 'js-btnLogout', 'class' => 'btn btn-link', 'escape' => false]
     );
 }

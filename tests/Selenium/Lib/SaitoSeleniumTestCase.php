@@ -126,10 +126,10 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
             $testCase = $this;
         }
 
-        $testCase->assertTrue($testCase->isElementPresent("btn_logout"));
-        $testCase->click("btn_logout");
+        $testCase->assertTrue($testCase->isElementPresent("js-btnLogout"));
+        $testCase->click("js-btnLogout");
         $testCase->waitForPageToLoad();
-        $testCase->assertFalse($testCase->isElementPresent("btn_logout"));
+        $testCase->assertFalse($testCase->isElementPresent("js-btnLogout"));
     }
 
     public function waitForPageToLoad($arg = "30000")

@@ -131,7 +131,14 @@ class UsersController extends AppController
      */
     public function logout()
     {
+        $cookies = $this->request->getCookieCollection();
+        foreach ($cookies as $cookie) {
+            $cookie = $cookie->withPath($this->request->getAttribute('webroot'));
+            $this->response = $this->response->withExpiredCookie($cookie);
+        }
+
         $this->CurrentUser->logout();
+        $this->redirect('/');
     }
 
     /**

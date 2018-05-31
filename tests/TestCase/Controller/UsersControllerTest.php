@@ -1211,4 +1211,21 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertArrayHasKey('avatar-extension', $errors['avatar']);
         $this->assertResponseOk();
     }
+
+    public function testLogoutSuccess()
+    {
+        $this->_loginUser(1);
+        $this->cookie('my_cookie', 'foo');
+
+        $user = $this->get('/logout');
+
+        $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
+
+        $cookies = $this->_response->getCookieCollection();
+        $cookie = $cookies->get('my_cookie');
+        $this->assertTrue($cookie->isExpired());
+        $this->assertSame($this->_controller->request->getAttribute('webroot'), $cookie->getPath());
+
+        $this->assertRedirect('/');
+    }
 }

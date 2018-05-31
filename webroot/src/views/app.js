@@ -35,19 +35,20 @@ export default Marionette.View.extend({
     '.js-entry-view-core': '_initPostings',
     '.threadBox': '_initThreadBoxes',
     '.threadLeaf': '_initThreadLeafs',
-    '.users.logout': '_initLogout',
     '.js-rgUser': '_initUser',
   },
 
   ui: {
-    'categoryChooserBtn': '#btn-category-chooser'
+    'btnLogout': '#js-btnLogout',
+    'btnCategoryChooser': '#btn-category-chooser',
   },
 
   events: {
     'click #showLoginForm': 'showLoginForm',
     'click .js-scrollToTop': 'scrollToTop',
     'click #btn-manuallyMarkAsRead': 'manuallyMarkAsRead',
-    'click @ui.categoryChooserBtn': 'toggleCategoryChooser',
+    'click @ui.btnCategoryChooser': 'toggleCategoryChooser',
+    'click @ui.btnLogout': 'handleLogout',
   },
 
   initialize: function () {
@@ -126,10 +127,21 @@ export default Marionette.View.extend({
     }).render();
   },
 
-  _initLogout: function () {
+  /**
+   * Handles user-logout
+   *
+   * @private
+   */
+  handleLogout: function (event, element) {
+    event.preventDefault();
+
+    // clear JS-storage
     App.eventBus.trigger('app:localStorage:clear');
+
+    // move on to server-logout
     _.defer(function () {
-      window.redirect(App.settings.get('webroot'));
+      const serverLogoutUrl = event.currentTarget.getAttribute('href');
+      window.redirect(serverLogoutUrl);
     });
   },
 
