@@ -197,7 +197,7 @@ class AppController extends Controller
      */
     protected function _requireAuth()
     {
-        $this->Flash->set(__('auth_autherror'), ['element' => 'warning']);
+        $this->Flash->set(__('authorization.autherror'), ['element' => 'error']);
         $here = $this->request->getRequestTarget();
 
         return $this->redirect([

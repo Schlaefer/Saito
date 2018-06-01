@@ -293,7 +293,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         } else {
             $auth->deny();
         }
-        $auth->setConfig('authError', __('auth_autherror'));
+        $auth->setConfig('authError', __('authentication.error'));
     }
 
     /**

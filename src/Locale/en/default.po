@@ -652,10 +652,13 @@ msgstr ""
 "The following words are to short and were omitted: {0}. Minimum number of "
 "characters is: {1}."
 
-#: src/Controller/AppController.php:200
 #: src/Controller/Component/CurrentUserComponent.php:296
-msgid "auth_autherror"
+msgid "authentication.error"
 msgstr "Access to this function is restricted!"
+
+#: src/Controller/AppController.php:200
+msgid "authorization.autherror"
+msgstr "You're not authorized to access this content."
 
 #: src/Controller/Component/SaitoEmailComponent.php:76
 msgid "Copy of your message: \":subject\" to \":recipient-name\""

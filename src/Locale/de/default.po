@@ -666,10 +666,13 @@ msgstr ""
 "Die folgenden Wörter sind zu kurz und wurden ignoriert: {0}. Die "
 "Mindestzeichenzahl pro Wort beträgt: {1}."
 
-#: src/Controller/AppController.php:200
 #: src/Controller/Component/CurrentUserComponent.php:296
-msgid "auth_autherror"
+msgid "authentication.error"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
+
+#: src/Controller/AppController.php:200
+msgid "authorization.autherror"
+msgstr "Sie besitzen nicht die notwendingen Rechte, um auf diesen Inhalt zuzugreifen."
 
 #: src/Controller/Component/SaitoEmailComponent.php:76
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
