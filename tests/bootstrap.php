@@ -16,6 +16,9 @@ use Cake\Core\Configure;
 
 Configure::write('debug', true);
 
+// Ignore installer
+Configure::write('Saito.installed', true);
+
 // Cake Session isn't isolated and clashes with PHPUnit
 // @see https://github.com/sebastianbergmann/phpunit/issues/1416
 session_id('cli');

@@ -6,6 +6,13 @@
 $config = [
     'Saito' => [
         /**
+         * Is forum installed? Runs installer if not.
+         */
+        'installed' => filter_var(
+            env('INSTALLED', !file_exists(CONFIG . '/installer')),
+            FILTER_VALIDATE_BOOLEAN
+        ),
+        /**
          * Setting default language (mandatory)
          *
          * Compatibel to PHP's Locale. Implemented localizations:

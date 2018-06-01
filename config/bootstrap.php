@@ -78,7 +78,7 @@ try {
 
     Configure::write(
         'App.defaultLocale',
-        Configure::read('Saito.Settings.language')
+        Configure::read('Saito.language')
     );
 
     Configure::load('email', 'default');
