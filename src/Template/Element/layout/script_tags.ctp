@@ -10,8 +10,8 @@ if (isset($CurrentUser)) {
 }
 
 echo $this->Html->script([
-    '../dist/vendor.bundle.js',
-    '../dist/app.bundle.js',
+    'vendor.bundle.js',
+    'app.bundle.js',
 ]);
 
 echo $this->Html->scriptBlock('window.Application.start({ SaitoApp: SaitoApp });');

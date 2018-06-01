@@ -16,7 +16,7 @@ module.exports = function (grunt) {
               './node_modules/datatables.net/js/jquery.dataTables.js',
               './node_modules/datatables.net-bs4/**/*{.js,.css}',
             ],
-            dest: './webroot/dist/',
+            dest: './webroot/js/',
           },
           // CSS
           {
@@ -49,17 +49,17 @@ module.exports = function (grunt) {
         // font-awesome
         './webroot/css/stylesheets/fonts/',
       ],
-      release: ['./webroot/dist'],
+      release: ['./webroot/js'],
       releasePost: ['./webroot/release-tmp']
     },
     shell: {
       locale: {
         command: `
-        targetDir="./webroot/dist/locale/"
+        targetDir="./webroot/js/locale/"
         mkdir -p "$targetDir";
-        for line in $(find './webroot/src/locale' -type f -name '*.po'); do
+        for line in $(find './frontend/src/locale' -type f -name '*.po'); do
           v=$(basename "$line" .po);
-          npx po2json --format=mf  webroot/src/locale/$v.po "$targetDir$v".json
+          npx po2json --format=mf  frontend/src/locale/$v.po "$targetDir$v".json
         done
         `,
         options: { stdout: true, stderr: true, failOnError: true, }

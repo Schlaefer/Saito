@@ -1,13 +1,10 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "baseUrl": "webroot/src",
+    // "baseUrl": "frontend/src",
   },
   "include": [
-    "webroot/src/**/*",
-    "webroot/node_modules/**/*",
+    "frontend/src/**/*",
+    // "node_modules/**/*",
   ],
-  "typeRoots": [
-    "./webroot/src/@types", "./node_modules/@types"
-  ]
 }

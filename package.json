@@ -73,7 +73,7 @@
   },
   "scripts": {
     "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\"",
-    "pretest": "tslint --fix -c tslint.json \"webroot/src/**/*.ts\"",
+    "pretest": "tslint --fix -c tslint.json \"frontend/src/**/*.ts\"",
     "test": "karma start --single-run --browsers ChromeHeadless",
     "karma": "karma start",
     "webpack": "webpack --watch"

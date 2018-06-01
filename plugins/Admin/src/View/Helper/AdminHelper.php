@@ -120,7 +120,7 @@ class AdminHelper extends AppHelper
 
     /**
      * Adds Breadcrumb item
-     * 
+     *
      * @see BreadcrumbsHelper::add()
      *
      */
@@ -129,7 +129,7 @@ class AdminHelper extends AppHelper
         $options += ['class' => ''];
         // set breadcrumb item class for Bootstrap
         $options['class'] = $options['class'] . ' breadcrumb-item';
-        // last item in breadcrump is current (active) page and not linked 
+        // last item in breadcrump is current (active) page and not linked
         if ($url === false) {
             // set breadcrumb active item class for Bootstrap
             $options['class'] .= ' active';
@@ -199,14 +199,14 @@ class AdminHelper extends AppHelper
     public function jqueryTable($selector, $sort)
     {
         $this->Html->css(
-                '../dist/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css',
+                '../js/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css',
                 ['block'  => 'script']
 
         );
         $this->Html->script(
             [
-                '../dist/node_modules/datatables.net/js/jquery.dataTables.js',
-                '../dist/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js'
+                '../js/node_modules/datatables.net/js/jquery.dataTables.js',
+                '../js/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js'
             ],
             ['block' => 'script']
         );

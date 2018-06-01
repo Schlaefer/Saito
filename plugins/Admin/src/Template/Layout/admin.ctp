@@ -7,8 +7,8 @@
 
     $this->Flash->render();
     echo $this->Html->script([
-        '../dist/vendor.bundle.js',
-        '../dist/exports.bundle.js',
+        'vendor.bundle.js',
+        'exports.bundle.js',
     ]);
 
     echo $this->Html->css([

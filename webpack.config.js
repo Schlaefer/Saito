@@ -6,12 +6,12 @@ module.exports = {
   // mode: 'production',
   devtool: 'eval-source-map',
   entry: {
-    app: './webroot/src/index.js',
-    exports: './webroot/src/exports.js',
+    app: './frontend/src/index.js',
+    exports: './frontend/src/exports.js',
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'webroot/dist'),
+    path: path.resolve(__dirname, 'webroot/js'),
   },
   module: {
     rules: [
@@ -56,7 +56,7 @@ module.exports = {
     },
     */
     extensions: ['.js', '.ts'],
-    modules: [path.join(__dirname, 'webroot/src'), 'node_modules'],
+    modules: [path.join(__dirname, 'frontend/src'), 'node_modules'],
   },
   plugins: [
     new webpack.ProvidePlugin({

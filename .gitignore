@@ -4,8 +4,6 @@
 ### Package Manager & Build System###
 .sass-cache
 /node_modules
-/webroot/dev/bower_components
-/webroot/dev/node_modules
 
 ### CakePHP 3 ###
 schema-dump-default.lock

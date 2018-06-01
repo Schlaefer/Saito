@@ -8,7 +8,7 @@ module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: './webroot',
+    basePath: './frontend',
 
 
     // frameworks to use
@@ -86,7 +86,7 @@ module.exports = function (config) {
       devtool: 'eval-source-map',
       resolve: {
         extensions: ['.js', '.ts'],
-        modules: [path.join(__dirname, 'webroot/src'), 'node_modules'],
+        modules: [path.join(__dirname, 'frontend/src'), 'node_modules'],
       },
       module: {
         rules: [
