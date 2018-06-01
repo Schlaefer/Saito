@@ -19,7 +19,7 @@ class CategoriesSeed extends AbstractSeed
     public function run()
     {
         $data = [
-            array(
+            [
                 'id' => 1,
                 'category_order' => 1,
                 'category' => 'Ontopic',
@@ -28,7 +28,7 @@ class CategoriesSeed extends AbstractSeed
                 'accession_new_thread' => 1,
                 'accession_new_posting' => 1,
                 'thread_count' => 0,
-            ),
+            ],
         ];
 
         $table = $this->table('categories');

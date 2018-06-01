@@ -45,7 +45,7 @@ $config = [
             /**
              * Array with additional themes available for all users
              */
-                //'available' => ['MyTheme'],
+            //'available' => ['MyTheme'],
 
             /**
              * Sets additional themes available for specific users only
@@ -93,19 +93,6 @@ $config = [
             // …
         ],
         */
-
-        /**
-         * Users to notify via email if a new users registers successfully
-         *
-         * Provide an array with user IDs. To notify the admin (usually user-id 1):
-         *
-         *     [1]
-         *
-         * To notify the admin with id 1 and the user with the id 5:
-         *
-         *     [1, 5]
-         */
-//            'Notification.userActivatedAdminNoticeToUserWithID' => [1],
 
         'Globals' => [
             /**
