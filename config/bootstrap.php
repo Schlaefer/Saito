@@ -29,7 +29,6 @@ require __DIR__ . '/paths.php';
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
-
 use Cake\Cache\Cache;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
@@ -45,7 +44,6 @@ use Cake\Mailer\Email;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
 use Cake\Utility\Security;
-
 
 /**
  * Uncomment block of code below if you want to use `.env` file during development.
@@ -208,7 +206,7 @@ Type::build('timestamp')
  * Custom Inflector rules, can be set to correctly pluralize or singularize
  * table, model, controller names or whatever other string is passed to the
  * inflection functions.
-	 */
+     */
 //Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
@@ -254,4 +252,3 @@ Configure::write('Saito.markItUp.nextCssId', 10);
  * Add custom Database-types
  */
 Type::map('serialize', 'App\Database\Type\SerializeType');
-

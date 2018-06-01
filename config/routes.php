@@ -103,10 +103,3 @@ Router::scope('/entries', function ($routes) {
         ['controller' => 'Entries', 'action' => 'threadLine']
     );
 });
-
-/**
- * Load all plugin routes. See the Plugin documentation on
- * how to customize the loading of plugin routes.
- */
-// bug should not be neccessary in 3.6?
-// Plugin::routes();

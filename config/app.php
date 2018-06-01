@@ -34,7 +34,10 @@ return [
      *      /.htaccess
      *      /webroot/.htaccess
      *   And uncomment the baseUrl key below.
-     * - fullBaseUrl - A base URL to use for absolute links.
+     * - fullBaseUrl - A base URL to use for absolute links. When set to false (default)
+     *   CakePHP generates required value based on `HTTP_HOST` environment variable.
+     *   However, you can define it manually to optimize performance or if you
+     *   are concerned about people manipulating the `Host` header.
      * - imageBaseUrl - Web path to the public images directory under webroot.
      * - cssBaseUrl - Web path to the public css directory under webroot.
      * - jsBaseUrl - Web path to the public js directory under webroot.
@@ -101,9 +104,10 @@ return [
             'prefix' => $cache['prefix']
         ],
         /**
-         * Configure the cache used for general framework caching. Path information,
-         * object listings, and translation cache files are stored with this
-         * configuration.
+         * Configure the cache used for general framework caching.
+         * Translation cache files are stored with this configuration.
+         * Duration will be set to '+2 minutes' in bootstrap.php when debug = true
+         * If you set 'className' => 'Null' core cache will be disabled.
          */
         '_cake_core_' => [
             'className' => $cache['engine'],
@@ -117,6 +121,7 @@ return [
          * Configure the cache for model and datasource caches. This cache
          * configuration is used to store schema descriptions, and table listings
          * in connections.
+         * Duration will be set to '+2 minutes' in bootstrap.php when debug = true
          */
         '_cake_model_' => [
             'className' => $cache['engine'],
