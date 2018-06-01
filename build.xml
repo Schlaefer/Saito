@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="CakePHP" default="release">
 
-    <property name="project.name" value="Saito">
-    <property name="build.dir" value="build">
-    <property name="git.dir" value="build/Saito">
-    <property name="dist.dir" value="dist">
-
-    <exec command="cat config/version.php | grep 'Saito.v' | grep -Po '([0-9]{1,}\..*)(?='\'')'"
-          outputProperty="saito.version"/>
+    <property name="project.name" value="Saito"/>
+    <property name="build.dir" value="build"/>
+    <!-- <property name="git.dir" value="build/Saito"/> -->
+    <property name="git.dir" value="build/saito_cleanup"/>
+    <property name="dist.dir" value="dist"/>
 
     <fileset id="release-fileset" dir="${git.dir}">
         <include name="bin/**"/>
@@ -42,14 +40,26 @@
     <target name="release" depends="create-dirs">
         <echo msg="Create release in dist/"/>
 
+        <input propertyName="git.repo" defaultValue="https://github.com/Schlaefer/Saito.git" message="Remote git branch to use?"></input>
         <input propertyName="git.branch" defaultValue="master" message="Remote git branch to use?"></input>
+        <input propertyName="git.tag" defaultValue="head" message="Tag to use?"></input>
+
 
         <echo msg="Checkout ${git.branch}"/>
-        <exec command="git clone -b ${git.branch} https://github.com/Schlaefer/Saito.git"
-              dir="${build.dir}"/>
+        <exec command="git clone --depth 1 -b ${git.branch} ${git.repo}" dir="${build.dir}"/>
+
+        <if>
+            <not>
+                <equals arg1="${git.tag}" arg2="head"/>
+            </not>
+            <then>
+                <echo msg="Switch to git tag ${git.tag}"/>
+                <exec command="git checkout tags/${git.tag}" dir="${build.dir}"/>
+            </then>
+        </if>
 
         <echo msg="Install composer packages"/>
-        <exec command="composer install --optimize-autoloader --no-dev -d app" dir="${git.dir}"/>
+        <exec command="composer install --optimize-autoloader --no-dev --no-interaction" dir="${git.dir}"/>
 
         <echo msg="Moving files to build directory"/>
         <move todir="${build.dir}">
@@ -61,7 +71,7 @@
 
         <echo msg="Creating Zip"/>
         <exec command="php -r &quot;echo str_replace('/', '-', '${git.branch}');&quot;" outputProperty="git.branch.clean"/>
-        <zip destfile="${dist.dir}/saito-release-${git.branch.clean}-${saito.version}.zip" basedir="${build.dir}"/>
+        <zip destfile="${dist.dir}/saito-release-${git.branch.clean}-${git.tag}.zip" basedir="${build.dir}"/>
 
         <echo msg="Cleanup build dir"/>
         <phingcall target="clean-build-dir"/>
