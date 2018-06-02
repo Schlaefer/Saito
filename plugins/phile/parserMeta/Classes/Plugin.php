@@ -13,24 +13,28 @@ use Phile\Plugin\Phile\ParserMeta\Parser\Meta;
  * Default Phile parser plugin for Markdown
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\ParserMeta
  */
-class Plugin extends AbstractPlugin {
+class Plugin extends AbstractPlugin
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
-	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
-
-	/**
-	 * onPluginsLoaded method
-	 *
-	 * @param null   $data
-	 *
-	 * @return mixed|void
-	 */
-	public function onPluginsLoaded($data = null) {
-		ServiceLocator::registerService('Phile_Parser_Meta',
-			new Meta($this->settings));
-	}
-
+    /**
+     * onPluginsLoaded method
+     *
+     * @param array $data
+     * @return void
+     */
+    public function onPluginsLoaded($data)
+    {
+        ServiceLocator::registerService(
+            'Phile_Parser_Meta',
+            new Meta($this->settings)
+        );
+    }
 }

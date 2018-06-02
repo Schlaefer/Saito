@@ -1,122 +1,114 @@
 <?php
+/**
+ * @author PhileCMS
+ * @link https://philecms.github.io/
+ * @license http://opensource.org/licenses/MIT
+ * @package Phile\Plugin
+ */
 
 namespace Phile\Plugin;
 
+use Phile\Core\Config;
+use Phile\Core\Event;
 use Phile\Exception\PluginException;
 
 /**
  * Class PluginRepository manages plugin loading
- *
- * @author PhileCMS
- * @link https://philecms.com
- * @license http://opensource.org/licenses/MIT
- * @package Phile\Core
  */
-class PluginRepository {
+class PluginRepository
+{
+    /**
+     * @var array array of \Phile\Plugin\PluginDirectory
+     */
+    protected $directories = [];
 
-	/** @var array of AbstractPlugin */
-	protected $plugins = [];
+    /**
+     * @var Event the event-bus
+     */
+    protected $eventBus;
 
-	/** @var array errors during load; keys: 'message' and 'code' */
-	protected $loadErrors = [];
+    public function __construct(Event $eventBus)
+    {
+        $this->eventBus = $eventBus;
+    }
 
-	/**
-	 * get load errors
-	 *
-	 * @return array
-	 */
-	public function getLoadErrors() {
-		return $this->loadErrors;
-	}
+    /**
+     * Adds plugin directory to repository
+     *
+     * @param string $directory path to plugin-directory
+     * @return self
+     */
+    public function addDirectory(string $directory): self
+    {
+        $this->directories[] = new PluginDirectory($directory);
+        return $this;
+    }
 
-	/**
-	 * loads all activated plugins from $settings
-	 *
-	 * @param array $settings plugin-settings
-	 * @return array of AbstractPlugin
-	 * @throws PluginException
-	 */
-	public function loadAll($settings) {
-		$this->reset();
-		foreach ($settings as $pluginKey => $config) {
-			if (!isset($config['active']) || !$config['active']) {
-				continue;
-			}
-			try {
-				$this->plugins[$pluginKey] = $this->load($pluginKey);
-			} catch (PluginException $e) {
-				$this->loadErrors[] = [
-					'message' => $e->getMessage(),
-					'code' => $e->getCode()
-				];
-			}
-		}
-		return $this->plugins;
-	}
+    /**
+     * Loads all plug-ins
+     *
+     * @param Config $config phile config with plugin config
+     * @throws Exception\PluginException
+     */
+    public function load(Config $config): void
+    {
+        $errors = $plugins = [];
+        $pluginsToLoad = $config->get('plugins');
 
-	/**
-	 * load and return single plugin
-	 *
-	 * @param $pluginKey
-	 * @return AbstractPlugin
-	 * @throws PluginException
-	 */
-	protected function load($pluginKey) {
-		list($vendor, $pluginName) = explode('\\', $pluginKey);
-		// uppercase first letter convention
-		$pluginClassName = '\\Phile\\Plugin\\' . ucfirst($vendor) . '\\' . ucfirst($pluginName) . '\\Plugin';
+        foreach ($pluginsToLoad as $pluginKey => $pluginConfig) {
+            if (empty($pluginConfig['active'])) {
+                continue;
+            }
+            try {
+                $plugins[$pluginKey] = $this->loadSingle($pluginKey, $config);
+            } catch (PluginException $e) {
+                $errors[] = [
+                    'message' => $e->getMessage(),
+                    'code' => $e->getCode()
+                ];
+            }
+        }
 
-		if (!class_exists($pluginClassName)) {
-			throw new PluginException(
-				"the plugin '{$pluginKey}' could not be loaded!",
-				1398536479
-			);
-		}
+        $this->eventBus->trigger('plugins_loaded', ['plugins' => $plugins]);
 
-		/** @var \Phile\Plugin\AbstractPlugin $plugin */
-		$plugin = new $pluginClassName;
-		if (($plugin instanceof AbstractPlugin) === false) {
-			throw new PluginException(
-				"the plugin '{$pluginKey}' is not an instance of \\Phile\\Plugin\\AbstractPlugin",
-				1398536526
-			);
-		}
+        // Throw after 'plugins_loaded' so that error handler service is set.
+        // Even with setupErrorHandler() not run yet, the global app try/catch
+        // block uses the handler if present.
+        if (count($errors) > 0) {
+            throw new PluginException($errors[0]['message'], $errors[0]['code']);
+        }
 
-		$plugin->initializePlugin($pluginKey);
-		return $plugin;
-	}
+        // settings include initialized plugin-configs now
+        $this->eventBus->trigger(
+            'config_loaded',
+            ['config' => $config->toArray(), 'class' => $config]
+        );
+    }
 
-	/**
-	 * clear out repository
-	 */
-	protected function reset() {
-		$this->loadErrors = [];
-		$this->plugins = [];
-	}
+    /**
+     * Loads and returns single plugin
+     *
+     * @param string $pluginKey plugin key e.g. 'phile\errorHandler'
+     * @return AbstractPlugin Plugin class
+     * @throws PluginException
+     */
+    protected function loadSingle(string $pluginKey, Config $config): AbstractPlugin
+    {
+        $plugin = $directory = null;
+        foreach ($this->directories as $directory) {
+            $plugin = $directory->newPluginInstance($pluginKey);
+            if ($plugin) {
+                break;
+            }
+        }
+        if ($plugin === null) {
+            throw new PluginException(
+                "the plugin '{$pluginKey}' could not be loaded!",
+                1398536479
+            );
+        }
+        $plugin->initializePlugin($pluginKey, $directory->getPath(), $this->eventBus, $config);
 
-	/**
-	 * auto-loader plugin namespace
-	 *
-	 * @param $className
-	 */
-	public static function autoload($className) {
-		if (strpos($className, "Phile\\Plugin\\") !== 0) {
-			return;
-		}
-
-		$className = substr($className, 13);
-		$classNameParts = explode('\\', $className);
-		$pluginVendor = lcfirst(array_shift($classNameParts));
-		$pluginName = lcfirst(array_shift($classNameParts));
-		$classPath = array_merge(
-			[$pluginVendor, $pluginName, 'Classes'],
-			$classNameParts
-		);
-
-		$fileName = PLUGINS_DIR . implode(DIRECTORY_SEPARATOR, $classPath) . '.php';
-		if (file_exists($fileName)) {
-			require_once $fileName;
-		}
-	}
-
+        return $plugin;
+    }
 }

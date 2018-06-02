@@ -17,14 +17,18 @@ $config['theme'] = 'saito';
 $config['plugins'] = array(
 	'phile\\errorHandler' => array(
 		'active' => !PRODUCTION,
-		'handler' => \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_DEVELOPMENT
+		'handler' => 'development' 
 	),
 	// the default template engine
-	'phile\\phpFastCache' => array('active' => PRODUCTION),
+  //
 	// the default data storage engine
 	'phile\\rssFeed' => array('active' => true),
 	'siezi\\phileTotalCache' => array('active' => PRODUCTION),
 	'siezi\\phileServeContentFiles' => ['active' => true]
 );
+if (PRODUCTION) {
+    $config['plugins']['phile\\phpFastCache'] = ['active' => true, 'storage' => 'files'];
+    $config['plugins']['phile\\errorHandler']['handler'] = \Phile\Plugin\Phile\ErrorHandler\Plugin::HANDLER_ERROR_LOG;
+}
 
 return $config;

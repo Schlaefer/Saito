@@ -13,23 +13,28 @@ use Phile\Plugin\Phile\SimpleFileDataPersistence\Persistence\SimpleFileDataPersi
  * Default Phile data persistence engine
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\SimpleFileDataPersistence
  */
-class Plugin extends AbstractPlugin {
+class Plugin extends AbstractPlugin
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
-	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
-
-	/**
-	 * onPluginsLoaded method
-	 *
-	 * @param null   $data
-	 *
-	 * @return mixed|void
-	 */
-	public function onPluginsLoaded($data = null) {
-		ServiceLocator::registerService('Phile_Data_Persistence',
-			new SimpleFileDataPersistence());
-	}
+    /**
+     * onPluginsLoaded method
+     *
+     * @param array $data
+     * @return void
+     */
+    public function onPluginsLoaded($data)
+    {
+        ServiceLocator::registerService(
+            'Phile_Data_Persistence',
+            new SimpleFileDataPersistence($this->settings['storage_dir'])
+        );
+    }
 }

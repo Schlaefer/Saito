@@ -1,6 +1,6 @@
 {
     "name": "phile-cms/phile",
-    "version": "1.4",
+    "version": "1.11.0",
     "type": "project",
     "description": "A file-based CMS with a swappable parser, template engine, cache and storage services, error handler, and meta parser.",
     "keywords": ["cms", "markdown", "flat", "file", "twig", "plugins"],
@@ -10,7 +10,7 @@
         {
             "name": "Frank Nägler",
             "email": "mail@naegler.net",
-            "homepage": "http://www.frank-naegler.de",
+            "homepage": "https://naegler.hamburg",
             "role": "Developer"
         },
         {
@@ -18,22 +18,50 @@
             "email": "james2doyle@gmail.com",
             "homepage": "http://ohdoylerules.com/",
             "role": "Developer"
+        },
+        {
+            "name": "Schlaefer",
+            "email": "openmail+sourcecode@siezi.com",
+            "homepage": "http://siezi.com/",
+            "role": "Developer"
+        },
+        {
+            "name": "PhileCMS Community",
+            "homepage": "https://github.com/PhileCMS/Phile/graphs/contributors"
         }
     ],
     "config": {
         "vendor-dir": "lib/vendor"
     },
+    "autoload": {
+        "psr-4": {
+            "Phile\\": "lib/Phile"
+        }
+    },
     "require": {
-        "php": ">=5.4.0",
-        "twig/twig": "1.15.*",
+        "php": ">=7.1.0",
+        "phile-cms/plugin-installer-plugin": "^1.0",
+        "twig/twig": "^1.0 || ^2.0",
         "michelf/php-markdown": ">=1.4",
-        "phpfastcache/phpfastcache": "~3.0",
-        "symfony/yaml": "^2.7",
-        "phile-cms/plugin-installer-plugin": ">=1.0.2",
+        "phpfastcache/phpfastcache": "^6.0",
+        "filp/whoops": "^2.1",
+        "http-interop/http-factory": "^0.3.0",
+        "psr/container": "^1.0",
+        "psr/http-message": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "psr/simple-cache": "^1.0",
+        "symfony/yaml": "^3.0 || ^4.0",
+        "zendframework/zend-diactoros": "^1.7",
 
-        "phile/rss-feed": "dev-master",
+        "phile/rss-feed": "^1.0",
         "siezi/phile-markdown-editor": ">=1.1",
         "siezi/phile-total-cache": "*",
         "siezi/phile-serve-content-files": "*"
+
+    },
+    "require-dev": {
+        "phing/phing": "^2.14",
+        "phpunit/phpunit": "^7.0",
+        "squizlabs/php_codesniffer": "^3.2"
     }
 }

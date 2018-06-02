@@ -12,26 +12,30 @@ use Phile\Plugin\AbstractPlugin;
  * Default Phile cache engine
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\PhpFastCache
  */
-class Plugin extends AbstractPlugin {
+class Plugin extends AbstractPlugin
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
-	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
+    /**
+     * onPluginsLoaded method
+     *
+     * @return void
+     */
+    public function onPluginsLoaded()
+    {
+        $storage = $this->settings['storage'];
+        $config = $this->settings;
+        unset($config['active'], $config['storage']);
+        $psr16Cache = new \phpFastCache\Helper\Psr16Adapter($storage, $config);
 
-	/**
-	 * onPluginsLoaded method
-	 */
-	public function onPluginsLoaded() {
-		// phpFastCache not working in CLI mode...
-		if (PHILE_CLI_MODE) {
-			return;
-		}
-		unset($this->settings['active']);
-		$config = $this->settings + \phpFastCache::$config;
-		$storage = $this->settings['storage'];
-		$cache = phpFastCache($storage, $config);
-		ServiceLocator::registerService('Phile_Cache', new PhpFastCache($cache));
-	}
+        $phileCache = new PhileToPsr16CacheAdapter($psr16Cache);
+        ServiceLocator::registerService('Phile_Cache', $phileCache);
+    }
 }

@@ -4,6 +4,7 @@
  */
 namespace Phile\Plugin\Phile\TemplateTwig;
 
+use Phile\Core\Container;
 use Phile\Core\ServiceLocator;
 use Phile\Plugin\AbstractPlugin;
 use Phile\Plugin\Phile\TemplateTwig\Template\Twig;
@@ -13,23 +14,30 @@ use Phile\Plugin\Phile\TemplateTwig\Template\Twig;
  * Default Phile template engine
  *
  * @author  PhileCMS
- * @link    https://philecms.com
+ * @link    https://philecms.github.io
  * @license http://opensource.org/licenses/MIT
  * @package Phile\Plugin\Phile\TemplateTwig
  */
-class Plugin extends AbstractPlugin {
+class Plugin extends AbstractPlugin
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
 
-	protected $events = ['plugins_loaded' => 'onPluginsLoaded'];
-
-	/**
-	 * onPluginsLoaded method
-	 *
-	 * @param null   $data
-	 *
-	 * @return mixed|void
-	 */
-	public function onPluginsLoaded($data = null) {
-		ServiceLocator::registerService('Phile_Template',
-			new Twig($this->settings));
-	}
+    /**
+     * Registers Twig as template service
+     *
+     * @param array $data
+     * @return void
+     */
+    public function onPluginsLoaded($data)
+    {
+        $phile = Container::getInstance()->get('Phile_Config');
+        $settings = $this->settings + [
+            'theme' => $phile->get('theme'),
+            'themes_dir' => $phile->get('themes_dir')
+        ];
+        ServiceLocator::registerService('Phile_Template', new Twig($settings));
+    }
 }
