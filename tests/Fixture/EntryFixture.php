@@ -177,7 +177,7 @@ class EntryFixture extends TestFixture
             ]
         ],
         '_options' => [
-            'engine' => 'InnoDB',
+            'engine' => 'MyISAM',
             'charset' => 'utf8',
             'collate' => 'utf8_general_ci'
         ]

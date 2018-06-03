@@ -100,7 +100,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('entries')
+        $this->table('entries', ['engine' => 'MyISAM'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -269,8 +269,8 @@ class Initial extends AbstractMigration
             ->addIndex(
                 [
                     'subject',
-                    'name',
                     'text',
+                    'name',
                 ],
                 ['type' => 'fulltext']
             )
