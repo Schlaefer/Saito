@@ -27,10 +27,22 @@ input[type=email],
   }
 }
 
+input[type=checkbox],
+input[type=radio] {
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+}
+
 // buttons
 // -------------------------------------
 .btn {
   line-height: inherit; // BS reset
+
+  // cosmetics: buttons in footer are spaced out
+  padding: 0 0.8em;
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+
 }
 
 .btn-primary {

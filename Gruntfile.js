@@ -92,8 +92,8 @@ module.exports = function (grunt) {
       },
       theme: {
         files: {
-          'plugins/Paz/webroot/css/stylesheets/theme.css': 'plugins/Paz/webroot/css/src/theme.scss',
-          'plugins/Paz/webroot/css/stylesheets/night.css': 'plugins/Paz/webroot/css/src/night.scss',
+          'plugins/Paz/webroot/css/theme.css': 'plugins/Paz/webroot/css/src/theme.scss',
+          'plugins/Paz/webroot/css/night.css': 'plugins/Paz/webroot/css/src/night.scss',
         }
       }
     },

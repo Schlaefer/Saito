@@ -19,7 +19,7 @@
   @extend .responsiveIconText;
 
   border-bottom: 1px solid $border-color;
-  padding: $padding;
+  padding: $padding 0;
   white-space: nowrap;
 }
 

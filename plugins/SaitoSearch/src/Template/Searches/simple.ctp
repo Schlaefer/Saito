@@ -41,7 +41,7 @@ echo $this->Html->css('SaitoSearch.saitosearch');
             'placeholder' => __('search_term'),
         ]);
         $submit = $this->Form->submit(__('search_submit'), [
-            'class' => 'btn btn-submit btn_search_submit'
+            'class' => 'btn btn-primary btn_search_submit'
         ]);
         $form .= $this->Html->div('search_main', $text . $submit);
 
@@ -74,7 +74,7 @@ echo $this->Html->css('SaitoSearch.saitosearch');
   </div>
 
     <?= $this->element('SaitoSearch.search_results') ?>
-  
+
     <?= $this->Html->script('SaitoSearch.saito-search.min', ['block' => 'script']); ?>
 
 </div>
