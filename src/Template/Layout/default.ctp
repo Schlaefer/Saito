@@ -12,7 +12,7 @@
                 }
             } catch (e) {
             }
-            document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'Paz/css/stylesheets/' + css + '.css" />');
+            document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'Paz/css/' + css + '.css" />');
             SaitoApp.app.theme = {preset: css};
         })(SaitoApp);
     </script>

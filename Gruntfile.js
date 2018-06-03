@@ -134,8 +134,8 @@ module.exports = function (grunt) {
       },
       release: {
         src: [
-          'webroot/css/stylesheets/*.css',
-          'plugins/Paz/webroot/css/stylesheets/*.css'
+          'webroot/css/stylesheets/static.css',
+          'plugins/Paz/webroot/css/*.css'
         ]
       },
     },
