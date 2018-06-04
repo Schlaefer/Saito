@@ -15,6 +15,7 @@ namespace ImageUploader\Test\TestCase\Controller;
 use Api\Error\Exception\GenericApiException;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Filesystem\File;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
@@ -105,6 +106,49 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->assertSame('1-my-new-upload.png', $upload->get('name'));
         $this->assertSame('image/png', $upload->get('type'));
         $this->assertTrue($upload->get('file')->exists());
+    }
+
+    public function testRemoveExifData()
+    {
+        $this->loginJwt(1);
+        unset($this->file);
+        $this->file = new File(TMP . 'tmp_exif.jpg');
+
+        $fixture = new File($path = Plugin::path('ImageUploader') . 'tests/Fixture/exif-with-location.jpg');
+        $fixture->copy($this->file->path);
+
+        $readExif = function (File $file) {
+            return @exif_read_data($file->path);
+        };
+        $exif = $readExif($this->file);
+        $this->assertNotEmpty($exif['SectionsFound']);
+        $this->assertContains('EXIF', $exif['SectionsFound']);
+        $this->assertContains('IFD0', $exif['SectionsFound']);
+
+        $data = [
+            'upload' => [
+                0 => [
+                    'file' => [
+                        'tmp_name' => $this->file->path,
+                        'name' => $this->file->name() . '.' . $this->file->ext(),
+                        'size' => $this->file->size(),
+                        'type' => $this->file->mime(),
+                    ]
+                ]
+            ]
+        ];
+        $this->post('api/v2/uploads.json', $data);
+
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertResponseCode(200);
+
+        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $upload = $Uploads->find('all')->last();
+
+        $exif = $readExif($upload->get('file'));
+        $this->assertNotContains('EXIF', $exif['SectionsFound']);
+        $this->assertNotContains('IFD0', $exif['SectionsFound']);
     }
 
     public function testAddFailureMaxUploadsPerUser()
