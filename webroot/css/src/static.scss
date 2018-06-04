@@ -1,8 +1,10 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap";
 
 // bootstrap size fixes for Paz not beeing rem based
-.btn, .dropdown-menu {
-    font-size: 1em;
+.btn,
+.dropdown-menu,
+.form-control {
+  font-size: 1em;
 }
 
 @import "partials/lib/_jquery-ui.custom";

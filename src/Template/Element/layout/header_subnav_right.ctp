@@ -9,7 +9,7 @@ if ($paging) {
     $options = [];
     if ($this->request->getParam('action') === 'index') {
         $this->Paginator->options(
-            ['url' => ['direction' => null, 'sort' => null]]
+            ['url' => ['direction' => null, 'sort' => null, 'limit' => null]]
         );
         $options = ['format' => '{{page}}'];
     }

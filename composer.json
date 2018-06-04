@@ -96,7 +96,7 @@
     "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
 
     "cs-check": "phpcs --runtime-set ignore_warnings_on_exit true",
-    "cs-fix": "phpcbf --runtime-set ignore_warnings_on_exit true",
+    "cs-fix": "phpcbf > /dev/null || true",
     "phpstan": "vendor/bin/phpstan analyse --ansi",
     "check": ["@cs-fix", "@cs-check"],
 

@@ -7,6 +7,7 @@ use App\Test\Fixture\UserFixture;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
@@ -190,5 +191,23 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
         // "A route named "<foo>" has already been connected to "<bar>".
         Router::reload();
         parent::_sendRequest($url, $method, $data);
+    }
+
+    /**
+     * Skip test on particular datasource
+     *
+     * @param string $datasource MySQL|Postgres
+     * @return void
+     */
+    protected function skipOnDataSource(string $datasource): void
+    {
+        $datasource = strtolower($datasource);
+
+        $driver = TableRegistry::get('Entries')->getConnection()->getDriver();
+        $class = strtolower(get_class($driver));
+
+        if (strpos($class, $datasource)) {
+            $this->markTestSkipped("Skipped on datasource '$datasource'");
+        }
     }
 }

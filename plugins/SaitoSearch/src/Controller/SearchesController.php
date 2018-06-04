@@ -2,32 +2,31 @@
 
 declare(strict_types = 1);
 
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace SaitoSearch\Controller;
 
 use App\Controller\AppController;
 use App\Model\Table\EntriesTable;
+use Cake\Chronos\Chronos;
 use Cake\Database\Driver\Mysql;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use SaitoSearch\Lib\SimpleSearchString;
+use Saito\Exception\SaitoForbiddenException;
 
 /**
  * @property EntriesTable $Entries
  */
 class SearchesController extends AppController
 {
-
-    public $components = [
-        'Search.Prg' => [
-            'commonProcess' => [
-                'allowedParams' => ['nstrict'],
-                'keepPassed' => true,
-                'filterEmpty' => true,
-                'paramType' => 'querystring'
-            ]
-        ]
-    ];
-
+    /** @var $helpers CakePHP helpers */
     public $helpers = ['Form', 'Html', 'Posting'];
 
     /**
@@ -37,8 +36,19 @@ class SearchesController extends AppController
     {
         parent::initialize();
         $this->loadModel('Entries');
-        $this->Entries->addBehavior('SaitoSearch.SaitoSearch');
+
         $this->loadComponent('Paginator');
+        // use setConfig on Component to not merge but overwrite/set the config
+        $this->Paginator->setConfig('whitelist', ['page'], false);
+
+        if ($this->getRequest()->getParam('action') === 'simple') {
+            $this->Entries->addBehavior('SaitoSearch.SaitoSearch');
+        } else {
+            $this->Entries->addBehavior('Search.Search');
+            $this->loadComponent('Search.Prg');
+            $this->Prg->setConfig('actions', ['advanced'], false);
+            $this->Prg->setConfig('queryStringWhitelist', ['page'], false);
+        }
     }
 
     /**
@@ -97,89 +107,60 @@ class SearchesController extends AppController
 
     /**
      * Advanced Search
-     *
-     * @todo not implemented in Saito 5
-     * @return void
-     * @throws NotFoundException
-     * @throws BadRequestException
      */
-    public function advanced(): void
+    public function advanced()
     {
-        // year for date drop-down
-        $first = $this->Entry->find(
-            'first',
-            ['contain' => false, 'order' => ['Entry.id' => 'ASC']]
-        );
-        if ($first !== false) {
-            $startDate = strtotime($first['Entry']['time']);
-        } else {
-            $startDate = time();
-        }
-        $this->set('start_year', date('Y', $startDate));
+        $queryData = $this->request->getQueryParams();
 
-        // category drop-down
-        $categories = $this->CurrentUser->Categories->getAllowed('list');
-        $this->set('categories', $categories);
+        //// Setup time filter data
+        $first = $this->Entries->find()
+            ->order(['id' => 'ASC'])
+            ->first();
+        if ($first) {
+            $startDate = $first->get('time');
+        } else {
+            $startDate = Chronos::now();
+        }
+        $startYear = $startDate->format('Y');
 
         // calculate current month and year
-        if (isset($this->request->query['month'])) {
-            $month = $this->request->query['month'];
-            $year = $this->request->query['year'];
-        } else {
-            $month = date('n', $startDate);
-            $year = date('Y', $startDate);
+        $month = $queryData['month']['month'] ?? $startDate->format('n');
+        $year = $queryData['year']['year'] ?? $startYear;
+        $this->set(compact('month', 'year', 'startYear'));
+
+        //// Category drop-down data
+        $categories = $this->CurrentUser->Categories->getAll('read', 'select');
+        $this->set('categories', $categories);
+
+        if (empty($queryData['subject']) && empty($queryData['text'])) {
+            // just show form;
+            return;
         }
 
-        $this->Prg->commonProcess();
-        $query = $this->Prg->parsedParams();
+        //// setup find
+        $query = $this->Entries
+            ->find('search', ['search' => $queryData])
+            ->contain(['Categories', 'Users'])
+            ->order(['Entries.id' => 'DESC']);
 
-        if (!empty($query['subject']) || !empty($query['text']) ||
-            !empty($query['name'])
-        ) {
-            // strict username search: set before parseCriteria
-            if (!empty($this->request->query['nstrict'])) {
-                // presetVars controller var isn't working in Search v2.3
-                $this->Entry->filterArgs['name']['type'] = 'value';
-            }
-
-            $settings = [
-                    'conditions' => $this->Entry->parseCriteria($query),
-                    'order' => ['Entry.time' => 'DESC'],
-                    'paramType' => 'querystring'
-                ] + $this->_paginateConfig;
-
-            $time = mktime(0, 0, 0, $month, 1, $year);
-            if (!$time) {
-                throw new BadRequestException;
-            }
-            $settings['conditions']['time >'] = date(
-                'Y-m-d H:i:s',
-                mktime(0, 0, 0, $month, 1, $year)
-            );
-
-            if (isset($query['category']) && (int)$query['category'] !== 0) {
-                if (!isset($categories[(int)$query['category']])) {
-                    throw new NotFoundException;
-                }
-            } else {
-                $settings['conditions']['Entry.category'] = $this->CurrentUser
-                    ->Categories->getAllowed();
-            }
-            $this->Paginator->settings = $settings;
-            unset(
-                $this->request->query['direction'],
-                $this->request->query['sort']
-            );
-            $this->set(
-                'results',
-                $this->Paginator->paginate(null, null, ['Entry.time'])
-            );
+        //// Time filter
+        $time = Chronos::createFromDate($year, $month, 1);
+        if ($time->year !== $startDate->year || $time->month !== $startDate->month) {
+            $query->where(['time >=' => $time]);
         }
 
-        if (!isset($query['category'])) {
-            $this->request->data['Entry']['category'] = 0;
+        //// Category filter
+        $categories = array_flip($categories);
+        if (!empty($queryData['category_id'])) {
+            $category = $queryData['category_id'];
+            if (!in_array($category, $categories)) {
+                throw new SaitoForbiddenException("Tried to search category $category.");
+            }
+            $categories = [$category];
         }
+        $query->where(['category_id IN' => $categories]);
 
-        $this->set(compact('month', 'year'));
+        $results = $this->paginate($query);
+        $this->set(compact('results'));
     }
 }

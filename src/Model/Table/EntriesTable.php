@@ -23,6 +23,7 @@ use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\RememberTrait;
 use Saito\User\ForumsUserInterface;
+use Search\Manager;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -242,6 +243,41 @@ class EntriesTable extends AppTable
             );
 
         return $validator;
+    }
+
+    /**
+     * Advanced search configuration from SaitoSearch plugin
+     *
+     * @see https://github.com/FriendsOfCake/search
+     */
+    public function searchManager(): Manager
+    {
+        /** @var Manager $searchManager */
+        $searchManager = $this->getBehavior('Search')->searchManager();
+        $searchManager
+        ->like('subject', [
+            'before' => true,
+            'after' => true,
+            'fieldMode' => 'OR',
+            'comparison' => 'LIKE',
+            'wildcardAny' => '*',
+            'wildcardOne' => '?',
+            'field' => ['subject'],
+            'filterEmpty' => true,
+        ])
+        ->like('text', [
+            'before' => true,
+            'after' => true,
+            'fieldMode' => 'OR',
+            'comparison' => 'LIKE',
+            'wildcardAny' => '*',
+            'wildcardOne' => '?',
+            'field' => ['text'],
+            'filterEmpty' => true,
+        ])
+        ->value('name', ['filterEmpty' => true]);
+
+        return $searchManager;
     }
 
     /**

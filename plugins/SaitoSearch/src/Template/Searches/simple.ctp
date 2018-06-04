@@ -13,7 +13,7 @@ $this->end();
 echo $this->Html->css('SaitoSearch.saitosearch');
 ?>
 
-<div class="search simple">
+<div class="container search simple">
   <div class='searchForm-wrapper'>
     <div class='searchForm'>
         <?php

@@ -75,6 +75,7 @@ class Application extends BaseApplication
         Plugin::load('MailObfuscator');
         Plugin::load('Markitup');
         Plugin::load('Paz');
+        Plugin::load('Search');
         Plugin::load('SpectrumColorpicker');
         Plugin::load('Stopwatch');
 

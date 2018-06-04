@@ -101,10 +101,7 @@ class ThreadsComponent extends Component
             'finder' => ['indexPaginator' => $customFinderOptions],
         ];
 
-        /* disallow sorting or ordering via request */
-        //$this->loadComponent('Paginator');
-        // this is the only way to set the whitelist
-        // loadComponent() or paginate() do not work
+        // use setConfig on Component to not merge but overwrite/set the config
         $this->Paginator->setConfig('whitelist', ['page'], false);
         $initialThreads = $this->Paginator->paginate($this->Entries, $settings);
 

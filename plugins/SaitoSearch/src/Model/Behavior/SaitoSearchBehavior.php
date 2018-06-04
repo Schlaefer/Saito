@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace SaitoSearch\Model\Behavior;
 
 use Cake\ORM\Behavior;
@@ -83,7 +93,7 @@ class SaitoSearchBehavior extends Behavior
         $minWordLength = $connection
             ->execute("SHOW VARIABLES LIKE 'ft_min_word_len'")
             ->fetch()[1];
-        $options['searchTerm']->setMinWordLength($minWordLength);
+        $options['searchTerm']->setMinWordLength((int)$minWordLength);
 
         $query
             ->where(['Entries.category_id IN' => $options['categories']])

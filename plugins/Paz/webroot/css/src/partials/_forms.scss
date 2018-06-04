@@ -46,17 +46,7 @@ input[type=radio] {
 }
 
 .btn-primary {
-  @include setLinkStyleAll {
-    background-color: $link-color;
-    border-color: $link-color;
-
-    &[disabled=disabled] {
-      background-color: $link-color;
-      border-color: $link-color;
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-  }
+  @include button-variant($link-color, $link-color);
 }
 
 /** Button looking like regular text */
@@ -64,7 +54,6 @@ input[type=radio] {
   @include setLinkStyleAll {
     background: none;
     border-color: none;
-    color: $font-color;
 
     &[disabled=disabled] {
       background-color: $link-color;
