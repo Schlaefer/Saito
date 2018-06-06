@@ -2,9 +2,9 @@
 
 define('PRODUCTION', true);
 if (!PRODUCTION) {
-	error_reporting(E_ALL);
+    error_reporting(E_ALL);
 } else {
-	error_reporting(E_ERROR);
+    error_reporting(E_ERROR);
 }
 
 $config = array();
@@ -15,16 +15,16 @@ $config['site_title'] = 'Saito - The Threaded Web Internet Forum for PHP';
 $config['theme'] = 'saito';
 
 $config['plugins'] = array(
-	'phile\\errorHandler' => array(
-		'active' => !PRODUCTION,
-		'handler' => 'development' 
-	),
-	// the default template engine
+    'phile\\errorHandler' => array(
+        'active' => !PRODUCTION,
+        'handler' => 'development'
+    ),
+    // the default template engine
   //
-	// the default data storage engine
-	'phile\\rssFeed' => array('active' => true),
-	'siezi\\phileTotalCache' => array('active' => PRODUCTION),
-	'siezi\\phileServeContentFiles' => ['active' => true]
+    // the default data storage engine
+    'phile\\rssFeed' => array('active' => true),
+    'siezi\\phileTotalCache' => array('active' => PRODUCTION),
+    'siezi\\phileServeContentFiles' => ['active' => true]
 );
 if (PRODUCTION) {
     $config['plugins']['phile\\phpFastCache'] = ['active' => true, 'storage' => 'files'];

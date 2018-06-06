@@ -7,7 +7,7 @@ Template: home
 
 Saito is an open source threaded web forum written in PHP (see [features](#features) & [tech specs](#techspecs)).
 
-Test the [demo install][testforum] (login: test/test) or see production sites like [macnemo.de] or [macfix.de].
+For running installation see e.g. [macnemo.de] or [macfix.de].
 
 # Why #
 
