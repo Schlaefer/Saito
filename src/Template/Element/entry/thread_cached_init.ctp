@@ -34,42 +34,40 @@ foreach ($entriesSub as $entrySub) :
     $css = ($entrySub->getThread()->get('root')->isIgnored()) ? 'ignored' : '';
     ?>
     <div class="threadBox <?= $css ?>" data-id="<?= $entrySub->get('id') ?>">
-        <div class="l-table">
-            <div class="l-table-row">
-                <?php if ($toolboxButtons['panel-info']) : ?>
-                    <div class="threadBox-tools l-table-cell panel-info">
-                        <a href="<?= $this->request->getAttribute('webroot') ?>entries/mix/<?= $entrySub->get('tid') ?>" class="btn btn-link l-table-cell-item" rel="nofollow">
-                            <?= $l10nCache['mix']; ?>
-                        </a>
-                        <?php
-                        /**
-                         * More menu
-                         */
-                        $button1 = <<<EOF
+        <div class="flex-lefty">
+            <?php if ($toolboxButtons['panel-info']) : ?>
+                <div class="threadBox-tools flex-lefty-aside">
+                    <a href="<?= $this->request->getAttribute('webroot') ?>entries/mix/<?= $entrySub->get('tid') ?>" class="btn btn-link" rel="nofollow">
+                        <?= $l10nCache['mix']; ?>
+                    </a>
+                    <?php
+                    /**
+                     * More menu
+                     */
+                    $button1 = <<<EOF
 <a href="#" class="dropdown-item btn-threadCollapse">
-     <i class="fa fa-thread-open"></i> &nbsp; {$l10nCache['collapse']}
+    <i class="fa fa-thread-open"></i> &nbsp; {$l10nCache['collapse']}
 </a>
 EOF;
-                        $style = '';
-                        if (!$allowThreadCollapse || !$entrySub->hasAnswers()) {
-                            $style = 'visibility: hidden;';
-                        }
-                        echo $this->Layout->dropdownMenuButton(
-                            [$button1],
-                            [
-                                'title' => $l10nCache['more'],
-                                'class' => 'btn btn-link nbsp l-table-cell-item',
-                                'style' => $style
-                            ]
-                        );
-                        ?>
-                    </div>
-                <?php endif; ?>
+                    $style = '';
+                    if (!$allowThreadCollapse || !$entrySub->hasAnswers()) {
+                        $style = 'visibility: hidden;';
+                    }
+                    echo $this->Layout->dropdownMenuButton(
+                        [$button1],
+                        [
+                            'title' => $l10nCache['more'],
+                            'class' => 'btn btn-link',
+                            'style' => $style
+                        ]
+                    );
+                    ?>
+                </div>
+            <?php endif; ?>
 
-                <div class="threadBox-body panel l-table-cell-main">
-                    <div class="threadBox-threadTree">
-                        <?= $rendered; ?>
-                    </div>
+            <div class="threadBox-body panel flex-lefty-item">
+                <div class="threadBox-threadTree">
+                    <?= $rendered; ?>
                 </div>
             </div>
         </div>

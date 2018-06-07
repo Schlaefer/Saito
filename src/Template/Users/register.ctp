@@ -5,13 +5,15 @@ $this->end();
 
 $css = ($status === 'view') ? 'panel-form' : '';
 ?>
-<div class="panel">
-    <?=
-    $this->Layout->panelHeading(
-        __('register_linkname'),
-        ['pageHeading' => true]
-    ) ?>
-    <div class="panel-content richtext <?= $css ?>">
+<div class="card panel-center">
+    <div class="card-header">
+        <?=
+        $this->Layout->panelHeading(
+            __('register_linkname'),
+            ['pageHeading' => true]
+        ) ?>
+    </div>
+    <div class="card-body richtext <?= $css ?>">
         <?php
         if ($status === 'view') {
             echo $this->element('users/register-form');

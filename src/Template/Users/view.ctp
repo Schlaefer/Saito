@@ -149,9 +149,11 @@ if ($items) {
 }
 ?>
 <div class="users view">
-    <div class="panel">
-        <?= $this->Layout->panelHeading(__('user.b.profile')) ?>
-        <div class="panel-content">
+    <div class="card mb-3">
+        <div class="card-header">
+            <?= $this->Layout->panelHeading(__('user.b.profile')) ?>
+        </div>
+        <div class="card-body">
             <table class='table th-left elegant'>
                 <?= $this->Html->tableCells($table); ?>
             </table>
@@ -236,16 +238,18 @@ if ($items) {
             }
         }
         if ($panel) { ?>
-            <div class="panel-footer panel-form"><?= $panel ?></div>
+            <div class="card-footer"><?= $panel ?></div>
         <?php
         }
         ?>
     </div>
     <?php
     if ($modLocking) { ?>
-        <div class="panel">
-            <?= $this->Layout->panelHeading(__('user.block.history')) ?>
-            <div class="panel-content">
+        <div class="card mb-3">
+            <div class="card-header">
+                <?= $this->Layout->panelHeading(__('user.block.history')) ?>
+            </div>
+            <div class="card-body">
                 <?=
                 $this->element(
                     'users/block-report',
@@ -301,7 +305,7 @@ if ($items) {
                 );
                 $lock[] = $this->Form->end();
                 ?>
-                <div class="panel-footer panel-form">
+                <div class="card-footer">
                     <?= implode('', $lock) ?>
                     <script>
                         SaitoApp.callbacks.afterAppInit.push(function () {
@@ -364,7 +368,7 @@ if ($items) {
                 ['class' => 'panel-footer-form-bnt']
             );
 
-            echo $this->Html->div('panel-footer panel-form', $panel);
+            echo $this->Html->div('', $panel);
         }
         ?>
     </div>

@@ -8,7 +8,7 @@ import UploaderView from 'modules/uploader/uploader';
 import MediaInsertView from 'views/mediaInsert';
 import EditCountdown from 'views/editCountdown';
 import PreviewModel from 'models/preview';
-import PreviewView from 'views/preview';
+import PreviewView from './preview.ts';
 import SmiliesCl from '../collections/smiliesCl';
 import SmiliesVw from 'views/answeringSmiliesVw';
 import autosize from 'autosize';
@@ -138,8 +138,30 @@ export default Mn.View.extend({
     // <input> maxlength attribute also counts all bytes in multibyte char.
     // This shortends the allowed subject by one byte-char per multibyte char,
     // but we can life with that.
-    const count = max - subject.length;
-    $count.html(count);
+    const count = subject.length;
+    const remaining = max - count;
+    $count.html(remaining);
+
+    const percent = count === 0 ? 0 : count/max * 100;
+    const $progress = this.$('.js-progress');
+    $progress.css('width', percent + '%');
+
+    const setProgress = (cssClass) => {
+      $progress
+        .removeClass('bg-success bg-warning bg-danger')
+        .addClass(cssClass);
+    }
+
+    let cssClass = 'bg-success';
+    if (remaining === 0) {
+      setProgress('bg-danger');
+      _.delay(setProgress, 250, 'bg-warning');
+      return;
+    } else if (remaining < 20) {
+      cssClass = 'bg-warning';
+    }
+
+    setProgress(cssClass);
   },
 
   _upload: function (event) {
@@ -203,11 +225,11 @@ export default Mn.View.extend({
   _showPreview: function (event) {
     var previewModel;
     event.preventDefault();
-    this.$('.preview').slideDown('fast');
+    this.$('.preview-wrapper').slideDown('fast');
     if (this.preview === false) {
       previewModel = new PreviewModel();
       this.preview = new PreviewView({
-        el: this.$('.preview .panel-content'),
+        el: this.$('.preview'),
         model: previewModel
       });
     }
@@ -216,7 +238,7 @@ export default Mn.View.extend({
 
   _closePreview: function (event) {
     event.preventDefault();
-    this.$('.preview').slideUp('fast');
+    this.$('.preview-wrapper').slideUp('fast');
   },
 
   _setupTextArea: function () {

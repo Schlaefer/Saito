@@ -1,0 +1,19 @@
+
+// slidetab userlist
+// -------------------------------------
+
+.slidetab-userlist-icon {
+  display: inline-block;
+  width: 2.1em;
+  padding-left: $spacer;
+}
+
+#slidetabUserlist-counter {
+  @extend .badge;
+  @extend .badge-pill;
+  @extend .badge-dark;
+
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+}

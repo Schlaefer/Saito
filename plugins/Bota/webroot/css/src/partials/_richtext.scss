@@ -1,0 +1,89 @@
+// (parsed) markup
+// -------------------------------------
+
+.richtext {
+  ul {
+    @extend %ul;
+  }
+
+  // single li messes with Geshi's ol > li list
+  ul > li {
+    @extend %li;
+  }
+
+  hr {
+    border-width: 0;
+    border-bottom: 1px solid $border-color;
+    margin-left: 0.5em;
+    width: 10em;
+  }
+
+  object,
+  embed,
+  video,
+  iframe,
+  img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .saito-smiley-image {
+    margin: inherit;
+    display: inline-block;
+  }
+
+  blockquote,
+  .richtext-citation {
+    @extend .text-muted;
+
+    font-style: italic;
+  }
+}
+
+.richtext-float {
+  @extend .m-3;
+
+  max-width: 50%;
+  clear: both;
+  float: left;
+}
+
+.geshi-wrapper {
+  @extend .p-3;
+
+  ol {
+    color: #333;
+    background: #f0fcef;
+
+    li {
+      padding-left: 0.5em;
+    }
+  }
+}
+
+.richtext-linkInfo {
+  @extend .small;
+  @extend .text-muted;
+}
+
+.richtext-spoiler-link {
+  color: black;
+  background-color: black;
+  text-shadow: none;
+  word-break: break-word;
+
+  &:hover {
+    color: inherit;
+    background-color: inherit;
+    text-shadow: inherit;
+  }
+}
+
+.richtext-editMark {
+  // also an pencil icon is assigned via static.css
+  @extend .small;
+  @extend .text-muted;
+
+  padding: 0 0.3em;
+}

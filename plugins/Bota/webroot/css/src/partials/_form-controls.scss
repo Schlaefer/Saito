@@ -1,0 +1,56 @@
+a,
+a.btn-link {
+  text-decoration: none;
+
+  &:focus,
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.btn {
+  margin-left: 0.3em;
+  margin-right: 0.3em;
+
+  &:focus,
+  &.focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.saito-icon-text {
+  @extend .d-none;
+  @extend .d-md-inline;
+}
+
+textarea,
+input[type=text],
+input[type=password],
+input[type=email] {
+  &,
+  &.form-control {
+    border-left-width: 3px;
+    padding: 0.4rem 0.5rem !important;
+  }
+}
+
+.required {
+  label:after {
+    color: #e32;
+    content: "\2217";
+    vertical-align: super;
+    padding-right: 0.5em;
+  }
+}
+
+// strip buttons
+// -------------------------------------
+.btn-strip-top {
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  width: 25px;
+  text-align: center;
+  margin: 4px 0 0 -1px;
+}

@@ -6,7 +6,8 @@ if (!$CurrentUser->isLoggedIn()) {
     echo '</a>';
 
     $action = $this->request->getParam('action');
-    if ($action !== 'login') {
+    if ($action !== 'login' && $action !== 'register') {
+        echo $this->element('users/login_modal');
         ?>
         <a href="<?php echo $this->request->getAttribute('webroot'); ?>login/"
            id="showLoginForm" title="<?= __('login_btn') ?>"

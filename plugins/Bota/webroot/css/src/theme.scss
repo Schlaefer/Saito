@@ -1,0 +1,31 @@
+/******************************************************************************
+ * Bootstrap variables
+ ******************************************************************************/
+
+$body-color: #222 !default;
+$input-color: $body-color !default;
+$input-color: $body-color !default;
+
+$text-muted: #727272 !default;
+$form-bg: #f2f2f2;
+
+$primary: rgb(213, 6, 6) !default;
+$font-size-base: 0.88rem !default;
+$small-font-size: 85% !default;
+$font-family-base: Cabin, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+$enable-rounded: false;
+
+// $btn-padding-y: 0.1rem !default;
+$input-btn-padding-y: 0.1rem !default;
+$custom-select-padding-y: 0.1rem !default;
+
+$input-focus-border-color: #adb5bd !default; // gray 700
+// overwrites primary color shadow
+$input-focus-box-shadow: $input-focus-border-color !default;
+
+/******************************************************************************
+ * Core Theme Include
+ ******************************************************************************/
+
+@import "partials/__theme";

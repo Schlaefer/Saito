@@ -1,0 +1,79 @@
+/* No Content Yet
+// ------------------------------------- */
+.no-content-yet {
+  @extend .text-muted;
+
+  font-weight: bold;
+  text-align: center;
+  font-size: 3*$font-size-base;
+  line-height: 1.2em;
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+  padding: 1em 0;
+}
+
+/* Disclaimer
+ * ------------------------------------- */
+.disclaimer {
+  @extend .border-top;
+  @extend .small;
+
+  background: $body-bg;
+  text-align: center;
+}
+
+/* Spinner (from BS)
+ * ------------------------------------- */
+.spinner {
+  /*** Center Small Spinner ***/
+  padding: 1em;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.progress-bar-striped {
+  background-color: rgba($font-color-current, 0.5);
+}
+
+/* Saito Help Popup
+// ------------------------------------- */
+.shp-show-btn {
+  display: none;
+
+  &.is-active {
+    display: inline-block;
+  }
+}
+
+.shp-icon {
+  margin: 0.5em;
+}
+
+/* Sort Menu
+// ------------------------------------- */
+
+.sort-menu {
+  .asc,
+  .desc {
+    font-weight: bold;
+  }
+
+  .asc:after {
+    content: "\002005\002193\002005";
+  }
+
+  .desc:after {
+    content: "\002005\002191\002005";
+  }
+}
+
+.sort-menu-item {
+  padding: 0 0.5em;
+}
+
+/* Legacy - Don't Use Anymore/Remove
+// ------------------------------------- */
+.infoText,
+.disabled {
+  @extend .text-muted;
+}

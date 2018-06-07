@@ -748,16 +748,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertEquals($viewsExpected, $viewsResult);
     }
 
-    public function testViewBoxFooter()
-    {
-        $this->get('entries/view/1');
-        $this->assertResponseNotContains('panel-footer panel-form');
-
-        $this->_loginUser(3);
-        $this->get('entries/view/1');
-        $this->assertResponseContains('panel-footer panel-form');
-    }
-
     /**
      * Checks that the mod-button is in-/visible
      */

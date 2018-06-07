@@ -47,7 +47,7 @@ $config = [
             /**
              * Sets the default theme
              */
-            'default' => 'Paz',
+            'default' => 'Bota',
 
             /**
              * Array with additional themes available for all users

@@ -44,7 +44,7 @@
 }
 
 .fa-multimedia {
-  @extend .fa-code;
+  @extend .fa-clipboard;
 }
 
 .fa-s-code {
@@ -55,11 +55,6 @@
   @extend .fa-times-circle;
   // @bogus: with it the close buttons do not work
   position: relative;
-  color: #666;
-
-  &:hover {
-    color: #444;
-  }
 }
 
 .fa-s-smile-o {

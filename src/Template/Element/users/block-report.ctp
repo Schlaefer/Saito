@@ -13,7 +13,7 @@ $mode = $mode ?? 'profile';
 $format = ($mode === 'full') ? 'eng' : 'normal';
 ?>
 <table id="blocklist"
-       class="table table-simple <?= ($mode === 'full') ? 'table-striped' : '' ?>">
+       class="table <?= ($mode === 'full') ? 'table-striped' : '' ?>">
     <?php
     $headers = [
         __('user.block.active'),

@@ -1,0 +1,70 @@
+/* flex-bar
+// ------------------------------------- */
+.flex-bar {
+  position: relative;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-start;
+
+  & > div {
+    flex: 1;
+  }
+}
+
+.flex-bar-header {
+  @extend .flex-bar;
+
+  & > div {
+    // keep the middle element more centered
+    text-align: center;
+  }
+
+  & > div:first-child {
+    text-align: left;
+  }
+
+  & > div:last-child {
+    text-align: right;
+  }
+}
+
+/* flex-lefty
+// ------------------------------------- */
+.flex-lefty {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-lefty-aside {
+  @extend .px-2;
+  @extend .py-1;
+  @extend .py-lg-2;
+
+  @include border-radius($card-inner-border-radius $card-inner-border-radius 0 0);
+
+  // padding: $card-spacer-y $card-spacer-x;
+
+  flex: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-lefty-item {
+  flex: auto;
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+  .flex-lefty {
+    flex-direction: column;
+  }
+
+  .flex-lefty-aside {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .flex-lefty-item {
+    margin-right: 1em;
+  }
+}

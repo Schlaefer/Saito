@@ -92,10 +92,10 @@ module.exports = function (grunt) {
       },
       theme: {
         files: {
-          'plugins/Paz/webroot/css/theme.css': 'plugins/Paz/webroot/css/src/theme.scss',
-          'plugins/Paz/webroot/css/night.css': 'plugins/Paz/webroot/css/src/night.scss',
+          'plugins/Bota/webroot/css/night.css': 'plugins/Bota/webroot/css/src/night.scss',
+          'plugins/Bota/webroot/css/theme.css': 'plugins/Bota/webroot/css/src/theme.scss',
         }
-      }
+      },
     },
     watch: {
       sassStatic: {
@@ -103,9 +103,9 @@ module.exports = function (grunt) {
         tasks: ['sass:static'],
       },
       sassTheme: {
-        files: ['plugins/Paz/webroot/css/src/**/*.scss'],
+        files: ['plugins/Bota/webroot/css/src/**/*.scss'],
         tasks: ['sass:theme'],
-      }
+      },
     },
     postcss: {
       options: {
@@ -135,7 +135,7 @@ module.exports = function (grunt) {
       release: {
         src: [
           'webroot/css/stylesheets/static.css',
-          'plugins/Paz/webroot/css/*.css'
+          'plugins/Bota/webroot/css/*.css'
         ]
       },
     },

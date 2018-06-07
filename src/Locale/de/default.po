@@ -935,7 +935,7 @@ msgstr "Letzte Beiträge {0}"
 #: src/Template/Contacts/owner.ctp:8
 #, fuzzy
 msgid "owner_contact_title"
-msgstr "Kontaktiere %s"
+msgstr "Kontaktiere Eigentümer"
 
 #: src/Template/Contacts/owner.ctp:17
 msgid "user_contact_sender-contact"

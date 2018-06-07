@@ -10,17 +10,21 @@ if (!empty($paginatorControl)) {
     return;
 }
 
-$options = $options ?? [];
-$defaults = [
-    'format' => '{{page}}/{{pages}}'
+$templates = $templates ?? [];
+$templates = $templates + [
+    'counter' => '{{text}}',
+    'counterPages' => '{{page}}/{{pages}}',
+    'first' => '<a href="{{url}}" class="btn btn-text">{{text}}</a>',
+    'nextActive' => '<a rel="next" class="btn btn-text" href="{{url}}">{{text}}</a>',
+    'prevActive' => '<a rel="prev" class="btn btn-text" href="{{url}}">{{text}}</a>',
 ];
-$options += $defaults;
 
-$paginatorControl = '<ul class="paginator navbar-item right">';
+$this->Paginator->setConfig('templates', $templates);
+
 if ($this->Paginator->current() > 2) {
     $paginatorControl .= $this->Paginator->first(
         '<i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"></i>',
-        ['escape' => false, 'style' => 'padding-right: 1em']
+        ['escape' => false]
     );
 }
 
@@ -31,8 +35,7 @@ if ($this->Paginator->hasPrev()) {
     );
 }
 
-$counter = $this->Paginator->counter($options);
-$paginatorControl .= '<li class="counter">' . $counter . '</li>';
+$paginatorControl .= $this->Paginator->counter();
 
 if ($this->Paginator->hasNext()) {
     $paginatorControl .= $this->Paginator->next(
@@ -40,7 +43,6 @@ if ($this->Paginator->hasNext()) {
         ['escape' => false]
     );
 }
-$paginatorControl .= '</ul>';
 
 // caches head-nav paginator for footer-nav
 $this->assign('paginatorControl', $paginatorControl);

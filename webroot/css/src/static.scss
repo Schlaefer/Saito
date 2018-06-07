@@ -1,12 +1,3 @@
-@import "../../../node_modules/bootstrap/scss/bootstrap";
-
-// bootstrap size fixes for Paz not beeing rem based
-.btn,
-.dropdown-menu,
-.form-control {
-  font-size: 1em;
-}
-
 @import "partials/lib/_jquery-ui.custom";
 
 $fa-font-path: "../stylesheets/fonts";
@@ -21,3 +12,4 @@ $fa-font-path: "../stylesheets/fonts";
 
 @import "../../../node_modules/tether-drop/dist/css/drop-theme-arrows";
 @import "partials/drop";
+

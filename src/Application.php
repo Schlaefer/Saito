@@ -74,7 +74,7 @@ class Application extends BaseApplication
         Plugin::load('Embedly');
         Plugin::load('MailObfuscator');
         Plugin::load('Markitup');
-        Plugin::load('Paz');
+        Plugin::load('Bota');
         Plugin::load('Search');
         Plugin::load('SpectrumColorpicker');
         Plugin::load('Stopwatch');

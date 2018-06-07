@@ -1,0 +1,67 @@
+.markItUp {
+  $markItUp-buttonWidth: 32px;
+  $markItUp-buttonHeight: $markItUp-buttonWidth;
+
+  border: none;
+
+  .markItUpHeader > ul {
+    .markItUpSeparator {
+      min-width: 1px;
+      width: 1px;
+      overflow: hidden;
+      background-color: $border-color;
+      margin-left: $markItUp-buttonWidth/4;
+      margin-right: $markItUp-buttonWidth/4;
+    }
+
+    // all levels
+    &,
+    li {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    li {
+      margin: 0;
+
+      @media (min-width: map-get($grid-breakpoints, md)) {
+        margin: 3px;
+      }
+
+      min-width: $markItUp-buttonWidth;
+      height: $markItUp-buttonHeight;
+      position: relative;
+    }
+
+    a {
+      color: $body-color;
+      display: block;
+      text-align: center;
+      line-height: $markItUp-buttonHeight;
+      min-width: $markItUp-buttonWidth;
+      height: $markItUp-buttonHeight;
+      background-repeat: no-repeat;
+
+      @media (min-width: map-get($grid-breakpoints, md)) {
+        font-size: 18px;
+      }
+    }
+
+    // first level
+    > li {
+      float: left;
+    }
+  }
+
+  .saito-smiley-font {
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+
+    > a {
+      display: none !important;
+    }
+  }
+}

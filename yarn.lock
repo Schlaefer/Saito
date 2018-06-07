@@ -24,8 +24,8 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
 "@types/backbone.marionette@^3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@types/backbone.marionette/-/backbone.marionette-3.3.3.tgz#ecd650233998d1d5ba21cd5f9a89d537d0b801a2"
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@types/backbone.marionette/-/backbone.marionette-3.3.4.tgz#e3962f4aee5a9548d6672390db776ca6fc4d5989"
   dependencies:
     "@types/backbone" "*"
     "@types/backbone.radio" "*"

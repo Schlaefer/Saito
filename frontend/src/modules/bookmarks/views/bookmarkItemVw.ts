@@ -4,6 +4,7 @@ import App from 'models/app';
 import * as _ from 'underscore';
 import AppView from 'views/app';
 import * as Tpl from '../templates/bookmarkItemTpl.html';
+import { CommentInputView } from './bookmarkCommentVw';
 
 /**
  * Comment as text
@@ -13,30 +14,6 @@ class CommentTextView extends Mn.View<any> {
         options.template = _.template('<%- comment %>');
         options.className = 'm-1';
         super(options);
-    }
-}
-
-/**
- * Comment as input
- */
-class CommentInputView extends Mn.View<any> {
-    constructor(options) {
-        options.template = _.template('<input type="text" value="<%- comment %>">');
-        options.className = 'm-1';
-        options.ui = {
-            text: 'input',
-        };
-        options.events = {
-            'keyup @ui.text': 'handleKeypress',
-        };
-        super(options);
-    }
-    public onRender() {
-        this.getUI('text').focus();
-    }
-    protected handleKeypress(event) {
-        event.preventDefault();
-        this.model.set('comment', this.getUI('text').val());
     }
 }
 

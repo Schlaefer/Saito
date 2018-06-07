@@ -4,9 +4,11 @@ echo $this->Layout->navbarBack();
 $this->end();
 ?>
 <div class="user contact">
-    <div class="panel">
-        <?= $this->Layout->panelHeading(__('owner_contact_title'), ['pageHeading' => true]) ?>
-        <div class="panel-content panel-form">
+    <div class="card panel-center">
+        <div class="card-header">
+            <?= $this->Layout->panelHeading(__('owner_contact_title'), ['pageHeading' => true]) ?>
+        </div>
+        <div class="card-body panel-content panel-form">
             <?php
             echo $this->Form->create($contact);
             if (!$CurrentUser->isLoggedIn()) {

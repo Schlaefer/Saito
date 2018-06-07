@@ -14,8 +14,8 @@ echo $this->Html->css('SaitoSearch.saitosearch');
 ?>
 
 <div class="container search simple">
-  <div class='searchForm-wrapper'>
-    <div class='searchForm'>
+    <div class="searchForm card panel-form panel-center">
+        <div class="card-body">
         <?php
         $form = $this->Form->create(
             [
@@ -36,14 +36,14 @@ echo $this->Html->css('SaitoSearch.saitosearch');
         $text = $this->Form->control('searchTerm', [
             // the id is bound to JS script
             'id' => 'search_fulltext_textfield',
-            'class' => 'search_textfield',
+            'class' => 'form-control search_textfield',
             'label' => false,
             'placeholder' => __('search_term'),
         ]);
         $submit = $this->Form->submit(__('search_submit'), [
             'class' => 'btn btn-primary btn_search_submit'
         ]);
-        $form .= $this->Html->div('search_main', $text . $submit);
+        $form .= $this->Html->div('form-group search_main', $text . $submit);
 
         $menu = '';
         $sortBy = $this->Form->radio(
@@ -53,15 +53,16 @@ echo $this->Html->css('SaitoSearch.saitosearch');
               ['text' => __('Rank'), 'value' => 'rank'],
             ],
             [
-              'hiddenField' => false
+                'class' => 'form-check-input',
+                'hiddenField' => false
             ]
         );
-        $menu .= $this->Html->div(null, __('Sort by: {0}', $sortBy));
+        $menu .= $this->Html->div('form-group form-check form-check-inline', __('Sort by: {0}', $sortBy));
 
         if (!empty($omittedWords)) {
             $wordLength = h(__('search.tooShort', [$omittedWords, $minWordLength]));
             $wordLength .= $this->SaitoHelp->icon(1);
-            $menu .= $this->Html->para('infoText', $wordLength);
+            $menu .= $this->Html->para('form-text small text-muted', $wordLength);
         }
 
         $form .= $this->Html->div('sort-menu', $menu, ['id' => '#sort_menu']);
@@ -71,7 +72,7 @@ echo $this->Html->css('SaitoSearch.saitosearch');
         echo $form;
         ?>
     </div>
-  </div>
+    </div>
 
     <?= $this->element('SaitoSearch.search_results') ?>
 

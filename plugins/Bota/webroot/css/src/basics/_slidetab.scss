@@ -1,0 +1,62 @@
+$slidetab-width: 260px;
+$slidetab-tab-width: 28px;
+$slidetab-content-width: $slidetab-width - $slidetab-tab-width;
+
+#slidetabs {
+  float: right;
+  position: relative;
+  z-index: 5;
+}
+
+.slidetab {
+  @extend .small;
+
+  width: $slidetab-tab-width;
+  margin-bottom: 2*$spacer;
+  box-sizing: border-box;
+
+  // hides closed slidetab
+  float: right;
+  clear: both;
+
+  h4 {
+    margin: 0;
+    font-weight: bold;
+  }
+}
+
+.slidetab-outer {
+  display: none;
+  // prevents tab-button hanging in "mid air" if filled by JS after page loaded
+  min-height: 40px;
+  // tab-button space
+  margin-left: $slidetab-tab-width;
+  padding: $spacer 0 $spacer 2*$spacer;
+  border-left: 1px solid $border-color;
+}
+
+.slidetab.is-open {
+  width: $slidetab-width;
+
+  .slidetab-outer {
+    display: block;
+  }
+}
+
+.slidetab-tab {
+  float: left;
+  padding: 4px;
+  width: 20px;
+  height: 20px;
+  // anchors userlist-counter
+  position: relative;
+}
+
+.slidetab-tab-button {
+  color: $link-color;
+  cursor: pointer;
+}
+
+.slidetab-content {
+  word-break: break-word;
+}

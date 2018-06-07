@@ -85,22 +85,32 @@ class PostingHelper extends AppHelper
      */
     public function categorySelect(Entry $posting, array $categories)
     {
-        if ($posting->isRoot()) {
-            $html = $this->Form->control(
-                'category_id',
-                [
-                    'options' => $categories,
-                    'empty' => true,
-                    'label' => __('Category'),
-                    'tabindex' => 1,
-                    'error' => ['notEmpty' => __('error_category_empty')]
-                ]
-            );
-        } else {
+        if (!$posting->isRoot()) {
             // Send category for easy access in entries/preview when answering
             // (not used when saved).
-            $html = $this->Form->hidden('category_id');
+            return $this->Form->hidden('category_id');
         }
+
+        $html = $this->Form->control(
+            'category_id',
+            [
+                'class' => 'form-control',
+                'div' => false,
+                'options' => $categories,
+                'empty' => true,
+                'label' => [
+                    'class' => 'col-form-label mr-3',
+                    'value' => __('Category'),
+                ],
+                'tabindex' => 1,
+                'error' => ['notEmpty' => __('error_category_empty')],
+                'templates' => [
+                    'inputContainer' => '{{content}}',
+                ]
+            ]
+        );
+        $html = $this->Html->div('form-group d-flex', $html);
+        // $html = $this->Html->div('form-inline', $html);
 
         return $html;
     }

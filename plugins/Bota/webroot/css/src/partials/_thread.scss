@@ -1,0 +1,153 @@
+// Common
+// -------------------------------------
+.threadBox.ignored {
+  display: none;
+}
+
+.threadLeaf.ignored {
+  opacity: 0;
+}
+
+.mix .ignored .postingLayout {
+  visibility: hidden;
+  height: 1em;
+}
+
+// Tread Tree/Collection
+// -------------------------------------
+.threadTree-node {
+  padding-left: 30px;
+}
+
+.threadTree-node,
+.threadCollection-node {
+  list-style: none;
+
+  &.root {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.threadCollection-node .threadTree-node {
+  padding-left: 0;
+}
+
+// Thread Box/Collection
+// -------------------------------------
+
+.threadBox {
+  padding: $spacer 0;
+}
+
+.threadBox-body {
+  @extend .p-2;
+}
+
+.threadBox-body.panel {
+  border: none;
+}
+
+.threadBox-tools {
+  @extend .panel-info;
+  @extend .small;
+
+  .btn {
+    font-size: inherit !important; // use .small from threadBox-tools
+    /*** left align buttons in vertical column ***/
+    padding-left: 0;
+    text-align: left;
+    line-height: 1rem;
+  }
+}
+
+// thread and reply types
+//
+// don't forget to apply changes here to the user custom color CSS
+// -------------------------------------
+.et-root .et,
+.et-reply .et {
+  color: $link-color;
+}
+
+.et-new .et {
+  // no extra color set
+}
+
+.et-old .et {
+  color: $font-color-read;
+}
+
+.et-current .et {
+  color: $font-color-current;
+}
+
+// threadLine
+// -------------------------------------
+
+.threadLine {
+  display: flex;
+  align-items: stretch;
+
+  &:hover {
+    @extend %highlight-hover;
+  }
+}
+
+.threadLine-pre {
+  flex-grow: initial;
+  text-align: center;
+  // margin: 0;
+  padding: 0 0.5rem 0 0.5rem;
+  position: relative; // anchors i
+
+  > i {
+    //// when threadline breaks over multiple lines keep bullet on first line
+    position: absolute;
+    top: 0;
+  }
+}
+
+.threadLine-content {
+  // wide click target and hover-highlight
+  flex-grow: 1;
+  word-wrap: break-word;
+}
+
+.threadLine-post {
+  @extend .small;
+  @extend .text-muted;
+
+  font-weight: normal;
+}
+
+// Thread Inline
+// -------------------------------------
+$btn-strip-top-width: 25px;
+
+.threadInline-slider {
+  // prevents wide inline content to drop below slidetabs
+  overflow: hidden;
+  margin-left: $btn-strip-top-width;
+}
+
+.thread_inline {
+  // limits height of btn-strip
+  position: relative;
+}
+
+// page specific
+// -------------------------------------
+.entry.view {
+  max-width: 65em;
+  margin: 0 auto;
+
+  .threadBox {
+    border-top: 1px solid $border-color;
+  }
+}
+
+.mixEntry {
+  border-bottom: 1px solid $border-color;
+  margin-bottom: $spacer;
+}

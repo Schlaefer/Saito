@@ -1,0 +1,70 @@
+html {
+  height: 100%;
+}
+
+body {
+  @extend .container-fluid;
+  @extend .px-0;
+  @extend .px-lg-3;
+
+  height: 100%;
+  background: darken($body-bg, 10);
+}
+
+#site {
+  @extend .px-md-3;
+
+  box-sizing: border-box;
+  min-height: 100%;
+  position: relative; // pins #footer-pinned
+  background: $body-bg;
+}
+
+#header {
+  @extend .d-flex;
+  @extend .flex-column;
+}
+
+#header-hero {
+  @extend .border-bottom;
+  @extend .text-center;
+  @extend .font-weight-bold;
+
+  background: $body-bg;
+  font-size: 1.3rem;
+}
+
+#hero-homeLink {
+  @extend .p-3;
+}
+
+#header-menu {
+  @extend .flex-bar-header;
+  @extend .border-bottom;
+  @extend .py-2;
+}
+
+#site-navigation-top,
+#site-navigation-bottom {
+  @extend .flex-bar-header;
+  @extend .py-2;
+
+  white-space: nowrap;
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    padding: 0;
+    font-size: $font-size-base;
+  }
+}
+
+// pins footer to windows bottom on short content pages
+#footer-pinned {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 2*$spacer;
+}

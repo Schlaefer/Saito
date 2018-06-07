@@ -1,0 +1,61 @@
+/******************************************************************************
+ * Bootstrap variables
+ ******************************************************************************/
+
+$body-bg: #28282b !default;
+$modal-content-bg: $body-bg !default;
+
+$body-color: #decab2 !default;
+$border-color: $body-color !default;
+$close-color: $body-color !default;
+$input-color: $body-color !default;
+
+$text-muted: #9a866d !default;
+
+$primary: rgb(255, 184, 30) !default;
+
+$input-border-color: darken($primary, 40%) !default;
+$input-focus-border-color: lighten($input-border-color, 10%) !default;
+
+$form-bg: #1e1e20 !default;
+$card-cap-bg: lighten($form-bg, 10%) !default;
+$card-bg: $form-bg !default;
+$list-group-bg: $form-bg !default;
+$list-group-hover-bg: darken(desaturate($primary, 20%), 40%) !default;
+
+$font-size-base: 0.88rem !default;
+$small-font-size: 85% !default;
+$font-family-base: Cabin, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+$enable-rounded: false;
+
+$input-bg: #303035 !default;
+$progress-bg: $input-bg !default;
+
+// $btn-padding-y: 0.1rem !default;
+$input-btn-padding-y: 0.1rem !default;
+$custom-select-padding-y: 0.1rem !default;
+
+// overwrites primary color shadow
+$input-focus-box-shadow: $input-focus-border-color !default;
+
+/******************************************************************************
+ * Core Theme Include
+ ******************************************************************************/
+
+@import "partials/__theme";
+
+/******************************************************************************
+ * Additional Night Theme Settings
+ ******************************************************************************/
+
+::selection {
+  background-color: $list-group-hover-bg;
+}
+
+img,
+.avatar-image,
+iframe,
+video {
+  filter: contrast(80%) brightness(90%) sepia(50%);
+}

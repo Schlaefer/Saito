@@ -15,41 +15,38 @@ $jsEntry = json_encode(
     ]
 );
 ?>
-<div class="postingLayout js-entry-view-core"
-     data-id="<?php echo $entry->get('id') ?>">
-    <div class="l-table">
-        <div class="l-table-row">
-            <div class="l-table-cell panel-info center">
-                <div class="l-table-cell-item">
-                    <?= $this->User->getAvatar($entry->get('user')) ?>
-                </div>
-                <div class="l-table-cell-item">
-                    <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
-                </div>
+<div class="postingLayout js-entry-view-core" data-id="<?= $entry->get('id') ?>">
+    <div class="postingLayout-main">
+        <div class="postingLayout-aside">
+            <div class="postingLayout-aside-item">
+                <?= $this->User->getAvatar($entry->get('user')) ?>
             </div>
-            <div class="postingLayout-body panel-content l-table-cell-main">
-                <?php
-                if (!$CurrentUser->get('user_signatures_hide') &&
-                    $entry->get('user')->get('signature') &&
-                    !$entry->isNt()
-                ) {
-                    $showSignature = true;
-                }
-                echo $this->element(
-                    '/entry/view_content',
-                    [
-                        'entry' => $entry,
-                        'level' => $level,
-                        'signature' => $showSignature
-                    ]
-                );
-                ?>
+            <div class="postingLayout-aside-item">
+                <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
             </div>
+        </div>
+        <div class="postingLayout-body">
+            <?php
+            if (!$CurrentUser->get('user_signatures_hide') &&
+                $entry->get('user')->get('signature') &&
+                !$entry->isNt()
+            ) {
+                $showSignature = true;
+            }
+            echo $this->element(
+                '/entry/view_content',
+                [
+                    'entry' => $entry,
+                    'level' => $level,
+                    'signature' => $showSignature
+                ]
+            );
+            ?>
         </div>
     </div>
 
     <?php if (!empty($showAnsweringPanel)) : ?>
-        <div class="postingLayout-actions panel-footer panel-form">
+        <div class="postingLayout-actions">
             <div style="float:right">
                 <?php
                 //= get additional actions from plugins

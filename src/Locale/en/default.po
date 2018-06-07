@@ -919,7 +919,7 @@ msgstr "Recent Posts {0}"
 #: src/Template/Contacts/owner.ctp:8
 #, fuzzy
 msgid "owner_contact_title"
-msgstr "Contact %s"
+msgstr "Contact Owner"
 
 #: src/Template/Contacts/owner.ctp:17
 msgid "user_contact_sender-contact"

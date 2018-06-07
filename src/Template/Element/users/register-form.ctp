@@ -9,8 +9,9 @@ echo $this->Form->create(
 echo $this->element('users/register-form-core');
 echo $this->SimpleCaptcha->control(
     [
+        'class' => 'form-control mb-3',
         'required' => true,
-        'div' => ['class' => 'input required'],
+        'div' => ['class' => 'form-group'],
         'tabindex' => 10
     ]
 );
@@ -21,11 +22,11 @@ if (Configure::read('Saito.Settings.tos_enabled')) {
         $tosUrl = '/pages/' . Configure::read('Saito.language') . '/tos';
     };
 
-    echo $this->Form->control(
+    $tos = $this->Form->control(
         'tos_confirm',
         [
             'type' => 'checkbox',
-            'div' => ['class' => 'input password required'],
+            'class' => 'form-check-input',
             'label' => [
                 'text' => __(
                     'register_tos_label',
@@ -41,6 +42,7 @@ if (Configure::read('Saito.Settings.tos_enabled')) {
             'tabindex' => 11
         ]
     );
+    echo $this->Html->div('form-group form-check', $tos);
 }
 
 echo $this->Form->submit(

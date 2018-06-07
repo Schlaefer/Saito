@@ -5,59 +5,73 @@ echo $this->Layout->navbarBack(
 );
 $this->end();
 ?>
-<div class="panel">
-    <?=
-    $this->Layout->panelHeading(
-        __('change_password_link'),
-        ['pageHeading' => true]
-    )
-    ?>
-    <div class="panel-content panel-form">
-        <?php
-        echo $this->Form->create(null);
-        // helper field for browser's password manager to identify the account
-        echo $this->Form->control(
+<div class="card panel-center">
+    <div class="card-header">
+        <?=
+        $this->Layout->panelHeading(
+            __('change_password_link'),
+            ['pageHeading' => true]
+        )
+        ?>
+    </div>
+    <div class="card-body panel-form">
+        <?= $this->Form->create(null) ?>
+        <div class="form-group">
+        <?= $this->Form->control(
+            // helper field for browser's password manager to identify the account
             'username',
             [
                 'autocomplete' => 'username',
+                'class' => 'form-control',
                 'div' => ['class' => 'input'],
                 'label' => __('user_name'),
                 'type' => 'hidden',
                 'value' => $username
             ]
-        );
-        echo $this->Form->control(
+        ) ?>
+        </div>
+        <div class="form-group">
+        <?= $this->Form->control(
             'password_old',
             [
                 'autocomplete' => 'current-password',
+                'class' => 'form-control',
                 'type' => 'password',
                 'label' => __('change_password_old_password'),
-                'div' => ['class' => 'input password required'],
+                'required' => true,
             ]
-        );
-        echo $this->Form->control(
+        ) ?>
+        </div>
+        <div class="form-group">
+        <?= $this->Form->control(
             'password',
             [
                 'autocomplete' => 'new-password',
+                'class' => 'form-control',
                 'type' => 'password',
                 'label' => __('change_password_new_password'),
-                'div' => ['class' => 'input required'],
+                'required' => true,
             ]
-        );
-        echo $this->Form->control(
+        ) ?>
+        </div>
+        <div class="form-group">
+        <?= $this->Form->control(
             'password_confirm',
             [
                 'autocomplete' => 'new-password',
+                'class' => 'form-control',
                 'type' => 'password',
-                'div' => ['class' => 'input required'],
                 'label' => __('change_password_new_password_confirm'),
+                'required' => true,
             ]
-        );
-        echo $this->Form->submit(
+        ) ?>
+        </div>
+        <div class="form-group">
+        <?= $this->Form->submit(
             __('change_password_btn_submit'),
             ['class' => 'btn btn-primary']
-        );
-        echo $this->Form->end();
-        ?>
+        ) ?>
+        </div>
+        <?= $this->Form->end() ?>
     </div>
 </div>

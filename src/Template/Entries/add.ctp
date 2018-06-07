@@ -28,41 +28,42 @@ $this->end();
     <?php
     $closeButton = $this->Form->button(
         $this->Layout->textWithIcon('', 'close-widget'),
-        ['class' => 'js-btnPreviewClose close float-left', 'type' => 'button']
+        ['class' => 'js-btnPreviewClose close', 'type' => 'button']
     );
-    $heading = $this->Layout->panelHeading(
+    // $header = $this->Html->div('card-header', __('preview') . $closeButton);
+    $header = $this->Layout->panelHeading(
         ['first' => $closeButton, 'middle' => __('preview')],
-        ['escape' => false]
+        ['class' => 'card-header flex-bar-header', 'escape' => false]
     );
 
-    $content = $this->Html->div('panel-content', '');
+    $content = $this->Html->div('preview card-body', '');
 
-    echo $this->Html->div('preview panel', $heading . $content);
+    echo $this->Html->div('preview-wrapper card mb-3', $header . $content, ['style' => 'display: none;']);
     ?>
     <!-- preview -->
 
-    <div class="postingform panel">
+    <div class="postingform card">
         <?php
         // close form button
         if ($isInline) {
-            $closeButton = $this->Form->button(
+            $closeInline = $this->Form->button(
                 $this->Layout->textWithIcon('', 'close-widget'),
-                ['class' => 'js-btnAnsweringClose close float-left', 'type' => 'button']
+                ['class' => 'js-btnAnsweringClose close', 'type' => 'button']
             );
+            $heading = $this->Layout->panelHeading(
+                ['first' => $closeInline ?? '', 'middle' => $titleForPage],
+                ['pageHeading' => !$isInline, 'escape' => false]
+            );
+            echo $this->Html->div('card-header', $titleForPage . $heading);
         }
-
-        echo $this->Layout->panelHeading(
-            ['first' => $closeButton ?? '', 'middle' => $titleForPage],
-            ['pageHeading' => !$isInline, 'escape' => false]
-        );
         ?>
         <div id="markitup_upload">
             <div class="body"></div>
         </div>
 
-        <div class="panel-content panel-form" style="position: relative;">
+        <div class="card-body" style="position: relative;">
             <?php
-            echo $this->Form->create($posting);
+            echo $this->Form->create($posting, ['autocomplete' => 'off']);
             echo $this->Posting->categorySelect($posting, $categories);
 
             $subject = (!empty($citeSubject)) ? $citeSubject : __('Subject');
@@ -71,23 +72,29 @@ $this->end();
                 [
                     'maxlength' => $SaitoSettings->get('subject_maxlength'),
                     'label' => false,
-                    'class' => 'js-subject subject',
+                    'class' => 'js-subject postingform-subject form-control',
                     'tabindex' => 2,
                     'div' => ['class' => 'required'],
                     'placeholder' => $subject,
                     'required' => ($isAnswer) ? false : 'required'
                 ]
             );
-            $subjectInput .= $this->Html->div('postingform-subject-count', '');
-            echo $this->Html->div('subject-wrapper', $subjectInput);
 
-            echo $this->html->div('js-rgSmilies', '');
+            $progress = $this->Html->div('js-progress progress-bar', '', ['role' => 'progressbar']);
+            $subjectInput .= $this->Html->div('progress postingform-subject-progress', $progress);
+
+            $subjectInput .= $this->Html->div('postingform-subject-count', '');
+            echo $this->Html->div('postingform-subject-wrapper form-group', $subjectInput);
+
+            echo $this->html->div('js-rgSmilies postingform-smilies', '');
 
             echo $this->Form->hidden('pid');
-            echo $this->MarkitupEditor->getButtonSet('markItUp_' . $formId);
-            echo $this->MarkitupEditor->editor(
+
+            $editor = $this->MarkitupEditor->getButtonSet('markItUp_' . $formId);
+            $editor .= $this->MarkitupEditor->editor(
                 'text',
                 [
+                    'class' => 'form-control',
                     'parser' => false,
                     'set' => 'default',
                     'skin' => 'macnemo',
@@ -96,6 +103,7 @@ $this->end();
                     'settings' => 'markitupSettings'
                 ]
             );
+            echo $this->Html->div('form-group', $editor);
 
             ?>
             <div class="postingform-buttons">
@@ -116,7 +124,7 @@ $this->end();
                     ['class' => 'btn btn-preview', 'tabindex' => 5]
                 );
 
-                $first = $submitButton . $previewButtton;
+                $first = $this->Html->div('form-group', $submitButton . $previewButtton);
                 echo $this->Html->div('first', $first);
 
                 // middle
@@ -131,6 +139,7 @@ $this->end();
                             'class' => 'btn js-btnCite label'
                         ]
                     );
+                    $citeLink = $this->Html->div('form-group', $citeLink);
                     $middle .= $citeLink;
                 }
 

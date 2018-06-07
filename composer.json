@@ -68,7 +68,6 @@
       "Detectors\\": "./plugins/Detectors/src",
       "Cron\\": "./plugins/Cron/src",
       "Embedly\\": "./plugins/Embedly/src",
-      "Paz\\": "./plugins/Paz/src",
       "MailObfuscator\\": "./plugins/MailObfuscator/src",
       "Markitup\\": "./plugins/Markitup/src",
       "Feeds\\": "./plugins/Feeds/src",

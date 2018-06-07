@@ -8,9 +8,11 @@ echo $this->Layout->navbarBack([
 $this->end();
 ?>
 <div class="user contact">
-    <div class="panel">
-        <?= $this->Layout->panelHeading($this->get('titleForPage'), ['pageHeading' => true]) ?>
-        <div class="panel-content panel-form">
+    <div class="card panel-center">
+        <div class="card-header">
+            <?= $this->Layout->panelHeading($this->get('titleForPage'), ['pageHeading' => true]) ?>
+        </div>
+        <div class="card-body panel-form">
             <?php
             echo $this->Form->create($contact);
             echo $this->element('contacts/contacts-core');

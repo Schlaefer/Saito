@@ -1,0 +1,70 @@
+.postingform {
+  @extend .panel-form;
+
+  // make different font em padding in subject and text visually more harmonic
+  textarea,
+  input[type=text] {
+    @extend .py-2;
+    @extend .px-3;
+  }
+}
+
+.preview-wrapper,
+.postingform {
+  @extend .panel-center;
+}
+
+.preview-wrapper {
+  display: none;
+}
+
+.postingform-info {
+  @extend .small;
+  @extend .text-muted;
+}
+
+.postingform-subject-wrapper {
+  // anchors char-counter
+  position: relative;
+}
+
+.postingform-subject {
+  @extend %schmuckfont;
+
+  font-size: 1.2 * $font-size-base;
+}
+
+.postingform-subject-count {
+  @extend .small;
+  @extend .text-muted;
+
+  position: absolute;
+  bottom: 0;
+  right: 0.2em;
+}
+
+.postingform-subject-progress {
+  position: absolute;
+  height: 2px;
+  bottom: 1px;
+  left: 2px;
+  right: 2px;
+}
+
+/* Buttons below posting form
+// ------------------------------------- */
+.postingform-buttons {
+  @extend .flex-bar;
+
+  @media (max-width: map-get($grid-breakpoints, md)) {
+    flex-direction: column;
+
+    & > .first,
+    & > .middle,
+    & > .last {
+      /// left align elements
+      margin-right: auto;
+      text-align: left;
+    }
+  }
+}

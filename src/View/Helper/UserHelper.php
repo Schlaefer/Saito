@@ -213,7 +213,7 @@ class UserHelper extends AppHelper
                 '',
                 [
                     'class' => $options['class'],
-                    'style' => "width: {$size}px; height: {$size}px; {$style}"
+                    'style' => $style,
                 ]
             );
 

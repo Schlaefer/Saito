@@ -211,7 +211,7 @@ class LayoutHelper extends AppHelper
     public function panelHeading($content, array $options = [])
     {
         $options += [
-            'class' => 'panel-heading',
+            'class' => 'flex-bar-header panel-heading',
             'escape' => true,
             'pageHeading' => false,
             'tag' => 'h2'
@@ -246,7 +246,7 @@ class LayoutHelper extends AppHelper
      */
     public function heading($content, array $options = [])
     {
-        $options += ['class' => '', 'escape' => true];
+        $options += ['id' => '', 'class' => '', 'escape' => true];
         if (is_string($content)) {
             $contentArray = ['middle' => $content];
         } else {
@@ -260,7 +260,7 @@ class LayoutHelper extends AppHelper
             $out .= '</div>';
         }
 
-        return "<div class=\"{$options['class']}\">$out</div>";
+        return "<div id=\"{$options['id']}\" class=\"{$options['class']}\">$out</div>";
     }
 
     /**

@@ -1,0 +1,18 @@
+/******************************************************************************
+ * Adjustment Tablet Portrait or smaller
+ ******************************************************************************/
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+  .threadBox {
+    max-width: 100%;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .threadTree-node {
+    min-width: 10em;
+  }
+
+  .postingLayout-body {
+    margin-top: 1em;
+  }
+}

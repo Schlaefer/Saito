@@ -1,0 +1,138 @@
+.c-category {
+  color: $body-color;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.c-username {
+  color: $body-color;
+}
+
+.solves-isSolved {
+  @extend .text-success;
+}
+
+.postingLayout-main {
+  @extend .flex-lefty;
+}
+
+.postingLayout-aside {
+  @extend .flex-lefty-aside;
+  @extend .panel-info;
+  @extend .small;
+  @extend .text-center;
+}
+
+.postingLayout-aside-item {
+  @extend .mr-3;
+  @extend .mr-lg-0;
+}
+
+.postingLayout-body {
+  @extend .flex-lefty-item;
+}
+
+.postingLayout-actions {
+  @extend .panel-info;
+  @extend .my-3;
+  @extend .p-1;
+}
+
+.postingLayout-actions,
+.postingLayout-body {
+  @extend .px-3;
+}
+
+.postingBody-heading {
+  @extend %schmuckfont;
+
+  font-size: 1.45em;
+  font-weight: normal;
+  margin-bottom: 2px;
+  margin-top: 0;
+
+  .threadInline-slider & {
+    font-size: 1.25em;
+  }
+}
+
+.postingBody-info {
+  @extend .text-muted;
+  @extend .mb-3;
+
+  > .meta {
+    @extend .small;
+  }
+}
+
+.postingBody-text {
+  @extend .mb-3;
+  // break overlong words/links if overflow is hidden by .threadInline-slider
+  word-wrap: break-word;
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.postingBody-signature-divider {
+  @extend .pb-3;
+}
+
+.postingLayout-slider {
+  @extend .panel;
+
+  display: none;
+}
+
+.postingBody-signature {
+  @extend .mb-3;
+  @extend .small;
+  @extend .text-muted;
+
+  text-align: center;
+
+  .richtext img {
+    display: inline;
+  }
+}
+
+/* Smilies
+// ------------------------------------- */
+
+.postingform-smilies {
+  background-color: $input-bg;
+}
+
+.btn-smiley-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 1.4em;
+  width: 1.4em;
+}
+
+.btn-smiley-font,
+.btn-smiley-image {
+  @extend .m-2;
+
+  color: $body-color;
+  background-color: transparent;
+}
+
+/* Inline Opening
+// ------------------------------------- */
+
+.postingLayout {
+  .threadInline-slider & {
+    // visual border for posting in inline-open
+    padding: 0 $spacer $spacer;
+
+    // hide signatures in inline open by default
+    .postingBody-signature {
+      display: none;
+    }
+  }
+}

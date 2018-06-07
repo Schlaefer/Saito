@@ -1,15 +1,24 @@
 <?= $this->Html->css('SaitoSearch.saitosearch') ?>
 
 <div class="container">
-    <div class="searchForm-wrapper">
+    <div class="card panel-form panel-center">
+        <div class="card-body">
         <?php
 
         echo $this->Form->create(null, ['valueSources' => 'query', 'class']);
 
-        echo $this->Form->control('subject');
-        echo $this->Form->control('text');
-        echo $this->Form->control('name');
-
+        echo $this->Html->div(
+            'form-group',
+            $this->Form->control('subject', ['class' => 'form-control'])
+        );
+        echo $this->Html->div(
+            'form-group',
+            $this->Form->control('text', ['class' => 'form-control'])
+        );
+        echo $this->Html->div(
+            'form-group',
+            $this->Form->control('name', ['class' => 'form-control'])
+        );
         ?>
 
         <div class="form-row">
@@ -32,12 +41,16 @@
         </div>
 
         <?php
-        echo $this->Form->button(
-            __('search_submit'),
-            ['class' => 'btn btn-primary', 'type' => 'submit']
+        echo $this->Html->div(
+            'form-group',
+            $this->Form->button(
+                __('search_submit'),
+                ['class' => 'btn btn-primary', 'type' => 'submit']
+            )
         );
         echo $this->Form->end();
         ?>
+    </div>
     </div>
 
     <?= $this->element('SaitoSearch.search_results') ?>

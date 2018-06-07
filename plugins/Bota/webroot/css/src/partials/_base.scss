@@ -1,0 +1,62 @@
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  // em to have those represented in the current context (e.g. .small)
+  font-size: 1.2em;
+  line-height: 1.5em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+ins {
+  text-decoration: inherit;
+}
+
+%highlight-hover {
+  background: $list-group-hover-bg;
+}
+
+%schmuckfont {
+  font-family: 'Fenix', Serif;
+  text-rendering: optimizeLegibility;
+}
+
+%ul {
+  margin-bottom: 1em;
+  padding-left: 0;
+  list-style-type: none;
+  position: relative;
+}
+
+%li {
+  &::before {
+    content: "\2022";
+    display: block;
+    position: absolute;
+    left: -1em;
+  }
+}
+
+u {
+  text-decoration: underline;
+}
+
+.nbsp {
+  white-space: nowrap;
+}
+
+code,
+pre,
+tt {
+  line-height: inherit;
+}
