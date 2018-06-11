@@ -106,4 +106,14 @@ class SearchesControllerTest extends IntegrationTestCase
         $this->expectException(SaitoForbiddenException::class);
         $this->get('/searches/advanced?subject=Third+Thread+First_Subject&category_id=1');
     }
+
+    public function testSearchAdvancedUserPostings()
+    {
+        $this->_loginUser(1);
+
+        $this->get('/searches/advanced?name=Alice');
+
+        $results = $this->viewVariable('results');
+        $this->assertNotEmpty($results);
+    }
 }

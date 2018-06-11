@@ -132,7 +132,7 @@ class SearchesController extends AppController
         $categories = $this->CurrentUser->Categories->getAll('read', 'select');
         $this->set('categories', $categories);
 
-        if (empty($queryData['subject']) && empty($queryData['text'])) {
+        if (empty($queryData['subject']) && empty($queryData['text']) && empty($queryData['name'])) {
             // just show form;
             return;
         }

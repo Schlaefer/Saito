@@ -11,7 +11,7 @@ $this->element('users/menu');
 $urlToHistory = [
     'controller' => 'searches',
     'action' => 'advanced',
-    '?' => ['name' => $user->get('username'), 'nstrict' => 1]
+    '?' => ['name' => $user->get('username')]
 ];
 
 $table = [
