@@ -3,7 +3,7 @@
 $config = [
     'Saito' =>
         [
-            'v' => '5.0.0-dev',
+            'v' => '5.0.0',
             'saitoHomepage' => 'http://saito.siezi.com'
         ]
 ];
