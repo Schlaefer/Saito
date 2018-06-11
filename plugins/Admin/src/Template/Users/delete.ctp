@@ -25,7 +25,7 @@
                 '#deleteModal',
                 ['class' => 'btn btn-danger', 'data-toggle' => 'modal']
             );
-            ?>
+?>
         </div>
     </div>
 </div>

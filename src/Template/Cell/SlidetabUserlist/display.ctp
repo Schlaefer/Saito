@@ -20,7 +20,7 @@
                 $registered
             ]
         );
-        ?>
+?>
     </h4>
 </div>
 <div class="slidetab-content">

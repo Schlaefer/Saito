@@ -11,7 +11,7 @@ $this->Breadcrumbs->add(__('Users'), false);
         ['action' => 'add'],
         ['class' => 'btn btn-primary']
     )
-    ?>
+?>
     <hr/>
     <table id="usertable" class="table table-striped">
         <thead>

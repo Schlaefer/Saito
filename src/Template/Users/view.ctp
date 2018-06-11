@@ -239,7 +239,7 @@ if ($items) {
         }
         if ($panel) { ?>
             <div class="card-footer"><?= $panel ?></div>
-        <?php
+            <?php
         }
         ?>
     </div>
@@ -327,11 +327,11 @@ if ($items) {
                         });
                     </script>
                 </div>
-            <?php
+                <?php
             }
             ?>
         </div>
-    <?php
+        <?php
     }
     ?>
 </div>

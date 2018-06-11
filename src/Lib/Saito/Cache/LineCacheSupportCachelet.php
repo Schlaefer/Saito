@@ -44,7 +44,7 @@ class LineCacheSupportCachelet extends CacheSupportCachelet implements
      */
     public function onEntryChanged(Event $event)
     {
-        $posting = $event->data()['data'];
+        $posting = $event->getData('data');
         $tid = $posting->get('tid');
         if (!$tid) {
             throw new \InvalidArgumentException('No thread-id in event data.');

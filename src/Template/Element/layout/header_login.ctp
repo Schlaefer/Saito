@@ -14,7 +14,7 @@ if (!$CurrentUser->isLoggedIn()) {
            class='btn btn-link' rel="nofollow">
             <?= $this->Layout->textWithIcon(__('login_btn'), 'sign-in') ?>
         </a>
-    <?php
+        <?php
     }
 } else {
     ?>

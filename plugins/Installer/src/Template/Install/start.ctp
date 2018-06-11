@@ -4,7 +4,7 @@
         $this->request->getRequestTarget(),
         ['class' => 'btn btn-primary']
     );
-?>
+    ?>
 <div class="jumbotron">
     <h1>
 <?= __d('installer', 'title') ?></h1>
@@ -69,13 +69,13 @@ if (!$database) {
             <?= __d('installer', 'populate.explanation') ?>
 
         </p>
-        <?php
+            <?php
             echo $this->Form->create(null);
             echo $this->Form->control('username', ['label' => __d('installer', 'populate.form.username')]);
             echo $this->Form->control('password', ['type' => 'text', 'label' => __d('installer', 'populate.form.password')]);
             echo $this->Form->submit(__d('installer', 'populate.form.submit'), ['class' => 'btn btn-primary']);
             echo $this->Form->end();
-        ?>
+            ?>
         <?php else : ?>
         <div class="alert alert-success">
             <?= __d('installer', 'populate.success') ?>
@@ -109,10 +109,10 @@ $secured = (Cake\Utility\Security::getSalt() !== '__SALT__')
                 <?= __d('installer', 'salt.explanation') ?>
             </p>
             <pre>
-    <?= Cake\Utility\Security::randomString(64) ?>
+            <?= Cake\Utility\Security::randomString(64) ?>
             </pre>
             <pre>
-    <?= Cake\Utility\Security::randomString(64) ?>
+            <?= Cake\Utility\Security::randomString(64) ?>
             </pre>
             <p class="card-text text-white bg-danger p-3">
                 <?= __d('installer', 'salt.warning') ?>

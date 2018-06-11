@@ -42,7 +42,7 @@ $schemaMeta = [];
                             $entry->get('user'),
                             $CurrentUser
                         );
-                        ?></span>,
+?></span>,
                 </span>
 
                 <span class="meta">
@@ -119,7 +119,7 @@ $schemaMeta = [];
             );
             ?>
         </footer>
-    <?php
+        <?php
     endif;
     array_walk(
         $schemaMeta,

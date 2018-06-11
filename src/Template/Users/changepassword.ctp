@@ -12,7 +12,7 @@ $this->end();
             __('change_password_link'),
             ['pageHeading' => true]
         )
-        ?>
+?>
     </div>
     <div class="card-body panel-form">
         <?= $this->Form->create(null) ?>

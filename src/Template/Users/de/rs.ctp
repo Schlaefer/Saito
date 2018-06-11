@@ -9,7 +9,7 @@ $this->end();
         __('register_linkname'),
         ['pageHeading' => true]
     )
-    ?>
+?>
     <div class="panel-content richtext">
         <?php if ($status === 'activated') : ?>
             <h2>Registrierung abgeschlossen</h2>

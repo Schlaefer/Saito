@@ -8,7 +8,7 @@
         ['action' => 'add'],
         ['class' => 'btn btn-primary']
     )
-    ?>
+?>
 </p>
 <hr/>
 <table cellpadding="0" cellspacing="0"
