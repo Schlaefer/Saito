@@ -17,6 +17,11 @@ use Cake\Controller\Component\AuthComponent;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 
+/**
+ * Api App Controller
+ *
+ * @property CurrentUserComponent $CurrentUser
+ */
 class ApiAppController extends AppController
 {
     /**

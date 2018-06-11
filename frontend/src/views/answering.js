@@ -1,19 +1,20 @@
 import $ from 'jquery';
 import _ from 'underscore';
-import Bb from 'backbone';
+import Bb, { Collection } from 'backbone';
 import Mn from 'backbone.marionette';
 import App from 'models/app';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderView from 'modules/uploader/uploader';
 import MediaInsertView from 'views/mediaInsert';
 import EditCountdown from 'views/editCountdown';
-import PreviewModel from 'models/preview';
+import PreviewModel from 'models/preview.ts';
 import PreviewView from './preview.ts';
 import SmiliesCl from '../collections/smiliesCl';
 import SmiliesVw from 'views/answeringSmiliesVw';
 import autosize from 'autosize';
 import 'lib/saito/jquery.scrollIntoView';
 import 'lib/saito/jquery.insertAtCaret';
+import { CakeFormErrorView } from 'lib/saito/CakeFormErrorView.ts';
 
 export default Mn.View.extend({
   regions: {
@@ -233,7 +234,47 @@ export default Mn.View.extend({
         model: previewModel
       });
     }
-    this.preview.model.set('data', this.$('form').serialize());
+
+    if (!this.errorVw) {
+      this.errorVw = new CakeFormErrorView({
+          el: this.$('form'),
+          collection: new Collection(),
+      });
+    }
+
+    this.preview.model.save(
+      {
+        category_id: this.$('#category-id').val(),
+        pid: this.$('input[name=pid]').val(),
+        html: null,
+        subject: this.$('.js-subject').val(),
+        text: this.$('textarea').val(),
+      },
+      {
+        error: (model, response, options) => {
+          // render preview empty
+          model.set('html', '');
+
+          if (!('errors' in response.responseJSON)) {
+            App.eventBus.trigger('notification', {
+              // @todo l10n
+              message: 'Error while fetching preview.',
+              type: 'error',
+            });
+
+            return;
+          }
+
+          this.errorVw.collection.reset(response.responseJSON.errors);
+        },
+        success: (mode, response, options) => {
+          this.errorVw.collection.reset();
+        }
+      }
+    ).always(() => {
+          this.errorVw.render();
+          this.preview.render();
+    });
   },
 
   _closePreview: function (event) {
@@ -266,14 +307,12 @@ export default Mn.View.extend({
   },
 
   _onFormReady: function () {
-    var _$data, _entry;
+    var _entry;
     this._setupTextArea();
     this._updateSubjectCharCount();
 
-    _$data = this.$('.js-data');
-    if (_$data.length > 0 && _$data.data('meta').action === 'edit') {
-      _entry = this.$('.js-data').data('entry');
-      this.model.set(_entry, { silent: true });
+    const data = this.$('.js-data').data();
+    if ('action' in data && data.action === 'edit') {
       this._addCountdown();
     }
     App.eventBus.trigger('change:DOM');
@@ -345,10 +384,11 @@ export default Mn.View.extend({
   },
 
   _sendInline: function (event) {
-    var data, disable, fail, success;
     event.preventDefault();
-    data = this.$('#EntryAddForm').serialize();
-    success = _.bind(function (data) {
+
+    const data = this.$('#EntryAddForm').serialize();
+
+    const success = _.bind(function (data) {
       this.model.set({ isAnsweringFormShown: false });
       if (this.options.parentThreadline !== null) {
         this.options.parentThreadline.set('isInlineOpened', false);
@@ -360,7 +400,8 @@ export default Mn.View.extend({
         isNewToUser: true
       });
     }, this);
-    fail = _.bind(function (jqXHR, text) {
+
+    const fail = _.bind(function (jqXHR, text) {
       this.sendInProgress = false;
       this._enable();
       App.eventBus.trigger('notification', {
@@ -369,7 +410,8 @@ export default Mn.View.extend({
         message: jqXHR.responseText
       });
     }, this);
-    disable = _.bind(this._disable, this);
+
+    const disable = _.bind(this._disable, this);
 
     $.ajax({
       url: this._requestUrl,

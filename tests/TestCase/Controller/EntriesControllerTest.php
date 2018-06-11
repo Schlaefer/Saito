@@ -573,54 +573,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertNoRedirect();
     }
 
-    public function testPreviewNotLoggedIn()
-    {
-        $url = '/entries/preview';
-        $this->get($url);
-        $this->assertRedirectLogin($url);
-    }
-
-    public function testPreviewIsAjax()
-    {
-        $this->_loginUser(1);
-        $this->expectException(
-            '\Cake\Http\Exception\BadRequestException',
-            null,
-            1434128359
-        );
-        $this->get('/entries/preview');
-    }
-
-    public function testPreviewIsPut()
-    {
-        $this->_setAjax();
-        $this->_loginUser(1);
-        $this->expectException(
-            '\Cake\Http\Exception\BadRequestException',
-            null,
-            1434128359
-        );
-        $this->get('/entries/preview');
-    }
-
-    public function testPreviewSuccess()
-    {
-        $this->_setJson();
-        $this->_setAjax();
-        $this->_loginUser(1);
-        $data = [
-            'pid' => 1,
-            'category_id' => 2,
-            'subject' => 'hot',
-            'text' => 'fuzz'
-        ];
-        $this->mockSecurity();
-        $this->post('/entries/preview', $data);
-        $this->assertResponseOk();
-        $this->assertNoRedirect();
-        $this->assertResponseContains('fuzz');
-    }
-
     /**
      * anon user views posting available for him
      */

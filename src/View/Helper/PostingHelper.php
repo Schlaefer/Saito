@@ -106,7 +106,8 @@ class PostingHelper extends AppHelper
                 'error' => ['notEmpty' => __('error_category_empty')],
                 'templates' => [
                     'inputContainer' => '{{content}}',
-                ]
+                ],
+                'required' => 'required',
             ]
         );
         $html = $this->Html->div('form-group d-flex', $html);

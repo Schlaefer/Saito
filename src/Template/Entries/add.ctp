@@ -63,7 +63,7 @@ $this->end();
 
         <div class="card-body" style="position: relative;">
             <?php
-            echo $this->Form->create($posting, ['autocomplete' => 'off']);
+            echo $this->Form->create($posting, ['id' => 'EntryAddForm', 'autocomplete' => 'off']);
             echo $this->Posting->categorySelect($posting, $categories);
 
             $subject = (!empty($citeSubject)) ? $citeSubject : __('Subject');

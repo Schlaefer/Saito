@@ -18,10 +18,10 @@ class Entry extends Entity implements BasicPostingInterface
      * Mutator for "text" property
      *
      * @param string $text content for "text"
-     * @return string
+     * @return null|string
      */
     //@codingStandardsIgnoreStart
-    public function _setText(string $text)
+    public function _setText(?string $text)
     {
     //@codingStandardsIgnoreEnd
         if (empty($text)) {

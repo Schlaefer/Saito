@@ -8,40 +8,18 @@ export default class extends View<Model> {
 
     constructor(options: any = {}) {
         options = _.extend(options, {
-            className: 'list-group-item flex-column align-items-start',
-            events: {
-                'click @ui.btnDelete': 'handleDelete',
-                'click @ui.btnEdit': 'handleEdit',
-                'click @ui.btnSave': 'handleSave',
-            },
             modelEvents: {
-                'change:fetchingData': '_fetchingData',
-                'change:rendered': 'render',
+                'change:html': 'render',
             },
-            regions: {
-                rgComment: '.js-comment',
-            },
-            template: _.template('<%= rendered %>'),
-            ui: {
-                btnDelete: '.js-delete',
-                btnEdit: '.js-edit',
-                btnSave: '.js-save',
-                comment: '.js-comment',
-            },
+            template: _.template('<%= html %>'),
         });
         super(options);
     }
 
     public getTemplate() {
-        if (this.model.get('fetchingData')) {
+        if (this.model.get('html') === null) {
             return spinnerTpl;
         }
         return this.template;
-    }
-
-    private _fetchingData() {
-        if (this.model.get('fetchingData')) {
-            this.render();
-        }
     }
 }

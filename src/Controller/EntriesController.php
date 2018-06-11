@@ -21,7 +21,6 @@ use Cake\I18n\Time;
 use Cake\Network\Exception\MethodNotAllowedException;
 use Cake\Network\Http\Response;
 use Cake\Routing\RequestActionTrait;
-use Cake\View\Helper\IdGeneratorTrait;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\User\ForumsUserInterface;
@@ -38,7 +37,6 @@ use Stopwatch\Lib\Stopwatch;
  */
 class EntriesController extends AppController
 {
-    use IdGeneratorTrait;
     use RequestActionTrait;
 
     public $helpers = ['MarkitupEditor', 'Posting', 'Text'];
@@ -55,6 +53,7 @@ class EntriesController extends AppController
     public function initialize()
     {
         parent::initialize();
+
         $this->loadComponent('Referer');
         $this->loadComponent('MarkAsRead');
         $this->loadComponent('Threads');
@@ -256,7 +255,7 @@ class EntriesController extends AppController
                     if ($this->Referer->wasAction('index')) {
                         //= inline answer
                         $json = json_encode(
-                            ['id' => $id, 'pid' => $pid, 'tid' => $id]
+                            ['id' => $id, 'pid' => $pid, 'tid' => $tid]
                         );
                         $this->response = $this->response->withType('json');
                         $this->response = $this->response->withStringBody($json);
@@ -527,74 +526,6 @@ class EntriesController extends AppController
     }
 
     /**
-     * Generate posting preview for JSON frontend.
-     *
-     * @return \Cake\Network\Response|void
-     * @throws BadRequestException
-     * @throws ForbiddenException
-     */
-    public function preview()
-    {
-        if (!$this->request->is(['post', 'put']) // @bogus PUT: preview in edit form becomes PUT
-            || !$this->request->is('ajax')) {
-            throw new BadRequestException(null, 1434128359);
-        }
-
-        $data = $this->request->getData();
-        $newEntry = [
-            'id' => 'preview',
-            'pid' => $data['pid'],
-            'subject' => $data['subject'],
-            'text' => $data['text'],
-            'category_id' => $data['category_id'],
-            'edited_by' => null,
-            'fixed' => false,
-            'solves' => 0,
-            'views' => 0,
-            'ip' => '',
-            'time' => new Time()
-        ];
-        $newEntry = $this->Entries->prepareChildPosting($newEntry);
-        $newEntry = $this->Entries->newEntity($newEntry)->toArray();
-
-        $validator = $this->Entries->getValidator();
-        $errors = $validator->errors($newEntry);
-
-        if (empty($errors)) {
-            // no validation errors
-            $newEntry['user'] = $this->CurrentUser->getSettings();
-            $newEntry['category'] = $this->Entries->Categories->find()
-                ->where(['id' => $newEntry['category_id']])
-                ->first();
-            $posting = Registry::newInstance(
-                '\Saito\Posting\Posting',
-                ['rawData' => $newEntry]
-            );
-            $this->set(compact('posting'));
-        } else {
-            // validation errors
-            foreach ($errors as $field => $error) {
-                $message = __d('nondynamic', $field) . ": " . __d('nondynamic', current($error));
-                $this->JsData->addMessage(
-                    $message,
-                    [
-                        'type' => 'error',
-                        'channel' => 'form',
-                        'element' => '#' . $this->_domId($field)
-                    ]
-                );
-            }
-            $this->autoRender = false;
-
-            $this->response = $this->response->withType('json');
-            $body = json_encode($this->JsData->getMessages());
-            $this->response = $this->response->withStringBody($body);
-
-            return $this->response;
-        }
-    }
-
-    /**
      * Merge threads.
      *
      * @param string $sourceId posting-ID of thread to be merged
@@ -673,7 +604,7 @@ class EntriesController extends AppController
 
         $this->Security->setConfig(
             'unlockedActions',
-            ['preview', 'solve', 'view']
+            ['solve', 'view']
         );
         $this->Auth->allow(['index', 'view', 'mix', 'update']);
 

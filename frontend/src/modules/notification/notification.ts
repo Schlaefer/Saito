@@ -68,9 +68,6 @@ class NotificationRenderer extends Mn.Object {
         msg.message = $.i18n.__(msg.message.trim());
 
         switch (msg.channel) {
-            case 'form':
-                this._form(msg);
-                break;
             case 'popover':
             // this._popover(msg);
             // break;
@@ -84,15 +81,6 @@ class NotificationRenderer extends Mn.Object {
         if (msg === 'all') {
             $('.error-message').remove();
         }
-    }
-
-    /**
-     * Render notification as form field error.
-     */
-    private _form(msg) {
-        let tpl;
-        tpl = _.template('<div class="error-message"><%= message %></div>');
-        $(msg.element).after(tpl({ message: msg.message }));
     }
 
     private _showNotification(options: INotification) {

@@ -10,6 +10,7 @@
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
+use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
@@ -17,6 +18,7 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Saito\App\Registry;
@@ -923,12 +925,17 @@ class EntriesTable extends AppTable
         if (isset($id['pid'])) {
             $pid = $id['pid'];
         } else {
+            // @bogus (known code-path: entries/preview)
             if (is_array($id) && isset($id['id'])) {
                 $id = $id['id'];
             } elseif (empty($id)) {
                 throw new \InvalidArgumentException();
             }
-            $pid = $this->getParentId($id);
+            try {
+                $pid = $this->getParentId($id);
+            } catch (\Throwable $t) {
+                $pid = null;
+            }
         }
 
         return empty($pid);

@@ -92,7 +92,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $this->Categories = new Categories($this);
         $this->_User = TableRegistry::get('Users');
 
-        $this->configureAuthentication($this->Auth);
+        $this->initSessionAuth($this->Auth);
 
         // don't auto-login on login related pages
         $excluded = ['login', 'register'];
@@ -265,12 +265,13 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      * @param AuthComponent $auth auth-component to configure
      * @return void
      */
-    protected function configureAuthentication(AuthComponent $auth): void
+    public function initSessionAuth(AuthComponent $auth): void
     {
         if ($auth->getConfig('authenticate')) {
             // different auth configuration already in place (e.g. API)
             return;
         };
+
         $auth->setConfig(
             'authenticate',
             [
