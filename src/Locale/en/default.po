@@ -1346,7 +1346,7 @@ msgstr "Activates the category-chooser on the front-page."
 
 #: src/Template/Users/index.ctp:40
 msgid "user_since {0}"
-msgstr "Mitglied seit {0}"
+msgstr "Joined {0}"
 
 #: src/Template/Users/index.ctp:48
 msgid "Online"

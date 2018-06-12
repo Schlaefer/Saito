@@ -1036,7 +1036,7 @@ msgstr "Registrieren"
 #: src/Template/Element/layout/header_login.ctp:14
 #: src/Template/Element/users/login_form.ctp:47
 msgid "login_btn"
-msgstr "Einloggen"
+msgstr "Anmelden"
 
 #: src/Template/Element/layout/header_login.ctp:22
 #: src/Template/Users/view.ctp:160
@@ -1046,7 +1046,7 @@ msgstr "Profil"
 
 #: src/Template/Element/layout/header_login.ctp:26
 msgid "logout_linkname"
-msgstr "Ausloggen"
+msgstr "Abmelden"
 
 #: src/Template/Element/layout/html_footer.ctp:8
 #, fuzzy
@@ -1104,7 +1104,7 @@ msgstr "Passwort"
 
 #: src/Template/Element/users/login_form.ctp:37
 msgid "auto_login_marking"
-msgstr "an diesem Computer automatisch einloggen"
+msgstr "auf diesem Gerät angemeldet bleiben"
 
 #: src/Template/Element/users/register-form-core.ctp:4
 msgid "register_user_name"
@@ -1372,7 +1372,7 @@ msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
 
 #: src/Template/Users/index.ctp:40
 msgid "user_since {0}"
-msgstr ""
+msgstr "Mitglied seit {0}"
 
 #: src/Template/Users/index.ctp:48
 msgid "Online"
