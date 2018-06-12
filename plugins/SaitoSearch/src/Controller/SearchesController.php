@@ -103,6 +103,7 @@ class SearchesController extends AppController
         $this->set('omittedWords', $searchString->getOmittedWords());
         $this->set('minWordLength', $searchString->getMinWordLength());
         $this->set('results', $results);
+        $this->set('showBottomNavigation', true);
     }
 
     /**
@@ -162,5 +163,6 @@ class SearchesController extends AppController
 
         $results = $this->paginate($query);
         $this->set(compact('results'));
+        $this->set('showBottomNavigation', true);
     }
 }

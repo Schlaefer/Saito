@@ -290,7 +290,7 @@ export default Marionette.View.extend({
 
   scrollToTop: function (event) {
     event.preventDefault();
-    window.scrollTo(0, 0);
+    window.scrollTo({ behavior: 'smooth', top: 0 });
   },
 
   manuallyMarkAsRead: function (event) {

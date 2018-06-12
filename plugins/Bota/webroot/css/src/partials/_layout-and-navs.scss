@@ -13,6 +13,7 @@ body {
 
 #site {
   @extend .px-md-3;
+  @extend .pb-3;
 
   box-sizing: border-box;
   min-height: 100%;
@@ -47,7 +48,7 @@ body {
 #site-navigation-top,
 #site-navigation-bottom {
   @extend .flex-bar-header;
-  @extend .py-2;
+  @extend .py-2; // extra space for #footer-pinned
 
   white-space: nowrap;
 
@@ -57,6 +58,10 @@ body {
     margin: 0;
     padding: 0;
     font-size: $font-size-base;
+  }
+
+  .btn-paginator {
+    @extend .px-1; // keep paginator buttons together visually
   }
 }
 

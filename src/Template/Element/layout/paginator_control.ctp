@@ -14,12 +14,12 @@ $templates = $templates ?? [];
 $templates = $templates + [
     'counter' => '{{text}}',
     'counterPages' => '{{page}}/{{pages}}',
-    'first' => '<a href="{{url}}" class="btn btn-text">{{text}}</a>',
-    'nextActive' => '<a rel="next" class="btn btn-text" href="{{url}}">{{text}}</a>',
-    'prevActive' => '<a rel="prev" class="btn btn-text" href="{{url}}">{{text}}</a>',
+    'first' => '<a href="{{url}}" class="btn btn-link btn-paginator">{{text}}</a>',
+    'nextActive' => '<a rel="next" class="btn btn-link btn-paginator" href="{{url}}">{{text}}</a>',
+    'prevActive' => '<a rel="prev" class="btn btn-link btn-paginator" href="{{url}}">{{text}}</a>',
 ];
 
-$this->Paginator->setConfig('templates', $templates);
+$this->Paginator->setTemplates($templates);
 
 if ($this->Paginator->current() > 2) {
     $paginatorControl .= $this->Paginator->first(

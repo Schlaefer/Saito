@@ -275,7 +275,9 @@ class UsersController extends AppController
         ];
         $users = $this->paginate($this->Users);
 
-        $this->set(compact('menuItems', 'users'));
+        $showBottomNavigation = true;
+
+        $this->set(compact('menuItems', 'showBottomNavigation', 'users'));
     }
 
     /**
