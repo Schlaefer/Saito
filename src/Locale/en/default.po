@@ -603,10 +603,6 @@ msgstr ""
 msgid "Invalid bookmark."
 msgstr ""
 
-#: plugins/Embedly/src/View/Helper/EmbedlyHelper.php:36
-msgid "Embed.ly API-key not set."
-msgstr ""
-
 #: plugins/SaitoHelp/src/Controller/SaitoHelpsController.php:50
 msgid "sh.nf"
 msgstr "Help file not found."

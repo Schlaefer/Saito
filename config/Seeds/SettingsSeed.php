@@ -31,8 +31,6 @@ class SettingsSeed extends AbstractSeed
             ['name' => 'email_contact', 'value' => ''],
             ['name' => 'email_register', 'value' => ''],
             ['name' => 'email_system', 'value' => ''],
-            ['name' => 'embedly_enabled', 'value' => '0'],
-            ['name' => 'embedly_key', 'value' => ''],
             ['name' => 'forum_disabled', 'value' => '0'],
             ['name' => 'forum_disabled_text', 'value' => 'We\'ll back soon'],
             ['name' => 'forum_email', 'value' => ''],

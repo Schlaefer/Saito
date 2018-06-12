@@ -333,22 +333,6 @@ msgid "flattr_language_exp"
 msgstr "Sprache, die flattr den hereinzeigenden Verweisen zuordnet. Siehe Doku auf flattr.com für Kürzel."
 
 #
-msgid "embedly_enabled"
-msgstr "Embed.ly aktivieren"
-
-#
-msgid "embedly_enabled_exp"
-msgstr "Aktiviert den [embed]-BBcode, welcher seinen Inhalt durch Embed.ly darstellt."
-
-#
-msgid "embedly_key"
-msgstr "Embed.ly Key"
-
-#
-msgid "embedly_key_exp"
-msgstr "API-Schlüssel, den man nach der Registrierung bei Embed.ly erhält."
-
-#
 msgid "stopwatch_get"
 msgstr "Stopuhr"
 

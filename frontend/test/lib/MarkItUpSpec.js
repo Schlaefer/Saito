@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import MarkitUpMedia from 'lib/saito/markItUp.media';
+import { MarkItUpMultimedia } from 'lib/saito/markItUp.media.ts';
 
 describe("markItUp library", function () {
 
@@ -10,7 +10,7 @@ describe("markItUp library", function () {
       expected,
       markItUp;
 
-    markItUp = MarkitUpMedia;
+    markItUp = new MarkItUpMultimedia();
 
     $.each(['m4a', 'ogg', 'mp3', 'wav', 'opus'], function (key, value) {
       it("outputs an [audio] tag for " + value + " files on end of url", function () {
@@ -44,12 +44,19 @@ describe("markItUp library", function () {
       });
     });
 
+    it("does nothing on empty input", function () {
+      input = '';
+      result = markItUp.multimedia(input);
+      expected = '';
+      expect(result).toEqual(expected);
+    });
+
     it("outputs an [iframe] tag for <iframe> tags", function () {
       input = '<iframe src="http://www.youtube.com/embed/qa-4E8ZDj9s" width="560" ' +
         'height="315" frameborder="0" allowfullscreen></iframe>';
       result = markItUp.multimedia(input);
-      expected = '[iframe src=http://www.youtube.com/embed/qa-4E8ZDj9s width=560 ' +
-        'height=315 frameborder=0 allowfullscreen][/iframe]';
+      expected = '[iframe src=http://www.youtube.com/embed/qa-4E8ZDj9s ' +
+        'width=560 height=315 frameborder=0 allowfullscreen][/iframe]';
       expect(result).toEqual(expected);
     });
 
@@ -64,7 +71,7 @@ describe("markItUp library", function () {
       input = 'http://www.youtube.com/watch?v=qa-4E8ZDj9s';
       result = markItUp.multimedia(input);
       expected = '[iframe src=//www.youtube-nocookie.com/embed/qa-4E8ZDj9s' +
-        ' width=560 height=315 frameborder=0 allowfullscreen=allowfullscreen][/iframe]';
+        ' allowfullscreen=allowfullscreen frameborder=0 height=315 width=560][/iframe]';
       expect(result).toEqual(expected);
     });
 
@@ -72,7 +79,7 @@ describe("markItUp library", function () {
       input = 'www.youtube.com/watch?v=0u8KUgUqprw';
       result = markItUp.multimedia(input);
       expected = '[iframe src=//www.youtube-nocookie.com/embed/0u8KUgUqprw' +
-        ' width=560 height=315 frameborder=0 allowfullscreen=allowfullscreen][/iframe]';
+        ' allowfullscreen=allowfullscreen frameborder=0 height=315 width=560][/iframe]';
       expect(result).toEqual(expected);
     });
 
@@ -80,20 +87,13 @@ describe("markItUp library", function () {
       input = 'http://youtu.be/qa-4E8ZDj9s';
       result = markItUp.multimedia(input);
       expected = '[iframe src=//www.youtube-nocookie.com/embed/qa-4E8ZDj9s' +
-        ' width=560 height=315 frameborder=0 allowfullscreen=allowfullscreen][/iframe]';
-      expect(result).toEqual(expected);
-    });
-
-    it("outputs nothing for embed.ly if embed.ly is disabled", function () {
-      input = 'https://twitter.com/apfelwiki/status/211385090444505088';
-      result = markItUp.multimedia(input);
-      expected = '';
+        ' allowfullscreen=allowfullscreen frameborder=0 height=315 width=560][/iframe]';
       expect(result).toEqual(expected);
     });
 
     it("outputs [embed] tag to use embed.ly as fallback", function () {
       input = 'https://twitter.com/apfelwiki/status/211385090444505088';
-      result = markItUp.multimedia(input, { embedlyEnabled: true });
+      result = markItUp.multimedia(input);
       expected = '[embed]' + input + '[/embed]';
       expect(result).toEqual(expected);
     });

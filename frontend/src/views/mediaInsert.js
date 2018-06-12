@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
-import MarkItUpMedia from 'lib/saito/markItUp.media';
+import { MarkItUpMultimedia } from 'lib/saito/markItUp.media.ts';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import mediaInsertTpl from 'templates/mediaInsert.html';
 
@@ -28,10 +28,9 @@ export default Marionette.View.extend({
   _insert: function (event) {
     event.preventDefault();
 
-    const markItUpMedia = MarkItUpMedia;
+    const markItUpMedia = new MarkItUpMultimedia();
     const out = markItUpMedia.multimedia(
-      this.getUI('textarea').val(),
-      { embedlyEnabled: App.settings.get('embedly_enabled') === true }
+      this.getUI('textarea').val()
     );
 
     if (out === '') {

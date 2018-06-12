@@ -15,6 +15,9 @@ use Saito\User\Userlist\UserlistModel;
 class BbcodeParserTest extends SaitoTestCase
 {
 
+    /**
+     * @var Parser
+     */
     protected $_Parser = null;
 
     public function testBold()
@@ -1009,39 +1012,21 @@ EOF;
         $this->assertEquals($result, $expected);
     }
 
-    public function testEmbedlyDisabled()
+    public function testEmbed()
     {
-        $observer = $this->getMockBuilder('Embedly')
-            ->setMethods(['setApiKey', 'embedly'])
-            ->getMock();
-        $observer->expects($this->never())
-            ->method('setApiKey');
-        $this->_Helper->Embedly = $observer;
-        $input = '[embed]foo[/embed]';
-        $this->_Parser->parse($input);
-    }
-
-    public function testEmbedlyEnabled()
-    {
-        $observer = $this->getMockBuilder('Embedly')
-            ->setMethods(['setApiKey', 'embedly'])
-            ->getMock();
-        $observer->expects($this->once())
-            ->method('setApiKey')
-            ->with($this->equalTo('abc123'));
-        $observer->expects($this->once())
-            ->method('embedly')
-            ->with($this->equalTo('foo'));
-        $this->_Helper->Embedly = $observer;
         $input = '[embed]foo[/embed]';
 
-        $this->_Parser->parse(
-            $input,
-            [
-                'embedly_enabled' => true,
-                'embedly_key' => 'abc123'
-            ]
-        );
+        $result = $this->_Parser->parse($input);
+
+        $expected = [
+            'div' => [
+                'class' => 'js-embed',
+            ],
+            'foo',
+            '/div',
+        ];
+
+        $this->assertHtml($expected, $result);
     }
 
     public function testHtml5Audio()

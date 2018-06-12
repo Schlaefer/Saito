@@ -616,10 +616,6 @@ msgstr ""
 msgid "Invalid bookmark."
 msgstr "Lesezeichen konnte nicht gefunden werden."
 
-#: plugins/Embedly/src/View/Helper/EmbedlyHelper.php:36
-msgid "Embed.ly API-key not set."
-msgstr ""
-
 #: plugins/SaitoHelp/src/Controller/SaitoHelpsController.php:50
 msgid "sh.nf"
 msgstr "Hilfe-Datei nicht gefunden."
@@ -2161,21 +2157,6 @@ msgstr "Gestern"
 #~ msgstr ""
 #~ "Maximale Anzahl von Dateien, die ein einzelner Benutzer gleichzeitig auf "
 #~ "dem Server hochgeladen haben kann."
-
-#~ msgid "embedly_enabled"
-#~ msgstr "Embed.ly aktivieren"
-
-#~ msgid "embedly_enabled_exp"
-#~ msgstr ""
-#~ "Aktiviert den [embed]-BBcode, welcher seinen Inhalt durch Embed.ly "
-#~ "darstellt."
-
-#~ msgid "embedly_key"
-#~ msgstr "Embed.ly Key"
-
-#
-#~ msgid "embedly_key_exp"
-#~ msgstr "API-Key, den man nach der Registrierung bei Embed.ly erhält."
 
 #~ msgid "stopwatch_get"
 #~ msgstr "Stopuhr"

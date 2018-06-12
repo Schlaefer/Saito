@@ -27,8 +27,6 @@ class SettingsController extends AdminAppController
         'category_chooser_user_override' => 1,
         'edit_delay' => 1,
         'edit_period' => 1,
-        'embedly_enabled' => 1,
-        'embedly_key' => 1,
         'email_contact' => 1,
         'email_register' => 1,
         'email_system' => 1,

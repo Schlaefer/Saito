@@ -62,17 +62,7 @@ class Embed extends CodeDefinition
      */
     protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
-        if (empty($this->_sOptions['embedly_enabled'])) {
-            return __('[embed] tag not enabled.');
-        }
-
-        $this->Embedly->setApiKey($this->_sOptions['embedly_key']);
-        $embedly = $this->Embedly->embedly($content);
-        if ($embedly !== false) {
-            return $embedly;
-        }
-
-        return __('Embedding failed.');
+        return '<div class="js-embed">' . $content . '</div>';
     }
 }
 

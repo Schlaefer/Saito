@@ -71,7 +71,6 @@ class Application extends BaseApplication
         Plugin::load('Commonmark');
         Plugin::load('Cron');
         Plugin::load('Detectors');
-        Plugin::load('Embedly');
         Plugin::load('MailObfuscator');
         Plugin::load('Markitup');
         Plugin::load('Bota');

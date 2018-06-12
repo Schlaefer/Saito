@@ -60,9 +60,6 @@ class JsDataHelper extends AppHelper
                 'version' => Configure::read('Saito.v'),
                 'settings' => [
                     'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0),
-                    'embedly_enabled' => (bool)Configure::read(
-                        'Saito.Settings.embedly_enabled'
-                    ),
                     'editPeriod' => (int)Configure::read(
                         'Saito.Settings.edit_period'
                     ),

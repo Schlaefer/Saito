@@ -75,13 +75,6 @@ echo $this->Setting->table(
 );
 
 echo $this->Setting->table(
-    $this->Html->link('Embed.ly', 'http://embed.ly/'),
-    ['embedly_enabled', 'embedly_key'],
-    $Settings,
-    ['nav-title' => 'Embedly']
-);
-
-echo $this->Setting->table(
     __('Debug'),
     ['stopwatch_get'],
     $Settings

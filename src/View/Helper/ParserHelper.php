@@ -28,7 +28,6 @@ class ParserHelper extends AppHelper
     public $helpers = [
         'MailObfuscator.MailObfuscator',
         'Geshi.Geshi',
-        'Embedly.Embedly',
         'Html',
         'Text',
         'Url',

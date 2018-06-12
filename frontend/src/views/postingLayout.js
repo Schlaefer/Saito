@@ -2,7 +2,7 @@ import _ from 'underscore';
 import Marionette from 'backbone.marionette';
 import EventBus from 'app/vent';
 import ActionView from 'views/postingAction';
-import ContentView from 'views/postingContent';
+import { PostingContentView } from 'views/postingContent.ts';
 import SliderView from 'views/postingSlider';
 import SpinnerVw from 'views/spinnerVw';
 
@@ -37,7 +37,7 @@ export default Marionette.View.extend({
     var _entry = this.$('.js-data').data('entry');
     this.model.set(_entry, { silent: true });
 
-    var contentView = new ContentView({
+    var contentView = new PostingContentView({
       el: this.$('.postingBody'),
       model: this.model
     });

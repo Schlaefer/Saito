@@ -5,7 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
-      "max-classes-per-file": [true, 3, "exclude-class-expressions"],
+      "max-classes-per-file": [true, 5, "exclude-class-expressions"],
       "quotemark": [true, "single"]
     },
     "rulesDirectory": [],
