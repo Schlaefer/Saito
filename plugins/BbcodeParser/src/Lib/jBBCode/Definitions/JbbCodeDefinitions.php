@@ -23,7 +23,7 @@ class Email extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($url, $attributes)
+    protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
         return $this->_email($url);
     }
@@ -43,7 +43,7 @@ class EmailWithAttributes extends Email
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         return $this->_email($attributes['email'], $content);
     }
@@ -60,7 +60,7 @@ class Embed extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         if (empty($this->_sOptions['embedly_enabled'])) {
             return __('[embed] tag not enabled.');
@@ -103,7 +103,7 @@ class Iframe extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
         if (empty($attributes['src'])) {
             return false;
@@ -200,7 +200,7 @@ class Flash extends Iframe
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         $match = preg_match(
             "#(?P<url>.+?)\|(?P<width>.+?)\|(?<height>\d+)#is",
@@ -246,19 +246,13 @@ class Image extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($url, $attributes)
+    protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
         // process [img=(parameters)]
         $options = [];
         if (!empty($attributes['img'])) {
             $default = trim($attributes['img']);
             switch ($default) {
-                case 'left':
-                    $options['style'] = 'float: left;';
-                    break;
-                case 'right':
-                    $options['style'] = 'float: right;';
-                    break;
                 default:
                     preg_match(
                         '/(\d{0,3})(?:x(\d{0,3}))?/i',
@@ -278,7 +272,17 @@ class Image extends CodeDefinition
             }
         }
 
-        return $this->Html->image($url, $options);
+        $image = $this->Html->image($url, $options);
+
+        if ($node->getParent()->getTagName() === 'Document') {
+            $image = $this->_sHelper->Html->link(
+                $image,
+                $url,
+                ['escape' => false, 'target' => '_blank']
+            );
+        }
+
+        return $image;
     }
 }
 
@@ -304,7 +308,7 @@ class UlList extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         $listPieces = explode('[*]', $content);
         unset($listPieces[0]);
@@ -326,7 +330,7 @@ class Spoiler extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         $length = mb_strlen(strip_tags($content));
         $minLenght = mb_strlen(__('Spoiler')) + 4;
@@ -418,6 +422,8 @@ EOF;
 class Upload extends CodeDefinition
 //@codingStandardsIgnoreEnd
 {
+    use UrlParserTrait;
+
     protected $_sTagName = 'upload';
 
     protected $_sParseContent = false;
@@ -425,13 +431,24 @@ class Upload extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         $root = Configure::read('Saito.Settings.uploadDirectory');
         $params = $this->_getUploadParams($attributes);
         $params['alt'] = false;
 
-        return $this->_sHelper->Html->image('/useruploads/' . $content, $params);
+        $url = '/useruploads/' . $content;
+        $image = $this->_sHelper->Html->image($url, $params);
+
+        if ($node->getParent()->getTagName() === 'Document') {
+            $image = $this->_sHelper->Html->link(
+                $image,
+                $url,
+                ['escape' => false, 'target' => '_blank']
+            );
+        }
+
+        return $image;
     }
 
     /**
@@ -485,7 +502,7 @@ class Url extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($url, $attributes)
+    protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
         $defaults = ['label' => true];
         // parser may return $attributes = null

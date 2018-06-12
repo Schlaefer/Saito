@@ -3,6 +3,7 @@
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
 use Cake\View\Helper;
+use JBBCode\ElementNode;
 
 abstract class CodeDefinition extends \JBBCode\CodeDefinition
 {
@@ -52,13 +53,13 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
     /**
      * {@inheritDoc}
      */
-    public function asHtml(\JBBCode\ElementNode $el)
+    public function asHtml(ElementNode $el)
     {
         if (!$this->hasValidInputs($el)) {
             return $el->getAsBBCode();
         }
         $content = $this->getContent($el);
-        $parsedString = $this->_parse($content, $el->getAttribute());
+        $parsedString = $this->_parse($content, $el->getAttribute(), $el);
         if ($parsedString === false) {
             return $el->getAsBBCode();
         }
@@ -74,5 +75,5 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
      *
      * @return mixed parsed string or bool false if parsing failed
      */
-    abstract protected function _parse($content, $attributes);
+    abstract protected function _parse($content, $attributes, ElementNode $node);
 }

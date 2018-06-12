@@ -75,7 +75,7 @@ class Html5Audio extends Html5Media
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         return $this->_audio($content);
     }
@@ -90,7 +90,7 @@ class Html5Video extends Html5Media
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         return $this->_video($content);
     }

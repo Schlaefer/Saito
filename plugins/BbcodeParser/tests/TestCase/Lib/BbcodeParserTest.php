@@ -689,69 +689,98 @@ EOF;
         $this->assertNotRegExp($expected, $result);
     }
 
-    public function testExternalImage()
+    public function testExternalImageAbsoluteAutoLinked()
     {
         $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
         Configure::write('Saito.Settings.bbcode_img', true);
 
         // test for standard URIs
-        $input = '[img]http://localhost/img/macnemo.png[/img]';
+        $input = '[img]http://foo.bar/img/macnemo.png[/img]';
         $expected = [
+            'a' => [
+                'href' => 'http://foo.bar/img/macnemo.png',
+                // 'rel' => 'external',
+                'target' => '_blank',
+            ],
             'img' => [
-                'src' => 'http://localhost/img/macnemo.png',
+                'src' => 'http://foo.bar/img/macnemo.png',
                 'alt' => ''
             ]
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
+    }
 
-        // test for URIs without protocol
+    public function testExternalImageRelativeAutoLinked()
+    {
+        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
+        Configure::write('Saito.Settings.bbcode_img', true);
+
+        // test for standard URIs
         $input = '[img]/somewhere/macnemo.png[/img]';
-        $expected = '<img src="' . $this->_Helper->webroot . '/somewhere/macnemo.png" alt=""/>';
-        $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
-
-        // test scaling with 1 parameter
-        $input = '[img=50]http://localhost/img/macnemo.png[/img]';
-        $expected = '<img src="http://localhost/img/macnemo.png" width="50" alt=""/>';
-        $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
-
-        // test scaling with 2 parameters
-        $input = '[img=50x100]http://localhost/img/macnemo.png[/img]';
-        $expected = '<img src="http://localhost/img/macnemo.png" width="50" height="100" alt=""/>';
-        $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
-
-        // float left
-        $input = '[img=left]http://localhost/img/macnemo.png[/img]';
         $expected = [
-            [
-                'img' => [
-                    'src' => 'http://localhost/img/macnemo.png',
-                    'style' => "float: left;",
-                    'alt' => "",
-                ]
+            'a' => [
+                'href' => '/somewhere/macnemo.png',
+                'target' => '_blank',
+            ],
+            'img' => [
+                'src' => '/somewhere/macnemo.png',
+                'alt' => ''
             ]
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
+    }
 
-        // float right
-        $input = '[img=right]http://localhost/img/macnemo.png[/img]';
+    /**
+     * test scaling with 1 parameter
+     */
+    public function testExternalImageAbsoluteAutoLinkedScaledByOne()
+    {
+        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
+        Configure::write('Saito.Settings.bbcode_img', true);
+
+        // test for standard URIs
+        $input = '[img=50]http://foo.bar/img/macnemo.png[/img]';
         $expected = [
-            [
-                'img' => [
-                    'src' => 'http://localhost/img/macnemo.png',
-                    'style' => "float: right;",
-                    'alt' => "",
-                ]
+            'a' => [
+                'href' => 'http://foo.bar/img/macnemo.png',
+                'target' => '_blank',
+            ],
+            'img' => [
+                'src' => 'http://foo.bar/img/macnemo.png',
+                'alt' => '',
+                'width' => '50',
             ]
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
+    }
 
-        Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
+    /**
+     * test scaling with 2 parameter
+     */
+    public function testExternalImageAbsoluteAutoLinkedScaledByTwo()
+    {
+        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
+        Configure::write('Saito.Settings.bbcode_img', true);
+
+        // test for standard URIs
+        $input = '[img=50x100]http://foo.bar/img/macnemo.png[/img]';
+        $expected = [
+            'a' => [
+                'href' => 'http://foo.bar/img/macnemo.png',
+                'target' => '_blank',
+            ],
+            'img' => [
+                'src' => 'http://foo.bar/img/macnemo.png',
+                'alt' => '',
+                'height' => '100',
+                'width' => '50',
+            ]
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
     }
 
     public function testImageNestedInExternalLink()
@@ -786,12 +815,18 @@ EOF;
         Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
     }
 
-    public function testInternalImage()
+    public function testInternalImageAutoLinked()
     {
         //// internal image
         $input = '[upload]test.png[/upload]';
         $expected = [
-            ['img' => ['src' => '/useruploads/test.png']],
+            [
+                'a' => [
+                    'href' => '/useruploads/test.png',
+                    'target' => '_blank',
+                ],
+                'img' => ['src' => '/useruploads/test.png']
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -800,6 +835,10 @@ EOF;
         $input = '[upload width=50 height=60]test.png[/upload]';
         $expected = [
             [
+                'a' => [
+                    'href' => '/useruploads/test.png',
+                    'target' => '_blank',
+                ],
                 'img' =>
                     [
                         'src' => '/useruploads/test.png',
@@ -816,6 +855,24 @@ EOF;
         $expected = "/richtext-linkInfo/";
         $result = $this->_Parser->parse($input);
         $this->assertNotRegExp($expected, $result);
+    }
+
+    public function testInternalImageExternallyLinked()
+    {
+        //// internal image
+        $input = '[url=http://foo.de][upload]test.png[/upload][/url]';
+        $expected = [
+            [
+                'a' => [
+                    'href' => 'http://foo.de',
+                    'rel' => 'external',
+                    'target' => '_blank',
+                ],
+                'img' => ['src' => '/useruploads/test.png']
+            ],
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
     }
 
     public function testSmiliesNoSmiliesInCodeTag()

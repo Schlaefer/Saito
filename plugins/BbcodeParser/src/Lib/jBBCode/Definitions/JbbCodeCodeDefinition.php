@@ -11,7 +11,7 @@ class CodeWithoutAttributes extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes)
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
         $type = 'text';
         if (!empty($attributes['code'])) {
