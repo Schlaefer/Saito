@@ -47,7 +47,7 @@ class SearchesController extends AppController
             $this->Entries->addBehavior('Search.Search');
             $this->loadComponent('Search.Prg');
             $this->Prg->setConfig('actions', ['advanced'], false);
-            $this->Prg->setConfig('queryStringWhitelist', ['page'], false);
+            $this->Prg->setConfig('queryStringWhitelist', [], false);
         }
     }
 
