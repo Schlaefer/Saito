@@ -60,7 +60,7 @@ export default {
 
         if (videoId !== undefined) {
           text = this._createIframe({
-            src: '//www.youtube.com/embed/' + videoId
+            src: '//www.youtube-nocookie.com/embed/' + videoId
           });
         }
 
