@@ -435,7 +435,10 @@ class Upload extends CodeDefinition
     {
         $root = Configure::read('Saito.Settings.uploadDirectory');
         $params = $this->_getUploadParams($attributes);
-        $params['alt'] = false;
+        $params += [
+            'alt' => false,
+            'fullBase' => true,
+        ];
 
         $url = '/useruploads/' . $content;
         $image = $this->_sHelper->Html->image($url, $params);
