@@ -70,7 +70,7 @@ $this->start('theme_header');
                 if ($CurrentUser->permission('saito.core.admin.backend')) {
                     echo $this->Html->link(
                         $this->Layout->textWithIcon(h(__('ial.aa')), 'wrench'),
-                        '/admin',
+                        '/admin/',
                         ['class' => 'btn btn-link', 'escape' => false]
                     );
                 }

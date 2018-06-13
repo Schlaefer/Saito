@@ -135,18 +135,6 @@ class Parser extends \Saito\Markup\Parser
             ]
         ],
         'multimedia' => [
-            'embed' => [
-                'type' => 'class',
-                'title' => 'Embed'
-            ],
-            'flash' => [
-                'type' => 'class',
-                'title' => 'Flash'
-            ],
-            'iframe' => [
-                'type' => 'class',
-                'title' => 'Iframe'
-            ],
             'image' => [
                 'type' => 'class',
                 'title' => 'Image'
@@ -170,8 +158,22 @@ class Parser extends \Saito\Markup\Parser
             'uploadWithAttributes' => [
                 'type' => 'class',
                 'title' => 'UploadWithAttributes'
-            ]
-        ]
+            ],
+        ],
+        'embed' => [
+            'embed' => [
+                'type' => 'class',
+                'title' => 'Embed'
+            ],
+            'flash' => [
+                'type' => 'class',
+                'title' => 'Flash'
+            ],
+            'iframe' => [
+                'type' => 'class',
+                'title' => 'Iframe'
+            ],
+        ],
     ];
 
     /**
@@ -188,6 +190,7 @@ class Parser extends \Saito\Markup\Parser
      * @param array $options options
      * - `return` string "html"|"text" result type
      * - `multimedia` bool true|false parse or ignore multimedia content
+     * - `embed` bool true|false parse or ignore embed content
      *
      * @return mixed|string
      */
@@ -257,6 +260,10 @@ class Parser extends \Saito\Markup\Parser
 
         if (!empty($this->_cSettings['bbcode_img']) && $options['multimedia']) {
             $this->_addDefinitionSet('multimedia', $options);
+        }
+
+        if (!empty($this->_cSettings['bbcode_img']) && $options['embed']) {
+            $this->_addDefinitionSet('embed', $options);
         }
 
         $this->_Preprocessors = new Processors\BbcodeProcessorCollection();

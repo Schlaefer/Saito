@@ -2,10 +2,12 @@
 
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
+use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Plugin\BbcodeParser\src\Lib\Helper\Message;
 use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
 use Saito\DomainParser;
+use Plugin\BbcodeParser\src\Lib\Helper\EmbedWidget;
 
 /**
  * Class Email handles [email]foo@bar.com[/email]
@@ -60,9 +62,9 @@ class Embed extends CodeDefinition
     /**
      * {@inheritDoc}
      */
-    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
+    protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
-        return '<div class="js-embed">' . $content . '</div>';
+        return (new EmbedWidget($url, $this->_sHelper))->render();
     }
 }
 

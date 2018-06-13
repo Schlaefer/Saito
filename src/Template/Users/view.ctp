@@ -133,7 +133,7 @@ if ($user->get('profile')) {
 if ($user->get('signature')) {
     $table[] = [
         __('user_signature'),
-        $this->Parser->parse($user->get('signature'))
+        $this->Parser->parse($user->get('signature'), ['embed' => false])
     ];
 }
 

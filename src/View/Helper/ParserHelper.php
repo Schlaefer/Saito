@@ -106,7 +106,7 @@ class ParserHelper extends AppHelper
             return $string;
         }
 
-        $defaults = ['return' => 'html', 'multimedia' => true, 'wrap' => true];
+        $defaults = ['return' => 'html', 'embed' => true, 'multimedia' => true, 'wrap' => true];
         $options += $defaults;
 
         $cacheId = md5(serialize($options) . $string);

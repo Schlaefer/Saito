@@ -30,7 +30,8 @@
     "friendsofcake/bootstrap-ui": "dev-develop",
     "friendsofcake/search": "^4.4",
     "admad/cakephp-jwt-auth": "^2.3",
-    "claviska/simpleimage": "^3.3"
+    "claviska/simpleimage": "^3.3",
+    "embed/embed": "^3.3"
   },
   "require-dev": {
     "cakephp/bake": "~1.0",
@@ -60,6 +61,7 @@
       "Admin\\Test\\": "./plugins/Admin/tests",
       "Api\\": "./plugins/Api/src",
       "Api\\Test\\": "./plugins/Api/tests",
+      "BbcodeParser\\": "./plugins/BbcodeParser/src",
       "BbcodeParser\\Test\\": "./plugins/BbcodeParser/tests",
       "Bookmarks\\": "./plugins/Bookmarks/src",
       "Bookmarks\\Test\\": "./plugins/Bookmarks/tests",

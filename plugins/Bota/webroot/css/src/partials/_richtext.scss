@@ -87,3 +87,22 @@
 
   padding: 0 0.3em;
 }
+
+.richtext-embed {
+  @media only screen and (min-width: map-get($grid-breakpoints, sm)) {
+    margin: 0 auto;
+    max-width: 75%;
+  }
+
+  .richtext-embed-url {
+    word-break: break-all;
+  }
+
+  .richtext-embed-provider-icon {
+    @extend .mr-2;
+
+    display: inline;
+    max-height: 3em;
+    max-width: 3em;
+  }
+}

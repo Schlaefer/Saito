@@ -115,7 +115,7 @@ $schemaMeta = [];
             ) : true;
             echo $this->Parser->parse(
                 $entry->get('user')->get('signature'),
-                ['multimedia' => $multimedia]
+                ['embed' => false, 'multimedia' => $multimedia]
             );
             ?>
         </footer>

@@ -1016,18 +1016,19 @@ EOF;
         $this->assertEquals($result, $expected);
     }
 
-    public function testEmbed()
+    public function testEmbedNoReplacement()
     {
-        $input = '[embed]foo[/embed]';
+        $input = '[embed]http://no.provider/unreplaced[/embed]';
 
         $result = $this->_Parser->parse($input);
 
         $expected = [
-            'div' => [
-                'class' => 'js-embed',
+            'a' => [
+                'href' => 'http://no.provider/unreplaced',
+                'target' => '_blank',
             ],
-            'foo',
-            '/div',
+            'http://no.provider/unreplaced',
+            '/a',
         ];
 
         $this->assertHtml($expected, $result);
@@ -1057,6 +1058,20 @@ EOF;
     public function setUp()
     {
         Cache::clear();
+
+        if (Cache::getConfig('bbcodeParserEmbed') === null) {
+            Cache::setConfig(
+                'bbcodeParserEmbed',
+                [
+                    'className' => 'File',
+                    'prefix' => 'saito_embed-',
+                    'path' => CACHE,
+                    'groups' => ['embed'],
+                    'duration' => '+1 year'
+
+                ]
+            );
+        }
 
         if (isset($_SERVER['SERVER_NAME'])) {
             $this->server_name = $_SERVER['SERVER_NAME'];
@@ -1126,6 +1141,7 @@ EOF;
         $settings = [
             'autolink' => true,
             'bbcode_img' => true,
+            'embed' => true,
             'multimedia' => true,
             'quote_symbol' => '»',
             'hashBaseUrl' => '/hash/',
