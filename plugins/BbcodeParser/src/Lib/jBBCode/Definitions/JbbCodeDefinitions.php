@@ -117,7 +117,13 @@ class Iframe extends CodeDefinition
         }
         $atrStr = rtrim($atrStr);
 
-        return "<iframe {$atrStr}></iframe>";
+        $html = <<<eof
+<div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" {$atrStr}></iframe>
+</div>
+eof;
+
+        return $html;
     }
 
     /**

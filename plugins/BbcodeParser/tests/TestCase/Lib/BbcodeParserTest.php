@@ -639,7 +639,11 @@ EOF;
             'frameborder=0][/iframe]';
         $expected = [
             [
+                'div' => [
+                    'class' => 'embed-responsive embed-responsive-16by9',
+                ],
                 'iframe' => [
+                    'class' => 'embed-responsive-item',
                     'src' => 'http://www.youtube.com/embed/HdoW3t_WorU?&amp;wmode=Opaque',
                     'height' => '349',
                     'width' => '560',
