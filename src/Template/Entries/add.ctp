@@ -12,6 +12,7 @@ $jsEntry = '{}';
 if ($this->request->getParam('action') === 'edit') {
     $jsEntry = json_encode(
         [
+            // used for countdown on edit button (edit time remaining)
             'time' => $this->TimeH->dateToIso($posting->get('time'))
         ]
     );

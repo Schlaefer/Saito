@@ -73,10 +73,6 @@ export default Mn.View.extend({
     });
     this.options = options;
 
-    if (this.options.ajax === false) {
-      this._onFormReady();
-    }
-
     this._requestUrl = App.settings.get('webroot') +
       'entries/add/' + this.model.get('id');
 
@@ -312,7 +308,8 @@ export default Mn.View.extend({
     this._updateSubjectCharCount();
 
     const data = this.$('.js-data').data();
-    if ('action' in data && data.action === 'edit') {
+    if (_.property(['meta', 'action'], data) && data.meta.action === 'edit') {
+      this.model.set('time', data.entry.time);
       this._addCountdown();
     }
     App.eventBus.trigger('change:DOM');
@@ -424,7 +421,7 @@ export default Mn.View.extend({
   onRender: function () {
     // create new thread on /entries/add
     if (this.options.ajax === false) {
-      return;
+      this._onFormReady();
     } else if (this.answeringForm === false) {
       this._requestAnsweringForm();
     } else if (this.rendered === false) {
