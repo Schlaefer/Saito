@@ -1,7 +1,7 @@
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
 import humanize from 'humanize';
-import SpinnerVw from 'views/spinnerVw';
+import { SpinnerView } from 'views/SpinnerView';
 import Template from '../templates/uploaderAddTpl.html';
 
 export default Marionette.View.extend({
@@ -55,7 +55,7 @@ export default Marionette.View.extend({
    * Sends form-data via ajax
    */
   _send: function (formData) {
-    this.showChildView('spinner', new SpinnerVw());
+    this.showChildView('spinner', new SpinnerView());
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', App.settings.get('apiroot') + 'uploads');

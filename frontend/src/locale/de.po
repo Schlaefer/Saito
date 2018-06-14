@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-05-28 08:14+0200\n"
+"POT-Creation-Date: 2018-06-15 11:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -9,11 +9,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.0.8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: ;__\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Flags-xgettext: --language=JavaScript --force-po -o %o %C %K %F\n"
+"X-Poedit-Flags-xgettext: --language=Python --force-po -o %o %C %K %F\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
@@ -30,7 +30,7 @@ msgstr "Kommentieren"
 msgid "bkm.save.btn"
 msgstr "Lesezeichen speichern"
 
-#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:175
+#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:190
 msgid "upl.title"
 msgstr "Hochladen"
 
@@ -42,45 +42,33 @@ msgstr "Max. :size; jpg, jpeg, png"
 msgid "upl.btn.title"
 msgstr "Hochladen"
 
-#: templates/mediaInsert.html:6
+#: templates/mediaInsert.html:5
 msgid "medins.exp"
 msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
 
-#: templates/mediaInsert.html:11
+#: templates/mediaInsert.html:13
 msgid "medins.insert.btn"
 msgstr "Einbinden"
 
-#: templates/mediaInsert.html:15
+#: templates/mediaInsert.html:18
 msgid "medins.notRecognized"
 msgstr "Nicht erkannt."
-
-#: templates/postingActionDelete.html:8
-msgid "posting.delete.abort.btn"
-msgstr "Abbrechen"
-
-#: templates/postingActionDelete.html:10 views/postingActionDelete.js:46
-msgid "posting.delete.title"
-msgstr "Löschen"
 
 #: lib/saito/templateHelpers.js:42
 msgid "time.relative.yesterday"
 msgstr "Gestern"
 
-#: modules/bookmarks/bookmarksModule.js:38
+#: modules/bookmarks/bookmarksModule.ts:39
 msgid "bkm.failure.loading"
 msgstr "Fehler: Lesezeichen konnten nicht geladen werden."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:86
+#: modules/bookmarks/views/bookmarkItemVw.ts:65
 msgid "bkm.save.failure"
 msgstr "Fehler: Lesezeichen konnte nicht gespeichert werden."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:104
+#: modules/bookmarks/views/bookmarkItemVw.ts:88
 msgid "bkm.delete.failure"
 msgstr "Fehler: Lesezeichen konnte nicht gelöscht werden."
-
-#: modules/bookmarks/views/bookmarksVw.js:10
-msgid "bkm.ncy"
-msgstr "Noch keine Lesezeichen angelegt."
 
 #: modules/uploader/views/uploaderAddVw.js:68
 msgid "upl.failure"
@@ -94,27 +82,31 @@ msgstr "Neues Bild hier hineinwerfen"
 msgid "upl.ncy"
 msgstr "Noch nichts hochgeladen."
 
-#: modules/user/userVw.js:11
+#: modules/user/userVw.ts:15
 msgid "user.recentposts.t"
 msgstr "Letzte Beiträge"
 
-#: modules/user/userVw.js:14
+#: modules/user/userVw.ts:21
 msgid "bkm.title.pl"
 msgstr "Lesezeichen"
 
-#: modules/user/userVw.js:17
+#: modules/user/userVw.ts:26
 msgid "upl.title.pl"
 msgstr "Uploads"
 
-#: views/answering.js:158
+#: views/answering.js:173
 msgid "upl.btn.insert"
 msgstr "Einfügen"
+
+#: views/answering.js:246
+msgid "preview.e.generic"
+msgstr "Fehler: Vorschau konnte nicht geladen werden."
 
 #: views/categoryChooser.js:34
 msgid "category.title.pl"
 msgstr "Kategorien"
 
-#: views/mediaInsert.js:57
+#: views/mediaInsert.js:56
 msgid "medins.title"
 msgstr "Inhalte einbinden"
 
@@ -126,6 +118,18 @@ msgstr "Eintrag ist in den Lesezeichen"
 msgid "bmk.doBookmark"
 msgstr "Eintrag zu den Lesezeichen hinzufügen"
 
+#: views/postingActionDelete.js:25
+msgid "tree.delete.confirm"
+msgstr "Sicher?"
+
+#: views/postingActionDelete.js:29
+msgid "posting.delete.abort.btn"
+msgstr "Abbrechen"
+
+#: views/postingActionDelete.js:31 views/postingActionDelete.js:56
+msgid "posting.delete.title"
+msgstr "Löschen"
+
 #: views/postingActionSolves.js:28
 msgid "posting.helpful"
 msgstr "Beitrag als hilfreich markieren."
@@ -135,3 +139,13 @@ msgid "prq.storage.warning"
 msgstr ""
 "Diese Web-Anwendung benötigt Cookies und localStorage. Bitte stellen Sie "
 "sicher, dass beides gegeben ist."
+
+#: views/preview.ts:43
+msgid "preview.t"
+msgstr "Vorschau"
+
+#~ msgid "error.1529052896"
+#~ msgstr "Fehler {code}: Vorschau konnte nicht gelasen werden."
+
+#~ msgid "bkm.ncy"
+#~ msgstr "Noch keine Lesezeichen angelegt."

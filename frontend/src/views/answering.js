@@ -7,8 +7,7 @@ import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderView from 'modules/uploader/uploader';
 import MediaInsertView from 'views/mediaInsert';
 import EditCountdown from 'views/editCountdown';
-import PreviewModel from 'models/preview.ts';
-import PreviewView from './preview.ts';
+import { PreviewView } from './preview.ts';
 import { SmiliesCollectionView } from 'modules/answering/smilies.ts';
 import autosize from 'autosize';
 import 'lib/saito/jquery.scrollIntoView';
@@ -17,6 +16,7 @@ import { CakeFormErrorView } from 'lib/saito/CakeFormErrorView.ts';
 
 export default Mn.View.extend({
   regions: {
+    preview: '.preview-wrapper',
     smilies: '.js-rgSmilies',
   },
 
@@ -27,8 +27,6 @@ export default Mn.View.extend({
   rendered: false,
 
   answeringForm: false,
-
-  preview: false,
 
   sendInProgress: false,
 
@@ -46,8 +44,8 @@ export default Mn.View.extend({
 
   events: {
     'click .js-btnCite': '_handleCite',
+    'click .js-btnPreview': '_showPreview',
     'click .js-btnPreviewClose': '_closePreview',
-    'click .btn-preview': '_showPreview',
     'click .btn-markItUp-Upload': '_upload',
     'click .btn-markItUp-Media': '_media',
     'click .btn-primary': '_send',
@@ -218,16 +216,12 @@ export default Mn.View.extend({
   },
 
   _showPreview: function (event) {
-    var previewModel;
-    event.preventDefault();
     this.$('.preview-wrapper').slideDown('fast');
-    if (this.preview === false) {
-      previewModel = new PreviewModel();
-      this.preview = new PreviewView({
-        el: this.$('.preview'),
-        model: previewModel
-      });
+
+    if (!this.getChildView('preview')) {
+      this.showChildView('preview', new PreviewView());
     }
+    const preview = this.getChildView('preview');
 
     if (!this.errorVw) {
       this.errorVw = new CakeFormErrorView({
@@ -236,7 +230,7 @@ export default Mn.View.extend({
       });
     }
 
-    this.preview.model.save(
+    preview.model.save(
       {
         category_id: this.$('#category-id').val(),
         pid: this.$('input[name=pid]').val(),
@@ -246,13 +240,9 @@ export default Mn.View.extend({
       },
       {
         error: (model, response, options) => {
-          // render preview empty
-          model.set('html', '');
-
           if (!('errors' in response.responseJSON)) {
             App.eventBus.trigger('notification', {
-              // @todo l10n
-              message: 'Error while fetching preview.',
+              message: $.i18n.__('preview.e.generic'),
               type: 'error',
             });
 
@@ -267,7 +257,6 @@ export default Mn.View.extend({
       }
     ).always(() => {
           this.errorVw.render();
-          this.preview.render();
     });
   },
 

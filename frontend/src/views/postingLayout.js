@@ -4,7 +4,7 @@ import EventBus from 'app/vent';
 import ActionView from 'views/postingAction';
 import { PostingContentView } from 'views/postingContent.ts';
 import SliderView from 'views/postingSlider';
-import SpinnerVw from 'views/spinnerVw';
+import { SpinnerView } from 'views/SpinnerView';
 
 export default Marionette.View.extend({
 
@@ -22,7 +22,7 @@ export default Marionette.View.extend({
   },
 
   _loadData: function (options) {
-    const spinner = (new SpinnerVw()).render();
+    const spinner = (new SpinnerView()).render();
     this.$el.html(spinner.$el);
     this.model.fetchHtml({
       success: _.bind(function () {

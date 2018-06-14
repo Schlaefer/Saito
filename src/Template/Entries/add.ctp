@@ -26,22 +26,7 @@ echo $this->Layout->navbarBack($headerSubnavLeftUrl, $headerSubnavLeftTitle);
 $this->end();
 ?>
 <div class="entry <?= ($isAnswer) ? 'reply' : 'add' ?> <?= ($isInline) ? '' : 'add-not-inline' ?>">
-    <?php
-    $closeButton = $this->Form->button(
-        $this->Layout->textWithIcon('', 'close-widget'),
-        ['class' => 'js-btnPreviewClose close', 'type' => 'button']
-    );
-    // $header = $this->Html->div('card-header', __('preview') . $closeButton);
-    $header = $this->Layout->panelHeading(
-        ['first' => $closeButton, 'middle' => __('preview')],
-        ['class' => 'card-header flex-bar-header', 'escape' => false]
-    );
-
-    $content = $this->Html->div('preview card-body', '');
-
-    echo $this->Html->div('preview-wrapper card mb-3', $header . $content, ['style' => 'display: none;']);
-    ?>
-    <!-- preview -->
+    <div class="preview-wrapper" style="display: none;"></div>
 
     <div class="postingform card">
         <?php
@@ -119,10 +104,14 @@ $this->end();
                         'type' => 'button'
                     ]
                 );
-                $previewButtton = $this->Html->link(
+                $previewButtton = $this->Html->tag(
+                    'button',
                     __('preview'),
-                    '#',
-                    ['class' => 'btn btn-preview', 'tabindex' => 5]
+                    [
+                        'class' => 'js-btnPreview btn btn-secondary',
+                        'tabindex' => 5,
+                        'type' => 'button'
+                    ]
                 );
 
                 $first = $this->Html->div('form-group', $submitButton . $previewButtton);

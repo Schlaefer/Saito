@@ -3,7 +3,7 @@ import Marionette from 'backbone.marionette';
 import AddView from './views/uploaderAddVw';
 import CollectionView from './views/uploaderCollectionVw';
 import UploadsCollection from './collections/uploads.ts';
-import SpinnerVw from 'views/spinnerVw';
+import { SpinnerView } from 'views/SpinnerView';
 import Tpl from './templates/uploaderTpl.html';
 
 export default Marionette.View.extend({
@@ -27,7 +27,7 @@ export default Marionette.View.extend({
    */
   onRender: function () {
     this.showChildView('addRegion', new AddView({ collection: this.collection }));
-    this.showChildView('collectionRegion', new SpinnerVw());
+    this.showChildView('collectionRegion', new SpinnerView());
 
     this.collection.fetch({
       success: collection => {

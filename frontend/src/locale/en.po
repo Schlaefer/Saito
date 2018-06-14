@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-05-28 08:15+0200\n"
+"POT-Creation-Date: 2018-06-15 11:43+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -9,11 +9,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.0.8\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: ;__\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Flags-xgettext: --language=JavaScript --force-po -o %o %C %K %F\n"
+"X-Poedit-Flags-xgettext: --language=Python --force-po -o %o %C %K %F\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
@@ -30,7 +30,7 @@ msgstr "Comment"
 msgid "bkm.save.btn"
 msgstr "Save bookmark."
 
-#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:175
+#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:190
 msgid "upl.title"
 msgstr "Uploads"
 
@@ -42,45 +42,33 @@ msgstr "Max. size: :size; type: jpg, jpeg, png"
 msgid "upl.btn.title"
 msgstr "Upload"
 
-#: templates/mediaInsert.html:6
+#: templates/mediaInsert.html:5
 msgid "medins.exp"
 msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
 
-#: templates/mediaInsert.html:11
+#: templates/mediaInsert.html:13
 msgid "medins.insert.btn"
 msgstr "Insert"
 
-#: templates/mediaInsert.html:15
+#: templates/mediaInsert.html:18
 msgid "medins.notRecognized"
 msgstr "Nothing recognized."
-
-#: templates/postingActionDelete.html:8
-msgid "posting.delete.abort.btn"
-msgstr "Abort"
-
-#: templates/postingActionDelete.html:10 views/postingActionDelete.js:46
-msgid "posting.delete.title"
-msgstr "Löschen"
 
 #: lib/saito/templateHelpers.js:42
 msgid "time.relative.yesterday"
 msgstr "yesterday"
 
-#: modules/bookmarks/bookmarksModule.js:38
+#: modules/bookmarks/bookmarksModule.ts:39
 msgid "bkm.failure.loading"
 msgstr "Error: Bookmarks could not be loaded."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:86
+#: modules/bookmarks/views/bookmarkItemVw.ts:65
 msgid "bkm.save.failure"
 msgstr "Error: Bookmark could not be saved."
 
-#: modules/bookmarks/views/bookmarkItemVw.js:104
+#: modules/bookmarks/views/bookmarkItemVw.ts:88
 msgid "bkm.delete.failure"
 msgstr "Error: Bookmark could not be deleted."
-
-#: modules/bookmarks/views/bookmarksVw.js:10
-msgid "bkm.ncy"
-msgstr "No bookmarks created yet."
 
 #: modules/uploader/views/uploaderAddVw.js:68
 msgid "upl.failure"
@@ -94,27 +82,31 @@ msgstr "Drop Image Here"
 msgid "upl.ncy"
 msgstr "No uploads yet."
 
-#: modules/user/userVw.js:11
+#: modules/user/userVw.ts:15
 msgid "user.recentposts.t"
 msgstr "Recent Postings"
 
-#: modules/user/userVw.js:14
+#: modules/user/userVw.ts:21
 msgid "bkm.title.pl"
 msgstr "Bookmarks"
 
-#: modules/user/userVw.js:17
+#: modules/user/userVw.ts:26
 msgid "upl.title.pl"
 msgstr "Uploads"
 
-#: views/answering.js:158
+#: views/answering.js:173
 msgid "upl.btn.insert"
 msgstr "Insert"
+
+#: views/answering.js:246
+msgid "preview.e.generic"
+msgstr "Error: Couldn't load preview."
 
 #: views/categoryChooser.js:34
 msgid "category.title.pl"
 msgstr "Categories"
 
-#: views/mediaInsert.js:57
+#: views/mediaInsert.js:56
 msgid "medins.title"
 msgstr "Embed Content"
 
@@ -126,6 +118,18 @@ msgstr "Entry is bookmarked"
 msgid "bmk.doBookmark"
 msgstr "Bookmark the entry"
 
+#: views/postingActionDelete.js:25
+msgid "tree.delete.confirm"
+msgstr "Are sure?"
+
+#: views/postingActionDelete.js:29
+msgid "posting.delete.abort.btn"
+msgstr "Abort"
+
+#: views/postingActionDelete.js:31 views/postingActionDelete.js:56
+msgid "posting.delete.title"
+msgstr "Löschen"
+
 #: views/postingActionSolves.js:28
 msgid "posting.helpful"
 msgstr "Mark entry as helpful."
@@ -135,3 +139,13 @@ msgid "prq.storage.warning"
 msgstr ""
 "This web-application depends on Cookies and localStorage. Please make those "
 "available in your browser."
+
+#: views/preview.ts:43 views/preview.ts:57
+msgid "preview.t"
+msgstr "Preview"
+
+#~ msgid "error.1529052896"
+#~ msgstr "Error {code}: Couldn't load preview."
+
+#~ msgid "bkm.ncy"
+#~ msgstr "No bookmarks created yet."

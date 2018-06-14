@@ -2,7 +2,7 @@ import $ from 'jquery';
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
 import AnsweringView from 'views/answering';
-import SpinnerVw from 'views/spinnerVw';
+import { SpinnerView } from 'views/SpinnerView';
 
 export default Marionette.View.extend({
 
@@ -39,7 +39,7 @@ export default Marionette.View.extend({
   _showAnsweringForm: function () {
     App.eventBus.trigger('breakAutoreload');
     if (this.answeringForm === false) {
-      const spinner = (new SpinnerVw()).render();
+      const spinner = (new SpinnerView()).render();
       this.$el.html(spinner.$el);
     }
     this.$el.slideDown('fast');
