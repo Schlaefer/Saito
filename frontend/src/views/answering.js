@@ -9,8 +9,7 @@ import MediaInsertView from 'views/mediaInsert';
 import EditCountdown from 'views/editCountdown';
 import PreviewModel from 'models/preview.ts';
 import PreviewView from './preview.ts';
-import SmiliesCl from '../collections/smiliesCl';
-import SmiliesVw from 'views/answeringSmiliesVw';
+import { SmiliesCollectionView } from 'modules/answering/smilies.ts';
 import autosize from 'autosize';
 import 'lib/saito/jquery.scrollIntoView';
 import 'lib/saito/jquery.insertAtCaret';
@@ -114,10 +113,9 @@ export default Mn.View.extend({
 
     const region = this.getRegion('smilies');
     if (!region.hasView()) {
-      const smilies = new SmiliesCl();
-      const view = new SmiliesVw({ collection: smilies });
+      const view = new SmiliesCollectionView();
+      view.collection.add(window.smiliesData);
       this.showChildView('smilies', view);
-      smilies.add(window.smiliesData);
     }
     region.$el.collapse('toggle');
   },
