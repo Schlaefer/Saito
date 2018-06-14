@@ -1023,12 +1023,12 @@ EOF;
         $result = $this->_Parser->parse($input);
 
         $expected = [
-            'a' => [
-                'href' => 'http://no.provider/unreplaced',
-                'target' => '_blank',
+            'div' => [
+                'class' => 'js-embed',
+                'data-embed' => '{&quot;url&quot;:&quot;http:\/\/no.provider\/unreplaced&quot;}',
+                'id' => 'embed-10478631dd9f8f00da95953f63f6e5f3',
             ],
-            'http://no.provider/unreplaced',
-            '/a',
+            '/div',
         ];
 
         $this->assertHtml($expected, $result);

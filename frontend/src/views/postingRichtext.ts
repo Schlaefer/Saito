@@ -3,6 +3,7 @@ import { View } from 'backbone.marionette';
 import GeshisCollection from 'collections/geshis';
 import * as _ from 'underscore';
 import GeshiView from 'views/geshi';
+import { PostingRichtextEmbedModel, PostingRichtextEmbedView } from './postingRichtextEmbed';
 
 class PostingRichtextView extends View<Model> {
     public constructor(options: any = {}) {
@@ -14,16 +15,32 @@ class PostingRichtextView extends View<Model> {
 
     public onRender() {
         this.initGeshi('.geshi-wrapper');
+        this.initEmbed('.js-embed');
     }
 
     private initGeshi(elementN: string) {
-        const geshiElements = this.$(elementN);
-        if (!geshiElements.length) {
+        const elements = this.$(elementN);
+        if (!elements.length) {
             return;
         }
         const geshis = new GeshisCollection();
-        geshiElements.each((key, element) => {
+        elements.each((key, element) => {
             const view = new GeshiView({ el: element, collection: geshis });
+        });
+    }
+
+    private initEmbed(elementN: string) {
+        const elements = this.$(elementN);
+        if (!elements.length) {
+            return;
+        }
+        elements.each((key, element) => {
+            const id = element.getAttribute('id');
+            const data = $(element).data('embed');
+
+            this.addRegion(id, { el: '#' + id, replaceElement: true });
+            const view = new PostingRichtextEmbedView({ model: new PostingRichtextEmbedModel(data) });
+            this.showChildView(id, view);
         });
     }
 }

@@ -18,20 +18,4 @@ use Cake\Core\PluginApplicationInterface;
 
 class Plugin extends BasePlugin
 {
-    public function bootstrap(PluginApplicationInterface $app)
-    {
-        // Add constants, load configuration defaults.
-        // By default will load `config/bootstrap.php` in the plugin.
-        // parent::bootstrap($app);
-        Cache::setConfig(
-            'bbcodeParserEmbed',
-            [
-                'className' => 'File',
-                'prefix' => 'saito_embed-',
-                'path' => CACHE,
-                'groups' => ['embed'],
-                'duration' => '+1 month'
-            ]
-        );
-    }
 }

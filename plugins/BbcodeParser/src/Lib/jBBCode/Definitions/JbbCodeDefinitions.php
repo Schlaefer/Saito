@@ -7,7 +7,6 @@ use Cake\Core\Configure;
 use Plugin\BbcodeParser\src\Lib\Helper\Message;
 use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
 use Saito\DomainParser;
-use Plugin\BbcodeParser\src\Lib\Helper\EmbedWidget;
 
 /**
  * Class Email handles [email]foo@bar.com[/email]
@@ -64,7 +63,40 @@ class Embed extends CodeDefinition
      */
     protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
-        return (new EmbedWidget($url, $this->_sHelper))->render();
+        $loader = function () use ($url) {
+            $embed = ['url' => $url];
+
+            try {
+                $info = \Embed\Embed::create(
+                    $url,
+                    [
+                    'min_image_width' => 100,
+                    'min_image_height' => 100,
+                    ]
+                );
+
+                $embed = [
+                    'description' => $info->description,
+                    'html' => $info->code,
+                    'image' => $info->image,
+                    'providerIcon' => $info->providerIcon,
+                    'providerName' => $info->providerName,
+                    'providerUrl' => $info->providerUrl,
+                    'title' => $info->title,
+                    'url' => $info->url ?? $url,
+                ];
+            } catch (\Throwable $e) {
+            }
+
+            return $embed;
+        };
+
+        $callable = \Closure::fromCallable($loader);
+
+        $uid = 'embed-' . md5($url);
+        $info = Cache::remember($uid, $callable, 'bbcodeParserEmbed');
+
+        return $this->_sHelper->Html->div('js-embed', '', ['id' => $uid, 'data-embed' => json_encode($info)]);
     }
 }
 

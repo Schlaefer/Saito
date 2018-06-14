@@ -26,14 +26,17 @@ module.exports = function (config) {
       // 'test/jasmineBootstrapHelper.js',
       // 'test/**/*Spec.js',
       'test/runner.js',
+      {pattern: 'test/fixtures/assets/**/*', watched: false, included: false, served: true, nocache: false},
     ],
-
 
     // list of files / patterns to exclude
     exclude: [
       'src/index.js',
     ],
 
+    proxies: {
+      "/assets/": "/base/test/fixtures/assets/", // basePath is deleted from second part
+    },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor

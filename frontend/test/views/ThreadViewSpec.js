@@ -138,12 +138,7 @@ describe('Thread', function () {
   describe('collapse', function () {
 
     beforeEach(function () {
-      $.fx.off = true;
       spyOn(this.model, 'save');
-    });
-
-    afterEach(function () {
-      $.fx.off = false;
     });
 
     it('closes thread', function () {

@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'lib/jquery.i18n/jquery.i18n.extend.js';
 import 'lib/saito/underscore.extend';
 
+$.fx.off = true;
 window.$ = $;
 
 // prevent appending of ?_<timestamp> requested urls
