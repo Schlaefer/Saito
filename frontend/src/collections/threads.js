@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import ThreadModel from 'models/thread';
+import { ThreadModel } from 'models/thread.ts';
 import App from 'models/app';
 import 'backbone.localstorage';
 import 'lib/saito/localStorageHelper';
