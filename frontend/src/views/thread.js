@@ -68,7 +68,6 @@ export default Backbone.View.extend({
 
   collapseThread: function (event) {
     event.preventDefault();
-    this.closeAllThreadlines();
     this.model.toggle('isThreadCollapsed');
     this.model.save();
   },
@@ -78,20 +77,6 @@ export default Backbone.View.extend({
       this.slideUp();
     } else {
       this.slideDown();
-    }
-  },
-
-  /**
-   * Closes all threadlines
-   */
-  closeAllThreadlines: function (event) {
-    var openThreads = this.model.threadlines.where({ isInlineOpened: true });
-    var closer = function (model) {
-      model.set({ isInlineOpened: false });
-    };
-    _.each(openThreads, closer);
-    if (event) {
-      event.preventDefault();
     }
   },
 
