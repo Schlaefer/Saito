@@ -1,5 +1,5 @@
 <div data-id="<?= $slidetabId; ?>"
-         class="slidetab slidetab-<?= $slidetabId ?> <?= $isOpen ? 'is-open' : '' ?>">
+         class="slidetab slidetab-<?= $slidetabId ?>">
     <div class="slidetab-tab">
         <div class="slidetab-tab-button">
             <?php

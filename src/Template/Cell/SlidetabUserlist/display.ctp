@@ -1,7 +1,6 @@
 <?php $this->start('slidetab-tab-button'); ?>
 <div class="btn-slidetabUserlist">
-    <div id="slidetabUserlist-counter" class='slidetab-tab-info'
-         style="display: <?php echo $isOpen ? 'none' : 'block' ?>;">
+    <div id="slidetabUserlist-counter" class='slidetab-tab-info'>
         <div class="slidetabUserlist-counter-inner">
             <?= $registered ?>
         </div>

@@ -184,22 +184,6 @@ class UserFixture extends TestFixture
             'collate' => 'utf8_unicode_ci',
             'charset' => 'utf8'
         ],
-        'show_userlist' => [
-            'type' => 'boolean',
-            'null' => false,
-            'default' => '0',
-            'comment' => 'stores if userlist is shown in front layout'
-        ],
-        'show_recentposts' => [
-            'type' => 'boolean',
-            'null' => false,
-            'default' => '0'
-        ],
-        'show_recententries' => [
-            'type' => 'boolean',
-            'null' => false,
-            'default' => '0'
-        ],
         'inline_view_on_click' => [
             'type' => 'boolean',
             'null' => false,

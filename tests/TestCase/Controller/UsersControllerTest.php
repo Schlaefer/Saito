@@ -534,33 +534,6 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertEquals($expected, $user->get('slidetab_order'));
     }
 
-    public function testSlidetabToggleSuccess()
-    {
-        $this->_loginUser(3);
-        $data = ['slidetabKey' => 'show_userlist'];
-
-        $Users = TableRegistry::get('Users');
-        $user = $Users->get(3);
-        $this->assertFalse($user->get('show_userlist'));
-
-        $this->_setAjax();
-        $this->post('/users/slidetabToggle', $data);
-
-        $user = $Users->get(3);
-        $this->assertTrue($user->get('show_userlist'));
-    }
-
-    public function testSlidetabToggleFailure()
-    {
-        $this->_loginUser(3);
-        $data = ['slidetabKey' => 'show_foo'];
-        $this->expectException(
-            '\Cake\Http\Exception\BadRequestException'
-        );
-        $this->_setAjax();
-        $this->post('/users/slidetabToggle', [$data]);
-    }
-
     public function testViewProfileRequestByUsername()
     {
         $this->_loginUser(3);

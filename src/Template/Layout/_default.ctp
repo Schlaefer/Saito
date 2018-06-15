@@ -39,7 +39,8 @@
          */
         if (!empty($slidetabs)) {
             \Stopwatch\Lib\Stopwatch::start('Slidetabs');
-            echo '<aside id="slidetabs">';
+            // made visible by frontend if ready
+            echo '<aside id="slidetabs" style="visibility: hidden;">';
             foreach ($slidetabs as $slidetab) {
                 echo $this->cell($slidetab);
             }

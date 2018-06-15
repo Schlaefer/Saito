@@ -740,22 +740,6 @@ class Initial extends AbstractMigration
                 'limit' => 512,
                 'null' => true,
             ])
-            ->addColumn('show_userlist', 'boolean', [
-                'comment' => 'stores if userlist is shown in front layout',
-                'default' => false,
-                'limit' => null,
-                'null' => false,
-            ])
-            ->addColumn('show_recentposts', 'boolean', [
-                'default' => false,
-                'limit' => null,
-                'null' => false,
-            ])
-            ->addColumn('show_recententries', 'boolean', [
-                'default' => false,
-                'limit' => null,
-                'null' => false,
-            ])
             ->addColumn('inline_view_on_click', 'boolean', [
                 'default' => false,
                 'limit' => null,

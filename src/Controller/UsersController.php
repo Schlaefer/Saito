@@ -659,36 +659,6 @@ class UsersController extends AppController
     }
 
     /**
-     * toggles slidetabs open/close
-     *
-     * @return $this|mixed
-     * @throws BadRequestException
-     */
-    public function slidetabToggle()
-    {
-        if (!$this->request->is('ajax')) {
-            throw new BadRequestException;
-        }
-
-        $toggle = $this->request->getData('slidetabKey');
-        $allowed = [
-            'show_userlist',
-            'show_recentposts',
-            'show_recententries',
-        ];
-        if (!$toggle || !in_array($toggle, $allowed)) {
-            throw new BadRequestException();
-        }
-
-        $userId = $this->CurrentUser->getId();
-        $newValue = $this->Users->toggle($userId, $toggle);
-        $this->CurrentUser->set($toggle, $newValue);
-        $this->response = $this->response->withStringBody($newValue);
-
-        return $this->response;
-    }
-
-    /**
      * Set slidetab-order.
      *
      * @return \Cake\Network\Response

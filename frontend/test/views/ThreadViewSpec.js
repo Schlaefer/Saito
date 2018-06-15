@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import ThreadView from 'views/thread';
-import { ThreadModel } from 'models/thread';
+import PostingModel from 'models/posting';
 import PostingCollection from 'collections/postings';
 
 describe('Thread', function () {
@@ -72,7 +72,7 @@ describe('Thread', function () {
 
   beforeEach(function () {
     this.postings = new PostingCollection();
-    this.model = new ThreadModel({ id: 1 });
+    this.model = new PostingModel({ id: 1 });
     setFixtures(tl1Fixture);
     this.view = new ThreadView({
       el: $('#jasmine-fixtures').find('.threadBox'),

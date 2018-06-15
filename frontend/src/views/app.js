@@ -11,7 +11,7 @@ import ModalDialog from 'modules/modalDialog/modalDialog';
 import PostingCollection from 'collections/postings';
 import PostingLayout from 'views/postingLayout';
 import PostingModel from 'models/posting';
-import SlidetabsView from 'modules/slidetabs/slidetabs';
+import { SlidetabsView } from 'modules/slidetabs/slidetabs.ts';
 import { ThreadCollection } from 'modules/thread/thread.ts';
 import ThreadLineCollection from 'collections/threadlines';
 import ThreadLineView from 'views/threadlines';
@@ -110,7 +110,7 @@ export default Marionette.View.extend({
   },
 
   _initSlideTabs: function (element) {
-    this.showChildView('slidetabs', new SlidetabsView());
+    this.showChildView('slidetabs', new SlidetabsView({ el: '#slidetabs' }));
   },
 
   /**

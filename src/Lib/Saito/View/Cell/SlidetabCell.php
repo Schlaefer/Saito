@@ -37,7 +37,6 @@ abstract class SlidetabCell extends Cell
     {
         $CurrentUser = Registry::get('CU');
         $slidetabId = $this->_getSlidetabId();
-        $isOpen = (bool)$CurrentUser->get('show_' . $slidetabId);
-        $this->set(compact('CurrentUser', 'isOpen', 'slidetabId'));
+        $this->set(compact('CurrentUser', 'slidetabId'));
     }
 }
