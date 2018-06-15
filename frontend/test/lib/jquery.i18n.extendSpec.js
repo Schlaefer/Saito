@@ -10,13 +10,12 @@ describe('jquery.i18n.extend', function () {
 
     it('in a s string not in the dictionary', function () {
       var result,
-        expected = 'This; is better than fu :tokenNo nothing';
+        expected = 'This; is better than fu nothing  c';
       result = $.i18n.__(
-        ':tokenA; is :token_b than fu :tokenNo :token-c',
+        '{tokenA}; is {token_b} than fu nothing  c',
         {
           tokenA: 'This',
           token_b: 'better',
-          'token-c': 'nothing'
         }
       );
       expect(result).toEqual(expected);
@@ -27,16 +26,15 @@ describe('jquery.i18n.extend', function () {
         result;
 
       $.i18n.setDict({
-        'token test': ':tokenA; is :token_b than fu :tokenNo :token-c'
+        'token test': '{tokenA}; is {token_b} than fu {tokenNo} c'
       });
 
-      expected = 'This; is better than fu :tokenNo nothing';
+      expected = 'This; is better than fu  c';
       result = $.i18n.__(
         'token test',
         {
           tokenA: 'This',
           token_b: 'better',
-          'token-c': 'nothing'
         }
       );
       expect(result).toEqual(expected);

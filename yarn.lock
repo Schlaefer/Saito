@@ -54,6 +54,10 @@
   dependencies:
     "@types/jquery" "*"
 
+"@types/string-template@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/string-template/-/string-template-1.0.2.tgz#363b273c9b456705e3111e3571e9248f6474eba4"
+
 "@types/underscore@*", "@types/underscore@^1.8.8":
   version "1.8.8"
   resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.8.8.tgz#510fe1ca5e7fa87fccd405b9a8b566d420bc3d1b"
@@ -7653,6 +7657,10 @@ string-length@^0.1.2:
   resolved "https://registry.yarnpkg.com/string-length/-/string-length-0.1.2.tgz#ab04bb33867ee74beed7fb89bb7f089d392780f2"
   dependencies:
     strip-ansi "^0.2.1"
+
+string-template@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/string-template/-/string-template-1.0.0.tgz#9e9f2233dc00f218718ec379a28a5673ecca8b96"
 
 string-template@~0.2.1:
   version "0.2.1"

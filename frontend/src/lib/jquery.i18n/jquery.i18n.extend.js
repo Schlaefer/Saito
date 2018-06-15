@@ -4,6 +4,7 @@
 
 import $ from 'jquery';
 import i18n from 'lib/jquery.i18n/jquery.i18n';
+import format from 'string-template';
 
 $.extend($.i18n, {
 
@@ -48,17 +49,8 @@ $.extend($.i18n, {
             }
         }
         if (typeof tokens === 'object') {
-            translation = this._insert(translation, tokens);
+            translation = format(translation, tokens);
         }
         return translation;
     },
-
-    _insert: function (string, tokens) {
-        return string.replace(/:([-\w]+)/g, function (token, match) {
-            if (typeof tokens[match] !== 'undefined') {
-                return tokens[match];
-            }
-            return token;
-        });
-    }
 });
