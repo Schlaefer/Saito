@@ -3,8 +3,8 @@ import { JsonApiModel } from 'lib/backbone/jsonApi';
 
 import { View } from 'backbone.marionette';
 import * as _ from 'underscore';
+import { PostingRichtextView } from 'views/postingRichtext';
 import { SpinnerView } from 'views/SpinnerView';
-import { PostingRichtextView } from './postingRichtext';
 
 class PreviewModel extends JsonApiModel {
     public defaults() {

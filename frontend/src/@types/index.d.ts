@@ -10,3 +10,11 @@ declare module '*.html' {
 interface PNotify {
 
 }
+
+declare module 'backbone.localstorage' {
+    class LocalStorage {
+        public constructor(key: string);
+    }
+
+    export { LocalStorage };
+}

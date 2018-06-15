@@ -12,7 +12,7 @@ import PostingCollection from 'collections/postings';
 import PostingLayout from 'views/postingLayout';
 import PostingModel from 'models/posting';
 import SlidetabsView from 'modules/slidetabs/slidetabs';
-import ThreadCollection from 'collections/threads';
+import { ThreadCollection } from 'modules/thread/thread.ts';
 import ThreadLineCollection from 'collections/threadlines';
 import ThreadLineView from 'views/threadlines';
 import ThreadView from 'views/thread';

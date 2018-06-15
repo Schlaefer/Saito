@@ -7,7 +7,7 @@ import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderView from 'modules/uploader/uploader';
 import MediaInsertView from 'views/mediaInsert';
 import EditCountdown from 'views/editCountdown';
-import { PreviewView } from './preview.ts';
+import { PreviewView } from 'modules/answering/preview.ts';
 import { SmiliesCollectionView } from 'modules/answering/smilies.ts';
 import autosize from 'autosize';
 import 'lib/saito/jquery.scrollIntoView';
