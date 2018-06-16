@@ -36,7 +36,7 @@ msgstr "Uploads"
 
 #: modules/uploader/templates/uploaderAddTpl.html:11
 msgid "upl.new.info"
-msgstr "Max. size: :size; type: jpg, jpeg, png"
+msgstr "Max. size: {size}; type: jpg, png"
 
 #: modules/uploader/templates/uploaderAddTpl.html:24
 msgid "upl.btn.title"

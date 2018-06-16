@@ -36,7 +36,7 @@ msgstr "Hochladen"
 
 #: modules/uploader/templates/uploaderAddTpl.html:11
 msgid "upl.new.info"
-msgstr "Max. :size; jpg, jpeg, png"
+msgstr "Max. {size}; jpg, png"
 
 #: modules/uploader/templates/uploaderAddTpl.html:24
 msgid "upl.btn.title"
