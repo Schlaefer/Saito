@@ -54,17 +54,5 @@
 /* Buttons below posting form
 // ------------------------------------- */
 .postingform-buttons {
-  @extend .flex-bar;
-
-  @media (max-width: map-get($grid-breakpoints, md)) {
-    flex-direction: column;
-
-    & > .first,
-    & > .middle,
-    & > .last {
-      /// left align elements
-      margin-right: auto;
-      text-align: left;
-    }
-  }
+  @extend .d-md-flex;
 }
