@@ -8,6 +8,7 @@ import 'lib/saito/jquery.scrollIntoView';
 import App from 'models/app';
 import { PreviewView } from 'modules/answering/preview';
 import { SmiliesCollectionView } from 'modules/answering/smilies';
+import { SubjectInputView } from 'modules/answering/SubjectInputView';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderView from 'modules/uploader/uploader';
 import * as _ from 'underscore';
@@ -28,6 +29,8 @@ class AnsweringView extends View<Model> {
 
     private errorVw: View<Model>;
 
+    private subjectView: View<Model>;
+
     /** answering form is in posting which is inline-opened */
     private parentThreadline: Model;
 
@@ -44,7 +47,6 @@ class AnsweringView extends View<Model> {
                 'click .js-btnCite': '_handleCite',
                 'click .js-btnPreview': '_showPreview',
                 'click .js-btnPreviewClose': '_closePreview',
-                'input .js-subject': '_updateSubjectCharCount',
                 'keypress .js-subject': '_onKeyPressSubject',
             },
             /**
@@ -73,9 +75,6 @@ class AnsweringView extends View<Model> {
 
         // focus can only be set after element is visible in page
         this.listenTo(App.eventBus, 'isAppVisible', this._focusSubject);
-
-        // auto-open upload view for easy developing
-        // this.showUploadForm();
     }
 
     public onRender() {
@@ -94,6 +93,13 @@ class AnsweringView extends View<Model> {
             App.eventBus.trigger('change:DOM');
         }
         return this;
+    }
+
+    public onBeforeDestroy() {
+        if (this.errorVw) {
+            this.errorVw.destroy();
+        }
+        this.subjectView.destroy();
     }
 
     private _disable() {
@@ -122,43 +128,6 @@ class AnsweringView extends View<Model> {
         }
     }
 
-    /**
-     * Update char counter for remaining subject length
-     */
-    private _updateSubjectCharCount() {
-        const $count = this.$('.postingform-subject-count');
-        const max = App.settings.get('subject_maxlength');
-        const subject = String(this.$('.js-subject').val());
-        // Should be _.chars(subject) for counting multibyte chars as one char only, but
-        // <input> maxlength attribute also counts all bytes in multibyte char.
-        // This shortends the allowed subject by one byte-char per multibyte char,
-        // but we can life with that.
-        const count = subject.length;
-        const remaining = max - count;
-        $count.html(String(remaining));
-
-        const percent = count === 0 ? 0 : count / max * 100;
-        const $progress = this.$('.js-progress');
-        $progress.css('width', percent + '%');
-
-        const setProgress = (classToApply) => {
-            $progress
-                .removeClass('bg-success bg-warning bg-danger')
-                .addClass(classToApply);
-        };
-
-        let cssClass = 'bg-success';
-        if (remaining === 0) {
-            setProgress('bg-danger');
-            _.delay(setProgress, 250, 'bg-warning');
-            return;
-        } else if (remaining < 20) {
-            cssClass = 'bg-warning';
-        }
-
-        setProgress(cssClass);
-    }
-
     private _handleSmilies(event) {
         event.preventDefault();
 
@@ -172,25 +141,13 @@ class AnsweringView extends View<Model> {
     }
 
     private showUploadForm(event) {
-        if (event) {
-            event.preventDefault();
-        }
-
         const answering = this;
 
         class InsertVw extends View<Model> {
             public constructor(options: object = {}) {
                 _.defaults(options, {
-                    events: {
-                        'click button': 'handleInsert',
-                    },
-                    template: _.template('<button class="btn btn-primary"><%- title %></button>'),
-                    templateContext: () => {
-                        return {
-                            // @todo why not used directly in template
-                            title: $.i18n.__('upl.btn.insert'),
-                        };
-                    },
+                    events: { 'click button': 'handleInsert' },
+                    template: _.template('<button class="btn btn-primary"><%- $.i18n.__("upl.btn.insert") %></button>'),
                 });
                 super(options);
             }
@@ -313,8 +270,11 @@ class AnsweringView extends View<Model> {
     }
 
     private _onFormReady() {
+        this.subjectView = new SubjectInputView({
+            el: this.$('.postingform-subject-wrapper'),
+        });
+
         this._setupTextArea();
-        this._updateSubjectCharCount();
 
         const data = this.$('.js-data').data();
         const action = _.property(['meta', 'action'])(data);
