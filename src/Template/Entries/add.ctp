@@ -40,7 +40,7 @@ $this->end();
                 ['first' => $closeInline ?? '', 'middle' => $titleForPage],
                 ['pageHeading' => !$isInline, 'escape' => false]
             );
-            echo $this->Html->div('card-header', $titleForPage . $heading);
+            echo $this->Html->div('card-header', $heading);
         }
         ?>
         <div id="markitup_upload">

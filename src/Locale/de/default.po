@@ -712,7 +712,7 @@ msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
 #: src/Controller/EntriesController.php:243
-msgid "Write a New Entry"
+msgid "Write a New Posting"
 msgstr "Neuen Beitrag verfassen"
 
 #: src/Controller/EntriesController.php:287

@@ -239,7 +239,7 @@ class EntriesController extends AppController
      */
     public function add($id = null)
     {
-        $title = __('Write a New Entry');
+        $titleForPage = __('Write a New Posting');
 
         if (!empty($this->request->getData())) {
             //= insert new posting
@@ -320,7 +320,7 @@ class EntriesController extends AppController
                     $parent->get('user')->get('username')
                 );
                 $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
-                $title = __('Write a Reply');
+                $titleForPage = __('Write a Reply');
             } else {
                 // new posting which creates new thread
                 $posting = $this->Entries->patchEntity(
@@ -334,7 +334,7 @@ class EntriesController extends AppController
         $formId = $posting->get('pid');
 
         $this->set(
-            compact('isAnswer', 'isInline', 'formId', 'posting', 'title')
+            compact('isAnswer', 'isInline', 'formId', 'posting', 'titleForPage')
         );
         $this->_setAddViewVars($isAnswer);
     }

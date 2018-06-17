@@ -698,7 +698,7 @@ msgid "Invalid post"
 msgstr ""
 
 #: src/Controller/EntriesController.php:243
-msgid "Write a New Entry"
+msgid "Write a New Posting"
 msgstr ""
 
 #: src/Controller/EntriesController.php:287
