@@ -70,11 +70,19 @@
     width: 11rem;
     display: flex;
     align-content: center;
+    position: relative;
   }
 
   .card-img-top {
     //// scale down images and keep aspect-ratio
     object-fit: scale-down;
     overflow: hidden;
+  }
+
+  .image-uploader-spinner {
+    position: absolute;
+    font-size: 14px;
+    right: 15px;
+    bottom: 15px;
   }
 }

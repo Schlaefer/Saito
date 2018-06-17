@@ -37,6 +37,13 @@ export default Marionette.CollectionView.extend({
   },
 
   initLazyLoading: function () {
-    new Blazy();
+    new Blazy({
+      // lazy load elements inside a scrolling container: selector of the container
+      container: '#saito-modal-dialog',
+      success: (el) => {
+        // ugly hack to get to the parent here
+        $(el).parent().parent().find('.image-uploader-spinner').remove();
+      }
+    });
   }
 });

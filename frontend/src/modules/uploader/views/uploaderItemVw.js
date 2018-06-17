@@ -29,8 +29,8 @@ export default Marionette.View.extend({
     }
 
     //// delay display of loading spinner
-    this.$('img').css('visibility', 'hidden');
-    _.delay(() => { this.$('img').css('visibility', 'visible'); }, 400);
+    this.$('.image-uploader-spinner').css('visibility', 'hidden');
+    _.delay(() => { this.$('.image-uploader-spinner').css('visibility', 'visible'); }, 2000);
   },
 
   /**
