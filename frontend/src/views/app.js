@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Bb from 'backbone';
 import Marionette from 'backbone.marionette';
-import AnsweringView from 'views/answering';
+import { AnsweringView } from 'views/answering.ts';
 import App from 'models/app';
 import CategoryChooserView from 'views/categoryChooser';
 import HelpsView from 'views/helps';

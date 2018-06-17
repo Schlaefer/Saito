@@ -1,8 +1,12 @@
 import { JsonApiCollection, JsonApiModel } from 'lib/backbone/jsonApi';
 
+class UploadsModel extends JsonApiModel {
+    protected saitoUrl = 'uploads/';
+}
+
 export default class extends JsonApiCollection {
     /** Bb collection model */
-    public model = JsonApiModel;
+    public model = UploadsModel;
 
     protected saitoUrl = 'uploads/';
 

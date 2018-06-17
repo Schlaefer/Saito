@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
-import AnsweringView from 'views/answering';
+import { AnsweringView } from 'views/answering.ts';
 import { SpinnerView } from 'views/SpinnerView';
 
 export default Marionette.View.extend({

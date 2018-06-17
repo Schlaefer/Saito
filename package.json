@@ -31,7 +31,9 @@
     "yarn": "^1.6.0"
   },
   "devDependencies": {
+    "@types/autosize": "^3.0.6",
     "@types/backbone.marionette": "^3.3.3",
+    "@types/bootstrap": "^4.1.0",
     "@types/jquery": "^3.3.2",
     "@types/jqueryui": "^1.12.2",
     "@types/string-template": "^1.0.2",
