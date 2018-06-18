@@ -1,3 +1,10 @@
+/* User
+// ------------------------------------- */
+.user-tabs {
+  // prevents ugly collapse to zero height while switching tabs + content loading
+  min-height: 200px;
+}
+
 /* No Content Yet
 // ------------------------------------- */
 .no-content-yet {
@@ -58,11 +65,11 @@
     font-weight: bold;
   }
 
-  .asc:after {
+  .asc::after {
     content: "\002005\002193\002005";
   }
 
-  .desc:after {
+  .desc::after {
     content: "\002005\002191\002005";
   }
 }
@@ -77,3 +84,4 @@
 .disabled {
   @extend .text-muted;
 }
+

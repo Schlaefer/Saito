@@ -28,10 +28,10 @@ export default class extends Mn.View<Bb.Model> {
     </li>
 <% } %>
 </ul>
-<div class="tab-content" id="userTabContent">
-<div class="js-rgRecentPosts tab-pane active" id="recent" role="tabpanel" aria-labelledby="home-tab"></div>
-<div class="js-rgBookmarks tab-pane" id="bookmarks" role="tabpanel" aria-labelledby="home-tab"></div>
-<div class="js-rgUploads tab-pane" id="uploads" role="tabpanel" aria-labelledby="profile-tab"></div>
+<div class="tab-content user-tabs" id="userTabContent">
+    <div class="js-rgRecentPosts tab-pane active" id="recent" role="tabpanel" aria-labelledby="home-tab"></div>
+    <div class="js-rgBookmarks tab-pane" id="bookmarks" role="tabpanel" aria-labelledby="home-tab"></div>
+    <div class="js-rgUploads tab-pane" id="uploads" role="tabpanel" aria-labelledby="profile-tab"></div>
 </div>
         `);
         options.ui = {

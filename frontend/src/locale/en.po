@@ -144,8 +144,5 @@ msgstr ""
 msgid "preview.t"
 msgstr "Preview"
 
-#~ msgid "error.1529052896"
-#~ msgstr "Error {code}: Couldn't load preview."
-
-#~ msgid "bkm.ncy"
-#~ msgstr "No bookmarks created yet."
+msgid "bkm.ncy"
+msgstr "No bookmarks created yet."

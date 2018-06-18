@@ -6,10 +6,10 @@ import ItemView from './bookmarkItemVw';
 
 export default class extends Mn.CollectionView<any, any, any> {
     public childView = ItemView;
-    public emptyViewx = EmptyView;
+    public emptyView = EmptyView;
     public emptyViewOptions = () => {
         return {
-            model: new Bb.Model({ content: 'bkm.ncy' }),
+            model: new Bb.Model({ content: $.i18n.__('bkm.ncy') }),
         };
     }
 }

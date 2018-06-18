@@ -144,8 +144,5 @@ msgstr ""
 msgid "preview.t"
 msgstr "Vorschau"
 
-#~ msgid "error.1529052896"
-#~ msgstr "Fehler {code}: Vorschau konnte nicht gelasen werden."
-
-#~ msgid "bkm.ncy"
-#~ msgstr "Noch keine Lesezeichen angelegt."
+msgid "bkm.ncy"
+msgstr "Noch keine Lesezeichen angelegt."

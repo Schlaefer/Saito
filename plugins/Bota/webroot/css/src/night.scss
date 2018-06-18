@@ -16,6 +16,7 @@ $primary: rgb(255, 184, 30) !default;
 
 $input-border-color: darken($primary, 40%) !default;
 $input-focus-border-color: lighten($input-border-color, 10%) !default;
+$nav-tabs-link-active-color: $primary;
 
 $form-bg: #1e1e20 !default;
 $card-cap-bg: lighten($form-bg, 10%) !default;
