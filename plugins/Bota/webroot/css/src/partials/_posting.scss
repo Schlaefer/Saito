@@ -103,6 +103,10 @@
 // ------------------------------------- */
 
 .postingform-smilies {
+  @extend .panel-form;
+
+  display: flex;
+  flex-wrap: wrap;
   background-color: $input-bg;
 }
 
@@ -110,16 +114,18 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  height: 1.4em;
-  width: 1.4em;
 }
 
 .btn-smiley-font,
 .btn-smiley-image {
-  @extend .m-2;
+  @extend .m-1;
 
   color: $body-color;
   background-color: transparent;
+
+  box-sizing: content-box;
+  height: 1.6em;
+  width: 1.6em;
 }
 
 /* Inline Opening

@@ -72,7 +72,7 @@ $this->end();
             $subjectInput .= $this->Html->div('postingform-subject-count', '');
             echo $this->Html->div('postingform-subject-wrapper form-group', $subjectInput);
 
-            echo $this->html->div('js-rgSmilies postingform-smilies', '');
+            echo $this->html->div('js-rgSmilies', '');
 
             echo $this->Form->hidden('pid');
 

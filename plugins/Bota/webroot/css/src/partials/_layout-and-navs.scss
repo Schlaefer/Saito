@@ -43,6 +43,12 @@ body {
   @extend .flex-bar-header;
   @extend .border-bottom;
   @extend .py-2;
+
+  @media only screen and (max-width: map-get($grid-breakpoints, sm)) {
+    & > div {
+      flex: auto;
+    }
+  }
 }
 
 #site-navigation-top,

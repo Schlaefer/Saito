@@ -63,7 +63,7 @@ class SmiliesCollectionView extends CollectionView<Model, SmiliesView, SmiliesCo
                 // pass insert on to answering form
                 'answering:insert': 'answering:insert',
             },
-            className: 'collapsablet panel-input flex-row flex-wrap',
+            className: 'postingform-smilies',
             collection: new SmiliesCollection(),
         });
         super(options);
