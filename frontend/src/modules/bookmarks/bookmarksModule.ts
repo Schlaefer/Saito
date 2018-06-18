@@ -3,7 +3,6 @@ import * as Mn from 'backbone.marionette';
 import * as $ from 'jquery';
 import App from 'models/app';
 import * as _ from 'underscore';
-import EmptyView from 'views/noContentYetVw';
 import { SpinnerView } from 'views/SpinnerView';
 import BookmarksView from './views/bookmarksVw';
 

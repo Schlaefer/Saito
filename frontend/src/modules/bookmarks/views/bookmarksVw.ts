@@ -1,7 +1,7 @@
 import * as Bb from 'backbone';
 import * as Mn from 'backbone.marionette';
 import * as $ from 'jquery';
-import EmptyView from 'views/noContentYetVw';
+import { NoContentView as  EmptyView } from 'views/NoContentView';
 import ItemView from './bookmarkItemVw';
 
 export default class extends Mn.CollectionView<any, any, any> {

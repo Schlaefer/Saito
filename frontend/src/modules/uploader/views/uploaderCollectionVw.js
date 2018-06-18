@@ -2,7 +2,7 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import UploaderItemView from '../views/uploaderItemVw';
-import EmptyView from 'views/noContentYetVw';
+import { NoContentView as EmptyView } from 'views/NoContentView.ts';
 import Blazy from 'blazy';
 
 export default Marionette.CollectionView.extend({
