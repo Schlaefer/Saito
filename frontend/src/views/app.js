@@ -5,7 +5,7 @@ import Marionette from 'backbone.marionette';
 import { AnsweringView } from 'views/answering.ts';
 import App from 'models/app';
 import CategoryChooserView from 'views/categoryChooser';
-import HelpsView from 'views/helps';
+import { SaitoHelpView } from 'views/helps.ts';
 import LoginView from 'views/loginView';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import PostingCollection from 'collections/postings';
@@ -76,7 +76,7 @@ export default Marionette.View.extend({
     });
 
     this.initAutoreload();
-    this.initHelp('.shp');
+    this.initHelp();
 
     /*** All elements initialized, show page ***/
 
@@ -240,12 +240,11 @@ export default Marionette.View.extend({
   },
 
   initHelp: function (element_n) {
-    var helps = new HelpsView({
-      el: 'body',
-      elementName: element_n,
-      indicatorName: '#shp-show',
+    new SaitoHelpView({
+      el: '#shp-show',
+      elementName: '.shp',
       webroot: App.settings.get('webroot')
-    });
+    }).render();
   },
 
   scrollToThread: function (tid) {

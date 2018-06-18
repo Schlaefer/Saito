@@ -58,6 +58,7 @@ echo $this->Html->css('SaitoSearch.saitosearch');
             ]
         );
         $menu .= $this->Html->div('form-group form-check form-check-inline', __('Sort by: {0}', $sortBy));
+        $menu .= $this->SaitoHelp->icon(1);
 
         if (!empty($omittedWords)) {
             $wordLength = h(__('search.tooShort', [$omittedWords, $minWordLength]));

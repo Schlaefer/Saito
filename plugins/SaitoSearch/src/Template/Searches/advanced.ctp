@@ -46,7 +46,7 @@
             $this->Form->button(
                 __('search_submit'),
                 ['class' => 'btn btn-primary', 'type' => 'submit']
-            )
+            ) . $this->SaitoHelp->icon(1)
         );
         echo $this->Form->end();
         ?>
