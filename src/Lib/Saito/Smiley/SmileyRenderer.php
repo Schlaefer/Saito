@@ -110,7 +110,6 @@ class SmileyRenderer
         if (!$this->_replacements) {
             $this->_replacements = ['codes' => [], 'html' => []];
             $this->_addSmilies($this->_replacements);
-            $this->_addAdditionalButtons($this->_replacements);
             $this->_pregQuote($this->_replacements);
 
             if ($this->_useCache) {
@@ -186,31 +185,5 @@ class SmileyRenderer
     protected function _l10n($string)
     {
         return __d('nondynamic', $string);
-    }
-
-    /**
-     * Adds additional buttons from global config
-     *
-     * @param array $replacements replacements
-     * @return void
-     */
-    protected function _addAdditionalButtons(&$replacements)
-    {
-        $additionalButtons = $this->_smileyData->getAdditionalSmilies();
-        if (empty($additionalButtons)) {
-            return;
-        }
-        foreach ($additionalButtons as $additionalButton) {
-            // $s['codes'][] = ':gacker:';
-            $replacements['codes'][] = $additionalButton['code'];
-            // $s['html'][] = $this->_Helper->Html->image('smilies/gacker_large.png');
-            if ($additionalButton['type'] === 'image') {
-                $additionalButton['replacement'] = $this->_Helper->Html->image(
-                    'markitup' . DS . $additionalButton['replacement'],
-                    ['class' => 'saito-smiley-image']
-                );
-            }
-            $replacements['html'][] = $additionalButton['replacement'];
-        }
     }
 }

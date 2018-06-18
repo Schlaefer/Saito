@@ -75,14 +75,4 @@ class SmileyLoader
             return 'font';
         }
     }
-
-    /**
-     * Get additional smilies
-     *
-     * @return mixed
-     */
-    public function getAdditionalSmilies()
-    {
-        return Configure::read('Saito.markItUp.additionalButtons');
-    }
 }

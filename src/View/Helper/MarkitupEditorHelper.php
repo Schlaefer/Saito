@@ -66,7 +66,6 @@ class MarkitupEditorHelper extends MarkitupHelper
             $out .= $this->Html->scriptBlock($script);
         }
 
-        $this->_buildAdditionalButtons($markitupSet, $css);
         $markupSet = $this->_convertToJsMarkupSet($markitupSet);
         $script = "markitupSettings = { id: '$id', markupSet: [$markupSet]};";
         $out .= $this->Html->scriptBlock($script) .
@@ -95,41 +94,6 @@ class MarkitupEditorHelper extends MarkitupHelper
             '\\1',
             implode(",\n", $markitupSet)
         );
-    }
-
-    /**
-     * build additional buttons
-     *
-     * @param array $bbcode bbcode
-     * @param string $css CSS
-     * @return void
-     */
-    protected function _buildAdditionalButtons(array &$bbcode, &$css)
-    {
-        $_additionalButtons = Configure::read(
-            'Saito.markItUp.additionalButtons'
-        );
-        if (!empty($_additionalButtons)) {
-            foreach ($_additionalButtons as $name => $button) {
-                // 'Gacker' => ['name' => 'Gacker', 'replaceWith' => ':gacker:'],
-                $bbcode[$name] = [
-                    'name' => $button['name'],
-                    'title' => $button['title'],
-                    'replaceWith' => $button['code'],
-                    'className' => 'btn-markItUp-' . $button['title']
-                ];
-                if (isset($button['icon'])) {
-                    $css .= <<<EOF
-.markItUp .markItUpButton{$this->_nextCssId} a {
-		background-image: url({$this->request->getAttribute('webroot')}theme/{$this->theme}/img/markitup/{$button['icon']});
-		text-indent: -10000px;
-		background-size: 100% 100%;
-}
-EOF;
-                }
-                $this->_nextCssId++;
-            }
-        }
     }
 
     /**

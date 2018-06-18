@@ -67,40 +67,6 @@ $config = [
          */
         'X-Frame-Options' => 'SAMEORIGIN',
 
-        /**
-         * Add additional buttons to editor
-         *
-         * You can theme them with
-         *
-         * <code>
-         *  .markItUp .markItUpButton<Id> a {
-         *    …
-         *  }
-         * </code>
-         *
-         */
-        /*
-        'markItUp.additionalButtons' => [
-            'Button1' => [
-                // button-text
-                'name' => 'Do Something',
-                // hover title
-                'title' => 'Button 1',
-                // code inserted into text
-                'code' => ':action:',
-
-                // image in img/markitup/<icon-name>, replaces `name` (optional)
-                'icon' => 'icon-name.png',
-                // format replacement as image (optional)
-                'type' => 'image',
-                // replacement in output if type is image
-                // image in img/markitup/<replacement>
-                'replacement' => 'resultofbutton1.png'
-            ],
-            // …
-        ],
-        */
-
         'Globals' => [
             /**
              * Empiric number matching the average number of postings per thread
