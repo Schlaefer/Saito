@@ -2,19 +2,19 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Bb from 'backbone';
 import Marionette from 'backbone.marionette';
-import { AnsweringView } from 'views/answering.ts';
+import { AnsweringView } from 'modules/answering/answering.ts';
 import App from 'models/app';
 import CategoryChooserView from 'views/categoryChooser';
 import { SaitoHelpView } from 'views/helps.ts';
 import LoginView from 'views/loginView';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import PostingCollection from 'collections/postings';
-import PostingLayout from 'views/postingLayout';
-import PostingModel from 'models/posting';
+import { PostingLayoutView as PostingLayout } from 'modules/posting/postingLayout.ts';
+import { PostingModel } from 'modules/posting/models/PostingModel';
 import { SlidetabsView } from 'modules/slidetabs/slidetabs.ts';
 import { ThreadCollection } from 'modules/thread/thread.ts';
 import ThreadLineCollection from 'collections/threadlines';
-import ThreadLineView from 'views/threadlines';
+import { ThreadLineView } from 'views/ThreadLineView.ts';
 import ThreadView from 'views/thread';
 import UserVw from 'modules/user/userVw.ts';
 import 'lib/jquery-ui/jquery-ui.custom.min'
@@ -154,11 +154,11 @@ export default Marionette.View.extend({
       id = parseInt(element.getAttribute('data-id'), 10);
       postingModel = new PostingModel({ id: id });
       this.postings.add(postingModel, { silent: true });
-      postingLayout = new PostingLayout({
+      new PostingLayout({
         el: $(element),
         model: this.postings.get(id),
         collection: this.postings
-      });
+      }).render();
     }, this);
   },
 

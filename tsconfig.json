@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     // "baseUrl": "frontend/src",
+    "allowSyntheticDefaultImports": true, // for moment.js
   },
   "include": [
     "frontend/src/**/*",

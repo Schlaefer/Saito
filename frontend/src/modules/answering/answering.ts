@@ -12,8 +12,8 @@ import { SubjectInputView } from 'modules/answering/SubjectInputView';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderView from 'modules/uploader/uploader';
 import * as _ from 'underscore';
-import EditCountdown from 'views/editCountdown';
 import MediaInsertView from 'views/mediaInsert';
+import { EditCountdownView } from './editCountdown';
 
 class AnsweringView extends View<Model> {
     /** answering form was loaded via ajax request */
@@ -292,7 +292,7 @@ class AnsweringView extends View<Model> {
      */
     private _addCountdown() {
         const $submitButton = this.$('.js-btn-primary');
-        const editCountdown = new EditCountdown({
+        const editCountdown = new EditCountdownView({
             done: 'disable',
             editPeriod: App.settings.get('editPeriod'),
             el: $submitButton,

@@ -5361,9 +5361,9 @@ mkpath@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/mkpath/-/mkpath-0.1.0.tgz#7554a6f8d871834cc97b5462b122c4c124d6de91"
 
-"moment@github:moment/moment#2.6.0":
-  version "2.6.0"
-  resolved "https://codeload.github.com/moment/moment/tar.gz/37808f3f9dec14e37ad2b5cff45c70f63b021d17"
+moment@*, moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 mout@~0.9.0:
   version "0.9.1"

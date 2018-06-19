@@ -5,7 +5,7 @@ import App from 'models/app';
 import BmBtn from 'views/postingActionBookmark';
 import DelModal from 'views/postingActionDelete';
 import SolvesBtn from 'views/postingActionSolves';
-import EditCountdown from 'views/editCountdown';
+import { EditCountdownView } from 'modules/answering/editCountdown';
 
 export default Marionette.View.extend({
 
@@ -35,7 +35,7 @@ export default Marionette.View.extend({
     });
     var _$editButton = this.$('.js-btn-edit');
     if (_$editButton.length > 0) {
-      var editCountdown = new EditCountdown({
+      var editCountdown = new EditCountdownView({
         el: _$editButton,
         model: this.model,
         editPeriod: App.settings.get('editPeriod')

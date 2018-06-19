@@ -2,8 +2,8 @@ import EventBus from 'app/vent';
 import { JsonApiModel } from 'lib/backbone/jsonApi';
 
 import { View } from 'backbone.marionette';
+import { PostingRichtextView } from 'modules/posting/postingRichtext';
 import * as _ from 'underscore';
-import { PostingRichtextView } from 'views/postingRichtext';
 import { SpinnerView } from 'views/SpinnerView';
 
 class PreviewModel extends JsonApiModel {

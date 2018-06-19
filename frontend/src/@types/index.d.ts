@@ -4,7 +4,8 @@ interface JQueryStatic {
 
 interface JQuery {
     insertAtCaret(text: string): JQuery;
-    scrollIntoView(method: string): void;
+    scrollIntoView(method: string): any;
+    tinyTimer(options: object): void;
 }
 
 declare module '*.html' {
@@ -22,4 +23,23 @@ declare module 'backbone.localstorage' {
     }
 
     export { LocalStorage };
+}
+
+// moment ts file is fucked up: https://github.com/moment/moment/issues/3763
+declare module 'moment' {
+    interface MomentStatic {
+        (): any
+        (date: number): any
+        (date: string): any
+        (date: string, time: string): any
+        (date: Date): any
+        (date: string, formats: string[]): any
+        (date: number[]): any
+
+        unix(timestamp: number): any
+    }
+
+    var moment: MomentStatic;
+
+    export default moment;
 }

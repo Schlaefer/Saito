@@ -2,7 +2,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Backbone from 'backbone';
 import App from 'models/app';
-import ThreadLineView from 'views/threadlines';
+import { ThreadLineView } from 'views/ThreadLineView';
 
 export default Backbone.View.extend({
 

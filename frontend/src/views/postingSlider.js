@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
-import { AnsweringView } from 'views/answering.ts';
+import { AnsweringView } from 'modules/answering/answering.ts';
 import { SpinnerView } from 'views/SpinnerView';
 
 export default Marionette.View.extend({
@@ -15,6 +15,8 @@ export default Marionette.View.extend({
   events: {
     'click @ui.btnClose': 'onBtnClose'
   },
+
+  template: _.noop,
 
   initialize: function (options) {
     this.parentThreadline = options.parentThreadline || null;
@@ -57,21 +59,6 @@ export default Marionette.View.extend({
     this.$el.slideUp('fast', function () {
       App.eventBus.trigger('change:DOM');
     });
-    /*
-    // @td @bogus
-    var parent = this.$el.parent();
-    // @td @bogus inline answer
-    if (this.answeringForm !== false) {
-      this.answeringForm.remove();
-      this.answeringForm.undelegateEvents();
-      this.answeringForm = false;
-    }
-    // @td @bogus mix answer
-    this.$el.html('');
-    var $newEl = $('<div class="postingLayout-slider"></div>');
-    this.setElement($newEl);
-    parent.append($newEl);
-    */
   },
 
   _hideAllAnsweringForms: function () {
