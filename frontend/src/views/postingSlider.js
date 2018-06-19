@@ -1,8 +1,8 @@
-import $ from 'jquery';
 import Marionette from 'backbone.marionette';
 import App from 'models/app';
 import { AnsweringView } from 'modules/answering/answering.ts';
 import { SpinnerView } from 'views/SpinnerView';
+import * as _ from 'underscore';
 
 export default Marionette.View.extend({
 

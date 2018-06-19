@@ -1,4 +1,4 @@
-import { PostingRichtextEmbedModel, PostingRichtextEmbedView } from 'views/postingRichtextEmbed';
+import { PostingRichtextEmbedModel, PostingRichtextEmbedView } from 'modules/posting/postingRichtextEmbed';
 
 describe('Posting', function () {
   describe('Richtext', function () {

@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import 'lib/jquery.i18n/jquery.i18n.extend.js';
 import Bootstrap from 'bootstrap';
+import 'lib/saito/backbone.modelHelper';
 import 'lib/saito/underscore.extend';
 
 $.fx.off = true;

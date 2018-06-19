@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import ThreadView from 'views/thread';
-import PostingModel from 'models/posting';
+import { PostingModel } from 'modules/posting/models/PostingModel';
 import PostingCollection from 'collections/postings';
 
 describe('Thread', function () {
