@@ -7,12 +7,10 @@ import EventBus from 'app/vent';
 import Application from 'app/core';
 import AppView from 'views/app';
 import NotificationView from 'modules/notification/notification.ts';
-import PrerequisitesTesterView from 'views/prerequisitesTester';
 import Html5NotificationModule from 'modules/notification/html5-notification';
 
 import 'lib/jquery.i18n/jquery.i18n.extend';
 import 'lib/saito/backbone.initHelper';
-import 'lib/saito/backbone.modelHelper';
 
 /**
  * Redirect helper
@@ -105,8 +103,7 @@ var app = {
 
   bootstrapApp: function (event, options) {
     let appView,
-      appReady,
-      prerequisitesTesterView;
+      appReady;
 
     // do this always first
     App.settings.set(options.SaitoApp.app.settings);
@@ -130,10 +127,6 @@ var app = {
     });
 
     appReady = function () {
-      prerequisitesTesterView = new PrerequisitesTesterView({
-        el: $('.app-prerequisites-warnings')
-      });
-
       app.fireOnPageCallbacks(options.SaitoApp.callbacks);
       appView = new AppView({ el: 'body' });
       appView.initFromDom({
