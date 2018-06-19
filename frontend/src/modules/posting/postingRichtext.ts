@@ -1,8 +1,7 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import GeshisCollection from 'collections/geshis';
 import * as _ from 'underscore';
-import GeshiView from 'views/geshi';
+import { GeshiView } from './Geshi';
 import { PostingRichtextEmbedModel, PostingRichtextEmbedView } from './postingRichtextEmbed';
 
 class PostingRichtextView extends View<Model> {
@@ -23,9 +22,8 @@ class PostingRichtextView extends View<Model> {
         if (!elements.length) {
             return;
         }
-        const geshis = new GeshisCollection();
         elements.each((key, element) => {
-            const view = new GeshiView({ el: element, collection: geshis });
+            const view = new GeshiView({ el: element });
         });
     }
 
