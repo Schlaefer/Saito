@@ -8,7 +8,7 @@
         echo $this->Form->control('icon', ['label' => __('Icon')]);
         echo $this->Form->control('image', ['label' => __('Image')]);
         echo $this->Form->control('title');
-        echo $this->Form->control('order', ['label' => __('sort.order')]);
+        echo $this->Form->control('sort', ['label' => __('sort.order')]);
         echo $this->Form->submit(__('Submit'), ['class' => 'btn btn-primary']);
         ?>
     </fieldset>
