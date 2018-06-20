@@ -43,7 +43,9 @@ class BookmarkFixture extends TestFixture
         ],
         'comment' => [
             'type' => 'string',
-            'null' => false,
+            'null' => true,
+            'default' => null,
+            'limit' => 255,
             'collate' => 'utf8_general_ci',
             'charset' => 'utf8'
         ],

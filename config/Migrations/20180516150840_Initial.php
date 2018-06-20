@@ -28,9 +28,9 @@ class Initial extends AbstractMigration
                 'null' => false,
             ])
             ->addColumn('comment', 'string', [
-                'default' => '',
+                'default' => null,
                 'limit' => 255,
-                'null' => false,
+                'null' => true,
             ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
