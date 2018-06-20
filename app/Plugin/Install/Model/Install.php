@@ -34,7 +34,7 @@
 		}
 
 		protected function _createSecurity() {
-			$File =& new File(APP . 'Config' . DS . 'core.php');
+			$File = new File(APP . 'Config' . DS . 'core.php');
 
 			// save previous core file
 			// copy(APP . 'Config' . DS.'settings.yml.install', APP . 'Config' . DS.'settings.yml');
